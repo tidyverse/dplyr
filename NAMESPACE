@@ -1,0 +1,2 @@
+importFrom(stringr,str_c)
+importFrom(stringr,str_detect)

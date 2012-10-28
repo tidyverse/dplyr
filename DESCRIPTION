@@ -1,10 +1,20 @@
-Package: plyr2
+Package: dplyr
 Type: Package
-Title: Tools for splitting, applying and combining data
+Title: dplyr: a grammar of data manipulation
 Version: 0.01
 Author: Hadley Wickham <h.wickham@gmail.com>
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
-Description: ddply on crack
+Description: A fast, consistent tools for working with data frame like objects,
+    both in memory and out of memory.
+Imports:
+    stringr
 Depends:
     R (>= 2.15.1)
 License: MIT
+Collate:
+    'arrange.r'
+    'mutate.r'
+    'sql.r'
+    'subset.r'
+    'summarise.r'
+    'translate.r'

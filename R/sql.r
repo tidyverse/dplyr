@@ -13,12 +13,6 @@
 # median(x) -> NO SQL EQUIV
 #
 
-
-sql_var <- function(x) {
-
-  x
-}
-
 sql_mean <- function(x) {
   str_c("MEAN(", x, ")")
 }
@@ -73,3 +67,33 @@ mappings <- c(
   "%in%" = "in",
   "(" = "parens"
 )
+
+#' @importFrom stringr str_detect str_c
+sql_var <- function(x) {
+  ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
+
+  escape <- !str_detect(x, ok) || toupper(x) %in% sql_keywords
+  if (escape) {
+    str_c('"', x, '"')
+  } else {
+    x
+  }
+}
+
+sql_keywords <- c(
+  "ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS",
+  "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY",
+  "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT",
+  "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME",
+  "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE",
+  "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE",
+  "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM",
+  "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX",
+  "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO",
+  "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL",
+  "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER",
+  "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "REFERENCES", "REGEXP",
+  "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK",
+  "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN",
+  "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
+  "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
