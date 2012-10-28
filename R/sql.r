@@ -19,6 +19,13 @@
 # http://www.sqlite.org/lang_datefunc.html
 # http://www.sqlite.org/lang_aggfunc.html
 
+sql_atomic <- function(x) UseMethod("sql_atomic")
+sql_atomic.character <- function(x) {
+  x <- str_c('"', x, '"')
+  if (length(x) == 1) return(x)
+
+  str_c("(", str_c(x, collapse = ", "), ")")
+}
 
 
 sql_mean <- function(x) {
@@ -45,6 +52,16 @@ sql_eq <- function(x, y) {
 }
 sql_gt <- function(x, y) {
   str_c(x, " > ", y)
+}
+sql_lt <- function(x, y) {
+  str_c(x, " < ", y)
+}
+sql_in <- function(x, y) {
+  str_c(x, " IN ", y)
+}
+
+sql_c <- function(...) {
+  sql_atomic(c(...))
 }
 
 trans_name <- function(symbol, type) {

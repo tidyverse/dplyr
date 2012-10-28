@@ -34,7 +34,7 @@ translate_sql <- function(call, source_vars, env = parent.frame()) {
       if (name %in% source_vars) {
         substitute(sql_var(var), list(var = as.character(call)))
       } else if (exists(name, env)) {
-        get(name, env)
+        sql_atomic(get(name, env))
       } else {
         stop(name, " not defined locally or in data source")
       }
