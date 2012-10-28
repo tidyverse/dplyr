@@ -22,3 +22,6 @@ Collate:
     'summarise.r'
     'translate.r'
     'group.r'
+    'source-data-frame.r'
+    'source-sqlite.r'
+    'source.r'
