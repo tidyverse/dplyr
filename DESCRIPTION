@@ -1,0 +1,10 @@
+Package: plyr2
+Type: Package
+Title: Tools for splitting, applying and combining data
+Version: 0.01
+Author: Hadley Wickham <h.wickham@gmail.com>
+Maintainer: Hadley Wickham <h.wickham@gmail.com>
+Description: ddply on crack
+Depends:
+    R (>= 2.15.1)
+License: MIT
