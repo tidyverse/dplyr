@@ -1,2 +1,8 @@
+S3method(group,"function")
+S3method(group,default)
+importFrom(plyr,as.quoted)
+importFrom(plyr,eval.quoted)
+importFrom(plyr,id)
+importFrom(plyr,split_indices)
 importFrom(stringr,str_c)
 importFrom(stringr,str_detect)
