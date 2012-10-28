@@ -1,6 +1,5 @@
 # system.time({
-#   grp <- plyr:::split_indices(id(baseball["id"]))
-#   a <- subset_by(baseball, grp, quote(g == max(g)))
+#   a <- subset_by(baseball, group("id"), quote(g == max(g)))
 # })
 #
 # system.time(b <- ddply(baseball, "id", subset, g == max(g)))

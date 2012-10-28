@@ -1,7 +1,6 @@
 # system.time({
-#   grp <- plyr:::split_indices(id(baseball["id"]))
 #   vars <- list(cyear = quote(year - min(year) + 1))
-#   a <- mutate_by(baseball, grp, vars)
+#   a <- mutate_by(baseball, group("id"), vars)
 # })
 # a <- a[order(baseball$id), , drop = FALSE]
 #

@@ -7,7 +7,8 @@ Maintainer: Hadley Wickham <h.wickham@gmail.com>
 Description: A fast, consistent tools for working with data frame like objects,
     both in memory and out of memory.
 Imports:
-    stringr
+    stringr,
+    plyr (>= 1.7.1.99.2)
 Depends:
     R (>= 2.15.1)
 License: MIT
@@ -18,3 +19,4 @@ Collate:
     'subset.r'
     'summarise.r'
     'translate.r'
+    'group.r'

@@ -1,5 +1,3 @@
-library(plyr)
-
 # Restrictions:
 #  * summary functions must return single value
 #  * types must be the same in all groups
@@ -11,10 +9,10 @@ library(plyr)
 #  * dates and factors
 #  * variables that depend on previous
 #
+# data("baseball", package = "plyr")
+# vars <- list(n = quote(length(id)), m = quote(n + 1))
 # system.time({
-#   grp <- plyr:::split_indices(id(baseball["id"]))
-#   vars <- list(n = quote(length(id)), m = quote(n + 1))
-#   a <- summarise_by(baseball, grp, vars)
+#   a <- summarise_by(baseball, group("id"), vars)
 # })
 #
 # system.time(b <- ddply(baseball, "id", summarise, n = length(id)))
@@ -32,7 +30,9 @@ library(plyr)
 # setkey(baseball2, id)
 # system.time(baseball2[, length(year), by = id])
 # # ~ 0.002 - even more insanely fast
-summarise_by <- function(data, groups, cols) {
+summarise_by <- function(data, group, cols) {
+  groups <- group_ids(group, data)
+
   n <- length(groups)
   p <- length(cols)
 

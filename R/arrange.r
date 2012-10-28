@@ -1,6 +1,5 @@
 # system.time({
-#   grp <- plyr:::split_indices(id(baseball["id"]))
-#   a <- arrange_by(baseball, grp, quote(g))
+#   a <- arrange_by(baseball, group("id"), quote(g))
 # })
 # a <- arrange(a, id)
 # system.time(b <- ddply(baseball, "id", arrange, g))
