@@ -1,3 +1,5 @@
+# Need to do something when converting literal factors/dates
+#
 # Difference between mutate and summarise: in summarise, no original column
 #  names in FROM - all aggregated
 #
@@ -13,11 +15,17 @@
 # median(x) -> NO SQL EQUIV
 #
 
+# http://www.sqlite.org/lang_corefunc.html
+# http://www.sqlite.org/lang_datefunc.html
+# http://www.sqlite.org/lang_aggfunc.html
+
+
+
 sql_mean <- function(x) {
-  str_c("MEAN(", x, ")")
+  str_c("AVG(", x, ")")
 }
 sql_sum <- function(x) {
-  str_c("SUM(", x, ")")
+  str_c("TOTAL(", x, ")")
 }
 
 sql_and <- function(x, y) {

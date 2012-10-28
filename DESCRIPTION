@@ -9,6 +9,8 @@ Description: A fast, consistent tools for working with data frame like objects,
 Imports:
     stringr,
     plyr (>= 1.7.1.99.2)
+Suggests:
+    RSQLite
 Depends:
     R (>= 2.15.1)
 License: MIT
