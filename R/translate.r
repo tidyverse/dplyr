@@ -1,14 +1,3 @@
-# For sql:
-#
-# y = var(x) -> sql_var(quote(x)) -> VAR(X) as y
-#
-# a <- 1:5
-# id %in% a -> sql_in(quote(id), a) -> id IN (1, 2, 3, 4, 5)
-#
-# x == y && x < 4 -> sql_and(sql_eq(quote(x), quote(y)), sql_lt(quote(x), 4))
-#
-# median(x) -> NO SQL EQUIV
-#
 # Challenge is distinguishing between local and remote vars - maybe best
 # solution is to delay translation until we know the data def.  Still probably
 # want explicit way of specifying local/remote variables if you want to be
@@ -29,7 +18,7 @@
 #  * ( = parens
 #
 # Otherwise everything gets standard prefix
-# Will need to write wrapper functions by hand to check for arity and type
+# Will need to write wrapper functions to check for arity and type
 
 # Recurse through call, replacing function names with their
 # equivalents, local variables with their values, and remote vars with
