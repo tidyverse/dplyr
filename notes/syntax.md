@@ -49,19 +49,29 @@ This gives a class hierarchy:
 
 An complete operation has one data source and a list of operations. A partial operation (an op or ops) just has a list of operations.
 
-## Grouping
+## Splitting and combining
 
-In `groupwise` (an adverb), you can specify group as:
+To operate "by" group, use `splits` and `combines`:
+
+    splits(by_(cod)) + 
+      transforms(prop = freq / sum(freq)) +
+    combines()
+
+If `applies` is not used, the last result will be combined automatically, so that the last operation can be abbreviated as:
+
+    splits(by_(cod)) + 
+      transforms(prop = freq / sum(freq))
+
+The argument is a function that takes a data frame as input and returns a vector where each group has a common value. Some useful functions are included:
 
     by_var(mycol)
-    by_(mycol) # perhaps an abbrevation
+    by_(mycol) # an abbrevation
 
     x <- "mycol"
     by_name(x)
 
     by_rows()
 
-You can also provide your own function that takes a data frame as input and returns a single vector where each group has a common value.
 
 ## Arbitrary operations.
 
