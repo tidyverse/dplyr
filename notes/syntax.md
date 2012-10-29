@@ -21,13 +21,13 @@ Specifying grouping is more like an adverb:
 
 Individual operations are combined with `+` to form a compound operation:
 
-    op <- counts(by_var(cod, hod)) +
-      filters(is.na(hod)) +
+    op <- 
       counts(by_var(cod, hod)) +
+      filters(is.na(hod)) +
       groupwise(by_var(cod), transforms(prop = freq / sum(freq)) +
       arranges(desc(freq))
 
-When combined with a data source, the operations can be performed:
+When combined with a data source, the result can be realised:
 
     source(deaths) + op
 
@@ -37,9 +37,7 @@ This gives a class hierarchy:
     ops -> list of ops
     complete_ops -> ops + source
 
-An complete operation has one data source and a list of operations. A partial operation just has a list of operations.
-
-With `+` defined as:
+`+` combines classes as follows:
 
     op + op -> ops
     ops + op -> ops
@@ -48,6 +46,8 @@ With `+` defined as:
     op + source -> complete_ops
     ops + source -> complete_ops
     complete_ops + source -> complete_ops
+
+An complete operation has one data source and a list of operations. A partial operation (an op or ops) just has a list of operations.
 
 ## Grouping
 
@@ -68,14 +68,13 @@ You can also provide your own function that takes a data frame as input and retu
 Functions that don't return a data frame use `applies`:
 
     baseball +
-      groupwise(by_(id), does(lm, formula = g ~ year))
+      groupwise(by_(id), applies(lm, formula = g ~ year))
 
 The compliment, `combines`, collapses the list back into a `data.frame`
 
     baseball +
       groupwise(by_(id), applies(lm, formula = g ~ year)) +
       combines(coef)
-
 
 ## Planning/compilation
 
