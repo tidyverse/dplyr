@@ -8,14 +8,12 @@ Common operations take the active form of the verb:
     reorders()     (aka arranges)
     filters()      (aka subsets)
 
+    splits()
     applies()
     combines()
 
 (`filters` is more obviously a verb than `subsets`)
 
-Specifying grouping is more like an adverb:
-
-    groupwise()
 
 ## Combining operations
 
@@ -24,7 +22,9 @@ Individual operations are combined with `+` to form a compound operation:
     op <- 
       counts(by_var(cod, hod)) +
       filters(is.na(hod)) +
-      groupwise(by_var(cod), transforms(prop = freq / sum(freq)) +
+      splits(by_var(cod)) + 
+        transforms(prop = freq / sum(freq) +
+      combines() +
       arranges(desc(freq))
 
 When combined with a data source, the result can be realised:
@@ -68,12 +68,14 @@ You can also provide your own function that takes a data frame as input and retu
 Functions that don't return a data frame use `applies`:
 
     baseball +
-      groupwise(by_(id), applies(lm, formula = g ~ year))
+      splits(by_(id)) + 
+      applies(lm, formula = g ~ year)
 
 The compliment, `combines`, collapses the list back into a `data.frame`
 
     baseball +
-      groupwise(by_(id), applies(lm, formula = g ~ year)) +
+      splits(by_(id)) + 
+      applies(lm, formula = g ~ year) +
       combines(coef)
 
 ## Planning/compilation
@@ -102,21 +104,36 @@ While operations are expressed in a fixed order, it might be more efficient to r
 
 Need way to describe pattern matching to simplify. And standard method for running. Differs between data.frame (just apply each method in sequence, always avaialble as fallback), data.table, and sql.
 
+## Realisation
+
+The process of applying the operations to the data source is called realisation (because we're realising (in the CS sense) the value of the output). For data frame and data table sources, this is just a matter of applying each operation to the output from the previous. This is not so straighforward for (e.g.) SQL because the output of the first operation will be an R data frame, not a new table. 
+
+    realise(complete_ops)
+    # Which calls
+    realise_op(source, ops)
+    # so we can dispatch by source type
+
 ## Some examples
 
     # Equivalent to:
     source(deaths) +
       filters(is.na(hod)) +
-      by(var(cod, hod), summarises(freq = count()) +
+      splits(by_(cod, hod)) +
+        summarises(freq = count()) +
+      combines() +
       arrange(desc(freq)) +
-      by(var(cod), transforming(prop = freq / sum(freq)) 
+      splits(by_cod) + 
+        by(var(cod), transforming(prop = freq / sum(freq)) 
 
     source(deaths) +
       counting(by_var(cod, hod)) +
       filters(is.na(hod)) +
-      groups(by_var(cod), 
-        groups(by_var(hod), summarises(freq = count()) +
+      splits(by_var(cod)) +
+        splits(by_var(hod))
+          summarises(freq = count()) +
+        combines() +
         transforming(prop = freq / sum(freq)) +
+      combines() +
       arranging(desc(freq))
 
     baseball <- source(baseball)
@@ -125,12 +142,14 @@ Need way to describe pattern matching to simplify. And standard method for runni
     baseball + by(id, filters(length(id) > 10)))
 
     baseball + 
-      by(id, transforming(cyear = year - min(year) + 1)) +
+      splits(by_(id)) + 
+        transforming(cyear = year - min(year) + 1)) +
+      combines() +
       subset(cyear == 1)
 
+    # Which is equivalent to
     baseball + 
-      by(id, {
-        transforming(cyear = year - min(year) + 1)) + 
-        filters(cyear == 1)
-      })
-
+      splits(by_(id)) + 
+        transforming(cyear = year - min(year) + 1)) +
+        subset(cyear == 1) +
+      combines()
