@@ -18,6 +18,7 @@
 # http://www.sqlite.org/lang_corefunc.html
 # http://www.sqlite.org/lang_datefunc.html
 # http://www.sqlite.org/lang_aggfunc.html
+# RSQLite.extfuns
 
 sql_atomic <- function(x) UseMethod("sql_atomic")
 sql_atomic.character <- function(x) {
