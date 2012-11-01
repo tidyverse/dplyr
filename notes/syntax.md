@@ -8,12 +8,14 @@ Common operations take the active form of the verb:
     reorders()     (aka arranges)
     filters()      (aka subsets)
 
+    heads() ?
+    tails()?
+
     splits()
     applies()
     combines()
 
 (`filters` is more obviously a verb than `subsets`)
-
 
 ## Combining operations
 
@@ -123,6 +125,8 @@ The process of applying the operations to the data source is called realisation 
     realise_op(source, ops)
     # so we can dispatch by source type
 
+If the source is a data.frame, then keep a list of by groups. Push on to that list for every `splits` call, and pop for every `combines`.  When applies used, switch to a list + `lapply` and combine explicitly calls `rbind.fill`. Similarly strategy should work with data.table.
+
 ## Some examples
 
     # Equivalent to:
@@ -133,18 +137,18 @@ The process of applying the operations to the data source is called realisation 
       combines() +
       arrange(desc(freq)) +
       splits(by_cod) + 
-        by(var(cod), transforming(prop = freq / sum(freq)) 
+        by(var(cod), transforms(prop = freq / sum(freq)) 
 
     source(deaths) +
-      counting(by_var(cod, hod)) +
+      counts(by_var(cod, hod)) +
       filters(is.na(hod)) +
       splits(by_var(cod)) +
         splits(by_var(hod))
           summarises(freq = count()) +
         combines() +
-        transforming(prop = freq / sum(freq)) +
+        transforms(prop = freq / sum(freq)) +
       combines() +
-      arranging(desc(freq))
+      arranges(desc(freq))
 
     baseball <- source(baseball)
     baseball + filters(year < 1900)
@@ -153,13 +157,13 @@ The process of applying the operations to the data source is called realisation 
 
     baseball + 
       splits(by_(id)) + 
-        transforming(cyear = year - min(year) + 1)) +
+        transforms(cyear = year - min(year) + 1)) +
       combines() +
-      subset(cyear == 1)
+      filters(cyear == 1)
 
     # Which is equivalent to
     baseball + 
       splits(by_(id)) + 
-        transforming(cyear = year - min(year) + 1)) +
-        subset(cyear == 1) +
+        transforms(cyear = year - min(year) + 1)) +
+        filters(cyear == 1) +
       combines()
