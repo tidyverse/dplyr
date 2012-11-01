@@ -8,7 +8,7 @@ Common operations take the active form of the verb:
     reorders()     (aka arranges)
     filters()      (aka subsets)
 
-    heads() ?
+    heads()?
     tails()?
 
     splits()
@@ -126,6 +126,10 @@ The process of applying the operations to the data source is called realisation 
     # so we can dispatch by source type
 
 If the source is a data.frame, then keep a list of by groups. Push on to that list for every `splits` call, and pop for every `combines`.  When applies used, switch to a list + `lapply` and combine explicitly calls `rbind.fill`. Similarly strategy should work with data.table.
+
+## Facades
+
+Will still need some basic facades built on top for the most common operations: `summarise_by`, `subset_by`, `mutate_by` etc.  This would make it easier to dip your toe in, within having to move to a completely different way of thinking about data manipulation.
 
 ## Some examples
 
