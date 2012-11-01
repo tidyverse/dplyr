@@ -7,11 +7,9 @@ Compute locally:
 
 Figure out how to deal with joins. 
 
-Email Jeff Hammerbacher and Murray Stokely and ask if they know of people use hive/bigquery and plyr who could help me understand. Also ask for pointers about profiling and improving performance of queries.
+Email Jeff/Murray and ask if they know of people use hive/bigquery and plyr who could help me understand pain points. Also ask for pointers about profiling and improving performance of queries.
 
-Benchmarking tool: save variations in a list, and then provide call to list plus arguments to test.  Would also be useful to be able to time each expression in a script and write out results as comments.
-
-What common operations does data.table support?
+Would also be useful to be able to time each expression in a script and write out results as comments.
 
 Need to support paging and some sort of system to determine if the results are too big for R.
 
