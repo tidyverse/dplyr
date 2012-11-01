@@ -90,6 +90,8 @@ The compliment, `combines`, collapses the list back into a `data.frame`
       applies(lm, formula = g ~ year) +
       combines(coef)
 
+Like `plyr`, applies would support parallelisation with `foreach`.
+
 ## Planning/compilation
 
 While operations are expressed in a fixed order, it might be more efficient to rearrange them.  This will be especially important for external data sources, since we can typically only do one pass in the external application before we get results back into R. 
@@ -127,6 +129,8 @@ The process of applying the operations to the data source is called realisation 
 
 If the source is a data.frame, then keep a list of by groups. Push on to that list for every `splits` call, and pop for every `combines`.  When applies used, switch to a list + `lapply` and combine explicitly calls `rbind.fill`. Similarly strategy should work with data.table.
 
+For out of memory datasets, will return a maximum number of rows (100,000 by default?), along with a warning message.  May consider supporting some sort of paging mechanism.
+
 ## Facades
 
 Will still need some basic facades built on top for the most common operations: `summarise_by`, `subset_by`, `mutate_by` etc.  This would make it easier to dip your toe in, within having to move to a completely different way of thinking about data manipulation.
@@ -139,15 +143,15 @@ Will still need some basic facades built on top for the most common operations: 
       splits(by_(cod, hod)) +
         summarises(freq = count()) +
       combines() +
-      arrange(desc(freq)) +
-      splits(by_cod) + 
-        by(var(cod), transforms(prop = freq / sum(freq)) 
+      arranges(desc(freq)) +
+      splits(by_(cod)) + 
+        transforms(prop = freq / sum(freq))
 
     source(deaths) +
-      counts(by_var(cod, hod)) +
+      counts(by_(cod, hod)) +
       filters(is.na(hod)) +
-      splits(by_var(cod)) +
-        splits(by_var(hod))
+      splits(by_(cod)) +
+        splits(by_(hod))
           summarises(freq = count()) +
         combines() +
         transforms(prop = freq / sum(freq)) +
