@@ -8,8 +8,7 @@ Common operations take the active form of the verb:
     reorders()     (aka arranges)
     filters()      (aka subsets)
 
-    heads()?
-    tails()?
+    takes()
 
     splits()
     applies()
