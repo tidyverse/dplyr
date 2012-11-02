@@ -10,7 +10,7 @@ sqlite_source <- function(path, table) {
   con <- dbConnect(dbDriver("SQLite"), dbname = path)
 
   structure(list(con = con, table = table),
-    class = c("source_sqlite", "source"))
+    class = c("source_sqlite", "source_sql", "source"))
 }
 
 source_vars.source_sqlite <- function(x) {

@@ -25,3 +25,4 @@ Collate:
     'source-data-frame.r'
     'source-sqlite.r'
     'source.r'
+    'utils.r'
