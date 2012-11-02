@@ -31,6 +31,22 @@
 # system.time(baseball2[, length(year), by = id])
 # # ~ 0.002 - even more insanely fast
 
+# User friendly version.  Needs a different name.
+summarise_by <- function(.source, .group, ..., .env = parent.frame()) {
+  if (is.data.frame(.source)) {
+    source <- source_data_frame(.source, deparse(substitute(.source)))
+  }
+
+  if (!is.group(.group)) {
+    .group <- as.quoted(.group, env = .env)
+  }
+
+  calls <- match.args(expand.dots = F)$`...`
+
+  summarise_by(.source, .group, calls, env = .env)
+}
+
+
 summarise_by <- function(source, group, calls, env = parent.frame()) {
   UseMethod("summarise_by")
 }
