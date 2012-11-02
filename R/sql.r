@@ -98,3 +98,10 @@ sql_keywords <- c(
   "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN",
   "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
   "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
+
+sql_vars <- function(vars) {
+  nms <- names(vars)
+  if (is.null(nms)) nms <- rep("", length(vars))
+
+  str_c(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
+}
