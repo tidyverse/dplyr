@@ -23,6 +23,7 @@ Collate:
     'translate.r'
     'group.r'
     'source-data-frame.r'
+    'source-data-table.r'
     'source-sqlite.r'
     'source.r'
     'utils.r'
