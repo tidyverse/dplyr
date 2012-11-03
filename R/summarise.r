@@ -118,7 +118,9 @@ summarise_by.source_data_frame <- function(source, group, calls) {
         length(out[[j]]) <- n
 
         name <- names(calls)[[i]]
-        makeActiveBinding(name, get_output(name), grp)
+        ## Need to think about enabling this: what happens when you do
+        ## x = mean(x)
+        # makeActiveBinding(name, get_output(name), grp)
       } else {
         out[[j]][[i]] <- eval(calls[[j]], grp)
       }

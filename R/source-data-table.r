@@ -1,5 +1,7 @@
 data_table_source <- function(obj, name = deparse(substitute(obj))) {
   stopifnot(require("data.table"))
+  # Hack until new version of data.table comes out
+  assignInNamespace("cedta", function(...) TRUE, "data.table")
 
   obj <- as.data.table(obj)
   structure(list(obj = obj, name = name),
