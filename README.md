@@ -28,7 +28,7 @@ For example, all the following expressions are equivalent:
 
     ddply(baseball, "id", summarise, g = mean(g))
    
-    summarise_by(baseball, "id", g = mean(g))
+     summarise_by(baseball, "id", g = mean(g))
 
     baseball_dt <- as.data.table(baseball)
     baseball_dt[, list(g = mean(g)), by = id]
