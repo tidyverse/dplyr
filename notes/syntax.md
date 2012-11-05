@@ -73,6 +73,22 @@ The argument is a function that takes a data frame as input and returns a vector
 
     by_rows()
 
+## Joins
+
+Not completely sure how this will work yet, but I since joins are a property of data sources, maybe something like:
+
+    joins(s1, s2, by = "var1")
+    joins(s1, s2, by = "var1", type = "inner")
+    joins(s1, s2, by = "var1", type = "left")
+    # Could even extend like
+    joins(s1, s2, s3, s4, by = "var1")
+
+    # Or
+    left_join(s1, s2)
+    inner_join(s1, s2)
+    # But that might be a bit verbose for a common operation
+
+Bigger problem is variable resolution.
 
 ## Arbitrary operations.
 
