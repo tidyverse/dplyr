@@ -1,57 +1,30 @@
-# Restrictions:
-#  * summary functions must return single value
-#  * types must be the same in all groups
-#
-# Need to benchmark with and without checks for broken assumptions.
-# Compare to aggregate, and to data.table
-#
 # Test with:
 #  * dates and factors
 #  * variables that depend on previous
-#
-# data("baseball", package = "plyr")
-# vars <- list(n = quote(length(id)), m = quote(n + 1))
-# system.time({
-#   a <- summarise_by(baseball, group("id"), vars)
-# })
-#
-# system.time(b <- ddply(baseball, "id", summarise, n = length(id)))
-# stopifnot(all.equal(a$n, b$n))
-# # ~20x slower
-#
-# system.time(count(baseball, "id"))
-# # ~2x faster - in this case it's basically id + tabulate
-# # so maybe able to eke out a little more with a C loop ?
-#
-# baseball2 <- data.table(baseball)
-# system.time(baseball2[, list(n = length(year), m = n + 1), by = id])
-# # ~ 0.007 - holy shit that's fast
-# # but now only ~10x faster than summarise_by
-# setkey(baseball2, id)
-# system.time(baseball2[, length(year), by = id])
-# # ~ 0.002 - even more insanely fast
 
 # User friendly version.  Needs a different name.
+#
+# Restrictions:
+#  * summary functions must return single value
+#  * types must be the same in all groups
 summarise_by <- function(.source, .group, ..., .env = parent.frame()) {
   if (is.data.frame(.source)) {
     source <- source_data_frame(.source, deparse(substitute(.source)))
   }
 
-  if (!is.group(.group)) {
+  if (!is.quoted(.group)) {
     .group <- as.quoted(.group, env = .env)
   }
 
-  calls <- match.args(expand.dots = F)$`...`
-
-  summarise_by(.source, .group, calls, env = .env)
+  calls <- dots()
+  do_summarise_by(.source, .group, calls, env = .env)
 }
 
-
-summarise_by <- function(source, group, calls, env = parent.frame()) {
-  UseMethod("summarise_by")
+do_summarise_by <- function(source, group, calls, env = parent.frame()) {
+  UseMethod("do_summarise_by")
 }
 
-summarise_by.source_sqlite <- function(source, group, calls, env = parent.frame()) {
+do_summarise_by.source_sqlite <- function(source, group, calls, env = parent.frame()) {
   select <- vapply(calls, translate, source = source, env = env,
     FUN.VALUE = character(1))
   group_by <- vapply(group, translate, source = source, env = env,
@@ -68,7 +41,7 @@ summarise_by.source_sqlite <- function(source, group, calls, env = parent.frame(
   fetch(qry, -1)
 }
 
-summarise_by.source_data_table <- function(source, group, calls,
+do_summarise_by.source_data_table <- function(source, group, calls,
                                            env = parent.frame()) {
   by_call <- as.call(c(quote(list), group))
   list_call <- as.call(c(quote(list), calls))
@@ -78,7 +51,7 @@ summarise_by.source_data_table <- function(source, group, calls,
   eval(dt_call)
 }
 
-summarise_by.source_data_frame <- function(source, group, calls) {
+do_summarise_by.source_data_frame <- function(source, group, calls, env = parent.frame()) {
   data <- source$obj
   groups <- group_ids(group, data)
 
