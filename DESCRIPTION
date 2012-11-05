@@ -27,3 +27,5 @@ Collate:
     'source-sqlite.r'
     'source.r'
     'utils.r'
+    'ops.r'
+    'partial-eval.r'
