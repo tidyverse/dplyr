@@ -2,15 +2,28 @@
 #  * dates and factors
 #  * variables that depend on previous
 
-# User friendly version.  Needs a different name.
-#
-# Restrictions:
-#  * summary functions must return single value
-#  * types must be the same in all groups
+#' Summarise by.
+#'
+#' Summarise variables in a data source broken down by some grouping variable.
+#'
+#' @section Restrictions:
+#' \itemize{
+#'  \item summary functions must return single value
+#'  \item summary functions must return the same type of value for all groups
+#' }
+#' @param .source data source.  See \code{\link{source}} for more details.
+#' @param .group grouping variable or variables. Either a character vector,
+#'  a formula, or the output of \code{\link[plyr]{.}}.  Use \code{NULL} for
+#'  no grouping.
+#' @param ... additional named arguments are processed in the context of the
+#'   \code{source}.
+#' @param .env the environment in which to look for any additional variables
+#'   supplied to the calls in \code{...}.
 summarise_by <- function(.source, .group, ..., .env = parent.frame()) {
   if (is.data.frame(.source)) {
     source <- source_data_frame(.source, deparse(substitute(.source)))
   }
+  stopifnot(is.source(.source))
 
   if (!is.quoted(.group)) {
     .group <- as.quoted(.group, env = .env)

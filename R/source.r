@@ -8,3 +8,4 @@ source_name <- function(x) UseMethod("source_name")
 source_translator <- function(x) UseMethod("source_translator")
 
 as.source <- function(x) UseMethod("as.source")
+is.source <- function(x) inherit(x, "source")
