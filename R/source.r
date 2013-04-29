@@ -12,4 +12,4 @@ print.source <- function(x, ...) {
 }
 
 as.source <- function(x) UseMethod("as.source")
-is.source <- function(x) inherit(x, "source")
+is.source <- function(x) inherits(x, "source")

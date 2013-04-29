@@ -16,9 +16,33 @@ sqlite_source <- function(path, table) {
 source_vars.source_sqlite <- function(x) {
   dbListFields(x$con, x$table)
 }
+#' @S3method dimnames source_sqlite
+dimnames.source_sqlite <- function(x) {
+  list(NULL, source_vars.source_sqlite(x))
+}
+
+dim.source_sqlite <- function(x) {
+  n <- sql_select(x, "count()", n = 1L)[[1]]
+
+  c(n, length(source_vars(x)))
+}
 
 source_name.source_sqlite <- function(x) {
   x$table
+}
+
+#' @S3method head source_sqlite
+head.source_sqlite <- function(x, n = 6L, ...) {
+  assert_that(length(n) == 1, n > 0L)
+
+  sql_select(x, "*", limit = n, n = n)
+}
+
+#' @S3method tail source_sqlite
+tail.source_sqlite <- function(x, n = 6L, ...) {
+  assert_that(length(n) == 1, n > 0L)
+
+  sql_select(x, "*", limit = n, offset = nrow(x) - n, n = n)
 }
 
 #' @importFrom plyr is.quoted
@@ -57,8 +81,8 @@ gen_sql <- function(source, select = NULL, filter = NULL, mutate = NULL,
   }
 
   str_c(
-    "SELECT ", select_sql, "\n",
-    "FROM ", source_name(source), "\n",
+    "SELECT ", select_sql,
+    "FROM ", source_name(source),
     if (!is.null(filter)) str_c("WHERE ", filter_sql),
     ";\n"
   )
