@@ -62,9 +62,9 @@ sql_select <- function(x, ..., n = -1L) {
   sql_select2(x, list(...), n = n)
 }
 
-sql_select2 <- function(x, args, n = -1L) {
+sql_select2 <- function(x, args, n = 50000L) {
   assert_that(is.source(x))
-  assert_that(is.integer(n), length(n) == 1)
+  assert_that(is.numeric(n), length(n) == 1)
 
   sql <- select_sql(from = source_name(x),
     select = args$select,
@@ -82,5 +82,10 @@ sql_select2 <- function(x, args, n = -1L) {
   qry <- dbSendQuery(x$con, sql)
   on.exit(dbClearResult(qry))
 
-  fetch(qry, n)
+  res <- fetch(qry, n)
+  if (!dbHasCompleted(qry)) {
+    warning("Only first ", nrow(res), " results retrieved. Use n = -1 to retrieve all.",
+      call. = FALSE)
+  }
+  res
 }

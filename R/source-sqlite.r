@@ -54,7 +54,7 @@ tail.source_sqlite <- function(x, n = 6L, ...) {
 
 #' @importFrom plyr .
 #' @S3method subset source_sqlite
-subset.source_sqlite <- function(x, subset, select, ...) {
+subset.source_sqlite <- function(x, subset, select, ..., n = 50000L) {
 
   sql <- list()
   if (!missing(subset)) {
@@ -73,7 +73,7 @@ subset.source_sqlite <- function(x, subset, select, ...) {
     sql$select <- "*"
   }
 
-  sql_select2(x, sql)
+  sql_select2(x, sql, n = n)
 }
 
 #' @importFrom plyr is.quoted
