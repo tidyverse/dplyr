@@ -32,3 +32,4 @@ Collate:
     'partial-eval.r'
     'dplyr.r'
     'sql-helpers.r'
+    'zzz.r'

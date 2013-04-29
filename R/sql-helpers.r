@@ -75,6 +75,10 @@ sql_select2 <- function(x, args, n = -1L) {
     limit = args$limit,
     offset = args$offset)
 
+  if (isTRUE(getOption("dplyr.show_sql"))) {
+    message(sql)
+  }
+
   qry <- dbSendQuery(x$con, sql)
   on.exit(dbClearResult(qry))
 
