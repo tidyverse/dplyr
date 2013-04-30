@@ -1,4 +1,4 @@
 #' @docType package
 #' @name dplyr
-#' @importFrom assertthat assert_that
+#' @import assertthat
 NULL

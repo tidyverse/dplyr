@@ -28,7 +28,7 @@ dimnames.source_sqlite <- function(x) {
 }
 #' @S3method dim source_sqlite
 dim.source_sqlite <- function(x) {
-  n <- sql_select(x, "count()", n = 1L)[[1]]
+  n <- sql_select(x, "count()", n = -1L)[[1]]
 
   c(n, length(source_vars(x)))
 }
@@ -42,14 +42,14 @@ source_name.source_sqlite <- function(x) {
 head.source_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  sql_select(x, "*", limit = n, n = n)
+  sql_select(x, "*", limit = n)
 }
 
 #' @S3method tail source_sqlite
 tail.source_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  sql_select(x, "*", limit = n, offset = nrow(x) - n, n = n)
+  sql_select(x, "*", limit = n, offset = nrow(x) - n)
 }
 
 #' @importFrom plyr .

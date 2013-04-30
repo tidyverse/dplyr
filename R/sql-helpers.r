@@ -48,10 +48,14 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
 }
 
 sql_select <- function(x, ..., n = -1L) {
-  sql_select2(x, list(...), n = n)
+  assert_that(is.source(x))
+  assert_that(is.numeric(n), length(n) == 1)
+
+  sql <- select_sql(from = source_name(x), ...)
+  exec_sql(x, sql, n = n)
 }
 
-sql_select2 <- function(x, args, n = 50000L) {
+sql_select2 <- function(x, args, n = -1L) {
   assert_that(is.source(x))
   assert_that(is.numeric(n), length(n) == 1)
 
@@ -63,6 +67,13 @@ sql_select2 <- function(x, args, n = 50000L) {
     order_by = args$order_by,
     limit = args$limit,
     offset = args$offset)
+
+  exec_sql(x, sql, n = n)
+}
+
+exec_sql <- function(x, sql, n = -1L) {
+  assert_that(is.source(x))
+  assert_that(is.string(sql))
 
   if (isTRUE(getOption("dplyr.show_sql"))) {
     message(sql)
@@ -77,4 +88,5 @@ sql_select2 <- function(x, args, n = 50000L) {
       call. = FALSE)
   }
   res
+
 }
