@@ -10,6 +10,10 @@ sqlite_source <- function(path, table) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
 
+  if (!file.exists(path)) {
+    stop(path, " does not exist", call. = FALSE)
+  }
+
   con <- dbConnect(dbDriver("SQLite"), dbname = path)
 
   if (!(table %in% dbListTables(con))) {
