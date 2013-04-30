@@ -19,7 +19,7 @@
 #'   \code{source}.
 #' @param .env the environment in which to look for any additional variables
 #'   supplied to the calls in \code{...}.
-summarise_by <- function(.source, .group, ..., .env = parent.frame()) {
+summarise_by <- function(.source, .group, ..., .n = 1e5, .env = parent.frame()) {
   if (is.data.frame(.source)) {
     source <- source_data_frame(.source, deparse(substitute(.source)))
   }
@@ -30,22 +30,23 @@ summarise_by <- function(.source, .group, ..., .env = parent.frame()) {
   }
 
   calls <- dots()
-  do_summarise_by(.source, .group, calls, env = .env)
+  do_summarise_by(.source, .group, calls, n = .n, env = .env)
 }
 
-do_summarise_by <- function(source, group, calls, env = parent.frame()) {
+do_summarise_by <- function(source, group, calls, n = 1e5, env = parent.frame()) {
   UseMethod("do_summarise_by")
 }
 
-do_summarise_by.source_sqlite <- function(source, group, calls, env = parent.frame()) {
+do_summarise_by.source_sqlite <- function(source, group, calls, n = 1e5, env = parent.frame()) {
   select <- vapply(calls, translate, source = source, env = env,
     FUN.VALUE = character(1))
   group_by <- vapply(group, translate, source = source, env = env,
     FUN.VALUE = character(1))
 
   sql_select(source,
-    select = sql_vars(c(group_by, select)),
-    group_by = sql_vars(group_by)
+    select = c(group_by, select),
+    group_by = group_by,
+    n = n
   )
 }
 

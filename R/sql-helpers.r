@@ -8,7 +8,7 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
     "offset")
 
   assert_that(is.character(select), length(select) > 0L)
-  out$select <- paste0("SELECT ", paste0(select, collapse = ", "))
+  out$select <- paste0("SELECT ", sql_vars(select))
 
   assert_that(is.character(from), length(from) == 1L)
   out$from <- paste0("FROM ", escape_sql(from))
@@ -19,8 +19,8 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   }
 
   if (!is.null(group_by)) {
-    assert_that(is.character(group_by), length(group_by) == 1L)
-    out$group_by <- paste0("GROUP BY ", group_by)
+    assert_that(is.character(group_by), length(group_by) > 0L)
+    out$group_by <- paste0("GROUP BY ", sql_vars(group_by))
   }
 
   if (!is.null(having)) {
