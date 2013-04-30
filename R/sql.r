@@ -1,86 +1,97 @@
-sql_infix <- function(op) {
-  op <- toupper(op)
-  function(x, y) sprintf("%s %s %s", x, op, y)
-}
-sql_unary <- function(f) {
-  f <- toupper(f)
-  function(x) sprintf("%s(%s)", f, x)
-}
+#' Goal is to make valid sql given inputs.
+select_sql <- function(select, from, where = NULL, group_by = NULL,
+                     having = NULL, order_by = NULL, limit = NULL,
+                     offset = NULL) {
 
+  out <- vector("list", 8)
+  names(out) <- c("select", "from", "group_by", "having", "order_by", "limit",
+    "offset")
 
-#' @importFrom stringr str_detect str_c
-escape_sql <- function(x) {
-  if (x == "") return("")
-  ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
+  assert_that(is.character(select), length(select) > 0L)
+  out$select <- paste0("SELECT ", sql_vars(select))
 
-  escape <- !str_detect(x, ok) || toupper(x) %in% sql_keywords
-  if (escape) {
-    str_c('"', x, '"')
-  } else {
-    x
+  assert_that(is.character(from), length(from) == 1L)
+  out$from <- paste0("FROM ", escape_sql(from))
+
+  if (!is.null(where)) {
+    assert_that(is.character(where), length(where) == 1L)
+    out$where <- paste0("WHERE ", where)
   }
+
+  if (!is.null(group_by)) {
+    assert_that(is.character(group_by), length(group_by) > 0L)
+    out$group_by <- paste0("GROUP BY ", sql_vars(group_by))
+  }
+
+  if (!is.null(having)) {
+    assert_that(is.character(having), length(having) == 1L)
+    out$having <- paste0("HAVING ", having)
+  }
+
+  if (!is.null(order_by)) {
+    assert_that(is.character(order_by), length(order_by) == 1L)
+    out$order_by <- paste0("ORDER BY ", order_by)
+  }
+
+  if (!is.null(limit)) {
+    assert_that(is.integer(limit), length(limit) == 1L)
+    out$limit <- paste0("LIMIT ", limit)
+  }
+
+  if (!is.null(offset)) {
+    assert_that(is.integer(offset), length(offset) == 1L)
+    out$offset <- paste0("OFFSET ", offset)
+  }
+
+  sql <- paste0(unlist(out, use.names = FALSE), collapse = "\n")
+  paste0(sql, ";")
 }
 
-sql_atomic <- function(x) {
-  if (is.character(x)) x <- str_c('"', x, '"')
-  if (length(x) == 1) return(x)
+sql_select <- function(x, ..., n = -1L) {
+  assert_that(is.source(x))
+  assert_that(is.numeric(n), length(n) == 1)
 
-  str_c("(", str_c(x, collapse = ", "), ")")
+  sql <- select_sql(from = source_name(x), ...)
+  exec_sql(x, sql, n = n)
 }
 
-sql <- list(
-  local_value = function(...) sql_atomic(c(...)),
-  remote_var = escape_sql,
+sql_select2 <- function(x, args, n = -1L) {
+  assert_that(is.source(x))
+  assert_that(is.numeric(n), length(n) == 1)
 
-  # Operators
-  "&" = sql_infix("AND"),
-  "|" = sql_infix("OR"),
-  "!" =  sql_unary("NOT"),
-  xor =  function(x, y) sprintf("%s OR %s AND NOT (%s AND %s)", x, y, x, y),
+  sql <- select_sql(from = source_name(x),
+    select = args$select,
+    where = args$where,
+    group_by = args$group_by,
+    having = args$having,
+    order_by = args$order_by,
+    limit = args$limit,
+    offset = args$offset)
 
-  # Arithmetic
-  "+" =  sql_infix("+"),
-  "-" =  sql_infix("-"),
-  "*" =  sql_infix("*"),
-  "/" =  sql_infix("/"),
-  "%%" = sql_infix("%"),
+  exec_sql(x, sql, n = n)
+}
 
-  # Math
-  "abs" = sql_unary("abs"),
-  "round" = function(x, y = 0L) sprintf("ROUND(%s, %d)", x, y),
+exec_sql <- function(x, sql, n = -1L) {
+  assert_that(is.source(x))
+  assert_that(is.string(sql))
 
-  # String
-  "tolower" = sql_unary("lower"),
-  "toupper" = sql_unary("upper"),
-  "nchar" =   sql_unary("length"),
+  if (isTRUE(getOption("dplyr.show_sql"))) {
+    message(sql)
+  }
 
-  # Date
-  "strftime" = function(x, y) sprintf("STRFTIME(%s, %s)", x, y),
+  qry <- dbSendQuery(x$con, sql)
+  on.exit(dbClearResult(qry))
 
-  # Logical comparison
-  "<" =  sql_infix("<"),
-  "<=" = sql_infix("<="),
-  ">" =  sql_infix(">"),
-  ">=" = sql_infix(">="),
-  "!=" = sql_infix("!="),
-  "==" = sql_infix("=="),
+  res <- fetch(qry, n)
+  if (!dbHasCompleted(qry)) {
+    rows <- formatC(nrow(res), big.mark = ",")
+    warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
+      call. = FALSE)
+  }
+  res
 
-  # Aggregate functions
-  "mean" =  sql_unary("AVG"),
-  "count" = function(x = "*")  sprintf("COUNT(%s)", x),
-  "min" =   sql_unary("MIN"),
-  "max" =   sql_unary("MAX"),
-  "sum" =   sql_unary("TOTAL"),
-  "paste" = function(x, sep = ",") sprintf("GROUP_CONCAT(%s, %s)", x, sep),
+}
 
-  # Other special functions
-  "(" = function(x) sprintf("(%s)", x),
-
-  # Special sql functions
-  "%in%" =   sql_infix("IN"),
-  "%like%" = sql_infix("LIKE")
-)
-source_translator.source_sql <- function(x) sql
 
 sql_keywords <- c(
   "ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS",
@@ -99,6 +110,19 @@ sql_keywords <- c(
   "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN",
   "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
   "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
+
+#' @importFrom stringr str_detect str_c
+escape_sql <- function(x) {
+  if (x == "") return("")
+  ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
+
+  escape <- !str_detect(x, ok) || toupper(x) %in% sql_keywords
+  if (escape) {
+    str_c('"', x, '"')
+  } else {
+    x
+  }
+}
 
 sql_vars <- function(vars) {
   nms <- vapply(names2(vars), escape_sql, character(1))
