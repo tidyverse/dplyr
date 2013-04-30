@@ -67,8 +67,3 @@ render <- function(source, ops, ..., env = env) {
 #
 # (subsets(year > 1960) + mutates(cyear = year - min(year) - 1)) +
 #  (arranges(cyear) + summarises(g = mean(g)))
-
-# Assuming everything is nested within one by group, can collapse:
-#  * filters into one with &&
-#  * summarises and mutates with c (but only one of either)
-#  * arranges with c

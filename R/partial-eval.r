@@ -1,3 +1,14 @@
+#' Partially evaluate an expression.
+#'
+#' This function partially evaluates an expression, using information from
+#' the data source to determine whether names refer to local expressions
+#' or remote variables.
+#'
+#' @param source a data source object
+#' @param call an unevaluated expression, as produced by \code{\link{quote}}
+#' @param env environment in which to search for local values
+#' @export
+#' @keywords internal
 #' @examples
 #' data("baseball", package = "plyr")
 #' bdf <- data_frame_source(baseball)
@@ -28,7 +39,7 @@ partial_eval <- function(source, call, env = parent.frame()) {
     }
   } else if (is.call(call)) {
     # Process call arguments recursively, unless user has manually called
-    # remote_var/local_value
+    # remote/local
     name <- as.character(call[[1]])
     if (name == "local") {
       substitute(local_value(x), list(x = eval(call[[2]], env)))

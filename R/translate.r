@@ -1,10 +1,8 @@
-# Need process to register UDFs:
-#
-# f <- function(x) mean(x) + sd(x) ->
-# sql_f <- function(x) sql_plus(sql_mean(x), sql_sd(x))
-#
-# (also need way for user to add their SQL UDFS)
-
+#' Translate an R expression to the language of another data store
+#'
+#' @inheritParams partial_eval
+#' @export
+#' @keywords internal
 #' @examples
 #' baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
 #' teams <- c("RC1", "CL1")
@@ -16,3 +14,12 @@ translate <- function(source, call, env = parent.frame()) {
   call <- partial_eval(source, call, env)
   eval(call, translator, emptyenv())
 }
+
+# Need way to register UDFs:
+#
+# f <- function(x) mean(x) + sd(x) ->
+# sql_f <- function(x) sql_plus(sql_mean(x), sql_sd(x))
+#
+# Probably should just be attribute of function.
+#
+# (also need way for user to add their SQL UDFS)
