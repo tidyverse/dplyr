@@ -43,15 +43,10 @@ do_summarise_by.source_sqlite <- function(source, group, calls, env = parent.fra
   group_by <- vapply(group, translate, source = source, env = env,
     FUN.VALUE = character(1))
 
-  sql <- str_c("SELECT ", sql_vars(c(group_by, select)), "\n",
-    "FROM ", escape_sql(source_name(source)), "\n",
-    "GROUP BY ", sql_vars(group_by), ";"
+  sql_select(source,
+    select = sql_vars(c(group_by, select)),
+    group_by = sql_vars(group_by)
   )
-
-  qry <- dbSendQuery(source$con, sql)
-  on.exit(dbClearResult(qry))
-
-  fetch(qry, -1)
 }
 
 do_summarise_by.source_data_table <- function(source, group, calls,

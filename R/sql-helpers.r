@@ -11,7 +11,7 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   out$select <- paste0("SELECT ", paste0(select, collapse = ", "))
 
   assert_that(is.character(from), length(from) == 1L)
-  out$from <- paste0("FROM ", from)
+  out$from <- paste0("FROM ", escape_sql(from))
 
   if (!is.null(where)) {
     assert_that(is.character(where), length(where) == 1L)
