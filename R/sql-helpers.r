@@ -84,7 +84,8 @@ exec_sql <- function(x, sql, n = -1L) {
 
   res <- fetch(qry, n)
   if (!dbHasCompleted(qry)) {
-    warning("Only first ", nrow(res), " results retrieved. Use n = -1 to retrieve all.",
+    rows <- formatC(nrow(res), big.mark = ",")
+    warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
       call. = FALSE)
   }
   res

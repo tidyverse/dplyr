@@ -1,3 +1,4 @@
+S3method(as.data.frame,source_sqlite)
 S3method(dim,source_sqlite)
 S3method(dimnames,source_sqlite)
 S3method(group,"function")

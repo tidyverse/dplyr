@@ -52,9 +52,19 @@ tail.source_sqlite <- function(x, n = 6L, ...) {
   sql_select(x, "*", limit = n, offset = nrow(x) - n)
 }
 
+#' @S3method as.data.frame source_sqlite
+as.data.frame.source_sqlite <- function(x, row.names = NULL, optional = NULL,
+                                        n = 1e5L) {
+  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+  if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
+
+  sql_select(x, "*", n = n)
+}
+
+
 #' @importFrom plyr .
 #' @S3method subset source_sqlite
-subset.source_sqlite <- function(x, subset, select, ..., n = 50000L) {
+subset.source_sqlite <- function(x, subset, select, ..., n = 1e5L) {
   env <- parent.frame()
 
   sql <- list()
