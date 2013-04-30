@@ -12,6 +12,10 @@ sqlite_source <- function(path, table) {
 
   con <- dbConnect(dbDriver("SQLite"), dbname = path)
 
+  if (!(table %in% dbListTables(con))) {
+    stop("Table ", table, " not found in database ", path, call. = FALSE)
+  }
+
   structure(list(con = con, table = table),
     class = c("source_sqlite", "source_sql", "source", "op"))
 }
