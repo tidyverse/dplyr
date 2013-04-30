@@ -5,7 +5,7 @@ dots <- function(...) {
 named_dots <- function(...) {
   args <- dots(...)
 
-  nms <- names(args) %||% rep("", length(args))
+  nms <- names2(args)
   missing <- nms == ""
   if (all(!missing)) return(args)
 

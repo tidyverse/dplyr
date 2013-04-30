@@ -101,9 +101,7 @@ sql_keywords <- c(
   "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
 
 sql_vars <- function(vars) {
-  nms <- names(vars)
-  if (is.null(nms)) nms <- rep("", length(vars))
-  nms <- vapply(nms, escape_sql, character(1))
+  nms <- vapply(names2(vars), escape_sql, character(1))
 
   str_c(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
 }
