@@ -48,17 +48,6 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
 }
 
 sql_select <- function(x, ..., n = -1L) {
-  assert_that(is.source(x))
-  assert_that(is.integer(n), length(n) == 1)
-
-  sql <- select_sql(from = source_name(x), ...)
-  qry <- dbSendQuery(x$con, sql)
-  on.exit(dbClearResult(qry))
-
-  fetch(qry, n)
-}
-
-sql_select <- function(x, ..., n = -1L) {
   sql_select2(x, list(...), n = n)
 }
 
