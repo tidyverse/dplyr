@@ -1,5 +1,7 @@
 #' Create an sqlite data source.
 #'
+#' @param path path to sqlite database
+#' @param table name of table in database
 #' @examples
 #' path <- system.file("db/baseball.sqlite3", package = "dply")
 #' path <- "inst/db/baseball.sqlite3"
@@ -12,12 +14,14 @@ sqlite_source <- function(path, table) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
 
+  assert_that(is.string(path))
   if (!file.exists(path)) {
     stop(path, " does not exist", call. = FALSE)
   }
 
   con <- dbConnect(dbDriver("SQLite"), dbname = path)
 
+  assert_that(is.string(table))
   if (!(table %in% dbListTables(con))) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }

@@ -4,6 +4,11 @@
 \usage{
   sqlite_source(path, table)
 }
+\arguments{
+  \item{path}{path to sqlite database}
+
+  \item{table}{name of table in database}
+}
 \description{
   Create an sqlite data source.
 }
