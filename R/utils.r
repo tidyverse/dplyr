@@ -1,7 +1,5 @@
-dots <- function() {
-  call <- sys.call(-1)
-  def <- eval(call[[1]], parent.frame(2))
-  as.list(match.call(def, call, expand.dots = FALSE)$`...`)
+dots <- function(...) {
+  eval(substitute(alist(...)))
 }
 
 names2 <- function(x) {

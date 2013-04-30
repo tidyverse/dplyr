@@ -1,25 +1,24 @@
-op <- function(call, subclass = "") {
-  calls <- as.list(call[-1])
+op <- function(calls, subclass = "") {
   structure(list(calls = calls), class = c(subclass, "op"))
 }
 
 filters <- function(...) {
-  op(match.call(), "filter_op")
+  op(dots(...), "filter_op")
 }
 subsets <- filters
 
 arranges <- function(...) {
-  op(match.call(), "arrange_op")
+  op(dots(...), "arrange_op")
 }
 reorders <- arranges
 
 transforms <- function(...) {
-  op(match.call(), "transform_op")
+  op(dots(...), "transform_op")
 }
 mutates <- transforms
 
 summarises <- function(...) {
-  op(match.call(), "summarise_op")
+  op(dots(...), "summarise_op")
 }
 summarizes <- summarises
 
