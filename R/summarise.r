@@ -19,6 +19,7 @@
 #'   \code{source}.
 #' @param .env the environment in which to look for any additional variables
 #'   supplied to the calls in \code{...}.
+#' @importFrom plyr is.quoted as.quoted
 summarise_by <- function(.source, .group, ..., .n = 1e5, .env = parent.frame()) {
   if (is.data.frame(.source)) {
     source <- source_data_frame(.source, deparse(substitute(.source)))

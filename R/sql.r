@@ -58,6 +58,7 @@ sql_select <- function(x, ..., n = -1L) {
 sql_select2 <- function(x, args, n = -1L) {
   assert_that(is.source(x))
   assert_that(is.numeric(n), length(n) == 1)
+  assert_that(is.list(args))
 
   sql <- select_sql(from = source_name(x),
     select = args$select,
@@ -92,7 +93,6 @@ exec_sql <- function(x, sql, n = -1L) {
 
 }
 
-
 sql_keywords <- c(
   "ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS",
   "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY",
@@ -111,14 +111,14 @@ sql_keywords <- c(
   "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
   "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
 
-#' @importFrom stringr str_detect str_c
+#' @importFrom stringr str_detect
 escape_sql <- function(x) {
   if (x == "") return("")
   ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
 
   escape <- !str_detect(x, ok) || toupper(x) %in% sql_keywords
   if (escape) {
-    str_c('"', x, '"')
+    paste0('"', x, '"')
   } else {
     x
   }
