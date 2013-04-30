@@ -29,7 +29,7 @@ summarise_by <- function(.source, .group, ..., .n = 1e5, .env = parent.frame()) 
     .group <- as.quoted(.group, env = .env)
   }
 
-  calls <- dots(...)
+  calls <- named_dots(...)
   do_summarise_by(.source, .group, calls, n = .n, env = .env)
 }
 

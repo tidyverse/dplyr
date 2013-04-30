@@ -10,6 +10,7 @@ sql_unary <- function(f) {
 
 #' @importFrom stringr str_detect str_c
 escape_sql <- function(x) {
+  if (x == "") return("")
   ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
 
   escape <- !str_detect(x, ok) || toupper(x) %in% sql_keywords
@@ -102,6 +103,7 @@ sql_keywords <- c(
 sql_vars <- function(vars) {
   nms <- names(vars)
   if (is.null(nms)) nms <- rep("", length(vars))
+  nms <- vapply(nms, escape_sql, character(1))
 
   str_c(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
 }
