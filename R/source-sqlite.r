@@ -1,3 +1,5 @@
+#' Create an sqlite data source.
+#'
 #' @examples
 #' path <- system.file("db/baseball.sqlite3", package = "dply")
 #' path <- "inst/db/baseball.sqlite3"
