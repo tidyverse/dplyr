@@ -55,18 +55,19 @@ tail.source_sqlite <- function(x, n = 6L, ...) {
 #' @importFrom plyr .
 #' @S3method subset source_sqlite
 subset.source_sqlite <- function(x, subset, select, ..., n = 50000L) {
+  env <- parent.frame()
 
   sql <- list()
   if (!missing(subset)) {
-    sql$where <- translate(x, substitute(subset))
+    sql$where <- translate(x, substitute(subset), env)
   }
 
   if (!missing(select)) {
     select <- substitute(select)
 
     nm <- names(x)
-    env <- as.list(setNames(seq_along(nm), nm))
-    cols <- nm[eval(select, env, parent.frame())]
+    nm_env <- as.list(setNames(seq_along(nm), nm))
+    cols <- nm[eval(select, nm_env, parent.frame())]
 
     sql$select <- cols
   } else {
