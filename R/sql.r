@@ -14,8 +14,8 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   out$from <- paste0("FROM ", escape_sql(from))
 
   if (!is.null(where)) {
-    assert_that(is.character(where), length(where) == 1L)
-    out$where <- paste0("WHERE ", where)
+    assert_that(is.character(where), length(where) > 0L)
+    out$where <- paste0("WHERE ", paste0("(", where, ")", collapse = " AND "))
   }
 
   if (!is.null(group_by)) {
@@ -127,5 +127,5 @@ escape_sql <- function(x) {
 sql_vars <- function(vars) {
   nms <- vapply(names2(vars), escape_sql, character(1))
 
-  str_c(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
+  paste0(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
 }

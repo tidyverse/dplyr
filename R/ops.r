@@ -6,21 +6,38 @@ filters <- function(...) {
   op(dots(...), "filter_op")
 }
 subsets <- filters
+is.filter <- function(x) inherits(x, "filter_op")
 
 arranges <- function(...) {
   op(dots(...), "arrange_op")
 }
 reorders <- arranges
+is.arrange <- function(x) inherits(x, "arrange_op")
 
 transforms <- function(...) {
   op(dots(...), "transform_op")
 }
 mutates <- transforms
+is.transform <- function(x) inherits(x, "transform_op")
 
 summarises <- function(...) {
   op(dots(...), "summarise_op")
 }
 summarizes <- summarises
+is.summarise <- function(x) inherits(x, "summarise_op")
+
+selects <- function(...) {
+  names <- dots(...)
+  for (name in names) {
+    if (!is.name(name)) {
+      stop("Can only select variable names: ", deparse(name), call. = FALSE)
+    }
+  }
+
+  op(names, "select_op")
+}
+is.select <- function(x) inherits(x, "select_op")
+
 
 ops <- function(ops) {
   structure(list(ops = ops), class = c("ops", "op"))
@@ -33,6 +50,8 @@ cops <- function(source, ops) {
 is.op <- function(x) inherits(x, "op")
 is.ops <- function(x) inherits(x, "ops")
 is.complete_ops <- function(x) inherits(x, "complete_op")
+
+as.data.frame.ops <- function(x, ...) as.data.frame(standardise(x), ...)
 
 abbr <- function(x) UseMethod("abbr")
 abbr.cops <- function(x) "cops"
@@ -83,16 +102,3 @@ print.cops <- function(x, ...) {
   f <- get(method, mode = "function", inherits = FALSE)
   f(e[[1]], e[[2]])
 }
-
-# baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
-# subsets(year > 1960)
-# subsets(year > 1960) + summarises(g = mean(g))
-# subsets(year > 1960) + baseball_s
-# (subsets(year > 1960) + summarises(g = mean(g))) + baseball_s
-#
-# baseball_s + subsets(year > 1960)
-# baseball_s + (subsets(year > 1960) + summarises(g = mean(g)))
-# (baseball_s + subsets(year > 1960)) + summarises(g = mean(g))
-#
-# (subsets(year > 1960) + mutates(cyear = year - min(year) - 1)) +
-#  (arranges(cyear) + summarises(g = mean(g)))

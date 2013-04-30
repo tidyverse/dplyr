@@ -96,3 +96,21 @@ subset.source_sqlite <- function(x, subset, select, ..., n = 1e5L) {
 
   sql_select2(x, sql, n = n)
 }
+
+# Render sequence of ops to a data frame ---------------------------------------
+
+render.source_sqlite <- function(source, ops, ..., n = 1e5, env = env) {
+  n_vars <- length(ops$select) + length(ops$summarise) + length(ops$transform)
+  if (n_vars == 0) ops$select <- "*"
+  select <- var_names(source, ops$select)
+
+  where <- vapply(ops$filter, translate, source = source, env = env,
+    FUN.VALUE = character(1))
+
+  sql_select(source, select = select, where = where, n = n)
+}
+
+var_names <- function(source, calls) {
+  if (is.character(calls)) return(calls)
+  vapply(calls, deparse, width.cutoff = 500L, FUN.VALUE = character(1))
+}

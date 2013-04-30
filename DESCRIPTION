@@ -33,3 +33,4 @@ Collate:
     'translate.r'
     'utils.r'
     'zzz.r'
+    'ops-standard.r'
