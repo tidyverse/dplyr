@@ -86,12 +86,3 @@ subset.source_sqlite <- function(x, subset, select, ..., n = 1e5L) {
 
   sql_select2(x, sql, n = n)
 }
-
-translate_quoted <- function(quoted, source) {
-  stopifnot(is.quoted(quoted))
-
-  vars <- source_vars(source)
-  env <- attr(quoted, "env")
-
-  lapply(quoted, function(call) translate_sql(call, vars, env))
-}
