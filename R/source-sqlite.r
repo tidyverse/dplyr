@@ -10,18 +10,12 @@
 #' names(baseball_s)
 #' head(baseball_s)
 sqlite_source <- function(path, table) {
+  assert_that(is.readable(path), is.string(table))
   if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
 
-  assert_that(is.string(path))
-  if (!file.exists(path)) {
-    stop(path, " does not exist", call. = FALSE)
-  }
-
   con <- dbConnect(dbDriver("SQLite"), dbname = path)
-
-  assert_that(is.string(table))
   if (!(table %in% dbListTables(con))) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
