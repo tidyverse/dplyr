@@ -58,7 +58,8 @@ head.source_sqlite <- function(x, n = 6L, ...) {
 tail.source_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  sql_select(x, "*", limit = n, offset = nrow(x) - n)
+  df <- sql_select(x, "*", order_by = "ROWID DESC", limit = n)
+  unrowname(df[rev(1:nrow(df)), , drop = FALSE])
 }
 
 #' @S3method as.data.frame source_sqlite
