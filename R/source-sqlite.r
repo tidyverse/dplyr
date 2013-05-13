@@ -42,7 +42,8 @@ dimnames.source_sqlite <- function(x) {
 }
 #' @S3method dim source_sqlite
 dim.source_sqlite <- function(x) {
-  n <- sql_select(x, "count()", n = -1L)[[1]]
+  where <- translate_all(x$filter, x)
+  n <- sql_select(x, "count()", where = where, n = -1L)[[1]]
 
   c(n, length(source_vars(x)))
 }
@@ -51,7 +52,10 @@ dim.source_sqlite <- function(x) {
 head.source_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  sql_select(x, "*", limit = n)
+  where <- translate_all(x$filter, x)
+  order_by <- translate_all(x$arrange, x)
+
+  sql_select(x, "*", where = where, order_by = order_by, limit = n)
 }
 
 #' @S3method tail source_sqlite
@@ -68,50 +72,38 @@ as.data.frame.source_sqlite <- function(x, row.names = NULL, optional = NULL,
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
   if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
 
-  sql_select(x, "*", n = n)
+  render(x, n = n)
 }
 
-# Non-standard evaluation ------------------------------------------------------
-
-#' @importFrom stats setNames
-#' @S3method subset source_sqlite
-subset.source_sqlite <- function(x, subset, select, ..., n = 1e5L) {
-
-  sql <- list()
-  if (!missing(subset)) {
-    env <- parent.frame()
-    sql$where <- translate(x, substitute(subset), env)
+render.source_sqlite <- function(source, ..., n = 1e5) {
+  args <- dots(...)
+  if (length(args) > 0) {
+    stop("This method does not accept additional arguments in ...",
+      call. = FALSE)
   }
 
-  if (!missing(select)) {
-    select <- substitute(select)
+  # Source object enforces that we only ever have one of summarise or mutate
+  summarise <- translate_all(source$summarise, source)
+  mutate <- translate_all(source$mutate, source)
 
-    nm <- names(x)
-    nm_env <- as.list(setNames(seq_along(nm), nm))
-    cols <- nm[eval(select, nm_env, parent.frame())]
+  select <- c(source$select, summarise, mutate)
+  if (length(select) == 0) vars <- "*"
 
-    sql$select <- cols
-  } else {
-    sql$select <- "*"
-  }
+  where <- translate_all(source$filter, source)
+  order_by <- translate_all(source$arrange, source)
 
-  sql_select2(x, sql, n = n)
+  sql_select(source,
+    select = select,
+    where = where,
+    order_by = order_by,
+    n = n)
 }
 
-# Render sequence of ops to a data frame ---------------------------------------
+translate_all <- function(x, source) {
+  if (length(x) == 0) return(NULL)
 
-render.source_sqlite <- function(source, ..., env = env) {
-  n_vars <- length(ops$select) + length(ops$summarise) + length(ops$transform)
-  if (n_vars == 0) ops$select <- "*"
-  select <- var_names(source, ops$select)
+  translator <- source_translator(source)
 
-  where <- vapply(ops$filter, translate, source = source, env = env,
+  vapply(x, eval, env = translator, enclos = emptyenv(),
     FUN.VALUE = character(1))
-
-  sql_select(source, select = select, where = where, n = source$limit)
-}
-
-var_names <- function(source, calls) {
-  if (is.character(calls)) return(calls)
-  vapply(calls, deparse, width.cutoff = 500L, FUN.VALUE = character(1))
 }

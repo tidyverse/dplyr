@@ -7,10 +7,19 @@
 #' @examples
 #' data("baseball", package = "plyr")
 #' bdf <- data_frame_source(baseball)
-#' filter(bdf, year > 1980)
+#
+#' path <- "inst/db/baseball.sqlite3"
+#' baseball_s <- sqlite_source(path, "baseball")
+#
+#' filter(baseball_s, year > 1980)
 #' summarise(bdf, g = mean(g))
 #' mutate(bdf, cyear = year - min(year) + 1)
 #' arrange(bdf, id, desc(year))
+#'
+#' recent <- filter(baseball_s, year > 2005)
+#' render(select(recent, id:lg, rbi))
+#' render(summarise(recent, g = mean(g)))
+#' render(mutate(recent, year - max(year)))
 #' @name manip_source
 NULL
 
@@ -64,16 +73,11 @@ arrange.source <- function(`_data`, ..., `_env` = parent.frame()) {
 #' @export
 #' @method select source
 select.source <- function(`_data`, ..., `_env` = parent.frame()) {
-  args <- lapply(dots(...), partial_eval, source = `_data`, env = `_env`)
+  nm <- names(`_data`)
+  nm_env <- as.list(setNames(seq_along(nm), nm))
 
-  `_data`$select <- c(`_data`$select, args)
-  `_data`
-}
+  idx <- unlist(lapply(dots(...), eval, nm_env, parent.frame()))
 
-#' @rdname manip_source
-#' @export
-#' @method limit source
-limit.source <- function(`_data`, n) {
-  `_data`$limit <- n
+  `_data`$select <- c(`_data`$select, nm[idx])
   `_data`
 }

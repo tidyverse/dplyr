@@ -51,7 +51,7 @@ as.data.frame.standard_ops <- function(x, ..., env = parent.frame()) {
   render(x$source, x$ops, ..., env = env)
 }
 
-render <- function(source, ops, ..., env = env) {
+render <- function(source, ..., env = env) {
   UseMethod("render")
 }
 

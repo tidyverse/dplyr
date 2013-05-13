@@ -1,7 +1,6 @@
 \name{manip_source}
 \alias{arrange.source}
 \alias{filter.source}
-\alias{limit.source}
 \alias{manip_source}
 \alias{mutate.source}
 \alias{select.source}
@@ -22,8 +21,6 @@
 
   \method{select}{source} (_data, ...,
     _env = parent.frame())
-
-  \method{limit}{source} (_data, n)
 }
 \description{
   All data manipulation on data source objects is lazy: all
@@ -34,9 +31,16 @@
 \examples{
 data("baseball", package = "plyr")
 bdf <- data_frame_source(baseball)
-filter(bdf, year > 1980)
+path <- "inst/db/baseball.sqlite3"
+baseball_s <- sqlite_source(path, "baseball")
+filter(baseball_s, year > 1980)
 summarise(bdf, g = mean(g))
 mutate(bdf, cyear = year - min(year) + 1)
 arrange(bdf, id, desc(year))
+
+recent <- filter(baseball_s, year > 2005)
+render(select(recent, id:lg, rbi))
+render(summarise(recent, g = mean(g)))
+render(mutate(recent, year - max(year)))
 }
 

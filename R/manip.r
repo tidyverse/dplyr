@@ -22,9 +22,3 @@ arrange <- function(`_data`, ...) UseMethod("arrange")
 #' @rdname manip
 #' @export
 select <- function(`_data`, ...) UseMethod("select")
-
-#' @rdname manip
-#' @export
-limit <- function(`_data`, n) UseMethod("limit")
-
-

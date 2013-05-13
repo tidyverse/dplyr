@@ -1,7 +1,6 @@
 \name{manip}
 \alias{arrange}
 \alias{filter}
-\alias{limit}
 \alias{manip}
 \alias{mutate}
 \alias{select}
@@ -17,8 +16,6 @@
   arrange(_data, ...)
 
   select(_data, ...)
-
-  limit(_data, n)
 }
 \description{
   Data manipulation functions.
