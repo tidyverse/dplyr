@@ -26,11 +26,11 @@ To make it easier to get started with `dplyr` without have to learn a new way of
 
 For example, all the following expressions are equivalent:
 
-    ddply(baseball, "id", summarise, g = mean(g))
-   
-     summarise_by(baseball, "id", g = mean(g))
+```R
+ddply(baseball, "id", summarise, g = mean(g))
 
-    baseball_dt <- as.data.table(baseball)
-    baseball_dt[, list(g = mean(g)), by = id]
+summarise_by(baseball, "id", g = mean(g))
 
-
+baseball_dt <- as.data.table(baseball)
+baseball_dt[, list(g = mean(g)), by = id]
+```
