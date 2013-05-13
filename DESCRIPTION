@@ -34,3 +34,5 @@ Collate:
     'utils.r'
     'zzz.r'
     'ops-standard.r'
+    'manip-source.r'
+    'manip.r'
