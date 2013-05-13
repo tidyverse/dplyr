@@ -4,8 +4,8 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
                      offset = NULL) {
 
   out <- vector("list", 8)
-  names(out) <- c("select", "from", "group_by", "having", "order_by", "limit",
-    "offset")
+  names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
+    "limit", "offset")
 
   assert_that(is.character(select), length(select) > 0L)
   out$select <- paste0("SELECT ", sql_vars(select))
