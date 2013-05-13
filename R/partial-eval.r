@@ -35,7 +35,7 @@ partial_eval <- function(source, call, env = parent.frame()) {
     } else if (exists(name, env)) {
       substitute(local_value(x), list(x = get(name, env)))
     } else {
-      stop(name, " not defined locally or in data source")
+      stop(name, " not defined locally or in data source", call. = FALSE)
     }
   } else if (is.call(call)) {
     # Process call arguments recursively, unless user has manually called
@@ -50,6 +50,6 @@ partial_eval <- function(source, call, env = parent.frame()) {
       call
     }
   } else {
-    stop("Unknown input type: ", class(call))
+    stop("Unknown input type: ", class(call), call. = FALSE)
   }
 }
