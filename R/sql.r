@@ -29,8 +29,8 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   }
 
   if (!is.null(order_by)) {
-    assert_that(is.character(order_by), length(order_by) == 1L)
-    out$order_by <- paste0("ORDER BY ", order_by)
+    assert_that(is.character(order_by), length(order_by) > 0L)
+    out$order_by <- paste0("ORDER BY ", paste(order_by, collapse = ", "))
   }
 
   if (!is.null(limit)) {

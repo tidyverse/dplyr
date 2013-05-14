@@ -11,11 +11,12 @@
 #' @examples
 #' data(baseball, package = "plyr")
 #' translate_sql(year < 1890, baseball)
-#' translate_sql(year %in% c(1890, 1891), baseball)
+#' translate_sql(year < 1890L, baseball)
+#' translate_sql(year %in% c(1890L, 1891L), baseball)
 #' translate_sql(year %in% 1890:1900, baseball)
-#' translate_sql(year >= 1890 & year <= 1900, baseball)
+#' translate_sql(year >= 1890L & year <= 1900L, baseball)
 #'
-#' x <- 1890
+#' x <- 1890L
 #' translate_sql(year == x, baseball)
 #'
 #' # By default all computation will happen in sql
@@ -27,8 +28,13 @@
 #' inc <- function(x) x + 1
 #' \dontrun{translate_sql(year == inc(x), baseball)}
 #' translate_sql(year == local(inc(x)), baseball)
-translate_sql <- function(expr, source) {
-  expr <- partial_eval(source, substitute(expr))
+translate_sql <- function(expr, source, env = parent.frame()) {
+  expr <- partial_eval(source, substitute(expr), env = env)
+  to_sql(expr)
+}
+
+translate_sql_q <- function(expr, source, env = parent.frame()) {
+  expr <- partial_eval(source, expr, env = env)
   to_sql(expr)
 }
 
@@ -40,7 +46,7 @@ to_sql <- function(x) {
     # been dealt with by partial_eval
     eval(x, sqlite, emptyenv())
   } else if (is.list(x)) {
-    lapply(x, to_sql)
+    vapply(x, to_sql, character(1))
   } else {
     stop("Unknown input:", typeof(x), call. = FALSE)
   }
@@ -64,8 +70,11 @@ sql_unary <- function(f) {
 }
 sql_atomic <- function(x) {
   if (is.character(x)) x <- paste0('"', x, '"')
-  if (length(x) == 1) return(x)
+  if (is.numeric(x) & any(is.wholenumber(x))) {
+    x <- sprintf("%.1f", x)
+  }
 
+  if (length(x) == 1) return(x)
   paste0("(", paste0(x, collapse = ", "), ")")
 }
 
@@ -129,6 +138,9 @@ sqlite <- list(
 
   # Other special functions
   "(" = function(x) sprintf("(%s)", to_sql(substitute(x))),
+  desc = function(x) {
+    paste0(to_sql(substitute(x)), " DESC")
+  },
 
   # Special sql functions
   "%in%" =   sql_infix("IN"),

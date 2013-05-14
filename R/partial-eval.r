@@ -30,7 +30,9 @@
 partial_eval <- function(source, call, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
-  if (is.symbol(call)) {
+  if (is.list(call)) {
+    lapply(call, partial_eval, source = source, env = env)
+  } else if (is.symbol(call)) {
     # Symbols must be resolveable either locally or remotely
 
     name <- as.character(call)

@@ -2,7 +2,7 @@
 \alias{translate_sql}
 \title{Translate an expression to sql.}
 \usage{
-  translate_sql(expr, source)
+  translate_sql(expr, source, env = parent.frame())
 }
 \arguments{
   \item{expr}{unevaluated expression to translate}
@@ -19,11 +19,12 @@
 \examples{
 data(baseball, package = "plyr")
 translate_sql(year < 1890, baseball)
-translate_sql(year \%in\% c(1890, 1891), baseball)
+translate_sql(year < 1890L, baseball)
+translate_sql(year \%in\% c(1890L, 1891L), baseball)
 translate_sql(year \%in\% 1890:1900, baseball)
-translate_sql(year >= 1890 & year <= 1900, baseball)
+translate_sql(year >= 1890L & year <= 1900L, baseball)
 
-x <- 1890
+x <- 1890L
 translate_sql(year == x, baseball)
 
 # By default all computation will happen in sql

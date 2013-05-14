@@ -1,0 +1,33 @@
+\name{manip_sqlite}
+\alias{arrange.source_sqlite}
+\alias{filter.source_sqlite}
+\alias{manip_sqlite}
+\alias{mutate.source_sqlite}
+\alias{select.source_sqlite}
+\alias{summarise.source_sqlite}
+\title{Data manipulation for SQL data sources.}
+\usage{
+  \method{filter}{source} (.data, ..., .n = 1e+05)
+
+  \method{summarise}{source} (.data, ..., .n = 1e+05)
+
+  \method{mutate}{source} (.data, ..., .n = 1e+05)
+
+  \method{arrange}{source} (.data, ..., .n = 1e+05)
+
+  \method{select}{source} (.data, ..., .n = 1e+05)
+}
+\description{
+  Data manipulation for SQL data sources.
+}
+\examples{
+data("baseball", package = "plyr")
+bdf <- data_frame_source(baseball)
+baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
+filter(baseball_s, year > 2005, g > 130)
+head(select(baseball_s, id:team))
+summarise(baseball_s, g = mean(g), n = count())
+head(mutate(baseball_s, rbi = 1.0 * r / ab))
+head(arrange(baseball_s, id, desc(year)))
+}
+
