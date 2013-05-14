@@ -9,7 +9,7 @@ view <- function(data, index, parent = parent.frame()) {
   rows <- index[[1]]
 
   set_group <- function(value) {
-    if (i == value) return()
+    if (i == value) return(rows)
     i <<- value
     rows <<- index[[value]]
     rows
@@ -36,5 +36,5 @@ view <- function(data, index, parent = parent.frame()) {
     eval(expr, grp_env)
   }
 
-  list(set_group = set_group, eval = local_eval)
+  list(set_group = set_group, eval = local_eval, add_binding = add_binding)
 }

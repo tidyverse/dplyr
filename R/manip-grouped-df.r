@@ -44,52 +44,37 @@ filter.grouped_data_frame <- function(.data, ...) {
 #' @export
 #' @method summarise grouped_data_frame
 summarise.grouped_data_frame <- function(.data, ...) {
-  data <- .data$obj
-  groups <- .data$index
-
   calls <- named_dots(...)
-  n <- length(groups)
-  p <- length(calls)
+  v <- view(.data$obj, .data$index)
+  ngrps <- length(.data$index)
 
-  grp <- new.env(size = p, parent = parent.frame())
-  get_input <- function(j) {
-    force(j)
-    function(v) {
-      if (!missing(v)) stop("Immutable view")
-      .subset2(data, j)[rows]
-    }
-  }
-  get_output <- function(j) {
+  output_summary <- function(j) {
     force(j)
     function(v) {
       if (!missing(v)) stop("Immutable view")
       .subset2(out, j)[i]
     }
   }
-  for (name in names(data)) {
-    makeActiveBinding(name, get_input(name), grp)
-  }
 
-  out <- vector("list", p)
+  out <- vector("list", length(calls))
   names(out) <- names(calls)
 
-  for (j in seq_len(p)) {
-    for (i in seq_len(n)) {
-      rows <- groups[[i]]
+  for (j in seq_along(out)) {
+    for (i in seq_len(ngrps)) {
+      rows <- v$set_group(i)
       if (i == 1L) {
         # Run once to make vector of right type
-        col <- eval(calls[[j]], grp)
-        length(col) <- n
+        col <- v$eval(calls[[j]])
+        length(col) <- ngrps
 
       } else {
-        col[[i]] <- eval(calls[[j]], grp)
+        col[[i]] <- v$eval(calls[[j]])
       }
     }
-
     out[[j]] <- col
 
     name <- names(calls)[[j]]
-    makeActiveBinding(name, get_output(name), grp)
+    v$add_binding(name, output_summary(name))
   }
 
   out <- c(.data$labels, out) # expensive operation
@@ -100,57 +85,43 @@ summarise.grouped_data_frame <- function(.data, ...) {
 #' @export
 #' @method mutate grouped_data_frame
 mutate.grouped_data_frame <- function(.data, ...) {
-  data <- .data$obj
-  groups <- .data$index
-
   calls <- named_dots(...)
-  n <- length(groups)
-  p <- length(calls)
+  v <- view(.data$obj, .data$index)
+  ngrps <- length(.data$index)
 
-  grp <- new.env(size = p, parent = parent.frame())
-  get_input <- function(j) {
+  output_var <- function(j) {
     force(j)
     function(v) {
       if (!missing(v)) stop("Immutable view")
-      .subset2(data, j)[rows]
+      .subset2(out, j)[rows]
     }
-  }
-  get_output <- function(j) {
-    force(j)
-    function(v) {
-      if (!missing(v)) stop("Immutable view")
-      .subset2(out, j)[i]
-    }
-  }
-  for (name in names(data)) {
-    makeActiveBinding(name, get_input(name), grp)
   }
 
-  out <- vector("list", p)
+  out <- vector("list", length(calls))
   names(out) <- names(calls)
 
-  for (j in seq_len(p)) {
-    for (i in seq_len(n)) {
-      rows <- groups[[i]]
+  for (j in seq_along(out)) {
+    for (i in seq_len(ngrps)) {
+      rows <- v$set_group(i)
       if (i == 1L) {
         # Run mutate once to make vector of right type
-        template <- eval(calls[[j]], grp)
+        template <- v$eval(calls[[j]])
         col <- template[1]
-        length(col) <- nrow(data)
+        length(col) <- nrow(.data)
 
         col[rows] <- template
       } else {
-        col[rows] <- eval(calls[[j]], grp)
+        col[rows] <- v$eval(calls[[j]])
       }
     }
 
     out[[j]] <- col
 
     name <- names(calls)[[j]]
-    makeActiveBinding(name, get_output(name), grp)
+    v$add_binding(name, output_var(name))
   }
 
-  cbind(data, as_df(out))
+  cbind(.data$obj, as_df(out))
 }
 
 #' @rdname manip_data_frame
