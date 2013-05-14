@@ -22,13 +22,9 @@ NULL
 #' @method filter grouped_data_frame
 filter.grouped_data_frame <- function(.data, ...) {
   conds <- dots(...)
-  n <- nrow(.data$obj)
-  p <- length(conds)
-
   v <- view(.data$obj, .data$index, parent.frame())
 
-  # Loop over each group
-  out <- rep(NA, n)
+  out <- rep(NA, nrow(.data))
   for (i in seq_along(.data$index)) {
     rows <- v$set_group(i)
 
@@ -161,17 +157,12 @@ mutate.grouped_data_frame <- function(.data, ...) {
 #' @export
 #' @method arrange grouped_data_frame
 arrange.grouped_data_frame <- function(.data, ...) {
-  conds <- dots(...)
-  n <- nrow(.data$obj)
-  p <- length(conds)
-
+  order_call <- substitute(order(...))
   v <- view(.data$obj, .data$index, parent.frame())
 
-  order_call <- substitute(order(...))
-  out <- numeric(n)
+  out <- rep(NA, nrow(.data))
   for (i in seq_along(.data$index)) {
     rows <- v$set_group(i)
-
     ord <- v$eval(order_call)
     out[rows] <- rows[ord]
   }

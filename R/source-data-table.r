@@ -10,3 +10,5 @@ data_table_source <- function(obj, name = deparse(substitute(obj))) {
 
 source_vars.source_data_table <- function(x) names(x$obj)
 source_name.source_data_table <- function(x) x$name
+
+dim.source_data_table <- function(x) dim(x$obj)

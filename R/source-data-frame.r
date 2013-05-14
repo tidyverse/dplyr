@@ -12,3 +12,5 @@ print.source <- function(x, ...) {
 
 source_vars.source_data_frame <- function(x) names(x$obj)
 source_name.source_data_frame <- function(x) x$name
+
+dim.source_data_frame <- function(x) dim(x$obj)
