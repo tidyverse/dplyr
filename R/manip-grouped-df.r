@@ -25,26 +25,16 @@ filter.grouped_data_frame <- function(.data, ...) {
   n <- nrow(.data$obj)
   p <- length(conds)
 
-  # Create group-wise view of input data
-  grp <- new.env(size = ncol(data), parent = parent.frame())
-  get_input <- function(j) {
-    force(j)
-    function(v) {
-      if (!missing(v)) stop("Immutable view")
-      .subset2(.data$obj, j)[rows]
-    }
-  }
-  for (name in names(.data$obj)) {
-    makeActiveBinding(name, get_input(name), grp)
-  }
+  v <- view(.data$obj, .data$index, parent.frame())
 
   # Loop over each group
   out <- rep(NA, n)
   for (i in seq_along(.data$index)) {
-    rows <- .data$index[[i]]
+    rows <- v$set_group(i)
+
     r <- rep(TRUE, length(rows))
     for (j in seq_along(conds)) {
-      r <- eval(conds[[j]], grp)
+      r <- v$eval(conds[[j]])
       r <- r & !is.na(r)
     }
     out[rows] <- r
@@ -52,6 +42,7 @@ filter.grouped_data_frame <- function(.data, ...) {
 
   .data$obj[out, , drop = FALSE]
 }
+
 
 #' @rdname manip_data_frame
 #' @export
@@ -174,25 +165,14 @@ arrange.grouped_data_frame <- function(.data, ...) {
   n <- nrow(.data$obj)
   p <- length(conds)
 
-  # Create group-wise view of input data
-  grp <- new.env(size = ncol(data), parent = parent.frame())
-  get_input <- function(j) {
-    force(j)
-    function(v) {
-      if (!missing(v)) stop("Immutable view")
-      .subset2(.data$obj, j)[rows]
-    }
-  }
-  for (name in names(.data$obj)) {
-    makeActiveBinding(name, get_input(name), grp)
-  }
+  v <- view(.data$obj, .data$index, parent.frame())
 
   order_call <- substitute(order(...))
   out <- numeric(n)
   for (i in seq_along(.data$index)) {
-    rows <- .data$index[[i]]
+    rows <- v$set_group(i)
 
-    ord <- eval(order_call, grp)
+    ord <- v$eval(order_call)
     out[rows] <- rows[ord]
   }
 
