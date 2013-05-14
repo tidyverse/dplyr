@@ -7,22 +7,22 @@
 \alias{summarise.source_sqlite}
 \title{Data manipulation for SQL data sources.}
 \usage{
-  \method{filter}{source} (.data, ..., .n = 1e+05)
+  \method{filter}{source_sqlite} (.data, ..., .n = 1e+05)
 
-  \method{summarise}{source} (.data, ..., .n = 1e+05)
+  \method{summarise}{source_sqlite} (.data, ...,
+    .n = 1e+05)
 
-  \method{mutate}{source} (.data, ..., .n = 1e+05)
+  \method{mutate}{source_sqlite} (.data, ..., .n = 1e+05)
 
-  \method{arrange}{source} (.data, ..., .n = 1e+05)
+  \method{arrange}{source_sqlite} (.data, ..., .n = 1e+05)
 
-  \method{select}{source} (.data, ..., .n = 1e+05)
+  \method{select}{source_sqlite} (.data, ..., .n = 1e+05)
 }
 \description{
   Data manipulation for SQL data sources.
 }
 \examples{
 data("baseball", package = "plyr")
-bdf <- data_frame_source(baseball)
 baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
 filter(baseball_s, year > 2005, g > 130)
 head(select(baseball_s, id:team))

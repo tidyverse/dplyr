@@ -2,7 +2,6 @@
 #'
 #' @examples
 #' data("baseball", package = "plyr")
-#' bdf <- data_frame_source(baseball)
 #' baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
 #
 #' filter(baseball_s, year > 2005, g > 130)
@@ -16,7 +15,7 @@ NULL
 
 #' @rdname manip_sqlite
 #' @export
-#' @method filter source
+#' @method filter source_sqlite
 filter.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
@@ -26,7 +25,7 @@ filter.source_sqlite <- function(.data, ..., .n = 1e5) {
 
 #' @rdname manip_sqlite
 #' @export
-#' @method summarise source
+#' @method summarise source_sqlite
 summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
@@ -36,7 +35,7 @@ summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
 
 #' @rdname manip_sqlite
 #' @export
-#' @method mutate source
+#' @method mutate source_sqlite
 mutate.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
@@ -46,7 +45,7 @@ mutate.source_sqlite <- function(.data, ..., .n = 1e5) {
 
 #' @rdname manip_sqlite
 #' @export
-#' @method arrange source
+#' @method arrange source_sqlite
 arrange.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
@@ -56,7 +55,7 @@ arrange.source_sqlite <- function(.data, ..., .n = 1e5) {
 
 #' @rdname manip_sqlite
 #' @export
-#' @method select source
+#' @method select source_sqlite
 select.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
