@@ -15,3 +15,7 @@ print.source <- function(x, ...) {
 
 as.source <- function(x) UseMethod("as.source")
 is.source <- function(x) inherits(x, "source")
+
+
+head.source <- function(x, ...) head(x$obj, ...)
+tail.source <- function(x, ...) head(x$obj, ...)

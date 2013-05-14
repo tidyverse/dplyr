@@ -18,9 +18,7 @@ Depends:
 LinkingTo: Rcpp
 License: MIT
 Collate:
-    'arrange.r'
     'dplyr.r'
-    'mutate.r'
     'ops.r'
     'partial-eval.r'
     'source-data-frame.r'
@@ -28,7 +26,6 @@ Collate:
     'source-sqlite.r'
     'source.r'
     'sql.r'
-    'subset.r'
     'summarise.r'
     'translate-sql.r'
     'utils.r'
@@ -43,3 +40,4 @@ Collate:
     'group-by.r'
     'id.r'
     'RcppExports.R'
+    'manip-grouped-df.r'
