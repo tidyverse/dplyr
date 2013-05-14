@@ -23,3 +23,13 @@ translate <- function(source, call, env = parent.frame()) {
 # Probably should just be attribute of function.
 #
 # (also need way for user to add their SQL UDFS)
+
+
+translate_all <- function(x, source) {
+  if (length(x) == 0) return(NULL)
+
+  translator <- source_translator(source)
+
+  vapply(x, eval, env = translator, enclos = emptyenv(),
+    FUN.VALUE = character(1))
+}

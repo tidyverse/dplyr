@@ -99,15 +99,6 @@ render.source_sqlite <- function(source, ..., n = 1e5) {
     n = n)
 }
 
-translate_all <- function(x, source) {
-  if (length(x) == 0) return(NULL)
-
-  translator <- source_translator(source)
-
-  vapply(x, eval, env = translator, enclos = emptyenv(),
-    FUN.VALUE = character(1))
-}
-
 do.source_sqlite <- function(source, fun, ...) {
   fun(render(source), ...)
 }
