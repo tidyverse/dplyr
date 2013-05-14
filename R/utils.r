@@ -26,3 +26,10 @@ names2 <- function(x) {
 is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
   abs(x - round(x)) < tol
 }
+
+as_df <- function(x) {
+  class(x) <- "data.frame"
+  attr(x, "row.names") <- c(NA_integer_, -length(x[[1]]))
+
+  x
+}

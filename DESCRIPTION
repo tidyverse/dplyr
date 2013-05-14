@@ -36,3 +36,5 @@ Collate:
     'manip-source.r'
     'manip.r'
     'manip-sqlite.r'
+    'desc.r'
+    'manip-data-frame.r'
