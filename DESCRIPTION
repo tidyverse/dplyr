@@ -35,3 +35,4 @@ Collate:
     'ops-standard.r'
     'manip-source.r'
     'manip.r'
+    'manip-sqlite.r'
