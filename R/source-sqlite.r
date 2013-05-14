@@ -107,3 +107,7 @@ translate_all <- function(x, source) {
   vapply(x, eval, env = translator, enclos = emptyenv(),
     FUN.VALUE = character(1))
 }
+
+do.source_sqlite <- function(source, fun, ...) {
+  fun(render(source), ...)
+}
