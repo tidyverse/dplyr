@@ -5,8 +5,9 @@ group_by.data.frame <- function(.data, ..., drop = TRUE) {
 
   split_id <- id(splits, drop = drop)
   labels <- split_labels(splits, drop = drop, id = split_id)
+  index <- split_indices(split_id, attr(split_id, "n"))
 
-  structure(list(obj = .data, name = name, id = split_id, labels = labels),
+  structure(list(obj = .data, name = name, index = index, labels = labels),
     class = c("grouped_data_frame", "source_data_frame", "source"))
 }
 
