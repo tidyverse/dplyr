@@ -1,6 +1,7 @@
 \name{manip}
 \alias{arrange}
 \alias{filter}
+\alias{group}
 \alias{manip}
 \alias{mutate}
 \alias{select}
@@ -16,6 +17,8 @@
   arrange(_data, ...)
 
   select(_data, ...)
+
+  group(_data, ...)
 }
 \description{
   Data manipulation functions.

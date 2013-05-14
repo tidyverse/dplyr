@@ -1,6 +1,7 @@
 \name{manip_source}
 \alias{arrange.source}
 \alias{filter.source}
+\alias{group.source}
 \alias{manip_source}
 \alias{mutate.source}
 \alias{select.source}
@@ -20,6 +21,9 @@
     _env = parent.frame())
 
   \method{select}{source} (_data, ...,
+    _env = parent.frame())
+
+  \method{group}{source} (_data, ...,
     _env = parent.frame())
 }
 \description{

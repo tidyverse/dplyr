@@ -19,5 +19,8 @@ baseball_s <- sqlite_source(path, "baseball")
 dim(baseball_s)
 names(baseball_s)
 head(baseball_s)
+
+players <- group(baseball_s, id)
+summarise(players, g = mean(g), n = count())
 }
 
