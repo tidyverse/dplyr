@@ -13,7 +13,9 @@ Imports:
 Suggests:
     RSQLite
 Depends:
-    R (>= 2.15.1)
+    R (>= 2.15.1),
+    Rcpp (>= 0.10.1)
+LinkingTo: Rcpp
 License: MIT
 Collate:
     'arrange.r'
@@ -40,3 +42,4 @@ Collate:
     'group-by-data-frame.r'
     'group-by.r'
     'id.r'
+    'RcppExports.R'
