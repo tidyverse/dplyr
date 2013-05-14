@@ -9,6 +9,9 @@
 #' dim(baseball_s)
 #' names(baseball_s)
 #' head(baseball_s)
+#'
+#' players <- group(baseball_s, id)
+#' summarise(players, g = mean(g), n = count())
 sqlite_source <- function(path, table) {
   assert_that(is.readable(path), is.string(table))
   if (!require("RSQLite")) {
@@ -85,8 +88,9 @@ render.source_sqlite <- function(source, ..., n = 1e5) {
   # Source object enforces that we only ever have one of summarise or mutate
   summarise <- translate_all(source$summarise, source)
   mutate <- translate_all(source$mutate, source)
+  group_by <- translate_all(source$group, source)
 
-  select <- c(source$select, summarise, mutate)
+  select <- c(group_by, source$select, summarise, mutate)
   if (length(select) == 0) vars <- "*"
 
   where <- translate_all(source$filter, source)
@@ -96,6 +100,7 @@ render.source_sqlite <- function(source, ..., n = 1e5) {
     select = select,
     where = where,
     order_by = order_by,
+    group_by = group_by,
     n = n)
 }
 

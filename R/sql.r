@@ -129,3 +129,8 @@ sql_vars <- function(vars) {
 
   paste0(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
 }
+
+var_names <- function(vars) {
+  nms <- vapply(names2(vars), escape_sql, character(1))
+  ifelse(nms == "", vars, nms)
+}

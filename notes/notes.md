@@ -47,7 +47,7 @@ For initial release need:
   * sqlite table
   * grouped sqlite table
 
-Goal: work as lazily as possible (apart from `do()` and `count()`). Each manipulation just builds up and object that is eventually rendered by as.data.frame. (But even `as.data.frame()` needs to maintain the grouping information)
+Goal: work as lazily as possible (apart from `do()` and `count()`). Each manipulation just builds up and object that is eventually rendered by as.data.frame. (But even `as.data.frame()` needs to maintain the grouping information - that way you can force computation to occur in R.)
 
 ```R
 players <- group(baseball, id)
@@ -66,4 +66,27 @@ count(group(players, id))
 # (unless inspected expression and hoisted to top-level)
 count(subset(group(players, id), year > 2000))
 count(group(subset(players, year > 2000), id))
+
+subset(summarise(players, g = mean(g)), g > 50)
+summarise(subset(players, g > 50), g = mean(g))
+
+# Order of subset and summarise on grouped data is important!
+subset(summarise(group(bball, "player"), g = mean(g)), g > 50)
+summarise(subset(group(bball, "id"), g > 50), g = mean(g))
+
+sequence(
+  groups_by("player"),
+  mutates(cyear = year - min(year) + 1),
+  groups_by("cyear"),
+  summarises(g = mean(g)),
+)
+
+summarise(summarise(group(bball, "id"), g = mean(g)), g = mean(g))
+
+# But should these be different or the same?
+summarise(subset(group(bball, "id"), g > 50), g = mean(g))
+summarise(group(subset(bball, g > 50), "id"), g = mean(g))
+
+subset(summarise(players, g = mean(g)), min(g) > 50)
+summarise(subset(players, min(g) > 50), g = mean(g))
 ```

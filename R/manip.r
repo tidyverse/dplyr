@@ -22,3 +22,7 @@ arrange <- function(`_data`, ...) UseMethod("arrange")
 #' @rdname manip
 #' @export
 select <- function(`_data`, ...) UseMethod("select")
+
+#' @rdname manip
+#' @export
+group <- function(`_data`, ...) UseMethod("group")

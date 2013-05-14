@@ -23,6 +23,15 @@
 #' @name manip_source
 NULL
 
+# Data frame and data table methods execute eagerly.
+# Would array methods make sense?
+#
+# sqlite specific methods could:
+#  * warn about the use of mutate + aggregation functions
+#   (closest map of mutate is to windowing/analytic functions)
+#  *
+
+
 #' @rdname manip_source
 #' @export
 #' @method filter source
@@ -56,6 +65,9 @@ mutate.source <- function(`_data`, ..., `_env` = parent.frame()) {
       call. = FALSE)
   }
   args <- lapply(named_dots(...), partial_eval, source = `_data`, env = `_env`)
+
+  # Need to check if any aggregation functions present, and warn if so.
+
   `_data`$mutate <- c(`_data`$mutate, args)
   `_data`
 }
@@ -79,5 +91,14 @@ select.source <- function(`_data`, ..., `_env` = parent.frame()) {
   idx <- unlist(lapply(dots(...), eval, nm_env, parent.frame()))
 
   `_data`$select <- c(`_data`$select, nm[idx])
+  `_data`
+}
+
+#' @rdname manip_source
+#' @export
+#' @method group source
+group.source <- function(`_data`, ..., `_env` = parent.frame()) {
+  args <- lapply(dots(...), partial_eval, source = `_data`, env = `_env`)
+  `_data`$group <- c(`_data`$group, args)
   `_data`
 }
