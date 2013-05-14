@@ -26,12 +26,16 @@ partial_eval(bdf, quote(year > 1980))
 ids <- c("ansonca01", "forceda01", "mathebo01")
 partial_eval(bdf, quote(id \%in\% ids))
 
-# You can use remote and local to disambiguate between local and remote
+# You can use local to disambiguate between local and remote
 # variables: otherwise remote is always preferred
 year <- 1980
 partial_eval(bdf, quote(year > year))
-partial_eval(bdf, quote(remote(year) > local(year)))
 partial_eval(bdf, quote(year > local(year)))
+
+# Local is also needed if you want to call a local function
+f <- function(x) x + 1
+partial_eval(bdf, quote(year > f(1980)))
+partial_eval(bdf, quote(year > local(f(1980))))
 }
 \keyword{internal}
 

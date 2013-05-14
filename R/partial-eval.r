@@ -17,12 +17,16 @@
 #' ids <- c("ansonca01", "forceda01", "mathebo01")
 #' partial_eval(bdf, quote(id %in% ids))
 #'
-#' # You can use remote and local to disambiguate between local and remote
+#' # You can use local to disambiguate between local and remote
 #' # variables: otherwise remote is always preferred
 #' year <- 1980
 #' partial_eval(bdf, quote(year > year))
-#' partial_eval(bdf, quote(remote(year) > local(year)))
 #' partial_eval(bdf, quote(year > local(year)))
+#'
+#' # Local is also needed if you want to call a local function
+#' f <- function(x) x + 1
+#' partial_eval(bdf, quote(year > f(1980)))
+#' partial_eval(bdf, quote(year > local(f(1980))))
 partial_eval <- function(source, call, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
@@ -33,7 +37,7 @@ partial_eval <- function(source, call, env = parent.frame()) {
     if (name %in% source_vars(source)) {
       substitute(remote_var(var), list(var = as.character(call)))
     } else if (exists(name, env)) {
-      substitute(local_value(x), list(x = get(name, env)))
+      get(name, env)
     } else {
       stop(name, " not defined locally or in data source", call. = FALSE)
     }
@@ -42,7 +46,7 @@ partial_eval <- function(source, call, env = parent.frame()) {
     # remote/local
     name <- as.character(call[[1]])
     if (name == "local") {
-      substitute(local_value(x), list(x = eval(call[[2]], env)))
+      eval(call[[2]], env)
     } else if (name == "remote") {
       substitute(remote_var(var), list(var = as.character(call[[2]])))
     } else {

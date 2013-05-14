@@ -30,7 +30,6 @@ Collate:
     'subset.r'
     'summarise.r'
     'translate-sql.r'
-    'translate.r'
     'utils.r'
     'zzz.r'
     'ops-standard.r'

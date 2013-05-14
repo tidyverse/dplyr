@@ -45,7 +45,7 @@ dimnames.source_sqlite <- function(x) {
 }
 #' @S3method dim source_sqlite
 dim.source_sqlite <- function(x) {
-  where <- translate_all(x$filter, x)
+  where <- to_sql(x$filter)
   n <- sql_select(x, "count()", where = where, n = -1L)[[1]]
 
   c(n, length(source_vars(x)))
@@ -55,8 +55,8 @@ dim.source_sqlite <- function(x) {
 head.source_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  where <- translate_all(x$filter, x)
-  order_by <- translate_all(x$arrange, x)
+  where <- to_sql(x$filter)
+  order_by <- to_sql(x$arrange)
 
   sql_select(x, "*", where = where, order_by = order_by, limit = n)
 }
@@ -86,15 +86,15 @@ render.source_sqlite <- function(source, ..., n = 1e5) {
   }
 
   # Source object enforces that we only ever have one of summarise or mutate
-  summarise <- translate_all(source$summarise, source)
-  mutate <- translate_all(source$mutate, source)
-  group_by <- translate_all(source$group, source)
+  summarise <- to_sql(source$summarise)
+  mutate <- to_sql(source$mutate)
+  group_by <- to_sql(source$group)
 
   select <- c(group_by, source$select, summarise, mutate)
   if (length(select) == 0) vars <- "*"
 
-  where <- translate_all(source$filter, source)
-  order_by <- translate_all(source$arrange, source)
+  where <- to_sql(source$filter)
+  order_by <- to_sql(source$arrange)
 
   sql_select(source,
     select = select,

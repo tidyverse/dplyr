@@ -3,6 +3,8 @@ new_source <- function(...) {
 }
 
 source_vars <- function(x) UseMethod("source_vars")
+source_vars.default <- function(x) names(x)
+
 source_name <- function(x) UseMethod("source_name")
 
 source_translator <- function(x) UseMethod("source_translator")
