@@ -6,3 +6,7 @@ group_by <- function(x, ...) {
 ungroup <- function(x) {
   UseMethod("ungroup")
 }
+
+is.lazy <- function(x) {
+  UseMethod("is.lazy")
+}

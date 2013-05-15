@@ -35,8 +35,9 @@ grouped_data_frame <- function(data, vars, lazy = TRUE, drop = TRUE,
 }
 
 #' @rdname grouped_data_frame
+#' @method is.lazy grouped_data_frame
 #' @export
-is.lazy <- function(x) {
+is.lazy.grouped_data_frame <- function(x) {
   is.null(x$index) || is.null(x$labels)
 }
 

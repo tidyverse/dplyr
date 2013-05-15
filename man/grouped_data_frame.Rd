@@ -2,13 +2,13 @@
 \alias{group_by.data.frame}
 \alias{grouped_data_frame}
 \alias{is.grouped_data_frame}
-\alias{is.lazy}
+\alias{is.lazy.grouped_data_frame}
 \title{A grouped data frame.}
 \usage{
   grouped_data_frame(data, vars, lazy = TRUE, drop = TRUE,
     name = NULL)
 
-  is.lazy(x)
+  \method{is.lazy}{grouped_data_frame} (x)
 
   is.grouped_data_frame(x)
 
