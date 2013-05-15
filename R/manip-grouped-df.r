@@ -18,6 +18,9 @@
 #' by_year <- mutate(players, cyear = year - min(year) + 1)
 #' summarise(by_year, years = max(cyear))
 #'
+#' # You can also manually ungroup:
+#' arrange(ungroup(by_year), id, year)
+#'
 #' @name manip_grouped_data_frame
 NULL
 

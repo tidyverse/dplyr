@@ -64,6 +64,11 @@ group_by.data.frame <- function(x, ..., drop = TRUE, name = NULL) {
   grouped_data_frame(x, vars, lazy = FALSE, name = name)
 }
 
+#' @method ungroup grouped_data_frame
+ungroup.grouped_data_frame <- function(x) {
+  data_frame_source(x$obj, x$name)
+}
+
 make_view <- function(x, env = parent.frame()) {
   if (is.lazy(x)) stop("No index present", call. = FALSE)
   view(x$obj, x$index, parent.frame())
