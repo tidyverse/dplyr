@@ -19,7 +19,6 @@ License: MIT
 Collate:
     'dplyr.r'
     'partial-eval.r'
-    'source-data-frame.r'
     'source-data-table.r'
     'source-sqlite.r'
     'source.r'
@@ -31,8 +30,6 @@ Collate:
     'manip.r'
     'manip-sqlite.r'
     'desc.r'
-    'manip-data-frame.r'
-    'group-by-data-frame.r'
     'group-by.r'
     'id.r'
     'RcppExports.R'
@@ -40,3 +37,6 @@ Collate:
     'view.r'
     'group-by-sqlite.r'
     'manip-grouped-sqlite.r'
+    'grouped-by.r'
+    'manip-df.r'
+    'source-df.r'
