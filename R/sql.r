@@ -1,7 +1,28 @@
-#' Goal is to make valid sql given inputs.
-select_sql <- function(select, from, where = NULL, group_by = NULL,
-                     having = NULL, order_by = NULL, limit = NULL,
-                     offset = NULL) {
+# Build an sql select query from a sql data source.
+sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
+                       n = -1L) {
+  assert_that(is.source(x))
+  assert_that(is.numeric(n), length(n) == 1)
+
+  select <- select %||% x$select %||% "*"
+  where <- where %||% to_sql(x$filter)
+  order_by <- order_by %||% to_sql(x$arrange)
+
+  sql <- select_query(
+    from = source_name(x),
+    select = select,
+    where = where,
+    order_by = order_by,
+    ...)
+
+  exec_sql(x, sql, n = n)
+}
+
+# Goal is to make valid sql given inputs - this knows nothing about
+# sources.
+select_query <- function(select, from, where = NULL, group_by = NULL,
+                         having = NULL, order_by = NULL, limit = NULL,
+                         offset = NULL) {
 
   out <- vector("list", 8)
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
@@ -47,41 +68,6 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   paste0(sql, ";")
 }
 
-sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ..., n = -1L) {
-  assert_that(is.source(x))
-  assert_that(is.numeric(n), length(n) == 1)
-
-  select <- select %||% x$select %||% "*"
-  where <- where %||% to_sql(x$filter)
-  order_by <- order_by %||% to_sql(x$arrange)
-
-  sql <- select_sql(
-    from = source_name(x),
-    select = select,
-    where = where,
-    order_by = order_by,
-    ...)
-
-  exec_sql(x, sql, n = n)
-}
-
-sql_select2 <- function(x, args, n = -1L) {
-  assert_that(is.source(x))
-  assert_that(is.numeric(n), length(n) == 1)
-  assert_that(is.list(args))
-
-  sql <- select_sql(from = source_name(x),
-    select = args$select,
-    where = args$where,
-    group_by = args$group_by,
-    having = args$having,
-    order_by = args$order_by,
-    limit = args$limit,
-    offset = args$offset)
-
-  exec_sql(x, sql, n = n)
-}
-
 exec_sql <- function(x, sql, n = -1L) {
   assert_that(is.source(x))
   assert_that(is.string(sql))
@@ -100,7 +86,6 @@ exec_sql <- function(x, sql, n = -1L) {
       call. = FALSE)
   }
   res
-
 }
 
 sql_keywords <- c(

@@ -73,8 +73,7 @@ dimnames.source_sqlite <- function(x) {
 
 #' @S3method dim source_sqlite
 dim.source_sqlite <- function(x) {
-  where <- to_sql(x$filter)
-  n <- sql_select(x, "count()", where = where, n = -1L)[[1]]
+  n <- sql_select(x, "count()")[[1]]
 
   if (is.null(x$select) || any(x$select == "*")) {
     p <- length(source_vars(x))
