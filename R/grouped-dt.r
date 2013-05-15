@@ -52,7 +52,7 @@ group_by.data.table <- function(x, ..., name = NULL) {
 #' @rdname grouped_dt
 group_by.source_dt <- function(x, ...) {
   vars <- dots(...)
-  grouped_dt(x$obj, vars, name = obj$name)
+  grouped_dt(x$obj, vars, name = x$name)
 }
 
 #' @S3method ungroup grouped_dt

@@ -98,3 +98,12 @@ split_labels <- function(splits, drop, id = plyr::id(splits, drop = TRUE)) {
     rev(expand.grid(rev(unique_values), stringsAsFactors = FALSE))
   }
 }
+
+ulevels <- function(x) {
+  if (is.factor(x)) {
+    levs <- levels(x)
+    factor(levs, levels = levs)
+  } else {
+    sort(unique(x))
+  }
+}
