@@ -2,7 +2,7 @@
 #  * dates and factors
 #  * variables that depend on previous
 
-do_summarise_by.source_data_table <- function(source, group, calls,
+do_summarise_by.source_dt <- function(source, group, calls,
                                            env = parent.frame()) {
   by_call <- as.call(c(quote(list), group))
   list_call <- as.call(c(quote(list), calls))
