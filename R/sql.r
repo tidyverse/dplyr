@@ -106,12 +106,11 @@ sql_keywords <- c(
   "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
   "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
 
-#' @importFrom stringr str_detect
 escape_sql <- function(x) {
   if (x == "") return("")
   ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
 
-  escape <- !str_detect(x, ok) || toupper(x) %in% sql_keywords
+  escape <- !grepl(ok, x) || toupper(x) %in% sql_keywords
   if (escape) {
     paste0('"', x, '"')
   } else {

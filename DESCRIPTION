@@ -7,7 +7,6 @@ Maintainer: Hadley Wickham <h.wickham@gmail.com>
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
 Imports:
-    stringr,
     plyr (>= 1.7.1.99.2),
     assertthat
 Suggests:
