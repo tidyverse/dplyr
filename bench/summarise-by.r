@@ -3,7 +3,7 @@
 
   baseball_df <- source_df(baseball)
   baseball_dt <- source_dt(baseball)
-  baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
+  baseball_s <- source_sqlite("inst/db/baseball.sqlite3", "baseball")
 }
 
 ddply(baseball, "id", summarise, avg_games = mean(g))
