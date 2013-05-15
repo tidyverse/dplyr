@@ -31,6 +31,7 @@ grouped_dt <- function(data, vars, name = NULL) {
 }
 
 #' @rdname grouped_dt
+#' @param x an object to check
 #' @export
 is.grouped_dt <- function(x) inherits(x, "grouped_dt")
 
@@ -40,6 +41,7 @@ print.grouped_dt <- print.grouped_df
 #' @method group_by data.table
 #' @export
 #' @rdname grouped_dt
+#' @param ... variables to group by
 group_by.data.table <- function(x, ..., name = NULL) {
   name <- name %||% substitute(x)
   vars <- dots(...)

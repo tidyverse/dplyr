@@ -2,8 +2,7 @@
 #'
 #' This is a helper function for convenient exploration. Otherwise conversion
 #' normally happens in two distinct phases: first \code{\link{partial_eval}}
-#' is called during the building phase, and then \code{\link{to_sql}} is called
-#' during the rendering phase.
+#' then \code{\link{to_sql}}.
 #'
 #' @param expr unevaluated expression to translate
 #' @param source data source
@@ -38,6 +37,13 @@ translate_sql_q <- function(expr, source, env = parent.frame()) {
   to_sql(expr)
 }
 
+#' Translate an expression to sql.
+#'
+#' @param x an expression or list of an expressions. These should have been
+#'   preprocessed by \code{\link{partial_eval}} so the are no longer dependent
+#'   on the environment where they were defined.
+#' @export
+#' @keywords internal
 to_sql <- function(x) {
   if (is.null(x)) {
     NULL

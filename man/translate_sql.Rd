@@ -12,9 +12,8 @@
 \description{
   This is a helper function for convenient exploration.
   Otherwise conversion normally happens in two distinct
-  phases: first \code{\link{partial_eval}} is called during
-  the building phase, and then \code{\link{to_sql}} is
-  called during the rendering phase.
+  phases: first \code{\link{partial_eval}} then
+  \code{\link{to_sql}}.
 }
 \examples{
 data(baseball, package = "plyr")

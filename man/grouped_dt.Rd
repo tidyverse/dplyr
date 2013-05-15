@@ -34,6 +34,10 @@
   \item{vars}{a list of quoted variables.}
 
   \item{name}{data source name.}
+
+  \item{x}{an object to check}
+
+  \item{...}{variables to group by}
 }
 \description{
   The easiest way to create a grouped data table is to call
