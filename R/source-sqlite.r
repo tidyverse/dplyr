@@ -2,6 +2,7 @@
 #'
 #' @param path path to sqlite database
 #' @param table name of table in database
+#' @export
 #' @examples
 #' path <- system.file("db/baseball.sqlite3", package = "dply")
 #' path <- "inst/db/baseball.sqlite3"
