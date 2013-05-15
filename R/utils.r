@@ -49,7 +49,7 @@ trunc_mat <- function(x, n = 10L) {
 
   needs_dots <- nrow(x) > n
   if (needs_dots) {
-    dot_width <- pmin(w[-1][!too_wide] - 1, 3)
+    dot_width <- pmin(w[-1][!too_wide], 3)
     dots <- vapply(dot_width, function(i) paste(rep(".", i), collapse = ""),
       FUN.VALUE = character(1))
     shrunk <- rbind(shrunk, "." = dots)
