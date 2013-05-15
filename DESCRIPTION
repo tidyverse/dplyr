@@ -19,7 +19,6 @@ LinkingTo: Rcpp
 License: MIT
 Collate:
     'dplyr.r'
-    'ops.r'
     'partial-eval.r'
     'source-data-frame.r'
     'source-data-table.r'
@@ -30,7 +29,6 @@ Collate:
     'translate-sql.r'
     'utils.r'
     'zzz.r'
-    'ops-standard.r'
     'manip.r'
     'manip-sqlite.r'
     'desc.r'
