@@ -23,7 +23,7 @@ sqlite_source <- function(path, table) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
 
-  structure(list(con = con, table = table),
+  structure(list(con = con, path = path, table = table),
     class = c("source_sqlite", "source_sql", "source", "op"))
 }
 #' @S3method source_name source_sqlite
@@ -36,6 +36,13 @@ source_vars.source_sqlite <- function(x) {
 }
 
 # Standard data frame methods --------------------------------------------------
+
+print.source_sqlite <- function(x, ...) {
+  cat("SQLite: ", x$path, "\n", sep = "")
+  cat("Table:  ", x$table, dim_desc(x), "\n", sep = "")
+  cat("\n")
+  print(trunc_rows(x))
+}
 
 #' @S3method names source_sqlite
 names.source_sqlite <- source_vars.source_sqlite

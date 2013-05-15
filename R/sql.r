@@ -13,8 +13,8 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   assert_that(is.character(from), length(from) == 1L)
   out$from <- paste0("FROM ", escape_sql(from))
 
-  if (!is.null(where)) {
-    assert_that(is.character(where), length(where) > 0L)
+  if (length(where) > 0L) {
+    assert_that(is.character(where))
     out$where <- paste0("WHERE ", paste0("(", where, ")", collapse = " AND "))
   }
 

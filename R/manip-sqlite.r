@@ -1,7 +1,6 @@
 #' Data manipulation for SQL data sources.
 #'
 #' @examples
-#' data("baseball", package = "plyr")
 #' baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
 #
 #' filter(baseball_s, year > 2005, g > 130)

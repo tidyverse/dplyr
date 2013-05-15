@@ -34,8 +34,10 @@ as_df <- function(x) {
   x
 }
 
-trunc_rows <- function(x, n = 10) {
+trunc_rows <- function(x, n = 10L) {
   mat <- format(head(x, n))
+  if (nrow(x) <= n) return(mat)
+
   dots <- matrix(rep("...", ncol(mat)), nrow = 1,
     dimnames = list("...", colnames(mat)))
 

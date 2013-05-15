@@ -39,7 +39,9 @@ translate_sql_q <- function(expr, source, env = parent.frame()) {
 }
 
 to_sql <- function(x) {
-  if (is.atomic(x)) {
+  if (is.null(x)) {
+    NULL
+  } else if (is.atomic(x)) {
     sql_atomic(x)
   } else if (is.call(x)) {
     # Always evaluate with emptyenv as any non-local references will have
@@ -70,7 +72,7 @@ sql_unary <- function(f) {
 }
 sql_atomic <- function(x) {
   if (is.character(x)) x <- paste0('"', x, '"')
-  if (is.numeric(x) & any(is.wholenumber(x))) {
+  if (is.numeric(x) && any(is.wholenumber(x))) {
     x <- sprintf("%.1f", x)
   }
 

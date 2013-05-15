@@ -42,3 +42,4 @@ Collate:
     'manip-grouped-df.r'
     'view.r'
     'group-by-sqlite.r'
+    'manip-grouped-sqlite.r'
