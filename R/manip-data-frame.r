@@ -25,6 +25,14 @@ filter.data.frame <- function(.data, ...) {
   .data[all, , drop = FALSE]
 }
 
+#' @S3method filter source_data_frame
+filter.source_data_frame <- function(.data, ...) {
+  data_frame_source(
+    filter.data.frame(.data$obj, ...),
+    .data$name
+  )
+}
+
 #' @rdname manip_data_frame
 #' @export
 #' @method summarise data.frame
@@ -39,6 +47,15 @@ summarise.data.frame <- function(.data, ...) {
 
   as_df(mget(names(cols), data_env))
 }
+
+#' @S3method summarise source_data_frame
+summarise.source_data_frame <- function(.data, ...) {
+  data_frame_source(
+    summarise.data.frame(.data$obj, ...),
+    .data$name
+  )
+}
+
 
 #' @rdname manip_data_frame
 #' @export
@@ -55,6 +72,14 @@ mutate.data.frame <- function(.data, ...) {
   as_df(mget(out_cols, data_env))
 }
 
+#' @S3method mutate source_data_frame
+mutate.source_data_frame <- function(.data, ...) {
+  data_frame_source(
+    mutate.data.frame(.data$obj, ...),
+    .data$name
+  )
+}
+
 #' @rdname manip_data_frame
 #' @export
 #' @method arrange data.frame
@@ -65,6 +90,15 @@ arrange.data.frame <- function(.data, ...) {
   }
   .data[r, , drop = FALSE]
 }
+
+#' @S3method arrange source_data_frame
+arrange.source_data_frame <- function(.data, ...) {
+  data_frame_source(
+    arrange.data.frame(.data$obj, ...),
+    .data$name
+  )
+}
+
 
 #' @rdname manip_data_frame
 #' @export
@@ -77,4 +111,12 @@ select.data.frame <- function(.data, ...) {
   select <- nm[idx]
 
   .data[, nm[idx], drop = FALSE]
+}
+
+#' @S3method select source_data_frame
+select.source_data_frame <- function(.data, ...) {
+  data_frame_source(
+    select.data.frame(.data$obj, ...),
+    .data$name
+  )
 }
