@@ -51,7 +51,7 @@ filter.grouped_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_grouped_df
 #' @export
 #' @method summarise grouped_df
 summarise.grouped_df <- function(.data, ...) {
@@ -96,7 +96,7 @@ summarise.grouped_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_grouped_df
 #' @export
 #' @method mutate grouped_df
 mutate.grouped_df <- function(.data, ...) {
@@ -144,7 +144,7 @@ mutate.grouped_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_grouped_df
 #' @export
 #' @method arrange grouped_df
 arrange.grouped_df <- function(.data, ...) {
@@ -166,7 +166,7 @@ arrange.grouped_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_grouped_df
 #' @export
 #' @method select grouped_df
 select.grouped_df <- function(.data, ...) {
