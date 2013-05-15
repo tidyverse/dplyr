@@ -47,7 +47,8 @@ is.grouped_data_frame <- function(x) inherits(x, "grouped_data_frame")
 
 #' @S3method print grouped_data_frame
 print.grouped_data_frame <- function(x, ...) {
-  cat("Source: ", x$name, dim_desc(x), "\n", sep = "")
+  cat("Source:     local object\n", sep = "")
+  cat("Data frame: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
   vars <- vapply(x$vars, deparse, width.cutoff = 500L, FUN.VALUE = character(1))
   cat("Groups: ", paste0(vars, collapse = ", "), "\n", sep = "")
   cat("\n")

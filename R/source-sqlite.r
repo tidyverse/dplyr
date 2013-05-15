@@ -38,7 +38,7 @@ source_vars.source_sqlite <- function(x) {
 # Standard data frame methods --------------------------------------------------
 
 print.source_sqlite <- function(x, ...) {
-  cat("SQLite: ", x$path, "\n", sep = "")
+  cat("Source: SQLite [", x$path, "]\n", sep = "")
   cat("Table:  ", x$table, dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)

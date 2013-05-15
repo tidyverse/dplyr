@@ -1,11 +1,11 @@
-data_frame_source <- function(data, name = deparse(substitute(obj))) {
+data_frame_source <- function(data, name = deparse(substitute(data))) {
   structure(list(obj = data, name = name),
     class = c("source_data_frame", "source"))
 }
 
-
 print.source <- function(x, ...) {
-  cat("Source: ", x$name, dim_desc(x), "\n", sep = "")
+  cat("Source:     local object\n", sep = "")
+  cat("Data frame: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }
