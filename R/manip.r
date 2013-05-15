@@ -5,24 +5,24 @@ NULL
 
 #' @rdname manip
 #' @export
-filter <- function(`_data`, ...) UseMethod("filter")
+filter <- function(.data, ...) UseMethod("filter")
 
 #' @rdname manip
 #' @export
-summarise <- function(`_data`, ...) UseMethod("summarise")
+summarise <- function(.data, ...) UseMethod("summarise")
 
 #' @rdname manip
 #' @export
-mutate <- function(`_data`, ...) UseMethod("mutate")
+mutate <- function(.data, ...) UseMethod("mutate")
 
 #' @rdname manip
 #' @export
-arrange <- function(`_data`, ...) UseMethod("arrange")
+arrange <- function(.data, ...) UseMethod("arrange")
 
 #' @rdname manip
 #' @export
-select <- function(`_data`, ...) UseMethod("select")
+select <- function(.data, ...) UseMethod("select")
 
 #' @rdname manip
 #' @export
-group <- function(`_data`, ...) UseMethod("group")
+group <- function(.data, ...) UseMethod("group")

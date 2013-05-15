@@ -8,17 +8,17 @@
 \alias{summarise}
 \title{Data manipulation functions.}
 \usage{
-  filter(_data, ...)
+  filter(.data, ...)
 
-  summarise(_data, ...)
+  summarise(.data, ...)
 
-  mutate(_data, ...)
+  mutate(.data, ...)
 
-  arrange(_data, ...)
+  arrange(.data, ...)
 
-  select(_data, ...)
+  select(.data, ...)
 
-  group(_data, ...)
+  group(.data, ...)
 }
 \description{
   Data manipulation functions.
