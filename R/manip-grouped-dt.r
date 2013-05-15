@@ -24,10 +24,10 @@
 #' # You can also manually ungroup:
 #' arrange(ungroup(by_year), id, year)
 #' }
-#' @name grouped_dt
+#' @name manip_grouped_dt
 NULL
 
-#' @rdname grouped_dt
+#' @rdname manip_grouped_dt
 #' @export
 #' @method filter grouped_dt
 filter.grouped_dt <- function(.data, ...) {
@@ -46,7 +46,7 @@ filter.grouped_dt <- function(.data, ...) {
   )
 }
 
-#' @rdname grouped_dt
+#' @rdname manip_grouped_dt
 #' @export
 #' @method summarise grouped_dt
 summarise.grouped_dt <- function(.data, ...) {
@@ -71,7 +71,7 @@ summarise.grouped_dt <- function(.data, ...) {
   )
 }
 
-#' @rdname grouped_dt
+#' @rdname manip_grouped_dt
 #' @export
 #' @method mutate grouped_dt
 mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
@@ -101,7 +101,7 @@ mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
   )
 }
 
-#' @rdname grouped_dt
+#' @rdname manip_grouped_dt
 #' @export
 #' @method arrange grouped_dt
 arrange.grouped_dt <- function(.data, ...) {
@@ -121,7 +121,7 @@ arrange.grouped_dt <- function(.data, ...) {
   )
 }
 
-#' @rdname grouped_dt
+#' @rdname manip_grouped_dt
 #' @export
 #' @method select grouped_dt
 select.grouped_dt <- function(.data, ...) {
