@@ -34,14 +34,34 @@ as_df <- function(x) {
   x
 }
 
-trunc_rows <- function(x, n = 10L) {
+trunc_mat <- function(x, n = 10L) {
   mat <- format(head(x, n))
-  if (nrow(x) <= n) return(mat)
 
-  dots <- matrix(rep("...", ncol(mat)), nrow = 1,
-    dimnames = list("...", colnames(mat)))
+  width <- getOption("width")
 
-  rbind(mat, dots)
+  values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
+  names <- c("", colnames(mat))
+  w <- pmax(nchar(values), nchar(names))
+  cumw <- cumsum(w + 1)
+
+  too_wide <- cumw[-1] > width
+  shrunk <- mat[, !too_wide, drop = FALSE]
+
+  needs_dots <- nrow(x) > n
+  if (needs_dots) {
+    dot_width <- pmin(w[-1][!too_wide] - 1, 3)
+    dots <- vapply(dot_width, function(i) paste(rep(".", i), collapse = ""),
+      FUN.VALUE = character(1))
+    shrunk <- rbind(shrunk, "." = dots)
+  }
+  print(shrunk)
+
+  if (any(too_wide)) {
+    vars <- paste0(colnames(mat)[too_wide], collapse = ", ")
+    msg <- paste0("Variables not shown: ", vars)
+    wrapped <- strwrap(msg, width = width, exdent = 2)
+    cat(paste(wrapped, collapse = "\n"), "\n", sep = "")
+  }
 }
 
 dim_desc <- function(x) {

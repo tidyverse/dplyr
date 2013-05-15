@@ -21,5 +21,5 @@ print.grouped_sqlite <- function(x, ...) {
   cat("Groups: ", paste0(vars, collapse = ", "), "\n", sep = "")
 
   cat("\n")
-  print(trunc_rows(x))
+  trunc_mat(x)
 }

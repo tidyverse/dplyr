@@ -41,7 +41,7 @@ print.source_sqlite <- function(x, ...) {
   cat("SQLite: ", x$path, "\n", sep = "")
   cat("Table:  ", x$table, dim_desc(x), "\n", sep = "")
   cat("\n")
-  print(trunc_rows(x))
+  trunc_mat(x)
 }
 
 #' @S3method names source_sqlite

@@ -52,7 +52,7 @@ print.grouped_data_frame <- function(x, ...) {
   cat("Groups: ", paste0(vars, collapse = ", "), "\n", sep = "")
   cat("\n")
 
-  print(trunc_rows(x$obj))
+  trunc_mat(x$obj)
 }
 
 #' @method group_by data.frame

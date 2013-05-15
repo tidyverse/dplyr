@@ -7,7 +7,7 @@ data_frame_source <- function(data, name = deparse(substitute(obj))) {
 print.source <- function(x, ...) {
   cat("Source: ", x$name, dim_desc(x), "\n", sep = "")
   cat("\n")
-  print(trunc_rows(x))
+  trunc_mat(x)
 }
 
 
