@@ -99,18 +99,12 @@ arrange.source_data_frame <- function(.data, ...) {
   )
 }
 
-
 #' @rdname manip_data_frame
 #' @export
 #' @method select data.frame
 select.data.frame <- function(.data, ...) {
-  nm <- names(.data)
-  nm_env <- as.list(setNames(seq_along(nm), nm))
-
-  idx <- unlist(lapply(dots(...), eval, nm_env, parent.frame()))
-  select <- nm[idx]
-
-  .data[, nm[idx], drop = FALSE]
+  input <- var_eval(.data, dots(...), parent.frame())
+  .data[, input, drop = FALSE]
 }
 
 #' @S3method select source_data_frame

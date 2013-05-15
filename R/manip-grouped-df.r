@@ -170,14 +170,10 @@ arrange.grouped_data_frame <- function(.data, ...) {
 #' @export
 #' @method select grouped_data_frame
 select.grouped_data_frame <- function(.data, ...) {
-  nm <- source_vars(.data)
-  nm_env <- as.list(setNames(seq_along(nm), nm))
-
-  idx <- unlist(lapply(dots(...), eval, nm_env, parent.frame()))
-  select <- nm[idx]
+  input <- var_eval(.data, dots(...), parent.frame())
 
   grouped_data_frame(
-    data = .data$obj[, nm[idx], drop = FALSE],
+    data = .data$obj[, input, drop = FALSE],
     vars = .data$vars,
     name = .data$name
   )

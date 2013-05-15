@@ -35,6 +35,9 @@ source_name.source_data_frame <- function(x) x$name
 #' @S3method source_vars source_data_frame
 source_vars.source_data_frame <- function(x) names(x$obj)
 
+#' @S3method source_vars data.frame
+source_vars.data.frame <- function(x) names(x)
+
 # Standard data frame methods --------------------------------------------------
 
 #' @S3method as.data.frame source_data_frame
