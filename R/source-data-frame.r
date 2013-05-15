@@ -29,6 +29,23 @@ as.source.data.frame <- function(x, name = NULL, ...) {
   data_frame_source(x, name = name)
 }
 
+#' @S3method source_name source_data_frame
+source_name.source_data_frame <- function(x) x$name
+
+#' @S3method source_vars source_data_frame
+source_vars.source_data_frame <- function(x) names(x$obj)
+
+# Standard data frame methods --------------------------------------------------
+
+#' @S3method as.data.frame source_data_frame
+as.data.frame.source_data_frame <- function(x, row.names = NULL,
+                                            optional = NULL, ...) {
+  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+  if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
+
+  x$obj
+}
+
 #' @S3method print source_data_frame
 print.source_data_frame <- function(x, ...) {
   cat("Source:     local object\n", sep = "")
@@ -37,25 +54,14 @@ print.source_data_frame <- function(x, ...) {
   trunc_mat(x)
 }
 
-# Methods forwarded on to underlying data frame --------------------------------
+#' @S3method dimnames source_data_frame
+dimnames.source_data_frame <- function(x) dimnames(x$obj)
+
+#' @S3method dim source_data_frame
+dim.source_data_frame <- function(x) dim(x$obj)
 
 #' @S3method head source_data_frame
 head.source_data_frame <- function(x, ...) head(x$obj, ...)
 
 #' @S3method tail source_data_frame
 tail.source_data_frame <- function(x, ...) tail(x$obj, ...)
-
-#' @S3method as.data.frame source_data_frame
-as.data.frame.source_data_frame <- function(x, ...) x$obj
-
-#' @S3method source_vars source_data_frame
-source_vars.source_data_frame <- function(x) names(x$obj)
-
-#' @S3method source_name source_data_frame
-source_name.source_data_frame <- function(x) x$name
-
-#' @S3method dim source_data_frame
-dim.source_data_frame <- function(x) dim(x$obj)
-
-#' @S3method dimnames source_data_frame
-dimnames.source_data_frame <- function(x) dimnames(x$obj)

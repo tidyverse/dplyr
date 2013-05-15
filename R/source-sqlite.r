@@ -30,16 +30,27 @@ sqlite_source <- function(path, table) {
     class = c("source_sqlite", "source_sql", "source", "op")
   )
 }
+
 #' @S3method source_name source_sqlite
 source_name.source_sqlite <- function(x) {
   x$table
 }
+
 #' @S3method source_vars source_sqlite
 source_vars.source_sqlite <- function(x) {
   dbListFields(x$con, x$table)
 }
 
 # Standard data frame methods --------------------------------------------------
+
+#' @S3method as.data.frame source_sqlite
+as.data.frame.source_sqlite <- function(x, row.names = NULL, optional = NULL,
+                                        ..., n = 1e5L) {
+  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+  if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
+
+  sql_select(x, n = n)
+}
 
 #' @S3method print source_sqlite
 print.source_sqlite <- function(x, ...) {
@@ -59,6 +70,7 @@ print.source_sqlite <- function(x, ...) {
 dimnames.source_sqlite <- function(x) {
   list(NULL, source_vars.source_sqlite(x))
 }
+
 #' @S3method dim source_sqlite
 dim.source_sqlite <- function(x) {
   where <- to_sql(x$filter)
@@ -86,13 +98,4 @@ tail.source_sqlite <- function(x, n = 6L, ...) {
 
   df <- sql_select(x, "*", order_by = "ROWID DESC", limit = n)
   unrowname(df[rev(1:nrow(df)), , drop = FALSE])
-}
-
-#' @S3method as.data.frame source_sqlite
-as.data.frame.source_sqlite <- function(x, row.names = NULL, optional = NULL,
-                                        n = 1e5L) {
-  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
-  if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
-
-  sql_select(x, n = n)
 }
