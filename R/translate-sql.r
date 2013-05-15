@@ -152,4 +152,3 @@ sqlite <- list(
   "c" = function(...) sql_atomic(c(...)),
   ":" = function(from, to) sql_atomic(from:to)
 )
-source_translator.source_sql <- function(x) sql
