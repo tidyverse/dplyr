@@ -23,7 +23,6 @@ Collate:
     'source-sqlite.r'
     'source.r'
     'sql.r'
-    'summarise.r'
     'translate-sql.r'
     'utils.r'
     'zzz.r'
@@ -41,3 +40,5 @@ Collate:
     'manip-df.r'
     'source-df.r'
     'manip-dt.r'
+    'grouped-dt.r'
+    'manip-grouped-dt.r'

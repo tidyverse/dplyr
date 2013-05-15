@@ -98,11 +98,12 @@ mutate.source_dt <- function(.data, ...) {
 #' @export
 #' @method arrange data.table
 arrange.data.table <- function(.data, ...) {
-  r <- eval(substitute(order(...)), .data, parent.frame())
-  if(length(r) != nrow(.data)) {
-    stop("Ordering vectors not the same length as data", call. = FALSE)
-  }
-  .data[r, , drop = FALSE]
+  call <- substitute(data[order(...)])
+  env <- new.env(parent = parent.frame(), size = 1L)
+  env$data <- .data
+  out <- eval(call, env)
+
+  eval(call, env)
 }
 
 #' @S3method arrange source_dt
