@@ -41,3 +41,4 @@ Collate:
     'id.r'
     'RcppExports.R'
     'manip-grouped-df.r'
+    'view.r'

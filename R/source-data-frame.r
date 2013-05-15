@@ -1,12 +1,13 @@
-data_frame_source <- function(obj, name = deparse(substitute(obj))) {
-  structure(list(obj = obj, name = name),
+data_frame_source <- function(data, name = deparse(substitute(obj))) {
+  structure(list(obj = data, name = name),
     class = c("source_data_frame", "source"))
 }
 
 
 print.source <- function(x, ...) {
-  cat("Source: ", source_name(x), "\n")
-  print(head(x$obj))
+  cat("Source: ", x$name, dim_desc(x), "\n", sep = "")
+  cat("\n")
+  print(trunc_rows(x$obj))
 }
 
 

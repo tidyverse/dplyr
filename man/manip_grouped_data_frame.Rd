@@ -6,15 +6,22 @@
   \method{filter}{grouped_data_frame} (.data, ...)
 }
 \description{
-  Data manipulation for grouped data frames.
+  Grouping status is preserved across filter, arrange,
+  mutate and select. Summarise produces an ungrouped data
+  frame.
 }
 \examples{
 data("baseball", package = "plyr")
-players <- group_by(baseball, id)
+players <- group_by(baseball, id, name = "players")
 filter(players, g == max(g))
 summarise(players, g = mean(g))
-head(mutate(players, cyear = year - min(year) + 1))
-head(arrange(players, year))
-head(select(players, id:team))
+mutate(players, cyear = year - min(year) + 1)
+arrange(players, id, desc(year))
+select(players, id:team)
+
+# All manip functions preserve grouping structure, except for summarise
+# (for hopefully obvious reasons)
+by_year <- mutate(players, cyear = year - min(year) + 1)
+summarise(by_year, years = max(cyear))
 }
 

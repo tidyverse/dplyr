@@ -1,18 +1,22 @@
-# TODO:
-# * make sure all preserve grouping structure (apart from summarise)
-# * extract out grouped view component
-
 #' Data manipulation for grouped data frames.
+#'
+#' Grouping status is preserved across filter, arrange, mutate and select.
+#' Summarise produces an ungrouped data frame.
 #'
 #' @examples
 #' data("baseball", package = "plyr")
-#' players <- group_by(baseball, id)
+#' players <- group_by(baseball, id, name = "players")
 #
 #' filter(players, g == max(g))
 #' summarise(players, g = mean(g))
-#' head(mutate(players, cyear = year - min(year) + 1))
-#' head(arrange(players, year))
-#' head(select(players, id:team))
+#' mutate(players, cyear = year - min(year) + 1)
+#' arrange(players, id, desc(year))
+#' select(players, id:team)
+#'
+#' # All manip functions preserve grouping structure, except for summarise
+#' # (for hopefully obvious reasons)
+#' by_year <- mutate(players, cyear = year - min(year) + 1)
+#' summarise(by_year, years = max(cyear))
 #'
 #' @name manip_grouped_data_frame
 NULL
@@ -22,7 +26,8 @@ NULL
 #' @method filter grouped_data_frame
 filter.grouped_data_frame <- function(.data, ...) {
   conds <- dots(...)
-  v <- view(.data$obj, .data$index, parent.frame())
+  if (is.lazy(.data)) .data <- build_index(.data)
+  v <- make_view(.data, parent.frame())
 
   out <- rep(NA, nrow(.data))
   for (i in seq_along(.data$index)) {
@@ -36,16 +41,20 @@ filter.grouped_data_frame <- function(.data, ...) {
     out[rows] <- r
   }
 
-  .data$obj[out, , drop = FALSE]
+  grouped_data_frame(
+    data = .data$obj[out, , drop = FALSE],
+    vars = .data$vars,
+    name = .data$name
+  )
 }
-
 
 #' @rdname manip_data_frame
 #' @export
 #' @method summarise grouped_data_frame
 summarise.grouped_data_frame <- function(.data, ...) {
   calls <- named_dots(...)
-  v <- view(.data$obj, .data$index)
+  if (is.lazy(.data)) .data <- build_index(.data)
+  v <- make_view(.data, parent.frame())
   ngrps <- length(.data$index)
 
   output_summary <- function(j) {
@@ -78,7 +87,10 @@ summarise.grouped_data_frame <- function(.data, ...) {
   }
 
   out <- c(.data$labels, out) # expensive operation
-  as_df(out)
+  data_frame_source(
+    data = as_df(out),
+    name = .data$name
+  )
 }
 
 #' @rdname manip_data_frame
@@ -86,7 +98,8 @@ summarise.grouped_data_frame <- function(.data, ...) {
 #' @method mutate grouped_data_frame
 mutate.grouped_data_frame <- function(.data, ...) {
   calls <- named_dots(...)
-  v <- view(.data$obj, .data$index)
+  if (is.lazy(.data)) .data <- build_index(.data)
+  v <- make_view(.data, parent.frame())
   ngrps <- length(.data$index)
 
   output_var <- function(j) {
@@ -121,7 +134,11 @@ mutate.grouped_data_frame <- function(.data, ...) {
     v$add_binding(name, output_var(name))
   }
 
-  cbind(.data$obj, as_df(out))
+  grouped_data_frame(
+    data = cbind(.data$obj, as_df(out)),
+    vars = .data$vars,
+    name = .data$name
+  )
 }
 
 #' @rdname manip_data_frame
@@ -129,7 +146,8 @@ mutate.grouped_data_frame <- function(.data, ...) {
 #' @method arrange grouped_data_frame
 arrange.grouped_data_frame <- function(.data, ...) {
   order_call <- substitute(order(...))
-  v <- view(.data$obj, .data$index, parent.frame())
+  if (is.lazy(.data)) .data <- build_index(.data)
+  v <- make_view(.data, parent.frame())
 
   out <- rep(NA, nrow(.data))
   for (i in seq_along(.data$index)) {
@@ -138,7 +156,11 @@ arrange.grouped_data_frame <- function(.data, ...) {
     out[rows] <- rows[ord]
   }
 
-  .data$obj[out, , drop = FALSE]
+  grouped_data_frame(
+    data = .data$obj[out, , drop = FALSE],
+    vars = .data$vars,
+    name = .data$name
+  )
 }
 
 #' @rdname manip_data_frame
@@ -151,6 +173,9 @@ select.grouped_data_frame <- function(.data, ...) {
   idx <- unlist(lapply(dots(...), eval, nm_env, parent.frame()))
   select <- nm[idx]
 
-  .data$obj <- .data$obj[, nm[idx], drop = FALSE]
-  .data
+  grouped_data_frame(
+    data = .data$obj[, nm[idx], drop = FALSE],
+    vars = .data$vars,
+    name = .data$name
+  )
 }
