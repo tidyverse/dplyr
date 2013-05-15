@@ -34,7 +34,7 @@
   always return a source_df.
 }
 \examples{
-baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
+baseball_s <- source_sqlite("inst/db/baseball.sqlite3", "baseball")
 
 # filter, select and arrange lazily modify the specification of the table
 # they don't execute queries unless you print them

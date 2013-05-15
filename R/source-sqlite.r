@@ -5,14 +5,14 @@
 #' @examples
 #' path <- system.file("db/baseball.sqlite3", package = "dply")
 #' path <- "inst/db/baseball.sqlite3"
-#' baseball_s <- sqlite_source(path, "baseball")
+#' baseball_s <- source_sqlite(path, "baseball")
 #' dim(baseball_s)
 #' names(baseball_s)
 #' head(baseball_s)
 #'
 #' players <- group(baseball_s, id)
 #' summarise(players, g = mean(g), n = count())
-sqlite_source <- function(path, table) {
+source_sqlite <- function(path, table) {
   assert_that(is.readable(path), is.string(table))
   if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)

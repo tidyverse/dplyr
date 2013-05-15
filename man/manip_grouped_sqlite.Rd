@@ -31,7 +31,7 @@
   Data manipulation for grouped SQL data sources.
 }
 \examples{
-baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
+baseball_s <- source_sqlite("inst/db/baseball.sqlite3", "baseball")
 players <- group_by(baseball_s, id)
 
 # Due to the lack of windowing functions in SQLite, only summarising
