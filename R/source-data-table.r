@@ -8,11 +8,11 @@
 #'   came from. If not supplied, taken from the deparsed expression passed
 #'   to the \code{data} argument.
 #' @examples
-#' ds <- data_table_source(mtcars)
+#' ds <- source_dt(mtcars)
 #' ds
-#' as.data.frame(ds)
+#' as.data.table(ds)
 #' as.source(mtcars)
-data_table_source <- function(data, name = NULL) {
+source_dt <- function(data, name = NULL) {
   if (!require("data.table")) {
     stop("data.table package required to use data tables", call. = FALSE)
   }
@@ -31,7 +31,7 @@ data_table_source <- function(data, name = NULL) {
 #' @S3method as.source data.table
 as.source.data.table <- function(x, name = NULL, ...) {
   name <- name %||% deparse(substitute(x))
-  data_table_source(x, name = name)
+  source_dt(x, name = name)
 }
 
 #' @S3method source_name source_dt
@@ -52,13 +52,13 @@ as.data.table.source_dt <- function(x, keep.rownames = NULL) {
   x$obj
 }
 
-#' @S3method as.data.frame source_dt
-as.data.frame.source_dt <- function(x, row.names = NULL,
+#' @S3method as.data.table source_dt
+as.data.table.source_dt <- function(x, row.names = NULL,
                                             optional = NULL, ...) {
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
   if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
 
-  as.data.frame(x$obj)
+  as.data.table(x$obj)
 }
 
 #' @S3method print source_dt
