@@ -22,9 +22,6 @@ source_dt <- function(data, name = NULL) {
   name <- name %||% deparse(substitute(data))
   assert_that(is.string(name))
 
-  # Hack until new version of data.table comes out
-  assignInNamespace("cedta", function(...) TRUE, "data.table")
-
   data <- as.data.table(data)
   structure(list(obj = data, name = name),
     class = c("source_dt", "source"))
