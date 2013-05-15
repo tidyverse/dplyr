@@ -41,6 +41,7 @@ source_vars.source_sqlite <- function(x) {
 
 # Standard data frame methods --------------------------------------------------
 
+#' @S3method print source_sqlite
 print.source_sqlite <- function(x, ...) {
   cat("Source:  SQLite [", x$path, "]\n", sep = "")
   cat("Table:   ", x$table, dim_desc(x), "\n", sep = "")
@@ -93,35 +94,5 @@ as.data.frame.source_sqlite <- function(x, row.names = NULL, optional = NULL,
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
   if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
 
-  render(x, n = n)
-}
-
-render.source_sqlite <- function(source, ..., n = 1e5) {
-  args <- dots(...)
-  if (length(args) > 0) {
-    stop("This method does not accept additional arguments in ...",
-      call. = FALSE)
-  }
-
-  # Source object enforces that we only ever have one of summarise or mutate
-  summarise <- to_sql(source$summarise)
-  mutate <- to_sql(source$mutate)
-  group_by <- to_sql(source$group)
-
-  select <- c(group_by, source$select, summarise, mutate)
-  if (length(select) == 0) vars <- "*"
-
-  where <- to_sql(source$filter)
-  order_by <- to_sql(source$arrange)
-
-  sql_select(source,
-    select = select,
-    where = where,
-    order_by = order_by,
-    group_by = group_by,
-    n = n)
-}
-
-do.source_sqlite <- function(source, fun, ...) {
-  fun(render(source), ...)
+  sql_select(x, n = n)
 }
