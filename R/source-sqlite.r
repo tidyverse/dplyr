@@ -50,8 +50,6 @@ print.source_sqlite <- function(x, ...) {
   trunc_mat(x)
 }
 
-#' @S3method names source_sqlite
-names.source_sqlite <- source_vars.source_sqlite
 #' @S3method dimnames source_sqlite
 dimnames.source_sqlite <- function(x) {
   list(NULL, source_vars.source_sqlite(x))
