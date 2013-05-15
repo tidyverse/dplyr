@@ -28,7 +28,7 @@ data_table_source <- function(data, name = NULL) {
     class = c("source_data_table", "source"))
 }
 
-#' @S3method as.source data.frame
+#' @S3method as.source data.table
 as.source.data.table <- function(x, name = NULL, ...) {
   name <- name %||% deparse(substitute(x))
   data_table_source(x, name = name)

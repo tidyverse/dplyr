@@ -25,9 +25,9 @@ filter.data.frame <- function(.data, ...) {
   .data[all, , drop = FALSE]
 }
 
-#' @S3method filter source_data_frame
-filter.source_data_frame <- function(.data, ...) {
-  data_frame_source(
+#' @S3method filter source_df
+filter.source_df <- function(.data, ...) {
+  source_df(
     filter.data.frame(.data$obj, ...),
     .data$name
   )
@@ -48,9 +48,9 @@ summarise.data.frame <- function(.data, ...) {
   as_df(mget(names(cols), data_env))
 }
 
-#' @S3method summarise source_data_frame
-summarise.source_data_frame <- function(.data, ...) {
-  data_frame_source(
+#' @S3method summarise source_df
+summarise.source_df <- function(.data, ...) {
+  source_df(
     summarise.data.frame(.data$obj, ...),
     .data$name
   )
@@ -72,9 +72,9 @@ mutate.data.frame <- function(.data, ...) {
   as_df(mget(out_cols, data_env))
 }
 
-#' @S3method mutate source_data_frame
-mutate.source_data_frame <- function(.data, ...) {
-  data_frame_source(
+#' @S3method mutate source_df
+mutate.source_df <- function(.data, ...) {
+  source_df(
     mutate.data.frame(.data$obj, ...),
     .data$name
   )
@@ -91,9 +91,9 @@ arrange.data.frame <- function(.data, ...) {
   .data[r, , drop = FALSE]
 }
 
-#' @S3method arrange source_data_frame
-arrange.source_data_frame <- function(.data, ...) {
-  data_frame_source(
+#' @S3method arrange source_df
+arrange.source_df <- function(.data, ...) {
+  source_df(
     arrange.data.frame(.data$obj, ...),
     .data$name
   )
@@ -107,9 +107,9 @@ select.data.frame <- function(.data, ...) {
   .data[, input, drop = FALSE]
 }
 
-#' @S3method select source_data_frame
-select.source_data_frame <- function(.data, ...) {
-  data_frame_source(
+#' @S3method select source_df
+select.source_df <- function(.data, ...) {
+  source_df(
     select.data.frame(.data$obj, ...),
     .data$name
   )

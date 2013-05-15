@@ -1,9 +1,9 @@
-\name{manip_grouped_data_frame}
-\alias{filter.grouped_data_frame}
-\alias{manip_grouped_data_frame}
+\name{manip_grouped_df}
+\alias{filter.grouped_df}
+\alias{manip_grouped_df}
 \title{Data manipulation for grouped data frames.}
 \usage{
-  \method{filter}{grouped_data_frame} (.data, ...)
+  \method{filter}{grouped_df} (.data, ...)
 }
 \description{
   Grouping status is preserved across filter, arrange,

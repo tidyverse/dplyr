@@ -11,7 +11,7 @@
 #' @keywords internal
 #' @examples
 #' data("baseball", package = "plyr")
-#' bdf <- data_frame_source(baseball)
+#' bdf <- source_df(baseball)
 #' partial_eval(bdf, quote(year > 1980))
 #'
 #' ids <- c("ansonca01", "forceda01", "mathebo01")

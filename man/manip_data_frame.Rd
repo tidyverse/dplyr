@@ -1,14 +1,14 @@
 \name{manip_data_frame}
 \alias{arrange.data.frame}
-\alias{arrange.grouped_data_frame}
+\alias{arrange.grouped_df}
 \alias{filter.data.frame}
 \alias{manip_data_frame}
 \alias{mutate.data.frame}
-\alias{mutate.grouped_data_frame}
+\alias{mutate.grouped_df}
 \alias{select.data.frame}
-\alias{select.grouped_data_frame}
+\alias{select.grouped_df}
 \alias{summarise.data.frame}
-\alias{summarise.grouped_data_frame}
+\alias{summarise.grouped_df}
 \title{Data manipulation for data frames.}
 \usage{
   \method{filter}{data.frame} (.data, ...)
@@ -21,13 +21,13 @@
 
   \method{select}{data.frame} (.data, ...)
 
-  \method{summarise}{grouped_data_frame} (.data, ...)
+  \method{summarise}{grouped_df} (.data, ...)
 
-  \method{mutate}{grouped_data_frame} (.data, ...)
+  \method{mutate}{grouped_df} (.data, ...)
 
-  \method{arrange}{grouped_data_frame} (.data, ...)
+  \method{arrange}{grouped_df} (.data, ...)
 
-  \method{select}{grouped_data_frame} (.data, ...)
+  \method{select}{grouped_df} (.data, ...)
 }
 \description{
   Data manipulation for data frames.

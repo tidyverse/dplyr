@@ -33,7 +33,7 @@ filter.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   warning("Group by ignored for filtering with SQLite", call. = FALSE)
 
   out <- filter.source_sqlite(.data, ..., .n = .n)
-  grouped_data_frame(
+  grouped_df(
     data = out,
     name = .data$table,
     vars = .data$vars
@@ -54,7 +54,7 @@ summarise.grouped_sqlite <- function(.data, ..., .n = 1e5) {
     group_by = names(group_by),
     n = .n)
 
-  data_frame_source(
+  source_df(
     data = out,
     name = .data$table
   )
@@ -69,7 +69,7 @@ mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   warning("Group by ignored for mutate with SQLite", call. = FALSE)
 
   out <- mutate.source_sqlite(.data, ..., .n = .n)
-  grouped_data_frame(
+  grouped_df(
     data = out,
     name = .data$table,
     vars = .data$vars
@@ -83,7 +83,7 @@ arrange.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   warning("Group by ignored for arrange with SQLite", call. = FALSE)
 
   out <- arrange.source_sqlite(.data, ..., .n = .n)
-  grouped_data_frame(
+  grouped_df(
     data = out,
     name = .data$table,
     vars = .data$vars
@@ -97,7 +97,7 @@ select.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   warning("Group by ignored for select with SQLite", call. = FALSE)
 
   out <- select.source_sqlite(.data, ..., .n = .n)
-  grouped_data_frame(
+  grouped_df(
     data = out,
     name = .data$table,
     vars = .data$vars

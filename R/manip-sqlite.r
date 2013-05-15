@@ -2,7 +2,7 @@
 #'
 #' Arrange, filter and select are lazy: they modify the object representing
 #' the table, and do not recompute unless needed.  Summarise and mutate
-#' are eager: they will always return a source_data_frame.
+#' are eager: they will always return a source_df.
 #'
 #' @examples
 #' baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
@@ -58,7 +58,7 @@ summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
 
   select <- translate_sql_q(dots(...), .data, parent.frame())
   out <- sql_select(.data, select = select, n = .n)
-  data_frame_source(
+  source_df(
     data = out,
     name = .data$table
   )
@@ -74,7 +74,7 @@ mutate.source_sqlite <- function(.data, ..., .n = 1e5) {
   new_vars <- translate_sql_q(dots(...), .data, parent.frame())
 
   out <- sql_select(.data, select = c(old_vars, new_vars), n = .n)
-  data_frame_source(
+  source_df(
     data = out,
     name = .data$table
   )

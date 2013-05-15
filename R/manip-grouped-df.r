@@ -21,13 +21,13 @@
 #' # You can also manually ungroup:
 #' arrange(ungroup(by_year), id, year)
 #'
-#' @name manip_grouped_data_frame
+#' @name manip_grouped_df
 NULL
 
-#' @rdname manip_grouped_data_frame
+#' @rdname manip_grouped_df
 #' @export
-#' @method filter grouped_data_frame
-filter.grouped_data_frame <- function(.data, ...) {
+#' @method filter grouped_df
+filter.grouped_df <- function(.data, ...) {
   conds <- dots(...)
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
@@ -44,7 +44,7 @@ filter.grouped_data_frame <- function(.data, ...) {
     out[rows] <- r
   }
 
-  grouped_data_frame(
+  grouped_df(
     data = .data$obj[out, , drop = FALSE],
     vars = .data$vars,
     name = .data$name
@@ -53,8 +53,8 @@ filter.grouped_data_frame <- function(.data, ...) {
 
 #' @rdname manip_data_frame
 #' @export
-#' @method summarise grouped_data_frame
-summarise.grouped_data_frame <- function(.data, ...) {
+#' @method summarise grouped_df
+summarise.grouped_df <- function(.data, ...) {
   calls <- named_dots(...)
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
@@ -90,7 +90,7 @@ summarise.grouped_data_frame <- function(.data, ...) {
   }
 
   out <- c(.data$labels, out) # expensive operation
-  data_frame_source(
+  source_df(
     data = as_df(out),
     name = .data$name
   )
@@ -98,8 +98,8 @@ summarise.grouped_data_frame <- function(.data, ...) {
 
 #' @rdname manip_data_frame
 #' @export
-#' @method mutate grouped_data_frame
-mutate.grouped_data_frame <- function(.data, ...) {
+#' @method mutate grouped_df
+mutate.grouped_df <- function(.data, ...) {
   calls <- named_dots(...)
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
@@ -137,7 +137,7 @@ mutate.grouped_data_frame <- function(.data, ...) {
     v$add_binding(name, output_var(name))
   }
 
-  grouped_data_frame(
+  grouped_df(
     data = cbind(.data$obj, as_df(out)),
     vars = .data$vars,
     name = .data$name
@@ -146,8 +146,8 @@ mutate.grouped_data_frame <- function(.data, ...) {
 
 #' @rdname manip_data_frame
 #' @export
-#' @method arrange grouped_data_frame
-arrange.grouped_data_frame <- function(.data, ...) {
+#' @method arrange grouped_df
+arrange.grouped_df <- function(.data, ...) {
   order_call <- substitute(order(...))
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
@@ -159,7 +159,7 @@ arrange.grouped_data_frame <- function(.data, ...) {
     out[rows] <- rows[ord]
   }
 
-  grouped_data_frame(
+  grouped_df(
     data = .data$obj[out, , drop = FALSE],
     vars = .data$vars,
     name = .data$name
@@ -168,11 +168,11 @@ arrange.grouped_data_frame <- function(.data, ...) {
 
 #' @rdname manip_data_frame
 #' @export
-#' @method select grouped_data_frame
-select.grouped_data_frame <- function(.data, ...) {
+#' @method select grouped_df
+select.grouped_df <- function(.data, ...) {
   input <- var_eval(.data, dots(...), parent.frame())
 
-  grouped_data_frame(
+  grouped_df(
     data = .data$obj[, input, drop = FALSE],
     vars = .data$vars,
     name = .data$name

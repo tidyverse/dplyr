@@ -1,7 +1,7 @@
 {
   library(plyr)
 
-  baseball_df <- data_frame_source(baseball)
+  baseball_df <- source_df(baseball)
   baseball_dt <- data_table_source(baseball)
   baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
 }

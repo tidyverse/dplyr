@@ -22,7 +22,7 @@
   Arrange, filter and select are lazy: they modify the
   object representing the table, and do not recompute
   unless needed.  Summarise and mutate are eager: they will
-  always return a source_data_frame.
+  always return a source_df.
 }
 \examples{
 baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")

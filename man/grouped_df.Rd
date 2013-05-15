@@ -1,16 +1,16 @@
-\name{grouped_data_frame}
+\name{grouped_df}
 \alias{group_by.data.frame}
-\alias{grouped_data_frame}
-\alias{is.grouped_data_frame}
-\alias{is.lazy.grouped_data_frame}
+\alias{grouped_df}
+\alias{is.grouped_df}
+\alias{is.lazy.grouped_df}
 \title{A grouped data frame.}
 \usage{
-  grouped_data_frame(data, vars, lazy = TRUE, drop = TRUE,
+  grouped_df(data, vars, lazy = TRUE, drop = TRUE,
     name = NULL)
 
-  \method{is.lazy}{grouped_data_frame} (x)
+  \method{is.lazy}{grouped_df} (x)
 
-  is.grouped_data_frame(x)
+  is.grouped_df(x)
 
   \method{group_by}{data.frame} (x, ..., drop = TRUE,
     name = NULL)

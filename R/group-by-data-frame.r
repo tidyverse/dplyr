@@ -12,7 +12,7 @@
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
 #' @param name data source name.
-grouped_data_frame <- function(data, vars, lazy = TRUE, drop = TRUE,
+grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE,
                                name = NULL) {
   if (is.null(name)) {
     if (is.source(data)) {
@@ -31,22 +31,22 @@ grouped_data_frame <- function(data, vars, lazy = TRUE, drop = TRUE,
     data <- build_index(data)
   }
 
-  structure(data, class = c("grouped_data_frame", "source_data_frame", "source"))
+  structure(data, class = c("grouped_df", "source_df", "source"))
 }
 
-#' @rdname grouped_data_frame
-#' @method is.lazy grouped_data_frame
+#' @rdname grouped_df
+#' @method is.lazy grouped_df
 #' @export
-is.lazy.grouped_data_frame <- function(x) {
+is.lazy.grouped_df <- function(x) {
   is.null(x$index) || is.null(x$labels)
 }
 
-#' @rdname grouped_data_frame
+#' @rdname grouped_df
 #' @export
-is.grouped_data_frame <- function(x) inherits(x, "grouped_data_frame")
+is.grouped_df <- function(x) inherits(x, "grouped_df")
 
-#' @S3method print grouped_data_frame
-print.grouped_data_frame <- function(x, ...) {
+#' @S3method print grouped_df
+print.grouped_df <- function(x, ...) {
   cat("Source:     local object\n", sep = "")
   cat("Data frame: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
   cat("Groups: ", paste0(deparse_all(x$vars), collapse = ", "), "\n", sep = "")
@@ -57,17 +57,17 @@ print.grouped_data_frame <- function(x, ...) {
 
 #' @method group_by data.frame
 #' @export
-#' @rdname grouped_data_frame
+#' @rdname grouped_df
 group_by.data.frame <- function(x, ..., drop = TRUE, name = NULL) {
   name <- name %||% substitute(x)
   vars <- named_dots(...)
 
-  grouped_data_frame(x, vars, lazy = FALSE, name = name)
+  grouped_df(x, vars, lazy = FALSE, name = name)
 }
 
-#' @method ungroup grouped_data_frame
-ungroup.grouped_data_frame <- function(x) {
-  data_frame_source(x$obj, x$name)
+#' @method ungroup grouped_df
+ungroup.grouped_df <- function(x) {
+  source_df(x$obj, x$name)
 }
 
 make_view <- function(x, env = parent.frame()) {
