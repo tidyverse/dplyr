@@ -33,3 +33,16 @@ as_df <- function(x) {
 
   x
 }
+
+trunc_rows <- function(x, n = 10) {
+  mat <- format(head(x, n))
+  dots <- matrix(rep("...", ncol(mat)), nrow = 1,
+    dimnames = list("...", colnames(mat)))
+
+  rbind(mat, dots)
+}
+
+dim_desc <- function(x) {
+  d <- format(dim(x), big.mark = ",", trim = TRUE)
+  paste0(" [", paste0(d, collapse = " x "), "]")
+}
