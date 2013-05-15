@@ -12,7 +12,7 @@
 
   is.grouped_data_frame(x)
 
-  \method{group_by}{data.frame} (.data, ..., drop = TRUE,
+  \method{group_by}{data.frame} (x, ..., drop = TRUE,
     name = NULL)
 }
 \arguments{

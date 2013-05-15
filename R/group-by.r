@@ -1,7 +1,4 @@
 
-
-
-group_by <- function(.data, ...) {
+group_by <- function(x, ...) {
   UseMethod("group_by")
 }
-

@@ -57,11 +57,11 @@ print.grouped_data_frame <- function(x, ...) {
 #' @method group_by data.frame
 #' @export
 #' @rdname grouped_data_frame
-group_by.data.frame <- function(.data, ..., drop = TRUE, name = NULL) {
-  name <- name %||% substitute(.data)
+group_by.data.frame <- function(x, ..., drop = TRUE, name = NULL) {
+  name <- name %||% substitute(x)
   vars <- named_dots(...)
 
-  grouped_data_frame(.data, vars, lazy = FALSE, name = name)
+  grouped_data_frame(x, vars, lazy = FALSE, name = name)
 }
 
 make_view <- function(x, env = parent.frame()) {
