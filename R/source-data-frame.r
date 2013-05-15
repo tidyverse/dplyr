@@ -8,16 +8,25 @@
 #' @export
 #' @param data a data frame
 #' @param name the name of the data frame: used to help you remember where it
-#'   came from.
+#'   came from. If not supplied, taken from the deparsed expression passed
+#'   to the \code{data} argument.
 #' @examples
 #' ds <- data_frame_source(mtcars)
 #' ds
 #' as.data.frame(ds)
-data_frame_source <- function(data, name = deparse(substitute(data))) {
+#' as.source(mtcars)
+data_frame_source <- function(data, name = NULL) {
+  name <- name %||% deparse(substitute(data))
   assert_that(is.data.frame(data), is.string(name))
 
   structure(list(obj = data, name = name),
     class = c("source_data_frame", "source"))
+}
+
+#' @S3method as.source data.frame
+as.source.data.frame <- function(x, name = NULL, ...) {
+  name <- name %||% deparse(substitute(x))
+  data_frame_source(x, name = name)
 }
 
 #' @S3method print source_data_frame
