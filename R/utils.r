@@ -35,7 +35,7 @@ as_df <- function(x) {
 }
 
 trunc_mat <- function(x, n = 10L) {
-  mat <- format(head(x, n))
+  mat <- format(as.data.frame(head(x, n)))
 
   width <- getOption("width")
 
