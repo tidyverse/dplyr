@@ -52,7 +52,8 @@ as.data.table.source_dt <- function(x, keep.rownames = NULL) {
   x$obj
 }
 
-#' @S3method as.data.table source_dt
+#' @export
+#' @rdname as.data.table.source_dt
 as.data.table.source_dt <- function(x, row.names = NULL,
                                             optional = NULL, ...) {
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
