@@ -44,6 +44,7 @@
   Data manipulation for grouped data tables.
 }
 \examples{
+if (require("data.table")) {
 data("baseball", package = "plyr")
 baseball_dt <- as.data.table(baseball)
 players <- group_by(baseball_dt, id, name = "players")
@@ -60,5 +61,6 @@ summarise(by_year, years = max(cyear))
 
 # You can also manually ungroup:
 arrange(ungroup(by_year), id, year)
+}
 }
 

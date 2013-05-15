@@ -16,9 +16,11 @@
   A data table source wraps a local data table.
 }
 \examples{
+if (require("data.table")) {
 ds <- source_dt(mtcars)
 ds
 as.data.table(ds)
 as.source(mtcars)
+}
 }
 

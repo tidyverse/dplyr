@@ -8,10 +8,12 @@
 #'   came from. If not supplied, taken from the deparsed expression passed
 #'   to the \code{data} argument.
 #' @examples
+#' if (require("data.table")) {
 #' ds <- source_dt(mtcars)
 #' ds
 #' as.data.table(ds)
 #' as.source(mtcars)
+#' }
 source_dt <- function(data, name = NULL) {
   if (!require("data.table")) {
     stop("data.table package required to use data tables", call. = FALSE)

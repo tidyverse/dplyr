@@ -1,6 +1,7 @@
 #' Data manipulation for grouped data tables.
 #'
 #' @examples
+#' if (require("data.table")) {
 #' data("baseball", package = "plyr")
 #' baseball_dt <- as.data.table(baseball)
 #' players <- group_by(baseball_dt, id, name = "players")
@@ -18,7 +19,7 @@
 #'
 #' # You can also manually ungroup:
 #' arrange(ungroup(by_year), id, year)
-#'
+#' }
 #' @name grouped_dt
 NULL
 

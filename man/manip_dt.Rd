@@ -21,6 +21,7 @@
   Data manipulation for data tables.
 }
 \examples{
+if (require("data.table")) {
 data("baseball", package = "plyr")
 
 # If you start with a data table, you end up with a data table
@@ -33,5 +34,6 @@ head(arrange(baseball, id, desc(year)))
 
 # If you start with a source, you end up with a source
 baseball_s <- as.source(baseball)
+}
 }
 
