@@ -47,11 +47,21 @@ select_sql <- function(select, from, where = NULL, group_by = NULL,
   paste0(sql, ";")
 }
 
-sql_select <- function(x, ..., n = -1L) {
+sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ..., n = -1L) {
   assert_that(is.source(x))
   assert_that(is.numeric(n), length(n) == 1)
 
-  sql <- select_sql(from = source_name(x), ...)
+  select <- select %||% x$select %||% "*"
+  where <- where %||% to_sql(x$filter)
+  order_by <- order_by %||% to_sql(x$arrange)
+
+  sql <- select_sql(
+    from = source_name(x),
+    select = select,
+    where = where,
+    order_by = order_by,
+    ...)
+
   exec_sql(x, sql, n = n)
 }
 

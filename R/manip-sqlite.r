@@ -1,13 +1,21 @@
 #' Data manipulation for SQL data sources.
 #'
+#' Arrange, filter and select are lazy: they modify the object representing
+#' the table, and do not recompute unless needed.  Summarise and mutate
+#' are eager: they will always return a source_data_frame.
+#'
 #' @examples
 #' baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
-#
+#'
+#' # filter, select and arrange lazily modify the specification of the table
+#' # they don't execute queries unless you print them
 #' filter(baseball_s, year > 2005, g > 130)
-#' head(select(baseball_s, id:team))
+#' select(baseball_s, id:team)
+#' arrange(baseball_s, id, desc(year))
+#'
+#' # summarise and mutate always return data frame sources
 #' summarise(baseball_s, g = mean(g), n = count())
-#' head(mutate(baseball_s, rbi = 1.0 * r / ab))
-#' head(arrange(baseball_s, id, desc(year)))
+#' mutate(baseball_s, rbi = 1.0 * r / ab)
 #'
 #' @name manip_sqlite
 NULL
@@ -15,11 +23,28 @@ NULL
 #' @rdname manip_sqlite
 #' @export
 #' @method filter source_sqlite
-filter.source_sqlite <- function(.data, ..., .n = 1e5) {
-  assert_that(length(.n) == 1, .n > 0L)
+filter.source_sqlite <- function(.data, ...) {
+  input <- partial_eval(.data, dots(...), parent.frame())
+  .data$filter <- c(.data$filter, input)
+  .data
+}
 
-  where <- translate_sql_q(dots(...), .data, parent.frame())
-  sql_select(.data, "*", where = where, n = .n)
+#' @rdname manip_sqlite
+#' @export
+#' @method arrange source_sqlite
+arrange.source_sqlite <- function(.data, ...) {
+  input <- partial_eval(.data, dots(...), parent.frame())
+  .data$arrange <- c(.data$arrange, input)
+  .data
+}
+
+#' @rdname manip_sqlite
+#' @export
+#' @method select source_sqlite
+select.source_sqlite <- function(.data, ...) {
+  input <- var_eval(.data, dots(...), parent.frame())
+  .data$select <- c(.data$select, input)
+  .data
 }
 
 #' @rdname manip_sqlite
@@ -27,9 +52,16 @@ filter.source_sqlite <- function(.data, ..., .n = 1e5) {
 #' @method summarise source_sqlite
 summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
+  if (!is.null(.data$select)) {
+    warning("Summarise ignores selected variables", call. = FALSE)
+  }
 
   select <- translate_sql_q(dots(...), .data, parent.frame())
-  sql_select(.data, select = select, n = .n)
+  out <- sql_select(.data, select = select, n = .n)
+  data_frame_source(
+    data = out,
+    name = .data$table
+  )
 }
 
 #' @rdname manip_sqlite
@@ -38,31 +70,12 @@ summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
 mutate.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
-  select <- translate_sql_q(dots(...), .data, parent.frame())
-  sql_select(.data, select = c("*", select), n = .n)
-}
+  old_vars <- .data$select %||% "*"
+  new_vars <- translate_sql_q(dots(...), .data, parent.frame())
 
-#' @rdname manip_sqlite
-#' @export
-#' @method arrange source_sqlite
-arrange.source_sqlite <- function(.data, ..., .n = 1e5) {
-  assert_that(length(.n) == 1, .n > 0L)
-
-  order_by <- translate_sql_q(dots(...), .data, parent.frame())
-  sql_select(.data, "*", order_by = order_by, n = .n)
-}
-
-#' @rdname manip_sqlite
-#' @export
-#' @method select source_sqlite
-select.source_sqlite <- function(.data, ..., .n = 1e5) {
-  assert_that(length(.n) == 1, .n > 0L)
-
-  nm <- names(.data)
-  nm_env <- as.list(setNames(seq_along(nm), nm))
-
-  idx <- unlist(lapply(dots(...), eval, nm_env, parent.frame()))
-  select <- nm[idx]
-
-  sql_select(.data, select, n = .n)
+  out <- sql_select(.data, select = c(old_vars, new_vars), n = .n)
+  data_frame_source(
+    data = out,
+    name = .data$table
+  )
 }

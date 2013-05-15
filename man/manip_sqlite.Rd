@@ -7,26 +7,34 @@
 \alias{summarise.source_sqlite}
 \title{Data manipulation for SQL data sources.}
 \usage{
-  \method{filter}{source_sqlite} (.data, ..., .n = 1e+05)
+  \method{filter}{source_sqlite} (.data, ...)
+
+  \method{arrange}{source_sqlite} (.data, ...)
+
+  \method{select}{source_sqlite} (.data, ...)
 
   \method{summarise}{source_sqlite} (.data, ...,
     .n = 1e+05)
 
   \method{mutate}{source_sqlite} (.data, ..., .n = 1e+05)
-
-  \method{arrange}{source_sqlite} (.data, ..., .n = 1e+05)
-
-  \method{select}{source_sqlite} (.data, ..., .n = 1e+05)
 }
 \description{
-  Data manipulation for SQL data sources.
+  Arrange, filter and select are lazy: they modify the
+  object representing the table, and do not recompute
+  unless needed.  Summarise and mutate are eager: they will
+  always return a source_data_frame.
 }
 \examples{
 baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
+
+# filter, select and arrange lazily modify the specification of the table
+# they don't execute queries unless you print them
 filter(baseball_s, year > 2005, g > 130)
-head(select(baseball_s, id:team))
+select(baseball_s, id:team)
+arrange(baseball_s, id, desc(year))
+
+# summarise and mutate always return data frame sources
 summarise(baseball_s, g = mean(g), n = count())
-head(mutate(baseball_s, rbi = 1.0 * r / ab))
-head(arrange(baseball_s, id, desc(year)))
+mutate(baseball_s, rbi = 1.0 * r / ab)
 }
 

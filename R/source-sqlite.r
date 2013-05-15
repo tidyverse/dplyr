@@ -23,8 +23,12 @@ sqlite_source <- function(path, table) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
 
-  structure(list(con = con, path = path, table = table, select = NULL, filter = NULL),
-    class = c("source_sqlite", "source_sql", "source", "op"))
+  structure(list(
+      con = con, path = path, table = table,
+      select = NULL, filter = NULL, arrange = NULL
+    ),
+    class = c("source_sqlite", "source_sql", "source", "op")
+  )
 }
 #' @S3method source_name source_sqlite
 source_name.source_sqlite <- function(x) {
@@ -38,13 +42,13 @@ source_vars.source_sqlite <- function(x) {
 # Standard data frame methods --------------------------------------------------
 
 print.source_sqlite <- function(x, ...) {
-  cat("Source: SQLite [", x$path, "]\n", sep = "")
-  cat("Table:  ", x$table, dim_desc(x), "\n", sep = "")
+  cat("Source:  SQLite [", x$path, "]\n", sep = "")
+  cat("Table:   ", x$table, dim_desc(x), "\n", sep = "")
   if (!is.null(x$filter)) {
-    wrap("Filters :  ", paste(deparse_all(x$filter), collapse = ", "))
+    cat(wrap("Filter:  ", commas(deparse_all(x$filter))), "\n")
   }
-  if (!is.null(x$select)) {
-    wrap("Select :  ", paste(deparse_all(x$select), collapse = ", "))
+  if (!is.null(x$arrange)) {
+    cat(wrap("Arrange:  ", commas(deparse_all(x$arrange))), "\n")
   }
   cat("\n")
   trunc_mat(x)
@@ -59,17 +63,20 @@ dim.source_sqlite <- function(x) {
   where <- to_sql(x$filter)
   n <- sql_select(x, "count()", where = where, n = -1L)[[1]]
 
-  c(n, length(source_vars(x)))
+  if (is.null(x$select) || any(x$select == "*")) {
+    p <- length(source_vars(x))
+  } else {
+    p <- length(x$select)
+  }
+
+  c(n, p)
 }
 
 #' @S3method head source_sqlite
 head.source_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  where <- to_sql(x$filter)
-  order_by <- to_sql(x$arrange)
-
-  sql_select(x, "*", where = where, order_by = order_by, limit = n)
+  sql_select(x, limit = n)
 }
 
 #' @S3method tail source_sqlite

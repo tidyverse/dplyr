@@ -59,3 +59,15 @@ partial_eval <- function(source, call, env = parent.frame()) {
     stop("Unknown input type: ", class(call), call. = FALSE)
   }
 }
+
+
+var_eval <- function(.data, exprs, parent = parent.frame()) {
+  stopifnot(is.source(.data))
+
+  nm <- source_vars(.data)
+  nms_list <- as.list(setNames(seq_along(nm), nm))
+
+  idx <- unlist(lapply(exprs, eval, nms_list, parent))
+  nm[idx]
+}
+

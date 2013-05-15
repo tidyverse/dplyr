@@ -7,7 +7,7 @@ print.source <- function(x, ...) {
   cat("Source:     local object\n", sep = "")
   cat("Data frame: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
   cat("\n")
-  trunc_mat(x)
+  trunc_mat(x$obj)
 }
 
 
