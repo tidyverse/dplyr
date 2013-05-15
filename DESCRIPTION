@@ -11,7 +11,8 @@ Imports:
     utils
 Suggests:
     RSQLite,
-    plyr
+    plyr,
+    data.table
 Depends:
     R (>= 2.15.1),
     Rcpp (>= 0.10.1)
