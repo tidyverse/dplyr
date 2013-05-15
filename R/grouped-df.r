@@ -51,6 +51,14 @@ group_by.data.frame <- function(x, ..., drop = TRUE) {
   grouped_df(x, vars, lazy = FALSE)
 }
 
+#' @method group_by source_df
+#' @export
+#' @rdname grouped_df
+group_by.source_df <- function(x, ...) {
+  vars <- dots(...)
+  grouped_df(x$obj, vars)
+}
+
 #' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
   source_df(x$obj)
