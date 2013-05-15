@@ -37,7 +37,7 @@ is.grouped_dt <- function(x) inherits(x, "grouped_dt")
 #' @S3method print grouped_dt
 print.grouped_dt <- print.grouped_df
 
-#' @method group_by data.frame
+#' @method group_by data.table
 #' @export
 #' @rdname grouped_dt
 group_by.data.table <- function(x, ..., name = NULL) {
@@ -55,7 +55,7 @@ group_by.source_dt <- function(x, ...) {
   grouped_dt(x$obj, vars, name = obj$name)
 }
 
-#' @method ungroup grouped_dt
+#' @S3method ungroup grouped_dt
 ungroup.grouped_dt <- function(x) {
   source_dt(x$obj, x$name)
 }

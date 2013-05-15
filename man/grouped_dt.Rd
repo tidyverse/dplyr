@@ -14,7 +14,7 @@
 
   is.grouped_dt(x)
 
-  \method{group_by}{data.frame} (x, ..., name = NULL)
+  \method{group_by}{data.table} (x, ..., name = NULL)
 
   \method{group_by}{source_dt} (x, ...)
 

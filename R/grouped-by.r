@@ -65,7 +65,7 @@ group_by.data.frame <- function(x, ..., drop = TRUE, name = NULL) {
   grouped_df(x, vars, lazy = FALSE, name = name)
 }
 
-#' @method ungroup grouped_df
+#' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
   source_df(x$obj, x$name)
 }
