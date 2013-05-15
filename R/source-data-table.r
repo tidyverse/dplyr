@@ -42,7 +42,10 @@ source_vars.source_data_table <- function(x) copy(names(x$obj))
 
 # Standard data frame methods --------------------------------------------------
 
-#' @S3method as.data.table source_data_table
+#' Coerce data table to source.
+#'
+#' @export
+#' @keywords internal
 as.data.table.source_data_table <- function(x, keep.rownames = NULL) {
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
 
