@@ -40,3 +40,4 @@ Collate:
     'grouped-by.r'
     'manip-df.r'
     'source-df.r'
+    'manip-dt.r'
