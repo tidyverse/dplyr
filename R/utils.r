@@ -58,13 +58,22 @@ trunc_mat <- function(x, n = 10L) {
 
   if (any(too_wide)) {
     vars <- paste0(colnames(mat)[too_wide], collapse = ", ")
-    msg <- paste0("Variables not shown: ", vars)
-    wrapped <- strwrap(msg, width = width, exdent = 2)
-    cat(paste(wrapped, collapse = "\n"), "\n", sep = "")
+    cat(wrap("Variables not shown: ", vars), "\n", sep = "")
   }
+}
+
+wrap <- function(...) {
+  string <- paste0(...)
+  wrapped <- strwrap(string, width = getOption("width"), exdent = 2)
+  paste0(wrapped, collapse = "")
 }
 
 dim_desc <- function(x) {
   d <- format(dim(x), big.mark = ",", trim = TRUE)
   paste0(" [", paste0(d, collapse = " x "), "]")
+}
+
+deparse_all <- function(x) {
+  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
+  vapply(x, deparse2, FUN.VALUE = character(1))
 }

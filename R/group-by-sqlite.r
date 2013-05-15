@@ -17,8 +17,7 @@ grouped_sqlite <- function(source, vars, group_by) {
 print.grouped_sqlite <- function(x, ...) {
   cat("Source: SQLite [", x$path, "]\n", sep = "")
   cat("Table:  ", x$table, dim_desc(x), "\n", sep = "")
-  vars <- vapply(x$vars, deparse, width.cutoff = 500L, FUN.VALUE = character(1))
-  cat("Groups: ", paste0(vars, collapse = ", "), "\n", sep = "")
+  cat("Groups: ", paste0(deparse_all(x$vars), collapse = ", "), "\n", sep = "")
 
   cat("\n")
   trunc_mat(x)
