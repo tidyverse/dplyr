@@ -29,9 +29,6 @@ as.source.data.frame <- function(x, name = NULL, ...) {
   source_df(x, name = name)
 }
 
-#' @S3method source_name source_df
-source_name.source_df <- function(x) x$name
-
 #' @S3method source_vars source_df
 source_vars.source_df <- function(x) names(x$obj)
 

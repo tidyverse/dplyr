@@ -31,11 +31,6 @@ sqlite_source <- function(path, table) {
   )
 }
 
-#' @S3method source_name source_sqlite
-source_name.source_sqlite <- function(x) {
-  x$table
-}
-
 #' @S3method source_vars source_sqlite
 source_vars.source_sqlite <- function(x) {
   dbListFields(x$con, x$table)

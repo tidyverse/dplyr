@@ -9,7 +9,7 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
   order_by <- order_by %||% to_sql(x$arrange)
 
   sql <- select_query(
-    from = source_name(x),
+    from = x$table,
     select = select,
     where = where,
     order_by = order_by,

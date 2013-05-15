@@ -33,9 +33,6 @@ as.source.data.table <- function(x, name = NULL, ...) {
   source_dt(x, name = name)
 }
 
-#' @S3method source_name source_dt
-source_name.source_dt <- function(x) x$name
-
 #' @S3method source_vars source_dt
 source_vars.source_dt <- function(x) copy(names(x$obj))
 
