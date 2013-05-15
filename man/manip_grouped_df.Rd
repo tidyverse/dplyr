@@ -24,7 +24,7 @@
 }
 \examples{
 data("baseball", package = "plyr")
-players <- group_by(baseball, id, name = "players")
+players <- group_by(baseball, id)
 filter(players, g == max(g))
 summarise(players, g = mean(g))
 mutate(players, cyear = year - min(year) + 1)

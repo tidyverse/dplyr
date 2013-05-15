@@ -1,7 +1,5 @@
 #' @S3method group_by source_sqlite
-group_by.source_sqlite <- function(x, ..., name = NULL) {
-  name <- name %||% x$table
-
+group_by.source_sqlite <- function(x, ...) {
   vars <- named_dots(...)
   group_by <- partial_eval(x, vars, parent.frame())
 

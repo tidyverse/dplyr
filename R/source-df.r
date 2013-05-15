@@ -7,26 +7,21 @@
 #'
 #' @export
 #' @param data a data frame
-#' @param name the name of the data frame: used to help you remember where it
-#'   came from. If not supplied, taken from the deparsed expression passed
-#'   to the \code{data} argument.
 #' @examples
 #' ds <- source_df(mtcars)
 #' ds
 #' as.data.frame(ds)
 #' as.source(mtcars)
-source_df <- function(data, name = NULL) {
-  name <- name %||% deparse(substitute(data))
-  assert_that(is.data.frame(data), is.string(name))
+source_df <- function(data) {
+  assert_that(is.data.frame(data))
 
-  structure(list(obj = data, name = name),
+  structure(list(obj = data),
     class = c("source_df", "source"))
 }
 
 #' @S3method as.source data.frame
-as.source.data.frame <- function(x, name = NULL, ...) {
-  name <- name %||% deparse(substitute(x))
-  source_df(x, name = name)
+as.source.data.frame <- function(x, ...) {
+  source_df(x)
 }
 
 #' @S3method source_vars source_df
@@ -48,8 +43,7 @@ as.data.frame.source_df <- function(x, row.names = NULL,
 
 #' @S3method print source_df
 print.source_df <- function(x, ...) {
-  cat("Source:     local object\n", sep = "")
-  cat("Data frame: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
+  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }

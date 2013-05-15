@@ -11,22 +11,12 @@
 #'   creation.
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
-#' @param name data source name.
-grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE,
-                               name = NULL) {
-  if (is.null(name)) {
-    if (is.source(data)) {
-      name <- data$name
-    } else {
-      name <- deparse(substitute(data))
-    }
-  }
-
+grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
   if (is.source(data)) {
     data <- data$obj
   }
 
-  data <- list(obj = data, name = name, vars = vars, drop = drop)
+  data <- list(obj = data, vars = vars, drop = drop)
   if (!lazy) {
     data <- build_index(data)
   }
@@ -47,27 +37,23 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 
 #' @S3method print grouped_df
 print.grouped_df <- function(x, ...) {
-  cat("Source:     local object\n", sep = "")
-  cat("Data frame: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
-  cat("Groups: ", paste0(deparse_all(x$vars), collapse = ", "), "\n", sep = "")
+  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(x$vars)), "\n", sep = "")
   cat("\n")
-
-  trunc_mat(x$obj)
+  trunc_mat(x)
 }
 
 #' @method group_by data.frame
 #' @export
 #' @rdname grouped_df
-group_by.data.frame <- function(x, ..., drop = TRUE, name = NULL) {
-  name <- name %||% substitute(x)
+group_by.data.frame <- function(x, ..., drop = TRUE) {
   vars <- named_dots(...)
-
-  grouped_df(x, vars, lazy = FALSE, name = name)
+  grouped_df(x, vars, lazy = FALSE)
 }
 
 #' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
-  source_df(x$obj, x$name)
+  source_df(x$obj)
 }
 
 make_view <- function(x, env = parent.frame()) {

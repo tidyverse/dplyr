@@ -28,8 +28,7 @@ filter.data.frame <- function(.data, ...) {
 #' @S3method filter source_df
 filter.source_df <- function(.data, ...) {
   source_df(
-    filter.data.frame(.data$obj, ...),
-    .data$name
+    filter.data.frame(.data$obj, ...)
   )
 }
 
@@ -51,8 +50,7 @@ summarise.data.frame <- function(.data, ...) {
 #' @S3method summarise source_df
 summarise.source_df <- function(.data, ...) {
   source_df(
-    summarise.data.frame(.data$obj, ...),
-    .data$name
+    summarise.data.frame(.data$obj, ...)
   )
 }
 
@@ -75,8 +73,7 @@ mutate.data.frame <- function(.data, ...) {
 #' @S3method mutate source_df
 mutate.source_df <- function(.data, ...) {
   source_df(
-    mutate.data.frame(.data$obj, ...),
-    .data$name
+    mutate.data.frame(.data$obj, ...)
   )
 }
 
@@ -94,8 +91,7 @@ arrange.data.frame <- function(.data, ...) {
 #' @S3method arrange source_df
 arrange.source_df <- function(.data, ...) {
   source_df(
-    arrange.data.frame(.data$obj, ...),
-    .data$name
+    arrange.data.frame(.data$obj, ...)
   )
 }
 
@@ -110,7 +106,6 @@ select.data.frame <- function(.data, ...) {
 #' @S3method select source_df
 select.source_df <- function(.data, ...) {
   source_df(
-    select.data.frame(.data$obj, ...),
-    .data$name
+    select.data.frame(.data$obj, ...)
   )
 }

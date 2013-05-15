@@ -4,9 +4,6 @@
 #'
 #' @export
 #' @param data a data table
-#' @param name the name of the data frame: used to help you remember where it
-#'   came from. If not supplied, taken from the deparsed expression passed
-#'   to the \code{data} argument.
 #' @examples
 #' if (require("data.table")) {
 #' ds <- source_dt(mtcars)
@@ -14,23 +11,19 @@
 #' as.data.table(ds)
 #' as.source(mtcars)
 #' }
-source_dt <- function(data, name = NULL) {
+source_dt <- function(data) {
   if (!require("data.table")) {
     stop("data.table package required to use data tables", call. = FALSE)
   }
 
-  name <- name %||% deparse(substitute(data))
-  assert_that(is.string(name))
-
   data <- as.data.table(data)
-  structure(list(obj = data, name = name),
+  structure(list(obj = data),
     class = c("source_dt", "source"))
 }
 
 #' @S3method as.source data.table
-as.source.data.table <- function(x, name = NULL, ...) {
-  name <- name %||% deparse(substitute(x))
-  source_dt(x, name = name)
+as.source.data.table <- function(x, ...) {
+  source_dt(x)
 }
 
 #' @S3method source_vars source_dt
@@ -60,8 +53,7 @@ as.data.table.source_dt <- function(x, row.names = NULL,
 
 #' @S3method print source_dt
 print.source_dt <- function(x, ...) {
-  cat("Source:     local object\n", sep = "")
-  cat("Data table: ", dQuote(x$name), dim_desc(x), "\n", sep = "")
+  cat("Source:     local data table", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }

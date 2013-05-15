@@ -35,7 +35,6 @@ filter.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   out <- filter.source_sqlite(.data, ..., .n = .n)
   grouped_df(
     data = out,
-    name = .data$table,
     vars = .data$vars
   )
 }
@@ -55,8 +54,7 @@ summarise.grouped_sqlite <- function(.data, ..., .n = 1e5) {
     n = .n)
 
   source_df(
-    data = out,
-    name = .data$table
+    data = out
   )
 }
 
@@ -71,7 +69,6 @@ mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   out <- mutate.source_sqlite(.data, ..., .n = .n)
   grouped_df(
     data = out,
-    name = .data$table,
     vars = .data$vars
   )
 }
@@ -85,7 +82,6 @@ arrange.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   out <- arrange.source_sqlite(.data, ..., .n = .n)
   grouped_df(
     data = out,
-    name = .data$table,
     vars = .data$vars
   )
 }
@@ -99,7 +95,6 @@ select.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   out <- select.source_sqlite(.data, ..., .n = .n)
   grouped_df(
     data = out,
-    name = .data$table,
     vars = .data$vars
   )
 }

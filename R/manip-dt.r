@@ -43,8 +43,7 @@ filter.data.table <- function(.data, ...) {
 #' @S3method filter source_dt
 filter.source_dt <- function(.data, ...) {
   source_dt(
-    filter.data.table(.data$obj, ...),
-    .data$name
+    filter.data.table(.data$obj, ...)
   )
 }
 
@@ -62,8 +61,7 @@ summarise.data.table <- function(.data, ...) {
 #' @S3method summarise source_dt
 summarise.source_dt <- function(.data, ...) {
   source_dt(
-    summarise.data.table(.data$obj, ...),
-    .data$name
+    summarise.data.table(.data$obj, ...)
   )
 }
 
@@ -90,8 +88,7 @@ mutate.data.table <- function(.data, ..., inplace = FALSE) {
 #' @S3method mutate source_dt
 mutate.source_dt <- function(.data, ...) {
   source_dt(
-    mutate.data.table(.data$obj, ...),
-    .data$name
+    mutate.data.table(.data$obj, ...)
   )
 }
 
@@ -110,8 +107,7 @@ arrange.data.table <- function(.data, ...) {
 #' @S3method arrange source_dt
 arrange.source_dt <- function(.data, ...) {
   source_dt(
-    arrange.data.table(.data$obj, ...),
-    .data$name
+    arrange.data.table(.data$obj, ...)
   )
 }
 
@@ -126,7 +122,6 @@ select.data.table <- function(.data, ...) {
 #' @S3method select source_dt
 select.source_dt <- function(.data, ...) {
   source_dt(
-    select.data.table(.data$obj, ...),
-    .data$name
+    select.data.table(.data$obj, ...)
   )
 }

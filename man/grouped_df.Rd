@@ -5,15 +5,13 @@
 \alias{is.lazy.grouped_df}
 \title{A grouped data frame.}
 \usage{
-  grouped_df(data, vars, lazy = TRUE, drop = TRUE,
-    name = NULL)
+  grouped_df(data, vars, lazy = TRUE, drop = TRUE)
 
   \method{is.lazy}{grouped_df} (x)
 
   is.grouped_df(x)
 
-  \method{group_by}{data.frame} (x, ..., drop = TRUE,
-    name = NULL)
+  \method{group_by}{data.frame} (x, ..., drop = TRUE)
 }
 \arguments{
   \item{data}{a data source or data frame.}
@@ -26,8 +24,6 @@
 
   \item{drop}{if \code{TRUE} preserve all factor levels,
   even those without data.}
-
-  \item{name}{data source name.}
 }
 \description{
   The easiest way to create a grouped data frame is to call

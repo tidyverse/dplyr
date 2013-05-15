@@ -5,7 +5,7 @@
 #'
 #' @examples
 #' data("baseball", package = "plyr")
-#' players <- group_by(baseball, id, name = "players")
+#' players <- group_by(baseball, id)
 #
 #' filter(players, g == max(g))
 #' summarise(players, g = mean(g))
@@ -46,8 +46,7 @@ filter.grouped_df <- function(.data, ...) {
 
   grouped_df(
     data = .data$obj[out, , drop = FALSE],
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -91,8 +90,7 @@ summarise.grouped_df <- function(.data, ...) {
 
   out <- c(.data$labels, out) # expensive operation
   source_df(
-    data = as_df(out),
-    name = .data$name
+    data = as_df(out)
   )
 }
 
@@ -139,8 +137,7 @@ mutate.grouped_df <- function(.data, ...) {
 
   grouped_df(
     data = cbind(.data$obj, as_df(out)),
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -161,8 +158,7 @@ arrange.grouped_df <- function(.data, ...) {
 
   grouped_df(
     data = .data$obj[out, , drop = FALSE],
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -174,7 +170,6 @@ select.grouped_df <- function(.data, ...) {
 
   grouped_df(
     data = .data$obj[, input, drop = FALSE],
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }

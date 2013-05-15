@@ -4,7 +4,7 @@
 #' if (require("data.table")) {
 #' data("baseball", package = "plyr")
 #' baseball_dt <- as.data.table(baseball)
-#' players <- group_by(baseball_dt, id, name = "players")
+#' players <- group_by(baseball_dt, id)
 #
 #' filter(players, g == max(g))
 #' summarise(players, g = mean(g))
@@ -38,8 +38,7 @@ filter.grouped_dt <- function(.data, ...) {
 
   grouped_dt(
     data = out,
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -64,8 +63,7 @@ summarise.grouped_dt <- function(.data, ...) {
 
   grouped_dt(
     data = out,
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -95,8 +93,7 @@ mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
 
   grouped_dt(
     data = data,
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -116,8 +113,7 @@ arrange.grouped_dt <- function(.data, ...) {
 
   grouped_dt(
     data = out,
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }
 
@@ -130,7 +126,6 @@ select.grouped_dt <- function(.data, ...) {
 
   grouped_dt(
     data = out,
-    vars = .data$vars,
-    name = .data$name
+    vars = .data$vars
   )
 }

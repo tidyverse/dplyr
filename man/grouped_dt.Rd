@@ -10,11 +10,11 @@
 \alias{summarise.grouped_dt}
 \title{A grouped data table.}
 \usage{
-  grouped_dt(data, vars, name = NULL)
+  grouped_dt(data, vars)
 
   is.grouped_dt(x)
 
-  \method{group_by}{data.table} (x, ..., name = NULL)
+  \method{group_by}{data.table} (x, ...)
 
   \method{group_by}{source_dt} (x, ...)
 
@@ -33,8 +33,6 @@
 
   \item{vars}{a list of quoted variables.}
 
-  \item{name}{data source name.}
-
   \item{x}{an object to check}
 
   \item{...}{variables to group by}
@@ -51,7 +49,7 @@
 if (require("data.table")) {
 data("baseball", package = "plyr")
 baseball_dt <- as.data.table(baseball)
-players <- group_by(baseball_dt, id, name = "players")
+players <- group_by(baseball_dt, id)
 filter(players, g == max(g))
 summarise(players, g = mean(g))
 mutate(players, cyear = year - min(year) + 1)

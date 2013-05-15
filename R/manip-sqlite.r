@@ -59,8 +59,7 @@ summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
   select <- translate_sql_q(dots(...), .data, parent.frame())
   out <- sql_select(.data, select = select, n = .n)
   source_df(
-    data = out,
-    name = .data$table
+    data = out
   )
 }
 
@@ -75,7 +74,6 @@ mutate.source_sqlite <- function(.data, ..., .n = 1e5) {
 
   out <- sql_select(.data, select = c(old_vars, new_vars), n = .n)
   source_df(
-    data = out,
-    name = .data$table
+    data = out
   )
 }

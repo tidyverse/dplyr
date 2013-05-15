@@ -6,8 +6,7 @@
 #'
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
-#' @param name data source name.
-grouped_dt <- function(data, vars, name = NULL) {
+grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))
 
   is_name <- vapply(vars, is.name, logical(1))
@@ -17,16 +16,7 @@ grouped_dt <- function(data, vars, name = NULL) {
   }
   setkeyv(data, deparse_all(vars))
 
-  if (is.null(name)) {
-    if (is.source(data)) {
-      name <- data$name
-    } else {
-      name <- deparse(substitute(data))
-    }
-  }
-  assert_that(is.string(name))
-
-  data <- list(obj = data, name = name, vars = vars)
+  data <- list(obj = data, vars = vars)
   structure(data, class = c("grouped_dt", "source_dt", "source"))
 }
 
@@ -36,17 +26,21 @@ grouped_dt <- function(data, vars, name = NULL) {
 is.grouped_dt <- function(x) inherits(x, "grouped_dt")
 
 #' @S3method print grouped_dt
-print.grouped_dt <- print.grouped_df
+print.grouped_dt <- function(x, ...) {
+  cat("Source: local data table ", dim_desc(x), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(x$vars)), "\n", sep = "")
+  cat("\n")
+  trunc_mat(x)
+}
 
 #' @method group_by data.table
 #' @export
 #' @rdname grouped_dt
 #' @param ... variables to group by
-group_by.data.table <- function(x, ..., name = NULL) {
-  name <- name %||% substitute(x)
+group_by.data.table <- function(x, ...) {
   vars <- dots(...)
 
-  grouped_dt(x, vars, name = name)
+  grouped_dt(x, vars)
 }
 
 #' @method group_by source_dt
@@ -54,11 +48,11 @@ group_by.data.table <- function(x, ..., name = NULL) {
 #' @rdname grouped_dt
 group_by.source_dt <- function(x, ...) {
   vars <- dots(...)
-  grouped_dt(x$obj, vars, name = x$name)
+  grouped_dt(x$obj, vars)
 }
 
 #' @S3method ungroup grouped_dt
 ungroup.grouped_dt <- function(x) {
-  source_dt(x$obj, x$name)
+  source_dt(x$obj)
 }
 

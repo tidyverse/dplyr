@@ -2,15 +2,10 @@
 \alias{source_dt}
 \title{Create a data table source.}
 \usage{
-  source_dt(data, name = NULL)
+  source_dt(data)
 }
 \arguments{
   \item{data}{a data table}
-
-  \item{name}{the name of the data frame: used to help you
-  remember where it came from. If not supplied, taken from
-  the deparsed expression passed to the \code{data}
-  argument.}
 }
 \description{
   A data table source wraps a local data table.
