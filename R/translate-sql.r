@@ -6,6 +6,7 @@
 #'
 #' @param expr unevaluated expression to translate
 #' @param source data source
+#' @param env environment in which to evaluate expression
 #' @export
 #' @examples
 #' data(baseball, package = "plyr")

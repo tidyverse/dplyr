@@ -4,6 +4,10 @@
 #' the table, and do not recompute unless needed.  Summarise and mutate
 #' are eager: they will always return a source_df.
 #'
+#' @param .data an SQLite data base
+#' @param ... variables interpreted in the context of \code{.data}
+#' @param .n maximum number of columns to return. Set to \code{-1} to return
+#'  all.
 #' @examples
 #' baseball_s <- sqlite_source("inst/db/baseball.sqlite3", "baseball")
 #'

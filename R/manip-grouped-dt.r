@@ -1,5 +1,9 @@
 #' Data manipulation for grouped data tables.
 #'
+#' @param .data a data table
+#' @param ... variables interpreted in the context of \code{.data}
+#' @param inplace if \code{FALSE} (the default) the data frame will be copied
+#'   prior to modification to avoid changes propagating via reference.
 #' @examples
 #' if (require("data.table")) {
 #' data("baseball", package = "plyr")

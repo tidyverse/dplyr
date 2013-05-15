@@ -3,6 +3,8 @@
 #' Grouping status is preserved across filter, arrange, mutate and select.
 #' Summarise produces an ungrouped data frame.
 #'
+#' @param .data a data frame
+#' @param ... variables interpreted in the context of \code{.data}
 #' @examples
 #' data("baseball", package = "plyr")
 #' players <- group_by(baseball, id)

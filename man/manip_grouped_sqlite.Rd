@@ -18,6 +18,15 @@
 
   \method{select}{grouped_sqlite} (.data, ..., .n = 1e+05)
 }
+\arguments{
+  \item{.data}{an SQLite data base}
+
+  \item{...}{variables interpreted in the context of
+  \code{.data}}
+
+  \item{.n}{maximum number of columns to return. Set to
+  \code{-1} to return all.}
+}
 \description{
   Data manipulation for grouped SQL data sources.
 }

@@ -36,6 +36,15 @@
   \item{x}{an object to check}
 
   \item{...}{variables to group by}
+
+  \item{.data}{a data table}
+
+  \item{...}{variables interpreted in the context of
+  \code{.data}}
+
+  \item{inplace}{if \code{FALSE} (the default) the data
+  frame will be copied prior to modification to avoid
+  changes propagating via reference.}
 }
 \description{
   The easiest way to create a grouped data table is to call

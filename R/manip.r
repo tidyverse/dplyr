@@ -1,6 +1,8 @@
 #' Data manipulation functions.
 #'
 #' @name manip
+#' @param .data a data source
+#' @param ... variables interpreted in the context of that data frame.
 NULL
 
 #' @rdname manip

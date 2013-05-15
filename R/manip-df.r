@@ -1,5 +1,7 @@
 #' Data manipulation for data frames.
 #'
+#' @param .data a data frame
+#' @param ... variables interpreted in the context of \code{.data}
 #' @examples
 #' data("baseball", package = "plyr")
 #

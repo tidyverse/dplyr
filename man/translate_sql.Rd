@@ -8,6 +8,8 @@
   \item{expr}{unevaluated expression to translate}
 
   \item{source}{data source}
+
+  \item{env}{environment in which to evaluate expression}
 }
 \description{
   This is a helper function for convenient exploration.

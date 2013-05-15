@@ -17,6 +17,12 @@
 
   \method{select}{grouped_df} (.data, ...)
 }
+\arguments{
+  \item{.data}{a data frame}
+
+  \item{...}{variables interpreted in the context of
+  \code{.data}}
+}
 \description{
   Grouping status is preserved across filter, arrange,
   mutate and select. Summarise produces an ungrouped data

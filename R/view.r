@@ -1,8 +1,8 @@
-#' data(baseball, package = "plyr")
-#' players <- group_by(baseball, id)
-#' v <- view(players$obj, players$index)
-#' v$set_group(1)
-#' v$eval(quote(id))
+# data(baseball, package = "plyr")
+# players <- group_by(baseball, id)
+# v <- view(players$obj, players$index)
+# v$set_group(1)
+# v$eval(quote(id))
 view <- function(data, index, parent = parent.frame()) {
   # Current group and rows
   i <- 1

@@ -20,6 +20,12 @@
 
   group(.data, ...)
 }
+\arguments{
+  \item{.data}{a data source}
+
+  \item{...}{variables interpreted in the context of that
+  data frame.}
+}
 \description{
   Data manipulation functions.
 }
