@@ -7,16 +7,16 @@
 \alias{summarise.grouped_sqlite}
 \title{Data manipulation for grouped SQL data sources.}
 \usage{
-  \method{filter}{grouped_sqlite} (.data, ..., .n = 1e+05)
+  \method{filter}{grouped_sqlite} (.data, ...)
 
   \method{summarise}{grouped_sqlite} (.data, ...,
     .n = 1e+05)
 
   \method{mutate}{grouped_sqlite} (.data, ..., .n = 1e+05)
 
-  \method{arrange}{grouped_sqlite} (.data, ..., .n = 1e+05)
+  \method{arrange}{grouped_sqlite} (.data, ...)
 
-  \method{select}{grouped_sqlite} (.data, ..., .n = 1e+05)
+  \method{select}{grouped_sqlite} (.data, ...)
 }
 \arguments{
   \item{.data}{an SQLite data base}

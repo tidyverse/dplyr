@@ -33,14 +33,10 @@ NULL
 #' @rdname manip_grouped_sqlite
 #' @export
 #' @method filter grouped_sqlite
-filter.grouped_sqlite <- function(.data, ..., .n = 1e5) {
+filter.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for filtering with SQLite", call. = FALSE)
 
-  out <- filter.source_sqlite(.data, ..., .n = .n)
-  grouped_df(
-    data = out,
-    vars = .data$vars
-  )
+  filter.source_sqlite(.data, ...)
 }
 
 #' @rdname manip_grouped_sqlite
@@ -80,25 +76,17 @@ mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
 #' @rdname manip_grouped_sqlite
 #' @export
 #' @method arrange grouped_sqlite
-arrange.grouped_sqlite <- function(.data, ..., .n = 1e5) {
+arrange.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for arrange with SQLite", call. = FALSE)
 
-  out <- arrange.source_sqlite(.data, ..., .n = .n)
-  grouped_df(
-    data = out,
-    vars = .data$vars
-  )
+  arrange.source_sqlite(.data, ...)
 }
 
 #' @rdname manip_grouped_sqlite
 #' @export
 #' @method select grouped_sqlite
-select.grouped_sqlite <- function(.data, ..., .n = 1e5) {
+select.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for select with SQLite", call. = FALSE)
 
-  out <- select.source_sqlite(.data, ..., .n = .n)
-  grouped_df(
-    data = out,
-    vars = .data$vars
-  )
+  select.source_sqlite(.data, ...)
 }
