@@ -12,6 +12,6 @@
   variables.}
 }
 \description{
-  Group a data source by one or more variables.
+  See \code{\link{ungroup}} for the opposite operation.
 }
 
