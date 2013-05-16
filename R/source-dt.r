@@ -69,3 +69,5 @@ head.source_dt <- function(x, ...) as.data.frame(head(x$obj, ...))
 
 #' @S3method tail source_dt
 tail.source_dt <- function(x, ...) as.data.frame(tail(x$obj, ...))
+
+.datatable.aware <- TRUE
