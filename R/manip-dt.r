@@ -12,7 +12,7 @@
 #' baseball <- as.data.table(baseball)
 #' filter(baseball, year > 2005, g > 130)
 #' head(select(baseball, id:team))
-#' summarise(baseball, g = mean(g), n = count())
+#' summarise(baseball, g = mean(g))
 #' head(mutate(baseball, rbi = r / ab, rbi2 = rbi ^ 2))
 #' head(arrange(baseball, id, desc(year)))
 #'
