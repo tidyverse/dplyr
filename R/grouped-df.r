@@ -43,6 +43,8 @@ print.grouped_df <- function(x, ...) {
   trunc_mat(x)
 }
 
+#' @param x object (data frame or \code{\link{source_df}}) to group
+#' @param ... unquoted variables to group by
 #' @method group_by data.frame
 #' @export
 #' @rdname grouped_df

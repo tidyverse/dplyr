@@ -27,6 +27,11 @@
 
   \item{drop}{if \code{TRUE} preserve all factor levels,
   even those without data.}
+
+  \item{x}{object (data frame or \code{\link{source_df}})
+  to group}
+
+  \item{...}{unquoted variables to group by}
 }
 \description{
   The easiest way to create a grouped data frame is to call
