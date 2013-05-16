@@ -25,6 +25,13 @@
   will take care of capturing the unevalated expressions
   for you.
 }
+\section{Performance}{
+  For best performance, the database should have an index
+  on the variables that you are grouping by. A good
+  introduction to how indices affect database performance
+  can be found at
+  \url{http://www.sqlite.org/queryplanner.html}.
+}
 \examples{
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
 baseball_s <- source_sqlite(db_path, "baseball")
