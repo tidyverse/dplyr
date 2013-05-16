@@ -146,10 +146,6 @@ If the source is a data.frame, then keep a list of by groups. Push on to that li
 
 For out of memory datasets, will return a maximum number of rows (100,000 by default?), along with a warning message.  May consider supporting some sort of paging mechanism.
 
-## Facades
-
-Will still need some basic facades built on top for the most common operations: `summarise_by`, `subset_by`, `mutate_by` etc.  This would make it easier to dip your toe in, within having to move to a completely different way of thinking about data manipulation.
-
 ## Some examples
 
     # Equivalent to:
