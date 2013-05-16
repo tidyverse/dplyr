@@ -4,6 +4,7 @@
 #'
 #' @export
 #' @param data a data table
+#' @aliases .datatable.aware
 #' @examples
 #' if (require("data.table")) {
 #' ds <- source_dt(mtcars)
@@ -70,4 +71,5 @@ head.source_dt <- function(x, ...) as.data.frame(head(x$obj, ...))
 #' @S3method tail source_dt
 tail.source_dt <- function(x, ...) as.data.frame(tail(x$obj, ...))
 
+#' @export
 .datatable.aware <- TRUE
