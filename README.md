@@ -48,6 +48,8 @@ players_db <- group_by(baseball_db, id)
 * `summarise()`: reduce each group to a single row
 * `arrange()`: re-order the rows
 
+See `?manip` for more details.
+
 They all work as similarly as possible across the range of data sources.  The main difference is performance:
 
 ```R

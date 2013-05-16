@@ -11,10 +11,10 @@
 #' head(mutate(baseball, rbi = 1.0 * r / ab))
 #' head(arrange(baseball, id, desc(year)))
 #'
-#' @name manip_data_frame
+#' @name manip_df
 NULL
 
-#' @rdname manip_data_frame
+#' @rdname manip_df
 #' @export
 #' @method filter data.frame
 filter.data.frame <- function(.data, ...) {
@@ -34,7 +34,7 @@ filter.source_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_df
 #' @export
 #' @method summarise data.frame
 summarise.data.frame <- function(.data, ...) {
@@ -57,7 +57,7 @@ summarise.source_df <- function(.data, ...) {
 }
 
 
-#' @rdname manip_data_frame
+#' @rdname manip_df
 #' @export
 #' @method mutate data.frame
 mutate.data.frame <- function(.data, ...) {
@@ -79,7 +79,7 @@ mutate.source_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_df
 #' @export
 #' @method arrange data.frame
 arrange.data.frame <- function(.data, ...) {
@@ -97,7 +97,7 @@ arrange.source_df <- function(.data, ...) {
   )
 }
 
-#' @rdname manip_data_frame
+#' @rdname manip_df
 #' @export
 #' @method select data.frame
 select.data.frame <- function(.data, ...) {

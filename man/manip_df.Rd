@@ -1,7 +1,7 @@
-\name{manip_data_frame}
+\name{manip_df}
 \alias{arrange.data.frame}
 \alias{filter.data.frame}
-\alias{manip_data_frame}
+\alias{manip_df}
 \alias{mutate.data.frame}
 \alias{select.data.frame}
 \alias{summarise.data.frame}
