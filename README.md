@@ -9,6 +9,12 @@
 
 One of the key ideas of `dplyr` is that it shouldn't matter how your data is stored, whether its in an SQL database, in a csv file, in memory as a data frame or a data table, you should interact with it in the exactly the same way. 
 
+Dplyr is not currently available on CRAN, but you can install it from github with:
+
+```R
+devtools::install_github("plyr")
+```
+
 # Data sources
 
 To get started with `dplyr`, you need a data source. Currently there is built-in support for data frames, data tables and SQLite databases.  You can create them as follows:
@@ -64,3 +70,5 @@ system.time(ddply(baseball, "id", summarise, g = mean(g)))
 #   user  system elapsed 
 #  0.401   0.009   0.411 
 ```
+
+All data sources also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
