@@ -4,9 +4,8 @@
 #' @param table name of table in database
 #' @export
 #' @examples
-#' path <- system.file("db/baseball.sqlite3", package = "dply")
-#' path <- "inst/db/baseball.sqlite3"
-#' baseball_s <- source_sqlite(path, "baseball")
+#' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
+#' baseball_s <- source_sqlite(db_path, "baseball")
 #' dim(baseball_s)
 #' names(baseball_s)
 #' head(baseball_s)

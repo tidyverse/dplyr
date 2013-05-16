@@ -1,4 +1,5 @@
 \name{source_dt}
+\alias{.datatable.aware}
 \alias{source_dt}
 \title{Create a data table source.}
 \usage{

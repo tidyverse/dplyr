@@ -9,7 +9,8 @@
 #' @param .n maximum number of columns to return. Set to \code{-1} to return
 #'  all.
 #' @examples
-#' baseball_s <- source_sqlite("inst/db/baseball.sqlite3", "baseball")
+#' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
+#' baseball_s <- source_sqlite(db_path, "baseball")
 #'
 #' # filter, select and arrange lazily modify the specification of the table
 #' # they don't execute queries unless you print them
