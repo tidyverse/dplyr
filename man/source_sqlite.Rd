@@ -20,7 +20,7 @@ dim(baseball_s)
 names(baseball_s)
 head(baseball_s)
 
-players <- group(baseball_s, id)
+players <- group_by(baseball_s, id)
 summarise(players, g = mean(g), n = count())
 }
 

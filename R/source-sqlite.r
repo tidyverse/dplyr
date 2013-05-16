@@ -11,7 +11,7 @@
 #' names(baseball_s)
 #' head(baseball_s)
 #'
-#' players <- group(baseball_s, id)
+#' players <- group_by(baseball_s, id)
 #' summarise(players, g = mean(g), n = count())
 source_sqlite <- function(path, table) {
   assert_that(is.readable(path), is.string(table))
