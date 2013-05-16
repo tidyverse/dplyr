@@ -1,7 +1,6 @@
 \name{manip}
 \alias{arrange}
 \alias{filter}
-\alias{group}
 \alias{manip}
 \alias{mutate}
 \alias{select}
@@ -17,8 +16,6 @@
   arrange(.data, ...)
 
   select(.data, ...)
-
-  group(.data, ...)
 }
 \arguments{
   \item{.data}{a data source}

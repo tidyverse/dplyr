@@ -24,7 +24,3 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' @rdname manip
 #' @export
 select <- function(.data, ...) UseMethod("select")
-
-#' @rdname manip
-#' @export
-group <- function(.data, ...) UseMethod("group")
