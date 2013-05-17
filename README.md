@@ -12,6 +12,7 @@ One of the key ideas of `dplyr` is that it shouldn't matter how your data is sto
 Dplyr is not currently available on CRAN, but you can install it from github with:
 
 ```R
+devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
 
