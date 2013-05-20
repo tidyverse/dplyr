@@ -75,3 +75,7 @@ system.time(ddply(baseball, "id", summarise, g = mean(g)))
 ```
 
 All data sources also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
+
+## Plyr compatibility
+
+It's probably not currently a good idea to have both dplyr and plyr loaded. This is just a short-term problem as in the long-term, I'll remove the matching functions from plyr into dplyr, and add a dplyr dependency to plyr.
