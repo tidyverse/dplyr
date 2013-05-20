@@ -37,6 +37,8 @@ Each data source also comes in a grouped variant which allows you to easily perf
 players_df <- group_by(baseball_df, id)
 players_dt <- group_by(baseball_dt, id)
 players_db <- group_by(baseball_db, id)
+# This database has an index on the player id, which is a recommended
+# minimum whenever you're doing group by queries
 ```
 
 # Operations
@@ -62,7 +64,7 @@ system.time(summarise(players_dt, g = mean(g)))
 #  0.007   0.000   0.007 
 system.time(summarise(players_db, g = mean(g)))
 #   user  system elapsed 
-#  0.029   0.000   0.030 
+#  0.029   0.000   0.019 
 ```
 
 And note that all methods are substantially faster than plyr:
