@@ -1,6 +1,7 @@
 # Build an sql select query from a sql data source.
 sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
-                       n = -1L) {
+                       n = -1L, explain = getOption("dplyr.explain_sql"),
+                       show = getOption("dplyr.show_sql")) {
   assert_that(is.source(x))
   assert_that(is.numeric(n), length(n) == 1)
 
@@ -15,7 +16,7 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
     order_by = order_by,
     ...)
 
-  exec_sql(x, sql, n = n)
+  exec_sql(x, sql, n = n, explain = explain, show = show)
 }
 
 # Goal is to make valid sql given inputs - this knows nothing about
@@ -68,12 +69,22 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
   paste0(sql, ";")
 }
 
-exec_sql <- function(x, sql, n = -1L) {
+exec_sql <- function(x, sql, n = -1L, explain = FALSE, show = FALSE) {
   assert_that(is.source(x))
   assert_that(is.string(sql))
 
-  if (isTRUE(getOption("dplyr.show_sql"))) {
+  if (isTRUE(explain)) {
+    exsql <- paste0("EXPLAIN QUERY PLAN ", sql)
+    out <- exec_sql(x, exsql, n = -1L, explain = FALSE, show = FALSE)
+    rownames(out) <- rep("", nrow(out))
+    message(exsql)
+    print(out)
+    cat("\n")
+  }
+
+  if (isTRUE(show) && !isTRUE(explain)) {
     message(sql)
+    cat("\n")
   }
 
   qry <- dbSendQuery(x$con, sql)

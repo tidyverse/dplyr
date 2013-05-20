@@ -1,7 +1,14 @@
 #' Create an sqlite data source.
 #'
 #' To see exactly what SQL is being sent to the database, you can set option
-#' \code{dplyr.show_sql} to true: \code{options(dplyr.show_sql = TRUE)}
+#' \code{dplyr.show_sql} to true: \code{options(dplyr.show_sql = TRUE).}
+#' If you're wondering why a particularly query is slow, it can be helpful
+#' to see the query plan. You can do this by setting
+#' \code{options(dplyr.explain_sql = TRUE)}. The output of SQLite's query
+#' plans is relatively easy to make sense of and is explained at
+#' \url{http://www.sqlite.org/eqp.html}. You may also find the explanation of
+#' how SQL indices works to be helpful:
+#' \url{http://www.sqlite.org/queryplanner.html}.
 #'
 #' @param path path to sqlite database
 #' @param table name of table in database
@@ -71,7 +78,7 @@ dimnames.source_sqlite <- function(x) {
 
 #' @S3method dim source_sqlite
 dim.source_sqlite <- function(x) {
-  n <- sql_select(x, "count()")[[1]]
+  n <- sql_select(x, "count()", show = FALSE, explain = FALSE)[[1]]
 
   if (is.null(x$select) || any(x$select == "*")) {
     p <- length(source_vars(x))
