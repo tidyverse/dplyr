@@ -77,6 +77,14 @@ sql_unary <- function(f) {
     sprintf("%s(%s)", f, xsql)
   }
 }
+sql_binary <- function(f) {
+  f <- toupper(f)
+  function(x, y) {
+    xsql <- to_sql(substitute(x))
+    ysql <- to_sql(substitute(y))
+    sprintf("%s(%s, %s)", f, xsql, ysql)
+  }
+}
 sql_atomic <- function(x) {
   if (is.character(x)) x <- paste0('"', x, '"')
   if (is.double(x) && any(is.wholenumber(x))) {
@@ -159,3 +167,17 @@ sqlite <- list(
   "c" = function(...) sql_atomic(c(...)),
   ":" = function(from, to) sql_atomic(from:to)
 )
+
+# Functions added by RSQLite.extfuns --------------------
+math_unary <- c("acos", "acosh", "asin", "asinh", "atan", "atanh",
+  "cos", "cosh", "exp", "floor", "log", "log10", "sign", "sin",
+  "sinh", "sqrt", "tan", "tanh")
+for(f in math_unary) sqlite[[f]] <- sql_unary(f)
+
+sqlite$ceiling <- sql_unary("ceil")
+sqlite$atan2 <-   sql_binary("atan2")
+sqlite[["^"]] <-  sql_binary("power")
+
+sqlite$sd <-     sql_unary("stdev")
+sqlite$var <-    sql_unary("variance")
+sqlite$median <- sql_unary("median")

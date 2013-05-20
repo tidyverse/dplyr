@@ -27,8 +27,14 @@ source_sqlite <- function(path, table) {
   if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
+  if (!require("RSQLite.extfuns")) {
+    stop("RSQLite.extfuns package required to effectively use sqlite db",
+      call. = FALSE)
+  }
 
   con <- dbConnect(dbDriver("SQLite"), dbname = path)
+  RSQLite.extfuns::init_extensions(con)
+
   if (!(table %in% dbListTables(con))) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
