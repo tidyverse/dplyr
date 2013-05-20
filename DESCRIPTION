@@ -46,3 +46,4 @@ Collate:
     'grouped-df.r'
     'grouped-sqlite.r'
     'source-dt.r'
+    'shim-raw.r'

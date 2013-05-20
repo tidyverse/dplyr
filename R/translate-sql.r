@@ -168,6 +168,9 @@ sqlite <- list(
   "%in%" =   sql_infix("IN"),
   "%like%" = sql_infix("LIKE"),
 
+  # The ability to embed raw sql
+  raw = function(x) x,
+
   # Functions that get passed through to base R
   "c" = function(...) sql_atomic(c(...)),
   ":" = function(from, to) sql_atomic(from:to)
