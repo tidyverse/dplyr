@@ -13,7 +13,8 @@ Suggests:
     RSQLite,
     RSQLite.extfuns,
     plyr,
-    data.table
+    data.table,
+    testthat
 Depends:
     R (>= 2.15.1),
     Rcpp (>= 0.10.1)
