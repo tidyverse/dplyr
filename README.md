@@ -7,9 +7,9 @@
   (e.g. ddply, ldply and dlply)
 * Support for alternative data stores (data.table, sql, hive, ...)
 
-One of the key ideas of `dplyr` is that it shouldn't matter how your data is stored, whether its in an SQL database, in a csv file, in memory as a data frame or a data table, you should interact with it in the exactly the same way. 
+One of the key ideas of `dplyr` is that it shouldn't matter how your data is stored. Regardless of whether your data in an SQL database, a data frame or a data table, you should interact with it in the exactly the same way. (That said, `dplyr` works with [tidy data](http://vita.had.co.nz/papers/tidy-data.html) so it can assume varaibles are always described in a consistent way.)
 
-Dplyr is not currently available on CRAN, but you can install it from github with:
+`dplyr` is not currently available on CRAN, but you can install it from github with:
 
 ```R
 devtools::install_github("assertthat")
