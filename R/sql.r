@@ -16,7 +16,7 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
     order_by = order_by,
     ...)
 
-  exec_sql(x, sql, n = n, explain = explain, show = show)
+  exec_sql(x$con, sql, n = n, explain = explain, show = show)
 }
 
 # Goal is to make valid sql given inputs - this knows nothing about
@@ -69,13 +69,12 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
   paste0(sql, ";")
 }
 
-exec_sql <- function(x, sql, n = -1L, explain = FALSE, show = FALSE) {
-  assert_that(is.source(x))
+exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE) {
   assert_that(is.string(sql))
 
   if (isTRUE(explain)) {
     exsql <- paste0("EXPLAIN QUERY PLAN ", sql)
-    out <- exec_sql(x, exsql, n = -1L, explain = FALSE, show = FALSE)
+    out <- exec_sql(con, exsql, n = -1L, explain = FALSE, show = FALSE)
     rownames(out) <- rep("", nrow(out))
     message(exsql)
     print(out)
@@ -87,7 +86,7 @@ exec_sql <- function(x, sql, n = -1L, explain = FALSE, show = FALSE) {
     cat("\n")
   }
 
-  qry <- dbSendQuery(x$con, sql)
+  qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
 
   res <- fetch(qry, n)
