@@ -2,7 +2,7 @@
 \alias{translate_sql}
 \title{Translate an expression to sql.}
 \usage{
-  translate_sql(expr, source, env = parent.frame())
+  translate_sql(expr, source = NULL, env = parent.frame())
 }
 \arguments{
   \item{expr}{unevaluated expression to translate}
@@ -37,5 +37,10 @@ translate_sql(year < local(1889 + 1), baseball)
 inc <- function(x) x + 1
 \dontrun{translate_sql(year == inc(x), baseball)}
 translate_sql(year == local(inc(x)), baseball)
+
+# For testing, translate_sql can be run with source ommitted
+x <- 1
+y <- 2L
+translate_sql(x ^ y)
 }
 

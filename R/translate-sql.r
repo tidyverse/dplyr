@@ -28,7 +28,12 @@
 #' inc <- function(x) x + 1
 #' \dontrun{translate_sql(year == inc(x), baseball)}
 #' translate_sql(year == local(inc(x)), baseball)
-translate_sql <- function(expr, source, env = parent.frame()) {
+#'
+#' # For testing, translate_sql can be run with source ommitted
+#' x <- 1
+#' y <- 2L
+#' translate_sql(x ^ y)
+translate_sql <- function(expr, source = NULL, env = parent.frame()) {
   expr <- partial_eval(substitute(expr), source, env = env)
   to_sql(expr)
 }

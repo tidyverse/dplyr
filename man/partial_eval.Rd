@@ -2,7 +2,7 @@
 \alias{partial_eval}
 \title{Partially evaluate an expression.}
 \usage{
-  partial_eval(call, source, env = parent.frame())
+  partial_eval(call, source = NULL, env = parent.frame())
 }
 \arguments{
   \item{call}{an unevaluated expression, as produced by
@@ -36,6 +36,12 @@ partial_eval(quote(year > local(year)), bdf)
 f <- function(x) x + 1
 partial_eval(quote(year > f(1980)), bdf)
 partial_eval(quote(year > local(f(1980))), bdf)
+
+# For testing you can also use it with the source omitted
+partial_eval(quote(1 + 2 * 3))
+x <- 1
+y <- 2
+partial_eval(quote(x ^ y))
 }
 \keyword{internal}
 

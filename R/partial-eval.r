@@ -27,7 +27,13 @@
 #' f <- function(x) x + 1
 #' partial_eval(quote(year > f(1980)), bdf)
 #' partial_eval(quote(year > local(f(1980))), bdf)
-partial_eval <- function(call, source, env = parent.frame()) {
+#'
+#' # For testing you can also use it with the source omitted
+#' partial_eval(quote(1 + 2 * 3))
+#' x <- 1
+#' y <- 2
+#' partial_eval(quote(x ^ y))
+partial_eval <- function(call, source = NULL, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
   if (is.list(call)) {
@@ -36,7 +42,7 @@ partial_eval <- function(call, source, env = parent.frame()) {
     # Symbols must be resolveable either locally or remotely
 
     name <- as.character(call)
-    if (name %in% source_vars(source)) {
+    if (!is.null(source) && name %in% source_vars(source)) {
       substitute(remote_var(var), list(var = as.character(call)))
     } else if (exists(name, env)) {
       get(name, env)
