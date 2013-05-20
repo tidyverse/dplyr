@@ -10,7 +10,9 @@
   \item{table}{name of table in database}
 }
 \description{
-  Create an sqlite data source.
+  To see exactly what SQL is being sent to the database,
+  you can set option \code{dplyr.show_sql} to true:
+  \code{options(dplyr.show_sql = TRUE)}
 }
 \examples{
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
