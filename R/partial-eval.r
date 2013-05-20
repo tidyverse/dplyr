@@ -4,30 +4,30 @@
 #' the data source to determine whether names refer to local expressions
 #' or remote variables.
 #'
-#' @param source a data source object
 #' @param call an unevaluated expression, as produced by \code{\link{quote}}
+#' @param source a data source object
 #' @param env environment in which to search for local values
 #' @export
 #' @keywords internal
 #' @examples
 #' data("baseball", package = "plyr")
 #' bdf <- source_df(baseball)
-#' partial_eval(bdf, quote(year > 1980))
+#' partial_eval(quote(year > 1980), bdf)
 #'
 #' ids <- c("ansonca01", "forceda01", "mathebo01")
-#' partial_eval(bdf, quote(id %in% ids))
+#' partial_eval(quote(id %in% ids), bdf)
 #'
 #' # You can use local to disambiguate between local and remote
 #' # variables: otherwise remote is always preferred
 #' year <- 1980
-#' partial_eval(bdf, quote(year > year))
-#' partial_eval(bdf, quote(year > local(year)))
+#' partial_eval(quote(year > year), bdf)
+#' partial_eval(quote(year > local(year)), bdf)
 #'
 #' # Local is also needed if you want to call a local function
 #' f <- function(x) x + 1
-#' partial_eval(bdf, quote(year > f(1980)))
-#' partial_eval(bdf, quote(year > local(f(1980))))
-partial_eval <- function(source, call, env = parent.frame()) {
+#' partial_eval(quote(year > f(1980)), bdf)
+#' partial_eval(quote(year > local(f(1980))), bdf)
+partial_eval <- function(call, source, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
   if (is.list(call)) {
@@ -61,7 +61,7 @@ partial_eval <- function(source, call, env = parent.frame()) {
 }
 
 
-var_eval <- function(.data, exprs, parent = parent.frame()) {
+var_eval <- function(exprs, .data, parent = parent.frame()) {
   nm <- source_vars(.data)
   nms_list <- as.list(setNames(seq_along(nm), nm))
 

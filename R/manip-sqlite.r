@@ -29,7 +29,7 @@ NULL
 #' @export
 #' @method filter source_sqlite
 filter.source_sqlite <- function(.data, ...) {
-  input <- partial_eval(.data, dots(...), parent.frame())
+  input <- partial_eval(dots(...), .data, parent.frame())
   .data$filter <- c(.data$filter, input)
   .data
 }
@@ -38,7 +38,7 @@ filter.source_sqlite <- function(.data, ...) {
 #' @export
 #' @method arrange source_sqlite
 arrange.source_sqlite <- function(.data, ...) {
-  input <- partial_eval(.data, dots(...), parent.frame())
+  input <- partial_eval(dots(...), .data, parent.frame())
   .data$arrange <- c(.data$arrange, input)
   .data
 }
@@ -47,7 +47,7 @@ arrange.source_sqlite <- function(.data, ...) {
 #' @export
 #' @method select source_sqlite
 select.source_sqlite <- function(.data, ...) {
-  input <- var_eval(.data, dots(...), parent.frame())
+  input <- var_eval(dots(...), .data, parent.frame())
   .data$select <- c(.data$select, input)
   .data
 }

@@ -37,7 +37,7 @@ grouped_sqlite <- function(source, vars, group_by) {
 #' @param ... expressions describing how to group data
 group_by.source_sqlite <- function(x, ...) {
   vars <- named_dots(...)
-  group_by <- partial_eval(x, vars, parent.frame())
+  group_by <- partial_eval(vars, x, parent.frame())
 
   grouped_sqlite(x, vars, group_by)
 }
