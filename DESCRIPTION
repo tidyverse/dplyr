@@ -11,6 +11,7 @@ Imports:
     utils
 Suggests:
     RSQLite,
+    RSQLite.extfuns,
     plyr,
     data.table
 Depends:
