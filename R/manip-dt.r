@@ -129,3 +129,13 @@ select.source_dt <- function(.data, ...) {
     select.data.table(.data$obj, ...)
   )
 }
+
+#' @S3method do data.table
+do.data.table <- function(.data, .f, ...) {
+  list(.f(as.data.frame(.data), ...))
+}
+
+#' @S3method do source_dt
+do.source_dt <- function(.data, .f, ...) {
+  list(.f(as.data.frame(.data$obj), ...))
+}

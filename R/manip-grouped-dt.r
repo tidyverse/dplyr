@@ -133,3 +133,18 @@ select.grouped_dt <- function(.data, ...) {
     vars = .data$vars
   )
 }
+
+
+#' @S3method do grouped_dt
+do.grouped_dt <- function(.data, .f, ...) {
+  keys <- deparse_all(.data$vars)
+  setkeyv(.data$obj, keys)
+
+  env <- new.env(parent = parent.frame(), size = 1L)
+  env$data <- .data$obj
+  env$vars <- keys
+  env$f <- .f
+
+  call <- substitute(data[, list(out = list(f(.SD, ...))), by = vars])
+  eval(call, env)$out
+}

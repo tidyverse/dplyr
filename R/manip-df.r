@@ -111,3 +111,13 @@ select.source_df <- function(.data, ...) {
     select.data.frame(.data$obj, ...)
   )
 }
+
+#' @S3method do data.frame
+do.data.frame <- function(.data, .f, ...) {
+  list(.f(.data, ...))
+}
+
+#' @S3method do source_df
+do.source_df <- function(.data, .f, ...) {
+  list(.f(.data$obj, ...))
+}

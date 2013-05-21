@@ -175,3 +175,18 @@ select.grouped_df <- function(.data, ...) {
     vars = .data$vars
   )
 }
+
+#' @S3method do grouped_df
+do.grouped_df <- function(.data, .f, ...) {
+  if (is.lazy(.data)) .data <- build_index(.data)
+
+  n <- length(.data$index)
+  out <- vector("list", n)
+
+  for (i in seq_len(n)) {
+    subs <- .data$obj[.data$index[[i]], , drop = FALSE]
+    out[[i]] <- .f(subs, ...)
+  }
+
+  out
+}

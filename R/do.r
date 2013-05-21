@@ -9,6 +9,14 @@
 #'   \code{.f} will be a data frame.
 #' @param ... other arguments passed on to the function ()
 #' @export
+#' @examples
+#' by_player <- group_by(baseball, id)
+#' by_player <- mutate(by_player, cyear = year - min(year) + 1)
+#' system.time(mods <- do(by_player, lm, formula = g ~ poly(cyear, 2)))
+#'
+#' by_player <- group_by(as.data.table(baseball), id)
+#' by_player <- mutate(by_player, cyear = year - min(year) + 1)
+#' system.time(mods <- do(by_player, lm, formula = g ~ poly(cyear, 2)))
 do <- function(.data, .f, ...) UseMethod("do")
 
 #' @S3method do NULL

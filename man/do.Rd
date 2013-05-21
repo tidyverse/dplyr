@@ -18,4 +18,13 @@
   \code{\link{select}}, \code{\link{mutate}},
   \code{\link{summarise}} and \code{\link{arrange}}.
 }
+\examples{
+by_player <- group_by(baseball, id)
+by_player <- mutate(by_player, cyear = year - min(year) + 1)
+system.time(mods <- do(by_player, lm, formula = g ~ poly(cyear, 2)))
+
+by_player <- group_by(as.data.table(baseball), id)
+by_player <- mutate(by_player, cyear = year - min(year) + 1)
+system.time(mods <- do(by_player, lm, formula = g ~ poly(cyear, 2)))
+}
 
