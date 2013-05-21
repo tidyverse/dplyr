@@ -18,7 +18,7 @@ devtools::install_github("dplyr")
 
 ## Data sources
 
-To get started with `dplyr`, you need a data source. Currently there is built-in support for data frames, data tables and SQLite databases.  You can create them as follows:
+To get started with `dplyr`, you need a data source. Currently `dplyr` supports data frames, data tables and SQLite databases. You can create them as follows:
 
 ```R
 library(dplyr)
@@ -76,8 +76,22 @@ system.time(ddply(baseball, "id", summarise, g = mean(g)))
 #  0.401   0.009   0.411 
 ```
 
+### `do()`
+
+As well as the specialised operations described above, `dplyr` also provides the generic `do()` function which applies any R function to each group of the data.
+
+For example, we could use `do()` to fit a linear model to each player in the database:
+
+```R
+system.time(do(players_df, failwith(NULL, lm), formula = r ~ ab))
+system.time(do(players_dt, failwith(NULL, lm), formula = r ~ ab))
+system.time(do(players_db, failwith(NULL, lm), formula = r ~ ab))
+```
+
+### Other operations
+
 All data sources also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
 
 ## Plyr compatibility
 
-It's probably not currently a good idea to have both dplyr and plyr loaded. This is just a short-term problem as in the long-term, I'll remove the matching functions from plyr into dplyr, and add a dplyr dependency to plyr.
+Currently, it's not a good idea to have both dplyr and plyr loaded. This is just a short-term problem: in the long-term, I'll move the matching functions from plyr into dplyr, and add a dplyr dependency to plyr.
