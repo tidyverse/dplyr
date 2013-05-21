@@ -73,9 +73,11 @@ do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
   group_vars <- lapply(group_names, as.name)
   nvars <- length(.data$group_by)
 
+  vars <- .data$select %||% setdiff(source_vars(.data), group_names)
+
   select <- select_query(
     from = .data$table,
-    select = c(to_sql(.data$group_by), to_sql(.data$select) %||% "*"),
+    select = c(to_sql(.data$group_by), vars),
     where = to_sql(.data$filter),
     order_by = c(var_names(.data$group_by), to_sql(.data$arrange)))
 
