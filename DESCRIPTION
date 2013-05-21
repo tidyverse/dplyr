@@ -48,3 +48,4 @@ Collate:
     'source-dt.r'
     'shim-raw.r'
     'do.r'
+    'failwith.r'

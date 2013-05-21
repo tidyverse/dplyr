@@ -23,6 +23,21 @@
 #'
 #' by_team <- group_by(baseball_s, team)
 #' summarise(by_team, players = count())
+#'
+#' # do by
+#' mods <- do(by_team, failwith(NULL, lm), formula = r ~ poly(year, 2), .chunk_size = 1000)
+#'
+#' sizes <- summarise(by_team, freq = count())
+#' not_small <- as.data.frame(filter(sizes, freq > 10))
+#' teams <- not_small$team
+#' ok <- filter(by_team, team %in% teams)
+#' mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
+#'   .chunk_size = 1000)
+#'
+#' # Since we it's not easy to figure out what variables you are using
+#' # in general, it will often be faster to let dplyr know what you need
+#' mods <- do(filter(ok, year, r), failwith(NULL, lm), formula = r ~ poly(year, 2),
+#'   .chunk_size = 1000)
 grouped_sqlite <- function(source, vars, group_by) {
   source$vars <- vars
   source$group_by <- group_by
@@ -50,4 +65,50 @@ print.grouped_sqlite <- function(x, ...) {
 
   cat("\n")
   trunc_mat(x)
+}
+
+#' @S3method do grouped_sqlite
+do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
+  group_names <- var_names(.data$group_by)
+  group_vars <- lapply(group_names, as.name)
+  nvars <- length(.data$group_by)
+
+  select <- select_query(
+    from = .data$table,
+    select = c(to_sql(.data$group_by), to_sql(.data$select) %||% "*"),
+    where = to_sql(.data$filter),
+    order_by = c(var_names(.data$group_by), to_sql(.data$arrange)))
+
+  qry <- dbSendQuery(.data$con, select)
+  on.exit(dbClearResult(qry))
+
+  last_group <- NULL
+  chunk <- fetch(qry, .chunk_size)
+  out <- list()
+
+  while (!dbHasCompleted(qry)) {
+    # Last group might be incomplete, so always set it aside and join it
+    # with the next chunk. If group size is large than chunk size, it may
+    # take a couple of iterations to get the entire group, but that should
+    # be an unusual situation.
+    if (!is.null(last_group)) chunk <- rbind(last_group, chunk)
+    group_id <- id(chunk[seq_len(nvars)])
+
+    last <- group_id == group_id[length(group_id)]
+    last_group <- chunk[last, , drop = FALSE]
+    chunk <- chunk[!last, , drop = FALSE]
+
+    groups <- grouped_df(chunk, group_vars, lazy = FALSE)
+    res <- do(groups, .f, ...)
+    out <- c(out, res)
+
+    chunk <- fetch(qry, .chunk_size)
+  }
+
+  if (!is.null(last_group)) chunk <- rbind(last_group, chunk)
+  groups <- grouped_df(chunk, group_vars)
+  res <- do(groups, .f, ...)
+  out <- c(out, res)
+
+  out
 }

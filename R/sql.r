@@ -69,7 +69,7 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
   paste0(sql, ";")
 }
 
-exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE) {
+exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {
   assert_that(is.string(sql))
 
   if (isTRUE(explain)) {
@@ -88,6 +88,8 @@ exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE) {
 
   qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
+
+  if (!fetch) return()
 
   res <- fetch(qry, n)
   if (!dbHasCompleted(qry)) {
@@ -136,5 +138,5 @@ sql_vars <- function(vars) {
 
 var_names <- function(vars) {
   nms <- vapply(names2(vars), escape_sql, character(1))
-  ifelse(nms == "", vars, nms)
+  unname(ifelse(nms == "", vars, nms))
 }
