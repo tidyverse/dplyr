@@ -16,7 +16,7 @@ devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
 
-# Data sources
+## Data sources
 
 To get started with `dplyr`, you need a data source. Currently there is built-in support for data frames, data tables and SQLite databases.  You can create them as follows:
 
@@ -41,7 +41,7 @@ players_db <- group_by(baseball_db, id)
 # minimum whenever you're doing group by queries
 ```
 
-# Operations
+## Operations
 
 `dplyr` implements the following verbs useful for data manipulation:
 
