@@ -88,6 +88,16 @@ system.time(do(players_dt, failwith(NULL, lm), formula = r ~ ab))
 system.time(do(players_db, failwith(NULL, lm), formula = r ~ ab))
 ```
 
+Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
+
+```R
+library(biglm)
+mod1 <- do(players_df, lm, formula = r ~ ab)
+mod2 <- do(players_df, biglm, formula = r ~ ab)
+print(object.size(mod1), unit = "MB")
+print(object.size(mod2), unit = "MB")
+```
+
 ### Other operations
 
 All data sources also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
