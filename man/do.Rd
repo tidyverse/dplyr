@@ -1,0 +1,21 @@
+\name{do}
+\alias{do}
+\title{Apply a function to a data source}
+\usage{
+  do(.data, .f, ...)
+}
+\arguments{
+  \item{.data}{a data source}
+
+  \item{.f}{a function to apply. The first unnamed argument
+  supplied to \code{.f} will be a data frame.}
+
+  \item{...}{other arguments passed on to the function ()}
+}
+\description{
+  This is a general purpose complement to the specialised
+  manipulation functions \code{\link{filter}},
+  \code{\link{select}}, \code{\link{mutate}},
+  \code{\link{summarise}} and \code{\link{arrange}}.
+}
+
