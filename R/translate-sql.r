@@ -91,7 +91,7 @@ sql_binary <- function(f) {
   }
 }
 sql_atomic <- function(x) {
-  if (is.character(x)) x <- paste0('"', x, '"')
+  if (is.character(x)) x <- paste0("'", x, "'")
   if (is.double(x) && any(is.wholenumber(x))) {
     x <- sprintf("%.1f", x)
   }
