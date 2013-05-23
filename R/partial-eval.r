@@ -79,8 +79,17 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
   }
 }
 
-var_eval <- function(exprs, .data, parent = parent.frame()) {
-  nm <- source_vars(.data)
+#' Evaluate variable names in the context of a data source.
+#'
+#' @param exprs a list of unevaluated expressions
+#' @param source a data source
+#' @param parent the parent frame in which to evaluate variables/functions
+#'   not found in \code{source}
+#' @export
+#' @examples
+#' var_eval(list(quote(mpg:wt)), mtcars)
+var_eval <- function(exprs, source, parent = parent.frame()) {
+  nm <- source_vars(source)
   nms_list <- as.list(setNames(seq_along(nm), nm))
 
   idx <- unlist(lapply(exprs, eval, nms_list, parent))
