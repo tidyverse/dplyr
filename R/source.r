@@ -20,4 +20,9 @@ as.source <- function(x, ...) UseMethod("as.source")
 #' @S3method as.source source
 as.source.source <- function(x, ...) x
 
+#' Is this object a data source?
+#'
+#' @param x an object
+#' @keywords internal
+#' @export
 is.source <- function(x) inherits(x, "source")
