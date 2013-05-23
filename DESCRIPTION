@@ -22,6 +22,9 @@ LinkingTo: Rcpp
 License: MIT
 Collate:
     'dplyr.r'
+    'translate-sql-helpers.r'
+    'translate-sql-base.r'
+    'translate-sql-sqlite.r'
     'partial-eval.r'
     'source-sqlite.r'
     'source.r'
@@ -46,6 +49,6 @@ Collate:
     'grouped-df.r'
     'grouped-sqlite.r'
     'source-dt.r'
-    'shim-raw.r'
     'do.r'
     'failwith.r'
+    'sql-escape.r'
