@@ -135,18 +135,6 @@ sql_keywords <- c(
   "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
   "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
 
-escape_sql <- function(x) {
-  if (x == "") return("")
-  ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
-
-  escape <- !grepl(ok, x) || toupper(x) %in% sql_keywords
-  if (escape) {
-    paste0('"', x, '"')
-  } else {
-    x
-  }
-}
-
 sql_vars <- function(vars) {
   nms <- vapply(names2(vars), escape_sql, character(1))
 
