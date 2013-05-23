@@ -19,8 +19,25 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
   exec_sql(x$con, sql, n = n, explain = explain, show = show)
 }
 
-# Goal is to make valid sql given inputs - this knows nothing about
-# sources.
+#' Generate an SQL select query.
+#'
+#' Goal is to make valid sql given inputs - this knows nothing about sources.
+#'
+#' @keywords internal
+#' @param select a character vector of fields to select. Names are used to
+#'   create \code{AS} aliases.
+#' @param from a string giving the table name
+#' @param where if not \code{NULL}, a character vector of conditions, which
+#'   will be combined with \code{AND}
+#' @param group_by if not \code{NULL}, a character vector of named SQL
+#'   expression used to group the data
+#' @param having
+#' @param order_by
+#' @param limit
+#' @param offset
+#' @export
+#' @examples
+#' select_query("*", "mytable")
 select_query <- function(select, from, where = NULL, group_by = NULL,
                          having = NULL, order_by = NULL, limit = NULL,
                          offset = NULL) {

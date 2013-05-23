@@ -2,6 +2,10 @@ new_source <- function(...) {
   structure(list(...), class = c("source", "ops"))
 }
 
+#' List variables provided by a data source.
+#'
+#' @export
+#' @param x A data source object
 source_vars <- function(x) UseMethod("source_vars")
 
 #' Convert an existing object to a data source.

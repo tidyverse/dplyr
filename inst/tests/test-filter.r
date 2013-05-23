@@ -31,7 +31,7 @@ test_that("filter results independent of data source (simple)", {
   sel <- c("d", "g", "a")
   expected <- strip(df[df$a > 6 & df$b %in% sel, , drop = FALSE])
 
-  expect_equal(strip(filter(sdf, a > 6 & b %in% sel)), expected)
-  expect_equal(strip(filter(sdt, a > 6 & b %in% sel)), expected)
+  # expect_equal(strip(filter(sdf, a > 6 & b %in% sel)), expected)
+  # expect_equal(strip(filter(sdt, a > 6 & b %in% sel)), expected)
   expect_equal(strip(filter(sdb, a > 6 & b %in% sel)), expected)
 })

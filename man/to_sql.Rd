@@ -1,19 +1,19 @@
 \docType{data}
-\name{base_sql}
+\name{to_sql}
 \alias{base_sql}
 \alias{sqlite_sql}
 \alias{to_sql}
 \alias{to_sql_q}
 \title{Translate an R expression to sql.}
-\format{<environment: 0x10680d468>}
+\format{<environment: 0x100cabdb8>}
 \usage{
-  base_sql
-
-  sqlite_sql
-
   to_sql(x, variant = base_sql)
 
   to_sql_q(x, variant = base_sql)
+
+  base_sql
+
+  sqlite_sql
 }
 \arguments{
   \item{x}{for \code{to_sql}, an unquoted expression; for
