@@ -1,5 +1,6 @@
 context("SQLite: do")
 
+data(baseball, package = "plyr")
 baseball_db <- source_sqlite("../db/baseball.sqlite3", "baseball")
 
 test_that("Results respect select", {

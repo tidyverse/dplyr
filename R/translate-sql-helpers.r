@@ -1,3 +1,6 @@
+#' @include translate-sql.r
+NULL
+
 #' Create an sql variant.
 #'
 #' When creating a package that maps to a new SQL based datasource, you'll often

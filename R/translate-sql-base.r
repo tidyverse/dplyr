@@ -17,7 +17,7 @@ base_sql$var     <- sql_prefix("variance")
 base_sql$tolower <- sql_prefix("lower")
 base_sql$toupper <- sql_prefix("upper")
 base_sql$nchar   <- sql_prefix("length")
-base_sql$sql     <- sql
+base_sql$sql     <- function(...) sql(...)
 base_sql$`(` <- function(x) {
   sql("(", escape(x), ")")
 }
@@ -35,4 +35,4 @@ base_sql$c     <- function(...) escape(c(...))
 base_sql$`:`   <- function(from, to) escape(from:to)
 
 senv <- new.env(parent = emptyenv())
-senv$pi <- sql("PI()")
+senv$pi <- structure("PI()", class = "sql")
