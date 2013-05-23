@@ -4,7 +4,7 @@ test_con <- dbConnect(dbDriver("SQLite"), dbname = "test.sqlite3")
 RSQLite.extfuns::init_extensions(test_con)
 
 eval_sql <- function(expr) {
-  select <- translate_sql_q(expr, .data, parent.frame())
+  select <- trans_sqlite(expr, .data, parent.frame())
   sql <- paste0("SELECT ", sql_vars(select))
   exec_sql(test_con, sql)[[1]]
 }

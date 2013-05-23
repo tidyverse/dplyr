@@ -6,8 +6,8 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
   assert_that(is.numeric(n), length(n) == 1)
 
   select <- select %||% x$select %||% "*"
-  where <- where %||% to_sql(x$filter)
-  order_by <- order_by %||% to_sql(x$arrange)
+  where <- where %||% trans_sqlite(x$filter)
+  order_by <- order_by %||% trans_sqlite(x$arrange)
 
   sql <- select_query(
     from = x$table,

@@ -2,7 +2,22 @@
 #'
 #' This function partially evaluates an expression, using information from
 #' the data source to determine whether names refer to local expressions
-#' or remote variables.
+#' or remote variables. This simplifies SQL translation because expressions
+#' don't need to carry around their environment - all revelant information
+#' is incorporated into the expression.
+#'
+#' @section Symbol substitution:
+#'
+#' \code{partial_eval} needs to guess if you're referring to a variable on the
+#' server (remote), or in the current environment (local). It's not possible to
+#' do this 100% perfectly. \code{partial_eval} uses the following heuristic:
+#'
+#' \itemize{
+#'   \item If the source variables are known, and the symbol matches a source
+#'     variable, then remote.
+#'   \item If the symbol is defined locally, local.
+#'   \item Otherwise, remote.
+#' }
 #'
 #' @param call an unevaluated expression, as produced by \code{\link{quote}}
 #' @param source a data source object
@@ -23,7 +38,8 @@
 #' partial_eval(quote(year > year), bdf)
 #' partial_eval(quote(year > local(year)), bdf)
 #'
-#' # Local is also needed if you want to call a local function
+#' # Functions are always assumed to be remote. Use local to force evaluation
+#' # in R.
 #' f <- function(x) x + 1
 #' partial_eval(quote(year > f(1980)), bdf)
 #' partial_eval(quote(year > local(f(1980))), bdf)
@@ -31,7 +47,6 @@
 #' # For testing you can also use it with the source omitted
 #' partial_eval(quote(1 + 2 * 3))
 #' x <- 1
-#' y <- 2
 #' partial_eval(quote(x ^ y))
 partial_eval <- function(call, source = NULL, env = parent.frame()) {
   if (is.atomic(call)) return(call)
@@ -39,15 +54,13 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
   if (is.list(call)) {
     lapply(call, partial_eval, source = source, env = env)
   } else if (is.symbol(call)) {
-    # Symbols must be resolveable either locally or remotely
-
     name <- as.character(call)
     if (!is.null(source) && name %in% source_vars(source)) {
-      substitute(remote_var(var), list(var = as.character(call)))
+      call
     } else if (exists(name, env)) {
-      get(name, env)
+      eval(call, env)
     } else {
-      stop(name, " not defined locally or in data source", call. = FALSE)
+      call
     }
   } else if (is.call(call)) {
     # Process call arguments recursively, unless user has manually called
@@ -56,7 +69,7 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
     if (name == "local") {
       eval(call[[2]], env)
     } else if (name == "remote") {
-      substitute(remote_var(var), list(var = as.character(call[[2]])))
+      call[[2]]
     } else {
       call[-1] <- lapply(call[-1], partial_eval, source = source, env = env)
       call
@@ -65,7 +78,6 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
     stop("Unknown input type: ", class(call), call. = FALSE)
   }
 }
-
 
 var_eval <- function(exprs, .data, parent = parent.frame()) {
   nm <- source_vars(.data)

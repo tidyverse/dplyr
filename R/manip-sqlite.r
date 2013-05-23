@@ -61,7 +61,7 @@ summarise.source_sqlite <- function(.data, ..., .n = 1e5) {
     warning("Summarise ignores selected variables", call. = FALSE)
   }
 
-  select <- translate_sql_q(dots(...), .data, parent.frame())
+  select <- trans_sqlite(dots(...), .data, parent.frame())
   out <- sql_select(.data, select = select, n = .n)
   source_df(
     data = out
@@ -75,7 +75,7 @@ mutate.source_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
   old_vars <- .data$select %||% "*"
-  new_vars <- translate_sql_q(dots(...), .data, parent.frame())
+  new_vars <- trans_sqlite(dots(...), .data, parent.frame())
 
   out <- sql_select(.data, select = c(old_vars, new_vars), n = .n)
   source_df(

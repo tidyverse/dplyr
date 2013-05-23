@@ -1,16 +1,14 @@
-\name{translate_sql}
-\alias{translate_sql}
+\name{translate_sqllite}
+\alias{translate_sqllite}
 \title{Translate an expression to sql.}
 \usage{
-  translate_sql(expr, source = NULL, env = parent.frame(),
-    variant = base_sql)
+  translate_sqllite(expr, source = NULL,
+    env = parent.frame())
 }
 \arguments{
   \item{expr}{unevaluated expression to translate}
 
   \item{source}{data source}
-
-  \item{variant}{SQL variant to use}
 
   \item{env}{environment in which to evaluate expression}
 }

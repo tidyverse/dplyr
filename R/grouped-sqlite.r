@@ -77,9 +77,9 @@ do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
 
   select <- select_query(
     from = .data$table,
-    select = c(to_sql(.data$group_by), vars),
-    where = to_sql(.data$filter),
-    order_by = c(var_names(.data$group_by), to_sql(.data$arrange)))
+    select = c(trans_sqlite(.data$group_by), vars),
+    where = trans_sqlite(.data$filter),
+    order_by = c(var_names(.data$group_by), trans_sqlite(.data$arrange)))
 
   qry <- dbSendQuery(.data$con, select)
   on.exit(dbClearResult(qry))

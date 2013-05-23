@@ -46,8 +46,8 @@ filter.grouped_sqlite <- function(.data, ...) {
 summarise.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
-  select <- translate_sql_q(dots(...), .data, parent.frame())
-  group_by <- to_sql(.data$group_by)
+  select <- trans_sqlite(dots(...), .data, parent.frame())
+  group_by <- trans_sqlite(.data$group_by)
 
   out <- sql_select(.data,
     select = c(group_by, select),
