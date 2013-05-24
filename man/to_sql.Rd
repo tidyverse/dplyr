@@ -5,7 +5,9 @@
 \alias{to_sql}
 \alias{to_sql_q}
 \title{Translate an R expression to sql.}
-\format{<environment: 0x104878178>}
+\format{\code{base_sql} and \code{sqlite_sql} are environments containing
+  functions that convert R function calls into the equivalent SQL
+  function calls.}
 \usage{
   to_sql(x, variant = base_sql)
 

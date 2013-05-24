@@ -64,6 +64,9 @@ translate_sql <- function(expr, source = NULL, env = parent.frame(), variant = b
 #' The SQLite variant currently only adds one additional function: a mapping
 #' from \code{sd} to the SQL aggregation function \code{stdev}.
 #'
+#' @format \code{base_sql} and \code{sqlite_sql} are environments containing
+#'   functions that convert R function calls into the equivalent SQL
+#'   function calls.
 #' @param x for \code{to_sql}, an unquoted expression; for \code{to_sql_q}
 #'   a quoted expression.
 #' @param variant the sql variant to use for translation
