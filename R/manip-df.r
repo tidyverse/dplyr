@@ -29,9 +29,7 @@ filter.data.frame <- function(.data, ...) {
 
 #' @S3method filter source_df
 filter.source_df <- function(.data, ...) {
-  source_df(
-    filter.data.frame(.data$obj, ...)
-  )
+  source_df(filter.data.frame(.data, ...))
 }
 
 #' @rdname manip_df
@@ -51,9 +49,7 @@ summarise.data.frame <- function(.data, ...) {
 
 #' @S3method summarise source_df
 summarise.source_df <- function(.data, ...) {
-  source_df(
-    summarise.data.frame(.data$obj, ...)
-  )
+  source_df(summarise.data.frame(.data, ...))
 }
 
 
@@ -74,9 +70,7 @@ mutate.data.frame <- function(.data, ...) {
 
 #' @S3method mutate source_df
 mutate.source_df <- function(.data, ...) {
-  source_df(
-    mutate.data.frame(.data$obj, ...)
-  )
+  source_df(mutate.data.frame(.data, ...))
 }
 
 #' @rdname manip_df
@@ -92,9 +86,7 @@ arrange.data.frame <- function(.data, ...) {
 
 #' @S3method arrange source_df
 arrange.source_df <- function(.data, ...) {
-  source_df(
-    arrange.data.frame(.data$obj, ...)
-  )
+  source_df(arrange.data.frame(.data, ...))
 }
 
 #' @rdname manip_df
@@ -107,9 +99,7 @@ select.data.frame <- function(.data, ...) {
 
 #' @S3method select source_df
 select.source_df <- function(.data, ...) {
-  source_df(
-    select.data.frame(.data$obj, ...)
-  )
+  source_df(select.data.frame(.data, ...))
 }
 
 #' @S3method do data.frame
@@ -119,5 +109,5 @@ do.data.frame <- function(.data, .f, ...) {
 
 #' @S3method do source_df
 do.source_df <- function(.data, .f, ...) {
-  list(.f(.data$obj, ...))
+  list(.f(.data, ...))
 }

@@ -12,23 +12,21 @@
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
 grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
-  if (is.source(data)) {
-    data <- data$obj
-  }
-
-  data <- list(obj = data, vars = vars, drop = drop)
+  attr(data, "vars") <- vars
+  attr(data, "drop") <- drop
   if (!lazy) {
     data <- build_index(data)
   }
 
-  structure(data, class = c("grouped_df", "source_df", "source"))
+  class(data) <- c("grouped_df", "source_df", "source", class(data))
+  data
 }
 
 #' @rdname grouped_df
 #' @method is.lazy grouped_df
 #' @export
 is.lazy.grouped_df <- function(x) {
-  is.null(x$index) || is.null(x$labels)
+  is.null(attr(x, "index")) || is.null(attr(x, "labels"))
 }
 
 #' @rdname grouped_df
@@ -38,7 +36,7 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @S3method print grouped_df
 print.grouped_df <- function(x, ...) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("Groups: ", commas(deparse_all(x$vars)), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(attr(x, "vars"))), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }
@@ -53,31 +51,40 @@ group_by.data.frame <- function(x, ..., drop = TRUE) {
   grouped_df(x, vars, lazy = FALSE)
 }
 
-#' @method group_by source_df
-#' @export
-#' @rdname grouped_df
-group_by.source_df <- function(x, ...) {
-  vars <- dots(...)
-  grouped_df(x$obj, vars)
+
+#' @S3method as.data.frame grouped_df
+as.data.frame.grouped_df <- function(x, row.names = NULL,
+                                            optional = FALSE, ...) {
+  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+  if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
+
+  attr(x, "vars") <- NULL
+  attr(x, "index") <- NULL
+  attr(x, "labels") <- NULL
+  attr(x, "drop") <- NULL
+
+  class(x) <- setdiff(class(x), c("grouped_df", "source_df", "source"))
+  x
 }
 
 #' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
-  source_df(x$obj)
+  as.data.frame(x)
 }
 
 make_view <- function(x, env = parent.frame()) {
   if (is.lazy(x)) stop("No index present", call. = FALSE)
-  view(x$obj, x$index, parent.frame())
+  view(x, attr(x, "index"), parent.frame())
 }
 
 build_index <- function(x) {
-  splits <- lapply(x$vars, eval, x$obj, parent.frame())
-  split_id <- id(splits, drop = x$drop)
-  assert_that(length(split_id) == nrow(x$obj))
+  splits <- lapply(attr(x, "vars"), eval, x, parent.frame())
+  split_id <- id(splits, drop = attr(x, "drop"))
+  assert_that(length(split_id) == nrow(x))
 
-  x$labels <- split_labels(splits, drop = x$drop, id = split_id)
-  x$index <- split_indices(split_id, attr(split_id, "n"))
+  attr(x, "labels") <- split_labels(splits, drop = attr(x, "drop"),
+    id = split_id)
+  attr(x, "index") <- split_indices(split_id, attr(split_id, "n"))
 
   x
 }

@@ -15,17 +15,14 @@
 source_df <- function(data) {
   assert_that(is.data.frame(data))
 
-  structure(list(obj = data),
-    class = c("source_df", "source"))
+  class(data) <- c("source_df", "source", class(data))
+  data
 }
 
 #' @S3method as.source data.frame
 as.source.data.frame <- function(x, ...) {
   source_df(x)
 }
-
-#' @S3method source_vars source_df
-source_vars.source_df <- function(x) names(x$obj)
 
 #' @S3method source_vars data.frame
 source_vars.data.frame <- function(x) names(x)
@@ -38,7 +35,8 @@ as.data.frame.source_df <- function(x, row.names = NULL,
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
 
-  x$obj
+  class(x) <- setdiff(class(x), c("source_df", "source"))
+  x
 }
 
 #' @S3method print source_df
@@ -47,15 +45,3 @@ print.source_df <- function(x, ...) {
   cat("\n")
   trunc_mat(x)
 }
-
-#' @S3method dimnames source_df
-dimnames.source_df <- function(x) dimnames(x$obj)
-
-#' @S3method dim source_df
-dim.source_df <- function(x) dim(x$obj)
-
-#' @S3method head source_df
-head.source_df <- function(x, ...) head(x$obj, ...)
-
-#' @S3method tail source_df
-tail.source_df <- function(x, ...) tail(x$obj, ...)

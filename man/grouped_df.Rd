@@ -1,6 +1,5 @@
 \name{grouped_df}
 \alias{group_by.data.frame}
-\alias{group_by.source_df}
 \alias{grouped_df}
 \alias{is.grouped_df}
 \alias{is.lazy.grouped_df}
@@ -13,8 +12,6 @@
   is.grouped_df(x)
 
   \method{group_by}{data.frame} (x, ..., drop = TRUE)
-
-  \method{group_by}{source_df} (x, ...)
 }
 \arguments{
   \item{data}{a data source or data frame.}

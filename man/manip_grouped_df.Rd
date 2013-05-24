@@ -34,7 +34,8 @@ players <- group_by(baseball, id)
 filter(players, g == max(g))
 summarise(players, g = mean(g))
 mutate(players, cyear = year - min(year) + 1)
-arrange(players, id, desc(year))
+select(mutate(players, cyear = year - min(year) + 1), id, year, cyear)
+arrange(players, desc(year))
 select(players, id:team)
 
 # All manip functions preserve grouping structure, except for summarise
@@ -43,6 +44,6 @@ by_year <- mutate(players, cyear = year - min(year) + 1)
 summarise(by_year, years = max(cyear))
 
 # You can also manually ungroup:
-arrange(ungroup(by_year), id, year)
+df <- arrange(ungroup(by_year), id, year)
 }
 
