@@ -12,9 +12,9 @@
   single SQL expression}
 
   \item{x}{An object to escape. Existing sql vectors will
-  be left as is, character vectors are escaped with
-  \code{'}, numeric vectors have trailing .0 added if
-  they're whole numbers.}
+  be left as is, character vectors are escaped with single
+  quotes, numeric vectors have trailing .0 added if they're
+  whole numbers.}
 }
 \description{
   These two functions are critical when writing functions

@@ -7,8 +7,8 @@
 #' @param ... Character vectors that will be combined into a single SQL
 #'   expression
 #' @param x An object to escape. Existing sql vectors will be left as is,
-#'   character vectors are escaped with \code{'}, numeric vectors have trailing
-#'   .0 added if they're whole numbers.
+#'   character vectors are escaped with single quotes, numeric vectors have
+#'   trailing .0 added if they're whole numbers.
 #' @keywords internal
 #' @export
 #' @examples
