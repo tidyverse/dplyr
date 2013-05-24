@@ -43,7 +43,7 @@ source_sqlite <- function(path, table) {
       con = con, path = path, table = table,
       select = NULL, filter = NULL, arrange = NULL
     ),
-    class = c("source_sqlite", "source_sql", "source", "op")
+    class = c("source_sqlite", "source_sql", "source")
   )
 }
 
