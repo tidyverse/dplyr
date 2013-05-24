@@ -39,7 +39,7 @@ as_df <- function(x) {
 wrap <- function(...) {
   string <- paste0(...)
   wrapped <- strwrap(string, width = getOption("width"), exdent = 2)
-  paste0(wrapped, collapse = "")
+  paste0(wrapped, collapse = "\n")
 }
 
 deparse_all <- function(x) {
