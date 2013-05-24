@@ -31,6 +31,10 @@ base_sql$xor <- function(x, y) {
   sprintf("%1$s OR %2$s AND NOT (%1$s AND %2$s)", escape(x), escape(y))
 }
 
+base_sql$is.null <- function(x) {
+  sprintf("%s IS NULL", escape(x))
+}
+
 base_sql$c     <- function(...) escape(c(...))
 base_sql$`:`   <- function(from, to) escape(from:to)
 
