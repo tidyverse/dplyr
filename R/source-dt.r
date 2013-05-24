@@ -54,7 +54,7 @@ as.data.frame.source_dt <- function(x, row.names = NULL, optional = FALSE, ...) 
 
 #' @S3method print source_dt
 print.source_dt <- function(x, ...) {
-  cat("Source:     local data table", dim_desc(x), "\n", sep = "")
+  cat("Source:     local data table ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }

@@ -60,7 +60,7 @@ group_by.source_sqlite <- function(x, ...) {
 #' @S3method print grouped_sqlite
 print.grouped_sqlite <- function(x, ...) {
   cat("Source: SQLite [", x$path, "]\n", sep = "")
-  cat("Table:  ", x$table, dim_desc(x), "\n", sep = "")
+  cat("Table:  ", x$table, " ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", paste0(deparse_all(x$vars), collapse = ", "), "\n", sep = "")
 
   cat("\n")

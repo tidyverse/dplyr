@@ -5,7 +5,7 @@
 \alias{to_sql}
 \alias{to_sql_q}
 \title{Translate an R expression to sql.}
-\format{<environment: 0x100cabdb8>}
+\format{<environment: 0x104878178>}
 \usage{
   to_sql(x, variant = base_sql)
 
