@@ -36,7 +36,7 @@
 #' translate_sql(x ^ y)
 translate_sql <- function(expr, source = NULL, env = parent.frame(), variant = base_sql) {
   expr <- partial_eval(substitute(expr), source, env = env)
-  env <- sql_env(x, variant)
+  env <- sql_env(expr, variant)
   eval(expr, env)
 }
 
