@@ -92,7 +92,7 @@ exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = T
   if (isTRUE(explain)) {
     exsql <- paste0("EXPLAIN QUERY PLAN ", sql)
     out <- exec_sql(con, exsql, n = -1L, explain = FALSE, show = FALSE)
-    rownames(out) <- rep("", nrow(out))
+    rownames(out) <- NULL
     message(exsql)
     print(out)
     cat("\n")
