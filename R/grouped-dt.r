@@ -40,7 +40,7 @@ print.grouped_dt <- function(x, ...) {
 group_by.data.table <- function(x, ...) {
   vars <- dots(...)
 
-  grouped_dt(x, vars)
+  grouped_dt(x, c(x$group_by, vars))
 }
 
 #' @method group_by source_dt

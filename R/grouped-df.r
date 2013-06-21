@@ -48,7 +48,7 @@ print.grouped_df <- function(x, ...) {
 #' @rdname grouped_df
 group_by.data.frame <- function(x, ..., drop = TRUE) {
   vars <- named_dots(...)
-  grouped_df(x, vars, lazy = FALSE)
+  grouped_df(x, c(x$group_by, vars), lazy = FALSE)
 }
 
 

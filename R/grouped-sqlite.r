@@ -57,6 +57,17 @@ group_by.source_sqlite <- function(x, ...) {
   grouped_sqlite(x, vars, group_by)
 }
 
+#' @export
+#' @rdname grouped_sqlite
+#' @method group_by grouped_sqlite
+group_by.grouped_sqlite <- function(x, ...) {
+  vars <- named_dots(...)
+  group_by <- partial_eval(vars, x, parent.frame())
+
+  grouped_sqlite(x, c(x$vars, vars), c(x$group_by, group_by))
+}
+
+
 #' @S3method print grouped_sqlite
 print.grouped_sqlite <- function(x, ...) {
   cat("Source: SQLite [", x$path, "]\n", sep = "")
