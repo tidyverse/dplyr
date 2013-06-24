@@ -1,4 +1,5 @@
 \name{grouped_sqlite}
+\alias{group_by.grouped_sqlite}
 \alias{group_by.source_sqlite}
 \alias{grouped_sqlite}
 \title{A grouped sqlite database.}
@@ -6,6 +7,8 @@
   grouped_sqlite(source, vars, group_by)
 
   \method{group_by}{source_sqlite} (x, ...)
+
+  \method{group_by}{grouped_sqlite} (x, ...)
 }
 \arguments{
   \item{source}{a data source or data frame.}

@@ -5,7 +5,7 @@
 #' and converts it into a grouped data source where operations are performed
 #' "by group".
 #'
-#' @section Data sources
+#' @section Data sources:
 #'
 #' \code{group_by} is an S3 generic with methods for the three built-in
 #' data sources. See the help for the corresponding classes and their manip

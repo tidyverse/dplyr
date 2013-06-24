@@ -18,11 +18,12 @@
   into a grouped data source where operations are performed
   "by group".
 }
-\section{Data sources
+\section{Data sources}{
+  \code{group_by} is an S3 generic with methods for the
+  three built-in data sources. See the help for the
+  corresponding classes and their manip methods for more
+  details:
 
-\code{group_by} is an S3 generic with methods for the three built-in
-data sources. See the help for the corresponding classes and their manip
-methods for more details}{
   \itemize{ \item data.frame: \link{grouped_df},
   \link{manip_grouped_df} \item data.table:
   \link{grouped_dt}, \link{manip_grouped_dt} \item SQLite:
