@@ -67,10 +67,10 @@ summarise.grouped_df <- function(.data, ...) {
     }
   }
 
-  out <- vector("list", length(calls))
-  names(out) <- names(calls)
+  out_cols <- unique(names(calls))
+  out <- setNames(vector("list", length(out_cols)), out_cols)
 
-  for (j in seq_along(out)) {
+  for (j in seq_along(calls)) {
     for (i in seq_len(ngrps)) {
       rows <- v$set_group(i)
       if (i == 1L) {
@@ -82,7 +82,7 @@ summarise.grouped_df <- function(.data, ...) {
         col[[i]] <- v$eval(calls[[j]])
       }
     }
-    out[[j]] <- col
+    out[[names(calls)[j]]] <- col
 
     name <- names(calls)[[j]]
     v$add_binding(name, output_summary(name))
@@ -109,10 +109,10 @@ mutate.grouped_df <- function(.data, ...) {
     }
   }
 
-  out <- vector("list", length(calls))
-  names(out) <- names(calls)
+  out_cols <- unique(names(calls))
+  out <- setNames(vector("list", length(out_cols)), out_cols)
 
-  for (j in seq_along(out)) {
+  for (j in seq_along(calls)) {
     for (i in seq_len(ngrps)) {
       rows <- v$set_group(i)
       if (i == 1L) {
@@ -127,7 +127,7 @@ mutate.grouped_df <- function(.data, ...) {
       }
     }
 
-    out[[j]] <- col
+    out[[names(calls)[j]]] <- col
 
     name <- names(calls)[[j]]
     v$add_binding(name, output_var(name))

@@ -40,11 +40,11 @@ summarise.data.frame <- function(.data, ...) {
   data_env <- list2env(.data, parent = parent.frame())
   data_env$count <- function() nrow(.data)
 
-  for (col in names(cols)) {
-    data_env[[col]] <- eval(cols[[col]], data_env)
+  for (i in seq_along(cols)) {
+    data_env[[names(cols)[i]]] <- eval(cols[[i]], data_env)
   }
 
-  as_df(mget(names(cols), data_env))
+  as_df(mget(unique(names(cols)), data_env))
 }
 
 #' @S3method summarise source_df
@@ -60,8 +60,8 @@ mutate.data.frame <- function(.data, ...) {
   cols <- named_dots(...)
   data_env <- list2env(.data, parent = parent.frame())
 
-  for(col in names(cols)) {
-    data_env[[col]] <- eval(cols[[col]], data_env)
+  for(i in seq_along(cols)) {
+    data_env[[names(cols)[i]]] <- eval(cols[[i]], data_env)
   }
 
   out_cols <- union(names(.data), names(cols))
