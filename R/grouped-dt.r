@@ -35,7 +35,7 @@ print.grouped_dt <- function(x, ...) {
   cat("Source: local data table ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(x$vars)), "\n", sep = "")
   cat("\n")
-  trunc_mat(x)
+  trunc_mat(x$obj)
 }
 
 #' @S3method group_size grouped_dt
