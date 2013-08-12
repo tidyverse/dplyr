@@ -16,7 +16,7 @@ test_that("repeated outputs applied progressively (grouped_df)", {
   out <- summarise(ds, z = mean(x), z = z + 1)  
   
   expect_equal(nrow(out), 2)
-  expect_equal(ncol(out), 3)
+  expect_equal(ncol(out), 2)
   
-  expect_equal(out$z, c(3L, 3L))
+  expect_equal(out$z, c(2L, 2L))
 })
