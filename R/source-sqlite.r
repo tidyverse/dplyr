@@ -38,13 +38,8 @@ source_sqlite <- function(path, table) {
   if (!(table %in% dbListTables(con))) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
-
-  structure(list(
-      con = con, path = path, table = table,
-      select = NULL, filter = NULL, arrange = NULL
-    ),
-    class = c("source_sqlite", "source_sql", "source")
-  )
+  
+  source_sql("source_sqlite", con = con, path = path, table = table)
 }
 
 #' @S3method source_vars source_sqlite

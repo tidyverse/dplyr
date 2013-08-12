@@ -1,5 +1,13 @@
-new_source <- function(...) {
-  structure(list(...), class = c("source", "ops"))
+#' Create a new datasource.
+#' 
+#' Standard constructor for data sources.
+#' 
+#' @keywords internal
+#' @export
+#' @param subclass name of subclass
+#' @param ... other fields used by class
+datasource <- function(subclass, ...) {
+  structure(list(...), class = c(subclass, "source", "ops"))
 }
 
 #' List variables provided by a data source.

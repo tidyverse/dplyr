@@ -54,3 +54,4 @@ Collate:
     'sql-escape.r'
     'utils-format.r'
     'type-sum.r'
+    'source-sql.r'
