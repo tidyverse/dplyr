@@ -57,7 +57,14 @@ summarise.grouped_dt <- function(.data, ...) {
   }
 
   cols <- named_dots(...)
-  list_call <- as.call(c(quote(list), named_dots(...)))
+  # Replace n() with .N
+  for (i in seq_along(cols)) {
+    if (identical(cols[[i]], quote(n()))) {
+      cols[[i]] <- quote(.N)
+    }
+  }
+  
+  list_call <- as.call(c(quote(list), cols))
   call <- substitute(data[, list_call, by = vars])
 
   env <- new.env(parent = parent.frame(), size = 1L)

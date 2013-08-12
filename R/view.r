@@ -15,7 +15,14 @@ view <- function(data, index, parent = parent.frame()) {
     rows
   }
 
+  # Tools to manage extra functions
+  fun_env <- new.env(parent = parent)
+  add_function <- function(name, fun) {
+    fun_env[[name]] <- fun
+  }
+  
   # Tools to manage active bindings
+  grp_env <- new.env(parent = fun_env, size = nrow(data))
   add_binding <- function(name, fun) {
     makeActiveBinding(name, fun, grp_env)
   }
@@ -27,7 +34,6 @@ view <- function(data, index, parent = parent.frame()) {
     }
   }
 
-  grp_env <- new.env(parent, size = nrow(data))
   for (name in names(data)) {
     add_binding(name, from_data(name))
   }
@@ -36,5 +42,6 @@ view <- function(data, index, parent = parent.frame()) {
     eval(expr, grp_env)
   }
 
-  list(set_group = set_group, eval = local_eval, add_binding = add_binding)
+  list(set_group = set_group, eval = local_eval, add_function = add_function, 
+    add_binding = add_binding)
 }

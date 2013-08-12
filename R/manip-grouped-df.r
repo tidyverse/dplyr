@@ -57,6 +57,8 @@ summarise.grouped_df <- function(.data, ...) {
   calls <- named_dots(...)
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
+  v$add_function("n", function() length(rows))
+  
   ngrps <- length(attr(.data, "index"))
 
   output_summary <- function(j) {

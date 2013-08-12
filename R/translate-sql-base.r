@@ -38,5 +38,7 @@ base_sql$is.null <- function(x) {
 base_sql$c     <- function(...) escape(c(...))
 base_sql$`:`   <- function(from, to) escape(from:to)
 
+base_sql$n     <- sql_prefix("count")
+
 senv <- new.env(parent = emptyenv())
 senv$pi <- structure("PI()", class = "sql")
