@@ -18,8 +18,7 @@ source_dt <- function(data) {
   }
 
   data <- as.data.table(data)
-  structure(list(obj = data),
-    class = c("source_dt", "source"))
+  structure(data, class = c("source_dt", "source", class(data)))
 }
 
 #' @S3method as.source data.table
@@ -28,7 +27,7 @@ as.source.data.table <- function(x, ...) {
 }
 
 #' @S3method source_vars source_dt
-source_vars.source_dt <- function(x) copy(names(x$obj))
+source_vars.source_dt <- function(x) copy(names(x))
 
 # Standard data frame methods --------------------------------------------------
 
@@ -37,19 +36,18 @@ source_vars.source_dt <- function(x) copy(names(x$obj))
 #' @export
 #' @keywords internal
 as.data.table.source_dt <- function(x, keep.rownames = NULL) {
-  if (!is.null(keep.rownames)) {
-    warning("keep.rownames argument ignored", call. = FALSE)
-  }
+#   if (!is.null(keep.rownames)) {
+#     warning("keep.rownames argument ignored", call. = FALSE)
+#   }
 
-  x$obj
+  NextMethod()
 }
 
 #' @S3method as.data.frame source_dt
 as.data.frame.source_dt <- function(x, row.names = NULL, optional = FALSE, ...) {
 #   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
 #   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
-
-  as.data.frame(x$obj)
+  NextMethod()
 }
 
 #' @S3method print source_dt
@@ -60,16 +58,13 @@ print.source_dt <- function(x, ...) {
 }
 
 #' @S3method dimnames source_dt
-dimnames.source_dt <- function(x) copy(dimnames(x$obj))
-
-#' @S3method dim source_dt
-dim.source_dt <- function(x) dim(x$obj)
+dimnames.source_dt <- function(x) copy(NextMethod())
 
 #' @S3method head source_dt
-head.source_dt <- function(x, ...) as.data.frame(head(x$obj, ...))
+head.source_dt <- function(x, ...) as.data.frame(NextMethod())
 
 #' @S3method tail source_dt
-tail.source_dt <- function(x, ...) as.data.frame(tail(x$obj, ...))
+tail.source_dt <- function(x, ...) source_df(as.data.frame(NextMethod()))
 
 #' @export
 .datatable.aware <- TRUE

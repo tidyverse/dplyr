@@ -44,6 +44,11 @@ head(arrange(baseball, id, desc(year)))
 
 # If you start with a source, you end up with a source
 baseball_s <- as.source(baseball)
+filter(baseball_s, year > 2005, g > 130)
+select(baseball_s, id:team)
+summarise(baseball_s, g = mean(g))
+mutate(baseball_s, rbi = r / ab, rbi2 = rbi ^ 2)
+arrange(baseball_s, id, desc(year))
 }
 }
 

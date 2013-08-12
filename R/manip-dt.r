@@ -18,6 +18,11 @@
 #'
 #' # If you start with a source, you end up with a source
 #' baseball_s <- as.source(baseball)
+#' filter(baseball_s, year > 2005, g > 130)
+#' select(baseball_s, id:team)
+#' summarise(baseball_s, g = mean(g))
+#' mutate(baseball_s, rbi = r / ab, rbi2 = rbi ^ 2)
+#' arrange(baseball_s, id, desc(year))
 #' }
 #' @name manip_dt
 NULL
@@ -47,7 +52,7 @@ filter.data.table <- function(.data, ...) {
 #' @S3method filter source_dt
 filter.source_dt <- function(.data, ...) {
   source_dt(
-    filter.data.table(.data$obj, ...)
+    filter.data.table(.data, ...)
   )
 }
 
@@ -65,7 +70,7 @@ summarise.data.table <- function(.data, ...) {
 #' @S3method summarise source_dt
 summarise.source_dt <- function(.data, ...) {
   source_dt(
-    summarise.data.table(.data$obj, ...)
+    summarise.data.table(.data, ...)
   )
 }
 
@@ -92,7 +97,7 @@ mutate.data.table <- function(.data, ..., inplace = FALSE) {
 #' @S3method mutate source_dt
 mutate.source_dt <- function(.data, ...) {
   source_dt(
-    mutate.data.table(.data$obj, ...)
+    mutate.data.table(.data, ...)
   )
 }
 
@@ -111,7 +116,7 @@ arrange.data.table <- function(.data, ...) {
 #' @S3method arrange source_dt
 arrange.source_dt <- function(.data, ...) {
   source_dt(
-    arrange.data.table(.data$obj, ...)
+    arrange.data.table(.data, ...)
   )
 }
 
@@ -119,14 +124,14 @@ arrange.source_dt <- function(.data, ...) {
 #' @export
 #' @method select data.table
 select.data.table <- function(.data, ...) {
-  input <- var_eval(.data, dots(...), parent.frame())
+  input <- var_eval(dots(...), .data, parent.frame())
   .data[, input, drop = FALSE, with = FALSE]
 }
 
 #' @S3method select source_dt
 select.source_dt <- function(.data, ...) {
   source_dt(
-    select.data.table(.data$obj, ...)
+    select.data.table(.data, ...)
   )
 }
 
@@ -137,5 +142,5 @@ do.data.table <- function(.data, .f, ...) {
 
 #' @S3method do source_dt
 do.source_dt <- function(.data, .f, ...) {
-  list(.f(as.data.frame(.data$obj), ...))
+  list(.f(as.data.frame(.data), ...))
 }
