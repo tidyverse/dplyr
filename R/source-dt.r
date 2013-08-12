@@ -46,8 +46,8 @@ as.data.table.source_dt <- function(x, keep.rownames = NULL) {
 
 #' @S3method as.data.frame source_dt
 as.data.frame.source_dt <- function(x, row.names = NULL, optional = FALSE, ...) {
-  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
-  if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
+#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+#   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
 
   as.data.frame(x$obj)
 }

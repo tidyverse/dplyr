@@ -52,8 +52,8 @@ source_vars.source_sqlite <- function(x) {
 #' @S3method as.data.frame source_sqlite
 as.data.frame.source_sqlite <- function(x, row.names = NULL, optional = NULL,
                                         ..., n = 1e5L) {
-  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
-  if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
+#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+#   if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
 
   sql_select(x, n = n)
 }

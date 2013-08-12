@@ -32,8 +32,8 @@ source_vars.data.frame <- function(x) names(x)
 #' @S3method as.data.frame source_df
 as.data.frame.source_df <- function(x, row.names = NULL,
                                             optional = FALSE, ...) {
-  if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
-  if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
+#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+#   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
 
   class(x) <- setdiff(class(x), c("source_df", "source"))
   x
