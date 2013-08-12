@@ -19,7 +19,8 @@ dim_desc <- function(x) {
 #' @export
 #' @rdname dplyr-formatting
 trunc_mat <- function(x, n = 10L) {
-  mat <- format(as.data.frame(head(x, n)))
+  df <- as.data.frame(head(x, n))
+  mat <- format(df)
 
   width <- getOption("width")
 
@@ -41,7 +42,10 @@ trunc_mat <- function(x, n = 10L) {
   print(shrunk)
 
   if (any(too_wide)) {
-    vars <- paste0(colnames(mat)[too_wide], collapse = ", ")
-    cat(wrap("Variables not shown: ", vars), "\n", sep = "")
+    vars <- colnames(mat)[too_wide]
+    types <- vapply(df[too_wide], type_sum, character(1))
+    var_types <- paste0(vars, " (", types, ")", collapse = ", ")
+    
+    cat(wrap("Variables not shown: ", var_types), "\n", sep = "")
   }
 }

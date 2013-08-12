@@ -1,0 +1,23 @@
+\name{type_sum}
+\alias{type_sum}
+\title{Provide a succint summary of a type}
+\usage{
+  type_sum(x)
+}
+\arguments{
+  \item{x}{an object to summarise. Generally only methods
+  of atomic vectors and variants have been implemented.}
+}
+\description{
+  All methods should return a string with four or less
+  characters, suitable for succinctly display column types.
+}
+\examples{
+type_sum(1:10)
+type_sum(matrix(1:10))
+type_sum(Sys.Date())
+type_sum(Sys.time())
+type_sum(mean)
+}
+\keyword{internal}
+

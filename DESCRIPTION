@@ -53,3 +53,4 @@ Collate:
     'failwith.r'
     'sql-escape.r'
     'utils-format.r'
+    'type-sum.r'
