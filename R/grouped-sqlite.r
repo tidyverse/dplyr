@@ -19,6 +19,7 @@
 #' baseball_s <- source_sqlite(db_path, "baseball")
 #'
 #' by_year_lg <- group_by(baseball_s, year, lg)
+#' group_size(by_year_lg)
 #' summarise(by_year_lg, players = count(), avg_g = mean(g))
 #'
 #' by_team <- group_by(baseball_s, team)
@@ -67,6 +68,10 @@ group_by.grouped_sqlite <- function(x, ...) {
   grouped_sqlite(x, c(x$vars, vars), c(x$group_by, group_by))
 }
 
+#' @S3method group_size grouped_sqlite
+group_size.grouped_sqlite <- function(x) {
+  summarise(x, n = count())$n
+}
 
 #' @S3method print grouped_sqlite
 print.grouped_sqlite <- function(x, ...) {

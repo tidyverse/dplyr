@@ -41,6 +41,13 @@ print.grouped_df <- function(x, ...) {
   trunc_mat(x)
 }
 
+#' @S3method group_size grouped_df
+group_size.grouped_df <- function(x) {
+  if (is.lazy(x)) x <- build_index(x)
+  vapply(attr(x, "index"), length, integer(1))
+}
+
+
 #' @param x object (data frame or \code{\link{source_df}}) to group
 #' @param ... unquoted variables to group by
 #' @method group_by data.frame

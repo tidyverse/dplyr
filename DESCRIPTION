@@ -55,3 +55,4 @@ Collate:
     'utils-format.r'
     'type-sum.r'
     'source-sql.r'
+    'group-size.r'

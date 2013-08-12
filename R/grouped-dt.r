@@ -6,6 +6,11 @@
 #'
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
+#' @export
+#' @examples
+#' data("baseball", package = "plyr")
+#' by_player <- group_by(data.table(baseball), id)
+#' group_size(by_player)
 grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))
 
@@ -31,6 +36,11 @@ print.grouped_dt <- function(x, ...) {
   cat("Groups: ", commas(deparse_all(x$vars)), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
+}
+
+#' @S3method group_size grouped_dt
+group_size.grouped_dt <- function(x) {
+  summarise(x, n = .N)$obj$n
 }
 
 #' @method group_by data.table

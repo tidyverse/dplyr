@@ -40,6 +40,7 @@ db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
 baseball_s <- source_sqlite(db_path, "baseball")
 
 by_year_lg <- group_by(baseball_s, year, lg)
+group_size(by_year_lg)
 summarise(by_year_lg, players = count(), avg_g = mean(g))
 
 by_team <- group_by(baseball_s, team)

@@ -28,4 +28,9 @@
   source: this will take care of capturing the unevalated
   expressions for you.
 }
+\examples{
+data("baseball", package = "plyr")
+by_player <- group_by(data.table(baseball), id)
+group_size(by_player)
+}
 
