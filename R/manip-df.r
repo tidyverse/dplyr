@@ -17,10 +17,10 @@ NULL
 #' @rdname manip_df
 #' @export
 #' @method filter data.frame
-filter.data.frame <- function(.data, ...) {
+filter.data.frame <- function(.data, ..., env = parent.frame()) {
   conds <- dots(...)
 
-  r <- vapply(conds, eval, env = .data, enclos = parent.frame(),
+  r <- vapply(conds, eval, env = .data, enclos = env,
     FUN.VALUE = logical(nrow(.data)))
 
   all <- rowSums(r, na.rm = TRUE) == ncol(r)
@@ -28,8 +28,8 @@ filter.data.frame <- function(.data, ...) {
 }
 
 #' @S3method filter source_df
-filter.source_df <- function(.data, ...) {
-  source_df(filter.data.frame(.data, ...))
+filter.source_df <- function(.data, ..., env = parent.frame()) {
+  source_df(filter.data.frame(.data, ..., env = env))
 }
 
 #' @rdname manip_df

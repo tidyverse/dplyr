@@ -42,17 +42,20 @@ and_expr <- function(exprs) {
 #' @rdname manip_dt
 #' @export
 #' @method filter data.table
-filter.data.table <- function(.data, ...) {
+filter.data.table <- function(.data, ..., .env = parent.frame()) {
   expr <- and_expr(dots(...))
   call <- substitute(.data[expr, ])
+  
+  eval_env <- new.env(parent = .env)
+  eval_env$.data <- .data
 
-  eval(call, parent.frame())
+  eval(call, eval_env)
 }
 
 #' @S3method filter source_dt
-filter.source_dt <- function(.data, ...) {
+filter.source_dt <- function(.data, ..., .env = parent.frame()) {
   source_dt(
-    filter.data.table(.data, ...)
+    filter.data.table(.data, ..., .env = .env)
   )
 }
 
