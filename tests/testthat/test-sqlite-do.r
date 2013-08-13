@@ -1,11 +1,10 @@
 context("SQLite: do")
 
-data(baseball, package = "plyr")
-baseball_db <- source_sqlite("../db/baseball.sqlite3", "baseball")
+bball <- baseball_sources()
 
 test_that("Results respect select", {
-  by_team_2 <- group_by(select(baseball_db, year, team), team)
-  by_team_all <- group_by(baseball_db, team)
+  by_team_2 <- group_by(select(bball$sqlite, year, team), team)
+  by_team_all <- group_by(bball$sqlite, team)
 
   ncols <- function(group) unique(unlist(do(group, ncol)))
 
@@ -16,8 +15,8 @@ test_that("Results respect select", {
 test_that("Results independent of chunk_size", {
   nrows <- function(group, n) unlist(do(group, nrow, .chunk_size = n))
 
-  by_team <- group_by(select(baseball_db, year, team), team)
-  team_sizes <- as.vector(table(baseball$team))
+  by_team <- group_by(select(bball$sqlite, year, team), team)
+  team_sizes <- as.vector(table(bball$df$team))
 
   expect_equal(nrows(by_team, 1e5), team_sizes) # 1 chunk
   expect_equal(nrows(by_team, 1e4), team_sizes) # 3 chunks
