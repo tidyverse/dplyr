@@ -1,3 +1,3 @@
 library("testthat")
 library("dplyr")
-test_package("dplyr")
+test_check("dplyr")
