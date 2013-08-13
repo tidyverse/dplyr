@@ -1,6 +1,7 @@
 context("SQL translation")
 
-test_con <- dbConnect(dbDriver("SQLite"), dbname = "test.sqlite3")
+test_con <- dbConnect(dbDriver("SQLite"), 
+  dbname = file.path(tempdir(), "test.sqlite3"))
 RSQLite.extfuns::init_extensions(test_con)
 
 eval_sql <- function(expr) {
