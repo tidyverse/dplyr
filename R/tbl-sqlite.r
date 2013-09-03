@@ -39,7 +39,7 @@ tbl_sqlite <- function(path, table) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
 
-  tbl_sql("tbl_sqlite", con = con, path = path, table = table)
+  tbl_sql("sqlite", con = con, path = path, table = table)
 }
 
 #' @S3method tbl_vars tbl_sqlite
