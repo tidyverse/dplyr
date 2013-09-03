@@ -6,7 +6,8 @@
 #' @export
 #' @examples
 #' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-#' baseball <- src_sqlite(db_path, "baseball")
+#' baseball <- src_sqlite(db_path)
+#' src_tbls(baseball)
 src_sqlite <- function(path) {
   assert_that(is.readable(path))
   if (!require("RSQLite")) {
@@ -25,5 +26,12 @@ src_sqlite <- function(path) {
 
 #' @S3method format src_sqlite
 format.src_sqlite <- function(x, ...) {
-  paste0("<src_sqlite> ", x$path)
+  paste0("<src_sqlite> ", x$path, "\n", 
+    "  tbls: ", paste0(src_tbls(x), collapse = ","))
+}
+
+
+#' @S3method src_tbls src_sqlite
+src_tbls.src_sqlite <- function(x, ...) {
+  dbListTables(x$con)  
 }

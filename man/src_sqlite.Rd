@@ -13,6 +13,7 @@
 }
 \examples{
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-baseball <- src_sqlite(db_path, "baseball")
+baseball <- src_sqlite(db_path)
+src_tbls(baseball)
 }
 
