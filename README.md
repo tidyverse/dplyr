@@ -16,22 +16,23 @@ devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
 
-## Data sources
+## `tbls`
 
-To get started with `dplyr`, you need a data source. Currently `dplyr` supports data frames, data tables and SQLite databases. You can create them as follows:
+The key object in dplyr is a _tbl_, a representation of a tabular data structure.
+Currently `dplyr` supports data frames, data tables and SQLite databases. You can create them as follows:
 
 ```R
 library(dplyr)
 data(baseball, package = "plyr")
 
-baseball_df <- source_df(baseball)
-baseball_dt <- source_dt(baseball)
+baseball_df <- tbl_df(baseball)
+baseball_dt <- tbl_dt(baseball)
 
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-baseball_db <- source_sqlite(db_path, "baseball")
+baseball_db <- tbl_sqlite(db_path, "baseball")
 ```
 
-Each data source also comes in a grouped variant which allows you to easily perform operations "by group":
+Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
 
 ```R
 players_df <- group_by(baseball_df, id)
@@ -100,7 +101,7 @@ print(object.size(mod2), unit = "MB")
 
 ### Other operations
 
-All data sources also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
+All tbls also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
 
 ## Plyr compatibility
 
