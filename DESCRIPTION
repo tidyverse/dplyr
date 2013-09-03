@@ -58,3 +58,4 @@ Collate:
     'tbl.r'
     'src-sqlite.r'
     'src.r'
+    'sqlite-write.r'
