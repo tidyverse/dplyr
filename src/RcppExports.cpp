@@ -9,10 +9,15 @@ using namespace Rcpp;
 std::vector<std::vector<double> > split_indices(IntegerVector group, int groups);
 RcppExport SEXP dplyr_split_indices(SEXP groupSEXP, SEXP groupsSEXP) {
 BEGIN_RCPP
-    Rcpp::RNGScope __rngScope;
-    IntegerVector group = Rcpp::as<IntegerVector >(groupSEXP);
-    int groups = Rcpp::as<int >(groupsSEXP);
-    std::vector<std::vector<double> > __result = split_indices(group, groups);
-    return Rcpp::wrap(__result);
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        IntegerVector group = Rcpp::as<IntegerVector >(groupSEXP);
+        int groups = Rcpp::as<int >(groupsSEXP);
+        std::vector<std::vector<double> > __result = split_indices(group, groups);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
 END_RCPP
 }
