@@ -56,3 +56,5 @@ Collate:
     'tbl-sql.r'
     'tbl-sqlite.r'
     'tbl.r'
+    'src-sqlite.r'
+    'src.r'
