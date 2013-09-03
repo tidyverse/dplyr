@@ -53,7 +53,8 @@ tbl.src_sqlite <- function(src, table, ...) {
 
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
-  dbListFields(x$src$con, x$table)
+  names(sql_select(x, x$select %||% "*", where = sql("1 == 0"), 
+    show = FALSE, explain = FALSE))
 }
 
 # Standard data frame methods --------------------------------------------------
@@ -69,14 +70,19 @@ as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
 
 #' @S3method print tbl_sqlite
 print.tbl_sqlite <- function(x, ...) {
-  cat("Source:  SQLite [", x$src$path, "]\n", sep = "")
-  cat("Table:   ", x$table, " ", dim_desc(x), "\n", sep = "")
+  cat("Source: SQLite [", x$src$path, "]\n", sep = "")
+  
+  cat(wrap("From: ", gsub("\n", " ", x$table), " ", dim_desc(x)))
+  cat("\n")
   if (!is.null(x$filter)) {
-    cat(wrap("Filter:  ", commas(deparse_all(x$filter))), "\n")
+    cat(wrap("Filter: ", commas(deparse_all(x$filter))), "\n")
   }
   if (!is.null(x$arrange)) {
-    cat(wrap("Arrange:  ", commas(deparse_all(x$arrange))), "\n")
+    cat(wrap("Arrange: ", commas(deparse_all(x$arrange))), "\n")
   }
+  
+  if (is.sql(x$table)) return()
+  
   cat("\n")
   trunc_mat(x)
 }
@@ -88,8 +94,12 @@ dimnames.tbl_sqlite <- function(x) {
 
 #' @S3method dim tbl_sqlite
 dim.tbl_sqlite <- function(x) {
-  n <- sql_select(x, "count()", show = FALSE, explain = FALSE)[[1]]
-
+  if (is.sql(x$table)) {
+    n <- "??"
+  } else {
+    n <- sql_select(x, "count()", show = FALSE, explain = FALSE)[[1]]
+  }
+  
   if (is.null(x$select) || any(x$select == "*")) {
     p <- length(tbl_vars(x))
   } else {

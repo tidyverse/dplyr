@@ -123,7 +123,9 @@ sql_env <- function(expr, variant_env) {
 }
 
 escape_sql <- function(x) {
+  if (is.sql(x)) return(x)
   if (x == "") return("")
+  
   ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
 
   escape <- !grepl(ok, x) || toupper(x) %in% sql_keywords

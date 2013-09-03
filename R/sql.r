@@ -82,8 +82,7 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
     out$offset <- paste0("OFFSET ", offset)
   }
 
-  sql <- paste0(unlist(out, use.names = FALSE), collapse = "\n")
-  paste0(sql, ";")
+  paste0(unlist(out, use.names = FALSE), collapse = "\n")
 }
 
 exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {

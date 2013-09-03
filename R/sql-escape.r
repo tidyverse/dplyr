@@ -36,6 +36,11 @@
 sql <- function(...) {
   structure(paste0(...), class = "sql")
 }
+
+#' @rdname sql
+#' @export
+is.sql <- function(x) inherits(x, "sql")
+
 #' @S3method print sql
 print.sql <- function(x, ...) cat("<SQL> ", x, "\n", sep = "")
 
