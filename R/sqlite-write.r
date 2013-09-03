@@ -55,6 +55,18 @@ create_table <- function(src, table, types, temporary = FALSE) {
   tbl(src, table)
 }
 
+create_index <- function(tbl, columns, name = NULL, unique = FALSE) {
+  cols <- vapply(columns, escape_sql, character(1))
+  
+  name <- name %||% paste0(c(tbl$table, columns), collapse = "_")
+  sql <- paste0("CREATE ", if (unique) "UNIQUE ", "INDEX ", escape_sql(name), 
+    " ON ", escape_sql(tbl$table), " (", paste0(cols, collapse = ", "), ");")
+  
+  exec_sql(tbl$src$con, sql, fetch = FALSE, show = getOption("dplyr.show_sql"))
+  
+  TRUE
+}
+
 remove_table <- function(src, table, force = FALSE) {
   if (!has_table(src, table)) {
     if (force) {

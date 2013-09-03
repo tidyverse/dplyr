@@ -2,7 +2,7 @@
 \alias{lahman_db}
 \title{Create a database version of the Lahman baseball database.}
 \usage{
-  lahman_db(src)
+  lahman_db(src, index = TRUE)
 }
 \arguments{
   \item{src}{a data source with write access}

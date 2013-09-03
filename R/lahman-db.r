@@ -13,7 +13,7 @@
 #' db <- src_sqlite("~/desktop/lahman.sqlite", create = TRUE)
 #' lahman_db(db)
 #' }
-lahman_db <- function(src) {
+lahman_db <- function(src, index = TRUE) {
   if (!require("Lahman")) {
     stop("Please install the Lahman package", call. = FALSE)
   }
@@ -25,7 +25,14 @@ lahman_db <- function(src) {
   for(table in tables) {
     df <- get(table, "package:Lahman")
     message("Creating table ", table)
-    tbl <- write_table(src, table, df)    
+    tbl <- write_table(src, table, df)   
+    
+    if (index) {
+      ids <- names(df)[grepl("ID$", names(df))]
+      for (id in ids) {
+        create_index(tbl, id)
+      }
+    }
   }
   
   invisible(TRUE)
