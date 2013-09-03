@@ -5,14 +5,16 @@
 #'
 #' @keywords internal
 #' @export
-#' @param subclass name of subclass. "tbl" is an abstract, so you must supply
-#'   this value.
+#' @param subclass name of subclass. "tbl" is an abstract base class, so you 
+#'   must supply this value. \code{tbl_} is automatically prepended to the 
+#'   class name
 #' @param object to test/coerce.
 #' @param ... For \code{tbl}, other fields used by class. For \code{as.tbl},
 #'   other arguments passed to methods.
 #' @examples
 #' as.tbl(mtcars)
 tbl <- function(subclass, ...) {
+  subclass <- paste0("tbl_", subclass)
   structure(list(...), class = c(subclass, "tbl", "ops"))
 }
 
