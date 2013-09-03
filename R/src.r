@@ -20,8 +20,19 @@ src <- function(subclass, ...) {
 #' @export
 is.src <- function(x) inherits(x, "src")
 
-
 #' @S3method print src
 print.src <- function(x, ...) {
   cat(format(x, ...), "\n", sep = "")
+}
+
+#' List all tbls provided by a source.
+#'
+#' This is a generic method which individual src's will provide methods for.
+#' Most methods will not be documented because it's usually pretty obvious what
+#' possible results will be.
+#'
+#' @param x a data src. 
+#' @export
+src_tbls <- function(x) {
+  UseMethod("src_tbls")
 }
