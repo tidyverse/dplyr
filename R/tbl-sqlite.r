@@ -1,5 +1,10 @@
 #' Create an sqlite tbl.
 #'
+#' You can create a sqlite tbl with a table name and a path or 
+#' \code{\link{src_sqlite}} object. You need to use \code{src_sqlite} 
+#' if you're working with multiple tables from the same database so that they
+#' use the same connection, and so can perform joins etc.
+#'
 #' To see exactly what SQL is being sent to the database, you can set option
 #' \code{dplyr.show_sql} to true: \code{options(dplyr.show_sql = TRUE).}
 #' If you're wondering why a particularly query is slow, it can be helpful
@@ -10,12 +15,20 @@
 #' how SQL indices works to be helpful:
 #' \url{http://www.sqlite.org/queryplanner.html}.
 #'
-#' @param path path to sqlite database
+#' @param path,src either path to sqlite database, or \code{src_sqlite} object
 #' @param table name of table in database
+#' @param ... other arguments ignored, but needed for compatibility with 
+#'   generic.
 #' @export
 #' @examples
+#' # You can create from a path and a table name
 #' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
 #' baseball_s <- tbl_sqlite(db_path, "baseball")
+#' 
+#' # Or (better) from a sqlite src and a table name
+#' db <- src_sqlite(db_path)
+#' baseball_s <- tbl(db, "baseball")
+#' 
 #' dim(baseball_s)
 #' names(baseball_s)
 #' head(baseball_s)
@@ -24,11 +37,17 @@
 #' summarise(players, g = mean(g), n = count())
 tbl_sqlite <- function(path, table) {
   src <- src_sqlite(path)
+  tbl(src, table)
+}
 
-  if (!(table %in% src_tbls(con))) {
+#' @method tbl src_sqlite
+#' @export
+#' @rdname tbl_sqlite
+tbl.src_sqlite <- function(src, table, ...) {
+  if (!(table %in% src_tbls(src))) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
-
+  
   tbl_sql("sqlite", src = src, table = table)
 }
 

@@ -11,6 +11,6 @@
 #' @param select,filter,arrange default sql components.
 tbl_sql <- function(subclass, ..., select = NULL, filter = NULL,
                        arrange = NULL) {
-  tbl(c(subclass, "sql"), ..., select = select, filter = filter,
+  make_tbl(c(subclass, "sql"), ..., select = select, filter = filter,
     arrange = arrange)
 }

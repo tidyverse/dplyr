@@ -1,3 +1,14 @@
+#' Create a table from a data source
+#' 
+#' This is a generic method that dispatches based on the first argument.
+#' 
+#' @param src A data source
+#' @param ... Other arguments passed on to the individual methods
+#' @export
+tbl <- function(src, ...) {
+  UseMethod("tbl")
+}
+
 #' Create a "tbl" object
 #'
 #' \code{tbl} is the standard constructor for tbls. \code{as.tbl} coerces,
@@ -13,7 +24,7 @@
 #'   other arguments passed to methods.
 #' @examples
 #' as.tbl(mtcars)
-tbl <- function(subclass, ...) {
+make_tbl <- function(subclass, ...) {
   subclass <- paste0("tbl_", subclass)
   structure(list(...), class = c(subclass, "tbl", "ops"))
 }
