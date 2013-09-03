@@ -23,28 +23,18 @@
 #' players <- group_by(baseball_s, id)
 #' summarise(players, g = mean(g), n = count())
 tbl_sqlite <- function(path, table) {
-  assert_that(is.readable(path), is.string(table))
-  if (!require("RSQLite")) {
-    stop("RSQLite package required to connect to sqlite db", call. = FALSE)
-  }
-  if (!require("RSQLite.extfuns")) {
-    stop("RSQLite.extfuns package required to effectively use sqlite db",
-      call. = FALSE)
-  }
+  src <- src_sqlite(path)
 
-  con <- dbConnect(dbDriver("SQLite"), dbname = path)
-  RSQLite.extfuns::init_extensions(con)
-
-  if (!(table %in% dbListTables(con))) {
+  if (!(table %in% src_tbls(con))) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
 
-  tbl_sql("sqlite", con = con, path = path, table = table)
+  tbl_sql("sqlite", src = src, table = table)
 }
 
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
-  dbListFields(x$con, x$table)
+  dbListFields(x$src$con, x$table)
 }
 
 # Standard data frame methods --------------------------------------------------

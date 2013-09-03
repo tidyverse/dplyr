@@ -97,7 +97,7 @@ do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
     where = trans_sqlite(.data$filter),
     order_by = c(var_names(.data$group_by), trans_sqlite(.data$arrange)))
 
-  qry <- dbSendQuery(.data$con, select)
+  qry <- dbSendQuery(.data$src$con, select)
   on.exit(dbClearResult(qry))
 
   last_group <- NULL

@@ -16,7 +16,7 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
     order_by = order_by,
     ...)
 
-  exec_sql(x$con, sql, n = n, explain = explain, show = show)
+  exec_sql(x$src$con, sql, n = n, explain = explain, show = show)
 }
 
 #' Generate an SQL select query.
