@@ -49,3 +49,10 @@ trunc_mat <- function(x, n = 10L) {
     cat(wrap("Variables not shown: ", var_types), "\n", sep = "")
   }
 }
+
+wrap <- function(..., indent = 0) {
+  x <- paste0(..., collapse = "")
+  wrapped <- strwrap(x, indent = indent, exdent = indent + 2, 
+    width = getOption("width"))
+  paste0(wrapped, collapse = "\n")
+}
