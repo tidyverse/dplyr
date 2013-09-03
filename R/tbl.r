@@ -1,36 +1,34 @@
-#' Create a new datasource.
+#' Create a "tbl" object
 #'
-#' Standard constructor for tbls.
+#' \code{tbl} is the standard constructor for tbls. \code{as.tbl} coerces,
+#' and \code{is.tbl} tests. 
 #'
 #' @keywords internal
 #' @export
-#' @param subclass name of subclass
-#' @param ... other fields used by class
+#' @param subclass name of subclass. "tbl" is an abstract, so you must supply
+#'   this value.
+#' @param object to test/coerce.
+#' @param ... For \code{tbl}, other fields used by class. For \code{as.tbl},
+#'   other arguments passed to methods.
+#' @examples
+#' as.tbl(mtcars)
 tbl <- function(subclass, ...) {
   structure(list(...), class = c(subclass, "tbl", "ops"))
 }
+
+#' @rdname tbl
+#' @export
+is.tbl <- function(x) inherits(x, "tbl")
+
+#' @export
+#' @rdname tbl
+as.tbl <- function(x, ...) UseMethod("as.tbl")
+
+#' @S3method as.tbl tbl
+as.tbl.tbl <- function(x, ...) x
 
 #' List variables provided by a tbl.
 #'
 #' @export
 #' @param x A tbl object
 tbl_vars <- function(x) UseMethod("tbl_vars")
-
-#' Convert an existing object to a tbl.
-#'
-#' @param x an object to convert
-#' @param ... other arguments passed to methods
-#' @export
-#' @examples
-#' as.tbl(mtcars)
-as.tbl <- function(x, ...) UseMethod("as.tbl")
-
-#' @S3method as.tbl tbl
-as.tbl.tbl <- function(x, ...) x
-
-#' Is this object a tbl?
-#'
-#' @param x an object
-#' @keywords internal
-#' @export
-is.tbl <- function(x) inherits(x, "tbl")
