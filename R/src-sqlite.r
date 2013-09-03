@@ -39,7 +39,7 @@ src_sqlite <- function(path, create = FALSE) {
 #' @S3method format src_sqlite
 format.src_sqlite <- function(x, ...) {
   paste0("<src_sqlite> ", x$path, "\n", 
-    "  tbls: ", paste0(src_tbls(x), collapse = ","))
+    wrap("tbls: ", paste0(src_tbls(x), collapse = ", ")))
 }
 
 #' @S3method src_tbls src_sqlite
