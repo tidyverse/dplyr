@@ -42,8 +42,12 @@ format.src_sqlite <- function(x, ...) {
     "  tbls: ", paste0(src_tbls(x), collapse = ","))
 }
 
-
 #' @S3method src_tbls src_sqlite
 src_tbls.src_sqlite <- function(x, ...) {
-  dbListTables(x$con)  
+  sql <- "SELECT name FROM 
+    (SELECT * FROM sqlite_master UNION ALL
+     SELECT * FROM sqlite_temp_master)
+    WHERE type = 'table' OR type = 'view'
+    ORDER BY name"
+  exec_sql(x$con, sql)$name
 }
