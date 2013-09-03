@@ -25,11 +25,10 @@
   \item{f}{the name of the sql function as a string}
 }
 \description{
-  When creating a package that maps to a new SQL based
-  datasource, you'll often want to provide some additional
-  mappings from common R commands to the commands that your
-  data source provides. These three functions make that
-  easy.
+  When creating a package that maps to a new SQL based src,
+  you'll often want to provide some additional mappings
+  from common R commands to the commands that your tbl
+  provides. These three functions make that easy.
 }
 \section{Helper functions}{
   \code{sql_infix} and \code{sql_prefix} create default SQL

@@ -27,9 +27,9 @@ filter.data.frame <- function(.data, ..., env = parent.frame()) {
   .data[all, , drop = FALSE]
 }
 
-#' @S3method filter source_df
-filter.source_df <- function(.data, ..., env = parent.frame()) {
-  source_df(filter.data.frame(.data, ..., env = env))
+#' @S3method filter tbl_df
+filter.tbl_df <- function(.data, ..., env = parent.frame()) {
+  tbl_df(filter.data.frame(.data, ..., env = env))
 }
 
 #' @rdname manip_df
@@ -47,9 +47,9 @@ summarise.data.frame <- function(.data, ...) {
   as_df(mget(unique(names(cols)), data_env))
 }
 
-#' @S3method summarise source_df
-summarise.source_df <- function(.data, ...) {
-  source_df(summarise.data.frame(.data, ...))
+#' @S3method summarise tbl_df
+summarise.tbl_df <- function(.data, ...) {
+  tbl_df(summarise.data.frame(.data, ...))
 }
 
 
@@ -68,9 +68,9 @@ mutate.data.frame <- function(.data, ...) {
   as_df(mget(out_cols, data_env))
 }
 
-#' @S3method mutate source_df
-mutate.source_df <- function(.data, ...) {
-  source_df(mutate.data.frame(.data, ...))
+#' @S3method mutate tbl_df
+mutate.tbl_df <- function(.data, ...) {
+  tbl_df(mutate.data.frame(.data, ...))
 }
 
 #' @rdname manip_df
@@ -84,9 +84,9 @@ arrange.data.frame <- function(.data, ...) {
   .data[r, , drop = FALSE]
 }
 
-#' @S3method arrange source_df
-arrange.source_df <- function(.data, ...) {
-  source_df(arrange.data.frame(.data, ...))
+#' @S3method arrange tbl_df
+arrange.tbl_df <- function(.data, ...) {
+  tbl_df(arrange.data.frame(.data, ...))
 }
 
 #' @rdname manip_df
@@ -97,9 +97,9 @@ select.data.frame <- function(.data, ...) {
   .data[, input, drop = FALSE]
 }
 
-#' @S3method select source_df
-select.source_df <- function(.data, ...) {
-  source_df(select.data.frame(.data, ...))
+#' @S3method select tbl_df
+select.tbl_df <- function(.data, ...) {
+  tbl_df(select.data.frame(.data, ...))
 }
 
 #' @S3method do data.frame
@@ -107,7 +107,7 @@ do.data.frame <- function(.data, .f, ...) {
   list(.f(.data, ...))
 }
 
-#' @S3method do source_df
-do.source_df <- function(.data, .f, ...) {
+#' @S3method do tbl_df
+do.tbl_df <- function(.data, .f, ...) {
   list(.f(.data, ...))
 }

@@ -7,7 +7,8 @@
 \alias{summarise.data.table}
 \title{Data manipulation for data tables.}
 \usage{
-  \method{filter}{data.table} (.data, ...)
+  \method{filter}{data.table} (.data, ...,
+    .env = parent.frame())
 
   \method{summarise}{data.table} (.data, ...)
 
@@ -42,8 +43,8 @@ summarise(baseball, g = mean(g))
 head(mutate(baseball, rbi = r / ab, rbi2 = rbi ^ 2))
 head(arrange(baseball, id, desc(year)))
 
-# If you start with a source, you end up with a source
-baseball_s <- as.source(baseball)
+# If you start with a tbl, you end up with a tbl
+baseball_s <- as.tbl(baseball)
 filter(baseball_s, year > 2005, g > 130)
 select(baseball_s, id:team)
 summarise(baseball_s, g = mean(g))

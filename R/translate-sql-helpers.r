@@ -3,9 +3,9 @@ NULL
 
 #' Create an sql variant.
 #'
-#' When creating a package that maps to a new SQL based datasource, you'll often
+#' When creating a package that maps to a new SQL based src, you'll often
 #' want to provide some additional mappings from common R commands to the
-#' commands that your data source provides. These three functions make that
+#' commands that your tbl provides. These three functions make that
 #' easy.
 #'
 #' @section Helper functions:

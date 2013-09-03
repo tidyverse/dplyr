@@ -1,6 +1,6 @@
 #' Calculate the size of each group
-#' 
-#' @param x a grouped data source
+#'
+#' @param x a grouped tbl
 #' @export
 #' @examples
 #' data("baseball", package = "plyr")

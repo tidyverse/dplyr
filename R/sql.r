@@ -1,8 +1,8 @@
-# Build an sql select query from a sql data source.
+# Build an sql select query from a sql tbl.
 sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
                        n = -1L, explain = getOption("dplyr.explain_sql"),
                        show = getOption("dplyr.show_sql")) {
-  assert_that(is.source(x))
+  assert_that(is.tbl(x))
   assert_that(is.numeric(n), length(n) == 1)
 
   select <- select %||% x$select %||% "*"

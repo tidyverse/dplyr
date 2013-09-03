@@ -7,7 +7,8 @@
 \alias{summarise.data.frame}
 \title{Data manipulation for data frames.}
 \usage{
-  \method{filter}{data.frame} (.data, ...)
+  \method{filter}{data.frame} (.data, ...,
+    env = parent.frame())
 
   \method{summarise}{data.frame} (.data, ...)
 

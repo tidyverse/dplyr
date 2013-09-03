@@ -1,7 +1,7 @@
 #' A grouped sqlite database.
 #'
 #' Typically you will create a grouped data table is to call the \code{group_by}
-#' method on a sqlite data source: this will take care of capturing
+#' method on a sqlite tbl: this will take care of capturing
 #' the unevalated expressions for you.
 #'
 #' @section Performance:
@@ -10,13 +10,13 @@
 #' that you are grouping by. A good introduction to how indices affect database
 #' performance can be found at \url{http://www.sqlite.org/queryplanner.html}.
 #'
-#' @param source a data source or data frame.
+#' @param source a tbl or data frame.
 #' @param vars a list of quoted variables.
 #' @param group_by \code{vars} partially evaluated in the correct environment
 #' @export
 #' @examples
 #' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-#' baseball_s <- source_sqlite(db_path, "baseball")
+#' baseball_s <- tbl_sqlite(db_path, "baseball")
 #'
 #' by_year_lg <- group_by(baseball_s, year, lg)
 #' group_size(by_year_lg)
@@ -43,15 +43,15 @@ grouped_sqlite <- function(source, vars, group_by) {
   source$vars <- vars
   source$group_by <- group_by
 
-  structure(source, class = c("grouped_sqlite", "source_sqlite", "source"))
+  structure(source, class = c("grouped_sqlite", "tbl_sqlite", "tbl"))
 }
 
 #' @export
 #' @rdname grouped_sqlite
-#' @method group_by source_sqlite
-#' @param x an existing sqlite data source
+#' @method group_by tbl_sqlite
+#' @param x an existing sqlite tbl
 #' @param ... expressions describing how to group data
-group_by.source_sqlite <- function(x, ...) {
+group_by.tbl_sqlite <- function(x, ...) {
   vars <- named_dots(...)
   group_by <- partial_eval(vars, x, parent.frame())
 
@@ -89,7 +89,7 @@ do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
   group_vars <- lapply(group_names, as.name)
   nvars <- length(.data$group_by)
 
-  vars <- .data$select %||% setdiff(source_vars(.data), group_names)
+  vars <- .data$select %||% setdiff(tbl_vars(.data), group_names)
 
   select <- select_query(
     from = .data$table,

@@ -5,7 +5,7 @@
 #' then \code{\link{to_sql}}.
 #'
 #' @param expr unevaluated expression to translate
-#' @param source data source
+#' @param source tbl
 #' @param variant SQL variant to use
 #' @param env environment in which to evaluate expression
 #' @export

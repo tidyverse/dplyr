@@ -1,10 +1,10 @@
 #' A grouped data table.
 #'
 #' The easiest way to create a grouped data table is to call the \code{group_by}
-#' method on a data table or data source: this will take care of capturing
+#' method on a data table or tbl: this will take care of capturing
 #' the unevalated expressions for you.
 #'
-#' @param data a data source or data frame.
+#' @param data a tbl or data frame.
 #' @param vars a list of quoted variables.
 #' @export
 #' @examples
@@ -22,7 +22,7 @@ grouped_dt <- function(data, vars) {
   setkeyv(data, deparse_all(vars))
 
   data <- list(obj = data, vars = vars)
-  structure(data, class = c("grouped_dt", "source_dt", "source"))
+  structure(data, class = c("grouped_dt", "tbl_dt", "tbl"))
 }
 
 #' @rdname grouped_dt
@@ -53,16 +53,16 @@ group_by.data.table <- function(x, ...) {
   grouped_dt(x, c(x$group_by, vars))
 }
 
-#' @method group_by source_dt
+#' @method group_by tbl_dt
 #' @export
 #' @rdname grouped_dt
-group_by.source_dt <- function(x, ...) {
+group_by.tbl_dt <- function(x, ...) {
   vars <- dots(...)
   grouped_dt(x, vars)
 }
 
 #' @S3method ungroup grouped_dt
 ungroup.grouped_dt <- function(x) {
-  source_dt(x$obj)
+  tbl_dt(x$obj)
 }
 

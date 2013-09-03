@@ -1,10 +1,10 @@
 #' A grouped data frame.
 #'
 #' The easiest way to create a grouped data frame is to call the \code{group_by}
-#' method on a data frame or data source: this will take care of capturing
+#' method on a data frame or tbl: this will take care of capturing
 #' the unevalated expressions for you.
 #'
-#' @param data a data source or data frame.
+#' @param data a tbl or data frame.
 #' @param vars a list of quoted variables.
 #' @param lazy if \code{TRUE}, index will be computed lazily every time it
 #'   is needed. If \code{FALSE}, index will be computed up front on object
@@ -18,7 +18,7 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
     data <- build_index(data)
   }
 
-  class(data) <- c("grouped_df", "source_df", "source", class(data))
+  class(data) <- c("grouped_df", "tbl_df", "tbl", class(data))
   data
 }
 
@@ -48,7 +48,7 @@ group_size.grouped_df <- function(x) {
 }
 
 
-#' @param x object (data frame or \code{\link{source_df}}) to group
+#' @param x object (data frame or \code{\link{tbl_df}}) to group
 #' @param ... unquoted variables to group by
 #' @method group_by data.frame
 #' @export
@@ -70,7 +70,7 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
   attr(x, "labels") <- NULL
   attr(x, "drop") <- NULL
 
-  class(x) <- setdiff(class(x), c("grouped_df", "source_df", "source"))
+  class(x) <- setdiff(class(x), c("grouped_df", "tbl_df", "tbl"))
   x
 }
 

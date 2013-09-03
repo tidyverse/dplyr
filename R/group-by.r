@@ -1,14 +1,14 @@
-#' Group a data source by one or more variables.
+#' Group a tbl by one or more variables.
 #'
 #' Most data operations are useful done on groups defined by variables in the
-#' the dataset. The \code{group_by} function takes an existing data source
-#' and converts it into a grouped data source where operations are performed
+#' the dataset. The \code{group_by} function takes an existing tbl
+#' and converts it into a grouped tbl where operations are performed
 #' "by group".
 #'
-#' @section Data sources:
+#' @section Tbl types:
 #'
 #' \code{group_by} is an S3 generic with methods for the three built-in
-#' data sources. See the help for the corresponding classes and their manip
+#' tbls. See the help for the corresponding classes and their manip
 #' methods for more details:
 #'
 #' \itemize{
@@ -18,8 +18,8 @@
 #' }
 #'
 #' @seealso \code{\link{ungroup}} for the inverse operation.
-#' @param x a data source
-#' @param ... variables to group by. All data sources accept variable names,
+#' @param x a tbl
+#' @param ... variables to group by. All tbls accept variable names,
 #'   some will also accept functons of variables.
 #' @export
 #' @examples
@@ -30,11 +30,11 @@ group_by <- function(x, ...) {
   UseMethod("group_by")
 }
 
-#' Ungroup a grouped data source
+#' Ungroup a grouped tbl
 #'
 #' The inverse of \code{\link{group_by}}
 #'
-#' @param x a grouped data source
+#' @param x a grouped tbl
 #' @export
 ungroup <- function(x) {
   UseMethod("ungroup")

@@ -5,7 +5,7 @@
 \alias{mutate.grouped_sqlite}
 \alias{select.grouped_sqlite}
 \alias{summarise.grouped_sqlite}
-\title{Data manipulation for grouped SQL data sources.}
+\title{Data manipulation for grouped SQL tbls.}
 \usage{
   \method{filter}{grouped_sqlite} (.data, ...)
 
@@ -28,11 +28,11 @@
   \code{-1} to return all.}
 }
 \description{
-  Data manipulation for grouped SQL data sources.
+  Data manipulation for grouped SQL tbls.
 }
 \examples{
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-baseball_s <- source_sqlite(db_path, "baseball")
+baseball_s <- tbl_sqlite(db_path, "baseball")
 players <- group_by(baseball_s, id)
 
 # Due to the lack of windowing functions in SQLite, only summarising

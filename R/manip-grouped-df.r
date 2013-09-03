@@ -58,7 +58,7 @@ summarise.grouped_df <- function(.data, ...) {
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
   v$add_function("n", function() length(rows))
-  
+
   ngrps <- length(attr(.data, "index"))
 
   output_summary <- function(j) {
@@ -91,7 +91,7 @@ summarise.grouped_df <- function(.data, ...) {
   }
 
   out <- c(attr(.data, "labels"), out) # expensive operation
-  source_df(as_df(out))
+  tbl_df(as_df(out))
 }
 
 #' @rdname manip_grouped_df

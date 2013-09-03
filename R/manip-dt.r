@@ -16,8 +16,8 @@
 #' head(mutate(baseball, rbi = r / ab, rbi2 = rbi ^ 2))
 #' head(arrange(baseball, id, desc(year)))
 #'
-#' # If you start with a source, you end up with a source
-#' baseball_s <- as.source(baseball)
+#' # If you start with a tbl, you end up with a tbl
+#' baseball_s <- as.tbl(baseball)
 #' filter(baseball_s, year > 2005, g > 130)
 #' select(baseball_s, id:team)
 #' summarise(baseball_s, g = mean(g))
@@ -45,16 +45,16 @@ and_expr <- function(exprs) {
 filter.data.table <- function(.data, ..., .env = parent.frame()) {
   expr <- and_expr(dots(...))
   call <- substitute(.data[expr, ])
-  
+
   eval_env <- new.env(parent = .env)
   eval_env$.data <- .data
 
   eval(call, eval_env)
 }
 
-#' @S3method filter source_dt
-filter.source_dt <- function(.data, ..., .env = parent.frame()) {
-  source_dt(
+#' @S3method filter tbl_dt
+filter.tbl_dt <- function(.data, ..., .env = parent.frame()) {
+  tbl_dt(
     filter.data.table(.data, ..., .env = .env)
   )
 }
@@ -70,9 +70,9 @@ summarise.data.table <- function(.data, ...) {
   eval(call, parent.frame())
 }
 
-#' @S3method summarise source_dt
-summarise.source_dt <- function(.data, ...) {
-  source_dt(
+#' @S3method summarise tbl_dt
+summarise.tbl_dt <- function(.data, ...) {
+  tbl_dt(
     summarise.data.table(.data, ...)
   )
 }
@@ -97,9 +97,9 @@ mutate.data.table <- function(.data, ..., inplace = FALSE) {
   .data
 }
 
-#' @S3method mutate source_dt
-mutate.source_dt <- function(.data, ...) {
-  source_dt(
+#' @S3method mutate tbl_dt
+mutate.tbl_dt <- function(.data, ...) {
+  tbl_dt(
     mutate.data.table(.data, ...)
   )
 }
@@ -116,9 +116,9 @@ arrange.data.table <- function(.data, ...) {
   eval(call, env)
 }
 
-#' @S3method arrange source_dt
-arrange.source_dt <- function(.data, ...) {
-  source_dt(
+#' @S3method arrange tbl_dt
+arrange.tbl_dt <- function(.data, ...) {
+  tbl_dt(
     arrange.data.table(.data, ...)
   )
 }
@@ -131,9 +131,9 @@ select.data.table <- function(.data, ...) {
   .data[, input, drop = FALSE, with = FALSE]
 }
 
-#' @S3method select source_dt
-select.source_dt <- function(.data, ...) {
-  source_dt(
+#' @S3method select tbl_dt
+select.tbl_dt <- function(.data, ...) {
+  tbl_dt(
     select.data.table(.data, ...)
   )
 }
@@ -143,7 +143,7 @@ do.data.table <- function(.data, .f, ...) {
   list(.f(as.data.frame(.data), ...))
 }
 
-#' @S3method do source_dt
-do.source_dt <- function(.data, .f, ...) {
+#' @S3method do tbl_dt
+do.tbl_dt <- function(.data, .f, ...) {
   list(.f(as.data.frame(.data), ...))
 }

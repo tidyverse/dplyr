@@ -18,7 +18,7 @@
   select(.data, ...)
 }
 \arguments{
-  \item{.data}{a data source}
+  \item{.data}{a tbl}
 
   \item{...}{variables interpreted in the context of that
   data frame.}
@@ -27,8 +27,8 @@
   These five functions form the backbone of dplyr. They are
   all S3 generic functions with methods for each individual
   data type. All functions work exactly the same way: the
-  first argument is the data source, and the subsequence
-  arguments are interpreted in the context of that source.
+  first argument is the tbl, and the subsequence arguments
+  are interpreted in the context of that tbl.
 }
 \section{Manipulation functions}{
   The five key data manipulation functions are:
@@ -47,9 +47,9 @@
   by group, as with \code{\link{group_by}}
 }
 
-\section{Data sources
+\section{Tbls
 
-dplyr comes with three built-in data sources.  Read the help for the
+dplyr comes with three built-in tbls.  Read the help for the
 manip methods of that class to get more details}{
   \itemize{ \item data.frame: \link{manip_df},
   \link{manip_grouped_df} \item data.table:

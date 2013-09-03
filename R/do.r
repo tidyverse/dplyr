@@ -1,10 +1,10 @@
-#' Apply a function to a data source
+#' Apply a function to a tbl
 #'
 #' This is a general purpose complement to the specialised manipulation
 #' functions \code{\link{filter}}, \code{\link{select}}, \code{\link{mutate}},
 #' \code{\link{summarise}} and \code{\link{arrange}}.
 #'
-#' @param .data a data source
+#' @param .data a tbl
 #' @param .f a function to apply. The first unnamed argument supplied to
 #'   \code{.f} will be a data frame.
 #' @param ... other arguments passed on to the function ()

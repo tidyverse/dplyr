@@ -1,6 +1,6 @@
 \name{grouped_dt}
 \alias{group_by.data.table}
-\alias{group_by.source_dt}
+\alias{group_by.tbl_dt}
 \alias{grouped_dt}
 \alias{is.grouped_dt}
 \title{A grouped data table.}
@@ -11,10 +11,10 @@
 
   \method{group_by}{data.table} (x, ...)
 
-  \method{group_by}{source_dt} (x, ...)
+  \method{group_by}{tbl_dt} (x, ...)
 }
 \arguments{
-  \item{data}{a data source or data frame.}
+  \item{data}{a tbl or data frame.}
 
   \item{vars}{a list of quoted variables.}
 
@@ -24,9 +24,9 @@
 }
 \description{
   The easiest way to create a grouped data table is to call
-  the \code{group_by} method on a data table or data
-  source: this will take care of capturing the unevalated
-  expressions for you.
+  the \code{group_by} method on a data table or tbl: this
+  will take care of capturing the unevalated expressions
+  for you.
 }
 \examples{
 data("baseball", package = "plyr")

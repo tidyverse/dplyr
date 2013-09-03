@@ -8,7 +8,7 @@
 \arguments{
   \item{expr}{unevaluated expression to translate}
 
-  \item{source}{data source}
+  \item{source}{tbl}
 
   \item{variant}{SQL variant to use}
 

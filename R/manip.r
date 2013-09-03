@@ -2,8 +2,8 @@
 #'
 #' These five functions form the backbone of dplyr. They are all S3 generic
 #' functions with methods for each individual data type. All functions work
-#' exactly the same way: the first argument is the data source, and the
-#' subsequence arguments are interpreted in the context of that source.
+#' exactly the same way: the first argument is the tbl, and the
+#' subsequence arguments are interpreted in the context of that tbl.
 #'
 #' @section Manipulation functions:
 #'
@@ -24,9 +24,9 @@
 #' These are all made significantly more useful when applied by group,
 #' as with \code{\link{group_by}}
 #'
-#' @section Data sources
+#' @section Tbls
 #'
-#' dplyr comes with three built-in data sources.  Read the help for the
+#' dplyr comes with three built-in tbls.  Read the help for the
 #' manip methods of that class to get more details:
 #'
 #' \itemize{
@@ -46,7 +46,7 @@
 #'      source from at least \code{summarise} and \code{mutate}
 #' }
 #' @name manip
-#' @param .data a data source
+#' @param .data a tbl
 #' @param ... variables interpreted in the context of that data frame.
 #' @examples
 #' filter(mtcars, cyl == 8)

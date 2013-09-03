@@ -1,6 +1,6 @@
 context("SQLite: do")
 
-bball <- baseball_sources()
+bball <- baseball_tbls()
 
 test_that("Results respect select", {
   by_team_2 <- group_by(select(bball$sqlite, year, team), team)

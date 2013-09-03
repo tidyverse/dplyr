@@ -8,18 +8,18 @@
   \item{call}{an unevaluated expression, as produced by
   \code{\link{quote}}}
 
-  \item{source}{a data source object}
+  \item{source}{a tbl object}
 
   \item{env}{environment in which to search for local
   values}
 }
 \description{
   This function partially evaluates an expression, using
-  information from the data source to determine whether
-  names refer to local expressions or remote variables.
-  This simplifies SQL translation because expressions don't
-  need to carry around their environment - all revelant
-  information is incorporated into the expression.
+  information from the tbl to determine whether names refer
+  to local expressions or remote variables. This simplifies
+  SQL translation because expressions don't need to carry
+  around their environment - all revelant information is
+  incorporated into the expression.
 }
 \section{Symbol substitution}{
   \code{partial_eval} needs to guess if you're referring to
@@ -35,7 +35,7 @@
 }
 \examples{
 data("baseball", package = "plyr")
-bdf <- source_df(baseball)
+bdf <- tbl_df(baseball)
 partial_eval(quote(year > 1980), bdf)
 
 ids <- c("ansonca01", "forceda01", "mathebo01")

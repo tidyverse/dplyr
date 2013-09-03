@@ -14,7 +14,7 @@
   \method{group_by}{data.frame} (x, ..., drop = TRUE)
 }
 \arguments{
-  \item{data}{a data source or data frame.}
+  \item{data}{a tbl or data frame.}
 
   \item{vars}{a list of quoted variables.}
 
@@ -25,15 +25,15 @@
   \item{drop}{if \code{TRUE} preserve all factor levels,
   even those without data.}
 
-  \item{x}{object (data frame or \code{\link{source_df}})
-  to group}
+  \item{x}{object (data frame or \code{\link{tbl_df}}) to
+  group}
 
   \item{...}{unquoted variables to group by}
 }
 \description{
   The easiest way to create a grouped data frame is to call
-  the \code{group_by} method on a data frame or data
-  source: this will take care of capturing the unevalated
-  expressions for you.
+  the \code{group_by} method on a data frame or tbl: this
+  will take care of capturing the unevalated expressions
+  for you.
 }
 

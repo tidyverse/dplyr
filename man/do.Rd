@@ -1,11 +1,11 @@
 \name{do}
 \alias{do}
-\title{Apply a function to a data source}
+\title{Apply a function to a tbl}
 \usage{
   do(.data, .f, ...)
 }
 \arguments{
-  \item{.data}{a data source}
+  \item{.data}{a tbl}
 
   \item{.f}{a function to apply. The first unnamed argument
   supplied to \code{.f} will be a data frame.}

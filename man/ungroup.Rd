@@ -1,11 +1,11 @@
 \name{ungroup}
 \alias{ungroup}
-\title{Ungroup a grouped data source}
+\title{Ungroup a grouped tbl}
 \usage{
   ungroup(x)
 }
 \arguments{
-  \item{x}{a grouped data source}
+  \item{x}{a grouped tbl}
 }
 \description{
   The inverse of \code{\link{group_by}}

@@ -1,7 +1,7 @@
 #' Partially evaluate an expression.
 #'
 #' This function partially evaluates an expression, using information from
-#' the data source to determine whether names refer to local expressions
+#' the tbl to determine whether names refer to local expressions
 #' or remote variables. This simplifies SQL translation because expressions
 #' don't need to carry around their environment - all revelant information
 #' is incorporated into the expression.
@@ -20,13 +20,13 @@
 #' }
 #'
 #' @param call an unevaluated expression, as produced by \code{\link{quote}}
-#' @param source a data source object
+#' @param source a tbl object
 #' @param env environment in which to search for local values
 #' @export
 #' @keywords internal
 #' @examples
 #' data("baseball", package = "plyr")
-#' bdf <- source_df(baseball)
+#' bdf <- tbl_df(baseball)
 #' partial_eval(quote(year > 1980), bdf)
 #'
 #' ids <- c("ansonca01", "forceda01", "mathebo01")
@@ -55,7 +55,7 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
     lapply(call, partial_eval, source = source, env = env)
   } else if (is.symbol(call)) {
     name <- as.character(call)
-    if (!is.null(source) && name %in% source_vars(source)) {
+    if (!is.null(source) && name %in% tbl_vars(source)) {
       call
     } else if (exists(name, env)) {
       eval(call, env)
@@ -79,17 +79,17 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
   }
 }
 
-#' Evaluate variable names in the context of a data source.
+#' Evaluate variable names in the context of a tbl.
 #'
 #' @param exprs a list of unevaluated expressions
-#' @param source a data source
+#' @param source a tbl
 #' @param parent the parent frame in which to evaluate variables/functions
 #'   not found in \code{source}
 #' @export
 #' @examples
 #' var_eval(list(quote(mpg:wt)), mtcars)
 var_eval <- function(exprs, source, parent = parent.frame()) {
-  nm <- source_vars(source)
+  nm <- tbl_vars(source)
   nms_list <- as.list(setNames(seq_along(nm), nm))
 
   idx <- unlist(lapply(exprs, eval, nms_list, parent))

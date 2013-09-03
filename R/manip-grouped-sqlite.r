@@ -1,4 +1,4 @@
-#' Data manipulation for grouped SQL data sources.
+#' Data manipulation for grouped SQL tbls.
 #'
 #' @param .data an SQLite data base
 #' @param ... variables interpreted in the context of \code{.data}
@@ -6,7 +6,7 @@
 #'  all.
 #' @examples
 #' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-#' baseball_s <- source_sqlite(db_path, "baseball")
+#' baseball_s <- tbl_sqlite(db_path, "baseball")
 #' players <- group_by(baseball_s, id)
 #'
 #' # Due to the lack of windowing functions in SQLite, only summarising
@@ -37,7 +37,7 @@ NULL
 filter.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for filtering with SQLite", call. = FALSE)
 
-  filter.source_sqlite(.data, ...)
+  filter.tbl_sqlite(.data, ...)
 }
 
 #' @rdname manip_grouped_sqlite
@@ -54,7 +54,7 @@ summarise.grouped_sqlite <- function(.data, ..., .n = 1e5) {
     group_by = names(group_by),
     n = .n)
 
-  source_df(
+  tbl_df(
     data = out
   )
 }
@@ -67,7 +67,7 @@ mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
 
   warning("Group by ignored for mutate with SQLite", call. = FALSE)
 
-  out <- mutate.source_sqlite(.data, ..., .n = .n)
+  out <- mutate.tbl_sqlite(.data, ..., .n = .n)
   grouped_df(
     data = out,
     vars = .data$vars
@@ -80,7 +80,7 @@ mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
 arrange.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for arrange with SQLite", call. = FALSE)
 
-  arrange.source_sqlite(.data, ...)
+  arrange.tbl_sqlite(.data, ...)
 }
 
 #' @rdname manip_grouped_sqlite
@@ -89,5 +89,5 @@ arrange.grouped_sqlite <- function(.data, ...) {
 select.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for select with SQLite", call. = FALSE)
 
-  select.source_sqlite(.data, ...)
+  select.tbl_sqlite(.data, ...)
 }
