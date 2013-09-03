@@ -79,8 +79,10 @@ append_rows <- function(tbl, values) {
     message(sql)
   }
   
+  dbBeginTransaction(tbl$src$con)
   qry <- dbSendPreparedQuery(tbl$src$con, sql, bind.data = values)
   dbClearResult(qry)
+  dbCommit(tbl$src$con)
   
   tbl
 }
