@@ -69,7 +69,7 @@ as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
 
 #' @S3method print tbl_sqlite
 print.tbl_sqlite <- function(x, ...) {
-  cat("Source:  SQLite [", x$path, "]\n", sep = "")
+  cat("Source:  SQLite [", x$src$path, "]\n", sep = "")
   cat("Table:   ", x$table, " ", dim_desc(x), "\n", sep = "")
   if (!is.null(x$filter)) {
     cat(wrap("Filter:  ", commas(deparse_all(x$filter))), "\n")
