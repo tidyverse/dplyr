@@ -48,7 +48,7 @@ tbl.src_sqlite <- function(src, table, ...) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
   
-  tbl_sql("sqlite", src = src, table = table)
+  tbl_sql(c("sqlite_table", "sqlite"), src = src, table = table)
 }
 
 #' @S3method tbl_vars tbl_sqlite
