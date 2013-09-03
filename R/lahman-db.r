@@ -1,5 +1,9 @@
 #' Create a database version of the Lahman baseball database.
 #' 
+#' \code{lahman_db} creates a copy of the Lahman baseball database in the 
+#' database src of your choice. \code{lahman} creates a cached version of the
+#' Lahman database in a standard location for use in examples.
+#' 
 #' This creates an interesting database using data from the Lahman baseball
 #' data source, provided by Sean Lahman at 
 #' \url{http://www.seanlahman.com/baseball-archive/statistics/}, and
@@ -13,7 +17,7 @@
 #' db <- src_sqlite("~/desktop/lahman.sqlite", create = TRUE)
 #' lahman_db(db)
 #' }
-lahman_db <- function(src, index = TRUE) {
+lahman_db <- function(src, index = TRUE, quiet = FALSE) {
   if (!require("Lahman")) {
     stop("Please install the Lahman package", call. = FALSE)
   }
@@ -24,7 +28,7 @@ lahman_db <- function(src, index = TRUE) {
   
   for(table in tables) {
     df <- get(table, "package:Lahman")
-    message("Creating table ", table)
+    if (!quiet) message("Creating table ", table)
     tbl <- write_table(src, table, df)   
     
     if (index) {
@@ -36,4 +40,19 @@ lahman_db <- function(src, index = TRUE) {
   }
   
   invisible(TRUE)
+}
+
+#' @export
+#' @rdname lahman_db
+lahman <- function(path = NULL) {
+  path <- path %||% file.path(system.file("db", package = "dplyr"), "lahman.db")
+  if (file.exists(path)) {
+    return(src_sqlite(path))
+  }
+  
+  message("Caching Lahman db at ", path)
+  src <- src_sqlite(path, create = TRUE)
+  lahman_db(src, quiet = TRUE)
+  
+  src
 }
