@@ -1,15 +1,27 @@
-#' Create a SQLite data source
+#' Create a SQLite3 data source
 #' 
-#' This data structure is basically a pointer to an SQLite database.
+#' This data structure is basically a pointer to an SQLite3 database.
 #' 
 #' @param path Path to SQLite database
+#' @param create if \code{FALSE}, \code{path} must already exist. If 
+#'   \code{TRUE}, will create a new SQlite3 database at \code{path}.
 #' @export
 #' @examples
 #' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
 #' baseball <- src_sqlite(db_path)
 #' src_tbls(baseball)
-src_sqlite <- function(path) {
-  assert_that(is.readable(path))
+#' 
+#' # You can create a new sqlite database at any location if you set 
+#' # create = TRUE
+#' new_db <- src_sqlite(tempfile(), TRUE)
+#' src_tbls("new_db")
+src_sqlite <- function(path, create = FALSE) {
+  if (create) {
+    assert_that(!file.exists(path))
+  } else {
+    assert_that(is.readable(path))
+  }
+  
   if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
