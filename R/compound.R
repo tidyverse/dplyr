@@ -1,6 +1,6 @@
 #' Create a compound select.
 #' 
-#' Combine together the results of multiple SQL queries,
+#' Combine together the multiple tables.
 #' 
 #' @param ... \code{tbl}s to combine
 #' @param type type of combination.
@@ -12,13 +12,14 @@
 #'
 #' plays <- compound(batting, pitching, outfield)
 #' hou <- filter(plays, teamID == "HOU")
-compound <- function(..., type) {
+#' head(hou)
+compound <- function(...) {
   UseMethod("compound")
 }
 
-compound.tbl_sqlite <- function(..., type = "union all") {
-  type <- match.arg(tolower(type), 
-    c("union all", "union", "intersect", "exclude"))
+compound.tbl_sqlite <- function(...) {
+#   type <- match.arg(tolower(type), 
+#     c("union all", "union", "intersect", "exclude"))
  
   tbls <- list(...)
   src <- tbls[[1]]$src
@@ -33,8 +34,7 @@ compound.tbl_sqlite <- function(..., type = "union all") {
   }
   
   from <- do.call("c", lapply(tbls, from))
-  compounder <- paste0(" ", toupper(type), " ")
-  selects <- escape(from, collapse = compounder, parens = TRUE)
+  selects <- escape(from, collapse = "UNION ALL", parens = TRUE)
   
   tbl(src, selects)
 }
