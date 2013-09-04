@@ -63,3 +63,4 @@ Collate:
     'lahman-db.r'
     'join.r'
     'cache.r'
+    'query.r'
