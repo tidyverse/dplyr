@@ -61,3 +61,4 @@ Collate:
     'src.r'
     'sqlite-write.r'
     'lahman-db.r'
+    'join.r'

@@ -1,9 +1,12 @@
 \name{sql}
 \alias{escape}
+\alias{is.sql}
 \alias{sql}
 \title{SQL escaping.}
 \usage{
   sql(...)
+
+  is.sql(x)
 
   escape(x)
 }
