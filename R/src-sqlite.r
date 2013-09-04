@@ -51,3 +51,8 @@ src_tbls.src_sqlite <- function(x, ...) {
     ORDER BY name"
   fetch_sql_df(x$con, sql)[[1]]
 }
+
+same_src.src_sqlite <- function(x, y) {
+  if (!inherits(x, "src_sqlite")) return(FALSE)
+  identical(x$con, y$con)
+}

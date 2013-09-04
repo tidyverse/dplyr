@@ -28,7 +28,7 @@ compound.tbl_sqlite <- function(...) {
       stop("tbls used in a compound select can not be ordered", call. = FALSE)
     }
     
-    if (!identical(src$con, tbl$src$con)) {
+    if (!same_src(src, tbl$src)) {
       stop("All tbls must come from the same source", call. = FALSE)
     }
   }

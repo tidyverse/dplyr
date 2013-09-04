@@ -24,7 +24,7 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", upload = FALSE, ...)
     y <- write_table(x$src, random_table_name(), y)
   }
     
-  if (!identical(x$src$con, y$src$con)) {
+  if (!same_src(x$src, y$src)) {
     stop("x and y must use same database connection", call. = FALSE)    
   }
   
