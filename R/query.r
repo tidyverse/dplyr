@@ -43,11 +43,11 @@ Query <- setRefClass("Query",
     
     explain_sql = function() {
       exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-      expl <- query(con, exsql)$fetch_df()
+      expl <- fetch_sql_df(con, exsql)
       rownames(expl) <- NULL
       out <- capture.output(print(expl))
       
-      message(exsql, "\n", paste(out, collapse = "\n"), "\n")
+      message(paste(out, collapse = "\n"), "\n")
     },
     
     # Currently, RSQLite supports only a single result set per connection
@@ -64,31 +64,23 @@ Query <- setRefClass("Query",
     #   .res <<- NULL
     # },
     
-    # FIXME: move out into run_sql and fetch_df functions
-    # Then use those instead of creating new query objects
     run = function(in_transaction = FALSE) {
-      if (in_transaction) dbBeginTransaction(con)
+      if (getOption("dplyr.show_sql")) show_sql()
+      if (getOption("dplyr.explain_sql")) explain_sql()
       
-      qry <- dbSendQuery(con, sql)
-      dbClearResult(qry)
-
-      if (in_transaction) dbCommit(con)
-      
-      invisible(NULL)
+      run_sql(con, sql, in_transaction = in_transaction)
     },
     
     fetch_df = function(n = -1L) {
-      qry <- dbSendQuery(con, sql)
-      on.exit(dbClearResult(qry))
+      if (getOption("dplyr.show_sql")) show_sql()
+      if (getOption("dplyr.explain_sql")) explain_sql()
       
-      res <- fetch(qry, n)
-      warn_incomplete(qry)
-      res
+      fetch_sql_df(con, sql, n = n)
     },
     
     save_into = function(name = random_table_name()) {
       tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql)
-      query(con, tt_sql)$run()
+      run_sql(con, tt_sql)
       
       name
     },
@@ -97,13 +89,13 @@ Query <- setRefClass("Query",
       if (length(.vars) > 0) return(.vars)
       
       no_rows <- build_sql("SELECT * FROM (", sql, ") WHERE 1=0")
-      .vars <<- names(query(con, no_rows)$fetch_df())
+      .vars <<- names(fetch_sql_df(con, no_rows))
       .vars
     },
     
     nrow = function() {
       rows <- build_sql("SELECT count(*) FROM (", sql, ")")
-      query(con, rows)$fetch_df()[[1]]
+      fetch_sql_df(con, rows)[[1]]
     },
     
     ncol = function() {
@@ -119,6 +111,28 @@ warn_incomplete <- function(qry, res) {
   rows <- formatC(dbGetRowCount(qry), big.mark = ",")
   warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
     call. = FALSE)
+}
+
+# Run a query, abandoning results
+run_sql <- function(con, sql, in_transaction = FALSE) {
+  if (in_transaction) dbBeginTransaction(con)
+  
+  qry <- dbSendQuery(con, sql)
+  dbClearResult(qry)
+  
+  if (in_transaction) dbCommit(con)
+  
+  invisible(NULL)
+}
+
+# Run a query, fetching n results
+fetch_sql_df <- function(con, sql, n = -1L) {
+  qry <- dbSendQuery(con, sql)
+  on.exit(dbClearResult(qry))
+  
+  res <- fetch(qry, n)
+  warn_incomplete(qry)
+  res
 }
 
 exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {
