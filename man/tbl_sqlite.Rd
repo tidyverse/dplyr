@@ -11,7 +11,10 @@
   \item{path,src}{either path to sqlite database, or
   \code{src_sqlite} object}
 
-  \item{table}{name of table in database}
+  \item{table}{name of table in database. This can either
+  be a string representing a table name, or an
+  \code{\link{sql}} string, representing a select query or
+  compound join.}
 
   \item{...}{other arguments ignored, but needed for
   compatibility with generic.}

@@ -16,7 +16,9 @@
 #' \url{http://www.sqlite.org/queryplanner.html}.
 #'
 #' @param path,src either path to sqlite database, or \code{src_sqlite} object
-#' @param table name of table in database
+#' @param table name of table in database. This can either be a string 
+#'   representing a table name, or an \code{\link{sql}} string, representing
+#'   a select query or compound join.
 #' @param ... other arguments ignored, but needed for compatibility with 
 #'   generic.
 #' @export
@@ -44,7 +46,7 @@ tbl_sqlite <- function(path, table) {
 #' @export
 #' @rdname tbl_sqlite
 tbl.src_sqlite <- function(src, table, ...) {
-  if (!(table %in% src_tbls(src))) {
+  if (!is.sql(table) && !has_table(src, table)) {
     stop("Table ", table, " not found in database ", path, call. = FALSE)
   }
   
