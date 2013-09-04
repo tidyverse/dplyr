@@ -11,6 +11,10 @@
 #'   character vectors are escaped with single quotes, numeric vectors have
 #'   trailing \code{.0} added if they're whole numbers, identifiers are 
 #'   escaped with double quotes.
+#'   
+#'   Vector behaviour: lists are always wrapped in parens and separated by 
+#'   commas if needed, identifiers are separated by commas, atomic vectors are 
+#'   separated by spaces and wrapped in parens if needed.
 #' @keywords internal
 #' @export
 #' @examples
@@ -72,7 +76,12 @@ escape <- function(x) UseMethod("escape")
 #' @S3method escape ident
 escape.ident <- function(x) {
   x <- gsub('"', '""', x, fixed = TRUE)
-  sql_vector(paste0('"', x, '"'))
+  
+  nms <- names2(x)
+  nms <- gsub('"', '""', nms, fixed = TRUE)
+  as <- ifelse(nms == '', '', paste0(' AS "', nms, '"'))
+  
+  sql(paste0('"', x, '"', as, collapse = ", "))
 }
 
 #' @S3method escape character
@@ -99,7 +108,10 @@ escape.NULL <- function(x) sql("NULL")
 escape.sql <- function(x) x
 
 #' @S3method escape list
-escape.list <- function(x) sql(vapply(x, escape, character(1)))
+escape.list <- function(x) {
+  pieces <- vapply(x, escape, character(1))
+  sql("(", paste0(pieces, collapse = ", "), ")")
+}
 
 sql_vector <- function(x) {
   if (length(x) == 1) return(sql(x))

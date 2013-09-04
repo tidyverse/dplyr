@@ -22,7 +22,12 @@
   be left as is, character vectors are escaped with single
   quotes, numeric vectors have trailing \code{.0} added if
   they're whole numbers, identifiers are escaped with
-  double quotes.}
+  double quotes.
+
+  Vector behaviour: lists are always wrapped in parens and
+  separated by commas if needed, identifiers are separated
+  by commas, atomic vectors are separated by spaces and
+  wrapped in parens if needed.}
 }
 \description{
   These functions are critical when writing functions that
