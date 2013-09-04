@@ -50,7 +50,7 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
     "limit", "offset")
 
   assert_that(is.character(select), length(select) > 0L)
-  out$select <- build_sql("SELECT ", select)
+  out$select <- build_sql("SELECT ", escape(select, collapse = ", "))
 
   assert_that(is.character(from), length(from) == 1L)
   out$from <- build_sql("FROM ", from)

@@ -62,6 +62,12 @@ ident <- function(...) {
   structure(c(...), class = c("ident", "sql", "character"))
 }
 
+#' @S3method c sql
+c.sql <- function(...) {
+  out <- vapply(list(...), escape, character(1))
+  sql(out)
+}
+
 setOldClass(c("sql", "character"))
 setOldClass(c("ident", "sql", "character"))
 
@@ -70,7 +76,9 @@ setOldClass(c("ident", "sql", "character"))
 is.sql <- function(x) inherits(x, "sql")
 
 #' @S3method print sql
-print.sql <- function(x, ...) cat("<SQL> ", x, "\n", sep = "")
+print.sql <- function(x, ...) cat(format(x, ...), sep = "\n")
+#' @S3method print sql
+format.sql <- function(x, ...) paste0("<SQL> ", x)
 
 #' @rdname sql
 #' @export

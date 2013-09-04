@@ -54,7 +54,7 @@ sql_infix <- function(f) {
 
   f <- toupper(f)
   function(x, y) {
-    sql(sprintf("%s %s %s", escape(x), f, escape(y)))
+    build_sql(x, " ", sql(f), " ", y)
   }
 }
 
@@ -65,7 +65,7 @@ sql_prefix <- function(f) {
 
   f <- toupper(f)
   function(...) {
-    sql(sprintf("%s(%s)", f, paste(escape(list(...)), collapse = ", ")))
+    build_sql(sql(f), list(...))
   }
 }
 

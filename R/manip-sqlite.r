@@ -74,7 +74,7 @@ summarise.tbl_sqlite <- function(.data, ..., .n = 1e5) {
 mutate.tbl_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
-  old_vars <- .data$select %||% "*"
+  old_vars <- .data$select %||% sql("*")
   new_vars <- trans_sqlite(dots(...), .data, parent.frame())
 
   out <- sql_select(.data, select = c(old_vars, new_vars), n = .n)
