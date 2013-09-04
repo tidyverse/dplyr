@@ -20,9 +20,9 @@
   it will create a temporary table.
 }
 \examples{
-lah <- lahman()
-batting <- select(filter(tbl(lah, "Batting"), stint == 1), playerID:H)
-team <- select(tbl(lah, "Teams"), yearID, lgID, teamID, G, R:H)
+l <- lahman()
+batting <- select(filter(tbl(l, "Batting"), stint == 1), playerID:H)
+team <- select(tbl(l, "Teams"), yearID, lgID, teamID, G, R:H)
 both <- join(batting, team, type = "inner", by = c("yearID", "teamID", "lgID"))
 hou <- filter(both, teamID == "HOU")
 hou <- cache(hou)
