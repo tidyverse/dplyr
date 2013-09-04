@@ -1,10 +1,13 @@
 \name{sql}
 \alias{escape}
+\alias{ident}
 \alias{is.sql}
 \alias{sql}
 \title{SQL escaping.}
 \usage{
   sql(...)
+
+  ident(...)
 
   is.sql(x)
 
@@ -12,23 +15,34 @@
 }
 \arguments{
   \item{...}{Character vectors that will be combined into a
-  single SQL expression}
+  single SQL expression. \code{ident} flags its input as a
+  identifier, to ensure that it gets the correct quoting.}
 
   \item{x}{An object to escape. Existing sql vectors will
   be left as is, character vectors are escaped with single
-  quotes, numeric vectors have trailing .0 added if they're
-  whole numbers.}
+  quotes, numeric vectors have trailing \code{.0} added if
+  they're whole numbers.}
 }
 \description{
-  These two functions are critical when writing functions
-  that translate R functions to sql functions. Typically a
+  These functions are critical when writing functions that
+  translate R functions to sql functions. Typically a
   conversion function should escape all it's inputs and
   return an sql object.
 }
 \examples{
+# Doubles vs. integers
 escape(1:5)
 escape(c(1, 5.4))
+
+# String vs known sql vs. sql identifier
+escape("X")
 escape(sql("X"))
+escape(ident("X"))
+
+# Escaping is idempotent
+escape("X")
+escape(escape("X"))
+escape(escape(escape("X")))
 
 # You can use these functions to make your own R wrappers for SQL functions.
 # The following is a more sophisticated version of round that have more
