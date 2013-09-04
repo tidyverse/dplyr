@@ -36,3 +36,13 @@ print.src <- function(x, ...) {
 src_tbls <- function(x) {
   UseMethod("src_tbls")
 }
+
+#' Figure out if two sources are the same (or two tbl have the same source)
+#' 
+#' @param x,y src or tbls to test
+#' @return a logical flag
+#' @export
+#' @keywords internal
+same_src <- function(x, y) {
+  UseMethod("same_src")
+}
