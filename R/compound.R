@@ -33,8 +33,8 @@ compound.tbl_sqlite <- function(...) {
     }
   }
   
-  from <- do.call("c", lapply(tbls, from))
-  selects <- escape(from, collapse = "UNION ALL", parens = TRUE)
+  from <- do.call("c", lapply(tbls, function(x) select_qry(x)$sql))
+  selects <- escape(from, collapse = " UNION ALL ", parens = TRUE)
   
   tbl(src, selects)
 }
