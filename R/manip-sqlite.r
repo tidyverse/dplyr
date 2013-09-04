@@ -61,11 +61,9 @@ summarise.tbl_sqlite <- function(.data, ..., .n = 1e5) {
     warning("Summarise ignores selected variables", call. = FALSE)
   }
 
-  select <- trans_sqlite(dots(...), .data, parent.frame())
-  out <- sql_select(.data, select = select, n = .n)
-  tbl_df(
-    data = out
-  )
+  .data$select <- trans_sqlite(dots(...), .data, parent.frame())
+
+  tbl_df(select_qry(.data)$fetch_df(.n))
 }
 
 #' @rdname manip_sqlite
@@ -76,9 +74,7 @@ mutate.tbl_sqlite <- function(.data, ..., .n = 1e5) {
 
   old_vars <- .data$select %||% sql("*")
   new_vars <- trans_sqlite(dots(...), .data, parent.frame())
-
-  out <- sql_select(.data, select = c(old_vars, new_vars), n = .n)
-  tbl_df(
-    data = out
-  )
+  .data$select <- c(old_vars, new_vars)
+  
+  .data
 }

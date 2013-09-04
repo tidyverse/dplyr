@@ -57,10 +57,25 @@ tbl.src_sqlite <- function(src, table, ...) {
   tbl_sql(c("sqlite_table", "sqlite"), src = src, table = table)
 }
 
+#' @S3method select_qry tbl_sqlite
+select_qry.tbl_sqlite <- function(x, ...) {
+  select <- x$select %||% sql("*")
+  where <- trans_sqlite(x$filter)
+  order_by <- trans_sqlite(x$arrange)
+  
+  sql <- select_query(
+    from = x$table,
+    select = select,
+    where = where,
+    order_by = order_by, 
+    ...)
+  
+  query(x$src$con, sql)
+}
+
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
-  names(sql_select(x, x$select %||% sql("*"), where = sql("1 == 0"), 
-    show = FALSE, explain = FALSE))
+  select_qry(x)$vars()
 }
 
 # Standard data frame methods --------------------------------------------------
@@ -68,10 +83,7 @@ tbl_vars.tbl_sqlite <- function(x) {
 #' @S3method as.data.frame tbl_sqlite
 as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
                                         ..., n = 1e5L) {
-#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
-#   if (!is.null(optional)) warning("optional argument ignored", call. = FALSE)
-
-  sql_select(x, n = n)
+  select_qry(x)$fetch_df(n)
 }
 
 #' @S3method print tbl_sqlite
@@ -87,7 +99,7 @@ print.tbl_sqlite <- function(x, ...) {
     cat(wrap("Arrange: ", commas(deparse_all(x$arrange))), "\n")
   }
   
-  if (is.sql(x$table)) return()
+  if (!inherits(x$table, "ident")) return()
   
   cat("\n")
   trunc_mat(x)
@@ -100,18 +112,13 @@ dimnames.tbl_sqlite <- function(x) {
 
 #' @S3method dim tbl_sqlite
 dim.tbl_sqlite <- function(x) {
-  if (is.sql(x$table)) {
-    n <- "??"
+  if (!inherits(x$table, "ident")) {
+    n <- NA
   } else {
-    n <- sql_select(x, sql("count()"), show = FALSE, explain = FALSE)[[1]]
+    n <- select_qry(x)$nrow()
   }
   
-  if (is.null(x$select) || any(x$select == "*")) {
-    p <- length(tbl_vars(x))
-  } else {
-    p <- length(x$select)
-  }
-
+  p <- select_qry(x)$ncol()
   c(n, p)
 }
 
@@ -119,13 +126,10 @@ dim.tbl_sqlite <- function(x) {
 head.tbl_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  sql_select(x, limit = n)
+  select_qry(x, limit = n)$fetch_df()
 }
 
 #' @S3method tail tbl_sqlite
 tail.tbl_sqlite <- function(x, n = 6L, ...) {
-  assert_that(length(n) == 1, n > 0L)
-
-  df <- sql_select(x, sql("*"), order_by = sql("ROWID DESC"), limit = n)
-  unrowname(df[rev(1:nrow(df)), , drop = FALSE])
+  stop("tail is not supported by sqlite", call. = FALSE)
 }

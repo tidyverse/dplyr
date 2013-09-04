@@ -13,6 +13,7 @@
 #' l <- lahman()
 #' q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'")
 #' q$vars()
+#' q$nrows()
 #' 
 #' q$fetch_df(1)
 #' all <- q$fetch_df(-1)
@@ -24,7 +25,7 @@
 query <- function(con, sql) {
   assert_that(is.string(sql))
   
-  Query$new(con = con, sql = sql(sql))
+  Query$new(con = con, sql = sql(sql), .vars = NULL, .res = NULL)
 }
 
 #' @exportClass Query
@@ -63,6 +64,8 @@ Query <- setRefClass("Query",
     #   .res <<- NULL
     # },
     
+    # FIXME: move out into run_sql and fetch_df functions
+    # Then use those instead of creating new query objects
     run = function(in_transaction = FALSE) {
       if (in_transaction) dbBeginTransaction(con)
       
@@ -83,13 +86,29 @@ Query <- setRefClass("Query",
       res
     },
     
+    save_into = function(name = random_table_name()) {
+      tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql)
+      query(con, tt_sql)$run()
+      
+      name
+    },
+    
     vars = function() {
       if (length(.vars) > 0) return(.vars)
       
       no_rows <- build_sql("SELECT * FROM (", sql, ") WHERE 1=0")
       .vars <<- names(query(con, no_rows)$fetch_df())
       .vars
-    }    
+    },
+    
+    nrow = function() {
+      rows <- build_sql("SELECT count(*) FROM (", sql, ")")
+      query(con, rows)$fetch_df()[[1]]
+    },
+    
+    ncol = function() {
+      length(vars())
+    }
     
   )
 )

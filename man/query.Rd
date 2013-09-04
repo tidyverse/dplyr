@@ -20,6 +20,7 @@
 l <- lahman()
 q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'")
 q$vars()
+q$nrows()
 
 q$fetch_df(1)
 all <- q$fetch_df(-1)

@@ -49,5 +49,5 @@ src_tbls.src_sqlite <- function(x, ...) {
      SELECT * FROM sqlite_temp_master)
     WHERE type = 'table' OR type = 'view'
     ORDER BY name"
-  exec_sql(x$con, sql)$name
+  query(x$con, sql)$fetch_df()[[1]]
 }

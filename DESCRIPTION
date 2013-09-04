@@ -64,3 +64,4 @@ Collate:
     'join.r'
     'cache.r'
     'query.r'
+    'compound.R'
