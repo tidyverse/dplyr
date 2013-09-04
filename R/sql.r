@@ -88,38 +88,6 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
   escape(compact(out), collapse = "\n", parens = FALSE)
 }
 
-exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {
-  assert_that(is.string(sql))
-
-  if (isTRUE(explain)) {
-    exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-    expl <- exec_sql(con, exsql, n = -1L, explain = FALSE, show = FALSE)
-    rownames(expl) <- NULL
-    out <- capture.output(print(expl))
-    
-    message(exsql, "\n", paste(out, collapse = "\n"))
-    cat("\n")
-  }
-
-  if (isTRUE(show) && !isTRUE(explain)) {
-    message(sql)
-    cat("\n")
-  }
-
-  qry <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(qry))
-
-  if (!fetch) return()
-
-  res <- fetch(qry, n)
-  if (!dbHasCompleted(qry)) {
-    rows <- formatC(nrow(res), big.mark = ",")
-    warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
-      call. = FALSE)
-  }
-  res
-}
-
 var_names <- function(vars) {
   nms <- names2(vars)
   unname(ifelse(nms == "", vars, nms))
