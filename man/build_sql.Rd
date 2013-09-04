@@ -1,0 +1,36 @@
+\name{build_sql}
+\alias{build_sql}
+\title{Build a SQL string.}
+\usage{
+  build_sql(..., .env = parent.frame())
+}
+\arguments{
+  \item{...}{input to convert to SQL. Use \code{\link{sql}}
+  to preserve user input as is (dangerous), and
+  \code{\link{ident}} to label user input as sql
+  identifiers (safe)}
+
+  \item{.env}{the environment in which to evalute the
+  arguments. Should not be needed in typical use.}
+}
+\description{
+  This is a convenience function that should prevent sql
+  injection attacks (which in the context of dplyr are most
+  likely to be accidental not deliberate) by automatically
+  escaping all expressions in the input, while treating
+  bare strings as sql. This is unlikely to prevent any
+  serious attack, but should make it unlikely that you
+  produce invalid sql.
+}
+\examples{
+build_sql("SELECT * FROM TABLE")
+x <- "TABLE"
+build_sql("SELECT * FROM ", x)
+build_sql("SELECT * FROM ", ident(x))
+build_sql("SELECT * FROM ", sql(x))
+
+# http://xkcd.com/327/
+name <- "Robert'); DROP TABLE Students;--"
+build_sql("INSERT INTO Students (Name) VALUES (", name, ")")
+}
+

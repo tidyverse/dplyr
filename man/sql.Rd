@@ -21,7 +21,8 @@
   \item{x}{An object to escape. Existing sql vectors will
   be left as is, character vectors are escaped with single
   quotes, numeric vectors have trailing \code{.0} added if
-  they're whole numbers.}
+  they're whole numbers, identifiers are escaped with
+  double quotes.}
 }
 \description{
   These functions are critical when writing functions that

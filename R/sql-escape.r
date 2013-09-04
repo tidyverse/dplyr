@@ -9,7 +9,8 @@
 #'   it gets the correct quoting.
 #' @param x An object to escape. Existing sql vectors will be left as is,
 #'   character vectors are escaped with single quotes, numeric vectors have
-#'   trailing \code{.0} added if they're whole numbers. 
+#'   trailing \code{.0} added if they're whole numbers, identifiers are 
+#'   escaped with double quotes.
 #' @keywords internal
 #' @export
 #' @examples
@@ -67,11 +68,13 @@ escape <- function(x) UseMethod("escape")
 
 #' @S3method escape ident
 escape.ident <- function(x) {
+  x <- gsub('"', '""', x, fixed = TRUE)
   sql_vector(paste0('"', x, '"'))
 }
 
 #' @S3method escape character
 escape.character <- function(x) {
+  x <- gsub("'", "''", x, fixed = TRUE)
   sql_vector(paste0("'", x, "'"))
 }
 
@@ -98,4 +101,40 @@ escape.list <- function(x) sql(vapply(x, escape, character(1)))
 sql_vector <- function(x) {
   if (length(x) == 1) return(sql(x))
   sql("(", paste(x, collapse = ", "), ")")
+}
+
+#' Build a SQL string.
+#' 
+#' This is a convenience function that should prevent sql injection attacks
+#' (which in the context of dplyr are most likely to be accidental not
+#' deliberate) by automatically escaping all expressions in the input, while
+#' treating bare strings as sql. This is unlikely to prevent any serious
+#' attack, but should make it unlikely that you produce invalid sql.
+#' 
+#' @param ... input to convert to SQL. Use \code{\link{sql}} to preserve
+#'   user input as is (dangerous), and \code{\link{ident}} to label user
+#'   input as sql identifiers (safe)
+#' @param .env the environment in which to evalute the arguments. Should not
+#'   be needed in typical use.
+#' @export
+#' @examples
+#' build_sql("SELECT * FROM TABLE")
+#' x <- "TABLE"
+#' build_sql("SELECT * FROM ", x)
+#' build_sql("SELECT * FROM ", ident(x))
+#' build_sql("SELECT * FROM ", sql(x))
+#' 
+#' # http://xkcd.com/327/
+#' name <- "Robert'); DROP TABLE Students;--"
+#' build_sql("INSERT INTO Students (Name) VALUES (", name, ")")
+build_sql <- function(..., .env = parent.frame()) {
+  escape_expr <- function(x) {
+    # If it's a string, leave it as is
+    if (is.character(x)) return(x)
+      
+    escape(eval(x, .env))
+  }
+  
+  pieces <- vapply(dots(...), escape_expr, character(1))
+  sql(paste0(pieces, collapse = ""))
 }
