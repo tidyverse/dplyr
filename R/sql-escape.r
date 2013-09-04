@@ -11,10 +11,13 @@
 #'   character vectors are escaped with single quotes, numeric vectors have
 #'   trailing \code{.0} added if they're whole numbers, identifiers are 
 #'   escaped with double quotes.
-#'   
-#'   Vector behaviour: lists are always wrapped in parens and separated by 
-#'   commas if needed, identifiers are separated by commas, atomic vectors are 
-#'   separated by spaces and wrapped in parens if needed.
+#' @param parens,collapse Controls behaviour when multiple values are supplied.
+#'   \code{parens} should be a logical flag, or if \code{NA}, will wrap in 
+#'   parens if length > 1.
+#' 
+#'   Default behaviour: lists are always wrapped in parens and separated by 
+#'   commas, identifiers are separated by commas and never wrapped, 
+#'   atomic vectors are separated by spaces and wrapped in parens if needed.
 #' @keywords internal
 #' @export
 #' @examples
@@ -71,51 +74,60 @@ print.sql <- function(x, ...) cat("<SQL> ", x, "\n", sep = "")
 
 #' @rdname sql
 #' @export
-escape <- function(x) UseMethod("escape")
+escape <- function(x, parens = NA, collapse = " ") UseMethod("escape")
 
 #' @S3method escape ident
-escape.ident <- function(x) {
+escape.ident <- function(x, parens = FALSE, collapse = ", ") {
   x <- gsub('"', '""', x, fixed = TRUE)
   
   nms <- names2(x)
   nms <- gsub('"', '""', nms, fixed = TRUE)
   as <- ifelse(nms == '', '', paste0(' AS "', nms, '"'))
   
-  sql(paste0('"', x, '"', as, collapse = ", "))
+  sql_vector(paste0('"', x, '"', as), parens, collapse)
 }
 
 #' @S3method escape character
-escape.character <- function(x) {
+escape.character <- function(x, parens = NA, collapse = " ") {
   x <- gsub("'", "''", x, fixed = TRUE)
-  sql_vector(paste0("'", x, "'"))
+  sql_vector(paste0("'", x, "'"), parens, collapse)
 }
 
 #' @S3method escape double
-escape.double <- function(x) {
+escape.double <- function(x, parens = NA, collapse = " ") {
   x <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
-  sql_vector(x)
+  sql_vector(x, parens, collapse)
 }
 
 #' @S3method escape integer
-escape.integer <- function(x) {
-  sql_vector(x)
+escape.integer <- function(x, parens = NA, collapse = " ") {
+  sql_vector(x, parens, collapse)
 }
 
 #' @S3method escape NULL
-escape.NULL <- function(x) sql("NULL")
-
-#' @S3method escape sql
-escape.sql <- function(x) x
-
-#' @S3method escape list
-escape.list <- function(x) {
-  pieces <- vapply(x, escape, character(1))
-  sql("(", paste0(pieces, collapse = ", "), ")")
+escape.NULL <- function(x, parens = NA, collapse = " ") {
+  sql("NULL")
 }
 
-sql_vector <- function(x) {
-  if (length(x) == 1) return(sql(x))
-  sql("(", paste(x, collapse = ", "), ")")
+#' @S3method escape sql
+escape.sql <- function(x, parens = NA, collapse = " ") {
+  x
+}
+
+#' @S3method escape list
+escape.list <- function(x, parens = TRUE, collapse = ", ") {
+  pieces <- vapply(x, escape, character(1))
+  sql_vector(pieces, parens, collapse)
+}
+
+sql_vector <- function(x, parens = NA, collapse = " ") {
+  if (is.na(parens)) {
+    parens <- length(x) > 1L
+  }
+  
+  x <- paste(x, collapse = collapse)
+  if (parens) x <- paste0("(", x, ")")
+  sql(x)
 }
 
 #' Build a SQL string.
