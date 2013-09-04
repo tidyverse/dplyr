@@ -1,18 +1,18 @@
-# bball <- src_sqlite(db_path)
-# types <- vapply(iris, dbDataType, dbObj = bball$con, FUN.VALUE = character(1))
+# i <- src_sqlite(tempfile(), create = TRUE) 
 #
-# remove_table(bball, "iris", TRUE)
-# ir <- create_table(bball, "iris", types)
+# remove_table(i, "iris", TRUE)
+# types <- sapply(iris, dbDataType, dbObj = i$con)
+# ir <- create_table(i, "iris", types)
 # append_rows(ir, iris)
-# remove_table(bball, "iris")
+# remove_table(i, "iris")
 #
-# write_table(bball, "iris", iris)
-# remove_table(bball, "iris")
-# iris <- write_table(bball, "iris", iris, temporary = TRUE)
-# src_tbls(bball)
+# write_table(i, "iris", iris)
+# remove_table(i, "iris")
+# iris <- write_table(i, "iris", iris, temporary = TRUE)
+# src_tbls(i)
 #
-# bball2 <- src_sqlite(db_path)
-# src_tbls(bball2)
+# i2 <- src_sqlite(i$path)
+# src_tbls(i2)
 
 #' Create a new \code{tbl_sqlite} from a data frame
 #' 
@@ -44,10 +44,11 @@ create_table <- function(src, table, types, temporary = FALSE) {
   }
   
   # Generate and execute sql
-  names <- vapply(names(types), escape_sql, character(1))
-  fields <- paste0(names, " ", types, collapse=", ")
-  sql <- paste0("CREATE ", if (temporary) "TEMPORARY ", "TABLE ", table, 
-    " (", fields, ");")
+  field_names <- escape(ident(names(types)), collapse = NULL)
+  fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE, 
+    collapse = ", ")
+  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), "TABLE ", table, 
+    fields)
   
   exec_sql(src$con, sql, fetch = FALSE, show = getOption("dplyr.show_sql"))
   
@@ -56,11 +57,10 @@ create_table <- function(src, table, types, temporary = FALSE) {
 }
 
 create_index <- function(tbl, columns, name = NULL, unique = FALSE) {
-  cols <- vapply(columns, escape_sql, character(1))
-  
   name <- name %||% paste0(c(tbl$table, columns), collapse = "_")
-  sql <- paste0("CREATE ", if (unique) "UNIQUE ", "INDEX ", escape_sql(name), 
-    " ON ", escape_sql(tbl$table), " (", paste0(cols, collapse = ", "), ");")
+
+  sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), 
+    " ON ", tbl$table, " ", escape(ident(columns), parens = TRUE))
   
   exec_sql(tbl$src$con, sql, fetch = FALSE, show = getOption("dplyr.show_sql"))
   
@@ -86,7 +86,7 @@ append_rows <- function(tbl, values) {
   }
   
   params <- paste(rep("?", ncol(values)), collapse = ", ")
-  sql <- paste0("INSERT INTO ", tbl$table, " VALUES (", params, ")")
+  sql <- build_sql("INSERT INTO ", tbl$table, " VALUES (", sql(params), ")")
   if (getOption("dplyr.show_sql")) {
     message(sql)
   }

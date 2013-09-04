@@ -6,7 +6,7 @@ RSQLite.extfuns::init_extensions(test_con)
 
 eval_sql <- function(expr) {
   select <- trans_sqlite(expr, .data, parent.frame())
-  sql <- paste0("SELECT ", sql_vars(select))
+  sql <- build_sql("SELECT ", select)
   exec_sql(test_con, sql)[[1]]
 }
 

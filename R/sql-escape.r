@@ -110,8 +110,18 @@ escape.NULL <- function(x, parens = NA, collapse = " ") {
 }
 
 #' @S3method escape sql
-escape.sql <- function(x, parens = NA, collapse = " ") {
-  x
+escape.sql <- function(x, parens = NULL, collapse = NULL) {
+  if (is.null(parens) && is.null(collapse)) return(x)
+  
+  if (!is.null(collapse)) {
+    x <- paste0(x, collapse = collapse)
+  }
+  
+  if (identical(parens, TRUE)) {
+    x <- paste0("(", x, ")")
+  }
+
+  sql(x)
 }
 
 #' @S3method escape list
@@ -158,8 +168,12 @@ build_sql <- function(..., .env = parent.frame()) {
   escape_expr <- function(x) {
     # If it's a string, leave it as is
     if (is.character(x)) return(x)
-      
-    escape(eval(x, .env))
+    
+    val <- eval(x, .env)
+    # Skip nulls, so you can use if statements like in paste
+    if (is.null(val)) return("")
+    
+    escape(val)
   }
   
   pieces <- vapply(dots(...), escape_expr, character(1))

@@ -115,25 +115,11 @@ sql_env <- function(expr, variant_env) {
 
   # Existing symbols in expression
   names <- all_names(expr)
-  name_env <- ceply(names, escape_sql, parent = special_calls)
+  name_env <- ceply(names, escape, parent = special_calls)
 
   # Known latex expressions
   symbol_env <- copy_env(senv, parent = name_env)
   symbol_env
-}
-
-escape_sql <- function(x) {
-  if (is.sql(x)) return(x)
-  if (x == "") return("")
-  
-  ok <- "^[a-zA-Z_][a-zA-Z0-9_]*$"
-
-  escape <- !grepl(ok, x) || toupper(x) %in% sql_keywords
-  if (escape) {
-    sql(paste0('"', x, '"'))
-  } else {
-    sql(x)
-  }
 }
 
 default_op <- function(x) {

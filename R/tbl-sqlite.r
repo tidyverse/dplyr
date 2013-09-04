@@ -46,8 +46,12 @@ tbl_sqlite <- function(path, table) {
 #' @export
 #' @rdname tbl_sqlite
 tbl.src_sqlite <- function(src, table, ...) {
-  if (!is.sql(table) && !has_table(src, table)) {
-    stop("Table ", table, " not found in database ", path, call. = FALSE)
+  if (!is.sql(table)) {
+    if (!has_table(src, table)) {
+      stop("Table ", table, " not found in database ", path, call. = FALSE)
+    }
+    
+    table <- ident(table)
   }
   
   tbl_sql(c("sqlite_table", "sqlite"), src = src, table = table)
@@ -55,7 +59,7 @@ tbl.src_sqlite <- function(src, table, ...) {
 
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
-  names(sql_select(x, x$select %||% "*", where = sql("1 == 0"), 
+  names(sql_select(x, x$select %||% sql("*"), where = sql("1 == 0"), 
     show = FALSE, explain = FALSE))
 }
 
@@ -99,7 +103,7 @@ dim.tbl_sqlite <- function(x) {
   if (is.sql(x$table)) {
     n <- "??"
   } else {
-    n <- sql_select(x, "count()", show = FALSE, explain = FALSE)[[1]]
+    n <- sql_select(x, sql("count()"), show = FALSE, explain = FALSE)[[1]]
   }
   
   if (is.null(x$select) || any(x$select == "*")) {
@@ -122,6 +126,6 @@ head.tbl_sqlite <- function(x, n = 6L, ...) {
 tail.tbl_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  df <- sql_select(x, "*", order_by = "ROWID DESC", limit = n)
+  df <- sql_select(x, sql("*"), order_by = sql("ROWID DESC"), limit = n)
   unrowname(df[rev(1:nrow(df)), , drop = FALSE])
 }

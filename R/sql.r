@@ -6,7 +6,7 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
   assert_that(is.tbl(x))
   assert_that(is.numeric(n), length(n) == 1)
 
-  select <- select %||% x$select %||% "*"
+  select <- select %||% x$select %||% sql("*")
   where <- where %||% trans_sqlite(x$filter)
   order_by <- order_by %||% trans_sqlite(x$arrange)
 
@@ -20,8 +20,7 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
   if (is.null(into_table)) {
     exec_sql(x$src$con, sql, n = n, explain = explain, show = show)  
   } else {
-    sql <- paste0("CREATE TEMPORARY TABLE ", escape_sql(into_table), " AS ", 
-      sql)
+    sql <- build_sql("CREATE TEMPORARY TABLE ", ident(into_table), " AS ", sql)
     exec_sql(x$src$con, sql, n = n, explain = explain, show = show, 
       fetch = FALSE)  
   } 
@@ -29,23 +28,19 @@ sql_select <- function(x, select = NULL, where = NULL, order_by = NULL, ...,
 
 #' Generate an SQL select query.
 #'
-#' Goal is to make valid sql given inputs - this knows nothing about sources.
+#' Goal is to make valid sql select query inputs - this knows nothing about sources.
 #'
 #' @keywords internal
 #' @param select a character vector of fields to select. Names are used to
 #'   create \code{AS} aliases.
 #' @param from a string giving the table name
-#' @param where if not \code{NULL}, a character vector of conditions, which
-#'   will be combined with \code{AND}
-#' @param group_by if not \code{NULL}, a character vector of named SQL
-#'   expression used to group the data
-#' @param having
-#' @param order_by
-#' @param limit
-#' @param offset
+#' @param from,where,group_by,having,order_by,limit,offset Select query 
+#'   components. All inputs are \code{\link{escape}}d, so make sure they have
+#'   been wrapped appropriately with \code{\link{sql}} or \code{\link{ident}}.
 #' @export
 #' @examples
-#' select_query("*", "mytable")
+#' select_query(sql("*"), ident("mytable"))
+#' select_query(sql("*"), ident("mytable"), sql("1 = 0"))
 select_query <- function(select, from, where = NULL, group_by = NULL,
                          having = NULL, order_by = NULL, limit = NULL,
                          offset = NULL) {
@@ -55,53 +50,54 @@ select_query <- function(select, from, where = NULL, group_by = NULL,
     "limit", "offset")
 
   assert_that(is.character(select), length(select) > 0L)
-  out$select <- paste0("SELECT ", sql_vars(select))
+  out$select <- build_sql("SELECT ", select)
 
   assert_that(is.character(from), length(from) == 1L)
-  out$from <- paste0("FROM ", escape_sql(from))
+  out$from <- build_sql("FROM ", from)
 
   if (length(where) > 0L) {
     assert_that(is.character(where))
-    out$where <- paste0("WHERE ", paste0("(", where, ")", collapse = " AND "))
+    out$where <- build_sql("WHERE ", escape(where, collapse = " AND "))
   }
 
   if (!is.null(group_by)) {
     assert_that(is.character(group_by), length(group_by) > 0L)
-    out$group_by <- paste0("GROUP BY ", sql_vars(group_by))
+    out$group_by <- build_sql("GROUP BY ", escape(group_by, collapse = ", "))
   }
 
   if (!is.null(having)) {
     assert_that(is.character(having), length(having) == 1L)
-    out$having <- paste0("HAVING ", having)
+    out$having <- build_sql("HAVING ", escape(having, collapse = ", "))
   }
 
   if (!is.null(order_by)) {
     assert_that(is.character(order_by), length(order_by) > 0L)
-    out$order_by <- paste0("ORDER BY ", paste(order_by, collapse = ", "))
+    out$order_by <- build_sql("ORDER BY ", escape(order_by, collapse = ", "))
   }
 
   if (!is.null(limit)) {
     assert_that(is.integer(limit), length(limit) == 1L)
-    out$limit <- paste0("LIMIT ", limit)
+    out$limit <- build_sql("LIMIT ", limit)
   }
 
   if (!is.null(offset)) {
     assert_that(is.integer(offset), length(offset) == 1L)
-    out$offset <- paste0("OFFSET ", offset)
+    out$offset <- build_sql("OFFSET ", offset)
   }
 
-  paste0(unlist(out, use.names = FALSE), collapse = "\n")
+  escape(compact(out), collapse = "\n", parens = FALSE)
 }
 
 exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {
   assert_that(is.string(sql))
 
   if (isTRUE(explain)) {
-    exsql <- paste0("EXPLAIN QUERY PLAN ", sql)
-    out <- exec_sql(con, exsql, n = -1L, explain = FALSE, show = FALSE)
-    rownames(out) <- NULL
-    message(exsql)
-    print(out)
+    exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
+    expl <- exec_sql(con, exsql, n = -1L, explain = FALSE, show = FALSE)
+    rownames(expl) <- NULL
+    out <- capture.output(print(expl))
+    
+    message(exsql, "\n", paste(out, collapse = "\n"))
     cat("\n")
   }
 
@@ -124,31 +120,7 @@ exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = T
   res
 }
 
-sql_keywords <- c(
-  "ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS",
-  "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY",
-  "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT",
-  "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME",
-  "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE",
-  "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE",
-  "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM",
-  "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX",
-  "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO",
-  "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL",
-  "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER",
-  "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "REFERENCES", "REGEXP",
-  "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK",
-  "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN",
-  "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
-  "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE")
-
-sql_vars <- function(vars) {
-  nms <- vapply(names2(vars), escape_sql, character(1))
-
-  paste0(vars, ifelse(nms == "", "", " AS "), nms, collapse = ", ")
-}
-
 var_names <- function(vars) {
-  nms <- vapply(names2(vars), escape_sql, character(1))
+  nms <- names2(vars)
   unname(ifelse(nms == "", vars, nms))
 }

@@ -12,26 +12,18 @@
 
   \item{from}{a string giving the table name}
 
-  \item{where}{if not \code{NULL}, a character vector of
-  conditions, which will be combined with \code{AND}}
-
-  \item{group_by}{if not \code{NULL}, a character vector of
-  named SQL expression used to group the data}
-
-  \item{having}{}
-
-  \item{order_by}{}
-
-  \item{limit}{}
-
-  \item{offset}{}
+  \item{from,where,group_by,having,order_by,limit,offset}{Select
+  query components. All inputs are \code{\link{escape}}d,
+  so make sure they have been wrapped appropriately with
+  \code{\link{sql}} or \code{\link{ident}}.}
 }
 \description{
-  Goal is to make valid sql given inputs - this knows
-  nothing about sources.
+  Goal is to make valid sql select query inputs - this
+  knows nothing about sources.
 }
 \examples{
-select_query("*", "mytable")
+select_query(sql("*"), ident("mytable"))
+select_query(sql("*"), ident("mytable"), sql("1 = 0"))
 }
 \keyword{internal}
 

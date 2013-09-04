@@ -48,7 +48,7 @@ arrange.tbl_sqlite <- function(.data, ...) {
 #' @method select tbl_sqlite
 select.tbl_sqlite <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-  .data$select <- c(.data$select, input)
+  .data$select <- ident(c(.data$select, input))
   .data
 }
 

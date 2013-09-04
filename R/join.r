@@ -28,29 +28,28 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", upload = FALSE, ...)
     stop("x and y must use same database connection", call. = FALSE)    
   }
   
-  join <- switch(type, left = "LEFT", inner = "INNER",
+  join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
   
-  vars <- vapply(by, escape_sql, character(1))
-  from <- paste0(from(x), "\n\n", 
+  from <- build_sql(from(x), "\n\n", 
     join, " JOIN \n\n" , 
     from(y), "\n\n",
-    "USING (", paste0(by, collapse = ", "), ")")
+    "USING ", lapply(by, ident))
   
-  tbl_sql(c("sqlite_tbl", "sqlite"), src = x$src, table = sql(from))
+  tbl_sql(c("sqlite_tbl", "sqlite"), src = x$src, table = from)
 }
 
 from <- function(x) {
   if (is.null(x$filter) && is.null(x$arrange) && is.null(x$select)) {
-    return(x$table)
+    return(ident(x$table))
   }
   
-  paste0("(", select_query(
+  build_sql(list(select_query(
     from = x$table,
     select = x$select %||% "*",
     where = trans_sqlite(x$filter),
-    order_by = trans_sqlite(x$arrange)), ")")
+    order_by = trans_sqlite(x$arrange))))
 }
 
 random_table_name <- function(n = 10) {
