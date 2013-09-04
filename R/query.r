@@ -66,7 +66,6 @@ Query <- setRefClass("Query",
     
     run = function(in_transaction = FALSE) {
       if (getOption("dplyr.show_sql")) show_sql()
-      if (getOption("dplyr.explain_sql")) explain_sql()
       
       run_sql(con, sql, in_transaction = in_transaction)
     },
