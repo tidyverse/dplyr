@@ -29,12 +29,7 @@ query <- function(con, sql) {
 
 #' @exportClass Query
 Query <- setRefClass("Query", 
-  fields = list(
-    con = "DBIConnection",
-    sql = "character",
-    .vars = "character",
-    .res = "ANY"
-  ),
+  fields = c("con", "sql", ".vars", ".res"),
   methods = list(
     show = function() {
       cat("<Query> ", sql, "\n", sep = "")
