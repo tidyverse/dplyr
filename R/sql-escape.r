@@ -46,14 +46,17 @@
 #' to_sql(round(X, 5), rounder)
 #' \dontrun{to_sql(round(X, "a"), rounder)}
 sql <- function(...) {
-  structure(paste0(...), class = "sql")
+  structure(paste0(...), class = c("sql", "character"))
 }
 
 #' @export 
 #' @rdname sql
 ident <- function(...) {
-  structure(c(...), class = c("ident", "sql"))
+  structure(c(...), class = c("ident", "sql", "character"))
 }
+
+setOldClass(c("sql", "character"))
+setOldClass(c("ident", "sql", "character"))
 
 #' @rdname sql
 #' @export
