@@ -64,7 +64,7 @@ ident <- function(...) {
 
 #' @S3method c sql
 c.sql <- function(...) {
-  out <- vapply(list(...), escape, character(1))
+  out <- unlist(lapply(list(...), escape))
   sql(out)
 }
 

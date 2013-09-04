@@ -46,6 +46,24 @@ grouped_sqlite <- function(source, vars, group_by) {
   structure(source, class = c("grouped_sqlite", "tbl_sqlite", "tbl"))
 }
 
+#' @S3method select_qry grouped_sqlite
+select_qry.grouped_sqlite <- function(x, ...) {
+  select <- x$select %||% sql("*")
+  where <- trans_sqlite(x$filter)
+  order_by <- trans_sqlite(x$arrange)
+  group_by <- trans_sqlite(x$group_by)
+  
+  sql <- select_query(
+    from = x$table,
+    select = c(group_by, select),
+    where = where,
+    order_by = order_by, 
+    group_by = ident(var_names(group_by)),
+    ...)
+  
+  query(x$src$con, sql)
+}
+
 #' @export
 #' @rdname grouped_sqlite
 #' @method group_by tbl_sqlite

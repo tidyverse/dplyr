@@ -33,45 +33,28 @@ NULL
 
 #' @rdname manip_grouped_sqlite
 #' @export
-#' @method filter grouped_sqlite
-filter.grouped_sqlite <- function(.data, ...) {
-  warning("Group by ignored for filtering with SQLite", call. = FALSE)
-
-  filter.tbl_sqlite(.data, ...)
-}
-
-#' @rdname manip_grouped_sqlite
-#' @export
 #' @method summarise grouped_sqlite
 summarise.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
-  select <- trans_sqlite(dots(...), .data, parent.frame())
-  group_by <- trans_sqlite(.data$group_by)
+  .data$select <- trans_sqlite(dots(...), .data, parent.frame())
+  tbl_df(as.data.frame(.data))
+}
 
-  out <- sql_select(.data,
-    select = c(group_by, select),
-    group_by = names(group_by),
-    n = .n)
-
-  tbl_df(
-    data = out
-  )
+#' @rdname manip_grouped_sqlite
+#' @export
+#' @method filter grouped_sqlite
+filter.grouped_sqlite <- function(.data, ...) {
+  warning("Group by ignored for filtering with SQLite", call. = FALSE)
+  filter.tbl_sqlite(.data, ...)
 }
 
 #' @rdname manip_grouped_sqlite
 #' @export
 #' @method mutate grouped_sqlite
 mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
-  assert_that(length(.n) == 1, .n > 0L)
-
   warning("Group by ignored for mutate with SQLite", call. = FALSE)
-
-  out <- mutate.tbl_sqlite(.data, ..., .n = .n)
-  grouped_df(
-    data = out,
-    vars = .data$vars
-  )
+  mutate.tbl_sqlite(.data, ..., .n = .n)
 }
 
 #' @rdname manip_grouped_sqlite
@@ -79,7 +62,6 @@ mutate.grouped_sqlite <- function(.data, ..., .n = 1e5) {
 #' @method arrange grouped_sqlite
 arrange.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for arrange with SQLite", call. = FALSE)
-
   arrange.tbl_sqlite(.data, ...)
 }
 
@@ -88,6 +70,5 @@ arrange.grouped_sqlite <- function(.data, ...) {
 #' @method select grouped_sqlite
 select.grouped_sqlite <- function(.data, ...) {
   warning("Group by ignored for select with SQLite", call. = FALSE)
-
   select.tbl_sqlite(.data, ...)
 }
