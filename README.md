@@ -49,7 +49,7 @@ players_db <- group_by(baseball_db, id)
 * `select()`: focus on a subset of variables
 * `filter()`: focus on a subset of rows
 * `mutate()`: add new columns
-* `summarise()`: reduce each group to a single row
+* `summarise()`: reduce each group to a smaller number of summary statistics
 * `arrange()`: re-order the rows
 
 See `?manip` for more details.
@@ -98,6 +98,14 @@ mod2 <- do(players_df, biglm, formula = r ~ ab)
 print(object.size(mod1), unit = "MB")
 print(object.size(mod2), unit = "MB")
 ```
+
+### Joins
+
+You can also join data sources: this is currently only supported for SQL, but data frame and data table wrappers will be added in the near future.
+
+### Compound
+
+Sqlite tbls also support the compound operator, which allows you to union all tbls together.
 
 ### Other operations
 
