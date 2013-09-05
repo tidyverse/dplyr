@@ -1,4 +1,4 @@
-#' Explain sql
+#' Show sql and query plans.
 #' 
 #' Any queries run inside this function will automatically be explained:
 #' displaying information about which indexes are used to optimise the query.
@@ -15,6 +15,7 @@
 #' # Note that you have to do something that actually triggers a query
 #' # inside the explain function
 #' explain_sql(batting)
+#' show_sql(head(batting))
 #' explain_sql(head(batting))
 #' # This has to run two queries because nrow is the same as dim(x)[1]
 #' explain_sql(nrow(batting))
@@ -30,6 +31,15 @@
 #' explain_tbl(filter(batting, lgID == "NL" || yearID == 2000))
 explain_sql <- function(code) {
   old <- options(dplyr.explain_sql = TRUE, dplyr.show_sql = TRUE)
+  on.exit(options(old))
+  
+  code
+}
+
+#' @export
+#' @rdname explain_sql
+show_sql <- function(code) {
+  old <- options(dplyr.show_sql = TRUE)
   on.exit(options(old))
   
   code

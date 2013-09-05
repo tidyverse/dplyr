@@ -1,9 +1,12 @@
 \name{explain_sql}
 \alias{explain_sql}
 \alias{explain_tbl}
-\title{Explain sql}
+\alias{show_sql}
+\title{Show sql and query plans.}
 \usage{
   explain_sql(code)
+
+  show_sql(code)
 
   explain_tbl(tbl)
 }
@@ -27,6 +30,7 @@ batting <- tbl(lahman(), "Batting")
 # Note that you have to do something that actually triggers a query
 # inside the explain function
 explain_sql(batting)
+show_sql(head(batting))
 explain_sql(head(batting))
 # This has to run two queries because nrow is the same as dim(x)[1]
 explain_sql(nrow(batting))
