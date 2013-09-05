@@ -37,12 +37,34 @@
   of talking to the database.}
 }
 \description{
-  Note that all operations on SQL tables are lazy: they
-  will not actually run the query or retrieve the data
-  unless you ask for it. Use \code{\link{compute}} to run
-  the query and save the results in a temporary in the
-  database, or use \code{\link{collect}} to retrieve the
-  results to R.
+  All operations on SQL tables are lazy: they will not
+  actually run the query or retrieve the data unless you
+  ask for it. Use \code{\link{compute}} to run the query
+  and save the results in a temporary in the database, or
+  use \code{\link{collect}} to retrieve the results to R.
+}
+\section{Query principles}{
+  This section attempts to lay out the principles governing
+  the generation of SQL queries from the manipulation
+  verbs.  The basic principle is that a sequence of
+  operations should return the same value (modulo class)
+  regardless of where the data is stored.
+
+  \itemize{ \item \code{arrange(arrange(df, x), y)} should
+  be equivalent to \code{arrange(df, y, x)}
+
+  \item \code{select(select(df, a:x), n:o)} should be
+  equivalent to \code{select(df, n:o)}
+
+  \item \code{mutate(mutate(df, x2 = x * 2), y2 = y * 2)}
+  should be equivalent to \code{mutate(df, x2 = x * 2, y2 =
+  y * 2)}
+
+  \item \code{filter(filter(df, x == 1), y == 2)} should be
+  equivalent to \code{filter(df, x == 1, y == 2)}
+
+  \item \code{summarise} should return the summarised
+  output with one level of grouping peeled off. }
 }
 \examples{
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
