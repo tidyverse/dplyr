@@ -59,6 +59,18 @@ Query <- setRefClass("Query",
       fetch_sql_df(con, sql, n = n)
     },
     
+    fetch_paged = function(chunk_size = 1e4, callback) {
+      qry <- dbSendQuery(con, sql)
+      on.exit(dbClearResult(qry))
+      
+      while (!dbHasCompleted(qry)) {
+        chunk <- fetch(qry, chunk_size)
+        callback(chunk)
+      }
+      
+      invisible(TRUE)
+    },
+    
     save_into = function(name = random_table_name()) {
       tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql)
       run_sql(con, tt_sql)

@@ -45,20 +45,19 @@
 #' mutate(players, cyear = year - min(year) + 1)
 #' summarise(players, g = mean(g), n = count())
 #'
-#' # do by
-#' mods <- do(by_team, failwith(NULL, lm), formula = r ~ poly(year, 2), 
-#'   .chunk_size = 1000)
-#'
+#' # Find decent sized teams
 #' sizes <- summarise(by_team, freq = count())
-#' not_small <- as.data.frame(filter(sizes, freq > 10))
+#' not_small <- collect(filter(sizes, freq > 10))
 #' teams <- not_small$team
 #' ok <- filter(by_team, team %in% teams)
+#' 
+#' # Explore how they have changed over time
 #' mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
 #'   .chunk_size = 1000)
 #'
-#' # Since we it's not easy to figure out what variables you are using
-#' # in general, it will often be faster to let dplyr know what you need
-#' mods <- do(filter(ok, year, r), failwith(NULL, lm), formula = r ~ poly(year, 2),
+#' # Note that it's more efficient to select only the variables needed
+#' ok_min <- select(ok, year, r)
+#' mods <- do(ok_min, failwith(NULL, lm), formula = r ~ poly(year, 2),
 #'   .chunk_size = 1000)
 #' @name manip_sqlite
 NULL
@@ -66,11 +65,7 @@ NULL
 #' @rdname manip_sqlite
 #' @export
 #' @method filter tbl_sqlite
-filter.tbl_sqlite <- function(.data, ...) {
-  if (!is.null(.data$group_by)) {
-    stop("Grouped filter not supported by SQLite", call. = FALSE)
-  }
-  
+filter.tbl_sqlite <- function(.data, ...) {  
   input <- partial_eval(dots(...), .data, parent.frame())
   .data$filter <- c(.data$filter, input)
   .data
@@ -118,50 +113,48 @@ mutate.tbl_sqlite <- function(.data, ..., .n = 1e5) {
   .data
 }
 
-#' @S3method do grouped_sqlite
-do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
-  group_names <- var_names(.data$group_by)
-  group_vars <- lapply(group_names, as.name)
-  nvars <- length(.data$group_by)
-  
-  vars <- .data$select %||% setdiff(tbl_vars(.data), group_names)
-  
-  select <- qry_select(.data, 
-    from = .data$table,
-    select = c(trans_sqlite(.data$group_by), vars),
-    where = trans_sqlite(.data$filter),
-    order_by = c(var_names(.data$group_by), trans_sqlite(.data$arrange)))$sql
-  
-  qry <- dbSendQuery(.data$src$con, select)
-  on.exit(dbClearResult(qry))
+#' @S3method do tbl_sqlite
+do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
+  x <- ungrouped(.data)
+  gvars <- colnames(x)[seq_along(.data$group_by)]
   
   last_group <- NULL
-  chunk <- fetch(qry, .chunk_size)
-  out <- list()
+  out <- list()  
   
-  while (!dbHasCompleted(qry)) {
+  qry_select(x)$fetch_paged(.chunk_size, function(chunk) {
     # Last group might be incomplete, so always set it aside and join it
     # with the next chunk. If group size is large than chunk size, it may
     # take a couple of iterations to get the entire group, but that should
     # be an unusual situation.
     if (!is.null(last_group)) chunk <- rbind(last_group, chunk)
-    group_id <- id(chunk[seq_len(nvars)])
+    group_id <- id(chunk[gvars])
     
     last <- group_id == group_id[length(group_id)]
-    last_group <- chunk[last, , drop = FALSE]
+    last_group <<- chunk[last, , drop = FALSE]
     chunk <- chunk[!last, , drop = FALSE]
     
-    groups <- grouped_df(chunk, group_vars, lazy = FALSE)
+    groups <- grouped_df(chunk, lapply(gvars, as.name), lazy = FALSE)
     res <- do(groups, .f, ...)
-    out <- c(out, res)
-    
-    chunk <- fetch(qry, .chunk_size)
+    out <<- c(out, res)
+  })
+
+  # Process last group
+  if (!is.null(last_group)) {
+    groups <- grouped_df(last_group, lapply(gvars, as.name))  
+    res <- do(groups, .f, ...)
+    out <- c(out, res)    
   }
   
-  if (!is.null(last_group)) chunk <- rbind(last_group, chunk)
-  groups <- grouped_df(chunk, group_vars)
-  res <- do(groups, .f, ...)
-  out <- c(out, res)
-  
   out
+}
+
+ungrouped <- function(x) {
+  group_by <- trans_sqlite(x$group_by)
+  names(group_by) <- paste0("GRP_", seq_along(group_by))
+  
+  x$select <- c(group_by, x$select %||% sql("*"))
+  x$arrange <- c(ident(names(group_by)), x$arrange)
+  x$group_by <- NULL
+  
+  x
 }

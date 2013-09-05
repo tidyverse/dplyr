@@ -9,7 +9,7 @@ test_that("Results respect select", {
   ncols <- function(group) unique(unlist(do(group, ncol)))
 
   expect_equal(ncols(by_team_2), 3)
-  expect_equal(ncols(by_team_all), ncol(baseball))
+  expect_equal(ncols(by_team_all), ncol(baseball) + 1)
 })
 
 test_that("Results independent of chunk_size", {

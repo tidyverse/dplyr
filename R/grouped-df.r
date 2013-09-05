@@ -87,6 +87,7 @@ make_view <- function(x, env = parent.frame()) {
 build_index <- function(x) {
   splits <- lapply(attr(x, "vars"), eval, x, parent.frame())
   split_id <- id(splits, drop = attr(x, "drop"))
+  
   assert_that(length(split_id) == nrow(x))
 
   attr(x, "labels") <- split_labels(splits, drop = attr(x, "drop"),
