@@ -1,13 +1,11 @@
 context("SQL translation")
 
-test_con <- dbConnect(dbDriver("SQLite"), 
-  dbname = file.path(tempdir(), "test.sqlite3"))
-RSQLite.extfuns::init_extensions(test_con)
+test <- src_sqlite(tempfile(), create = TRUE)
 
 eval_sql <- function(expr) {
   select <- trans_sqlite(expr, .data, parent.frame())
   sql <- build_sql("SELECT ", select)
-  query(test_con, sql)$fetch_db()[[1]]
+  query(test$con, sql)$fetch_df()[[1]]
 }
 
 expect_same_in_sql <- function(expr) {
