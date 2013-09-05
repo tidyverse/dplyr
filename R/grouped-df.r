@@ -4,6 +4,7 @@
 #' method on a data frame or tbl: this will take care of capturing
 #' the unevalated expressions for you.
 #'
+#' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars a list of quoted variables.
 #' @param lazy if \code{TRUE}, index will be computed lazily every time it
@@ -12,6 +13,8 @@
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
 grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
+  assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
+    
   attr(data, "vars") <- vars
   attr(data, "drop") <- drop
   if (!lazy) {
@@ -20,6 +23,11 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
 
   class(data) <- c("grouped_df", "tbl_df", "tbl", class(data))
   data
+}
+
+#' @S3method groups grouped_df
+groups.tbl_df <- function(x) {
+  attr(x, "vars")
 }
 
 #' @rdname grouped_df
@@ -36,7 +44,7 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @S3method print grouped_df
 print.grouped_df <- function(x, ...) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("Groups: ", commas(deparse_all(attr(x, "vars"))), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }
@@ -55,9 +63,8 @@ group_size.grouped_df <- function(x) {
 #' @rdname grouped_df
 group_by.data.frame <- function(x, ..., drop = TRUE) {
   vars <- named_dots(...)
-  grouped_df(x, c(x$group_by, vars), lazy = FALSE)
+  grouped_df(x, c(groups(x), vars), lazy = FALSE)
 }
-
 
 #' @S3method as.data.frame grouped_df
 as.data.frame.grouped_df <- function(x, row.names = NULL,
@@ -85,7 +92,7 @@ make_view <- function(x, env = parent.frame()) {
 }
 
 build_index <- function(x) {
-  splits <- lapply(attr(x, "vars"), eval, x, parent.frame())
+  splits <- lapply(groups(x), eval, x, parent.frame())
   split_id <- id(splits, drop = attr(x, "drop"))
   
   assert_that(length(split_id) == nrow(x))

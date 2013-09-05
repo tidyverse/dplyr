@@ -90,6 +90,11 @@ tbl_vars.tbl_sqlite <- function(x) {
   qry_select(x)$vars()
 }
 
+#' @S3method groups tbl_sqlite
+groups.tbl_sqlite <- function(x) {
+  x$group_by
+}
+
 # Grouping methods -------------------------------------------------------------
 
 #' @S3method group_by tbl_sqlite

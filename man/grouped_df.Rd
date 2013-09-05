@@ -36,4 +36,5 @@
   will take care of capturing the unevalated expressions
   for you.
 }
+\keyword{internal}
 

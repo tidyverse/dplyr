@@ -40,6 +40,14 @@ ungroup <- function(x) {
   UseMethod("ungroup")
 }
 
+#' Retrieve list of groups from a data source.
+#' 
+#' @param x data tbl
+#' @export
+groups <- function(x) {
+  UseMethod("groups")
+}
+
 is.lazy <- function(x) {
   UseMethod("is.lazy")
 }

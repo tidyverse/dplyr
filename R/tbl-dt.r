@@ -29,6 +29,11 @@ as.tbl.data.table <- function(x, ...) {
 #' @S3method tbl_vars tbl_dt
 tbl_vars.tbl_dt <- function(x) copy(names(x))
 
+#' @S3method groups grouped_dt
+groups.tbl_dt <- function(x) {
+  NULL
+}
+
 # Standard data frame methods --------------------------------------------------
 
 #' Coerce data table to tbl.

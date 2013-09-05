@@ -17,9 +17,11 @@
 #' select(players, id:team)
 #'
 #' # All manip functions preserve grouping structure, except for summarise
-#' # (for hopefully obvious reasons)
+#' # which removes a grouping level
 #' by_year <- mutate(players, cyear = year - min(year) + 1)
 #' summarise(by_year, years = max(cyear))
+#'
+#' stints <- group_by(players, stint)
 #'
 #' # You can also manually ungroup:
 #' df <- arrange(ungroup(by_year), id, year)
@@ -89,9 +91,15 @@ summarise.grouped_df <- function(.data, ...) {
     name <- names(calls)[[j]]
     v$add_binding(name, output_summary(name))
   }
-
+  
   out <- c(attr(.data, "labels"), out) # expensive operation
-  tbl_df(as_df(out))
+  
+  grp_vars <- attr(.data, "vars")
+  if (length(grp_vars) == 1L) {
+    tbl_df(as_df(out))
+  } else {
+    grouped_df(as_df(out), grp_vars[-length(grp_vars)])
+  }
 }
 
 #' @rdname manip_grouped_df

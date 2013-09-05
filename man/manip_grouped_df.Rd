@@ -39,9 +39,11 @@ arrange(players, desc(year))
 select(players, id:team)
 
 # All manip functions preserve grouping structure, except for summarise
-# (for hopefully obvious reasons)
+# which removes a grouping level
 by_year <- mutate(players, cyear = year - min(year) + 1)
 summarise(by_year, years = max(cyear))
+
+stints <- group_by(players, stint)
 
 # You can also manually ungroup:
 df <- arrange(ungroup(by_year), id, year)

@@ -25,6 +25,11 @@ grouped_dt <- function(data, vars) {
   structure(data, class = c("grouped_dt", "tbl_dt", "tbl"))
 }
 
+#' @S3method groups grouped_dt
+groups.grouped_dt <- function(x) {
+  x$vars
+}
+
 #' @rdname grouped_dt
 #' @param x an object to check
 #' @export
@@ -33,7 +38,7 @@ is.grouped_dt <- function(x) inherits(x, "grouped_dt")
 #' @S3method print grouped_dt
 print.grouped_dt <- function(x, ...) {
   cat("Source: local data table ", dim_desc(x), "\n", sep = "")
-  cat("Groups: ", commas(deparse_all(x$vars)), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
   trunc_mat(x$obj)
 }
@@ -49,8 +54,7 @@ group_size.grouped_dt <- function(x) {
 #' @param ... variables to group by
 group_by.data.table <- function(x, ...) {
   vars <- dots(...)
-
-  grouped_dt(x, c(x$group_by, vars))
+  grouped_dt(x, c(groups(x), vars))
 }
 
 #' @method group_by tbl_dt
@@ -58,7 +62,13 @@ group_by.data.table <- function(x, ...) {
 #' @rdname grouped_dt
 group_by.tbl_dt <- function(x, ...) {
   vars <- dots(...)
-  grouped_dt(x, vars)
+  grouped_dt(x, c(groups(x), vars))
+}
+
+#' @S3method group_by grouped_dt
+group_by.grouped_dt <- function(x, ...) {
+  vars <- dots(...)
+  grouped_dt(x$obj, c(groups(x), vars))
 }
 
 #' @S3method ungroup grouped_dt
