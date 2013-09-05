@@ -25,8 +25,8 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
   data
 }
 
-#' @S3method groups grouped_df
-groups.tbl_df <- function(x) {
+#' @S3method groups data.frame
+groups.data.frame <- function(x) {
   attr(x, "vars")
 }
 
