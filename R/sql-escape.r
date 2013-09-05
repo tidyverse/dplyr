@@ -88,10 +88,11 @@ escape <- function(x, parens = NA, collapse = " ") UseMethod("escape")
 
 #' @S3method escape ident
 escape.ident <- function(x, parens = FALSE, collapse = ", ") {
-  x <- gsub('"', '""', x, fixed = TRUE)
-  x <- paste0('"', x, '"')
+  y <- gsub('"', '""', x, fixed = TRUE)
+  y <- paste0('"', x, '"')
+  names(y) <- names(x)
   
-  sql_vector(names_to_as(x), parens, collapse)
+  sql_vector(names_to_as(y), parens, collapse)
 }
 
 #' @S3method escape character
