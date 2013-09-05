@@ -32,6 +32,9 @@
 #' per_year <- group_by(baseball_s, id, year)
 #' stints <- summarise(per_year, stints = max(stint))
 #' collect(filter(stints, stints > 3))
+#' # Summarise peels over a single layer of grouping
+#' groups(stints)
+#' collect(summarise(stints, max(stints)))
 #'
 #' # All other operations will ignore grouping, although they will preserve it
 #' # in the object returned to R.
@@ -49,6 +52,8 @@
 #' not_small <- collect(filter(sizes, freq > 10))
 #' teams <- not_small$team
 #' ok <- filter(by_team, team %in% teams)
+#' 
+#' # Do arbitrary processing with do ---------------------------------
 #' 
 #' # Explore how they have changed over time
 #' mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
@@ -99,7 +104,13 @@ summarise.tbl_sqlite <- function(.data, ...) {
     .data$select <- c(.data$select, new_vars)
   }
   
-  collapse(.data)
+  tbl <- collapse(.data)
+  grps <- groups(.data)
+  if (length(grps) > 1L) {
+    tbl$group_by <- grps[-length(grps)]
+  }
+  
+  tbl
 }
 
 #' @rdname manip_sqlite

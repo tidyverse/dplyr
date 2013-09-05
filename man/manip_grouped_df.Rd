@@ -43,7 +43,10 @@ select(players, id:team)
 by_year <- mutate(players, cyear = year - min(year) + 1)
 summarise(by_year, years = max(cyear))
 
-stints <- group_by(players, stint)
+years <- group_by(players, year)
+stints <- summarise(years, stints = n())
+max_stint <- summarise(stints, m = max(stints))
+filter(max_stint, m > 2)
 
 # You can also manually ungroup:
 df <- arrange(ungroup(by_year), id, year)

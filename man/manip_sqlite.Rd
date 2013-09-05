@@ -69,6 +69,9 @@ summarise(players, g = mean(g), best_ab = max(ab))
 per_year <- group_by(baseball_s, id, year)
 stints <- summarise(per_year, stints = max(stint))
 collect(filter(stints, stints > 3))
+# Summarise peels over a single layer of grouping
+groups(stints)
+collect(summarise(stints, max(stints)))
 
 # All other operations will ignore grouping, although they will preserve it
 # in the object returned to R.
@@ -86,6 +89,8 @@ sizes <- summarise(by_team, freq = count())
 not_small <- collect(filter(sizes, freq > 10))
 teams <- not_small$team
 ok <- filter(by_team, team \%in\% teams)
+
+# Do arbitrary processing with do ---------------------------------
 
 # Explore how they have changed over time
 mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),

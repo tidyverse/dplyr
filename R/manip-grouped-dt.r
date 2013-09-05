@@ -74,7 +74,7 @@ summarise.grouped_dt <- function(.data, ...) {
 
   grouped_dt(
     data = out,
-    vars = .data$vars
+    vars = .data$vars[-length(.data$vars)]
   )
 }
 

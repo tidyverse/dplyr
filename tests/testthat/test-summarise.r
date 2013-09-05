@@ -20,3 +20,16 @@ test_that("repeated outputs applied progressively (grouped_df)", {
   
   expect_equal(out$z, c(2L, 2L))
 })
+
+
+df <- data.frame(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
+tbls <- clone_tbls(df)
+
+test_that("summarise peels off a single layer of grouping", {
+  for (tbl in tbls) {
+    grouped <- group_by(tbl, x, y)
+    summed <- summarise(grouped, n())
+    
+    expect_equal(unname(groups(summed)), list(quote(x)))
+  }
+})
