@@ -1,13 +1,12 @@
 #' Data manipulation for SQL tbls.
 #'
-#' Arrange, filter and select are lazy: they modify the object representing
-#' the table, and do not recompute unless needed.  Summarise and mutate
-#' are eager: they will always return a tbl_df.
+#' Note that all operations on SQL tables are lazy: they will not actually
+#' run the query or retrieve the data unless you ask for it. Use 
+#' \code{\link{compute}} to run the query and save the results in a temporary
+#' in the database, or use \code{\link{collect}} to retrieve the results to R.
 #'
-#' @param .data an SQLite data base
+#' @param .data an SQLite data tbl
 #' @param ... variables interpreted in the context of \code{.data}
-#' @param .n maximum number of columns to return. Set to \code{-1} to return
-#'  all.
 #' @examples
 #' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
 #' baseball_s <- tbl_sqlite(db_path, "baseball")
@@ -92,9 +91,7 @@ select.tbl_sqlite <- function(.data, ...) {
 #' @rdname manip_sqlite
 #' @export
 #' @method summarise tbl_sqlite
-summarise.tbl_sqlite <- function(.data, ..., .n = 1e5) {
-  assert_that(length(.n) == 1, .n > 0L)
-
+summarise.tbl_sqlite <- function(.data, ...) {
   .data$select <- trans_sqlite(dots(...), .data, parent.frame())
     
   collapse(.data)
@@ -103,9 +100,7 @@ summarise.tbl_sqlite <- function(.data, ..., .n = 1e5) {
 #' @rdname manip_sqlite
 #' @export
 #' @method mutate tbl_sqlite
-mutate.tbl_sqlite <- function(.data, ..., .n = 1e5) {
-  assert_that(length(.n) == 1, .n > 0L)
-
+mutate.tbl_sqlite <- function(.data, ...) {
   old_vars <- .data$select %||% sql("*")
   new_vars <- trans_sqlite(dots(...), .data, parent.frame())
   .data$select <- c(old_vars, new_vars)
@@ -113,7 +108,15 @@ mutate.tbl_sqlite <- function(.data, ..., .n = 1e5) {
   .data
 }
 
-#' @S3method do tbl_sqlite
+#' @method do tbl_sqlite
+#' @export 
+#' @rdname manip_sqlite
+#' @param .f,... A function to apply to each group, and any additional arguments
+#'   to pass to \code{f}.
+#' @param .chunk_size The size of each chunk to pull into R. If this number is 
+#'   too big, the process will be slow because R has to allocate and free a lot
+#'   of memory. If it's too small, it will be slow, because of the overhead of
+#'   talking to the database.
 do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
   x <- ungrouped(.data)
   gvars <- colnames(x)[seq_along(.data$group_by)]

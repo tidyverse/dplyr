@@ -1,5 +1,6 @@
 \name{manip_sqlite}
 \alias{arrange.tbl_sqlite}
+\alias{do.tbl_sqlite}
 \alias{filter.tbl_sqlite}
 \alias{manip_sqlite}
 \alias{mutate.tbl_sqlite}
@@ -13,24 +14,35 @@
 
   \method{select}{tbl_sqlite} (.data, ...)
 
-  \method{summarise}{tbl_sqlite} (.data, ..., .n = 1e+05)
+  \method{summarise}{tbl_sqlite} (.data, ...)
 
-  \method{mutate}{tbl_sqlite} (.data, ..., .n = 1e+05)
+  \method{mutate}{tbl_sqlite} (.data, ...)
+
+  \method{do}{tbl_sqlite} (.data, .f, ...,
+    .chunk_size = 10000L)
 }
 \arguments{
-  \item{.data}{an SQLite data base}
+  \item{.data}{an SQLite data tbl}
 
   \item{...}{variables interpreted in the context of
   \code{.data}}
 
-  \item{.n}{maximum number of columns to return. Set to
-  \code{-1} to return all.}
+  \item{.f,...}{A function to apply to each group, and any
+  additional arguments to pass to \code{f}.}
+
+  \item{.chunk_size}{The size of each chunk to pull into R.
+  If this number is too big, the process will be slow
+  because R has to allocate and free a lot of memory. If
+  it's too small, it will be slow, because of the overhead
+  of talking to the database.}
 }
 \description{
-  Arrange, filter and select are lazy: they modify the
-  object representing the table, and do not recompute
-  unless needed.  Summarise and mutate are eager: they will
-  always return a tbl_df.
+  Note that all operations on SQL tables are lazy: they
+  will not actually run the query or retrieve the data
+  unless you ask for it. Use \code{\link{compute}} to run
+  the query and save the results in a temporary in the
+  database, or use \code{\link{collect}} to retrieve the
+  results to R.
 }
 \examples{
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
@@ -69,20 +81,19 @@ select(players, id:team)
 mutate(players, cyear = year - min(year) + 1)
 summarise(players, g = mean(g), n = count())
 
-# do by
-mods <- do(by_team, failwith(NULL, lm), formula = r ~ poly(year, 2),
-  .chunk_size = 1000)
-
+# Find decent sized teams
 sizes <- summarise(by_team, freq = count())
-not_small <- as.data.frame(filter(sizes, freq > 10))
+not_small <- collect(filter(sizes, freq > 10))
 teams <- not_small$team
 ok <- filter(by_team, team \%in\% teams)
+
+# Explore how they have changed over time
 mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
   .chunk_size = 1000)
 
-# Since we it's not easy to figure out what variables you are using
-# in general, it will often be faster to let dplyr know what you need
-mods <- do(filter(ok, year, r), failwith(NULL, lm), formula = r ~ poly(year, 2),
+# Note that it's more efficient to select only the variables needed
+ok_min <- select(ok, year, r)
+mods <- do(ok_min, failwith(NULL, lm), formula = r ~ poly(year, 2),
   .chunk_size = 1000)
 }
 
