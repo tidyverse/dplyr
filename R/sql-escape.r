@@ -52,8 +52,8 @@
 #' to_sql(round(X), rounder)
 #' to_sql(round(X, 5), rounder)
 #' \dontrun{to_sql(round(X, "a"), rounder)}
-sql <- function(...) {
-  structure(paste0(...), class = c("sql", "character"))
+sql <- function(x) {
+  structure(x, class = c("sql", "character"))
 }
 
 #' @export 
@@ -87,12 +87,9 @@ escape <- function(x, parens = NA, collapse = " ") UseMethod("escape")
 #' @S3method escape ident
 escape.ident <- function(x, parens = FALSE, collapse = ", ") {
   x <- gsub('"', '""', x, fixed = TRUE)
+  x <- paste0('"', x, '"')
   
-  nms <- names2(x)
-  nms <- gsub('"', '""', nms, fixed = TRUE)
-  as <- ifelse(nms == '', '', paste0(' AS "', nms, '"'))
-  
-  sql_vector(paste0('"', x, '"', as), parens, collapse)
+  sql_vector(names_to_as(x), parens, collapse)
 }
 
 #' @S3method escape character
@@ -119,17 +116,7 @@ escape.NULL <- function(x, parens = NA, collapse = " ") {
 
 #' @S3method escape sql
 escape.sql <- function(x, parens = NULL, collapse = NULL) {
-  if (is.null(parens) && is.null(collapse)) return(x)
-  
-  if (!is.null(collapse)) {
-    x <- paste0(x, collapse = collapse)
-  }
-  
-  if (identical(parens, TRUE)) {
-    x <- paste0("(", x, ")")
-  }
-
-  sql(x)
+  sql_vector(x, isTRUE(parens), collapse)
 }
 
 #' @S3method escape list
@@ -143,10 +130,20 @@ sql_vector <- function(x, parens = NA, collapse = " ") {
     parens <- length(x) > 1L
   }
   
+  x <- names_to_as(x)
   x <- paste(x, collapse = collapse)
   if (parens) x <- paste0("(", x, ")")
   sql(x)
 }
+
+names_to_as <- function(x) {
+  nms <- names2(x)
+  nms <- gsub('"', '""', nms, fixed = TRUE)
+  as <- ifelse(nms == '', '', paste0(' AS "', nms, '"'))
+  
+  paste0(x, as)
+}
+
 
 #' Build a SQL string.
 #' 

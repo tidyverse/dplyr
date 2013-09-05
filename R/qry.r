@@ -16,8 +16,8 @@ var_names <- function(vars) {
 #' @family query construction
 #' @return a \code{\link{query}} object
 #' @examples
-#' select_query(l(), sql("*"), ident("mytable"))
-#' select_query(l(), sql("*"), ident("mytable"), sql("1 = 0"))
+#' qry_select(lahman(), sql("*"), ident("mytable"))
+#' qry_select(lahman(), sql("*"), ident("mytable"), sql("1 = 0"))
 qry_select <- function(x, select, from, where = NULL, group_by = NULL,
                          having = NULL, order_by = NULL, limit = NULL,
                          offset = NULL, ...) {

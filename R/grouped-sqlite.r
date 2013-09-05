@@ -47,21 +47,21 @@ grouped_sqlite <- function(source, vars, group_by) {
 }
 
 #' @S3method qry_select grouped_sqlite
-qry_select.grouped_sqlite <- function(x, ...) {
-  select <- x$select %||% sql("*")
-  where <- trans_sqlite(x$filter)
-  order_by <- trans_sqlite(x$arrange)
-  group_by <- trans_sqlite(x$group_by)
+qry_select.grouped_sqlite <- function(x, select = NULL, from = NULL, where = NULL, 
+                                      group_by = NULL, having = NULL, 
+                                      order_by = NULL, limit = NULL, offset = NULL) {
   
-  sql <- select_query(
+  group_by <- group_by %||% trans_sqlite(x$group_by)
+  select <- select %||% x$select %||% sql("*")
+  
+  qry_select(x$src,
     from = x$table,
     select = c(group_by, select),
-    where = where,
-    order_by = order_by, 
+    where = where %||% trans_sqlite(x$filter),
+    order_by = order_by %||% trans_sqlite(x$arrange), 
     group_by = ident(var_names(group_by)),
-    ...)
-  
-  query(x$src$con, sql)
+    limit = limit, 
+    offset = offset)
 }
 
 #' @export
@@ -88,7 +88,7 @@ group_by.grouped_sqlite <- function(x, ...) {
 
 #' @S3method group_size grouped_sqlite
 group_size.grouped_sqlite <- function(x) {
-  summarise(x, n = count())$n
+  summarise(x, n = count())[[1]]
 }
 
 #' @S3method print grouped_sqlite
@@ -109,11 +109,11 @@ do.grouped_sqlite <- function(.data, .f, ..., .chunk_size = 1e5L) {
 
   vars <- .data$select %||% setdiff(tbl_vars(.data), group_names)
 
-  select <- select_query(
+  select <- qry_select(.data, 
     from = .data$table,
     select = c(trans_sqlite(.data$group_by), vars),
     where = trans_sqlite(.data$filter),
-    order_by = c(var_names(.data$group_by), trans_sqlite(.data$arrange)))
+    order_by = c(var_names(.data$group_by), trans_sqlite(.data$arrange)))$sql
 
   qry <- dbSendQuery(.data$src$con, select)
   on.exit(dbClearResult(qry))

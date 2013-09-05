@@ -56,6 +56,6 @@ qry_select.src_sqlite <- function(x, select, from, where = NULL, group_by = NULL
     out$offset <- build_sql("OFFSET ", offset)
   }
   
-  sql <- escape(compact(out), collapse = "\n", parens = FALSE)
+  sql <- escape(unname(compact(out)), collapse = "\n", parens = FALSE)
   query(x$con, sql)
 }

@@ -17,6 +17,13 @@
 #' remote2 <- collapse(remote)
 #' cached <- compute(remote)
 #' local  <- collect(remote)
+#' 
+#' # Collapse is used by summarise so you can add additional restrictions
+#' # on the computed columns. This is analogous to the HAVING restriction
+#' batting <- tbl(lahman(), "Batting")
+#' players <- group_by(batting, PlayerID)
+#' stints <- summarise(players, n = n())
+#' compute(filter(stints, n > 10L))
 compute <- function(x, name = random_table_name(), ...) {
   UseMethod("compute")
 }
@@ -37,7 +44,7 @@ collapse <- function(x, ...) {
 
 #' @S3method collapse tbl_sqlite
 collapse.tbl_sqlite <- function(x, ...) {
-  tbl(x$src, qry_select(x)$sql)
+  tbl(x$src, build_sql("(", qry_select(x)$sql, ")"))
 }
 
 #' @S3method compute tbl_sqlite

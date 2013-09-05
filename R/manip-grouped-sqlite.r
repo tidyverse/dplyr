@@ -38,7 +38,7 @@ summarise.grouped_sqlite <- function(.data, ..., .n = 1e5) {
   assert_that(length(.n) == 1, .n > 0L)
 
   .data$select <- trans_sqlite(dots(...), .data, parent.frame())
-  tbl_df(as.data.frame(.data))
+  collapse(.data)
 }
 
 #' @rdname manip_grouped_sqlite

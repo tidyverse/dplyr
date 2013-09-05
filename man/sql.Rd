@@ -5,7 +5,7 @@
 \alias{sql}
 \title{SQL escaping.}
 \usage{
-  sql(...)
+  sql(x)
 
   ident(...)
 

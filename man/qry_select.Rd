@@ -24,8 +24,8 @@
   Generate a basic SQL \code{SELECT} query.
 }
 \examples{
-select_query(l(), sql("*"), ident("mytable"))
-select_query(l(), sql("*"), ident("mytable"), sql("1 = 0"))
+qry_select(lahman(), sql("*"), ident("mytable"))
+qry_select(lahman(), sql("*"), ident("mytable"), sql("1 = 0"))
 }
 \keyword{internal}
 
