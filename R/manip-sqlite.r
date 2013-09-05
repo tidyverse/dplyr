@@ -75,7 +75,7 @@ filter.tbl_sqlite <- function(.data, ...) {
 #' @method arrange tbl_sqlite
 arrange.tbl_sqlite <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
-  .data$arrange <- c(.data$arrange, input)
+  .data$arrange <- c(input, .data$arrange)
   .data
 }
 
@@ -84,7 +84,7 @@ arrange.tbl_sqlite <- function(.data, ...) {
 #' @method select tbl_sqlite
 select.tbl_sqlite <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-  .data$select <- ident(c(.data$select, input))
+  .data$select <- ident(input)
   .data
 }
 
@@ -92,8 +92,13 @@ select.tbl_sqlite <- function(.data, ...) {
 #' @export
 #' @method summarise tbl_sqlite
 summarise.tbl_sqlite <- function(.data, ...) {
-  .data$select <- trans_sqlite(dots(...), .data, parent.frame())
-    
+  new_vars <- trans_sqlite(dots(...), .data, parent.frame())
+  if (is.null(.data$select)) {
+    .data$select <- new_vars   
+  } else {
+    .data$select <- c(.data$select, new_vars)
+  }
+  
   collapse(.data)
 }
 

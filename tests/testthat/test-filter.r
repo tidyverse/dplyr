@@ -21,3 +21,11 @@ test_that("filter captures local variables", {
   expect_equal(strip(filter(tbls$dt, b %in% sel)), expected)
   expect_equal(strip(filter(tbls$sqlite, b %in% sel)), expected)
 })
+
+test_that("two filters equivalent to one", {
+  exp <- strip(filter(df, a > 4 & b == 4))
+  
+  expect_equal(strip(filter(filter(tbls$df, a > 4), b == 4)), exp)
+  expect_equal(strip(filter(filter(tbls$dt, a > 4), b == 4)), exp)
+  expect_equal(strip(filter(filter(tbls$sqlite, a > 4), b == 4)), exp)
+})

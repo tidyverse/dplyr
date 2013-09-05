@@ -93,7 +93,7 @@ arrange.tbl_df <- function(.data, ...) {
 #' @export
 #' @method select data.frame
 select.data.frame <- function(.data, ...) {
-  input <- var_eval(.data, dots(...), parent.frame())
+  input <- var_eval(dots(...), .data, parent.frame())
   .data[, input, drop = FALSE]
 }
 
