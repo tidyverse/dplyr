@@ -73,6 +73,13 @@ select_qry.tbl_sqlite <- function(x, ...) {
   query(x$src$con, sql)
 }
 
+#' @S3method same_src tbl_sqlite
+same_src.tbl_sqlite <- function(x, y) {
+  if (!inherits(y, "tbl_sqlite")) return(FALSE)
+  same_src(x$src, y$src)
+}
+
+
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
   select_qry(x)$vars()

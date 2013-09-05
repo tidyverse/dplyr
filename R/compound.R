@@ -1,41 +1,37 @@
 #' Create a compound select.
 #' 
-#' Combine together the multiple tables.
+#' Combine together two tables.
 #' 
-#' @param ... \code{tbl}s to combine
-#' @param type type of combination.
+#' @param x,y \code{tbl}s to combine
+#' @param ... other parameters passed to individual methods
+compound <- function(x, y, ...) {
+  UseMethod("compound")
+}
+
+#' Create a compound sqlite tbl
+#' 
+#' @method compound tbl_sqlite
+#' @export
 #' @examples
 #' l <- lahman()
 #' batting <- select(tbl(l, "Batting"), playerID:lgID, G_batting)
 #' pitching <- select(filter(tbl(l, "Fielding"), POS == "P"), playerID:lgID, GS)
-#' outfield <- select(filter(tbl(l, "Fielding"), POS == "OF"), playerID:lgID, GS)
 #'
-#' plays <- compound(batting, pitching, outfield)
+#' both <- compound(batting, pitching)
 #' hou <- filter(plays, teamID == "HOU")
 #' head(hou)
-compound <- function(...) {
-  UseMethod("compound")
-}
-
-compound.tbl_sqlite <- function(...) {
+compound.tbl_sqlite <- function(x, y) {
 #   type <- match.arg(tolower(type), 
 #     c("union all", "union", "intersect", "exclude"))
  
-  tbls <- list(...)
-  src <- tbls[[1]]$src
-  for (tbl in tbls) {
-    if (!is.null(tbl$arrange)) {
-      stop("tbls used in a compound select can not be ordered", call. = FALSE)
-    }
-    
-    if (!same_src(src, tbl$src)) {
-      stop("All tbls must come from the same source", call. = FALSE)
-    }
+  if (!same_src(x, y)) {
+    stop("x and y must share the same source", call. = FALSE)    
+  }
+  if (!is.null(x$arrange) || !is.null(y$arrange)) {
+    stop("tbls used in a compound select can not be ordered", call. = FALSE)
   }
   
-  from <- do.call("c", lapply(tbls, function(x) select_qry(x)$sql))
-  selects <- escape(from, collapse = " UNION ALL ", parens = TRUE)
-  
-  tbl(src, selects)
+  from <- build_sql("(", select_qry(x)$sql, " UNION ALL ", select_qry(y)$sql, ")")
+  tbl(src, from)
 }
 

@@ -52,7 +52,8 @@ src_tbls.src_sqlite <- function(x, ...) {
   fetch_sql_df(x$con, sql)[[1]]
 }
 
+#' @S3method same_src src_sqlite
 same_src.src_sqlite <- function(x, y) {
-  if (!inherits(x, "src_sqlite")) return(FALSE)
+  if (!inherits(y, "src_sqlite")) return(FALSE)
   identical(x$con, y$con)
 }

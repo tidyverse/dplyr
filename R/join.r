@@ -75,8 +75,8 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE,
     run_sql(x$src$con, build_sql("ANALYZE ", temp_table))
   }
     
-  if (!same_src(x$src, y$src)) {
-    stop("x and y must use same database connection", call. = FALSE)    
+  if (!same_src(x, y)) {
+    stop("x and y must share the same source", call. = FALSE)    
   }
   
   join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
