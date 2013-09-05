@@ -16,6 +16,9 @@
 #' translate_sql(year %in% c(1890L, 1891L), baseball)
 #' translate_sql(year %in% 1890:1900, baseball)
 #' translate_sql(year >= 1890L & year <= 1900L, baseball)
+#' translate_sql((year >= 1890L & year <= 1900L) | stint > 2, baseball)
+#' 
+#' translate_sql(xor(year <= 1890L, stint > 2), baseball)
 #'
 #' x <- 1890L
 #' translate_sql(year == x, baseball)

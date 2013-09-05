@@ -19,20 +19,20 @@ base_sql$toupper <- sql_prefix("upper")
 base_sql$nchar   <- sql_prefix("length")
 base_sql$sql     <- function(...) sql(...)
 base_sql$`(` <- function(x) {
-  sql("(", escape(x), ")")
+  build_sql("(", x, ")")
 }
 base_sql$`{` <- function(x) {
-  sql("(", escape(x), ")")
+  build_sql("(", x, ")")
 }
 base_sql$desc <- function(x) {
-  sql(escape(x), " DESC")
+  build_sql(x, sql(" DESC"))
 }
 base_sql$xor <- function(x, y) {
-  sprintf("%1$s OR %2$s AND NOT (%1$s AND %2$s)", escape(x), escape(y))
+  sql(sprintf("%1$s OR %2$s AND NOT (%1$s AND %2$s)", escape(x), escape(y)))
 }
 
 base_sql$is.null <- function(x) {
-  sprintf("%s IS NULL", escape(x))
+  build_sql(x, " IS NULL")
 }
 
 base_sql$c     <- function(...) escape(c(...))
