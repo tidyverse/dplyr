@@ -65,3 +65,4 @@ Collate:
     'cache.r'
     'query.r'
     'compound.R'
+    'explain.r'
