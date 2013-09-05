@@ -2,12 +2,19 @@
 qry_select.tbl_sqlite <- function(x, select = NULL, from = NULL, where = NULL, 
                                   group_by = NULL, having = NULL, 
                                   order_by = NULL, limit = NULL, offset = NULL) {
-
+  group_by <- group_by %||% trans_sqlite(x$group_by)
+  select <- select %||% x$select %||% sql("*")
+  if (!is.null(group_by)) {
+    select <- c(group_by, select)
+    group_by <- ident(var_names(group_by))
+  }
+  
   qry_select(x$src,
     from = x$table,
-    select = select %||% x$select %||% sql("*"),
+    select = select,
     where = where %||% trans_sqlite(x$filter),
     order_by = order_by %||% trans_sqlite(x$arrange), 
+    group_by = group_by,
     limit = limit, 
     offset = offset)
 }

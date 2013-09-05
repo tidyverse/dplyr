@@ -45,5 +45,27 @@ arrange(baseball_s, id, desc(year))
 # summarise and mutate always return data frame tbls
 summarise(baseball_s, g = mean(g), n = count())
 mutate(baseball_s, rbi = 1.0 * r / ab)
+
+# Grouped summaries -----------------------------------
+players <- group_by(baseball_s, id)
+
+# Due to the lack of windowing functions in SQLite, only summarising
+# is really useful with grouped values
+summarise(players, g = mean(g))
+summarise(players, g = mean(g), best_ab = max(ab))
+
+per_year <- group_by(baseball_s, id, year)
+stints <- summarise(per_year, stints = max(stint))
+collect(filter(stints, stints > 3))
+
+# All other operations will ignore grouping, although they will preserve it
+# in the object returned to R.
+filter(players, g > 100)
+mutate(players, rbi = 1 * r / ab)
+arrange(players, id, desc(year))
+select(players, id:team)
+
+# NB: If you use an aggregation function, you will get one row:
+mutate(players, cyear = year - min(year) + 1)
 }
 

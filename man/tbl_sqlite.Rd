@@ -39,6 +39,20 @@
   works to be helpful:
   \url{http://www.sqlite.org/queryplanner.html}.
 }
+\section{Grouping}{
+  Typically you will create a grouped data table is to call
+  the \code{group_by} method on a sqlite tbl: this will
+  take care of capturing the unevalated expressions for
+  you.
+
+  For best performance, the database should have an index
+  on the variables that you are grouping by. A good
+  introduction to how indices affect database performance
+  can be found at
+  \url{http://www.sqlite.org/queryplanner.html}. See
+  \code{\link{explain_sql}} to check that sqlite is using
+  the indexes that you expect.
+}
 \examples{
 # You can create from a path and a table name
 db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
@@ -49,10 +63,33 @@ db <- src_sqlite(db_path)
 baseball_s <- tbl(db, "baseball")
 
 dim(baseball_s)
-names(baseball_s)
+colnames(baseball_s)
 head(baseball_s)
 
+# Perform operations "by group":
 players <- group_by(baseball_s, id)
 summarise(players, g = mean(g), n = count())
+
+by_year_lg <- group_by(baseball_s, year, lg)
+group_size(by_year_lg)
+summarise(by_year_lg, players = count(), avg_g = mean(g))
+
+by_team <- group_by(baseball_s, team)
+summarise(by_team, players = count())
+
+# do by
+mods <- do(by_team, failwith(NULL, lm), formula = r ~ poly(year, 2), .chunk_size = 1000)
+
+sizes <- summarise(by_team, freq = count())
+not_small <- as.data.frame(filter(sizes, freq > 10))
+teams <- not_small$team
+ok <- filter(by_team, team \%in\% teams)
+mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
+  .chunk_size = 1000)
+
+# Since we it's not easy to figure out what variables you are using
+# in general, it will often be faster to let dplyr know what you need
+mods <- do(filter(ok, year, r), failwith(NULL, lm), formula = r ~ poly(year, 2),
+  .chunk_size = 1000)
 }
 

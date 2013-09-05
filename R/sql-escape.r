@@ -59,7 +59,9 @@ sql <- function(x) {
 #' @export 
 #' @rdname sql
 ident <- function(...) {
-  structure(c(...), class = c("ident", "sql", "character"))
+  x <- c(...)
+  if (is.null(x)) return()
+  structure(x, class = c("ident", "sql", "character"))
 }
 
 #' @S3method c sql

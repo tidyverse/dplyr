@@ -1,4 +1,6 @@
 var_names <- function(vars) {
+  if (is.null(vars)) return(NULL)
+  
   nms <- names2(vars)
   unname(ifelse(nms == "", vars, nms))
 }
