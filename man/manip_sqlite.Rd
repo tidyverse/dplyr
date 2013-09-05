@@ -67,5 +67,22 @@ select(players, id:team)
 
 # NB: If you use an aggregation function, you will get one row:
 mutate(players, cyear = year - min(year) + 1)
+summarise(players, g = mean(g), n = count())
+
+# do by
+mods <- do(by_team, failwith(NULL, lm), formula = r ~ poly(year, 2),
+  .chunk_size = 1000)
+
+sizes <- summarise(by_team, freq = count())
+not_small <- as.data.frame(filter(sizes, freq > 10))
+teams <- not_small$team
+ok <- filter(by_team, team \%in\% teams)
+mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
+  .chunk_size = 1000)
+
+# Since we it's not easy to figure out what variables you are using
+# in general, it will often be faster to let dplyr know what you need
+mods <- do(filter(ok, year, r), failwith(NULL, lm), formula = r ~ poly(year, 2),
+  .chunk_size = 1000)
 }
 
