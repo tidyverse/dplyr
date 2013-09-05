@@ -89,7 +89,7 @@ tbl.src_sqlite <- function(src, table, ...) {
     table <- ident(table)
   }
   
-  tbl_sql(c("sqlite_table", "sqlite"), 
+  tbl_sql("sqlite", 
     src = src, 
     table = table,
     select = NULL,
