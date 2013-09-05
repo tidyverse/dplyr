@@ -37,19 +37,6 @@ Query <- setRefClass("Query",
       print(con)
     },
     
-    show_sql = function() {
-      message(sql, "\n")
-    },
-    
-    explain_sql = function() {
-      exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-      expl <- fetch_sql_df(con, exsql)
-      rownames(expl) <- NULL
-      out <- capture.output(print(expl))
-      
-      message(paste(out, collapse = "\n"), "\n")
-    },
-    
     # Currently, RSQLite supports only a single result set per connection
     # making holding on pointless, because it blocks the entire connection.
     
@@ -65,15 +52,10 @@ Query <- setRefClass("Query",
     # },
     
     run = function(in_transaction = FALSE) {
-      if (getOption("dplyr.show_sql")) show_sql()
-      
       run_sql(con, sql, in_transaction = in_transaction)
     },
     
     fetch_df = function(n = -1L) {
-      if (getOption("dplyr.show_sql")) show_sql()
-      if (getOption("dplyr.explain_sql")) explain_sql()
-      
       fetch_sql_df(con, sql, n = n)
     },
     
@@ -114,6 +96,9 @@ warn_incomplete <- function(qry, res) {
 
 # Run a query, abandoning results
 run_sql <- function(con, sql, in_transaction = FALSE) {
+  if (getOption("dplyr.show_sql")) message(sql)
+  if (getOption("dplyr.explain_sql")) show_query_plan(con, sql)
+  
   if (in_transaction) dbBeginTransaction(con)
   
   qry <- dbSendQuery(con, sql)
@@ -125,7 +110,11 @@ run_sql <- function(con, sql, in_transaction = FALSE) {
 }
 
 # Run a query, fetching n results
-fetch_sql_df <- function(con, sql, n = -1L) {
+fetch_sql_df <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"), 
+                         explain = getOption("dplyr.explain_sql")) {
+  if (show) message(sql)
+  if (explain) show_query_plan(con, sql)
+  
   qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
   
@@ -133,6 +122,16 @@ fetch_sql_df <- function(con, sql, n = -1L) {
   warn_incomplete(qry)
   res
 }
+
+show_query_plan <- function(con, sql) {
+  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
+  expl <- fetch_sql_df(con, exsql, show = FALSE, explain = FALSE)
+  rownames(expl) <- NULL
+  out <- capture.output(print(expl))
+  
+  message(paste(out, collapse = "\n"), "\n")
+}
+
 
 exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {
   q <- query(con, sql)
