@@ -45,9 +45,12 @@ lahman_db <- function(src, index = TRUE, quiet = FALSE) {
 #' @export
 #' @rdname lahman_db
 lahman <- function(path = NULL) {
+  if (!is.null(con_cache$lahman)) return(con_cache$lahman)
+  
   path <- path %||% file.path(system.file("db", package = "dplyr"), "lahman.db")
   if (file.exists(path)) {
-    return(src_sqlite(path))
+    con_cache$lahman <- src_sqlite(path)
+    return(con_cache$lahman)
   }
   
   message("Caching Lahman db at ", path)
@@ -56,3 +59,6 @@ lahman <- function(path = NULL) {
   
   src
 }
+
+con_cache <- new.env(parent = emptyenv())
+con_cache$lahman <- NULL
