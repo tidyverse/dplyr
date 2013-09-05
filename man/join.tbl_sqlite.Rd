@@ -35,18 +35,17 @@
   Join SQLite tbls.
 }
 \examples{
-l <- lahman()
-batting <- tbl(l, "Batting")
+batting <- tbl(lahman(), "Batting")
 
 grid <- expand.grid(
   teamID = c("WAS", "ATL", "PHI", "NYA"),
   yearID = 2010:2012)
 top4a <- join(batting, grid, copy = TRUE, type = "inner")
-system.time(as.data.frame(top4a))
+explain_tbl(top4a)
 
 # Indices don't really help here because there's no matching index on
 # batting
 top4b <- join(batting, grid, copy = TRUE, type = "inner", auto_index = TRUE)
-system.time(as.data.frame(top4b))
+explain_tbl(top4b)
 }
 

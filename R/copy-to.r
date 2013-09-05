@@ -1,0 +1,128 @@
+#' Copy a local data frame to a remote src.
+#' 
+#' This uploads a local data frame into a remote data source, creating the
+#' table definition as needed. Wherever possible, the new object will be
+#' temporary, limited to the current connection to the source.
+#' 
+#' @param src remote data source
+#' @param df local data frame
+#' @param name name of remote table.
+#' @param ... other parameters passed to methods.
+#' @return a \code{tbl} object in the remote source
+#' @export
+copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
+  UseMethod("copy_to")
+}
+
+#' Copy a local data fram to a sqlite src.
+#' 
+#' @method copy_to src_sqlite
+#' @export
+#' @param types a character vector giving variable types to use for the columns.
+#'    See \url{http://www.sqlite.org/datatype3.html} for available types.
+#' @param temporary if \code{TRUE}, will create a temporary table that is
+#'   local to this connection and will be automatically deleted when the
+#'   connection expires
+#' 
+#' @param indexes
+#' @return a \code{\link{tbl_sqlite}} object
+#' @examples
+#' db <- src_sqlite(tempfile(), create = TRUE) 
+#'
+#' iris2 <- copy_to(db, iris)
+#' mtcars$model <- rownames(mtcars)
+#' mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
+#' 
+#' explain_tbl(filter(mtcars2, model == "Hornet 4 Drive"))
+#'
+#' # Note that tables are temporary by default, so they're not 
+#' # visible from other connections to the same database.
+#' src_tbls(db)
+#' db2 <- src_sqlite(db$path)
+#' src_tbls(db2)
+copy_to.src_sqlite <- function(dest, df, name = deparse(substitute(df)), 
+                               types = NULL, temporary = TRUE, indexes = NULL, 
+                               analyze = TRUE, ...) {
+  assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
+  if (has_table(dest, name)) {
+    stop("Table ", name, " already exists.", call. = FALSE)
+  }
+
+  types <- types %||% vapply(df, dbDataType, dbObj = dest$con, 
+    FUN.VALUE = character(1))
+  names(types) <- names(df)
+  
+  dbBeginTransaction(dest$con)
+  create_table(dest, name, types, temporary = temporary)
+  insert_into(dest, name, df)
+  create_indexes(dest, name, indexes)
+  if (analyze) analyze(dest, name)
+  dbCommit(dest$con)
+  
+  tbl(dest, name)
+}
+
+create_table <- function(x, table, types, temporary = FALSE) {
+  assert_that(is.string(table), is.character(types))
+  
+  field_names <- escape(ident(names(types)), collapse = NULL)
+  fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE, 
+    collapse = ", ")
+  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), "TABLE ", table, 
+    fields)
+  
+  query(x$con, sql)$run()
+}
+
+insert_into <- function(x, table, values) {
+  params <- paste(rep("?", ncol(values)), collapse = ", ")
+  sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
+
+  query(x$con, sql)$run(values, in_transaction = TRUE)
+}
+
+create_indexes <- function(x, table, indexes = NULL, ...) {
+  if (is.null(indexes)) return()
+  assert_that(is.list(indexes))
+  
+  for(index in indexes) {
+    create_index(x, table, index, ...)
+  }
+}
+
+create_index <- function(x, table, columns, name = NULL, unique = FALSE) {
+  assert_that(is.string(table), is.character(columns))
+  
+  name <- name %||% paste0(c(table, columns), collapse = "_")
+  
+  sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), 
+    " ON ", table, " ", escape(ident(columns), parens = TRUE))
+  
+  query(x$con, sql)$run()
+}
+
+drop_table <- function(x, table, force = FALSE) {
+  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), table)
+  query(x$con, sql)$run()
+}
+
+analyze <- function(x, table) {
+  sql <- build_sql("ANALYZE ", table)
+  query(x$con, sql)$run()
+}
+
+has_table <- function(src, table) {
+  table %in% src_tbls(src)
+}
+
+
+auto_copy <- function(x, y, copy = FALSE, ...) {
+  if (same_src(x, y)) return(y)
+  
+  if (!copy) {
+    stop("x and y don't share the same src. Set copy = TRUE to copy y into ", 
+      "x's source (this may be time consuming).", , call. = FALSE)
+  }
+    
+  copy_to(x$src, as.data.frame(y), random_table_name(), ...)
+} 

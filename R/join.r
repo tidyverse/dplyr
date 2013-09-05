@@ -33,19 +33,18 @@ join <- function(x, y, by = NULL, type = "left", copy = FALSE, ...) {
 #' @method join tbl_sqlite
 #' @export
 #' @examples
-#' l <- lahman()
-#' batting <- tbl(l, "Batting")
+#' batting <- tbl(lahman(), "Batting")
 #' 
 #' grid <- expand.grid(
 #'   teamID = c("WAS", "ATL", "PHI", "NYA"), 
 #'   yearID = 2010:2012)
 #' top4a <- join(batting, grid, copy = TRUE, type = "inner")
-#' system.time(as.data.frame(top4a))
+#' explain_tbl(top4a)
 #' 
 #' # Indices don't really help here because there's no matching index on
 #' # batting
 #' top4b <- join(batting, grid, copy = TRUE, type = "inner", auto_index = TRUE)
-#' system.time(as.data.frame(top4b))
+#' explain_tbl(top4b)
 join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE, 
                             auto_index = FALSE, ...) {
   type <- match.arg(type, c("left", "right", "inner", "full"))
@@ -60,31 +59,14 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE,
     y <- tbl(x$src, y)
   }
   
-  # If y is not a tbl_sqlite, create it  
-  if (!inherits(y, "tbl_sqlite")) {
-    if (!copy) {
-      stop("y is not a tbl_sqlite, and copy is FALSE", call. = FALSE)
-    }
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
     
-    temp_table <- ident(random_table_name())
-    y <- write_table(x$src, temp_table, y)
-    
-    if (auto_index) {
-      create_index(y, by)
-    }
-    run_sql(x$src$con, build_sql("ANALYZE ", temp_table))
-  }
-    
-  if (!same_src(x, y)) {
-    stop("x and y must share the same source", call. = FALSE)    
-  }
-  
   join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
   
-  from_x <- select_qry(x)$sql
-  from_y <- select_qry(y)$sql
+  from_x <- qry_select(x)$sql
+  from_y <- qry_select(y)$sql
   
   from <- build_sql(list(from_x), "\n\n", 
     join, " JOIN \n\n" , 

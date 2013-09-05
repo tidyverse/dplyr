@@ -63,7 +63,7 @@ summarise.tbl_sqlite <- function(.data, ..., .n = 1e5) {
 
   .data$select <- trans_sqlite(dots(...), .data, parent.frame())
 
-  tbl_df(select_qry(.data)$fetch_df(.n))
+  tbl_df(qry_select(.data)$fetch_df(.n))
 }
 
 #' @rdname manip_sqlite

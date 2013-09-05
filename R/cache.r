@@ -22,6 +22,6 @@ cache <- function(x, name = random_table_name(), ...) {
 
 #' @S3method cache tbl_sqlite
 cache.tbl_sqlite <- function(x, name = random_table_name(), ...) {
-  select_qry(x)$save_into(name)
+  qry_select(x)$save_into(name)
   tbl(x$src, name)
 }

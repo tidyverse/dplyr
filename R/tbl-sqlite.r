@@ -57,22 +57,6 @@ tbl.src_sqlite <- function(src, table, ...) {
   tbl_sql(c("sqlite_table", "sqlite"), src = src, table = table)
 }
 
-#' @S3method select_qry tbl_sqlite
-select_qry.tbl_sqlite <- function(x, ...) {
-  select <- x$select %||% sql("*")
-  where <- trans_sqlite(x$filter)
-  order_by <- trans_sqlite(x$arrange)
-  
-  sql <- select_query(
-    from = x$table,
-    select = select,
-    where = where,
-    order_by = order_by, 
-    ...)
-  
-  query(x$src$con, sql)
-}
-
 #' @S3method same_src tbl_sqlite
 same_src.tbl_sqlite <- function(x, y) {
   if (!inherits(y, "tbl_sqlite")) return(FALSE)
@@ -82,7 +66,7 @@ same_src.tbl_sqlite <- function(x, y) {
 
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
-  select_qry(x)$vars()
+  qry_select(x)$vars()
 }
 
 # Standard data frame methods --------------------------------------------------
@@ -90,7 +74,7 @@ tbl_vars.tbl_sqlite <- function(x) {
 #' @S3method as.data.frame tbl_sqlite
 as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
                                         ..., n = 1e5L) {
-  select_qry(x)$fetch_df(n)
+  qry_select(x)$fetch_df(n)
 }
 
 #' @S3method print tbl_sqlite
@@ -122,10 +106,10 @@ dim.tbl_sqlite <- function(x) {
   if (!inherits(x$table, "ident")) {
     n <- NA
   } else {
-    n <- select_qry(x)$nrow()
+    n <- qry_select(x)$nrow()
   }
   
-  p <- select_qry(x)$ncol()
+  p <- qry_select(x)$ncol()
   c(n, p)
 }
 
@@ -133,7 +117,7 @@ dim.tbl_sqlite <- function(x) {
 head.tbl_sqlite <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  select_qry(x, limit = n)$fetch_df()
+  qry_select(x, limit = n)$fetch_df()
 }
 
 #' @S3method tail tbl_sqlite

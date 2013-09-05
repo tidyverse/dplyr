@@ -51,10 +51,10 @@ Query <- setRefClass("Query",
     #   .res <<- NULL
     # },
     
-    run = function(in_transaction = FALSE) {
-      run_sql(con, sql, in_transaction = in_transaction)
+    run = function(data = NULL, in_transaction = FALSE) {
+      run_sql(con, sql, data = data, in_transaction = in_transaction)
     },
-    
+        
     fetch_df = function(n = -1L) {
       fetch_sql_df(con, sql, n = n)
     },
@@ -95,13 +95,17 @@ warn_incomplete <- function(qry, res) {
 }
 
 # Run a query, abandoning results
-run_sql <- function(con, sql, in_transaction = FALSE) {
+run_sql <- function(con, sql, data = NULL, in_transaction = FALSE) {
   if (getOption("dplyr.show_sql")) message(sql)
   if (getOption("dplyr.explain_sql")) show_query_plan(con, sql)
   
   if (in_transaction) dbBeginTransaction(con)
   
-  qry <- dbSendQuery(con, sql)
+  if (is.null(data)) {
+    qry <- dbSendQuery(con, sql)
+  } else {
+    qry <- dbSendPreparedQuery(con, sql, bind.data = data)
+  }
   dbClearResult(qry)
   
   if (in_transaction) dbCommit(con)
@@ -130,23 +134,4 @@ show_query_plan <- function(con, sql) {
   out <- capture.output(print(expl))
   
   message(paste(out, collapse = "\n"), "\n")
-}
-
-
-exec_sql <- function(con, sql, n = -1L, explain = FALSE, show = FALSE, fetch = TRUE) {
-  q <- query(con, sql)
-  assert_that(is.string(sql))
-  
-  if (isTRUE(show)) {
-    q$show_sql()
-  }
-  if (isTRUE(explain)) {
-    q$explain_sql()
-  }
-  
-  if (fetch) {
-    q$fetch_df(n = n)
-  } else {
-    q$run()
-  }
 }
