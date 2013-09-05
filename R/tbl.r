@@ -26,7 +26,7 @@ tbl <- function(src, ...) {
 #' as.tbl(mtcars)
 make_tbl <- function(subclass, ...) {
   subclass <- paste0("tbl_", subclass)
-  structure(list(...), class = c(subclass, "tbl", "ops"))
+  structure(list(...), class = c(subclass, "tbl"))
 }
 
 #' @rdname tbl
