@@ -2,3 +2,4 @@ bench
 notes
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.Rprofile
