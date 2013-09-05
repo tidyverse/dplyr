@@ -121,7 +121,7 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   
   if (!copy) {
     stop("x and y don't share the same src. Set copy = TRUE to copy y into ", 
-      "x's source (this may be time consuming).", , call. = FALSE)
+      "x's source (this may be time consuming).", call. = FALSE)
   }
     
   copy_to(x$src, as.data.frame(y), random_table_name(), ...)

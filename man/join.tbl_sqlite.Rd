@@ -36,7 +36,15 @@
 }
 \examples{
 batting <- tbl(lahman(), "Batting")
+team_info <- select(tbl(lahman(), "Teams"), yearID, lgID, teamID, G, R:H)
 
+# Combine player and whole team statistics
+first_stint <- select(filter(batting, stint == 1), playerID:H)
+both <- join(first_stint, team_info, type = "inner", by = c("yearID", "teamID", "lgID"))
+head(both)
+explain_tbl(both)
+
+# Join with a local data frame
 grid <- expand.grid(
   teamID = c("WAS", "ATL", "PHI", "NYA"),
   yearID = 2010:2012)
