@@ -6,14 +6,14 @@ test_that("Results respect select", {
   by_team_2 <- group_by(select(bball$sqlite, year, team), team)
   by_team_all <- group_by(bball$sqlite, team)
 
-  ncols <- function(group) unique(unlist(do(group, ncol)))
-
+  ncols <- function(group) unique(unlist(do(group, ncol)$DO))
+  
   expect_equal(ncols(by_team_2), 3)
   expect_equal(ncols(by_team_all), ncol(baseball) + 1)
 })
 
 test_that("Results independent of chunk_size", {
-  nrows <- function(group, n) unlist(do(group, nrow, .chunk_size = n))
+  nrows <- function(group, n) unlist(do(group, nrow, .chunk_size = n)$DO)
 
   by_team <- group_by(select(bball$sqlite, year, team), team)
   team_sizes <- as.vector(table(bball$df$team))
