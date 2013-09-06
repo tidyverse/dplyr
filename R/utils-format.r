@@ -12,15 +12,20 @@ NULL
 #' @export
 #' @rdname dplyr-formatting
 dim_desc <- function(x) {
-  d <- format(dim(x), big.mark = ",", trim = TRUE)
+  d <- dim(x)
+  d[is.na(d)] <- "??"
+  d <- format(d, big.mark = ",", justify = "none", trim = TRUE)
   paste0("[", paste0(d, collapse = " x "), "]")
 }
 
 #' @export
 #' @rdname dplyr-formatting
-trunc_mat <- function(x, n = 10L) {
+trunc_mat <- function(x, n = NULL) {
+  rows <- nrow(x)
+  n <- n %||% if (is.na(rows) || rows > 99) 10L else rows
+  
   df <- as.data.frame(head(x, n))
-  mat <- format(df)
+  mat <- format(df, justify = "left")
 
   width <- getOption("width")
 
@@ -30,14 +35,14 @@ trunc_mat <- function(x, n = 10L) {
   cumw <- cumsum(w + 1)
 
   too_wide <- cumw[-1] > width
-  shrunk <- mat[, !too_wide, drop = FALSE]
-
-  needs_dots <- nrow(x) > n
+  shrunk <- format(df[, !too_wide, drop = FALSE])
+  
+  needs_dots <- is.na(rows) || rows > n
   if (needs_dots) {
     dot_width <- pmin(w[-1][!too_wide], 3)
     dots <- vapply(dot_width, function(i) paste(rep(".", i), collapse = ""),
       FUN.VALUE = character(1))
-    shrunk <- rbind(shrunk, "." = dots)
+    shrunk <- rbind(shrunk, ".." = dots)
   }
   print(shrunk)
 
@@ -55,4 +60,11 @@ wrap <- function(..., indent = 0) {
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2, 
     width = getOption("width"))
   paste0(wrapped, collapse = "\n")
+}
+
+ruler <- function() {
+  x <- seq_len(getOption("width"))
+  y <- ifelse(x %% 10 == 0, x %/% 10, ifelse(x %% 5 == 0, "+", "-"))
+  cat(y, "\n", sep = "")
+  cat(x %% 10, "\n", sep = "")
 }
