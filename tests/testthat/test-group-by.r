@@ -11,3 +11,17 @@ test_that("group_by adds to additional groups", {
     expect_equal(unname(groups(grp_xy)), list(quote(x), quote(y)))
   }
 })
+
+test_that("collect and compute preserve grouping", {
+  g <- group_by(tbls$sqlite, x, y)
+  
+  expect_equal(groups(compute(g)), groups(g))
+  expect_equal(groups(collect(g)), groups(g))
+})
+
+test_that("collapse drops groups", {
+  g <- group_by(tbls$sqlite, x, y)
+  
+  expect_equal(groups(collapse(g)), NULL)  
+})
+

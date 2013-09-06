@@ -6,6 +6,11 @@
 #' force computation, but collapses a complex tbl into a form that additional
 #' restrictions can be placed on.
 #' 
+#' @section Grouping
+#' 
+#' \code{compute} and \code{collect} preserve grouping, \code{collapse} drops
+#' it.
+#' 
 #' @param x a data tbl
 #' @param ... other arguments passed on to methods
 #' @seealso \code{\link{copy_to}} which is the conceptual opposite: it 
@@ -50,12 +55,12 @@ collapse.tbl_sqlite <- function(x, ...) {
 #' @S3method compute tbl_sqlite
 compute.tbl_sqlite <- function(x, name = random_table_name(), ...) {
   x$query$save_into(name)
-  tbl(x$src, name)
+  update(tbl(x$src, name), group_by = groups(x))
 }
 
 #' @S3method collect tbl_sqlite
 collect.tbl_sqlite <- function(x, ...) {
-  tbl_df(x$query$fetch_df())
+  grouped_df(x$query$fetch_df(), groups(x))
 }
 
 

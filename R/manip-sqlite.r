@@ -170,7 +170,7 @@ do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
   labels_tbl <- update(.data, 
     select = NULL, 
     order_by = NULL)
-  labels <- collect(labels_tbl)
+  labels <- as.data.frame(labels_tbl)
   
   # Create ungrouped data frame suitable for chunked retrieval
   names(group_by) <- paste0("GRP_", seq_along(group_by))  
@@ -212,5 +212,5 @@ do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
   }
   
   labels$DO <- out
-  labels
+  grouped_df(labels, drop_last(groups(.data)))
 }

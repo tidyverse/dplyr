@@ -24,6 +24,12 @@
   a complex tbl into a form that additional restrictions
   can be placed on.
 }
+\section{Grouping
+
+\code{compute} and \code{collect} preserve grouping, \code{collapse} drops
+it.}{
+
+}
 \examples{
 batting <- tbl(lahman(), "Batting")
 remote <- select(filter(batting, year > 2010 && stint == 1), playerID:H)

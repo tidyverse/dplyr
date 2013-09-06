@@ -13,11 +13,11 @@
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
 grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
-  assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
-  
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
+
+  assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
   
   attr(data, "vars") <- vars
   attr(data, "drop") <- drop
