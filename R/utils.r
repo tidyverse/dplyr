@@ -16,6 +16,11 @@ named_dots <- function(...) {
   args
 }
 
+drop_last <- function(x) {
+  if (length(x) <= 1L) return(NULL)
+  x[-length(x)]
+}
+
 compact <- function(x) Filter(Negate(is.null), x)
 
 names2 <- function(x) {

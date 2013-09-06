@@ -73,11 +73,27 @@ tbl.src_sqlite <- function(src, table, ...) {
     src = src, 
     table = table,
     select = NULL,
-    filter = NULL,
-    arrange = NULL,
-    group_by = NULL
+    where = NULL,
+    group_by = NULL,
+    order_by = NULL
   )
 }
+
+#' @S3method update tbl_sqlite
+update.tbl_sqlite <- function(object, ...) {
+  args <- list(...)
+
+  bad <- setdiff(names(list(...)), c("select", "where", "group_by", "order_by"))
+  if (length(bad) > 0) {
+    stop("Incorrect component names: ", paste0(bad, collapse = ", "), 
+      call. = FALSE)
+  }
+  
+  for (nm in names(args)) {
+    object[[nm]] <- args[[nm]]
+  }
+  object
+} 
 
 #' @S3method same_src tbl_sqlite
 same_src.tbl_sqlite <- function(x, y) {
@@ -101,8 +117,7 @@ groups.tbl_sqlite <- function(x) {
 group_by.tbl_sqlite <- function(x, ...) {
   group_by <- partial_eval(named_dots(...), x, parent.frame())
   
-  x$group_by <- c(x$group_by, group_by)
-  x
+  update(x, group_by = c(x$group_by, group_by))
 }
 
 #' @S3method group_size tbl_sqlite
@@ -125,11 +140,11 @@ print.tbl_sqlite <- function(x, ...) {
   
   cat(wrap("From: ", gsub("\n", " ", x$table), " ", dim_desc(x)))
   cat("\n")
-  if (!is.null(x$filter)) {
-    cat(wrap("Filter: ", commas(deparse_all(x$filter))), "\n")
+  if (!is.null(x$where)) {
+    cat(wrap("Filter: ", commas(deparse_all(x$where))), "\n")
   }
-  if (!is.null(x$arrange)) {
-    cat(wrap("Arrange: ", commas(deparse_all(x$arrange))), "\n")
+  if (!is.null(x$order_by)) {
+    cat(wrap("Arrange: ", commas(deparse_all(x$order_by))), "\n")
   }
   if (!is.null(x$group_by)) {
     cat(wrap("Grouped by: ", commas(deparse_all(x$group_by))), "\n")

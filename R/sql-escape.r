@@ -65,8 +65,11 @@ ident <- function(...) {
 }
 
 #' @S3method c sql
-c.sql <- function(...) {
-  out <- unlist(lapply(list(...), escape))
+c.sql <- function(..., drop_null = FALSE) {
+  input <- list(...)
+  if (drop_null) input <- compact(input)
+  
+  out <- unlist(lapply(input, escape))
   sql(out)
 }
 

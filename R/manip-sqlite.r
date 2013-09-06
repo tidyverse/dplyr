@@ -96,8 +96,8 @@ NULL
 #' @method filter tbl_sqlite
 filter.tbl_sqlite <- function(.data, ...) {  
   input <- partial_eval(dots(...), .data, parent.frame())
-  .data$filter <- c(.data$filter, input)
-  .data
+  
+  update(.data, where = c(.data$where, input))
 }
 
 #' @rdname manip_sqlite
@@ -105,8 +105,8 @@ filter.tbl_sqlite <- function(.data, ...) {
 #' @method arrange tbl_sqlite
 arrange.tbl_sqlite <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
-  .data$arrange <- c(input, .data$arrange)
-  .data
+  
+  update(.data, order_by = c(input, .data$order_by))
 }
 
 #' @rdname manip_sqlite
@@ -114,8 +114,8 @@ arrange.tbl_sqlite <- function(.data, ...) {
 #' @method select tbl_sqlite
 select.tbl_sqlite <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-  .data$select <- ident(input)
-  .data
+  
+  update(.data, select = ident(input))
 }
 
 #' @rdname manip_sqlite
@@ -123,19 +123,13 @@ select.tbl_sqlite <- function(.data, ...) {
 #' @method summarise tbl_sqlite
 summarise.tbl_sqlite <- function(.data, ...) {
   new_vars <- trans_sqlite(dots(...), .data, parent.frame())
-  if (is.null(.data$select)) {
-    .data$select <- new_vars   
-  } else {
-    .data$select <- c(.data$select, new_vars)
-  }
+  .data <- update(.data, 
+    select = c.sql(.data$select, new_vars, drop_null = TRUE))
   
-  tbl <- collapse(.data)
-  grps <- groups(.data)
-  if (length(grps) > 1L) {
-    tbl$group_by <- grps[-length(grps)]
-  }
-  
-  tbl
+  update(
+    collapse(.data),
+    group_by = drop_last(.data$group_by)
+  )
 }
 
 #' @rdname manip_sqlite
@@ -144,9 +138,8 @@ summarise.tbl_sqlite <- function(.data, ...) {
 mutate.tbl_sqlite <- function(.data, ...) {
   old_vars <- .data$select %||% sql("*")
   new_vars <- trans_sqlite(dots(...), .data, parent.frame())
-  .data$select <- c(old_vars, new_vars)
   
-  .data
+  update(.data, select = c(old_vars, new_vars))
 }
 
 #' @method do tbl_sqlite
@@ -196,9 +189,9 @@ ungrouped <- function(x) {
   group_by <- trans_sqlite(x$group_by)
   names(group_by) <- paste0("GRP_", seq_along(group_by))
   
-  x$select <- c(group_by, x$select %||% sql("*"))
-  x$arrange <- c(ident(names(group_by)), x$arrange)
-  x$group_by <- NULL
-  
-  x
+  update(x,
+    select = c(group_by, x$select %||% sql("*")),
+    order_by = c(ident(names(group_by)), x$order_by),
+    group_by = NULL
+  )
 }
