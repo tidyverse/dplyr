@@ -25,12 +25,12 @@
 query <- function(con, sql) {
   assert_that(is.string(sql))
   
-  Query$new(con = con, sql = sql(sql), .vars = NULL, .res = NULL)
+  Query$new(con = con, sql = sql(sql), .vars = NULL, .res = NULL, .nrow = NULL)
 }
 
 #' @exportClass Query
 Query <- setRefClass("Query", 
-  fields = c("con", "sql", ".vars", ".res"),
+  fields = c("con", "sql", ".vars", ".res", ".nrow"),
   methods = list(
     show = function() {
       cat("<Query> ", sql, "\n", sep = "")
@@ -79,7 +79,7 @@ Query <- setRefClass("Query",
     },
     
     vars = function() {
-      if (length(.vars) > 0) return(.vars)
+      if (!is.null(.vars)) return(.vars)
       
       no_rows <- build_sql("SELECT * FROM (", sql, ") WHERE 1=0")
       .vars <<- names(fetch_sql_df(con, no_rows))
@@ -87,8 +87,11 @@ Query <- setRefClass("Query",
     },
     
     nrow = function() {
+      if (!is.null(.nrow)) return(.nrow)
+      
       rows <- build_sql("SELECT count(*) FROM (", sql, ")")
-      fetch_sql_df(con, rows)[[1]]
+      .nrow <<- fetch_sql_df(con, rows)[[1]]
+      .nrow
     },
     
     ncol = function() {
