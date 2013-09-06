@@ -65,3 +65,4 @@ Collate:
     'qry-sqlite.r'
     'qry.r'
     'compute-collect.r'
+    'semi-join.r'

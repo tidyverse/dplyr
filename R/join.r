@@ -1,7 +1,10 @@
 #' Join two tbls together
 #' 
 #' @param x,y tbls to join
-#' @param by a character vector of variables to join by
+#' @param by a character vector of variables to join by.  If \code{NULL}, the
+#'   default, \code{join} will do a natural join, using all variables with 
+#'   common names across the two tables. A message lists the variables so
+#'   that you can check they're right. 
 #' @param type a string giving the join type. Possible values are left (the 
 #'   default), right, full and inner. Not all types will be supported by all
 #'   tbls.
@@ -56,16 +59,7 @@ join <- function(x, y, by = NULL, type = "left", copy = FALSE, ...) {
 join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE, 
                             auto_index = FALSE, ...) {
   type <- match.arg(type, c("left", "right", "inner", "full"))
-  
-  if (is.null(by)) {
-    by <- intersect(tbl_vars(x), tbl_vars(y))
-    message("Joining by: ", capture.output(dput(by)))
-  }
-
-  # If y is a character, assume it's the name of a table
-  if (is.character(y)) {
-    y <- tbl(x$src, y)
-  }
+  by <- by %||% common_by(x, y)
   
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
     
@@ -73,17 +67,28 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE,
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
   
-  from_x <- x$query$sql
-  from_y <- y$query$sql
-  
-  from <- build_sql(list(from_x), "\n\n", 
+  from <- build_sql(from(x), "\n\n", 
     join, " JOIN \n\n" , 
-    list(from_y), "\n\n",
+    from(y), "\n\n",
     "USING ", lapply(by, ident))
   
-  tbl_sql(c("sqlite_tbl", "sqlite"), src = x$src, table = from)
+  tbl(x$src, from)
 }
 
 random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
+}
+
+from <- function(x) {
+  if (is_table(x)) {
+    x$table
+  } else {
+    build_sql("(", x$query$sql, ")")
+  }  
+}
+
+common_by <- function(x, y) {
+  by <- intersect(tbl_vars(x), tbl_vars(y))
+  message("Joining by: ", capture.output(dput(by)))
+  by
 }

@@ -1,21 +1,15 @@
-\name{join}
-\alias{join}
-\title{Join two tbls together}
+\name{semi_join}
+\alias{semi_join}
+\title{Semi join two tbls together.}
 \usage{
-  join(x, y, by = NULL, type = "left", copy = FALSE, ...)
+  semi_join(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
-  \item{x,y}{tbls to join}
-
   \item{by}{a character vector of variables to join by.  If
   \code{NULL}, the default, \code{join} will do a natural
   join, using all variables with common names across the
   two tables. A message lists the variables so that you can
   check they're right.}
-
-  \item{type}{a string giving the join type. Possible
-  values are left (the default), right, full and inner. Not
-  all types will be supported by all tbls.}
 
   \item{copy}{If \code{x} and \code{y} are not from the
   same data source, and \code{copy} is \code{TRUE}, then
@@ -27,6 +21,8 @@
   methods}
 }
 \description{
-  Join two tbls together
+  A semi join keeps all records from \code{x} that have
+  matching rows in \code{y}. It preserves all columns from
+  \code{x}, but none from \code{y}
 }
 

@@ -78,6 +78,13 @@ tbl.src_sqlite <- function(src, table, ...) {
   )
 }
 
+is_table <- function(x) {
+  if (!inherits(x$table, "ident")) return(FALSE)
+  
+  is.null(x$select) && is.null(x$where) && is.null(x$group_by) && 
+    is.null(x$order_by)
+}
+
 #' @S3method update tbl_sqlite
 update.tbl_sqlite <- function(object, ...) {
   args <- list(...)

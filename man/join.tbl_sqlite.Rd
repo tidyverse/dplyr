@@ -22,7 +22,11 @@
   \code{by}. This may speed up the join if there are
   matching indices in \code{x}.}
 
-  \item{by}{a character vector of variables to join by}
+  \item{by}{a character vector of variables to join by.  If
+  \code{NULL}, the default, \code{join} will do a natural
+  join, using all variables with common names across the
+  two tables. A message lists the variables so that you can
+  check they're right.}
 
   \item{type}{a string giving the join type. Possible
   values are left (the default), right, full and inner. Not

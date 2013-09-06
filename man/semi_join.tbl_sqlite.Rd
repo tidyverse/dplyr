@@ -1,21 +1,16 @@
-\name{join}
-\alias{join}
-\title{Join two tbls together}
+\name{semi_join.tbl_sqlite}
+\alias{semi_join.tbl_sqlite}
+\title{Semi-join for SQLite tbls.}
 \usage{
-  join(x, y, by = NULL, type = "left", copy = FALSE, ...)
+  semi_join.tbl_sqlite(x, y, by = NULL, copy = FALSE,
+    auto_index = FALSE, ...)
 }
 \arguments{
-  \item{x,y}{tbls to join}
-
   \item{by}{a character vector of variables to join by.  If
   \code{NULL}, the default, \code{join} will do a natural
   join, using all variables with common names across the
   two tables. A message lists the variables so that you can
   check they're right.}
-
-  \item{type}{a string giving the join type. Possible
-  values are left (the default), right, full and inner. Not
-  all types will be supported by all tbls.}
 
   \item{copy}{If \code{x} and \code{y} are not from the
   same data source, and \code{copy} is \code{TRUE}, then
@@ -27,6 +22,20 @@
   methods}
 }
 \description{
-  Join two tbls together
+  Semi-join for SQLite tbls.
+}
+\examples{
+people <- tbl(lahman(), "Master")
+
+# Find all people in half of fame
+hof <- tbl(lahman(), "HallOfFame")
+semi_join(people, hof)
+
+# Find all managers
+manager <- tbl(lahman(), "Managers")
+semi_join(people, manager)
+
+# Find all managers in hall of fame
+semi_join(semi_join(people, manager), hof)
 }
 
