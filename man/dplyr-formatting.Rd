@@ -6,7 +6,7 @@
 \usage{
   dim_desc(x)
 
-  trunc_mat(x, n = 10L)
+  trunc_mat(x, n = NULL)
 }
 \arguments{
   \item{x}{a matrix to describe}

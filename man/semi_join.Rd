@@ -1,10 +1,14 @@
 \name{semi_join}
 \alias{semi_join}
-\title{Semi join two tbls together.}
+\title{Semi joins and anti joins.}
 \usage{
-  semi_join(x, y, by = NULL, copy = FALSE, ...)
+  semi_join(x, y, by = NULL, anti = FALSE, copy = FALSE,
+    ...)
 }
 \arguments{
+  \item{anti}{If \code{TRUE}, performs an anti join instead
+  of a semi join.}
+
   \item{by}{a character vector of variables to join by.  If
   \code{NULL}, the default, \code{join} will do a natural
   join, using all variables with common names across the

@@ -1,25 +1,31 @@
-#' Semi join two tbls together.
+#' Semi joins and anti joins.
 #' 
 #' A semi join keeps all records from \code{x} that have matching rows in 
 #' \code{y}. It preserves all columns from \code{x}, but none from \code{y}
 #' 
 #' @inheritParams join
-#' @inheritParams join.tbl_sqlite
+#' @param anti If \code{TRUE}, performs an anti join instead of a semi join.
 #' @export
-semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+semi_join <- function(x, y, by = NULL, anti = FALSE, copy = FALSE, ...) {
   UseMethod("semi_join")
 }
 
 #' Semi-join for SQLite tbls.
 #' 
 #' @inheritParams join
+#' @param anti If \code{TRUE}, performs an anti join instead of a semi join.
+#'   Anti joins use \code{WHERE NOT EXISTS} rather than \code{WHERE EXISTS}
+#' @inheritParams join.tbl_sqlite
 #' @export
 #' @examples
 #' people <- tbl(lahman(), "Master")
 #' 
-#' # Find all people in half of fame
+#' # All people in half of fame
 #' hof <- tbl(lahman(), "HallOfFame")
 #' semi_join(people, hof)
+#' 
+#' # All people not in the hall of fame
+#' semi_join(people, hof, anti = TRUE)
 #' 
 #' # Find all managers
 #' manager <- tbl(lahman(), "Managers")
@@ -27,7 +33,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' 
 #' # Find all managers in hall of fame
 #' semi_join(semi_join(people, manager), hof)
-semi_join.tbl_sqlite <- function(x, y, by = NULL, copy = FALSE, 
+semi_join.tbl_sqlite <- function(x, y, by = NULL, anti = FALSE, copy = FALSE, 
                                  auto_index = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
@@ -38,7 +44,7 @@ semi_join.tbl_sqlite <- function(x, y, by = NULL, copy = FALSE,
   
   from <- build_sql('(',
     'SELECT * FROM ', from(x), ' as "_LEFT"\n\n', 
-    'WHERE EXISTS (\n',
+    'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
     '  SELECT 1 FROM ', from(y), ' AS "_RIGHT"\n',
     '  WHERE ', join, ')',
   ')')
