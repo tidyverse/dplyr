@@ -146,7 +146,11 @@ as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
 print.tbl_sqlite <- function(x, ...) {
   cat("Source: SQLite [", x$src$path, "]\n", sep = "")
   
-  cat(wrap("From: ", gsub("\n", " ", x$table), " ", dim_desc(x)))
+  if (inherits(x$table, "ident")) {
+    cat(wrap("From: ", x$table, " ", dim_desc(x)))
+  } else {
+    cat(wrap("From: <derived table> ", dim_desc(x)))    
+  }
   cat("\n")
   if (!is.null(x$where)) {
     cat(wrap("Filter: ", commas(deparse_all(x$where))), "\n")
@@ -158,9 +162,9 @@ print.tbl_sqlite <- function(x, ...) {
     cat(wrap("Grouped by: ", commas(deparse_all(x$group_by))), "\n")
   }
   
-  if (!inherits(x$table, "ident")) return()
-  
   cat("\n")
+  
+  rows <- nrow(x)
   trunc_mat(x)
 }
 
