@@ -21,6 +21,8 @@ drop_last <- function(x) {
   x[-length(x)]
 }
 
+last <- function(x) x[[length(x)]]
+
 compact <- function(x) Filter(Negate(is.null), x)
 
 names2 <- function(x) {
