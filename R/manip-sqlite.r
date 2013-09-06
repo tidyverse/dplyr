@@ -152,64 +152,53 @@ mutate.tbl_sqlite <- function(.data, ...) {
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
 do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
-  x <- ungrouped(.data)
-  gvars <- colnames(x)[seq_along(.data$group_by)]
+  group_by <- trans_sqlite(.data$group_by)
+  gvars <- seq_along(group_by)
   
+  # Create data frame of labels.
+  labels_tbl <- update(.data, 
+    select = NULL, 
+    order_by = NULL)
+  labels <- collect(labels_tbl)
+  
+  # Create ungrouped data frame suitable for chunked retrieval
+  names(group_by) <- paste0("GRP_", seq_along(group_by))  
+  chunky <- update(.data,
+    select = c(group_by, .data$select %||% sql("*")),
+    order_by = c.sql(ident(names(group_by)), .data$order_by, drop_null = TRUE),
+    group_by = NULL
+  )
+    
+  # When retrieving in pages, there's no guarantee we'll get a complete group.
+  # So we always assume the last group in the chunk is incomplete, and leave
+  # it for the next. If the group size is large than chunk size, it may
+  # take a couple of iterations to get the entire group, but that should
+  # be an unusual situation.
   last_group <- NULL
-  out <- vector("list", n_groups(.data))
+  out <- vector("list", nrow(labels))
   i <- 0
   
-  x$query$fetch_paged(.chunk_size, function(chunk) {
-    # Last group might be incomplete, so always set it aside and join it
-    # with the next chunk. If group size is large than chunk size, it may
-    # take a couple of iterations to get the entire group, but that should
-    # be an unusual situation.
+  chunky$query$fetch_paged(.chunk_size, function(chunk) {
     if (!is.null(last_group)) chunk <- rbind(last_group, chunk)
-    group_id <- id(chunk[gvars])
     
-    last <- group_id == group_id[length(group_id)]
-    last_group <<- chunk[last, , drop = FALSE]
-    chunk <- chunk[!last, , drop = FALSE]
+    # Create an id for each group
+    group_id <- id(chunk[gvars], drop = TRUE)
+    n <- attr(group_id, "n")
     
-    groups <- grouped_df(chunk, lapply(gvars, as.name), lazy = FALSE)
-    res <- do(groups, .f, ...)
-    out[i + seq_along(res)] <<- res
-    i <<- i + length(res)
+    index <- split_indices(group_id, n)
+    last_group <<- chunk[last(index), , drop = FALSE]
+    
+    for (j in seq_len(n - 1)) {
+      subs <- chunk[index[[j]], , drop = FALSE]
+      out[[i + j]] <<- .f(subs, ...)
+    }
+    i <<- i + (n - 1)
   })
 
   # Process last group
   if (!is.null(last_group)) {
-    groups <- grouped_df(last_group, lapply(gvars, as.name))  
-    res <- do(groups, .f, ...)
-    out[i + seq_along(res)] <- res
+    out[[i + 1]] <- .f(last_group, ...)
   }
   
   out
-}
-
-n_groups <- function(x, distinct = FALSE) {
-  group_by <- unname(trans_sqlite(x$group_by))
-  
-  if (distinct) {
-    # Works, but seems to be slower.
-    sql <- build_sql("SELECT COUNT(DISTINCT ", 
-      escape(group_by, collapse = ",", parens = FALSE), ") FROM ", x$table)
-    query(x$src$con, sql)$fetch_df()[[1]]
-  } else {
-    update(x,
-      select = group_by, 
-      group_by = group_by,
-      order_by = NULL)$query$nrow()  
-  }
-}
-
-ungrouped <- function(x) {
-  group_by <- trans_sqlite(x$group_by)
-  names(group_by) <- paste0("GRP_", seq_along(group_by))
-  
-  update(x,
-    select = c(group_by, x$select %||% sql("*")),
-    order_by = c(ident(names(group_by)), x$order_by),
-    group_by = NULL
-  )
 }
