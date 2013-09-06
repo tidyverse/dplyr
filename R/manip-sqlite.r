@@ -156,7 +156,8 @@ do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
   gvars <- colnames(x)[seq_along(.data$group_by)]
   
   last_group <- NULL
-  out <- list()  
+  out <- vector("list", n_groups(.data))
+  i <- 0
   
   x$query$fetch_paged(.chunk_size, function(chunk) {
     # Last group might be incomplete, so always set it aside and join it
@@ -172,17 +173,34 @@ do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
     
     groups <- grouped_df(chunk, lapply(gvars, as.name), lazy = FALSE)
     res <- do(groups, .f, ...)
-    out <<- c(out, res)
+    out[i + seq_along(res)] <<- res
+    i <<- i + length(res)
   })
 
   # Process last group
   if (!is.null(last_group)) {
     groups <- grouped_df(last_group, lapply(gvars, as.name))  
     res <- do(groups, .f, ...)
-    out <- c(out, res)    
+    out[i + seq_along(res)] <- res
   }
   
   out
+}
+
+n_groups <- function(x, distinct = FALSE) {
+  group_by <- unname(trans_sqlite(x$group_by))
+  
+  if (distinct) {
+    # Works, but seems to be slower.
+    sql <- build_sql("SELECT COUNT(DISTINCT ", 
+      escape(group_by, collapse = ",", parens = FALSE), ") FROM ", x$table)
+    query(x$src$con, sql)$fetch_df()[[1]]
+  } else {
+    update(x,
+      select = group_by, 
+      group_by = group_by,
+      order_by = NULL)$query$nrow()  
+  }
 }
 
 ungrouped <- function(x) {
