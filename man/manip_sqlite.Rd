@@ -37,12 +37,28 @@
   of talking to the database.}
 }
 \description{
-  All operations on SQL tables are lazy: they will not
-  actually run the query or retrieve the data unless you
-  ask for it. Use \code{\link{compute}} to run the query
-  and save the results in a temporary in the database, or
-  use \code{\link{collect}} to retrieve the results to R.
+  This page documents the specific of data manipulation for
+  \code{\link{tbl_sqlite}} objects. See \code{manip} for
+  the documentation of the generics, and how they work in
+  general.
 }
+\section{Output}{
+  All data manipulation on SQL tbls are lazy: they will not
+  actually run the query or retrieve the data unless you
+  ask for it: they all return a new
+  \code{\link{tbl_sqlite}} object. Use
+  \code{\link{compute}} to run the query and save the
+  results in a temporary in the database, or use
+  \code{\link{collect}} to retrieve the results to R.
+
+  Note that \code{do} is not lazy since it must pull the
+  data into R. It returns a \code{\link{tbl_df}} or
+  \code{\link{grouped_df}}, with one column for each
+  grouping variable, and one list column that contains the
+  results of the operation. \code{do} never simplifies its
+  output.
+}
+
 \section{Query principles}{
   This section attempts to lay out the principles governing
   the generation of SQL queries from the manipulation
