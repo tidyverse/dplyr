@@ -31,7 +31,11 @@
   matching indices in \code{x}.}
 }
 \description{
-  Semi-join for SQLite tbls.
+  Semi-joins are implemented using \code{WHERE EXISTS}, and
+  anti-joins with \code{WHERE NOT EXISTS}. Support for
+  semi-joins is somewhat partial: you can only create semi
+  joins where the \code{x} and \code{y} columns are
+  compared with \code{=} not with more general operators.
 }
 \examples{
 people <- tbl(lahman(), "Master")
@@ -48,6 +52,8 @@ manager <- tbl(lahman(), "Managers")
 semi_join(people, manager)
 
 # Find all managers in hall of fame
-semi_join(semi_join(people, manager), hof)
+famous_manager <- semi_join(semi_join(people, manager), hof)
+famous_manager
+explain_tbl(famous_manager)
 }
 

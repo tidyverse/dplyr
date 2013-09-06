@@ -1,7 +1,13 @@
 #' Semi joins and anti joins.
 #' 
 #' A semi join keeps all records from \code{x} that have matching rows in 
-#' \code{y}. It preserves all columns from \code{x}, but none from \code{y}
+#' \code{y}. An anti-join does the opposite: it preserves all records from 
+#' \code{x} that don't have matching values in \code{y}. Both keep the columns 
+#' of \code{x}, and don't include any from \code{y}.
+#' 
+#' A semi join differs from an inner join (with just the \code{by} variables)
+#' because an inner join will return one row of \code{x} for each matching row
+#' of \code{y}, where a semi join will never duplicated rows in \code{x}.
 #' 
 #' @inheritParams join
 #' @param anti If \code{TRUE}, performs an anti join instead of a semi join.
@@ -12,10 +18,15 @@ semi_join <- function(x, y, by = NULL, anti = FALSE, copy = FALSE, ...) {
 
 #' Semi-join for SQLite tbls.
 #' 
+#' Semi-joins are implemented using \code{WHERE EXISTS}, and anti-joins with
+#' \code{WHERE NOT EXISTS}. Support for semi-joins is somewhat partial: you 
+#' can only create semi joins where the \code{x} and \code{y} columns are
+#' compared with \code{=} not with more general operators.
+#' 
 #' @inheritParams join
+#' @inheritParams join.tbl_sqlite
 #' @param anti If \code{TRUE}, performs an anti join instead of a semi join.
 #'   Anti joins use \code{WHERE NOT EXISTS} rather than \code{WHERE EXISTS}
-#' @inheritParams join.tbl_sqlite
 #' @export
 #' @examples
 #' people <- tbl(lahman(), "Master")
@@ -32,7 +43,9 @@ semi_join <- function(x, y, by = NULL, anti = FALSE, copy = FALSE, ...) {
 #' semi_join(people, manager)
 #' 
 #' # Find all managers in hall of fame
-#' semi_join(semi_join(people, manager), hof)
+#' famous_manager <- semi_join(semi_join(people, manager), hof)
+#' famous_manager
+#' explain_tbl(famous_manager)
 semi_join.tbl_sqlite <- function(x, y, by = NULL, anti = FALSE, copy = FALSE, 
                                  auto_index = FALSE, ...) {
   by <- by %||% common_by(x, y)
