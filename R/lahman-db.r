@@ -29,14 +29,9 @@ lahman_db <- function(src, index = TRUE, quiet = FALSE) {
   for(table in tables) {
     df <- get(table, "package:Lahman")
     if (!quiet) message("Creating table ", table)
-    tbl <- write_table(src, table, df)   
     
-    if (index) {
-      ids <- names(df)[grepl("ID$", names(df))]
-      for (id in ids) {
-        create_index(tbl, id)
-      }
-    }
+    ids <- as.list(names(df)[grepl("ID$", names(df))])
+    copy_to(src, df, table, indexes = if (index) ids, temporary = FALSE)
   }
   
   invisible(TRUE)
@@ -47,17 +42,37 @@ lahman_db <- function(src, index = TRUE, quiet = FALSE) {
 lahman <- function(path = NULL) {
   if (!is.null(con_cache$lahman)) return(con_cache$lahman)
   
-  path <- path %||% file.path(system.file("db", package = "dplyr"), "lahman.db")
-  if (file.exists(path)) {
-    con_cache$lahman <- src_sqlite(path)
-    return(con_cache$lahman)
+  path <- db_location(path, "lahman.db")
+
+  if (!file.exists(path)) {
+    message("Caching Lahman db at ", path)
+    src <- src_sqlite(path, create = TRUE)
+    lahman_db(src, quiet = TRUE)
+  } else {
+    src <- src_sqlite(path)
   }
   
-  message("Caching Lahman db at ", path)
-  src <- src_sqlite(path, create = TRUE)
-  lahman_db(src, quiet = TRUE)
-  
+  con_cache$lahman <- src    
   src
+}
+
+db_location <- function(path, filename) {
+  if (!is.null(path)) {
+    if (!is_writeable(path)) stop("Can not write to ", path, call. = FALSE)
+    return(file.path(path, filename))
+  }
+  
+  pkg <- file.path(system.file("db", package = "dplyr"))
+  if (is_writeable(pkg)) return(file.path(pkg, filename))
+
+  tmp <- tempdir()
+  if (is_writeable(tmp)) return(file.path(tmp, filename))
+  
+  stop("Could not find writeable location to cache db", call. = FALSE)
+}
+
+is_writeable <- function(x) {
+  unname(file.access(x, 2) == 0)
 }
 
 con_cache <- new.env(parent = emptyenv())
