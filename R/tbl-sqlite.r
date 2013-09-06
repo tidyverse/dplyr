@@ -69,9 +69,8 @@ tbl.src_sqlite <- function(src, table, ...) {
     table <- ident(table)
   }
   
-  tbl_sql("sqlite", 
-    src = src, 
-    table = table,
+  tbl <- tbl_sql("sqlite", src = src, table = table)
+  update(tbl,
     select = NULL,
     where = NULL,
     group_by = NULL,
@@ -92,6 +91,8 @@ update.tbl_sqlite <- function(object, ...) {
   for (nm in names(args)) {
     object[[nm]] <- args[[nm]]
   }
+  object$query <- qry_select(object)
+  
   object
 } 
 
@@ -103,7 +104,7 @@ same_src.tbl_sqlite <- function(x, y) {
 
 #' @S3method tbl_vars tbl_sqlite
 tbl_vars.tbl_sqlite <- function(x) {
-  qry_select(x)$vars()
+  x$query$vars()
 }
 
 #' @S3method groups tbl_sqlite
@@ -131,7 +132,7 @@ group_size.tbl_sqlite <- function(x) {
 #' @S3method as.data.frame tbl_sqlite
 as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
                                         ..., n = 1e5L) {
-  qry_select(x)$fetch_df(n)
+  x$query$fetch_df(n)
 }
 
 #' @S3method print tbl_sqlite
@@ -166,10 +167,10 @@ dim.tbl_sqlite <- function(x) {
   if (!inherits(x$table, "ident")) {
     n <- NA
   } else {
-    n <- qry_select(x)$nrow()
+    n <- x$query$nrow()
   }
   
-  p <- qry_select(x)$ncol()
+  p <- x$query$ncol()
   c(n, p)
 }
 

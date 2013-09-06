@@ -158,7 +158,7 @@ do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
   last_group <- NULL
   out <- list()  
   
-  qry_select(x)$fetch_paged(.chunk_size, function(chunk) {
+  x$query$fetch_paged(.chunk_size, function(chunk) {
     # Last group might be incomplete, so always set it aside and join it
     # with the next chunk. If group size is large than chunk size, it may
     # take a couple of iterations to get the entire group, but that should

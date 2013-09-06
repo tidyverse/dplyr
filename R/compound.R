@@ -30,7 +30,7 @@ compound.tbl_sqlite <- function(x, y) {
     stop("tbls used in a compound select can not be ordered", call. = FALSE)
   }
   
-  from <- build_sql("(", qry_select(x)$sql, " UNION ALL ", qry_select(y)$sql, ")")
+  from <- build_sql("(", x$query$sql, " UNION ALL ", y$query$sql, ")")
   tbl(x$src, from)
 }
 

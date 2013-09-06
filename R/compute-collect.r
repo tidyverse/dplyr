@@ -44,18 +44,18 @@ collapse <- function(x, ...) {
 
 #' @S3method collapse tbl_sqlite
 collapse.tbl_sqlite <- function(x, ...) {
-  tbl(x$src, build_sql("(", qry_select(x)$sql, ")"))
+  tbl(x$src, build_sql("(", x$query$sql, ")"))
 }
 
 #' @S3method compute tbl_sqlite
 compute.tbl_sqlite <- function(x, name = random_table_name(), ...) {
-  qry_select(x)$save_into(name)
+  x$query$save_into(name)
   tbl(x$src, name)
 }
 
 #' @S3method collect tbl_sqlite
 collect.tbl_sqlite <- function(x, ...) {
-  tbl_df(qry_select(x)$fetch_df())
+  tbl_df(x$query$fetch_df())
 }
 
 

@@ -73,8 +73,8 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE,
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
   
-  from_x <- qry_select(x)$sql
-  from_y <- qry_select(y)$sql
+  from_x <- x$query$sql
+  from_y <- y$query$sql
   
   from <- build_sql(list(from_x), "\n\n", 
     join, " JOIN \n\n" , 
