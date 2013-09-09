@@ -13,9 +13,10 @@ NULL
 #' @rdname dplyr-formatting
 dim_desc <- function(x) {
   d <- dim(x)
-  d[is.na(d)] <- "??"
-  d <- format(d, big.mark = ",", justify = "none", trim = TRUE)
-  paste0("[", paste0(d, collapse = " x "), "]")
+  d2 <- format(d, big.mark = ",", justify = "none", trim = TRUE)
+  d2[is.na(d)] <- "??"
+  
+  paste0("[", paste0(d2, collapse = " x "), "]")
 }
 
 #' @export
