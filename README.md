@@ -103,6 +103,15 @@ print(object.size(mod2), unit = "MB")
 
 You can also join data sources: this is currently only supported for SQL, but data frame and data table wrappers will be added in the near future.
 
+* left join
+* right join
+* inner join
+* full join
+* semi join
+* anti join
+
+Currently joins variables must be the same in both the left-hand and right-hand sides.
+
 ### Compound
 
 Sqlite tbls also support the compound operator, which allows you to union all tbls together.
