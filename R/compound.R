@@ -14,11 +14,12 @@ compound <- function(x, y, ...) {
 #' @export
 #' @examples
 #' l <- lahman()
-#' batting <- select(tbl(l, "Batting"), playerID:lgID, G_batting)
-#' pitching <- select(filter(tbl(l, "Fielding"), POS == "P"), playerID:lgID, GS)
+#' batting <- select(tbl(lahman(), "Batting"), playerID:lgID, G_batting)
+#' pitching <- select(filter(tbl(lahman(), "Fielding"), POS == "P"), playerID:lgID, GS)
 #'
 #' both <- compound(batting, pitching)
-#' hou <- filter(plays, teamID == "HOU")
+#' hou <- filter(both, teamID == "HOU")
+#' explain_tbl(hou)
 #' head(hou)
 compound.tbl_sqlite <- function(x, y) {
 #   type <- match.arg(tolower(type), 
