@@ -87,7 +87,12 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 
 #' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
-  as.data.frame(x)
+  attr(x, "vars") <- NULL
+  attr(x, "index") <- NULL
+  attr(x, "labels") <- NULL
+  attr(x, "drop") <- NULL
+
+  tbl_df(x)
 }
 
 make_view <- function(x, env = parent.frame()) {
