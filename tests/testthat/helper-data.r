@@ -28,14 +28,11 @@ clone_tbls <- function(df) {
 }
 
 baseball_tbls <- function() {
-  data("baseball", package = "plyr")
-  db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
+  sql <- tbl(lahman(), "Batting")
+  df <- collect(sql)
+  dt <- tbl_dt(df)
 
-  list(
-    df = tbl_df(baseball),
-    dt = tbl_dt(baseball),
-    sqlite = tbl_sqlite(db_path, "baseball")
-  )
+  list(df = df, dt = dt, sqllite = sql)
 }
 
 players_tbls <- function() {
