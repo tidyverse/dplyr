@@ -32,14 +32,14 @@ baseball_tbls <- function() {
   df <- collect(sql)
   dt <- tbl_dt(df)
 
-  list(df = df, dt = dt, sqllite = sql)
+  list(df = df, dt = dt, sqlite = sql)
 }
 
 players_tbls <- function() {
   bball <- baseball_tbls()
   list(
-    df = group_by(bball$df, id),
-    dt = group_by(bball$dt, id),
-    sqlite = group_by(bball$sqlite, id)
+    df = group_by(bball$df, playerID),
+    dt = group_by(bball$dt, playerID),
+    sqlite = group_by(bball$sqlite, playerID)
   )
 }

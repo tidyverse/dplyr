@@ -71,7 +71,8 @@ system.time(summarise(carriers_db, delay = mean(ArrDelay)))
 # Substantially faster on "warm" database
 #   user  system elapsed 
 # 0.005   0.000   0.005 
-  ```
+```
+
 All methods are substantially faster than plyr:
 
 ```R
@@ -86,20 +87,28 @@ system.time(ddply(hflights, "UniqueCarrier", summarise,
 
 As well as the specialised operations described above, `dplyr` also provides the generic `do()` function which applies any R function to each group of the data.
 
-For example, we could use `do()` to fit a linear model to each player in the database:
+Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between their number of at bats and runs:
 
-```R
-system.time(do(players_df, failwith(NULL, lm), formula = r ~ ab))
-system.time(do(players_dt, failwith(NULL, lm), formula = r ~ ab))
-system.time(do(players_db, failwith(NULL, lm), formula = r ~ ab))
+```r
+batting_db <- tbl(lahman(), "Batting")
+batting_df <- collect(batting_db)
+batting_dt <- tbl_dt(batting_df)
+
+years_db <- group_by(batting_db, yearID)
+years_df <- group_by(batting_df, yearID)
+years_dt <- group_by(batting_dt, yearID)
+
+system.time(do(years_db, failwith(NULL, lm), formula = R ~ AB))
+system.time(do(years_df, failwith(NULL, lm), formula = R ~ AB))
+system.time(do(years_dt, failwith(NULL, lm), formula = R ~ AB))
 ```
 
 Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
 
 ```R
 library(biglm)
-mod1 <- do(players_df, lm, formula = r ~ ab)
-mod2 <- do(players_df, biglm, formula = r ~ ab)
+mod1 <- do(years_df, lm, formula = R ~ AB)
+mod2 <- do(years_df, biglm, formula = R ~ AB)
 print(object.size(mod1), unit = "MB")
 print(object.size(mod2), unit = "MB")
 ```
