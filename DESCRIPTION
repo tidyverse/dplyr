@@ -12,7 +12,6 @@ Imports:
 Suggests:
     RSQLite,
     RSQLite.extfuns,
-    plyr,
     data.table,
     testthat,
     Lahman
