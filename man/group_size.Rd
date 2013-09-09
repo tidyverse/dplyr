@@ -11,8 +11,7 @@
   Calculate the size of each group
 }
 \examples{
-data("baseball", package = "plyr")
-players_df <- group_by(baseball, id)
-group_size(players_df)
+group_size(group_by(hflights, Year, Month, DayofMonth))
+group_size(group_by(hflights, Dest))
 }
 

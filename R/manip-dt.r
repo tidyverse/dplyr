@@ -6,23 +6,21 @@
 #'   prior to modification to avoid changes propagating via reference.
 #' @examples
 #' if (require("data.table")) {
-#' data("baseball", package = "plyr")
-#'
 #' # If you start with a data table, you end up with a data table
-#' baseball <- as.data.table(baseball)
-#' filter(baseball, year > 2005, g > 130)
-#' head(select(baseball, id:team))
-#' summarise(baseball, g = mean(g))
-#' head(mutate(baseball, rbi = r / ab, rbi2 = rbi ^ 2))
-#' head(arrange(baseball, id, desc(year)))
+#' hflights <- as.data.table(hflights)
+#' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
+#' head(select(hflights, Year:DayOfWeek))
+#' summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
+#' head(mutate(hflights, gained = ArrDelay - DepDelay))
+#' head(arrange(hflights, Dest, desc(ArrDelay)))
 #'
 #' # If you start with a tbl, you end up with a tbl
-#' baseball_s <- as.tbl(baseball)
-#' filter(baseball_s, year > 2005, g > 130)
-#' select(baseball_s, id:team)
-#' summarise(baseball_s, g = mean(g))
-#' mutate(baseball_s, rbi = r / ab, rbi2 = rbi ^ 2)
-#' arrange(baseball_s, id, desc(year))
+#' hflights2 <- as.tbl(hflights)
+#' filter(hflights2, Month == 1, DayofMonth == 1, Dest == "DFW")
+#' head(select(hflights2, Year:DayOfWeek))
+#' summarise(hflights2, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
+#' head(mutate(hflights2, gained = ArrDelay - DepDelay))
+#' head(arrange(hflights2, Dest, desc(ArrDelay)))
 #' }
 #' @name manip_dt
 NULL

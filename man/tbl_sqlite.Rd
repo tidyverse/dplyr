@@ -54,20 +54,23 @@
   the indexes that you expect.
 }
 \examples{
+\dontrun{
 # You can create from a path and a table name
-db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-baseball_s <- tbl_sqlite(db_path, "baseball")
+my_tbl <- tbl_sqlite(db_path, "my_table")
 
 # Or (better) from a sqlite src and a table name
-db <- src_sqlite(db_path)
-baseball_s <- tbl(db, "baseball")
+my_db <- src_sqlite(db_path)
+my_tbl <- tbl(my_db, "my_table")
+}
 
-dim(baseball_s)
-colnames(baseball_s)
-head(baseball_s)
+# Here we'll use the built-in Lahman database
+batting <- tbl(lahman(), "Batting")
+dim(batting)
+colnames(batting)
+head(batting)
 
 # Perform operations "by group":
-players <- group_by(baseball_s, id)
+players <- group_by(batting, id)
 group_size(players)
 
 # See examples of data manipulation operations in ?manip_sqlite

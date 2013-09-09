@@ -29,8 +29,8 @@
   for you.
 }
 \examples{
-data("baseball", package = "plyr")
-by_player <- group_by(data.table(baseball), id)
-group_size(by_player)
+hflights_dt <- data.table(hflights)
+group_size(group_by(hflights_dt, Year, Month, DayofMonth))
+group_size(group_by(hflights_dt, Dest))
 }
 

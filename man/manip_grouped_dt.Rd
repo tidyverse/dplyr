@@ -32,22 +32,27 @@
 }
 \examples{
 if (require("data.table")) {
-data("baseball", package = "plyr")
-baseball_dt <- as.data.table(baseball)
-players <- group_by(baseball_dt, id)
-filter(players, g == max(g))
-summarise(players, g = mean(g))
-mutate(players, cyear = year - min(year) + 1)
-arrange(players, id, desc(year))
-select(players, id:team)
+hlights2 <- tbl_dt(hlights)
+by_dest <- group_by(hflights2, Dest)
+filter(by_dest, ArrDelay == max(ArrDelay))
+summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
+
+# Normalise arrival and departure delays by airport
+scaled <- mutate(by_dest, arr_z = scale(ArrDelay), dep_z = scale(DepDelay))
+select(scaled, Year:DayOfWeek, Dest, arr_z:dep_z)
+
+arrange(by_dest, desc(ArrDelay))
+select(by_dest, -(DayOfWeek:TailNum))
 
 # All manip functions preserve grouping structure, except for summarise
-# (for hopefully obvious reasons)
-by_year <- mutate(players, cyear = year - min(year) + 1)
-summarise(by_year, years = max(cyear))
+# which removes a grouping level
+by_day <- group_by(hflights, Year, Month, DayofMonth)
+by_month <- summarise(by_day, delayed = sum(ArrDelay > 0, na.rm = TRUE))
+by_month
+summarise(by_month, delayed = sum(delayed))
 
 # You can also manually ungroup:
-arrange(ungroup(by_year), id, year)
+ungroup(by_day)
 }
 }
 

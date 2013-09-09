@@ -3,7 +3,6 @@
 #' @param x a grouped tbl
 #' @export
 #' @examples
-#' data("baseball", package = "plyr")
-#' players_df <- group_by(baseball, id)
-#' group_size(players_df)
+#' group_size(group_by(hflights, Year, Month, DayofMonth))
+#' group_size(group_by(hflights, Dest))
 group_size <- function(x) UseMethod("group_size")

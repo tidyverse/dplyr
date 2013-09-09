@@ -28,11 +28,10 @@
   Data manipulation for data frames.
 }
 \examples{
-data("baseball", package = "plyr")
-filter(baseball, year > 2005, g > 130)
-head(select(baseball, id:team))
-summarise(baseball, g = mean(g), n = count())
-head(mutate(baseball, rbi = 1.0 * r / ab))
-head(arrange(baseball, id, desc(year)))
+filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
+head(select(hflights, Year:DayOfWeek))
+summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
+head(mutate(hflights, gained = ArrDelay - DepDelay))
+head(arrange(hflights, Dest, desc(ArrDelay)))
 }
 

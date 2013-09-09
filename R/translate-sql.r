@@ -10,33 +10,39 @@
 #' @param env environment in which to evaluate expression
 #' @export
 #' @examples
-#' data(baseball, package = "plyr")
-#' translate_sql(year < 1890, baseball)
-#' translate_sql(year < 1890L, baseball)
-#' translate_sql(year %in% c(1890L, 1891L), baseball)
-#' translate_sql(year %in% 1890:1900, baseball)
-#' translate_sql(year >= 1890L & year <= 1900L, baseball)
-#' translate_sql((year >= 1890L & year <= 1900L) | stint > 2, baseball)
+#' # Note distinction between integers and reals
+#' translate_sql(Month == 1, hflights)
+#' translate_sql(Month == 1L, hflights)
 #' 
-#' translate_sql(xor(year <= 1890L, stint > 2), baseball)
+#' # Know how to translate most simple mathematical expressions
+#' translate_sql(Month %in% 1:3, hflights)
+#' translate_sql(Month >= 1L & Month <= 3L, hflights)
+#' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", hflights)
+#' 
+#' # Some R functions don't have equivalents in SQL: where possible they
+#' # will be translated to the equivalent
+#' translate_sql(xor(Month <= 3L, Carrier == "AA"), baseball)
 #'
-#' x <- 1890L
-#' translate_sql(year == x, baseball)
+#' # Local variables will be automatically inserted into the SQL
+#' x <- 5L
+#' translate_sql(Month == x, hflights)
 #'
 #' # By default all computation will happen in sql
-#' translate_sql(year < 1889 + 1, baseball)
+#' translate_sql(Month < 1 + 1, hflights)
 #' # Use local to force local evaluation
-#' translate_sql(year < local(1889 + 1), baseball)
+#' translate_sql(Month < local(1 + 1), hflights)
 #'
 #' # This is also needed if you call a local function:
 #' inc <- function(x) x + 1
-#' \dontrun{translate_sql(year == inc(x), baseball)}
-#' translate_sql(year == local(inc(x)), baseball)
+#' translate_sql(Month == inc(x), hflights)
+#' translate_sql(Month == local(inc(x)), hflights)
 #'
-#' # For testing, translate_sql can be run with source ommitted
+#' # For testing, translate_sql can be run with source ommitted. In this
+#' # case all variables will be treated as local.
 #' x <- 1
 #' y <- 2L
 #' translate_sql(x ^ y)
+#' translate_sql(inc(x))
 translate_sql <- function(expr, source = NULL, env = parent.frame(), variant = base_sql) {
   expr <- partial_eval(substitute(expr), source, env = env)
   env <- sql_env(expr, variant)

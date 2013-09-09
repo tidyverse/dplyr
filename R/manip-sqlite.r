@@ -44,52 +44,45 @@
 #' @param .data an SQLite data tbl
 #' @param ... variables interpreted in the context of \code{.data}
 #' @examples
-#' db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-#' baseball_s <- tbl_sqlite(db_path, "baseball")
+#' batting <- tbl(lahman(), "Batting")
 #'
 #' # filter, select and arrange lazily modify the specification of the table
 #' # they don't execute queries unless you print them
-#' filter(baseball_s, year > 2005, g > 130)
-#' select(baseball_s, id:team)
-#' arrange(baseball_s, id, desc(year))
-#'
-#' # summarise and mutate always return data frame tbls
-#' summarise(baseball_s, g = mean(g), n = count())
-#' mutate(baseball_s, rbi = 1.0 * r / ab)
+#' filter(batting, YearID > 2005, G > 130)
+#' select(batting, playerID:lgID)
+#' arrange(batting, PlayerID, desc(YearID))
+#' summarise(batting, g = mean(g), n = count())
+#' mutate(batting, rbi = 1.0 * R / AB)
 #'
 #' # Grouped summaries -----------------------------------
-#' players <- group_by(baseball_s, id)
+#' players <- group_by(batting, PlayerID)
 #' 
 #' # Due to the lack of windowing functions in SQLite, only summarising
 #' # is really useful with grouped values
-#' summarise(players, g = mean(g))
 #' summarise(players, g = mean(g), best_ab = max(ab))
 #'
-#' per_year <- group_by(baseball_s, id, year)
-#' stints <- summarise(per_year, stints = max(stint))
-#' collect(filter(stints, stints > 3))
 #' # Summarise peels over a single layer of grouping
-#' groups(stints)
-#' collect(summarise(stints, max(stints)))
+#' per_year <- group_by(batting, PlayerID, YearID)
+#' stints <- summarise(per_year, stints = max(stint))
+#' filter(stints, stints > 3)
+#' summarise(stints, max(stints))
 #'
 #' # All other operations will ignore grouping, although they will preserve it
 #' # in the object returned to R.
-#' filter(players, g > 100)
-#' mutate(players, rbi = 1 * r / ab)
-#' arrange(players, id, desc(year))
-#' select(players, id:team)
+#' select(players, playerID:lgID)
+#' arrange(players, PlayerID, desc(YearID))
+#' mutate(players, rbi = 1.0 * R / AB)
 #'
-#' # NB: If you use an aggregation function, you will get one row:
+#' # NB: If you use an aggregation function with mutate
 #' mutate(players, cyear = year - min(year) + 1)
-#' summarise(players, g = mean(g), n = count())
 #'
-#' # Find decent sized teams
-#' sizes <- summarise(by_team, freq = count())
-#' not_small <- collect(filter(sizes, freq > 10))
-#' teams <- not_small$team
-#' ok <- filter(by_team, team %in% teams)
-#' 
 #' # Do arbitrary processing with do ---------------------------------
+#'
+#' # First find teams with a decent number of records
+#' by_team <- group_by(batting, TeamID)
+#' sizes <- summarise(by_team, freq = count())
+#' not_small <- filter(sizes, freq > 10)
+#' ok <- semi_join(batting, not_small)
 #' 
 #' # Explore how they have changed over time
 #' mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),

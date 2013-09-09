@@ -10,13 +10,20 @@
 #' @param ... other arguments passed on to the function ()
 #' @export
 #' @examples
-#' by_player <- group_by(baseball, id)
-#' by_player <- mutate(by_player, cyear = year - min(year) + 1)
-#' system.time(mods <- do(by_player, lm, formula = g ~ poly(cyear, 2)))
-#'
-#' by_player <- group_by(as.data.table(baseball), id)
-#' by_player <- mutate(by_player, cyear = year - min(year) + 1)
-#' system.time(mods <- do(by_player, lm, formula = g ~ poly(cyear, 2)))
+#' by_dest <- group_by(hflights, Dest)
+#' do(by_dest, nrow)
+#' # Inefficient version of 
+#' group_size(by_dest)
+#' 
+#' # You can use it to do any arbitrary computation, like fitting a linear
+#' # model. Let's explore how carrier departure delays vary over the course
+#' # of a year
+#' hflights <- mutate(hflights, date = ISOdate(Year, Month, DayofMonth))
+#' carriers <- group_by(hflights, UniqueCarrier)
+#' group_size(carriers)
+#' 
+#' mods <- do(carriers, failwith(NULL, lm), formula = ArrDelay ~ date)
+#' sapply(mods, coef)
 do <- function(.data, .f, ...) UseMethod("do")
 
 #' @S3method do NULL

@@ -16,13 +16,18 @@
   database.
 }
 \examples{
-db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-baseball <- src_sqlite(db_path)
-src_tbls(baseball)
+\dontrun{
+my_db <- src_sqlite(db_path)
+src_tbls(my_db)
+}
+
+# A "built"-in dataset
+lahman()
+src_tbls(lahman())
 
 # You can create a new sqlite database at any location if you set
 # create = TRUE
 new_db <- src_sqlite(tempfile(), TRUE)
-src_tbls("new_db")
+src_tbls(new_db)
 }
 
