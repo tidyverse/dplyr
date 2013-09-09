@@ -23,21 +23,23 @@ Currently `dplyr` supports data frames, data tables and SQLite databases. You ca
 
 ```R
 library(dplyr)
-data(baseball, package = "plyr")
+# Built in data frame
+head(hflights)
 
-baseball_df <- tbl_df(baseball)
-baseball_dt <- tbl_dt(baseball)
+# Coerce to data table
+hflights_dt <- tbl_dt(hflights)
 
-db_path <- system.file("db", "baseball.sqlite3", package = "dplyr")
-baseball_db <- tbl_sqlite(db_path, "baseball")
+# Create SQLite database and copy into
+db <- src_sqlite(tempfile(), create = TRUE)
+hflights_db <- copy_to(db, hflights, indexes = list("UniqueCarrier"))
 ```
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
 
 ```R
-players_df <- group_by(baseball_df, id)
-players_dt <- group_by(baseball_dt, id)
-players_db <- group_by(baseball_db, id)
+carriers_df <- group_by(hflights, UniqueCarrier)
+carriers_dt <- group_by(hflights_dt, UniqueCarrier)
+carriers_db <- group_by(hflights_db, UniqueCarrier)
 # This database has an index on the player id, which is a recommended
 # minimum whenever you're doing group by queries
 ```
@@ -57,24 +59,27 @@ See `?manip` for more details.
 They all work as similarly as possible across the range of data sources.  The main difference is performance:
 
 ```R
-system.time(summarise(players_df, g = mean(g)))
+system.time(summarise(carriers, delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
-#  0.034   0.000   0.034
-system.time(summarise(players_dt, g = mean(g)))
+#  0.010   0.002   0.012 
+system.time(summarise(carriers_dt, delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
-#  0.007   0.000   0.007 
-system.time(summarise(players_db, g = mean(g)))
+#  0.007   0.000   0.008 
+system.time(summarise(carriers_db, delay = mean(ArrDelay)))
+#  user  system elapsed 
+# 0.039   0.000   0.040 
+# Substantially faster on "warm" database
 #   user  system elapsed 
-#  0.029   0.000   0.019 
-```
-
-And note that all methods are substantially faster than plyr:
+# 0.005   0.000   0.005 
+  ```
+All methods are substantially faster than plyr:
 
 ```R
 library(plyr)
-system.time(ddply(baseball, "id", summarise, g = mean(g)))
+system.time(ddply(hflights, "UniqueCarrier", summarise, 
+  delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
-#  0.401   0.009   0.411 
+#  0.527   0.078   0.604 
 ```
 
 ### `do()`
