@@ -56,6 +56,30 @@ lahman <- function(path = NULL) {
   src
 }
 
+#' Create a database version of the hflights database
+#' 
+#' @inheritParams lahman
+#' @export
+#' @keywords internal
+hflights_db <- function(path = NULL) {
+  if (!is.null(con_cache$hflights)) return(con_cache$hflights)
+  
+  path <- db_location(path, "hflights.sqlite")
+  
+  if (!file.exists(path)) {
+    message("Caching hflights db at ", path)
+    
+    src <- src_sqlite(path, create = TRUE)
+    tbl <- copy_to(src, hflights, temporary = FALSE, 
+      indexes = list("Dest", c("Year", "Month", "DayofMonth"), "UniqueCarrier"))
+  } else {
+    tbl <- tbl_sqlite(path, "hflights")
+  }
+  
+  con_cache$hflights <- tbl    
+  tbl
+}
+
 db_location <- function(path, filename) {
   if (!is.null(path)) {
     if (!is_writeable(path)) stop("Can not write to ", path, call. = FALSE)
