@@ -42,7 +42,7 @@ lahman_db <- function(src, index = TRUE, quiet = FALSE) {
 lahman <- function(path = NULL) {
   if (!is.null(con_cache$lahman)) return(con_cache$lahman)
   
-  path <- db_location(path, "lahman.db")
+  path <- db_location(path, "lahman.sqlite")
 
   if (!file.exists(path)) {
     message("Caching Lahman db at ", path)
