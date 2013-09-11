@@ -55,7 +55,6 @@ Collate:
     'tbl.r'
     'src-sqlite.r'
     'src.r'
-    'lahman-db.r'
     'join.r'
     'query.r'
     'compound.R'
@@ -66,3 +65,4 @@ Collate:
     'compute-collect.r'
     'semi-join.r'
     'sql-star.r'
+    'data.r'
