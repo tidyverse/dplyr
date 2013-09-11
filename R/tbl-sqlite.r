@@ -44,7 +44,7 @@
 #' }
 #' 
 #' # Here we'll use the built-in Lahman database
-#' batting <- tbl(lahman(), "Batting")
+#' batting <- tbl(src_lahman(), "Batting")
 #' dim(batting)
 #' colnames(batting)
 #' head(batting)

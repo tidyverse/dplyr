@@ -32,17 +32,17 @@ semi_join <- function(x, y, by = NULL, anti = FALSE, copy = FALSE, ...) {
 #'   Anti joins use \code{WHERE NOT EXISTS} rather than \code{WHERE EXISTS}
 #' @export
 #' @examples
-#' people <- tbl(lahman(), "Master")
+#' people <- tbl(src_lahman(), "Master")
 #' 
 #' # All people in half of fame
-#' hof <- tbl(lahman(), "HallOfFame")
+#' hof <- tbl(src_lahman(), "HallOfFame")
 #' semi_join(people, hof)
 #' 
 #' # All people not in the hall of fame
 #' semi_join(people, hof, anti = TRUE)
 #' 
 #' # Find all managers
-#' manager <- tbl(lahman(), "Managers")
+#' manager <- tbl(src_lahman(), "Managers")
 #' semi_join(people, manager)
 #' 
 #' # Find all managers in hall of fame

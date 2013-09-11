@@ -1,23 +1,37 @@
-#' Create a database version of the Lahman baseball database.
-#' 
-#' \code{lahman_db} creates a copy of the Lahman baseball database in the 
-#' database src of your choice. \code{lahman} creates a cached version of the
-#' Lahman database in a standard location for use in examples.
+#' Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.
 #' 
 #' This creates an interesting database using data from the Lahman baseball
 #' data source, provided by Sean Lahman at 
 #' \url{http://www.seanlahman.com/baseball-archive/statistics/}, and
 #' made easily available in R through the \pkg{Lahman} package by
-#' Michael Friendly, Dennis Murphy and Martin Monkman.
+#' Michael Friendly, Dennis Murphy and Martin Monkman. See the documentation
+#' for that package for documentation of the inidividual tables.
 #' 
-#' @param src a data source with write access
+#' @param path location to look for and cache database. If \code{NULL}, the 
+#'   default, will first try storing in the installed package directory, and
+#'   if that isn't writeable, a temporary directory.
 #' @export
 #' @examples
-#' \dontrun{
-#' db <- src_sqlite("~/desktop/lahman.sqlite", create = TRUE)
-#' lahman_db(db)
-#' }
-lahman_db <- function(src, index = TRUE, quiet = FALSE) {
+#' src_lahman()
+#' batting <- tbl(src_lahman(), "Batting")
+#' batting
+src_lahman <- function(path = NULL) {
+  if (!is.null(con_cache$lahman)) return(con_cache$lahman)
+  
+  path <- db_location(path, "lahman.sqlite")
+
+  if (!file.exists(path)) {
+    message("Caching Lahman db at ", path)
+    src <- src_sqlite(path, create = TRUE)
+    cache_lahman(src, quiet = TRUE)
+  } else {
+    src <- src_sqlite(path)
+  }
+  
+  con_cache$lahman <- src    
+  src
+}
+cache_lahman <- function(src, index = TRUE, quiet = FALSE) {
   if (!require("Lahman")) {
     stop("Please install the Lahman package", call. = FALSE)
   }
@@ -37,25 +51,6 @@ lahman_db <- function(src, index = TRUE, quiet = FALSE) {
   invisible(TRUE)
 }
 
-#' @export
-#' @rdname lahman_db
-lahman <- function(path = NULL) {
-  if (!is.null(con_cache$lahman)) return(con_cache$lahman)
-  
-  path <- db_location(path, "lahman.sqlite")
-
-  if (!file.exists(path)) {
-    message("Caching Lahman db at ", path)
-    src <- src_sqlite(path, create = TRUE)
-    lahman_db(src, quiet = TRUE)
-  } else {
-    src <- src_sqlite(path)
-  }
-  
-  con_cache$lahman <- src    
-  src
-}
-
 #' Houston flights data
 #' 
 #' This dataset contains all flights departing from Houston airports IAH
@@ -63,6 +58,9 @@ lahman <- function(path = NULL) {
 #' from the Research and Innovation Technology Administration at the 
 #' Bureau of Transporation statistics:
 #' \url{http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0}
+#' 
+#' \code{src_hflights} caches a SQLite version of the data in a standard
+#' location for use in examples.
 #' 
 #' @section Variables:
 #' 
@@ -91,14 +89,17 @@ lahman <- function(path = NULL) {
 #' @name hflights
 #' @usage hflights
 #' @format A data frame with 227,496 rows and 21 columns.
+#' @examples
+#' head(hflights)
+#' 
+#' hflight_db <- tbl(src_hflights(), "hflights")
+#' hflight_db
 NULL
 
-#' Create a database version of the hflights database
-#' 
 #' @inheritParams lahman
 #' @export
-#' @keywords internal
-hflights_db <- function(path = NULL) {
+#' @rdname hflights
+src_hflights <- function(path = NULL) {
   if (!is.null(con_cache$hflights)) return(con_cache$hflights)
   
   path <- db_location(path, "hflights.sqlite")
@@ -107,14 +108,14 @@ hflights_db <- function(path = NULL) {
     message("Caching hflights db at ", path)
     
     src <- src_sqlite(path, create = TRUE)
-    tbl <- copy_to(src, hflights, temporary = FALSE, 
+    copy_to(src, hflights, temporary = FALSE, 
       indexes = list("Dest", c("Year", "Month", "DayofMonth"), "UniqueCarrier"))
   } else {
-    tbl <- tbl_sqlite(path, "hflights")
+    src <- src_sqlite(path)
   }
   
-  con_cache$hflights <- tbl    
-  tbl
+  con_cache$hflights <- src
+  src
 }
 
 db_location <- function(path, filename) {

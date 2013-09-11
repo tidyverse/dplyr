@@ -22,8 +22,7 @@ src_tbls(my_db)
 }
 
 # A "built"-in dataset
-lahman()
-src_tbls(lahman())
+src_lahman()
 
 # You can create a new sqlite database at any location if you set
 # create = TRUE

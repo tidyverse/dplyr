@@ -1,8 +1,12 @@
 \docType{data}
 \name{hflights}
 \alias{hflights}
+\alias{src_hflights}
 \title{Houston flights data}
 \format{A data frame with 227,496 rows and 21 columns.}
+\usage{
+  src_hflights(path = NULL)
+}
 \description{
   This dataset contains all flights departing from Houston
   airports IAH (George Bush Intercontinental) and HOU
@@ -10,6 +14,10 @@
   Innovation Technology Administration at the Bureau of
   Transporation statistics:
   \url{http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0}
+}
+\details{
+  \code{src_hflights} caches a SQLite version of the data
+  in a standard location for use in examples.
 }
 \section{Variables}{
   \itemize{ \item \code{Year}, \code{Month},
@@ -32,6 +40,12 @@
   cancellation: A = carrier, B = weather, C = national air
   system, D = security \item \code{Diverted}: diverted
   indicator: 1 = Yes, 0 = No }
+}
+\examples{
+head(hflights)
+
+hflight_db <- tbl(src_hflights(), "hflights")
+hflight_db
 }
 \keyword{datasets}
 

@@ -39,8 +39,8 @@
   Join SQLite tbls.
 }
 \examples{
-batting <- tbl(lahman(), "Batting")
-team_info <- select(tbl(lahman(), "Teams"), yearID, lgID, teamID, G, R:H)
+batting <- tbl(src_lahman(), "Batting")
+team_info <- select(tbl(src_lahman(), "Teams"), yearID, lgID, teamID, G, R:H)
 
 # Combine player and whole team statistics
 first_stint <- select(filter(batting, stint == 1), playerID:H)

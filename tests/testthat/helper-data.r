@@ -28,7 +28,7 @@ clone_tbls <- function(df) {
 }
 
 baseball_tbls <- function() {
-  sql <- tbl(lahman(), "Batting")
+  sql <- tbl(src_lahman(), "Batting")
   df <- collect(sql)
   dt <- tbl_dt(df)
 

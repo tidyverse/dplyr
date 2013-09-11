@@ -10,7 +10,7 @@
 #' @param tbl an sql based table to explain.
 #' @export
 #' @examples
-#' batting <- tbl(lahman(), "Batting")
+#' batting <- tbl(src_lahman(), "Batting")
 #' 
 #' # Note that you have to do something that actually triggers a query
 #' # inside the explain function

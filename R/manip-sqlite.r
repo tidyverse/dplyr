@@ -44,7 +44,7 @@
 #' @param .data an SQLite data tbl
 #' @param ... variables interpreted in the context of \code{.data}
 #' @examples
-#' batting <- tbl(lahman(), "Batting")
+#' batting <- tbl(src_lahman(), "Batting")
 #'
 #' # filter, select and arrange lazily modify the specification of the table
 #' # they don't execute queries unless you print them

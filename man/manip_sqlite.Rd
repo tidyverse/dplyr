@@ -83,7 +83,7 @@
   output with one level of grouping peeled off. }
 }
 \examples{
-batting <- tbl(lahman(), "Batting")
+batting <- tbl(src_lahman(), "Batting")
 
 # filter, select and arrange lazily modify the specification of the table
 # they don't execute queries unless you print them

@@ -17,7 +17,7 @@
   the individual database implementation.
 }
 \examples{
-l <- lahman()
+l <- src_lahman()
 q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'")
 q$vars()
 q$nrows()

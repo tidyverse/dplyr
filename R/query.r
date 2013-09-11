@@ -10,7 +10,7 @@
 #' @param sql a string containing an sql query.
 #' @export
 #' @examples
-#' l <- lahman()
+#' l <- src_lahman()
 #' q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'")
 #' q$vars()
 #' q$nrows()
