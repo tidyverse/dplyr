@@ -125,7 +125,8 @@ sql_env <- function(expr, variant_env) {
   # Existing symbols in expression
   names <- all_names(expr)
   name_env <- ceply(names, ident, parent = special_calls)
-
+  name_env$`*` <- sql("*")
+  
   # Known latex expressions
   symbol_env <- copy_env(senv, parent = name_env)
   symbol_env

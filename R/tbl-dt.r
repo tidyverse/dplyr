@@ -34,6 +34,11 @@ groups.tbl_dt <- function(x) {
   NULL
 }
 
+#' @S3method ungroup grouped_dt
+ungroup.tbl_dt <- function(x) {
+  x
+}
+
 # Standard data frame methods --------------------------------------------------
 
 #' Coerce data table to tbl.

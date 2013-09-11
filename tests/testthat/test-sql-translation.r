@@ -3,9 +3,9 @@ context("SQL translation")
 test <- src_sqlite(tempfile(), create = TRUE)
 
 eval_sql <- function(expr) {
-  select <- trans_sqlite(expr, .data, parent.frame())
+  select <- trans_sqlite(list(expr), .data, parent.frame())
   sql <- build_sql("SELECT ", select)
-  query(test$con, sql)$fetch_df()[[1]]
+  fetch_sql_df(test$con, sql)[[1]]
 }
 
 expect_same_in_sql <- function(expr) {

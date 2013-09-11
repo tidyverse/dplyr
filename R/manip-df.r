@@ -92,7 +92,9 @@ arrange.tbl_df <- function(.data, ...) {
 #' @method select data.frame
 select.data.frame <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-  .data[, input, drop = FALSE]
+  input_vars <- vapply(input, as.character, character(1))
+  
+  .data[, input_vars, drop = FALSE]
 }
 
 #' @S3method select tbl_df

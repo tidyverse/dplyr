@@ -12,9 +12,7 @@ trans_sqlite <- function(x, data, env = NULL) {
   if (!is.null(env)) {
     x <- partial_eval(x, data, env)
   }
-  if (is.list(x)) {
-    sql(vapply(x, to_sql_q, variant = sqlite_sql, FUN.VALUE = character(1)))
-  } else {
-    sql(to_sql_q(x, sqlite_sql))
-  }
+
+  pieces <- lapply(x, to_sql_q, variant = sqlite_sql)
+  sql(unlist(pieces))
 }

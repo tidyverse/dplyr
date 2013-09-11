@@ -74,15 +74,15 @@
 #' mutate(players, rbi = 1.0 * R / AB)
 #'
 #' # NB: If you use an aggregation function with mutate
-#' mutate(players, cyear = year - min(year) + 1)
+#' mutate(players, cyear = YearID - min(YearID) + 1)
 #'
 #' # Do arbitrary processing with do ---------------------------------
 #'
 #' # First find teams with a decent number of records
-#' by_team <- group_by(batting, TeamID)
+#' by_team <- group_by(batting, teamID)
 #' sizes <- summarise(by_team, freq = count())
 #' not_small <- filter(sizes, freq > 10)
-#' ok <- semi_join(batting, not_small)
+#' ok <- group_by(semi_join(batting, not_small), teamID)
 #' 
 #' # Explore how they have changed over time
 #' mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
@@ -99,8 +99,7 @@ NULL
 #' @export
 #' @method filter tbl_sqlite
 filter.tbl_sqlite <- function(.data, ...) {  
-  input <- partial_eval(dots(...), .data, parent.frame())
-  
+  input <- partial_eval(dots(...), .data, parent.frame())  
   update(.data, where = c(.data$where, input))
 }
 
@@ -108,8 +107,7 @@ filter.tbl_sqlite <- function(.data, ...) {
 #' @export
 #' @method arrange tbl_sqlite
 arrange.tbl_sqlite <- function(.data, ...) {
-  input <- partial_eval(dots(...), .data, parent.frame())
-  
+  input <- partial_eval(dots(...), .data, parent.frame())  
   update(.data, order_by = c(input, .data$order_by))
 }
 
@@ -117,8 +115,7 @@ arrange.tbl_sqlite <- function(.data, ...) {
 #' @export
 #' @method select tbl_sqlite
 select.tbl_sqlite <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  
+  input <- var_eval(dots(...), .data, parent.frame())  
   update(.data, select = ident(input))
 }
 
@@ -126,9 +123,8 @@ select.tbl_sqlite <- function(.data, ...) {
 #' @export
 #' @method summarise tbl_sqlite
 summarise.tbl_sqlite <- function(.data, ...) {
-  new_vars <- trans_sqlite(dots(...), .data, parent.frame())
-  .data <- update(.data, 
-    select = c.sql(.data$select, new_vars, drop_null = TRUE))
+  input <- partial_eval(dots(...), .data, parent.frame())
+  .data <- update(.data, select = remove_star(c(input, .data$select)))
   
   update(
     collapse(.data),
@@ -140,10 +136,8 @@ summarise.tbl_sqlite <- function(.data, ...) {
 #' @export
 #' @method mutate tbl_sqlite
 mutate.tbl_sqlite <- function(.data, ...) {
-  old_vars <- .data$select %||% sql("*")
-  new_vars <- trans_sqlite(dots(...), .data, parent.frame())
-  
-  update(.data, select = c(old_vars, new_vars))
+  input <- partial_eval(dots(...), .data, parent.frame())  
+  update(.data, select = c(.data$select, input))
 }
 
 #' @method do tbl_sqlite
@@ -156,20 +150,21 @@ mutate.tbl_sqlite <- function(.data, ...) {
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
 do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
-  group_by <- trans_sqlite(.data$group_by)
+  group_by <- .data$group_by
+  if (is.null(group_by)) stop("No grouping", call. = FALSE)
+
   gvars <- seq_along(group_by)
-  
   # Create data frame of labels.
   labels_tbl <- update(.data, 
-    select = NULL, 
+    select = group_by, 
     order_by = NULL)
   labels <- as.data.frame(labels_tbl)
   
   # Create ungrouped data frame suitable for chunked retrieval
   names(group_by) <- paste0("GRP_", seq_along(group_by))  
   chunky <- update(.data,
-    select = c(group_by, .data$select %||% sql("*")),
-    order_by = c.sql(ident(names(group_by)), .data$order_by, drop_null = TRUE),
+    select = c(group_by, .data$select),
+    order_by = c(unname(group_by), .data$order_by),
     group_by = NULL
   )
     

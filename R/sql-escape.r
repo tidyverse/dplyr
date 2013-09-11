@@ -69,9 +69,15 @@ c.sql <- function(..., drop_null = FALSE) {
   input <- list(...)
   if (drop_null) input <- compact(input)
   
-  out <- unlist(lapply(input, escape))
+  out <- unlist(lapply(input, escape, collapse = NULL))
   sql(out)
 }
+
+#' @S3method unique sql
+unique.sql <- function(x, ...) {
+  sql(NextMethod())
+}
+
 
 setOldClass(c("sql", "character"))
 setOldClass(c("ident", "sql", "character"))

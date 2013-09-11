@@ -113,15 +113,15 @@ arrange(players, PlayerID, desc(YearID))
 mutate(players, rbi = 1.0 * R / AB)
 
 # NB: If you use an aggregation function with mutate
-mutate(players, cyear = year - min(year) + 1)
+mutate(players, cyear = YearID - min(YearID) + 1)
 
 # Do arbitrary processing with do ---------------------------------
 
 # First find teams with a decent number of records
-by_team <- group_by(batting, TeamID)
+by_team <- group_by(batting, teamID)
 sizes <- summarise(by_team, freq = count())
 not_small <- filter(sizes, freq > 10)
-ok <- semi_join(batting, not_small)
+ok <- group_by(semi_join(batting, not_small), teamID)
 
 # Explore how they have changed over time
 mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),

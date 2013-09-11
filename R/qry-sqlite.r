@@ -1,23 +1,32 @@
 #' @S3method qry_select tbl_sqlite
-qry_select.tbl_sqlite <- function(x, select = NULL, from = NULL, where = NULL, 
-                                  group_by = NULL, having = NULL, 
-                                  order_by = NULL, limit = NULL, offset = NULL) {
-  group_by <- group_by %||% trans_sqlite(x$group_by)
-  select <- select %||% x$select
-  if (!is.null(group_by)) {
-    select <- c.sql(group_by, select, drop_null = TRUE)
-    group_by <- ident(var_names(group_by))
+qry_select.tbl_sqlite <- function(x, select = x$select, from = x$table, 
+                                  where = x$where, group_by = x$group_by, 
+                                  having = NULL, order_by = x$order_by, 
+                                  limit = NULL, offset = NULL) {  
+  assert_that(
+    is.lang.list(select), 
+    is.sql(from),
+    is.lang.list(where), 
+    is.lang.list(group_by),
+    is.lang.list(having), 
+    is.lang.list(order_by), 
+    is.null(limit) || (is.numeric(limit) && length(limit) == 1), 
+    is.null(offset) || (is.lang(offset) && length(offset) == 1))
+
+  if (!has_star(select)) {
+    # Can't use unique because it strips names
+    select <- c(group_by, select)
+    select <- select[!duplicated(select)]
   }
-  select <- select %||% sql("*")
   
-  qry_select(x$src,
-    from = x$table,
-    select = select,
-    where = where %||% trans_sqlite(x$where),
-    order_by = order_by %||% trans_sqlite(x$order_by), 
-    group_by = group_by,
-    limit = limit, 
-    offset = offset)
+  select <- trans_sqlite(select)
+  where <- trans_sqlite(where)
+  group_by <- trans_sqlite(group_by)
+  having <- trans_sqlite(having)
+  order_by <- trans_sqlite(order_by)
+  
+  qry_select(x$src, from = from, select = select, where = where, 
+    order_by = order_by, group_by = group_by, limit = limit, offset = offset)
 }
 
 #' @S3method qry_select src_sqlite

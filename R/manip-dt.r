@@ -126,7 +126,9 @@ arrange.tbl_dt <- function(.data, ...) {
 #' @method select data.table
 select.data.table <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-  .data[, input, drop = FALSE, with = FALSE]
+  input_vars <- vapply(input, as.character, character(1))
+
+  .data[, input_vars, drop = FALSE, with = FALSE]
 }
 
 #' @S3method select tbl_dt

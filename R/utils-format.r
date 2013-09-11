@@ -23,6 +23,8 @@ dim_desc <- function(x) {
 #' @rdname dplyr-formatting
 trunc_mat <- function(x, n = NULL) {
   rows <- nrow(x)
+  if (!is.na(rows) && rows == 0) return()
+  
   n <- n %||% if (is.na(rows) || rows > 99) 10L else rows
   
   df <- as.data.frame(head(x, n))

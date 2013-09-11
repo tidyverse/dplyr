@@ -12,10 +12,8 @@
 
   \item{from}{a string giving the table name}
 
-  \item{from,where,group_by,having,order_by,limit,offset}{Select
-  query components. All inputs are \code{\link{escape}}d,
-  so make sure they have been wrapped appropriately with
-  \code{\link{sql}} or \code{\link{ident}}.}
+  \item{where,group_by,having,order_by,limit,offset}{Select
+  query components. All inputs are language objects}
 }
 \value{
   a \code{\link{query}} object
@@ -24,8 +22,8 @@
   Generate a basic SQL \code{SELECT} query.
 }
 \examples{
-qry_select(lahman(), sql("*"), ident("mytable"))
-qry_select(lahman(), sql("*"), ident("mytable"), sql("1 = 0"))
+qry_select(lahman(), list(star()), ident("mytable"))
+qry_select(lahman(), list(star()), ident("mytable"), list(quote(1 == 0)))
 }
 \keyword{internal}
 

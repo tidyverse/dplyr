@@ -66,7 +66,7 @@ tbl_sqlite <- function(path, table) {
 tbl.src_sqlite <- function(src, table, ...) {
   if (!is.sql(table)) {
     if (!has_table(src, table)) {
-      stop("Table ", table, " not found in database ", path, call. = FALSE)
+      stop("Table ", table, " not found in database ", src$path, call. = FALSE)
     }
     
     table <- ident(table)
@@ -74,7 +74,7 @@ tbl.src_sqlite <- function(src, table, ...) {
   
   tbl <- tbl_sql("sqlite", src = src, table = table)
   update(tbl,
-    select = NULL,
+    select = list(star()),
     where = NULL,
     group_by = NULL,
     order_by = NULL
@@ -84,19 +84,14 @@ tbl.src_sqlite <- function(src, table, ...) {
 is_table <- function(x) {
   if (!inherits(x$table, "ident")) return(FALSE)
   
-  is.null(x$select) && is.null(x$where) && is.null(x$group_by) && 
+  identical(x$select, list(star())) && is.null(x$where) && is.null(x$group_by) && 
     is.null(x$order_by)
 }
 
 #' @S3method update tbl_sqlite
 update.tbl_sqlite <- function(object, ...) {
   args <- list(...)
-
-  bad <- setdiff(names(list(...)), c("select", "where", "group_by", "order_by"))
-  if (length(bad) > 0) {
-    stop("Incorrect component names: ", paste0(bad, collapse = ", "), 
-      call. = FALSE)
-  }
+  assert_that(only_has_names(args, c("select", "where", "group_by", "order_by")))
   
   for (nm in names(args)) {
     object[[nm]] <- args[[nm]]
@@ -126,9 +121,12 @@ groups.tbl_sqlite <- function(x) {
 
 #' @S3method group_by tbl_sqlite
 group_by.tbl_sqlite <- function(x, ...) {
-  group_by <- partial_eval(named_dots(...), x, parent.frame())
+  input <- dots(...)
+  if (!all_apply(input, is.name)) {
+    stop("May only group by variable names, not expressions", call. = FALSE)
+  }
   
-  update(x, group_by = c(x$group_by, group_by))
+  update(x, group_by = c(x$group_by, input))
 }
 
 #' @S3method group_size tbl_sqlite
@@ -156,13 +154,13 @@ print.tbl_sqlite <- function(x, ...) {
   }
   cat("\n")
   if (!is.null(x$where)) {
-    cat(wrap("Filter: ", commas(deparse_all(x$where))), "\n")
+    cat(wrap("Filter: ", commas(x$where)), "\n")
   }
   if (!is.null(x$order_by)) {
-    cat(wrap("Arrange: ", commas(deparse_all(x$order_by))), "\n")
+    cat(wrap("Arrange: ", commas(x$order_by)), "\n")
   }
   if (!is.null(x$group_by)) {
-    cat(wrap("Grouped by: ", commas(deparse_all(x$group_by))), "\n")
+    cat(wrap("Grouped by: ", commas(x$group_by)), "\n")
   }
   
   cat("\n")
