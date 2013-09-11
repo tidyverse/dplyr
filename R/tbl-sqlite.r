@@ -28,9 +28,8 @@
 #' you expect.
 #'
 #' @param path,src either path to sqlite database, or \code{src_sqlite} object
-#' @param table name of table in database. This can either be a string 
-#'   representing a table name, or an \code{\link{sql}} string, representing
-#'   a select query or compound join.
+#' @param from Either a string giving the name of table in database, or 
+#'   \code{\link{sql}} described a derived table or compound join.
 #' @param ... other arguments ignored, but needed for compatibility with 
 #'   generic.
 #' @export
@@ -55,24 +54,26 @@
 #' group_size(players)
 #' 
 #' # See examples of data manipulation operations in ?manip_sqlite
-tbl_sqlite <- function(path, table) {
+tbl_sqlite <- function(path, from) {
   src <- src_sqlite(path)
-  tbl(src, table)
+  tbl(src, from)
 }
 
 #' @method tbl src_sqlite
 #' @export
 #' @rdname tbl_sqlite
-tbl.src_sqlite <- function(src, table, ...) {
-  if (!is.sql(table)) {
-    if (!has_table(src, table)) {
-      stop("Table ", table, " not found in database ", src$path, call. = FALSE)
+tbl.src_sqlite <- function(src, from, ...) {
+  assert_that(is.character(from), length(from) == 1)
+  
+  if (!is.sql(from)) {
+    if (!has_table(src, from)) {
+      stop("Table ", from, " not found in database ", src$path, call. = FALSE)
     }
     
-    table <- ident(table)
+    from <- ident(from)
   }
   
-  tbl <- tbl_sql("sqlite", src = src, table = table)
+  tbl <- tbl_sql("sqlite", src = src, from = from)
   update(tbl,
     select = list(star()),
     where = NULL,
@@ -82,7 +83,7 @@ tbl.src_sqlite <- function(src, table, ...) {
 }
 
 is_table <- function(x) {
-  if (!inherits(x$table, "ident")) return(FALSE)
+  if (!inherits(x$from, "ident")) return(FALSE)
   
   identical(x$select, list(star())) && is.null(x$where) && is.null(x$group_by) && 
     is.null(x$order_by)
@@ -147,8 +148,8 @@ as.data.frame.tbl_sqlite <- function(x, row.names = NULL, optional = NULL,
 print.tbl_sqlite <- function(x, ...) {
   cat("Source: SQLite [", x$src$path, "]\n", sep = "")
   
-  if (inherits(x$table, "ident")) {
-    cat(wrap("From: ", x$table, " ", dim_desc(x)))
+  if (inherits(x$from, "ident")) {
+    cat(wrap("From: ", x$from, " ", dim_desc(x)))
   } else {
     cat(wrap("From: <derived table> ", dim_desc(x)))    
   }
@@ -176,7 +177,7 @@ dimnames.tbl_sqlite <- function(x) {
 
 #' @S3method dim tbl_sqlite
 dim.tbl_sqlite <- function(x) {
-  if (!inherits(x$table, "ident")) {
+  if (!inherits(x$from, "ident")) {
     n <- NA
   } else {
     n <- x$query$nrow()

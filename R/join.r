@@ -1,5 +1,8 @@
 #' Join two tbls together
 #' 
+#' Groups are ignored for the purpose of joining, but the result preserves
+#' the grouping of \code{x}.
+#' 
 #' @param x,y tbls to join
 #' @param by a character vector of variables to join by.  If \code{NULL}, the
 #'   default, \code{join} will do a natural join, using all variables with 
@@ -72,7 +75,7 @@ join.tbl_sqlite <- function(x, y, by = NULL, type = "left", copy = FALSE,
     from(y), "\n\n",
     "USING ", lapply(by, ident))
   
-  tbl(x$src, from)
+  update(tbl(x$src, from), group_by = groups(x))
 }
 
 random_table_name <- function(n = 10) {

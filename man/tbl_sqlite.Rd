@@ -3,18 +3,17 @@
 \alias{tbl_sqlite}
 \title{Create an sqlite tbl.}
 \usage{
-  tbl_sqlite(path, table)
+  tbl_sqlite(path, from)
 
-  \method{tbl}{src_sqlite} (src, table, ...)
+  \method{tbl}{src_sqlite} (src, from, ...)
 }
 \arguments{
   \item{path,src}{either path to sqlite database, or
   \code{src_sqlite} object}
 
-  \item{table}{name of table in database. This can either
-  be a string representing a table name, or an
-  \code{\link{sql}} string, representing a select query or
-  compound join.}
+  \item{from}{Either a string giving the name of table in
+  database, or \code{\link{sql}} described a derived table
+  or compound join.}
 
   \item{...}{other arguments ignored, but needed for
   compatibility with generic.}

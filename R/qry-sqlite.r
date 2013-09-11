@@ -1,5 +1,5 @@
 #' @S3method qry_select tbl_sqlite
-qry_select.tbl_sqlite <- function(x, select = x$select, from = x$table, 
+qry_select.tbl_sqlite <- function(x, select = x$select, from = x$from, 
                                   where = x$where, group_by = x$group_by, 
                                   having = NULL, order_by = x$order_by, 
                                   limit = NULL, offset = NULL) {  

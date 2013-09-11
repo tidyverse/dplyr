@@ -1,5 +1,8 @@
 #' Semi joins and anti joins.
 #' 
+#' Groups are ignored for the purpose of joining, but the result preserves
+#' the grouping of \code{x}.
+#' 
 #' A semi join keeps all records from \code{x} that have matching rows in 
 #' \code{y}. An anti-join does the opposite: it preserves all records from 
 #' \code{x} that don't have matching values in \code{y}. Both keep the columns 
@@ -62,5 +65,5 @@ semi_join.tbl_sqlite <- function(x, y, by = NULL, anti = FALSE, copy = FALSE,
     '  WHERE ', join, ')',
   ')')
   
-  tbl(x$src, from)
+  update(tbl(x$src, from), group_by = groups(x))
 }

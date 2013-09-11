@@ -25,13 +25,16 @@
   methods}
 }
 \description{
+  Groups are ignored for the purpose of joining, but the
+  result preserves the grouping of \code{x}.
+}
+\details{
   A semi join keeps all records from \code{x} that have
   matching rows in \code{y}. An anti-join does the
   opposite: it preserves all records from \code{x} that
   don't have matching values in \code{y}. Both keep the
   columns of \code{x}, and don't include any from \code{y}.
-}
-\details{
+
   A semi join differs from an inner join (with just the
   \code{by} variables) because an inner join will return
   one row of \code{x} for each matching row of \code{y},

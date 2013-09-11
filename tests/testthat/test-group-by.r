@@ -20,9 +20,17 @@ test_that("group_by adds to additional groups", {
 test_that("collect and compute preserve grouping", {
   g <- group_by(tbls$sqlite, x, y)
   
-  expect_equal(groups(compute(g)), list(quote(x), quote(y)))
-  expect_equal(groups(collect(g)), list(quote(x), quote(y)))
+  expect_equal(groups(compute(g)), groups(g))
+  expect_equal(groups(collect(g)), groups(g))
 })
+
+test_that("join and semi join preserve grouping", {
+  g <- group_by(tbls$sqlite, x)
+  
+  expect_equal(groups(join(g, g)), groups(g))
+  expect_equal(groups(semi_join(g, g)), groups(g))
+})
+
 
 test_that("collapse drops groups", {
   g <- group_by(tbls$sqlite, x, y)

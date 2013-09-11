@@ -79,10 +79,10 @@
 #' # Do arbitrary processing with do ---------------------------------
 #'
 #' # First find teams with a decent number of records
-#' by_team <- group_by(batting, teamID)
-#' sizes <- summarise(by_team, freq = count())
+#' teams <- group_by(batting, teamID)
+#' sizes <- summarise(teams, freq = count())
 #' not_small <- filter(sizes, freq > 10)
-#' ok <- group_by(semi_join(batting, not_small), teamID)
+#' big_teams <- semi_join(teams, not_small)
 #' 
 #' # Explore how they have changed over time
 #' mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),

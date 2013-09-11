@@ -27,6 +27,7 @@
   methods}
 }
 \description{
-  Join two tbls together
+  Groups are ignored for the purpose of joining, but the
+  result preserves the grouping of \code{x}.
 }
 
