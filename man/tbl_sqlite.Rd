@@ -73,5 +73,10 @@ players <- group_by(batting, id)
 group_size(players)
 
 # See examples of data manipulation operations in ?manip_sqlite
+
+# You can also provide sql as is, using the sql function:
+batting2008 <- tbl(src_lahman(),
+  sql("SELECT * FROM Batting WHERE YearID = 2008"))
+batting2008
 }
 

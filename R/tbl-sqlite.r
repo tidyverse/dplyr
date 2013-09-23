@@ -54,6 +54,11 @@
 #' group_size(players)
 #' 
 #' # See examples of data manipulation operations in ?manip_sqlite
+#' 
+#' # You can also provide sql as is, using the sql function:
+#' batting2008 <- tbl(src_lahman(), 
+#'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
+#' batting2008
 tbl_sqlite <- function(path, from) {
   src <- src_sqlite(path)
   tbl(src, from)
@@ -71,6 +76,8 @@ tbl.src_sqlite <- function(src, from, ...) {
     }
     
     from <- ident(from)
+  } else {
+    from <- sql(paste0("(", from, ")"))
   }
   
   tbl <- tbl_sql("sqlite", src = src, from = from)
