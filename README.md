@@ -44,7 +44,7 @@ carriers_db <- group_by(hflights_db, UniqueCarrier)
 # minimum whenever you're doing group by queries
 ```
 
-## Operations
+## Single table verbs
 
 `dplyr` implements the following verbs useful for data manipulation:
 
@@ -113,14 +113,12 @@ print(object.size(mod1), unit = "MB")
 print(object.size(mod2), unit = "MB")
 ```
 
-### Joins
+### Binary verbs
 
 You can also join data sources: this is currently only supported for SQL, but data frame and data table wrappers will be added in the near future.
 
-* left join
-* right join
 * inner join
-* full join
+* left join
 * semi join
 * anti join
 
