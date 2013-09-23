@@ -115,6 +115,9 @@ has_table <- function(src, table) {
   table %in% src_tbls(src)
 }
 
+random_table_name <- function(n = 10) {
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
+}
 
 auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)

@@ -63,6 +63,6 @@ Collate:
     'qry-sqlite.r'
     'qry.r'
     'compute-collect.r'
-    'semi-join.r'
     'sql-star.r'
     'data.r'
+    'join-sqlite.r'
