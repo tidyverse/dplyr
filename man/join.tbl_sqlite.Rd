@@ -1,16 +1,38 @@
 \name{join.tbl_sqlite}
+\alias{anti_join.tbl_sqlite}
+\alias{inner_join.tbl_sqlite}
 \alias{join.tbl_sqlite}
+\alias{left_join.tbl_sqlite}
+\alias{semi_join.tbl_sqlite}
 \title{Join SQLite tbls.}
 \usage{
-  \method{join}{tbl_sqlite} (x, y, by = NULL,
-    type = "left", copy = FALSE, auto_index = FALSE, ...)
+  \method{inner_join}{tbl_sqlite} (x, y, by = NULL,
+    copy = FALSE, auto_index = FALSE, ...)
+
+  \method{left_join}{tbl_sqlite} (x, y, by = NULL,
+    copy = FALSE, auto_index = FALSE, ...)
+
+  \method{semi_join}{tbl_sqlite} (x, y, by = NULL,
+    copy = FALSE, auto_index = FALSE, ...)
+
+  \method{anti_join}{tbl_sqlite} (x, y, by = NULL,
+    copy = FALSE, auto_index = FALSE, ...)
 }
 \arguments{
+  \item{x,y}{tbls to join}
+
+  \item{by}{a character vector of variables to join by.  If
+  \code{NULL}, the default, \code{join} will do a natural
+  join, using all variables with common names across the
+  two tables. A message lists the variables so that you can
+  check they're right - to suppress the message, supply a
+  character vector.}
+
   \item{copy}{If \code{x} and \code{y} are not from the
   same data source, and \code{copy} is \code{TRUE}, then
   \code{y} will be copied into a temporary table in same
   database as \code{x}. \code{join} will automatically run
-  \code{ANALYSE} on the created table in the hope that this
+  \code{ANALYZE} on the created table in the hope that this
   will make you queries as efficient as possible by giving
   more data to the query planner.
 
@@ -20,31 +42,28 @@
   \item{auto_index}{if \code{copy} is \code{TRUE},
   automatically create indices for the variables in
   \code{by}. This may speed up the join if there are
-  matching indices in \code{x}.}
+  matching indexes in \code{x}.}
 
-  \item{by}{a character vector of variables to join by.  If
-  \code{NULL}, the default, \code{join} will do a natural
-  join, using all variables with common names across the
-  two tables. A message lists the variables so that you can
-  check they're right.}
-
-  \item{type}{a string giving the join type. Possible
-  values are left (the default), right, full and inner. Not
-  all types will be supported by all tbls.}
-
-  \item{...}{other parameters passed onto individual
-  methods}
+  \item{...}{other parameters passed onto methods}
 }
 \description{
   Join SQLite tbls.
 }
+\section{Implementation notes}{
+  Semi-joins are implemented using \code{WHERE EXISTS}, and
+  anti-joins with \code{WHERE NOT EXISTS}. Support for
+  semi-joins is somewhat partial: you can only create semi
+  joins where the \code{x} and \code{y} columns are
+  compared with \code{=} not with more general operators.
+}
 \examples{
+# Left joins ----------------------------------------------------------------
 batting <- tbl(src_lahman(), "Batting")
 team_info <- select(tbl(src_lahman(), "Teams"), yearID, lgID, teamID, G, R:H)
 
 # Combine player and whole team statistics
 first_stint <- select(filter(batting, stint == 1), playerID:H)
-both <- join(first_stint, team_info, type = "inner", by = c("yearID", "teamID", "lgID"))
+both <- left_join(first_stint, team_info, type = "inner", by = c("yearID", "teamID", "lgID"))
 head(both)
 explain_tbl(both)
 
@@ -52,12 +71,37 @@ explain_tbl(both)
 grid <- expand.grid(
   teamID = c("WAS", "ATL", "PHI", "NYA"),
   yearID = 2010:2012)
-top4a <- join(batting, grid, copy = TRUE, type = "inner")
+top4a <- left_join(batting, grid, copy = TRUE, type = "inner")
 explain_tbl(top4a)
 
 # Indices don't really help here because there's no matching index on
 # batting
-top4b <- join(batting, grid, copy = TRUE, type = "inner", auto_index = TRUE)
+top4b <- left_join(batting, grid, copy = TRUE, type = "inner", auto_index = TRUE)
 explain_tbl(top4b)
+
+# Semi-joins ----------------------------------------------------------------
+
+people <- tbl(src_lahman(), "Master")
+
+# All people in half of fame
+hof <- tbl(src_lahman(), "HallOfFame")
+semi_join(people, hof)
+
+# All people not in the hall of fame
+semi_join(people, hof, anti = TRUE)
+
+# Find all managers
+manager <- tbl(src_lahman(), "Managers")
+semi_join(people, manager)
+
+# Find all managers in hall of fame
+famous_manager <- semi_join(semi_join(people, manager), hof)
+famous_manager
+explain_tbl(famous_manager)
+
+# Anti-joins ----------------------------------------------------------------
+
+# batters without person covariates
+anti_join(batting, people)
 }
 

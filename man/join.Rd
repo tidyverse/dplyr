@@ -1,8 +1,18 @@
 \name{join}
+\alias{anti_join}
+\alias{inner_join}
 \alias{join}
-\title{Join two tbls together}
+\alias{left_join}
+\alias{semi_join}
+\title{Join two tbls together.}
 \usage{
-  join(x, y, by = NULL, type = "left", copy = FALSE, ...)
+  inner_join(x, y, by = NULL, copy = FALSE, ...)
+
+  left_join(x, y, by = NULL, copy = FALSE, ...)
+
+  semi_join(x, y, by = NULL, copy = FALSE, ...)
+
+  anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
   \item{x,y}{tbls to join}
@@ -13,20 +23,46 @@
   two tables. A message lists the variables so that you can
   check they're right.}
 
-  \item{type}{a string giving the join type. Possible
-  values are left (the default), right, full and inner. Not
-  all types will be supported by all tbls.}
-
   \item{copy}{If \code{x} and \code{y} are not from the
   same data source, and \code{copy} is \code{TRUE}, then
   \code{y} will be copied into the same src as \code{x}.
   This allows you to join tables across srcs, but it is a
   potentially expensive operation so you must opt into it.}
 
-  \item{...}{other parameters passed onto individual
-  methods}
+  \item{...}{other parameters passed onto methods}
 }
 \description{
+  These are generic functions that dispatch to individual
+  tbl methods - see the method documentation for details of
+  individual data sources. \code{x} and \code{y} should
+  usually be from the same data source, but if \code{copy}
+  is \code{TRUE}, \code{y} will automatically be copied to
+  the same source as \code{x} - this may be an expensive
+  operation.
+}
+\section{Join types}{
+  Currently dplyr supports four join types:
+
+  \itemize{ \code{inner_join}: return all rows from x where
+  there are matching values in y, and all columns from x
+  and y
+
+  \code{left_join}: return all rows from x, and all columns
+  from x and y
+
+  \code{semi_join}: return all rows from x where there are
+  matching values in y, keeping just columns from x.
+
+  \code{anti_join}: return all rows from x where there are
+  not matching values in y, keeping just columns from x }
+
+  A semi join differs from an inner join (with just the
+  \code{by} variables) because an inner join will return
+  one row of \code{x} for each matching row of \code{y},
+  where a semi join will never duplicated rows in \code{x}.
+}
+
+\section{Grouping}{
   Groups are ignored for the purpose of joining, but the
   result preserves the grouping of \code{x}.
 }

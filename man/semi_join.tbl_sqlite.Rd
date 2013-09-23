@@ -22,8 +22,7 @@
   This allows you to join tables across srcs, but it is a
   potentially expensive operation so you must opt into it.}
 
-  \item{...}{other parameters passed onto individual
-  methods}
+  \item{...}{other parameters passed onto methods}
 
   \item{auto_index}{if \code{copy} is \code{TRUE},
   automatically create indices for the variables in
