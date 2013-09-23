@@ -96,7 +96,6 @@ cache_lahman <- function(src, index = TRUE, quiet = FALSE) {
 #' hflight_db
 NULL
 
-#' @inheritParams lahman
 #' @export
 #' @rdname hflights
 src_hflights <- function(path = NULL) {
