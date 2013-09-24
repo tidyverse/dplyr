@@ -39,6 +39,12 @@ ungroup.tbl_dt <- function(x) {
   x
 }
 
+#' @S3method same_src tbl_dt
+same_src.tbl_dt <- function(x, y) {
+  data.table::is.data.table(y)
+}
+
+
 # Standard data frame methods --------------------------------------------------
 
 #' Coerce data table to tbl.

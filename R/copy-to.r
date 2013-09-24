@@ -126,6 +126,17 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
     stop("x and y don't share the same src. Set copy = TRUE to copy y into ", 
       "x's source (this may be time consuming).", call. = FALSE)
   }
-    
+  
+  UseMethod("auto_copy")
   copy_to(x$src, as.data.frame(y), random_table_name(), ...)
 } 
+
+#' @S3method auto_copy tbl_sqlite
+auto_copy.tbl_sqlite <- function(x, y, copy = FALSE, ...) {
+  copy_to(x$src, as.data.frame(y), random_table_name(), ...)
+}
+
+#' @S3method auto_copy tbl_dt
+auto_copy.tbl_dt <- function(x, y, copy = FALSE, ...) {
+  as.data.table(as.data.frame(y))
+}

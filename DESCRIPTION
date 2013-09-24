@@ -66,3 +66,4 @@ Collate:
     'sql-star.r'
     'data.r'
     'join-sqlite.r'
+    'join-dt.r'
