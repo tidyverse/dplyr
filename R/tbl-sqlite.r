@@ -13,7 +13,10 @@
 #' plans is relatively easy to make sense of and is explained at
 #' \url{http://www.sqlite.org/eqp.html}. You may also find the explanation of
 #' how SQL indices works to be helpful:
-#' \url{http://www.sqlite.org/queryplanner.html}.
+#' \url{http://www.sqlite.org/queryplanner.html}. I also found 
+#' \url{http://tech.pro/tutorial/1555/10-easy-steps-to-a-complete-understanding-of-sql} 
+#' very useful for understanding how declarative SQL is translated into 
+#' actual computations.
 #'
 #' @section Grouping:
 #' 
