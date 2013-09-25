@@ -14,7 +14,8 @@
 #' as.tbl(mtcars)
 tbl_df <- function(data) {
   assert_that(is.data.frame(data))
-
+  if (is.grouped_df(data)) return(ungroup(data))
+  
   class(data) <- c("tbl_df", "tbl", class(data))
   data
 }
