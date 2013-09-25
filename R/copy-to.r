@@ -128,7 +128,6 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   }
   
   UseMethod("auto_copy")
-  copy_to(x$src, as.data.frame(y), random_table_name(), ...)
 } 
 
 #' @S3method auto_copy tbl_sqlite
