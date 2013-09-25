@@ -11,7 +11,6 @@
 #'   a character vector.
 #' @param copy If \code{y} is not a data table or \code{\link{tbl_dt}} and
 #'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data table.
-#' @export
 #' @examples
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")

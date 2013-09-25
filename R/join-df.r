@@ -12,7 +12,6 @@
 #'   a character vector.
 #' @param copy If \code{y} is not a data frame or \code{\link{tbl_df}} and
 #'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data frame
-#' @export
 #' @examples
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")

@@ -29,7 +29,6 @@
 #' @param auto_index if \code{copy} is \code{TRUE}, automatically create 
 #'   indices for the variables in \code{by}. This may speed up the join if
 #'   there are matching indexes in \code{x}.
-#' @export
 #' @examples
 #' # Left joins ----------------------------------------------------------------
 #' batting <- tbl(src_lahman(), "Batting")
