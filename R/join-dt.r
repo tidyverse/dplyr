@@ -62,9 +62,9 @@ left_join.tbl_dt  <- join_dt(merge(x, y, by = by, all.x = TRUE, allow.cartesian 
 #' @export
 #' @rdname join.tbl_dt
 semi_join.tbl_dt  <- join_dt({
+  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table
   w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
   w <- w[!is.na(w)]
-  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table
   x[w]
 })
 #' @export
