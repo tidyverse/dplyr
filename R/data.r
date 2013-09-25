@@ -1,3 +1,6 @@
+# Environment for caching connections etc
+cache <- new.env(parent = emptyenv())
+
 #' Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.
 #' 
 #' This creates an interesting database using data from the Lahman baseball
@@ -16,7 +19,7 @@
 #' batting <- tbl(src_lahman(), "Batting")
 #' batting
 src_lahman <- function(path = NULL) {
-  if (!is.null(con_cache$lahman)) return(con_cache$lahman)
+  if (!is.null(cache$lahman)) return(cache$lahman)
   
   path <- db_location(path, "lahman.sqlite")
 
@@ -28,7 +31,7 @@ src_lahman <- function(path = NULL) {
     src <- src_sqlite(path)
   }
   
-  con_cache$lahman <- src    
+  cache$lahman <- src    
   src
 }
 cache_lahman <- function(src, index = TRUE, quiet = FALSE) {
@@ -99,7 +102,7 @@ NULL
 #' @export
 #' @rdname hflights
 src_hflights <- function(path = NULL) {
-  if (!is.null(con_cache$hflights)) return(con_cache$hflights)
+  if (!is.null(cache$hflights)) return(cache$hflights)
   
   path <- db_location(path, "hflights.sqlite")
   
@@ -113,7 +116,7 @@ src_hflights <- function(path = NULL) {
     src <- src_sqlite(path)
   }
   
-  con_cache$hflights <- src
+  cache$hflights <- src
   src
 }
 
@@ -136,5 +139,12 @@ is_writeable <- function(x) {
   unname(file.access(x, 2) == 0)
 }
 
-con_cache <- new.env(parent = emptyenv())
-con_cache$lahman <- NULL
+src_tmp <- function() {
+  if (is.null(cache$temp_sqlite_src)) {
+    path <- tempfile(fileext = ".sqlite3")
+    cache$temp_sqlite_src <- src_sqlite(path, create = TRUE)
+  }
+  
+  cache$temp_sqlite_src
+}
+
