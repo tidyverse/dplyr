@@ -55,10 +55,12 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   y.cols <- setdiff(names(y), by)
   
   ids <- join_ids(keys)
-  cbind(
+  out <- cbind(
     x[ids$x,       , drop = FALSE], 
     y[ids$y, y.cols, drop = FALSE]
   )
+  attr(out, "row.names") <- .set_row_names(nrow(out))
+  out
 }
 
 #' @method left_join tbl_df
@@ -80,10 +82,12 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   y.cols <- setdiff(names(y), by)
   
   ids <- join_ids(keys, all = TRUE)
-  cbind(
+  out <- cbind(
     x[ids$x,       , drop = FALSE], 
     y[ids$y, y.cols, drop = FALSE]
   )
+  attr(out, "row.names") <- .set_row_names(nrow(out))
+  out
 }
 
 #' @method semi_join tbl_df
