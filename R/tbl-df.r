@@ -27,6 +27,12 @@ as.tbl.data.frame <- function(x, ...) {
 #' @S3method tbl_vars data.frame
 tbl_vars.data.frame <- function(x) names(x)
 
+
+#' @S3method same_src data.frame
+same_src.data.frame <- function(x, y) {
+  is.data.frame(y)
+}
+
 # Standard data frame methods --------------------------------------------------
 
 #' @S3method as.data.frame tbl_df

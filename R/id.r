@@ -58,8 +58,6 @@ id <- function(.variables, drop = FALSE) {
   }
 }
 
-#' Numeric id for a vector.
-#' @keywords internal
 id_var <- function(x, drop = FALSE) {
   if (length(x) == 0) return(structure(integer(), n = 0L))
   if (!is.null(attr(x, "n")) && !drop) return(x)

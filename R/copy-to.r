@@ -140,3 +140,8 @@ auto_copy.tbl_sqlite <- function(x, y, copy = FALSE, ...) {
 auto_copy.tbl_dt <- function(x, y, copy = FALSE, ...) {
   as.data.table(as.data.frame(y))
 }
+
+#' @S3method auto_copy tbl_df
+auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
+  as.data.frame(y)
+}
