@@ -24,11 +24,15 @@ test_that("collect and compute preserve grouping", {
   expect_equal(groups(collect(g)), groups(g))
 })
 
-test_that("join and semi join preserve grouping", {
-  g <- group_by(tbls$sqlite, x)
-  
-  expect_equal(groups(join(g, g)), groups(g))
-  expect_equal(groups(semi_join(g, g)), groups(g))
+test_that("joins preserve grouping", {
+  for (tbl in tbls) {
+    g <- group_by(tbl, x)
+    
+    expect_equal(groups(inner_join(g, g)), groups(g))
+    expect_equal(groups(left_join(g, g)), groups(g))
+    expect_equal(groups(semi_join(g, g)), groups(g))
+    expect_equal(groups(anti_join(g, g)), groups(g))    
+  }
 })
 
 
