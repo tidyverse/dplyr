@@ -41,7 +41,7 @@ join_dt <- function(op) {
   template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {
     by <- by %||% common_by(x, y)
     y <- auto_copy(x, y, copy = copy)
-
+    
     setkeyv(x, by)
     setkeyv(y, by)
     out <- op

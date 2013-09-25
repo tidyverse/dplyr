@@ -8,9 +8,12 @@
 #' @param vars a list of quoted variables.
 #' @export
 #' @examples
-#' hflights_dt <- data.table(hflights)
+#' hflights_dt <- tbl_dt(hflights)
 #' group_size(group_by(hflights_dt, Year, Month, DayofMonth))
 #' group_size(group_by(hflights_dt, Dest))
+#' 
+#' monthly <- group_by(hflights_dt, Month)
+#' summarise(monthly, n = n(), delay = mean(ArrDelay))
 grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
@@ -22,13 +25,12 @@ grouped_dt <- function(data, vars) {
   }
   setkeyv(data, deparse_all(vars))
 
-  data <- list(obj = data, vars = vars)
-  structure(data, class = c("grouped_dt", "tbl_dt", "tbl"))
+  structure(data, vars = vars, class = c("grouped_dt", "tbl_dt", "tbl", class(data)))
 }
 
 #' @S3method groups grouped_dt
 groups.grouped_dt <- function(x) {
-  x$vars
+  attr(x, "vars")
 }
 
 #' @rdname grouped_dt
@@ -41,12 +43,12 @@ print.grouped_dt <- function(x, ...) {
   cat("Source: local data table ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
-  trunc_mat(x$obj)
+  trunc_mat(x)
 }
 
 #' @S3method group_size grouped_dt
 group_size.grouped_dt <- function(x) {
-  summarise(x, n = .N)$obj$n
+  summarise(x, n = .N)$n
 }
 
 #' @method group_by data.table
@@ -69,11 +71,12 @@ group_by.tbl_dt <- function(x, ...) {
 #' @S3method group_by grouped_dt
 group_by.grouped_dt <- function(x, ...) {
   vars <- dots(...)
-  grouped_dt(x$obj, c(groups(x), vars))
+  grouped_dt(x, c(groups(x), vars))
 }
 
 #' @S3method ungroup grouped_dt
 ungroup.grouped_dt <- function(x) {
-  tbl_dt(x$obj)
+  attr(x, "vars") <- NULL
+  class(x) <- setdiff(class(x), "grouped_dt")
+  x
 }
-

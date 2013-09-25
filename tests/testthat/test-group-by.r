@@ -35,10 +35,15 @@ test_that("joins preserve grouping", {
   }
 })
 
-
 test_that("collapse drops groups", {
   g <- group_by(tbls$sqlite, x, y)
   
   expect_equal(groups(collapse(g)), NULL)  
 })
 
+test_that("constructors drops groups", {
+  players <- players_tbls()
+  
+  expect_equal(groups(tbl_dt(players$dt)), NULL)
+  expect_equal(groups(tbl_df(players$df)), NULL)
+})

@@ -92,7 +92,8 @@ ungroup.grouped_df <- function(x) {
   attr(x, "labels") <- NULL
   attr(x, "drop") <- NULL
 
-  tbl_df(x)
+  class(x) <- setdiff(class(x), "grouped_df")
+  x
 }
 
 make_view <- function(x, env = parent.frame()) {

@@ -6,10 +6,10 @@
 #'   prior to modification to avoid changes propagating via reference.
 #' @examples
 #' if (require("data.table")) {
-#' hlights2 <- tbl_dt(hlights)
+#' hflights2 <- tbl_dt(hflights)
 #' by_dest <- group_by(hflights2, Dest)
 #
-#' filter(by_dest, ArrDelay == max(ArrDelay))
+#' filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
 #' summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
 #' 
 #' # Normalise arrival and departure delays by airport
@@ -36,18 +36,25 @@ NULL
 #' @export
 #' @method filter grouped_dt
 filter.grouped_dt <- function(.data, ...) {
-  expr <- and_expr(dots(...))
+  # Set keys, if needed
+  keys <- deparse_all(groups(.data))
+  if (!identical(keys, key(.data))) {
+    setkeyv(.data, keys)
+  }
 
   env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- .data$obj
-  env$vars <- deparse_all(.data$vars)
+  env$data <- .data
+  env$vars <- deparse_all(groups(.data))
 
-  call <- substitute(data[data[, .I[expr], by = vars]$V1])
-  out <- eval(call, env)
+  # http://stackoverflow.com/questions/16573995/subset-by-group-with-data-table
+  expr <- and_expr(dots(...))
+  call <- substitute(data[, .I[expr], by = vars])
+  indices <- eval(call, env)$V1
+  out <- .data[indices[!is.na(indices)]]
 
   grouped_dt(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
@@ -56,9 +63,9 @@ filter.grouped_dt <- function(.data, ...) {
 #' @method summarise grouped_dt
 summarise.grouped_dt <- function(.data, ...) {
   # Set keys, if needed
-  keys <- deparse_all(.data$vars)
-  if (!identical(keys, key(.data$obj))) {
-    setkeyv(.data$obj, keys)
+  keys <- deparse_all(groups(.data))
+  if (!identical(keys, key(.data))) {
+    setkeyv(.data, keys)
   }
 
   cols <- named_dots(...)
@@ -73,13 +80,13 @@ summarise.grouped_dt <- function(.data, ...) {
   call <- substitute(data[, list_call, by = vars])
 
   env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- .data$obj
+  env$data <- .data
   env$vars <- keys
   out <- eval(call, env)
 
   grouped_dt(
     data = out,
-    vars = .data$vars[-length(.data$vars)]
+    vars = groups(.data)[-length(keys)]
   )
 }
 
@@ -87,11 +94,11 @@ summarise.grouped_dt <- function(.data, ...) {
 #' @export
 #' @method mutate grouped_dt
 mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
-  data <- .data$obj
+  data <- .data
   # Set keys, if needed
-  keys <- deparse_all(.data$vars)
-  if (!identical(keys, key(.data$obj))) {
-    setkeyv(.data$obj, keys)
+  keys <- deparse_all(groups(.data))
+  if (!identical(keys, key(.data))) {
+    setkeyv(.data, keys)
   }
   if (!inplace) data <- copy(data)
 
@@ -109,7 +116,7 @@ mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
 
   grouped_dt(
     data = data,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
@@ -117,19 +124,19 @@ mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
 #' @export
 #' @method arrange grouped_dt
 arrange.grouped_dt <- function(.data, ...) {
-  keys <- deparse_all(.data$vars)
+  keys <- deparse_all(groups(.data))
 
-  order_call <- as.call(c(quote(order), .data$vars, dots(...)))
+  order_call <- as.call(c(quote(order), groups(.data), dots(...)))
   call <- substitute(data[order_call])
 
   env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- .data$obj
+  env$data <- .data
 
   out <- eval(call, env)
 
   grouped_dt(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
@@ -137,23 +144,24 @@ arrange.grouped_dt <- function(.data, ...) {
 #' @export
 #' @method select grouped_dt
 select.grouped_dt <- function(.data, ...) {
-  input <- var_eval(.data$obj, dots(...), parent.frame())
-  out <- .data$obj[, input, drop = FALSE, with = FALSE]
+  input <- var_eval(dots(...), .data, parent.frame())
+  input_vars <- vapply(input, as.character, character(1))
+  out <- .data[, input_vars, drop = FALSE, with = FALSE]
 
   grouped_dt(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
 
 #' @S3method do grouped_dt
 do.grouped_dt <- function(.data, .f, ...) {
-  keys <- deparse_all(.data$vars)
-  setkeyv(.data$obj, keys)
+  keys <- deparse_all(groups(.data))
+  setkeyv(.data, keys)
 
   env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- .data$obj
+  env$data <- .data
   env$vars <- keys
   env$f <- .f
 
