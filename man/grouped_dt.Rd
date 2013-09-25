@@ -29,8 +29,11 @@
   for you.
 }
 \examples{
-hflights_dt <- data.table(hflights)
+hflights_dt <- tbl_dt(hflights)
 group_size(group_by(hflights_dt, Year, Month, DayofMonth))
 group_size(group_by(hflights_dt, Dest))
+
+monthly <- group_by(hflights_dt, Month)
+summarise(monthly, n = n(), delay = mean(ArrDelay))
 }
 

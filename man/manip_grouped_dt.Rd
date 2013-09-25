@@ -32,9 +32,9 @@
 }
 \examples{
 if (require("data.table")) {
-hlights2 <- tbl_dt(hlights)
+hflights2 <- tbl_dt(hflights)
 by_dest <- group_by(hflights2, Dest)
-filter(by_dest, ArrDelay == max(ArrDelay))
+filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
 summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
 
 # Normalise arrival and departure delays by airport
