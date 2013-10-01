@@ -1,19 +1,27 @@
 #' Create a postgres data source
 #' 
-#' This data structure is basically a pointer to an postgres database.
+#' This data structure represents a connection to an existing postgres database.
+#' If you are running a local postgresql database, leave all parameters set as 
+#' their defaults to connect. If you're connecting to a remote database, 
+#' ask your database administrator for the values of these variables.
 #' 
-#' @param path Path to postgres database
-#' @param create if \code{FALSE}, \code{path} must already exist. If 
-#'   \code{TRUE}, will create a new postgres3 database at \code{path}.
+#' @param dbname Database
+#' @param host,port Host name and port number of database
+#' @param user,password User name and password (if needed)
+#' @param options other additional options passed to command line client
+#' @param create if \code{FALSE}, \code{dbname} must already exist. If 
+#'   \code{TRUE}, will create a new postgres - to do this you must either
+#'   be a super user or have the CREATE DB permssion.
 #' @export
 #' @examples
 #' \dontrun{
 #' my_db <- src_postgres()
 #' src_tbls(my_db)
-#' }
 #' 
 #' src_postgres("lahman")
-src_postgres <- function(dbname = "", host = "", user = "", password = "", port = "", options = "", create = FALSE) {
+#' }
+src_postgres <- function(dbname = "", host = "", port = "", user = "", 
+                         password = "", options = "", create = FALSE) {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
