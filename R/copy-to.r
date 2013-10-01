@@ -112,7 +112,7 @@ create_index <- function(x, table, columns, name = NULL, unique = FALSE) {
   name <- name %||% paste0(c(table, columns), collapse = "_")
   
   sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), 
-    " ON ", table, " ", escape(ident(columns), parens = TRUE))
+    " ON ", ident(table), " ", escape(ident(columns), parens = TRUE))
   
   query(x$con, sql)$run()
 }

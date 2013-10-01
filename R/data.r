@@ -38,7 +38,7 @@ cache_lahman <- function(src, index = TRUE, quiet = FALSE) {
   if (!require("Lahman")) {
     stop("Please install the Lahman package", call. = FALSE)
   }
-  
+
   # Get list of all non-label data frames in package
   tables <- data(package = "Lahman")$results[, 3]
   tables <- tables[!grepl("Labels", tables)]

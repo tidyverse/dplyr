@@ -104,8 +104,21 @@ escape.ident <- function(x, parens = FALSE, collapse = ", ") {
   sql_vector(names_to_as(y), parens, collapse)
 }
 
-#' @S3method escape character
+#' @S3method escape logical
+escape.logical <- function(x, parens = NA, collapse = ", ") {
+  x <- as.character(x)
+  x[is.na(x)] <- "NULL"
+  sql_vector(x, parens, collapse)
+}
+
+#' @S3method escape factor
 escape.factor <- function(x, parens = NA, collapse = ", ") {
+  x <- as.character(x)
+  escape.character(x, parens = parens, collapse = collapse)
+}
+
+#' @S3method escape Date
+escape.Date <- function(x, parens = NA, collapse = ", ") {
   x <- as.character(x)
   escape.character(x, parens = parens, collapse = collapse)
 }
@@ -114,9 +127,10 @@ escape.factor <- function(x, parens = NA, collapse = ", ") {
 escape.character <- function(x, parens = NA, collapse = ", ") {
   missing <- is.na(x)
   x <- gsub("'", "''", x, fixed = TRUE)
+  x <- paste0("'", x, "'")
   x[missing] <- "NULL"
   
-  sql_vector(paste0("'", x, "'"), parens, collapse)
+  sql_vector(x, parens, collapse)
 }
 
 #' @S3method escape double
