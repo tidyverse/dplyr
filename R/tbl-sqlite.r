@@ -91,4 +91,3 @@ tbl.src_sqlite <- function(src, from, ...) {
     order_by = NULL
   )
 }
-

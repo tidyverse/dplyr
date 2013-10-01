@@ -46,3 +46,10 @@ format.src_postgres <- function(x, ...) {
   paste0("<src_postgres> ", x$info$dbname, "\n", 
     wrap("tbls: ", paste0(src_tbls(x), collapse = ", ")))
 }
+
+#' @S3method translate_env src_postgres
+translate_env.src_postgres <- function(x) {
+  sql_variant(
+    n = function() sql("count(*)")
+  )
+}

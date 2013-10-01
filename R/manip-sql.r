@@ -1,14 +1,14 @@
 #' Data manipulation for SQL tbls.
 #'
 #' This page documents the specific of data manipulation for 
-#' \code{\link{tbl_sqlite}} objects. See \code{manip} for the documentation of
+#' \code{\link{tbl_sql}} objects. See \code{manip} for the documentation of
 #' the generics, and how they work in general.
 #'
 #' @section Output:
 #'
 #' All data manipulation on SQL tbls are lazy: they will not actually
 #' run the query or retrieve the data unless you ask for it: they all return
-#' a new \code{\link{tbl_sqlite}} object. Use \code{\link{compute}} to run the 
+#' a new \code{\link{tbl_sql}} object. Use \code{\link{compute}} to run the 
 #' query and save the results in a temporary in the database, or use 
 #' \code{\link{collect}} to retrieve the results to R.
 #'
@@ -48,10 +48,10 @@
 #'
 #' # filter, select and arrange lazily modify the specification of the table
 #' # they don't execute queries unless you print them
-#' filter(batting, YearID > 2005, G > 130)
+#' filter(batting, yearID > 2005, G > 130)
 #' select(batting, playerID:lgID)
-#' arrange(batting, PlayerID, desc(YearID))
-#' summarise(batting, g = mean(g), n = count())
+#' arrange(batting, playerID, desc(YearID))
+#' summarise(batting, G = mean(G), n = n())
 #' mutate(batting, rbi = 1.0 * R / AB)
 #'
 #' # Grouped summaries -----------------------------------
@@ -97,32 +97,32 @@ NULL
 
 #' @rdname manip_sqlite
 #' @export
-#' @method filter tbl_sqlite
-filter.tbl_sqlite <- function(.data, ...) {  
+#' @method filter tbl_sql
+filter.tbl_sql <- function(.data, ...) {  
   input <- partial_eval(dots(...), .data, parent.frame())  
   update(.data, where = c(.data$where, input))
 }
 
 #' @rdname manip_sqlite
 #' @export
-#' @method arrange tbl_sqlite
-arrange.tbl_sqlite <- function(.data, ...) {
+#' @method arrange tbl_sql
+arrange.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())  
   update(.data, order_by = c(input, .data$order_by))
 }
 
 #' @rdname manip_sqlite
 #' @export
-#' @method select tbl_sqlite
-select.tbl_sqlite <- function(.data, ...) {
+#' @method select tbl_sql
+select.tbl_sql <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())  
   update(.data, select = ident(input))
 }
 
 #' @rdname manip_sqlite
 #' @export
-#' @method summarise tbl_sqlite
-summarise.tbl_sqlite <- function(.data, ...) {
+#' @method summarise tbl_sql
+summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   .data <- update(.data, select = remove_star(c(input, .data$select)))
   
@@ -134,13 +134,13 @@ summarise.tbl_sqlite <- function(.data, ...) {
 
 #' @rdname manip_sqlite
 #' @export
-#' @method mutate tbl_sqlite
-mutate.tbl_sqlite <- function(.data, ...) {
+#' @method mutate tbl_sql
+mutate.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())  
   update(.data, select = c(.data$select, input))
 }
 
-#' @method do tbl_sqlite
+#' @method do tbl_sql
 #' @export 
 #' @rdname manip_sqlite
 #' @param .f,... A function to apply to each group, and any additional arguments
@@ -149,7 +149,7 @@ mutate.tbl_sqlite <- function(.data, ...) {
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
-do.tbl_sqlite <- function(.data, .f, ..., .chunk_size = 1e4L) {
+do.tbl_sql <- function(.data, .f, ..., .chunk_size = 1e4L) {
   group_by <- .data$group_by
   if (is.null(group_by)) stop("No grouping", call. = FALSE)
 

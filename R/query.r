@@ -78,10 +78,18 @@ Query <- setRefClass("Query",
       name
     },
     
+    from = function() {
+      if (is.ident(sql)) {
+        sql
+      } else {
+        build_sql("(", sql, ") AS master")
+      }
+    },
+    
     vars = function() {
       if (!is.null(.vars)) return(.vars)
       
-      no_rows <- build_sql("SELECT * FROM (", sql, ") AS master WHERE 1=0")
+      no_rows <- build_sql("SELECT * FROM ", from(), " WHERE 1=0")
       .vars <<- names(fetch_sql_df(con, no_rows))
       .vars
     },
@@ -89,7 +97,7 @@ Query <- setRefClass("Query",
     nrow = function() {
       if (!is.null(.nrow)) return(.nrow)
       
-      rows <- build_sql("SELECT count(*) FROM (", sql, ") AS master")
+      rows <- build_sql("SELECT count(*) FROM ", from())
       .nrow <<- fetch_sql_df(con, rows)[[1]]
       .nrow
     },

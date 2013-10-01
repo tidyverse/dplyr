@@ -132,7 +132,7 @@ has_table <- function(src, table) {
 }
 
 random_table_name <- function(n = 10) {
-  paste0(sample(letters, n, replace = TRUE), collapse = "")
+  ident(paste0(sample(letters, n, replace = TRUE), collapse = ""))
 }
 
 auto_copy <- function(x, y, copy = FALSE, ...) {

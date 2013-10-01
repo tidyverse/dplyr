@@ -1,6 +1,7 @@
 \name{sql}
 \alias{escape}
 \alias{ident}
+\alias{is.ident}
 \alias{is.sql}
 \alias{sql}
 \title{SQL escaping.}
@@ -10,6 +11,8 @@
   ident(...)
 
   is.sql(x)
+
+  is.ident(x)
 
   escape(x, parens = NA, collapse = " ")
 }

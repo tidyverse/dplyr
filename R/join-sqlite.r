@@ -144,19 +144,19 @@ semi_join_sqlite <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
     collapse = ' AND '))
   
   from <- build_sql(
-    'SELECT * FROM ', from(x), ' as "_LEFT"\n\n', 
+    'SELECT * FROM ', from(x, "_LEFT"), '\n\n', 
     'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
-    '  SELECT 1 FROM ', from(y), ' AS "_RIGHT"\n',
+    '  SELECT 1 FROM ', from(y, "_RIGHT"), '\n',
     '  WHERE ', join, ')'
   )
   
   update(tbl(x$src, from), group_by = groups(x))
 }
   
-from <- function(x) {
+from <- function(x, name = random_table_name()) {
   if (is_table(x)) {
     x$from
   } else {
-    build_sql("(", x$query$sql, ")")
+    build_sql("(", x$query$sql, ") AS ", name)
   } 
 }

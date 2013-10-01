@@ -1,56 +1,5 @@
 #' Translate an expression to sql.
 #'
-#' This is a helper function for convenient exploration. Otherwise conversion
-#' normally happens in two distinct phases: first \code{\link{partial_eval}}
-#' then \code{\link{to_sql}}.
-#'
-#' @param expr unevaluated expression to translate
-#' @param source tbl
-#' @param variant SQL variant to use
-#' @param env environment in which to evaluate expression
-#' @export
-#' @examples
-#' # Note distinction between integers and reals
-#' translate_sql(Month == 1, hflights)
-#' translate_sql(Month == 1L, hflights)
-#' 
-#' # Know how to translate most simple mathematical expressions
-#' translate_sql(Month %in% 1:3, hflights)
-#' translate_sql(Month >= 1L & Month <= 3L, hflights)
-#' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", hflights)
-#' 
-#' # Some R functions don't have equivalents in SQL: where possible they
-#' # will be translated to the equivalent
-#' translate_sql(xor(Month <= 3L, Carrier == "AA"), baseball)
-#'
-#' # Local variables will be automatically inserted into the SQL
-#' x <- 5L
-#' translate_sql(Month == x, hflights)
-#'
-#' # By default all computation will happen in sql
-#' translate_sql(Month < 1 + 1, hflights)
-#' # Use local to force local evaluation
-#' translate_sql(Month < local(1 + 1), hflights)
-#'
-#' # This is also needed if you call a local function:
-#' inc <- function(x) x + 1
-#' translate_sql(Month == inc(x), hflights)
-#' translate_sql(Month == local(inc(x)), hflights)
-#'
-#' # For testing, translate_sql can be run with source ommitted. In this
-#' # case all variables will be treated as local.
-#' x <- 1
-#' y <- 2L
-#' translate_sql(x ^ y)
-#' translate_sql(inc(x))
-translate_sql <- function(expr, source = NULL, env = parent.frame(), variant = base_sql) {
-  expr <- partial_eval(substitute(expr), source, env = env)
-  env <- sql_env(expr, variant)
-  eval(expr, env)
-}
-
-#' Translate an R expression to sql.
-#'
 #' @section Base translation:
 #' The base translator, \code{base_sql},
 #' provides custom mappings for \code{!} (to NOT), \code{&&} and \code{&} to
@@ -73,46 +22,86 @@ translate_sql <- function(expr, source = NULL, env = parent.frame(), variant = b
 #' The SQLite variant currently only adds one additional function: a mapping
 #' from \code{sd} to the SQL aggregation function \code{stdev}.
 #'
-#' @format \code{base_sql} and \code{sqlite_sql} are environments containing
-#'   functions that convert R function calls into the equivalent SQL
-#'   function calls.
-#' @param x for \code{to_sql}, an unquoted expression; for \code{to_sql_q}
-#'   a quoted expression.
-#' @param variant the sql variant to use for translation
+#' @param expr unevaluated expression to translate
+#' @param source tbl
+#' @param env environment in which to evaluate expression. 
 #' @export
 #' @examples
 #' # Regular maths is translated in a very straightforward way
-#' to_sql(x + 1)
-#' to_sql(sin(x) + tan(y))
+#' translate_sql(x + 1)
+#' translate_sql(sin(x) + tan(y))
 #'
 #' # Logical operators are converted to their sql equivalents
-#' to_sql(x < 5 & !(y >= 5))
+#' translate_sql(x < 5 & !(y >= 5))
 #'
 #' # Infix functions are passed onto SQL with % removed
-#' to_sql(first %like% "Had*")
-#' to_sql(first %is% NULL)
-#' to_sql(first %in% c("John", "Roger", "Robert"))
+#' translate_sql(first %like% "Had*")
+#' translate_sql(first %is% NULL)
+#' translate_sql(first %in% c("John", "Roger", "Robert"))
 #'
 #' # Note that variable names will be escaped if needed
-#' to_sql(like == 7)
+#' translate_sql(like == 7)
 #'
 #' # And be careful if you really want integers
-#' to_sql(x == 1)
+#' translate_sql(x == 1)
+#' translate_sql(x == 1L)
 #'
-#' # If you have an already quoted object, use to_sql_q:
+#' # If you have an already quoted object, use translate_sql_q:
 #' x <- quote(y + 1 / sin(t))
-#' to_sql(x)
-#' to_sql_q(x)
-to_sql <- function(x, variant = base_sql) {
-  to_sql_q(substitute(x), variant)
+#' translate_sql(x)
+#' translate_sql_q(list(x))
+#' 
+#' # Translation with data source --------------------------------------------
+#' 
+#' # Note distinction between integers and reals
+#' translate_sql(Month == 1, source = hflights)
+#' translate_sql(Month == 1L, source = hflights)
+#' 
+#' # Know how to translate most simple mathematical expressions
+#' translate_sql(Month %in% 1:3, source = hflights)
+#' translate_sql(Month >= 1L & Month <= 3L, source = hflights)
+#' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", source = hflights)
+#' 
+#' # Some R functions don't have equivalents in SQL: where possible they
+#' # will be translated to the equivalent
+#' translate_sql(xor(Month <= 3L, Carrier == "AA"), source = hflights)
+#'
+#' # Local variables will be automatically inserted into the SQL
+#' x <- 5L
+#' translate_sql(Month == x, source = hflights)
+#'
+#' # By default all computation will happen in sql
+#' translate_sql(Month < 1 + 1, source = hflights)
+#' # Use local to force local evaluation
+#' translate_sql(Month < local(1 + 1), source = hflights)
+#'
+#' # This is also needed if you call a local function:
+#' inc <- function(x) x + 1
+#' translate_sql(Month == inc(x), source = hflights)
+#' translate_sql(Month == local(inc(x)), source = hflights)
+translate_sql <- function(..., source = NULL, env = parent.frame()) {
+  translate_sql_q(dots(...), source = source, env = env)
 }
 
 #' @export
-#' @rdname to_sql
-to_sql_q  <- function(x, variant = base_sql) {
-  env <- sql_env(x, variant)
-  eval(x, env)
+#' @rdname translate_sql
+translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
+  if (is.null(expr)) return(NULL)
+  
+  if (!is.null(env) && !is.null(source)) {
+    expr <- partial_eval(expr, source, env)
+  }
+  
+  pieces <- lapply(expr, function(x) {
+    env <- sql_env(x, translate_env(source))
+    eval(x, env = env)
+  })
+  
+  sql(unlist(pieces))
 }
+
+translate_env <- function(x) UseMethod("translate_env")
+translate_env.default <- function(x) base_sql
 
 sql_env <- function(expr, variant_env) {
   # Default for unknown functions

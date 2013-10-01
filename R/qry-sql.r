@@ -19,11 +19,14 @@ qry_select.tbl_sql <- function(x, select = x$select, from = x$from,
     select <- select[!duplicated(select)]
   }
   
-  select <- trans_sqlite(select)
-  where <- trans_sqlite(where)
-  group_by <- trans_sqlite(group_by)
-  having <- trans_sqlite(having)
-  order_by <- trans_sqlite(order_by)
+  translate <- function(expr) {
+    translate_sql_q(expr, source = x$src, env = NULL)
+  }
+  select <- translate(select)
+  where <- translate(where)
+  group_by <- translate(group_by)
+  having <- translate(having)
+  order_by <- translate(order_by)
   
   qry_select(x$src, from = from, select = select, where = where, 
     order_by = order_by, group_by = group_by, limit = limit, offset = offset)

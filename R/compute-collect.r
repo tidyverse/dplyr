@@ -47,19 +47,19 @@ collapse <- function(x, ...) {
 
 # Methods ---------------------------------------------------------------------
 
-#' @S3method collapse tbl_sqlite
-collapse.tbl_sqlite <- function(x, ...) {
-  tbl(x$src, build_sql("(", x$query$sql, ")"))
+#' @S3method collapse tbl_sql
+collapse.tbl_sql <- function(x, ...) {
+  tbl(x$src, x$query$sql)
 }
 
-#' @S3method compute tbl_sqlite
-compute.tbl_sqlite <- function(x, name = random_table_name(), ...) {
+#' @S3method compute tbl_sql
+compute.tbl_sql <- function(x, name = random_table_name(), ...) {
   x$query$save_into(name)
   update(tbl(x$src, name), group_by = groups(x))
 }
 
-#' @S3method collect tbl_sqlite
-collect.tbl_sqlite <- function(x, ...) {
+#' @S3method collect tbl_sql
+collect.tbl_sql <- function(x, ...) {
   grouped_df(x$query$fetch_df(), groups(x))
 }
 

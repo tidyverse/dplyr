@@ -1,24 +1,24 @@
 \name{manip_sqlite}
-\alias{arrange.tbl_sqlite}
-\alias{do.tbl_sqlite}
-\alias{filter.tbl_sqlite}
+\alias{arrange.tbl_sql}
+\alias{do.tbl_sql}
+\alias{filter.tbl_sql}
 \alias{manip_sqlite}
-\alias{mutate.tbl_sqlite}
-\alias{select.tbl_sqlite}
-\alias{summarise.tbl_sqlite}
+\alias{mutate.tbl_sql}
+\alias{select.tbl_sql}
+\alias{summarise.tbl_sql}
 \title{Data manipulation for SQL tbls.}
 \usage{
-  \method{filter}{tbl_sqlite} (.data, ...)
+  \method{filter}{tbl_sql} (.data, ...)
 
-  \method{arrange}{tbl_sqlite} (.data, ...)
+  \method{arrange}{tbl_sql} (.data, ...)
 
-  \method{select}{tbl_sqlite} (.data, ...)
+  \method{select}{tbl_sql} (.data, ...)
 
-  \method{summarise}{tbl_sqlite} (.data, ...)
+  \method{summarise}{tbl_sql} (.data, ...)
 
-  \method{mutate}{tbl_sqlite} (.data, ...)
+  \method{mutate}{tbl_sql} (.data, ...)
 
-  \method{do}{tbl_sqlite} (.data, .f, ...,
+  \method{do}{tbl_sql} (.data, .f, ...,
     .chunk_size = 10000L)
 }
 \arguments{
@@ -38,17 +38,16 @@
 }
 \description{
   This page documents the specific of data manipulation for
-  \code{\link{tbl_sqlite}} objects. See \code{manip} for
-  the documentation of the generics, and how they work in
+  \code{\link{tbl_sql}} objects. See \code{manip} for the
+  documentation of the generics, and how they work in
   general.
 }
 \section{Output}{
   All data manipulation on SQL tbls are lazy: they will not
   actually run the query or retrieve the data unless you
-  ask for it: they all return a new
-  \code{\link{tbl_sqlite}} object. Use
-  \code{\link{compute}} to run the query and save the
-  results in a temporary in the database, or use
+  ask for it: they all return a new \code{\link{tbl_sql}}
+  object. Use \code{\link{compute}} to run the query and
+  save the results in a temporary in the database, or use
   \code{\link{collect}} to retrieve the results to R.
 
   Note that \code{do} is not lazy since it must pull the
@@ -87,10 +86,10 @@ batting <- tbl(src_lahman(), "Batting")
 
 # filter, select and arrange lazily modify the specification of the table
 # they don't execute queries unless you print them
-filter(batting, YearID > 2005, G > 130)
+filter(batting, yearID > 2005, G > 130)
 select(batting, playerID:lgID)
-arrange(batting, PlayerID, desc(YearID))
-summarise(batting, g = mean(g), n = count())
+arrange(batting, playerID, desc(YearID))
+summarise(batting, G = mean(G), n = n())
 mutate(batting, rbi = 1.0 * R / AB)
 
 # Grouped summaries -----------------------------------

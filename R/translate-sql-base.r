@@ -1,7 +1,5 @@
 #' @include translate-sql-helpers.r
 
-#' @export
-#' @rdname to_sql
 base_sql <- new.env(parent = emptyenv())
 base_sql$`==`    <- sql_infix("=")
 base_sql$`!`     <- sql_prefix("not")

@@ -55,3 +55,11 @@ src_tbls.src_sqlite <- function(x, ...) {
     ORDER BY name"
   fetch_sql_df(x$con, sql)[[1]]
 }
+
+#' @S3method translate_env src_sqlite
+translate_env.src_sqlite <- function(x) {
+  sql_variant(
+    sd = sql_prefix("stdev")
+  )
+}
+

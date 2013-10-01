@@ -86,6 +86,11 @@ setOldClass(c("ident", "sql", "character"))
 #' @export
 is.sql <- function(x) inherits(x, "sql")
 
+#' @rdname sql
+#' @export
+is.ident <- function(x) inherits(x, "ident")
+
+
 #' @S3method print sql
 print.sql <- function(x, ...) cat(format(x, ...), sep = "\n")
 #' @S3method print sql
