@@ -9,8 +9,6 @@
 #'   class name
 #' @param ... fields used by object
 #' @param x object to test for "src"-ness.
-#' @examples
-#' as.tbl(mtcars)
 src <- function(subclass, ...) {
   subclass <- paste0("src_", subclass)
   structure(list(...), class = c(subclass, "src"))
