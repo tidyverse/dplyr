@@ -50,6 +50,14 @@ format.src_postgres <- function(x, ...) {
 #' @S3method translate_env src_postgres
 translate_env.src_postgres <- function(x) {
   sql_variant(
-    n = function() sql("count(*)")
+    n = function() sql("count(*)"),
+    # Extra aggregate functions
+    cor = sql_prefix("corr"),
+    cov = sql_prefix("covar_samp"),
+    sd =  sql_prefix("stddev_samp"),
+    var = sql_prefix("var_samp"),
+    all = sql_prefix("bool_and"),
+    any = sql_prefix("bool_or"),
+    paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
   )
 }
