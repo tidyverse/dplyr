@@ -3,7 +3,7 @@
 \title{Create a postgres data source}
 \usage{
   src_postgres(dbname = "", host = "", port = "",
-    user = "", password = "", options = "", create = FALSE)
+    user = "", password = "", options = "")
 }
 \arguments{
   \item{dbname}{Database}
@@ -14,11 +14,6 @@
 
   \item{options}{other additional options passed to command
   line client}
-
-  \item{create}{if \code{FALSE}, \code{dbname} must already
-  exist. If \code{TRUE}, will create a new postgres - to do
-  this you must either be a super user or have the CREATE
-  DB permssion.}
 }
 \description{
   This data structure represents a connection to an

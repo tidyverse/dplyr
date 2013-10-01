@@ -9,9 +9,6 @@
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
 #' @param options other additional options passed to command line client
-#' @param create if \code{FALSE}, \code{dbname} must already exist. If 
-#'   \code{TRUE}, will create a new postgres - to do this you must either
-#'   be a super user or have the CREATE DB permssion.
 #' @export
 #' @examples
 #' \dontrun{
@@ -21,15 +18,10 @@
 #' src_postgres("lahman")
 #' }
 src_postgres <- function(dbname = "", host = "", port = "", user = "", 
-                         password = "", options = "", create = FALSE) {
+                         password = "", options = "") {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
-# 
-#   if (create) {
-#   } else {
-#   }
-#   
 
   con <- dbConnect(PostgreSQL(), host = host, dbname = dbname, user = user,
     password = password, port = port, options = options)
