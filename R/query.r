@@ -151,7 +151,7 @@ fetch_sql_df <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
 }
 
 show_query_plan <- function(con, sql) {
-  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
+  exsql <- build_sql("EXPLAIN ", sql)
   expl <- fetch_sql_df(con, exsql, show = FALSE, explain = FALSE)
   rownames(expl) <- NULL
   out <- capture.output(print(expl))
