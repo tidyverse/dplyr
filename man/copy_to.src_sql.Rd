@@ -1,8 +1,8 @@
-\name{copy_to.src_sqlite}
-\alias{copy_to.src_sqlite}
+\name{copy_to.src_sql}
+\alias{copy_to.src_sql}
 \title{Copy a local data fram to a sqlite src.}
 \usage{
-  \method{copy_to}{src_sqlite} (dest, df,
+  \method{copy_to}{src_sql} (dest, df,
     name = deparse(substitute(df)), types = NULL,
     temporary = TRUE, indexes = NULL, analyze = TRUE, ...)
 }

@@ -1,0 +1,21 @@
+\name{src_sql}
+\alias{src_sql}
+\title{Create a "sql src" object}
+\usage{
+  src_sql(subclass, con, ...)
+}
+\arguments{
+  \item{subclass}{name of subclass. "src_sql" is an
+  abstract base class, so you must supply this value.
+  \code{src_} is automatically prepended to the class name}
+
+  \item{the}{connection object}
+
+  \item{...}{fields used by object}
+}
+\description{
+  \code{src_sql} is the standard constructor for all SLQ
+  based srcs.
+}
+\keyword{internal}
+

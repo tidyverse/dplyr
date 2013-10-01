@@ -16,7 +16,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 
 #' Copy a local data fram to a sqlite src.
 #' 
-#' @method copy_to src_sqlite
+#' @method copy_to src_sql
 #' @export
 #' @param types a character vector giving variable types to use for the columns.
 #'    See \url{http://www.sqlite.org/datatype3.html} for available types.

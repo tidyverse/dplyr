@@ -20,8 +20,5 @@
   \code{src} is the standard constructor for srcs and
   \code{is.src} tests.
 }
-\examples{
-as.tbl(mtcars)
-}
 \keyword{internal}
 

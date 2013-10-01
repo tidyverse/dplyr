@@ -1,5 +1,5 @@
-#' @S3method qry_select tbl_sqlite
-qry_select.tbl_sqlite <- function(x, select = x$select, from = x$from, 
+#' @S3method qry_select tbl_sql
+qry_select.tbl_sql <- function(x, select = x$select, from = x$from, 
                                   where = x$where, group_by = x$group_by, 
                                   having = NULL, order_by = x$order_by, 
                                   limit = NULL, offset = NULL) {  
@@ -29,8 +29,8 @@ qry_select.tbl_sqlite <- function(x, select = x$select, from = x$from,
     order_by = order_by, group_by = group_by, limit = limit, offset = offset)
 }
 
-#' @S3method qry_select src_sqlite
-qry_select.src_sqlite <- function(x, select, from, where = NULL, group_by = NULL,
+#' @S3method qry_select src_sql
+qry_select.src_sql <- function(x, select, from, where = NULL, group_by = NULL,
   having = NULL, order_by = NULL, limit = NULL, offset = NULL) {
   
   out <- vector("list", 8)
