@@ -15,7 +15,8 @@
 #' my_db <- src_postgres()
 #' src_tbls(my_db)
 #' 
-#' src_postgres("lahman")
+#' l <- src_postgres("lahman")
+#' batting <- tbl(l, "Batting")
 #' }
 src_postgres <- function(dbname = "", host = "", port = "", user = "", 
                          password = "", options = "") {

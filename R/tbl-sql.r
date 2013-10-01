@@ -60,7 +60,9 @@ group_by.tbl_sql <- function(x, ...) {
     stop("May only group by variable names, not expressions", call. = FALSE)
   }
   
-  update(x, group_by = c(x$group_by, input))
+  update(x, 
+    group_by = c(x$group_by, input), 
+    select = remove_star(x$select))
 }
 
 #' @S3method group_size tbl_sql

@@ -1,8 +1,8 @@
-\name{manip_sqlite}
+\name{manip_sql}
 \alias{arrange.tbl_sql}
 \alias{do.tbl_sql}
 \alias{filter.tbl_sql}
-\alias{manip_sqlite}
+\alias{manip_sql}
 \alias{mutate.tbl_sql}
 \alias{select.tbl_sql}
 \alias{summarise.tbl_sql}
@@ -22,7 +22,7 @@
     .chunk_size = 10000L)
 }
 \arguments{
-  \item{.data}{an SQLite data tbl}
+  \item{.data}{an sql data tbl}
 
   \item{...}{variables interpreted in the context of
   \code{.data}}
@@ -93,14 +93,14 @@ summarise(batting, G = mean(G), n = n())
 mutate(batting, rbi = 1.0 * R / AB)
 
 # Grouped summaries -----------------------------------
-players <- group_by(batting, PlayerID)
+players <- group_by(batting, playerID)
 
 # Due to the lack of windowing functions in SQLite, only summarising
 # is really useful with grouped values
-summarise(players, g = mean(g), best_ab = max(ab))
+summarise(players, mean_g = mean(G), best_ab = max(AB))
 
 # Summarise peels over a single layer of grouping
-per_year <- group_by(batting, PlayerID, YearID)
+per_year <- group_by(batting, playerID, yearID)
 stints <- summarise(per_year, stints = max(stint))
 filter(stints, stints > 3)
 summarise(stints, max(stints))

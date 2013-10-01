@@ -41,7 +41,7 @@
 #'    one level of grouping peeled off.
 #' }
 #' 
-#' @param .data an SQLite data tbl
+#' @param .data an sql data tbl
 #' @param ... variables interpreted in the context of \code{.data}
 #' @examples
 #' batting <- tbl(src_lahman(), "Batting")
@@ -55,14 +55,14 @@
 #' mutate(batting, rbi = 1.0 * R / AB)
 #'
 #' # Grouped summaries -----------------------------------
-#' players <- group_by(batting, PlayerID)
+#' players <- group_by(batting, playerID)
 #' 
 #' # Due to the lack of windowing functions in SQLite, only summarising
 #' # is really useful with grouped values
-#' summarise(players, g = mean(g), best_ab = max(ab))
+#' summarise(players, mean_g = mean(G), best_ab = max(AB))
 #'
 #' # Summarise peels over a single layer of grouping
-#' per_year <- group_by(batting, PlayerID, YearID)
+#' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
 #' filter(stints, stints > 3)
 #' summarise(stints, max(stints))
@@ -92,10 +92,10 @@
 #' ok_min <- select(ok, year, r)
 #' mods <- do(ok_min, failwith(NULL, lm), formula = r ~ poly(year, 2),
 #'   .chunk_size = 1000)
-#' @name manip_sqlite
+#' @name manip_sql
 NULL
 
-#' @rdname manip_sqlite
+#' @rdname manip_sql
 #' @export
 #' @method filter tbl_sql
 filter.tbl_sql <- function(.data, ...) {  
@@ -103,7 +103,7 @@ filter.tbl_sql <- function(.data, ...) {
   update(.data, where = c(.data$where, input))
 }
 
-#' @rdname manip_sqlite
+#' @rdname manip_sql
 #' @export
 #' @method arrange tbl_sql
 arrange.tbl_sql <- function(.data, ...) {
@@ -111,7 +111,7 @@ arrange.tbl_sql <- function(.data, ...) {
   update(.data, order_by = c(input, .data$order_by))
 }
 
-#' @rdname manip_sqlite
+#' @rdname manip_sql
 #' @export
 #' @method select tbl_sql
 select.tbl_sql <- function(.data, ...) {
@@ -119,20 +119,20 @@ select.tbl_sql <- function(.data, ...) {
   update(.data, select = ident(input))
 }
 
-#' @rdname manip_sqlite
+#' @rdname manip_sql
 #' @export
 #' @method summarise tbl_sql
 summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   .data <- update(.data, select = remove_star(c(input, .data$select)))
-  
+    
   update(
     collapse(.data),
     group_by = drop_last(.data$group_by)
   )
 }
 
-#' @rdname manip_sqlite
+#' @rdname manip_sql
 #' @export
 #' @method mutate tbl_sql
 mutate.tbl_sql <- function(.data, ...) {
@@ -142,7 +142,7 @@ mutate.tbl_sql <- function(.data, ...) {
 
 #' @method do tbl_sql
 #' @export 
-#' @rdname manip_sqlite
+#' @rdname manip_sql
 #' @param .f,... A function to apply to each group, and any additional arguments
 #'   to pass to \code{f}.
 #' @param .chunk_size The size of each chunk to pull into R. If this number is 
