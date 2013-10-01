@@ -29,9 +29,8 @@ head(hflights)
 # Coerce to data table
 hflights_dt <- tbl_dt(hflights)
 
-# Create SQLite database and copy into
-db <- src_sqlite(tempfile(), create = TRUE)
-hflights_db <- copy_to(db, hflights, indexes = list("UniqueCarrier"))
+# Caches data in local SQLite db
+hflights_db <- tbl(src_hflights(), "hflights")
 ```
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
@@ -65,12 +64,12 @@ system.time(summarise(carriers, delay = mean(ArrDelay, na.rm = TRUE)))
 system.time(summarise(carriers_dt, delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
 #  0.007   0.000   0.008 
-system.time(summarise(carriers_db, delay = mean(ArrDelay)))
-#  user  system elapsed 
-# 0.039   0.000   0.040 
-# Substantially faster on "warm" database
+system.time(summarise(collect(carriers_db, delay = mean(ArrDelay))))
 #   user  system elapsed 
-# 0.005   0.000   0.005 
+#  0.040   0.005   0.052 
+# quiet a bit faster on "warm" database
+#   user  system elapsed 
+#  0.035   0.000   0.035 
 ```
 
 All methods are substantially faster than plyr:
