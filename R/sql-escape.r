@@ -105,19 +105,32 @@ escape.ident <- function(x, parens = FALSE, collapse = ", ") {
 }
 
 #' @S3method escape character
+escape.factor <- function(x, parens = NA, collapse = ", ") {
+  x <- as.character(x)
+  escape.character(x, parens = parens, collapse = collapse)
+}
+
+#' @S3method escape character
 escape.character <- function(x, parens = NA, collapse = ", ") {
+  missing <- is.na(x)
   x <- gsub("'", "''", x, fixed = TRUE)
+  x[missing] <- "NULL"
+  
   sql_vector(paste0("'", x, "'"), parens, collapse)
 }
 
 #' @S3method escape double
 escape.double <- function(x, parens = NA, collapse = ", ") {
+  missing <- is.na(x)
   x <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
+  x[missing] <- "NULL"
+  
   sql_vector(x, parens, collapse)
 }
 
 #' @S3method escape integer
 escape.integer <- function(x, parens = NA, collapse = ", ") {
+  x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }
 

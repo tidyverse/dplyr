@@ -40,7 +40,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' src_tbls(db)
 #' db2 <- src_sqlite(db$path)
 #' src_tbls(db2)
-copy_to.src_sqlite <- function(dest, df, name = deparse(substitute(df)), 
+copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)), 
                                types = NULL, temporary = TRUE, indexes = NULL, 
                                analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
@@ -52,12 +52,12 @@ copy_to.src_sqlite <- function(dest, df, name = deparse(substitute(df)),
     FUN.VALUE = character(1))
   names(types) <- names(df)
   
-  dbBeginTransaction(dest$con)
+  begin_transaction(dest)
   create_table(dest, name, types, temporary = temporary)
   insert_into(dest, name, df)
   create_indexes(dest, name, indexes)
   if (analyze) analyze(dest, name)
-  dbCommit(dest$con)
+  commit_transaction(dest)
   
   tbl(dest, name)
 }
@@ -68,18 +68,34 @@ create_table <- function(x, table, types, temporary = FALSE) {
   field_names <- escape(ident(names(types)), collapse = NULL)
   fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE, 
     collapse = ", ")
-  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), "TABLE ", table, 
-    fields)
+  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), 
+    "TABLE ", ident(table), " ", fields)
   
   query(x$con, sql)$run()
 }
 
 insert_into <- function(x, table, values) {
+  UseMethod("insert_into")
+}
+
+insert_into.src_sqlite <- function(x, table, values) {
   params <- paste(rep("?", ncol(values)), collapse = ", ")
   sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
 
-  query(x$con, sql)$run(values, in_transaction = TRUE)
+  query(x$con, sql)$run(values)
 }
+
+insert_into.src_postgres <- function(x, table, values) {
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
+  
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
+  
+  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))  
+  query(x$con, sql)$run(in_transaction = FALSE)
+}
+
 
 create_indexes <- function(x, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
@@ -102,12 +118,12 @@ create_index <- function(x, table, columns, name = NULL, unique = FALSE) {
 }
 
 drop_table <- function(x, table, force = FALSE) {
-  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), table)
+  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table))
   query(x$con, sql)$run()
 }
 
 analyze <- function(x, table) {
-  sql <- build_sql("ANALYZE ", table)
+  sql <- build_sql("ANALYZE ", ident(table))
   query(x$con, sql)$run()
 }
 

@@ -12,7 +12,7 @@
 #' src_tbls(my_db)
 #' }
 #' 
-#' src_postgresql("lahman")
+#' src_postgres("lahman")
 src_postgres <- function(dbname = "", host = "", user = "", password = "", port = "", options = "", create = FALSE) {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
