@@ -12,9 +12,8 @@
 #' src_tbls(my_db)
 #' }
 #' 
-#' # A "built"-in dataset
-#' src_lahman()
-src_postgres <- function(host = "", dbname = "", user = "", password = "", port = "", options = "", create = FALSE) {
+#' src_postgresql("lahman")
+src_postgres <- function(dbname = "", host = "", user = "", password = "", port = "", options = "", create = FALSE) {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
