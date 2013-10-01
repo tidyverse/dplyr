@@ -1,0 +1,31 @@
+# Setting up Postgresql
+
+First install postgresql, create a data directory, and create a default database.
+
+```
+# brew update
+# brew unlink postgresql
+brew install postgresql
+export PGDATA=~/db/postgres
+initdb -E utf8
+createdb
+```
+
+Then each time, run:
+
+```
+export PGDATA=~/db/postgres
+postgres
+# Use pg_ctl start to run in background
+```
+
+From R,
+
+```{r}
+install.packages("RPostgreSQL")
+library(RPostgreSQL)
+
+drv <- dbDriver("PostgreSQL")
+con <- dbConnect(drv, dbname = "hadley")
+dbListTables(con)
+```
