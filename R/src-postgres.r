@@ -14,11 +14,6 @@
 #' 
 #' # A "built"-in dataset
 #' src_lahman()
-#' 
-#' # You can create a new postgres database at any location if you set 
-#' # create = TRUE
-#' new_db <- src_postgres(tempfile(), TRUE)
-#' src_tbls(new_db)
 src_postgres <- function(host = "", dbname = "", user = "", password = "", port = "", options = "", create = FALSE) {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
@@ -44,22 +39,11 @@ src_postgres <- function(host = "", dbname = "", user = "", password = "", port 
   env$con <- con
   reg.finalizer(env, f)
   
-  src("postgres", con = con, info = info, env = env)
+  src_sql("postgres", con, info = info, env = env)
 }
 
 #' @S3method format src_postgres
 format.src_postgres <- function(x, ...) {
   paste0("<src_postgres> ", x$info$dbname, "\n", 
     wrap("tbls: ", paste0(src_tbls(x), collapse = ", ")))
-}
-
-#' @S3method src_tbls src_postgres
-src_tbls.src_postgres <- function(x, ...) {
-  dbListTables(x$con)
-}
-
-#' @S3method same_src src_postgres
-same_src.src_postgres <- function(x, y) {
-  if (!inherits(y, "src_postgres")) return(FALSE)
-  identical(x$con, y$con)
 }

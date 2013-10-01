@@ -37,7 +37,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- dbConnect(SQLite(), dbname = path)
   RSQLite.extfuns::init_extensions(con)
   
-  src("sqlite", con = con, path = path)
+  src_sql("sqlite", con, path = path)
 }
 
 #' @S3method format src_sqlite
@@ -54,10 +54,4 @@ src_tbls.src_sqlite <- function(x, ...) {
     WHERE type = 'table' OR type = 'view'
     ORDER BY name"
   fetch_sql_df(x$con, sql)[[1]]
-}
-
-#' @S3method same_src src_sqlite
-same_src.src_sqlite <- function(x, y) {
-  if (!inherits(y, "src_sqlite")) return(FALSE)
-  identical(x$con, y$con)
 }
