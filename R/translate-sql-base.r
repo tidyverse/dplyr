@@ -15,6 +15,15 @@ base_sql$var     <- sql_prefix("variance")
 base_sql$tolower <- sql_prefix("lower")
 base_sql$toupper <- sql_prefix("upper")
 base_sql$nchar   <- sql_prefix("length")
+
+base_sql$`-` <- function(x, y = NULL) {
+  if (is.null(y)) {
+    build_sql(sql(" - "), x)
+  } else {
+    build_sql(x, sql(" - "), y)
+  }
+}
+
 base_sql$sql     <- function(...) sql(...)
 base_sql$`(` <- function(x) {
   build_sql("(", x, ")")
