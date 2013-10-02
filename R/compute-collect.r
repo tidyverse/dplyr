@@ -1,31 +1,31 @@
 #' Compute a lazy tbl.
-#' 
+#'
 #' \code{compute} forces computation of lazy tbls, leaving data in the remote
 #' source. \code{collect} also forces computation, but will bring data back into
 #' an R data.frame (stored in a \code{\link{tbl_df}}). \code{collapse} doesn't
 #' force computation, but collapses a complex tbl into a form that additional
 #' restrictions can be placed on.
-#' 
+#'
 #' @section Grouping
-#' 
+#'
 #' \code{compute} and \code{collect} preserve grouping, \code{collapse} drops
 #' it.
-#' 
+#'
 #' @param x a data tbl
 #' @param ... other arguments passed on to methods
-#' @seealso \code{\link{copy_to}} which is the conceptual opposite: it 
+#' @seealso \code{\link{copy_to}} which is the conceptual opposite: it
 #'   takes a local data frame and makes it available to the remote source.
 #' @export
 #' @examples
-#' batting <- tbl(src_lahman(), "Batting")
+#' batting <- tbl(lahman_sqlite(), "Batting")
 #' remote <- select(filter(batting, year > 2010 && stint == 1), playerID:H)
 #' remote2 <- collapse(remote)
 #' cached <- compute(remote)
 #' local  <- collect(remote)
-#' 
+#'
 #' # Collapse is used by summarise so you can add additional restrictions
 #' # on the computed columns. This is analogous to the HAVING restriction
-#' batting <- tbl(src_lahman(), "Batting")
+#' batting <- tbl(lahman_sqlite(), "Batting")
 #' players <- group_by(batting, PlayerID)
 #' stints <- summarise(players, n = n())
 #' compute(filter(stints, n > 10L))

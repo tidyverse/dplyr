@@ -22,8 +22,8 @@
   Generate a basic SQL \code{SELECT} query.
 }
 \examples{
-qry_select(src_lahman(), list(star()), ident("mytable"))
-qry_select(src_lahman(), list(star()), ident("mytable"), list(quote(1 == 0)))
+qry_select(lahman_sqlite(), list(star()), ident("mytable"))
+qry_select(lahman_sqlite(), list(star()), ident("mytable"), list(quote(1 == 0)))
 }
 \keyword{internal}
 

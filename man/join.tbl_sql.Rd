@@ -59,8 +59,8 @@
 }
 \examples{
 # Left joins ----------------------------------------------------------------
-batting <- tbl(src_lahman(), "Batting")
-team_info <- select(tbl(src_lahman(), "Teams"), yearID, lgID, teamID, G, R:H)
+batting <- tbl(lahman_sqlite(), "Batting")
+team_info <- select(tbl(lahman_sqlite(), "Teams"), yearID, lgID, teamID, G, R:H)
 
 # Combine player and whole team statistics
 first_stint <- select(filter(batting, stint == 1), playerID:H)
@@ -82,17 +82,17 @@ explain_tbl(top4b)
 
 # Semi-joins ----------------------------------------------------------------
 
-people <- tbl(src_lahman(), "Master")
+people <- tbl(lahman_sqlite(), "Master")
 
 # All people in half of fame
-hof <- tbl(src_lahman(), "HallOfFame")
+hof <- tbl(lahman_sqlite(), "HallOfFame")
 semi_join(people, hof)
 
 # All people not in the hall of fame
 semi_join(people, hof, anti = TRUE)
 
 # Find all managers
-manager <- tbl(src_lahman(), "Managers")
+manager <- tbl(lahman_sqlite(), "Managers")
 semi_join(people, manager)
 
 # Find all managers in hall of fame

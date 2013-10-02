@@ -25,7 +25,7 @@
   problems.
 }
 \examples{
-batting <- tbl(src_lahman(), "Batting")
+batting <- tbl(lahman_sqlite(), "Batting")
 
 # Note that you have to do something that actually triggers a query
 # inside the explain function

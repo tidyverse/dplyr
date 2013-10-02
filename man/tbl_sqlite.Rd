@@ -67,7 +67,7 @@ my_tbl <- tbl(my_db, "my_table")
 }
 
 # Here we'll use the built-in Lahman database
-batting <- tbl(src_lahman(), "Batting")
+batting <- tbl(lahman_sqlite(), "Batting")
 dim(batting)
 colnames(batting)
 head(batting)
@@ -79,7 +79,7 @@ group_size(players)
 # See examples of data manipulation operations in ?manip_sqlite
 
 # You can also provide sql as is, using the sql function:
-batting2008 <- tbl(src_lahman(),
+batting2008 <- tbl(lahman_sqlite(),
   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 batting2008
 }

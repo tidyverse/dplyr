@@ -75,7 +75,7 @@ group_size(players)
 # See examples of data manipulation operations in ?manip_postgres
 
 # You can also provide sql as is, using the sql function:
-batting2008 <- tbl(src_lahman(),
+batting2008 <- tbl(lahman_sqlite(),
   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 batting2008
 }

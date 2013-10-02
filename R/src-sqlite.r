@@ -1,9 +1,9 @@
 #' Create a SQLite3 data source
-#' 
+#'
 #' This data structure is basically a pointer to an SQLite3 database.
-#' 
+#'
 #' @param path Path to SQLite database
-#' @param create if \code{FALSE}, \code{path} must already exist. If 
+#' @param create if \code{FALSE}, \code{path} must already exist. If
 #'   \code{TRUE}, will create a new SQlite3 database at \code{path}.
 #' @export
 #' @examples
@@ -11,11 +11,11 @@
 #' my_db <- src_sqlite(db_path)
 #' src_tbls(my_db)
 #' }
-#' 
+#'
 #' # A "built"-in dataset
-#' src_lahman()
-#' 
-#' # You can create a new sqlite database at any location if you set 
+#' lahman_sqlite()
+#'
+#' # You can create a new sqlite database at any location if you set
 #' # create = TRUE
 #' new_db <- src_sqlite(tempfile(), TRUE)
 #' src_tbls(new_db)
@@ -25,7 +25,7 @@ src_sqlite <- function(path, create = FALSE) {
   } else {
     assert_that(is.readable(path))
   }
-  
+
   if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
@@ -33,12 +33,12 @@ src_sqlite <- function(path, create = FALSE) {
     stop("RSQLite.extfuns package required to effectively use sqlite db",
       call. = FALSE)
   }
-  
+
   con <- dbConnect(SQLite(), dbname = path)
   info <- dbGetInfo(con)
-  
+
   RSQLite.extfuns::init_extensions(con)
-  
+
   src_sql("sqlite", con, path = path, info = info)
 }
 
@@ -49,7 +49,7 @@ brief_desc.src_sqlite <- function(x) {
 
 #' @S3method src_tbls src_sqlite
 src_tbls.src_sqlite <- function(x, ...) {
-  sql <- "SELECT name FROM 
+  sql <- "SELECT name FROM
     (SELECT * FROM sqlite_master UNION ALL
      SELECT * FROM sqlite_temp_master)
     WHERE type = 'table' OR type = 'view'
