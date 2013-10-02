@@ -23,7 +23,7 @@
 #' 
 #' # Subset grouped data
 #' players <- group_by(batting, playerID)
-#' best_year <- subset(players, AB == max(AB) || G == max(G))
+#' best_year <- filter(players, AB == max(AB) || G == max(G))
 #' 
 NULL
 
@@ -107,6 +107,75 @@ translate_window_env.tbl_postgres <- function(x) {
 }
 
 
+# players <- group_by(batting, teamID)
+# translate_window_where(quote(1), players)
+# translate_window_where(quote(x), players)
+# translate_window_where(quote(x == 1), players)
+# translate_window_where(quote(x == 1 && y == 2), players)
+# translate_window_where(quote(n() > 10), players)
+# translate_window_where(quote(rank() > cumsum(AB)), players)
+# translate_window_where(list(quote(x == 1), quote(n() > 2)), players)
+
+translate_window_where <- function(expr, tbl, variant = translate_window_env(tbl)) {
+  
+  # Simplest base case: atomic vector or name ---------------------------------
+  if (is.atomic(expr) || is.name(expr)) {
+    return(list(
+      expr = expr,
+      comp = list()
+    ))
+  }
+    
+  
+  # Other base case is an aggregation function --------------------------------
+  agg_f <- c("mean", "sum", "min", "max", "n", "cummean", "cummax", "cummin",
+    "cumsum", "order", "rank", "lag", "lead")
+  if (is.call(expr) && as.character(expr[[1]]) %in% agg_f) {
+    # For now, hard code aggregation functions 
+    name <- unique_name()
+    
+    env <- sql_env(expr, variant)
+    sql <- eval(expr, env = env)
+    
+    return(list(
+      expr = as.name(name),
+      comp = setNames(list(sql), name)
+    ))
+  }
+
+  # Recursive cases: list and all other functions -----------------------------
+  
+  if (is.list(expr)) {
+    args <- lapply(expr, translate_window_where, 
+      tbl = tbl, variant = variant)
+    
+    env <- sql_env(call, variant)
+    sql <- lapply(lapply(args, "[[", "expr"), eval, env = env)    
+  } else {
+    args <- lapply(expr[-1], translate_window_where, 
+      tbl = tbl, variant = variant)
+    
+    call <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
+    env <- sql_env(call, variant)
+    sql <- eval(call, env = env)
+  }
+  
+  comps <- unlist(lapply(args, "[[", "comp"), recursive = FALSE)
+
+  list(
+    expr = sql, 
+    comp = comps
+  )
+}
+
+unique_name <- local({
+  i <- 0
+  
+  function() {
+    i <<- i + 1
+    paste0("_W", i)
+  }
+})
 
 #' @S3method qry_select tbl_postgres
 qry_select.tbl_postgres <- function(x, select = x$select, from = x$from, 
@@ -118,8 +187,26 @@ qry_select.tbl_postgres <- function(x, select = x$select, from = x$from,
     select <- c(group_by, select)
     select <- select[!duplicated(select)]
   }
+  
+  # Translate expression to SQL strings ------------
+  
   translate <- function(expr) {
     translate_sql_q(expr, source = x$src, env = NULL)
+  }
+  
+  # If doing grouped subset, first make subquery, then evaluate where
+  if (!is.null(group_by) && !is.null(where)) {
+    # any aggregate or windowing function needs to be extract
+    where2 <- translate_window_where(where, x)
+    
+    base_query <- update(x, 
+      group_by = NULL,
+      where = NULL,
+      select = c(select, where2$comp))$query
+    from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()))
+    
+    select <- expand_star(select, x)
+    where <- where2$expr    
   }
   
   # group by has different behaviour depending on whether or not
@@ -131,7 +218,7 @@ qry_select.tbl_postgres <- function(x, select = x$select, from = x$from,
     select <- translate_select(select, x)
     group_by <- NULL
   }
-  
+    
   where <- translate(where)
   having <- translate(having)
   order_by <- translate(order_by)

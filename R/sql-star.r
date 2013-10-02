@@ -7,3 +7,9 @@ remove_star <- function(x) {
   is_star <- vapply(x, is.star, logical(1))  
   x[!is_star]
 }
+
+expand_star <- function(x, tbl) {
+  if (!has_star(x)) return(x)
+  
+  c(remove_star(x), lapply(colnames(tbl), as.name))
+}
