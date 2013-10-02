@@ -30,7 +30,8 @@ head(hflights)
 hflights_dt <- tbl_dt(hflights)
 
 # Caches data in local SQLite db
-hflights_db <- tbl(src_hflights(), "hflights")
+hflights_db <- tbl(hflights_sqlite(), "hflights")
+
 ```
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":

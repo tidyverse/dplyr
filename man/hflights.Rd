@@ -1,11 +1,14 @@
 \docType{data}
 \name{hflights}
 \alias{hflights}
-\alias{src_hflights}
+\alias{hflights_postgres}
+\alias{hflights_sqlite}
 \title{Houston flights data}
 \format{A data frame with 227,496 rows and 21 columns.}
 \usage{
-  src_hflights(path = NULL)
+  hflights_sqlite(path = NULL)
+
+  hflights_postgres(dbname = "hflights", ...)
 }
 \description{
   This dataset contains all flights departing from Houston
@@ -44,7 +47,7 @@
 \examples{
 head(hflights)
 
-hflight_db <- tbl(src_hflights(), "hflights")
+hflight_db <- tbl(hflights_sqlite(), "hflights")
 hflight_db
 }
 \keyword{datasets}

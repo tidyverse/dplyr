@@ -39,14 +39,14 @@
 #' @examples
 #' head(hflights)
 #'
-#' hflight_db <- tbl(src_hflights(), "hflights")
+#' hflight_db <- tbl(hflights_sqlite(), "hflights")
 #' hflight_db
 NULL
 
 #' @export
 #' @rdname hflights
-src_hflights <- function(path = NULL) {
-  if (!is.null(cache$hflights)) return(cache$hflights)
+hflights_sqlite <- function(path = NULL) {
+  if (!is.null(cache$hflights)) return(cache$hflights_sqlite)
   
   path <- db_location(path, "hflights.sqlite")
   
@@ -60,6 +60,21 @@ src_hflights <- function(path = NULL) {
     src <- src_sqlite(path)
   }
   
-  cache$hflights <- src
+  cache$hflights_sqlite <- src
   src
+}
+
+#' @export
+#' @rdname hflights
+hflights_postgres <- function(dbname = "hflights", ...) {
+  if (!is.null(cache$hflights_postgres)) return(cache$hflights_postgres)
+  
+  src <- src_postgres(dbname, ...)
+  if (!has_table(src, "hflights")) {
+    copy_to(src, hflights, temporary = FALSE,
+      indexes = list("Dest", c("Year", "Month", "DayofMonth"), "UniqueCarrier"))    
+  }
+  
+  cache$hflights_postgres <- src
+  src  
 }
