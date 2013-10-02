@@ -28,7 +28,7 @@ src_tbls.src_sql <- function(x, ...) {
 #' @S3method format src_sql
 format.src_sql <- function(x, ...) {
   paste0("src:  ", brief_desc(x), "\n",
-    wrap("tbls: ", paste0(src_tbls(x), collapse = ", ")))
+    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", ")))
 }
 
 begin_transaction <- function(x) UseMethod("begin_transaction")
