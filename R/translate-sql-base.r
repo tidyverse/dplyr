@@ -16,6 +16,11 @@ base_sql$tolower <- sql_prefix("lower")
 base_sql$toupper <- sql_prefix("upper")
 base_sql$nchar   <- sql_prefix("length")
 
+base_sql$`if` <- function(cond, if_true, if_false = NULL) {
+  build_sql("CASE WHEN ", cond, " THEN ", if_true,
+    if (!is.null(if_false)) build_sql(" ELSE "), if_false)
+}
+
 base_sql$`-` <- function(x, y = NULL) {
   if (is.null(y)) {
     build_sql(sql(" - "), x)

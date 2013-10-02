@@ -54,6 +54,9 @@ translate_sql(sin(x) + tan(y))
 # Logical operators are converted to their sql equivalents
 translate_sql(x < 5 & !(y >= 5))
 
+# If is translated into select case
+translate_sql(if (x > 5) "big" else "small")
+
 # Infix functions are passed onto SQL with \% removed
 translate_sql(first \%like\% "Had*")
 translate_sql(first \%is\% NULL)
