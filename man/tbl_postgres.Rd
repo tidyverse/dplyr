@@ -35,7 +35,7 @@
   \code{options(dplyr.explain_sql = TRUE)}. The output of
   postgres's query plans is relatively easy to make sense
   of and is explained at
-  \url{http://www.postgresql.org/docs/8.3/static/using-explain.html}.
+  \url{http://www.postgresql.org/docs/9.3/static/using-explain.html}.
 }
 \section{Grouping}{
   Typically you will create a grouped data table is to call

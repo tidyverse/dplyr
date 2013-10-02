@@ -108,8 +108,8 @@ summarise(stints, max(stints))
 # All other operations will ignore grouping, although they will preserve it
 # in the object returned to R.
 select(players, playerID:lgID)
-arrange(players, PlayerID, desc(YearID))
-mutate(players, rbi = 1.0 * R / AB)
+arrange(players, playerID, desc(yearID))
+mutate(players, rbi = 1.0 * R / (AB + 1))
 
 # NB: If you use an aggregation function with mutate
 mutate(players, cyear = YearID - min(YearID) + 1)
