@@ -83,6 +83,7 @@ tbl.src_postgres <- function(src, from, ...) {
   }
   
   tbl <- tbl_sql("postgres", src = src, from = from)
+  tbl$summarise = FALSE
   update(tbl,
     select = list(star()),
     where = NULL,

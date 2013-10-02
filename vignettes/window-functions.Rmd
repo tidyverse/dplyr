@@ -1,0 +1,102 @@
+# Grouped mutate and subset
+
+In SQL, grouped mutate and subset can be implemented with window functions (where available). This document describes the basic principles of windowed functions as they apply to PostgreSQL.
+
+* [Basic tutorial](http://www.postgresql.org/docs/9.3/static/tutorial-window.html)
+* [Formal definition](http://www.postgresql.org/docs/9.1/static/sql-select.html#SQL-WINDOW)
+
+A window function has the form: `function OVER ([PARTITION BY variable] [ORDER BY variable])`. The function can be either a window function or an aggregate function:
+
+* [Window functions](http://www.postgresql.org/docs/9.3/static/functions-window.html): row number (order), rank (rank(ties = "min"))
+  dense rank, percent rank, cume dist, ntile, lag, lead, first value (head),
+  last value (head), nth value ([)
+  
+* [Aggregate functons](http://www.postgresql.org/docs/9.3/static/functions-aggregate.html): mean, sum, min, max, n, any, all, cor, sd, var
+
+If `ORDER BY` is not specified for a window function the results are non-deterministic; if `ORDER BY` is specified for an aggregate function, it creates a running aggregate. The order is property of window function, not of the query: different window funtions might have different orders.
+
+You can work around the absence of window functions (at least in simple cases) by computing per-group summaries then joining back to the original table. This operation will be left up to the user - `mutate` and `filter` will throw an informative error message if the backend does not support windows functions.
+
+## `mutate`
+
+```{r}
+teams <- group_by(batting, teamID)
+mutate(teams, rank(AB))
+```
+
+becomes
+
+```
+SELECT *, rank() OVER (PARTITION BY teamID ORDER BY AB) 
+FROM Batting
+```
+
+So translation needs to take place in an environment where the aggregate and windowing functions know about the partitioning. Additionally, need to provide cumulative versions of all aggregate functions that provide additional `in_order` argument.
+
+## `filter`
+
+Take this simple example, where we want to find all states with more than 20 schools:
+
+```{r}
+states <- group_by(schools, schoolState)
+subset(states, n() > 20)
+```
+
+The following straightforward translation does not work:
+
+```
+SELECT "schoolID", "schoolState" 
+FROM "Schools"
+WHERE (count(*) OVER (PARTITION BY "schoolState")) > 20;
+```
+
+because window functions are only allowed in `SELECT` and `ORDER_BY`. Computing the window function in `SELECT` and referring to it in `WHERE` or `HAVING` doesn't work either:
+
+```
+SELECT "schoolID", "schoolState", 
+  count(*) OVER (PARTITION BY "schoolState") AS W1
+FROM "Schools"
+WHERE W1 > 20;
+
+SELECT "schoolID", "schoolState", 
+  count(*) OVER (PARTITION BY "schoolState") AS W1
+FROM "Schools"
+HAVING W1 > 20;
+```
+
+because `WHERE` and `HAVING` are computed before windowing functions. Instead, you must use a subquery:
+
+```
+SELECT * 
+FROM (
+  SELECT "schoolID", "schoolState", 
+    count(*) OVER (PARTITION BY "schoolState") AS W1
+  FROM "Schools"
+) AS S1
+WHERE W1 > 20;
+```
+
+This means that `translate_sql` variant for windowed subsets needs to work similarly to `ggvis::extract_inputs`, recursing through the call replacing windowed statements with a variable name, and aggregating the windows statements in a separate list. For example, for  `n() > 20` we need to generate
+
+```{r}
+list(
+  where = list(sql('"_W1" > 20')),
+  select = list(sql('COUNT(*) OVER (PARTITION "schoolState") AS "_W1")'))
+)
+```
+
+departments <- group_by(empsalary, depname)
+
+mutate(departments, mean(salary)) ->
+  SELECT *, avg(salary) OVER (PARTITION BY depname)
+  FROM empsalary
+
+mutate(departments, cumsum(salary, in_order = age)) ->
+  SELECT *, sum(salary) OVER (PARTITION BY depname ORDER BY age)
+  FROM empsalary
+
+
+summarise(departments, mean(salary)) ->
+  SELECT depname, avg(salary)
+  FROM empsalary
+

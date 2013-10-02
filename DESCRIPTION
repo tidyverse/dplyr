@@ -70,3 +70,4 @@ Collate:
     'tbl-postgres.r'
     'qry-sql.r'
     'manip-sql.r'
+    'manip-postgres.r'

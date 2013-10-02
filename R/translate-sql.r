@@ -92,8 +92,26 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
     expr <- partial_eval(expr, source, env)
   }
   
+  variant <- translate_env(source)
   pieces <- lapply(expr, function(x) {
-    env <- sql_env(x, translate_env(source))
+    env <- sql_env(x, variant)
+    eval(x, env = env)
+  })
+  
+  sql(unlist(pieces))
+}
+
+# A special case of translate_sql for select queries. It assumes the
+# input has already been partially evaluated and that expr is already quoted.
+translate_select <- function(expr, tbl) {
+  pieces <- lapply(expr, function(x) {
+    if (is.call(x)) {
+      variant <- translate_window_env(tbl)
+    } else {
+      variant <- translate_env(tbl$src)
+    }
+    
+    env <- sql_env(x, variant)
     eval(x, env = env)
   })
   
@@ -102,6 +120,11 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
 
 translate_env <- function(x) UseMethod("translate_env")
 translate_env.default <- function(x) base_sql
+
+translate_window_env <- function(x) UseMethod("translate_window_env")
+translate_window_env.default <- function(x) {
+  stop(class(x)[1], " does not supported windowed functions", call. = FALSE)
+}
 
 sql_env <- function(expr, variant_env) {
   # Default for unknown functions
