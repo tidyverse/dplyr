@@ -101,7 +101,6 @@ print.tbl_sql <- function(x, ...) {
   
   cat("\n")
   
-  rows <- nrow(x)
   trunc_mat(x)
 }
 

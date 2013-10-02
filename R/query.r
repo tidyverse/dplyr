@@ -99,7 +99,7 @@ Query <- setRefClass("Query",
       if (!is.null(.nrow)) return(.nrow)
 
       rows <- build_sql("SELECT count(*) FROM ", from())
-      .nrow <<- fetch_sql_df(con, rows)[[1]]
+      .nrow <<- as.integer(fetch_sql_df(con, rows)[[1]])
       .nrow
     },
 
