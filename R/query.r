@@ -164,11 +164,28 @@ fetch_sql_df <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
   res
 }
 
-show_query_plan <- function(con, sql) {
-  exsql <- build_sql("EXPLAIN ", sql)
+show_query_plan <- function(con, sql, ...) {
+  UseMethod("show_query_plan")
+}
+
+# http://sqlite.org/lang_explain.html
+show_query_plan.SQLiteConnection <- function(con, sql, ...) {
+  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
   expl <- fetch_sql_df(con, exsql, show = FALSE, explain = FALSE)
   rownames(expl) <- NULL
   out <- capture.output(print(expl))
 
-  message(paste(out, collapse = "\n"), "\n")
+  paste(out, collapse = "\n")
+}
+
+# http://www.postgresql.org/docs/9.3/static/sql-explain.html
+show_query_plan.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
+  format <- match.arg(format, c("text", "json", "yaml", "xml"))
+  
+  exsql <- build_sql("EXPLAIN ", 
+    if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "), 
+    sql)
+  expl <- suppressWarnings(fetch_sql_df(con, exsql, show = FALSE, explain = FALSE))
+  
+  paste(expl[[1]], collapse = "\n")
 }

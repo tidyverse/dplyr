@@ -52,7 +52,11 @@ show_sql <- function(code) {
 #' @rdname explain_sql
 explain_tbl <- function(tbl) {
   force(tbl)
-  message(tbl$query$sql)
-  show_query_plan(tbl$query$con, tbl$query$sql)
+  message(
+    "<SQL>\n", tbl$query$sql,
+    "\n\n",
+    "<PLAN>\n", show_query_plan(tbl$query$con, tbl$query$sql)
+  )
+
   invisible(NULL)
 }
