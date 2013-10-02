@@ -9,10 +9,16 @@
 #' @examples
 #' batting <- tbl(src_postgres("lahman"), "Batting")
 #' players <- group_by(batting, playerID)
-#' mutate(players, cyear = yearID - min(yearID) + 1, 
+#' 
+#' # Compute career year, rank of at bats, and cumulative at bats
+#' progress <- mutate(players, cyear = yearID - min(yearID) + 1, 
 #'  rank(desc(AB)), cumsum(AB, yearID))
 #' 
-#' mutate(players, rank(AB), cumsum(AB, yearID))
+#' # Progressively summarise data
+#' per_year <- group_by(batting, playerID, yearID)
+#' stints <- summarise(per_year, stints = max(stint))
+#' filter(stints, remote(stints) > 3)
+#' summarise(stints, remote(max(stints)))
 NULL
 
 #' @rdname manip_postgres
@@ -21,7 +27,7 @@ NULL
 summarise.tbl_postgres <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   
-  if (!identcal(.data$select, star())) {
+  if (!identical(.data$select, list(star()))) {
     stop("Can not summarise tbl_postgres that has been ", "
       select()ed or mutate()d. collapse() it first.", call. = FALSE)
   }
@@ -109,11 +115,18 @@ qry_select.tbl_postgres <- function(x, select = x$select, from = x$from,
   translate <- function(expr) {
     translate_sql_q(expr, source = x$src, env = NULL)
   }
-  select <- translate_select(select, x)
+  
+  # group by has different behaviour depending on whether or not
+  # we're summarising
+  if (x$summarise) {
+    select <- translate(select)
+    group_by <- translate(group_by)
+  } else {
+    select <- translate_select(select, x)
+    group_by <- NULL
+  }
+  
   where <- translate(where)
-
-  # only summarise + group needs group by
-  group_by <- if (isTRUE(x$summarise)) translate(group_by) else NULL
   having <- translate(having)
   order_by <- translate(order_by)
   
