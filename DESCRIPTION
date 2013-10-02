@@ -73,3 +73,4 @@ Collate:
     'join-sql.r'
     'data-hflights.r'
     'data-lahman.r'
+    'dbi-s3.r'

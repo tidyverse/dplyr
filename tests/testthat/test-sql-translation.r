@@ -5,7 +5,7 @@ test <- src_sqlite(tempfile(), create = TRUE)
 eval_sql <- function(expr) {
   select <- trans_sqlite(list(expr), .data, parent.frame())
   sql <- build_sql("SELECT ", select)
-  fetch_sql_df(test$con, sql)[[1]]
+  query_df(test$con, sql)[[1]]
 }
 
 expect_same_in_sql <- function(expr) {

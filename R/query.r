@@ -15,8 +15,8 @@
 #' q$vars()
 #' q$nrows()
 #'
-#' q$fetch_df(1)
-#' all <- q$fetch_df(-1)
+#' q$fetch(1)
+#' all <- q$fetch(-1)
 #'
 #' q$show_sql()
 #' q$explain_sql()
@@ -40,35 +40,16 @@ Query <- setRefClass("Query",
     # Currently, RSQLite supports only a single result set per connection
     # making holding on pointless, because it blocks the entire connection.
 
-    # send = function() {
-    #   .res <<- dbSendQuery(con, sql)
-    # },
-    #
-    # clear = function() {
-    #   if (is.null(.res)) return()
-    #
-    #   dbClearResult(.res)
-    #   .res <<- NULL
-    # },
-
     run = function(data = NULL, in_transaction = FALSE) {
-      run_sql(con, sql, data = data, in_transaction = in_transaction)
+      qry_run(con, sql, data = data, in_transaction = in_transaction)
     },
 
-    fetch_df = function(n = -1L) {
-      fetch_sql_df(con, sql, n = n)
+    fetch = function(n = -1L) {
+      qry_fetch(con, sql, n = n)
     },
 
     fetch_paged = function(chunk_size = 1e4, callback) {
-      qry <- dbSendQuery(con, sql)
-      on.exit(dbClearResult(qry))
-
-      while (!dbHasCompleted(qry)) {
-        chunk <- fetch(qry, chunk_size)
-        callback(chunk)
-      }
-
-      invisible(TRUE)
+      qry_fetch_paged(con, sql, chunk_size, callback)
     },
 
     save_into = function(name = random_table_name()) {
@@ -91,7 +72,7 @@ Query <- setRefClass("Query",
 
       no_rows <- build_sql("SELECT * FROM ", from(), " WHERE 1=0")
 
-      .vars <<- query_names(con, no_rows)
+      .vars <<- qry_fields(con, no_rows)
       .vars
     },
 
@@ -99,7 +80,7 @@ Query <- setRefClass("Query",
       if (!is.null(.nrow)) return(.nrow)
 
       rows <- build_sql("SELECT count(*) FROM ", from())
-      .nrow <<- as.integer(fetch_sql_df(con, rows)[[1]])
+      .nrow <<- as.integer(qry_fetch(con, rows)[[1]])
       .nrow
     },
 
@@ -109,83 +90,3 @@ Query <- setRefClass("Query",
 
   )
 )
-
-warn_incomplete <- function(qry, res) {
-  if (dbHasCompleted(qry)) return()
-
-  rows <- formatC(dbGetRowCount(qry), big.mark = ",")
-  warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
-    call. = FALSE)
-}
-
-# Run a query, abandoning results
-run_sql <- function(con, sql, data = NULL, in_transaction = FALSE) {
-  if (getOption("dplyr.show_sql")) message(sql)
-  if (getOption("dplyr.explain_sql")) show_query_plan(con, sql)
-
-  if (in_transaction) dbBeginTransaction(con)
-
-  if (is.null(data)) {
-    qry <- dbSendQuery(con, sql)
-  } else {
-    qry <- dbSendPreparedQuery(con, sql, bind.data = data)
-  }
-  dbClearResult(qry)
-
-  if (in_transaction) dbCommit(con)
-
-  invisible(NULL)
-}
-
-query_names <- function(con, sql) UseMethod("query_names")
-
-query_names.PostgreSQLConnection <- function(con, sql) {
-  qry <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(qry))
-
-  dbGetInfo(qry)$fieldDescription[[1]]$name
-}
-
-query_names.SQLiteConnection <- function(con, sql) {
-  names(fetch_sql_df(con, sql, 1L))
-}
-
-# Run a query, fetching n results
-fetch_sql_df <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
-                         explain = getOption("dplyr.explain_sql")) {
-  if (show) message(sql)
-  if (explain) show_query_plan(con, sql)
-
-  qry <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(qry))
-
-  res <- fetch(qry, n)
-  warn_incomplete(qry)
-  res
-}
-
-show_query_plan <- function(con, sql, ...) {
-  UseMethod("show_query_plan")
-}
-
-# http://sqlite.org/lang_explain.html
-show_query_plan.SQLiteConnection <- function(con, sql, ...) {
-  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-  expl <- fetch_sql_df(con, exsql, show = FALSE, explain = FALSE)
-  rownames(expl) <- NULL
-  out <- capture.output(print(expl))
-
-  paste(out, collapse = "\n")
-}
-
-# http://www.postgresql.org/docs/9.3/static/sql-explain.html
-show_query_plan.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
-  format <- match.arg(format, c("text", "json", "yaml", "xml"))
-  
-  exsql <- build_sql("EXPLAIN ", 
-    if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "), 
-    sql)
-  expl <- suppressWarnings(fetch_sql_df(con, exsql, show = FALSE, explain = FALSE))
-  
-  paste(expl[[1]], collapse = "\n")
-}

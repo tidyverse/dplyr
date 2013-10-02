@@ -34,10 +34,8 @@ src_sqlite <- function(path, create = FALSE) {
       call. = FALSE)
   }
 
-  con <- dbConnect(SQLite(), dbname = path)
-  info <- dbGetInfo(con)
-
-  RSQLite.extfuns::init_extensions(con)
+  con <- dbi_connect(SQLite(), dbname = path)
+  info <- db_info(con)
 
   src_sql("sqlite", con, path = path, info = info)
 }
@@ -45,16 +43,6 @@ src_sqlite <- function(path, create = FALSE) {
 #' @S3method brief_desc src_sqlite
 brief_desc.src_sqlite <- function(x) {
   paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
-}
-
-#' @S3method src_tbls src_sqlite
-src_tbls.src_sqlite <- function(x, ...) {
-  sql <- "SELECT name FROM
-    (SELECT * FROM sqlite_master UNION ALL
-     SELECT * FROM sqlite_temp_master)
-    WHERE type = 'table' OR type = 'view'
-    ORDER BY name"
-  fetch_sql_df(x$con, sql)[[1]]
 }
 
 #' @S3method translate_env src_sqlite

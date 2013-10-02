@@ -76,7 +76,7 @@ group_size.tbl_sql <- function(x) {
 #' @S3method as.data.frame tbl_sql
 as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
   ..., n = 1e5L) {
-  x$query$fetch_df(n)
+  x$query$fetch(n)
 }
 
 #' @S3method print tbl_sql
@@ -127,7 +127,7 @@ dim.tbl_sql <- function(x) {
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
   
-  qry_select(x, limit = n)$fetch_df()
+  qry_select(x, limit = n)$fetch()
 }
 
 #' @S3method tail tbl_sql

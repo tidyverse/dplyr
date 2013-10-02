@@ -48,8 +48,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
     stop("Table ", name, " already exists.", call. = FALSE)
   }
 
-  types <- types %||% vapply(df, dbDataType, dbObj = dest$con, 
-    FUN.VALUE = character(1))
+  types <- types %||% db_data_type(dest$con, df)
   names(types) <- names(df)
   
   begin_transaction(dest)

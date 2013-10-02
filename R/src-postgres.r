@@ -24,9 +24,9 @@ src_postgres <- function(dbname = "", host = "", port = "", user = "",
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 
-  con <- dbConnect(PostgreSQL(), host = host, dbname = dbname, user = user,
+  con <- dbi_connect(PostgreSQL(), host = host, dbname = dbname, user = user,
     password = password, port = port, options = options)
-  info <- dbGetInfo(con)
+  info <- db_info(con)
   
   # Automatically disconnect database when it's collected by gc
   f <- function(x) {

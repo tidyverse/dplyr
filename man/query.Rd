@@ -22,8 +22,8 @@ q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'"
 q$vars()
 q$nrows()
 
-q$fetch_df(1)
-all <- q$fetch_df(-1)
+q$fetch(1)
+all <- q$fetch(-1)
 
 q$show_sql()
 q$explain_sql()

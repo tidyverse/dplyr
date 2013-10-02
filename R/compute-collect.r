@@ -60,7 +60,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), ...) {
 
 #' @S3method collect tbl_sql
 collect.tbl_sql <- function(x, ...) {
-  grouped_df(x$query$fetch_df(), groups(x))
+  grouped_df(x$query$fetch(), groups(x))
 }
 
 
