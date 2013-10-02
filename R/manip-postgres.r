@@ -8,9 +8,9 @@
 #' @name manip_postgres
 #' @examples
 #' batting <- tbl(src_postgres("lahman"), "Batting")
-#' players <- group_by(batting, playerID)
 #' 
 #' # Compute career year, rank of at bats, and cumulative at bats
+#' players <- group_by(batting, playerID)
 #' progress <- mutate(players, cyear = yearID - min(yearID) + 1, 
 #'  rank(desc(AB)), cumsum(AB, yearID))
 #' 
@@ -19,6 +19,11 @@
 #' stints <- summarise(per_year, stints = max(stint))
 #' filter(stints, remote(stints) > 3)
 #' summarise(stints, remote(max(stints)))
+#' 
+#' # Subset grouped data
+#' players <- group_by(batting, playerID)
+#' best_year <- subset(players, AB == max(AB) || G == max(G))
+#' 
 NULL
 
 #' @rdname manip_postgres
