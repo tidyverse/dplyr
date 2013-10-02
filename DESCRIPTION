@@ -38,7 +38,6 @@ Collate:
     'id.r'
     'join-df.r'
     'join-dt.r'
-    'join-sqlite.r'
     'join.r'
     'manip-df.r'
     'manip-dt.r'
@@ -71,3 +70,4 @@ Collate:
     'utils.r'
     'view.r'
     'zzz.r'
+    'join-sql.r'
