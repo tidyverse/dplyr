@@ -29,6 +29,6 @@ summarise(stints, max(stints))
 
 # Subset grouped data
 players <- group_by(batting, playerID)
-best_year <- subset(players, AB == max(AB) || G == max(G))
+best_year <- filter(players, AB == max(AB) || G == max(G))
 }
 
