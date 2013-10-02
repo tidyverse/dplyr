@@ -146,7 +146,7 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   UseMethod("auto_copy")
 } 
 
-#' @S3method auto_copy tbl_sqlite
+#' @S3method auto_copy tbl_sql
 auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
   copy_to(x$src, as.data.frame(y), random_table_name(), ...)
 }
