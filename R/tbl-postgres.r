@@ -79,7 +79,7 @@ tbl.src_postgres <- function(src, from, ...) {
     
     from <- ident(from)
   } else {
-    from <- build_sql("(", from, ") AS ", random_table_name())
+    from <- build_sql("(", from, ") AS ", ident(random_table_name()))
   }
   
   tbl <- tbl_sql("postgres", src = src, from = from)

@@ -1,4 +1,4 @@
-#' Join SQLite tbls.
+#' Join sql tbls.
 #' 
 #' See \code{\link{join}} for a description of the general purpose of the 
 #' functions.
@@ -77,45 +77,45 @@
 #' # batters without person covariates
 #' anti_join(batting, people)
 #' 
-#' @name join.tbl_sqlite
+#' @name join.tbl_sql
 NULL
 
-#' @rdname join.tbl_sqlite
-#' @method inner_join tbl_sqlite
+#' @rdname join.tbl_sql
+#' @method inner_join tbl_sql
 #' @export
-inner_join.tbl_sqlite <- function(x, y, by = NULL, copy = FALSE, 
+inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE, 
                                   auto_index = FALSE, ...) {
-  join_sqlite(x, y, "inner", by = by, copy = copy, auto_index = auto_index, ...)
+  join_sql(x, y, "inner", by = by, copy = copy, auto_index = auto_index, ...)
 }
 
-#' @rdname join.tbl_sqlite
-#' @method left_join tbl_sqlite
+#' @rdname join.tbl_sql
+#' @method left_join tbl_sql
 #' @export
-left_join.tbl_sqlite <- function(x, y, by = NULL, copy = FALSE, 
+left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE, 
                                  auto_index = FALSE, ...) {
-  join_sqlite(x, y, "left", by = by, copy = copy, auto_index = auto_index, ...)
+  join_sql(x, y, "left", by = by, copy = copy, auto_index = auto_index, ...)
 }
 
 
-#' @rdname join.tbl_sqlite
-#' @method semi_join tbl_sqlite
+#' @rdname join.tbl_sql
+#' @method semi_join tbl_sql
 #' @export
-semi_join.tbl_sqlite <- function(x, y, by = NULL, copy = FALSE, 
+semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE, 
                                  auto_index = FALSE, ...) {
-  semi_join_sqlite(x, y, FALSE, by = by, copy = copy, auto_index = auto_index, 
+  semi_join_sql(x, y, FALSE, by = by, copy = copy, auto_index = auto_index, 
     ...)  
 }
   
-#' @rdname join.tbl_sqlite
-#' @method anti_join tbl_sqlite
+#' @rdname join.tbl_sql
+#' @method anti_join tbl_sql
 #' @export
-anti_join.tbl_sqlite <- function(x, y, by = NULL, copy = FALSE, 
+anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE, 
                                  auto_index = FALSE, ...) {
-  semi_join_sqlite(x, y, TRUE, by = by, copy = copy, auto_index = auto_index, 
+  semi_join_sql(x, y, TRUE, by = by, copy = copy, auto_index = auto_index, 
     ...)  
 }
 
-join_sqlite <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE, 
+join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE, 
   ...) {
   type <- match.arg(type, c("left", "right", "inner", "full"))
   by <- by %||% common_by(x, y)
@@ -134,7 +134,7 @@ join_sqlite <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   update(tbl(x$src, from), group_by = groups(x))
 }
 
-semi_join_sqlite <- function(x, y, anti = FALSE, by = NULL, copy = FALSE, 
+semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE, 
   auto_index = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
@@ -155,8 +155,8 @@ semi_join_sqlite <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
   
 from <- function(x, name = random_table_name()) {
   if (is_table(x)) {
-    x$from
+    build_sql(x$from, " AS ", ident(name))
   } else {
-    build_sql("(", x$query$sql, ") AS ", name)
+    build_sql("(", x$query$sql, ") AS ", ident(name))
   } 
 }

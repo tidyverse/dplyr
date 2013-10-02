@@ -132,7 +132,7 @@ has_table <- function(src, table) {
 }
 
 random_table_name <- function(n = 10) {
-  ident(paste0(sample(letters, n, replace = TRUE), collapse = ""))
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
 
 auto_copy <- function(x, y, copy = FALSE, ...) {
@@ -147,7 +147,7 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
 } 
 
 #' @S3method auto_copy tbl_sqlite
-auto_copy.tbl_sqlite <- function(x, y, copy = FALSE, ...) {
+auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
   copy_to(x$src, as.data.frame(y), random_table_name(), ...)
 }
 
