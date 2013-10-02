@@ -14,6 +14,7 @@
 }
 \examples{
 batting <- tbl(src_postgres("lahman"), "Batting")
+select(batting, yearID:AB)
 
 # Compute career year, rank of at bats, and cumulative at bats
 players <- group_by(batting, playerID)
@@ -23,8 +24,8 @@ progress <- mutate(players, cyear = yearID - min(yearID) + 1,
 # Progressively summarise data
 per_year <- group_by(batting, playerID, yearID)
 stints <- summarise(per_year, stints = max(stint))
-filter(stints, remote(stints) > 3)
-summarise(stints, remote(max(stints)))
+filter(stints, stints > 3)
+summarise(stints, max(stints))
 
 # Subset grouped data
 players <- group_by(batting, playerID)

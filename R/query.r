@@ -90,7 +90,8 @@ Query <- setRefClass("Query",
       if (!is.null(.vars)) return(.vars)
       
       no_rows <- build_sql("SELECT * FROM ", from(), " WHERE 1=0")
-      .vars <<- names(fetch_sql_df(con, no_rows))
+      
+      .vars <<- query_names(con, no_rows)
       .vars
     },
     
@@ -134,6 +135,19 @@ run_sql <- function(con, sql, data = NULL, in_transaction = FALSE) {
   if (in_transaction) dbCommit(con)
   
   invisible(NULL)
+}
+
+query_names <- function(con, sql) UseMethod("query_names")
+
+query_names.PostgreSQLConnection <- function(con, sql) {
+  qry <- dbSendQuery(con, sql)
+  on.exit(dbClearResult(qry))
+  
+  dbGetInfo(qry)$fieldDescription[[1]]$name
+}
+
+query_names.SQLiteConnection <- function(con, sql) {
+  names(fetch_sql_df(con, sql, 1L))
 }
 
 # Run a query, fetching n results
