@@ -84,19 +84,3 @@ list(
   select = list(sql('COUNT(*) OVER (PARTITION "schoolState") AS "_W1")'))
 )
 ```
-
-departments <- group_by(empsalary, depname)
-
-mutate(departments, mean(salary)) ->
-  SELECT *, avg(salary) OVER (PARTITION BY depname)
-  FROM empsalary
-
-mutate(departments, cumsum(salary, in_order = age)) ->
-  SELECT *, sum(salary) OVER (PARTITION BY depname ORDER BY age)
-  FROM empsalary
-
-
-summarise(departments, mean(salary)) ->
-  SELECT depname, avg(salary)
-  FROM empsalary
-
