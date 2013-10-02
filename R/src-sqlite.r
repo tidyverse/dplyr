@@ -35,15 +35,16 @@ src_sqlite <- function(path, create = FALSE) {
   }
   
   con <- dbConnect(SQLite(), dbname = path)
+  info <- dbGetInfo(con)
+  
   RSQLite.extfuns::init_extensions(con)
   
-  src_sql("sqlite", con, path = path)
+  src_sql("sqlite", con, path = path, info = info)
 }
 
-#' @S3method format src_sqlite
-format.src_sqlite <- function(x, ...) {
-  paste0("<src_sqlite> ", x$path, "\n", 
-    wrap("tbls: ", paste0(src_tbls(x), collapse = ", ")))
+#' @S3method brief_desc src_sqlite
+brief_desc.src_sqlite <- function(x) {
+  paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
 }
 
 #' @S3method src_tbls src_sqlite

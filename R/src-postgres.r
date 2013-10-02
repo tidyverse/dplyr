@@ -42,10 +42,13 @@ src_postgres <- function(dbname = "", host = "", port = "", user = "",
   src_sql("postgres", con, info = info, env = env)
 }
 
-#' @S3method format src_postgres
-format.src_postgres <- function(x, ...) {
-  paste0("<src_postgres> ", x$info$dbname, "\n", 
-    wrap("tbls: ", paste0(src_tbls(x), collapse = ", ")))
+#' @S3method brief_desc src_postgres
+brief_desc.src_postgres <- function(x) {
+  info <- x$info
+  host <- if (info$host == "") "localhost" else info$host
+  
+  paste0("postgres ", info$serverVersion, " [", info$user, "@", 
+    host, ":", info$port, "/", info$dbname, "]")
 }
 
 #' @S3method translate_env src_postgres

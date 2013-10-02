@@ -81,7 +81,7 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 
 #' @S3method print tbl_sql
 print.tbl_sql <- function(x, ...) {
-  cat("Source: sql [", x$src$path, "]\n", sep = "")
+  cat("Source: ", brief_desc(x$src), "\n", sep = "")
   
   if (inherits(x$from, "ident")) {
     cat(wrap("From: ", x$from, " ", dim_desc(x)))
@@ -104,6 +104,8 @@ print.tbl_sql <- function(x, ...) {
   rows <- nrow(x)
   trunc_mat(x)
 }
+
+brief_desc <- function(x) UseMethod("brief_desc")
 
 #' @S3method dimnames tbl_sql
 dimnames.tbl_sql <- function(x) {
