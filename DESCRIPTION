@@ -71,3 +71,5 @@ Collate:
     'view.r'
     'zzz.r'
     'join-sql.r'
+    'data-hflights.r'
+    'data-lahman.r'
