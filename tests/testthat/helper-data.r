@@ -1,8 +1,9 @@
 library(data.table)
 library(RSQLite)
 
-strip <- function(x) {
+strip <- function(x, order = FALSE) {
   x <- as.data.frame(x)
+  if (order) x <- x[do.call("order", x), , drop = FALSE]
   rownames(x) <- NULL
   x
 }
