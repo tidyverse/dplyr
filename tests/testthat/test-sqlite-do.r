@@ -8,7 +8,8 @@ test_that("Results respect select", {
 
   ncols <- function(group) unique(unlist(do(group, ncol)$DO))
   
-  expect_equal(ncols(by_team_2), 2)
+  # Original columns + 1 grouping column
+  expect_equal(ncols(by_team_2), 2 + 1)
   expect_equal(ncols(by_team_all), ncol(bball$sqlite) + 1)
 })
 

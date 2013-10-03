@@ -25,14 +25,16 @@ is_table <- function(x) {
 }
 
 #' @S3method update tbl_sql
-update.tbl_sql <- function(object, ...) {
+update.tbl_sql <- function(object, ..., summarise = FALSE) {
   args <- list(...)
   assert_that(only_has_names(args, c("select", "where", "group_by", "order_by")))
   
   for (nm in names(args)) {
     object[[nm]] <- args[[nm]]
   }
-  object$query <- qry_select(object)
+  object$summarise <- summarise
+  
+  object$query <- build_query(object)
   
   object
 } 
@@ -129,10 +131,77 @@ dim.tbl_sql <- function(x) {
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
   
-  qry_select(x, limit = n)$fetch()
+  build_query(x, limit = n)$fetch()
 }
 
 #' @S3method tail tbl_sql
 tail.tbl_sql <- function(x, n = 6L, ...) {
   stop("tail is not supported by sql sources", call. = FALSE)
+}
+
+# SQL select generation --------------------------------------------------------
+
+build_query <- function(x, select = x$select, from = x$from, 
+                                    where = x$where, group_by = x$group_by, 
+                                    having = NULL, order_by = x$order_by, 
+                                    limit = NULL, offset = NULL) {  
+  assert_that(
+    is.lang.list(select), 
+    is.sql(from),
+    is.lang.list(where), 
+    is.lang.list(group_by),
+    is.lang.list(having), 
+    is.lang.list(order_by), 
+    is.null(limit) || (is.numeric(limit) && length(limit) == 1), 
+    is.null(offset) || (is.lang(offset) && length(offset) == 1))
+
+  # Make sure select contains grouping variables
+  if (!has_star(select) && !is.null(group_by)) {
+    # Can't use unique because it strips names
+    select <- c(group_by, select)
+    select <- select[!duplicated(select)]
+  }
+  
+  # Translate expression to SQL strings ------------
+  
+  translate <- function(expr) {
+    translate_sql_q(expr, source = x$src, env = NULL)
+  }
+  
+  # If doing grouped subset, first make subquery, then evaluate where
+  if (!is.null(group_by) && !is.null(where)) {
+    # any aggregate or windowing function needs to be extract
+    where2 <- translate_window_where(where, x)
+    
+    base_query <- update(x, 
+      group_by = NULL,
+      where = NULL,
+      select = c(select, where2$comp))$query
+    from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()))
+    
+    select <- expand_star(select, x)
+    where <- where2$expr    
+  }
+  
+  # group by has different behaviour depending on whether or not
+  # we're summarising
+  if (x$summarise) {
+    select <- translate(select)
+    group_by <- translate(group_by)
+  } else {
+    if (!is.null(group_by)) {
+      select <- translate_select(select, x)      
+    } else {
+      select <- translate(select)
+    }
+    group_by <- NULL
+  }
+  
+  where <- translate(where)
+  having <- translate(having)
+  order_by <- translate(order_by)
+  
+  sql <- sql_select(x$src, from = from, select = select, where = where, 
+    order_by = order_by, group_by = group_by, limit = limit, offset = offset)
+  query(x$src$con, sql)
 }

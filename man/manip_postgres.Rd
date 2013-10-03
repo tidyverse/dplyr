@@ -1,10 +1,6 @@
 \name{manip_postgres}
 \alias{manip_postgres}
-\alias{summarise.tbl_postgres}
 \title{Data manipulation for postgre tbls.}
-\usage{
-  \method{summarise}{tbl_postgres} (.data, ...)
-}
 \description{
   This page documents the specific of data manipulation for
   \code{\link{tbl_postgresq}} objects. See

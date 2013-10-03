@@ -27,28 +27,6 @@
 #' 
 NULL
 
-#' @rdname manip_postgres
-#' @export
-#' @method summarise tbl_postgres
-summarise.tbl_postgres <- function(.data, ...) {
-  input <- partial_eval(dots(...), .data, parent.frame())
-
-  # Automatically collapse data to ensure that arranging and selecting
-  # defined before summarise happen first in sql.
-  if (!identical(.data$select, list(star())) || !is.null(.data$arrange)) {
-    .data <- collapse(.data)
-  }
-  
-  .data$summarise <- TRUE
-  .data <- update(.data, select = input)
-  
-  update(
-    collapse(.data),
-    group_by = drop_last(.data$group_by)
-  )
-}
-
-
 #' A sql variant for translating windowed PostgreSQL functions.
 #' 
 #' @param variables to group by (goes into \code{PARTITION BY})
@@ -177,53 +155,3 @@ unique_name <- local({
     paste0("_W", i)
   }
 })
-
-#' @S3method qry_select tbl_postgres
-qry_select.tbl_postgres <- function(x, select = x$select, from = x$from, 
-                                      where = x$where, group_by = x$group_by, 
-                                      having = NULL, order_by = x$order_by, 
-                                      limit = NULL, offset = NULL) {  
-  if (!has_star(select)) {
-    # Can't use unique because it strips names
-    select <- c(group_by, select)
-    select <- select[!duplicated(select)]
-  }
-  
-  # Translate expression to SQL strings ------------
-  
-  translate <- function(expr) {
-    translate_sql_q(expr, source = x$src, env = NULL)
-  }
-  
-  # If doing grouped subset, first make subquery, then evaluate where
-  if (!is.null(group_by) && !is.null(where)) {
-    # any aggregate or windowing function needs to be extract
-    where2 <- translate_window_where(where, x)
-    
-    base_query <- update(x, 
-      group_by = NULL,
-      where = NULL,
-      select = c(select, where2$comp))$query
-    from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()))
-    
-    select <- expand_star(select, x)
-    where <- where2$expr    
-  }
-  
-  # group by has different behaviour depending on whether or not
-  # we're summarising
-  if (x$summarise) {
-    select <- translate(select)
-    group_by <- translate(group_by)
-  } else {
-    select <- translate_select(select, x)
-    group_by <- NULL
-  }
-    
-  where <- translate(where)
-  having <- translate(having)
-  order_by <- translate(order_by)
-  
-  qry_select(x$src, from = from, select = select, where = where, 
-    order_by = order_by, group_by = group_by, limit = limit, offset = offset)
-}

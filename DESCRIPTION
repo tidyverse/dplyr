@@ -47,8 +47,6 @@ Collate:
     'manip-sql.r'
     'manip.r'
     'partial-eval.r'
-    'qry-sql.r'
-    'qry.r'
     'query.r'
     'sql-escape.r'
     'sql-star.r'

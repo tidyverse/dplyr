@@ -124,8 +124,15 @@ select.tbl_sql <- function(.data, ...) {
 #' @method summarise tbl_sql
 summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
-  .data <- update(.data, select = remove_star(c(input, .data$select)))
-
+  
+  # Automatically collapse data to ensure that arranging and selecting
+  # defined before summarise happen first in sql.
+  if (!identical(.data$select, list(star())) || !is.null(.data$arrange)) {
+    .data <- collapse(.data)
+  }
+  
+  .data <- update(.data, select = input, summarise = TRUE)
+  
   update(
     collapse(.data),
     group_by = drop_last(.data$group_by)

@@ -55,7 +55,7 @@ explain_tbl <- function(tbl) {
   message(
     "<SQL>\n", tbl$query$sql,
     "\n\n",
-    "<PLAN>\n", show_query_plan(tbl$query$con, tbl$query$sql)
+    "<PLAN>\n", qry_explain(tbl$query$con, tbl$query$sql)
   )
 
   invisible(NULL)
