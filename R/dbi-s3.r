@@ -5,6 +5,7 @@
 # * db_ -> con = DBIConnection
 # * qry_ -> con = DBIConnection, sql = string
 # * res_ -> res = DBIResult
+# * sql_ -> con = DBIConnection, table = string, ...
 #
 # This also makes it possible to shim over bugs in packages until they're 
 # fixed upstream.
@@ -38,8 +39,13 @@ db_list_tables.SQLiteConnection <- function(con) {
   qry_fetch(con, sql)[[1]]
 }
 
+db_has_table <- function(con, table) {
+  table %in% db_list_tables(con)
+}
+
+
 db_data_type <- function(con, fields) {
-  vapply(df, dbDataType, dbObj = con, FUN.VALUE = character(1))
+  vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
 # Query details ----------------------------------------------------------------
@@ -136,18 +142,6 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   paste(expl[[1]], collapse = "\n")
 }
 
-qry_begin_trans <- function(con) UseMethod("qry_begin_trans")
-#' @S3method qry_begin_trans SQLiteConnection
-qry_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
-#' @S3method qry_begin_trans DBIConnection
-qry_begin_trans.DBIConnection <- function(con) {
-  dbGetQuery(con, "BEGIN TRANSACTION")
-}
-
-qry_commit <- function(con) dbCommit(con)
-
-qry_rollback <- function(con) dbRollback(con)
-
 # Result sets ------------------------------------------------------------------
 
 res_warn_incomplete <- function(res) {
@@ -156,4 +150,91 @@ res_warn_incomplete <- function(res) {
   rows <- formatC(dbGetRowCount(res), big.mark = ",")
   warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
     call. = FALSE)
+}
+
+# SQL queries ------------------------------------------------------------------
+
+
+sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
+#' @S3method sql_begin_trans SQLiteConnection
+sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
+#' @S3method sql_begin_trans DBIConnection
+sql_begin_trans.DBIConnection <- function(con) {
+  qry_run(con, "BEGIN TRANSACTION")
+}
+
+sql_commit <- function(con) dbCommit(con)
+
+sql_rollback <- function(con) dbRollback(con)
+
+sql_create_table <- function(con, table, types, temporary = FALSE) {
+  assert_that(is.string(table), is.character(types))
+  
+  field_names <- escape(ident(names(types)), collapse = NULL)
+  fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE, 
+    collapse = ", ")
+  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), 
+    "TABLE ", ident(table), " ", fields)
+  
+  qry_run(con, sql)
+}
+
+sql_insert_into <- function(con, table, values) {
+  UseMethod("sql_insert_into")
+}
+
+#' @S3method sql_insert_into SQLiteConnection
+sql_insert_into.SQLiteConnection <- function(con, table, values) {
+  params <- paste(rep("?", ncol(values)), collapse = ", ")
+  
+  sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
+  qry_run(con, sql, data = values)
+}
+
+#' @S3method sql_insert_into PostgreSQLConnection
+sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
+  
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
+  
+  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values)) 
+  qry_run(con, sql)
+}
+
+sql_create_indexes <- function(con, table, indexes = NULL, ...) {
+  if (is.null(indexes)) return()
+  assert_that(is.list(indexes))
+  
+  for(index in indexes) {
+    sql_create_index(x, table, index, ...)
+  }
+}
+
+sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
+  assert_that(is.string(table), is.character(columns))
+  
+  name <- name %||% paste0(c(table, columns), collapse = "_")
+  
+  sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), 
+    " ON ", ident(table), " ", escape(ident(columns), parens = TRUE))
+  
+  qry_run(con, sql)
+}
+
+sql_drop_table <- function(con, table, force = FALSE) {
+  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table))
+  qry_run(con, sql)
+}
+
+sql_analyze <- function(con, table) {
+  sql <- build_sql("ANALYZE ", ident(table))
+  qry_run(con, sql)
+}
+
+# Utility functions ------------------------------------------------------------
+
+random_table_name <- function(n = 10) {
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
 }

@@ -70,7 +70,7 @@ hflights_postgres <- function(dbname = "hflights", ...) {
   if (!is.null(cache$hflights_postgres)) return(cache$hflights_postgres)
   
   src <- src_postgres(dbname, ...)
-  if (!has_table(src, "hflights")) {
+  if (!db_has_table(src$con, "hflights")) {
     copy_to(src, hflights, temporary = FALSE,
       indexes = list("Dest", c("Year", "Month", "DayofMonth"), "UniqueCarrier"))    
   }

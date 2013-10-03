@@ -41,97 +41,26 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' db2 <- src_sqlite(db$path)
 #' src_tbls(db2)
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)), 
-                               types = NULL, temporary = TRUE, indexes = NULL, 
-                               analyze = TRUE, ...) {
+                            types = NULL, temporary = TRUE, indexes = NULL, 
+                            analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
-  if (has_table(dest, name)) {
+  if (db_has_table(dest$con, name)) {
     stop("Table ", name, " already exists.", call. = FALSE)
   }
 
   types <- types %||% db_data_type(dest$con, df)
   names(types) <- names(df)
   
-  begin_transaction(dest)
-  create_table(dest, name, types, temporary = temporary)
-  insert_into(dest, name, df)
-  create_indexes(dest, name, indexes)
-  if (analyze) analyze(dest, name)
-  commit_transaction(dest)
+  con <- dest$con
+  
+  sql_begin_trans(con)
+  sql_create_table(con, name, types, temporary = temporary)
+  sql_insert_into(con, name, df)
+  sql_create_indexes(con, name, indexes)
+  if (analyze) sql_analyze(con, name)
+  sql_commit(con)
   
   tbl(dest, name)
-}
-
-create_table <- function(x, table, types, temporary = FALSE) {
-  assert_that(is.string(table), is.character(types))
-  
-  field_names <- escape(ident(names(types)), collapse = NULL)
-  fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE, 
-    collapse = ", ")
-  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), 
-    "TABLE ", ident(table), " ", fields)
-  
-  query(x$con, sql)$run()
-}
-
-insert_into <- function(x, table, values) {
-  UseMethod("insert_into")
-}
-
-insert_into.src_sqlite <- function(x, table, values) {
-  params <- paste(rep("?", ncol(values)), collapse = ", ")
-  sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
-
-  query(x$con, sql)$run(values)
-}
-
-insert_into.src_postgres <- function(x, table, values) {
-  cols <- lapply(values, escape, collapse = NULL, parens = FALSE)
-  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
-  
-  rows <- apply(col_mat, 1, paste0, collapse = ", ")
-  values <- paste0("(", rows, ")", collapse = "\n, ")
-  
-  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))  
-  query(x$con, sql)$run(in_transaction = FALSE)
-}
-
-
-create_indexes <- function(x, table, indexes = NULL, ...) {
-  if (is.null(indexes)) return()
-  assert_that(is.list(indexes))
-  
-  for(index in indexes) {
-    create_index(x, table, index, ...)
-  }
-}
-
-create_index <- function(x, table, columns, name = NULL, unique = FALSE) {
-  assert_that(is.string(table), is.character(columns))
-  
-  name <- name %||% paste0(c(table, columns), collapse = "_")
-  
-  sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), 
-    " ON ", ident(table), " ", escape(ident(columns), parens = TRUE))
-  
-  query(x$con, sql)$run()
-}
-
-drop_table <- function(x, table, force = FALSE) {
-  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table))
-  query(x$con, sql)$run()
-}
-
-analyze <- function(x, table) {
-  sql <- build_sql("ANALYZE ", ident(table))
-  query(x$con, sql)$run()
-}
-
-has_table <- function(src, table) {
-  table %in% src_tbls(src)
-}
-
-random_table_name <- function(n = 10) {
-  paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
 
 auto_copy <- function(x, y, copy = FALSE, ...) {
