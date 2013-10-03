@@ -13,7 +13,6 @@
 #' @param dbname,... Arguments passed to \code{\link{src_postgresql}} on first
 #'   load. The defaults assume you have a local postgresql install with
 #'   \code{lahman} database already created.
-#' @export
 #' @examples
 #' lahman_sqlite()
 #' batting <- tbl(lahman_sqlite(), "Batting")
@@ -79,7 +78,7 @@ lahman_mysql <- function(dbname = "lahman", ...) {
 }
 
 
-#' @name lahman
+#' @rdname lahman
 #' @export
 has_lahman <- function(src) {
   switch(src,

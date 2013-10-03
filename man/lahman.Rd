@@ -1,4 +1,5 @@
 \name{lahman}
+\alias{has_lahman}
 \alias{lahman}
 \alias{lahman_mysql}
 \alias{lahman_postgres}
