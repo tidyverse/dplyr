@@ -14,17 +14,19 @@
 #' players <- group_by(batting, playerID)
 #' progress <- mutate(players, cyear = yearID - min(yearID) + 1, 
 #'  rank(desc(AB)), cumsum(AB, yearID))
+#' progress
 #' 
 #' # Progressively summarise data
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
 #' filter(stints, stints > 3)
 #' summarise(stints, max(stints))
+#' mutate(stints, cumsum(stints, yearID))
 #' 
 #' # Subset grouped data
 #' players <- group_by(batting, playerID)
 #' best_year <- filter(players, AB == max(AB) || G == max(G))
-#' 
+#' best_year
 NULL
 
 #' A sql variant for translating windowed PostgreSQL functions.

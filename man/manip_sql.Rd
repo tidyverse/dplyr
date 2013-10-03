@@ -102,17 +102,17 @@ summarise(players, mean_g = mean(G), best_ab = max(AB))
 # Summarise peels over a single layer of grouping
 per_year <- group_by(batting, playerID, yearID)
 stints <- summarise(per_year, stints = max(stint))
-filter(stints, stints > 3)
+filter(ungroup(stints), stints > 3)
 summarise(stints, max(stints))
 
-# All other operations will ignore grouping, although they will preserve it
-# in the object returned to R.
+# select and arrange aren't affected by grouping
 select(players, playerID:lgID)
 arrange(players, playerID, desc(yearID))
-mutate(players, rbi = 1.0 * R / (AB + 1))
-
-# NB: If you use an aggregation function with mutate
-mutate(players, cyear = YearID - min(YearID) + 1)
+# grouped mutate doesn't work for sqlite because it doesn't
+# support windowed functions
+\dontrun{
+mutate(players, cyear = yearID - min(yearID) + 1)
+}
 
 # Do arbitrary processing with do ---------------------------------
 
@@ -123,12 +123,12 @@ not_small <- filter(sizes, freq > 10)
 big_teams <- semi_join(teams, not_small)
 
 # Explore how they have changed over time
-mods <- do(ok, failwith(NULL, lm), formula = r ~ poly(year, 2),
-  .chunk_size = 1000)
+mods <- do(big_teams, failwith(NULL, lm), formula = r ~ poly(year, 2),
+  .chunk_size = 10000)
 
 # Note that it's more efficient to select only the variables needed
-ok_min <- select(ok, year, r)
-mods <- do(ok_min, failwith(NULL, lm), formula = r ~ poly(year, 2),
+big_teams_min <- select(big_teams, year, r)
+mods <- do(big_teams_min, failwith(NULL, lm), formula = r ~ poly(year, 2),
   .chunk_size = 1000)
 }
 
