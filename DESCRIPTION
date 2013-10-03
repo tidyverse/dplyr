@@ -73,3 +73,5 @@ Collate:
     'data-lahman.r'
     'dbi-s3.r'
     'translate-sql-window.r'
+    'src-mysql.r'
+    'tbl-mysql.r'
