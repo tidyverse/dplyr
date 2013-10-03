@@ -44,12 +44,12 @@
 #' grid <- expand.grid(
 #'   teamID = c("WAS", "ATL", "PHI", "NYA"),
 #'   yearID = 2010:2012)
-#' top4a <- left_join(batting, grid, copy = TRUE, type = "inner")
+#' top4a <- left_join(batting, grid, copy = TRUE)
 #' explain_tbl(top4a)
 #'
 #' # Indices don't really help here because there's no matching index on
 #' # batting
-#' top4b <- left_join(batting, grid, copy = TRUE, type = "inner", auto_index = TRUE)
+#' top4b <- left_join(batting, grid, copy = TRUE, auto_index = TRUE)
 #' explain_tbl(top4b)
 #'
 #' # Semi-joins ----------------------------------------------------------------
@@ -129,19 +129,31 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   from <- build_sql(from(x), "\n\n",
     join, " JOIN \n\n" ,
     from(y), "\n\n",
-    "USING ", lapply(by, ident))
+    "USING ", lapply(by, ident), con = x$src$con)
 
-  update(tbl(x$src, from), group_by = groups(x))
+  update(tbl(x$src, as.join(from)), group_by = groups(x))
+}
+
+as.join <- function(x) {
+  structure(x, class = c("join", class(x)))
+}
+is.join <- function(x) {
+  inherits(x, "join")
 }
 
 semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
   auto_index = FALSE, ...) {
+  
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
 
-  by_escaped <- escape(ident(by), collapse = NULL)
-  join <- sql(paste0('"_LEFT".', by_escaped, ' = "_RIGHT".', by_escaped,
-    collapse = ' AND '))
+  con <- x$src$con
+  by_escaped <- escape(ident(by), collapse = NULL, con = con)
+  left <- escape(ident("_LEFT"), con = con)
+  right <- escape(ident("_RIGHT"), con = con)
+  
+  join <- sql(paste0(left, ".", by_escaped, " = ", right, ".", by_escaped, 
+    collapse = " AND "))
 
   from <- build_sql(
     'SELECT * FROM ', from(x, "_LEFT"), '\n\n',
@@ -157,6 +169,6 @@ from <- function(x, name = random_table_name()) {
   if (is_table(x)) {
     build_sql(x$from, " AS ", ident(name), con = x$src$con)
   } else {
-    build_sql("(", x$query$sql, ") AS ", ident(name), x$src$con)
+    build_sql("(", x$query$sql, ") AS ", ident(name), con = x$src$con)
   }
 }

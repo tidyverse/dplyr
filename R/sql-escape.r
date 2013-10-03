@@ -159,8 +159,8 @@ escape.sql <- function(x, parens = NULL, collapse = NULL, con = NULL) {
 
 #' @S3method escape list
 escape.list <- function(x, parens = TRUE, collapse = ", ", con = NULL) {
-  pieces <- vapply(x, escape, character(1))
-  sql_vector(pieces, parens, collapse, con = con)
+  pieces <- vapply(x, escape, character(1), con = con)
+  sql_vector(pieces, parens, collapse)
 }
 
 sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {

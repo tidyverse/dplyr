@@ -90,7 +90,7 @@ filter(batting, yearID > 2005, G > 130)
 select(batting, playerID:lgID)
 arrange(batting, playerID, desc(YearID))
 summarise(batting, G = mean(G), n = n())
-mutate(batting, rbi = 1.0 * R / AB)
+mutate(batting, rbi2 = 1.0 * R / AB)
 
 # Grouped summaries -----------------------------------
 players <- group_by(batting, playerID)
@@ -118,7 +118,7 @@ mutate(players, cyear = yearID - min(yearID) + 1)
 
 # First find teams with a decent number of records
 teams <- group_by(batting, teamID)
-sizes <- summarise(teams, freq = count())
+sizes <- summarise(teams, freq = n())
 not_small <- filter(sizes, freq > 10)
 big_teams <- semi_join(teams, not_small)
 

@@ -71,14 +71,15 @@ tbl.src_mysql <- function(src, from, ...) {
   assert_that(is.character(from), length(from) == 1)
   
   if (!is.sql(from)) {
-    if (!db_has_table(src$con, from)) {
-      stop("Table ", from, " not found in database ", src$path, call. = FALSE)
-    }
-    
+    # Can't check for table presense with MySQL because no way to 
+    # see temporary tables
+
     from <- ident(from)
   } else {
-    from <- build_sql("(", from, ") AS ", ident(random_table_name()), 
-      con = src$con)
+    if (!is.join(from)) {
+      from <- build_sql("(", from, ") AS ", ident(random_table_name()), 
+        con = src$con)
+    }
   }
   
   tbl <- tbl_sql("mysql", src = src, from = from)

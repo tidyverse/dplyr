@@ -72,12 +72,12 @@ explain_tbl(both)
 grid <- expand.grid(
   teamID = c("WAS", "ATL", "PHI", "NYA"),
   yearID = 2010:2012)
-top4a <- left_join(batting, grid, copy = TRUE, type = "inner")
+top4a <- left_join(batting, grid, copy = TRUE)
 explain_tbl(top4a)
 
 # Indices don't really help here because there's no matching index on
 # batting
-top4b <- left_join(batting, grid, copy = TRUE, type = "inner", auto_index = TRUE)
+top4b <- left_join(batting, grid, copy = TRUE, auto_index = TRUE)
 explain_tbl(top4b)
 
 # Semi-joins ----------------------------------------------------------------
