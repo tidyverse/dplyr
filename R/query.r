@@ -53,7 +53,8 @@ Query <- setRefClass("Query",
     },
 
     save_into = function(name = random_table_name()) {
-      tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql)
+      tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql, 
+        con = con)
       qry_run(con, tt_sql)
 
       name
@@ -63,14 +64,14 @@ Query <- setRefClass("Query",
       if (is.ident(sql)) {
         sql
       } else {
-        build_sql("(", sql, ") AS master")
+        build_sql("(", sql, ") AS master", con = con)
       }
     },
 
     vars = function() {
       if (!is.null(.vars)) return(.vars)
 
-      no_rows <- build_sql("SELECT * FROM ", from(), " WHERE 1=0")
+      no_rows <- build_sql("SELECT * FROM ", from(), " WHERE 1=0", con = con)
 
       .vars <<- qry_fields(con, no_rows)
       .vars
@@ -79,7 +80,7 @@ Query <- setRefClass("Query",
     nrow = function() {
       if (!is.null(.nrow)) return(.nrow)
 
-      rows <- build_sql("SELECT count(*) FROM ", from())
+      rows <- build_sql("SELECT count(*) FROM ", from(), con = con)
       .nrow <<- as.integer(qry_fetch(con, rows)[[1]])
       .nrow
     },

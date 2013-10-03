@@ -80,8 +80,9 @@ db_data_type.MySQLConnection <- function(con, fields) {
 # Query details ----------------------------------------------------------------
 
 qry_fields <- function(con, sql) UseMethod("qry_fields")
-#' @S3method qry_fields PostgreSQLConnection
-qry_fields.PostgreSQLConnection <- function(con, sql) {
+
+#' @S3method qry_fields DBIConnection
+qry_fields.DBIConnection <- function(con, sql) {
   qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
   
@@ -197,9 +198,9 @@ sql_begin_trans.MySQLConnection <- function(con) {
 }
 
 sql_commit <- function(con) UseMethod("sql_commit")
-#' @S3method sql_comment DBIConnection
+#' @S3method sql_commit DBIConnection
 sql_commit.DBIConnection <- function(con) dbCommit(con)
-#' @S3method sql_comment MySQLConnection
+#' @S3method sql_commit MySQLConnection
 sql_commit.MySQLConnection <- function(con) {
   qry_run(con, "COMMIT")
 }
@@ -232,7 +233,7 @@ sql_insert_into.SQLiteConnection <- function(con, table, values) {
 
 #' @S3method sql_insert_into PostgreSQLConnection
 sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
-  cols <- lapply(values, escape, collapse = NULL, parens = FALSE)
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
   
   rows <- apply(col_mat, 1, paste0, collapse = ", ")
@@ -324,7 +325,7 @@ sql_analyze.MySQLConnection <- function(con, table) {
   qry_run(con, sql)
 }
 
-sql_select <- function(x, select, from, where = NULL, group_by = NULL,
+sql_select <- function(con, select, from, where = NULL, group_by = NULL,
                        having = NULL, order_by = NULL, limit = NULL, 
                        offset = NULL) {
   
@@ -333,42 +334,46 @@ sql_select <- function(x, select, from, where = NULL, group_by = NULL,
     "limit", "offset")
   
   assert_that(is.character(select), length(select) > 0L)
-  out$select <- build_sql("SELECT ", escape(select, collapse = ", "))
+  out$select <- build_sql("SELECT ", escape(select, collapse = ", ", con = con))
   
   assert_that(is.character(from), length(from) == 1L)
-  out$from <- build_sql("FROM ", from)
+  out$from <- build_sql("FROM ", from, con = con)
   
   if (length(where) > 0L) {
     assert_that(is.character(where))
-    out$where <- build_sql("WHERE ", escape(where, collapse = " AND "))
+    out$where <- build_sql("WHERE ", 
+      escape(where, collapse = " AND ", con = con))
   }
   
   if (!is.null(group_by)) {
     assert_that(is.character(group_by), length(group_by) > 0L)
-    out$group_by <- build_sql("GROUP BY ", escape(group_by, collapse = ", "))
+    out$group_by <- build_sql("GROUP BY ", 
+      escape(group_by, collapse = ", ", con = con))
   }
   
   if (!is.null(having)) {
     assert_that(is.character(having), length(having) == 1L)
-    out$having <- build_sql("HAVING ", escape(having, collapse = ", "))
+    out$having <- build_sql("HAVING ", 
+      escape(having, collapse = ", ", con = con))
   }
   
   if (!is.null(order_by)) {
     assert_that(is.character(order_by), length(order_by) > 0L)
-    out$order_by <- build_sql("ORDER BY ", escape(order_by, collapse = ", "))
+    out$order_by <- build_sql("ORDER BY ", 
+      escape(order_by, collapse = ", ", con = con))
   }
   
   if (!is.null(limit)) {
     assert_that(is.integer(limit), length(limit) == 1L)
-    out$limit <- build_sql("LIMIT ", limit)
+    out$limit <- build_sql("LIMIT ", limit, con = con)
   }
   
   if (!is.null(offset)) {
     assert_that(is.integer(offset), length(offset) == 1L)
-    out$offset <- build_sql("OFFSET ", offset)
+    out$offset <- build_sql("OFFSET ", offset, con = con)
   }
   
-  escape(unname(compact(out)), collapse = "\n", parens = FALSE)
+  escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
 }
 
 # Utility functions ------------------------------------------------------------

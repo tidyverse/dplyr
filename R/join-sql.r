@@ -155,8 +155,8 @@ semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 
 from <- function(x, name = random_table_name()) {
   if (is_table(x)) {
-    build_sql(x$from, " AS ", ident(name))
+    build_sql(x$from, " AS ", ident(name), con = x$src$con)
   } else {
-    build_sql("(", x$query$sql, ") AS ", ident(name))
+    build_sql("(", x$query$sql, ") AS ", ident(name), x$src$con)
   }
 }

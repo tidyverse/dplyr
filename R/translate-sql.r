@@ -97,7 +97,7 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
   
   variant <- translate_env(source)
   pieces <- lapply(expr, function(x) {
-    env <- sql_env(x, variant)
+    env <- sql_env(x, variant, source$con)
     eval(x, env = env)
   })
   
@@ -114,7 +114,7 @@ translate_select <- function(expr, tbl) {
       variant <- translate_env(tbl$src)
     }
     
-    env <- sql_env(x, variant)
+    env <- sql_env(x, variant, tbl$src$con)
     eval(x, env = env)
   })
   
@@ -131,7 +131,7 @@ translate_window_env.default <- function(x) {
   stop(class(x)[1], " does not supported windowed functions", call. = FALSE)
 }
 
-sql_env <- function(expr, variant_env) {
+sql_env <- function(expr, variant_env, con) {
   # Default for unknown functions
   unknown <- setdiff(all_calls(expr), ls(variant_env))
   default_env <- ceply(unknown, default_op, parent = emptyenv())
@@ -141,7 +141,8 @@ sql_env <- function(expr, variant_env) {
 
   # Existing symbols in expression
   names <- all_names(expr)
-  name_env <- ceply(names, function(x) escape(ident(x)), parent = special_calls)
+  name_env <- ceply(names, function(x) escape(ident(x), con = con), 
+    parent = special_calls)
   name_env$`*` <- sql("*")
   
   # Known latex expressions

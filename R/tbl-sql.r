@@ -180,7 +180,8 @@ build_query <- function(x, select = x$select, from = x$from,
       group_by = NULL,
       where = NULL,
       select = c(select, where2$comp))$query
-    from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()))
+    from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()), 
+      con = x$src$con)
     
     select <- expand_star(select, x)
     where <- where2$expr    
@@ -207,7 +208,7 @@ build_query <- function(x, select = x$select, from = x$from,
   where <- translate(where)
   having <- translate(having)
   
-  sql <- sql_select(x$src, from = from, select = select, where = where, 
+  sql <- sql_select(x$src$con, from = from, select = select, where = where, 
     order_by = order_by, group_by = group_by, limit = limit, offset = offset)
   query(x$src$con, sql)
 }

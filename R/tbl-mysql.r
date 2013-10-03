@@ -55,7 +55,7 @@
 #' # See examples of data manipulation operations in ?manip_mysql
 #'
 #' # You can also provide sql as is, using the sql function:
-#' batting2008 <- tbl(lahman_sqlite(),
+#' batting2008 <- tbl(lahman_mysql(),
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }
@@ -77,7 +77,8 @@ tbl.src_mysql <- function(src, from, ...) {
     
     from <- ident(from)
   } else {
-    from <- build_sql("(", from, ") AS ", ident(random_table_name()))
+    from <- build_sql("(", from, ") AS ", ident(random_table_name()), 
+      con = src$con)
   }
   
   tbl <- tbl_sql("mysql", src = src, from = from)
