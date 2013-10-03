@@ -44,8 +44,37 @@ db_has_table <- function(con, table) {
 }
 
 
-db_data_type <- function(con, fields) {
+db_data_type <- function(con, fields) UseMethod("db_data_type")
+
+#' @S3method db_data_type DBIConnection
+db_data_type.DBIConnection <- function(con, fields) {
   vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
+}
+
+#' @S3method db_data_type MySQLConnection
+db_data_type.MySQLConnection <- function(con, fields) {
+  char_type <- function(x) {
+    n <- max(nchar(as.character(x), "bytes")) 
+    if (n <= 65535) {
+      paste0("varchar(", n, ")")
+    } else {
+      "mediumtext"
+    }
+  }
+  
+  data_type <- function(x) {
+    switch(class(x)[1],
+      logical = "boolean",
+      integer = "integer",
+      numeric = "double",
+      factor =  char_type(x),
+      character = char_type(x),
+      Date =    "date",
+      POSIXct = "datetime",
+      stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
+    )
+  }
+  vapply(fields, data_type, character(1))  
 }
 
 # Query details ----------------------------------------------------------------
@@ -162,20 +191,30 @@ sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
 sql_begin_trans.DBIConnection <- function(con) {
   qry_run(con, "BEGIN TRANSACTION")
 }
+#' @S3method sql_begin_trans DBIConnection
+sql_begin_trans.MySQLConnection <- function(con) {
+  qry_run(con, "START TRANSACTION")
+}
 
-sql_commit <- function(con) dbCommit(con)
+sql_commit <- function(con) UseMethod("sql_commit")
+#' @S3method sql_comment DBIConnection
+sql_commit.DBIConnection <- function(con) dbCommit(con)
+#' @S3method sql_comment MySQLConnection
+sql_commit.MySQLConnection <- function(con) {
+  qry_run(con, "COMMIT")
+}
 
 sql_rollback <- function(con) dbRollback(con)
 
 sql_create_table <- function(con, table, types, temporary = FALSE) {
   assert_that(is.string(table), is.character(types))
   
-  field_names <- escape(ident(names(types)), collapse = NULL)
+  field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE, 
-    collapse = ", ")
+    collapse = ", ", con = con)
   sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "), 
-    "TABLE ", ident(table), " ", fields)
-  
+    "TABLE ", ident(table), " ", fields, con = con)
+
   qry_run(con, sql)
 }
 
@@ -203,13 +242,53 @@ sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
   qry_run(con, sql)
 }
 
+#' @S3method sql_insert_into MySQLConnection
+sql_insert_into.MySQLConnection <- function(con, table, values) {
+  
+  # Convert factors to strings
+  is_factor <- vapply(values, is.factor, logical(1))
+  values[is_factor] <- lapply(values[is_factor], as.character)
+  
+  # Encode special characters in strings
+  is_char <- vapply(values, is.character, logical(1))
+  values[is_char] <- lapply(values[is_char], encodeString)
+  
+  tmp <- tempfile(fileext = ".csv")
+  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape", )
+  
+  sql <- build_sql("LOAD DATA LOCAL INFILE ", tmp, " INTO TABLE ", ident(table), 
+    con = con)
+  qry_run(con, sql)
+
+  invisible()
+}
+
+
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
+  UseMethod("sql_create_indexes")
+}
+
+#' @S3method sql_create_indexes DBIConnection
+sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
   
   for(index in indexes) {
-    sql_create_index(x, table, index, ...)
+    sql_create_index(con, table, index, ...)
   }
+}
+
+#' @S3method sql_create_indexes MySQLConnection
+sql_create_indexes.MySQLConnection <- function(con, table, indexes = NULL, ...) {
+  sql_add_index <- function(columns) {
+    name <- paste0(c(table, columns), collapse = "_")
+    fields <- escape(ident(columns), parens = TRUE, con = con)
+    build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
+  }
+  add_index <- sql(vapply(indexes, sql_add_index, character(1)))
+  sql <- build_sql("ALTER TABLE ", ident(table), "\n",  
+    escape(add_index, collapse = ",\n"), con = con)
+  qry_run(con, sql)
 }
 
 sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
@@ -217,19 +296,30 @@ sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
   
   name <- name %||% paste0(c(table, columns), collapse = "_")
   
+  fields <- escape(ident(columns), parens = TRUE, con = con)
   sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), 
-    " ON ", ident(table), " ", escape(ident(columns), parens = TRUE))
+    " ON ", ident(table), " ", fields, con = con)
   
   qry_run(con, sql)
 }
 
 sql_drop_table <- function(con, table, force = FALSE) {
-  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table))
+  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table), 
+    con = con)
   qry_run(con, sql)
 }
 
-sql_analyze <- function(con, table) {
-  sql <- build_sql("ANALYZE ", ident(table))
+sql_analyze <- function(con, table) UseMethod("sql_analyze")
+
+#' @S3method sql_analyze DBIConnection
+sql_analyze.DBIConnection <- function(con, table) {
+  sql <- build_sql("ANALYZE ", ident(table), con = con)
+  qry_run(con, sql)
+}
+
+#' @S3method sql_analyze MySQLConnection
+sql_analyze.MySQLConnection <- function(con, table) {
+  sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
   qry_run(con, sql)
 }
 

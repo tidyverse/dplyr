@@ -98,48 +98,42 @@ format.sql <- function(x, ...) paste0("<SQL> ", x)
 
 #' @rdname sql
 #' @export
-escape <- function(x, parens = NA, collapse = " ") UseMethod("escape")
+escape <- function(x, parens = NA, collapse = " ", con = NULL) {
+  UseMethod("escape")
+}
 
 #' @S3method escape ident
-escape.ident <- function(x, parens = FALSE, collapse = ", ") {
-  y <- gsub('"', '""', x, fixed = TRUE)
-  y <- paste0('"', x, '"')
-  names(y) <- names(x)
-  
-  sql_vector(names_to_as(y), parens, collapse)
+escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL) {
+  y <- escape_ident(con, x)
+  sql_vector(names_to_as(y, con), parens, collapse)
 }
 
 #' @S3method escape logical
-escape.logical <- function(x, parens = NA, collapse = ", ") {
+escape.logical <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x <- as.character(x)
   x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }
 
 #' @S3method escape factor
-escape.factor <- function(x, parens = NA, collapse = ", ") {
+escape.factor <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x <- as.character(x)
-  escape.character(x, parens = parens, collapse = collapse)
+  escape.character(x, parens = parens, collapse = collapse, con = con)
 }
 
 #' @S3method escape Date
-escape.Date <- function(x, parens = NA, collapse = ", ") {
+escape.Date <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x <- as.character(x)
-  escape.character(x, parens = parens, collapse = collapse)
+  escape.character(x, parens = parens, collapse = collapse, con = con)
 }
 
 #' @S3method escape character
-escape.character <- function(x, parens = NA, collapse = ", ") {
-  missing <- is.na(x)
-  x <- gsub("'", "''", x, fixed = TRUE)
-  x <- paste0("'", x, "'")
-  x[missing] <- "NULL"
-  
-  sql_vector(x, parens, collapse)
+escape.character <- function(x, parens = NA, collapse = ", ", con = NULL) {
+  sql_vector(escape_string(con, x), parens, collapse, con = con)
 }
 
 #' @S3method escape double
-escape.double <- function(x, parens = NA, collapse = ", ") {
+escape.double <- function(x, parens = NA, collapse = ", ", con = NULL) {
   missing <- is.na(x)
   x <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
   x[missing] <- "NULL"
@@ -148,42 +142,41 @@ escape.double <- function(x, parens = NA, collapse = ", ") {
 }
 
 #' @S3method escape integer
-escape.integer <- function(x, parens = NA, collapse = ", ") {
+escape.integer <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }
 
 #' @S3method escape NULL
-escape.NULL <- function(x, parens = NA, collapse = " ") {
+escape.NULL <- function(x, parens = NA, collapse = " ", con = NULL) {
   sql("NULL")
 }
 
 #' @S3method escape sql
-escape.sql <- function(x, parens = NULL, collapse = NULL) {
-  sql_vector(x, isTRUE(parens), collapse)
+escape.sql <- function(x, parens = NULL, collapse = NULL, con = NULL) {
+  sql_vector(x, isTRUE(parens), collapse, con = con)
 }
 
 #' @S3method escape list
-escape.list <- function(x, parens = TRUE, collapse = ", ") {
+escape.list <- function(x, parens = TRUE, collapse = ", ", con = NULL) {
   pieces <- vapply(x, escape, character(1))
-  sql_vector(pieces, parens, collapse)
+  sql_vector(pieces, parens, collapse, con = con)
 }
 
-sql_vector <- function(x, parens = NA, collapse = " ") {
+sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
   if (is.na(parens)) {
     parens <- length(x) > 1L
   }
   
-  x <- names_to_as(x)
+  x <- names_to_as(x, con = con)
   x <- paste(x, collapse = collapse)
   if (parens) x <- paste0("(", x, ")")
   sql(x)
 }
 
-names_to_as <- function(x) {
-  nms <- names2(x)
-  nms <- gsub('"', '""', nms, fixed = TRUE)
-  as <- ifelse(nms == '', '', paste0(' AS "', nms, '"'))
+names_to_as <- function(x, con = NULL) {
+  names <- names2(x)
+  as <- ifelse(names == '', '', paste0(' AS ', escape_ident(con, names)))
   
   paste0(x, as)
 }
@@ -213,7 +206,7 @@ names_to_as <- function(x) {
 #' # http://xkcd.com/327/
 #' name <- "Robert'); DROP TABLE Students;--"
 #' build_sql("INSERT INTO Students (Name) VALUES (", name, ")")
-build_sql <- function(..., .env = parent.frame()) {
+build_sql <- function(..., .env = parent.frame(), con = NULL) {
   escape_expr <- function(x) {
     # If it's a string, leave it as is
     if (is.character(x)) return(x)
@@ -222,9 +215,33 @@ build_sql <- function(..., .env = parent.frame()) {
     # Skip nulls, so you can use if statements like in paste
     if (is.null(val)) return("")
     
-    escape(val)
+    escape(val, con = con)
   }
   
   pieces <- vapply(dots(...), escape_expr, character(1))
   sql(paste0(pieces, collapse = ""))
+}
+
+# Database specific methods ----------------------------------------------------
+
+escape_string <- function(con, x) UseMethod("escape_string")
+escape_string.default <- function(con, x) {
+  sql_quote(x, "'")
+}
+
+escape_ident <- function(con, x) UseMethod("escape_ident")
+escape_ident.default <- function(con, x) {
+  sql_quote(x, '"')
+}
+escape_ident.MySQLConnection <- function(con, x) {
+  sql_quote(x, "`")
+}
+
+sql_quote <- function(x, quote) {
+  y <- gsub(quote, paste0(quote, quote), x, fixed = TRUE)
+  y <- paste0(quote, y, quote)
+  y[is.na(x)] <- "NULL"
+  names(y) <- names(x)
+  
+  y
 }

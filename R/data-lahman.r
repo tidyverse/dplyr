@@ -62,6 +62,23 @@ lahman_postgres <- function(dbname = "lahman", ...) {
   src
 }
 
+#' @export
+#' @rdname lahman
+lahman_mysql <- function(dbname = "lahman", ...) {
+  if (!is.null(cache$lahman_mysql)) return(cache$lahman_mysql)
+  
+  src <- src_mysql(dbname, ...)
+  
+  missing <- setdiff(lahman_tables(), src_tbls(src))
+  if (length(missing) > 0) {
+    cache_lahman(src, quiet = FALSE)
+  }
+  
+  cache$lahman_mysql <- src
+  src
+}
+
+
 #' @name lahman
 #' @export
 has_lahman_postgres <- function(dbname = "lahman", ...) {

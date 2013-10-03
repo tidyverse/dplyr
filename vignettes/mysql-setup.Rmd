@@ -1,0 +1,35 @@
+# Setting up MariaDB
+
+First install maria db, create a data directory, and create a default database.
+
+```
+# brew update
+# brew unlink postgresql
+brew install mariadb
+mysql_install_db --verbose --user=hadley --basedir=/usr/local \
+  --datadir=/User/hadley/db/mariadb --tmpdir=/tmp
+
+mysqld --datadir='/Users/hadley/db/mysql'
+
+mysql -u root -p -e "CREATE DATABASE lahman;"
+mysql -u root -p -e "CREATE DATABASE hflights;"
+mysql -u root -p -e "CREATE DATABASE test;"
+```
+
+Then each time, run:
+  
+```
+mysqld --datadir='/Users/hadley/db/mysql'
+mysqladmin shutdown -u root -p
+```
+
+From R,
+
+```{r}
+install.packages("RMySQL")
+library(RMySQL)
+
+drv <- dbDriver("MySQL")
+con <- dbConnect(drv, dbname = "lahman", username = "root", password = "")
+dbListTables(con)
+```

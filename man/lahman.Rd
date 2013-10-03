@@ -1,5 +1,6 @@
 \name{lahman}
 \alias{lahman}
+\alias{lahman_mysql}
 \alias{lahman_postgres}
 \alias{lahman_sqlite}
 \title{Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.}
@@ -7,6 +8,8 @@
   lahman_sqlite(path = NULL)
 
   lahman_postgres(dbname = "lahman", ...)
+
+  lahman_mysql(dbname = "lahman", ...)
 
   has_lahman_postgres(dbname = "lahman", ...)
 }

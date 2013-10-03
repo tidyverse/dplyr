@@ -14,7 +14,7 @@
 
   is.ident(x)
 
-  escape(x, parens = NA, collapse = " ")
+  escape(x, parens = NA, collapse = " ", con = NULL)
 }
 \arguments{
   \item{...}{Character vectors that will be combined into a

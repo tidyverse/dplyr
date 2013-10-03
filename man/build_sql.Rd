@@ -2,7 +2,7 @@
 \alias{build_sql}
 \title{Build a SQL string.}
 \usage{
-  build_sql(..., .env = parent.frame())
+  build_sql(..., .env = parent.frame(), con = NULL)
 }
 \arguments{
   \item{...}{input to convert to SQL. Use \code{\link{sql}}
