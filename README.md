@@ -24,7 +24,8 @@ Currently `dplyr` supports:
 * data frames
 * data tables
 * SQLite
-* Postgresql
+* PostgreSQL
+* MySQL/MariaDB
 
 You can create them as follows:
 
