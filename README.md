@@ -19,7 +19,14 @@ devtools::install_github("dplyr")
 ## `tbls`
 
 The key object in dplyr is a _tbl_, a representation of a tabular data structure.
-Currently `dplyr` supports data frames, data tables and SQLite databases. You can create them as follows:
+Currently `dplyr` supports:
+
+* data frames
+* data tables
+* SQLite
+* Postgresql
+
+You can create them as follows:
 
 ```R
 library(dplyr)
@@ -30,16 +37,19 @@ head(hflights)
 hflights_dt <- tbl_dt(hflights)
 
 # Caches data in local SQLite db
-hflights_db <- tbl(hflights_sqlite(), "hflights")
+hflights_db1 <- tbl(hflights_sqlite(), "hflights")
 
+# Caches data in local postgres db
+hflights_db2 <- tbl(hflights_postgres(), "hflights")
 ```
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
 
 ```R
-carriers_df <- group_by(hflights, UniqueCarrier)
-carriers_dt <- group_by(hflights_dt, UniqueCarrier)
-carriers_db <- group_by(hflights_db, UniqueCarrier)
+carriers_df  <- group_by(hflights, UniqueCarrier)
+carriers_dt  <- group_by(hflights_dt, UniqueCarrier)
+carriers_db1 <- group_by(hflights_db1, UniqueCarrier)
+carriers_db2 <- group_by(hflights_db2, UniqueCarrier)
 # This database has an index on the player id, which is a recommended
 # minimum whenever you're doing group by queries
 ```
@@ -59,21 +69,21 @@ See `?manip` for more details.
 They all work as similarly as possible across the range of data sources.  The main difference is performance:
 
 ```R
-system.time(summarise(carriers, delay = mean(ArrDelay, na.rm = TRUE)))
+system.time(summarise(carriers_df, delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
 #  0.010   0.002   0.012 
 system.time(summarise(carriers_dt, delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
 #  0.007   0.000   0.008 
-system.time(summarise(collect(carriers_db, delay = mean(ArrDelay))))
+system.time(summarise(collect(carriers_db1, delay = mean(ArrDelay))))
 #   user  system elapsed 
-#  0.040   0.005   0.052 
-# quiet a bit faster on "warm" database
+#  0.402   0.058   0.465 
+system.time(summarise(collect(carriers_db2, delay = mean(ArrDelay))))
 #   user  system elapsed 
-#  0.035   0.000   0.035 
+#  0.386   0.097   0.718 
 ```
 
-All methods are substantially faster than plyr:
+The data frame and table methods are substantially faster than plyr. The database methods are slower, but can work with data that don't fit in memory.
 
 ```R
 library(plyr)
@@ -115,14 +125,14 @@ print(object.size(mod2), unit = "MB")
 
 ### Binary verbs
 
-You can also join data sources: this is currently only supported for SQL, but data frame and data table wrappers will be added in the near future.
+As well as verbs that work on a single tbl, there are also a set of useful verbs that work with two tbls are a time: joins.  dplyr implements the four most useful joins from SQL:
 
-* inner join
-* left join
-* semi join
-* anti join
+* `inner_join(x, y)`: matching x + y
+* `left_join(x, y)`: all x + matching y
+* `semi_join(x, y)`: all x with match in y
+* `anti_join(x, y)`: all x without match in y
 
-Currently joins variables must be the same in both the left-hand and right-hand sides.
+Currently join variables must be the same in both the left-hand and right-hand sides.
 
 ### Compound
 
