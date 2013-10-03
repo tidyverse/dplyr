@@ -254,7 +254,8 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
   values[is_char] <- lapply(values[is_char], encodeString)
   
   tmp <- tempfile(fileext = ".csv")
-  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape", )
+  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
+    row.names = FALSE, col.names = FALSE)
   
   sql <- build_sql("LOAD DATA LOCAL INFILE ", tmp, " INTO TABLE ", ident(table), 
     con = con)
