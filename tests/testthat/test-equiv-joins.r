@@ -13,37 +13,46 @@ c_tbls <- clone_tbls(c)
 d_tbls <- clone_tbls(d)
 
 test_that("inner join equivalent across all tbls", {
-  j_df <- strip(inner_join(c_tbls$df, d_tbls$df, by = c("x", "y")))
-  j_dt <- strip(inner_join(c_tbls$dt, d_tbls$dt, by = c("x", "y")))
-  j_sqlite <- strip(inner_join(c_tbls$sqlite, d_tbls$sqlite, by = c("x", "y")))
+  join1 <- function(x, y) {
+    strip(inner_join(x, y, by = c("x", "y")), order = TRUE)
+  }
+  j <- Map(join1, c_tbls, d_tbls)
   
-  expect_equal(j_dt, j_df)
-  expect_equal(j_sqlite, j_df)  
+  expect_equal(j$dt, j$df)
+  expect_equal(j$sqlite, j$df)
+  expect_equal(j$postgres, j$df)
 })
 
 test_that("left join equivalent across all tbls", {
-  j_df <- strip(left_join(c_tbls$df, d_tbls$df, by = c("x", "y")))
-  j_dt <- strip(left_join(c_tbls$dt, d_tbls$dt, by = c("x", "y")))
-  j_sqlite <- strip(left_join(c_tbls$sqlite, d_tbls$sqlite, by = c("x", "y")))
+  join1 <- function(x, y) {
+    strip(left_join(x, y, by = c("x", "y")), order = TRUE)
+  }
+  j <- Map(join1, c_tbls, d_tbls)
   
-  expect_equal(j_dt, j_df)
-  expect_equal(j_sqlite, j_df)  
+  expect_equal(j$dt, j$df)
+  expect_equal(j$sqlite, j$df)
+  expect_equal(j$postgres, j$df)
 })
 
 test_that("semi join equivalent across all tbls", {
-  j_df <- strip(semi_join(c_tbls$df, d_tbls$df, by = c("x", "y")))
-  j_dt <- strip(semi_join(c_tbls$dt, d_tbls$dt, by = c("x", "y")))
-  j_sqlite <- strip(semi_join(c_tbls$sqlite, d_tbls$sqlite, by = c("x", "y")))
+  join1 <- function(x, y) {
+    strip(semi_join(x, y, by = c("x", "y")), order = TRUE)
+  }
+  j <- Map(join1, c_tbls, d_tbls)
   
-  expect_equal(j_dt, j_df)
-  expect_equal(j_sqlite, j_df)  
+  expect_equal(j$dt, j$df)
+  expect_equal(j$sqlite, j$df)
+  expect_equal(j$postgres, j$df)
+  
 })
 
 test_that("anti join equivalent across all tbls", {
-  j_df <- strip(anti_join(c_tbls$df, d_tbls$df, by = c("x", "y")))
-  j_dt <- strip(anti_join(c_tbls$dt, d_tbls$dt, by = c("x", "y")))
-  j_sqlite <- strip(anti_join(c_tbls$sqlite, d_tbls$sqlite, by = c("x", "y")))
+  join1 <- function(x, y) {
+    strip(anti_join(x, y, by = c("x", "y")), order = TRUE)
+  }
+  j <- Map(join1, c_tbls, d_tbls)
   
-  expect_equal(j_dt, j_df)
-  expect_equal(j_sqlite, j_df)  
+  expect_equal(j$dt, j$df)
+  expect_equal(j$sqlite, j$df)
+  expect_equal(j$postgres, j$df)
 })

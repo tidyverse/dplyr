@@ -37,3 +37,10 @@ tmp_postgres <- function() {
   cache$temp_postgres_src
 }
 
+tmp_mysql <- function() {
+  if (is.null(cache$temp_mysql_src)) {
+    cache$temp_mysql_src <- src_mysql("test")
+  }
+  
+  cache$temp_mysql_src
+}
