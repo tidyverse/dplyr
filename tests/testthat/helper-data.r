@@ -11,16 +11,18 @@ clone_tbls <- function(df) {
   list(
     df = tbl_df(df),
     dt = tbl_dt(df),
-    sqlite = copy_to(src_tmp(), df, name = random_table_name())
+    sqlite = copy_to(tmp_sqlite(), df, name = random_table_name()),
+    postgres = copy_to(tmp_postgres(), df, name = random_table_name())
   )
 }
 
 baseball_tbls <- function() {
   sqlite <- tbl(lahman_sqlite(), "Batting")
+  postgres <- tbl(lahman_postgres(), "Batting")
   df <- collect(sqlite)
   dt <- tbl_dt(df)
 
-  list(df = df, dt = dt, sqlite = sqlite)
+  list(df = df, dt = dt, sqlite = sqlite, postgres = postgres)
 }
 
 players_tbls <- function() {
@@ -28,6 +30,7 @@ players_tbls <- function() {
   list(
     df = group_by(bball$df, playerID),
     dt = group_by(bball$dt, playerID),
-    sqlite = group_by(bball$sqlite, playerID)
+    sqlite = group_by(bball$sqlite, playerID),
+    postgres = group_by(bball$postgres, playerID)
   )
 }
