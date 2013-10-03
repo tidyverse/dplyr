@@ -190,19 +190,22 @@ build_query <- function(x, select = x$select, from = x$from,
   # we're summarising
   if (x$summarise) {
     select <- translate(select)
+
     group_by <- translate(group_by)
+    order_by <- translate(order_by)
   } else {
     if (!is.null(group_by)) {
       select <- translate_select(select, x)      
+      order_by <- translate(c(group_by, order_by))
     } else {
       select <- translate(select)
+      order_by <- translate(order_by)
     }
-    group_by <- NULL
+    group_by <- NULL    
   }
   
   where <- translate(where)
   having <- translate(having)
-  order_by <- translate(order_by)
   
   sql <- sql_select(x$src, from = from, select = select, where = where, 
     order_by = order_by, group_by = group_by, limit = limit, offset = offset)

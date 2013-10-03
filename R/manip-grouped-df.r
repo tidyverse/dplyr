@@ -168,8 +168,8 @@ arrange.grouped_df <- function(.data, ...) {
 #' @method select grouped_df
 select.grouped_df <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-
-  grouped_df(.data[, input, drop = FALSE], attr(.data, "vars"))
+  vars <- vapply(input, as.character, character(1))
+  grouped_df(.data[, vars, drop = FALSE], attr(.data, "vars"))
 }
 
 #' @S3method do grouped_df

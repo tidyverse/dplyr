@@ -13,4 +13,5 @@ test_that("two arranges equivalent to one", {
   expect_equal(strip(arrange(arrange(tbls$df, b), a)), exp)
   expect_equal(strip(arrange(arrange(tbls$dt, b), a)), exp)
   expect_equal(strip(arrange(arrange(tbls$sqlite, b), a)), exp)
+  expect_equal(strip(arrange(arrange(tbls$postgres, b), a)), exp)
 })

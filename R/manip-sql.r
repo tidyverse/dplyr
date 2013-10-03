@@ -116,7 +116,7 @@ arrange.tbl_sql <- function(.data, ...) {
 #' @method select tbl_sql
 select.tbl_sql <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
-  update(.data, select = ident(input))
+  update(.data, select = input)
 }
 
 #' @rdname manip_sql
