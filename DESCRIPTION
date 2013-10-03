@@ -12,6 +12,8 @@ Imports:
 Suggests:
     RSQLite,
     RSQLite.extfuns,
+    RMySQL,
+    RPostgreSQL,
     data.table,
     testthat,
     Lahman
