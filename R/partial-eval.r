@@ -25,8 +25,8 @@
 #' @export
 #' @keywords internal
 #' @examples
-#' data("baseball", package = "plyr")
-#' bdf <- tbl_df(baseball)
+#' data("Batting", package = "Lahman")
+#' bdf <- tbl_df(Batting)
 #' partial_eval(quote(year > 1980), bdf)
 #'
 #' ids <- c("ansonca01", "forceda01", "mathebo01")
