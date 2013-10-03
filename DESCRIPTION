@@ -72,3 +72,4 @@ Collate:
     'data-hflights.r'
     'data-lahman.r'
     'dbi-s3.r'
+    'translate-sql-window.r'
