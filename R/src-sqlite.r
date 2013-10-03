@@ -51,4 +51,3 @@ translate_env.src_sqlite <- function(x) {
     sd = sql_prefix("stdev")
   )
 }
-

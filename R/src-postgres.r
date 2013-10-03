@@ -28,18 +28,8 @@ src_postgres <- function(dbname = "", host = "", port = "", user = "",
     password = password, port = port, options = options)
   info <- db_info(con)
   
-  # Automatically disconnect database when it's collected by gc
-  f <- function(x) {
-    message("Auto-disconnecting postgres connection ", format(x$con))
-    dbDisconnect(x$con)
-  }
-  environment(f) <- globalenv()  
-
-  env <- new.env(parent = emptyenv())
-  env$con <- con
-  reg.finalizer(env, f)
-  
-  src_sql("postgres", con, info = info, env = env)
+  src_sql("postgres", con, 
+    info = info, disco = db_disconnector(con, "postgres"))
 }
 
 #' @S3method brief_desc src_postgres

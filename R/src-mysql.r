@@ -28,18 +28,8 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     username = user, ...)
   info <- db_info(con)
   
-  # Automatically disconnect database when it's collected by gc
-  f <- function(x) {
-    message("Auto-disconnecting mysql connection ", format(x$con))
-    dbDisconnect(x$con)
-  }
-  environment(f) <- globalenv()  
-  
-  env <- new.env(parent = emptyenv())
-  env$con <- con
-  reg.finalizer(env, f)
-  
-  src_sql("mysql", con, info = info, env = env)
+  src_sql("mysql", con, 
+    info = info, disco = db_disconnector(con, "mysql"))
 }
 
 #' @S3method brief_desc src_mysql

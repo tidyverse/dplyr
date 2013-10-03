@@ -77,6 +77,24 @@ db_data_type.MySQLConnection <- function(con, fields) {
   vapply(fields, data_type, character(1))  
 }
 
+# Creates an environment that disconnects the database when it's
+# garbage collected
+db_disconnector <- function(con, name, quiet = FALSE) {
+  DbDisconnector$new(con = con, name = name, quiet = quiet)
+}
+DbDisconnector <- setRefClass("DbDisconnector", 
+  fields = c("con", "name", "quiet"),
+  methods = list(
+    finalize = function() {
+      if (!quiet) {
+        message("Auto-disconnecting ", name, " connection ", 
+          "(", paste(con@Id, collapse = ", "), ")")
+      }
+      dbDisconnect(con)
+    }
+  )
+)
+
 # Query details ----------------------------------------------------------------
 
 qry_fields <- function(con, sql) UseMethod("qry_fields")
