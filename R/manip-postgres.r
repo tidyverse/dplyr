@@ -32,10 +32,11 @@ NULL
 #' @method summarise tbl_postgres
 summarise.tbl_postgres <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
-  
-  if (!identical(.data$select, list(star()))) {
-    stop("Can not summarise tbl_postgres that has been ", "
-      select()ed or mutate()d. collapse() it first.", call. = FALSE)
+
+  # Automatically collapse data to ensure that arranging and selecting
+  # defined before summarise happen first in sql.
+  if (!identical(.data$select, list(star())) || !is.null(.data$arrange)) {
+    .data <- collapse(.data)
   }
   
   .data$summarise <- TRUE
