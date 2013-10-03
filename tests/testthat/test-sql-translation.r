@@ -2,16 +2,15 @@ context("SQL translation")
 
 test <- src_sqlite(tempfile(), create = TRUE)
 
-eval_sql <- function(expr) {
-  select <- trans_sqlite(list(expr), .data, parent.frame())
-  sql <- build_sql("SELECT ", select)
-  query_df(test$con, sql)[[1]]
-}
-
 expect_same_in_sql <- function(expr) {
-  r <- expr
-  sql <- eval_sql(substitute(expr))
-  expect_equal(sql, r, label = deparse(substitute(expr)))
+  expr <- substitute(expr)
+  
+  sql <- translate_sql_q(list(expr))
+  actual <- qry_fetch(test$con, paste0("SELECT ", sql))[[1]]
+  
+  exp <- eval(expr, parent.frame())
+  
+  expect_equal(actual, exp, label = deparse(substitute(expr)))
 }
 
 test_that("Simple maths is correct", {

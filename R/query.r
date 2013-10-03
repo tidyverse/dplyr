@@ -54,7 +54,7 @@ Query <- setRefClass("Query",
 
     save_into = function(name = random_table_name()) {
       tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql)
-      run_sql(con, tt_sql)
+      qry_run(con, tt_sql)
 
       name
     },
