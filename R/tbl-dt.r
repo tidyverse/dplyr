@@ -48,15 +48,6 @@ same_src.tbl_dt <- function(x, y) {
 
 # Standard data frame methods --------------------------------------------------
 
-#' @S3method as.data.table tbl_dt
-as.data.table.tbl_dt <- function(x, keep.rownames = NULL) {
-#   if (!is.null(keep.rownames)) {
-#     warning("keep.rownames argument ignored", call. = FALSE)
-#   }
-
-  NextMethod()
-}
-
 #' @S3method as.data.frame tbl_dt
 as.data.frame.tbl_dt <- function(x, row.names = NULL, optional = FALSE, ...) {
 #   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
