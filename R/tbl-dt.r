@@ -30,12 +30,12 @@ as.tbl.data.table <- function(x, ...) {
 #' @S3method tbl_vars tbl_dt
 tbl_vars.tbl_dt <- function(x) copy(names(x))
 
-#' @S3method groups grouped_dt
+#' @S3method groups tbl_dt
 groups.tbl_dt <- function(x) {
   NULL
 }
 
-#' @S3method ungroup grouped_dt
+#' @S3method ungroup tbl_dt
 ungroup.tbl_dt <- function(x) {
   x
 }
@@ -48,10 +48,7 @@ same_src.tbl_dt <- function(x, y) {
 
 # Standard data frame methods --------------------------------------------------
 
-#' Coerce data table to tbl.
-#'
-#' @export
-#' @keywords internal
+#' @S3method as.data.table tbl_dt
 as.data.table.tbl_dt <- function(x, keep.rownames = NULL) {
 #   if (!is.null(keep.rownames)) {
 #     warning("keep.rownames argument ignored", call. = FALSE)

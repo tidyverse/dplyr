@@ -93,7 +93,7 @@ is.ident <- function(x) inherits(x, "ident")
 
 #' @S3method print sql
 print.sql <- function(x, ...) cat(format(x, ...), sep = "\n")
-#' @S3method print sql
+#' @S3method format sql
 format.sql <- function(x, ...) paste0("<SQL> ", x)
 
 #' @rdname sql

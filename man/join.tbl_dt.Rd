@@ -6,13 +6,17 @@
 \alias{semi_join.tbl_dt}
 \title{Join data table tbls.}
 \usage{
-  inner_join.tbl_dt(x, y, by = NULL, copy = FALSE, ...)
+  \method{inner_join}{tbl_dt} (x, y, by = NULL,
+    copy = FALSE, ...)
 
-  left_join.tbl_dt(x, y, by = NULL, copy = FALSE, ...)
+  \method{left_join}{tbl_dt} (x, y, by = NULL,
+    copy = FALSE, ...)
 
-  semi_join.tbl_dt(x, y, by = NULL, copy = FALSE, ...)
+  \method{semi_join}{tbl_dt} (x, y, by = NULL,
+    copy = FALSE, ...)
 
-  anti_join.tbl_dt(x, y, by = NULL, copy = FALSE, ...)
+  \method{anti_join}{tbl_dt} (x, y, by = NULL,
+    copy = FALSE, ...)
 }
 \arguments{
   \item{x,y}{tbls to join}

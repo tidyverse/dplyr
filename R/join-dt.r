@@ -53,12 +53,17 @@ join_dt <- function(op) {
   f
 }
 
+#' @method inner_join tbl_dt
 #' @export
 #' @rdname join.tbl_dt
 inner_join.tbl_dt <- join_dt(merge(x, y, by = by, allow.cartesian = TRUE))
+
+#' @method left_join tbl_dt
 #' @export
 #' @rdname join.tbl_dt
 left_join.tbl_dt  <- join_dt(merge(x, y, by = by, all.x = TRUE, allow.cartesian = TRUE))
+
+#' @method semi_join tbl_dt
 #' @export
 #' @rdname join.tbl_dt
 semi_join.tbl_dt  <- join_dt({
@@ -67,6 +72,8 @@ semi_join.tbl_dt  <- join_dt({
   w <- w[!is.na(w)]
   x[w]
 })
+
+#' @method anti_join tbl_dt
 #' @export
 #' @rdname join.tbl_dt
 anti_join.tbl_dt <- join_dt(x[!y, allow.cartesian = TRUE])

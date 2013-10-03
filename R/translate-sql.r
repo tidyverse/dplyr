@@ -122,9 +122,11 @@ translate_select <- function(expr, tbl) {
 }
 
 translate_env <- function(x) UseMethod("translate_env")
+#' @S3method translate_env default
 translate_env.default <- function(x) base_sql
 
 translate_window_env <- function(x) UseMethod("translate_window_env")
+#' @S3method translate_window_env default
 translate_window_env.default <- function(x) {
   stop(class(x)[1], " does not supported windowed functions", call. = FALSE)
 }

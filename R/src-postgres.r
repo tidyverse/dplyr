@@ -66,7 +66,7 @@ translate_env.src_postgres <- function(x) {
   )
 }
 
-#' @S3method translate_window_env src_postgres
+#' @S3method translate_window_env tbl_postgres
 translate_window_env.tbl_postgres <- function(x) {
   by <- translate_sql_q(groups(x))
   
