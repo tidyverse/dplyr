@@ -18,7 +18,8 @@ base_sql$nchar   <- sql_prefix("length")
 
 base_sql$`if` <- function(cond, if_true, if_false = NULL) {
   build_sql("CASE WHEN ", cond, " THEN ", if_true,
-    if (!is.null(if_false)) build_sql(" ELSE "), if_false)
+    if (!is.null(if_false)) build_sql(" ELSE "), if_false, " ",
+    "END")
 }
 
 base_sql$`-` <- function(x, y = NULL) {

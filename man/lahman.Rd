@@ -11,7 +11,7 @@
 
   lahman_mysql(dbname = "lahman", ...)
 
-  has_lahman_postgres(dbname = "lahman", ...)
+  has_lahman(src)
 }
 \arguments{
   \item{path}{location to look for and cache SQLite

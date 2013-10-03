@@ -39,8 +39,16 @@ db_list_tables.SQLiteConnection <- function(con) {
   qry_fetch(con, sql)[[1]]
 }
 
-db_has_table <- function(con, table) {
+db_has_table <- function(con, table) UseMethod("db_has_table")
+#' @S3method db_has_table DBIConnection
+db_has_table.DBIConnection <- function(con, table) {
   table %in% db_list_tables(con)
+}
+#' @S3method db_has_table MySQLConnection
+db_has_table.MySQLConnection <- function(con, table) {
+  # MySQL has no way to list temporary tables, so we always return TRUE to
+  # skip any local checks and rely on the database to throw informative errors
+  TRUE
 }
 
 

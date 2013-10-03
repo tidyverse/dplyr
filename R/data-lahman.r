@@ -81,16 +81,22 @@ lahman_mysql <- function(dbname = "lahman", ...) {
 
 #' @name lahman
 #' @export
-has_lahman_postgres <- function(dbname = "lahman", ...) {
-  if (!require("RPostgreSQL")) return(FALSE)
-  
+has_lahman <- function(src) {
+  switch(src,
+    sqlite = file.exists(db_location(NULL, "lahman.sqlite")),
+    mysql = succeeds(src_mysql("lahman")),
+    postgres = succeeds(src_postgres("lahman")),
+    stop("Unknown src ", src, call. = FALSE)
+  )
+}
+succeeds <- function(x) {
   ok <- FALSE
   try({
-    src_postgres(dbname, ...)
+    force(x)
     ok <- TRUE
   }, silent = TRUE)
   
-  ok
+  ok 
 }
 
 

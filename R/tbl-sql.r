@@ -9,12 +9,31 @@
 #' @param subclass name of subclass
 #' @param ... other fields needed by the subclass
 #' @param select,filter,arrange default sql components.
-tbl_sql <- function(subclass, ..., select = NULL, filter = NULL,
-                       arrange = NULL) {
-  make_tbl(c(subclass, "sql"), ..., 
-    select = select, 
-    filter = filter,
-    arrange = arrange)
+tbl_sql <- function(subclass, src, from) {
+  assert_that(is.character(from), length(from) == 1)
+
+  if (!is.sql(from)) { # Must be a character string
+    if (!db_has_table(src$con, from)) {
+      stop("Table ", from, " not found in database ", src$path, call. = FALSE)
+    }
+    
+    from <- ident(from)
+  } else if (!is.join(from)) { # Must be arbitrary sql
+    # Abitrary sql needs to be wrapped into a named subquery
+    from <- build_sql("(", from, ") AS ", ident(random_table_name()), con = src$con)
+  }     
+
+  tbl <- make_tbl(c(subclass, "sql"),
+    src = src, 
+    from = from,
+    summarise = FALSE, 
+    select = list(star()),
+    where = NULL,
+    group_by = NULL,
+    order_by = NULL
+  )
+  tbl$query <- build_query(tbl)
+  tbl
 }
 
 is_table <- function(x) {
@@ -174,7 +193,7 @@ build_query <- function(x, select = x$select, from = x$from,
   # If doing grouped subset, first make subquery, then evaluate where
   if (!is.null(group_by) && !is.null(where)) {
     # any aggregate or windowing function needs to be extract
-    where2 <- translate_window_where(where, x)
+    where2 <- translate_window_where(where, x, con = x$src$con)
     
     base_query <- update(x, 
       group_by = NULL,

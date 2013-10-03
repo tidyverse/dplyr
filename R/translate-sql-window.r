@@ -7,7 +7,9 @@
 # translate_window_where(quote(rank() > cumsum(AB)), players)
 # translate_window_where(list(quote(x == 1), quote(n() > 2)), players)
 
-translate_window_where <- function(expr, tbl, variant = translate_window_env(tbl)) {
+translate_window_where <- function(expr, tbl, 
+                                   variant = translate_window_env(tbl), 
+                                   con = NULL) {
   
   # Simplest base case: atomic vector or name ---------------------------------
   if (is.atomic(expr) || is.name(expr)) {
@@ -25,7 +27,7 @@ translate_window_where <- function(expr, tbl, variant = translate_window_env(tbl
     # For now, hard code aggregation functions 
     name <- unique_name()
     
-    env <- sql_env(expr, variant)
+    env <- sql_env(expr, variant, con = con)
     sql <- eval(expr, env = env)
     
     return(list(
@@ -38,16 +40,16 @@ translate_window_where <- function(expr, tbl, variant = translate_window_env(tbl
   
   if (is.list(expr)) {
     args <- lapply(expr, translate_window_where, 
-      tbl = tbl, variant = variant)
+      tbl = tbl, variant = variant, con = con)
     
-    env <- sql_env(call, variant)
+    env <- sql_env(call, variant, con = con)
     sql <- lapply(lapply(args, "[[", "expr"), eval, env = env)    
   } else {
     args <- lapply(expr[-1], translate_window_where, 
-      tbl = tbl, variant = variant)
+      tbl = tbl, variant = variant, con = con)
     
     call <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
-    env <- sql_env(call, variant)
+    env <- sql_env(call, variant, con = con)
     sql <- eval(call, env = env)
   }
   

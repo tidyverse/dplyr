@@ -2,8 +2,7 @@
 \alias{tbl_sql}
 \title{Create an SQL tbl (abstract)}
 \usage{
-  tbl_sql(subclass, ..., select = NULL, filter = NULL,
-    arrange = NULL)
+  tbl_sql(subclass, src, from)
 }
 \arguments{
   \item{subclass}{name of subclass}
