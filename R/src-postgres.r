@@ -65,3 +65,46 @@ translate_env.src_postgres <- function(x) {
     paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
   )
 }
+
+#' @S3method translate_window_env src_postgres
+translate_window_env.tbl_postgres <- function(x) {
+  by <- translate_sql_q(groups(x))
+  
+  windowed_sql <- function(f, x, order) {
+    build_sql(sql(f), "(", x, ") OVER ",
+      "(PARTITION BY ", by, 
+      if (!is.null(order)) build_sql(" ORDER BY ", order),
+      ")"
+    )
+  }    
+  
+  nullary_win <- function(f) {
+    function(order = NULL) windowed_sql(f, NULL, order)
+  }
+  unary_agg <- function(f) {
+    function(x) windowed_sql(f, x, NULL)
+  }
+  unary_win <- function(f) {
+    function(x, order = NULL) windowed_sql(f, x, order)
+  }
+  
+  sql_variant(.parent = translate_env.src_postgres(),
+    
+    mean = unary_agg("AVG"),
+    sum = unary_agg("SUM"),
+    min = unary_agg("MIN"),
+    max = unary_agg("MAX"),
+    
+    n = function() build_sql("COUNT(*) OVER (PARTITION BY ", by, ")"),
+    
+    cummean = unary_win("AVG"),
+    cumsum = unary_win("SUM"),
+    cummin = unary_win("MIN"),
+    cummax = unary_win("MAX"),
+    
+    order = nullary_win("ROW_NUMBER"), 
+    rank = nullary_win("RANK"),
+    lag = nullary_win("LAG"),
+    lead = nullary_win("LEAD")
+  )
+}
