@@ -12,7 +12,6 @@
 #' @return a numeric vector with attribute n, giving total number of
 #'   possibilities
 #' @keywords internal
-#' @seealso \code{\link{id_var}}
 #' @export
 id <- function(.variables, drop = FALSE) {
   # Drop all zero length inputs

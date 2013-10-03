@@ -13,6 +13,8 @@
 \arguments{
   \item{x}{a data tbl}
 
+  \item{name}{name of temporary table on database.}
+
   \item{...}{other arguments passed on to methods}
 }
 \description{
@@ -24,11 +26,9 @@
   a complex tbl into a form that additional restrictions
   can be placed on.
 }
-\section{Grouping
-
-\code{compute} and \code{collect} preserve grouping, \code{collapse} drops
-it.}{
-
+\section{Grouping}{
+  \code{compute} and \code{collect} preserve grouping,
+  \code{collapse} drops it.
 }
 \examples{
 batting <- tbl(lahman_sqlite(), "Batting")

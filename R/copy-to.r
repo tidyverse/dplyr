@@ -4,9 +4,9 @@
 #' table definition as needed. Wherever possible, the new object will be
 #' temporary, limited to the current connection to the source.
 #' 
-#' @param src remote data source
+#' @param dest remote data source
 #' @param df local data frame
-#' @param name name of remote table.
+#' @param name name for new remote table.
 #' @param ... other parameters passed to methods.
 #' @return a \code{tbl} object in the remote source
 #' @export
@@ -16,6 +16,8 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 
 #' Copy a local data fram to a sqlite src.
 #' 
+#' This standard method works for all sql sources.
+#' 
 #' @method copy_to src_sql
 #' @export
 #' @param types a character vector giving variable types to use for the columns.
@@ -23,9 +25,9 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' @param temporary if \code{TRUE}, will create a temporary table that is
 #'   local to this connection and will be automatically deleted when the
 #'   connection expires
-#' 
+#' @inheritParams copy_to
 #' @param indexes
-#' @return a \code{\link{tbl_sqlite}} object
+#' @return a sqlite \code{\link{tbl}} object
 #' @examples
 #' db <- src_sqlite(tempfile(), create = TRUE) 
 #'

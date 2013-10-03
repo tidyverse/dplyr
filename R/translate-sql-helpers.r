@@ -19,7 +19,7 @@ NULL
 #' @param ... named functions, used to add custom converters from standard
 #'  R functions to sql functions.
 #' @param .parent the sql variant that this variant should inherit from.
-#'   Defaults to \code{\link{base_sql}} which provides a standard set of
+#'   Defaults to \code{base_sql} which provides a standard set of
 #'   mappings for the most common operators and functions.
 #' @param f the name of the sql function as a string
 #' @seealso \code{\link{sql}} for an example of a more customised sql

@@ -18,9 +18,9 @@
   from standard R functions to sql functions.}
 
   \item{.parent}{the sql variant that this variant should
-  inherit from.  Defaults to \code{\link{base_sql}} which
-  provides a standard set of mappings for the most common
-  operators and functions.}
+  inherit from.  Defaults to \code{base_sql} which provides
+  a standard set of mappings for the most common operators
+  and functions.}
 
   \item{f}{the name of the sql function as a string}
 }

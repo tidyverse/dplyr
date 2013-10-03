@@ -20,10 +20,10 @@
   storing in the installed package directory, and if that
   isn't writeable, a temporary directory.}
 
-  \item{dbname,...}{Arguments passed to
-  \code{\link{src_postgresql}} on first load. The defaults
-  assume you have a local postgresql install with
-  \code{lahman} database already created.}
+  \item{dbname,...}{Arguments passed to \code{src} on first
+  load. For mysql and postgresql, the defaults assume you
+  have a local server with \code{lahman} database already
+  created.}
 }
 \description{
   This creates an interesting database using data from the
@@ -40,7 +40,7 @@ batting <- tbl(lahman_sqlite(), "Batting")
 batting
 
 # Connect to a local postgres database with lahman database, if available
-if (has_lahman_postgres()) {
+if (has_lahman("postgres")) {
   lahman_postgres()
   batting <- tbl(lahman_postgres(), "Batting")
 }

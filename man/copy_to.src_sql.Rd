@@ -17,12 +17,20 @@
   automatically deleted when the connection expires}
 
   \item{indexes}{}
+
+  \item{dest}{remote data source}
+
+  \item{df}{local data frame}
+
+  \item{name}{name for new remote table.}
+
+  \item{...}{other parameters passed to methods.}
 }
 \value{
-  a \code{\link{tbl_sqlite}} object
+  a sqlite \code{\link{tbl}} object
 }
 \description{
-  Copy a local data fram to a sqlite src.
+  This standard method works for all sql sources.
 }
 \examples{
 db <- src_sqlite(tempfile(), create = TRUE)

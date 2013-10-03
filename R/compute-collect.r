@@ -6,12 +6,13 @@
 #' force computation, but collapses a complex tbl into a form that additional
 #' restrictions can be placed on.
 #'
-#' @section Grouping
+#' @section Grouping:
 #'
 #' \code{compute} and \code{collect} preserve grouping, \code{collapse} drops
 #' it.
 #'
 #' @param x a data tbl
+#' @param name name of temporary table on database.
 #' @param ... other arguments passed on to methods
 #' @seealso \code{\link{copy_to}} which is the conceptual opposite: it
 #'   takes a local data frame and makes it available to the remote source.

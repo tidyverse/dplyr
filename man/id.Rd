@@ -19,8 +19,5 @@
   containing the same data have the same value \item if
   \code{drop = FALSE} then room for all possibilites }
 }
-\seealso{
-  \code{\link{id_var}}
-}
 \keyword{internal}
 

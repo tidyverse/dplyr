@@ -12,6 +12,9 @@
 
   \item{.env}{the environment in which to evalute the
   arguments. Should not be needed in typical use.}
+
+  \item{con}{database connection; used to select correct
+  quoting characters.}
 }
 \description{
   This is a convenience function that should prevent sql

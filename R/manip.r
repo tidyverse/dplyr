@@ -32,7 +32,9 @@
 #' \itemize{
 #'   \item data.frame: \link{manip_df}, \link{manip_grouped_df}
 #'   \item data.table: \link{manip_dt}, \link{manip_grouped_dt}
-#'   \item SQLite: \link{manip_sqlite}, \link{manip_grouped_sqlite}
+#'   \item SQLite: \code{\link{src_sqlite}}
+#'   \item PostgreSQL: \code{\link{src_postgres}}
+#'   \item MySQL: \code{\link{src_mysql}}
 #' }
 #'
 #' @section Output:

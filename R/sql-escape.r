@@ -195,6 +195,7 @@ names_to_as <- function(x, con = NULL) {
 #'   input as sql identifiers (safe)
 #' @param .env the environment in which to evalute the arguments. Should not
 #'   be needed in typical use.
+#' @param con database connection; used to select correct quoting characters.
 #' @export
 #' @examples
 #' build_sql("SELECT * FROM TABLE")

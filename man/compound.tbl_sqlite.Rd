@@ -4,6 +4,9 @@
 \usage{
   \method{compound}{tbl_sqlite} (x, y)
 }
+\arguments{
+  \item{x,y}{tbls to combine}
+}
 \description{
   Create a compound sqlite tbl
 }

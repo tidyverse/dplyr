@@ -10,6 +10,7 @@ compound <- function(x, y, ...) {
 
 #' Create a compound sqlite tbl
 #' 
+#' @param x,y tbls to combine
 #' @method compound tbl_sqlite
 #' @export
 #' @examples

@@ -10,16 +10,16 @@
 #' @param path location to look for and cache SQLite database. If \code{NULL},
 #'   the default, will first try storing in the installed package directory, and
 #'   if that isn't writeable, a temporary directory.
-#' @param dbname,... Arguments passed to \code{\link{src_postgresql}} on first
-#'   load. The defaults assume you have a local postgresql install with
-#'   \code{lahman} database already created.
+#' @param dbname,... Arguments passed to \code{src} on first
+#'   load. For mysql and postgresql, the defaults assume you have a local
+#'   server with \code{lahman} database already created.
 #' @examples
 #' lahman_sqlite()
 #' batting <- tbl(lahman_sqlite(), "Batting")
 #' batting
 #'
 #' # Connect to a local postgres database with lahman database, if available
-#' if (has_lahman_postgres()) {
+#' if (has_lahman("postgres")) {
 #'   lahman_postgres()
 #'   batting <- tbl(lahman_postgres(), "Batting")
 #' }
