@@ -16,11 +16,11 @@ clone_tbls <- function(df) {
 }
 
 baseball_tbls <- function() {
-  sql <- tbl(src_lahman(), "Batting")
-  df <- collect(sql)
+  sqlite <- tbl(lahman_sqlite(), "Batting")
+  df <- collect(sqlite)
   dt <- tbl_dt(df)
 
-  list(df = df, dt = dt, sqlite = sql)
+  list(df = df, dt = dt, sqlite = sqlite)
 }
 
 players_tbls <- function() {
