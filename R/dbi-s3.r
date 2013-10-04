@@ -38,10 +38,14 @@ db_list_tables.SQLiteConnection <- function(con) {
     ORDER BY name"
   qry_fetch(con, sql)[[1]]
 }
+#' @S3method db_list_tables bigquery
+db_list_tables.bigquery <- function(con) {
+  list_tables(con$project, con$dataset)
+}
 
 db_has_table <- function(con, table) UseMethod("db_has_table")
-#' @S3method db_has_table DBIConnection
-db_has_table.DBIConnection <- function(con, table) {
+#' @S3method db_has_table default
+db_has_table.default <- function(con, table) {
   table %in% db_list_tables(con)
 }
 #' @S3method db_has_table MySQLConnection
