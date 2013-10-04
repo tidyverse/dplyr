@@ -10,6 +10,7 @@
 #' @param path Path to SQLite database
 #' @param create if \code{FALSE}, \code{path} must already exist. If
 #'   \code{TRUE}, will create a new SQlite3 database at \code{path}.
+#' @param src a sqlite src created with \code{src_sqlite}.
 #' @export
 #' @examples
 #' \dontrun{

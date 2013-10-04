@@ -10,10 +10,10 @@
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
-#' @param options other additional options passed to command line client
 #' @param ... for the src, other arguments passed on to the underlying
 #'   database connector, \code{dbConnect}. For the tbl, included for 
 #'   compatibility with the generic, but otherwise ignored.
+#' @param src a mysql src created with \code{src_mysql}.
 #' @param from Either a string giving the name of table in database, or
 #'   \code{\link{sql}} described a derived table or compound join.
 #' @export

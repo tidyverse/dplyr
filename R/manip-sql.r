@@ -42,7 +42,8 @@
 #' }
 #'
 #' @param .data an sql data tbl
-#' @param ... variables interpreted in the context of \code{.data}
+#' @param ... variables interpreted in the context of \code{.data}. 
+#'   For \code{do}, any additional arguments to pass to \code{f}.
 #' @examples
 #' batting <- tbl(lahman_sqlite(), "Batting")
 #'
@@ -150,8 +151,7 @@ mutate.tbl_sql <- function(.data, ...) {
 #' @method do tbl_sql
 #' @export
 #' @rdname manip_sql
-#' @param .f,... A function to apply to each group, and any additional arguments
-#'   to pass to \code{f}.
+#' @param .f A function to apply to each group.
 #' @param .chunk_size The size of each chunk to pull into R. If this number is
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of

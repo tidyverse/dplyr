@@ -25,8 +25,11 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' @param temporary if \code{TRUE}, will create a temporary table that is
 #'   local to this connection and will be automatically deleted when the
 #'   connection expires
+#' @param indexes a list of character vectors. Each element of the list 
+#'   will create a new index.
+#' @param analyze if \code{TRUE} (the default), will automatically ANALYZE the
+#'   new table so that the query optimiser has useful information.
 #' @inheritParams copy_to
-#' @param indexes
 #' @return a sqlite \code{\link{tbl}} object
 #' @examples
 #' db <- src_sqlite(tempfile(), create = TRUE) 

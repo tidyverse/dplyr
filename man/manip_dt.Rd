@@ -27,6 +27,10 @@
   \item{inplace}{if \code{FALSE} (the default) the data
   frame will be copied prior to modification to avoid
   changes propagating via reference.}
+
+  \item{.env}{The environment in which to evaluate
+  arguments not included in the data. The default should
+  suffice for ordinary usage.}
 }
 \description{
   Data manipulation for data tables.

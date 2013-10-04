@@ -25,10 +25,10 @@
   \item{.data}{an sql data tbl}
 
   \item{...}{variables interpreted in the context of
-  \code{.data}}
+  \code{.data}.  For \code{do}, any additional arguments to
+  pass to \code{f}.}
 
-  \item{.f,...}{A function to apply to each group, and any
-  additional arguments to pass to \code{f}.}
+  \item{.f}{A function to apply to each group.}
 
   \item{.chunk_size}{The size of each chunk to pull into R.
   If this number is too big, the process will be slow

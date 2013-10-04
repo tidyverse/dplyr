@@ -16,7 +16,12 @@
   table that is local to this connection and will be
   automatically deleted when the connection expires}
 
-  \item{indexes}{}
+  \item{indexes}{a list of character vectors. Each element
+  of the list will create a new index.}
+
+  \item{analyze}{if \code{TRUE} (the default), will
+  automatically ANALYZE the new table so that the query
+  optimiser has useful information.}
 
   \item{dest}{remote data source}
 

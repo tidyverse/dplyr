@@ -23,6 +23,10 @@
 
   \item{...}{variables interpreted in the context of
   \code{.data}}
+
+  \item{.env}{The environment in which to evaluate
+  arguments not included in the data. The default should
+  suffice for ordinary usage.}
 }
 \description{
   Data manipulation for data frames.

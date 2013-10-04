@@ -4,6 +4,8 @@
 #' @param ... variables interpreted in the context of \code{.data}
 #' @param inplace if \code{FALSE} (the default) the data frame will be copied
 #'   prior to modification to avoid changes propagating via reference.
+#' @param .env The environment in which to evaluate arguments not included
+#'   in the data. The default should suffice for ordinary usage.
 #' @examples
 #' if (require("data.table")) {
 #' # If you start with a data table, you end up with a data table

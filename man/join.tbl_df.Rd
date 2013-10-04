@@ -47,6 +47,9 @@
   \item{copy}{If \code{y} is not a data frame or
   \code{\link{tbl_df}} and \code{copy} is \code{TRUE},
   \code{y} will be converted into a data frame}
+
+  \item{...}{included for compatibility with the generic;
+  otherwise ignored.}
 }
 \description{
   See \code{\link{join}} for a description of the general

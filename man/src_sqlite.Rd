@@ -13,6 +13,8 @@
   \item{create}{if \code{FALSE}, \code{path} must already
   exist. If \code{TRUE}, will create a new SQlite3 database
   at \code{path}.}
+
+  \item{src}{a sqlite src created with \code{src_sqlite}.}
 }
 \description{
   Use \code{src_sqlite} to connect to an existing sqlite

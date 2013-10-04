@@ -15,13 +15,12 @@
 
   \item{user,password}{User name and password (if needed)}
 
-  \item{options}{other additional options passed to command
-  line client}
-
   \item{...}{for the src, other arguments passed on to the
   underlying database connector, \code{dbConnect}. For the
   tbl, included for compatibility with the generic, but
   otherwise ignored.}
+
+  \item{src}{a mysql src created with \code{src_mysql}.}
 
   \item{from}{Either a string giving the name of table in
   database, or \code{\link{sql}} described a derived table
