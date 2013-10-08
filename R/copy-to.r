@@ -68,10 +68,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   tbl(dest, name)
 }
 
-#' lahman <- src_bigquery("hadbilling", "lahman")
-#' copy_to(lahman, mtcars)
-
-#' @S3method copy_to
+#' @S3method copy_to src_bigquery
 copy_to.src_bigquery <- function(dest, df, name = deparse(substitute(df)), ...) {
   job <- insert_upload_job(dest$con$project, dest$con$dataset, name, df, 
     billing = dest$con$billing)

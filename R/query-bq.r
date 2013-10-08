@@ -97,18 +97,18 @@ BigQuery <- setRefClass("BigQuery", contains = "Query",
 
     vars = function() {
       run()
-      vapply(info$schema$fields, "[[", name, FUN.VALUE = character(1))
+      vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
     },
     
     nrow = function() {
       run()
-      info$numRows
+      as.numeric(info$numRows)
     },
     
     ncol = function() {
       run()
       length(info$schema$fields)
-    } 
+    }
   )
 )
 

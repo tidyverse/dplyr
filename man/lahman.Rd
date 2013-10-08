@@ -1,6 +1,7 @@
 \name{lahman}
 \alias{has_lahman}
 \alias{lahman}
+\alias{lahman_bigquery}
 \alias{lahman_mysql}
 \alias{lahman_postgres}
 \alias{lahman_sqlite}
@@ -11,6 +12,9 @@
   lahman_postgres(dbname = "lahman", ...)
 
   lahman_mysql(dbname = "lahman", ...)
+
+  lahman_bigquery(project = "hadbilling", ...,
+    quiet = FALSE)
 
   has_lahman(src)
 }

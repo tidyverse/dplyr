@@ -176,7 +176,7 @@ build_query <- function(x, select = x$select, from = x$from,
     is.lang.list(order_by), 
     is.null(limit) || (is.numeric(limit) && length(limit) == 1), 
     is.null(offset) || (is.lang(offset) && length(offset) == 1))
-
+  
   # Make sure select contains grouping variables
   if (!has_star(select) && !is.null(group_by)) {
     # Can't use unique because it strips names
