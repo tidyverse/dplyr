@@ -1,7 +1,7 @@
 # Environment for caching connections etc
 cache <- new.env(parent = emptyenv())
 
-db_location <- function(path, filename) {
+db_location <- function(path = NULL, filename) {
   if (!is.null(path)) {
     if (!is_writeable(path)) stop("Can not write to ", path, call. = FALSE)
     return(file.path(path, filename))

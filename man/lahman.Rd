@@ -9,14 +9,13 @@
 \usage{
   lahman_sqlite(path = NULL)
 
-  lahman_postgres(dbname = "lahman", ...)
+  lahman_postgres(...)
 
-  lahman_mysql(dbname = "lahman", ...)
+  lahman_mysql(...)
 
-  lahman_bigquery(project = "hadbilling", ...,
-    quiet = FALSE)
+  lahman_bigquery(...)
 
-  has_lahman(src)
+  has_lahman(type, ...)
 }
 \arguments{
   \item{path}{location to look for and cache SQLite
@@ -27,7 +26,9 @@
   \item{dbname,...}{Arguments passed to \code{src} on first
   load. For mysql and postgresql, the defaults assume you
   have a local server with \code{lahman} database already
-  created.}
+  created. For bigquery, it assumes you have read/write
+  access to a project called
+  \code{Sys.getenv("BIGQUERY_PROJECT")}}
 }
 \description{
   This creates an interesting database using data from the

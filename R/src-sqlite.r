@@ -82,12 +82,6 @@
 #' batting2008
 #' }
 src_sqlite <- function(path, create = FALSE) {
-  if (create) {
-    assert_that(!file.exists(path))
-  } else {
-    assert_that(is.readable(path))
-  }
-
   if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
