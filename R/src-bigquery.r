@@ -46,16 +46,23 @@
 #' group_size(players)
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
-#' best_year <- filter(players, AB == max(AB) || G == max(G))
-#' progress <- mutate(players, cyear = yearID - min(yearID) + 1, 
-#'  rank(desc(AB)), cumsum(AB, yearID))
+#' filter(players, AB == max(AB) || G == max(G))
+#' # Not supported yet:
+#' \dontrun{
+#' mutate(players, cyear = yearID - min(yearID) + 1, 
+#'  cumsum(AB, yearID))
+#' }
+#' mutate(players, rank())
 #'  
 #' # When you group by multiple level, each summarise peels off one level
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
 #' filter(stints, stints > 3)
 #' summarise(stints, max(stints))
-#' mutate(stints, cumsum(stints, yearID))
+#' # Not supported yet:
+#' \dontrun{mutate(stints, cumsum(stints, yearID))}
+#' # But other window functions are:
+#' mutate(players, rank = rank(ab))
 #'
 #' # Joins ---------------------------------------------------------------------
 #' player_info <- select(tbl(lahman_bigquery(), "Master"), playerID, hofID, 
@@ -145,14 +152,13 @@ translate_env.src_bigquery <- function(x) {
 
 #' @S3method translate_window_env tbl_bigquery
 translate_window_env.tbl_bigquery <- function(x) {
-  by <- translate_sql_q(groups(x))
+  by <- translate_sql_q(groups(x), source = x$src, env = NULL)
   
   windowed_sql <- function(f, x, order) {
     build_sql(sql(f), "(", x, ") OVER ",
       "(PARTITION BY ", by, 
       if (!is.null(order)) build_sql(" ORDER BY ", order, con = x$src$con),
-      ")", con = x$src$con
-    )
+      ")", con = x$src$con)
   }    
   
   nullary_win <- function(f) {

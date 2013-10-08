@@ -10,10 +10,10 @@
 #' bq$wait()
 #' bq$fetch(100)
 #' @S3method query bigquery
-query.bigquery <- function(con, sql) {
+query.bigquery <- function(con, sql, .vars) {
   assert_that(is.string(sql))
 
-  BigQuery$new(con = con, sql = sql, job = NULL, info = NULL)
+  BigQuery$new(con = con, sql = sql, .vars = .vars, job = NULL, info = NULL)
 }
 
 BigQuery <- setRefClass("BigQuery", contains = "Query",
@@ -96,18 +96,15 @@ BigQuery <- setRefClass("BigQuery", contains = "Query",
     },
 
     vars = function() {
-      run()
-      vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
+      auto_names(.vars)
     },
     
     nrow = function() {
-      run()
-      as.numeric(info$numRows)
+      NA
     },
     
     ncol = function() {
-      run()
-      length(info$schema$fields)
+      length(vars())
     }
   )
 )

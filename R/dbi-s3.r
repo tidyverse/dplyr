@@ -126,8 +126,14 @@ qry_fields.SQLiteConnection <- function(con, sql) {
   names(qry_fetch(con, sql, 0L))
 }
 
-table_fields <- function(con, table) {
-  dbListFields(con, table)
+table_fields <- function(con, table) UseMethod("table_fields")
+#' @S3method table_fields DBIConnection
+table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
+
+#' @S3method table_fields bigquery
+table_fields.bigquery <- function(con, table) {
+  info <- get_table(con$project, con$dataset, table)
+  vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
 }
 
 # Run a query, abandoning results

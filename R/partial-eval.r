@@ -90,6 +90,7 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
 #' var_eval(list(quote(mpg:wt)), mtcars)
 var_eval <- function(exprs, tbl, parent = parent.frame()) {
   nm <- tbl_vars(tbl)
+  
   nms_list <- as.list(setNames(seq_along(nm), nm))
 
   idx <- lapply(exprs, eval, nms_list, parent)

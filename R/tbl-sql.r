@@ -106,8 +106,8 @@ ungroup.tbl_sql <- function(x, ...) {
 
 #' @S3method group_size tbl_sql
 group_size.tbl_sql <- function(x) {
-  df <- collect(summarise(x, n()))
-  df[[length(df)]]
+  df <- collect(summarise(x, n = n()))
+  df$n
 }
 
 # Standard data frame methods --------------------------------------------------
@@ -222,11 +222,10 @@ build_query <- function(x, select = x$select, from = x$from,
   } else {
     if (!is.null(group_by)) {
       select_sql <- translate_select(select, x)      
-      order_by <- translate(c(group_by, order_by))
     } else {
       select_sql <- translate(select)
-      order_by <- translate(order_by)
     }
+    order_by <- translate(order_by)
     group_by <- NULL    
   }
   
