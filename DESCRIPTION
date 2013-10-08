@@ -73,3 +73,5 @@ Collate:
     'utils.r'
     'view.r'
     'zzz.r'
+    'query-bq.r'
+    'src-bigquery.r'
