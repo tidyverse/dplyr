@@ -22,7 +22,10 @@
 #' q$explain_sql()
 #'
 #' # Use q$run() to run a query without retrieving results
-query <- function(con, sql) {
+query <- function(con, sql) UseMethod("query")
+
+#' @S3method query DBIConnection
+query.DBIConnection <- function(con, sql) {
   assert_that(is.string(sql))
 
   Query$new(con = con, sql = sql(sql), .vars = NULL, .res = NULL, .nrow = NULL)

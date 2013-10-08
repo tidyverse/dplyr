@@ -21,7 +21,7 @@ tbl_sql <- function(subclass, src, from) {
   } else if (!is.join(from)) { # Must be arbitrary sql
     # Abitrary sql needs to be wrapped into a named subquery
     from <- build_sql("(", from, ") AS ", ident(random_table_name()), con = src$con)
-  }     
+  }
 
   tbl <- make_tbl(c(subclass, "sql"),
     src = src, 

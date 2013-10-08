@@ -148,6 +148,14 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
 # Run a query, fetching n results
 qry_fetch <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
                       explain = getOption("dplyr.explain_sql")) {
+  UseMethod("qry_fetch")
+}
+
+#' @S3method qry_fetch DBIConnection
+qry_fetch.DBIConnection <- function(con, sql, n = -1L, 
+                                    show = getOption("dplyr.show_sql"),
+                                    explain = getOption("dplyr.explain_sql")) {
+  
   if (show) message(sql)
   if (explain) message(qry_explain(con, sql))
   
@@ -157,6 +165,23 @@ qry_fetch <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
   out <- fetch(res, n)
   res_warn_incomplete(res)
   out
+}
+
+#' @S3method qry_fetch bigquery
+qry_fetch.bigquery <- function(con, sql, n = -1L, 
+                                    show = getOption("dplyr.show_sql"),
+                                    explain = getOption("dplyr.explain_sql")) {
+  
+  if (show) message(sql)
+  
+  if (identical(n, -1L)) {
+    max_pages <- Inf
+  } else {
+    max_pages <- ceil(n / 1e4)
+  }
+
+  query_exec(con$project, con$dataset, sql, max_pages = max_pages, 
+    page_size = 1e4)
 }
 
 qry_fetch_paged <- function(con, sql, chunk_size, callback, 

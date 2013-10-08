@@ -8,13 +8,11 @@
 #' otherwise affect operation.
 #'
 #' @examples
-#' billing <- "341409650721" # put your project number here
+#' billing <- "hadbilling" # put your project number here
 #' samples <- src_bigquery("publicdata", "samples", billing)
 #' births <- tbl(samples, "natality")
 #' dim(births)
 #' colnames(births)
-#'
-#' head(births)
 #'
 #' summarise(births, first_year = min(year), last_year = max(year))
 #' date_info <- select(births, year:wday)
@@ -35,18 +33,18 @@ src_bigquery <- function(project, dataset, billing = project) {
 
   con <- structure(list(project = project, dataset = dataset,
     billing = billing), class = "bigquery")
-  src_sql("sqlite", con)
+  src_sql("bigquery", con)
 }
 
 #' @method tbl src_bigquery
 #' @export
 #' @rdname src_bigquery
-tbl.src_sqlite <- function(src, from, ...) {
+tbl.src_bigquery <- function(src, from, ...) {
   tbl_sql("bigquery", src = src, from = from)
 }
 
-#' @S3method brief_desc src_sqlite
-brief_desc.src_sqlite <- function(x) {
+#' @S3method brief_desc src_bigquery
+brief_desc.src_bigquery <- function(x) {
   paste0("bigquery [", x$con$project, "/", x$con$dataset, "]")
 }
 

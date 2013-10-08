@@ -77,6 +77,34 @@ lahman_mysql <- function(dbname = "lahman", ...) {
   src
 }
 
+#' @export
+#' @rdname lahman
+lahman_bigquery <- function(project = "hadbilling", ..., quiet = FALSE) {
+  if (!is.null(cache$lahman_bigquery)) return(cache$lahman_bigquery)
+  
+  src <- src_bigquery(project, dataset = "lahman", ...)
+  
+  missing <- setdiff(lahman_tables(), src_tbls(src))
+  jobs <- vector("list", length(missing))
+  names(jobs) <- missing
+  for(table in missing) {
+    df <- get(table, "package:Lahman")
+    
+    if (!quiet) message("Creating table ", table)
+    jobs[[table]] <- insert_upload_job(src$con$project, src$con$dataset, table, 
+      df, billing = src$con$billing)
+  }
+  
+  for (table in names(jobs)) {
+    message("Waiting for ", table)
+    try(wait_for(jobs[[table]]))
+  }
+  
+  
+  cache$lahman_bigquery <- src
+  src
+}
+
 
 #' @rdname lahman
 #' @export
@@ -103,7 +131,7 @@ cache_lahman <- function(src, index = TRUE, quiet = FALSE) {
   if (!require("Lahman")) {
     stop("Please install the Lahman package", call. = FALSE)
   }
-  
+
   tables <- setdiff(lahman_tables(), src_tbls(src))
   for(table in tables) {
     df <- get(table, "package:Lahman")
