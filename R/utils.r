@@ -3,17 +3,24 @@ dots <- function(...) {
 }
 
 named_dots <- function(...) {
-  args <- dots(...)
+  auto_name(dots(...))
+}
 
-  nms <- names2(args)
+auto_names <- function(x) {
+  nms <- names2(x)
   missing <- nms == ""
-  if (all(!missing)) return(args)
-
+  if (all(!missing)) return(nms)
+  
   deparse2 <- function(x) paste(deparse(x, 500L), collapse = "")
-  defaults <- vapply(args[missing], deparse2, character(1), USE.NAMES = FALSE)
+  defaults <- vapply(x[missing], deparse2, character(1), USE.NAMES = FALSE)
+  
+  nms[missing] <- defaults
+  nms
+}
 
-  names(args)[missing] <- defaults
-  args
+auto_name <- function(x) {
+  names(x) <- auto_names(x)
+  x
 }
 
 is.lang <- function(x) {
