@@ -106,7 +106,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
 #' @export
 #' @rdname src_mysql
 tbl.src_mysql <- function(src, from, ...) {
-  tbl_sql("mysql", src = src, from = from)
+  tbl_sql("mysql", src = src, from = from, ...)
 }
 
 #' @S3method brief_desc src_mysql

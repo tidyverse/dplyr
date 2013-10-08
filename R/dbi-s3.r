@@ -109,7 +109,10 @@ DbDisconnector <- setRefClass("DbDisconnector",
 
 # Query details ----------------------------------------------------------------
 
-qry_fields <- function(con, sql) UseMethod("qry_fields")
+qry_fields <- function(con, sql) {
+  message("Computing qry_fields: ", sql)
+  UseMethod("qry_fields")
+}
 
 #' @S3method qry_fields DBIConnection
 qry_fields.DBIConnection <- function(con, sql) {
@@ -120,7 +123,11 @@ qry_fields.DBIConnection <- function(con, sql) {
 }
 #' @S3method qry_fields SQLiteConnection
 qry_fields.SQLiteConnection <- function(con, sql) {
-  names(qry_fetch(con, sql, 1L))
+  names(qry_fetch(con, sql, 0L))
+}
+
+table_fields <- function(con, table) {
+  dbListFields(con, table)
 }
 
 # Run a query, abandoning results

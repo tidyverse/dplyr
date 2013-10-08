@@ -108,7 +108,7 @@ src_postgres <- function(dbname = "", host = "", port = "", user = "",
 #' @export
 #' @rdname src_postgres
 tbl.src_postgres <- function(src, from, ...) {
-  tbl_sql("postgres", src = src, from = from)
+  tbl_sql("postgres", src = src, from = from, ...)
 }
 
 #' @S3method brief_desc src_postgres

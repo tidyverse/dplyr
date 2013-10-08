@@ -125,14 +125,16 @@ select.tbl_sql <- function(.data, ...) {
 #' @method summarise tbl_sql
 summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
+  input <- auto_name(input)
   
   # Automatically collapse data to ensure that arranging and selecting
   # defined before summarise happen first in sql.
-  if (!identical(.data$select, list(star())) || !is.null(.data$arrange)) {
-    .data <- collapse(.data)
-  }
+#   if (!identical(.data$select, list(star())) || !is.null(.data$arrange)) {
+#     .data <- collapse(.data)
+#   }
   
   .data <- update(.data, select = input, summarise = TRUE)
+  new_vars <- lapply(names(input), as.name)
   
   update(
     collapse(.data),

@@ -22,13 +22,13 @@
 #' q$explain_sql()
 #'
 #' # Use q$run() to run a query without retrieving results
-query <- function(con, sql) UseMethod("query")
+query <- function(con, sql, .vars) UseMethod("query")
 
 #' @S3method query DBIConnection
-query.DBIConnection <- function(con, sql) {
+query.DBIConnection <- function(con, sql, .vars) {
   assert_that(is.string(sql))
 
-  Query$new(con = con, sql = sql(sql), .vars = NULL, .res = NULL, .nrow = NULL)
+  Query$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
 }
 
 #' @exportClass Query
@@ -72,12 +72,7 @@ Query <- setRefClass("Query",
     },
 
     vars = function() {
-      if (!is.null(.vars)) return(.vars)
-
-      no_rows <- build_sql("SELECT * FROM ", from(), " WHERE 1=0", con = con)
-
-      .vars <<- qry_fields(con, no_rows)
-      .vars
+      auto_names(.vars)
     },
 
     nrow = function() {
@@ -91,6 +86,5 @@ Query <- setRefClass("Query",
     ncol = function() {
       length(vars())
     }
-
   )
 )

@@ -57,7 +57,7 @@
 #' # When you group by multiple level, each summarise peels off one level
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
-#' filter(stints, stints > 3)
+#' filter(ungroup(stints), stints > 3)
 #' summarise(stints, max(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
@@ -100,7 +100,7 @@ src_sqlite <- function(path, create = FALSE) {
 #' @export
 #' @rdname src_sqlite
 tbl.src_sqlite <- function(src, from, ...) {
-  tbl_sql("postgres", src = src, from = from)
+  tbl_sql("sqlite", src = src, from = from, ...)
 }
 
 #' @S3method brief_desc src_sqlite

@@ -119,9 +119,22 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   ...) {
   type <- match.arg(type, c("left", "right", "inner", "full"))
   by <- by %||% common_by(x, y)
-
+  
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
 
+  # Ensure tables have unique names
+  x_names <- auto_names(x$select)
+  y_names <- auto_names(y$select) 
+  common <- setdiff(intersect(x_names, y_names), by)
+  if (length(common) > 0) {
+    x_names[common] <- paste0(x_names[common], ".x")
+    y_names[common] <- paste0(y_names[common], ".x")
+    
+    names(x$select) <- x_names
+    names(y$select) <- y_names
+  }
+  vars <- lapply(c(by, setdiff(c(x_names, y_names), by)), as.name)
+  
   join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
@@ -131,7 +144,7 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
     from(y), "\n\n",
     "USING ", lapply(by, ident), con = x$src$con)
 
-  update(tbl(x$src, as.join(from)), group_by = groups(x))
+  update(tbl(x$src, as.join(from), vars = vars), group_by = groups(x))
 }
 
 as.join <- function(x) {
@@ -162,13 +175,9 @@ semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
     '  WHERE ', join, ')'
   )
 
-  update(tbl(x$src, from), group_by = groups(x))
+  update(tbl(x$src, from, vars = x$select), group_by = groups(x))
 }
 
 from <- function(x, name = random_table_name()) {
-  if (is_table(x)) {
-    build_sql(x$from, " AS ", ident(name), con = x$src$con)
-  } else {
-    build_sql("(", x$query$sql, ") AS ", ident(name), con = x$src$con)
-  }
+  build_sql("(", x$query$sql, ") AS ", ident(name), con = x$src$con)
 }

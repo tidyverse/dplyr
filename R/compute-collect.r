@@ -49,8 +49,15 @@ collapse <- function(x, ...) {
 # Methods ---------------------------------------------------------------------
 
 #' @S3method collapse tbl_sql
-collapse.tbl_sql <- function(x, ...) {
-  tbl(x$src, x$query$sql)
+collapse.tbl_sql <- function(x, vars = NULL, ...) {
+  # If you collapse a query, the names of the fields will be the output names
+  # of the previous query.
+  if (is.null(vars)) {
+    nms <- auto_names(x$select)
+    vars <- lapply(nms, as.name)
+  }
+  
+  tbl(x$src, x$query$sql, vars = vars, ...)
 }
 
 #' @S3method compute tbl_sql

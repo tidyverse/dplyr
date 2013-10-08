@@ -133,7 +133,7 @@ translate_window_env.default <- function(x) {
 
 sql_env <- function(expr, variant_env, con) {
   # Default for unknown functions
-  unknown <- setdiff(all_calls(expr), ls(variant_env))
+  unknown <- setdiff(all_calls(expr), ls(env = variant_env))
   default_env <- ceply(unknown, default_op, parent = emptyenv())
 
   # Known R -> SQL functions

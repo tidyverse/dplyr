@@ -7,9 +7,12 @@
 #' @keywords internal
 #' @export
 #' @param subclass name of subclass
-#' @param ... other fields needed by the subclass
-#' @param select,filter,arrange default sql components.
-tbl_sql <- function(subclass, src, from) {
+#' @param ... needed for agreement with generic. Not otherwise used.
+#' @param vars If known, the names of the variables in the tbl. This is 
+#'   relatively expensive to determine automatically, so is cached throughout
+#'   dplyr. However, you should usually be able to leave this blank and it
+#'   will be determined from the context.
+tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
   assert_that(is.character(from), length(from) == 1)
 
   if (!is.sql(from)) { # Must be a character string
@@ -22,25 +25,17 @@ tbl_sql <- function(subclass, src, from) {
     # Abitrary sql needs to be wrapped into a named subquery
     from <- build_sql("(", from, ") AS ", ident(random_table_name()), con = src$con)
   }
-
+  
   tbl <- make_tbl(c(subclass, "sql"),
     src = src, 
     from = from,
     summarise = FALSE, 
-    select = list(star()),
+    select = vars,
     where = NULL,
     group_by = NULL,
     order_by = NULL
   )
-  tbl$query <- build_query(tbl)
-  tbl
-}
-
-is_table <- function(x) {
-  if (!inherits(x$from, "ident")) return(FALSE)
-  
-  identical(x$select, list(star())) && is.null(x$where) && is.null(x$group_by) && 
-    is.null(x$order_by)
+  update(tbl)
 }
 
 #' @S3method update tbl_sql
@@ -52,6 +47,24 @@ update.tbl_sql <- function(object, ..., summarise = FALSE) {
     object[[nm]] <- args[[nm]]
   }
   object$summarise <- summarise
+  
+  # Figure out variables
+  if (is.null(object$select)) {
+    if (is.ident(object$from)) {
+      var_names <- table_fields(object$src$con, object$from)
+    } else {
+      var_names <- qry_fields(object$src$con, object$from)
+    }
+    vars <- lapply(var_names, as.name)
+    object$select <- vars
+  }
+  
+  # Make sure select contains grouping variables
+  if (!is.null(object$group_by)) {
+    # Can't use unique because it strips names
+    select <- c(object$group_by, object$select)
+    object$select <- select[!duplicated(select)]
+  }
   
   object$query <- build_query(object)
   
@@ -167,6 +180,7 @@ build_query <- function(x, select = x$select, from = x$from,
                                     where = x$where, group_by = x$group_by, 
                                     having = NULL, order_by = x$order_by, 
                                     limit = NULL, offset = NULL) {  
+  
   assert_that(
     is.lang.list(select), 
     is.sql(from),
@@ -176,13 +190,6 @@ build_query <- function(x, select = x$select, from = x$from,
     is.lang.list(order_by), 
     is.null(limit) || (is.numeric(limit) && length(limit) == 1), 
     is.null(offset) || (is.lang(offset) && length(offset) == 1))
-  
-  # Make sure select contains grouping variables
-  if (!has_star(select) && !is.null(group_by)) {
-    # Can't use unique because it strips names
-    select <- c(group_by, select)
-    select <- select[!duplicated(select)]
-  }
   
   # Translate expression to SQL strings ------------
   
@@ -202,23 +209,22 @@ build_query <- function(x, select = x$select, from = x$from,
     from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()), 
       con = x$src$con)
     
-    select <- expand_star(select, x)
     where <- where2$expr    
   }
   
   # group by has different behaviour depending on whether or not
   # we're summarising
   if (x$summarise) {
-    select <- translate(select)
+    select_sql <- translate(select)
 
     group_by <- translate(group_by)
     order_by <- translate(order_by)
   } else {
     if (!is.null(group_by)) {
-      select <- translate_select(select, x)      
+      select_sql <- translate_select(select, x)      
       order_by <- translate(c(group_by, order_by))
     } else {
-      select <- translate(select)
+      select_sql <- translate(select)
       order_by <- translate(order_by)
     }
     group_by <- NULL    
@@ -227,7 +233,7 @@ build_query <- function(x, select = x$select, from = x$from,
   where <- translate(where)
   having <- translate(having)
   
-  sql <- sql_select(x$src$con, from = from, select = select, where = where, 
+  sql <- sql_select(x$src$con, from = from, select = select_sql, where = where, 
     order_by = order_by, group_by = group_by, limit = limit, offset = offset)
-  query(x$src$con, sql)
+  query(x$src$con, sql, select)
 }

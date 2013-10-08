@@ -94,7 +94,7 @@ src_bigquery <- function(project, dataset, billing = project) {
 #' @export
 #' @rdname src_bigquery
 tbl.src_bigquery <- function(src, from, ...) {
-  tbl_sql("bigquery", src = src, from = from)
+  tbl_sql("bigquery", src = src, from = from, ...)
 }
 
 #' @S3method brief_desc src_bigquery
