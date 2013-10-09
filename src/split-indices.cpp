@@ -2,8 +2,8 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-std::vector<std::vector<double> > split_indices(IntegerVector group, int groups) {
-  std::vector<std::vector<double> > ids(groups);
+std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
+  std::vector<std::vector<int> > ids(groups);
 
   int n = group.size();
   for (int i = 0; i < n; ++i) {
