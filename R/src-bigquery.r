@@ -1,14 +1,16 @@
 #' A bigquery data source.
 #'
-#' @section Caching:
-#' The variable names and number of rows are cached on source creation,
-#' on the assumption that you're probably doing analysis on a table that's
-#' not changing as you run queries. If this is not correct, then the values
-#' of \code{dim} and \code{dimnames} may be out of date, but it shouldn't
-#' otherwise affect operation.
-#'
+#' Use \code{src_bigquery} to connect to an existing bigquery dataset,
+#' and \code{tbl} to connect to tables within that database. 
+#' 
+#' @template db-info
+#' @param project project id or name
+#' @param dataset dataset name
+#' @param billing billing project, if different to \code{project}
+#' 
 #' @examples
 #' # Connection basics ---------------------------------------------------------
+#' \dontrun{
 #' # To connect to a database first create a src:
 #' my_db <- src_bigquery("myproject", "mydataset")
 #' # Then reference a tbl within that src

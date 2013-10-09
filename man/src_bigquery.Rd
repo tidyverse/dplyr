@@ -7,19 +7,41 @@
 
   \method{tbl}{src_bigquery} (src, from, ...)
 }
-\description{
-  A bigquery data source.
+\arguments{
+  \item{project}{project id or name}
+
+  \item{dataset}{dataset name}
+
+  \item{billing}{billing project, if different to
+  \code{project}}
 }
-\section{Caching}{
-  The variable names and number of rows are cached on
-  source creation, on the assumption that you're probably
-  doing analysis on a table that's not changing as you run
-  queries. If this is not correct, then the values of
-  \code{dim} and \code{dimnames} may be out of date, but it
-  shouldn't otherwise affect operation.
+\description{
+  Use \code{src_bigquery} to connect to an existing
+  bigquery dataset, and \code{tbl} to connect to tables
+  within that database.
+}
+\section{Debugging}{
+  To see exactly what SQL is being sent to the database,
+  you can set option \code{dplyr.show_sql} to true:
+  \code{options(dplyr.show_sql = TRUE).} If you're
+  wondering why a particularly query is slow, it can be
+  helpful to see the query plan. You can do this by setting
+  \code{options(dplyr.explain_sql = TRUE)}.
+}
+
+\section{Grouping}{
+  Typically you will create a grouped data table is to call
+  the \code{group_by} method on a mysql tbl: this will take
+  care of capturing the unevalated expressions for you.
+
+  For best performance, the database should have an index
+  on the variables that you are grouping by. Use
+  \code{\link{explain_sql}} to check that mysql is using
+  the indexes that you expect.
 }
 \examples{
 # Connection basics ---------------------------------------------------------
+\dontrun{
 # To connect to a database first create a src:
 my_db <- src_bigquery("myproject", "mydataset")
 # Then reference a tbl within that src
