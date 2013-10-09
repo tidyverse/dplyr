@@ -2,7 +2,7 @@
 #'
 #' @param .data a data frame
 #' @param ... variables interpreted in the context of \code{.data}
-#' @param .env The environment in which to evaluate arguments not included
+#' @param env The environment in which to evaluate arguments not included
 #'   in the data. The default should suffice for ordinary usage.
 #' @examples
 #' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")

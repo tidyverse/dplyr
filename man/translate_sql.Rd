@@ -9,7 +9,9 @@
     env = parent.frame())
 }
 \arguments{
-  \item{expr}{unevaluated expression to translate}
+  \item{...}{unevaluated expression to translate}
+
+  \item{expr}{list of quoted objects to translate}
 
   \item{source}{tbl}
 

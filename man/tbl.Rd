@@ -15,6 +15,8 @@
 
   \item{...}{Other arguments passed on to the individual
   methods}
+
+  \item{x}{an object to coerce to a \code{tbl}}
 }
 \description{
   This is a generic method that dispatches based on the

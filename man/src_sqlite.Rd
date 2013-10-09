@@ -15,6 +15,13 @@
   at \code{path}.}
 
   \item{src}{a sqlite src created with \code{src_sqlite}.}
+
+  \item{from}{Either a string giving the name of table in
+  database, or \code{\link{sql}} described a derived table
+  or compound join.}
+
+  \item{...}{Included for compatibility with the generic,
+  but otherwise ignored.}
 }
 \description{
   Use \code{src_sqlite} to connect to an existing sqlite

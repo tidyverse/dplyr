@@ -1,6 +1,6 @@
 #' Connect to postgresql.
 #' 
-#' Use \code{src_postgresql} to connect to an existing postgresql database,
+#' Use \code{src_postgres} to connect to an existing postgresql database,
 #' and \code{tbl} to connect to tables within that database. 
 #' If you are running a local postgresql database, leave all parameters set as 
 #' their defaults to connect. If you're connecting to a remote database, 
@@ -21,14 +21,14 @@
 #' \dontrun{
 #' # Connection basics ---------------------------------------------------------
 #' # To connect to a database first create a src:
-#' my_db <- src_postgresql(host = "blah.com", user = "hadley",
+#' my_db <- src_postgres(host = "blah.com", user = "hadley",
 #'   password = "pass")
 #' # Then reference a tbl within that src
 #' my_tbl <- tbl(my_db, "my_table")
 #' }
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
-#' # create a local database called "lahman", or tell lahman_postgresql() how to 
+#' # create a local database called "lahman", or tell lahman_postgres() how to 
 #' # a database that you can write to
 #' 
 #' if (has_lahman("postgres")) {
@@ -86,7 +86,7 @@
 #'
 #' # Arbitrary SQL -------------------------------------------------------------
 #' # You can also provide sql as is, using the sql function:
-#' batting2008 <- tbl(lahman_postgresql(),
+#' batting2008 <- tbl(lahman_postgres(),
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }

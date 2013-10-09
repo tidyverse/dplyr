@@ -7,7 +7,11 @@
 #' @param project project id or name
 #' @param dataset dataset name
 #' @param billing billing project, if different to \code{project}
-#' 
+#' @param from Either a string giving the name of table in database, or
+#'   \code{\link{sql}} described a derived table or compound join.
+#' @param ... Included for compatibility with the generic, but otherwise 
+#'   ignored.
+#' @param src a bigquery src created with \code{src_bigquery}.
 #' @examples
 #' # Connection basics ---------------------------------------------------------
 #' \dontrun{

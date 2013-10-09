@@ -23,12 +23,13 @@
   storing in the installed package directory, and if that
   isn't writeable, a temporary directory.}
 
-  \item{dbname,...}{Arguments passed to \code{src} on first
-  load. For mysql and postgresql, the defaults assume you
-  have a local server with \code{lahman} database already
-  created. For bigquery, it assumes you have read/write
-  access to a project called
-  \code{Sys.getenv("BIGQUERY_PROJECT")}}
+  \item{...}{Arguments passed to \code{src} on first load.
+  For mysql and postgresql, the defaults assume you have a
+  local server with \code{lahman} database already created.
+  For bigquery, it assumes you have read/write access to a
+  project called \code{Sys.getenv("BIGQUERY_PROJECT")}}
+
+  \item{type}{src type.}
 }
 \description{
   This creates an interesting database using data from the

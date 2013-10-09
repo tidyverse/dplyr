@@ -10,11 +10,12 @@
 #' @param path location to look for and cache SQLite database. If \code{NULL},
 #'   the default, will first try storing in the installed package directory, and
 #'   if that isn't writeable, a temporary directory.
-#' @param dbname,... Arguments passed to \code{src} on first
+#' @param ... Arguments passed to \code{src} on first
 #'   load. For mysql and postgresql, the defaults assume you have a local
 #'   server with \code{lahman} database already created. For bigquery, 
 #'   it assumes you have read/write access to a project called 
 #'   \code{Sys.getenv("BIGQUERY_PROJECT")}
+#' @param type src type.
 #' @examples
 #' lahman_sqlite()
 #' batting <- tbl(lahman_sqlite(), "Batting")

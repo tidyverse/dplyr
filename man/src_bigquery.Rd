@@ -14,6 +14,16 @@
 
   \item{billing}{billing project, if different to
   \code{project}}
+
+  \item{from}{Either a string giving the name of table in
+  database, or \code{\link{sql}} described a derived table
+  or compound join.}
+
+  \item{...}{Included for compatibility with the generic,
+  but otherwise ignored.}
+
+  \item{src}{a bigquery src created with
+  \code{src_bigquery}.}
 }
 \description{
   Use \code{src_bigquery} to connect to an existing

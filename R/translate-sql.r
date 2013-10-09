@@ -22,7 +22,8 @@
 #' The SQLite variant currently only adds one additional function: a mapping
 #' from \code{sd} to the SQL aggregation function \code{stdev}.
 #'
-#' @param expr unevaluated expression to translate
+#' @param ... unevaluated expression to translate
+#' @param expr list of quoted objects to translate
 #' @param source tbl
 #' @param env environment in which to evaluate expression. 
 #' @export
