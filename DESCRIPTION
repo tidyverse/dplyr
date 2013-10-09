@@ -26,7 +26,6 @@ LinkingTo: Rcpp (>= 0.10.1)
 License: GPL-2
 Collate:
     'RcppExports.R'
-    'compound.R'
     'compute-collect.r'
     'copy-to.r'
     'data-hflights.r'
