@@ -123,7 +123,6 @@ select.tbl_sql <- function(.data, ...) {
 #' @rdname manip_sql
 #' @export
 #' @method summarise tbl_sql
-#' @examples
 summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)

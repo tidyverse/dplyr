@@ -88,7 +88,7 @@ summarise(players, mean_g = mean(G), best_ab = max(AB))
 # When you group by multiple level, each summarise peels off one level
 per_year <- group_by(batting, playerID, yearID)
 stints <- summarise(per_year, stints = max(stint))
-filter(stints, stints > 3)
+filter(ungroup(stints), stints > 3)
 summarise(stints, max(stints))
 
 # Joins ---------------------------------------------------------------------

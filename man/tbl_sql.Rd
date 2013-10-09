@@ -2,14 +2,19 @@
 \alias{tbl_sql}
 \title{Create an SQL tbl (abstract)}
 \usage{
-  tbl_sql(subclass, src, from)
+  tbl_sql(subclass, src, from, ..., vars = NULL)
 }
 \arguments{
   \item{subclass}{name of subclass}
 
-  \item{...}{other fields needed by the subclass}
+  \item{...}{needed for agreement with generic. Not
+  otherwise used.}
 
-  \item{select,filter,arrange}{default sql components.}
+  \item{vars}{If known, the names of the variables in the
+  tbl. This is relatively expensive to determine
+  automatically, so is cached throughout dplyr. However,
+  you should usually be able to leave this blank and it
+  will be determined from the context.}
 }
 \description{
   This method shouldn't be called be users - it should only
