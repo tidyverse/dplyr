@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr}
-%\VignetteIndexEntry{Introduction dplyr}
+%\VignetteIndexEntry{Introduction to dplyr}
 -->
 
 ```{r, echo = FALSE, message = FALSE}
@@ -180,7 +180,31 @@ per_year <-  summarise(per_month, delay = weighted.mean(delay, count), count = s
 per_year
 ```
 
-## Comparisons
+# Data table
+
+As well as data frames, dplyr natively supports data.tables. You can continue to use exactly the same syntax as with data frames, but you'll get a nice speed boost because the underlying implementation is so such faster.
+
+```{r}
+hflights_df <- tbl_df(hflights)
+hflights_dt <- tbl_dt(hflights)
+
+planes_df <- group_by(hflights_df, TailNum)
+planes_dt <- group_by(hflights_dt, TailNum)
+
+system.time(summarise(planes_df, n(), mean(Distance, na.rm = TRUE)))
+system.time(summarise(planes_dt, n(), mean(Distance, na.rm = TRUE)))
+```
+
+The key advantage of using data.table with dplyr is that you don't need to learn a new way of working with data in R. If do want to learn a new way of working with data, go ahead and learn data.table - once you get the hang of the syntax, you can express complex operations very succinctly. (However, my sense is that you'll need to be working with really large data before this investment would pay off.)
+
+Using dplyr with data.table is not quite as fast as using data.table directly. This is because in data.table you usually work with multiple verbs at the same time. For example, with data table you can do a mutate and a select in a single step, and it's smart enough to know that there's no point in computing the new variable for the rows you're about to throw away. This isn't a fundamental limitation of the way that dplyr works, and it may change in the future to take better advantage of the speed of data.table.
+
+
+## Lazyness
+
+
+
+# Comparisons
 
 Compared to all existing options:
 
