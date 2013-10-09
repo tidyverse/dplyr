@@ -8,7 +8,7 @@
 \usage{
   sql(x)
 
-  ident(...)
+  ident(x)
 
   is.sql(x)
 

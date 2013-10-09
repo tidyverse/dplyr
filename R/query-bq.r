@@ -9,7 +9,7 @@
 # bq$submit()
 # bq$wait()
 # bq$fetch(100)
-# @S3method query bigquery
+#' @S3method query bigquery
 query.bigquery <- function(con, sql, .vars) {
   assert_that(is.string(sql))
 

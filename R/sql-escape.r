@@ -227,20 +227,26 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
 # Database specific methods ----------------------------------------------------
 
 escape_string <- function(con, x) UseMethod("escape_string")
+#' @S3method escape_string default
 escape_string.default <- function(con, x) {
   sql_quote(x, "'")
 }
+#' @S3method escape_string bigquery
 escape_string.bigquery <- function(con, x) {
   encodeString(x, na.encode = FALSE, quote = '"')
 }
 
 escape_ident <- function(con, x) UseMethod("escape_ident")
+
+#' @S3method escape_ident default
 escape_ident.default <- function(con, x) {
   sql_quote(x, '"')
 }
+#' @S3method escape_ident MySQLConnection
 escape_ident.MySQLConnection <- function(con, x) {
   sql_quote(x, "`")
 }
+#' @S3method escape_ident bigquery
 escape_ident.bigquery <- function(con, x) {
   y <- paste0("[", x, "]")
   y[is.na(x)] <- "NULL"

@@ -130,7 +130,7 @@ table_fields <- function(con, table) UseMethod("table_fields")
 #' @S3method table_fields DBIConnection
 table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
 
-#' @S3method table_fields DBIConnection
+#' @S3method table_fields PostgreSQLConnection
 table_fields.PostgreSQLConnection <- function(con, table) {
   sql <- build_sql("SELECT * FROM ", ident(table), " WHERE 0 = 1", con = con)
   qry_fields.DBIConnection(con, sql)
@@ -266,7 +266,7 @@ sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
 sql_begin_trans.DBIConnection <- function(con) {
   qry_run(con, "BEGIN TRANSACTION")
 }
-#' @S3method sql_begin_trans DBIConnection
+#' @S3method sql_begin_trans MySQLConnection
 sql_begin_trans.MySQLConnection <- function(con) {
   qry_run(con, "START TRANSACTION")
 }
