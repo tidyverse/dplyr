@@ -100,7 +100,7 @@ cache_lahman <- function(type, ...) {
 #' @rdname lahman
 #' @export
 has_lahman <- function(type, ...) {
-  succeeds(lahman_create(type, ...), quiet = TRUE)
+  succeeds(lahman_src(type, ...), quiet = TRUE)
 }
 
 lahman_src <- function(type, ...) {

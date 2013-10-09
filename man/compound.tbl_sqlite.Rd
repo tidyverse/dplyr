@@ -2,7 +2,8 @@
 \alias{compound.tbl_sqlite}
 \title{Create a compound sqlite tbl}
 \usage{
-  \method{compound}{tbl_sqlite} (x, y)
+  \method{compound}{tbl_sqlite} (x, y, ...,
+    auto_index = TRUE)
 }
 \arguments{
   \item{x,y}{tbls to combine}

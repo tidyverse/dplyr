@@ -78,3 +78,16 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' @rdname manip
 #' @export
 select <- function(.data, ...) UseMethod("select")
+
+#' The number of observations in the current group.
+#' 
+#' This function is implemented special for each data source and can only
+#' be used from within \code{\link{summarise}}.
+#' 
+#' @export
+#' @examples
+#' carriers <- group_by(hflights, UniqueCarrier)
+#' summarise(carriers, n())
+n <- function() {
+  stop("This function should not be called directly")
+}

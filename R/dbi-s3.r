@@ -196,7 +196,7 @@ qry_fetch.bigquery <- function(con, sql, n = -1L,
   if (identical(n, -1L)) {
     max_pages <- Inf
   } else {
-    max_pages <- ceil(n / 1e4)
+    max_pages <- ceiling(n / 1e4)
   }
 
   query_exec(con$project, con$dataset, sql, max_pages = max_pages, 

@@ -48,7 +48,7 @@ print.grouped_dt <- function(x, ...) {
 
 #' @S3method group_size grouped_dt
 group_size.grouped_dt <- function(x) {
-  summarise(x, n = .N)$n
+  summarise(x, n = n())$n
 }
 
 #' @method group_by data.table

@@ -22,7 +22,7 @@ compound <- function(x, y, ...) {
 #' hou <- filter(both, teamID == "HOU")
 #' explain_tbl(hou)
 #' head(hou)
-compound.tbl_sqlite <- function(x, y) {
+compound.tbl_sqlite <- function(x, y, ..., auto_index = TRUE) {
 #   type <- match.arg(tolower(type), 
 #     c("union all", "union", "intersect", "exclude"))
  

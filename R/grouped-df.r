@@ -122,7 +122,7 @@ split_labels <- function(splits, drop, id = plyr::id(splits, drop = TRUE)) {
     representative <- which(!duplicated(id))[order(unique(id))]
     as_df(lapply(splits, function(x) x[representative]))
   } else {
-    unique_values <- llply(splits, ulevels)
+    unique_values <- lapply(splits, ulevels)
     names(unique_values) <- names(splits)
     rev(expand.grid(rev(unique_values), stringsAsFactors = FALSE))
   }
