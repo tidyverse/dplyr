@@ -16,6 +16,8 @@ devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
 
+To get started, read the notes below, or try the intro vignette: `vignette("introduction", package = "dplyr")`
+
 ## `tbls`
 
 The key object in dplyr is a _tbl_, a representation of a tabular data structure.
