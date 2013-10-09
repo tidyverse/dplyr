@@ -98,7 +98,7 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
   variant <- translate_env(source)
   pieces <- lapply(expr, function(x) {
     env <- sql_env(x, variant, source$con)
-    eval(x, env = env)
+    eval(x, envir = env)
   })
   
   sql(unlist(pieces))
@@ -115,7 +115,7 @@ translate_select <- function(expr, tbl) {
     }
     
     env <- sql_env(x, variant, tbl$src$con)
-    eval(x, env = env)
+    eval(x, envir = env)
   })
   
   sql(unlist(pieces))
@@ -133,7 +133,7 @@ translate_window_env.default <- function(x) {
 
 sql_env <- function(expr, variant_env, con) {
   # Default for unknown functions
-  unknown <- setdiff(all_calls(expr), ls(env = variant_env))
+  unknown <- setdiff(all_calls(expr), ls(envir = variant_env))
   default_env <- ceply(unknown, default_op, parent = emptyenv())
 
   # Known R -> SQL functions

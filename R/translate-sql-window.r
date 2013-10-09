@@ -28,7 +28,7 @@ translate_window_where <- function(expr, tbl,
     name <- unique_name()
     
     env <- sql_env(expr, variant, con = con)
-    sql <- eval(expr, env = env)
+    sql <- eval(expr, envir = env)
     
     return(list(
       expr = as.name(name),
@@ -50,7 +50,7 @@ translate_window_where <- function(expr, tbl,
     
     call <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
     env <- sql_env(call, variant, con = con)
-    sql <- eval(call, env = env)
+    sql <- eval(call, envir = env)
   }
   
   comps <- unlist(lapply(args, "[[", "comp"), recursive = FALSE)
