@@ -18,7 +18,9 @@ Suggests:
     data.table,
     bigrquery,
     testthat,
-    Lahman
+    Lahman,
+    knitr
+VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
 LazyData: yes
