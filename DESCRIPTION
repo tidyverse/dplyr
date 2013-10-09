@@ -21,6 +21,7 @@ Suggests:
     Lahman
 Depends:
     R (>= 3.0.2)
+LazyData: yes
 LinkingTo: Rcpp (>= 0.10.1)
 License: GPL-2
 Collate:
