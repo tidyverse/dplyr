@@ -116,7 +116,7 @@ arrange.tbl_sql <- function(.data, ...) {
 #' @export
 #' @method select tbl_sql
 select.tbl_sql <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
+  input <- select_eval(dots(...), .data$select, parent.frame())
   update(.data, select = input)
 }
 

@@ -82,12 +82,18 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
 #' Evaluate variable names in the context of a tbl.
 #'
 #' @param exprs a list of unevaluated expressions
-#' @param tbl a tbl
+#' @param tbl,select a tbl or a select language list
 #' @param parent the parent frame in which to evaluate variables/functions
 #'   not found in \code{tbl}
 #' @export
 #' @examples
 #' var_eval(list(quote(mpg:wt)), mtcars)
+#' 
+#' select <- lapply(names(mtcars), as.name)
+#' select_eval(list(quote(mpg:wt)), select)
+#' 
+#' mutate <- c(select, cyl2 = quote(cyl * 2))
+#' select_eval(list(quote(gear:cyl2)), mutate)
 var_eval <- function(exprs, tbl, parent = parent.frame()) {
   nm <- tbl_vars(tbl)
   
@@ -97,5 +103,15 @@ var_eval <- function(exprs, tbl, parent = parent.frame()) {
   symbols <- lapply(nm, as.symbol)
   
   symbols[unlist(idx)]
+}
+
+#' @rdname var_eval
+#' @export
+select_eval <- function(exprs, select, parent = parent.frame()) {
+  nms_list <- as.list(setNames(seq_along(select), auto_names(select)))
+  
+  idx <- lapply(exprs, eval, nms_list, parent)
+  
+  select[unlist(idx)]
 }
 
