@@ -1,3 +1,8 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{PostgreSQL setup}
+-->
+
 # Setting up Postgresql
 
 First install postgresql, create a data directory, and create a default database.
@@ -21,7 +26,7 @@ postgres
 
 From R,
 
-```{r}
+```{r, eval = FALSE}
 install.packages("RPostgreSQL")
 library(RPostgreSQL)
 

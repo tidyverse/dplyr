@@ -1,3 +1,8 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Introduction dplyr}
+-->
+
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)

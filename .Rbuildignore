@@ -3,3 +3,4 @@ bench
 ^\.Rproj\.user$
 .Rprofile
 inst/db
+inst/doc

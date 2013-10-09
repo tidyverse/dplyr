@@ -1,3 +1,8 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Window functions}
+-->
+
 # Grouped mutate and subset
 
 In SQL, grouped mutate and subset can be implemented with window functions (where available). This document describes the basic principles of windowed functions as they apply to PostgreSQL.
@@ -19,7 +24,7 @@ You can work around the absence of window functions (at least in simple cases) b
 
 ## `mutate`
 
-```{r}
+```{r, eval = FALSE}
 teams <- group_by(batting, teamID)
 mutate(teams, rank(AB))
 ```
@@ -37,7 +42,7 @@ So translation needs to take place in an environment where the aggregate and win
 
 Take this simple example, where we want to find all states with more than 20 schools:
 
-```{r}
+```{r, eval = FALSE}
 states <- group_by(schools, schoolState)
 subset(states, n() > 20)
 ```
@@ -78,7 +83,7 @@ WHERE W1 > 20;
 
 This means that `translate_sql` variant for windowed subsets needs to work similarly to `ggvis::extract_inputs`, recursing through the call replacing windowed statements with a variable name, and aggregating the windows statements in a separate list. For example, for  `n() > 20` we need to generate
 
-```{r}
+```{r, eval = FALSE}
 list(
   where = list(sql('"_W1" > 20')),
   select = list(sql('COUNT(*) OVER (PARTITION "schoolState") AS "_W1")'))

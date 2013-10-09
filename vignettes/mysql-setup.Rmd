@@ -1,3 +1,8 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{MySQL setup}
+-->
+
 # Setting up MariaDB
 
 First install maria db, create a data directory, and create a default database.
@@ -25,7 +30,7 @@ mysqladmin shutdown -u root -p
 
 From R,
 
-```{r}
+```{r, eval = FALSE}
 install.packages("RMySQL")
 library(RMySQL)
 

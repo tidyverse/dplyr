@@ -2,3 +2,4 @@
 *.so
 .Rproj.user
 .Rhistory
+inst/doc
