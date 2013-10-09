@@ -30,6 +30,7 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
     src = src, 
     from = from,
     summarise = FALSE, 
+    new_vars = TRUE,
     select = vars,
     where = NULL,
     group_by = NULL,

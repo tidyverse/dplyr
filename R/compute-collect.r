@@ -57,7 +57,7 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
     vars <- lapply(nms, as.name)
   }
   
-  tbl(x$src, x$query$sql, vars = vars, ...)
+  update(tbl(x$src, x$query$sql, vars = vars, ...), group_by = groups(x))
 }
 
 #' @S3method compute tbl_sql

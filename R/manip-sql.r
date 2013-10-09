@@ -123,15 +123,16 @@ select.tbl_sql <- function(.data, ...) {
 #' @rdname manip_sql
 #' @export
 #' @method summarise tbl_sql
+#' @examples
 summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)
   
   # Automatically collapse data to ensure that arranging and selecting
   # defined before summarise happen first in sql.
-#   if (!identical(.data$select, list(star())) || !is.null(.data$arrange)) {
-#     .data <- collapse(.data)
-#   }
+  if (.data$new_vars || !is.null(.data$arrange)) {
+    .data <- collapse(.data)
+  }
   
   .data <- update(.data, select = input, summarise = TRUE)
   new_vars <- lapply(names(input), as.name)
@@ -147,6 +148,7 @@ summarise.tbl_sql <- function(.data, ...) {
 #' @method mutate tbl_sql
 mutate.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
+  .data$new_vars <- TRUE
   update(.data, select = c(.data$select, input))
 }
 
