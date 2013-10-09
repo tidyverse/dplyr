@@ -22,10 +22,11 @@ The key object in dplyr is a _tbl_, a representation of a tabular data structure
 Currently `dplyr` supports:
 
 * data frames
-* data tables
-* SQLite
-* PostgreSQL
-* MySQL/MariaDB
+* [data tables](http://datatable.r-forge.r-project.org/)
+* [SQLite](http://sqlite.org/)
+* [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
+* [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
+* [Bigquery](https://developers.google.com/bigquery/)
 
 You can create them as follows:
 
@@ -51,7 +52,7 @@ carriers_df  <- group_by(hflights, UniqueCarrier)
 carriers_dt  <- group_by(hflights_dt, UniqueCarrier)
 carriers_db1 <- group_by(hflights_db1, UniqueCarrier)
 carriers_db2 <- group_by(hflights_db2, UniqueCarrier)
-# This database has an index on the player id, which is a recommended
+# This database has an index on the UniqueCarrier, which is a recommended
 # minimum whenever you're doing group by queries
 ```
 
@@ -135,13 +136,9 @@ As well as verbs that work on a single tbl, there are also a set of useful verbs
 
 Currently join variables must be the same in both the left-hand and right-hand sides.
 
-### Compound
-
-Sqlite tbls also support the compound operator, which allows you to union all tbls together.
-
 ### Other operations
 
-All tbls also provide `head()`, `tail()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
+All tbls also provide `head()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
 
 ## Plyr compatibility
 
