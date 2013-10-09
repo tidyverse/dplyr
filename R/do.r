@@ -5,8 +5,8 @@
 #' \code{\link{summarise}} and \code{\link{arrange}}.
 #'
 #' @param .data a tbl
-#' @param .f a function to apply. The first unnamed argument supplied to
-#'   \code{.f} will be a data frame.
+#' @param .f a function to apply to each piece. The first unnamed argument 
+#'   supplied to \code{.f} will be a data frame.
 #' @param ... other arguments passed on to the function ()
 #' @export
 #' @examples
