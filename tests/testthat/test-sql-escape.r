@@ -2,7 +2,7 @@ context("SQL: escaping")
 
 # Identifiers ------------------------------------------------------------------
 
-ei <- function(...) unclass(escape(ident(...)))
+ei <- function(...) unclass(escape(ident(c(...))))
 
 test_that("identifiers are doubled quoted", {
   expect_equal(ei("x"), '"x"')
