@@ -226,7 +226,15 @@ build_query <- function(x, select = x$select, from = x$from,
     } else {
       select_sql <- translate(select)
     }
-    order_by <- translate(order_by)
+    
+    # If the user request ordering, ensuring group_by is included
+    # Otherwise don't, because that may make queries substantially slower
+    if (!is.null(order_by) && !is.null(group_by)) {
+      order_by <- translate(c(group_by, order_by))
+    } else {
+      order_by <- translate(order_by)
+    }
+    
     group_by <- NULL    
   }
   

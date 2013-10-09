@@ -37,7 +37,7 @@ test_that("filter the same regardless of tbl", {
 
 test_that("arrange the same regardless of tbl (after removing missing values)", {
   arrange1 <- function(tbl) {
-    tbl <- select(tbl, playerID, yearID, AB, G)
+    tbl <- select(tbl, playerID, AB, G, yearID)
     out <- strip(arrange(tbl, AB, desc(G), yearID))
     out[!is.na(out$AB) & !is.na(out$G), ]
   }
