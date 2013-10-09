@@ -7,7 +7,7 @@
 #' manipulation) functions that you read can from left to right.
 #' 
 #' The functions work via simple substitution so that \code{chain(x, f(y))} or
-#' \code{x %.% f(y)} is translated into \code{f(x, y)}.
+#' \code{x \%.\% f(y)} is translated into \code{f(x, y)}.
 #' 
 #' @param x,y A dataset and function to apply to it
 #' @param ...,calls A sequence of data transformations, starting with a dataset.

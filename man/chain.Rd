@@ -35,8 +35,8 @@
 }
 \details{
   The functions work via simple substitution so that
-  \code{chain(x, f(y))} or \code{x %.% f(y)} is translated
-  into \code{f(x, y)}.
+  \code{chain(x, f(y))} or \code{x \%.\% f(y)} is
+  translated into \code{f(x, y)}.
 }
 \examples{
 # If you're performing many operations you can either do step by step
