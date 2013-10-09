@@ -130,6 +130,12 @@ table_fields <- function(con, table) UseMethod("table_fields")
 #' @S3method table_fields DBIConnection
 table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
 
+#' @S3method table_fields DBIConnection
+table_fields.PostgreSQLConnection <- function(con, table) {
+  sql <- build_sql("SELECT * FROM ", ident(table), " WHERE 0 = 1", con = con)
+  qry_fields.DBIConnection(con, sql)
+}
+
 #' @S3method table_fields bigquery
 table_fields.bigquery <- function(con, table) {
   info <- get_table(con$project, con$dataset, table)

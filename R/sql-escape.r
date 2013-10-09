@@ -58,9 +58,10 @@ sql <- function(x) {
 
 #' @export 
 #' @rdname sql
-ident <- function(...) {
-  x <- c(...)
+ident <- function(x) {
   if (is.null(x)) return()
+  if (is.ident(x)) return(x)
+  
   structure(x, class = c("ident", "sql", "character"))
 }
 
