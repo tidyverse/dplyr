@@ -14,14 +14,15 @@ test_that("group size the same regardless of data tbl", {
 })
 
 test_that("n the same regardless of tbl", {
-  count_df <- summarise(players$df, count = n())
-  count_dt <- ungroup(summarise(players$dt, count = n()))
-  count_db1 <- summarise(players$sqlite, count = n())
-  count_db2 <- summarise(players$sqlite, count = n())
-  
-  expect_equal(count_dt$n, count_df$n)
-  expect_equal(count_db1$n, count_df$n)
-  expect_equal(count_db2$n, count_df$n)
+  summarise1 <- function(tbl) {
+    out <- strip(summarise(players$df, count = n()))
+    out[order(out$playerID), ]
+  }
+  summarised <- lapply(players, summarise1)
+    
+  expect_equal(summarised$dt, summarised$df)
+  expect_equal(summarised$sqlite, summarised$df)
+  expect_equal(summarised$postgres, summarised$df)
 })
 
 test_that("filter the same regardless of tbl", {
