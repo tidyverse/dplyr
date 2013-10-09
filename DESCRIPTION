@@ -15,6 +15,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     data.table,
+    bigrquery,
     testthat,
     Lahman
 Depends:
