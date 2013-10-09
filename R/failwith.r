@@ -7,7 +7,7 @@
 #' @param f function
 #' @param quiet all error messages be suppressed?
 #' @return a function
-#' @seealso \code{\link{try_default}}
+#' @seealso \code{\link[plyr]{try_default}}
 #' @keywords debugging
 #' @export
 #' @examples
