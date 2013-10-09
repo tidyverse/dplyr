@@ -32,6 +32,7 @@ query.DBIConnection <- function(con, sql, .vars) {
 }
 
 #' @exportClass Query
+#' @importFrom methods setRefClass
 Query <- setRefClass("Query",
   fields = c("con", "sql", ".vars", ".res", ".nrow"),
   methods = list(

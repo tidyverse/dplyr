@@ -8,7 +8,8 @@ Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
 Imports:
     assertthat,
-    utils
+    utils,
+    methods
 Suggests:
     RSQLite,
     RSQLite.extfuns,
@@ -19,10 +20,9 @@ Suggests:
     testthat,
     Lahman
 Depends:
-    R (>= 2.15.1),
-    Rcpp (>= 0.10.1)
-LinkingTo: Rcpp
-License: MIT
+    R (>= 3.0.2)
+LinkingTo: Rcpp (>= 0.10.1)
+License: GPL-2
 Collate:
     'RcppExports.R'
     'compound.R'
