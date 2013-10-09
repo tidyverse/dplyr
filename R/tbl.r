@@ -35,6 +35,7 @@ is.tbl <- function(x) inherits(x, "tbl")
 
 #' @export
 #' @rdname tbl
+#' @param x an object to coerce to a \code{tbl}
 as.tbl <- function(x, ...) UseMethod("as.tbl")
 
 #' @S3method as.tbl tbl
