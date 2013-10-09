@@ -98,6 +98,8 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
   
   variant <- translate_env(source)
   pieces <- lapply(expr, function(x) {
+    if (is.atomic(x)) return(escape(x))
+    
     env <- sql_env(x, variant, source$con)
     eval(x, envir = env)
   })
