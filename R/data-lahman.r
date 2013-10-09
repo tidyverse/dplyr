@@ -34,7 +34,7 @@ lahman_sqlite <- function(path = NULL) cache_lahman("sqlite", path = path)
 
 #' @export
 #' @rdname lahman
-lahman_postgres <- function(...) cache_lahman("posgresql", ...)
+lahman_postgres <- function(...) cache_lahman("postgres", ...)
 
 #' @export
 #' @rdname lahman
