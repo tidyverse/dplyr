@@ -137,7 +137,7 @@ translate_env.src_postgres <- function(x) {
 
 #' @S3method translate_window_env tbl_postgres
 translate_window_env.tbl_postgres <- function(x) {
-  by <- translate_sql_q(groups(x))
+  by <- sql_vector(translate_sql_q(groups(x)), collapse = ", ", parens = FALSE)
   
   windowed_sql <- function(f, x, order) {
     build_sql(sql(f), "(", x, ") OVER ",
