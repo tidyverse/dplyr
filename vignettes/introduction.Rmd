@@ -200,15 +200,13 @@ The key advantage of using data.table with dplyr is that you don't need to learn
 Using dplyr with data.table is not quite as fast as using data.table directly. This is because in data.table you usually work with multiple verbs at the same time. For example, with data table you can do a mutate and a select in a single step, and it's smart enough to know that there's no point in computing the new variable for the rows you're about to throw away. This isn't a fundamental limitation of the way that dplyr works, and it may change in the future to take better advantage of the speed of data.table.
 
 
-## Lazyness
-
-
-
 # Comparisons
 
 Compared to all existing options:
 
 * abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same functions.
+
+* it provides a thoughtful default `print()` method so you don't accidentally print pages of data to the screen (this was inspired by data tables output)
 
 Compared to base functions:
 
@@ -230,8 +228,13 @@ Compared to data.table:
 * for common data manipulation tasks, it insulates you from reference semantics of data.tables
 * instead of one complex method, `[`, it provides many simple methods.
 
-Compare to DBI and the database connection algorithms:
+Compared to DBI and the database connection algorithms:
 
 * it hides, as much as possible, the fact that you're working with a remote database
 * you don't need to know any sql (although it helps!)
 * it shims over the many differences between the difference DBI implementations
+
+Compared to virtual data frame approaches:
+
+* it doesn't pretend that you have a data frame: if you want to run lm etc, you'll still need to manually pull down the data
+* it doesn't provide methods for R summary functions (e.g. `mean()`, or `sum()`)

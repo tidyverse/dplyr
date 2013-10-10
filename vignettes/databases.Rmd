@@ -33,7 +33,9 @@ hflights_sqlite <- copy_to(my_db, hflights, indexes = list(
   c("Year", "Month", "DayofMonth"), "UniqueCarrier"))
 ```
 
-When used with the data manipulation functions described above, it works almost exactly the same as a database:
+As you can see the `copy_to()` operation has additional arguments that allow you to supply indexes for the table. By default, `copy_to()` also executes the SQL ANALYZE operation on the table: this updates statistics about the table so that the database has accurate information when selecting optimisations.
+
+When used with the data manipulation functions described above, it works almost exactly the same as a data frame:
 
 ```{r}
 hflights_sqlite
@@ -83,7 +85,7 @@ You can also ask SQLite to explain how it plans to execute the query with `expla
 explain_tbl(c4)
 ```
 
-## Forcing computation
+### Forcing computation
 
 There are three ways to force the computation of a query:
 
@@ -132,6 +134,10 @@ translate_sql(x %in% c(1, 2, 3))
 
 The basic techniques underying the implementation of `translate_sql` are described in a http://adv-r.had.co.nz/dsl.html. It is built on top of R's parsing engine and has been carefully design to always generate correct sql. It also protects you against SQL injection attacks by correctly escaping strings and variable names as needed by the database that you're connecting to.
 
+### Semantic translation
+
+The goal of dplyr is to provide a semantic translation: to translate what you mean, not the precise details. The results will not be exactly the same: it's the database executing the code not R, and database programmers have different priorities to R core.  For example, in the R `mean()` actually loops through the data twice in order to get a higher level of numerical accuracy at the cost of being twice as slow. R's `mean()` also provides a `trim` option for computing trimmed means, and databases do not. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. All this means the essense of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will not be.
+
 ### Raw SQL
 
 If dplyr doesn't support the SQL operation that you need, you can also create a `tbl` object from arbitrary SQL:
@@ -141,6 +147,10 @@ tbl(my_db, sql("SELECT * FROM hflights"))
 ```
 
 This will behave exactly like a `tbl` created directly from a database table - you can still `filter()`, `arrange()`, `select()`, `mutate()` and `summarise()` it.
+
+### Performance considerations
+
+By and large dplyr tries to prevent you from accidentally performing expensive query operations. This is why `ncol()` is always `NA`: in general, there's no way to determine how many rows a query will return unless you actually run the whole thing. Similarly, when you print a database tbl, it will only run the query enough to get the first 10 rows. A related limitation is that most remote tbls don't support `tail()`: you can't find the last rows without executing the whole query. 
 
 ## Grouping
 
