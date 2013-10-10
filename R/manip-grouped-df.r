@@ -35,7 +35,7 @@ NULL
 #' @export
 #' @method filter grouped_df
 filter.grouped_df <- function(.data, ...) {
-  conds <- dots(...)
+  expr  <- and_expr(dots(...))
   if (is.lazy(.data)) .data <- build_index(.data)
   v <- make_view(.data, parent.frame())
 
@@ -43,11 +43,7 @@ filter.grouped_df <- function(.data, ...) {
   for (i in seq_along(attr(.data, "index"))) {
     rows <- v$set_group(i)
 
-    r <- rep(TRUE, length(rows))
-    for (j in seq_along(conds)) {
-      r <- v$eval(conds[[j]])
-      r <- r & !is.na(r)
-    }
+    r <- v$eval(expr)
     out[rows] <- r
   }
 
