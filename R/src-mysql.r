@@ -95,7 +95,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
   }
   
   con <- dbi_connect(MySQL(), dbname = dbname , host = host, port = port, 
-    username = user, ...)
+    username = user, password=password, ...)
   info <- db_info(con)
   
   src_sql("mysql", con, 
