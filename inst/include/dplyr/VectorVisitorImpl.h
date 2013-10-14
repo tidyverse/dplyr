@@ -72,6 +72,23 @@ public:
         return out ;
     }
     
+    inline SEXP copy_perhaps_na( const std::vector<int>& index ){
+        int n=index.size() ;
+        VECTOR out = Rcpp::no_init(n) ;
+        for( int i=0; i<n; i++) {
+            if( index[i] < 0 ){
+                out[i] = VECTOR::get_na() ;
+            } else { 
+                out[i] = vec[ index[i] ] ;
+            }
+        }
+        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
+            out.attr( "levels" ) = vec.attr("levels") ;
+            out.attr( "class"  ) = "factor" ;
+        }
+        return out ;
+    }
+    
     inline SEXP copy( const ChunkIndexMap& map ){
         int n=map.size() ;
         VECTOR out = Rcpp::no_init(n) ;
