@@ -33,7 +33,7 @@ namespace dplyr{
         Processor(){}
         
         virtual SEXP process(const ChunkIndexMap& map ) {
-            Shelter<SEXP> __ ;
+            Rcpp::Shelter<SEXP> __ ;
             int n = map.size() ; 
             SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
             STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
@@ -52,7 +52,7 @@ namespace dplyr{
         
         virtual SEXP process(const ChunkIndexMap& map) {
             int n = map.size() ; 
-            Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
+            Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
             ChunkIndexMap::const_iterator it = map.begin() ;
             CLASS* obj = static_cast<CLASS*>(this) ;
             for( int i=0; i<n; i++, ++it)

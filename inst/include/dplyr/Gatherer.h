@@ -32,7 +32,7 @@ class GathererImpl : public Gatherer {
 public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
     
-    GathererImpl( Shield<SEXP>& first, Rcpp::IntegerVector& indices, CallProxy& proxy_, const Rcpp::GroupedDataFrame& gdf_ ) : 
+    GathererImpl( Rcpp::Shield<SEXP>& first, Rcpp::IntegerVector& indices, CallProxy& proxy_, const Rcpp::GroupedDataFrame& gdf_ ) : 
         gdf(gdf_), proxy(proxy_), data(Rcpp::no_init(gdf.nrows()))
     {
         grab( first, indices ) ;
@@ -40,7 +40,7 @@ public:
         
     SEXP collect(){
         int ngroups = gdf.ngroups() ;
-        Armor<SEXP> subset ;
+        Rcpp::Armor<SEXP> subset ;
         Rcpp::IntegerVector indices ;
         for( int i=1; i<ngroups; i++){
             indices = gdf.group(i) ;

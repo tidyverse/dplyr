@@ -38,7 +38,7 @@ namespace dplyr{
         DelayedProcessor(){}
         
         virtual SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result, CLASS* obj) {
-            Shelter<SEXP> __ ;
+            Rcpp::Shelter<SEXP> __ ;
             int n = map.size() ; 
             SEXP res = __( Rf_allocVector( RTYPE, n) ) ;
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>(res) ;
@@ -57,7 +57,7 @@ namespace dplyr{
         DelayedProcessor(){}
         
         virtual SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result, CLASS* obj) {
-            Shelter<SEXP> __ ;
+            Rcpp::Shelter<SEXP> __ ;
             int n = map.size() ; 
             SEXP res = __( Rf_allocVector( STRSXP, n) ) ;
             SET_STRING_ELT( res, 0, STRING_ELT(first_result, 0 ) ) ;

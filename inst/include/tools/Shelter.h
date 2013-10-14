@@ -19,7 +19,7 @@
 #ifndef dplyr_tools_Shelter_H
 #define dplyr_tools_Shelter_H
 
-namespace dplyr {
+namespace Rcpp {
     
     template <class T>
     class Shelter {

@@ -19,7 +19,7 @@
 #ifndef dplyr_tools_Shield_H
 #define dplyr_tools_Shield_H
 
-namespace dplyr {
+namespace Rcpp {
     
     template <typename T>
     class Shield{
