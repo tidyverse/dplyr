@@ -23,8 +23,6 @@ order_ <- function(..., data){
 
 arrange_ <- .data_dots(arrange_impl)
 filter_  <- .data_dots(filter_impl)
-filter_grouped_df <- .data_dots(filter_grouped_df_impl)
-
 mutate_  <- .data_dots(mutate_impl, named_dots)
 
 equal_ <- function(x, y){
