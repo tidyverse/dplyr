@@ -41,7 +41,6 @@ namespace dplyr {
 #include <dplyr/VectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/DataFrameVisitors.h>
-#include <dplyr/DataFrameVisitorsOperators.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/VectorVisitorImpl.h>

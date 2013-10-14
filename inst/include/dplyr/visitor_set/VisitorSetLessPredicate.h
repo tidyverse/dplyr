@@ -16,17 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_visitor_set_H
-#define dplyr_visitor_set_H
+#ifndef dplyr_VisitorSetLessPredicate_H
+#define dplyr_VisitorSetLessPredicate_H
 
-#include <dplyr/visitor_set/VisitorSetEqual.h>
-#include <dplyr/visitor_set/VisitorSetHash.h>
-#include <dplyr/visitor_set/VisitorSetLess.h>
-#include <dplyr/visitor_set/VisitorSetGreater.h>
+namespace dplyr{
 
-#include <dplyr/visitor_set/VisitorSetHasher.h>
-#include <dplyr/visitor_set/VisitorSetEqualPredicate.h>
-#include <dplyr/visitor_set/VisitorSetLessPredicate.h>
-#include <dplyr/visitor_set/VisitorSetGreaterPredicate.h>
+    template <typename VisitorSet>
+    class VisitorSetLessPredicate {
+    public:
+        VisitorSetLessPredicate( const VisitorSet& visitors_ ) : visitors(visitors_) {} ;
+        inline bool operator()(int i, int j) const {
+            return visitors.less(i,j) ;
+        }
+        
+    private:
+        const VisitorSet& visitors ;  
+    } ;
+    
+}
 
 #endif
