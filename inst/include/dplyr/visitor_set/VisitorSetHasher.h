@@ -16,25 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_DataFrameVisitors_set_H
-#define dplyr_DataFrameVisitors_set_H
+#ifndef dplyr_VisitorSetHasher_H
+#define dplyr_VisitorSetHasher_H
 
-namespace dplyr {
- 
-    class DataFrameVisitorsIndexSet : public boost::unordered_set<int, VisitorSetHasher<DataFrameVisitors>, DataFrameVisitorsEqual> {
-    private:
-        typedef VisitorSetHasher<DataFrameVisitors> Hasher ;
-        typedef boost::unordered_set<int, Hasher, DataFrameVisitorsEqual> Base ;
-    
+namespace dplyr{
+
+    template <typename VisitorSet>
+    class VisitorSetHasher {
     public:
-        DataFrameVisitorsIndexSet() : Base(){}
+        VisitorSetHasher() : visitors(0){}
         
-        DataFrameVisitorsIndexSet( DataFrameVisitors& visitors_ ) : 
-            Base( 1024, Hasher(&visitors_), DataFrameVisitorsEqual(&visitors_) )
-        {}
-        DataFrameVisitorsIndexSet( DataFrameVisitors* visitors_ ) : 
-            Base( 1024, Hasher(visitors_), DataFrameVisitorsEqual(visitors_) )
-        {}
+        VisitorSetHasher( VisitorSet* visitors_ ) : visitors(visitors_){} ;
+        inline size_t operator()(int i) const {
+            return visitors->hash(i) ;
+        }
+        
+    private:
+        VisitorSet* visitors ;  
     } ;
     
 }

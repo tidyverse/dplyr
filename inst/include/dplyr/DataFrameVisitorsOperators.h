@@ -22,22 +22,6 @@
 namespace dplyr {
 
 /**
- * class suitable for the Hash template parameter of unordered_set 
- */
-class DataFrameVisitorsHasher {
-public:
-    DataFrameVisitorsHasher() : visitors(0){}
-    
-    DataFrameVisitorsHasher( DataFrameVisitors* visitors_ ) : visitors(visitors_){} ;
-    inline size_t operator()(int i) const {
-        return visitors->hash(i) ;
-    }
-    
-private:
-    DataFrameVisitors* visitors ;  
-} ;
-
-/**
  * Class suitable for the Pred template parameter of unordered_set
  */
 class DataFrameVisitorsEqual {
