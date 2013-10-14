@@ -23,7 +23,9 @@ namespace dplyr {
 
 class DataFrameVisitors : 
     public VisitorSetEqual<DataFrameVisitors>, 
-    public VisitorSetHash<DataFrameVisitors>
+    public VisitorSetHash<DataFrameVisitors>, 
+    public VisitorSetLess<DataFrameVisitors>, 
+    public VisitorSetGreater<DataFrameVisitors> 
     {
     private:
         
@@ -33,6 +35,7 @@ class DataFrameVisitors :
         int nvisitors ;
         
     public:
+        typedef VectorVisitor visitor_type ;
         
         // visit no column, will add columns with the add_visitor method
         DataFrameVisitors( const Rcpp::DataFrame& data_ ) ;
@@ -44,16 +47,12 @@ class DataFrameVisitors :
         
         ~DataFrameVisitors() ; 
     
-        size_t hash( int j ) const ;
-        bool less( int i, int j) const ;
-        bool greater( int i, int j) const ;
-        
         Rcpp::DataFrame copy( const Rcpp::IntegerVector& ) const ;
         Rcpp::DataFrame subset( const Rcpp::LogicalVector& ) const ;
         
         inline int size() const { return nvisitors ; }
-        
         inline VectorVisitor* get(int k) const { return visitors[k] ; }
+        
         Rcpp::String name(int k) const { return visitor_names[k] ; }
         
         Rcpp::IntegerVector order(bool decreasing = false) const ;

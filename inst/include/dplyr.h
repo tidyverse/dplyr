@@ -37,6 +37,8 @@ namespace dplyr {
 
 #include <dplyr/VisitorSetEqual.h>
 #include <dplyr/VisitorSetHash.h>
+#include <dplyr/VisitorSetLess.h>
+#include <dplyr/VisitorSetGreater.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>

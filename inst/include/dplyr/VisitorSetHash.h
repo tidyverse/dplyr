@@ -27,7 +27,8 @@ public:
     size_t hash( int j) const {
         const Class& obj = static_cast<const Class&>(*this) ; 
         size_t seed = 0 ;
-        for( int k=0; k<obj.size(); k++){
+        int n = obj.size() ;
+        for( int k=0; k<n; k++){
             boost::hash_combine( seed, obj.get(k)->hash(j) ) ;
         }
         return seed ;

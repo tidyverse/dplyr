@@ -63,31 +63,7 @@ namespace dplyr {
     DataFrameVisitors::~DataFrameVisitors(){
         delete_all( visitors );
     }
-    
-    bool DataFrameVisitors::less( int i, int j) const {
-        if( i == j ) return false ;
-        for( int k=0; k<nvisitors; k++){
-            if( ! visitors[k]->equal(i,j) ){
-                return visitors[k]->less(i,j) ;
-            } 
-        }
-        // if we end up here, it means rows i and j are equal
-        // we break the tie using the indices
-        return i < j ;
-    }
-    
-    bool DataFrameVisitors::greater( int i, int j) const {
-        if( i == j ) return false ;
-        for( int k=0; k<nvisitors; k++){
-            if( ! visitors[k]->equal(i,j) ){
-                return visitors[k]->greater(i,j) ;
-            }
-        }
-        // if we end up here, it means rows i and j are equal
-        // we break the tie using the indices
-        return i < j ;
-    }
-    
+       
    /**
      * Creates a data frame by indexing the visited vectors. 
      * Similar to df[ index, ]

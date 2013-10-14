@@ -16,21 +16,27 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_VisitorSetEqual_H
-#define dplyr_VisitorSetEqual_H
+#ifndef dplyr_VisitorSetLess_H
+#define dplyr_VisitorSetLess_H
 
 namespace dplyr{
 
 template <typename Class>
-class VisitorSetEqual {
+class VisitorSetLess {
 public:
-    bool equal( int i, int j) const {
+    bool less( int i, int j) const {
+        if( i == j ) return false ;
         const Class& obj = static_cast<const Class&>(*this) ; 
-        if( i == j ) return true ;
-        int n=obj.size() ;
-        for( int k=0; k<n; k++)
-            if( ! obj.get(k)->equal(i,j) ) return false ;    
-        return true ;
+        int n=obj.size();
+        for( int k=0; k<n; k++){
+            typename Class::visitor_type* visitor = obj.get(k) ; 
+            if( ! visitor->equal(i,j) ){
+                return visitor->less(i,j) ;
+            } 
+        }
+        // if we end up here, it means rows i and j are equal
+        // we break the tie using the indices
+        return i < j ;
     }
 } ;
     

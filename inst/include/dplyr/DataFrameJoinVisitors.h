@@ -26,6 +26,7 @@ namespace dplyr{
         public VisitorSetHash<DataFrameJoinVisitors>
     {
     public:
+        typedef JoinVisitor visitor_type ;
         
         DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names) : 
             left(left_), right(right_), nvisitors(names.size()), visitors(nvisitors)
