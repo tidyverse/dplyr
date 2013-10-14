@@ -40,7 +40,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // semi_join_impl
-SEXP semi_join_impl(DataFrame x, DataFrame y);
+DataFrame semi_join_impl(DataFrame x, DataFrame y);
 RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -48,7 +48,7 @@ BEGIN_RCPP
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        SEXP __result = semi_join_impl(x, y);
+        DataFrame __result = semi_join_impl(x, y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

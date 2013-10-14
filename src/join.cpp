@@ -25,21 +25,36 @@ CharacterVector common_by( CharacterVector x, CharacterVector y){
     return intersect(x, y) ;    
 }
 
+DataFrame subset( DataFrame df, IntegerVector indices, CharacterVector columns){
+    DataFrameVisitors visitors(df, columns) ;
+    return visitors.copy(indices) ;
+}
+
 // [[Rcpp::export]]
-SEXP semi_join_impl( DataFrame x, DataFrame y){
+DataFrame semi_join_impl( DataFrame x, DataFrame y){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    
     CharacterVector by   = common_by(x.names(), y.names()) ;
     DataFrameJoinVisitors visitors(x, y, by) ;
     Map map(visitors);  
     
     // train the map in terms of x
-    int n_x = x.size() ;
+    int n_x = x.nrows() ;
     for( int i=0; i<n_x; i++)
         map[i].push_back(i) ;
     
+    int n_y = y.nrows() ;
+    std::vector<int> indices ;
+    std::vector<int>::iterator indices_end = indices.end() ;
+    for( int i=0; i<n_y; i++){
+        Map::iterator it = map.find(-i-1) ;
+        if( it != map.end() ){
+            std::vector<int>& chunk = it->second ;
+            indices.insert( indices_end, chunk.begin(), chunk.end() ) ;
+            indices_end = indices.end() ;
+            map.erase(it) ;
+        }
+    }
     
-    
-    return R_NilValue ;
+    return subset(x, IntegerVector(wrap(indices)), x.names() ) ;
 }
 
