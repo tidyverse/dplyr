@@ -27,9 +27,17 @@ CharacterVector common_by( CharacterVector x, CharacterVector y){
 
 // [[Rcpp::export]]
 SEXP semi_join_impl( DataFrame x, DataFrame y){
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    
     CharacterVector by   = common_by(x.names(), y.names()) ;
-    DataFrameJoinVisitors(x, y, by) ;
+    DataFrameJoinVisitors visitors(x, y, by) ;
+    Map map(visitors);  
+    
+    // train the map in terms of x
     int n_x = x.size() ;
+    for( int i=0; i<n_x; i++)
+        map[i].push_back(i) ;
+    
     
     
     return R_NilValue ;
