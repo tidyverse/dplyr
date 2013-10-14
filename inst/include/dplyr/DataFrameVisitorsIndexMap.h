@@ -23,21 +23,22 @@ namespace dplyr {
 
     template <typename VALUE>
     class DataFrameVisitorsIndexMap : 
-        public boost::unordered_map<int, VALUE, VisitorSetHasher<DataFrameVisitors> , DataFrameVisitorsEqual> {
+        public boost::unordered_map<int, VALUE, VisitorSetHasher<DataFrameVisitors> , VisitorSetEqualPredicate<DataFrameVisitors> > {
     private:
         typedef VisitorSetHasher<DataFrameVisitors> Hasher ;
-        typedef typename boost::unordered_map<int, VALUE, Hasher, DataFrameVisitorsEqual> Base ;
+        typedef VisitorSetEqualPredicate<DataFrameVisitors> EqualPredicate ;
+        typedef typename boost::unordered_map<int, VALUE, Hasher, EqualPredicate> Base ;
         
     public:
         DataFrameVisitorsIndexMap() : Base(), visitors(0) {}
                    
         DataFrameVisitorsIndexMap( DataFrameVisitors& visitors_ ) : 
-            Base( 1024, Hasher(&visitors_), DataFrameVisitorsEqual(&visitors_) ), 
+            Base( 1024, Hasher(&visitors_), EqualPredicate(&visitors_) ), 
             visitors(&visitors_)
         {}
         
         DataFrameVisitorsIndexMap( DataFrameVisitors* visitors_ ) : 
-            Base( 1024, Hasher(visitors_), DataFrameVisitorsEqual(visitors_) ), 
+            Base( 1024, Hasher(visitors_), EqualPredicate(visitors_) ), 
             visitors(visitors_)
         {}
         

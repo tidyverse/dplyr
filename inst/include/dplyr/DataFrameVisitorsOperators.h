@@ -22,22 +22,6 @@
 namespace dplyr {
 
 /**
- * Class suitable for the Pred template parameter of unordered_set
- */
-class DataFrameVisitorsEqual {
-public:
-    DataFrameVisitorsEqual() : visitors(0){}
-    
-    DataFrameVisitorsEqual( DataFrameVisitors* visitors_ ) : visitors(visitors_) {} ;
-    inline bool operator()(int i, int j) const {
-        return visitors->equal(i,j) ;
-    }
-    
-private:
-    DataFrameVisitors* visitors ;  
-} ;
-
-/**
  * Lexicographic order for visited vectors
  */
 class DataFrameVisitorsLess {
