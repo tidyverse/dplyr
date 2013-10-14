@@ -64,26 +64,6 @@ namespace dplyr {
         delete_all( visitors );
     }
        
-   /**
-     * Creates a data frame by indexing the visited vectors. 
-     * Similar to df[ index, ]
-     *
-     * This will go in DataFrame later
-     */
-    DataFrame DataFrameVisitors::copy( const IntegerVector& index ) const {
-         int nrows = index.size() ;
-         List out(nvisitors);
-         for( int k=0; k<nvisitors; k++){
-            out[k] = visitors[k]->copy(index) ;    
-         }
-         out.attr("class") = "data.frame" ;
-         out.attr("row.names") = IntegerVector::create( 
-             IntegerVector::get_na(), -nrows
-         ) ;
-         out.names() = visitor_names ;
-         return out.asSexp() ;
-    }
-    
     DataFrame DataFrameVisitors::subset( const LogicalVector& index ) const {
          int nrows = sum( index ) ;
          List out(nvisitors);

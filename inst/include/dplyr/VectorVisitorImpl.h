@@ -60,16 +60,11 @@ public:
         return compare::is_greater( vec[i], vec[j] ) ;
     }
     
-    inline SEXP copy( const Rcpp::IntegerVector&  index ) {
-        int n=index.size() ;
-        VECTOR out = Rcpp::no_init(n) ;
-        for( int i=0; i<n; i++) 
-            out[i] = vec[ index[i] ] ;
-        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
-            out.attr( "levels" ) = vec.attr("levels") ;
-            out.attr( "class"  ) = "factor" ;
-        }
-        return out ;
+    inline SEXP copy( const Rcpp::IntegerVector& index){
+        return copy_int_index( index) ;    
+    }
+    inline SEXP copy( const std::vector<int>& index){
+        return copy_int_index( index) ;    
     }
     
     inline SEXP copy_perhaps_na( const std::vector<int>& index ){
@@ -118,6 +113,20 @@ public:
 private: 
     VECTOR vec ;
     hasher hash_fun ;
+    
+    template <typename Container>
+    inline SEXP copy_int_index( const Container&  index ) {
+        int n=index.size() ;
+        VECTOR out = Rcpp::no_init(n) ;
+        for( int i=0; i<n; i++) 
+            out[i] = vec[ index[i] ] ;
+        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
+            out.attr( "levels" ) = vec.attr("levels") ;
+            out.attr( "class"  ) = "factor" ;
+        }
+        return out ;
+    }
+    
 } ;
     
 }

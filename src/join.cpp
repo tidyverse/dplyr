@@ -25,7 +25,7 @@ CharacterVector common_by( CharacterVector x, CharacterVector y){
     return intersect(x, y) ;    
 }
 
-DataFrame subset( DataFrame df, IntegerVector indices, CharacterVector columns){
+DataFrame subset( DataFrame df, const std::vector<int>& indices, CharacterVector columns){
     DataFrameVisitors visitors(df, columns) ;
     return visitors.copy(indices) ;
 }
@@ -53,9 +53,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y){
         }
     }
     
-    // TODO: now we need to give an IntegerVector to subset
-    //       we should be able to give the std::vector<int> instead
-    return subset(x, IntegerVector(wrap(indices)), x.names() ) ;
+    return subset(x, indices, x.names() ) ;
 }
 
 // [[Rcpp::export]]
@@ -86,9 +84,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y){
         indices.insert( indices.end(), chunk.begin(), chunk.end() ) ;    
     }
     
-    // TODO: now we need to give an IntegerVector to subset
-    //       we should be able to give the std::vector<int> instead
-    return subset(x, IntegerVector(wrap(indices)), x.names() ) ;
+    return subset(x, indices, x.names() ) ;
 }
 
 // [[Rcpp::export]]
@@ -126,20 +122,17 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y){
     CharacterVector y_columns = setdiff( all_y_columns, by ) ;
     DataFrameVisitors visitors_y(y, y_columns) ;
     
-    IntegerVector ind_x = wrap(indices_x) ;
-    IntegerVector ind_y = wrap(indices_y) ;
-    
     int nrows = indices_x.size() ;
     int nv_x = visitors_x.size(), nv_y = visitors_y.size() ;
     List out(nv_x+nv_y);
     CharacterVector names(nv_x+nv_y) ;
     int k=0;
     for( ; k<nv_x; k++){
-       out[k] = visitors_x.get(k)->copy(ind_x) ;
+       out[k] = visitors_x.get(k)->copy(indices_x) ;
        names[k] = x_columns[k] ;
     }
     for( int i=0; i<nv_y; i++, k++){
-       out[k] = visitors_y.get(i)->copy(ind_y) ; 
+       out[k] = visitors_y.get(i)->copy(indices_y) ; 
        names[k] = y_columns[i] ;
     }
     out.attr("class") = "data.frame" ;

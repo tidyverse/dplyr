@@ -47,7 +47,22 @@ class DataFrameVisitors :
         
         ~DataFrameVisitors() ; 
     
-        Rcpp::DataFrame copy( const Rcpp::IntegerVector& ) const ;
+        // TODO: rename this something like int_subset
+        template <typename Container>
+        Rcpp::DataFrame copy( const Container& index) const {
+            int nrows = index.size() ;
+            Rcpp::List out(nvisitors);
+            for( int k=0; k<nvisitors; k++){
+               out[k] = visitors[k]->copy(index) ;    
+            }
+            out.attr("class") = "data.frame" ;
+            out.attr("row.names") = Rcpp::IntegerVector::create( 
+                Rcpp::IntegerVector::get_na(), -nrows
+            ) ;
+            out.names() = visitor_names ;
+            return out.asSexp() ;
+        }
+        
         Rcpp::DataFrame subset( const Rcpp::LogicalVector& ) const ;
         
         inline int size() const { return nvisitors ; }
