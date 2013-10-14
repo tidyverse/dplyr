@@ -45,20 +45,20 @@ dplyr <- left_join(batting_df, person_df)
 internal <- left_join_impl(batting_df, person_df)
 equal_( dplyr, internal )
 
-# microbenchmark( 
-#     dplyr = semi_join( batting_df, person_df ), 
-#     internal = semi_join_impl( batting_df, person_df )
-# )
-# 
-# microbenchmark( 
-#     dplyr = anti_join( batting_df, person_df ), 
-#     internal = anti_join_impl( batting_df, person_df )
-# )
-# 
-# microbenchmark( 
-#     dplyr = inner_join(batting_df, person_df), 
-#     internal = inner_join_impl(batting_df, person_df)
-# )
+microbenchmark( 
+    dplyr = semi_join( batting_df, person_df ), 
+    internal = semi_join_impl( batting_df, person_df )
+)
+
+microbenchmark( 
+    dplyr = anti_join( batting_df, person_df ), 
+    internal = anti_join_impl( batting_df, person_df )
+)
+
+microbenchmark( 
+    dplyr = inner_join(batting_df, person_df), 
+    internal = inner_join_impl(batting_df, person_df)
+)
 microbenchmark( 
     dplyr = left_join(batting_df, person_df), 
     internal = left_join_impl(batting_df, person_df)
