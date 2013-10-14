@@ -88,16 +88,7 @@ namespace dplyr {
         return i < j ;
     }
     
-    
-    size_t DataFrameVisitors::hash( int j) const {
-        size_t seed = 0 ;
-        for( int k=0; k<nvisitors; k++){
-            boost::hash_combine( seed, visitors[k]->hash(j) ) ;
-        }
-        return seed ;
-    }
-    
-    /**
+   /**
      * Creates a data frame by indexing the visited vectors. 
      * Similar to df[ index, ]
      *

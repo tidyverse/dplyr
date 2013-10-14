@@ -21,7 +21,10 @@
 
 namespace dplyr{
     
-    class DataFrameJoinVisitors {
+    class DataFrameJoinVisitors : 
+        public VisitorSetEqual<DataFrameJoinVisitors>, 
+        public VisitorSetHash<DataFrameJoinVisitors>
+    {
     public:
         
         DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names) : 
@@ -37,6 +40,9 @@ namespace dplyr{
         ~DataFrameJoinVisitors(){
             delete_all(visitors);    
         }
+        
+        inline JoinVisitor* get(int k) const { return visitors[k] ; }
+        inline int size() const{ return nvisitors ; } 
         
     private:
         const Rcpp::DataFrame& left ;

@@ -16,20 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_VisitorSetEqual_H
-#define dplyr_VisitorSetEqual_H
+#ifndef dplyr_VisitorSetHash_H
+#define dplyr_VisitorSetHash_H
 
 namespace dplyr{
-
+           
 template <typename Class>
-class VisitorSetEqual {
+class VisitorSetHash {
 public:
-    bool equal( int i, int j) const {
+    size_t hash( int j) const {
         const Class& obj = static_cast<const Class&>(*this) ; 
-        if( i == j ) return true ;
-        for( int k=0; k<obj.size(); k++)
-            if( ! obj.get(k)->equal(i,j) ) return false ;    
-        return true ;
+        size_t seed = 0 ;
+        for( int k=0; k<obj.size(); k++){
+            boost::hash_combine( seed, obj.get(k)->hash(j) ) ;
+        }
+        return seed ;
     }
 } ;
     
