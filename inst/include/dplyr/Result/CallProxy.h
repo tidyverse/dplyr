@@ -56,7 +56,7 @@ namespace dplyr {
             
             template <typename Container>
             SEXP get(const Container& indices){
-                Shelter<SEXP> __ ;
+                Rcpp::Shelter<SEXP> __ ;
                 int n = proxies.size() ;
                 boost::unordered_map<SEXP,SEXP> chunks ;
                 for( int i=0; i<n; i++){
@@ -70,7 +70,7 @@ namespace dplyr {
             }
             
             SEXP get(){
-                Shelter<SEXP> __ ;
+                Rcpp::Shelter<SEXP> __ ;
                 int n = proxies.size() ;
                 boost::unordered_map<SEXP,SEXP> chunks ;
                 for( int i=0; i<n; i++){

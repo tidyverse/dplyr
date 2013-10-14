@@ -19,7 +19,7 @@
 #ifndef dplyr_tools_Armor_H
 #define dplyr_tools_Armor_H
 
-namespace dplyr {
+namespace Rcpp {
     
     template <typename T>
     class Armor {

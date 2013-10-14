@@ -43,7 +43,7 @@ namespace dplyr {
         
         // used by DelayedReducer
         SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result) {
-            Shelter<SEXP> __ ;
+            Rcpp::Shelter<SEXP> __ ;
             int n = map.size() ; 
             SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
             OUT* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
@@ -87,7 +87,7 @@ namespace dplyr {
         // used by DelayedReducer
         SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result) {
             int n = map.size() ; 
-            Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
+            Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
             SET_STRING_ELT( res, 0, STRING_ELT( first_result, 0 ) );
             ChunkIndexMap::const_iterator it = map.begin() ; ++it ;
             for( int i=1; i<n; i++, ++it)

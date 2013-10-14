@@ -38,7 +38,7 @@ namespace dplyr{
     public:
         CallbackProcessor(){}
         virtual SEXP process( const ChunkIndexMap& map){
-            Shelter<SEXP> __ ;
+            Rcpp::Shelter<SEXP> __ ;
             ChunkIndexMap::const_iterator it = map.begin() ;
             CLASS* obj = static_cast<CLASS*>( this ) ;
             

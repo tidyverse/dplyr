@@ -26,7 +26,7 @@ SEXP and_calls( List args ){
     int ncalls = args.size() ;
     if( !ncalls ) return Rf_ScalarLogical(TRUE) ;
     
-    Armor<SEXP> res( args[0] ) ;
+    Rcpp::Armor<SEXP> res( args[0] ) ;
     SEXP and_symbol = Rf_install( "&" ) ;
     for( int i=1; i<ncalls; i++)
         res = Rcpp_lang3( and_symbol, res, args[i] ) ;
