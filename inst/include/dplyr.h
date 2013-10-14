@@ -47,6 +47,7 @@ namespace dplyr {
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/SplitApplyCombine.h>

@@ -9,6 +9,10 @@ filter_impl <- function(df, args, env) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
+semi_join_impl <- function(x, y) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y)
+}
+
 mutate_impl <- function(df, args, env) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
 }

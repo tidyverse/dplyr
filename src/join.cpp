@@ -16,23 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_JoinVisitor_H
-#define dplyr_JoinVisitor_H
+#include <dplyr.h>
 
-namespace dplyr{
-    
-    class JoinVisitor{
-    public:
-        virtual ~JoinVisitor(){}
-        
-        virtual size_t hash(int i) = 0 ;
-        virtual bool equal(int i, int j) = 0 ;
-        
-    } ;
+using namespace Rcpp ;
+using namespace dplyr ;
 
-    JoinVisitor* join_visitor( SEXP left, SEXP right ) ;
-
+CharacterVector common_by( CharacterVector x, CharacterVector y){
+    return intersect(x, y) ;    
 }
 
-#endif
+// [[Rcpp::export]]
+SEXP semi_join_impl( DataFrame x, DataFrame y){
+    CharacterVector by   = common_by(x.names(), y.names()) ;
+    int n_by = by.size() ;
+    
+    std::vector<JoinVisitor*> visitors ;
+    std::string name ;
+    for( int i=0; i<n_by; i++){
+        name = by[i] ;
+        visitors.push_back( join_visitor( x[name], y[name] ) ) ;
+    }
+    
+    
+    // deleting these when no longer needing them
+    delete_all( visitors ) ;
+    
+    return R_NilValue ;
+}
 
