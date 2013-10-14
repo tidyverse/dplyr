@@ -71,5 +71,18 @@ namespace dplyr {
         // should not happen, but if it does, we should handle it
         return 0; 
     }
+        
+    JoinVisitor* join_visitor( SEXP left, SEXP right ){
+        if( TYPEOF(left) != TYPEOF(right) ) 
+            stop( "cannot create join visitor from incompatible types" ) ;
+        switch( TYPEOF(left) ){
+            case INTSXP:  return new JoinVisitorImpl<INTSXP> ( left, right ) ;
+            case REALSXP: return new JoinVisitorImpl<REALSXP>( left, right ) ;
+            case LGLSXP:  return new JoinVisitorImpl<LGLSXP> ( left, right ) ;
+            case STRSXP:  return new JoinVisitorImpl<STRSXP> ( left, right ) ;
+            default: break ;
+        }
+        return 0 ;
+    }
 
 }
