@@ -72,7 +72,7 @@ public:
         return out ;
     }
     
-    inline SEXP copy( const DataFrameVisitorsIndexMap< std::vector<int> >& map ){
+    inline SEXP copy( const ChunkIndexMap& map ){
         int n=map.size() ;
         VECTOR out = Rcpp::no_init(n) ;
         ChunkIndexMap::const_iterator it = map.begin(); 

@@ -21,23 +21,8 @@
 
 namespace dplyr {
  
-    class DataFrameVisitorsIndexSet : public boost::unordered_set<int, VisitorSetHasher<DataFrameVisitors>, VisitorSetEqualPredicate<DataFrameVisitors> > {
-    private:
-        typedef VisitorSetHasher<DataFrameVisitors> Hasher ;
-        typedef VisitorSetEqualPredicate<DataFrameVisitors> EqualPredicate ;
-        typedef boost::unordered_set<int, Hasher, EqualPredicate> Base ;
-        
-    public:
-        DataFrameVisitorsIndexSet() : Base(){}
-        
-        DataFrameVisitorsIndexSet( DataFrameVisitors& visitors_ ) : 
-            Base( 1024, Hasher(&visitors_), EqualPredicate(&visitors_) )
-        {}
-        DataFrameVisitorsIndexSet( DataFrameVisitors* visitors_ ) : 
-            Base( 1024, Hasher(visitors_), EqualPredicate(visitors_) )
-        {}
-    } ;
-    
+    typedef VisitorSetIndexSet<DataFrameVisitors> DataFrameVisitorsIndexSet ;
+
 }
 
 #endif

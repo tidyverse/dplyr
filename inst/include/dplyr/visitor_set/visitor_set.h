@@ -29,4 +29,7 @@
 #include <dplyr/visitor_set/VisitorSetLessPredicate.h>
 #include <dplyr/visitor_set/VisitorSetGreaterPredicate.h>
 
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+#include <dplyr/visitor_set/VisitorSetIndexMap.h>
+
 #endif

@@ -29,20 +29,20 @@
 namespace dplyr {
     class Result ;
     class ResultSet ;   
-    // class SplitApplyCombine ;
     class Reducer_Proxy ;
-    template <typename VALUE> class DataFrameVisitorsIndexMap ;
+    class DataFrameVisitors ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
 
 #include <dplyr/visitor_set/visitor_set.h>
+#include <dplyr/DataFrameVisitorsIndexSet.h>
+#include <dplyr/DataFrameVisitorsIndexMap.h>
+
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/DataFrameVisitors.h>
-#include <dplyr/DataFrameVisitorsIndexSet.h>
-#include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/VectorVisitorImpl.h>
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>

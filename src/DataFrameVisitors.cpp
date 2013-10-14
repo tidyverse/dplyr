@@ -98,8 +98,6 @@ namespace dplyr {
          return out.asSexp() ;
     }
     
-    
-    // TODO: deal with na.last
     IntegerVector DataFrameVisitors::order(bool decreasing) const {
         int n = data.nrows() ;
         IntegerVector res = seq(0, n-1) ;
