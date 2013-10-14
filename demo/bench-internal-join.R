@@ -9,11 +9,15 @@ y <- rbind(y,y)
 equal_ <- dplyr:::equal_
 semi_join_impl <- dplyr:::semi_join_impl
 anti_join_impl <- dplyr:::anti_join_impl
+inner_join_impl <- dplyr:::inner_join_impl
 
 semi_join(x, y)
 semi_join_impl(x, y )
 anti_join(x, y)
 anti_join_impl( x, y )
+
+inner_join(x,y)
+inner_join_impl(x,y)
 
 data("Batting", package = "Lahman")
 data("Master", package = "Lahman")
@@ -29,6 +33,10 @@ dplyr <- anti_join( batting_df, person_df )
 internal <- anti_join_impl( batting_df, person_df )
 equal_( dplyr, internal )
 
+dplyr <- inner_join(batting_df, person_df)
+internal <- inner_join_impl(batting_df, person_df)
+equal_( dplyr, internal )
+
 microbenchmark( 
     dplyr = semi_join( batting_df, person_df ), 
     internal = semi_join_impl( batting_df, person_df )
@@ -37,5 +45,10 @@ microbenchmark(
 microbenchmark( 
     dplyr = anti_join( batting_df, person_df ), 
     internal = anti_join_impl( batting_df, person_df )
+)
+
+microbenchmark( 
+    dplyr = inner_join(batting_df, person_df), 
+    internal = inner_join_impl(batting_df, person_df)
 )
 

@@ -91,4 +91,62 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y){
     return subset(x, IntegerVector(wrap(indices)), x.names() ) ;
 }
 
+// [[Rcpp::export]]
+DataFrame inner_join_impl( DataFrame x, DataFrame y){
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    CharacterVector by   = common_by(x.names(), y.names()) ;
+    DataFrameJoinVisitors visitors(x, y, by) ;
+    Map map(visitors);  
+    
+    // train the map in terms of x
+    int n_x = x.nrows() ;
+    for( int i=0; i<n_x; i++)
+        map[i].push_back(i) ;
+    
+    std::vector<int> indices_x ;
+    std::vector<int> indices_y ;
+    
+    int n_y = y.nrows() ;
+    for( int i=0; i<n_y; i++){
+        Map::iterator it = map.find(-i-1) ;
+        if( it != map.end() ){
+            std::vector<int>& chunk = it->second ;
+            indices_x.insert( indices_x.end(), chunk.begin(), chunk.end() ) ;  
+            
+            int chunk_size = chunk.size() ;
+            for( int j=0; j<chunk_size; j++)
+                indices_y.push_back(i) ;
+        }
+    }
+
+    CharacterVector x_columns = x.names() ;
+    DataFrameVisitors visitors_x(x, x_columns) ;
+    
+    CharacterVector all_y_columns = y.names() ;
+    CharacterVector y_columns = setdiff( all_y_columns, by ) ;
+    DataFrameVisitors visitors_y(y, y_columns) ;
+    
+    IntegerVector ind_x = wrap(indices_x) ;
+    IntegerVector ind_y = wrap(indices_y) ;
+    
+    int nrows = indices_x.size() ;
+    int nv_x = visitors_x.size(), nv_y = visitors_y.size() ;
+    List out(nv_x+nv_y);
+    CharacterVector names(nv_x+nv_y) ;
+    int k=0;
+    for( ; k<nv_x; k++){
+       out[k] = visitors_x.get(k)->copy(ind_x) ;
+       names[k] = x_columns[k] ;
+    }
+    for( int i=0; i<nv_y; i++, k++){
+       out[k] = visitors_y.get(i)->copy(ind_y) ; 
+       names[k] = y_columns[i] ;
+    }
+    out.attr("class") = "data.frame" ;
+    out.attr("row.names") = IntegerVector::create( 
+        IntegerVector::get_na(), -nrows
+    ) ;
+    out.names() = names ;
+    return out.asSexp() ;
+}
 
