@@ -44,17 +44,51 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y){
     
     int n_y = y.nrows() ;
     std::vector<int> indices ;
-    std::vector<int>::iterator indices_end = indices.end() ;
     for( int i=0; i<n_y; i++){
         Map::iterator it = map.find(-i-1) ;
         if( it != map.end() ){
             std::vector<int>& chunk = it->second ;
-            indices.insert( indices_end, chunk.begin(), chunk.end() ) ;
-            indices_end = indices.end() ;
+            indices.insert( indices.end(), chunk.begin(), chunk.end() ) ;
             map.erase(it) ;
         }
     }
     
+    // TODO: now we need to give an IntegerVector to subset
+    //       we should be able to give the std::vector<int> instead
     return subset(x, IntegerVector(wrap(indices)), x.names() ) ;
 }
+
+// [[Rcpp::export]]
+DataFrame anti_join_impl( DataFrame x, DataFrame y){
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    CharacterVector by   = common_by(x.names(), y.names()) ;
+    DataFrameJoinVisitors visitors(x, y, by) ;
+    Map map(visitors);  
+    
+    // train the map in terms of x
+    int n_x = x.nrows() ;
+    for( int i=0; i<n_x; i++)
+        map[i].push_back(i) ;
+    
+    int n_y = y.nrows() ;
+    // remove the rows in x that match
+    for( int i=0; i<n_y; i++){
+        Map::iterator it = map.find(-i-1) ;
+        if( it != map.end() )
+            map.erase(it) ;
+    }
+    
+    // collect what's left
+    std::vector<int> indices ;
+    Map::iterator it = map.begin() ;
+    for( ; it != map.end(); ++it){
+        std::vector<int>& chunk = it->second ;
+        indices.insert( indices.end(), chunk.begin(), chunk.end() ) ;    
+    }
+    
+    // TODO: now we need to give an IntegerVector to subset
+    //       we should be able to give the std::vector<int> instead
+    return subset(x, IntegerVector(wrap(indices)), x.names() ) ;
+}
+
 
