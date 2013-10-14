@@ -21,8 +21,10 @@
 
 namespace dplyr {
 
-class DataFrameVisitors {
+class DataFrameVisitors : public VisitorSetEqual<DataFrameVisitors> {
     private:
+        friend class VisitorSetEqual<DataFrameVisitors> ;
+        
         const Rcpp::DataFrame& data ;
         std::vector<VectorVisitor*> visitors ;
         Rcpp::CharacterVector visitor_names ;
@@ -40,7 +42,6 @@ class DataFrameVisitors {
         
         ~DataFrameVisitors() ; 
     
-        bool equal( int i, int j) const ;
         size_t hash( int j ) const ;
         bool less( int i, int j) const ;
         bool greater( int i, int j) const ;
@@ -50,7 +51,7 @@ class DataFrameVisitors {
         
         int size() const{ return nvisitors ; }
         
-        VectorVisitor* get(int k) const { return visitors[k] ; }
+        inline VectorVisitor* get(int k) const { return visitors[k] ; }
         Rcpp::String name(int k) const { return visitor_names[k] ; }
         
         Rcpp::IntegerVector order(bool decreasing = false) const ;

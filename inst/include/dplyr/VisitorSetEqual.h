@@ -16,22 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <dplyr.h>
+#ifndef dplyr_VisitorSetEqual_H
+#define dplyr_VisitorSetEqual_H
 
-using namespace Rcpp ;
-using namespace dplyr ;
+namespace dplyr{
 
-CharacterVector common_by( CharacterVector x, CharacterVector y){
-    return intersect(x, y) ;    
+template <typename Class>
+class VisitorSetEqual {
+public:
+    bool equal( int i, int j) const {
+        const Class& obj = static_cast<const Class&>(*this) ; 
+        if( i == j ) return true ;
+        for( int k=0; k<obj.nvisitors; k++){
+            if( ! obj.get(k)->equal(i,j) ) return false ;    
+        }
+        return true ;
+    }
+} ;
+    
 }
 
-// [[Rcpp::export]]
-SEXP semi_join_impl( DataFrame x, DataFrame y){
-    CharacterVector by   = common_by(x.names(), y.names()) ;
-    DataFrameJoinVisitors(x, y, by) ;
-    int n_x = x.size() ;
-    
-    
-    return R_NilValue ;
-}
-
+#endif

@@ -64,14 +64,6 @@ namespace dplyr {
         delete_all( visitors );
     }
     
-    bool DataFrameVisitors::equal( int i, int j) const {
-        if( i == j ) return true ;
-        for( int k=0; k<nvisitors; k++){
-            if( ! visitors[k]->equal(i,j) ) return false ;    
-        }
-        return true ;
-    }
-    
     bool DataFrameVisitors::less( int i, int j) const {
         if( i == j ) return false ;
         for( int k=0; k<nvisitors; k++){
