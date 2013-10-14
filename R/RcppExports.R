@@ -5,12 +5,8 @@ equal_data_frame <- function(x, y) {
     .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
-filter_grouped_df_impl <- function(gdf, args, env) {
-    .Call('dplyr_filter_grouped_df_impl', PACKAGE = 'dplyr', gdf, args, env)
-}
-
-filter_data_frame <- function(df, args, env) {
-    .Call('dplyr_filter_data_frame', PACKAGE = 'dplyr', df, args, env)
+filter_impl <- function(df, args, env) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
 mutate_impl <- function(df, args, env) {

@@ -39,8 +39,7 @@ DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select ){
     return visitors.subset(test) ;
 }
 
-// [[Rcpp::export]]
-DataFrame filter_grouped_df_impl( const GroupedDataFrame& gdf, List args, Environment env){
+DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
     // a, b, c ->  a & b & c
     Language call = and_calls( args ) ;
     
@@ -66,8 +65,7 @@ DataFrame filter_grouped_df_impl( const GroupedDataFrame& gdf, List args, Enviro
     return subset( data, test, data.names() ) ;
 }
 
-// [[Rcpp::export]]
-SEXP filter_data_frame( DataFrame df, List args, Environment env){
+SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     // a, b, c ->  a & b & c
     Language call = and_calls( args ) ;
     
@@ -76,5 +74,14 @@ SEXP filter_data_frame( DataFrame df, List args, Environment env){
     LogicalVector test = CallProxy( call, df).get() ;
     
     return subset( df, test, df.names() ) ;
+}
+
+// [[Rcpp::export]]
+SEXP filter_impl( DataFrame df, List args, Environment env){
+    if( is<GroupedDataFrame>( df ) ){
+        return filter_grouped( GroupedDataFrame(df), args, env);    
+    } else {
+        return filter_not_grouped( df, args, env) ;   
+    }
 }
 

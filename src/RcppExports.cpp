@@ -22,26 +22,9 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// filter_grouped_df_impl
-DataFrame filter_grouped_df_impl(const GroupedDataFrame& gdf, List args, Environment env);
-RcppExport SEXP dplyr_filter_grouped_df_impl(SEXP gdfSEXP, SEXP argsSEXP, SEXP envSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP );
-        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        DataFrame __result = filter_grouped_df_impl(gdf, args, env);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// filter_data_frame
-SEXP filter_data_frame(DataFrame df, List args, Environment env);
-RcppExport SEXP dplyr_filter_data_frame(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+// filter_impl
+SEXP filter_impl(DataFrame df, List args, Environment env);
+RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -49,7 +32,7 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
         Rcpp::traits::input_parameter< List >::type args(argsSEXP );
         Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = filter_data_frame(df, args, env);
+        SEXP __result = filter_impl(df, args, env);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
