@@ -77,59 +77,6 @@ private:
     VECTOR vec ;    
 } ;
 
-class LazySubsetResult {
-public:
-    LazySubsetResult( OrderVisitor* v_, const Rcpp::IntegerVector& indices_ ):
-        v(v_), indices(indices_){}
-    
-    friend bool operator==( const LazySubsetResult& lhs, const LazySubsetResult& rhs) ;
-    
-private:
-    OrderVisitor* v ;
-    const Rcpp::IntegerVector& indices ;
-} ;
-         
-template <int RTYPE, typename STORAGE>
-inline bool equal_or_both_na( STORAGE lhs, STORAGE rhs ){
-    return lhs == rhs ;
-}
-template <>
-inline bool equal_or_both_na<REALSXP,double>( double lhs, double rhs ){
-    // special version for REALSXP
-    return ( Rcpp::traits::is_na<REALSXP>( lhs ) && Rcpp::traits::is_na<REALSXP>( rhs ) ) || ( lhs == rhs );  
-}
-
-
-template <int RTYPE>
-bool subset_equal( 
-    Rcpp::Vector<RTYPE> lhs_data, const Rcpp::IntegerVector& lhs_ind, 
-    Rcpp::Vector<RTYPE> rhs_data, const Rcpp::IntegerVector& rhs_ind )
-{
-    int n = lhs_data.size() ;
-    for( int i=0; i<n; i++){
-        if( ! equal_or_both_na<RTYPE, typename Rcpp::traits::storage_type<RTYPE>::type>( lhs_data[ lhs_ind[i] ], lhs_data[ lhs_ind[i] ] ) )
-            return false ;
-    }
-    return true ;
-}
-
-inline bool operator==( const LazySubsetResult& lhs, const LazySubsetResult& rhs){
-    int RTYPE = TYPEOF(lhs.v->get()) ;
-    switch( RTYPE ){
-    case INTSXP:  return subset_equal<INTSXP>( lhs.v->get(), lhs.indices, rhs.v->get(), rhs.indices ) ; 
-    case REALSXP: return subset_equal<REALSXP>( lhs.v->get(), lhs.indices, rhs.v->get(), rhs.indices ) ;
-    case STRSXP:  return subset_equal<STRSXP>( lhs.v->get(), lhs.indices, rhs.v->get(), rhs.indices ) ;
-    case LGLSXP:  return subset_equal<LGLSXP>( lhs.v->get(), lhs.indices, rhs.v->get(), rhs.indices ) ;
-    default:
-        break ;
-    }
-    return false ;
-}
-inline bool operator!=( const LazySubsetResult& lhs, const LazySubsetResult& rhs){
-    return ! ( lhs == rhs ) ;
-}
-
-
 }
 
 #endif
