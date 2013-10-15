@@ -1,6 +1,5 @@
-library(plyr)
-library(data.table)
 library(dplyr)
+library(data.table)
 
 N <- 10000
 indices = rep(NA, N)
@@ -15,14 +14,6 @@ left <- data.frame(key=rep(indices[1:8000], 10),
 right <- data.frame(key=indices[2001:10000],
                     key2=indices2[2001:10000],
                     value2=rnorm(8000))
-
-right2 <- data.frame(key=rep(right$key, 2),
-                     key2=rep(right$key2, 2),
-                     value2=rnorm(16000))
-
-rownames(left) <- NULL
-rownames(right) <- NULL
-rownames(right2) <- NULL
 
 left.dt <- data.table(left, key=c("key", "key2"))
 right.dt <- data.table(right, key=c("key", "key2"))
@@ -100,5 +91,5 @@ for (i in 1:3) {
 pandas.txt <- system( "python pandas/bench_merge.py", intern = TRUE )
 pandas     <- read.table( textConnection( pandas.txt ) )
 results[,1] <- pandas[c(1,3:4),1]
-round(results)
+round( results, 4 )
 
