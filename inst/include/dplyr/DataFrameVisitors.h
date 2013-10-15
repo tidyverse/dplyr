@@ -52,7 +52,7 @@ class DataFrameVisitors :
             int nrows = index.size() ;
             Rcpp::List out(nvisitors);
             for( int k=0; k<nvisitors; k++){
-               out[k] = visitors[k]->copy(index) ;    
+               out[k] = visitors[k]->subset(index) ;    
             }
             out.attr("class") = "data.frame" ;
             out.attr("row.names") = Rcpp::IntegerVector::create( 

@@ -52,7 +52,7 @@ namespace dplyr {
         ChunkIndexMap::iterator it ;
         int m = index_map.size() ;
         for( int i=0; i<nvisitors; i++){
-            output[i] = visitors.get(i)->copy(index_map); 
+            output[i] = visitors.get(i)->subset(index_map); 
             names[i]  = visitors.name(i) ;
         }
         

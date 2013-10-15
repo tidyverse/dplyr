@@ -46,11 +46,11 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     CharacterVector names(nv_x+nv_y) ;
     int k=0;
     for( ; k<nv_x; k++){
-       out[k] = visitors_x.get(k)->copy(indices_x) ;
+       out[k] = visitors_x.get(k)->subset(indices_x) ;
        names[k] = x_columns[k] ;
     }
     for( int i=0; i<nv_y; i++, k++){
-       out[k] = visitors_y.get(i)->copy(indices_y) ; 
+       out[k] = visitors_y.get(i)->subset(indices_y) ; 
        names[k] = y_columns[i] ;
     }
     out.attr("class") = "data.frame" ;
