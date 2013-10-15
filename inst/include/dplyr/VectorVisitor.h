@@ -47,8 +47,6 @@ public:
     
     virtual SEXP copy( const std::vector<int>& ) = 0 ;
     
-    virtual SEXP copy_perhaps_na( const std::vector<int>& index ) = 0 ;
-    
     /** creates a new vector, of the same type as the visited vector, by 
      *  copying elements at the given indices
      */

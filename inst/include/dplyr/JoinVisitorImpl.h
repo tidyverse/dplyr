@@ -24,6 +24,7 @@ namespace dplyr{
     template <int RTYPE>
     class JoinVisitorImpl : public JoinVisitor, public comparisons<RTYPE>{
     public:
+        typedef comparisons<RTYPE> Compare ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         typedef boost::hash<STORAGE> hasher ;
     
@@ -35,7 +36,7 @@ namespace dplyr{
         }
         
         inline bool equal( int i, int j){
-            return is_equal( get(i), get(j) ) ;
+            return Compare::is_equal( get(i), get(j) ) ;
         }
         
     private:

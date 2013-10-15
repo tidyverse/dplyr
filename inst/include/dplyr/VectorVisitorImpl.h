@@ -67,23 +67,6 @@ public:
         return copy_int_index( index) ;    
     }
     
-    inline SEXP copy_perhaps_na( const std::vector<int>& index ){
-        int n=index.size() ;
-        VECTOR out = Rcpp::no_init(n) ;
-        for( int i=0; i<n; i++) {
-            if( index[i] < 0 ){
-                out[i] = VECTOR::get_na() ;
-            } else { 
-                out[i] = vec[ index[i] ] ;
-            }
-        }
-        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
-            out.attr( "levels" ) = vec.attr("levels") ;
-            out.attr( "class"  ) = "factor" ;
-        }
-        return out ;
-    }
-    
     inline SEXP copy( const ChunkIndexMap& map ){
         int n=map.size() ;
         VECTOR out = Rcpp::no_init(n) ;
@@ -115,11 +98,12 @@ private:
     hasher hash_fun ;
     
     template <typename Container>
-    inline SEXP copy_int_index( const Container&  index ) {
+    inline SEXP copy_int_index( const Container& index ) {
         int n=index.size() ;
         VECTOR out = Rcpp::no_init(n) ;
+        // TODO: find a way to mark that we don't need the NA handling
         for( int i=0; i<n; i++) 
-            out[i] = vec[ index[i] ] ;
+            out[i] = (index[i] < 0) ? VECTOR::get_na() : vec[ index[i] ] ;
         if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
             out.attr( "levels" ) = vec.attr("levels") ;
             out.attr( "class"  ) = "factor" ;
