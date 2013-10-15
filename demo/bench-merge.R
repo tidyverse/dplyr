@@ -89,7 +89,7 @@ for (i in 1:3) {
   results[i, 4] <- timeit(dplyr.func)
 }
 pandas.txt <- system( "python pandas/bench_merge.py", intern = TRUE )
-pandas     <- read.table( textConnection( pandas.txt ) )
+pandas     <- read.table( text = pandas.txt )
 results[,1] <- pandas[c(1,3:4),1]
 round( results, 4 )
 
