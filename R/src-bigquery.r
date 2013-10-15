@@ -12,6 +12,7 @@
 #' @param ... Included for compatibility with the generic, but otherwise 
 #'   ignored.
 #' @param src a bigquery src created with \code{src_bigquery}.
+#' @export
 #' @examples
 #' # Connection basics ---------------------------------------------------------
 #' \dontrun{
