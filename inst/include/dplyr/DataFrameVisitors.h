@@ -25,8 +25,8 @@ class DataFrameVisitors :
     public VisitorSetEqual<DataFrameVisitors>, 
     public VisitorSetHash<DataFrameVisitors>, 
     public VisitorSetLess<DataFrameVisitors>, 
-    public VisitorSetGreater<DataFrameVisitors> 
-    {
+    public VisitorSetGreater<DataFrameVisitors> {
+    
     private:
         
         const Rcpp::DataFrame& data ;
@@ -47,9 +47,8 @@ class DataFrameVisitors :
         
         ~DataFrameVisitors() ; 
     
-        // TODO: rename this something like int_subset
         template <typename Container>
-        Rcpp::DataFrame copy( const Container& index) const {
+        Rcpp::DataFrame subset( const Container& index) const {
             int nrows = index.size() ;
             Rcpp::List out(nvisitors);
             for( int k=0; k<nvisitors; k++){
