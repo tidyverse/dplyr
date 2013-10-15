@@ -22,7 +22,7 @@
 namespace dplyr{
     
     // if we derive from this instead of deriving from Result, all we have to 
-    // do is implement a process_chunk method that takes a std::vector<int>& as
+    // do is implement a process_chunk method that takes a Index_1_based& as
     // input and returns the suitable type (i.e. storage_type<OUTPUT>)
     // all the builtin result implementation (Mean, ...) use this. 
     template <int OUTPUT, typename CLASS>
@@ -32,15 +32,14 @@ namespace dplyr{
          
         Processor(){}
         
-        virtual SEXP process(const ChunkIndexMap& map ) {
+        virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
             Rcpp::Shelter<SEXP> __ ;
-            int n = map.size() ; 
+            int n = gdf.ngroups() ; 
             SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
             STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
-            ChunkIndexMap::const_iterator it = map.begin() ;
             CLASS* obj = static_cast<CLASS*>(this) ;
-            for( int i=0; i<n; i++, ++it)
-                ptr[i] = obj->process_chunk(it->second ) ;
+            for( int i=0; i<n; i++)
+                ptr[i] = obj->process_chunk(gdf.group(i)) ;
             return res ;        
         }
     } ;
@@ -50,13 +49,12 @@ namespace dplyr{
     public:
         Processor(){}
         
-        virtual SEXP process(const ChunkIndexMap& map) {
-            int n = map.size() ; 
+        virtual SEXP process(const Rcpp::GroupedDataFrame& gdf) {
+            int n = gdf.ngroups() ; 
             Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
-            ChunkIndexMap::const_iterator it = map.begin() ;
             CLASS* obj = static_cast<CLASS*>(this) ;
-            for( int i=0; i<n; i++, ++it)
-                SET_STRING_ELT( res, i, obj->process_chunk(it->second ) );
+            for( int i=0; i<n; i++)
+                SET_STRING_ELT( res, i, obj->process_chunk(gdf.group(i)) );
             return res ;        
         }
         

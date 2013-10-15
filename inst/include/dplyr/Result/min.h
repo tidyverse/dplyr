@@ -29,7 +29,7 @@ namespace dplyr {
         Min(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Min(){}
         
-        STORAGE process_chunk( const std::vector<int>& indices ){
+        STORAGE process_chunk( const Index_1_based& indices ){
             int n = indices.size() ;
         
             // find the first non NA value
@@ -60,7 +60,7 @@ namespace dplyr {
         Min(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Min(){}
         
-        STORAGE process_chunk( const std::vector<int>& indices ){
+        STORAGE process_chunk( const Index_1_based& indices ){
             int n = indices.size() ;
         
             // find the first non NA value

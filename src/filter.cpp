@@ -47,17 +47,16 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     int nrows = data.nrows() ;
     LogicalVector test = no_init(nrows);
     
-    IntegerVector indices ;
     LogicalVector g_test ;
     CallProxy call_proxy( call, data ) ;
     int ngroups = gdf.ngroups() ;
     for( int i=0; i<ngroups; i++){
-        indices = gdf.group(i) ;
+        Index_1_based indices = gdf.group(i) ;
         g_test  = call_proxy.get( indices );
         
         int chunk_size = indices.size() ;
         for( int j=0; j<chunk_size; j++){
-            test[ indices[j] - 1] = g_test[j] ;  
+            test[ indices[j] ] = g_test[j] ;  
         }
         
     }

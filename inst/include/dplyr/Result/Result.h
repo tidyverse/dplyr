@@ -29,7 +29,7 @@ namespace dplyr {
             Result(){}
             virtual ~Result(){} ;
             
-            virtual SEXP process( const ChunkIndexMap& map) = 0 ;
+            virtual SEXP process( const Rcpp::GroupedDataFrame& map) = 0 ;
     } ;
 
 } // namespace dplyr

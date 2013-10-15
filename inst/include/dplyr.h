@@ -38,6 +38,7 @@ namespace dplyr {
 #include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 
+#include <dplyr/Index_1_based.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
@@ -50,7 +51,6 @@ namespace dplyr {
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
-#include <dplyr/SplitApplyCombine.h>
 #include <dplyr/Order.h>
 
 SEXP and_calls(Rcpp::List args) ;

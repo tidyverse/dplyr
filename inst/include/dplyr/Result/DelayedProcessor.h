@@ -27,7 +27,7 @@ namespace dplyr{
            DelayedProcessor_Base(){}
            virtual ~DelayedProcessor_Base(){}
            
-           virtual SEXP delayed_process( const ChunkIndexMap& map, SEXP first_result, CLASS* ) = 0;
+           virtual SEXP delayed_process( const Rcpp::GroupedDataFrame& map, SEXP first_result, CLASS* ) = 0;
     } ;
     
     template <int RTYPE, typename CLASS>
@@ -37,15 +37,14 @@ namespace dplyr{
          
         DelayedProcessor(){}
         
-        virtual SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result, CLASS* obj) {
+        virtual SEXP delayed_process(const Rcpp::GroupedDataFrame& gdf, SEXP first_result, CLASS* obj) {
             Rcpp::Shelter<SEXP> __ ;
-            int n = map.size() ; 
+            int n = gdf.ngroups() ; 
             SEXP res = __( Rf_allocVector( RTYPE, n) ) ;
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>(res) ;
             ptr[0] = Rcpp::as<STORAGE>( first_result );
-            ChunkIndexMap::const_iterator it = map.begin() ; ++it ;
-            for( int i=1; i<n; i++, ++it)
-                ptr[i] = Rcpp::as<STORAGE>( obj->process_chunk(it->second ) ) ;
+            for( int i=1; i<n; i++ )
+                ptr[i] = Rcpp::as<STORAGE>( obj->process_chunk(gdf.group(i)) ) ;
             return res ;        
         }
                       
@@ -56,14 +55,13 @@ namespace dplyr{
     public:
         DelayedProcessor(){}
         
-        virtual SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result, CLASS* obj) {
+        virtual SEXP delayed_process(const Rcpp::GroupedDataFrame& gdf, SEXP first_result, CLASS* obj) {
             Rcpp::Shelter<SEXP> __ ;
-            int n = map.size() ; 
+            int n = gdf.ngroups() ; 
             SEXP res = __( Rf_allocVector( STRSXP, n) ) ;
             SET_STRING_ELT( res, 0, STRING_ELT(first_result, 0 ) ) ;
-            ChunkIndexMap::const_iterator it = map.begin() ; ++it ;
-            for( int i=1; i<n; i++, ++it)
-                SET_STRING_ELT( res, i, STRING_ELT( obj->process_chunk(it->second ), 0) ) ;
+            for( int i=1; i<n; i++ )
+                SET_STRING_ELT( res, i, STRING_ELT( obj->process_chunk(gdf.group(i)), 0) ) ;
             return res ;        
         }
         

@@ -39,7 +39,7 @@ namespace Rcpp {
             }
         }
         
-        IntegerVector group( int i ) const {
+        Index_1_based group( int i ) const {
             return indices[i] ;     
         }
                          
@@ -87,7 +87,7 @@ namespace Rcpp {
     private:
         
         DataFrame data_ ;
-        ListOf<IntegerVector> indices ;
+        ListOf<Index_1_based> indices ;
         std::vector<SEXP> symbols ;
         
     } ;
