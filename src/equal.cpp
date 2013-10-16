@@ -32,7 +32,8 @@ SEXP yes(){
     return Rf_ScalarLogical(TRUE) ; 
 }
 
-bool all_same_types(const DataFrameVisitors& vx, const DataFrameVisitors& vy){
+template <typename VisitorSet>
+bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
     int n = vx.size() ;
     for( int i=0; i<n; i++)
         if( typeid(vx.get(i)) != typeid(vy.get(i)) )
@@ -61,15 +62,18 @@ SEXP equal_data_frame(DataFrame x, DataFrame y){
     if( ! all_same_types(v_x, v_y ) )
         return no_because( "different types" ) ;
     
-    OrderVisitors order_x( x, names_x ) ; 
-    IntegerVector o_x = order_x.apply() ;
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, int > Map ;
+    DataFrameJoinVisitors visitors(x, y, names_x) ;
+    Map map(visitors);  
     
-    OrderVisitors order_y( y, names_y )  ;
-    IntegerVector o_y = order_y.apply() ;
-    
-    for( int i=0; i<n; i++)
-        if( LazySubsetResult(order_x.visitors[i], o_x ) != LazySubsetResult(order_y.visitors[i], o_y ) )
+    for( int i=0; i<nrows; i++) map[i]++ ;
+    for( int i=0; i<nrows; i++){
+        Map::iterator it = map.find(-i-1) ;
+        if( it == map.end() || it->second < 0 ) 
             return no_because( "different subset" ) ;
-        
+        else
+            it->second-- ;
+    }
+    
     return yes() ;
 }

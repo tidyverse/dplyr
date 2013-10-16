@@ -21,9 +21,10 @@ order_ <- function(..., data){
   f
 }
 
-arrange_ <- .data_dots(arrange_impl)
-filter_  <- .data_dots(filter_impl)
-mutate_  <- .data_dots(mutate_impl, named_dots)
+arrange_    <- .data_dots(arrange_impl)
+filter_     <- .data_dots(filter_impl)
+mutate_     <- .data_dots(mutate_impl, named_dots)
+summarise_  <- .data_dots(summarise_impl, named_dots)
 
 equal_ <- function(x, y){
   equal_data_frame(x, y) 

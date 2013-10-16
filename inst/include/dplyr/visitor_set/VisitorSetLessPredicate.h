@@ -12,34 +12,27 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                 
+//
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_CallReducer_H
-#define dplyr_CallReducer_H
+#ifndef dplyr_VisitorSetLessPredicate_H
+#define dplyr_VisitorSetLessPredicate_H
 
-namespace dplyr {
-       
-    class CallReducer : public CallbackProcessor<CallReducer> {
+namespace dplyr{
+
+    template <typename VisitorSet>
+    class VisitorSetLessPredicate {
     public:
-        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_): 
-            call(call_), data(data_), call_proxy(call, data) {}
-        
-        virtual ~CallReducer(){} ;
-        
-        inline SEXP process_chunk( const Index_1_based& indices ){
-            return call_proxy.get(indices) ;
-        }               
+        VisitorSetLessPredicate( const VisitorSet& visitors_ ) : visitors(visitors_) {} ;
+        inline bool operator()(int i, int j) const {
+            return visitors.less(i,j) ;
+        }
         
     private:
-        
-        Rcpp::Language call ;
-        const Rcpp::DataFrame& data ;
-        
-        CallProxy call_proxy ;
+        const VisitorSet& visitors ;  
     } ;
-
-} // namespace dplyr
+    
+}
 
 #endif

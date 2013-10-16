@@ -12,34 +12,31 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                 
+//
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_CallReducer_H
-#define dplyr_CallReducer_H
+#ifndef dplyr_VisitorSetHash_H
+#define dplyr_VisitorSetHash_H
 
-namespace dplyr {
-       
-    class CallReducer : public CallbackProcessor<CallReducer> {
-    public:
-        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_): 
-            call(call_), data(data_), call_proxy(call, data) {}
-        
-        virtual ~CallReducer(){} ;
-        
-        inline SEXP process_chunk( const Index_1_based& indices ){
-            return call_proxy.get(indices) ;
-        }               
-        
-    private:
-        
-        Rcpp::Language call ;
-        const Rcpp::DataFrame& data ;
-        
-        CallProxy call_proxy ;
-    } ;
+namespace dplyr{
+           
+template <typename Class>
+class VisitorSetHash {
+public:
+    size_t hash( int j) const {
+        const Class& obj = static_cast<const Class&>(*this) ; 
+        size_t seed = 0 ;
+        int n = obj.size() ;
+        for( int k=0; k<n; k++){
+            boost::hash_combine( seed, obj.get(k)->hash(j) ) ;
+        }
+        return seed ;
+    }
+} ;
 
-} // namespace dplyr
+
+
+}
 
 #endif

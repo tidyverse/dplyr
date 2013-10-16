@@ -12,34 +12,28 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                 
+//
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_CallReducer_H
-#define dplyr_CallReducer_H
+#ifndef dplyr_VisitorSetEqual_H
+#define dplyr_VisitorSetEqual_H
 
-namespace dplyr {
-       
-    class CallReducer : public CallbackProcessor<CallReducer> {
-    public:
-        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_): 
-            call(call_), data(data_), call_proxy(call, data) {}
-        
-        virtual ~CallReducer(){} ;
-        
-        inline SEXP process_chunk( const Index_1_based& indices ){
-            return call_proxy.get(indices) ;
-        }               
-        
-    private:
-        
-        Rcpp::Language call ;
-        const Rcpp::DataFrame& data ;
-        
-        CallProxy call_proxy ;
-    } ;
+namespace dplyr{
 
-} // namespace dplyr
+template <typename Class>
+class VisitorSetEqual {
+public:
+    bool equal( int i, int j) const {
+        const Class& obj = static_cast<const Class&>(*this) ; 
+        if( i == j ) return true ;
+        int n=obj.size() ;
+        for( int k=0; k<n; k++)
+            if( ! obj.get(k)->equal(i,j) ) return false ;    
+        return true ;
+    }
+} ;
+    
+}
 
 #endif

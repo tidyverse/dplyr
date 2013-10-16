@@ -43,12 +43,14 @@ public:
     /** creates a new vector, of the same type as the visited vector, by 
      *  copying elements at the given indices
      */
-    virtual SEXP copy( const Rcpp::IntegerVector& index ) = 0 ;
+    virtual SEXP subset( const Rcpp::IntegerVector& index ) = 0 ;
+    
+    virtual SEXP subset( const std::vector<int>& ) = 0 ;
     
     /** creates a new vector, of the same type as the visited vector, by 
      *  copying elements at the given indices
      */
-    virtual SEXP copy( const DataFrameVisitorsIndexMap< std::vector<int> >& index ) = 0 ;
+    virtual SEXP subset( const ChunkIndexMap& index ) = 0 ;
     
     virtual SEXP subset( const Rcpp::LogicalVector& index, int n ) = 0 ;
     

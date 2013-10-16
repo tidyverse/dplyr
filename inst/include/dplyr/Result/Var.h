@@ -33,7 +33,7 @@ namespace internal{
         Var(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Var(){}
         
-        inline double process_chunk( const std::vector<int>& indices ){
+        inline double process_chunk( const Index_1_based& indices ){
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ;
             double m = internal::mean<RTYPE,NA_RM>( data_ptr, indices ); 
@@ -61,7 +61,7 @@ namespace internal{
         Var(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Var(){}
         
-        inline double process_chunk( const std::vector<int>& indices ){
+        inline double process_chunk( const Index_1_based& indices ){
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ; 
             double m = internal::mean<RTYPE,true>( data_ptr, indices ); 

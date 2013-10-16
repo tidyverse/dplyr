@@ -81,7 +81,7 @@ namespace dplyr {
                     proxies[i].set( chunks[proxies[i].symbol] ) ;     
                 }
                 return call.fast_eval() ;
-            }                 
+            }   
             
             void set_call( SEXP call_ ){
                 proxies.clear() ;

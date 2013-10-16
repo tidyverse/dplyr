@@ -60,40 +60,30 @@ public:
         return compare::is_greater( vec[i], vec[j] ) ;
     }
     
-    inline SEXP copy( const Rcpp::IntegerVector&  index ) {
-        int n=index.size() ;
-        VECTOR out = Rcpp::no_init(n) ;
-        for( int i=0; i<n; i++) 
-            out[i] = vec[ index[i] ] ;
-        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
-            out.attr( "levels" ) = vec.attr("levels") ;
-            out.attr( "class"  ) = "factor" ;
-        }
-        return out ;
+    inline SEXP subset( const Rcpp::IntegerVector& index){
+        return subset_int_index( index) ;    
+    }
+    inline SEXP subset( const std::vector<int>& index){
+        return subset_int_index( index) ;    
     }
     
-    inline SEXP copy( const DataFrameVisitorsIndexMap< std::vector<int> >& map ){
+    inline SEXP subset( const ChunkIndexMap& map ){
         int n=map.size() ;
         VECTOR out = Rcpp::no_init(n) ;
         ChunkIndexMap::const_iterator it = map.begin(); 
-        for( int i=0; i<n; i++, ++it) out[i] = vec[ it->first ] ;
-        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
-            out.attr( "levels" ) = vec.attr("levels") ;
-            out.attr( "class"  ) = "factor" ;
-        }
+        for( int i=0; i<n; i++, ++it)
+            out[i] = vec[ it->first ] ;
+        set_factor( out ) ;
         return out ;
     }
     
-    virtual SEXP subset( const Rcpp::LogicalVector& index, int n ){
+    inline SEXP subset( const Rcpp::LogicalVector& index, int n ){
         VECTOR out = Rcpp::no_init(n) ;
         for( int i=0, k=0; k<n; k++, i++ ) {
             while( ! index[i] ) i++; 
             out[k] = vec[i] ;
         }
-        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
-            out.attr( "levels" ) = vec.attr("levels") ;
-            out.attr( "class"  ) = "factor" ;
-        }
+        set_factor( out ) ;
         return out ;
     }
     
@@ -101,6 +91,26 @@ public:
 private: 
     VECTOR vec ;
     hasher hash_fun ;
+    
+    template <typename Container>
+    inline SEXP subset_int_index( const Container& index ) {
+        int n=index.size() ;
+        VECTOR out = Rcpp::no_init(n) ;
+        // TODO: find a way to mark that we don't need the NA handling
+        for( int i=0; i<n; i++) 
+            out[i] = (index[i] < 0) ? VECTOR::get_na() : vec[ index[i] ] ;
+        set_factor( out ) ;
+        return out ;
+    }
+    
+    void set_factor( VECTOR& out ){
+        if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
+            out.attr( "levels" ) = vec.attr("levels") ;
+            out.attr( "class"  ) = "factor" ;
+        }
+    }
+    
+    
 } ;
     
 }

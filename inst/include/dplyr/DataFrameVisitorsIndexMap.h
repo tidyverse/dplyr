@@ -21,28 +21,7 @@
 
 namespace dplyr {
 
-    template <typename VALUE>
-    class DataFrameVisitorsIndexMap : public boost::unordered_map<int, VALUE, DataFrameVisitorsHasher, DataFrameVisitorsEqual> {
-    private:
-        typedef typename boost::unordered_map<int, VALUE, DataFrameVisitorsHasher, DataFrameVisitorsEqual> Base ;
-    public:
-        DataFrameVisitorsIndexMap() : Base(), visitors(0) {}
-                   
-        DataFrameVisitorsIndexMap( DataFrameVisitors& visitors_ ) : 
-            Base( 1024, DataFrameVisitorsHasher(&visitors_), DataFrameVisitorsEqual(&visitors_) ), 
-            visitors(&visitors_)
-        {}
-        
-        DataFrameVisitorsIndexMap( DataFrameVisitors* visitors_ ) : 
-            Base( 1024, DataFrameVisitorsHasher(visitors_), DataFrameVisitorsEqual(visitors_) ), 
-            visitors(visitors_)
-        {}
-        
-        DataFrameVisitors* visitors ;
-    
-    } ;
-      
-    typedef DataFrameVisitorsIndexMap< std::vector<int> > ChunkIndexMap ; 
+    typedef VisitorSetIndexMap< DataFrameVisitors, std::vector<int> > ChunkIndexMap ; 
     
 }
 

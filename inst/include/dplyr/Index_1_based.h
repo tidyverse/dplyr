@@ -12,34 +12,28 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                 
+//
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_CallReducer_H
-#define dplyr_CallReducer_H
+#ifndef dplyr_tools_Index_1_based_H
+#define dplyr_tools_Index_1_based_H
 
-namespace dplyr {
-       
-    class CallReducer : public CallbackProcessor<CallReducer> {
-    public:
-        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_): 
-            call(call_), data(data_), call_proxy(call, data) {}
-        
-        virtual ~CallReducer(){} ;
-        
-        inline SEXP process_chunk( const Index_1_based& indices ){
-            return call_proxy.get(indices) ;
-        }               
-        
-    private:
-        
-        Rcpp::Language call ;
-        const Rcpp::DataFrame& data ;
-        
-        CallProxy call_proxy ;
-    } ;
-
-} // namespace dplyr
+class Index_1_based {
+public:
+    Index_1_based( SEXP data ) : p(INTEGER(data)), n(Rf_length(data)) {}
+    
+    inline int size() const { 
+        return n ; 
+    }
+    
+    inline int operator[](int i) const {
+        return p[i] - 1;    
+    }
+    
+private:
+    int* p ;
+    int n ;
+} ;
 
 #endif

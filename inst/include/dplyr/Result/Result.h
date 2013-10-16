@@ -25,11 +25,13 @@ namespace dplyr {
     // manually by traversing the ChunkIndexMap
     // or we can use the Processor template class
     class Result {
-        public:
-            Result(){}
-            virtual ~Result(){} ;
-            
-            virtual SEXP process( const ChunkIndexMap& map) = 0 ;
+    public:
+        Result(){}
+        virtual ~Result(){} ;
+        
+        virtual SEXP process( const Rcpp::GroupedDataFrame& gdf) = 0 ;
+        
+        virtual SEXP process( const Rcpp::FullDataFrame& df ) = 0 ;
     } ;
 
 } // namespace dplyr

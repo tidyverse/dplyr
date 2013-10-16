@@ -59,7 +59,7 @@ namespace dplyr {
     }
     
     Gatherer* gatherer( CallProxy& proxy, const GroupedDataFrame& gdf ){
-        IntegerVector indices = gdf.group(0);
+        Index_1_based indices = gdf.group(0);
         Shield<SEXP> first( proxy.get(indices) ) ; 
         switch( TYPEOF(first) ){
             case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
@@ -70,6 +70,19 @@ namespace dplyr {
         }
         // should not happen, but if it does, we should handle it
         return 0; 
+    }
+        
+    JoinVisitor* join_visitor( SEXP left, SEXP right ){
+        if( TYPEOF(left) != TYPEOF(right) ) 
+            stop( "cannot create join visitor from incompatible types" ) ;
+        switch( TYPEOF(left) ){
+            case INTSXP:  return new JoinVisitorImpl<INTSXP> ( left, right ) ;
+            case REALSXP: return new JoinVisitorImpl<REALSXP>( left, right ) ;
+            case LGLSXP:  return new JoinVisitorImpl<LGLSXP> ( left, right ) ;
+            case STRSXP:  return new JoinVisitorImpl<STRSXP> ( left, right ) ;
+            default: break ;
+        }
+        return 0 ;
     }
 
 }

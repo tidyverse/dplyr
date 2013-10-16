@@ -12,34 +12,34 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                 
+//
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_CallReducer_H
-#define dplyr_CallReducer_H
+#ifndef dplyr_VisitorSetGreater_H
+#define dplyr_VisitorSetGreater_H
 
-namespace dplyr {
-       
-    class CallReducer : public CallbackProcessor<CallReducer> {
-    public:
-        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_): 
-            call(call_), data(data_), call_proxy(call, data) {}
-        
-        virtual ~CallReducer(){} ;
-        
-        inline SEXP process_chunk( const Index_1_based& indices ){
-            return call_proxy.get(indices) ;
-        }               
-        
-    private:
-        
-        Rcpp::Language call ;
-        const Rcpp::DataFrame& data ;
-        
-        CallProxy call_proxy ;
-    } ;
+namespace dplyr{
 
-} // namespace dplyr
+template <typename Class>
+class VisitorSetGreater {
+public:
+    bool greater( int i, int j) const {
+        if( i == j ) return false ;
+        const Class& obj = static_cast<const Class&>(*this) ; 
+        int n=obj.size();
+        for( int k=0; k<n; k++){
+            typename Class::visitor_type* visitor = obj.get(k) ; 
+            if( ! visitor->equal(i,j) ){
+                return visitor->greater(i,j) ;
+            } 
+        }
+        // if we end up here, it means rows i and j are equal
+        // we break the tie using the indices
+        return i < j ;
+    }
+} ;
+    
+}
 
 #endif

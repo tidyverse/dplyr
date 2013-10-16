@@ -63,68 +63,7 @@ namespace dplyr {
     DataFrameVisitors::~DataFrameVisitors(){
         delete_all( visitors );
     }
-    
-    bool DataFrameVisitors::equal( int i, int j) const {
-        if( i == j ) return true ;
-        for( int k=0; k<nvisitors; k++){
-            if( ! visitors[k]->equal(i,j) ) return false ;    
-        }
-        return true ;
-    }
-    
-    bool DataFrameVisitors::less( int i, int j) const {
-        if( i == j ) return false ;
-        for( int k=0; k<nvisitors; k++){
-            if( ! visitors[k]->equal(i,j) ){
-                return visitors[k]->less(i,j) ;
-            } 
-        }
-        // if we end up here, it means rows i and j are equal
-        // we break the tie using the indices
-        return i < j ;
-    }
-    
-    bool DataFrameVisitors::greater( int i, int j) const {
-        if( i == j ) return false ;
-        for( int k=0; k<nvisitors; k++){
-            if( ! visitors[k]->equal(i,j) ){
-                return visitors[k]->greater(i,j) ;
-            }
-        }
-        // if we end up here, it means rows i and j are equal
-        // we break the tie using the indices
-        return i < j ;
-    }
-    
-    
-    size_t DataFrameVisitors::hash( int j) const {
-        size_t seed = 0 ;
-        for( int k=0; k<nvisitors; k++){
-            boost::hash_combine( seed, visitors[k]->hash(j) ) ;
-        }
-        return seed ;
-    }
-    
-    /**
-     * Creates a data frame by indexing the visited vectors. 
-     * Similar to df[ index, ]
-     *
-     * This will go in DataFrame later
-     */
-    DataFrame DataFrameVisitors::copy( const IntegerVector& index ) const {
-         int nrows = index.size() ;
-         List out(nvisitors);
-         for( int k=0; k<nvisitors; k++){
-            out[k] = visitors[k]->copy(index) ;    
-         }
-         out.attr("class") = "data.frame" ;
-         out.attr("row.names") = IntegerVector::create( 
-             IntegerVector::get_na(), -nrows
-         ) ;
-         out.names() = visitor_names ;
-         return out.asSexp() ;
-    }
-    
+       
     DataFrame DataFrameVisitors::subset( const LogicalVector& index ) const {
          int nrows = sum( index ) ;
          List out(nvisitors);
@@ -139,15 +78,13 @@ namespace dplyr {
          return out.asSexp() ;
     }
     
-    
-    // TODO: deal with na.last
     IntegerVector DataFrameVisitors::order(bool decreasing) const {
         int n = data.nrows() ;
         IntegerVector res = seq(0, n-1) ;
         if( decreasing ){
-            std::sort( res.begin(), res.end(), DataFrameVisitorsGreater(*this) ) ; 
+            std::sort( res.begin(), res.end(), VisitorSetGreaterPredicate<DataFrameVisitors>(*this) ) ; 
         } else {
-            std::sort( res.begin(), res.end(), DataFrameVisitorsLess(*this) ) ;
+            std::sort( res.begin(), res.end(), VisitorSetLessPredicate<DataFrameVisitors>(*this) ) ;
         }
         for( int i=0; i<n; i++) res[i]++ ;
         return res ;

@@ -36,21 +36,20 @@ namespace dplyr {
             data(other.data)
         {}
         
-        OUT process_chunk( const std::vector<int>& indices ){
+        OUT process_chunk( const Index_1_based& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
             return Rcpp::as<OUT>( call.fast_eval() ) ;    
         }
         
         // used by DelayedReducer
-        SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result) {
+        SEXP delayed_process(const Rcpp::GroupedDataFrame& gdf, SEXP first_result) {
             Rcpp::Shelter<SEXP> __ ;
-            int n = map.size() ; 
+            int n = gdf.ngroups() ; 
             SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
             OUT* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
             ptr[0] = Rcpp::as<OUT>( first_result );
-            ChunkIndexMap::const_iterator it = map.begin() ; ++it ;
-            for( int i=1; i<n; i++, ++it)
-                ptr[i] = process_chunk(it->second ) ;
+            for( int i=1; i<n; i++)
+                ptr[i] = process_chunk(gdf.group(i)) ;
             return res ;        
         }
         
@@ -79,19 +78,18 @@ namespace dplyr {
             data(other.data)
         {}
         
-        SEXP process_chunk( const std::vector<int>& indices ){
+        SEXP process_chunk( const Index_1_based& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
             return STRING_ELT( call.fast_eval(), 0 ) ;    
         }
         
         // used by DelayedReducer
-        SEXP delayed_process(const ChunkIndexMap& map, SEXP first_result) {
-            int n = map.size() ; 
+        SEXP delayed_process(const Rcpp::GroupedDataFrame& gdf, SEXP first_result) {
+            int n = gdf.ngroups() ; 
             Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
             SET_STRING_ELT( res, 0, STRING_ELT( first_result, 0 ) );
-            ChunkIndexMap::const_iterator it = map.begin() ; ++it ;
-            for( int i=1; i<n; i++, ++it)
-                SET_STRING_ELT( res, i, process_chunk(it->second ) );
+            for( int i=1; i<n; i++)
+                SET_STRING_ELT( res, i, process_chunk(gdf.group(i)) );
             return res ;        
         }
         

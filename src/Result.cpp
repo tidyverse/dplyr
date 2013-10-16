@@ -26,7 +26,7 @@ namespace dplyr {
     namespace internal {
         
         template <>
-        double mean<INTSXP,false>( int* ptr, const std::vector<int>& indices ){
+        double mean<INTSXP,false>( int* ptr, const Index_1_based& indices ){
             long double res = 0.0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){
@@ -50,7 +50,7 @@ namespace dplyr {
         }
         
         template <>
-        double mean<REALSXP,false>( double* ptr, const std::vector<int>& indices ){
+        double mean<REALSXP,false>( double* ptr, const Index_1_based& indices ){
             long double res = 0.0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){
@@ -69,7 +69,7 @@ namespace dplyr {
         }
         
         template <>
-        int sum<INTSXP,true>( int* ptr, const std::vector<int>& indices) {
+        int sum<INTSXP,true>( int* ptr, const Index_1_based& indices) {
             long double res = 0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){
@@ -83,7 +83,7 @@ namespace dplyr {
         }
     
         template <>
-        int sum<INTSXP, false>( int* ptr, const std::vector<int>& indices ){
+        int sum<INTSXP, false>( int* ptr, const Index_1_based& indices ){
             int res = 0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){
@@ -97,7 +97,7 @@ namespace dplyr {
         }
         
         template <>
-        double sum<REALSXP, false>( double* ptr, const std::vector<int>& indices ){
+        double sum<REALSXP, false>( double* ptr, const Index_1_based& indices ){
             long double res = 0.0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){

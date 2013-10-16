@@ -39,6 +39,70 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// semi_join_impl
+DataFrame semi_join_impl(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        DataFrame __result = semi_join_impl(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// anti_join_impl
+DataFrame anti_join_impl(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_anti_join_impl(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        DataFrame __result = anti_join_impl(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// inner_join_impl
+DataFrame inner_join_impl(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_inner_join_impl(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        DataFrame __result = inner_join_impl(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// left_join_impl
+DataFrame left_join_impl(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_left_join_impl(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        DataFrame __result = left_join_impl(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // mutate_impl
 SEXP mutate_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
@@ -114,6 +178,23 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< IntegerVector >::type group(groupSEXP );
         Rcpp::traits::input_parameter< int >::type groups(groupsSEXP );
         std::vector<std::vector<int> > __result = split_indices(group, groups);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// summarise_impl
+SEXP summarise_impl(DataFrame df, List args, Environment env);
+RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
+        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
+        SEXP __result = summarise_impl(df, args, env);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
