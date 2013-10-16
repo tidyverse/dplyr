@@ -22,7 +22,7 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 typedef Result* (*ResultPrototype)(SEXP, const DataFrame&) ;
-typedef std::unordered_map<SEXP,ResultPrototype> Result1_Map ;
+typedef boost::unordered_map<SEXP,ResultPrototype> Result1_Map ;
   
 #define MAKE_PROTOTYPE(__FUN__,__CLASS__)                               \
 Result* __FUN__##_prototype( SEXP arg, const DataFrame& df ){           \
