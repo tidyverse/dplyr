@@ -22,7 +22,11 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 Result* get_result( SEXP call, const DataFrame& df){
-    // TODO: handle registration here
+    // no arguments
+    int depth = Rf_length(call) ;
+    if( depth == 1 && CAR(call) == Rf_install("n") )
+        return new Count ;
+    
     return new CallReducer(call, df) ;
 }
 
@@ -38,6 +42,7 @@ SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
     for( int i=0; i<nexpr; i++){
         Result* res = get_result( args[i], df ) ;
         results.push_back( __( res->process(gdf) ) );
+        delete res ;
     }
     
     int nvars = gdf.nvars() ;
@@ -74,6 +79,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     for( int i=0; i<nexpr; i++){
         Result* res = get_result( args[i], df ) ;
         results.push_back( __( res->process( FullDataFrame(df) ) ) ) ; 
+        delete res ;
     }
     
     List out(nexpr) ;

@@ -6,6 +6,10 @@ require(microbenchmark, quietly = TRUE)
 summarise_ <- dplyr:::summarise_
 equal_ <- dplyr:::equal_
 
+iris_sp <- group_by( iris, Species )
+summarise_( iris_sp, length = n() )
+q("no")
+
 hflights_dt <- data.table(hflights)
 by_day <- group_by(hflights, Year, Month, DayofMonth)
 by_day_dt <- group_by(hflights_dt, Year, Month, DayofMonth)
