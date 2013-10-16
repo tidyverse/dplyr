@@ -83,13 +83,6 @@ namespace dplyr {
                 return call.fast_eval() ;
             }   
             
-            SEXP reduce(){
-                Rcpp::Shield<SEXP> res( get() ) ;
-                if( Rf_length(res) != 1 )
-                    Rcpp::stop( "expecting result of length 1" ) ;
-                return res ;    
-            }
-            
             void set_call( SEXP call_ ){
                 proxies.clear() ;
                 call = call_ ;

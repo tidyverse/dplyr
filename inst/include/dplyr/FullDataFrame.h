@@ -16,24 +16,25 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_tools_Index_1_based_H
-#define dplyr_tools_Index_1_based_H
+#ifndef dplyr_tools_FullDataFrame_H
+#define dplyr_tools_FullDataFrame_H
 
-class Index_1_based {
-public:
-    Index_1_based( SEXP data ) : p(INTEGER(data)), n(Rf_length(data)) {}
+namespace Rcpp {
     
-    inline int size() const { 
-        return n ; 
-    }
+    class FullDataFrame {
+    public:
+        FullDataFrame( const DataFrame& data_ ) : 
+            data(data_), index_data( seq(1, data_.nrows() )), index(index_data) {}
+         
+        const Index_1_based& get_index() const { 
+            return index ; 
+        }    
+            
+    private:
+        const DataFrame& data ;
+        IntegerVector index_data ;
+        Index_1_based index ;
+    } ;
     
-    inline int operator[](int i) const {
-        return p[i] - 1;    
-    }
-    
-private:
-    int* p ;
-    int n ;
-} ;
-
-#endif
+}
+#endif              

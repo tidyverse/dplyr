@@ -37,6 +37,7 @@ namespace dplyr{
     class CallbackProcessor : public Result {
     public:
         CallbackProcessor(){}
+        
         virtual SEXP process( const Rcpp::GroupedDataFrame& gdf){
             Rcpp::Shelter<SEXP> __ ;
             CLASS* obj = static_cast<CLASS*>( this ) ;
@@ -50,6 +51,11 @@ namespace dplyr{
             delete processor ;
             
             return res ;        
+        }
+        
+        virtual SEXP process( const Rcpp::FullDataFrame& df){
+            CLASS* obj = static_cast<CLASS*>(this) ;
+            return obj->process_chunk(df.get_index()) ;    
         }
     } ;
     

@@ -42,6 +42,11 @@ namespace dplyr{
                 ptr[i] = obj->process_chunk(gdf.group(i)) ;
             return res ;        
         }
+        
+        virtual SEXP process( const Rcpp::FullDataFrame& df){
+            CLASS* obj = static_cast<CLASS*>(this) ;
+            return Rcpp::Vector<OUTPUT>( obj->process_chunk(df.get_index()) );    
+        }
     } ;
     
     template <typename CLASS>
@@ -56,6 +61,11 @@ namespace dplyr{
             for( int i=0; i<n; i++)
                 SET_STRING_ELT( res, i, obj->process_chunk(gdf.group(i)) );
             return res ;        
+        }
+        
+        virtual SEXP process( const Rcpp::FullDataFrame& df){
+            CLASS* obj = static_cast<CLASS*>(this) ;
+            return Rf_mkString( obj->process_chunk(df.get_index()) );    
         }
         
     } ;

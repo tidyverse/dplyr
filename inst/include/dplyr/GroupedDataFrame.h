@@ -25,7 +25,8 @@ namespace Rcpp {
     public:
         GroupedDataFrame( SEXP x): 
             data_(x), 
-            indices( data_.attr("index")), 
+            indices( data_.attr("index")),
+            labels( data_.attr("labels")),
             symbols()
             
         {
@@ -80,8 +81,16 @@ namespace Rcpp {
             return indices.size() ;    
         }
         
+        inline int nvars() const {
+            return labels.size() ;    
+        }
+        
         inline int nrows() const {
             return data_.nrows() ;
+        }
+        
+        inline SEXP label(int i) const {
+            return labels[i];
         }
         
     private:
@@ -89,7 +98,7 @@ namespace Rcpp {
         DataFrame data_ ;
         ListOf<Index_1_based> indices ;
         std::vector<SEXP> symbols ;
-        
+        DataFrame labels ;
     } ;
     
     template <>

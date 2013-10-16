@@ -29,19 +29,40 @@ Result* get_result( SEXP call, const DataFrame& df){
 SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
     DataFrame df = gdf.data() ;
     
-    // int nexpr = args.size() ;
-    // CharacterVector results_names = args.names() ;
-    // 
-    // CallProxy call_proxy(df) ;
-    // Shelter<SEXP> __ ;
-    // std::vector<SEXP> results ;
-    // 
-    // for( int i=0; i<nexpr; i++){
-    //     Result* res = get_result( args[i], df ) ;
-    //     results.push_back( __( res->process(gdf) ) );
-    // }
-    return df ;
+    int nexpr = args.size() ;
+    CharacterVector results_names = args.names() ;
     
+    Shelter<SEXP> __ ;
+    std::vector<SEXP> results ;
+    
+    for( int i=0; i<nexpr; i++){
+        Result* res = get_result( args[i], df ) ;
+        results.push_back( __( res->process(gdf) ) );
+    }
+    
+    int nvars = gdf.nvars() ;
+    
+    List out(nexpr + nvars) ;
+    CharacterVector names(nexpr + nvars) ;
+    
+    int i=0; 
+    for( ; i<nvars; i++){
+        out[i]      = gdf.label(i) ;
+        SET_NAMED(out[i], 2) ;
+        names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
+    }
+    for( int k=0; k<nexpr; k++, i++ ){
+        String name = results_names[k] ;
+        out[i]      = results[k] ;
+        names[i]    = name ;
+    }
+    out.attr("class") = "data.frame" ;
+    out.attr("row.names") = IntegerVector::create( 
+        IntegerVector::get_na(), -gdf.ngroups()
+    ) ;
+    out.names() = names;
+    
+    return out.asSexp() ;
 }
 
 SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
@@ -49,12 +70,10 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
     
-    CallProxy call_proxy(df) ;
+    std::vector<SEXP> results ;
     for( int i=0; i<nexpr; i++){
-        call_proxy.set_call( args[i] );
-        
-        SEXP res = __( call_proxy.reduce() ) ;
-        call_proxy.input( results_names[i], res ) ;
+        Result* res = get_result( args[i], df ) ;
+        results.push_back( __( res->process( FullDataFrame(df) ) ) ) ; 
     }
     
     List out(nexpr) ;
@@ -62,7 +81,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     
     for( int k=0; k<nexpr; k++ ){
         String name = results_names[k] ;
-        out[k]   = call_proxy.get_variable( name ) ; 
+        out[k]   = results[k] ; 
         names[k] = name ;
     }
     out.attr("class") = "data.frame" ;

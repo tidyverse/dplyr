@@ -39,6 +39,7 @@ namespace dplyr {
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 
 #include <dplyr/Index_1_based.h>
+#include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
