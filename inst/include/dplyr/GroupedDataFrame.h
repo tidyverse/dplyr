@@ -26,9 +26,8 @@ namespace Rcpp {
         GroupedDataFrame( SEXP x): 
             data_(x), 
             indices( data_.attr("index")),
-            labels( data_.attr("labels")),
-            symbols()
-            
+            symbols(),
+            labels( data_.attr("labels"))
         {
             if( !data_.hasAttribute( "index" ) )
                 stop( "cannot find the 'index' attribute" ) ;

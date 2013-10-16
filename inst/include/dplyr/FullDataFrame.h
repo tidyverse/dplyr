@@ -24,14 +24,13 @@ namespace Rcpp {
     class FullDataFrame {
     public:
         FullDataFrame( const DataFrame& data_ ) : 
-            data(data_), index_data( seq(1, data_.nrows() )), index(index_data) {}
+            index_data( seq(1, data_.nrows() )), index(index_data) {}
          
         const Index_1_based& get_index() const { 
             return index ; 
         }    
             
     private:
-        const DataFrame& data ;
         IntegerVector index_data ;
         Index_1_based index ;
     } ;
