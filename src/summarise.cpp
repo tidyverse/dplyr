@@ -42,10 +42,17 @@ MAKE_PROTOTYPE(var, Var)
 MAKE_PROTOTYPE(sd, Sd)
 MAKE_PROTOTYPE(sum, Sum)
 
+#define INSTALL_PROTOTYPE(__FUN__) prototypes[ Rf_install( #__FUN__ ) ] = __FUN__##_prototype ;
+
 Result1_Map& get_1_arg_prototypes(){
     static Result1_Map prototypes ;
-    if( !prototypes.size() ){
-        prototypes[ Rf_install( "mean" ) ] = mean_prototype ;
+    if( !prototypes.size() ){ 
+        INSTALL_PROTOTYPE(mean)
+        INSTALL_PROTOTYPE(min)
+        INSTALL_PROTOTYPE(max)
+        INSTALL_PROTOTYPE(var)
+        INSTALL_PROTOTYPE(sd)
+        INSTALL_PROTOTYPE(sum)
     }
     return prototypes ;    
 }
