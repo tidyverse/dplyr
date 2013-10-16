@@ -23,17 +23,24 @@ using namespace dplyr ;
 
 typedef Result* (*ResultPrototype)(SEXP, const DataFrame&) ;
 typedef std::unordered_map<SEXP,ResultPrototype> Result1_Map ;
-
-Result* mean_prototype( SEXP arg, const DataFrame& df ){
-    const char* column_name = CHAR(PRINTNAME(arg)) ;
-    SEXP v = df[column_name] ;
-    switch( TYPEOF(v) ){
-        case INTSXP:  return new dplyr::Mean<INTSXP,false>( v ) ;
-        case REALSXP: return new dplyr::Mean<REALSXP,false>( v ) ;
-        default: break ;
-    }
-    return 0 ;
+  
+#define MAKE_PROTOTYPE(__FUN__,__CLASS__)                               \
+Result* __FUN__##_prototype( SEXP arg, const DataFrame& df ){           \
+    const char* column_name = CHAR(PRINTNAME(arg)) ;                    \
+    SEXP v = df[column_name] ;                                          \
+    switch( TYPEOF(v) ){                                                \
+        case INTSXP:  return new dplyr::__CLASS__<INTSXP,false>( v ) ;  \
+        case REALSXP: return new dplyr::__CLASS__<REALSXP,false>( v ) ; \
+        default: break ;                                                \
+    }                                                                   \
+    return 0 ;                                                          \
 }
+MAKE_PROTOTYPE(mean, Mean)
+MAKE_PROTOTYPE(min, Min)
+MAKE_PROTOTYPE(max, Max)
+MAKE_PROTOTYPE(var, Var)
+MAKE_PROTOTYPE(sd, Sd)
+MAKE_PROTOTYPE(sum, Sum)
 
 Result1_Map& get_1_arg_prototypes(){
     static Result1_Map prototypes ;
