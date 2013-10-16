@@ -21,11 +21,50 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
+typedef Result* (*ResultPrototype)(SEXP, const DataFrame&) ;
+typedef std::unordered_map<SEXP,ResultPrototype> Result1_Map ;
+
+Result* mean_prototype( SEXP arg, const DataFrame& df ){
+    const char* column_name = CHAR(PRINTNAME(arg)) ;
+    SEXP v = df[column_name] ;
+    switch( TYPEOF(v) ){
+        case INTSXP:  return new dplyr::Mean<INTSXP,false>( v ) ;
+        case REALSXP: return new dplyr::Mean<REALSXP,false>( v ) ;
+        default: break ;
+    }
+    return 0 ;
+}
+
+Result1_Map& get_1_arg_prototypes(){
+    static Result1_Map prototypes ;
+    if( !prototypes.size() ){
+        prototypes[ Rf_install( "mean" ) ] = mean_prototype ;
+    }
+    return prototypes ;    
+}
+
+ResultPrototype get_1_arg(SEXP symbol){
+    Result1_Map& prototypes = get_1_arg_prototypes() ;
+    Result1_Map::iterator it = prototypes.find(symbol); 
+    if( it == prototypes.end() ) return 0 ;
+    return it->second ;
+}
+
 Result* get_result( SEXP call, const DataFrame& df){
     // no arguments
     int depth = Rf_length(call) ;
     if( depth == 1 && CAR(call) == Rf_install("n") )
         return new Count ;
+    
+    if( depth == 2 ){
+        SEXP fun_symbol = CAR(call) ;
+        SEXP arg1 = CADR(call) ;
+        ResultPrototype reducer = get_1_arg( fun_symbol ) ;
+        if( reducer ){
+            Result* res = reducer( arg1, df ) ;
+            if( res ) return res ;    
+        }
+    }
     
     return new CallReducer(call, df) ;
 }

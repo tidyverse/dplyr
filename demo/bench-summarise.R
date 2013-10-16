@@ -6,17 +6,19 @@ require(microbenchmark, quietly = TRUE)
 summarise_ <- dplyr:::summarise_
 equal_ <- dplyr:::equal_
 
-iris_sp <- group_by( iris, Species )
-summarise_( iris_sp, length = n() )
-q("no")
-
 hflights_dt <- data.table(hflights)
 by_day <- group_by(hflights, Year, Month, DayofMonth)
 by_day_dt <- group_by(hflights_dt, Year, Month, DayofMonth)
 
-by_month <- summarise(by_day, delayed = sum(ArrDelay > 0, na.rm = TRUE))
-by_month_int <- summarise_(by_day, delayed = sum(ArrDelay > 0, na.rm = TRUE))
+by_month     <- summarise_(by_day   , Distance = mean(Distance) )
+by_month_int <- summarise(by_day    , Distance = mean(Distance) )
 stopifnot( equal_( by_month, by_month_int ) )
+ 
+microbenchmark( 
+    internal = summarise_(by_day   , Distance = mean(Distance) ), 
+    dplyr    = summarise(by_day    , Distance = mean(Distance) ), 
+    dplyr_dt = summarise(by_day_dt , Distance = mean(Distance) )
+)
 
 microbenchmark( 
     internal = summarise_(by_day   , delayed = sum(ArrDelay > 0, na.rm = TRUE)), 
