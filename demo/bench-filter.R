@@ -28,7 +28,6 @@ baseball_cpp <- tbl_cpp(baseball)
 gps_df  <- group_by( baseball_df , year, id )
 gps_dt  <- group_by( baseball_dt , year, id ) 
 gps_cpp <- group_by( baseball_cpp, year, id ) 
-class(gps_cpp)
 
 res_df  <- filter( gps_df , g == max(g), year > 2000 )
 res_dt  <- filter( gps_dt , g == max(g), year > 2000 ) 

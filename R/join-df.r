@@ -48,7 +48,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @rdname join.tbl_cpp
 inner_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
-  inner_join_impl(x,y,by)
+  inner_join_impl(x,y) #,by)
 }
 
 #' @method inner_join data.frame
@@ -82,7 +82,7 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @rdname join.tbl_cpp
 left_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
-  left_join_impl(x,y,by)
+  left_join_impl(x,y) #,by)
 }
 
 #' @method left_join data.frame
@@ -116,7 +116,7 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @rdname join.tbl_cpp
 semi_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
-  semi_join_impl(x,y,by)
+  semi_join_impl(x,y) #,by)
 }
 
 #' @method semi_join data.frame
@@ -144,7 +144,7 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @rdname join.tbl_cpp
 anti_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
-  anti_join_impl(x,y,by)
+  anti_join_impl(x,y) #,by)
 }
 
 #' @method anti_join data.frame

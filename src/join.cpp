@@ -63,7 +63,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
 template <typename Container>
 void push_back( Container& x, Container& y ){
-    x.insert( x.end(), x.begin(), y.end() ) ;    
+    x.insert( x.end(), y.begin(), y.end() ) ;    
 }
 template <typename Container>
 void push_back( Container& x, typename Container::value_type value, int n ){
@@ -84,17 +84,19 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y){
         map[i].push_back(i) ;
     
     int n_y = y.nrows() ;
-    
     // this will collect indices from rows in x that match rows in y 
     std::vector<int> indices ;
     for( int i=0; i<n_y; i++){
         // find a row in x that matches row i from y
         Map::iterator it = map.find(-i-1) ;
+        
         if( it != map.end() ){
             // collect the indices and remove them from the 
             // map so that they are only found once. 
             push_back( indices, it->second ) ;
+        
             map.erase(it) ;
+        
         }
     }
     
