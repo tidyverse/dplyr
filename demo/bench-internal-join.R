@@ -22,11 +22,9 @@ person_dt   <- tbl_dt(Master)
                    
 stopifnot( equal_( semi_join( batting_df, person_df ), semi_join( batting_cpp, person_cpp ) ) )
 stopifnot( equal_( anti_join( batting_df, person_df ), anti_join( batting_cpp, person_cpp ) ) )
+stopifnot( equal_( left_join( batting_df, person_df ), left_join( batting_cpp, person_cpp ) ) )
+stopifnot( equal_( inner_join( batting_df, person_df ), inner_join( batting_cpp, person_cpp ) ) )
 
-# fails now because there are Date columns
-# stopifnot( equal_( left_join( batting_df, person_df ), left_join( batting_cpp, person_cpp ) ) )
-# stopifnot( equal_( inner_join( batting_df, person_df ), inner_join( batting_cpp, person_cpp ) ) )
-  
 microbenchmark( 
     cpp = semi_join( batting_cpp, person_cpp ), 
     df  = semi_join( batting_df, person_df ), 
@@ -37,14 +35,14 @@ microbenchmark(
     df  = anti_join( batting_df, person_df ), 
     dt  = anti_join( batting_dt, person_dt )
 )
-# microbenchmark( 
-#     cpp = inner_join( batting_cpp, person_cpp ), 
-#     df  = inner_join( batting_df, person_df ), 
-#     dt  = inner_join( batting_dt, person_dt )
-# )
-# microbenchmark( 
-#     cpp = left_join( batting_cpp, person_cpp ), 
-#     df  = left_join( batting_df, person_df ), 
-#     dt  = left_join( batting_dt, person_dt )
-# )
+microbenchmark( 
+    cpp = inner_join( batting_cpp, person_cpp ), 
+    df  = inner_join( batting_df, person_df ), 
+    dt  = inner_join( batting_dt, person_dt )
+)
+microbenchmark( 
+    cpp = left_join( batting_cpp, person_cpp ), 
+    df  = left_join( batting_df, person_df ), 
+    dt  = left_join( batting_dt, person_dt )
+)
 
