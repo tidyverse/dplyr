@@ -102,3 +102,8 @@ auto_copy.tbl_dt <- function(x, y, copy = FALSE, ...) {
 auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
   as.data.frame(y)
 }
+
+#' @S3method auto_copy tbl_cpp
+auto_copy.tbl_cpp <- function(x, y, copy = FALSE, ...) {
+  as.data.frame(y)
+}

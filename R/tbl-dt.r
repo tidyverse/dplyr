@@ -71,5 +71,8 @@ head.tbl_dt <- function(x, ...) as.data.frame(NextMethod())
 #' @S3method tail tbl_dt
 tail.tbl_dt <- function(x, ...) tbl_df(as.data.frame(NextMethod()))
 
+#' @S3method tail tbl_dt
+tail.tbl_cpp <- function(x, ...) tbl_cpp(as.data.frame(NextMethod()))
+
 #' @export
 .datatable.aware <- TRUE

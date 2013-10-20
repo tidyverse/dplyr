@@ -29,6 +29,38 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
   data
 }
 
+#' A grouped data frame.
+#'
+#' The easiest way to create a grouped data frame is to call the \code{group_by}
+#' method on a data frame or tbl: this will take care of capturing
+#' the unevalated expressions for you.
+#'
+#' @keywords internal
+#' @param data a tbl or data frame.
+#' @param vars a list of quoted variables.
+#' @param lazy if \code{TRUE}, index will be computed lazily every time it
+#'   is needed. If \code{FALSE}, index will be computed up front on object
+#'   creation.
+#' @param drop if \code{TRUE} preserve all factor levels, even those without
+#'   data.
+grouped_cpp <- function(data, vars, lazy = TRUE, drop = TRUE) {
+  if (length(vars) == 0) {
+    return(tbl_df(data))
+  }
+
+  assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
+  
+  # TODO: internalize this
+  attr(data, "vars") <- vars
+  attr(data, "drop") <- drop
+  if (!lazy) {
+    data <- build_index(data)
+  }
+
+  class(data) <- c("grouped_cpp", "tbl_cpp", "tbl", class(data))
+  data
+}
+
 #' @S3method groups data.frame
 groups.data.frame <- function(x) {
   attr(x, "vars")
@@ -85,6 +117,21 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
   x
 }
 
+#' @S3method as.data.frame grouped_df
+as.data.frame.grouped_cpp <- function(x, row.names = NULL,
+                                            optional = FALSE, ...) {
+#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+#   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
+
+  attr(x, "vars") <- NULL
+  attr(x, "index") <- NULL
+  attr(x, "labels") <- NULL
+  attr(x, "drop") <- NULL
+
+  class(x) <- setdiff(class(x), c("grouped_cpp", "tbl_cpp", "tbl"))
+  x
+}
+
 #' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
   attr(x, "vars") <- NULL
@@ -93,6 +140,17 @@ ungroup.grouped_df <- function(x) {
   attr(x, "drop") <- NULL
 
   class(x) <- setdiff(class(x), "grouped_df")
+  x
+}
+
+#' @S3method ungroup grouped_df
+ungroup.grouped_cpp <- function(x) {
+  attr(x, "vars") <- NULL
+  attr(x, "index") <- NULL
+  attr(x, "labels") <- NULL
+  attr(x, "drop") <- NULL
+
+  class(x) <- setdiff(class(x), "grouped_cpp")
   x
 }
 

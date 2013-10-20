@@ -36,7 +36,9 @@ SEXP and_calls( List args ){
 DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select ){
     // TODO: do we need to copy attributes
     DataFrameVisitors visitors( data, select ) ;
-    return visitors.subset(test) ;
+    DataFrame res = visitors.subset(test) ;
+    // TODO: we need to make res a "tbl_cpp"
+    return res ;
 }
 
 DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){

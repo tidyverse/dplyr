@@ -32,6 +32,11 @@ filter.tbl_df <- function(.data, ..., env = parent.frame()) {
   tbl_df(filter.data.frame(.data, ..., env = env))
 }
 
+#' @S3method filter tbl_df
+filter.tbl_cpp <- function(.data, ..., env = parent.frame()) {
+  filter_(.data, ...)
+}
+
 #' @rdname manip_df
 #' @export
 #' @method summarise data.frame
@@ -50,6 +55,10 @@ summarise.data.frame <- function(.data, ...) {
 #' @S3method summarise tbl_df
 summarise.tbl_df <- function(.data, ...) {
   tbl_df(summarise.data.frame(.data, ...))
+}
+#' @S3method summarise tbl_df
+summarise.tbl_cpp <- function(.data, ...) {
+  summarise_(.data, ...)
 }
 
 
@@ -72,6 +81,10 @@ mutate.data.frame <- function(.data, ...) {
 mutate.tbl_df <- function(.data, ...) {
   tbl_df(mutate.data.frame(.data, ...))
 }
+#' @S3method mutate tbl_df
+mutate.tbl_cpp <- function(.data, ...) {
+  mutate_(.data, ...)
+}
 
 #' @rdname manip_df
 #' @export
@@ -88,6 +101,11 @@ arrange.data.frame <- function(.data, ...) {
 arrange.tbl_df <- function(.data, ...) {
   tbl_df(arrange.data.frame(.data, ...))
 }
+#' @S3method arrange tbl_df
+arrange.tbl_cpp <- function(.data, ...) {
+  arrange_(.data, ...)
+}
+
 
 #' @rdname manip_df
 #' @export
@@ -103,6 +121,11 @@ select.data.frame <- function(.data, ...) {
 select.tbl_df <- function(.data, ...) {
   tbl_df(select.data.frame(.data, ...))
 }
+#' @S3method select tbl_df
+select.tbl_cpp <- function(.data, ...) {
+  # TODO: implement internally 
+  tbl_cpp(select.data.frame(.data, ...))
+}
 
 #' @S3method do data.frame
 do.data.frame <- function(.data, .f, ...) {
@@ -111,5 +134,9 @@ do.data.frame <- function(.data, .f, ...) {
 
 #' @S3method do tbl_df
 do.tbl_df <- function(.data, .f, ...) {
+  list(.f(.data, ...))
+}
+#' @S3method do tbl_cpp
+do.tbl_cpp <- function(.data, .f, ...) {
   list(.f(.data, ...))
 }
