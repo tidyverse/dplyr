@@ -63,7 +63,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
 template <typename Container>
 void push_back( Container& x, Container& y ){
-    x.insert( x.end(), x.begin(), y.end() ) ;    
+    x.insert( x.end(), y.begin(), y.end() ) ;    
 }
 template <typename Container>
 void push_back( Container& x, typename Container::value_type value, int n ){
