@@ -28,7 +28,7 @@ namespace dplyr {
         Sd(SEXP x) : var(x) {}
         ~Sd(){}
         
-        inline double process_chunk( const Index_1_based& indices ){
+        inline double process_chunk( const Index_0_based& indices ){
             return sqrt( var.process_chunk( indices ) );
         }
          

@@ -39,7 +39,7 @@ namespace Rcpp {
             }
         }
         
-        Index_1_based group( int i ) const {
+        Index_0_based group( int i ) const {
             return indices[i] ;     
         }
                          
@@ -95,7 +95,7 @@ namespace Rcpp {
     private:
         
         DataFrame data_ ;
-        ListOf<Index_1_based> indices ;
+        ListOf<Index_0_based> indices ;
         std::vector<SEXP> symbols ;
         DataFrame labels ;
     } ;

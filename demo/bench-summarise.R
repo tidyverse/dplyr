@@ -21,7 +21,7 @@ stopifnot( dplyr:::all_equal_(
     summarise(by_day_dt   , Distance = mean(Distance) ),
     summarise(by_day_cpp  , Distance = mean(Distance) )
 ) )
- 
+                   
 microbenchmark( 
     df  = summarise(by_day_df    , Distance = mean(Distance), min_Distance = min(Distance) ), 
     dt  = summarise(by_day_dt    , Distance = mean(Distance), min_Distance = min(Distance) ), 

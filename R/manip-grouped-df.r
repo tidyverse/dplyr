@@ -218,16 +218,16 @@ do.grouped_df <- function(.data, .f, ...) {
 
   out
 }
+
 #' @S3method do grouped_cpp
 do.grouped_cpp <- function(.data, .f, ...) {
   if (is.lazy(.data)) .data <- build_index_cpp(.data, attr(.data, "vars") )
 
   index <- attr(.data, "index")
-  # TODO: fix this when internal code uses 0-based indices
   out <- vector("list", length(index))
 
   for (i in seq_along(index)) {
-    subs <- .data[index[[i]], , drop = FALSE]
+    subs <- .data[index[[i]]+1L, , drop = FALSE]
     out[[i]] <- .f(subs, ...)
   }
 

@@ -26,7 +26,7 @@ namespace dplyr {
         Count() {}
         ~Count(){}
         
-        inline int process_chunk( const Index_1_based& indices ){ 
+        inline int process_chunk( const Index_0_based& indices ){ 
             return indices.size() ;    
         }
     } ;

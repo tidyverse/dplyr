@@ -36,7 +36,7 @@ namespace dplyr {
             data(other.data)
         {}
         
-        OUT process_chunk( const Index_1_based& indices ){
+        OUT process_chunk( const Index_0_based& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
             return Rcpp::as<OUT>( call.fast_eval() ) ;    
         }
@@ -78,7 +78,7 @@ namespace dplyr {
             data(other.data)
         {}
         
-        SEXP process_chunk( const Index_1_based& indices ){
+        SEXP process_chunk( const Index_0_based& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
             return STRING_ELT( call.fast_eval(), 0 ) ;    
         }

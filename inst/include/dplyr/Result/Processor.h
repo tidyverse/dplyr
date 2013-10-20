@@ -22,7 +22,7 @@
 namespace dplyr{
     
     // if we derive from this instead of deriving from Result, all we have to 
-    // do is implement a process_chunk method that takes a Index_1_based& as
+    // do is implement a process_chunk method that takes a Index_0_based& as
     // input and returns the suitable type (i.e. storage_type<OUTPUT>)
     // all the builtin result implementation (Mean, ...) use this. 
     template <int OUTPUT, typename CLASS>

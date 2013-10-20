@@ -53,7 +53,7 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     CallProxy call_proxy( call, data ) ;
     int ngroups = gdf.ngroups() ;
     for( int i=0; i<ngroups; i++){
-        Index_1_based indices = gdf.group(i) ;
+        Index_0_based indices = gdf.group(i) ;
         g_test  = call_proxy.get( indices );
         
         int chunk_size = indices.size() ;
