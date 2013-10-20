@@ -73,9 +73,20 @@ is.lazy.grouped_df <- function(x) {
   is.null(attr(x, "index")) || is.null(attr(x, "labels"))
 }
 
+#' @rdname grouped_cpp
+#' @method is.lazy grouped_cpp
+#' @export
+is.lazy.grouped_cpp <- function(x) {
+  is.null(attr(x, "index")) || is.null(attr(x, "labels"))
+}
+
 #' @rdname grouped_df
 #' @export
 is.grouped_df <- function(x) inherits(x, "grouped_df")
+
+#' @rdname grouped_df
+#' @export
+is.grouped_cpp <- function(x) inherits(x, "grouped_cpp")
 
 #' @S3method print grouped_df
 print.grouped_df <- function(x, ...) {
@@ -85,8 +96,23 @@ print.grouped_df <- function(x, ...) {
   trunc_mat(x)
 }
 
+#' @S3method print grouped_df
+print.grouped_cpp <- function(x, ...) {
+  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
+  cat("\n")
+  trunc_mat(x)
+}
+
 #' @S3method group_size grouped_df
 group_size.grouped_df <- function(x) {
+  if (is.lazy(x)) x <- build_index(x)
+  vapply(attr(x, "index"), length, integer(1))
+}
+
+#' @S3method group_size grouped_cpp
+group_size.grouped_cpp <- function(x) {
+  # TODO: internalize
   if (is.lazy(x)) x <- build_index(x)
   vapply(attr(x, "index"), length, integer(1))
 }

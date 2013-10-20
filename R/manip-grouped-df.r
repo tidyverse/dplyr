@@ -50,6 +50,13 @@ filter.grouped_df <- function(.data, ...) {
   grouped_df(.data[out, , drop = FALSE], attr(.data, "vars"))
 }
 
+#' @rdname manip_grouped_cpp
+#' @export
+#' @method filter grouped_cpp
+filter.grouped_cpp <- function(.data, ...) {
+  filter_(.data, ...)
+}
+
 #' @rdname manip_grouped_df
 #' @export
 #' @method summarise grouped_df
