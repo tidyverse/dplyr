@@ -36,7 +36,7 @@ namespace dplyr{
         }
         
         inline bool equal( int i, int j){
-            return Compare::is_equal( get(i), get(j) ) ;
+            return Compare::equal_or_both_na( get(i), get(j) ) ;
         }
         
     private:
