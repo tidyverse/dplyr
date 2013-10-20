@@ -4,7 +4,7 @@ require(microbenchmark)
 require(data.table)
 
 data("baseball", package = "plyr")
-all_equal_   <- dplyr:::equal_
+all_equal_   <- dplyr:::all_equal_
 
 baseball_dt  <- tbl_dt(baseball)
 baseball_df  <- tbl_df(baseball)

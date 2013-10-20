@@ -3,7 +3,7 @@ require(methods, quietly = TRUE)
 require(data.table, quietly = TRUE)
 require(microbenchmark, quietly = TRUE)
 
-equal_  <- dplyr:::equal_
+all_equal_  <- dplyr:::all_equal_
 
 message( "filter( data.frame )  not grouped" )
 
@@ -12,10 +12,10 @@ hflights_df  <- tbl_df( hflights )
 hflights_cpp <- tbl_cpp( hflights )
 
 microbenchmark( 
-    dplyr     = filter(hflights_df , Month == 1, DayofMonth == 1, Dest == "DFW"),
-    dplyr_dt  = filter(hflights_dt , Month == 1, DayofMonth == 1, Dest == "DFW"),
-    internal  = filter(hflights_cpp, Month == 1, DayofMonth == 1, Dest == "DFW"),
-    base      = subset( hflights, Month == 1 & DayofMonth == 1 & Dest == "DFW" )
+    df     = filter(hflights_df , Month == 1, DayofMonth == 1, Dest == "DFW"),
+    dt     = filter(hflights_dt , Month == 1, DayofMonth == 1, Dest == "DFW"),
+    cpp    = filter(hflights_cpp, Month == 1, DayofMonth == 1, Dest == "DFW"),
+    base   = subset(hflights, Month == 1 & DayofMonth == 1 & Dest == "DFW" )
 )
 
 message( "filter( data.frame )  grouped" )
@@ -28,18 +28,16 @@ baseball_cpp <- tbl_cpp(baseball)
 gps_df  <- group_by( baseball_df , year, id )
 gps_dt  <- group_by( baseball_dt , year, id ) 
 gps_cpp <- group_by( baseball_cpp, year, id ) 
+class(gps_cpp)
 
-res  <- filter( gps,  g == max(g), year > 2000 )
-res2 <- filter( gps,  g == max(g), year > 2000 ) 
-res3 <- filter( gpdt, g == max(g), year > 2000 )
-
-# checking results are consistent
-equal_(res, res2)
-equal_(res, res3)
+res_df  <- filter( gps_df , g == max(g), year > 2000 )
+res_dt  <- filter( gps_dt , g == max(g), year > 2000 ) 
+res_cpp <- filter( gps_cpp, g == max(g), year > 2000 )
+all_equal_(res_df, res_dt, res_cpp)
 
 microbenchmark( 
-    internal = filter_( gps, g == max(g), year > 2000 ) , 
-    dplyr    = filter( gps, g == max(g), year > 2000 ), 
-    dplyr_dt = filter( gpdt, g == max(g), year > 2000 ) 
+    cpp = filter( gps_cpp, g == max(g), year > 2000 ), 
+    df  = filter( gps_df , g == max(g), year > 2000 ), 
+    dt  = filter( gps_dt , g == max(g), year > 2000 ) 
 )
 
