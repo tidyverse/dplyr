@@ -16,21 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_tools_tools_H
-#define dplyr_tools_tools_H
+#ifndef dplyr_get_all_second_H
+#define dplyr_get_all_second_H
 
-#include <tools/hash.h>
-#include <tools/delete_all.h>
-#include <tools/ListOf.h>
- 
-// remove these lines and the files when Rcpp 0.10.6 is released
-#if !defined(Rcpp_protection_protection_H)
-    #include <tools/Shelter.h>
-    #include <tools/Shield.h>
-    #include <tools/Armor.h>
-#endif
-
-#include <tools/wrap_subset.h>
-#include <tools/get_all_second.h>
+namespace dplyr {
+    
+    template <typename Container, typename Map>
+    Container get_all_second( const Map& map){
+        int ngroups = map.size() ;
+        Container res(ngroups); 
+        typename Map::const_iterator it=map.begin() ;
+        for( int i=0; i<ngroups; i++, ++it) 
+            res[i] = it->second ;
+        return res ; 
+    }
+    
+}
 
 #endif

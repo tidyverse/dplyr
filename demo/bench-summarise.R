@@ -12,8 +12,8 @@ by_day_dt  <- group_by(hflights_dt , Year, Month, DayofMonth)
 by_day_cpp <- group_by(hflights_cpp, Year, Month, DayofMonth)
 
 stopifnot( identical(
-    group_size(by_day_df  ), 
-    group_size(by_day_cpp )
+    sort( group_size(by_day_df  ) ), 
+    sort( group_size(by_day_cpp ) )
 ) )
 
 stopifnot( dplyr:::all_equal_(

@@ -50,11 +50,10 @@ grouped_cpp <- function(data, vars, lazy = TRUE, drop = TRUE) {
 
   assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
   
-  # TODO: internalize this
   attr(data, "vars") <- vars
   attr(data, "drop") <- drop
   if (!lazy) {
-    data <- build_index(data)
+    data <- build_index_cpp(data, vars)
   }
 
   class(data) <- c("grouped_cpp", "tbl_cpp", "tbl", class(data))

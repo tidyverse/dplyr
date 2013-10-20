@@ -16,21 +16,27 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_tools_tools_H
-#define dplyr_tools_tools_H
+#include <dplyr.h>
 
-#include <tools/hash.h>
-#include <tools/delete_all.h>
-#include <tools/ListOf.h>
- 
-// remove these lines and the files when Rcpp 0.10.6 is released
-#if !defined(Rcpp_protection_protection_H)
-    #include <tools/Shelter.h>
-    #include <tools/Shield.h>
-    #include <tools/Armor.h>
-#endif
+using namespace Rcpp ;
+using namespace dplyr ;
 
-#include <tools/wrap_subset.h>
-#include <tools/get_all_second.h>
-
-#endif
+// [[Rcpp::export]]
+DataFrame build_index_cpp( DataFrame data, ListOf<Symbol> symbols ){
+    int nv=symbols.size() ;
+    CharacterVector vars( symbols.size() ) ;
+    for( int i=0; i<nv; i++)
+        vars[i] = symbols[i].c_str() ;
+    
+    DataFrameVisitors visitors(data, vars) ;
+    ChunkIndexMap map( visitors ) ;
+    int n=data.nrows() ;
+    for( int i=0; i<n; i++) 
+        map[i].push_back(i+1) ; // FIXME: rm the +1 when using 0-based index
+    
+    DataFrame labels = visitors.subset(map) ;
+    List index       = get_all_second<List,ChunkIndexMap>(map) ; 
+    data.attr( "index" ) = index ;
+    data.attr( "labels" ) = labels ;
+    return data ;
+}

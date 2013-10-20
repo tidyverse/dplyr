@@ -13,6 +13,10 @@ filter_impl <- function(df, args, env) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
+build_index_cpp <- function(data, symbols) {
+    .Call('dplyr_build_index_cpp', PACKAGE = 'dplyr', data, symbols)
+}
+
 semi_join_impl <- function(x, y) {
     .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y)
 }

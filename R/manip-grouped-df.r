@@ -220,7 +220,7 @@ do.grouped_df <- function(.data, .f, ...) {
 }
 #' @S3method do grouped_cpp
 do.grouped_cpp <- function(.data, .f, ...) {
-  if (is.lazy(.data)) .data <- build_index(.data)
+  if (is.lazy(.data)) .data <- build_index_cpp(.data, attr(.data, "vars") )
 
   index <- attr(.data, "index")
   # TODO: fix this when internal code uses 0-based indices

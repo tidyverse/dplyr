@@ -55,6 +55,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// build_index_cpp
+DataFrame build_index_cpp(DataFrame data, ListOf<Symbol> symbols);
+RcppExport SEXP dplyr_build_index_cpp(SEXP dataSEXP, SEXP symbolsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP );
+        Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP );
+        DataFrame __result = build_index_cpp(data, symbols);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y);
 RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP) {
