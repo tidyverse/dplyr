@@ -5,6 +5,10 @@ equal_data_frame <- function(x, y) {
     .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+all_equal_data_frame <- function(args, env) {
+    .Call('dplyr_all_equal_data_frame', PACKAGE = 'dplyr', args, env)
+}
+
 filter_impl <- function(df, args, env) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }

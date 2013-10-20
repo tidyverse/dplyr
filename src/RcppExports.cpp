@@ -22,6 +22,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// all_equal_data_frame
+SEXP all_equal_data_frame(List args, Environment env);
+RcppExport SEXP dplyr_all_equal_data_frame(SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
+        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
+        SEXP __result = all_equal_data_frame(args, env);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // filter_impl
 SEXP filter_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {

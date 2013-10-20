@@ -77,3 +77,16 @@ SEXP equal_data_frame(DataFrame x, DataFrame y){
     
     return yes() ;
 }
+
+// [[Rcpp::export]]
+SEXP all_equal_data_frame( List args, Environment env ){
+    int n = args.size() ;
+    DataFrame x0 = Rf_eval( args[0], env) ;
+    Armor<SEXP> test ;
+    for( int i=1; i<n; i++){
+        test = equal_data_frame( x0, Rf_eval( args[i], env ) ) ;
+        if( ! LOGICAL(test)[0] )
+            return test ;
+    }
+    return yes() ;
+}

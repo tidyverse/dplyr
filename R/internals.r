@@ -29,6 +29,10 @@ summarise_  <- .data_dots(summarise_impl, named_dots)
 equal_ <- function(x, y){
   equal_data_frame(x, y) 
 }
+all_equal_ <- function(...){
+  env <- parent.frame()
+  all_equal_data_frame(dots(...), env)     
+}
 
 sort_ <- function(data){
   sort_impl(data)

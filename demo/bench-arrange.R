@@ -4,7 +4,7 @@ require(microbenchmark)
 require(data.table)
 
 data("baseball", package = "plyr")
-equal_   <- dplyr:::equal_
+all_equal_   <- dplyr:::equal_
 
 baseball_dt  <- tbl_dt(baseball)
 baseball_df  <- tbl_df(baseball)
@@ -13,8 +13,8 @@ baseball_cpp <- tbl_cpp(baseball)
 res_cpp   <- arrange( baseball_cpp , id, year )
 res_df    <- arrange( baseball_df  , id, year )
 res_dt    <- arrange( baseball_dt  , id, year )
-stopifnot( equal_( res_cpp, res_df ) )
-stopifnot( equal_( res_cpp, res_dt ) )
+
+stopifnot( all_equal_( res_cpp, res_df, res_dt ) )
 
 microbenchmark( 
     cpp   = arrange( baseball_cpp, id, year ), 
