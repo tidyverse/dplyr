@@ -200,6 +200,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// group_size_grouped_cpp
+IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
+RcppExport SEXP dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP );
+        IntegerVector __result = group_size_grouped_cpp(gdf);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // summarise_impl
 SEXP summarise_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {

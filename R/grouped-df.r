@@ -111,12 +111,7 @@ group_size.grouped_df <- function(x) {
 }
 
 #' @S3method group_size grouped_cpp
-group_size.grouped_cpp <- function(x) {
-  # TODO: internalize
-  if (is.lazy(x)) x <- build_index(x)
-  vapply(attr(x, "index"), length, integer(1))
-}
-
+group_size.grouped_cpp <- group_size_grouped_cpp
 
 #' @param x object (data frame or \code{\link{tbl_df}}) to group
 #' @param ... unquoted variables to group by

@@ -49,6 +49,10 @@ split_indices <- function(group, groups) {
     .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
 }
 
+group_size_grouped_cpp <- function(gdf) {
+    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
+}
+
 summarise_impl <- function(df, args, env) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
 }

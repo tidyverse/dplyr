@@ -3,8 +3,6 @@ require(data.table, quietly = TRUE )
 require(methods, quietly = TRUE)
 require(microbenchmark, quietly = TRUE)
 
-equal_ <- dplyr:::equal_
-
 hflights_dt  <- tbl_dt(hflights)
 hflights_df  <- tbl_df(hflights)
 hflights_cpp <- tbl_cpp(hflights)
@@ -12,6 +10,11 @@ hflights_cpp <- tbl_cpp(hflights)
 by_day_df  <- group_by(hflights_df , Year, Month, DayofMonth)
 by_day_dt  <- group_by(hflights_dt , Year, Month, DayofMonth)
 by_day_cpp <- group_by(hflights_cpp, Year, Month, DayofMonth)
+
+stopifnot( identical(
+    group_size(by_day_df  ), 
+    group_size(by_day_cpp )
+) )
 
 stopifnot( dplyr:::all_equal_(
     summarise(by_day_df   , Distance = mean(Distance) ), 

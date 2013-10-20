@@ -33,9 +33,8 @@ namespace dplyr{
         Processor(){}
         
         virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
-            Rcpp::Shelter<SEXP> __ ;
             int n = gdf.ngroups() ; 
-            SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
+            Rcpp::Shield<SEXP> res( Rf_allocVector( OUTPUT, n) );
             STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
             CLASS* obj = static_cast<CLASS*>(this) ;
             for( int i=0; i<n; i++)

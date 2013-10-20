@@ -83,6 +83,11 @@ Result* get_result( SEXP call, const DataFrame& df){
     return new CallReducer(call, df) ;
 }
 
+// [[Rcpp::export]]
+IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
+    return Count().process(gdf) ;   
+}
+
 SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
     DataFrame df = gdf.data() ;
     
