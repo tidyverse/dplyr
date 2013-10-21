@@ -29,6 +29,7 @@ Currently `dplyr` supports:
 * [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 * [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
 * [Bigquery](https://developers.google.com/bigquery/)
+* arrays (partial implementation)
 
 You can create them as follows:
 
