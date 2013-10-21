@@ -24,19 +24,19 @@ namespace Rcpp {
     class GroupedDataFrame {
     public:
         GroupedDataFrame( SEXP x): 
-            data_(x), 
-            indices( data_.attr("index")),
-            symbols(),
-            labels( data_.attr("labels"))
+            data_(x),
+            indices(), 
+            symbols( data_.attr("vars") ),
+            labels()
         {
-            if( !data_.hasAttribute( "index" ) )
-                stop( "cannot find the 'index' attribute" ) ;
-            List symb = data_.attr("vars") ;
-            int n = symb.size() ;
-            symbols.resize(n);
-            for( int i=0; i<n; i++){
-                symbols[i] = symb[i] ;    
+            // handle lazyness
+            bool is_lazy = Rf_isNull( data_.attr( "index") ) || Rf_isNull( data_.attr( "labels") ) ;
+            if( is_lazy ){
+                data_ = build_index_cpp( data_, symbols) ;      
             }
+            indices = data_.attr( "index" );
+            labels  = data_.attr( "labels") ;
+            
         }
         
         Index_0_based group( int i ) const {
@@ -45,28 +45,6 @@ namespace Rcpp {
                          
         SEXP symbol( int i) const {
             return symbols[i] ;    
-        }
-        
-        bool needs_separate_evaluation(SEXP expr){
-            switch( TYPEOF( expr ) ){
-            case SYMSXP:
-                {
-                    if( any( symbols.begin(), symbols.end(), expr ) ) return true ;
-                    break ;
-                }
-            case LANGSXP: 
-                {
-                    SEXP p = CDR(expr) ;
-                    while( p != R_NilValue ){
-                        if( needs_separate_evaluation( CAR(p) ) ) return true ;
-                        p = CDR(p) ;
-                    }
-                    break ;
-                }
-            default:
-                break ;
-            }
-            return false ;
         }
         
         DataFrame& data() { 
@@ -100,7 +78,7 @@ namespace Rcpp {
         
         DataFrame data_ ;
         ListOf<Index_0_based> indices ;
-        std::vector<SEXP> symbols ;
+        ListOf<Symbol> symbols ;
         DataFrame labels ;
     } ;
     

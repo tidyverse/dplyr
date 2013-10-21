@@ -34,7 +34,10 @@ namespace dplyr {
     class Reducer_Proxy ;
     class DataFrameVisitors ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
+    
 }
+
+DataFrame build_index_cpp( DataFrame data, ListOf<Symbol> symbols ) ;
 
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>

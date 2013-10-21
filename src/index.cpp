@@ -32,7 +32,7 @@ DataFrame build_index_cpp( DataFrame data, ListOf<Symbol> symbols ){
     ChunkIndexMap map( visitors ) ;
     int n=data.nrows() ;
     for( int i=0; i<n; i++) 
-        map[i].push_back(i+1) ; // FIXME: rm the +1 when using 0-based index
+        map[i].push_back(i) ;
     
     DataFrame labels = visitors.subset(map) ;
     List index       = get_all_second<List,ChunkIndexMap>(map) ; 
