@@ -64,7 +64,7 @@ DataFrame arrange_impl( DataFrame data, List args, Environment env ){
 	IntegerVector index = o.apply() ;
 	
 	DataFrameVisitors visitors( data, data.names() ) ;
-	DataFrame res = visitors.subset(index, classes_not_grouped() ) ;
+	DataFrame res = visitors.subset(index, data.attr("class") ) ;
 	return res;
 }
 
