@@ -6,38 +6,6 @@
 
 using namespace Rcpp;
 
-// equal_data_frame
-SEXP equal_data_frame(DataFrame x, DataFrame y);
-RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
-        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        SEXP __result = equal_data_frame(x, y);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// all_equal_data_frame
-SEXP all_equal_data_frame(List args, Environment env);
-RcppExport SEXP dplyr_all_equal_data_frame(SEXP argsSEXP, SEXP envSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = all_equal_data_frame(args, env);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // filter_impl
 SEXP filter_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
@@ -132,6 +100,70 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
         Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
         DataFrame __result = left_join_impl(x, y, by);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// compatible_data_frame
+dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        dplyr::BoolResult __result = compatible_data_frame(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// equal_data_frame
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        dplyr::BoolResult __result = equal_data_frame(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// all_equal_data_frame
+dplyr::BoolResult all_equal_data_frame(List args, Environment env);
+RcppExport SEXP dplyr_all_equal_data_frame(SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
+        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
+        dplyr::BoolResult __result = all_equal_data_frame(args, env);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// union_data_frame
+DataFrame union_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_union_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        DataFrame __result = union_data_frame(x, y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

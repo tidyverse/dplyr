@@ -48,11 +48,11 @@ class DataFrameVisitors :
         ~DataFrameVisitors() ; 
     
         template <typename Container>
-        Rcpp::DataFrame subset( const Container& index, const CharacterVector classes ) const {
+        Rcpp::DataFrame subset( const Container& index, const CharacterVector& classes ) const {
             int nrows = index.size() ;
             Rcpp::List out(nvisitors);
             for( int k=0; k<nvisitors; k++){
-               out[k] = visitors[k]->subset(index) ;    
+               out[k] = get(k)->subset(index) ;    
             }
             structure( out, nrows, classes) ;
             return out.asSexp() ;

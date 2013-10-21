@@ -178,3 +178,89 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
 }
 
+template <typename VisitorSet>
+bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
+    int n = vx.size() ;
+    for( int i=0; i<n; i++)
+        if( typeid(vx.get(i)) != typeid(vy.get(i)) )
+            return false ;
+    return true ;
+}
+
+// [[Rcpp::export]]
+dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y){
+    int n = x.size() ;
+    if( n != y.size() ) 
+        return no_because( "not the same number of variables" ) ;
+    
+    CharacterVector names_x = clone<CharacterVector>(x.names()) ; names_x.sort() ;
+    CharacterVector names_y = clone<CharacterVector>(y.names()) ; names_y.sort() ;
+    for( int i=0; i<n; i++) 
+        if( names_x[i] != names_y[i] )
+            return no_because( "not the same variable names. ") ; 
+    
+    DataFrameVisitors v_x( x, names_x );
+    DataFrameVisitors v_y( x, names_y );
+    if( ! all_same_types(v_x, v_y ) )
+        return no_because( "different types" ) ;
+    
+    return yes() ;
+}
+
+// [[Rcpp::export]]
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y){
+    BoolResult compat = compatible_data_frame(x, y);
+    if( !compat ) return compat ;
+    
+    int nrows = x.nrows() ;
+    if( nrows != y.nrows() )
+        return no_because( "different row sizes" );
+    
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, int > Map ;
+    DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+    Map map(visitors);  
+    
+    for( int i=0; i<nrows; i++) map[i]++ ;
+    for( int i=0; i<nrows; i++){
+        Map::iterator it = map.find(-i-1) ;
+        if( it == map.end() || it->second < 0 ) 
+            return no_because( "different subset" ) ;
+        else
+            it->second-- ;
+    }
+    
+    return yes() ;
+}
+
+// [[Rcpp::export]]
+dplyr::BoolResult all_equal_data_frame( List args, Environment env ){
+    int n = args.size() ;
+    DataFrame x0 = Rf_eval( args[0], env) ;
+    for( int i=1; i<n; i++){
+        BoolResult test = equal_data_frame( x0, Rf_eval( args[i], env ) ) ;
+        if( !test ) return test ;
+    }
+    return yes() ;
+}
+
+// [[Rcpp::export]]
+DataFrame union_data_frame( DataFrame x, DataFrame y){
+    if( !compatible_data_frame(x,y) )
+        stop( "not compatible" ); 
+    
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+    DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+    Set set(visitors);  
+    
+    int n_x = x.nrows() ;
+    for( int i=0; i<n_x; i++) set.insert(i) ;
+    
+    int n_y = y.nrows() ;
+    for( int i=0; i<n_y; i++) set.insert(-i-1) ;
+    
+    std::vector<int> indices( set.begin(), set.end() ) ;
+    
+    return visitors.subset( indices, x.attr("class") ) ;
+}
+
+

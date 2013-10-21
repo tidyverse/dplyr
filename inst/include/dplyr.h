@@ -33,8 +33,8 @@ namespace dplyr {
     class ResultSet ;   
     class Reducer_Proxy ;
     class DataFrameVisitors ;
+    class DataFrameJoinVisitors ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
-    
 }
 
 DataFrame build_index_cpp( DataFrame data ) ;
@@ -42,6 +42,7 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>
+#include <dplyr/BoolResult.h>
 
 #include <dplyr/Index_0_based.h>
 #include <dplyr/FullDataFrame.h>
