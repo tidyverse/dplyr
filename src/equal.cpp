@@ -42,6 +42,26 @@ bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
 }
 
 // [[Rcpp::export]]
+SEXP compatible_data_frame( DataFrame x, DataFrame y){
+    int n = x.size() ;
+    if( n != y.size() ) 
+        return no_because( "not the same number of variables" ) ;
+    
+    CharacterVector names_x = clone<CharacterVector>(x.names()) ; names_x.sort() ;
+    CharacterVector names_y = clone<CharacterVector>(y.names()) ; names_y.sort() ;
+    for( int i=0; i<n; i++) 
+        if( names_x[i] != names_y[i] )
+            return no_because( "not the same variable names. ") ; 
+    
+    DataFrameVisitors v_x( x, names_x );
+    DataFrameVisitors v_y( x, names_y );
+    if( ! all_same_types(v_x, v_y ) )
+        return no_because( "different types" ) ;
+    
+    return yes() ;
+}
+
+// [[Rcpp::export]]
 SEXP equal_data_frame(DataFrame x, DataFrame y){
     int n = x.size() ;
     if( n != y.size() ) 
