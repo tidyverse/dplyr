@@ -186,6 +186,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// setdiff_data_frame
+DataFrame setdiff_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_setdiff_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        DataFrame __result = setdiff_data_frame(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // mutate_impl
 SEXP mutate_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {

@@ -12,3 +12,6 @@ dplyr:::union_data_frame( x, y )
 message( "intersect" )
 dplyr:::intersect_data_frame( x, y )
 
+message( "setdiff" )
+dplyr:::setdiff_data_frame( x, y )
+

@@ -287,3 +287,28 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
     return visitors.subset( indices, x.attr("class") ) ;
 }
 
+// [[Rcpp::export]]
+DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
+    if( !compatible_data_frame(x,y) )
+        stop( "not compatible" ); 
+    
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+    DataFrameJoinVisitors visitors(y, x, y.names() ) ;
+    Set set(visitors);  
+    
+    int n_y = y.nrows() ;
+    for( int i=0; i<n_y; i++) set.insert(i) ;
+    
+    std::vector<int> indices ;
+    
+    int n_x = x.nrows() ;
+    for( int i=0; i<n_y; i++) {
+        if( !set.count(-i-1) ){
+            set.insert(-i-1) ;
+            indices.push_back(-i-1) ;
+        }
+    }
+    
+    return visitors.subset( indices, x.attr("class") ) ;
+}
+
