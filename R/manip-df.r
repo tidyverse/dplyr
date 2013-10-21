@@ -123,7 +123,6 @@ select.tbl_df <- function(.data, ...) {
 }
 #' @S3method select tbl_df
 select.tbl_cpp <- function(.data, ...) {
-  # TODO: implement internally 
   tbl_cpp(select.data.frame(.data, ...))
 }
 
