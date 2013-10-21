@@ -77,17 +77,5 @@ namespace dplyr {
          out.names() = visitor_names ;
          return out.asSexp() ;
     }
-    
-    IntegerVector DataFrameVisitors::order(bool decreasing) const {
-        int n = data.nrows() ;
-        IntegerVector res = seq(0, n-1) ;
-        if( decreasing ){
-            std::sort( res.begin(), res.end(), VisitorSetGreaterPredicate<DataFrameVisitors>(*this) ) ; 
-        } else {
-            std::sort( res.begin(), res.end(), VisitorSetLessPredicate<DataFrameVisitors>(*this) ) ;
-        }
-        for( int i=0; i<n; i++) res[i]++ ;
-        return res ;
-    }
-    
+        
 }

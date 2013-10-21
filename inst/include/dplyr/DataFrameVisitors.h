@@ -69,8 +69,6 @@ class DataFrameVisitors :
         
         Rcpp::String name(int k) const { return visitor_names[k] ; }
         
-        Rcpp::IntegerVector order(bool decreasing = false) const ;
-        
         inline int nrows() const { return data.nrows() ; } 
 } ;
 
