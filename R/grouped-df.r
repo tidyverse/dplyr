@@ -55,8 +55,8 @@ grouped_cpp <- function(data, vars, lazy = TRUE, drop = TRUE) {
   if (!lazy) {
     data <- build_index_cpp(data)
   }
-
-  class(data) <- c("grouped_cpp", "tbl_cpp", "tbl", class(data))
+  classes <- c("grouped_cpp", "tbl_cpp", "tbl")
+  class(data) <- c(classes, setdiff( class(data), classes ) )
   data
 }
 
