@@ -22,7 +22,7 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-SEXP structure_mutate( CallProxy& call_proxy, const DataFrame& df, const CharacterVector& results_names ){
+SEXP structure_mutate( CallProxy& call_proxy, const DataFrame& df, const CharacterVector& results_names, CharacterVector classes){
     int n = call_proxy.nsubsets() ;
     
     List out(n) ;
@@ -47,13 +47,13 @@ SEXP structure_mutate( CallProxy& call_proxy, const DataFrame& df, const Charact
             i++ ;
         }
     }
-    out.attr("class") = "data.frame" ;
-    out.attr("row.names") = IntegerVector::create( 
-        IntegerVector::get_na(), -df.nrows()
-    ) ;
+    
+    
+    out.attr("class") = classes ;
+    set_rownames( out, df.nrows() ) ;
     out.names() = names;
     
-    return out.asSexp() ;    
+    return out ;    
 }
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
@@ -73,7 +73,12 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
         call_proxy.input( results_names[i], res ) ;
     }
     
-    return structure_mutate( call_proxy, df, results_names) ;
+    DataFrame res = structure_mutate( call_proxy, df, results_names, classes_grouped() ) ;
+    res.attr( "vars")    = gdf.attr("vars") ;
+    res.attr( "labels" ) = gdf.attr("labels" );
+    res.attr( "index")   = gdf.attr("index") ;
+    
+    return res ;
 }
 
 SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
@@ -92,7 +97,9 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
         
     }
     
-    return structure_mutate(call_proxy, df, results_names ) ;
+    DataFrame res = structure_mutate(call_proxy, df, results_names, classes_not_grouped() ) ;
+    
+    return res ;
 }
 
 
