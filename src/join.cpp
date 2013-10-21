@@ -56,6 +56,11 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     out.attr("class") = classes ;
     set_rownames(out, nrows) ;
     out.names() = names ;
+    
+    SEXP vars = x.attr( "vars" ) ;
+    if( !Rf_isNull(vars) )
+        out.attr( "vars" ) = vars ;
+            
     return out.asSexp() ;
 }
 

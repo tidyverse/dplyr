@@ -73,6 +73,9 @@ class DataFrameVisitors :
             x.attr( "class" ) = classes ;
             set_rownames(x, nrows) ;
             x.names() = visitor_names ;
+            SEXP vars = data.attr( "vars" ) ;
+            if( !Rf_isNull(vars) )
+                x.attr( "vars" ) = vars ;
         }
         
 } ;
