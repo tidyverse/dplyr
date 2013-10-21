@@ -55,9 +55,7 @@ class DataFrameVisitors :
                out[k] = visitors[k]->subset(index) ;    
             }
             out.attr("class") = "data.frame" ;
-            out.attr("row.names") = Rcpp::IntegerVector::create( 
-                Rcpp::IntegerVector::get_na(), -nrows
-            ) ;
+            set_rownames(out, nrows) ;
             out.names() = visitor_names ;
             return out.asSexp() ;
         }

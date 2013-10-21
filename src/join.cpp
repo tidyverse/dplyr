@@ -54,9 +54,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
        names[k] = y_columns[i] ;
     }
     out.attr("class") = "data.frame" ;
-    out.attr("row.names") = IntegerVector::create( 
-        IntegerVector::get_na(), -nrows
-    ) ;
+    set_rownames(out, nrows) ;
     out.names() = names ;
     return out.asSexp() ;
 }

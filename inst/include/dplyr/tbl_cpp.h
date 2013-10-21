@@ -22,7 +22,7 @@
 namespace dplyr {
     
     template <typename Df>
-    void set_rownames( Df& data, int n ){
+    inline void set_rownames( Df& data, int n ){
         data.attr( "row.names" ) = Rcpp::IntegerVector::create( 
             Rcpp::IntegerVector::get_na(), -n) ;   
     }

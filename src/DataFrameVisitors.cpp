@@ -71,9 +71,7 @@ namespace dplyr {
             out[k] = visitors[k]->subset(index, nrows) ;    
          }
          out.attr("class") = "data.frame" ;
-         out.attr("row.names") = IntegerVector::create( 
-             IntegerVector::get_na(), -nrows
-         ) ;
+         set_rownames(out, nrows) ;
          out.names() = visitor_names ;
          return out.asSexp() ;
     }
