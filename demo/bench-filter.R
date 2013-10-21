@@ -5,8 +5,6 @@ require(microbenchmark, quietly = TRUE)
 
 all_equal_  <- dplyr:::all_equal_
 
-message( "filter( data.frame )  not grouped" )
-
 hflights_dt  <- tbl_dt( hflights )
 hflights_df  <- tbl_df( hflights )
 hflights_cpp <- tbl_cpp( hflights )
@@ -17,8 +15,6 @@ microbenchmark(
     cpp    = filter(hflights_cpp, Month == 1, DayofMonth == 1, Dest == "DFW"),
     base   = subset(hflights, Month == 1 & DayofMonth == 1 & Dest == "DFW" )
 )
-
-message( "filter( data.frame )  grouped" )
 
 data("baseball", package = "plyr")
 baseball_df  <- tbl_df(baseball)
