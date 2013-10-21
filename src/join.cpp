@@ -26,13 +26,13 @@ CharacterVector common_by( CharacterVector x, CharacterVector y){
 }
 
 template <typename Index>
-DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns){
+DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes){
     DataFrameVisitors visitors(df, columns) ;
-    return visitors.subset(indices) ;
+    return visitors.subset(indices, classes) ;
 }
 
 template <typename Index>
-DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by ){
+DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by, CharacterVector classes ){
     CharacterVector x_columns = x.names() ;
     DataFrameVisitors visitors_x(x, x_columns) ;
     
@@ -53,7 +53,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
        out[k] = visitors_y.get(i)->subset(indices_y) ; 
        names[k] = y_columns[i] ;
     }
-    out.attr("class") = "data.frame" ;
+    out.attr("class") = classes ;
     set_rownames(out, nrows) ;
     out.names() = names ;
     return out.asSexp() ;
@@ -96,7 +96,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y){
         }
     }
     
-    return subset(x, indices, x.names() ) ;
+    return subset(x, indices, x.names(), x.attr("class") ) ;
 }
 
 // [[Rcpp::export]]
@@ -122,7 +122,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y){
     for( Map::iterator it = map.begin() ; it != map.end(); ++it)
         push_back( indices, it->second ) ;
     
-    return subset(x, indices, x.names() ) ;
+    return subset(x, indices, x.names(), x.attr( "class" ) ) ;
 }
 
 // [[Rcpp::export]]
@@ -148,7 +148,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y){
         }
     }
 
-    return subset( x, y, indices_x, indices_y, by);
+    return subset( x, y, indices_x, indices_y, by, x.attr( "class") );
 }
 
 
@@ -178,6 +178,6 @@ DataFrame left_join_impl( DataFrame x, DataFrame y){
         }
     }
 
-    return subset( x, y, indices_x, indices_y, by ) ;
+    return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
 }
 

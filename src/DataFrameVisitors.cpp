@@ -64,15 +64,14 @@ namespace dplyr {
         delete_all( visitors );
     }
        
-    DataFrame DataFrameVisitors::subset( const LogicalVector& index ) const {
+    // TODO: this is very close to the code in the genric subset
+    DataFrame DataFrameVisitors::subset( const LogicalVector& index, const CharacterVector& classes) const {
          int nrows = sum( index ) ;
          List out(nvisitors);
          for( int k=0; k<nvisitors; k++){
             out[k] = visitors[k]->subset(index, nrows) ;    
          }
-         out.attr("class") = "data.frame" ;
-         set_rownames(out, nrows) ;
-         out.names() = visitor_names ;
+         structure( out, nrows, classes) ;
          return out.asSexp() ;
     }
         

@@ -33,9 +33,9 @@ SEXP and_calls( List args ){
     return res ;
 }
 
-DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select ){
+DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes ){
     DataFrameVisitors visitors( data, select ) ;
-    return visitors.subset(test) ;
+    return visitors.subset(test, classes ) ;
 }
 
 DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
@@ -59,8 +59,7 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
         }
     }
     
-    DataFrame res = subset( data, test, data.names() ) ;
-    res.attr( "class" ) = classes_grouped() ;
+    DataFrame res = subset( data, test, data.names(), classes_grouped() ) ;
     res.attr( "vars")   = gdf.attr("vars") ;
             
     return res ;
@@ -74,8 +73,7 @@ SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     // and evaluate the expression
     LogicalVector test = CallProxy( call, df).get() ;
     
-    DataFrame res = subset( df, test, df.names() ) ;
-    res.attr( "class" ) = classes_not_grouped() ;
+    DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
     return res ;
 }
 

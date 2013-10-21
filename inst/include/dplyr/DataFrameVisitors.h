@@ -48,19 +48,17 @@ class DataFrameVisitors :
         ~DataFrameVisitors() ; 
     
         template <typename Container>
-        Rcpp::DataFrame subset( const Container& index) const {
+        Rcpp::DataFrame subset( const Container& index, const CharacterVector classes ) const {
             int nrows = index.size() ;
             Rcpp::List out(nvisitors);
             for( int k=0; k<nvisitors; k++){
                out[k] = visitors[k]->subset(index) ;    
             }
-            out.attr("class") = "data.frame" ;
-            set_rownames(out, nrows) ;
-            out.names() = visitor_names ;
+            structure( out, nrows, classes) ;
             return out.asSexp() ;
         }
         
-        Rcpp::DataFrame subset( const Rcpp::LogicalVector& ) const ;
+        Rcpp::DataFrame subset( const LogicalVector&, const CharacterVector& classes ) const ;
         
         inline int size() const { return nvisitors ; }
         inline VectorVisitor* get(int k) const { return visitors[k] ; }
@@ -68,6 +66,15 @@ class DataFrameVisitors :
         Rcpp::String name(int k) const { return visitor_names[k] ; }
         
         inline int nrows() const { return data.nrows() ; } 
+        
+    private:
+        
+        void structure( List& x, int nrows, CharacterVector classes ) const {
+            x.attr( "class" ) = classes ;
+            set_rownames(x, nrows) ;
+            x.names() = visitor_names ;
+        }
+        
 } ;
 
 } // namespace dplyr

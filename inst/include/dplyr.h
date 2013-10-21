@@ -60,8 +60,8 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/Gatherer.h>
 #include <dplyr/Order.h>
 
-SEXP and_calls(Rcpp::List args) ;
-Rcpp::DataFrame subset( Rcpp::DataFrame, Rcpp::LogicalVector, Rcpp::CharacterVector ) ;
+SEXP and_calls(List args) ;
+DataFrame subset( DataFrame, LogicalVector, CharacterVector, CharacterVector ) ;
 
 // borrowed from Rcpp11
 #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    

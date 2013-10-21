@@ -30,6 +30,6 @@ DataFrame build_index_cpp( DataFrame data ){
     train_push_back( map, data.nrows() ) ;
     
     data.attr( "index" )  = get_all_second(map) ;
-    data.attr( "labels" ) = visitors.subset(map) ;
+    data.attr( "labels" ) = visitors.subset(map, "data.frame" ) ;
     return data ;
 }
