@@ -37,7 +37,7 @@ namespace dplyr {
     
 }
 
-DataFrame build_index_cpp( DataFrame data, ListOf<Symbol> symbols ) ;
+DataFrame build_index_cpp( DataFrame data ) ;
 
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>

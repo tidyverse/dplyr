@@ -22,11 +22,8 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-DataFrame build_index_cpp( DataFrame data, ListOf<Symbol> symbols ){
-    int nv=symbols.size() ;
-    CharacterVector vars( symbols.size() ) ;
-    for( int i=0; i<nv; i++)
-        vars[i] = symbols[i].c_str() ;
+DataFrame build_index_cpp( DataFrame data ){
+    CharacterVector vars = Rf_getAttrib( data.attr( "vars" ), R_NamesSymbol ) ;
     
     DataFrameVisitors visitors(data, vars) ;
     ChunkIndexMap map( visitors ) ;

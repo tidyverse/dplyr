@@ -53,7 +53,7 @@ grouped_cpp <- function(data, vars, lazy = TRUE, drop = TRUE) {
   attr(data, "vars") <- vars
   attr(data, "drop") <- drop
   if (!lazy) {
-    data <- build_index_cpp(data, vars)
+    data <- build_index_cpp(data)
   }
 
   class(data) <- c("grouped_cpp", "tbl_cpp", "tbl", class(data))

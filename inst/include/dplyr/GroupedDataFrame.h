@@ -32,7 +32,7 @@ namespace Rcpp {
             // handle lazyness
             bool is_lazy = Rf_isNull( data_.attr( "index") ) || Rf_isNull( data_.attr( "labels") ) ;
             if( is_lazy ){
-                data_ = build_index_cpp( data_, symbols) ;      
+                data_ = build_index_cpp( data_) ;      
             }
             indices = data_.attr( "index" );
             labels  = data_.attr( "labels") ;
