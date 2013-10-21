@@ -17,20 +17,20 @@ build_index_cpp <- function(data) {
     .Call('dplyr_build_index_cpp', PACKAGE = 'dplyr', data)
 }
 
-semi_join_impl <- function(x, y) {
-    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y)
+semi_join_impl <- function(x, y, by) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
-anti_join_impl <- function(x, y) {
-    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y)
+anti_join_impl <- function(x, y, by) {
+    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
-inner_join_impl <- function(x, y) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y)
+inner_join_impl <- function(x, y, by) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
-left_join_impl <- function(x, y) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y)
+left_join_impl <- function(x, y, by) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
 mutate_impl <- function(df, args, env) {

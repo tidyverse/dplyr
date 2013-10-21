@@ -21,10 +21,6 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-CharacterVector common_by( CharacterVector x, CharacterVector y){
-    return intersect(x, y) ;    
-}
-
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes){
     DataFrameVisitors visitors(df, columns) ;
@@ -75,9 +71,8 @@ void push_back( Container& x, typename Container::value_type value, int n ){
 }
 
 // [[Rcpp::export]]
-DataFrame semi_join_impl( DataFrame x, DataFrame y){
+DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    CharacterVector by   = common_by(x.names(), y.names()) ;
     DataFrameJoinVisitors visitors(x, y, by) ;
     Map map(visitors);  
     
@@ -105,9 +100,8 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y){
 }
 
 // [[Rcpp::export]]
-DataFrame anti_join_impl( DataFrame x, DataFrame y){
+DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    CharacterVector by   = common_by(x.names(), y.names()) ;
     DataFrameJoinVisitors visitors(x, y, by) ;
     Map map(visitors);  
     
@@ -131,9 +125,8 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y){
 }
 
 // [[Rcpp::export]]
-DataFrame inner_join_impl( DataFrame x, DataFrame y){
+DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    CharacterVector by   = common_by(x.names(), y.names()) ;
     DataFrameJoinVisitors visitors(x, y, by) ;
     Map map(visitors);  
     
@@ -158,9 +151,8 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y){
 
 
 // [[Rcpp::export]]
-DataFrame left_join_impl( DataFrame x, DataFrame y){
+DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    CharacterVector by   = common_by(x.names(), y.names()) ;
     DataFrameJoinVisitors visitors(y, x, by) ;
     Map map(visitors);  
     
