@@ -92,19 +92,9 @@ SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
     DataFrame df = gdf.data() ;
     
     int nexpr = args.size() ;
-    CharacterVector results_names = args.names() ;
-    
-    Shelter<SEXP> __ ;
-    std::vector<SEXP> results ;
-    
-    for( int i=0; i<nexpr; i++){
-        Result* res = get_result( args[i], df ) ;
-        results.push_back( __( res->process(gdf) ) );
-        delete res ;
-    }
-    
     int nvars = gdf.nvars() ;
     
+    CharacterVector results_names = args.names() ;
     List out(nexpr + nvars) ;
     CharacterVector names(nexpr + nvars) ;
     
@@ -115,46 +105,26 @@ SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
     for( int k=0; k<nexpr; k++, i++ ){
-        String name = results_names[k] ;
-        out[i]      = results[k] ;
-        names[i]    = name ;
-    }
-    out.attr("class") = "data.frame" ;
-    out.attr("row.names") = IntegerVector::create( 
-        IntegerVector::get_na(), -gdf.ngroups()
-    ) ;
-    out.names() = names;
-    
-    return out.asSexp() ;
-}
-
-SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
-    Shelter<SEXP> __ ;
-    int nexpr = args.size() ;
-    CharacterVector results_names = args.names() ;
-    
-    std::vector<SEXP> results ;
-    for( int i=0; i<nexpr; i++){
-        Result* res = get_result( args[i], df ) ;
-        results.push_back( __( res->process( FullDataFrame(df) ) ) ) ; 
+        Result* res = get_result( args[k], df ) ;
+        out[i] = res->process(gdf) ;
+        names[i] = results_names[k] ;
         delete res ;
     }
     
+    return summarised_grouped_tbl_cpp(out, names, gdf );
+}
+
+SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
+    int nexpr = args.size() ;
     List out(nexpr) ;
-    CharacterVector names(nexpr) ;
     
-    for( int k=0; k<nexpr; k++ ){
-        String name = results_names[k] ;
-        out[k]   = results[k] ; 
-        names[k] = name ;
+    for( int i=0; i<nexpr; i++){
+        Result* res = get_result( args[i], df ) ;
+        out[i] = res->process( FullDataFrame(df) ) ; 
+        delete res ;
     }
-    out.attr("class") = "data.frame" ;
-    out.attr("row.names") = IntegerVector::create( 
-        IntegerVector::get_na(), -1
-    ) ;
-    out.names() = names;
     
-    return out.asSexp() ;
+    return tbl_cpp( out, args.names(), 1 ) ;
 }
 
 // [[Rcpp::export]]

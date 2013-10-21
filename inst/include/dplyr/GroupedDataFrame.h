@@ -92,6 +92,10 @@ namespace Rcpp {
             return labels[i];
         }
         
+        inline DataFrame::AttributeProxy attr( const std::string& name ) const {
+            return data_.attr(name) ;    
+        }
+        
     private:
         
         DataFrame data_ ;
@@ -104,8 +108,6 @@ namespace Rcpp {
     inline bool is<GroupedDataFrame>( SEXP x){
         return Rf_inherits( x, "grouped_cpp" ) || Rf_inherits(x, "grouped_df" ) ;
     }
-    
-    
     
 }
 

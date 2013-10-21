@@ -20,6 +20,8 @@
 #define dplyr_dplyr_H
 
 #include <Rcpp.h>
+using namespace Rcpp ;
+
 #include <boost/functional/hash.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/unordered_set.hpp>
@@ -41,6 +43,7 @@ namespace dplyr {
 #include <dplyr/Index_0_based.h>
 #include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
