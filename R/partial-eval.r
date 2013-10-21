@@ -115,3 +115,12 @@ select_eval <- function(exprs, select, parent = parent.frame()) {
   select[unlist(idx)]
 }
 
+#' @rdname var_eval
+#' @export
+var_index <- function(exprs, tbl, parent = parent.frame()) {
+  nm <- names(tbl)
+  nms_list <- as.list(setNames(seq_along(nm), nm))
+  
+  unlist(lapply(exprs, eval, nms_list, parent))
+}
+

@@ -80,3 +80,5 @@ Collate:
     'query-bq.r'
     'src-bigquery.r'
     'chain.r'
+    'tbl-array.r'
+    'manip-array.r'

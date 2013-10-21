@@ -1,11 +1,14 @@
 \name{var_eval}
 \alias{select_eval}
 \alias{var_eval}
+\alias{var_index}
 \title{Evaluate variable names in the context of a tbl.}
 \usage{
   var_eval(exprs, tbl, parent = parent.frame())
 
   select_eval(exprs, select, parent = parent.frame())
+
+  var_index(exprs, tbl, parent = parent.frame())
 }
 \arguments{
   \item{exprs}{a list of unevaluated expressions}
