@@ -258,9 +258,32 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
     int n_y = y.nrows() ;
     for( int i=0; i<n_y; i++) set.insert(-i-1) ;
     
-    std::vector<int> indices( set.begin(), set.end() ) ;
+    return visitors.subset( set, x.attr("class") ) ;
+}
+
+// [[Rcpp::export]]
+DataFrame intersect_data_frame( DataFrame x, DataFrame y){
+    if( !compatible_data_frame(x,y) )
+        stop( "not compatible" ); 
+    
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+    DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+    Set set(visitors);  
+    
+    int n_x = x.nrows() ;
+    for( int i=0; i<n_x; i++) set.insert(i) ;
+    
+    std::vector<int> indices ;
+    
+    int n_y = y.nrows() ;
+    for( int i=0; i<n_y; i++) {
+        Set::iterator it = set.find( -i-1 ) ;
+        if( it != set.end() ){
+            indices.push_back(*it) ;
+            set.erase(it) ;
+        }
+    }
     
     return visitors.subset( indices, x.attr("class") ) ;
 }
-
 

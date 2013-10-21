@@ -41,6 +41,10 @@ union_data_frame <- function(x, y) {
     .Call('dplyr_union_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+intersect_data_frame <- function(x, y) {
+    .Call('dplyr_intersect_data_frame', PACKAGE = 'dplyr', x, y)
+}
+
 mutate_impl <- function(df, args, env) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
 }
