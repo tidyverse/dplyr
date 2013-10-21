@@ -77,9 +77,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y){
     Map map(visitors);  
     
     // train the map in terms of x
-    int n_x = x.nrows() ;
-    for( int i=0; i<n_x; i++)
-        map[i].push_back(i) ;
+    train_push_back( map, x.nrows() ) ;
     
     int n_y = y.nrows() ;
     // this will collect indices from rows in x that match rows in y 
@@ -109,9 +107,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y){
     Map map(visitors);  
     
     // train the map in terms of x
-    int n_x = x.nrows() ;
-    for( int i=0; i<n_x; i++)
-        map[i].push_back(i) ;
+    train_push_back( map, x.nrows() ) ;
     
     int n_y = y.nrows() ;
     // remove the rows in x that match
@@ -137,9 +133,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y){
     Map map(visitors);  
     
     // train the map in terms of x
-    int n_x = x.nrows() ;
-    for( int i=0; i<n_x; i++)
-        map[i].push_back(i) ;
+    train_push_back( map, x.nrows() ) ;
     
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
@@ -166,9 +160,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y){
     Map map(visitors);  
     
     // train the map in terms of y
-    int n_y = y.nrows() ;
-    for( int i=0; i<n_y; i++)
-        map[i].push_back(i) ;
+    train_push_back( map, y.nrows() ) ;
     
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;

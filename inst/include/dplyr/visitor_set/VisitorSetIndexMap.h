@@ -45,6 +45,11 @@ namespace dplyr{
         VisitorSet* visitors ;
     
     } ;
+    
+    template <typename Map>
+    inline void train_push_back( Map& map, int n){
+        for( int i=0; i<n; i++) map[i].push_back(i) ;
+    }
 
 }
 

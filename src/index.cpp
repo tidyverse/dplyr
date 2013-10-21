@@ -27,13 +27,9 @@ DataFrame build_index_cpp( DataFrame data ){
     
     DataFrameVisitors visitors(data, vars) ;
     ChunkIndexMap map( visitors ) ;
-    int n=data.nrows() ;
-    for( int i=0; i<n; i++) 
-        map[i].push_back(i) ;
+    train_push_back( map, data.nrows() ) ;
     
-    DataFrame labels = visitors.subset(map) ;
-    List index       = get_all_second<List,ChunkIndexMap>(map) ; 
-    data.attr( "index" ) = index ;
-    data.attr( "labels" ) = labels ;
+    data.attr( "index" )  = get_all_second(map) ;
+    data.attr( "labels" ) = visitors.subset(map) ;
     return data ;
 }

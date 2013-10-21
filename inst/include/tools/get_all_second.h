@@ -21,10 +21,10 @@
 
 namespace dplyr {
     
-    template <typename Container, typename Map>
-    Container get_all_second( const Map& map){
+    template <typename Map>
+    List get_all_second( const Map& map){
         int ngroups = map.size() ;
-        Container res(ngroups); 
+        List res(ngroups); 
         typename Map::const_iterator it=map.begin() ;
         for( int i=0; i<ngroups; i++, ++it) 
             res[i] = it->second ;
