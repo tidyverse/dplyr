@@ -92,7 +92,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
         call_proxy.set_call( args[i] );
         
         // we need to protect the SEXP, that's what the Shelter does
-        SEXP res = __( call_proxy.get() ) ;
+        SEXP res = __( call_proxy.get( Everything() ) ) ;
         call_proxy.input( results_names[i], res ) ;
         
     }

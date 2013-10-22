@@ -69,20 +69,6 @@ namespace dplyr {
                 return call.fast_eval() ;
             }
             
-            SEXP get(){
-                Rcpp::Shelter<SEXP> __ ;
-                int n = proxies.size() ;
-                boost::unordered_map<SEXP,SEXP> chunks ;
-                for( int i=0; i<n; i++){
-                    if( ! chunks.count( proxies[i].symbol ) )
-                        chunks[ proxies[i].symbol ] = __(subset_map[proxies[i].symbol]->get());
-                }
-                for( int i=0; i<n; i++){
-                    proxies[i].set( chunks[proxies[i].symbol] ) ;     
-                }
-                return call.fast_eval() ;
-            }   
-            
             void set_call( SEXP call_ ){
                 proxies.clear() ;
                 call = call_ ;
@@ -108,7 +94,7 @@ namespace dplyr {
             
             inline SEXP get_variable( Rcpp::String name ) const {
                 SubsetMap::const_iterator it = subset_map.find(as_symbol(name.get_sexp())) ;
-                return it->second->get() ;
+                return it->second->get( Everything() ) ;
             }
             
        private:

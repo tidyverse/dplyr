@@ -71,7 +71,7 @@ SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     
     // replace the symbols that are in the data frame by vectors from the data frame
     // and evaluate the expression
-    LogicalVector test = CallProxy( call, df).get() ;
+    LogicalVector test = CallProxy( call, df).get( Everything() ) ;
     
     DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
     return res ;

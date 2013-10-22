@@ -12,37 +12,14 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                 
+//
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_Subset_H
-#define dplyr_Subset_H
+#ifndef dplyr_Result_Everything_H
+#define dplyr_Result_Everything_H
 
-namespace dplyr {
-    
-    class Subset {
-    public:
-        Subset(){} ;
-        virtual ~Subset(){} ;
-        virtual SEXP get( const Index_0_based& indices ) const = 0 ;
-        virtual SEXP get( const Everything& ) const = 0 ;
-    } ;
-    
-    template <int RTYPE>
-    class SubsetTemplate : public Subset {
-    public:
-        SubsetTemplate( SEXP x ) : object(x){}
-        virtual SEXP get( const Index_0_based& indices ) const {
-            return wrap_subset<RTYPE>( object, indices ) ;    
-        }
-        virtual SEXP get( const Everything& ) const { return object ; }
-    private:
-        SEXP object ;
-    } ;
-    
-    Subset* subset( SEXP x ) ; 
-
+namespace dplyr{
+    struct Everything{} ;
 }
-
 #endif
