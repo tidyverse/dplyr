@@ -143,12 +143,18 @@ as.data.frame.tbl_array <- function(x, ...) {
 
 #' Coerce an existing data structure into a \code{tbl_array}
 #' 
+#' @param x an object to convert. Built in methods will convert arrays,
+#'   tables and data frames.
+#' @param ... Passed on to individual methods; otherwise ignored.
 #' @export
 as.tbl_array <- function(x, ...) UseMethod("as.tbl_array")
  
 #' @method as.tbl_array array
 #' @export
 #' @rdname as.tbl_array
+#' @param met_name a string to use as the name for the metric
+#' @param dim_names names of the dimesions. Defaults to the names of 
+#'   the \code{\link{dimnames}}.
 as.tbl_array.array <- function(x, met_name = deparse(substitute(x)), 
                                dim_names = names(dimnames(x)), ...) {
   force(met_name)
