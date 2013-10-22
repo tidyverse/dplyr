@@ -200,7 +200,7 @@ The overall workflow is similar regardless of what database you're connecting to
 For example, the following code allows me to connect to a local postgresql database that contains a copy of the `hflights` data:
 
 ```{r}
-hflights <- tbl(src_postgres("hflights"), "hflights")
+hflights_postgres <- tbl(src_postgres("hflights"), "hflights")
 ```
 
 Postgres is a considerably more powerful database than SQLite.  It has:
@@ -212,7 +212,7 @@ Postgres is a considerably more powerful database than SQLite.  It has:
 The following examples shows the grouped filter and mutate possible with PostgreSQL. The SQL generated from the grouped filter is quite complex because you can't filter on window functions directly; instead they have to go in a subquery.
 
 ```{r}
-daily <- group_by(hflights, Year, Month, DayofMonth)
+daily <- group_by(hflights_postgres, Year, Month, DayofMonth)
 
 # Find the most and least delayed flight each day
 bestworst <- filter(daily, ArrDelay == min(ArrDelay) || 

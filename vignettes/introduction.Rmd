@@ -6,6 +6,7 @@
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
+knitr::opts_chunk$set(tidy = FALSE)
 ```
 
 # Introduction to dplyr
@@ -39,8 +40,8 @@ head(hflights)
 dplyr can work with data frames as is, but if you're dealing with large data, it's worthwhile to convert them to a `tbl_df`: this is just a wrapper around data frames that won't accidentally print a lot of data to the screen.
 
 ```{r}
-hflights <- tbl_df(hflights)
-hflights
+hflights_df <- tbl_df(hflights)
+hflights_df
 ```
 
 ## Basic verbs
@@ -54,7 +55,7 @@ dplyr provides five basic data manipulation verbs: `filter()`, `arrange()`, `sel
 For example, we can select all flights on January 1st with
 
 ```{r}
-filter(hflights, Month == 1, DayofMonth == 1)
+filter(hflights_df, Month == 1, DayofMonth == 1)
 
 # equivalent to
 hflights[hflights$Month == 1 & hflights$DayofMonth == 1, ]
@@ -67,7 +68,7 @@ hflights[hflights$Month == 1 & hflights$DayofMonth == 1, ]
 `arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. It's exactly the same as the `arrange()` function in plyr, and it's a straighforward wrapper around `order()`:
 
 ```{r}
-arrange(hflights, desc(ArrDelay))
+arrange(hflights_df, desc(ArrDelay))
 ```
 
 ## Select columns
@@ -75,9 +76,9 @@ arrange(hflights, desc(ArrDelay))
 Often you work with large datasets with many columns where only a few are actually of interest to you. `select()` allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:
 
 ```{r}
-select(hflights, Year, Month, DayOfWeek)
-select(hflights, Year:DayOfWeek)
-select(hflights, -(Year:DayOfWeek))
+select(hflights_df, Year, Month, DayOfWeek)
+select(hflights_df, Year:DayOfWeek)
+select(hflights_df, -(Year:DayOfWeek))
 ```
 
 (This function works similarly to the `select` argument to the base `subset()` function)
@@ -87,7 +88,7 @@ select(hflights, -(Year:DayOfWeek))
 As well as selecting from the set of existing columns, it's often useful to add new columns that are transformations of existing columns.  This is the job of the `mutate()` function:
 
 ```{r}
-mutate(hflights, 
+mutate(hflights_df, 
   gain = ArrDelay - DepDelay, 
   speed = Distance / AirTime * 60)
 ```
@@ -97,7 +98,7 @@ mutate(hflights,
 The last verb is not very useful for ungrouped datasets but it's reduces each column to a single value:
 
 ```{r}
-summarise(hflights, delay = mean(DepDelay, na.rm = TRUE))
+summarise(hflights_df, delay = mean(DepDelay, na.rm = TRUE))
 ```
 
 ## Commonalities
@@ -111,7 +112,7 @@ These verbs are useful, but they become really powerful when you combine them wi
 In the following example, split the complete dataset into individual planes and then summarise each plane by counting the number of flights and computing the average distance and delay. We then use ggplot2 to print the output.
 
 ```{r}
-planes <- group_by(hflights, TailNum)
+planes <- group_by(hflights_df, TailNum)
 delay <- summarise(planes, 
   count = n(), 
   dist = mean(Distance, na.rm = TRUE), 
@@ -131,7 +132,7 @@ The following sections discuss how each verb interactions with grouping in more 
 ## Filter rows
 
 ```{r}
-cities <- group_by(hflights, Dest)
+cities <- group_by(hflights_df, Dest)
 filter(cities, AirTime == min(AirTime))
 ```
 
@@ -156,7 +157,7 @@ Group-wise mutation most commonly includes
 Groupwise summaries are the most useful grouped operation. You saw one example above. Let's take a more complicated case where we group by multiple variables. Every time you summarise a data set, it peels off one level of the summary. That makes it easy to progressively roll-up a dataset:
 
 ```{r}
-daily <- group_by(hflights, Year, Month, DayofMonth)
+daily <- group_by(hflights_df, Year, Month, DayofMonth)
 (per_day <- summarise(daily, flights = n()))
 (per_month <- summarise(per_day, flights = sum(flights)))
 (per_year <-  summarise(per_month, flights = sum(flights)))
