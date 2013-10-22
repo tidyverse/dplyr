@@ -43,6 +43,27 @@ lahman_mysql <- function(...) cache_lahman("mysql", ...)
 
 #' @export
 #' @rdname lahman
+lahman_df <- function() {
+  check_lahman()
+  src_df("Lahman")
+}
+
+#' @export
+#' @rdname lahman
+lahman_dt <- function() {
+  check_lahman()
+  src_dt("Lahman")
+}
+
+#' @export
+#' @rdname lahman
+lahman_cpp <- function() {
+  check_lahman()
+  src_cpp("Lahman")
+}
+
+#' @export
+#' @rdname lahman
 lahman_bigquery <- function(...) {
   if (!is.null(cache$lahman_bigquery)) return(cache$lahman_bigquery)
   
@@ -75,9 +96,7 @@ lahman_bigquery <- function(...) {
 }
 
 cache_lahman <- function(type, ...) {
-  if (!require("Lahman")) {
-    stop("Please install the Lahman package", call. = FALSE)
-  }
+  check_lahman()
   
   cache_name <- paste0("lahman_", type)
   if (exists(cache_name, cache)) return(cache[[cache_name]])
@@ -98,6 +117,12 @@ cache_lahman <- function(type, ...) {
   src
 }
 
+check_lahman <- function() {
+  if (!require("Lahman")) {
+    stop("Please install the Lahman package", call. = FALSE)
+  }
+}
+
 #' @rdname lahman
 #' @export
 has_lahman <- function(type, ...) {
@@ -106,6 +131,9 @@ has_lahman <- function(type, ...) {
 
 lahman_src <- function(type, ...) {
   switch(type,
+    df = lahman_df(),
+    dt = lahman_dt(),
+    cpp = lahman_cpp(),
     sqlite = src_sqlite(db_location(filename = "lahman.sqlite", ...), create = TRUE),
     mysql = src_mysql("lahman", ...),
     postgres = src_postgres("lahman", ...),
