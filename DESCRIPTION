@@ -85,3 +85,4 @@ Collate:
     'join-cpp.r'
     'manip-cpp.r'
     'tbl-cpp.r'
+    'src-local.r'
