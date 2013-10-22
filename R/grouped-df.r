@@ -95,7 +95,7 @@ print.grouped_df <- function(x, ...) {
   trunc_mat(x)
 }
 
-#' @S3method print grouped_df
+#' @S3method print grouped_cpp
 print.grouped_cpp <- function(x, ...) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
@@ -124,7 +124,7 @@ group_by.data.frame <- function(x, ..., drop = TRUE) {
 
 #' @param x object (\code{\link{tbl_cpp}}) to group
 #' @param ... unquoted variables to group by
-#' @method group_by data.frame
+#' @method group_by tbl_cpp
 #' @export
 #' @rdname grouped_cpp
 group_by.tbl_cpp <- function(x, ..., drop = TRUE) {
@@ -147,7 +147,7 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
   x
 }
 
-#' @S3method as.data.frame grouped_df
+#' @S3method as.data.frame grouped_cpp
 as.data.frame.grouped_cpp <- function(x, row.names = NULL,
                                             optional = FALSE, ...) {
 #   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
@@ -173,7 +173,7 @@ ungroup.grouped_df <- function(x) {
   x
 }
 
-#' @S3method ungroup grouped_df
+#' @S3method ungroup grouped_cpp
 ungroup.grouped_cpp <- function(x) {
   attr(x, "vars") <- NULL
   attr(x, "index") <- NULL

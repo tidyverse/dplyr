@@ -2,13 +2,13 @@
 \alias{group_by.tbl_cpp}
 \alias{grouped_cpp}
 \alias{is.lazy.grouped_cpp}
-\title{A grouped data frame.}
+\title{A grouped data frame with cpp backend.}
 \usage{
   grouped_cpp(data, vars, lazy = TRUE, drop = TRUE)
 
   \method{is.lazy}{grouped_cpp} (x)
 
-  \method{group_by}{data.frame} (x, ..., drop = TRUE)
+  \method{group_by}{tbl_cpp} (x, ..., drop = TRUE)
 }
 \arguments{
   \item{data}{a tbl or data frame.}
