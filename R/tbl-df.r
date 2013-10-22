@@ -52,3 +52,38 @@ print.tbl_df <- function(x, ...) {
   cat("\n")
   trunc_mat(x)
 }
+
+#' Create a data frame tble.
+#'
+#' @export
+#' @param data a data frame
+#' @examples
+#' ds <- tbl_cpp(mtcars)
+#' ds
+#' as.data.frame(ds)
+tbl_cpp <- function(data) {
+  assert_that(is.data.frame(data))
+  if (is.grouped_df(data)) return(ungroup(data))
+  
+  class(data) <- c("tbl_cpp", "tbl", class(data))
+  data
+}
+
+# Standard data frame methods --------------------------------------------------
+
+#' @S3method as.data.frame tbl_df
+as.data.frame.tbl_cpp <- function(x, row.names = NULL,
+                                            optional = FALSE, ...) {
+#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+#   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
+
+  class(x) <- setdiff(class(x), c("tbl_cpp", "tbl"))
+  x
+}
+
+#' @S3method print tbl_cpp
+print.tbl_cpp <- function(x, ...) {
+  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
+  cat("\n")
+  trunc_mat(x)
+}
