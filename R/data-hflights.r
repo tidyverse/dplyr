@@ -45,6 +45,7 @@ NULL
 
 #' @export
 #' @rdname hflights
+#' @param path location of sqlite database file
 hflights_sqlite <- function(path = NULL) {
   if (!is.null(cache$hflights)) return(cache$hflights_sqlite)
   
@@ -66,6 +67,7 @@ hflights_sqlite <- function(path = NULL) {
 
 #' @export
 #' @rdname hflights
+#' @param dbname,... Arguments passed on to \code{\link{src_postgres}}
 hflights_postgres <- function(dbname = "hflights", ...) {
   if (!is.null(cache$hflights_postgres)) return(cache$hflights_postgres)
   

@@ -12,6 +12,12 @@
 
   hflights_postgres(dbname = "hflights", ...)
 }
+\arguments{
+  \item{path}{location of sqlite database file}
+
+  \item{dbname,...}{Arguments passed on to
+  \code{\link{src_postgres}}}
+}
 \description{
   This dataset contains all flights departing from Houston
   airports IAH (George Bush Intercontinental) and HOU
