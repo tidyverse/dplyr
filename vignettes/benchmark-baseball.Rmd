@@ -133,3 +133,46 @@ microbenchmark(
   times = 10
 )
 ```
+
+## Joins
+
+```{r}
+make_tbls <- function(master, hof) {
+  p <- master %.% select(playerID, hofID, birthYear)
+  h <- hof %.% filter(inducted == "Y") %.% select(hofID, votedBy, category)
+  list(p = p, h = h)
+}
+tbls <- list(
+  cpp = make_tbls(tbl_cpp(Master), tbl_cpp(HallOfFame)),
+  df = make_tbls(tbl_df(Master), tbl_df(HallOfFame)),
+  dt = make_tbls(tbl_dt(Master), tbl_dt(HallOfFame))
+)
+
+microbenchmark(
+  cpp = left_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
+  df = left_join(tbls$df$p, tbls$df$h, by = "hofID"),
+  dt = left_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
+  times = 20
+)
+
+microbenchmark(
+  cpp = inner_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
+  df = inner_join(tbls$df$p, tbls$df$h, by = "hofID"),
+  dt = inner_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
+  times = 20
+)
+
+microbenchmark(
+  cpp = semi_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
+  df = semi_join(tbls$df$p, tbls$df$h, by = "hofID"),
+  dt = semi_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
+  times = 20
+)
+
+microbenchmark(
+  cpp = anti_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
+  df = anti_join(tbls$df$p, tbls$df$h, by = "hofID"),
+  dt = anti_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
+  times = 20
+)
+```
