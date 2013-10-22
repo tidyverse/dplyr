@@ -302,7 +302,7 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
     std::vector<int> indices ;
     
     int n_x = x.nrows() ;
-    for( int i=0; i<n_y; i++) {
+    for( int i=0; i<n_x; i++) {
         if( !set.count(-i-1) ){
             set.insert(-i-1) ;
             indices.push_back(-i-1) ;
