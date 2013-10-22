@@ -1,8 +1,8 @@
 #' @S3method select tbl_array
-select.tbl_array <- function(x, ...) {
-  idx <- var_index(dots(...), x$mets, parent.frame())
-  x$mets <- x$mets[idx]
-  x
+select.tbl_array <- function(.data, ...) {
+  idx <- var_index(dots(...), .data$mets, parent.frame())
+  .data$mets <- .data$mets[idx]
+  .data
 }
 
 #' @S3method filter tbl_array
@@ -43,10 +43,10 @@ find_index <- function(x, names) {
 }
 
 #' @S3method group_by tbl_array
-group_by.tbl_array <- function(.data, ...) {
-  idx <- var_index(dots(...), .data$dims, parent.frame())
-  .data$group <- idx
-  .data
+group_by.tbl_array <- function(x, ...) {
+  idx <- var_index(dots(...), x$dims, parent.frame())
+  x$group <- idx
+  x
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special

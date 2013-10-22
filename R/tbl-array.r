@@ -107,7 +107,7 @@ same_src.tbl_array <- function(x, y) {
 
 
 #' @S3method print tbl_array
-print.tbl_array <- function(x) {
+print.tbl_array <- function(x, ...) {
   cat("Source: local array ", dim_desc(x), "\n",
     sep = "")
   if (!is.null(x$group)) {
@@ -128,7 +128,7 @@ print.tbl_array <- function(x) {
 }
 
 #' @S3method as.data.frame tbl_array
-as.data.frame.tbl_array <- function(x) {
+as.data.frame.tbl_array <- function(x, ...) {
   dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE)
   mets <- lapply(x$mets, as.vector)
   
@@ -177,20 +177,20 @@ as.tbl_array.table <- as.tbl_array.array
 #' @method as.tbl_array data.frame
 #' @export
 #' @rdname as.tbl_array
-as.tbl_array.data.frame <- function(df, dim_names, ...) {
+as.tbl_array.data.frame <- function(x, dim_names, ...) {
   if (!is.character(dim_names)) {
-    dim_names <- names(df)[dim_names]
+    dim_names <- names(x)[dim_names]
   }
-  met_names <- setdiff(names(df), dim_names)
+  met_names <- setdiff(names(x), dim_names)
   
-  dims <- lapply(df[dim_names], unique)
+  dims <- lapply(x[dim_names], unique)
   n <- vapply(dims, length, integer(1))
   # need to check for uniqueness of combinations
   
   grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE)
-  all <- merge(grid, df, all.x = TRUE, by = dim_names)
+  all <- merge(grid, x, all.x = TRUE, by = dim_names)
   
-  mets <- lapply(met_names, function(i) array(df[[i]], n))
+  mets <- lapply(met_names, function(i) array(x[[i]], n))
   names(mets) <- met_names
   
   tbl_array(dims, mets)

@@ -15,7 +15,7 @@
     met_name = deparse(substitute(x)),
     dim_names = names(dimnames(x)), ...)
 
-  \method{as.tbl_array}{data.frame} (df, dim_names, ...)
+  \method{as.tbl_array}{data.frame} (x, dim_names, ...)
 }
 \description{
   Coerce an existing data structure into a \code{tbl_array}
