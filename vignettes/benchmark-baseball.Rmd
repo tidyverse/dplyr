@@ -1,0 +1,135 @@
+```{r, echo = FALSE, message = FALSE}
+library(dplyr)
+library(microbenchmark)
+library(data.table)
+library(Lahman)
+knitr::opts_chunk$set(tidy = FALSE)
+
+options(digits = 3)
+```
+
+# Benchmarks: baseball data
+
+The purpose of these benchmarks is to be as fair as possible, not to show that dplyr is faster than data.table. If you think my implementation of operations in data.table is suboptimal, please let me know so I can improve them.
+
+Please note that any significant performance difference between `dt` and `dt_raw` is a bug in dplyr: for individual operations there should be very little overhead to calling data.table via dplyr. However, data.table may be significantly faster when performing the same sequence of operations as dplyr. This is because currently dplyr uses an eager evaluation approach so the individual calls to `[.data.table` don't get as much information about the desired result as the single call to `[.data.table` would if you did it by hand.
+
+## Data setup
+
+The following benchmarks explore the performance on a somewhat realistic example: the `Batting` dataset from the Lahman package. It contains `r nrow(Batting)` records on the batting careers of `r length(Batting$playerID)` players from `r min(Batting$yearID)` to `r max(Batting$yearID)`.
+
+The first code block defines three alternative backends for the Batting dataset, and a players dataset that represents operations to be performed by player:
+
+```{r}
+batting <- Batting
+batting_dt  <- tbl_dt(Batting)
+batting_dt2 <- data.table(Batting)
+batting_df  <- tbl_df(Batting)
+batting_cpp <- tbl_cpp(Batting)
+
+players_dt <- group_by(batting_dt, playerID)
+players_dt2 <- data.table(Batting)
+setkey(players_dt2, playerID)
+players_df <- group_by(batting_df, playerID)
+players_cpp <- group_by(batting_cpp, playerID)
+```
+
+## Arrange
+
+Arrange by year within each player:
+
+```{r}
+microbenchmark(
+  plyr   = plyr::arrange(batting, playerID, yearID),
+  base   = batting[order(batting$playerID, batting$yearID), , drop = FALSE],
+  df     = arrange(batting_df, playerID, yearID),
+  dt     = arrange(batting_dt, playerID, yearID),
+  dt_raw = batting_dt[order(playerID, yearID), ],
+  cpp    = arrange(batting_cpp, playerID, yearID),
+  times = 10
+)
+```
+
+## Filter
+
+Find the year for which each player played the most games:
+
+```{r}
+microbenchmark( 
+  base   = batting[ave(batting$G, batting$playerID, max) == player$G, ],
+  df     = filter(players_df, G == max(G)),
+  dt     = filter(players_dt, G == max(G)),
+  # not aware of single line dt equivalent, http://stackoverflow.com/questions/16573995/
+  cpp    = filter(players_cpp, G == max(G)),
+  times = 10
+)
+```
+
+## Mutate
+
+Compute career year (`cyear`) and rank performance based on number of at bats. 
+
+```{r}
+microbenchmark( 
+  df     = mutate(players_df, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
+  dt     = mutate(players_dt, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
+  dt_raw = players_dt2[, list(cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))), by = playerID],
+  cpp    = mutate(players_cpp, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
+  times = 10
+)
+```
+
+Rank is a relatively expensive operation, so we show with and without, making the relative performance overhead of the difference techniques more obvious.
+
+```{r}
+microbenchmark( 
+  df     = mutate(players_df, cyear = yearID - min(yearID) + 1),
+  dt     = mutate(players_dt, cyear = yearID - min(yearID) + 1),
+  dt_raw = players_dt2[, list(cyear = yearID - min(yearID) + 1), by = playerID],
+  cpp    = mutate(players_cpp, cyear = yearID - min(yearID) + 1),
+  times = 10
+)
+```
+
+## Summarise
+
+Compute the average number of at bats for each player:
+
+```{r}
+microbenchmark( 
+  base   = tapply(players_df$AB, players_df$playerID, FUN = mean),
+  df     = summarise(players_df, ab = mean(AB)),
+  dt     = summarise(players_dt, ab = mean(AB)),
+  dt_raw = players_dt2[, list(ab = mean(AB)), by = playerID],
+  cpp    = summarise(players_cpp, ab = mean(AB)),
+  times = 10
+)
+```
+
+NB: base implementation captures computation but not output format, gives considerably less output.
+
+However, this comparison is slightly unfair because both data.table and `summarise.tbl_cpp` use tricks to find a more efficient implementation of `mean()`. Data table calls `.Internal(mean(x))` directly (thus avoiding the overhead of S3 method dispatch), while `summarise.tbl_cpp` calls an C++ implementation of the mean, which also avoids R function call overhead.
+
+```{r}
+mean_ <- function(x) .Internal(mean(x))
+microbenchmark( 
+  base   = tapply(players_df$AB, players_df$playerID, FUN = mean_),
+  df     = summarise(players_df, ab = mean_(AB)),
+  dt     = summarise(players_dt, ab = mean_(AB)),
+  dt_raw = players_dt2[, list(ab = mean_(AB)), by = playerID],
+  cpp    = summarise(players_cpp, ab = mean_(AB)),
+  times = 10
+)
+```
+
+Using a somewhat more compliated summary function is also revelaing.
+
+```{r}
+microbenchmark( 
+  df     = summarise(players_df, ab = mean(AB) + 1),
+  dt     = summarise(players_dt, ab = mean(AB) + 1),
+  dt_raw = players_dt2[, list(ab = mean(AB) + 1), by = playerID],
+  cpp    = summarise(players_cpp, ab = mean(AB) + 1),
+  times = 10
+)
+```
