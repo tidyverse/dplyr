@@ -6,6 +6,7 @@
 ```{r, echo = FALSE, message = FALSE}
 library(ggplot2)
 library(dplyr)
+knitr::opts_chunk$set(tidy = FALSE)
 ```
 
 # Databases
@@ -142,7 +143,7 @@ The goal of dplyr is to provide a semantic translation: to translate what you me
 
 If dplyr doesn't support the SQL operation that you need, you can also create a `tbl` object from arbitrary SQL:
 
-```{r}
+```{r, eval = FALSE}
 tbl(my_db, sql("SELECT * FROM hflights"))
 ```
 
@@ -171,12 +172,13 @@ However, it's often possible to simulate grouped filters and mutates using self 
 
 ```{r, eval = FALSE}
 daily <- group_by(hflights_sqlite, Year, Month, DayofMonth)
-subset(daily, AvgDelay == max(AvgDelay))
+filter(daily, AvgDelay == max(AvgDelay))
 ```
 
 Instead we can solve the problem in two steps. We first find out the maximum delay for each day, and then we construct a semi-join to find only the records that match the date and the maximum value. We can do similar tricks for grouped mutates using 
 
 ```{r}
+daily <- group_by(hflights_sqlite, Year, Month, DayofMonth)
 max_delay <- summarise(daily, max_delay = max(ArrDelay))
 semi_join(mutate(daily, max_delay = ArrDelay), max_delay)
 ```
