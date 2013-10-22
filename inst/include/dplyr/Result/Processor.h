@@ -22,7 +22,7 @@
 namespace dplyr{
     
     // if we derive from this instead of deriving from Result, all we have to 
-    // do is implement a process_chunk method that takes a Index_1_based& as
+    // do is implement a process_chunk method that takes a Index_0_based& as
     // input and returns the suitable type (i.e. storage_type<OUTPUT>)
     // all the builtin result implementation (Mean, ...) use this. 
     template <int OUTPUT, typename CLASS>
@@ -33,9 +33,8 @@ namespace dplyr{
         Processor(){}
         
         virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
-            Rcpp::Shelter<SEXP> __ ;
             int n = gdf.ngroups() ; 
-            SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
+            Rcpp::Shield<SEXP> res( Rf_allocVector( OUTPUT, n) );
             STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
             CLASS* obj = static_cast<CLASS*>(this) ;
             for( int i=0; i<n; i++)

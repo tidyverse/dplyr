@@ -24,6 +24,7 @@ namespace dplyr{
     template <int RTYPE>
     class JoinVisitorImpl : public JoinVisitor, public comparisons<RTYPE>{
     public:
+        typedef Vector<RTYPE> Vec ;
         typedef comparisons<RTYPE> Compare ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         typedef boost::hash<STORAGE> hasher ;
@@ -36,11 +37,26 @@ namespace dplyr{
         }
         
         inline bool equal( int i, int j){
-            return Compare::is_equal( get(i), get(j) ) ;
+            return Compare::equal_or_both_na( get(i), get(j) ) ;
+        }
+        
+        inline SEXP subset( const std::vector<int>& indices ){
+            int n = indices.size() ;
+            Vec res = no_init(n) ;
+            for( int i=0; i<n; i++) res[i] = get( indices[i] ) ;
+            return res ;
+        }
+        
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+            int n = set.size() ;
+            Vec res = no_init(n) ;
+            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+            for( int i=0; i<n; i++, ++it) res[i] = get( *it ) ;
+            return res ;
         }
         
     private:
-        Rcpp::Vector<RTYPE> left, right ;
+        Vector<RTYPE> left, right ;
         hasher hash_fun ;
         
         inline STORAGE get(int i){

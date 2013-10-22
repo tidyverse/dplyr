@@ -40,6 +40,10 @@ struct comparisons {
         return lhs == rhs ;    
     }
     
+    inline bool equal_or_both_na( STORAGE lhs, STORAGE rhs ){
+        return lhs == rhs ;    
+    }
+    
     inline bool is_na(STORAGE x){ 
         return Rcpp::traits::is_na<RTYPE>(x); 
     }
@@ -65,7 +69,13 @@ struct comparisons<STRSXP> {
         return lhs == rhs ;    
     }
     
-    inline bool is_na(SEXP x){ return Rcpp::traits::is_na<STRSXP>(x); }
+    inline bool equal_or_both_na( SEXP lhs, SEXP rhs ){
+        return lhs == rhs ;    
+    }
+    
+    inline bool is_na(SEXP x){ 
+        return Rcpp::traits::is_na<STRSXP>(x); 
+    }
     
 } ;
 
@@ -84,7 +94,13 @@ struct comparisons<REALSXP> {
         return lhs == rhs ;    
     }
     
-    inline bool is_na(double x){ return Rcpp::traits::is_na<REALSXP>(x); }
+    inline bool equal_or_both_na( double lhs, double rhs ){
+        return lhs == rhs || ( is_na(lhs) && is_na(rhs) );    
+    }
+    
+    inline bool is_na(double x){ 
+        return Rcpp::traits::is_na<REALSXP>(x); 
+    }
  
 } ;
 

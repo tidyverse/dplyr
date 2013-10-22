@@ -3,26 +3,33 @@ require(data.table, quietly = TRUE )
 require(methods, quietly = TRUE)
 require(microbenchmark, quietly = TRUE)
 
-summarise_ <- dplyr:::summarise_
-equal_ <- dplyr:::equal_
+hflights_dt  <- tbl_dt(hflights)
+hflights_df  <- tbl_df(hflights)
+hflights_cpp <- tbl_cpp(hflights)
 
-hflights_dt <- data.table(hflights)
-by_day <- group_by(hflights, Year, Month, DayofMonth)
-by_day_dt <- group_by(hflights_dt, Year, Month, DayofMonth)
+by_day_df  <- group_by(hflights_df , Year, Month, DayofMonth)
+by_day_dt  <- group_by(hflights_dt , Year, Month, DayofMonth)
+by_day_cpp <- group_by(hflights_cpp, Year, Month, DayofMonth)
 
-by_month     <- summarise_(by_day   , Distance = mean(Distance) )
-by_month_int <- summarise(by_day    , Distance = mean(Distance) )
-stopifnot( equal_( by_month, by_month_int ) )
- 
+stopifnot( identical(
+    sort( group_size(by_day_df  ) ), 
+    sort( group_size(by_day_cpp ) )
+) )
+
+stopifnot( dplyr:::all_equal_(
+    summarise(by_day_df   , Distance = mean(Distance) ), 
+    summarise(by_day_dt   , Distance = mean(Distance) ),
+    summarise(by_day_cpp  , Distance = mean(Distance) )
+) )
+                   
 microbenchmark( 
-    internal = summarise_(by_day   , Distance = mean(Distance), min_Distance = min(Distance) ), 
-    dplyr    = summarise(by_day    , Distance = mean(Distance), min_Distance = min(Distance) ), 
-    dplyr_dt = summarise(by_day_dt , Distance = mean(Distance), min_Distance = min(Distance) )
+    df  = summarise(by_day_df    , Distance = mean(Distance), min_Distance = min(Distance) ), 
+    dt  = summarise(by_day_dt    , Distance = mean(Distance), min_Distance = min(Distance) ), 
+    cpp = summarise(by_day_cpp   , Distance = mean(Distance), min_Distance = min(Distance) )
 )
-q("no")
 
 microbenchmark( 
-    internal = summarise_(by_day   , delayed = sum(ArrDelay > 0, na.rm = TRUE)), 
-    dplyr    = summarise(by_day    , delayed = sum(ArrDelay > 0, na.rm = TRUE)), 
-    dplyr_dt = summarise(by_day_dt , delayed = sum(ArrDelay > 0, na.rm = TRUE))
+    df  = summarise(by_day_df    , delayed = sum(ArrDelay > 0, na.rm = TRUE)), 
+    dt  = summarise(by_day_dt    , delayed = sum(ArrDelay > 0, na.rm = TRUE)),
+    cpp = summarise(by_day_cpp   , delayed = sum(ArrDelay > 0, na.rm = TRUE))
 )

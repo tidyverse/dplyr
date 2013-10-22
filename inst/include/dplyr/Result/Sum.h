@@ -26,7 +26,7 @@ namespace internal {
     // this one is actually only used for RTYPE = REALSXP and NA_RM = true
     template <int RTYPE, bool NA_RM> 
     typename Rcpp::traits::storage_type<RTYPE>::type
-    sum(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index_1_based& indices) {
+    sum(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index_0_based& indices) {
         long double res = 0 ;
         int n = indices.size() ;
         for( int i=0; i<n; i++){
@@ -37,13 +37,13 @@ namespace internal {
     }
     
     template <>
-    int sum<INTSXP,true>( int* ptr, const Index_1_based& indices) ;
+    int sum<INTSXP,true>( int* ptr, const Index_0_based& indices) ;
     
     template <>
-    int sum<INTSXP, false>( int* ptr, const Index_1_based& indices ) ;
+    int sum<INTSXP, false>( int* ptr, const Index_0_based& indices ) ;
     
     template <>
-    double sum<REALSXP, false>( double* ptr, const Index_1_based& indices ) ;
+    double sum<REALSXP, false>( double* ptr, const Index_0_based& indices ) ;
     
     
 } // namespace internal
@@ -56,7 +56,7 @@ namespace internal {
         Sum(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Sum(){}
         
-        inline STORAGE process_chunk( const Index_1_based& indices ){
+        inline STORAGE process_chunk( const Index_0_based& indices ){
             return internal::sum<RTYPE,NA_RM>(data_ptr, indices) ;    
         }
         

@@ -16,19 +16,19 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_tools_Index_1_based_H
-#define dplyr_tools_Index_1_based_H
+#ifndef dplyr_tools_Index_0_based_H
+#define dplyr_tools_Index_0_based_H
 
-class Index_1_based {
+class Index_0_based {
 public:
-    Index_1_based( SEXP data ) : p(INTEGER(data)), n(Rf_length(data)) {}
+    Index_0_based( SEXP data ) : p(INTEGER(data)), n(Rf_length(data)) {}
     
     inline int size() const { 
         return n ; 
     }
     
     inline int operator[](int i) const {
-        return p[i] - 1;    
+        return p[i];    
     }
     
 private:

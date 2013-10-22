@@ -4,19 +4,22 @@ require(microbenchmark)
 require(data.table)
 
 data("baseball", package = "plyr")
-arrange_ <- dplyr:::arrange_
-equal_   <- dplyr:::equal_
+all_equal_   <- dplyr:::all_equal_
 
-baseball_dt <- data.table(baseball)
+baseball_dt  <- tbl_dt(baseball)
+baseball_df  <- tbl_df(baseball)
+baseball_cpp <- tbl_cpp(baseball)
 
-res_internal <- arrange_( baseball  , id, year )
-res_dplyr    <- arrange( baseball  , id, year )
-stopifnot( equal_( res_internal, res_dplyr ) )
+res_cpp   <- arrange( baseball_cpp , id, year )
+res_df    <- arrange( baseball_df  , id, year )
+res_dt    <- arrange( baseball_dt  , id, year )
+
+stopifnot( all_equal_( res_cpp, res_df, res_dt ) )
 
 microbenchmark( 
-    internal  = arrange_( baseball  , id, year ) , 
-    dplyr     = arrange( baseball   , id, year ),
-    dplyr_dt  = arrange( baseball_dt, id, year ),
+    cpp   = arrange( baseball_cpp, id, year ), 
+    df    = arrange( baseball_df , id, year ),
+    dt    = arrange( baseball_dt , id, year ),
     base = baseball[ with( baseball, order( id, year ) ), , drop = FALSE]
 )
 

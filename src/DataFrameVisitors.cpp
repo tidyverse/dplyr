@@ -64,30 +64,15 @@ namespace dplyr {
         delete_all( visitors );
     }
        
-    DataFrame DataFrameVisitors::subset( const LogicalVector& index ) const {
+    // TODO: this is very close to the code in the genric subset
+    DataFrame DataFrameVisitors::subset( const LogicalVector& index, const CharacterVector& classes) const {
          int nrows = sum( index ) ;
          List out(nvisitors);
          for( int k=0; k<nvisitors; k++){
             out[k] = visitors[k]->subset(index, nrows) ;    
          }
-         out.attr("class") = "data.frame" ;
-         out.attr("row.names") = IntegerVector::create( 
-             IntegerVector::get_na(), -nrows
-         ) ;
-         out.names() = visitor_names ;
+         structure( out, nrows, classes) ;
          return out.asSexp() ;
     }
-    
-    IntegerVector DataFrameVisitors::order(bool decreasing) const {
-        int n = data.nrows() ;
-        IntegerVector res = seq(0, n-1) ;
-        if( decreasing ){
-            std::sort( res.begin(), res.end(), VisitorSetGreaterPredicate<DataFrameVisitors>(*this) ) ; 
-        } else {
-            std::sort( res.begin(), res.end(), VisitorSetLessPredicate<DataFrameVisitors>(*this) ) ;
-        }
-        for( int i=0; i<n; i++) res[i]++ ;
-        return res ;
-    }
-    
+        
 }

@@ -74,13 +74,21 @@ collect.tbl_sql <- function(x, ...) {
 
 #' @S3method collapse tbl_df
 collapse.tbl_df <- function(x, ...) x
+#' @S3method collapse tbl_cpp
+collapse.tbl_cpp <- function(x, ...) x
 #' @S3method collapse tbl_dt
 collapse.tbl_dt <- function(x, ...) x
+
 #' @S3method compute tbl_df
 compute.tbl_df <- function(x, ...) x
+#' @S3method compute tbl_cpp
+compute.tbl_cpp <- function(x, ...) x
 #' @S3method compute tbl_dt
 compute.tbl_dt <- function(x, ...) x
+
 #' @S3method collect tbl_df
 collect.tbl_df <- function(x, ...) x
+#' @S3method collect tbl_cpp
+collect.tbl_cpp <- function(x, ...) x
 #' @S3method collect tbl_dt
 collect.tbl_dt <- function(x, ...) x

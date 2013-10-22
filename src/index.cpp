@@ -16,26 +16,20 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_Result_Sd_H
-#define dplyr_Result_Sd_H
+#include <dplyr.h>
 
-namespace dplyr {
+using namespace Rcpp ;
+using namespace dplyr ;
 
-    template <int RTYPE, bool NA_RM>
-    class Sd : public Processor<REALSXP, Sd<RTYPE,NA_RM> > {
-    public:
-        
-        Sd(SEXP x) : var(x) {}
-        ~Sd(){}
-        
-        inline double process_chunk( const Index_0_based& indices ){
-            return sqrt( var.process_chunk( indices ) );
-        }
-         
-    private:
-        Var<RTYPE,NA_RM> var ;
-    } ;
- 
+// [[Rcpp::export]]
+DataFrame build_index_cpp( DataFrame data ){
+    CharacterVector vars = Rf_getAttrib( data.attr( "vars" ), R_NamesSymbol ) ;
+    
+    DataFrameVisitors visitors(data, vars) ;
+    ChunkIndexMap map( visitors ) ;
+    train_push_back( map, data.nrows() ) ;
+    
+    data.attr( "index" )  = get_all_second(map) ;
+    data.attr( "labels" ) = visitors.subset(map, "data.frame" ) ;
+    return data ;
 }
-
-#endif

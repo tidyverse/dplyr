@@ -22,7 +22,7 @@
 namespace dplyr{
      
     // classes inherit from this template when they have a method with this signature
-    // SEXP process_chunk( const Index_1_based& indices)
+    // SEXP process_chunk( const Index_0_based& indices)
     // 
     // the first time process_chunk is called, CallbackProcessor finds the right type
     // for storing the results, and it creates a suitable DelayedProcessor

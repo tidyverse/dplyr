@@ -50,6 +50,13 @@ filter.grouped_df <- function(.data, ...) {
   grouped_df(.data[out, , drop = FALSE], attr(.data, "vars"))
 }
 
+#' @rdname manip_grouped_cpp
+#' @export
+#' @method filter grouped_cpp
+filter.grouped_cpp <- function(.data, ...) {
+  filter_(.data, ...)
+}
+
 #' @rdname manip_grouped_df
 #' @export
 #' @method summarise grouped_df
@@ -100,6 +107,13 @@ summarise.grouped_df <- function(.data, ...) {
   }
 }
 
+#' @rdname manip_grouped_cpp
+#' @export
+#' @method summarise grouped_cpp
+summarise.grouped_cpp <- function(.data, ...) {
+  summarise_(.data, ...)
+}
+
 #' @rdname manip_grouped_df
 #' @export
 #' @method mutate grouped_df
@@ -146,6 +160,12 @@ mutate.grouped_df <- function(.data, ...) {
     vars = attr(.data, "vars")
   )
 }
+#' @rdname manip_grouped_cpp
+#' @export
+#' @method mutate grouped_cpp
+mutate.grouped_cpp <- function(.data, ...) {
+  mutate_(.data, ...)
+}
 
 #' @rdname manip_grouped_df
 #' @export
@@ -159,6 +179,13 @@ arrange.grouped_df <- function(.data, ...) {
   grouped_df(.data[out, , drop = FALSE], attr(.data, "vars"))
 }
 
+#' @rdname manip_grouped_cpp
+#' @export
+#' @method arrange grouped_cpp
+arrange.grouped_cpp <- function(.data, ...) {
+  arrange_(.data,...)  
+}
+
 #' @rdname manip_grouped_df
 #' @export
 #' @method select grouped_df
@@ -166,6 +193,15 @@ select.grouped_df <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
   vars <- vapply(input, as.character, character(1))
   grouped_df(.data[, vars, drop = FALSE], attr(.data, "vars"))
+}
+
+#' @rdname manip_grouped_cpp
+#' @export
+#' @method select grouped_cpp
+select.grouped_cpp <- function(.data, ...) {
+  input <- var_eval(dots(...), .data, parent.frame())
+  vars <- vapply(input, as.character, character(1))
+  grouped_cpp(.data[, vars, drop = FALSE], attr(.data, "vars"))
 }
 
 #' @S3method do grouped_df
@@ -177,6 +213,21 @@ do.grouped_df <- function(.data, .f, ...) {
 
   for (i in seq_along(index)) {
     subs <- .data[index[[i]], , drop = FALSE]
+    out[[i]] <- .f(subs, ...)
+  }
+
+  out
+}
+
+#' @S3method do grouped_cpp
+do.grouped_cpp <- function(.data, .f, ...) {
+  if (is.lazy(.data)) .data <- build_index_cpp(.data)
+
+  index <- attr(.data, "index")
+  out <- vector("list", length(index))
+
+  for (i in seq_along(index)) {
+    subs <- .data[index[[i]]+1L, , drop = FALSE]
     out[[i]] <- .f(subs, ...)
   }
 

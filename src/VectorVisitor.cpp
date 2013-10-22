@@ -59,7 +59,7 @@ namespace dplyr {
     }
     
     Gatherer* gatherer( CallProxy& proxy, const GroupedDataFrame& gdf ){
-        Index_1_based indices = gdf.group(0);
+        Index_0_based indices = gdf.group(0);
         Shield<SEXP> first( proxy.get(indices) ) ; 
         switch( TYPEOF(first) ){
             case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;

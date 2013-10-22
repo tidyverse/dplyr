@@ -29,7 +29,7 @@ namespace dplyr {
             
             virtual ~DelayedReducer(){} ;
             
-            inline SEXP process_chunk( const Index_1_based& indices){
+            inline SEXP process_chunk( const Index_0_based& indices){
                 proxy = wrap_subset<INPUT_RTYPE>( data, indices );
                 return call.fast_eval() ;
             }

@@ -44,6 +44,15 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   grouped_df(NextMethod(), groups(x))
 }
 
+#' @method inner_join tbl_cpp
+#' @export
+#' @rdname join.tbl_cpp
+inner_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
+  by <- by %||% common_by(x, y)
+  y <- auto_copy(x, y, copy = copy)
+  inner_join_impl(x,y,by)
+}
+
 #' @method inner_join data.frame
 #' @export
 #' @rdname join.tbl_df
@@ -69,6 +78,15 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   grouped_df(NextMethod(), groups(x))
+}
+
+#' @method left_join tbl_cpp
+#' @export
+#' @rdname join.tbl_cpp
+left_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
+  by <- by %||% common_by(x, y)
+  y <- auto_copy(x, y, copy = copy)
+  left_join_impl(x,y,by)
 }
 
 #' @method left_join data.frame
@@ -98,6 +116,15 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   grouped_df(NextMethod(), groups(x))
 }
 
+#' @method semi_join tbl_cpp
+#' @export
+#' @rdname join.tbl_cpp
+semi_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
+  by <- by %||% common_by(x, y)
+  y <- auto_copy(x, y, copy = copy)
+  semi_join_impl(x,y,by)
+}
+
 #' @method semi_join data.frame
 #' @export
 #' @rdname join.tbl_df
@@ -117,6 +144,15 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname join.tbl_df
 anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   grouped_df(NextMethod(), groups(x))
+}
+
+#' @method anti_join tbl_cpp
+#' @export
+#' @rdname join.tbl_cpp
+anti_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
+  by <- by %||% common_by(x, y)
+  y <- auto_copy(x, y, copy = copy)
+  anti_join_impl(x,y,by)
 }
 
 #' @method anti_join data.frame

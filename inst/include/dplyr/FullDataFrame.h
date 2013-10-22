@@ -26,13 +26,13 @@ namespace Rcpp {
         FullDataFrame( const DataFrame& data_ ) : 
             index_data( seq(1, data_.nrows() )), index(index_data) {}
          
-        const Index_1_based& get_index() const { 
+        const Index_0_based& get_index() const { 
             return index ; 
         }    
             
     private:
         IntegerVector index_data ;
-        Index_1_based index ;
+        Index_0_based index ;
     } ;
     
 }

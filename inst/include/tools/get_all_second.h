@@ -16,26 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with dplyr.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef dplyr_Result_Sd_H
-#define dplyr_Result_Sd_H
+#ifndef dplyr_get_all_second_H
+#define dplyr_get_all_second_H
 
 namespace dplyr {
-
-    template <int RTYPE, bool NA_RM>
-    class Sd : public Processor<REALSXP, Sd<RTYPE,NA_RM> > {
-    public:
-        
-        Sd(SEXP x) : var(x) {}
-        ~Sd(){}
-        
-        inline double process_chunk( const Index_0_based& indices ){
-            return sqrt( var.process_chunk( indices ) );
-        }
-         
-    private:
-        Var<RTYPE,NA_RM> var ;
-    } ;
- 
+    
+    template <typename Map>
+    List get_all_second( const Map& map){
+        int ngroups = map.size() ;
+        List res(ngroups); 
+        typename Map::const_iterator it=map.begin() ;
+        for( int i=0; i<ngroups; i++, ++it) 
+            res[i] = it->second ;
+        return res ; 
+    }
+    
 }
 
 #endif

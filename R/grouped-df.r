@@ -29,6 +29,37 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
   data
 }
 
+#' A grouped data frame.
+#'
+#' The easiest way to create a grouped data frame is to call the \code{group_by}
+#' method on a data frame or tbl: this will take care of capturing
+#' the unevalated expressions for you.
+#'
+#' @keywords internal
+#' @param data a tbl or data frame.
+#' @param vars a list of quoted variables.
+#' @param lazy if \code{TRUE}, index will be computed lazily every time it
+#'   is needed. If \code{FALSE}, index will be computed up front on object
+#'   creation.
+#' @param drop if \code{TRUE} preserve all factor levels, even those without
+#'   data.
+grouped_cpp <- function(data, vars, lazy = TRUE, drop = TRUE) {
+  if (length(vars) == 0) {
+    return(tbl_df(data))
+  }
+
+  assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
+  
+  attr(data, "vars") <- vars
+  attr(data, "drop") <- drop
+  if (!lazy) {
+    data <- build_index_cpp(data)
+  }
+  classes <- c("grouped_cpp", "tbl_cpp", "tbl")
+  class(data) <- c(classes, setdiff( class(data), classes ) )
+  data
+}
+
 #' @S3method groups data.frame
 groups.data.frame <- function(x) {
   attr(x, "vars")
@@ -41,12 +72,31 @@ is.lazy.grouped_df <- function(x) {
   is.null(attr(x, "index")) || is.null(attr(x, "labels"))
 }
 
+#' @rdname grouped_cpp
+#' @method is.lazy grouped_cpp
+#' @export
+is.lazy.grouped_cpp <- function(x) {
+  is.null(attr(x, "index")) || is.null(attr(x, "labels"))
+}
+
 #' @rdname grouped_df
 #' @export
 is.grouped_df <- function(x) inherits(x, "grouped_df")
 
+#' @rdname grouped_df
+#' @export
+is.grouped_cpp <- function(x) inherits(x, "grouped_cpp")
+
 #' @S3method print grouped_df
 print.grouped_df <- function(x, ...) {
+  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
+  cat("\n")
+  trunc_mat(x)
+}
+
+#' @S3method print grouped_df
+print.grouped_cpp <- function(x, ...) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
@@ -59,6 +109,8 @@ group_size.grouped_df <- function(x) {
   vapply(attr(x, "index"), length, integer(1))
 }
 
+#' @S3method group_size grouped_cpp
+group_size.grouped_cpp <- group_size_grouped_cpp
 
 #' @param x object (data frame or \code{\link{tbl_df}}) to group
 #' @param ... unquoted variables to group by
@@ -68,6 +120,16 @@ group_size.grouped_df <- function(x) {
 group_by.data.frame <- function(x, ..., drop = TRUE) {
   vars <- named_dots(...)
   grouped_df(x, c(groups(x), vars), lazy = FALSE)
+}
+
+#' @param x object (\code{\link{tbl_cpp}}) to group
+#' @param ... unquoted variables to group by
+#' @method group_by data.frame
+#' @export
+#' @rdname grouped_cpp
+group_by.tbl_cpp <- function(x, ..., drop = TRUE) {
+  vars <- named_dots(...)
+  grouped_cpp(x, c(groups(x), vars), lazy = FALSE)
 }
 
 #' @S3method as.data.frame grouped_df
@@ -85,6 +147,21 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
   x
 }
 
+#' @S3method as.data.frame grouped_df
+as.data.frame.grouped_cpp <- function(x, row.names = NULL,
+                                            optional = FALSE, ...) {
+#   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
+#   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
+
+  attr(x, "vars") <- NULL
+  attr(x, "index") <- NULL
+  attr(x, "labels") <- NULL
+  attr(x, "drop") <- NULL
+
+  class(x) <- setdiff(class(x), c("grouped_cpp", "tbl_cpp", "tbl"))
+  x
+}
+
 #' @S3method ungroup grouped_df
 ungroup.grouped_df <- function(x) {
   attr(x, "vars") <- NULL
@@ -93,6 +170,17 @@ ungroup.grouped_df <- function(x) {
   attr(x, "drop") <- NULL
 
   class(x) <- setdiff(class(x), "grouped_df")
+  x
+}
+
+#' @S3method ungroup grouped_df
+ungroup.grouped_cpp <- function(x) {
+  attr(x, "vars") <- NULL
+  attr(x, "index") <- NULL
+  attr(x, "labels") <- NULL
+  attr(x, "drop") <- NULL
+
+  class(x) <- setdiff(class(x), "grouped_cpp")
   x
 }
 

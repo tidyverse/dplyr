@@ -11,19 +11,20 @@ z <- rnorm(100)
 res1 <- order_( x, desc(y), z )
 res2 <- order( x, desc(y), z )
            
-identical( res1, res2)
+stopifnot(identical( res1, res2))
 
 x <- rnorm(1e5)
 y <- rnorm(1e5)
 z <- rnorm(1e5)
 
 microbenchmark( 
-    dplyrRcpp = order_( x, desc(y), z ), 
+    cpp  = order_( x, desc(y), z ), 
     base = order( x, desc(y), z )
 )
+
 data("baseball", package = "plyr")
 microbenchmark( 
-    dplyrRcpp = order_( id, year, data = baseball) , 
+    cpp  = order_( id, year, data = baseball) , 
     base = with( baseball, order( id, year ) )
 )
 

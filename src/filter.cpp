@@ -33,10 +33,9 @@ SEXP and_calls( List args ){
     return res ;
 }
 
-DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select ){
-    // TODO: do we need to copy attributes
+DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes ){
     DataFrameVisitors visitors( data, select ) ;
-    return visitors.subset(test) ;
+    return visitors.subset(test, classes ) ;
 }
 
 DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
@@ -51,17 +50,19 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     CallProxy call_proxy( call, data ) ;
     int ngroups = gdf.ngroups() ;
     for( int i=0; i<ngroups; i++){
-        Index_1_based indices = gdf.group(i) ;
+        Index_0_based indices = gdf.group(i) ;
         g_test  = call_proxy.get( indices );
         
         int chunk_size = indices.size() ;
         for( int j=0; j<chunk_size; j++){
             test[ indices[j] ] = g_test[j] ;  
         }
-        
     }
     
-    return subset( data, test, data.names() ) ;
+    DataFrame res = subset( data, test, data.names(), classes_grouped() ) ;
+    res.attr( "vars")   = gdf.attr("vars") ;
+            
+    return res ;
 }
 
 SEXP filter_not_grouped( DataFrame df, List args, Environment env){
@@ -72,7 +73,8 @@ SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     // and evaluate the expression
     LogicalVector test = CallProxy( call, df).get() ;
     
-    return subset( df, test, df.names() ) ;
+    DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+    return res ;
 }
 
 // [[Rcpp::export]]

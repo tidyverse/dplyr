@@ -25,7 +25,7 @@ namespace dplyr {
     public:
         Subset(){} ;
         virtual ~Subset(){} ;
-        virtual SEXP get( const Index_1_based& indices ) const = 0 ;
+        virtual SEXP get( const Index_0_based& indices ) const = 0 ;
         // virtual SEXP get( const Rcpp::IntegerVector& indices ) const = 0 ;
         virtual SEXP get() const = 0 ;
     } ;
@@ -34,7 +34,7 @@ namespace dplyr {
     class SubsetTemplate : public Subset {
     public:
         SubsetTemplate( SEXP x ) : object(x){}
-        virtual SEXP get( const Index_1_based& indices ) const {
+        virtual SEXP get( const Index_0_based& indices ) const {
             return wrap_subset<RTYPE>( object, indices ) ;    
         }
         // virtual SEXP get( const Rcpp::IntegerVector& indices ) const {

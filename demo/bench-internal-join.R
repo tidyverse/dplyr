@@ -7,60 +7,42 @@ x <- rbind( x, x )
 y <- rbind(y,y)
 
 equal_ <- dplyr:::equal_
-semi_join_impl <- dplyr:::semi_join_impl
-anti_join_impl <- dplyr:::anti_join_impl
-inner_join_impl <- dplyr:::inner_join_impl
-left_join_impl <- dplyr:::left_join_impl
-
-semi_join(x, y)
-semi_join_impl(x, y )
-anti_join(x, y)
-anti_join_impl( x, y )
-
-inner_join(x,y)
-inner_join_impl(x,y)
-
-left_join(x,y)
-left_join_impl(x,y)
 
 data("Batting", package = "Lahman")
 data("Master", package = "Lahman")
 
-batting_df <- tbl_df(Batting)
-person_df <- tbl_df(Master)
+batting_cpp <- tbl_cpp(Batting)
+person_cpp  <- tbl_cpp(Master)
+
+batting_df  <- tbl_df(Batting)
+person_df   <- tbl_df(Master)
+
+batting_dt  <- tbl_dt(Batting)
+person_dt   <- tbl_dt(Master)
                    
-dplyr <- semi_join( batting_df, person_df )
-internal <- semi_join_impl( batting_df, person_df )
-equal_( dplyr, internal )
-
-dplyr <- anti_join( batting_df, person_df )
-internal <- anti_join_impl( batting_df, person_df )
-equal_( dplyr, internal )
-
-dplyr <- inner_join(batting_df, person_df)
-internal <- inner_join_impl(batting_df, person_df)
-equal_( dplyr, internal )
-
-dplyr <- left_join(batting_df, person_df)
-internal <- left_join_impl(batting_df, person_df)
-equal_( dplyr, internal )
+stopifnot( equal_( semi_join( batting_df, person_df ), semi_join( batting_cpp, person_cpp ) ) )
+stopifnot( equal_( anti_join( batting_df, person_df ), anti_join( batting_cpp, person_cpp ) ) )
+stopifnot( equal_( left_join( batting_df, person_df ), left_join( batting_cpp, person_cpp ) ) )
+stopifnot( equal_( inner_join( batting_df, person_df ), inner_join( batting_cpp, person_cpp ) ) )
 
 microbenchmark( 
-    dplyr = semi_join( batting_df, person_df ), 
-    internal = semi_join_impl( batting_df, person_df )
-)
-
-microbenchmark( 
-    dplyr = anti_join( batting_df, person_df ), 
-    internal = anti_join_impl( batting_df, person_df )
-)
-
-microbenchmark( 
-    dplyr = inner_join(batting_df, person_df), 
-    internal = inner_join_impl(batting_df, person_df)
+    cpp = semi_join( batting_cpp, person_cpp ), 
+    df  = semi_join( batting_df, person_df ), 
+    dt  = semi_join( batting_dt, person_dt )
 )
 microbenchmark( 
-    dplyr = left_join(batting_df, person_df), 
-    internal = left_join_impl(batting_df, person_df)
+    cpp = anti_join( batting_cpp, person_cpp ), 
+    df  = anti_join( batting_df, person_df ), 
+    dt  = anti_join( batting_dt, person_dt )
+)
+microbenchmark( 
+    cpp = inner_join( batting_cpp, person_cpp ), 
+    df  = inner_join( batting_df, person_df ), 
+    dt  = inner_join( batting_dt, person_dt )
+)
+microbenchmark( 
+    cpp = left_join( batting_cpp, person_cpp ), 
+    df  = left_join( batting_df, person_df ), 
+    dt  = left_join( batting_dt, person_dt )
 )
 
