@@ -29,7 +29,7 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
   data
 }
 
-#' A grouped data frame.
+#' A grouped data frame with cpp backend.
 #'
 #' The easiest way to create a grouped data frame is to call the \code{group_by}
 #' method on a data frame or tbl: this will take care of capturing
