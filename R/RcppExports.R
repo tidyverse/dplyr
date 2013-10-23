@@ -25,12 +25,12 @@ left_join_impl <- function(x, y, by) {
     .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
-compatible_data_frame <- function(x, y) {
-    .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y)
+compatible_data_frame <- function(x, y, sort_variable_names = TRUE) {
+    .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names)
 }
 
-equal_data_frame <- function(x, y) {
-    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y)
+equal_data_frame <- function(x, y, sort_variable_names = TRUE) {
+    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names)
 }
 
 all_equal_data_frame <- function(args, env) {

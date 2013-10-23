@@ -189,13 +189,18 @@ bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y){
+dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool sort_variable_names = true ){
     int n = x.size() ;
     if( n != y.size() ) 
         return no_because( "not the same number of variables" ) ;
     
-    CharacterVector names_x = clone<CharacterVector>(x.names()) ; names_x.sort() ;
-    CharacterVector names_y = clone<CharacterVector>(y.names()) ; names_y.sort() ;
+    CharacterVector names_x = clone<CharacterVector>(x.names()) ; 
+    CharacterVector names_y = clone<CharacterVector>(y.names()) ; 
+    if( sort_variable_names ){
+        names_y.sort() ;
+        names_x.sort() ;
+    }
+    
     for( int i=0; i<n; i++) 
         if( names_x[i] != names_y[i] )
             return no_because( "not the same variable names. ") ; 
@@ -209,8 +214,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y){
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x, y);
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true){
+    BoolResult compat = compatible_data_frame(x, y, sort_variable_names);
     if( !compat ) return compat ;
     
     int nrows = x.nrows() ;
