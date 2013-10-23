@@ -1,4 +1,3 @@
-bench
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .Rprofile
