@@ -9,50 +9,21 @@ d <- data.frame(
   y = c(1, 2, 2, 4),
   b = 1:4)
 
-c_tbls <- clone_tbls(c)
-d_tbls <- clone_tbls(d)
+srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+tbls <- temp_load(srcs, list(c = c, d = d))
 
 test_that("inner join equivalent across all tbls", {
-  join1 <- function(x, y) {
-    strip(inner_join(x, y, by = c("x", "y")), order = TRUE)
-  }
-  j <- Map(join1, c_tbls, d_tbls)
-  
-  expect_equal(j$dt, j$df)
-  expect_equal(j$sqlite, j$df)
-  expect_equal(j$postgres, j$df)
+  compare_tbls(tbls, function(x) inner_join(x$c, x$d, by = c("x", "y")))
 })
 
 test_that("left join equivalent across all tbls", {
-  join1 <- function(x, y) {
-    strip(left_join(x, y, by = c("x", "y")), order = TRUE)
-  }
-  j <- Map(join1, c_tbls, d_tbls)
-  
-  expect_equal(j$dt, j$df)
-  expect_equal(j$sqlite, j$df)
-  expect_equal(j$postgres, j$df)
+  compare_tbls(tbls, function(x) left_join(x$c, x$d, by = c("x", "y")))
 })
 
 test_that("semi join equivalent across all tbls", {
-  join1 <- function(x, y) {
-    strip(semi_join(x, y, by = c("x", "y")), order = TRUE)
-  }
-  j <- Map(join1, c_tbls, d_tbls)
-  
-  expect_equal(j$dt, j$df)
-  expect_equal(j$sqlite, j$df)
-  expect_equal(j$postgres, j$df)
-  
+  compare_tbls(tbls, function(x) semi_join(x$c, x$d, by = c("x", "y")))
 })
 
 test_that("anti join equivalent across all tbls", {
-  join1 <- function(x, y) {
-    strip(anti_join(x, y, by = c("x", "y")), order = TRUE)
-  }
-  j <- Map(join1, c_tbls, d_tbls)
-  
-  expect_equal(j$dt, j$df)
-  expect_equal(j$sqlite, j$df)
-  expect_equal(j$postgres, j$df)
+  compare_tbls(tbls, function(x) anti_join(x$c, x$d, by = c("x", "y")))
 })
