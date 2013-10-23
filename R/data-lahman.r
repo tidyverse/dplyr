@@ -15,6 +15,8 @@
 #'   server with \code{lahman} database already created. For bigquery, 
 #'   it assumes you have read/write access to a project called 
 #'   \code{Sys.getenv("BIGQUERY_PROJECT")}
+#'   
+#'   For \code{lahman_srcs}, character vector of names giving srcs to generate.
 #' @param type src type.
 #' @examples
 #' lahman_sqlite()
@@ -141,6 +143,14 @@ lahman_src <- function(type, ...) {
     stop("Unknown src type ", type, call. = FALSE)
   )
 }
+
+#' @rdname lahman
+#' @export
+lahman_srcs <- function(...) {
+  srcs <- c(...)
+  setNames(lapply(srcs, lahman_src), srcs)
+}
+
 
 succeeds <- function(x, quiet = FALSE) {
   ok <- FALSE

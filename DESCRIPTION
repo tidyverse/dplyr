@@ -19,7 +19,8 @@ Suggests:
     bigrquery,
     testthat,
     Lahman,
-    knitr
+    knitr,
+    microbenchmark
 VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
@@ -86,3 +87,4 @@ Collate:
     'manip-cpp.r'
     'tbl-cpp.r'
     'src-local.r'
+    'bench-compare.r'

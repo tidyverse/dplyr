@@ -8,6 +8,7 @@
 \alias{lahman_mysql}
 \alias{lahman_postgres}
 \alias{lahman_sqlite}
+\alias{lahman_srcs}
 \title{Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.}
 \usage{
   lahman_sqlite(path = NULL)
@@ -25,6 +26,8 @@
   lahman_bigquery(...)
 
   has_lahman(type, ...)
+
+  lahman_srcs(...)
 }
 \arguments{
   \item{path}{location to look for and cache SQLite
@@ -36,7 +39,10 @@
   For mysql and postgresql, the defaults assume you have a
   local server with \code{lahman} database already created.
   For bigquery, it assumes you have read/write access to a
-  project called \code{Sys.getenv("BIGQUERY_PROJECT")}}
+  project called \code{Sys.getenv("BIGQUERY_PROJECT")}
+
+  For \code{lahman_srcs}, character vector of names giving
+  srcs to generate.}
 
   \item{type}{src type.}
 }
