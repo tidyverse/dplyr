@@ -56,10 +56,16 @@ namespace dplyr {
             int nr = source.ngroups() ;
             data.names() = names ;
             set_rownames(data, nr ) ;
-            data.attr( "class" ) = classes_grouped()  ;
-            data.attr( "vars") = source.attr("vars") ;
-            data.attr( "labels" ) = source.attr("labels" );
-            data.attr( "index") = get_index(nr) ;
+            
+            if( source.nvars() > 1){
+                data.attr( "class" ) = classes_grouped()  ;
+                List vars = source.attr("vars") ;
+                data.attr( "vars") = head( vars, -1 ) ;
+                data.attr( "drop" ) = true ;
+            } else {
+                data.attr( "class" ) = classes_grouped()  ;
+                data.attr( "drop" ) = true ;
+            }
         }
         
         inline operator SEXP(){ 
@@ -67,12 +73,6 @@ namespace dplyr {
         }
         
     private:
-        
-        List get_index(int n){
-            List index(n) ;
-            for( int i=0; i<n; i++) index[i] = i ;
-            return index ;
-        }
         
         List data ;
     } ;
