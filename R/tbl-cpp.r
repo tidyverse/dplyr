@@ -60,7 +60,7 @@ tbl_cpp <- function(data) {
 
 # Standard data frame methods --------------------------------------------------
 
-#' @S3method as.data.frame tbl_df
+#' @S3method as.data.frame tbl_cpp
 as.data.frame.tbl_cpp <- function(x, row.names = NULL, optional = FALSE, ...) {
   
   class(x) <- setdiff(class(x), c("tbl_cpp", "tbl"))
