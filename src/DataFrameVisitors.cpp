@@ -23,13 +23,6 @@ using namespace Rcpp ;
 
 namespace dplyr {
 
-    DataFrameVisitors::DataFrameVisitors( const DataFrame& data_ ) : 
-        data(data_), 
-        visitors(), 
-        visitor_names(), 
-        nvisitors(0)
-    {}
-    
     DataFrameVisitors::DataFrameVisitors( const DataFrame& data_, const CharacterVector& names) : 
         data(data_), 
         visitors()
@@ -50,32 +43,4 @@ namespace dplyr {
         visitor_names = wrap( visitor_names_ );
     }
     
-    DataFrameVisitors& DataFrameVisitors::add_visitor( Rcpp::String column ){
-        SEXP vec = data[ column ] ;
-        if( ! Rf_isNull( vec ) ){
-            nvisitors++ ;
-            visitors.push_back( visitor(vec) ) ;
-            visitor_names.push_back( column ) ;
-        }
-        return *this ;
-    }
-    
-    DataFrameVisitors::~DataFrameVisitors(){
-        delete_all( visitors );
-    }
-       
-    // TODO: this is very close to the code in the genric subset
-    DataFrame DataFrameVisitors::subset( const LogicalVector& index, const CharacterVector& classes) const {
-         int nrows = 0 ;
-         int n = index.size();
-         for(int i=0; i<n; i++) if( index[i] == 1 ) nrows++;  
-         
-         List out(nvisitors);
-         for( int k=0; k<nvisitors; k++){
-            out[k] = visitors[k]->subset(index, nrows) ;    
-         }
-         structure( out, nrows, classes) ;
-         return out.asSexp() ;
-    }
-        
 }

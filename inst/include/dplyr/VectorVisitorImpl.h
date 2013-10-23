@@ -21,6 +21,16 @@
 
 namespace dplyr {
 
+template <typename Container>
+inline int output_size( const Container& container){
+    return container.size() ;
+}
+
+template <>
+inline int output_size<LogicalVector>( const LogicalVector& container){
+    return std::count( container.begin(), container.end(), 1 ) ;
+}
+
 /** 
  * Implementations 
  */
@@ -68,7 +78,7 @@ public:
     }
     
     inline SEXP subset( const ChunkIndexMap& map ){
-        int n=map.size() ;
+        int n = output_size(map) ;
         VECTOR out = Rcpp::no_init(n) ;
         ChunkIndexMap::const_iterator it = map.begin(); 
         for( int i=0; i<n; i++, ++it)
@@ -77,7 +87,8 @@ public:
         return out ;
     }
     
-    inline SEXP subset( const Rcpp::LogicalVector& index, int n ){
+    inline SEXP subset( const Rcpp::LogicalVector& index ){
+        int n = output_size(index) ;
         VECTOR out = Rcpp::no_init(n) ;
         for( int i=0, k=0; k<n; k++, i++ ) {
             while( ! index[i] ) i++; 
@@ -94,7 +105,7 @@ private:
     
     template <typename Container>
     inline SEXP subset_int_index( const Container& index ) {
-        int n=index.size() ;
+        int n = output_size(index) ;
         VECTOR out = Rcpp::no_init(n) ;
         // TODO: find a way to mark that we don't need the NA handling
         for( int i=0; i<n; i++) 

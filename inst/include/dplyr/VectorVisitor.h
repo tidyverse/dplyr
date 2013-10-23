@@ -52,7 +52,7 @@ public:
      */
     virtual SEXP subset( const ChunkIndexMap& index ) = 0 ;
     
-    virtual SEXP subset( const Rcpp::LogicalVector& index, int n ) = 0 ;
+    virtual SEXP subset( const Rcpp::LogicalVector& index ) = 0 ;
     
 } ;
 

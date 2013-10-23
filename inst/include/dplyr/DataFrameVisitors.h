@@ -37,15 +37,11 @@ class DataFrameVisitors :
     public:
         typedef VectorVisitor visitor_type ;
         
-        // visit no column, will add columns with the add_visitor method
-        DataFrameVisitors( const Rcpp::DataFrame& data_ ) ;
-        
-        // visiting only named columns
         DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) ;
         
-        DataFrameVisitors& add_visitor( Rcpp::String column ) ;
-        
-        ~DataFrameVisitors() ; 
+        ~DataFrameVisitors(){
+            delete_all( visitors );
+        }
     
         template <typename Container>
         Rcpp::DataFrame subset( const Container& index, const CharacterVector& classes ) const {
@@ -57,8 +53,6 @@ class DataFrameVisitors :
             structure( out, nrows, classes) ;
             return out.asSexp() ;
         }
-        
-        Rcpp::DataFrame subset( const LogicalVector&, const CharacterVector& classes ) const ;
         
         inline int size() const { return nvisitors ; }
         inline VectorVisitor* get(int k) const { return visitors[k] ; }
