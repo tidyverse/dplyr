@@ -252,11 +252,8 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
     DataFrameJoinVisitors visitors(x, y, x.names() ) ;
     Set set(visitors);  
     
-    int n_x = x.nrows() ;
-    for( int i=0; i<n_x; i++) set.insert(i) ;
-    
-    int n_y = y.nrows() ;
-    for( int i=0; i<n_y; i++) set.insert(-i-1) ;
+    train_insert( set, x.nrows() ) ;
+    train_insert_right( set, y.nrows() ) ;   
     
     return visitors.subset( set, x.attr("class") ) ;
 }
@@ -270,11 +267,9 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
     DataFrameJoinVisitors visitors(x, y, x.names() ) ;
     Set set(visitors);  
     
-    int n_x = x.nrows() ;
-    for( int i=0; i<n_x; i++) set.insert(i) ;
+    train_insert( set, x.nrows() ) ;
     
     std::vector<int> indices ;
-    
     int n_y = y.nrows() ;
     for( int i=0; i<n_y; i++) {
         Set::iterator it = set.find( -i-1 ) ;
@@ -296,8 +291,7 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
     DataFrameJoinVisitors visitors(y, x, y.names() ) ;
     Set set(visitors);  
     
-    int n_y = y.nrows() ;
-    for( int i=0; i<n_y; i++) set.insert(i) ;
+    train_insert( set, y.nrows() ) ;
     
     std::vector<int> indices ;
     
@@ -311,4 +305,26 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
     
     return visitors.subset( indices, x.attr("class") ) ;
 }
+
+// [[Rcpp::export]]
+IntegerVector match_data_frame( DataFrame x, DataFrame y){
+    if( !compatible_data_frame(x,y) )
+        stop( "not compatible" ); 
+    
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+    DataFrameJoinVisitors visitors(y, x, x.names() ) ;
+    Set set(visitors);  
+    
+    train_insert( set, y.nrows() ) ;
+    
+    int n_x = x.nrows() ;
+    IntegerVector res = no_init( n_x );
+    for( int i=0; i<n_x; i++) {
+        Set::iterator it = set.find( -i-1 );
+        res[i] = ( it == set.end() ) ? NA_INTEGER : (*it+1) ;
+    }
+    
+    return res ;
+}
+
 

@@ -50,6 +50,15 @@ namespace dplyr{
     inline void train_push_back( Map& map, int n){
         for( int i=0; i<n; i++) map[i].push_back(i) ;
     }
+    
+    template <typename Set>
+    inline void train_insert( Set& set, int n){
+        for( int i=0; i<n; i++) set.insert(i) ;
+    }
+    template <typename Set>
+    inline void train_insert_right( Set& set, int n){
+        for( int i=0; i<n; i++) set.insert(-i-1) ;
+    }
 
 }
 

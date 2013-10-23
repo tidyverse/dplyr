@@ -49,6 +49,10 @@ setdiff_data_frame <- function(x, y) {
     .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+match_data_frame <- function(x, y) {
+    .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
+}
+
 mutate_impl <- function(df, args, env) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
 }

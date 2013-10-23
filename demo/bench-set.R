@@ -15,3 +15,6 @@ dplyr:::intersect_data_frame( x, y )
 message( "setdiff" )
 dplyr:::setdiff_data_frame( x, y )
 
+message( "match" )
+dplyr:::match_data_frame( x, y )
+
