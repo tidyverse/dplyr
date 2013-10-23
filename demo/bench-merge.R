@@ -1,95 +1,102 @@
+# Compare base, data table, dplyr and pandas
+#
+# To install pandas on OS X:
+# * brew update && brew install python
+# * pip install --upgrade setuptools
+# * pip install --upgrade pip
+# * pip install pandas
+
 library(dplyr)
 library(data.table)
+library(microbenchmark)
+library(reshape2)
+set.seed(1014)
+
+# Generate sample data ---------------------------------------------------------
+
+random_strings <- function(n, m) {
+  mat <- matrix(sample(letters, m * n, rep = TRUE), ncol = m)
+  apply(mat, 1, paste, collapse = "")
+}
 
 N <- 10000
-indices = rep(NA, N)
-indices2 = rep(NA, N)
-for (i in 1:N) {
-  indices[i] <- paste(sample(letters, 10), collapse="")
-  indices2[i] <- paste(sample(letters, 10), collapse="")
-}
-left <- data.frame(key=rep(indices[1:8000], 10),
-                   key2=rep(indices2[1:8000], 10),
-                   value=rnorm(80000))
-right <- data.frame(key=indices[2001:10000],
-                    key2=indices2[2001:10000],
-                    value2=rnorm(8000))
+indices  <- random_strings(N, 10)
+indices2 <- random_strings(N, 10)
 
-left.dt <- data.table(left, key=c("key", "key2"))
-right.dt <- data.table(right, key=c("key", "key2"))
+left <- data.frame(
+  key = rep(indices[1:8000], 10),
+  key2 = rep(indices2[1:8000], 10),
+  value = rnorm(80000)
+)
+right <- data.frame(
+  key = indices[2001:10000],
+  key2 = indices2[2001:10000],
+  value2 = rnorm(8000)
+)
 
-timeit <- function(func, niter=10) {
-  timing = rep(NA, niter)
-  for (i in 1:niter) {
-    gc()
-    timing[i] <- system.time(func())[3]
-  }
-  mean(timing)
-}
+write.csv(left, "pandas/left.csv", row.names = FALSE)
+write.csv(right, "pandas/right.csv", row.names = FALSE)
 
-left.join <- function(sort=FALSE) {
-  result <- base::merge(left, right, all.x=TRUE, sort=sort)
-}
+# Equivalent functions for each technique --------------------------------------
 
-right.join <- function(sort=FALSE) {
-  result <- base::merge(left, right, all.y=TRUE, sort=sort)
-}
+base <- list(
+  setup = function(x, y) list(x = x, y = y),
+  
+  left  = function(x, y) base::merge(x, y, all.x = TRUE),
+  right = function(x, y) base::merge(x, y, all.y = TRUE),
+  inner = function(x, y) base::merge(x, y)
+)
 
-# outer.join <- function(sort=FALSE) {
-#   result <- base::merge(left, right, all=TRUE, sort=sort)
-# }
+data.table <- list(
+  setup = function(x, y) {
+    list(
+      x = data.table(x, key = c("key", "key2")),
+      y = data.table(y, key = c("key", "key2"))
+    )
+  },
+  
+  left  = function(x, y) x[y],
+  right = function(x, y) y[x],
+  inner = function(x, y) merge(x, y, all = FALSE)
+)
 
-inner.join <- function(sort=FALSE) {
-  result <- base::merge(left, right, all=FALSE, sort=sort)
-}
+dplyr <- list(
+  setup = function(x, y) list(x = x, y = y),
+  
+  left  = function(x, y) dplyr:::left_join_impl(x, y, by = c("key", "key2")),
+  right = function(x, y) NULL,
+  inner = function(x, y) dplyr:::inner_join_impl(x, y, by = c("key", "key2"))
+)
 
-left.join.dt <- function(sort=FALSE) {
-  result <- right.dt[left.dt]
-}
+techniques <- list(base = base, data.table = data.table, dplyr = dplyr)
 
-right.join.dt <- function(sort=FALSE) {
-  result <- left.dt[right.dt]
-}
+# Aggregate results ------------------------------------------------------------
 
-# outer.join.dt <- function(sort=FALSE) {
-#   result <- merge(left.dt, right.dt, all=TRUE, sort=sort)
-# }
+niter <- 10
 
-inner.join.dt <- function(sort=FALSE) {
-  result <- merge(left.dt, right.dt, all=FALSE, sort=sort)
-}
+r <- lapply(names(techniques), function(nm) {
+  tech <- techniques[[nm]]
+  df <- tech$setup(left, right)
+  m <- microbenchmark(
+    left = tech$left(df$x, df$y),
+    right = tech$right(df$x, df$y),
+    inner = tech$inner(df$x, df$y),
+    times = niter
+  )
+  
+  means <- tapply(m$time, m$expr, FUN = mean) / 1e9
+  data.frame(type = names(means), mean = means, tech = nm, 
+    row.names = NULL, stringsAsFactors = FALSE)
+})
 
-results <- matrix(nrow=3, ncol=4)
-colnames(results) <- c("pandas", "base::merge", "data.table", "dplyr" )
-rownames(results) <- c("inner", "left", "right")
 
-inner_join_impl <- dplyr:::inner_join_impl
-left_join_impl  <- dplyr:::left_join_impl
+system("cd pandas && python bench_merge.py")
+pandas_raw <- read.csv("pandas/out.csv")
+pandas <- data.frame(type = pandas_raw$X, mean = pandas_raw$dont_sort, tech = "pandas")
 
-dplyr.inner.join <- function(){
-   inner_join_impl(left, right)         
-}
-dplyr.left.join <- function(){
-   left_join_impl(left, right)         
-}
-dplyr.right.join <- function(){
-   left_join_impl(right, left)         
-}
+options(digits = 3)
 
-base.functions  <- c(inner.join, left.join, right.join)
-dplyr.functions <- c(dplyr.inner.join, dplyr.left.join, dplyr.right.join)
-dt.functions <- c(inner.join.dt, left.join.dt, right.join.dt)
-
-for (i in 1:3) {
-  base.func     <- base.functions[[i]]
-  dplyr.func    <- dplyr.functions[[i]]
-  dt.func       <- dt.functions[[i]]
-  results[i, 2] <- timeit(base.func)
-  results[i, 3] <- timeit(dt.func)
-  results[i, 4] <- timeit(dplyr.func)
-}
-pandas.txt <- system( "python pandas/bench_merge.py", intern = TRUE )
-pandas     <- read.table( text = pandas.txt )
-results[,1] <- pandas[c(1,3:4),1]
-round( results, 4 )
-
+all <- c(r, list(pandas))
+all <- do.call("rbind", all)
+all$mean <- all$mean * 1000 # millisec
+dcast(all, tech ~ type, value.var = "mean")
