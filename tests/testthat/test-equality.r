@@ -40,3 +40,13 @@ test_that("factors equal only if levels equal", {
   df2 <- data.frame(x = factor(c("a", "b")), levels = c("b", "a"))
   expect_false(equal_data_frame(df1, df2))
 })
+
+test_that("integers and reals are not equal", {
+  x <- 1:10
+  y <- as.numeric(x)
+  
+  df1 <- data.frame(x = x)
+  df2 <- data.frame(x = y)
+  
+  expect_false(equal_data_frame(x, y))
+})
