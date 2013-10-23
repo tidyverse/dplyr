@@ -107,6 +107,7 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
   
   for(i in seq_along(rest)) {
     ok <- compare(ref, rest[[i]])
+#     if (!ok) browser()
     msg <- paste0(names(rest)[[i]], " not equal to ", ref_name)
     expect_true(ok, info = msg) 
   }
