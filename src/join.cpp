@@ -214,7 +214,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool sort_var
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true){
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true, bool sort_rows = true){
     BoolResult compat = compatible_data_frame(x, y, sort_variable_names);
     if( !compat ) return compat ;
     
@@ -222,19 +222,22 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_
     if( nrows != y.nrows() )
         return no_because( "different row sizes" );
     
-    typedef VisitorSetIndexMap<DataFrameJoinVisitors, int > Map ;
-    DataFrameJoinVisitors visitors(x, y, x.names() ) ;
-    Map map(visitors);  
-    
-    for( int i=0; i<nrows; i++) map[i]++ ;
-    for( int i=0; i<nrows; i++){
-        Map::iterator it = map.find(-i-1) ;
-        if( it == map.end() || it->second < 0 ) 
-            return no_because( "different subset" ) ;
-        else
-            it->second-- ;
+    if( sort_rows ){
+        typedef VisitorSetIndexMap<DataFrameJoinVisitors, int > Map ;
+        DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+        Map map(visitors);  
+        
+        for( int i=0; i<nrows; i++) map[i]++ ;
+        for( int i=0; i<nrows; i++){
+            Map::iterator it = map.find(-i-1) ;
+            if( it == map.end() || it->second < 0 ) 
+                return no_because( "different subset" ) ;
+            else
+                it->second-- ;
+        }
+    } else {
+            
     }
-    
     return yes() ;
 }
 
