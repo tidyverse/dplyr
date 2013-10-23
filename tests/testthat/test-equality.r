@@ -1,6 +1,5 @@
 context("Equality")
 
-set.seed(1014)
 # A data frame with all major types
 df_all <- data.frame(
   a = c(1, 2.5),
