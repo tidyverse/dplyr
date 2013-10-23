@@ -124,8 +124,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // equal_data_frame
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true);
-RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP sort_variable_namesSEXP) {
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true, bool sort_rows = true);
+RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP sort_variable_namesSEXP, SEXP sort_rowsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -133,7 +133,8 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
         Rcpp::traits::input_parameter< bool >::type sort_variable_names(sort_variable_namesSEXP );
-        dplyr::BoolResult __result = equal_data_frame(x, y, sort_variable_names);
+        Rcpp::traits::input_parameter< bool >::type sort_rows(sort_rowsSEXP );
+        dplyr::BoolResult __result = equal_data_frame(x, y, sort_variable_names, sort_rows);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

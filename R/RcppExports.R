@@ -29,8 +29,8 @@ compatible_data_frame <- function(x, y, sort_variable_names = TRUE) {
     .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names)
 }
 
-equal_data_frame <- function(x, y, sort_variable_names = TRUE) {
-    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names)
+equal_data_frame <- function(x, y, sort_variable_names = TRUE, sort_rows = TRUE) {
+    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names, sort_rows)
 }
 
 all_equal_data_frame <- function(args, env) {
