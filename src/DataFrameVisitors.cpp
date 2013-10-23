@@ -66,7 +66,10 @@ namespace dplyr {
        
     // TODO: this is very close to the code in the genric subset
     DataFrame DataFrameVisitors::subset( const LogicalVector& index, const CharacterVector& classes) const {
-         int nrows = sum( index ) ;
+         int nrows = 0 ;
+         int n = index.size();
+         for(int i=0; i<n; i++) if( index[i] == 1 ) nrows++;  
+         
          List out(nvisitors);
          for( int k=0; k<nvisitors; k++){
             out[k] = visitors[k]->subset(index, nrows) ;    
