@@ -236,7 +236,10 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_
                 it->second-- ;
         }
     } else {
-            
+        DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+        for( int i=0; i<nrows; i++)
+            if( !visitors.equal( i, -i-1) )
+                return no_because( "different row" ) ;
     }
     return yes() ;
 }
