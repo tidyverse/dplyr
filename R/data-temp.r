@@ -52,13 +52,17 @@ reset.src_sql <- function(x) {
     dbRemoveTable(x$con, tbl)
   }
 }
+#' @S3method reset list
+reset.list <- function(x) {
+  for (y in x) reset(y)
+}
 
 #' @rdname temp_srcs
-temp_tbls <- function(srcs, df) {
+temp_load <- function(srcs, df, name = random_table_name()) {
   if (is.character(srcs)) {
     srcs <- temp_srcs(srcs)
   }
   
-  lapply(srcs, copy_to, df, name = random_table_name())
+  lapply(srcs, copy_to, df, name = name)
 }
 

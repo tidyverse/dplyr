@@ -1,11 +1,11 @@
 \name{temp_srcs}
+\alias{temp_load}
 \alias{temp_srcs}
-\alias{temp_tbls}
 \title{Connect to temporary data sources.}
 \usage{
   temp_srcs(...)
 
-  temp_tbls(srcs, df)
+  temp_load(srcs, df, name = random_table_name())
 }
 \description{
   These functions make it easy to take a local data frame

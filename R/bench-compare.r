@@ -3,11 +3,15 @@
 #' These functions support the comparison of results and timings across
 #' multiple sources.
 #' 
-#' @param srcs A list of \code{\link{srcs}}. For, \code{\link{compare_srcs}}
-#'   the first srcs is the reference to which all others will be compared.
+#' Comparisons are performed using \code{equal_data_frame} so the order of
+#' rows and columns are ignored.
+#' 
+#' @param srcs A list of \code{\link{srcs}}.
 #' @param setup A function with a single argument that is called with each
 #'   src. It should either return a \code{\link{tbl}} or a list of \code{tbl}s.
 #' @param op A function with a single argument, the output of \code{setup}
+#' @param comp For checking, an data frame to test results against. If not 
+#'   supplied, defaults to the results from the first \code{src}.
 #' @param times For benchmarking, the number of times each operation is 
 #'   repeated.
 #' @return 
@@ -54,7 +58,10 @@ bench_srcs <- function(srcs, setup, op, times = 10) {
   }
   
   tbls <- lapply(srcs, setup)
-  
+  bench_tbls(srcs, op, times = times)
+}
+
+bench_tbls <- function(tbls, op, times = 10) {
   # Generate call to microbenchmark function that evaluates op for each tbl
   calls <- lapply(seq_along(srcs), function(i) {
     substitute(op(tbls[[i]]), list(i = i))
@@ -67,22 +74,40 @@ bench_srcs <- function(srcs, setup, op, times = 10) {
 
 #' @export
 #' @rdname bench_compare
-compare_srcs <- function(srcs, setup, op) {
+compare_srcs <- function(srcs, setup, op, ref = NULL, compare = equal_data_frame) {
   if (length(srcs) < 2) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
   
   tbls <- lapply(srcs, setup)
+  compare_tbls(tbls, op, ref = ref, compare = compare)
+}
+
+#' @export
+#' @rdname bench_compare
+compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
+  if (length(tbls) < 2) {
+    stop("Need at least two srcs to compare", call. = FALSE)
+  }
+
   results <- lapply(tbls, function(x) as.data.frame(op(x)))
+
+  if (is.null(ref)) {
+    ref <- results[[1]]
+    ref_name <- names(results)[1]
+    rest <- results[-1]
+  } else {
+    rest <- results
+    ref_name <- "supplied comparison"
+  }
   
-  same <- vapply(results[-1], equal_data_frame, y = results[[1]], 
+  same <- vapply(rest, function(x) isTRUE(compare(ref, x)), 
     FUN.VALUE = logical(1))
   
   if (any(!same)) {
-    dif <- names(tbls)[-1][!same]
-    ref <- names(tbls)[1]
-    stop(paste0(dif, collapse = ", "), " not equal to ", ref, call. = FALSE)
+    dif <- names(rest)[!same]
+    stop(paste0(dif, collapse = ", "), " not equal to ", ref_name, 
+      call. = FALSE)
   }
   invisible(TRUE)
 }
- 

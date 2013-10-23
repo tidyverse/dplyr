@@ -2,16 +2,17 @@
 \alias{bench_compare}
 \alias{bench_srcs}
 \alias{compare_srcs}
+\alias{compare_tbls}
 \title{Compare and benchmark srcs}
 \usage{
   bench_srcs(srcs, setup, op, times = 10)
 
-  compare_srcs(srcs, setup, op)
+  compare_srcs(srcs, setup, op, comp = NULL)
+
+  compare_tbls(tbls, op, comp = NULL)
 }
 \arguments{
-  \item{srcs}{A list of \code{\link{srcs}}. For,
-  \code{\link{compare_srcs}} the first srcs is the
-  reference to which all others will be compared.}
+  \item{srcs}{A list of \code{\link{srcs}}.}
 
   \item{setup}{A function with a single argument that is
   called with each src. It should either return a
@@ -19,6 +20,10 @@
 
   \item{op}{A function with a single argument, the output
   of \code{setup}}
+
+  \item{comp}{For checking, an data frame to test results
+  against. If not supplied, defaults to the results from
+  the first \code{src}.}
 
   \item{times}{For benchmarking, the number of times each
   operation is repeated.}
@@ -33,6 +38,10 @@
 \description{
   These functions support the comparison of results and
   timings across multiple sources.
+}
+\details{
+  Comparisons are performed using \code{equal_data_frame}
+  so the order of rows and columns are ignored.
 }
 \examples{
 if (require("Lahman") && require("microbenchmark")) {
