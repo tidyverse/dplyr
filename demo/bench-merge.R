@@ -99,4 +99,5 @@ options(digits = 3)
 all <- c(r, list(pandas))
 all <- do.call("rbind", all)
 all$mean <- all$mean * 1000 # millisec
+all$mean[all$mean < .1] <- NA # NA out dplyr right
 dcast(all, tech ~ type, value.var = "mean")
