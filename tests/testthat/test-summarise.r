@@ -23,13 +23,14 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 
 
 df <- data.frame(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
-tbls <- clone_tbls(df)
+srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+tbls <- temp_load(srcs, df)
 
 test_that("summarise peels off a single layer of grouping", {
-  for (tbl in tbls) {
-    grouped <- group_by(tbl, x, y)
+  for (i in seq_along(tbls)) {
+    grouped <- group_by(tbls[[i]], x, y)
     summed <- summarise(grouped, n())
     
-    expect_equal(unname(groups(summed)), list(quote(x)))
+    expect_equal(unname(groups(summed)), list(quote(x)), info = names(tbls)[i])
   }
 })

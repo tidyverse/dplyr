@@ -58,11 +58,24 @@ reset.list <- function(x) {
 }
 
 #' @rdname temp_srcs
-temp_load <- function(srcs, df, name = random_table_name()) {
+temp_load <- function(srcs, df, name = NULL) {
   if (is.character(srcs)) {
     srcs <- temp_srcs(srcs)
   }
   
-  lapply(srcs, copy_to, df, name = name)
+  if (is.data.frame(df)) {
+    if (is.null(name)) name <- random_table_name()
+    lapply(srcs, copy_to, df, name = name)  
+  } else {
+    if (is.null(name)) {
+      name <- replicate(length(df), random_table_name())
+    } else {
+      stopifnot(length(name) == length(df))
+    }
+    
+    lapply(srcs, function(x) {
+      Map(function(df, name) copy_to(x, df, name), df, name)
+    })
+  }
 }
 

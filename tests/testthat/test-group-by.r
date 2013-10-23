@@ -1,7 +1,9 @@
 context("Group by")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
-tbls <- clone_tbls(df)
+
+srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+tbls <- temp_load(srcs, df)
 
 test_that("group_by adds to additional groups", {
   add_groups1 <- function(tbl) groups(group_by(tbl, x, y))
@@ -37,8 +39,9 @@ test_that("joins preserve grouping", {
 })
 
 test_that("constructors drops groups", {
-  players <- players_tbls()
+  dt <- lahman_src("dt") %.% tbl("Batting") %.% group_by(playerID)
+  df <- lahman_src("df") %.% tbl("Batting") %.% group_by(playerID)
   
-  expect_equal(groups(tbl_dt(players$dt)), NULL)
-  expect_equal(groups(tbl_df(players$df)), NULL)
+  expect_equal(groups(tbl_dt(dt)), NULL)
+  expect_equal(groups(tbl_df(df)), NULL)
 })

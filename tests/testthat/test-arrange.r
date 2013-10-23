@@ -21,7 +21,7 @@ df2 <- data.frame(
 equal_df <- function(x, y) {
   rownames(x) <- NULL
   rownames(y) <- NULL
-  all.equal(x, y)
+  isTRUE(all.equal(x, y))
 }
 
 test_that("local arrange sorts missing values to end", {
