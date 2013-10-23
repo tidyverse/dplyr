@@ -1,5 +1,7 @@
 # dplyr
 
+[![Build Status](https://travis-ci.org/hadley/dplyr.png)](https://travis-ci.org/hadley/dplyr)
+
 `dplyr` is the next iteration of plyr with the following goals:
 
 * Improved performance
