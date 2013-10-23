@@ -64,7 +64,7 @@ public:
     OrderVectorVisitorImpl( const VECTOR& vec_ ) : vec(vec_) {}
         
     inline bool equal(int i, int j){ 
-        return compare::equal_or_both_na( vec[i], vec[j] ) ;
+        return compare::equal_or_both_na(vec[i], vec[j]) ;
     }
     
     inline bool before(int i, int j){ 
