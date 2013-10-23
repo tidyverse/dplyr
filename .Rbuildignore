@@ -1,4 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.travis\.yml$
 .Rprofile
 inst/db
