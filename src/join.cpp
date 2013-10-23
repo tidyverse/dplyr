@@ -181,9 +181,10 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
 template <typename VisitorSet>
 bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
     int n = vx.size() ;
-    for( int i=0; i<n; i++)
-        if( typeid(vx.get(i)) != typeid(vy.get(i)) )
+    for( int i=0; i<n; i++){
+        if( typeid(*vx.get(i)) != typeid(*vy.get(i)) )
             return false ;
+    }
     return true ;
 }
 
@@ -200,7 +201,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y){
             return no_because( "not the same variable names. ") ; 
     
     DataFrameVisitors v_x( x, names_x );
-    DataFrameVisitors v_y( x, names_y );
+    DataFrameVisitors v_y( y, names_y );
     if( ! all_same_types(v_x, v_y ) )
         return no_because( "different types" ) ;
     
