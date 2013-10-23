@@ -19,28 +19,3 @@ db_location <- function(path = NULL, filename) {
 is_writeable <- function(x) {
   unname(file.access(x, 2) == 0)
 }
-
-tmp_sqlite <- function() {
-  if (is.null(cache$temp_sqlite_src)) {
-    path <- tempfile(fileext = ".sqlite3")
-    cache$temp_sqlite_src <- src_sqlite(path, create = TRUE)
-  }
-
-  cache$temp_sqlite_src
-}
-
-tmp_postgres <- function() {
-  if (is.null(cache$temp_postgres_src)) {
-    cache$temp_postgres_src <- src_postgres("test")
-  }
-  
-  cache$temp_postgres_src
-}
-
-tmp_mysql <- function() {
-  if (is.null(cache$temp_mysql_src)) {
-    cache$temp_mysql_src <- src_mysql("test")
-  }
-  
-  cache$temp_mysql_src
-}

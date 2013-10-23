@@ -63,6 +63,13 @@ tbl.src_local <- function(src, from, ...) {
   src$tbl_f(get(from, src$env))
 }
 
+#' @S3method copy_to src_local
+copy_to.src_local <- function(dest, df, name = deparse(substitute(df)), ...) {
+  assign(name, envir = dest$env, df)
+  tbl(dest, name)
+}
+
+
 #' @S3method format src_local
 format.src_local <- function(x, ...) {
   paste0("src:  ", x$name, "\n",
