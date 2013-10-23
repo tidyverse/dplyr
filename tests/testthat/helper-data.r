@@ -1,10 +1,6 @@
 library(data.table)
 library(RSQLite)
 
-expect_tbls_equal <- function(...) {
-  expect_true(compare_tbls(...))
-}
-
 strip <- function(x, order = FALSE) {
   x <- as.data.frame(x)
   if (order) x <- x[do.call("order", x), , drop = FALSE]

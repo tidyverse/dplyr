@@ -51,7 +51,7 @@ test_that("two arranges equivalent to one", {
   single <- arrange(df1, a, b)
   
   tbls <- temp_load(c(local, db), df1)
-  expect_tbls_equal(tbls, ref = single, compare = equal_df,
+  compare_tbls(tbls, ref = single, compare = equal_df,
     function(x) x %.% arrange(b) %.% arrange(a))
 })
 
@@ -59,13 +59,13 @@ test_that("arrange results same regardless of backend", {
   # Can't check db because types are not currently preserved
   tbls <- temp_load(local, df2)
   
-  expect_tbls_equal(tbls, function(x) x %.% arrange(a, id), compare = equal_df)
-  expect_tbls_equal(tbls, function(x) x %.% arrange(b, id), compare = equal_df)
-  expect_tbls_equal(tbls, function(x) x %.% arrange(c, id), compare = equal_df)
-  expect_tbls_equal(tbls, function(x) x %.% arrange(d, id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(a, id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(b, id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(c, id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(d, id), compare = equal_df)
   
-  expect_tbls_equal(tbls, function(x) x %.% arrange(desc(a), id), compare = equal_df)
-  expect_tbls_equal(tbls, function(x) x %.% arrange(desc(b), id), compare = equal_df)
-  expect_tbls_equal(tbls, function(x) x %.% arrange(desc(c), id), compare = equal_df)
-  expect_tbls_equal(tbls, function(x) x %.% arrange(desc(d), id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(desc(a), id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(desc(b), id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(desc(c), id), compare = equal_df)
+  compare_tbls(tbls, function(x) x %.% arrange(desc(d), id), compare = equal_df)
 })

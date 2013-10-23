@@ -86,6 +86,10 @@ compare_srcs <- function(srcs, setup, op, ref = NULL, compare = equal_data_frame
 #' @export
 #' @rdname bench_compare
 compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
+  if (!require("testthat")) {
+    stop("Please install the testthat package", call. = FALSE)
+  }
+  
   if (length(tbls) < 2) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
@@ -101,13 +105,11 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
     ref_name <- "supplied comparison"
   }
   
-  same <- vapply(rest, function(x) isTRUE(compare(ref, x)), 
-    FUN.VALUE = logical(1))
-  
-  if (any(!same)) {
-    dif <- names(rest)[!same]
-    stop(paste0(dif, collapse = ", "), " not equal to ", ref_name, 
-      call. = FALSE)
+  for(i in seq_along(rest)) {
+    ok <- isTRUE(compare(ref, rest[[i]]))
+    msg <- paste0(names(rest)[[i]], " not equal to ", ref_name)
+    expect_true(ok, info = msg) 
   }
+
   invisible(TRUE)
 }
