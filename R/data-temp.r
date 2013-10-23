@@ -16,9 +16,21 @@
 #' 
 #' mtcars_tbls <- temp_tbls(local, mtcars)
 #' }
-temp_srcs <- function(...) {
-  srcs <- c(...)
-  setNames(lapply(srcs, temp_src), srcs)
+temp_srcs <- function(..., quiet = NULL) {
+  if (is.null(quiet)) {
+    quiet <- identical(Sys.getenv("NOT_CRAN"), "true")
+  }
+  
+  src_names <- c(...)
+  out <- list()
+  
+  srcs <- lapply(src_names, function(x) {
+    out <- NULL
+    try(out <- temp_src(x), silent = quiet)
+    out
+  })
+  
+  compact(setNames(srcs, src_names))
 }
 
 temp_src <- function(type, ...) {
