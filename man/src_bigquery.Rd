@@ -102,7 +102,7 @@ my_tbl <- tbl(my_db, "my_table")
 # create a local database called "lahman", or tell lahman_bigqueryql() how to
 # a database that you can write to
 
-if (has_lahman("bigquery")) {
+if (has_lahman("bigquery") && interactive()) {
 # Methods -------------------------------------------------------------------
 batting <- tbl(lahman_bigquery(), "Batting")
 dim(batting)

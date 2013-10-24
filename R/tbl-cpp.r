@@ -23,7 +23,7 @@
 #' # Group by operations -------------------------------------------------------
 #' # To perform operations by group, create a grouped object with group_by
 #' players <- group_by(batting, playerID)
-#' group_size(players)
+#' head(group_size(players), 100)
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
 #' best_year <- filter(players, AB == max(AB) || G == max(G))
@@ -33,9 +33,9 @@
 #' # When you group by multiple level, each summarise peels off one level
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
-#' filter(stints, stints > 3)
-#' summarise(stints, max(stints))
-#' mutate(stints, cumsum(stints))
+#' # filter(stints, stints > 3)
+#' # summarise(stints, max(stints))
+#' # mutate(stints, cumsum(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
 #' player_info <- select(tbl_cpp(Master), playerID, hofID, birthYear)

@@ -64,7 +64,7 @@
 #' # When you group by multiple level, each summarise peels off one level
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
-#' filter(stints, stints > 3)
+#' filter(ungroup(stints), stints > 3)
 #' summarise(stints, max(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
@@ -84,9 +84,9 @@
 #'
 #' # Arbitrary SQL -------------------------------------------------------------
 #' # You can also provide sql as is, using the sql function:
-#' batting2008 <- tbl(lahman_mysql(),
-#'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
-#' batting2008
+#' # batting2008 <- tbl(lahman_mysql(),
+#' #   sql("SELECT * FROM Batting WHERE YearID = 2008"))
+#' # batting2008
 #' }
 src_mysql <- function(dbname, host = NULL, port = 0L, user = "root", 
   password = "", ...) {
