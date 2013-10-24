@@ -49,4 +49,6 @@ DataFrame subset( DataFrame, LogicalVector, CharacterVector, CharacterVector ) ;
 #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
 #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
 
+#include <dplyr/registration.h>
+
 #endif
