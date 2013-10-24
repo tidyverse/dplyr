@@ -129,11 +129,14 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   y_names <- auto_names(y$select) 
   common <- setdiff(intersect(x_names, y_names), by)
   if (length(common) > 0) {
-    x_names[common] <- paste0(x_names[common], ".x")
-    y_names[common] <- paste0(y_names[common], ".x")
+    x_match <- match(common, x_names)    
+    x_names[x_match] <- paste0(x_names[x_match], ".x")
     
-    names(x$select) <- x_names
-    names(y$select) <- y_names
+    y_match <- match(common, y_names)    
+    y_names[y_match] <- paste0(y_names[y_match], ".y")
+    
+    x <- update(x, select = setNames(x$select, x_names))
+    y <- update(x, select = setNames(y$select, y_names))
   }
   vars <- lapply(c(by, setdiff(c(x_names, y_names), by)), as.name)
   
