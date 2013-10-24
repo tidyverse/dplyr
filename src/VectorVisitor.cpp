@@ -28,18 +28,4 @@ namespace dplyr {
         return 0 ;
     }
     
-    Gatherer* gatherer( CallProxy& proxy, const GroupedDataFrame& gdf ){
-        Index_0_based indices = gdf.group(0);
-        Shield<SEXP> first( proxy.get(indices) ) ; 
-        switch( TYPEOF(first) ){
-            case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
-            case REALSXP: return new GathererImpl<REALSXP>( first, indices, proxy, gdf ) ;
-            case LGLSXP:  return new GathererImpl<LGLSXP> ( first, indices, proxy, gdf ) ;
-            case STRSXP:  return new GathererImpl<STRSXP> ( first, indices, proxy, gdf ) ;
-            default: break ;
-        }
-        // should not happen, but if it does, we should handle it
-        return 0; 
-    }
-    
 }
