@@ -18,7 +18,8 @@
 #' # You can use it to do any arbitrary computation, like fitting a linear
 #' # model. Let's explore how carrier departure delays vary over the course
 #' # of a year
-#' hflights <- mutate(hflights, date = ISOdate(Year, Month, DayofMonth))
+#' jan <- filter(hflights, Month == 1)
+#' jan <- mutate(jan, date = ISOdate(Year, Month, DayofMonth))
 #' carriers <- group_by(hflights, UniqueCarrier)
 #' group_size(carriers)
 #' 
