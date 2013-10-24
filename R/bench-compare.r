@@ -3,15 +3,14 @@
 #' These functions support the comparison of results and timings across
 #' multiple sources.
 #' 
-#' Comparisons are performed using \code{equal_data_frame} so the order of
-#' rows and columns are ignored.
-#' 
-#' @param srcs A list of \code{\link{srcs}}.
+#' @param srcs,tbls A list of \code{\link{src}}s or \code{\link{tbl}}s.
 #' @param setup A function with a single argument that is called with each
 #'   src. It should either return a \code{\link{tbl}} or a list of \code{tbl}s.
 #' @param op A function with a single argument, the output of \code{setup}
-#' @param comp For checking, an data frame to test results against. If not 
+#' @param ref For checking, an data frame to test results against. If not 
 #'   supplied, defaults to the results from the first \code{src}.
+#' @param compare A function used to compare the results. Defaults to 
+#'   \code{equal_data_frame} which ignores the order of rows and columns.
 #' @param times For benchmarking, the number of times each operation is 
 #'   repeated.
 #' @return 
@@ -58,15 +57,15 @@ bench_srcs <- function(srcs, setup, op, times = 10) {
   }
   
   tbls <- lapply(srcs, setup)
-  bench_tbls(srcs, op, times = times)
+  bench_tbls(tbls, op, times = times)
 }
 
 bench_tbls <- function(tbls, op, times = 10) {
   # Generate call to microbenchmark function that evaluates op for each tbl
-  calls <- lapply(seq_along(srcs), function(i) {
+  calls <- lapply(seq_along(tbls), function(i) {
     substitute(op(tbls[[i]]), list(i = i))
   })
-  names(calls) <- names(srcs)
+  names(calls) <- names(tbls)
   
   mb <- as.call(c(quote(microbenchmark), calls, list(times = times)))
   eval(mb)  
