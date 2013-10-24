@@ -1,3 +1,8 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Baseball benchmarks}
+-->
+
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
 library(microbenchmark)
