@@ -1,10 +1,10 @@
 .data_dots <- function(fun, DOTS = dots){
-  f <- function(data, ...){}
+  f <- function(.data, ...){}
   body(f) <- substitute({
     parent_frame <- parent.frame()
-    env <- as.environment(data)
+    env <- as.environment(.data)
     parent.env(env) <- parent_frame
-    FUN( data, DOTS(...) , env )   
+    FUN(.data, DOTS(...) , env )   
   }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
   attr(f, "srcref") <- NULL
   f

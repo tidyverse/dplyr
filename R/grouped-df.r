@@ -110,7 +110,9 @@ group_size.grouped_df <- function(x) {
 }
 
 #' @S3method group_size grouped_cpp
-group_size.grouped_cpp <- group_size_grouped_cpp
+group_size.grouped_cpp <- function(x) {
+  group_size_grouped_cpp(x)
+}
 
 #' @param x object (data frame or \code{\link{tbl_df}}) to group
 #' @param ... unquoted variables to group by
