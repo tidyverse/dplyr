@@ -27,7 +27,7 @@
 
   has_lahman(type, ...)
 
-  lahman_srcs(...)
+  lahman_srcs(..., quiet = NULL)
 }
 \arguments{
   \item{path}{location to look for and cache SQLite
@@ -43,6 +43,9 @@
 
   For \code{lahman_srcs}, character vector of names giving
   srcs to generate.}
+
+  \item{quiet}{if \code{TRUE}, suppress messages about
+  databases failing to connect.}
 
   \item{type}{src type.}
 }

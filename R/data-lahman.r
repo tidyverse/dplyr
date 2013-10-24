@@ -17,6 +17,8 @@
 #'   \code{Sys.getenv("BIGQUERY_PROJECT")}
 #'   
 #'   For \code{lahman_srcs}, character vector of names giving srcs to generate.
+#' @param quiet if \code{TRUE}, suppress messages about databases failing to 
+#'   connect.
 #' @param type src type.
 #' @examples
 #' if (require("RSQLite") && has_lahman("sqlite")) {
