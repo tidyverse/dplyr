@@ -47,6 +47,7 @@ base_sql$xor <- function(x, y) {
 base_sql$is.null <- function(x) {
   build_sql(x, " IS NULL")
 }
+base_sql$is.na <- base_sql$is.null
 
 base_sql$c     <- function(...) escape(c(...))
 base_sql$`:`   <- function(from, to) escape(from:to)
