@@ -7,4 +7,4 @@ before_script:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package assertthat
-  - ./travis-tool.sh install_deps
+  - R -e "library(devtools); test()"
