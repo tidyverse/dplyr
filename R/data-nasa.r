@@ -28,7 +28,7 @@
 #' @docType data
 #' @name nasa
 #' @usage nasa
-#' @format A \code{\link{tbl_array}} with 41,472 observations.
+#' @format A \code{\link{tbl_cube}} with 41,472 observations.
 #' @examples
 #' nasa
 NULL

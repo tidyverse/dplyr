@@ -1,12 +1,12 @@
-#' @S3method select tbl_array
-select.tbl_array <- function(.data, ...) {
+#' @S3method select tbl_cube
+select.tbl_cube <- function(.data, ...) {
   idx <- var_index(dots(...), .data$mets, parent.frame())
   .data$mets <- .data$mets[idx]
   .data
 }
 
-#' @S3method filter tbl_array
-filter.tbl_array <- function(.data, ...) {
+#' @S3method filter tbl_cube
+filter.tbl_cube <- function(.data, ...) {
   exprs <- dots(...)
   
   idx <- vapply(exprs, find_index_check, integer(1), names = names(.data$dims))
@@ -42,8 +42,8 @@ find_index <- function(x, names) {
   unlist(lapply(x[-1], find_index, names = names))
 }
 
-#' @S3method group_by tbl_array
-group_by.tbl_array <- function(x, ...) {
+#' @S3method group_by tbl_cube
+group_by.tbl_cube <- function(x, ...) {
   idx <- var_index(dots(...), x$dims, parent.frame())
   x$group <- idx
   x
@@ -53,8 +53,8 @@ group_by.tbl_array <- function(x, ...) {
 # context - need to use the same active environment tricks as in dplyr
 # for better performance
 
-#' @S3method summarise tbl_array
-summarise.tbl_array <- function(.data, ...) {
+#' @S3method summarise tbl_cube
+summarise.tbl_cube <- function(.data, ...) {
   exprs <- named_dots(...)
   out_dims <- .data$dims[.data$group]
   n <- vapply(out_dims, length, integer(1))
@@ -80,7 +80,7 @@ summarise.tbl_array <- function(.data, ...) {
     }
   }
   
-  structure(list(dims = out_dims, mets = out_mets), class = "tbl_array")
+  structure(list(dims = out_dims, mets = out_mets), class = "tbl_cube")
 }
 
 subs_index <- function(x, i, val, drop = FALSE) {

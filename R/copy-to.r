@@ -103,9 +103,9 @@ auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
   as.data.frame(y)
 }
 
-#' @S3method auto_copy tbl_array
-auto_copy.tbl_array <- function(x, y, copy = FALSE, ...) {
-  stop("Copying not supported by tbl_array", call. = FALSE)
+#' @S3method auto_copy tbl_cube
+auto_copy.tbl_cube <- function(x, y, copy = FALSE, ...) {
+  stop("Copying not supported by tbl_cube", call. = FALSE)
 }
 
 #' @S3method auto_copy tbl_cpp

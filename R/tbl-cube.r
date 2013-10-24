@@ -1,23 +1,37 @@
-#' A tbl based on an array.
+#' A data cube tbl.
 #' 
-#' An array table stores data in a compact array format where dimension 
+#' An cube tbl stores data in a compact array format where dimension 
 #' names are not needlessly repeated. They are particularly appropriate for
 #' experimental data where all combinations of factors are tried (e.g.
 #' complete factorial designs), or for storing the result of aggregations.
 #' Compared to data frames, they will occupy much less memory when variables
 #' are crossed, not nested.
 #' 
-#' \code{tbl_array} support is currently experimental and little performance
+#' \code{tbl_cube} support is currently experimental and little performance
 #' optimisation has been done, but you may find them useful if your data 
 #' already comes in this form, or you struggle with the memory overhead of the
-#' sparse/crossed of data frames.
+#' sparse/crossed of data frames.  There is no supported for hierarchical 
+#' indices (although I think that would be a relatively straightforward 
+#' extension to storing data frames for indices rather than vectors).
 #' 
 #' @section Implementation:
 #' 
-#' Manipulation functions: \code{select}, \code{summarise}, \code{filter}.
-#' \code{mutate} should be relatively straightforward given the implementation
-#' of \code{summarise}. It's not obvious how much sense \code{arrange} makes
-#' for arrays.
+#' Manipulation functions: 
+#' 
+#' \itemize{
+#'   \item \code{select} (M)
+#'   
+#'   \item \code{summarise} (M), corresponds to roll-up, but rather more
+#'     limited since there are no hierarchies.
+#'   
+#'   \item \code{filter} (D), corresponds to slice/dice.
+#'
+#'   \item \code{mutate} (M) is not implemented, but should be relatively 
+#'   straightforward given the implementation of \code{summarise}. 
+#'   
+#'   \item \code{arrange} (D?) Not implemented: not obvious how much sense
+#'     it would make
+#' }
 #' 
 #' Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
 #' Probably straightforward if you get the indexes right, and that's probably
@@ -27,7 +41,7 @@
 #' @param dimensions A named list of vectors. A dimension is a variable 
 #'   whose values are known before the experiement is conducted; they are
 #'   fixed by design (in \pkg{reshape2} they are known as id variables).
-#'   \code{tbl_arrays} are dense which means that almost every combination of
+#'   \code{tbl_cubes} are dense which means that almost every combination of
 #'   the dimensions should have associated measurements: missing values require
 #'   an explicit NA, so if the variables are nested, not crossed, the 
 #'   majority of the data structure will be empty. Dimensions are typically,
@@ -36,8 +50,8 @@
 #'   actually measured, and is not known in advance. The dimension of each 
 #'   array should be the same as the length of the dimensions. Measures are 
 #'   typically, but not always, continuous values.
-#' @seealso \code{\link{as.tbl_array}} for ways of coercing existing data
-#'   structures into a \code{tbl_array}.
+#' @seealso \code{\link{as.tbl_cube}} for ways of coercing existing data
+#'   structures into a \code{tbl_cube}.
 #' @examples
 #' # The built in nasa dataset records meterological data (temperature, 
 #' # cloud cover, ozone etc) for a 4d spatio-temporal dataset (lat, long,
@@ -45,13 +59,13 @@
 #' nasa
 #' head(as.data.frame(nasa))
 #' 
-#' titanic <- as.tbl_array(Titanic)
+#' titanic <- as.tbl_cube(Titanic)
 #' head(as.data.frame(titanic))
 #' 
-#' admit <- as.tbl_array(UCBAdmissions)
+#' admit <- as.tbl_cube(UCBAdmissions)
 #' head(as.data.frame(admit))
 #' 
-#' as.tbl_array(esoph, dim_names = 1:3)
+#' as.tbl_cube(esoph, dim_names = 1:3)
 #' 
 #' # Some manipulation examples with the NASA dataset --------------------------
 #' 
@@ -64,11 +78,11 @@
 #' # create a rectangular subset
 #' \dontrun{filter(nasa, lat > long)}
 #'
-#' # Arrange is meaningless for tbl_arrays
+#' # Arrange is meaningless for tbl_cubes
 #' 
 #' by_loc <- group_by(nasa, lat, long)
 #' summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
-tbl_array <- function(dimensions, measures) {
+tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) || 
       is.null(names(dimensions))) {
     stop("Dimensions must be a named list of vectors", call. = FALSE)
@@ -89,25 +103,25 @@ tbl_array <- function(dimensions, measures) {
       "dimensions (", paste0(dims, collapse = " x "), ")", call. = FALSE)
   }
   
-  structure(list(dims = dimensions, mets = measures), class = "tbl_array")
+  structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
 }
 
-#' @S3method tbl_vars tbl_array
-tbl_vars.tbl_array <- function(x) names(x$dims)
+#' @S3method tbl_vars tbl_cube
+tbl_vars.tbl_cube <- function(x) names(x$dims)
 
-#' @S3method dim tbl_array
-dim.tbl_array <- function(x) {
+#' @S3method dim tbl_cube
+dim.tbl_cube <- function(x) {
   c(length(x$mets[[1]]), length(x$dim))
 }
 
-#' @S3method same_src tbl_array
-same_src.tbl_array <- function(x, y) {
-  inherits(y, "tbl_array")
+#' @S3method same_src tbl_cube
+same_src.tbl_cube <- function(x, y) {
+  inherits(y, "tbl_cube")
 }
 
 
-#' @S3method print tbl_array
-print.tbl_array <- function(x, ...) {
+#' @S3method print tbl_cube
+print.tbl_cube <- function(x, ...) {
   cat("Source: local array ", dim_desc(x), "\n",
     sep = "")
   if (!is.null(x$group)) {
@@ -127,8 +141,8 @@ print.tbl_array <- function(x, ...) {
   cat(vars, sep = "\n")
 }
 
-#' @S3method as.data.frame tbl_array
-as.data.frame.tbl_array <- function(x, ...) {
+#' @S3method as.data.frame tbl_cube
+as.data.frame.tbl_cube <- function(x, ...) {
   dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE)
   mets <- lapply(x$mets, as.vector)
   
@@ -141,21 +155,21 @@ as.data.frame.tbl_array <- function(x, ...) {
 
 # Coercion methods -------------------------------------------------------------
 
-#' Coerce an existing data structure into a \code{tbl_array}
+#' Coerce an existing data structure into a \code{tbl_cube}
 #' 
 #' @param x an object to convert. Built in methods will convert arrays,
 #'   tables and data frames.
 #' @param ... Passed on to individual methods; otherwise ignored.
 #' @export
-as.tbl_array <- function(x, ...) UseMethod("as.tbl_array")
+as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
  
-#' @method as.tbl_array array
+#' @method as.tbl_cube array
 #' @export
-#' @rdname as.tbl_array
+#' @rdname as.tbl_cube
 #' @param met_name a string to use as the name for the metric
 #' @param dim_names names of the dimesions. Defaults to the names of 
 #'   the \code{\link{dimnames}}.
-as.tbl_array.array <- function(x, met_name = deparse(substitute(x)), 
+as.tbl_cube.array <- function(x, met_name = deparse(substitute(x)), 
                                dim_names = names(dimnames(x)), ...) {
   force(met_name)
   
@@ -167,7 +181,7 @@ as.tbl_array.array <- function(x, met_name = deparse(substitute(x)),
   }
   mets <- setNames(list(undimname(x)), met_name)
   
-  tbl_array(dims, mets)
+  tbl_cube(dims, mets)
 }
 
 undimname <- function(x) {
@@ -175,15 +189,15 @@ undimname <- function(x) {
   x
 }
 
-#' @method as.tbl_array table
+#' @method as.tbl_cube table
 #' @export
-#' @rdname as.tbl_array
-as.tbl_array.table <- as.tbl_array.array
+#' @rdname as.tbl_cube
+as.tbl_cube.table <- as.tbl_cube.array
 
-#' @method as.tbl_array data.frame
+#' @method as.tbl_cube data.frame
 #' @export
-#' @rdname as.tbl_array
-as.tbl_array.data.frame <- function(x, dim_names, ...) {
+#' @rdname as.tbl_cube
+as.tbl_cube.data.frame <- function(x, dim_names, ...) {
   if (!is.character(dim_names)) {
     dim_names <- names(x)[dim_names]
   }
@@ -199,5 +213,5 @@ as.tbl_array.data.frame <- function(x, dim_names, ...) {
   mets <- lapply(met_names, function(i) array(x[[i]], n))
   names(mets) <- met_names
   
-  tbl_array(dims, mets)
+  tbl_cube(dims, mets)
 }

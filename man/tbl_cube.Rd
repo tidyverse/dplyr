@@ -1,14 +1,14 @@
-\name{tbl_array}
-\alias{tbl_array}
-\title{A tbl based on an array.}
+\name{tbl_cube}
+\alias{tbl_cube}
+\title{A data cube tbl.}
 \usage{
-  tbl_array(dimensions, measures)
+  tbl_cube(dimensions, measures)
 }
 \arguments{
   \item{dimensions}{A named list of vectors. A dimension is
   a variable whose values are known before the experiement
   is conducted; they are fixed by design (in \pkg{reshape2}
-  they are known as id variables).  \code{tbl_arrays} are
+  they are known as id variables).  \code{tbl_cubes} are
   dense which means that almost every combination of the
   dimensions should have associated measurements: missing
   values require an explicit NA, so if the variables are
@@ -23,27 +23,40 @@
   but not always, continuous values.}
 }
 \description{
-  An array table stores data in a compact array format
-  where dimension names are not needlessly repeated. They
-  are particularly appropriate for experimental data where
-  all combinations of factors are tried (e.g. complete
+  An cube tbl stores data in a compact array format where
+  dimension names are not needlessly repeated. They are
+  particularly appropriate for experimental data where all
+  combinations of factors are tried (e.g. complete
   factorial designs), or for storing the result of
   aggregations. Compared to data frames, they will occupy
   much less memory when variables are crossed, not nested.
 }
 \details{
-  \code{tbl_array} support is currently experimental and
+  \code{tbl_cube} support is currently experimental and
   little performance optimisation has been done, but you
   may find them useful if your data already comes in this
   form, or you struggle with the memory overhead of the
-  sparse/crossed of data frames.
+  sparse/crossed of data frames.  There is no supported for
+  hierarchical indices (although I think that would be a
+  relatively straightforward extension to storing data
+  frames for indices rather than vectors).
 }
 \section{Implementation}{
-  Manipulation functions: \code{select}, \code{summarise},
-  \code{filter}. \code{mutate} should be relatively
-  straightforward given the implementation of
-  \code{summarise}. It's not obvious how much sense
-  \code{arrange} makes for arrays.
+  Manipulation functions:
+
+  \itemize{ \item \code{select} (M)
+
+  \item \code{summarise} (M), corresponds to roll-up, but
+  rather more limited since there are no hierarchies.
+
+  \item \code{filter} (D), corresponds to slice/dice.
+
+  \item \code{mutate} (M) is not implemented, but should be
+  relatively straightforward given the implementation of
+  \code{summarise}.
+
+  \item \code{arrange} (D?) Not implemented: not obvious
+  how much sense it would make }
 
   Joins: not implemented. See
   \code{vignettes/joins.graffle} for ideas. Probably
@@ -57,13 +70,13 @@
 nasa
 head(as.data.frame(nasa))
 
-titanic <- as.tbl_array(Titanic)
+titanic <- as.tbl_cube(Titanic)
 head(as.data.frame(titanic))
 
-admit <- as.tbl_array(UCBAdmissions)
+admit <- as.tbl_cube(UCBAdmissions)
 head(as.data.frame(admit))
 
-as.tbl_array(esoph, dim_names = 1:3)
+as.tbl_cube(esoph, dim_names = 1:3)
 
 # Some manipulation examples with the NASA dataset --------------------------
 
@@ -76,13 +89,13 @@ filter(nasa, lat > 0, year == 2000)
 # create a rectangular subset
 \dontrun{filter(nasa, lat > long)}
 
-# Arrange is meaningless for tbl_arrays
+# Arrange is meaningless for tbl_cubes
 
 by_loc <- group_by(nasa, lat, long)
 summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 }
 \seealso{
-  \code{\link{as.tbl_array}} for ways of coercing existing
-  data structures into a \code{tbl_array}.
+  \code{\link{as.tbl_cube}} for ways of coercing existing
+  data structures into a \code{tbl_cube}.
 }
 
