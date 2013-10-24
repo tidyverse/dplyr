@@ -26,7 +26,7 @@ Depends:
     R (>= 3.0.2)
 LazyData: yes
 LinkingTo: Rcpp (>= 0.10.5), BH (>= 1.51.0-2)
-License: GPL-2
+License: MIT
 Collate:
     'RcppExports.R'
     'compute-collect.r'
