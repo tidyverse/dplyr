@@ -3,7 +3,7 @@
 language: c
 script: ./travis-tool.sh run_tests
 before_script:
-  - curl -OL http://raw.github.com/hadley/r-travis/master/scripts/travis-tool.sh
+  - curl -OL https://raw.github.com/hadley/r-travis/patch-1/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package assertthat
