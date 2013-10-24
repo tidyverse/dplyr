@@ -52,7 +52,13 @@ inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy = copy)
 
   keys <- join_keys(x, y, by = by)
-  x.cols <- setdiff(names(x), by)
+
+  # Ensure tables have unique names
+  uniques <- unique_names(names(x), names(y), by)
+  if (!is.null(uniques)) {
+    names(x) <- uniques$x
+    names(y) <- uniques$y
+  }
   y.cols <- setdiff(names(y), by)
   
   ids <- join_ids(keys)
@@ -79,6 +85,13 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy = copy)
   
   keys <- join_keys(x, y, by = by)
+  # Ensure tables have unique names
+  uniques <- unique_names(names(x), names(y), by)
+  if (!is.null(uniques)) {
+    names(x) <- uniques$x
+    names(y) <- uniques$y
+  }
+  
   x.cols <- setdiff(names(x), by)
   y.cols <- setdiff(names(y), by)
   

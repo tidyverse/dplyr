@@ -126,18 +126,14 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
 
   # Ensure tables have unique names
   x_names <- auto_names(x$select)
-  y_names <- auto_names(y$select) 
-  common <- setdiff(intersect(x_names, y_names), by)
-  if (length(common) > 0) {
-    x_match <- match(common, x_names)    
-    x_names[x_match] <- paste0(x_names[x_match], ".x")
-    
-    y_match <- match(common, y_names)    
-    y_names[y_match] <- paste0(y_names[y_match], ".y")
-    
-    x <- update(x, select = setNames(x$select, x_names))
-    y <- update(x, select = setNames(y$select, y_names))
+  y_names <- auto_names(y$select)
+  
+  uniques <- unique_names(x_names, y_names, by)
+  if (!is.null(uniques)) {
+    x <- update(x, select = setNames(x$select, uniques$x))
+    y <- update(x, select = setNames(y$select, uniques$y))
   }
+
   vars <- lapply(c(by, setdiff(c(x_names, y_names), by)), as.name)
   
   join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),

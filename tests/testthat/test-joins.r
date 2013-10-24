@@ -97,3 +97,28 @@ test_that("bivariate anti join has x columns, missing rows", {
   expect_equal(j1$a, 4)
   expect_equal(j2$b, 4)
 })
+
+
+# Duplicate column names --------------------------------------------------
+
+e <- data.frame(x = c(1, 1, 2, 3), z = 1:4)
+f <- data.frame(x = c(1, 2, 2, 4), z = 1:4)
+
+test_that("univariate inner join has all columns, repeated matching rows", {
+  j <- inner_join(e, f, "x")
+  
+  expect_equal(names(j), c("x", "z.x", "z.y"))
+  expect_equal(j$z.x, c(1, 2, 3, 3))
+  expect_equal(j$z.y, c(1, 1, 2, 3))
+})
+
+test_that("univariate left join has all columns, all rows", {
+  j1 <- left_join(e, f, "x")
+  j2 <- left_join(f, e, "x")
+  
+  expect_equal(names(j1), c("x", "z.x", "z.y"))
+  expect_equal(names(j2), c("x", "z.x", "z.y"))
+  
+  expect_equal(j1$z.y, c(1, 1, 2, 3, NA))
+  expect_equal(j2$z.y, c(1, 2, 3, 3, NA))
+})
