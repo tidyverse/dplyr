@@ -19,8 +19,11 @@ namespace dplyr {
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
 
-// currently [[Rcpp::register]] does nothing. 
-// I'd like it to generate the code that is in init.cpp and registration.h
+// currently [[Rcpp::register]] does nothing.
+//
+// I'd like it to generate the boiler plate code
+// that is in init.cpp and registration.h
+//
 // [[Rcpp::register]]
 DataFrame build_index_cpp( DataFrame data ) ;
 

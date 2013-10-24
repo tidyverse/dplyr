@@ -3,33 +3,67 @@
 
 namespace dplyr {
       
-class OrderVisitors ;  
-class OrderVisitors_Compare {
-public:
-    OrderVisitors_Compare( const OrderVisitors& obj_ ) ; 
-    
-    bool operator()(int i, int j) const ;
-    
-private:
-    const OrderVisitors& obj ;
-    int n ;
-    
-} ;
-    
-class OrderVisitors {
-public:
-    
-    OrderVisitors( Rcpp::List args, Rcpp::LogicalVector ascending_, int n_ ) ;
-    OrderVisitors( Rcpp::DataFrame data ) ;
-    OrderVisitors( Rcpp::DataFrame data, Rcpp::CharacterVector names ) ;
-    ~OrderVisitors() ;
-    
-    Rcpp::IntegerVector apply() const  ;
-    
-    std::vector<OrderVisitor*> visitors ;
-    int n;
-    int nrows ;    
-} ;    
+    class OrderVisitors_Compare ;  
+        
+    class OrderVisitors {
+    public:
+        
+        OrderVisitors( List args, LogicalVector ascending, int n_ ) : 
+            visitors(n_), n(n_), nrows(0){
+            nrows = Rf_length( args[0] );
+            for( int i=0; i<n; i++)
+                visitors[i]  = order_visitor( args[i], ascending[i] );
+        } 
+        OrderVisitors( DataFrame data ) : 
+            visitors(data.size()), n(data.size()), nrows( data.nrows() )
+        {
+            for( int i=0; i<n; i++)
+                visitors[i]  = order_visitor( data[i], true );
+        } 
+        
+        OrderVisitors( DataFrame data, CharacterVector names ) : 
+            visitors(data.size()), n(data.size()), nrows( data.nrows() )
+        {
+            for( int i=0; i<n; i++){
+                String name = names[i] ;
+                visitors[i]  = order_visitor( data[name], true );
+            }
+        } 
+        ~OrderVisitors(){
+            delete_all( visitors ) ;
+        }
+        
+        Rcpp::IntegerVector apply() const ;
+        
+        std::vector<OrderVisitor*> visitors ;
+        int n;
+        int nrows ;    
+    } ;    
+        
+    class OrderVisitors_Compare {
+    public:
+        OrderVisitors_Compare( const OrderVisitors& obj_ ) :  obj(obj_), n(obj.n){} 
+        
+        inline bool operator()(int i, int j) const {
+            if( i == j ) return false ;
+            for( int k=0; k<n; k++)
+                if( ! obj.visitors[k]->equal(i,j) )
+                    return obj.visitors[k]->before(i, j ) ; 
+            return i < j ;
+        }
+        
+    private:
+        const OrderVisitors& obj ;
+        int n ;
+        
+    } ;
+
+    inline Rcpp::IntegerVector OrderVisitors::apply() const {
+        IntegerVector x = seq(0, nrows -1 ) ;
+        std::sort( x.begin(), x.end(), OrderVisitors_Compare(*this) ) ;
+        return x ;
+    }
+        
     
 } // namespace dplyr
 
