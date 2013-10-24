@@ -25,6 +25,8 @@
   problems.
 }
 \examples{
+if (require("RSQLite") && has_lahman("sqlite")) {
+
 batting <- tbl(lahman_sqlite(), "Batting")
 
 # Note that you have to do something that actually triggers a query
@@ -47,5 +49,6 @@ explain_tbl(filter(batting, lgID == "NL" && yearID == 2000))
 
 # OR's will use multiple indexes
 explain_tbl(filter(batting, lgID == "NL" || yearID == 2000))
+}
 }
 

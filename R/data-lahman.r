@@ -19,12 +19,14 @@
 #'   For \code{lahman_srcs}, character vector of names giving srcs to generate.
 #' @param type src type.
 #' @examples
-#' lahman_sqlite()
-#' batting <- tbl(lahman_sqlite(), "Batting")
-#' batting
+#' if (require("RSQLite") && has_lahman("sqlite")) {
+#'   lahman_sqlite()
+#'   batting <- tbl(lahman_sqlite(), "Batting")
+#'   batting
+#' }
 #'
 #' # Connect to a local postgres database with lahman database, if available
-#' if (has_lahman("postgres")) {
+#' if (require("RPostgreSQL") && has_lahman("postgres")) {
 #'   lahman_postgres()
 #'   batting <- tbl(lahman_postgres(), "Batting")
 #' }
@@ -67,7 +69,7 @@ lahman_cpp <- function() {
 #' @export
 #' @rdname lahman
 lahman_bigquery <- function(...) {
-  if (!is.null(cache$lahman_bigquery)) return(cache$lahman_bigquery)
+  if (is_cached("lahman_bigquery")) return(get_cache("lahman_bigquery"))
   
   src <- lahman_src("bigquery", ...)
   tables <- setdiff(lahman_tables(), src_tbls(src))
@@ -93,15 +95,14 @@ lahman_bigquery <- function(...) {
 
   if (!all_ok) stop("Load failed", call. = FALSE)
   
-  cache$lahman_bigquery <- src
-  src
+  set_cache("lahman_bigquery", src)
 }
 
 cache_lahman <- function(type, ...) {
   check_lahman()
   
   cache_name <- paste0("lahman_", type)
-  if (exists(cache_name, cache)) return(cache[[cache_name]])
+  if (is_cached(cache_name)) return(get_cache(cache_name))
   
   src <- lahman_src(type, ...)
   tables <- setdiff(lahman_tables(), src_tbls(src))
@@ -113,10 +114,9 @@ cache_lahman <- function(type, ...) {
     
     ids <- as.list(names(df)[grepl("ID$", names(df))])
     copy_to(src, df, table, indexes = ids, temporary = FALSE)
-  }  
+  }
   
-  cache[[cache_name]] <- src
-  src
+  set_cache(cache_name, src)
 }
 
 check_lahman <- function() {

@@ -35,9 +35,7 @@ temp_srcs <- function(..., quiet = NULL) {
 
 temp_src <- function(type, ...) {
   cache_name <- paste("temp", type, "src", collapse = "-")
-  if (!is.null(cache[[cache_name]])) {
-    return(cache[[cache_name]])
-  }
+  if (is_cached(cache_name)) return(get_cache(cache_name))
   
   env <- new.env(parent = emptyenv())  
   src <- switch(type,
@@ -51,8 +49,7 @@ temp_src <- function(type, ...) {
     stop("Unknown src type ", type, call. = FALSE)
   )
   
-  cache[[cache_name]] <- src
-  src
+  set_cache(cache_name, src)
 }
 
 reset <- function(x) UseMethod("reset")

@@ -30,6 +30,8 @@
 #'   indices for the variables in \code{by}. This may speed up the join if
 #'   there are matching indexes in \code{x}.
 #' @examples
+#' if (require("RSQLite") && has_lahman("sqlite")) {
+#'
 #' # Left joins ----------------------------------------------------------------
 #' batting <- tbl(lahman_sqlite(), "Batting")
 #' team_info <- select(tbl(lahman_sqlite(), "Teams"), yearID, lgID, teamID, G, R:H)
@@ -76,7 +78,7 @@
 #'
 #' # batters without person covariates
 #' anti_join(batting, people)
-#'
+#' }
 #' @name join.tbl_sql
 NULL
 

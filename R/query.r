@@ -9,19 +9,6 @@
 #' @param con a \code{DBOConnection}
 #' @param sql a string containing an sql query.
 #' @export
-#' @examples
-#' l <- lahman_sqlite()
-#' q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'")
-#' q$vars()
-#' q$nrows()
-#'
-#' q$fetch(1)
-#' all <- q$fetch(-1)
-#'
-#' q$show_sql()
-#' q$explain_sql()
-#'
-#' # Use q$run() to run a query without retrieving results
 query <- function(con, sql, .vars) UseMethod("query")
 
 #' @S3method query DBIConnection

@@ -16,19 +16,5 @@
   insulates the rest of dplyr from the vagaries of DBI and
   the individual database implementation.
 }
-\examples{
-l <- lahman_sqlite()
-q <- query(l$con, "SELECT * FROM Batting WHERE YearID > 2000 AND TeamID = 'HOU'")
-q$vars()
-q$nrows()
-
-q$fetch(1)
-all <- q$fetch(-1)
-
-q$show_sql()
-q$explain_sql()
-
-# Use q$run() to run a query without retrieving results
-}
 \keyword{internal}
 

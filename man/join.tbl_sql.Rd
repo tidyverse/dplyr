@@ -58,6 +58,8 @@
   compared with \code{=} not with more general operators.
 }
 \examples{
+if (require("RSQLite") && has_lahman("sqlite")) {
+
 # Left joins ----------------------------------------------------------------
 batting <- tbl(lahman_sqlite(), "Batting")
 team_info <- select(tbl(lahman_sqlite(), "Teams"), yearID, lgID, teamID, G, R:H)
@@ -104,5 +106,6 @@ explain_tbl(famous_manager)
 
 # batters without person covariates
 anti_join(batting, people)
+}
 }
 

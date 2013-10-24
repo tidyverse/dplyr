@@ -28,7 +28,7 @@
 #' # Here we'll use the Lahman database: to create your own local copy,
 #' # run lahman_sqlite()
 #' 
-#' if (has_lahman("sqlite")) {
+#' if (require("RSQLite") && has_lahman("sqlite")) {
 #' # Methods -------------------------------------------------------------------
 #' batting <- tbl(lahman_sqlite(), "Batting")
 #' dim(batting)

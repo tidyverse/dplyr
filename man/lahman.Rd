@@ -56,12 +56,14 @@
   documentation of the inidividual tables.
 }
 \examples{
-lahman_sqlite()
-batting <- tbl(lahman_sqlite(), "Batting")
-batting
+if (require("RSQLite") && has_lahman("sqlite")) {
+  lahman_sqlite()
+  batting <- tbl(lahman_sqlite(), "Batting")
+  batting
+}
 
 # Connect to a local postgres database with lahman database, if available
-if (has_lahman("postgres")) {
+if (require("RPostgreSQL") && has_lahman("postgres")) {
   lahman_postgres()
   batting <- tbl(lahman_postgres(), "Batting")
 }
