@@ -1,3 +1,4 @@
+#define COMPILING_DPLYR
 #include <dplyr.h>
 
 using namespace Rcpp ;

@@ -1,3 +1,4 @@
+#define COMPILING_DPLYR
 #include <Rcpp.h>
 #include <dplyr.h>
 

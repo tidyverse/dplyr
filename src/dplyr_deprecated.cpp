@@ -1,5 +1,9 @@
+#define COMPILING_DPLYR
 #include <Rcpp.h>
 using namespace Rcpp;
+
+// here is the code that will no longer be needed once
+// we power tbl_df with the internal code
 
 // [[Rcpp::export]]
 std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
