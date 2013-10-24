@@ -7,9 +7,11 @@
 \usage{
   bench_srcs(srcs, setup, op, times = 10)
 
-  compare_srcs(srcs, setup, op, comp = NULL)
+  compare_srcs(srcs, setup, op, ref = NULL,
+    compare = equal_data_frame)
 
-  compare_tbls(tbls, op, comp = NULL)
+  compare_tbls(tbls, op, ref = NULL,
+    compare = equal_data_frame)
 }
 \arguments{
   \item{srcs}{A list of \code{\link{srcs}}.}
