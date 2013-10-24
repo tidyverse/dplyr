@@ -25,7 +25,9 @@ VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
 LazyData: yes
-LinkingTo: Rcpp (>= 0.10.5), BH (>= 1.51.0-2)
+LinkingTo: 
+    Rcpp (>= 0.10.5), 
+    BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
