@@ -50,7 +50,7 @@
 if (require("Lahman") && require("microbenchmark")) {
 lahman_local <- lahman_srcs("df", "dt", "cpp")
 
-# A simple example single tbl
+# A simple example with single tbl
 teams <- function(src) src \%.\% tbl("Teams")
 y2010 <- function(tbl) tbl \%.\% filter(yearID == 2010)
 
@@ -61,15 +61,15 @@ bench_srcs(lahman_local, teams, y2010)
 setup <- function(src) {
   list(
     src \%.\% tbl("Batting") \%.\% filter(stint == 1) \%.\% select(playerID:H),
-    src \%.\% tbl("Teams") \%.\% select(yearID, lgID, teamID, G, R:H)
+    src \%.\% tbl("Master") \%.\% select(playerID, birthYear)
   )
 }
 op <- function(tbls) {
-  left_join(tbls[[1]], tbls[[2]], by = c("yearID", "teamID", "lgID"))
+  semi_join(tbls[[1]], tbls[[2]], by = "playerID")
 }
 
 compare_srcs(lahman_local, setup, op)
-bench_srcs(lahman_local, setup, op)
+bench_srcs(lahman_local, setup, op, times = 2)
 
 }
 }
