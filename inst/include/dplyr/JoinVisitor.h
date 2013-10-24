@@ -14,8 +14,6 @@ namespace dplyr{
         virtual SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) = 0;
     } ;
 
-    JoinVisitor* join_visitor( SEXP left, SEXP right ) ;
-
 }
 
 #endif
