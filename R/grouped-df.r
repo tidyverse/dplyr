@@ -25,7 +25,7 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
     data <- build_index(data)
   }
 
-  class(data) <- c("grouped_df", "tbl_df", "tbl", class(data))
+  class(data) <- unique(c("grouped_df", "tbl_df", "tbl", class(data)))
   data
 }
 
