@@ -12,8 +12,32 @@ get_cache <- function(name) {
   get(name, envir = cache)
 }
 
+load_srcs <- function(f, src_names, quiet = NULL) {
+  if (is.null(quiet)) {
+    quiet <- identical(Sys.getenv("NOT_CRAN"), "true")
+  }
+  
+  out <- list()
+  
+  srcs <- lapply(src_names, function(x) {
+    out <- NULL
+    try(out <- f(x), silent = TRUE)
+    if (is.null(out) && !quiet) {
+      message("Could not instantiate ", x, " src")
+    }
+    out
+  })
+  
+  compact(setNames(srcs, src_names))
+}
+
+
 db_location <- function(path = NULL, filename) {
   if (!is.null(path)) {
+    # Check that path is a directory and is writeable
+    if (!file.exists(path) || !file.info(path)$isdir) {
+      stop(path, " is not a directory", call. = FALSE)
+    }
     if (!is_writeable(path)) stop("Can not write to ", path, call. = FALSE)
     return(file.path(path, filename))
   }

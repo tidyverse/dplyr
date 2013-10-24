@@ -146,9 +146,8 @@ lahman_src <- function(type, ...) {
 
 #' @rdname lahman
 #' @export
-lahman_srcs <- function(...) {
-  srcs <- c(...)
-  setNames(lapply(srcs, lahman_src), srcs)
+lahman_srcs <- function(..., quiet = NULL) {
+  load_srcs(lahman_src, c(...), quiet = quiet)
 }
 
 
