@@ -17,15 +17,8 @@ test_that("n the same regardless of tbl", {
 test_that("filter the same regardless of tbl", {
   # Only test on local sources
   compare_tbls(players[c("df", "dt", "cpp")], function(tbl) {
-    tbl %.% filter(AB == max(AB))
+    tbl %.% filter(yearID == min(yearID))
   })
-})
-
-test_that("arrange the same regardless of tbl", {
-  compare_tbls(players, function(tbl) {
-    tbl %.% select(playerID, AB, G, yearID) %.% arrange(AB, desc(G), yearID)
-  }, compare = function(x, y) equal_data_frame(x, y, sort_rows = FALSE))
-
 })
 
 test_that("mutate the same regardless of tbl", {
