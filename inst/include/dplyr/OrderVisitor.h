@@ -17,8 +17,6 @@ public:
     
 } ;
 
-OrderVisitor* order_visitor( SEXP vec, bool ascending ) ;
-
 } // namespace dplyr
 
 
