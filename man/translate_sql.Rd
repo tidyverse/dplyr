@@ -3,10 +3,11 @@
 \alias{translate_sql_q}
 \title{Translate an expression to sql.}
 \usage{
-  translate_sql(..., source = NULL, env = parent.frame())
+  translate_sql(..., source = NULL, env = parent.frame(),
+    variant = NULL)
 
   translate_sql_q(expr, source = NULL,
-    env = parent.frame())
+    env = parent.frame(), variant = NULL)
 }
 \arguments{
   \item{...}{unevaluated expression to translate}
@@ -16,6 +17,9 @@
   \item{source}{tbl}
 
   \item{env}{environment in which to evaluate expression.}
+
+  \item{variant}{used to override default variant provided
+  by source useful for testing/examples}
 }
 \description{
   Translate an expression to sql.

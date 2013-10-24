@@ -26,6 +26,8 @@
 #' @param expr list of quoted objects to translate
 #' @param source tbl
 #' @param env environment in which to evaluate expression. 
+#' @param variant used to override default variant provided by source
+#'   useful for testing/examples
 #' @export
 #' @examples
 #' # Regular maths is translated in a very straightforward way
@@ -83,20 +85,22 @@
 #' inc <- function(x) x + 1
 #' translate_sql(Month == inc(x), source = hflights)
 #' translate_sql(Month == local(inc(x)), source = hflights)
-translate_sql <- function(..., source = NULL, env = parent.frame()) {
-  translate_sql_q(dots(...), source = source, env = env)
+translate_sql <- function(..., source = NULL, env = parent.frame(), 
+                          variant = NULL) {
+  translate_sql_q(dots(...), source = source, env = env, variant = variant)
 }
 
 #' @export
 #' @rdname translate_sql
-translate_sql_q <- function(expr, source = NULL, env = parent.frame()) {
+translate_sql_q <- function(expr, source = NULL, env = parent.frame(),
+                            variant = NULL) {
   if (is.null(expr)) return(NULL)
   
   if (!is.null(env) && !is.null(source)) {
     expr <- partial_eval(expr, source, env)
   }
   
-  variant <- translate_env(source)
+  variant <- variant %||% translate_env(source)
   pieces <- lapply(expr, function(x) {
     if (is.atomic(x)) return(escape(x))
     

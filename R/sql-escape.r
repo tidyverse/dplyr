@@ -41,17 +41,16 @@
 #' # is a number.
 #' sql_round <- function(x, dp = NULL) {
 #'   x <- escape(x)
-#'   if (is.null(dp)) return(sql("ROUND(", x, ")"))
+#'   if (is.null(dp)) return(sql(paste0("ROUND(", x, ")")))
 #'
 #'   stopifnot(is.numeric(dp), length(dp) == 1)
-#'   sql("ROUND(", x, ", ", dp, ")")
+#'   sql(paste0("ROUND(", x, ", ", dp, ")"))
 #' }
 #' sql_round(sql("X"), 5)
-#'
+#' 
 #' rounder <- sql_variant(round = sql_round)
-#' to_sql(round(X), rounder)
-#' to_sql(round(X, 5), rounder)
-#' \dontrun{to_sql(round(X, "a"), rounder)}
+#' translate_sql(round(X), variant = rounder)
+#' translate_sql(round(X, 5), variant = rounder)
 sql <- function(x) {
   structure(x, class = c("sql", "character"))
 }

@@ -49,12 +49,12 @@ postgres_stat <- sql_variant(
   var = sql_prefix("var_samp")
 )
 
-to_sql(cor(x, y), postgres_stat)
-to_sql(sd(income / years), postgres_stat)
+translate_sql(cor(x, y), variant = postgres_stat)
+translate_sql(sd(income / years), variant = postgres_stat)
 
 # Any functions not explicitly listed in the converter will be translated
 # to sql as is, so you don't need to convert all functions.
-to_sql(regr_intercept(y, x))
+translate_sql(regr_intercept(y, x), variant = postgres_stat)
 }
 \seealso{
   \code{\link{sql}} for an example of a more customised sql
