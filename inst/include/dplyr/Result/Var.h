@@ -18,7 +18,7 @@ namespace internal{
         inline double process_chunk( const Index_0_based& indices ){
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ;
-            double m = internal::mean<RTYPE,NA_RM>( data_ptr, indices ); 
+            double m = internal::Mean_internal<RTYPE,NA_RM, Index_0_based>::process( data_ptr, indices ); 
             
             if( !R_FINITE(m) ) return m ;
             
@@ -46,7 +46,7 @@ namespace internal{
         inline double process_chunk( const Index_0_based& indices ){
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ; 
-            double m = internal::mean<RTYPE,true>( data_ptr, indices ); 
+            double m = internal::Mean_internal<RTYPE,true,Index_0_based>::process( data_ptr, indices ); 
             
             if( !R_FINITE(m) ) return m ;
             

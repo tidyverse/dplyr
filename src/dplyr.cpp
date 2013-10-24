@@ -321,4 +321,276 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
     return res ;
 }
 
+// [[Rcpp::export]]
+DataFrame build_index_cpp( DataFrame data ){
+    CharacterVector vars = Rf_getAttrib( data.attr( "vars" ), R_NamesSymbol ) ;
+    
+    DataFrameVisitors visitors(data, vars) ;
+    ChunkIndexMap map( visitors ) ;
+    train_push_back( map, data.nrows() ) ;
+    
+    data.attr( "index" )  = get_all_second(map) ;
+    data.attr( "labels" ) = visitors.subset(map, "data.frame" ) ;
+    return data ;
+}
 
+SEXP and_calls( List args ){
+    int ncalls = args.size() ;
+    if( !ncalls ) return Rf_ScalarLogical(TRUE) ;
+    
+    Rcpp::Armor<SEXP> res( args[0] ) ;
+    SEXP and_symbol = Rf_install( "&" ) ;
+    for( int i=1; i<ncalls; i++)
+        res = Rcpp_lang3( and_symbol, res, args[i] ) ;
+    return res ;
+}
+
+DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes ){
+    DataFrameVisitors visitors( data, select ) ;
+    return visitors.subset(test, classes ) ;
+}
+
+DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
+    // a, b, c ->  a & b & c
+    Language call = and_calls( args ) ;
+    
+    DataFrame data = gdf.data() ;
+    int nrows = data.nrows() ;
+    LogicalVector test = no_init(nrows);
+    
+    LogicalVector g_test ;
+    CallProxy call_proxy( call, data ) ;
+    int ngroups = gdf.ngroups() ;
+    for( int i=0; i<ngroups; i++){
+        Index_0_based indices = gdf.group(i) ;
+        g_test  = call_proxy.get( indices );
+        
+        int chunk_size = indices.size() ;
+        for( int j=0; j<chunk_size; j++){
+            test[ indices[j] ] = g_test[j] ;  
+        }
+    }
+    
+    DataFrame res = subset( data, test, data.names(), classes_grouped() ) ;
+    res.attr( "vars")   = gdf.attr("vars") ;
+            
+    return res ;
+}
+
+SEXP filter_not_grouped( DataFrame df, List args, Environment env){
+    // a, b, c ->  a & b & c
+    Language call = and_calls( args ) ;
+    
+    // replace the symbols that are in the data frame by vectors from the data frame
+    // and evaluate the expression
+    LogicalVector test = CallProxy( call, df).get( Everything() ) ;
+    
+    DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+    return res ;
+}
+
+// [[Rcpp::export]]
+SEXP filter_impl( DataFrame df, List args, Environment env){
+    if( is<GroupedDataFrame>( df ) ){
+        return filter_grouped( GroupedDataFrame(df), args, env);    
+    } else {
+        return filter_not_grouped( df, args, env) ;   
+    }
+}
+
+SEXP structure_mutate( CallProxy& call_proxy, const DataFrame& df, const CharacterVector& results_names, CharacterVector classes){
+    int n = call_proxy.nsubsets() ;
+    
+    List out(n) ;
+    CharacterVector names(n) ;
+    
+    CharacterVector input_names = df.names() ;
+    int ncolumns = df.size() ;
+    int i=0 ;
+    for( ; i<ncolumns; i++){
+        out[i] = call_proxy.get_variable(input_names[i]) ;
+        SET_NAMED( out[i], 2 );
+        names[i] = input_names[i] ;
+    }
+    for( int k=0; i<n; k++ ){
+        String name = results_names[k] ;
+        
+        if( ! any( input_names.begin(), input_names.end(), name.get_sexp() ) ){
+            SEXP x   = call_proxy.get_variable( name ) ; 
+            out[i]   = x ;
+            SET_NAMED( out[i], 2 );
+            names[i] = name ;
+            i++ ;
+        }
+    }
+    
+    
+    out.attr("class") = classes ;
+    set_rownames( out, df.nrows() ) ;
+    out.names() = names;
+    
+    return out ;    
+}
+
+SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
+    DataFrame df = gdf.data() ;
+    
+    int nexpr = args.size() ;
+    CharacterVector results_names = args.names() ;
+    
+    CallProxy call_proxy(df) ;
+    Shelter<SEXP> __ ;
+    
+    for( int i=0; i<nexpr; i++){
+        call_proxy.set_call( args[i] );
+        Gatherer* gather = gatherer( call_proxy, gdf );
+        SEXP res = __( gather->collect() ) ;
+        delete gather ;
+        call_proxy.input( results_names[i], res ) ;
+    }
+    
+    DataFrame res = structure_mutate( call_proxy, df, results_names, classes_grouped() ) ;
+    res.attr( "vars")    = gdf.attr("vars") ;
+    res.attr( "labels" ) = gdf.attr("labels" );
+    res.attr( "index")   = gdf.attr("index") ;
+    
+    return res ;
+}
+
+SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
+    Shelter<SEXP> __ ;
+    
+    int nexpr = args.size() ;
+    CharacterVector results_names = args.names() ;
+    
+    CallProxy call_proxy(df) ;
+    for( int i=0; i<nexpr; i++){
+        call_proxy.set_call( args[i] );
+        
+        // we need to protect the SEXP, that's what the Shelter does
+        SEXP res = __( call_proxy.get( Everything() ) ) ;
+        call_proxy.input( results_names[i], res ) ;
+        
+    }
+    
+    DataFrame res = structure_mutate(call_proxy, df, results_names, classes_not_grouped() ) ;
+    
+    return res ;
+}
+
+
+// [[Rcpp::export]]
+SEXP mutate_impl( DataFrame df, List args, Environment env){
+    if( is<GroupedDataFrame>( df ) ){
+        return mutate_grouped( GroupedDataFrame(df), args, env);    
+    } else {
+        return mutate_not_grouped( df, args, env) ;   
+    }
+}
+
+// [[Rcpp::export]] 
+IntegerVector order_impl( List args, Environment env ){
+    int nargs = args.size() ;  
+    SEXP tmp ;
+    List variables(nargs) ; 
+    LogicalVector ascending(nargs) ;
+    for(int i=0; i<nargs; i++){
+        tmp = args[i] ;
+        if( TYPEOF(tmp) == LANGSXP && CAR(tmp) == Rf_install("desc") ){
+            variables[i] = Rf_eval( CAR(CDR(tmp) ), env ) ;
+            ascending[i] = false ;
+        } else{
+            variables[i] = Rf_eval( tmp, env );
+            ascending[i] = true ;
+        }
+    }
+    OrderVisitors o(variables,ascending, nargs) ;
+	IntegerVector res = o.apply() ;
+	res = res + 1 ;
+	return res ;
+}
+
+// [[Rcpp::export]] 
+DataFrame arrange_impl( DataFrame data, List args, Environment env ){
+    int nargs = args.size() ;  
+    SEXP tmp ;
+    List variables(nargs) ; 
+    LogicalVector ascending(nargs) ;
+    for(int i=0; i<nargs; i++){
+        tmp = args[i] ;
+        if( TYPEOF(tmp) == LANGSXP && CAR(tmp) == Rf_install("desc") ){
+            variables[i] = Rf_eval( CAR(CDR(tmp) ), env ) ;
+            ascending[i] = false ;
+        } else{
+            variables[i] = Rf_eval( tmp, env );
+            ascending[i] = true ;
+        }
+    }
+    OrderVisitors o(variables,ascending, nargs) ;
+	IntegerVector index = o.apply() ;
+	
+	DataFrameVisitors visitors( data, data.names() ) ;
+	DataFrame res = visitors.subset(index, data.attr("class") ) ;
+	return res;
+}
+
+// [[Rcpp::export]] 
+DataFrame sort_impl( DataFrame data ){
+    OrderVisitors o(data) ;
+    IntegerVector index = o.apply() ;
+    
+    DataFrameVisitors visitors( data, data.names() ) ;
+    DataFrame res = visitors.subset(index, "data.frame" ) ;
+    return res;
+}
+
+
+namespace dplyr {
+    
+    OrderVisitors::OrderVisitors( List args, Rcpp::LogicalVector ascending, int n_ ) : 
+        visitors(n_), n(n_), nrows(0){
+        nrows = Rf_length( args[0] );
+        for( int i=0; i<n; i++)
+            visitors[i]  = order_visitor( args[i], ascending[i] );
+    } 
+    
+    OrderVisitors::OrderVisitors( DataFrame data ) : 
+        visitors(data.size()), n(data.size()), nrows( data.nrows() )
+    {
+        for( int i=0; i<n; i++)
+            visitors[i]  = order_visitor( data[i], true );
+    } 
+    
+    OrderVisitors::OrderVisitors( DataFrame data, CharacterVector names ) : 
+        visitors(data.size()), n(data.size()), nrows( data.nrows() )
+    {
+        for( int i=0; i<n; i++){
+            String name = names[i] ;
+            visitors[i]  = order_visitor( data[name], true );
+        }
+    } 
+    
+    OrderVisitors_Compare::OrderVisitors_Compare( const OrderVisitors& obj_ ) : 
+        obj(obj_), n(obj.n){}
+    
+    IntegerVector OrderVisitors::apply() const {
+        IntegerVector x = seq(0, nrows -1 ) ;
+        std::sort( x.begin(), x.end(), OrderVisitors_Compare(*this) ) ;
+        return x ;
+    }
+    
+    bool OrderVisitors_Compare::operator()(int i, int j) const {
+        if( i == j ) return false ;
+        for( int k=0; k<n; k++)
+            if( ! obj.visitors[k]->equal(i,j) )
+                return obj.visitors[k]->before(i, j ) ; 
+        return i < j ;
+        
+    }
+
+    OrderVisitors::~OrderVisitors(){
+        delete_all( visitors ) ;
+    }
+    
+    
+}

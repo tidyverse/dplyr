@@ -8,49 +8,6 @@ namespace dplyr {
     namespace internal {
         
         template <>
-        double mean<INTSXP,false>( int* ptr, const Index_0_based& indices ){
-            long double res = 0.0 ;
-            int n = indices.size() ;
-            for( int i=0; i<n; i++){
-                int value = ptr[ indices[i] ] ;
-                // need to handle missing value specifically
-                if( value == NA_INTEGER ){
-                    return NA_REAL ;
-                }   
-                res += value ;
-            }
-            res /= n ;
-            
-            if(R_FINITE((double)res)) {
-                long double t = 0.0 ;
-                for (int i = 0; i<n; i++) {
-                    t += ptr[indices[i]] - res;
-                }
-                res += t/n;
-	        }
-	        return (double)res ;
-        }
-        
-        template <>
-        double mean<REALSXP,false>( double* ptr, const Index_0_based& indices ){
-            long double res = 0.0 ;
-            int n = indices.size() ;
-            for( int i=0; i<n; i++){
-                res += ptr[ indices[i] ] ;
-            }
-            res /= n ;
-            
-            if(R_FINITE((double)res)) {
-                long double t = 0.0 ;
-                for (int i = 0; i<n; i++) {
-                    t += ptr[indices[i]] - res;
-                }
-                res += t/n;
-	        }
-	        return (double)res ;
-        }
-        
-        template <>
         int sum<INTSXP,true>( int* ptr, const Index_0_based& indices) {
             long double res = 0 ;
             int n = indices.size() ;

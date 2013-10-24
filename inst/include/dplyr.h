@@ -43,7 +43,6 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/Gatherer.h>
 #include <dplyr/Order.h>
 
-SEXP and_calls(List args) ;
 DataFrame subset( DataFrame, LogicalVector, CharacterVector, CharacterVector ) ;
 
 // borrowed from Rcpp11
