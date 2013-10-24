@@ -7,6 +7,10 @@
 library(ggplot2)
 library(dplyr)
 knitr::opts_chunk$set(tidy = FALSE)
+
+if (!has_lahman("postgres")) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 # Databases
