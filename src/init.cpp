@@ -11,5 +11,6 @@ extern "C" void R_init_dplyr( DllInfo* info ){
     // will register functions here through the R_RegisterCCallable mechanism
     
     DPLYR_REGISTER(build_index_cpp)
+    
 }
 

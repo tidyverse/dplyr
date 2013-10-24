@@ -19,6 +19,9 @@ namespace dplyr {
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
 
+// currently [[Rcpp::register]] does nothing. 
+// I'd like it to generate the code that is in init.cpp and registration.h
+// [[Rcpp::register]]
 DataFrame build_index_cpp( DataFrame data ) ;
 
 #include <dplyr/visitor_set/visitor_set.h>
@@ -43,7 +46,6 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/Gatherer.h>
 #include <dplyr/Order.h>
 
-DataFrame subset( DataFrame, LogicalVector, CharacterVector, CharacterVector ) ;
 
 // borrowed from Rcpp11
 #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    

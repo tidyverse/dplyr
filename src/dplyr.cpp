@@ -346,11 +346,6 @@ SEXP and_calls( List args ){
     return res ;
 }
 
-DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes ){
-    DataFrameVisitors visitors( data, select ) ;
-    return visitors.subset(test, classes ) ;
-}
-
 DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
     // a, b, c ->  a & b & c
     Language call = and_calls( args ) ;
