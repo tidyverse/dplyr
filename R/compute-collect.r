@@ -18,18 +18,13 @@
 #'   takes a local data frame and makes it available to the remote source.
 #' @export
 #' @examples
+#' if (require("RSQLite") && has_lahman("sqlite")) {
 #' batting <- tbl(lahman_sqlite(), "Batting")
-#' remote <- select(filter(batting, year > 2010 && stint == 1), playerID:H)
+#' remote <- select(filter(batting, yearID > 2010 && stint == 1), playerID:H)
 #' remote2 <- collapse(remote)
 #' cached <- compute(remote)
 #' local  <- collect(remote)
-#'
-#' # Collapse is used by summarise so you can add additional restrictions
-#' # on the computed columns. This is analogous to the HAVING restriction
-#' batting <- tbl(lahman_sqlite(), "Batting")
-#' players <- group_by(batting, PlayerID)
-#' stints <- summarise(players, n = n())
-#' compute(filter(stints, n > 10L))
+#' }
 compute <- function(x, name = random_table_name(), ...) {
   UseMethod("compute")
 }
