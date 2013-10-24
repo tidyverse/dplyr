@@ -21,12 +21,12 @@ left_join_impl <- function(x, y, by) {
     .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
-compatible_data_frame <- function(x, y, sort_variable_names = TRUE) {
-    .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names)
+compatible_data_frame <- function(x, y, ignore_col_order = FALSE) {
+    .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order)
 }
 
-equal_data_frame <- function(x, y, sort_variable_names = TRUE, sort_rows = TRUE) {
-    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, sort_variable_names, sort_rows)
+equal_data_frame <- function(x, y, ignore_col_order = FALSE, ignore_row_order = FALSE) {
+    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order)
 }
 
 all_equal_data_frame <- function(args, env) {

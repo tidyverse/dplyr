@@ -172,14 +172,14 @@ bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool sort_variable_names = true ){
+dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_col_order = false ){
     int n = x.size() ;
     if( n != y.size() ) 
         return no_because( "not the same number of variables" ) ;
     
     CharacterVector names_x = clone<CharacterVector>(x.names()) ; 
     CharacterVector names_y = clone<CharacterVector>(y.names()) ; 
-    if( sort_variable_names ){
+    if( ! ignore_col_order ){
         names_y.sort() ;
         names_x.sort() ;
     }
@@ -197,15 +197,20 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool sort_var
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true, bool sort_rows = true){
-    BoolResult compat = compatible_data_frame(x, y, sort_variable_names);
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false ){
+    BoolResult compat = compatible_data_frame(x, y, ignore_col_order);
     if( !compat ) return compat ;
     
     int nrows = x.nrows() ;
     if( nrows != y.nrows() )
         return no_because( "different row sizes" );
     
-    if( sort_rows ){
+    if( ignore_row_order ){
+        DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+        for( int i=0; i<nrows; i++)
+            if( !visitors.equal( i, -i-1) )
+                return no_because( "different row" ) ;
+    } else {
         typedef VisitorSetIndexMap<DataFrameJoinVisitors, int > Map ;
         DataFrameJoinVisitors visitors(x, y, x.names() ) ;
         Map map(visitors);  
@@ -217,12 +222,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_
                 return no_because( "different subset" ) ;
             else
                 it->second-- ;
-        }
-    } else {
-        DataFrameJoinVisitors visitors(x, y, x.names() ) ;
-        for( int i=0; i<nrows; i++)
-            if( !visitors.equal( i, -i-1) )
-                return no_because( "different row" ) ;
+        }        
     }
     return yes() ;
 }

@@ -91,16 +91,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // compatible_data_frame
-dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true);
-RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP sort_variable_namesSEXP) {
+dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false);
+RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< bool >::type sort_variable_names(sort_variable_namesSEXP );
-        dplyr::BoolResult __result = compatible_data_frame(x, y, sort_variable_names);
+        Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP );
+        dplyr::BoolResult __result = compatible_data_frame(x, y, ignore_col_order);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -108,17 +108,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // equal_data_frame
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool sort_variable_names = true, bool sort_rows = true);
-RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP sort_variable_namesSEXP, SEXP sort_rowsSEXP) {
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false);
+RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< bool >::type sort_variable_names(sort_variable_namesSEXP );
-        Rcpp::traits::input_parameter< bool >::type sort_rows(sort_rowsSEXP );
-        dplyr::BoolResult __result = equal_data_frame(x, y, sort_variable_names, sort_rows);
+        Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP );
+        Rcpp::traits::input_parameter< bool >::type ignore_row_order(ignore_row_orderSEXP );
+        dplyr::BoolResult __result = equal_data_frame(x, y, ignore_col_order, ignore_row_order);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
