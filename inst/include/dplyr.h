@@ -33,8 +33,8 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
-#include <dplyr/DataFrameVisitors.h>
 #include <dplyr/VectorVisitorImpl.h>
+#include <dplyr/DataFrameVisitors.h>
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/JoinVisitorImpl.h>

@@ -106,6 +106,19 @@ private:
     
 } ;
     
+    inline VectorVisitor* visitor( SEXP vec ){
+        switch( TYPEOF(vec) ){
+            case INTSXP:  return new VectorVisitorImpl<INTSXP>( vec ) ;
+            case REALSXP: return new VectorVisitorImpl<REALSXP>( vec ) ;
+            case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
+            case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
+            default: break ;
+        }
+        
+        // should not happen
+        return 0 ;
+    }
+
 }
 
 #endif

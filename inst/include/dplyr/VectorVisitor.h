@@ -38,11 +38,6 @@ public:
     
 } ;
 
-/**
- * dispatch the SEXP, will call the appropriate instantiation of make_visitor
- */
-VectorVisitor* visitor( SEXP vec ) ;
-
 } // namespace dplyr
 
 
