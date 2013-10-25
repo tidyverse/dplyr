@@ -7,6 +7,7 @@ using namespace Rcpp ;
 #include <boost/functional/hash.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/unordered_set.hpp>
+#include <boost/scoped_ptr.hpp>
 
 #include <tools/tools.h>
 

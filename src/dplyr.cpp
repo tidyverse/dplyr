@@ -495,9 +495,8 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     
     for( int i=0; i<nexpr; i++){
         call_proxy.set_call( args[i] );
-        Gatherer* gather = gatherer( call_proxy, gdf );
+        boost::scoped_ptr<Gatherer> gather( gatherer( call_proxy, gdf ) );
         SEXP res = __( gather->collect() ) ;
-        delete gather ;
         call_proxy.input( results_names[i], res ) ;
     }
     
@@ -680,10 +679,9 @@ SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
     for( int k=0; k<nexpr; k++, i++ ){
-        Result* res = get_result( args[k], df ) ;
+        boost::scoped_ptr<Result> res( get_result( args[k], df ) ) ;
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
-        delete res ;
     }
     
     return summarised_grouped_tbl_cpp(out, names, gdf );
@@ -694,9 +692,8 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     List out(nexpr) ;
     
     for( int i=0; i<nexpr; i++){
-        Result* res = get_result( args[i], df ) ;
+        boost::scoped_ptr<Result> res( get_result( args[i], df ) ) ;
         out[i] = res->process( FullDataFrame(df) ) ; 
-        delete res ;
     }
     
     return tbl_cpp( out, args.names(), 1 ) ;
