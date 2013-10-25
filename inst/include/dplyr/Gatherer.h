@@ -14,7 +14,7 @@ namespace dplyr {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        GathererImpl( Rcpp::Shield<SEXP>& first, Index_0_based& indices, CallProxy& proxy_, const Rcpp::GroupedDataFrame& gdf_ ) : 
+        GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, CallProxy& proxy_, const Rcpp::GroupedDataFrame& gdf_ ) : 
             gdf(gdf_), proxy(proxy_), data(Rcpp::no_init(gdf.nrows()))
         {
             grab( first, indices ) ;
@@ -23,8 +23,9 @@ namespace dplyr {
         SEXP collect(){
             int ngroups = gdf.ngroups() ;
             Rcpp::Armor<SEXP> subset ;
-            for( int i=1; i<ngroups; i++){
-                Index_0_based indices = gdf.group(i) ;
+            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            for( int i=1; i<ngroups; i++, ++git){
+                SlicingIndex indices = *git ;
                 subset = proxy.get( indices ) ;
                 grab( subset, indices );
             }
@@ -33,10 +34,11 @@ namespace dplyr {
         }
     private: 
         
-        void grab( SEXP subset, const Index_0_based& indices ){
+        void grab( SEXP subset, const SlicingIndex& indices ){
             int n = indices.size();
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( subset ) ;
             for( int j=0; j<n; j++){
+                // TODO: take advantage of SlicingIndex
                 data[ indices[j] ] = ptr[j] ;
             }
         }
@@ -48,9 +50,11 @@ namespace dplyr {
 
 
     inline Gatherer* gatherer( CallProxy& proxy, const GroupedDataFrame& gdf ){
-        Index_0_based indices = gdf.group(0);
+        GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+        SlicingIndex indices = *git ;
         Shield<SEXP> first( proxy.get(indices) ) ; 
         switch( TYPEOF(first) ){
+            // TODO: perhaps pass git down to GathererImpl
             case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
             case REALSXP: return new GathererImpl<REALSXP>( first, indices, proxy, gdf ) ;
             case LGLSXP:  return new GathererImpl<LGLSXP> ( first, indices, proxy, gdf ) ;

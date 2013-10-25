@@ -32,7 +32,7 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/BoolResult.h>
 
-#include <dplyr/Index_0_based.h>
+#include <dplyr/SlicingIndex.h>
 #include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/tbl_cpp.h>

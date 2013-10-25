@@ -15,10 +15,10 @@ namespace internal{
         Var(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Var(){}
         
-        inline double process_chunk( const Index_0_based& indices ){
+        inline double process_chunk( const SlicingIndex& indices ){
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ;
-            double m = internal::Mean_internal<RTYPE,NA_RM, Index_0_based>::process( data_ptr, indices ); 
+            double m = internal::Mean_internal<RTYPE,NA_RM, SlicingIndex>::process( data_ptr, indices ); 
             
             if( !R_FINITE(m) ) return m ;
             
@@ -43,10 +43,10 @@ namespace internal{
         Var(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Var(){}
         
-        inline double process_chunk( const Index_0_based& indices ){
+        inline double process_chunk( const SlicingIndex& indices ){
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ; 
-            double m = internal::Mean_internal<RTYPE,true,Index_0_based>::process( data_ptr, indices ); 
+            double m = internal::Mean_internal<RTYPE,true,SlicingIndex>::process( data_ptr, indices ); 
             
             if( !R_FINITE(m) ) return m ;
             

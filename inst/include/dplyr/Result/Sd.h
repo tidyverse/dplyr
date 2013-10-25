@@ -10,7 +10,7 @@ namespace dplyr {
         Sd(SEXP x) : var(x) {}
         ~Sd(){}
         
-        inline double process_chunk( const Index_0_based& indices ){
+        inline double process_chunk( const SlicingIndex& indices ){
             return sqrt( var.process_chunk( indices ) );
         }
          

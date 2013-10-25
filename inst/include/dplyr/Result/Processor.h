@@ -4,7 +4,7 @@
 namespace dplyr{
     
     // if we derive from this instead of deriving from Result, all we have to 
-    // do is implement a process_chunk method that takes a Index_0_based& as
+    // do is implement a process_chunk method that takes a SlicingIndex& as
     // input and returns the suitable type (i.e. storage_type<OUTPUT>)
     // all the builtin result implementation (Mean, ...) use this. 
     template <int OUTPUT, typename CLASS>
@@ -19,8 +19,9 @@ namespace dplyr{
             Rcpp::Shield<SEXP> res( Rf_allocVector( OUTPUT, n) );
             STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
             CLASS* obj = static_cast<CLASS*>(this) ;
-            for( int i=0; i<n; i++)
-                ptr[i] = obj->process_chunk(gdf.group(i)) ;
+            GroupedDataFrame::group_iterator git = gdf.group_begin(); 
+            for( int i=0; i<n; i++, ++git)
+                ptr[i] = obj->process_chunk(*git) ;
             return res ;        
         }
         
@@ -39,8 +40,9 @@ namespace dplyr{
             int n = gdf.ngroups() ; 
             Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
             CLASS* obj = static_cast<CLASS*>(this) ;
-            for( int i=0; i<n; i++)
-                SET_STRING_ELT( res, i, obj->process_chunk(gdf.group(i)) );
+            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            for( int i=0; i<n; i++, ++git)
+                SET_STRING_ELT( res, i, obj->process_chunk(*git) );
             return res ;        
         }
         

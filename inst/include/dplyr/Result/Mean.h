@@ -95,8 +95,8 @@ namespace internal {
         Mean(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Mean(){}
         
-        inline double process_chunk( const Index_0_based& indices ){
-            return internal::Mean_internal<RTYPE,NA_RM,Index_0_based>::process(data_ptr, indices) ;
+        inline double process_chunk( const SlicingIndex& indices ){
+            return internal::Mean_internal<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices) ;
         }
         
     private:

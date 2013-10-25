@@ -10,7 +10,7 @@ namespace dplyr {
         
         virtual ~CallReducer(){} ;
         
-        inline SEXP process_chunk( const Index_0_based& indices ){
+        inline SEXP process_chunk( const SlicingIndex& indices ){
             return call_proxy.get(indices) ;
         }               
         

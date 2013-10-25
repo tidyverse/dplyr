@@ -18,7 +18,7 @@ namespace dplyr {
             data(other.data)
         {}
         
-        OUT process_chunk( const Index_0_based& indices ){
+        OUT process_chunk( const SlicingIndex& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
             return Rcpp::as<OUT>( call.fast_eval() ) ;    
         }
@@ -30,8 +30,9 @@ namespace dplyr {
             SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
             OUT* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
             ptr[0] = Rcpp::as<OUT>( first_result );
-            for( int i=1; i<n; i++)
-                ptr[i] = process_chunk(gdf.group(i)) ;
+            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            for( int i=1; i<n; i++,++git)
+                ptr[i] = process_chunk(*git) ;
             return res ;        
         }
         
@@ -60,7 +61,7 @@ namespace dplyr {
             data(other.data)
         {}
         
-        SEXP process_chunk( const Index_0_based& indices ){
+        SEXP process_chunk( const SlicingIndex& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
             return STRING_ELT( call.fast_eval(), 0 ) ;    
         }
@@ -70,8 +71,9 @@ namespace dplyr {
             int n = gdf.ngroups() ; 
             Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
             SET_STRING_ELT( res, 0, STRING_ELT( first_result, 0 ) );
-            for( int i=1; i<n; i++)
-                SET_STRING_ELT( res, i, process_chunk(gdf.group(i)) );
+            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            for( int i=1; i<n; i++,++git)
+                SET_STRING_ELT( res, i, process_chunk(*git) );
             return res ;        
         }
         
