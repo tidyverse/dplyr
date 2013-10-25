@@ -43,8 +43,8 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     return out.asSexp() ;
 }
 
-template <typename Container>
-void push_back( Container& x, Container& y ){
+template <typename TargetContainer, typename SourceContainer>
+void push_back( TargetContainer& x, const SourceContainer& y ){
     x.insert( x.end(), y.begin(), y.end() ) ;    
 }
 template <typename Container>
@@ -330,8 +330,39 @@ DataFrame build_index_cpp( DataFrame data ){
     ChunkIndexMap map( visitors ) ;
     train_push_back( map, data.nrows() ) ;
     
-    data.attr( "index" )  = get_all_second(map) ;
-    data.attr( "labels" ) = visitors.subset(map, "data.frame" ) ;
+    DataFrame labels = visitors.subset( map, "data.frame") ;
+    int ngroups = labels.nrows() ;
+    
+    OrderVisitors order_labels( labels, vars ) ;
+    IntegerVector orders = order_labels.apply() ;
+    
+    std::vector< const std::vector<int>* > chunks(ngroups) ;
+    ChunkIndexMap::const_iterator it = map.begin() ;
+    for( int i=0; i<ngroups; i++, ++it){
+        chunks[ orders[i] ] = &it->second ;
+    }
+    IntegerVector group_sizes = no_init( ngroups );
+    size_t biggest_group = 0 ;
+    std::vector<int> indices ;
+    indices.reserve( data.nrows() );
+    for( int i=0; i<ngroups; i++){
+        const std::vector<int>& chunk = *chunks[i] ;
+        push_back( indices, chunk ) ;
+        biggest_group = std::max( biggest_group, chunk.size() );
+        group_sizes[i] = chunk.size() ;
+    }
+    data = visitors.subset( indices, classes_grouped() ) ;
+    
+    // TODO: we own labels, so perhaps we can do an inplace sort, 
+    //       to reuse its memory instead of creating a new data frame
+    DataFrameVisitors labels_visitors( labels, vars) ;
+    
+    labels = labels_visitors.subset( orders, "data.frame" ) ;
+    labels.attr( "vars" ) = R_NilValue ;
+    
+    data.attr( "group_sizes") = group_sizes ;
+    data.attr( "biggest_group_size" ) = biggest_group ;
+    data.attr( "labels" ) = labels ;
     return data ;
 }
 
