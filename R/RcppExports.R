@@ -21,6 +21,10 @@ left_join_impl <- function(x, y, by) {
     .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
+right_join_impl <- function(x, y, by) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by)
+}
+
 compatible_data_frame <- function(x, y, ignore_col_order = FALSE) {
     .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order)
 }

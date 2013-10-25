@@ -132,7 +132,6 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     return subset( x, y, indices_x, indices_y, by, x.attr( "class") );
 }
 
-
 // [[Rcpp::export]]
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
@@ -157,7 +156,33 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
             indices_x.push_back(i) ;
         }
     }
+    return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
+}
 
+// [[Rcpp::export]]
+DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    DataFrameJoinVisitors visitors(x, y, by) ;
+    Map map(visitors);  
+    
+    // train the map in terms of y
+    train_push_back( map, x.nrows() ) ;
+    
+    std::vector<int> indices_x ;
+    std::vector<int> indices_y ;
+    
+    int n_y = y.nrows() ;
+    for( int i=0; i<n_y; i++){
+        // find a row in y that matches row i in x
+        Map::iterator it = map.find(-i-1) ;
+        if( it != map.end() ){
+            push_back( indices_x,    it->second ) ;
+            push_back( indices_y, i, it->second.size() ) ;
+        } else {
+            indices_x.push_back(-1) ; // mark NA
+            indices_y.push_back(i) ;
+        }
+    }
     return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
 }
 
