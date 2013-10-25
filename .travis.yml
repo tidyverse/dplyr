@@ -10,3 +10,6 @@ before_script:
   - ./travis-tool.sh github_package testthat
   - ./travis-tool.sh github_package bigrquery
   - ./travis-tool.sh install_deps
+branches:
+  only:
+    - master
