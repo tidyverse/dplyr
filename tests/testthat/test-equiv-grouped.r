@@ -22,7 +22,9 @@ test_that("filter the same regardless of tbl", {
 })
 
 test_that("mutate the same regardless of tbl", {
-  compare_tbls(players[c("df", "dt", "postgres")], function(tbl) {
+  ok <- intersect(names(players), c("df", "dt", "postgres"))
+  
+  compare_tbls(players[ok], function(tbl) {
     tbl %.% select(playerID, yearID) %.% 
       mutate(cyear = yearID - min(yearID) + 1)
   })
