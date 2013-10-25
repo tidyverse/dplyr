@@ -366,7 +366,6 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
             test[ indices[j] ] = g_test[j] ;  
         }
     }
-    
     DataFrame res = subset( data, test, data.names(), classes_grouped() ) ;
     res.attr( "vars")   = gdf.attr("vars") ;
             
