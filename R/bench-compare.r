@@ -84,7 +84,7 @@ compare_srcs <- function(srcs, setup, op, ref = NULL, compare = equal_data_frame
 
 #' @export
 #' @rdname bench_compare
-compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
+eval_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
   if (!require("testthat")) {
     stop("Please install the testthat package", call. = FALSE)
   }
@@ -94,6 +94,13 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
   }
 
   results <- lapply(tbls, function(x) as.data.frame(op(x)))
+  results
+}
+
+#' @export
+#' @rdname bench_compare
+compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
+  results <- eval_tbls(tbls,op,ref, compare)
 
   if (is.null(ref)) {
     ref <- results[[1]]
@@ -113,3 +120,5 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
 
   invisible(TRUE)
 }
+
+

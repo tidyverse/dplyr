@@ -6,8 +6,6 @@
 \title{Houston flights data}
 \format{A data frame with 227,496 rows and 21 columns.}
 \usage{
-  hflights
-
   hflights_sqlite(path = NULL)
 
   hflights_postgres(dbname = "hflights", ...)

@@ -3,11 +3,15 @@
 \alias{bench_srcs}
 \alias{compare_srcs}
 \alias{compare_tbls}
+\alias{eval_tbls}
 \title{Compare and benchmark srcs}
 \usage{
   bench_srcs(srcs, setup, op, times = 10)
 
   compare_srcs(srcs, setup, op, ref = NULL,
+    compare = equal_data_frame)
+
+  eval_tbls(tbls, op, ref = NULL,
     compare = equal_data_frame)
 
   compare_tbls(tbls, op, ref = NULL,
