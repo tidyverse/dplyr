@@ -376,7 +376,8 @@ DataFrame build_index_cpp( DataFrame data ){
         biggest_group = std::max( biggest_group, chunk.size() );
         group_sizes[i] = chunk.size() ;
     }
-    data = visitors.subset( indices, classes_grouped() ) ;
+    DataFrameVisitors all_variables_visitors(data, data.names() ) ;
+    data = all_variables_visitors.subset( indices, classes_grouped() ) ;
     
     // TODO: we own labels, so perhaps we can do an inplace sort, 
     //       to reuse its memory instead of creating a new data frame
