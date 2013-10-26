@@ -77,6 +77,10 @@ namespace Rcpp {
             return data_.attr(name) ;    
         }
         
+        inline int max_group_size() const{
+            return biggest_group_size ;
+        }
+        
     private:
         
         DataFrame data_ ;

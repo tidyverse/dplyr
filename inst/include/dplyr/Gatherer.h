@@ -12,10 +12,10 @@ namespace dplyr {
     template <int RTYPE>
     class GathererImpl : public Gatherer {
     public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         
-        GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, CallProxy& proxy_, const Rcpp::GroupedDataFrame& gdf_ ) : 
-            gdf(gdf_), proxy(proxy_), data(Rcpp::no_init(gdf.nrows()))
+        GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, CallProxy& proxy_, const GroupedDataFrame& gdf_ ) : 
+            gdf(gdf_), proxy(proxy_), data(no_init(gdf.nrows())) 
         {
             grab( first, indices ) ;
         }
@@ -43,9 +43,9 @@ namespace dplyr {
             }
         }
         
-        const Rcpp::GroupedDataFrame& gdf ;
+        const GroupedDataFrame& gdf ;
         CallProxy& proxy ;
-        Rcpp::Vector<RTYPE> data ;
+        Vector<RTYPE> data ;
     } ;
 
 
