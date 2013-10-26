@@ -411,7 +411,7 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     LogicalVector test = no_init(nrows);
     
     LogicalVector g_test ;
-    CallProxy call_proxy( call, data ) ;
+    CallProxy call_proxy( call, data, env ) ;
     int ngroups = gdf.ngroups() ;
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
     for( int i=0; i<ngroups; i++, ++git){
@@ -435,7 +435,7 @@ SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     
     // replace the symbols that are in the data frame by vectors from the data frame
     // and evaluate the expression
-    LogicalVector test = CallProxy( call, df).get( Everything() ) ;
+    LogicalVector test = CallProxy( call, df, env ).get( Everything() ) ;
     
     DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
     return res ;
@@ -490,7 +490,7 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
     
-    CallProxy call_proxy(df) ;
+    CallProxy call_proxy(df, env) ;
     Shelter<SEXP> __ ;
     
     for( int i=0; i<nexpr; i++){
@@ -514,7 +514,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
     
-    CallProxy call_proxy(df) ;
+    CallProxy call_proxy(df, env) ;
     for( int i=0; i<nexpr; i++){
         call_proxy.set_call( args[i] );
         
@@ -638,7 +638,7 @@ ResultPrototype get_1_arg(SEXP symbol){
     return it->second ;
 }
 
-Result* get_result( SEXP call, const DataFrame& df){
+Result* get_result( SEXP call, const DataFrame& df, const Environment& env){
     // no arguments
     int depth = Rf_length(call) ;
     if( depth == 1 && CAR(call) == Rf_install("n") )
@@ -654,7 +654,7 @@ Result* get_result( SEXP call, const DataFrame& df){
         }
     }
     
-    return new CallReducer(call, df) ;
+    return new CallReducer(call, df, env) ;
 }
 
 // [[Rcpp::export]]
@@ -679,7 +679,7 @@ SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
     for( int k=0; k<nexpr; k++, i++ ){
-        boost::scoped_ptr<Result> res( get_result( args[k], df ) ) ;
+        boost::scoped_ptr<Result> res( get_result( args[k], df, env ) ) ;
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
     }
@@ -692,7 +692,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     List out(nexpr) ;
     
     for( int i=0; i<nexpr; i++){
-        boost::scoped_ptr<Result> res( get_result( args[i], df ) ) ;
+        boost::scoped_ptr<Result> res( get_result( args[i], df, env ) ) ;
         out[i] = res->process( FullDataFrame(df) ) ; 
     }
     

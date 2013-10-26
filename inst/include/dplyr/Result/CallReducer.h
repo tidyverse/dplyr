@@ -5,8 +5,8 @@ namespace dplyr {
        
     class CallReducer : public CallbackProcessor<CallReducer> {
     public:
-        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_): 
-            call(call_), data(data_), call_proxy(call, data) {}
+        CallReducer(Rcpp::Language call_, const Rcpp::DataFrame& data_, const Environment& env): 
+            call(call_), data(data_), call_proxy(call, data, env) {}
         
         virtual ~CallReducer(){} ;
         

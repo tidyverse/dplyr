@@ -19,8 +19,8 @@ namespace dplyr {
         public:
             typedef boost::unordered_map<SEXP, Subset*> SubsetMap ;
             
-            CallProxy( Rcpp::Language& call_, const Rcpp::DataFrame& data_) : 
-                call(call_), subset_map(), proxies()
+            CallProxy( Rcpp::Language& call_, const Rcpp::DataFrame& data_, const Environment& env_) : 
+                call(call_), subset_map(), proxies(), env(env_)
             {
                 init_subset_map(data_) ;
                 
@@ -28,7 +28,7 @@ namespace dplyr {
                 traverse_call(call);  
             }
             
-            CallProxy( const Rcpp::DataFrame& data_) : subset_map(), proxies(){
+            CallProxy( const Rcpp::DataFrame& data_, const Environment& env_ ) : subset_map(), proxies(), env(env_) {
                 init_subset_map(data_) ;
             }
             
@@ -115,6 +115,7 @@ namespace dplyr {
            Rcpp::Language call ;
            SubsetMap subset_map ;
            std::vector<CallElementProxy> proxies ;
+           const Environment& env; 
     } ;
 
 }
