@@ -90,6 +90,23 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// right_join_impl
+DataFrame right_join_impl(DataFrame x, DataFrame y, CharacterVector by);
+RcppExport SEXP dplyr_right_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
+        DataFrame __result = right_join_impl(x, y, by);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // compatible_data_frame
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false);
 RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP) {

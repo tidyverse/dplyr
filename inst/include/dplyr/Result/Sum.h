@@ -54,7 +54,7 @@ namespace internal {
     
     template <typename Index>
     struct Sum<REALSXP, false, Index> {
-        static double process( double* ptr, const Index_0_based& indices ){
+        static double process( double* ptr, const Index& indices ){
             long double res = 0.0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){
@@ -79,8 +79,8 @@ namespace internal {
         Sum(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Sum(){}
         
-        inline STORAGE process_chunk( const Index_0_based& indices ){
-            return internal::Sum<RTYPE,NA_RM,Index_0_based>::process(data_ptr, indices) ;    
+        inline STORAGE process_chunk( const SlicingIndex& indices ){
+            return internal::Sum<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices) ;    
         }
         
         STORAGE* data_ptr ;

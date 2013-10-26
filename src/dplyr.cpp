@@ -43,8 +43,8 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     return out.asSexp() ;
 }
 
-template <typename Container>
-void push_back( Container& x, Container& y ){
+template <typename TargetContainer, typename SourceContainer>
+void push_back( TargetContainer& x, const SourceContainer& y ){
     x.insert( x.end(), y.begin(), y.end() ) ;    
 }
 template <typename Container>
@@ -132,7 +132,6 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     return subset( x, y, indices_x, indices_y, by, x.attr( "class") );
 }
 
-
 // [[Rcpp::export]]
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
@@ -157,7 +156,33 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
             indices_x.push_back(i) ;
         }
     }
+    return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
+}
 
+// [[Rcpp::export]]
+DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    DataFrameJoinVisitors visitors(x, y, by) ;
+    Map map(visitors);  
+    
+    // train the map in terms of y
+    train_push_back( map, x.nrows() ) ;
+    
+    std::vector<int> indices_x ;
+    std::vector<int> indices_y ;
+    
+    int n_y = y.nrows() ;
+    for( int i=0; i<n_y; i++){
+        // find a row in y that matches row i in x
+        Map::iterator it = map.find(-i-1) ;
+        if( it != map.end() ){
+            push_back( indices_x,    it->second ) ;
+            push_back( indices_y, i, it->second.size() ) ;
+        } else {
+            indices_x.push_back(-1) ; // mark NA
+            indices_y.push_back(i) ;
+        }
+    }
     return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
 }
 
@@ -330,8 +355,39 @@ DataFrame build_index_cpp( DataFrame data ){
     ChunkIndexMap map( visitors ) ;
     train_push_back( map, data.nrows() ) ;
     
-    data.attr( "index" )  = get_all_second(map) ;
-    data.attr( "labels" ) = visitors.subset(map, "data.frame" ) ;
+    DataFrame labels = visitors.subset( map, "data.frame") ;
+    int ngroups = labels.nrows() ;
+    
+    OrderVisitors order_labels( labels, vars ) ;
+    IntegerVector orders = order_labels.apply() ;
+    
+    std::vector< const std::vector<int>* > chunks(ngroups) ;
+    ChunkIndexMap::const_iterator it = map.begin() ;
+    for( int i=0; i<ngroups; i++, ++it){
+        chunks[ orders[i] ] = &it->second ;
+    }
+    IntegerVector group_sizes = no_init( ngroups );
+    size_t biggest_group = 0 ;
+    std::vector<int> indices ;
+    indices.reserve( data.nrows() );
+    for( int i=0; i<ngroups; i++){
+        const std::vector<int>& chunk = *chunks[i] ;
+        push_back( indices, chunk ) ;
+        biggest_group = std::max( biggest_group, chunk.size() );
+        group_sizes[i] = chunk.size() ;
+    }
+    data = visitors.subset( indices, classes_grouped() ) ;
+    
+    // TODO: we own labels, so perhaps we can do an inplace sort, 
+    //       to reuse its memory instead of creating a new data frame
+    DataFrameVisitors labels_visitors( labels, vars) ;
+    
+    labels = labels_visitors.subset( orders, "data.frame" ) ;
+    labels.attr( "vars" ) = R_NilValue ;
+    
+    data.attr( "group_sizes") = group_sizes ;
+    data.attr( "biggest_group_size" ) = biggest_group ;
+    data.attr( "labels" ) = labels ;
     return data ;
 }
 
@@ -357,8 +413,9 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     LogicalVector g_test ;
     CallProxy call_proxy( call, data ) ;
     int ngroups = gdf.ngroups() ;
-    for( int i=0; i<ngroups; i++){
-        Index_0_based indices = gdf.group(i) ;
+    GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+    for( int i=0; i<ngroups; i++, ++git){
+        SlicingIndex indices = *git ;
         g_test  = call_proxy.get( indices );
         
         int chunk_size = indices.size() ;
@@ -438,9 +495,8 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     
     for( int i=0; i<nexpr; i++){
         call_proxy.set_call( args[i] );
-        Gatherer* gather = gatherer( call_proxy, gdf );
+        boost::scoped_ptr<Gatherer> gather( gatherer( call_proxy, gdf ) );
         SEXP res = __( gather->collect() ) ;
-        delete gather ;
         call_proxy.input( results_names[i], res ) ;
     }
     
@@ -623,10 +679,9 @@ SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
     for( int k=0; k<nexpr; k++, i++ ){
-        Result* res = get_result( args[k], df ) ;
+        boost::scoped_ptr<Result> res( get_result( args[k], df ) ) ;
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
-        delete res ;
     }
     
     return summarised_grouped_tbl_cpp(out, names, gdf );
@@ -637,9 +692,8 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     List out(nexpr) ;
     
     for( int i=0; i<nexpr; i++){
-        Result* res = get_result( args[i], df ) ;
+        boost::scoped_ptr<Result> res( get_result( args[i], df ) ) ;
         out[i] = res->process( FullDataFrame(df) ) ; 
-        delete res ;
     }
     
     return tbl_cpp( out, args.names(), 1 ) ;

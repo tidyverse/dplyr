@@ -11,7 +11,7 @@ namespace dplyr {
         Max(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Max(){}
         
-        STORAGE process_chunk( const Index_0_based& indices ){
+        STORAGE process_chunk( const SlicingIndex& indices ){
             int n = indices.size() ;
         
             // find the first non NA value
@@ -42,7 +42,7 @@ namespace dplyr {
         Max(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
         ~Max(){}
         
-        STORAGE process_chunk( const Index_0_based& indices ){
+        STORAGE process_chunk( const SlicingIndex& indices ){
             int n = indices.size() ;
         
             // find the first non NA value

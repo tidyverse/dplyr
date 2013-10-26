@@ -3,11 +3,33 @@
 
 namespace Rcpp {
     
+    class GroupedDataFrameIndexIterator {
+    public:
+        GroupedDataFrameIndexIterator( const IntegerVector& group_sizes_ ) : 
+            group_sizes(group_sizes_), i(0), start(0) {}
+        
+        GroupedDataFrameIndexIterator& operator++(){
+            start += group_sizes[i++] ; 
+            return *this ;
+        }
+        
+        SlicingIndex operator*() const {
+            return SlicingIndex( start, group_sizes[i] ) ;     
+        }
+        
+        int i ;
+        int start ;
+        const IntegerVector& group_sizes ; 
+        
+    } ;
+    
     class GroupedDataFrame {
     public:
+        typedef GroupedDataFrameIndexIterator group_iterator ;
         GroupedDataFrame( SEXP x): 
             data_(x),
-            indices(), 
+            group_sizes(), 
+            biggest_group_size(0),
             symbols( data_.attr("vars") ),
             labels()
         {
@@ -16,15 +38,14 @@ namespace Rcpp {
             if( is_lazy ){
                 data_ = build_index_cpp( data_) ;      
             }
-            indices = data_.attr( "index" );
-            labels  = data_.attr( "labels") ;
-            
+            group_sizes = data_.attr( "group_sizes" );
+            biggest_group_size  = data_.attr( "biggest_group_size" ) ;
         }
         
-        Index_0_based group( int i ) const {
-            return indices[i] ;     
+        group_iterator group_begin() const {
+            return GroupedDataFrameIndexIterator( group_sizes ) ;
         }
-                         
+        
         SEXP symbol( int i) const {
             return symbols[i] ;    
         }
@@ -37,7 +58,7 @@ namespace Rcpp {
         }
         
         inline int ngroups() const {
-            return indices.size() ;    
+            return group_sizes.size() ;    
         }
         
         inline int nvars() const {
@@ -56,12 +77,18 @@ namespace Rcpp {
             return data_.attr(name) ;    
         }
         
+        inline int max_group_size() const{
+            return biggest_group_size ;
+        }
+        
     private:
         
         DataFrame data_ ;
-        ListOf<Index_0_based> indices ;
+        IntegerVector group_sizes ;
+        int biggest_group_size ;
         ListOf<Symbol> symbols ;
         DataFrame labels ;
+        
     } ;
     
     template <>

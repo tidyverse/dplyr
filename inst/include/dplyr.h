@@ -7,6 +7,7 @@ using namespace Rcpp ;
 #include <boost/functional/hash.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/unordered_set.hpp>
+#include <boost/scoped_ptr.hpp>
 
 #include <tools/tools.h>
 
@@ -32,7 +33,7 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/BoolResult.h>
 
-#include <dplyr/Index_0_based.h>
+#include <dplyr/SlicingIndex.h>
 #include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/tbl_cpp.h>

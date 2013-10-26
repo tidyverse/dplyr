@@ -5,16 +5,14 @@ namespace Rcpp {
     
     class FullDataFrame {
     public:
-        FullDataFrame( const DataFrame& data_ ) : 
-            index_data( seq(0, data_.nrows()-1 )), index(index_data) {}
+        FullDataFrame( const DataFrame& data_ ) : index(0, data_.nrows() ) {}
          
-        const Index_0_based& get_index() const { 
+        const SlicingIndex& get_index() const { 
             return index ; 
         }    
             
     private:
-        IntegerVector index_data ;
-        Index_0_based index ;
+        SlicingIndex index ;
     } ;
     
 }

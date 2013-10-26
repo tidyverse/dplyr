@@ -4,7 +4,7 @@
 namespace dplyr{
      
     // classes inherit from this template when they have a method with this signature
-    // SEXP process_chunk( const Index_0_based& indices)
+    // SEXP process_chunk( const SlicingIndex& indices)
     // 
     // the first time process_chunk is called, CallbackProcessor finds the right type
     // for storing the results, and it creates a suitable DelayedProcessor
@@ -20,12 +20,13 @@ namespace dplyr{
     public:
         CallbackProcessor(){}
         
-        virtual SEXP process( const Rcpp::GroupedDataFrame& gdf){
-            Rcpp::Shelter<SEXP> __ ;
+        virtual SEXP process( const GroupedDataFrame& gdf){
+            Shelter<SEXP> __ ;
             CLASS* obj = static_cast<CLASS*>( this ) ;
+            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
             
             // first call, we don't know yet the type
-            SEXP first_result = __( obj->process_chunk(gdf.group(0)) );
+            SEXP first_result = __( obj->process_chunk(*git) );
             
             // get the appropriate Delayed Processor to handle it
             DelayedProcessor_Base<CLASS>* processor = get_delayed_processor<CLASS>(first_result) ;
