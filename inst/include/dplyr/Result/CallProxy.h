@@ -87,7 +87,7 @@ namespace dplyr {
                 int n=names.size() ;
                 for( int i=0; i<n; i++){
                     subset_map[ as_symbol( names[i] ) ] = subset( data[i] ); 
-                } 
+                }
             } 
             
             inline SEXP as_symbol(SEXP x) const {
@@ -103,9 +103,15 @@ namespace dplyr {
                          break ;
                      case SYMSXP: 
                          SubsetMap::const_iterator it = subset_map.find(head) ;
-                         if( it != subset_map.end() ){
+                         if( it == subset_map.end() ){
+                             // in the Environment -> resolve
+                             // TODO: handle the case where the variable is not found in env
+                             Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                             SETCAR( obj, x );
+                         } else {
+                             // in the data frame
                              proxies.push_back( CallElementProxy( head, obj ) );
-                         }
+                         } 
                          break ;
                      }
                      traverse_call( CDR(obj) ) ;
