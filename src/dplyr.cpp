@@ -663,12 +663,11 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
     return Count().process(gdf) ;   
 }
 
-SEXP summarise_grouped(GroupedDataFrame gdf, List args, Environment env){
+SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     DataFrame df = gdf.data() ;
     
     int nexpr = args.size() ;
     int nvars = gdf.nvars() ;
-    
     CharacterVector results_names = args.names() ;
     List out(nexpr + nvars) ;
     CharacterVector names(nexpr + nvars) ;

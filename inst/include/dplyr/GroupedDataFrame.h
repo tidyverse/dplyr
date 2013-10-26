@@ -34,12 +34,13 @@ namespace Rcpp {
             labels()
         {
             // handle lazyness
-            bool is_lazy = Rf_isNull( data_.attr( "index") ) || Rf_isNull( data_.attr( "labels") ) ;
+            bool is_lazy = Rf_isNull( data_.attr( "group_sizes") ) || Rf_isNull( data_.attr( "labels") ) ;
             if( is_lazy ){
                 data_ = build_index_cpp( data_) ;      
             }
             group_sizes = data_.attr( "group_sizes" );
             biggest_group_size  = data_.attr( "biggest_group_size" ) ;
+            labels = data_.attr( "labels" );
         }
         
         group_iterator group_begin() const {
