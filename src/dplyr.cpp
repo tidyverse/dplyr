@@ -364,18 +364,19 @@ DataFrame build_index_cpp( DataFrame data ){
     std::vector< const std::vector<int>* > chunks(ngroups) ;
     ChunkIndexMap::const_iterator it = map.begin() ;
     for( int i=0; i<ngroups; i++, ++it){
-        chunks[ orders[i] ] = &it->second ;
+        chunks[ i ] = &it->second ;
     }
     IntegerVector group_sizes = no_init( ngroups );
     size_t biggest_group = 0 ;
     std::vector<int> indices ;
     indices.reserve( data.nrows() );
     for( int i=0; i<ngroups; i++){
-        const std::vector<int>& chunk = *chunks[i] ;
+        const std::vector<int>& chunk = *chunks[orders[i]] ;
         push_back( indices, chunk ) ;
         biggest_group = std::max( biggest_group, chunk.size() );
         group_sizes[i] = chunk.size() ;
     }
+    
     DataFrameVisitors all_variables_visitors(data, data.names() ) ;
     data = all_variables_visitors.subset( indices, classes_grouped() ) ;
     
