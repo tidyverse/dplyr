@@ -9,7 +9,7 @@ test_that("mutate happens before summarise", {
   # FIXME: only needed because postgresql returns integer for sum
   compare_tbls(tbls, function(x) {
     mutate(x, z = x + y) %.% summarise(sum_z = sum(z))
-  }, compare = int_to_num)
+  }, compare = equal_data_frame, convert = TRUE)
 })
 
 test_that("select operates on mutated vars", {
