@@ -108,16 +108,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // compatible_data_frame
-dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false);
-RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP) {
+dplyr::BoolResult compatible_data_frame(DataFrame& x, DataFrame& y, bool ignore_col_order = false, bool convert = false);
+RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP convertSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
-        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        Rcpp::traits::input_parameter< DataFrame& >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame& >::type y(ySEXP );
         Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP );
-        dplyr::BoolResult __result = compatible_data_frame(x, y, ignore_col_order);
+        Rcpp::traits::input_parameter< bool >::type convert(convertSEXP );
+        dplyr::BoolResult __result = compatible_data_frame(x, y, ignore_col_order, convert);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -125,8 +126,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // equal_data_frame
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false);
-RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP) {
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false, bool convert = false);
+RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP, SEXP convertSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -135,7 +136,8 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
         Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP );
         Rcpp::traits::input_parameter< bool >::type ignore_row_order(ignore_row_orderSEXP );
-        dplyr::BoolResult __result = equal_data_frame(x, y, ignore_col_order, ignore_row_order);
+        Rcpp::traits::input_parameter< bool >::type convert(convertSEXP );
+        dplyr::BoolResult __result = equal_data_frame(x, y, ignore_col_order, ignore_row_order, convert);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

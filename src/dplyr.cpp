@@ -196,8 +196,26 @@ bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
     return true ;
 }
 
+inline SEXP promote(SEXP x){
+    if( TYPEOF(x) == INTSXP ){
+        IntegerVector data(x) ;
+        if( Rf_inherits( x, "factor" ) ){
+            CharacterVector levels = data.attr( "levels" ) ;
+            int n = data.size() ;
+            CharacterVector out( data.size() ) ;
+            for( int i=0; i<n; i++ ){
+                out[i] = levels[data[i]-1] ;    
+            }
+            return out ;
+        } else {
+            return NumericVector(x) ;
+        }
+    }
+    return x ;
+}
+
 // [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_col_order = false ){
+dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = false, bool convert = false ){
     int n = x.size() ;
     if( n != y.size() ) 
         return no_because( "not the same number of variables" ) ;
@@ -213,6 +231,16 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
         if( names_x[i] != names_y[i] )
             return no_because( "not the same variable names. ") ; 
     
+    if( convert ){
+        x = clone(x) ;
+        y = clone(y) ;
+        for( int i = 0; i<n; i++){
+            x[i] = promote( x[i] ) ;
+            y[i] = promote( y[i] ) ;
+        }
+    }
+        
+        
     DataFrameVisitors v_x( x, names_x );
     DataFrameVisitors v_y( y, names_y );
     if( ! all_same_types(v_x, v_y ) )
@@ -222,8 +250,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false ){
-    BoolResult compat = compatible_data_frame(x, y, ignore_col_order);
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false, bool convert = false ){
+    BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
     if( !compat ) return compat ;
     
     int nrows = x.nrows() ;
