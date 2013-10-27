@@ -13,6 +13,7 @@
 #'   \code{equal_data_frame} which ignores the order of rows and columns.
 #' @param times For benchmarking, the number of times each operation is 
 #'   repeated.
+#' @param \dots Additional parameters for the \code{compare} function
 #' @return 
 #'   \code{compare_srcs}: an invisible \code{TRUE} on success, otherwise
 #'   throws an error.
@@ -73,13 +74,13 @@ bench_tbls <- function(tbls, op, times = 10) {
 
 #' @export
 #' @rdname bench_compare
-compare_srcs <- function(srcs, setup, op, ref = NULL, compare = equal_data_frame) {
+compare_srcs <- function(srcs, setup, op, ref = NULL, compare = equal_data_frame, ...) {
   if (length(srcs) < 2) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
   
   tbls <- lapply(srcs, setup)
-  compare_tbls(tbls, op, ref = ref, compare = compare)
+  compare_tbls(tbls, op, ref = ref, compare = compare, ...)
 }
 
 #' @export
@@ -99,7 +100,7 @@ eval_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
 
 #' @export
 #' @rdname bench_compare
-compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
+compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
   results <- eval_tbls(tbls,op,ref, compare)
 
   if (is.null(ref)) {
@@ -112,7 +113,7 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
   }
   
   for(i in seq_along(rest)) {
-    ok <- compare(ref, rest[[i]])
+    ok <- compare(ref, rest[[i]], ...)
 #     if (!ok) browser()
     msg <- paste0(names(rest)[[i]], " not equal to ", ref_name)
     expect_true(ok, info = msg) 

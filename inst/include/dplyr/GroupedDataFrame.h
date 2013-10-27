@@ -6,7 +6,7 @@ namespace Rcpp {
     class GroupedDataFrameIndexIterator {
     public:
         GroupedDataFrameIndexIterator( const IntegerVector& group_sizes_ ) : 
-            group_sizes(group_sizes_), i(0), start(0) {}
+            i(0), start(0), group_sizes(group_sizes_) {}
         
         GroupedDataFrameIndexIterator& operator++(){
             start += group_sizes[i++] ; 

@@ -196,7 +196,7 @@ bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
     return true ;
 }
 
-inline SEXP promote(SEXP x){
+SEXP promote(SEXP x){
     if( TYPEOF(x) == INTSXP ){
         IntegerVector data(x) ;
         if( Rf_inherits( x, "factor" ) ){
@@ -214,6 +214,7 @@ inline SEXP promote(SEXP x){
     return x ;
 }
 
+//' @export
 // [[Rcpp::export]]
 dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = false, bool convert = false ){
     int n = x.size() ;
@@ -249,6 +250,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
     return yes() ;
 }
 
+//' @export
 // [[Rcpp::export]]
 dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false, bool convert = false ){
     BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);

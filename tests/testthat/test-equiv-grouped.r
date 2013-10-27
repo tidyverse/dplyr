@@ -11,7 +11,7 @@ test_that("n the same regardless of tbl", {
   
   # FIXME: only needed because postgresql returns integer for count
   compare_tbls(players, function(tbl) tbl %.% summarise(n = n()), 
-    compare = int_to_num)
+    compare = equal_data_frame, convert = TRUE)
 })
 
 test_that("filter the same regardless of tbl", {

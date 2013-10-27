@@ -9,13 +9,13 @@
   bench_srcs(srcs, setup, op, times = 10)
 
   compare_srcs(srcs, setup, op, ref = NULL,
-    compare = equal_data_frame)
+    compare = equal_data_frame, ...)
 
   eval_tbls(tbls, op, ref = NULL,
     compare = equal_data_frame)
 
   compare_tbls(tbls, op, ref = NULL,
-    compare = equal_data_frame)
+    compare = equal_data_frame, ...)
 }
 \arguments{
   \item{srcs,tbls}{A list of \code{\link{src}}s or
@@ -38,6 +38,9 @@
 
   \item{times}{For benchmarking, the number of times each
   operation is repeated.}
+
+  \item{\dots}{Additional parameters for the \code{compare}
+  function}
 }
 \value{
   \code{compare_srcs}: an invisible \code{TRUE} on success,
