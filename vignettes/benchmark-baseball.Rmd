@@ -15,9 +15,9 @@ options(digits = 3)
 
 # Benchmarks: baseball data
 
-The purpose of these benchmarks is to be as fair as possible, not to show that dplyr is faster than data.table. If you think my implementation of operations in data.table is suboptimal, please let me know so I can improve them.
+The purpose of these benchmarks is to be as fair as possible, to help understand the relatively performance tradeoffs of the different approaches. If you think my implementation of base or data.table equivalents is suboptimal, please let me know better ways.
 
-Please note that any significant performance difference between `dt` and `dt_raw` is a bug in dplyr: for individual operations there should be very little overhead to calling data.table via dplyr. However, data.table may be significantly faster when performing the same sequence of operations as dplyr. This is because currently dplyr uses an eager evaluation approach so the individual calls to `[.data.table` don't get as much information about the desired result as the single call to `[.data.table` would if you did it by hand.
+Also note that I consider any significant performance difference between `dt` and `dt_raw` to be a bug in dplyr: for individual operations there should be very little overhead to calling data.table via dplyr. However, data.table may be significantly faster when performing the same sequence of operations as dplyr. This is because currently dplyr uses an eager evaluation approach so the individual calls to `[.data.table` don't get as much information about the desired result as the single call to `[.data.table` would if you did it by hand.
 
 ## Data setup
 
@@ -26,21 +26,16 @@ The following benchmarks explore the performance on a somewhat realistic example
 The first code block defines three alternative backends for the Batting dataset, and a players dataset that represents operations to be performed by player:
 
 ```{r setup}
-srcs <- c("df", "dt", "cpp", )
+lahman_local <- lahman_srcs("df", "dt", "cpp")
+batting <- lapply(lahman_local, function(x) tbl(x, "Batting"))
+players <- lapply(batting, function(x) group_by(x, playerID))
 
-batting <- Batting
+batting_df <- Batting
 
-
-batting_dt  <- tbl_dt(Batting)
-batting_dt2 <- data.table(Batting)
-batting_df  <- tbl_df(Batting)
-batting_cpp <- tbl_cpp(Batting)
-
-players_dt <- group_by(batting_dt, playerID)
-players_dt2 <- data.table(Batting)
-setkey(players_dt2, playerID)
-players_df <- group_by(batting_df, playerID)
-players_cpp <- group_by(batting_cpp, playerID)
+# Create equivalent raw data table equivalents
+batting_dt <- data.table(Batting)
+players_dt <- data.table(Batting)
+setkey(players_dt, playerID)
 ```
 
 ## Arrange
@@ -48,13 +43,9 @@ players_cpp <- group_by(batting_cpp, playerID)
 Arrange by year within each player:
 
 ```{r arrange}
-microbenchmark(
-  plyr   = plyr::arrange(batting, playerID, yearID),
-  base   = batting[order(batting$playerID, batting$yearID), , drop = FALSE],
-  df     = arrange(batting_df, playerID, yearID),
-  dt     = arrange(batting_dt, playerID, yearID),
+bench_tbls(batting, function(x) arrange(x, playerID, yearID),
+  base   = batting_df[order(batting_df$playerID, batting_df$yearID), ],
   dt_raw = batting_dt[order(playerID, yearID), ],
-  cpp    = arrange(batting_cpp, playerID, yearID),
   times = 10
 )
 ```
@@ -64,54 +55,44 @@ microbenchmark(
 Find the year for which each player played the most games:
 
 ```{r filter}
-microbenchmark( 
-  base   = batting[ave(batting$G, batting$playerID, max) == player$G, ],
-  df     = filter(players_df, G == max(G)),
-  dt     = filter(players_dt, G == max(G)),
-  # not aware of single line dt equivalent, http://stackoverflow.com/questions/16573995/
-  cpp    = filter(players_cpp, G == max(G)),
-  times = 10
+bench_tbls(players, function(x) filter(x, G == max(G)),
+  base   = batting_df[ave(batting_df$G, batting_df$playerID, FUN = max) ==
+    batting_df$G, ]
 )
 ```
+
+I'm not aware of a single line data table equivalent ([see SO 16573995](not aware of single line dt equivalent, http://stackoverflow.com/questions/16573995/)). Suggetions welcome.
 
 ## Mutate
 
-Compute career year (`cyear`) and rank performance based on number of at bats. 
+Rank years based on number of at bats:
 
 ```{r mutate}
-microbenchmark( 
-  df     = mutate(players_df, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
-  dt     = mutate(players_dt, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
-  dt_raw = players_dt2[, list(cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))), by = playerID],
-  cpp    = mutate(players_cpp, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
-  times = 10
+mutate1 <- function(x) mutate(x, rank = rank(desc(AB)))
+bench_tbls(players, mutate1,
+  dt_raw = players_dt[, list(rank = rank(desc(AB))), by = playerID]
 )
 ```
 
-Rank is a relatively expensive operation, so we show with and without, making the relative performance overhead of the difference techniques more obvious.
+Compute year of career:
 
 ```{r mutate2}
-microbenchmark( 
-  df     = mutate(players_df, cyear = yearID - min(yearID) + 1),
-  dt     = mutate(players_dt, cyear = yearID - min(yearID) + 1),
-  dt_raw = players_dt2[, list(cyear = yearID - min(yearID) + 1), by = playerID],
-  cpp    = mutate(players_cpp, cyear = yearID - min(yearID) + 1),
-  times = 10
+mutate2 <- function(x) mutate(x, cyear = yearID - min(yearID) + 1)
+bench_tbls(players, mutate2,
+  dt_raw = players_dt[, list(cyear = yearID - min(yearID) + 1), by = playerID]
 )
 ```
+
+Rank is a relatively expensive operation and `min()` is relatively cheap, showing the the relative performance overhead of the difference techniques.
 
 ## Summarise
 
 Compute the average number of at bats for each player:
 
 ```{r summarise-mean}
-microbenchmark( 
-  base   = tapply(players_df$AB, players_df$playerID, FUN = mean),
-  df     = summarise(players_df, ab = mean(AB)),
-  dt     = summarise(players_dt, ab = mean(AB)),
-  dt_raw = players_dt2[, list(ab = mean(AB)), by = playerID],
-  cpp    = summarise(players_cpp, ab = mean(AB)),
-  times = 10
+bench_tbls(players, function(x) summarise(x, ab = mean(AB)),
+  base =    tapply(batting_df$AB, batting_df$playerID, FUN = mean),
+  dt_raw =  players_dt[, list(ab = mean(AB)), by = playerID]
 )
 ```
 
@@ -121,67 +102,31 @@ However, this comparison is slightly unfair because both data.table and `summari
 
 ```{r sumarise-mean_}
 mean_ <- function(x) .Internal(mean(x))
-microbenchmark( 
-  base   = tapply(players_df$AB, players_df$playerID, FUN = mean_),
-  df     = summarise(players_df, ab = mean_(AB)),
-  dt     = summarise(players_dt, ab = mean_(AB)),
-  dt_raw = players_dt2[, list(ab = mean_(AB)), by = playerID],
-  cpp    = summarise(players_cpp, ab = mean_(AB)),
-  times = 10
-)
-```
-
-Using a somewhat more compliated summary function is also revealing.
-
-```{r summarise_mean+1}
-microbenchmark( 
-  df     = summarise(players_df, ab = mean(AB) + 1),
-  dt     = summarise(players_dt, ab = mean(AB) + 1),
-  dt_raw = players_dt2[, list(ab = mean(AB) + 1), by = playerID],
-  cpp    = summarise(players_cpp, ab = mean(AB) + 1),
-  times = 10
+bench_tbls(players, function(x) summarise(x, ab = mean_(AB)),
+  base =    tapply(batting_df$AB, batting_df$playerID, FUN = mean_),
+  dt_raw =  players_dt[, list(ab = mean_(AB)), by = playerID]
 )
 ```
 
 ## Joins
 
+We conclude with some quick comparisons of joins implemented. There are few equivalent in base R or with straightforward data table commands.
+
 ```{r}
-make_tbls <- function(master, hof) {
-  p <- master %.% select(playerID, hofID, birthYear)
-  h <- hof %.% filter(inducted == "Y") %.% select(hofID, votedBy, category)
+make_hof <- function(src) {
+  p <- src %.% tbl("Master") %.% select(playerID, hofID, birthYear)
+  h <- src %.% tbl("HallOfFame") %.% filter(inducted == "Y") %.% 
+    select(hofID, votedBy, category)
   list(p = p, h = h)
 }
-tbls <- list(
-  cpp = make_tbls(tbl_cpp(Master), tbl_cpp(HallOfFame)),
-  df = make_tbls(tbl_df(Master), tbl_df(HallOfFame)),
-  dt = make_tbls(tbl_dt(Master), tbl_dt(HallOfFame))
-)
+hof <- lapply(lahman_local, make_hof)
 
-microbenchmark(
-  cpp = left_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
-  df = left_join(tbls$df$p, tbls$df$h, by = "hofID"),
-  dt = left_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
-  times = 20
+bench_tbls(hof, function(tbls) left_join(tbls$p, tbls$h, by = "hofID"),
+  base = merge(hof$df$p, hof$df$h, by = "hofID")
 )
-
-microbenchmark(
-  cpp = inner_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
-  df = inner_join(tbls$df$p, tbls$df$h, by = "hofID"),
-  dt = inner_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
-  times = 20
+bench_tbls(hof, function(tbls) inner_join(tbls$p, tbls$h, by = "hofID"),
+  base = merge(hof$df$p, hof$df$h, by = "hofID", all.x = TRUE)
 )
-
-microbenchmark(
-  cpp = semi_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
-  df = semi_join(tbls$df$p, tbls$df$h, by = "hofID"),
-  dt = semi_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
-  times = 20
-)
-
-microbenchmark(
-  cpp = anti_join(tbls$cpp$p, tbls$cpp$h, by = "hofID"),
-  df = anti_join(tbls$df$p, tbls$df$h, by = "hofID"),
-  dt = anti_join(tbls$dt$p, tbls$dt$h, by = "hofID"),
-  times = 20
-)
+bench_tbls(hof, function(tbls) semi_join(tbls$p, tbls$h, by = "hofID"))
+bench_tbls(hof, function(tbls) anti_join(tbls$p, tbls$h, by = "hofID"))
 ```
