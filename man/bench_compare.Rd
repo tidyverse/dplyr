@@ -5,7 +5,7 @@
 \alias{eval_tbls}
 \title{Evaluate, compare, benchmark operations of a set of srcs.}
 \usage{
-  bench_tbls(tbls, op, times = 10)
+  bench_tbls(tbls, op, ..., times = 10)
 
   compare_tbls(tbls, op, ref = NULL,
     compare = equal_data_frame, ...)
@@ -29,13 +29,15 @@
   \item{times}{For benchmarking, the number of times each
   operation is repeated.}
 
-  \item{\dots}{Additional parameters for the \code{compare}
-  function}
+  \item{\dots}{For \code{compare_tbls}: additional
+  parameters passed on the \code{compare} function
+
+  For \code{bench_tbls}: additional benchmarks to run.}
 }
 \value{
   \code{eval_tbls}: a list of data frames.
 
-  \code{compare_tbl}: an invisible \code{TRUE} on success,
+  \code{compare_tbls}: an invisible \code{TRUE} on success,
   otherwise an error is thrown.
 
   \code{bench_tbls}: an object of class
@@ -52,6 +54,11 @@ teams <- lapply(lahman_local, function(x) x \%.\% tbl("Teams"))
 
 compare_tbls(teams, function(x) x \%.\% filter(yearID == 2010))
 bench_tbls(teams, function(x) x \%.\% filter(yearID == 2010))
+
+# You can also supply arbitrary additional arguments to bench_tbls
+# if there are other operations you'd like to compare.
+bench_tbls(teams, function(x) x \%.\% filter(yearID == 2010),
+   base = subset(Teams, yearID == 2010))
 
 # A more complicated example using multiple tables
 setup <- function(src) {
