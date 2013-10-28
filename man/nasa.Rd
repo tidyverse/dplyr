@@ -3,6 +3,9 @@
 \alias{nasa}
 \title{NASA spatio-temporal data}
 \format{A \code{\link{tbl_cube}} with 41,472 observations.}
+\usage{
+  nasa
+}
 \description{
   This data comes from the ASA 2007 data expo,
   \url{http://stat-computing.org/dataexpo/2006/}. The data
