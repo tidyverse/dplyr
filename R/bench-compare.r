@@ -1,12 +1,11 @@
-#' Compare and benchmark srcs
+#' Evaluate, compare, benchmark operations of a set of srcs.
 #' 
 #' These functions support the comparison of results and timings across
 #' multiple sources.
 #' 
-#' @param srcs,tbls A list of \code{\link{src}}s or \code{\link{tbl}}s.
-#' @param setup A function with a single argument that is called with each
-#'   src. It should either return a \code{\link{tbl}} or a list of \code{tbl}s.
-#' @param op A function with a single argument, the output of \code{setup}
+#' @param tbls A list of \code{\link{tbl}}s.
+#' @param op A function with a single argument, called often with each
+#'   element of \code{tbls}.
 #' @param ref For checking, an data frame to test results against. If not 
 #'   supplied, defaults to the results from the first \code{src}.
 #' @param compare A function used to compare the results. Defaults to 
@@ -15,22 +14,21 @@
 #'   repeated.
 #' @param \dots Additional parameters for the \code{compare} function
 #' @return 
-#'   \code{compare_srcs}: an invisible \code{TRUE} on success, otherwise
-#'   throws an error.
+#'   \code{eval_tbls}: a list of data frames.
+#' 
+#'   \code{compare_tbl}: an invisible \code{TRUE} on success, otherwise
+#'   an error is thrown.
 #'   
-#'   \code{bench_srcs}: an object of class 
+#'   \code{bench_tbls}: an object of class 
 #'   \code{\link[microbenchmark]{microbenchmark}}
 #' @seealso \code{\link{src_local}} for working with local data
 #' @examples
 #' if (require("Lahman") && require("microbenchmark")) {
 #' lahman_local <- lahman_srcs("df", "dt", "cpp")
+#' teams <- lapply(lahman_local, function(x) x %.% tbl("Teams"))
 #' 
-#' # A simple example with single tbl
-#' teams <- function(src) src %.% tbl("Teams")
-#' y2010 <- function(tbl) tbl %.% filter(yearID == 2010)
-#' 
-#' compare_srcs(lahman_local, teams, y2010)
-#' bench_srcs(lahman_local, teams, y2010)
+#' compare_tbls(teams, function(x) x %.% filter(yearID == 2010))
+#' bench_tbls(teams, function(x) x %.% filter(yearID == 2010))
 #' 
 #' # A more complicated example using multiple tables
 #' setup <- function(src) {
@@ -39,12 +37,13 @@
 #'     src %.% tbl("Master") %.% select(playerID, birthYear)
 #'   )
 #' }
+#' two_tables <- lapply(lahman_local, setup)
+#' 
 #' op <- function(tbls) {
 #'   semi_join(tbls[[1]], tbls[[2]], by = "playerID")
 #' }
-#' 
-#' compare_srcs(lahman_local, setup, op)
-#' bench_srcs(lahman_local, setup, op, times = 2)
+#' compare_tbls(two_tables, op)
+#' bench_tbls(two_tables, op, times = 2)
 #' 
 #' }
 #' @name bench_compare
@@ -52,16 +51,11 @@ NULL
 
 #' @export
 #' @rdname bench_compare
-bench_srcs <- function(srcs, setup, op, times = 10) {
+bench_tbls <- function(tbls, op, times = 10) {
   if (!require("microbenchmark")) {
     stop("Please install the microbenchmark package", call. = FALSE)
   }
-  
-  tbls <- lapply(srcs, setup)
-  bench_tbls(tbls, op, times = times)
-}
 
-bench_tbls <- function(tbls, op, times = 10) {
   # Generate call to microbenchmark function that evaluates op for each tbl
   calls <- lapply(seq_along(tbls), function(i) {
     substitute(op(tbls[[i]]), list(i = i))
@@ -74,35 +68,16 @@ bench_tbls <- function(tbls, op, times = 10) {
 
 #' @export
 #' @rdname bench_compare
-compare_srcs <- function(srcs, setup, op, ref = NULL, compare = equal_data_frame, ...) {
-  if (length(srcs) < 2) {
+compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
+  if (length(tbls) < 2) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
-  
-  tbls <- lapply(srcs, setup)
-  compare_tbls(tbls, op, ref = ref, compare = compare, ...)
-}
-
-#' @export
-#' @rdname bench_compare
-eval_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame) {
   if (!require("testthat")) {
     stop("Please install the testthat package", call. = FALSE)
   }
   
-  if (length(tbls) < 2) {
-    stop("Need at least two srcs to compare", call. = FALSE)
-  }
-
-  results <- lapply(tbls, function(x) as.data.frame(op(x)))
-  results
-}
-
-#' @export
-#' @rdname bench_compare
-compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
-  results <- eval_tbls(tbls,op,ref, compare)
-
+  results <- eval_tbls(tbls, op)
+  
   if (is.null(ref)) {
     ref <- results[[1]]
     ref_name <- names(results)[1]
@@ -114,12 +89,18 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
   
   for(i in seq_along(rest)) {
     ok <- compare(ref, rest[[i]], ...)
-#     if (!ok) browser()
+    # if (!ok) browser()
     msg <- paste0(names(rest)[[i]], " not equal to ", ref_name)
     expect_true(ok, info = msg) 
   }
-
+  
   invisible(TRUE)
 }
 
+
+#' @export
+#' @rdname bench_compare
+eval_tbls <- function(tbls, op) {
+  lapply(tbls, function(x) as.data.frame(op(x)))
+}
 

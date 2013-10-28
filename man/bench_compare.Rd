@@ -1,32 +1,22 @@
 \name{bench_compare}
 \alias{bench_compare}
-\alias{bench_srcs}
-\alias{compare_srcs}
+\alias{bench_tbls}
 \alias{compare_tbls}
 \alias{eval_tbls}
-\title{Compare and benchmark srcs}
+\title{Evaluate, compare, benchmark operations of a set of srcs.}
 \usage{
-  bench_srcs(srcs, setup, op, times = 10)
-
-  compare_srcs(srcs, setup, op, ref = NULL,
-    compare = equal_data_frame, ...)
-
-  eval_tbls(tbls, op, ref = NULL,
-    compare = equal_data_frame)
+  bench_tbls(tbls, op, times = 10)
 
   compare_tbls(tbls, op, ref = NULL,
     compare = equal_data_frame, ...)
+
+  eval_tbls(tbls, op)
 }
 \arguments{
-  \item{srcs,tbls}{A list of \code{\link{src}}s or
-  \code{\link{tbl}}s.}
+  \item{tbls}{A list of \code{\link{tbl}}s.}
 
-  \item{setup}{A function with a single argument that is
-  called with each src. It should either return a
-  \code{\link{tbl}} or a list of \code{tbl}s.}
-
-  \item{op}{A function with a single argument, the output
-  of \code{setup}}
+  \item{op}{A function with a single argument, called often
+  with each element of \code{tbls}.}
 
   \item{ref}{For checking, an data frame to test results
   against. If not supplied, defaults to the results from
@@ -43,10 +33,12 @@
   function}
 }
 \value{
-  \code{compare_srcs}: an invisible \code{TRUE} on success,
-  otherwise throws an error.
+  \code{eval_tbls}: a list of data frames.
 
-  \code{bench_srcs}: an object of class
+  \code{compare_tbl}: an invisible \code{TRUE} on success,
+  otherwise an error is thrown.
+
+  \code{bench_tbls}: an object of class
   \code{\link[microbenchmark]{microbenchmark}}
 }
 \description{
@@ -56,13 +48,10 @@
 \examples{
 if (require("Lahman") && require("microbenchmark")) {
 lahman_local <- lahman_srcs("df", "dt", "cpp")
+teams <- lapply(lahman_local, function(x) x \%.\% tbl("Teams"))
 
-# A simple example with single tbl
-teams <- function(src) src \%.\% tbl("Teams")
-y2010 <- function(tbl) tbl \%.\% filter(yearID == 2010)
-
-compare_srcs(lahman_local, teams, y2010)
-bench_srcs(lahman_local, teams, y2010)
+compare_tbls(teams, function(x) x \%.\% filter(yearID == 2010))
+bench_tbls(teams, function(x) x \%.\% filter(yearID == 2010))
 
 # A more complicated example using multiple tables
 setup <- function(src) {
@@ -71,12 +60,13 @@ setup <- function(src) {
     src \%.\% tbl("Master") \%.\% select(playerID, birthYear)
   )
 }
+two_tables <- lapply(lahman_local, setup)
+
 op <- function(tbls) {
   semi_join(tbls[[1]], tbls[[2]], by = "playerID")
 }
-
-compare_srcs(lahman_local, setup, op)
-bench_srcs(lahman_local, setup, op, times = 2)
+compare_tbls(two_tables, op)
+bench_tbls(two_tables, op, times = 2)
 
 }
 }

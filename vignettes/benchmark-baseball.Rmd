@@ -25,8 +25,12 @@ The following benchmarks explore the performance on a somewhat realistic example
 
 The first code block defines three alternative backends for the Batting dataset, and a players dataset that represents operations to be performed by player:
 
-```{r}
+```{r setup}
+srcs <- c("df", "dt", "cpp", )
+
 batting <- Batting
+
+
 batting_dt  <- tbl_dt(Batting)
 batting_dt2 <- data.table(Batting)
 batting_df  <- tbl_df(Batting)
@@ -43,7 +47,7 @@ players_cpp <- group_by(batting_cpp, playerID)
 
 Arrange by year within each player:
 
-```{r}
+```{r arrange}
 microbenchmark(
   plyr   = plyr::arrange(batting, playerID, yearID),
   base   = batting[order(batting$playerID, batting$yearID), , drop = FALSE],
@@ -59,7 +63,7 @@ microbenchmark(
 
 Find the year for which each player played the most games:
 
-```{r}
+```{r filter}
 microbenchmark( 
   base   = batting[ave(batting$G, batting$playerID, max) == player$G, ],
   df     = filter(players_df, G == max(G)),
@@ -74,7 +78,7 @@ microbenchmark(
 
 Compute career year (`cyear`) and rank performance based on number of at bats. 
 
-```{r}
+```{r mutate}
 microbenchmark( 
   df     = mutate(players_df, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
   dt     = mutate(players_dt, cyear = yearID - min(yearID) + 1, rank = rank(desc(AB))),
@@ -86,7 +90,7 @@ microbenchmark(
 
 Rank is a relatively expensive operation, so we show with and without, making the relative performance overhead of the difference techniques more obvious.
 
-```{r}
+```{r mutate2}
 microbenchmark( 
   df     = mutate(players_df, cyear = yearID - min(yearID) + 1),
   dt     = mutate(players_dt, cyear = yearID - min(yearID) + 1),
@@ -100,7 +104,7 @@ microbenchmark(
 
 Compute the average number of at bats for each player:
 
-```{r}
+```{r summarise-mean}
 microbenchmark( 
   base   = tapply(players_df$AB, players_df$playerID, FUN = mean),
   df     = summarise(players_df, ab = mean(AB)),
@@ -115,7 +119,7 @@ NB: base implementation captures computation but not output format, gives consid
 
 However, this comparison is slightly unfair because both data.table and `summarise.tbl_cpp` use tricks to find a more efficient implementation of `mean()`. Data table calls a `C` implementation of the `mean (using `.External(Cfastmean, B, FALSE)`   and thus avoiding the overhead of S3 method dispatch), while `summarise.tbl_cpp` calls an C++ implementation of the mean, which also avoids R function call overhead.
 
-```{r}
+```{r sumarise-mean_}
 mean_ <- function(x) .Internal(mean(x))
 microbenchmark( 
   base   = tapply(players_df$AB, players_df$playerID, FUN = mean_),
@@ -129,7 +133,7 @@ microbenchmark(
 
 Using a somewhat more compliated summary function is also revealing.
 
-```{r}
+```{r summarise_mean+1}
 microbenchmark( 
   df     = summarise(players_df, ab = mean(AB) + 1),
   dt     = summarise(players_dt, ab = mean(AB) + 1),
