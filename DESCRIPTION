@@ -20,7 +20,8 @@ Suggests:
     testthat,
     Lahman,
     knitr,
-    microbenchmark
+    microbenchmark,
+    ggplot2
 VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
