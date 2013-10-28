@@ -7,10 +7,6 @@
 library(ggplot2)
 library(dplyr)
 knitr::opts_chunk$set(tidy = FALSE)
-
-if (!has_lahman("postgres")) {
-  knitr::opts_chunk$set(eval = FALSE)
-}
 ```
 
 # Databases
@@ -204,7 +200,9 @@ The overall workflow is similar regardless of what database you're connecting to
 For example, the following code allows me to connect to a local postgresql database that contains a copy of the `hflights` data:
 
 ```{r}
-hflights_postgres <- tbl(src_postgres("hflights"), "hflights")
+if (has_lahman("postgres")) {
+  hflights_postgres <- tbl(src_postgres("hflights"), "hflights")
+}
 ```
 
 Postgres is a considerably more powerful database than SQLite.  It has:
@@ -216,16 +214,18 @@ Postgres is a considerably more powerful database than SQLite.  It has:
 The following examples shows the grouped filter and mutate possible with PostgreSQL. The SQL generated from the grouped filter is quite complex because you can't filter on window functions directly; instead they have to go in a subquery.
 
 ```{r}
-daily <- group_by(hflights_postgres, Year, Month, DayofMonth)
-
-# Find the most and least delayed flight each day
-bestworst <- filter(daily, ArrDelay == min(ArrDelay) || 
-  ArrDelay == max(ArrDelay))
-bestworst$query
-
-# Rank each flight within a daily
-ranked <- mutate(daily, rank = rank(desc(ArrDelay)))
-bestworst$query
+if (has_lahman("postgres")) {
+  daily <- group_by(hflights_postgres, Year, Month, DayofMonth)
+  
+  # Find the most and least delayed flight each day
+  bestworst <- filter(daily, ArrDelay == min(ArrDelay) || 
+    ArrDelay == max(ArrDelay))
+  bestworst$query
+  
+  # Rank each flight within a daily
+  ranked <- mutate(daily, rank = rank(desc(ArrDelay)))
+  bestworst$query
+}
 ```
 
 ### MySQL and MariaDB
@@ -254,4 +254,3 @@ Bigquery supports only a single SQL statement: [SELECT](https://developers.googl
 ## Picking a database
 
 If you don't already have a database, here's some advice from my experiences setting up and running all of them. SQLite is by far and the easiest to get setup up, but the downsides is that it it has relatively limited functionality for data anlaysis. PostgreSQL is not too much hard to use and has ever function you might concievably need. Don't bother with MySQL/MariaDB: it's a pain to set up and the documentation is subpar. Google bigquery might be a good fit if you have very large data, or you're willing to pay (a small amount of) money for someone else to look after your database.
-
