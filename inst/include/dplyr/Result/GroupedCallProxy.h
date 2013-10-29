@@ -30,6 +30,10 @@ namespace dplyr {
             return subset_map.size();
         }
         
+        SEXP get_variable( SEXP symbol ) const {
+            GroupedSubsetMap::const_iterator it = subset_map.find( symbol );
+            return it->second->get_variable() ;  
+        }
         SEXP get( SEXP symbol, const SlicingIndex& indices ){
             ResolvedSubsetMap::const_iterator it = resolved_map.find( symbol ) ;
             if( it == resolved_map.end() ){
@@ -102,6 +106,10 @@ namespace dplyr {
         inline int nsubsets(){
             return subsets.size() ;
         }   
+        
+        inline SEXP get_variable( Rcpp::String name ) const {
+            return subsets.get_variable(as_symbol(name.get_sexp()) ) ;
+        }
         
     private:
         

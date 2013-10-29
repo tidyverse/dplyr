@@ -8,6 +8,7 @@ namespace dplyr {
         GroupedSubset(){} ;
         virtual ~GroupedSubset(){} ;
         virtual SEXP get( const SlicingIndex& indices ) = 0 ;
+        virtual SEXP get_variable() const = 0 ;
     } ;
     
     template <int RTYPE>
@@ -21,6 +22,10 @@ namespace dplyr {
             output.borrow( start + indices[0], indices.size() ) ;
             return output ;
         }
+        virtual SEXP get_variable() const {
+            return object ;    
+        }
+        
     private:
         SEXP object ;
         ShrinkableVector<RTYPE> output ;

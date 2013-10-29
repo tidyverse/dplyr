@@ -524,6 +524,7 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     GroupedCallProxy call_proxy( call, gdf, env ) ;
     
     int ngroups = gdf.ngroups() ;
+    // TODO: move this loop in GroupedCallProxy
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
@@ -561,7 +562,8 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
     }
 }
 
-SEXP structure_mutate( CallProxy& call_proxy, const DataFrame& df, const CharacterVector& results_names, CharacterVector classes){
+template <typename Proxy>
+SEXP structure_mutate( Proxy& call_proxy, const DataFrame& df, const CharacterVector& results_names, CharacterVector classes){
     int n = call_proxy.nsubsets() ;
     
     List out(n) ;
