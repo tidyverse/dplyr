@@ -6,7 +6,7 @@ namespace dplyr {
     class GroupedHybridCall {
     public:
         GroupedHybridCall( const Language& call_, const DataFrame& df_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_ ) : 
-            call( clone(call_) ), df( df_ ), indices(indices_), subsets(subsets_) 
+            call( clone(call_) ), df( df_ ), indices(indices_) // , subsets(subsets_) 
         {
             while( simplified(call) ) ;
         }
@@ -31,7 +31,7 @@ namespace dplyr {
         Language call ;
         const DataFrame& df ;
         const SlicingIndex& indices ;
-        LazyGroupedSubsets& subsets ;
+        // LazyGroupedSubsets& subsets ;
     } ;
     
     class GroupedCallProxy {
