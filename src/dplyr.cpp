@@ -66,7 +66,8 @@ Result* get_result( SEXP call, const DataFrame& df){
     return 0 ;
 }
 
-inline bool can_simplify( SEXP call, const std::vector<SEXP>& symbols ){
+// FIXME: this is too optimistic
+inline bool can_simplify( SEXP call ){
     if( TYPEOF(call) != LANGSXP ) return false ;
     
     int depth = Rf_length( call ) ;
@@ -74,12 +75,11 @@ inline bool can_simplify( SEXP call, const std::vector<SEXP>& symbols ){
     
     if( depth == 2 ){
         SEXP fun_symbol = CAR(call) ;
-        SEXP arg1 = CADR(call) ;
         ResultPrototype reducer = get_1_arg( fun_symbol ) ;
         if(reducer) return true ;        
     }
     
-    return can_simplify( CDR(call), symbols ) ;   
+    return can_simplify( CDR(call) ) ;   
 }
 
 template <typename Index>
