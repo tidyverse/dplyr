@@ -7,7 +7,7 @@ namespace dplyr {
     public:
         typedef boost::unordered_map<SEXP, SEXP> DataMap ;
         
-        CallProxy( Rcpp::Language& call_, const Rcpp::DataFrame& data_, const Environment& env_) : 
+        CallProxy( const Rcpp::Language& call_, const Rcpp::DataFrame& data_, const Environment& env_) : 
             call(call_), data_map(), proxies(), env(env_)
         {
             init_data_map(data_) ;
