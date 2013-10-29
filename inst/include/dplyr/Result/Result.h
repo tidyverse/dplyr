@@ -11,9 +11,14 @@ namespace dplyr {
         Result(){}
         virtual ~Result(){} ;
         
-        virtual SEXP process( const Rcpp::GroupedDataFrame& gdf) = 0 ;
+        virtual SEXP process( const GroupedDataFrame& gdf) = 0 ;
         
-        virtual SEXP process( const Rcpp::FullDataFrame& df ) = 0 ;
+        virtual SEXP process( const FullDataFrame& df ) = 0 ;
+        
+        virtual SEXP process( const SlicingIndex& index ){
+            return R_NilValue ;    
+        }
+        
     } ;
 
 } // namespace dplyr

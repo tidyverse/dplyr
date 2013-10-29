@@ -4,7 +4,6 @@
 #include <dplyr/Result/Everything.h>
 #include <dplyr/Result/is_smaller.h>
 #include <dplyr/Result/GroupedSubset.h>
-#include <dplyr/Result/Subset.h>
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/Processor.h>
 #include <dplyr/Result/Count.h>

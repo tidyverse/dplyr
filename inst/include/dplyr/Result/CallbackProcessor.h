@@ -40,6 +40,7 @@ namespace dplyr{
             CLASS* obj = static_cast<CLASS*>(this) ;
             return obj->process_chunk(df.get_index()) ;    
         }
+        
     } ;
     
 }

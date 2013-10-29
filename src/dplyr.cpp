@@ -67,7 +67,7 @@ Result* get_result( SEXP call, const DataFrame& df){
 }
 
 // FIXME: this is too optimistic
-inline bool can_simplify( SEXP call ){
+bool can_simplify( SEXP call ){
     if( TYPEOF(call) != LANGSXP ) return false ;
     
     int depth = Rf_length( call ) ;

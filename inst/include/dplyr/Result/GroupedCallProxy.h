@@ -3,10 +3,39 @@
 
 namespace dplyr {
      
+    class GroupedHybridCall {
+    public:
+        GroupedHybridCall( const Language& call_, const DataFrame& df_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_ ) : 
+            call( clone(call_) ), df( df_ ), indices(indices_), subsets(subsets_) 
+        {
+            while( simplified(call) ) ;
+        }
+        
+        bool simplified( SEXP obj ){
+            if( TYPEOF(obj) != LANGSXP ) return false ;
+            Result* res = get_result( obj, df ) ;
+            if( res ){
+                Rprintf( ">>>> simplified to\n" ) ;
+                Rf_PrintValue(call) ;
+                SETCAR( obj, res->process(indices) ) ;
+                return true ;
+            }
+            return simplified( CDR( obj ) );
+        }
+           
+        SEXP eval(){
+            return call.fast_eval() ;    
+        }
+        
+    private:
+        Language call ;
+        const DataFrame& df ;
+        const SlicingIndex& indices ;
+        LazyGroupedSubsets& subsets ;
+    } ;
+    
     class GroupedCallProxy {
     public:
-        typedef boost::unordered_map<SEXP, Subset*> SubsetMap ;
-        
         GroupedCallProxy( Language& call_, const GroupedDataFrame& data_, const Environment& env_) : 
             call(call_), subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
         {
@@ -25,6 +54,8 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
+            if( hybrid ) return GroupedHybridCall( call, data.data(), indices, subsets ).eval() ; 
+            
             int n = proxies.size() ;
             for( int i=0; i<n; i++){
                 proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;  
