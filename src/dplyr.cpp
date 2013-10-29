@@ -547,7 +547,8 @@ SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     
     // replace the symbols that are in the data frame by vectors from the data frame
     // and evaluate the expression
-    LogicalVector test = CallProxy( call, df, env ).get( Everything() ) ;
+    CallProxy proxy( call, df, env ) ;
+    LogicalVector test = proxy.eval() ;
     
     DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
     return res ;
@@ -631,7 +632,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
         call_proxy.set_call( args[i] );
         
         // we need to protect the SEXP, that's what the Shelter does
-        SEXP res = __( call_proxy.get( Everything() ) ) ;
+        SEXP res = __( call_proxy.eval() ) ;
         call_proxy.input( results_names[i], res ) ;
         
     }
