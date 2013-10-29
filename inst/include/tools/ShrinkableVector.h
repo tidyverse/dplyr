@@ -20,6 +20,7 @@ namespace Rcpp {
         
         inline void borrow( STORAGE* begin, int n){
             memcpy( start, begin, n * sizeof(STORAGE) );
+            SETLENGTH(data, n) ;
         }
         
         ~ShrinkableVector(){
