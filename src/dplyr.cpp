@@ -729,9 +729,11 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
     for( int k=0; k<nexpr; k++, i++ ){
-        boost::scoped_ptr<Result> res( get_result( args[k], df ) ) ;
+        Result* res( get_result( args[k], df ) ) ;
+        if( !res ) res = new GroupedCalledReducer( args[k], gdf, env) ;
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
+        delete res;
     }
     
     return summarised_grouped_tbl_cpp(out, names, gdf );
@@ -743,7 +745,11 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     
     for( int i=0; i<nexpr; i++){
         boost::scoped_ptr<Result> res( get_result( args[i], df ) ) ;
-        out[i] = res->process( FullDataFrame(df) ) ; 
+        if(res) {
+            out[i] = res->process( FullDataFrame(df) ) ;
+        } else {
+            out[i] = CallProxy( args[i], df, env).eval() ;
+        }
     }
     
     return tbl_cpp( out, args.names(), 1 ) ;

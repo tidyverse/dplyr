@@ -73,13 +73,14 @@ namespace dplyr {
         typedef boost::unordered_map<SEXP, Subset*> SubsetMap ;
         
         GroupedCallProxy( Language& call_, const GroupedDataFrame& data_, const Environment& env_) : 
-            call(call_), subsets(data_), proxies(), env(env_)
+            call(call_), subsets(data_), proxies(), env(env_), data(data_)
         {
             // fill proxies
             traverse_call(call);  
         }
         
-        GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : subsets(data_), proxies(), env(env_) {}
+        GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
+            subsets(data_), proxies(), env(env_), data(data_) {}
         
         ~GroupedCallProxy(){}  
         
@@ -140,6 +141,7 @@ namespace dplyr {
         LazyGroupedSubsets subsets ;
         std::vector<CallElementProxy> proxies ;
         const Environment& env; 
+        const GroupedDataFrame& data ; 
     } ;
 
 }
