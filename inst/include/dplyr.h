@@ -20,6 +20,10 @@ namespace dplyr {
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
 
+inline SEXP as_symbol(SEXP x) {
+    return Rf_install( CHAR(x) );
+}
+    
 // currently [[Rcpp::register]] does nothing.
 //
 // I'd like it to generate the boiler plate code

@@ -1,5 +1,5 @@
-#ifndef dplyr_CallProxy_H
-#define dplyr_CallProxy_H
+#ifndef dplyr_CallElementProxy_H
+#define dplyr_CallElementProxy_H
 
 namespace dplyr {
        
@@ -15,4 +15,6 @@ namespace dplyr {
         SEXP object;
     } ;
 
-}
+}     
+
+#endif

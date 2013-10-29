@@ -66,28 +66,20 @@ Result* get_result( SEXP call, const DataFrame& df){
     return 0 ;
 }
 
-inline bool can_simplify( SEXP call ){
+inline bool can_simplify( SEXP call, const std::vector<SEXP>& symbols ){
     if( TYPEOF(call) != LANGSXP ) return false ;
-    // TODO: we should not need to make the Result*
-    //       review code on top of dplyr.cpp
-    boost::scoped_ptr<Result> res( get_result( call, df ) ) ;
-    if( res ) return true ;
     
-    return can_simplify( CDR(call) ) ;   
-}
+    int depth = Rf_length( call ) ;
+    if( depth == 1 && CAR(call) == Rf_install("n") ) return true ;
     
-CallProxy* call_proxy( SEXP call, const DataFrame& data, const Environment& env ){
-    bool hybrid = can_simplify( call, data ) ;
-    if( hybrid )
-        return new HybridCallProxy( call, env ) ; 
-    return RCallProxy( call, env );
-}
-
-GroupedCallProxy* grouped_call_proxy( SEXP call, const GroupedDataFrame& data, const Environment& env ){
-    bool hybrid = can_simplify( call, data ) ;
-    if( hybrid )
-        return new HybridGroupedCallProxy( call, env ) ; 
-    return RGroupedCallProxy( call, env );
+    if( depth == 2 ){
+        SEXP fun_symbol = CAR(call) ;
+        SEXP arg1 = CADR(call) ;
+        ResultPrototype reducer = get_1_arg( fun_symbol ) ;
+        if(reducer) return true ;        
+    }
+    
+    return can_simplify( CDR(call), symbols ) ;   
 }
 
 template <typename Index>
@@ -529,7 +521,8 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     LogicalVector test = no_init(nrows);
     
     LogicalVector g_test ;
-    CallProxy call_proxy( call, data, env ) ;
+    GroupedCallProxy call_proxy( call, gdf, env ) ;
+    
     int ngroups = gdf.ngroups() ;
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
     for( int i=0; i<ngroups; i++, ++git){
