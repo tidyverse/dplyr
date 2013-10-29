@@ -68,18 +68,18 @@ Result* get_result( SEXP call, const DataFrame& df){
 
 // FIXME: this is too optimistic
 bool can_simplify( SEXP call ){
-    if( TYPEOF(call) != LANGSXP ) return false ;
-    
-    int depth = Rf_length( call ) ;
-    if( depth == 1 && CAR(call) == Rf_install("n") ) return true ;
-    
-    if( depth == 2 ){
-        SEXP fun_symbol = CAR(call) ;
-        ResultPrototype reducer = get_1_arg( fun_symbol ) ;
-        if(reducer) return true ;        
+    if( TYPEOF(call) == LANGSXP || TYPEOF(call) == LISTSXP ){
+        int depth = Rf_length( call ) ;
+        if( depth == 1 && CAR(call) == Rf_install("n") ) return true ;
+        
+        if( depth == 2 ){
+            SEXP fun_symbol = CAR(call) ;
+            ResultPrototype reducer = get_1_arg( fun_symbol ) ;
+            if(reducer) return true ;        
+        }
+        return can_simplify( CDR(call) ) ;    
     }
-    
-    return can_simplify( CDR(call) ) ;   
+    return false ;
 }
 
 template <typename Index>

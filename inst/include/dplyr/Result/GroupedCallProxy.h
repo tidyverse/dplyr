@@ -49,7 +49,8 @@ namespace dplyr {
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
             subsets(data_), proxies(), env(env_), data(data_) 
         {
-            hybrid = can_simplify(call) ; 
+            hybrid = can_simplify(call) ;
+            
         }
         
         ~GroupedCallProxy(){}  
@@ -90,19 +91,22 @@ namespace dplyr {
              if( ! Rf_isNull(obj) ){ 
                  SEXP head = CAR(obj) ;
                  switch( TYPEOF( head ) ){
+                 case LISTSXP:
                  case LANGSXP: 
-                     traverse_call( head ) ;
+                     traverse_call( CDR(head) ) ;
                      break ;
                  case SYMSXP:
-                     if( ! subsets.count(head) ){
-                         // in the Environment -> resolve
-                         // TODO: handle the case where the variable is not found in env
-                         Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                         SETCAR( obj, x );
-                     } else {
-                         // in the data frame
-                         proxies.push_back( CallElementProxy( head, obj ) );
-                     } 
+                     if( TYPEOF(obj) != LANGSXP ){
+                        if( ! subsets.count(head) ){
+                            // in the Environment -> resolve
+                            // TODO: handle the case where the variable is not found in env
+                            Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                            SETCAR( obj, x );
+                        } else {
+                            // in the data frame
+                            proxies.push_back( CallElementProxy( head, obj ) );
+                        } 
+                     }
                      break ;
                  }
                  traverse_call( CDR(obj) ) ;
