@@ -3,18 +3,6 @@
 
 namespace dplyr {
        
-    class CallElementProxy {
-    public:
-        CallElementProxy(SEXP symbol_, SEXP object_) : symbol(symbol_), object(object_){}
-        
-        inline void set(SEXP value){ 
-            SETCAR(object, value) ;
-        } 
-        
-        SEXP symbol;
-        SEXP object;
-    } ;
-    
     class CallProxy {
         public:
             typedef boost::unordered_map<SEXP, Subset*> SubsetMap ;
@@ -26,6 +14,7 @@ namespace dplyr {
                 
                 // fill proxies
                 traverse_call(call);  
+                
             }
             
             CallProxy( const Rcpp::DataFrame& data_, const Environment& env_ ) : subset_map(), proxies(), env(env_) {
