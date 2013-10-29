@@ -18,7 +18,6 @@
 #include <dplyr/Result/Reducer.h>
 #include <dplyr/Result/DelayedReducer.h>
 #include <dplyr/Result/CallProxy.h>
-#include <dplyr/Result/CallReducer.h>
 
 #include <dplyr/Result/ResultSet.h>
 #include <dplyr/Result/factories.h>

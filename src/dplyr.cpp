@@ -682,11 +682,11 @@ Result* get_result( SEXP call, const DataFrame& df, const Environment& env){
         ResultPrototype reducer = get_1_arg( fun_symbol ) ;
         if( reducer ){
             Result* res = reducer( arg1, df ) ;
-            if( res ) return res ;    
+            return res ;    
         }
     }
     
-    return new CallReducer(call, df, env) ;
+    return 0 ;
 }
 
 // [[Rcpp::export]]
