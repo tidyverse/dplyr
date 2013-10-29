@@ -14,7 +14,7 @@ namespace dplyr {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         
-        GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, CallProxy& proxy_, const GroupedDataFrame& gdf_ ) : 
+        GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, GroupedCallProxy& proxy_, const GroupedDataFrame& gdf_ ) : 
             gdf(gdf_), proxy(proxy_), data(no_init(gdf.nrows())) 
         {
             grab( first, indices ) ;
@@ -44,12 +44,13 @@ namespace dplyr {
         }
         
         const GroupedDataFrame& gdf ;
-        CallProxy& proxy ;
+        GroupedCallProxy& proxy ;
         Vector<RTYPE> data ;
+        
     } ;
 
 
-    inline Gatherer* gatherer( CallProxy& proxy, const GroupedDataFrame& gdf ){
+    inline Gatherer* gatherer( GroupedCallProxy& proxy, const GroupedDataFrame& gdf ){
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;
         Shield<SEXP> first( proxy.get(indices) ) ; 

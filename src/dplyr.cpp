@@ -603,17 +603,16 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
     
-    CallProxy call_proxy(df, env) ;
+    GroupedCallProxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
     
     for( int i=0; i<nexpr; i++){
-        call_proxy.set_call( args[i] );
-        boost::scoped_ptr<Gatherer> gather( gatherer( call_proxy, gdf ) );
-        SEXP res = __( gather->collect() ) ;
-        call_proxy.input( results_names[i], res ) ;
+        proxy.set_call( args[i] );
+        boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
+        proxy.input( results_names[i], __( gather->collect() ) ) ;
     }
     
-    DataFrame res = structure_mutate( call_proxy, df, results_names, classes_grouped() ) ;
+    DataFrame res = structure_mutate( proxy, df, results_names, classes_grouped() ) ;
     res.attr( "vars")    = gdf.attr("vars") ;
     res.attr( "labels" ) = gdf.attr("labels" );
     res.attr( "index")   = gdf.attr("index") ;
