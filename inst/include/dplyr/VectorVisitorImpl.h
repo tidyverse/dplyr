@@ -65,7 +65,6 @@ namespace dplyr {
             ChunkIndexMap::const_iterator it = map.begin(); 
             for( int i=0; i<n; i++, ++it)
                 out[i] = vec[ it->first ] ;
-            set_factor( out ) ;
             return out ;
         }
         
@@ -76,7 +75,6 @@ namespace dplyr {
                 while( ! index[i] ) i++; 
                 out[k] = vec[i] ;
             }
-            set_factor( out ) ;
             return out ;
         }
         
@@ -92,15 +90,7 @@ namespace dplyr {
             // TODO: find a way to mark that we don't need the NA handling
             for( int i=0; i<n; i++) 
                 out[i] = (index[i] < 0) ? VECTOR::get_na() : vec[ index[i] ] ;
-            set_factor( out ) ;
             return out ;
-        }
-        
-        void set_factor( VECTOR& out ){
-            if( RTYPE == INTSXP && Rf_inherits(vec, "factor" ) ){
-                out.attr( "levels" ) = vec.attr("levels") ;
-                out.attr( "class"  ) = "factor" ;
-            }
         }
         
     } ;
@@ -133,6 +123,53 @@ namespace dplyr {
         }
     } ;
     
+    class FactorVisitor : public VectorVisitorImpl<INTSXP> {
+    public:    
+        typedef VectorVisitorImpl<INTSXP> Parent ;
+        typedef comparisons<STRSXP> string_compare ;
+        
+        FactorVisitor( const IntegerVector& vec ) : 
+            Parent(vec), levels( vec.attr( "levels" ) ), levels_ptr(Rcpp::internal::r_vector_start<STRSXP>(levels) ) {}
+        
+        inline bool equal(int i, int j){ 
+            return string_compare::is_equal( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+        }
+        
+        inline bool less(int i, int j){ 
+            return compare::is_less( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+        }
+        
+        inline bool greater(int i, int j){ 
+            return compare::is_greater( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+        }
+            
+        inline SEXP subset( const Rcpp::IntegerVector& index){
+            return promote( Parent::subset( index ) );
+        }
+        
+        inline SEXP subset( const std::vector<int>& index){
+            return promote( Parent::subset( index ) ) ;    
+        }
+        
+        inline SEXP subset( const ChunkIndexMap& map ){
+            return promote( Parent::subset( map ) ) ;
+        }
+        
+        inline SEXP subset( const Rcpp::LogicalVector& index ){
+            return promote( Parent::subset( index ) ) ;
+        }
+        
+    private:
+    
+        inline SEXP promote( IntegerVector x){
+            x.attr( "class" ) = vec.attr( "class" );
+            x.attr( "levels" ) = levels ;
+        }
+        
+        CharacterVector levels ;
+        SEXP* levels_ptr ;
+    } ;
+    
     #define PROMOTE_VISITOR(__CLASS__)                                                   \
     class __CLASS__ : public PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> >{\
     public:                                                                              \
@@ -143,7 +180,9 @@ namespace dplyr {
     
     inline VectorVisitor* visitor( SEXP vec ){
         switch( TYPEOF(vec) ){
-            case INTSXP:  
+            case INTSXP: 
+                if( Rf_inherits(vec, "factor" ))
+                    return new FactorVisitor( vec ) ;
                 return new VectorVisitorImpl<INTSXP>( vec ) ;
             case REALSXP:
                 if( Rf_inherits( vec, "Date" ) )
