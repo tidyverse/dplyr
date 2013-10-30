@@ -1,13 +1,22 @@
 context("Equivalence (joins)") 
 
+dates <- Sys.Date()+1:4
+times <- Sys.time()+1:4
+
 c <- data.frame(
   x = c(1, 1, 2, 3), 
   y = c(1, 1, 2, 3), 
-  a = 1:4)
+  a = 1:4, 
+  d = dates, 
+  t = times 
+  )
 d <- data.frame(
   x = c(1, 2, 2, 4), 
   y = c(1, 2, 2, 4),
-  b = 1:4)
+  b = 1:4, 
+  dd = dates, 
+  tt = times 
+  )
 
 srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
 tbls <- temp_load(srcs, list(c = c, d = d))
