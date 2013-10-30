@@ -397,13 +397,13 @@ DataFrame build_index_cpp( DataFrame data ){
         chunks[ i ] = &it->second ;
     }
     IntegerVector group_sizes = no_init( ngroups );
-    size_t biggest_group = 0 ;
+    int biggest_group = 0 ;
     std::vector<int> indices ;
     indices.reserve( data.nrows() );
     for( int i=0; i<ngroups; i++){
         const std::vector<int>& chunk = *chunks[orders[i]] ;
         push_back( indices, chunk ) ;
-        biggest_group = std::max( biggest_group, chunk.size() );
+        biggest_group = std::max( biggest_group, (int)chunk.size() );
         group_sizes[i] = chunk.size() ;
     }
     
