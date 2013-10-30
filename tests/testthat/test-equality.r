@@ -36,7 +36,7 @@ test_that("data frames not equal if missing row", {
 
 test_that("factors equal only if levels equal", {
   df1 <- data.frame(x = factor(c("a", "b")))
-  df2 <- data.frame(x = factor(c("a", "b")), levels = c("b", "a"))
+  df2 <- data.frame(x = factor(c("a", "d")))
   expect_false(equal_data_frame(df1, df2))
 })
 
