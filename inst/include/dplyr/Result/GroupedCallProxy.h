@@ -8,11 +8,7 @@ namespace dplyr {
         GroupedHybridCall( const Language& call_, const DataFrame& df_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_ ) : 
             call( clone(call_) ), df( df_ ), indices(indices_) // , subsets(subsets_) 
         {
-            Rprintf( "GroupedHybridCall::GroupedHybridCall()\n") ;
-            while( simplified(call, call) ){
-                Rprintf( "simplified to\n" ) ;
-                Rf_PrintValue(call) ;
-            }
+            while( simplified(call, call) ) ;
         }
         
         SEXP eval(){
@@ -55,15 +51,16 @@ namespace dplyr {
             // fill proxies
             traverse_call(call);
             
-            hybrid = can_simplify_call(call) ; 
+            // not yet
+            // hybrid = can_simplify_call(call) ; 
             
         }
         
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
             subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
         {
-            hybrid = can_simplify_call(call) ;
-            
+            // not yet
+            // hybrid = can_simplify_call(call) ;
         }
         
         ~GroupedCallProxy(){}  
