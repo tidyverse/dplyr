@@ -9,7 +9,7 @@ namespace dplyr {
             call( clone(call_) ), df( df_ ), indices(indices_) // , subsets(subsets_) 
         {
             Rprintf( "GroupedHybridCall::GroupedHybridCall()\n") ;
-            while( simplified(call) ){
+            while( simplified(call, call) ){
                 Rprintf( "simplified to\n" ) ;
                 Rf_PrintValue(call) ;
             }
@@ -21,23 +21,22 @@ namespace dplyr {
         
     private:
         
-        bool simplified( SEXP obj ){
+        bool simplified( SEXP obj, SEXP parent ){
             if( TYPEOF(obj) == LISTSXP ){
-                bool res = simplified( CAR(obj) ) ;
+                bool res = simplified( CAR(obj), parent ) ;
                 if( res ) return true ;
-                return simplified( CDR(obj) );
+                return simplified( CDR(obj), CDR(obj) );
             }
             
             if( TYPEOF(obj) == LANGSXP ) {
                 Result* res = get_result( obj, df ) ;
                 if( res ){
                     Shield<SEXP> value( res->process(indices) ) ;
-                    SETCAR( obj, value ) ;
-                    SETCDR( obj, R_NilValue );
-                    SET_TYPEOF( obj, TYPEOF(value) ); 
+                    SETCAR( parent, value ) ;
+                    SETCDR( parent, R_NilValue );
                     return true ;
                 }
-                return simplified( CDR( obj ) );
+                return simplified( CDR(obj), CDR(obj) );
             }
             return false ;
         }
