@@ -1,0 +1,28 @@
+\name{setops}
+\alias{intersect}
+\alias{setdiff}
+\alias{setequal}
+\alias{setops}
+\alias{union}
+\title{Set operations.}
+\usage{
+  intersect(x, y, ...)
+
+  union(x, y, ...)
+
+  setdiff(x, y, ...)
+
+  setequal(x, y, ...)
+}
+\arguments{
+  \item{x,y}{objects to compare (ignoring order)}
+
+  \item{....}{other arguments passed on to methods}
+}
+\description{
+  These functions override the set functions provided in
+  base to make them generic so that efficient versions for
+  data frames and other tables can be provided. The default
+  methods call the base versions.
+}
+

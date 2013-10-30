@@ -92,3 +92,4 @@ Collate:
     'data-temp.r'
     'tbl-cube.r'
     'manip-cube.r'
+    'sets.r'
