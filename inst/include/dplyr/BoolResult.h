@@ -14,6 +14,7 @@ namespace dplyr{
         inline operator SEXP() const { 
             Shield<SEXP> res( Rf_ScalarLogical( result ) ) ;
             Rf_setAttrib( res, Rf_install("comment"), Rf_mkString(message.c_str()) );
+            Rf_setAttrib( res, Rf_install("class"), Rf_mkString("BoolResult") );
             return res; 
         }
         
