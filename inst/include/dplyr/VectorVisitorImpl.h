@@ -133,11 +133,14 @@ namespace dplyr {
         }
     } ;
     
-    class DateVisitor : public PromoteClassVisitor<DateVisitor, VectorVisitorImpl<REALSXP> >{
-    public:
-        DateVisitor( const NumericVector& vec_) : PromoteClassVisitor(vec_){}
+    #define PROMOTE_VISITOR(__CLASS__)                                                   \
+    class __CLASS__ : public PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> >{\
+    public:                                                                              \
+        __CLASS__( const NumericVector& vec_) : PromoteClassVisitor(vec_){}              \
     } ;
-
+    PROMOTE_VISITOR(DateVisitor)
+    PROMOTE_VISITOR(POSIXctVisitor)
+    
     inline VectorVisitor* visitor( SEXP vec ){
         switch( TYPEOF(vec) ){
             case INTSXP:  
@@ -145,6 +148,8 @@ namespace dplyr {
             case REALSXP:
                 if( Rf_inherits( vec, "Date" ) )
                     return new DateVisitor( vec ) ;
+                if( Rf_inherits( vec, "POSIXct" ) )
+                    return new POSIXctVisitor( vec ) ;
                 return new VectorVisitorImpl<REALSXP>( vec ) ;
             case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
             case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
