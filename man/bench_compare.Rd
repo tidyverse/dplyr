@@ -72,7 +72,7 @@ two_tables <- lapply(lahman_local, setup)
 op <- function(tbls) {
   semi_join(tbls[[1]], tbls[[2]], by = "playerID")
 }
-compare_tbls(two_tables, op)
+# compare_tbls(two_tables, op)
 bench_tbls(two_tables, op, times = 2)
 
 }
