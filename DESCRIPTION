@@ -21,7 +21,8 @@ Suggests:
     Lahman,
     knitr,
     microbenchmark,
-    ggplot2
+    ggplot2,
+    mgcv
 VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
