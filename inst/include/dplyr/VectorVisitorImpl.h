@@ -126,21 +126,20 @@ namespace dplyr {
     class FactorVisitor : public VectorVisitorImpl<INTSXP> {
     public:    
         typedef VectorVisitorImpl<INTSXP> Parent ;
-        typedef comparisons<STRSXP> string_compare ;
         
         FactorVisitor( const IntegerVector& vec ) : 
             Parent(vec), levels( vec.attr( "levels" ) ), levels_ptr(Rcpp::internal::r_vector_start<STRSXP>(levels) ) {}
         
         inline bool equal(int i, int j){ 
-            return string_compare::is_equal( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+            return string_compare.is_equal( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
         }
         
         inline bool less(int i, int j){ 
-            return compare::is_less( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+            return string_compare.is_less( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
         }
         
         inline bool greater(int i, int j){ 
-            return compare::is_greater( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+            return string_compare.is_greater( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
         }
             
         inline SEXP subset( const Rcpp::IntegerVector& index){
@@ -164,10 +163,12 @@ namespace dplyr {
         inline SEXP promote( IntegerVector x){
             x.attr( "class" ) = vec.attr( "class" );
             x.attr( "levels" ) = levels ;
+            return x;
         }
         
         CharacterVector levels ;
         SEXP* levels_ptr ;
+        comparisons<STRSXP> string_compare ;
     } ;
     
     #define PROMOTE_VISITOR(__CLASS__)                                                   \
