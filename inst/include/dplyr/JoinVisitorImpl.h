@@ -46,14 +46,14 @@ namespace dplyr{
         }
         
     } ;
-    
+              
     class StringLessPredicate : comparisons<STRSXP>{
     public:
         typedef SEXP value_type ;
         inline bool operator()( SEXP x, SEXP y){
             return comparisons::is_less(x, y) ;    
         }
-    } ;
+    } ;  
     
     class JoinFactorVisitor : public JoinVisitorImpl<INTSXP> {
     public:
@@ -149,6 +149,37 @@ namespace dplyr{
         
     } ;
     
+    template <typename Class, typename JoinVisitorImpl> 
+    class PromoteClassJoinVisitor : public JoinVisitorImpl {
+    public:
+        typedef typename JoinVisitorImpl::Vec Vec ;
+        
+        PromoteClassJoinVisitor( const Vec& left, const Vec& right) : JoinVisitorImpl(left, right){}
+        
+        inline SEXP subset( const std::vector<int>& indices ){
+            return promote( JoinVisitorImpl::subset( indices) ) ; 
+        }
+        
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+            return promote( JoinVisitorImpl::subset( set) ) ;
+        }
+        
+    private:
+        inline SEXP promote( Vec vec){
+            vec.attr( "class" ) = JoinVisitorImpl::left.attr( "class" );
+            return vec ;
+        }
+    } ;
+    
+    #define PROMOTE_JOIN_VISITOR(__CLASS__)                                                   \
+    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP> >{\
+    public:                                                                              \
+        __CLASS__( const NumericVector& left_, const NumericVector& right_) :   \
+        PromoteClassJoinVisitor(left_, right_){}              \
+    } ;
+    PROMOTE_JOIN_VISITOR(DateJoinVisitor)
+    PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
+    
     inline JoinVisitor* join_visitor( SEXP left, SEXP right ){
         if( TYPEOF(left) != TYPEOF(right) ) 
             stop( "cannot create join visitor from incompatible types" ) ;
@@ -157,7 +188,13 @@ namespace dplyr{
                 if( Rf_inherits( left, "factor" ) )
                     return new JoinFactorVisitor(left, right) ;
                 return new JoinVisitorImpl<INTSXP> ( left, right ) ;
-            case REALSXP: return new JoinVisitorImpl<REALSXP>( left, right ) ;
+            case REALSXP: 
+                if( Rf_inherits( left, "Date" ) )
+                    return new DateJoinVisitor(left, right ) ;
+                if( Rf_inherits( left, "POSIXct" ) )
+                    return new POSIXctJoinVisitor(left, right ) ;
+                
+                return new JoinVisitorImpl<REALSXP>( left, right ) ;
             case LGLSXP:  return new JoinVisitorImpl<LGLSXP> ( left, right ) ;
             case STRSXP:  return new JoinVisitorImpl<STRSXP> ( left, right ) ;
             default: break ;
