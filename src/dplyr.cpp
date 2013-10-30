@@ -300,14 +300,14 @@ SEXP promote(SEXP x){
 
 //' @export
 // [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = false, bool convert = false ){
+dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false ){
     int n = x.size() ;
     if( n != y.size() ) 
         return no_because( "not the same number of variables" ) ;
     
     CharacterVector names_x = clone<CharacterVector>(x.names()) ; 
     CharacterVector names_y = clone<CharacterVector>(y.names()) ; 
-    if( ! ignore_col_order ){
+    if( ignore_col_order ){
         names_y.sort() ;
         names_x.sort() ;
     }
@@ -344,7 +344,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     if( nrows != y.nrows() )
         return no_because( "different row sizes" );
     
-    if( ignore_row_order ){
+    if( !ignore_row_order ){
         DataFrameJoinVisitors visitors(x, y, x.names() ) ;
         for( int i=0; i<nrows; i++)
             if( !visitors.equal( i, -i-1) )

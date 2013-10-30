@@ -26,7 +26,7 @@ right_join_impl <- function(x, y, by) {
 }
 
 #' @export
-compatible_data_frame <- function(x, y, ignore_col_order = FALSE, convert = FALSE) {
+compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
     .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, convert)
 }
 

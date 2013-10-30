@@ -108,7 +108,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // compatible_data_frame
-dplyr::BoolResult compatible_data_frame(DataFrame& x, DataFrame& y, bool ignore_col_order = false, bool convert = false);
+dplyr::BoolResult compatible_data_frame(DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false);
 RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP convertSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
