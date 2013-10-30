@@ -105,32 +105,37 @@ namespace dplyr {
         
     } ;
     
-    class DateVisitor : public VectorVisitorImpl<REALSXP>{
+    template <typename Class, typename VisitorImpl> 
+    class PromoteClassVisitor : public VisitorImpl {
     public:
-        typedef VectorVisitorImpl<REALSXP> Parent ;
-        DateVisitor( const NumericVector& vec_ ) : Parent(vec_){}
+        typedef typename VisitorImpl::VECTOR VECTOR ;
+        PromoteClassVisitor( const VECTOR& vec ) : VisitorImpl(vec){}
         
         inline SEXP subset( const Rcpp::IntegerVector& index){
-            return promote( Parent::subset( index ) );
+            return promote( VisitorImpl::subset( index ) );
         }
         
         inline SEXP subset( const std::vector<int>& index){
-            return promote( Parent::subset( index ) ) ;    
+            return promote( VisitorImpl::subset( index ) ) ;    
         }
         
         inline SEXP subset( const ChunkIndexMap& map ){
-            return promote( Parent::subset( map ) ) ;
+            return promote( VisitorImpl::subset( map ) ) ;
         }
         
         inline SEXP subset( const Rcpp::LogicalVector& index ){
-            return promote( Parent::subset( index ) ) ;
+            return promote( VisitorImpl::subset( index ) ) ;
         }
-        
     private:
         inline SEXP promote( NumericVector x){
-            x.attr( "class" ) = vec.attr( "class" ) ;
+            x.attr( "class" ) = VisitorImpl::vec.attr( "class" ) ;
             return x ;
         }
+    } ;
+    
+    class DateVisitor : public PromoteClassVisitor<DateVisitor, VectorVisitorImpl<REALSXP> >{
+    public:
+        DateVisitor( const NumericVector& vec_) : PromoteClassVisitor(vec_){}
     } ;
 
     inline VectorVisitor* visitor( SEXP vec ){
