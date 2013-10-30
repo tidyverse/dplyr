@@ -336,7 +336,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
 //' @export
 // [[Rcpp::export]]
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false, bool convert = false ){
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false ){
     BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
     if( !compat ) return compat ;
     

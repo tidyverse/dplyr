@@ -126,7 +126,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // equal_data_frame
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = false, bool ignore_row_order = false, bool convert = false);
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false);
 RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP, SEXP convertSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;

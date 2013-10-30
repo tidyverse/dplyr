@@ -31,7 +31,7 @@ compatible_data_frame <- function(x, y, ignore_col_order = FALSE, convert = FALS
 }
 
 #' @export
-equal_data_frame <- function(x, y, ignore_col_order = FALSE, ignore_row_order = FALSE, convert = FALSE) {
+equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
     .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order, convert)
 }
 
