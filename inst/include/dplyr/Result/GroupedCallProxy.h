@@ -8,26 +8,40 @@ namespace dplyr {
         GroupedHybridCall( const Language& call_, const DataFrame& df_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_ ) : 
             call( clone(call_) ), df( df_ ), indices(indices_) // , subsets(subsets_) 
         {
-            while( simplified(call) ) ;
+            Rprintf( "GroupedHybridCall::GroupedHybridCall()\n") ;
+            while( simplified(call) ){
+                Rprintf( "simplified to\n" ) ;
+                Rf_PrintValue(call) ;
+            }
         }
         
-        bool simplified( SEXP obj ){
-            if( TYPEOF(obj) != LANGSXP ) return false ;
-            Result* res = get_result( obj, df ) ;
-            if( res ){
-                Rprintf( ">>>> simplified to\n" ) ;
-                Rf_PrintValue(call) ;
-                SETCAR( obj, res->process(indices) ) ;
-                return true ;
-            }
-            return simplified( CDR( obj ) );
-        }
-           
         SEXP eval(){
             return call.fast_eval() ;    
         }
         
     private:
+        
+        bool simplified( SEXP obj ){
+            if( TYPEOF(obj) == LISTSXP ){
+                bool res = simplified( CAR(obj) ) ;
+                if( res ) return true ;
+                return simplified( CDR(obj) );
+            }
+            
+            if( TYPEOF(obj) == LANGSXP ) {
+                Result* res = get_result( obj, df ) ;
+                if( res ){
+                    Shield<SEXP> value( res->process(indices) ) ;
+                    SETCAR( obj, value ) ;
+                    SETCDR( obj, R_NilValue );
+                    SET_TYPEOF( obj, TYPEOF(value) ); 
+                    return true ;
+                }
+                return simplified( CDR( obj ) );
+            }
+            return false ;
+        }
+        
         Language call ;
         const DataFrame& df ;
         const SlicingIndex& indices ;
