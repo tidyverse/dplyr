@@ -68,7 +68,13 @@ Result* get_result( SEXP call, const DataFrame& df){
 
 // FIXME: this is too optimistic
 bool can_simplify( SEXP call ){
-    if( TYPEOF(call) == LANGSXP || TYPEOF(call) == LISTSXP ){
+    if( TYPEOF(call) == LISTSXP ){
+        bool res = can_simplify( CAR(call) ) ;
+        if( res ) return true ;
+        return can_simplify( CDR(call) ) ;        
+    }
+    
+    if( TYPEOF(call) == LANGSXP ){
         int depth = Rf_length( call ) ;
         if( depth == 1 && CAR(call) == Rf_install("n") ) return true ;
         

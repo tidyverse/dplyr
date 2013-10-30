@@ -42,14 +42,14 @@ namespace dplyr {
             // fill proxies
             traverse_call(call);
             
-            hybrid = can_simplify(call) ; 
+            hybrid = can_simplify_call(call) ; 
             
         }
         
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
-            subsets(data_), proxies(), env(env_), data(data_) 
+            subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
         {
-            hybrid = can_simplify(call) ;
+            hybrid = can_simplify_call(call) ;
             
         }
         
@@ -85,7 +85,14 @@ namespace dplyr {
             return subsets.get_variable(as_symbol(name.get_sexp()) ) ;
         }
         
+        
     private:
+        
+        inline bool can_simplify_call( SEXP call){
+            bool res = can_simplify(call); 
+            Rprintf( "can_simplify = %d\n", res );
+            return res ;
+        }
         
         void traverse_call( SEXP obj ){
              if( ! Rf_isNull(obj) ){ 
