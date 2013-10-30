@@ -89,9 +89,7 @@ namespace dplyr {
     private:
         
         inline bool can_simplify_call( SEXP call){
-            bool res = can_simplify(call); 
-            Rprintf( "can_simplify = %d\n", res );
-            return res ;
+            return can_simplify(call);
         }
         
         void traverse_call( SEXP obj ){
