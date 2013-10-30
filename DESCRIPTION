@@ -93,3 +93,4 @@ Collate:
     'tbl-cube.r'
     'manip-cube.r'
     'sets.r'
+    'all-equal.r'
