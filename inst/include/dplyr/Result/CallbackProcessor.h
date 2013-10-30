@@ -10,7 +10,7 @@ namespace dplyr{
     // for storing the results, and it creates a suitable DelayedProcessor
     // object which is then used to fill the vector
     //
-    // DelayedReducer and CallReducer are examples of how CallbackReducer is used
+    // DelayedReducer is an example on how CallbackReducer is used
     //
     // it is assumed that the SEXP comes from evaluating some R expression, so
     // it should be one of a integer vector of length one, a numeric vector of 
@@ -40,6 +40,7 @@ namespace dplyr{
             CLASS* obj = static_cast<CLASS*>(this) ;
             return obj->process_chunk(df.get_index()) ;    
         }
+        
     } ;
     
 }

@@ -4,6 +4,10 @@
 #include <Rcpp.h>
 using namespace Rcpp ;
 
+// borrowed from Rcpp11
+#define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
+#define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
+
 #include <boost/functional/hash.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/unordered_set.hpp>
@@ -19,7 +23,13 @@ namespace dplyr {
     class DataFrameJoinVisitors ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
+dplyr::Result* get_result( SEXP, const DataFrame&) ;
+bool can_simplify(SEXP) ;
 
+inline SEXP as_symbol(SEXP x) {
+    return Rf_install( CHAR(x) );
+}
+    
 // currently [[Rcpp::register]] does nothing.
 //
 // I'd like it to generate the boiler plate code
@@ -49,11 +59,6 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/Order.h>
-
-
-// borrowed from Rcpp11
-#define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
-#define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
 
 #include <dplyr/registration.h>
 

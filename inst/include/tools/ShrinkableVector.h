@@ -6,7 +6,9 @@ namespace Rcpp {
     template <int RTYPE>
     class ShrinkableVector {
     public:
-        ShrinkableVector( int n ) : data( no_init(n) ), max_size(n) {}
+        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+        
+        ShrinkableVector( int n ) : data( no_init(n) ), max_size(n), start( internal::r_vector_start<RTYPE>(data) ) {}
         
         inline void resize( int n){
             SETLENGTH( data, n ) ;    
@@ -14,6 +16,11 @@ namespace Rcpp {
         
         inline operator SEXP() const {
             return data ;
+        }
+        
+        inline void borrow( STORAGE* begin, int n){
+            memcpy( start, begin, n * sizeof(STORAGE) );
+            SETLENGTH(data, n) ;
         }
         
         ~ShrinkableVector(){
@@ -24,6 +31,7 @@ namespace Rcpp {
     private:
         Rcpp::Vector<RTYPE> data ;
         int max_size ;
+        STORAGE* start ;
     } ;
     
 }

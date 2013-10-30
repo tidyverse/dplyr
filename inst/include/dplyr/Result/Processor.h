@@ -26,8 +26,12 @@ namespace dplyr{
         }
         
         virtual SEXP process( const Rcpp::FullDataFrame& df){
+            return process( df.get_index() );    
+        }
+        
+        virtual SEXP process( const SlicingIndex& index){
             CLASS* obj = static_cast<CLASS*>(this) ;
-            return Rcpp::Vector<OUTPUT>::create( obj->process_chunk(df.get_index()) );    
+            return Rcpp::Vector<OUTPUT>::create( obj->process_chunk(index) );    
         }
     } ;
     
@@ -47,10 +51,13 @@ namespace dplyr{
         }
         
         virtual SEXP process( const Rcpp::FullDataFrame& df){
-            CLASS* obj = static_cast<CLASS*>(this) ;
-            return Rf_mkString( obj->process_chunk(df.get_index()) );    
+            return process( df.get_index() );    
         }
         
+        virtual SEXP process( const SlicingIndex& index){
+            CLASS* obj = static_cast<CLASS*>(this) ;
+            return Rf_mkString( obj->process_chunk(index) );    
+        }
     } ;
 
 }
