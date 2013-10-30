@@ -56,6 +56,9 @@ Result* get_result( SEXP call, const DataFrame& df){
     if( depth == 2 ){
         SEXP fun_symbol = CAR(call) ;
         SEXP arg1 = CADR(call) ;
+        if ( TYPEOF(arg1) != SYMSXP || TYPEOF(arg1) != SYMSXP ) 
+          return 0;
+        
         ResultPrototype reducer = get_1_arg( fun_symbol ) ;
         if( reducer ){
             Result* res = reducer( arg1, df ) ;
@@ -79,7 +82,11 @@ bool can_simplify( SEXP call ){
         if( depth == 1 && CAR(call) == Rf_install("n") ) return true ;
         
         if( depth == 2 ){
+            SEXP arg1 = CADR(call) ;
+            if (TYPEOF(arg1) != SYMSXP) return false;
+
             SEXP fun_symbol = CAR(call) ;
+            if (TYPEOF(fun_symbol) != SYMSXP) return false;
             ResultPrototype reducer = get_1_arg( fun_symbol ) ;
             if(reducer) return true ;        
         }
