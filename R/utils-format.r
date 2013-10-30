@@ -71,3 +71,10 @@ ruler <- function() {
   cat(y, "\n", sep = "")
   cat(x %% 10, "\n", sep = "")
 }
+
+#' @S3method print BoolResult
+print.BoolResult <- function(x, ...) {
+  cat(x)
+  if (!x) cat(": ", attr(x, "comment"), sep = "")
+  cat("\n")
+}
