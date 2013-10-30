@@ -25,12 +25,10 @@ right_join_impl <- function(x, y, by) {
     .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
-#' @export
 compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
     .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, convert)
 }
 
-#' @export
 equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
     .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order, convert)
 }

@@ -13,9 +13,9 @@ df_all <- data.frame(
 )
 
 test_that("data frames equal to themselves", {
-  expect_true(equal_data_frame(mtcars, mtcars))
-  expect_true(equal_data_frame(iris, iris))
-  expect_true(equal_data_frame(df_all, df_all))
+  expect_true(all.equal(mtcars, mtcars))
+  expect_true(all.equal(iris, iris))
+  expect_true(all.equal(df_all, df_all))
 })
 
 test_that("data frames equal to random permutations of themselves", {
@@ -23,21 +23,21 @@ test_that("data frames equal to random permutations of themselves", {
     x[sample(nrow(x)), sample(ncol(x)), drop = FALSE]
   }
   
-  expect_true(equal_data_frame(mtcars, scramble(mtcars)))
-  expect_true(equal_data_frame(iris, scramble(iris)))
-  expect_true(equal_data_frame(df_all, scramble(df_all)))
+  expect_true(all.equal(mtcars, scramble(mtcars)))
+  expect_true(all.equal(iris, scramble(iris)))
+  expect_true(all.equal(df_all, scramble(df_all)))
 })
 
 test_that("data frames not equal if missing row", {
-  expect_false(equal_data_frame(mtcars, mtcars[-1, ]))
-  expect_false(equal_data_frame(iris, iris[-1, ]))
-  expect_false(equal_data_frame(df_all, df_all[-1, ]))
+  expect_match(all.equal(mtcars, mtcars[-1, ]), "row sizes")
+  expect_match(all.equal(iris, iris[-1, ]), "row sizes")
+  expect_match(all.equal(df_all, df_all[-1, ]), "row sizes")
 })
 
 test_that("factors equal only if levels equal", {
   df1 <- data.frame(x = factor(c("a", "b")))
   df2 <- data.frame(x = factor(c("a", "d")))
-  expect_false(equal_data_frame(df1, df2))
+  expect_match(all.equal(df1, df2), "different subset")
 })
 
 test_that("integers and reals are not equal", {
@@ -47,5 +47,5 @@ test_that("integers and reals are not equal", {
   df1 <- data.frame(x = x)
   df2 <- data.frame(x = y)
   
-  expect_false(equal_data_frame(x, y))
+  expect_match(all.equal(x, y), "different types")
 })

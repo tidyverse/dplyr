@@ -298,7 +298,6 @@ SEXP promote(SEXP x){
     return x ;
 }
 
-//' @export
 // [[Rcpp::export]]
 dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false ){
     int n = x.size() ;
@@ -334,7 +333,6 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
     return yes() ;
 }
 
-//' @export
 // [[Rcpp::export]]
 dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false ){
     BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
