@@ -36,6 +36,11 @@ public:
     
     virtual SEXP subset( const Rcpp::LogicalVector& index ) = 0 ;
     
+    virtual std::string get_r_type() const = 0 ;
+    
+    virtual bool is_compatible( VectorVisitor* other, std::stringstream&, const std::string& ){
+        return true ;    
+    }
 } ;
 
 } // namespace dplyr

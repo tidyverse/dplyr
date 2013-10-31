@@ -6,7 +6,7 @@ namespace dplyr{
     class BoolResult {
     public:
         BoolResult(bool result_) : result(result_){}
-        BoolResult(bool result_, const char* msg) : result(result_), message(msg){}
+        BoolResult(bool result_, const std::string& msg) : result(result_), message(msg){}
         
         void set_true(){ result = true ; message.clear() ; }
         void set_false( const char* msg ){ result = false; message = msg ; }
@@ -27,7 +27,7 @@ namespace dplyr{
         std::string message ;
     } ;
     
-    inline BoolResult no_because( const char* msg ){
+    inline BoolResult no_because( const std::string& msg ){
         return BoolResult( false, msg );
     }
     

@@ -277,16 +277,6 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
 }
 
-template <typename VisitorSet>
-bool all_same_types(const VisitorSet& vx, const VisitorSet& vy){
-    int n = vx.size() ;
-    for( int i=0; i<n; i++){
-        if( typeid(*vx.get(i)) != typeid(*vy.get(i)) )
-            return false ;
-    }
-    return true ;
-}
-
 SEXP promote(SEXP x){
     if( TYPEOF(x) == INTSXP ){
         IntegerVector data(x) ;
@@ -309,19 +299,43 @@ SEXP promote(SEXP x){
 dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false ){
     int n = x.size() ;
     
-    CharacterVector names_x = clone<CharacterVector>(x.names()) ; 
-    CharacterVector names_y = clone<CharacterVector>(y.names()) ; 
+    CharacterVector names_x = x.names() ; 
+    CharacterVector names_y = y.names() ; 
     
-    if( ignore_col_order ){
-        names_y.sort() ;
-        names_x.sort() ;
-        
-        // CharacterVector names_y_not_in_x = setdiff( names_y, names_x );
+    CharacterVector names_y_not_in_x = setdiff( names_y, names_x );
+    CharacterVector names_x_not_in_y = setdiff( names_x, names_y );
+    std::stringstream ss ;
+    bool ok = true ;
+    
+    if( !ignore_col_order ){
+        if( names_y_not_in_x.size() == 0 && names_y_not_in_x.size() == 0 ){
+            // so the names are the same, check if they are in the same order
+            for( int i=0; i<n; i++){
+                if( names_x[i] != names_y[i] ){
+                    ok = false ;
+                    break ; 
+                }
+            }  
+            if( !ok ){
+                ss <<  "Same column names, but different order" ;
+                return no_because( ss.str() ) ;
+            }
+        }
     }
     
-    for( int i=0; i<n; i++) 
-        if( names_x[i] != names_y[i] )
-            return no_because( "not the same variable names. ") ; 
+    if( names_y_not_in_x.size() ){
+        ok = false ;
+        ss << "columns in y not in x" << collapse(names_y_not_in_x) << std::endl ;   
+    }
+    
+    if( names_x_not_in_y.size() ){
+        ok = false ;
+        ss << "columns in x not in y" << collapse(names_x_not_in_y) << std::endl ;   
+    }
+    
+    if(!ok){
+        return no_because( ss.str() ) ;    
+    }
     
     if( convert ){
         x = clone(x) ;
@@ -334,10 +348,28 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
         
         
     DataFrameVisitors v_x( x, names_x );
-    DataFrameVisitors v_y( y, names_y );
-    if( ! all_same_types(v_x, v_y ) )
-        return no_because( "different types" ) ;
+    DataFrameVisitors v_y( y, names_x );
     
+    ok = true ;
+    for( int i=0; i<n; i++){
+        if( typeid(*v_x.get(i)) != typeid(*v_y.get(i)) ){
+            ss << "Incompatible type for column " 
+               << names_x[i]
+               << ": x " 
+               << v_x.get(i)->get_r_type()
+               << ", y "
+               << v_y.get(i)->get_r_type() 
+               << std::endl ;
+            ok = false ;   
+        } else {
+            String name = names_x[i]; 
+            if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
+                ok = false ;
+            } 
+        }
+        
+    }
+    if(!ok) return no_because( ss.str() ) ;
     return yes() ;
 }
 

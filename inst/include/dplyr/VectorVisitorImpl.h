@@ -13,6 +13,12 @@ namespace dplyr {
         return std::count( container.begin(), container.end(), 1 ) ;
     }
     
+    template <int RTYPE> std::string VectorVisitorType() ;
+    template <> inline std::string VectorVisitorType<INTSXP>() { return "integer" ; }
+    template <> inline std::string VectorVisitorType<REALSXP>(){ return "numeric" ; }
+    template <> inline std::string VectorVisitorType<LGLSXP>() { return "logical" ; }
+    template <> inline std::string VectorVisitorType<STRSXP>() { return "character" ; }
+    
     /** 
      * Implementations 
      */
@@ -78,6 +84,9 @@ namespace dplyr {
             return out ;
         }
         
+        inline std::string get_r_type() const {
+            return VectorVisitorType<RTYPE>() ;    
+        }
         
     protected: 
         VECTOR vec ;
@@ -116,7 +125,23 @@ namespace dplyr {
         inline SEXP subset( const Rcpp::LogicalVector& index ){
             return promote( VisitorImpl::subset( index ) ) ;
         }
+        
+        inline std::string get_r_type() const {
+            CharacterVector classes = VisitorImpl::vec.attr( "class" ) ;
+            return collapse(classes) ;    
+        }
+        
+        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name  ){
+            return compatible( dynamic_cast<PromoteClassVisitor*>(other), ss, name ) ;
+        }
+        
     private:
+        
+        inline bool compatible(PromoteClassVisitor* other, std::stringstream&, const std::string& ){
+            // TODO: impl here class specific tests
+            return true ;    
+        }
+        
         inline SEXP promote( NumericVector x){
             x.attr( "class" ) = VisitorImpl::vec.attr( "class" ) ;
             return x ;
@@ -158,8 +183,27 @@ namespace dplyr {
             return promote( Parent::subset( index ) ) ;
         }
         
+        inline std::string get_r_type() const {
+            CharacterVector classes = VectorVisitorImpl::vec.attr( "class" ) ;
+            return collapse(classes) ;   
+        }
+        
+        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name ){
+            return compatible( dynamic_cast<FactorVisitor*>(other), ss, name ) ;
+        }
+        
+        
     private:
     
+        inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name ){
+            CharacterVector levels_other = other->levels ;
+            if( setdiff( levels, levels_other ).size() ){
+                ss << "Levels mismatch for column " << name ;
+                return false ;
+            }
+            return true; 
+        }
+        
         inline SEXP promote( IntegerVector x){
             x.attr( "class" ) = vec.attr( "class" );
             x.attr( "levels" ) = levels ;
