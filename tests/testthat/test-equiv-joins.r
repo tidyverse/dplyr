@@ -18,7 +18,7 @@ d <- data.frame(
   tt = times 
   )
 
-srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "cpp")) # , "sqlite", "postgres"))
 tbls <- temp_load(srcs, list(c = c, d = d))
 
 test_that("inner join equivalent across all tbls", {
