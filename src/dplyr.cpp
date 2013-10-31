@@ -308,14 +308,15 @@ SEXP promote(SEXP x){
 // [[Rcpp::export]]
 dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false ){
     int n = x.size() ;
-    if( n != y.size() ) 
-        return no_because( "not the same number of variables" ) ;
     
     CharacterVector names_x = clone<CharacterVector>(x.names()) ; 
     CharacterVector names_y = clone<CharacterVector>(y.names()) ; 
+    
     if( ignore_col_order ){
         names_y.sort() ;
         names_x.sort() ;
+        
+        // CharacterVector names_y_not_in_x = setdiff( names_y, names_x );
     }
     
     for( int i=0; i<n; i++) 

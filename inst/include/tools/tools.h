@@ -4,6 +4,7 @@
 #include <tools/hash.h>
 #include <tools/delete_all.h>
 #include <tools/ListOf.h>
+#include <tools/collapse.h>
  
 // remove these lines and the files when Rcpp 0.10.6 is released
 #if !defined(Rcpp_protection_protection_H)
