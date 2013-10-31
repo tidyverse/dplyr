@@ -872,3 +872,25 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
     }
 }
 
+// [[Rcpp::export]]
+int count_distinct(SEXP vec){ 
+    switch( TYPEOF(vec) ){
+        case INTSXP: 
+            if( Rf_inherits(vec, "factor" ))
+                return CountDistinct<FactorVisitor>( FactorVisitor(vec) ) ;
+            return CountDistinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
+        case REALSXP:
+            if( Rf_inherits( vec, "Date" ) )
+                return CountDistinct<DateVisitor>( DateVisitor(vec) ) ;
+            if( Rf_inherits( vec, "POSIXct" ) )
+                return CountDistinct<POSIXctVisitor>( POSIXctVisitor(vec) ) ;
+            return CountDistinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
+        case LGLSXP:  return CountDistinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
+        case STRSXP:  return CountDistinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
+        default: break ;
+    }
+    std::stringstream ss ;
+    ss << "cannot handle object of type" << sexp_to_name( TYPEOF(vec) ) ;
+    stop( ss.str() ) ;
+    return 0 ;
+}

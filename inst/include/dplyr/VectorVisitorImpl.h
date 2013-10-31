@@ -43,29 +43,29 @@ namespace dplyr {
         /** 
          * implementations
          */
-        size_t hash(int i){ 
+        size_t hash(int i) const { 
             return hash_fun( vec[i] ) ;
         } 
-        inline bool equal(int i, int j){ 
+        inline bool equal(int i, int j) const { 
             return compare::is_equal( vec[i], vec[j] ) ;
         }
         
-        inline bool less(int i, int j){ 
+        inline bool less(int i, int j) const { 
             return compare::is_less( vec[i], vec[j] ) ;
         }
         
-        inline bool greater(int i, int j){ 
+        inline bool greater(int i, int j) const { 
             return compare::is_greater( vec[i], vec[j] ) ;
         }
         
-        inline SEXP subset( const Rcpp::IntegerVector& index){
+        inline SEXP subset( const Rcpp::IntegerVector& index) const {
             return subset_int_index( index) ;    
         }
-        inline SEXP subset( const std::vector<int>& index){
+        inline SEXP subset( const std::vector<int>& index) const {
             return subset_int_index( index) ;    
         }
         
-        inline SEXP subset( const ChunkIndexMap& map ){
+        inline SEXP subset( const ChunkIndexMap& map ) const {
             int n = output_size(map) ;
             VECTOR out = Rcpp::no_init(n) ;
             ChunkIndexMap::const_iterator it = map.begin(); 
@@ -74,7 +74,7 @@ namespace dplyr {
             return out ;
         }
         
-        inline SEXP subset( const Rcpp::LogicalVector& index ){
+        inline SEXP subset( const Rcpp::LogicalVector& index ) const {
             int n = output_size(index) ;
             VECTOR out = Rcpp::no_init(n) ;
             for( int i=0, k=0; k<n; k++, i++ ) {
@@ -88,12 +88,14 @@ namespace dplyr {
             return VectorVisitorType<RTYPE>() ;    
         }
         
+        int size() const { return vec.size() ; }
+        
     protected: 
         VECTOR vec ;
         hasher hash_fun ;
         
         template <typename Container>
-        inline SEXP subset_int_index( const Container& index ) {
+        inline SEXP subset_int_index( const Container& index ) const {
             int n = output_size(index) ;
             VECTOR out = Rcpp::no_init(n) ;
             // TODO: find a way to mark that we don't need the NA handling
@@ -155,31 +157,31 @@ namespace dplyr {
         FactorVisitor( const IntegerVector& vec ) : 
             Parent(vec), levels( vec.attr( "levels" ) ), levels_ptr(Rcpp::internal::r_vector_start<STRSXP>(levels) ) {}
         
-        inline bool equal(int i, int j){ 
+        inline bool equal(int i, int j) const { 
             return string_compare.is_equal( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
         }
         
-        inline bool less(int i, int j){ 
+        inline bool less(int i, int j) const { 
             return string_compare.is_less( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
         }
         
-        inline bool greater(int i, int j){ 
+        inline bool greater(int i, int j) const { 
             return string_compare.is_greater( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
         }
             
-        inline SEXP subset( const Rcpp::IntegerVector& index){
+        inline SEXP subset( const Rcpp::IntegerVector& index) const {
             return promote( Parent::subset( index ) );
         }
         
-        inline SEXP subset( const std::vector<int>& index){
+        inline SEXP subset( const std::vector<int>& index) const {
             return promote( Parent::subset( index ) ) ;    
         }
         
-        inline SEXP subset( const ChunkIndexMap& map ){
+        inline SEXP subset( const ChunkIndexMap& map ) const {
             return promote( Parent::subset( map ) ) ;
         }
         
-        inline SEXP subset( const Rcpp::LogicalVector& index ){
+        inline SEXP subset( const Rcpp::LogicalVector& index ) const {
             return promote( Parent::subset( index ) ) ;
         }
         
@@ -188,14 +190,14 @@ namespace dplyr {
             return collapse(classes) ;   
         }
         
-        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name ){
+        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name ) const {
             return compatible( dynamic_cast<FactorVisitor*>(other), ss, name ) ;
         }
         
         
     private:
     
-        inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name ){
+        inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
             CharacterVector levels_other = other->levels ;
             if( setdiff( levels, levels_other ).size() ){
                 ss << "Levels mismatch for column " << name ;
@@ -204,7 +206,7 @@ namespace dplyr {
             return true; 
         }
         
-        inline SEXP promote( IntegerVector x){
+        inline SEXP promote( IntegerVector x) const {
             x.attr( "class" ) = vec.attr( "class" );
             x.attr( "levels" ) = levels ;
             return x;

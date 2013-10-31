@@ -85,3 +85,7 @@ summarise_impl <- function(df, args, env) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
+count_distinct <- function(vec) {
+    .Call('dplyr_count_distinct', PACKAGE = 'dplyr', vec)
+}
+
