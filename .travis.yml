@@ -3,7 +3,7 @@
 language: c
 script: ./travis-tool.sh run_tests
 before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - curl -OL http://raw.github.com/romainfrancois/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
 install:
