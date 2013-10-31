@@ -51,7 +51,6 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/VectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/VectorVisitorImpl.h>
-#include <dplyr/CountDistinct.h>
 #include <dplyr/DataFrameVisitors.h>
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>

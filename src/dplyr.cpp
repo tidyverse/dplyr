@@ -27,6 +27,31 @@ MAKE_PROTOTYPE(sum, Sum)
 
 #define INSTALL_PROTOTYPE(__FUN__) prototypes[ Rf_install( #__FUN__ ) ] = __FUN__##_prototype ;
 
+Result* count_distinct_result(SEXP vec){ 
+    switch( TYPEOF(vec) ){
+        case INTSXP: 
+            if( Rf_inherits(vec, "factor" ))
+                return new Count_Distinct<FactorVisitor>( FactorVisitor(vec) ) ;
+            return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
+        case REALSXP:
+            if( Rf_inherits( vec, "Date" ) )
+                return new Count_Distinct<DateVisitor>( DateVisitor(vec) ) ;
+            if( Rf_inherits( vec, "POSIXct" ) )
+                return new Count_Distinct<POSIXctVisitor>( POSIXctVisitor(vec) ) ;
+            return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
+        case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
+        case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
+        default: break ;
+    }
+    return 0 ;
+}
+
+Result* count_distinct_prototype(SEXP arg, const DataFrame& df){
+    const char* column_name = CHAR(PRINTNAME(arg)) ;
+    SEXP v = df[column_name] ;
+    return count_distinct_result(v) ;
+}
+
 Result1_Map& get_1_arg_prototypes(){
     static Result1_Map prototypes ;
     if( !prototypes.size() ){ 
@@ -36,6 +61,7 @@ Result1_Map& get_1_arg_prototypes(){
         INSTALL_PROTOTYPE(var)
         INSTALL_PROTOTYPE(sd)
         INSTALL_PROTOTYPE(sum)
+        INSTALL_PROTOTYPE(count_distinct)
     }
     return prototypes ;    
 }
@@ -873,24 +899,13 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
 }
 
 // [[Rcpp::export]]
-int count_distinct(SEXP vec){ 
-    switch( TYPEOF(vec) ){
-        case INTSXP: 
-            if( Rf_inherits(vec, "factor" ))
-                return CountDistinct<FactorVisitor>( FactorVisitor(vec) ) ;
-            return CountDistinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP:
-            if( Rf_inherits( vec, "Date" ) )
-                return CountDistinct<DateVisitor>( DateVisitor(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return CountDistinct<POSIXctVisitor>( POSIXctVisitor(vec) ) ;
-            return CountDistinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
-        case LGLSXP:  return CountDistinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
-        case STRSXP:  return CountDistinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
-        default: break ;
+SEXP count_distinct(SEXP vec){ 
+    SlicingIndex everything(0, Rf_length(vec) );
+    boost::scoped_ptr<Result> res( count_distinct_result(vec) );
+    if( !res ){
+        std::stringstream ss ;
+        ss << "cannot handle object of type" << sexp_to_name( TYPEOF(vec) ) ;
+        stop( ss.str() ) ;
     }
-    std::stringstream ss ;
-    ss << "cannot handle object of type" << sexp_to_name( TYPEOF(vec) ) ;
-    stop( ss.str() ) ;
-    return 0 ;
+    return res->process(everything) ;
 }
