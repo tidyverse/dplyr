@@ -38,7 +38,7 @@ namespace dplyr{
         }
         
         void print(int i){
-            std::cout << get(i) << std::endl ;    
+            Rcpp::Rcout << get(i) << std::endl ;    
         }
         
     protected:
@@ -74,7 +74,7 @@ namespace dplyr{
         }
         
         void print(int i){
-            std::cout << get(i) << " :: " << toString<STRSXP>(get(i)) << std::endl ;    
+            Rcpp::Rcout << get(i) << " :: " << toString<STRSXP>(get(i)) << std::endl ;    
         }
         
         inline bool equal( int i, int j){
