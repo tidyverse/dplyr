@@ -835,6 +835,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         SET_NAMED(out[i], 2) ;
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
+    
     for( int k=0; k<nexpr; k++, i++ ){
         Result* res( get_result( args[k], df ) ) ;
         if( !res ) res = new GroupedCalledReducer( args[k], gdf, env) ;
