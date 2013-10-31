@@ -1,6 +1,6 @@
 context("Equivalence (grouped)")
 
-srcs <- lahman_srcs("df", "dt", "cpp", "postgres", "sqlite")
+srcs <- lahman_srcs("df", "dt", "cpp", "postgres") #, "sqlite")
 players <- lapply(srcs, function(src) {
   src %.% tbl("Batting") %.% group_by(playerID)
 })

@@ -37,6 +37,10 @@ namespace dplyr{
             return res ;
         }
         
+        void print(int i){
+            std::cout << get(i) << std::endl ;    
+        }
+        
     protected:
         Vector<RTYPE> left, right ;
         hasher hash_fun ;
@@ -67,6 +71,10 @@ namespace dplyr{
         
         inline size_t hash(int i){
             return string_hash( get(i) ) ; 
+        }
+        
+        void print(int i){
+            std::cout << get(i) << " :: " << toString<STRSXP>(get(i)) << std::endl ;    
         }
         
         inline bool equal( int i, int j){
@@ -144,7 +152,7 @@ namespace dplyr{
         boost::hash<SEXP> string_hash ;
     
         inline SEXP get(int i){
-            return i>=0 ? left_levels_ptr[left[i]] : right_levels_ptr[right[-i-1]] ;    
+            return i>=0 ? left_levels_ptr[ left[i] - 1] : right_levels_ptr[right[-i-1] - 1] ;    
         }
         
     } ;

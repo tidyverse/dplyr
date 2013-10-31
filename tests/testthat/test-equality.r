@@ -29,15 +29,15 @@ test_that("data frames equal to random permutations of themselves", {
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all.equal(mtcars, mtcars[-1, ]), "row sizes")
-  expect_match(all.equal(iris, iris[-1, ]), "row sizes")
-  expect_match(all.equal(df_all, df_all[-1, ]), "row sizes")
+  expect_match(all.equal(mtcars, mtcars[-1, ]), "Rows in x, but not in y : 1\n")
+  expect_match(all.equal(iris, iris[-1, ]), "Rows in x, but not in y : 1\n")
+  expect_match(all.equal(df_all, df_all[-1, ]), "Rows in x, but not in y : 1\n")
 })
 
 test_that("factors equal only if levels equal", {
   df1 <- data.frame(x = factor(c("a", "b")))
   df2 <- data.frame(x = factor(c("a", "d")))
-  expect_match(all.equal(df1, df2), "different subset")
+  expect_match(all.equal(df1, df2), "Levels mismatch for column x" )
 })
 
 test_that("integers and reals are not equal", {
@@ -47,5 +47,5 @@ test_that("integers and reals are not equal", {
   df1 <- data.frame(x = x)
   df2 <- data.frame(x = y)
   
-  expect_match(all.equal(x, y), "different types")
+  expect_match(all.equal(df1, df2), "Incompatible type for column x: x integer, y numeric\n" )
 })

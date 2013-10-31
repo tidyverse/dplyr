@@ -12,6 +12,8 @@ namespace dplyr{
         
         virtual SEXP subset( const std::vector<int>& indices ) = 0;
         virtual SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) = 0;
+        
+        virtual void print(int i) = 0 ;
     } ;
 
 }

@@ -373,6 +373,35 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
     return yes() ;
 }
 
+class RowTrack {
+public:
+    RowTrack( const std::string& msg, int max_count_ = 10 ) : ss(), count(0), max_count(max_count_) {
+        ss << msg ;     
+    }      
+    
+    void record( int i){
+        if( count > max_count ) return ;
+        if( count ) ss << ", " ;
+        int idx = i >= 0 ? (i+1) : -i ;
+        ss << idx ;
+        if( count == max_count ) ss << "[...]" ;
+        count++ ;
+    }
+    
+    bool empty() const { 
+        return count == 0 ; 
+    }
+    
+    std::string str() const { 
+        return ss.str() ;
+    }   
+    
+private:
+    std::stringstream ss ;
+    int count ; 
+    int max_count ;
+} ;
+
 // [[Rcpp::export]]
 dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false ){
     BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
@@ -381,47 +410,47 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, x.names() ) ;
     Map map(visitors);  
+    
+    // train the map in both x and y
     int nrows_x = x.nrows() ;
     for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
     
     int nrows_y = y.nrows() ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
         
-    std::stringstream ss_in_x ;  
-    ss_in_x << "Rows in x, but not in y : " ;
-    std::stringstream ss_in_y ;
-    ss_in_y << "Rows in y, but not in x : " ;
+    RowTrack track_x( "Rows in x, but not in y : " ) ;
+    RowTrack track_y( "Rows in y, but not in x : " ) ;
+    
     bool ok = true ;
     Map::const_iterator it = map.begin() ;
     
     for( ; it != map.end(); ++it){
+        // retrieve the indices ( -ves for y, +ves for x )
         const std::vector<int>& chunk = it->second ;
         int n = chunk.size() ;
         
-        int left = chunk[0] ;
-        if( left < 0 ){
-            ss_in_y << -( left + 1 ) << ", " ;
+        int count_left = 0, count_right = 0 ;
+        for( int i=0; i<n; i++){
+            if( chunk[i] < 0 )
+                count_right++ ;
+            else 
+                count_left++ ;
+        }      
+        if( count_right == 0 ){
+            track_x.record( chunk[0] ) ;
             ok = false ;
-            continue ;
+        }
+        if( count_left == 0){
+            track_y.record( chunk[0] ) ;
+            ok = false ;
         }
         
-        bool local_ok = false ; 
-        for( int i=1; i<n; i++){
-            if( chunk[i] < 0 ) {
-                local_ok = true ;
-                break ;
-            }
-        }
-        if(!local_ok){
-            ss_in_x << left << ", " ;
-            ok = false ;    
-        }
     }
     
     if(!ok){
         std::stringstream ss ;
-        ss << ss_in_x.str() << std::endl ;
-        ss << ss_in_y.str() << std::endl ;
+        if( ! track_x.empty() ) ss << track_x.str() << std::endl ;
+        if( ! track_y.empty() ) ss << track_y.str() << std::endl ;
         return no_because( ss.str() ) ;
     }
     
