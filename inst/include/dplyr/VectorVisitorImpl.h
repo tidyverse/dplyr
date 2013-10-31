@@ -112,19 +112,19 @@ namespace dplyr {
         typedef typename VisitorImpl::VECTOR VECTOR ;
         PromoteClassVisitor( const VECTOR& vec ) : VisitorImpl(vec){}
         
-        inline SEXP subset( const Rcpp::IntegerVector& index){
+        inline SEXP subset( const Rcpp::IntegerVector& index) const{
             return promote( VisitorImpl::subset( index ) );
         }
         
-        inline SEXP subset( const std::vector<int>& index){
+        inline SEXP subset( const std::vector<int>& index) const{
             return promote( VisitorImpl::subset( index ) ) ;    
         }
         
-        inline SEXP subset( const ChunkIndexMap& map ){
+        inline SEXP subset( const ChunkIndexMap& map ) const{
             return promote( VisitorImpl::subset( map ) ) ;
         }
         
-        inline SEXP subset( const Rcpp::LogicalVector& index ){
+        inline SEXP subset( const Rcpp::LogicalVector& index ) const{
             return promote( VisitorImpl::subset( index ) ) ;
         }
         
@@ -133,18 +133,18 @@ namespace dplyr {
             return collapse(classes) ;    
         }
         
-        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name  ){
+        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name  ) const{
             return compatible( dynamic_cast<PromoteClassVisitor*>(other), ss, name ) ;
         }
         
     private:
         
-        inline bool compatible(PromoteClassVisitor* other, std::stringstream&, const std::string& ){
+        inline bool compatible(PromoteClassVisitor* other, std::stringstream&, const std::string& ) const{
             // TODO: impl here class specific tests
             return true ;    
         }
         
-        inline SEXP promote( NumericVector x){
+        inline SEXP promote( NumericVector x) const{
             x.attr( "class" ) = VisitorImpl::vec.attr( "class" ) ;
             return x ;
         }
