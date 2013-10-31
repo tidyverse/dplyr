@@ -378,29 +378,63 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
     if( !compat ) return compat ;
     
-    int nrows = x.nrows() ;
-    if( nrows != y.nrows() )
-        return no_because( "different row sizes" );
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    DataFrameJoinVisitors visitors(x, y, x.names() ) ;
+    Map map(visitors);  
+    int nrows_x = x.nrows() ;
+    for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
+    
+    int nrows_y = y.nrows() ;
+    for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
+        
+    std::stringstream ss_in_x ;  
+    ss_in_x << "Rows in x, but not in y : " ;
+    std::stringstream ss_in_y ;
+    ss_in_y << "Rows in y, but not in x : " ;
+    bool ok = true ;
+    Map::const_iterator it = map.begin() ;
+    
+    for( ; it != map.end(); ++it){
+        const std::vector<int>& chunk = it->second ;
+        int n = chunk.size() ;
+        
+        int left = chunk[0] ;
+        if( left < 0 ){
+            ss_in_y << -( left + 1 ) << ", " ;
+            ok = false ;
+            continue ;
+        }
+        
+        bool local_ok = false ; 
+        for( int i=1; i<n; i++){
+            if( chunk[i] < 0 ) {
+                local_ok = true ;
+                break ;
+            }
+        }
+        if(!local_ok){
+            ss_in_x << left << ", " ;
+            ok = false ;    
+        }
+    }
+    
+    if(!ok){
+        std::stringstream ss ;
+        ss << ss_in_x.str() << std::endl ;
+        ss << ss_in_y.str() << std::endl ;
+        return no_because( ss.str() ) ;
+    }
+    
+    if(ok) return yes(); 
     
     if( !ignore_row_order ){
-        DataFrameJoinVisitors visitors(x, y, x.names() ) ;
-        for( int i=0; i<nrows; i++)
+        if( nrows_x != nrows_y )
+            return no_because( "Different number of rows" ) ;
+        for( int i=0; i<nrows_x; i++)
             if( !visitors.equal( i, -i-1) )
-                return no_because( "different row" ) ;
-    } else {
-        typedef VisitorSetIndexMap<DataFrameJoinVisitors, int > Map ;
-        DataFrameJoinVisitors visitors(x, y, x.names() ) ;
-        Map map(visitors);  
-        
-        for( int i=0; i<nrows; i++) map[i]++ ;
-        for( int i=0; i<nrows; i++){
-            Map::iterator it = map.find(-i-1) ;
-            if( it == map.end() || it->second < 0 ) 
-                return no_because( "different subset" ) ;
-            else
-                it->second-- ;
-        }        
-    }
+                return no_because( "Same row values, but different order" ) ;
+    } 
+    
     return yes() ;
 }
 
