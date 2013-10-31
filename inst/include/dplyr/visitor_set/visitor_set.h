@@ -1,6 +1,9 @@
 #ifndef dplyr_visitor_set_H
 #define dplyr_visitor_set_H
 
+#include <dplyr/visitor_set/VisitorEqualPredicate.h>
+#include <dplyr/visitor_set/VisitorHash.h>
+
 #include <dplyr/visitor_set/VisitorSetEqual.h>
 #include <dplyr/visitor_set/VisitorSetHash.h>
 #include <dplyr/visitor_set/VisitorSetLess.h>
