@@ -45,3 +45,40 @@ test_that("constructors drops groups", {
   expect_equal(groups(tbl_dt(dt)), NULL)
   expect_equal(groups(tbl_df(df)), NULL)
 })
+
+# Test full range of variable types --------------------------------------------
+
+df_var <- data.frame(
+  l = c(T, F),
+  i = 1:2, 
+  d = Sys.Date() + 1:2,
+  f = factor(letters[1:2]),
+  n = 1:2 + 0.5, 
+  t = Sys.time() + 1:2,
+  c = letters[1:2],
+  stringsAsFactors = FALSE
+)
+srcs <- temp_srcs(c("df", "dt", "cpp"))
+var_tbls <- temp_load(srcs, df_var)
+
+group_by_ <- function(x, vars) {
+  call <- as.call(c(quote(group_by), quote(x), lapply(vars, as.symbol)))
+  eval(call)
+}
+
+test_that("local group_by preserves variable types", {
+  for(var in names(df_var)) {
+    expected <- data.frame(unique(df_var[[var]]), n = 1L, 
+      stringsAsFactors = FALSE)
+    names(expected)[1] <- var
+    
+    for(tbl in names(var_tbls)) {
+      grouped <- group_by_(var_tbls[[tbl]], var)
+      summarised <- as.data.frame(summarise(grouped, n = n()))
+      
+      if (!isTRUE(all.equal(summarised, expected))) browser()
+      expect_equal(summarised, expected, 
+        label = paste0("summarised_", tbl, "_", var))
+    }
+  }
+})
