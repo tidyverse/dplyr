@@ -5,6 +5,7 @@
 #' @param ignore_row_order should order of rows be ignored?
 #' @param convert Should similar classes be converted? Currently this will
 #'   convert factor to character and integer to double.
+#' @param ... Ignored. Needed for compatibility with the generic.
 #' @return \code{TRUE} if equal, otherwise a character vector describing
 #'   the first reason why they're not equal. Use \code{\link{isTRUE}} if
 #'   using the result in an \code{if} expression.
@@ -20,7 +21,7 @@
 #' all.equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
 #' all.equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
 all.equal.data.frame <- function(target, current, ignore_col_order = TRUE, 
-                                 ignore_row_order = TRUE, convert = FALSE) {
+                                 ignore_row_order = TRUE, convert = FALSE, ...) {
   
   res <- equal_data_frame(target, current, ignore_col_order = ignore_col_order,
     ignore_row_order = ignore_row_order, convert = convert)
