@@ -5,7 +5,7 @@
 #' provided. The default methods call the base versions.
 #' 
 #' @param x,y objects to compare (ignoring order)
-#' @param .... other arguments passed on to methods
+#' @param ... other arguments passed on to methods
 #' @name setops
 NULL
 
