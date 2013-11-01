@@ -351,12 +351,12 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
     
     if( names_y_not_in_x.size() ){
         ok = false ;
-        ss << "columns in y not in x" << collapse(names_y_not_in_x) << std::endl ;   
+        ss << "columns in y not in x: " << collapse(names_y_not_in_x) << std::endl ;   
     }
     
     if( names_x_not_in_y.size() ){
         ok = false ;
-        ss << "columns in x not in y" << collapse(names_x_not_in_y) << std::endl ;   
+        ss << "columns in x not in y: " << collapse(names_x_not_in_y) << std::endl ;   
     }
     
     if(!ok){
