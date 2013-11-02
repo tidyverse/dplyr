@@ -909,3 +909,58 @@ SEXP count_distinct(SEXP vec){
     }
     return res->process(everything) ;
 }
+
+// [[Rcpp::export]]
+List rbind_all( ListOf<DataFrame> dots ){
+    int ndata = dots.size() ;
+    int n = 0 ;
+    for( int i=0; i<ndata; i++) n += dots[i].nrows() ;
+    
+    std::vector<Collecter*> columns ;
+    std::vector<String> names ;
+    int k=0 ;
+    for( int i=0; i<ndata; i++){
+        DataFrame df = dots[i] ;
+        DataFrameVisitors visitors( df, df.names() ) ;
+        int nrows = df.nrows() ;
+        SlicingIndex index(k, nrows) ; 
+        
+        CharacterVector df_names = df.names() ;
+        for( int j=0; j<df.size(); j++){
+            String name = df_names[j] ;
+            
+            Collecter* coll = 0;
+            int index = 0 ;
+            for( ; index < names.size(); index++){
+                if( name == names[index] ){
+                    coll = columns[index] ;
+                    break ;
+                }
+            }
+            if( ! coll ){
+                coll = collecter( df[j], n ) ;
+                columns.push_back( coll ); 
+                names.push_back(name) ;
+            }
+            
+            // for now assuming the same types
+            coll->collect( SlicingIndex( k, nrows), df[j] ) ;
+        }
+        
+        k += nrows ;
+    }
+    
+    int nc = columns.size() ;
+    List out(nc) ;
+    CharacterVector out_names(nc) ;
+    for( int i=0; i<nc; i++){
+        out[i] = columns[i]->get() ;
+        out_names[i] = names[i] ;
+    }
+    out.attr( "names" ) = out_names ;
+    delete_all( columns ) ;
+    set_rownames( out, n );
+    out.attr( "class" ) = "data.frame" ;
+    
+    return out ;
+}

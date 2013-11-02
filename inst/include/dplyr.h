@@ -58,6 +58,7 @@ DataFrame build_index_cpp( DataFrame data ) ;
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
+#include <dplyr/Collecter.h>
 #include <dplyr/Order.h>
 
 #include <dplyr/registration.h>

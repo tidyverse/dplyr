@@ -60,6 +60,7 @@ Collate:
     'manip.r'
     'partial-eval.r'
     'query.r'
+    'rbind.r'
     'sql-escape.r'
     'sql-star.r'
     'src-mysql.r'
