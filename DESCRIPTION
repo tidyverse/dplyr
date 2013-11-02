@@ -1,7 +1,7 @@
 Package: dplyr
 Type: Package
 Title: dplyr: a grammar of data manipulation
-Version: 0.01
+Version: 0.1
 Author: Hadley Wickham <h.wickham@gmail.com>
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
 Description: A fast, consistent tool for working with data frame like objects,

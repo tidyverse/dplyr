@@ -82,7 +82,7 @@ Result* get_result( SEXP call, const DataFrame& df){
     if( depth == 2 ){
         SEXP fun_symbol = CAR(call) ;
         SEXP arg1 = CADR(call) ;
-        if ( TYPEOF(arg1) != SYMSXP || TYPEOF(arg1) != SYMSXP ) 
+        if ( TYPEOF(fun_symbol) != SYMSXP || TYPEOF(arg1) != SYMSXP ) 
           return 0;
         
         ResultPrototype reducer = get_1_arg( fun_symbol ) ;
@@ -351,12 +351,12 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
     
     if( names_y_not_in_x.size() ){
         ok = false ;
-        ss << "columns in y not in x" << collapse(names_y_not_in_x) << std::endl ;   
+        ss << "columns in y not in x: " << collapse(names_y_not_in_x) ;   
     }
     
     if( names_x_not_in_y.size() ){
         ok = false ;
-        ss << "columns in x not in y" << collapse(names_x_not_in_y) << std::endl ;   
+        ss << "columns in x not in y: " << collapse(names_x_not_in_y) ;   
     }
     
     if(!ok){
@@ -384,8 +384,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
                << ": x " 
                << v_x.get(i)->get_r_type()
                << ", y "
-               << v_y.get(i)->get_r_type() 
-               << std::endl ;
+               << v_y.get(i)->get_r_type() ;
             ok = false ;   
         } else {
             String name = names_x[i]; 
@@ -444,8 +443,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     int nrows_y = y.nrows() ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
         
-    RowTrack track_x( "Rows in x, but not in y : " ) ;
-    RowTrack track_y( "Rows in y, but not in x : " ) ;
+    RowTrack track_x( "Rows in x, but not in y: " ) ;
+    RowTrack track_y( "Rows in y, but not in x: " ) ;
     
     bool ok = true ;
     Map::const_iterator it = map.begin() ;
@@ -475,8 +474,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     
     if(!ok){
         std::stringstream ss ;
-        if( ! track_x.empty() ) ss << track_x.str() << std::endl ;
-        if( ! track_y.empty() ) ss << track_y.str() << std::endl ;
+        if( ! track_x.empty() ) ss << track_x.str() ;
+        if( ! track_y.empty() ) ss << track_y.str() ;
         return no_because( ss.str() ) ;
     }
     
