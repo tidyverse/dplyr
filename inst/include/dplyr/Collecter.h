@@ -8,6 +8,7 @@ namespace dplyr {
         virtual ~Collecter(){} ;
         virtual void collect( const SlicingIndex& index, SEXP v ) = 0 ;
         virtual SEXP get() const = 0 ;
+        virtual bool compatible(SEXP) const = 0 ;
     } ;
     
     template <int RTYPE>
@@ -27,6 +28,10 @@ namespace dplyr {
         
         inline SEXP get() const{
             return data ;    
+        }
+        
+        inline bool compatible(SEXP x) const{
+            return RTYPE == TYPEOF(x) ;    
         }
         
     private:

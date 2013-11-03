@@ -926,6 +926,7 @@ List rbind_all( ListOf<DataFrame> dots ){
         
         CharacterVector df_names = df.names() ;
         for( int j=0; j<df.size(); j++){
+            SEXP source = df[j] ;
             String name = df_names[j] ;
             
             Collecter* coll = 0;
@@ -937,13 +938,17 @@ List rbind_all( ListOf<DataFrame> dots ){
                 }
             }
             if( ! coll ){
-                coll = collecter( df[j], n ) ;
+                coll = collecter( source, n ) ;
                 columns.push_back( coll ); 
                 names.push_back(name) ;
             }
             
-            // for now assuming the same types
-            coll->collect( SlicingIndex( k, nrows), df[j] ) ;
+            // for now requiring the same type
+            if( !coll->compatible(source) )
+                stop( "incompatible type" ) ;
+            
+            
+            coll->collect( SlicingIndex( k, nrows), source ) ;
         }
         
         k += nrows ;
