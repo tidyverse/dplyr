@@ -944,11 +944,26 @@ List rbind_all( ListOf<DataFrame> dots ){
             }
             
             // for now requiring the same type
-            if( !coll->compatible(source) )
+            if( coll->compatible(source) ){
+                coll->collect( SlicingIndex( k, nrows), source ) ;
+            } else if( coll->can_promote(source) ) {
+                // setup a new Collecter
+                Collecter* new_collecter = collecter(source, n ) ;
+                
+                // import data from previous collecter
+                new_collecter->collect( SlicingIndex(0, k), coll->get() ) ;
+                
+                // import data from this chunk 
+                new_collecter->collect( SlicingIndex( k, nrows), source ) ;
+                
+                // dispose the previous collecter and keep the new one. 
+                delete coll ;
+                columns[index] = new_collecter ;
+                
+            } else {
                 stop( "incompatible type" ) ;
+            }
             
-            
-            coll->collect( SlicingIndex( k, nrows), source ) ;
         }
         
         k += nrows ;

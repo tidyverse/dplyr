@@ -9,6 +9,7 @@ namespace dplyr {
         virtual void collect( const SlicingIndex& index, SEXP v ) = 0 ;
         virtual SEXP get() const = 0 ;
         virtual bool compatible(SEXP) const = 0 ;
+        virtual bool can_promote(SEXP) const = 0 ;
     } ;
     
     template <int RTYPE>
@@ -34,9 +35,23 @@ namespace dplyr {
             return RTYPE == TYPEOF(x) ;    
         }
         
+        bool can_promote(SEXP x) const {
+            return false ;    
+        }
+        
     private:
         Vector<RTYPE> data ;
     } ;
+    
+    template <>
+    inline bool Collecter_Impl<INTSXP>::can_promote( SEXP x) const {
+        return TYPEOF(x) == REALSXP ;
+    }
+    
+    template <>
+    inline bool Collecter_Impl<LGLSXP>::can_promote( SEXP x) const {
+        return TYPEOF(x) == INTSXP || TYPEOF(x) == REALSXP ;
+    }
     
     inline Collecter* collecter(SEXP model, int n){
         switch( TYPEOF(model) ){
