@@ -39,3 +39,12 @@ test_that("rbind_list promotes integer to numeric", {
   expect_equal( typeof(res$a), "double" )
   expect_equal( typeof(res$b), "integer" )
 })
+
+test_that("rbind_list promotes factor to character", {
+  df  <- data.frame( a = letters[1:5], b = 1:5, stringsAsFactors=TRUE )
+  df2 <- df
+  df2$a <- as.character(df$a)
+  
+  res <- rbind_list( df, df2)
+  expect_equal( typeof(res$a), "character" )
+})
