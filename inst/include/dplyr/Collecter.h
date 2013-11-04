@@ -59,7 +59,7 @@ namespace dplyr {
             return Rf_inherits(x, type.get_cstring() ) ;    
         }
         
-        inline bool can_promote(SEXP x){
+        inline bool can_promote(SEXP x) const {
             return false ;    
         }
         
