@@ -84,7 +84,7 @@ namespace dplyr {
         }
         
         bool can_promote(SEXP x) const {
-            return false ;    
+            return TYPEOF(x) == STRSXP ;    
         }
         
     private:
