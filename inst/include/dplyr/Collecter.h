@@ -39,9 +39,45 @@ namespace dplyr {
             return false ;    
         }
         
-    private:
+    protected:
         Vector<RTYPE> data ;
     } ;
+    
+    template <int RTYPE>
+    class TypedCollecter : public Collecter_Impl<RTYPE>{
+    public:    
+        TypedCollecter( int n, CharacterVector types_) : 
+            Collecter_Impl<RTYPE>(n), types(types_){}
+        
+        inline SEXP get(){
+            Collecter_Impl<RTYPE>::data.attr("class") = types ;
+            return Collecter_Impl<RTYPE>::data ;
+        }
+        
+        inline bool compatible(SEXP x) const {
+            String type = types[0] ;
+            return Rf_inherits(x, type.get_cstring() ) ;    
+        }
+        
+        inline bool can_promote(SEXP x){
+            return false ;    
+        }
+        
+    private:
+        CharacterVector types ;
+    } ;
+    
+    class POSIXctCollecter : public TypedCollecter<REALSXP> {
+    public:  
+        POSIXctCollecter( int n) : 
+            TypedCollecter( n, CharacterVector::create( "POSIXct","POSIXt" ) ){}
+    } ;
+    class DateCollecter : public TypedCollecter<REALSXP> {
+    public:  
+        DateCollecter( int n) : 
+            TypedCollecter( n, CharacterVector::create( "Date" ) ){}
+    } ;
+    
     
     class FactorCollecter : public Collecter {
     public:
@@ -109,7 +145,12 @@ namespace dplyr {
             if( Rf_inherits(model, "factor") )
                 return new FactorCollecter(n) ;
             return new Collecter_Impl<INTSXP>(n) ;
-        case REALSXP: return new Collecter_Impl<REALSXP>(n) ;
+        case REALSXP: 
+            if( Rf_inherits( model, "POSIXct" ) )
+                return new POSIXctCollecter(n) ;
+            if( Rf_inherits( model, "Date" ) )
+                return new DateCollecter(n) ;
+            return new Collecter_Impl<REALSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
         default: break ;
