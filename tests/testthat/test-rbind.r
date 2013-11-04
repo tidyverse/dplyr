@@ -48,3 +48,22 @@ test_that("rbind_list promotes factor to character", {
   res <- rbind_list( df, df2)
   expect_equal( typeof(res$a), "character" )
 })
+
+test_that("rbind_list doesn't promote factor to numeric", {
+  df1 <- data.frame( a = 1:5, b = 1:5 )
+  df2 <- data.frame( a = 1:5, b = factor(letters[1:5]) )
+
+  res <- rbind_list( df1, df2 )
+  expect_equal( typeof(res$a), "integer" )
+  expect_equal( class(res$b), "factor" )
+  expect_equal( levels(res$b), letters[1:5] )
+})
+
+test_that("rbind_list cannot coerce integer to factor", {
+  df1 <- data.frame( a = 1:10, b = 1:10 )
+  df2 <- data.frame( a = 1:5, b = factor(letters[1:5]) )
+
+  expect_that( rbind_list( df1, df2 ), throws_error() )
+  
+})
+

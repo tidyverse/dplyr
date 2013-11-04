@@ -78,7 +78,6 @@ namespace dplyr {
             TypedCollecter( n, CharacterVector::create( "Date" ) ){}
     } ;
     
-    
     class FactorCollecter : public Collecter {
     public:
         typedef boost::unordered_map<SEXP,int> LevelsMap ;
@@ -88,17 +87,29 @@ namespace dplyr {
         
         void collect( const SlicingIndex& index, SEXP v ){
             IntegerVector source(v) ;
-            CharacterVector levels = source.attr( "levels" ) ;
-            SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>( levels) ;
-            int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source) ;
-            for( int i=0; i<index.size(); i++){
-                SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
-                LevelsMap::const_iterator it = levels_map.find( x ) ;
-                if( it == levels_map.end() ){
-                    data[index[i]] = current_level ;
-                    levels_map[x] = current_level++ ;   
-                } else {
-                    data[index[i]] = it->second ;    
+            SEXP levs = source.attr( "levels" ) ;
+            if( ! Rf_isNull(levs) ){
+                CharacterVector levels = levs ;
+                SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
+                int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source) ;
+                for( int i=0; i<index.size(); i++){ 
+                    SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
+                    LevelsMap::const_iterator it = levels_map.find( x ) ;
+                    if( it == levels_map.end() ){
+                        data[index[i]] = current_level ;
+                        levels_map[x] = current_level++ ;   
+                    } else {
+                        data[index[i]] = it->second ;    
+                    }
+                }
+            } else {
+                for( int i=0; i<index.size(); i++){
+                    int value = source[i] ;
+                    if( value < current_level ){
+                        data[index[i]] = source[i] ;
+                    } else {
+                        stop( "cannot coerce integer vector to factor" ) ;    
+                    }
                 }
             }
         }
@@ -130,8 +141,13 @@ namespace dplyr {
     } ;
     
     template <>
+    inline bool Collecter_Impl<INTSXP>::compatible(SEXP x) const{
+        return INTSXP == TYPEOF(x) && !Rf_inherits( x, "factor" ) ;    
+    }
+    
+    template <>
     inline bool Collecter_Impl<INTSXP>::can_promote( SEXP x) const {
-        return TYPEOF(x) == REALSXP ;
+        return TYPEOF(x) == REALSXP || Rf_inherits( x, "factor" ) ;
     }
     
     template <>

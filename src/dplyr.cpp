@@ -950,11 +950,11 @@ List rbind_all( ListOf<DataFrame> dots ){
                 // setup a new Collecter
                 Collecter* new_collecter = collecter(source, n ) ;
                 
-                // import data from previous collecter
-                new_collecter->collect( SlicingIndex(0, k), coll->get() ) ;
-                
                 // import data from this chunk 
                 new_collecter->collect( SlicingIndex( k, nrows), source ) ;
+                
+                // import data from previous collecter
+                new_collecter->collect( SlicingIndex(0, k), coll->get() ) ;
                 
                 // dispose the previous collecter and keep the new one. 
                 delete coll ;
