@@ -21,6 +21,7 @@
 #include <dplyr/Result/Reducer.h>
 #include <dplyr/Result/DelayedReducer.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/Result/GroupedHybridCall.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/GroupedCallReducer.h>
 #include <dplyr/Result/CallProxy.h>
