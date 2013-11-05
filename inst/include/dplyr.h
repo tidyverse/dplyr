@@ -21,9 +21,10 @@ namespace dplyr {
     class Reducer_Proxy ;
     class DataFrameVisitors ;
     class DataFrameJoinVisitors ;
+    class LazySubsets ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
-dplyr::Result* get_result( SEXP, const DataFrame&) ;
+dplyr::Result* get_result( SEXP, const dplyr::LazySubsets& ) ;
 bool can_simplify(SEXP) ;
 
 inline SEXP as_symbol(SEXP x) {

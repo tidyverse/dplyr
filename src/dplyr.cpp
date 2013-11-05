@@ -4,19 +4,18 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-typedef Result* (*ResultPrototype)(SEXP, const DataFrame&) ;
+typedef Result* (*ResultPrototype)(SEXP, const LazySubsets&) ;
 typedef boost::unordered_map<SEXP,ResultPrototype> Result1_Map ;
   
-#define MAKE_PROTOTYPE(__FUN__,__CLASS__)                               \
-Result* __FUN__##_prototype( SEXP arg, const DataFrame& df ){           \
-    const char* column_name = CHAR(PRINTNAME(arg)) ;                    \
-    SEXP v = df[column_name] ;                                          \
-    switch( TYPEOF(v) ){                                                \
-        case INTSXP:  return new dplyr::__CLASS__<INTSXP,false>( v ) ;  \
-        case REALSXP: return new dplyr::__CLASS__<REALSXP,false>( v ) ; \
-        default: break ;                                                \
-    }                                                                   \
-    return 0 ;                                                          \
+#define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                    \
+Result* __FUN__##_prototype( SEXP arg, const LazySubsets& subsets ){  \
+    SEXP v = subsets.get_variable(arg) ;                                     \
+    switch( TYPEOF(v) ){                                                     \
+        case INTSXP:  return new dplyr::__CLASS__<INTSXP,false>( v ) ;       \
+        case REALSXP: return new dplyr::__CLASS__<REALSXP,false>( v ) ;      \
+        default: break ;                                                     \
+    }                                                                        \
+    return 0 ;                                                               \
 }
 MAKE_PROTOTYPE(mean, Mean)
 MAKE_PROTOTYPE(min, Min)
@@ -46,10 +45,8 @@ Result* count_distinct_result(SEXP vec){
     return 0 ;
 }
 
-Result* count_distinct_prototype(SEXP arg, const DataFrame& df){
-    const char* column_name = CHAR(PRINTNAME(arg)) ;
-    SEXP v = df[column_name] ;
-    return count_distinct_result(v) ;
+Result* count_distinct_prototype(SEXP arg, const LazySubsets& subsets){
+    return count_distinct_result( subsets.get_variable(arg) ) ;
 }
 
 Result1_Map& get_1_arg_prototypes(){
@@ -73,7 +70,7 @@ ResultPrototype get_1_arg(SEXP symbol){
     return it->second ;
 }
 
-Result* get_result( SEXP call, const DataFrame& df){
+Result* get_result( SEXP call, const LazySubsets& subsets ){
     // no arguments
     int depth = Rf_length(call) ;
     if( depth == 1 && CAR(call) == Rf_install("n") )
@@ -87,7 +84,7 @@ Result* get_result( SEXP call, const DataFrame& df){
         
         ResultPrototype reducer = get_1_arg( fun_symbol ) ;
         if( reducer ){
-            Result* res = reducer( arg1, df ) ;
+            Result* res = reducer( arg1, subsets ) ;
             return res ;    
         }
     }
@@ -861,12 +858,14 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
     }
     
+    LazyGroupedSubsets subsets(gdf) ;
     for( int k=0; k<nexpr; k++, i++ ){
-        Result* res( get_result( args[k], df ) ) ;
+        Result* res( get_result( args[k], subsets ) ) ;
         
         // if we could not find a direct Result 
         // we can use a GroupedCalledReducer which will callback to R
         if( !res ) res = new GroupedCalledReducer( args[k], gdf, env) ;
+        
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
         delete res;
@@ -880,7 +879,8 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     List out(nexpr) ;
     
     for( int i=0; i<nexpr; i++){
-        boost::scoped_ptr<Result> res( get_result( args[i], df ) ) ;
+        LazySubsets subsets( df ) ;
+        boost::scoped_ptr<Result> res( get_result( args[i], subsets ) ) ;
         if(res) {
             out[i] = res->process( FullDataFrame(df) ) ;
         } else {

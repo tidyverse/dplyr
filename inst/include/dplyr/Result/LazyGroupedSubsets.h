@@ -3,7 +3,30 @@
 
 namespace dplyr {
      
-    class LazyGroupedSubsets {
+    class LazySubsets {
+    public:
+        typedef boost::unordered_map<SEXP,SEXP> DataMap ;
+        LazySubsets(){}
+        
+        LazySubsets( const DataFrame& df) : data_map(){
+            CharacterVector names = df.names() ;
+            for( int i=0; i<df.size(); i++){
+                data_map[as_symbol(names[i])] = df[i] ;    
+            }
+        }
+        virtual ~LazySubsets(){}
+        virtual SEXP get_variable(SEXP symbol) const {
+            DataMap::const_iterator it = data_map.find(symbol) ;
+            return it->second ;
+        }
+        virtual int count(SEXP symbol) const{
+            return data_map.count(symbol);    
+        }
+    private:
+        DataMap data_map ;
+    } ;
+    
+    class LazyGroupedSubsets : public LazySubsets {
     public:
         typedef boost::unordered_map<SEXP, GroupedSubset*> GroupedSubsetMap ;
         typedef boost::unordered_map<SEXP, SEXP> ResolvedSubsetMap ;
