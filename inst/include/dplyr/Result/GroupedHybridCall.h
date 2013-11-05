@@ -12,10 +12,31 @@ namespace dplyr {
         }
         
         SEXP eval(){
+            substitute(call) ;
             return call.fast_eval() ;    
         }
         
     private:
+        
+        void substitute( SEXP obj){
+            if( ! Rf_isNull(obj) ){ 
+                 SEXP head = CAR(obj) ;
+                 switch( TYPEOF( head ) ){
+                 case LISTSXP:
+                 case LANGSXP: 
+                     substitute( CDR(head) ) ;
+                     break ;
+                 case SYMSXP:
+                    if( TYPEOF(obj) != LANGSXP ){
+                       if( subsets.count(head) ){
+                           SETCAR(obj, subsets.get(head, indices) ) ;
+                       } 
+                    }
+                    break ;
+                 }
+                 substitute( CDR(obj) ) ;
+             }        
+        }
         
         bool simplified(){
             // initial
