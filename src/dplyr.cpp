@@ -863,6 +863,9 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     
     for( int k=0; k<nexpr; k++, i++ ){
         Result* res( get_result( args[k], df ) ) ;
+        
+        // if we could not find a direct Result 
+        // we can use a GroupedCalledReducer which will callback to R
         if( !res ) res = new GroupedCalledReducer( args[k], gdf, env) ;
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
