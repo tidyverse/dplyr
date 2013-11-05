@@ -8,7 +8,7 @@ namespace dplyr {
         GroupedHybridCall( const Language& call_, const DataFrame& df_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_ ) : 
             call( clone(call_) ), df( df_ ), indices(indices_), subsets(subsets_) 
         {
-            while( simplified(call, call) ) ;
+            while( simplified() ) ;
         }
         
         SEXP eval(){
@@ -17,23 +17,46 @@ namespace dplyr {
         
     private:
         
-        bool simplified( SEXP obj, SEXP parent ){
-            if( TYPEOF(obj) == LISTSXP ){
-                bool res = simplified( CAR(obj), parent ) ;
-                if( res ) return true ;
-                return simplified( CDR(obj), CDR(obj) );
-            }
-            
-            if( TYPEOF(obj) == LANGSXP ) {
-                Result* res = get_result( obj, subsets ) ;
+        bool simplified(){
+            // initial
+            if( TYPEOF(call) == LANGSXP ){
+                Result* res = get_result(call, subsets) ;
                 if( res ){
+                    // replace the call by the result of process
+                    call = res->process(indices) ;
+                    
+                    // no need to go any further, we simplified the top level
+                    return false ;
+                }
+                
+                // this is where the fun really begins
+                SEXP p = CDR(call);
+                return replace( p ) ;
+                
+            }
+            return false ;
+        }
+        
+        bool replace( SEXP p ){
+            SEXP obj = CAR(p) ;
+            if( TYPEOF(obj) == LANGSXP ){
+                Result* res = get_result(obj, subsets) ;
+                if(res){
                     Shield<SEXP> value( res->process(indices) ) ;
-                    SETCAR( parent, value ) ;
-                    SETCDR( parent, R_NilValue );
+                    SETCAR(p, value) ;
+                    // SETCDR(p, R_NilValue) ;
                     return true ;
                 }
-                return simplified( CDR(obj), CDR(obj) );
+                
+                // try again with this calls arguments
+                return replace( CDR(p) ) ;   
+                
+            }     
+            
+            if( TYPEOF(obj) == LISTSXP ){
+                return replace( CDR(p) ) ;    
             }
+              
             return false ;
         }
         

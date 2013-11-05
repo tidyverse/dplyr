@@ -11,16 +11,13 @@ namespace dplyr {
             // fill proxies
             traverse_call(call);
             
-            // not yet
-            // hybrid = can_simplify_call(call) ; 
-            
+            hybrid = can_simplify_call(call) ; 
         }
         
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
             subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
         {
-            // not yet
-            // hybrid = can_simplify_call(call) ;
+            hybrid = can_simplify_call(call) ;
         }
         
         ~GroupedCallProxy(){}  
@@ -59,11 +56,12 @@ namespace dplyr {
     private:
         
         inline bool can_simplify_call( SEXP call){
-            return can_simplify(call);
+            bool res =  can_simplify(call);
+            return res ;
         }
         
         void traverse_call( SEXP obj ){
-             if( ! Rf_isNull(obj) ){ 
+            if( ! Rf_isNull(obj) ){ 
                  SEXP head = CAR(obj) ;
                  switch( TYPEOF( head ) ){
                  case LISTSXP:
@@ -71,18 +69,19 @@ namespace dplyr {
                      traverse_call( CDR(head) ) ;
                      break ;
                  case SYMSXP:
-                     if( TYPEOF(obj) != LANGSXP ){
-                        if( ! subsets.count(head) ){
-                            // in the Environment -> resolve
-                            // TODO: handle the case where the variable is not found in env
-                            Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                            SETCAR( obj, x );
-                        } else {
-                            // in the data frame
-                            proxies.push_back( CallElementProxy( head, obj ) );
-                        } 
-                     }
-                     break ;
+                    if( TYPEOF(obj) != LANGSXP ){
+                       if( ! subsets.count(head) ){  
+                           Rprintf( "count==0\n" ) ;
+                           // in the Environment -> resolve
+                           // TODO: handle the case where the variable is not found in env
+                           Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                           SETCAR( obj, x );
+                       } else {
+                           // in the data frame
+                           proxies.push_back( CallElementProxy( head, obj ) );
+                       } 
+                    }
+                    break ;
                  }
                  traverse_call( CDR(obj) ) ;
              }    
