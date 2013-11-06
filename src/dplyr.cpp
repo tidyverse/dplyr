@@ -5,14 +5,17 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 typedef Result* (*ResultPrototype)(SEXP, const LazySubsets&) ;
-typedef boost::unordered_map<SEXP,ResultPrototype> Result1_Map ;
+
+typedef boost::unordered_map<SEXP,ResultPrototype> ResultPrototypeMap ;
+typedef std::vector<boost::unordered_map<SEXP,ResultPrototype> > ResultPrototypeMapVector ;
   
 #define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                    \
-Result* __FUN__##_prototype( SEXP arg, const LazySubsets& subsets ){  \
-    SEXP v = subsets.get_variable(arg) ;                                     \
-    switch( TYPEOF(v) ){                                                     \
-        case INTSXP:  return new dplyr::__CLASS__<INTSXP,false>( v ) ;       \
-        case REALSXP: return new dplyr::__CLASS__<REALSXP,false>( v ) ;      \
+Result* __FUN__##_prototype( SEXP call, const LazySubsets& subsets ){        \
+    SEXP arg = CADR(call) ;                                                  \
+    if( TYPEOF(arg) == SYMSXP ) arg = subsets.get_variable(arg) ;            \
+    switch( TYPEOF(arg) ){                                                   \
+        case INTSXP:  return new dplyr::__CLASS__<INTSXP,false>( arg ) ;     \
+        case REALSXP: return new dplyr::__CLASS__<REALSXP,false>( arg ) ;    \
         default: break ;                                                     \
     }                                                                        \
     return 0 ;                                                               \
@@ -23,8 +26,6 @@ MAKE_PROTOTYPE(max, Max)
 MAKE_PROTOTYPE(var, Var)
 MAKE_PROTOTYPE(sd, Sd)
 MAKE_PROTOTYPE(sum, Sum)
-
-#define INSTALL_PROTOTYPE(__FUN__) prototypes[ Rf_install( #__FUN__ ) ] = __FUN__##_prototype ;
 
 Result* count_distinct_result(SEXP vec){ 
     switch( TYPEOF(vec) ){
@@ -45,54 +46,54 @@ Result* count_distinct_result(SEXP vec){
     return 0 ;
 }
 
-Result* count_distinct_prototype(SEXP arg, const LazySubsets& subsets){
-    return count_distinct_result( subsets.get_variable(arg) ) ;
+Result* count_prototype(SEXP, const LazySubsets&){
+    return new Count ;
 }
 
-Result1_Map& get_1_arg_prototypes(){
-    static Result1_Map prototypes ;
-    if( !prototypes.size() ){ 
-        INSTALL_PROTOTYPE(mean)
-        INSTALL_PROTOTYPE(min)
-        INSTALL_PROTOTYPE(max)
-        INSTALL_PROTOTYPE(var)
-        INSTALL_PROTOTYPE(sd)
-        INSTALL_PROTOTYPE(sum)
-        INSTALL_PROTOTYPE(count_distinct)
+Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets){
+    SEXP arg = CADR(call) ;
+    if( TYPEOF(arg) == SYMSXP ) return count_distinct_result( subsets.get_variable(arg) ) ;
+    return count_distinct_result( arg ) ;
+}
+
+ResultPrototypeMapVector& get_prototypes_vector(){
+    static ResultPrototypeMapVector prototypes ;
+    if( !prototypes.size() ){
+        prototypes.resize(3) ;
+        
+        // install 1 arg prototypes
+        ResultPrototypeMap& arg_0 = prototypes[1] ;
+        arg_0[ Rf_install("n")                ] = count_prototype ;
+        
+        ResultPrototypeMap& arg_1 = prototypes[2] ;
+        arg_1[ Rf_install( "mean" )           ] = mean_prototype ;
+        arg_1[ Rf_install( "min" )            ] = min_prototype ;
+        arg_1[ Rf_install( "max" )            ] = max_prototype ;
+        arg_1[ Rf_install( "var" )            ] = var_prototype ;
+        arg_1[ Rf_install( "sd")              ] = sd_prototype ;
+        arg_1[ Rf_install( "sum" )            ] = sum_prototype;
+        arg_1[ Rf_install( "count_distinct" ) ] = count_distinct_prototype ;
     }
     return prototypes ;    
-}
-
-ResultPrototype get_1_arg(SEXP symbol){
-    Result1_Map& prototypes = get_1_arg_prototypes() ;
-    Result1_Map::iterator it = prototypes.find(symbol); 
-    if( it == prototypes.end() ) return 0 ;
-    return it->second ;
 }
 
 Result* get_result( SEXP call, const LazySubsets& subsets ){
     // no arguments
     int depth = Rf_length(call) ;
-    if( depth == 1 && CAR(call) == Rf_install("n") )
-        return new Count ;
+    ResultPrototypeMapVector& prototypes = get_prototypes_vector() ;
+    if( depth > prototypes.size() )
+        return 0 ;
+    SEXP fun_symbol = CAR(call) ;
+    if( TYPEOF(fun_symbol) != SYMSXP ) return 0 ;
     
-    if( depth == 2 ){
-        SEXP fun_symbol = CAR(call) ;
-        SEXP arg1 = CADR(call) ;
-        if ( TYPEOF(fun_symbol) != SYMSXP || TYPEOF(arg1) != SYMSXP ) 
-          return 0;
-        
-        ResultPrototype reducer = get_1_arg( fun_symbol ) ;
-        if( reducer ){
-            Result* res = reducer( arg1, subsets ) ;
-            return res ;    
-        }
-    }
+    ResultPrototypeMap& map = prototypes[depth] ;
+    ResultPrototypeMap::const_iterator it = map.find( fun_symbol ) ;
+    if( it == map.end() ) return 0 ;
     
-    return 0 ;
+    ResultPrototype proto = it->second ;
+    return proto( call, subsets ) ;
 }
 
-// FIXME: this is too optimistic
 bool can_simplify( SEXP call ){
     if( TYPEOF(call) == LISTSXP ){
         bool res = can_simplify( CAR(call) ) ;
@@ -102,18 +103,13 @@ bool can_simplify( SEXP call ){
     
     if( TYPEOF(call) == LANGSXP ){
         int depth = Rf_length( call ) ;
-        if( depth == 1 && CAR(call) == Rf_install("n") ) return true ;
+        SEXP fun_symbol = CAR(call) ;
+        if( TYPEOF(fun_symbol) != SYMSXP ) return false ;
         
-        if( depth == 2 ){
-            SEXP arg1 = CADR(call) ;
-            if (TYPEOF(arg1) != SYMSXP) return false;
-
-            SEXP fun_symbol = CAR(call) ;
-            if (TYPEOF(fun_symbol) != SYMSXP) return false;
-            ResultPrototype reducer = get_1_arg( fun_symbol ) ;
-            if(reducer) return true ;        
-        }
-        return can_simplify( CDR(call) ) ;    
+        ResultPrototypeMapVector& prototypes = get_prototypes_vector() ;
+        if( depth >= prototypes.size() ) return false ;
+        
+        return prototypes[depth].count( fun_symbol ) ;
     }
     return false ;
 }
