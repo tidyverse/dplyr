@@ -47,12 +47,10 @@ namespace dplyr {
                     call = res->process(indices) ;
                     
                     // no need to go any further, we simplified the top level
-                    return false ;
+                    return true ;
                 }
                 
-                // this is where the fun really begins
-                SEXP p = CDR(call);
-                return replace( p ) ;
+                return replace( CDR(call) ) ;
                 
             }
             return false ;
@@ -71,10 +69,9 @@ namespace dplyr {
                 
                 // try again with this calls arguments
                 return replace( CDR(p) ) ;   
-                
             }     
             
-            if( TYPEOF(obj) == LISTSXP ){
+            if( TYPEOF(p) == LISTSXP ){
                 return replace( CDR(p) ) ;    
             }
               
