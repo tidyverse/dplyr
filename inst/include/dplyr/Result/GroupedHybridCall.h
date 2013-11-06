@@ -61,13 +61,10 @@ namespace dplyr {
             if( TYPEOF(obj) == LANGSXP ){
                 Result* res = get_result(obj, subsets) ;
                 if(res){
-                    Shield<SEXP> value( res->process(indices) ) ;
-                    SETCAR(p, value) ;
-                    // SETCDR(p, R_NilValue) ;
+                    SETCAR(p, res->process(indices) ) ;
                     return true ;
                 }
                 
-                // try again with this calls arguments
                 return replace( CDR(p) ) ;   
             }     
             
