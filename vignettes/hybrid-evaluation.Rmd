@@ -295,6 +295,16 @@ void registerHitchhiker(){
     # 2  b 42
     # 3  c 42
     # 4  d 42
+    
+    summarise(df, y = mean(x) + hitchhiker())
+    # Source: local data frame [4 x 2]
+    # Groups:
+    # 
+    #   id        y
+    # 1  a 42.00988
+    # 2  b 42.00988
+    # 3  c 42.01440
+    # 4  d 41.99160
 */
 ```
 

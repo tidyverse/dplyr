@@ -97,7 +97,9 @@ bool can_simplify( SEXP call ){
         SEXP fun_symbol = CAR(call) ;
         if( TYPEOF(fun_symbol) != SYMSXP ) return false ;
         
-        return get_handlers().count( fun_symbol ) ;
+        if( get_handlers().count( fun_symbol ) ) return true ;
+        
+        return can_simplify( CDR(call) ) ;
     }
     return false ;
 }
