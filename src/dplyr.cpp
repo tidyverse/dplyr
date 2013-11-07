@@ -4,8 +4,6 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-typedef Result* (*ResultPrototype)(SEXP, const LazySubsets&, int) ;
-
 typedef boost::unordered_map<SEXP,ResultPrototype> ResultPrototypeMap ;
   
 #define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                        \
@@ -72,7 +70,6 @@ ResultPrototypeMap& get_prototypes(){
 }
 
 Result* get_result( SEXP call, const LazySubsets& subsets ){
-    // no arguments
     int depth = Rf_length(call) ;
     ResultPrototypeMap& prototypes = get_prototypes() ;
     SEXP fun_symbol = CAR(call) ;
@@ -82,6 +79,10 @@ Result* get_result( SEXP call, const LazySubsets& subsets ){
     if( it == prototypes.end() ) return 0 ;
     
     return it->second( call, subsets, depth - 1 );
+}
+
+void registerResult( const char* name, ResultPrototype proto){
+    get_prototypes()[ Rf_install(name) ] = proto ; 
 }
 
 bool can_simplify( SEXP call ){

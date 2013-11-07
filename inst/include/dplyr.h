@@ -39,6 +39,11 @@ inline SEXP as_symbol(SEXP x) {
 // [[Rcpp::register]]
 DataFrame build_index_cpp( DataFrame data ) ;
 
+typedef dplyr::Result* (*ResultPrototype)(SEXP, const dplyr::LazySubsets&, int) ;
+
+// [[Rcpp::register]]
+void registerResult( const char* , ResultPrototype ) ;
+
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>

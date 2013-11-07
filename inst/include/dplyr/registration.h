@@ -11,6 +11,11 @@ inline DataFrame build_index_cpp( DataFrame data ){
     return fun(data) ;
 }
 
+inline void registerResult( const char* name, ResultPrototype proto){
+    typedef void (*Fun)(const char*, ResultPrototype ) ;
+    GRAB_CALLABLE(registerResult)
+    return fun(name, proto) ;
+}
 
 #endif
 
