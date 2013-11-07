@@ -80,11 +80,50 @@ a simpler version of `sum` that only handles numeric vectors. (The internal vers
 is more complete, handles missing values, ...). 
 
 ```{cpp}
-class Sum{
+class Sum : public Result {
   public:
     Sum( NumericVector data_ ): data(data_){}
     
     SEXP process( const SlicingIndex& index ){
+      double res = 0.0 ;
+      for( int i=0; i<index.size(); i++) res += data[ index[i] ] ;
+      return NumericVector::create( res );
+    }
+    
+    virtual SEXP process( const GroupedDataFrame& gdf){
+      ...
+    }
+    virtual SEXP process( const FullDataFrame& df ){
+      ...
+    }
+        
+  private:
+    NumericVector data ;
+} ;
+```
+
+## Using Processor
+
+Implementation of `Result` derived classes can be facilitated by the template 
+class `Processor`. `Processor` is templated by two template parameters: 
+ - the R output type (`REALSXP`, `STRSXP`, ...) 
+ - the class you are defining. (This uses the CRTP pattern). 
+ 
+When using `Processor` we only have to supply a `process_chunk` method
+that takes a `const SlicingIndex&` as input and returns an object suitable to 
+go into a vector of the type controlled by the first template parameter. 
+
+The purpose of the `Processor` template is then to generate the boiler plate 
+code for the three `process` methods defined by the `Result` interface. 
+
+A possible `Sum` implementation would then look something like this:
+
+```{cpp}
+class Sum : public Processor<REALSXP, Sum> {
+  public:
+    Sum( NumericVector data_ ): data(data_){}
+    
+    double process_chunk( const SlicingIndex& index ){
       double res = 0.0 ;
       for( int i=0; i<index.size(); i++) res += data[ index[i] ] ;
       return res;
@@ -92,6 +131,40 @@ class Sum{
     
   private:
     NumericVector data ;
-} ;
+}
 ```
+
+Recognizing genericity here, we might want to make `Sum` a template class
+in order to handle more than just numeric vector : 
+
+```{cpp}
+template <int RTYPE>
+class Sum : public Processor<REALSXP, Sum<RTYPE> > {
+  public:
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+    
+    Sum( Vector<RTYPE> data_ ): data(data_){}
+    
+    STORAGE process_chunk( const SlicingIndex& index ){
+      STORAGE res = 0.0 ;
+      for( int i=0; i<index.size(); i++) res += data[ index[i] ] ;
+      return res;
+    }
+    
+  private:
+    Vector<RTYPE> data ;
+}
+```
+
+Aside from not dealing with missing data and using internal knowledge of the 
+`SlicingIndex` class, this implementation of `Sum` is close to the 
+internal implementation in `dplyr`. 
+
+## Retrieving hybrid handlers
+
+`dplyr` functions use the `get_result` function to retrieve handlers for 
+particular expressions. 
+
+
+
 

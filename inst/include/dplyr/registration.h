@@ -11,9 +11,9 @@ inline DataFrame build_index_cpp( DataFrame data ){
     return fun(data) ;
 }
 
-inline void registerResult( const char* name, ResultPrototype proto){
-    typedef void (*Fun)(const char*, ResultPrototype ) ;
-    GRAB_CALLABLE(registerResult)
+inline void registerHybridHandler( const char* name, HybridHandler proto){
+    typedef void (*Fun)(const char*, HybridHandler ) ;
+    GRAB_CALLABLE(registerHybridHandler)
     return fun(name, proto) ;
 }
 

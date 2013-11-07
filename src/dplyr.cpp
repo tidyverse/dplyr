@@ -4,7 +4,7 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-typedef boost::unordered_map<SEXP,ResultPrototype> ResultPrototypeMap ;
+typedef boost::unordered_map<SEXP,HybridHandler> HybridHandlerMap ;
   
 #define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                        \
 Result* __FUN__##_prototype( SEXP call, const LazySubsets& subsets, int nargs ){ \
@@ -54,35 +54,35 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
     return count_distinct_result( arg ) ;
 }
 
-ResultPrototypeMap& get_prototypes(){
-    static ResultPrototypeMap prototypes ;
-    if( !prototypes.size() ){
-        prototypes[ Rf_install("n")                ] = count_prototype ;
-        prototypes[ Rf_install( "mean" )           ] = mean_prototype ;
-        prototypes[ Rf_install( "min" )            ] = min_prototype ;
-        prototypes[ Rf_install( "max" )            ] = max_prototype ;
-        prototypes[ Rf_install( "var" )            ] = var_prototype ;
-        prototypes[ Rf_install( "sd")              ] = sd_prototype ;
-        prototypes[ Rf_install( "sum" )            ] = sum_prototype;
-        prototypes[ Rf_install( "count_distinct" ) ] = count_distinct_prototype ;
+HybridHandlerMap& get_handlers(){
+    static HybridHandlerMap handlers ;
+    if( !handlers.size() ){
+        handlers[ Rf_install("n")                ] = count_prototype ;
+        handlers[ Rf_install( "mean" )           ] = mean_prototype ;
+        handlers[ Rf_install( "min" )            ] = min_prototype ;
+        handlers[ Rf_install( "max" )            ] = max_prototype ;
+        handlers[ Rf_install( "var" )            ] = var_prototype ;
+        handlers[ Rf_install( "sd")              ] = sd_prototype ;
+        handlers[ Rf_install( "sum" )            ] = sum_prototype;
+        handlers[ Rf_install( "count_distinct" ) ] = count_distinct_prototype ;
     }
-    return prototypes ;    
+    return handlers ;    
 }
 
 Result* get_result( SEXP call, const LazySubsets& subsets ){
     int depth = Rf_length(call) ;
-    ResultPrototypeMap& prototypes = get_prototypes() ;
+    HybridHandlerMap& handlers = get_handlers() ;
     SEXP fun_symbol = CAR(call) ;
     if( TYPEOF(fun_symbol) != SYMSXP ) return 0 ;
     
-    ResultPrototypeMap::const_iterator it = prototypes.find( fun_symbol ) ;
-    if( it == prototypes.end() ) return 0 ;
+    HybridHandlerMap::const_iterator it = handlers.find( fun_symbol ) ;
+    if( it == handlers.end() ) return 0 ;
     
     return it->second( call, subsets, depth - 1 );
 }
 
-void registerResult( const char* name, ResultPrototype proto){
-    get_prototypes()[ Rf_install(name) ] = proto ; 
+void registerHybridHandler( const char* name, HybridHandler proto){
+    get_handlers()[ Rf_install(name) ] = proto ; 
 }
 
 bool can_simplify( SEXP call ){
@@ -97,7 +97,7 @@ bool can_simplify( SEXP call ){
         SEXP fun_symbol = CAR(call) ;
         if( TYPEOF(fun_symbol) != SYMSXP ) return false ;
         
-        return get_prototypes().count( fun_symbol ) ;
+        return get_handlers().count( fun_symbol ) ;
     }
     return false ;
 }
