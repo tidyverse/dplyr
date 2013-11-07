@@ -41,7 +41,7 @@ namespace dplyr {
         bool simplified(){
             // initial
             if( TYPEOF(call) == LANGSXP ){
-                Result* res = get_result(call, subsets) ;
+                Result* res = get_handler(call, subsets) ;
                 if( res ){
                     // replace the call by the result of process
                     call = res->process(indices) ;
@@ -59,7 +59,7 @@ namespace dplyr {
         bool replace( SEXP p ){
             SEXP obj = CAR(p) ;
             if( TYPEOF(obj) == LANGSXP ){
-                Result* res = get_result(obj, subsets) ;
+                Result* res = get_handler(obj, subsets) ;
                 if(res){
                     SETCAR(p, res->process(indices) ) ;
                     return true ;

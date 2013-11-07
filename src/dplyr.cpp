@@ -69,7 +69,7 @@ HybridHandlerMap& get_handlers(){
     return handlers ;    
 }
 
-Result* get_result( SEXP call, const LazySubsets& subsets ){
+Result* get_handler( SEXP call, const LazySubsets& subsets ){
     int depth = Rf_length(call) ;
     HybridHandlerMap& handlers = get_handlers() ;
     SEXP fun_symbol = CAR(call) ;

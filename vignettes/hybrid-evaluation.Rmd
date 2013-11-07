@@ -162,7 +162,7 @@ internal implementation in `dplyr`.
 
 ## Retrieving hybrid handlers
 
-`dplyr` functions use the `get_result` function to retrieve handlers for 
+`dplyr` functions use the `get_handler` function to retrieve handlers for 
 particular expressions. 
 
 

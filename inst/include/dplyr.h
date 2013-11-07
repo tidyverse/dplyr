@@ -24,7 +24,7 @@ namespace dplyr {
     class LazySubsets ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
 }
-dplyr::Result* get_result( SEXP, const dplyr::LazySubsets& ) ;
+dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets& ) ;
 bool can_simplify(SEXP) ;
 
 inline SEXP as_symbol(SEXP x) {
