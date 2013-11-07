@@ -225,4 +225,105 @@ Result* sum_handler(SEXP call, const LazySubsets& subsets, int nargs ){
   return 0 ;
 }
 ```
-   
+
+## Registering hybrid handlers
+
+`dplyr` enables users, most likely packages, to register their own hybrid handlers
+through the `registerHybridHandler`. 
+
+```{cpp}
+void registerHybridHandler( const char* , HybridHandler ) ;
+```
+
+To register the handler we created above, we then simply: 
+
+```{cpp}
+registerHybridHandler( "sum", sum_handler )  ;
+```
+
+## Putting it all together
+
+We are going to register a handler called `hitchhiker` that always returns the 
+answer to everything, i.e. `42`. 
+
+The code below is suitable to run through `sourceCpp`. 
+
+```{cpp}
+#include <dplyr.h>
+// [[Rcpp::depends(dplyr,BH)]]
+
+using namespace dplyr ;
+using namespace Rcpp ;
+
+// the class that derives from Result through Processor
+class Hitchhiker : public Processor<INTSXP,Hitchhiker>{
+public:
+    
+    // always returns 42, as it is the answer to everything
+    int process_chunk( const SlicingIndex& ){
+        return 42 ;    
+    }
+} ;
+
+// we actually don't need the arguments
+// we can just let this handler return a new Hitchhiker pointer
+Result* hitchhiker_handler( SEXP, const LazySubsets&, int ){
+    return new Hitchhiker ;        
+}
+
+// registration of the register, called from R, so exprted through Rcpp::export
+// [[Rcpp::export]]
+void registerHitchhiker(){
+    registerHybridHandler( "hitchhiker", hitchhiker_handler );    
+}
+
+/*** R
+    require(dplyr)
+    registerHitchhiker()
+    
+    n  <- 10000
+    df <- group_by( tbl_cpp( data.frame( 
+        id = sample( letters[1:4], 1000, replace = TRUE ), 
+        x  = rnorm(n)
+        ) ), id )
+    summarise( df, y = hitchhiker() )
+    # Source: local data frame [4 x 2]
+    # Groups:
+    # 
+    #   id  y
+    # 1  a 42
+    # 2  b 42
+    # 3  c 42
+    # 4  d 42
+*/
+```
+
+## Registering hybrid handlers with a package
+
+To register custom handlers in packages, the best place is the `init` entry point
+that R automatically calls when a package is loaded. 
+
+Instead of exposing the `registerHitchhiker` function as above, packages would typically 
+register handlers like this: 
+
+```
+#include <Rcpp.h>
+#include <dplyr.h>
+
+// R automatically calls this function when the maypack package is loaded. 
+extern "C" void R_init_mypack( DllInfo* info ){
+  registerHybridHandler( "hitchhiker", hitchhiker_handler );
+}
+```
+
+For this your package must know about Rcpp and dplyr's headers, which requires 
+this information in the `DESCRIPTION` file:
+
+```
+LinkingTo: Rcpp, dplyr, BH
+```
+
+The `Makevars` and `Makevars.win` are similar to those used for any package 
+that uses `Rcpp` features. See the `Rcpp` vignettes for details. 
+
+
