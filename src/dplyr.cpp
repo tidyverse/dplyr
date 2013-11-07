@@ -843,7 +843,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     
     LazyGroupedSubsets subsets(gdf) ;
     for( int k=0; k<nexpr; k++, i++ ){
-        Result* res( get_result( args[k], subsets ) ) ;
+        Result* res( get_handler( args[k], subsets ) ) ;
         
         // if we could not find a direct Result 
         // we can use a GroupedCalledReducer which will callback to R
@@ -863,7 +863,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     
     for( int i=0; i<nexpr; i++){
         LazySubsets subsets( df ) ;
-        boost::scoped_ptr<Result> res( get_result( args[i], subsets ) ) ;
+        boost::scoped_ptr<Result> res( get_handler( args[i], subsets ) ) ;
         if(res) {
             out[i] = res->process( FullDataFrame(df) ) ;
         } else {
