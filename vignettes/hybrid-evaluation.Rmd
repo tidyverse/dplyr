@@ -1,0 +1,97 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Hybrid Evaluation}
+-->
+
+```{r, echo = FALSE, message = FALSE}
+library(ggplot2)
+library(dplyr)
+knitr::opts_chunk$set(tidy = FALSE)
+```
+
+# Hybrid Evaluation
+
+Consider this call to `summarise` : 
+
+```{r, eval = FALSE}
+summarise(per_day, flights = sum(flights))
+```
+
+One of the way `dplyr` achieves dramatic speedups is that expressions might not 
+be evaluated by R, but by alternative code that is faster and uses less memory. 
+
+Conceptually the call to `summarise` above evaluates the expression `sum(flights)`
+on each subset of `flights` controlled by the grouping of `per_day`. This involves
+creating a new R vector to store the chunk and evaluate the R expression. 
+
+Evaluating the R expression might carry costs that can be avoided, i.e. 
+S3 dispatch, ...
+
+`dplyr` recognizes the expression `sum(flights)` as the `sum` function applied 
+to a known column of the data, making it possible to handle the dispatch 
+early and once, avoid unneeded memory allocations and compute the result faster. 
+
+Hybrid evaluation is able to work on subexpressions. Consider: 
+
+```{r, eval=FALSE}
+foo <- function(x) x*x 
+summarise(per_day, flights = foo(sum(flights)) )
+```
+
+`dplyr` will substitute the subexpressions it knows how to handle and leave the 
+rest to standard R evaluation. Instead of evaluating `foo(sum(flights))`, R will 
+only have to evaluate `foo(z)` where `z` is the result of the internal evaluation
+of `sum(flights)`. 
+
+# Implementation
+
+Hybrid evaluation is designed to be extensible. Before we start registering 
+custom hybrid evaluation handlers, we need to understand the system. 
+
+The first building block we need to cover is the `Result` class. 
+
+```{cpp}
+namespace dplyr {
+    class Result {
+    public:
+        Result(){}
+        virtual ~Result(){} ;
+        
+        virtual SEXP process( const GroupedDataFrame& gdf) = 0 ;
+        
+        virtual SEXP process( const FullDataFrame& df ) = 0 ;
+        
+        virtual SEXP process( const SlicingIndex& index ){
+            return R_NilValue ;    
+        }
+        
+    } ;
+}
+```
+
+The two first methods deal with grouped and ungrouped data frames. 
+We will mainly focus on the last method that operates on a `SlicingIndex`. 
+
+`SlicingIndex` is a class that encapsulates indices of a single chunk of a grouped
+data frame. 
+
+Hybrid evaluation really just is deriving from the `Result` class. Let's consider 
+a simpler version of `sum` that only handles numeric vectors. (The internal version 
+is more complete, handles missing values, ...). 
+
+```{cpp}
+class Sum{
+  public:
+    Sum( NumericVector data_ ): data(data_){}
+    
+    SEXP process( const SlicingIndex& index ){
+      double res = 0.0 ;
+      for( int i=0; i<index.size(); i++) res += data[ index[i] ] ;
+      return res;
+    }
+    
+  private:
+    NumericVector data ;
+} ;
+```
+

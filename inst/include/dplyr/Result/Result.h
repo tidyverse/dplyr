@@ -3,9 +3,6 @@
 
 namespace dplyr {
     
-    // we can either derive from Result directly and implement process
-    // manually by traversing the ChunkIndexMap
-    // or we can use the Processor template class
     class Result {
     public:
         Result(){}
