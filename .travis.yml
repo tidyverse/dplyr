@@ -18,7 +18,7 @@ notifications:
     on_success: change
     on_failure: change
 after_script:
-  - ./dropbox upload dplyr.Rcheck
+  - ./dropbox.sh upload dplyr.Rcheck
 env:
   global:
   - ACCESS_LEVEL=sandbox
