@@ -891,7 +891,11 @@ SEXP count_distinct(SEXP vec){
     boost::scoped_ptr<Result> res( count_distinct_result(vec) );
     if( !res ){
         std::stringstream ss ;
+        #if RCPP_VERSION < Rcpp_Version(0,10,7)
         ss << "cannot handle object of type" << sexp_to_name( TYPEOF(vec) ) ;
+        #else
+        ss << "cannot handle object of type" << type2name(vec) ;
+        #endif
         stop( ss.str() ) ;
     }
     return res->process(everything) ;
