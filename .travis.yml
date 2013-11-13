@@ -2,10 +2,7 @@ language: c
 script: ./travis-tool.sh run_tests
 before_install:
 - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-- curl -OL http://raw.github.com/romainfrancois/r-travis/master/scripts/dropbox.sh
 - chmod 755 ./travis-tool.sh
-- chmod 755 ./dropbox.sh
-- ./travis-tool.sh bootstrap
 install:
 - ./travis-tool.sh github_package assertthat
 - ./travis-tool.sh github_package testthat
@@ -18,12 +15,4 @@ notifications:
   email:
     on_success: change
     on_failure: change
-after_script:
-  - ./dropbox.sh upload dplyr.Rcheck
-env:
-  global:
-  - ACCESS_LEVEL=sandbox
-  - secure: LELmW/uGnmc8gPcJcDMV5SeAy7eieqSrNTqW8mSrSShgu31ifQ9tzd+5U2SxL/LVit+oxT/oyXAKSjX8oebBC8qSZKMR33+kURxq8HHZ6eqhvJv3lh7wjvFpXdPdgr+HrtCqnKBqbMN0oQkMZAtBUTpIwf0K+Zw+eNon0GdYIc4=
-  - secure: QOMc+iTz2UspKkm4J6XDNMxzALAzH8NCDR0J+s3JG2VWcHS0m0sbK6rIiTnztzonTP9052HfpgdUY8Culjpww7JamCQ3CYUA83NAdmXLrsSsUWC6emxkw0dCUi2exMVllNfy9uH+Dcj1ytZpDrabeBDS6CF4jbp7wpfMrfJeOO0=
-  - secure: L3fKoY3SMpxsaLz/TUIy07j209E5ZCBFaXLEb3j0f+hYc97432xFDcBNjtE8TQ8X0GqnmCxZX/+45QRm2th7Hk2Ei1imIM2OMDQNnBFBnbzqN4qTrGkPCP6YEfKqw8NvxB6GkJEXgxE1zHIhTguicvDSPKNO1SUAirnzkRc1C6M=
-  - secure: V94Mz3NGm5e39XPr776K3HMzX8m9Khz3DWwQgjE6gADn2kElm4ZgLYJ+hmTaW1W79vx/GDD6n3whPCP28oocOB/LLVX4zzY5tvjVegSo6gY1wRXPF+HEysjokxlMfVC68qS2qDr4f9FgJb0oREddJ5CxINZOL6suBYj9yzPhafA=
+
