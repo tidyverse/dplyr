@@ -217,10 +217,11 @@ namespace dplyr {
         comparisons<STRSXP> string_compare ;
     } ;
     
-    #define PROMOTE_VISITOR(__CLASS__)                                                   \
-    class __CLASS__ : public PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> >{\
-    public:                                                                              \
-        __CLASS__( const NumericVector& vec_) : PromoteClassVisitor(vec_){}              \
+    #define PROMOTE_VISITOR(__CLASS__)                                                    \
+    class __CLASS__ : public PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> >{ \
+    public:                                                                               \
+        typedef PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> > Parent ;      \
+        __CLASS__( const NumericVector& vec_) : Parent(vec_){}                            \
     } ;
     PROMOTE_VISITOR(DateVisitor)
     PROMOTE_VISITOR(POSIXctVisitor)
