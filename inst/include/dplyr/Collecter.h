@@ -68,14 +68,14 @@ namespace dplyr {
     } ;
     
     class POSIXctCollecter : public TypedCollecter<REALSXP> {
-    public:  
+    public:
         POSIXctCollecter( int n) : 
-            TypedCollecter( n, CharacterVector::create( "POSIXct","POSIXt" ) ){}
+            TypedCollecter<REALSXP>( n, CharacterVector::create( "POSIXct", "POSIXt" ) ){}
     } ;
     class DateCollecter : public TypedCollecter<REALSXP> {
     public:  
         DateCollecter( int n) : 
-            TypedCollecter( n, CharacterVector::create( "Date" ) ){}
+            TypedCollecter<REALSXP>( n, CharacterVector::create( "Date" ) ){}
     } ;
     
     class FactorCollecter : public Collecter {
