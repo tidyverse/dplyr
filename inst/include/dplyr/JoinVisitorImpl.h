@@ -180,10 +180,11 @@ namespace dplyr{
     } ;
     
     #define PROMOTE_JOIN_VISITOR(__CLASS__)                                                   \
-    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP> >{\
-    public:                                                                              \
-        __CLASS__( const NumericVector& left_, const NumericVector& right_) :   \
-        PromoteClassJoinVisitor(left_, right_){}              \
+    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP> >{   \
+    public:                                                                                   \
+        typedef PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP> > Parent ;        \
+        __CLASS__( const NumericVector& left_, const NumericVector& right_) :                 \
+            Parent(left_, right_){}                                                           \
     } ;
     PROMOTE_JOIN_VISITOR(DateJoinVisitor)
     PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
