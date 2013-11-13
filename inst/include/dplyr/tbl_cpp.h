@@ -41,7 +41,7 @@ namespace dplyr {
             
             if( source.nvars() > 1){
                 data.attr( "class" ) = classes_grouped()  ;
-                List vars = source.attr("vars") ;
+                List vars = source.data().attr("vars") ;
                 vars.erase( source.nvars() - 1) ;
                 data.attr( "vars") = vars ;
                 data.attr( "drop" ) = true ;

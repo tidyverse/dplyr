@@ -631,7 +631,7 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     // a, b, c ->  a & b & c
     Language call = and_calls( args ) ;
     
-    DataFrame data = gdf.data() ;
+    const DataFrame& data = gdf.data() ;
     int nrows = data.nrows() ;
     LogicalVector test = no_init(nrows);
     
@@ -650,7 +650,7 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
         }
     }
     DataFrame res = subset( data, test, data.names(), classes_grouped() ) ;
-    res.attr( "vars")   = gdf.attr("vars") ;
+    res.attr( "vars")   = data.attr("vars") ;
             
     return res ;
 }
@@ -713,7 +713,7 @@ SEXP structure_mutate( Proxy& call_proxy, const DataFrame& df, const CharacterVe
 }
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
-    DataFrame df = gdf.data() ;
+    const DataFrame& df = gdf.data() ;
     
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
@@ -728,9 +728,9 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     }
     
     DataFrame res = structure_mutate( proxy, df, results_names, classes_grouped() ) ;
-    res.attr( "vars")    = gdf.attr("vars") ;
-    res.attr( "labels" ) = gdf.attr("labels" );
-    res.attr( "index")   = gdf.attr("index") ;
+    res.attr( "vars")    = df.attr("vars") ;
+    res.attr( "labels" ) = df.attr("labels" );
+    res.attr( "index")   = df.attr("index") ;
     
     return res ;
 }

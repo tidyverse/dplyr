@@ -74,10 +74,6 @@ namespace Rcpp {
             return labels[i];
         }
         
-        inline DataFrame::AttributeProxy attr( const std::string& name ) const {
-            return data_.attr(name) ;    
-        }
-        
         inline int max_group_size() const{
             return biggest_group_size ;
         }
