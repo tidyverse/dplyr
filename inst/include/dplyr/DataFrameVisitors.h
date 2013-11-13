@@ -68,7 +68,7 @@ namespace dplyr {
                    out[k] = get(k)->subset(index) ;    
                 }
                 structure( out, Rf_length(out[0]) , classes) ;
-                return out.asSexp() ;
+                return (SEXP)out ;
             }
             
             inline int size() const { return nvisitors ; }

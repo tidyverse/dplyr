@@ -40,7 +40,7 @@ namespace dplyr{
             SEXP vars = left.attr( "vars" ) ;
             if( !Rf_isNull(vars) )
                 out.attr( "vars" ) = vars ;
-            return out.asSexp() ;
+            return (SEXP)out ;
         }
         
         inline void print(int i){

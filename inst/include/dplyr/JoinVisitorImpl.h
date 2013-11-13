@@ -55,7 +55,7 @@ namespace dplyr{
     public:
         typedef SEXP value_type ;
         inline bool operator()( SEXP x, SEXP y){
-            return comparisons::is_less(x, y) ;    
+            return is_less(x, y) ;    
         }
     } ;  
     
