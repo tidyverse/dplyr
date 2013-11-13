@@ -186,7 +186,7 @@ namespace dplyr {
         }
         
         inline std::string get_r_type() const {
-            CharacterVector classes = VectorVisitorImpl::vec.attr( "class" ) ;
+            CharacterVector classes = Parent::vec.attr( "class" ) ;
             return collapse(classes) ;   
         }
         
