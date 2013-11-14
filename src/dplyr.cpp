@@ -140,7 +140,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     if( !Rf_isNull(vars) )
         out.attr( "vars" ) = vars ;
             
-    return out ;
+    return (SEXP)out ;
 }
 
 template <typename TargetContainer, typename SourceContainer>
