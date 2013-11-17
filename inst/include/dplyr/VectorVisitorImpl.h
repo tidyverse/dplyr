@@ -154,8 +154,10 @@ namespace dplyr {
     public:    
         typedef VectorVisitorImpl<INTSXP> Parent ;
         
-        FactorVisitor( const IntegerVector& vec ) : 
-            Parent(vec), levels( vec.attr( "levels" ) ), levels_ptr(Rcpp::internal::r_vector_start<STRSXP>(levels) ) {}
+        FactorVisitor( const IntegerVector& vec ) : Parent(vec){
+                levels = vec.attr( "levels" ) ;
+                levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
+        }
         
         inline bool equal(int i, int j) const { 
             return string_compare.is_equal( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
