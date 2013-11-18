@@ -1,4 +1,4 @@
-S3method(all,equal.data.frame)
+S3method(all.equal,data.frame)
 S3method(anti_join,data.frame)
 S3method(anti_join,tbl_cpp)
 S3method(anti_join,tbl_df)

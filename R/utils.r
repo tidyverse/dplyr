@@ -100,3 +100,5 @@ deparse_all <- function(x) {
 }
 
 commas <- function(...) paste0(..., collapse = ", ")
+
+in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")

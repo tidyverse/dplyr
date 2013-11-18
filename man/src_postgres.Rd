@@ -3,8 +3,8 @@
 \alias{tbl.src_postgres}
 \title{Connect to postgresql.}
 \usage{
-src_postgres(dbname = "", host = "", port = "", user = "",
-  password = "", ...)
+src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
+  password = NULL, ...)
 
 \method{tbl}{src_postgres}(src, from, ...)
 }

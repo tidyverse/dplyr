@@ -3,5 +3,6 @@ library("dplyr")
 
 library("Lahman")
 lahman_sqlite()
+lahman_postgres()
 
 test_check("dplyr")
