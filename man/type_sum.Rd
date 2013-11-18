@@ -2,7 +2,7 @@
 \alias{type_sum}
 \title{Provide a succint summary of a type}
 \usage{
-  type_sum(x)
+type_sum(x)
 }
 \arguments{
   \item{x}{an object to summarise. Generally only methods

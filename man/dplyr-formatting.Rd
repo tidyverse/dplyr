@@ -4,9 +4,9 @@
 \alias{trunc_mat}
 \title{Tools for describing matrices}
 \usage{
-  dim_desc(x)
+dim_desc(x)
 
-  trunc_mat(x, n = NULL)
+trunc_mat(x, n = NULL)
 }
 \arguments{
   \item{x}{a matrix to describe}

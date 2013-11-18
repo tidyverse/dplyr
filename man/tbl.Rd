@@ -4,11 +4,11 @@
 \alias{tbl}
 \title{Create a table from a data source}
 \usage{
-  tbl(src, ...)
+tbl(src, ...)
 
-  is.tbl(x)
+is.tbl(x)
 
-  as.tbl(x, ...)
+as.tbl(x, ...)
 }
 \arguments{
   \item{src}{A data source}
