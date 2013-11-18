@@ -1,13 +1,13 @@
 language: c
 script: ./travis-tool.sh run_tests
 before_install:
-- curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-- chmod 755 ./travis-tool.sh
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
 install:
-- ./travis-tool.sh github_package assertthat
-- ./travis-tool.sh github_package testthat
-- ./travis-tool.sh github_package bigrquery
-- ./travis-tool.sh install_deps
+  - ./travis-tool.sh github_package assertthat
+  - ./travis-tool.sh github_package testthat
+  - ./travis-tool.sh github_package bigrquery
+  - ./travis-tool.sh install_deps
 branches:
   except:
   - /-expt$/
