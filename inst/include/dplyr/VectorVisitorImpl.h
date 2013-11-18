@@ -200,7 +200,7 @@ namespace dplyr {
         inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
             CharacterVector levels_other = other->levels ;
             if( setdiff( levels, levels_other ).size() ){
-                ss << "Levels mismatch for column " << name ;
+                ss << "Factor levels not equal for column " << name ;
                 return false ;
             }
             return true; 

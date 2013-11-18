@@ -66,4 +66,3 @@ test_that("rbind_list cannot coerce integer to factor", {
   expect_that( rbind_list( df1, df2 ), throws_error() )
   
 })
-
