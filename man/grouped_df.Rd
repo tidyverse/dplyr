@@ -6,15 +6,15 @@
 \alias{is.lazy.grouped_df}
 \title{A grouped data frame.}
 \usage{
-  grouped_df(data, vars, lazy = TRUE, drop = TRUE)
+grouped_df(data, vars, lazy = TRUE, drop = TRUE)
 
-  \method{is.lazy}{grouped_df} (x)
+\method{is.lazy}{grouped_df}(x)
 
-  is.grouped_df(x)
+is.grouped_df(x)
 
-  is.grouped_cpp(x)
+is.grouped_cpp(x)
 
-  \method{group_by}{data.frame} (x, ..., drop = TRUE)
+\method{group_by}{data.frame}(x, ..., drop = TRUE)
 }
 \arguments{
   \item{data}{a tbl or data frame.}

@@ -3,10 +3,10 @@
 \alias{tbl.src_postgres}
 \title{Connect to postgresql.}
 \usage{
-  src_postgres(dbname = "", host = "", port = "",
-    user = "", password = "", ...)
+src_postgres(dbname = "", host = "", port = "", user = "",
+  password = "", ...)
 
-  \method{tbl}{src_postgres} (src, from, ...)
+\method{tbl}{src_postgres}(src, from, ...)
 }
 \arguments{
   \item{dbname}{Database name}

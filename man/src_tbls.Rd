@@ -2,7 +2,7 @@
 \alias{src_tbls}
 \title{List all tbls provided by a source.}
 \usage{
-  src_tbls(x)
+src_tbls(x)
 }
 \arguments{
   \item{x}{a data src.}

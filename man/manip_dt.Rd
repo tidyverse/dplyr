@@ -7,16 +7,15 @@
 \alias{summarise.data.table}
 \title{Data manipulation for data tables.}
 \usage{
-  \method{filter}{data.table} (.data, ...,
-    .env = parent.frame())
+\method{filter}{data.table}(.data, ..., .env = parent.frame())
 
-  \method{summarise}{data.table} (.data, ...)
+\method{summarise}{data.table}(.data, ...)
 
-  \method{mutate}{data.table} (.data, ..., inplace = FALSE)
+\method{mutate}{data.table}(.data, ..., inplace = FALSE)
 
-  \method{arrange}{data.table} (.data, ...)
+\method{arrange}{data.table}(.data, ...)
 
-  \method{select}{data.table} (.data, ...)
+\method{select}{data.table}(.data, ...)
 }
 \arguments{
   \item{.data}{a data table}

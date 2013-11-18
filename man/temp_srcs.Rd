@@ -3,9 +3,9 @@
 \alias{temp_srcs}
 \title{Connect to temporary data sources.}
 \usage{
-  temp_srcs(..., quiet = NULL)
+temp_srcs(..., quiet = NULL)
 
-  temp_load(srcs, df, name = NULL)
+temp_load(srcs, df, name = NULL)
 }
 \description{
   These functions make it easy to take a local data frame

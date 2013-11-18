@@ -2,7 +2,7 @@
 \alias{group_size}
 \title{Calculate the size of each group}
 \usage{
-  group_size(x)
+group_size(x)
 }
 \arguments{
   \item{x}{a grouped tbl}

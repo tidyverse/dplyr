@@ -2,7 +2,7 @@
 \alias{src_sql}
 \title{Create a "sql src" object}
 \usage{
-  src_sql(subclass, con, ...)
+src_sql(subclass, con, ...)
 }
 \arguments{
   \item{subclass}{name of subclass. "src_sql" is an

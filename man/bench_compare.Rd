@@ -5,12 +5,11 @@
 \alias{eval_tbls}
 \title{Evaluate, compare, benchmark operations of a set of srcs.}
 \usage{
-  bench_tbls(tbls, op, ..., times = 10)
+bench_tbls(tbls, op, ..., times = 10)
 
-  compare_tbls(tbls, op, ref = NULL,
-    compare = equal_data_frame, ...)
+compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
 
-  eval_tbls(tbls, op)
+eval_tbls(tbls, op)
 }
 \arguments{
   \item{tbls}{A list of \code{\link{tbl}}s.}

@@ -2,7 +2,7 @@
 \alias{tbl_cpp}
 \title{Create a data frame tbl with cpp backend.}
 \usage{
-  tbl_cpp(data)
+tbl_cpp(data)
 }
 \arguments{
   \item{data}{a data frame}

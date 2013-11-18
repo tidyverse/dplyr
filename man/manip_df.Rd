@@ -7,16 +7,15 @@
 \alias{summarise.data.frame}
 \title{Data manipulation for data frames.}
 \usage{
-  \method{filter}{data.frame} (.data, ...,
-    env = parent.frame())
+\method{filter}{data.frame}(.data, ..., env = parent.frame())
 
-  \method{summarise}{data.frame} (.data, ...)
+\method{summarise}{data.frame}(.data, ...)
 
-  \method{mutate}{data.frame} (.data, ...)
+\method{mutate}{data.frame}(.data, ...)
 
-  \method{arrange}{data.frame} (.data, ...)
+\method{arrange}{data.frame}(.data, ...)
 
-  \method{select}{data.frame} (.data, ...)
+\method{select}{data.frame}(.data, ...)
 }
 \arguments{
   \item{.data}{a data frame}

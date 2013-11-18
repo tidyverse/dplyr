@@ -3,10 +3,10 @@
 \alias{tbl.src_mysql}
 \title{Connect to mysql/mariadb.}
 \usage{
-  src_mysql(dbname, host = NULL, port = 0L, user = "root",
-    password = "", ...)
+src_mysql(dbname, host = NULL, port = 0L, user = "root", password = "",
+  ...)
 
-  \method{tbl}{src_mysql} (src, from, ...)
+\method{tbl}{src_mysql}(src, from, ...)
 }
 \arguments{
   \item{dbname}{Database name}

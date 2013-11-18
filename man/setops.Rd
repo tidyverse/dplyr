@@ -6,13 +6,13 @@
 \alias{union}
 \title{Set operations.}
 \usage{
-  intersect(x, y, ...)
+intersect(x, y, ...)
 
-  union(x, y, ...)
+union(x, y, ...)
 
-  setdiff(x, y, ...)
+setdiff(x, y, ...)
 
-  setequal(x, y, ...)
+setequal(x, y, ...)
 }
 \arguments{
   \item{x,y}{objects to compare (ignoring order)}

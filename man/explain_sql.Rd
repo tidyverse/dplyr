@@ -4,11 +4,11 @@
 \alias{show_sql}
 \title{Show sql and query plans.}
 \usage{
-  explain_sql(code)
+explain_sql(code)
 
-  show_sql(code)
+show_sql(code)
 
-  explain_tbl(tbl)
+explain_tbl(tbl)
 }
 \arguments{
   \item{code}{code to run. All sql queries executed during

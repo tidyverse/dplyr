@@ -3,9 +3,9 @@
 \alias{tbl.src_sqlite}
 \title{Connect to a sqlite database.}
 \usage{
-  src_sqlite(path, create = FALSE)
+src_sqlite(path, create = FALSE)
 
-  \method{tbl}{src_sqlite} (src, from, ...)
+\method{tbl}{src_sqlite}(src, from, ...)
 }
 \arguments{
   \item{path}{Path to SQLite database}

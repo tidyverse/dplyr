@@ -2,7 +2,7 @@
 \alias{desc}
 \title{Descending order.}
 \usage{
-  desc(x)
+desc(x)
 }
 \arguments{
   \item{x}{vector to transform}

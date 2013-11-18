@@ -3,7 +3,7 @@
 \alias{query}
 \title{Create a mutable query object.}
 \usage{
-  query(con, sql, .vars)
+query(con, sql, .vars)
 }
 \arguments{
   \item{con}{a \code{DBOConnection}}

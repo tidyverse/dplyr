@@ -4,11 +4,11 @@
 \alias{compute}
 \title{Compute a lazy tbl.}
 \usage{
-  compute(x, name = random_table_name(), ...)
+compute(x, name = random_table_name(), ...)
 
-  collect(x, ...)
+collect(x, ...)
 
-  collapse(x, ...)
+collapse(x, ...)
 }
 \arguments{
   \item{x}{a data tbl}

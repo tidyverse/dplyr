@@ -5,13 +5,13 @@
 \alias{src_local}
 \title{A local source.}
 \usage{
-  src_local(tbl, pkg = NULL, env = NULL)
+src_local(tbl, pkg = NULL, env = NULL)
 
-  src_df(pkg = NULL, env = NULL)
+src_df(pkg = NULL, env = NULL)
 
-  src_dt(pkg = NULL, env = NULL)
+src_dt(pkg = NULL, env = NULL)
 
-  src_cpp(pkg = NULL, env = NULL)
+src_cpp(pkg = NULL, env = NULL)
 }
 \arguments{
   \item{tbl}{name of the function used to generate

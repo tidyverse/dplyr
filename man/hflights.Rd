@@ -6,11 +6,11 @@
 \title{Houston flights data}
 \format{A data frame with 227,496 rows and 21 columns.}
 \usage{
-  hflights
+hflights
 
-  hflights_sqlite(path = NULL)
+hflights_sqlite(path = NULL)
 
-  hflights_postgres(dbname = "hflights", ...)
+hflights_postgres(dbname = "hflights", ...)
 }
 \arguments{
   \item{path}{location of sqlite database file}
@@ -58,5 +58,4 @@ head(hflights)
 hflight_db <- tbl(hflights_sqlite(), "hflights")
 hflight_db
 }
-\keyword{datasets}
 

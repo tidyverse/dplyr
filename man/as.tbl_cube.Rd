@@ -5,17 +5,15 @@
 \alias{as.tbl_cube.table}
 \title{Coerce an existing data structure into a \code{tbl_cube}}
 \usage{
-  as.tbl_cube(x, ...)
+as.tbl_cube(x, ...)
 
-  \method{as.tbl_cube}{array} (x,
-    met_name = deparse(substitute(x)),
-    dim_names = names(dimnames(x)), ...)
+\method{as.tbl_cube}{array}(x, met_name = deparse(substitute(x)),
+  dim_names = names(dimnames(x)), ...)
 
-  \method{as.tbl_cube}{table} (x,
-    met_name = deparse(substitute(x)),
-    dim_names = names(dimnames(x)), ...)
+\method{as.tbl_cube}{table}(x, met_name = deparse(substitute(x)),
+  dim_names = names(dimnames(x)), ...)
 
-  \method{as.tbl_cube}{data.frame} (x, dim_names, ...)
+\method{as.tbl_cube}{data.frame}(x, dim_names, ...)
 }
 \arguments{
   \item{x}{an object to convert. Built in methods will

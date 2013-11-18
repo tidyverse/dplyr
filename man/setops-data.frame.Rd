@@ -6,13 +6,13 @@
 \alias{union.data.frame}
 \title{Set operations for data frames.}
 \usage{
-  \method{intersect}{data.frame} (x, y, ...)
+\method{intersect}{data.frame}(x, y, ...)
 
-  \method{union}{data.frame} (x, y, ...)
+\method{union}{data.frame}(x, y, ...)
 
-  \method{setdiff}{data.frame} (x, y, ...)
+\method{setdiff}{data.frame}(x, y, ...)
 
-  \method{setequal}{data.frame} (x, y, ...)
+\method{setequal}{data.frame}(x, y, ...)
 }
 \arguments{
   \item{x,y}{Two data frames to compare, igoring order of

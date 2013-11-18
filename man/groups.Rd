@@ -2,7 +2,7 @@
 \alias{groups}
 \title{Retrieve list of groups from a data source.}
 \usage{
-  groups(x)
+groups(x)
 }
 \arguments{
   \item{x}{data tbl}
