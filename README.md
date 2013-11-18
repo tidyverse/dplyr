@@ -13,7 +13,7 @@ One of the key ideas of `dplyr` is that it shouldn't matter how your data is sto
 
 `dplyr` is not currently available on CRAN, but you can install it from github with:
 
-```R
+```s
 devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
@@ -35,7 +35,7 @@ Currently `dplyr` supports:
 
 You can create them as follows:
 
-```R
+```s
 library(dplyr)
 # Built in data frame
 head(hflights)
@@ -52,7 +52,7 @@ hflights_db2 <- tbl(hflights_postgres(), "hflights")
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
 
-```R
+```s
 carriers_df  <- group_by(hflights, UniqueCarrier)
 carriers_dt  <- group_by(hflights_dt, UniqueCarrier)
 carriers_db1 <- group_by(hflights_db1, UniqueCarrier)
@@ -75,7 +75,7 @@ See `?manip` for more details.
 
 They all work as similarly as possible across the range of data sources.  The main difference is performance:
 
-```R
+```s
 system.time(summarise(carriers_df, delay = mean(ArrDelay, na.rm = TRUE)))
 #   user  system elapsed 
 #  0.010   0.002   0.012 
@@ -92,7 +92,7 @@ system.time(summarise(collect(carriers_db2, delay = mean(ArrDelay))))
 
 The data frame and table methods are substantially faster than plyr. The database methods are slower, but can work with data that don't fit in memory.
 
-```R
+```s
 library(plyr)
 system.time(ddply(hflights, "UniqueCarrier", summarise, 
   delay = mean(ArrDelay, na.rm = TRUE)))
@@ -106,7 +106,7 @@ As well as the specialised operations described above, `dplyr` also provides the
 
 Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between their number of at bats and runs:
 
-```r
+```s
 batting_db <- tbl(lahman(), "Batting")
 batting_df <- collect(batting_db)
 batting_dt <- tbl_dt(batting_df)
@@ -122,7 +122,7 @@ system.time(do(years_dt, failwith(NULL, lm), formula = R ~ AB))
 
 Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
 
-```R
+```s
 library(biglm)
 mod1 <- do(years_df, lm, formula = R ~ AB)
 mod2 <- do(years_df, biglm, formula = R ~ AB)
