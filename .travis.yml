@@ -25,6 +25,7 @@ install:
 before_script:
 - psql -c 'create database lahman;' -U postgres
 - psql -c 'create database hflights;' -U postgres
+- Rscript -e "library(devtools); load_all(); lahman_sqlite(); lahman_postgres()"
 script: ./travis-tool.sh run_tests
 
 on_failure:
