@@ -28,6 +28,7 @@ before_script:
 # Install dplyr package then cache sqlite and postgres version of Lahman
 - R CMD install .
 - Rscript -e "library(dplyr); lahman_sqlite(); lahman_postgres()"
+- Rscript -e "library(dplyr); hflights_postgres(); hflights_sqlite()"
 script: ./travis-tool.sh run_tests
 
 on_failure:
