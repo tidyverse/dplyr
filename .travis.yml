@@ -1,20 +1,24 @@
 language: c
-before_script:
-- psql -c 'create database lahman;' -U postgres
-- psql -c 'create database hflights;' -U postgres
-script: ./travis-tool.sh run_tests
+services: PostgreSQL
+
 before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
-on_failure:
-  - ./travis-tool.sh dump_logs
 install:
   - ./travis-tool.sh github_package assertthat
   - ./travis-tool.sh github_package testthat
   - ./travis-tool.sh github_package bigrquery
   - ./travis-tool.sh install_deps
-services: PostgreSQL
+
+before_script:
+- psql -c 'create database lahman;' -U postgres
+- psql -c 'create database hflights;' -U postgres
+script: ./travis-tool.sh run_tests
+
+on_failure:
+  - ./travis-tool.sh dump_logs
+
 branches:
   except:
   - /-expt$/
