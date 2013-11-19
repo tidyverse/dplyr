@@ -95,4 +95,5 @@ Collate:
     'utils-format.r'
     'utils.r'
     'view.r'
+    'window.R'
     'zzz.r'
