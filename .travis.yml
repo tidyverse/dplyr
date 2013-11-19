@@ -9,6 +9,10 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
 install:
+  - ./travis-tool.sh r_binary_install ggplot2
+  - ./travis-tool.sh r_binary_install RSQLite
+  - ./travis-tool.sh r_binary_install RMySQL
+  - ./travis-tool.sh r_binary_install RPostgreSQL
   - ./travis-tool.sh github_package assertthat
   - ./travis-tool.sh github_package testthat
   - ./travis-tool.sh github_package bigrquery
