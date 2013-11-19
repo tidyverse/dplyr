@@ -14,7 +14,7 @@ trunc_mat(x, n = NULL)
   \item{n}{number of rows to show}
 }
 \description{
-  Tools for describing matrices
+Tools for describing matrices
 }
 \examples{
 dim_desc(mtcars)

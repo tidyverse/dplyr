@@ -15,8 +15,8 @@ make_tbl(subclass, ...)
   For \code{as.tbl}, other arguments passed to methods.}
 }
 \description{
-  \code{tbl} is the standard constructor for tbls.
-  \code{as.tbl} coerces, and \code{is.tbl} tests.
+\code{tbl} is the standard constructor for tbls.
+\code{as.tbl} coerces, and \code{is.tbl} tests.
 }
 \examples{
 as.tbl(mtcars)

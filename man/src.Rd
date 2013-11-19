@@ -17,8 +17,8 @@ is.src(x)
   \item{x}{object to test for "src"-ness.}
 }
 \description{
-  \code{src} is the standard constructor for srcs and
-  \code{is.src} tests.
+\code{src} is the standard constructor for srcs and
+\code{is.src} tests.
 }
 \keyword{internal}
 

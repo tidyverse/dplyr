@@ -9,8 +9,8 @@ type_sum(x)
   of atomic vectors and variants have been implemented.}
 }
 \description{
-  All methods should return a string with four or less
-  characters, suitable for succinctly display column types.
+All methods should return a string with four or less
+characters, suitable for succinctly display column types.
 }
 \examples{
 type_sum(1:10)
