@@ -2,7 +2,7 @@
 \alias{tbl_df}
 \title{Create a data frame tble.}
 \usage{
-  tbl_df(data)
+tbl_df(data)
 }
 \arguments{
   \item{data}{a data frame}

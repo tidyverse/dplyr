@@ -10,7 +10,7 @@
 #'   the first reason why they're not equal. Use \code{\link{isTRUE}} if
 #'   using the result in an \code{if} expression.
 #' @method all.equal data.frame
-#' @export
+#' @S3method all.equal data.frame
 #' @examples
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
 #' 

@@ -2,7 +2,7 @@
 \alias{make_tbl}
 \title{Create a "tbl" object}
 \usage{
-  make_tbl(subclass, ...)
+make_tbl(subclass, ...)
 }
 \arguments{
   \item{subclass}{name of subclass. "tbl" is an abstract
