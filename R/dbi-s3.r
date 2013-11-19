@@ -109,21 +109,20 @@ DbDisconnector <- setRefClass("DbDisconnector",
 
 # Query details ----------------------------------------------------------------
 
-qry_fields <- function(con, sql) {
-  message("Computing qry_fields: ", sql)
+qry_fields <- function(con, from) {
   UseMethod("qry_fields")
 }
 
 #' @S3method qry_fields DBIConnection
-qry_fields.DBIConnection <- function(con, sql) {
-  qry <- dbSendQuery(con, sql)
+qry_fields.DBIConnection <- function(con, from) {
+  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
   on.exit(dbClearResult(qry))
   
   dbGetInfo(qry)$fieldDescription[[1]]$name
 }
 #' @S3method qry_fields SQLiteConnection
-qry_fields.SQLiteConnection <- function(con, sql) {
-  names(qry_fetch(con, sql, 0L))
+qry_fields.SQLiteConnection <- function(con, from) {
+  names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
 
 table_fields <- function(con, table) UseMethod("table_fields")
@@ -132,8 +131,7 @@ table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
 
 #' @S3method table_fields PostgreSQLConnection
 table_fields.PostgreSQLConnection <- function(con, table) {
-  sql <- build_sql("SELECT * FROM ", ident(table), " WHERE 0 = 1", con = con)
-  qry_fields.DBIConnection(con, sql)
+  qry_fields.DBIConnection(con, table)
 }
 
 #' @S3method table_fields bigquery

@@ -161,9 +161,9 @@ anti_join(player_info, hof)
 
 # Arbitrary SQL -------------------------------------------------------------
 # You can also provide sql as is, using the sql function:
-# batting2008 <- tbl(lahman_mysql(),
-#   sql("SELECT * FROM Batting WHERE YearID = 2008"))
-# batting2008
+batting2008 <- tbl(lahman_mysql(),
+  sql("SELECT * FROM Batting WHERE YearID = 2008"))
+batting2008
 }
 }
 
