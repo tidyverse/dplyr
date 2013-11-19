@@ -96,8 +96,10 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 
+  user <- user %||% if (in_travis()) "postgres" else ""
+  
   con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "", 
-    user = user %||% "", password = password %||% "", port = port %||% "", ...)
+    user = user, password = password %||% "", port = port %||% "", ...)
   info <- db_info(con)
   
   src_sql("postgres", con, 
