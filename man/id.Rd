@@ -2,7 +2,7 @@
 \alias{id}
 \title{Compute a unique numeric id for each unique row in a data frame.}
 \usage{
-  id(.variables, drop = FALSE)
+id(.variables, drop = FALSE)
 }
 \arguments{
   \item{.variables}{list of variables}

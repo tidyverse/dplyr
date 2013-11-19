@@ -70,6 +70,8 @@ hflights_sqlite <- function(path = NULL) {
 #' @param dbname,... Arguments passed on to \code{\link{src_postgres}}
 hflights_postgres <- function(dbname = "hflights", ...) {
   if (!is.null(cache$hflights_postgres)) return(cache$hflights_postgres)
+
+  user <- if (in_travis()) "postgres" else ""
   
   src <- src_postgres(dbname, ...)
   if (!db_has_table(src$con, "hflights")) {

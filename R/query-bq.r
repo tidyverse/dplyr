@@ -1,3 +1,6 @@
+#' @include query.r
+NULL
+
 # @examples
 # billing <- "341409650721" # put your project number here
 # samples <- src_bigquery("publicdata", "samples", billing)

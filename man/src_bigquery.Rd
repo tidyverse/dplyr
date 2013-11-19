@@ -3,9 +3,9 @@
 \alias{tbl.src_bigquery}
 \title{A bigquery data source.}
 \usage{
-  src_bigquery(project, dataset, billing = project)
+src_bigquery(project, dataset, billing = project)
 
-  \method{tbl}{src_bigquery} (src, from, ...)
+\method{tbl}{src_bigquery}(src, from, ...)
 }
 \arguments{
   \item{project}{project id or name}

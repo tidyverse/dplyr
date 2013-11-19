@@ -11,23 +11,23 @@
 \alias{lahman_srcs}
 \title{Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.}
 \usage{
-  lahman_sqlite(path = NULL)
+lahman_sqlite(path = NULL)
 
-  lahman_postgres(...)
+lahman_postgres(...)
 
-  lahman_mysql(...)
+lahman_mysql(...)
 
-  lahman_df()
+lahman_df()
 
-  lahman_dt()
+lahman_dt()
 
-  lahman_cpp()
+lahman_cpp()
 
-  lahman_bigquery(...)
+lahman_bigquery(...)
 
-  has_lahman(type, ...)
+has_lahman(type, ...)
 
-  lahman_srcs(..., quiet = NULL)
+lahman_srcs(..., quiet = NULL)
 }
 \arguments{
   \item{path}{location to look for and cache SQLite

@@ -7,15 +7,15 @@
 \alias{summarise.grouped_df}
 \title{Data manipulation for grouped data frames.}
 \usage{
-  \method{filter}{grouped_df} (.data, ...)
+\method{filter}{grouped_df}(.data, ...)
 
-  \method{summarise}{grouped_df} (.data, ...)
+\method{summarise}{grouped_df}(.data, ...)
 
-  \method{mutate}{grouped_df} (.data, ...)
+\method{mutate}{grouped_df}(.data, ...)
 
-  \method{arrange}{grouped_df} (.data, ...)
+\method{arrange}{grouped_df}(.data, ...)
 
-  \method{select}{grouped_df} (.data, ...)
+\method{select}{grouped_df}(.data, ...)
 }
 \arguments{
   \item{.data}{a data frame}

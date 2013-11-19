@@ -4,11 +4,11 @@
 \alias{is.lazy.grouped_cpp}
 \title{A grouped data frame with cpp backend.}
 \usage{
-  grouped_cpp(data, vars, lazy = TRUE, drop = TRUE)
+grouped_cpp(data, vars, lazy = TRUE, drop = TRUE)
 
-  \method{is.lazy}{grouped_cpp} (x)
+\method{is.lazy}{grouped_cpp}(x)
 
-  \method{group_by}{tbl_cpp} (x, ..., drop = TRUE)
+\method{group_by}{tbl_cpp}(x, ..., drop = TRUE)
 }
 \arguments{
   \item{data}{a tbl or data frame.}

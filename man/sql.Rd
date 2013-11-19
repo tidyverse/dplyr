@@ -6,15 +6,15 @@
 \alias{sql}
 \title{SQL escaping.}
 \usage{
-  sql(x)
+sql(x)
 
-  ident(x)
+ident(x)
 
-  is.sql(x)
+is.sql(x)
 
-  is.ident(x)
+is.ident(x)
 
-  escape(x, parens = NA, collapse = " ", con = NULL)
+escape(x, parens = NA, collapse = " ", con = NULL)
 }
 \arguments{
   \item{...}{Character vectors that will be combined into a

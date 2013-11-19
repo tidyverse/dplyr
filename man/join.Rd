@@ -6,13 +6,13 @@
 \alias{semi_join}
 \title{Join two tbls together.}
 \usage{
-  inner_join(x, y, by = NULL, copy = FALSE, ...)
+inner_join(x, y, by = NULL, copy = FALSE, ...)
 
-  left_join(x, y, by = NULL, copy = FALSE, ...)
+left_join(x, y, by = NULL, copy = FALSE, ...)
 
-  semi_join(x, y, by = NULL, copy = FALSE, ...)
+semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-  anti_join(x, y, by = NULL, copy = FALSE, ...)
+anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
   \item{x,y}{tbls to join}

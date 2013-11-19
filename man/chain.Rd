@@ -4,11 +4,11 @@
 \alias{chain_q}
 \title{Chain together multiple operations.}
 \usage{
-  chain(..., env = parent.frame())
+chain(..., env = parent.frame())
 
-  chain_q(calls, env = parent.frame())
+chain_q(calls, env = parent.frame())
 
-  x \%.\% y
+x \%.\% y
 }
 \arguments{
   \item{x,y}{A dataset and function to apply to it}

@@ -5,13 +5,13 @@
 \alias{sql_variant}
 \title{Create an sql variant.}
 \usage{
-  sql_variant(..., .parent = base_sql)
+sql_variant(..., .parent = base_sql)
 
-  sql_infix(f)
+sql_infix(f)
 
-  sql_prefix(f)
+sql_prefix(f)
 
-  sql_not_supported(f)
+sql_not_supported(f)
 }
 \arguments{
   \item{...}{named functions, used to add custom converters

@@ -7,15 +7,15 @@
 \alias{summarise.grouped_dt}
 \title{Data manipulation for grouped data tables.}
 \usage{
-  \method{filter}{grouped_dt} (.data, ...)
+\method{filter}{grouped_dt}(.data, ...)
 
-  \method{summarise}{grouped_dt} (.data, ...)
+\method{summarise}{grouped_dt}(.data, ...)
 
-  \method{mutate}{grouped_dt} (.data, ..., inplace = FALSE)
+\method{mutate}{grouped_dt}(.data, ..., inplace = FALSE)
 
-  \method{arrange}{grouped_dt} (.data, ...)
+\method{arrange}{grouped_dt}(.data, ...)
 
-  \method{select}{grouped_dt} (.data, ...)
+\method{select}{grouped_dt}(.data, ...)
 }
 \arguments{
   \item{.data}{a data table}

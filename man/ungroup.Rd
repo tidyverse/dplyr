@@ -2,7 +2,7 @@
 \alias{ungroup}
 \title{Ungroup a grouped tbl}
 \usage{
-  ungroup(x)
+ungroup(x)
 }
 \arguments{
   \item{x}{a grouped tbl}

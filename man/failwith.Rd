@@ -2,7 +2,7 @@
 \alias{failwith}
 \title{Fail with specified value.}
 \usage{
-  failwith(default = NULL, f, quiet = FALSE)
+failwith(default = NULL, f, quiet = FALSE)
 }
 \arguments{
   \item{default}{default value}

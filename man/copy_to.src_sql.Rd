@@ -2,9 +2,8 @@
 \alias{copy_to.src_sql}
 \title{Copy a local data fram to a sqlite src.}
 \usage{
-  \method{copy_to}{src_sql} (dest, df,
-    name = deparse(substitute(df)), types = NULL,
-    temporary = TRUE, indexes = NULL, analyze = TRUE, ...)
+\method{copy_to}{src_sql}(dest, df, name = deparse(substitute(df)),
+  types = NULL, temporary = TRUE, indexes = NULL, analyze = TRUE, ...)
 }
 \arguments{
   \item{types}{a character vector giving variable types to

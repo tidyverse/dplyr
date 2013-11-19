@@ -3,9 +3,9 @@
 \alias{src}
 \title{Create a "src" object}
 \usage{
-  src(subclass, ...)
+src(subclass, ...)
 
-  is.src(x)
+is.src(x)
 }
 \arguments{
   \item{subclass}{name of subclass. "src" is an abstract

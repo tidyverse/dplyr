@@ -29,15 +29,21 @@ test_that("data frames equal to random permutations of themselves", {
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all.equal(mtcars, mtcars[-1, ]), "Rows in x, but not in y: 1")
-  expect_match(all.equal(iris, iris[-1, ]), "Rows in x, but not in y: 1")
-  expect_match(all.equal(df_all, df_all[-1, ]), "Rows in x, but not in y: 1")
+  expect_match(all.equal(mtcars, mtcars[-1, ]), "Rows in x but not y: 1")
+  expect_match(all.equal(iris, iris[-1, ]),     "Rows in x but not y: 1")
+  expect_match(all.equal(df_all, df_all[-1, ]), "Rows in x but not y: 1")
+})
+
+test_that("data frames not equal if missing col", {
+  expect_match(all.equal(mtcars, mtcars[, -1]), "Cols in x but not y: mpg")
+  expect_match(all.equal(iris, iris[, -1]),     "Cols in x but not y: Sepal.Length")
+  expect_match(all.equal(df_all, df_all[, -1]), "Cols in x but not y: a")
 })
 
 test_that("factors equal only if levels equal", {
   df1 <- data.frame(x = factor(c("a", "b")))
   df2 <- data.frame(x = factor(c("a", "d")))
-  expect_match(all.equal(df1, df2), "Levels mismatch for column x" )
+  expect_match(all.equal(df1, df2), "Factor levels not equal for column x" )
 })
 
 test_that("integers and reals are not equal", {

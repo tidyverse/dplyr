@@ -2,7 +2,7 @@
 \alias{partial_eval}
 \title{Partially evaluate an expression.}
 \usage{
-  partial_eval(call, source = NULL, env = parent.frame())
+partial_eval(call, source = NULL, env = parent.frame())
 }
 \arguments{
   \item{call}{an unevaluated expression, as produced by

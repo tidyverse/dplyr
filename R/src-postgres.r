@@ -90,14 +90,14 @@
 #' #   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' # batting2008
 #' }
-src_postgres <- function(dbname = "", host = "", port = "", user = "", 
-                         password = "", ...) {
+src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL, 
+                         password = NULL, ...) {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 
-  con <- dbi_connect(PostgreSQL(), host = host, dbname = dbname, user = user,
-    password = password, port = port, ...)
+  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "", 
+    user = user %||% "", password = password %||% "", port = port %||% "", ...)
   info <- db_info(con)
   
   src_sql("postgres", con, 

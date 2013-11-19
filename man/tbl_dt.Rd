@@ -3,7 +3,7 @@
 \alias{tbl_dt}
 \title{Create a data table tbl.}
 \usage{
-  tbl_dt(data)
+tbl_dt(data)
 }
 \arguments{
   \item{data}{a data table}

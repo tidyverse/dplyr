@@ -4,7 +4,7 @@
 \title{NASA spatio-temporal data}
 \format{A \code{\link{tbl_cube}} with 41,472 observations.}
 \usage{
-  nasa
+nasa
 }
 \description{
   This data comes from the ASA 2007 data expo,
@@ -33,5 +33,4 @@
 \examples{
 nasa
 }
-\keyword{datasets}
 

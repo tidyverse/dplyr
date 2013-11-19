@@ -133,14 +133,16 @@ has_lahman <- function(type, ...) {
   succeeds(lahman_src(type, ...), quiet = TRUE)
 }
 
-lahman_src <- function(type, ...) {
+lahman_src <- function(type, user = NULL, ...) {
+  if (in_travis()) user <- user %||% "postgres"
+  
   switch(type,
     df = lahman_df(),
     dt = lahman_dt(),
     cpp = lahman_cpp(),
     sqlite = src_sqlite(db_location(filename = "lahman.sqlite", ...), create = TRUE),
     mysql = src_mysql("lahman", ...),
-    postgres = src_postgres("lahman", ...),
+    postgres = src_postgres("lahman", user = user, ...),
     bigquery = src_bigquery(Sys.getenv("BIGQUERY_PROJECT"), "lahman", ...),
     stop("Unknown src type ", type, call. = FALSE)
   )

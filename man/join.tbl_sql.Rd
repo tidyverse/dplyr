@@ -6,17 +6,17 @@
 \alias{semi_join.tbl_sql}
 \title{Join sql tbls.}
 \usage{
-  \method{inner_join}{tbl_sql} (x, y, by = NULL,
-    copy = FALSE, auto_index = FALSE, ...)
+\method{inner_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
+  auto_index = FALSE, ...)
 
-  \method{left_join}{tbl_sql} (x, y, by = NULL,
-    copy = FALSE, auto_index = FALSE, ...)
+\method{left_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
+  auto_index = FALSE, ...)
 
-  \method{semi_join}{tbl_sql} (x, y, by = NULL,
-    copy = FALSE, auto_index = FALSE, ...)
+\method{semi_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
+  auto_index = FALSE, ...)
 
-  \method{anti_join}{tbl_sql} (x, y, by = NULL,
-    copy = FALSE, auto_index = FALSE, ...)
+\method{anti_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
+  auto_index = FALSE, ...)
 }
 \arguments{
   \item{x,y}{tbls to join}

@@ -3,10 +3,9 @@
 \alias{do.tbl_sql}
 \title{Apply a function to a tbl}
 \usage{
-  do(.data, .f, ...)
+do(.data, .f, ...)
 
-  \method{do}{tbl_sql} (.data, .f, ...,
-    .chunk_size = 10000L)
+\method{do}{tbl_sql}(.data, .f, ..., .chunk_size = 10000L)
 }
 \arguments{
   \item{.data}{a tbl}

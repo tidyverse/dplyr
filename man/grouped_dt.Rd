@@ -5,13 +5,13 @@
 \alias{is.grouped_dt}
 \title{A grouped data table.}
 \usage{
-  grouped_dt(data, vars)
+grouped_dt(data, vars)
 
-  is.grouped_dt(x)
+is.grouped_dt(x)
 
-  \method{group_by}{data.table} (x, ...)
+\method{group_by}{data.table}(x, ...)
 
-  \method{group_by}{tbl_dt} (x, ...)
+\method{group_by}{tbl_dt}(x, ...)
 }
 \arguments{
   \item{data}{a tbl or data frame.}

@@ -2,7 +2,7 @@
 \alias{tbl_cube}
 \title{A data cube tbl.}
 \usage{
-  tbl_cube(dimensions, measures)
+tbl_cube(dimensions, measures)
 }
 \arguments{
   \item{dimensions}{A named list of vectors. A dimension is

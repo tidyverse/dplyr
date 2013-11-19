@@ -7,15 +7,15 @@
 \alias{summarise}
 \title{Data manipulation functions.}
 \usage{
-  filter(.data, ...)
+filter(.data, ...)
 
-  summarise(.data, ...)
+summarise(.data, ...)
 
-  mutate(.data, ...)
+mutate(.data, ...)
 
-  arrange(.data, ...)
+arrange(.data, ...)
 
-  select(.data, ...)
+select(.data, ...)
 }
 \arguments{
   \item{.data}{a tbl}
