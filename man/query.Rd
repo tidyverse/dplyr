@@ -11,10 +11,10 @@ query(con, sql, .vars)
   \item{sql}{a string containing an sql query.}
 }
 \description{
-  A query object is mutable wrapper around a
-  \code{DBIResult} that caches expensive operations, and
-  insulates the rest of dplyr from the vagaries of DBI and
-  the individual database implementation.
+A query object is mutable wrapper around a \code{DBIResult}
+that caches expensive operations, and insulates the rest of
+dplyr from the vagaries of DBI and the individual database
+implementation.
 }
 \keyword{internal}
 

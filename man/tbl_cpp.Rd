@@ -8,7 +8,7 @@ tbl_cpp(data)
   \item{data}{a data frame}
 }
 \description{
-  Create a data frame tbl with cpp backend.
+Create a data frame tbl with cpp backend.
 }
 \examples{
 ds <- tbl_cpp(mtcars)

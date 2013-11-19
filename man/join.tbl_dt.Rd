@@ -32,8 +32,8 @@
   otherwise ignored.}
 }
 \description{
-  See \code{\link{join}} for a description of the general
-  purpose of the functions.
+See \code{\link{join}} for a description of the general
+purpose of the functions.
 }
 \examples{
 data("Batting", package = "Lahman")

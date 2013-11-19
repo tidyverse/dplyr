@@ -25,10 +25,10 @@ sql_not_supported(f)
   \item{f}{the name of the sql function as a string}
 }
 \description{
-  When creating a package that maps to a new SQL based src,
-  you'll often want to provide some additional mappings
-  from common R commands to the commands that your tbl
-  provides. These three functions make that easy.
+When creating a package that maps to a new SQL based src,
+you'll often want to provide some additional mappings from
+common R commands to the commands that your tbl provides.
+These three functions make that easy.
 }
 \section{Helper functions}{
   \code{sql_infix} and \code{sql_prefix} create default SQL
@@ -57,8 +57,8 @@ translate_sql(sd(income / years), variant = postgres_stat)
 translate_sql(regr_intercept(y, x), variant = postgres_stat)
 }
 \seealso{
-  \code{\link{sql}} for an example of a more customised sql
-  conversion function.
+\code{\link{sql}} for an example of a more customised sql
+conversion function.
 }
 \keyword{internal}
 

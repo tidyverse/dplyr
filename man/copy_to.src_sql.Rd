@@ -31,10 +31,10 @@
   \item{...}{other parameters passed to methods.}
 }
 \value{
-  a sqlite \code{\link{tbl}} object
+a sqlite \code{\link{tbl}} object
 }
 \description{
-  This standard method works for all sql sources.
+This standard method works for all sql sources.
 }
 \examples{
 db <- src_sqlite(tempfile(), create = TRUE)

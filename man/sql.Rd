@@ -37,10 +37,10 @@ escape(x, parens = NA, collapse = " ", con = NULL)
   and wrapped in parens if needed.}
 }
 \description{
-  These functions are critical when writing functions that
-  translate R functions to sql functions. Typically a
-  conversion function should escape all it's inputs and
-  return an sql object.
+These functions are critical when writing functions that
+translate R functions to sql functions. Typically a
+conversion function should escape all it's inputs and
+return an sql object.
 }
 \examples{
 # Doubles vs. integers

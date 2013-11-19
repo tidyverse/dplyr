@@ -4,6 +4,6 @@
 \alias{dplyr-package}
 \title{The dplyr package.}
 \description{
-  The dplyr package.
+The dplyr package.
 }
 

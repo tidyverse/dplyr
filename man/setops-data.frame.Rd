@@ -22,8 +22,8 @@
   Otherwise ignored.}
 }
 \description{
-  These set operations are implemented with an efficeint
-  C++ backend.
+These set operations are implemented with an efficeint C++
+backend.
 }
 \examples{
 mtcars$model <- rownames(mtcars)

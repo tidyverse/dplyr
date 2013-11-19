@@ -19,7 +19,7 @@ var_index(exprs, tbl, parent = parent.frame())
   variables/functions not found in \code{tbl}}
 }
 \description{
-  Evaluate variable names in the context of a tbl.
+Evaluate variable names in the context of a tbl.
 }
 \examples{
 var_eval(list(quote(mpg:wt)), mtcars)

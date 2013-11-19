@@ -8,6 +8,6 @@ ungroup(x)
   \item{x}{a grouped tbl}
 }
 \description{
-  The inverse of \code{\link{group_by}}
+The inverse of \code{\link{group_by}}
 }
 

@@ -17,9 +17,9 @@ tbl_sql(subclass, src, from, ..., vars = NULL)
   will be determined from the context.}
 }
 \description{
-  This method shouldn't be called be users - it should only
-  be used by backend implementors who are creating backends
-  that extend the basic sql behaviour.
+This method shouldn't be called be users - it should only
+be used by backend implementors who are creating backends
+that extend the basic sql behaviour.
 }
 \keyword{internal}
 

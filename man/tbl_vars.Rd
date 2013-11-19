@@ -8,6 +8,6 @@ tbl_vars(x)
   \item{x}{A tbl object}
 }
 \description{
-  List variables provided by a tbl.
+List variables provided by a tbl.
 }
 

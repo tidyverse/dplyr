@@ -27,13 +27,13 @@ src_mysql(dbname, host = NULL, port = 0L, user = "root", password = "",
   or compound join.}
 }
 \description{
-  Use \code{src_mysql} to connect to an existing mysql or
-  mariadb database, and \code{tbl} to connect to tables
-  within that database. If you are running a local mysqlql
-  database, leave all parameters set as their defaults to
-  connect. If you're connecting to a remote database, ask
-  your database administrator for the values of these
-  variables.
+Use \code{src_mysql} to connect to an existing mysql or
+mariadb database, and \code{tbl} to connect to tables
+within that database. If you are running a local mysqlql
+database, leave all parameters set as their defaults to
+connect. If you're connecting to a remote database, ask
+your database administrator for the values of these
+variables.
 }
 \section{Debugging}{
   To see exactly what SQL is being sent to the database,

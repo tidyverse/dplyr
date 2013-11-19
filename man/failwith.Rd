@@ -12,11 +12,11 @@ failwith(default = NULL, f, quiet = FALSE)
   \item{quiet}{all error messages be suppressed?}
 }
 \value{
-  a function
+a function
 }
 \description{
-  Modify a function so that it returns a default value when
-  there is an error.
+Modify a function so that it returns a default value when
+there is an error.
 }
 \examples{
 f <- function(x) if (x == 1) stop("Error!") else 1
@@ -30,7 +30,7 @@ safef(1)
 safef(2)
 }
 \seealso{
-  \code{\link[plyr]{try_default}}
+\code{\link[plyr]{try_default}}
 }
 \keyword{debugging}
 

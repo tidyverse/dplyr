@@ -25,18 +25,18 @@ x \%.\% y
   set this parameter.}
 }
 \description{
-  The downside of the functional nature of dplyr is that
-  when you combine multiple data manipulation operations,
-  you have to read from the inside out and the arguments
-  may be very distant to the function call. These functions
-  providing an alternative way of calling dplyr (and other
-  data manipulation) functions that you read can from left
-  to right.
+The downside of the functional nature of dplyr is that when
+you combine multiple data manipulation operations, you have
+to read from the inside out and the arguments may be very
+distant to the function call. These functions providing an
+alternative way of calling dplyr (and other data
+manipulation) functions that you read can from left to
+right.
 }
 \details{
-  The functions work via simple substitution so that
-  \code{chain(x, f(y))} or \code{x \%.\% f(y)} is
-  translated into \code{f(x, y)}.
+The functions work via simple substitution so that
+\code{chain(x, f(y))} or \code{x \%.\% f(y)} is translated
+into \code{f(x, y)}.
 }
 \examples{
 # If you're performing many operations you can either do step by step

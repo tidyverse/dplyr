@@ -19,7 +19,7 @@ as.tbl(x, ...)
   \item{x}{an object to coerce to a \code{tbl}}
 }
 \description{
-  This is a generic method that dispatches based on the
-  first argument.
+This is a generic method that dispatches based on the first
+argument.
 }
 

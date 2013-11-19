@@ -28,7 +28,7 @@
   ordinary usage.}
 }
 \description{
-  Data manipulation for data frames.
+Data manipulation for data frames.
 }
 \examples{
 filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")

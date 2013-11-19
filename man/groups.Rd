@@ -8,6 +8,6 @@ groups(x)
   \item{x}{data tbl}
 }
 \description{
-  Retrieve list of groups from a data source.
+Retrieve list of groups from a data source.
 }
 

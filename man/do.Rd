@@ -23,10 +23,10 @@ do(.data, .f, ...)
   of talking to the database.}
 }
 \description{
-  This is a general purpose complement to the specialised
-  manipulation functions \code{\link{filter}},
-  \code{\link{select}}, \code{\link{mutate}},
-  \code{\link{summarise}} and \code{\link{arrange}}.
+This is a general purpose complement to the specialised
+manipulation functions \code{\link{filter}},
+\code{\link{select}}, \code{\link{mutate}},
+\code{\link{summarise}} and \code{\link{arrange}}.
 }
 \examples{
 by_dest <- group_by(hflights, Dest)

@@ -17,12 +17,11 @@ explain_tbl(tbl)
   \item{tbl}{an sql based table to explain.}
 }
 \description{
-  Any queries run inside this function will automatically
-  be explained: displaying information about which indexes
-  are used to optimise the query. This requires a little
-  bit of knowledge about how \code{EXPLAIN} works for your
-  database, but is very useful for diagnosing performance
-  problems.
+Any queries run inside this function will automatically be
+explained: displaying information about which indexes are
+used to optimise the query. This requires a little bit of
+knowledge about how \code{EXPLAIN} works for your database,
+but is very useful for diagnosing performance problems.
 }
 \examples{
 if (require("RSQLite") && has_lahman("sqlite")) {

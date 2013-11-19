@@ -8,11 +8,11 @@ same_src(x, y)
   \item{x,y}{src or tbls to test}
 }
 \value{
-  a logical flag
+a logical flag
 }
 \description{
-  Figure out if two sources are the same (or two tbl have
-  the same source)
+Figure out if two sources are the same (or two tbl have the
+same source)
 }
 \keyword{internal}
 

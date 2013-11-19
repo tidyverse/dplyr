@@ -26,9 +26,9 @@ src_bigquery(project, dataset, billing = project)
   \code{src_bigquery}.}
 }
 \description{
-  Use \code{src_bigquery} to connect to an existing
-  bigquery dataset, and \code{tbl} to connect to tables
-  within that database.
+Use \code{src_bigquery} to connect to an existing bigquery
+dataset, and \code{tbl} to connect to tables within that
+database.
 }
 \section{Debugging}{
   To see exactly what SQL is being sent to the database,

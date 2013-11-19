@@ -14,8 +14,8 @@ src_sql(subclass, con, ...)
   \item{...}{fields used by object}
 }
 \description{
-  \code{src_sql} is the standard constructor for all SLQ
-  based srcs.
+\code{src_sql} is the standard constructor for all SLQ
+based srcs.
 }
 \keyword{internal}
 

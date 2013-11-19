@@ -8,7 +8,7 @@ group_size(x)
   \item{x}{a grouped tbl}
 }
 \description{
-  Calculate the size of each group
+Calculate the size of each group
 }
 \examples{
 group_size(group_by(hflights, Year, Month, DayofMonth))

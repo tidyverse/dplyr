@@ -32,7 +32,7 @@
   suffice for ordinary usage.}
 }
 \description{
-  Data manipulation for data tables.
+Data manipulation for data tables.
 }
 \examples{
 if (require("data.table")) {

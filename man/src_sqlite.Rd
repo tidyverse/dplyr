@@ -24,12 +24,12 @@ src_sqlite(path, create = FALSE)
   but otherwise ignored.}
 }
 \description{
-  Use \code{src_sqlite} to connect to an existing sqlite
-  database, and \code{tbl} to connect to tables within that
-  database. If you are running a local sqliteql database,
-  leave all parameters set as their defaults to connect. If
-  you're connecting to a remote database, ask your database
-  administrator for the values of these variables.
+Use \code{src_sqlite} to connect to an existing sqlite
+database, and \code{tbl} to connect to tables within that
+database. If you are running a local sqliteql database,
+leave all parameters set as their defaults to connect. If
+you're connecting to a remote database, ask your database
+administrator for the values of these variables.
 }
 \section{Debugging}{
   To see exactly what SQL is being sent to the database,

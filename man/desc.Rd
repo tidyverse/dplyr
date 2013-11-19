@@ -8,8 +8,8 @@ desc(x)
   \item{x}{vector to transform}
 }
 \description{
-  Transform a vector into a format that will be sorted in
-  descending order.
+Transform a vector into a format that will be sorted in
+descending order.
 }
 \examples{
 desc(1:10)

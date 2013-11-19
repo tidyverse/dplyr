@@ -9,7 +9,7 @@ tbl_dt(data)
   \item{data}{a data table}
 }
 \description{
-  A data table tbl wraps a local data table.
+A data table tbl wraps a local data table.
 }
 \examples{
 if (require("data.table")) {

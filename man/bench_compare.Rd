@@ -34,17 +34,17 @@ eval_tbls(tbls, op)
   For \code{bench_tbls}: additional benchmarks to run.}
 }
 \value{
-  \code{eval_tbls}: a list of data frames.
+\code{eval_tbls}: a list of data frames.
 
-  \code{compare_tbls}: an invisible \code{TRUE} on success,
-  otherwise an error is thrown.
+\code{compare_tbls}: an invisible \code{TRUE} on success,
+otherwise an error is thrown.
 
-  \code{bench_tbls}: an object of class
-  \code{\link[microbenchmark]{microbenchmark}}
+\code{bench_tbls}: an object of class
+\code{\link[microbenchmark]{microbenchmark}}
 }
 \description{
-  These functions support the comparison of results and
-  timings across multiple sources.
+These functions support the comparison of results and
+timings across multiple sources.
 }
 \examples{
 if (require("Lahman") && require("microbenchmark")) {
@@ -77,6 +77,6 @@ bench_tbls(two_tables, op, times = 2)
 }
 }
 \seealso{
-  \code{\link{src_local}} for working with local data
+\code{\link{src_local}} for working with local data
 }
 

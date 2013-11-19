@@ -17,13 +17,13 @@ build_sql(..., .env = parent.frame(), con = NULL)
   quoting characters.}
 }
 \description{
-  This is a convenience function that should prevent sql
-  injection attacks (which in the context of dplyr are most
-  likely to be accidental not deliberate) by automatically
-  escaping all expressions in the input, while treating
-  bare strings as sql. This is unlikely to prevent any
-  serious attack, but should make it unlikely that you
-  produce invalid sql.
+This is a convenience function that should prevent sql
+injection attacks (which in the context of dplyr are most
+likely to be accidental not deliberate) by automatically
+escaping all expressions in the input, while treating bare
+strings as sql. This is unlikely to prevent any serious
+attack, but should make it unlikely that you produce
+invalid sql.
 }
 \examples{
 build_sql("SELECT * FROM TABLE")

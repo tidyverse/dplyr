@@ -47,8 +47,8 @@
   \item{...}{other parameters passed onto methods}
 }
 \description{
-  See \code{\link{join}} for a description of the general
-  purpose of the functions.
+See \code{\link{join}} for a description of the general
+purpose of the functions.
 }
 \section{Implementation notes}{
   Semi-joins are implemented using \code{WHERE EXISTS}, and

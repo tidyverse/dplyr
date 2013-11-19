@@ -28,13 +28,13 @@ src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
   or compound join.}
 }
 \description{
-  Use \code{src_postgres} to connect to an existing
-  postgresql database, and \code{tbl} to connect to tables
-  within that database. If you are running a local
-  postgresql database, leave all parameters set as their
-  defaults to connect. If you're connecting to a remote
-  database, ask your database administrator for the values
-  of these variables.
+Use \code{src_postgres} to connect to an existing
+postgresql database, and \code{tbl} to connect to tables
+within that database. If you are running a local postgresql
+database, leave all parameters set as their defaults to
+connect. If you're connecting to a remote database, ask
+your database administrator for the values of these
+variables.
 }
 \section{Debugging}{
   To see exactly what SQL is being sent to the database,

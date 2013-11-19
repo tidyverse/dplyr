@@ -21,14 +21,14 @@
   generic.}
 }
 \value{
-  \code{TRUE} if equal, otherwise a character vector
-  describing the first reason why they're not equal. Use
-  \code{\link{isTRUE}} if using the result in an \code{if}
-  expression.
+\code{TRUE} if equal, otherwise a character vector
+describing the first reason why they're not equal. Use
+\code{\link{isTRUE}} if using the result in an \code{if}
+expression.
 }
 \description{
-  Provide a useful implementation of all.equal for
-  data.frames.
+Provide a useful implementation of all.equal for
+data.frames.
 }
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]

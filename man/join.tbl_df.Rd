@@ -44,9 +44,9 @@
   otherwise ignored.}
 }
 \description{
-  See \code{\link{join}} for a description of the general
-  purpose of the functions. The data frame implementations
-  are currently not terribly efficient.
+See \code{\link{join}} for a description of the general
+purpose of the functions. The data frame implementations
+are currently not terribly efficient.
 }
 \examples{
 data("Batting", package = "Lahman")

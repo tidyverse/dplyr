@@ -24,9 +24,8 @@
   \code{.data}}
 }
 \description{
-  Grouping status is preserved across filter, arrange,
-  mutate and select. Summarise produces an ungrouped data
-  frame.
+Grouping status is preserved across filter, arrange, mutate
+and select. Summarise produces an ungrouped data frame.
 }
 \examples{
 by_dest <- group_by(hflights, Dest)

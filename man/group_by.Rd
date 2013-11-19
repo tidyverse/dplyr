@@ -12,10 +12,10 @@ group_by(x, ...)
   variables.}
 }
 \description{
-  Most data operations are useful done on groups defined by
-  variables in the the dataset. The \code{group_by}
-  function takes an existing tbl and converts it into a
-  grouped tbl where operations are performed "by group".
+Most data operations are useful done on groups defined by
+variables in the the dataset. The \code{group_by} function
+takes an existing tbl and converts it into a grouped tbl
+where operations are performed "by group".
 }
 \section{Tbl types}{
   \code{group_by} is an S3 generic with methods for the
@@ -35,6 +35,6 @@ summarise(by_cyl, mean(disp), mean(hp))
 filter(by_cyl, disp == max(disp))
 }
 \seealso{
-  \code{\link{ungroup}} for the inverse operation.
+\code{\link{ungroup}} for the inverse operation.
 }
 

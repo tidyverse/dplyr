@@ -19,16 +19,16 @@ hflights_postgres(dbname = "hflights", ...)
   \code{\link{src_postgres}}}
 }
 \description{
-  This dataset contains all flights departing from Houston
-  airports IAH (George Bush Intercontinental) and HOU
-  (Houston Hobby). The data comes from the Research and
-  Innovation Technology Administration at the Bureau of
-  Transporation statistics:
-  \url{http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0}
+This dataset contains all flights departing from Houston
+airports IAH (George Bush Intercontinental) and HOU
+(Houston Hobby). The data comes from the Research and
+Innovation Technology Administration at the Bureau of
+Transporation statistics:
+\url{http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0}
 }
 \details{
-  \code{src_hflights} caches a SQLite version of the data
-  in a standard location for use in examples.
+\code{src_hflights} caches a SQLite version of the data in
+a standard location for use in examples.
 }
 \section{Variables}{
   \itemize{ \item \code{Year}, \code{Month},

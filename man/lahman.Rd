@@ -50,13 +50,13 @@ lahman_srcs(..., quiet = NULL)
   \item{type}{src type.}
 }
 \description{
-  This creates an interesting database using data from the
-  Lahman baseball data source, provided by Sean Lahman at
-  \url{http://www.seanlahman.com/baseball-archive/statistics/},
-  and made easily available in R through the \pkg{Lahman}
-  package by Michael Friendly, Dennis Murphy and Martin
-  Monkman. See the documentation for that package for
-  documentation of the inidividual tables.
+This creates an interesting database using data from the
+Lahman baseball data source, provided by Sean Lahman at
+\url{http://www.seanlahman.com/baseball-archive/statistics/},
+and made easily available in R through the \pkg{Lahman}
+package by Michael Friendly, Dennis Murphy and Martin
+Monkman. See the documentation for that package for
+documentation of the inidividual tables.
 }
 \examples{
 if (require("RSQLite") && has_lahman("sqlite")) {

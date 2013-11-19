@@ -5,8 +5,8 @@
 n()
 }
 \description{
-  This function is implemented special for each data source
-  and can only be used from within \code{\link{summarise}}.
+This function is implemented special for each data source
+and can only be used from within \code{\link{summarise}}.
 }
 \examples{
 carriers <- group_by(hflights, UniqueCarrier)

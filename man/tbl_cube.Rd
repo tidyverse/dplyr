@@ -23,23 +23,23 @@ tbl_cube(dimensions, measures)
   but not always, continuous values.}
 }
 \description{
-  An cube tbl stores data in a compact array format where
-  dimension names are not needlessly repeated. They are
-  particularly appropriate for experimental data where all
-  combinations of factors are tried (e.g. complete
-  factorial designs), or for storing the result of
-  aggregations. Compared to data frames, they will occupy
-  much less memory when variables are crossed, not nested.
+An cube tbl stores data in a compact array format where
+dimension names are not needlessly repeated. They are
+particularly appropriate for experimental data where all
+combinations of factors are tried (e.g. complete factorial
+designs), or for storing the result of aggregations.
+Compared to data frames, they will occupy much less memory
+when variables are crossed, not nested.
 }
 \details{
-  \code{tbl_cube} support is currently experimental and
-  little performance optimisation has been done, but you
-  may find them useful if your data already comes in this
-  form, or you struggle with the memory overhead of the
-  sparse/crossed of data frames.  There is no supported for
-  hierarchical indices (although I think that would be a
-  relatively straightforward extension to storing data
-  frames for indices rather than vectors).
+\code{tbl_cube} support is currently experimental and
+little performance optimisation has been done, but you may
+find them useful if your data already comes in this form,
+or you struggle with the memory overhead of the
+sparse/crossed of data frames.  There is no supported for
+hierarchical indices (although I think that would be a
+relatively straightforward extension to storing data frames
+for indices rather than vectors).
 }
 \section{Implementation}{
   Manipulation functions:
@@ -95,7 +95,7 @@ by_loc <- group_by(nasa, lat, long)
 summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 }
 \seealso{
-  \code{\link{as.tbl_cube}} for ways of coercing existing
-  data structures into a \code{tbl_cube}.
+\code{\link{as.tbl_cube}} for ways of coercing existing
+data structures into a \code{tbl_cube}.
 }
 

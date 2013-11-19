@@ -23,10 +23,10 @@ is.grouped_dt(x)
   \item{...}{variables to group by}
 }
 \description{
-  The easiest way to create a grouped data table is to call
-  the \code{group_by} method on a data table or tbl: this
-  will take care of capturing the unevalated expressions
-  for you.
+The easiest way to create a grouped data table is to call
+the \code{group_by} method on a data table or tbl: this
+will take care of capturing the unevalated expressions for
+you.
 }
 \examples{
 hflights_dt <- tbl_dt(hflights)

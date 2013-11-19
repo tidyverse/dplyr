@@ -29,6 +29,6 @@ as.tbl_cube(x, ...)
   names of the \code{\link{dimnames}}.}
 }
 \description{
-  Coerce an existing data structure into a \code{tbl_cube}
+Coerce an existing data structure into a \code{tbl_cube}
 }
 

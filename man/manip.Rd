@@ -24,11 +24,11 @@ select(.data, ...)
   data frame.}
 }
 \description{
-  These five functions form the backbone of dplyr. They are
-  all S3 generic functions with methods for each individual
-  data type. All functions work exactly the same way: the
-  first argument is the tbl, and the subsequence arguments
-  are interpreted in the context of that tbl.
+These five functions form the backbone of dplyr. They are
+all S3 generic functions with methods for each individual
+data type. All functions work exactly the same way: the
+first argument is the tbl, and the subsequence arguments
+are interpreted in the context of that tbl.
 }
 \section{Manipulation functions}{
   The five key data manipulation functions are:

@@ -20,7 +20,7 @@ translate_sql_q(expr, source = NULL, env = parent.frame(), variant = NULL)
   by source useful for testing/examples}
 }
 \description{
-  Translate an expression to sql.
+Translate an expression to sql.
 }
 \section{Base translation}{
   The base translator, \code{base_sql}, provides custom

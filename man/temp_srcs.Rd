@@ -8,10 +8,10 @@ temp_srcs(..., quiet = NULL)
 temp_load(srcs, df, name = NULL)
 }
 \description{
-  These functions make it easy to take a local data frame
-  and make available as a tbl in every known src. All local
-  srcs will work on any computer. DBMS srcs will only
-  currently work on Hadley's computer.
+These functions make it easy to take a local data frame and
+make available as a tbl in every known src. All local srcs
+will work on any computer. DBMS srcs will only currently
+work on Hadley's computer.
 }
 \examples{
 \dontrun{

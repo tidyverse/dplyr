@@ -28,7 +28,7 @@
   changes propagating via reference.}
 }
 \description{
-  Data manipulation for grouped data tables.
+Data manipulation for grouped data tables.
 }
 \examples{
 if (require("data.table")) {

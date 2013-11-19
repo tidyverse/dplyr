@@ -14,12 +14,12 @@ partial_eval(call, source = NULL, env = parent.frame())
   values}
 }
 \description{
-  This function partially evaluates an expression, using
-  information from the tbl to determine whether names refer
-  to local expressions or remote variables. This simplifies
-  SQL translation because expressions don't need to carry
-  around their environment - all revelant information is
-  incorporated into the expression.
+This function partially evaluates an expression, using
+information from the tbl to determine whether names refer
+to local expressions or remote variables. This simplifies
+SQL translation because expressions don't need to carry
+around their environment - all revelant information is
+incorporated into the expression.
 }
 \section{Symbol substitution}{
   \code{partial_eval} needs to guess if you're referring to
