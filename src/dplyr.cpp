@@ -940,7 +940,7 @@ List rbind_all( ListOf<DataFrame> dots ){
                 coll->collect( SlicingIndex( k, nrows), source ) ;
             } else if( coll->can_promote(source) ) {
                 // setup a new Collecter
-                Collecter* new_collecter = collecter(source, n ) ;
+                Collecter* new_collecter = promote_collecter(source, n, coll ) ;
                 
                 // import data from this chunk 
                 new_collecter->collect( SlicingIndex( k, nrows), source ) ;

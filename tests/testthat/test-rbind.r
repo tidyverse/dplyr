@@ -66,3 +66,13 @@ test_that("rbind_list cannot coerce integer to factor", {
   expect_that( rbind_list( df1, df2 ), throws_error() )
   
 })
+
+test_that( "rbind_list coerces factor to character when levels don't match", {
+  df1 <- data.frame( a = 1:3, b = factor(c("a", "b", "c")))
+  df2 <- data.frame( a = 1:3, b = factor(c("a", "b", "c"), 
+      levels = c("b", "c", "a", "d")))
+  
+  res <- dplyr:::rbind_list( df1, df2 )
+  expect_equal( res$b, c("a","b","c", "a","b","c" ) )
+})
+

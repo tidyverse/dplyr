@@ -10,6 +10,9 @@ namespace dplyr {
         virtual SEXP get() = 0 ;
         virtual bool compatible(SEXP) const = 0 ;
         virtual bool can_promote(SEXP) const = 0 ;
+        virtual bool is_factor_collecter() const{ 
+            return false ;    
+        }
     } ;
     
     template <int RTYPE>
@@ -82,36 +85,27 @@ namespace dplyr {
     public:
         typedef boost::unordered_map<SEXP,int> LevelsMap ;
         
-        FactorCollecter( int n ): 
-            data(n, IntegerVector::get_na() ), levels_map(), current_level(1) {}
+        FactorCollecter( int n, CharacterVector levels): data(n, IntegerVector::get_na() ), levels_map() {
+            int nlevels = levels.size() ;
+            for( int i=0; i<nlevels; i++) levels_map[ levels[i] ] = i + 1;
+        }
+        
+        bool is_factor_collecter() const{ 
+            return true ;    
+        }
         
         void collect( const SlicingIndex& index, SEXP v ){
+            // here we can assume that v is a factor with the right levels
+            // we however do not assume that they are in the same order
             IntegerVector source(v) ;
-            SEXP levs = source.attr( "levels" ) ;
-            if( ! Rf_isNull(levs) ){
-                CharacterVector levels = levs ;
-                SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
-                int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source) ;
-                for( int i=0; i<index.size(); i++){ 
-                    SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
-                    LevelsMap::const_iterator it = levels_map.find( x ) ;
-                    if( it == levels_map.end() ){
-                        data[index[i]] = current_level ;
-                        levels_map[x] = current_level++ ;   
-                    } else {
-                        data[index[i]] = it->second ;    
-                    }
-                }
-            } else {
-                for( int i=0; i<index.size(); i++){
-                    int value = source[i] ;
-                    if( value < current_level ){
-                        data[index[i]] = source[i] ;
-                    } else {
-                        stop( "cannot coerce integer vector to factor" ) ;    
-                    }
-                }
-            }
+            CharacterVector levels = source.attr( "levels" ) ;
+            
+            SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
+            int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source) ;
+            for( int i=0; i<index.size(); i++){ 
+                SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
+                data[ index[i] ] = levels_map.find(x)->second ;
+            } 
         }
         
         inline SEXP get() {
@@ -127,17 +121,28 @@ namespace dplyr {
         }
         
         inline bool compatible(SEXP x) const{
-            return Rf_inherits( x, "factor" ) ;    
+            return Rf_inherits( x, "factor" ) && has_same_levels_as(x) ;    
         }
         
-        bool can_promote(SEXP x) const {
-            return TYPEOF(x) == STRSXP ;    
+        inline bool can_promote(SEXP x) const {
+            return TYPEOF(x) == STRSXP || Rf_inherits( x, "factor" ) ;    
+        }
+        
+        inline bool has_same_levels_as( SEXP x) const {
+            CharacterVector levels_other = Rf_getAttrib( x, Rf_install( "levels" ) ) ;
+            
+            int nlevels = levels_other.size() ;
+            if( nlevels != levels_map.size() ) return false ;
+            
+            for( int i=0; i<nlevels; i++)
+                if( ! levels_map.count(levels_other[i]) ) 
+                    return false ;
+            return true ;
         }
         
     private:
         IntegerVector data ;
         LevelsMap levels_map ;
-        int current_level ;
     } ;
     
     template <>
@@ -159,7 +164,7 @@ namespace dplyr {
         switch( TYPEOF(model) ){
         case INTSXP: 
             if( Rf_inherits(model, "factor") )
-                return new FactorCollecter(n) ;
+                return new FactorCollecter(n, Rf_getAttrib(model, Rf_install("levels") ) ) ;
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP: 
             if( Rf_inherits( model, "POSIXct" ) )
@@ -173,6 +178,34 @@ namespace dplyr {
         }
         return 0 ;
     }
+    
+    inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous){
+        // handle the case where the previous collecter was a 
+        // Factor collecter and model is a factor. when this occurs, we need to 
+        // return a Collecter_Impl<STRSXP> because the factors don't have the 
+        // same levels
+        if( Rf_inherits( model, "factor" ) && previous->is_factor_collecter() ){
+            return new Collecter_Impl<STRSXP>(n) ;
+        }
+        
+        switch( TYPEOF(model) ){
+        case INTSXP: 
+            if( Rf_inherits(model, "factor") )
+                return new FactorCollecter(n, Rf_getAttrib(model, Rf_install("levels") ) ) ;
+            return new Collecter_Impl<INTSXP>(n) ;
+        case REALSXP: 
+            if( Rf_inherits( model, "POSIXct" ) )
+                return new POSIXctCollecter(n) ;
+            if( Rf_inherits( model, "Date" ) )
+                return new DateCollecter(n) ;
+            return new Collecter_Impl<REALSXP>(n) ;
+        case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
+        case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
+        default: break ;
+        }
+        return 0 ;
+    }
+    
     
 }
 
