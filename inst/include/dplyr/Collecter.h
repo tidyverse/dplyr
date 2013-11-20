@@ -185,7 +185,7 @@ namespace dplyr {
         // return a Collecter_Impl<STRSXP> because the factors don't have the 
         // same levels
         if( Rf_inherits( model, "factor" ) && previous->is_factor_collecter() ){
-            Rf_warning( "incompatible levels" ) ;
+            Rf_warning( "Unequal factor levels: coercing to character" ) ;
             return new Collecter_Impl<STRSXP>(n) ;
         }
         
