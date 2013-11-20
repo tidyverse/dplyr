@@ -2,7 +2,7 @@
 \alias{all.equal.data.frame}
 \title{Provide a useful implementation of all.equal for data.frames.}
 \usage{
-\method{all}{equal.data.frame}(target, current, ignore_col_order = TRUE,
+\method{all.equal}{data.frame}(target, current, ignore_col_order = TRUE,
   ignore_row_order = TRUE, convert = FALSE, ...)
 }
 \arguments{
