@@ -45,7 +45,7 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
 #'   data.
 grouped_cpp <- function(data, vars, lazy = TRUE, drop = TRUE) {
   if (length(vars) == 0) {
-    return(tbl_df(data))
+    return(tbl_cpp(data))
   }
 
   assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
