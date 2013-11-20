@@ -25,8 +25,8 @@ Suggests:
     mgcv
 VignetteBuilder: knitr
 Depends:
-    R (>= 3.0.2),
-    Rcpp
+    R (>= 3.0.2)
+Imports: Rcpp
 LazyData: yes
 LinkingTo: Rcpp (>= 0.10.6),
     BH (>= 1.51.0-2)
