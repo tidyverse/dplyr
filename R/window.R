@@ -23,7 +23,7 @@ NULL
 #' @rdname lead-lag
 lead <- function(x, n = 1L, default = NA) {
   if (n == 0) return(x)
-  if (n < 0) stop("n must be a positive integer")
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   
   xlen <- length(x)
   n <- pmin(n, xlen)
@@ -35,7 +35,7 @@ lead <- function(x, n = 1L, default = NA) {
 #' @rdname lead-lag
 lag <- function(x, n = 1L, default = NA) {
   if (n == 0) return(x)
-  if (n < 0) stop("n must be a positive integer")
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   
   xlen <- length(x)
   n <- pmin(n, xlen)
