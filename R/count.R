@@ -1,27 +1,27 @@
-#' Count observations by group.
+#' Tally observations by group.
 #' 
-#' \code{count} is a convenient wrapper for summarise that either call 
-#' \code{\link{n}} or \code{\link{sum}(n)} depending on whether you're counting 
-#' for the first time, or recounting. 
+#' \code{tally} is a convenient wrapper for summarise that either call 
+#' \code{\link{n}} or \code{\link{sum}(n)} depending on whether you're tallying 
+#' for the first time, or re-tallying. 
 #' 
-#' @param a \code{\link{tbl}} to count
-#' @param wt if not specified, will count the number of rows. If specified,
-#'   will perform a "weighted" count but summing over the specified variable.
+#' @param a \code{\link{tbl}} to tally
+#' @param wt if not specified, will tally the number of rows. If specified,
+#'   will perform a "weighted" tally but summing over the specified variable.
 #' @export
 #' @examples
 #' if (require("Lahman")) {
 #'   batting_tbl <- tbl_cpp(Batting)
-#'   count(group_by(batting_tbl, yearID))
+#'   tally(group_by(batting_tbl, yearID))
 #'   
-#'   plays_by_year <- count(group_by(batting_tbl, playerID, stint))
-#'   count(plays_by_year)
-#'   count(count(plays_by_year))
-#'   count(group_by(plays_by_year, stint))
+#'   plays_by_year <- tally(group_by(batting_tbl, playerID, stint))
+#'   tally(plays_by_year)
+#'   tally(tally(plays_by_year))
+#'   tally(group_by(plays_by_year, stint))
 #'   
 #'   # This looks a little nicer if you use the infix %.% operator
-#'   batting_tbl %.% group_by(playerID) %.% count()
+#'   batting_tbl %.% group_by(playerID) %.% tally()
 #' }
-count <- function(x, wt) {  
+tally <- function(x, wt) {  
   if (missing(wt)) {
     if ("n" %in% names(x)) {
       message("Using n as weighting variable")
@@ -57,11 +57,11 @@ count <- function(x, wt) {
 #' @examples
 #' if (require("Lahman")) {
 #'   players <- group_by(tbl_df(Batting), playerID)
-#'   games <- count(players, G)
+#'   games <- tally(players, G)
 #'   top_n(games, 10, n)
 #' 
 #'   # A little nicer with %.%
-#'   tbl_df(Batting) %.% group_by(playerID) %.% count(G) %.% top_n(10)
+#'   tbl_df(Batting) %.% group_by(playerID) %.% tally(G) %.% top_n(10)
 #' }
 top_n <- function(x, n, wt = NULL) {
   if (is.null(wt)) {

@@ -22,11 +22,11 @@ group, ordered by \code{wt}.
 \examples{
 if (require("Lahman")) {
   players <- group_by(tbl_df(Batting), playerID)
-  games <- count(players, G)
+  games <- tally(players, G)
   top_n(games, 10, n)
 
   # A little nicer with \%.\%
-  tbl_df(Batting) \%.\% group_by(playerID) \%.\% count(G) \%.\% top_n(10)
+  tbl_df(Batting) \%.\% group_by(playerID) \%.\% tally(G) \%.\% top_n(10)
 }
 }
 
