@@ -38,6 +38,7 @@ Collate:
     'chain.r'
     'compute-collect.r'
     'copy-to.r'
+    'count.R'
     'data-hflights.r'
     'data-lahman.r'
     'data-nasa.r'
