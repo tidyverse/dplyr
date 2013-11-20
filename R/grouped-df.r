@@ -186,6 +186,16 @@ ungroup.grouped_cpp <- function(x) {
   x
 }
 
+#' @export
+ungroup.data.frame <- function(x) x
+#' @export
+ungroup.tbl_cpp <- function(x) x
+#' @export
+ungroup.tbl_df <- function(x) x
+
+
+
+
 make_view <- function(x, env = parent.frame()) {
   if (is.lazy(x)) stop("No index present", call. = FALSE)
   view(x, attr(x, "index"), parent.frame())
