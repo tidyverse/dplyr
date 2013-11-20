@@ -9,7 +9,8 @@ Description: A fast, consistent tool for working with data frame like objects,
 Imports:
     assertthat,
     utils,
-    methods
+    methods,
+    Rcpp
 Suggests:
     RSQLite,
     RSQLite.extfuns,
@@ -26,7 +27,6 @@ Suggests:
 VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
-Imports: Rcpp
 LazyData: yes
 LinkingTo: Rcpp (>= 0.10.6),
     BH (>= 1.51.0-2)
