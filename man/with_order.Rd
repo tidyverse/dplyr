@@ -1,0 +1,19 @@
+\name{with_order}
+\alias{with_order}
+\title{Run a function with one order, translating result back to original order}
+\usage{
+with_order(order_by, fun, x, ...)
+}
+\arguments{
+  \item{order_by}{vector to order by}
+
+  \item{fun}{window function}
+
+  \item{x,...}{arguments to \code{f}}
+}
+\description{
+This is used to power the ordering parameters of dplyr's
+window functions
+}
+\keyword{internal}
+

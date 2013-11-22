@@ -5,7 +5,7 @@
 top_n(x, n, wt = NULL)
 }
 \arguments{
-  \item{a}{\code{\link{tbl}} to filter}
+  \item{x}{a \code{\link{tbl}} to filter}
 
   \item{n}{number of rows to return. If \code{x} is
   grouped, this is the number of rows per group. May

@@ -5,7 +5,7 @@
 #' \code{\link{rank}} to select the top n entries in each group, ordered
 #' by \code{wt}.
 #' 
-#' @param a \code{\link{tbl}} to filter
+#' @param x a \code{\link{tbl}} to filter
 #' @param n number of rows to return. If \code{x} is grouped, this is
 #'   the number of rows per group. May include more than \code{n} if there
 #'   are ties.

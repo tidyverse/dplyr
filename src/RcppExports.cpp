@@ -383,3 +383,48 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// cumall
+LogicalVector cumall(LogicalVector x);
+RcppExport SEXP dplyr_cumall(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP );
+        LogicalVector __result = cumall(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// cumany
+LogicalVector cumany(LogicalVector x);
+RcppExport SEXP dplyr_cumany(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP );
+        LogicalVector __result = cumany(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// cummean
+NumericVector cummean(NumericVector x);
+RcppExport SEXP dplyr_cummean(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        NumericVector __result = cummean(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}

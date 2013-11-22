@@ -4,7 +4,7 @@
 #' \code{\link{n}} or \code{\link{sum}(n)} depending on whether you're tallying 
 #' for the first time, or re-tallying. 
 #' 
-#' @param a \code{\link{tbl}} to tally
+#' @param x a \code{\link{tbl}} to tally
 #' @param wt if not specified, will tally the number of rows. If specified,
 #'   will perform a "weighted" tally but summing over the specified variable.
 #' @export
@@ -15,7 +15,8 @@
 #'   
 #'   plays_by_year <- tally(group_by(batting_tbl, playerID, stint))
 #'   tally(plays_by_year)
-#'   tally(tally(plays_by_year))
+#'   # FIXME: https://github.com/hadley/dplyr/issues/129
+#'   # tally(tally(plays_by_year))
 #'   tally(group_by(plays_by_year, stint))
 #'   
 #'   # This looks a little nicer if you use the infix %.% operator

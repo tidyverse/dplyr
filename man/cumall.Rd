@@ -1,0 +1,22 @@
+\name{cumall}
+\alias{cumall}
+\alias{cumany}
+\alias{cummean}
+\title{Cumulativate versions of any, all, and mean}
+\usage{
+cumall(x)
+
+cumany(x)
+
+cummean(x)
+}
+\arguments{
+  \item{x}{For \code{cumall} & \code{cumany}, a logical
+  vector; for \code{cummean} an integer or numeric vector}
+}
+\description{
+dplyr adds \code{cumall}, \code{cumany}, and \code{cummean}
+to complete R's set of cumulate functions to match the
+aggregation functions available in most databases
+}
+

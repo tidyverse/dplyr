@@ -5,7 +5,7 @@
 tally(x, wt)
 }
 \arguments{
-  \item{a}{\code{\link{tbl}} to tally}
+  \item{x}{a \code{\link{tbl}} to tally}
 
   \item{wt}{if not specified, will tally the number of
   rows. If specified, will perform a "weighted" tally but
@@ -24,7 +24,8 @@ if (require("Lahman")) {
 
   plays_by_year <- tally(group_by(batting_tbl, playerID, stint))
   tally(plays_by_year)
-  tally(tally(plays_by_year))
+  # FIXME: https://github.com/hadley/dplyr/issues/129
+  # tally(tally(plays_by_year))
   tally(group_by(plays_by_year, stint))
 
   # This looks a little nicer if you use the infix \%.\% operator
