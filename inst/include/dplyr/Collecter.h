@@ -13,7 +13,28 @@ namespace dplyr {
         virtual bool is_factor_collecter() const{ 
             return false ;    
         }
+        virtual std::string describe() const = 0 ;
     } ;
+    
+    template <int RTYPE>
+    inline std::string vector_class() ;
+    
+    template <>
+    inline std::string vector_class<INTSXP>(){
+        return "integer" ;    
+    }
+    template <>
+    inline std::string vector_class<REALSXP>(){
+        return "numeric" ;    
+    }
+    template <>
+    inline std::string vector_class<STRSXP>(){
+        return "character" ;    
+    }
+    template <>
+    inline std::string vector_class<LGLSXP>(){
+        return "logical" ;    
+    }
     
     template <int RTYPE>
     class Collecter_Impl : public Collecter {
@@ -42,6 +63,10 @@ namespace dplyr {
             return false ;    
         }
         
+        std::string describe() const {
+            return vector_class<RTYPE>() ; 
+        }
+        
     protected:
         Vector<RTYPE> data ;
     } ;
@@ -64,6 +89,10 @@ namespace dplyr {
         
         inline bool can_promote(SEXP x) const {
             return false ;    
+        }
+        
+        std::string describe() const {
+            return collapse(types) ;    
         }
         
     private:
@@ -138,6 +167,10 @@ namespace dplyr {
                 if( ! levels_map.count(levels_other[i]) ) 
                     return false ;
             return true ;
+        }
+        
+        inline std::string describe() const {
+            return "factor" ;
         }
         
     private:

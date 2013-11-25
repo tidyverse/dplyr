@@ -892,11 +892,7 @@ SEXP count_distinct(SEXP vec){
     boost::scoped_ptr<Result> res( count_distinct_result(vec) );
     if( !res ){
         std::stringstream ss ;
-        #if RCPP_VERSION < Rcpp_Version(0,10,7)
-        ss << "cannot handle object of type" << sexp_to_name( TYPEOF(vec) ) ;
-        #else
-        ss << "cannot handle object of type" << type2name(vec) ;
-        #endif
+        ss << "cannot handle object of type" << type_name(vec) ;
         stop( ss.str() ) ;
     }
     return res->process(everything) ;
@@ -958,14 +954,16 @@ List rbind_all( ListOf<DataFrame> dots ){
                 std::string column_name(name) ;
                 msg << "incompatible type ("
                     << "data index: " 
-                    << i
-                    << ", column: "
+                    << (i+1)
+                    << ", column: '"
                     << column_name
-                    << ", collecter type: "
-                    << DEMANGLE( *coll ) 
-                    << ", data type: "
-                    << TYPEOF(source)
-                    ;
+                    << "', was collecting: "
+                    << coll->describe()
+                    << " ("
+                    << DEMANGLE(*coll)
+                    << ")"
+                    << ", incompatible with data of type: "
+                    << type_name(source) ;
                     
                 stop( msg.str() ) ;
             }
