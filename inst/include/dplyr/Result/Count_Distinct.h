@@ -8,7 +8,7 @@ namespace dplyr {
     public:  
         typedef VisitorHash<Visitor> Hash ;
         typedef VisitorEqualPredicate<Visitor> Pred ;
-        typedef boost::unordered_set<int, Hash, Pred > Set ;
+        typedef dplyr_hash_set<int, Hash, Pred > Set ;
         
         Count_Distinct(Visitor v_): v(v_), set(1024, Hash(v), Pred(v) ) {}
         

@@ -4,7 +4,7 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-typedef boost::unordered_map<SEXP,HybridHandler> HybridHandlerMap ;
+typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
   
 #define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                        \
 Result* __FUN__##_prototype( SEXP call, const LazySubsets& subsets, int nargs ){ \

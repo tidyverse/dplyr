@@ -83,7 +83,7 @@ namespace dplyr {
     
     class FactorCollecter : public Collecter {
     public:
-        typedef boost::unordered_map<SEXP,int> LevelsMap ;
+        typedef dplyr_hash_map<SEXP,int> LevelsMap ;
         
         FactorCollecter( int n, CharacterVector levels): data(n, IntegerVector::get_na() ), levels_map() {
             int nlevels = levels.size() ;

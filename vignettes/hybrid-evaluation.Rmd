@@ -183,7 +183,7 @@ The `get_handler` performs a lookup in a hash table of type `HybridHandlerMap`.
 
 ```{cpp}
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
-typedef boost::unordered_map<SEXP,HybridHandler> HybridHandlerMap ;
+typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 ```
 
 `HybridHandlerMap` is simply a hash map where the map key is the symbol of the 

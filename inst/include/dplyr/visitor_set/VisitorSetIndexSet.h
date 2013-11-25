@@ -4,11 +4,11 @@
 namespace dplyr{
                   
     template <typename VisitorSet>
-    class VisitorSetIndexSet : public boost::unordered_set<int, VisitorSetHasher<VisitorSet>, VisitorSetEqualPredicate<VisitorSet> > {
+    class VisitorSetIndexSet : public dplyr_hash_set<int, VisitorSetHasher<VisitorSet>, VisitorSetEqualPredicate<VisitorSet> > {
     private:
         typedef VisitorSetHasher<VisitorSet> Hasher ;
         typedef VisitorSetEqualPredicate<VisitorSet> EqualPredicate ;
-        typedef boost::unordered_set<int, Hasher, EqualPredicate> Base ;
+        typedef dplyr_hash_set<int, Hasher, EqualPredicate> Base ;
         
     public:
         VisitorSetIndexSet() : Base(){}

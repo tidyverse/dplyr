@@ -5,7 +5,7 @@ namespace dplyr {
      
     class LazySubsets {
     public:
-        typedef boost::unordered_map<SEXP,SEXP> DataMap ;
+        typedef dplyr_hash_map<SEXP,SEXP> DataMap ;
         LazySubsets(){}
         
         LazySubsets( const DataFrame& df) : data_map(){
@@ -28,8 +28,8 @@ namespace dplyr {
     
     class LazyGroupedSubsets : public LazySubsets {
     public:
-        typedef boost::unordered_map<SEXP, GroupedSubset*> GroupedSubsetMap ;
-        typedef boost::unordered_map<SEXP, SEXP> ResolvedSubsetMap ;
+        typedef dplyr_hash_map<SEXP, GroupedSubset*> GroupedSubsetMap ;
+        typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap ;
         
         LazyGroupedSubsets( const GroupedDataFrame& gdf_ ): gdf(gdf_), subset_map(), resolved_map() {
             int max_size = gdf.max_group_size() ;

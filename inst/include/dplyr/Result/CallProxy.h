@@ -5,7 +5,7 @@ namespace dplyr {
       
     class CallProxy {
     public:
-        typedef boost::unordered_map<SEXP, SEXP> DataMap ;
+        typedef dplyr_hash_map<SEXP, SEXP> DataMap ;
         
         CallProxy( const Rcpp::Language& call_, const Rcpp::DataFrame& data_, const Environment& env_) : 
             call(call_), data_map(), proxies(), env(env_)

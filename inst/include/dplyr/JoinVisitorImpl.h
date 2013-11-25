@@ -94,7 +94,7 @@ namespace dplyr{
                 levels.insert( s );
                 strings[i] = s ;
             }
-            boost::unordered_map<SEXP,int> invmap ;
+            dplyr_hash_map<SEXP,int> invmap ;
             
             int nlevels = levels.size() ;
             LevelsSet::const_iterator lit = levels.begin() ;
@@ -125,7 +125,7 @@ namespace dplyr{
                 levels.insert( s );
                 strings[i] = s ;
             }
-            boost::unordered_map<SEXP,int> invmap ;
+            dplyr_hash_map<SEXP,int> invmap ;
             
             int nlevels = levels.size() ;
             LevelsSet::const_iterator lit = levels.begin() ;

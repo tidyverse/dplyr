@@ -8,10 +8,17 @@ using namespace Rcpp ;
 #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
 #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
 
-#include <boost/functional/hash.hpp>
-#include <boost/unordered_map.hpp>
-#include <boost/unordered_set.hpp>
 #include <boost/scoped_ptr.hpp>
+
+#if defined(_WIN32)
+    #define dplyr_hash_map RCPP_UNORDERED_MAP
+    #define dplyr_hash_set RCPP_UNORDERED_SET
+#else
+    #include <boost/unordered_map.hpp>
+    #include <boost/unordered_set.hpp>
+    #define dplyr_hash_map boost::unordered_map
+    #define dplyr_hash_set boost::unordered_set
+#endif
 
 #include <tools/tools.h>
 
