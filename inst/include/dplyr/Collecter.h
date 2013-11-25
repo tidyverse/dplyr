@@ -132,7 +132,7 @@ namespace dplyr {
             CharacterVector levels_other = Rf_getAttrib( x, Rf_install( "levels" ) ) ;
             
             int nlevels = levels_other.size() ;
-            if( nlevels != levels_map.size() ) return false ;
+            if( nlevels != (int)levels_map.size() ) return false ;
             
             for( int i=0; i<nlevels; i++)
                 if( ! levels_map.count(levels_other[i]) ) 

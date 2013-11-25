@@ -93,7 +93,6 @@ bool can_simplify( SEXP call ){
     }
     
     if( TYPEOF(call) == LANGSXP ){
-        int depth = Rf_length( call ) ;
         SEXP fun_symbol = CAR(call) ;
         if( TYPEOF(fun_symbol) != SYMSXP ) return false ;
         
@@ -924,7 +923,7 @@ List rbind_all( ListOf<DataFrame> dots ){
             String name = df_names[j] ;
             
             Collecter* coll = 0;
-            int index = 0 ;
+            size_t index = 0 ;
             for( ; index < names.size(); index++){
                 if( name == names[index] ){
                     coll = columns[index] ;
