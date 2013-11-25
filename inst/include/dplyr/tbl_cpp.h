@@ -46,7 +46,7 @@ namespace dplyr {
                 data.attr( "vars") = vars ;
                 data.attr( "drop" ) = true ;
             } else {
-                data.attr( "class" ) = classes_grouped()  ;
+                data.attr( "class" ) = classes_not_grouped()  ;
                 data.attr( "drop" ) = true ;
             }
         }
