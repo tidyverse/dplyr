@@ -898,6 +898,8 @@ SEXP count_distinct(SEXP vec){
     return res->process(everything) ;
 }
 
+//' @export
+//' @rdname rbind
 // [[Rcpp::export]]
 List rbind_all( ListOf<DataFrame> dots ){
     int ndata = dots.size() ;

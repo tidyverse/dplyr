@@ -89,6 +89,8 @@ count_distinct <- function(vec) {
     .Call('dplyr_count_distinct', PACKAGE = 'dplyr', vec)
 }
 
+#' @export
+#' @rdname rbind
 rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
