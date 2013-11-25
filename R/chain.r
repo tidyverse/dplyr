@@ -53,7 +53,7 @@
 #'     arr = mean(ArrDelay, na.rm = TRUE), 
 #'     dep = mean(DepDelay, na.rm = TRUE)
 #'   ) %.%
-#'   filter(a3, arr > 30 | dep > 30)
+#'   filter(arr > 30 | dep > 30)
 #'
 #' chain(
 #'   hflights,
@@ -63,7 +63,7 @@
 #'     arr = mean(ArrDelay, na.rm = TRUE), 
 #'     dep = mean(DepDelay, na.rm = TRUE)
 #'   ),
-#'   filter(a3, arr > 30 | dep > 30)
+#'   filter(arr > 30 | dep > 30)
 #' )
 chain <- function(..., env = parent.frame()) {
   chain_q(dots(...), env = env)
@@ -91,7 +91,6 @@ chain_q <- function(calls, env = parent.frame()) {
 
 #' @export
 #' @rdname chain
-#' @usage x \%.\% y
 "%.%" <- function(x, y) {
   chain_q(list(substitute(x), substitute(y)), env = parent.frame())
 }

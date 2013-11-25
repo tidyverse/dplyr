@@ -93,3 +93,28 @@ rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
 
+#' Cumulativate versions of any, all, and mean
+#' 
+#' dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete
+#' R's set of cumulate functions to match the aggregation functions available
+#' in most databases
+#' 
+#' @param x For \code{cumall} & \code{cumany}, a logical vector; for
+#'   \code{cummean} an integer or numeric vector
+#' @export
+cumall <- function(x) {
+    .Call('dplyr_cumall', PACKAGE = 'dplyr', x)
+}
+
+#' @export
+#' @rdname cumall
+cumany <- function(x) {
+    .Call('dplyr_cumany', PACKAGE = 'dplyr', x)
+}
+
+#' @export
+#' @rdname cumall
+cummean <- function(x) {
+    .Call('dplyr_cummean', PACKAGE = 'dplyr', x)
+}
+

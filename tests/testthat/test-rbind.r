@@ -68,7 +68,8 @@ test_that( "rbind_list coerces factor to character when levels don't match", {
   df2 <- data.frame( a = 1:3, b = factor(c("a", "b", "c"), 
       levels = c("b", "c", "a", "d")))
   
-  res <- dplyr:::rbind_list( df1, df2 )
+  expect_warning(res <- rbind_list( df1, df2 ), 
+    "Unequal factor levels: coercing to character")
   expect_equal( res$b, c("a","b","c", "a","b","c" ) )
 })
 

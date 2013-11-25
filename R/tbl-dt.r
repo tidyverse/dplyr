@@ -35,10 +35,11 @@ groups.tbl_dt <- function(x) {
   NULL
 }
 
-#' @S3method ungroup tbl_dt
-ungroup.tbl_dt <- function(x) {
-  x
-}
+#' @export
+ungroup.tbl_dt <- function(x) x
+
+#' @export
+ungroup.data.table <- function(x) x
 
 #' @S3method same_src tbl_dt
 same_src.tbl_dt <- function(x, y) {
