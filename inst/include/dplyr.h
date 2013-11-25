@@ -9,6 +9,7 @@ using namespace Rcpp ;
 #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
 
 #include <boost/scoped_ptr.hpp>
+#include <boost/functional/hash.hpp>
 
 #if defined(_WIN32)
     #define dplyr_hash_map RCPP_UNORDERED_MAP
