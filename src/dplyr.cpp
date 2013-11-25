@@ -462,14 +462,16 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
         return no_because( ss.str() ) ;
     }
     
-    if(ok) return yes(); 
+    if(ok && ignore_row_order) return yes(); 
     
     if( !ignore_row_order ){
         if( nrows_x != nrows_y )
             return no_because( "Different number of rows" ) ;
-        for( int i=0; i<nrows_x; i++)
-            if( !visitors.equal( i, -i-1) )
-                return no_because( "Same row values, but different order" ) ;
+        for( int i=0; i<nrows_x; i++){
+            if( !visitors.equal( i, -i-1) ){
+                    return no_because( "Same row values, but different order" ) ;
+            }
+        }
     } 
     
     return yes() ;
