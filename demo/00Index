@@ -1,2 +1,3 @@
 bench-merge   Benchmark merging between R and python
 bench-set     Benchmark set operations on data frames
+bench-rbind   Benchmark various flavours of rbind
