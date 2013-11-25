@@ -127,6 +127,7 @@ translate_sql(rank(DepTime), source = planes, window = TRUE)
 translate_sql(ntile(DepTime, 2L), source = planes, window = TRUE)
 translate_sql(lead(DepTime, 2L), source = planes, window = TRUE)
 translate_sql(cumsum(DepDelay), source = planes, window = TRUE)
+translate_sql(order_by(DepDelay, cumsum(DepDelay)), source = planes, window = TRUE)
 }
 }
 

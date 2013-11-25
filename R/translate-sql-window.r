@@ -80,6 +80,10 @@ translate_window_env_base <- function(x, group_by = NULL, order_by = NULL) {
     over(build_sql("LAG", list(x, n, default)), group_by, order %||% order_by)
   }
   
+  misc_f$order_by <- function(order_by, expr) {
+    over(expr, group_by, order_by)
+  }
+  
   all <- c(rank_f, recycled_f, cumulative_f, misc_f)
   sql_variant(.funs = all, .parent = translate_env(x))
 }
