@@ -954,7 +954,20 @@ List rbind_all( ListOf<DataFrame> dots ){
                 columns[index] = new_collecter ;
                 
             } else {
-                stop( "incompatible type" ) ;
+                std::stringstream msg ;
+                std::string column_name(name) ;
+                msg << "incompatible type ("
+                    << "data index: " 
+                    << i
+                    << ", column: "
+                    << column_name
+                    << ", collecter type: "
+                    << DEMANGLE( *coll ) 
+                    << ", data type: "
+                    << TYPEOF(source)
+                    ;
+                    
+                stop( msg.str() ) ;
             }
             
         }
