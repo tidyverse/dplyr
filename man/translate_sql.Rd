@@ -3,21 +3,28 @@
 \alias{translate_sql_q}
 \title{Translate an expression to sql.}
 \usage{
-translate_sql(..., source = NULL, env = parent.frame(), variant = NULL)
+translate_sql(..., source = NULL, env = parent.frame(), variant = NULL,
+  window = FALSE)
 
-translate_sql_q(expr, source = NULL, env = parent.frame(), variant = NULL)
+translate_sql_q(expr, source = NULL, env = parent.frame(), variant = NULL,
+  window = FALSE)
 }
 \arguments{
   \item{...}{unevaluated expression to translate}
 
   \item{expr}{list of quoted objects to translate}
 
-  \item{source}{tbl}
+  \item{source}{If supplied, will be used to automatically
+  figure out the SQL variant to use. This can either be a
+  \code{src} or a \code{tbl}.}
 
   \item{env}{environment in which to evaluate expression.}
 
   \item{variant}{used to override default variant provided
   by source useful for testing/examples}
+
+  \item{window}{If \code{variant} not supplied, used to
+  determine whether the variant is window based or not.}
 }
 \description{
 Translate an expression to sql.
@@ -106,5 +113,20 @@ translate_sql(Month < local(1 + 1), source = hflights)
 inc <- function(x) x + 1
 translate_sql(Month == inc(x), source = hflights)
 translate_sql(Month == local(inc(x)), source = hflights)
+
+# Windowed translation --------------------------------------------
+\donttest{
+hflights_db <- tbl(hflights_postgres(), "hflights")
+planes <- arrange(group_by(hflights_db, TailNum), desc(DepTime))
+
+translate_sql(DepTime > mean(DepTime), source = planes, window = TRUE)
+translate_sql(DepTime == min(DepTime), source = planes, window = TRUE)
+
+translate_sql(rank(), source = planes, window = TRUE)
+translate_sql(rank(DepTime), source = planes, window = TRUE)
+translate_sql(ntile(DepTime, 2L), source = planes, window = TRUE)
+translate_sql(lead(DepTime, 2L), source = planes, window = TRUE)
+translate_sql(cumsum(DepDelay), source = planes, window = TRUE)
+}
 }
 

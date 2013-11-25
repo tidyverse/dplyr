@@ -5,7 +5,7 @@
 \alias{sql_variant}
 \title{Create an sql variant.}
 \usage{
-sql_variant(..., .parent = base_sql)
+sql_variant(..., .funs = list(), .parent = base_sql)
 
 sql_infix(f)
 
@@ -14,8 +14,10 @@ sql_prefix(f)
 sql_not_supported(f)
 }
 \arguments{
-  \item{...}{named functions, used to add custom converters
-  from standard R functions to sql functions.}
+  \item{...,.funs}{named functions, used to add custom
+  converters from standard R functions to sql functions.
+  Specify individually in \code{...}, or provide a list of
+  \code{.funs}}
 
   \item{.parent}{the sql variant that this variant should
   inherit from.  Defaults to \code{base_sql} which provides

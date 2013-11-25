@@ -16,8 +16,9 @@ NULL
 #' quickly providing default wrappers for a new SQL variant.
 #'
 #' @keywords internal
-#' @param ... named functions, used to add custom converters from standard
-#'  R functions to sql functions.
+#' @param ...,.funs named functions, used to add custom converters from standard
+#'  R functions to sql functions. Specify individually in \code{...}, or 
+#'  provide a list of \code{.funs}
 #' @param .parent the sql variant that this variant should inherit from.
 #'   Defaults to \code{base_sql} which provides a standard set of
 #'   mappings for the most common operators and functions.
@@ -43,8 +44,8 @@ NULL
 #' # Any functions not explicitly listed in the converter will be translated
 #' # to sql as is, so you don't need to convert all functions.
 #' translate_sql(regr_intercept(y, x), variant = postgres_stat)
-sql_variant <- function(..., .parent = base_sql) {
-  list2env(list(...), copy_env(.parent))
+sql_variant <- function(..., .funs = list(), .parent = base_sql) {
+  list2env(c(list(...), .funs), copy_env(.parent))
 }
 
 #' @rdname sql_variant

@@ -157,45 +157,8 @@ translate_env.src_bigquery <- function(x) {
   )
 }
 
-#' @S3method translate_window_env tbl_bigquery
-translate_window_env.tbl_bigquery <- function(x) {
-  by <- translate_sql_q(groups(x), source = x$src, env = NULL)
-  
-  windowed_sql <- function(f, x, order) {
-    build_sql(sql(f), "(", x, ") OVER ",
-      "(PARTITION BY ", by, 
-      if (!is.null(order)) build_sql(" ORDER BY ", order, con = x$src$con),
-      ")", con = x$src$con)
-  }    
-  
-  nullary_win <- function(f) {
-    function(order = NULL) windowed_sql(f, NULL, order)
-  }
-  unary_agg <- function(f) {
-    function(x) windowed_sql(f, x, NULL)
-  }
-  unary_win <- function(f) {
-    function(x, order = NULL) windowed_sql(f, x, order)
-  }
-  
-  sql_variant(.parent = translate_env.src_bigquery(),
-    
-    mean = unary_agg("AVG"),
-    sum = unary_agg("SUM"),
-    min = unary_agg("MIN"),
-    max = unary_agg("MAX"),
-    
-    n = function() build_sql("COUNT(*) OVER (PARTITION BY ", by, ")", 
-      con = x$src$con),
-    
-    cummean = unary_win("AVG"),
-    cumsum = unary_win("SUM"),
-    cummin = unary_win("MIN"),
-    cummax = unary_win("MAX"),
-    
-    order = nullary_win("ROW_NUMBER"), 
-    rank = nullary_win("RANK"),
-    lag = nullary_win("LAG"),
-    lead = nullary_win("LEAD")
-  )
+#' @export
+translate_window_env.src_bigquery <- function(x, group_by = NULL, 
+                                              order_by = NULL) {
+  translate_window_env_base(x, group_by = group_by, order_by = order_by)
 }

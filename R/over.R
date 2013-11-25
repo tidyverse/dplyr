@@ -1,24 +1,26 @@
-# Purely for SQL generation: to hard to efficiently do in R.
+# Generate SQL expression for window function
+# over("avg(x)", frame = c(-Inf, 0))
+# over("avg(x)", order = "y")
 over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
-  args <- !is.null(partition) + !is.null(order) + !is.null(frame)
+  args <- (!is.null(partition)) + (!is.null(order)) + (!is.null(frame))
   if (args == 0) {
     stop("Must supply at least one of partition, order, frame", call. = FALSE)
   }
   
   if (!is.null(partition)) {
-    partition <- paste0("PARTITION BY ", paste0(partition, collapse = ", "))
+    partition <- build_sql("PARTITION BY ", 
+      sql_vector(partition, collapse = ", "))
   }
   if (!is.null(order)) {
-    order <- paste0("ORDER BY ", paste0(order, collapse = ", "))
+    order <- build_sql("ORDER BY ", sql_vector(order, collapse = ", "))
   }
-  if (!is.null(rows)) {
+  if (!is.null(frame)) {
     if (is.numeric(frame)) frame <- rows(frame[1], frame[2])
-    rows <- paste0("ROWS ", frame)
+    frame <- build_sql("ROWS ", frame)
   }
   
-  over <- paste0(c(partition, order, rows), collapse = " ")
-  
-  paste0(expr, " OVER (", over, ")")
+  over <- sql_vector(compact(list(partition, order, frame)))
+  build_sql(expr, " OVER ", over)
 }
 
 rows <- function(from = -Inf, to = 0) {
@@ -32,8 +34,8 @@ rows <- function(from = -Inf, to = 0) {
   }
 
   if (to == 0) {
-    bound(from)
+    sql(bound(from))
   } else {
-    paste0("BETWEEN ", bound(from), " AND ", bound(to))
+    sql(paste0("BETWEEN ", bound(from), " AND ", bound(to)))
   }
 }

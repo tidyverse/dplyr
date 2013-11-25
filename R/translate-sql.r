@@ -24,10 +24,13 @@
 #'
 #' @param ... unevaluated expression to translate
 #' @param expr list of quoted objects to translate
-#' @param source tbl
+#' @param source If supplied, will be used to automatically figure out the
+#'   SQL variant to use. This can either be a \code{src} or a \code{tbl}.
 #' @param env environment in which to evaluate expression. 
 #' @param variant used to override default variant provided by source
 #'   useful for testing/examples
+#' @param window If \code{variant} not supplied, used to determine whether 
+#'   the variant is window based or not.
 #' @export
 #' @examples
 #' # Regular maths is translated in a very straightforward way
@@ -85,22 +88,43 @@
 #' inc <- function(x) x + 1
 #' translate_sql(Month == inc(x), source = hflights)
 #' translate_sql(Month == local(inc(x)), source = hflights)
+#' 
+#' # Windowed translation --------------------------------------------
+#' \donttest{
+#' hflights_db <- tbl(hflights_postgres(), "hflights")
+#' planes <- arrange(group_by(hflights_db, TailNum), desc(DepTime))
+#' 
+#' translate_sql(DepTime > mean(DepTime), source = planes, window = TRUE)
+#' translate_sql(DepTime == min(DepTime), source = planes, window = TRUE)
+#' 
+#' translate_sql(rank(), source = planes, window = TRUE)
+#' translate_sql(rank(DepTime), source = planes, window = TRUE)
+#' translate_sql(ntile(DepTime, 2L), source = planes, window = TRUE)
+#' translate_sql(lead(DepTime, 2L), source = planes, window = TRUE)
+#' translate_sql(cumsum(DepDelay), source = planes, window = TRUE)
+#' }
 translate_sql <- function(..., source = NULL, env = parent.frame(), 
-                          variant = NULL) {
-  translate_sql_q(dots(...), source = source, env = env, variant = variant)
+                          variant = NULL, window = FALSE) {
+  translate_sql_q(dots(...), source = source, env = env, variant = variant,
+    window = window)
 }
+
+#' @export
+translate_env.default <- function(x) base_sql
 
 #' @export
 #' @rdname translate_sql
 translate_sql_q <- function(expr, source = NULL, env = parent.frame(),
-                            variant = NULL) {
+                            variant = NULL, window = FALSE) {
   if (is.null(expr)) return(NULL)
   
   if (!is.null(env) && !is.null(source)) {
     expr <- partial_eval(expr, source, env)
   }
   
-  variant <- variant %||% translate_env(source)
+  variant <- variant %||%
+    if (window) translate_window_env(source) else translate_env(source)
+  
   pieces <- lapply(expr, function(x) {
     if (is.atomic(x)) return(escape(x))
     
@@ -129,14 +153,6 @@ translate_select <- function(expr, tbl) {
 }
 
 translate_env <- function(x) UseMethod("translate_env")
-#' @S3method translate_env default
-translate_env.default <- function(x) base_sql
-
-translate_window_env <- function(x) UseMethod("translate_window_env")
-#' @S3method translate_window_env default
-translate_window_env.default <- function(x) {
-  stop(class(x)[1], " does not supported windowed functions", call. = FALSE)
-}
 
 sql_env <- function(expr, variant_env, con) {
   # Default for unknown functions

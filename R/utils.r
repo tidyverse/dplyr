@@ -102,3 +102,12 @@ deparse_all <- function(x) {
 commas <- function(...) paste0(..., collapse = ", ")
 
 in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
+
+named <- function(...) {
+  x <- c(...)
+  
+  missing_names <- names2(x) == ""
+  names(x)[missing_names] <- x[missing_names]
+  
+  x
+}

@@ -224,7 +224,7 @@ if (has_lahman("postgres")) {
   
   # Rank each flight within a daily
   ranked <- mutate(daily, rank = rank(desc(ArrDelay)))
-  bestworst$query
+  ranked$query
 }
 ```
 
