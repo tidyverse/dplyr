@@ -6,6 +6,7 @@
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
 library(Lahman)
+knitr::opts_chunk$set(tidy = FALSE, comment = "#>")
 ```
 
 # Window functions and grouped mutate/filter
@@ -268,13 +269,13 @@ Aggregate variants are more verbose because we also need to supply the complete 
 
 You'll notice that window functions in SQL are more verbose than in R. This is because different window functions could have different partitions, and the frame specification is more general than the two options for aggregates (recycled and cumulative) that dplyr provides. dplyr makes a tradeoff: you can't access rarely used window function capabilities (unless you write raw SQL) in return for the common operations being much more succinct.
 
-## Translating dplyr to SQL
+### Translating dplyr to SQL
 
 To see how individual window functions are translated to SQL, we can use `translate_sql()` with the `window = TRUE`.
 
 ```{r}
 if (has_lahman("postgres")) {
-  players <- group_by(tbl(lahman_postgres(), "Batting"), PlayerID)
+  players <- group_by(tbl(lahman_postgres(), "Batting"), playerID)
   
   translate_sql(mean(G), source = players, window = TRUE)
   translate_sql(cummean(G), source = players, window = TRUE)
@@ -295,45 +296,69 @@ if (has_lahman("postgres")) {
 }
 ```
 
-### Some challenges
+There are some challenges with the window functions because we're trying to keep the API similar to both R and SQL. This means that there are three ways to control the order clause depending on which window function you're using:
 
-Take this simple example, where we want to find all states with more than 20 schools:
+* For ranking functions, the ordering variable is the first argument: `rank(x)`,
+  `ntile(y, 2)`. If omitted or `NULL`, will use the default ordering associated 
+  with the tbl (as set by `arrange()`).
+
+* Accumulating aggegate only take a single argument (the vector to aggregate).
+  To control ordering, use `order_by()`.
+  
+* Aggregates implemented in dplyr (`lead`, `lag`, `nth_value`, `first_value`, 
+  `last_value`) have an `order_by` argument. Supply it to override the
+  default ordering.
+
+The three options are illustrated in the snippet below:
 
 ```{r, eval = FALSE}
-states <- group_by(schools, schoolState)
-subset(states, n() > 20)
+mutate(players,
+  min_rank(yearID),
+  order_by(yearID, cumsum(G)),
+  lead(G, order_by = yearID)
+)
 ```
 
-The following straightforward translation does not work:
+Currently there is no way to order by multiple variables, except by setting the default ordering with `arrange()`. This will be added in a future release. 
 
-```
-SELECT "schoolID", "schoolState" 
-FROM "Schools"
-WHERE (count(*) OVER (PARTITION BY "schoolState")) > 20;
-```
+### Translating filters based on window functions
 
-because window functions are only allowed in `SELECT` and `ORDER_BY`. Computing the window function in `SELECT` and referring to it in `WHERE` or `HAVING` doesn't work either:
+There are some restrictions with window functions in SQL that make their use with `WHERE` somewhat challenging. Take this simple example, where we want to find the year each player played the most games:
 
-```
-SELECT "schoolID", "schoolState", 
-  count(*) OVER (PARTITION BY "schoolState") AS W1
-FROM "Schools"
-WHERE W1 > 20;
-
-SELECT "schoolID", "schoolState", 
-  count(*) OVER (PARTITION BY "schoolState") AS W1
-FROM "Schools"
-HAVING W1 > 20;
+```{r, eval = FALSE}
+filter(players, rank(G) == 1)
 ```
 
-because `WHERE` and `HAVING` are computed before windowing functions. Instead, you must use a subquery:
+The following straightforward translation does not work because window functions are only allowed in `SELECT` and `ORDER_BY`. 
 
 ```
-SELECT * 
+SELECT *
+FROM Batting
+WHERE rank() OVER (PARTITION BY "playerID" ORDER BY "G") = 1;
+```
+
+Computing the window function in `SELECT` and referring to it in `WHERE` or `HAVING` doesn't work either, because `WHERE` and `HAVING` are computed before windowing functions. 
+
+```
+SELECT *, rank() OVER (PARTITION BY "playerID" ORDER BY "G") as rank
+FROM Batting
+WHERE rank = 1;
+
+SELECT *, rank() OVER (PARTITION BY "playerID" ORDER BY "G") as rank
+FROM Batting
+HAVING rank = 1;
+```
+
+Instead, we must use a subquery:
+
+```
+SELECT *
 FROM (
-  SELECT "schoolID", "schoolState", 
-    count(*) OVER (PARTITION BY "schoolState") AS W1
-  FROM "Schools"
-) AS S1
-WHERE W1 > 20;
+  SELECT *, rank() OVER (PARTITION BY "playerID" ORDER BY "G") as rank
+  FROM Batting
+) tmp
+WHERE rank = 1;
 ```
+
+And even that query is a slightly simplification because it will also add a rank column to the original columns. dplyr takes care of generating the full, verbose, query, so you can focus on your data analysis challenges.
+
