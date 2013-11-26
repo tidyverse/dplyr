@@ -25,7 +25,7 @@ trunc_mat <- function(x, n = NULL) {
   rows <- nrow(x)
   if (!is.na(rows) && rows == 0) return()
   
-  n <- n %||% if (is.na(rows) || rows > 99) 10L else rows
+  n <- n %||% if (is.na(rows) || rows > 99) getOption("dplyr.max_print") else rows
   
   df <- as.data.frame(head(x, n))
   mat <- format(df, justify = "left")
