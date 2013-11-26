@@ -91,14 +91,13 @@ groups.tbl_sql <- function(x) {
 
 # Grouping methods -------------------------------------------------------------
 
-#' @S3method group_by tbl_sql
-group_by.tbl_sql <- function(x, ...) {
-  input <- dots(...)
-  if (!all_apply(input, is.name)) {
+#' @export
+"groups<-.tbl_sql" <- function(x, value) {
+  if (!all_apply(value, is.name)) {
     stop("May only group by variable names, not expressions", call. = FALSE)
   }
   
-  update(x, group_by = c(x$group_by, input))
+  update(x, group_by = unname(value))
 }
 
 #' @S3method ungroup tbl_sql

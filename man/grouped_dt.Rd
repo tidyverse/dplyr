@@ -1,6 +1,4 @@
 \name{grouped_dt}
-\alias{group_by.data.table}
-\alias{group_by.tbl_dt}
 \alias{grouped_dt}
 \alias{is.grouped_dt}
 \title{A grouped data table.}
@@ -8,10 +6,6 @@
 grouped_dt(data, vars)
 
 is.grouped_dt(x)
-
-\method{group_by}{data.table}(x, ...)
-
-\method{group_by}{tbl_dt}(x, ...)
 }
 \arguments{
   \item{data}{a tbl or data frame.}
@@ -19,8 +13,6 @@ is.grouped_dt(x)
   \item{vars}{a list of quoted variables.}
 
   \item{x}{an object to check}
-
-  \item{...}{variables to group by}
 }
 \description{
 The easiest way to create a grouped data table is to call

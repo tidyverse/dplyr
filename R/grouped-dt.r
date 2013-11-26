@@ -51,27 +51,19 @@ group_size.grouped_dt <- function(x) {
   summarise(x, n = n())$n
 }
 
-#' @method group_by data.table
 #' @export
-#' @rdname grouped_dt
-#' @param ... variables to group by
-group_by.data.table <- function(x, ...) {
-  vars <- dots(...)
-  grouped_dt(x, c(groups(x), vars))
+"groups<-.data.table" <- function(x, value) {
+  grouped_dt(x, unname(value))
 }
 
-#' @method group_by tbl_dt
 #' @export
-#' @rdname grouped_dt
-group_by.tbl_dt <- function(x, ...) {
-  vars <- dots(...)
-  grouped_dt(x, c(groups(x), vars))
+"groups<-.tbl_dt" <- function(x, value) {
+  grouped_dt(x, unname(value))
 }
 
-#' @S3method group_by grouped_dt
-group_by.grouped_dt <- function(x, ...) {
-  vars <- dots(...)
-  grouped_dt(x, c(groups(x), vars))
+#' @export
+"groups<-.grouped_dt" <- function(x, value) {
+  grouped_dt(x, unname(value))
 }
 
 #' @S3method ungroup grouped_dt

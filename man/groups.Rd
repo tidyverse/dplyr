@@ -1,13 +1,29 @@
 \name{groups}
 \alias{groups}
-\title{Retrieve list of groups from a data source.}
+\alias{groups<-}
+\title{Get/set the grouping variables for tbl.}
 \usage{
 groups(x)
+
+groups(x) <- value
 }
 \arguments{
-  \item{x}{data tbl}
+  \item{x}{data \code{\link{tbl}}}
+
+  \item{value}{a list of symbols}
 }
 \description{
-Retrieve list of groups from a data source.
+These functions do not perform non-standard evaluation, and
+so are useful when programming against \code{tbl} objects.
+}
+\examples{
+grouped <- group_by(mtcars, cyl)
+groups(grouped)
+groups(grouped) <- list(quote(vs))
+groups(grouped)
+}
+\seealso{
+\code{\link{group_by}} for a version that does non-standard
+evaluation to save typing
 }
 

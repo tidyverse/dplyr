@@ -114,24 +114,14 @@ group_size.grouped_cpp <- function(x) {
   group_size_grouped_cpp(x)
 }
 
-#' @param x object (data frame or \code{\link{tbl_df}}) to group
-#' @param ... unquoted variables to group by
-#' @method group_by data.frame
 #' @export
-#' @rdname grouped_df
-group_by.data.frame <- function(x, ..., drop = TRUE) {
-  vars <- named_dots(...)
-  grouped_df(x, c(groups(x), vars), lazy = FALSE)
+"groups<-.data.frame" <- function(x, value) {
+  grouped_df(x, value, lazy = FALSE)
 }
 
-#' @param x object (\code{\link{tbl_cpp}}) to group
-#' @param ... unquoted variables to group by
-#' @method group_by tbl_cpp
 #' @export
-#' @rdname grouped_cpp
-group_by.tbl_cpp <- function(x, ..., drop = TRUE) {
-  vars <- named_dots(...)
-  grouped_cpp(x, c(groups(x), vars), lazy = FALSE)
+"groups<-.tbl_cpp" <- function(x, value) {
+  grouped_cpp(x, value, lazy = FALSE)
 }
 
 #' @S3method as.data.frame grouped_df

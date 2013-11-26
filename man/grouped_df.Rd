@@ -1,5 +1,4 @@
 \name{grouped_df}
-\alias{group_by.data.frame}
 \alias{grouped_df}
 \alias{is.grouped_cpp}
 \alias{is.grouped_df}
@@ -13,8 +12,6 @@ grouped_df(data, vars, lazy = TRUE, drop = TRUE)
 is.grouped_df(x)
 
 is.grouped_cpp(x)
-
-\method{group_by}{data.frame}(x, ..., drop = TRUE)
 }
 \arguments{
   \item{data}{a tbl or data frame.}
@@ -27,11 +24,6 @@ is.grouped_cpp(x)
 
   \item{drop}{if \code{TRUE} preserve all factor levels,
   even those without data.}
-
-  \item{x}{object (data frame or \code{\link{tbl_df}}) to
-  group}
-
-  \item{...}{unquoted variables to group by}
 }
 \description{
 The easiest way to create a grouped data frame is to call

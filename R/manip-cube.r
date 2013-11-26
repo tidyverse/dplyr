@@ -42,11 +42,16 @@ find_index <- function(x, names) {
   unlist(lapply(x[-1], find_index, names = names))
 }
 
-#' @S3method group_by tbl_cube
-group_by.tbl_cube <- function(x, ...) {
-  idx <- var_index(dots(...), x$dims, parent.frame())
+#' @export
+"groups<-.tbl_cube" <- function(x, value) {
+  idx <- var_index(value, x$dims, parent.frame())
   x$group <- idx
   x
+}
+
+#' @export
+groups.tbl_cube <- function(x, value) {
+  lapply(x$dims, as.name)[x$group]  
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special

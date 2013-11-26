@@ -2,14 +2,19 @@
 \alias{group_by}
 \title{Group a tbl by one or more variables.}
 \usage{
-group_by(x, ...)
+group_by(x, ..., add = TRUE)
 }
 \arguments{
   \item{x}{a tbl}
 
   \item{...}{variables to group by. All tbls accept
   variable names, some will also accept functons of
-  variables.}
+  variables. Duplicated groups will be silently dropped.}
+
+  \item{add}{By default, when \code{add = TRUE},
+  \code{group_by} will add groups to existing. To instead
+  set the groups to a set of new values, use \code{add =
+  FALSE}}
 }
 \description{
 Most data operations are useful done on groups defined by
@@ -33,8 +38,24 @@ where operations are performed "by group".
 by_cyl <- group_by(mtcars, cyl)
 summarise(by_cyl, mean(disp), mean(hp))
 filter(by_cyl, disp == max(disp))
+
+# summarise peels off a single layer of grouping
+by_vs_am <- group_by(mtcars, vs, am)
+by_vs <- summarise(by_vs_am, n = n())
+groups(by_vs)
+summarise(by_vs, n = sum(n))
+# use ungroup() to remove if not wanted
+
+# By default, group_by increases grouping. Use add = FALSE to set groups
+groups(group_by(by_cyl, vs, am))
+groups(group_by(by_cyl, vs, am, add = FALSE))
+
+# Duplicate groups are silently dropped
+groups(group_by(by_cyl, cyl, cyl))
 }
 \seealso{
-\code{\link{ungroup}} for the inverse operation.
+\code{\link{ungroup}} for the inverse operation,
+\code{\link{group}} for accessors that don't do special
+evaluation.
 }
 
