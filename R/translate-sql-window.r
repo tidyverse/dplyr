@@ -11,11 +11,6 @@ translate_window_env.tbl_sql <- function(x, groups = NULL, order = NULL) {
   translate_window_env(x$src, groups, order)
 }
 
-#' @export
-translate_window_env.default <- function(x, groups = NULL, order = NULL) {
-  stop(class(x)[1], " does not supported windowed functions", call. = FALSE)
-}
-
 translate_window_env_base <- function(x, group_by = NULL, order_by = NULL) {
   stopifnot(is.sql(group_by) || is.null(group_by))
   stopifnot(is.sql(order_by) || is.null(order_by))
@@ -27,7 +22,7 @@ translate_window_env_base <- function(x, group_by = NULL, order_by = NULL) {
       over(build_sql(sql(f), list()), group_by, order %||% order_by)
     }
   }
-  rank <- named("rownumber", "min_rank" = "rank", "rank", "dense_rank", 
+  rank <- named("row_number", "min_rank" = "rank", "rank", "dense_rank", 
     "percent_rank", "cume_dist")
   rank_f <- lapply(rank, win_rank)
   rank_f$ntile <- function(order, n) {
@@ -86,6 +81,28 @@ translate_window_env_base <- function(x, group_by = NULL, order_by = NULL) {
   
   all <- c(rank_f, recycled_f, cumulative_f, misc_f)
   sql_variant(.funs = all, .parent = translate_env(x))
+}
+
+#' @export
+translate_window_env.default <- function(x, groups = NULL, order = NULL) {
+  rank <- c("row_number", "min_rank", "rank", "dense_rank", "percent_rank",
+    "cume_dist")
+  agg <-  c("mean", "sum", "min", "max", "any", "all")
+  c_agg <- paste0("cum", agg)
+  misc <- c("nth_value", "first_value", "last_value", "lead", "lag", "order_by")
+  
+  windows <- c(rank, agg, c_agg, misc)
+  
+  no_windows <- function(f) {
+    force(f)
+    function(...) {
+      msg <- paste0(class(x)[1], " does not support windowed function ", f, "()")
+      stop(msg, call. = FALSE)
+    }
+  }
+  window_f <- lapply(windows, no_windows)
+  names(window_f) <- windows
+  sql_variant(.funs = window_f, .parent = translate_env(x))
 }
 
 # players <- group_by(batting, teamID)
