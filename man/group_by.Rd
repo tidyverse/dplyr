@@ -46,6 +46,10 @@ groups(by_vs)
 summarise(by_vs, n = sum(n))
 # use ungroup() to remove if not wanted
 
+# You can group by expressions: this is just short-hand for
+# a mutate followed by a simple group_by
+group_by(mtcars, vsam = vs + am)
+
 # By default, group_by increases grouping. Use add = FALSE to set groups
 groups(group_by(by_cyl, vs, am))
 groups(group_by(by_cyl, vs, am, add = FALSE))

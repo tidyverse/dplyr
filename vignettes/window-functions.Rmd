@@ -102,10 +102,7 @@ Finally, `ntile()` divides the data up into `n` evenly sized buckets. It's a coa
 ```{r}
 by_team_player <- group_by(batting, teamID, playerID)
 by_team <- summarise(by_team_player, G = sum(G))
-by_team <- mutate(by_team, quartile = ntile(G, 4))
-by_team
-
-by_team_quartile <- group_by(by_team, quartile)
+by_team_quartile <- group_by(by_team, quartile = ntile(G, 4))
 summarise(by_team_quartile, mean(G))
 ```
 

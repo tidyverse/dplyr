@@ -41,6 +41,10 @@
 #' summarise(by_vs, n = sum(n))
 #' # use ungroup() to remove if not wanted
 #' 
+#' # You can group by expressions: this is just short-hand for 
+#' # a mutate followed by a simple group_by
+#' group_by(mtcars, vsam = vs + am)
+#' 
 #' # By default, group_by increases grouping. Use add = FALSE to set groups
 #' groups(group_by(by_cyl, vs, am))
 #' groups(group_by(by_cyl, vs, am, add = FALSE))
@@ -49,6 +53,19 @@
 #' groups(group_by(by_cyl, cyl, cyl))
 group_by <- function(x, ..., add = TRUE) {
   new_groups <- named_dots(...)
+  
+  calls <- vapply(new_groups, is.call, logical(1))
+  if (any(calls)) {
+    # If any calls, use mutate to add new columns, then group by those
+    env <- new.env(parent = parent.frame())
+    env$x <- x
+    
+    call <- as.call(c(quote(mutate), quote(x), new_groups[calls]))
+    x <- eval(call, env)
+    
+    new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
+  }
+  
   if (add) {
     new_groups <- c(groups(x), new_groups)
   }
