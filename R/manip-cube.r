@@ -50,7 +50,7 @@ find_index <- function(x, names) {
 }
 
 #' @export
-groups.tbl_cube <- function(x, value) {
+groups.tbl_cube <- function(x) {
   lapply(x$dims, as.name)[x$group]  
 }
 
