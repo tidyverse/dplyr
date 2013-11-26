@@ -24,8 +24,11 @@ order_by <- function(order_by, call) {
   call <- substitute(call)
   stopifnot(is.call(call))
   
-  new_call <- as.call(c(quote(with_order), substitute(order_by), as.list(call)))
-  eval(new_call, parent.frame())
+  env <- new.env(parent.frame())
+  env$order_by <- order_by
+  
+  new_call <- as.call(c(quote(with_order), quote(order_by), as.list(call)))
+  eval(new_call, env)
 }
 
 #' Run a function with one order, translating result back to original order
