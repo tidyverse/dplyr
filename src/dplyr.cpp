@@ -159,7 +159,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);  
     
     // train the map in terms of x
-    train_push_back( map, x.nrows() ) ;
+    train_push_back( map, x.nrows(), x.nrows() / 10) ;
     
     int n_y = y.nrows() ;
     // this will collect indices from rows in x that match rows in y 
@@ -188,7 +188,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);  
     
     // train the map in terms of x
-    train_push_back( map, x.nrows() ) ;
+    train_push_back( map, x.nrows(), x.nrows() / 10 ) ;
     
     int n_y = y.nrows() ;
     // remove the rows in x that match
@@ -213,7 +213,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);  
     
     // train the map in terms of x
-    train_push_back( map, x.nrows() ) ;
+    train_push_back( map, x.nrows(), x.nrows() / 10 ) ;
     
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
@@ -238,7 +238,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);  
     
     // train the map in terms of y
-    train_push_back( map, y.nrows() ) ;
+    train_push_back( map, y.nrows(), y.nrows() / 10 ) ;
     
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
@@ -265,7 +265,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);  
     
     // train the map in terms of y
-    train_push_back( map, x.nrows() ) ;
+    train_push_back( map, x.nrows(), x.nrows() / 10 ) ;
     
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
@@ -577,7 +577,9 @@ DataFrame build_index_cpp( DataFrame data ){
     
     DataFrameVisitors visitors(data, vars) ;
     ChunkIndexMap map( visitors ) ;
-    train_push_back( map, data.nrows() ) ;
+    
+    // checking 10 times for interupts
+    train_push_back( map, data.nrows(), data.nrows() / 10 ) ;
     
     DataFrame labels = visitors.subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
