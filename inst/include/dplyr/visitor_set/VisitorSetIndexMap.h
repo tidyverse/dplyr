@@ -35,8 +35,8 @@ namespace dplyr{
     template <typename Map>
     inline void train_push_back( Map& map, int n, int m){
         int i=0; 
-        while(i < n){
-            for( int j=0; j<m && i<n; j++, i++) map[i].push_back(i) ;
+        while(i < n){           
+            for( int j=0; j<m || i <n ; j++, i++) map[i].push_back(i) ;
             R_CheckUserInterrupt() ;
         }
     }
