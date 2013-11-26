@@ -19,7 +19,7 @@ over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
     frame <- build_sql("ROWS ", frame)
   }
   
-  over <- sql_vector(compact(list(partition, order, frame)))
+  over <- sql_vector(compact(list(partition, order, frame)), parens = TRUE)
   build_sql(expr, " OVER ", over)
 }
 
