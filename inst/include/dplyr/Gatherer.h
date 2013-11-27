@@ -24,6 +24,7 @@ namespace dplyr {
             int ngroups = gdf.ngroups() ;
             Rcpp::Armor<SEXP> subset ;
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            ++git ;
             for( int i=1; i<ngroups; i++, ++git){
                 SlicingIndex indices = *git ;
                 subset = proxy.get( indices ) ;
