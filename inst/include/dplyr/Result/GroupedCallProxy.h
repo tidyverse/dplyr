@@ -36,6 +36,7 @@ namespace dplyr {
             proxies.clear() ;
             call = call_ ;
             traverse_call(call) ;
+            hybrid = can_simplify_call(call) ;
         }
         
         void input( Rcpp::String name, SEXP x ){
