@@ -70,10 +70,10 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/JoinVisitorImpl.h>
 #include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/Order.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/Collecter.h>
-#include <dplyr/Order.h>
 
 #include <dplyr/registration.h>
 
