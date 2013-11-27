@@ -12,6 +12,11 @@
 #'   is the vector being operated on
 #' @export
 #' @examples
+#' order_by(10:1, cumsum(1:10))
+#' x <- 10:1
+#' y <- 1:10
+#' order_by(x, cumsum(y))
+#' 
 #' df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 #' scrambled <- df[sample(nrow(df)), ]
 #' 
@@ -24,11 +29,8 @@ order_by <- function(order_by, call) {
   call <- substitute(call)
   stopifnot(is.call(call))
   
-  env <- new.env(parent.frame())
-  env$order_by <- order_by
-  
-  new_call <- as.call(c(quote(with_order), quote(order_by), as.list(call)))
-  eval(new_call, env)
+  new_call <- as.call(c(quote(with_order), substitute(order_by), as.list(call)))
+  eval(new_call, parent.frame())
 }
 
 #' Run a function with one order, translating result back to original order

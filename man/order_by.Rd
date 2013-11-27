@@ -22,6 +22,11 @@ call \code{\link{with_order}} with the appropriate
 arguments.
 }
 \examples{
+order_by(10:1, cumsum(1:10))
+x <- 10:1
+y <- 1:10
+order_by(x, cumsum(y))
+
 df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 scrambled <- df[sample(nrow(df)), ]
 
