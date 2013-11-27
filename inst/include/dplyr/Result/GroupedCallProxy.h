@@ -16,9 +16,7 @@ namespace dplyr {
         
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
             subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
-        {
-            hybrid = can_simplify_call(call) ;
-        }
+        {}
         
         ~GroupedCallProxy(){}  
         
