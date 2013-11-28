@@ -35,13 +35,13 @@ namespace dplyr {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
+        typedef VectorSliceVisitor<RTYPE> Slice ;
+        typedef OrderVectorVisitorImpl<RTYPE,true,Slice> Visitor ;
+        typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
+            
         RowNumber(SEXP data_) : data(data_) {}
         
         virtual SEXP process( const GroupedDataFrame& gdf) {
-            typedef VectorSliceVisitor<RTYPE> Slice ;
-            typedef OrderVectorVisitorImpl<RTYPE,true,Slice> Visitor ;
-            typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
-            
             std::vector<int> tmp( gdf.max_group_size() ) ;
             
             int ng = gdf.ngroups() ; 
@@ -50,8 +50,12 @@ namespace dplyr {
             IntegerVector out(n) ;
             for( int i=0; i<ng; i++, ++git){
                 SlicingIndex index = *git ;
+                
+                // tmp <- 0:(m-1)
                 int m = index.size() ;
                 for( int i=0; i<m; i++) tmp[i] = i ;
+                
+                // order( gdf.group(i) )
                 std::sort( tmp.begin(), tmp.begin() + m, 
                     Comparer( Visitor( Slice(data, index ) ) )     
                 ) ;
@@ -62,11 +66,17 @@ namespace dplyr {
         }
         
         virtual SEXP process( const FullDataFrame& df ) {
-            return R_NilValue ;
+            return process( df.get_index() ) ;
+            
         }
         
         virtual SEXP process( const SlicingIndex& index ){
-            return R_NilValue ;    
+            int nrows = index.size() ;
+            IntegerVector x = seq(0, nrows -1 ) ;
+            std::sort( x.begin(), x.end(), 
+                Comparer( Visitor( Slice(data, index ) ) ) 
+                ) ;
+            return x ;    
         }
         
     private:

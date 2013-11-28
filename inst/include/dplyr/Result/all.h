@@ -29,7 +29,6 @@
 #include <dplyr/Result/ResultSet.h>
 #include <dplyr/Result/factories.h>
 
-// not yet
-// #include <dplyr/Result/RowNumber.h>
+#include <dplyr/Result/RowNumber.h>
 
 #endif
