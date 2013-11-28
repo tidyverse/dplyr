@@ -54,7 +54,7 @@ namespace dplyr {
     inline Gatherer* gatherer( GroupedCallProxy& proxy, const GroupedDataFrame& gdf ){
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;
-        Shield<SEXP> first( proxy.get(indices) ) ; 
+        Shield<SEXP> first( proxy.get(indices) ) ;
         switch( TYPEOF(first) ){
             // TODO: perhaps pass git down to GathererImpl
             case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;

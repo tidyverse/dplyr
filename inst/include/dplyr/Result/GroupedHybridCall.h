@@ -12,8 +12,12 @@ namespace dplyr {
         }
         
         SEXP eval(){
-            substitute(call) ;
-            return call.fast_eval() ;    
+            if( TYPEOF(call) == LANGSXP ){
+                substitute(call) ;
+                return Rf_eval( call, R_GlobalEnv ) ;
+            } else {
+                return call ;    
+            }
         }
         
     private:
@@ -44,7 +48,13 @@ namespace dplyr {
                 Result* res = get_handler(call, subsets) ;
                 if( res ){
                     // replace the call by the result of process
-                    call = res->process(indices) ;
+                    Shield<SEXP> out( res->process(indices) );
+                    
+                    #if RCPP_VERSION < Rcpp_Version(0,10,7)
+                    call = (SEXP)out ;
+                    #else
+                    call = out ;
+                    #endif
                     
                     // no need to go any further, we simplified the top level
                     return true ;
@@ -75,7 +85,7 @@ namespace dplyr {
             return false ;
         }
         
-        Language call ;
+        Armor<SEXP> call ;
         const DataFrame& df ;
         const SlicingIndex& indices ;
         LazyGroupedSubsets& subsets ;

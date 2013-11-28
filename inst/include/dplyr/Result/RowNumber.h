@@ -76,7 +76,8 @@ namespace dplyr {
             std::sort( x.begin(), x.end(), 
                 Comparer( Visitor( Slice(data, index ) ) ) 
                 ) ;
-            return x ;    
+            x = x + 1 ;
+            return x ;
         }
         
     private:

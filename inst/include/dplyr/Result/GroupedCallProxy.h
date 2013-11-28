@@ -23,7 +23,10 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
-            if( hybrid ) return GroupedHybridCall( call, data.data(), indices, subsets ).eval() ; 
+            if( hybrid ) {
+                GroupedHybridCall hybrid_eval( call, data.data(), indices, subsets ) ;
+                return hybrid_eval.eval() ;
+            }
             
             int n = proxies.size() ;
             for( int i=0; i<n; i++){
