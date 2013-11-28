@@ -48,13 +48,7 @@ namespace dplyr {
                 Result* res = get_handler(call, subsets) ;
                 if( res ){
                     // replace the call by the result of process
-                    Shield<SEXP> out( res->process(indices) );
-                    
-                    #if RCPP_VERSION < Rcpp_Version(0,10,7)
-                    call = (SEXP)out ;
-                    #else
-                    call = out ;
-                    #endif
+                    call = res->process(indices) ;
                     
                     // no need to go any further, we simplified the top level
                     return true ;
