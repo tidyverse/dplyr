@@ -30,7 +30,6 @@
 #include <dplyr/Result/factories.h>
 
 #include <dplyr/Result/VectorSliceVisitor.h>
-#include <dplyr/Result/RowNumber.h>
-#include <dplyr/Result/MinRank.h>
+#include <dplyr/Result/Rank.h>
 
 #endif
