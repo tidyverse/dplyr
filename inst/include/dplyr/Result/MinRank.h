@@ -33,6 +33,7 @@ namespace dplyr {
             int n = df.nrows() ;
             IntegerVector out = no_init(n) ;
             process_slice(out, df.get_index() ) ;
+            return out ;
         }
         
         virtual SEXP process( const SlicingIndex& index ){
