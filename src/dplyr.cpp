@@ -68,6 +68,20 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
+Result* min_rank_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
+    if( nargs != 1) return 0;
+    Armor<SEXP> data( CADR(call) );
+    if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+    switch( TYPEOF(data) ){
+        case INTSXP:  return new MinRank<INTSXP>( data ) ;
+        case REALSXP: return new MinRank<REALSXP>( data ) ;
+        case STRSXP: return new MinRank<STRSXP>( data ) ;
+        default: break;
+    }
+    // we don't know how to handle it. 
+    return 0 ;
+}
+
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
@@ -80,7 +94,7 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "sum" )            ] = sum_prototype;
         handlers[ Rf_install( "count_distinct" ) ] = count_distinct_prototype ;
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
-        
+        handlers[ Rf_install( "min_rank" )       ] = min_rank_prototype ;
     }
     return handlers ;    
 }

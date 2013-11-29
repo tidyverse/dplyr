@@ -29,6 +29,8 @@
 #include <dplyr/Result/ResultSet.h>
 #include <dplyr/Result/factories.h>
 
+#include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/RowNumber.h>
+#include <dplyr/Result/MinRank.h>
 
 #endif
