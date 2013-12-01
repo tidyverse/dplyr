@@ -38,6 +38,11 @@ trunc_mat <- function(x, n = NULL) {
   cumw <- cumsum(w + 1)
 
   too_wide <- cumw[-1] > width
+  # Always display at least one column
+  if (all(too_wide)) {
+    too_wide[1] <- FALSE
+    df[[1]] <- substr(df[[1]], 1, width)
+  }
   shrunk <- format(df[, !too_wide, drop = FALSE])
   
   needs_dots <- is.na(rows) || rows > n
