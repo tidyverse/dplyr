@@ -97,8 +97,21 @@ groups.tbl_sql <- function(x) {
     stop("May only group by variable names, not expressions", call. = FALSE)
   }
   
+  x <- collapse_if_needed(x)
   update(x, group_by = unname(value))
 }
+
+# A verb should only affect operations performed after itself, it should never
+# affect operations done earlier in the chain. This function determines if 
+# group_by or summarise needs to collapse an input tbl before its own operation
+# G = min(G) means rather different things depending on whether or not the 
+# data is grouped
+collapse_if_needed <- function(x) {
+  needed <- x$new_vars || !is.null(x$arrange) || !is.null(x$filter)
+  if (needed) collapse(x) else x
+}
+needs_collapse.default <- function(tbl) FALSE
+
 
 #' @S3method ungroup tbl_sql
 ungroup.tbl_sql <- function(x, ...) {
@@ -199,7 +212,8 @@ build_query <- function(x, select = x$select, from = x$from,
   }
   
   # If doing grouped subset, first make subquery, then evaluate where
-  if (!is.null(group_by) && !is.null(where)) {
+  # FIXME: check for presence of windowed functions in where
+  if (!is.null(where)) {
     # any aggregate or windowing function needs to be extract
     where2 <- translate_window_where(where, x, con = x$src$con)
     

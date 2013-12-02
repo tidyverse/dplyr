@@ -128,10 +128,10 @@ translate_window_where <- function(expr, tbl,
   
   
   # Other base case is an aggregation function --------------------------------
+  # For now, hard code aggregation functions 
   agg_f <- c("mean", "sum", "min", "max", "n", "cummean", "cummax", "cummin",
     "cumsum", "order", "rank", "lag", "lead")
   if (is.call(expr) && as.character(expr[[1]]) %in% agg_f) {
-    # For now, hard code aggregation functions 
     name <- unique_name()
     
     env <- sql_env(expr, variant, con = con)

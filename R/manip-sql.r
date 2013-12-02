@@ -21,12 +21,7 @@ summarise.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)
   
-  # Automatically collapse data to ensure that arranging and selecting
-  # defined before summarise happen first in sql.
-  if (.data$new_vars || !is.null(.data$arrange)) {
-    .data <- collapse(.data)
-  }
-  
+  .data <- collapse_if_needed(.data)
   .data <- update(.data, select = input, summarise = TRUE)
   new_vars <- lapply(names(input), as.name)
   
