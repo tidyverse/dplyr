@@ -880,7 +880,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     
     LazyGroupedSubsets subsets(gdf) ;
     for( int k=0; k<nexpr; k++, i++ ){
-        Result* res( get_handler( args[k], subsets ) ) ;
+        Result* res = get_handler( args[k], subsets ) ;
         
         // if we could not find a direct Result 
         // we can use a GroupedCalledReducer which will callback to R
@@ -888,6 +888,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
+        subsets.input( Symbol(names[i]), out[i] ) ;
         delete res;
     }
     
@@ -897,15 +898,17 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
 SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
     List out(nexpr) ;
+    CharacterVector names(args.names());
     
+    LazySubsets subsets( df ) ;
     for( int i=0; i<nexpr; i++){
-        LazySubsets subsets( df ) ;
         boost::scoped_ptr<Result> res( get_handler( args[i], subsets ) ) ;
         if(res) {
             out[i] = res->process( FullDataFrame(df) ) ;
         } else {
-            out[i] = CallProxy( args[i], df, env).eval() ;
+            out[i] = CallProxy( args[i], subsets, env).eval() ;
         }
+        subsets.input( Symbol(names[i]), out[i] ) ;
     }
     
     return tbl_cpp( out, args.names(), 1 ) ;

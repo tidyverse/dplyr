@@ -6,6 +6,8 @@ namespace dplyr {
     class LazySubsets {
     public:
         typedef dplyr_hash_map<SEXP,SEXP> DataMap ;
+        typedef DataMap::const_iterator const_iterator ;
+        
         LazySubsets(){}
         
         LazySubsets( const DataFrame& df) : data_map(){
@@ -22,6 +24,27 @@ namespace dplyr {
         virtual int count(SEXP symbol) const{
             return data_map.count(symbol);    
         }
+        
+        virtual void input( SEXP symbol, SEXP x){
+            data_map[symbol] = x;    
+        }
+        
+        inline const_iterator find(SEXP x) const {
+            return data_map.find(x) ;
+        }
+        
+        inline const_iterator end() const {
+            return data_map.end() ;   
+        }
+        
+        inline int size() const{ 
+            return data_map.size() ; 
+        }
+        
+        inline SEXP& operator[](SEXP symbol){
+            return data_map[symbol] ;    
+        }
+        
     private:
         DataMap data_map ;
     } ;

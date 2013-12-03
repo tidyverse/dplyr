@@ -34,3 +34,11 @@ test_that("summarise peels off a single layer of grouping", {
     expect_equal(unname(groups(summed)), list(quote(x)), info = names(tbls)[i])
   }
 })
+
+test_that("summarise can refer to variables that were just created (#138)", {
+  res <- summarise(tbl_cpp(mtcars), cyl1 = mean(cyl), cyl2 = cyl1 + 1  )
+  expect_equal(res$cyl2, mean(mtcars)+1)
+
+  # TODO: test grouped version  
+})
+
