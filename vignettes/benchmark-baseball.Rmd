@@ -26,7 +26,7 @@ The following benchmarks explore the performance on a somewhat realistic example
 The first code block defines three alternative backends for the Batting dataset, and a players dataset that represents operations to be performed by player:
 
 ```{r setup}
-lahman_local <- lahman_srcs("df", "dt", "cpp")
+lahman_local <- lahman_srcs("df", "dt")
 batting <- lapply(lahman_local, function(x) tbl(x, "Batting"))
 players <- lapply(batting, function(x) group_by(x, playerID))
 
