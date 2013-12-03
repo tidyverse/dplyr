@@ -748,7 +748,6 @@ SEXP structure_mutate( Proxy& call_proxy, const DataFrame& df, const CharacterVe
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     const DataFrame& df = gdf.data() ;
-    
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
     
@@ -756,10 +755,15 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     Shelter<SEXP> __ ;
     
     for( int i=0; i<nexpr; i++){
-        proxy.set_call( args[i] );
-        boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
-        SEXP result = __( gather->collect() ) ;
-        proxy.input( results_names[i], result ) ;
+        SEXP call = args[i] ; 
+        if( TYPEOF(call) == SYMSXP ){
+            proxy.input( results_names[i], proxy.get_variable( PRINTNAME(call) ) ) ;
+        } else {
+            proxy.set_call( args[i] );
+            boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
+            SEXP result = __( gather->collect() ) ;
+            proxy.input( results_names[i], result ) ;
+        }
     }
     
     DataFrame res = structure_mutate( proxy, df, results_names, classes_grouped() ) ;
@@ -778,12 +782,16 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
     
     CallProxy call_proxy(df, env) ;
     for( int i=0; i<nexpr; i++){
-        call_proxy.set_call( args[i] );
-        
-        // we need to protect the SEXP, that's what the Shelter does
-        SEXP res = __( call_proxy.eval() ) ;
-        call_proxy.input( results_names[i], res ) ;
-        
+        SEXP call = args[i] ; 
+        if( TYPEOF(call) == SYMSXP ){
+            call_proxy.input( results_names[i], call_proxy.get_variable( PRINTNAME(call) )  ) ; 
+        } else {
+            call_proxy.set_call( args[i] );
+            
+            // we need to protect the SEXP, that's what the Shelter does
+            SEXP res = __( call_proxy.eval() ) ;
+            call_proxy.input( results_names[i], res ) ;
+        }
     }
     
     DataFrame res = structure_mutate(call_proxy, df, results_names, classes_not_grouped() ) ;

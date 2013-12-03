@@ -44,3 +44,12 @@ test_that("mutate handles logical result (#141)", {
   res <- tbl_cpp(x) %.% group_by(g) %.% mutate(r = x > mean(x))
   expect_equal(res$r, rep(c(FALSE,FALSE,FALSE,TRUE,TRUE), 2))
 })
+
+test_that("mutate can rename variables (#137)", {
+  res <- mutate(tbl_cpp(mtcars), cyl2 = cyl)
+  expect_equal(res$cyl2, mtcars$cyl)
+  
+  res <- mutate(group_by(tbl_cpp(mtcars), am) , cyl2 = cyl)
+  expect_equal(res$cyl2, res$cyl)
+  
+})
