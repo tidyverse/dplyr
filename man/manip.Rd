@@ -47,10 +47,10 @@ are interpreted in the context of that tbl.
   by group, as with \code{\link{group_by}}
 }
 
-\section{Tbls
+\section{Tbls}{
+  dplyr comes with three built-in tbls.  Read the help for
+  the manip methods of that class to get more details:
 
-dplyr comes with three built-in tbls.  Read the help for the
-manip methods of that class to get more details}{
   \itemize{ \item data.frame: \link{manip_df},
   \link{manip_grouped_df} \item data.table:
   \link{manip_dt}, \link{manip_grouped_dt} \item SQLite:
