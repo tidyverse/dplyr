@@ -5,8 +5,18 @@ namespace dplyr {
      
     class GroupedCallProxy {
     public:
+        
+        GroupedCallProxy( Language& call_, const LazyGroupedSubsets& subsets_, const Environment& env_) : 
+            call(call_), subsets(subsets_), proxies(), env(env_), hybrid(false)
+        {
+            // fill proxies
+            traverse_call(call);
+            
+            hybrid = can_simplify_call(call) ; 
+        }
+        
         GroupedCallProxy( Language& call_, const GroupedDataFrame& data_, const Environment& env_) : 
-            call(call_), subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
+            call(call_), subsets(data_), proxies(), env(env_), hybrid(false)
         {
             // fill proxies
             traverse_call(call);
@@ -15,7 +25,7 @@ namespace dplyr {
         }
         
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
-            subsets(data_), proxies(), env(env_), data(data_), hybrid(false)
+            subsets(data_), proxies(), env(env_), hybrid(false)
         {}
         
         ~GroupedCallProxy(){}  
@@ -24,7 +34,7 @@ namespace dplyr {
         SEXP get(const Container& indices){
             subsets.clear();
             if( hybrid ) {
-                GroupedHybridCall hybrid_eval( call, data.data(), indices, subsets ) ;
+                GroupedHybridCall hybrid_eval( call, indices, subsets ) ;
                 return hybrid_eval.eval() ;
             }
             
@@ -96,7 +106,6 @@ namespace dplyr {
         LazyGroupedSubsets subsets ;
         std::vector<CallElementProxy> proxies ;
         const Environment& env; 
-        const GroupedDataFrame& data ; 
         bool hybrid ;
     } ;
 
