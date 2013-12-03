@@ -87,7 +87,6 @@ Collate:
     'src-sqlite.r'
     'src.r'
     'tally.R'
-    'tbl-cpp.r'
     'tbl-cube.r'
     'tbl-df.r'
     'tbl-dt.r'

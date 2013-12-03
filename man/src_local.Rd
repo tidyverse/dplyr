@@ -1,5 +1,4 @@
 \name{src_local}
-\alias{src_cpp}
 \alias{src_df}
 \alias{src_dt}
 \alias{src_local}
@@ -10,8 +9,6 @@ src_local(tbl, pkg = NULL, env = NULL)
 src_df(pkg = NULL, env = NULL)
 
 src_dt(pkg = NULL, env = NULL)
-
-src_cpp(pkg = NULL, env = NULL)
 }
 \arguments{
   \item{tbl}{name of the function used to generate
