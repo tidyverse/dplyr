@@ -2,13 +2,13 @@
 \alias{partial_eval}
 \title{Partially evaluate an expression.}
 \usage{
-partial_eval(call, source = NULL, env = parent.frame())
+partial_eval(call, tbl = NULL, env = parent.frame())
 }
 \arguments{
   \item{call}{an unevaluated expression, as produced by
   \code{\link{quote}}}
 
-  \item{source}{a tbl object}
+  \item{tbl}{a tbl object}
 
   \item{env}{environment in which to search for local
   values}
@@ -28,10 +28,10 @@ incorporated into the expression.
   perfectly. \code{partial_eval} uses the following
   heuristic:
 
-  \itemize{ \item If the source variables are known, and
-  the symbol matches a source variable, then remote.  \item
-  If the symbol is defined locally, local.  \item
-  Otherwise, remote. }
+  \itemize{ \item If the tbl variables are known, and the
+  symbol matches a tbl variable, then remote.  \item If the
+  symbol is defined locally, local.  \item Otherwise,
+  remote. }
 }
 \examples{
 data("Batting", package = "Lahman")
@@ -53,7 +53,7 @@ f <- function(x) x + 1
 partial_eval(quote(year > f(1980)), bdf)
 partial_eval(quote(year > local(f(1980))), bdf)
 
-# For testing you can also use it with the source omitted
+# For testing you can also use it with the tbl omitted
 partial_eval(quote(1 + 2 * 3))
 x <- 1
 partial_eval(quote(x ^ y))

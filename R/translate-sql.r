@@ -24,8 +24,8 @@
 #'
 #' @param ... unevaluated expression to translate
 #' @param expr list of quoted objects to translate
-#' @param source If supplied, will be used to automatically figure out the
-#'   SQL variant to use. This can either be a \code{src} or a \code{tbl}.
+#' @param tbl An optional \code{\link{tbl}}. If supplied, will be used to 
+#'   automatically figure out the SQL variant to use.
 #' @param env environment in which to evaluate expression. 
 #' @param variant used to override default variant provided by source
 #'   useful for testing/examples
@@ -61,6 +61,7 @@
 #' translate_sql_q(list(x))
 #' 
 #' # Translation with data source --------------------------------------------
+#' \donttest{
 #' hflights <- tbl(hflights_postgres(), "hflights")
 #' # Note distinction between integers and reals
 #' translate_sql(Month == 1, tbl = hflights)
@@ -90,7 +91,6 @@
 #' translate_sql(Month == local(inc(x)), source = hflights)
 #' 
 #' # Windowed translation --------------------------------------------
-#' \donttest{
 #' planes <- arrange(group_by(hflights, TailNum), desc(DepTime))
 #' 
 #' translate_sql(DepTime > mean(DepTime), tbl = planes, window = TRUE)

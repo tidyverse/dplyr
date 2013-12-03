@@ -2,10 +2,14 @@
 \alias{sql_infix}
 \alias{sql_not_supported}
 \alias{sql_prefix}
+\alias{sql_translator}
 \alias{sql_variant}
-\title{Create an sql variant.}
+\title{Create an sql translator}
 \usage{
-sql_variant(..., .funs = list(), .parent = new.env(parent = emptyenv()))
+sql_variant(scalar = sql_translator(), aggregate = sql_translator(),
+  window = sql_translator())
+
+sql_translator(..., .funs = list(), .parent = new.env(parent = emptyenv()))
 
 sql_infix(f)
 
@@ -14,6 +18,9 @@ sql_prefix(f)
 sql_not_supported(f)
 }
 \arguments{
+  \item{scalar,aggregate,window}{The three families of
+  functions than an SQL variant can supply.}
+
   \item{...,.funs}{named functions, used to add custom
   converters from standard R functions to sql functions.
   Specify individually in \code{...}, or provide a list of
@@ -44,7 +51,7 @@ These three functions make that easy.
 # postgresql provides:
 # \\url{http://www.postgresql.org/docs/9.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE}
 
-postgres_stat <- sql_variant(
+postgres_stat <- sql_translator(.parent = base_agg,
   cor = sql_prefix("corr"),
   cov = sql_prefix("covar_samp"),
   sd =  sql_prefix("stddev_samp"),

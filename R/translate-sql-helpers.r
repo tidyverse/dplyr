@@ -13,6 +13,8 @@
 #' quickly providing default wrappers for a new SQL variant.
 #'
 #' @keywords internal
+#' @param scalar,aggregate,window The three families of functions than an 
+#'   SQL variant can supply.
 #' @param ...,.funs named functions, used to add custom converters from standard
 #'  R functions to sql functions. Specify individually in \code{...}, or 
 #'  provide a list of \code{.funs}
