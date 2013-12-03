@@ -23,7 +23,7 @@ sql_translator(..., .funs = list(), .parent = new.env(parent = emptyenv()))
 
 sql_infix(f)
 
-sql_prefix(f)
+sql_prefix(f, n = NULL)
 
 sql_not_supported(f)
 }
@@ -42,6 +42,9 @@ sql_not_supported(f)
   and functions.}
 
   \item{f}{the name of the sql function as a string}
+
+  \item{n}{for \code{sql_infix}, an optional number of
+  arguments to expect.  Will signal error if not correct.}
 }
 \description{
 When creating a package that maps to a new SQL based src,

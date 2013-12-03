@@ -15,6 +15,9 @@
 #' (e.g. \code{\%like\%}) will be converted to their sql equivalents
 #' (e.g. \code{LIKE}). You can use this to access SQL string concatenation:
 #' \code{||} is mapped to \code{OR}, but \code{\%||\%} is mapped to \code{||}.
+#' To suppress this behaviour, and force errors immediately when dplyr doesn't
+#' know how to translate a function it encounters, using set the 
+#' \code{dplyr.strict_sql} option to \code{TRUE}.
 #'
 #' You can also use \code{sql} to insert a raw sql string.
 #'
@@ -157,12 +160,18 @@ translate_env.NULL <- function(x) {
   )
 }
 
-sql_env <- function(expr, variant, con, window = FALSE) {
+sql_env <- function(expr, variant, con, window = FALSE, 
+                    strict = getOption("dplyr.strict_sql")) {
   stopifnot(is.sql_variant(variant))
   
   # Default for unknown functions
-  unknown <- setdiff(all_calls(expr), names(variant))
-  default_env <- ceply(unknown, default_op, parent = emptyenv())
+  if (!strict) {
+    unknown <- setdiff(all_calls(expr), names(variant))
+    default_env <- ceply(unknown, default_op, parent = emptyenv())    
+  } else {
+    default_env <- new.env(parent = emptyenv())
+  }
+  
 
   # Known R -> SQL functions
   special_calls <- copy_env(variant$scalar, parent = default_env)

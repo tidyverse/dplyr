@@ -47,7 +47,10 @@ Translate an expression to sql.
   their sql equivalents (e.g. \code{LIKE}). You can use
   this to access SQL string concatenation: \code{||} is
   mapped to \code{OR}, but \code{\%||\%} is mapped to
-  \code{||}.
+  \code{||}. To suppress this behaviour, and force errors
+  immediately when dplyr doesn't know how to translate a
+  function it encounters, using set the
+  \code{dplyr.strict_sql} option to \code{TRUE}.
 
   You can also use \code{sql} to insert a raw sql string.
 }

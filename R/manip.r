@@ -24,7 +24,7 @@
 #' These are all made significantly more useful when applied by group,
 #' as with \code{\link{group_by}}
 #'
-#' @section Tbls
+#' @section Tbls:
 #'
 #' dplyr comes with three built-in tbls.  Read the help for the
 #' manip methods of that class to get more details:

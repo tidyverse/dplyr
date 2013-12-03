@@ -6,18 +6,37 @@ NULL
 #' @rdname sql_variant
 #' @format NULL
 base_scalar <- sql_translator(
+  `+`    = sql_infix("+"),
+  `*`    = sql_infix("*"),
+  `/`    = sql_infix("/"),
+  `%%`   = sql_infix("%"),
+  `^`    = sql_infix("^"),
+  `-`  = function(x, y = NULL) {
+    if (is.null(y)) {
+      build_sql(sql(" - "), x)
+    } else {
+      build_sql(x, sql(" - "), y)
+    }
+  },
+  
+  `!=`    = sql_infix("!="),
   `==`    = sql_infix("="),
+  `<`     = sql_infix("<"),
+  `<=`    = sql_infix("<="),
+  `>`     = sql_infix(">"),
+  `>=`    = sql_infix(">="),
+  
   `!`     = sql_prefix("not"),
   `&`     = sql_infix("and"),
   `&&`    = sql_infix("and"),
   `|`     = sql_infix("or"),
   `||`    = sql_infix("or"),
-  `^`     = sql_prefix("power"),
-  `%%`    = sql_infix("%"),
-  ceiling = sql_prefix("ceil"),
-  tolower = sql_prefix("lower"),
-  toupper = sql_prefix("upper"),
-  nchar   = sql_prefix("length"),
+  
+  `^`     = sql_prefix("power", 2),
+  ceiling = sql_prefix("ceil", 1),
+  tolower = sql_prefix("lower", 1),
+  toupper = sql_prefix("upper", 1),
+  nchar   = sql_prefix("length", 1),
 
   `if` = function(cond, if_true, if_false = NULL) {
     build_sql("CASE WHEN ", cond, " THEN ", if_true,
@@ -25,13 +44,6 @@ base_scalar <- sql_translator(
       "END")
   },
   
-  `-` = function(x, y = NULL) {
-    if (is.null(y)) {
-      build_sql(sql(" - "), x)
-    } else {
-      build_sql(x, sql(" - "), y)
-    }
-  },
   sql = function(...) sql(...),
   `(` = function(x) {
     build_sql("(", x, ")")
@@ -74,11 +86,11 @@ base_agg <- sql_translator(
   # SQL-92 aggregates
   # http://db.apache.org/derby/docs/10.7/ref/rrefsqlj33923.html
   n     = sql_prefix("count"),
-  mean  = sql_prefix("avg"),
-  var   = sql_prefix("variance"),
-  sum   = sql_prefix("sum"),
-  min   = sql_prefix("min"),
-  max   = sql_prefix("max")
+  mean  = sql_prefix("avg", 1),
+  var   = sql_prefix("variance", 1),
+  sum   = sql_prefix("sum", 1),
+  min   = sql_prefix("min", 1),
+  max   = sql_prefix("max", 1)
 )
 
 #' @export

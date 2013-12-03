@@ -22,6 +22,8 @@
 #'   Defaults to \code{base_sql} which provides a standard set of
 #'   mappings for the most common operators and functions.
 #' @param f the name of the sql function as a string
+#' @param n for \code{sql_infix}, an optional number of arguments to expect.
+#'   Will signal error if not correct.
 #' @seealso \code{\link{sql}} for an example of a more customised sql
 #'   conversion function.
 #' @export
@@ -107,12 +109,20 @@ sql_infix <- function(f) {
 
 #' @rdname sql_variant
 #' @export
-sql_prefix <- function(f) {
+sql_prefix <- function(f, n = NULL) {
   assert_that(is.string(f))
 
   f <- toupper(f)
   function(...) {
-    build_sql(sql(f), list(...))
+    args <- list(...)
+    if (!is.null(n) && length(args) != n) {
+      stop("Invalid number of args to SQL ", f, ". Expecting ", n, 
+        call. = FALSE)
+    }
+    if (any(names2(args) != "")) {
+      warning("Named arguments ignored for SQL ", f, call. = FALSE)
+    }
+    build_sql(sql(f), args)
   }
 }
 
