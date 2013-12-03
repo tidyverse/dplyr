@@ -171,8 +171,8 @@ ungroup.grouped_cpp <- function(x) {
   attr(x, "index") <- NULL
   attr(x, "labels") <- NULL
   attr(x, "drop") <- NULL
-
-  class(x) <- setdiff(class(x), "grouped_cpp")
+  
+  class(x) <- c("tbl_cpp", "tbl", "data.frame")
   x
 }
 

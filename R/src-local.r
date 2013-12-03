@@ -46,11 +46,6 @@ src_df <- function(pkg = NULL, env = NULL) {
 src_dt <- function(pkg = NULL, env = NULL) {
   src_local("tbl_dt", pkg, env)
 }
-#' @rdname src_local
-#' @export
-src_cpp <- function(pkg = NULL, env = NULL) {
-  src_local("tbl_cpp", pkg, env)
-}
 
 #' @S3method src_tbls src_local
 src_tbls.src_local <- function(x, ...) {

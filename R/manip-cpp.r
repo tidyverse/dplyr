@@ -24,7 +24,12 @@ summarise.tbl_cpp <- .data_dots(summarise_impl, named_dots)
 
 #' @S3method select tbl_cpp
 select.tbl_cpp <- function(.data, ...) {
-  tbl_cpp(select.data.frame(.data, ...))
+  tbl_df(select.data.frame(.data, ...))
+}
+
+#' @export
+select.grouped_cpp <- function(.data, ...) {
+  grouped_cpp(select.data.frame(.data, ...), groups(.data))
 }
 
 # Other methods that currently don't have a better home -----------------------

@@ -282,7 +282,7 @@ void registerHitchhiker(){
     registerHitchhiker()
     
     n  <- 10000
-    df <- group_by( tbl_cpp( data.frame( 
+    df <- group_by( tbl_df( data.frame( 
         id = sample( letters[1:4], 1000, replace = TRUE ), 
         x  = rnorm(n)
         ) ), id )

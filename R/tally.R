@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' if (require("Lahman")) {
-#'   batting_tbl <- tbl_cpp(Batting)
+#'   batting_tbl <- tbl_df(Batting)
 #'   tally(group_by(batting_tbl, yearID))
 #'   
 #'   plays_by_year <- tally(group_by(batting_tbl, playerID, stint))
