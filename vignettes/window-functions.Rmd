@@ -36,13 +36,13 @@ filter(players, G > mean(G))
 mutate(players, G_z = (G - mean(G)) / sd(G))
 ```
 
-This vignette is broken down into two large sections. First you'll learn about the five families of window functions in R, and what you can use them for. If you're only working with local data sources, you can stop there. Otherwise, continue on to learn about window functions in SQL. They are relatively new, but are supported by Postgres, Amazon's Redshift and Google's bigquery. The window functions themselves are basically the same (modulo a few name conflicts), but their specification is a little different. I'll briefy review how they work, and then show how dplyr translates their R equivalents to SQL.
+This vignette is broken down into two sections. First you'll learn about the five families of window functions in R, and what you can use them for. If you're only working with local data sources, you can stop there. Otherwise, continue on to learn about window functions in SQL. They are relatively new, but are supported by Postgres, Amazon's Redshift and Google's bigquery. The window functions themselves are basically the same (modulo a few name conflicts), but their specification is a little different. I'll briefy review how they work, and then show how dplyr translates their R equivalents to SQL.
 
 Before reading this vignette, you should be familiar with `mutate()` and `filter()`. If you want to use window functions with SQL databases, you should also be familiar with the basics of dplyr's SQL translation.
 
 ## Types of window functions
 
-There are five main families of window functions. Two families are new:
+There are five main families of window functions. Two families are unrelated to aggregation functions:
 
 * Ranking and ordering functions: `row_number()`, `min_rank` (`RANK` in SQL),
   `dense_rank()`, `cume_dist()`, `percent_rank()`, and `ntile()`. These 
@@ -61,16 +61,17 @@ The other three families are variations on familiar aggregate functions:
   other packages, such as 
   [RcppRoll](http://cran.r-project.org/web/packages/RcppRoll).
 
-* Recycled aggregates. These are not needed in R because vector recycling 
-  means that any aggregate function can serve as a window function. 
-  They are important in SQL, because the presence of an aggregation
-  function usually tells the database to return only one row per group.
+* Recycled aggregates, where an aggregate is repeated to match the length
+  of the input. These are not needed in R because vector recycling 
+  automatically recycles aggregates where needed. They are important in SQL, 
+  because the presence of an aggregation function usually tells the database 
+  to return only one row per group.
 
 Each family is described in more detail below, focussing on the general goals and how to use them with dplyr. For more details, refer to the individual function documentation.
 
 ### Ranking functions
 
-The ranking functions are all variations on a theme, only differing in how they handle ties:
+The ranking functions are variations on a theme, differing in how they handle ties:
 
 ```{r}
 x <- c(1, 1, 2, 2, 2)
@@ -144,23 +145,27 @@ You can use them to:
 Here's a simple example of what happens if you don't specify `order_by` when you need it:
 
 ```{r}
-players_scramble <- arrange(players[sample(nrow(players)), ], playerID)
+df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
+scrambled <- df[sample(nrow(df)), ]
 
-mutate(players_scramble, G_last = lag(G))
-mutate(players_scramble, G_last = lag(G, order_by = yearID))
+wrong <- mutate(scrambled, running = cumsum(value))
+arrange(wrong, year)
+
+right <- mutate(scrambled, running = order_by(year, cumsum(value)))
+arrange(right, year)
 ```
 
 ### Cumulative aggregates
 
 Base R provides cumulative sum (`cumsum()`), cumulative min (`cummin()`) and cumulative max (`cummax()`). (It also provides `cumprod()` but that is rarely useful). Other common accumulating functions are `cumany()` and `cumall()`, cumulative versions of `||` and `&&`, and `cummean()`, a cumulative mean. These are not included in base R, but efficient versions are provided by `dplyr`. 
 
-`cumany()` and `cumall()` are useful for selecting all rows up to, or all rows after, a condition is true for the first time. For example, we can use `cumany()` to find all records for a player after they played a year with 150 games:
+`cumany()` and `cumall()` are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use `cumany()` to find all records for a player after they played a year with 150 games:
 
 ```{r, results = "hide"}
 filter(players, cumany(G > 150))
 ```
 
-Like lead and lag, you may want to control the order in which the accumulation occurs. None of the built in function have an `order_by` argument so `dplyr` provides a helper function, `order_by()`. You give it the variable you want to order by, and then the call to the window function:
+Like lead and lag, you may want to control the order in which the accumulation occurs. None of the built in functions have an `order_by` argument so `dplyr` provides a helper: `order_by()`. You give it the variable you want to order by, and then the call to the window function:
 
 ```{r}
 x <- 1:10
@@ -168,7 +173,7 @@ y <- 10:1
 order_by(y, cumsum(x))
 ```
 
-This function uses a bit of non-standard evaluation, so I wouldn't recommend using it inside another function; instead you can use the simpler but less concise `with_order()`.
+This function uses a bit of non-standard evaluation, so I wouldn't recommend using it inside another function; use the simpler but less concise `with_order()` instead.
 
 ### Recycled aggregates
 
@@ -210,22 +215,22 @@ In SQL, window functions have the form `[expression] OVER ([partition clause] [o
 * The __expression__ is a combination of variable names and window functions.
   Support for window functions varies from database to database, but most
   support the ranking functions, `lead`, `lag`, `nth_value`, `first_value`,
-  `last_value`, `count`, `min`, `max`, `sum`, `avg` and `stddev`.
+  `last_value`, `count`, `min`, `max`, `sum`, `avg` and `stddev`. dplyr 
+  generates this from the R expression in your `mutate` or `filter` call.
 
 * The __partition clause__ specifies how the window function is broken down
   over groups. It plays an analogous role to `GROUP BY` for aggregate functions,
   and `group_by()` in dplyr. It is possible for different window functions to 
-  be partitioned into different groups, but database support varies, and it
-  is not currently supported by dplyr.
-
+  be partitioned into different groups, but not all databases support it, and
+  neither does dplyr.
+  
 * The __order clause__ controls the ordering (when it makes a difference).
   This is important for the ranking functions since it specifies which 
-  variables to rank by, but it's also needed for cumulative functions and lead 
-  and lag since SQL (unlike R) has no built-in notion of row order. Whenever 
-  you're thinking about before and after in SQL, you must always tell it which 
-  variable defines the order. In dplyr you do this with `arrange()`. Databases 
-  vary in whether they fail if the order clause is missing when needed or 
-  return non-deterministic results.
+  variables to rank by, but it's also needed for cumulative functions and lead.
+  Whenever you're thinking about before and after in SQL, you must always tell 
+  it which variable defines the order. In dplyr you do this with `arrange()`. 
+  If the order clause is missing when needed, some databases fail with an
+  error message while others return non-deterministic results.
   
 * The __frame clause__ defines which rows, or __frame__, that are passed 
   to the window function, describing which rows (relative to the current row)
@@ -246,6 +251,9 @@ In SQL, window functions have the form `[expression] OVER ([partition clause] [o
     * Cumulative: `BETWEEN UNBOUND PRECEEDING AND CURRENT ROW`
     
     * Rolling: `BETWEEN 2 PRECEEDING AND 2 FOLLOWING`
+    
+    dplyr generates the frame clause based on whether your using a recycled
+    aggregate or a cumulative aggregate.
 
 It's easiest to understand these specifications by looking at a few examples. Simple examples just need the partition and order clauses:
 
@@ -267,7 +275,7 @@ You'll notice that window functions in SQL are more verbose than in R. This is b
 
 ### Translating dplyr to SQL
 
-To see how individual window functions are translated to SQL, we can use `translate_sql()` with the `window = TRUE`.
+To see how individual window functions are translated to SQL, we can use `translate_sql()` with the argument `window = TRUE`.
 
 ```{r, message = FALSE}
 if (has_lahman("postgres")) {
@@ -311,7 +319,7 @@ The three options are illustrated in the snippet below:
 mutate(players,
   min_rank(yearID),
   order_by(yearID, cumsum(G)),
-  lead(G, order_by = yearID)
+  lead(order_by = yearID, G)
 )
 ```
 
@@ -319,7 +327,7 @@ Currently there is no way to order by multiple variables, except by setting the 
 
 ### Translating filters based on window functions
 
-There are some restrictions with window functions in SQL that make their use with `WHERE` somewhat challenging. Take this simple example, where we want to find the year each player played the most games:
+There are some restrictions on window functions in SQL that make their use with `WHERE` somewhat challenging. Take this simple example, where we want to find the year each player played the most games:
 
 ```{r, eval = FALSE}
 filter(players, rank(G) == 1)

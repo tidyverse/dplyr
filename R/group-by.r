@@ -54,9 +54,9 @@
 group_by <- function(x, ..., add = TRUE) {
   new_groups <- named_dots(...)
   
+  # If any calls, use mutate to add new columns, then group by those
   calls <- vapply(new_groups, is.call, logical(1))
   if (any(calls)) {
-    # If any calls, use mutate to add new columns, then group by those
     env <- new.env(parent = parent.frame())
     env$x <- x
     
@@ -65,7 +65,7 @@ group_by <- function(x, ..., add = TRUE) {
     
     new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
   }
-  
+
   if (add) {
     new_groups <- c(groups(x), new_groups)
   }
@@ -74,6 +74,7 @@ group_by <- function(x, ..., add = TRUE) {
   groups(x) <- new_groups
   x
 }
+
 
 #' Ungroup a grouped tbl
 #'
