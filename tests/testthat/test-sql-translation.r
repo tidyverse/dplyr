@@ -30,3 +30,12 @@ test_that("dplyr.strict_sql = TRUE prevents auto conversion", {
   expect_equal(translate_sql(1 + 2), sql("1.0 + 2.0"))
   expect_error(translate_sql(blah(x)), "could not find function")
 })
+
+test_that("Wrong number of arguments raises error", {
+  expect_error(translate_sql(mean(1, 2)), "Invalid number of args")
+})
+
+test_that("Named arguments generates warning", {
+  expect_warning(translate_sql(mean(x = 1)), "Named arguments ignored")
+})
+
