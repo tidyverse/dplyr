@@ -759,7 +759,8 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     for( int i=0; i<nexpr; i++){
         proxy.set_call( args[i] );
         boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
-        proxy.input( results_names[i], __( gather->collect() ) ) ;
+        SEXP result = __( gather->collect() ) ;
+        proxy.input( results_names[i], result ) ;
     }
     
     DataFrame res = structure_mutate( proxy, df, results_names, classes_grouped() ) ;
