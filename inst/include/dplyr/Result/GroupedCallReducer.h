@@ -5,8 +5,8 @@ namespace dplyr {
        
     class GroupedCalledReducer : public CallbackProcessor<GroupedCalledReducer> {
     public:
-        GroupedCalledReducer(Rcpp::Language call, const GroupedDataFrame& data, const Environment& env): 
-            proxy(call, data, env) 
+        GroupedCalledReducer(Rcpp::Language call, const LazyGroupedSubsets& subsets, const Environment& env): 
+            proxy(call, subsets, env) 
         {
         }
         
