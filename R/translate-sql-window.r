@@ -17,12 +17,12 @@ translate_window_where <- function(expr, tbl, con = NULL) {
   }
   
   # Other base case is an aggregation function --------------------------------
-  # For now, hard code aggregation functions 
-  agg_f <- c("mean", "sum", "min", "max", "n", "cummean", "cummax", "cummin",
-    "cumsum", "order", "rank", "lag", "lead")
-  if (is.call(expr)) {
+  variant <- translate_env(tbl)
+  agg_f <- ls(env = variant$window)
+
+  if (is.call(expr) && as.character(expr[[1]]) %in% agg_f) {
     name <- unique_name()
-    sql <- translate_sql_q(expr, tbl, env = NULL, window = TRUE)
+    sql <- translate_sql_q(list(expr), tbl, env = NULL, window = TRUE)
     
     return(list(
       expr = as.name(name),
@@ -34,13 +34,13 @@ translate_window_where <- function(expr, tbl, con = NULL) {
   
   if (is.list(expr)) {
     args <- lapply(expr, translate_window_where, tbl = tbl, con = con)
+
     env <- sql_env(call, variant, con = con)
     sql <- lapply(lapply(args, "[[", "expr"), eval, env = env)    
   } else {
     args <- lapply(expr[-1], translate_window_where, tbl = tbl, con = con)
     
     call <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
-    browser()
     env <- sql_env(call, variant, con = con)
     sql <- eval(call, envir = env)
   }
