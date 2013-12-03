@@ -23,7 +23,7 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 
 
 df <- data.frame(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
-srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("summarise peels off a single layer of grouping", {
@@ -36,10 +36,10 @@ test_that("summarise peels off a single layer of grouping", {
 })
 
 test_that("summarise can refer to variables that were just created (#138)", {
-  res <- summarise(tbl_cpp(mtcars), cyl1 = mean(cyl), cyl2 = cyl1 + 1  )
+  res <- summarise(tbl_df(mtcars), cyl1 = mean(cyl), cyl2 = cyl1 + 1  )
   expect_equal(res$cyl2, mean(mtcars$cyl)+1)
   
-  gmtcars <- group_by(tbl_cpp(mtcars), am)
+  gmtcars <- group_by(tbl_df(mtcars), am)
   res <- summarise(gmtcars, cyl1 = mean(cyl), cyl2 = cyl1 + 1) 
   res_direct <- summarise(gmtcars, cyl2 = mean(cyl) + 1) 
   expect_equal(res$cyl2, res_direct$cyl2)

@@ -1,6 +1,6 @@
 context("Arrange")
 
-local <- c("df", "dt", "cpp")
+local <- c("df", "dt")
 db <- c("sqlite", "postgres")
 
 df1 <- expand.grid(
