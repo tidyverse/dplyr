@@ -125,8 +125,8 @@ brief_desc.src_postgres <- function(x) {
 #' @export
 translate_env.src_postgres <- function(x) {
   sql_variant(
-    scalar = base_scalar,
-    agg = sql_translator(.parent = base_agg,
+    base_scalar,
+    sql_translator(.parent = base_agg,
       n = function() sql("count(*)"),
       cor = sql_prefix("corr"),
       cov = sql_prefix("covar_samp"),
@@ -136,6 +136,6 @@ translate_env.src_postgres <- function(x) {
       any = sql_prefix("bool_or"),
       paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
     ),
-    win = base_win
+    base_win
   )
 }

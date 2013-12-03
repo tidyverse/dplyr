@@ -1,3 +1,4 @@
+# batting <- tbl(lahman_postgres(), "Batting")
 # players <- group_by(batting, teamID)
 # translate_window_where(quote(1), players)
 # translate_window_where(quote(x), players)
@@ -7,7 +8,6 @@
 # translate_window_where(quote(rank() > cumsum(AB)), players)
 # translate_window_where(list(quote(x == 1), quote(n() > 2)), players)
 translate_window_where <- function(expr, tbl, con = NULL) {
-  
   # Simplest base case: atomic vector or name ---------------------------------
   if (is.atomic(expr) || is.name(expr)) {
     return(list(

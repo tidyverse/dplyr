@@ -119,7 +119,7 @@ brief_desc.src_bigquery <- function(x) {
 #' @export
 translate_env.src_bigquery <- function(x) {
   sql_variant(
-    scalar = sql_translator(.parent = base_scalar,
+    sql_translator(.parent = base_scalar,
       # Casting
       as.logical = sql_prefix("boolean"),
       as.numeric = sql_prefix("float"),
@@ -152,11 +152,11 @@ translate_env.src_bigquery <- function(x) {
           escape(replace))
       }
     ),
-    agg = sql_translator(.parent = base_agg,
+    sql_translator(.parent = base_agg,
       n = function() sql("count(*)"),
       "%||%" = sql_prefix("concat"),
       sd = sql_prefix("stddev")
     ),
-    win = base_win
+    base_win
   )
 }

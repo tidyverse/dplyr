@@ -223,6 +223,6 @@ uses_window_fun <- function(x, tbl) {
     calls <- all_calls(x)
   }
 
-  win_f <- ls(env = translate_env(tbl)$window)
+  win_f <- ls(envir = translate_env(tbl)$window)
   any(calls %in% win_f)
 }
