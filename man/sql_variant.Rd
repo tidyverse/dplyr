@@ -5,7 +5,7 @@
 \alias{sql_variant}
 \title{Create an sql variant.}
 \usage{
-sql_variant(..., .funs = list(), .parent = base_sql)
+sql_variant(..., .funs = list(), .parent = new.env(parent = emptyenv()))
 
 sql_infix(f)
 

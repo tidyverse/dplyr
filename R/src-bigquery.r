@@ -116,49 +116,47 @@ brief_desc.src_bigquery <- function(x) {
   paste0("bigquery [", x$con$project, "/", x$con$dataset, "]")
 }
 
-#' @S3method translate_env src_bigquery
+#' @export
 translate_env.src_bigquery <- function(x) {
   sql_variant(
-    n = function() sql("count(*)"),
-    "%||%" = sql_prefix("concat"),
-    sd = sql_prefix("stddev"),
-    
-    # Casting
-    as.logical = sql_prefix("boolean"),
-    as.numeric = sql_prefix("float"),
-    as.double = sql_prefix("float"),
-    as.integer = sql_prefix("integer"),
-    as.character = sql_prefix("string"),
-    
-    # Date/time
-    Sys.date = sql_prefix("current_date"),
-    Sys.time = sql_prefix("current_time"),
-    
-    # Regular expressions
-    grepl = function(match, x) {
-      sprintf("REGEXP_MATCH(%s, %s)", escape(x), escape(match))
-    },
-    gsub = function(match, replace, x) {
-      sprintf("REGEXP_REPLACE(%s, %s, %s)", escape(x), escape(match),
-        escape(replace))
-    },
-    
-    # stringr equivalents
-    str_detect = function(x, match) {
-      sprintf("REGEXP_MATCH(%s, %s)", escape(x), escape(match))
-    },
-    str_extract = function(x, match) {
-      sprintf("REGEXP_EXTRACT(%s, %s)", escape(x), escape(match))
-    },
-    str_replace = function(x, match, replace) {
-      sprintf("REGEXP_REPLACE(%s, %s, %s)", escape(x), escape(match),
-        escape(replace))
-    }
+    scalar = sql_translator(.parent = base_scalar,
+      # Casting
+      as.logical = sql_prefix("boolean"),
+      as.numeric = sql_prefix("float"),
+      as.double = sql_prefix("float"),
+      as.integer = sql_prefix("integer"),
+      as.character = sql_prefix("string"),
+      
+      # Date/time
+      Sys.date = sql_prefix("current_date"),
+      Sys.time = sql_prefix("current_time"),
+      
+      # Regular expressions
+      grepl = function(match, x) {
+        sprintf("REGEXP_MATCH(%s, %s)", escape(x), escape(match))
+      },
+      gsub = function(match, replace, x) {
+        sprintf("REGEXP_REPLACE(%s, %s, %s)", escape(x), escape(match),
+          escape(replace))
+      },
+      
+      # stringr equivalents
+      str_detect = function(x, match) {
+        sprintf("REGEXP_MATCH(%s, %s)", escape(x), escape(match))
+      },
+      str_extract = function(x, match) {
+        sprintf("REGEXP_EXTRACT(%s, %s)", escape(x), escape(match))
+      },
+      str_replace = function(x, match, replace) {
+        sprintf("REGEXP_REPLACE(%s, %s, %s)", escape(x), escape(match),
+          escape(replace))
+      }
+    ),
+    agg = sql_translator(.parent = base_agg,
+      n = function() sql("count(*)"),
+      "%||%" = sql_prefix("concat"),
+      sd = sql_prefix("stddev")
+    ),
+    win = base_win
   )
-}
-
-#' @export
-translate_window_env.src_bigquery <- function(x, group_by = NULL, 
-                                              order_by = NULL) {
-  translate_window_env_base(x, group_by = group_by, order_by = order_by)
 }

@@ -48,7 +48,7 @@
 #' }
 #' sql_round(sql("X"), 5)
 #' 
-#' rounder <- sql_variant(round = sql_round)
+#' rounder <- sql_translator(round = sql_round)
 #' translate_sql(round(X), variant = rounder)
 #' translate_sql(round(X, 5), variant = rounder)
 sql <- function(x) {

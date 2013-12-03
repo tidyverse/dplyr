@@ -162,7 +162,7 @@ tail.tbl_sql <- function(x, n = 6L, ...) {
 build_query <- function(x, limit = NULL) {  
   assert_that(is.null(limit) || (is.numeric(limit) && length(limit) == 1))  
   translate <- function(expr, ...) {
-    translate_sql_q(expr, source = x, env = NULL, ...)
+    translate_sql_q(expr, tbl = x, env = NULL, ...)
   }
   
   if (x$summarise) {
@@ -171,11 +171,14 @@ build_query <- function(x, limit = NULL) {
     select <- select[!duplicated(select)]
     
     select_sql <- translate(select)
+    vars <- auto_names(select)
+    
     group_by_sql <- translate(x$group_by)
     order_by_sql <- translate(x$order_by)
   } else {
     # Not in summarise, so assume functions are window functions
-    select_sql <- translate(x$select, window = uses_window_fun(x$select))
+    select_sql <- translate(x$select, window = uses_window_fun(x$select, x))
+    vars <- auto_names(x$select)
 
     # Don't use group_by - grouping affects window functions only
     group_by_sql <- NULL    
@@ -189,7 +192,7 @@ build_query <- function(x, limit = NULL) {
     }
   }
   
-  if (!uses_window_fun(x$where)) {
+  if (!uses_window_fun(x$where, x)) {
     from_sql <- x$from
     where_sql <- translate(x$where)
   } else {
@@ -209,10 +212,17 @@ build_query <- function(x, limit = NULL) {
   sql <- sql_select(x$src$con, from = from_sql, select = select_sql, 
     where = where_sql, order_by = order_by_sql, group_by = group_by_sql, 
     limit = limit)
-  query(x$src$con, sql, auto_names(select_sql))
+  query(x$src$con, sql, vars)
 }
 
-uses_window_fun <- function(x) {
+uses_window_fun <- function(x, tbl) {
   if (is.null(x)) return(FALSE)
-  TRUE
+  if (is.list(x)) {
+    calls <- unlist(lapply(x, all_calls))
+  } else {
+    calls <- all_calls(x)
+  }
+
+  win_f <- ls(env = translate_env(tbl)$window)
+  any(calls %in% win_f)
 }

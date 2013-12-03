@@ -61,23 +61,23 @@
 #' translate_sql_q(list(x))
 #' 
 #' # Translation with data source --------------------------------------------
-#' 
+#' hflights <- tbl(hflights_postgres(), "hflights")
 #' # Note distinction between integers and reals
-#' translate_sql(Month == 1, source = hflights)
-#' translate_sql(Month == 1L, source = hflights)
+#' translate_sql(Month == 1, tbl = hflights)
+#' translate_sql(Month == 1L, tbl = hflights)
 #' 
 #' # Know how to translate most simple mathematical expressions
-#' translate_sql(Month %in% 1:3, source = hflights)
-#' translate_sql(Month >= 1L & Month <= 3L, source = hflights)
-#' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", source = hflights)
+#' translate_sql(Month %in% 1:3, tbl = hflights)
+#' translate_sql(Month >= 1L & Month <= 3L, tbl = hflights)
+#' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", tbl = hflights)
 #' 
 #' # Some R functions don't have equivalents in SQL: where possible they
 #' # will be translated to the equivalent
-#' translate_sql(xor(Month <= 3L, Carrier == "AA"), source = hflights)
+#' translate_sql(xor(Month <= 3L, Carrier == "AA"), tbl = hflights)
 #'
 #' # Local variables will be automatically inserted into the SQL
 #' x <- 5L
-#' translate_sql(Month == x, source = hflights)
+#' translate_sql(Month == x, tbl = hflights)
 #'
 #' # By default all computation will happen in sql
 #' translate_sql(Month < 1 + 1, source = hflights)
@@ -91,22 +91,21 @@
 #' 
 #' # Windowed translation --------------------------------------------
 #' \donttest{
-#' hflights_db <- tbl(hflights_postgres(), "hflights")
-#' planes <- arrange(group_by(hflights_db, TailNum), desc(DepTime))
+#' planes <- arrange(group_by(hflights, TailNum), desc(DepTime))
 #' 
-#' translate_sql(DepTime > mean(DepTime), source = planes, window = TRUE)
-#' translate_sql(DepTime == min(DepTime), source = planes, window = TRUE)
+#' translate_sql(DepTime > mean(DepTime), tbl = planes, window = TRUE)
+#' translate_sql(DepTime == min(DepTime), tbl = planes, window = TRUE)
 #' 
-#' translate_sql(rank(), source = planes, window = TRUE)
-#' translate_sql(rank(DepTime), source = planes, window = TRUE)
-#' translate_sql(ntile(DepTime, 2L), source = planes, window = TRUE)
-#' translate_sql(lead(DepTime, 2L), source = planes, window = TRUE)
-#' translate_sql(cumsum(DepDelay), source = planes, window = TRUE)
-#' translate_sql(order_by(DepDelay, cumsum(DepDelay)), source = planes, window = TRUE)
+#' translate_sql(rank(), tbl = planes, window = TRUE)
+#' translate_sql(rank(DepTime), tbl = planes, window = TRUE)
+#' translate_sql(ntile(DepTime, 2L), tbl = planes, window = TRUE)
+#' translate_sql(lead(DepTime, 2L), tbl = planes, window = TRUE)
+#' translate_sql(cumsum(DepDelay), tbl = planes, window = TRUE)
+#' translate_sql(order_by(DepDelay, cumsum(DepDelay)), tbl = planes, window = TRUE)
 #' }
-translate_sql <- function(..., source = NULL, env = parent.frame(), 
-                          variant = NULL, window = FALSE) {
-  translate_sql_q(dots(...), source = source, env = env, variant = variant,
+translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL, 
+                          window = FALSE) {
+  translate_sql_q(dots(...), tbl = tbl, env = env, variant = variant,
     window = window)
 }
 
@@ -115,21 +114,35 @@ translate_env.default <- function(x) base_sql
 
 #' @export
 #' @rdname translate_sql
-translate_sql_q <- function(expr, source = NULL, env = parent.frame(),
+translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
                             variant = NULL, window = FALSE) {
+  stopifnot(is.null(tbl) || inherits(tbl, "tbl_sql"))
   if (is.null(expr)) return(NULL)
   
-  if (!is.null(env) && !is.null(source)) {
-    expr <- partial_eval(expr, source, env)
+  if (!is.null(tbl)) {
+    con <- tbl$src$con
+  } else {
+    con <- NULL
   }
   
-  variant <- variant %||%
-    if (window) translate_window_env(source) else translate_env(source)
+  # If environment not null, and tbl supplied, partially evaluate input
+  if (!is.null(env) && !is.null(tbl)) {
+    expr <- partial_eval(expr, tbl, env)
+  }
+  variant <- variant %||% translate_env(tbl)
+  
+  # Translate partition ordering and grouping, and make available
+  if (window && !is.null(tbl)) {
+    group_by <- translate_sql_q(tbl$group_by, variant = variant, env = NULL)
+    order_by <- translate_sql_q(tbl$order_by, variant = variant, env = NULL)
+    old <- set_partition(group_by, order_by)
+    on.exit(set_partition(old))
+  }
   
   pieces <- lapply(expr, function(x) {
-    if (is.atomic(x)) return(escape(x))
+    if (is.atomic(x)) return(escape(x, con = con))
     
-    env <- sql_env(x, variant, source$con)
+    env <- sql_env(x, variant, con, window = window)
     eval(x, envir = env)
   })
   
@@ -137,28 +150,38 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame(),
 }
 
 translate_env <- function(x) UseMethod("translate_env")
-
 #' @export
-translate_env.tbl_sql <- function(x) {
-  translate_env(x$src)
+translate_env.tbl_sql <- function(x) translate_env(x$src)
+#' @export
+translate_env.NULL <- function(x) {
+  sql_variant(
+    base_scalar,
+    base_agg,
+  )
 }
 
-sql_env <- function(expr, variant_env, con) {
+sql_env <- function(expr, variant, con, window = FALSE) {
+  stopifnot(is.sql_variant(variant))
+  
   # Default for unknown functions
-  unknown <- setdiff(all_calls(expr), ls(envir = variant_env))
+  unknown <- setdiff(all_calls(expr), names(variant))
   default_env <- ceply(unknown, default_op, parent = emptyenv())
 
   # Known R -> SQL functions
-  special_calls <- copy_env(variant_env, parent = default_env)
+  special_calls <- copy_env(variant$scalar, parent = default_env)
+  if (!window) {
+    special_calls2 <- copy_env(variant$aggregate, parent = special_calls)  
+  } else {
+    special_calls2 <- copy_env(variant$window, parent = special_calls)
+  }
 
   # Existing symbols in expression
   names <- all_names(expr)
   name_env <- ceply(names, function(x) escape(ident(x), con = con), 
-    parent = special_calls)
-  name_env$`*` <- sql("*")
+    parent = special_calls2)
   
-  # Known latex expressions
-  symbol_env <- copy_env(senv, parent = name_env)
+  # Known sql expressions
+  symbol_env <- copy_env(base_symbols, parent = name_env)
   symbol_env
 }
 
@@ -190,10 +213,6 @@ all_names <- function(x) {
   if (!is.call(x)) return(NULL)
 
   unique(unlist(lapply(x[-1], all_names), use.names = FALSE))
-}
-
-copy_env <- function(from, to = NULL, parent = parent.env(from)) {
-  list2env(as.list(from), envir = to, parent = parent)
 }
 
 # character vector -> environment

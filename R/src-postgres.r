@@ -122,25 +122,20 @@ brief_desc.src_postgres <- function(x) {
     host, ":", info$port, "/", info$dbname, "]")
 }
 
-#' @S3method translate_env src_postgres
+#' @export
 translate_env.src_postgres <- function(x) {
   sql_variant(
-    n = function() sql("count(*)"),
-    # Extra aggregate functions
-    cor = sql_prefix("corr"),
-    cov = sql_prefix("covar_samp"),
-    sd =  sql_prefix("stddev_samp"),
-    var = sql_prefix("var_samp"),
-    all = sql_prefix("bool_and"),
-    any = sql_prefix("bool_or"),
-    as.numeric = function(x) build_sql("CAST(", x, " AS NUMERIC)"),
-    as.integer = function(x) build_sql("CAST(", x, " AS INTEGER)"),
-    paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
+    scalar = base_scalar,
+    agg = sql_translator(.parent = base_agg,
+      n = function() sql("count(*)"),
+      cor = sql_prefix("corr"),
+      cov = sql_prefix("covar_samp"),
+      sd =  sql_prefix("stddev_samp"),
+      var = sql_prefix("var_samp"),
+      all = sql_prefix("bool_and"),
+      any = sql_prefix("bool_or"),
+      paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
+    ),
+    win = base_win
   )
-}
-
-#' @export
-translate_window_env.src_postgres <- function(x, group_by = NULL, 
-                                              order_by = NULL) {
-  translate_window_env_base(x, group_by = group_by, order_by = order_by)
 }

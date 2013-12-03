@@ -17,7 +17,7 @@ select.tbl_sql <- function(.data, ...) {
 }
 
 #' @S3method summarise tbl_sql
-summarise.tbl_sql <- function(.data, ...) {
+summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)
 
@@ -31,8 +31,9 @@ summarise.tbl_sql <- function(.data, ...) {
   }
 
   .data$summarise <- TRUE
-  .data <- update(.data, select = input)
+  .data <- update(.data, select = c(.data$group_by, input))
   
+  if (!.collapse_result) return(.data)
   # Technically, don't always need to collapse result because summarise + filter
   # could be expressed in SQL using HAVING, but that's the only dplyr operation
   # that can be, so would be a lot of extra work for minimal gain
@@ -53,7 +54,8 @@ summarise.tbl_sql <- function(.data, ...) {
   # * filter: changes frame of window functions
   # * mutate: changes frame of window functions
   # * arrange: if present, groups inserted as first ordering
-  needed <- (x$mutate && uses_window_fun(x$select)) || uses_window_fun(x$filter)
+  needed <- (x$mutate && uses_window_fun(x$select, x)) || 
+    uses_window_fun(x$filter, x)
   if (!is.null(x$order_by)) {
     arrange <- c(x$group_by, x$order_by)
   } else {

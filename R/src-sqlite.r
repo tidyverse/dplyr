@@ -112,9 +112,12 @@ brief_desc.src_sqlite <- function(x) {
   paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
 }
 
-#' @S3method translate_env src_sqlite
+#' @export
 translate_env.src_sqlite <- function(x) {
   sql_variant(
-    sd = sql_prefix("stdev")
+    base_scalar,
+    sql_translator(.parent = base_agg,
+      sd = sql_prefix("stdev")
+    )
   )
 }
