@@ -22,3 +22,11 @@ test_that("Simple maths is correct", {
   expect_same_in_sql(5 ^ 1/2)
   expect_same_in_sql(100 %% 3)
 })
+
+test_that("dplyr.strict_sql = TRUE prevents auto conversion", {
+  old <- options(dplyr.strict_sql = TRUE)
+  on.exit(options(old))
+  
+  expect_equal(translate_sql(1 + 2), sql("1.0 + 2.0"))
+  expect_error(translate_sql(blah(x)), "could not find function")
+})

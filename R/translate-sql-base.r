@@ -6,14 +6,33 @@ NULL
 #' @rdname sql_variant
 #' @format NULL
 base_scalar <- sql_translator(
+  `+`    = sql_infix("+"),
+  `*`    = sql_infix("*"),
+  `/`    = sql_infix("/"),
+  `%%`   = sql_infix("%"),
+  `^`    = sql_infix("^"),
+  `-`  = function(x, y = NULL) {
+    if (is.null(y)) {
+      build_sql(sql(" - "), x)
+    } else {
+      build_sql(x, sql(" - "), y)
+    }
+  },
+  
+  `!=`    = sql_infix("!="),
   `==`    = sql_infix("="),
+  `<`     = sql_infix("<"),
+  `<=`    = sql_infix("<="),
+  `>`     = sql_infix(">"),
+  `>=`    = sql_infix(">="),
+  
   `!`     = sql_prefix("not"),
   `&`     = sql_infix("and"),
   `&&`    = sql_infix("and"),
   `|`     = sql_infix("or"),
   `||`    = sql_infix("or"),
+  
   `^`     = sql_prefix("power"),
-  `%%`    = sql_infix("%"),
   ceiling = sql_prefix("ceil"),
   tolower = sql_prefix("lower"),
   toupper = sql_prefix("upper"),
@@ -25,13 +44,6 @@ base_scalar <- sql_translator(
       "END")
   },
   
-  `-` = function(x, y = NULL) {
-    if (is.null(y)) {
-      build_sql(sql(" - "), x)
-    } else {
-      build_sql(x, sql(" - "), y)
-    }
-  },
   sql = function(...) sql(...),
   `(` = function(x) {
     build_sql("(", x, ")")
