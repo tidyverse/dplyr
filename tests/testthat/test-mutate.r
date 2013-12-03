@@ -31,10 +31,10 @@ test_that("two mutates equivalent to one", {
 
 test_that("mutate can refer to variables that were just created (#140)", {
   res <- mutate(tbl_cpp(mtcars), cyl1 = cyl + 1, cyl2 = cyl1 + 1)
-  expect_equal( res$cyl2, mycars$cyl+2)
+  expect_equal(res$cyl2, mycars$cyl+2)
   
-  gmtcars <- group_by( tbl_cpp(mtcars), am)
+  gmtcars <- group_by(tbl_cpp(mtcars), am)
   res <- mutate(gmtcars, cyl1 = cyl + 1, cyl2 = cyl1 + 1)
-  res_direct <- mutate(gmtcars, cyl2 = cyl + 2 )
-  expect_equal( res$cyl2, res_direct$cyl2 )
+  res_direct <- mutate(gmtcars, cyl2 = cyl + 2)
+  expect_equal(res$cyl2, res_direct$cyl2)
 })
