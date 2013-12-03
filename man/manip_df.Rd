@@ -1,21 +1,20 @@
 \name{manip_df}
-\alias{arrange.data.frame}
-\alias{filter.data.frame}
+\alias{filter.tbl_cpp}
 \alias{manip_df}
-\alias{mutate.data.frame}
-\alias{select.data.frame}
-\alias{summarise.data.frame}
+\alias{mutate.tbl_cpp}
+\alias{select.tbl_cpp}
+\alias{summarise.tbl_cpp}
 \title{Data manipulation for data frames.}
 \usage{
-\method{filter}{data.frame}(.data, ..., env = parent.frame())
+\method{arrange}{tbl_cpp}(.data, ...)
 
-\method{summarise}{data.frame}(.data, ...)
+\method{filter}{tbl_cpp}(.data, ...)
 
-\method{mutate}{data.frame}(.data, ...)
+\method{mutate}{tbl_cpp}(.data, ...)
 
-\method{arrange}{data.frame}(.data, ...)
+\method{summarise}{tbl_cpp}(.data, ...)
 
-\method{select}{data.frame}(.data, ...)
+\method{select}{tbl_cpp}(.data, ...)
 }
 \arguments{
   \item{.data}{a data frame}

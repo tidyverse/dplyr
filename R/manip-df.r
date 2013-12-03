@@ -1,3 +1,15 @@
+.data_dots <- function(fun, DOTS = dots){
+  f <- function(.data, ...){}
+  body(f) <- substitute({
+    parent_frame <- parent.frame()
+    env <- as.environment(.data)
+    parent.env(env) <- parent_frame
+    FUN(.data, DOTS(...) , env )   
+  }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
+  attr(f, "srcref") <- NULL
+  f
+}
+
 #' Data manipulation for data frames.
 #'
 #' @param .data a data frame
@@ -12,107 +24,57 @@
 #' head(arrange(hflights, Dest, desc(ArrDelay)))
 #'
 #' @name manip_df
-NULL
+
 
 #' @rdname manip_df
 #' @export
-#' @method filter data.frame
-filter.data.frame <- function(.data, ..., env = parent.frame()) {
-  conds <- dots(...)
-
-  r <- vapply(conds, eval, env = .data, enclos = env,
-    FUN.VALUE = logical(nrow(.data)))
-
-  all <- rowSums(r, na.rm = TRUE) == ncol(r)
-  .data[all, , drop = FALSE]
-}
-
-#' @S3method filter tbl_df
-filter.tbl_df <- function(.data, ..., env = parent.frame()) {
-  tbl_df(filter.data.frame(.data, ..., env = env))
-}
+arrange.tbl_cpp    <- .data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export
-#' @method summarise data.frame
-summarise.data.frame <- function(.data, ...) {
-  cols <- named_dots(...)
-  data_env <- list2env(.data, parent = parent.frame())
-  data_env$count <- function() nrow(.data)
-
-  for (i in seq_along(cols)) {
-    data_env[[names(cols)[i]]] <- eval(cols[[i]], data_env)
-  }
-
-  as_df(mget(unique(names(cols)), data_env))
-}
-
-#' @S3method summarise tbl_df
-summarise.tbl_df <- function(.data, ...) {
-  tbl_df(summarise.data.frame(.data, ...))
-}
+filter.tbl_cpp    <- .data_dots(filter_impl)
 
 #' @rdname manip_df
 #' @export
-#' @method mutate data.frame
-mutate.data.frame <- function(.data, ...) {
-  cols <- named_dots(...)
-  data_env <- list2env(.data, parent = parent.frame())
-
-  for(i in seq_along(cols)) {
-    data_env[[names(cols)[i]]] <- eval(cols[[i]], data_env)
-  }
-
-  out_cols <- union(names(.data), names(cols))
-  as_df(mget(out_cols, data_env))
-}
-
-#' @S3method mutate tbl_df
-mutate.tbl_df <- function(.data, ...) {
-  tbl_df(mutate.data.frame(.data, ...))
-}
+mutate.tbl_cpp    <- .data_dots(mutate_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
-#' @method arrange data.frame
-arrange.data.frame <- function(.data, ...) {
-  r <- eval(substitute(order(...)), .data, parent.frame())
-  if(length(r) != nrow(.data)) {
-    stop("Ordering vectors not the same length as data", call. = FALSE)
-  }
-  .data[r, , drop = FALSE]
-}
-
-#' @S3method arrange tbl_df
-arrange.tbl_df <- function(.data, ...) {
-  tbl_df(arrange.data.frame(.data, ...))
-}
+summarise.tbl_cpp <- .data_dots(summarise_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
-#' @method select data.frame
-select.data.frame <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  input_vars <- vapply(input, as.character, character(1))
-  
-  .data[, input_vars, drop = FALSE]
-}
-
-#' @S3method select tbl_df
-select.tbl_df <- function(.data, ...) {
+select.tbl_cpp <- function(.data, ...) {
   tbl_df(select.data.frame(.data, ...))
 }
 
-#' @S3method do data.frame
-do.data.frame <- function(.data, .f, ...) {
-  list(.f(.data, ...))
+#' @export
+select.grouped_cpp <- function(.data, ...) {
+  grouped_cpp(select.data.frame(.data, ...), groups(.data))
 }
 
-#' @S3method do tbl_df
-do.tbl_df <- function(.data, .f, ...) {
-  list(.f(.data, ...))
+# Other methods that currently don't have a better home -----------------------
+
+order_ <- function(..., data){
+  parent_frame <- parent.frame()
+  if(missing(data)) {
+    env <- parent_frame
+  } else {
+    env <- as.environment(data)
+    parent.env(env) <- parent_frame
+  }
+  order_impl(dots(...) , env)
+}  
+
+equal_ <- function(x, y){
+  equal_data_frame(x, y) 
 }
-#' @S3method do tbl_cpp
-do.tbl_cpp <- function(.data, .f, ...) {
-  list(.f(.data, ...))
+
+all_equal_ <- function(...){
+  env <- parent.frame()
+  all_equal_data_frame(dots(...), env)     
+}
+
+sort_ <- function(data){
+  sort_impl(data)
 }
