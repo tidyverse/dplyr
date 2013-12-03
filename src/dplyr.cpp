@@ -898,7 +898,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
 SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
     List out(nexpr) ;
-    CharacterVector names(args.names());
+    CharacterVector names = args.names();
     
     LazySubsets subsets( df ) ;
     for( int i=0; i<nexpr; i++){
