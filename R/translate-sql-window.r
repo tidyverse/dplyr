@@ -18,7 +18,7 @@ translate_window_where <- function(expr, tbl, con = NULL) {
   
   # Other base case is an aggregation function --------------------------------
   variant <- translate_env(tbl)
-  agg_f <- ls(env = variant$window)
+  agg_f <- ls(envir = variant$window)
 
   if (is.call(expr) && as.character(expr[[1]]) %in% agg_f) {
     name <- unique_name()

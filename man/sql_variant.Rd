@@ -1,4 +1,8 @@
-\name{sql_variant}
+\docType{data}
+\name{base_scalar}
+\alias{base_agg}
+\alias{base_scalar}
+\alias{base_win}
 \alias{sql_infix}
 \alias{sql_not_supported}
 \alias{sql_prefix}
@@ -6,6 +10,12 @@
 \alias{sql_variant}
 \title{Create an sql translator}
 \usage{
+base_scalar
+
+base_agg
+
+base_win
+
 sql_variant(scalar = sql_translator(), aggregate = sql_translator(),
   window = sql_translator())
 
@@ -51,23 +61,28 @@ These three functions make that easy.
 # postgresql provides:
 # \\url{http://www.postgresql.org/docs/9.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE}
 
-postgres_stat <- sql_translator(.parent = base_agg,
+postgres_agg <- sql_translator(.parent = base_agg,
   cor = sql_prefix("corr"),
   cov = sql_prefix("covar_samp"),
   sd =  sql_prefix("stddev_samp"),
   var = sql_prefix("var_samp")
 )
+postgres_var <- sql_variant(
+  base_scalar,
+  postgres_agg
+)
 
-translate_sql(cor(x, y), variant = postgres_stat)
-translate_sql(sd(income / years), variant = postgres_stat)
+translate_sql(cor(x, y), variant = postgres_var)
+translate_sql(sd(income / years), variant = postgres_var)
 
 # Any functions not explicitly listed in the converter will be translated
 # to sql as is, so you don't need to convert all functions.
-translate_sql(regr_intercept(y, x), variant = postgres_stat)
+translate_sql(regr_intercept(y, x), variant = postgres_var)
 }
 \seealso{
 \code{\link{sql}} for an example of a more customised sql
 conversion function.
 }
+\keyword{datasets}
 \keyword{internal}
 

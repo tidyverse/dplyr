@@ -110,9 +110,6 @@ translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL,
 }
 
 #' @export
-translate_env.default <- function(x) base_sql
-
-#' @export
 #' @rdname translate_sql
 translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
                             variant = NULL, window = FALSE) {

@@ -30,19 +30,23 @@
 #' # postgresql provides:
 #' # \url{http://www.postgresql.org/docs/9.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE}
 #'
-#' postgres_stat <- sql_translator(.parent = base_agg,
+#' postgres_agg <- sql_translator(.parent = base_agg,
 #'   cor = sql_prefix("corr"),
 #'   cov = sql_prefix("covar_samp"),
 #'   sd =  sql_prefix("stddev_samp"),
 #'   var = sql_prefix("var_samp")
 #' )
+#' postgres_var <- sql_variant(
+#'   base_scalar,
+#'   postgres_agg
+#' )
 #'
-#' translate_sql(cor(x, y), variant = postgres_stat)
-#' translate_sql(sd(income / years), variant = postgres_stat)
+#' translate_sql(cor(x, y), variant = postgres_var)
+#' translate_sql(sd(income / years), variant = postgres_var)
 #'
 #' # Any functions not explicitly listed in the converter will be translated
 #' # to sql as is, so you don't need to convert all functions.
-#' translate_sql(regr_intercept(y, x), variant = postgres_stat)
+#' translate_sql(regr_intercept(y, x), variant = postgres_var)
 sql_variant <- function(scalar = sql_translator(), 
                         aggregate = sql_translator(), 
                         window = sql_translator()) {

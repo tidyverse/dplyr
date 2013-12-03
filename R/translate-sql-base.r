@@ -2,6 +2,9 @@
 #' @include sql-escape.r
 NULL
 
+#' @export
+#' @rdname sql_variant
+#' @format NULL
 base_scalar <- sql_translator(
   `==`    = sql_infix("="),
   `!`     = sql_prefix("not"),
@@ -64,6 +67,9 @@ base_symbols <- sql_translator(
   `NULL` = sql("NULL")
 )
 
+#' @export
+#' @rdname sql_variant
+#' @format NULL
 base_agg <- sql_translator(
   # SQL-92 aggregates
   # http://db.apache.org/derby/docs/10.7/ref/rrefsqlj33923.html
@@ -75,6 +81,9 @@ base_agg <- sql_translator(
   max   = sql_prefix("max")
 )
 
+#' @export
+#' @rdname sql_variant
+#' @format NULL
 base_win <- sql_translator(
   # rank functions have a single order argument that overrides the default
   row_number   = win_rank("row_number"),
