@@ -729,7 +729,6 @@ SEXP structure_mutate( Proxy& call_proxy, const DataFrame& df, const CharacterVe
     }
     for( int k=0; i<n; k++ ){
         String name = results_names[k] ;
-        
         if( ! any( input_names.begin(), input_names.end(), name.get_sexp() ) ){
             SEXP x   = call_proxy.get_variable( name ) ; 
             out[i]   = x ;

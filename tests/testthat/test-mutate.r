@@ -38,3 +38,9 @@ test_that("mutate can refer to variables that were just created (#140)", {
   res_direct <- mutate(gmtcars, cyl2 = cyl + 2)
   expect_equal(res$cyl2, res_direct$cyl2)
 })
+
+test_that("mutate handles logical result (#141)", {
+  x <- data.frame(x = 1:10, g = rep(c(1, 2), each = 5))
+  res <- tbl_cpp(x) %.% group_by(g) %.% mutate(r = x > mean(x))
+  expect_equal(res$r, rep(c(FALSE,FALSE,FALSE,TRUE,TRUE), 2))
+})

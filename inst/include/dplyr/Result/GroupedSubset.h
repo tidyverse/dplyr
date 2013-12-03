@@ -36,6 +36,7 @@ namespace dplyr {
         switch( TYPEOF(x) ){
             case INTSXP: return new GroupedSubsetTemplate<INTSXP>(x, max_size) ;
             case REALSXP: return new GroupedSubsetTemplate<REALSXP>(x, max_size) ;
+            case LGLSXP: return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
             case STRSXP: return new GroupedSubsetTemplate<STRSXP>(x, max_size) ;
         }
         return 0 ;
@@ -67,6 +68,7 @@ namespace dplyr {
     
     inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size){
         switch( TYPEOF(x) ){
+            case LGLSXP: return new SummarisedSubsetTemplate<LGLSXP>(x, max_size) ;
             case INTSXP: return new SummarisedSubsetTemplate<INTSXP>(x, max_size) ;
             case REALSXP: return new SummarisedSubsetTemplate<REALSXP>(x, max_size) ;
             case STRSXP: return new SummarisedSubsetTemplate<STRSXP>(x, max_size) ;
