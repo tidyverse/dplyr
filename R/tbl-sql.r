@@ -24,31 +24,30 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
     from <- ident(from)
   } else if (!is.join(from)) { # Must be arbitrary sql
     # Abitrary sql needs to be wrapped into a named subquery
-    from <- build_sql("(", from, ") AS ", ident(random_table_name()), con = src$con)
+    from <- build_sql("(", from, ") AS ", ident(unique_name()), con = src$con)
   }
   
   tbl <- make_tbl(c(subclass, "sql"),
-    src = src, 
-    from = from,
-    summarise = FALSE, 
-    new_vars = TRUE,
-    select = vars,
-    where = NULL,
-    group_by = NULL,
-    order_by = NULL
+    src = src,              # src object
+    from = from,            # table, join, or raw sql
+    select = vars,          # SELECT: list of symbols
+    summarise = FALSE,      #   interpret select as aggreagte functions?
+    mutate = FALSE,         #   do select vars include new variables?
+    where = NULL,           # WHERE: list of calls
+    group_by = NULL,        # GROUP_BY: list of names
+    order_by = NULL         # ORDER_BY: list of calls
   )
   update(tbl)
 }
 
 #' @S3method update tbl_sql
-update.tbl_sql <- function(object, ..., summarise = FALSE) {
+update.tbl_sql <- function(object, ...) {
   args <- list(...)
   assert_that(only_has_names(args, c("select", "where", "group_by", "order_by")))
   
   for (nm in names(args)) {
     object[[nm]] <- args[[nm]]
   }
-  object$summarise <- summarise
   
   # Figure out variables
   if (is.null(object$select)) {
@@ -61,15 +60,7 @@ update.tbl_sql <- function(object, ..., summarise = FALSE) {
     object$select <- vars
   }
   
-  # Make sure select contains grouping variables
-  if (!is.null(object$group_by)) {
-    # Can't use unique because it strips names
-    select <- c(object$group_by, object$select)
-    object$select <- select[!duplicated(select)]
-  }
-  
-  object$query <- build_query(object)
-  
+  object$query <- build_query(object)  
   object
 } 
 
@@ -90,28 +81,6 @@ groups.tbl_sql <- function(x) {
 }
 
 # Grouping methods -------------------------------------------------------------
-
-#' @export
-"groups<-.tbl_sql" <- function(x, value) {
-  if (!all_apply(value, is.name)) {
-    stop("May only group by variable names, not expressions", call. = FALSE)
-  }
-  
-  x <- collapse_if_needed(x)
-  update(x, group_by = unname(value))
-}
-
-# A verb should only affect operations performed after itself, it should never
-# affect operations done earlier in the chain. This function determines if 
-# group_by or summarise needs to collapse an input tbl before its own operation
-# G = min(G) means rather different things depending on whether or not the 
-# data is grouped
-collapse_if_needed <- function(x) {
-  needed <- x$new_vars || !is.null(x$arrange) || !is.null(x$filter)
-  if (needed) collapse(x) else x
-}
-needs_collapse.default <- function(tbl) FALSE
-
 
 #' @S3method ungroup tbl_sql
 ungroup.tbl_sql <- function(x, ...) {
@@ -190,72 +159,60 @@ tail.tbl_sql <- function(x, n = 6L, ...) {
 
 # SQL select generation --------------------------------------------------------
 
-build_query <- function(x, select = x$select, from = x$from, 
-                                    where = x$where, group_by = x$group_by, 
-                                    having = NULL, order_by = x$order_by, 
-                                    limit = NULL, offset = NULL) {  
-  
-  assert_that(
-    is.lang.list(select), 
-    is.sql(from),
-    is.lang.list(where), 
-    is.lang.list(group_by),
-    is.lang.list(having), 
-    is.lang.list(order_by), 
-    is.null(limit) || (is.numeric(limit) && length(limit) == 1), 
-    is.null(offset) || (is.lang(offset) && length(offset) == 1))
-  
-  # Translate expression to SQL strings ------------
-  
-  translate <- function(expr) {
-    translate_sql_q(expr, source = x$src, env = NULL)
+build_query <- function(x, limit = NULL) {  
+  assert_that(is.null(limit) || (is.numeric(limit) && length(limit) == 1))  
+  translate <- function(expr, ...) {
+    translate_sql_q(expr, source = x, env = NULL, ...)
   }
   
-  # If doing grouped subset, first make subquery, then evaluate where
-  # FIXME: check for presence of windowed functions in where
-  if (!is.null(where)) {
-    # any aggregate or windowing function needs to be extract
-    where2 <- translate_window_where(where, x, con = x$src$con)
+  if (x$summarise) {
+    # Summarising, so SELECT needs to contain grouping variables
+    select <- c(x$group_by, x$select)
+    select <- select[!duplicated(select)]
     
+    select_sql <- translate(select)
+    group_by_sql <- translate(x$group_by)
+    order_by_sql <- translate(x$order_by)
+  } else {
+    # Not in summarise, so assume functions are window functions
+    select_sql <- translate(x$select, window = uses_window_fun(x$select))
+
+    # Don't use group_by - grouping affects window functions only
+    group_by_sql <- NULL    
+    
+    # If the user requested ordering, ensuring group_by is included
+    # Otherwise don't, because that may make queries substantially slower
+    if (!is.null(x$order_by) && !is.null(x$group_by)) {
+      order_by_sql <- translate(c(x$group_by, x$order_by))
+    } else {
+      order_by_sql <- translate(x$order_by)
+    }
+  }
+  
+  if (!uses_window_fun(x$where)) {
+    from_sql <- x$from
+    where_sql <- translate(x$where)
+  } else {
+    # window functions in WHERE need to be performed in subquery
+    where <- translate_window_where(x$where, x, con = x$src$con)
     base_query <- update(x, 
       group_by = NULL,
       where = NULL,
-      select = c(select, where2$comp))$query
-    from <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()), 
+      select = c(x$select, where$comp))$query
+    
+    from_sql <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()), 
       con = x$src$con)
-    
-    where <- where2$expr    
+    where_sql <- translate(where$expr)
   }
   
-  # group by has different behaviour depending on whether or not
-  # we're summarising
-  if (x$summarise) {
-    select_sql <- translate(select)
+  
+  sql <- sql_select(x$src$con, from = from_sql, select = select_sql, 
+    where = where_sql, order_by = order_by_sql, group_by = group_by_sql, 
+    limit = limit)
+  query(x$src$con, sql, auto_names(select_sql))
+}
 
-    group_by <- translate(group_by)
-    order_by <- translate(order_by)
-  } else {
-    if (!is.null(group_by)) {
-      select_sql <- translate_select(select, x)      
-    } else {
-      select_sql <- translate(select)
-    }
-    
-    # If the user request ordering, ensuring group_by is included
-    # Otherwise don't, because that may make queries substantially slower
-    if (!is.null(order_by) && !is.null(group_by)) {
-      order_by <- translate(c(group_by, order_by))
-    } else {
-      order_by <- translate(order_by)
-    }
-    
-    group_by <- NULL    
-  }
-  
-  where <- translate(where)
-  having <- translate(having)
-  
-  sql <- sql_select(x$src$con, from = from, select = select_sql, where = where, 
-    order_by = order_by, group_by = group_by, limit = limit, offset = offset)
-  query(x$src$con, sql, select)
+uses_window_fun <- function(x) {
+  if (is.null(x)) return(FALSE)
+  TRUE
 }

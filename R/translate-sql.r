@@ -136,24 +136,12 @@ translate_sql_q <- function(expr, source = NULL, env = parent.frame(),
   sql(unlist(pieces))
 }
 
-# A special case of translate_sql for select queries. It assumes the
-# input has already been partially evaluated and that expr is already quoted.
-translate_select <- function(expr, tbl) {
-  pieces <- lapply(expr, function(x) {
-    if (is.call(x)) {
-      variant <- translate_window_env(tbl)
-    } else {
-      variant <- translate_env(tbl$src)
-    }
-    
-    env <- sql_env(x, variant, tbl$src$con)
-    eval(x, envir = env)
-  })
-  
-  sql(unlist(pieces))
-}
-
 translate_env <- function(x) UseMethod("translate_env")
+
+#' @export
+translate_env.tbl_sql <- function(x) {
+  translate_env(x$src)
+}
 
 sql_env <- function(expr, variant_env, con) {
   # Default for unknown functions
