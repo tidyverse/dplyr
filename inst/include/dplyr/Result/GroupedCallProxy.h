@@ -64,28 +64,32 @@ namespace dplyr {
         
         void traverse_call( SEXP obj ){
             if( ! Rf_isNull(obj) ){ 
-                 SEXP head = CAR(obj) ;
-                 switch( TYPEOF( head ) ){
-                 case LISTSXP:
-                 case LANGSXP: 
-                     traverse_call( CDR(head) ) ;
-                     break ;
-                 case SYMSXP:
+                SEXP head = CAR(obj) ;
+                switch( TYPEOF( head ) ){
+                case LANGSXP: 
+                    traverse_call( CDR(head) ) ;
+                    break ;
+                case LISTSXP:
+                    traverse_call( head ) ;
+                    traverse_call( CDR(head) ) ;
+                    break ;
+                   
+                case SYMSXP:
                     if( TYPEOF(obj) != LANGSXP ){
-                       if( ! subsets.count(head) ){  
-                           // in the Environment -> resolve
-                           // TODO: handle the case where the variable is not found in env
-                           Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                           SETCAR( obj, x );
-                       } else {
-                           // in the data frame
-                           proxies.push_back( CallElementProxy( head, obj ) );
-                       } 
+                        if( ! subsets.count(head) ){  
+                            // in the Environment -> resolve
+                            // TODO: handle the case where the variable is not found in env
+                            Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                            SETCAR( obj, x );
+                        } else {
+                            // in the data frame
+                            proxies.push_back( CallElementProxy( head, obj ) );
+                        } 
                     }
                     break ;
-                 }
-                 traverse_call( CDR(obj) ) ;
-             }    
+                }
+                traverse_call( CDR(obj) ) ;
+            }    
         }
         
         Rcpp::Language call ;

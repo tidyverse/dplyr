@@ -28,7 +28,8 @@ namespace dplyr {
             for( int i=0; i<n; i++){
                 proxies[i].set( data_map[proxies[i].symbol] ) ;     
             }
-            return call.fast_eval() ;
+            Shield<SEXP> res( call.fast_eval() ) ;
+            return res ;
         }
         
         void set_call( SEXP call_ ){
@@ -52,38 +53,44 @@ namespace dplyr {
          
     private:
         
-         void init_data_map( const Rcpp::DataFrame& data ){
-             // fill up data_map
-             Rcpp::CharacterVector names = data.names() ;
-             int n=names.size() ;
-             for( int i=0; i<n; i++){
-                 data_map[ as_symbol( names[i] ) ] = data[i] ; 
-             }
-         } 
-         
-         void traverse_call( SEXP obj ){
-              if( ! Rf_isNull(obj) ){ 
-                  SEXP head = CAR(obj) ;
-                  switch( TYPEOF( head ) ){
-                  case LANGSXP: 
-                      traverse_call( head ) ;
-                      break ;
-                  case SYMSXP: 
-                      DataMap::const_iterator it = data_map.find(head) ;
-                      if( it == data_map.end() ){
-                          // in the Environment -> resolve
-                          // TODO: handle the case where the variable is not found in env
-                          Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                          SETCAR( obj, x );
-                      } else {
-                          // in the data frame
-                          proxies.push_back( CallElementProxy( head, obj ) );
-                      } 
-                      break ;
-                  }
-                  traverse_call( CDR(obj) ) ;
-              }    
-         }
+        void init_data_map( const Rcpp::DataFrame& data ){
+            // fill up data_map
+            Rcpp::CharacterVector names = data.names() ;
+            int n=names.size() ;
+            for( int i=0; i<n; i++){
+                data_map[ as_symbol( names[i] ) ] = data[i] ; 
+            }
+        } 
+        
+        void traverse_call( SEXP obj ){
+            if( ! Rf_isNull(obj) ){ 
+                SEXP head = CAR(obj) ;
+                switch( TYPEOF( head ) ){
+                case LANGSXP:
+                    traverse_call( CDR(head) ) ;
+                    break ;
+                case LISTSXP:
+                    traverse_call( head ) ;
+                    traverse_call( CDR(head) ) ;
+                    break ;
+                case SYMSXP:
+                    if( TYPEOF(obj) != LANGSXP ){
+                        DataMap::const_iterator it = data_map.find(head) ;
+                        if( it == data_map.end() ){
+                            // in the Environment -> resolve
+                            // TODO: handle the case where the variable is not found in env
+                            Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                            SETCAR( obj, x );
+                        } else {
+                            // in the data frame
+                            proxies.push_back( CallElementProxy( head, obj ) );
+                        } 
+                        break ;
+                    }
+                }
+                traverse_call( CDR(obj) ) ;
+            }    
+        }
         
         Rcpp::Language call ;
         DataMap data_map ;

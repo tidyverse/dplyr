@@ -28,3 +28,10 @@ tbls <- temp_load(srcs, df)
 test_that("two mutates equivalent to one", {
   compare_tbls(tbls, function(tbl) tbl %.% mutate(x2 = x * 2, y4 = y * 4))
 })
+
+test_that("mutate can refer to variables that were just created (#140)", {
+  res <- mutate(tbl_cpp(mtcars), cyl2 = cyl + 1, cyl2 = cyl1 + 1)
+  expect_equal( res$cyl2, mycars$cyl+2)
+  
+  # TODO: test grouped as well
+})
