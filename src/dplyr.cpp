@@ -892,8 +892,6 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         delete res;
     }
     
-    Rf_PrintValue( out ) ;
-    
     return summarised_grouped_tbl_cpp(out, names, gdf );
 }
 
