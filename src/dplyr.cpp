@@ -888,9 +888,11 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         
         out[i] = res->process(gdf) ;
         names[i] = results_names[k] ;
-        subsets.input( Symbol(names[i]), out[i] ) ;
+        subsets.input( Symbol(names[i]), SummarisedVariable((SEXP)out[i]) ) ;
         delete res;
     }
+    
+    Rf_PrintValue( out ) ;
     
     return summarised_grouped_tbl_cpp(out, names, gdf );
 }

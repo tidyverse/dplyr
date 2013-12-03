@@ -26,6 +26,7 @@ namespace dplyr{
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>(res) ;
             ptr[0] = Rcpp::as<STORAGE>( first_result );
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            ++git ;
             for( int i=1; i<n; i++, ++git )
                 ptr[i] = Rcpp::as<STORAGE>( obj->process_chunk(*git) ) ;
             return res ;        
@@ -44,6 +45,7 @@ namespace dplyr{
             SEXP res = __( Rf_allocVector( STRSXP, n) ) ;
             SET_STRING_ELT( res, 0, STRING_ELT(first_result, 0 ) ) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            ++git ;
             for( int i=1; i<n; i++, ++git )
                 SET_STRING_ELT( res, i, STRING_ELT( obj->process_chunk(*git), 0) ) ;
             return res ;        

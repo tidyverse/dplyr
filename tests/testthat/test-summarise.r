@@ -39,5 +39,9 @@ test_that("summarise can refer to variables that were just created (#138)", {
   res <- summarise(tbl_cpp(mtcars), cyl1 = mean(cyl), cyl2 = cyl1 + 1  )
   expect_equal(res$cyl2, mean(mtcars$cyl)+1)
   
+  gmtcars <- group_by(tbl_cpp(mtcars), am)
+  res <- summarise(gmtcars, cyl1 = mean(cyl), cyl2 = cyl1 + 1) 
+  res_direct <- summarise(gmtcars, cyl2 = mean(cyl) + 1) 
+  expect_equal(res$cyl2, res_direct$cyl2)
 })
 

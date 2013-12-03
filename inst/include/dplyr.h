@@ -71,6 +71,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/JoinVisitorImpl.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Order.h>
+#include <dplyr/SummarisedVariable.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/Collecter.h>

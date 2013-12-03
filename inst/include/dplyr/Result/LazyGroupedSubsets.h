@@ -54,7 +54,7 @@ namespace dplyr {
         typedef dplyr_hash_map<SEXP, GroupedSubset*> GroupedSubsetMap ;
         typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap ;
         
-        LazyGroupedSubsets( const GroupedDataFrame& gdf_ ): gdf(gdf_), subset_map(), resolved_map() {
+        LazyGroupedSubsets( const GroupedDataFrame& gdf_ ): gdf(gdf_), subset_map(), resolved_map(), owner(true) {
             int max_size = gdf.max_group_size() ;
             const DataFrame& data = gdf.data() ;
             CharacterVector names = data.names() ;
@@ -63,6 +63,10 @@ namespace dplyr {
                 subset_map[ as_symbol( names[i] ) ] = grouped_subset( data[i], max_size );    
             }
         }
+        
+        LazyGroupedSubsets( const LazyGroupedSubsets& other) : 
+            gdf(other.gdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+        {}
         
         void clear(){
             resolved_map.clear() ;
@@ -92,12 +96,24 @@ namespace dplyr {
         }
         
         ~LazyGroupedSubsets(){
-            delete_all_second( subset_map ) ;    
+            if(owner) delete_all_second( subset_map ) ;    
         }
         
         void input(SEXP symbol, SEXP x){                    
-            GroupedSubset* sub = grouped_subset(x, gdf.max_group_size() ) ;
-            
+            input_subset( symbol, grouped_subset(x, gdf.max_group_size() ) );
+        }
+        
+        void input(SEXP symbol, SummarisedVariable x){                    
+            input_subset( symbol, summarised_grouped_subset(x, gdf.max_group_size() ) ) ;
+        }
+
+    private:
+        const GroupedDataFrame& gdf ;
+        GroupedSubsetMap subset_map ;
+        ResolvedSubsetMap resolved_map ;
+        bool owner ; 
+        
+        void input_subset(SEXP symbol, GroupedSubset* sub){
             GroupedSubsetMap::iterator it = subset_map.find(symbol) ;
             if( it == subset_map.end() ){
                 subset_map[symbol] = sub ;
@@ -107,11 +123,6 @@ namespace dplyr {
                 it->second = sub ;
             }
         }
-
-    private:
-        const GroupedDataFrame& gdf ;
-        GroupedSubsetMap subset_map ;
-        ResolvedSubsetMap resolved_map ;
     } ;
 
 }
