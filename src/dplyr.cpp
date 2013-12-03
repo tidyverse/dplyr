@@ -905,21 +905,45 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
 
 SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
-    List out(nexpr) ;
     CharacterVector names = args.names();
     
     LazySubsets subsets( df ) ;
+    std::vector<SEXP> results ;
+    std::vector<SEXP> result_names ; 
+    
+    Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){
+        SEXP name = names[i] ;
+        
         boost::scoped_ptr<Result> res( get_handler( args[i], subsets ) ) ;
+        SEXP result ;
         if(res) {
-            out[i] = res->process( FullDataFrame(df) ) ;
+            result = __(res->process( FullDataFrame(df) )) ;
         } else {
-            out[i] = CallProxy( args[i], subsets, env).eval() ;
+            result = __(CallProxy( args[i], subsets, env).eval()) ;
         }
-        subsets.input( Symbol(names[i]), out[i] ) ;
+        subsets.input( Symbol(name), result ) ;
+        
+        std::vector<SEXP>::iterator it = std::find(result_names.begin(), result_names.end(), name ) ;
+        if( it == result_names.end() ){
+            results.push_back(result) ;
+            result_names.push_back(name); 
+        } else {
+            int j = std::distance( result_names.begin(), it ) ;
+            results[j] = result ;
+        }
+        
     }
     
-    return tbl_cpp( out, args.names(), 1 ) ;
+    int nout = results.size() ;
+    List out(nout) ;
+    CharacterVector out_names(nout);
+    for( int i=0; i<nout; i++){
+        out[i] = results[i] ;
+        out_names[i] = result_names[i] ;
+    }
+    
+    return tbl_cpp( out, out_names, 1 ) ;
 }
 
 // [[Rcpp::export]]
