@@ -1,17 +1,11 @@
 \name{grouped_df}
 \alias{grouped_df}
-\alias{is.grouped_cpp}
 \alias{is.grouped_df}
-\alias{is.lazy.grouped_df}
 \title{A grouped data frame.}
 \usage{
 grouped_df(data, vars, lazy = TRUE, drop = TRUE)
 
-\method{is.lazy}{grouped_df}(x)
-
 is.grouped_df(x)
-
-is.grouped_cpp(x)
 }
 \arguments{
   \item{data}{a tbl or data frame.}

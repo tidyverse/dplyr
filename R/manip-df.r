@@ -50,7 +50,7 @@ select.tbl_cpp <- function(.data, ...) {
 
 #' @export
 select.grouped_cpp <- function(.data, ...) {
-  grouped_cpp(select.data.frame(.data, ...), groups(.data))
+  grouped_df(select.data.frame(.data, ...), groups(.data))
 }
 
 # Other methods that currently don't have a better home -----------------------
@@ -77,4 +77,22 @@ all_equal_ <- function(...){
 
 sort_ <- function(data){
   sort_impl(data)
+}
+
+
+#' @export
+do.grouped_cpp <- function(.data, .f, ...) {
+  if (is.null(attr(.data, "index"))) {
+    .data <- build_index_cpp(.data)
+  }
+  
+  index <- attr(.data, "index")
+  out <- vector("list", length(index))
+  
+  for (i in seq_along(index)) {
+    subs <- .data[index[[i]] + 1L, , drop = FALSE]
+    out[[i]] <- .f(subs, ...)
+  }
+  
+  out
 }

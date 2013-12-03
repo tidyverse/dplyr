@@ -112,8 +112,3 @@ groups <- function(x) {
   
   UseMethod("groups<-")
 }
-
-
-is.lazy <- function(x) {
-  UseMethod("is.lazy")
-}
