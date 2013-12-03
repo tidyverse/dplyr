@@ -747,6 +747,7 @@ SEXP structure_mutate( Proxy& call_proxy, const DataFrame& df, const CharacterVe
 }
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
+    // TODO (#143) check that args.names() not in groups
     const DataFrame& df = gdf.data() ;
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
@@ -870,23 +871,32 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
     return Count().process(gdf) ;   
 }
 
+void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf){
+    int n = result_names.size() ;
+    for( int i=0; i<n; i++){
+        if( gdf.has_group( result_names[i] ) )
+            stop( "cannot modify grouping variable" ) ;
+    }
+}
+
 SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     DataFrame df = gdf.data() ;
     
+    // TODO (#143) check that args.names() not in groups
     int nexpr = args.size() ;
     int nvars = gdf.nvars() ;
     CharacterVector results_names = args.names() ;
-    List out(nexpr + nvars) ;
-    CharacterVector names(nexpr + nvars) ;
+    check_not_groups(results_names, gdf);
+    NamedListAccumulator<SEXP> accumulator ;
     
     int i=0; 
     for( ; i<nvars; i++){
-        out[i]      = gdf.label(i) ;
-        SET_NAMED(out[i], 2) ;
-        names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
+        SET_NAMED(gdf.label(i), 2) ;
+        accumulator.set( PRINTNAME(gdf.symbol(i)), gdf.label(i) ) ;
     }
     
     LazyGroupedSubsets subsets(gdf) ;
+    Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
         Result* res = get_handler( args[k], subsets ) ;
         
@@ -894,13 +904,14 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         // we can use a GroupedCalledReducer which will callback to R
         if( !res ) res = new GroupedCalledReducer( args[k], subsets, env) ;
         
-        out[i] = res->process(gdf) ;
-        names[i] = results_names[k] ;
-        subsets.input( Symbol(names[i]), SummarisedVariable((SEXP)out[i]) ) ;
+        SEXP result = __( res->process(gdf) ) ;
+        SEXP name = results_names[k] ;
+        accumulator.set( name, result );
+        subsets.input( Symbol(name), SummarisedVariable(result) ) ;
         delete res;
     }
     
-    return summarised_grouped_tbl_cpp(out, names, gdf );
+    return summarised_grouped_tbl_cpp(accumulator, gdf );
 }
 
 SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
