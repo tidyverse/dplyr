@@ -57,7 +57,7 @@
 #' anti_join(player_info, hof)
 tbl_df <- function(data) {
   assert_that(is.data.frame(data))
-  if (is.grouped_cpp(data)) return(ungroup(data))
+  if (is.grouped_df(data)) return(ungroup(data))
   
   class(data) <- c("tbl_cpp", "tbl", "data.frame")
   data
@@ -75,6 +75,10 @@ tbl_vars.data.frame <- function(x) names(x)
 same_src.data.frame <- function(x, y) {
   is.data.frame(y)
 }
+
+# Grouping methods ------------------------------------------------------------
+
+# These are all inherited from data.frame - see tbl-data-frame.R
 
 # Standard data frame methods --------------------------------------------------
 
