@@ -6,40 +6,60 @@
 ```{r, echo = FALSE, message = FALSE}
 library(ggplot2)
 library(dplyr)
-knitr::opts_chunk$set(tidy = FALSE)
+knitr::opts_chunk$set(
+  comment = "#>",
+  error = FALSE,
+  tidy = FALSE)
+options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 ```
 
 # Databases
 
-As well as working with local in-memory data like data frames and data tables, dplyr can also work with remote on-disk data stored in databases. Currently dplyr supports the three main open source databases (sqlite, mysql and postgresql), and google's bigquery.
+As well as working with local in-memory data like data frames and data tables, dplyr also works with remote on-disk data stored in databases. Generally, if your data fits in memory there is no advantage to putting it in a database: it will only be slower and more hassle. The reason you'd want to use dplyr with a database is because either your data is already in a database (and you don't want to work with static csv files that someone else has dumped out for you), or you have so much data that it does not fit in memory and you have to use a database. Currently dplyr supports the three most popular open source databases (sqlite, mysql and postgresql), and google's bigquery.
 
-Generally, if your data fits in memory there is no advantage to putting it in a database: it will only be slower and more hassle. The reason you'd want to use dplyr with a database is because either your data is already in a database (and you don't want to work with static csv files that someone else has dumped out for you), or you have so much data that it does not fit in memory and you have to use a database.
+Since R almost exclusively works with in-memory data, if you do have a lot of data in a database, you can't just dump it into R. Instead, you'll have to work with subsets or aggregates, and dplyr aims to make that as easy as possible. If you're working with large data, it's also likely that you'll need support to get the data into the database and to ensure you have the right indices for good performance. dplyr provides some simple tools to help with these tasks but they are no substitute for a local expert.
 
-Since R almost exclusively works with in-memory data, if you do have a lot of data in a database, you're not going to be able to pull it all down in R. Instead, you'll have to work with subsets or aggregates - dplyr aims to make that as easy to do as possible. If you're working with very large data, it's also likely that you'll need support to get the data into the database and to ensure it is set up correctly to achieve good performance. dplyr provides some simple tools to help with these tasks but they are no substiture for expert help.
+The motivation for supporting databases in dplyr is that you never pull down the right subset or aggregate from the database the first time, and usually you have to iterate between R and SQL many times before you get the perfect dataset. Switching between languages is cognitively challenging (especially because R and SQL are so perilously similar), so dplyr allows you to write R code that is automatically translated to SQL. The goal of dplyr is not to replace every SQL function with an R function: that would be difficult and error prone. Instead, dplyr only generates `SELECT` statements, the SQL you write most often as an analyst. 
 
-The goal of dplyr is not to replace every SQL function with an R function. Instead it aims to make a simple interface to the most common types of SQL you write as an analyst. It removes the cognitive cost of switching between two languages and insulates you from the many minor differences between R and SQL that are most likely to trip you up. 
+To get the most out of this chapter, you'll need to be familiar with querying SQL databases using the `SELECT` statement.
 
 ## Getting started
 
-To experiement with databases, it's easiest to get started with SQLite because everything you need is included in the R package. You don't need to install anything else, and you don't need to deal with the hassle of setting up a database server. Using a SQLite database in dplyr is really easy. Just give it a path and give it the ok to create some data.
+To experiement with databases, it's easiest to get started with SQLite because everything you need is included in the R package. You don't need to install anything else, and you don't need to deal with the hassle of setting up a database server. Using a SQLite database in dplyr is really easy: just give it a path and the ok to create it.
 
-```{r}
+```{r, eval = FALSE}
 my_db <- src_sqlite("my_db.sqlite3", create = T)
 ```
 
-We'll load it up with the `hflights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets (because all the data has to flow through R).
+The main new concert here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
 
-```{r}
+`my_db` currently has no data in it, so we'll load it up with the `hflights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
+
+```{r, eval = FALSE}
 hflights_sqlite <- copy_to(my_db, hflights, temporary = FALSE, indexes = list(
-  c("Year", "Month", "DayofMonth"), "UniqueCarrier"))
+  c("Year", "Month", "DayofMonth"), "UniqueCarrier", "TailNum"))
 ```
 
-As you can see the `copy_to()` operation has additional arguments that allow you to supply indexes for the table. By default, `copy_to()` also executes the SQL ANALYZE operation on the table: this updates statistics about the table so that the database has accurate information when selecting optimisations.
+As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` comomand: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
 
-When used with the data manipulation functions described above, it works almost exactly the same as a data frame:
+For this particular dataset, there's a built `src` that will cache `hflights` in a standard location:
 
 ```{r}
+hflights_sqlite <- tbl(hflights_sqlite(), "hflights")
 hflights_sqlite
+```
+
+You can also create `tbl` from arbitrary SQL:
+
+```{r, eval = FALSE}
+tbl(my_db, sql("SELECT * FROM hflights"))
+```
+
+## Basic verbs
+
+Remote data sources use exactly the same five verbs as local data sources:
+
+```{r}
 select(hflights_sqlite, Year:DayofMonth, DepDelay, ArrDelay)
 filter(hflights_sqlite, depDelay > 240)
 arrange(hflights_sqlite, Year, Month, DayofMonth)
@@ -47,17 +67,18 @@ mutate(hflights_sqlite, speed = AirTime / Distance)
 summarise(hflights_sqlite, delay = mean(DepTime))
 ```
 
-The most important difference is all the expression in `select()`, `filter()`, `arrange()`, `mutate()`, and `summarise()` are translated into SQL so they can be run on the database. This translation is almost perfect for the most common operations but there are some limitations, which we'll discuss later.
+The most important difference is that the expressions in `select()`, `filter()`, `arrange()`, `mutate()`, and `summarise()` are translated into SQL so they can be run on the database. This translation is almost perfect for the most common operations but there are some limitations, which you'll learn about later.
 
 ## Lazyness
 
 When working with databases, dplyr tries to be as lazy as possible. It's lazy in two ways:
 
-* it never pulls data back to R unless you explicitly ask for it.
+* It never pulls data back to R unless you explicitly ask for it.
 
-* it collects together all the operations that you've done to the dataset and sends them all at once to the database so that it has as much information as possible.
+* It delays doing any work until the last possible minute, collecting together
+  everything you want to do then sending that to the database in one step.
 
-For example, if you do:
+For example, take the following code:
 
 ```{r}
 c1 <- filter(hflights_sqlite, DepDelay > 0)
@@ -66,7 +87,11 @@ c3 <- mutate(c2, Speed = Distance / AirTime * 60)
 c4 <- arrange(c3, Year, Month, DayofMonth, UniqueCarrier)
 ```
 
-The database doesn't actually do anything. It's not until you ask for the data (e.g. by printing `c4`) that dplyr generates the SQL and requests the results from the database, and even then it only pulls down 10 rows. 
+Suprisingly, this sequence of operations never actually touches the database. It's not until you ask for the data (e.g. by printing `c4`) that dplyr generates the SQL and requests the results from the database, and even then it only pulls down 10 rows. 
+
+```{r}
+c4
+```
 
 To pull down all the results use `collect()`, which returns a `tbl_df()`:
 
@@ -80,7 +105,7 @@ You can see the query dplyr has generated by looking at the `query` component of
 c4$query
 ```
 
-You can also ask SQLite to explain how it plans to execute the query with `explain_tbl()`. The output is explained in more detail on the [SQLite website](http://www.sqlite.org/eqp.html) and is helpful if you're trying to figure out what indexes are being used.
+You can also ask the database how it plans to execute the query with `explain_tbl()`. The output for SQLite is explained in more detail on the [SQLite website](http://www.sqlite.org/eqp.html) and is helpful if you're trying to figure out what indexes are being used.
 
 ```{r}
 explain_tbl(c4)
@@ -90,15 +115,32 @@ explain_tbl(c4)
 
 There are three ways to force the computation of a query:
 
-* `collect()` executes the query and returns the results to R
-* `compute()` executes the query and stores the results in a temporary table on the database
-* `collapse()` turns the complex SQL expression generated by multiple data manipulation operations and turns it into a table expression.
+* `collect()` executes the query and returns the results to R.
 
-You are most likely to use `collect()`. `compute()` and `collapse()` may be useful as performance optimisations if you have some SQL knowledge.
+* `compute()` executes the query and stores the results in a temporary table 
+  in the database.
+
+* `collapse()` turns the query into a table expresion.
+
+You are most likely to use `collect()`: once you have interactively converged on the right set of operations, use `collect()` to pull down the data into a local `tbl_df()`. If you have some knowledge of SQL, you can use `compute()` and `collapse()` to optimise performance.
+
+### Performance considerations
+
+dplyr tries to prevent you from accidentally performing expensive query operations:
+
+* `nrow()` is always `NA`: in general, there's no way to determine how 
+  many rows a query will return unless you actually run it.
+
+* Printing a tbl only runs the query enough to get the first 10 rows
+
+* You can use `tail()` on database tbls: you can't find the last rows 
+  without executing the whole query. 
 
 ## SQL translation
 
-When doing simple mathematical operations of the type that you usually do for filterng, creating new colums and summaries it's relatively straightforward to translate R code to SQL (or indeed to any other programming language). You can experiment with this translation using `translate_sql()`.  The following examples work through some basic differences between R and SQL.
+When doing simple mathematical operations of the form you normally use when filtering, mutating and summarising it's relatively straightforward to translate R code to SQL (or indeed to any programming language). 
+
+To experiment with the translation, use `translate_sql()`. The following examples work through some basic differences between R and SQL.
 
 ```{r}
 # In SQLite variable names are escaped by double quotes:
@@ -113,89 +155,60 @@ translate_sql(x %% 2 == 10)
 
 # R and SQL have different defaults for integers vs reals.
 # In R, 1 is an real, and 1L is an integer
-# In SQL, 1 is an integer, and 1 is a real
+# In SQL, 1 is an integer, and 1.0 is a real
 translate_sql(1)
 translate_sql(1L)
 ```
 
-For SQLite, dplyr knows how to convert the following function:
+dplyr knows how to convert the following R functions to SQL:
 
 * basic math operators: `+`, `-`, `*`, `/`, `%%`, `^`
-* math functions: `abs`, `acos`, `acosh`, `asin`, `asinh`, `atan`, `atan2`, `atanh`, `atn2`, `ceil`, `cos`, `cosh`, `cot`, `coth`, `degrees`, `difference`, `exp`, `floor`, `log`, `log10`, `sign`, `sin`, `sinh`, `sqrt`, `tan`, `tanh`
-* logical comparisons: `<`, `<=`, `!=`, `>=`, `>`, `==`
-* boolean operations: `&`, `|`, `!`, `xor`
-* basic aggregations: `mean`, `sum`, `min`, `max`, `sd`, `var`,
+* math functions: `abs`, `acos`, `acosh`, `asin`, `asinh`, `atan`, `atan2`, 
+  `atanh`, `ceiling`, `cos`, `cosh`, `cot`, `coth`, `exp`, `floor`, 
+  `log`, `log10`, `round`, `sign`, `sin`, `sinh`, `sqrt`, `tan`, `tanh`
+* logical comparisons: `<`, `<=`, `!=`, `>=`, `>`, `==`, `%in%`
+* boolean operations: `&`, `&&`, `|`, `||`, `!`, `xor`
+* basic aggregations: `mean`, `sum`, `min`, `max`, `sd`, `var`
 
-Any function that dplyr does't know how to convert it leaves as is - that means if you want to use any other function that [SQLite provides](http://www.sqlite.org/lang_corefunc.html) you can use it as is.  Here a few examples:
+The basic techniques underying the implementation of `translate_sql()` are described in the [Advanced R book](http://adv-r.had.co.nz/dsl.html). `translate_sql()` is built on top of R's parsing engine and has been carefully design to generate correct sql. It also protects you against SQL injection attacks by correctly escaping strings and variable names as needed by the database that you're connecting to.
+
+It's not possible to provide a perfect translation because databases don't have all the functions that R does. The goal of dplyr is to provide a semantic translation: to translate what you mean, not the precise details. Even for functions that exist both in databases and R you shouldn't expect results to be exactly the same; database programmers have different priorities to R core. For example, in R, `mean()` loops through the data twice in order to get a higher level of numerical accuracy at the cost of being twice as slow. R's `mean()` also provides a `trim` option for computing trimmed means, which databases do not provide. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. This means the essense of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will raise an error:
+
+```{r, error = TRUE}
+translate_sql(mean(x, trim = T))
+```
+
+Any function that dplyr does't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
 
 ```{r}
 translate_sql(glob(x, y)) 
-translate_sql(x %in% c(1, 2, 3))
+translate_sql(x %like% "ab*")
 ```
-
-The basic techniques underying the implementation of `translate_sql` are described in a http://adv-r.had.co.nz/dsl.html. It is built on top of R's parsing engine and has been carefully design to always generate correct sql. It also protects you against SQL injection attacks by correctly escaping strings and variable names as needed by the database that you're connecting to.
-
-### Semantic translation
-
-The goal of dplyr is to provide a semantic translation: to translate what you mean, not the precise details. The results will not be exactly the same: it's the database executing the code not R, and database programmers have different priorities to R core.  For example, in the R `mean()` actually loops through the data twice in order to get a higher level of numerical accuracy at the cost of being twice as slow. R's `mean()` also provides a `trim` option for computing trimmed means, and databases do not. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. All this means the essense of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will not be.
-
-### Raw SQL
-
-If dplyr doesn't support the SQL operation that you need, you can also create a `tbl` object from arbitrary SQL:
-
-```{r, eval = FALSE}
-tbl(my_db, sql("SELECT * FROM hflights"))
-```
-
-This will behave exactly like a `tbl` created directly from a database table - you can still `filter()`, `arrange()`, `select()`, `mutate()` and `summarise()` it.
-
-### Performance considerations
-
-By and large dplyr tries to prevent you from accidentally performing expensive query operations. This is why `ncol()` is always `NA`: in general, there's no way to determine how many rows a query will return unless you actually run the whole thing. Similarly, when you print a database tbl, it will only run the query enough to get the first 10 rows. A related limitation is that most remote tbls don't support `tail()`: you can't find the last rows without executing the whole query. 
 
 ## Grouping
 
-Unfortunately SQLite does not support all the same group by operations that R does. SQLite lacks what's known as window function, which are needed to implement grouped mutate and filter. This means that only really useful operation for grouped sqlite tables in `summarise()`:
+SQLite lacks window functions, which are needed for grouped mutation and filtering. This means that only really useful operation for grouped sqlite tables in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
 
 ```{r}
-delays <- chain(hflights_sqlite,
-  group_by(Dest, UniqueCarrier),
-  summarise(n = n(), avg_delay = mean(ArrDelay)),
-  ungroup(), # have to manually ungroup
-  filter(n > 20),
-  collect()
+planes <- group_by(hflights_sqlite, TailNum)
+delay <- summarise(planes, 
+  count = n(),
+  dist = mean(Distance),
+  delay = mean(ArrDelay)
 )
-qplot(UniqueCarrier, avg_delay, data = delays)
+delay <- filter(delay, count > 20, dist < 2000)
+delay_local <- collect(delay)
 ```
 
-However, it's often possible to simulate grouped filters and mutates using self joins, where you join the original table with a summarised version. For example, imagine for each day, we want to find the most delayed flight. If SQLite supported window functions we could write:
-
-```{r, eval = FALSE}
-daily <- group_by(hflights_sqlite, Year, Month, DayofMonth)
-filter(daily, AvgDelay == max(AvgDelay))
-```
-
-Instead we can solve the problem in two steps. We first find out the maximum delay for each day, and then we construct a semi-join to find only the records that match the date and the maximum value. You can do sometimes do similar tricks for grouped mutates, but unfortunately the computation in SQLite is often very slow.
-
-```{r, eval = FALSE}
-daily <- group_by(hflights_sqlite, Year, Month, DayofMonth)
-max_delay <- summarise(daily, max_delay = max(ArrDelay))
-semi_join(mutate(daily, max_delay = ArrDelay), max_delay)
-```
-
-## Do
-
-The nuclear option. Slow, but allows you to do anything you can do in R.
-
-Assumes that you have streaming algorithms available, e.g. as in biglm.
+Other databases do support window functions and you can learn about them in the corresponding vignette. It's sometimes possible to simulate grouped filters and mutates using self joins, where you join the original table with a summarised version, but that topic is beyond the scope of this intro.
 
 ## Other databases
 
-The overall workflow is similar regardless of what database you're connecting to.  The following sections go in to more details on the pecularities of each database engine. All of these databases follow a client-server model - as well as your computer which is connecting to the databse, there is another computer actually running it (that might be your computer but usually isn't). Getting one of these databases setup up is beyond the scope of this article, but there are plenty of tutorials available on the web.
+Using other databases instead of SQLite works similarly, the overall workflow is the same regardless of what database you're connecting to. The following sections go in to more details on the pecularities of each database engine. All of these databases follow a client-server model - as well as your computer which is connecting to the databse, there is another computer actually running it (that might be your computer but usually isn't). Getting one of these databases setup up is beyond the scope of this article, but there are plenty of tutorials available on the web.
 
 ### Postgresql
 
-`src_postgres()` has five arguments: `dbname`, `host`, `port`, `user` and `password`. If you are running a local postgresql database with the default settings you'll only need `dbname`, but in most cases you'll need all five. dplyr uses the RPostgreSQL package to connect to postgres databases, and unfortunately it does not currently support SSL connections.
+`src_postgres()` has five arguments: `dbname`, `host`, `port`, `user` and `password`. If you are running a local postgresql database with the default settings you'll only need `dbname`, but in most cases you'll need all five. dplyr uses the RPostgreSQL package to connect to postgres databases, which means you can't currently connect to remote databases that require a SSL connection (e.g. Heroku).
 
 For example, the following code allows me to connect to a local postgresql database that contains a copy of the `hflights` data:
 
@@ -230,27 +243,16 @@ if (has_lahman("postgres")) {
 
 ### MySQL and MariaDB
 
-You can connect to MySQL and MariaDB (a recent fork of MySQL) through `src_mysql()`, mediated by the [RMySQL](https://github.com/jeffreyhorner/RMySQL) db package. Like PostgreSQL, you'll need to provide a database name, username, password, host, and port.
+You can connect to MySQL and MariaDB (a recent fork of MySQL) through `src_mysql()`, mediated by the [RMySQL](https://github.com/jeffreyhorner/RMySQL) package. Like PostgreSQL, you'll need to provide a `dbname`, `username`, `password`, `host`, and `port`.
 
-In terms of functionality, MySQL lies somewhere between SQLite and PostgreSQL. It provides a wide range of [built-in functions](http://dev.mysql.com/doc/refman/5.0/en/functions.html), but it does not support windowed functions (so you can't do grouped mutates and filters).
+In terms of functionality, MySQL lies somewhere between SQLite and PostgreSQL. It provides a wider range of [built-in functions](http://dev.mysql.com/doc/refman/5.0/en/functions.html), but it does not support window functions (so you can't do grouped mutates and filters).
 
 ### Bigquery
 
-Bigquery is a hosted database server provided by 
+Bigquery is a hosted database server provided by google. To connect, you need to provide your `project`, `dataset` and optionally a project for `billing` (if billing for `project` isn't enabled). After you create the src, your web browser will open and ask you to authenticate. Your credentials are stored in a local cache, so you should only need to do this once.
 
-To create a bigquery project:
-
-1. Create account with google's [cloud platform](https://cloud.google.com)
-2. Once you've logged in, create a new project
-3. Give your project a name (it doesn't matter what). 
-4. Click on APIs & Auth, then APIs and bigquery API access on 
-5. Go to the [bigquery console](https://bigquery.cloud.google.com/)
-6. Create a new dataset: this is equivalent to a database and will store the tables you create for a given project.
-
-After you create a bigquery src with your project and dataset, your web browser will open and ask you to authenticate the bigrquery package to access your data. Currently the authentication data is not cached anywhere so you'll need to repeat this process every time you connect, but a future version of bigrquery will provide a secure way of locally storing your credentials so you only need to do that once.
-
-Bigquery supports only a single SQL statement: [SELECT](https://developers.google.com/bigquery/query-reference). But luckily this is all you need for data analysis, and within SELECT bigquery provides comprehensive coverage at a similar level to postgresql.
+Bigquery supports only a single SQL statement: [SELECT](https://developers.google.com/bigquery/query-reference). Fortunately this is all you need for data analysis, and within SELECT bigquery provides comprehensive coverage similar level to postgresql. 
 
 ## Picking a database
 
-If you don't already have a database, here's some advice from my experiences setting up and running all of them. SQLite is by far and the easiest to get setup up, but the downsides is that it it has relatively limited functionality for data anlaysis. PostgreSQL is not too much hard to use and has ever function you might concievably need. Don't bother with MySQL/MariaDB: it's a pain to set up and the documentation is subpar. Google bigquery might be a good fit if you have very large data, or you're willing to pay (a small amount of) money for someone else to look after your database.
+If you don't already have a database, here's some advice from my experiences setting up and running all of them. SQLite is by far the easiest to get started with, but the lack of window functions make it limited for data analysis. PostgreSQL is not too much harder to use and has a wide range of built in functions. Don't bother with MySQL/MariaDB: it's a pain to set up and the documentation is subpar. Google bigquery might be a good fit if you have very large data, or you're willing to pay (a small amount of) money for someone else to look after your database.
