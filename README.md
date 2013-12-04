@@ -2,23 +2,27 @@
 
 [![Build Status](https://travis-ci.org/hadley/dplyr.png)](https://travis-ci.org/hadley/dplyr)
 
-`dplyr` is the next iteration of plyr with the following goals:
+dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
-* Improved performance
-* A more consistent interface focussed on tabular data 
-  (e.g. ddply, ldply and dlply)
-* Support for alternative data stores (data.table, sql, hive, ...)
+* Identify the most important data manipulation tools needed for data analysis 
+  and make them easy to use from R.
 
-One of the key ideas of `dplyr` is that it shouldn't matter how your data is stored. Regardless of whether your data in an SQL database, a data frame or a data table, you should interact with it in the exactly the same way. (That said, `dplyr` works with [tidy data](http://vita.had.co.nz/papers/tidy-data.html) so it can assume varaibles are always described in a consistent way.)
+* Provide blazing fast performance for in-memory data by writing key pieces
+  in [C++](http://www.rcpp.org/).
+  
+* Use the same interface to work with data no matter where it's stored, whether
+  in a data frame, a data table or database.
 
-`dplyr` is not currently available on CRAN, but you can install it from github with:
+`dplyr` is not yet available on CRAN, but you can install it from github with:
 
 ```R
 devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
 
-To get started, read the notes below, or try the intro vignette: `vignette("introduction", package = "dplyr")`
+To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
+
+If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/hadley/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 ## `tbls`
 
@@ -31,7 +35,7 @@ Currently `dplyr` supports:
 * [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 * [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
 * [Bigquery](https://developers.google.com/bigquery/)
-* arrays (partial implementation)
+* data cubes with arrays (partial implementation)
 
 You can create them as follows:
 
@@ -57,8 +61,6 @@ carriers_df  <- group_by(hflights, UniqueCarrier)
 carriers_dt  <- group_by(hflights_dt, UniqueCarrier)
 carriers_db1 <- group_by(hflights_db1, UniqueCarrier)
 carriers_db2 <- group_by(hflights_db2, UniqueCarrier)
-# This database has an index on the UniqueCarrier, which is a recommended
-# minimum whenever you're doing group by queries
 ```
 
 ## Single table verbs
@@ -90,7 +92,7 @@ system.time(summarise(collect(carriers_db2, delay = mean(ArrDelay))))
 #  0.386   0.097   0.718 
 ```
 
-The data frame and table methods are substantially faster than plyr. The database methods are slower, but can work with data that don't fit in memory.
+The data frame and data table methods are order of magnitude faster than plyr. The database methods are slower, but can work with data that don't fit in memory.
 
 ```R
 library(plyr)
