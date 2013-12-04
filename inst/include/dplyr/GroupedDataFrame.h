@@ -78,6 +78,10 @@ namespace Rcpp {
             return biggest_group_size ;
         }
         
+        inline bool has_group(SEXP g) const {
+            return symbols.has(as_symbol(g));
+        }
+        
     private:
         
         DataFrame data_ ;

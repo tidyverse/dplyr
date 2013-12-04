@@ -50,9 +50,9 @@ db_has_table.default <- function(con, table) {
 }
 #' @S3method db_has_table MySQLConnection
 db_has_table.MySQLConnection <- function(con, table) {
-  # MySQL has no way to list temporary tables, so we always return TRUE to
+  # MySQL has no way to list temporary tables, so we always NA to
   # skip any local checks and rely on the database to throw informative errors
-  TRUE
+  NA
 }
 
 

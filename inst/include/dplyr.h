@@ -75,6 +75,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/Collecter.h>
+#include <dplyr/NamedListAccumulator.h>
 
 #include <dplyr/registration.h>
 

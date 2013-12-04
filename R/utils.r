@@ -120,3 +120,5 @@ unique_name <- local({
     paste0("_W", i)
   }
 })
+
+isFALSE <- function(x) identical(x, FALSE)

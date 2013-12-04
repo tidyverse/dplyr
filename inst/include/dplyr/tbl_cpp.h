@@ -34,9 +34,8 @@ namespace dplyr {
     
     class summarised_grouped_tbl_cpp{
     public:
-        summarised_grouped_tbl_cpp( Rcpp::List data_, Rcpp::CharacterVector names, const GroupedDataFrame& source ) : data(data_){
+        summarised_grouped_tbl_cpp( Rcpp::List data_, const GroupedDataFrame& source ) : data(data_){
             int nr = source.ngroups() ;
-            data.names() = names ;
             set_rownames(data, nr ) ;
             
             if( source.nvars() > 1){

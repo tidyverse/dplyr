@@ -53,7 +53,7 @@ df_var <- data.frame(
   i = 1:2, 
   d = Sys.Date() + 1:2,
   f = factor(letters[1:2]),
-  n = 1:2 + 0.5, 
+  num = 1:2 + 0.5, 
   t = Sys.time() + 1:2,
   c = letters[1:2],
   stringsAsFactors = FALSE
@@ -76,7 +76,6 @@ test_that("local group_by preserves variable types", {
       grouped <- group_by_(var_tbls[[tbl]], var)
       summarised <- as.data.frame(summarise(grouped, n = n()))
       
-      if (!isTRUE(all.equal(summarised, expected))) browser()
       expect_equal(summarised, expected, 
         label = paste0("summarised_", tbl, "_", var))
     }

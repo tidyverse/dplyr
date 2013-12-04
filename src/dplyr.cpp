@@ -712,66 +712,57 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
     }
 }
 
-template <typename Proxy>
-SEXP structure_mutate( Proxy& call_proxy, const DataFrame& df, const CharacterVector& results_names, CharacterVector classes){
-    int n = call_proxy.nsubsets() ;
+SEXP structure_mutate( const NamedListAccumulator<SEXP>& accumulator, const DataFrame& df, CharacterVector classes){
+    List res = accumulator ;
+    res.attr("class") = classes ;
+    set_rownames( res, df.nrows() ) ;
+    res.attr( "vars")    = df.attr("vars") ;
+    res.attr( "labels" ) = df.attr("labels" );
+    res.attr( "index")   = df.attr("index") ;
     
-    List out(n) ;
-    CharacterVector names(n) ;
-    
-    CharacterVector input_names = df.names() ;
-    int ncolumns = df.size() ;
-    int i=0 ;
-    for( ; i<ncolumns; i++){
-        out[i] = call_proxy.get_variable(input_names[i]) ;
-        SET_NAMED( out[i], 2 );
-        names[i] = input_names[i] ;
+    return res ;    
+}
+
+void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf){
+    int n = result_names.size() ;
+    for( int i=0; i<n; i++){
+        if( gdf.has_group( result_names[i] ) )
+            stop( "cannot modify grouping variable" ) ;
     }
-    for( int k=0; i<n; k++ ){
-        String name = results_names[k] ;
-        if( ! any( input_names.begin(), input_names.end(), name.get_sexp() ) ){
-            SEXP x   = call_proxy.get_variable( name ) ; 
-            out[i]   = x ;
-            SET_NAMED( out[i], 2 );
-            names[i] = name ;
-            i++ ;
-        }
-    }
-    
-    
-    out.attr("class") = classes ;
-    set_rownames( out, df.nrows() ) ;
-    out.names() = names;
-    
-    return out ;    
 }
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     const DataFrame& df = gdf.data() ;
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
+    check_not_groups(results_names, gdf);
     
     GroupedCallProxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
     
+    NamedListAccumulator<SEXP> accumulator ;
+    int nvars = gdf.nvars() ;
+    for( int i=0; i<nvars; i++){
+        accumulator.set( PRINTNAME(gdf.symbol(i)), df[i] ) ;
+    }
+    
     for( int i=0; i<nexpr; i++){
-        SEXP call = args[i] ; 
+        SEXP call = args[i] ;
+        SEXP name = results_names[i] ;
+        SEXP variable ;
         if( TYPEOF(call) == SYMSXP ){
-            proxy.input( results_names[i], proxy.get_variable( PRINTNAME(call) ) ) ;
+            variable = proxy.get_variable( PRINTNAME(call) ) ;
         } else {
             proxy.set_call( args[i] );
             boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
-            SEXP result = __( gather->collect() ) ;
-            proxy.input( results_names[i], result ) ;
+            variable = __( gather->collect() ) ;
         }
+        
+        proxy.input( name, variable ) ;
+        accumulator.set( name, variable) ;
     }
     
-    DataFrame res = structure_mutate( proxy, df, results_names, classes_grouped() ) ;
-    res.attr( "vars")    = df.attr("vars") ;
-    res.attr( "labels" ) = df.attr("labels" );
-    res.attr( "index")   = df.attr("index") ;
-    
-    return res ;
+    return structure_mutate(accumulator, df, classes_grouped() ); 
 }
 
 SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
@@ -780,21 +771,32 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
     
+    NamedListAccumulator<SEXP> accumulator ;
+    int nvars = df.size() ;
+    CharacterVector df_names = df.names() ;
+    for( int i=0; i<nvars; i++){
+        accumulator.set( df_names[i], df[i] ) ;
+    }
+    
     CallProxy call_proxy(df, env) ;
     for( int i=0; i<nexpr; i++){
-        SEXP call = args[i] ; 
+        SEXP call = args[i] ;
+        SEXP name = results_names[i] ;
+        SEXP result ;
         if( TYPEOF(call) == SYMSXP ){
-            call_proxy.input( results_names[i], call_proxy.get_variable( PRINTNAME(call) )  ) ; 
+            result = call_proxy.get_variable( PRINTNAME(call) ) ;
+             
         } else {
             call_proxy.set_call( args[i] );
             
             // we need to protect the SEXP, that's what the Shelter does
-            SEXP res = __( call_proxy.eval() ) ;
-            call_proxy.input( results_names[i], res ) ;
+            result = __( call_proxy.eval() ) ;
         }
+        call_proxy.input( name, result ) ; 
+        accumulator.set( name, result );
     }
     
-    DataFrame res = structure_mutate(call_proxy, df, results_names, classes_not_grouped() ) ;
+    List res = structure_mutate(accumulator, df, classes_not_grouped() ) ;
     
     return res ;
 }
@@ -876,17 +878,17 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     int nexpr = args.size() ;
     int nvars = gdf.nvars() ;
     CharacterVector results_names = args.names() ;
-    List out(nexpr + nvars) ;
-    CharacterVector names(nexpr + nvars) ;
+    check_not_groups(results_names, gdf);
+    NamedListAccumulator<SEXP> accumulator ;
     
     int i=0; 
     for( ; i<nvars; i++){
-        out[i]      = gdf.label(i) ;
-        SET_NAMED(out[i], 2) ;
-        names[i]    = CHAR(PRINTNAME(gdf.symbol(i))) ;
+        SET_NAMED(gdf.label(i), 2) ;
+        accumulator.set( PRINTNAME(gdf.symbol(i)), gdf.label(i) ) ;
     }
     
     LazyGroupedSubsets subsets(gdf) ;
+    Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
         Result* res = get_handler( args[k], subsets ) ;
         
@@ -894,32 +896,57 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
         // we can use a GroupedCalledReducer which will callback to R
         if( !res ) res = new GroupedCalledReducer( args[k], subsets, env) ;
         
-        out[i] = res->process(gdf) ;
-        names[i] = results_names[k] ;
-        subsets.input( Symbol(names[i]), SummarisedVariable((SEXP)out[i]) ) ;
+        SEXP result = __( res->process(gdf) ) ;
+        SEXP name = results_names[k] ;
+        accumulator.set( name, result );
+        subsets.input( Symbol(name), SummarisedVariable(result) ) ;
         delete res;
     }
     
-    return summarised_grouped_tbl_cpp(out, names, gdf );
+    return summarised_grouped_tbl_cpp(accumulator, gdf );
 }
 
 SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     int nexpr = args.size() ;
-    List out(nexpr) ;
     CharacterVector names = args.names();
     
     LazySubsets subsets( df ) ;
+    std::vector<SEXP> results ;
+    std::vector<SEXP> result_names ; 
+    
+    Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){
+        SEXP name = names[i] ;
+        
         boost::scoped_ptr<Result> res( get_handler( args[i], subsets ) ) ;
+        SEXP result ;
         if(res) {
-            out[i] = res->process( FullDataFrame(df) ) ;
+            result = __(res->process( FullDataFrame(df) )) ;
         } else {
-            out[i] = CallProxy( args[i], subsets, env).eval() ;
+            result = __(CallProxy( args[i], subsets, env).eval()) ;
         }
-        subsets.input( Symbol(names[i]), out[i] ) ;
+        subsets.input( Symbol(name), result ) ;
+        
+        std::vector<SEXP>::iterator it = std::find(result_names.begin(), result_names.end(), name ) ;
+        if( it == result_names.end() ){
+            results.push_back(result) ;
+            result_names.push_back(name); 
+        } else {
+            int j = std::distance( result_names.begin(), it ) ;
+            results[j] = result ;
+        }
+        
     }
     
-    return tbl_cpp( out, args.names(), 1 ) ;
+    int nout = results.size() ;
+    List out(nout) ;
+    CharacterVector out_names(nout);
+    for( int i=0; i<nout; i++){
+        out[i] = results[i] ;
+        out_names[i] = result_names[i] ;
+    }
+    
+    return tbl_cpp( out, out_names, 1 ) ;
 }
 
 // [[Rcpp::export]]
