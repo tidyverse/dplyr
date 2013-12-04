@@ -1,19 +1,36 @@
-\name{sql_variant}
+\docType{data}
+\name{base_scalar}
+\alias{base_agg}
+\alias{base_scalar}
+\alias{base_win}
 \alias{sql_infix}
 \alias{sql_not_supported}
 \alias{sql_prefix}
+\alias{sql_translator}
 \alias{sql_variant}
-\title{Create an sql variant.}
+\title{Create an sql translator}
 \usage{
-sql_variant(..., .funs = list(), .parent = base_sql)
+base_scalar
+
+base_agg
+
+base_win
+
+sql_variant(scalar = sql_translator(), aggregate = sql_translator(),
+  window = sql_translator())
+
+sql_translator(..., .funs = list(), .parent = new.env(parent = emptyenv()))
 
 sql_infix(f)
 
-sql_prefix(f)
+sql_prefix(f, n = NULL)
 
 sql_not_supported(f)
 }
 \arguments{
+  \item{scalar,aggregate,window}{The three families of
+  functions than an SQL variant can supply.}
+
   \item{...,.funs}{named functions, used to add custom
   converters from standard R functions to sql functions.
   Specify individually in \code{...}, or provide a list of
@@ -25,6 +42,9 @@ sql_not_supported(f)
   and functions.}
 
   \item{f}{the name of the sql function as a string}
+
+  \item{n}{for \code{sql_infix}, an optional number of
+  arguments to expect.  Will signal error if not correct.}
 }
 \description{
 When creating a package that maps to a new SQL based src,
@@ -44,23 +64,28 @@ These three functions make that easy.
 # postgresql provides:
 # \\url{http://www.postgresql.org/docs/9.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE}
 
-postgres_stat <- sql_variant(
+postgres_agg <- sql_translator(.parent = base_agg,
   cor = sql_prefix("corr"),
   cov = sql_prefix("covar_samp"),
   sd =  sql_prefix("stddev_samp"),
   var = sql_prefix("var_samp")
 )
+postgres_var <- sql_variant(
+  base_scalar,
+  postgres_agg
+)
 
-translate_sql(cor(x, y), variant = postgres_stat)
-translate_sql(sd(income / years), variant = postgres_stat)
+translate_sql(cor(x, y), variant = postgres_var)
+translate_sql(sd(income / years), variant = postgres_var)
 
 # Any functions not explicitly listed in the converter will be translated
 # to sql as is, so you don't need to convert all functions.
-translate_sql(regr_intercept(y, x), variant = postgres_stat)
+translate_sql(regr_intercept(y, x), variant = postgres_var)
 }
 \seealso{
 \code{\link{sql}} for an example of a more customised sql
 conversion function.
 }
+\keyword{datasets}
 \keyword{internal}
 

@@ -30,7 +30,7 @@ my_db <- src_sqlite("my_db.sqlite3", create = T)
 We'll load it up with the `hflights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets (because all the data has to flow through R).
 
 ```{r}
-hflights_sqlite <- copy_to(my_db, hflights, indexes = list(
+hflights_sqlite <- copy_to(my_db, hflights, temporary = FALSE, indexes = list(
   c("Year", "Month", "DayofMonth"), "UniqueCarrier"))
 ```
 
@@ -175,9 +175,9 @@ daily <- group_by(hflights_sqlite, Year, Month, DayofMonth)
 filter(daily, AvgDelay == max(AvgDelay))
 ```
 
-Instead we can solve the problem in two steps. We first find out the maximum delay for each day, and then we construct a semi-join to find only the records that match the date and the maximum value. We can do similar tricks for grouped mutates using 
+Instead we can solve the problem in two steps. We first find out the maximum delay for each day, and then we construct a semi-join to find only the records that match the date and the maximum value. You can do sometimes do similar tricks for grouped mutates, but unfortunately the computation in SQLite is often very slow.
 
-```{r}
+```{r, eval = FALSE}
 daily <- group_by(hflights_sqlite, Year, Month, DayofMonth)
 max_delay <- summarise(daily, max_delay = max(ArrDelay))
 semi_join(mutate(daily, max_delay = ArrDelay), max_delay)

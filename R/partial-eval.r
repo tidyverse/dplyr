@@ -13,14 +13,14 @@
 #' do this 100% perfectly. \code{partial_eval} uses the following heuristic:
 #'
 #' \itemize{
-#'   \item If the source variables are known, and the symbol matches a source
+#'   \item If the tbl variables are known, and the symbol matches a tbl
 #'     variable, then remote.
 #'   \item If the symbol is defined locally, local.
 #'   \item Otherwise, remote.
 #' }
 #'
 #' @param call an unevaluated expression, as produced by \code{\link{quote}}
-#' @param source a tbl object
+#' @param tbl a tbl object
 #' @param env environment in which to search for local values
 #' @export
 #' @keywords internal
@@ -44,18 +44,18 @@
 #' partial_eval(quote(year > f(1980)), bdf)
 #' partial_eval(quote(year > local(f(1980))), bdf)
 #'
-#' # For testing you can also use it with the source omitted
+#' # For testing you can also use it with the tbl omitted
 #' partial_eval(quote(1 + 2 * 3))
 #' x <- 1
 #' partial_eval(quote(x ^ y))
-partial_eval <- function(call, source = NULL, env = parent.frame()) {
+partial_eval <- function(call, tbl = NULL, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
   if (is.list(call)) {
-    lapply(call, partial_eval, source = source, env = env)
+    lapply(call, partial_eval, tbl = tbl, env = env)
   } else if (is.symbol(call)) {
     name <- as.character(call)
-    if (!is.null(source) && name %in% tbl_vars(source)) {
+    if (!is.null(tbl) && name %in% tbl_vars(tbl)) {
       call
     } else if (exists(name, env)) {
       eval(call, env)
@@ -71,7 +71,7 @@ partial_eval <- function(call, source = NULL, env = parent.frame()) {
     } else if (name == "remote") {
       call[[2]]
     } else {
-      call[-1] <- lapply(call[-1], partial_eval, source = source, env = env)
+      call[-1] <- lapply(call[-1], partial_eval, tbl = tbl, env = env)
       call
     }
   } else {

@@ -46,7 +46,7 @@ Arrange by year within each player:
 bench_tbls(batting, function(x) arrange(x, playerID, yearID),
   base   = batting_df[order(batting_df$playerID, batting_df$yearID), ],
   dt_raw = batting_dt[order(playerID, yearID), ],
-  times = 10
+  times = 2
 )
 ```
 
@@ -57,7 +57,8 @@ Find the year for which each player played the most games:
 ```{r filter}
 bench_tbls(players, function(x) filter(x, G == max(G)),
   base   = batting_df[ave(batting_df$G, batting_df$playerID, FUN = max) ==
-    batting_df$G, ]
+    batting_df$G, ],
+  times = 2
 )
 ```
 
@@ -70,7 +71,8 @@ Rank years based on number of at bats:
 ```{r mutate}
 mutate1 <- function(x) mutate(x, rank = rank(desc(AB)))
 bench_tbls(players, mutate1,
-  dt_raw = players_dt[, list(rank = rank(desc(AB))), by = playerID]
+  dt_raw = players_dt[, list(rank = rank(desc(AB))), by = playerID],
+  times = 2
 )
 ```
 
@@ -79,7 +81,8 @@ Compute year of career:
 ```{r mutate2}
 mutate2 <- function(x) mutate(x, cyear = yearID - min(yearID) + 1)
 bench_tbls(players, mutate2,
-  dt_raw = players_dt[, list(cyear = yearID - min(yearID) + 1), by = playerID]
+  dt_raw = players_dt[, list(cyear = yearID - min(yearID) + 1), by = playerID],
+  times = 5
 )
 ```
 
@@ -92,7 +95,8 @@ Compute the average number of at bats for each player:
 ```{r summarise-mean}
 bench_tbls(players, function(x) summarise(x, ab = mean(AB)),
   base =    tapply(batting_df$AB, batting_df$playerID, FUN = mean),
-  dt_raw =  players_dt[, list(ab = mean(AB)), by = playerID]
+  dt_raw =  players_dt[, list(ab = mean(AB)), by = playerID],
+  times = 5
 )
 ```
 
@@ -104,13 +108,14 @@ However, this comparison is slightly unfair because both data.table and `summari
 mean_ <- function(x) .Internal(mean(x))
 bench_tbls(players, function(x) summarise(x, ab = mean_(AB)),
   base =    tapply(batting_df$AB, batting_df$playerID, FUN = mean_),
-  dt_raw =  players_dt[, list(ab = mean_(AB)), by = playerID]
+  dt_raw =  players_dt[, list(ab = mean_(AB)), by = playerID],
+  times = 5
 )
 ```
 
 ## Joins
 
-We conclude with some quick comparisons of joins implemented. There are few equivalent in base R or with straightforward data table commands.
+We conclude with some quick comparisons of joins. There are few equivalent in base R or with straightforward data table commands.
 
 ```{r}
 make_hof <- function(src) {

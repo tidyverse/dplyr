@@ -60,7 +60,7 @@ Query <- setRefClass("Query",
     },
 
     vars = function() {
-      auto_names(.vars)
+      .vars
     },
 
     nrow = function() {

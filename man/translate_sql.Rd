@@ -3,10 +3,10 @@
 \alias{translate_sql_q}
 \title{Translate an expression to sql.}
 \usage{
-translate_sql(..., source = NULL, env = parent.frame(), variant = NULL,
+translate_sql(..., tbl = NULL, env = parent.frame(), variant = NULL,
   window = FALSE)
 
-translate_sql_q(expr, source = NULL, env = parent.frame(), variant = NULL,
+translate_sql_q(expr, tbl = NULL, env = parent.frame(), variant = NULL,
   window = FALSE)
 }
 \arguments{
@@ -14,9 +14,9 @@ translate_sql_q(expr, source = NULL, env = parent.frame(), variant = NULL,
 
   \item{expr}{list of quoted objects to translate}
 
-  \item{source}{If supplied, will be used to automatically
-  figure out the SQL variant to use. This can either be a
-  \code{src} or a \code{tbl}.}
+  \item{tbl}{An optional \code{\link{tbl}}. If supplied,
+  will be used to automatically figure out the SQL variant
+  to use.}
 
   \item{env}{environment in which to evaluate expression.}
 
@@ -47,7 +47,10 @@ Translate an expression to sql.
   their sql equivalents (e.g. \code{LIKE}). You can use
   this to access SQL string concatenation: \code{||} is
   mapped to \code{OR}, but \code{\%||\%} is mapped to
-  \code{||}.
+  \code{||}. To suppress this behaviour, and force errors
+  immediately when dplyr doesn't know how to translate a
+  function it encounters, using set the
+  \code{dplyr.strict_sql} option to \code{TRUE}.
 
   You can also use \code{sql} to insert a raw sql string.
 }
@@ -86,23 +89,24 @@ translate_sql(x)
 translate_sql_q(list(x))
 
 # Translation with data source --------------------------------------------
-
+\donttest{
+hflights <- tbl(hflights_postgres(), "hflights")
 # Note distinction between integers and reals
-translate_sql(Month == 1, source = hflights)
-translate_sql(Month == 1L, source = hflights)
+translate_sql(Month == 1, tbl = hflights)
+translate_sql(Month == 1L, tbl = hflights)
 
 # Know how to translate most simple mathematical expressions
-translate_sql(Month \%in\% 1:3, source = hflights)
-translate_sql(Month >= 1L & Month <= 3L, source = hflights)
-translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", source = hflights)
+translate_sql(Month \%in\% 1:3, tbl = hflights)
+translate_sql(Month >= 1L & Month <= 3L, tbl = hflights)
+translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", tbl = hflights)
 
 # Some R functions don't have equivalents in SQL: where possible they
 # will be translated to the equivalent
-translate_sql(xor(Month <= 3L, Carrier == "AA"), source = hflights)
+translate_sql(xor(Month <= 3L, Carrier == "AA"), tbl = hflights)
 
 # Local variables will be automatically inserted into the SQL
 x <- 5L
-translate_sql(Month == x, source = hflights)
+translate_sql(Month == x, tbl = hflights)
 
 # By default all computation will happen in sql
 translate_sql(Month < 1 + 1, source = hflights)
@@ -115,19 +119,17 @@ translate_sql(Month == inc(x), source = hflights)
 translate_sql(Month == local(inc(x)), source = hflights)
 
 # Windowed translation --------------------------------------------
-\donttest{
-hflights_db <- tbl(hflights_postgres(), "hflights")
-planes <- arrange(group_by(hflights_db, TailNum), desc(DepTime))
+planes <- arrange(group_by(hflights, TailNum), desc(DepTime))
 
-translate_sql(DepTime > mean(DepTime), source = planes, window = TRUE)
-translate_sql(DepTime == min(DepTime), source = planes, window = TRUE)
+translate_sql(DepTime > mean(DepTime), tbl = planes, window = TRUE)
+translate_sql(DepTime == min(DepTime), tbl = planes, window = TRUE)
 
-translate_sql(rank(), source = planes, window = TRUE)
-translate_sql(rank(DepTime), source = planes, window = TRUE)
-translate_sql(ntile(DepTime, 2L), source = planes, window = TRUE)
-translate_sql(lead(DepTime, 2L), source = planes, window = TRUE)
-translate_sql(cumsum(DepDelay), source = planes, window = TRUE)
-translate_sql(order_by(DepDelay, cumsum(DepDelay)), source = planes, window = TRUE)
+translate_sql(rank(), tbl = planes, window = TRUE)
+translate_sql(rank(DepTime), tbl = planes, window = TRUE)
+translate_sql(ntile(DepTime, 2L), tbl = planes, window = TRUE)
+translate_sql(lead(DepTime, 2L), tbl = planes, window = TRUE)
+translate_sql(cumsum(DepDelay), tbl = planes, window = TRUE)
+translate_sql(order_by(DepDelay, cumsum(DepDelay)), tbl = planes, window = TRUE)
 }
 }
 

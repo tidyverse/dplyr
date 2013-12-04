@@ -281,11 +281,11 @@ To see how individual window functions are translated to SQL, we can use `transl
 if (has_lahman("postgres")) {
   players_db <- group_by(tbl(lahman_postgres(), "Batting"), playerID)
   
-  print(translate_sql(mean(G), source = players_db, window = TRUE))
-  print(translate_sql(cummean(G), source = players_db, window = TRUE))
-  print(translate_sql(rank(G), source = players_db, window = TRUE))
-  print(translate_sql(ntile(G, 2), source = players_db, window = TRUE))
-  print(translate_sql(lag(G), source = players_db, window = TRUE))
+  print(translate_sql(mean(G), tbl = players_db, window = TRUE))
+  print(translate_sql(cummean(G), tbl = players_db, window = TRUE))
+  print(translate_sql(rank(G), tbl = players_db, window = TRUE))
+  print(translate_sql(ntile(G, 2), tbl = players_db, window = TRUE))
+  print(translate_sql(lag(G), tbl = players_db, window = TRUE))
 }
 ```
 
@@ -294,9 +294,9 @@ If the tbl has been arranged previously, then that ordering will be used for the
 ```{r, message = FALSE}
 if (has_lahman("postgres")) {
   players_by_year <- arrange(players_db, yearID)
-  print(translate_sql(cummean(G), source = players_by_year, window = TRUE))
-  print(translate_sql(rank(), source = players_by_year, window = TRUE))
-  print(translate_sql(lag(G), source = players_by_year, window = TRUE))
+  print(translate_sql(cummean(G), tbl = players_by_year, window = TRUE))
+  print(translate_sql(rank(), tbl = players_by_year, window = TRUE))
+  print(translate_sql(lag(G), tbl = players_by_year, window = TRUE))
 }
 ```
 

@@ -117,12 +117,15 @@ brief_desc.src_mysql <- function(x) {
     info$host, ":", info$port, "/", info$dbname, "]")
 }
 
-#' @S3method translate_env src_mysql
+#' @export
 translate_env.src_mysql <- function(x) {
   sql_variant(
-    n = function() sql("count(*)"),
-    sd =  sql_prefix("stddev_samp"),
-    var = sql_prefix("var_samp"),
-    paste = function(x, collapse) build_sql("group_concat(", x, collapse, ")")
+    base_scalar,
+    sql_translator(.parent = base_agg,
+      n = function() sql("count(*)"),
+      sd =  sql_prefix("stddev_samp"),
+      var = sql_prefix("var_samp"),
+      paste = function(x, collapse) build_sql("group_concat(", x, collapse, ")")
+    )
   )
 }
