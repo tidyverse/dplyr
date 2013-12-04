@@ -53,7 +53,7 @@ df_var <- data.frame(
   i = 1:2, 
   d = Sys.Date() + 1:2,
   f = factor(letters[1:2]),
-  n = 1:2 + 0.5, 
+  num = 1:2 + 0.5, 
   t = Sys.time() + 1:2,
   c = letters[1:2],
   stringsAsFactors = FALSE
