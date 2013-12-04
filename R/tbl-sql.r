@@ -17,7 +17,7 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
 
   
   if (!is.sql(from)) { # Must be a character string
-    if (!db_has_table(src$con, from)) {
+    if (isFALSE(db_has_table(src$con, from))) {
       stop("Table ", from, " not found in database ", src$path, call. = FALSE)
     }
     
