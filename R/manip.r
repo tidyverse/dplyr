@@ -30,8 +30,8 @@
 #' manip methods of that class to get more details:
 #'
 #' \itemize{
-#'   \item data.frame: \link{manip_df}, \link{manip_grouped_df}
-#'   \item data.table: \link{manip_dt}, \link{manip_grouped_dt}
+#'   \item data.frame: \link{manip_df}
+#'   \item data.table: \link{manip_dt}
 #'   \item SQLite: \code{\link{src_sqlite}}
 #'   \item PostgreSQL: \code{\link{src_postgres}}
 #'   \item MySQL: \code{\link{src_mysql}}

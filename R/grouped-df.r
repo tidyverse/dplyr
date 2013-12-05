@@ -47,7 +47,7 @@ group_size.grouped_cpp <- function(x) {
 }
 
 #' @export
-groups.grouped_cpp <- function(x, value) {
+groups.grouped_cpp <- function(x) {
   attr(x, "vars")
 }
 

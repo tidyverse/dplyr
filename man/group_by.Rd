@@ -27,9 +27,8 @@ where operations are performed "by group".
   three built-in tbls. See the help for the corresponding
   classes and their manip methods for more details:
 
-  \itemize{ \item data.frame: \link{grouped_df},
-  \link{manip_grouped_df} \item data.table:
-  \link{grouped_dt}, \link{manip_grouped_dt} \item SQLite:
+  \itemize{ \item data.frame: \link{grouped_df} \item
+  data.table: \link{grouped_dt} \item SQLite:
   \code{\link{src_sqlite}} \item PostgreSQL:
   \code{\link{src_postgres}} \item MySQL:
   \code{\link{src_mysql}} }
