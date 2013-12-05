@@ -8,7 +8,11 @@ library(dplyr)
 library(microbenchmark)
 library(data.table)
 library(Lahman)
-knitr::opts_chunk$set(tidy = FALSE)
+knitr::opts_chunk$set(
+  comment = "#>",
+  error = FALSE,
+  tidy = FALSE
+)
 
 options(digits = 3)
 ```
@@ -33,6 +37,37 @@ batting_dt <- tbl_dt(Batting)
 players_dt <- group_by(batting_dt, playerID)
 ```
 
+## Summarise
+
+Compute the average number of at bats for each player:
+
+```{r summarise-mean}
+microbenchmark(
+  dplyr_df = summarise(players_df, ab = mean(AB)),
+  dplyr_dt = summarise(players_dt, ab = mean(AB)),
+  dt_raw =   players_dt[, list(ab = mean(AB)), by = playerID],
+  base =     tapply(batting_df$AB, batting_df$playerID, FUN = mean),
+  times = 5, 
+  unit = "ms"
+)
+```
+
+NB: base implementation captures computation but not output format, giving considerably less output.
+
+However, this comparison is slightly unfair because both data.table and `summarise.tbl_df` use tricks to find a more efficient implementation of `mean()`. Data table calls a `C` implementation of the `mean (using `.External(Cfastmean, B, FALSE)`  and thus avoiding the overhead of S3 method dispatch). `dplyr::summarise` uses a hybrid evaluation technique, where common functions are implemented purely in C++, avoiding R function call overhead.
+
+```{r sumarise-mean_}
+mean_ <- function(x) .Internal(mean(x))
+microbenchmark(
+  dplyr_df = summarise(players_df, ab = mean_(AB)),
+  dplyr_dt = summarise(players_dt, ab = mean_(AB)),
+  dt_raw =   players_dt[, list(ab = mean_(AB)), by = playerID],
+  base =     tapply(batting_df$AB, batting_df$playerID, FUN = mean_),
+  times = 5, 
+  unit = "ms"
+)
+```
+
 ## Arrange
 
 Arrange by year within each player:
@@ -41,9 +76,10 @@ Arrange by year within each player:
 microbenchmark(
   dplyr_df = arrange(players_df, yearID),
   dplyr_dt = arrange(players_dt, yearID),
-  dt_raw = batting_dt[order(playerID, yearID), ],
-  base   = batting_df[order(batting_df$playerID, batting_df$yearID), ],
-  times = 2
+  dt_raw =   batting_dt[order(playerID, yearID), ],
+  base   =   batting_df[order(batting_df$playerID, batting_df$yearID), ],
+  times = 2, 
+  unit = "ms"
 )  
 ```
 
@@ -55,13 +91,14 @@ Find the year for which each player played the most games:
 microbenchmark(
   dplyr_df = filter(players_df, G == max(G)),
   dplyr_dt = filter(players_dt, G == max(G)),
-  base   = batting_df[ave(batting_df$G, batting_df$playerID, FUN = max) ==
+  base   =   batting_df[ave(batting_df$G, batting_df$playerID, FUN = max) ==
     batting_df$G, ],
-  times = 2  
+  times = 2, 
+  unit = "ms"  
 )
 ```
 
-I'm not aware of a single line data table equivalent ([see SO 16573995](http://stackoverflow.com/questions/16573995/)). Suggetions welcome.
+I'm not aware of a single line data table equivalent ([see SO 16573995](http://stackoverflow.com/questions/16573995/)). Suggetions welcome.  dplyr currently doesn't support hybrid evaluation for logical comparison, but it is scheduled for 0.2 (see [#113](https://github.com/hadley/dplyr/issues/113)), this should give an additional (10-20x) speed up.
 
 ## Mutate
 
@@ -71,8 +108,9 @@ Rank years based on number of at bats:
 microbenchmark(
   dplyr_df  = mutate(players_df, rank = rank(desc(AB))),
   dplyr_dt  = mutate(players_dt, rank = rank(desc(AB))),
-  dt_raw = players_dt[, list(rank = rank(desc(AB))), by = playerID],
-  times = 2
+  dt_raw =    players_dt[, list(rank = rank(desc(AB))), by = playerID],
+  times = 2, 
+  unit = "ms"
 )
 ```
 
@@ -82,45 +120,29 @@ Compute year of career:
 microbenchmark(
   dplyr_df = mutate(players_df, cyear = yearID - min(yearID) + 1),
   dplyr_dt = mutate(players_dt, cyear = yearID - min(yearID) + 1),
-  dt_raw = players_dt[, list(cyear = yearID - min(yearID) + 1), by = playerID],
-  times = 5
+  dt_raw =   players_dt[, list(cyear = yearID - min(yearID) + 1), by = playerID],
+  times = 5, 
+  unit = "ms"
 )
 ```
 
 Rank is a relatively expensive operation and `min()` is relatively cheap, showing the the relative performance overhead of the difference techniques.
 
-## Summarise
+dplyr currently has some support for hybrid evaluation of window functions:
 
-Compute the average number of at bats for each player:
-
-```{r summarise-mean}
+```{r mutate_hybrid}
 microbenchmark(
-  dplyr_df = summarise(players_df, ab = mean(AB)),
-  dplyr_dt = summarise(players_dt, ab = mean(AB)),
-  dt_raw =  players_dt[, list(ab = mean(AB)), by = playerID],
-  base =    tapply(batting_df$AB, batting_df$playerID, FUN = mean),
-  times = 5
-)
-```
-
-NB: base implementation captures computation but not output format, giving considerably less output.
-
-However, this comparison is slightly unfair because both data.table and `summarise.tbl_df` use tricks to find a more efficient implementation of `mean()`. Data table calls a `C` implementation of the `mean (using `.External(Cfastmean, B, FALSE)`   and thus avoiding the overhead of S3 method dispatch), while `summarise.tbl_cpp` calls an C++ implementation of the mean, which also avoids R function call overhead.
-
-```{r sumarise-mean_}
-mean_ <- function(x) .Internal(mean(x))
-microbenchmark(
-  dplyr_df = summarise(players_df, ab = mean_(AB)),
-  dplyr_dt = summarise(players_dt, ab = mean_(AB)),
-  dt_raw =  players_dt[, list(ab = mean_(AB)), by = playerID],
-  base =    tapply(batting_df$AB, batting_df$playerID, FUN = mean_),
-  times = 5
+  dplyr_df  = mutate(players_df, rank = min_rank(AB)),
+  dplyr_dt  = mutate(players_dt, rank = min_rank(AB)),
+  dt_raw =    players_dt[, list(rank = min_rank(AB)), by = playerID],
+  times = 2, 
+  unit = "ms"
 )
 ```
 
 ## Joins
 
-We conclude with some quick comparisons of joins. There are few equivalents in base R or with straightforward data table commands.  First we create two new datasets: `master` which contains demographic information on each player, and `hall_of_fame` which contains all players inducted into the hall of fame.
+We conclude with some quick comparisons of joins. First we create two new datasets: `master` which contains demographic information on each player, and `hall_of_fame` which contains all players inducted into the hall of fame.
 
 ```{r}
 master_df <- tbl_df(Master) %.% select(playerID, hofID, birthYear)
@@ -132,30 +154,35 @@ hall_of_fame_dt <- tbl_dt(HallOfFame) %.% filter(inducted == "Y") %.%
   select(hofID, votedBy, category)
 ```
 
+
 ```{r}
 microbenchmark(
   dplyr_df = left_join(master_df, hall_of_fame_df, by = "hofID"),
   dplyr_dt = left_join(master_dt, hall_of_fame_dt, by = "hofID"),
   base     = merge(master_df, hall_of_fame_df, by = "hofID", all.x = TRUE),
-  times = 10
+  times = 10, 
+  unit = "ms"
 )
 
 microbenchmark(
   dplyr_df = inner_join(master_df, hall_of_fame_df, by = "hofID"),
   dplyr_dt = inner_join(master_dt, hall_of_fame_dt, by = "hofID"),
   base     = merge(master_df, hall_of_fame_df, by = "hofID"),
-  times = 10
+  times = 10, 
+  unit = "ms"
 )
 
 microbenchmark(
   dplyr_df = semi_join(master_df, hall_of_fame_df, by = "hofID"),
   dplyr_dt = semi_join(master_dt, hall_of_fame_dt, by = "hofID"),
-  times = 10
+  times = 10, 
+  unit = "ms"
 )
 
 microbenchmark(
   dplyr_df = anti_join(master_df, hall_of_fame_df, by = "hofID"),
   dplyr_dt = anti_join(master_dt, hall_of_fame_dt, by = "hofID"),
-  times = 10
+  times = 10, 
+  unit = "ms"
 )
 ```
