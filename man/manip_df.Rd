@@ -1,6 +1,7 @@
 \name{manip_df}
 \alias{arrange.tbl_cpp}
 \alias{filter.tbl_cpp}
+\alias{manip_df}
 \alias{mutate.tbl_cpp}
 \alias{select.tbl_cpp}
 \alias{summarise.tbl_cpp}

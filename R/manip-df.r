@@ -22,7 +22,6 @@
 #' head(arrange(hflights, Dest, desc(ArrDelay)))
 #'
 #' @name manip_df
-#' @aliases NULL
 NULL
 
 #' @rdname manip_df
