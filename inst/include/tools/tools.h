@@ -9,5 +9,6 @@
 #include <tools/ShrinkableVector.h>
 #include <tools/wrap_subset.h>
 #include <tools/get_all_second.h>
+#include <tools/JoinColumnSuffixer.h>
 
 #endif

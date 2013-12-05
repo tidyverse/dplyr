@@ -148,6 +148,8 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     
     CharacterVector all_y_columns = y.names() ;
     CharacterVector y_columns = setdiff( all_y_columns, by ) ;
+    JoinColumnSuffixer suffixer(x_columns, y_columns, by) ;
+    
     DataFrameVisitors visitors_y(y, y_columns) ;
     
     int nrows = indices_x.size() ;
@@ -157,11 +159,11 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     int k=0;
     for( ; k<nv_x; k++){
        out[k] = visitors_x.get(k)->subset(indices_x) ;
-       names[k] = x_columns[k] ;
+       names[k] = suffixer.get( x_columns[k], ".x" ) ;
     }
     for( int i=0; i<nv_y; i++, k++){
        out[k] = visitors_y.get(i)->subset(indices_y) ; 
-       names[k] = y_columns[i] ;
+       names[k] = suffixer.get(y_columns[i], ".y" ) ;
     }
     out.attr("class") = classes ;
     set_rownames(out, nrows) ;
