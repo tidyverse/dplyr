@@ -102,7 +102,6 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     info = info, disco = db_disconnector(con, "mysql"))
 }
 
-#' @method tbl src_mysql
 #' @export
 #' @rdname src_mysql
 tbl.src_mysql <- function(src, from, ...) {

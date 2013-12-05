@@ -18,7 +18,6 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' 
 #' This standard method works for all sql sources.
 #' 
-#' @method copy_to src_sql
 #' @export
 #' @param types a character vector giving variable types to use for the columns.
 #'    See \url{http://www.sqlite.org/datatype3.html} for available types.

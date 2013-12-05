@@ -83,7 +83,6 @@
 NULL
 
 #' @rdname join.tbl_sql
-#' @method inner_join tbl_sql
 #' @export
 inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                   auto_index = FALSE, ...) {
@@ -91,16 +90,13 @@ inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @rdname join.tbl_sql
-#' @method left_join tbl_sql
 #' @export
 left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                  auto_index = FALSE, ...) {
   join_sql(x, y, "left", by = by, copy = copy, auto_index = auto_index, ...)
 }
 
-
 #' @rdname join.tbl_sql
-#' @method semi_join tbl_sql
 #' @export
 semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                  auto_index = FALSE, ...) {
@@ -109,7 +105,6 @@ semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @rdname join.tbl_sql
-#' @method anti_join tbl_sql
 #' @export
 anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                  auto_index = FALSE, ...) {

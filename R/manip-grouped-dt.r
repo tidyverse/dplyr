@@ -34,7 +34,6 @@ NULL
 
 #' @rdname manip_grouped_dt
 #' @export
-#' @method filter grouped_dt
 filter.grouped_dt <- function(.data, ...) {
   # Set keys, if needed
   keys <- deparse_all(groups(.data))
@@ -60,7 +59,6 @@ filter.grouped_dt <- function(.data, ...) {
 
 #' @rdname manip_grouped_dt
 #' @export
-#' @method summarise grouped_dt
 summarise.grouped_dt <- function(.data, ...) {
   # Set keys, if needed
   keys <- deparse_all(groups(.data))
@@ -92,7 +90,6 @@ summarise.grouped_dt <- function(.data, ...) {
 
 #' @rdname manip_grouped_dt
 #' @export
-#' @method mutate grouped_dt
 mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
   data <- .data
   # Set keys, if needed
@@ -122,7 +119,6 @@ mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
 
 #' @rdname manip_grouped_dt
 #' @export
-#' @method arrange grouped_dt
 arrange.grouped_dt <- function(.data, ...) {
   keys <- deparse_all(groups(.data))
 
@@ -142,7 +138,6 @@ arrange.grouped_dt <- function(.data, ...) {
 
 #' @rdname manip_grouped_dt
 #' @export
-#' @method select grouped_dt
 select.grouped_dt <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
   input_vars <- vapply(input, as.character, character(1))

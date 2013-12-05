@@ -162,7 +162,6 @@ as.data.frame.tbl_cube <- function(x, ...) {
 #' @export
 as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
  
-#' @method as.tbl_cube array
 #' @export
 #' @rdname as.tbl_cube
 #' @param met_name a string to use as the name for the metric

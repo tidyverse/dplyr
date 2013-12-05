@@ -104,7 +104,6 @@ src_bigquery <- function(project, dataset, billing = project) {
   src_sql("bigquery", con)
 }
 
-#' @method tbl src_bigquery
 #' @export
 #' @rdname src_bigquery
 tbl.src_bigquery <- function(src, from, ...) {

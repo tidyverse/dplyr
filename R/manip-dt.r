@@ -41,7 +41,6 @@ and_expr <- function(exprs) {
 
 #' @rdname manip_dt
 #' @export
-#' @method filter data.table
 filter.data.table <- function(.data, ..., .env = parent.frame()) {
   expr <- and_expr(dots(...))
   call <- substitute(.data[expr, ])

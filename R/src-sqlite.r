@@ -100,7 +100,6 @@ src_sqlite <- function(path, create = FALSE) {
   src_sql("sqlite", con, path = path, info = info)
 }
 
-#' @method tbl src_sqlite
 #' @export
 #' @rdname src_sqlite
 tbl.src_sqlite <- function(src, from, ...) {

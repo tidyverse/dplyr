@@ -106,7 +106,6 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
     info = info, disco = db_disconnector(con, "postgres"))
 }
 
-#' @method tbl src_postgres
 #' @export
 #' @rdname src_postgres
 tbl.src_postgres <- function(src, from, ...) {
