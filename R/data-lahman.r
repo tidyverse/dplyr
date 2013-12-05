@@ -63,13 +63,6 @@ lahman_dt <- function() {
 
 #' @export
 #' @rdname lahman
-lahman_cpp <- function() {
-  check_lahman()
-  src_cpp("Lahman")
-}
-
-#' @export
-#' @rdname lahman
 lahman_bigquery <- function(...) {
   if (is_cached("lahman_bigquery")) return(get_cache("lahman_bigquery"))
   

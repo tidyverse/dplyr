@@ -2,7 +2,6 @@
 \alias{has_lahman}
 \alias{lahman}
 \alias{lahman_bigquery}
-\alias{lahman_cpp}
 \alias{lahman_df}
 \alias{lahman_dt}
 \alias{lahman_mysql}
@@ -20,8 +19,6 @@ lahman_mysql(...)
 lahman_df()
 
 lahman_dt()
-
-lahman_cpp()
 
 lahman_bigquery(...)
 

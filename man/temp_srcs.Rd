@@ -15,7 +15,7 @@ work on Hadley's computer.
 }
 \examples{
 \dontrun{
-local <- c("df", "dt", "cpp")
+local <- c("df", "dt")
 db <- c("sqlite", "mysql", "postgres")
 
 temp_srcs(local)

@@ -8,7 +8,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' local <- c("df", "dt", "cpp")
+#' local <- c("df", "dt")
 #' db <- c("sqlite", "mysql", "postgres")
 #' 
 #' temp_srcs(local)
@@ -28,7 +28,6 @@ temp_src <- function(type, ...) {
   src <- switch(type,
     df =       src_df(env = env),
     dt =       src_dt(env = env),
-    cpp =      src_cpp(env = env),
     sqlite =   src_sqlite(tempfile(), create = TRUE),
     mysql =    src_mysql("test", ...),
     postgres = src_postgres("test", ...),
