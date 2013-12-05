@@ -29,7 +29,11 @@ order_by <- function(order_by, call) {
   call <- substitute(call)
   stopifnot(is.call(call))
   
-  new_call <- as.call(c(quote(with_order), substitute(order_by), as.list(call)))
+  new_call <- as.call(c(
+    quote(with_order), 
+    list(substitute(order_by)), 
+    as.list(call)
+  ))
   eval(new_call, parent.frame())
 }
 
