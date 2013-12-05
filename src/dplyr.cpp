@@ -741,9 +741,10 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     Shelter<SEXP> __ ;
     
     NamedListAccumulator<SEXP> accumulator ;
-    int nvars = gdf.nvars() ;
-    for( int i=0; i<nvars; i++){
-        accumulator.set( PRINTNAME(gdf.symbol(i)), df[i] ) ;
+    int ncolumns = df.size() ;
+    CharacterVector column_names = df.names() ;
+    for( int i=0; i<ncolumns; i++){
+        accumulator.set( column_names[i], df[i] ) ;
     }
     
     for( int i=0; i<nexpr; i++){
