@@ -607,7 +607,12 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame build_index_cpp( DataFrame data ){
-    CharacterVector vars = Rf_getAttrib( data.attr( "vars" ), R_NamesSymbol ) ;
+    ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
+    int nsymbols = symbols.size() ;
+    CharacterVector vars(nsymbols) ;
+    for( int i=0; i<nsymbols; i++){
+        vars[i] = PRINTNAME(symbols[i]) ;    
+    }
     
     DataFrameVisitors visitors(data, vars) ;
     ChunkIndexMap map( visitors ) ;
@@ -640,8 +645,6 @@ DataFrame build_index_cpp( DataFrame data ){
     DataFrameVisitors all_variables_visitors(data, data.names() ) ;
     data = all_variables_visitors.subset( indices, classes_grouped() ) ;
     
-    // TODO: we own labels, so perhaps we can do an inplace sort, 
-    //       to reuse its memory instead of creating a new data frame
     DataFrameVisitors labels_visitors( labels, vars) ;
     
     labels = labels_visitors.subset( orders, "data.frame" ) ;
