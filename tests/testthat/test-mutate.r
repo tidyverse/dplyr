@@ -50,6 +50,10 @@ test_that("mutate can rename variables (#137)", {
   expect_equal(res$cyl2, mtcars$cyl)
   
   res <- mutate(group_by(tbl_df(mtcars), am) , cyl2 = cyl)
-  expect_equal(res$cyl2, res$cyl)
-  
+  expect_equal(res$cyl2, res$cyl)  
+})
+
+test_that("mutate refuses to modify grouping vars (#143)", {
+  expect_error(mutate(group_by(tbl_df(mtcars), am) , am = am + 2), 
+    "cannot modify grouping variable")
 })
