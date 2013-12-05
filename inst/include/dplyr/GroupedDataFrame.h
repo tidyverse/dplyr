@@ -94,7 +94,7 @@ namespace Rcpp {
     
     template <>
     inline bool is<GroupedDataFrame>( SEXP x){
-        return Rf_inherits( x, "grouped_cpp" ) || Rf_inherits(x, "grouped_df" ) ;
+        return Rf_inherits(x, "grouped_df" ) ;
     }
     
 }
