@@ -50,12 +50,6 @@ groups.grouped_cpp <- function(x, value) {
   attr(x, "vars")
 }
 
-
-#' @export
-"groups<-.tbl_cpp" <- function(x, value) {
-  grouped_df(x, value, lazy = FALSE)
-}
-
 #' @export
 as.data.frame.grouped_cpp <- function(x, row.names = NULL,
                                             optional = FALSE, ...) {

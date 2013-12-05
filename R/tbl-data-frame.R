@@ -11,7 +11,6 @@ groups.data.frame <- function(x) NULL
 #' @export
 ungroup.data.frame <- function(x) x
 
-
 # Manipulation functions ------------------------------------------------------
 
 # These could potentially be rewritten to avoid any copies, but since this
@@ -66,3 +65,12 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...))
 }
+
+# Misc -------------------------------------------------------------------------
+
+#' @export
+collect.data.frame <- function(x, ...) x
+#' @export
+compute.data.frame <- function(x, ...) x
+#' @export
+collapse.data.frame <- function(x, ...) x

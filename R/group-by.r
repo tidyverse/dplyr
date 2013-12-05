@@ -76,16 +76,6 @@ group_by <- function(x, ..., add = TRUE) {
 }
 
 
-#' Ungroup a grouped tbl
-#'
-#' The inverse of \code{\link{group_by}}
-#'
-#' @param x a grouped tbl
-#' @export
-ungroup <- function(x) {
-  UseMethod("ungroup")
-}
-
 #' Get/set the grouping variables for tbl.
 #' 
 #' These functions do not perform non-standard evaluation, and so are useful
@@ -111,4 +101,14 @@ groups <- function(x) {
   stopifnot(is.list(value))
   
   UseMethod("groups<-")
+}
+
+#' Ungroup a grouped tbl
+#'
+#' The inverse of \code{\link{group_by}}
+#'
+#' @param x a grouped tbl
+#' @export
+ungroup <- function(x) {
+  UseMethod("ungroup")
 }
