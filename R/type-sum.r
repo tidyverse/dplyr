@@ -15,28 +15,28 @@
 #' type_sum(mean)
 type_sum <- function(x) UseMethod("type_sum")
 
-#' @S3method type_sum numeric
+#' @export
 type_sum.numeric <- function(x) "dbl"
-#' @S3method type_sum integer
+#' @export
 type_sum.integer <- function(x) "int"
-#' @S3method type_sum logical
+#' @export
 type_sum.logical <- function(x) "lgl"
-#' @S3method type_sum character
+#' @export
 type_sum.character <- function(x) "chr"
 
-#' @S3method type_sum factor
+#' @export
 type_sum.factor <- function(x) "fctr"
-#' @S3method type_sum POSIXt
+#' @export
 type_sum.POSIXt <- function(x) "time"
-#' @S3method type_sum Date
+#' @export
 type_sum.Date <- function(x) "date"
 
-#' @S3method type_sum matrix
+#' @export
 type_sum.matrix <- function(x) {
   paste0(NextMethod(), "[", paste0(dim(x), collapse = ","), "]")
 }
-#' @S3method type_sum array
+#' @export
 type_sum.array <- type_sum.matrix
 
-#' @S3method type_sum default
+#' @export
 type_sum.default <- function(x) unname(abbreviate(class(x)[1], 4))
