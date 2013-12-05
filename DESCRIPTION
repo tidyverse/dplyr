@@ -54,7 +54,6 @@ Collate:
     'grouped-df.r'
     'grouped-dt.r'
     'id.r'
-    'join-cpp.r'
     'join-df.r'
     'join-dt.r'
     'join-sql.r'
