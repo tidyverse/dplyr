@@ -132,15 +132,19 @@ mutate(hflights_df,
 
 `dplyr::mutate()` works the same way as `plyr::mutate()` and similarly to `base::transform()`. The key difference between `mutate()` and `transform()` is that mutate allows you to refer to columns that you just created:
 
-```{r, error = TRUE}
+```{r}
 mutate(hflights_df, 
   gain = ArrDelay - DepDelay, 
   gain_per_hour = gain / (AirTime / 60)
 )
+```
+
+```{r, eval = FALSE}
 transform(hflights, 
   gain = ArrDelay - DepDelay, 
   gain_per_hour = gain / (AirTime / 60)
 )
+#> Error: object 'gain' not found
 ```
 
 ## Summarise values with `summarise()`
