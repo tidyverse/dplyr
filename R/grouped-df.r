@@ -21,6 +21,7 @@ grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
   
   attr(data, "vars") <- vars
   attr(data, "drop") <- drop
+
   if (!lazy) {
     data <- build_index_cpp(data)
   }

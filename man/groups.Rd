@@ -1,11 +1,14 @@
 \name{groups}
 \alias{groups}
 \alias{groups<-}
+\alias{ungroup}
 \title{Get/set the grouping variables for tbl.}
 \usage{
 groups(x)
 
 groups(x) <- value
+
+ungroup(x)
 }
 \arguments{
   \item{x}{data \code{\link{tbl}}}
@@ -15,12 +18,15 @@ groups(x) <- value
 \description{
 These functions do not perform non-standard evaluation, and
 so are useful when programming against \code{tbl} objects.
+\code{ungroup} is a convenient inline way of removing
+existing grouping.
 }
 \examples{
 grouped <- group_by(mtcars, cyl)
 groups(grouped)
 groups(grouped) <- list(quote(vs))
 groups(grouped)
+groups(ungroup(grouped))
 }
 \seealso{
 \code{\link{group_by}} for a version that does non-standard

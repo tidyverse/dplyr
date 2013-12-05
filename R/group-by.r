@@ -79,7 +79,8 @@ group_by <- function(x, ..., add = TRUE) {
 #' Get/set the grouping variables for tbl.
 #' 
 #' These functions do not perform non-standard evaluation, and so are useful
-#' when programming against \code{tbl} objects.
+#' when programming against \code{tbl} objects. \code{ungroup} is a convenient
+#' inline way of removing existing grouping.
 #' 
 #' @param x data \code{\link{tbl}}
 #' @param value a list of symbols
@@ -91,6 +92,7 @@ group_by <- function(x, ..., add = TRUE) {
 #' groups(grouped)
 #' groups(grouped) <- list(quote(vs))
 #' groups(grouped)
+#' groups(ungroup(grouped))
 groups <- function(x) {
   UseMethod("groups")
 }
@@ -103,12 +105,8 @@ groups <- function(x) {
   UseMethod("groups<-")
 }
 
-#' Ungroup a grouped tbl
-#'
-#' The inverse of \code{\link{group_by}}
-#'
-#' @param x a grouped tbl
 #' @export
+#' @rdname groups
 ungroup <- function(x) {
   UseMethod("ungroup")
 }
