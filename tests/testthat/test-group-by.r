@@ -9,8 +9,8 @@ test_that("group_by adds to additional groups", {
   add_groups1 <- function(tbl) groups(group_by(tbl, x, y))
   add_groups2 <- function(tbl) groups(group_by(group_by(tbl, x), y))
   
-  expect_equal(add_groups1(tbls$df), list(x = quote(x), y = quote(y)))
-  expect_equal(add_groups2(tbls$df), list(x = quote(x), y = quote(y)))
+  expect_equal(add_groups1(tbls$df), list(quote(x), quote(y)))
+  expect_equal(add_groups2(tbls$df), list(quote(x), quote(y)))
 
   expect_equal(add_groups1(tbls$dt), list(quote(x), quote(y)))
   expect_equal(add_groups2(tbls$dt), list(quote(x), quote(y)))

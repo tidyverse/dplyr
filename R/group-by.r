@@ -65,6 +65,7 @@ group_by <- function(x, ..., add = TRUE) {
     
     new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
   }
+  names(new_groups) <- NULL
 
   if (add) {
     new_groups <- c(groups(x), new_groups)

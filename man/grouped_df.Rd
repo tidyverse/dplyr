@@ -3,7 +3,7 @@
 \alias{is.grouped_df}
 \title{A grouped data frame.}
 \usage{
-grouped_df(data, vars, lazy = TRUE, drop = TRUE)
+grouped_df(data, vars, drop = TRUE)
 
 is.grouped_df(x)
 }
@@ -11,10 +11,6 @@ is.grouped_df(x)
   \item{data}{a tbl or data frame.}
 
   \item{vars}{a list of quoted variables.}
-
-  \item{lazy}{if \code{TRUE}, index will be computed lazily
-  every time it is needed. If \code{FALSE}, index will be
-  computed up front on object creation.}
 
   \item{drop}{if \code{TRUE} preserve all factor levels,
   even those without data.}

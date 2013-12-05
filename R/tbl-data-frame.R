@@ -2,7 +2,7 @@
 
 #' @export
 "groups<-.data.frame" <- function(x, value) {
-  grouped_df(x, value, lazy = FALSE)
+  grouped_df(x, value)
 }
 
 #' @export

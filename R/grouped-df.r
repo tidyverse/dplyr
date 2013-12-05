@@ -7,24 +7,19 @@
 #' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars a list of quoted variables.
-#' @param lazy if \code{TRUE}, index will be computed lazily every time it
-#'   is needed. If \code{FALSE}, index will be computed up front on object
-#'   creation.
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
-grouped_df <- function(data, vars, lazy = TRUE, drop = TRUE) {
+grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
 
-  assert_that(is.data.frame(data), is.list(vars), is.flag(lazy), is.flag(drop))
+  assert_that(is.data.frame(data), is.list(vars), is.flag(drop))
   
-  attr(data, "vars") <- vars
+  attr(data, "vars") <- unname(vars)
   attr(data, "drop") <- drop
-
-  if (!lazy) {
-    data <- build_index_cpp(data)
-  }
+  data <- build_index_cpp(data)
+  
   class(data) <- c("grouped_cpp", "tbl_cpp", "tbl", "data.frame")
   data
 }
