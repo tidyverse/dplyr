@@ -174,8 +174,9 @@ The basic techniques underying the implementation of `translate_sql()` are descr
 
 It's not possible to provide a perfect translation because databases don't have all the functions that R does. The goal of dplyr is to provide a semantic translation: to translate what you mean, not the precise details. Even for functions that exist both in databases and R you shouldn't expect results to be exactly the same; database programmers have different priorities to R core. For example, in R, `mean()` loops through the data twice in order to get a higher level of numerical accuracy at the cost of being twice as slow. R's `mean()` also provides a `trim` option for computing trimmed means, which databases do not provide. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. This means the essense of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will raise an error:
 
-```{r, error = TRUE}
+```{r, eval = FALSE}
 translate_sql(mean(x, trim = T))
+# Error: Invalid number of args to SQL AVG. Expecting 1
 ```
 
 Any function that dplyr does't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
