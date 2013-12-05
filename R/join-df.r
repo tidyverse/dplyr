@@ -37,146 +37,34 @@
 #' @name join.tbl_df
 NULL
 
-#' @method inner_join tbl_df
 #' @export
 #' @rdname join.tbl_df
-inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
-  grouped_df(NextMethod(), groups(x))
-}
-
-#' @method inner_join data.frame
-#' @export
-#' @rdname join.tbl_df
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+inner_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy = copy)
-
-  keys <- join_keys(x, y, by = by)
-
-  # Ensure tables have unique names
-  uniques <- unique_names(names(x), names(y), by)
-  if (!is.null(uniques)) {
-    names(x) <- uniques$x
-    names(y) <- uniques$y
-  }
-  y.cols <- setdiff(names(y), by)
-  
-  ids <- join_ids(keys)
-  out <- cbind(
-    x[ids$x,       , drop = FALSE], 
-    y[ids$y, y.cols, drop = FALSE]
-  )
-  attr(out, "row.names") <- .set_row_names(nrow(out))
-  out
+  inner_join_impl(x, y, by)
 }
 
-#' @method left_join tbl_df
 #' @export
 #' @rdname join.tbl_df
-left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
-  grouped_df(NextMethod(), groups(x))
-}
-
-#' @method left_join data.frame
-#' @export
-#' @rdname join.tbl_df
-left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+left_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy = copy)
-  
-  keys <- join_keys(x, y, by = by)
-  # Ensure tables have unique names
-  uniques <- unique_names(names(x), names(y), by)
-  if (!is.null(uniques)) {
-    names(x) <- uniques$x
-    names(y) <- uniques$y
-  }
-  
-  x.cols <- setdiff(names(x), by)
-  y.cols <- setdiff(names(y), by)
-  
-  ids <- join_ids(keys, all = TRUE)
-  out <- cbind(
-    x[ids$x,       , drop = FALSE], 
-    y[ids$y, y.cols, drop = FALSE]
-  )
-  attr(out, "row.names") <- .set_row_names(nrow(out))
-  out
+  left_join_impl(x, y, by)
 }
 
-#' @method semi_join tbl_df
 #' @export
 #' @rdname join.tbl_df
-semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
-  grouped_df(NextMethod(), groups(x))
-}
-
-#' @method semi_join data.frame
-#' @export
-#' @rdname join.tbl_df
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+semi_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy = copy)
-  
-  keys <- join_keys(x, y, by = by)
-  x.cols <- setdiff(names(x), by)
-  y.cols <- setdiff(names(y), by)
-  
-  x[keys$x %in% keys$y, , drop = FALSE]
+  semi_join_impl(x, y, by)
 }
 
-#' @method anti_join tbl_df
 #' @export
 #' @rdname join.tbl_df
-anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
-  grouped_df(NextMethod(), groups(x))
-}
-
-#' @method anti_join data.frame
-#' @export
-#' @rdname join.tbl_df
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+anti_join.tbl_cpp <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy = copy)
-  
-  keys <- join_keys(x, y, by = by)
-  x.cols <- setdiff(names(x), by)
-  y.cols <- setdiff(names(y), by)
-  
-  x[!(keys$x %in% keys$y), , drop = FALSE]
-}
-
-# Basic tools -----------------------------------------------------------------
-# These are not very efficient, but they get the job done
-
-join_ids <- function(keys, all = FALSE) {
-  ys <- split_indices(keys$y, keys$n)
-  length(ys) <- keys$n
-  
-  if (all) {
-    # replace NULL with NA to preserve those x's without matching y's
-    nulls <- vapply(ys, function(x) length(x) == 0, logical(1))
-    ys[nulls] <- list(NA_real_)
-  }
-  
-  ys <- ys[keys$x]
-  xs <- rep(seq_along(keys$x), vapply(ys, length, numeric(1)))
-  
-  list(x = xs, y = unlist(ys))
-}
-
-join_keys <- function(x, y, by = NULL) {
-  by <- by %||% common_by(x, y)
-  
-  joint <- rbind(x[by], y[by])
-  keys <- id(joint, drop = TRUE)
-  
-  n_x <- nrow(x)
-  n_y <- nrow(y)
-  
-  list(
-    x = keys[seq_len(n_x)],
-    y = keys[n_x + seq_len(n_y)],
-    n = attr(keys, "n")
-  )
+  anti_join_impl(x, y, by)
 }

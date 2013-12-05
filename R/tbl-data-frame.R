@@ -44,3 +44,25 @@ select.data.frame <- function(.data, ...) {
 do.data.frame <- function(.data, .f, ...) {
   list(.f(.data, ...))
 }
+
+# Joins ------------------------------------------------------------------------
+
+#' @export
+inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(left_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(semi_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
