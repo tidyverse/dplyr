@@ -18,7 +18,7 @@ src <- function(subclass, ...) {
 #' @export
 is.src <- function(x) inherits(x, "src")
 
-#' @S3method print src
+#' @export
 print.src <- function(x, ...) {
   cat(format(x, ...), "\n", sep = "")
 }

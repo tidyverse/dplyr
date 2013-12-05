@@ -28,7 +28,7 @@ grouped_dt <- function(data, vars) {
   structure(data, vars = vars, class = c("grouped_dt", "tbl_dt", "tbl", class(data)))
 }
 
-#' @S3method groups grouped_dt
+#' @export
 groups.grouped_dt <- function(x) {
   attr(x, "vars")
 }
@@ -38,7 +38,7 @@ groups.grouped_dt <- function(x) {
 #' @export
 is.grouped_dt <- function(x) inherits(x, "grouped_dt")
 
-#' @S3method print grouped_dt
+#' @export
 print.grouped_dt <- function(x, ...) {
   cat("Source: local data table ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
@@ -46,7 +46,7 @@ print.grouped_dt <- function(x, ...) {
   trunc_mat(x)
 }
 
-#' @S3method group_size grouped_dt
+#' @export
 group_size.grouped_dt <- function(x) {
   summarise(x, n = n())$n
 }
@@ -66,7 +66,7 @@ group_size.grouped_dt <- function(x) {
   grouped_dt(x, unname(value))
 }
 
-#' @S3method ungroup grouped_dt
+#' @export
 ungroup.grouped_dt <- function(x) {
   attr(x, "vars") <- NULL
   class(x) <- setdiff(class(x), "grouped_dt")

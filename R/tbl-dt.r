@@ -22,15 +22,15 @@ tbl_dt <- function(data) {
   structure(data, class = c("tbl_dt", "tbl", class(data)))
 }
 
-#' @S3method as.tbl data.table
+#' @export
 as.tbl.data.table <- function(x, ...) {
   tbl_dt(x)
 }
 
-#' @S3method tbl_vars tbl_dt
+#' @export
 tbl_vars.tbl_dt <- function(x) copy(names(x))
 
-#' @S3method groups tbl_dt
+#' @export
 groups.tbl_dt <- function(x) {
   NULL
 }
@@ -41,7 +41,7 @@ ungroup.tbl_dt <- function(x) x
 #' @export
 ungroup.data.table <- function(x) x
 
-#' @S3method same_src tbl_dt
+#' @export
 same_src.tbl_dt <- function(x, y) {
   data.table::is.data.table(y)
 }
@@ -49,27 +49,27 @@ same_src.tbl_dt <- function(x, y) {
 
 # Standard data frame methods --------------------------------------------------
 
-#' @S3method as.data.frame tbl_dt
+#' @export
 as.data.frame.tbl_dt <- function(x, row.names = NULL, optional = FALSE, ...) {
 #   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
 #   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
   NextMethod()
 }
 
-#' @S3method print tbl_dt
+#' @export
 print.tbl_dt <- function(x, ...) {
   cat("Source:     local data table ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)
 }
 
-#' @S3method dimnames tbl_dt
+#' @export
 dimnames.tbl_dt <- function(x) copy(NextMethod())
 
-#' @S3method head tbl_dt
+#' @export
 head.tbl_dt <- function(x, ...) as.data.frame(NextMethod())
 
-#' @S3method tail tbl_dt
+#' @export
 tail.tbl_dt <- function(x, ...) tbl_df(as.data.frame(NextMethod()))
 
 #' @export

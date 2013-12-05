@@ -111,7 +111,7 @@ tbl.src_bigquery <- function(src, from, ...) {
   tbl_sql("bigquery", src = src, from = from, ...)
 }
 
-#' @S3method brief_desc src_bigquery
+#' @export
 brief_desc.src_bigquery <- function(x) {
   paste0("bigquery [", x$con$project, "/", x$con$dataset, "]")
 }

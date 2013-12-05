@@ -43,7 +43,7 @@ collapse <- function(x, ...) {
 
 # Methods ---------------------------------------------------------------------
 
-#' @S3method collapse tbl_sql
+#' @export
 collapse.tbl_sql <- function(x, vars = NULL, ...) {
   # If you collapse a query, the names of the fields will be the output names
   # of the previous query.
@@ -55,35 +55,35 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
   update(tbl(x$src, x$query$sql, vars = vars, ...), group_by = groups(x))
 }
 
-#' @S3method compute tbl_sql
+#' @export
 compute.tbl_sql <- function(x, name = random_table_name(), ...) {
   x$query$save_into(name)
   update(tbl(x$src, name), group_by = groups(x))
 }
 
-#' @S3method collect tbl_sql
+#' @export
 collect.tbl_sql <- function(x, ...) {
   grouped_df(x$query$fetch(), groups(x))
 }
 
 
-#' @S3method collapse tbl_df
+#' @export
 collapse.tbl_df <- function(x, ...) x
-#' @S3method collapse tbl_cpp
+#' @export
 collapse.tbl_cpp <- function(x, ...) x
-#' @S3method collapse tbl_dt
+#' @export
 collapse.tbl_dt <- function(x, ...) x
 
-#' @S3method compute tbl_df
+#' @export
 compute.tbl_df <- function(x, ...) x
-#' @S3method compute tbl_cpp
+#' @export
 compute.tbl_cpp <- function(x, ...) x
-#' @S3method compute tbl_dt
+#' @export
 compute.tbl_dt <- function(x, ...) x
 
-#' @S3method collect tbl_df
+#' @export
 collect.tbl_df <- function(x, ...) x
-#' @S3method collect tbl_cpp
+#' @export
 collect.tbl_cpp <- function(x, ...) x
-#' @S3method collect tbl_dt
+#' @export
 collect.tbl_dt <- function(x, ...) x

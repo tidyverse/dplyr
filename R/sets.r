@@ -22,13 +22,13 @@ setdiff <- function(x, y, ...) UseMethod("setdiff")
 #' @export
 setequal <- function(x, y, ...) UseMethod("setequal")
 
-#' @S3method intersect default
+#' @export
 intersect.default <- function(x, y, ...) base::intersect(x, y)
-#' @S3method union default
+#' @export
 union.default <-     function(x, y, ...) base::union(x, y)
-#' @S3method setdiff default
+#' @export
 setdiff.default <-   function(x, y, ...) base::setdiff(x, y)
-#' @S3method setequal default
+#' @export
 setequal.default <-  function(x, y, ...) base::setequal(x, y)
 
 #' Set operations for data frames.
@@ -53,18 +53,14 @@ setequal.default <-  function(x, y, ...) base::setequal(x, y)
 NULL
 
 #' @rdname setops-data.frame
-#' @method intersect data.frame
 #' @export
 intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
 #' @rdname setops-data.frame
-#' @method union data.frame
 #' @export
 union.data.frame <-     function(x, y, ...) union_data_frame(x, y)
 #' @rdname setops-data.frame
-#' @method setdiff data.frame
 #' @export
 setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
 #' @rdname setops-data.frame
-#' @method setequal data.frame
 #' @export
 setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)

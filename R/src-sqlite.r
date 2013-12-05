@@ -107,7 +107,7 @@ tbl.src_sqlite <- function(src, from, ...) {
   tbl_sql("sqlite", src = src, from = from, ...)
 }
 
-#' @S3method brief_desc src_sqlite
+#' @export
 brief_desc.src_sqlite <- function(x) {
   paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
 }

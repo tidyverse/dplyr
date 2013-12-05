@@ -52,7 +52,7 @@ filter.data.table <- function(.data, ..., .env = parent.frame()) {
   eval(call, eval_env)
 }
 
-#' @S3method filter tbl_dt
+#' @export
 filter.tbl_dt <- function(.data, ..., .env = parent.frame()) {
   tbl_dt(
     filter.data.table(.data, ..., .env = .env)
@@ -61,7 +61,6 @@ filter.tbl_dt <- function(.data, ..., .env = parent.frame()) {
 
 #' @rdname manip_dt
 #' @export
-#' @method summarise data.table
 summarise.data.table <- function(.data, ...) {
   cols <- named_dots(...)
   list_call <- as.call(c(quote(list), named_dots(...)))
@@ -70,7 +69,7 @@ summarise.data.table <- function(.data, ...) {
   eval(call, parent.frame())
 }
 
-#' @S3method summarise tbl_dt
+#' @export
 summarise.tbl_dt <- function(.data, ...) {
   tbl_dt(
     summarise.data.table(.data, ...)
@@ -79,7 +78,6 @@ summarise.tbl_dt <- function(.data, ...) {
 
 #' @rdname manip_dt
 #' @export
-#' @method mutate data.table
 mutate.data.table <- function(.data, ..., inplace = FALSE) {
   if (!inplace) .data <- copy(.data)
 
@@ -97,7 +95,7 @@ mutate.data.table <- function(.data, ..., inplace = FALSE) {
   .data
 }
 
-#' @S3method mutate tbl_dt
+#' @export
 mutate.tbl_dt <- function(.data, ...) {
   tbl_dt(
     mutate.data.table(.data, ...)
@@ -106,7 +104,6 @@ mutate.tbl_dt <- function(.data, ...) {
 
 #' @rdname manip_dt
 #' @export
-#' @method arrange data.table
 arrange.data.table <- function(.data, ...) {
   call <- substitute(data[order(...)])
   env <- new.env(parent = parent.frame(), size = 1L)
@@ -116,7 +113,7 @@ arrange.data.table <- function(.data, ...) {
   eval(call, env)
 }
 
-#' @S3method arrange tbl_dt
+#' @export
 arrange.tbl_dt <- function(.data, ...) {
   tbl_dt(
     arrange.data.table(.data, ...)
@@ -125,7 +122,6 @@ arrange.tbl_dt <- function(.data, ...) {
 
 #' @rdname manip_dt
 #' @export
-#' @method select data.table
 select.data.table <- function(.data, ...) {
   input <- var_eval(dots(...), .data, parent.frame())
   input_vars <- vapply(input, as.character, character(1))
@@ -133,19 +129,19 @@ select.data.table <- function(.data, ...) {
   .data[, input_vars, drop = FALSE, with = FALSE]
 }
 
-#' @S3method select tbl_dt
+#' @export
 select.tbl_dt <- function(.data, ...) {
   tbl_dt(
     select.data.table(.data, ...)
   )
 }
 
-#' @S3method do data.table
+#' @export
 do.data.table <- function(.data, .f, ...) {
   list(.f(as.data.frame(.data), ...))
 }
 
-#' @S3method do tbl_dt
+#' @export
 do.tbl_dt <- function(.data, .f, ...) {
   list(.f(as.data.frame(.data), ...))
 }

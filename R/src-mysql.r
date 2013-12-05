@@ -109,7 +109,7 @@ tbl.src_mysql <- function(src, from, ...) {
   tbl_sql("mysql", src = src, from = from, ...)
 }
 
-#' @S3method brief_desc src_mysql
+#' @export
 brief_desc.src_mysql <- function(x) {
   info <- x$info
   

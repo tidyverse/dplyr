@@ -11,14 +11,14 @@
 #' @export
 query <- function(con, sql, .vars) UseMethod("query")
 
-#' @S3method query DBIConnection
+#' @export
 query.DBIConnection <- function(con, sql, .vars) {
   assert_that(is.string(sql))
 
   Query$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
 }
 
-#' @exportClass Query
+#' @export
 #' @importFrom methods setRefClass
 Query <- setRefClass("Query",
   fields = c("con", "sql", ".vars", ".res", ".nrow"),

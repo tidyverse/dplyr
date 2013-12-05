@@ -1,11 +1,11 @@
-#' @S3method select tbl_cube
+#' @export
 select.tbl_cube <- function(.data, ...) {
   idx <- var_index(dots(...), .data$mets, parent.frame())
   .data$mets <- .data$mets[idx]
   .data
 }
 
-#' @S3method filter tbl_cube
+#' @export
 filter.tbl_cube <- function(.data, ...) {
   exprs <- dots(...)
   
@@ -58,7 +58,7 @@ groups.tbl_cube <- function(x) {
 # context - need to use the same active environment tricks as in dplyr
 # for better performance
 
-#' @S3method summarise tbl_cube
+#' @export
 summarise.tbl_cube <- function(.data, ...) {
   exprs <- named_dots(...)
   out_dims <- .data$dims[.data$group]

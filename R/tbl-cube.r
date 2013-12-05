@@ -106,21 +106,20 @@ tbl_cube <- function(dimensions, measures) {
   structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
 }
 
-#' @S3method tbl_vars tbl_cube
+#' @export
 tbl_vars.tbl_cube <- function(x) names(x$dims)
 
-#' @S3method dim tbl_cube
+#' @export
 dim.tbl_cube <- function(x) {
   c(length(x$mets[[1]]), length(x$dim))
 }
 
-#' @S3method same_src tbl_cube
+#' @export
 same_src.tbl_cube <- function(x, y) {
   inherits(y, "tbl_cube")
 }
 
-
-#' @S3method print tbl_cube
+#' @export
 print.tbl_cube <- function(x, ...) {
   cat("Source: local array ", dim_desc(x), "\n",
     sep = "")
@@ -141,7 +140,7 @@ print.tbl_cube <- function(x, ...) {
   cat(vars, sep = "\n")
 }
 
-#' @S3method as.data.frame tbl_cube
+#' @export
 as.data.frame.tbl_cube <- function(x, ...) {
   dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE)
   mets <- lapply(x$mets, as.vector)
@@ -189,12 +188,10 @@ undimname <- function(x) {
   x
 }
 
-#' @method as.tbl_cube table
 #' @export
 #' @rdname as.tbl_cube
 as.tbl_cube.table <- as.tbl_cube.array
 
-#' @method as.tbl_cube data.frame
 #' @export
 #' @rdname as.tbl_cube
 as.tbl_cube.data.frame <- function(x, dim_names, ...) {

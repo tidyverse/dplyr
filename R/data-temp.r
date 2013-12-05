@@ -40,15 +40,15 @@ temp_src <- function(type, ...) {
 }
 
 reset <- function(x) UseMethod("reset")
-#' @S3method reset default
+#' @export
 reset.default <- function(x) NULL
-#' @S3method reset src_sql
+#' @export
 reset.src_sql <- function(x) {
   for (tbl in src_tbls(x)) {
     dbRemoveTable(x$con, tbl)
   }
 }
-#' @S3method reset list
+#' @export
 reset.list <- function(x) {
   for (y in x) reset(y)
 }

@@ -11,13 +11,13 @@
 # fixed upstream.
 
 dbi_connect <- function(driver, ...) UseMethod("dbi_connect")
-#' @S3method dbi_connect SQLiteDriver
+#' @export
 dbi_connect.SQLiteDriver <- function(driver, ...) {
   con <- dbConnect(driver, ...)
   RSQLite.extfuns::init_extensions(con)
   con
 }
-#' @S3method dbi_connect DBIDriver
+#' @export
 dbi_connect.DBIDriver <- function(driver, ...) {
   dbConnect(driver, ...)
 }
@@ -27,9 +27,9 @@ dbi_connect.DBIDriver <- function(driver, ...) {
 db_info <- function(con) dbGetInfo(con)
 
 db_list_tables <- function(con) UseMethod("db_list_tables")
-#' @S3method db_list_tables DBIConnection
+#' @export
 db_list_tables.DBIConnection <- function(con) dbListTables(con)
-#' @S3method db_list_tables SQLiteConnection
+#' @export
 db_list_tables.SQLiteConnection <- function(con) {
   sql <- "SELECT name FROM
     (SELECT * FROM sqlite_master UNION ALL
@@ -38,17 +38,17 @@ db_list_tables.SQLiteConnection <- function(con) {
     ORDER BY name"
   qry_fetch(con, sql)[[1]]
 }
-#' @S3method db_list_tables bigquery
+#' @export
 db_list_tables.bigquery <- function(con) {
   list_tables(con$project, con$dataset)
 }
 
 db_has_table <- function(con, table) UseMethod("db_has_table")
-#' @S3method db_has_table default
+#' @export
 db_has_table.default <- function(con, table) {
   table %in% db_list_tables(con)
 }
-#' @S3method db_has_table MySQLConnection
+#' @export
 db_has_table.MySQLConnection <- function(con, table) {
   # MySQL has no way to list temporary tables, so we always NA to
   # skip any local checks and rely on the database to throw informative errors
@@ -58,12 +58,12 @@ db_has_table.MySQLConnection <- function(con, table) {
 
 db_data_type <- function(con, fields) UseMethod("db_data_type")
 
-#' @S3method db_data_type DBIConnection
+#' @export
 db_data_type.DBIConnection <- function(con, fields) {
   vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
-#' @S3method db_data_type MySQLConnection
+#' @export
 db_data_type.MySQLConnection <- function(con, fields) {
   char_type <- function(x) {
     n <- max(nchar(as.character(x), "bytes")) 
@@ -113,28 +113,28 @@ qry_fields <- function(con, from) {
   UseMethod("qry_fields")
 }
 
-#' @S3method qry_fields DBIConnection
+#' @export
 qry_fields.DBIConnection <- function(con, from) {
   qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
   on.exit(dbClearResult(qry))
   
   dbGetInfo(qry)$fieldDescription[[1]]$name
 }
-#' @S3method qry_fields SQLiteConnection
+#' @export
 qry_fields.SQLiteConnection <- function(con, from) {
   names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
 
 table_fields <- function(con, table) UseMethod("table_fields")
-#' @S3method table_fields DBIConnection
+#' @export
 table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
 
-#' @S3method table_fields PostgreSQLConnection
+#' @export
 table_fields.PostgreSQLConnection <- function(con, table) {
   qry_fields.DBIConnection(con, table)
 }
 
-#' @S3method table_fields bigquery
+#' @export
 table_fields.bigquery <- function(con, table) {
   info <- get_table(con$project, con$dataset, table)
   vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
@@ -168,7 +168,7 @@ qry_fetch <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
   UseMethod("qry_fetch")
 }
 
-#' @S3method qry_fetch DBIConnection
+#' @export
 qry_fetch.DBIConnection <- function(con, sql, n = -1L, 
                                     show = getOption("dplyr.show_sql"),
                                     explain = getOption("dplyr.explain_sql")) {
@@ -184,7 +184,7 @@ qry_fetch.DBIConnection <- function(con, sql, n = -1L,
   out
 }
 
-#' @S3method qry_fetch bigquery
+#' @export
 qry_fetch.bigquery <- function(con, sql, n = -1L, 
                                     show = getOption("dplyr.show_sql"),
                                     explain = getOption("dplyr.explain_sql")) {
@@ -222,7 +222,7 @@ qry_explain <- function(con, sql, ...) {
   UseMethod("qry_explain")
 }
 # http://sqlite.org/lang_explain.html
-#' @S3method qry_explain SQLiteConnection
+#' @export
 qry_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
   expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
@@ -232,7 +232,7 @@ qry_explain.SQLiteConnection <- function(con, sql, ...) {
   paste(out, collapse = "\n")
 }
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
-#' @S3method qry_explain PostgreSQLConnection
+#' @export
 qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   format <- match.arg(format, c("text", "json", "yaml", "xml"))
   
@@ -258,21 +258,21 @@ res_warn_incomplete <- function(res) {
 
 
 sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
-#' @S3method sql_begin_trans SQLiteConnection
+#' @export
 sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
-#' @S3method sql_begin_trans DBIConnection
+#' @export
 sql_begin_trans.DBIConnection <- function(con) {
   qry_run(con, "BEGIN TRANSACTION")
 }
-#' @S3method sql_begin_trans MySQLConnection
+#' @export
 sql_begin_trans.MySQLConnection <- function(con) {
   qry_run(con, "START TRANSACTION")
 }
 
 sql_commit <- function(con) UseMethod("sql_commit")
-#' @S3method sql_commit DBIConnection
+#' @export
 sql_commit.DBIConnection <- function(con) dbCommit(con)
-#' @S3method sql_commit MySQLConnection
+#' @export
 sql_commit.MySQLConnection <- function(con) {
   qry_run(con, "COMMIT")
 }
@@ -295,7 +295,7 @@ sql_insert_into <- function(con, table, values) {
   UseMethod("sql_insert_into")
 }
 
-#' @S3method sql_insert_into SQLiteConnection
+#' @export
 sql_insert_into.SQLiteConnection <- function(con, table, values) {
   params <- paste(rep("?", ncol(values)), collapse = ", ")
   
@@ -303,7 +303,7 @@ sql_insert_into.SQLiteConnection <- function(con, table, values) {
   qry_run(con, sql, data = values)
 }
 
-#' @S3method sql_insert_into PostgreSQLConnection
+#' @export
 sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
@@ -315,7 +315,7 @@ sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
   qry_run(con, sql)
 }
 
-#' @S3method sql_insert_into MySQLConnection
+#' @export
 sql_insert_into.MySQLConnection <- function(con, table, values) {
   
   # Convert factors to strings
@@ -342,7 +342,7 @@ sql_create_indexes <- function(con, table, indexes = NULL, ...) {
   UseMethod("sql_create_indexes")
 }
 
-#' @S3method sql_create_indexes DBIConnection
+#' @export
 sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
@@ -352,7 +352,7 @@ sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   }
 }
 
-#' @S3method sql_create_indexes MySQLConnection
+#' @export
 sql_create_indexes.MySQLConnection <- function(con, table, indexes = NULL, ...) {
   sql_add_index <- function(columns) {
     name <- paste0(c(table, columns), collapse = "_")
@@ -385,13 +385,13 @@ sql_drop_table <- function(con, table, force = FALSE) {
 
 sql_analyze <- function(con, table) UseMethod("sql_analyze")
 
-#' @S3method sql_analyze DBIConnection
+#' @export
 sql_analyze.DBIConnection <- function(con, table) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
   qry_run(con, sql)
 }
 
-#' @S3method sql_analyze MySQLConnection
+#' @export
 sql_analyze.MySQLConnection <- function(con, table) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
   qry_run(con, sql)

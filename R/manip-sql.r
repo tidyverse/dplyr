@@ -1,22 +1,22 @@
-#' @S3method filter tbl_sql
+#' @export
 filter.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   update(.data, where = c(.data$where, input))
 }
 
-#' @S3method arrange tbl_sql
+#' @export
 arrange.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   update(.data, order_by = c(input, .data$order_by))
 }
 
-#' @S3method select tbl_sql
+#' @export
 select.tbl_sql <- function(.data, ...) {
   input <- select_eval(dots(...), .data$select, parent.frame())
   update(.data, select = input)
 }
 
-#' @S3method summarise tbl_sql
+#' @export
 summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)
@@ -69,7 +69,7 @@ summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
 }
 
 
-#' @S3method mutate tbl_sql
+#' @export
 mutate.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)
@@ -79,7 +79,6 @@ mutate.tbl_sql <- function(.data, ...) {
 }
 
 #' @export
-#' @method do tbl_sql
 #' @rdname do
 #' @param .chunk_size The size of each chunk to pull into R. If this number is
 #'   too big, the process will be slow because R has to allocate and free a lot

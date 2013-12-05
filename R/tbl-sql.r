@@ -40,7 +40,7 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
   update(tbl)
 }
 
-#' @S3method update tbl_sql
+#' @export
 update.tbl_sql <- function(object, ...) {
   args <- list(...)
   assert_that(only_has_names(args, c("select", "where", "group_by", "order_by")))
@@ -64,30 +64,30 @@ update.tbl_sql <- function(object, ...) {
   object
 } 
 
-#' @S3method same_src tbl_sql
+#' @export
 same_src.tbl_sql <- function(x, y) {
   if (!inherits(y, "tbl_sql")) return(FALSE)
   same_src(x$src, y$src)
 }
 
-#' @S3method tbl_vars tbl_sql
+#' @export
 tbl_vars.tbl_sql <- function(x) {
   x$query$vars()
 }
 
-#' @S3method groups tbl_sql
+#' @export
 groups.tbl_sql <- function(x) {
   x$group_by
 }
 
 # Grouping methods -------------------------------------------------------------
 
-#' @S3method ungroup tbl_sql
+#' @export
 ungroup.tbl_sql <- function(x, ...) {
   update(x, group_by = NULL)
 }
 
-#' @S3method group_size tbl_sql
+#' @export
 group_size.tbl_sql <- function(x) {
   df <- collect(summarise(x, n = n()))
   df$n
@@ -95,13 +95,13 @@ group_size.tbl_sql <- function(x) {
 
 # Standard data frame methods --------------------------------------------------
 
-#' @S3method as.data.frame tbl_sql
+#' @export
 as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
   ..., n = 1e5L) {
   x$query$fetch(n)
 }
 
-#' @S3method print tbl_sql
+#' @export
 print.tbl_sql <- function(x, ...) {
   cat("Source: ", brief_desc(x$src), "\n", sep = "")
   
@@ -128,12 +128,12 @@ print.tbl_sql <- function(x, ...) {
 
 brief_desc <- function(x) UseMethod("brief_desc")
 
-#' @S3method dimnames tbl_sql
+#' @export
 dimnames.tbl_sql <- function(x) {
   list(NULL, tbl_vars.tbl_sql(x))
 }
 
-#' @S3method dim tbl_sql
+#' @export
 dim.tbl_sql <- function(x) {
   if (!inherits(x$from, "ident")) {
     n <- NA
@@ -145,14 +145,14 @@ dim.tbl_sql <- function(x) {
   c(n, p)
 }
 
-#' @S3method head tbl_sql
+#' @export
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
   
   build_query(x, limit = n)$fetch()
 }
 
-#' @S3method tail tbl_sql
+#' @export
 tail.tbl_sql <- function(x, n = 6L, ...) {
   stop("tail is not supported by sql sources", call. = FALSE)
 }

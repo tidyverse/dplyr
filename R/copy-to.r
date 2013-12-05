@@ -68,7 +68,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   tbl(dest, name)
 }
 
-#' @S3method copy_to src_bigquery
+#' @export
 copy_to.src_bigquery <- function(dest, df, name = deparse(substitute(df)), ...) {
   job <- insert_upload_job(dest$con$project, dest$con$dataset, name, df, 
     billing = dest$con$billing)
@@ -88,27 +88,27 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   UseMethod("auto_copy")
 } 
 
-#' @S3method auto_copy tbl_sql
+#' @export
 auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
   copy_to(x$src, as.data.frame(y), random_table_name(), ...)
 }
 
-#' @S3method auto_copy tbl_dt
+#' @export
 auto_copy.tbl_dt <- function(x, y, copy = FALSE, ...) {
   as.data.table(as.data.frame(y))
 }
 
-#' @S3method auto_copy tbl_df
+#' @export
 auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
   as.data.frame(y)
 }
 
-#' @S3method auto_copy tbl_cube
+#' @export
 auto_copy.tbl_cube <- function(x, y, copy = FALSE, ...) {
   stop("Copying not supported by tbl_cube", call. = FALSE)
 }
 
-#' @S3method auto_copy tbl_cpp
+#' @export
 auto_copy.tbl_cpp <- function(x, y, copy = FALSE, ...) {
   as.data.frame(y)
 }

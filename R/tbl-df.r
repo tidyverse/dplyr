@@ -63,15 +63,15 @@ tbl_df <- function(data) {
   data
 }
 
-#' @S3method as.tbl data.frame
+#' @export
 as.tbl.data.frame <- function(x, ...) {
   tbl_df(x)
 }
 
-#' @S3method tbl_vars data.frame
+#' @export
 tbl_vars.data.frame <- function(x) names(x)
 
-#' @S3method same_src data.frame
+#' @export
 same_src.data.frame <- function(x, y) {
   is.data.frame(y)
 }

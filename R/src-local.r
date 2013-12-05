@@ -47,25 +47,24 @@ src_dt <- function(pkg = NULL, env = NULL) {
   src_local("tbl_dt", pkg, env)
 }
 
-#' @S3method src_tbls src_local
+#' @export
 src_tbls.src_local <- function(x, ...) {
   objs <- ls(envir = x$env)
   Filter(function(obj) is.data.frame(get(obj, envir = x$env)), objs) 
 }
 
-#' @S3method tbl src_local
+#' @export
 tbl.src_local <- function(src, from, ...) {
   src$tbl_f(get(from, src$env))
 }
 
-#' @S3method copy_to src_local
+#' @export
 copy_to.src_local <- function(dest, df, name = deparse(substitute(df)), ...) {
   assign(name, envir = dest$env, df)
   tbl(dest, name)
 }
 
-
-#' @S3method format src_local
+#' @export
 format.src_local <- function(x, ...) {
   paste0("src:  ", x$name, "\n",
     wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", ")))

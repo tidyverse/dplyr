@@ -155,7 +155,7 @@ select.grouped_dt <- function(.data, ...) {
 }
 
 
-#' @S3method do grouped_dt
+#' @export
 do.grouped_dt <- function(.data, .f, ...) {
   keys <- deparse_all(groups(.data))
   setkeyv(.data, keys)

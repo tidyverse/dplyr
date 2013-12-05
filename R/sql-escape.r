@@ -64,7 +64,7 @@ ident <- function(x) {
   structure(x, class = c("ident", "sql", "character"))
 }
 
-#' @S3method c sql
+#' @export
 c.sql <- function(..., drop_null = FALSE) {
   input <- list(...)
   if (drop_null) input <- compact(input)
@@ -73,7 +73,7 @@ c.sql <- function(..., drop_null = FALSE) {
   sql(out)
 }
 
-#' @S3method unique sql
+#' @export
 unique.sql <- function(x, ...) {
   sql(NextMethod())
 }
@@ -91,9 +91,9 @@ is.sql <- function(x) inherits(x, "sql")
 is.ident <- function(x) inherits(x, "ident")
 
 
-#' @S3method print sql
+#' @export
 print.sql <- function(x, ...) cat(format(x, ...), sep = "\n")
-#' @S3method format sql
+#' @export
 format.sql <- function(x, ...) paste0("<SQL> ", x)
 
 #' @rdname sql
@@ -102,37 +102,37 @@ escape <- function(x, parens = NA, collapse = " ", con = NULL) {
   UseMethod("escape")
 }
 
-#' @S3method escape ident
+#' @export
 escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL) {
   y <- escape_ident(con, x)
   sql_vector(names_to_as(y, con), parens, collapse)
 }
 
-#' @S3method escape logical
+#' @export
 escape.logical <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x <- as.character(x)
   x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }
 
-#' @S3method escape factor
+#' @export
 escape.factor <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x <- as.character(x)
   escape.character(x, parens = parens, collapse = collapse, con = con)
 }
 
-#' @S3method escape Date
+#' @export
 escape.Date <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x <- as.character(x)
   escape.character(x, parens = parens, collapse = collapse, con = con)
 }
 
-#' @S3method escape character
+#' @export
 escape.character <- function(x, parens = NA, collapse = ", ", con = NULL) {
   sql_vector(escape_string(con, x), parens, collapse, con = con)
 }
 
-#' @S3method escape double
+#' @export
 escape.double <- function(x, parens = NA, collapse = ", ", con = NULL) {
   missing <- is.na(x)
   x <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
@@ -141,23 +141,23 @@ escape.double <- function(x, parens = NA, collapse = ", ", con = NULL) {
   sql_vector(x, parens, collapse)
 }
 
-#' @S3method escape integer
+#' @export
 escape.integer <- function(x, parens = NA, collapse = ", ", con = NULL) {
   x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }
 
-#' @S3method escape NULL
+#' @export
 escape.NULL <- function(x, parens = NA, collapse = " ", con = NULL) {
   sql("NULL")
 }
 
-#' @S3method escape sql
+#' @export
 escape.sql <- function(x, parens = NULL, collapse = NULL, con = NULL) {
   sql_vector(x, isTRUE(parens), collapse, con = con)
 }
 
-#' @S3method escape list
+#' @export
 escape.list <- function(x, parens = TRUE, collapse = ", ", con = NULL) {
   pieces <- vapply(x, escape, character(1), con = con)
   sql_vector(pieces, parens, collapse)
@@ -226,26 +226,26 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
 # Database specific methods ----------------------------------------------------
 
 escape_string <- function(con, x) UseMethod("escape_string")
-#' @S3method escape_string default
+#' @export
 escape_string.default <- function(con, x) {
   sql_quote(x, "'")
 }
-#' @S3method escape_string bigquery
+#' @export
 escape_string.bigquery <- function(con, x) {
   encodeString(x, na.encode = FALSE, quote = '"')
 }
 
 escape_ident <- function(con, x) UseMethod("escape_ident")
 
-#' @S3method escape_ident default
+#' @export
 escape_ident.default <- function(con, x) {
   sql_quote(x, '"')
 }
-#' @S3method escape_ident MySQLConnection
+#' @export
 escape_ident.MySQLConnection <- function(con, x) {
   sql_quote(x, "`")
 }
-#' @S3method escape_ident bigquery
+#' @export
 escape_ident.bigquery <- function(con, x) {
   y <- paste0("[", x, "]")
   y[is.na(x)] <- "NULL"

@@ -113,7 +113,7 @@ tbl.src_postgres <- function(src, from, ...) {
   tbl_sql("postgres", src = src, from = from, ...)
 }
 
-#' @S3method brief_desc src_postgres
+#' @export
 brief_desc.src_postgres <- function(x) {
   info <- x$info
   host <- if (info$host == "") "localhost" else info$host

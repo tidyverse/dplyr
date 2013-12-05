@@ -27,12 +27,12 @@
 #' sapply(mods, coef)
 do <- function(.data, .f, ...) UseMethod("do")
 
-#' @S3method do NULL
+#' @export
 do.NULL <- function(.data, .f, ...) {
   NULL
 }
 
-#' @S3method do list
+#' @export
 do.list <- function(.data, .f, ...) {
   lapply(.data, .f, ...)
 }
