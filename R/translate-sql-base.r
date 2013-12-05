@@ -10,8 +10,8 @@ base_scalar <- sql_translator(
   `*`    = sql_infix("*"),
   `/`    = sql_infix("/"),
   `%%`   = sql_infix("%"),
-  `^`    = sql_infix("^"),
-  `-`  = function(x, y = NULL) {
+  `^`    = sql_prefix("power", 2),
+  `-`    = function(x, y = NULL) {
     if (is.null(y)) {
       build_sql(sql(" - "), x)
     } else {
@@ -31,9 +31,35 @@ base_scalar <- sql_translator(
   `&&`    = sql_infix("and"),
   `|`     = sql_infix("or"),
   `||`    = sql_infix("or"),
+  xor     = function(x, y) {
+    sql(sprintf("%1$s OR %2$s AND NOT (%1$s AND %2$s)", escape(x), escape(y)))
+  },
   
-  `^`     = sql_prefix("power", 2),
+  abs     = sql_prefix("abs", 1),
+  acos    = sql_prefix("acos", 1),
+  acosh   = sql_prefix("acosh", 1),
+  asin    = sql_prefix("asin", 1),
+  asinh   = sql_prefix("asinh", 1),
+  atan    = sql_prefix("atan", 1),
+  atan2   = sql_prefix("atan2", 2),
+  atanh   = sql_prefix("atanh", 1),
+  ceil    = sql_prefix("ceil", 1),
   ceiling = sql_prefix("ceil", 1),
+  cos     = sql_prefix("cos", 1),
+  cosh    = sql_prefix("cosh", 1),
+  cot     = sql_prefix("cot", 1),
+  coth    = sql_prefix("coth", 1),
+  exp     = sql_prefix("exp", 1),
+  floor   = sql_prefix("floor", 1),
+  log     = sql_prefix("log", 2),
+  log10   = sql_prefix("log10", 1),
+  round   = sql_prefix("round", 2),
+  sign    = sql_prefix("sign", 1),
+  sin     = sql_prefix("sin", 1),
+  sinh    = sql_prefix("sinh", 1),
+  sqrt    = sql_prefix("sqrt", 1),
+  tan     = sql_prefix("tan", 1),
+  
   tolower = sql_prefix("lower", 1),
   toupper = sql_prefix("upper", 1),
   nchar   = sql_prefix("length", 1),
@@ -53,9 +79,6 @@ base_scalar <- sql_translator(
   },
   desc = function(x) {
     build_sql(x, sql(" DESC"))
-  },
-  xor = function(x, y) {
-    sql(sprintf("%1$s OR %2$s AND NOT (%1$s AND %2$s)", escape(x), escape(y)))
   },
   
   is.null = function(x) {

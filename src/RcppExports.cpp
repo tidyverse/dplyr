@@ -354,14 +354,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // count_distinct
-SEXP count_distinct(SEXP vec);
-RcppExport SEXP dplyr_count_distinct(SEXP vecSEXP) {
+SEXP count_distinct(SEXP x);
+RcppExport SEXP dplyr_count_distinct(SEXP xSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< SEXP >::type vec(vecSEXP );
-        SEXP __result = count_distinct(vec);
+        Rcpp::traits::input_parameter< SEXP >::type x(xSEXP );
+        SEXP __result = count_distinct(x);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

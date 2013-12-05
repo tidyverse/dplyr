@@ -85,8 +85,18 @@ summarise_impl <- function(df, args, env) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
-count_distinct <- function(vec) {
-    .Call('dplyr_count_distinct', PACKAGE = 'dplyr', vec)
+#' Efficiently count the number of unique values in a vector.
+#' 
+#' This is a faster and more concise equivalent of \code{length(unique(x))}
+#' 
+#' @param x a vector of values
+#' @export
+#' @examples
+#' x <- sample(1:10, 1e5, rep = TRUE)
+#' length(unique(x))
+#' count_distinct(x)
+count_distinct <- function(x) {
+    .Call('dplyr_count_distinct', PACKAGE = 'dplyr', x)
 }
 
 #' @export

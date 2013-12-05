@@ -741,9 +741,10 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     Shelter<SEXP> __ ;
     
     NamedListAccumulator<SEXP> accumulator ;
-    int nvars = gdf.nvars() ;
-    for( int i=0; i<nvars; i++){
-        accumulator.set( PRINTNAME(gdf.symbol(i)), df[i] ) ;
+    int ncolumns = df.size() ;
+    CharacterVector column_names = df.names() ;
+    for( int i=0; i<ncolumns; i++){
+        accumulator.set( column_names[i], df[i] ) ;
     }
     
     for( int i=0; i<nexpr; i++){
@@ -958,13 +959,23 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
     }
 }
 
+//' Efficiently count the number of unique values in a vector.
+//' 
+//' This is a faster and more concise equivalent of \code{length(unique(x))}
+//' 
+//' @param x a vector of values
+//' @export
+//' @examples
+//' x <- sample(1:10, 1e5, rep = TRUE)
+//' length(unique(x))
+//' count_distinct(x)
 // [[Rcpp::export]]
-SEXP count_distinct(SEXP vec){ 
-    SlicingIndex everything(0, Rf_length(vec) );
-    boost::scoped_ptr<Result> res( count_distinct_result(vec) );
+SEXP count_distinct(SEXP x){ 
+    SlicingIndex everything(0, Rf_length(x) );
+    boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){
         std::stringstream ss ;
-        ss << "cannot handle object of type" << type_name(vec) ;
+        ss << "cannot handle object of type" << type_name(x) ;
         stop( ss.str() ) ;
     }
     return res->process(everything) ;

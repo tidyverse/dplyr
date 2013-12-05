@@ -4,7 +4,8 @@
     dplyr.show_sql = FALSE,
     dplyr.explain_sql = FALSE,
     dplyr.strict_sql = FALSE,
-    dplyr.max_print = 10L
+    dplyr.print_min = 10L,
+    dplyr.print_max = 100L
   )
   toset <- !(names(op.dplyr) %in% names(op))
   if(any(toset)) options(op.dplyr[toset])

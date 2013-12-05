@@ -113,7 +113,11 @@ sql_prefix <- function(f, n = NULL) {
   assert_that(is.string(f))
 
   f <- toupper(f)
-  function(...) {
+  function(..., na.rm) {
+    if (!missing(na.rm)) {
+      stop("na.rm not needed in SQL: NULL are always dropped", call. = FALSE)
+    }
+    
     args <- list(...)
     if (!is.null(n) && length(args) != n) {
       stop("Invalid number of args to SQL ", f, ". Expecting ", n, 
