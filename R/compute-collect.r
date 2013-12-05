@@ -68,21 +68,15 @@ collect.tbl_sql <- function(x, ...) {
 
 
 #' @export
-collapse.tbl_df <- function(x, ...) x
-#' @export
 collapse.tbl_cpp <- function(x, ...) x
 #' @export
 collapse.tbl_dt <- function(x, ...) x
 
 #' @export
-compute.tbl_df <- function(x, ...) x
-#' @export
 compute.tbl_cpp <- function(x, ...) x
 #' @export
 compute.tbl_dt <- function(x, ...) x
 
-#' @export
-collect.tbl_df <- function(x, ...) x
 #' @export
 collect.tbl_cpp <- function(x, ...) x
 #' @export

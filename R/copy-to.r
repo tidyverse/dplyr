@@ -98,11 +98,6 @@ auto_copy.tbl_dt <- function(x, y, copy = FALSE, ...) {
 }
 
 #' @export
-auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
-  as.data.frame(y)
-}
-
-#' @export
 auto_copy.tbl_cube <- function(x, y, copy = FALSE, ...) {
   stop("Copying not supported by tbl_cube", call. = FALSE)
 }

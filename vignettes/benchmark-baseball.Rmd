@@ -54,7 +54,7 @@ microbenchmark(
 
 NB: base implementation captures computation but not output format, giving considerably less output.
 
-However, this comparison is slightly unfair because both data.table and `summarise.tbl_df` use tricks to find a more efficient implementation of `mean()`. Data table calls a `C` implementation of the `mean (using `.External(Cfastmean, B, FALSE)`  and thus avoiding the overhead of S3 method dispatch). `dplyr::summarise` uses a hybrid evaluation technique, where common functions are implemented purely in C++, avoiding R function call overhead.
+However, this comparison is slightly unfair because both data.table and `summarise()` use tricks to find a more efficient implementation of `mean()`. Data table calls a `C` implementation of the `mean (using `.External(Cfastmean, B, FALSE)`  and thus avoiding the overhead of S3 method dispatch). `dplyr::summarise` uses a hybrid evaluation technique, where common functions are implemented purely in C++, avoiding R function call overhead.
 
 ```{r sumarise-mean_}
 mean_ <- function(x) .Internal(mean(x))
