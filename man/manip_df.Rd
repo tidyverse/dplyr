@@ -1,6 +1,6 @@
 \name{manip_df}
+\alias{arrange.tbl_cpp}
 \alias{filter.tbl_cpp}
-\alias{manip_df}
 \alias{mutate.tbl_cpp}
 \alias{select.tbl_cpp}
 \alias{summarise.tbl_cpp}
@@ -21,10 +21,6 @@
 
   \item{...}{variables interpreted in the context of
   \code{.data}}
-
-  \item{env}{The environment in which to evaluate arguments
-  not included in the data. The default should suffice for
-  ordinary usage.}
 }
 \description{
 Data manipulation for data frames.
