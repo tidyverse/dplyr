@@ -83,7 +83,7 @@ test_that("local group_by preserves variable types", {
 })
 
 test_that("mutate does not loose variables (#144)",{
-  df <- tbl_cpp(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
+  df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
   by_ab <- group_by(df, a, b)
   by_a  <- summarise( by_ab, x = sum(x))
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))

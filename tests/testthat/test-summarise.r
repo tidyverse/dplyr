@@ -47,7 +47,7 @@ test_that("summarise can refer to variables that were just created (#138)", {
 
 test_that("summarise refuses to modify grouping variable (#143)", {
   df <- data.frame( a = c(1,2,1,2), b = c(1,1,2,2), x = 1:4 )
-  ds <- group_by(tbl_cpp(df), a, b)
+  ds <- group_by(tbl_df(df), a, b)
   expect_error( 
     summarise(ds, a = mean(x), a = b + 1),
     "cannot modify grouping variable"
