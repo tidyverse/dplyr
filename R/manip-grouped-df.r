@@ -168,6 +168,14 @@ select.grouped_df <- function(.data, ...) {
   grouped_df(.data[, vars, drop = FALSE], attr(.data, "vars"))
 }
 
+#' @export
+#' @method select grouped_cpp
+select.grouped_cpp <- function(.data, ...) {
+  input <- var_eval(dots(...), .data, parent.frame())
+  vars <- vapply(input, as.character, character(1))
+  grouped_cpp(.data[, vars, drop = FALSE], attr(.data, "vars"))
+}
+
 #' @S3method do grouped_df
 do.grouped_df <- function(.data, .f, ...) {
   if (is.lazy(.data)) .data <- build_index(.data)
