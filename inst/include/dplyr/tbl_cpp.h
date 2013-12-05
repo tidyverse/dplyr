@@ -10,10 +10,10 @@ namespace dplyr {
     }
     
     inline Rcpp::CharacterVector classes_grouped(){
-        return Rcpp::CharacterVector::create( "grouped_cpp", "tbl_cpp", "tbl", "data.frame") ;        
+        return Rcpp::CharacterVector::create( "grouped_df", "tbl_df", "tbl", "data.frame") ;        
     }
     inline Rcpp::CharacterVector classes_not_grouped(){
-        return Rcpp::CharacterVector::create( "tbl_cpp", "tbl", "data.frame") ;
+        return Rcpp::CharacterVector::create( "tbl_df", "tbl", "data.frame") ;
     }
 
     class tbl_cpp{

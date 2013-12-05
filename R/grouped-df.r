@@ -20,16 +20,16 @@ grouped_df <- function(data, vars, drop = TRUE) {
   attr(data, "drop") <- drop
   data <- build_index_cpp(data)
   
-  class(data) <- c("grouped_cpp", "tbl_cpp", "tbl", "data.frame")
+  class(data) <- c("grouped_df", "tbl_df", "tbl", "data.frame")
   data
 }
 
 #' @rdname grouped_df
 #' @export
-is.grouped_df <- function(x) inherits(x, "grouped_cpp")
+is.grouped_df <- function(x) inherits(x, "grouped_df")
 
 #' @export
-print.grouped_cpp <- function(x, ...) {
+print.grouped_df <- function(x, ...) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
@@ -37,30 +37,30 @@ print.grouped_cpp <- function(x, ...) {
 }
 
 #' @export
-group_size.grouped_cpp <- function(x) {
+group_size.grouped_df <- function(x) {
   group_size_grouped_cpp(x)
 }
 
 #' @export
-groups.grouped_cpp <- function(x) {
+groups.grouped_df <- function(x) {
   attr(x, "vars")
 }
 
 #' @export
-as.data.frame.grouped_cpp <- function(x, row.names = NULL,
-                                            optional = FALSE, ...) {
+as.data.frame.grouped_df <- function(x, row.names = NULL,
+                                     optional = FALSE, ...) {
   x <- ungroup(x)
   class(x) <- "data.frame"
   x
 }
 
 #' @export
-ungroup.grouped_cpp <- function(x) {
+ungroup.grouped_df <- function(x) {
   attr(x, "vars") <- NULL
   attr(x, "index") <- NULL
   attr(x, "labels") <- NULL
   attr(x, "drop") <- NULL
   
-  class(x) <- c("tbl_cpp", "tbl", "data.frame")
+  class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }

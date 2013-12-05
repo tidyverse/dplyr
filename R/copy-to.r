@@ -103,6 +103,6 @@ auto_copy.tbl_cube <- function(x, y, copy = FALSE, ...) {
 }
 
 #' @export
-auto_copy.tbl_cpp <- function(x, y, copy = FALSE, ...) {
+auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
   as.data.frame(y)
 }

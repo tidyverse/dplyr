@@ -59,7 +59,7 @@ tbl_df <- function(data) {
   assert_that(is.data.frame(data))
   if (is.grouped_df(data)) return(ungroup(data))
   
-  class(data) <- c("tbl_cpp", "tbl", "data.frame")
+  class(data) <- c("tbl_df", "tbl", "data.frame")
   data
 }
 
@@ -83,13 +83,13 @@ same_src.data.frame <- function(x, y) {
 # Standard data frame methods --------------------------------------------------
 
 #' @export
-as.data.frame.tbl_cpp <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
   class(x) <- "data.frame"
   x
 }
 
 #' @export
-print.tbl_cpp <- function(x, ...) {
+print.tbl_df <- function(x, ...) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x)

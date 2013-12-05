@@ -1,18 +1,18 @@
 \name{join.tbl_df}
-\alias{anti_join.tbl_cpp}
-\alias{inner_join.tbl_cpp}
+\alias{anti_join.tbl_df}
+\alias{inner_join.tbl_df}
 \alias{join.tbl_df}
-\alias{left_join.tbl_cpp}
-\alias{semi_join.tbl_cpp}
+\alias{left_join.tbl_df}
+\alias{semi_join.tbl_df}
 \title{Join data table tbls.}
 \usage{
-\method{inner_join}{tbl_cpp}(x, y, by = NULL, copy = FALSE, ...)
+\method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
-\method{left_join}{tbl_cpp}(x, y, by = NULL, copy = FALSE, ...)
+\method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
-\method{semi_join}{tbl_cpp}(x, y, by = NULL, copy = FALSE, ...)
+\method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
-\method{anti_join}{tbl_cpp}(x, y, by = NULL, copy = FALSE, ...)
+\method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
   \item{x,y}{tbls to join}

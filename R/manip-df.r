@@ -26,28 +26,28 @@ NULL
 
 #' @rdname manip_df
 #' @export
-arrange.tbl_cpp    <- .data_dots(arrange_impl)
+arrange.tbl_df    <- .data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export
-filter.tbl_cpp    <- .data_dots(filter_impl)
+filter.tbl_df    <- .data_dots(filter_impl)
 
 #' @rdname manip_df
 #' @export
-mutate.tbl_cpp    <- .data_dots(mutate_impl, named_dots)
+mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
-summarise.tbl_cpp <- .data_dots(summarise_impl, named_dots)
+summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
-select.tbl_cpp <- function(.data, ...) {
+select.tbl_df <- function(.data, ...) {
   tbl_df(select.data.frame(.data, ...))
 }
 
 #' @export
-select.grouped_cpp <- function(.data, ...) {
+select.grouped_df <- function(.data, ...) {
   grouped_df(select.data.frame(.data, ...), groups(.data))
 }
 
@@ -79,7 +79,7 @@ sort_ <- function(data){
 
 
 #' @export
-do.grouped_cpp <- function(.data, .f, ...) {
+do.grouped_df <- function(.data, .f, ...) {
   if (is.null(attr(.data, "index"))) {
     .data <- build_index_cpp(.data)
   }
