@@ -60,7 +60,7 @@ test_that("mutate refuses to modify grouping vars (#143)", {
 
 test_that("mutate handles constants (#152)", {
   res <- mutate(tbl_df(mtcars), zz = 1)
-  expect_equal(res$zz, rep(1, nrows(mtcars)))
+  expect_equal(res$zz, rep(1, nrow(mtcars)))
 })
 
 test_that("mutate fails with wrong result size (#152)", {
@@ -74,6 +74,6 @@ test_that("mutate fails with wrong result size (#152)", {
 test_that("mutate refuses to use symbols not from the data", {
   y <- 1:6
   df <- group_by(data.frame(x = c(1, 2, 2, 3, 3, 3)), x)
-  mutate( df, z = y )
+  expect_error(mutate( df, z = y ))
 })
 
