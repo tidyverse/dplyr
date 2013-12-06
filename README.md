@@ -16,7 +16,6 @@ dplyr is the next iteration of plyr, focussed on tools for working with data fra
 `dplyr` is not yet available on CRAN, but you can install it from github with:
 
 ```R
-devtools::install_github("assertthat")
 devtools::install_github("dplyr")
 ```
 
