@@ -5,4 +5,4 @@ library("Lahman")
 lahman_sqlite()
 lahman_postgres()
 
-test_check("dplyr")
+test_package("dplyr")
