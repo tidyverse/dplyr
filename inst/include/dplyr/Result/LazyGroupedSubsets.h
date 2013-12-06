@@ -72,7 +72,7 @@ namespace dplyr {
             resolved_map.clear() ;
         }
         
-        int count( SEXP head) const {
+        int count(SEXP head) const {
             return subset_map.count(head);    
         }
         

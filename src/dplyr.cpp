@@ -757,7 +757,14 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
         SEXP name = results_names[i] ;
         SEXP variable = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
-            variable = proxy.get_variable( PRINTNAME(call) ) ;
+            if(proxy.has_variable(call)){ 
+                variable = proxy.get_variable( PRINTNAME(call) ) ;
+            } else {
+                std::stringstream s ;
+                s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
+                stop(s.str());
+            }
+                
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
             boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );

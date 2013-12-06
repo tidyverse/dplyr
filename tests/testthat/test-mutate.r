@@ -71,3 +71,9 @@ test_that("mutate fails with wrong result size (#152)", {
   expect_error(mutate(df, y = 1:2))
 })
 
+test_that("mutate refuses to use symbols not from the data", {
+  y <- 1:6
+  df <- group_by(data.frame(x = c(1, 2, 2, 3, 3, 3)), x)
+  mutate( df, z = y )
+})
+

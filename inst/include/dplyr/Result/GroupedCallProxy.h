@@ -72,6 +72,10 @@ namespace dplyr {
             return call ;    
         }
         
+        inline bool has_variable(SEXP symbol) const {
+            return subsets.count(symbol);    
+        }
+        
     private:
         
         inline bool can_simplify_call( SEXP call){
