@@ -49,7 +49,31 @@ namespace dplyr {
         Vector<RTYPE> data ;
         
     } ;
+    
+    template <int RTYPE>
+    class ConstantGathererImpl : public Gatherer {
+    public:
+        ConstantGathererImpl( Vector<RTYPE> constant, int n ) : value( n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0] ){}
+        
+        inline SEXP collect() {
+            return value ;
+        }
+        
+    private:
+        Vector<RTYPE> value ;
+    } ;
 
+    inline Gatherer* constant_gatherer(SEXP x, int n){
+        switch( TYPEOF(x) ){
+            case INTSXP: return new ConstantGathererImpl<INTSXP>( x, n ) ;
+            case REALSXP: return new ConstantGathererImpl<REALSXP>( x, n ) ;
+            case LGLSXP: return new ConstantGathererImpl<LGLSXP>( x, n ) ;
+            case STRSXP: return new ConstantGathererImpl<STRSXP>( x, n ) ;
+            default: break ;
+        }
+        return 0 ;
+    }
+    
     inline Gatherer* gatherer( GroupedCallProxy& proxy, const GroupedDataFrame& gdf ){
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;

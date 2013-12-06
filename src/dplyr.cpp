@@ -755,13 +755,18 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
     for( int i=0; i<nexpr; i++){
         SEXP call = args[i] ;
         SEXP name = results_names[i] ;
-        SEXP variable ;
+        SEXP variable = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             variable = proxy.get_variable( PRINTNAME(call) ) ;
-        } else {
-            proxy.set_call( args[i] );
+        } else if(TYPEOF(call) == LANGSXP){
+            proxy.set_call( call );
             boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
             variable = __( gather->collect() ) ;
+        } else if(Rf_length(call) == 1) {
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, gdf.nrows() ) );
+            variable = __( gather->collect() ) ;
+        } else {
+            stop( "cannot handle" ) ;    
         }
         
         proxy.input( name, variable ) ;
@@ -788,15 +793,19 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
     for( int i=0; i<nexpr; i++){
         SEXP call = args[i] ;
         SEXP name = results_names[i] ;
-        SEXP result ;
+        SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             result = call_proxy.get_variable( PRINTNAME(call) ) ;
-             
-        } else {
+        } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( args[i] );
             
             // we need to protect the SEXP, that's what the Shelter does
             result = __( call_proxy.eval() ) ;
+        } else if( Rf_length(call) == 1 ){
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );
+            result = __( gather->collect() ) ;
+        } else {
+            stop( "cannot handle" ) ;    
         }
         call_proxy.input( name, result ) ; 
         accumulator.set( name, result );

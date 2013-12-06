@@ -57,3 +57,8 @@ test_that("mutate refuses to modify grouping vars (#143)", {
   expect_error(mutate(group_by(tbl_df(mtcars), am) , am = am + 2), 
     "cannot modify grouping variable")
 })
+
+test_that("mutate handles constants (#152)", {
+  res <- mutate(tbl_df(mtcars), zz = 1)
+  expect_equal(res$zz, rep(1, nrows(mtcars)))
+})

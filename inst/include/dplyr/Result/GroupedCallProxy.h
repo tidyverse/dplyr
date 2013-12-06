@@ -64,6 +64,13 @@ namespace dplyr {
             return subsets.get_variable(as_symbol(name.get_sexp()) ) ;
         }
         
+        inline bool is_constant() const {
+            return TYPEOF(call) != LANGSXP && Rf_length(call) == 1 ;    
+        }
+        
+        inline SEXP get_call() const {
+            return call ;    
+        }
         
     private:
         
