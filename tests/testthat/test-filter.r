@@ -25,3 +25,8 @@ test_that("two filters equivalent to one", {
   compare_tbls(tbls, function(x) x %.% filter(a > 4) %.% filter(b == "a"), 
     ref = expected)
 })
+
+test_that("filter fails if inputs incorrect length (#156)", {
+  expect_error( filter(tbl_df(mtcars), c(F, T)) )
+  expect_error( filter(group_by(mtcars, am), c(F, T)) )
+})

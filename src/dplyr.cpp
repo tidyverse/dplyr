@@ -682,9 +682,17 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
-        g_test  = call_proxy.get( indices );
-        
         int chunk_size = indices.size() ;
+        
+        g_test  = call_proxy.get( indices );
+        if(g_test.size() != chunk_size ){
+            std::stringstream s ;
+            s << "incorrect length ("
+              << g_test.size()
+              << "), expecting: "
+              << chunk_size ;
+            stop(s.str());
+        }
         for( int j=0; j<chunk_size; j++){
             test[ indices[j] ] = g_test[j] ;  
         }
@@ -703,6 +711,14 @@ SEXP filter_not_grouped( DataFrame df, List args, Environment env){
     // and evaluate the expression
     CallProxy proxy( call, df, env ) ;
     LogicalVector test = proxy.eval() ;
+    if( test.size() != df.nrows() ) {
+        std::stringstream s ;
+        s << "incorrect length ("
+          << test.size()
+          << "), expecting: "
+          << df.nrows() ;
+        stop( s.str() ) ;
+    }
     
     DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
     return res ;
