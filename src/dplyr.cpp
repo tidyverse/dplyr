@@ -656,58 +656,100 @@ DataFrame build_index_cpp( DataFrame data ){
     return data ;
 }
 
-SEXP and_calls( List args ){
+typedef dplyr_hash_set<SEXP> SymbolSet ;
+
+SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set){
+    switch(TYPEOF(x)){
+    case LANGSXP: return x ;
+    case SYMSXP: 
+        {
+            if( set.count(x) ) return x ;
+            std::stringstream s ;
+            s << "unknown column : " << CHAR(PRINTNAME(x)) ;
+            stop(s.str());
+        }
+    default:
+        break ;
+    }
+    stop("incompatible expression in filter") ;
+    return x ; // never happens
+}
+
+SEXP and_calls( List args, const SymbolSet& set ){
     int ncalls = args.size() ;
     if( !ncalls ) {
         stop("incompatible input") ;    
     }
     
-    Rcpp::Armor<SEXP> res( args[0] ) ;
+    Rcpp::Armor<SEXP> res( assert_correct_filter_subcall(args[0], set) ) ;
     SEXP and_symbol = Rf_install( "&" ) ;
     for( int i=1; i<ncalls; i++)
-        res = Rcpp_lang3( and_symbol, res, args[i] ) ;
+        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(args[i],set) ) ;
+    
     return res ;
 }
 
 DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
-    // a, b, c ->  a & b & c
-    Language call = and_calls( args ) ;
-    
     const DataFrame& data = gdf.data() ;
+    CharacterVector names = data.names() ; 
+    SymbolSet set ;
+    for( int i=0; i<names.size(); i++){
+        set.insert( Rf_install( names[i] ) ) ;    
+    }
+    
+    // a, b, c ->  a & b & c
+    Shield<SEXP> call( and_calls( args, set ) ) ;
+    
     int nrows = data.nrows() ;
     LogicalVector test = no_init(nrows);
-    
-    LogicalVector g_test ;
-    GroupedCallProxy call_proxy( call, gdf, env ) ;
-    
-    int ngroups = gdf.ngroups() ;
-    GroupedDataFrame::group_iterator git = gdf.group_begin() ;
-    for( int i=0; i<ngroups; i++, ++git){
-        SlicingIndex indices = *git ;
-        int chunk_size = indices.size() ;
         
-        g_test  = call_proxy.get( indices );
-        if(g_test.size() != chunk_size ){
+    if( TYPEOF(call) == SYMSXP ){
+        SEXP variable = data[ CHAR(PRINTNAME(call)) ] ;
+        if( TYPEOF(variable) != LGLSXP ){
             std::stringstream s ;
-            s << "incorrect length ("
-              << g_test.size()
-              << "), expecting: "
-              << chunk_size ;
-            stop(s.str());
+            stop( "expecting a logical vector" ) ;    
         }
-        for( int j=0; j<chunk_size; j++){
-            test[ indices[j] ] = g_test[j] ;  
+        test = variable ;
+    } else {
+        LogicalVector g_test ;
+        Language call_ = call ;
+        GroupedCallProxy call_proxy( call_, gdf, env ) ;
+        
+        int ngroups = gdf.ngroups() ;
+        GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+        for( int i=0; i<ngroups; i++, ++git){
+            SlicingIndex indices = *git ;
+            int chunk_size = indices.size() ;
+            
+            g_test  = call_proxy.get( indices );
+            if(g_test.size() != chunk_size ){
+                std::stringstream s ;
+                s << "incorrect length ("
+                  << g_test.size()
+                  << "), expecting: "
+                  << chunk_size ;
+                stop(s.str());
+            }
+            for( int j=0; j<chunk_size; j++){
+                test[ indices[j] ] = g_test[j] ;  
+            }
         }
     }
-    DataFrame res = subset( data, test, data.names(), classes_grouped() ) ;
+    DataFrame res = subset( data, test, names, classes_grouped() ) ;
     res.attr( "vars")   = data.attr("vars") ;
             
     return res ;
 }
 
 SEXP filter_not_grouped( DataFrame df, List args, Environment env){
+    CharacterVector names = df.names() ; 
+    SymbolSet set ;
+    for( int i=0; i<names.size(); i++){
+        set.insert( Rf_install( names[i] ) ) ;    
+    }
+    
     // a, b, c ->  a & b & c
-    Language call = and_calls( args ) ;
+    Shield<SEXP> call( and_calls( args, set ) ) ;
     
     // replace the symbols that are in the data frame by vectors from the data frame
     // and evaluate the expression
