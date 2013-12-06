@@ -658,7 +658,9 @@ DataFrame build_index_cpp( DataFrame data ){
 
 SEXP and_calls( List args ){
     int ncalls = args.size() ;
-    if( !ncalls ) return Rf_ScalarLogical(TRUE) ;
+    if( !ncalls ) {
+        stop("incompatible input") ;    
+    }
     
     Rcpp::Armor<SEXP> res( args[0] ) ;
     SEXP and_symbol = Rf_install( "&" ) ;

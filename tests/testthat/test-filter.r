@@ -30,3 +30,8 @@ test_that("filter fails if inputs incorrect length (#156)", {
   expect_error( filter(tbl_df(mtcars), c(F, T)) )
   expect_error( filter(group_by(mtcars, am), c(F, T)) )
 })
+
+test_that("filter fails if no expression is given (#157)", {
+  expect_error( filter(mtcars) )
+})
+
