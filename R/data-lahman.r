@@ -130,7 +130,6 @@ lahman_src <- function(type, ...) {
   switch(type,
     df = lahman_df(),
     dt = lahman_dt(),
-    cpp = lahman_cpp(),
     sqlite = src_sqlite(db_location(filename = "lahman.sqlite", ...), create = TRUE),
     mysql = src_mysql("lahman", ...),
     postgres = src_postgres("lahman", ...),
