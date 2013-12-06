@@ -30,10 +30,10 @@
 #'
 #' # The batting database has indices on all ID variables:
 #' # SQLite automatically picks the most restrictive index
-#' explain_tbl(filter(batting, lgID == "NL" && yearID == 2000))
+#' explain_tbl(filter(batting, lgID == "NL" & yearID == 2000))
 #'
 #' # OR's will use multiple indexes
-#' explain_tbl(filter(batting, lgID == "NL" || yearID == 2000))
+#' explain_tbl(filter(batting, lgID == "NL" | yearID == 2000))
 #' }
 explain_sql <- function(code) {
   old <- options(dplyr.explain_sql = TRUE, dplyr.show_sql = TRUE)

@@ -53,7 +53,7 @@
 #' group_size(players)
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
-#' filter(players, AB == max(AB) || G == max(G))
+#' filter(players, AB == max(AB) | G == max(G))
 #' # Not supported yet:
 #' \dontrun{
 #' mutate(players, cyear = yearID - min(yearID) + 1, 

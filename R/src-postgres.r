@@ -58,7 +58,7 @@
 #' group_size(players)
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
-#' best_year <- filter(players, AB == max(AB) || G == max(G))
+#' best_year <- filter(players, AB == max(AB) | G == max(G))
 #' progress <- mutate(players, cyear = yearID - min(yearID) + 1, 
 #'  rank(desc(AB)), cumsum(AB, yearID))
 #'  
