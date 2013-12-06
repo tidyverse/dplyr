@@ -28,7 +28,20 @@ namespace dplyr {
             for( int i=1; i<ngroups; i++, ++git){
                 SlicingIndex indices = *git ;
                 subset = proxy.get( indices ) ;
-                grab( subset, indices );
+                int n_subset = Rf_length(subset) ;
+                if( n_subset == indices.size() ){
+                    grab( subset, indices );
+                } else if( n_subset == 1 ){
+                    grab_rep( Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices );
+                } else {
+                    std::stringstream s ;
+                    s << "incompatible size ("
+                      << n_subset
+                      << "), expecting "
+                      << indices.size()
+                      << " (the group size) or 1" ;
+                    stop( s.str() ) ;    
+                }
             }
             
             return data ;
@@ -39,8 +52,14 @@ namespace dplyr {
             int n = indices.size();
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( subset ) ;
             for( int j=0; j<n; j++){
-                // TODO: take advantage of SlicingIndex
                 data[ indices[j] ] = ptr[j] ;
+            }
+        }
+        
+        void grab_rep( STORAGE value, const SlicingIndex& indices ){
+            int n = indices.size();
+            for( int j=0; j<n; j++){
+                data[ indices[j] ] = value ;
             }
         }
         

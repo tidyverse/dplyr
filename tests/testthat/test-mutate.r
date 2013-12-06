@@ -62,3 +62,12 @@ test_that("mutate handles constants (#152)", {
   res <- mutate(tbl_df(mtcars), zz = 1)
   expect_equal(res$zz, rep(1, nrows(mtcars)))
 })
+
+test_that("mutate fails with wrong result size (#152)", {
+  df <- group_by(data.frame(x = c(2, 2, 3, 3)), x)
+  expect_equal(mutate(df, y = 1:2)$y, rep(1:2,2))
+
+  df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
+  expect_error(mutate(df, y = 1:2))
+})
+
