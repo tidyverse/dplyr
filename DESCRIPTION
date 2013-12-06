@@ -2,8 +2,8 @@ Package: dplyr
 Type: Package
 Title: dplyr: a grammar of data manipulation
 Version: 0.1
-Author: Hadley Wickham <h.wickham@gmail.com>, 
-  Romain Francois <romain@r-enthusiasts.com>
+Author: Hadley Wickham <h.wickham@gmail.com>,
+    Romain Francois <romain@r-enthusiasts.com>
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -27,7 +27,8 @@ Suggests:
     mgcv
 VignetteBuilder: knitr
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.0.2),
+    hflights
 LazyData: yes
 LinkingTo: Rcpp (>= 0.10.6),
     BH (>= 1.51.0-2)
