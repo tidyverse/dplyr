@@ -18,8 +18,7 @@ namespace dplyr {
 
     class tbl_cpp{
     public:
-        tbl_cpp( Rcpp::List data_, Rcpp::CharacterVector names, int nr ) : data(data_){
-            data.names() = names ;
+        tbl_cpp( Rcpp::List data_, int nr ) : data(data_){
             set_rownames(data, nr ) ;
             data.attr( "class" ) = classes_not_grouped()  ;
         }

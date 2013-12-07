@@ -1019,6 +1019,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     LazySubsets subsets( df ) ;
     std::vector<SEXP> results ;
     std::vector<SEXP> result_names ; 
+    NamedListAccumulator<SEXP> accumulator ;
     
     Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){
@@ -1032,27 +1033,10 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
             result = __(CallProxy( args[i], subsets, env).eval()) ;
         }
         subsets.input( Symbol(name), result ) ;
-        
-        std::vector<SEXP>::iterator it = std::find(result_names.begin(), result_names.end(), name ) ;
-        if( it == result_names.end() ){
-            results.push_back(result) ;
-            result_names.push_back(name); 
-        } else {
-            int j = std::distance( result_names.begin(), it ) ;
-            results[j] = result ;
-        }
-        
+        accumulator.set(name, result);
     }
     
-    int nout = results.size() ;
-    List out(nout) ;
-    CharacterVector out_names(nout);
-    for( int i=0; i<nout; i++){
-        out[i] = results[i] ;
-        out_names[i] = result_names[i] ;
-    }
-    
-    return tbl_cpp( out, out_names, 1 ) ;
+    return tbl_cpp( accumulator, 1 ) ;
 }
 
 // [[Rcpp::export]]
