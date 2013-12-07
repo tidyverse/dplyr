@@ -63,4 +63,20 @@ test_that("summarise gives proper errors (#153)", {
   expect_error(summarise(df, log(z)), "expecting a single value")
   
 })
+    
+test_that("summarise handles constants (#153)", {
+  df <- data.frame(a=1:4)
+  res <- summarise(df, int = 1L, num = 1.0, str = "foo", bool = TRUE)
+  expect_equal(df$int, 1L)
+  expect_equal(df$num, 1.0)
+  expect_equal(df$str, "foo")
+  expect_equal(df$bool, TRUE)
+  
+  res <- summarise(group_by(df,a), int = 1L, num = 1.0, str = "foo", bool = TRUE)
+  expect_equal(df$int,  rep(1L,4))
+  expect_equal(df$num,  rep(1.0,4))
+  expect_equal(df$str,  rep("foo",4))
+  expect_equal(df$bool, rep(TRUE,4))
+  
+})
 

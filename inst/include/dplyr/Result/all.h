@@ -31,5 +31,6 @@
 
 #include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
+#include <dplyr/Result/ConstantResult.h>
 
 #endif

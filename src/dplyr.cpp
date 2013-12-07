@@ -101,7 +101,21 @@ HybridHandlerMap& get_handlers(){
     return handlers ;    
 }
 
+Result* constant_handler(SEXP constant){
+    switch(TYPEOF(constant)){
+    case INTSXP: return new ConstantResult<INTSXP>(constant) ;
+    case REALSXP: return new ConstantResult<REALSXP>(constant) ;
+    case STRSXP: return new ConstantResult<STRSXP>(constant) ;
+    case LGLSXP: return new ConstantResult<LGLSXP>(constant) ;
+    }
+    return 0;
+}
+
 Result* get_handler( SEXP call, const LazySubsets& subsets ){
+    if( TYPEOF(call) != LANGSXP ){
+        // TODO: perhaps deal with SYMSXP separately
+        if( Rf_length(call) == 1 ) return constant_handler(call) ;     
+    }
     int depth = Rf_length(call) ;
     HybridHandlerMap& handlers = get_handlers() ;
     SEXP fun_symbol = CAR(call) ;
