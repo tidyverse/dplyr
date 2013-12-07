@@ -1024,14 +1024,14 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){
         SEXP name = names[i] ;
-        
-        boost::scoped_ptr<Result> res( get_handler( args[i], subsets, env ) ) ;
+        Result* res = get_handler( args[i], subsets, env ) ;
         SEXP result ;
         if(res) {
             result = __(res->process( FullDataFrame(df) )) ;
         } else {
             result = __(CallProxy( args[i], subsets, env).eval()) ;
         }
+        delete res ;
         subsets.input( Symbol(name), result ) ;
         accumulator.set(name, result);
     }

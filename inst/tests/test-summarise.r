@@ -69,7 +69,7 @@ test_that("summarise handles constants (#153)", {
   today <- Sys.Date()
   now <- Sys.time()
 
-  res <- summarise(df, int = 1L, num = 1.0, 
+  res <- summarise(tbl_df(df), int = 1L, num = 1.0, 
     str = "foo", bool = TRUE, date = today, time = now)
   expect_equal(res$int, 1L)
   expect_equal(res$num, 1.0)
