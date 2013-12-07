@@ -60,6 +60,7 @@ test_that("summarise gives proper errors (#153)", {
   df <- tbl_df(df)
   df <- group_by(df, x, y)
   expect_error(summarise(df, diff(z)), "expecting a single value")
-
+  expect_error(summarise(df, log(z)), "expecting a single value")
+  
 })
 
