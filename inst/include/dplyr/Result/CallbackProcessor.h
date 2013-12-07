@@ -30,6 +30,8 @@ namespace dplyr{
             
             // get the appropriate Delayed Processor to handle it
             DelayedProcessor_Base<CLASS>* processor = get_delayed_processor<CLASS>(first_result) ;
+            if(!processor)
+                stop( "expecting a single value" );
             SEXP res = __( processor->delayed_process( gdf, first_result, obj ) ) ;
             
             delete processor ;

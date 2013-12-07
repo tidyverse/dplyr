@@ -61,6 +61,8 @@ namespace dplyr{
             return new DelayedProcessor<REALSXP, CLASS>() ;    
         } else if( Rcpp::is<Rcpp::String>( first_result) ){
             return new DelayedProcessor<STRSXP, CLASS>() ;
+        } else if( Rcpp::is<bool>( first_result) ){
+            return new DelayedProcessor<LGLSXP, CLASS>() ;
         }
         return 0 ;
     }
