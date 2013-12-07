@@ -71,21 +71,21 @@ test_that("summarise handles constants (#153)", {
 
   res <- summarise(df, int = 1L, num = 1.0, 
     str = "foo", bool = TRUE, date = today, time = now)
-  expect_equal(df$int, 1L)
-  expect_equal(df$num, 1.0)
-  expect_equal(df$str, "foo")
-  expect_equal(df$bool, TRUE)
-  expect_equal(df$date, today)
-  expect_equal(df$time, now)
+  expect_equal(res$int, 1L)
+  expect_equal(res$num, 1.0)
+  expect_equal(res$str, "foo")
+  expect_equal(res$bool, TRUE)
+  expect_equal(res$date, today)
+  expect_equal(res$time, now)
   
   res <- summarise(group_by(df,a), int = 1L, num = 1.0, 
     str = "foo", bool = TRUE, date = today, time = now)
-  expect_equal(df$int,  rep(1L,4))
-  expect_equal(df$num,  rep(1.0,4))
-  expect_equal(df$str,  rep("foo",4))
-  expect_equal(df$bool, rep(TRUE,4))
-  expect_equal(df$date, rep(today,4))
-  expect_equal(df$time, rep(now,4))
+  expect_equal(res$int,  rep(1L,4))
+  expect_equal(res$num,  rep(1.0,4))
+  expect_equal(res$str,  rep("foo",4))
+  expect_equal(res$bool, rep(TRUE,4))
+  expect_equal(res$date, rep(today,4))
+  expect_equal(res$time, rep(now,4))
   
 })
 
