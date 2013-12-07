@@ -104,27 +104,37 @@ HybridHandlerMap& get_handlers(){
 Result* constant_handler(SEXP constant){
     switch(TYPEOF(constant)){
     case INTSXP: return new ConstantResult<INTSXP>(constant) ;
-    case REALSXP: return new ConstantResult<REALSXP>(constant) ;
+    case REALSXP:
+        if( Rf_inherits(constant, "POSIXct") ) return new POSIXctConstantResult(constant) ;
+        if( Rf_inherits(constant, "Date") ) return new DateConstantResult(constant) ;
+        return new ConstantResult<REALSXP>(constant) ;
     case STRSXP: return new ConstantResult<STRSXP>(constant) ;
     case LGLSXP: return new ConstantResult<LGLSXP>(constant) ;
     }
     return 0;
 }
 
-Result* get_handler( SEXP call, const LazySubsets& subsets ){
-    if( TYPEOF(call) != LANGSXP ){
+Result* get_handler( SEXP call, const LazySubsets& subsets, const Environment& env ){
+    if( TYPEOF(call) == LANGSXP ){
+        int depth = Rf_length(call) ;
+        HybridHandlerMap& handlers = get_handlers() ;
+        SEXP fun_symbol = CAR(call) ;
+        if( TYPEOF(fun_symbol) != SYMSXP ) return 0 ;
+        
+        HybridHandlerMap::const_iterator it = handlers.find( fun_symbol ) ;
+        if( it == handlers.end() ) return 0 ;
+        
+        return it->second( call, subsets, depth - 1 );    
+    } else if( TYPEOF(call) == SYMSXP ){
+        if( !subsets.count(call) ){
+            SEXP data = env.find( CHAR(PRINTNAME(call)) ) ;
+            if( Rf_length(data) == 1 ) return constant_handler(data) ;
+        }
+    } else {
         // TODO: perhaps deal with SYMSXP separately
         if( Rf_length(call) == 1 ) return constant_handler(call) ;     
     }
-    int depth = Rf_length(call) ;
-    HybridHandlerMap& handlers = get_handlers() ;
-    SEXP fun_symbol = CAR(call) ;
-    if( TYPEOF(fun_symbol) != SYMSXP ) return 0 ;
-    
-    HybridHandlerMap::const_iterator it = handlers.find( fun_symbol ) ;
-    if( it == handlers.end() ) return 0 ;
-    
-    return it->second( call, subsets, depth - 1 );
+    return 0 ;
 }
 
 void registerHybridHandler( const char* name, HybridHandler proto){
@@ -986,7 +996,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     LazyGroupedSubsets subsets(gdf) ;
     Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
-        Result* res = get_handler( args[k], subsets ) ;
+        Result* res = get_handler( args[k], subsets, env ) ;
         
         // if we could not find a direct Result 
         // we can use a GroupedCalledReducer which will callback to R
@@ -1014,7 +1024,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     for( int i=0; i<nexpr; i++){
         SEXP name = names[i] ;
         
-        boost::scoped_ptr<Result> res( get_handler( args[i], subsets ) ) ;
+        boost::scoped_ptr<Result> res( get_handler( args[i], subsets, env ) ) ;
         SEXP result ;
         if(res) {
             result = __(res->process( FullDataFrame(df) )) ;

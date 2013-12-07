@@ -5,8 +5,8 @@ namespace dplyr {
      
     class GroupedHybridCall {
     public:
-        GroupedHybridCall( const Language& call_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_ ) : 
-            call( clone(call_) ), indices(indices_), subsets(subsets_) 
+        GroupedHybridCall( const Language& call_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_, const Environment& env_ ) : 
+            call( clone(call_) ), indices(indices_), subsets(subsets_), env(env_) 
         {
             while( simplified() ) ;
         }
@@ -45,7 +45,7 @@ namespace dplyr {
         bool simplified(){
             // initial
             if( TYPEOF(call) == LANGSXP ){
-                Result* res = get_handler(call, subsets) ;
+                Result* res = get_handler(call, subsets, env) ;
                 if( res ){
                     // replace the call by the result of process
                     call = res->process(indices) ;
@@ -63,7 +63,7 @@ namespace dplyr {
         bool replace( SEXP p ){
             SEXP obj = CAR(p) ;
             if( TYPEOF(obj) == LANGSXP ){
-                Result* res = get_handler(obj, subsets) ;
+                Result* res = get_handler(obj, subsets, env) ;
                 if(res){
                     SETCAR(p, res->process(indices) ) ;
                     return true ;
@@ -82,6 +82,7 @@ namespace dplyr {
         Armor<SEXP> call ;
         const SlicingIndex& indices ;
         LazyGroupedSubsets& subsets ;
+        const Environment& env ;
     } ;
     
 }
