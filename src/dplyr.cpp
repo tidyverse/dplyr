@@ -892,6 +892,21 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
             
             // we need to protect the SEXP, that's what the Shelter does
             result = __( call_proxy.eval() ) ;
+            if( Rf_length(result) == df.nrows() ){
+                // ok
+            } else if( Rf_length(result) == 1 ){
+                // recycle
+                boost::scoped_ptr<Gatherer> gather( constant_gatherer( result, df.nrows() ) );
+                result = __( gather->collect() ) ;
+            } else {
+                std::stringstream s ;
+                s << "wrong result size ("
+                  << Rf_length(result)
+                  << "), expected "
+                  << df.nrows()
+                  << " or 1" ;
+                stop(s.str()) ;
+            }
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );
             result = __( gather->collect() ) ;

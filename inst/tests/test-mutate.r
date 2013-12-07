@@ -66,7 +66,8 @@ test_that("mutate handles constants (#152)", {
 test_that("mutate fails with wrong result size (#152)", {
   df <- group_by(data.frame(x = c(2, 2, 3, 3)), x)
   expect_equal(mutate(df, y = 1:2)$y, rep(1:2,2))
-
+  expect_error(mutate( mtcars, zz = 1:2 ), "wrong result size" )
+  
   df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
   expect_error(mutate(df, y = 1:2))
 })
@@ -75,5 +76,12 @@ test_that("mutate refuses to use symbols not from the data", {
   y <- 1:6
   df <- group_by(data.frame(x = c(1, 2, 2, 3, 3, 3)), x)
   expect_error(mutate( df, z = y ))
+})
+
+test_that("mutate recycles results of length 1", {
+  df <- data.frame(x = c(2, 2, 3, 3))
+  L1 <- function() 1L
+  expect_equal(mutate(df, z = L1())$z, rep(1,4))
+  expect_equal(mutate(group_by(df,x), z = L1()), rep(1,4))
 })
 
