@@ -82,10 +82,31 @@ namespace dplyr {
         Vector<RTYPE> value ;
     } ;
 
+    template <int RTYPE>
+    class ConstantTypedGatherer : public ConstantGathererImpl<RTYPE> {
+    public:
+        ConstantTypedGatherer( Vector<RTYPE> constant, int n, const CharacterVector& classes_ ) : 
+            ConstantGathererImpl<RTYPE>( constant, n), classes(classes_){}
+        
+        inline SEXP collect() {
+            Vector<RTYPE> out = ConstantGathererImpl<RTYPE>::collect() ;
+            out.attr("class") = classes ;
+            return out ;
+        }
+        
+    private:
+        Vector<RTYPE> value ;
+        const CharacterVector& classes ;
+    } ;
+
     inline Gatherer* constant_gatherer(SEXP x, int n){
         switch( TYPEOF(x) ){
             case INTSXP: return new ConstantGathererImpl<INTSXP>( x, n ) ;
-            case REALSXP: return new ConstantGathererImpl<REALSXP>( x, n ) ;
+            case REALSXP: {
+                    if( Rf_inherits(x, "POSIXct" )) return new ConstantTypedGatherer<REALSXP>(x,n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+                    if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<REALSXP>(x,n, CharacterVector::create( "Date" ) ) ;
+                    return new ConstantGathererImpl<REALSXP>( x, n ) ;
+            }
             case LGLSXP: return new ConstantGathererImpl<LGLSXP>( x, n ) ;
             case STRSXP: return new ConstantGathererImpl<STRSXP>( x, n ) ;
             default: break ;

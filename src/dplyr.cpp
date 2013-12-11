@@ -921,8 +921,9 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
             // ok
         } else if( Rf_length(result) == 1 ){
             // recycle
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer( result, df.nrows() ) );
+            Gatherer* gather = constant_gatherer( result, df.nrows() ) ;
             result = __( gather->collect() ) ;
+            delete gather ;
         } else {
             std::stringstream s ;
             s << "wrong result size ("

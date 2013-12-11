@@ -98,6 +98,8 @@ test_that("mutate recycles results of length 1", {
 
 
 test_that("mutate handles out of data variables", {
+  today <- Sys.Date()
+  now <- Sys.time()
   df  <- data.frame(x = c(2, 2, 3, 3))
   gdf <- group_by(df,x)
   
@@ -105,12 +107,16 @@ test_that("mutate handles out of data variables", {
   str  <- c("foo", "bar") 
   num  <- c(1,2)
   bool <- c(TRUE,FALSE)
-  
+  dat  <- rep(today,2)
+  tim  <- rep(now,2)
+
   res <- mutate(gdf, int = int, str = str, num = num, bool = bool)
   expect_equal(res$int , rep(int ,2))
   expect_equal(res$str , rep(str ,2))
   expect_equal(res$num , rep(num ,2))
   expect_equal(res$bool, rep(bool,2))
+  expect_equal(res$dat, rep(dat,2))
+  expect_equal(res$tim, rep(tim,2))
   
   int <- 1:6
   expect_error(mutate(gdf, int = int))
@@ -120,10 +126,15 @@ test_that("mutate handles out of data variables", {
   str  <- rep(c("foo", "bar"), 2 ) 
   num  <- c(1,2,3,4)
   bool <- c(TRUE,FALSE,FALSE,TRUE)
+  dat  <- rep(today,4)
+  tim  <- rep(now,4)
+
   res <- mutate(df, int = int, str = str, num = num, bool = bool)
-  expect_equal(res$int , rep(int ,2))
-  expect_equal(res$str , rep(str ,2))
-  expect_equal(res$num , rep(num ,2))
-  expect_equal(res$bool, rep(bool,2))
+  expect_equal(res$int , int  )
+  expect_equal(res$str , str  )
+  expect_equal(res$num , num  )
+  expect_equal(res$bool, bool )
+  expect_equal(res$dat , dat  )
+  expect_equal(res$tim , tim  )
 })
 

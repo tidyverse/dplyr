@@ -49,10 +49,31 @@ namespace dplyr {
         Vector<RTYPE> data ;
     } ;
     
+    template <int RTYPE>
+    class ConstantTypedReplicator : public ConstantReplicatorImpl<RTYPE>{
+    public:
+        ConstantTypedReplicator( SEXP v, int n, const CharacterVector& classes_ ) : 
+            ConstantReplicatorImpl<RTYPE>(v,n), classes(classes_){}
+        
+        SEXP collect(){
+            Vector<RTYPE> out = ConstantReplicatorImpl<RTYPE>::collect() ;
+            out.attr("class") = classes ;
+            return out ;
+        }
+        
+    private:
+        const CharacterVector& classes ;
+    } ;
+    
     inline Replicator* constant_replicator(SEXP v, const int n){
         switch( TYPEOF(v) ){
             case INTSXP:  return new ConstantReplicatorImpl<INTSXP>( v, n ) ;
-            case REALSXP: return new ConstantReplicatorImpl<REALSXP>( v, n ) ;
+            case REALSXP: 
+                {
+                    if( Rf_inherits(v, "POSIXct" )) return new ConstantTypedReplicator<REALSXP>(v,n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<REALSXP>(v,n, CharacterVector::create( "Date" ) ) ;
+                    return new ConstantReplicatorImpl<REALSXP>( v, n ) ;
+                }
             case STRSXP:  return new ConstantReplicatorImpl<STRSXP>( v, n ) ;
             case LGLSXP:  return new ConstantReplicatorImpl<LGLSXP>( v, n ) ;
             default: break ;
