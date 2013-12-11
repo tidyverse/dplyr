@@ -54,6 +54,10 @@ namespace dplyr {
         inline SEXP get_variable( Rcpp::String name ) const {
             return subsets.get_variable( Symbol(name) );
         }
+        
+        inline bool has_variable(SEXP symbol){
+            return subsets.count(symbol) ;    
+        }
          
     private:
         

@@ -850,7 +850,7 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
                     s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
                     stop(s.str());
                 } else if( Rf_length(v) == 1){
-                    Replicator* rep = constant_replicator(v, gdf.nrows() ) );
+                    Replicator* rep = constant_replicator(v, gdf.nrows() );
                     variable = __( rep->collect() );
                     delete rep ;
                 } else {
@@ -897,33 +897,42 @@ SEXP mutate_not_grouped(DataFrame df, List args, Environment env){
         SEXP name = results_names[i] ;
         SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
-            result = call_proxy.get_variable( PRINTNAME(call) ) ;
+            if(call_proxy.has_variable(call)){
+                result = call_proxy.get_variable(PRINTNAME(call)) ;
+            } else {
+                result = env.find(CHAR(PRINTNAME(call))) ;
+                SET_NAMED(result,2) ;
+            }
         } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( args[i] );
             
             // we need to protect the SEXP, that's what the Shelter does
             result = __( call_proxy.eval() ) ;
-            if( Rf_length(result) == df.nrows() ){
-                // ok
-            } else if( Rf_length(result) == 1 ){
-                // recycle
-                boost::scoped_ptr<Gatherer> gather( constant_gatherer( result, df.nrows() ) );
-                result = __( gather->collect() ) ;
-            } else {
-                std::stringstream s ;
-                s << "wrong result size ("
-                  << Rf_length(result)
-                  << "), expected "
-                  << df.nrows()
-                  << " or 1" ;
-                stop(s.str()) ;
-            }
+            
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );
             result = __( gather->collect() ) ;
         } else {
             stop( "cannot handle" ) ;    
         }
+          
+        
+        if( Rf_length(result) == df.nrows() ){
+            // ok
+        } else if( Rf_length(result) == 1 ){
+            // recycle
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( result, df.nrows() ) );
+            result = __( gather->collect() ) ;
+        } else {
+            std::stringstream s ;
+            s << "wrong result size ("
+              << Rf_length(result)
+              << "), expected "
+              << df.nrows()
+              << " or 1" ;
+            stop(s.str()) ;
+        }
+        
         call_proxy.input( name, result ) ; 
         accumulator.set( name, result );
     }

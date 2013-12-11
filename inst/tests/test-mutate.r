@@ -106,8 +106,7 @@ test_that("mutate handles out of data variables", {
   num  <- c(1,2)
   bool <- c(TRUE,FALSE)
   
-  res <- mutate(gdf, 
-    int = int, str = str, num = num, bool = bool)
+  res <- mutate(gdf, int = int, str = str, num = num, bool = bool)
   expect_equal(res$int , rep(int ,2))
   expect_equal(res$str , rep(str ,2))
   expect_equal(res$num , rep(num ,2))
@@ -115,6 +114,18 @@ test_that("mutate handles out of data variables", {
   
   int <- 1:6
   expect_error(gdf, int = int)
+  expect_error(df, int = int)
+  
+  int  <- 1:4
+  str  <- rep(c("foo", "bar"), 2 ) 
+  num  <- c(1,2,3,4)
+  bool <- c(TRUE,FALSE,FALSE,TRUE)
+  res <- mutate(df, int = int, str = str, num = num, bool = bool)
+  expect_equal(res$int , rep(int ,2))
+  expect_equal(res$str , rep(str ,2))
+  expect_equal(res$num , rep(num ,2))
+  expect_equal(res$bool, rep(bool,2))
+  
   
 })
 
