@@ -850,11 +850,13 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
                     s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
                     stop(s.str());
                 } else if( Rf_length(v) == 1){
-                    boost::scoped_ptr<Replicator> rep( constant_replicator(v, gdf.nrows() ) );
+                    Replicator* rep = constant_replicator(v, gdf.nrows() ) );
                     variable = __( rep->collect() );
+                    delete rep ;
                 } else {
-                    boost::scoped_ptr<Replicator> rep( replicator(v, gdf) );
-                    variable = __( rep->collect() );                    
+                    Replicator* rep = replicator(v, gdf) ;
+                    variable = __( rep->collect() );
+                    delete rep ;                    
                 }
             }
                 

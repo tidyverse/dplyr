@@ -82,6 +82,10 @@ namespace Rcpp {
             return symbols.has(as_symbol(g));
         }
         
+        inline const IntegerVector& get_group_sizes() const {
+            return group_sizes ;    
+        }
+        
     private:
         
         DataFrame data_ ;

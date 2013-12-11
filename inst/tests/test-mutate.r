@@ -96,3 +96,25 @@ test_that("mutate recycles results of length 1", {
   expect_equal(res$bool, rep(bool,4))
 })
 
+
+test_that("mutate handles out of data variables", {
+  df  <- data.frame(x = c(2, 2, 3, 3))
+  gdf <- group_by(df,x)
+  
+  int  <- c(1L,2L)
+  str  <- c("foo", "bar") 
+  num  <- c(1,2)
+  bool <- c(TRUE,FALSE)
+  
+  res <- mutate(gdf, 
+    int = int, str = str, num = num, bool = bool)
+  expect_equal(res$int , rep(int ,2))
+  expect_equal(res$str , rep(str ,2))
+  expect_equal(res$num , rep(num ,2))
+  expect_equal(res$bool, rep(bool,2))
+  
+  int <- 1:6
+  expect_error(gdf, int = int)
+  
+})
+
