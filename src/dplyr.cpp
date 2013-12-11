@@ -844,9 +844,18 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
             if(proxy.has_variable(call)){ 
                 variable = proxy.get_variable( PRINTNAME(call) ) ;
             } else {
-                std::stringstream s ;
-                s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
-                stop(s.str());
+                SEXP v = env.find(CHAR(PRINTNAME(call))) ;
+                if( Rf_isNull(v) ){
+                    std::stringstream s ;
+                    s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
+                    stop(s.str());
+                } else if( Rf_length(v) == 1){
+                    boost::scoped_ptr<Replicator> rep( constant_replicator(v, gdf.nrows() ) );
+                    variable = __( rep->collect() );
+                } else {
+                    boost::scoped_ptr<Replicator> rep( replicator(v, gdf) );
+                    variable = __( rep->collect() );                    
+                }
             }
                 
         } else if(TYPEOF(call) == LANGSXP){

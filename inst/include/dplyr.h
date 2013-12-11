@@ -74,6 +74,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/SummarisedVariable.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
+#include <dplyr/Replicator.h>
 #include <dplyr/Collecter.h>
 #include <dplyr/NamedListAccumulator.h>
 
