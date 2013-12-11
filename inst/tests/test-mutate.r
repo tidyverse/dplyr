@@ -80,8 +80,8 @@ test_that("mutate refuses to use symbols not from the data", {
 
 test_that("mutate recycles results of length 1", {
   df <- data.frame(x = c(2, 2, 3, 3))
-  expect_equal(mutate(tbl_df(df), z = length(x) )$z, rep(1,4))
-  expect_equal(mutate(group_by(df,x), z = length(x) ), rep(1,4))
+  expect_equal(mutate(tbl_df(df), z = length(x) )$z, rep(2,4))
+  expect_equal(mutate(group_by(df,x), z = length(x) ), rep(2,4))
   
   int  <- 1L
   str  <- "foo" 
@@ -113,8 +113,8 @@ test_that("mutate handles out of data variables", {
   expect_equal(res$bool, rep(bool,2))
   
   int <- 1:6
-  expect_error(gdf, int = int)
-  expect_error(df, int = int)
+  expect_error(mutate(gdf, int = int))
+  expect_error(mutate(df, int = int))
   
   int  <- 1:4
   str  <- rep(c("foo", "bar"), 2 ) 
@@ -125,7 +125,5 @@ test_that("mutate handles out of data variables", {
   expect_equal(res$str , rep(str ,2))
   expect_equal(res$num , rep(num ,2))
   expect_equal(res$bool, rep(bool,2))
-  
-  
 })
 
