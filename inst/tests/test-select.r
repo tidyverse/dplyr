@@ -1,7 +1,7 @@
 context("Select")
 
 df <- as.data.frame(as.list(setNames(1:26, letters)))
-srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 

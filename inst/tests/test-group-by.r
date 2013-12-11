@@ -2,7 +2,7 @@ context("Group by")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
-srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("group_by adds to additional groups", {
@@ -58,7 +58,7 @@ df_var <- data.frame(
   c = letters[1:2],
   stringsAsFactors = FALSE
 )
-srcs <- temp_srcs(c("df", "dt", "cpp"))
+srcs <- temp_srcs(c("df", "dt"))
 var_tbls <- temp_load(srcs, df_var)
 
 group_by_ <- function(x, vars) {

@@ -2,7 +2,7 @@ context("Equivalence (manip)")
 
 df <- data.frame(x = 5:1, y = 1:5)
 
-srcs <- temp_srcs(c("df", "dt", "cpp", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("mutate happens before summarise", {
