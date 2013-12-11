@@ -120,7 +120,7 @@ test_that("mutate handles out of data variables", {
   
   int <- 1:6
   expect_error(mutate(gdf, int = int))
-  expect_error(mutate(df, int = int))
+  expect_error(mutate(tbl_df(df), int = int))
   
   int  <- 1:4
   str  <- rep(c("foo", "bar"), 2 ) 
@@ -129,7 +129,7 @@ test_that("mutate handles out of data variables", {
   dat  <- rep(today,4)
   tim  <- rep(now,4)
 
-  res <- mutate(df, int = int, str = str, num = num, bool = bool)
+  res <- mutate(tbl_df(df), int = int, str = str, num = num, bool = bool)
   expect_equal(res$int , int  )
   expect_equal(res$str , str  )
   expect_equal(res$num , num  )
