@@ -862,8 +862,9 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, Environment env){
                 
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
-            boost::scoped_ptr<Gatherer> gather( gatherer( proxy, gdf ) );
+            Gatherer* gather = gatherer( proxy, gdf ) ;
             variable = __( gather->collect() ) ;
+            delete gather ;
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, gdf.nrows() ) );
             variable = __( gather->collect() ) ;

@@ -74,6 +74,23 @@ namespace dplyr {
     } ;
     
     template <int RTYPE>
+    class TypedGatherer : public GathererImpl<RTYPE> {
+    public:
+        typedef GathererImpl<RTYPE> Base ;
+        
+        TypedGatherer( Shield<SEXP>& first, SlicingIndex& indices, GroupedCallProxy& proxy_, const GroupedDataFrame& gdf_, const CharacterVector& classes_ ) : 
+             GathererImpl<RTYPE>(first,indices,proxy_,gdf_), classes(classes_){}
+             
+        SEXP collect(){
+            Vector<RTYPE> res( Base::collect() ) ;
+            res.attr( "class" ) = classes ;
+            return res ;
+        }
+    private:
+        const CharacterVector& classes ;
+    } ;
+    
+    template <int RTYPE>
     class ConstantGathererImpl : public Gatherer {
     public:
         ConstantGathererImpl( Vector<RTYPE> constant, int n ) : value( n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0] ){}
@@ -85,7 +102,7 @@ namespace dplyr {
     private:
         Vector<RTYPE> value ;
     } ;
-
+    
     template <int RTYPE>
     class ConstantTypedGatherer : public ConstantGathererImpl<RTYPE> {
     public:
@@ -124,7 +141,12 @@ namespace dplyr {
         Shield<SEXP> first( proxy.get(indices) ) ;
         switch( TYPEOF(first) ){
             case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
-            case REALSXP: return new GathererImpl<REALSXP>( first, indices, proxy, gdf ) ;
+            case REALSXP:
+                {
+                    if( Rf_inherits(first, "POSIXct" ) ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+                    if( Rf_inherits(first, "Date") ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, CharacterVector::create( "Date" ) ) ;
+                    return new GathererImpl<REALSXP>( first, indices, proxy, gdf ) ;
+                }
             case LGLSXP:  return new GathererImpl<LGLSXP> ( first, indices, proxy, gdf ) ;
             case STRSXP:  return new GathererImpl<STRSXP> ( first, indices, proxy, gdf ) ;
             default: break ;
