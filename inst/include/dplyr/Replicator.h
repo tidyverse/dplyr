@@ -34,6 +34,23 @@ namespace dplyr {
     } ;   
     
     template <int RTYPE>
+    class TypedReplicator : public ReplicatorImpl<RTYPE> {
+    public:
+        typedef ReplicatorImpl<RTYPE> Base ;
+        
+        TypedReplicator( SEXP v, int n_, int ngroups_, const CharacterVector& classes_) : Base(v,n_,ngroups_), classes(classes_) {}
+        
+        SEXP collect(){
+            Vector<RTYPE> res( Base::collect() ) ;
+            res.attr( "class" ) = classes ;
+            return res ;
+        }
+        
+    private:
+        const CharacterVector& classes ;        
+    } ;
+    
+    template <int RTYPE>
     class ConstantReplicatorImpl : public Replicator {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -93,7 +110,11 @@ namespace dplyr {
                       
         switch( TYPEOF(v) ){
             case INTSXP:  return new ReplicatorImpl<INTSXP> ( v, n, gdf.ngroups() ) ;
-            case REALSXP: return new ReplicatorImpl<REALSXP>( v, n, gdf.ngroups() ) ;
+            case REALSXP: {
+                    if( Rf_inherits( v, "POSIXct" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), CharacterVector::create("Date") ) ;
+                    return new ReplicatorImpl<REALSXP>( v, n, gdf.ngroups() ) ;
+            }
             case STRSXP:  return new ReplicatorImpl<STRSXP> ( v, n, gdf.ngroups() ) ;
             case LGLSXP:  return new ReplicatorImpl<LGLSXP> ( v, n, gdf.ngroups() ) ;
             default: break ;
