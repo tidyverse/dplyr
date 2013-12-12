@@ -257,16 +257,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // mutate_impl
-SEXP mutate_impl(DataFrame df, List args, Environment env);
-RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+SEXP mutate_impl(DataFrame df, List args, List calls, List frames);
+RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP callsSEXP, SEXP framesSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
         Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = mutate_impl(df, args, env);
+        Rcpp::traits::input_parameter< List >::type calls(callsSEXP );
+        Rcpp::traits::input_parameter< List >::type frames(framesSEXP );
+        SEXP __result = mutate_impl(df, args, calls, frames);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

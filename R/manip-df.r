@@ -1,10 +1,22 @@
-.data_dots <- function(fun, DOTS = dots){
+# keeping this until I've converted all functions to the better system
+.old_data_dots <- function(fun, DOTS = dots){
   f <- function(.data, ...){}
   body(f) <- substitute({
     parent_frame <- parent.frame()
     env <- as.environment(.data)
     parent.env(env) <- parent_frame
     FUN(.data, DOTS(...) , env )   
+  }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
+  attr(f, "srcref") <- NULL
+  f
+}
+
+.data_dots <- function(fun, DOTS = dots){
+  f <- function(.data, ...){}
+  body(f) <- substitute({
+    calls <- sys.calls()
+    frames <- sys.frames()
+    FUN(.data, DOTS(...) , calls, frames)   
   }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
   attr(f, "srcref") <- NULL
   f
@@ -26,11 +38,11 @@ NULL
 
 #' @rdname manip_df
 #' @export
-arrange.tbl_df    <- .data_dots(arrange_impl)
+arrange.tbl_df    <- .old_data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export
-filter.tbl_df    <- .data_dots(filter_impl)
+filter.tbl_df    <- .old_data_dots(filter_impl)
 
 #' @rdname manip_df
 #' @export
@@ -38,7 +50,7 @@ mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
-summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
+summarise.tbl_df <- .old_data_dots(summarise_impl, named_dots)
 
 #' @rdname manip_df
 #' @export

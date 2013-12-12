@@ -59,6 +59,10 @@ namespace dplyr {
             return subsets.count(symbol) ;    
         }
          
+        inline void set_env(SEXP env_){
+            env = env_ ;    
+        }
+        
     private:
         
         void traverse_call( SEXP obj ){
@@ -94,7 +98,7 @@ namespace dplyr {
         Rcpp::Language call ;
         LazySubsets subsets ;
         std::vector<CallElementProxy> proxies ;
-        const Environment& env; 
+        Environment env; 
     } ;
 
 }

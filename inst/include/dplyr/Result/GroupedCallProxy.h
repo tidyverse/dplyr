@@ -76,6 +76,10 @@ namespace dplyr {
             return subsets.count(symbol);    
         }
         
+        inline void set_env(SEXP env_){
+            env = env_ ;    
+        }
+        
     private:
         
         inline bool can_simplify_call( SEXP call){
@@ -116,7 +120,7 @@ namespace dplyr {
         Rcpp::Language call ;
         LazyGroupedSubsets subsets ;
         std::vector<CallElementProxy> proxies ;
-        const Environment& env; 
+        Environment env; 
         bool hybrid ;
     } ;
 
