@@ -1,7 +1,7 @@
 context("Filter - windowed")
 
 df <- data.frame(x = 1:10, g = rep(c(1, 2), each = 5))
-srcs <- temp_srcs("df", "postgres")
+srcs <- temp_srcs("df", "dt", "postgres")
 tbls <- temp_load(srcs, df)
 
 test_that("filter calls windowed versions of sql functions", {
