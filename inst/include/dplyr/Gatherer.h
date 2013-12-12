@@ -28,27 +28,31 @@ namespace dplyr {
             for( int i=1; i<ngroups; i++, ++git){
                 SlicingIndex indices = *git ;
                 subset = proxy.get( indices ) ;
-                int n_subset = Rf_length(subset) ;
-                if( n_subset == indices.size() ){
-                    grab( subset, indices );
-                } else if( n_subset == 1 ){
-                    grab_rep( Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices );
-                } else {
-                    std::stringstream s ;
-                    s << "incompatible size ("
-                      << n_subset
-                      << "), expecting "
-                      << indices.size()
-                      << " (the group size) or 1" ;
-                    stop( s.str() ) ;    
-                }
+                grab(subset, indices); 
             }
             
             return data ;
         }
     private: 
         
-        void grab( SEXP subset, const SlicingIndex& indices ){
+        inline void grab(SEXP data, const SlicingIndex& indices){
+            int n = Rf_length(data) ;
+            if(n == indices.size() ){
+                grab_along( data, indices ) ;
+            } else if( n == 1) {
+                grab_rep( Rcpp::internal::r_vector_start<RTYPE>(data)[0], indices ) ;    
+            } else {
+                std::stringstream s ;
+                s << "incompatible size ("
+                  << n
+                  << "), expecting "
+                  << indices.size()
+                  << " (the group size) or 1" ;
+                stop( s.str() ) ;        
+            }
+        }
+        
+        void grab_along( SEXP subset, const SlicingIndex& indices ){
             int n = indices.size();
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( subset ) ;
             for( int j=0; j<n; j++){

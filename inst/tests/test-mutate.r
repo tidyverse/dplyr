@@ -81,7 +81,7 @@ test_that("mutate refuses to use symbols not from the data", {
 test_that("mutate recycles results of length 1", {
   df <- data.frame(x = c(2, 2, 3, 3))
   expect_equal(mutate(tbl_df(df), z = length(x) )$z, rep(4,4))
-  expect_equal(mutate(group_by(df,x), z = length(x) ), rep(4,4))
+  expect_equal(mutate(group_by(df,x), z = length(x) ), rep(2,4))
   
   int  <- 1L
   str  <- "foo" 
