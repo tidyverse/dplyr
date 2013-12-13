@@ -139,23 +139,23 @@ test_that("mutate handles out of data variables", {
   expect_equal(res$tim , tim  )
 })
 
-test_that("mutate handles passing ...", {
-  df <- data.frame( x = 1:4 )
-  
-  f <- function(...){
-    x1 <- 1
-    f1 <- function(x) x
-    mutate( df, ..., x1 = f1(x1) )  
-  }
-  g <- function(...){
-    x2 <- 2
-    f(x2 = x2, ...)
-  }
-  h <- function(before = "before", ..., after = "after"){
-    g( before = before, ..., after = after ) 
-  }
-  
-  res <- h( x3 = 3 )
-  
-})
+# test_that("mutate handles passing ...", {
+#   df <- data.frame( x = 1:4 )
+#   
+#   f <- function(...){
+#     x1 <- 1
+#     f1 <- function(x) x
+#     mutate( df, ..., x1 = f1(x1) )  
+#   }
+#   g <- function(...){
+#     x2 <- 2
+#     f(x2 = x2, ...)
+#   }
+#   h <- function(before = "before", ..., after = "after"){
+#     g( before = before, ..., after = after ) 
+#   }
+#   
+#   res <- h( x3 = 3 )
+#   
+# })
 
