@@ -37,27 +37,23 @@ namespace Rcpp {
     private:
         
         void init(){
-            process( frames.size() - 1, true ) ;
+          int n = frames.size() ;
+          if( n == 1 ){
+            process(0,true) ;
+          } else {
+            SEXP parent_fun = CAR(calls[n-2]) ;
+            if( TYPEOF(parent_fun) == SYMSXP && parent_fun == Rf_install("mutate") ){
+              process( n-2, true) ;  
+            } else {
+              process( n-1, true ) ;
+            }
+          }
         }
         
         void process(int i, bool first){
            if( i < 0 ) return ;
             SEXP p = calls[i] ;
             if( TYPEOF(p) != LANGSXP ) return ;
-            
-            SEXP fun = CAR(p) ;   
-            
-            if( i > 0 ){
-              SEXP parent_fun = CAR( calls[i-1] ) ;
-              if( TYPEOF(parent_fun) == SYMSXP && TYPEOF(fun) == SYMSXP && parent_fun == Rf_install("mutate" ) ){
-                bool skip = Rf_install( "mutate.tbl_df" ) == fun || Rf_install( "mutate.data.frame" ) == fun ;
-                if( skip ){
-                  process( i-1, first ) ;
-                  return ;
-                }
-              }
-              
-            }
             
             p = first ? CDDR(p) : CDR(p) ;
             
