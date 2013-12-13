@@ -16,7 +16,8 @@
   body(f) <- substitute({
     calls <- sys.calls()
     frames <- sys.frames()
-    FUN(.data, DOTS(...) , calls, frames)   
+    dots <- DOTS(...)
+    FUN(.data, dots, calls, frames)   
   }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
   attr(f, "srcref") <- NULL
   f

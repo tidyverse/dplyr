@@ -25,8 +25,10 @@ summarise.data.frame <- function(.data, ...) {
   as.data.frame(summarise(tbl_df(.data), ...))  
 }
 #' @export
-mutate.data.frame <- function(.data, ...) {
-  as.data.frame(mutate(tbl_df(.data), ...))  
+mutate.data.frame <-  function(.data, ...) {
+  tbl <- tbl_df(.data)
+  res <- mutate.tbl_df(tbl, ...)
+  as.data.frame(res)
 }
 #' @export
 arrange.data.frame <- function(.data, ...) {

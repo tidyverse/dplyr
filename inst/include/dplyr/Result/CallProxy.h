@@ -33,7 +33,7 @@ namespace dplyr {
             for( int i=0; i<n; i++){
                 proxies[i].set( subsets[proxies[i].symbol] ) ;     
             }
-            Shield<SEXP> res( call.fast_eval() ) ;
+            Shield<SEXP> res( call.fast_eval(env) ) ;
             return res ;
         }
         

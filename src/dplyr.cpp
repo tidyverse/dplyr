@@ -820,7 +820,7 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
     }
 }
 
-SEXP mutate_grouped(GroupedDataFrame gdf, List args, const Dots& dots){
+SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     const DataFrame& df = gdf.data() ;
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
@@ -882,8 +882,9 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const Dots& dots){
     return structure_mutate(accumulator, df, classes_grouped() ); 
 }
 
-SEXP mutate_not_grouped(DataFrame df, List args, const Dots& dots){
+SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
     Shelter<SEXP> __ ;
+    
     Environment env = dots.envir(0) ;
     
     int nexpr = args.size() ;
@@ -899,7 +900,8 @@ SEXP mutate_not_grouped(DataFrame df, List args, const Dots& dots){
     CallProxy call_proxy(df, env) ;
     for( int i=0; i<nexpr; i++){
         env = dots.envir(i) ;
-        call_proxy.set_env(dots.envir(i)) ;
+        call_proxy.set_env(env) ;
+        
         SEXP call = args[i] ;
         SEXP name = results_names[i] ;
         SEXP result = R_NilValue ;
@@ -953,7 +955,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const Dots& dots){
 
 // [[Rcpp::export]]
 SEXP mutate_impl( DataFrame df, List args, List calls, List frames){
-    Dots dots(calls, frames) ;
+    DataDots dots(calls, frames) ;
     if( is<GroupedDataFrame>( df ) ){
         return mutate_grouped( GroupedDataFrame(df), args, dots);    
     } else {

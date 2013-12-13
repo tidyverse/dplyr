@@ -1,14 +1,12 @@
-#ifndef Rcpp__Dots_h
-#define Rcpp__Dots_h
-
-// borrowed from Rcpp11
+#ifndef dplyr__DataDots_h
+#define dplyr__DataDots_h
 
 namespace Rcpp {
     
-    class Dots {
+    class DataDots {
     public:
         
-        Dots( List calls_, List frames_ ) : 
+        DataDots( List calls_, List frames_ ) : 
             calls(calls_), frames(frames_), env(0), exprs(0), tags(0)
         {
             init() ;
@@ -26,30 +24,32 @@ namespace Rcpp {
             return exprs[i] ;
         }
         
-        inline size_t size() const{ return exprs.size(); } 
+        inline size_t size() const{ 
+            return exprs.size(); 
+        } 
         
         
     private:
         
         void init(){
-            process( frames.size() - 1 ) ;
+            process( frames.size() - 1, true ) ;
         }
         
-        void process(int i){
+        void process(int i, bool first){
             if( i < 0 ) return ;
             SEXP p = calls[i] ;
-            
             if( TYPEOF(p) != LANGSXP ) return ;
             
-            p = CDR(p) ;
+            p = first ? CDDR(p) : CDR(p) ;
             SEXP head ;
             while( p != R_NilValue ){
                 head = CAR(p) ;
                 if( is_ellipsis(head) ) {
-                    process(i-1) ;
+                    process(i-1, false) ;
                 } else {
                     exprs.push_back( head ) ;
-                    env.push_back( frames[i-1] ) ;
+                    SEXP f = i == 0 ? R_GlobalEnv : frames[i-1] ;
+                    env.push_back( f ) ;
                     tags.push_back( TAG(p) );
                 }
                 p = CDR(p) ;

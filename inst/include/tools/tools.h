@@ -10,6 +10,6 @@
 #include <tools/wrap_subset.h>
 #include <tools/get_all_second.h>
 #include <tools/JoinColumnSuffixer.h>
-#include <tools/Dots.h>
+#include <tools/DataDots.h>
 
 #endif
