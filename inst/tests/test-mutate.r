@@ -110,7 +110,8 @@ test_that("mutate handles out of data variables", {
   dat  <- rep(today,2)
   tim  <- rep(now,2)
 
-  res <- mutate(gdf, int = int, str = str, num = num, bool = bool, dat = dat, tim = tim)
+  res <- mutate(gdf, int = int, str = str, num = num, bool = bool, 
+    dat = dat, tim = tim)
   expect_equal(res$int , rep(int ,2))
   expect_equal(res$str , rep(str ,2))
   expect_equal(res$num , rep(num ,2))

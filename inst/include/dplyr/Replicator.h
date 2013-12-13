@@ -38,7 +38,8 @@ namespace dplyr {
     public:
         typedef ReplicatorImpl<RTYPE> Base ;
         
-        TypedReplicator( SEXP v, int n_, int ngroups_, const CharacterVector& classes_) : Base(v,n_,ngroups_), classes(classes_) {}
+        TypedReplicator( SEXP v, int n_, int ngroups_, const CharacterVector& classes_) : 
+          Base(v,n_,ngroups_), classes(classes_) {}
         
         SEXP collect(){
             Vector<RTYPE> res( Base::collect() ) ;
@@ -47,7 +48,7 @@ namespace dplyr {
         }
         
     private:
-        const CharacterVector& classes ;        
+        CharacterVector classes ;        
     } ;
     
     template <int RTYPE>
