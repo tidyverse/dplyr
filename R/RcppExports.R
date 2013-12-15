@@ -61,8 +61,8 @@ filter_impl <- function(df, args, env) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
-mutate_impl <- function(df, args, calls, frames) {
-    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, calls, frames)
+mutate_impl <- function(df, args, env) {
+    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
 order_impl <- function(args, env) {

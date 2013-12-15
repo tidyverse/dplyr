@@ -14,10 +14,7 @@
 .data_dots <- function(fun, DOTS = dots){
   f <- function(.data, ...){}
   body(f) <- substitute({
-    calls <- sys.calls()
-    frames <- sys.frames()
-    dots <- DOTS(...)
-    FUN(.data, dots, calls, frames)   
+    FUN(.data, DOTS(...), environment() )   
   }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
   attr(f, "srcref") <- NULL
   f

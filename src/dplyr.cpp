@@ -954,8 +954,8 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl( DataFrame df, List args, List calls, List frames){
-    DataDots dots(calls, frames) ;
+SEXP mutate_impl( DataFrame df, List args, Environment env){
+    DataDots dots(env) ;
     if( is<GroupedDataFrame>( df ) ){
         return mutate_grouped( GroupedDataFrame(df), args, dots);    
     } else {
