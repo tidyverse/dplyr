@@ -6,7 +6,7 @@ namespace Rcpp {
     class DataDots {
     public:
         
-        DataDots( List args, Environment env ) : environments() {                
+        DataDots( Environment env ) : environments() {                
           SEXP dots = env.find( "..." );
           
           while( dots != R_NilValue ){
