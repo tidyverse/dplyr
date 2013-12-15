@@ -42,7 +42,7 @@ namespace dplyr {
             for( int i=0; i<n; i++){
                 proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;  
             }
-            return call.fast_eval() ;
+            return call.fast_eval(env) ;
         }
         
         void set_call( SEXP call_ ){

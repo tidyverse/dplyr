@@ -6,8 +6,9 @@ namespace Rcpp {
     class DataDots {
     public:
         
-        DataDots( Environment env ) : environments() {                
+        DataDots( List args, Environment env ) : environments() {                
           SEXP dots = env.find( "..." );
+          
           while( dots != R_NilValue ){
             Promise prom = CAR(dots) ;
             
