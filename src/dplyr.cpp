@@ -986,27 +986,26 @@ IntegerVector order_impl( List args, Environment env ){
 }
 
 // [[Rcpp::export]] 
-DataFrame arrange_impl( DataFrame data, List args, Environment env ){
+DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
     int nargs = args.size() ;  
-    SEXP tmp ;
     List variables(nargs) ; 
     LogicalVector ascending(nargs) ;
+    Shelter<SEXP> __ ;
+    
     for(int i=0; i<nargs; i++){
-        tmp = args[i] ;
-        if( TYPEOF(tmp) == LANGSXP && CAR(tmp) == Rf_install("desc") ){
-            variables[i] = Rf_eval( CAR(CDR(tmp) ), env ) ;
-            ascending[i] = false ;
-        } else{
-            variables[i] = Rf_eval( tmp, env );
-            ascending[i] = true ;
-        }
+        SEXP call = args[i] ;
+        bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ; 
+        
+        CallProxy call_proxy( is_desc ? CADR(call) : call, data, dots.envir(i)) ;
+        variables[i] = __(call_proxy.eval()) ;
+        ascending[i] = !is_desc ;   
     }
     OrderVisitors o(variables,ascending, nargs) ;
-	IntegerVector index = o.apply() ;
-	
-	DataFrameVisitors visitors( data, data.names() ) ;
-	DataFrame res = visitors.subset(index, data.attr("class") ) ;
-	return res;
+    IntegerVector index = o.apply() ;
+    
+    DataFrameVisitors visitors( data, data.names() ) ;
+    DataFrame res = visitors.subset(index, data.attr("class") ) ;
+    return res;
 }
 
 // [[Rcpp::export]] 

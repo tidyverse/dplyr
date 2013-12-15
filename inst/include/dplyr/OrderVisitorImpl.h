@@ -57,7 +57,7 @@ namespace dplyr {
     } ;
 
     inline OrderVisitor* order_visitor( SEXP vec, bool ascending ){
-        if( ascending )
+        if( ascending ){
             switch( TYPEOF(vec) ){
                 case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , true, Vector<INTSXP > >( vec ) ;
                 case REALSXP: return new OrderVectorVisitorImpl<REALSXP, true, Vector<REALSXP> >( vec ) ;
@@ -65,7 +65,7 @@ namespace dplyr {
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , true, Vector<STRSXP > >( vec ) ;
                 default: break ;
             }
-        else 
+        } else { 
             switch( TYPEOF(vec) ){
                 case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , false, Vector<INTSXP > >( vec ) ;
                 case REALSXP: return new OrderVectorVisitorImpl<REALSXP, false, Vector<REALSXP> >( vec ) ;
@@ -73,6 +73,7 @@ namespace dplyr {
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , false, Vector<STRSXP > >( vec ) ;
                 default: break ;
             }
+        }
         
         // should not happen
         return 0 ;

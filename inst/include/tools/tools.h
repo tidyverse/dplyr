@@ -2,6 +2,7 @@
 #define dplyr_tools_tools_H
 
 #include <tools/type_name.h>
+#include <tools/Call.h>
 #include <tools/hash.h>
 #include <tools/delete_all.h>
 #include <tools/ListOf.h>

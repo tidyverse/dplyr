@@ -65,8 +65,8 @@ order_impl <- function(args, env) {
     .Call('dplyr_order_impl', PACKAGE = 'dplyr', args, env)
 }
 
-arrange_impl <- function(data, args, env) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, env)
+arrange_impl <- function(data, args, dots) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, dots)
 }
 
 sort_impl <- function(data) {

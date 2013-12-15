@@ -17,6 +17,7 @@ namespace dplyr {
             }
         }
         virtual ~LazySubsets(){}
+        
         virtual SEXP get_variable(SEXP symbol) const {
             DataMap::const_iterator it = data_map.find(symbol) ;
             return it->second ;

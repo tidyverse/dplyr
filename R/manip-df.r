@@ -36,7 +36,11 @@ NULL
 
 #' @rdname manip_df
 #' @export
-arrange.tbl_df    <- .old_data_dots(arrange_impl)
+arrange.tbl_df    <- .data_dots(arrange_impl)
+
+#' @rdname manip_df
+#' @export
+arrange.grouped_df    <- .data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export

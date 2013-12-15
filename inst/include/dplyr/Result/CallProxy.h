@@ -7,19 +7,19 @@ namespace dplyr {
     public:
         typedef dplyr_hash_map<SEXP, SEXP> DataMap ;
         
-        CallProxy( const Rcpp::Language& call_, LazySubsets& subsets_, const Environment& env_) : 
+        CallProxy( const Rcpp::Call& call_, LazySubsets& subsets_, const Environment& env_) : 
             call(call_), subsets(subsets_), proxies(), env(env_)
         {
             // fill proxies
-            traverse_call(call);  
+            set_call(call);  
             
         }
         
-        CallProxy( const Rcpp::Language& call_, Rcpp::DataFrame& data_, const Environment& env_) : 
+        CallProxy( const Rcpp::Call& call_, Rcpp::DataFrame& data_, const Environment& env_) : 
             call(call_), subsets(data_), proxies(), env(env_)
         {
             // fill proxies
-            traverse_call(call);  
+            set_call(call);  
         }
         
         CallProxy( const Rcpp::DataFrame& data_, const Environment& env_ ) : 
@@ -29,18 +29,26 @@ namespace dplyr {
         ~CallProxy(){}  
         
         SEXP eval(){
-            int n = proxies.size() ;
-            for( int i=0; i<n; i++){
-                proxies[i].set( subsets[proxies[i].symbol] ) ;     
-            }
-            Shield<SEXP> res( call.fast_eval(env) ) ;
-            return res ;
+            if( TYPEOF(call) == LANGSXP ){
+                int n = proxies.size() ;
+                for( int i=0; i<n; i++){
+                    proxies[i].set( subsets[proxies[i].symbol] ) ;     
+                }
+                Shield<SEXP> res( call.eval(env) ) ;
+                return res ;
+            } else if( TYPEOF(call) == SYMSXP) {
+                // SYMSXP
+                if( subsets.count(call) ) return subsets.get_variable(call) ;
+                Shield<SEXP> res( call.eval(env) );
+                return res ;
+            } 
+            return R_NilValue ;
         }
         
         void set_call( SEXP call_ ){
             proxies.clear() ;
             call = call_ ;
-            traverse_call(call) ;
+            if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
         }
         
         void input( Rcpp::String name, SEXP x ){
@@ -95,7 +103,7 @@ namespace dplyr {
             }    
         }
         
-        Rcpp::Language call ;
+        Rcpp::Call call ;
         LazySubsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env; 
