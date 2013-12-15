@@ -6,22 +6,6 @@
 
 using namespace Rcpp;
 
-// split_indices
-std::vector<std::vector<int> > split_indices(IntegerVector group, int groups);
-RcppExport SEXP dplyr_split_indices(SEXP groupSEXP, SEXP groupsSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< IntegerVector >::type group(groupSEXP );
-        Rcpp::traits::input_parameter< int >::type groups(groupsSEXP );
-        std::vector<std::vector<int> > __result = split_indices(group, groups);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by);
 RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
@@ -377,6 +361,22 @@ BEGIN_RCPP
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< ListOf<DataFrame> >::type dots(dotsSEXP );
         List __result = rbind_all(dots);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// split_indices
+std::vector<std::vector<int> > split_indices(IntegerVector group, int groups);
+RcppExport SEXP dplyr_split_indices(SEXP groupSEXP, SEXP groupsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< IntegerVector >::type group(groupSEXP );
+        Rcpp::traits::input_parameter< int >::type groups(groupsSEXP );
+        std::vector<std::vector<int> > __result = split_indices(group, groups);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

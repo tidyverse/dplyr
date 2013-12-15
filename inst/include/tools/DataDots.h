@@ -25,18 +25,16 @@ namespace Rcpp {
           }
         }
             
-        inline SEXP envir(int i) const {
-            return environments[i] ;    
+        inline const Environment& envir(int i) const {
+            return environments[i] ;
         }
         
         inline int size() const{ 
             return environments.size(); 
         } 
         
-        
     private:
-        
-        std::vector<SEXP> environments ;
+        std::vector<Environment> environments ;
     } ;
           
 }    

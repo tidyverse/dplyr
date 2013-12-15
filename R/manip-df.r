@@ -52,7 +52,11 @@ mutate.grouped_df    <- mutate.tbl_df
 
 #' @rdname manip_df
 #' @export
-summarise.tbl_df <- .old_data_dots(summarise_impl, named_dots)
+summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
+
+#' @rdname manip_df
+#' @export
+summarise.grouped_df <- .data_dots(summarise_impl, named_dots)
 
 #' @rdname manip_df
 #' @export

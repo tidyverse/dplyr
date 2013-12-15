@@ -1024,7 +1024,7 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
     return Count().process(gdf) ;   
 }
 
-SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
+SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& dots){
     DataFrame df = gdf.data() ;
     
     int nexpr = args.size() ;
@@ -1042,6 +1042,8 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     LazyGroupedSubsets subsets(gdf) ;
     Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
+        Environment env = dots.envir(k) ;
+        
         Result* res = get_handler( args[k], subsets, env ) ;
         
         // if we could not find a direct Result 
@@ -1058,7 +1060,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, Environment env){
     return summarised_grouped_tbl_cpp(accumulator, gdf );
 }
 
-SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
+SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
     int nexpr = args.size() ;
     CharacterVector names = args.names();
     
@@ -1070,6 +1072,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
     Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){
         SEXP name = names[i] ;
+        Environment env = dots.envir(i) ;
         Result* res = get_handler( args[i], subsets, env ) ;
         SEXP result ;
         if(res) {
@@ -1087,10 +1090,11 @@ SEXP summarise_not_grouped(DataFrame df, List args, Environment env){
 
 // [[Rcpp::export]]
 SEXP summarise_impl( DataFrame df, List args, Environment env){
+    DataDots dots(env) ;
     if( is<GroupedDataFrame>( df ) ){
-        return summarise_grouped( GroupedDataFrame(df), args, env);    
+        return summarise_grouped( GroupedDataFrame(df), args, dots);    
     } else {
-        return summarise_not_grouped( df, args, env) ;   
+        return summarise_not_grouped( df, args, dots) ;   
     }
 }
 
