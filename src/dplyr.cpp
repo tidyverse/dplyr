@@ -980,9 +980,9 @@ IntegerVector order_impl( List args, Environment env ){
         }
     }
     OrderVisitors o(variables,ascending, nargs) ;
-	IntegerVector res = o.apply() ;
-	res = res + 1 ;
-	return res ;
+    IntegerVector res = o.apply() ;
+    res = res + 1 ;
+    return res ;
 }
 
 // [[Rcpp::export]] 
@@ -1206,4 +1206,16 @@ List rbind_all( ListOf<DataFrame> dots ){
     out.attr( "class" ) = "data.frame" ;
     
     return out ;
+}
+
+// [[Rcpp::export]]
+std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
+  std::vector<std::vector<int> > ids(groups);
+
+  int n = group.size();
+  for (int i = 0; i < n; ++i) {
+    ids[group[i] - 1].push_back(i + 1);
+  }
+
+  return ids;
 }
