@@ -792,9 +792,10 @@ SEXP structure_mutate( const NamedListAccumulator<SEXP>& accumulator, const Data
     List res = accumulator ;
     res.attr("class") = classes ;
     set_rownames( res, df.nrows() ) ;
-    res.attr( "vars")    = df.attr("vars") ;
-    res.attr( "labels" ) = df.attr("labels" );
-    res.attr( "index")   = df.attr("index") ;
+    res.attr( "vars")     = df.attr("vars") ;
+    res.attr( "labels" )  = df.attr("labels" );
+    res.attr( "index")    = df.attr("index") ;
+    res.attr( "indices" ) = df.attr("indices" ) ;
     
     return res ;    
 }
