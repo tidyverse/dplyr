@@ -3,18 +3,21 @@
 
 class SlicingIndex {
 public:
-    SlicingIndex( int start_, int n_) : start(start_), n(n_) {}
+    
+    SlicingIndex(IntegerVector data_) : data(data_){}
+    
+    SlicingIndex(int start, int n) : data(seq(0,n-1)){}
     
     inline int size() const { 
-        return n ; 
+        return data.size() ; 
     }
     
     inline int operator[](int i) const {
-        return start + i ;    
+        return data[i] ;    
     }
     
 private:
-    int start, n ;
+    IntegerVector data ;
 } ;
 
 #endif

@@ -3,24 +3,19 @@
 
 namespace Rcpp {
     
+    class GroupedDataFrame ;
+    
     class GroupedDataFrameIndexIterator {
     public:
-        GroupedDataFrameIndexIterator( const IntegerVector& group_sizes_ ) : 
-            i(0), start(0), group_sizes(group_sizes_) {}
+        GroupedDataFrameIndexIterator( const GroupedDataFrame& gdf_ ) ; 
         
-        GroupedDataFrameIndexIterator& operator++(){
-            start += group_sizes[i++] ; 
-            return *this ;
-        }
+        GroupedDataFrameIndexIterator& operator++() ;
         
-        SlicingIndex operator*() const {
-            return SlicingIndex( start, group_sizes[i] ) ;     
-        }
+        SlicingIndex operator*() const  ;
         
         int i ;
-        int start ;
-        const IntegerVector& group_sizes ; 
-        
+        const GroupedDataFrame& gdf ;
+        ListOf<IntegerVector> indices ;
     } ;
     
     class GroupedDataFrame {
@@ -44,7 +39,7 @@ namespace Rcpp {
         }
         
         group_iterator group_begin() const {
-            return GroupedDataFrameIndexIterator( group_sizes ) ;
+            return GroupedDataFrameIndexIterator( *this ) ;
         }
         
         SEXP symbol( int i) const {
@@ -100,6 +95,19 @@ namespace Rcpp {
     inline bool is<GroupedDataFrame>( SEXP x){
         return Rf_inherits(x, "grouped_df" ) ;
     }
+    
+    inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator( const GroupedDataFrame& gdf_ ) : 
+        i(0), gdf(gdf_), indices(gdf.data().attr("indices")) {}
+    
+    inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator++(){
+        i++; 
+        return *this ;
+    }
+    
+    inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
+        return SlicingIndex( indices[i] ) ;
+    }
+    
     
 }
 

@@ -11,7 +11,9 @@ namespace Rcpp {
             return index ; 
         }
         
-        inline int nrows() const { return index.size() ;}
+        inline int nrows() const { 
+            return index.size() ;
+        }
             
     private:
         SlicingIndex index ;
