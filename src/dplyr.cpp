@@ -482,7 +482,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     
     int nrows_y = y.nrows() ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
-        
+    
     RowTrack track_x( "Rows in x but not y: " ) ;
     RowTrack track_y( "Rows in y but not x: " ) ;
     
@@ -1121,7 +1121,6 @@ List rbind_all( ListOf<DataFrame> dots ){
         DataFrame df = dots[i] ;
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
-        SlicingIndex index(k, nrows) ; 
         
         CharacterVector df_names = df.names() ;
         for( int j=0; j<df.size(); j++){

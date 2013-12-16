@@ -194,8 +194,12 @@ namespace dplyr{
             stop( "cannot create join visitor from incompatible types" ) ;
         switch( TYPEOF(left) ){
             case INTSXP:
-                if( Rf_inherits( left, "factor" ) )
+                if( Rf_inherits( left, "factor" ) ){
+                    Rf_PrintValue( left ) ;
+                    Rf_PrintValue( right ) ;
+                    
                     return new JoinFactorVisitor(left, right) ;
+                }
                 return new JoinVisitorImpl<INTSXP> ( left, right ) ;
             case REALSXP: 
                 if( Rf_inherits( left, "Date" ) )
