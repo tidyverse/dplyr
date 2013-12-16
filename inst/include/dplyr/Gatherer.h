@@ -37,6 +37,7 @@ namespace dplyr {
         
         inline void grab(SEXP data, const SlicingIndex& indices){
             int n = Rf_length(data) ;
+            
             if(n == indices.size() ){
                 grab_along( data, indices ) ;
             } else if( n == 1) {

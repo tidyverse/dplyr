@@ -18,8 +18,12 @@ namespace Rcpp {
             return data ;
         }
         
-        inline void borrow( STORAGE* begin, int n){
-            memcpy( start, begin, n * sizeof(STORAGE) );
+        inline void borrow(const SlicingIndex& indices, STORAGE* begin){
+            int n = indices.size() ;
+            for( int i=0; i<n ; i++){
+                start[i] = begin[indices[i]] ;    
+            }
+            // memcpy( start, begin, n * sizeof(STORAGE) );
             SETLENGTH(data, n) ;
         }
         

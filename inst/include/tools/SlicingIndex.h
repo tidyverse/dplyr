@@ -16,7 +16,7 @@ public:
         return data[i] ;    
     }
     
-private:
+// private:
     IntegerVector data ;
 } ;
 

@@ -19,7 +19,7 @@ namespace dplyr {
             object(x), output(max_size), start( Rcpp::internal::r_vector_start<RTYPE>(object) ) {}
         
         virtual SEXP get( const SlicingIndex& indices ) {
-            output.borrow( start + indices[0], indices.size() ) ;
+            output.borrow( indices, start ) ;
             return output ;
         }
         virtual SEXP get_variable() const {

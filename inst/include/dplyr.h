@@ -57,7 +57,6 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/BoolResult.h>
 
-#include <dplyr/SlicingIndex.h>
 #include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/tbl_cpp.h>
