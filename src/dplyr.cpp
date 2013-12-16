@@ -632,6 +632,7 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 // [[Rcpp::export]]
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
+    
     int nsymbols = symbols.size() ;
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
@@ -647,33 +648,19 @@ DataFrame build_index_cpp( DataFrame data ){
     DataFrame labels = visitors.subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
     
-    OrderVisitors order_labels( labels, vars ) ;
-    IntegerVector orders = order_labels.apply() ;
-    
-    std::vector< const std::vector<int>* > chunks(ngroups) ;
-    ChunkIndexMap::const_iterator it = map.begin() ;
-    for( int i=0; i<ngroups; i++, ++it){
-        chunks[ i ] = &it->second ;
-    }
+    List indices(ngroups) ;
     IntegerVector group_sizes = no_init( ngroups );
     int biggest_group = 0 ;
-    std::vector<int> indices ;
-    indices.reserve( data.nrows() );
-    for( int i=0; i<ngroups; i++){
-        const std::vector<int>& chunk = *chunks[orders[i]] ;
-        push_back( indices, chunk ) ;
-        biggest_group = std::max( biggest_group, (int)chunk.size() );
+    
+    ChunkIndexMap::const_iterator it = map.begin() ;
+    for( int i=0; i<ngroups; i++, ++it){
+        const std::vector<int>& chunk = it->second ; 
+        indices[i] = chunk ;
         group_sizes[i] = chunk.size() ;
+        biggest_group = std::max( biggest_group, (int)chunk.size() );
     }
     
-    DataFrameVisitors all_variables_visitors(data, data.names() ) ;
-    data = all_variables_visitors.subset( indices, classes_grouped() ) ;
-    
-    DataFrameVisitors labels_visitors( labels, vars) ;
-    
-    labels = labels_visitors.subset( orders, "data.frame" ) ;
-    labels.attr( "vars" ) = R_NilValue ;
-    
+    data.attr( "indices" ) = indices ; 
     data.attr( "group_sizes") = group_sizes ;
     data.attr( "biggest_group_size" ) = biggest_group ;
     data.attr( "labels" ) = labels ;
