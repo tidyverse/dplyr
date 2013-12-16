@@ -6,7 +6,7 @@ tbls <- temp_load(srcs, df)
 
 test_that("filter calls windowed versions of sql functions", {
   compare_tbls(tbls, function(x) {
-    x %.% group_by(g) %.% filter(row_number(g) < 3)
+    x %.% group_by(g) %.% filter(row_number(x) < 3)
   })
 })
 

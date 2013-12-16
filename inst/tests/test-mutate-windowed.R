@@ -6,7 +6,7 @@ tbls <- temp_load(srcs, df)
 
 test_that("mutate calls windowed versions of sql functions", {
   compare_tbls(tbls, function(x) {
-    x %.% group_by(g) %.% mutate(r = as.numeric(row_number(g)))
+    x %.% group_by(g) %.% mutate(r = as.numeric(row_number(x)))
   })
 })
 
