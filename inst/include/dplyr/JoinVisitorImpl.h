@@ -195,9 +195,6 @@ namespace dplyr{
         switch( TYPEOF(left) ){
             case INTSXP:
                 if( Rf_inherits( left, "factor" ) ){
-                    Rf_PrintValue( left ) ;
-                    Rf_PrintValue( right ) ;
-                    
                     return new JoinFactorVisitor(left, right) ;
                 }
                 return new JoinVisitorImpl<INTSXP> ( left, right ) ;

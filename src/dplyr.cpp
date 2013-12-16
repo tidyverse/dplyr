@@ -1144,6 +1144,7 @@ List rbind_all( ListOf<DataFrame> dots ){
             if( coll->compatible(source) ){
                 // if the current source is compatible, collect
                 coll->collect( SlicingIndex( k, nrows), source ) ;
+                
             } else if( coll->can_promote(source) ) {
                 // setup a new Collecter
                 Collecter* new_collecter = promote_collecter(source, n, coll ) ;
