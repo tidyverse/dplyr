@@ -105,7 +105,7 @@ namespace dplyr {
         bool test = all( gdf.get_group_sizes() == n ).is_true() ;
         if( !test ){
             std::stringstream s ;
-            s << "impossible to replicate vector of size" << n ;
+            s << "impossible to replicate vector of size " << n ;
             stop(s.str()) ;
         }
                       
