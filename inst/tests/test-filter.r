@@ -40,3 +40,23 @@ test_that("filter gives useful error message when given incorrect input", {
   expect_error( filter(tbl_df(mtcars), TRUE), "incompatible expression in filter" )
 })
 
+test_that("filter handles passing ...", {                        
+  df <- data.frame( x = 1:4 )
+  
+  f <- function(...){
+    x1 <- 4
+    f1 <- function(y) y
+    filter(df, ..., f1(x1) > x)  
+  }
+  g <- function(...){
+    x2 <- 2
+    f(x > x2, ...)
+  }
+  res <- g()
+  expect_equal( res$x, 3L )
+  
+  # df <- group_by(df,x)
+  # res <- g()
+  # expect_equal( res$x, 3L )
+  
+})
