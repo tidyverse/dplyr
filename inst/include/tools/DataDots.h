@@ -33,6 +33,15 @@ namespace Rcpp {
             return environments.size(); 
         } 
         
+        inline bool single_env() const{
+            if( environments.size() < 2 ) return true ;
+            SEXP first = environments[0] ;
+            for( int i=1; i<environments.size(); i++){
+                if( first != environments[i] ) return false ;    
+            }
+            return true ;
+        }
+        
     private:
         std::vector<Environment> environments ;
     } ;

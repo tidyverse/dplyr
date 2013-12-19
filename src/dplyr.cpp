@@ -700,7 +700,8 @@ SEXP and_calls( List args, const SymbolSet& set ){
     return res ;
 }
 
-DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment env){
+DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots& dots){
+    const Environment& env = dots.envir(0);
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ; 
     SymbolSet set ;
@@ -752,39 +753,66 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, Environment en
     return res ;
 }
 
-SEXP filter_not_grouped( DataFrame df, List args, Environment env){
+void check_filter_result(const LogicalVector& test, int n){
+    if( test.size() != n ) {
+        std::stringstream s ;
+        s << "incorrect length ("
+          << test.size()
+          << "), expecting: "
+          << n ;
+        stop( s.str() ) ;
+    }           
+}
+
+void combine_and(LogicalVector& test, const LogicalVector& test2){
+    int n = test.size() ;
+    for( int i=0; i<n; i++){
+        test[i] = test[i] && test2[i] ;    
+    }
+}
+
+SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
     CharacterVector names = df.names() ; 
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
         set.insert( Rf_install( names[i] ) ) ;    
     }
     
-    // a, b, c ->  a & b & c
-    Shield<SEXP> call( and_calls( args, set ) ) ;
-    
-    // replace the symbols that are in the data frame by vectors from the data frame
-    // and evaluate the expression
-    CallProxy proxy( call, df, env ) ;
-    LogicalVector test = proxy.eval() ;
-    if( test.size() != df.nrows() ) {
-        std::stringstream s ;
-        s << "incorrect length ("
-          << test.size()
-          << "), expecting: "
-          << df.nrows() ;
-        stop( s.str() ) ;
+    if( dots.single_env() ){
+        Environment env = dots.envir(0) ;
+        // a, b, c ->  a & b & c
+        Shield<SEXP> call( and_calls( args, set ) ) ;
+        
+        // replace the symbols that are in the data frame by vectors from the data frame
+        // and evaluate the expression
+        CallProxy proxy( call, df, env ) ;
+        LogicalVector test = proxy.eval() ;
+        check_filter_result(test, df.nrows());
+        DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+        return res ;
+    } else {
+        int nargs = args.size() ;
+        CallProxy first_proxy(args[0], df, dots.envir(0) ) ;
+        LogicalVector test = first_proxy.eval() ;
+        check_filter_result(test, df.nrows());
+        
+        for( int i=1; i<nargs; i++){
+            LogicalVector test2 = CallProxy(args[i], df, dots.envir(i) ).eval() ;
+            combine_and(test, test2) ; 
+        }
+        
+        DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+        return res ;
     }
-    
-    DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
-    return res ;
 }
 
 // [[Rcpp::export]]
 SEXP filter_impl( DataFrame df, List args, Environment env){
+    DataDots dots(env) ;
     if( is<GroupedDataFrame>( df ) ){
-        return filter_grouped( GroupedDataFrame(df), args, env);    
+        return filter_grouped( GroupedDataFrame(df), args, dots);    
     } else {
-        return filter_not_grouped( df, args, env) ;   
+        return filter_not_grouped( df, args, dots) ;   
     }
 }
 

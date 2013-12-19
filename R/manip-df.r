@@ -1,16 +1,3 @@
-# keeping this until I've converted all functions to the better system
-.old_data_dots <- function(fun, DOTS = dots){
-  f <- function(.data, ...){}
-  body(f) <- substitute({
-    parent_frame <- parent.frame()
-    env <- as.environment(.data)
-    parent.env(env) <- parent_frame
-    FUN(.data, DOTS(...) , env )   
-  }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
-  attr(f, "srcref") <- NULL
-  f
-}
-
 .data_dots <- function(fun, DOTS = dots){
   f <- function(.data, ...){}
   body(f) <- substitute({
@@ -40,7 +27,7 @@ arrange.tbl_df    <- .data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export
-filter.tbl_df    <- .old_data_dots(filter_impl)
+filter.tbl_df    <- .data_dots(filter_impl)
 
 #' @rdname manip_df
 #' @export
