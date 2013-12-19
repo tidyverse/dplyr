@@ -60,3 +60,29 @@ test_that("filter handles passing ...", {
   expect_equal( res$x, 3L )
   
 })
+
+test_that( "filter handles simple symbols", {
+  df <- data.frame( x = 1:4, test = rep(c(T,F), each = 2) )
+  res <- filter(df, test) 
+  
+  gdf <- group_by(df,x)
+  res <- filter(gdf, test) 
+  
+  f <- function(data, ...){
+    one <- 1
+    filter( data, test, x > one, ...)
+  }
+  g <- function(data, ...){
+    four <- 4
+    f( data, x < four, ...)
+  }
+  res <- g(df)
+  expect_equal(res$x, 2L)
+  expect_equal(res$test, TRUE)
+  
+  res <- g(gdf)
+  expect_equal(res$x, 2L)
+  expect_equal(res$test, TRUE)
+  
+})
+

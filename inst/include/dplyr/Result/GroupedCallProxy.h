@@ -6,22 +6,16 @@ namespace dplyr {
     class GroupedCallProxy {
     public:
         
-        GroupedCallProxy( Language& call_, const LazyGroupedSubsets& subsets_, const Environment& env_) : 
+        GroupedCallProxy( Call& call_, const LazyGroupedSubsets& subsets_, const Environment& env_) : 
             call(call_), subsets(subsets_), proxies(), env(env_), hybrid(false)
         {
-            // fill proxies
-            traverse_call(call);
-            
-            hybrid = can_simplify_call(call) ; 
+            set_call(call) ; 
         }
         
-        GroupedCallProxy( Language& call_, const GroupedDataFrame& data_, const Environment& env_) : 
+        GroupedCallProxy( Call& call_, const GroupedDataFrame& data_, const Environment& env_) : 
             call(call_), subsets(data_), proxies(), env(env_), hybrid(false)
         {
-            // fill proxies
-            traverse_call(call);
-            
-            hybrid = can_simplify_call(call) ; 
+            set_call(call) ; 
         }
         
         GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
@@ -33,22 +27,32 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
-            if( hybrid ) {
-                GroupedHybridCall hybrid_eval( call, indices, subsets, env ) ;
-                return hybrid_eval.eval() ;
+                if( TYPEOF(call) == LANGSXP){
+                if( hybrid ) {
+                    GroupedHybridCall hybrid_eval( call, indices, subsets, env ) ;
+                    return hybrid_eval.eval() ;
+                }
+                
+                int n = proxies.size() ;
+                for( int i=0; i<n; i++){
+                    proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;  
+                }
+                return call.eval(env) ;
+            } else if( TYPEOF(call) == SYMSXP ) {
+                if(subsets.count(call)){
+                    return subsets.get(call, indices) ;    
+                }
+                return env.find( CHAR(PRINTNAME(call)) ) ;
+            } else {
+                // all other types that evaluate to themselves
+                return call ;    
             }
-            
-            int n = proxies.size() ;
-            for( int i=0; i<n; i++){
-                proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;  
-            }
-            return call.fast_eval(env) ;
         }
         
         void set_call( SEXP call_ ){
             proxies.clear() ;
             call = call_ ;
-            traverse_call(call) ;
+            if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
             hybrid = can_simplify_call(call) ;
         }
         
@@ -117,7 +121,7 @@ namespace dplyr {
             }    
         }
         
-        Rcpp::Language call ;
+        Rcpp::Call call ;
         LazyGroupedSubsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env; 

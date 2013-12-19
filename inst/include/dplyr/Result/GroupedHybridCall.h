@@ -5,7 +5,7 @@ namespace dplyr {
      
     class GroupedHybridCall {
     public:
-        GroupedHybridCall( const Language& call_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_, const Environment& env_ ) : 
+        GroupedHybridCall( const Call& call_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_, const Environment& env_ ) : 
             call( clone(call_) ), indices(indices_), subsets(subsets_), env(env_) 
         {
             while( simplified() ) ;
@@ -15,9 +15,13 @@ namespace dplyr {
             if( TYPEOF(call) == LANGSXP ){
                 substitute(call) ;
                 return Rf_eval( call, R_GlobalEnv ) ;
-            } else {
-                return call ;    
+            } else if(TYPEOF(call) == SYMSXP) {
+                if(subsets.count(call)){
+                    return subsets.get(call, indices) ;    
+                }
+                return env.find( CHAR(PRINTNAME(call)) ) ;    
             }
+            return call ;
         }
         
     private:

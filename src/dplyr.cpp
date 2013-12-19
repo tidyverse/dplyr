@@ -720,36 +720,27 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     }
     
     // a, b, c ->  a & b & c
-    Shield<SEXP> call( and_calls( args, set ) ) ;
+    Call call( and_calls( args, set ) ) ;
     
     int nrows = data.nrows() ;
     LogicalVector test = no_init(nrows);
         
-    // if( TYPEOF(call) == SYMSXP ){
-    //     SEXP variable = data[ CHAR(PRINTNAME(call)) ] ;
-    //     if( TYPEOF(variable) != LGLSXP ){
-    //         std::stringstream s ;
-    //         stop( "expecting a logical vector" ) ;    
-    //     }
-    //     test = variable ;
-    // } else {
-        LogicalVector g_test ;
-        Language call_ = call ;
-        GroupedCallProxy call_proxy( call_, gdf, env ) ;
+    LogicalVector g_test ;
+    GroupedCallProxy call_proxy( call, gdf, env ) ;
+    
+    int ngroups = gdf.ngroups() ;
+    GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+    for( int i=0; i<ngroups; i++, ++git){
+        SlicingIndex indices = *git ;
+        int chunk_size = indices.size() ;
         
-        int ngroups = gdf.ngroups() ;
-        GroupedDataFrame::group_iterator git = gdf.group_begin() ;
-        for( int i=0; i<ngroups; i++, ++git){
-            SlicingIndex indices = *git ;
-            int chunk_size = indices.size() ;
-            
-            g_test  = call_proxy.get( indices );
-            check_filter_result(g_test, chunk_size ) ;
-            for( int j=0; j<chunk_size; j++){
-                test[ indices[j] ] = g_test[j] ;  
-            }
+        g_test  = call_proxy.get( indices );
+        check_filter_result(g_test, chunk_size ) ;
+        for( int j=0; j<chunk_size; j++){
+            test[ indices[j] ] = g_test[j] ;  
         }
-    // }
+    }
+    
     DataFrame res = subset( data, test, names, classes_grouped() ) ;
     res.attr( "vars")   = data.attr("vars") ;
             
@@ -771,7 +762,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
     LogicalVector g_test ;
     
     for( int k=0; k<args.size(); k++){ 
-        Language call( args[k] ) ;
+        Call call( args[k] ) ;
         GroupedCallProxy call_proxy( call, gdf, dots.envir(k) ) ;
         int ngroups = gdf.ngroups() ;
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
