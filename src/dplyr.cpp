@@ -1041,6 +1041,14 @@ DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
         
         CallProxy call_proxy( is_desc ? CADR(call) : call, data, dots.envir(i)) ;
         variables[i] = __(call_proxy.eval()) ;
+        if( Rf_length(variables[i]) != data.nrows() ){
+            std::stringstream s ;
+            s << "incorrect size (" 
+              << Rf_length(variables[i]) 
+              << "), expecting :"
+              << data.nrows() ;
+            stop(s.str()) ;    
+        }
         ascending[i] = !is_desc ;   
     }
     OrderVisitors o(variables,ascending, nargs) ;
