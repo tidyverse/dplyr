@@ -40,10 +40,6 @@ arrange.tbl_df    <- .data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export
-arrange.grouped_df    <- .data_dots(arrange_impl)
-
-#' @rdname manip_df
-#' @export
 filter.tbl_df    <- .old_data_dots(filter_impl)
 
 #' @rdname manip_df
@@ -52,15 +48,7 @@ mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
-mutate.grouped_df    <- mutate.tbl_df
-
-#' @rdname manip_df
-#' @export
 summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
-
-#' @rdname manip_df
-#' @export
-summarise.grouped_df <- .data_dots(summarise_impl, named_dots)
 
 #' @rdname manip_df
 #' @export
