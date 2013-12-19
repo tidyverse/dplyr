@@ -55,8 +55,8 @@ test_that("filter handles passing ...", {
   res <- g()
   expect_equal( res$x, 3L )
   
-  # df <- group_by(df,x)
-  # res <- g()
-  # expect_equal( res$x, 3L )
+  df <- group_by(df,x)
+  res <- g()
+  expect_equal( res$x, 3L )
   
 })

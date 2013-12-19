@@ -700,8 +700,18 @@ SEXP and_calls( List args, const SymbolSet& set ){
     return res ;
 }
 
-DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots& dots){
-    const Environment& env = dots.envir(0);
+void check_filter_result(const LogicalVector& test, int n){
+    if( test.size() != n ) {
+        std::stringstream s ;
+        s << "incorrect length ("
+          << test.size()
+          << "), expecting: "
+          << n ;
+        stop( s.str() ) ;
+    }           
+}
+
+DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& args, const Environment& env){
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ; 
     SymbolSet set ;
@@ -715,14 +725,14 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots
     int nrows = data.nrows() ;
     LogicalVector test = no_init(nrows);
         
-    if( TYPEOF(call) == SYMSXP ){
-        SEXP variable = data[ CHAR(PRINTNAME(call)) ] ;
-        if( TYPEOF(variable) != LGLSXP ){
-            std::stringstream s ;
-            stop( "expecting a logical vector" ) ;    
-        }
-        test = variable ;
-    } else {
+    // if( TYPEOF(call) == SYMSXP ){
+    //     SEXP variable = data[ CHAR(PRINTNAME(call)) ] ;
+    //     if( TYPEOF(variable) != LGLSXP ){
+    //         std::stringstream s ;
+    //         stop( "expecting a logical vector" ) ;    
+    //     }
+    //     test = variable ;
+    // } else {
         LogicalVector g_test ;
         Language call_ = call ;
         GroupedCallProxy call_proxy( call_, gdf, env ) ;
@@ -734,16 +744,45 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots
             int chunk_size = indices.size() ;
             
             g_test  = call_proxy.get( indices );
-            if(g_test.size() != chunk_size ){
-                std::stringstream s ;
-                s << "incorrect length ("
-                  << g_test.size()
-                  << "), expecting: "
-                  << chunk_size ;
-                stop(s.str());
-            }
+            check_filter_result(g_test, chunk_size ) ;
             for( int j=0; j<chunk_size; j++){
                 test[ indices[j] ] = g_test[j] ;  
+            }
+        }
+    // }
+    DataFrame res = subset( data, test, names, classes_grouped() ) ;
+    res.attr( "vars")   = data.attr("vars") ;
+            
+    return res ;
+}
+
+// version of grouped filter when contributions to ... come from several environment
+DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& args, const DataDots& dots){
+    const DataFrame& data = gdf.data() ;
+    CharacterVector names = data.names() ; 
+    SymbolSet set ;
+    for( int i=0; i<names.size(); i++){
+        set.insert( Rf_install( names[i] ) ) ;    
+    }
+    
+    int nrows = data.nrows() ;
+    LogicalVector test(nrows, TRUE);
+        
+    LogicalVector g_test ;
+    
+    for( int k=0; k<args.size(); k++){ 
+        Language call( args[k] ) ;
+        GroupedCallProxy call_proxy( call, gdf, dots.envir(k) ) ;
+        int ngroups = gdf.ngroups() ;
+        GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+        for( int i=0; i<ngroups; i++, ++git){
+            SlicingIndex indices = *git ;
+            int chunk_size = indices.size() ;
+            
+            g_test  = call_proxy.get( indices );
+            check_filter_result(g_test, chunk_size ) ;
+            for( int j=0; j<chunk_size; j++){
+                test[ indices[j] ] = test[ indices[j] ] & g_test[j] ;  
             }
         }
     }
@@ -752,16 +791,13 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots
             
     return res ;
 }
-
-void check_filter_result(const LogicalVector& test, int n){
-    if( test.size() != n ) {
-        std::stringstream s ;
-        s << "incorrect length ("
-          << test.size()
-          << "), expecting: "
-          << n ;
-        stop( s.str() ) ;
-    }           
+  
+DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots& dots){
+    if( dots.single_env() ){
+        return filter_grouped_single_env(gdf, args, dots.envir(0) ) ;
+    } else {
+        return filter_grouped_multiple_env(gdf,args,dots) ;
+    }
 }
 
 void combine_and(LogicalVector& test, const LogicalVector& test2){
