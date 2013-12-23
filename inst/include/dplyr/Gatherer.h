@@ -119,7 +119,7 @@ namespace dplyr {
         
     private:
         Vector<RTYPE> value ;
-        const CharacterVector& classes ;
+        CharacterVector classes ;
     } ;
 
     inline Gatherer* constant_gatherer(SEXP x, int n){
