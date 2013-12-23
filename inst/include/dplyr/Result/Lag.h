@@ -1,12 +1,12 @@
-#ifndef dplyr_Result_Lead_H
-#define dplyr_Result_Lead_H
+#ifndef dplyr_Result_Lag_H
+#define dplyr_Result_Lag_H
 
 namespace dplyr {
     
     template <int RTYPE>
-    class Lead : public Result {
+    class Lag : public Result {
     public:
-        Lead( SEXP data_, int n_ ) : data(data_), n(n_){}
+        Lag( SEXP data_, int n_ ) : data(data_), n(n_){}
         
         virtual SEXP process(const GroupedDataFrame& gdf ){
             int nrows = gdf.nrows() ;
@@ -41,11 +41,18 @@ namespace dplyr {
         void process_slice( Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index){
             int chunk_size = index.size() ;
             int i=0 ;
-            for( ; i<chunk_size-n; i++ ){
-                out[out_index[i]] = data[index[i]+n] ;    
-            }
-            for(; i<chunk_size; i++){
-                out[out_index[i]] = Vector<RTYPE>::get_na() ;    
+            
+            if( n > chunk_size ) {
+                for(int i=0; i<chunk_size ; i++){
+                    out[out_index[i]] = Vector<RTYPE>::get_na() ;
+                }    
+            } else {        
+                for(; i<n ; i++){
+                    out[out_index[i]] = Vector<RTYPE>::get_na() ;    
+                }
+                for( ; i<chunk_size; i++ ){
+                    out[out_index[i]] = data[index[i]-n] ;    
+                }
             }
         }
         
@@ -54,28 +61,28 @@ namespace dplyr {
     } ;
     
     template <int RTYPE>
-    class TypedLead : public Result {
+    class TypedLag : public Result {
     public:
-        TypedLead(SEXP data_, int n_, CharacterVector classes_) : lead(data_, n_), classes(classes_){}
+        TypedLag(SEXP data_, int n_, CharacterVector classes_) : lag(data_, n_), classes(classes_){}
         
         virtual SEXP process(const GroupedDataFrame& gdf ){
-            return promote( lead.process(gdf) ) ;
+            return promote( lag.process(gdf) ) ;
         }
         virtual SEXP process(const FullDataFrame& df){
-            return promote( lead.process(df) ) ;    
+            return promote( lag.process(df) ) ;    
         }
         virtual SEXP process(const SlicingIndex& index){
-            return promote( lead.process(index) ) ;    
+            return promote( lag.process(index) ) ;    
         }
         
     private:
         
         SEXP promote( Vector<RTYPE> res ){
-            res.attr( "class" ) = classes ;
+            res.attr( "class" ) = classes ; 
             return res ;
         }
         
-        Lead<RTYPE> lead ;
+        Lag<RTYPE> lag ;
         CharacterVector classes ;
     } ;
     

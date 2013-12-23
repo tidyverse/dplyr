@@ -106,7 +106,7 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
-Result* lead_prototype_(SEXP call, const LazySubsets& subsets, int nargs){
+Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 2 ) return 0 ;
     Armor<SEXP> data( CADR(call) ); 
     int n = as<int>( CADDR(call) );
@@ -127,15 +127,37 @@ Result* lead_prototype_(SEXP call, const LazySubsets& subsets, int nargs){
     }
     return 0 ;
 }  
+ 
+Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    if( nargs != 2 ) return 0 ;
+    Armor<SEXP> data( CADR(call) ); 
+    int n = as<int>( CADDR(call) );
+    if( TYPEOF(data) == SYMSXP ){
+        data = subsets.get_variable(data) ;
+    }
+    switch( TYPEOF(data) ){
+        case INTSXP: 
+            if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            return new Lag<INTSXP>(data, n) ;
+        case REALSXP: 
+            if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            return new Lag<REALSXP>(data, n) ;
+        case STRSXP: return new Lag<STRSXP>(data, n) ;
+        case LGLSXP: return new Lag<LGLSXP>(data, n) ;
+        default: break ;
+    }
+    return 0 ;
+}  
 
-Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-    Result* res = lead_prototype_(call, subsets, nargs) ;
-    if( res )
-        Rprintf( "lead = <%s>\n", DEMANGLE(*res) ) ;
-    else 
-        Rprintf( "lead = <null>\n" ) ;
-    return res ;
-}
+// Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+//     Result* res = lag_prototype_(call, subsets, nargs) ;
+//     if( res )
+//         Rprintf( "lag = <%s>\n", DEMANGLE(*res) ) ;
+//     else 
+//         Rprintf( "lag = <null>\n" ) ;
+//     return res ;
+// }
 
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
@@ -151,7 +173,9 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
-        handlers[ Rf_install( "lead" )           ] = lead_prototype ; 
+        
+        handlers[ Rf_install( "lead" )           ] = lead_prototype ;
+        handlers[ Rf_install( "lag" )            ] = lag_prototype ;
     }
     return handlers ;    
 }
@@ -1014,7 +1038,9 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             call_proxy.set_call( args[i] );
             
             // we need to protect the SEXP, that's what the Shelter does
-            result = __( call_proxy.eval() ) ;
+            result = __( call_proxy.eval() ) ;   
+            
+            RCPP_DEBUG_OBJECT(result) ;
             
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );

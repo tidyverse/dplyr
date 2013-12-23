@@ -31,7 +31,7 @@ namespace dplyr {
         SEXP eval(){
             if( TYPEOF(call) == LANGSXP ){
                 if(hybrid){
-                    HybridCall hybrid_call(call,subsets,env) ;
+                    return HybridCall(call,subsets,env).eval() ;
                 }
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){

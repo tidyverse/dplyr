@@ -85,7 +85,6 @@ namespace dplyr {
         SEXP collect(){
             Vector<RTYPE> res( Base::collect() ) ;
             res.attr( "class" ) = classes ;
-            Rf_PrintValue(classes) ;
             return res ;
         }
     private:

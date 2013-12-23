@@ -35,5 +35,6 @@
 #include <dplyr/Result/ConstantResult.h>
 
 #include <dplyr/Result/Lead.h>
+#include <dplyr/Result/Lag.h>
 
 #endif
