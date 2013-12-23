@@ -27,7 +27,7 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
-                if( TYPEOF(call) == LANGSXP){
+            if( TYPEOF(call) == LANGSXP){
                 if( hybrid ) {
                     GroupedHybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;

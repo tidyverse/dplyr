@@ -21,6 +21,7 @@
 #include <dplyr/Result/Reducer.h>
 #include <dplyr/Result/DelayedReducer.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/Result/HybridCall.h>
 #include <dplyr/Result/GroupedHybridCall.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/GroupedCallReducer.h>
@@ -32,5 +33,7 @@
 #include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
+
+#include <dplyr/Result/Lead.h>
 
 #endif

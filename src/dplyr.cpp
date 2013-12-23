@@ -106,6 +106,33 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
+Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    if( nargs != 2 ) return 0 ;
+
+    Armor<SEXP> data( CADR(call) ); 
+    int n = as<int>( CADDR(call) );
+    if( TYPEOF(data) == SYMSXP ){
+        data = subsets.get_variable(data) ;
+    }
+    switch( TYPEOF(data) ){
+        case INTSXP: return new Lead<INTSXP>(data, n) ;
+        case REALSXP: return new Lead<REALSXP>(data, n) ;
+        case STRSXP: return new Lead<STRSXP>(data, n) ;
+        case LGLSXP: return new Lead<LGLSXP>(data, n) ;
+        default: break ;
+    }
+    return 0 ;
+}  
+
+// Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+//     Result* res = lead_prototype_(call, subsets, nargs) ;
+//     if( res )
+//         Rprintf( "lead = <%s>\n", DEMANGLE(*res) ) ;
+//     else 
+//         Rprintf( "lead = <null>\n" ) ;
+//     return res ;
+// }
+
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
@@ -120,6 +147,7 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
+        handlers[ Rf_install( "lead" )           ] = lead_prototype ; 
     }
     return handlers ;    
 }

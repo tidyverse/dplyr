@@ -8,7 +8,7 @@ namespace dplyr {
         typedef dplyr_hash_map<SEXP, SEXP> DataMap ;
         
         CallProxy( const Rcpp::Call& call_, LazySubsets& subsets_, const Environment& env_) : 
-            call(call_), subsets(subsets_), proxies(), env(env_)
+            call(call_), subsets(subsets_), proxies(), env(env_), hybrid(false)
         {
             // fill proxies
             set_call(call);  
@@ -16,20 +16,23 @@ namespace dplyr {
         }
         
         CallProxy( const Rcpp::Call& call_, Rcpp::DataFrame& data_, const Environment& env_) : 
-            call(call_), subsets(data_), proxies(), env(env_)
+            call(call_), subsets(data_), proxies(), env(env_), hybrid(false)
         {
             // fill proxies
             set_call(call);  
         }
         
         CallProxy( const Rcpp::DataFrame& data_, const Environment& env_ ) : 
-            subsets(data_), proxies(), env(env_) {
+            subsets(data_), proxies(), env(env_), hybrid(false) {
         }
         
         ~CallProxy(){}  
         
         SEXP eval(){
             if( TYPEOF(call) == LANGSXP ){
+                if(hybrid){
+                    HybridCall hybrid_call(call,subsets,env) ;
+                }
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){
                     proxies[i].set( subsets[proxies[i].symbol] ) ;     
@@ -49,6 +52,7 @@ namespace dplyr {
             proxies.clear() ;
             call = call_ ;
             if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
+            hybrid = can_simplify_call(call) ; 
         }
         
         void input( Rcpp::String name, SEXP x ){
@@ -72,6 +76,11 @@ namespace dplyr {
         }
         
     private:
+        
+        inline bool can_simplify_call( SEXP call){
+            bool res =  can_simplify(call);
+            return res ;
+        }
         
         void traverse_call( SEXP obj ){
             if( ! Rf_isNull(obj) ){ 
@@ -107,6 +116,7 @@ namespace dplyr {
         LazySubsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env; 
+        bool hybrid ;
     } ;
 
 }
