@@ -113,13 +113,13 @@ namespace dplyr {
         Map map ;
     } ;
     
-    template <int RTYPE>
+    template <int RTYPE, bool ascending=true>
     class RowNumber : public Result {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
-        typedef OrderVectorVisitorImpl<RTYPE,true,Slice> Visitor ;
+        typedef OrderVectorVisitorImpl<RTYPE,ascending,Slice> Visitor ;
         typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
             
         RowNumber(SEXP data_) : data(data_) {}

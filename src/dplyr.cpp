@@ -57,11 +57,22 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
 Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs != 1) return 0;
     Armor<SEXP> data( CADR(call) );
+    if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){ 
+        data = CADR(data) ;
+        
+        if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+        switch( TYPEOF(data) ){
+            case INTSXP:  return new RowNumber<INTSXP,  false>( data ) ;
+            case REALSXP: return new RowNumber<REALSXP, false>( data ) ;
+            case STRSXP:  return new RowNumber<STRSXP,  false>( data ) ;
+            default: break;
+        }
+    }
     if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
     switch( TYPEOF(data) ){
-        case INTSXP:  return new RowNumber<INTSXP>( data ) ;
-        case REALSXP: return new RowNumber<REALSXP>( data ) ;
-        case STRSXP: return new RowNumber<STRSXP>( data ) ;
+        case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
+        case REALSXP: return new RowNumber<REALSXP,true>( data ) ;
+        case STRSXP: return new RowNumber<STRSXP,true>( data ) ;
         default: break;
     }
     // we don't know how to handle it. 
