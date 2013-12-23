@@ -57,11 +57,22 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
 Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs != 1) return 0;
     Armor<SEXP> data( CADR(call) );
+    if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){ 
+        data = CADR(data) ;
+        
+        if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+        switch( TYPEOF(data) ){
+            case INTSXP:  return new RowNumber<INTSXP,  false>( data ) ;
+            case REALSXP: return new RowNumber<REALSXP, false>( data ) ;
+            case STRSXP:  return new RowNumber<STRSXP,  false>( data ) ;
+            default: break;
+        }
+    }
     if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
     switch( TYPEOF(data) ){
-        case INTSXP:  return new RowNumber<INTSXP>( data ) ;
-        case REALSXP: return new RowNumber<REALSXP>( data ) ;
-        case STRSXP: return new RowNumber<STRSXP>( data ) ;
+        case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
+        case REALSXP: return new RowNumber<REALSXP,true>( data ) ;
+        case STRSXP: return new RowNumber<STRSXP,true>( data ) ;
         default: break;
     }
     // we don't know how to handle it. 
@@ -72,16 +83,72 @@ template <typename Increment>
 Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs != 1) return 0;
     Armor<SEXP> data( CADR(call) );
+        
+    if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){ 
+        data = CADR(data) ;
+        if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+        switch( TYPEOF(data) ){
+            case INTSXP:  return new Rank_Impl<INTSXP,  Increment, false>( data ) ;
+            case REALSXP: return new Rank_Impl<REALSXP, Increment, false>( data ) ;
+            case STRSXP:  return new Rank_Impl<STRSXP,  Increment, false>( data ) ;
+            default: break;
+        }
+    }
+    
     if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
     switch( TYPEOF(data) ){
-        case INTSXP:  return new Rank_Impl<INTSXP,  Increment>( data ) ;
-        case REALSXP: return new Rank_Impl<REALSXP, Increment>( data ) ;
-        case STRSXP:  return new Rank_Impl<STRSXP,  Increment>( data ) ;
+        case INTSXP:  return new Rank_Impl<INTSXP,  Increment, true>( data ) ;
+        case REALSXP: return new Rank_Impl<REALSXP, Increment, true>( data ) ;
+        case STRSXP:  return new Rank_Impl<STRSXP,  Increment, true>( data ) ;
         default: break;
     }
     // we don't know how to handle it. 
     return 0 ;
 }
+
+Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    if( nargs != 2 ) return 0 ;
+    Armor<SEXP> data( CADR(call) ); 
+    int n = as<int>( CADDR(call) );
+    if( TYPEOF(data) == SYMSXP ){
+        data = subsets.get_variable(data) ;
+    }
+    switch( TYPEOF(data) ){
+        case INTSXP: 
+            if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, get_date_classes() ) ;
+            return new Lead<INTSXP>(data, n) ;
+        case REALSXP: 
+            if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, get_time_classes() ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, get_date_classes() ) ;
+            return new Lead<REALSXP>(data, n) ;
+        case STRSXP: return new Lead<STRSXP>(data, n) ;
+        case LGLSXP: return new Lead<LGLSXP>(data, n) ;
+        default: break ;
+    }
+    return 0 ;
+}  
+ 
+Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    if( nargs != 2 ) return 0 ;
+    Armor<SEXP> data( CADR(call) ); 
+    int n = as<int>( CADDR(call) );
+    if( TYPEOF(data) == SYMSXP ){
+        data = subsets.get_variable(data) ;
+    }
+    switch( TYPEOF(data) ){
+        case INTSXP: 
+            if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, get_date_classes() ) ;
+            return new Lag<INTSXP>(data, n) ;
+        case REALSXP: 
+            if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, get_time_classes() ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, get_date_classes() ) ;
+            return new Lag<REALSXP>(data, n) ;
+        case STRSXP: return new Lag<STRSXP>(data, n) ;
+        case LGLSXP: return new Lag<LGLSXP>(data, n) ;
+        default: break ;
+    }
+    return 0 ;
+}  
 
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
@@ -97,17 +164,26 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
+        
+        // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
+        // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
     }
     return handlers ;    
 }
 
 Result* constant_handler(SEXP constant){
     switch(TYPEOF(constant)){
-    case INTSXP: return new ConstantResult<INTSXP>(constant) ;
+    case INTSXP: 
+        {
+            if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<INTSXP>(constant, get_date_classes() ) ;
+            return new ConstantResult<INTSXP>(constant) ;
+        }
     case REALSXP:
-        if( Rf_inherits(constant, "POSIXct") ) return new POSIXctConstantResult(constant) ;
-        if( Rf_inherits(constant, "Date") ) return new DateConstantResult(constant) ;
-        return new ConstantResult<REALSXP>(constant) ;
+        {
+            if( Rf_inherits(constant, "POSIXct") ) return new TypedConstantResult<REALSXP>(constant, get_time_classes() ) ;
+            if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<REALSXP>(constant, get_date_classes() ) ;
+            return new ConstantResult<REALSXP>(constant) ;
+        }
     case STRSXP: return new ConstantResult<STRSXP>(constant) ;
     case LGLSXP: return new ConstantResult<LGLSXP>(constant) ;
     }
@@ -959,7 +1035,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             call_proxy.set_call( args[i] );
             
             // we need to protect the SEXP, that's what the Shelter does
-            result = __( call_proxy.eval() ) ;
+            result = __( call_proxy.eval() ) ;   
             
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );

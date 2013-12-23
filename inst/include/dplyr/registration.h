@@ -17,6 +17,18 @@ inline void registerHybridHandler( const char* name, HybridHandler proto){
     return fun(name, proto) ;
 }
 
+inline SEXP get_time_classes(){
+    typedef SEXP (*Fun)(void) ;
+    GRAB_CALLABLE(get_time_classes)
+    return fun() ;    
+}
+
+inline SEXP get_date_classes(){
+    typedef SEXP (*Fun)(void) ;
+    GRAB_CALLABLE(get_time_classes)
+    return fun() ;    
+}
+
 #endif
 
 #endif

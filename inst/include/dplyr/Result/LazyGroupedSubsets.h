@@ -46,6 +46,10 @@ namespace dplyr {
             return data_map[symbol] ;    
         }
         
+        inline int nrows() const {
+            return Rf_length( data_map.begin()->second ) ;  
+        }
+        
     private:
         DataMap data_map ;
     } ;

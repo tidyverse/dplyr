@@ -38,7 +38,7 @@ namespace dplyr {
     public:
         typedef ReplicatorImpl<RTYPE> Base ;
         
-        TypedReplicator( SEXP v, int n_, int ngroups_, const CharacterVector& classes_) : 
+        TypedReplicator( SEXP v, int n_, int ngroups_, SEXP classes_) : 
           Base(v,n_,ngroups_), classes(classes_) {}
         
         SEXP collect(){
@@ -48,7 +48,7 @@ namespace dplyr {
         }
         
     private:
-        CharacterVector classes ;        
+        SEXP classes ;        
     } ;
     
     template <int RTYPE>
@@ -70,7 +70,7 @@ namespace dplyr {
     template <int RTYPE>
     class ConstantTypedReplicator : public ConstantReplicatorImpl<RTYPE>{
     public:
-        ConstantTypedReplicator( SEXP v, int n, const CharacterVector& classes_ ) : 
+        ConstantTypedReplicator( SEXP v, int n, SEXP classes_ ) : 
             ConstantReplicatorImpl<RTYPE>(v,n), classes(classes_){}
         
         SEXP collect(){
@@ -80,16 +80,20 @@ namespace dplyr {
         }
         
     private:
-        const CharacterVector& classes ;
+        SEXP classes ;
     } ;
     
     inline Replicator* constant_replicator(SEXP v, const int n){
         switch( TYPEOF(v) ){
-            case INTSXP:  return new ConstantReplicatorImpl<INTSXP>( v, n ) ;
+            case INTSXP:  
+                {
+                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<INTSXP>(v,n, get_date_classes() ) ;
+                    return new ConstantReplicatorImpl<INTSXP>( v, n ) ;
+                }
             case REALSXP: 
                 {
-                    if( Rf_inherits(v, "POSIXct" )) return new ConstantTypedReplicator<REALSXP>(v,n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<REALSXP>(v,n, CharacterVector::create( "Date" ) ) ;
+                    if( Rf_inherits(v, "POSIXct" )) return new ConstantTypedReplicator<REALSXP>(v,n, get_time_classes() ) ;
+                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<REALSXP>(v,n, get_date_classes() ) ;
                     return new ConstantReplicatorImpl<REALSXP>( v, n ) ;
                 }
             case STRSXP:  return new ConstantReplicatorImpl<STRSXP>( v, n ) ;
@@ -110,10 +114,14 @@ namespace dplyr {
         }
                       
         switch( TYPEOF(v) ){
-            case INTSXP:  return new ReplicatorImpl<INTSXP> ( v, n, gdf.ngroups() ) ;
+            case INTSXP:  
+                {
+                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<INTSXP>(v, n, gdf.ngroups(), get_date_classes() ) ;
+                    return new ReplicatorImpl<INTSXP> ( v, n, gdf.ngroups() ) ;
+                }
             case REALSXP: {
-                    if( Rf_inherits( v, "POSIXct" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), CharacterVector::create("Date") ) ;
+                    if( Rf_inherits( v, "POSIXct" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), get_time_classes() ) ;
+                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), get_date_classes() ) ;
                     return new ReplicatorImpl<REALSXP>( v, n, gdf.ngroups() ) ;
             }
             case STRSXP:  return new ReplicatorImpl<STRSXP> ( v, n, gdf.ngroups() ) ;

@@ -74,7 +74,7 @@ namespace dplyr {
     template <int RTYPE>
     class TypedCollecter : public Collecter_Impl<RTYPE>{
     public:    
-        TypedCollecter( int n, CharacterVector types_) : 
+        TypedCollecter( int n, SEXP types_) : 
             Collecter_Impl<RTYPE>(n), types(types_){}
         
         inline SEXP get(){
@@ -83,7 +83,7 @@ namespace dplyr {
         }
         
         inline bool compatible(SEXP x) const {
-            String type = types[0] ;
+            String type = STRING_ELT(types,0) ;
             return Rf_inherits(x, type.get_cstring() ) ;    
         }
         
@@ -92,22 +92,11 @@ namespace dplyr {
         }
         
         std::string describe() const {
-            return collapse(types) ;    
+            return collapse<STRSXP>(types) ;    
         }
         
     private:
-        CharacterVector types ;
-    } ;
-    
-    class POSIXctCollecter : public TypedCollecter<REALSXP> {
-    public:
-        POSIXctCollecter( int n) : 
-            TypedCollecter<REALSXP>( n, CharacterVector::create( "POSIXct", "POSIXt" ) ){}
-    } ;
-    class DateCollecter : public TypedCollecter<REALSXP> {
-    public:  
-        DateCollecter( int n) : 
-            TypedCollecter<REALSXP>( n, CharacterVector::create( "Date" ) ){}
+        SEXP types ;
     } ;
     
     class FactorCollecter : public Collecter {
@@ -198,12 +187,14 @@ namespace dplyr {
         case INTSXP: 
             if( Rf_inherits(model, "factor") )
                 return new FactorCollecter(n, Rf_getAttrib(model, Rf_install("levels") ) ) ;
+            if( Rf_inherits(model, "Date") )
+                return new TypedCollecter<INTSXP>(n, get_date_classes()) ;
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP: 
             if( Rf_inherits( model, "POSIXct" ) )
-                return new POSIXctCollecter(n) ;
+                return new TypedCollecter<REALSXP>(n, get_time_classes()) ;
             if( Rf_inherits( model, "Date" ) )
-                return new DateCollecter(n) ;
+                return new TypedCollecter<REALSXP>(n, get_date_classes()) ;
             return new Collecter_Impl<REALSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
@@ -224,14 +215,16 @@ namespace dplyr {
         
         switch( TYPEOF(model) ){
         case INTSXP: 
+            if( Rf_inherits( model, "Date" ) )
+                return new TypedCollecter<INTSXP>(n, get_date_classes() ) ;
             if( Rf_inherits(model, "factor") )
                 return new FactorCollecter(n, Rf_getAttrib(model, Rf_install("levels") ) ) ;
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP: 
             if( Rf_inherits( model, "POSIXct" ) )
-                return new POSIXctCollecter(n) ;
+                return new TypedCollecter<REALSXP>(n, get_time_classes() ) ;
             if( Rf_inherits( model, "Date" ) )
-                return new DateCollecter(n) ;
+                return new TypedCollecter<REALSXP>(n, get_date_classes() ) ;
             return new Collecter_Impl<REALSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;

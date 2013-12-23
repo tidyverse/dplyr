@@ -20,18 +20,37 @@ namespace dplyr {
         
     }
     
+    template <int RTYPE, bool ascending=true>
+    class RankComparer : public comparisons<RTYPE> {
+    public:
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
+        
+        inline bool operator()(STORAGE lhs, STORAGE rhs) const {
+            return comparisons<RTYPE>::is_less(lhs,rhs) ;
+        }
+    } ;
+    
+    template <int RTYPE>
+    class RankComparer<RTYPE,false> : public comparisons<RTYPE> {
+    public:
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
+        inline bool operator()(STORAGE lhs, STORAGE rhs) const{
+            return comparisons<RTYPE>::is_greater(lhs,rhs) ;
+        }
+    } ;
+        
+    
     // powers both dense_rank and min_rank, see dplyr.cpp for how it is used
-    template <int RTYPE, typename Increment >
+    template <int RTYPE, typename Increment, bool ascending = true>
     class Rank_Impl : public Result, public Increment {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
-        typedef OrderVectorVisitorImpl<RTYPE,true,Slice> Visitor ;
-        typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
+        typedef RankComparer<RTYPE,ascending> Comparer ;
         
         typedef dplyr_hash_map<STORAGE, std::vector<int> > Map ;
-        typedef std::map<STORAGE,const std::vector<int>*> oMap ;
+        typedef std::map<STORAGE,const std::vector<int>*, Comparer> oMap ;
         
         Rank_Impl(SEXP data_) : data(data_), map() {}
         
@@ -71,8 +90,9 @@ namespace dplyr {
             for( int j=0; j<m; j++) {
                 map[ slice[j] ].push_back(index[j]) ;
             }
+               
+            oMap ordered;
             
-            oMap ordered ;
             typename Map::const_iterator it = map.begin() ;
             for( ; it != map.end() ; ++it){
                 ordered[it->first] = &it->second ;
@@ -93,13 +113,13 @@ namespace dplyr {
         Map map ;
     } ;
     
-    template <int RTYPE>
+    template <int RTYPE, bool ascending=true>
     class RowNumber : public Result {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
-        typedef OrderVectorVisitorImpl<RTYPE,true,Slice> Visitor ;
+        typedef OrderVectorVisitorImpl<RTYPE,ascending,Slice> Visitor ;
         typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
             
         RowNumber(SEXP data_) : data(data_) {}
