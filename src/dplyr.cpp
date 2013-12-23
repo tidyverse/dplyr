@@ -150,15 +150,6 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     return 0 ;
 }  
 
-// Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-//     Result* res = lag_prototype_(call, subsets, nargs) ;
-//     if( res )
-//         Rprintf( "lag = <%s>\n", DEMANGLE(*res) ) ;
-//     else 
-//         Rprintf( "lag = <null>\n" ) ;
-//     return res ;
-// }
-
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
@@ -174,8 +165,8 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
         
-        handlers[ Rf_install( "lead" )           ] = lead_prototype ;
-        handlers[ Rf_install( "lag" )            ] = lag_prototype ;
+        // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
+        // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
     }
     return handlers ;    
 }
