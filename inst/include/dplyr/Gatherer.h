@@ -85,10 +85,11 @@ namespace dplyr {
         SEXP collect(){
             Vector<RTYPE> res( Base::collect() ) ;
             res.attr( "class" ) = classes ;
+            Rf_PrintValue(classes) ;
             return res ;
         }
     private:
-        const CharacterVector& classes ;
+        CharacterVector classes ;
     } ;
     
     template <int RTYPE>
@@ -141,7 +142,11 @@ namespace dplyr {
         SlicingIndex indices = *git ;
         Shield<SEXP> first( proxy.get(indices) ) ;
         switch( TYPEOF(first) ){
-            case INTSXP:  return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
+            case INTSXP:  
+                {
+                    if( Rf_inherits(first, "Date") ) return new TypedGatherer<INTSXP>(first, indices, proxy, gdf, CharacterVector::create( "Date" ) ) ;
+                    return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
+                }
             case REALSXP:
                 {
                     if( Rf_inherits(first, "POSIXct" ) ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;

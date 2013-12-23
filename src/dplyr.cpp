@@ -106,7 +106,7 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
-Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+Result* lead_prototype_(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 2 ) return 0 ;
     Armor<SEXP> data( CADR(call) ); 
     int n = as<int>( CADDR(call) );
@@ -114,7 +114,9 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
         data = subsets.get_variable(data) ;
     }
     switch( TYPEOF(data) ){
-        case INTSXP: return new Lead<INTSXP>(data, n) ;
+        case INTSXP: 
+            if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            return new Lead<INTSXP>(data, n) ;
         case REALSXP: 
             if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
             if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, CharacterVector::create( "Date" ) ) ;
@@ -126,14 +128,14 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     return 0 ;
 }  
 
-// Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-//     Result* res = lead_prototype_(call, subsets, nargs) ;
-//     if( res )
-//         Rprintf( "lead = <%s>\n", DEMANGLE(*res) ) ;
-//     else 
-//         Rprintf( "lead = <null>\n" ) ;
-//     return res ;
-// }
+Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    Result* res = lead_prototype_(call, subsets, nargs) ;
+    if( res )
+        Rprintf( "lead = <%s>\n", DEMANGLE(*res) ) ;
+    else 
+        Rprintf( "lead = <null>\n" ) ;
+    return res ;
+}
 
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
