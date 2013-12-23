@@ -21,13 +21,13 @@ namespace dplyr {
     }
     
     // powers both dense_rank and min_rank, see dplyr.cpp for how it is used
-    template <int RTYPE, typename Increment >
+    template <int RTYPE, typename Increment, bool ascending = true>
     class Rank_Impl : public Result, public Increment {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
-        typedef OrderVectorVisitorImpl<RTYPE,true,Slice> Visitor ;
+        typedef OrderVectorVisitorImpl<RTYPE,ascending,Slice> Visitor ;
         typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
         
         typedef dplyr_hash_map<STORAGE, std::vector<int> > Map ;

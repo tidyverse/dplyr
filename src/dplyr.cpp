@@ -72,11 +72,23 @@ template <typename Increment>
 Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs != 1) return 0;
     Armor<SEXP> data( CADR(call) );
+        
+    if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){ 
+        data = CADR(data) ;
+        if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+        switch( TYPEOF(data) ){
+            case INTSXP:  return new Rank_Impl<INTSXP,  Increment, false>( data ) ;
+            case REALSXP: return new Rank_Impl<REALSXP, Increment, false>( data ) ;
+            case STRSXP:  return new Rank_Impl<STRSXP,  Increment, false>( data ) ;
+            default: break;
+        }
+    }
+    
     if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
     switch( TYPEOF(data) ){
-        case INTSXP:  return new Rank_Impl<INTSXP,  Increment>( data ) ;
-        case REALSXP: return new Rank_Impl<REALSXP, Increment>( data ) ;
-        case STRSXP:  return new Rank_Impl<STRSXP,  Increment>( data ) ;
+        case INTSXP:  return new Rank_Impl<INTSXP,  Increment, true>( data ) ;
+        case REALSXP: return new Rank_Impl<REALSXP, Increment, true>( data ) ;
+        case STRSXP:  return new Rank_Impl<STRSXP,  Increment, true>( data ) ;
         default: break;
     }
     // we don't know how to handle it. 

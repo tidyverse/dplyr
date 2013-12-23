@@ -22,6 +22,11 @@ test_that("cumulative aggregates generate window function", {
   })
 })
 
+test_that("min_rank(desc(.)) is correctly handled", {
+  expect_equal(mutate(df, rank=min_rank(desc(x)) )$rank, 10:1 )
+  expect_equal(mutate(group_by(df,g), rank=min_rank(desc(x)))$rank, rep(5:1,2) )
+})
+
 # FIXME: this should only fail if strict checking is on.
 # test_that("window functions fail if db doesn't support windowing", {
 #   df_sqlite <- temp_load(temp_srcs("sqlite"), df)$sql %.% group_by(g)
