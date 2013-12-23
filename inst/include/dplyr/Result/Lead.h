@@ -53,6 +53,33 @@ namespace dplyr {
         int n ;
     } ;
     
+    template <int RTYPE>
+    class TypedLead : public Result {
+    public:
+        TypedLead(SEXP data_, int n_, CharacterVector classes_) : lead(data_, n_), classes(classes_){}
+        
+        virtual SEXP process(const GroupedDataFrame& gdf ){
+            return promote( lead.process(gdf) ) ;
+        }
+        virtual SEXP process(const FullDataFrame& df){
+            return promote( lead.process(df) ) ;    
+        }
+        virtual SEXP process(const SlicingIndex& index){
+            return promote( lead.process(index) ) ;    
+        }
+        
+    private:
+        
+        SEXP promote( Vector<RTYPE> res ){
+            res.attr( "class" ) = classes ;
+            return res ;
+        }
+        
+        Lead<RTYPE> lead ;
+        CharacterVector classes ;
+    } ;
+    
+    
 }
 
 #endif

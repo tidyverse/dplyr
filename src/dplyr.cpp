@@ -108,7 +108,6 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
 
 Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 2 ) return 0 ;
-
     Armor<SEXP> data( CADR(call) ); 
     int n = as<int>( CADDR(call) );
     if( TYPEOF(data) == SYMSXP ){
@@ -116,7 +115,10 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     }
     switch( TYPEOF(data) ){
         case INTSXP: return new Lead<INTSXP>(data, n) ;
-        case REALSXP: return new Lead<REALSXP>(data, n) ;
+        case REALSXP: 
+            if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            return new Lead<REALSXP>(data, n) ;
         case STRSXP: return new Lead<STRSXP>(data, n) ;
         case LGLSXP: return new Lead<LGLSXP>(data, n) ;
         default: break ;
