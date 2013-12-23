@@ -88,7 +88,7 @@ namespace dplyr {
             return res ;
         }
     private:
-        CharacterVector classes ;
+        SEXP classes ;
     } ;
     
     template <int RTYPE>
@@ -107,7 +107,7 @@ namespace dplyr {
     template <int RTYPE>
     class ConstantTypedGatherer : public ConstantGathererImpl<RTYPE> {
     public:
-        ConstantTypedGatherer( Vector<RTYPE> constant, int n, const CharacterVector& classes_ ) : 
+        ConstantTypedGatherer( Vector<RTYPE> constant, int n, SEXP classes_ ) : 
             ConstantGathererImpl<RTYPE>( constant, n), classes(classes_){}
         
         inline SEXP collect() {
@@ -118,15 +118,18 @@ namespace dplyr {
         
     private:
         Vector<RTYPE> value ;
-        CharacterVector classes ;
+        SEXP classes ;
     } ;
 
     inline Gatherer* constant_gatherer(SEXP x, int n){
         switch( TYPEOF(x) ){
-            case INTSXP: return new ConstantGathererImpl<INTSXP>( x, n ) ;
+            case INTSXP: {
+                    if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<INTSXP>(x,n, get_date_classes() ) ;
+                    return new ConstantGathererImpl<INTSXP>( x, n ) ;
+            }
             case REALSXP: {
-                    if( Rf_inherits(x, "POSIXct" )) return new ConstantTypedGatherer<REALSXP>(x,n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                    if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<REALSXP>(x,n, CharacterVector::create( "Date" ) ) ;
+                    if( Rf_inherits(x, "POSIXct" )) return new ConstantTypedGatherer<REALSXP>(x,n, get_time_classes() ) ;
+                    if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<REALSXP>(x,n, get_date_classes() ) ;
                     return new ConstantGathererImpl<REALSXP>( x, n ) ;
             }
             case LGLSXP: return new ConstantGathererImpl<LGLSXP>( x, n ) ;
@@ -143,13 +146,13 @@ namespace dplyr {
         switch( TYPEOF(first) ){
             case INTSXP:  
                 {
-                    if( Rf_inherits(first, "Date") ) return new TypedGatherer<INTSXP>(first, indices, proxy, gdf, CharacterVector::create( "Date" ) ) ;
+                    if( Rf_inherits(first, "Date") ) return new TypedGatherer<INTSXP>(first, indices, proxy, gdf, get_date_classes() ) ;
                     return new GathererImpl<INTSXP> ( first, indices, proxy, gdf ) ;
                 }
             case REALSXP:
                 {
-                    if( Rf_inherits(first, "POSIXct" ) ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                    if( Rf_inherits(first, "Date") ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, CharacterVector::create( "Date" ) ) ;
+                    if( Rf_inherits(first, "POSIXct" ) ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, get_time_classes() ) ;
+                    if( Rf_inherits(first, "Date") ) return new TypedGatherer<REALSXP>(first, indices, proxy, gdf, get_date_classes() ) ;
                     return new GathererImpl<REALSXP>( first, indices, proxy, gdf ) ;
                 }
             case LGLSXP:  return new GathererImpl<LGLSXP> ( first, indices, proxy, gdf ) ;

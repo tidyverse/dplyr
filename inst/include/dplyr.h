@@ -47,6 +47,9 @@ inline SEXP as_symbol(SEXP x) {
 // [[Rcpp::register]]
 DataFrame build_index_cpp( DataFrame data ) ;
 
+SEXP get_time_classes() ;
+SEXP get_date_classes() ;
+
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 
 // [[Rcpp::register]]

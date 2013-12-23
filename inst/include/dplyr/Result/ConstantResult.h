@@ -25,12 +25,13 @@ namespace dplyr {
         STORAGE value ;
     } ;
     
-    template <int RTYPE, typename Derived>
+    template <int RTYPE>
     class TypedConstantResult : public Result {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        TypedConstantResult(SEXP x) : value( Rcpp::internal::r_vector_start<RTYPE>(x)[0] ) {}
+        TypedConstantResult(SEXP x, SEXP classes_) : 
+            value( Rcpp::internal::r_vector_start<RTYPE>(x)[0] ), classes(classes_) {}
         
         SEXP process( const GroupedDataFrame& gdf) {
             return get(gdf.ngroups()) ;        
@@ -48,31 +49,12 @@ namespace dplyr {
         
         SEXP get( int n ) const {
             Vector<RTYPE> res(n, value);
-            res.attr("class") = static_cast<const Derived&>(*this).classes() ;
+            res.attr("class") = classes ;
             return res ;
         }
         
         STORAGE value ;
-    } ;
-    
-    class POSIXctConstantResult : public TypedConstantResult<REALSXP,POSIXctConstantResult>{
-        public:
-           typedef TypedConstantResult<REALSXP,POSIXctConstantResult> Base ;
-           POSIXctConstantResult(SEXP x): Base(x){}
-           
-           inline CharacterVector classes() const {
-               return CharacterVector::create( "POSIXct", "POSIXt" ) ;
-           }
-    } ;
-    
-    class DateConstantResult : public TypedConstantResult<REALSXP,DateConstantResult>{
-        public:
-           typedef TypedConstantResult<REALSXP,DateConstantResult> Base ;
-           DateConstantResult(SEXP x): Base(x){}
-           
-           inline CharacterVector classes() const {
-               return CharacterVector::create( "Date" ) ;
-           }
+        SEXP classes ;
     } ;
     
 }

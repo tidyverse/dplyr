@@ -115,11 +115,11 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     }
     switch( TYPEOF(data) ){
         case INTSXP: 
-            if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, get_date_classes() ) ;
             return new Lead<INTSXP>(data, n) ;
         case REALSXP: 
-            if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-            if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, get_time_classes() ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, get_date_classes() ) ;
             return new Lead<REALSXP>(data, n) ;
         case STRSXP: return new Lead<STRSXP>(data, n) ;
         case LGLSXP: return new Lead<LGLSXP>(data, n) ;
@@ -137,11 +137,11 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     }
     switch( TYPEOF(data) ){
         case INTSXP: 
-            if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, get_date_classes() ) ;
             return new Lag<INTSXP>(data, n) ;
         case REALSXP: 
-            if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-            if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, CharacterVector::create( "Date" ) ) ;
+            if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, get_time_classes() ) ;
+            if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, get_date_classes() ) ;
             return new Lag<REALSXP>(data, n) ;
         case STRSXP: return new Lag<STRSXP>(data, n) ;
         case LGLSXP: return new Lag<LGLSXP>(data, n) ;
@@ -182,11 +182,17 @@ HybridHandlerMap& get_handlers(){
 
 Result* constant_handler(SEXP constant){
     switch(TYPEOF(constant)){
-    case INTSXP: return new ConstantResult<INTSXP>(constant) ;
+    case INTSXP: 
+        {
+            if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<INTSXP>(constant, get_date_classes() ) ;
+            return new ConstantResult<INTSXP>(constant) ;
+        }
     case REALSXP:
-        if( Rf_inherits(constant, "POSIXct") ) return new POSIXctConstantResult(constant) ;
-        if( Rf_inherits(constant, "Date") ) return new DateConstantResult(constant) ;
-        return new ConstantResult<REALSXP>(constant) ;
+        {
+            if( Rf_inherits(constant, "POSIXct") ) return new TypedConstantResult<REALSXP>(constant, get_time_classes() ) ;
+            if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<REALSXP>(constant, get_date_classes() ) ;
+            return new ConstantResult<REALSXP>(constant) ;
+        }
     case STRSXP: return new ConstantResult<STRSXP>(constant) ;
     case LGLSXP: return new ConstantResult<LGLSXP>(constant) ;
     }
@@ -1039,8 +1045,6 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             
             // we need to protect the SEXP, that's what the Shelter does
             result = __( call_proxy.eval() ) ;   
-            
-            RCPP_DEBUG_OBJECT(result) ;
             
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );
