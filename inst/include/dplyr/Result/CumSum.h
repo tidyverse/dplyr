@@ -34,9 +34,9 @@ namespace dplyr {
                 int current = data[index[i]] ;
                 if( IntegerVector::is_na(current) ){
                     for( int j=i; j<n; j++){
-                        out[ out_index[i] ] = NA_INTEGER ;    
+                        out[ out_index[j] ] = NA_INTEGER ;    
                     }
-                    break ;
+                    return ;
                 }
                 value += current ;
                 out[out_index[i]] = value ;
