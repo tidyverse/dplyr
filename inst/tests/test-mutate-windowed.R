@@ -31,14 +31,24 @@ test_that("desc is correctly handled by window functions", {
   
 })
 
-test_that("cum(sum) works", {
-  res <- mutate( df, cx = cumsum(x), cy = cumsum(y) )
-  expect_equal( res$cx, cumsum(df$x) )
-  expect_equal( res$cy, cumsum(df$y) )
+test_that("cum(sum,min) works", {
+  res <- mutate( df, 
+    csumx = cumsum(x), csumy = cumsum(y),
+    cminx = cummin(x), cminy = cummin(y)
+  )
+  expect_equal( res$csumx, cumsum(df$x) )
+  expect_equal( res$csumy, cumsum(df$y) )
+  expect_equal( res$cminx, cummin(df$x) )
+  expect_equal( res$cminy, cummin(df$y) )
   
-  res <- mutate( group_by(df,g) , cx = cumsum(x), cy = cumsum(y) )
-  expect_equal( res$cx, c( cumsum(df$x[1:5]), cumsum(df$x[6:10]) ) )
-  expect_equal( res$cy, c( cumsum(df$y[1:5]), cumsum(df$y[6:10]) ) )
+  res <- mutate( group_by(df,g) , 
+    csumx = cumsum(x), csumy = cumsum(y), 
+    cminx = cummin(x), cminy = cummin(y) 
+    )
+  expect_equal( res$csumx, c( cumsum(df$x[1:5]), cumsum(df$x[6:10]) ) )
+  expect_equal( res$csumy, c( cumsum(df$y[1:5]), cumsum(df$y[6:10]) ) )
+  expect_equal( res$cminx, c( cummin(df$x[1:5]), cummin(df$x[6:10]) ) )
+  expect_equal( res$cminy, c( cummin(df$y[1:5]), cummin(df$y[6:10]) ) )
   
 })
 

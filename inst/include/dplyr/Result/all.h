@@ -38,5 +38,6 @@
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>
 #include <dplyr/Result/CumSum.h>
+#include <dplyr/Result/CumMin.h>
 
 #endif

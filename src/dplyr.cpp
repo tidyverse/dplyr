@@ -149,14 +149,15 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     }
     return 0 ;
 }  
-
-Result* cumsum_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    
+template < template <int> class Templ>
+Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 1 ) return 0 ;
     Armor<SEXP> data( CADR(call) );
     if(TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
     switch( TYPEOF(data) ){
-        case INTSXP: return new CumSum<INTSXP>(data) ;
-        case REALSXP: return new CumSum<REALSXP>(data) ;
+        case INTSXP: return new Templ<INTSXP>(data) ;
+        case REALSXP: return new Templ<REALSXP>(data) ;
         default: break ;
     }
     return 0 ;
@@ -176,7 +177,10 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
-        handlers[ Rf_install( "cumsum")          ] = cumsum_prototype ;
+        
+        handlers[ Rf_install( "cumsum")          ] = cumfun_prototype<CumSum> ;
+        handlers[ Rf_install( "cummin")          ] = cumfun_prototype<CumMin> ;
+        
         // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
         // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
     }
