@@ -180,6 +180,7 @@ HybridHandlerMap& get_handlers(){
         
         handlers[ Rf_install( "cumsum")          ] = cumfun_prototype<CumSum> ;
         handlers[ Rf_install( "cummin")          ] = cumfun_prototype<CumMin> ;
+        handlers[ Rf_install( "cummax")          ] = cumfun_prototype<CumMax> ;
         
         // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
         // handlers[ Rf_install( "lag" )            ] = lag_prototype ;

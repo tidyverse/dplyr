@@ -39,5 +39,6 @@
 #include <dplyr/Result/Lag.h>
 #include <dplyr/Result/CumSum.h>
 #include <dplyr/Result/CumMin.h>
+#include <dplyr/Result/CumMax.h>
 
 #endif

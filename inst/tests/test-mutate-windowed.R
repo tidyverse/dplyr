@@ -31,38 +31,46 @@ test_that("desc is correctly handled by window functions", {
   
 })
 
-test_that("cum(sum,min) works", {
+test_that("cum(sum,min,max) works", {
   res <- mutate( df, 
     csumx = cumsum(x), csumy = cumsum(y),
-    cminx = cummin(x), cminy = cummin(y)
+    cminx = cummin(x), cminy = cummin(y),
+    cmaxx = cummax(x), cmaxy = cummax(y)
   )
   expect_equal( res$csumx, cumsum(df$x) )
   expect_equal( res$csumy, cumsum(df$y) )
   expect_equal( res$cminx, cummin(df$x) )
   expect_equal( res$cminy, cummin(df$y) )
+  expect_equal( res$cmaxx, cummax(df$x) )
+  expect_equal( res$cmaxy, cummax(df$y) )
   
   res <- mutate( group_by(df,g) , 
     csumx = cumsum(x), csumy = cumsum(y), 
-    cminx = cummin(x), cminy = cummin(y) 
+    cminx = cummin(x), cminy = cummin(y),
+    cmaxx = cummax(x), cmaxy = cummax(y)
     )
   expect_equal( res$csumx, c( cumsum(df$x[1:5]), cumsum(df$x[6:10]) ) )
   expect_equal( res$csumy, c( cumsum(df$y[1:5]), cumsum(df$y[6:10]) ) )
   expect_equal( res$cminx, c( cummin(df$x[1:5]), cummin(df$x[6:10]) ) )
   expect_equal( res$cminy, c( cummin(df$y[1:5]), cummin(df$y[6:10]) ) )
+  expect_equal( res$cmaxx, c( cummax(df$x[1:5]), cummax(df$x[6:10]) ) )
+  expect_equal( res$cmaxy, c( cummax(df$y[1:5]), cummax(df$y[6:10]) ) )
   
-})
-
-test_that("cum(sum,min) correctly handle missing values", {
   df$x[3] <- NA
   df$y[4] <- NA
   res <- mutate( df, 
     csumx = cumsum(x), csumy = cumsum(y),
-    cminx = cummin(x), cminy = cummin(y)
+    cminx = cummin(x), cminy = cummin(y),
+    cmaxx = cummax(x), cmaxy = cummax(y)
   )
   expect_true( all(is.na(res$csumx[3:10])) )
-  expect_true( all(is.na(res$cminx[3:10])) )
   expect_true( all(is.na(res$csumy[4:10])) )
+  
+  expect_true( all(is.na(res$cminx[3:10])) )
   expect_true( all(is.na(res$cminy[4:10])) )
+  
+  expect_true( all(is.na(res$cmaxx[3:10])) )
+  expect_true( all(is.na(res$cmaxy[4:10])) )
 })
 
 # FIXME: this should only fail if strict checking is on.
