@@ -1,6 +1,6 @@
 context("Mutate - windowed")
 
-df <- data.frame(x = 1:10, g = rep(c(1, 2), each = 5))
+df <- data.frame(x = 1:10, y = seq(1,10,by=1), g = rep(c(1, 2), each = 5))
 srcs <- temp_srcs("df", "dt", "postgres")
 tbls <- temp_load(srcs, df)
 
@@ -28,6 +28,17 @@ test_that("desc is correctly handled by window functions", {
   
   expect_equal(mutate(df, rank=row_number(desc(x)) )$rank, 10:1 )
   expect_equal(mutate(group_by(df,g), rank=row_number(desc(x)))$rank, rep(5:1,2) )
+  
+})
+
+test_that("cum(sum) works", {
+  res <- mutate( df, cx = cumsum(x), cy = cumsum(y) )
+  expect_equal( res$cx, cumsum(df$x) )
+  expect_equal( res$cy, cumsum(df$y) )
+  
+  res <- mutate( group_by(df,g) , cx = cumsum(x), cy = cumsum(y) )
+  expect_equal( res$cx, c( cumsum(df$x[1:5]), cumsum(df$x[6:10]) ) )
+  expect_equal( res$cy, c( cumsum(df$y[1:5]), cumsum(df$y[6:10]) ) )
   
 })
 

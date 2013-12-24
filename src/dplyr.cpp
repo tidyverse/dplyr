@@ -5,7 +5,7 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
-  
+
 #define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                        \
 Result* __FUN__##_prototype( SEXP call, const LazySubsets& subsets, int nargs ){ \
     if( nargs != 1 ) return 0 ;                                                  \
@@ -150,6 +150,18 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     return 0 ;
 }  
 
+Result* cumsum_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    if( nargs != 1 ) return 0 ;
+    Armor<SEXP> data( CADR(call) );
+    if(TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+    switch( TYPEOF(data) ){
+        case INTSXP: return new CumSum<INTSXP>(data) ;
+        case REALSXP: return new CumSum<REALSXP>(data) ;
+        default: break ;
+    }
+    return 0 ;
+}
+
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
@@ -164,7 +176,7 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
-        
+        handlers[ Rf_install( "cumsum")          ] = cumsum_prototype ;
         // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
         // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
     }
