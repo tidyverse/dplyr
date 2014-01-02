@@ -1,7 +1,7 @@
 # Grouping methods ------------------------------------------------------------
 
 #' @export
-"groups<-.data.frame" <- function(x, value) {
+regroup.data.frame <- function(x, value) {
   grouped_df(x, value)
 }
 

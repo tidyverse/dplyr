@@ -54,17 +54,17 @@ group_size.grouped_dt <- function(x) {
 }
 
 #' @export
-"groups<-.data.table" <- function(x, value) {
+regroup.data.table <- function(x, value) {
   grouped_dt(x, unname(value))
 }
 
 #' @export
-"groups<-.tbl_dt" <- function(x, value) {
+regroup.tbl_dt <- function(x, value) {
   grouped_dt(x, unname(value))
 }
 
 #' @export
-"groups<-.grouped_dt" <- function(x, value) {
+regroup.grouped_dt <- function(x, value) {
   grouped_dt(x, unname(value))
 }
 

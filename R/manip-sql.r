@@ -44,7 +44,7 @@ summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
 }
 
 #' @export
-"groups<-.tbl_sql" <- function(x, value) {
+regroup.tbl_sql <- function(x, value) {
   if (!all_apply(value, is.name)) {
     stop("May only group by variable names, not expressions", call. = FALSE)
   }
