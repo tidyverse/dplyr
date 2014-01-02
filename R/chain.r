@@ -19,6 +19,7 @@
 #'   operation you should not need to set this parameter.
 #' @export
 #' @examples
+#' if (require("hflights")) {
 #' # If you're performing many operations you can either do step by step
 #' a1 <- group_by(hflights, Year, Month, DayofMonth)
 #' a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
@@ -65,6 +66,7 @@
 #'   ),
 #'   filter(arr > 30 | dep > 30)
 #' )
+#' }
 chain <- function(..., env = parent.frame()) {
   chain_q(dots(...), env = env)
 }

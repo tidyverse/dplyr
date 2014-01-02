@@ -35,7 +35,7 @@
 Data manipulation for data tables.
 }
 \examples{
-if (require("data.table")) {
+if (require("data.table") && require("hflights")) {
 # If you start with a data table, you end up with a data table
 hflights <- as.data.table(hflights)
 filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")

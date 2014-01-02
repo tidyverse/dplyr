@@ -86,8 +86,10 @@ select <- function(.data, ...) UseMethod("select")
 #' 
 #' @export
 #' @examples
+#' if (require("hflights")) {
 #' carriers <- group_by(hflights, UniqueCarrier)
 #' summarise(carriers, n())
+#' }
 n <- function() {
   stop("This function should not be called directly")
 }
