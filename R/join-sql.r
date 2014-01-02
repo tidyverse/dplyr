@@ -30,6 +30,7 @@
 #'   indices for the variables in \code{by}. This may speed up the join if
 #'   there are matching indexes in \code{x}.
 #' @examples
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'
 #' # Left joins ----------------------------------------------------------------
@@ -78,6 +79,7 @@
 #'
 #' # batters without person covariates
 #' anti_join(batting, people)
+#' }
 #' }
 #' @name join.tbl_sql
 NULL

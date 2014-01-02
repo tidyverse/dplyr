@@ -56,6 +56,7 @@ To explore the basic data manipulation verbs of dplyr, we'll start with the buil
 `hflights` data frame. This dataset contains all 227,496 flights that departed from Houston in 2011. The data comes from the US [Bureau of Transporation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?hflights`
 
 ```{r}
+library(hflights)
 dim(hflights)
 head(hflights)
 ```

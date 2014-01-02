@@ -10,6 +10,7 @@
 #' @param ... other arguments passed on to the function ()
 #' @export
 #' @examples
+#' if (require("hflights")) {
 #' by_dest <- group_by(hflights, Dest)
 #' do(by_dest, nrow)
 #' # Inefficient version of 
@@ -25,6 +26,7 @@
 #' 
 #' mods <- do(carriers, failwith(NULL, lm), formula = ArrDelay ~ date)
 #' sapply(mods, coef)
+#' }
 do <- function(.data, .f, ...) UseMethod("do")
 
 #' @export

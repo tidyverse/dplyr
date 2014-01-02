@@ -58,6 +58,7 @@ purpose of the functions.
   compared with \code{=} not with more general operators.
 }
 \examples{
+\donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
 
 # Left joins ----------------------------------------------------------------
@@ -106,6 +107,7 @@ explain_tbl(famous_manager)
 
 # batters without person covariates
 anti_join(batting, people)
+}
 }
 }
 

@@ -39,6 +39,7 @@ The functions work via simple substitution so that
 into \code{f(x, y)}.
 }
 \examples{
+if (require("hflights")) {
 # If you're performing many operations you can either do step by step
 a1 <- group_by(hflights, Year, Month, DayofMonth)
 a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
@@ -85,5 +86,6 @@ chain(
   ),
   filter(arr > 30 | dep > 30)
 )
+}
 }
 

@@ -28,6 +28,7 @@
 #' # Here we'll use the Lahman database: to create your own local copy,
 #' # run lahman_sqlite()
 #' 
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #' # Methods -------------------------------------------------------------------
 #' batting <- tbl(lahman_sqlite(), "Batting")
@@ -84,6 +85,7 @@
 #' batting2008 <- tbl(lahman_sqlite(),
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
+#' }
 #' }
 src_sqlite <- function(path, create = FALSE) {
   if (!require("RSQLite")) {

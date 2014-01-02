@@ -5,7 +5,7 @@
 #' @param inplace if \code{FALSE} (the default) the data frame will be copied
 #'   prior to modification to avoid changes propagating via reference.
 #' @examples
-#' if (require("data.table")) {
+#' if (require("data.table") && require("hflights")) {
 #' hflights2 <- tbl_dt(hflights)
 #' by_dest <- group_by(hflights2, Dest)
 #

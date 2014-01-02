@@ -1,0 +1,19 @@
+
+* checking CRAN incoming feasibility ... NOTE
+
+  As expected, this is a new package.
+
+* checking DESCRIPTION meta-information ... NOTE
+  
+  This is a spurious note; dplyr depends on R >= 3.0.2
+
+* checking installed package size ... NOTE
+
+  I don't think there's anything I can do about the size of the libs 
+  directory.
+
+* checking Rd line widths ... NOTE
+
+  This is a long URL. I don't know of a way to shorten it in Rd.
+  I could use a url shortener, but then that makes it less clear where
+  you are going.

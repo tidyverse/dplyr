@@ -9,7 +9,9 @@ This function is implemented special for each data source
 and can only be used from within \code{\link{summarise}}.
 }
 \examples{
+if (require("hflights")) {
 carriers <- group_by(hflights, UniqueCarrier)
 summarise(carriers, n())
+}
 }
 

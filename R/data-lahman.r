@@ -21,10 +21,12 @@
 #'   connect.
 #' @param type src type.
 #' @examples
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'   lahman_sqlite()
 #'   batting <- tbl(lahman_sqlite(), "Batting")
 #'   batting
+#' }
 #' }
 #'
 #' # Connect to a local postgres database with lahman database, if available
