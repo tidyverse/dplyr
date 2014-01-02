@@ -225,6 +225,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// dfloc
+CharacterVector dfloc(DataFrame df);
+RcppExport SEXP dplyr_dfloc(SEXP dfSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        CharacterVector __result = dfloc(df);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // build_index_cpp
 DataFrame build_index_cpp(DataFrame data);
 RcppExport SEXP dplyr_build_index_cpp(SEXP dataSEXP) {

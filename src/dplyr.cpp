@@ -713,6 +713,19 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
 }
 
 // [[Rcpp::export]]
+CharacterVector dfloc(DataFrame df){ 
+  int n = df.size() ;
+  CharacterVector pointers(n); 
+  char buffer[20] ;
+  for( int i=0; i<n; i++){
+    snprintf( buffer, 20, "%p", dataptr(df[i]) ) ;
+    pointers[i] = (const char*)buffer ;
+  }
+  pointers.names() = df.names() ;
+  return pointers ;
+}
+
+// [[Rcpp::export]]
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
     
