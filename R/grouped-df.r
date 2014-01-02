@@ -15,13 +15,7 @@ grouped_df <- function(data, vars, drop = TRUE) {
   }
 
   assert_that(is.data.frame(data), is.list(vars), is.flag(drop))
-  
-  attr(data, "vars") <- unname(vars)
-  attr(data, "drop") <- drop
-  data <- build_index_cpp(data)
-  
-  class(data) <- c("grouped_df", "tbl_df", "tbl", "data.frame")
-  data
+  grouped_df_impl(data, unname(vars), drop)
 }
 
 #' @rdname grouped_df

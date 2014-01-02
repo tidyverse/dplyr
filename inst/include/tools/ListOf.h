@@ -34,6 +34,10 @@ namespace Rcpp {
             return false ;
         }
         
+        inline operator SEXP() const {
+            return data ;   
+        }
+        
     private:
         List data ;
     } ;

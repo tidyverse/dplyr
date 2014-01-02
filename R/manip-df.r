@@ -78,7 +78,7 @@ sort_ <- function(data){
 #' @export
 do.grouped_df <- function(.data, .f, ...) {
   if (is.null(attr(.data, "indices"))) {
-    .data <- build_index_cpp(.data)
+    .data <- grouped_df_impl(.data, attr(.data, "vars"), attr(.data, "drop"))
   }
   
   index <- attr(.data, "indices")
