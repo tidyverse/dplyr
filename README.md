@@ -1,6 +1,6 @@
 # dplyr
 
-[![Build Status](https://travis-ci.org/hadley/dplyr.png)](https://travis-ci.org/hadley/dplyr)
+[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
