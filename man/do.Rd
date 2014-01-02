@@ -30,7 +30,6 @@ manipulation functions \code{\link{filter}},
 }
 \examples{
 if (require("hflights")) {
-dim(hflights::hflights)
 by_dest <- group_by(hflights, Dest)
 do(by_dest, nrow)
 # Inefficient version of
