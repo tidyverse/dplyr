@@ -77,11 +77,11 @@ sort_ <- function(data){
 
 #' @export
 do.grouped_df <- function(.data, .f, ...) {
-  if (is.null(attr(.data, "index"))) {
+  if (is.null(attr(.data, "indices"))) {
     .data <- build_index_cpp(.data)
   }
   
-  index <- attr(.data, "index")
+  index <- attr(.data, "indices")
   out <- vector("list", length(index))
   
   for (i in seq_along(index)) {
