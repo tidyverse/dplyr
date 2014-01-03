@@ -8,12 +8,14 @@
 #' @param vars a list of quoted variables.
 #' @export
 #' @examples
+#' if (require("hflights")) {
 #' hflights_dt <- tbl_dt(hflights)
 #' group_size(group_by(hflights_dt, Year, Month, DayofMonth))
 #' group_size(group_by(hflights_dt, Dest))
 #' 
 #' monthly <- group_by(hflights_dt, Month)
 #' summarise(monthly, n = n(), delay = mean(ArrDelay))
+#' }
 grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
@@ -52,17 +54,17 @@ group_size.grouped_dt <- function(x) {
 }
 
 #' @export
-"groups<-.data.table" <- function(x, value) {
+regroup.data.table <- function(x, value) {
   grouped_dt(x, unname(value))
 }
 
 #' @export
-"groups<-.tbl_dt" <- function(x, value) {
+regroup.tbl_dt <- function(x, value) {
   grouped_dt(x, unname(value))
 }
 
 #' @export
-"groups<-.grouped_dt" <- function(x, value) {
+regroup.grouped_dt <- function(x, value) {
   grouped_dt(x, unname(value))
 }
 

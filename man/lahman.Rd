@@ -56,10 +56,12 @@ Monkman. See the documentation for that package for
 documentation of the inidividual tables.
 }
 \examples{
+\donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
   lahman_sqlite()
   batting <- tbl(lahman_sqlite(), "Batting")
   batting
+}
 }
 
 # Connect to a local postgres database with lahman database, if available

@@ -4,3 +4,4 @@
 .Rprofile
 inst/db
 man-roxygen
+rcmd-notes.Rmd

@@ -36,6 +36,7 @@ The main new concert here is the `src`, which is a collection of tables. Use `sr
 `my_db` currently has no data in it, so we'll load it up with the `hflights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
 
 ```{r, eval = FALSE}
+library(hflights)
 hflights_sqlite <- copy_to(my_db, hflights, temporary = FALSE, indexes = list(
   c("Year", "Month", "DayofMonth"), "UniqueCarrier", "TailNum"))
 ```

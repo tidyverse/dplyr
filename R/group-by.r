@@ -72,10 +72,8 @@ group_by <- function(x, ..., add = TRUE) {
   }
   new_groups <- new_groups[!duplicated(new_groups)]
   
-  groups(x) <- new_groups
-  x
+  regroup(x, new_groups)
 }
-
 
 #' Get/set the grouping variables for tbl.
 #' 
@@ -91,7 +89,7 @@ group_by <- function(x, ..., add = TRUE) {
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
 #' groups(grouped)
-#' groups(grouped) <- list(quote(vs))
+#' grouped <- regroup(grouped, list(quote(vs)))
 #' groups(grouped)
 #' groups(ungroup(grouped))
 groups <- function(x) {
@@ -100,10 +98,10 @@ groups <- function(x) {
 
 #' @export
 #' @rdname groups
-"groups<-" <- function(x, value) {
+regroup <- function(x, value) {
   stopifnot(is.list(value))
   
-  UseMethod("groups<-")
+  UseMethod("regroup")
 }
 
 #' @export

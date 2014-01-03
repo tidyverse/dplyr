@@ -12,12 +12,13 @@
 #' @param .data a data frame
 #' @param ... variables interpreted in the context of \code{.data}
 #' @examples
+#' if (require("hflights")) {
 #' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
 #' head(select(hflights, Year:DayOfWeek))
 #' summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
 #' head(mutate(hflights, gained = ArrDelay - DepDelay))
 #' head(arrange(hflights, Dest, desc(ArrDelay)))
-#'
+#' }
 #' @name manip_df
 NULL
 
@@ -78,7 +79,7 @@ sort_ <- function(data){
 #' @export
 do.grouped_df <- function(.data, .f, ...) {
   if (is.null(attr(.data, "indices"))) {
-    .data <- build_index_cpp(.data)
+    .data <- grouped_df_impl(.data, attr(.data, "vars"), attr(.data, "drop"))
   }
   
   index <- attr(.data, "indices")

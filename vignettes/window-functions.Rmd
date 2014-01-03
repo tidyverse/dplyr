@@ -137,7 +137,7 @@ You can use them to:
   
     ```{r, results = "hide"}
     # Find when a player changed teams
-    filter(players, teamID != lag(teamID))
+    filter(players, teamID != lag(teamID)); TRUE
     ```
 
 `lead()` and `lag()` have an optional argument `order_by`. If set, instead of using the row order to determine which value comes before another, they will use another variable. This important if you have not already sorted the data, or you want to sort one way and lag another. 

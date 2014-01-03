@@ -1,12 +1,12 @@
 \name{groups}
 \alias{groups}
-\alias{groups<-}
+\alias{regroup}
 \alias{ungroup}
 \title{Get/set the grouping variables for tbl.}
 \usage{
 groups(x)
 
-groups(x) <- value
+regroup(x, value)
 
 ungroup(x)
 }
@@ -24,7 +24,7 @@ existing grouping.
 \examples{
 grouped <- group_by(mtcars, cyl)
 groups(grouped)
-groups(grouped) <- list(quote(vs))
+grouped <- regroup(grouped, list(quote(vs)))
 groups(grouped)
 groups(ungroup(grouped))
 }

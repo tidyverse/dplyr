@@ -10,6 +10,7 @@
 #' @param tbl an sql based table to explain.
 #' @export
 #' @examples
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #' 
 #' batting <- tbl(lahman_sqlite(), "Batting")
@@ -34,6 +35,7 @@
 #'
 #' # OR's will use multiple indexes
 #' explain_tbl(filter(batting, lgID == "NL" | yearID == 2000))
+#' }
 #' }
 explain_sql <- function(code) {
   old <- options(dplyr.explain_sql = TRUE, dplyr.show_sql = TRUE)

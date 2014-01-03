@@ -49,6 +49,14 @@ match_data_frame <- function(x, y) {
     .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+grouped_df_impl <- function(data, symbols, drop) {
+    .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
+}
+
+dfloc <- function(df) {
+    .Call('dplyr_dfloc', PACKAGE = 'dplyr', df)
+}
+
 build_index_cpp <- function(data) {
     .Call('dplyr_build_index_cpp', PACKAGE = 'dplyr', data)
 }

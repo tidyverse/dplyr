@@ -29,6 +29,7 @@ manipulation functions \code{\link{filter}},
 \code{\link{summarise}} and \code{\link{arrange}}.
 }
 \examples{
+if (require("hflights")) {
 by_dest <- group_by(hflights, Dest)
 do(by_dest, nrow)
 # Inefficient version of
@@ -44,5 +45,6 @@ group_size(carriers)
 
 mods <- do(carriers, failwith(NULL, lm), formula = ArrDelay ~ date)
 sapply(mods, coef)
+}
 }
 

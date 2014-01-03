@@ -43,7 +43,7 @@ find_index <- function(x, names) {
 }
 
 #' @export
-"groups<-.tbl_cube" <- function(x, value) {
+regroup.tbl_cube <- function(x, value) {
   idx <- var_index(value, x$dims, parent.frame())
   x$group <- idx
   x
