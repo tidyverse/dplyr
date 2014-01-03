@@ -704,12 +704,23 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
     
     return res ;
 }
+       
+// [[Rcpp::export]]
+SEXP shallow_copy(const DataFrame& data){
+  int n = data.size() ;
+  List out(n) ;
+  SET_OBJECT(out,1) ;
+  for( int i=0; i<n; i++) out[i] = data[i] ;
+  SET_ATTRIB(out, ATTRIB(data) ) ;
+  return out ;  
+}
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
-    data.attr("vars") = symbols ;
-    data.attr("drop") = drop ;
-    return build_index_cpp(data) ;
+    DataFrame copy = shallow_copy(data) ;
+    copy.attr("vars") = symbols ;
+    copy.attr("drop") = drop ;
+    return build_index_cpp(copy) ;
 }
 
 // [[Rcpp::export]]

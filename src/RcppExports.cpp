@@ -208,6 +208,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// shallow_copy
+SEXP shallow_copy(const DataFrame& data);
+RcppExport SEXP dplyr_shallow_copy(SEXP dataSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP );
+        SEXP __result = shallow_copy(data);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // grouped_df_impl
 DataFrame grouped_df_impl(DataFrame data, ListOf<Symbol> symbols, bool drop);
 RcppExport SEXP dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {

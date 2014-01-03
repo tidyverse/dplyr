@@ -49,6 +49,10 @@ match_data_frame <- function(x, y) {
     .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+shallow_copy <- function(data) {
+    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
+}
+
 grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
