@@ -707,12 +707,14 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
        
 // [[Rcpp::export]]
 SEXP shallow_copy(const DataFrame& data){
-  int n = data.size() ;
-  List out(n) ;
-  SET_OBJECT(out,1) ;
-  for( int i=0; i<n; i++) out[i] = data[i] ;
-  SET_ATTRIB(out, ATTRIB(data) ) ;
-  return out ;  
+    int n = data.size() ;
+    List out(n) ;
+    SET_OBJECT(out,1) ;
+    for( int i=0; i<n; i++) out[i] = data[i] ;
+    out.names() = data.names() ;
+    out.attr("row.names") = data.attr("row.names") ;
+    out.attr("class") = data.attr("class") ;
+    return out ;  
 }
 
 // [[Rcpp::export]]

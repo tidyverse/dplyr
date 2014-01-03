@@ -91,3 +91,12 @@ test_that("mutate does not loose variables (#144)",{
   expect_equal(names(by_a_quartile), c("a", "b", "x", "quartile" ))
 })
 
+test_that("group_by uses shallow copy", {
+  m1 <- group_by(mtcars, cyl)
+  expect_true(is.null(groups(mtcars)))
+  
+  dfloc <- dplyr::dfloc
+  expect_equal(dfloc(mtcars), dfloc(m1))
+  
+})
+
