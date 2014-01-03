@@ -95,7 +95,7 @@ test_that("group_by uses shallow copy", {
   m1 <- group_by(mtcars, cyl)
   expect_true(is.null(groups(mtcars)))
   
-  dfloc <- dplyr::dfloc
+  dfloc <- dplyr:::dfloc
   expect_equal(dfloc(mtcars), dfloc(m1))
   
 })
