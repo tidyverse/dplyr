@@ -120,7 +120,7 @@ do.tbl_sql <- function(.data, .f, ..., .chunk_size = 1e4L) {
     n <- attr(group_id, "n")
 
     index <- split_indices(group_id, n)
-    last_group <<- chunk[last(index), , drop = FALSE]
+    last_group <<- chunk[index[[length(index)]], , drop = FALSE]
 
     for (j in seq_len(n - 1)) {
       subs <- chunk[index[[j]], , drop = FALSE]
