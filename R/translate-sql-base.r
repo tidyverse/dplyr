@@ -154,13 +154,13 @@ base_win <- sql_translator(
   
   # Finally there are a few miscellaenous functions that don't follow any
   # particular pattern
-  nth_value = function(x, order = NULL) {
+  nth = function(x, order = NULL) {
     over(build_sql("NTH_VALUE", list(x)), partition_group(), order %||% partition$order())
   },
-  first_value = function(x, order = NULL) {
+  first = function(x, order = NULL) {
     over(sql("FIRST_VALUE()"), partition_group(), order %||% partition_order())
   },
-  last_value = function(x, order = NULL) {
+  last = function(x, order = NULL) {
     over(sql("LAST_VALUE()"), partition_group(), order %||% partition_order())
   },
   
