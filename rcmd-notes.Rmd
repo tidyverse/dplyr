@@ -1,3 +1,8 @@
+* checking package dependencies ... NOTE
+* checking R code for possible problems ... NOTE
+
+  These are both because dplyr suggests bigrquery, which is 
+  currently not on CRAN.
 
 * checking CRAN incoming feasibility ... NOTE
 
