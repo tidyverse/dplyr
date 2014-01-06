@@ -23,7 +23,7 @@ When working with data you must:
 
 * Execute the code.
 
-dplyr aims to make each of these steps as fast and easy as possible by:
+The dplyr package makes each of these steps as fast and easy as possible by:
 
 * Elucidating the most common data manipulation operations, so that your 
   options are helpfully constrained when thinking about how to tackle a 
@@ -47,8 +47,8 @@ The goal of this document is to introduce you to the basic tools that dplyr prov
   manipulation on a realistic use case.
   
 * window-functions: a window function is a variation on an aggregation 
-  function: instead of returning a single number, it returns n. This vignette
-  discusses window functions in detail.
+  function, where an aggregate functions `n` inputs to produce 1 output, a
+  window function uses `n` inputs to produce `n` outputs.
 
 ## Data: hflights
 
@@ -88,14 +88,23 @@ This is equivalent to the more verbose:
 hflights[hflights$Month == 1 & hflights$DayofMonth == 1, ]
 ```
 
-`filter()` works similarly to `subset()` except that you can give it any number of filtering conditions which are joined together with `&` (not `&&` which is easy to do accidentally!)
+`filter()` works similarly to `subset()` except that you can give it any number of filtering conditions which are joined together with `&` (not `&&` which is easy to do accidentally!).  You can use other boolean operators explicitly:
+
+```{r, eval = FALSE}
+filter(hflights_df, Month == 1 | Month == 2)
+```
 
 ## Arrange rows with `arrange()`
 
-`arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. Use `desc()` to order a order in descending order:
+`arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the valeus of preceeding columns:
 
 ```{r}
 arrange(hflights_df, DayofMonth, Month, Year)
+```
+
+Use `desc()` to order a order in descending order:
+
+```{r}
 arrange(hflights_df, desc(ArrDelay))
 ```
 
@@ -103,7 +112,7 @@ arrange(hflights_df, desc(ArrDelay))
 
 ```{r, eval = FALSE}
 hflights[order(hflights$DayofMonth, hflights$Month, hflights$Year), ]
-hflights[order(desc(hflights$ArrDelay, hflights$Month, hflights$Year), ]
+hflights[order(desc(hflights$ArrDelay)), ]
 ```
 
 ## Select columns with `select()`
@@ -150,12 +159,14 @@ transform(hflights,
 
 ## Summarise values with `summarise()`
 
-The last verb is `summarise()`, which collapse a data frame to a single row. It's not very useful yet:
+The last verb is `summarise()`, which collapses a data frame to a single row. It's not very useful yet:
 
 ```{r}
 summarise(hflights_df, 
   delay = mean(DepDelay, na.rm = TRUE))
 ```
+
+This is exactly equivalent to `plyr::summarise()`.
 
 ## Commonalities
 
@@ -170,15 +181,17 @@ You may have noticed that all these functions are very similar:
 
 Together these properties make it easy to chain together multiple simple steps to achieve a complex result.
 
+These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`) or collapse many values to a summary (`summarise()`). The remainder of the language comes from applying the five functions to different types of data, like to grouped data, as described next.
+
 # Grouped operations
 
-These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on each group. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups. You can then use the resulting object in the exactly the same functions as above.
+These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on groups of observations within the tbl. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups of rows. You can then use the resulting object in the exactly the same functions as above; they'll automatically work "by group" when the input is a grouped tbl.
 
-Of the five verbs, `arrange()` and `select()` are unaffected by grouping. Group-wise `mutate()` and `arrange()` are most useful in conjunction with window functions, and are described in detail in the corresponding vignette(). `summarise()` is easy to understand any very useful, and is described in more detail below.
+Of the five verbs, `arrange()` and `select()` are unaffected by grouping. Group-wise `mutate()` and `arrange()` are most useful in conjunction with window functions, and are described in detail in the corresponding vignette(). `summarise()` is easy to understand and very useful, and is described in more detail below.
 
 In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 planes <- group_by(hflights_df, TailNum)
 delay <- summarise(planes, 
   count = n(), 
@@ -200,7 +213,7 @@ You use `summarise()` with __aggregate functions__, which take a vector of value
 
 * `count_distinct(x)`: count the number of unique values in `x`.
 
-* `first_value(x)`, `last_value(x)` and `nth_value(x, n)` - these work 
+* `first(x)`, `last(x)` and `nth(x, n)` - these work 
   similarly to `x[1]`, `x[length(x)]`, and `x[n]` but give you more control 
   of the result if the value isn't present.
 
@@ -209,7 +222,7 @@ For example, we could use these to find the number of planes and the number of f
 ```{r}
 destinations <- group_by(hflights_df, Dest)
 summarise(destinations,
-  planes = count_distinct(TailNum),
+  planes = n_distinct(TailNum),
   flights = n()  
 )
 ```
@@ -261,9 +274,9 @@ Compared to DBI and the database connection algorithms:
 
 # Comparisons
 
-Compared to all existing options:
+Compared to all existing options, dplyr:
 
-* abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same functions.
+* abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same functions. This lets you think about what you want to achieve, not the logistics of data storage.
 
 * it provides a thoughtful default `print()` method so you don't accidentally print pages of data to the screen (this was inspired by data tables output)
 
