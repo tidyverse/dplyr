@@ -705,15 +705,32 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
     return res ;
 }
        
+void copy_attributes(List& out, SEXP data){
+    SEXP p = ATTRIB(data) ;
+    Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
+    SEXP q = attr ;
+    SET_TAG(q, TAG(p)) ;
+    p = CDR(p) ;
+    while( !Rf_isNull(p) ){
+        Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
+        SETCDR(q, s) ;
+        q = CDR(q) ;
+        SET_TAG(q, TAG(p)) ;
+        p = CDR(p) ;  
+    }
+    SET_ATTRIB(out, attr) ;
+}
+
 // [[Rcpp::export]]
 SEXP shallow_copy(const DataFrame& data){
     int n = data.size() ;
     List out(n) ;
     SET_OBJECT(out,1) ;
-    for( int i=0; i<n; i++) out[i] = data[i] ;
-    out.names() = data.names() ;
-    out.attr("row.names") = data.attr("row.names") ;
-    out.attr("class") = data.attr("class") ;
+    for( int i=0; i<n; i++) {
+      out[i] = data[i] ;
+      SET_NAMED(out[i], 2) ;
+    }
+    copy_attributes(out, data) ;
     return out ;  
 }
 
@@ -725,14 +742,34 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     return build_index_cpp(copy) ;
 }
 
+const char* address(SEXP x){
+  static char buffer[20] ;
+  snprintf( buffer, 20, "%p", x ) ;
+  return (const char*)buffer ;  
+}
+
+// [[Rcpp::export]]
+CharacterVector plfloc(Pairlist data){
+  int n = data.size() ;
+  CharacterVector pointers(n), names(n) ;
+  SEXP p = data ;
+  int i=0 ;
+  while( ! Rf_isNull(p) ){
+    pointers[i] = address(CAR(p)) ; 
+    names[i] = PRINTNAME(TAG(p)) ;
+    p = CDR(p) ;
+    i++ ;
+  }
+  pointers.names() = names ;
+  return pointers;
+}
+
 // [[Rcpp::export]]
 CharacterVector dfloc(DataFrame df){ 
   int n = df.size() ;
   CharacterVector pointers(n); 
-  char buffer[20] ;
-  for( int i=0; i<n; i++){
-    snprintf( buffer, 20, "%p", dataptr(df[i]) ) ;
-    pointers[i] = (const char*)buffer ;
+  for( int i=0; i<n; i++) {
+    pointers[i] = address(df[i]) ;
   }
   pointers.names() = df.names() ;
   return pointers ;

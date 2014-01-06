@@ -57,6 +57,10 @@ grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
+plfloc <- function(data) {
+    .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
+}
+
 dfloc <- function(df) {
     .Call('dplyr_dfloc', PACKAGE = 'dplyr', df)
 }
