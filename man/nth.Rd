@@ -1,14 +1,14 @@
-\name{nth_value}
-\alias{first_value}
-\alias{last_value}
-\alias{nth_value}
+\name{nth}
+\alias{first}
+\alias{last}
+\alias{nth}
 \title{Extract the first, last or nth value from a vector.}
 \usage{
-nth_value(x, n, order_by = NULL)
+nth(x, n, order_by = NULL)
 
-first_value(x, order_by = NULL)
+first(x, order_by = NULL)
 
-last_value(x, order_by = NULL)
+last(x)
 }
 \arguments{
   \item{x}{A vector}
@@ -29,7 +29,7 @@ secondary vector that defines the ordering.
 x <- 1:10
 y <- 10:1
 
-last_value(x)
-last_value(x, y)
+last(x)
+last(x, y)
 }
 

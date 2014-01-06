@@ -13,9 +13,9 @@
 #' x <- 1:10
 #' y <- 10:1
 #' 
-#' last_value(x)
-#' last_value(x, y)
-nth_value <- function(x, n, order_by = NULL) {
+#' last(x)
+#' last(x, y)
+nth <- function(x, n, order_by = NULL) {
   stopifnot(length(n) == 1, is.numeric(x))
   
   # if n > length(x), x[n] will be NA of correct type
@@ -23,14 +23,14 @@ nth_value <- function(x, n, order_by = NULL) {
 }
 
 #' @export
-#' @rdname nth_value
-first_value <- function(x, order_by = NULL) {
-  nth_value(x, 1, order_by)
+#' @rdname nth
+first <- function(x, order_by = NULL) {
+  nth(x, 1, order_by)
 }
 
 #' @export
-#' @rdname nth_value
-last_value <- function(x, order_by = NULL) {
-  nth_value(x, length(x), order_by)
+#' @rdname nth
+last <- function(x, order_by = NULL) {
+  nth(x, length(x), order_by)
 }
 

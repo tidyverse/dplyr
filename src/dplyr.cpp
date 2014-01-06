@@ -173,7 +173,7 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "var" )            ] = var_prototype ;
         handlers[ Rf_install( "sd")              ] = sd_prototype ;
         handlers[ Rf_install( "sum" )            ] = sum_prototype;
-        handlers[ Rf_install( "count_distinct" ) ] = count_distinct_prototype ;
+        handlers[ Rf_install( "n_distinct" ) ] = count_distinct_prototype ;
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
@@ -721,12 +721,25 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
     
     return res ;
 }
+       
+// [[Rcpp::export]]
+SEXP shallow_copy(const DataFrame& data){
+    int n = data.size() ;
+    List out(n) ;
+    SET_OBJECT(out,1) ;
+    for( int i=0; i<n; i++) out[i] = data[i] ;
+    out.names() = data.names() ;
+    out.attr("row.names") = data.attr("row.names") ;
+    out.attr("class") = data.attr("class") ;
+    return out ;  
+}
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
-    data.attr("vars") = symbols ;
-    data.attr("drop") = drop ;
-    return build_index_cpp(data) ;
+    DataFrame copy = shallow_copy(data) ;
+    copy.attr("vars") = symbols ;
+    copy.attr("drop") = drop ;
+    return build_index_cpp(copy) ;
 }
 
 // [[Rcpp::export]]
@@ -1271,9 +1284,9 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
 //' @examples
 //' x <- sample(1:10, 1e5, rep = TRUE)
 //' length(unique(x))
-//' count_distinct(x)
+//' n_distinct(x)
 // [[Rcpp::export]]
-SEXP count_distinct(SEXP x){ 
+SEXP n_distinct(SEXP x){ 
     SlicingIndex everything(0, Rf_length(x) );
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){

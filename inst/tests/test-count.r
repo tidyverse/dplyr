@@ -2,7 +2,7 @@ context("Count")
 
 test_that("count_distinct gives the correct results on iris", {
   expect_equal( 
-    sapply(iris, count_distinct), 
+    sapply(iris, n_distinct), 
     sapply(iris, function(.) length(unique(.)))
   )
 })
@@ -19,7 +19,7 @@ df_var <- data.frame(
 )
 test_that("count_distinct gives correct results for key types", {
   expect_equal( 
-    sapply(df_var, count_distinct), 
+    sapply(df_var, n_distinct), 
     sapply(df_var, function(.) length(unique(.)))
   )
 })

@@ -214,8 +214,8 @@ In SQL, window functions have the form `[expression] OVER ([partition clause] [o
 
 * The __expression__ is a combination of variable names and window functions.
   Support for window functions varies from database to database, but most
-  support the ranking functions, `lead`, `lag`, `nth_value`, `first_value`,
-  `last_value`, `count`, `min`, `max`, `sum`, `avg` and `stddev`. dplyr 
+  support the ranking functions, `lead`, `lag`, `nth`, `first`,
+  `last`, `count`, `min`, `max`, `sum`, `avg` and `stddev`. dplyr 
   generates this from the R expression in your `mutate` or `filter` call.
 
 * The __partition clause__ specifies how the window function is broken down
