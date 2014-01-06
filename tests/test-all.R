@@ -3,6 +3,8 @@ library("dplyr")
 
 library("Lahman")
 lahman_sqlite()
-lahman_postgres()
+if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+  lahman_postgres()  
+}
 
 test_package("dplyr")

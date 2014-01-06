@@ -8,7 +8,7 @@ nth(x, n, order_by = NULL)
 
 first(x, order_by = NULL)
 
-last(x)
+last(x, order_by = NULL)
 }
 \arguments{
   \item{x}{A vector}
