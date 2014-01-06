@@ -160,7 +160,7 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "var" )            ] = var_prototype ;
         handlers[ Rf_install( "sd")              ] = sd_prototype ;
         handlers[ Rf_install( "sum" )            ] = sum_prototype;
-        handlers[ Rf_install( "count_distinct" ) ] = count_distinct_prototype ;
+        handlers[ Rf_install( "n_distinct" ) ] = count_distinct_prototype ;
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
@@ -1267,9 +1267,9 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
 //' @examples
 //' x <- sample(1:10, 1e5, rep = TRUE)
 //' length(unique(x))
-//' count_distinct(x)
+//' n_distinct(x)
 // [[Rcpp::export]]
-SEXP count_distinct(SEXP x){ 
+SEXP n_distinct(SEXP x){ 
     SlicingIndex everything(0, Rf_length(x) );
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){

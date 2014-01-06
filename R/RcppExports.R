@@ -102,9 +102,9 @@ summarise_impl <- function(df, args, env) {
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
 #' length(unique(x))
-#' count_distinct(x)
-count_distinct <- function(x) {
-    .Call('dplyr_count_distinct', PACKAGE = 'dplyr', x)
+#' n_distinct(x)
+n_distinct <- function(x) {
+    .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x)
 }
 
 #' @export
