@@ -14,7 +14,7 @@ get_cache <- function(name) {
 
 load_srcs <- function(f, src_names, quiet = NULL) {
   if (is.null(quiet)) {
-    quiet <- identical(Sys.getenv("NOT_CRAN"), "true")
+    quiet <- !identical(Sys.getenv("NOT_CRAN"), "true")
   }
   
   out <- list()
