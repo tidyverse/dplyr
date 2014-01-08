@@ -159,3 +159,6 @@ translate_env.src_bigquery <- function(x) {
     base_win
   )
 }
+
+globalVariables(c("insert_upload_job", "wait_for", "list_tables", 
+  "insert_upload_job", "query_exec", "get_table"))
