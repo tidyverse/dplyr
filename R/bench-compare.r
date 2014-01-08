@@ -79,7 +79,7 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
 #' @export
 #' @rdname bench_compare
 compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
-  if (length(tbls) < 2) {
+  if (length(tbls) < 2 && is.null(ref)) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
   if (!require("testthat")) {
