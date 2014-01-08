@@ -1,7 +1,6 @@
 The following notes were generated across my local OS X install, ubuntu running on travis-ci and win builder.
 
 * checking package dependencies ... NOTE
-* checking R code for possible problems ... NOTE
 
   These are both because dplyr suggests bigrquery, which is 
   currently not on CRAN.
