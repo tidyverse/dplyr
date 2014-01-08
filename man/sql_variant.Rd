@@ -61,8 +61,7 @@ These three functions make that easy.
 }
 \examples{
 # An example of adding some mappings for the statistical functions that
-# postgresql provides:
-# \\url{http://www.postgresql.org/docs/9.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE}
+# postgresql provides: http://bit.ly/K5EdTn
 
 postgres_agg <- sql_translator(.parent = base_agg,
   cor = sql_prefix("corr"),
