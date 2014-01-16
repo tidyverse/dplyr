@@ -56,3 +56,9 @@ test_that("integers and reals are not equal", {
   expect_match(all.equal(df1, df2), 
     "Incompatible type for column x: x integer, y numeric")
 })
+
+test_that("BoolResult does not overwrite singleton R_TrueValue", {
+  dplyr:::equal_data_frame(mtcars, mtcars)
+  expect_equal( class(2 == 2), "logical" )
+
+})

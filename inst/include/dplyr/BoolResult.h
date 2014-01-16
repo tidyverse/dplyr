@@ -12,9 +12,9 @@ namespace dplyr{
         void set_false( const char* msg ){ result = false; message = msg ; }
         
         inline operator SEXP() const { 
-            Shield<SEXP> res( Rf_ScalarLogical( result ) ) ;
-            Rf_setAttrib( res, Rf_install("comment"), Rf_mkString(message.c_str()) );
-            Rf_setAttrib( res, Rf_install("class"), Rf_mkString("BoolResult") );
+            LogicalVector res = LogicalVector::create( result ) ;
+            res.attr("comment") = message ;
+            res.attr("class")   = "BoolResult" ;
             return res; 
         }
         
