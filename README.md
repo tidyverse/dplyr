@@ -13,11 +13,19 @@ dplyr is the next iteration of plyr, focussed on tools for working with data fra
 * Use the same interface to work with data no matter where it's stored, whether
   in a data frame, a data table or database.
 
-`dplyr` is not yet available on CRAN, but you can install it from github with:
+You can install:
 
-```R
-devtools::install_github("dplyr")
-```
+* the latest released version from CRAN with 
+
+    ```R
+    install.packages("dplyr")
+    ````
+
+* the latest development version from github with 
+
+    ```R
+    devtools::install_github("dplyr")
+    ```
 
 To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
 
