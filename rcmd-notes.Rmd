@@ -17,9 +17,3 @@ The following notes were generated across my local OS X install, ubuntu running 
 
   I don't think there's anything I can do about the size of the libs 
   directory.
-
-* checking Rd line widths ... NOTE
-
-  This is a long URL. I don't know of a way to shorten it in Rd.
-  I could use a url shortener, but then that makes it less clear where
-  you are going.
