@@ -246,7 +246,7 @@ As well as data frames, dplyr works with data stored in other ways, like data ta
 
 ## Data table
 
-dplyr also provides data table methods for all verbs. While data.table is extremely, fast, the current benchmarks suggest that dplyr is 2-3x faster for most single operations, and up to 10x faster for grouped summaries (see the benchmark-baseball vignette for more details). However, dplyr is specialised for data manipulation and doesn't do as much as data.table. If you're using data.tables already, you can use the familiar dplyr verbs and it will use the most efficient data table syntax that I know.
+dplyr also provides data table methods for all verbs. If you're using data.tables already, this lets you use dplyr syntax for data manipulation, and data.table for everything else.
 
 For multiple operations, data.table may well be faster because you usually use it with multiple verbs at the same time. For example, with data table you can do a mutate and a select in a single step, and it's smart enough to know that there's no point in computing the new variable for the rows you're about to throw away. 
 
