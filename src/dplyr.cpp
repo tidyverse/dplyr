@@ -909,7 +909,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
     LogicalVector g_test ;
     
     for( int k=0; k<args.size(); k++){ 
-        Call call( args[k] ) ;
+        Call call( (SEXP)args[k] ) ;
         GroupedCallProxy call_proxy( call, gdf, dots.envir(k) ) ;
         int ngroups = gdf.ngroups() ;
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
@@ -959,7 +959,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
-        CallProxy proxy( call, df, env ) ;
+        CallProxy proxy( (SEXP)call, df, env ) ;
         LogicalVector test = proxy.eval() ;
         check_filter_result(test, df.nrows());
         DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
