@@ -43,7 +43,7 @@ iris2 <- copy_to(db, iris)
 mtcars$model <- rownames(mtcars)
 mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
 
-explain_tbl(filter(mtcars2, model == "Hornet 4 Drive"))
+explain(filter(mtcars2, model == "Hornet 4 Drive"))
 
 # Note that tables are temporary by default, so they're not
 # visible from other connections to the same database.

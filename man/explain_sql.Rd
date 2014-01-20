@@ -1,6 +1,6 @@
 \name{explain_sql}
+\alias{explain}
 \alias{explain_sql}
-\alias{explain_tbl}
 \alias{show_sql}
 \title{Show sql and query plans.}
 \usage{
@@ -8,13 +8,13 @@ explain_sql(code)
 
 show_sql(code)
 
-explain_tbl(tbl)
+explain(tbl)
 }
 \arguments{
   \item{code}{code to run. All sql queries executed during
   the running of the code will be shown and explained.}
 
-  \item{tbl}{an sql based table to explain.}
+  \item{tbl}{an sql-based table to explain.}
 }
 \description{
 Any queries run inside this function will automatically be
@@ -41,14 +41,14 @@ show_sql(head(batting))
 explain_sql(head(batting))
 
 # If you just want to understand the sql for a tbl, use explain_tbl
-explain_tbl(batting)
+explain(batting)
 
 # The batting database has indices on all ID variables:
 # SQLite automatically picks the most restrictive index
-explain_tbl(filter(batting, lgID == "NL" & yearID == 2000))
+explain(filter(batting, lgID == "NL" & yearID == 2000))
 
 # OR's will use multiple indexes
-explain_tbl(filter(batting, lgID == "NL" | yearID == 2000))
+explain(filter(batting, lgID == "NL" | yearID == 2000))
 }
 }
 }

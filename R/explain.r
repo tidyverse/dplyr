@@ -7,7 +7,7 @@
 #'
 #' @param code code to run. All sql queries executed during the running of the
 #'   code will be shown and explained.
-#' @param tbl an sql based table to explain.
+#' @param tbl an sql-based table to explain.
 #' @export
 #' @examples
 #' \donttest{
@@ -26,15 +26,15 @@
 #' show_sql(head(batting))
 #' explain_sql(head(batting))
 #'
-#' # If you just want to understand the sql for a tbl, use explain_tbl
-#' explain_tbl(batting)
+#' # If you just want to understand the sql for a tbl, use explain
+#' explain(batting)
 #'
 #' # The batting database has indices on all ID variables:
 #' # SQLite automatically picks the most restrictive index
-#' explain_tbl(filter(batting, lgID == "NL" & yearID == 2000))
+#' explain(filter(batting, lgID == "NL" & yearID == 2000))
 #'
 #' # OR's will use multiple indexes
-#' explain_tbl(filter(batting, lgID == "NL" | yearID == 2000))
+#' explain(filter(batting, lgID == "NL" | yearID == 2000))
 #' }
 #' }
 explain_sql <- function(code) {
@@ -55,7 +55,7 @@ show_sql <- function(code) {
 
 #' @export
 #' @rdname explain_sql
-explain_tbl <- function(tbl) {
+explain <- function(tbl) {
   force(tbl)
   message(
     "<SQL>\n", tbl$query$sql,

@@ -69,19 +69,19 @@ team_info <- select(tbl(lahman_sqlite(), "Teams"), yearID, lgID, teamID, G, R:H)
 first_stint <- select(filter(batting, stint == 1), playerID:H)
 both <- left_join(first_stint, team_info, type = "inner", by = c("yearID", "teamID", "lgID"))
 head(both)
-explain_tbl(both)
+explain(both)
 
 # Join with a local data frame
 grid <- expand.grid(
   teamID = c("WAS", "ATL", "PHI", "NYA"),
   yearID = 2010:2012)
 top4a <- left_join(batting, grid, copy = TRUE)
-explain_tbl(top4a)
+explain(top4a)
 
 # Indices don't really help here because there's no matching index on
 # batting
 top4b <- left_join(batting, grid, copy = TRUE, auto_index = TRUE)
-explain_tbl(top4b)
+explain(top4b)
 
 # Semi-joins ----------------------------------------------------------------
 
@@ -101,7 +101,7 @@ semi_join(people, manager)
 # Find all managers in hall of fame
 famous_manager <- semi_join(semi_join(people, manager), hof)
 famous_manager
-explain_tbl(famous_manager)
+explain(famous_manager)
 
 # Anti-joins ----------------------------------------------------------------
 
