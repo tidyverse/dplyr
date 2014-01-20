@@ -96,13 +96,13 @@ filter(hflights_df, Month == 1 | Month == 2)
 
 ## Arrange rows with `arrange()`
 
-`arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the valeus of preceeding columns:
+`arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:
 
 ```{r}
 arrange(hflights_df, DayofMonth, Month, Year)
 ```
 
-Use `desc()` to order a order in descending order:
+Use `desc()` to order a column in descending order:
 
 ```{r}
 arrange(hflights_df, desc(ArrDelay))
@@ -211,7 +211,7 @@ You use `summarise()` with __aggregate functions__, which take a vector of value
 
 * `n()`: number of observations in the current group
 
-* `count_distinct(x)`: count the number of unique values in `x`.
+* `n_distinct(x)`: count the number of unique values in `x`.
 
 * `first(x)`, `last(x)` and `nth(x, n)` - these work 
   similarly to `x[1]`, `x[length(x)]`, and `x[n]` but give you more control 
