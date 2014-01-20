@@ -19,11 +19,34 @@ Result* __FUN__##_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;                                                                   \
 }
 MAKE_PROTOTYPE(mean, Mean)
-MAKE_PROTOTYPE(min, Min)
-MAKE_PROTOTYPE(max, Max)
 MAKE_PROTOTYPE(var, Var)
 MAKE_PROTOTYPE(sd, Sd)
 MAKE_PROTOTYPE(sum, Sum)
+
+template< template <int, bool> class Tmpl>
+Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
+    using namespace dplyr ;
+    
+    if( nargs != 1 ) return 0 ;                                                 
+    SEXP arg = CADR(call) ;                                                     
+    if( TYPEOF(arg) == SYMSXP ) arg = subsets.get_variable(arg) ;               
+    switch( TYPEOF(arg) ){                                                      
+        case INTSXP:  
+            if( Rf_inherits(arg, "Date" ) )
+                return new TypedProcessor< Tmpl<INTSXP,false> >( arg, "Date" ) ;
+            if( Rf_inherits(arg, "POSIXct" ) )
+                return new TypedProcessor< Tmpl<INTSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+            return new Tmpl<INTSXP,false>( arg ) ;        
+        case REALSXP: 
+            if( Rf_inherits(arg, "Date" ) )
+                return new TypedProcessor< Tmpl<REALSXP,false> >( arg, "Date" ) ;
+            if( Rf_inherits(arg, "POSIXct" ) )
+                return new TypedProcessor< Tmpl<REALSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
+            return new Tmpl<REALSXP,false>( arg ) ;       
+        default: break ;                                                        
+    }                                                                           
+    return 0 ;                                                                  
+}
 
 Result* count_distinct_result(SEXP vec){ 
     switch( TYPEOF(vec) ){
@@ -155,8 +178,8 @@ HybridHandlerMap& get_handlers(){
     if( !handlers.size() ){
         handlers[ Rf_install("n")                ] = count_prototype ;
         handlers[ Rf_install( "mean" )           ] = mean_prototype ;
-        handlers[ Rf_install( "min" )            ] = min_prototype ;
-        handlers[ Rf_install( "max" )            ] = max_prototype ;
+        handlers[ Rf_install( "min" )            ] = minmax_prototype<dplyr::Min> ;
+        handlers[ Rf_install( "max" )            ] = minmax_prototype<dplyr::Max> ;
         handlers[ Rf_install( "var" )            ] = var_prototype ;
         handlers[ Rf_install( "sd")              ] = sd_prototype ;
         handlers[ Rf_install( "sum" )            ] = sum_prototype;

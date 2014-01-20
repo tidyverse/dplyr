@@ -14,6 +14,7 @@
 #include <dplyr/Result/Sd.h>
 #include <dplyr/Result/min.h>
 #include <dplyr/Result/max.h>
+#include <dplyr/Result/TypedProcessor.h>
 #include <dplyr/Result/CallElementProxy.h>
 
 #include <dplyr/Result/DelayedProcessor.h>
