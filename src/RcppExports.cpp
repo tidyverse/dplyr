@@ -6,6 +6,21 @@
 
 using namespace Rcpp;
 
+// loc
+CharacterVector loc(RObject data);
+RcppExport SEXP dplyr_loc(SEXP dataSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< RObject >::type data(dataSEXP );
+        CharacterVector __result = loc(data);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // dfloc
 CharacterVector dfloc(DataFrame df);
 RcppExport SEXP dplyr_dfloc(SEXP dfSEXP) {

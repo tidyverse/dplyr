@@ -9,6 +9,13 @@ const char* address(SEXP x){
 }
 
 // [[Rcpp::export]]
+CharacterVector loc(RObject data) {
+  CharacterVector out(1);
+  out[0] = address(data);
+  return out;
+}
+
+// [[Rcpp::export]]
 CharacterVector dfloc(DataFrame df){ 
   int n = df.size() ;
   CharacterVector pointers(n); 
