@@ -6,3 +6,6 @@ dplyr 0.1.0.99
   gets copied
   
 * renamed `explain_tbl()` to `explain()` (#182)
+
+* `tally()` gains `sort` argument to sort output so highest counts
+  come first.

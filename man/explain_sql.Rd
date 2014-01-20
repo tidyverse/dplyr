@@ -40,7 +40,7 @@ explain_sql(nrow(batting))
 show_sql(head(batting))
 explain_sql(head(batting))
 
-# If you just want to understand the sql for a tbl, use explain_tbl
+# If you just want to understand the sql for a tbl, use explain
 explain(batting)
 
 # The batting database has indices on all ID variables:
