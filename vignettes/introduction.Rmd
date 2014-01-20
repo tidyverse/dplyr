@@ -124,7 +124,7 @@ Often you work with large datasets with many columns where only a few are actual
 select(hflights_df, Year, Month, DayOfWeek)
 # Select all columns between Year and DayOfWeek (inclusive)
 select(hflights_df, Year:DayOfWeek)
-# Select all columns except Year and DayOfWeek
+# Select all columns except those from Year to DayOfWeek (inclusive)
 select(hflights_df, -(Year:DayOfWeek))
 ```
 
