@@ -157,3 +157,9 @@ All tbls also provide `head()` and `print()` methods. The default print method g
 ## Plyr compatibility
 
 You'll need to be a little careful if you load both plyr and dplyr at the same time. I'd recommend loading plyr first, then dplyr, so that the faster dplyr functions come first in the search path. By and large, any function provided by both dplyr and plyr works in a similar way, although dplyr functions tend to be faster and more general.
+
+
+## Related approaches
+
+* [|Stat](http://hcibib.org/perlman/stat/introman.html)
+* [Pig](http://infolab.stanford.edu/~usriv/papers/pig-latin.pdf)
