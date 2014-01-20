@@ -16,7 +16,7 @@ namespace dplyr {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         GroupedSubsetTemplate( SEXP x, int max_size ) : 
-            object(x), output(max_size), start( Rcpp::internal::r_vector_start<RTYPE>(object) ) {}
+            object(x), output(max_size, object), start( Rcpp::internal::r_vector_start<RTYPE>(object) ) {}
         
         virtual SEXP get( const SlicingIndex& indices ) {
             output.borrow( indices, start ) ;

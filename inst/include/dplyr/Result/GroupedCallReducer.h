@@ -13,8 +13,7 @@ namespace dplyr {
         virtual ~GroupedCalledReducer(){} ;
         
         inline SEXP process_chunk( const SlicingIndex& indices ){
-            SEXP res = proxy.get(indices) ;
-            return res ;
+            return proxy.get(indices) ;
         }               
         
     private:
