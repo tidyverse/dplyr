@@ -61,6 +61,7 @@ Collate:
     'join-sql.r'
     'join.r'
     'lead-lag.R'
+    'location.R'
     'manip-cube.r'
     'manip-df.r'
     'manip-dt.r'
