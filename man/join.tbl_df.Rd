@@ -37,24 +37,25 @@ purpose of the functions. The data frame implementations
 are currently not terribly efficient.
 }
 \examples{
-data("Batting", package = "Lahman")
-data("Master", package = "Lahman")
-
-batting_df <- tbl_df(Batting)
-person_df <- tbl_df(Master)
-
-uperson_df <- tbl_df(Master[!duplicated(Master$playerID), ])
-
-# Inner join: match batting and person data
-inner_join(batting_df, person_df)
-inner_join(batting_df, uperson_df)
-
-# Left join: match, but preserve batting data
-left_join(batting_df, uperson_df)
-
-# Anti join: find batters without person data
-anti_join(batting_df, person_df)
-# or people who didn't bat
-anti_join(person_df, batting_df)
+if (require(Lahman)) {
+    data("Batting", package = "Lahman")
+    data("Master", package = "Lahman")
+    
+    batting_df <- tbl_df(Batting)
+    person_df <- tbl_df(Master)
+    
+    uperson_df <- tbl_df(Master[!duplicated(Master$playerID), ])
+    
+    # Inner join: match batting and person data
+    inner_join(batting_df, person_df)
+    inner_join(batting_df, uperson_df)
+    
+    # Left join: match, but preserve batting data
+    left_join(batting_df, uperson_df)
+    
+    # Anti join: find batters without person data
+    anti_join(batting_df, person_df)
+    # or people who didn't bat
+    anti_join(person_df, batting_df)
 }
-
+}
