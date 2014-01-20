@@ -6,6 +6,36 @@
 
 using namespace Rcpp;
 
+// dfloc
+CharacterVector dfloc(DataFrame df);
+RcppExport SEXP dplyr_dfloc(SEXP dfSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        CharacterVector __result = dfloc(df);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// plfloc
+CharacterVector plfloc(Pairlist data);
+RcppExport SEXP dplyr_plfloc(SEXP dataSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< Pairlist >::type data(dataSEXP );
+        CharacterVector __result = plfloc(data);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by);
 RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
@@ -234,36 +264,6 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP );
         Rcpp::traits::input_parameter< bool >::type drop(dropSEXP );
         DataFrame __result = grouped_df_impl(data, symbols, drop);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// plfloc
-CharacterVector plfloc(Pairlist data);
-RcppExport SEXP dplyr_plfloc(SEXP dataSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< Pairlist >::type data(dataSEXP );
-        CharacterVector __result = plfloc(data);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// dfloc
-CharacterVector dfloc(DataFrame df);
-RcppExport SEXP dplyr_dfloc(SEXP dfSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
-        CharacterVector __result = dfloc(df);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
