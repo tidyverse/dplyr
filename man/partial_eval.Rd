@@ -34,29 +34,31 @@ incorporated into the expression.
   remote. }
 }
 \examples{
-data("Batting", package = "Lahman")
-bdf <- tbl_df(Batting)
-partial_eval(quote(year > 1980), bdf)
-
-ids <- c("ansonca01", "forceda01", "mathebo01")
-partial_eval(quote(id \%in\% ids), bdf)
-
-# You can use local to disambiguate between local and remote
-# variables: otherwise remote is always preferred
-year <- 1980
-partial_eval(quote(year > year), bdf)
-partial_eval(quote(year > local(year)), bdf)
-
-# Functions are always assumed to be remote. Use local to force evaluation
-# in R.
-f <- function(x) x + 1
-partial_eval(quote(year > f(1980)), bdf)
-partial_eval(quote(year > local(f(1980))), bdf)
-
-# For testing you can also use it with the tbl omitted
-partial_eval(quote(1 + 2 * 3))
-x <- 1
-partial_eval(quote(x ^ y))
+if (require(Lahman)) {
+    data("Batting", package = "Lahman")
+    bdf <- tbl_df(Batting)
+    partial_eval(quote(year > 1980), bdf)
+    
+    ids <- c("ansonca01", "forceda01", "mathebo01")
+    partial_eval(quote(id \%in\% ids), bdf)
+    
+    # You can use local to disambiguate between local and remote
+    # variables: otherwise remote is always preferred
+    year <- 1980
+    partial_eval(quote(year > year), bdf)
+    partial_eval(quote(year > local(year)), bdf)
+    
+    # Functions are always assumed to be remote. Use local to force evaluation
+    # in R.
+    f <- function(x) x + 1
+    partial_eval(quote(year > f(1980)), bdf)
+    partial_eval(quote(year > local(f(1980))), bdf)
+    
+    # For testing you can also use it with the tbl omitted
+    partial_eval(quote(1 + 2 * 3))
+    x <- 1
+    partial_eval(quote(x ^ y))
+}
 }
 \keyword{internal}
 

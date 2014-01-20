@@ -37,18 +37,19 @@ a sqlite \code{\link{tbl}} object
 This standard method works for all sql sources.
 }
 \examples{
-db <- src_sqlite(tempfile(), create = TRUE)
-
-iris2 <- copy_to(db, iris)
-mtcars$model <- rownames(mtcars)
-mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
-
-explain_tbl(filter(mtcars2, model == "Hornet 4 Drive"))
-
-# Note that tables are temporary by default, so they're not
-# visible from other connections to the same database.
-src_tbls(db)
-db2 <- src_sqlite(db$path)
-src_tbls(db2)
+if (require(RSQLite.extfuns)) {
+    db <- src_sqlite(tempfile(), create = TRUE)
+    
+    iris2 <- copy_to(db, iris)
+    mtcars$model <- rownames(mtcars)
+    mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
+    
+    explain_tbl(filter(mtcars2, model == "Hornet 4 Drive"))
+    
+    # Note that tables are temporary by default, so they're not
+    # visible from other connections to the same database.
+    src_tbls(db)
+    db2 <- src_sqlite(db$path)
+    src_tbls(db2)
 }
-
+}
