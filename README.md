@@ -4,24 +4,24 @@
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
-* Identify the most important data manipulation tools needed for data analysis 
+* Identify the most important data manipulation tools needed for data analysis
   and make them easy to use from R.
 
 * Provide blazing fast performance for in-memory data by writing key pieces
   in [C++](http://www.rcpp.org/).
-  
+
 * Use the same interface to work with data no matter where it's stored, whether
   in a data frame, a data table or database.
 
 You can install:
 
-* the latest released version from CRAN with 
+* the latest released version from CRAN with
 
     ```R
     install.packages("dplyr")
     ````
 
-* the latest development version from github with 
+* the latest development version from github with
 
     ```R
     devtools::install_github("dplyr")
@@ -86,27 +86,27 @@ They all work as similarly as possible across the range of data sources.  The ma
 
 ```R
 system.time(summarise(carriers_df, delay = mean(ArrDelay, na.rm = TRUE)))
-#   user  system elapsed 
-#  0.010   0.002   0.012 
+#   user  system elapsed
+#  0.010   0.002   0.012
 system.time(summarise(carriers_dt, delay = mean(ArrDelay, na.rm = TRUE)))
-#   user  system elapsed 
-#  0.007   0.000   0.008 
+#   user  system elapsed
+#  0.007   0.000   0.008
 system.time(summarise(collect(carriers_db1, delay = mean(ArrDelay))))
-#   user  system elapsed 
-#  0.402   0.058   0.465 
+#   user  system elapsed
+#  0.402   0.058   0.465
 system.time(summarise(collect(carriers_db2, delay = mean(ArrDelay))))
-#   user  system elapsed 
-#  0.386   0.097   0.718 
+#   user  system elapsed
+#  0.386   0.097   0.718
 ```
 
 The data frame and data table methods are order of magnitude faster than plyr. The database methods are slower, but can work with data that don't fit in memory.
 
 ```R
 library(plyr)
-system.time(ddply(hflights, "UniqueCarrier", summarise, 
+system.time(ddply(hflights, "UniqueCarrier", summarise,
   delay = mean(ArrDelay, na.rm = TRUE)))
-#   user  system elapsed 
-#  0.527   0.078   0.604 
+#   user  system elapsed
+#  0.527   0.078   0.604
 ```
 
 ### `do()`
@@ -152,8 +152,8 @@ Currently join variables must be the same in both the left-hand and right-hand s
 
 ### Other operations
 
-All tbls also provide `head()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen. 
+All tbls also provide `head()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen.
 
 ## Plyr compatibility
 
-Currently, it's not a good idea to have both dplyr and plyr loaded. This is just a short-term problem: in the long-term, I'll move the matching functions from plyr into dplyr, and add a dplyr dependency to plyr.
+You'll need to be a little careful if you load both plyr and dplyr at the same time. I'd recommend loading plyr first, then dplyr, so that the faster dplyr functions come first in the search path. By and large, any function provided by both dplyr and plyr works in a similar way, although dplyr functions tend to be faster and more general.
