@@ -9,3 +9,5 @@ dplyr 0.1.0.99
 
 * `tally()` gains `sort` argument to sort output so highest counts
   come first. (#173)
+  
+* `ungroup.grouped_df` and `tbl_df` no longer make data copies. (#191)  

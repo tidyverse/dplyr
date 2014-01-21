@@ -1399,8 +1399,7 @@ List rbind_all( ListOf<DataFrame> dots ){
     return out ;
 }
 
-// [[Rcpp::export]]
-DataFrame ungroup_grouped_df( DataFrame df){
+Pairlist strip_group_attributes(DataFrame df){
   Armor<SEXP> attribs( R_NilValue ) ;
   
   SEXP p = ATTRIB(df) ;
@@ -1426,10 +1425,19 @@ DataFrame ungroup_grouped_df( DataFrame df){
     
     p = CDR(p) ;
   }
-  
+  return attribs ;    
+}
+
+// [[Rcpp::export]]
+DataFrame ungroup_grouped_df( DataFrame df){
   DataFrame copy = shallow_copy(df) ;
-  SET_ATTRIB(copy, attribs) ;
+  SET_ATTRIB(copy, strip_group_attributes(df)) ;
   return copy ;
+}
+
+// [[Rcpp::export]]
+DataFrame tbl_df_impl( DataFrame df){
+  return ungroup_grouped_df(df);  
 }
 
 // [[Rcpp::export]]
