@@ -1400,6 +1400,11 @@ List rbind_all( ListOf<DataFrame> dots ){
 }
 
 // [[Rcpp::export]]
+DataFrame tbl_df_impl( DataFrame df){
+    
+}
+
+// [[Rcpp::export]]
 std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
   std::vector<std::vector<int> > ids(groups);
 

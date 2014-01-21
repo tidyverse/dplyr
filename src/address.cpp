@@ -16,7 +16,7 @@ CharacterVector loc(RObject data) {
 }
 
 // [[Rcpp::export]]
-CharacterVector dfloc(DataFrame df){ 
+CharacterVector dfloc(List df){ 
   int n = df.size() ;
   CharacterVector pointers(n); 
   for( int i=0; i<n; i++) {

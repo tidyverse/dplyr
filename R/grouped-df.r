@@ -55,6 +55,8 @@ ungroup.grouped_df <- function(x) {
   attr(x, "index") <- NULL
   attr(x, "labels") <- NULL
   attr(x, "drop") <- NULL
+  attr(x, "group_sizes") <- NULL
+  attr(x, "biggest_group_size") <- NULL
   
   class(x) <- c("tbl_df", "tbl", "data.frame")
   x
