@@ -81,8 +81,7 @@ same_src.data.frame <- function(x, y) {
 
 #' @export
 as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
-  class(x) <- "data.frame"
-  x
+  as_regular_df(x)
 }
 
 #' @export
