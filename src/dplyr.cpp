@@ -1399,11 +1399,12 @@ List rbind_all( ListOf<DataFrame> dots ){
     return out ;
 }
 
-Pairlist strip_group_attributes(DataFrame df){
-  Armor<SEXP> attribs( R_NilValue ) ;
+SEXP strip_group_attributes(DataFrame df){
+  Shield<SEXP> attribs( Rf_cons( classes_not_grouped(), R_NilValue ) ) ;
+  SET_TAG(attribs, Rf_install("class") ) ;
   
   SEXP p = ATTRIB(df) ;
-  std::vector<SEXP> black_list(7) ;
+  std::vector<SEXP> black_list(8) ;
   black_list[0] = Rf_install("indices") ;
   black_list[1] = Rf_install("vars") ;
   black_list[2] = Rf_install("index") ;
@@ -1411,16 +1412,16 @@ Pairlist strip_group_attributes(DataFrame df){
   black_list[4] = Rf_install("drop") ;
   black_list[5] = Rf_install("group_sizes") ;
   black_list[6] = Rf_install("biggest_group_size") ;
+  black_list[7] = Rf_install("class") ;
   
+  SEXP q = attribs ;
   while( ! Rf_isNull(p) ){
     SEXP tag = TAG(p) ;
     if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ){
-      if( tag == Rf_install("class") ){
-        attribs = Rf_cons( classes_not_grouped(), attribs ) ;
-      } else {
-        attribs = Rf_cons( CAR(p), attribs ) ;
-      }
-      SET_TAG(attribs, tag) ;
+      Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) ) ;
+      SETCDR(q,s) ;
+      q = CDR(q) ;
+      SET_TAG(q, tag) ;
     } 
     
     p = CDR(p) ;
@@ -1432,6 +1433,7 @@ Pairlist strip_group_attributes(DataFrame df){
 DataFrame ungroup_grouped_df( DataFrame df){
   DataFrame copy = shallow_copy(df) ;
   SET_ATTRIB(copy, strip_group_attributes(df)) ;
+  SET_OBJECT(copy, OBJECT(df)) ;
   return copy ;
 }
 

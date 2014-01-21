@@ -125,6 +125,10 @@ ungroup_grouped_df <- function(df) {
     .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
 }
 
+tbl_df_impl <- function(df) {
+    .Call('dplyr_tbl_df_impl', PACKAGE = 'dplyr', df)
+}
+
 split_indices <- function(group, groups) {
     .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
 }
