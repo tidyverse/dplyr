@@ -12,4 +12,7 @@ dplyr 0.1.0.99
   
 * `ungroup.grouped_df` and `tbl_df` no longer make data copies. (#191)
 
-* `summarise` now correctly propagate attributes. (#194)
+* `summarise` correctly propagate attributes. (#194)
+
+* `group_by` correctly handles grouping by a factor that has NA. (#183)
+
