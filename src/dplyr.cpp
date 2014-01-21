@@ -1400,8 +1400,36 @@ List rbind_all( ListOf<DataFrame> dots ){
 }
 
 // [[Rcpp::export]]
-DataFrame tbl_df_impl( DataFrame df){
+DataFrame ungroup_grouped_df( DataFrame df){
+  Armor<SEXP> attribs( R_NilValue ) ;
+  
+  SEXP p = ATTRIB(df) ;
+  std::vector<SEXP> black_list(7) ;
+  black_list[0] = Rf_install("indices") ;
+  black_list[1] = Rf_install("vars") ;
+  black_list[2] = Rf_install("index") ;
+  black_list[3] = Rf_install("labels") ;
+  black_list[4] = Rf_install("drop") ;
+  black_list[5] = Rf_install("group_sizes") ;
+  black_list[6] = Rf_install("biggest_group_size") ;
+  
+  while( ! Rf_isNull(p) ){
+    SEXP tag = TAG(p) ;
+    if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ){
+      if( tag == Rf_install("class") ){
+        attribs = Rf_cons( classes_not_grouped(), attribs ) ;
+      } else {
+        attribs = Rf_cons( CAR(p), attribs ) ;
+      }
+      SET_TAG(attribs, tag) ;
+    } 
     
+    p = CDR(p) ;
+  }
+  
+  DataFrame copy = shallow_copy(df) ;
+  SET_ATTRIB(copy, attribs) ;
+  return copy ;
 }
 
 // [[Rcpp::export]]

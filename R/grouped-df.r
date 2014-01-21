@@ -50,14 +50,5 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 
 #' @export
 ungroup.grouped_df <- function(x) {
-  attr(x, "indices") <- NULL
-  attr(x, "vars") <- NULL
-  attr(x, "index") <- NULL
-  attr(x, "labels") <- NULL
-  attr(x, "drop") <- NULL
-  attr(x, "group_sizes") <- NULL
-  attr(x, "biggest_group_size") <- NULL
-  
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
+  ungroup_grouped_df(x)
 }
