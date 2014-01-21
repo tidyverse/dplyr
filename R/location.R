@@ -57,8 +57,8 @@ changes <- function(x, y) {
   attr <- match_up(x$attr, y$attr)
 
   width <- max(nchar(rownames(vars)), nchar(rownames(attr)))
-  rownames(vars) <- format(rownames(vars), width = width)
-  rownames(attr) <- format(rownames(attr), width = width)
+  if (nrow(vars) > 0) rownames(vars) <- format(rownames(vars), width = width)
+  if (nrow(attr) > 0) rownames(attr) <- format(rownames(attr), width = width)
 
   if (nrow(vars) > 0) {
     cat("Changed variables:\n")
