@@ -25,34 +25,34 @@ When working with data you must:
 
 The dplyr package makes each of these steps as fast and easy as possible by:
 
-* Elucidating the most common data manipulation operations, so that your 
-  options are helpfully constrained when thinking about how to tackle a 
+* Elucidating the most common data manipulation operations, so that your
+  options are helpfully constrained when thinking about how to tackle a
   problem.
- 
-* Providing simple functions that correspond to the most common 
-  data manipulation verbs, so that you can easily translate your thoughts 
+
+* Providing simple functions that correspond to the most common
+  data manipulation verbs, so that you can easily translate your thoughts
   into code.
 
-* Using efficient data storage backends, so that you spend as little time 
+* Using efficient data storage backends, so that you spend as little time
   waiting for the computer as possible.
 
 The goal of this document is to introduce you to the basic tools that dplyr provides, and show how you to apply them to data frames. Other vignettes provide more details on specific topics:
 
-* databases: as well as in memory data frames, dplyr also connects to 
+* databases: as well as in memory data frames, dplyr also connects to
   databases. It allows you to work with remote, out-of-memory data, using
-  exactly the same tools, because dplyr will translate your R code into 
+  exactly the same tools, because dplyr will translate your R code into
   the appropriate SQL.
-  
-* benchmark-baseball: see how dplyr compares to other tools for data 
+
+* benchmark-baseball: see how dplyr compares to other tools for data
   manipulation on a realistic use case.
-  
-* window-functions: a window function is a variation on an aggregation 
+
+* window-functions: a window function is a variation on an aggregation
   function, where an aggregate functions `n` inputs to produce 1 output, a
   window function uses `n` inputs to produce `n` outputs.
 
 ## Data: hflights
 
-To explore the basic data manipulation verbs of dplyr, we'll start with the built in 
+To explore the basic data manipulation verbs of dplyr, we'll start with the built in
 `hflights` data frame. This dataset contains all 227,496 flights that departed from Houston in 2011. The data comes from the US [Bureau of Transporation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?hflights`
 
 ```{r}
@@ -135,23 +135,23 @@ This function works similarly to the `select` argument to the `base::subset()`. 
 As well as selecting from the set of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
 
 ```{r}
-mutate(hflights_df, 
-  gain = ArrDelay - DepDelay, 
+mutate(hflights_df,
+  gain = ArrDelay - DepDelay,
   speed = Distance / AirTime * 60)
 ```
 
 `dplyr::mutate()` works the same way as `plyr::mutate()` and similarly to `base::transform()`. The key difference between `mutate()` and `transform()` is that mutate allows you to refer to columns that you just created:
 
 ```{r}
-mutate(hflights_df, 
-  gain = ArrDelay - DepDelay, 
+mutate(hflights_df,
+  gain = ArrDelay - DepDelay,
   gain_per_hour = gain / (AirTime / 60)
 )
 ```
 
 ```{r, eval = FALSE}
-transform(hflights, 
-  gain = ArrDelay - DepDelay, 
+transform(hflights,
+  gain = ArrDelay - DepDelay,
   gain_per_hour = gain / (AirTime / 60)
 )
 #> Error: object 'gain' not found
@@ -162,7 +162,7 @@ transform(hflights,
 The last verb is `summarise()`, which collapses a data frame to a single row. It's not very useful yet:
 
 ```{r}
-summarise(hflights_df, 
+summarise(hflights_df,
   delay = mean(DepDelay, na.rm = TRUE))
 ```
 
@@ -170,12 +170,12 @@ This is exactly equivalent to `plyr::summarise()`.
 
 ## Commonalities
 
-You may have noticed that all these functions are very similar: 
+You may have noticed that all these functions are very similar:
 
 * The first argument is a data frame.
 
 * The subsequent arguments describe what to do with it, and you can refer
-  to columns in the data frame directly without using `$`. 
+  to columns in the data frame directly without using `$`.
 
 * The result is a new data frame
 
@@ -185,25 +185,25 @@ These five functions provide the basis of a language of data manipulation. At th
 
 # Grouped operations
 
-These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on groups of observations within the tbl. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups of rows. You can then use the resulting object in the exactly the same functions as above; they'll automatically work "by group" when the input is a grouped tbl.
+These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on groups of observations within the dataset. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups of rows. You can then use the resulting object in the exactly the same functions as above; they'll automatically work "by group" when the input is a grouped.
 
-Of the five verbs, `arrange()` and `select()` are unaffected by grouping. Group-wise `mutate()` and `arrange()` are most useful in conjunction with window functions, and are described in detail in the corresponding vignette(). `summarise()` is easy to understand and very useful, and is described in more detail below.
+Of the five verbs, `select()` is unaffected by grouping, and grouped `arrange()` orders first by grouping variables. Group-wise `mutate()` and `filter()` are most useful in conjunction with window functions, and are described in detail in the corresponding vignette(). `summarise()` is easy to understand and very useful, and is described in more detail below.
 
 In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
 ```{r, warning = FALSE, message = FALSE}
 planes <- group_by(hflights_df, TailNum)
-delay <- summarise(planes, 
-  count = n(), 
-  dist = mean(Distance, na.rm = TRUE), 
+delay <- summarise(planes,
+  count = n(),
+  dist = mean(Distance, na.rm = TRUE),
   delay = mean(ArrDelay, na.rm = TRUE))
 delay <- filter(delay, count > 20, dist < 2000)
 
 # Interestingly, the average delay is only slightly related to the
 # average distance flown a plane.
-ggplot(delay, aes(dist, delay)) + 
-  geom_point(aes(size = count), alpha = 1/2) + 
-  geom_smooth() + 
+ggplot(delay, aes(dist, delay)) +
+  geom_point(aes(size = count), alpha = 1/2) +
+  geom_smooth() +
   scale_size_area()
 ```
 
@@ -213,8 +213,8 @@ You use `summarise()` with __aggregate functions__, which take a vector of value
 
 * `n_distinct(x)`: count the number of unique values in `x`.
 
-* `first(x)`, `last(x)` and `nth(x, n)` - these work 
-  similarly to `x[1]`, `x[length(x)]`, and `x[n]` but give you more control 
+* `first(x)`, `last(x)` and `nth(x, n)` - these work
+  similarly to `x[1]`, `x[length(x)]`, and `x[n]` but give you more control
   of the result if the value isn't present.
 
 For example, we could use these to find the number of planes and the number of flights that go to each possible destination:
@@ -223,7 +223,7 @@ For example, we could use these to find the number of planes and the number of f
 destinations <- group_by(hflights_df, Dest)
 summarise(destinations,
   planes = n_distinct(TailNum),
-  flights = n()  
+  flights = n()
 )
 ```
 
@@ -246,17 +246,18 @@ As well as data frames, dplyr works with data stored in other ways, like data ta
 
 ## Data table
 
-dplyr also provides data table methods for all verbs. If you're using data.tables already, this lets you use dplyr syntax for data manipulation, and data.table for everything else.
+dplyr also provides [data table](http://datatable.r-forge.r-project.org/) methods for all verbs. If you're using data.tables already this lets you use dplyr syntax for data manipulation, and data.table for everything else.
 
-For multiple operations, data.table may well be faster because you usually use it with multiple verbs at the same time. For example, with data table you can do a mutate and a select in a single step, and it's smart enough to know that there's no point in computing the new variable for the rows you're about to throw away. 
+For multiple operations, data.table can be faster because you usually use it with multiple verbs at the same time. For example, with data table you can do a mutate and a select in a single step, and it's smart enough to know that there's no point in computing the new variable for the rows you're about to throw away.
 
-The advantages of using dplyr with `data.tables` are:
+The advantages of using dplyr with data tables are:
 
-* For common data manipulation tasks, it insulates you from reference 
-  semantics of data.tables, and protects you from accidentally modifying 
-  your data
-  
-* instead of one complex method, `[`, it provides many simple methods 
+* For common data manipulation tasks, it insulates you from reference
+  semantics of data.tables, and protects you from accidentally modifying
+  your data.
+
+* Instead of one complex method built on the subscripting operator (`[`),
+  it provides many simple methods.
 
 ## Databases
 
