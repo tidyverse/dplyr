@@ -6,22 +6,21 @@ using namespace dplyr ;
 
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 
-#define MAKE_PROTOTYPE(__FUN__,__CLASS__)                                        \
-Result* __FUN__##_prototype( SEXP call, const LazySubsets& subsets, int nargs ){ \
-    if( nargs != 1 ) return 0 ;                                                  \
-    SEXP arg = CADR(call) ;                                                      \
-    if( TYPEOF(arg) == SYMSXP ) arg = subsets.get_variable(arg) ;                \
-    switch( TYPEOF(arg) ){                                                       \
-        case INTSXP:  return new dplyr::__CLASS__<INTSXP,false>( arg ) ;         \
-        case REALSXP: return new dplyr::__CLASS__<REALSXP,false>( arg ) ;        \
-        default: break ;                                                         \
-    }                                                                            \
-    return 0 ;                                                                   \
+template <template <int,bool> class Fun>
+Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
+    if( nargs != 1 ) return 0 ;                                               
+    SEXP arg = CADR(call) ;                                                   
+    if( TYPEOF(arg) == SYMSXP ){
+      if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
+      else return 0 ;
+    }
+    switch( TYPEOF(arg) ){                                                    
+        case INTSXP:  return new Fun<INTSXP,false>( arg ) ;      
+        case REALSXP: return new Fun<REALSXP,false>( arg ) ;     
+        default: break ;                                                      
+    }                                                                         
+    return 0 ;                                                                
 }
-MAKE_PROTOTYPE(mean, Mean)
-MAKE_PROTOTYPE(var, Var)
-MAKE_PROTOTYPE(sd, Sd)
-MAKE_PROTOTYPE(sum, Sum)
 
 template< template <int, bool> class Tmpl>
 Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
@@ -29,7 +28,10 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
 
     if( nargs != 1 ) return 0 ;
     SEXP arg = CADR(call) ;
-    if( TYPEOF(arg) == SYMSXP ) arg = subsets.get_variable(arg) ;
+    if( TYPEOF(arg) == SYMSXP ){
+      if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
+      else return 0 ;
+    }
     switch( TYPEOF(arg) ){
         case INTSXP:
             if( Rf_inherits(arg, "Date" ) )
@@ -73,7 +75,10 @@ Result* count_prototype(SEXP, const LazySubsets&, int){
 
 Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
     SEXP arg = CADR(call) ;
-    if( TYPEOF(arg) == SYMSXP ) return count_distinct_result( subsets.get_variable(arg) ) ;
+    if( TYPEOF(arg) == SYMSXP ){
+      if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
+      else return 0 ;
+    }
     return count_distinct_result( arg ) ;
 }
 
@@ -83,7 +88,10 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
 
-        if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+        if( TYPEOF(data) == SYMSXP ){
+          if( subsets.count(data) ) data = subsets.get_variable(data) ;                                       
+          else return 0 ;
+        }
         switch( TYPEOF(data) ){
             case INTSXP:  return new RowNumber<INTSXP,  false>( data ) ;
             case REALSXP: return new RowNumber<REALSXP, false>( data ) ;
@@ -91,7 +99,10 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
             default: break;
         }
     }
-    if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+    if( TYPEOF(data) == SYMSXP ){
+      if( subsets.count(data) ) data = subsets.get_variable(data) ;                                       
+      else return 0 ;
+    }
     switch( TYPEOF(data) ){
         case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
         case REALSXP: return new RowNumber<REALSXP,true>( data ) ;
@@ -109,7 +120,11 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
 
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
-        if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+        if( TYPEOF(data) == SYMSXP ){
+          if( subsets.count(data) ) data = subsets.get_variable(data) ;                                       
+          else return 0 ;
+        }
+    
         switch( TYPEOF(data) ){
             case INTSXP:  return new Rank_Impl<INTSXP,  Increment, false>( data ) ;
             case REALSXP: return new Rank_Impl<REALSXP, Increment, false>( data ) ;
@@ -117,8 +132,11 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
             default: break;
         }
     }
-
-    if( TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+                    
+    if( TYPEOF(data) == SYMSXP ){
+      if( subsets.count(data) ) data = subsets.get_variable(data) ;                                       
+      else return 0 ;
+    }
     switch( TYPEOF(data) ){
         case INTSXP:  return new Rank_Impl<INTSXP,  Increment, true>( data ) ;
         case REALSXP: return new Rank_Impl<REALSXP, Increment, true>( data ) ;
@@ -134,7 +152,8 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     Armor<SEXP> data( CADR(call) );
     int n = as<int>( CADDR(call) );
     if( TYPEOF(data) == SYMSXP ){
-        data = subsets.get_variable(data) ;
+      if( subsets.count(data) ) data = subsets.get_variable(data) ;                                       
+      else return 0 ;
     }
     switch( TYPEOF(data) ){
         case INTSXP:
@@ -156,7 +175,8 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     Armor<SEXP> data( CADR(call) );
     int n = as<int>( CADDR(call) );
     if( TYPEOF(data) == SYMSXP ){
-        data = subsets.get_variable(data) ;
+      if( subsets.count(data) ) data = subsets.get_variable(data) ;                                       
+      else return 0 ;
     }
     switch( TYPEOF(data) ){
         case INTSXP:
@@ -177,14 +197,17 @@ HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
         handlers[ Rf_install("n")                ] = count_prototype ;
-        handlers[ Rf_install( "mean" )           ] = mean_prototype ;
+        handlers[ Rf_install( "n_distinct" )     ] = count_distinct_prototype ;
+        handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
+        
         handlers[ Rf_install( "min" )            ] = minmax_prototype<dplyr::Min> ;
         handlers[ Rf_install( "max" )            ] = minmax_prototype<dplyr::Max> ;
-        handlers[ Rf_install( "var" )            ] = var_prototype ;
-        handlers[ Rf_install( "sd")              ] = sd_prototype ;
-        handlers[ Rf_install( "sum" )            ] = sum_prototype;
-        handlers[ Rf_install( "n_distinct" ) ] = count_distinct_prototype ;
-        handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
+        
+        handlers[ Rf_install( "mean" )           ] = simple_prototype<dplyr::Mean> ;
+        handlers[ Rf_install( "var" )            ] = simple_prototype<dplyr::Var> ;
+        handlers[ Rf_install( "sd")              ] = simple_prototype<dplyr::Sd> ;
+        handlers[ Rf_install( "sum" )            ] = simple_prototype<dplyr::Sum>;
+        
         handlers[ Rf_install( "min_rank" )       ] = rank_impl_prototype<dplyr::internal::min_rank_increment> ;
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
 
