@@ -29,6 +29,14 @@ script: ./travis-tool.sh run_tests
 after_failure:
   - ./travis-tool.sh dump_logs
 
+after_success:
+  # now trying against devel Rcpp
+  - R CMD REMOVE dplyr
+  - cd ..
+  - git clone https://github.com/RcppCore/Rcpp.git
+  - R CMD INSTALL Rcpp
+  - R CMD INSTALL dplyr
+
 branches:
   except:
   - /-expt$/
