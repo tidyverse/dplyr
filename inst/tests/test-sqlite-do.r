@@ -17,7 +17,7 @@ test_that("Results independent of chunk_size", {
   nrows <- function(group, n) unlist(do(group, nrow, .chunk_size = n)$DO)
 
   by_team <- group_by(select(batting, yearID, teamID), teamID)
-  team_sizes <- as.vector(table(Batting$team))
+  team_sizes <- as.vector(table(Batting$teamID))
 
   expect_equal(nrows(by_team, 1e5), team_sizes) # 1 chunk
   expect_equal(nrows(by_team, 1e4), team_sizes) # 3 chunks
