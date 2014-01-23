@@ -127,3 +127,31 @@ test_that("summarise handles passing ...", {
   
 }) 
 
+test_that( "summarise propagate attributes (#194)", {
+  df <- group_by(data.frame(
+    b = rep(1:2,2),
+    f = Sys.Date() + 1:4,
+    g = Sys.time() + 1:4,
+    stringsAsFactors = FALSE
+  ), b)
+  
+  min_ <- min
+  res <- summarise( df, 
+    min_f  = min(f), 
+    max_f  = max(f), 
+    min_g  = min(g), 
+    max_g  = max(g), 
+    min__f = min_(f), 
+    min__g = min_(g)
+  )
+  
+  expect_equal(class(res$min_f) , "Date" )
+  expect_equal(class(res$max_f) , "Date" )
+  expect_equal(class(res$min__f), "Date" )
+  
+  expect_equal(class(res$min_g) , c("POSIXct", "POSIXt" ))
+  expect_equal(class(res$max_g) , c("POSIXct", "POSIXt" ))
+  expect_equal(class(res$min__g), c("POSIXct", "POSIXt" ))
+  
+})
+

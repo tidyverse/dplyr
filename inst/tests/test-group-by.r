@@ -96,6 +96,11 @@ test_that("group_by uses shallow copy", {
   expect_true(is.null(groups(mtcars)))
   
   expect_equal(dfloc(mtcars), dfloc(m1))
-  
+})
+
+test_that("FactorVisitor handles NA. #183", {
+  library(MASS)
+  g <- group_by(survey, M.I)
+  expect_equal(g$M.I, survey$M.I)
 })
 

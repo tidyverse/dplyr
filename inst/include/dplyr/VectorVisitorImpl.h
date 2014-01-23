@@ -160,15 +160,21 @@ namespace dplyr {
         }
         
         inline bool equal(int i, int j) const { 
-            return string_compare.is_equal( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+            return vec[i] == vec[j] ;
         }
         
-        inline bool less(int i, int j) const { 
-            return string_compare.is_less( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+        inline bool less(int i, int j) const {
+            return string_compare.is_less( 
+                vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]], 
+                vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
+            ) ;
         }
         
         inline bool greater(int i, int j) const { 
-            return string_compare.is_greater( levels_ptr[vec[i]], levels_ptr[vec[j]] ) ;
+            return string_compare.is_greater( 
+                vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]], 
+                vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
+            ) ;
         }
             
         inline SEXP subset( const Rcpp::IntegerVector& index) const {

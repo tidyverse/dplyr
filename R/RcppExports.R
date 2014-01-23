@@ -102,9 +102,9 @@ summarise_impl <- function(df, args, env) {
 }
 
 #' Efficiently count the number of unique values in a vector.
-#' 
+#'
 #' This is a faster and more concise equivalent of \code{length(unique(x))}
-#' 
+#'
 #' @param x a vector of values
 #' @export
 #' @examples
@@ -119,6 +119,10 @@ n_distinct <- function(x) {
 #' @rdname rbind
 rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
+}
+
+as_regular_df <- function(df) {
+    .Call('dplyr_as_regular_df', PACKAGE = 'dplyr', df)
 }
 
 ungroup_grouped_df <- function(df) {
