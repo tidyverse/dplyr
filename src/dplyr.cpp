@@ -1433,7 +1433,6 @@ SEXP strip_group_attributes(DataFrame df){
 DataFrame ungroup_grouped_df( DataFrame df){
   DataFrame copy = shallow_copy(df) ;
   SET_ATTRIB(copy, strip_group_attributes(df)) ;
-  SET_OBJECT(copy, OBJECT(df)) ;
   return copy ;
 }
 
