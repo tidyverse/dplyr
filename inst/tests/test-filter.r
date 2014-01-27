@@ -37,7 +37,6 @@ test_that("filter fails if no expression is given (#157)", {
 
 test_that("filter gives useful error message when given incorrect input", {
   expect_error( filter(tbl_df(mtcars), x ), "unknown column" )
-  expect_error( filter(tbl_df(mtcars), TRUE), "incompatible expression in filter" )
 })
 
 test_that("filter handles passing ...", {                        
