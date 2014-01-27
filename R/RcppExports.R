@@ -33,6 +33,10 @@ right_join_impl <- function(x, y, by) {
     .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
 
+shallow_copy <- function(data) {
+    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
+}
+
 compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
     .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, convert)
 }
@@ -59,10 +63,6 @@ setdiff_data_frame <- function(x, y) {
 
 match_data_frame <- function(x, y) {
     .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
-}
-
-shallow_copy <- function(data) {
-    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
 
 grouped_df_impl <- function(data, symbols, drop) {

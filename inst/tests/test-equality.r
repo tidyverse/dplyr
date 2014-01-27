@@ -60,5 +60,10 @@ test_that("integers and reals are not equal", {
 test_that("BoolResult does not overwrite singleton R_TrueValue", {
   dplyr:::equal_data_frame(mtcars, mtcars)
   expect_equal( class(2 == 2), "logical" )
+})
 
+test_that("all.equal.data.frame handles data.frames with NULL names", {
+  x <- data.frame(LETTERS[1:3], rnorm(3))
+  names(x) <- NULL
+  expect_true(all.equal(x,x))
 })

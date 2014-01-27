@@ -488,13 +488,73 @@ SEXP promote(SEXP x){
     return x ;
 }
 
+void copy_attributes(List& out, SEXP data){
+    SEXP p = ATTRIB(data) ;
+    Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
+    SEXP q = attr ;
+    SET_TAG(q, TAG(p)) ;
+    p = CDR(p) ;
+    while( !Rf_isNull(p) ){
+        Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
+        SETCDR(q, s) ;
+        q = CDR(q) ;
+        SET_TAG(q, TAG(p)) ;
+        p = CDR(p) ;
+    }
+    SET_ATTRIB(out, attr) ;
+}
+
+// [[Rcpp::export]]
+SEXP shallow_copy(const DataFrame& data){
+    int n = data.size() ;
+    List out(n) ;
+    SET_OBJECT(out,1) ;
+    for( int i=0; i<n; i++) {
+      out[i] = data[i] ;
+      SET_NAMED(out[i], 2) ;
+    }
+    copy_attributes(out, data) ;
+    return out ;
+}
+
 // [[Rcpp::export]]
 dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false ){
     int n = x.size() ;
-
-    CharacterVector names_x = x.names() ;
-    CharacterVector names_y = y.names() ;
-
+    
+    CharacterVector names_x, names_y ;
+    
+    bool null_x = Rf_isNull(x.names()), null_y = Rf_isNull(y.names()) ;
+    if( null_x && !null_y ){
+        return no_because( "x does not have names, but y does") ;        
+    } else if( null_y && !null_x){
+        return no_because( "y does not have names, but x does") ;
+    } else if( null_x && null_y){
+        names_x = CharacterVector(n) ;
+        std::string v("v") ;
+        for( int i=0; i<n; i++){
+            std::stringstream ss ;
+            ss << "v" << (i+1) ;
+            names_x[i] = ss.str() ;    
+        }
+        x = shallow_copy(x) ;
+        x.names() = names_x ;
+        
+        int ny = y.size() ;
+        names_y = CharacterVector(ny) ;
+        for( int i=0; i<ny; i++){
+            std::stringstream ss ;
+            ss << "v" << (i+1) ;
+            names_y[i] = ss.str()  ;    
+        }
+        y = shallow_copy(y) ;
+        y.names() = names_y ;
+        
+        
+    } else {
+        names_x = x.names() ;
+        names_y = y.names() ;
+    }
+    
     CharacterVector names_y_not_in_x = setdiff( names_y, names_x );
     CharacterVector names_x_not_in_y = setdiff( names_x, names_y );
     std::stringstream ss ;
@@ -538,7 +598,6 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
             y[i] = promote( y[i] ) ;
         }
     }
-
 
     DataFrameVisitors v_x( x, names_x );
     DataFrameVisitors v_y( y, names_x );
@@ -754,35 +813,6 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
     }
 
     return res ;
-}
-
-void copy_attributes(List& out, SEXP data){
-    SEXP p = ATTRIB(data) ;
-    Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
-    SEXP q = attr ;
-    SET_TAG(q, TAG(p)) ;
-    p = CDR(p) ;
-    while( !Rf_isNull(p) ){
-        Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
-        SETCDR(q, s) ;
-        q = CDR(q) ;
-        SET_TAG(q, TAG(p)) ;
-        p = CDR(p) ;
-    }
-    SET_ATTRIB(out, attr) ;
-}
-
-// [[Rcpp::export]]
-SEXP shallow_copy(const DataFrame& data){
-    int n = data.size() ;
-    List out(n) ;
-    SET_OBJECT(out,1) ;
-    for( int i=0; i<n; i++) {
-      out[i] = data[i] ;
-      SET_NAMED(out[i], 2) ;
-    }
-    copy_attributes(out, data) ;
-    return out ;
 }
 
 // [[Rcpp::export]]
