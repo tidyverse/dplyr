@@ -46,7 +46,13 @@ select.tbl_df <- function(.data, ...) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  grouped_df(select.data.frame(.data, ...), groups(.data))
+  input <- var_eval(dots(...), .data, parent.frame())
+  input_vars <- vapply(input, as.character, character(1))
+  gps <- as.character(groups(.data))
+  if(length(diff <- setdiff(gps, input_vars))){
+    stop(sprintf("selection doesn't include grouping variables: %s", paste(diff, collapse = ",")))  
+  }
+  grouped_df(.data[, input_vars, drop = FALSE], groups(.data))
 }
 
 # Other methods that currently don't have a better home -----------------------
