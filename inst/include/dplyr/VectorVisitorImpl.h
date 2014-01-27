@@ -84,6 +84,10 @@ namespace dplyr {
             return out ;
         }
         
+        inline SEXP subset( EmptySubset ) const {
+            return VECTOR(0) ;    
+        }
+    
         inline std::string get_r_type() const {
             return VectorVisitorType<RTYPE>() ;    
         }
@@ -126,6 +130,10 @@ namespace dplyr {
         
         inline SEXP subset( const Rcpp::LogicalVector& index ) const{
             return promote( VisitorImpl::subset( index ) ) ;
+        }
+        
+        inline SEXP subset( EmptySubset empty) const {
+            return promote( VisitorImpl::subset(empty) ) ;    
         }
         
         inline std::string get_r_type() const {
@@ -191,6 +199,10 @@ namespace dplyr {
         
         inline SEXP subset( const Rcpp::LogicalVector& index ) const {
             return promote( Parent::subset( index ) ) ;
+        }
+        
+        inline SEXP subset( EmptySubset empty) const {
+            return promote( Parent::subset(empty) ) ;    
         }
         
         inline std::string get_r_type() const {

@@ -86,3 +86,8 @@ test_that( "filter handles simple symbols", {
   
 })
 
+test_that("filter handlers scalar results", {
+  expect_equal( filter(mtcars, min(mpg)>0 ), mtcars )
+  expect_equal( as.data.frame(filter(group_by(mtcars,cyl), min(mpg)>0 )), mtcars )
+})
+

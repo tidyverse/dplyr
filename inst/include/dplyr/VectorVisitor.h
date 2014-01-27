@@ -36,6 +36,8 @@ public:
     
     virtual SEXP subset( const Rcpp::LogicalVector& index ) const = 0 ;
     
+    virtual SEXP subset( EmptySubset ) const = 0 ;
+    
     virtual int size() const = 0 ;
     
     virtual std::string get_r_type() const = 0 ;

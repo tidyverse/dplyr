@@ -287,6 +287,11 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
     return visitors.subset(indices, classes) ;
 }
 
+inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, CharacterVector classes ){
+    DataFrameVisitors visitors(df, columns) ;
+    return visitors.subset( EmptySubset(), classes) ;
+}
+
 template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by, CharacterVector classes ){
     CharacterVector x_columns = x.names() ;
@@ -895,9 +900,16 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
         int chunk_size = indices.size() ;
 
         g_test  = call_proxy.get( indices );
-        check_filter_result(g_test, chunk_size ) ;
-        for( int j=0; j<chunk_size; j++){
-            test[ indices[j] ] = g_test[j] ;
+        if( g_test.size() == 1 ){
+            int val = g_test[0] ;
+            for( int j=0; j<chunk_size; j++){
+                test[ indices[j] ] = val ;
+            }
+        } else {
+            check_filter_result(g_test, chunk_size ) ;
+            for( int j=0; j<chunk_size; j++){
+                test[ indices[j] ] = g_test[j] ;
+            }
         }
     }
 
@@ -931,9 +943,17 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
             int chunk_size = indices.size() ;
 
             g_test  = call_proxy.get( indices );
-            check_filter_result(g_test, chunk_size ) ;
-            for( int j=0; j<chunk_size; j++){
-                test[ indices[j] ] = test[ indices[j] ] & g_test[j] ;
+            if( g_test.size() == 1 ){
+                if( ! g_test[0] ){
+                    for( int j=0; j<chunk_size; j++){
+                        test[indices[j]] = FALSE ;    
+                    }
+                }
+            } else {
+                check_filter_result(g_test, chunk_size ) ;
+                for( int j=0; j<chunk_size; j++){
+                    test[ indices[j] ] = test[ indices[j] ] & g_test[j] ;
+                }
             }
         }
     }
@@ -951,11 +971,25 @@ DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots
     }
 }
 
-void combine_and(LogicalVector& test, const LogicalVector& test2){
+bool combine_and(LogicalVector& test, const LogicalVector& test2){
     int n = test.size() ;
-    for( int i=0; i<n; i++){
-        test[i] = test[i] && test2[i] ;
+    if(n == 1) {
+        test = test2 ;
+    } else { 
+        int n2 = test2.size() ;
+        if( n2 == 1 ){
+            if( !test2[0] ){
+                return true ;
+            }
+        } else if( n2 == n) {
+            for( int i=0; i<n; i++){
+                test[i] = test[i] && test2[i] ;
+            }
+        } else {
+            stop( "incompatible sizes" ) ;    
+        }
     }
+    return false;
 }
 
 SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
@@ -969,23 +1003,39 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         Environment env = dots.envir(0) ;
         // a, b, c ->  a & b & c
         Shield<SEXP> call( and_calls( args, set ) ) ;
-
+        
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
         LogicalVector test = proxy.eval() ;
-        check_filter_result(test, df.nrows());
-        DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
-        return res ;
+        if( test.size() == 1){
+            if( test[0] ){
+                return df ; 
+            } else {
+                return empty_subset(df, df.names(), classes_not_grouped()) ;    
+            }
+        } else {
+            check_filter_result(test, df.nrows());
+            DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+            return res ;
+        }
     } else {
         int nargs = args.size() ;
         CallProxy first_proxy(args[0], df, dots.envir(0) ) ;
         LogicalVector test = first_proxy.eval() ;
-        check_filter_result(test, df.nrows());
-
+        if( test.size() == 1 ) {
+            if( !test[0] ){
+                return empty_subset(df, df.names(), classes_not_grouped() ) ;    
+            }
+        } else {
+            check_filter_result(test, df.nrows());
+        }
+        
         for( int i=1; i<nargs; i++){
             LogicalVector test2 = CallProxy(args[i], df, dots.envir(i) ).eval() ;
-            combine_and(test, test2) ;
+            if( combine_and(test, test2) ){
+                return empty_subset(df, df.names(), classes_not_grouped() ) ;
+            }
         }
 
         DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
