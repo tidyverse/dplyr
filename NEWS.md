@@ -15,5 +15,13 @@ dplyr 0.1.0.99
 
 * `summarise` correctly propagate attributes. (#194)
 
+* `summarise` fails on unknown variables (#208)
+
 * `group_by` correctly handles grouping by a factor that has NA. (#183)
+
+* `filter` handles scalar results (#217)
+
+* `select.grouped_df` fails when the grouping variables are not included
+  in the selected variables (#170)
+
 
