@@ -1045,6 +1045,18 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
 
 // [[Rcpp::export]]
 SEXP filter_impl( DataFrame df, List args, Environment env){
+    // special case
+    if( args.size() == 1 && TYPEOF(args[0]) == LGLSXP){
+        LogicalVector what = args[0] ;
+        if( what.size() == 1 ){
+            if( what[0] == TRUE ){
+                return df ;   
+            } else {
+                return empty_subset( df, df.names(), is<GroupedDataFrame>(df) ? classes_grouped() : classes_not_grouped() ) ;    
+            }
+        }
+    }
+    
     DataDots dots(env) ;
     if( is<GroupedDataFrame>( df ) ){
         return filter_grouped( GroupedDataFrame(df), args, dots);
