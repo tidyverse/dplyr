@@ -240,6 +240,48 @@ daily <- group_by(hflights_df, Year, Month, DayofMonth)
 
 However you need to be careful when progressively rolling up summaries like this: it's ok for sums and counts, but you need to think about weighting for means and variances, and it's not possible to do exactly for medians.
 
+## Chaining
+
+The dplyr API is functional in the sense that function calls don't have side-effects, and you must always save their results. This doesn't lead to particularly elegant code if you want to do many operations at once. You either have to do it step-by-step:
+
+```{r, eval = FALSE}
+a1 <- group_by(hflights, Year, Month, DayofMonth)
+a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
+a3 <- summarise(a2,
+  arr = mean(ArrDelay, na.rm = TRUE),
+  dep = mean(DepDelay, na.rm = TRUE))
+a4 <- filter(a3, arr > 30 | dep > 30)
+```
+
+Or if you don't want to save the intermediate results, you need to wrap the function calls inside each other:
+
+```{r}
+filter(
+  summarise(
+    select(
+      group_by(hflights, Year, Month, DayofMonth),
+      Year:DayofMonth, ArrDelay, DepDelay
+    ),
+    arr = mean(ArrDelay, na.rm = TRUE),
+    dep = mean(DepDelay, na.rm = TRUE)
+  ),
+  arr > 30 | dep > 30
+)
+```
+
+This is difficult to read because the order of the operations is from inside to out, and the arguments are a long way away from the function. To get around this problem, dplyr provides the `%.%` operator. `x %.% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations so you can read from left-to-riht, top-to-bottom:
+
+```{r, eval = FALSE}
+hflights %.%
+  group_by(Year, Month, DayofMonth) %.%
+  select(Year:DayofMonth, ArrDelay, DepDelay) %.%
+  summarise(
+    arr = mean(ArrDelay, na.rm = TRUE),
+    dep = mean(DepDelay, na.rm = TRUE)
+  ) %.%
+  filter(arr > 30 | dep > 30)
+```
+
 # Other data sources
 
 As well as data frames, dplyr works with data stored in other ways, like data tables, databases and multidimensional arrays.
