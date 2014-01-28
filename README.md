@@ -24,7 +24,7 @@ You can install:
 * the latest development version from github with
 
     ```R
-    devtools::install_github("dplyr")
+    devtools::install_github("hadley/dplyr")
     ```
 
 To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
