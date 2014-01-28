@@ -9,7 +9,7 @@ src_sql(subclass, con, ...)
   abstract base class, so you must supply this value.
   \code{src_} is automatically prepended to the class name}
 
-  \item{the}{connection object}
+  \item{con}{the connection object}
 
   \item{...}{fields used by object}
 }
