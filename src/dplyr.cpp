@@ -504,7 +504,10 @@ SEXP pairlist_shallow_copy(SEXP p){
 }
 
 void copy_attributes(SEXP out, SEXP data){
-    SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
+    SEXP att = ATTRIB(data) ;
+    if( !Rf_isNull(att) ){
+        SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
+    }
     SET_OBJECT( out, OBJECT(data) );
 }
 
