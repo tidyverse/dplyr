@@ -154,7 +154,6 @@ namespace dplyr {
         
         inline SEXP promote(VECTOR x) const{
             copy_attributes(x, VisitorImpl::vec ) ;
-            SET_OBJECT(x, OBJECT(VisitorImpl::vec)) ;
             return x ;
         }
     } ;
@@ -229,7 +228,6 @@ namespace dplyr {
         
         inline SEXP promote( IntegerVector x) const {
             copy_attributes(x, vec ) ;
-            SET_OBJECT(x, OBJECT(vec)) ;
             return x ;
         }
         

@@ -505,13 +505,13 @@ SEXP pairlist_shallow_copy(SEXP p){
 
 void copy_attributes(SEXP out, SEXP data){
     SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
+    SET_OBJECT( out, OBJECT(data) );
 }
 
 // [[Rcpp::export]]
 SEXP shallow_copy(const DataFrame& data){
     int n = data.size() ;
     List out(n) ;
-    SET_OBJECT(out,1) ;
     for( int i=0; i<n; i++) {
       out[i] = data[i] ;
       SET_NAMED(out[i], 2) ;

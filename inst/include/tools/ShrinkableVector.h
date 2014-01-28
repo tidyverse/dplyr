@@ -11,8 +11,7 @@ namespace Rcpp {
         ShrinkableVector( int n, SEXP origin ) : 
           data( no_init(n) ), max_size(n), start( internal::r_vector_start<RTYPE>(data) ) 
         {
-            SET_ATTRIB( data, ATTRIB(origin) );
-            SET_OBJECT( data, OBJECT(origin) ) ;
+            copy_attributes(data, origin) ;
         }
         
         inline void resize( int n){
