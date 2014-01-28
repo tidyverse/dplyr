@@ -872,7 +872,7 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
             if( set.count(x) ) return x ;
             
             // look in the environment
-            Shield<SEXP> res( Rf_findVar( x, env ) );
+            SEXP res = Rf_findVar( x, env ) ;
             if( res == R_UnboundValue ){
                 if( x == Rf_install("T") ){
                     return Rf_ScalarLogical(TRUE) ;
