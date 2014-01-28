@@ -19,7 +19,9 @@ dplyr 0.1.0.99
 
 * `group_by` correctly handles grouping by a factor that has NA. (#183)
 
-* `filter` handles scalar results (#217)
+* `filter` handles scalar results (#217) and better handles scoping, e.g. 
+  `filter(.,variable)` where `variable` is defined in the function that calls
+  `filter`
 
 * `select.grouped_df` fails when the grouping variables are not included
   in the selected variables (#170)

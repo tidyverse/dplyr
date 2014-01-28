@@ -45,7 +45,7 @@ namespace dplyr {
                 Shield<SEXP> res( call.eval(env) );
                 return res ;
             } 
-            return R_NilValue ;
+            return call ;
         }
         
         void set_call( SEXP call_ ){

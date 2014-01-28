@@ -67,6 +67,12 @@ test_that( "filter handles simple symbols", {
   gdf <- group_by(df,x)
   res <- filter(gdf, test) 
   
+  h <- function(data){
+    test2 <- c(T,T,F,F)
+    filter(data,test2)  
+  }
+  expect_equal(h(df), df[1:2,])
+  
   f <- function(data, ...){
     one <- 1
     filter( data, test, x > one, ...)

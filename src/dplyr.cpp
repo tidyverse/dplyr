@@ -864,15 +864,21 @@ DataFrame build_index_cpp( DataFrame data ){
 
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
-SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set){
+SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env){
     switch(TYPEOF(x)){
     case LANGSXP: return x ;
     case SYMSXP:
         {
             if( set.count(x) ) return x ;
-            std::stringstream s ;
-            s << "unknown column : " << CHAR(PRINTNAME(x)) ;
-            stop(s.str());
+            
+            // look in the environment
+            Shield<SEXP> res( Rf_findVar( x, env ) );
+            if( res == R_UnboundValue ){
+                std::stringstream s ;
+                s << "unknown column : " << CHAR(PRINTNAME(x)) ;
+                stop(s.str());
+            }
+            return res ;
         }
     default:
         break ;
@@ -881,17 +887,17 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set){
     return x ; // never happens
 }
 
-SEXP and_calls( List args, const SymbolSet& set ){
+SEXP and_calls( List args, const SymbolSet& set, const Environment& env ){
     int ncalls = args.size() ;
     if( !ncalls ) {
         stop("incompatible input") ;
     }
 
-    Rcpp::Armor<SEXP> res( assert_correct_filter_subcall(args[0], set) ) ;
+    Rcpp::Armor<SEXP> res( assert_correct_filter_subcall(args[0], set, env) ) ;
     SEXP and_symbol = Rf_install( "&" ) ;
     for( int i=1; i<ncalls; i++)
-        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(args[i],set) ) ;
-
+        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(args[i], set, env) ) ;
+    
     return res ;
 }
 
@@ -915,7 +921,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     }
 
     // a, b, c ->  a & b & c
-    Call call( and_calls( args, set ) ) ;
+    Call call( and_calls( args, set, env ) ) ;
 
     int nrows = data.nrows() ;
     LogicalVector test = no_init(nrows);
@@ -1032,11 +1038,11 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
     if( dots.single_env() ){
         Environment env = dots.envir(0) ;
         // a, b, c ->  a & b & c
-        Shield<SEXP> call( and_calls( args, set ) ) ;
-        
+        Shield<SEXP> call( and_calls( args, set, env ) ) ;
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
+        
         LogicalVector test = proxy.eval() ;
         if( test.size() == 1){
             if( test[0] ){
