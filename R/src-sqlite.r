@@ -1,11 +1,11 @@
 #' Connect to a sqlite database.
-#' 
+#'
 #' Use \code{src_sqlite} to connect to an existing sqlite database,
-#' and \code{tbl} to connect to tables within that database. 
-#' If you are running a local sqliteql database, leave all parameters set as 
-#' their defaults to connect. If you're connecting to a remote database, 
+#' and \code{tbl} to connect to tables within that database.
+#' If you are running a local sqliteql database, leave all parameters set as
+#' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
-#' 
+#'
 #' @template db-info
 #' @param path Path to SQLite database
 #' @param create if \code{FALSE}, \code{path} must already exist. If
@@ -13,7 +13,7 @@
 #' @param src a sqlite src created with \code{src_sqlite}.
 #' @param from Either a string giving the name of table in database, or
 #'   \code{\link{sql}} described a derived table or compound join.
-#' @param ... Included for compatibility with the generic, but otherwise 
+#' @param ... Included for compatibility with the generic, but otherwise
 #'   ignored.
 #' @export
 #' @examples
@@ -27,7 +27,7 @@
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
 #' # run lahman_sqlite()
-#' 
+#'
 #' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #' # Methods -------------------------------------------------------------------
@@ -42,14 +42,14 @@
 #' arrange(batting, playerID, desc(yearID))
 #' summarise(batting, G = mean(G), n = n())
 #' mutate(batting, rbi2 = 1.0 * R / AB)
-#' 
+#'
 #' # note that all operations are lazy: they don't do anything until you
-#' # request the data, either by `print()`ing it (which shows the first ten 
+#' # request the data, either by `print()`ing it (which shows the first ten
 #' # rows), by looking at the `head()`, or `collect()` the results locally.
 #'
 #' system.time(recent <- filter(batting, yearID > 2010))
 #' system.time(collect(recent))
-#' 
+#'
 #' # Group by operations -------------------------------------------------------
 #' # To perform operations by group, create a grouped object with group_by
 #' players <- group_by(batting, playerID)
@@ -66,11 +66,11 @@
 #' summarise(stints, max(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_sqlite(), "Master"), playerID, hofID, 
+#' player_info <- select(tbl(lahman_sqlite(), "Master"), playerID, hofID,
 #'   birthYear)
 #' hof <- select(filter(tbl(lahman_sqlite(), "HallOfFame"), inducted == "Y"),
 #'  hofID, votedBy, category)
-#' 
+#'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
 #' # Keep all players, match hof data where available

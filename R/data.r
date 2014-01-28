@@ -16,9 +16,9 @@ load_srcs <- function(f, src_names, quiet = NULL) {
   if (is.null(quiet)) {
     quiet <- !identical(Sys.getenv("NOT_CRAN"), "true")
   }
-  
+
   out <- list()
-  
+
   srcs <- lapply(src_names, function(x) {
     out <- NULL
     try(out <- f(x), silent = TRUE)
@@ -27,7 +27,7 @@ load_srcs <- function(f, src_names, quiet = NULL) {
     }
     out
   })
-  
+
   compact(setNames(srcs, src_names))
 }
 

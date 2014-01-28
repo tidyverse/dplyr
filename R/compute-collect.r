@@ -53,7 +53,7 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
     nms <- auto_names(x$select)
     vars <- lapply(nms, as.name)
   }
-  
+
   update(tbl(x$src, x$query$sql, vars = vars, ...), group_by = groups(x))
 }
 

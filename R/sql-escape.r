@@ -9,14 +9,14 @@
 #'   it gets the correct quoting.
 #' @param x An object to escape. Existing sql vectors will be left as is,
 #'   character vectors are escaped with single quotes, numeric vectors have
-#'   trailing \code{.0} added if they're whole numbers, identifiers are 
+#'   trailing \code{.0} added if they're whole numbers, identifiers are
 #'   escaped with double quotes.
 #' @param parens,collapse Controls behaviour when multiple values are supplied.
-#'   \code{parens} should be a logical flag, or if \code{NA}, will wrap in 
+#'   \code{parens} should be a logical flag, or if \code{NA}, will wrap in
 #'   parens if length > 1.
-#' 
-#'   Default behaviour: lists are always wrapped in parens and separated by 
-#'   commas, identifiers are separated by commas and never wrapped, 
+#'
+#'   Default behaviour: lists are always wrapped in parens and separated by
+#'   commas, identifiers are separated by commas and never wrapped,
 #'   atomic vectors are separated by spaces and wrapped in parens if needed.
 #' @keywords internal
 #' @export
@@ -24,12 +24,12 @@
 #' # Doubles vs. integers
 #' escape(1:5)
 #' escape(c(1, 5.4))
-#' 
-#' # String vs known sql vs. sql identifier 
+#'
+#' # String vs known sql vs. sql identifier
 #' escape("X")
 #' escape(sql("X"))
 #' escape(ident("X"))
-#' 
+#'
 #' # Escaping is idempotent
 #' escape("X")
 #' escape(escape("X"))
@@ -47,7 +47,7 @@
 #'   sql(paste0("ROUND(", x, ", ", dp, ")"))
 #' }
 #' sql_round(sql("X"), 5)
-#' 
+#'
 #' rounder <- sql_variant(sql_translator(round = sql_round, .parent = base_agg))
 #' translate_sql(round(X), variant = rounder)
 #' translate_sql(round(X, 5), variant = rounder)
@@ -55,12 +55,12 @@ sql <- function(x) {
   structure(x, class = c("sql", "character"))
 }
 
-#' @export 
+#' @export
 #' @rdname sql
 ident <- function(x) {
   if (is.null(x)) return()
   if (is.ident(x)) return(x)
-  
+
   structure(x, class = c("ident", "sql", "character"))
 }
 
@@ -68,7 +68,7 @@ ident <- function(x) {
 c.sql <- function(..., drop_null = FALSE) {
   input <- list(...)
   if (drop_null) input <- compact(input)
-  
+
   out <- unlist(lapply(input, escape, collapse = NULL))
   sql(out)
 }
@@ -137,7 +137,7 @@ escape.double <- function(x, parens = NA, collapse = ", ", con = NULL) {
   missing <- is.na(x)
   x <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
   x[missing] <- "NULL"
-  
+
   sql_vector(x, parens, collapse)
 }
 
@@ -167,7 +167,7 @@ sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
   if (is.na(parens)) {
     parens <- length(x) > 1L
   }
-  
+
   x <- names_to_as(x, con = con)
   x <- paste(x, collapse = collapse)
   if (parens) x <- paste0("(", x, ")")
@@ -177,19 +177,19 @@ sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
 names_to_as <- function(x, con = NULL) {
   names <- names2(x)
   as <- ifelse(names == '', '', paste0(' AS ', escape_ident(con, names)))
-  
+
   paste0(x, as)
 }
 
 
 #' Build a SQL string.
-#' 
+#'
 #' This is a convenience function that should prevent sql injection attacks
 #' (which in the context of dplyr are most likely to be accidental not
 #' deliberate) by automatically escaping all expressions in the input, while
 #' treating bare strings as sql. This is unlikely to prevent any serious
 #' attack, but should make it unlikely that you produce invalid sql.
-#' 
+#'
 #' @param ... input to convert to SQL. Use \code{\link{sql}} to preserve
 #'   user input as is (dangerous), and \code{\link{ident}} to label user
 #'   input as sql identifiers (safe)
@@ -203,7 +203,7 @@ names_to_as <- function(x, con = NULL) {
 #' build_sql("SELECT * FROM ", x)
 #' build_sql("SELECT * FROM ", ident(x))
 #' build_sql("SELECT * FROM ", sql(x))
-#' 
+#'
 #' # http://xkcd.com/327/
 #' name <- "Robert'); DROP TABLE Students;--"
 #' build_sql("INSERT INTO Students (Name) VALUES (", name, ")")
@@ -211,14 +211,14 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
   escape_expr <- function(x) {
     # If it's a string, leave it as is
     if (is.character(x)) return(x)
-    
+
     val <- eval(x, .env)
     # Skip nulls, so you can use if statements like in paste
     if (is.null(val)) return("")
-    
+
     escape(val, con = con)
   }
-  
+
   pieces <- vapply(dots(...), escape_expr, character(1))
   sql(paste0(pieces, collapse = ""))
 }
@@ -250,7 +250,7 @@ escape_ident.bigquery <- function(con, x) {
   y <- paste0("[", x, "]")
   y[is.na(x)] <- "NULL"
   names(y) <- names(x)
-  
+
   y
 }
 
@@ -259,6 +259,6 @@ sql_quote <- function(x, quote) {
   y <- paste0(quote, y, quote)
   y[is.na(x)] <- "NULL"
   names(y) <- names(x)
-  
+
   y
 }

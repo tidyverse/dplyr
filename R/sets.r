@@ -1,9 +1,9 @@
 #' Set operations.
-#' 
+#'
 #' These functions override the set functions provided in base to make them
 #' generic so that efficient versions for data frames and other tables can be
 #' provided. The default methods call the base versions.
-#' 
+#'
 #' @param x,y objects to compare (ignoring order)
 #' @param ... other arguments passed on to methods
 #' @name setops
@@ -32,23 +32,23 @@ setdiff.default <-   function(x, y, ...) base::setdiff(x, y)
 setequal.default <-  function(x, y, ...) base::setequal(x, y)
 
 #' Set operations for data frames.
-#' 
+#'
 #' These set operations are implemented with an efficeint C++ backend.
-#' 
+#'
 #' @param x,y Two data frames to compare, igoring order of row and columns
 #' @param ... Needed for compatibility with generic. Otherwise ignored.
-#' 
+#'
 #' @name setops-data.frame
 #' @examples
 #' mtcars$model <- rownames(mtcars)
 #' first <- mtcars[1:20, ]
 #' second <- mtcars[10:32, ]
-#' 
+#'
 #' intersect(first, second)
 #' union(first, second)
 #' setdiff(first, second)
 #' setdiff(second, first)
-#' 
+#'
 #' setequal(mtcars, mtcars[32:1, ])
 NULL
 

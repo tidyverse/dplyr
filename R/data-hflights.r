@@ -1,8 +1,8 @@
 #' Database versions of the hflights data
-#' 
-#' These functions cache the data from the \code{hflights} database in 
+#'
+#' These functions cache the data from the \code{hflights} database in
 #' a local database, for use in examples and vignettes.
-#' 
+#'
 #' @keywords internal
 #' @name hflights_df
 NULL

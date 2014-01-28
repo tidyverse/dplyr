@@ -1,7 +1,7 @@
 .data_dots <- function(fun, DOTS = dots){
   f <- function(.data, ...){}
   body(f) <- substitute({
-    FUN(.data, DOTS(...), environment() )   
+    FUN(.data, DOTS(...), environment() )
   }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
   attr(f, "srcref") <- NULL
   f
@@ -50,7 +50,7 @@ select.grouped_df <- function(.data, ...) {
   input_vars <- vapply(input, as.character, character(1))
   gps <- as.character(groups(.data))
   if(length(diff <- setdiff(gps, input_vars))){
-    stop(sprintf("selection doesn't include grouping variables: %s", paste(diff, collapse = ",")))  
+    stop(sprintf("selection doesn't include grouping variables: %s", paste(diff, collapse = ",")))
   }
   grouped_df(.data[, input_vars, drop = FALSE], groups(.data))
 }
@@ -66,15 +66,15 @@ order_ <- function(..., data){
     parent.env(env) <- parent_frame
   }
   order_impl(dots(...) , env)
-}  
+}
 
 equal_ <- function(x, y){
-  equal_data_frame(x, y) 
+  equal_data_frame(x, y)
 }
 
 all_equal_ <- function(...){
   env <- parent.frame()
-  all_equal_data_frame(dots(...), env)     
+  all_equal_data_frame(dots(...), env)
 }
 
 sort_ <- function(data){
@@ -87,14 +87,14 @@ do.grouped_df <- function(.data, .f, ...) {
   if (is.null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(.data, attr(.data, "vars"), attr(.data, "drop"))
   }
-  
+
   index <- attr(.data, "indices")
   out <- vector("list", length(index))
-  
+
   for (i in seq_along(index)) {
     subs <- .data[index[[i]] + 1L, , drop = FALSE]
     out[[i]] <- .f(subs, ...)
   }
-  
+
   out
 }

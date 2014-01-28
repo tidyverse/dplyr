@@ -12,12 +12,12 @@
 #'   if that isn't writeable, a temporary directory.
 #' @param ... Arguments passed to \code{src} on first
 #'   load. For mysql and postgresql, the defaults assume you have a local
-#'   server with \code{lahman} database already created. For bigquery, 
-#'   it assumes you have read/write access to a project called 
+#'   server with \code{lahman} database already created. For bigquery,
+#'   it assumes you have read/write access to a project called
 #'   \code{Sys.getenv("BIGQUERY_PROJECT")}
-#'   
+#'
 #'   For \code{lahman_srcs}, character vector of names giving srcs to generate.
-#' @param quiet if \code{TRUE}, suppress messages about databases failing to 
+#' @param quiet if \code{TRUE}, suppress messages about databases failing to
 #'   connect.
 #' @param type src type.
 #' @examples
@@ -67,22 +67,22 @@ lahman_dt <- function() {
 #' @rdname lahman
 lahman_bigquery <- function(...) {
   if (is_cached("lahman_bigquery")) return(get_cache("lahman_bigquery"))
-  
+
   src <- lahman_src("bigquery", ...)
   tables <- setdiff(lahman_tables(), src_tbls(src))
-  
+
   jobs <- vector("list", length(tables))
   names(jobs) <- tables
-  
+
   # Submit all upload jobs
   for(table in tables) {
     df <- get(table, "package:Lahman")
-    
+
     if (!quiet) message("Creating table ", table)
-    jobs[[table]] <- insert_upload_job(src$con$project, src$con$dataset, table, 
+    jobs[[table]] <- insert_upload_job(src$con$project, src$con$dataset, table,
       df, billing = src$con$billing)
   }
-  
+
   # Wait for all results
   all_ok <- TRUE
   for (table in names(jobs)) {
@@ -91,28 +91,28 @@ lahman_bigquery <- function(...) {
   }
 
   if (!all_ok) stop("Load failed", call. = FALSE)
-  
+
   set_cache("lahman_bigquery", src)
 }
 
 cache_lahman <- function(type, ...) {
   check_lahman()
-  
+
   cache_name <- paste0("lahman_", type)
   if (is_cached(cache_name)) return(get_cache(cache_name))
-  
+
   src <- lahman_src(type, ...)
   tables <- setdiff(lahman_tables(), src_tbls(src))
-  
+
   # Create missing tables
   for(table in tables) {
     df <- get(table, "package:Lahman")
     message("Creating table: ", table)
-    
+
     ids <- as.list(names(df)[grepl("ID$", names(df))])
     copy_to(src, df, table, indexes = ids, temporary = FALSE)
   }
-  
+
   set_cache(cache_name, src)
 }
 
@@ -153,8 +153,8 @@ succeeds <- function(x, quiet = FALSE) {
     force(x)
     ok <- TRUE
   }, silent = quiet)
-  
-  ok 
+
+  ok
 }
 
 # Get list of all non-label data frames in package

@@ -1,12 +1,12 @@
 #' Join data table tbls.
-#' 
-#' See \code{\link{join}} for a description of the general purpose of the 
-#' functions. The data frame implementations are currently not terribly 
+#'
+#' See \code{\link{join}} for a description of the general purpose of the
+#' functions. The data frame implementations are currently not terribly
 #' efficient.
-#' 
+#'
 #' @param x,y tbls to join
 #' @param by a character vector of variables to join by.  If \code{NULL}, the
-#'   default, \code{join} will do a natural join, using all variables with 
+#'   default, \code{join} will do a natural join, using all variables with
 #'   common names across the two tables. A message lists the variables so
 #'   that you can check they're right - to suppress the message, supply
 #'   a character vector.
@@ -16,24 +16,24 @@
 #' @examples
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")
-#' 
+#'
 #' batting_df <- tbl_df(Batting)
 #' person_df <- tbl_df(Master)
-#' 
+#'
 #' uperson_df <- tbl_df(Master[!duplicated(Master$playerID), ])
-#' 
+#'
 #' # Inner join: match batting and person data
 #' inner_join(batting_df, person_df)
 #' inner_join(batting_df, uperson_df)
-#' 
+#'
 #' # Left join: match, but preserve batting data
 #' left_join(batting_df, uperson_df)
-#' 
+#'
 #' # Anti join: find batters without person data
 #' anti_join(batting_df, person_df)
 #' # or people who didn't bat
 #' anti_join(person_df, batting_df)
-#' 
+#'
 #' @name join.tbl_df
 NULL
 

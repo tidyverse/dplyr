@@ -12,14 +12,14 @@
 #' hflights_dt <- tbl_dt(hflights)
 #' group_size(group_by(hflights_dt, Year, Month, DayofMonth))
 #' group_size(group_by(hflights_dt, Dest))
-#' 
+#'
 #' monthly <- group_by(hflights_dt, Month)
 #' summarise(monthly, n = n(), delay = mean(ArrDelay))
 #' }
 grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
-  
+
   is_name <- vapply(vars, is.name, logical(1))
   if (!all(is_name)) {
     stop("Data tables can only be grouped by variables, not expressions",

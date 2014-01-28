@@ -19,7 +19,7 @@
 #'   \item MySQL: \code{\link{src_mysql}}
 #' }
 #'
-#' @seealso \code{\link{ungroup}} for the inverse operation, 
+#' @seealso \code{\link{ungroup}} for the inverse operation,
 #'   \code{\link{group}} for accessors that don't do special evaluation.
 #' @param x a tbl
 #' @param ... variables to group by. All tbls accept variable names,
@@ -33,36 +33,36 @@
 #' by_cyl <- group_by(mtcars, cyl)
 #' summarise(by_cyl, mean(disp), mean(hp))
 #' filter(by_cyl, disp == max(disp))
-#' 
+#'
 #' # summarise peels off a single layer of grouping
 #' by_vs_am <- group_by(mtcars, vs, am)
 #' by_vs <- summarise(by_vs_am, n = n())
 #' groups(by_vs)
 #' summarise(by_vs, n = sum(n))
 #' # use ungroup() to remove if not wanted
-#' 
-#' # You can group by expressions: this is just short-hand for 
+#'
+#' # You can group by expressions: this is just short-hand for
 #' # a mutate followed by a simple group_by
 #' group_by(mtcars, vsam = vs + am)
-#' 
+#'
 #' # By default, group_by increases grouping. Use add = FALSE to set groups
 #' groups(group_by(by_cyl, vs, am))
 #' groups(group_by(by_cyl, vs, am, add = FALSE))
-#' 
+#'
 #' # Duplicate groups are silently dropped
 #' groups(group_by(by_cyl, cyl, cyl))
 group_by <- function(x, ..., add = TRUE) {
   new_groups <- named_dots(...)
-  
+
   # If any calls, use mutate to add new columns, then group by those
   calls <- vapply(new_groups, is.call, logical(1))
   if (any(calls)) {
     env <- new.env(parent = parent.frame())
     env$x <- x
-    
+
     call <- as.call(c(quote(mutate), quote(x), new_groups[calls]))
     x <- eval(call, env)
-    
+
     new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
   }
   names(new_groups) <- NULL
@@ -71,16 +71,16 @@ group_by <- function(x, ..., add = TRUE) {
     new_groups <- c(groups(x), new_groups)
   }
   new_groups <- new_groups[!duplicated(new_groups)]
-  
+
   regroup(x, new_groups)
 }
 
 #' Get/set the grouping variables for tbl.
-#' 
+#'
 #' These functions do not perform non-standard evaluation, and so are useful
 #' when programming against \code{tbl} objects. \code{ungroup} is a convenient
 #' inline way of removing existing grouping.
-#' 
+#'
 #' @param x data \code{\link{tbl}}
 #' @param value a list of symbols
 #' @export
@@ -100,7 +100,7 @@ groups <- function(x) {
 #' @rdname groups
 regroup <- function(x, value) {
   stopifnot(is.list(value))
-  
+
   UseMethod("regroup")
 }
 

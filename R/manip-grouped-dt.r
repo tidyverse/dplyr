@@ -11,11 +11,11 @@
 #
 #' filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
 #' summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
-#' 
+#'
 #' # Normalise arrival and departure delays by airport
 #' scaled <- mutate(by_dest, arr_z = scale(ArrDelay), dep_z = scale(DepDelay))
 #' select(scaled, Year:DayOfWeek, Dest, arr_z:dep_z)
-#' 
+#'
 #' arrange(by_dest, desc(ArrDelay))
 #' select(by_dest, -(DayOfWeek:TailNum))
 #'
@@ -73,7 +73,7 @@ summarise.grouped_dt <- function(.data, ...) {
       cols[[i]] <- quote(.N)
     }
   }
-  
+
   list_call <- as.call(c(quote(list), cols))
   call <- substitute(data[, list_call, by = vars])
 

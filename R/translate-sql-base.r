@@ -18,14 +18,14 @@ base_scalar <- sql_translator(
       build_sql(x, sql(" - "), y)
     }
   },
-  
+
   `!=`    = sql_infix("!="),
   `==`    = sql_infix("="),
   `<`     = sql_infix("<"),
   `<=`    = sql_infix("<="),
   `>`     = sql_infix(">"),
   `>=`    = sql_infix(">="),
-  
+
   `!`     = sql_prefix("not"),
   `&`     = sql_infix("and"),
   `&&`    = sql_infix("and"),
@@ -34,7 +34,7 @@ base_scalar <- sql_translator(
   xor     = function(x, y) {
     sql(sprintf("%1$s OR %2$s AND NOT (%1$s AND %2$s)", escape(x), escape(y)))
   },
-  
+
   abs     = sql_prefix("abs", 1),
   acos    = sql_prefix("acos", 1),
   acosh   = sql_prefix("acosh", 1),
@@ -59,7 +59,7 @@ base_scalar <- sql_translator(
   sinh    = sql_prefix("sinh", 1),
   sqrt    = sql_prefix("sqrt", 1),
   tan     = sql_prefix("tan", 1),
-  
+
   tolower = sql_prefix("lower", 1),
   toupper = sql_prefix("upper", 1),
   nchar   = sql_prefix("length", 1),
@@ -69,7 +69,7 @@ base_scalar <- sql_translator(
       if (!is.null(if_false)) build_sql(" ELSE "), if_false, " ",
       "END")
   },
-  
+
   sql = function(...) sql(...),
   `(` = function(x) {
     build_sql("(", x, ")")
@@ -80,18 +80,18 @@ base_scalar <- sql_translator(
   desc = function(x) {
     build_sql(x, sql(" DESC"))
   },
-  
+
   is.null = function(x) {
     build_sql(x, " IS NULL")
   },
   is.na = function(x) {
     build_sql(x, "IS NULL")
   },
-  
+
   as.numeric = function(x) build_sql("CAST(", x, " AS NUMERIC)"),
   as.integer = function(x) build_sql("CAST(", x, " AS INTEGER)"),
   as.character = function(x) build_sql("CAST(", x, " AS TEXT)"),
-  
+
   c = function(...) escape(c(...)),
   `:` = function(from, to) escape(from:to)
 )
@@ -129,29 +129,29 @@ base_win <- sql_translator(
   cume_dist    = win_rank("cume_dist"),
   ntile        = function(order_by, n) {
     over(
-      build_sql("NTILE", list(n)), 
-      partition_group(), 
+      build_sql("NTILE", list(n)),
+      partition_group(),
       order_by %||% partition_order()
     )
   },
-  
-  # Recycled aggregate fuctions take single argument, don't need order and 
+
+  # Recycled aggregate fuctions take single argument, don't need order and
   # include entire partition in frame.
   mean  = win_recycled("avg"),
   sum   = win_recycled("sum"),
   min   = win_recycled("min"),
   max   = win_recycled("max"),
   n     = function() {
-    over(sql("COUNT(*)"), partition_group(), frame = c(-Inf, Inf)) 
+    over(sql("COUNT(*)"), partition_group(), frame = c(-Inf, Inf))
   },
-  
+
   # Cumulative function are like recycled aggregates except that R names
   # have cum prefix, order_by is inherited and frame goes from -Inf to 0.
   cummean = win_cumulative("mean"),
   cumsum  = win_cumulative("sum"),
   cummin  = win_cumulative("min"),
   cummax  = win_cumulative("max"),
-  
+
   # Finally there are a few miscellaenous functions that don't follow any
   # particular pattern
   nth = function(x, order = NULL) {
@@ -163,22 +163,22 @@ base_win <- sql_translator(
   last = function(x, order = NULL) {
     over(sql("LAST_VALUE()"), partition_group(), order %||% partition_order())
   },
-  
+
   lead = function(x, n = 1L, default = NA, order = NULL) {
     over(
-      build_sql("LEAD", list(x, n, default)), 
-      partition_group(), 
+      build_sql("LEAD", list(x, n, default)),
+      partition_group(),
       order %||% partition_order()
     )
   },
   lag = function(x, n = 1L, default = NA, order = NULL) {
     over(
-      build_sql("LAG", list(x, n, default)), 
-      partition_group(), 
+      build_sql("LAG", list(x, n, default)),
+      partition_group(),
       order %||% partition_order()
     )
   },
-  
+
   order_by = function(order_by, expr) {
     over(expr, partition_group(), order_by)
   }

@@ -1,15 +1,15 @@
 #' A bigquery data source.
 #'
 #' Use \code{src_bigquery} to connect to an existing bigquery dataset,
-#' and \code{tbl} to connect to tables within that database. 
-#' 
+#' and \code{tbl} to connect to tables within that database.
+#'
 #' @template db-info
 #' @param project project id or name
 #' @param dataset dataset name
 #' @param billing billing project, if different to \code{project}
 #' @param from Either a string giving the name of table in database, or
 #'   \code{\link{sql}} described a derived table or compound join.
-#' @param ... Included for compatibility with the generic, but otherwise 
+#' @param ... Included for compatibility with the generic, but otherwise
 #'   ignored.
 #' @param src a bigquery src created with \code{src_bigquery}.
 #' @export
@@ -23,9 +23,9 @@
 #' }
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
-#' # create a local database called "lahman", or tell lahman_bigqueryql() how to 
+#' # create a local database called "lahman", or tell lahman_bigqueryql() how to
 #' # a database that you can write to
-#' 
+#'
 #' if (has_lahman("bigquery") && interactive()) {
 #' # Methods -------------------------------------------------------------------
 #' batting <- tbl(lahman_bigquery(), "Batting")
@@ -39,14 +39,14 @@
 #' arrange(batting, playerID, desc(yearID))
 #' summarise(batting, G = mean(G), n = n())
 #' mutate(batting, rbi2 = if(is.null(AB)) 1.0 * R / AB else 0)
-#' 
+#'
 #' # note that all operations are lazy: they don't do anything until you
-#' # request the data, either by `print()`ing it (which shows the first ten 
+#' # request the data, either by `print()`ing it (which shows the first ten
 #' # rows), by looking at the `head()`, or `collect()` the results locally.
 #'
 #' system.time(recent <- filter(batting, yearID > 2010))
 #' system.time(collect(recent))
-#' 
+#'
 #' # Group by operations -------------------------------------------------------
 #' # To perform operations by group, create a grouped object with group_by
 #' players <- group_by(batting, playerID)
@@ -56,11 +56,11 @@
 #' filter(players, AB == max(AB) | G == max(G))
 #' # Not supported yet:
 #' \dontrun{
-#' mutate(players, cyear = yearID - min(yearID) + 1, 
+#' mutate(players, cyear = yearID - min(yearID) + 1,
 #'  cumsum(AB, yearID))
 #' }
 #' mutate(players, rank())
-#'  
+#'
 #' # When you group by multiple level, each summarise peels off one level
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
@@ -72,11 +72,11 @@
 #' mutate(players, rank = rank(ab))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_bigquery(), "Master"), playerID, hofID, 
+#' player_info <- select(tbl(lahman_bigquery(), "Master"), playerID, hofID,
 #'   birthYear)
 #' hof <- select(filter(tbl(lahman_bigquery(), "HallOfFame"), inducted == "Y"),
 #'  hofID, votedBy, category)
-#' 
+#'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
 #' # Keep all players, match hof data where available
@@ -94,7 +94,7 @@
 #' }
 src_bigquery <- function(project, dataset, billing = project) {
   assert_that(is.string(project), is.string(dataset), is.string(billing))
-  
+
   if (!require("bigrquery")) {
     stop("bigrquery package required to connect to bigquery db", call. = FALSE)
   }
@@ -125,11 +125,11 @@ translate_env.src_bigquery <- function(x) {
       as.double = sql_prefix("float"),
       as.integer = sql_prefix("integer"),
       as.character = sql_prefix("string"),
-      
+
       # Date/time
       Sys.date = sql_prefix("current_date"),
       Sys.time = sql_prefix("current_time"),
-      
+
       # Regular expressions
       grepl = function(match, x) {
         sprintf("REGEXP_MATCH(%s, %s)", escape(x), escape(match))
@@ -138,7 +138,7 @@ translate_env.src_bigquery <- function(x) {
         sprintf("REGEXP_REPLACE(%s, %s, %s)", escape(x), escape(match),
           escape(replace))
       },
-      
+
       # stringr equivalents
       str_detect = function(x, match) {
         sprintf("REGEXP_MATCH(%s, %s)", escape(x), escape(match))
@@ -160,5 +160,5 @@ translate_env.src_bigquery <- function(x) {
   )
 }
 
-globalVariables(c("insert_upload_job", "wait_for", "list_tables", 
+globalVariables(c("insert_upload_job", "wait_for", "list_tables",
   "insert_upload_job", "query_exec", "get_table"))

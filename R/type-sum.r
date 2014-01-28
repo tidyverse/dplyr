@@ -1,9 +1,9 @@
 #' Provide a succint summary of a type
-#' 
+#'
 #' All methods should return a string with four or less characters, suitable
 #' for succinctly display column types.
-#' 
-#' @param x an object to summarise. Generally only methods of atomic vectors 
+#'
+#' @param x an object to summarise. Generally only methods of atomic vectors
 #'   and variants have been implemented.
 #' @keywords internal
 #' @export

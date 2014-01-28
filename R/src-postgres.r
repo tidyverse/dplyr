@@ -1,17 +1,17 @@
 #' Connect to postgresql.
-#' 
+#'
 #' Use \code{src_postgres} to connect to an existing postgresql database,
-#' and \code{tbl} to connect to tables within that database. 
-#' If you are running a local postgresql database, leave all parameters set as 
-#' their defaults to connect. If you're connecting to a remote database, 
+#' and \code{tbl} to connect to tables within that database.
+#' If you are running a local postgresql database, leave all parameters set as
+#' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
-#' 
+#'
 #' @template db-info
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
 #' @param ... for the src, other arguments passed on to the underlying
-#'   database connector, \code{dbConnect}. For the tbl, included for 
+#'   database connector, \code{dbConnect}. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
 #' @param src a postgres src created with \code{src_postgres}.
 #' @param from Either a string giving the name of table in database, or
@@ -28,9 +28,9 @@
 #' }
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
-#' # create a local database called "lahman", or tell lahman_postgres() how to 
+#' # create a local database called "lahman", or tell lahman_postgres() how to
 #' # a database that you can write to
-#' 
+#'
 #' if (has_lahman("postgres")) {
 #' # Methods -------------------------------------------------------------------
 #' batting <- tbl(lahman_postgres(), "Batting")
@@ -44,14 +44,14 @@
 #' arrange(batting, playerID, desc(yearID))
 #' summarise(batting, G = mean(G), n = n())
 #' mutate(batting, rbi2 = if(is.null(AB)) 1.0 * R / AB else 0)
-#' 
+#'
 #' # note that all operations are lazy: they don't do anything until you
-#' # request the data, either by `print()`ing it (which shows the first ten 
+#' # request the data, either by `print()`ing it (which shows the first ten
 #' # rows), by looking at the `head()`, or `collect()` the results locally.
 #'
 #' system.time(recent <- filter(batting, yearID > 2010))
 #' system.time(collect(recent))
-#' 
+#'
 #' # Group by operations -------------------------------------------------------
 #' # To perform operations by group, create a grouped object with group_by
 #' players <- group_by(batting, playerID)
@@ -59,9 +59,9 @@
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
 #' best_year <- filter(players, AB == max(AB) | G == max(G))
-#' progress <- mutate(players, cyear = yearID - min(yearID) + 1, 
+#' progress <- mutate(players, cyear = yearID - min(yearID) + 1,
 #'  rank(desc(AB)), cumsum(AB, yearID))
-#'  
+#'
 #' # When you group by multiple level, each summarise peels off one level
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
@@ -70,11 +70,11 @@
 #' mutate(stints, cumsum(stints, yearID))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, hofID, 
+#' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, hofID,
 #'   birthYear)
 #' hof <- select(filter(tbl(lahman_postgres(), "HallOfFame"), inducted == "Y"),
 #'  hofID, votedBy, category)
-#' 
+#'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
 #' # Keep all players, match hof data where available
@@ -90,19 +90,19 @@
 #'   sql('SELECT * FROM "Batting" WHERE "yearID" = 2008'))
 #' batting2008
 #' }
-src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL, 
+src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
                          password = NULL, ...) {
   if (!require("RPostgreSQL")) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 
   user <- user %||% if (in_travis()) "postgres" else ""
-  
-  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "", 
+
+  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
   info <- db_info(con)
-  
-  src_sql("postgres", con, 
+
+  src_sql("postgres", con,
     info = info, disco = db_disconnector(con, "postgres"))
 }
 
@@ -116,8 +116,8 @@ tbl.src_postgres <- function(src, from, ...) {
 brief_desc.src_postgres <- function(x) {
   info <- x$info
   host <- if (info$host == "") "localhost" else info$host
-  
-  paste0("postgres ", info$serverVersion, " [", info$user, "@", 
+
+  paste0("postgres ", info$serverVersion, " [", info$user, "@",
     host, ":", info$port, "/", info$dbname, "]")
 }
 

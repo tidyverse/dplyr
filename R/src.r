@@ -1,11 +1,11 @@
 #' Create a "src" object
 #'
-#' \code{src} is the standard constructor for srcs and \code{is.src} tests. 
+#' \code{src} is the standard constructor for srcs and \code{is.src} tests.
 #'
 #' @keywords internal
 #' @export
-#' @param subclass name of subclass. "src" is an abstract base class, so you 
-#'   must supply this value. \code{src_} is automatically prepended to the 
+#' @param subclass name of subclass. "src" is an abstract base class, so you
+#'   must supply this value. \code{src_} is automatically prepended to the
 #'   class name
 #' @param ... fields used by object
 #' @param x object to test for "src"-ness.
@@ -29,14 +29,14 @@ print.src <- function(x, ...) {
 #' Most methods will not be documented because it's usually pretty obvious what
 #' possible results will be.
 #'
-#' @param x a data src. 
+#' @param x a data src.
 #' @export
 src_tbls <- function(x) {
   UseMethod("src_tbls")
 }
 
 #' Figure out if two sources are the same (or two tbl have the same source)
-#' 
+#'
 #' @param x,y src or tbls to test
 #' @return a logical flag
 #' @export

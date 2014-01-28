@@ -4,8 +4,8 @@
 #'
 #' @keywords internal
 #' @export
-#' @param subclass name of subclass. "src_sql" is an abstract base class, so you 
-#'   must supply this value. \code{src_} is automatically prepended to the 
+#' @param subclass name of subclass. "src_sql" is an abstract base class, so you
+#'   must supply this value. \code{src_} is automatically prepended to the
 #'   class name
 #' @param the connection object
 #' @param ... fields used by object
