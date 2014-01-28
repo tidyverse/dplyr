@@ -15,6 +15,9 @@ dplyr 0.1.1
 * `ungroup.grouped_df()`, `tbl_df()`, `as.data.frame.tbl_df()` now only
   make shallow copies of their inputs (#191).
 
+* The `benchmark-baseball` vignette now contains fairer (including grouping
+  times) comparisons with `data.table`. (#222)
+
 ## Bug fixes
 
 * `filter()` (#221) and `summarise()` (#194) correctly propagate attributes.
