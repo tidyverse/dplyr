@@ -96,3 +96,9 @@ test_that("filter handlers scalar results", {
   expect_equal( as.data.frame(filter(group_by(mtcars,cyl), min(mpg)>0 )), mtcars )
 })
 
+test_that("filter propagates attributes", {
+  date.start <- ISOdate(2010, 01, 01, 0) 
+  test <- data.frame(Date = ISOdate(2010, 01, 01, 1:10))
+  test2 <- test %.% filter(Date < ISOdate(2010, 01, 01, 5)) 
+  expect_equal(test$Date[1:4], test2$Date)
+})

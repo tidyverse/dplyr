@@ -503,7 +503,7 @@ SEXP pairlist_shallow_copy(SEXP p){
     return attr ;   
 }
 
-void copy_attributes(List& out, SEXP data){
+void copy_attributes(SEXP out, SEXP data){
     SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
 }
 

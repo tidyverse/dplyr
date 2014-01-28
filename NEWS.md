@@ -24,6 +24,8 @@ dplyr 0.1.0.99
   `filter`. It also handles `T` and `F` correctly as aliases to `TRUE` and 
   `FALSE` only if there are no `T` or `F` variables in the data or 
   in the scope. 
+  
+* `filter` correctly propagates attributes. (#221)  
 
 * `select.grouped_df` fails when the grouping variables are not included
   in the selected variables (#170)

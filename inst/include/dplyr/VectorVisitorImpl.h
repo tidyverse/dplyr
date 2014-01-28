@@ -153,8 +153,8 @@ namespace dplyr {
         }
         
         inline SEXP promote(VECTOR x) const{
-            
-            x.attr( "class" ) = VisitorImpl::vec.attr( "class" ) ;
+            copy_attributes(x, VisitorImpl::vec ) ;
+            SET_OBJECT(x, OBJECT(VisitorImpl::vec)) ;
             return x ;
         }
     } ;
@@ -228,9 +228,9 @@ namespace dplyr {
         }
         
         inline SEXP promote( IntegerVector x) const {
-            x.attr( "class" ) = vec.attr( "class" );
-            x.attr( "levels" ) = levels ;
-            return x;
+            copy_attributes(x, vec ) ;
+            SET_OBJECT(x, OBJECT(vec)) ;
+            return x ;
         }
         
         CharacterVector levels ;

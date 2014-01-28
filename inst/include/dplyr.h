@@ -40,6 +40,7 @@ inline SEXP as_symbol(SEXP x) {
 }
 void check_supported_type(SEXP) ;
 SEXP pairlist_shallow_copy(SEXP) ;
+void copy_attributes(SEXP, SEXP) ;
 
 // currently [[Rcpp::register]] does nothing.
 //
