@@ -152,7 +152,8 @@ namespace dplyr {
             return true ;    
         }
         
-        inline SEXP promote( NumericVector x) const{
+        inline SEXP promote(VECTOR x) const{
+            
             x.attr( "class" ) = VisitorImpl::vec.attr( "class" ) ;
             return x ;
         }

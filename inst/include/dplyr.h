@@ -38,7 +38,8 @@ bool can_simplify(SEXP) ;
 inline SEXP as_symbol(SEXP x) {
     return Rf_install( CHAR(x) );
 }
-void check_supported_type(SEXP x) ;
+void check_supported_type(SEXP) ;
+SEXP pairlist_shallow_copy(SEXP) ;
 
 // currently [[Rcpp::register]] does nothing.
 //

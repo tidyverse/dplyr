@@ -488,8 +488,7 @@ SEXP promote(SEXP x){
     return x ;
 }
 
-void copy_attributes(List& out, SEXP data){
-    SEXP p = ATTRIB(data) ;
+SEXP pairlist_shallow_copy(SEXP p){
     Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
     SEXP q = attr ;
     SET_TAG(q, TAG(p)) ;
@@ -501,7 +500,11 @@ void copy_attributes(List& out, SEXP data){
         SET_TAG(q, TAG(p)) ;
         p = CDR(p) ;
     }
-    SET_ATTRIB(out, attr) ;
+    return attr ;   
+}
+
+void copy_attributes(List& out, SEXP data){
+    SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
 }
 
 // [[Rcpp::export]]
