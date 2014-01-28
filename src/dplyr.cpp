@@ -874,6 +874,12 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
             // look in the environment
             Shield<SEXP> res( Rf_findVar( x, env ) );
             if( res == R_UnboundValue ){
+                if( x == Rf_install("T") ){
+                    return Rf_ScalarLogical(TRUE) ;
+                } else if( x == Rf_install("F") ){
+                    return Rf_ScalarLogical(FALSE) ;    
+                }
+                
                 std::stringstream s ;
                 s << "unknown column : " << CHAR(PRINTNAME(x)) ;
                 stop(s.str());

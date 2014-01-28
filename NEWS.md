@@ -21,7 +21,9 @@ dplyr 0.1.0.99
 
 * `filter` handles scalar results (#217) and better handles scoping, e.g. 
   `filter(.,variable)` where `variable` is defined in the function that calls
-  `filter`
+  `filter`. It also handles `T` and `F` correctly as aliases to `TRUE` and 
+  `FALSE` only if there are no `T` or `F` variables in the data or 
+  in the scope. 
 
 * `select.grouped_df` fails when the grouping variables are not included
   in the selected variables (#170)
