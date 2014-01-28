@@ -1,7 +1,7 @@
 #' Create a table from a data source
-#' 
+#'
 #' This is a generic method that dispatches based on the first argument.
-#' 
+#'
 #' @param src A data source
 #' @param ... Other arguments passed on to the individual methods
 #' @export
@@ -12,12 +12,12 @@ tbl <- function(src, ...) {
 #' Create a "tbl" object
 #'
 #' \code{tbl} is the standard constructor for tbls. \code{as.tbl} coerces,
-#' and \code{is.tbl} tests. 
+#' and \code{is.tbl} tests.
 #'
 #' @keywords internal
 #' @export
-#' @param subclass name of subclass. "tbl" is an abstract base class, so you 
-#'   must supply this value. \code{tbl_} is automatically prepended to the 
+#' @param subclass name of subclass. "tbl" is an abstract base class, so you
+#'   must supply this value. \code{tbl_} is automatically prepended to the
 #'   class name
 #' @param object to test/coerce.
 #' @param ... For \code{tbl}, other fields used by class. For \code{as.tbl},
