@@ -37,6 +37,7 @@ purpose of the functions. The data frame implementations
 are currently not terribly efficient.
 }
 \examples{
+if (require("Lahman")) {
 data("Batting", package = "Lahman")
 data("Master", package = "Lahman")
 
@@ -56,5 +57,6 @@ left_join(batting_df, uperson_df)
 anti_join(batting_df, person_df)
 # or people who didn't bat
 anti_join(person_df, batting_df)
+}
 }
 

@@ -12,7 +12,8 @@
 #' ds
 #' as.data.frame(ds)
 #'
-#' library(Lahman)
+#' if (require("Lahman")) {
+#' data("Batting", package = "Lahman")
 #' batting <- tbl_df(Batting)
 #' dim(batting)
 #' colnames(batting)
@@ -55,6 +56,7 @@
 #' semi_join(player_info, hof)
 #' # Find players not in hof
 #' anti_join(player_info, hof)
+#' }
 tbl_df <- function(data) {
   assert_that(is.data.frame(data))
   tbl_df_impl(data)

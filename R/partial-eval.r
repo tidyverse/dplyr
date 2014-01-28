@@ -25,6 +25,7 @@
 #' @export
 #' @keywords internal
 #' @examples
+#' if (require("Lahman")) {
 #' data("Batting", package = "Lahman")
 #' bdf <- tbl_df(Batting)
 #' partial_eval(quote(year > 1980), bdf)
@@ -48,6 +49,7 @@
 #' partial_eval(quote(1 + 2 * 3))
 #' x <- 1
 #' partial_eval(quote(x ^ y))
+#' }
 partial_eval <- function(call, tbl = NULL, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
@@ -88,20 +90,20 @@ partial_eval <- function(call, tbl = NULL, env = parent.frame()) {
 #' @export
 #' @examples
 #' var_eval(list(quote(mpg:wt)), mtcars)
-#' 
+#'
 #' select <- lapply(names(mtcars), as.name)
 #' select_eval(list(quote(mpg:wt)), select)
-#' 
+#'
 #' mutate <- c(select, cyl2 = quote(cyl * 2))
 #' select_eval(list(quote(gear:cyl2)), mutate)
 var_eval <- function(exprs, tbl, parent = parent.frame()) {
   nm <- tbl_vars(tbl)
-  
+
   nms_list <- as.list(setNames(seq_along(nm), nm))
 
   idx <- lapply(exprs, eval, nms_list, parent)
   symbols <- lapply(nm, as.symbol)
-  
+
   symbols[unlist(idx)]
 }
 
@@ -109,9 +111,9 @@ var_eval <- function(exprs, tbl, parent = parent.frame()) {
 #' @export
 select_eval <- function(exprs, select, parent = parent.frame()) {
   nms_list <- as.list(setNames(seq_along(select), auto_names(select)))
-  
+
   idx <- lapply(exprs, eval, nms_list, parent)
-  
+
   select[unlist(idx)]
 }
 
@@ -120,7 +122,7 @@ select_eval <- function(exprs, select, parent = parent.frame()) {
 var_index <- function(exprs, tbl, parent = parent.frame()) {
   nm <- names(tbl)
   nms_list <- as.list(setNames(seq_along(nm), nm))
-  
+
   unlist(lapply(exprs, eval, nms_list, parent))
 }
 

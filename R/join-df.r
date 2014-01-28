@@ -14,6 +14,7 @@
 #'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data frame
 #' @param ... included for compatibility with the generic; otherwise ignored.
 #' @examples
+#' if (require("Lahman")) {
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")
 #'
@@ -33,7 +34,7 @@
 #' anti_join(batting_df, person_df)
 #' # or people who didn't bat
 #' anti_join(person_df, batting_df)
-#'
+#' }
 #' @name join.tbl_df
 NULL
 

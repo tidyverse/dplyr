@@ -13,6 +13,7 @@
 #'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data table.
 #' @param ... Included for compatibility with generic; otherwise ignored.
 #' @examples
+#' if (require("RSQLite")) {
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")
 #'
@@ -26,15 +27,14 @@
 #' left_join(batting_dt, person_dt)
 #'
 #' # Semi-join: find batting data for top 4 teams, 2010:2012
-#'
 #' grid <- expand.grid(
 #'   teamID = c("WAS", "ATL", "PHI", "NYA"),
 #'   yearID = 2010:2012)
 #' top4 <- semi_join(batting_dt, grid, copy = TRUE)
 #'
 #' # Anti-join: find batting data with out player data
-#'
 #' anti_join(batting_dt, person_dt)
+#' }
 #' @name join.tbl_dt
 NULL
 

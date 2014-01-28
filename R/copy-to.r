@@ -31,6 +31,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' @inheritParams copy_to
 #' @return a sqlite \code{\link{tbl}} object
 #' @examples
+#' if (require("RSQLite")) {
 #' db <- src_sqlite(tempfile(), create = TRUE)
 #'
 #' iris2 <- copy_to(db, iris)
@@ -44,6 +45,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' src_tbls(db)
 #' db2 <- src_sqlite(db$path)
 #' src_tbls(db2)
+#' }
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
                             types = NULL, temporary = TRUE, indexes = NULL,
                             analyze = TRUE, ...) {

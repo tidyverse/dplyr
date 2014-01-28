@@ -19,7 +19,8 @@ ds <- tbl_df(mtcars)
 ds
 as.data.frame(ds)
 
-library(Lahman)
+if (require("Lahman")) {
+data("Batting", package = "Lahman")
 batting <- tbl_df(Batting)
 dim(batting)
 colnames(batting)
@@ -62,5 +63,6 @@ left_join(player_info, hof)
 semi_join(player_info, hof)
 # Find players not in hof
 anti_join(player_info, hof)
+}
 }
 

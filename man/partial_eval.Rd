@@ -34,6 +34,7 @@ incorporated into the expression.
   remote. }
 }
 \examples{
+if (require("Lahman")) {
 data("Batting", package = "Lahman")
 bdf <- tbl_df(Batting)
 partial_eval(quote(year > 1980), bdf)
@@ -57,6 +58,7 @@ partial_eval(quote(year > local(f(1980))), bdf)
 partial_eval(quote(1 + 2 * 3))
 x <- 1
 partial_eval(quote(x ^ y))
+}
 }
 \keyword{internal}
 
