@@ -38,7 +38,8 @@ bool can_simplify(SEXP) ;
 inline SEXP as_symbol(SEXP x) {
     return Rf_install( CHAR(x) );
 }
-    
+void check_supported_type(SEXP x) ;
+
 // currently [[Rcpp::register]] does nothing.
 //
 // I'd like it to generate the boiler plate code
@@ -57,6 +58,7 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 // [[Rcpp::register]]
 void registerHybridHandler( const char* , HybridHandler ) ;
 
+#include <dplyr/check_supported_type.h>
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>

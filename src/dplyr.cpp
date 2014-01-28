@@ -1107,7 +1107,7 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
     }
 }
 
-SEXP structure_mutate( const NamedListAccumulator<SEXP>& accumulator, const DataFrame& df, CharacterVector classes){
+SEXP structure_mutate( const NamedListAccumulator& accumulator, const DataFrame& df, CharacterVector classes){
     List res = accumulator ;
     res.attr("class") = classes ;
     set_rownames( res, df.nrows() ) ;
@@ -1137,7 +1137,7 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     GroupedCallProxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
 
-    NamedListAccumulator<SEXP> accumulator ;
+    NamedListAccumulator accumulator ;
     int ncolumns = df.size() ;
     CharacterVector column_names = df.names() ;
     for( int i=0; i<ncolumns; i++){
@@ -1172,7 +1172,7 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
 
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
-            Gatherer* gather = gatherer( proxy, gdf ) ;
+            Gatherer* gather = gatherer( proxy, gdf, name ) ;
             variable = __( gather->collect() ) ;
             delete gather ;
         } else if(Rf_length(call) == 1) {
@@ -1197,7 +1197,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
     int nexpr = args.size() ;
     CharacterVector results_names = args.names() ;
 
-    NamedListAccumulator<SEXP> accumulator ;
+    NamedListAccumulator accumulator ;
     int nvars = df.size() ;
     CharacterVector df_names = df.names() ;
     for( int i=0; i<nvars; i++){
@@ -1232,7 +1232,8 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             stop( "cannot handle" ) ;
         }
 
-
+        check_supported_type(result, name) ;
+        
         if( Rf_length(result) == df.nrows() ){
             // ok
         } else if( Rf_length(result) == 1 ){
@@ -1345,7 +1346,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
     int nvars = gdf.nvars() ;
     CharacterVector results_names = args.names() ;
     check_not_groups(results_names, gdf);
-    NamedListAccumulator<SEXP> accumulator ;
+    NamedListAccumulator accumulator ;
 
     int i=0;
     for( ; i<nvars; i++){
@@ -1381,7 +1382,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
     LazySubsets subsets( df ) ;
     std::vector<SEXP> results ;
     std::vector<SEXP> result_names ;
-    NamedListAccumulator<SEXP> accumulator ;
+    NamedListAccumulator accumulator ;
 
     Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){

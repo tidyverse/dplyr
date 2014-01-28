@@ -3,11 +3,12 @@
 
 namespace dplyr {
 
-    template <typename T>
     class NamedListAccumulator {
     public:
         
-        inline void set(SEXP name, const T& x){
+        inline void set(SEXP name, SEXP x){
+            check_supported_type(x, name);
+            
             std::vector<SEXP>::iterator it = std::find( names.begin(), names.end(), name ) ;
             if(it == names.end() ){
                 names.push_back(name) ;
@@ -30,7 +31,7 @@ namespace dplyr {
         }
         
     private:
-        std::vector<T> data ;
+        std::vector<SEXP> data ;
         std::vector<SEXP> names ;
     } ;
 

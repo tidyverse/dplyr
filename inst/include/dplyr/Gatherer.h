@@ -139,7 +139,7 @@ namespace dplyr {
         return 0 ;
     }
     
-    inline Gatherer* gatherer( GroupedCallProxy& proxy, const GroupedDataFrame& gdf ){
+    inline Gatherer* gatherer( GroupedCallProxy& proxy, const GroupedDataFrame& gdf, SEXP name ){
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;
         Shield<SEXP> first( proxy.get(indices) ) ;
@@ -159,7 +159,8 @@ namespace dplyr {
             case STRSXP:  return new GathererImpl<STRSXP> ( first, indices, proxy, gdf ) ;
             default: break ;
         }
-        // should not happen, but if it does, we should handle it
+        
+        check_supported_type(first, name) ;
         return 0; 
     }
     

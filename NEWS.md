@@ -28,5 +28,7 @@ dplyr 0.1.0.99
 * `select.grouped_df` fails when the grouping variables are not included
   in the selected variables (#170)
   
-* `all.equal.data.frame` handles the corner case with NULL names. (#217)
+* `all.equal.data.frame` handles the corner case with NULL names (#217)
+
+* `mutate` gives informative error message on unsupported types (#179)
 
