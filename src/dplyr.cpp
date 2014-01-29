@@ -69,7 +69,9 @@ Result* count_distinct_result(SEXP vec){
     return 0 ;
 }
 
-Result* count_prototype(SEXP, const LazySubsets&, int){
+Result* count_prototype(SEXP args, const LazySubsets&, int){
+    if( Rf_length(args) != 1)
+        stop("n does not take arguments") ;
     return new Count ;
 }
 
@@ -196,7 +198,7 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
-        handlers[ Rf_install("n")                ] = count_prototype ;
+        handlers[ Rf_install( "n")               ] = count_prototype ;
         handlers[ Rf_install( "n_distinct" )     ] = count_distinct_prototype ;
         handlers[ Rf_install( "row_number" )     ] = row_number_prototype ;
         
