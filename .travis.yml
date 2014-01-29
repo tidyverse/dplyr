@@ -14,6 +14,8 @@ install:
   - ./travis-tool.sh r_binary_install knitr
   - ./travis-tool.sh github_package hadley/hflights
   - ./travis-tool.sh github_package bigrquery
+  - if [$RCPP = "release"]; then; ./travis-tool.sh r_binary_install Rcpp; fi
+  - if [$RCPP = "devel"]; then; ./travis-tool.sh github_package RcppCore/Rcpp; fi
   - ./travis-tool.sh install_deps
 
 before_script:
@@ -29,14 +31,6 @@ script: ./travis-tool.sh run_tests
 after_failure:
   - ./travis-tool.sh dump_logs
 
-after_success:
-  # now trying against devel Rcpp
-  - R CMD REMOVE dplyr
-  - cd ..
-  - git clone https://github.com/RcppCore/Rcpp.git
-  - R CMD INSTALL Rcpp
-  - R CMD INSTALL dplyr
-
 branches:
   except:
   - /-expt$/
@@ -44,4 +38,8 @@ notifications:
   email:
     on_success: change
     on_failure: change
+env:
+  - RCPP=release
+  - RCPP=devel
+
 
