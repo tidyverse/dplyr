@@ -159,3 +159,7 @@ test_that("summarise fails on missing variables", {
   expect_error(summarise(mtcars, a = mean(notthear)), "binding not found")  
 })
 
+test_that("n() does not accept arguments",{
+  expect_error(summarise(group_by(mtcars, cyl), n(hp)), "does not take arguments")  
+})
+
