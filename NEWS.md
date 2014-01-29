@@ -39,3 +39,6 @@ dplyr 0.1.1
   `NULL` names (#217)
 
 * `mutate()` gives informative error message on unsupported types (#179)
+
+* dplyr source package no longer includes pandas benchmark, reducing
+  download size from 2.8 MB to 0.5 MB.
