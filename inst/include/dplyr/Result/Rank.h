@@ -159,8 +159,11 @@ namespace dplyr {
             std::sort( x.begin(), x.end(), 
                 Comparer( Visitor( Slice(data, index ) ) ) 
                 ) ;
-            x = x + 1 ;
-            return x ;
+            IntegerVector out = no_init(nrows); 
+            for( int i=0; i<nrows; i++){
+                out[ x[i] ] = i + 1 ;
+            }
+            return out ;
         }
         
     private:

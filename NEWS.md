@@ -6,6 +6,7 @@ dplyr 0.1.2
 * The hybrid evaluation did not handle some expressions correctly, for example in
   `if( n() > 5 ) 1 else 2` the subexpression `n()` was not substituted correctly. 
 
+* `row_number` gives correct results (#227). 
 
 dplyr 0.1.1
 -----------
