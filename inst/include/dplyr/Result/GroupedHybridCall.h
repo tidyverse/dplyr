@@ -8,7 +8,7 @@ namespace dplyr {
         GroupedHybridCall( const Call& call_, const SlicingIndex& indices_, LazyGroupedSubsets& subsets_, const Environment& env_ ) : 
             call( clone(call_) ), indices(indices_), subsets(subsets_), env(env_) 
         {
-            while( simplified() ) ;
+            while( simplified() ){}
         }
         
         SEXP eval(){
@@ -50,6 +50,7 @@ namespace dplyr {
             // initial
             if( TYPEOF(call) == LANGSXP ){
                 Result* res = get_handler(call, subsets, env) ;
+                
                 if( res ){
                     // replace the call by the result of process
                     call = res->process(indices) ;
@@ -57,7 +58,6 @@ namespace dplyr {
                     // no need to go any further, we simplified the top level
                     return true ;
                 }
-                
                 return replace( CDR(call) ) ;
                 
             }
@@ -73,7 +73,7 @@ namespace dplyr {
                     return true ;
                 }
                 
-                return replace( CDR(p) ) ;   
+                return replace( CDR(obj) ) ;   
             }     
             
             if( TYPEOF(p) == LISTSXP ){

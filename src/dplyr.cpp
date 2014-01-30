@@ -1368,7 +1368,6 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         Environment env = dots.envir(k) ;
 
         Result* res = get_handler( args[k], subsets, env ) ;
-        Rprintf( "res = <%p>\n", res ) ;
         
         // if we could not find a direct Result
         // we can use a GroupedCalledReducer which will callback to R

@@ -73,7 +73,7 @@ namespace dplyr {
                     return true ;
                 }
                 
-                return replace( CDR(p) ) ;   
+                return replace( CDR(obj) ) ;   
             }     
             
             if( TYPEOF(p) == LISTSXP ){
