@@ -926,6 +926,13 @@ void check_filter_result(const LogicalVector& test, int n){
     }
 }
 
+inline SEXP check_filter_logical_result(SEXP tmp){
+    if( TYPEOF(tmp) != LGLSXP ){
+        stop( "filter condition does not evaluate to a logical vector. " ) ; 
+    }
+    return tmp ;
+}
+
 DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& args, const Environment& env){
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
@@ -948,8 +955,8 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
         int chunk_size = indices.size() ;
-
-        g_test  = call_proxy.get( indices );
+        
+        g_test = check_filter_logical_result( call_proxy.get( indices ) ) ;
         if( g_test.size() == 1 ){
             int val = g_test[0] ;
             for( int j=0; j<chunk_size; j++){
@@ -992,7 +999,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
             SlicingIndex indices = *git ;
             int chunk_size = indices.size() ;
 
-            g_test  = call_proxy.get( indices );
+            g_test  = check_filter_logical_result(call_proxy.get( indices ));
             if( g_test.size() == 1 ){
                 if( ! g_test[0] ){
                     for( int j=0; j<chunk_size; j++){
@@ -1057,7 +1064,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
         
-        LogicalVector test = proxy.eval() ;
+        LogicalVector test = check_filter_logical_result(proxy.eval()) ;
         if( test.size() == 1){
             if( test[0] ){
                 return df ; 
@@ -1072,7 +1079,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
     } else {
         int nargs = args.size() ;
         CallProxy first_proxy(args[0], df, dots.envir(0) ) ;
-        LogicalVector test = first_proxy.eval() ;
+        LogicalVector test = check_filter_logical_result(first_proxy.eval()) ;
         if( test.size() == 1 ) {
             if( !test[0] ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;    
@@ -1082,7 +1089,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         }
         
         for( int i=1; i<nargs; i++){
-            LogicalVector test2 = CallProxy(args[i], df, dots.envir(i) ).eval() ;
+            LogicalVector test2 = check_filter_logical_result(CallProxy(args[i], df, dots.envir(i) ).eval()) ;
             if( combine_and(test, test2) ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;
             }
