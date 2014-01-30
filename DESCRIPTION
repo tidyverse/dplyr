@@ -43,6 +43,7 @@ Collate:
     'bench-compare.r'
     'cbind.r'
     'chain.r'
+    'cluster.R'
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
