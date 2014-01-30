@@ -8,6 +8,8 @@ dplyr 0.1.2
 
 * `row_number` gives correct results (#227). 
 
+* `filter` now fails when given anything that does not evaluates to a logical vector
+
 dplyr 0.1.1
 -----------
 
