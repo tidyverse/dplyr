@@ -77,6 +77,10 @@ filter_impl <- function(df, args, env) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
+integer_filter_impl <- function(df, args, env) {
+    .Call('dplyr_integer_filter_impl', PACKAGE = 'dplyr', df, args, env)
+}
+
 mutate_impl <- function(df, args, env) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
 }
