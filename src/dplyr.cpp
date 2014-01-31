@@ -1182,6 +1182,8 @@ SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const Da
     CallProxy proxy( call, df, env ) ;
     
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
+    // this should rather be handled in subset
+    test = test - 1 ;
     DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
     return res ;
     
