@@ -43,10 +43,17 @@ db_list_tables.bigquery <- function(con) {
   list_tables(con$project, con$dataset)
 }
 
+
+
+
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
 db_has_table.default <- function(con, table) {
   table %in% db_list_tables(con)
+}
+#' @export
+db_has_table.oracle <- function(con, table) {
+  dbExistsTable(con, table)
 }
 #' @export
 db_has_table.MySQLConnection <- function(con, table) {
@@ -114,7 +121,7 @@ qry_fields <- function(con, from) {
 }
 
 #' @export
-qry_fields.DBIConnection <- function(con, from) {
+qry_fields.DBIConnection <- function(con, from) {  
   qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
   on.exit(dbClearResult(qry))
 
@@ -125,12 +132,23 @@ qry_fields.SQLiteConnection <- function(con, from) {
   names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
 
+# #' @export
+# qry_fields.OraConnection <- function(con, from) {
+#   dbListFields(con, from)
+# }
+
+
 table_fields <- function(con, table) UseMethod("table_fields")
 #' @export
 table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
 
 #' @export
 table_fields.PostgreSQLConnection <- function(con, table) {
+  qry_fields.DBIConnection(con, table)
+}
+
+#' @export
+table_fields.OraConnection <- function(con, table) {
   qry_fields.DBIConnection(con, table)
 }
 
@@ -243,6 +261,14 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 
   paste(expl[[1]], collapse = "\n")
 }
+
+######
+# TODO
+######
+
+#qry_explain.OraConnection <- function(STUFF) {
+# 
+# }
 
 # Result sets ------------------------------------------------------------------
 

@@ -90,16 +90,13 @@
 #'   sql('SELECT * FROM "Batting" WHERE "yearID" = 2008'))
 #' batting2008
 #' }
-src_oracle <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
+src_oracle <- function(dbname = NULL, user = NULL,
                          password = NULL, ...) {
   if (!require("ROracle")) {
     stop("ROracle package required to connect to oracle db", call. = FALSE)
   }
   
-  user <- user %||% if (in_travis()) "oracle" else ""
-  
-  con <- dbi_connect(Oracle(), host = host %||% "", dbname = dbname %||% "",
-                     user = user, password = password %||% "", port = port %||% "", ...)
+  con  <- dbi_connect(Oracle(), username = user, password = password, dbname = dbname, ...)
   info <- db_info(con)
   
   src_sql("oracle", con,
@@ -114,11 +111,10 @@ tbl.src_oracle <- function(src, from, ...) {
 
 #' @export
 brief_desc.src_oracle <- function(x) {
-  info <- x$info
-  host <- if (info$host == "") "localhost" else info$host
   
-  paste0("oracle ", info$serverVersion, " [", info$user, "@",
-         host, ":", info$port, "/", info$dbname, "]")
+   info <- x$info
+   paste0("oracle ", info$serverVersion, " [", info$username, "@",
+          info$dbname,"]")
 }
 
 #' @export
