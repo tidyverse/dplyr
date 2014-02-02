@@ -30,6 +30,8 @@ arrange.tbl_df    <- .data_dots(arrange_impl)
 #' @export
 filter.tbl_df    <- .data_dots(filter_impl)
 
+integer_filter   <- .data_dots(integer_filter_impl)
+
 #' @rdname manip_df
 #' @export
 mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)

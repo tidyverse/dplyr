@@ -102,3 +102,8 @@ test_that("filter propagates attributes", {
   test2 <- test %.% filter(Date < ISOdate(2010, 01, 01, 5)) 
   expect_equal(test$Date[1:4], test2$Date)
 })
+
+test_that("filter fails on integer indices", {
+  expect_error(filter(mtcars, 1:2))
+  expect_error(filter(group_by(mtcars,cyl), 1:2))
+})

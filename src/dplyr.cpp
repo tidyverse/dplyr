@@ -926,6 +926,21 @@ void check_filter_result(const LogicalVector& test, int n){
     }
 }
 
+inline SEXP check_filter_logical_result(SEXP tmp){
+    if( TYPEOF(tmp) != LGLSXP ){
+        stop( "filter condition does not evaluate to a logical vector. " ) ; 
+    }
+    return tmp ;
+}
+
+
+inline SEXP check_filter_integer_result(SEXP tmp){
+    if( TYPEOF(tmp) != INTSXP ){
+        stop( "integer_filter condition does not evaluate to an integer vector. " ) ;
+    }
+    return tmp ;
+}
+
 DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& args, const Environment& env){
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
@@ -948,8 +963,8 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
         int chunk_size = indices.size() ;
-
-        g_test  = call_proxy.get( indices );
+        
+        g_test = check_filter_logical_result( call_proxy.get( indices ) ) ;
         if( g_test.size() == 1 ){
             int val = g_test[0] ;
             for( int j=0; j<chunk_size; j++){
@@ -992,7 +1007,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
             SlicingIndex indices = *git ;
             int chunk_size = indices.size() ;
 
-            g_test  = call_proxy.get( indices );
+            g_test  = check_filter_logical_result(call_proxy.get( indices ));
             if( g_test.size() == 1 ){
                 if( ! g_test[0] ){
                     for( int j=0; j<chunk_size; j++){
@@ -1057,7 +1072,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
         
-        LogicalVector test = proxy.eval() ;
+        LogicalVector test = check_filter_logical_result(proxy.eval()) ;
         if( test.size() == 1){
             if( test[0] ){
                 return df ; 
@@ -1072,7 +1087,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
     } else {
         int nargs = args.size() ;
         CallProxy first_proxy(args[0], df, dots.envir(0) ) ;
-        LogicalVector test = first_proxy.eval() ;
+        LogicalVector test = check_filter_logical_result(first_proxy.eval()) ;
         if( test.size() == 1 ) {
             if( !test[0] ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;    
@@ -1082,7 +1097,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         }
         
         for( int i=1; i<nargs; i++){
-            LogicalVector test2 = CallProxy(args[i], df, dots.envir(i) ).eval() ;
+            LogicalVector test2 = check_filter_logical_result(CallProxy(args[i], df, dots.envir(i) ).eval()) ;
             if( combine_and(test, test2) ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;
             }
@@ -1112,6 +1127,77 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
         return filter_grouped( GroupedDataFrame(df), args, dots);
     } else {
         return filter_not_grouped( df, args, dots) ;
+    }
+}
+
+SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots){
+    const DataFrame& data = gdf.data() ;
+    Environment env = dots.envir(0);
+    CharacterVector names = data.names() ;
+    SymbolSet set ;
+    for( int i=0; i<names.size(); i++){
+        set.insert( Rf_install( names[i] ) ) ;
+    }
+    
+    // we already checked that we have only one expression
+    Call call( (SEXP)args[0] ) ;
+    
+    std::vector<int> indx ; indx.reserve(1000) ;
+    
+    IntegerVector g_test ;
+    GroupedCallProxy call_proxy( call, gdf, env ) ;
+    
+    int ngroups = gdf.ngroups() ;
+    GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+    for( int i=0; i<ngroups; i++, ++git){
+        SlicingIndex indices = *git ;
+        g_test = check_filter_integer_result( call_proxy.get( indices ) ) ;
+        
+        int ntest = g_test.size() ;
+        for( int j=0; j<ntest; j++){
+            int k = g_test[j] ;
+            if( k > 0 && k <= indices.size() ){
+                indx.push_back( indices[k-1] ) ;
+            }
+        }
+        
+    }
+    
+    DataFrame res = subset( data, indx, names, classes_grouped() ) ;
+    res.attr( "vars")   = data.attr("vars") ;
+    
+    return res ;
+
+}
+
+SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const DataDots& dots){
+    CharacterVector names = df.names() ;
+    SymbolSet set ;
+    for( int i=0; i<names.size(); i++){
+        set.insert( Rf_install( names[i] ) ) ;
+    }
+    
+    Environment env = dots.envir(0) ;
+    Call call( (SEXP)args[0] );
+    CallProxy proxy( call, df, env ) ;
+    
+    IntegerVector test = check_filter_integer_result(proxy.eval()) ;
+    // this should rather be handled in subset
+    test = test - 1 ;
+    DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+    return res ;
+    
+}
+
+// [[Rcpp::export]]
+SEXP integer_filter_impl( DataFrame df, List args, Environment env){
+    if( args.size() != 1 )
+        stop( "integer_filter only accepts one expression" );
+    DataDots dots(env) ;
+    if( is<GroupedDataFrame>(df) ){
+        return integer_filter_grouped( GroupedDataFrame(df), args, dots ) ;
+    } else {
+        return integer_filter_not_grouped(df, args, dots ) ;
     }
 }
 

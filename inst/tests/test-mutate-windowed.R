@@ -31,6 +31,12 @@ test_that("desc is correctly handled by window functions", {
   
 })
 
+test_that("row_number gives correct results",{
+  tmp <- data.frame(id=rep(c(1,2),each=5),value=c(1,1,2,5,0,6,4,0,0,2))
+  res <- group_by(tmp, "id") %.% mutate(var=row_number(value))
+  expect_equal(res$var, c(2,3,4,5,1,5,4,1,2,3))  
+})
+
 # FIXME: this should only fail if strict checking is on.
 # test_that("window functions fail if db doesn't support windowing", {
 #   df_sqlite <- temp_load(temp_srcs("sqlite"), df)$sql %.% group_by(g)

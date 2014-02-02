@@ -15,7 +15,7 @@ namespace dplyr {
             
         }
         
-        CallProxy( const Rcpp::Call& call_, Rcpp::DataFrame& data_, const Environment& env_) : 
+        CallProxy( const Rcpp::Call& call_, const Rcpp::DataFrame& data_, const Environment& env_) :
             call(call_), subsets(data_), proxies(), env(env_), hybrid(false)
         {
             // fill proxies
