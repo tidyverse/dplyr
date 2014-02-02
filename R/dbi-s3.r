@@ -116,7 +116,7 @@ DbDisconnector <- setRefClass("DbDisconnector",
 
 # Query details ----------------------------------------------------------------
 
-qry_fields <- function(con, from) {
+qry_fields <- function(con, from) {  
   UseMethod("qry_fields")
 }
 
@@ -126,16 +126,20 @@ qry_fields.DBIConnection <- function(con, from) {
   on.exit(dbClearResult(qry))
 
   dbGetInfo(qry)$fieldDescription[[1]]$name
+  
 }
 #' @export
 qry_fields.SQLiteConnection <- function(con, from) {
   names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
 
-# #' @export
-# qry_fields.OraConnection <- function(con, from) {
-#   dbListFields(con, from)
-# }
+#' @export
+qry_fields.OraConnection <- function(con, from) {
+  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 1=2"))
+  on.exit(dbClearResult(qry))
+  
+  dbGetInfo(qry)$fields$name 
+}
 
 
 table_fields <- function(con, table) UseMethod("table_fields")
@@ -149,7 +153,7 @@ table_fields.PostgreSQLConnection <- function(con, table) {
 
 #' @export
 table_fields.OraConnection <- function(con, table) {
-  qry_fields.DBIConnection(con, table)
+  qry_fields.OraConnection(con, table)
 }
 
 #' @export
@@ -431,6 +435,7 @@ sql_select <- function(con, select, from, where = NULL, group_by = NULL,
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
     "limit", "offset")
 
+ 
   assert_that(is.character(select), length(select) > 0L)
   out$select <- build_sql("SELECT ", escape(select, collapse = ", ", con = con))
 
