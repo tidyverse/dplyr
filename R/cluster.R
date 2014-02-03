@@ -35,6 +35,7 @@ set_cluster <- function(x) {
 
 #' @export
 #' @rdname dplyr-cluster
+#' @importFrom parallel stopCluster
 stop_cluster <- function() {
   if (has_cluster()) {
     stopCluster(cluster_env$cluster)
@@ -82,4 +83,48 @@ init_cluster <- function(cores = NA, quiet = FALSE) {
   }
 
   set_cluster(cluster)
+  invisible(cluster)
+}
+
+#' Cluster lapply.
+#'
+#' A low-level implementation of \code{\link{lapply}} which splits tasks
+#' tasks across nodes in a cluster.
+#'
+#' @param .x list of elements to apply over
+#' @param .f function to apply
+#' @param ... additional arguments to \code{.f}
+#' @param .cl cluster to use
+#' @keywords internal
+#' @examples
+#' lapply_cluster(1:10, sqrt)
+lapply_cluster <- function (.x, .f, ..., .cl = init_cluster()) {
+  n <- length(.x)
+  p <- min(length(.cl), n)
+
+  if (n == 0) return()
+
+  i <- 1
+  j <- 1
+  submit <- function() {
+    parallel:::sendCall(.cl[[j]], .f, list(.x[[i]], ...), tag = i)
+    i <<- i + 1
+    j <<- j %% p + 1
+  }
+  recieve <- function() {
+    parallel:::recvOneResult(.cl)
+  }
+
+  # Submit first round of jobs
+  for (i in seq_len(p)) submit()
+
+  # Wait for response, submitting new jobs as needed
+  out <- vector("list", n)
+  for (k in seq_len(n)) {
+    d <- recieve()
+    out[d$tag] <- list(d$value)
+
+    if (i <= n) submit()
+  }
+  out
 }
