@@ -5,21 +5,35 @@
 using namespace Rcpp ;
 
 // borrowed from Rcpp11
-#define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
-#define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
+#ifndef RCPP_DEBUG_OBJECT
+    #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
+#endif
+
+#ifndef RCPP_INSPECT_OBJECT
+    #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
+#endif
 
 #include <boost/scoped_ptr.hpp>
 #include <boost/functional/hash.hpp>
 
-#if defined(_WIN32)
-    #define dplyr_hash_map RCPP_UNORDERED_MAP
-    #define dplyr_hash_set RCPP_UNORDERED_SET
-#else
-    #include <boost/unordered_map.hpp>
-    #include <boost/unordered_set.hpp>
-    #define dplyr_hash_map boost::unordered_map
-    #define dplyr_hash_set boost::unordered_set
+#ifndef dplyr_hash_map
+    #if defined(_WIN32)
+        #define dplyr_hash_map RCPP_UNORDERED_MAP
+    #else
+        #include <boost/unordered_map.hpp>
+        #define dplyr_hash_map boost::unordered_map
+    #endif
 #endif
+
+#ifndef dplyr_hash_set
+    #if defined(_WIN32)
+        #define dplyr_hash_set RCPP_UNORDERED_SET
+    #else
+        #include <boost/unordered_set.hpp>
+        #define dplyr_hash_set boost::unordered_set
+    #endif
+#endif
+
 
 #include <tools/tools.h>
 

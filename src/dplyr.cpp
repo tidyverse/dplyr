@@ -1572,6 +1572,8 @@ List rbind_all( ListOf<DataFrame> dots ){
     int k=0 ;
     for( int i=0; i<ndata; i++){
         DataFrame df = dots[i] ;
+        if( ! Rf_length(df[0]) ) continue ;
+            
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
 

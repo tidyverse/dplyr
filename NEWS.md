@@ -10,6 +10,8 @@ dplyr 0.1.2
 
 * `filter` now fails when given anything that does not evaluates to a logical vector
 
+* `rbind_all` silently ignores data frames with 0 rows. 
+
 dplyr 0.1.1
 -----------
 
