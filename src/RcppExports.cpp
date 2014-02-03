@@ -449,16 +449,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_impl
-DataFrame select_impl(DataFrame df, CharacterVector keep, CharacterVector new_names);
-RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP keepSEXP, SEXP new_namesSEXP) {
+DataFrame select_impl(DataFrame df, CharacterVector vars);
+RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type keep(keepSEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type new_names(new_namesSEXP );
-        DataFrame __result = select_impl(df, keep, new_names);
+        Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP );
+        DataFrame __result = select_impl(df, vars);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

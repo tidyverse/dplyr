@@ -1534,7 +1534,7 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
     }
 }
 
-SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, const CharacterVector& new_names ){
+SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, CharacterVector new_names ){
   CharacterVector names = df.names() ;
   IntegerVector positions = match( keep, names ); 
   int n = keep.size() ; 
@@ -1547,7 +1547,7 @@ SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, const
   return res ; 
 }
 
-DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, const CharacterVector& new_names ){
+DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, CharacterVector new_names ){
   int n = keep.size() ;
   DataFrame copy = select_not_grouped( gdf.data(), keep, new_names );
   
@@ -1587,11 +1587,11 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, con
 }
 
 // [[Rcpp::export]]
-DataFrame select_impl( DataFrame df, CharacterVector keep, CharacterVector new_names ){
+DataFrame select_impl( DataFrame df, CharacterVector vars ){
   if( is<GroupedDataFrame>(df) ){
-    return select_grouped( GroupedDataFrame(df), keep, new_names ) ;  
+    return select_grouped( GroupedDataFrame(df), vars, vars.names() ) ;  
   } else {
-    return select_not_grouped(df, keep, new_names) ;  
+    return select_not_grouped(df, vars, vars.names() ) ;  
   }
 }
 
