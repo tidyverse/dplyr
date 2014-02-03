@@ -4,7 +4,7 @@
 \alias{do.tbl_sql}
 \title{Apply a function to a tbl}
 \usage{
-do(.data, .f, ...)
+do(.data, ...)
 
 \method{do}{tbl_sql}(.data, .f, ..., .chunk_size = 10000L)
 }
@@ -14,22 +14,52 @@ do(.data, .f, ...)
 \item{.f}{a function to apply to each piece. The first unnamed argument
 supplied to \code{.f} will be a data frame.}
 
-\item{...}{other arguments passed on to the function ()}
+  \item{...}{Expressions to apply to each group. If named,
+  results will be stored in a new column. If unnamed,
+  should return a data frame. You can use \code{.} to refer
+  to the current group. You can not mix named and unnamed
+  arguments.}
 
 \item{.chunk_size}{The size of each chunk to pull into R. If this number is
 too big, the process will be slow because R has to allocate and free a lot
 of memory. If it's too small, it will be slow, because of the overhead of
 talking to the database.}
 }
+\value{
+\code{do} always returns a data frame. The first columns in
+the data frame will be the labels, the others will be
+computed from \code{...}. Named arguments become
+list-columns, with one row for each group; unnamed elements
+will be converted to data frames (if needed) and labels
+will be duplicated accordingly.
+
+Unlike \code{\link{summarise}} groups are preserved in
+input and output. This is because while \code{summarise}
+reduces the complexity of the data, \code{do} generally
+does not.
+}
 \description{
-This is a general purpose complement to the specialised manipulation
-functions \code{\link{filter}}, \code{\link{select}}, \code{\link{mutate}},
-\code{\link{summarise}} and \code{\link{arrange}}.
+This is a general purpose complement to the specialised
+manipulation functions \code{\link{filter}},
+\code{\link{select}}, \code{\link{mutate}},
+\code{\link{summarise}} and \code{\link{arrange}}. You can
+use \code{do} to perform arbitrary computation, returning
+either a data frame or arbitrary objects which will be
+stored in a list.
+
 }
 \examples{
+by_cyl <- group_by(mtcars, cyl)
+do(by_cyl, head(., 2))
+
+models <- do(by_cyl, mod = lm(mpg ~ disp, data = .))
+do(models, as.data.frame(coef(.$mod[[1]])))
+do(models, as.data.frame(coef(summary(.$mod[[1]]))))
+summarise(models, rsq = summary(mod)$r.squared)
+
 if (require("hflights")) {
 by_dest <- group_by(hflights, Dest)
-do(by_dest, nrow)
+do(by_dest, nrow(.))
 # Inefficient version of
 group_size(by_dest)
 
@@ -41,8 +71,9 @@ jan <- mutate(jan, date = ISOdate(Year, Month, DayofMonth))
 carriers <- group_by(hflights, UniqueCarrier)
 group_size(carriers)
 
-mods <- do(carriers, failwith(NULL, lm), formula = ArrDelay ~ date)
-sapply(mods, coef)
+mods <- do(carriers, mod = lm(ArrDelay ~ date, data = .))
+do(mods, coef(.$mod))
+summarise(mods, rsq = summarise(mod)$r.squared)
 }
 }
 

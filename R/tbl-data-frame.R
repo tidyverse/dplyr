@@ -40,8 +40,8 @@ select.data.frame <- function(.data, ...) {
   select_impl(.data, vars)
 }
 #' @export
-do.data.frame <- function(.data, .f, ...) {
-  list(.f(.data, ...))
+do.data.frame <- function(.data, ...) {
+  list(.f(...))
 }
 
 # Joins ------------------------------------------------------------------------

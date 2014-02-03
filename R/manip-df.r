@@ -81,19 +81,62 @@ sort_ <- function(data){
   sort_impl(data)
 }
 
+rename_ <- .data_dots(rename_impl, named_dots)
+
+# Problems:
+# * duplicated label vars
+# * can't use $ in summarise
+# * need to use .$mod[[1]] in do
+# * currently ignores all other columns
 #' @export
-do.grouped_df <- function(.data, .f, ...) {
+do.grouped_df <- function(.data, ..., env = parent.frame()) {
+  # Force computation of indices
   if (is.null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(.data, attr(.data, "vars"), attr(.data, "drop"))
   }
 
-  index <- attr(.data, "indices")
-  out <- vector("list", length(index))
+  args <- dots(...)
 
-  for (i in seq_along(index)) {
-    subs <- .data[index[[i]] + 1L, , drop = FALSE]
-    out[[i]] <- .f(subs, ...)
+  # Arguments must either be all named or all unnamed.
+  named <- sum(names2(args) != "")
+  if (!(named == 0 || named == length(args))) {
+    stop("Arguments to do must either be all named or all unnamed",
+      call. = FALSE)
   }
 
-  out
+  labels <- attr(.data, "labels")
+  index <- attr(.data, "indices")
+
+  # Create new environment, inheriting from parent, with an active binding
+  # for . that resolves to the current subset. `_i` is found in environment
+  # of this function because of usual scoping rules.
+  env <- new.env(parent = parent.frame())
+  makeActiveBinding(".", function() {
+    .data[index[[`_i`]] + 1L, , drop = FALSE]
+  }, env)
+
+  out <- vector("list", length(index))
+  for (`_i` in seq_along(out)) {
+    out[`_i`] <- list(eval(args[[1]], env = env))
+  }
+
+  if (named == 0) {
+    # Each result is a data frame
+    data_frame <- vapply(out, is.data.frame, logical(1))
+    if (any(!data_frame)) {
+      stop("Output not data frame at positions: ",
+        paste(which(!data_frame), collapse = ", "), call. = FALSE)
+    }
+
+    rows <- vapply(out, nrow, numeric(1))
+    labels <- labels[rep(1:nrow(labels), rows), , drop = FALSE]
+    rownames(labels) <- NULL
+
+    out <- rbind_all(out)
+    grouped_df(cbind(labels, out), groups(.data))
+  } else {
+    # Each result should be stored in a list
+    labels[[names(args)[1]]] <- out
+    grouped_df(labels, groups(.data))
+  }
 }
