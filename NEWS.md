@@ -1,16 +1,19 @@
 dplyr 0.1.2
 -----------
 
+* `lead()` and `lag()` preserve attributes, so they now work with
+  dates, times and factors (#166)
+
 * `n()` never accepts arguments (#223)
 
 * The hybrid evaluation did not handle some expressions correctly, for example in
-  `if( n() > 5 ) 1 else 2` the subexpression `n()` was not substituted correctly. 
+  `if( n() > 5 ) 1 else 2` the subexpression `n()` was not substituted correctly.
 
-* `row_number` gives correct results (#227). 
+* `row_number` gives correct results (#227).
 
 * `filter` now fails when given anything that does not evaluates to a logical vector
 
-* `rbind_all` silently ignores data frames with 0 rows. 
+* `rbind_all` silently ignores data frames with 0 rows.
 
 dplyr 0.1.1
 -----------
