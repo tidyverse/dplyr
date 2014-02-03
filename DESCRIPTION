@@ -82,6 +82,7 @@ Collate:
     'order-by.R'
     'over.R'
     'partial-eval.r'
+    'progress.R'
     'query.r'
     'query-bq.r'
     'rank.R'
