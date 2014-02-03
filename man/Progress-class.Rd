@@ -20,8 +20,12 @@ p <- Progress(3)$init()
 p$tick()
 p$tick()
 p$tick()
+
 p <- Progress(3)$init()
 for (i in 1:3) p$pause(0.1)$tick()$show()
+
+p <- Progress(3)$init()
+p$tick()$stop()
 }
 \keyword{internal}
 
