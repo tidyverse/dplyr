@@ -11,8 +11,12 @@
 #' p$tick()
 #' p$tick()
 #' p$tick()
+#'
 #' p <- Progress(3)$init()
 #' for (i in 1:3) p$pause(0.1)$tick()$show()
+#'
+#' p <- Progress(3)$init()
+#' p$tick()$stop()
 Progress <- setRefClass("Progress",
   fields = list(
     n = "numeric",
@@ -54,6 +58,8 @@ Progress <- setRefClass("Progress",
     },
 
     stop = function() {
+      if (stopped) return(.self)
+
       stopped <<- TRUE
       stop_time <<- now()
       .self
@@ -68,7 +74,7 @@ Progress <- setRefClass("Progress",
         } else {
           cat("\nKilled after", overall, "\n")
         }
-        return(invisible())
+        return(invisible(.self))
       }
 
       avg <- (now() - init_time) / i
@@ -80,6 +86,8 @@ Progress <- setRefClass("Progress",
         format(round(i / n * 100), width = 3), "% ",
         "~", show_time(time_left), " remaining"
       )
+
+      invisible(.self)
     }
 
   )
