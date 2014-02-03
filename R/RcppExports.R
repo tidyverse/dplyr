@@ -109,6 +109,10 @@ summarise_impl <- function(df, args, env) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
+select_impl <- function(df, keep, new_names) {
+    .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, keep, new_names)
+}
+
 #' Efficiently count the number of unique values in a vector.
 #'
 #' This is a faster and more concise equivalent of \code{length(unique(x))}

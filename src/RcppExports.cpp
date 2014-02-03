@@ -137,13 +137,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // shallow_copy
-SEXP shallow_copy(const DataFrame& data);
+SEXP shallow_copy(const List& data);
 RcppExport SEXP dplyr_shallow_copy(SEXP dataSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP );
+        Rcpp::traits::input_parameter< const List& >::type data(dataSEXP );
         SEXP __result = shallow_copy(data);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
@@ -442,6 +442,23 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< List >::type args(argsSEXP );
         Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
         SEXP __result = summarise_impl(df, args, env);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// select_impl
+DataFrame select_impl(DataFrame df, CharacterVector keep, CharacterVector new_names);
+RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP keepSEXP, SEXP new_namesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type keep(keepSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type new_names(new_namesSEXP );
+        DataFrame __result = select_impl(df, keep, new_names);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

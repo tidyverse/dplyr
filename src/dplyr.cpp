@@ -514,7 +514,7 @@ void copy_attributes(SEXP out, SEXP data){
 }
 
 // [[Rcpp::export]]
-SEXP shallow_copy(const DataFrame& data){
+SEXP shallow_copy(const List& data){
     int n = data.size() ;
     List out(n) ;
     for( int i=0; i<n; i++) {
@@ -1532,6 +1532,67 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
     } else {
         return summarise_not_grouped( df, args, dots) ;
     }
+}
+
+SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, const CharacterVector& new_names ){
+  CharacterVector names = df.names() ;
+  IntegerVector positions = match( keep, names ); 
+  int n = keep.size() ; 
+  List res(n) ;
+  for( int i=0; i<n; i++){
+    res[i] = df[ positions[i]-1 ] ;  
+  }
+  copy_attributes(res, df) ;
+  res.names() = new_names ; 
+  return res ; 
+}
+
+DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, const CharacterVector& new_names ){
+  int n = keep.size() ;
+  DataFrame copy = select_not_grouped( gdf.data(), keep, new_names );
+  
+  // handle vars  attribute : make a shallow copy of the list and alter 
+  //   its names attribute
+  List vars = shallow_copy( copy.attr("vars") ); 
+  int nv = vars.size() ;
+  for( int i=0; i<nv; i++){
+    SEXP s = PRINTNAME(vars[i]) ;
+    int j = 0; 
+    for( ; j < n; j++){
+      if( s == keep[j] ){
+        vars = Rf_install( CHAR(new_names[j]) );  
+      }
+    }
+  }
+  copy.attr("vars") = vars ;
+  
+  // hangle labels attribute
+  //   make a shallow copy of the data frame and alter its names attributes
+  if( !Rf_isNull( copy.attr("labels" ) ) ){   
+    DataFrame original_labels( copy.attr("labels" ) ) ;
+    
+    DataFrame labels = shallow_copy(original_labels) ;
+    CharacterVector label_names = clone<CharacterVector>( labels.names() ) ;
+    IntegerVector positions = match( keep, label_names ); 
+    int nl = label_names.size() ;
+    for( int i=0; i<nl; i++){
+      label_names[ positions[i]-1] = new_names[i] ;
+    }
+    labels.names() = label_names ;
+    labels.attr("vars") = vars ;
+    copy.attr("labels") = labels ;
+  }
+  
+  return copy ;
+}
+
+// [[Rcpp::export]]
+DataFrame select_impl( DataFrame df, CharacterVector keep, CharacterVector new_names ){
+  if( is<GroupedDataFrame>(df) ){
+    return select_grouped( GroupedDataFrame(df), keep, new_names ) ;  
+  } else {
+    return select_not_grouped(df, keep, new_names) ;  
+  }
 }
 
 //' Efficiently count the number of unique values in a vector.
