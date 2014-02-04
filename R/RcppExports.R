@@ -81,10 +81,6 @@ integer_filter_impl <- function(df, args, env) {
     .Call('dplyr_integer_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
-rename_impl <- function(df, args, env) {
-    .Call('dplyr_rename_impl', PACKAGE = 'dplyr', df, args, env)
-}
-
 mutate_impl <- function(df, args, env) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
 }

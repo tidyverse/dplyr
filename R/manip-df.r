@@ -87,8 +87,6 @@ sort_ <- function(data){
   sort_impl(data)
 }
 
-rename_ <- .data_dots(rename_impl, named_dots)
-
 #' @export
 do.grouped_df <- function(.data, .f, ...) {
   if (is.null(attr(.data, "indices"))) {

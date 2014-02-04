@@ -1220,36 +1220,6 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
     }
 }
 
-
-// [[Rcpp::export]]
-DataFrame rename_impl( DataFrame df, List args, Environment env){ 
-    DataDots dots(env) ;
-    DataFrame copy = shallow_copy(df); 
-    CharacterVector names = clone<CharacterVector>(copy.names()) ;
-    CharacterVector args_names = args.names() ;
-    
-    int nargs = args.size() ;
-    for( int i=0; i<nargs; i++){
-        SEXP new_name = args_names[i] ;
-        SEXP old_name = PRINTNAME(args[i]) ;  
-        
-        int j = 0;
-        for( ; j<names.size() ; j++){
-            if( names[j] == old_name ){
-                names[j] = new_name ;
-                break ;
-            }
-        }
-        if( j == names.size() ){
-            std::stringstream ss ;
-            ss << "unknown column : " << CHAR(old_name) ; 
-            stop( ss.str() );
-        }
-    }
-    copy.names() = names ;
-    return copy ;
-}
-
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     const DataFrame& df = gdf.data() ;
     int nexpr = args.size() ;
