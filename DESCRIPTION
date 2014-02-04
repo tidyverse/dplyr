@@ -30,7 +30,7 @@ Suggests:
     mgcv
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.10.6),
+LinkingTo: Rcpp (>= 0.11.0),
     BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
