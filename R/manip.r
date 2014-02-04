@@ -57,30 +57,6 @@
 #' mutate(mtcars, displ_l = disp / 61.0237)
 #' summarise(mtcars, mean(disp))
 #' summarise(group_by(mtcars, cyl), mean(disp))
-#'
-#' # More detailed select examples ------------------------------
-#' iris <- tbl_df(iris) # so it prints a little nicer
-#' select(iris, starts_with("Petal"))
-#' select(iris, ends_with("Width"))
-#' select(iris, contains("etal"))
-#' select(iris, matches(".t."))
-#' select(iris, Petal.Length, Petal.Width)
-#'
-#' df <- as.data.frame(matrix(runif(100), nrow = 10))
-#' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
-#' select(df, V4:V6)
-#' select(df, num_range(V = 4:6))
-#'
-#' # Drop variables
-#' select(iris, -starts_with("Petal"))
-#' select(iris, -ends_with("Width"))
-#' select(iris, -contains("etal"))
-#' select(iris, -matches(".t."))
-#' select(iris, -Petal.Length, -Petal.Width)
-#'
-#' # Rename variables
-#' select(iris, petal_length = Petal.Length)
-#' select(iris, petal = starts_with("Petal"))
 NULL
 
 #' @rdname manip
@@ -112,14 +88,38 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #'    selects all variables whose name contains \code{x}
 #'  \item \code{matches(x, ignore.case = FALSE)}:
 #'    selects all variables whose name matches the regular expression \code{x}
-#'  \item \code{num_range(x = 1:5)}:
-#'    selects all variables (numerically) from x1 to x5.
+#'  \item \code{num_range("x", 1:5, width = 2)}:
+#'    selects all variables (numerically) from x01 to x05.
 #' }
 #'
 #' To drop variables, use \code{-}. You can rename variables with
 #' named arguments.
 #' @rdname manip
 #' @export
+#' @examples
+#' # More detailed select examples ------------------------------
+#' iris <- tbl_df(iris) # so it prints a little nicer
+#' select(iris, starts_with("Petal"))
+#' select(iris, ends_with("Width"))
+#' select(iris, contains("etal"))
+#' select(iris, matches(".t."))
+#' select(iris, Petal.Length, Petal.Width)
+#'
+#' df <- as.data.frame(matrix(runif(100), nrow = 10))
+#' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
+#' select(df, V4:V6)
+#' select(df, num_range("V", 4:6))
+#'
+#' # Drop variables
+#' select(iris, -starts_with("Petal"))
+#' select(iris, -ends_with("Width"))
+#' select(iris, -contains("etal"))
+#' select(iris, -matches(".t."))
+#' select(iris, -Petal.Length, -Petal.Width)
+#'
+#' # Rename variables
+#' select(iris, petal_length = Petal.Length)
+#' select(iris, petal = starts_with("Petal"))
 select <- function(.data, ...) UseMethod("select")
 
 
@@ -141,7 +141,7 @@ select <- function(.data, ...) UseMethod("select")
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)]
-#' select_vars(names(df), num_range(V = 4:6))
+#' select_vars(names(df), num_range("V", 4:6))
 #'
 #' # Drop variables
 #' select_vars(names(iris), -starts_with("Petal"))
@@ -195,10 +195,11 @@ select_vars <- function(vars, ..., env = parent.frame()) {
 
       grep(match, vars, ignore.case = ignore.case)
     },
-    num_range = function(...) {
-      col <- list(...)
-      vals <- Map(function(pref, range) paste0(pref, range), names(col), col)
-      match(unlist(vals, use.names = FALSE), vars)
+    num_range = function(prefix, range, width = NULL) {
+      if (!is.null(width)) {
+        range <- sprintf(paste0("%0", width, "d"), range)
+      }
+      match(paste0(prefix, range), vars)
     }
   )
   select_env <- list2env(select_funs, names_env)

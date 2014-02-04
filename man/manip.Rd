@@ -81,8 +81,8 @@ are interpreted in the context of that tbl.
   selects all variables whose name contains \code{x} \item
   \code{matches(x, ignore.case = FALSE)}: selects all
   variables whose name matches the regular expression
-  \code{x} \item \code{num_range(x = 1:5)}: selects all
-  variables (numerically) from x1 to x5. }
+  \code{x} \item \code{num_range("x", 1:5, width = 2)}:
+  selects all variables (numerically) from x01 to x05. }
 
   To drop variables, use \code{-}. You can rename variables
   with named arguments.
@@ -94,7 +94,6 @@ arrange(mtcars, cyl, disp)
 mutate(mtcars, displ_l = disp / 61.0237)
 summarise(mtcars, mean(disp))
 summarise(group_by(mtcars, cyl), mean(disp))
-
 # More detailed select examples ------------------------------
 iris <- tbl_df(iris) # so it prints a little nicer
 select(iris, starts_with("Petal"))
@@ -106,7 +105,7 @@ select(iris, Petal.Length, Petal.Width)
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
-select(df, num_range(V = 4:6))
+select(df, num_range("V", 4:6))
 
 # Drop variables
 select(iris, -starts_with("Petal"))

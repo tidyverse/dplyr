@@ -26,7 +26,7 @@ select_vars(names(iris), Petal.Length, Petal.Width)
 
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)]
-select_vars(names(df), num_range(V = 4:6))
+select_vars(names(df), num_range("V", 4:6))
 
 # Drop variables
 select_vars(names(iris), -starts_with("Petal"))
