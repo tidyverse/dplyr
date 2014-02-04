@@ -1,5 +1,4 @@
-dplyr 0.1.2
------------
+# dplyr 0.1.2
 
 * new functions `cbind_all()` and `cbind_list()` doing efficient alternative to
   the usual `do.call(cbind, list(...) )`. Columns of the input data are shallow
@@ -26,8 +25,7 @@ dplyr 0.1.2
 
 * `rbind_all()` silently ignores data frames with 0 rows.
 
-dplyr 0.1.1
------------
+# dplyr 0.1.1
 
 ## Improvements
 
