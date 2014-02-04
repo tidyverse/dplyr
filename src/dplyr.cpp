@@ -1656,6 +1656,7 @@ List cbind_all( ListOf<DataFrame> dots ){
   
   // first check that the number of rows is the same
   int nrows = dots[0].nrows() ;
+  int nv = dots[0].size() ;
   for( int i=1; i<n; i++){
     if( dots[i].nrows() != nrows ){
       std::stringstream ss ;
@@ -1664,40 +1665,24 @@ List cbind_all( ListOf<DataFrame> dots ){
          << ", expecting "
          << nrows 
       ;
+      stop( ss.str() ) ;
     }
+    nv += dots[i].size() ;
   }
   
   // collect columns
-  std::vector<SEXP> columns ;
-  std::vector<SEXP> names ;
-  
-  // first collect the columns from the first df
-  DataFrame first = dots[0] ;
-  CharacterVector first_names = first.names() ;
-  int nc = first.size() ;
-  for( int j=0; j<nc; j++){
-      columns.push_back( shared_SEXP( first[j] ) );
-      names.push_back(first_names[j]) ; 
-  }
+  List out(nv) ;
+  CharacterVector out_names(nv) ;
   
   // then do the subsequent dfs
-  for( int i=1 ; i<n; i++){
+  for( int i=0, k=0 ; i<n; i++){
       DataFrame current = dots[i] ;
       CharacterVector current_names = current.names() ;
-      nc = current.size() ;
-      for( int j=0; j<nc; j++){
-          columns.push_back( shared_SEXP(current[j]) ) ;
-          names.push_back( current_names[j] ) ;
+      int nc = current.size() ;
+      for( int j=0; j<nc; j++, k++){
+          out[k] = shared_SEXP(current[j]) ;
+          out_names[i] = current_names[j] ;
       }
-  }
-  
-  // format the output df
-  int nv = columns.size() ;
-  List out(nv) ;
-  CharacterVector out_names(nv);
-  for( int i=0; i<nv; i++){
-    out[i] = columns[i] ;  
-    out_names[i] = names[i] ;
   }
   out.names() = out_names ;
   set_rownames( out, nrows ) ;
