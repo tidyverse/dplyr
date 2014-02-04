@@ -1,6 +1,10 @@
 dplyr 0.1.2
 -----------
 
+* new functions `cbind_all()` and `cbind_list()` doing efficient alternative to 
+  the usual `do.call(cbind, list(...) )`. Columns of the input data are shallow
+  copied. 
+
 * `lead()` and `lag()` preserve attributes, so they now work with
   dates, times and factors (#166)
 
