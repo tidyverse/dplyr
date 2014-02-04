@@ -132,6 +132,7 @@ select <- function(.data, ...) UseMethod("select")
 #' select_vars(names(iris), petal = starts_with("Petal"))
 select_vars <- function(vars, ..., env = parent.frame()) {
   args <- dots(...)
+  if (length(args) == 0) return(setNames(vars, vars))
 
   names_list <- setNames(as.list(seq_along(vars)), vars)
   names_env <- list2env(names_list, parent = env)

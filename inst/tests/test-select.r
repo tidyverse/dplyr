@@ -17,3 +17,37 @@ test_that("select does not lose grouping (#147)", {
   expect_equal(groups(grouped), list(quote(a)))
 })
 
+# Select variables -----------------------------------------------
+
+test_that("select_vars prefix/suffix matching", {
+  vars <- c("abc", "acd", "bbc", "bbd", "eee")
+  expect_equal(
+    select_vars(vars, starts_with("a")),
+    c("abc" = "abc", "acd" = "acd")
+  )
+  expect_equal(
+    select_vars(vars, ends_with("d")),
+    c("acd" = "acd", "bbd" = "bbd")
+  )
+  expect_equal(select_vars(vars, contains("eee")), c("eee" = "eee"))
+})
+
+test_that("select_vars can rename variables", {
+  vars <- c("a", "b")
+  expect_equal(select_vars(vars, b = a, a = b), c("b" = "a", "a" = "b"))
+})
+
+test_that("no inputs selects all vars", {
+  vars <- c("a", "b")
+  expect_equal(select_vars(vars), c("a" = "a", "b" = "b"))
+})
+
+test_that("negative index removes values", {
+  vars <- letters[1:3]
+
+  expect_equal(select_vars(vars, -c), c("a" = "a", "b" = "b"))
+  expect_equal(select_vars(vars, a:c, -c), c("a" = "a", "b" = "b"))
+  expect_equal(select_vars(vars, a, b, c, -c), c("a" = "a", "b" = "b"))
+  expect_equal(select_vars(vars, -c, a, b), c("a" = "a", "b" = "b"))
+})
+
