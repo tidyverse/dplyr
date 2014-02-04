@@ -36,10 +36,8 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 select.data.frame <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  input_vars <- vapply(input, as.character, character(1))
-
-  .data[, input_vars, drop = FALSE]
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+  select_impl(.data, vars)
 }
 #' @export
 do.data.frame <- function(.data, .f, ...) {

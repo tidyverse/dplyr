@@ -71,6 +71,7 @@
 #'
 #' # select() operates only on measures: it doesn't affect dimensions in any way
 #' select(nasa, cloudhigh:cloudmid)
+#' select(nasa, matches("temp"))
 #'
 #' # filter() operates only on dimensions
 #' filter(nasa, lat > 0, year == 2000)

@@ -122,10 +122,8 @@ arrange.tbl_dt <- function(.data, ...) {
 #' @rdname manip_dt
 #' @export
 select.data.table <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  input_vars <- vapply(input, as.character, character(1))
-
-  .data[, input_vars, drop = FALSE, with = FALSE]
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+  .data[, vars, drop = FALSE, with = FALSE]
 }
 
 #' @export

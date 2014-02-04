@@ -22,3 +22,10 @@ test_that("mutate doesn't copy vars", {
 
   expect_equal(location(mtcars3)$vars[1:11], location(mtcars2)$vars)
 })
+
+test_that("select doesn't copy vars", {
+  mtcars2 <- tbl_df(mtcars)
+  mtcars3 <- select(mtcars2, carb:mpg)
+
+  expect_equal(location(mtcars3)$vars[11:1], location(mtcars2)$vars)
+})

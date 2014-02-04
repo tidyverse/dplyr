@@ -10,10 +10,10 @@ test_that("two selects equivalent to one", {
     ref = select(df, n:o))
 })
 
-test_that("select does not loose grouping (#147)", {
+test_that("select does not lose grouping (#147)", {
   df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
   grouped <- df %.% group_by(a) %.% select(a, b, x)
-  
+
   expect_equal(groups(grouped), list(quote(a)))
 })
 

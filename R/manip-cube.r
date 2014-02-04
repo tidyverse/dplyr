@@ -1,7 +1,7 @@
 #' @export
 select.tbl_cube <- function(.data, ...) {
-  idx <- var_index(dots(...), .data$mets, parent.frame())
-  .data$mets <- .data$mets[idx]
+  vars <- select_vars(names(.data$mets), ..., env = parent.frame())
+  .data$mets <- .data$mets[vars]
   .data
 }
 
