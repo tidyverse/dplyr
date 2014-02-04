@@ -1,7 +1,7 @@
 # dplyr 0.1.2
 
 * new functions `cbind_all()` and `cbind_list()` doing efficient alternative to
-  the usual `do.call(cbind, list(...) )`. Columns of the input data are shallow
+  the usual `do.call(cbind, list(...))`. Columns of the input data are shallow
   copied.
 
 * `lead()` and `lag()` preserve attributes, so they now work with
@@ -16,7 +16,7 @@
 * `n()` never accepts arguments (#223).
 
 * The hybrid evaluator did not handle some expressions correctly, for
-  example in `if( n() > 5 ) 1 else 2` the subexpression `n()` was not
+  example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
   substituted correctly.
 
 * `row_number()` gives correct results (#227).
