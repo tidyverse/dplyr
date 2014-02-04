@@ -1,2 +1,1 @@
-PKG_LIBS = `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"`
-PKG_CPPFLAGS += -I../inst/include/
+PKG_CPPFLAGS+=-I../inst/include/
