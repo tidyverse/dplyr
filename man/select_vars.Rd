@@ -9,25 +9,12 @@ select_vars(vars, ..., env = parent.frame())
 
   \item{...}{Expressions to compute}
 }
+\value{
+A named character vector. Values are existing column names,
+names are new names.
+}
 \description{
 Select variables.
-}
-\section{Selection functions}{
-  As well as using existing functions like \code{:} and
-  \code{c}, there are a number of special functions that
-  only work inside \code{select}
-
-  \itemize{ \item \code{starts_with(x, ignore.case =
-  FALSE)}: names starts with \code{x} \item
-  \code{ends_with(x, ignore.case = FALSE)}: names ends in
-  \code{x} \item \code{contains(x, ignore.case = FALSE)}:
-  selects all variables whose name contains \code{x} \item
-  \code{matches(x, ignore.case = FALSE)}: selects all
-  variables whose name matches the regular expression
-  \code{x} \item \code{num_range(x = 1:5)}: selects all
-  variables (numerically) from x1 to x5. }
-
-  To exclude instead of including variables, use \code{-}.
 }
 \examples{
 # Keep variables

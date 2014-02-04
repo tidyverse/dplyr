@@ -57,6 +57,30 @@
 #' mutate(mtcars, displ_l = disp / 61.0237)
 #' summarise(mtcars, mean(disp))
 #' summarise(group_by(mtcars, cyl), mean(disp))
+#'
+#' # More detailed select examples ------------------------------
+#' iris <- tbl_df(iris) # so it prints a little nicer
+#' select(iris, starts_with("Petal"))
+#' select(iris, ends_with("Width"))
+#' select(iris, contains("etal"))
+#' select(iris, matches(".t."))
+#' select(iris, Petal.Length, Petal.Width)
+#'
+#' df <- as.data.frame(matrix(runif(100), nrow = 10))
+#' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
+#' select(df, V4:V6)
+#' select(df, num_range(V = 4:6))
+#'
+#' # Drop variables
+#' select(iris, -starts_with("Petal"))
+#' select(iris, -ends_with("Width"))
+#' select(iris, -contains("etal"))
+#' select(iris, -matches(".t."))
+#' select(iris, -Petal.Length, -Petal.Width)
+#'
+#' # Rename variables
+#' select(iris, petal_length = Petal.Length)
+#' select(iris, petal = starts_with("Petal"))
 NULL
 
 #' @rdname manip
@@ -75,15 +99,7 @@ mutate <- function(.data, ...) UseMethod("mutate")
 #' @export
 arrange <- function(.data, ...) UseMethod("arrange")
 
-#' @rdname manip
-#' @export
-select <- function(.data, ...) UseMethod("select")
-
-
-#' Select variables.
-#'
-#'
-#' @section Selection functions:
+#' @section Selection:
 #' As well as using existing functions like \code{:} and \code{c}, there are
 #' a number of special functions that only work inside \code{select}
 #'
@@ -100,13 +116,20 @@ select <- function(.data, ...) UseMethod("select")
 #'    selects all variables (numerically) from x1 to x5.
 #' }
 #'
-#' To exclude instead of including variables, use \code{-}.
+#' To drop variables, use \code{-}. You can rename variables with
+#' named arguments.
+#' @rdname manip
+#' @export
+select <- function(.data, ...) UseMethod("select")
+
+
+#' Select variables.
 #'
 #' @param vars A character vector of existing column names.
 #' @param ... Expressions to compute
 #' @export
 #' @keywords internal
-#' @value A named character vector. Values are existing column names,
+#' @return A named character vector. Values are existing column names,
 #'   names are new names.
 #' @examples
 #' # Keep variables
