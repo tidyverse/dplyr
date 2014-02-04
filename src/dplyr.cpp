@@ -1650,6 +1650,65 @@ List rbind_all( ListOf<DataFrame> dots ){
     return out ;
 }
 
+// [[Rcpp::export]]
+List cbind_all( ListOf<DataFrame> dots ){
+  int n = dots.size() ;
+  
+  // first check that the number of rows is the same
+  int nrows = dots[0].nrows() ;
+  for( int i=1; i<n; i++){
+    if( dots[i].nrows() != nrows ){
+      std::stringstream ss ;
+      ss << "incompatible number of rows (" 
+         << dots[i].size()
+         << ", expecting "
+         << nrows 
+      ;
+    }
+  }
+  
+  // collect columns
+  std::vector<SEXP> columns ;
+  std::vector<SEXP> names ;
+  
+  // first collect the columns from the first df
+  DataFrame first = dots[0] ;
+  CharacterVector first_names = first.names() ;
+  int nc = first.size() ;
+  for( int j=0; j<nc; j++){
+      columns.push_back( shared_SEXP( first[j] ) );
+      names.push_back(first_names[j]) ; 
+  }
+  
+  // then do the subsequent dfs
+  for( int i=1 ; i<n; i++){
+      DataFrame current = dots[i] ;
+      CharacterVector current_names = current.names() ;
+      nc = current.size() ;
+      for( int j=0; j<nc; j++){
+          SEXP column_name = current_names[j] ;
+          std::vector<SEXP>::iterator it = std::find( names.begin(), names.end(), column_name ) ;
+          if( it == names.end() ){
+              columns.push_back( shared_SEXP(current[j]) ) ;
+              names.push_back( column_name ) ;
+          } 
+      }
+  }
+  
+  // format the output df
+  int nv = columns.size() ;
+  List out(nv) ;
+  CharacterVector out_names(nv);
+  for( int i=0; i<nv; i++){
+    out[i] = columns[i] ;  
+    out_names[i] = names[i] ;
+  }
+  out.names() = out_names ;
+  set_rownames( out, nrows ) ;
+  out.attr( "class") = "data.frame" ;
+  return out ;
+}
+
 SEXP strip_group_attributes(DataFrame df){
   Shield<SEXP> attribs( Rf_cons( classes_not_grouped(), R_NilValue ) ) ;
   SET_TAG(attribs, Rf_install("class") ) ;
