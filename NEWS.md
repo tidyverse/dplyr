@@ -1,12 +1,18 @@
 dplyr 0.1.2
 -----------
 
-* new functions `cbind_all()` and `cbind_list()` doing efficient alternative to 
+* new functions `cbind_all()` and `cbind_list()` doing efficient alternative to
   the usual `do.call(cbind, list(...) )`. Columns of the input data are shallow
-  copied. 
+  copied.
 
 * `lead()` and `lag()` preserve attributes, so they now work with
   dates, times and factors (#166)
+
+* `select()` is substantially more powerful. You can use named arguments to
+  rename existing variables, and new functions `starts_with()`, `ends_with()`,
+  `contains()`, `matches()` and `num_range()` to select variables based on
+  their names. It now also makes a shallow copy, substantially reducing its
+  memory impact. (#158, #172, #192, #232)
 
 * `n()` never accepts arguments (#223)
 
