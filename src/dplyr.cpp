@@ -518,8 +518,7 @@ SEXP shallow_copy(const DataFrame& data){
     int n = data.size() ;
     List out(n) ;
     for( int i=0; i<n; i++) {
-      out[i] = data[i] ;
-      SET_NAMED(out[i], 2) ;
+      out[i] = shared_SEXP(data[i]) ;
     }
     copy_attributes(out, data) ;
     return out ;
@@ -1340,8 +1339,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             if(call_proxy.has_variable(call)){
                 result = call_proxy.get_variable(PRINTNAME(call)) ;
             } else {
-                result = env.find(CHAR(PRINTNAME(call))) ;
-                SET_NAMED(result,2) ;
+                result = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
             }
         } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( args[i] );
@@ -1474,8 +1472,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
 
     int i=0;
     for( ; i<nvars; i++){
-        SET_NAMED(gdf.label(i), 2) ;
-        accumulator.set( PRINTNAME(gdf.symbol(i)), gdf.label(i) ) ;
+        accumulator.set( PRINTNAME(gdf.symbol(i)), shared_SEXP(gdf.label(i)) ) ;
     }
 
     LazyGroupedSubsets subsets(gdf) ;

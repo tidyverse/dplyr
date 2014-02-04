@@ -52,6 +52,10 @@ bool can_simplify(SEXP) ;
 inline SEXP as_symbol(SEXP x) {
     return Rf_install( CHAR(x) );
 }
+inline SEXP shared_SEXP(SEXP x){
+    SET_NAMED(x, 2 );  
+    return x ;  
+}
 void check_supported_type(SEXP) ;
 SEXP pairlist_shallow_copy(SEXP) ;
 void copy_attributes(SEXP, SEXP) ;
