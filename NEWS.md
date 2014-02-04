@@ -12,18 +12,19 @@ dplyr 0.1.2
   rename existing variables, and new functions `starts_with()`, `ends_with()`,
   `contains()`, `matches()` and `num_range()` to select variables based on
   their names. It now also makes a shallow copy, substantially reducing its
-  memory impact. (#158, #172, #192, #232)
+  memory impact (#158, #172, #192, #232).
 
-* `n()` never accepts arguments (#223)
+* `n()` never accepts arguments (#223).
 
-* The hybrid evaluation did not handle some expressions correctly, for example in
-  `if( n() > 5 ) 1 else 2` the subexpression `n()` was not substituted correctly.
+* The hybrid evaluator did not handle some expressions correctly, for
+  example in `if( n() > 5 ) 1 else 2` the subexpression `n()` was not
+  substituted correctly.
 
-* `row_number` gives correct results (#227).
+* `row_number()` gives correct results (#227).
 
-* `filter` now fails when given anything that does not evaluates to a logical vector
+* `filter()` now fails when given anything other than a logical vector.
 
-* `rbind_all` silently ignores data frames with 0 rows.
+* `rbind_all()` silently ignores data frames with 0 rows.
 
 dplyr 0.1.1
 -----------
