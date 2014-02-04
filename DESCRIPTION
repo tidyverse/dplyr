@@ -37,6 +37,7 @@ Collate:
     'RcppExports.R'
     'all-equal.r'
     'bench-compare.r'
+    'cbind.r'
     'chain.r'
     'compute-collect.r'
     'copy-to.r'
