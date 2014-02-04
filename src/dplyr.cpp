@@ -1686,12 +1686,8 @@ List cbind_all( ListOf<DataFrame> dots ){
       CharacterVector current_names = current.names() ;
       nc = current.size() ;
       for( int j=0; j<nc; j++){
-          SEXP column_name = current_names[j] ;
-          std::vector<SEXP>::iterator it = std::find( names.begin(), names.end(), column_name ) ;
-          if( it == names.end() ){
-              columns.push_back( shared_SEXP(current[j]) ) ;
-              names.push_back( column_name ) ;
-          } 
+          columns.push_back( shared_SEXP(current[j]) ) ;
+          names.push_back( current_names[j] ) ;
       }
   }
   
