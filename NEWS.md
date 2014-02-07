@@ -1,5 +1,7 @@
 # dplyr 0.1.2
 
+* `mutate.data.frame()` correctly mutates the same variable repeatedly (#243)
+
 * new functions `cbind_all()` and `cbind_list()` doing efficient alternative to
   the usual `do.call(cbind, list(...))`. Columns of the input data are shallow
   copied.
