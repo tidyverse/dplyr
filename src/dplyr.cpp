@@ -952,7 +952,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     Call call( and_calls( args, set, env ) ) ;
 
     int nrows = data.nrows() ;
-    LogicalVector test = no_init(nrows);
+    LogicalVector test(nrows, TRUE);
 
     LogicalVector g_test ;
     GroupedCallProxy call_proxy( call, gdf, env ) ;
@@ -965,18 +965,17 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
         
         g_test = check_filter_logical_result( call_proxy.get( indices ) ) ;
         if( g_test.size() == 1 ){
-            int val = g_test[0] ;
+            int val = g_test[0] == TRUE ;
             for( int j=0; j<chunk_size; j++){
                 test[ indices[j] ] = val ;
             }
         } else {
             check_filter_result(g_test, chunk_size ) ;
             for( int j=0; j<chunk_size; j++){
-                test[ indices[j] ] = g_test[j] ;
+                if( g_test[j] != TRUE ) test[ indices[j] ] = FALSE ;
             }
         }
     }
-
     DataFrame res = subset( data, test, names, classes_grouped() ) ;
     res.attr( "vars")   = data.attr("vars") ;
 
@@ -1008,7 +1007,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
 
             g_test  = check_filter_logical_result(call_proxy.get( indices ));
             if( g_test.size() == 1 ){
-                if( ! g_test[0] ){
+                if( g_test[0] != TRUE ){
                     for( int j=0; j<chunk_size; j++){
                         test[indices[j]] = FALSE ;    
                     }
@@ -1016,13 +1015,15 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
             } else {
                 check_filter_result(g_test, chunk_size ) ;
                 for( int j=0; j<chunk_size; j++){
-                    test[ indices[j] ] = test[ indices[j] ] & g_test[j] ;
+                    if( g_test[j] != TRUE ){
+                        test[ indices[j] ] = FALSE ;
+                    }
                 }
             }
         }
     }
     DataFrame res = subset( data, test, names, classes_grouped() ) ;
-    res.attr( "vars")   = data.attr("vars") ;
+    res.attr( "vars") = data.attr("vars") ;
 
     return res ;
 }
@@ -1073,7 +1074,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         
         LogicalVector test = check_filter_logical_result(proxy.eval()) ;
         if( test.size() == 1){
-            if( test[0] ){
+            if( test[0] == TRUE ){
                 return df ; 
             } else {
                 return empty_subset(df, df.names(), classes_not_grouped()) ;    

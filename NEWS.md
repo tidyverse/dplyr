@@ -25,6 +25,8 @@
 
 * `filter()` now fails when given anything other than a logical vector.
 
+* `filter()` correctly handles missing values (#249).
+
 * `rbind_all()` silently ignores data frames with 0 rows.
 
 # dplyr 0.1.1
