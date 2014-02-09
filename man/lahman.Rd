@@ -5,6 +5,7 @@
 \alias{lahman_df}
 \alias{lahman_dt}
 \alias{lahman_mysql}
+\alias{lahman_oracle}
 \alias{lahman_postgres}
 \alias{lahman_sqlite}
 \alias{lahman_srcs}
@@ -13,6 +14,8 @@
 lahman_sqlite(path = NULL)
 
 lahman_postgres(...)
+
+lahman_oracle(...)
 
 lahman_mysql(...)
 

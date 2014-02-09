@@ -55,7 +55,8 @@ are interpreted in the context of that tbl.
   data.table: \link{manip_dt} \item SQLite:
   \code{\link{src_sqlite}} \item PostgreSQL:
   \code{\link{src_postgres}} \item MySQL:
-  \code{\link{src_mysql}} }
+  \code{\link{src_mysql}} \item Oracle:
+  \code{\link{src_oracle}} }
 }
 
 \section{Output}{

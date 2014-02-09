@@ -1,19 +1,15 @@
-#' Connect to oracle.
+#' Connect to Oracle.
 #'
-#' Use \code{src_oracle} to connect to an existing oracle database,
+#' Use \code{src_oracle} to connect to an existing Oracle database,
 #' and \code{tbl} to connect to tables within that database.
-#' If you are running a local oracle database, leave all parameters set as
-#' their defaults to connect. If you're connecting to a remote database,
-#' ask your database administrator for the values of these variables.
 #'
 #' @template db-info
 #' @param dbname Database name
-#' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
 #' @param ... for the src, other arguments passed on to the underlying
 #'   database connector, \code{dbConnect}. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
-#' @param src an oracle src created with \code{src_oracle}.
+#' @param src an Oracle src created with \code{src_oracle}.
 #' @param from Either a string giving the name of table in database, or
 #'   \code{\link{sql}} described a derived table or compound join.
 #' @export
@@ -21,7 +17,7 @@
 #' \dontrun{
 #' # Connection basics ---------------------------------------------------------
 #' # To connect to a database first create a src:
-#' my_db <- src_oracle(host = "blah.com", user = "hadley",
+#' my_db <- src_oracle(host = "TNShost", user = "hadley",
 #'   password = "pass")
 #' # Then reference a tbl within that src
 #' my_tbl <- tbl(my_db, "my_table")
@@ -93,7 +89,7 @@
 src_oracle <- function(dbname = NULL, user = NULL,
                          password = NULL, ...) {
   if (!require("ROracle")) {
-    stop("ROracle package required to connect to oracle db", call. = FALSE)
+    stop("ROracle package required to connect to Oracle db", call. = FALSE)
   }
   
   con  <- dbi_connect(Oracle(), username = user, password = password, dbname = dbname, ...)
@@ -129,7 +125,7 @@ translate_env.src_oracle <- function(x) {
                    var = sql_prefix("var_samp"),
                    #all = sql_prefix("bool_and"),
                    #any = sql_prefix("bool_or"),
-                   paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
+                   paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")                  
     ),
     base_win
   )

@@ -52,10 +52,6 @@ db_has_table.default <- function(con, table) {
   table %in% db_list_tables(con)
 }
 #' @export
-db_has_table.oracle <- function(con, table) {
-  dbExistsTable(con, table)
-}
-#' @export
 db_has_table.MySQLConnection <- function(con, table) {
   # MySQL has no way to list temporary tables, so we always NA to
   # skip any local checks and rely on the database to throw informative errors
@@ -265,6 +261,14 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 
   paste(expl[[1]], collapse = "\n")
 }
+
+# #' @export
+# qry_explain.OraConnection <- function(con, sql, ...) {
+#   exsql <- build_sql("EXPLAIN PLAN FOR ", sql)
+#   expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
+#   expl2 <- qry_fetch(con, "select * from table(dbms_xplan.display", show = FALSE, explain = FALSE)
+#   a = 1
+# }
 
 # Result sets ------------------------------------------------------------------
 
