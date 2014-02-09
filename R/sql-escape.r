@@ -218,7 +218,6 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
 
     escape(val, con = con)
   }
-
   pieces <- vapply(dots(...), escape_expr, character(1))
   sql(paste0(pieces, collapse = ""))
 }

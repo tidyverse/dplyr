@@ -56,10 +56,7 @@ Query <- setRefClass("Query",
         sql
       } else {
         
-        if(class(con) == "OraConnection") 
-          build_sql("(", sql, ")    master", con = con)        
-        else 
-          build_sql("(", sql, ") AS master", con = con)
+          build_sql("(", sql, sql_as(con=con,"master"), con = con)
       }
     },
 

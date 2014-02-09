@@ -373,14 +373,12 @@ sql_as <- function(con, alias = NULL) {
 
 #' @export
 sql_as.DBIConnection <- function(con, alias = NULL) {
-  print(paste0(") AS ", alias))
-  return(paste0(") AS ", alias))
+  return(sql(paste0(") AS ", alias)))
 }
-
+ 
 #' @export
 sql_as.OraConnection <- function(con, alias = NULL) {
-  print(paste0(")", alias))
-  return(paste0(")", alias))
+  return(sql(paste0(") ", alias)))
 }
 
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
