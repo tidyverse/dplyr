@@ -135,7 +135,7 @@ qry_fields.SQLiteConnection <- function(con, from) {
 
 #' @export
 qry_fields.OraConnection <- function(con, from) {
-  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 1=2"))
+  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1"))
   on.exit(dbClearResult(qry))
   
   dbGetInfo(qry)$fields$name 
@@ -265,14 +265,6 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 
   paste(expl[[1]], collapse = "\n")
 }
-
-######
-# TODO
-######
-
-#qry_explain.OraConnection <- function(STUFF) {
-# 
-# }
 
 # Result sets ------------------------------------------------------------------
 
