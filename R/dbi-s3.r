@@ -367,6 +367,21 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
   invisible()
 }
 
+sql_as <- function(con, alias = NULL) {
+  UseMethod("sql_as")
+}
+
+#' @export
+sql_as.DBIConnection <- function(con, alias = NULL) {
+  print(paste0(") AS ", alias))
+  return(paste0(") AS ", alias))
+}
+
+#' @export
+sql_as.OraConnection <- function(con, alias = NULL) {
+  print(paste0(")", alias))
+  return(paste0(")", alias))
+}
 
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
   UseMethod("sql_create_indexes")
@@ -484,3 +499,4 @@ sql_select <- function(con, select, from, where = NULL, group_by = NULL,
 random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
+
