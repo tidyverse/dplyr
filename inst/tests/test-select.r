@@ -61,3 +61,4 @@ test_that("num_range selects numeric ranges", {
   expect_equal(select_vars(vars, num_range("x", 10:11)), vars[5:6])
   expect_equal(select_vars(vars, num_range("x", 10:11, width = 2)), vars[5:6])
 })
+

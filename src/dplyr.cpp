@@ -1544,10 +1544,11 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
     
     DataFrame labels = shallow_copy(original_labels) ;
     CharacterVector label_names = clone<CharacterVector>( labels.names() ) ;
-    IntegerVector positions = match( keep, label_names ); 
+    
+    IntegerVector positions = match( label_names, keep ); 
     int nl = label_names.size() ;
     for( int i=0; i<nl; i++){
-      label_names[ positions[i]-1] = new_names[i] ;
+      label_names[positions[i]-1] = new_names[i] ;
     }
     labels.names() = label_names ;
     labels.attr("vars") = vars ;
