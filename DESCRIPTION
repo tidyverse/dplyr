@@ -7,6 +7,7 @@ Author: Hadley Wickham <h.wickham@gmail.com>,
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
+URL: https://github.com/hadley/dplyr
 Depends:
     R (>= 3.0.2)
 Imports:
