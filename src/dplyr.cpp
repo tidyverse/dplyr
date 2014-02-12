@@ -830,7 +830,6 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     return build_index_cpp(copy) ;
 }
 
-// [[Rcpp::export]]
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
 

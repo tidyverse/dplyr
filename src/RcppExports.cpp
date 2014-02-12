@@ -285,21 +285,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// build_index_cpp
-DataFrame build_index_cpp(DataFrame data);
-RcppExport SEXP dplyr_build_index_cpp(SEXP dataSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP );
-        DataFrame __result = build_index_cpp(data);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // filter_impl
 SEXP filter_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
