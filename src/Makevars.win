@@ -1,1 +1,1 @@
-PKG_CPPFLAGS+=-I../inst/include/
+PKG_CPPFLAGS+=-I../inst/include/ -DCOMPILING_DPLYR
