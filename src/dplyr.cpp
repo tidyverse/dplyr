@@ -1,4 +1,3 @@
-#define COMPILING_DPLYR
 #include <dplyr.h>
 
 using namespace Rcpp ;
@@ -514,12 +513,11 @@ void copy_attributes(SEXP out, SEXP data){
 }
 
 // [[Rcpp::export]]
-SEXP shallow_copy(const DataFrame& data){
+SEXP shallow_copy(const List& data){
     int n = data.size() ;
     List out(n) ;
     for( int i=0; i<n; i++) {
-      out[i] = data[i] ;
-      SET_NAMED(out[i], 2) ;
+      out[i] = shared_SEXP(data[i]) ;
     }
     copy_attributes(out, data) ;
     return out ;
@@ -831,7 +829,6 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     return build_index_cpp(copy) ;
 }
 
-// [[Rcpp::export]]
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
 
@@ -953,7 +950,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     Call call( and_calls( args, set, env ) ) ;
 
     int nrows = data.nrows() ;
-    LogicalVector test = no_init(nrows);
+    LogicalVector test(nrows, TRUE);
 
     LogicalVector g_test ;
     GroupedCallProxy call_proxy( call, gdf, env ) ;
@@ -966,18 +963,17 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
         
         g_test = check_filter_logical_result( call_proxy.get( indices ) ) ;
         if( g_test.size() == 1 ){
-            int val = g_test[0] ;
+            int val = g_test[0] == TRUE ;
             for( int j=0; j<chunk_size; j++){
                 test[ indices[j] ] = val ;
             }
         } else {
             check_filter_result(g_test, chunk_size ) ;
             for( int j=0; j<chunk_size; j++){
-                test[ indices[j] ] = g_test[j] ;
+                if( g_test[j] != TRUE ) test[ indices[j] ] = FALSE ;
             }
         }
     }
-
     DataFrame res = subset( data, test, names, classes_grouped() ) ;
     res.attr( "vars")   = data.attr("vars") ;
 
@@ -1009,7 +1005,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
 
             g_test  = check_filter_logical_result(call_proxy.get( indices ));
             if( g_test.size() == 1 ){
-                if( ! g_test[0] ){
+                if( g_test[0] != TRUE ){
                     for( int j=0; j<chunk_size; j++){
                         test[indices[j]] = FALSE ;    
                     }
@@ -1017,13 +1013,15 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
             } else {
                 check_filter_result(g_test, chunk_size ) ;
                 for( int j=0; j<chunk_size; j++){
-                    test[ indices[j] ] = test[ indices[j] ] & g_test[j] ;
+                    if( g_test[j] != TRUE ){
+                        test[ indices[j] ] = FALSE ;
+                    }
                 }
             }
         }
     }
     DataFrame res = subset( data, test, names, classes_grouped() ) ;
-    res.attr( "vars")   = data.attr("vars") ;
+    res.attr( "vars") = data.attr("vars") ;
 
     return res ;
 }
@@ -1074,7 +1072,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         
         LogicalVector test = check_filter_logical_result(proxy.eval()) ;
         if( test.size() == 1){
-            if( test[0] ){
+            if( test[0] == TRUE ){
                 return df ; 
             } else {
                 return empty_subset(df, df.names(), classes_not_grouped()) ;    
@@ -1310,8 +1308,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             if(call_proxy.has_variable(call)){
                 result = call_proxy.get_variable(PRINTNAME(call)) ;
             } else {
-                result = env.find(CHAR(PRINTNAME(call))) ;
-                SET_NAMED(result,2) ;
+                result = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
             }
         } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( args[i] );
@@ -1444,8 +1441,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
 
     int i=0;
     for( ; i<nvars; i++){
-        SET_NAMED(gdf.label(i), 2) ;
-        accumulator.set( PRINTNAME(gdf.symbol(i)), gdf.label(i) ) ;
+        accumulator.set( PRINTNAME(gdf.symbol(i)), shared_SEXP(gdf.label(i)) ) ;
     }
 
     LazyGroupedSubsets subsets(gdf) ;
@@ -1507,6 +1503,68 @@ SEXP summarise_impl( DataFrame df, List args, Environment env){
     }
 }
 
+SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, CharacterVector new_names ){
+  CharacterVector names = df.names() ;
+  IntegerVector positions = match( keep, names ); 
+  int n = keep.size() ; 
+  List res(n) ;
+  for( int i=0; i<n; i++){
+    res[i] = df[ positions[i]-1 ] ;  
+  }
+  copy_attributes(res, df) ;
+  res.names() = new_names ; 
+  return res ; 
+}
+
+DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, CharacterVector new_names ){
+  int n = keep.size() ;
+  DataFrame copy = select_not_grouped( gdf.data(), keep, new_names );
+  
+  // handle vars  attribute : make a shallow copy of the list and alter 
+  //   its names attribute
+  List vars = shallow_copy( copy.attr("vars") ); 
+  int nv = vars.size() ;
+  for( int i=0; i<nv; i++){
+    SEXP s = PRINTNAME(vars[i]) ;
+    int j = 0; 
+    for( ; j < n; j++){
+      if( s == keep[j] ){
+        vars = Rf_install( CHAR(new_names[j]) );  
+      }
+    }
+  }
+  copy.attr("vars") = vars ;
+  
+  // hangle labels attribute
+  //   make a shallow copy of the data frame and alter its names attributes
+  if( !Rf_isNull( copy.attr("labels" ) ) ){   
+    DataFrame original_labels( copy.attr("labels" ) ) ;
+    
+    DataFrame labels = shallow_copy(original_labels) ;
+    CharacterVector label_names = clone<CharacterVector>( labels.names() ) ;
+    
+    IntegerVector positions = match( label_names, keep ); 
+    int nl = label_names.size() ;
+    for( int i=0; i<nl; i++){
+      label_names[positions[i]-1] = new_names[i] ;
+    }
+    labels.names() = label_names ;
+    labels.attr("vars") = vars ;
+    copy.attr("labels") = labels ;
+  }
+  
+  return copy ;
+}
+
+// [[Rcpp::export]]
+DataFrame select_impl( DataFrame df, CharacterVector vars ){
+  if( is<GroupedDataFrame>(df) ){
+    return select_grouped( GroupedDataFrame(df), vars, vars.names() ) ;  
+  } else {
+    return select_not_grouped(df, vars, vars.names() ) ;  
+  }
+}
+
 //' Efficiently count the number of unique values in a vector.
 //'
 //' This is a faster and more concise equivalent of \code{length(unique(x))}
@@ -1542,6 +1600,8 @@ List rbind_all( ListOf<DataFrame> dots ){
     int k=0 ;
     for( int i=0; i<ndata; i++){
         DataFrame df = dots[i] ;
+        if( ! Rf_length(df[0]) ) continue ;
+            
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
 
@@ -1621,6 +1681,46 @@ List rbind_all( ListOf<DataFrame> dots ){
     return out ;
 }
 
+// [[Rcpp::export]]
+List cbind_all( ListOf<DataFrame> dots ){
+  int n = dots.size() ;
+  
+  // first check that the number of rows is the same
+  int nrows = dots[0].nrows() ;
+  int nv = dots[0].size() ;
+  for( int i=1; i<n; i++){
+    if( dots[i].nrows() != nrows ){
+      std::stringstream ss ;
+      ss << "incompatible number of rows (" 
+         << dots[i].size()
+         << ", expecting "
+         << nrows 
+      ;
+      stop( ss.str() ) ;
+    }
+    nv += dots[i].size() ;
+  }
+  
+  // collect columns
+  List out(nv) ;
+  CharacterVector out_names(nv) ;
+  
+  // then do the subsequent dfs
+  for( int i=0, k=0 ; i<n; i++){
+      DataFrame current = dots[i] ;
+      CharacterVector current_names = current.names() ;
+      int nc = current.size() ;
+      for( int j=0; j<nc; j++, k++){
+          out[k] = shared_SEXP(current[j]) ;
+          out_names[i] = current_names[j] ;
+      }
+  }
+  out.names() = out_names ;
+  set_rownames( out, nrows ) ;
+  out.attr( "class") = "data.frame" ;
+  return out ;
+}
+
 SEXP strip_group_attributes(DataFrame df){
   Shield<SEXP> attribs( Rf_cons( classes_not_grouped(), R_NilValue ) ) ;
   SET_TAG(attribs, Rf_install("class") ) ;
@@ -1683,3 +1783,4 @@ std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
 
   return ids;
 }
+

@@ -85,9 +85,9 @@ mutate.data.table <- function(.data, ..., inplace = FALSE) {
 
   cols <- named_dots(...)
   # For each new variable, generate a call of the form df[, new := expr]
-  for(col in names(cols)) {
+  for(i in seq_along(cols)) {
     call <- substitute(data[, lhs := rhs],
-      list(lhs = as.name(col), rhs = cols[[col]]))
+      list(lhs = as.name(names(cols)[[i]]), rhs = cols[[i]]))
     eval(call, env)
   }
 
@@ -122,10 +122,8 @@ arrange.tbl_dt <- function(.data, ...) {
 #' @rdname manip_dt
 #' @export
 select.data.table <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  input_vars <- vapply(input, as.character, character(1))
-
-  .data[, input_vars, drop = FALSE, with = FALSE]
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+  .data[, vars, drop = FALSE, with = FALSE]
 }
 
 #' @export

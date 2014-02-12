@@ -69,6 +69,25 @@ are interpreted in the context of that tbl.
   typically return a local source from at least
   \code{summarise} and \code{mutate} }
 }
+
+\section{Selection}{
+  As well as using existing functions like \code{:} and
+  \code{c}, there are a number of special functions that
+  only work inside \code{select}
+
+  \itemize{ \item \code{starts_with(x, ignore.case =
+  FALSE)}: names starts with \code{x} \item
+  \code{ends_with(x, ignore.case = FALSE)}: names ends in
+  \code{x} \item \code{contains(x, ignore.case = FALSE)}:
+  selects all variables whose name contains \code{x} \item
+  \code{matches(x, ignore.case = FALSE)}: selects all
+  variables whose name matches the regular expression
+  \code{x} \item \code{num_range("x", 1:5, width = 2)}:
+  selects all variables (numerically) from x01 to x05. }
+
+  To drop variables, use \code{-}. You can rename variables
+  with named arguments.
+}
 \examples{
 filter(mtcars, cyl == 8)
 select(mtcars, mpg, cyl, hp:vs)
@@ -76,5 +95,28 @@ arrange(mtcars, cyl, disp)
 mutate(mtcars, displ_l = disp / 61.0237)
 summarise(mtcars, mean(disp))
 summarise(group_by(mtcars, cyl), mean(disp))
+# More detailed select examples ------------------------------
+iris <- tbl_df(iris) # so it prints a little nicer
+select(iris, starts_with("Petal"))
+select(iris, ends_with("Width"))
+select(iris, contains("etal"))
+select(iris, matches(".t."))
+select(iris, Petal.Length, Petal.Width)
+
+df <- as.data.frame(matrix(runif(100), nrow = 10))
+df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
+select(df, V4:V6)
+select(df, num_range("V", 4:6))
+
+# Drop variables
+select(iris, -starts_with("Petal"))
+select(iris, -ends_with("Width"))
+select(iris, -contains("etal"))
+select(iris, -matches(".t."))
+select(iris, -Petal.Length, -Petal.Width)
+
+# Rename variables
+select(iris, petal_length = Petal.Length)
+select(iris, petal = starts_with("Petal"))
 }
 

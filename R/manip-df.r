@@ -43,18 +43,22 @@ summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 #' @rdname manip_df
 #' @export
 select.tbl_df <- function(.data, ...) {
-  tbl_df(select.data.frame(.data, ...))
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+  select_impl(.data, vars)
 }
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  input_vars <- vapply(input, as.character, character(1))
-  gps <- as.character(groups(.data))
-  if(length(diff <- setdiff(gps, input_vars))){
-    stop(sprintf("selection doesn't include grouping variables: %s", paste(diff, collapse = ",")))
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+
+  # Don't remove grouping vars!
+  missing <- setdiff(as.character(groups(.data)), vars)
+  if (length(missing) > 0) {
+    stop("selection doesn't include grouping variables: ",
+      paste0(missing, collapse = ","), call. = FALSE)
   }
-  grouped_df(.data[, input_vars, drop = FALSE], groups(.data))
+
+  select_impl(.data, vars)
 }
 
 # Other methods that currently don't have a better home -----------------------
@@ -82,7 +86,6 @@ all_equal_ <- function(...){
 sort_ <- function(data){
   sort_impl(data)
 }
-
 
 #' @export
 do.grouped_df <- function(.data, .f, ...) {

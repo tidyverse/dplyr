@@ -107,3 +107,12 @@ test_that("filter fails on integer indices", {
   expect_error(filter(mtcars, 1:2))
   expect_error(filter(group_by(mtcars,cyl), 1:2))
 })
+
+test_that("filter discards NA", {
+  temp <- data.frame(
+    i = 1:5,
+    x = c(NA, 1L, 1L, 0L, 0L)
+  )
+  res <- filter(temp, x == 1)
+  expect_equal(nrow(res), 2L)
+})

@@ -7,6 +7,7 @@ Author: Hadley Wickham <h.wickham@gmail.com>,
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
+URL: https://github.com/hadley/dplyr
 Depends:
     R (>= 3.0.2)
 Imports:
@@ -30,13 +31,14 @@ Suggests:
     mgcv
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.10.6),
+LinkingTo: Rcpp (>= 0.11.0),
     BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
     'all-equal.r'
     'bench-compare.r'
+    'cbind.r'
     'chain.r'
     'compute-collect.r'
     'copy-to.r'
