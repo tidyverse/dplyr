@@ -84,6 +84,7 @@ Collate:
     'src-bigquery.r'
     'src-local.r'
     'src-mysql.r'
+    'src-oracle.r'
     'src-postgres.r'
     'src-sql.r'
     'src-sqlite.r'
