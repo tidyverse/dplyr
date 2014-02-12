@@ -363,17 +363,17 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
   invisible()
 }
 
-sql_as <- function(con, alias = NULL) {
+sql_subquery <- function(con, alias = NULL) {
   UseMethod("sql_as")
 }
 
 #' @export
-sql_as.DBIConnection <- function(con, alias = NULL) {
+sql_subquery.DBIConnection <- function(con, alias = NULL) {
   sql(paste0(" AS ", alias))
 }
  
 #' @export
-sql_as.OraConnection <- function(con, alias = NULL) {
+sql_subquery.OraConnection <- function(con, alias = NULL) {
   sql(alias)
 }
 
