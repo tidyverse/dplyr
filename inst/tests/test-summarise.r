@@ -170,3 +170,14 @@ test_that("hybrid nests correctly", {
   res <- mtcars %.% summarise(a = if(n()>10) 1 else 2 )
   expect_equal(res$a, 1)
 })
+
+test_that("hybrid min and max propagate attributes (#246)", {
+  x <- data.frame(id=c(rep("a",2), rep("b",2)), 
+                date=as.POSIXct(c("2014-01-13", "2014-01-14", 
+                                  "2014-01-15", "2014-01-16"), 
+                                tz="GMT"))
+  y <- x %.% group_by(id) %.% summarise(max_date=max(date), min_date=min(date))
+  
+  expect_true("tzone" %in% names(attributes(y$min_date)))
+  expect_true("tzone" %in% names(attributes(y$max_date)))
+})

@@ -116,7 +116,7 @@ As well as the specialised operations described above, `dplyr` also provides the
 Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between their number of at bats and runs:
 
 ```r
-batting_db <- tbl(lahman(), "Batting")
+batting_db <- tbl(lahman_sqlite(), "Batting")
 batting_df <- collect(batting_db)
 batting_dt <- tbl_dt(batting_df)
 

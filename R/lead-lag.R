@@ -43,7 +43,9 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL) {
   xlen <- length(x)
   n <- pmin(n, xlen)
 
-  c(x[-seq_len(n)], rep(default, n))
+  out <- c(x[-seq_len(n)], rep(default, n))
+  attributes(out) <- attributes(x)
+  out
 }
 
 #' @export
@@ -59,5 +61,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL) {
   xlen <- length(x)
   n <- pmin(n, xlen)
 
-  c(rep(default, n), x[seq_len(xlen - n)])
+  out <- c(rep(default, n), x[seq_len(xlen - n)])
+  attributes(out) <- attributes(x)
+  out
 }

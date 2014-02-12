@@ -12,8 +12,9 @@ arrange.tbl_sql <- function(.data, ...) {
 
 #' @export
 select.tbl_sql <- function(.data, ...) {
-  input <- select_eval(dots(...), .data$select, parent.frame())
-  update(.data, select = input)
+  vars <- select_vars(tbl_vars(.data), ..., env = parent.frame())
+  idx <- match(vars, tbl_vars(.data))
+  update(.data, select = .data$select[idx])
 }
 
 #' @export
@@ -32,7 +33,7 @@ summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
 
   .data$summarise <- TRUE
   .data <- update(.data, select = c(.data$group_by, input))
-  
+
   if (!.collapse_result) return(.data)
   # Technically, don't always need to collapse result because summarise + filter
   # could be expressed in SQL using HAVING, but that's the only dplyr operation
@@ -48,20 +49,20 @@ regroup.tbl_sql <- function(x, value) {
   if (!all_apply(value, is.name)) {
     stop("May only group by variable names, not expressions", call. = FALSE)
   }
-  
+
   # Effect of group_by on previous operations:
   # * select: none
   # * filter: changes frame of window functions
   # * mutate: changes frame of window functions
   # * arrange: if present, groups inserted as first ordering
-  needed <- (x$mutate && uses_window_fun(x$select, x)) || 
+  needed <- (x$mutate && uses_window_fun(x$select, x)) ||
     uses_window_fun(x$filter, x)
   if (!is.null(x$order_by)) {
     arrange <- c(x$group_by, x$order_by)
   } else {
     arrange <- NULL
   }
-  
+
   if (needed) {
     x <- collapse(update(x, order_by = NULL))
   }
@@ -73,7 +74,7 @@ regroup.tbl_sql <- function(x, value) {
 mutate.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)
-  
+
   .data$mutate <- TRUE
   update(.data, select = c(.data$select, input))
 }

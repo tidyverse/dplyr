@@ -139,9 +139,8 @@ arrange.grouped_dt <- function(.data, ...) {
 #' @rdname manip_grouped_dt
 #' @export
 select.grouped_dt <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  input_vars <- vapply(input, as.character, character(1))
-  out <- .data[, input_vars, drop = FALSE, with = FALSE]
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+  out <- .data[, vars, drop = FALSE, with = FALSE]
 
   grouped_dt(
     data = out,

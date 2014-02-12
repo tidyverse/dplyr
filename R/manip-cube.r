@@ -1,7 +1,7 @@
 #' @export
 select.tbl_cube <- function(.data, ...) {
-  idx <- var_index(dots(...), .data$mets, parent.frame())
-  .data$mets <- .data$mets[idx]
+  vars <- select_vars(names(.data$mets), ..., env = parent.frame())
+  .data$mets <- .data$mets[vars]
   .data
 }
 
@@ -44,8 +44,10 @@ find_index <- function(x, names) {
 
 #' @export
 regroup.tbl_cube <- function(x, value) {
-  idx <- var_index(value, x$dims, parent.frame())
-  x$group <- idx
+  nms <- names(x$dims)
+  nms_list <- as.list(setNames(seq_along(nms), nms))
+
+  x$group <- unlist(lapply(value, eval, nms_list))
   x
 }
 

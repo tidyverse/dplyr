@@ -10,7 +10,7 @@ namespace dplyr {
     
     template <>
     inline int output_size<LogicalVector>( const LogicalVector& container){
-        return std::count( container.begin(), container.end(), 1 ) ;
+        return std::count( container.begin(), container.end(), TRUE ) ;
     }
     
     template <int RTYPE> std::string VectorVisitorType() ;
@@ -78,7 +78,7 @@ namespace dplyr {
             int n = output_size(index) ;
             VECTOR out = Rcpp::no_init(n) ;
             for( int i=0, k=0; k<n; k++, i++ ) {
-                while( ! index[i] ) i++; 
+                while( index[i] != TRUE ) i++; 
                 out[k] = vec[i] ;
             }
             return out ;
