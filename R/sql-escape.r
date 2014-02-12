@@ -176,7 +176,7 @@ sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
 
 names_to_as <- function(x, con = NULL) {
   names <- names2(x)
-  as <- ifelse(names == '', '', sql_subquery(con, escape_ident(con, names)))
+  as <- ifelse(names == '', '', sql_subquery(name = escape_ident(con, names), con = con))
 
   paste0(x, as)
 }

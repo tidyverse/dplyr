@@ -56,7 +56,7 @@ Query <- setRefClass("Query",
         sql
       } else {
         
-          build_sql("(", sql, ") ", sql_subquery(con=con,"master"), con = con)
+          build_sql(sql_subquery("(", sql, ") ", name = "master", con = con), con = con)
       }
     },
 
