@@ -364,7 +364,7 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
 }
 
 sql_subquery <- function(..., name = NULL, con = NULL) {
-  UseMethod("sql_as")
+  UseMethod("sql_subquery")
 }
 
 #' @export
