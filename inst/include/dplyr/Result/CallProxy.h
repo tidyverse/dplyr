@@ -98,9 +98,12 @@ namespace dplyr {
                         LazySubsets::const_iterator it = subsets.find(head) ;
                         if( it == subsets.end() ){
                             // in the Environment -> resolve
-                            // TODO: handle the case where the variable is not found in env
-                            Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                            SETCAR( obj, x );
+                            try{
+                                Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                                SETCAR( obj, x );
+                            } catch( ...){
+                                // what happens when not found in environment
+                            }
                         } else {
                             // in the data frame
                             proxies.push_back( CallElementProxy( head, obj ) );
