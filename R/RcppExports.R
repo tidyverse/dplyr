@@ -69,10 +69,6 @@ grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
-filter_impl <- function(df, args, env) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
-}
-
 integer_filter_impl <- function(df, args, env) {
     .Call('dplyr_integer_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
@@ -143,6 +139,10 @@ tbl_df_impl <- function(df) {
 
 split_indices <- function(group, groups) {
     .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
+}
+
+filter_impl <- function(df, args, env) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
 #' Cumulativate versions of any, all, and mean

@@ -285,23 +285,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// filter_impl
-SEXP filter_impl(DataFrame df, List args, Environment env);
-RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
-        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = filter_impl(df, args, env);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // integer_filter_impl
 SEXP integer_filter_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_integer_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
@@ -532,6 +515,23 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< IntegerVector >::type group(groupSEXP );
         Rcpp::traits::input_parameter< int >::type groups(groupsSEXP );
         std::vector<std::vector<int> > __result = split_indices(group, groups);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// filter_impl
+SEXP filter_impl(DataFrame df, List args, Environment env);
+RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
+        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
+        SEXP __result = filter_impl(df, args, env);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
