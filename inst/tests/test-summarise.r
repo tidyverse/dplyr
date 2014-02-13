@@ -156,7 +156,7 @@ test_that( "summarise propagate attributes (#194)", {
 })
 
 test_that("summarise fails on missing variables", {
-  expect_error(summarise(mtcars, a = mean(notthear)), "binding not found")  
+  expect_error(summarise(mtcars, a = mean(notthear)) )  
 })
 
 test_that("n() does not accept arguments",{
