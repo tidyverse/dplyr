@@ -1454,7 +1454,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         // if we could not find a direct Result
         // we can use a GroupedCalledReducer which will callback to R
         if( !res ) res = new GroupedCalledReducer( args[k], subsets, env) ;
-
+        
         SEXP result = __( res->process(gdf) ) ;
         SEXP name = results_names[k] ;
         accumulator.set( name, result );

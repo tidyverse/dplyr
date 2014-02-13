@@ -12,7 +12,6 @@ namespace dplyr {
             virtual ~DelayedReducer(){} ;
             
             inline SEXP process_chunk( const SlicingIndex& indices){
-                // TODO: take advantage of SlicingIndex here. use the SETLENGTH thing
                 proxy = wrap_subset<INPUT_RTYPE>( data, indices );
                 return call.fast_eval() ;
             }

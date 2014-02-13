@@ -35,7 +35,7 @@ namespace dplyr {
                 
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){
-                    proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;  
+                    proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;
                 }
                 return call.eval(env) ;
             } else if( TYPEOF(call) == SYMSXP ) {

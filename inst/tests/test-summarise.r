@@ -181,3 +181,11 @@ test_that("hybrid min and max propagate attributes (#246)", {
   expect_true("tzone" %in% names(attributes(y$min_date)))
   expect_true("tzone" %in% names(attributes(y$max_date)))
 })
+
+test_that("summarise can use newly created variable more than once", {
+  df <- data.frame(id=c(1,1,2,2,3,3), a=1:6) %.% group_by(id)
+  for( i in 1:10){
+    res <- summarise(df, biggest=max(a), smallest=min(a), diff1=biggest-smallest, diff2=smallest-biggest)
+    expect_equal( res$diff1, -res$diff2)
+  }
+})

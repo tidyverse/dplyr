@@ -105,7 +105,7 @@ namespace Rcpp {
     }
     
     inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-        return SlicingIndex( indices[i] ) ;
+        return SlicingIndex( indices[i], i ) ;
     }
     
     

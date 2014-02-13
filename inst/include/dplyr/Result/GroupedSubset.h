@@ -53,7 +53,7 @@ namespace dplyr {
         
         virtual SEXP get( const SlicingIndex& indices ) {
             // this assumes we get in the right order. might have to enforce that
-            output[0] = object[i++] ;
+            output[0] = object[indices.group()] ;
             return output ;
         }
         virtual SEXP get_variable() const {

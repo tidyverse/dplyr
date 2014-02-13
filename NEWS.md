@@ -29,6 +29,8 @@
 
 * `rbind_all()` silently ignores data frames with 0 rows.
 
+* `summarise()` correctly uses newly created variables (#259).
+
 # dplyr 0.1.1
 
 ## Improvements
