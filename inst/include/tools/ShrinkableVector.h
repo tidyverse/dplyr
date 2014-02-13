@@ -27,7 +27,6 @@ namespace Rcpp {
             for( int i=0; i<n ; i++){
                 start[i] = begin[indices[i]] ;    
             }
-            // memcpy( start, begin, n * sizeof(STORAGE) );
             SETLENGTH(data, n) ;
         }
         

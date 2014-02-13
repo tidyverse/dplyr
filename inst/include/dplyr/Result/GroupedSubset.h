@@ -38,6 +38,7 @@ namespace dplyr {
             case REALSXP: return new GroupedSubsetTemplate<REALSXP>(x, max_size) ;
             case LGLSXP: return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
             case STRSXP: return new GroupedSubsetTemplate<STRSXP>(x, max_size) ;
+            case VECSXP: return new GroupedSubsetTemplate<VECSXP>(x, max_size) ;
         }
         return 0 ;
     }
@@ -52,7 +53,6 @@ namespace dplyr {
             object(x), output(1), i(0) {}
         
         virtual SEXP get( const SlicingIndex& indices ) {
-            // this assumes we get in the right order. might have to enforce that
             output[0] = object[indices.group()] ;
             return output ;
         }

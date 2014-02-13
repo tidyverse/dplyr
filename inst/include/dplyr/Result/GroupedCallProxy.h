@@ -53,7 +53,7 @@ namespace dplyr {
             proxies.clear() ;
             call = call_ ;
             if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
-            hybrid = can_simplify_call(call) ;
+            hybrid = can_simplify_call(call) ; 
         }
         
         void input( Rcpp::String name, SEXP x ){
@@ -107,9 +107,14 @@ namespace dplyr {
                     if( TYPEOF(obj) != LANGSXP ){
                         if( ! subsets.count(head) ){  
                             // in the Environment -> resolve
-                            // TODO: handle the case where the variable is not found in env
-                            Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                            SETCAR( obj, x );
+                            try{
+                                Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+                                SETCAR( obj, x );
+                            } catch(...){
+                                // when the binding is not found in the environment
+                                // e.g. summary(mod)$r.squared
+                                // the "r.squared" is not in the env
+                            }
                         } else {
                             // in the data frame
                             proxies.push_back( CallElementProxy( head, obj ) );
