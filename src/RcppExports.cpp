@@ -285,6 +285,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// build_index_adj
+List build_index_adj(DataFrame df, ListOf<Symbol> symbols);
+RcppExport SEXP dplyr_build_index_adj(SEXP dfSEXP, SEXP symbolsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP );
+        List __result = build_index_adj(df, symbols);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // integer_filter_impl
 SEXP integer_filter_impl(DataFrame df, List args, Environment env);
 RcppExport SEXP dplyr_integer_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {

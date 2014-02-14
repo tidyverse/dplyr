@@ -873,6 +873,36 @@ DataFrame build_index_cpp( DataFrame data ){
     return data ;
 }
 
+// [[Rcpp::export]]
+List build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
+    int nsymbols = symbols.size() ;
+    CharacterVector vars(nsymbols) ;
+    for( int i=0; i<nsymbols; i++){
+        vars[i] = PRINTNAME(symbols[i]) ;
+    }
+
+    DataFrameVisitors visitors(df, vars) ;
+    std::vector<int> sizes ;
+    int n = df.nrows() ;
+    
+    int i=0 ;
+    while( i<n ){
+        int start = i++ ;
+        for( ; i<n && visitors.equal(i, start) ; i++) ;
+        sizes.push_back(i-start) ;
+    }
+    
+    n = sizes.size() ;
+    List out(n);
+    int start = 1 ;
+    for( int i=0; i<n; i++){
+        int end = start + sizes[i] - 1 ;
+        out[i] = seq(start, end) ;
+        start = end + 1 ;
+    }
+    return out ;
+}
+
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 inline SEXP check_filter_integer_result(SEXP tmp){

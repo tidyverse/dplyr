@@ -69,6 +69,10 @@ grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
+build_index_adj <- function(df, symbols) {
+    .Call('dplyr_build_index_adj', PACKAGE = 'dplyr', df, symbols)
+}
+
 integer_filter_impl <- function(df, args, env) {
     .Call('dplyr_integer_filter_impl', PACKAGE = 'dplyr', df, args, env)
 }
