@@ -894,7 +894,7 @@ List build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
     
     n = sizes.size() ;
     List out(n);
-    int start = 1 ;
+    int start = 0 ;
     for( int i=0; i<n; i++){
         int end = start + sizes[i] - 1 ;
         out[i] = seq(start, end) ;
