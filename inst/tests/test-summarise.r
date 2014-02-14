@@ -165,7 +165,7 @@ test_that("n() does not accept arguments",{
 
 test_that("hybrid nests correctly", {
   res <- group_by(mtcars, cyl) %.% summarise(a = if(n()>10) 1 else 2 )
-  expect_equal(res$a, c(1,1,2))
+  expect_equal(res$a, c(1,2,1))
   
   res <- mtcars %.% summarise(a = if(n()>10) 1 else 2 )
   expect_equal(res$a, 1)

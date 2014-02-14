@@ -104,3 +104,14 @@ test_that("FactorVisitor handles NA. #183", {
   expect_equal(g$M.I, survey$M.I)
 })
 
+test_that("group_by orders by groups. #242", {
+  df <- data.frame(a = sample(1:10, 100, replace = TRUE)) %.% group_by(a)
+  expect_equal( attr(df, "labels")$a, 1:10 )
+  
+  df <- data.frame(a = sample(letters[1:10], 100, replace = TRUE), stringsAsFactors = FALSE) %.% group_by(a)
+  expect_equal(attr(df, "labels")$a, letters[1:10] )
+  
+  df <- data.frame(a = sample(sqrt(1:10), 100, replace = TRUE)) %.% group_by(a)
+  expect_equal(attr(df, "labels")$a, sqrt(1:10))
+  
+})

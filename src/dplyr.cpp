@@ -842,13 +842,24 @@ DataFrame build_index_cpp( DataFrame data ){
     DataFrame labels = visitors.subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
 
+    OrderVisitors labels_order_visitors(labels) ;
+    IntegerVector labels_order = labels_order_visitors.apply() ;
+    
+    DataFrameVisitors labels_visitors(labels ) ;
+    labels = labels_visitors.subset(labels_order, "data.frame" ) ;
+    
     List indices(ngroups) ;
     IntegerVector group_sizes = no_init( ngroups );
     int biggest_group = 0 ;
 
     ChunkIndexMap::const_iterator it = map.begin() ;
+    std::vector<const std::vector<int>* > chunks(ngroups) ;
     for( int i=0; i<ngroups; i++, ++it){
-        const std::vector<int>& chunk = it->second ;
+        chunks[i] = &it->second ;    
+    }
+    for( int i=0; i<ngroups; i++){
+        int idx = labels_order[i] ; 
+        const std::vector<int>& chunk = *chunks[idx] ;
         indices[i] = chunk ;
         group_sizes[i] = chunk.size() ;
         biggest_group = std::max( biggest_group, (int)chunk.size() );

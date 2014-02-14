@@ -18,10 +18,20 @@ namespace dplyr {
             
         public:
             typedef VectorVisitor visitor_type ;
-            
+                                    
+            DataFrameVisitors( const Rcpp::DataFrame& data_) :
+                data(data_), 
+                visitors()
+            {
+                visitor_names = data.names() ;
+                nvisitors =  visitor_names.size() ;
+                for( int i=0; i<nvisitors; i++){
+                   visitors.push_back( visitor(data[i]) ) ;     
+                }
+            }
             DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) : 
-            data(data_), 
-            visitors()
+                data(data_), 
+                visitors()
             {
                 std::string name ;
                 int n = names.size() ;

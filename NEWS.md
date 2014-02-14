@@ -31,6 +31,8 @@
 
 * `summarise()` correctly uses newly created variables (#259).
 
+* `group_by()` orders the result. (#242) 
+
 # dplyr 0.1.1
 
 ## Improvements
