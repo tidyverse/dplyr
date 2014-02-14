@@ -285,16 +285,17 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// build_index_adj
-List build_index_adj(DataFrame df, ListOf<Symbol> symbols);
-RcppExport SEXP dplyr_build_index_adj(SEXP dfSEXP, SEXP symbolsSEXP) {
+// grouped_df_adj_impl
+DataFrame grouped_df_adj_impl(DataFrame data, ListOf<Symbol> symbols, bool drop);
+RcppExport SEXP dplyr_grouped_df_adj_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP );
         Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP );
-        List __result = build_index_adj(df, symbols);
+        Rcpp::traits::input_parameter< bool >::type drop(dropSEXP );
+        DataFrame __result = grouped_df_adj_impl(data, symbols, drop);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

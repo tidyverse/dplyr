@@ -873,8 +873,7 @@ DataFrame build_index_cpp( DataFrame data ){
     return data ;
 }
 
-// [[Rcpp::export]]
-List build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
+DataFrame build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
     int nsymbols = symbols.size() ;
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
@@ -893,14 +892,34 @@ List build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
     }
     
     n = sizes.size() ;
-    List out(n);
+    List indices(n);
+    IntegerVector first = no_init(n) ;
     int start = 0 ;
+    int biggest_group = 0 ;
     for( int i=0; i<n; i++){
+        first[i] = start ;
         int end = start + sizes[i] - 1 ;
-        out[i] = seq(start, end) ;
+        indices[i] = seq(start, end) ;
         start = end + 1 ;
+        biggest_group = std::max( biggest_group, sizes[i]) ;
     }
-    return out ;
+    
+    df.attr( "indices") = indices ;
+    df.attr( "labels")  = visitors.subset(first, "data.frame") ;
+    df.attr( "group_sizes") = sizes ;
+    df.attr( "biggest_group_size") = biggest_group ;
+    df.attr( "class" ) = CharacterVector::create("adj_grouped_df", "grouped_df", "tbl_df", "tbl", "data.frame") ;
+    df.attr( "vars" ) = symbols ;
+    
+    return df ;
+}
+
+// [[Rcpp::export]]
+DataFrame grouped_df_adj_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
+    DataFrame copy = shallow_copy(data) ;
+    copy.attr("vars") = symbols ;
+    copy.attr("drop") = drop ;
+    return build_index_adj(data, symbols) ;
 }
 
 typedef dplyr_hash_set<SEXP> SymbolSet ;
