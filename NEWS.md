@@ -1,5 +1,8 @@
 # dplyr 0.1.2
 
+* provide `filter.numeric()` method so that you can continue to use base
+  `filter()` function with numeric inputs (#264).
+
 * `summarize()` added as alias for `summarise()` for people from countries
   that don't don't spell things correctly ;) (#245)
 
@@ -36,7 +39,7 @@
 
 * `summarise()` correctly uses newly created variables (#259).
 
-* `group_by()` orders the result. (#242) 
+* `group_by()` orders the result. (#242)
 
 # dplyr 0.1.1
 
