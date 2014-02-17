@@ -1,21 +1,6 @@
 # dplyr 0.1.2
 
-* provide `filter.numeric()` method so that you can continue to use base
-  `filter()` function with numeric inputs (#264).
-
-* `summarize()` added as alias for `summarise()` for people from countries
-  that don't don't spell things correctly ;) (#245)
-
-* `mutate.data.frame()` correctly mutates the same variable repeatedly (#243)
-
-* `mutate()` correctly propagates attributes (#265)
-
-* new functions `cbind_all()` and `cbind_list()` doing efficient alternative to
-  the usual `do.call(cbind, list(...))`. Columns of the input data are shallow
-  copied.
-
-* `lead()` and `lag()` preserve attributes, so they now work with
-  dates, times and factors (#166)
+## New features
 
 * `select()` is substantially more powerful. You can use named arguments to
   rename existing variables, and new functions `starts_with()`, `ends_with()`,
@@ -23,23 +8,39 @@
   their names. It now also makes a shallow copy, substantially reducing its
   memory impact (#158, #172, #192, #232).
 
-* `n()` never accepts arguments (#223).
+* `summarize()` added as alias for `summarise()` for people from countries
+  that don't don't spell things correctly ;) (#245)
 
-* The hybrid evaluator did not handle some expressions correctly, for
-  example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
-  substituted correctly.
+* new functions `cbind_all()` and `cbind_list()` provide efficient alternative
+  to `do.call(cbind, list(...))`. Columns of the input data are shallow
+  copied.
 
-* `row_number()` gives correct results (#227).
+## Bug fixes
 
-* `filter()` now fails when given anything other than a logical vector.
-
-* `filter()` correctly handles missing values (#249).
-
-* `rbind_all()` silently ignores data frames with 0 rows.
+* `filter()` now fails when given anything other than a logical vector, and
+  correctly handles missing values (#249). `filter.numeric()` proxies
+  `stats::filter()` so you can continue to use `filter()` function with
+  numeric inputs (#264).
 
 * `summarise()` correctly uses newly created variables (#259).
 
+* `mutate()` correctly propagates attributes (#265) and `mutate.data.frame()`
+  correctly mutates the same variable repeatedly (#243).
+
+* `lead()` and `lag()` preserve attributes, so they now work with
+  dates, times and factors (#166).
+
+* `n()` never accepts arguments (#223).
+
+* `row_number()` gives correct results (#227).
+
+* `rbind_all()` silently ignores data frames with 0 rows.
+
 * `group_by()` orders the result. (#242)
+
+* The hybrid evaluator did not handle some expressions correctly, for
+  example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
+  substituted correctly. It also correctly processes `$`.
 
 # dplyr 0.1.1
 
