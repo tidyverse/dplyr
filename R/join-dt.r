@@ -13,7 +13,7 @@
 #'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data table.
 #' @param ... Included for compatibility with generic; otherwise ignored.
 #' @examples
-#' if (require("RSQLite")) {
+#' if (require("RSQLite") && require("RSQLite.extfuns")) {
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")
 #'

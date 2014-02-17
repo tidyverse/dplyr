@@ -31,7 +31,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
 #' @inheritParams copy_to
 #' @return a sqlite \code{\link{tbl}} object
 #' @examples
-#' if (require("RSQLite")) {
+#' if (require("RSQLite") && require("RSQLite.extfuns")) {
 #' db <- src_sqlite(tempfile(), create = TRUE)
 #'
 #' iris2 <- copy_to(db, iris)

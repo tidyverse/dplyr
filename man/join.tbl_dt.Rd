@@ -36,7 +36,7 @@ See \code{\link{join}} for a description of the general
 purpose of the functions.
 }
 \examples{
-if (require("RSQLite")) {
+if (require("RSQLite") && require("RSQLite.extfuns")) {
 data("Batting", package = "Lahman")
 data("Master", package = "Lahman")
 
