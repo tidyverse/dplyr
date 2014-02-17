@@ -150,11 +150,11 @@ filter_impl <- function(df, args, env) {
 }
 
 #' Cumulativate versions of any, all, and mean
-#' 
+#'
 #' dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete
 #' R's set of cumulate functions to match the aggregation functions available
 #' in most databases
-#' 
+#'
 #' @param x For \code{cumall} & \code{cumany}, a logical vector; for
 #'   \code{cummean} an integer or numeric vector
 #' @export
