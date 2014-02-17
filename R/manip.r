@@ -66,6 +66,9 @@ filter <- function(.data, ...) UseMethod("filter")
 #' @rdname manip
 #' @export
 summarise <- function(.data, ...) UseMethod("summarise")
+#' @rdname manip
+#' @export
+summarize <- summarise
 
 #' @rdname manip
 #' @export

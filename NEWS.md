@@ -1,5 +1,8 @@
 # dplyr 0.1.2
 
+* `summarize()` added as alias for `summarise()` for people from countries
+  that don't don't spell things correctly ;) (#245)
+
 * `mutate.data.frame()` correctly mutates the same variable repeatedly (#243)
 
 * `mutate()` correctly propagates attributes (#265)

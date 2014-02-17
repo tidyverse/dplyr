@@ -5,11 +5,14 @@
 \alias{mutate}
 \alias{select}
 \alias{summarise}
+\alias{summarize}
 \title{Data manipulation functions.}
 \usage{
 filter(.data, ...)
 
 summarise(.data, ...)
+
+summarize(.data, ...)
 
 mutate(.data, ...)
 
