@@ -6,4 +6,5 @@
 #' @import assertthat
 #' @importFrom utils head tail
 #' @importFrom Rcpp cppFunction
+#' @importFrom Rcpp Rcpp.plugin.maker
 NULL
