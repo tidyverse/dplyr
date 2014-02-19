@@ -6,9 +6,6 @@ namespace dplyr{
 inline bool is_bare_vector( SEXP x){
     SEXP att = ATTRIB(x) ;
     
-    // fine if there is no attributes
-    if( att == R_NilValue ) return true ;
-    
     // only allow R_Names. as in R's do_isvector
     while( att != R_NilValue ){
         if( TAG(att) != R_NamesSymbol ) return false ;
@@ -25,7 +22,7 @@ inline bool white_list(SEXP x){
     case LGLSXP:   return is_bare_vector( x ) ;
     case STRSXP:   return is_bare_vector( x ) ;
     
-    case VECSXP:   return is_bare_vector( x ) ;
+    case VECSXP:   return ! Rf_inherits(x, "POSIXlt") && is_bare_vector( x ) ;
     
     default: break ;
     }
