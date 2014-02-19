@@ -69,3 +69,10 @@ test_that("arrange results same regardless of backend", {
   compare_tbls(tbls, function(x) x %.% arrange(desc(c), id), compare = equal_df)
   compare_tbls(tbls, function(x) x %.% arrange(desc(d), id), compare = equal_df)
 })
+
+test_that("arrange uses the white list", {
+  Period <- setClass("Period", contains = "numeric")
+  df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
+  expect_error(arrange(df, p))  
+})
+
