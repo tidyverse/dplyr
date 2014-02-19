@@ -41,6 +41,8 @@
 * The hybrid evaluator did not handle some expressions correctly, for
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
   substituted correctly. It also correctly processes `$`.
+  
+* `arrange` checks that all columns are supported. (#266)
 
 # dplyr 0.1.1
 
