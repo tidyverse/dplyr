@@ -59,6 +59,7 @@ Collate:
     'grouped-df.r'
     'grouped-dt.r'
     'id.r'
+    'inline.r'
     'join-df.r'
     'join-dt.r'
     'join-sql.r'
