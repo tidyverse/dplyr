@@ -848,6 +848,7 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
+    assert_all_white_list(data); 
     DataFrame copy = shallow_copy(data) ;
     copy.attr("vars") = symbols ;
     copy.attr("drop") = drop ;
