@@ -24,8 +24,6 @@ inline bool white_list(SEXP x){
     case REALSXP:  return Rf_inherits(x, "Date") || Rf_inherits(x, "POSIXct" ) || is_bare_vector( x ) ;
     case LGLSXP:   return is_bare_vector( x ) ;
     case STRSXP:   return is_bare_vector( x ) ;
-    case CPLXSXP:  return is_bare_vector( x ) ;
-    case RAWSXP:   return is_bare_vector( x ) ;
     
     case VECSXP:   return is_bare_vector( x ) ;
     
