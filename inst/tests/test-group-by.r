@@ -115,3 +115,10 @@ test_that("group_by orders by groups. #242", {
   expect_equal(attr(df, "labels")$a, sqrt(1:10))
   
 })
+
+test_that("group_by uses the white list", {
+  df <- data.frame( times = 1:5 )
+  df$times <- as.POSIXlt( seq.Date( Sys.Date(), length.out = 5, by = "day" ) )
+  expect_error(group_by(df, times))
+})
+
