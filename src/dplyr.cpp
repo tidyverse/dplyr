@@ -1206,6 +1206,17 @@ IntegerVector order_impl( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
+    // checking variables are on the white list
+    int nc = data.size() ;
+    for( int i=0; i<nc; i++){
+        if( !white_list(data[i]) ){
+            std::stringstream ss ;
+            CharacterVector names = data.names() ;
+            ss << "column '" << names[i] << "' has unsupported type" ;
+            stop(ss.str()) ;
+        }
+    }
+    
     int nargs = args.size() ;
     List variables(nargs) ;
     LogicalVector ascending(nargs) ;
