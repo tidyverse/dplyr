@@ -78,6 +78,7 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 // [[Rcpp::register]]
 void registerHybridHandler( const char* , HybridHandler ) ;
 
+#include <dplyr/white_list.h>
 #include <dplyr/check_supported_type.h>
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/DataFrameVisitorsIndexSet.h>
