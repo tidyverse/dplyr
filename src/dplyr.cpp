@@ -350,6 +350,19 @@ void push_back( Container& x, typename Container::value_type value, int n ){
         x.push_back( value ) ;
 }
 
+void assert_all_white_list(const DataFrame& data){
+    // checking variables are on the white list
+    int nc = data.size() ;
+    for( int i=0; i<nc; i++){
+        if( !white_list(data[i]) ){
+            std::stringstream ss ;
+            CharacterVector names = data.names() ;
+            ss << "column '" << names[i] << "' has unsupported type" ;
+            stop(ss.str()) ;
+        }
+    }
+}   
+
 // [[Rcpp::export]]
 DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
@@ -1206,16 +1219,7 @@ IntegerVector order_impl( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
-    // checking variables are on the white list
-    int nc = data.size() ;
-    for( int i=0; i<nc; i++){
-        if( !white_list(data[i]) ){
-            std::stringstream ss ;
-            CharacterVector names = data.names() ;
-            ss << "column '" << names[i] << "' has unsupported type" ;
-            stop(ss.str()) ;
-        }
-    }
+    assert_all_white_list(data) ;
     
     int nargs = args.size() ;
     List variables(nargs) ;
