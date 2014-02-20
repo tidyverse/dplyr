@@ -11,10 +11,6 @@
 * `summarize()` added as alias for `summarise()` for people from countries
   that don't don't spell things correctly ;) (#245)
 
-* new functions `cbind_all()` and `cbind_list()` provide efficient alternative
-  to `do.call(cbind, list(...))`. Columns of the input data are shallow
-  copied.
-
 ## Bug fixes
 
 * `filter()` now fails when given anything other than a logical vector, and
@@ -36,14 +32,14 @@
 
 * `rbind_all()` silently ignores data frames with 0 rows.
 
-* `group_by()` orders the result (#242). It also checks that columns 
-  are supported (#233)
+* `group_by()` orders the result (#242). It also checks that columns
+  are of supported types (#233).
 
 * The hybrid evaluator did not handle some expressions correctly, for
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
   substituted correctly. It also correctly processes `$`.
-  
-* `arrange` checks that all columns are supported. (#266)
+
+* `arrange()` checks that all columns are of supported types (#266).
 
 # dplyr 0.1.1
 
