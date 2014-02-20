@@ -1,19 +1,11 @@
-The following notes were generated across my local OS X install, ubuntu running on travis-ci and win builder.
-
-* checking package dependencies ... NOTE
-
-  These are both because dplyr suggests bigrquery, which is 
-  currently not on CRAN.
+The following notes were generated across my local OS X install, ubuntu running on travis-ci and win builder. Response to NOTEs across three platforms below.
 
 * checking CRAN incoming feasibility ... NOTE
 
-  As expected, this is a new package.
+  Roxygen2 and dplyr are not spelling errors.
 
 * checking DESCRIPTION meta-information ... NOTE
-  
+
   This is a spurious note; dplyr depends on R >= 3.0.2
 
-* checking installed package size ... NOTE
-
-  I don't think there's anything I can do about the size of the libs 
-  directory.
+I couldn't replicate the problems with microbenchmark reported by BDR on any of the three platforms I test on. If this is a concern I can disable the vignette that uses microbenchmark and remove it from the suggests.
