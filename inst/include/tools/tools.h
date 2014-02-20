@@ -7,6 +7,7 @@
 #include <tools/delete_all.h>
 #include <tools/ListOf.h>
 #include <tools/collapse.h>
+#include <tools/get_single_class.h>
 #include <tools/SlicingIndex.h>
 #include <tools/ShrinkableVector.h>
 #include <tools/wrap_subset.h>

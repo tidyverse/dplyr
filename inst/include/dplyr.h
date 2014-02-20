@@ -45,6 +45,7 @@ namespace dplyr {
     class DataFrameJoinVisitors ;
     class LazySubsets ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
+    const char* get_single_class(SEXP x) ;
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
 bool can_simplify(SEXP) ;

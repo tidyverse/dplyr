@@ -16,7 +16,7 @@ namespace dplyr{
             std::string name ;
             for( int i=0; i<nvisitors; i++){
                 name = names_[i] ;
-                visitors[i] = join_visitor( left[name], right[name]) ;
+                visitors[i] = join_visitor( left[name], right[name], name) ;
             }
         }
         

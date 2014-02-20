@@ -189,9 +189,18 @@ namespace dplyr{
     PROMOTE_JOIN_VISITOR(DateJoinVisitor)
     PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
     
-    inline JoinVisitor* join_visitor( SEXP left, SEXP right ){
-        if( TYPEOF(left) != TYPEOF(right) ) 
-            stop( "cannot create join visitor from incompatible types" ) ;
+    inline JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name){
+        if( TYPEOF(left) != TYPEOF(right) ){
+            std::stringstream ss ;
+            ss << "Can't join on '" 
+               << name 
+               << "' because of incompatible types (" 
+               << get_single_class(left) 
+               << "/" 
+               << get_single_class(right) 
+               << ")" ;
+            stop( ss.str() ) ;
+        }
         switch( TYPEOF(left) ){
             case INTSXP:
                 if( Rf_inherits( left, "factor" ) ){
