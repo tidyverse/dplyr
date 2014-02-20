@@ -1418,7 +1418,7 @@ SEXP n_distinct(SEXP x){
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){
         std::stringstream ss ;
-        ss << "cannot handle object of type" << type_name(x) ;
+        ss << "cannot handle object of type" << type2name(x) ;
         stop( ss.str() ) ;
     }
     return res->process(everything) ;
@@ -1493,7 +1493,7 @@ List rbind_all( ListOf<DataFrame> dots ){
                     << DEMANGLE(*coll)
                     << ")"
                     << ", incompatible with data of type: "
-                    << type_name(source) ;
+                    << type2name(source) ;
 
                 stop( msg.str() ) ;
             }

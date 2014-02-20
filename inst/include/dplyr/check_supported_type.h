@@ -15,7 +15,7 @@ namespace dplyr {
       ss << "unsupported type for column '"
          << CHAR(name)
          << "' ("
-         << type_name(x) ;
+         << type2name(x) ;
       SEXP classes = Rf_getAttrib(x, R_ClassSymbol ) ;
       if( !Rf_isNull(classes) ){   
         ss << ",  classes = " << collapse<STRSXP>(classes) ;
