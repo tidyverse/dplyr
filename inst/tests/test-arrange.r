@@ -9,9 +9,9 @@ df1 <- expand.grid(
   KEEP.OUT.ATTRS = FALSE,
   stringsAsFactors = FALSE)
 
-df2 <- data.frame( 
-  a = rep(c(NA, 1, 2, 3), each = 4), 
-  b = rep(c(0L, NA, 1L, 2L), 4), 
+df2 <- data.frame(
+  a = rep(c(NA, 1, 2, 3), each = 4),
+  b = rep(c(0L, NA, 1L, 2L), 4),
   c = c(NA, NA, NA, NA, letters[10:21]),
   d = rep( c(T, NA, F, T), each = 4),
   id = 1:16,
@@ -29,7 +29,7 @@ test_that("local arrange sorts missing values to end", {
     n <- length(x)
     all(is.na(x[(n - 3):n]))
   }
-  
+
   # Numeric
   expect_true(na_last(arrange(df2, a)$a))
   expect_true(na_last(arrange(df2, desc(a))$a))
@@ -44,12 +44,12 @@ test_that("local arrange sorts missing values to end", {
 
   # Logical
   expect_true(na_last(arrange(df2, d)$d))
-  expect_true(na_last(arrange(df2, desc(d))$d))    
+  expect_true(na_last(arrange(df2, desc(d))$d))
 })
 
 test_that("two arranges equivalent to one", {
   single <- arrange(df1, a, b)
-  
+
   tbls <- temp_load(c(local, db), df1)
   compare_tbls(tbls, ref = single, compare = equal_df,
     function(x) x %.% arrange(b) %.% arrange(a))
@@ -58,12 +58,12 @@ test_that("two arranges equivalent to one", {
 test_that("arrange results same regardless of backend", {
   # Can't check db because types are not currently preserved
   tbls <- temp_load(local, df2)
-  
+
   compare_tbls(tbls, function(x) x %.% arrange(a, id), compare = equal_df)
   compare_tbls(tbls, function(x) x %.% arrange(b, id), compare = equal_df)
   compare_tbls(tbls, function(x) x %.% arrange(c, id), compare = equal_df)
   compare_tbls(tbls, function(x) x %.% arrange(d, id), compare = equal_df)
-  
+
   compare_tbls(tbls, function(x) x %.% arrange(desc(a), id), compare = equal_df)
   compare_tbls(tbls, function(x) x %.% arrange(desc(b), id), compare = equal_df)
   compare_tbls(tbls, function(x) x %.% arrange(desc(c), id), compare = equal_df)
@@ -71,8 +71,12 @@ test_that("arrange results same regardless of backend", {
 })
 
 test_that("arrange uses the white list", {
-  Period <- setClass("Period", contains = "numeric")
+  env <- environment()
+  Period <- setClass("Period", contains = "numeric", where = env)
+  on.exit(removeClass("Period", where = env))
+
   df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
-  expect_error(arrange(df, p))  
+  expect_error(arrange(df, p))
+
 })
 
