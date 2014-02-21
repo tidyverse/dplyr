@@ -1523,8 +1523,8 @@ List rbind_all( ListOf<DataFrame> dots ){
     return out ;
 }
 
-// [[Rcpp::export]]
-List cbind_all__impl( DotsOf<DataFrame> dots ){
+template <typename Dots>
+List cbind__impl( Dots dots ){
   int n = dots.size() ;
   
   // first check that the number of rows is the same
@@ -1561,6 +1561,16 @@ List cbind_all__impl( DotsOf<DataFrame> dots ){
   set_rownames( out, nrows ) ;
   out.attr( "class") = "data.frame" ;
   return out ;
+}
+
+// [[Rcpp::export]]
+List cbind_list__impl( DotsOf<DataFrame> dots ){
+  return cbind__impl( dots ) ;  
+}
+
+// [[Rcpp::export]]
+List cbind_all( ListOf<DataFrame> dots ){
+  return cbind__impl( dots ) ;  
 }
 
 SEXP strip_group_attributes(DataFrame df){
