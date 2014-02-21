@@ -116,3 +116,16 @@ test_that("filter discards NA", {
   res <- filter(temp, x == 1)
   expect_equal(nrow(res), 2L)
 })
+
+test_that("date class remains on filter (#273)",{
+  x1 <- x2 <- data.frame(
+    date = seq.Date(as.Date('2013-01-01'), by = "1 days", length.out = 2),
+    var = c(5, 8)
+  )
+  x1.filter <- x1 %.% filter(as.Date(date) > as.Date('2013-01-01'))
+  x2$date <- x2$date + 1
+  x2.filter <- x2 %.% filter(as.Date(date) > as.Date('2013-01-01'))
+
+  expect_equal(class(x1.filter$date), "Date")
+  expect_equal(class(x2.filter$date), "Date")
+})

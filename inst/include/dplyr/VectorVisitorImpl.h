@@ -110,7 +110,7 @@ namespace dplyr {
         
     } ;
     
-    template <typename Class, typename VisitorImpl> 
+    template <typename VisitorImpl> 
     class PromoteClassVisitor : public VisitorImpl {
     public:
         typedef typename VisitorImpl::VECTOR VECTOR ;
@@ -236,26 +236,35 @@ namespace dplyr {
         comparisons<STRSXP> string_compare ;
     } ;
     
-    #define PROMOTE_VISITOR(__CLASS__)                                                    \
-    class __CLASS__ : public PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> >{ \
-    public:                                                                               \
-        typedef PromoteClassVisitor<__CLASS__, VectorVisitorImpl<REALSXP> > Parent ;      \
-        __CLASS__( const NumericVector& vec_) : Parent(vec_){}                            \
+    template <int RTYPE>
+    class DateVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
+    public:
+      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
+      DateVisitor( SEXP v) : Parent(v){}
     } ;
-    PROMOTE_VISITOR(DateVisitor)
-    PROMOTE_VISITOR(POSIXctVisitor)
+    template <int RTYPE>
+    class POSIXctVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
+    public:
+      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
+      POSIXctVisitor( SEXP v) : Parent(v){}
+    } ;
+    
     
     inline VectorVisitor* visitor( SEXP vec ){
         switch( TYPEOF(vec) ){
             case INTSXP: 
                 if( Rf_inherits(vec, "factor" ))
                     return new FactorVisitor( vec ) ;
+                if( Rf_inherits(vec, "Date") )
+                    return new DateVisitor<INTSXP>(vec) ;
+                if( Rf_inherits(vec, "POSIXct") )
+                    return new POSIXctVisitor<INTSXP>(vec) ;
                 return new VectorVisitorImpl<INTSXP>( vec ) ;
             case REALSXP:
                 if( Rf_inherits( vec, "Date" ) )
-                    return new DateVisitor( vec ) ;
+                    return new DateVisitor<REALSXP>( vec ) ;
                 if( Rf_inherits( vec, "POSIXct" ) )
-                    return new POSIXctVisitor( vec ) ;
+                    return new POSIXctVisitor<REALSXP>( vec ) ;
                 return new VectorVisitorImpl<REALSXP>( vec ) ;
             case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
             case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
