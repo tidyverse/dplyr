@@ -1524,7 +1524,7 @@ List rbind_all( ListOf<DataFrame> dots ){
 }
 
 // [[Rcpp::export]]
-List cbind_all( ListOf<DataFrame> dots ){
+List cbind_all__impl( DotsOf<DataFrame> dots ){
   int n = dots.size() ;
   
   // first check that the number of rows is the same

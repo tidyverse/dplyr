@@ -1,3 +1,4 @@
-cbind_list <- function(...){
-  cbind_all(list(...))
+cbind_all <- function(...){
+  cbind_all__impl(environment())  
 }
+

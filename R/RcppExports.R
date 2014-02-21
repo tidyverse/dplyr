@@ -125,8 +125,8 @@ rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
 
-cbind_all <- function(dots) {
-    .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
+cbind_all__impl <- function(dots) {
+    .Call('dplyr_cbind_all__impl', PACKAGE = 'dplyr', dots)
 }
 
 as_regular_df <- function(df) {

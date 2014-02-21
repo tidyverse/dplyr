@@ -462,15 +462,15 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// cbind_all
-List cbind_all(ListOf<DataFrame> dots);
-RcppExport SEXP dplyr_cbind_all(SEXP dotsSEXP) {
+// cbind_all__impl
+List cbind_all__impl(DotsOf<DataFrame> dots);
+RcppExport SEXP dplyr_cbind_all__impl(SEXP dotsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< ListOf<DataFrame> >::type dots(dotsSEXP );
-        List __result = cbind_all(dots);
+        Rcpp::traits::input_parameter< DotsOf<DataFrame> >::type dots(dotsSEXP );
+        List __result = cbind_all__impl(dots);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
