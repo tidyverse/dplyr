@@ -1554,7 +1554,7 @@ List cbind_all( ListOf<DataFrame> dots ){
       int nc = current.size() ;
       for( int j=0; j<nc; j++, k++){
           out[k] = shared_SEXP(current[j]) ;
-          out_names[i] = current_names[j] ;
+          out_names[k] = current_names[j] ;
       }
   }
   out.names() = out_names ;
