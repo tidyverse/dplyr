@@ -1455,14 +1455,16 @@ template <typename Dots>
 List rbind__impl( Dots dots ){
     int ndata = dots.size() ;
     int n = 0 ;
-    for( int i=0; i<ndata; i++) n += dots[i].nrows() ;
-
+    for( int i=0; i<ndata; i++) {
+      DataFrame df = dots[i] ;
+      if( df.size() ) n += dots[i].nrows() ;
+    }
     std::vector<Collecter*> columns ;
     std::vector<String> names ;
     int k=0 ;
     for( int i=0; i<ndata; i++){
         DataFrame df = dots[i] ;
-        if( ! Rf_length(df[0]) ) continue ;
+        if( !df.size() || !Rf_length(df[0]) ) continue ;
             
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;

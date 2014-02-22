@@ -30,7 +30,7 @@
 
 * `row_number()` gives correct results (#227).
 
-* `rbind_all()` silently ignores data frames with 0 rows.
+* `rbind_all()` silently ignores data frames with 0 rows or 0 columns (#274). 
 
 * `group_by()` orders the result (#242). It also checks that columns
   are of supported types (#233, #276).
