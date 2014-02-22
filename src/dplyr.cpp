@@ -1247,8 +1247,17 @@ DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
     for(int i=0; i<nargs; i++){
         SEXP call = args[i] ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
-
-        CallProxy call_proxy( is_desc ? CADR(call) : call, data, dots.envir(i)) ;
+        
+        SEXP v = is_desc ? CADR(call) : call ;
+        if( !white_list(v) || TYPEOF(v) == VECSXP ){
+            std::stringstream ss ;
+            ss << "cannot arrange column of class '"
+               << get_single_class(v) 
+               << "'" ;
+            stop(ss.str()) ;
+        }
+        
+        CallProxy call_proxy( v, dots.envir(i)) ;
         variables[i] = __(call_proxy.eval()) ;
         if( Rf_length(variables[i]) != data.nrows() ){
             std::stringstream s ;
