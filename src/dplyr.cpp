@@ -867,6 +867,18 @@ DataFrame build_index_cpp( DataFrame data ){
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
         vars[i] = PRINTNAME(symbols[i]) ;
+        
+        const char* name = vars[i] ;
+        SEXP v = data[name] ;
+        if( !white_list(v) || TYPEOF(v) == VECSXP ){
+            std::stringstream ss ;
+            ss << "cannot group column " 
+               << name 
+               <<", of class '"
+               << get_single_class(v) 
+               << "'" ;
+            stop(ss.str()) ;
+        }
     }
 
     DataFrameVisitors visitors(data, vars) ;

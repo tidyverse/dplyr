@@ -33,7 +33,7 @@
 * `rbind_all()` silently ignores data frames with 0 rows.
 
 * `group_by()` orders the result (#242). It also checks that columns
-  are of supported types (#233).
+  are of supported types (#233, #276).
 
 * The hybrid evaluator did not handle some expressions correctly, for
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
