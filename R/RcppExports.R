@@ -125,6 +125,10 @@ rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
 
+rbind_list__impl <- function(dots) {
+    .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
+}
+
 cbind_list__impl <- function(dots) {
     .Call('dplyr_cbind_list__impl', PACKAGE = 'dplyr', dots)
 }

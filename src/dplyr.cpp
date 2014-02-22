@@ -1429,10 +1429,8 @@ SEXP n_distinct(SEXP x){
     return res->process(everything) ;
 }
 
-//' @export
-//' @rdname rbind
-// [[Rcpp::export]]
-List rbind_all( ListOf<DataFrame> dots ){
+template <typename Dots>
+List rbind__impl( Dots dots ){
     int ndata = dots.size() ;
     int n = 0 ;
     for( int i=0; i<ndata; i++) n += dots[i].nrows() ;
@@ -1521,6 +1519,18 @@ List rbind_all( ListOf<DataFrame> dots ){
     out.attr( "class" ) = "data.frame" ;
 
     return out ;
+}
+
+//' @export
+//' @rdname rbind
+// [[Rcpp::export]]
+List rbind_all( ListOf<DataFrame> dots ){
+    return rbind__impl(dots) ;
+}
+
+// [[Rcpp::export]]
+List rbind_list__impl( DotsOf<DataFrame> dots ){
+    return rbind__impl(dots) ;
 }
 
 template <typename Dots>

@@ -18,5 +18,6 @@
 #' rbind_all(list(one, two))
 #'
 rbind_list <- function(...){
-  rbind_all(list(...))
+  rbind_list__impl(environment())  
 }
+
