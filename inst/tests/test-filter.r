@@ -129,3 +129,16 @@ test_that("date class remains on filter (#273)",{
   expect_equal(class(x1.filter$date), "Date")
   expect_equal(class(x2.filter$date), "Date")
 })
+
+test_that("filter handles $ correctly (#278)", {
+  d1 <- tbl_df(data.frame(
+    num1 = as.character(sample(1:10, 1000, T)),
+    var1 = runif(1000), 
+    stringsAsFactors = FALSE))
+  d2 <- data.frame(num1 = as.character(1:3), stringsAsFactors = FALSE)
+  
+  res1 <- d1 %.% filter(num1 %in% c("1", "2", "3"))
+  res2 <- d1 %.% filter(num1 %in% d2$num1)
+  expect_equal(res1, res2)
+})
+

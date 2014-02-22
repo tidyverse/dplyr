@@ -96,7 +96,7 @@ namespace dplyr {
                 SEXP head = CAR(obj) ;
                 switch( TYPEOF( head ) ){
                 case LANGSXP: 
-                    if( Rf_length(obj) == 3 ){
+                    if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
                             SETCAR(obj, Rf_eval(head, env) ) ;
                             return ;
