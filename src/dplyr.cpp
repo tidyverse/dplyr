@@ -1236,19 +1236,21 @@ IntegerVector order_impl( List args, Environment env ){
 }
 
 // [[Rcpp::export]]
-DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
+List arrange_impl( DataFrame data, List args, DataDots dots ){
     assert_all_white_list(data) ;
     
     int nargs = args.size() ;
     List variables(nargs) ;
     LogicalVector ascending(nargs) ;
     Shelter<SEXP> __ ;
-
+    
     for(int i=0; i<nargs; i++){
         SEXP call = args[i] ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
         
-        SEXP v = is_desc ? CADR(call) : call ;
+        CallProxy call_proxy(is_desc ? CADR(call) : call, data, dots.envir(i)) ;
+        
+        SEXP v = __(call_proxy.eval()) ;
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
             std::stringstream ss ;
             ss << "cannot arrange column of class '"
@@ -1257,23 +1259,22 @@ DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
             stop(ss.str()) ;
         }
         
-        CallProxy call_proxy( v, dots.envir(i)) ;
-        variables[i] = __(call_proxy.eval()) ;
-        if( Rf_length(variables[i]) != data.nrows() ){
+        if( Rf_length(v) != data.nrows() ){
             std::stringstream s ;
             s << "incorrect size ("
-              << Rf_length(variables[i])
+              << Rf_length(v)
               << "), expecting :"
               << data.nrows() ;
             stop(s.str()) ;
         }
+        variables[i] = v ;
         ascending[i] = !is_desc ;
     }
-    OrderVisitors o(variables,ascending, nargs) ;
+    OrderVisitors o(variables, ascending, nargs) ;
     IntegerVector index = o.apply() ;
-
+    
     DataFrameVisitors visitors( data, data.names() ) ;
-    DataFrame res = visitors.subset(index, data.attr("class") ) ;
+    List res = visitors.subset(index, data.attr("class") ) ;
     return res;
 }
 
