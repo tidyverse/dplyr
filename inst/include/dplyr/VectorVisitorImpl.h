@@ -162,7 +162,7 @@ namespace dplyr {
     public:    
         typedef VectorVisitorImpl<INTSXP> Parent ;
         
-        FactorVisitor( const IntegerVector& vec ) : Parent(vec){
+        FactorVisitor( const IntegerVector& vec_ ) : Parent(vec_){
                 levels = vec.attr( "levels" ) ;
                 levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
         }
