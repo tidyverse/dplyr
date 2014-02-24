@@ -77,17 +77,29 @@ namespace dplyr {
         
     private:
         
-        inline bool can_simplify_call( SEXP call){
-            bool res =  can_simplify(call);
+        inline bool can_simplify_call( SEXP call_){
+            bool res =  can_simplify(call_);
             return res ;
         }
         
         void traverse_call( SEXP obj ){
-            if( ! Rf_isNull(obj) ){ 
+            if( ! Rf_isNull(obj) ){
                 SEXP head = CAR(obj) ;
+                
                 switch( TYPEOF( head ) ){
                 case LANGSXP:
-                    traverse_call( CDR(head) ) ;
+                    if( Rf_length(head) == 3 ){
+                        if( CAR(head) == R_DollarSymbol ){
+                            SETCAR(obj, Rf_eval(head, env) ) ;
+                        } else if( CAR(head) == Rf_install("@")) {
+                            SETCAR(obj, Rf_eval(head, env) ) ;
+                        } else {
+                          traverse_call( CDR(head) ) ;    
+                        }
+                    } else {
+                        traverse_call( CDR(head) ) ;  
+                    }
+                    
                     break ;
                 case LISTSXP:
                     traverse_call( head ) ;

@@ -46,6 +46,10 @@ namespace dplyr{
             return obj->process_chunk(df.get_index()) ;    
         }
         
+        virtual SEXP process( const SlicingIndex& index ){
+            return R_NilValue ;    
+        }
+        
     } ;
     
 }

@@ -867,6 +867,18 @@ DataFrame build_index_cpp( DataFrame data ){
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
         vars[i] = PRINTNAME(symbols[i]) ;
+        
+        const char* name = vars[i] ;
+        SEXP v = data[name] ;
+        if( !white_list(v) || TYPEOF(v) == VECSXP ){
+            std::stringstream ss ;
+            ss << "cannot group column " 
+               << name 
+               <<", of class '"
+               << get_single_class(v) 
+               << "'" ;
+            stop(ss.str()) ;
+        }
     }
 
     DataFrameVisitors visitors(data, vars) ;
@@ -1224,35 +1236,45 @@ IntegerVector order_impl( List args, Environment env ){
 }
 
 // [[Rcpp::export]]
-DataFrame arrange_impl( DataFrame data, List args, DataDots dots ){
+List arrange_impl( DataFrame data, List args, DataDots dots ){
     assert_all_white_list(data) ;
     
     int nargs = args.size() ;
     List variables(nargs) ;
     LogicalVector ascending(nargs) ;
     Shelter<SEXP> __ ;
-
+    
     for(int i=0; i<nargs; i++){
         SEXP call = args[i] ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
-
-        CallProxy call_proxy( is_desc ? CADR(call) : call, data, dots.envir(i)) ;
-        variables[i] = __(call_proxy.eval()) ;
-        if( Rf_length(variables[i]) != data.nrows() ){
+        
+        CallProxy call_proxy(is_desc ? CADR(call) : call, data, dots.envir(i)) ;
+        
+        SEXP v = __(call_proxy.eval()) ;
+        if( !white_list(v) || TYPEOF(v) == VECSXP ){
+            std::stringstream ss ;
+            ss << "cannot arrange column of class '"
+               << get_single_class(v) 
+               << "'" ;
+            stop(ss.str()) ;
+        }
+        
+        if( Rf_length(v) != data.nrows() ){
             std::stringstream s ;
             s << "incorrect size ("
-              << Rf_length(variables[i])
+              << Rf_length(v)
               << "), expecting :"
               << data.nrows() ;
             stop(s.str()) ;
         }
+        variables[i] = v ;
         ascending[i] = !is_desc ;
     }
-    OrderVisitors o(variables,ascending, nargs) ;
+    OrderVisitors o(variables, ascending, nargs) ;
     IntegerVector index = o.apply() ;
-
+    
     DataFrameVisitors visitors( data, data.names() ) ;
-    DataFrame res = visitors.subset(index, data.attr("class") ) ;
+    List res = visitors.subset(index, data.attr("class") ) ;
     return res;
 }
 
@@ -1429,20 +1451,20 @@ SEXP n_distinct(SEXP x){
     return res->process(everything) ;
 }
 
-//' @export
-//' @rdname rbind
-// [[Rcpp::export]]
-List rbind_all( ListOf<DataFrame> dots ){
+template <typename Dots>
+List rbind__impl( Dots dots ){
     int ndata = dots.size() ;
     int n = 0 ;
-    for( int i=0; i<ndata; i++) n += dots[i].nrows() ;
-
+    for( int i=0; i<ndata; i++) {
+      DataFrame df = dots[i] ;
+      if( df.size() ) n += dots[i].nrows() ;
+    }
     std::vector<Collecter*> columns ;
     std::vector<String> names ;
     int k=0 ;
     for( int i=0; i<ndata; i++){
         DataFrame df = dots[i] ;
-        if( ! Rf_length(df[0]) ) continue ;
+        if( !df.size() || !Rf_length(df[0]) ) continue ;
             
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
@@ -1523,8 +1545,20 @@ List rbind_all( ListOf<DataFrame> dots ){
     return out ;
 }
 
+//' @export
+//' @rdname rbind
 // [[Rcpp::export]]
-List cbind_all( ListOf<DataFrame> dots ){
+List rbind_all( ListOf<DataFrame> dots ){
+    return rbind__impl(dots) ;
+}
+
+// [[Rcpp::export]]
+List rbind_list__impl( DotsOf<DataFrame> dots ){
+    return rbind__impl(dots) ;
+}
+
+template <typename Dots>
+List cbind__impl( Dots dots ){
   int n = dots.size() ;
   
   // first check that the number of rows is the same
@@ -1561,6 +1595,16 @@ List cbind_all( ListOf<DataFrame> dots ){
   set_rownames( out, nrows ) ;
   out.attr( "class") = "data.frame" ;
   return out ;
+}
+
+// [[Rcpp::export]]
+List cbind_list__impl( DotsOf<DataFrame> dots ){
+  return cbind__impl( dots ) ;  
+}
+
+// [[Rcpp::export]]
+List cbind_all( ListOf<DataFrame> dots ){
+  return cbind__impl( dots ) ;  
 }
 
 SEXP strip_group_attributes(DataFrame df){

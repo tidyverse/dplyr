@@ -65,8 +65,8 @@ namespace dplyr{
         
         JoinFactorVisitor( const IntegerVector& left, const IntegerVector& right ) : 
             Parent(left, right), 
-            left_levels_ptr( internal::r_vector_start<STRSXP>( left.attr("levels") ) ) ,
-            right_levels_ptr( internal::r_vector_start<STRSXP>( right.attr("levels") ) )
+            left_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( left.attr("levels") ) ) ,
+            right_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( right.attr("levels") ) )
             {}
         
         inline size_t hash(int i){

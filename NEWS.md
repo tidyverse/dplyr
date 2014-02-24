@@ -1,3 +1,5 @@
+# dplyr 0.1.2.0.99
+
 # dplyr 0.1.2
 
 ## New features
@@ -30,17 +32,22 @@
 
 * `row_number()` gives correct results (#227).
 
-* `rbind_all()` silently ignores data frames with 0 rows.
+* `rbind_all()` silently ignores data frames with 0 rows or 0 columns (#274).
 
 * `group_by()` orders the result (#242). It also checks that columns
-  are of supported types (#233).
+  are of supported types (#233, #276).
 
 * The hybrid evaluator did not handle some expressions correctly, for
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
-  substituted correctly. It also correctly processes `$`.
+  substituted correctly. It also correctly processes `$` (#278).
 
 * `arrange()` checks that all columns are of supported types (#266). It also 
   handles list columns (#282). 
+
+* Working towards Solaris compatibility.
+
+* Benchmarking vignette temporarily disabled due to microbenchmark
+  problems reported by BDR.
 
 # dplyr 0.1.1
 

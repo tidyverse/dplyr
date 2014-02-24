@@ -73,3 +73,10 @@ test_that( "rbind_list coerces factor to character when levels don't match", {
   expect_equal( res$b, c("a","b","c", "a","b","c" ) )
 })
 
+test_that( "rbind handles NULL",{
+  x <- cbind(a=1:10,b=1:10)
+  y <- data.frame(x)
+  res <- rbind_all(list(y,y,NULL,y))
+  expect_equal(nrow(res), 30L)
+})
+

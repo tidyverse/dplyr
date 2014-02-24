@@ -122,3 +122,8 @@ test_that("group_by uses the white list", {
   expect_error(group_by(df, times))
 })
 
+test_that("group_by fails when lists are used as grouping variables (#276)",{
+  df <- data.frame(x = 1:3)
+  df$y <- list(1:2, 1:3, 1:4)
+  expect_error(group_by(df,y))  
+})
