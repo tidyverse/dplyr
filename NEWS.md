@@ -1,3 +1,5 @@
+# dplyr 0.1.3
+
 # dplyr 0.1.2
 
 ## New features
