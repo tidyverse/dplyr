@@ -39,7 +39,8 @@
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
   substituted correctly. It also correctly processes `$`.
 
-* `arrange()` checks that all columns are of supported types (#266).
+* `arrange()` checks that all columns are of supported types (#266). It also 
+  handles list columns (#282). 
 
 # dplyr 0.1.1
 

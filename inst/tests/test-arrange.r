@@ -80,3 +80,10 @@ test_that("arrange uses the white list", {
 
 })
 
+test_that("arrange handles list columns (#282)", {
+  df <- data.frame( a = 2:1 )
+  df$b <- list( "foo", "bar" )
+  res <- arrange(df, a)
+  expect_equal(res$b, list( "bar", "foo" ) )
+})
+
