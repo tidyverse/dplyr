@@ -179,10 +179,10 @@ test_that("mutate handles passing ...", {
 
 test_that("mutate fails on unsupported column type", {
   df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"))
-  expect_error(mutate(df, date = strptime(created, "%Y/%m/%d")), "unsupported type for column")
+  expect_error(mutate(df, date = strptime(created, "%Y/%m/%d")) )
 
   df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"), g = c(1,1,2) )
-  expect_error(mutate(group_by(df,g), date = strptime(created, "%Y/%m/%d")), "unsupported type for column")
+  expect_error(mutate(group_by(df,g), date = strptime(created, "%Y/%m/%d")) )
 })
 
 test_that("mutate modifies same column repeatedly (#243)", {
