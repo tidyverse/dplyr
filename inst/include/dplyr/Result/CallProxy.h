@@ -77,8 +77,8 @@ namespace dplyr {
         
     private:
         
-        inline bool can_simplify_call( SEXP call){
-            bool res =  can_simplify(call);
+        inline bool can_simplify_call( SEXP call_){
+            bool res =  can_simplify(call_);
             return res ;
         }
         

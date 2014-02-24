@@ -2,6 +2,8 @@
 #define dplyr_dplyr_H
 
 #include <Rcpp.h>
+#include <solaris/solaris.h>
+
 using namespace Rcpp ;
 
 // borrowed from Rcpp11
