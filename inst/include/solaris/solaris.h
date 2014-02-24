@@ -6,8 +6,7 @@
 namespace Rcpp{
 namespace traits{
 
-  template <> struct is_convertible< std::vector<int>, SEXP> : public false_type{} ;
-  template <> struct is_convertible< std::vector< std::vector<int> >, SEXP> : public false_type{} ;
+  template <typename T> struct is_convertible< std::vector<T>, SEXP> : public false_type{} ;
   
 }
 }
