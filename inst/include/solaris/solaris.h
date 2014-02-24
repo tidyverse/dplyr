@@ -1,7 +1,7 @@
 #ifndef DPLYR_SOLARIS_H
 #define DPLYR_SOLARIS_H
 
-#ifdef __SUNPRO_CC
+#if defined(__SUNPRO_CC) && !defined(Rcpp__platform__solaris_h)
 
 namespace Rcpp{
 namespace traits{
