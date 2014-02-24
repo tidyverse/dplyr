@@ -29,7 +29,7 @@ namespace Rcpp {
         inline bool has(const T& u) const {
             int n=data.size();
             for( int i=0; i<n; i++){
-                if( data[i] == u ) return true ;    
+                if( as<T>(data[i]) == u ) return true ;    
             }
             return false ;
         }
