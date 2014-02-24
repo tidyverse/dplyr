@@ -27,6 +27,7 @@
 #'   \code{\link[microbenchmark]{microbenchmark}}
 #' @seealso \code{\link{src_local}} for working with local data
 #' @examples
+#' \donttest{
 #' if (require("Lahman") && require("microbenchmark")) {
 #' lahman_local <- lahman_srcs("df", "dt", "cpp")
 #' teams <- lapply(lahman_local, function(x) x %.% tbl("Teams"))
@@ -54,6 +55,7 @@
 #' # compare_tbls(two_tables, op)
 #' bench_tbls(two_tables, op, times = 2)
 #'
+#' }
 #' }
 #' @name bench_compare
 NULL

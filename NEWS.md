@@ -43,6 +43,9 @@
 
 * Working towards Solaris compatibility.
 
+* Benchmarking vignette temporarily disabled due to microbenchmark
+  problems reported by BDR.
+
 # dplyr 0.1.1
 
 ## Improvements
