@@ -100,6 +100,6 @@ do.grouped_df <- function(.data, .f, ...) {
     subs <- .data[index[[i]] + 1L, , drop = FALSE]
     out[[i]] <- .f(subs, ...)
   }
-
-  out
+  nms <- apply(attr(.data,"labels"), 1, paste, "_")
+  setNames(out,nms)
 }
