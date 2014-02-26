@@ -123,7 +123,10 @@ arrange.tbl_dt <- function(.data, ...) {
 #' @export
 select.data.table <- function(.data, ...) {
   vars <- select_vars(names(.data), ..., env = parent.frame())
-  .data[, vars, drop = FALSE, with = FALSE]
+
+  out <- copy(.data)[, vars, drop = FALSE, with = FALSE]
+  setnames(out, names(vars))
+  out
 }
 
 #' @export

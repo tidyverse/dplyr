@@ -1,5 +1,7 @@
 # dplyr 0.1.2.0.99
 
+* `select()` renames columns in a data table (#284).
+
 # dplyr 0.1.2
 
 ## New features
