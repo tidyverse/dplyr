@@ -62,3 +62,15 @@ test_that("num_range selects numeric ranges", {
   expect_equal(select_vars(vars, num_range("x", 10:11, width = 2)), vars[5:6])
 })
 
+# Data table -------------------------------------------------------------------
+
+test_that("select changes columns in copy of data table", {dt <- data.table(x = 1:4, y = letters[1:4])
+
+  expect_equal(names(select(dt, x, z = y)), c("x", "z"))
+  expect_equal(names(dt), c("x", "y"))
+
+
+  gdt <- dt %.% group_by(x)
+  expect_equal(names(select(gdt, x, z = y)), c("x", "z"))
+  expect_equal(names(gdt), c("x", "y"))
+})

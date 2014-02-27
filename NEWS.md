@@ -2,7 +2,9 @@
 
 ## Bug fixes
 
-* `rbind_all` and `rbind_list` did not handle missing values in factors (#279). 
+* `select()` renames columns in a data table (#284).
+
+* `rbind_all()` and `rbind_list()` did not handle missing values in factors (#279). 
 
 # dplyr 0.1.2
 
