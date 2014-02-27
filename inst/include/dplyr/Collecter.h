@@ -120,9 +120,13 @@ namespace dplyr {
             
             SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
             int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source) ;
-            for( int i=0; i<index.size(); i++){ 
-                SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
-                data[ index[i] ] = levels_map.find(x)->second ;
+            for( int i=0; i<index.size(); i++){
+                if( source_ptr[i] == NA_INTEGER ){
+                    data[ index[i] ] = NA_INTEGER ;
+                } else {
+                    SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
+                    data[ index[i] ] = levels_map.find(x)->second ;
+                }
             } 
         }
         

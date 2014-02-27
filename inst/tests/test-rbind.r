@@ -80,3 +80,13 @@ test_that( "rbind handles NULL",{
   expect_equal(nrow(res), 30L)
 })
 
+test_that( "rbind handles NA in factors #279", {
+  xx <- as.data.frame(list(a=as.numeric(NA), b="c", c="d")) 
+  zz <- as.data.frame(list(a=1, b=as.character(NA), c="b"))
+  expect_warning( res <- rbind_list( xx, zz ) )
+  
+  expect_equal(res$a, c(NA,1.0))
+  expect_equal(res$b, c("c", NA))
+  expect_equal(res$c, c("d","b"))
+  
+})

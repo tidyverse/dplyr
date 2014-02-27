@@ -1,5 +1,9 @@
 # dplyr 0.1.2.0.99
 
+## Bug fixes
+
+* `rbind_all` and `rbind_list` did not handle missing values in factors (#279). 
+
 # dplyr 0.1.2
 
 ## New features
