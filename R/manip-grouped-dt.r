@@ -140,7 +140,7 @@ arrange.grouped_dt <- function(.data, ...) {
 #' @export
 select.grouped_dt <- function(.data, ...) {
   vars <- select_vars(names(.data), ..., env = parent.frame())
-  out <- copy(.data)[, vars, drop = FALSE, with = FALSE]
+  out <- copy(.data[, vars, drop = FALSE, with = FALSE])
   setnames(out, names(vars))
 
   grouped_dt(
