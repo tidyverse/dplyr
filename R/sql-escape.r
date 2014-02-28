@@ -235,6 +235,7 @@ escape_string.bigquery <- function(con, x) {
   encodeString(x, na.encode = FALSE, quote = '"')
 }
 
+#' @export
 escape_ident <- function(con, x) UseMethod("escape_ident")
 
 #' @export

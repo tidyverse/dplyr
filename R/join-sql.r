@@ -114,7 +114,13 @@ anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
     ...)
 }
 
-join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
+#' @export
+join_sql <- function(x, y, ...) {
+  UseMethod("join_sql")
+}
+
+#' @export
+join_sql.tbl_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   ...) {
   type <- match.arg(type, c("left", "right", "inner", "full"))
   by <- by %||% common_by(x, y)

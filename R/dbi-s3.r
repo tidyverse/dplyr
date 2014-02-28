@@ -109,6 +109,7 @@ DbDisconnector <- setRefClass("DbDisconnector",
 
 # Query details ----------------------------------------------------------------
 
+#' @export
 qry_fields <- function(con, from) {
   UseMethod("qry_fields")
 }
@@ -125,6 +126,7 @@ qry_fields.SQLiteConnection <- function(con, from) {
   names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
 
+#' @export
 table_fields <- function(con, table) UseMethod("table_fields")
 #' @export
 table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
@@ -162,6 +164,7 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
   invisible(NULL)
 }
 
+#' @export
 # Run a query, fetching n results
 qry_fetch <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
                       explain = getOption("dplyr.explain_sql")) {
@@ -257,6 +260,7 @@ res_warn_incomplete <- function(res) {
 # SQL queries ------------------------------------------------------------------
 
 
+#' @export
 sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
 #' @export
 sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
@@ -269,6 +273,7 @@ sql_begin_trans.MySQLConnection <- function(con) {
   qry_run(con, "START TRANSACTION")
 }
 
+#' @export
 sql_commit <- function(con) UseMethod("sql_commit")
 #' @export
 sql_commit.DBIConnection <- function(con) dbCommit(con)
@@ -291,6 +296,7 @@ sql_create_table <- function(con, table, types, temporary = FALSE) {
   qry_run(con, sql)
 }
 
+#' @export
 sql_insert_into <- function(con, table, values) {
   UseMethod("sql_insert_into")
 }
@@ -397,7 +403,13 @@ sql_analyze.MySQLConnection <- function(con, table) {
   qry_run(con, sql)
 }
 
-sql_select <- function(con, select, from, where = NULL, group_by = NULL,
+#' @export
+sql_select <- function(con, ...) {
+  UseMethod("sql_select")
+}
+
+#' @export
+sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by = NULL,
                        having = NULL, order_by = NULL, limit = NULL,
                        offset = NULL) {
 

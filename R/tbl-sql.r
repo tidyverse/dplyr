@@ -126,6 +126,7 @@ print.tbl_sql <- function(x, ...) {
   trunc_mat(x)
 }
 
+#' @export
 brief_desc <- function(x) UseMethod("brief_desc")
 
 #' @export
@@ -159,6 +160,7 @@ tail.tbl_sql <- function(x, n = 6L, ...) {
 
 # SQL select generation --------------------------------------------------------
 
+#' @export
 build_query <- function(x, limit = NULL) {
   assert_that(is.null(limit) || (is.numeric(limit) && length(limit) == 1))
   translate <- function(expr, ...) {

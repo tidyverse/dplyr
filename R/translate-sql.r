@@ -149,6 +149,7 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
   sql(unlist(pieces))
 }
 
+#' @export
 translate_env <- function(x) UseMethod("translate_env")
 #' @export
 translate_env.tbl_sql <- function(x) translate_env(x$src)
