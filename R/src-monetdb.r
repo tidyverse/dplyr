@@ -70,4 +70,3 @@ sql_analyze.MonetDBConnection <- function(con, table) {
 sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...) {
   invisible(TRUE) 
 }
-
