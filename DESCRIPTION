@@ -21,6 +21,7 @@ Suggests:
     RSQLite,
     RSQLite.extfuns,
     RMySQL,
+    MonetDB.R,
     RPostgreSQL,
     data.table,
     bigrquery,
@@ -87,6 +88,7 @@ Collate:
     'src-bigquery.r'
     'src-local.r'
     'src-mysql.r'
+    'src-monetdb.r'
     'src-postgres.r'
     'src-sql.r'
     'src-sqlite.r'
