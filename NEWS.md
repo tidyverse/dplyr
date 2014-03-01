@@ -1,10 +1,59 @@
-# dplyr 0.1.2.0.99
+# dplyr 0.1.3.0.99
+
+* `chain()` is now deprecated. Please use `%.%` instead.
+
+* dplyr is more careful when setting the keys of data tables, so it never
+  accidentally modifies an object that it doesn't own. It also avoids
+  unnecessary key setting which negatively affected performance.
+  (#193, #255).
+
+* `copy_to.src_mysql()` now works on windows (#323)
+
+* SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.
+  (#318).
+
+* `select()` now correctly renames variables in remote sql tbls (#317)
+
+* Added `new-sql-backend` vignette which discusses how to add a new
+  SQL backend/source to dplyr.
+
+* `sample_n()` randomly samples a fixed number of rows from a tbl;
+  `sample_frac()` randomly samples a fixed fraction of rows. Only works
+  for local data frames and data tables (#202).
+
+* `glimpse()` makes it possible to see all the columns in a tbl,
+  displaying as much data for each variable as can be fit on a single line.
+
+* `rbind_all()` is stricter and only accepts list of data frames (#288)
+
+* `row_number()` can be called without arguments, in which case it returns
+  the same as `1:n()` (#303).
+
+* Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8)
+
 
 ## Bug fixes
 
-* `select()` renames columns in a data table (#284).
+* Code adapted to Rcpp > 0.11.1
 
-* `rbind_all()` and `rbind_list()` did not handle missing values in factors (#279). 
+# dplyr 0.1.3
+
+## Bug fixes
+
+* `select()` actually renames columns in a data table (#284).
+
+* `rbind_all()` and `rbind_list()` now handle missing values in factors (#279).
+
+* SQL joins now work better if names duplicated in both x and y tables (#310).
+
+* Builds against Rcpp 0.11.1
+
+* `select()` correctly works with the vars attribute (#309).
+
+* Internal code is stricter when deciding if a data frame is grouped (#308):
+  this avoids a number of situations which previously causedd .
+
+* More data frame joins work with missing values in keys (#306).
 
 # dplyr 0.1.2
 
@@ -47,8 +96,8 @@
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
   substituted correctly. It also correctly processes `$` (#278).
 
-* `arrange()` checks that all columns are of supported types (#266). It also 
-  handles list columns (#282). 
+* `arrange()` checks that all columns are of supported types (#266). It also
+  handles list columns (#282).
 
 * Working towards Solaris compatibility.
 
