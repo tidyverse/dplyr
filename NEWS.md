@@ -29,6 +29,8 @@
 * `row_number()` can be called without arguments, in which case it returns
   the same as `1:n()` (#303).
 
+* Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8).
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
@@ -37,6 +39,11 @@
 
 ## Bug fixes
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> MonetDB integration
+>>>>>>> edd4523... MonetDB integration
 * `select()` actually renames columns in a data table (#284).
 
 * `rbind_all()` and `rbind_list()` now handle missing values in factors (#279).
