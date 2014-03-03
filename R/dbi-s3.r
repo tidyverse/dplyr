@@ -397,7 +397,12 @@ sql_analyze.MySQLConnection <- function(con, table) {
   qry_run(con, sql)
 }
 
-sql_select <- function(con, select, from, where = NULL, group_by = NULL,
+sql_select <- function(con, ...) {
+  UseMethod("sql_select")
+}
+
+#' @export
+sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by = NULL,
                        having = NULL, order_by = NULL, limit = NULL,
                        offset = NULL) {
 
