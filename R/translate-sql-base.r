@@ -142,7 +142,7 @@ base_win <- sql_translator(
   min   = win_recycled("min"),
   max   = win_recycled("max"),
   n     = function() {
-    over(sql("COUNT(*)"), partition_group(), frame = c(-Inf, Inf))
+    over(sql("COUNT(*)"), partition_group(), frame = NULL)
   },
 
   # Cumulative function are like recycled aggregates except that R names
