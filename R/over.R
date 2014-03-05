@@ -14,7 +14,7 @@ over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
   if (!is.null(order)) {
     order <- build_sql("ORDER BY ", sql_vector(order, collapse = ", "))
   }
-  if (!is.null(frame)) {
+  if (sum(is.finite(frame))>0) {
     if (is.numeric(frame)) frame <- rows(frame[1], frame[2])
     frame <- build_sql("ROWS ", frame)
   }
