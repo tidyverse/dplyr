@@ -13,12 +13,14 @@ src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monet
 }
 
 tbl.src_monetdb <- function(src, from, ...) {
+  if (grepl("ORDER BY|LIMIT|OFFSET",as.character(from),ignore.case=T)) {
+    stop(paste0(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported. Sorry."))
+  }
   tbl_sql("monetdb", src = src, from = from, ...)
 }
 
 brief_desc.src_monetdb <- function(x) {
-  info <- x$info
-  paste0("MonetDB ",info$monet_version, " (",info$monet_release, ") [", info$merovingian_uri,"]")
+  paste0("MonetDB ",x$info$monet_version, " (",x$info$monet_release, ") [", x$info$merovingian_uri,"]")
 }
 
 #' @export
@@ -66,7 +68,12 @@ sql_analyze.MonetDBConnection <- function(con, table) {
   invisible(TRUE) 
 }
 
-# MonetDB does not use indices
+# MonetDB does not benefit from indices
 sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...) {
   invisible(TRUE) 
+}
+
+# prepare gives us column info without actually running a query
+qry_fields.MonetDBConnection <- function(con, from) {
+  dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
 }

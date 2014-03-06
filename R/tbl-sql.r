@@ -50,14 +50,13 @@ update.tbl_sql <- function(object, ...) {
   }
 
   # Figure out variables
-  if (is.null(object$select)) {
+  if (is.null(object$select) || length(object$select) == 0) {
     if (is.ident(object$from)) {
       var_names <- table_fields(object$src$con, object$from)
     } else {
       var_names <- qry_fields(object$src$con, object$from)
     }
-    vars <- lapply(var_names, as.name)
-    object$select <- vars
+    object$select <- lapply(var_names, as.name)
   }
 
   object$query <- build_query(object)
@@ -135,14 +134,13 @@ dimnames.tbl_sql <- function(x) {
 
 #' @export
 dim.tbl_sql <- function(x) {
-  if (!inherits(x$from, "ident")) {
-    n <- NA
-  } else {
-    n <- x$query$nrow()
-  }
-
-  p <- x$query$ncol()
-  c(n, p)
+  # rationale: ORDER BY slows down queries
+  # and is not supported in subqueries in standard SQL
+  # nrow() uses subqueries though
+  x$order_by <- NULL
+  q <- build_query(x)
+  
+  c(ifelse(!inherits(x$from, "ident"),NA,q$nrow()), q$ncol())
 }
 
 #' @export
@@ -207,7 +205,6 @@ build_query <- function(x, limit = NULL) {
       con = x$src$con)
     where_sql <- translate(where$expr)
   }
-
 
   sql <- sql_select(x$src$con, from = from_sql, select = select_sql,
     where = where_sql, order_by = order_by_sql, group_by = group_by_sql,
