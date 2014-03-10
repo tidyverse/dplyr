@@ -269,7 +269,7 @@ filter(
 )
 ```
 
-This is difficult to read because the order of the operations is from inside to out, and the arguments are a long way away from the function. To get around this problem, dplyr provides the `%.%` operator. `x %.% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations so you can read from left-to-riht, top-to-bottom:
+This is difficult to read because the order of the operations is from inside to out, and the arguments are a long way away from the function. To get around this problem, dplyr provides the `%.%` operator. `x %.% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations so you can read from left-to-right, top-to-bottom:
 
 ```{r, eval = FALSE}
 hflights %.%
@@ -309,11 +309,11 @@ Compared to DBI and the database connection algorithms:
 
 * it hides, as much as possible, the fact that you're working with a remote database
 * you don't need to know any sql (although it helps!)
-* it shims over the many differences between the difference DBI implementations
+* it shims over the many differences between the different DBI implementations
 
 ## Multidimensional arrays / cubes
 
-`tbl_cube()` provides an experimental interface to multidimenssional arrays or data cubes. If you're using this form of data in R, please get in touch so I can better understand your needs.
+`tbl_cube()` provides an experimental interface to multidimensional arrays or data cubes. If you're using this form of data in R, please get in touch so I can better understand your needs.
 
 # Comparisons
 
