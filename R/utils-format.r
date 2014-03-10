@@ -15,7 +15,7 @@ dim_desc <- function(x) {
   d <- dim(x)
   d2 <- format(d, big.mark = ",", justify = "none", trim = TRUE)
   d2[is.na(d)] <- "??"
-  
+
   paste0("[", paste0(d2, collapse = " x "), "]")
 }
 
@@ -24,16 +24,18 @@ dim_desc <- function(x) {
 trunc_mat <- function(x, n = NULL) {
   rows <- nrow(x)
   if (!is.na(rows) && rows == 0) return()
-  
+
   if (is.null(n)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
-      n <- getOption("dplyr.print_min") 
+      n <- getOption("dplyr.print_min")
     } else {
       n <- rows
     }
   }
-    
+
   df <- as.data.frame(head(x, n))
+  if (nrow(df) == 0) return()
+
   mat <- format(df, justify = "left")
 
   width <- getOption("width")
@@ -50,7 +52,7 @@ trunc_mat <- function(x, n = NULL) {
     df[[1]] <- substr(df[[1]], 1, width)
   }
   shrunk <- format(df[, !too_wide, drop = FALSE])
-  
+
   needs_dots <- is.na(rows) || rows > n
   if (needs_dots) {
     dot_width <- pmin(w[-1][!too_wide], 3)
@@ -64,14 +66,14 @@ trunc_mat <- function(x, n = NULL) {
     vars <- colnames(mat)[too_wide]
     types <- vapply(df[too_wide], type_sum, character(1))
     var_types <- paste0(vars, " (", types, ")", collapse = ", ")
-    
+
     cat(wrap("Variables not shown: ", var_types), "\n", sep = "")
   }
 }
 
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
-  wrapped <- strwrap(x, indent = indent, exdent = indent + 2, 
+  wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
     width = getOption("width"))
   paste0(wrapped, collapse = "\n")
 }
