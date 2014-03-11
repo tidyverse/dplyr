@@ -20,7 +20,7 @@ batting <- select(tbl_df(Batting), playerID, yearID, teamID, G, AB:H)
 batting <- arrange(batting, playerID, yearID, teamID)
 players <- group_by(batting, playerID)
 
-# For each player, find the two years with most home runs
+# For each player, find the two years with most hits
 filter(players, min_rank(desc(H)) <= 2 & H > 0)
 # Within each player, rank each year by the number of games played
 mutate(players, G_rank = min_rank(G))
@@ -137,7 +137,7 @@ You can use them to:
   
     ```{r, results = "hide"}
     # Find when a player changed teams
-    filter(players, teamID != lag(teamID)); TRUE
+    filter(players, teamID != lag(teamID))
     ```
 
 `lead()` and `lag()` have an optional argument `order_by`. If set, instead of using the row order to determine which value comes before another, they will use another variable. This important if you have not already sorted the data, or you want to sort one way and lag another. 
