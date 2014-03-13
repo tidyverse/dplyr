@@ -93,7 +93,7 @@ hof <- tbl(lahman_sqlite(), "HallOfFame")
 semi_join(people, hof)
 
 # All people not in the hall of fame
-semi_join(people, hof, anti = TRUE)
+anti_join(people, hof)
 
 # Find all managers
 manager <- tbl(lahman_sqlite(), "Managers")

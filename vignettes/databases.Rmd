@@ -19,9 +19,9 @@ As well as working with local in-memory data like data frames and data tables, d
 
 Since R almost exclusively works with in-memory data, if you do have a lot of data in a database, you can't just dump it into R. Instead, you'll have to work with subsets or aggregates, and dplyr aims to make that as easy as possible. If you're working with large data, it's also likely that you'll need support to get the data into the database and to ensure you have the right indices for good performance. dplyr provides some simple tools to help with these tasks but they are no substitute for a local expert.
 
-The motivation for supporting databases in dplyr is that you never pull down the right subset or aggregate from the database the first time, and usually you have to iterate between R and SQL many times before you get the perfect dataset. Switching between languages is cognitively challenging (especially because R and SQL are so perilously similar), so dplyr allows you to write R code that is automatically translated to SQL. The goal of dplyr is not to replace every SQL function with an R function: that would be difficult and error prone. Instead, dplyr only generates `SELECT` statements, the SQL you write most often as an analyst. 
+The motivation for supporting databases in dplyr is that you never pull down the right subset or aggregate from the database the first time, and usually you have to iterate between R and SQL many times before you get the perfect dataset. Switching between languages is cognitively challenging (especially because R and SQL are so perilously similar), so dplyr allows you to write R code that is automatically translated to SQL. The goal of dplyr is not to replace every SQL function with an R function: that would be difficult and error prone. Instead, dplyr only generates `SELECT` statements, the SQL you write most often as an analyst.
 
-To get the most out of this chapter, you'll need to be familiar with querying SQL databases using the `SELECT` statement.
+To get the most out of this chapter, you'll need to be familiar with querying SQL databases using the `SELECT` statement.  If you have some familiarity with SQL and you'd like to learn more, I found   [how indexes work in SQLite](http://www.sqlite.org/queryplanner.html) and [10 easy steps to a complete understanding of SQL](http://tech.pro/tutorial/1555/10-easy-steps-to-a-complete-understanding-of-sql) to be particularly helpful.
 
 ## Getting started
 
@@ -88,7 +88,7 @@ c3 <- mutate(c2, Speed = Distance / AirTime * 60)
 c4 <- arrange(c3, Year, Month, DayofMonth, UniqueCarrier)
 ```
 
-Suprisingly, this sequence of operations never actually touches the database. It's not until you ask for the data (e.g. by printing `c4`) that dplyr generates the SQL and requests the results from the database, and even then it only pulls down 10 rows. 
+Suprisingly, this sequence of operations never actually touches the database. It's not until you ask for the data (e.g. by printing `c4`) that dplyr generates the SQL and requests the results from the database, and even then it only pulls down 10 rows.
 
 ```{r}
 c4
@@ -118,7 +118,7 @@ There are three ways to force the computation of a query:
 
 * `collect()` executes the query and returns the results to R.
 
-* `compute()` executes the query and stores the results in a temporary table 
+* `compute()` executes the query and stores the results in a temporary table
   in the database.
 
 * `collapse()` turns the query into a table expresion.
@@ -129,17 +129,17 @@ You are most likely to use `collect()`: once you have interactively converged on
 
 dplyr tries to prevent you from accidentally performing expensive query operations:
 
-* `nrow()` is always `NA`: in general, there's no way to determine how 
+* `nrow()` is always `NA`: in general, there's no way to determine how
   many rows a query will return unless you actually run it.
 
 * Printing a tbl only runs the query enough to get the first 10 rows
 
-* You can use `tail()` on database tbls: you can't find the last rows 
-  without executing the whole query. 
+* You can use `tail()` on database tbls: you can't find the last rows
+  without executing the whole query.
 
 ## SQL translation
 
-When doing simple mathematical operations of the form you normally use when filtering, mutating and summarising it's relatively straightforward to translate R code to SQL (or indeed to any programming language). 
+When doing simple mathematical operations of the form you normally use when filtering, mutating and summarising it's relatively straightforward to translate R code to SQL (or indeed to any programming language).
 
 To experiment with the translation, use `translate_sql()`. The following examples work through some basic differences between R and SQL.
 
@@ -164,8 +164,8 @@ translate_sql(1L)
 dplyr knows how to convert the following R functions to SQL:
 
 * basic math operators: `+`, `-`, `*`, `/`, `%%`, `^`
-* math functions: `abs`, `acos`, `acosh`, `asin`, `asinh`, `atan`, `atan2`, 
-  `atanh`, `ceiling`, `cos`, `cosh`, `cot`, `coth`, `exp`, `floor`, 
+* math functions: `abs`, `acos`, `acosh`, `asin`, `asinh`, `atan`, `atan2`,
+  `atanh`, `ceiling`, `cos`, `cosh`, `cot`, `coth`, `exp`, `floor`,
   `log`, `log10`, `round`, `sign`, `sin`, `sinh`, `sqrt`, `tan`, `tanh`
 * logical comparisons: `<`, `<=`, `!=`, `>=`, `>`, `==`, `%in%`
 * boolean operations: `&`, `&&`, `|`, `||`, `!`, `xor`
@@ -183,7 +183,7 @@ translate_sql(mean(x, trim = T))
 Any function that dplyr does't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
 
 ```{r}
-translate_sql(glob(x, y)) 
+translate_sql(glob(x, y))
 translate_sql(x %like% "ab*")
 ```
 
@@ -193,7 +193,7 @@ SQLite lacks window functions, which are needed for grouped mutation and filteri
 
 ```{r}
 planes <- group_by(hflights_sqlite, TailNum)
-delay <- summarise(planes, 
+delay <- summarise(planes,
   count = n(),
   dist = mean(Distance),
   delay = mean(ArrDelay)
@@ -231,12 +231,12 @@ The following examples shows the grouped filter and mutate possible with Postgre
 ```{r}
 if (has_lahman("postgres")) {
   daily <- group_by(hflights_postgres, Year, Month, DayofMonth)
-  
+
   # Find the most and least delayed flight each day
-  bestworst <- filter(daily, ArrDelay == min(ArrDelay) || 
+  bestworst <- filter(daily, ArrDelay == min(ArrDelay) ||
     ArrDelay == max(ArrDelay))
   bestworst$query
-  
+
   # Rank each flight within a daily
   ranked <- mutate(daily, rank = rank(desc(ArrDelay)))
   ranked$query
@@ -253,7 +253,7 @@ In terms of functionality, MySQL lies somewhere between SQLite and PostgreSQL. I
 
 Bigquery is a hosted database server provided by google. To connect, you need to provide your `project`, `dataset` and optionally a project for `billing` (if billing for `project` isn't enabled). After you create the src, your web browser will open and ask you to authenticate. Your credentials are stored in a local cache, so you should only need to do this once.
 
-Bigquery supports only a single SQL statement: [SELECT](https://developers.google.com/bigquery/query-reference). Fortunately this is all you need for data analysis, and within SELECT bigquery provides comprehensive coverage similar level to postgresql. 
+Bigquery supports only a single SQL statement: [SELECT](https://developers.google.com/bigquery/query-reference). Fortunately this is all you need for data analysis, and within SELECT bigquery provides comprehensive coverage similar level to postgresql.
 
 ## Picking a database
 

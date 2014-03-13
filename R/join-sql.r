@@ -64,7 +64,7 @@
 #' semi_join(people, hof)
 #'
 #' # All people not in the hall of fame
-#' semi_join(people, hof, anti = TRUE)
+#' anti_join(people, hof)
 #'
 #' # Find all managers
 #' manager <- tbl(lahman_sqlite(), "Managers")
@@ -118,21 +118,24 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   ...) {
   type <- match.arg(type, c("left", "right", "inner", "full"))
   by <- by %||% common_by(x, y)
-  
+
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
 
   # Ensure tables have unique names
   x_names <- auto_names(x$select)
   y_names <- auto_names(y$select)
-  
-  uniques <- unique_names(x_names, y_names, by)
-  if (!is.null(uniques)) {
-    x <- update(x, select = setNames(x$select, uniques$x))
-    y <- update(x, select = setNames(y$select, uniques$y))
-  }
 
-  vars <- lapply(c(by, setdiff(c(x_names, y_names), by)), as.name)
-  
+  uniques <- unique_names(x_names, y_names, by)
+  if (is.null(uniques)) {
+    sel_vars <- c(x_names, y_names)
+  } else {
+    x <- update(x, select = setNames(x$select, uniques$x))
+    y <- update(y, select = setNames(y$select, uniques$y))
+
+    sel_vars <- unique(c(uniques$x, uniques$y))
+  }
+  vars <- lapply(c(by, setdiff(sel_vars, by)), as.name)
+
   join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
@@ -154,7 +157,7 @@ is.join <- function(x) {
 
 semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
   auto_index = FALSE, ...) {
-  
+
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
 
@@ -162,8 +165,8 @@ semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
   by_escaped <- escape(ident(by), collapse = NULL, con = con)
   left <- escape(ident("_LEFT"), con = con)
   right <- escape(ident("_RIGHT"), con = con)
-  
-  join <- sql(paste0(left, ".", by_escaped, " = ", right, ".", by_escaped, 
+
+  join <- sql(paste0(left, ".", by_escaped, " = ", right, ".", by_escaped,
     collapse = " AND "))
 
   from <- build_sql(

@@ -4,7 +4,9 @@
 
 * `select()` renames columns in a data table (#284).
 
-* `rbind_all()` and `rbind_list()` did not handle missing values in factors (#279). 
+* `rbind_all()` and `rbind_list()` did not handle missing values in factors (#279).
+
+* SQL joins now work better if names duplicated in both x and y tables (#310)
 
 # dplyr 0.1.2
 
@@ -47,8 +49,8 @@
   example in `if(n() > 5) 1 else 2` the subexpression `n()` was not
   substituted correctly. It also correctly processes `$` (#278).
 
-* `arrange()` checks that all columns are of supported types (#266). It also 
-  handles list columns (#282). 
+* `arrange()` checks that all columns are of supported types (#266). It also
+  handles list columns (#282).
 
 * Working towards Solaris compatibility.
 
