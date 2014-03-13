@@ -18,8 +18,7 @@
 #' \dontrun{
 #' # Connection basics ---------------------------------------------------------
 #' # To connect to a database first create a src:
-#' my_db <- src_monetdb(dbname="demo",host = "localhost", port=50000, user = "monetdb",
-#'   password = "monetdb")
+#' my_db <- src_monetdb(dbname="demo")
 #' # Then reference a tbl within that src
 #' my_tbl <- tbl(my_db, "my_table")
 #' }
@@ -95,13 +94,16 @@ src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monet
     info = info, disco = db_disconnector(con, "monetdb"))
 }
 
+#' @export
+#' @rdname src_monetdb
 tbl.src_monetdb <- function(src, from, ...) {
-  if (grepl("ORDER BY|LIMIT|OFFSET",as.character(from),ignore.case=T)) {
+  if (grepl("ORDER BY|LIMIT|OFFSET", as.character(from), ignore.case=TRUE)) {
     stop(paste0(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported. Sorry."))
   }
   tbl_sql("monetdb", src = src, from = from, ...)
 }
 
+#' @export
 brief_desc.src_monetdb <- function(x) {
   paste0("MonetDB ",x$info$monet_version, " (",x$info$monet_release, ") [", x$info$merovingian_uri,"]")
 }
@@ -111,21 +113,20 @@ translate_env.src_monetdb <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
-      n = function() sql("count(*)"),
-      # check & extend!
-      sd =  sql_prefix("stddev_samp"),
-      var = sql_prefix("var_samp"),
-      paste = function(x, collapse) build_sql("group_concat(", x, collapse, ")")
+      n = function() sql("COUNT(*)"),
+      sd =  sql_prefix("STDDEV_SAMP"),
+      var = sql_prefix("VAR_SAMP"),
+      median = sql_prefix("MEDIAN")
     )
   )
 }
 
 #' @export
 sql_begin_trans.MonetDBConnection <- function(con) {
-  qry_run(con, "start transaction")
+  qry_run(con, "START TRANSACTION")
 }
 
-# lifted from postgres equivalent
+#' @export
 sql_insert_into.MonetDBConnection <- function(con, table, values) {
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
@@ -136,27 +137,30 @@ sql_insert_into.MonetDBConnection <- function(con, table, values) {
   values[is_char] <- lapply(values[is_char], encodeString)
 
   tmp <- tempfile(fileext = ".csv")
-  write.table(values, tmp, sep = ",", quote = T,
+  write.table(values, tmp, sep = ",", quote = TRUE,
     row.names = FALSE, col.names = FALSE,na="")
 
-  sql <- build_sql("COPY ",sql(nrow(values))," RECORDS INTO ", ident(table)," FROM ",tmp," USING DELIMITERS ',','\\n','\"' NULL AS ''",
-    con = con)
+  sql <- build_sql("COPY ",sql(nrow(values))," RECORDS INTO ", ident(table),
+    " FROM ", tmp, " USING DELIMITERS ',','\\n','\"' NULL AS ''", con = con)
   qry_run(con, sql)
 
   invisible()
 }
 
-# Chuck Norris (and MonetDB) do not need ANALYZE
+#' @export
 sql_analyze.MonetDBConnection <- function(con, table) {
+  # Chuck Norris (and MonetDB) do not need ANALYZE
   invisible(TRUE) 
 }
 
-# MonetDB does not benefit from indices
+#' @export
 sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...) {
+  # MonetDB does not benefit from indices
   invisible(TRUE) 
 }
 
-# prepare gives us column info without actually running a query
+#' @export
 qry_fields.MonetDBConnection <- function(con, from) {
+  # prepare gives us column info without actually running a query
   dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
 }

@@ -1,9 +1,12 @@
 \name{src_monetdb}
 \alias{src_monetdb}
+\alias{tbl.src_monetdb}
 \title{Connect to MonetDB (http://www.monetdb.org), an Open Source analytics-focused database}
 \usage{
 src_monetdb(dbname, host = "localhost", port = 50000L, user = "monetdb",
   password = "monetdb", ...)
+
+\method{tbl}{src_monetdb}(src, from, ...)
 }
 \arguments{
   \item{dbname}{Database name}
@@ -91,8 +94,7 @@ If you are running a local database with, you only need to define the name of th
 \dontrun{
 # Connection basics ---------------------------------------------------------
 # To connect to a database first create a src:
-my_db <- src_monetdb(dbname="demo",host = "localhost", port=50000, user = "monetdb",
-  password = "monetdb")
+my_db <- src_monetdb(dbname="demo")
 # Then reference a tbl within that src
 my_tbl <- tbl(my_db, "my_table")
 }

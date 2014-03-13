@@ -50,7 +50,7 @@ update.tbl_sql <- function(object, ...) {
   }
 
   # Figure out variables
-  if (is.null(object$select) || length(object$select) == 0) {
+  if (length(object$select) == 0) {
     if (is.ident(object$from)) {
       var_names <- table_fields(object$src$con, object$from)
     } else {
@@ -140,7 +140,14 @@ dim.tbl_sql <- function(x) {
   x$order_by <- NULL
   q <- build_query(x)
   
-  c(ifelse(!inherits(x$from, "ident"),NA,q$nrow()), q$ncol())
+  if (!inherits(x$from, "ident")) {
+    n <- NA
+  } else {
+    n <- q$nrow()
+  }
+  p <- q$ncol()
+  c(n, p)
+  
 }
 
 #' @export
