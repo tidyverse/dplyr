@@ -1,20 +1,21 @@
-# dplyr 0.1.2.0.99
+# dplyr 0.1.3
 
 ## Bug fixes
 
-* `select()` renames columns in a data table (#284).
+* `select()` actually renames columns in a data table (#284).
 
-* `rbind_all()` and `rbind_list()` did not handle missing values in factors (#279).
+* `rbind_all()` and `rbind_list()` now handle missing values in factors (#279).
 
-* SQL joins now work better if names duplicated in both x and y tables (#310). 
+* SQL joins now work better if names duplicated in both x and y tables (#310).
 
-* Correctly builds against Rcpp 0.11.1
+* Builds against Rcpp 0.11.1
 
-* `select` correctly treats the vars attribute (#309). 
+* `select()` correctly works with the vars attribute (#309).
 
-* internal code is stricter when deciding if a data frame is grouped (#308). 
+* Internal code is stricter when deciding if a data frame is grouped (#308):
+  this avoids a number of situations which previously causedd .
 
-* JoinFactorVisitor correctly treats NA in factors (#306). 
+* More data frame joins work with missing values in keys (#306).
 
 # dplyr 0.1.2
 
