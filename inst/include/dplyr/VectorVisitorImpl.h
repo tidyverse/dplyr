@@ -103,9 +103,13 @@ namespace dplyr {
         inline SEXP subset_int_index( const Container& index ) const {
             int n = output_size(index) ;
             VECTOR out = Rcpp::no_init(n) ;
-            // TODO: find a way to mark that we don't need the NA handling
-            for( int i=0; i<n; i++) 
-                out[i] = (index[i] < 0) ? VECTOR::get_na() : vec[ index[i] ] ;
+            for( int i=0; i<n; i++){
+                if( index[i] < 0 ){
+                    out[i] = VECTOR::get_na() ;
+                } else {
+                    out[i] = vec[ index[i] ] ;
+                }
+            }
             return out ;
         }
         
