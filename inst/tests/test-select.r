@@ -81,7 +81,7 @@ test_that("select can be before group_by (#309)",{
     group_by(id, year) %.%
     select(id, year, var1) %.%
     summarise(var1=mean(var1))
-  expect_equals( names(dfagg), c("id", "year", "var1"))
-  expect_equals( attr(dfagg, "vars" ), list(quote(id)))
+  expect_equal(names(dfagg), c("id", "year", "var1"))
+  expect_equal(attr(dfagg, "vars" ), list(quote(id)))
   
 })
