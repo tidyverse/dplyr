@@ -14,6 +14,8 @@
 
 * internal code is stricter when deciding if a data frame is grouped (#308). 
 
+* JoinFactorVisitor correctly treats NA in factors (#306). 
+
 # dplyr 0.1.2
 
 ## New features
