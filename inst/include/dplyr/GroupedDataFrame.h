@@ -93,7 +93,7 @@ namespace Rcpp {
     
     template <>
     inline bool is<GroupedDataFrame>( SEXP x){
-        return Rf_inherits(x, "grouped_df" ) ;
+        return Rf_inherits(x, "grouped_df" ) && Rf_getAttrib(x, Rf_install("vars") ) != R_NilValue ;
     }
     
     inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator( const GroupedDataFrame& gdf_ ) : 

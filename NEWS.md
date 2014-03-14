@@ -12,6 +12,8 @@
 
 * `select` correctly treats the vars attribute (#309). 
 
+* internal code is stricter when deciding if a data frame is grouped (#308). 
+
 # dplyr 0.1.2
 
 ## New features
