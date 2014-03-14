@@ -6,7 +6,11 @@
 
 * `rbind_all()` and `rbind_list()` did not handle missing values in factors (#279).
 
-* SQL joins now work better if names duplicated in both x and y tables (#310)
+* SQL joins now work better if names duplicated in both x and y tables (#310). 
+
+* Correctly builds against Rcpp 0.11.1
+
+* `select` correctly treats the vars attribute (#309). 
 
 # dplyr 0.1.2
 

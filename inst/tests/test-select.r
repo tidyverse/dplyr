@@ -74,3 +74,14 @@ test_that("select changes columns in copy of data table", {dt <- data.table(x = 
   expect_equal(names(select(gdt, x, z = y)), c("x", "z"))
   expect_equal(names(gdt), c("x", "y"))
 })
+
+test_that("select can be before group_by (#309)",{
+  df <- data.frame(id=c(1,1,2,2,2,3,3,4,4,5), year=c(2013,2013,2012,2013,2013,2013,2012,2012,2013,2013), var1=rnorm(10))
+  dfagg <- df %.%
+    group_by(id, year) %.%
+    select(id, year, var1) %.%
+    summarise(var1=mean(var1))
+  expect_equals( names(dfagg), c("id", "year", "var1"))
+  expect_equals( attr(dfagg, "vars" ), list(quote(id)))
+  
+})
