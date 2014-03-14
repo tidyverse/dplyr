@@ -1387,21 +1387,23 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
   // handle vars  attribute : make a shallow copy of the list and alter 
   //   its names attribute
   List vars = shallow_copy( copy.attr("vars") ); 
+  
   int nv = vars.size() ;
   for( int i=0; i<nv; i++){
     SEXP s = PRINTNAME(vars[i]) ;
     int j = 0; 
     for( ; j < n; j++){
       if( s == keep[j] ){
-        vars = Rf_install( CHAR(new_names[j]) );  
+        vars[j] = Rf_install( CHAR(new_names[j]) );  
       }
     }
   }
   copy.attr("vars") = vars ;
-  
+    
   // hangle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
-  if( !Rf_isNull( copy.attr("labels" ) ) ){   
+  if( !Rf_isNull( copy.attr("labels" ) ) ){
+      
     DataFrame original_labels( copy.attr("labels" ) ) ;
     
     DataFrame labels = shallow_copy(original_labels) ;
@@ -1416,7 +1418,6 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
     labels.attr("vars") = vars ;
     copy.attr("labels") = labels ;
   }
-  
   return copy ;
 }
 
