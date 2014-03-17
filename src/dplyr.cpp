@@ -1549,7 +1549,7 @@ List rbind__impl( Dots dots ){
 //' @export
 //' @rdname rbind
 // [[Rcpp::export]]
-List rbind_all( ListOf<DataFrame> dots ){
+List rbind_all( StrictListOf<DataFrame> dots ){
     return rbind__impl(dots) ;
 }
 

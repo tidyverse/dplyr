@@ -90,3 +90,9 @@ test_that( "rbind handles NA in factors #279", {
   expect_equal(res$c, c("d","b"))
   
 })
+
+test_that( "rbind_all only accepts data frames #288",{
+  ll <- list(c(1,2,3,4, 5), c(6, 7, 8, 9, 10))
+  expect_error(rbind_all(ll))
+})
+
