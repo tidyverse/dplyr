@@ -1,5 +1,8 @@
 # dplyr 0.1.3.0.99
 
+* `glimpse()` makes it possible to see all the columns in a tbl,
+  displaying as much data for each variable as can be fit on a single line.
+
 # dplyr 0.1.3
 
 ## Bug fixes
