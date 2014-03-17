@@ -9,7 +9,7 @@
 #' @template db-info
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
-#' @param user,password User name and password (if needed)
+#' @param user User name (if needed)
 #' @param ... for the src, other arguments passed on to the underlying
 #'   database connector, \code{dbConnect}. For the tbl, included for 
 #'   compatibility with the generic, but otherwise ignored.
@@ -88,14 +88,12 @@
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }
-src_mysql <- function(dbname, host = NULL, port = 0L, user = "root", 
-  password = "", ...) {
+src_mysql <- function(dbname, host = NULL, port = 0L, user = "root", ...) {
   if (!require("RMySQL")) {
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
   
-  con <- dbi_connect(MySQL(), dbname = dbname , host = host, port = port, 
-    username = user, password = password, ...)
+  con <- dbi_connect(MySQL(), dbname = dbname , host = host, port = port, user = user, ...)
   info <- db_info(con)
   
   src_sql("mysql", con, 
