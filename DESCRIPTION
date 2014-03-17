@@ -55,6 +55,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'glimpse.R'
     'group-by.r'
     'group-size.r'
     'grouped-df.r'
