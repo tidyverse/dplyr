@@ -82,6 +82,7 @@ Collate:
     'query-bq.r'
     'rank.R'
     'rbind.r'
+    'sample.R'
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
