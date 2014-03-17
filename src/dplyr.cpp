@@ -1458,7 +1458,7 @@ List rbind__impl( Dots dots ){
     int n = 0 ;
     for( int i=0; i<ndata; i++) {
       DataFrame df = dots[i] ;
-      if( df.size() ) n += dots[i].nrows() ;
+      if( df.size() ) n += df.nrows() ;
     }
     std::vector<Collecter*> columns ;
     std::vector<String> names ;
@@ -1563,19 +1563,21 @@ List cbind__impl( Dots dots ){
   int n = dots.size() ;
   
   // first check that the number of rows is the same
-  int nrows = dots[0].nrows() ;
-  int nv = dots[0].size() ;
+  DataFrame df = dots[0] ;
+  int nrows = df.nrows() ;
+  int nv = df.size() ;
   for( int i=1; i<n; i++){
-    if( dots[i].nrows() != nrows ){
+    DataFrame current = dots[i] ;
+    if( current.nrows() != nrows ){
       std::stringstream ss ;
       ss << "incompatible number of rows (" 
-         << dots[i].size()
+         << current.size()
          << ", expecting "
          << nrows 
       ;
       stop( ss.str() ) ;
     }
-    nv += dots[i].size() ;
+    nv += current.size() ;
   }
   
   // collect columns

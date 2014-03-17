@@ -3,6 +3,10 @@
 * `glimpse()` makes it possible to see all the columns in a tbl,
   displaying as much data for each variable as can be fit on a single line.
 
+## Bug fixes
+
+* Code adapted to Rcpp > 0.11.1
+
 # dplyr 0.1.3
 
 ## Bug fixes
