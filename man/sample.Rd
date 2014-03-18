@@ -11,24 +11,21 @@ sample_frac(tbl, size = 1, replace = FALSE, weight = NULL,
   .env = parent.frame())
 }
 \arguments{
-  \item{tbl}{tbl of data.}
+\item{tbl}{tbl of data.}
 
-  \item{size}{For \code{sample_n}, the number of rows to
-  select.  For \code{sample_frac}, the fraction of rows to
-  select.  If \code{tbl} is grouped, \code{size} applies to
-  each group.}
+\item{size}{For \code{sample_n}, the number of rows to select.
+For \code{sample_frac}, the fraction of rows to select.
+If \code{tbl} is grouped, \code{size} applies to each group.}
 
-  \item{replace}{Sample with or without replacement?}
+\item{replace}{Sample with or without replacement?}
 
-  \item{weight}{Sampling weights. This expression is
-  evaluated in the context of the data frame. It must
-  return a vector of non-negative numbers the same length
-  as the input. Weights are automatically standardised to
-  sum to 1.}
+\item{weight}{Sampling weights. This expression is evaluated in the
+context of the data frame. It must return a vector of non-negative
+numbers the same length as the input. Weights are automatically
+standardised to sum to 1.}
 
-  \item{.env}{Environment in which to look for non-data
-  names used in \code{weight}. Non-default settings for
-  experts only.}
+\item{.env}{Environment in which to look for non-data names used in
+\code{weight}. Non-default settings for experts only.}
 }
 \description{
 This is a wrapper around \code{\link{sample.int}} to make it easy to

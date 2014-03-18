@@ -10,10 +10,9 @@ hflights_sqlite(path = NULL)
 hflights_postgres(dbname = "hflights", ...)
 }
 \arguments{
-  \item{path}{location of sqlite database file}
+\item{path}{location of sqlite database file}
 
-  \item{dbname,...}{Arguments passed on to
-  \code{\link{src_postgres}}}
+\item{dbname,...}{Arguments passed on to \code{\link{src_postgres}}}
 }
 \description{
 These functions cache the data from the \code{hflights} database in

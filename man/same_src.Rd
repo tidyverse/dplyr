@@ -6,7 +6,7 @@
 same_src(x, y)
 }
 \arguments{
-  \item{x,y}{src or tbls to test}
+\item{x,y}{src or tbls to test}
 }
 \value{
 a logical flag

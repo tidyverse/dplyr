@@ -9,11 +9,11 @@ grouped_dt(data, vars)
 is.grouped_dt(x)
 }
 \arguments{
-  \item{data}{a tbl or data frame.}
+\item{data}{a tbl or data frame.}
 
-  \item{vars}{a list of quoted variables.}
+\item{vars}{a list of quoted variables.}
 
-  \item{x}{an object to check}
+\item{x}{an object to check}
 }
 \description{
 The easiest way to create a grouped data table is to call the \code{group_by}

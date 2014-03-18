@@ -12,8 +12,8 @@ cumany(x)
 cummean(x)
 }
 \arguments{
-  \item{x}{For \code{cumall} & \code{cumany}, a logical
-  vector; for \code{cummean} an integer or numeric vector}
+\item{x}{For \code{cumall} & \code{cumany}, a logical vector; for
+\code{cummean} an integer or numeric vector}
 }
 \description{
 dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete

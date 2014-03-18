@@ -6,16 +6,14 @@
 build_sql(..., .env = parent.frame(), con = NULL)
 }
 \arguments{
-  \item{...}{input to convert to SQL. Use \code{\link{sql}}
-  to preserve user input as is (dangerous), and
-  \code{\link{ident}} to label user input as sql
-  identifiers (safe)}
+\item{...}{input to convert to SQL. Use \code{\link{sql}} to preserve
+user input as is (dangerous), and \code{\link{ident}} to label user
+input as sql identifiers (safe)}
 
-  \item{.env}{the environment in which to evalute the
-  arguments. Should not be needed in typical use.}
+\item{.env}{the environment in which to evalute the arguments. Should not
+be needed in typical use.}
 
-  \item{con}{database connection; used to select correct
-  quoting characters.}
+\item{con}{database connection; used to select correct quoting characters.}
 }
 \description{
 This is a convenience function that should prevent sql injection attacks

@@ -16,21 +16,18 @@
 \method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
-  \item{x,y}{tbls to join}
+\item{x,y}{tbls to join}
 
-  \item{by}{a character vector of variables to join by.  If
-  \code{NULL}, the default, \code{join} will do a natural
-  join, using all variables with common names across the
-  two tables. A message lists the variables so that you can
-  check they're right - to suppress the message, supply a
-  character vector.}
+\item{by}{a character vector of variables to join by.  If \code{NULL}, the
+default, \code{join} will do a natural join, using all variables with
+common names across the two tables. A message lists the variables so
+that you can check they're right - to suppress the message, supply
+a character vector.}
 
-  \item{copy}{If \code{y} is not a data frame or
-  \code{\link{tbl_df}} and \code{copy} is \code{TRUE},
-  \code{y} will be converted into a data frame}
+\item{copy}{If \code{y} is not a data frame or \code{\link{tbl_df}} and
+\code{copy} is \code{TRUE}, \code{y} will be converted into a data frame}
 
-  \item{...}{included for compatibility with the generic;
-  otherwise ignored.}
+\item{...}{included for compatibility with the generic; otherwise ignored.}
 }
 \description{
 See \code{\link{join}} for a description of the general purpose of the

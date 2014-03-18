@@ -28,24 +28,22 @@ has_lahman(type, ...)
 lahman_srcs(..., quiet = NULL)
 }
 \arguments{
-  \item{path}{location to look for and cache SQLite
-  database. If \code{NULL}, the default, will first try
-  storing in the installed package directory, and if that
-  isn't writeable, a temporary directory.}
+\item{path}{location to look for and cache SQLite database. If \code{NULL},
+the default, will first try storing in the installed package directory, and
+if that isn't writeable, a temporary directory.}
 
-  \item{...}{Arguments passed to \code{src} on first load.
-  For mysql and postgresql, the defaults assume you have a
-  local server with \code{lahman} database already created.
-  For bigquery, it assumes you have read/write access to a
-  project called \code{Sys.getenv("BIGQUERY_PROJECT")}
+\item{...}{Arguments passed to \code{src} on first
+  load. For mysql and postgresql, the defaults assume you have a local
+  server with \code{lahman} database already created. For bigquery,
+  it assumes you have read/write access to a project called
+  \code{Sys.getenv("BIGQUERY_PROJECT")}
 
-  For \code{lahman_srcs}, character vector of names giving
-  srcs to generate.}
+  For \code{lahman_srcs}, character vector of names giving srcs to generate.}
 
-  \item{quiet}{if \code{TRUE}, suppress messages about
-  databases failing to connect.}
+\item{quiet}{if \code{TRUE}, suppress messages about databases failing to
+connect.}
 
-  \item{type}{src type.}
+\item{type}{src type.}
 }
 \description{
 This creates an interesting database using data from the Lahman baseball

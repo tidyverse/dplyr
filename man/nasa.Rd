@@ -18,16 +18,24 @@ were obtained from the NASA Langley Research Center Atmospheric Sciences
 Data Center (with permission; see important copyright terms below).
 }
 \section{Dimensions}{
-  \itemize{ \item \code{lat}, \code{long}: latitude and
-  longitude \item \code{year}, \code{month}: month and year
-  }
+
+
+\itemize{
+  \item \code{lat}, \code{long}: latitude and longitude
+  \item \code{year}, \code{month}: month and year
+}
 }
 
 \section{Measures}{
-  \itemize{ \item \code{cloudlow}, \code{cloudmed},
-  \code{cloudhigh}: cloud cover at three heights \item
-  \code{ozone} \item \code{surftemp} and \code{temperature}
-  \item \code{pressure} }
+
+
+\itemize{
+  \item \code{cloudlow}, \code{cloudmed}, \code{cloudhigh}: cloud cover
+    at three heights
+  \item \code{ozone}
+  \item \code{surftemp} and \code{temperature}
+  \item \code{pressure}
+}
 }
 \examples{
 nasa

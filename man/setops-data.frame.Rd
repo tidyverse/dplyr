@@ -16,11 +16,9 @@
 \method{setequal}{data.frame}(x, y, ...)
 }
 \arguments{
-  \item{x,y}{Two data frames to compare, igoring order of
-  row and columns}
+\item{x,y}{Two data frames to compare, igoring order of row and columns}
 
-  \item{...}{Needed for compatibility with generic.
-  Otherwise ignored.}
+\item{...}{Needed for compatibility with generic. Otherwise ignored.}
 }
 \description{
 These set operations are implemented with an efficeint C++ backend.

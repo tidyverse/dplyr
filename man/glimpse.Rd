@@ -6,10 +6,9 @@
 glimpse(tbl, width = getOption("width"))
 }
 \arguments{
-  \item{tbl}{A data table}
+\item{tbl}{A data table}
 
-  \item{width}{Width of output: defaults to the width of
-  the console.}
+\item{width}{Width of output: defaults to the width of the console.}
 }
 \description{
 This is like a transposed version of print: columns run down the page,

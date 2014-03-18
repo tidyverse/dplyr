@@ -12,21 +12,18 @@ first(x, order_by = NULL, default = default_missing(x))
 last(x, order_by = NULL, default = default_missing(x))
 }
 \arguments{
-  \item{x}{A vector}
+\item{x}{A vector}
 
-  \item{n}{For \code{nth_value}, a single integer
-  specifying the position.  If a numeric is supplied, it
-  will be silently truncated.}
+\item{n}{For \code{nth_value}, a single integer specifying the position.
+If a numeric is supplied, it will be silently truncated.}
 
-  \item{order_by}{An optional vector used to determine the
-  order}
+\item{order_by}{An optional vector used to determine the order}
 
-  \item{default}{A default value to use if the position
-  does not exist in the input. This is guessed by default
-  for atomic vectors, where a missing value of the
-  appropriate type is return, and for lists, where a
-  \code{NULL} is return. For more complicated objects,
-  you'll need to supply this value.}
+\item{default}{A default value to use if the position does not exist in
+the input. This is guessed by default for atomic vectors, where a
+missing value of the appropriate type is return, and for lists, where
+a \code{NULL} is return. For more complicated objects, you'll need to
+supply this value.}
 }
 \value{
 A single value. \code{[[} is used to do the subsetting.

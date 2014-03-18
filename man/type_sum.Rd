@@ -6,8 +6,8 @@
 type_sum(x)
 }
 \arguments{
-  \item{x}{an object to summarise. Generally only methods
-  of atomic vectors and variants have been implemented.}
+\item{x}{an object to summarise. Generally only methods of atomic vectors
+and variants have been implemented.}
 }
 \description{
 All methods should return a string with four or less characters, suitable

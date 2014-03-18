@@ -13,26 +13,24 @@ compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
 eval_tbls(tbls, op)
 }
 \arguments{
-  \item{tbls}{A list of \code{\link{tbl}}s.}
+\item{tbls}{A list of \code{\link{tbl}}s.}
 
-  \item{op}{A function with a single argument, called often
-  with each element of \code{tbls}.}
+\item{op}{A function with a single argument, called often with each
+element of \code{tbls}.}
 
-  \item{ref}{For checking, an data frame to test results
-  against. If not supplied, defaults to the results from
-  the first \code{src}.}
+\item{ref}{For checking, an data frame to test results against. If not
+supplied, defaults to the results from the first \code{src}.}
 
-  \item{compare}{A function used to compare the results.
-  Defaults to \code{equal_data_frame} which ignores the
-  order of rows and columns.}
+\item{compare}{A function used to compare the results. Defaults to
+\code{equal_data_frame} which ignores the order of rows and columns.}
 
-  \item{times}{For benchmarking, the number of times each
-  operation is repeated.}
+\item{times}{For benchmarking, the number of times each operation is
+repeated.}
 
-  \item{\dots}{For \code{compare_tbls}: additional
-  parameters passed on the \code{compare} function
+\item{\dots}{For \code{compare_tbls}: additional parameters passed on the
+     \code{compare} function
 
-  For \code{bench_tbls}: additional benchmarks to run.}
+   For \code{bench_tbls}: additional benchmarks to run.}
 }
 \value{
 \code{eval_tbls}: a list of data frames.

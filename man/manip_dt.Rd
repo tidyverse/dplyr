@@ -19,18 +19,15 @@
 \method{select}{data.table}(.data, ...)
 }
 \arguments{
-  \item{.data}{a data table}
+\item{.data}{a data table}
 
-  \item{...}{variables interpreted in the context of
-  \code{.data}}
+\item{...}{variables interpreted in the context of \code{.data}}
 
-  \item{inplace}{if \code{FALSE} (the default) the data
-  frame will be copied prior to modification to avoid
-  changes propagating via reference.}
+\item{inplace}{if \code{FALSE} (the default) the data frame will be copied
+prior to modification to avoid changes propagating via reference.}
 
-  \item{.env}{The environment in which to evaluate
-  arguments not included in the data. The default should
-  suffice for ordinary usage.}
+\item{.env}{The environment in which to evaluate arguments not included
+in the data. The default should suffice for ordinary usage.}
 }
 \description{
 Data manipulation for data tables.

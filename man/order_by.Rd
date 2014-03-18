@@ -6,10 +6,10 @@
 order_by(order_by, call)
 }
 \arguments{
-  \item{order_by}{a vector to order_by}
+\item{order_by}{a vector to order_by}
 
-  \item{call}{a function call to a window function, where
-  the first argument is the vector being operated on}
+\item{call}{a function call to a window function, where the first argument
+is the vector being operated on}
 }
 \description{
 This is a useful function to control the order of window functions in

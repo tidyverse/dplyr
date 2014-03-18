@@ -7,29 +7,26 @@
   types = NULL, temporary = TRUE, indexes = NULL, analyze = TRUE, ...)
 }
 \arguments{
-  \item{types}{a character vector giving variable types to
-  use for the columns.  See
-  \url{http://www.sqlite.org/datatype3.html} for available
-  types.}
+\item{types}{a character vector giving variable types to use for the columns.
+See \url{http://www.sqlite.org/datatype3.html} for available types.}
 
-  \item{temporary}{if \code{TRUE}, will create a temporary
-  table that is local to this connection and will be
-  automatically deleted when the connection expires}
+\item{temporary}{if \code{TRUE}, will create a temporary table that is
+local to this connection and will be automatically deleted when the
+connection expires}
 
-  \item{indexes}{a list of character vectors. Each element
-  of the list will create a new index.}
+\item{indexes}{a list of character vectors. Each element of the list
+will create a new index.}
 
-  \item{analyze}{if \code{TRUE} (the default), will
-  automatically ANALYZE the new table so that the query
-  optimiser has useful information.}
+\item{analyze}{if \code{TRUE} (the default), will automatically ANALYZE the
+new table so that the query optimiser has useful information.}
 
-  \item{dest}{remote data source}
+\item{dest}{remote data source}
 
-  \item{df}{local data frame}
+\item{df}{local data frame}
 
-  \item{name}{name for new remote table.}
+\item{name}{name for new remote table.}
 
-  \item{...}{other parameters passed to methods.}
+\item{...}{other parameters passed to methods.}
 }
 \value{
 a sqlite \code{\link{tbl}} object

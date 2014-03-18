@@ -12,18 +12,16 @@ chain_q(calls, env = parent.frame())
 x \%.\% y
 }
 \arguments{
-  \item{x,y}{A dataset and function to apply to it}
+\item{x,y}{A dataset and function to apply to it}
 
-  \item{...,calls}{A sequence of data transformations,
-  starting with a dataset.  The first argument of each call
-  should be omitted - the value of the previous step will
-  be substituted in automatically.  Use \code{chain} and
-  \code{...} when working interactive; use \code{chain_q}
-  and \code{calls} when calling from another function.}
+\item{...,calls}{A sequence of data transformations, starting with a dataset.
+The first argument of each call should be omitted - the value of the
+previous step will be substituted in automatically.  Use \code{chain} and
+\code{...} when working interactive; use \code{chain_q} and \code{calls}
+when calling from another function.}
 
-  \item{env}{Environment in which to evaluation
-  expressions. In ordinary operation you should not need to
-  set this parameter.}
+\item{env}{Environment in which to evaluation expressions. In ordinary
+operation you should not need to set this parameter.}
 }
 \description{
 The downside of the functional nature of dplyr is that when you combine

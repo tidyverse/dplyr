@@ -6,11 +6,11 @@
 with_order(order_by, fun, x, ...)
 }
 \arguments{
-  \item{order_by}{vector to order by}
+\item{order_by}{vector to order by}
 
-  \item{fun}{window function}
+\item{fun}{window function}
 
-  \item{x,...}{arguments to \code{f}}
+\item{x,...}{arguments to \code{f}}
 }
 \description{
 This is used to power the ordering parameters of dplyr's window functions

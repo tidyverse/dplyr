@@ -12,11 +12,10 @@ src_df(pkg = NULL, env = NULL)
 src_dt(pkg = NULL, env = NULL)
 }
 \arguments{
-  \item{tbl}{name of the function used to generate
-  \code{tbl} objects}
+\item{tbl}{name of the function used to generate \code{tbl} objects}
 
-  \item{pkg,env}{Either the name of a package or an
-  environment object in which to look for objects.}
+\item{pkg,env}{Either the name of a package or an environment object in
+which to look for objects.}
 }
 \description{
 This is mainly useful for testing, since makes it possible to refer to

@@ -6,7 +6,7 @@
 group_size(x)
 }
 \arguments{
-  \item{x}{a grouped tbl}
+\item{x}{a grouped tbl}
 }
 \description{
 Calculate the size of each group

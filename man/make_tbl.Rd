@@ -6,14 +6,14 @@
 make_tbl(subclass, ...)
 }
 \arguments{
-  \item{subclass}{name of subclass. "tbl" is an abstract
-  base class, so you must supply this value. \code{tbl_} is
-  automatically prepended to the class name}
+\item{subclass}{name of subclass. "tbl" is an abstract base class, so you
+must supply this value. \code{tbl_} is automatically prepended to the
+class name}
 
-  \item{object}{to test/coerce.}
+\item{object}{to test/coerce.}
 
-  \item{...}{For \code{tbl}, other fields used by class.
-  For \code{as.tbl}, other arguments passed to methods.}
+\item{...}{For \code{tbl}, other fields used by class. For \code{as.tbl},
+other arguments passed to methods.}
 }
 \description{
 \code{tbl} is the standard constructor for tbls. \code{as.tbl} coerces,

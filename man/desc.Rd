@@ -6,7 +6,7 @@
 desc(x)
 }
 \arguments{
-  \item{x}{vector to transform}
+\item{x}{vector to transform}
 }
 \description{
 Transform a vector into a format that will be sorted in descending order.

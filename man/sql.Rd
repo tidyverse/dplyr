@@ -18,24 +18,22 @@ is.ident(x)
 escape(x, parens = NA, collapse = " ", con = NULL)
 }
 \arguments{
-  \item{...}{Character vectors that will be combined into a
-  single SQL expression. \code{ident} flags its input as a
-  identifier, to ensure that it gets the correct quoting.}
+\item{...}{Character vectors that will be combined into a single SQL
+expression. \code{ident} flags its input as a identifier, to ensure that
+it gets the correct quoting.}
 
-  \item{x}{An object to escape. Existing sql vectors will
-  be left as is, character vectors are escaped with single
-  quotes, numeric vectors have trailing \code{.0} added if
-  they're whole numbers, identifiers are escaped with
-  double quotes.}
+\item{x}{An object to escape. Existing sql vectors will be left as is,
+character vectors are escaped with single quotes, numeric vectors have
+trailing \code{.0} added if they're whole numbers, identifiers are
+escaped with double quotes.}
 
-  \item{parens,collapse}{Controls behaviour when multiple
-  values are supplied.  \code{parens} should be a logical
-  flag, or if \code{NA}, will wrap in parens if length > 1.
+\item{parens,collapse}{Controls behaviour when multiple values are supplied.
+  \code{parens} should be a logical flag, or if \code{NA}, will wrap in
+  parens if length > 1.
 
-  Default behaviour: lists are always wrapped in parens and
-  separated by commas, identifiers are separated by commas
-  and never wrapped, atomic vectors are separated by spaces
-  and wrapped in parens if needed.}
+  Default behaviour: lists are always wrapped in parens and separated by
+  commas, identifiers are separated by commas and never wrapped,
+  atomic vectors are separated by spaces and wrapped in parens if needed.}
 }
 \description{
 These functions are critical when writing functions that translate R

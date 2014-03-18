@@ -6,7 +6,7 @@
 n_distinct(x)
 }
 \arguments{
-  \item{x}{a vector of values}
+\item{x}{a vector of values}
 }
 \description{
 This is a faster and more concise equivalent of \code{length(unique(x))}

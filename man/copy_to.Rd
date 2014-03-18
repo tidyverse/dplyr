@@ -6,13 +6,13 @@
 copy_to(dest, df, name = deparse(substitute(df)), ...)
 }
 \arguments{
-  \item{dest}{remote data source}
+\item{dest}{remote data source}
 
-  \item{df}{local data frame}
+\item{df}{local data frame}
 
-  \item{name}{name for new remote table.}
+\item{name}{name for new remote table.}
 
-  \item{...}{other parameters passed to methods.}
+\item{...}{other parameters passed to methods.}
 }
 \value{
 a \code{tbl} object in the remote source

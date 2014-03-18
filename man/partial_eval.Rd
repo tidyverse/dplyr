@@ -6,13 +6,11 @@
 partial_eval(call, tbl = NULL, env = parent.frame())
 }
 \arguments{
-  \item{call}{an unevaluated expression, as produced by
-  \code{\link{quote}}}
+\item{call}{an unevaluated expression, as produced by \code{\link{quote}}}
 
-  \item{tbl}{a tbl object}
+\item{tbl}{a tbl object}
 
-  \item{env}{environment in which to search for local
-  values}
+\item{env}{environment in which to search for local values}
 }
 \description{
 This function partially evaluates an expression, using information from
@@ -22,16 +20,18 @@ don't need to carry around their environment - all revelant information
 is incorporated into the expression.
 }
 \section{Symbol substitution}{
-  \code{partial_eval} needs to guess if you're referring to
-  a variable on the server (remote), or in the current
-  environment (local). It's not possible to do this 100%
-  perfectly. \code{partial_eval} uses the following
-  heuristic:
 
-  \itemize{ \item If the tbl variables are known, and the
-  symbol matches a tbl variable, then remote.  \item If the
-  symbol is defined locally, local.  \item Otherwise,
-  remote. }
+
+\code{partial_eval} needs to guess if you're referring to a variable on the
+server (remote), or in the current environment (local). It's not possible to
+do this 100% perfectly. \code{partial_eval} uses the following heuristic:
+
+\itemize{
+  \item If the tbl variables are known, and the symbol matches a tbl
+    variable, then remote.
+  \item If the symbol is defined locally, local.
+  \item Otherwise, remote.
+}
 }
 \examples{
 if (require("Lahman")) {
