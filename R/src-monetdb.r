@@ -97,9 +97,7 @@ src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monet
 #' @export
 #' @rdname src_monetdb
 tbl.src_monetdb <- function(src, from, ...) {
-  if (grepl("ORDER BY|LIMIT|OFFSET", as.character(from), ignore.case=TRUE)) {
-    stop(paste0(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported. Sorry."))
-  }
+  monetdb_check_subquery(from)
   tbl_sql("monetdb", src = src, from = from, ...)
 }
 
@@ -163,4 +161,45 @@ sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...
 qry_fields.MonetDBConnection <- function(con, from) {
   # prepare gives us column info without actually running a query
   dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
+}
+
+
+query.MonetDBConnection <- function(con, sql, .vars) {
+  assert_that(is.string(sql))
+  
+  MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
+}
+
+MonetDBQuery <- setRefClass("Child", contains = "Query",  methods = list(
+
+  # MonetDB needs the WITH DATA in the end
+  save_into = function(name = random_table_name()) {
+    tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql," WITH DATA",
+                        con = con)
+    qry_run(con, tt_sql)
+    
+    name
+  },
+  
+  from = function() {
+    if (is.ident(sql)) {
+      sql
+    } else {
+      monetdb_check_subquery(sql)
+      build_sql("(", sql, ") AS master", con = con)
+    }
+  },
+  
+  nrow = function() {
+    if (!is.null(.nrow)) return(.nrow)
+    .nrow <<- monetdb_queryinfo(con,sql)$rows
+    .nrow
+  }
+
+))
+
+monetdb_check_subquery <- function(sql) {
+  if (grepl("ORDER BY|LIMIT|OFFSET", as.character(sql), ignore.case=TRUE)) {
+    stop(paste0(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported. Sorry."))
+  }
 }
