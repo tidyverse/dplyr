@@ -164,15 +164,15 @@ qry_fields.MonetDBConnection <- function(con, from) {
   dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
 }
 
-
+#' @export
 query.MonetDBConnection <- function(con, sql, .vars) {
   assert_that(is.string(sql))
-  
   MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
 }
 
+#' @export
+#' @importFrom methods setRefClass
 MonetDBQuery <- setRefClass("MonetDBQuery", contains = "Query",  methods = list(
-
   # MonetDB needs the WITH DATA in the end
   save_into = function(name = random_table_name()) {
     tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql," WITH DATA",
