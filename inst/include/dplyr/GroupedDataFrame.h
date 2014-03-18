@@ -74,7 +74,12 @@ namespace Rcpp {
         }
         
         inline bool has_group(SEXP g) const {
-            return symbols.has(as_symbol(g));
+            SEXP symb = as_symbol(g) ;
+            int n = symbols.size() ;
+            for( int i=0; i<n; i++){
+              if( symbols[i] == symb ) return true ;  
+            }
+            return false ;
         }
         
         inline const IntegerVector& get_group_sizes() const {
@@ -93,7 +98,7 @@ namespace Rcpp {
     
     template <>
     inline bool is<GroupedDataFrame>( SEXP x){
-        return Rf_inherits(x, "grouped_df" ) ;
+        return Rf_inherits(x, "grouped_df" ) && Rf_getAttrib(x, Rf_install("vars") ) != R_NilValue ;
     }
     
     inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator( const GroupedDataFrame& gdf_ ) : 

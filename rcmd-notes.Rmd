@@ -2,10 +2,4 @@ The following notes were generated across my local OS X install, ubuntu running 
 
 * checking CRAN incoming feasibility ... NOTE
 
-  Roxygen2 and dplyr are not spelling errors.
-
-* checking DESCRIPTION meta-information ... NOTE
-
-  This is a spurious note; dplyr depends on R >= 3.0.2
-
-I couldn't replicate the problems with microbenchmark reported by BDR on any of the three platforms I test on. If this is a concern I can disable the vignette that uses microbenchmark and remove it from the suggests.
+  Roxygen2 is not a spelling error.

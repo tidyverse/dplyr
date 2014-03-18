@@ -1,7 +1,7 @@
 Package: dplyr
 Type: Package
 Title: dplyr: a grammar of data manipulation
-Version: 0.1.2.0.99
+Version: 0.1.3.0.99
 Author: Hadley Wickham <h.wickham@gmail.com>,
     Romain Francois <romain@r-enthusiasts.com>
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
@@ -33,7 +33,7 @@ Suggests:
     mgcv
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.11.0),
+LinkingTo: Rcpp (>= 0.11.1),
     BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
@@ -56,6 +56,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'glimpse.R'
     'group-by.r'
     'group-size.r'
     'grouped-df.r'
@@ -82,6 +83,7 @@ Collate:
     'query-bq.r'
     'rank.R'
     'rbind.r'
+    'sample.R'
     'sets.r'
     'sql-escape.r'
     'sql-star.r'

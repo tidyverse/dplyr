@@ -1387,21 +1387,23 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
   // handle vars  attribute : make a shallow copy of the list and alter 
   //   its names attribute
   List vars = shallow_copy( copy.attr("vars") ); 
+  
   int nv = vars.size() ;
   for( int i=0; i<nv; i++){
     SEXP s = PRINTNAME(vars[i]) ;
     int j = 0; 
     for( ; j < n; j++){
       if( s == keep[j] ){
-        vars = Rf_install( CHAR(new_names[j]) );  
+        vars[j] = Rf_install( CHAR(new_names[j]) );  
       }
     }
   }
   copy.attr("vars") = vars ;
-  
+    
   // hangle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
-  if( !Rf_isNull( copy.attr("labels" ) ) ){   
+  if( !Rf_isNull( copy.attr("labels" ) ) ){
+      
     DataFrame original_labels( copy.attr("labels" ) ) ;
     
     DataFrame labels = shallow_copy(original_labels) ;
@@ -1416,7 +1418,6 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
     labels.attr("vars") = vars ;
     copy.attr("labels") = labels ;
   }
-  
   return copy ;
 }
 
@@ -1457,7 +1458,7 @@ List rbind__impl( Dots dots ){
     int n = 0 ;
     for( int i=0; i<ndata; i++) {
       DataFrame df = dots[i] ;
-      if( df.size() ) n += dots[i].nrows() ;
+      if( df.size() ) n += df.nrows() ;
     }
     std::vector<Collecter*> columns ;
     std::vector<String> names ;
@@ -1548,7 +1549,7 @@ List rbind__impl( Dots dots ){
 //' @export
 //' @rdname rbind
 // [[Rcpp::export]]
-List rbind_all( ListOf<DataFrame> dots ){
+List rbind_all( StrictListOf<DataFrame> dots ){
     return rbind__impl(dots) ;
 }
 
@@ -1562,19 +1563,21 @@ List cbind__impl( Dots dots ){
   int n = dots.size() ;
   
   // first check that the number of rows is the same
-  int nrows = dots[0].nrows() ;
-  int nv = dots[0].size() ;
+  DataFrame df = dots[0] ;
+  int nrows = df.nrows() ;
+  int nv = df.size() ;
   for( int i=1; i<n; i++){
-    if( dots[i].nrows() != nrows ){
+    DataFrame current = dots[i] ;
+    if( current.nrows() != nrows ){
       std::stringstream ss ;
       ss << "incompatible number of rows (" 
-         << dots[i].size()
+         << current.size()
          << ", expecting "
          << nrows 
       ;
       stop( ss.str() ) ;
     }
-    nv += dots[i].size() ;
+    nv += current.size() ;
   }
   
   // collect columns

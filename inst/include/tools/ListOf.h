@@ -1,4 +1,4 @@
-#ifndef dplyr_tools_ListOf_H
+#if !defined(dplyr_tools_ListOf_H) && !defined(Rcpp_vector_ListOf_h_)
 #define dplyr_tools_ListOf_H
 
 namespace Rcpp {

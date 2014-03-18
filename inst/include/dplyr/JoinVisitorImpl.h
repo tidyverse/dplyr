@@ -152,7 +152,11 @@ namespace dplyr{
         boost::hash<SEXP> string_hash ;
     
         inline SEXP get(int i){
-            return i>=0 ? left_levels_ptr[ left[i] - 1] : right_levels_ptr[right[-i-1] - 1] ;    
+            if( i >= 0 ){
+                return ( left[i] == NA_INTEGER ) ? NA_STRING : left_levels_ptr[ left[i] - 1] ;
+            } else {
+                return ( right[-i-1] == NA_INTEGER ) ? NA_STRING : right_levels_ptr[right[-i-1] - 1] ;                  
+            }
         }
         
     } ;
