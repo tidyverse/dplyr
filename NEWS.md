@@ -1,5 +1,8 @@
 # dplyr 0.1.3.0.99
 
+* Added `new-sql-backend` vignette which discusses how to add a new
+  SQL backend/source to dplyr.
+
 * `sample_n()` randomly samples a fixed number of rows from a tbl;
   `sample_frac()` randomly samples a fixed fraction of rows. Only works
   for local data frames and data tables (#202).
