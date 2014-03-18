@@ -106,6 +106,7 @@ Collate:
     'translate-sql-window.r'
     'translate-sql.r'
     'type-sum.r'
+    'utils-dt.R'
     'utils-format.r'
     'utils.r'
     'view.r'

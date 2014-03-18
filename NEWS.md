@@ -1,14 +1,14 @@
 # dplyr 0.1.3.0.99
 
 * `sample_n()` randomly samples a fixed number of rows from a tbl;
-  `sample_frac()` randomly samples a fixed fraction of rows. Currently only
-  works for data frames (#202).
+  `sample_frac()` randomly samples a fixed fraction of rows. Only works
+  for local data frames and data tables (#202).
 
 * `glimpse()` makes it possible to see all the columns in a tbl,
   displaying as much data for each variable as can be fit on a single line.
 
-* `rbind_all()` is stricter and only accepts list of data frames (#288)  
-  
+* `rbind_all()` is stricter and only accepts list of data frames (#288)
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
