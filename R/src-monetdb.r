@@ -1,8 +1,9 @@
 #' Connect to MonetDB (http://www.monetdb.org), an Open Source analytics-focused database
 #'
 #' Use \code{src_monetdb} to connect to an existing MonetDB database,
-#' and \code{tbl} to connect to tables within that database.
-#' If you are running a local database with, you only need to define the name of the database you want to connect to.
+#' and \code{tbl} to connect to tables within that database. Please note that the ORDER BY, LIMIT and OFFSET keywords
+#' are not supported in the query when using \code{tbl} on a connection to a MonetDB database.
+#' If you are running a local database, you only need to define the name of the database you want to connect to.
 #'
 #' @template db-info
 #' @param dbname Database name
@@ -170,7 +171,7 @@ query.MonetDBConnection <- function(con, sql, .vars) {
   MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
 }
 
-MonetDBQuery <- setRefClass("Child", contains = "Query",  methods = list(
+MonetDBQuery <- setRefClass("MonetDBQuery", contains = "Query",  methods = list(
 
   # MonetDB needs the WITH DATA in the end
   save_into = function(name = random_table_name()) {
@@ -192,7 +193,7 @@ MonetDBQuery <- setRefClass("Child", contains = "Query",  methods = list(
   
   nrow = function() {
     if (!is.null(.nrow)) return(.nrow)
-    .nrow <<- monetdb_queryinfo(con,sql)$rows
+    .nrow <<- monetdb_queryinfo(con, sql)$rows
     .nrow
   }
 
@@ -200,6 +201,6 @@ MonetDBQuery <- setRefClass("Child", contains = "Query",  methods = list(
 
 monetdb_check_subquery <- function(sql) {
   if (grepl("ORDER BY|LIMIT|OFFSET", as.character(sql), ignore.case=TRUE)) {
-    stop(paste0(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported. Sorry."))
+    stop(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported.")
   }
 }
