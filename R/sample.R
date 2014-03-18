@@ -28,7 +28,6 @@
 #'
 #' sample_frac(mtcars, 0.1)
 #' sample_frac(mtcars, 1.5, replace = TRUE)
-#'
 NULL
 
 #' @rdname sample
@@ -68,7 +67,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
 }
 
 #' @export
-sample_frac.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
