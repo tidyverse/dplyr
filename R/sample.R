@@ -17,17 +17,18 @@
 #'   \code{weight}. Non-default settings for experts only.
 #' @name sample
 #' @examples
-#'
+#' # Sample fixed number per group
 #' sample_n(mtcars, 10)
+#' sample_n(mtcars, 50, replace = TRUE)
 #' sample_n(mtcars, 10, weight = mpg)
-#' sample_n(mtcars, 10, weight = 1 / mpg)
-#' sample_n(mtcars, 10, weight = 1 / sqrt(mpg))
 #'
+#' # Sample fixed fraction per group
 #' # Default is to sample all data = randomly resample rows
 #' sample_frac(mtcars)
 #'
 #' sample_frac(mtcars, 0.1)
 #' sample_frac(mtcars, 1.5, replace = TRUE)
+#' sample_frac(mtcars, 0.1, weight = 1 / mpg)
 NULL
 
 #' @rdname sample
@@ -49,14 +50,32 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL,
 #' @export
 sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
-
-  n <- nrow(tbl)
   if (!missing(weight)) {
     weight <- eval(substitute(weight), tbl, .env)
-    weight <- check_weight(weight, n)
   }
 
+  sample_n_basic(tbl, size, replace = replace, weight = weight)
+}
+
+
+#' @export
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
+  .env = parent.frame()) {
+
+  if (!missing(weight)) {
+    weight <- eval(substitute(weight), tbl, .env)
+  }
+
+  sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
+}
+
+
+sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
+  n <- nrow(tbl)
+
+  weight <- check_weight(weight, n)
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
+
   if (size > n && !replace) {
     stop("Sample size (", size, ") greater than population size (", n, ").",
       " Do you want replace = TRUE?", call. = FALSE)
@@ -66,20 +85,12 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
   tbl[idx, , drop = FALSE]
 }
 
-#' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-
-  n <- nrow(tbl)
-  sample_n.data.frame(tbl, round(size * n), replace = replace, .env = .env)
-}
-
 
 # Helper functions -------------------------------------------------------------
 
 check_weight <- function(x, n) {
+  if (is.null(x)) return()
+
   if (!is.numeric(x)) {
     stop("Weights must be numeric", call. = FALSE)
   }
