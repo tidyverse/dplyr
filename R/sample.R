@@ -69,7 +69,6 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL
   sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
 }
 
-
 sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
   n <- nrow(tbl)
 
@@ -85,6 +84,39 @@ sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
   tbl[idx, , drop = FALSE]
 }
 
+
+# Data tables ------------------------------------------------------------------
+# data.frame handles data.tables, but loses class of tbl_df
+
+#' @export
+sample_n.tbl_dt <- function(tbl, size, replace = FALSE, weight = NULL,
+                            .env = parent.frame()) {
+  tbl_dt(NextMethod())
+}
+
+#' @export
+sample_frac.tbl_dt <- function(tbl, size = 1, replace = FALSE, weight = NULL,
+                               .env = parent.frame()) {
+  tbl_dt(NextMethod())
+}
+
+# Default method ---------------------------------------------------------------
+
+#' @export
+sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
+                             .env = parent.frame()) {
+
+  stop("Don't know how to sample from objects of class ", class(tbl)[1],
+    call. = FALSE)
+}
+
+#' @export
+sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
+  .env = parent.frame()) {
+
+  stop("Don't know how to sample from objects of class ", class(tbl)[1],
+    call. = FALSE)
+}
 
 # Helper functions -------------------------------------------------------------
 
