@@ -33,6 +33,7 @@ Data manipulation for grouped data tables.
 if (require("data.table") && require("hflights")) {
 hflights2 <- tbl_dt(hflights)
 by_dest <- group_by(hflights2, Dest)
+
 filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
 summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
 

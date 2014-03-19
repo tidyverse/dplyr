@@ -1,5 +1,10 @@
 # dplyr 0.1.3.0.99
 
+* dplyr is more careful when setting the keys of data tables, so it never
+  accidentally modifies an object that it doesn't own. It also avoids
+  unnecessary key setting which negatively affected performance.
+  (#193, #255).
+
 * `copy_to.src_mysql()` now works on windows (#323)
 
 * SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.

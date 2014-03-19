@@ -8,7 +8,7 @@
 #' if (require("data.table") && require("hflights")) {
 #' hflights2 <- tbl_dt(hflights)
 #' by_dest <- group_by(hflights2, Dest)
-#
+#'
 #' filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
 #' summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
 #'
@@ -35,12 +35,6 @@ NULL
 #' @rdname manip_grouped_dt
 #' @export
 filter.grouped_dt <- function(.data, ...) {
-  # Set keys, if needed
-  keys <- deparse_all(groups(.data))
-  if (!identical(keys, key(.data))) {
-    setkeyv(.data, keys)
-  }
-
   env <- new.env(parent = parent.frame(), size = 1L)
   env$data <- .data
   env$vars <- deparse_all(groups(.data))
@@ -60,12 +54,6 @@ filter.grouped_dt <- function(.data, ...) {
 #' @rdname manip_grouped_dt
 #' @export
 summarise.grouped_dt <- function(.data, ...) {
-  # Set keys, if needed
-  keys <- deparse_all(groups(.data))
-  if (!identical(keys, key(.data))) {
-    setkeyv(.data, keys)
-  }
-
   cols <- named_dots(...)
   # Replace n() with .N
   for (i in seq_along(cols)) {
@@ -75,16 +63,14 @@ summarise.grouped_dt <- function(.data, ...) {
   }
 
   list_call <- as.call(c(quote(list), cols))
-  call <- substitute(data[, list_call, by = vars])
+  call <- substitute(dt[, list_call, by = vars])
 
-  env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- .data
-  env$vars <- keys
+  env <- dt_env(.data, parent.frame())
   out <- eval(call, env)
 
   grouped_dt(
     data = out,
-    vars = groups(.data)[-length(keys)]
+    vars = drop_last(groups(.data))
   )
 }
 
@@ -92,21 +78,13 @@ summarise.grouped_dt <- function(.data, ...) {
 #' @export
 mutate.grouped_dt <- function(.data, ..., inplace = FALSE) {
   data <- .data
-  # Set keys, if needed
-  keys <- deparse_all(groups(.data))
-  if (!identical(keys, key(.data))) {
-    setkeyv(.data, keys)
-  }
   if (!inplace) data <- copy(data)
 
-  env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- data
-  env$vars <- keys
-
+  env <- dt_env(data, parent.frame())
   cols <- named_dots(...)
   # For each new variable, generate a call of the form df[, new := expr]
   for(col in names(cols)) {
-    call <- substitute(data[, lhs := rhs, by = vars],
+    call <- substitute(dt[, lhs := rhs, by = vars],
       list(lhs = as.name(col), rhs = cols[[col]]))
     eval(call, env)
   }
@@ -152,9 +130,6 @@ select.grouped_dt <- function(.data, ...) {
 
 #' @export
 do.grouped_dt <- function(.data, .f, ...) {
-  keys <- deparse_all(groups(.data))
-  setkeyv(.data, keys)
-
   env <- new.env(parent = parent.frame(), size = 1L)
   env$data <- .data
   env$vars <- keys
