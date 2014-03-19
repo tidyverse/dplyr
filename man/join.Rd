@@ -42,25 +42,25 @@ method documentation for details of individual data sources. \code{x} and
 
 Currently dplyr supports four join types:
 
-\itemize{
-   \code{inner_join}: return all rows from x where there are matching values
-   in y, and all columns from x and y. If there are multiple matches between
-   x and y, all combination of the matches are returned.
+\describe{
+   \item{\code{inner_join}}{return all rows from x where there are matching
+   values in y, and all columns from x and y. If there are multiple matches
+   between x and y, all combination of the matches are returned.}
 
-   \code{left_join}: return all rows from x, and all columns from x and y.
-   If there are multiple matches between x and y, all combination of the
-   matches are returned.
+   \item{\code{left_join}}{return all rows from x, and all columns from x
+   and y. If there are multiple matches between x and y, all combination of
+   the matches are returned.}
 
-   \code{semi_join}: return all rows from x where there are matching values
-   in y, keeping just columns from x.
+   \item{\code{semi_join}}{return all rows from x where there are matching
+   values in y, keeping just columns from x.
 
-   \code{anti_join}: return all rows from x where there are not matching
-   values in y, keeping just columns from x
+   A semi join differs from an inner join because an inner join will return
+   one row of \code{x} for each matching row  of \code{y}, where a semi
+   join will never duplicate rows of \code{x}.}
+
+   \item{\code{anti_join}}{return all rows from x where there are not
+   matching values in y, keeping just columns from x}
 }
-
-A semi join differs from an inner join (with just the \code{by} variables)
-because an inner join will return one row of \code{x} for each matching row
-of \code{y}, where a semi join will never duplicated rows in \code{x}.
 }
 
 \section{Grouping}{
