@@ -100,7 +100,8 @@ List rbind__impl( Dots dots ){
 //' @export
 //' @rdname rbind
 // [[Rcpp::export]]
-List rbind_all( StrictListOf<DataFrame> dots ){
+List rbind_all( SEXP sDots ){
+    StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots(sDots, "not a data.frame" ) ;
     return rbind__impl(dots) ;
 }
 
@@ -157,7 +158,8 @@ List cbind_list__impl( DotsOf<DataFrame> dots ){
 }
 
 // [[Rcpp::export]]
-List cbind_all( ListOf<DataFrame> dots ){
-  return cbind__impl( dots ) ;  
+List cbind_all( SEXP sDots){
+    StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots(sDots, "not a data.frame" ) ;
+    return cbind__impl( dots ) ;  
 }
 
