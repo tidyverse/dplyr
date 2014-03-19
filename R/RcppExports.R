@@ -13,6 +13,24 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+#' @export
+#' @rdname rbind
+rbind_all <- function(dots) {
+    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
+}
+
+rbind_list__impl <- function(dots) {
+    .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
+}
+
+cbind_list__impl <- function(dots) {
+    .Call('dplyr_cbind_list__impl', PACKAGE = 'dplyr', dots)
+}
+
+cbind_all <- function(dots) {
+    .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
+}
+
 semi_join_impl <- function(x, y, by) {
     .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
@@ -117,24 +135,6 @@ select_impl <- function(df, vars) {
 #' n_distinct(x)
 n_distinct <- function(x) {
     .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x)
-}
-
-#' @export
-#' @rdname rbind
-rbind_all <- function(dots) {
-    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
-}
-
-rbind_list__impl <- function(dots) {
-    .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
-}
-
-cbind_list__impl <- function(dots) {
-    .Call('dplyr_cbind_list__impl', PACKAGE = 'dplyr', dots)
-}
-
-cbind_all <- function(dots) {
-    .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }
 
 as_regular_df <- function(df) {

@@ -51,6 +51,66 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// rbind_all
+List rbind_all(StrictListOf<DataFrame> dots);
+RcppExport SEXP dplyr_rbind_all(SEXP dotsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< StrictListOf<DataFrame> >::type dots(dotsSEXP );
+        List __result = rbind_all(dots);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// rbind_list__impl
+List rbind_list__impl(DotsOf<DataFrame> dots);
+RcppExport SEXP dplyr_rbind_list__impl(SEXP dotsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DotsOf<DataFrame> >::type dots(dotsSEXP );
+        List __result = rbind_list__impl(dots);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// cbind_list__impl
+List cbind_list__impl(DotsOf<DataFrame> dots);
+RcppExport SEXP dplyr_cbind_list__impl(SEXP dotsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DotsOf<DataFrame> >::type dots(dotsSEXP );
+        List __result = cbind_list__impl(dots);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// cbind_all
+List cbind_all(ListOf<DataFrame> dots);
+RcppExport SEXP dplyr_cbind_all(SEXP dotsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< ListOf<DataFrame> >::type dots(dotsSEXP );
+        List __result = cbind_all(dots);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by);
 RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
@@ -441,66 +501,6 @@ BEGIN_RCPP
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< SEXP >::type x(xSEXP );
         SEXP __result = n_distinct(x);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// rbind_all
-List rbind_all(StrictListOf<DataFrame> dots);
-RcppExport SEXP dplyr_rbind_all(SEXP dotsSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< StrictListOf<DataFrame> >::type dots(dotsSEXP );
-        List __result = rbind_all(dots);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// rbind_list__impl
-List rbind_list__impl(DotsOf<DataFrame> dots);
-RcppExport SEXP dplyr_rbind_list__impl(SEXP dotsSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DotsOf<DataFrame> >::type dots(dotsSEXP );
-        List __result = rbind_list__impl(dots);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// cbind_list__impl
-List cbind_list__impl(DotsOf<DataFrame> dots);
-RcppExport SEXP dplyr_cbind_list__impl(SEXP dotsSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DotsOf<DataFrame> >::type dots(dotsSEXP );
-        List __result = cbind_list__impl(dots);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// cbind_all
-List cbind_all(ListOf<DataFrame> dots);
-RcppExport SEXP dplyr_cbind_all(SEXP dotsSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< ListOf<DataFrame> >::type dots(dotsSEXP );
-        List __result = cbind_all(dots);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
