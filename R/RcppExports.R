@@ -15,8 +15,8 @@ plfloc <- function(data) {
 
 #' @export
 #' @rdname rbind
-rbind_all <- function(sDots) {
-    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', sDots)
+rbind_all <- function(dots) {
+    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
 
 rbind_list__impl <- function(dots) {
@@ -27,8 +27,8 @@ cbind_list__impl <- function(dots) {
     .Call('dplyr_cbind_list__impl', PACKAGE = 'dplyr', dots)
 }
 
-cbind_all <- function(sDots) {
-    .Call('dplyr_cbind_all', PACKAGE = 'dplyr', sDots)
+cbind_all <- function(dots) {
+    .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }
 
 semi_join_impl <- function(x, y, by) {
