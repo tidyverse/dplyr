@@ -1,5 +1,8 @@
 # dplyr 0.1.3.0.99
 
+* SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.
+  (#318).
+
 * `select()` now correctly renames variables in remote sql tbls (#317)
 
 * Added `new-sql-backend` vignette which discusses how to add a new
