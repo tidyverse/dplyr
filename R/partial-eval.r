@@ -70,6 +70,9 @@ partial_eval <- function(call, tbl = NULL, env = parent.frame()) {
     name <- as.character(call[[1]])
     if (name == "local") {
       eval(call[[2]], env)
+    } else if (name %in% c("$", "[[", "[")) {
+      # Subsetting is always done locally
+      eval(call, env)
     } else if (name == "remote") {
       call[[2]]
     } else {
