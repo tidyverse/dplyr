@@ -44,9 +44,12 @@ Currently dplyr supports four join types:
 
 \itemize{
    \code{inner_join}: return all rows from x where there are matching values
-   in y, and all columns from x and y
+   in y, and all columns from x and y. If there are multiple matches between
+   x and y, all combination of the matches are returned.
 
-   \code{left_join}: return all rows from x, and all columns from x and y
+   \code{left_join}: return all rows from x, and all columns from x and y.
+   If there are multiple matches between x and y, all combination of the
+   matches are returned.
 
    \code{semi_join}: return all rows from x where there are matching values
    in y, keeping just columns from x.
