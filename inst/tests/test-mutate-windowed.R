@@ -37,6 +37,11 @@ test_that("row_number gives correct results",{
   expect_equal(res$var, c(2,3,4,5,1,5,4,1,2,3))  
 })
 
+test_that("row_number works with 0 arguments", {
+  g <- group_by(mtcars, cyl)
+  expect_equal( mutate( g, rn = row_number() ), mutate( g, rn = 1:n() ) )
+})
+
 test_that("cum(sum,min,max) works", {
   res <- mutate( df, 
     csumx = cumsum(x), csumy = cumsum(y),

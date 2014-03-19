@@ -136,13 +136,13 @@ namespace dplyr {
                 
                 // tmp <- 0:(m-1)
                 int m = index.size() ;
-                for( int i=0; i<m; i++) tmp[i] = i ;
+                for( int j=0; j<m; j++) tmp[j] = j ;
                 
                 // order( gdf.group(i) )
                 std::sort( tmp.begin(), tmp.begin() + m, 
                     Comparer( Visitor( Slice(data, index ) ) )     
                 ) ;
-                for( int i=0; i<m; i++) out[ index[i] ] = tmp[i] + 1 ;
+                for( int j=0; j<m; j++) out[ index[j] ] = tmp[j] + 1 ;
             }
             return out ;
             
@@ -168,6 +168,34 @@ namespace dplyr {
         
     private:
         SEXP data ;
+    } ;
+    
+    class RowNumber_0 : public Result {
+    public:
+        
+        virtual SEXP process( const GroupedDataFrame& gdf ){
+            int n = gdf.nrows(), ng = gdf.ngroups() ;
+            
+            IntegerVector res = no_init(n) ;
+            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+            for( int i=0; i<ng; i++, ++git){
+                SlicingIndex index = *git ;
+                int m = index.size() ;
+                for( int j=0; j<m; j++) res[index[j]] = j + 1 ;
+            }
+            return res ;
+        }
+        
+        virtual SEXP process( const FullDataFrame& df ) {
+            IntegerVector res = seq(1, df.nrows() ) ;
+            return res ;
+        }
+        
+        virtual SEXP process( const SlicingIndex& index ){
+            IntegerVector res = seq(1, index.size() ) ;
+            return res ;
+        }
+        
     } ;
 
 }

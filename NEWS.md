@@ -12,6 +12,9 @@
 
 * `rbind_all()` is stricter and only accepts list of data frames (#288)
 
+* `row_number()` can be called without arguments, in which case it returns
+  the same as `1:n()` (#303). 
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
