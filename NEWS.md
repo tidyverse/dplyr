@@ -1,5 +1,7 @@
 # dplyr 0.1.3.0.99
 
+* `select()` now correctly renames variables in remote sql tbls (#317)
+
 * Added `new-sql-backend` vignette which discusses how to add a new
   SQL backend/source to dplyr.
 
@@ -13,7 +15,7 @@
 * `rbind_all()` is stricter and only accepts list of data frames (#288)
 
 * `row_number()` can be called without arguments, in which case it returns
-  the same as `1:n()` (#303). 
+  the same as `1:n()` (#303).
 
 ## Bug fixes
 

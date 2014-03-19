@@ -13,8 +13,13 @@ arrange.tbl_sql <- function(.data, ...) {
 #' @export
 select.tbl_sql <- function(.data, ...) {
   vars <- select_vars(tbl_vars(.data), ..., env = parent.frame())
+  # Index into variables so that select can be applied multiple times
+  # and after a mutate.
   idx <- match(vars, tbl_vars(.data))
-  update(.data, select = .data$select[idx])
+  new_select <- .data$select[idx]
+  names(new_select) <- names(vars)
+
+  update(.data, select = new_select)
 }
 
 #' @export
