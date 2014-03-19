@@ -196,7 +196,7 @@ translate_env.src_greenplum <- function(x) {
       min   = win_recycled_greenplum("min"),
       max   = win_recycled_greenplum("max"),
       n     = function() {
-        over_greenplum(sql("COUNT(*)"), partition_group(), frame = c(-Inf, Inf))
+        over_greenplum(sql("COUNT(*)"), partition_group(), frame = NULL)
         },
                    
       # Cumulative function are like recycled aggregates except that R names
