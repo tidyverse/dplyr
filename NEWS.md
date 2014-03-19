@@ -1,5 +1,7 @@
 # dplyr 0.1.3.0.99
 
+* `copy_to.src_mysql()` now works on windows (#323)
+
 * SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.
   (#318).
 
