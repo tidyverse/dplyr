@@ -1,5 +1,7 @@
 # dplyr 0.1.3.0.99
 
+* `chain()` is now deprecated. Please use `%.%` instead.
+
 * dplyr is more careful when setting the keys of data tables, so it never
   accidentally modifies an object that it doesn't own. It also avoids
   unnecessary key setting which negatively affected performance.

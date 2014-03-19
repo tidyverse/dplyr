@@ -16,7 +16,7 @@ x \%.\% y
 
 \item{...,calls}{A sequence of data transformations, starting with a dataset.
 The first argument of each call should be omitted - the value of the
-previous step will be substituted in automatically.  Use \code{chain} and
+previous step will be substituted in automatically. Use \code{chain} and
 \code{...} when working interactive; use \code{chain_q} and \code{calls}
 when calling from another function.}
 
@@ -31,8 +31,15 @@ functions providing an alternative way of calling dplyr (and other data
 manipulation) functions that you read can from left to right.
 }
 \details{
-The functions work via simple substitution so that \code{chain(x, f(y))} or
+The functions work via simple substitution so that
 \code{x \%.\% f(y)} is translated into \code{f(x, y)}.
+}
+\section{Deprecation}{
+
+
+\code{chain} was deprecated in version 0.2, and will be removed in
+0.3. It was removed in the interest of making dplyr code more
+standardised and \code{\%.\%} is much more popular.
 }
 \examples{
 if (require("hflights")) {
@@ -72,16 +79,6 @@ hflights \%.\%
   ) \%.\%
   filter(arr > 30 | dep > 30)
 
-chain(
-  hflights,
-  group_by(Year, Month, DayofMonth),
-  select(Year:DayofMonth, ArrDelay, DepDelay),
-  summarise(
-    arr = mean(ArrDelay, na.rm = TRUE),
-    dep = mean(DepDelay, na.rm = TRUE)
-  ),
-  filter(arr > 30 | dep > 30)
-)
 }
 }
 
