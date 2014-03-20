@@ -39,6 +39,8 @@
 
 * `arrange()` handles data frames with 0 rows (#289). 
 
+* `*_join()` don't reorder column names (#324).
+
 # dplyr 0.1.3
 
 ## Bug fixes

@@ -319,7 +319,12 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     DataFrameVisitors visitors_x(x, x_columns) ;
 
     CharacterVector all_y_columns = y.names() ;
-    CharacterVector y_columns = setdiff( all_y_columns, by ) ;
+    CharacterVector y_columns( all_y_columns.size() - by.size() ) ;
+    for( int i=0, k=0; i<all_y_columns.size(); i++){
+        SEXP name = all_y_columns[i] ;
+        if( std::find(by.begin(), by.end(), name) == by.end() ) y_columns[k++] = name ;
+    }
+    
     JoinColumnSuffixer suffixer(x_columns, y_columns, by) ;
 
     DataFrameVisitors visitors_y(y, y_columns) ;

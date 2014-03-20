@@ -130,3 +130,9 @@ test_that("inner_join does not segfault on NA in factors (#306)", {
   expect_equal( nrow(res), 2L )
 })
 
+test_that("joins don't reorder columns #328", {
+  a <- data.frame(a=1:3)
+  b <- data.frame(a=1:3, b=1, c=2, d=3, e=4, f=5)
+  res <- left_join(a,b)
+  expect_equal( names(res), names(b) )
+})
