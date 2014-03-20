@@ -91,7 +91,7 @@ test_that("arrange handles the case where ... is missing (#338)",{
   expect_equal(arrange(mtcars), mtcars)
 })
 
-test_that("arrange handles 0-rows data frames", {
+test_that("arrange handles 0-rows data frames", {
   d <- data.frame(a = numeric(0))
   expect_equal(d, arrange(d))
 })
