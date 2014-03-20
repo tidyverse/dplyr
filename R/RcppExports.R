@@ -13,6 +13,10 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+arrange_impl <- function(data, args, dots) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, dots)
+}
+
 #' @export
 #' @rdname rbind
 rbind_all <- function(dots) {
@@ -101,10 +105,6 @@ mutate_impl <- function(df, args, env) {
 
 order_impl <- function(args, env) {
     .Call('dplyr_order_impl', PACKAGE = 'dplyr', args, env)
-}
-
-arrange_impl <- function(data, args, dots) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, dots)
 }
 
 sort_impl <- function(data) {
