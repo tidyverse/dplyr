@@ -37,6 +37,8 @@
 
 * `arrange()` correctly handles NA in numeric vectors (#331). 
 
+* `arrange()` handles data frames with 0 rows (#289). 
+
 # dplyr 0.1.3
 
 ## Bug fixes

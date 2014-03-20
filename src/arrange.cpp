@@ -5,7 +5,7 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 List arrange_impl( DataFrame data, List args, DataDots dots ){
-    if( dots.size() == 0 ) return data ;
+    if( dots.size() == 0 || data.nrows() == 0) return data ;
     assert_all_white_list(data) ;
     
     int nargs = args.size() ;
