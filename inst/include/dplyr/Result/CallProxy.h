@@ -88,6 +88,8 @@ namespace dplyr {
                 
                 switch( TYPEOF( head ) ){
                 case LANGSXP:
+                    if( CAR(head) == Rf_install("function") ) break ;
+                        
                     if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
                             SETCAR(obj, Rf_eval(head, env) ) ;
@@ -109,6 +111,8 @@ namespace dplyr {
                     if( TYPEOF(obj) != LANGSXP ){
                         LazySubsets::const_iterator it = subsets.find(head) ;
                         if( it == subsets.end() ){
+                            if( head == R_MissingArg ) break ;
+                            
                             // in the Environment -> resolve
                             try{
                                 Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;

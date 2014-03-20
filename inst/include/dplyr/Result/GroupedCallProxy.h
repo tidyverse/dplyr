@@ -96,6 +96,8 @@ namespace dplyr {
                 SEXP head = CAR(obj) ;
                 switch( TYPEOF( head ) ){
                 case LANGSXP: 
+                    if( CAR(head) == Rf_install("function") ) break ;
+                    
                     if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
                             SETCAR(obj, Rf_eval(head, env) ) ;
@@ -117,6 +119,7 @@ namespace dplyr {
                         if( ! subsets.count(head) ){  
                             // in the Environment -> resolve
                             try{
+                                if( head == R_MissingArg ) break ;
                                 Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
                                 SETCAR( obj, x );
                             } catch(...){
