@@ -39,11 +39,6 @@
 
 ## Bug fixes
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> MonetDB integration
->>>>>>> edd4523... MonetDB integration
 * `select()` actually renames columns in a data table (#284).
 
 * `rbind_all()` and `rbind_list()` now handle missing values in factors (#279).
