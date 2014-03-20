@@ -5,6 +5,7 @@
 \alias{lahman_bigquery}
 \alias{lahman_df}
 \alias{lahman_dt}
+\alias{lahman_monetdb}
 \alias{lahman_mysql}
 \alias{lahman_postgres}
 \alias{lahman_sqlite}
@@ -16,6 +17,8 @@ lahman_sqlite(path = NULL)
 lahman_postgres(...)
 
 lahman_mysql(...)
+
+lahman_monetdb(...)
 
 lahman_df()
 
