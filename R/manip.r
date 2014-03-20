@@ -158,8 +158,7 @@ select <- function(.data, ...) UseMethod("select")
 #' # Rename variables
 #' select_vars(names(iris), petal_length = Petal.Length)
 #' select_vars(names(iris), petal = starts_with("Petal"))
-select_vars <- function(vars, ..., env = parent.frame(), include = character()) {
-  args <- dots(...)
+select_vars <- function(vars, args, env = parent.frame(), include = character()) {
   if (length(args) == 0) return(setNames(vars, vars))
 
   names_list <- setNames(as.list(seq_along(vars)), vars)
