@@ -9,6 +9,12 @@
 
 # This function is the workhorse. Powers all the others.
 
+# Ways to specify functions:
+#
+#   character vector of names
+#   named list of functions
+#   special construction that allows you to use .
+
 #' @examples
 #' colwise(iris, "mean", dots(Species))
 #' colwise(iris, c("min", "max"), dots(matches("Sepal")), na.rm = TRUE)
@@ -33,5 +39,23 @@ colwise <- function(tbl, funs, vars, ...) {
   calls
 }
 
-# colwise(iris, "mean", dots(x ))
+# colwise(iris, "mean", dots(x))
 
+dotted <- function(..., env = parent.frame()) {
+  lapply(dots(...), dot_fun, env)
+}
+
+dot_fun <- function(code, env = parent.frame()) {
+  args <- list(. = empty_arg())
+  if (is.name(code)) {
+    code <- substitute(f(.), list(f = code))
+  }
+  make_function(args, code, env)
+}
+
+make_function <- function(args, body, env = parent.frame()) {
+  args <- as.pairlist(args)
+  eval(call("function", args, body), env)
+}
+
+empty_arg <- function() quote(expr = )
