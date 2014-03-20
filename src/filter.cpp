@@ -194,7 +194,6 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
     for( int i=0; i<names.size(); i++){
         set.insert( Rf_install( names[i] ) ) ;
     }
-
     if( dots.single_env() ){
         Environment env = dots.envir(0) ;
         // a, b, c ->  a & b & c
@@ -254,6 +253,8 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
     }
     
     DataDots dots(env) ;
+    if( dots.size() == 0 ) return df ; 
+    
     if( is<GroupedDataFrame>( df ) ){
         return filter_grouped( GroupedDataFrame(df), args, dots);
     } else {
