@@ -65,11 +65,13 @@ struct comparisons<STRSXP> {
 template <>
 struct comparisons<REALSXP> {
     inline bool is_less(double lhs, double rhs) const {
-        return !( rhs <= lhs );    
+        bool res = is_na(rhs) || lhs < rhs ;
+        return res ;
     }
     
     inline bool is_greater(double lhs, double rhs) const {
-        return !( rhs >= lhs ) ;    
+        bool res = is_na(rhs) || lhs > rhs ;
+        return res ;
     }
     
     inline bool is_equal(double lhs, double rhs ) const {

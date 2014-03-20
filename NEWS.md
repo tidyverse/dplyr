@@ -35,6 +35,8 @@
 
 * internal class `DataDots` did not handle the case where `...` was missing. (#338)
 
+* `arrange()` correctly handles NA in numeric vectors (#331). 
+
 # dplyr 0.1.3
 
 ## Bug fixes
