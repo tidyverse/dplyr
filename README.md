@@ -48,8 +48,8 @@ Currently `dplyr` supports:
 You can create them as follows:
 
 ```R
-library(dplyr)
-# Built in data frame
+library(dplyr) # for functions
+library(hflights) # for data
 head(hflights)
 
 # Coerce to data table

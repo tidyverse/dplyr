@@ -6,7 +6,7 @@
 tbl_vars(x)
 }
 \arguments{
-  \item{x}{A tbl object}
+\item{x}{A tbl object}
 }
 \description{
 List variables provided by a tbl.
