@@ -130,3 +130,12 @@ test_that("inner_join does not segfault on NA in factors (#306)", {
   expect_equal( nrow(res), 2L )
 })
 
+
+test_that("inner_join order does not matter", {
+  x <- data.frame(a = 1:1000, b = runif(1000))
+  x <- x[sample(nrow(x), 1000, replace = FALSE), ]
+  y <- data.frame(a =sample(1000000, 1000000, replace = TRUE), d = runif(100000))
+  m1 <- inner_join.data.frame(x, y, by = "a") %.% arrange(a, b, d)
+  m2 <- inner_join.data.frame(y, x, by= "a") %.% arrange(a, b, d)
+  expect_that(m1, equals(m2))
+})

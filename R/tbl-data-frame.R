@@ -48,7 +48,11 @@ do.data.frame <- function(.data, .f, ...) {
 
 #' @export
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...))
+  if (nrow(x) > nrow(y)) {
+    as.data.frame(inner_join(tbl_df(y), x, by = by, copy = copy, ...))
+  } else {
+    as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...))
+  }
 }
 
 #' @export
