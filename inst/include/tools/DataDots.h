@@ -8,20 +8,21 @@ namespace Rcpp {
         
         DataDots( Environment env ) : environments() {                
           SEXP dots = env.find( "..." );
-          
-          while( dots != R_NilValue ){
-            Promise prom = CAR(dots) ;
-            
-            while(true){
-              SEXP code = PRCODE(prom) ;
-              if( TYPEOF(code) != PROMSXP ){
-                break ;  
+          if( dots != R_MissingArg ){ 
+            while( dots != R_NilValue ){
+              Promise prom = CAR(dots) ;
+              
+              while(true){
+                SEXP code = PRCODE(prom) ;
+                if( TYPEOF(code) != PROMSXP ){
+                  break ;  
+                }
+                prom = code ;
               }
-              prom = code ;
+              environments.push_back(prom.environment()) ;
+              
+              dots = CDR(dots) ;
             }
-            environments.push_back(prom.environment()) ;
-            
-            dots = CDR(dots) ;
           }
         }
             

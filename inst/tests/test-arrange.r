@@ -87,3 +87,6 @@ test_that("arrange handles list columns (#282)", {
   expect_equal(res$b, list( "bar", "foo" ) )
 })
 
+test_that("arrange handles the case where ... is missing (#338)",{
+  expect_equal(arrange(mtcars), mtcars)
+})

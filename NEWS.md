@@ -33,6 +33,8 @@
 
 * Code adapted to Rcpp > 0.11.1
 
+* internal class `DataDots` did not handle the case where `...` was missing. (#338)
+
 # dplyr 0.1.3
 
 ## Bug fixes
