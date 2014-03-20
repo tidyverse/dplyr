@@ -1,5 +1,11 @@
 # dplyr 0.1.3.0.99
 
+* Added `memory` vignette which discusses how dplyr minimises memory usage
+  for local data frames (#198).
+
+* Tweak `changes()` output to make it more clear when columns are added or
+  deleted.
+
 * `chain()` is now deprecated. Please use `%.%` instead.
 
 * dplyr is more careful when setting the keys of data tables, so it never

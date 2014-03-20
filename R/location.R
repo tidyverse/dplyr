@@ -80,8 +80,8 @@ match_up <- function(x, y) {
   deleted <- setdiff(names(y), names(x))
 
   out <- cbind(
-    old = c(x[both], x[added], rep("", length(deleted))),
-    new = c(y[both], rep("", length(added)), y[deleted])
+    old = c(x[both], x[added], rep("<added>", length(deleted))),
+    new = c(y[both], rep("<deleted>", length(added)), y[deleted])
   )
   rownames(out) <- c(both, added, deleted)
   out[out[, "old"] != out[, "new"], , drop = FALSE]

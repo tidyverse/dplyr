@@ -1,0 +1,82 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Memory usage}
+-->
+
+```{r, message = FALSE, echo = FALSE}
+library(dplyr)
+```
+
+# Memory usage
+
+One of the reasons that dplyr is fast is that it is very careful about when it makes copies of columns. This vignette describes how this work, and gives you some useful tools for understanding the memory usage of data frames in R.
+
+The first tool we'll use is `location()`. It tells us three things about a data frame:
+
+* where the object itself is located in memory
+* where each column is located
+* where each attribute is located
+
+```{r}
+location(iris)
+```
+
+It's useful to know the memory address, because if the address changes, then you know R has made a copy. R general tries to avoid making copies. For example, if you just assign `iris` to another variable, it continues to the point same location:
+
+```{r}
+iris2 <- iris
+location(iris2)
+```
+
+Rather than carefully comparing long memory locations, we can instead use the `changes()` function to highlights changes between two versions of a data frame. This shows us that `iris` and `iris2` are identical: both names point to the same location in memory.
+
+```{r}
+changes(iris2, iris)
+```
+
+What do you think happens if you modify a single column of `iris2`? R is going to have to make a copy, but it seems like most of the columns could continue to point to the old locations:
+
+```{r}
+iris2$Sepal.Length <- iris2$Sepal.Length * 2
+changes(iris, iris2)
+```
+
+Unfortunately, base R is not smart enough to recognise that it could save memory by having `iris2$Sepal.Width` point to the same location as `iris2$Sepal.Width`. In contrast, let's see what dplyr does:
+
+```{r}
+iris3 <- mutate(iris, Sepal.Length = Sepal.Length * 2)
+changes(iris3, iris)
+```
+
+It's smart enough to create only one new column: all the other columns continue to point at their old locations. (You might notice that the attributes have still been copied: this isn't usually a big deal because they're so small and makes the code considerably slower).
+
+In base R, a surprising number of operations make copies of the individual vectors. For example, even extracting columns from a data frame creates a copy!
+
+```{r}
+# Copies the first two columns
+changes(iris, iris[1:2])
+
+# dplyr::select doesn't copy the columns
+changes(iris2, select(iris2, Sepal.Length, Sepal.Width))
+```
+
+(Due to work by Michael Lawrence, a number of these copies will be avoided in R 3.1.0.)
+
+dplyr never makes copies unless it has to:
+
+* `tbl_df()` and `group_by()` don't copy columns
+
+* `select()` never copies columns, even when you rename them
+
+* `mutate()` never copies columns, except when you modify an existing column
+
+* `arrange()` must copy because you're changing the order of every column.
+  This is an expensive operation for big data, but you can generally avoid
+  it using the order argument to [window functions](window-functions.html)
+
+* `summarise()` creates new data, but it's usually at least an order of
+  magnitude smaller than the original data.
+
+This means that dplyr lets you work with data frames with very little memory overhead.
+
+data.table takes this idea one more step than dplyr, and provides functions that modify a data table in place. This avoids the need to copy the pointers to existing columns and attributes, and provides speed up when you have many columns. dplyr doesn't do this with data frames (although it could) because I think it's safer to keep data immutable: all dplyr data frame methods return a new data frame, even while they share as much data as possible.
