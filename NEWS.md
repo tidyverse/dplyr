@@ -8,6 +8,8 @@
   displaying as much data for each variable as can be fit on a single line.
 
 * `rbind_all()` is stricter and only accepts list of data frames (#288)  
+
+* Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8)
   
 ## Bug fixes
 
