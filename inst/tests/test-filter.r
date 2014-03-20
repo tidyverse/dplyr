@@ -31,10 +31,6 @@ test_that("filter fails if inputs incorrect length (#156)", {
   expect_error( filter(group_by(mtcars, am), c(F, T)) )
 })
 
-test_that("filter fails if no expression is given (#157)", {
-  expect_error( filter(mtcars) )
-})
-
 test_that("filter gives useful error message when given incorrect input", {
   expect_error( filter(tbl_df(mtcars), x ), "unknown column" )
 })
@@ -142,3 +138,6 @@ test_that("filter handles $ correctly (#278)", {
   expect_equal(res1, res2)
 })
 
+test_that( "filter returns the input data if no parameters are given", {
+  expect_equal( filter(mtcars), mtcars )
+})

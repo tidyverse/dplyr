@@ -240,8 +240,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
 
 // [[Rcpp::export]]
 SEXP filter_impl( DataFrame df, List args, Environment env){
-    if( args.size() == 0 )
-        stop("filter with no arguments is not allowed") ;
+    if( args.size() == 0 ) return df ;
     
     // special case
     if( args.size() == 1 && TYPEOF(args[0]) == LGLSXP){
