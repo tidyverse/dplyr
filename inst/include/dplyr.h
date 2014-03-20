@@ -105,6 +105,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/Order.h>
 #include <dplyr/SummarisedVariable.h>
 #include <dplyr/Result/all.h>
+#include <dplyr/vector_class.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/Replicator.h>
 #include <dplyr/Collecter.h>

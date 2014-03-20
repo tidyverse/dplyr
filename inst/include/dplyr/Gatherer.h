@@ -56,6 +56,13 @@ namespace dplyr {
         
         void grab_along( SEXP subset, const SlicingIndex& indices ){
             int n = indices.size();
+            if( TYPEOF(subset) != RTYPE ){
+                std::stringstream s ;
+                s << "incompatible types, expecting a " 
+                  << vector_class<RTYPE>()
+                  << " vector" ;
+                stop( s.str() ); 
+            }
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( subset ) ;
             for( int j=0; j<n; j++){
                 data[ indices[j] ] = ptr[j] ;
