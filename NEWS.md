@@ -35,6 +35,8 @@
 * `row_number()` can be called without arguments, in which case it returns
   the same as `1:n()` (#303).
 
+* Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8).
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
