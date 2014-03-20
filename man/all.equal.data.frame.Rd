@@ -7,19 +7,16 @@
   ignore_row_order = TRUE, convert = FALSE, ...)
 }
 \arguments{
-  \item{target,current}{two data frames to compare}
+\item{target,current}{two data frames to compare}
 
-  \item{ignore_col_order}{should order of columns be
-  ignored?}
+\item{ignore_col_order}{should order of columns be ignored?}
 
-  \item{ignore_row_order}{should order of rows be ignored?}
+\item{ignore_row_order}{should order of rows be ignored?}
 
-  \item{convert}{Should similar classes be converted?
-  Currently this will convert factor to character and
-  integer to double.}
+\item{convert}{Should similar classes be converted? Currently this will
+convert factor to character and integer to double.}
 
-  \item{...}{Ignored. Needed for compatibility with the
-  generic.}
+\item{...}{Ignored. Needed for compatibility with the generic.}
 }
 \value{
 \code{TRUE} if equal, otherwise a character vector describing

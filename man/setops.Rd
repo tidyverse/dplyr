@@ -16,9 +16,9 @@ setdiff(x, y, ...)
 setequal(x, y, ...)
 }
 \arguments{
-  \item{x,y}{objects to compare (ignoring order)}
+\item{x,y}{objects to compare (ignoring order)}
 
-  \item{...}{other arguments passed on to methods}
+\item{...}{other arguments passed on to methods}
 }
 \description{
 These functions override the set functions provided in base to make them

@@ -6,9 +6,9 @@
 id(.variables, drop = FALSE)
 }
 \arguments{
-  \item{.variables}{list of variables}
+\item{.variables}{list of variables}
 
-  \item{drop}{drop unusued factor levels?}
+\item{drop}{drop unusued factor levels?}
 }
 \value{
 a numeric vector with attribute n, giving total number of

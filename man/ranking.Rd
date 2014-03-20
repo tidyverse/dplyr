@@ -22,9 +22,9 @@ percent_rank(x)
 cume_dist(x)
 }
 \arguments{
-  \item{x}{a vector of values to rank}
+\item{x}{a vector of values to rank}
 
-  \item{n}{number of groups to split up into.}
+\item{n}{number of groups to split up into.}
 }
 \description{
 Six variations on ranking functions, mimicing the ranking functions

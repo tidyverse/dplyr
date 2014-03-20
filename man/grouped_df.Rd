@@ -9,12 +9,12 @@ grouped_df(data, vars, drop = TRUE)
 is.grouped_df(x)
 }
 \arguments{
-  \item{data}{a tbl or data frame.}
+\item{data}{a tbl or data frame.}
 
-  \item{vars}{a list of quoted variables.}
+\item{vars}{a list of quoted variables.}
 
-  \item{drop}{if \code{TRUE} preserve all factor levels,
-  even those without data.}
+\item{drop}{if \code{TRUE} preserve all factor levels, even those without
+data.}
 }
 \description{
 The easiest way to create a grouped data frame is to call the \code{group_by}

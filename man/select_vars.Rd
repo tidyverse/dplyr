@@ -6,9 +6,9 @@
 select_vars(vars, ..., env = parent.frame())
 }
 \arguments{
-  \item{vars}{A character vector of existing column names.}
+\item{vars}{A character vector of existing column names.}
 
-  \item{...}{Expressions to compute}
+\item{...}{Expressions to compute}
 }
 \value{
 A named character vector. Values are existing column names,

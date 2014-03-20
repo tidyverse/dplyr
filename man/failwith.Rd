@@ -6,11 +6,11 @@
 failwith(default = NULL, f, quiet = FALSE)
 }
 \arguments{
-  \item{default}{default value}
+\item{default}{default value}
 
-  \item{f}{function}
+\item{f}{function}
 
-  \item{quiet}{all error messages be suppressed?}
+\item{quiet}{all error messages be suppressed?}
 }
 \value{
 a function

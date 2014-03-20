@@ -1,0 +1,107 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Adding new database support to dplyr}
+-->
+
+# Adding a new sql backend
+
+This document describes how to describe a new SQL backend to dplyr. It's a work in progress, but will hopefully get started. If you get stuck or need more help, please email the [mailing list](mailto:manipulatr@googlegroups.com) and I'll help you get unstuck.
+
+dplyr uses the S3 object system, so make sure that you're [familiar with the basics](http://adv-r.had.co.nz/OO-essentials.html#s3) before you start.
+
+## Create the src object
+
+Start by creating a new src function to represent the backend. Assuming we're going to create a src for mssql, you'd call it `src_mssql()`, and you'd follow the pattern of an existing src. A simplified version of `src_postgres()` is show below:
+
+```{r, eval = FALSE}
+src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
+                         password = NULL, ...) {
+
+  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
+    user = user, password = password %||% "", port = port %||% "", ...)
+
+  src_sql("postgres", con)
+}
+```
+
+Use `src_sql()` to create a new S3 object with the correct structure. It must have a DBI connection, but it can store anything else that might be useful.
+
+Next, implement a method for `brief_desc()` that briefly describe the source:
+
+```{r}
+#' @export
+brief_desc.src_postgres <- function(x) {
+  info <- db_info(x)
+  host <- if (info$host == "") "localhost" else info$host
+
+  paste0("postgres ", info$serverVersion, " [", info$user, "@",
+    host, ":", info$port, "/", info$dbname, "]")
+}
+```
+
+If you read the source code for the real `src_postgres()` you'll notice that it caches the `db_info()` field on creation, since this saves a little time when printing tbls.
+
+Before continuing, check that you can create a connection to a local database. Don't worry if the object doesn't print correctly, you'll need to add a few other methods first.
+
+## Database methods
+
+Next implement the database level methods in `dbi-s3.r` that need special behaviour for your database:
+
+* `dbi_connect()`
+* `db_list_tables()`
+* `db_has_table()`
+* `db_data_type()`
+
+These should be very straightforward if there's an existing DBI interface, and only a little harder if not. This methods basically provide a shim around individual database packages to make them behave the same.
+
+Once you have implemented these methods you should be able to connect to a local database get a useful description, including a list of tables. Don't continue on until you have that working.
+
+## tbl
+
+Next implement the `tbl()` method for your data source. This will probably just be
+
+```{r, eval = FALSE}
+tbl.src_mssql <- function(src, from, ...) {
+  tbl_sql("mssql", src = src, from = from, ...)
+}
+```
+
+Next implement the query related methods in `dbi-s3.r`:
+
+* `qry_fields()`
+* `table_fields()`
+* `qry_fetch()`
+* `qry_explain()`
+
+These aren't documented, but are they are each fairly simple and there are lots of existing examples.
+
+Before continuing, make sure you can connect to an existing table, and get a reasonable print out.
+
+## ANSI SQL compliance
+
+If you the database is not ANSI SQL compliant, you'll need to provide
+methods for the sql level methods in `dbi-s3.r`:
+
+* `sql_begin_trans()`
+* `sql_commit()`
+* `sql_insert_into()`
+* `sql_create_indexes()`
+* `sql_analyze()`
+
+At this point, all the basic verbs (`summarise()`, `filter()`, `arrange()`, `mutate()` etc) should work.
+
+## Lahman
+
+To test your implementation, add `lahman_src()` and a line to `has_lahman()`. This will check that you've correctly implemented the sql modification functions, and is useful for testing other code.
+
+## sql translation
+
+To finish off, you can add custom R -> SQL translation by providing
+a method for translate_env. This function should return an object
+created by sql_variant(). See existing methods for examples.
+
+If you're familiar with how your database works, and at least one
+other database that dplyr already supports, this should be reasonably
+simple, and I'm happy to help if you get stuck.  It's also possible
+that a new database backend may need new methods - I'm also happy to
+add those as needed.

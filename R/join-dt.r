@@ -43,6 +43,8 @@ join_dt <- function(op) {
     by <- by %||% common_by(x, y)
     y <- auto_copy(x, y, copy = copy)
 
+    x <- copy(x)
+    y <- copy(y)
     setkeyv(x, by)
     setkeyv(y, by)
     out <- op

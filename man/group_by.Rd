@@ -6,16 +6,15 @@
 group_by(x, ..., add = TRUE)
 }
 \arguments{
-  \item{x}{a tbl}
+\item{x}{a tbl}
 
-  \item{...}{variables to group by. All tbls accept
-  variable names, some will also accept functons of
-  variables. Duplicated groups will be silently dropped.}
+\item{...}{variables to group by. All tbls accept variable names,
+some will also accept functons of variables. Duplicated groups
+will be silently dropped.}
 
-  \item{add}{By default, when \code{add = TRUE},
-  \code{group_by} will add groups to existing. To instead
-  set the groups to a set of new values, use \code{add =
-  FALSE}}
+\item{add}{By default, when \code{add = TRUE}, \code{group_by} will
+add groups to existing. To instead set the groups to a set of new
+values, use \code{add = FALSE}}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the
@@ -24,15 +23,19 @@ and converts it into a grouped tbl where operations are performed
 "by group".
 }
 \section{Tbl types}{
-  \code{group_by} is an S3 generic with methods for the
-  three built-in tbls. See the help for the corresponding
-  classes and their manip methods for more details:
 
-  \itemize{ \item data.frame: \link{grouped_df} \item
-  data.table: \link{grouped_dt} \item SQLite:
-  \code{\link{src_sqlite}} \item PostgreSQL:
-  \code{\link{src_postgres}} \item MySQL:
-  \code{\link{src_mysql}} }
+
+\code{group_by} is an S3 generic with methods for the three built-in
+tbls. See the help for the corresponding classes and their manip
+methods for more details:
+
+\itemize{
+  \item data.frame: \link{grouped_df}
+  \item data.table: \link{grouped_dt}
+  \item SQLite: \code{\link{src_sqlite}}
+  \item PostgreSQL: \code{\link{src_postgres}}
+  \item MySQL: \code{\link{src_mysql}}
+}
 }
 \examples{
 by_cyl <- group_by(mtcars, cyl)

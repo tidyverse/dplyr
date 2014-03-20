@@ -16,7 +16,7 @@
 #' (e.g. \code{LIKE}). You can use this to access SQL string concatenation:
 #' \code{||} is mapped to \code{OR}, but \code{\%||\%} is mapped to \code{||}.
 #' To suppress this behaviour, and force errors immediately when dplyr doesn't
-#' know how to translate a function it encounters, using set the 
+#' know how to translate a function it encounters, using set the
 #' \code{dplyr.strict_sql} option to \code{TRUE}.
 #'
 #' You can also use \code{sql} to insert a raw sql string.
@@ -27,12 +27,12 @@
 #'
 #' @param ... unevaluated expression to translate
 #' @param expr list of quoted objects to translate
-#' @param tbl An optional \code{\link{tbl}}. If supplied, will be used to 
+#' @param tbl An optional \code{\link{tbl}}. If supplied, will be used to
 #'   automatically figure out the SQL variant to use.
-#' @param env environment in which to evaluate expression. 
+#' @param env environment in which to evaluate expression.
 #' @param variant used to override default variant provided by source
 #'   useful for testing/examples
-#' @param window If \code{variant} not supplied, used to determine whether 
+#' @param window If \code{variant} not supplied, used to determine whether
 #'   the variant is window based or not.
 #' @export
 #' @examples
@@ -42,7 +42,7 @@
 #'
 #' # Logical operators are converted to their sql equivalents
 #' translate_sql(x < 5 & !(y >= 5))
-#' 
+#'
 #' # If is translated into select case
 #' translate_sql(if (x > 5) "big" else "small")
 #'
@@ -62,19 +62,19 @@
 #' x <- quote(y + 1 / sin(t))
 #' translate_sql(x)
 #' translate_sql_q(list(x))
-#' 
+#'
 #' # Translation with data source --------------------------------------------
 #' \donttest{
 #' hflights <- tbl(hflights_postgres(), "hflights")
 #' # Note distinction between integers and reals
 #' translate_sql(Month == 1, tbl = hflights)
 #' translate_sql(Month == 1L, tbl = hflights)
-#' 
+#'
 #' # Know how to translate most simple mathematical expressions
 #' translate_sql(Month %in% 1:3, tbl = hflights)
 #' translate_sql(Month >= 1L & Month <= 3L, tbl = hflights)
 #' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", tbl = hflights)
-#' 
+#'
 #' # Some R functions don't have equivalents in SQL: where possible they
 #' # will be translated to the equivalent
 #' translate_sql(xor(Month <= 3L, Carrier == "AA"), tbl = hflights)
@@ -92,13 +92,13 @@
 #' inc <- function(x) x + 1
 #' translate_sql(Month == inc(x), source = hflights)
 #' translate_sql(Month == local(inc(x)), source = hflights)
-#' 
+#'
 #' # Windowed translation --------------------------------------------
 #' planes <- arrange(group_by(hflights, TailNum), desc(DepTime))
-#' 
+#'
 #' translate_sql(DepTime > mean(DepTime), tbl = planes, window = TRUE)
 #' translate_sql(DepTime == min(DepTime), tbl = planes, window = TRUE)
-#' 
+#'
 #' translate_sql(rank(), tbl = planes, window = TRUE)
 #' translate_sql(rank(DepTime), tbl = planes, window = TRUE)
 #' translate_sql(ntile(DepTime, 2L), tbl = planes, window = TRUE)
@@ -106,7 +106,7 @@
 #' translate_sql(cumsum(DepDelay), tbl = planes, window = TRUE)
 #' translate_sql(order_by(DepDelay, cumsum(DepDelay)), tbl = planes, window = TRUE)
 #' }
-translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL, 
+translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL,
                           window = FALSE) {
   translate_sql_q(dots(...), tbl = tbl, env = env, variant = variant,
     window = window)
@@ -118,19 +118,19 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
                             variant = NULL, window = FALSE) {
   stopifnot(is.null(tbl) || inherits(tbl, "tbl_sql"))
   if (is.null(expr)) return(NULL)
-  
+
   if (!is.null(tbl)) {
     con <- tbl$src$con
   } else {
     con <- NULL
   }
-  
+
   # If environment not null, and tbl supplied, partially evaluate input
   if (!is.null(env) && !is.null(tbl)) {
     expr <- partial_eval(expr, tbl, env)
   }
   variant <- variant %||% translate_env(tbl)
-  
+
   # Translate partition ordering and grouping, and make available
   if (window && !is.null(tbl)) {
     group_by <- translate_sql_q(tbl$group_by, variant = variant, env = NULL)
@@ -138,14 +138,14 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
     old <- set_partition(group_by, order_by)
     on.exit(set_partition(old))
   }
-  
+
   pieces <- lapply(expr, function(x) {
     if (is.atomic(x)) return(escape(x, con = con))
-    
+
     env <- sql_env(x, variant, con, window = window)
     eval(x, envir = env)
   })
-  
+
   sql(unlist(pieces))
 }
 
@@ -160,32 +160,32 @@ translate_env.NULL <- function(x) {
   )
 }
 
-sql_env <- function(expr, variant, con, window = FALSE, 
+sql_env <- function(expr, variant, con, window = FALSE,
                     strict = getOption("dplyr.strict_sql")) {
   stopifnot(is.sql_variant(variant))
-  
+
   # Default for unknown functions
   if (!strict) {
     unknown <- setdiff(all_calls(expr), names(variant))
-    default_env <- ceply(unknown, default_op, parent = emptyenv())    
+    default_env <- ceply(unknown, default_op, parent = emptyenv())
   } else {
     default_env <- new.env(parent = emptyenv())
   }
-  
+
 
   # Known R -> SQL functions
   special_calls <- copy_env(variant$scalar, parent = default_env)
   if (!window) {
-    special_calls2 <- copy_env(variant$aggregate, parent = special_calls)  
+    special_calls2 <- copy_env(variant$aggregate, parent = special_calls)
   } else {
     special_calls2 <- copy_env(variant$window, parent = special_calls)
   }
 
   # Existing symbols in expression
   names <- all_names(expr)
-  name_env <- ceply(names, function(x) escape(ident(x), con = con), 
+  name_env <- ceply(names, function(x) escape(ident(x), con = con),
     parent = special_calls2)
-  
+
   # Known sql expressions
   symbol_env <- copy_env(base_symbols, parent = name_env)
   symbol_env

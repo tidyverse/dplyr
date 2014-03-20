@@ -83,5 +83,14 @@ test_that("select can be before group_by (#309)",{
     summarise(var1=mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
   expect_equal(attr(dfagg, "vars" ), list(quote(id)))
-  
+
+})
+
+# Database ---------------------------------------------------------------------
+
+test_that("select renames variables (#317)", {
+  first <- tbls$sqlite %.% select(A = a)
+  expect_equal(tbl_vars(first), "A")
+  expect_equal(tbl_vars(first %.% select(A)), "A")
+  expect_equal(tbl_vars(first %.% select(B = A)), "B")
 })

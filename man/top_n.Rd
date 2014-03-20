@@ -6,14 +6,14 @@
 top_n(x, n, wt = NULL)
 }
 \arguments{
-  \item{x}{a \code{\link{tbl}} to filter}
+\item{x}{a \code{\link{tbl}} to filter}
 
-  \item{n}{number of rows to return. If \code{x} is
-  grouped, this is the number of rows per group. May
-  include more than \code{n} if there are ties.}
+\item{n}{number of rows to return. If \code{x} is grouped, this is
+the number of rows per group. May include more than \code{n} if there
+are ties.}
 
-  \item{wt}{the variable to use for ordering. If not
-  specified, defaults to the last varible in the tbl.}
+\item{wt}{the variable to use for ordering. If not specified, defaults to
+the last varible in the tbl.}
 }
 \description{
 This is a convenient wrapper that uses \code{\link{filter}} and

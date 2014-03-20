@@ -10,9 +10,9 @@ dim_desc(x)
 trunc_mat(x, n = NULL)
 }
 \arguments{
-  \item{x}{a matrix to describe}
+\item{x}{a matrix to describe}
 
-  \item{n}{number of rows to show}
+\item{n}{number of rows to show}
 }
 \description{
 Tools for describing matrices

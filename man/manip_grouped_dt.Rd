@@ -19,14 +19,12 @@
 \method{select}{grouped_dt}(.data, ...)
 }
 \arguments{
-  \item{.data}{a data table}
+\item{.data}{a data table}
 
-  \item{...}{variables interpreted in the context of
-  \code{.data}}
+\item{...}{variables interpreted in the context of \code{.data}}
 
-  \item{inplace}{if \code{FALSE} (the default) the data
-  frame will be copied prior to modification to avoid
-  changes propagating via reference.}
+\item{inplace}{if \code{FALSE} (the default) the data frame will be copied
+prior to modification to avoid changes propagating via reference.}
 }
 \description{
 Data manipulation for grouped data tables.
@@ -35,6 +33,7 @@ Data manipulation for grouped data tables.
 if (require("data.table") && require("hflights")) {
 hflights2 <- tbl_dt(hflights)
 by_dest <- group_by(hflights2, Dest)
+
 filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
 summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
 

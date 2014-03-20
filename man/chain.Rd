@@ -12,18 +12,16 @@ chain_q(calls, env = parent.frame())
 x \%.\% y
 }
 \arguments{
-  \item{x,y}{A dataset and function to apply to it}
+\item{x,y}{A dataset and function to apply to it}
 
-  \item{...,calls}{A sequence of data transformations,
-  starting with a dataset.  The first argument of each call
-  should be omitted - the value of the previous step will
-  be substituted in automatically.  Use \code{chain} and
-  \code{...} when working interactive; use \code{chain_q}
-  and \code{calls} when calling from another function.}
+\item{...,calls}{A sequence of data transformations, starting with a dataset.
+The first argument of each call should be omitted - the value of the
+previous step will be substituted in automatically. Use \code{chain} and
+\code{...} when working interactive; use \code{chain_q} and \code{calls}
+when calling from another function.}
 
-  \item{env}{Environment in which to evaluation
-  expressions. In ordinary operation you should not need to
-  set this parameter.}
+\item{env}{Environment in which to evaluation expressions. In ordinary
+operation you should not need to set this parameter.}
 }
 \description{
 The downside of the functional nature of dplyr is that when you combine
@@ -33,8 +31,15 @@ functions providing an alternative way of calling dplyr (and other data
 manipulation) functions that you read can from left to right.
 }
 \details{
-The functions work via simple substitution so that \code{chain(x, f(y))} or
+The functions work via simple substitution so that
 \code{x \%.\% f(y)} is translated into \code{f(x, y)}.
+}
+\section{Deprecation}{
+
+
+\code{chain} was deprecated in version 0.2, and will be removed in
+0.3. It was removed in the interest of making dplyr code more
+standardised and \code{\%.\%} is much more popular.
 }
 \examples{
 if (require("hflights")) {
@@ -74,16 +79,6 @@ hflights \%.\%
   ) \%.\%
   filter(arr > 30 | dep > 30)
 
-chain(
-  hflights,
-  group_by(Year, Month, DayofMonth),
-  select(Year:DayofMonth, ArrDelay, DepDelay),
-  summarise(
-    arr = mean(ArrDelay, na.rm = TRUE),
-    dep = mean(DepDelay, na.rm = TRUE)
-  ),
-  filter(arr > 30 | dep > 30)
-)
 }
 }
 

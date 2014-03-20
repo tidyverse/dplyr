@@ -7,7 +7,7 @@
 tbl_dt(data)
 }
 \arguments{
-  \item{data}{a data table}
+\item{data}{a data table}
 }
 \description{
 A data table tbl wraps a local data table.

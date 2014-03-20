@@ -19,10 +19,9 @@
 \method{select}{tbl_df}(.data, ...)
 }
 \arguments{
-  \item{.data}{a data frame}
+\item{.data}{a data frame}
 
-  \item{...}{variables interpreted in the context of
-  \code{.data}}
+\item{...}{variables interpreted in the context of \code{.data}}
 }
 \description{
 Data manipulation for data frames.

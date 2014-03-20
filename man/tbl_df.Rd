@@ -6,7 +6,7 @@
 tbl_df(data)
 }
 \arguments{
-  \item{data}{a data frame}
+\item{data}{a data frame}
 }
 \description{
 A data frame tbl wraps a local data frame. The main advantage to using

@@ -330,8 +330,8 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
   write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
     row.names = FALSE, col.names = FALSE)
 
-  sql <- build_sql("LOAD DATA LOCAL INFILE ", tmp, " INTO TABLE ", ident(table),
-    con = con)
+  sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
+    ident(table), con = con)
   qry_run(con, sql)
 
   invisible()

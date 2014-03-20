@@ -12,11 +12,11 @@ collect(x, ...)
 collapse(x, ...)
 }
 \arguments{
-  \item{x}{a data tbl}
+\item{x}{a data tbl}
 
-  \item{name}{name of temporary table on database.}
+\item{name}{name of temporary table on database.}
 
-  \item{...}{other arguments passed on to methods}
+\item{...}{other arguments passed on to methods}
 }
 \description{
 \code{compute} forces computation of lazy tbls, leaving data in the remote
@@ -26,8 +26,10 @@ force computation, but collapses a complex tbl into a form that additional
 restrictions can be placed on.
 }
 \section{Grouping}{
-  \code{compute} and \code{collect} preserve grouping,
-  \code{collapse} drops it.
+
+
+\code{compute} and \code{collect} preserve grouping, \code{collapse} drops
+it.
 }
 \examples{
 \donttest{

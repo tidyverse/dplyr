@@ -9,9 +9,9 @@ rbind_all(dots)
 rbind_list(...)
 }
 \arguments{
-  \item{dots,...}{list of data frames to combine. With
-  \code{rbind_all}, they should already be in a list, with
-  \code{rbind_list} you supply them individually.}
+\item{dots,...}{list of data frames to combine. With \code{rbind_all},
+they should already be in a list, with \code{rbind_list} you supply
+them individually.}
 }
 \description{
 This is an efficient version of the common pattern of

@@ -6,7 +6,7 @@
 src_tbls(x)
 }
 \arguments{
-  \item{x}{a data src.}
+\item{x}{a data src.}
 }
 \description{
 This is a generic method which individual src's will provide methods for.

@@ -9,9 +9,9 @@ location(df)
 changes(x, y)
 }
 \arguments{
-  \item{df,}{a data frame}
+\item{df,}{a data frame}
 
-  \item{x,y}{two data frames to compare}
+\item{x,y}{two data frames to compare}
 }
 \description{
 This is useful for understand how and when dplyr makes copies of data

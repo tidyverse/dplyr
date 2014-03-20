@@ -6,22 +6,19 @@
 tbl_cube(dimensions, measures)
 }
 \arguments{
-  \item{dimensions}{A named list of vectors. A dimension is
-  a variable whose values are known before the experiement
-  is conducted; they are fixed by design (in \pkg{reshape2}
-  they are known as id variables).  \code{tbl_cubes} are
-  dense which means that almost every combination of the
-  dimensions should have associated measurements: missing
-  values require an explicit NA, so if the variables are
-  nested, not crossed, the majority of the data structure
-  will be empty. Dimensions are typically, but not always,
-  categorical variables.}
+\item{dimensions}{A named list of vectors. A dimension is a variable
+whose values are known before the experiement is conducted; they are
+fixed by design (in \pkg{reshape2} they are known as id variables).
+\code{tbl_cubes} are dense which means that almost every combination of
+the dimensions should have associated measurements: missing values require
+an explicit NA, so if the variables are nested, not crossed, the
+majority of the data structure will be empty. Dimensions are typically,
+but not always, categorical variables.}
 
-  \item{measures}{A named list of arrays. A measure is
-  something that is actually measured, and is not known in
-  advance. The dimension of each array should be the same
-  as the length of the dimensions. Measures are typically,
-  but not always, continuous values.}
+\item{measures}{A named list of arrays. A measure is something that is
+actually measured, and is not known in advance. The dimension of each
+array should be the same as the length of the dimensions. Measures are
+typically, but not always, continuous values.}
 }
 \description{
 An cube tbl stores data in a compact array format where dimension
@@ -40,26 +37,28 @@ indices (although I think that would be a relatively straightforward
 extension to storing data frames for indices rather than vectors).
 }
 \section{Implementation}{
-  Manipulation functions:
 
-  \itemize{ \item \code{select} (M)
 
-  \item \code{summarise} (M), corresponds to roll-up, but
-  rather more limited since there are no hierarchies.
+Manipulation functions:
+
+\itemize{
+  \item \code{select} (M)
+
+  \item \code{summarise} (M), corresponds to roll-up, but rather more
+    limited since there are no hierarchies.
 
   \item \code{filter} (D), corresponds to slice/dice.
 
-  \item \code{mutate} (M) is not implemented, but should be
-  relatively straightforward given the implementation of
-  \code{summarise}.
+  \item \code{mutate} (M) is not implemented, but should be relatively
+  straightforward given the implementation of \code{summarise}.
 
-  \item \code{arrange} (D?) Not implemented: not obvious
-  how much sense it would make }
+  \item \code{arrange} (D?) Not implemented: not obvious how much sense
+    it would make
+}
 
-  Joins: not implemented. See
-  \code{vignettes/joins.graffle} for ideas. Probably
-  straightforward if you get the indexes right, and that's
-  probably some straightforward array/tensor operation.
+Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
+Probably straightforward if you get the indexes right, and that's probably
+some straightforward array/tensor operation.
 }
 \examples{
 # The built in nasa dataset records meterological data (temperature,

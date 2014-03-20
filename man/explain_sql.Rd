@@ -12,10 +12,10 @@ show_sql(code)
 explain(tbl)
 }
 \arguments{
-  \item{code}{code to run. All sql queries executed during
-  the running of the code will be shown and explained.}
+\item{code}{code to run. All sql queries executed during the running of the
+code will be shown and explained.}
 
-  \item{tbl}{an sql-based table to explain.}
+\item{tbl}{an sql-based table to explain.}
 }
 \description{
 Any queries run inside this function will automatically be explained:

@@ -7,9 +7,9 @@
 query(con, sql, .vars)
 }
 \arguments{
-  \item{con}{a \code{DBOConnection}}
+\item{con}{a \code{DBOConnection}}
 
-  \item{sql}{a string containing an sql query.}
+\item{sql}{a string containing an sql query.}
 }
 \description{
 A query object is mutable wrapper around a \code{DBIResult} that caches

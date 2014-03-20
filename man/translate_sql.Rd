@@ -11,55 +11,51 @@ translate_sql_q(expr, tbl = NULL, env = parent.frame(), variant = NULL,
   window = FALSE)
 }
 \arguments{
-  \item{...}{unevaluated expression to translate}
+\item{...}{unevaluated expression to translate}
 
-  \item{expr}{list of quoted objects to translate}
+\item{expr}{list of quoted objects to translate}
 
-  \item{tbl}{An optional \code{\link{tbl}}. If supplied,
-  will be used to automatically figure out the SQL variant
-  to use.}
+\item{tbl}{An optional \code{\link{tbl}}. If supplied, will be used to
+automatically figure out the SQL variant to use.}
 
-  \item{env}{environment in which to evaluate expression.}
+\item{env}{environment in which to evaluate expression.}
 
-  \item{variant}{used to override default variant provided
-  by source useful for testing/examples}
+\item{variant}{used to override default variant provided by source
+useful for testing/examples}
 
-  \item{window}{If \code{variant} not supplied, used to
-  determine whether the variant is window based or not.}
+\item{window}{If \code{variant} not supplied, used to determine whether
+the variant is window based or not.}
 }
 \description{
 Translate an expression to sql.
 }
 \section{Base translation}{
-  The base translator, \code{base_sql}, provides custom
-  mappings for \code{!} (to NOT), \code{&&} and \code{&} to
-  \code{AND}, \code{||} and \code{|} to \code{OR}, \code{^}
-  to \code{POWER}, \code{\%\%} to \code{\%}, \code{ceiling}
-  to \code{CEIL}, \code{mean} to \code{AVG}, \code{var} to
-  \code{VARIANCE}, \code{tolower} to \code{LOWER},
-  \code{toupper} to \code{UPPER} and \code{nchar} to
-  \code{length}.
 
-  \code{c} and \code{:} keep their usual R behaviour so you
-  can easily create vectors that are passed to sql.
+The base translator, \code{base_sql},
+provides custom mappings for \code{!} (to NOT), \code{&&} and \code{&} to
+\code{AND}, \code{||} and \code{|} to \code{OR}, \code{^} to \code{POWER},
+\code{\%\%} to \code{\%}, \code{ceiling} to \code{CEIL}, \code{mean} to
+\code{AVG}, \code{var} to \code{VARIANCE}, \code{tolower} to \code{LOWER},
+\code{toupper} to \code{UPPER} and \code{nchar} to \code{length}.
 
-  All other functions will be preserved as is. R's infix
-  functions (e.g. \code{\%like\%}) will be converted to
-  their sql equivalents (e.g. \code{LIKE}). You can use
-  this to access SQL string concatenation: \code{||} is
-  mapped to \code{OR}, but \code{\%||\%} is mapped to
-  \code{||}. To suppress this behaviour, and force errors
-  immediately when dplyr doesn't know how to translate a
-  function it encounters, using set the
-  \code{dplyr.strict_sql} option to \code{TRUE}.
+\code{c} and \code{:} keep their usual R behaviour so you can easily create
+vectors that are passed to sql.
 
-  You can also use \code{sql} to insert a raw sql string.
+All other functions will be preserved as is. R's infix functions
+(e.g. \code{\%like\%}) will be converted to their sql equivalents
+(e.g. \code{LIKE}). You can use this to access SQL string concatenation:
+\code{||} is mapped to \code{OR}, but \code{\%||\%} is mapped to \code{||}.
+To suppress this behaviour, and force errors immediately when dplyr doesn't
+know how to translate a function it encounters, using set the
+\code{dplyr.strict_sql} option to \code{TRUE}.
+
+You can also use \code{sql} to insert a raw sql string.
 }
 
 \section{SQLite translation}{
-  The SQLite variant currently only adds one additional
-  function: a mapping from \code{sd} to the SQL aggregation
-  function \code{stdev}.
+
+The SQLite variant currently only adds one additional function: a mapping
+from \code{sd} to the SQL aggregation function \code{stdev}.
 }
 \examples{
 # Regular maths is translated in a very straightforward way

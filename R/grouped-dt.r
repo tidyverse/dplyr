@@ -25,9 +25,12 @@ grouped_dt <- function(data, vars) {
     stop("Data tables can only be grouped by variables, not expressions",
       call. = FALSE)
   }
+
+  data <- copy(data)
   setkeyv(data, deparse_all(vars))
 
-  structure(data, vars = vars, class = c("grouped_dt", "tbl_dt", "tbl", class(data)))
+  structure(data, vars = vars,
+    class = c("grouped_dt", "tbl_dt", "tbl", class(data)))
 }
 
 #' @export
