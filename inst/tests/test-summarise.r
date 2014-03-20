@@ -189,3 +189,9 @@ test_that("summarise can use newly created variable more than once", {
     expect_equal( res$diff1, -res$diff2)
   }
 })
+
+test_that("summarise creates an empty data frame when no parameters are used", {
+  res <- summarise(mtcars)
+  expect_equal(res,data.frame())
+})
+

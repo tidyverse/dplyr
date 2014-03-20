@@ -1292,6 +1292,8 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
 
 SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
     int nexpr = args.size() ;
+    if( nexpr == 0) return DataFrame() ;
+    
     CharacterVector names = args.names();
 
     LazySubsets subsets( df ) ;
