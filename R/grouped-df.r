@@ -9,6 +9,7 @@
 #' @param vars a list of quoted variables.
 #' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
+#' @export
 grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
