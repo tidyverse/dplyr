@@ -195,3 +195,16 @@ test_that("summarise creates an empty data frame when no parameters are used", {
   expect_equal(res,data.frame())
 })
 
+test_that("integer overflow (#308)",{
+  groups <- rep(c('A', 'B'), each = 3)
+  values <- rep(1e9,  6)
+  dat <- data.frame(groups, 
+                X1 = as.integer(values), 
+                X2 = values)
+  # now group and summarise
+  res <- group_by(dat, groups) %.%
+               summarise(sum_integer = sum(X1),
+                         sum_numeric = sum(X2)) 
+  expect_true( all(is.na(res$sum_integer)) )
+  expect_equal( res$sum_numeric, rep(3e9, 2L) )
+})
