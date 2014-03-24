@@ -208,3 +208,9 @@ test_that("integer overflow (#304)",{
   expect_true( all(is.na(res$sum_integer)) )
   expect_equal( res$sum_numeric, rep(3e9, 2L) )
 })
+
+test_that("summarise checks outputs (#300)", {
+  expect_error( summarise(mtcars, mpg, cyl) )
+  expect_error( summarise(mtcars, mpg + cyl) )   
+})
+

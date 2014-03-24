@@ -1318,6 +1318,12 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
             result = __(CallProxy( args[i], subsets, env).eval()) ;
         }
         delete res ;
+        if( Rf_length(result) != 1 ){
+            std::stringstream s ;
+            s << "expecting result of length one, got : "
+              << Rf_length(result) ;
+            stop(s.str()) ;
+        }
         subsets.input( Symbol(name), result ) ;
         accumulator.set(name, result);
     }
