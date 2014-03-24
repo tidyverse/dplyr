@@ -110,6 +110,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/Replicator.h>
 #include <dplyr/Collecter.h>
 #include <dplyr/NamedListAccumulator.h>
+#include <dplyr/train.h>
 
 #include <dplyr/registration.h>
 
