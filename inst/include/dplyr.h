@@ -113,4 +113,6 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 
 #include <dplyr/registration.h>
 
+void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) ;
+
 #endif

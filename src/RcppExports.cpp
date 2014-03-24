@@ -459,23 +459,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// summarise_impl
-SEXP summarise_impl(DataFrame df, List args, Environment env);
-RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
-        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = summarise_impl(df, args, env);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // select_impl
 DataFrame select_impl(DataFrame df, CharacterVector vars);
 RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
@@ -579,6 +562,23 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< List >::type args(argsSEXP );
         Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
         SEXP __result = filter_impl(df, args, env);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// summarise_impl
+SEXP summarise_impl(DataFrame df, List args, Environment env);
+RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
+        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
+        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
+        SEXP __result = summarise_impl(df, args, env);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

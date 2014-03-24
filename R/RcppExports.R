@@ -115,10 +115,6 @@ group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
-summarise_impl <- function(df, args, env) {
-    .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
-}
-
 select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
 }
@@ -155,6 +151,10 @@ split_indices <- function(group, groups) {
 
 filter_impl <- function(df, args, env) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
+}
+
+summarise_impl <- function(df, args, env) {
+    .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
 #' Cumulativate versions of any, all, and mean
