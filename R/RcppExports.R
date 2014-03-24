@@ -157,6 +157,10 @@ summarise_impl <- function(df, args, env) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
+test_comparisons <- function() {
+    .Call('dplyr_test_comparisons', PACKAGE = 'dplyr')
+}
+
 #' Cumulativate versions of any, all, and mean
 #'
 #' dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete

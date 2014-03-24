@@ -585,6 +585,20 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// test_comparisons
+LogicalVector test_comparisons();
+RcppExport SEXP dplyr_test_comparisons() {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        LogicalVector __result = test_comparisons();
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // cumall
 LogicalVector cumall(LogicalVector x);
 RcppExport SEXP dplyr_cumall(SEXP xSEXP) {

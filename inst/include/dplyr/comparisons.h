@@ -64,14 +64,29 @@ struct comparisons<STRSXP> {
 // taking advantage of the particularity of NA_REAL
 template <>
 struct comparisons<REALSXP> {
+    
     inline bool is_less(double lhs, double rhs) const {
-        bool res = is_na(rhs) || lhs < rhs ;
-        return res ;
+        if( is_nan(lhs) ) {
+            return false ;
+        } else if( is_na(lhs) ){
+            return is_nan(rhs) ;    
+        } else {
+            // lhs >= rhs is false if rhs is NA or NaN
+            return !( lhs >= rhs) ;
+        }
+        
     }
     
     inline bool is_greater(double lhs, double rhs) const {
-        bool res = is_na(rhs) || lhs > rhs ;
-        return res ;
+        if( is_nan(lhs) ) {
+            return false ;
+        } else if( is_na(lhs) ){
+            return is_nan(rhs) ;    
+        } else {
+            // lhs <= rhs is false if rhs is NA or NaN
+            return !( lhs <= rhs) ;
+        }
+        
     }
     
     inline bool is_equal(double lhs, double rhs ) const {
@@ -79,13 +94,29 @@ struct comparisons<REALSXP> {
     }
     
     inline bool equal_or_both_na( double lhs, double rhs ) const {
-        return lhs == rhs || ( is_na(lhs) && is_na(rhs) );    
+        return lhs == rhs ||
+            ( is_nan(lhs) && is_nan(rhs) ) ||
+            ( is_na(lhs) && is_na(rhs) );    
     }
     
     inline bool is_na(double x) const { 
-        return Rcpp::traits::is_na<REALSXP>(x); 
+        return ISNA(x); 
     }
- 
+    
+    inline bool is_nan(double x) const {
+        return Rcpp::traits::is_nan<REALSXP>(x) ;    
+    }
+    
+    inline void print(double x) const {
+        if( is_na(x) ) {
+            std::cout << "NA" ;
+        } else if( is_nan(x) ) {
+            std::cout << "NaN" ;
+        } else {
+            std::cout << x ;    
+        }
+    }
+    
 } ;
 
 
