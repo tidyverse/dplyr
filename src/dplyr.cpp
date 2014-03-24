@@ -436,22 +436,34 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     DataFrameJoinVisitors visitors(x, y, by) ;
     Map map(visitors);
 
-    // train the map in terms of x
-    train_push_back( map, x.nrows(), x.nrows() / 10 ) ;
-
+    int n_x = x.nrows(), n_y = y.nrows() ;
+    
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
 
-    int n_y = y.nrows() ;
-    for( int i=0; i<n_y; i++){
-        // find indices for rows in x that match the row i in y
-        Map::iterator it = map.find(-i-1) ;
-        if( it != map.end() ){
-            push_back( indices_x, it->second );
-            push_back( indices_y, i, it->second.size() ) ;
+    if( n_x <= n_y ){
+        // train the map in terms of x
+        train_push_back( map, n_x, n_x / 10 ) ;
+        
+        for( int i=0; i<n_y; i++){
+            // find indices for rows in x that match the row i in y
+            Map::iterator it = map.find(-i-1) ;
+            if( it != map.end() ){
+                push_back( indices_x, it->second );
+                push_back( indices_y, i, it->second.size() ) ;
+            }
+        }
+    } else {
+        train_push_back_right( map, n_y, n_y / 10 ) ;
+        
+        for( int i=0; i<n_x; i++){
+            Map::iterator it = map.find(i) ;
+            if( it != map.end() ){
+                push_back( indices_y, it->second );
+                push_back( indices_x, -i-1, it->second.size() ) ;
+            }
         }
     }
-
     return subset( x, y, indices_x, indices_y, by, x.attr( "class") );
 }
 
