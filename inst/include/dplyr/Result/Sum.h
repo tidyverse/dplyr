@@ -39,7 +39,7 @@ namespace internal {
     template <typename Index>
     struct Sum<INTSXP, false, Index>{
         static int process( int* ptr, const Index& indices ){
-            int res = 0 ;
+            long double res = 0 ;
             int n = indices.size() ;
             for( int i=0; i<n; i++){
                 int value = ptr[indices[i]] ;
@@ -48,7 +48,10 @@ namespace internal {
                 }
                 res += value ;    
             }
-            return res ;         
+            if(res > INT_MAX || res <= INT_MIN){
+                return IntegerVector::get_na() ;   
+            }
+            return (int)res ;
         }
     } ;
     

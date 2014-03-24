@@ -49,6 +49,8 @@
 
 * `*_join()` don't reorder column names (#324).
 
+* internal `sum` correctly handles integer (under/over)flow (#308).  
+
 # dplyr 0.1.3
 
 ## Bug fixes
