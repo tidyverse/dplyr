@@ -51,6 +51,41 @@ namespace dplyr {
         Vector<RTYPE> data ;
     } ;
     
+    template <>
+    class Collecter_Impl<REALSXP> : public Collecter {
+    public:
+        Collecter_Impl( int n_ ): data( n_, NA_REAL ){}
+        
+        void collect( const SlicingIndex& index, SEXP v ){
+            NumericVector source(v) ;
+            double* source_ptr = source.begin() ;
+            for( int i=0; i<index.size(); i++){
+                data[index[i]] = source_ptr[i] ;
+            }
+        }
+        
+        inline SEXP get(){
+            return data ;    
+        }
+        
+        inline bool compatible(SEXP x) const{
+            int RTYPE = TYPEOF(x) ;
+            return RTYPE == REALSXP || RTYPE == INTSXP || RTYPE == LGLSXP ;    
+        }
+        
+        bool can_promote(SEXP x) const {
+            return false ;    
+        }
+        
+        std::string describe() const {
+            return "numeric" ; 
+        }
+        
+    protected:
+        NumericVector data ;
+        
+    } ;
+    
     template <int RTYPE>
     class TypedCollecter : public Collecter_Impl<RTYPE>{
     public:    

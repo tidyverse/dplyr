@@ -112,3 +112,9 @@ test_that( "rbind propagates timezone for POSIXct #298", {
   alldates <- rbind_list(dates1, dates2)
   expect_equal( attr( alldates$dates, "tzone" ), "GMT" )
 })
+
+test_that( "Collecter_Impl<REALSXP> can collect INTSXP. #321", {
+  res <- rbind_list(data.frame(x=0.5), data.frame(x=1:3))
+  expect_equal( res$x, c(0.5, 1:3) )
+})
+
