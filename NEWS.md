@@ -53,6 +53,8 @@
 
 * `summarise()` checks consistency of outputs (#300). 
 
+* `rbind_*` propagates time zone information for `POSIXct` columns (#298). 
+
 # dplyr 0.1.3
 
 ## Bug fixes

@@ -79,6 +79,43 @@ namespace dplyr {
         SEXP types ;
     } ;
     
+    template <int RTYPE>
+    class POSIXctCollecter : public Collecter_Impl<RTYPE>{
+    public: 
+        POSIXctCollecter( int n, SEXP tz_) : 
+            Collecter_Impl<RTYPE>(n), tz(tz_){}
+        
+        inline SEXP get(){
+            Collecter_Impl<RTYPE>::data.attr("class") = get_time_classes() ;
+            if( !Rf_isNull(tz) ){
+                Collecter_Impl<RTYPE>::data.attr("tzone") = tz ;    
+            }
+            return Collecter_Impl<RTYPE>::data ;
+        }
+        
+        inline bool compatible(SEXP x) const {
+            if( !Rf_inherits(x, "POSIXct" ) ) return false ;
+            if( Rf_isNull(tz) ) return Rf_isNull( Rf_getAttrib(x, Rf_install("tzone") ) ) ;
+            
+            SEXP xtz = Rf_getAttrib(x, Rf_install("tzone" ) ) ;
+            if( Rf_isNull( xtz ) ) return false ;
+            
+            return STRING_ELT(tz, 0) == STRING_ELT(xtz, 0 ) ;
+        }
+        
+        inline bool can_promote(SEXP x) const {
+            return false ;    
+        }
+        
+        std::string describe() const {
+            return collapse<STRSXP>(get_time_classes()) ;    
+        }
+        
+    private:
+        SEXP tz ;
+        
+    } ;
+    
     class FactorCollecter : public Collecter {
     public:
         typedef dplyr_hash_map<SEXP,int> LevelsMap ;
@@ -176,7 +213,7 @@ namespace dplyr {
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP: 
             if( Rf_inherits( model, "POSIXct" ) )
-                return new TypedCollecter<REALSXP>(n, get_time_classes()) ;
+                return new POSIXctCollecter<REALSXP>(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<REALSXP>(n, get_date_classes()) ;
             return new Collecter_Impl<REALSXP>(n) ;
@@ -206,7 +243,7 @@ namespace dplyr {
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP: 
             if( Rf_inherits( model, "POSIXct" ) )
-                return new TypedCollecter<REALSXP>(n, get_time_classes() ) ;
+                return new POSIXctCollecter<REALSXP>(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<REALSXP>(n, get_date_classes() ) ;
             return new Collecter_Impl<REALSXP>(n) ;

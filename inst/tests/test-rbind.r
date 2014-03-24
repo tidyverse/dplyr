@@ -96,3 +96,19 @@ test_that( "rbind_all only accepts data frames #288",{
   expect_error(rbind_all(ll))
 })
 
+test_that( "rbind propagates timezone for POSIXct #298", {
+  dates1 <- data.frame(ID=c("a", "b", "c"), 
+                     dates=structure(c(-247320000, -246196800, -245073600), 
+                                     tzone = "GMT",
+                                     class = c("POSIXct", "POSIXt")), 
+                     stringsAsFactors=FALSE)
+  
+  dates2 <- data.frame(ID=c("d", "e", "f"), 
+                       dates=structure(c(-243864000, -242654400, -241444800), 
+                                       tzone = "GMT",
+                                       class = c("POSIXct", "POSIXt")), 
+                       stringsAsFactors=FALSE)
+  
+  alldates <- rbind_list(dates1, dates2)
+  expect_equal( attr( alldates$dates, "tzone" ), "GMT" )
+})
