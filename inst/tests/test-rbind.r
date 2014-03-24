@@ -118,7 +118,7 @@ test_that( "Collecter_Impl<REALSXP> can collect INTSXP. #321", {
   expect_equal( res$x, c(0.5, 1:3) )
 })
 
-test_that( "Collecter_Impl<INTSXP> can collect INTSXP. #321", {
+test_that( "Collecter_Impl<INTSXP> can collect LGLSXP. #321", {
   res <-  rbind_list(data.frame(x=1:3), data.frame(x=NA))
   expect_equal( res$x, c(1:3, NA) )
 })
