@@ -195,7 +195,7 @@ test_that("summarise creates an empty data frame when no parameters are used", {
   expect_equal(res,data.frame())
 })
 
-test_that("integer overflow (#308)",{
+test_that("integer overflow (#304)",{
   groups <- rep(c('A', 'B'), each = 3)
   values <- rep(1e9,  6)
   dat <- data.frame(groups, 
