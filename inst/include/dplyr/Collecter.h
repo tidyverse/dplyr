@@ -86,6 +86,41 @@ namespace dplyr {
         
     } ;
     
+    template <>
+    class Collecter_Impl<INTSXP> : public Collecter {
+    public:
+        Collecter_Impl( int n_ ): data( n_, NA_INTEGER ){}
+        
+        void collect( const SlicingIndex& index, SEXP v ){
+            IntegerVector source(v) ;
+            int* source_ptr = source.begin() ;
+            for( int i=0; i<index.size(); i++){
+                data[index[i]] = source_ptr[i] ;
+            }
+        }
+        
+        inline SEXP get(){
+            return data ;    
+        }
+        
+        inline bool compatible(SEXP x) const{
+            int RTYPE = TYPEOF(x) ;
+            return ( INTSXP == RTYPE || RTYPE == LGLSXP ) && !Rf_inherits( x, "factor" ) ;
+        }
+        
+        bool can_promote(SEXP x) const {
+            return TYPEOF(x) == REALSXP || Rf_inherits( x, "factor" ) ;    
+        }
+        
+        std::string describe() const {
+            return "integer" ; 
+        }
+        
+    protected:
+        IntegerVector data ;
+        
+    } ;
+    
     template <int RTYPE>
     class TypedCollecter : public Collecter_Impl<RTYPE>{
     public:    
@@ -222,16 +257,6 @@ namespace dplyr {
         IntegerVector data ;
         LevelsMap levels_map ;
     } ;
-    
-    template <>
-    inline bool Collecter_Impl<INTSXP>::compatible(SEXP x) const{
-        return INTSXP == TYPEOF(x) && !Rf_inherits( x, "factor" ) ;    
-    }
-    
-    template <>
-    inline bool Collecter_Impl<INTSXP>::can_promote( SEXP x) const {
-        return TYPEOF(x) == REALSXP || Rf_inherits( x, "factor" ) ;
-    }
     
     template <>
     inline bool Collecter_Impl<LGLSXP>::can_promote( SEXP x) const {
