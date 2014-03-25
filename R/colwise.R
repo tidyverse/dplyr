@@ -34,18 +34,23 @@ colwise <- function(tbl, calls, ...) {
 #' @rdname colwise
 colwise_q <- function(tbl, calls, vars) {
   stopifnot(is.fun_calls(calls))
-  vars <- lapply(select_vars(tbl_vars(tbl), vars, env = parent.frame()), as.name)
+  vars <- select_vars(tbl_vars(tbl), vars, env = parent.frame())
 
   out <- vector("list", length(vars) * length(calls))
+  names <- vector("character", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))
+  dim(names) <- c(length(vars), length(calls))
 
   for (i in seq_along(vars)) {
     for (j in seq_along(calls)) {
-      out[[i, j]] <- substitute_q(calls[[j]], list(. = vars[[i]]))
+      out[[i, j]] <- substitute_q(calls[[j]], list(. = as.name(vars[i])))
+      names[i, j] <- paste0(names(calls)[j], "_", vars[i])
     }
   }
 
+
   dim(out) <- NULL
+  names(out) <- as.vector(names)
   out
 }
 
