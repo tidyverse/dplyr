@@ -27,27 +27,28 @@
 #' do(by_cyl, head(., 2))
 #'
 #' models <- do(by_cyl, mod = lm(mpg ~ disp, data = .))
+#' models
+#'
+#' summarise(models, rsq = summary(mod[[1]])$r.squared)
 #' do(models, as.data.frame(coef(.$mod[[1]])))
 #' do(models, as.data.frame(coef(summary(.$mod[[1]]))))
-#' summarise(models, rsq = summary(mod)$r.squared)
 #'
 #' if (require("hflights")) {
 #' by_dest <- group_by(hflights, Dest)
-#' do(by_dest, nrow(.))
+#' do(by_dest, data.frame(n = nrow(.)))
 #' # Inefficient version of
 #' group_size(by_dest)
 #'
 #' # You can use it to do any arbitrary computation, like fitting a linear
 #' # model. Let's explore how carrier departure delays vary over the course
 #' # of a year
-#' jan <- filter(hflights, Month == 1)
-#' jan <- mutate(jan, date = ISOdate(Year, Month, DayofMonth))
+#' hflights <- mutate(hflights, date = ISOdate(Year, Month, DayofMonth))
 #' carriers <- group_by(hflights, UniqueCarrier)
 #' group_size(carriers)
 #'
 #' mods <- do(carriers, mod = lm(ArrDelay ~ date, data = .))
-#' do(mods, coef(.$mod))
-#' summarise(mods, rsq = summarise(mod)$r.squared)
+#' do(mods, as.data.frame(coef(.$mod[[1]])))
+#' summarise(mods, rsq = summary(mod[[1]])$r.squared)
 #' }
 do <- function(.data, ...) UseMethod("do")
 
