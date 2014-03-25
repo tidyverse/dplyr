@@ -36,6 +36,7 @@
 #' # Alternative variable specification
 #' summarise_each_q(iris, funs(max), names(iris))
 #' summarise_each_q(iris, funs(max), list(quote(-Petal.Width)))
+#' @export
 summarise_each <- function(tbl, funs, ...) {
   env <- parent.frame()
   summarise_each_q(tbl, funs, dots(...), env)
