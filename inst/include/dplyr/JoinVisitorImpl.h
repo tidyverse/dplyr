@@ -17,9 +17,7 @@ namespace dplyr{
     
         JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){}
           
-        inline size_t hash(int i){
-            return ( i>= 0 ) ? LHS_hash_fun( left[i] ) : RHS_hash_fun( right[-1-1] ) ; 
-        }
+        inline size_t hash(int i) ;
         
         inline bool equal( int i, int j) {
             if( i>=0 && j>=0 ) {
@@ -249,17 +247,17 @@ namespace dplyr{
     PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
     
     inline JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name){
-        if( TYPEOF(left) != TYPEOF(right) ){
-            std::stringstream ss ;
-            ss << "Can't join on '" 
-               << name 
-               << "' because of incompatible types (" 
-               << get_single_class(left) 
-               << "/" 
-               << get_single_class(right) 
-               << ")" ;
-            stop( ss.str() ) ;
-        }
+        // if( TYPEOF(left) != TYPEOF(right) ){
+        //     std::stringstream ss ;
+        //     ss << "Can't join on '" 
+        //        << name 
+        //        << "' because of incompatible types (" 
+        //        << get_single_class(left) 
+        //        << "/" 
+        //        << get_single_class(right) 
+        //        << ")" ;
+        //     stop( ss.str() ) ;
+        // }
         switch( TYPEOF(left) ){
             case INTSXP:
                 if( Rf_inherits( left, "factor" ) ){
