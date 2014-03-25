@@ -1,8 +1,9 @@
-#' Create a list of functions.
+#' Create a list of functions calls.
 #'
-#' \code{funs} provides a flexible to generate a named list of functions.
+#' \code{funs} provides a flexible to generate a named list of functions for
+#' input to other functions like \code{colwise}.
 #'
-#' @param ... You can specify functions by:
+#' @param calls,... A list of functions specified by:
 #'
 #'   \itemize{
 #'     \item Their name, \code{"mean"}
@@ -16,24 +17,44 @@
 #'
 #' # Overide default names
 #' funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
-funs <- function(..., env = parent.frame()) {
-  args <- dots(...)
-  names(args) <- names2(args)
+funs <- function(...) funs_q(dots(...))
 
-  funs <- lapply(args, make_fun, env = env)
+#' @export
+#' @rdname funs
+funs_q <- function(calls) {
+  names(calls) <- names2(calls)
 
-  missing_names <- names(funs) == ""
-  default_names <- vapply(args[missing_names], make_name, character(1))
-  names(funs)[missing_names] <- default_names
+  calls[] <- lapply(calls, make_call)
 
-  funs
+  missing_names <- names(calls) == ""
+  default_names <- vapply(calls[missing_names], make_name, character(1))
+  names(calls)[missing_names] <- default_names
+
+  class(calls) <- "fun_calls"
+  calls
 }
 
-make_fun <- function(x, env) {
-  if (is.name(x) || is.character(x)) {
-    get(as.character(x), envir = env, mode = "function")
+is.fun_calls <- function(x) inherits(x, "fun_calls")
+
+#' @export
+print.fun_calls <- function(x, ..., width = getOption("width")) {
+  cat("<fun_calls>\n")
+  names <- format(names(x))
+
+  code <- vapply(x, deparse_trunc, width = width - 2 - nchar(names[1]),
+    character(1))
+
+  cat(paste0("$ ", names, ": ", code, collapse = "\n"))
+  cat("\n")
+}
+
+make_call <- function(x) {
+  if (is.character(x)) {
+    substitute(f(.), list(f = as.name(x)))
+  } else if (is.name(x)) {
+    substitute(f(.), list(f = x))
   } else if (is.call(x)) {
-    dot_fun(x, env)
+    x
   } else {
     stop("Unknown inputs")
   }
@@ -49,10 +70,3 @@ make_name <- function(x, env) {
     stop("Unknown input:", class(x)[1])
   }
 }
-
-dot_fun <- function(code, env = parent.frame()) {
-  args <- pairlist(. = empty_arg())
-  eval(call("function", args, code), env)
-}
-
-empty_arg <- function() quote(expr = )
