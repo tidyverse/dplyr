@@ -10,12 +10,19 @@ auto_names <- function(x) {
   nms <- names2(x)
   missing <- nms == ""
   if (all(!missing)) return(nms)
-  
+
   deparse2 <- function(x) paste(deparse(x, 500L), collapse = "")
   defaults <- vapply(x[missing], deparse2, character(1), USE.NAMES = FALSE)
-  
+
   nms[missing] <- defaults
   nms
+}
+
+deparse_trunc <- function(x, width = getOption("width")) {
+  text <- deparse(x, width.cutoff = width)
+  if (length(text) == 1 && nchar(text) < width) return(text)
+
+  paste0(substr(text[1], 1, width - 3), "...")
 }
 
 auto_name <- function(x) {
@@ -28,7 +35,7 @@ is.lang <- function(x) {
 }
 is.lang.list <- function(x) {
   if (is.null(x)) return(TRUE)
-  
+
   is.list(x) && all_apply(x, is.lang)
 }
 on_failure(is.lang.list) <- function(call, env) {
@@ -42,8 +49,8 @@ on_failure(all_names) <- function(call, env) {
   x_nms <- names(eval(call$x, env))
   nms <- eval(call$nms, env)
   extra <- setdiff(x_nms, nms)
-  
-  paste0(call$x, " has named components: ", paste0(extra, collapse = ", "), ".", 
+
+  paste0(call$x, " has named components: ", paste0(extra, collapse = ", "), ".",
     "Should only have names: ", paste0(nms, collapse = ","))
 }
 
@@ -95,16 +102,16 @@ in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
 
 named <- function(...) {
   x <- c(...)
-  
+
   missing_names <- names2(x) == ""
   names(x)[missing_names] <- x[missing_names]
-  
+
   x
 }
 
 unique_name <- local({
   i <- 0
-  
+
   function() {
     i <<- i + 1
     paste0("_W", i)
@@ -112,3 +119,8 @@ unique_name <- local({
 })
 
 isFALSE <- function(x) identical(x, FALSE)
+
+substitute_q <- function(x, env) {
+  call <- substitute(substitute(x, env), list(x = x))
+  eval(call)
+}
