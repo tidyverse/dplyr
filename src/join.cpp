@@ -4,6 +4,7 @@ using namespace Rcpp ;
 
 namespace dplyr{
 
+    // -------------- (int,double)
     template <int RTYPE>
     inline size_t hash_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, int i ){
         if( i>=0 ){
@@ -13,8 +14,6 @@ namespace dplyr{
         }
         return joiner.RHS_hash_fun( joiner.right[-i-1] ) ; 
     }
-    
-    
     template <>
     inline size_t JoinVisitorImpl<INTSXP,REALSXP>::hash(int i){
         return  hash_int_double<INTSXP>( *this, i );  
@@ -23,6 +22,7 @@ namespace dplyr{
     inline size_t JoinVisitorImpl<LGLSXP,REALSXP>::hash(int i){
         return  hash_int_double<LGLSXP>( *this, i );  
     }
+    
     
     template <int RTYPE>
     inline SEXP subset_join_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, const std::vector<int>& indices ){
@@ -38,7 +38,6 @@ namespace dplyr{
         }
         return res ;    
     }
-    
     template <>
     inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset( const std::vector<int>& indices ){
         return subset_join_int_double<INTSXP>( *this, indices ) ;
@@ -48,24 +47,102 @@ namespace dplyr{
         return subset_join_int_double<LGLSXP>( *this, indices ) ;
     }
     
-    template <>
-    inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+    
+    template <int RTYPE>
+    inline SEXP subset_join_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
         int n = set.size() ;
         NumericVector res = no_init(n) ;
         VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
         for( int i=0; i<n; i++, ++it) {
             int index = *it ;
             if( index >= 0){
-                res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( left[index] ) ;    
+                res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.left[index] ) ;    
             } else {
-                res[i] = right[-index-1] ;    
+                res[i] = joiner.right[-index-1] ;    
             }
         }
-        return res ;         
+        return res ;    
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        return  subset_join_int_double<INTSXP>(*this, set );       
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<LGLSXP,REALSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        return  subset_join_int_double<LGLSXP>(*this, set );       
+    }
+    
+    // -------------- (double,int)
+    template <int RTYPE>
+    inline size_t hash_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, int i ){
+        if( i<0 ){
+            int val = joiner.left[-i-1] ;
+            if( val == NA_INTEGER ) return joiner.LHS_hash_fun( NA_REAL );
+            return joiner.LHS_hash_fun( (double)val );
+        }
+        return joiner.LHS_hash_fun( joiner.right[i] ) ; 
+    }
+    template <>
+    inline size_t JoinVisitorImpl<REALSXP,INTSXP>::hash(int i){
+        return  hash_double_int<INTSXP>( *this, i );  
+    }
+    template <>
+    inline size_t JoinVisitorImpl<REALSXP,LGLSXP>::hash(int i){
+        return  hash_double_int<LGLSXP>( *this, i );  
+    }
+    
+    
+    template <int RTYPE>
+    inline SEXP subset_join_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, const std::vector<int>& indices ){
+        int n = indices.size() ;
+        NumericVector res = no_init(n) ;
+        for( int i=0; i<n; i++) {
+            int index = indices[i] ;
+            if( index < 0 ){  
+                res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.right[-index-1] ) ;
+            } else {
+                res[i] = joiner.left[index] ;    
+            }
+        }
+        return res ;    
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<REALSXP,INTSXP>::subset( const std::vector<int>& indices ){
+        return subset_join_double_int<INTSXP>( *this, indices ) ;
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<REALSXP,LGLSXP>::subset( const std::vector<int>& indices ){
+        return subset_join_double_int<LGLSXP>( *this, indices ) ;
+    }
+    
+    
+    template <int RTYPE>
+    inline SEXP subset_join_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        int n = set.size() ;
+        NumericVector res = no_init(n) ;
+        VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+        for( int i=0; i<n; i++, ++it) {
+            int index = *it ;
+            if( index < 0){
+                res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.right[-index-1] ) ;    
+            } else {
+                res[i] = joiner.left[index] ;    
+            }
+        }
+        return res ;    
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<REALSXP,INTSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        return  subset_join_double_int<INTSXP>(*this, set );       
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<REALSXP,LGLSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        return  subset_join_double_int<LGLSXP>(*this, set );       
     }
     
     
     
+    // -----------------
     inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name) {
         std::stringstream s ;
         s << "Can't join on '" << name << "' because of incompatible types (" << get_single_class(left) << "/" << get_single_class(right) << ")" ;
@@ -84,6 +161,7 @@ namespace dplyr{
         //        << ")" ;
         //     stop( ss.str() ) ;
         // }
+        
         switch( TYPEOF(left) ){
             case INTSXP:
                 {
@@ -123,13 +201,38 @@ namespace dplyr{
                     break ;  
                 }
             case REALSXP:
-                {
-                    if( Rf_inherits( left, "Date" ) )
-                        return new DateJoinVisitor(left, right ) ;
-                    if( Rf_inherits( left, "POSIXct" ) )
-                        return new POSIXctJoinVisitor(left, right ) ;
+                {    
+                    bool lhs_date = Rf_inherits( left, "Date" ) ;
+                    bool lhs_time = Rf_inherits( left, "POSIXct" );
                     
-                    return new JoinVisitorImpl<REALSXP,REALSXP>( left, right ) ;
+                    switch( TYPEOF(right) ){
+                    case REALSXP:
+                        {
+                            if( Rf_inherits( right, "Date") ){
+                                if(lhs_date) return new DateJoinVisitor(left, right ) ;
+                                incompatible_join_visitor(left, right, name) ;
+                            }
+                            
+                            if( Rf_inherits( right, "POSIXct" ) ){
+                                if( lhs_time ) return new POSIXctJoinVisitor(left, right ) ;
+                                incompatible_join_visitor(left, right, name) ;
+                            }
+                            
+                            if( is_bare_vector( right ) ){
+                                return new JoinVisitorImpl<REALSXP, REALSXP>( left, right) ;    
+                            }
+                            
+                            break ;    
+                        }  
+                    case INTSXP:
+                        {
+                            if( is_bare_vector(right) ){
+                                return new JoinVisitorImpl<REALSXP, INTSXP>( left, right) ;    
+                            }
+                        }
+                    default: break ;
+                    }
+                    
                 }
             case LGLSXP:  
                 {
