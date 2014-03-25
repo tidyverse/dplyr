@@ -904,7 +904,6 @@ DataFrame build_index_cpp( DataFrame data ){
     DataFrameVisitors visitors(data, vars) ;
     ChunkIndexMap map( visitors ) ;
 
-    // checking 10 times for interupts
     train_push_back( map, data.nrows() ) ;
 
     DataFrame labels = visitors.subset( map, "data.frame") ;

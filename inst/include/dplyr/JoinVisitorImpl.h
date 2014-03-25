@@ -3,54 +3,109 @@
 
 namespace dplyr{
         
-    template <int RTYPE>
-    class JoinVisitorImpl : public JoinVisitor, public comparisons<RTYPE>{
+    template <int LHS_RTYPE, int RHS_RTYPE>
+    class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE>{
     public:
-        typedef Vector<RTYPE> Vec ;
+        typedef Vector<LHS_RTYPE> LHS_Vec ;
+        typedef Vector<RHS_RTYPE> RHS_Vec ;
+        
+        typedef typename Rcpp::traits::storage_type<LHS_RTYPE>::type LHS_STORAGE ;
+        typedef typename Rcpp::traits::storage_type<RHS_RTYPE>::type RHS_STORAGE ;
+        
+        typedef boost::hash<LHS_STORAGE> LHS_hasher ;
+        typedef boost::hash<RHS_STORAGE> RHS_hasher ;
+    
+        JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){}
+          
+        inline size_t hash(int i){
+            return ( i>= 0 ) ? LHS_hash_fun( left[i] ) : RHS_hash_fun( right[-1-1] ) ; 
+        }
+        
+        inline bool equal( int i, int j) {
+            if( i>=0 && j>=0 ) {
+                return comparisons<LHS_RTYPE>().equal_or_both_na( left[i], left[j] ) ;
+            } else if( i < 0 && j < 0 ) {
+                return comparisons<LHS_RTYPE>().equal_or_both_na( right[-i-1], right[-j-1] ) ;
+            } else if( i >= 0 && j < 0) {
+                return comparisons_different<LHS_RTYPE,RHS_RTYPE>().equal_or_both_na( left[i], right[-j-1] ) ;
+            } else {
+                return comparisons_different<RHS_RTYPE,LHS_RTYPE>().equal_or_both_na( right[-i-1], left[j] ) ;
+            }
+        }
+        
+        inline SEXP subset( const std::vector<int>& indices ); 
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) ;
+        
+        inline void print(int i){
+            if( i >= 0){
+                Rcpp::Rcout << left[i] << std::endl ;
+            } else {
+                Rcpp::Rcout << right[-i-1] << std::endl ;
+            }
+        }
+        
+    protected:
+        LHS_Vec left ;
+        RHS_Vec right ;
+        LHS_hasher LHS_hash_fun ;
+        RHS_hasher RHS_hash_fun ;
+        
+    } ; 
+
+    template <int RTYPE>
+    class  JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE>{
+    public:
         typedef comparisons<RTYPE> Compare ;
+        
+        typedef Vector<RTYPE> Vec ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         typedef boost::hash<STORAGE> hasher ;
     
-        JoinVisitorImpl( Rcpp::Vector<RTYPE> left_, Rcpp::Vector<RTYPE> right_ ) : 
-            left(left_), right(right_){}
+        JoinVisitorImpl( Vec left_, Vec right_ ) : left(left_), right(right_){}
           
         inline size_t hash(int i){
             return hash_fun( get(i) ) ; 
         }
         
-        inline bool equal( int i, int j){
-            return Compare::equal_or_both_na( get(i), get(j) ) ;
+        inline bool equal( int i, int j) {
+            return Compare::equal_or_both_na(
+                get(i), get(j) 
+            ) ;  
         }
         
-        inline SEXP subset( const std::vector<int>& indices ){
+        inline SEXP subset( const std::vector<int>& indices ) {
             int n = indices.size() ;
             Vec res = no_init(n) ;
-            for( int i=0; i<n; i++) res[i] = get( indices[i] ) ;
+            for( int i=0; i<n; i++) {
+                res[i] = get(i) ;
+            }
             return res ;
         }
-        
-        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
             int n = set.size() ;
             Vec res = no_init(n) ;
             VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-            for( int i=0; i<n; i++, ++it) res[i] = get( *it ) ;
-            return res ;
+            for( int i=0; i<n; i++, ++it) {
+                res[i] = get(i) ;
+            }
+            return res ;    
         }
         
-        void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;    
+        inline void print(int i){
+            Rcpp::Rcout << get(i) << std::endl ;
         }
+        
         
     protected:
-        Vector<RTYPE> left, right ;
+        Vec left, right ;
         hasher hash_fun ;
         
         inline STORAGE get(int i){
-            return i>=0 ? left[i] : right[-i-1] ;    
+            return i >= 0 ? left[i] : right[-i-1] ;    
         }
         
-    } ;
-              
+    } ; 
+    
     class StringLessPredicate : comparisons<STRSXP>{
     public:
         typedef SEXP value_type ;
@@ -59,9 +114,9 @@ namespace dplyr{
         }
     } ;  
     
-    class JoinFactorVisitor : public JoinVisitorImpl<INTSXP> {
+    class JoinFactorVisitor : public JoinVisitorImpl<INTSXP, INTSXP> {
     public:
-        typedef JoinVisitorImpl<INTSXP> Parent ;
+        typedef JoinVisitorImpl<INTSXP,INTSXP> Parent ;
         
         JoinFactorVisitor( const IntegerVector& left, const IntegerVector& right ) : 
             Parent(left, right), 
@@ -184,9 +239,9 @@ namespace dplyr{
     } ;
     
     #define PROMOTE_JOIN_VISITOR(__CLASS__)                                                   \
-    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP> >{   \
+    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP,REALSXP> >{   \
     public:                                                                                   \
-        typedef PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP> > Parent ;        \
+        typedef PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP,REALSXP> > Parent ;        \
         __CLASS__( const NumericVector& left_, const NumericVector& right_) :                 \
             Parent(left_, right_){}                                                           \
     } ;
@@ -210,16 +265,16 @@ namespace dplyr{
                 if( Rf_inherits( left, "factor" ) ){
                     return new JoinFactorVisitor(left, right) ;
                 }
-                return new JoinVisitorImpl<INTSXP> ( left, right ) ;
+                return new JoinVisitorImpl<INTSXP,INTSXP> ( left, right ) ;
             case REALSXP: 
                 if( Rf_inherits( left, "Date" ) )
                     return new DateJoinVisitor(left, right ) ;
                 if( Rf_inherits( left, "POSIXct" ) )
                     return new POSIXctJoinVisitor(left, right ) ;
                 
-                return new JoinVisitorImpl<REALSXP>( left, right ) ;
-            case LGLSXP:  return new JoinVisitorImpl<LGLSXP> ( left, right ) ;
-            case STRSXP:  return new JoinVisitorImpl<STRSXP> ( left, right ) ;
+                return new JoinVisitorImpl<REALSXP,REALSXP>( left, right ) ;
+            case LGLSXP:  return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;
+            case STRSXP:  return new JoinVisitorImpl<STRSXP,STRSXP> ( left, right ) ;
             default: break ;
         }
         return 0 ;

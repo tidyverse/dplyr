@@ -96,6 +96,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>
+#include <dplyr/comparisons_different.h>
 #include <dplyr/VectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/VectorVisitorImpl.h>
