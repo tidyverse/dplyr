@@ -64,7 +64,8 @@ test_that("num_range selects numeric ranges", {
 
 # Data table -------------------------------------------------------------------
 
-test_that("select changes columns in copy of data table", {dt <- data.table(x = 1:4, y = letters[1:4])
+test_that("select changes columns in copy of data table", {
+  dt <- data.table(x = 1:4, y = letters[1:4])
 
   expect_equal(names(select(dt, x, z = y)), c("x", "z"))
   expect_equal(names(dt), c("x", "y"))
@@ -93,4 +94,9 @@ test_that("select renames variables (#317)", {
   expect_equal(tbl_vars(first), "A")
   expect_equal(tbl_vars(first %.% select(A)), "A")
   expect_equal(tbl_vars(first %.% select(B = A)), "B")
+})
+
+test_that("select preserves grouping vars", {
+  first <- tbls$sqlite %.% group_by(b) %.% select(a)
+  expect_equal(tbl_vars(first), c("b", "a"))
 })

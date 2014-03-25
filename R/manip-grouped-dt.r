@@ -117,7 +117,8 @@ arrange.grouped_dt <- function(.data, ...) {
 #' @rdname manip_grouped_dt
 #' @export
 select.grouped_dt <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame())
+  vars <- select_vars(names(.data), ..., env = parent.frame(),
+    include = as.character(groups(.data)))
   out <- .data[, vars, drop = FALSE, with = FALSE]
   setnames(out, names(vars))
 

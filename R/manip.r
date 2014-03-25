@@ -130,6 +130,8 @@ select <- function(.data, ...) UseMethod("select")
 #'
 #' @param vars A character vector of existing column names.
 #' @param ... Expressions to compute
+#' @param include Character vector of column names that must always be
+#'   included in output.
 #' @export
 #' @keywords internal
 #' @return A named character vector. Values are existing column names,
@@ -156,7 +158,7 @@ select <- function(.data, ...) UseMethod("select")
 #' # Rename variables
 #' select_vars(names(iris), petal_length = Petal.Length)
 #' select_vars(names(iris), petal = starts_with("Petal"))
-select_vars <- function(vars, ..., env = parent.frame()) {
+select_vars <- function(vars, ..., env = parent.frame(), include = character()) {
   args <- dots(...)
   if (length(args) == 0) return(setNames(vars, vars))
 
@@ -222,10 +224,15 @@ select_vars <- function(vars, ..., env = parent.frame()) {
   excl <- abs(ind[ind < 0])
   incl <- incl[match(incl, excl, 0L) == 0L]
 
+  # Add variables that must be included
+  sel <- setNames(vars[incl], names(incl))
+  sel <- c(setdiff(include, sel), sel)
+
   # Ensure all output vars named
-  unnamed <- names2(incl) == ""
-  names(incl)[unnamed] <- vars[incl][unnamed]
-  setNames(vars[incl], names(incl))
+  unnamed <- names2(sel) == ""
+  names(sel)[unnamed] <- sel[unnamed]
+
+  sel
 }
 
 

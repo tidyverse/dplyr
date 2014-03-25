@@ -12,7 +12,8 @@ arrange.tbl_sql <- function(.data, ...) {
 
 #' @export
 select.tbl_sql <- function(.data, ...) {
-  vars <- select_vars(tbl_vars(.data), ..., env = parent.frame())
+  vars <- select_vars(tbl_vars(.data), ..., env = parent.frame(),
+    include = as.character(groups(.data)))
   # Index into variables so that select can be applied multiple times
   # and after a mutate.
   idx <- match(vars, tbl_vars(.data))
