@@ -4,6 +4,20 @@ using namespace Rcpp ;
 
 namespace dplyr{
 
+    // -------------- (int,lgl)
+    template <int LHS_RTYPE, int RHS_RTYPE>
+    inline size_t hash_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, int i){
+        return joiner.RHS_hash_fun( i>=0 ? joiner.left[i] : joiner.right[-i-1] ) ;  
+    }
+    template <>
+    inline size_t JoinVisitorImpl<INTSXP,LGLSXP>::hash( int i){
+        return hash_int_int<INTSXP,LGLSXP>( *this, i) ;   
+    }
+    template <>
+    inline size_t JoinVisitorImpl<LGLSXP,INTSXP>::hash( int i){
+        return hash_int_int<LGLSXP,INTSXP>( *this, i) ;   
+    }
+    
     // -------------- (int,double)
     template <int RTYPE>
     inline size_t hash_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, int i ){
