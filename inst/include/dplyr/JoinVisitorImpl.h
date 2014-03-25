@@ -17,7 +17,7 @@ namespace dplyr{
     
         JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){}
           
-        inline size_t hash(int i) ;
+        size_t hash(int i) ;
         
         inline bool equal( int i, int j) {
             if( i>=0 && j>=0 ) {
@@ -48,8 +48,49 @@ namespace dplyr{
         LHS_hasher LHS_hash_fun ;
         RHS_hasher RHS_hash_fun ;
         
-    } ; 
-
+    } ;   
+    
+    template <>
+    inline size_t JoinVisitorImpl<INTSXP,REALSXP>::hash(int i){
+        if( i>=0 ){
+            int val = left[i] ;
+            if( val == NA_INTEGER ) return RHS_hash_fun( NA_REAL );
+            return RHS_hash_fun( (double)val );
+        }
+        return RHS_hash_fun( right[-i-1] ) ;    
+    }
+    
+    template <>
+    inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset( const std::vector<int>& indices ){
+        int n = indices.size() ;
+        NumericVector res = no_init(n) ;
+        for( int i=0; i<n; i++) {
+            int index = indices[i] ;
+            if( index >= 0 ){  
+                res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( left[index] ) ;
+            } else {
+                res[i] = right[-index-1] ;    
+            }
+        }
+        return res ;
+    }
+    
+    template <>
+    inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        int n = set.size() ;
+        NumericVector res = no_init(n) ;
+        VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+        for( int i=0; i<n; i++, ++it) {
+            int index = *it ;
+            if( index >= 0){
+                res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( left[index] ) ;    
+            } else {
+                res[i] = right[-index-1] ;    
+            }
+        }
+        return res ;         
+    }
+    
     template <int RTYPE>
     class  JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE>{
     public:
@@ -112,11 +153,11 @@ namespace dplyr{
         }
     } ;  
     
-    class JoinFactorVisitor : public JoinVisitorImpl<INTSXP, INTSXP> {
+    class JoinFactorFactorVisitor : public JoinVisitorImpl<INTSXP, INTSXP> {
     public:
         typedef JoinVisitorImpl<INTSXP,INTSXP> Parent ;
         
-        JoinFactorVisitor( const IntegerVector& left, const IntegerVector& right ) : 
+        JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) : 
             Parent(left, right), 
             left_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( left.attr("levels") ) ) ,
             right_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( right.attr("levels") ) )
@@ -246,6 +287,12 @@ namespace dplyr{
     PROMOTE_JOIN_VISITOR(DateJoinVisitor)
     PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
     
+    inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name) {
+        std::stringstream s ;
+        s << "Can't join on '" << name << "' because of incompatible types (" << get_single_class(left) << "/" << get_single_class(right) << ")" ;
+        stop( s.str() ) ;    
+    }
+    
     inline JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name){
         // if( TYPEOF(left) != TYPEOF(right) ){
         //     std::stringstream ss ;
@@ -260,21 +307,63 @@ namespace dplyr{
         // }
         switch( TYPEOF(left) ){
             case INTSXP:
-                if( Rf_inherits( left, "factor" ) ){
-                    return new JoinFactorVisitor(left, right) ;
+                {
+                    bool lhs_factor = Rf_inherits( left, "factor" ) ;
+                    switch( TYPEOF(right) ){
+                        case INTSXP:
+                            {
+                                bool rhs_factor = Rf_inherits( right, "factor" ) ;
+                                if( lhs_factor && rhs_factor){
+                                    return new JoinFactorFactorVisitor(left, right) ;
+                                } else if( !lhs_factor && !rhs_factor) {
+                                    return new JoinVisitorImpl<INTSXP, INTSXP>( left, right ) ;
+                                }
+                                break ;
+                            }
+                        case REALSXP:   
+                            {
+                                if( lhs_factor ){ 
+                                    incompatible_join_visitor(left, right, name) ;
+                                } else if( is_bare_vector(right) ) {
+                                    return new JoinVisitorImpl<INTSXP, REALSXP>( left, right) ;
+                                } else {
+                                    incompatible_join_visitor(left, right, name) ;
+                                }
+                                break ;
+                                // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
+                            }
+                        case LGLSXP:  
+                            {
+                                if( lhs_factor ){
+                                    incompatible_join_visitor(left, right, name) ;
+                                }
+                                break ;
+                            }
+                        default: break ;
+                    }
+                    break ;  
                 }
-                return new JoinVisitorImpl<INTSXP,INTSXP> ( left, right ) ;
-            case REALSXP: 
-                if( Rf_inherits( left, "Date" ) )
-                    return new DateJoinVisitor(left, right ) ;
-                if( Rf_inherits( left, "POSIXct" ) )
-                    return new POSIXctJoinVisitor(left, right ) ;
-                
-                return new JoinVisitorImpl<REALSXP,REALSXP>( left, right ) ;
-            case LGLSXP:  return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;
-            case STRSXP:  return new JoinVisitorImpl<STRSXP,STRSXP> ( left, right ) ;
+            case REALSXP:
+                {
+                    if( Rf_inherits( left, "Date" ) )
+                        return new DateJoinVisitor(left, right ) ;
+                    if( Rf_inherits( left, "POSIXct" ) )
+                        return new POSIXctJoinVisitor(left, right ) ;
+                    
+                    return new JoinVisitorImpl<REALSXP,REALSXP>( left, right ) ;
+                }
+            case LGLSXP:  
+                {
+                    return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;
+                }
+            case STRSXP:  
+                {
+                    return new JoinVisitorImpl<STRSXP,STRSXP> ( left, right ) ;
+                }
             default: break ;
         }
+        
+        incompatible_join_visitor(left, right, name) ;
         return 0 ;
     }
 
