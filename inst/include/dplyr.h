@@ -76,6 +76,7 @@ SEXP get_time_classes() ;
 SEXP get_date_classes() ;
 
 CharacterVector dfloc(List) ;
+SEXP shallow_copy(const List& data) ;
 
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 
