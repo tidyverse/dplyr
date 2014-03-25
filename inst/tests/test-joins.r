@@ -136,3 +136,22 @@ test_that("joins don't reorder columns #328", {
   res <- left_join(a,b)
   expect_equal( names(res), names(b) )
 })
+
+test_that("join handles type promotions #123", {
+  df <- data.frame(
+    V1 = c(rep("a",5), rep("b",5)),
+    V2 = rep(c(1:5), 2),
+    V3 = c(101:110),
+    stringsAsFactors = FALSE
+  )
+  
+  match <- data.frame(
+    V1 = c("a", "b"),
+    V2 = c(3.0, 4.0),
+    stringsAsFactors = FALSE
+  )
+  res <- semi_join(df, match)
+  expect_equal( res$V2, 3:4 )
+  expect_equal( res$V3, c(103L, 109L) )
+
+})
