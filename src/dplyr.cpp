@@ -383,7 +383,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);
 
     // train the map in terms of x
-    train_push_back( map, x.nrows(), x.nrows() / 10) ;
+    train_push_back( map, x.nrows() ) ;
 
     int n_y = y.nrows() ;
     // this will collect indices from rows in x that match rows in y
@@ -412,7 +412,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);
 
     // train the map in terms of x
-    train_push_back( map, x.nrows(), x.nrows() / 10 ) ;
+    train_push_back( map, x.nrows() ) ;
 
     int n_y = y.nrows() ;
     // remove the rows in x that match
@@ -443,7 +443,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
 
     if( n_x <= n_y ){
         // train the map in terms of x
-        train_push_back( map, n_x, n_x / 10 ) ;
+        train_push_back( map, n_x ) ;
         
         for( int i=0; i<n_y; i++){
             // find indices for rows in x that match the row i in y
@@ -454,7 +454,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
             }
         }
     } else {
-        train_push_back_right( map, n_y, n_y / 10 ) ;
+        train_push_back_right( map, n_y ) ;
         
         for( int i=0; i<n_x; i++){
             Map::iterator it = map.find(i) ;
@@ -474,7 +474,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);
 
     // train the map in terms of y
-    train_push_back( map, y.nrows(), y.nrows() / 10 ) ;
+    train_push_back( map, y.nrows() ) ;
 
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
@@ -501,7 +501,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     Map map(visitors);
 
     // train the map in terms of y
-    train_push_back( map, x.nrows(), x.nrows() / 10 ) ;
+    train_push_back( map, x.nrows() ) ;
 
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
@@ -905,7 +905,7 @@ DataFrame build_index_cpp( DataFrame data ){
     ChunkIndexMap map( visitors ) ;
 
     // checking 10 times for interupts
-    train_push_back( map, data.nrows(), data.nrows() / 10 ) ;
+    train_push_back( map, data.nrows() ) ;
 
     DataFrame labels = visitors.subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
