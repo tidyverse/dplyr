@@ -37,6 +37,8 @@
 
 * Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8).
 
+* `"comment"` attribute is allowed (white listed) as well as names (#346). 
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1

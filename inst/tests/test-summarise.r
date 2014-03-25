@@ -214,3 +214,10 @@ test_that("summarise checks outputs (#300)", {
   expect_error( summarise(mtcars, mpg + cyl) )   
 })
 
+test_that("comment attribute is white listed (#346)",{
+  test <- data.frame(A = c(1,1,0,0), B = c(2,2,3,3))
+  comment(test$B) <- "2nd Var"
+  res <- group_by(test, A)
+  expect_equal(comment(res$B), "2nd Var" )
+})
+

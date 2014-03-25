@@ -8,7 +8,8 @@ inline bool is_bare_vector( SEXP x){
     
     // only allow R_Names. as in R's do_isvector
     while( att != R_NilValue ){
-        if( TAG(att) != R_NamesSymbol ) return false ;
+        SEXP tag = TAG(att) ;
+        if( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) return false ;
         att = CDR(att) ;    
     }
     
