@@ -242,14 +242,18 @@ select_vars_q <- function(vars, args, env = parent.frame(),
 
   # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
-  sel <- c(setdiff(include, sel), sel)
-  sel <- setdiff(sel, exclude)
+  sel <- c(setdiff2(include, sel), sel)
+  sel <- setdiff2(sel, exclude)
 
   # Ensure all output vars named
   unnamed <- names2(sel) == ""
   names(sel)[unnamed] <- sel[unnamed]
 
   sel
+}
+
+setdiff2 <- function(x, y) {
+  x[match(x, y, 0L) == 0L]
 }
 
 
