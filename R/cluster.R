@@ -8,7 +8,7 @@ cluster_env <- new.env(parent = emptyenv())
 #'
 #' On windows, this is a PSOCK cluster, and on linux/mac it's a fork cluster.
 #' If not supplied, the number of cores will be two less than the number of
-#' cores provided by \code{\link[parallel]{detectCores}}}.
+#' cores provided by \code{\link[parallel]{detectCores}}.
 #'
 #' \code{get_cluster}, \code{set_cluster} and \code{has_cluster} are low
 #' level accessor functions to control the cluster cache. You shouldn't
