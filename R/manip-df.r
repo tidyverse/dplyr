@@ -49,15 +49,9 @@ select.tbl_df <- function(.data, ...) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame())
+  vars <- select_vars(names(.data), ..., env = parent.frame(),
+    include = as.character(groups(.data)))
 
-  # Don't remove grouping vars!
-  missing <- setdiff(as.character(groups(.data)), vars)
-  if (length(missing) > 0) {
-    vars <- append(vars, structure(missing, names = missing)) 
-    warning("grouping variables added implicitely: ",
-      paste0(missing, collapse = ","), call. = FALSE)
-  }
   select_impl(.data, vars)
 }
 
