@@ -158,7 +158,16 @@ select <- function(.data, ...) UseMethod("select")
 #' # Rename variables
 #' select_vars(names(iris), petal_length = Petal.Length)
 #' select_vars(names(iris), petal = starts_with("Petal"))
-select_vars <- function(vars, args, env = parent.frame(),
+select_vars <- function(vars, ..., env = parent.frame(),
+                        include = character(), exclude = character()) {
+
+  select_vars_q(vars, dots(...), env = env, include = include,
+    exclude = exclude)
+}
+
+#' @rdname select_vars
+#' @export
+select_vars_q <- function(vars, args, env = parent.frame(),
                         include = character(), exclude = character()) {
   if (length(args) == 0) {
     vars <- setdiff(union(vars, include), exclude)

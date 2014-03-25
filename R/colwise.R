@@ -78,7 +78,7 @@ mutate_each_q <- function(tbl, funs, vars, env = parent.frame()) {
 
 colwise_q <- function(tbl, calls, vars) {
   stopifnot(is.fun_calls(calls))
-  vars <- select_vars(tbl_vars(tbl), vars, env = parent.frame(),
+  vars <- select_vars_q(tbl_vars(tbl), vars, env = parent.frame(),
     exclude = as.character(groups(tbl)))
 
   out <- vector("list", length(vars) * length(calls))
