@@ -161,6 +161,10 @@ select <- function(.data, ...) UseMethod("select")
 select_vars <- function(vars, args, env = parent.frame(), include = character()) {
   if (length(args) == 0) return(setNames(vars, vars))
 
+  if (is.character(args)) {
+    args <- lapply(args, as.name)
+  }
+
   names_list <- setNames(as.list(seq_along(vars)), vars)
   names_env <- list2env(names_list, parent = env)
 

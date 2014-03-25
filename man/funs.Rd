@@ -27,5 +27,9 @@ funs(mean, "mean", mean(., na.rm = TRUE))
 
 # Overide default names
 funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
+
+# If you have a function names in a vector, use funs_q
+fs <- c("min", "max")
+funs_q(fs)
 }
 
