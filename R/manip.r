@@ -130,8 +130,8 @@ select <- function(.data, ...) UseMethod("select")
 #'
 #' @param vars A character vector of existing column names.
 #' @param ... Expressions to compute
-#' @param include Character vector of column names that must always be
-#'   included in output.
+#' @param include,exclude Character vector of column names to always
+#'   include/exclude.
 #' @export
 #' @keywords internal
 #' @return A named character vector. Values are existing column names,
@@ -158,8 +158,12 @@ select <- function(.data, ...) UseMethod("select")
 #' # Rename variables
 #' select_vars(names(iris), petal_length = Petal.Length)
 #' select_vars(names(iris), petal = starts_with("Petal"))
-select_vars <- function(vars, args, env = parent.frame(), include = character()) {
-  if (length(args) == 0) return(setNames(vars, vars))
+select_vars <- function(vars, args, env = parent.frame(),
+                        include = character(), exclude = character()) {
+  if (length(args) == 0) {
+    vars <- setdiff(union(vars, include), exclude)
+    return(setNames(vars, vars))
+  }
 
   if (is.character(args)) {
     args <- lapply(args, as.name)
@@ -227,9 +231,10 @@ select_vars <- function(vars, args, env = parent.frame(), include = character())
   excl <- abs(ind[ind < 0])
   incl <- incl[match(incl, excl, 0L) == 0L]
 
-  # Add variables that must be included
+  # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
   sel <- c(setdiff(include, sel), sel)
+  sel <- setdiff(sel, exclude)
 
   # Ensure all output vars named
   unnamed <- names2(sel) == ""

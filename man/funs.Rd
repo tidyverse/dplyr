@@ -4,9 +4,9 @@
 \alias{funs_q}
 \title{Create a list of functions calls.}
 \usage{
-funs(...)
+funs(..., env = parent.frame())
 
-funs_q(calls)
+funs_q(calls, env = parent.frame())
 }
 \arguments{
 \item{calls,...}{A list of functions specified by:

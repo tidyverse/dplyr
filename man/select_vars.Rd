@@ -3,15 +3,16 @@
 \alias{select_vars}
 \title{Select variables.}
 \usage{
-select_vars(vars, args, env = parent.frame(), include = character())
+select_vars(vars, args, env = parent.frame(), include = character(),
+  exclude = character())
 }
 \arguments{
 \item{vars}{A character vector of existing column names.}
 
 \item{...}{Expressions to compute}
 
-\item{include}{Character vector of column names that must always be
-included in output.}
+\item{include,exclude}{Character vector of column names to always
+include/exclude.}
 }
 \value{
 A named character vector. Values are existing column names,

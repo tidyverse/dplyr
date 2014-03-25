@@ -34,15 +34,24 @@ funs_q <- function(calls, env = parent.frame()) {
   default_names <- vapply(calls[missing_names], make_name, character(1))
   names(calls)[missing_names] <- default_names
 
-  class(calls) <- "fun_calls"
+  class(calls) <- "fun_list"
   attr(calls, "env") <- env
   calls
 }
 
-is.fun_calls <- function(x) inherits(x, "fun_calls")
+is.fun_calls <- function(x, env) inherits(x, "fun_list")
+
+as.fun_list <- function(x, env) UseMethod("as.fun_list")
+#' @export
+as.fun_list.fun_list <- function(x, env) x
+#' @export
+as.fun_list.character <- function(x, env) {
+  parsed <- lapply(x, function(x) parse(text = x)[[1]])
+  funs_q(parsed, env)
+}
 
 #' @export
-print.fun_calls <- function(x, ..., width = getOption("width")) {
+print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("<fun_calls>\n")
   names <- format(names(x))
 
