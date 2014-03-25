@@ -21,11 +21,11 @@
 #' # If you have a function names in a vector, use funs_q
 #' fs <- c("min", "max")
 #' funs_q(fs)
-funs <- function(...) funs_q(dots(...))
+funs <- function(..., env = parent.frame()) funs_q(dots(...), env)
 
 #' @export
 #' @rdname funs
-funs_q <- function(calls) {
+funs_q <- function(calls, env = parent.frame()) {
   names(calls) <- names2(calls)
 
   calls[] <- lapply(calls, make_call)
@@ -35,6 +35,7 @@ funs_q <- function(calls) {
   names(calls)[missing_names] <- default_names
 
   class(calls) <- "fun_calls"
+  attr(calls, "env") <- env
   calls
 }
 
