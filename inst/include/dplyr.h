@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <solaris/solaris.h>
+#include <dplyr/config.h>
 
 using namespace Rcpp ;
 
