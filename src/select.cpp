@@ -30,10 +30,11 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
     int j = 0; 
     for( ; j < n; j++){
       if( s == keep[j] ){
-        vars[j] = Rf_install( CHAR(new_names[j]) );  
+        vars[i] = Rf_install( CHAR(new_names[j]) );  
       }
     }
   }
+  
   copy.attr("vars") = vars ;
     
   // hangle labels attribute
@@ -48,7 +49,7 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
     IntegerVector positions = match( label_names, keep ); 
     int nl = label_names.size() ;
     for( int i=0; i<nl; i++){
-      label_names[positions[i]-1] = new_names[i] ;
+      label_names[i] = new_names[ positions[i]-1 ] ;
     }
     labels.names() = label_names ;
     labels.attr("vars") = vars ;

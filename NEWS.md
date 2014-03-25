@@ -18,7 +18,9 @@
 * SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.
   (#318).
 
-* `select()` now correctly renames variables in remote sql tbls (#317)
+* `select()` now correctly renames variables in remote sql tbls (#317). 
+
+* `select()` now implicitely adds grouping variables (#170). 
 
 * Added `new-sql-backend` vignette which discusses how to add a new
   SQL backend/source to dplyr.

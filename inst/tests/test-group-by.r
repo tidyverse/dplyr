@@ -137,3 +137,11 @@ test_that("original data table not modified by grouping", {
   expect_equal(dt$x, 5:1)
   expect_equal(dt2$x, 1:5)
 })
+
+test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
+  expect_warning( 
+    res <- group_by(mtcars, vs) %.% select(mpg) %.% summarise( mpg = mean( mpg ) )
+  )
+  expect_equal(nrow(res), 2)
+})
+
