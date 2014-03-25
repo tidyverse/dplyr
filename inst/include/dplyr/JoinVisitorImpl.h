@@ -42,7 +42,6 @@ namespace dplyr{
             }
         }
         
-    protected:
         LHS_Vec left ;
         RHS_Vec right ;
         LHS_hasher LHS_hash_fun ;
@@ -50,14 +49,20 @@ namespace dplyr{
         
     } ;   
     
+    template <int RTYPE>
+    inline size_t hash_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, int i ){
+        if( i>=0 ){
+            int val = joiner.left[i] ;
+            if( val == NA_INTEGER ) return joiner.RHS_hash_fun( NA_REAL );
+            return joiner.RHS_hash_fun( (double)val );
+        }
+        return joiner.RHS_hash_fun( joiner.right[-i-1] ) ; 
+    }
+    
+    
     template <>
     inline size_t JoinVisitorImpl<INTSXP,REALSXP>::hash(int i){
-        if( i>=0 ){
-            int val = left[i] ;
-            if( val == NA_INTEGER ) return RHS_hash_fun( NA_REAL );
-            return RHS_hash_fun( (double)val );
-        }
-        return RHS_hash_fun( right[-i-1] ) ;    
+        return  hash_int_double<INTSXP>( *this, i );  
     }
     
     template <>
@@ -92,7 +97,7 @@ namespace dplyr{
     }
     
     template <int RTYPE>
-    class  JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE>{
+    class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE>{
     public:
         typedef comparisons<RTYPE> Compare ;
         
