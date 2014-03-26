@@ -1,7 +1,11 @@
 #' Select variables.
 #'
+#' \code{select()} implements a rich set of tools for including (and excluding)
+#' variables. \code{rename()} is simpler, but always includes all variables in
+#' the original order: you can only change their names, not their positions.
+#'
 #' @param vars A character vector of existing column names.
-#' @param ... Expressions to compute
+#' @param ...,args Expressions to compute
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export
@@ -30,8 +34,11 @@
 #' # Rename variables
 #' select_vars(names(iris), petal_length = Petal.Length)
 #' select_vars(names(iris), petal = starts_with("Petal"))
+#'
+#' # Rename variables preserving all existing
+#' rename_vars(names(iris), petal_length = Petal.Length)
 select_vars <- function(vars, ..., env = parent.frame(),
-  include = character(), exclude = character()) {
+                        include = character(), exclude = character()) {
 
   select_vars_q(vars, dots(...), env = env, include = include,
     exclude = exclude)
@@ -40,7 +47,7 @@ select_vars <- function(vars, ..., env = parent.frame(),
 #' @rdname select_vars
 #' @export
 select_vars_q <- function(vars, args, env = parent.frame(),
-  include = character(), exclude = character()) {
+                          include = character(), exclude = character()) {
   if (length(args) == 0) {
     vars <- setdiff(union(vars, include), exclude)
     return(setNames(vars, vars))
@@ -124,7 +131,43 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   sel
 }
 
+
 setdiff2 <- function(x, y) {
   x[match(x, y, 0L) == 0L]
 }
 
+#' @export
+#' @rdname select_vars
+rename_vars <- function(vars, ...) {
+  rename_vars_q(vars, dots(...))
+}
+
+#' @export
+#' @rdname select_vars
+rename_vars_q <- function(vars, args) {
+  if (any(names2(args) == "")) {
+    stop("All arguments to rename must be named.", stop = FALSE)
+  }
+
+  is_name <- vapply(args, is.name, logical(1))
+  if (!all(is_name)) {
+    stop("Arguments to rename must be unquoted variable names. ",
+      "Arguments ", paste0(names(args)[!is_name], collapse =", "), " are not.",
+      call. = FALSE
+    )
+  }
+
+  old_vars <- vapply(args, as.character, character(1))
+  new_vars <- names(args)
+
+  unknown_vars <- setdiff(old_vars, vars)
+  if (length(unknown_vars) > 0) {
+    stop("Unknown variables: ", paste0(unknown_vars, collapse = ", "), ".",
+      call. = FALSE)
+  }
+
+  select <- setNames(vars, vars)
+  names(select)[match(old_vars, vars)] <- new_vars
+
+  select
+}
