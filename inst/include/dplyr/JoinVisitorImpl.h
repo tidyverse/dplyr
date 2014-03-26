@@ -74,7 +74,7 @@ namespace dplyr{
             int n = indices.size() ;
             Vec res = no_init(n) ;
             for( int i=0; i<n; i++) {
-                res[i] = get(i) ;
+                res[i] = get(indices[i]) ;
             }
             return res ;
         }
@@ -83,7 +83,7 @@ namespace dplyr{
             Vec res = no_init(n) ;
             VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
             for( int i=0; i<n; i++, ++it) {
-                res[i] = get(i) ;
+                res[i] = get(*it) ;
             }
             return res ;    
         }

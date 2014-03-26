@@ -798,7 +798,7 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
 
     train_insert( set, x.nrows() ) ;
     train_insert_right( set, y.nrows() ) ;
-
+    
     return visitors.subset( set, x.attr("class") ) ;
 }
 
