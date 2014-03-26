@@ -5,18 +5,65 @@ using namespace Rcpp ;
 namespace dplyr{
 
     // -------------- (int,lgl)
-    // template <int LHS_RTYPE, int RHS_RTYPE>
-    // inline size_t hash_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, int i){
-    //     return joiner.RHS_hash_fun( i>=0 ? joiner.left[i] : joiner.right[-i-1] ) ;  
-    // }
-    // template <>
-    // inline size_t JoinVisitorImpl<INTSXP,LGLSXP>::hash( int i){
-    //     return hash_int_int<INTSXP,LGLSXP>( *this, i) ;   
-    // }
-    // template <>
-    // inline size_t JoinVisitorImpl<LGLSXP,INTSXP>::hash( int i){
-    //     return hash_int_int<LGLSXP,INTSXP>( *this, i) ;   
-    // }
+    template <int LHS_RTYPE, int RHS_RTYPE>
+    inline size_t hash_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, int i){
+        return joiner.RHS_hash_fun( i>=0 ? joiner.left[i] : joiner.right[-i-1] ) ;  
+    }
+    template <>
+    inline size_t JoinVisitorImpl<INTSXP,LGLSXP>::hash( int i){
+        return hash_int_int<INTSXP,LGLSXP>( *this, i) ;   
+    }
+    template <>
+    inline size_t JoinVisitorImpl<LGLSXP,INTSXP>::hash( int i){
+        return hash_int_int<LGLSXP,INTSXP>( *this, i) ;   
+    }
+    template <int LHS_RTYPE, int RHS_RTYPE>
+    inline SEXP subset_join_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, const std::vector<int>& indices ){
+        int n = indices.size() ;
+        IntegerVector res = no_init(n) ;
+        for( int i=0; i<n; i++) {
+            int index = indices[i] ;
+            if( index >= 0 ){  
+                res[i] = joiner.left[index] ;
+            } else {
+                res[i] = joiner.right[-index-1] ;    
+            }
+        }
+        return res ;    
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<INTSXP,LGLSXP>::subset( const std::vector<int>& indices ){
+        return subset_join_int_int<INTSXP,LGLSXP>( *this, indices ) ;
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<LGLSXP,INTSXP>::subset( const std::vector<int>& indices ){
+        return subset_join_int_int<LGLSXP,INTSXP>( *this, indices ) ;
+    }
+    
+    template <int LHS_RTYPE, int RHS_RTYPE>
+    inline SEXP subset_join_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        int n = set.size() ;
+        IntegerVector res = no_init(n) ;
+        VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+        for( int i=0; i<n; i++, ++it) {
+            int index = *it ;
+            if( index >= 0 ){  
+                res[i] = joiner.left[index] ;
+            } else {
+                res[i] = joiner.right[-index-1] ;    
+            }
+        }
+        return res ;    
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<INTSXP,LGLSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        return subset_join_int_int<INTSXP,LGLSXP>( *this, set ) ;
+    }
+    template <>
+    inline SEXP JoinVisitorImpl<LGLSXP,INTSXP>::subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
+        return subset_join_int_int<LGLSXP,INTSXP>( *this, set ) ;
+    }
+    
     
     // -------------- (int,double)
     template <int RTYPE>
@@ -252,7 +299,27 @@ namespace dplyr{
                 }
             case LGLSXP:  
                 {
-                    return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;
+                    switch( TYPEOF(right) ){
+                    case LGLSXP:
+                        {
+                            return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;       
+                        }
+                    case INTSXP:
+                        {
+                            if( is_bare_vector(right) ){
+                                return new JoinVisitorImpl<LGLSXP, INTSXP>( left, right ) ;    
+                            }
+                            break ;
+                        }
+                    case REALSXP: 
+                        {
+                            if( is_bare_vector(right) ){
+                                return new JoinVisitorImpl<LGLSXP, REALSXP>( left, right ) ;    
+                            }
+                        }
+                    default: break ;
+                    }
+                    break ;
                 }
             case STRSXP:  
                 {

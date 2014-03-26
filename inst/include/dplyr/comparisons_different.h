@@ -80,6 +80,11 @@ namespace dplyr {
     template <> 
     struct comparisons_different<REALSXP, LGLSXP> : comparisons_double_int<LGLSXP>{} ;
     
+    template <>
+    struct comparisons_different<INTSXP, LGLSXP> : comparisons<INTSXP>{} ;
+    
+    template <>
+    struct comparisons_different<LGLSXP, INTSXP> : comparisons<INTSXP>{} ;
     
 }
 
