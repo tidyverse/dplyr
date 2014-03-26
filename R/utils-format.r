@@ -36,6 +36,10 @@ trunc_mat <- function(x, n = NULL) {
   df <- as.data.frame(head(x, n))
   if (nrow(df) == 0) return()
 
+  # List columns need special treatment because format can't be trusted
+  is_list <- vapply(df, is.list, logical(1))
+  df[is_list] <- lapply(df[is_list], function(x) vapply(x, obj_type, character(1)))
+
   mat <- format(df, justify = "left")
 
   width <- getOption("width")
@@ -90,4 +94,14 @@ print.BoolResult <- function(x, ...) {
   cat(x)
   if (!x) cat(": ", attr(x, "comment"), sep = "")
   cat("\n")
+}
+
+obj_type <- function(x) {
+  if (!is.object(x)) {
+    paste0("<", type_sum(x), if (!is.array(x)) paste0("[", length(x), "]"), ">")
+  } else if (!isS4(x)) {
+    paste0("<S3:", paste0(class(x), collapse = ", "), ">")
+  } else {
+    paste0("<S4:", paste0(is(x), collapse = ", "), ">")
+  }
 }
