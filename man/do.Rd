@@ -73,6 +73,13 @@ group_size(carriers)
 mods <- do(carriers, mod = lm(ArrDelay ~ date, data = .))
 do(mods, as.data.frame(coef(.$mod[[1]])))
 summarise(mods, rsq = summary(mod[[1]])$r.squared)
+
+\dontrun{
+# This longer example shows the progress bar in action
+by_dest <- group_by(hflights, Dest) \%.\% filter(n() > 100)
+library(mgcv)
+by_dest \%.\% do(smooth = gam(ArrDelay ~ s(as.numeric(date)) + s(ArrTime), data = .))
+}
 }
 }
 

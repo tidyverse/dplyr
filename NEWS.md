@@ -1,7 +1,13 @@
 # dplyr 0.1.3.0.99
 
+<<<<<<< HEAD
 * `summarise_each()` and `mutate_each()` make it easy to apply one or more
   functions to multiple columns in a tbl (#178).
+=======
+* `do()` gains an automatic progress bar. It appears if the computation takes
+  longer than 5 seconds and lets you know (approximately) how much longer the
+  job will take to complete.
+>>>>>>> Add automatic progress bar to do
 
 * Added `memory` vignette which discusses how dplyr minimises memory usage
   for local data frames (#198).
@@ -50,6 +56,8 @@
 * hybrid versions of `min`, `max`, `mean`, `var`, `sd` and `sum` 
   handle the `na.rm` argument (#168).   
 
+* Add automatic progress bar to do
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
@@ -71,6 +79,7 @@
 * `rbind_*` is less strict about type promotion. The numeric `Collecter` allows
   collection of integer and logical vectors. The integer `Collecter` also collects
   logical values (#321).
+<<<<<<< HEAD
   
 * `summarise` does not retain `names` attribute (#357). 
 
@@ -81,6 +90,8 @@
   only one data frame has a by variable (#371). 
 
 * `top_n` correctly returns `n` rows instead of `n - 1` (@leondutoit, #367).
+=======
+>>>>>>> Add automatic progress bar to do
 
 # dplyr 0.1.3
 

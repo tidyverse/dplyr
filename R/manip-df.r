@@ -118,10 +118,12 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   m <- length(args)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
+  p <- Progress(n * m, min_time = 5)
 
   for (i in seq_len(m)) {
     for (`_j` in seq_len(n)) {
       out[[i]][`_j`] <- list(eval(args[[i]], env = env))
+      p$tick()$show()
     }
   }
 
