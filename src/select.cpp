@@ -9,7 +9,22 @@ SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, Chara
   int n = keep.size() ; 
   List res(n) ;
   for( int i=0; i<n; i++){
-    res[i] = df[ positions[i]-1 ] ;  
+      int pos = positions[i] ;
+      if( pos < 1 || pos > df.size() ){
+          std::stringstream s ; 
+          s << "invalid column index : " ; 
+          if( pos == NA_INTEGER ){ 
+              s << "NA" ;
+          } else {
+              s << pos ;    
+          }
+          s << " for variable: " ;
+          s << CHAR((SEXP)new_names[i]) ;
+          s << " = " ;
+          s << CHAR((SEXP)keep[i]) ;
+          stop(s.str()); 
+      }
+      res[i] = df[ pos-1 ] ;  
   }
   copy_attributes(res, df) ;
   res.names() = new_names ; 
