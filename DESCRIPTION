@@ -86,6 +86,7 @@ Collate:
     'rank.R'
     'rbind.r'
     'sample.R'
+    'select-vars.R'
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
