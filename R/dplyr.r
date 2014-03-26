@@ -5,5 +5,5 @@
 #' @useDynLib dplyr
 #' @import assertthat
 #' @importFrom utils head tail
-#' @importFrom Rcpp cppFunction
+#' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 NULL
