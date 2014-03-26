@@ -255,9 +255,15 @@ namespace dplyr{
                                 if( lhs_factor ){
                                     incompatible_join_visitor(left, right, name) ;
                                 } else {
-                                    // return JoinVisitorImpl<INTSXP, LGLSXP>( left, right) ;    
+                                    return new JoinVisitorImpl<INTSXP, LGLSXP>( left, right) ;    
                                 }
                                 break ;
+                            }
+                        case STRSXP:
+                            {
+                                if( lhs_factor ){
+                                    return new JoinFactorStringVisitor( left, right );     
+                                }
                             }
                         default: break ;
                     }
@@ -323,7 +329,21 @@ namespace dplyr{
                 }
             case STRSXP:  
                 {
-                    return new JoinVisitorImpl<STRSXP,STRSXP> ( left, right ) ;
+                    switch( TYPEOF(right) ){
+                    case INTSXP:
+                        {
+                            if( Rf_inherits(right, "factor" ) ){
+                                return new JoinStringFactorVisitor( left, right ) ;    
+                            }
+                            break ;
+                        }
+                    case STRSXP:
+                        {
+                            return new JoinVisitorImpl<STRSXP,STRSXP> ( left, right ) ;
+                        }
+                    default: break ;
+                    }
+                    break ;
                 }
             default: break ;
         }

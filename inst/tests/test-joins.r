@@ -153,5 +153,10 @@ test_that("join handles type promotions #123", {
   res <- semi_join(df, match)
   expect_equal( res$V2, 3:4 )
   expect_equal( res$V3, c(103L, 109L) )
-
+  
+  df1 <- data.frame( a = c("a", "b" ), b = 1:2, stringsAsFactors = TRUE )
+  df2 <- data.frame( a = c("a", "b" ), c = 4:5, stringsAsFactors = FALSE )
+  res <- semi_join( df1, df2 )
+  res <- semi_join( df2, df1 )
+  
 })
