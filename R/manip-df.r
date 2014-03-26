@@ -83,11 +83,6 @@ sort_ <- function(data){
 
 rename_ <- .data_dots(rename_impl, named_dots)
 
-# Problems:
-# * duplicated label vars
-# * can't use $ in summarise
-# * need to use .$mod[[1]] in do
-# * currently ignores all other columns
 #' @export
 do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # Force computation of indices
@@ -100,8 +95,11 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # Arguments must either be all named or all unnamed.
   named <- sum(names2(args) != "")
   if (!(named == 0 || named == length(args))) {
-    stop("Arguments to do must either be all named or all unnamed",
+    stop("Arguments to do() must either be all named or all unnamed",
       call. = FALSE)
+  }
+  if (named == 0 && length(args) > 1) {
+    stop("Can only supply single unnamed argument to do()", call. = FALSE)
   }
 
   labels <- attr(.data, "labels")
@@ -112,31 +110,37 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # of this function because of usual scoping rules.
   env <- new.env(parent = parent.frame())
   makeActiveBinding(".", function() {
-    .data[index[[`_i`]] + 1L, , drop = FALSE]
+    .data[index[[`_j`]] + 1L, , drop = FALSE]
   }, env)
 
-  out <- vector("list", length(index))
-  for (`_i` in seq_along(out)) {
-    out[`_i`] <- list(eval(args[[1]], env = env))
+
+  n <- length(index)
+  m <- length(args)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+
+  for (i in seq_len(m)) {
+    for (`_j` in seq_len(n)) {
+      out[[i]][`_j`] <- list(eval(args[[i]], env = env))
+    }
   }
 
   if (named == 0) {
-    # Each result is a data frame
-    data_frame <- vapply(out, is.data.frame, logical(1))
+    data_frame <- vapply(out[[1]], is.data.frame, logical(1))
     if (any(!data_frame)) {
-      stop("Output not data frame at positions: ",
+      stop("Results are not data frames at positions: ",
         paste(which(!data_frame), collapse = ", "), call. = FALSE)
     }
 
-    rows <- vapply(out, nrow, numeric(1))
+    rows <- vapply(out[[1]], nrow, numeric(1))
     labels <- labels[rep(1:nrow(labels), rows), , drop = FALSE]
     rownames(labels) <- NULL
 
-    out <- rbind_all(out)
+    out <- rbind_all(out[[1]])
     grouped_df(cbind(labels, out), groups(.data))
   } else {
     # Each result should be stored in a list
-    labels[[names(args)[1]]] <- out
+    labels[names(args)] <- out
     grouped_df(labels, groups(.data))
   }
 }

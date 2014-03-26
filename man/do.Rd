@@ -43,19 +43,26 @@ arbitrary objects which will be stored in a list.
 by_cyl <- group_by(mtcars, cyl)
 do(by_cyl, head(., 2))
 
-models <- do(by_cyl, mod = lm(mpg ~ disp, data = .))
+models <- by_cyl \%.\% do(mod = lm(mpg ~ disp, data = .))
 models
 
 summarise(models, rsq = summary(mod[[1]])$r.squared)
-do(models, as.data.frame(coef(.$mod[[1]])))
-do(models, as.data.frame(coef(summary(.$mod[[1]]))))
+do(models, data.frame(coef = coef(.$mod[[1]])))
+do(models, data.frame(var =
+  names(coef(.$mod[[1]])),
+  coef(summary(.$mod[[1]])))
+)
+
+models <- by_cyl \%.\% do(
+  mod_linear = lm(mpg ~ disp, data = .),
+  mod_quad = lm(mpg ~ poly(disp, 2), data = .)
+)
+compare <- models \%.\% do(aov = anova(.$mod_linear[[1]], .$mod_quad[[1]]))
+# Want to get to:
+# compare <- models \%.\% mutate(aov = anova(mod_linear, .$mod_quad))
+# compare \%.\% summarise(p.value = aov$`Pr(>F)`[2])
 
 if (require("hflights")) {
-by_dest <- group_by(hflights, Dest)
-do(by_dest, data.frame(n = nrow(.)))
-# Inefficient version of
-group_size(by_dest)
-
 # You can use it to do any arbitrary computation, like fitting a linear
 # model. Let's explore how carrier departure delays vary over the course
 # of a year
