@@ -10,22 +10,25 @@
 #' @export Progress
 #' @exportClass Progress
 #' @examples
-#' p <- Progress(3)$init()
+#' p <- Progress(3)
 #' p$tick()
 #' p$tick()
 #' p$tick()
 #'
-#' p <- Progress(3)$init()
+#' p <- Progress(3)
 #' for (i in 1:3) p$pause(0.1)$tick()$show()
 #'
-#' p <- Progress(3)$init()
-#' p$tick()$stop()
+#' p <- Progress(3)
+#' p$tick()$show()$
+#'  pause(1)$stop()
 #'
-#' p <- Progress(3, min_time = 3)$init()
+#' # If min_time is set, progress bar not shown until that many
+#' # seconds have elapsed
+#' p <- Progress(3, min_time = 3)
 #' for (i in 1:3) p$pause(0.1)$tick()$show()
 #'
 #' \dontrun{
-#' p <- Progress(10, min_time = 3)$init()
+#' p <- Progress(10, min_time = 3)
 #' for (i in 1:10) p$pause(0.5)$tick()$show()
 #' }
 Progress <- setRefClass("Progress",
@@ -40,9 +43,10 @@ Progress <- setRefClass("Progress",
   methods = list(
     initialize = function(n, min_time = 0, ...) {
       initFields(n = n, min_time = min_time, stopped = FALSE, ...)
+      begin()
     },
 
-    init = function() {
+    begin = function() {
       "Initialise timer. Call this before beginning timing."
       i <<- 0
       init_time <<- now()
@@ -57,7 +61,7 @@ Progress <- setRefClass("Progress",
     },
 
     width = function() {
-      getOption("width") - nchar('|100% ~ 99.9 h remaining')
+      getOption("width") - nchar('|100% ~ 99.9 h remaining') - 2
     },
 
     tick = function() {
@@ -79,7 +83,7 @@ Progress <- setRefClass("Progress",
 
     show = function() {
       if (now() - init_time < min_time) {
-        return(invisible())
+        return(invisible(.self))
       }
 
       if (stopped) {

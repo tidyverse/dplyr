@@ -15,29 +15,32 @@ elapsed before displaying any results.
 \section{Methods}{
 
 \describe{
-\item{\code{init()}}{Initialise timer. Call this before beginning timing.}
+\item{\code{begin()}}{Initialise timer. Call this before beginning timing.}
 
 \item{\code{pause(x)}}{Sleep for x seconds. Useful for testing.}
 
 \item{\code{tick()}}{Process one element}
 }}
 \examples{
-p <- Progress(3)$init()
+p <- Progress(3)
 p$tick()
 p$tick()
 p$tick()
 
-p <- Progress(3)$init()
+p <- Progress(3)
 for (i in 1:3) p$pause(0.1)$tick()$show()
 
-p <- Progress(3)$init()
-p$tick()$stop()
+p <- Progress(3)
+p$tick()$show()$
+ pause(1)$stop()
 
-p <- Progress(3, min_time = 3)$init()
+# If min_time is set, progress bar not shown until that many
+# seconds have elapsed
+p <- Progress(3, min_time = 3)
 for (i in 1:3) p$pause(0.1)$tick()$show()
 
 \dontrun{
-p <- Progress(10, min_time = 3)$init()
+p <- Progress(10, min_time = 3)
 for (i in 1:10) p$pause(0.5)$tick()$show()
 }
 }
