@@ -1,5 +1,8 @@
 # dplyr 0.1.3.0.99
 
+* `summarise_each()` and `mutate_each()` make it easy to apply one or more
+  functions to multiple columns in a tbl (#178).
+
 * Added `memory` vignette which discusses how dplyr minimises memory usage
   for local data frames (#198).
 
@@ -18,9 +21,9 @@
 * SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.
   (#318).
 
-* `select()` now correctly renames variables in remote sql tbls (#317). 
+* `select()` now correctly renames variables in remote sql tbls (#317).
 
-* `select()` now implicitely adds grouping variables (#170). 
+* `select()` now implicitely adds grouping variables (#170).
 
 * Added `new-sql-backend` vignette which discusses how to add a new
   SQL backend/source to dplyr.
@@ -39,7 +42,7 @@
 
 * Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8).
 
-* `"comment"` attribute is allowed (white listed) as well as names (#346). 
+* `"comment"` attribute is allowed (white listed) as well as names (#346).
 
 ## Bug fixes
 
@@ -47,21 +50,21 @@
 
 * internal class `DataDots` did not handle the case where `...` was missing. (#338)
 
-* `arrange()` correctly handles NA in numeric vectors (#331). 
+* `arrange()` correctly handles NA in numeric vectors (#331).
 
-* `arrange()` handles data frames with 0 rows (#289). 
+* `arrange()` handles data frames with 0 rows (#289).
 
 * `*_join()` don't reorder column names (#324).
 
-* internal `sum` correctly handles integer (under/over)flow (#308). 
+* internal `sum` correctly handles integer (under/over)flow (#308).
 
-* `summarise()` checks consistency of outputs (#300). 
+* `summarise()` checks consistency of outputs (#300).
 
-* `rbind_*` propagates time zone information for `POSIXct` columns (#298). 
+* `rbind_*` propagates time zone information for `POSIXct` columns (#298).
 
 * `rbind_*` is less strict about type promotion. The numeric `Collecter` allows
   collection of integer and logical vectors. The integer `Collecter` also collects
-  logical values (#321). 
+  logical values (#321).
 
 # dplyr 0.1.3
 
