@@ -81,17 +81,17 @@
 #'   sql('SELECT * FROM "Batting" WHERE "yearID" = 2008'))
 #' batting2008
 #' }
-src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monetdb", 
+src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monetdb",
   password = "monetdb", ...) {
   if (!require("MonetDB.R")) {
     stop("MonetDB.R package required to connect to MonetDB", call. = FALSE)
   }
-  
-  con <- dbi_connect(MonetDB.R(), dbname = dbname , host = host, port = port, 
+
+  con <- dbi_connect(MonetDB.R(), dbname = dbname , host = host, port = port,
     username = user, password = password, ...)
   info <- db_info(con)
-  
-  src_sql("monetdb", con, 
+
+  src_sql("monetdb", con,
     info = info, disco = db_disconnector(con, "monetdb"))
 }
 
@@ -149,13 +149,13 @@ sql_insert_into.MonetDBConnection <- function(con, table, values) {
 #' @export
 sql_analyze.MonetDBConnection <- function(con, table) {
   # Chuck Norris (and MonetDB) do not need ANALYZE
-  invisible(TRUE) 
+  invisible(TRUE)
 }
 
 #' @export
 sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...) {
   # MonetDB does not benefit from indices
-  invisible(TRUE) 
+  invisible(TRUE)
 }
 
 #' @export
@@ -171,17 +171,16 @@ query.MonetDBConnection <- function(con, sql, .vars) {
 }
 
 #' @export
-#' @importFrom methods setRefClass
-MonetDBQuery <- setRefClass("MonetDBQuery", contains = "Query",  methods = list(
+MonetDBQuery <- methods::setRefClass("MonetDBQuery", contains = "Query",  methods = list(
   # MonetDB needs the WITH DATA in the end
   save_into = function(name = random_table_name()) {
     tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql," WITH DATA",
                         con = con)
     qry_run(con, tt_sql)
-    
+
     name
   },
-  
+
   from = function() {
     if (is.ident(sql)) {
       sql
@@ -190,7 +189,7 @@ MonetDBQuery <- setRefClass("MonetDBQuery", contains = "Query",  methods = list(
       build_sql("(", sql, ") AS master", con = con)
     }
   },
-  
+
   nrow = function() {
     if (!is.null(.nrow)) return(.nrow)
     .nrow <<- monetdb_queryinfo(con, sql)$rows
