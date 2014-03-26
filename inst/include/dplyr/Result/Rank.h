@@ -76,8 +76,7 @@ namespace dplyr {
         virtual SEXP process( const SlicingIndex& index ){
             int n = index.size() ;
             IntegerVector out = no_init(n) ;
-            SlicingIndex fake( 0, n ) ;
-            process_slice(out, fake) ;
+            process_slice(out, index) ;
             return out ;
         }
         
@@ -88,7 +87,7 @@ namespace dplyr {
             Slice slice(data, index) ;
             int m=index.size() ;
             for( int j=0; j<m; j++) {
-                map[ slice[j] ].push_back(index[j]) ;
+                map[ slice[j] ].push_back(j) ;
             }
                
             oMap ordered;
