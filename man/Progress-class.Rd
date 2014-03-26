@@ -8,6 +8,10 @@
 This reference class represents a text progress bar displayed estimated
 time remaining. When finished, it displays the total duration.
 }
+\details{
+Progress bar will wait until at least \code{min_time} seconds have
+elapsed before displaying any results.
+}
 \section{Methods}{
 
 \describe{
@@ -28,6 +32,14 @@ for (i in 1:3) p$pause(0.1)$tick()$show()
 
 p <- Progress(3)$init()
 p$tick()$stop()
+
+p <- Progress(3, min_time = 3)$init()
+for (i in 1:3) p$pause(0.1)$tick()$show()
+
+\dontrun{
+p <- Progress(10, min_time = 3)$init()
+for (i in 1:10) p$pause(0.5)$tick()$show()
+}
 }
 \keyword{internal}
 
