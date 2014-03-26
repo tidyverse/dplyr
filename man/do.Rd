@@ -57,6 +57,7 @@ models <- by_cyl \%.\% do(
   mod_linear = lm(mpg ~ disp, data = .),
   mod_quad = lm(mpg ~ poly(disp, 2), data = .)
 )
+models
 compare <- models \%.\% do(aov = anova(.$mod_linear[[1]], .$mod_quad[[1]]))
 # Want to get to:
 # compare <- models \%.\% mutate(aov = anova(mod_linear, .$mod_quad))

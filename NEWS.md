@@ -1,13 +1,14 @@
 # dplyr 0.1.3.0.99
 
-<<<<<<< HEAD
 * `summarise_each()` and `mutate_each()` make it easy to apply one or more
   functions to multiple columns in a tbl (#178).
-=======
+
+* `print.tbl_df()` works better when you have columns containing lists of
+  complex objects.
+
 * `do()` gains an automatic progress bar. It appears if the computation takes
   longer than 5 seconds and lets you know (approximately) how much longer the
   job will take to complete.
->>>>>>> Add automatic progress bar to do
 
 * Added `memory` vignette which discusses how dplyr minimises memory usage
   for local data frames (#198).
