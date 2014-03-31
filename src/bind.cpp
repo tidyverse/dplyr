@@ -15,6 +15,8 @@ List rbind__impl( Dots dots ){
     std::vector<String> names ;
     int k=0 ;
     for( int i=0; i<ndata; i++){
+        Rcpp::checkUserInterrupt() ;
+        
         DataFrame df = dots[i] ;
         if( !df.size() || !Rf_length(df[0]) ) continue ;
             
@@ -137,6 +139,8 @@ List cbind__impl( Dots dots ){
   
   // then do the subsequent dfs
   for( int i=0, k=0 ; i<n; i++){
+      Rcpp::checkUserInterrupt() ;
+    
       DataFrame current = dots[i] ;
       CharacterVector current_names = current.names() ;
       int nc = current.size() ;

@@ -128,6 +128,8 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
     LogicalVector g_test ;
 
     for( int k=0; k<args.size(); k++){
+        Rcpp::checkUserInterrupt() ;
+    
         Call call( (SEXP)args[k] ) ;
         GroupedCallProxy call_proxy( call, gdf, dots.envir(k) ) ;
         int ngroups = gdf.ngroups() ;
@@ -227,6 +229,8 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         }
         
         for( int i=1; i<nargs; i++){
+            Rcpp::checkUserInterrupt() ;
+    
             LogicalVector test2 = check_filter_logical_result(CallProxy(args[i], df, dots.envir(i) ).eval()) ;
             if( combine_and(test, test2) ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;

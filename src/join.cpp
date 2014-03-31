@@ -211,18 +211,6 @@ namespace dplyr{
     }
     
     JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name){
-        // if( TYPEOF(left) != TYPEOF(right) ){
-        //     std::stringstream ss ;
-        //     ss << "Can't join on '" 
-        //        << name 
-        //        << "' because of incompatible types (" 
-        //        << get_single_class(left) 
-        //        << "/" 
-        //        << get_single_class(right) 
-        //        << ")" ;
-        //     stop( ss.str() ) ;
-        // }
-        
         switch( TYPEOF(left) ){
             case INTSXP:
                 {

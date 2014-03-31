@@ -1107,6 +1107,8 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     }
 
     for( int i=0; i<nexpr; i++){
+        Rcpp::checkUserInterrupt() ;
+    
         env = dots.envir(i) ;
         proxy.set_env( env ) ;
         SEXP call = args[i] ;
@@ -1168,6 +1170,8 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
 
     CallProxy call_proxy(df, env) ;
     for( int i=0; i<nexpr; i++){
+        Rcpp::checkUserInterrupt() ;
+    
         env = dots.envir(i) ;
         call_proxy.set_env(env) ;
 
