@@ -15,6 +15,7 @@ install:
   - ./travis-tool.sh github_package hadley/hflights
   - ./travis-tool.sh github_package bigrquery
   - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
+  - if [ "$RCPP" = "devel" ]; then ./travis-tool.sh github_package hadley/devtools; fi
   - if [ "$RCPP" = "devel" ]; then ./travis-tool.sh github_package RcppCore/Rcpp; fi
   - ./travis-tool.sh install_deps
 
