@@ -357,6 +357,15 @@ template <typename TargetContainer, typename SourceContainer>
 void push_back( TargetContainer& x, const SourceContainer& y ){
     x.insert( x.end(), y.begin(), y.end() ) ;
 }
+template <typename TargetContainer, typename SourceContainer>
+void push_back_right( TargetContainer& x, const SourceContainer& y ){
+    // x.insert( x.end(), y.begin(), y.end() ) ;
+    int n = y.size() ;
+    for( int i=0; i<n; i++){
+        x.push_back( -y[i]-1 ) ;    
+    }
+}
+
 template <typename Container>
 void push_back( Container& x, typename Container::value_type value, int n ){
     for( int i=0; i<n; i++)
@@ -459,8 +468,8 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by){
         for( int i=0; i<n_x; i++){
             Map::iterator it = map.find(i) ;
             if( it != map.end() ){
-                push_back( indices_y, it->second );
-                push_back( indices_x, -i-1, it->second.size() ) ;
+                push_back_right( indices_y, it->second );
+                push_back( indices_x, i, it->second.size() ) ;
             }
         }
     }

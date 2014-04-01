@@ -160,3 +160,12 @@ test_that("join handles type promotions #123", {
   res <- semi_join( df2, df1 )
   
 })
+
+test_that("indices don't get mixed up when nrow(x) > nrow(y). #365",{
+  a <- data.frame(V1 = c(0, 1, 2), V2 = c("a", "b", "c"), stringsAsFactors = FALSE)
+  b <- data.frame(V1 = c(0, 1), V3 = c("n", "m"), stringsAsFactors = FALSE)
+  res <- inner_join(a, b, by = "V1")
+  expect_equal( res$V1, c(0,1) )
+  expect_equal( res$V2, c("a", "b"))
+  expect_equal( res$V3, c("n", "m"))
+})
