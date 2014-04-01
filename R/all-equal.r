@@ -15,11 +15,12 @@
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
 #'
 #' # By default, ordering of rows and columns ignored
-#' all.equal(mtcars, scramble(mtcars))
+#' mtcars_df <- tbl_df(mtcars)
+#' all.equal(mtcars_df, scramble(mtcars_df))
 #'
 #' # But those can be overriden if desired
-#' all.equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
-#' all.equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
+#' all.equal(mtcars_df, scramble(mtcars_df), ignore_col_order = FALSE)
+#' all.equal(mtcars_df, scramble(mtcars_df), ignore_row_order = FALSE)
 all.equal.tbl_df <- function(target, current, ignore_col_order = TRUE,
                                  ignore_row_order = TRUE, convert = FALSE, ...) {
 
@@ -32,3 +33,8 @@ all.equal.tbl_df <- function(target, current, ignore_col_order = TRUE,
     attr(res, "comment")
   }
 }
+
+#' @method all.equal tbl_dt
+#' @export
+#' @rdname all.equal.tbl_df
+all.equal.tbl_dt <- all.equal.tbl_df
