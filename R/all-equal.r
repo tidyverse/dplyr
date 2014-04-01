@@ -9,7 +9,7 @@
 #' @return \code{TRUE} if equal, otherwise a character vector describing
 #'   the first reason why they're not equal. Use \code{\link{isTRUE}} if
 #'   using the result in an \code{if} expression.
-#' @method all.equal data.frame
+#' @method all.equal tbl_df
 #' @export
 #' @examples
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
@@ -20,7 +20,7 @@
 #' # But those can be overriden if desired
 #' all.equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
 #' all.equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
-all.equal.data.frame <- function(target, current, ignore_col_order = TRUE,
+all.equal.tbl_df <- function(target, current, ignore_col_order = TRUE,
                                  ignore_row_order = TRUE, convert = FALSE, ...) {
 
   res <- equal_data_frame(target, current, ignore_col_order = ignore_col_order,
