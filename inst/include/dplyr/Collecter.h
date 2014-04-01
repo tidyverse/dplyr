@@ -313,7 +313,7 @@ namespace dplyr {
     
     template <>
     inline bool Collecter_Impl<LGLSXP>::can_promote( SEXP x) const {
-        return TYPEOF(x) == INTSXP || TYPEOF(x) == REALSXP ;
+        return ( TYPEOF(x) == INTSXP && ! Rf_inherits(x, "factor" ) ) || TYPEOF(x) == REALSXP ;
     }
     
     inline Collecter* collecter(SEXP model, int n){
