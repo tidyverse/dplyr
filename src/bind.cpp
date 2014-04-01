@@ -74,7 +74,7 @@ List rbind__impl( Dots dots ){
                     << DEMANGLE(*coll)
                     << ")"
                     << ", incompatible with data of type: "
-                    << type2name(source) ;
+                    << get_single_class(source) ;
 
                 stop( msg.str() ) ;
             }

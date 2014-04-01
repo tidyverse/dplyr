@@ -87,6 +87,59 @@ namespace dplyr {
     } ;
     
     template <>
+    class Collecter_Impl<STRSXP> : public Collecter {
+    public:
+        Collecter_Impl( int n_ ): data( n_ ){}
+        
+        void collect( const SlicingIndex& index, SEXP v ){
+            if( TYPEOF(v) == STRSXP ){
+                collect_strings(index, v) ;
+            } else if( Rf_inherits( v, "factor" ) ){
+                collect_factor(index, v) ;
+            }
+        }
+        
+        inline SEXP get(){
+            return data ;    
+        }
+        
+        inline bool compatible(SEXP x) const{
+            return ( STRSXP == TYPEOF(x) ) || Rf_inherits( x, "factor" ) ;
+        }
+        
+        bool can_promote(SEXP x) const {
+            return false ;    
+        }
+        
+        std::string describe() const {
+            return "integer" ; 
+        }
+        
+    protected:
+        CharacterVector data ;
+        
+    private:
+        
+        void collect_strings( const SlicingIndex& index, CharacterVector source){
+            for( int i=0; i<index.size(); i++){
+                data[index[i]] = source[i] ;
+            }
+        }
+        
+        void collect_factor( const SlicingIndex& index, IntegerVector source ){
+            CharacterVector levels = source.attr("levels") ;
+            for( int i=0; i<index.size(); i++){
+                if( source[i] == NA_INTEGER ) {
+                    data[index[i]] = NA_STRING ;    
+                } else{
+                    data[index[i]] = levels[source[i]-1] ;
+                }
+            }
+        }
+        
+    } ;
+    
+    template <>
     class Collecter_Impl<INTSXP> : public Collecter {
     public:
         Collecter_Impl( int n_ ): data( n_, NA_INTEGER ){}
