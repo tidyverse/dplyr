@@ -44,6 +44,9 @@
 
 * `"comment"` attribute is allowed (white listed) as well as names (#346).
 
+* `all.equal.data.frame` from base is no longer bypassed. we now have 
+  `all.equal.tbl_df` and `all.equal.tbl_dt` methods (#332). 
+
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1

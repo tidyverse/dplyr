@@ -74,9 +74,8 @@ test_that("local group_by preserves variable types", {
 
     for(tbl in names(var_tbls)) {
       grouped <- group_by_(var_tbls[[tbl]], var)
-      summarised <- as.data.frame(summarise(grouped, n = n()))
-
-      expect_equal(summarised, expected,
+      summarised <- summarise(grouped, n = n())
+      expect_true(all.equal(summarised, expected),
         label = paste0("summarised_", tbl, "_", var))
     }
   }
