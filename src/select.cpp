@@ -26,7 +26,7 @@ SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, Chara
       }
       res[i] = df[ pos-1 ] ;  
   }
-  copy_attributes(res, df) ;
+  copy_most_attributes(res, df) ;
   res.names() = new_names ; 
   return res ; 
 }

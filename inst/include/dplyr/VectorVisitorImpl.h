@@ -168,7 +168,7 @@ namespace dplyr {
         }
         
         inline SEXP promote(VECTOR x) const{
-            copy_attributes(x, VisitorImpl::vec ) ;
+            copy_most_attributes(x, VisitorImpl::vec ) ;
             return x ;
         }
     } ;
@@ -242,7 +242,7 @@ namespace dplyr {
         }
         
         inline SEXP promote( IntegerVector x) const {
-            copy_attributes(x, vec ) ;
+            copy_most_attributes(x, vec ) ;
             return x ;
         }
         

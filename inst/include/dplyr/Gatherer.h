@@ -18,7 +18,7 @@ namespace dplyr {
             gdf(gdf_), proxy(proxy_), data(no_init(gdf.nrows())) 
         {
             grab( first, indices ) ;
-            copy_attributes( data, first ) ;
+            copy_most_attributes( data, first ) ;
         }
             
         SEXP collect(){

@@ -571,6 +571,13 @@ void copy_attributes(SEXP out, SEXP data){
     SET_OBJECT( out, OBJECT(data) );
 }
 
+// same as copy_attributes but without names
+void copy_most_attributes(SEXP out, SEXP data){
+    copy_attributes(out,data) ;
+    Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
+}
+
+
 // [[Rcpp::export]]
 SEXP shallow_copy(const List& data){
     int n = data.size() ;
