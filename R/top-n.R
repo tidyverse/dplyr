@@ -1,4 +1,3 @@
-
 #' Select top n rows (by value).
 #'
 #' This is a convenient wrapper that uses \code{\link{filter}} and
@@ -28,7 +27,7 @@ top_n <- function(x, n, wt = NULL) {
     wt <- as.name(vars[length(vars)])
   }
 
-  call <- substitute(filter(x, rank(desc(wt), ties.method = "min") < n),
+  call <- substitute(filter(x, rank(desc(wt), ties.method = "min") <= n),
     list(n = n, wt = substitute(wt)))
 
   eval(call)
