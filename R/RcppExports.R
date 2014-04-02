@@ -35,6 +35,10 @@ cbind_all <- function(dots) {
     .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }
 
+distinct_impl <- function(df) {
+    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df)
+}
+
 semi_join_impl <- function(x, y, by) {
     .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by)
 }
