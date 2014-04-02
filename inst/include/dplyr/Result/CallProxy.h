@@ -92,7 +92,10 @@ namespace dplyr {
                 case LANGSXP:
                     if( CAR(head) == Rf_install("function") ) break ;
                     if( CAR(head) == Rf_install("local") ) return ;
-                        
+                    if( CAR(head) == Rf_install("<-") ){
+                        stop( "assignments are forbidden" ) ;    
+                    }
+                    
                     if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
                             SETCAR(obj, Rf_eval(head, env) ) ;
