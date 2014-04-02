@@ -83,12 +83,15 @@ namespace dplyr {
         }
         
         void traverse_call( SEXP obj ){
+            if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return ;
+                
             if( ! Rf_isNull(obj) ){
                 SEXP head = CAR(obj) ;
                 
                 switch( TYPEOF( head ) ){
                 case LANGSXP:
                     if( CAR(head) == Rf_install("function") ) break ;
+                    if( CAR(head) == Rf_install("local") ) return ;
                         
                     if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
