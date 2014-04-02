@@ -221,3 +221,14 @@ test_that("comment attribute is white listed (#346)",{
   expect_equal(comment(res$B), "2nd Var" )
 })
 
+test_that("names attribute is not retained (#357)", {
+  df <- data.frame(x=c(1:3), y=letters[1:3])
+  df <- group_by(df, y)
+  m <- df %.% summarise(
+    a=length(x),
+    b=quantile(x, 0.5)
+  )
+  expect_equal(m$b, c(1,2,3))
+  expect_null(names(m$b))
+})
+

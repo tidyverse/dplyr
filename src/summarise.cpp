@@ -32,6 +32,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         
         
         SEXP result = __( res->process(gdf) ) ;
+        Rf_setAttrib( result, R_NamesSymbol, R_NilValue ) ;
         SEXP name = results_names[k] ;
         accumulator.set( name, result );
         subsets.input( Symbol(name), SummarisedVariable(result) ) ;

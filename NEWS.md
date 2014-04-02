@@ -68,6 +68,8 @@
 * `rbind_*` is less strict about type promotion. The numeric `Collecter` allows
   collection of integer and logical vectors. The integer `Collecter` also collects
   logical values (#321).
+  
+* `summarise` does not retain `names` attribute (#357). 
 
 # dplyr 0.1.3
 
