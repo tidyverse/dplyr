@@ -232,3 +232,8 @@ test_that("names attribute is not retained (#357)", {
   expect_null(names(m$b))
 })
 
+test_that("missing variable errors (#314)", {
+  x <- data.frame( aa = 1:10 )
+  expect_error( summarise(x, a = min(aa), ))
+})
+

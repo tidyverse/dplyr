@@ -14,6 +14,9 @@ namespace Rcpp {
               
               while(true){
                 SEXP code = PRCODE(prom) ;
+                if( code == R_MissingArg){
+                    stop( "missing variable, probably a ',' added by mistake" ) ;    
+                }
                 if( TYPEOF(code) != PROMSXP ){
                   break ;  
                 }

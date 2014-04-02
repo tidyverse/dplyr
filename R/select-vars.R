@@ -112,7 +112,7 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   if (length(incl) == 0) {
     incl <- seq_along(vars)
   }
-  # Remove dupliates (unique loses names)
+  # Remove duplicates (unique loses names)
   incl <- incl[!duplicated(incl)]
 
   # Remove variables to be excluded (setdiff loses names)

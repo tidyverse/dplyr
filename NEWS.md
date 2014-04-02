@@ -71,6 +71,8 @@
   
 * `summarise` does not retain `names` attribute (#357). 
 
+* internal `DataDots` class protects against missing variables in verbs (#314). 
+
 # dplyr 0.1.3
 
 ## Bug fixes
