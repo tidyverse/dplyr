@@ -39,6 +39,10 @@ distinct_impl <- function(df) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df)
 }
 
+union_impl <- function(x, y) {
+    .Call('dplyr_union_impl', PACKAGE = 'dplyr', x, y)
+}
+
 semi_join_impl <- function(x, y, by) {
     .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by)
 }

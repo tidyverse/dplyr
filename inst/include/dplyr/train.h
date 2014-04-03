@@ -54,6 +54,6 @@ namespace dplyr {
     inline void train_insert_right( Set& set, int n){
         for( int i=0; i<n; i++) set.insert(-i-1) ;
     }
-
+    
 }
 #endif

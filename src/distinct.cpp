@@ -19,3 +19,16 @@ SEXP distinct_impl( DataFrame df ){
     return visitors.subset(indices, df.attr("class") ); 
 }
 
+// [[Rcpp::export]]
+SEXP union_impl( DataFrame x, DataFrame y ){
+    CharacterVector by = x.names() ;
+    DataFrameJoinVisitors visitors(x, y, by) ;     
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+    Set set(visitors) ;
+    
+    train_insert(set, x.nrows() ) ;
+    train_insert_right(set, y.nrows() );
+    std::vector<int> indices( set.begin(), set.end()) ;
+    return visitors.subset( indices, x.attr("class")) ;
+}
+
