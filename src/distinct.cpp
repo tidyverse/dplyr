@@ -12,9 +12,8 @@ SEXP distinct_impl( DataFrame df ){
     
     int n = df.nrows() ;
     for( int i=0; i<n; i++){
-        if( !set.count(i) ) {
-            indices.push_back(i) ;
-            set.insert(i) ;
+        if( set.insert(i).second ){
+            indices.push_back(i) ;    
         }
     }
     return visitors.subset(indices, df.attr("class") ); 
