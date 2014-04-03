@@ -237,3 +237,17 @@ test_that("missing variable errors (#314)", {
   expect_error( summarise(x, a = min(aa), ))
 })
 
+test_that("na.rm is supported (#168)", {
+  df <- data.frame( x = c(1:5, NA, 7:10), y = rep(1:2, each = 5 ), z = c(rnorm(5), NA, rnorm(4) ) )
+  res <- df %.% group_by(y) %.% summarise( x = mean(x, na.rm = FALSE), z = mean(z, na.rm = FALSE ) )
+  expect_equal( res$x[1], 3 )
+  expect_true( is.na( res$x[2] ) )
+  expect_equal( res$z[1], mean(df$z[1:5]) )
+  expect_true( is.na(res$z[2]) )
+  
+  res <- df %.% group_by(y) %.% summarise( x = mean(x, na.rm = TRUE), z = mean(z, na.rm = TRUE) )
+  expect_equal( res$x[1], 3 )
+  expect_equal( res$x[2], 8.5 )
+  expect_equal( res$z[1], mean(df$z[1:5]) )
+  expect_equal( res$z[2], mean(df$z[7:10]) )
+})

@@ -7,17 +7,41 @@ typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 
 template <template <int,bool> class Fun>
 Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
-    if( nargs != 1 ) return 0 ;                                               
+    if( nargs == 0 ) return 0 ;
     SEXP arg = CADR(call) ;                                                   
     if( TYPEOF(arg) == SYMSXP ){
       if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
       else return 0 ;
     }
-    switch( TYPEOF(arg) ){                                                    
-        case INTSXP:  return new Fun<INTSXP,false>( arg ) ;      
-        case REALSXP: return new Fun<REALSXP,false>( arg ) ;     
-        default: break ;                                                      
-    }                                                                         
+        
+    if( nargs == 1 ){                                               
+        switch( TYPEOF(arg) ){                                                    
+            case INTSXP:  return new Fun<INTSXP,false>( arg ) ;      
+            case REALSXP: return new Fun<REALSXP,false>( arg ) ;     
+            default: break ;                                                      
+        } 
+    } else if(nargs == 2 ){
+        SEXP arg2 = CDDR(call) ;
+        // we know how to handle fun( ., na.rm = TRUE/FALSE )
+        if( TAG(arg2) == R_NaRmSymbol ){
+            SEXP narm = CAR(arg2) ;
+            if( TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1 ){
+                if( LOGICAL(narm)[0] == TRUE ){
+                    switch( TYPEOF(arg) ){                                                    
+                        case INTSXP:  return new Fun<INTSXP,true>( arg ) ;      
+                        case REALSXP: return new Fun<REALSXP,true>( arg ) ;     
+                        default: break ;                                                      
+                    }  
+                } else {
+                    switch( TYPEOF(arg) ){                                                    
+                        case INTSXP:  return new Fun<INTSXP,false>( arg ) ;      
+                        case REALSXP: return new Fun<REALSXP,false>( arg ) ;     
+                        default: break ;                                                      
+                    }  
+                }
+            } 
+        }
+    }
     return 0 ;                                                                
 }
 
@@ -44,7 +68,7 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
             if( Rf_inherits(arg, "POSIXct" ) )
                 return new TypedProcessor< Tmpl<REALSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
             return new Tmpl<REALSXP,false>( arg ) ;
-        default: break ;
+        default: break ;                                   
     }
     return 0 ;
 }
