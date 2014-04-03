@@ -47,7 +47,8 @@
 * `all.equal.data.frame` from base is no longer bypassed. we now have 
   `all.equal.tbl_df` and `all.equal.tbl_dt` methods (#332). 
   
-* hybrid versions of `mean`, `var`, `sd` and `sum` handle the `na.rm` argument (#168).   
+* hybrid versions of `min`, `max`, `mean`, `var`, `sd` and `sum` 
+  handle the `na.rm` argument (#168).   
 
 ## Bug fixes
 

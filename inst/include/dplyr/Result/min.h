@@ -26,6 +26,7 @@ namespace dplyr {
                 STORAGE current = data_ptr[indices[i]] ;
                 if( !Rcpp::Vector<RTYPE>::is_na(current) && internal::is_smaller<RTYPE>( current, res ) ) res = current ;
             }
+            
             return res ;
         }
         
