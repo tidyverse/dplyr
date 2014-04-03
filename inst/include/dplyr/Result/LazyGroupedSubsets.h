@@ -22,6 +22,9 @@ namespace dplyr {
             DataMap::const_iterator it = data_map.find(symbol) ;
             return it->second ;
         }
+        virtual bool is_summary( SEXP symbol ) const {
+            return false ;    
+        }
         virtual int count(SEXP symbol) const{
             return data_map.count(symbol);    
         }
@@ -89,6 +92,10 @@ namespace dplyr {
             GroupedSubsetMap::const_iterator it = subset_map.find( symbol );
             return it->second->get_variable() ;  
         }
+        bool is_summary( SEXP symbol ) const {
+            GroupedSubsetMap::const_iterator it = subset_map.find( symbol );
+            return it->second->is_summary() ;    
+        } 
         SEXP get( SEXP symbol, const SlicingIndex& indices ){
             ResolvedSubsetMap::const_iterator it = resolved_map.find( symbol ) ;
             if( it == resolved_map.end() ){

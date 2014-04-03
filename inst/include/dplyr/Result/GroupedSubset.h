@@ -9,6 +9,7 @@ namespace dplyr {
         virtual ~GroupedSubset(){} ;
         virtual SEXP get( const SlicingIndex& indices ) = 0 ;
         virtual SEXP get_variable() const = 0 ;
+        virtual bool is_summary() const = 0; 
     } ;
     
     template <int RTYPE>
@@ -24,6 +25,9 @@ namespace dplyr {
         }
         virtual SEXP get_variable() const {
             return object ;    
+        }
+        virtual bool is_summary() const {
+            return false;    
         }
         
     private:
@@ -58,6 +62,9 @@ namespace dplyr {
         }
         virtual SEXP get_variable() const {
             return object ;    
+        }
+        virtual bool is_summary() const {
+            return true;    
         }
         
     private:

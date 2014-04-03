@@ -45,6 +45,26 @@ Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;                                                                
 }
 
+template< template <int, bool> class Tmpl, bool narm>
+Result* minmax_prototype_impl(SEXP arg, bool is_summary){
+    switch( TYPEOF(arg) ){
+        case INTSXP:
+            if( Rf_inherits(arg, "Date" ) )
+                return new TypedProcessor< Tmpl<INTSXP,narm> >( arg, "Date", is_summary ) ;
+            if( Rf_inherits(arg, "POSIXct" ) )
+                return new TypedProcessor< Tmpl<INTSXP,narm> >( arg, CharacterVector::create( "POSIXct", "POSIXt"), is_summary ) ;
+            return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
+        case REALSXP:
+            if( Rf_inherits(arg, "Date" ) )             
+                return new TypedProcessor< Tmpl<REALSXP,narm> >( arg, "Date", is_summary ) ;
+            if( Rf_inherits(arg, "POSIXct" ) )
+                return new TypedProcessor< Tmpl<REALSXP,narm> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ), is_summary) ;
+            return new Tmpl<REALSXP,narm>( arg, is_summary ) ;
+        default: break ;                                   
+    }
+    return 0 ;
+}
+
 template< template <int, bool> class Tmpl>
 Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     using namespace dplyr ;
@@ -52,28 +72,18 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs == 1 ) return 0 ;
     
     // the first argument is the data to operate on
-    SEXP arg = CADR(call) ;
+    SEXP arg = CADR(call) ;     
+    bool is_summary = false ;
     if( TYPEOF(arg) == SYMSXP ){
-      if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
+      if( subsets.count(arg) ) {
+          is_summary = subsets.is_summary(arg) ;
+          arg = subsets.get_variable(arg) ;  
+      }
       else return 0 ;
-    }
+    }    
     
-    if( nargs == 1 ){
-        switch( TYPEOF(arg) ){
-            case INTSXP:
-                if( Rf_inherits(arg, "Date" ) )
-                    return new TypedProcessor< Tmpl<INTSXP,false> >( arg, "Date" ) ;
-                if( Rf_inherits(arg, "POSIXct" ) )
-                    return new TypedProcessor< Tmpl<INTSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                return new Tmpl<INTSXP,false>( arg ) ;
-            case REALSXP:
-                if( Rf_inherits(arg, "Date" ) )
-                    return new TypedProcessor< Tmpl<REALSXP,false> >( arg, "Date" ) ;
-                if( Rf_inherits(arg, "POSIXct" ) )
-                    return new TypedProcessor< Tmpl<REALSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                return new Tmpl<REALSXP,false>( arg ) ;
-            default: break ;                                   
-        }
+    if( nargs == 1 ){ 
+        return minmax_prototype_impl<Tmpl,false>(arg, is_summary) ;
     } else if( nargs == 2 ){
         SEXP arg2 = CDDR(call) ;
         // we know how to handle fun( ., na.rm = TRUE/FALSE )
@@ -81,37 +91,9 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
             SEXP narm = CAR(arg2) ;
             if( TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1 ){
                 if( LOGICAL(narm)[0] == TRUE ){
-                    switch( TYPEOF(arg) ){
-                        case INTSXP:
-                            if( Rf_inherits(arg, "Date" ) )
-                                return new TypedProcessor< Tmpl<INTSXP,true> >( arg, "Date" ) ;
-                            if( Rf_inherits(arg, "POSIXct" ) )
-                                return new TypedProcessor< Tmpl<INTSXP,true> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                            return new Tmpl<INTSXP,true>( arg ) ;
-                        case REALSXP:
-                            if( Rf_inherits(arg, "Date" ) )
-                                return new TypedProcessor< Tmpl<REALSXP,true> >( arg, "Date" ) ;
-                            if( Rf_inherits(arg, "POSIXct" ) )
-                                return new TypedProcessor< Tmpl<REALSXP,true> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                            return new Tmpl<REALSXP,true>( arg ) ;
-                        default: break ;                                   
-                    } 
+                    return minmax_prototype_impl<Tmpl,true>(arg, is_summary) ;
                 } else {
-                    switch( TYPEOF(arg) ){
-                        case INTSXP:
-                            if( Rf_inherits(arg, "Date" ) )
-                                return new TypedProcessor< Tmpl<INTSXP,false> >( arg, "Date" ) ;
-                            if( Rf_inherits(arg, "POSIXct" ) )
-                                return new TypedProcessor< Tmpl<INTSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                            return new Tmpl<INTSXP,false>( arg ) ;
-                        case REALSXP:
-                            if( Rf_inherits(arg, "Date" ) )
-                                return new TypedProcessor< Tmpl<REALSXP,false> >( arg, "Date" ) ;
-                            if( Rf_inherits(arg, "POSIXct" ) )
-                                return new TypedProcessor< Tmpl<REALSXP,false> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ) ) ;
-                            return new Tmpl<REALSXP,false>( arg ) ;
-                        default: break ;                                   
-                    }    
+                    return minmax_prototype_impl<Tmpl,false>(arg, is_summary) ;
                 } 
             }
         }

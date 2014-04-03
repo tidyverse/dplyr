@@ -8,10 +8,11 @@ namespace dplyr {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Max(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
+        Max(SEXP x, bool is_summary_ = false) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
         ~Max(){}
         
         STORAGE process_chunk( const SlicingIndex& indices ){
+            if( is_summary ) return data_ptr[indices.group()] ;
             int n = indices.size() ;
         
             // find the first non NA value
@@ -31,6 +32,7 @@ namespace dplyr {
          
     private:
         STORAGE* data_ptr ; 
+        bool is_summary ;
     } ;
      
     // quit early version for NA_RM = false
@@ -39,10 +41,12 @@ namespace dplyr {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Max(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
+        Max(SEXP x, bool is_summary_ = false) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_)  {}
         ~Max(){}
         
         STORAGE process_chunk( const SlicingIndex& indices ){
+            if( is_summary ) return data_ptr[indices.group()] ;
+            
             int n = indices.size() ;
         
             // find the first non NA value
@@ -59,6 +63,7 @@ namespace dplyr {
          
     private:
         STORAGE* data_ptr ;
+        bool is_summary ;
     } ;
      
     

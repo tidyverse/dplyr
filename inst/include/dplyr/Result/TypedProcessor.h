@@ -8,8 +8,8 @@ namespace dplyr {
   public:
     typedef typename Processor::STORAGE STORAGE ;
     
-    TypedProcessor( SEXP data_, const char* cl ) : proc(data_), classes(cl), data(data_) {}
-    TypedProcessor( SEXP data_, CharacterVector classes_ ) : proc(data_), classes(classes_), data(data_) {}
+    TypedProcessor( SEXP data_, const char* cl, bool is_summary = false ) : proc(data_, is_summary), classes(cl), data(data_) {}
+    TypedProcessor( SEXP data_, CharacterVector classes_, bool is_summary = false ) : proc(data_, is_summary), classes(classes_), data(data_) {}
     
     virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
       return promote( proc.process(gdf) ) ;
