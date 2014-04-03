@@ -5,39 +5,41 @@ using namespace dplyr ;
 
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 
+template <template <int,bool> class Fun, bool narm>
+Result* simple_prototype_impl( SEXP arg, bool is_summary ){
+    switch( TYPEOF(arg) ){                                                    
+        case INTSXP:  return new Fun<INTSXP,narm>( arg, is_summary ) ;      
+        case REALSXP: return new Fun<REALSXP,narm>( arg, is_summary ) ;     
+        default: break ;                                                      
+    }
+    return 0 ;
+}
+
 template <template <int,bool> class Fun>
 Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs == 0 ) return 0 ;
-    SEXP arg = CADR(call) ;                                                   
+    SEXP arg = CADR(call) ;                     
+    bool is_summary = false ;
     if( TYPEOF(arg) == SYMSXP ){
-      if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
+      if( subsets.count(arg) ) {
+          is_summary = subsets.is_summary(arg) ;
+          arg = subsets.get_variable(arg) ;
+      }
       else return 0 ;
     }
         
     if( nargs == 1 ){                                               
-        switch( TYPEOF(arg) ){                                                    
-            case INTSXP:  return new Fun<INTSXP,false>( arg ) ;      
-            case REALSXP: return new Fun<REALSXP,false>( arg ) ;     
-            default: break ;                                                      
-        } 
+        return simple_prototype_impl<Fun, false>( arg, is_summary ) ;
     } else if(nargs == 2 ){
         SEXP arg2 = CDDR(call) ;
         // we know how to handle fun( ., na.rm = TRUE/FALSE )
         if( TAG(arg2) == R_NaRmSymbol ){
             SEXP narm = CAR(arg2) ;
             if( TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1 ){
-                if( LOGICAL(narm)[0] == TRUE ){
-                    switch( TYPEOF(arg) ){                                                    
-                        case INTSXP:  return new Fun<INTSXP,true>( arg ) ;      
-                        case REALSXP: return new Fun<REALSXP,true>( arg ) ;     
-                        default: break ;                                                      
-                    }  
+                if( LOGICAL(narm)[0] == TRUE ){  
+                    return simple_prototype_impl<Fun, true>( arg, is_summary ) ;
                 } else {
-                    switch( TYPEOF(arg) ){                                                    
-                        case INTSXP:  return new Fun<INTSXP,false>( arg ) ;      
-                        case REALSXP: return new Fun<REALSXP,false>( arg ) ;     
-                        default: break ;                                                      
-                    }  
+                    return simple_prototype_impl<Fun, false>( arg, is_summary ) ; 
                 }
             } 
         }

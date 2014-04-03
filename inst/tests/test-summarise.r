@@ -273,7 +273,9 @@ test_that("na.rm is supported (#168)", {
 
 test_that( "summarise hybrid functions can use summarized variables", {
   df <- data.frame( x = c(1:5, NA, 7:10), y = rep(1:2, each = 5 ) ) %.% group_by(y)
-  res <- summarise( df, x = mean(x), min = min(x), max = max(x) )
+  res <- summarise( df, x = mean(x), min = min(x), max = max(x), mean = mean(x), var = var(x) )
   expect_identical( res$x, res$min ) 
   expect_identical( res$x, res$max )
+  expect_identical( res$x, res$mean )
+  expect_identical( res$var, c(NaN, NaN) )
 })

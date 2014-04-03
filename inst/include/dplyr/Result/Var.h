@@ -12,10 +12,13 @@ namespace internal{
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Var(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
+        Var(SEXP x, bool is_summary_ = false) : 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
         ~Var(){}
         
         inline double process_chunk( const SlicingIndex& indices ){
+            if( is_summary ) return NA_REAL ;
+            
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ;
             double m = internal::Mean_internal<RTYPE,NA_RM, SlicingIndex>::process( data_ptr, indices ); 
@@ -31,6 +34,7 @@ namespace internal{
          
     private:
         STORAGE* data_ptr ;
+        bool is_summary ;
     } ;
     
     
@@ -40,10 +44,13 @@ namespace internal{
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Var(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
+        Var(SEXP x, bool is_summary_ = false) : 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
         ~Var(){}
         
         inline double process_chunk( const SlicingIndex& indices ){
+            if( is_summary ) return NA_REAL ;
+            
             int n=indices.size() ;
             if( n == 1 ) return NA_REAL ; 
             double m = internal::Mean_internal<RTYPE,true,SlicingIndex>::process( data_ptr, indices ); 
@@ -64,6 +71,7 @@ namespace internal{
          
     private:
         STORAGE* data_ptr ;
+        bool is_summary ;
     } ;
     
     

@@ -92,16 +92,18 @@ namespace internal {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
-        Mean(SEXP x) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ) {}
+        Mean(SEXP x, bool is_summary_ = false) : 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x)), is_summary(is_summary_) {}
         ~Mean(){}
         
         inline double process_chunk( const SlicingIndex& indices ){
+            if( is_summary ) return data_ptr[indices.group()] ;
             return internal::Mean_internal<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices) ;
         }
         
     private:
         STORAGE* data_ptr ;
-        
+        bool is_summary ;
     } ;
 
 }

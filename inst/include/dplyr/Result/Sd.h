@@ -7,7 +7,7 @@ namespace dplyr {
     class Sd : public Processor<REALSXP, Sd<RTYPE,NA_RM> > {
     public:
         
-        Sd(SEXP x) : var(x) {}
+        Sd(SEXP x, bool is_summary = false) : var(x, is_summary) {}
         ~Sd(){}
         
         inline double process_chunk( const SlicingIndex& indices ){
