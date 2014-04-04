@@ -5,17 +5,45 @@ namespace dplyr {
     namespace internal {
     
         struct min_rank_increment{ 
+            typedef IntegerVector OutputVector ;
+            typedef int scalar_type ;
+            
             template <typename Container>
-            inline int increment( const Container& x) const {
+            inline int increment( const Container& x, int) const {
                 return x.size() ;
+            }
+            
+            inline int start() const {
+                return 1 ;    
             }
         } ;
     
         struct dense_rank_increment{
+            typedef IntegerVector OutputVector ;
+            typedef int scalar_type ;
+            
             template <typename Container>
-            inline int increment( const Container& ) const {
+            inline int increment( const Container&, int) const {
                 return 1 ;
             } 
+            
+            inline int start() const {
+                return 1 ;    
+            }
+        } ;
+        
+        struct percent_rank_increment{
+            typedef NumericVector OutputVector ;
+            typedef double scalar_type ;
+            
+            template <typename Container>
+            inline double increment( const Container&, int m) const {
+                return 1.0 / ( m - 1 ) ;
+            } 
+            
+            inline double start() const {
+                return 0.0 ;    
+            }
         } ;
         
     }
@@ -44,6 +72,7 @@ namespace dplyr {
     template <int RTYPE, typename Increment, bool ascending = true>
     class Rank_Impl : public Result, public Increment {
     public:
+        typedef typename Increment::OutputVector OutputVector ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
@@ -58,7 +87,7 @@ namespace dplyr {
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
-            IntegerVector out = no_init(n) ;
+            OutputVector out = no_init(n) ;
             for( int i=0; i<ng; i++, ++git){
                 process_slice( out, *git ) ;
             }
@@ -68,21 +97,21 @@ namespace dplyr {
         
         virtual SEXP process( const FullDataFrame& df ) {
             int n = df.nrows() ;
-            IntegerVector out = no_init(n) ;
+            OutputVector out = no_init(n) ;
             process_slice(out, df.get_index() ) ;
             return out ;
         }
         
         virtual SEXP process( const SlicingIndex& index ){
             int n = index.size() ;
-            IntegerVector out = no_init(n) ;
+            OutputVector out = no_init(n) ;
             process_slice(out, index) ;
             return out ;
         }
         
     private:
         
-        void process_slice( IntegerVector& out, const SlicingIndex& index){ 
+        void process_slice( OutputVector& out, const SlicingIndex& index){ 
             map.clear() ;
             Slice slice(data, index) ;
             int m=index.size() ;
@@ -97,13 +126,13 @@ namespace dplyr {
                 ordered[it->first] = &it->second ;
             }
             typename oMap::const_iterator oit = ordered.begin() ;
-            int j=1 ;
+            typename Increment::scalar_type j = Increment::start() ;
             for( ; oit != ordered.end(); ++oit){
                 const std::vector<int>& chunk = *oit->second ;
                 for( int k=0; k<chunk.size(); k++){
                     out[ chunk[k] ] = j ;
                 }
-                j += Increment::increment( chunk ) ;
+                j += Increment::increment( chunk, m ) ;
             }
         }                
         
@@ -196,7 +225,7 @@ namespace dplyr {
         }
         
     } ;
-
+    
 }
 
 #endif
