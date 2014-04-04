@@ -169,3 +169,18 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365",{
   expect_equal( res$V2, c("a", "b"))
   expect_equal( res$V3, c("n", "m"))
 })
+
+test_that("join functions error on column not found #371", {
+  expect_error( 
+    left_join(data.frame(x=1:5), data.frame(y=1:5), by="x"), 
+    "cannot join on column 'x'"
+  )
+  expect_error( 
+    left_join(data.frame(x=1:5), data.frame(y=1:5), by="y"), 
+    "cannot join on column 'y'"
+  )
+  expect_error(
+    left_join(data.frame(x=1:5), data.frame(y=1:5)), 
+    "no common variables"
+  )
+})

@@ -76,6 +76,10 @@
 
 * internal `DataDots` class protects against missing variables in verbs (#314). 
 
+* join functions throws error instead of crashing when there are no common
+  variables between the data frames, and also give a better error message when
+  only one data frame has a by variable (#371). 
+
 # dplyr 0.1.3
 
 ## Bug fixes
