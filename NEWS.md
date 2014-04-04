@@ -76,6 +76,8 @@
 
 * internal `DataDots` class protects against missing variables in verbs (#314). 
 
+* `top_n` correctly returns `n` rows instead of `n - 1` (#367).
+
 # dplyr 0.1.3
 
 ## Bug fixes
