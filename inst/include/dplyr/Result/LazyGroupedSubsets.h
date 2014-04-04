@@ -41,7 +41,7 @@ namespace dplyr {
             return data_map.end() ;   
         }
         
-        inline int size() const{ 
+        virtual int size() const{ 
             return data_map.size() ; 
         }
         
@@ -84,7 +84,8 @@ namespace dplyr {
             return subset_map.count(head);    
         }
         
-        int size() const {
+        virtual int size() const {
+            Rprintf( "LazyGroupedSubsets.size()\n") ;
             return subset_map.size();
         }
         

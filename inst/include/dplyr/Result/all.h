@@ -42,4 +42,6 @@
 #include <dplyr/Result/CumMin.h>
 #include <dplyr/Result/CumMax.h>
 
+#include <dplyr/Result/First.h>
+
 #endif

@@ -269,6 +269,72 @@ Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     return 0 ;
 }
 
+bool argmatch( const std::string& target, const std::string& s){
+    if( s.size() > target.size() ) return false ;
+    return target.compare( 0, s.size(), s ) == 0 ;    
+}
+
+Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
+    // has to have one argument
+    if( nargs == 0 ) return 0 ;
+    
+    // TODO: check the TAG of the first argument. only allow "x" or NULL
+    SEXP data = CADR(call) ;
+    if( TYPEOF(data) == SYMSXP ) data = subsets.get_variable(data) ;
+    
+    // easy case : just a single variable: first(x)
+    if( nargs == 1 ){
+        switch( TYPEOF(data) ){
+        case INTSXP: return new First<INTSXP>(data) ;
+        case REALSXP: return new First<INTSXP>(data) ;
+        case STRSXP: return new First<INTSXP>(data) ;
+        default: break ;
+        }
+    } else {
+        SEXP order_by = R_NilValue ;
+        SEXP def      = R_NilValue ;
+        
+        SEXP p = CDDR(call) ;
+        while( p != R_NilValue ){
+            SEXP tag = TAG(p) ;
+            if( tag == R_NilValue ) stop( "all arguments of 'first' after the first one should be named" ) ;
+            std::string argname = CHAR(PRINTNAME(tag));
+            if( argmatch( "order_by", argname ) ){
+                order_by = CAR(p) ;    
+            } else if( argmatch( "default", argname ) ){
+                def = CAR(p) ;
+            } else {
+                stop("argument to 'first' does not match either 'default' or 'order_by' ") ;    
+            }
+            
+            p = CDR(p) ;
+        }
+        
+        // handle case
+        if( def == R_NilValue ){
+            
+            // then we know order_by is not NULL
+            if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
+                stop("invalid order_by") ;    
+            }
+            order_by = subsets.get_variable(order_by) ;
+            
+            switch( TYPEOF(data) ){
+                case INTSXP: return first_with<INTSXP>( data, order_by ) ;
+                case REALSXP: return first_with<INTSXP>( data, order_by ) ;
+                case STRSXP: return first_with<INTSXP>( data, order_by ) ;
+                default: break ;
+            }
+            
+        } else {
+            
+        }
+        
+        
+    }
+    return 0;
+}
+
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
@@ -293,6 +359,8 @@ HybridHandlerMap& get_handlers(){
         
         // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
         // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
+        
+        handlers[ Rf_install( "first" ) ] = first_prototype ;
     }
     return handlers ;
 }
