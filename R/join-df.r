@@ -42,6 +42,7 @@ NULL
 #' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
+  if( !length(by) ) stop("no common variables")
   y <- auto_copy(x, y, copy = copy)
   inner_join_impl(x, y, by)
 }
@@ -50,6 +51,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
+  if( !length(by) ) stop("no common variables")
   y <- auto_copy(x, y, copy = copy)
   left_join_impl(x, y, by)
 }
@@ -58,6 +60,7 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname join.tbl_df
 semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
+  if( !length(by) ) stop("no common variables")
   y <- auto_copy(x, y, copy = copy)
   semi_join_impl(x, y, by)
 }
@@ -66,6 +69,7 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname join.tbl_df
 anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
+  if( !length(by) ) stop("no common variables")
   y <- auto_copy(x, y, copy = copy)
   anti_join_impl(x, y, by)
 }
