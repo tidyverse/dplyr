@@ -9,8 +9,13 @@ namespace dplyr {
             typedef int scalar_type ;
             
             template <typename Container>
-            inline int increment( const Container& x, int) const {
+            inline int post_increment( const Container& x, int) const {
                 return x.size() ;
+            }
+            
+            template <typename Container>
+            inline int pre_increment( const Container& x, int) const {
+                return 0 ;
             }
             
             inline int start() const {
@@ -23,8 +28,13 @@ namespace dplyr {
             typedef int scalar_type ;
             
             template <typename Container>
-            inline int increment( const Container&, int) const {
+            inline int post_increment( const Container&, int) const {
                 return 1 ;
+            } 
+            
+            template <typename Container>
+            inline int pre_increment( const Container&, int) const {
+                return 0 ;
             } 
             
             inline int start() const {
@@ -37,8 +47,32 @@ namespace dplyr {
             typedef double scalar_type ;
             
             template <typename Container>
-            inline double increment( const Container&, int m) const {
-                return 1.0 / ( m - 1 ) ;
+            inline double post_increment( const Container& x, int m) const {
+                return (double)x.size() / ( m - 1 ) ;
+            } 
+            
+            template <typename Container>
+            inline double pre_increment( const Container& x, int m) const {
+                return 0.0 ;
+            } 
+            
+            inline double start() const {
+                return 0.0 ;    
+            }
+        } ;
+        
+        struct cume_dist_increment{
+            typedef NumericVector OutputVector ;
+            typedef double scalar_type ;
+            
+            template <typename Container>
+            inline double post_increment( const Container& x, int m) const {
+                return 0.0 ;
+            } 
+            
+            template <typename Container>
+            inline double pre_increment( const Container& x, int m) const {
+                return (double)x.size() / m ;
             } 
             
             inline double start() const {
@@ -129,10 +163,11 @@ namespace dplyr {
             typename Increment::scalar_type j = Increment::start() ;
             for( ; oit != ordered.end(); ++oit){
                 const std::vector<int>& chunk = *oit->second ;
+                j += Increment::pre_increment( chunk, m ) ;
                 for( int k=0; k<chunk.size(); k++){
                     out[ chunk[k] ] = j ;
                 }
-                j += Increment::increment( chunk, m ) ;
+                j += Increment::post_increment( chunk, m ) ;
             }
         }                
         
