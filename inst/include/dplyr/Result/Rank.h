@@ -198,6 +198,64 @@ namespace dplyr {
         SEXP data ;
     } ;
     
+    template <int RTYPE, bool ascending=true>
+    class Ntile : public Result {
+    public:
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
+        
+        typedef VectorSliceVisitor<RTYPE> Slice ;
+        typedef OrderVectorVisitorImpl<RTYPE,ascending,Slice> Visitor ;
+        typedef Compare_Single_OrderVisitor<Visitor> Comparer ;
+            
+        Ntile(SEXP data_, double ntiles_ ) : data(data_), ntiles(ntiles_) {}
+        
+        virtual SEXP process( const GroupedDataFrame& gdf) {
+            std::vector<int> tmp( gdf.max_group_size() ) ;
+            
+            int ng = gdf.ngroups() ; 
+            int n  = gdf.nrows() ;
+            GroupedDataFrame::group_iterator git = gdf.group_begin(); 
+            IntegerVector out(n) ;
+            for( int i=0; i<ng; i++, ++git){
+                SlicingIndex index = *git ;
+                
+                // tmp <- 0:(m-1)
+                int m = index.size() ;
+                for( int j=0; j<m; j++) tmp[j] = j ;
+                
+                // order( gdf.group(i) )
+                std::sort( tmp.begin(), tmp.begin() + m, 
+                    Comparer( Visitor( Slice(data, index ) ) )     
+                ) ;
+                for( int j=0; j<m; j++) out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
+            }
+            return out ;
+            
+        }
+        
+        virtual SEXP process( const FullDataFrame& df ) {
+            return process( df.get_index() ) ;
+            
+        }
+        
+        virtual SEXP process( const SlicingIndex& index ){
+            int nrows = index.size() ;
+            IntegerVector x = seq(0, nrows -1 ) ;
+            std::sort( x.begin(), x.end(), 
+                Comparer( Visitor( Slice(data, index ) ) ) 
+                ) ;
+            IntegerVector out = no_init(nrows); 
+            for( int i=0; i<nrows; i++){
+                out[ x[i] ] = (int)floor(ntiles * i / nrows ) + 1;
+            }
+            return out ;
+        }
+        
+    private:
+        SEXP data ;
+        double ntiles ;
+    } ;
+    
     class RowNumber_0 : public Result {
     public:
         
