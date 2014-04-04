@@ -43,5 +43,6 @@
 #include <dplyr/Result/CumMax.h>
 
 #include <dplyr/Result/First.h>
+#include <dplyr/Result/Last.h>
 
 #endif

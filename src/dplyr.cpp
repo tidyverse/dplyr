@@ -274,20 +274,52 @@ bool argmatch( const std::string& target, const std::string& s){
     return target.compare( 0, s.size(), s ) == 0 ;    
 }
 
+template <int RTYPE, template <int> class Without >
+Result* first_noorder_default( Vector<RTYPE> data, Vector<RTYPE> def ){
+     return new Without<RTYPE>(data, def[0] );
+}
+
+template <int RTYPE, template <int, int> class With>
+Result* first_with( Vector<RTYPE> data, SEXP order ){
+    switch( TYPEOF(order) ){
+    case INTSXP: return new With<RTYPE, INTSXP>( data, order ); 
+    case REALSXP: return new With<RTYPE, REALSXP>( data, order ); 
+    case STRSXP: return new With<RTYPE, STRSXP>( data, order );
+    default: break ;
+    }
+    return 0 ;
+}
+
+template <int RTYPE, template <int, int> class With>
+Result* first_with_default( Vector<RTYPE> data, SEXP order, Vector<RTYPE> def ){
+    switch( TYPEOF(order) ){
+    case INTSXP: return new With<RTYPE, INTSXP>( data, order, def[0] ); 
+    case REALSXP: return new With<RTYPE, REALSXP>( data, order, def[0] ); 
+    case STRSXP: return new With<RTYPE, STRSXP>( data, order, def[0] );
+    default: break ;
+    }
+    return 0 ;
+}
+    
+
+template < template <int> class Without, template <int, int> class With >
 Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     // has to have one argument
     if( nargs == 0 ) return 0 ;
     
-    // TODO: check the TAG of the first argument. only allow "x" or NULL
+    SEXP tag = TAG(CDR(call)) ;
+    if( tag != R_NilValue && tag != Rf_install("x") ){
+        stop( "the first argument of 'first' should be either 'x' or unnamed" ) ;    
+    }
     SEXP data = CADR(call) ;
     if( TYPEOF(data) == SYMSXP ) data = subsets.get_variable(data) ;
     
     // easy case : just a single variable: first(x)
     if( nargs == 1 ){
         switch( TYPEOF(data) ){
-        case INTSXP: return new First<INTSXP>(data) ;
-        case REALSXP: return new First<REALSXP>(data) ;
-        case STRSXP: return new First<STRSXP>(data) ;
+        case INTSXP: return new Without<INTSXP>(data) ;
+        case REALSXP: return new Without<REALSXP>(data) ;
+        case STRSXP: return new Without<STRSXP>(data) ;
         default: break ;
         }
     } else {
@@ -321,18 +353,18 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
             order_by = subsets.get_variable(order_by) ;
             
             switch( TYPEOF(data) ){
-                case INTSXP: return first_with<INTSXP>( data, order_by ) ;
-                case REALSXP: return first_with<REALSXP>( data, order_by ) ;
-                case STRSXP: return first_with<STRSXP>( data, order_by ) ;
+                case INTSXP: return first_with<INTSXP, With>( data, order_by ) ;
+                case REALSXP: return first_with<REALSXP, With>( data, order_by ) ;
+                case STRSXP: return first_with<STRSXP, With>( data, order_by ) ;
                 default: break ;
             }
             
         } else {
             if( order_by == R_NilValue ){
                 switch( TYPEOF(data) ){
-                    case INTSXP: return first_noorder_default<INTSXP>(data, def) ;
-                    case REALSXP: return first_noorder_default<REALSXP>(data, def) ;
-                    case STRSXP: return first_noorder_default<STRSXP>(data, def) ;
+                    case INTSXP: return first_noorder_default<INTSXP, Without>(data, def) ;
+                    case REALSXP: return first_noorder_default<REALSXP, Without>(data, def) ;
+                    case STRSXP: return first_noorder_default<STRSXP, Without>(data, def) ;
                     default: break ;
                 }   
             } else {
@@ -342,9 +374,9 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                 order_by = subsets.get_variable(order_by) ;
              
                 switch( TYPEOF(data) ){
-                    case INTSXP: return first_with_default<INTSXP>(data, order_by, def) ;
-                    case REALSXP: return first_with_default<REALSXP>(data, order_by, def) ;
-                    case STRSXP: return first_with_default<STRSXP>(data, order_by, def) ;
+                    case INTSXP: return first_with_default<INTSXP, With>(data, order_by, def) ;
+                    case REALSXP: return first_with_default<REALSXP,With>(data, order_by, def) ;
+                    case STRSXP: return first_with_default<STRSXP,With>(data, order_by, def) ;
                     default: break ;
                 }  
             }
@@ -380,7 +412,8 @@ HybridHandlerMap& get_handlers(){
         // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
         // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
         
-        handlers[ Rf_install( "first" ) ] = first_prototype ;
+        handlers[ Rf_install( "first" ) ] = first_prototype<dplyr::First, dplyr::FirstWith> ;
+        handlers[ Rf_install( "last" ) ]  = first_prototype<dplyr::Last, dplyr::LastWith> ;
     }
     return handlers ;
 }
