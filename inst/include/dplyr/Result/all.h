@@ -44,5 +44,6 @@
 
 #include <dplyr/Result/First.h>
 #include <dplyr/Result/Last.h>
+#include <dplyr/Result/Nth.h>
 
 #endif
