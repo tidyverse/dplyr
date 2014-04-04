@@ -10,7 +10,7 @@
 #'   the number of rows per group. May include more than \code{n} if there
 #'   are ties.
 #' @param wt the variable to use for ordering. If not specified, defaults to
-#'   the last varible in the tbl.
+#'   the last variable in the tbl.
 #' @export
 #' @examples
 #' if (require("Lahman")) {
