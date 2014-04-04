@@ -286,8 +286,8 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs == 1 ){
         switch( TYPEOF(data) ){
         case INTSXP: return new First<INTSXP>(data) ;
-        case REALSXP: return new First<INTSXP>(data) ;
-        case STRSXP: return new First<INTSXP>(data) ;
+        case REALSXP: return new First<REALSXP>(data) ;
+        case STRSXP: return new First<STRSXP>(data) ;
         default: break ;
         }
     } else {
@@ -310,10 +310,11 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
             p = CDR(p) ;
         }
         
-        // handle case
+        // handle cases
         if( def == R_NilValue ){
             
-            // then we know order_by is not NULL
+            // then we know order_by is not NULL, we only handle the case where 
+            // order_by is a symbol and that symbol is in the data
             if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
                 stop("invalid order_by") ;    
             }
@@ -321,13 +322,32 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
             
             switch( TYPEOF(data) ){
                 case INTSXP: return first_with<INTSXP>( data, order_by ) ;
-                case REALSXP: return first_with<INTSXP>( data, order_by ) ;
-                case STRSXP: return first_with<INTSXP>( data, order_by ) ;
+                case REALSXP: return first_with<REALSXP>( data, order_by ) ;
+                case STRSXP: return first_with<STRSXP>( data, order_by ) ;
                 default: break ;
             }
             
         } else {
-            
+            if( order_by == R_NilValue ){
+                switch( TYPEOF(data) ){
+                    case INTSXP: return first_noorder_default<INTSXP>(data, def) ;
+                    case REALSXP: return first_noorder_default<REALSXP>(data, def) ;
+                    case STRSXP: return first_noorder_default<STRSXP>(data, def) ;
+                    default: break ;
+                }   
+            } else {
+                if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
+                    stop("invalid order_by") ;    
+                }
+                order_by = subsets.get_variable(order_by) ;
+             
+                switch( TYPEOF(data) ){
+                    case INTSXP: return first_with_default<INTSXP>(data, order_by, def) ;
+                    case REALSXP: return first_with_default<REALSXP>(data, order_by, def) ;
+                    case STRSXP: return first_with_default<STRSXP>(data, order_by, def) ;
+                    default: break ;
+                }  
+            }
         }
         
         

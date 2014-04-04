@@ -54,14 +54,28 @@ namespace dplyr {
         STORAGE def ;
     } ;
 
-    
+    template <int RTYPE>
+    Result* first_noorder_default( Vector<RTYPE> data, Vector<RTYPE> def ){
+         return new First<RTYPE>(data, def[0] );
+    }
     
     template <int RTYPE>
     Result* first_with( Vector<RTYPE> data, SEXP order ){
         switch( TYPEOF(order) ){
         case INTSXP: return new FirstWith<RTYPE, INTSXP>( data, order ); 
         case REALSXP: return new FirstWith<RTYPE, REALSXP>( data, order ); 
-        case STRSXP: return new FirstWith<RTYPE, REALSXP>( data, order );
+        case STRSXP: return new FirstWith<RTYPE, STRSXP>( data, order );
+        default: break ;
+        }
+        return 0 ;
+    }
+    
+    template <int RTYPE>
+    Result* first_with_default( Vector<RTYPE> data, SEXP order, Vector<RTYPE> def ){
+        switch( TYPEOF(order) ){
+        case INTSXP: return new FirstWith<RTYPE, INTSXP>( data, order, def[0] ); 
+        case REALSXP: return new FirstWith<RTYPE, REALSXP>( data, order, def[0] ); 
+        case STRSXP: return new FirstWith<RTYPE, STRSXP>( data, order, def[0] );
         default: break ;
         }
         return 0 ;

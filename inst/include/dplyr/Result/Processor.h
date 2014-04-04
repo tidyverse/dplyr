@@ -56,7 +56,8 @@ namespace dplyr{
         
         virtual SEXP process( const SlicingIndex& index){
             CLASS* obj = static_cast<CLASS*>(this) ;
-            return Rf_mkString( obj->process_chunk(index) );    
+            // return Rf_mkString( obj->process_chunk(index) );
+            return CharacterVector::create( obj->process_chunk(index) );
         }
     } ;
 
