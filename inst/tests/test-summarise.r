@@ -277,5 +277,5 @@ test_that( "summarise hybrid functions can use summarized variables", {
   expect_identical( res$x, res$min ) 
   expect_identical( res$x, res$max )
   expect_identical( res$x, res$mean )
-  expect_identical( res$var, c(NaN, NaN) )
+  expect_identical( res$var, rep(NA_real_, 2) )
 })
