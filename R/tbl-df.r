@@ -86,10 +86,11 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
   as_regular_df(x)
 }
 
+#' @rdname dplyr-formatting
 #' @export
-print.tbl_df <- function(x, ...) {
+print.tbl_df <- function(x, ..., n = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("\n")
-  trunc_mat(x)
+  trunc_mat(x, n = n)
 }
 

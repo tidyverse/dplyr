@@ -1,11 +1,19 @@
 #' Tools for describing matrices
 #'
-#' @param x a matrix to describe
-#' @param n number of rows to show
+#' @param x Object to show.
+#' @param n Number of rows to show. If \code{NULL}, the default, will print
+#'   all rows if less than option \code{dplyr.print_max}. Otherwise, will
+#'   print \code{dplyr.print_min}
 #' @keywords internal
 #' @examples
 #' dim_desc(mtcars)
 #' trunc_mat(mtcars)
+#'
+#' print(tbl_df(mtcars))
+#' print(tbl_df(mtcars), n = 1)
+#' print(tbl_df(mtcars), n = 3)
+#' print(tbl_df(mtcars), n = 100)
+#'
 #' @name dplyr-formatting
 NULL
 

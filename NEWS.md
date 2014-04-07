@@ -3,8 +3,9 @@
 * `summarise_each()` and `mutate_each()` make it easy to apply one or more
   functions to multiple columns in a tbl (#178).
 
-* `print.tbl_df()` works better when you have columns containing lists of
-  complex objects.
+* `print()` methods for `tbl_df`, `tbl_dt` and `tbl_sql` gain `n` argument to
+  control the number of rows printed (#362). They also works better when you have 
+  columns containing lists of complex objects. 
 
 * `do()` gains an automatic progress bar. It appears if the computation takes
   longer than 5 seconds and lets you know (approximately) how much longer the
