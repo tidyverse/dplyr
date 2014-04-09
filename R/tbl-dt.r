@@ -59,7 +59,7 @@ as.data.frame.tbl_dt <- function(x, row.names = NULL, optional = FALSE, ...) {
 #' @export
 #' @rdname dplyr-formatting
 print.tbl_dt <- function(x, ..., n = NULL) {
-  cat("Source:     local data table ", dim_desc(x), "\n", sep = "")
+  cat("Source: local data table ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x, n = n)
 }
