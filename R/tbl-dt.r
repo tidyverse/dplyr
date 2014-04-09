@@ -19,7 +19,7 @@ tbl_dt <- function(data) {
   if (is.grouped_dt(data)) return(ungroup(data))
 
   data <- as.data.table(data)
-  structure(data, class = c("tbl_dt", "tbl", class(data)))
+  structure(data, class = c("tbl_dt", "tbl", "data.table", "data.frame"))
 }
 
 #' @export
