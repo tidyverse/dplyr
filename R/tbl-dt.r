@@ -16,7 +16,7 @@ tbl_dt <- function(data) {
   if (!require("data.table")) {
     stop("data.table package required to use data tables", call. = FALSE)
   }
-  if (is.grouped_df(data)) return(ungroup(data))
+  if (is.grouped_dt(data)) return(ungroup(data))
 
   data <- as.data.table(data)
   structure(data, class = c("tbl_dt", "tbl", class(data)))
