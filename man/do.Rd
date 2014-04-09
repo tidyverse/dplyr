@@ -47,9 +47,9 @@ models <- by_cyl \%.\% do(mod = lm(mpg ~ disp, data = .))
 models
 
 summarise(models, rsq = summary(mod[[1]])$r.squared)
-do(models, data.frame(coef = coef(.$mod[[1]])))
-do(models, data.frame(var =
-  names(coef(.$mod[[1]])),
+models \%.\% do(data.frame(coef = coef(.$mod[[1]])))
+models \%.\% do(data.frame(
+  var = names(coef(.$mod[[1]])),
   coef(summary(.$mod[[1]])))
 )
 
@@ -59,27 +59,26 @@ models <- by_cyl \%.\% do(
 )
 models
 compare <- models \%.\% do(aov = anova(.$mod_linear[[1]], .$mod_quad[[1]]))
+compare
 # Want to get to:
 # compare <- models \%.\% mutate(aov = anova(mod_linear, .$mod_quad))
 # compare \%.\% summarise(p.value = aov$`Pr(>F)`[2])
 
 if (require("hflights")) {
 # You can use it to do any arbitrary computation, like fitting a linear
-# model. Let's explore how carrier departure delays vary over the course
-# of a year
-hflights <- mutate(hflights, date = ISOdate(Year, Month, DayofMonth))
+# model. Let's explore how carrier departure delays vary over the time
 carriers <- group_by(hflights, UniqueCarrier)
 group_size(carriers)
 
-mods <- do(carriers, mod = lm(ArrDelay ~ date, data = .))
-do(mods, as.data.frame(coef(.$mod[[1]])))
-summarise(mods, rsq = summary(mod[[1]])$r.squared)
+mods <- do(carriers, mod = lm(ArrDelay ~ DepTime, data = .))
+mods \%.\% do(as.data.frame(coef(.$mod[[1]])))
+mods \%.\% summarise(rsq = summary(mod[[1]])$r.squared)
 
 \dontrun{
 # This longer example shows the progress bar in action
-by_dest <- group_by(hflights, Dest) \%.\% filter(n() > 100)
+by_dest <- hflights \%.\% group_by(Dest) \%.\% filter(n() > 100)
 library(mgcv)
-by_dest \%.\% do(smooth = gam(ArrDelay ~ s(as.numeric(date)) + s(ArrTime), data = .))
+by_dest \%.\% do(smooth = gam(ArrDelay ~ s(DepTime) + Month, data = .))
 }
 }
 }

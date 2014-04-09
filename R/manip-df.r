@@ -87,7 +87,8 @@ rename_ <- .data_dots(rename_impl, named_dots)
 do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # Force computation of indices
   if (is.null(attr(.data, "indices"))) {
-    .data <- grouped_df_impl(.data, attr(.data, "vars"), attr(.data, "drop"))
+    .data <- grouped_df_impl(.data, attr(.data, "vars"),
+      attr(.data, "drop") %||% TRUE)
   }
 
   args <- dots(...)
