@@ -81,6 +81,14 @@ same type as their input. The exceptions are:
 }
 }
 
+\section{Arrange}{
+
+
+Note that for local data frames, the ordering is done in C++ code which
+does not have access to the local specific ordering usually done in R.
+This means that strings are ordered as if in the C locale.
+}
+
 \section{Selection}{
 
 As well as using existing functions like \code{:} and \code{c}, there are
