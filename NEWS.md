@@ -80,7 +80,7 @@
   variables between the data frames, and also give a better error message when
   only one data frame has a by variable (#371). 
 
-* `top_n` correctly returns `n` rows instead of `n - 1` (#367).
+* `top_n` correctly returns `n` rows instead of `n - 1` (@leondutoit, #367).
 
 # dplyr 0.1.3
 
