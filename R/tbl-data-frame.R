@@ -39,29 +39,6 @@ select.data.frame <- function(.data, ...) {
   vars <- select_vars(names(.data), ..., env = parent.frame())
   select_impl(.data, vars)
 }
-#' @export
-do.data.frame <- function(.data, ...) {
-  args <- dots(...)
-  named <- named_args(args)
-
-  env <- new.env(parent = parent.frame())
-  env$. <- .data
-
-  if (!named) {
-    out <- eval(args[[1]], envir = env)
-    if (!is.data.frame(out)) {
-      stop("Result must be a data frame", call. = FALSE)
-    }
-  } else {
-    out <- lapply(args, function(arg) list(eval(arg, envir = env)))
-    names(out) <- names(args)
-    attr(out, "row.names") <- .set_row_names(1L)
-    # Use tbl_df to ensure safe printing of list columns
-    class(out) <- c("tbl_df", "data.frame")
-  }
-
-  out
-}
 
 # Joins ------------------------------------------------------------------------
 
