@@ -123,7 +123,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   m <- length(args)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
-  p <- Progress(n * m, min_time = 5)
+  p <- Progress(n * m, min_time = 2)
 
   for (i in seq_len(m)) {
     for (`_j` in seq_len(n)) {
