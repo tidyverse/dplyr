@@ -7,12 +7,15 @@ n()
 }
 \description{
 This function is implemented special for each data source and can only
-be used from within \code{\link{summarise}}.
+be used from within \code{\link{summarise}}, \code{\link{mutate}} and
+\code{\link{filter}}
 }
 \examples{
 if (require("hflights")) {
 carriers <- group_by(hflights, UniqueCarrier)
 summarise(carriers, n())
+mutate(carriers, n = n())
+filter(carriers, n() == 79)
 }
 }
 

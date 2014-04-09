@@ -128,13 +128,16 @@ select <- function(.data, ...) UseMethod("select")
 #' The number of observations in the current group.
 #'
 #' This function is implemented special for each data source and can only
-#' be used from within \code{\link{summarise}}.
+#' be used from within \code{\link{summarise}}, \code{\link{mutate}} and
+#' \code{\link{filter}}
 #'
 #' @export
 #' @examples
 #' if (require("hflights")) {
 #' carriers <- group_by(hflights, UniqueCarrier)
 #' summarise(carriers, n())
+#' mutate(carriers, n = n())
+#' filter(carriers, n() == 79)
 #' }
 n <- function() {
   stop("This function should not be called directly")

@@ -13,7 +13,7 @@ the number of rows per group. May include more than \code{n} if there
 are ties.}
 
 \item{wt}{the variable to use for ordering. If not specified, defaults to
-the last varible in the tbl.}
+the last variable in the tbl.}
 }
 \description{
 This is a convenient wrapper that uses \code{\link{filter}} and
