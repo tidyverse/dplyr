@@ -92,16 +92,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   }
 
   args <- dots(...)
-
-  # Arguments must either be all named or all unnamed.
-  named <- sum(names2(args) != "")
-  if (!(named == 0 || named == length(args))) {
-    stop("Arguments to do() must either be all named or all unnamed",
-      call. = FALSE)
-  }
-  if (named == 0 && length(args) > 1) {
-    stop("Can only supply single unnamed argument to do()", call. = FALSE)
-  }
+  named <- named_args(args)
 
   labels <- attr(.data, "labels")
   index <- attr(.data, "indices")
@@ -113,7 +104,6 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   makeActiveBinding(".", function() {
     .data[index[[`_j`]] + 1L, , drop = FALSE]
   }, env)
-
 
   n <- length(index)
   m <- length(args)
@@ -128,7 +118,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
     }
   }
 
-  if (named == 0) {
+  if (!named) {
     data_frame <- vapply(out[[1]], is.data.frame, logical(1))
     if (any(!data_frame)) {
       stop("Results are not data frames at positions: ",
@@ -146,4 +136,18 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
     labels[names(args)] <- out
     grouped_df(labels, groups(.data))
   }
+}
+
+named_args <- function(args) {
+  # Arguments must either be all named or all unnamed.
+  named <- sum(names2(args) != "")
+  if (!(named == 0 || named == length(args))) {
+    stop("Arguments to do() must either be all named or all unnamed",
+      call. = FALSE)
+  }
+  if (named == 0 && length(args) > 1) {
+    stop("Can only supply single unnamed argument to do()", call. = FALSE)
+  }
+
+  named != 0
 }
