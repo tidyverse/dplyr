@@ -58,8 +58,6 @@
 * hybrid versions of `min`, `max`, `mean`, `var`, `sd` and `sum` 
   handle the `na.rm` argument (#168).   
 
-* Add automatic progress bar to do
-
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
