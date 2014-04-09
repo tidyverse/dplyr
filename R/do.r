@@ -152,6 +152,33 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   }
 }
 
+# Data tables ------------------------------------------------------------------
+
+#' @export
+do.grouped_dt <- function(.data, ...) {
+  args <- dots(...)
+  named <- named_args(args)
+
+  env <- dt_env(.data, parent.frame())
+
+  if (!named) {
+    cols <- replace_sd(args[[1]])
+  } else {
+    args <- lapply(args, function(x) call("list", replace_sd(x)))
+    cols <- as.call(c(quote(list), args))
+  }
+  call <- substitute(dt[, cols, by = vars], list(cols = cols))
+
+  out <- eval(call, env)
+
+  if (!named) {
+    grouped_dt(out, groups(.data))
+  } else {
+    tbl_dt(out)
+  }
+}
+
+
 # Utils ------------------------------------------------------------------------
 
 named_args <- function(args) {
@@ -166,4 +193,18 @@ named_args <- function(args) {
   }
 
   named != 0
+}
+
+replace_sd <- function(x) {
+  if (is.atomic(x)) {
+    x
+  } else if (is.name(x)) {
+    if (identical(x, quote(.))) quote(.SD) else x
+  } else if (is.pairlist(x)) {
+    as.pairlist(lapply(x, replace_sd))
+  } else if (is.call(x)) {
+    as.call(lapply(x, replace_sd))
+  } else {
+    stop("Unknown input")
+  }
 }

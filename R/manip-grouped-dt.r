@@ -127,15 +127,3 @@ select.grouped_dt <- function(.data, ...) {
     vars = groups(.data)
   )
 }
-
-
-#' @export
-do.grouped_dt <- function(.data, .f, ...) {
-  env <- new.env(parent = parent.frame(), size = 1L)
-  env$data <- .data
-  env$vars <- keys
-  env$f <- .f
-
-  call <- substitute(data[, list(out = list(f(.SD, ...))), by = vars])
-  eval(call, env)$out
-}

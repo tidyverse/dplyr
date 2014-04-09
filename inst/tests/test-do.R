@@ -2,23 +2,23 @@ context("Do")
 
 # Grouped data frames ----------------------------------------------------------
 
-grpd <- data.frame(
+grp_df <- data.frame(
   g = c(1, 2, 2, 3, 3, 3),
   x = 1:6,
   y = 6:1
 ) %.% group_by(g)
 
 test_that("can't use both named and unnamed args", {
-  expect_error(grpd %.% do(x = 1, 2), "must either be all named or all unnamed")
+  expect_error(grp_df %.% do(x = 1, 2), "must either be all named or all unnamed")
 })
 
 test_that("unnamed elements must return data frames", {
-  expect_error(grpd %.% do(1), "not data frames")
-  expect_error(grpd %.% do("a"), "not data frames")
+  expect_error(grp_df %.% do(1), "not data frames")
+  expect_error(grp_df %.% do("a"), "not data frames")
 })
 
-test_that("unnamed results bounded together by row", {
-  first <- grpd %.% do(head(., 1))
+test_that("unnamed results bound together by row", {
+  first <- grp_df %.% do(head(., 1))
 
   expect_equal(nrow(first), 3)
   expect_equal(first$g, 1:3)
@@ -26,11 +26,11 @@ test_that("unnamed results bounded together by row", {
 })
 
 test_that("can only use single unnamed argument", {
-  expect_error(grpd %.% do(head, tail), "single unnamed argument")
+  expect_error(grp_df %.% do(head, tail), "single unnamed argument")
 })
 
 test_that("named argument become list columns", {
-  out <- grpd %.% do(nrow = nrow(.), ncol = ncol(.))
+  out <- grp_df %.% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
   expect_equal(out$ncol, list(3, 3, 3))
 })
@@ -48,4 +48,28 @@ test_that("ungrouped data frame with named argument returns list data frame", {
   expect_is(out, "tbl_df")
   expect_equal(out$x, list(1))
   expect_equal(out$y, list(2:10))
+})
+
+# Data tables  -----------------------------------------------------------------
+
+grp_dt <- data.table(
+  g = c(1, 2, 2, 3, 3, 3),
+  x = 1:6,
+  y = 6:1
+) %.% group_by(g)
+
+test_that("named argument become list columns", {
+  out <- grp_dt %.% do(nrow = nrow(.), ncol = ncol(.))
+  expect_equal(out$nrow, list(1, 2, 3))
+
+  # .SD doesn't including grouping columns
+  expect_equal(out$ncol, list(2, 2, 2))
+})
+
+test_that("unnamed results bound together by row", {
+  first <- grp_dt %.% do(head(., 1))
+
+  expect_equal(nrow(first), 3)
+  expect_equal(first$g, 1:3)
+  expect_equal(first$x, c(1, 2, 4))
 })
