@@ -11,6 +11,7 @@
 #'     \item A call to the function with \code{.} as a dummy parameter,
 #'       \code{mean(., na.rm = TRUE)}
 #'   }
+#' @param env The environment in which to evaluate calls.
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))

@@ -17,6 +17,8 @@ funs_q(calls, env = parent.frame())
     \item A call to the function with \code{.} as a dummy parameter,
       \code{mean(., na.rm = TRUE)}
   }}
+
+\item{env}{The environment in which to evaluate calls.}
 }
 \description{
 \code{funs} provides a flexible to generate a named list of functions for
