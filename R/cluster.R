@@ -98,6 +98,7 @@ init_cluster <- function(cores = NA, quiet = FALSE) {
 #' @keywords internal
 #' @examples
 #' lapply_cluster(1:10, sqrt)
+#' @noRd
 lapply_cluster <- function (.x, .f, ..., .cl = init_cluster()) {
   n <- length(.x)
   p <- min(length(.cl), n)
