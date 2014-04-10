@@ -36,8 +36,8 @@
 #' by_species %.% summarise_each(c("min", "max"))
 #'
 #' # Alternative variable specification
-#' summarise_each_q(iris, funs(max), names(iris))
-#' summarise_each_q(iris, funs(max), list(quote(-Petal.Width)))
+#' summarise_each_q(iris, funs(max), names(iris)[-5])
+#' summarise_each_q(iris, funs(max), list(quote(-Species)))
 #' @export
 summarise_each <- function(tbl, funs, ...) {
   env <- parent.frame()

@@ -124,7 +124,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL
 }
 
 sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE,
-                         weight = NULL, .env = env) {
+                         weight = NULL, .env = parent.frame()) {
   n <- length(i)
   if (frac) size <- round(size * n)
 

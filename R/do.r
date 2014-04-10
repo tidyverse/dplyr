@@ -125,7 +125,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval(args[[j]], env = env))
+      out[[j]][`_i`] <- list(eval(args[[j]], envir = env))
       p$tick()$show()
     }
   }
@@ -243,7 +243,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
     for (j in seq_len(n - 1)) {
       env$. <- chunk[index[[j]], , drop = FALSE]
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(eval(args[[k]], env = env))
+        out[[k]][i + j] <<- list(eval(args[[k]], envir = env))
         p$tick()$show()
       }
     }
@@ -254,7 +254,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   if (!is.null(last_group)) {
     env$. <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(eval(args[[k]], env = env))
+      out[[k]][i + 1] <- list(eval(args[[k]], envir = env))
       p$tick()$show()
     }
   }
