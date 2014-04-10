@@ -1,5 +1,15 @@
 # dplyr 0.1.3.0.99
 
+* `do()` has been completely overhauled to be more useful. There are now
+  two ways to use it - either with named or unnamed arguments. If you have
+  named arguments, you'll get one column in the output for each named
+  argument, and the functions can return results of any type: the columns
+  will be lists of those components. If you use an unnamed argument, it 
+  must be a single function that returns a data frame.
+  
+    Do uses special evaluation so that you don't need to use anonymous 
+    functions. Use the pronoun `.` to refer to the data in the current group.
+
 * `summarise_each()` and `mutate_each()` make it easy to apply one or more
   functions to multiple columns in a tbl (#178).
 

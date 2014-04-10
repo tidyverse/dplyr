@@ -14,9 +14,8 @@
 #' @return
 #' \code{do} always returns a data frame. The first columns in the data frame
 #' will be the labels, the others will be computed from \code{...}. Named
-#' arguments become list-columns, with one row for each group; unnamed
-#' elements will be converted to data frames (if needed) and labels will be
-#' duplicated accordingly.
+#' arguments become list-columns, with one element for each group; unnamed
+#' elements must be data frames and labels will be duplicated accordingly.
 #'
 #' Unlike \code{\link{summarise}} groups are preserved in input and output.
 #' This is because while \code{summarise} reduces the complexity of the
