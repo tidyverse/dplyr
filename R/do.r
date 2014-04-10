@@ -108,48 +108,55 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   args <- dots(...)
   named <- named_args(args)
 
-  labels <- attr(.data, "labels")
-  index <- attr(.data, "indices")
-
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
+  index <- attr(.data, "indices")
   env <- new.env(parent = parent.frame())
   makeActiveBinding(".", function() {
-    .data[index[[`_j`]] + 1L, , drop = FALSE]
+    .data[index[[`_i`]] + 1L, , drop = FALSE]
   }, env)
 
   n <- length(index)
   m <- length(args)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
   p <- Progress(n * m, min_time = 2)
 
-  for (i in seq_len(m)) {
-    for (`_j` in seq_len(n)) {
-      out[[i]][`_j`] <- list(eval(args[[i]], env = env))
+  for (`_i` in seq_len(n)) {
+    for (j in seq_len(m)) {
+      out[[j]][`_i`] <- list(eval(args[[j]], env = env))
       p$tick()$show()
     }
   }
 
+  labels <- attr(.data, "labels")
   if (!named) {
-    data_frame <- vapply(out[[1]], is.data.frame, logical(1))
-    if (any(!data_frame)) {
-      stop("Results are not data frames at positions: ",
-        paste(which(!data_frame), collapse = ", "), call. = FALSE)
-    }
-
-    rows <- vapply(out[[1]], nrow, numeric(1))
-    labels <- labels[rep(1:nrow(labels), rows), , drop = FALSE]
-    rownames(labels) <- NULL
-
-    out <- rbind_all(out[[1]])
-    grouped_df(cbind(labels, out), groups(.data))
+    label_output_dataframe(labels, out, groups(.data))
   } else {
-    # Each result should be stored in a list
-    labels[names(args)] <- out
-    grouped_df(labels, groups(.data))
+    label_output_list(labels, out, groups(.data))
   }
+}
+
+label_output_dataframe <- function(labels, out, groups) {
+  data_frame <- vapply(out[[1]], is.data.frame, logical(1))
+  if (any(!data_frame)) {
+    stop("Results are not data frames at positions: ",
+      paste(which(!data_frame), collapse = ", "), call. = FALSE)
+  }
+
+  rows <- vapply(out[[1]], nrow, numeric(1))
+  labels <- labels[rep(1:nrow(labels), rows), , drop = FALSE]
+  rownames(labels) <- NULL
+
+  out <- rbind_all(out[[1]])
+  grouped_df(cbind(labels, out), groups)
+}
+
+label_output_list <- function(labels, out, groups) {
+  labels[names(out)] <- out
+  grouped_df(labels, groups) # really should be rowwise
 }
 
 # Data tables ------------------------------------------------------------------
@@ -186,19 +193,30 @@ do.grouped_dt <- function(.data, ...) {
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
-do.tbl_sql <- function(.data, .f, ..., .chunk_size = 1e4L) {
+do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   group_by <- .data$group_by
   if (is.null(group_by)) stop("No grouping", call. = FALSE)
 
+  args <- dots(...)
+  named <- named_args(args)
+
   gvars <- seq_along(group_by)
-  # Create data frame of labels.
+  # Create data frame of labels
   labels_tbl <- update(.data,
     select = group_by,
-    order_by = NULL)
+    order_by = NULL,
+    summarise = TRUE)
   labels <- as.data.frame(labels_tbl)
 
+  n <- nrow(labels)
+  m <- length(args)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
+  p <- Progress(n * m, min_time = 2)
+  env <- new.env(parent = parent.frame())
+
   # Create ungrouped data frame suitable for chunked retrieval
-  names(group_by) <- paste0("GRP_", seq_along(group_by))
   chunky <- update(.data,
     select = c(group_by, .data$select),
     order_by = c(unname(group_by), .data$order_by),
@@ -211,7 +229,6 @@ do.tbl_sql <- function(.data, .f, ..., .chunk_size = 1e4L) {
   # take a couple of iterations to get the entire group, but that should
   # be an unusual situation.
   last_group <- NULL
-  out <- vector("list", nrow(labels))
   i <- 0
 
   chunky$query$fetch_paged(.chunk_size, function(chunk) {
@@ -225,19 +242,29 @@ do.tbl_sql <- function(.data, .f, ..., .chunk_size = 1e4L) {
     last_group <<- chunk[index[[length(index)]], , drop = FALSE]
 
     for (j in seq_len(n - 1)) {
-      subs <- chunk[index[[j]], , drop = FALSE]
-      out[[i + j]] <<- .f(subs, ...)
+      env$. <- chunk[index[[j]], , drop = FALSE]
+      for (k in seq_len(m)) {
+        out[[k]][i + j] <<- list(eval(args[[k]], env = env))
+        p$tick()$show()
+      }
     }
     i <<- i + (n - 1)
   })
 
   # Process last group
   if (!is.null(last_group)) {
-    out[[i + 1]] <- .f(last_group, ...)
+    env$. <- last_group
+    for (k in seq_len(m)) {
+      out[[k]][i + 1] <- list(eval(args[[k]], env = env))
+      p$tick()$show()
+    }
   }
 
-  labels$DO <- out
-  grouped_df(labels, drop_last(groups(.data)))
+  if (!named) {
+    label_output_dataframe(labels, out, groups(.data))
+  } else {
+    label_output_list(labels, out, groups(.data))
+  }
 }
 
 

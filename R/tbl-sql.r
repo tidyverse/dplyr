@@ -43,7 +43,8 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
 #' @export
 update.tbl_sql <- function(object, ...) {
   args <- list(...)
-  assert_that(only_has_names(args, c("select", "where", "group_by", "order_by")))
+  assert_that(only_has_names(args,
+    c("select", "where", "group_by", "order_by", "summarise")))
 
   for (nm in names(args)) {
     object[[nm]] <- args[[nm]]
