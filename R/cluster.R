@@ -108,12 +108,12 @@ lapply_cluster <- function (.x, .f, ..., .cl = init_cluster()) {
   i <- 1
   j <- 1
   submit <- function() {
-    parallel:::sendCall(.cl[[j]], .f, list(.x[[i]], ...), tag = i)
+#     parallel:::sendCall(.cl[[j]], .f, list(.x[[i]], ...), tag = i)
     i <<- i + 1
     j <<- j %% p + 1
   }
   recieve <- function() {
-    parallel:::recvOneResult(.cl)
+#     parallel:::recvOneResult(.cl)
   }
 
   # Submit first round of jobs
