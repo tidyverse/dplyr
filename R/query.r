@@ -5,7 +5,7 @@
 #' DBI and the individual database implementation.
 #'
 #' @keywords internal
-#' @aliases Query-class
+#' @aliases Query-class MonetDBQuery-class
 #' @param con a \code{DBOConnection}
 #' @param sql a string containing an sql query.
 #' @export
