@@ -92,7 +92,7 @@ wrap <- function(..., indent = 0) {
 
 ruler <- function() {
   x <- seq_len(getOption("width"))
-  y <- ifelse(x %% 10 == 0, x %/% 10, ifelse(x %% 5 == 0, "+", "-"))
+  y <- ifelse(x %% 10 == 0, x %>% 10, ifelse(x %% 5 == 0, "+", "-"))
   cat(y, "\n", sep = "")
   cat(x %% 10, "\n", sep = "")
 }
