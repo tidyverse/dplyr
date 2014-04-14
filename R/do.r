@@ -280,6 +280,12 @@ named_args <- function(args) {
     stop("Can only supply single unnamed argument to do()", call. = FALSE)
   }
 
+  # Check for old syntax
+  if (named == 1 && names(args) == ".f") {
+    stop("do syntax changed in dplyr 0.2. Please see documentation for details",
+      call. = FALSE)
+  }
+
   named != 0
 }
 
