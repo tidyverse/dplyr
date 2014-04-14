@@ -3,7 +3,7 @@
 \alias{group_by}
 \title{Group a tbl by one or more variables.}
 \usage{
-group_by(x, ..., add = TRUE)
+group_by(x, ..., add = FALSE)
 }
 \arguments{
 \item{x}{a tbl}
@@ -12,9 +12,9 @@ group_by(x, ..., add = TRUE)
 some will also accept functons of variables. Duplicated groups
 will be silently dropped.}
 
-\item{add}{By default, when \code{add = TRUE}, \code{group_by} will
-add groups to existing. To instead set the groups to a set of new
-values, use \code{add = FALSE}}
+\item{add}{By default, when \code{add = FALSE}, \code{group_by} will
+override existing groups. To instead add to the existing groups,
+use \code{add = FALSE}}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the
@@ -45,17 +45,18 @@ filter(by_cyl, disp == max(disp))
 # summarise peels off a single layer of grouping
 by_vs_am <- group_by(mtcars, vs, am)
 by_vs <- summarise(by_vs_am, n = n())
-groups(by_vs)
+by_vs
 summarise(by_vs, n = sum(n))
 # use ungroup() to remove if not wanted
+summarise(ungroup(by_vs), n = sum(n))
 
 # You can group by expressions: this is just short-hand for
 # a mutate followed by a simple group_by
 group_by(mtcars, vsam = vs + am)
 
-# By default, group_by increases grouping. Use add = FALSE to set groups
+# By default, group_by sets groups. Use add = TRUE to add groups
 groups(group_by(by_cyl, vs, am))
-groups(group_by(by_cyl, vs, am, add = FALSE))
+groups(group_by(by_cyl, vs, am, add = TRUE))
 
 # Duplicate groups are silently dropped
 groups(group_by(by_cyl, cyl, cyl))

@@ -5,9 +5,10 @@ df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
-test_that("group_by adds to additional groups", {
-  add_groups1 <- function(tbl) groups(group_by(tbl, x, y))
-  add_groups2 <- function(tbl) groups(group_by(group_by(tbl, x), y))
+test_that("group_by with add = TRUE adds groups", {
+  add_groups1 <- function(tbl) groups(group_by(tbl, x, y, add = TRUE))
+  add_groups2 <- function(tbl) groups(group_by(group_by(tbl, x, add = TRUE), y,
+    add = TRUE))
 
   expect_equal(add_groups1(tbls$df), list(quote(x), quote(y)))
   expect_equal(add_groups2(tbls$df), list(quote(x), quote(y)))

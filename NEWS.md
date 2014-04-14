@@ -44,6 +44,11 @@ dplyr 0.2 adds three new verbs:
 
 ## Minor improvements
 
+* `group_by()` now defaults to `add = FALSE` so that it sets the grouping
+  variables rather than adding to the existing list. I think this is how
+  most people expected `group_by` to work anyway, so it's unlikely to
+  cause problems (#385).
+
 * Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` 
   (#8, thanks to @hannesmuehleisen).
 
