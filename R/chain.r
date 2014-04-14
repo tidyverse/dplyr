@@ -15,7 +15,7 @@
 #' 0.3. It was removed in the interest of making dplyr code more
 #' standardised and \code{\%.\%} is much more popular.
 #'
-#' @param x,y A dataset and function to apply to it
+#' @param lhs,rhs A dataset and function to apply to it
 #' @param ...,calls A sequence of data transformations, starting with a dataset.
 #'   The first argument of each call should be omitted - the value of the
 #'   previous step will be substituted in automatically. Use \code{chain} and
@@ -91,6 +91,11 @@ chain_q <- function(calls, env = parent.frame()) {
 
 #' @export
 #' @rdname chain
-"%.%" <- function(x, y) {
-  chain_q(list(substitute(x), substitute(y)), env = parent.frame())
+"%.%" <- function(lhs, rhs) {
+  chain_q(list(substitute(lhs), substitute(rhs)), env = parent.frame())
 }
+
+#' @export
+#' @rdname chain
+`%>%` <- magrittr::`%>%`
+

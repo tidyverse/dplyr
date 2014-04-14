@@ -15,7 +15,8 @@ Imports:
     assertthat,
     utils,
     methods,
-    Rcpp
+    Rcpp,
+    magrittr
 Suggests:
     hflights,
     RSQLite,

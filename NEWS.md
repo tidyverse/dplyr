@@ -1,5 +1,25 @@
 # dplyr 0.1.3.0.99
 
+* dplyr now imports `%>%` from magrittr (#330). I recommend that you use this 
+  instead of `%.%` because it is easy to type (since you can hold down the 
+  shift key) and is more flexible. With you `%>%`, you can control which 
+  argument on the RHS recieves the LHS, by using the pronoun `.`. This makes 
+  `%>%` more useful with base R functions because they don't always take the 
+  data frame as the first argument. For example you could pipe `mtcars` to
+  `xtabs()` with:
+  
+      ```R
+      mtcars %>% xtabs( ~ cyl + vs, data = .)
+      ```
+      
+    Thanks to @smbache for the excellent margrittr package. I recommend
+    reading `vignette("magrittr")` to learn more. dplyr only provides `%>%` 
+    from magrittr. If you want to use the other useful functions that it
+    provides, you'll need to load it explicitly with `library(magrittr)`.
+    
+    `%.%` will be deprecated in a future version of dplyr, but it won't 
+    happen for a while.
+
 * `do()` has been completely overhauled to be more useful. There are now
   two ways to use it - either with named or unnamed arguments. If you have
   named arguments, you'll get one column in the output for each named
