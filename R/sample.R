@@ -17,7 +17,7 @@
 #'   \code{weight}. Non-default settings for experts only.
 #' @name sample
 #' @examples
-#' by_cyl <- mtcars %.% group_by(cyl)
+#' by_cyl <- mtcars %>% group_by(cyl)
 #'
 #' # Sample fixed number per group
 #' sample_n(mtcars, 10)

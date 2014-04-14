@@ -35,25 +35,25 @@ are always excluded from modification.
 }
 \examples{
 # One function
-by_species <- iris \%.\% group_by(Species)
-by_species \%.\% summarise_each(funs(length))
-by_species \%.\% summarise_each(funs(mean))
-by_species \%.\% summarise_each(funs(mean), Petal.Width)
-by_species \%.\% summarise_each(funs(mean), matches("Width"))
+by_species <- iris \%>\% group_by(Species)
+by_species \%>\% summarise_each(funs(length))
+by_species \%>\% summarise_each(funs(mean))
+by_species \%>\% summarise_each(funs(mean), Petal.Width)
+by_species \%>\% summarise_each(funs(mean), matches("Width"))
 
-by_species \%.\% mutate_each(funs(half = . / 2))
-by_species \%.\% mutate_each(funs(min_rank))
+by_species \%>\% mutate_each(funs(half = . / 2))
+by_species \%>\% mutate_each(funs(min_rank))
 
 # Two functions
-by_species \%.\% summarise_each(funs(min, max))
-by_species \%.\% summarise_each(funs(min, max), Petal.Width, Sepal.Width)
-by_species \%.\% summarise_each(funs(min, max), matches("Width"))
+by_species \%>\% summarise_each(funs(min, max))
+by_species \%>\% summarise_each(funs(min, max), Petal.Width, Sepal.Width)
+by_species \%>\% summarise_each(funs(min, max), matches("Width"))
 
 # Alternative function specification
-iris \%.\% summarise_each(funs(ul = length(unique(.))))
-by_species \%.\% summarise_each(funs(ul = length(unique(.))))
+iris \%>\% summarise_each(funs(ul = length(unique(.))))
+by_species \%>\% summarise_each(funs(ul = length(unique(.))))
 
-by_species \%.\% summarise_each(c("min", "max"))
+by_species \%>\% summarise_each(c("min", "max"))
 
 # Alternative variable specification
 summarise_each_q(iris, funs(max), names(iris)[-5])

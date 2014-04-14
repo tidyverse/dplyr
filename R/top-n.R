@@ -17,8 +17,8 @@
 #'   games <- tally(players, G)
 #'   top_n(games, 10, n)
 #'
-#'   # A little nicer with %.%
-#'   tbl_df(Batting) %.% group_by(playerID) %.% tally(G) %.% top_n(10)
+#'   # A little nicer with %>%
+#'   tbl_df(Batting) %>% group_by(playerID) %>% tally(G) %>% top_n(10)
 #' }
 top_n <- function(x, n, wt = NULL) {
   if (is.null(wt)) {

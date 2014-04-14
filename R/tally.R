@@ -20,8 +20,8 @@
 #'   tally(plays_by_year, sort = TRUE)
 #'   tally(tally(plays_by_year))
 #'
-#'   # This looks a little nicer if you use the infix %.% operator
-#'   batting_tbl %.% group_by(playerID) %.% tally(sort = TRUE)
+#'   # This looks a little nicer if you use the infix %>% operator
+#'   batting_tbl %>% group_by(playerID) %>% tally(sort = TRUE)
 #' }
 tally <- function(x, wt, sort = FALSE) {
   if (missing(wt)) {

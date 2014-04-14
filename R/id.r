@@ -45,7 +45,7 @@ id <- function(.variables, drop = FALSE) {
     combs <- c(1, cumprod(ndistinct[-p]))
 
     mat <- do.call("cbind", ids)
-    res <- c((mat - 1L) %*% combs + 1L)
+    res <- c((mat - 1L) %>% combs + 1L)
   }
   attr(res, "n") <- n
 

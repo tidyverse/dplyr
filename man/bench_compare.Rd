@@ -49,21 +49,21 @@ multiple sources.
 \donttest{
 if (require("Lahman") && require("microbenchmark")) {
 lahman_local <- lahman_srcs("df", "dt", "cpp")
-teams <- lapply(lahman_local, function(x) x \%.\% tbl("Teams"))
+teams <- lapply(lahman_local, function(x) x \%>\% tbl("Teams"))
 
-compare_tbls(teams, function(x) x \%.\% filter(yearID == 2010))
-bench_tbls(teams, function(x) x \%.\% filter(yearID == 2010))
+compare_tbls(teams, function(x) x \%>\% filter(yearID == 2010))
+bench_tbls(teams, function(x) x \%>\% filter(yearID == 2010))
 
 # You can also supply arbitrary additional arguments to bench_tbls
 # if there are other operations you'd like to compare.
-bench_tbls(teams, function(x) x \%.\% filter(yearID == 2010),
+bench_tbls(teams, function(x) x \%>\% filter(yearID == 2010),
    base = subset(Teams, yearID == 2010))
 
 # A more complicated example using multiple tables
 setup <- function(src) {
   list(
-    src \%.\% tbl("Batting") \%.\% filter(stint == 1) \%.\% select(playerID:H),
-    src \%.\% tbl("Master") \%.\% select(playerID, birthYear)
+    src \%>\% tbl("Batting") \%>\% filter(stint == 1) \%>\% select(playerID:H),
+    src \%>\% tbl("Master") \%>\% select(playerID, birthYear)
   )
 }
 two_tables <- lapply(lahman_local, setup)

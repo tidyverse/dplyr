@@ -26,8 +26,8 @@ if (require("Lahman")) {
   games <- tally(players, G)
   top_n(games, 10, n)
 
-  # A little nicer with \%.\%
-  tbl_df(Batting) \%.\% group_by(playerID) \%.\% tally(G) \%.\% top_n(10)
+  # A little nicer with \%>\%
+  tbl_df(Batting) \%>\% group_by(playerID) \%>\% tally(G) \%>\% top_n(10)
 }
 }
 

@@ -26,7 +26,7 @@ srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("two mutates equivalent to one", {
-  compare_tbls(tbls, function(tbl) tbl %.% mutate(x2 = x * 2, y4 = y * 4))
+  compare_tbls(tbls, function(tbl) tbl %>% mutate(x2 = x * 2, y4 = y * 4))
 })
 
 test_that("mutate can refer to variables that were just created (#140)", {
@@ -41,7 +41,7 @@ test_that("mutate can refer to variables that were just created (#140)", {
 
 test_that("mutate handles logical result (#141)", {
   x <- data.frame(x = 1:10, g = rep(c(1, 2), each = 5))
-  res <- tbl_df(x) %.% group_by(g) %.% mutate(r = x > mean(x))
+  res <- tbl_df(x) %>% group_by(g) %>% mutate(r = x > mean(x))
   expect_equal(res$r, rep(c(FALSE,FALSE,FALSE,TRUE,TRUE), 2))
 })
 

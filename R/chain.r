@@ -50,22 +50,22 @@
 #'
 #' # This is difficult to read because the order of the operations is from
 #' # inside to out, and the arguments are a long way away from the function.
-#' # Alternatively you can use chain or %.% to sequence the operations
+#' # Alternatively you can use chain or %>% to sequence the operations
 #' # linearly:
 #'
-#' hflights %.%
-#'   group_by(Year, Month, DayofMonth) %.%
-#'   select(Year:DayofMonth, ArrDelay, DepDelay) %.%
+#' hflights %>%
+#'   group_by(Year, Month, DayofMonth) %>%
+#'   select(Year:DayofMonth, ArrDelay, DepDelay) %>%
 #'   summarise(
 #'     arr = mean(ArrDelay, na.rm = TRUE),
 #'     dep = mean(DepDelay, na.rm = TRUE)
-#'   ) %.%
+#'   ) %>%
 #'   filter(arr > 30 | dep > 30)
 #'
 #' }
 chain <- function(..., env = parent.frame()) {
   # Deprecated 0.2. Remove in 0.3
-  warning("Chain is deprecated. Please use %.%", call. = FALSE)
+  warning("Chain is deprecated. Please use %>%", call. = FALSE)
   chain_q(dots(...), env = env)
 }
 
@@ -91,7 +91,7 @@ chain_q <- function(calls, env = parent.frame()) {
 
 #' @export
 #' @rdname chain
-"%.%" <- function(lhs, rhs) {
+"%>%" <- function(lhs, rhs) {
   chain_q(list(substitute(lhs), substitute(rhs)), env = parent.frame())
 }
 

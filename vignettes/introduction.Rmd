@@ -269,16 +269,16 @@ filter(
 )
 ```
 
-This is difficult to read because the order of the operations is from inside to out, and the arguments are a long way away from the function. To get around this problem, dplyr provides the `%.%` operator. `x %.% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations so you can read from left-to-right, top-to-bottom:
+This is difficult to read because the order of the operations is from inside to out, and the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations so you can read from left-to-right, top-to-bottom:
 
 ```{r, eval = FALSE}
-hflights %.%
-  group_by(Year, Month, DayofMonth) %.%
-  select(Year:DayofMonth, ArrDelay, DepDelay) %.%
+hflights %>%
+  group_by(Year, Month, DayofMonth) %>%
+  select(Year:DayofMonth, ArrDelay, DepDelay) %>%
   summarise(
     arr = mean(ArrDelay, na.rm = TRUE),
     dep = mean(DepDelay, na.rm = TRUE)
-  ) %.%
+  ) %>%
   filter(arr > 30 | dep > 30)
 ```
 

@@ -36,7 +36,7 @@ test_that("sample gives informative error for unknown type", {
 # Grouped ----------------------------------------------------------------------
 
 test_that("sampling grouped tbl samples each group", {
-  sampled <- mtcars %.% group_by(cyl) %.% sample_n(2)
+  sampled <- mtcars %>% group_by(cyl) %>% sample_n(2)
   expect_is(sampled, "grouped_df")
   expect_equal(groups(sampled), list(quote(cyl)))
   expect_equal(nrow(sampled), 6)
@@ -44,7 +44,7 @@ test_that("sampling grouped tbl samples each group", {
 })
 
 test_that("can't sample more values than obs (without replacement)", {
-  by_cyl <- mtcars %.% group_by(cyl)
+  by_cyl <- mtcars %>% group_by(cyl)
   expect_error(sample_n(by_cyl, 10), "Do you want replace = TRUE")
 })
 
@@ -56,7 +56,7 @@ df2 <- data.frame(
 
 
 test_that("grouped sample respects weight", {
-  grp <- df2 %.% group_by(g)
+  grp <- df2 %>% group_by(g)
 
   expect_error(sample_n(grp, 2, weight = y), "too few positive probabilities")
   expect_equal(sample_n(grp, 1, weight = y)$x, c(2, 2))

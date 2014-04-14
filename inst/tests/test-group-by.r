@@ -39,8 +39,8 @@ test_that("joins preserve grouping", {
 })
 
 test_that("constructors drops groups", {
-  dt <- lahman_src("dt") %.% tbl("Batting") %.% group_by(playerID)
-  df <- lahman_src("df") %.% tbl("Batting") %.% group_by(playerID)
+  dt <- lahman_src("dt") %>% tbl("Batting") %>% group_by(playerID)
+  df <- lahman_src("df") %>% tbl("Batting") %>% group_by(playerID)
 
   expect_equal(groups(tbl_dt(dt)), NULL)
   expect_equal(groups(tbl_df(df)), NULL)
@@ -104,13 +104,13 @@ test_that("FactorVisitor handles NA. #183", {
 })
 
 test_that("group_by orders by groups. #242", {
-  df <- data.frame(a = sample(1:10, 100, replace = TRUE)) %.% group_by(a)
+  df <- data.frame(a = sample(1:10, 100, replace = TRUE)) %>% group_by(a)
   expect_equal( attr(df, "labels")$a, 1:10 )
 
-  df <- data.frame(a = sample(letters[1:10], 100, replace = TRUE), stringsAsFactors = FALSE) %.% group_by(a)
+  df <- data.frame(a = sample(letters[1:10], 100, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
   expect_equal(attr(df, "labels")$a, letters[1:10] )
 
-  df <- data.frame(a = sample(sqrt(1:10), 100, replace = TRUE)) %.% group_by(a)
+  df <- data.frame(a = sample(sqrt(1:10), 100, replace = TRUE)) %>% group_by(a)
   expect_equal(attr(df, "labels")$a, sqrt(1:10))
 
 })
@@ -138,10 +138,10 @@ test_that("original data table not modified by grouping", {
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
-  res <- mtcars %.% group_by(vs) %.% select(mpg)
+  res <- mtcars %>% group_by(vs) %>% select(mpg)
   expect_equal(names(res), c("vs", "mpg"))
 
-  res <- mtcars %.% tbl_dt() %.% group_by(vs) %.% select(mpg)
+  res <- mtcars %>% tbl_dt() %>% group_by(vs) %>% select(mpg)
   expect_equal(names(res), c("vs", "mpg"))
 })
 

@@ -42,26 +42,26 @@ arbitrary objects which will be stored in a list.
 by_cyl <- group_by(mtcars, cyl)
 do(by_cyl, head(., 2))
 
-models <- by_cyl \%.\% do(mod = lm(mpg ~ disp, data = .))
+models <- by_cyl \%>\% do(mod = lm(mpg ~ disp, data = .))
 models
 
 summarise(models, rsq = summary(mod[[1]])$r.squared)
-models \%.\% do(data.frame(coef = coef(.$mod[[1]])))
-models \%.\% do(data.frame(
+models \%>\% do(data.frame(coef = coef(.$mod[[1]])))
+models \%>\% do(data.frame(
   var = names(coef(.$mod[[1]])),
   coef(summary(.$mod[[1]])))
 )
 
-models <- by_cyl \%.\% do(
+models <- by_cyl \%>\% do(
   mod_linear = lm(mpg ~ disp, data = .),
   mod_quad = lm(mpg ~ poly(disp, 2), data = .)
 )
 models
-compare <- models \%.\% do(aov = anova(.$mod_linear[[1]], .$mod_quad[[1]]))
+compare <- models \%>\% do(aov = anova(.$mod_linear[[1]], .$mod_quad[[1]]))
 compare
 # Want to get to:
-# compare <- models \%.\% mutate(aov = anova(mod_linear, .$mod_quad))
-# compare \%.\% summarise(p.value = aov$`Pr(>F)`[2])
+# compare <- models \%>\% mutate(aov = anova(mod_linear, .$mod_quad))
+# compare \%>\% summarise(p.value = aov$`Pr(>F)`[2])
 
 if (require("hflights")) {
 # You can use it to do any arbitrary computation, like fitting a linear
@@ -70,14 +70,14 @@ carriers <- group_by(hflights, UniqueCarrier)
 group_size(carriers)
 
 mods <- do(carriers, mod = lm(ArrDelay ~ DepTime, data = .))
-mods \%.\% do(as.data.frame(coef(.$mod[[1]])))
-mods \%.\% summarise(rsq = summary(mod[[1]])$r.squared)
+mods \%>\% do(as.data.frame(coef(.$mod[[1]])))
+mods \%>\% summarise(rsq = summary(mod[[1]])$r.squared)
 
 \dontrun{
 # This longer example shows the progress bar in action
-by_dest <- hflights \%.\% group_by(Dest) \%.\% filter(n() > 100)
+by_dest <- hflights \%>\% group_by(Dest) \%>\% filter(n() > 100)
 library(mgcv)
-by_dest \%.\% do(smooth = gam(ArrDelay ~ s(DepTime) + Month, data = .))
+by_dest \%>\% do(smooth = gam(ArrDelay ~ s(DepTime) + Month, data = .))
 }
 }
 }

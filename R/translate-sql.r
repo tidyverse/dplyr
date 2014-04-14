@@ -4,7 +4,7 @@
 #' The base translator, \code{base_sql},
 #' provides custom mappings for \code{!} (to NOT), \code{&&} and \code{&} to
 #' \code{AND}, \code{||} and \code{|} to \code{OR}, \code{^} to \code{POWER},
-#' \code{\%\%} to \code{\%}, \code{ceiling} to \code{CEIL}, \code{mean} to
+#' \code{\%>\%} to \code{\%}, \code{ceiling} to \code{CEIL}, \code{mean} to
 #' \code{AVG}, \code{var} to \code{VARIANCE}, \code{tolower} to \code{LOWER},
 #' \code{toupper} to \code{UPPER} and \code{nchar} to \code{length}.
 #'

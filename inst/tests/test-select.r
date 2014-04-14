@@ -6,13 +6,13 @@ tbls <- temp_load(srcs, df)
 
 
 test_that("two selects equivalent to one", {
-  compare_tbls(tbls, function(tbl) tbl %.% select(l:s) %.% select(n:o),
+  compare_tbls(tbls, function(tbl) tbl %>% select(l:s) %>% select(n:o),
     ref = select(df, n:o))
 })
 
 test_that("select does not lose grouping (#147)", {
   df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
-  grouped <- df %.% group_by(a) %.% select(a, b, x)
+  grouped <- df %>% group_by(a) %>% select(a, b, x)
 
   expect_equal(groups(grouped), list(quote(a)))
 })
@@ -71,16 +71,16 @@ test_that("select changes columns in copy of data table", {
   expect_equal(names(dt), c("x", "y"))
 
 
-  gdt <- dt %.% group_by(x)
+  gdt <- dt %>% group_by(x)
   expect_equal(names(select(gdt, x, z = y)), c("x", "z"))
   expect_equal(names(gdt), c("x", "y"))
 })
 
 test_that("select can be before group_by (#309)",{
   df <- data.frame(id=c(1,1,2,2,2,3,3,4,4,5), year=c(2013,2013,2012,2013,2013,2013,2012,2012,2013,2013), var1=rnorm(10))
-  dfagg <- df %.%
-    group_by(id, year) %.%
-    select(id, year, var1) %.%
+  dfagg <- df %>%
+    group_by(id, year) %>%
+    select(id, year, var1) %>%
     summarise(var1=mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
   expect_equal(attr(dfagg, "vars" ), list(quote(id)))
@@ -90,13 +90,13 @@ test_that("select can be before group_by (#309)",{
 # Database ---------------------------------------------------------------------
 
 test_that("select renames variables (#317)", {
-  first <- tbls$sqlite %.% select(A = a)
+  first <- tbls$sqlite %>% select(A = a)
   expect_equal(tbl_vars(first), "A")
-  expect_equal(tbl_vars(first %.% select(A)), "A")
-  expect_equal(tbl_vars(first %.% select(B = A)), "B")
+  expect_equal(tbl_vars(first %>% select(A)), "A")
+  expect_equal(tbl_vars(first %>% select(B = A)), "B")
 })
 
 test_that("select preserves grouping vars", {
-  first <- tbls$sqlite %.% group_by(b) %.% select(a)
+  first <- tbls$sqlite %>% group_by(b) %>% select(a)
   expect_equal(tbl_vars(first), c("b", "a"))
 })

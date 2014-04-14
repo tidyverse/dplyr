@@ -33,7 +33,7 @@ select random rows from a table. It currently only works for local
 tbls.
 }
 \examples{
-by_cyl <- mtcars \%.\% group_by(cyl)
+by_cyl <- mtcars \%>\% group_by(cyl)
 
 # Sample fixed number per group
 sample_n(mtcars, 10)
