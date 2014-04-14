@@ -1,127 +1,122 @@
 # dplyr 0.1.3.0.99
 
-* dplyr now imports `%>%` from magrittr (#330). I recommend that you use this 
-  instead of `%.%` because it is easy to type (since you can hold down the 
-  shift key) and is more flexible. With you `%>%`, you can control which 
-  argument on the RHS recieves the LHS, by using the pronoun `.`. This makes 
-  `%>%` more useful with base R functions because they don't always take the 
-  data frame as the first argument. For example you could pipe `mtcars` to
-  `xtabs()` with:
-  
-      ```R
-      mtcars %>% xtabs( ~ cyl + vs, data = .)
-      ```
-      
-    Thanks to @smbache for the excellent margrittr package. I recommend
-    reading `vignette("magrittr")` to learn more. dplyr only provides `%>%` 
-    from magrittr. If you want to use the other useful functions that it
-    provides, you'll need to load it explicitly with `library(magrittr)`.
-    
-    `%.%` will be deprecated in a future version of dplyr, but it won't 
-    happen for a while.
+## Piping
 
-* `do()` has been completely overhauled to be more useful. There are now
-  two ways to use it - either with named or unnamed arguments. If you have
-  named arguments, you'll get one column in the output for each named
-  argument, and the functions can return results of any type: the columns
-  will be lists of those components. If you use an unnamed argument, it 
-  must be a single function that returns a data frame.
-  
-    Do uses special evaluation so that you don't need to use anonymous 
-    functions. Use the pronoun `.` to refer to the data in the current group.
+dplyr now imports `%>%` from magrittr (#330). I recommend that you use this instead of `%.%` because it is easier to type (since you can hold down the shift key) and is more flexible. With you `%>%`, you can control which argument on the RHS recieves the LHS by using the pronoun `.`. This makes 
+`%>%` more useful with base R functions because they don't always take the data frame as the first argument. For example you could pipe `mtcars` to `xtabs()` with:
+
+    mtcars %>% xtabs( ~ cyl + vs, data = .)
+      
+Thanks to @smbache for the excellent margrittr package. dplyr only provides `%>%` from magrittr, but it contains many other useful functions. To use them, load `magrittr` explicitly: `library(magrittr)`. For more details, see `vignette("magrittr")`.
+
+`%.%` will be deprecated in a future version of dplyr, but it won't happen for a while. I've also deprecated `chain()` to encourage a single style of dplyr usage: please use `%>%` instead.
+
+## Do
+
+`do()` has been completely overhauled. There are now two ways to use it, either with multiple named arguments or a single unnamed arguments. `group_by()` + `do()` is equivalent to `plyr::dlply`, except it always returns a data frame.
+
+If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so it's particularly well suited for storing models.
+
+    library(dplyr)
+    mtcars %>% group_by(cyl) %>% do(lm = lm(mpg ~ wt, data = .))
+    
+If you use an unnamed argument, the result should be a data frame. This allows you to arbitrary functions to each group.
+
+    mtcars %>% group_by(cyl) %>% do(head(., 1))
+
+Note the use of the `.` pronoun to refer to the data in the current group.
+
+`do()` also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.
+
+## New verbs
+
+dplyr 0.2 adds three new verbs:
+
+* `glimpse()` makes it possible to see all the columns in a tbl,
+  displaying as much data for each variable as can be fit on a single line.
+
+* `sample_n()` randomly samples a fixed number of rows from a tbl;
+  `sample_frac()` randomly samples a fixed fraction of rows. Only works
+  for local data frames and data tables (#202).
 
 * `summarise_each()` and `mutate_each()` make it easy to apply one or more
   functions to multiple columns in a tbl (#178).
 
-* `print()` methods for `tbl_df`, `tbl_dt` and `tbl_sql` gain `n` argument to
-  control the number of rows printed (#362). They also works better when you have 
-  columns containing lists of complex objects. 
+## Minor improvements
 
-* `do()` gains an automatic progress bar. It appears if the computation takes
-  longer than 5 seconds and lets you know (approximately) how much longer the
-  job will take to complete.
+* Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` 
+  (#8, thanks to @hannesmuehleisen).
 
-* Added `memory` vignette which discusses how dplyr minimises memory usage
-  for local data frames (#198).
+* New vignettes: 
+  
+    * `memory` vignette which discusses how dplyr minimises memory usage
+      for local data frames (#198).
+      
+    *  `new-sql-backend` vignette which discusses how to add a new
+       SQL backend/source to dplyr.
 
-* Tweak `changes()` output to make it more clear when columns are added or
+* `changes()` output more clearly distinguishes which columns were added or
   deleted.
-
-* `chain()` is now deprecated. Please use `%.%` instead.
 
 * dplyr is more careful when setting the keys of data tables, so it never
   accidentally modifies an object that it doesn't own. It also avoids
   unnecessary key setting which negatively affected performance.
   (#193, #255).
 
-* `copy_to.src_mysql()` now works on windows (#323)
-
-* SQL translation always evaluates subsetting (`$`, `[`, `[[`) locally.
-  (#318).
-
-* `select()` now correctly renames variables in remote sql tbls (#317).
-
-* `select()` now implicitely adds grouping variables (#170).
-
-* Added `new-sql-backend` vignette which discusses how to add a new
-  SQL backend/source to dplyr.
-
-* `sample_n()` randomly samples a fixed number of rows from a tbl;
-  `sample_frac()` randomly samples a fixed fraction of rows. Only works
-  for local data frames and data tables (#202).
-
-* `glimpse()` makes it possible to see all the columns in a tbl,
-  displaying as much data for each variable as can be fit on a single line.
-
-* `rbind_all()` is stricter and only accepts list of data frames (#288)
+* `print()` methods for `tbl_df`, `tbl_dt` and `tbl_sql` gain `n` argument to
+  control the number of rows printed (#362). They also works better when you have 
+  columns containing lists of complex objects. 
 
 * `row_number()` can be called without arguments, in which case it returns
   the same as `1:n()` (#303).
 
-* Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` (#8).
-
 * `"comment"` attribute is allowed (white listed) as well as names (#346).
 
-* `all.equal.data.frame` from base is no longer bypassed. we now have 
-  `all.equal.tbl_df` and `all.equal.tbl_dt` methods (#332). 
-  
 * hybrid versions of `min`, `max`, `mean`, `var`, `sd` and `sum` 
-  handle the `na.rm` argument (#168).   
+  handle the `na.rm` argument (#168). This should yield substantial
+  performance improvements for those functions.
 
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
 
-* internal class `DataDots` did not handle the case where `...` was missing. (#338)
+* internal `DataDots` class protects against missing variables in verbs (#314),
+  including the case where `...` is missing. (#338)
 
-* `arrange()` correctly handles NA in numeric vectors (#331).
+* `all.equal.data.frame` from base is no longer bypassed. we now have 
+  `all.equal.tbl_df` and `all.equal.tbl_dt` methods (#332). 
+  
+* `arrange()` correctly handles NA in numeric vectors (#331) and 0 row 
+  data frames (#289).
 
-* `arrange()` handles data frames with 0 rows (#289).
+* `copy_to.src_mysql()` now works on windows (#323)
 
-* `*_join()` don't reorder column names (#324).
+* `*_join()` doesn't reorder column names (#324).
 
-* internal `sum` correctly handles integer (under/over)flow (#308).
-
-* `summarise()` checks consistency of outputs (#300).
+* `rbind_all()` is stricter and only accepts list of data frames (#288)
 
 * `rbind_*` propagates time zone information for `POSIXct` columns (#298).
 
 * `rbind_*` is less strict about type promotion. The numeric `Collecter` allows
   collection of integer and logical vectors. The integer `Collecter` also collects
   logical values (#321).
-<<<<<<< HEAD
-  
-* `summarise` does not retain `names` attribute (#357). 
 
-* internal `DataDots` class protects against missing variables in verbs (#314). 
+* internal `sum` correctly handles integer (under/over)flow (#308).
 
-* join functions throws error instead of crashing when there are no common
+* `summarise()` checks consistency of outputs (#300) and drops `names` 
+  attribute of output columns (#357). 
+
+* join functions throw error instead of crashing when there are no common
   variables between the data frames, and also give a better error message when
   only one data frame has a by variable (#371). 
 
-* `top_n` correctly returns `n` rows instead of `n - 1` (@leondutoit, #367).
-=======
->>>>>>> Add automatic progress bar to do
+* `top_n()` returns `n` rows instead of `n - 1` (@leondutoit, #367).
+
+* SQL translation always evaluates subsetting operators (`$`, `[`, `[[`) 
+  locally. (#318).
+
+* `select()` now renames variables in remote sql tbls (#317) and  
+  implicitly adds grouping variables (#170).
 
 # dplyr 0.1.3
 
