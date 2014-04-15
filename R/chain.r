@@ -89,7 +89,7 @@ chain_q <- function(calls, env = parent.frame()) {
 
 #' @export
 #' @rdname chain
-"%>%" <- function(lhs, rhs) {
+"%.%" <- function(lhs, rhs) {
   chain_q(list(substitute(lhs), substitute(rhs)), env = parent.frame())
 }
 
