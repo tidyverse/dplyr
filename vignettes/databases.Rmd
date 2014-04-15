@@ -4,7 +4,6 @@
 -->
 
 ```{r, echo = FALSE, message = FALSE}
-library(ggplot2)
 library(dplyr)
 knitr::opts_chunk$set(
   comment = "#>",
