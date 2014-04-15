@@ -3,6 +3,7 @@
 \alias{as.tbl_cube}
 \alias{as.tbl_cube.array}
 \alias{as.tbl_cube.data.frame}
+\alias{as.tbl_cube.matrix}
 \alias{as.tbl_cube.table}
 \title{Coerce an existing data structure into a \code{tbl_cube}}
 \usage{
@@ -12,6 +13,9 @@ as.tbl_cube(x, ...)
   dim_names = names(dimnames(x)), ...)
 
 \method{as.tbl_cube}{table}(x, met_name = deparse(substitute(x)),
+  dim_names = names(dimnames(x)), ...)
+
+\method{as.tbl_cube}{matrix}(x, met_name = deparse(substitute(x)),
   dim_names = names(dimnames(x)), ...)
 
 \method{as.tbl_cube}{data.frame}(x, dim_names, ...)
