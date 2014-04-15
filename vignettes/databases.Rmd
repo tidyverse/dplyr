@@ -133,7 +133,7 @@ dplyr tries to prevent you from accidentally performing expensive query operatio
 
 * Printing a tbl only runs the query enough to get the first 10 rows
 
-* You can use `tail()` on database tbls: you can't find the last rows
+* You can't use `tail()` on database tbls: you can't find the last rows
   without executing the whole query.
 
 ## SQL translation
