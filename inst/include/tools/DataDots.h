@@ -35,7 +35,7 @@ namespace Rcpp {
             return environments[i] ;
         }
         
-        inline SEXP expr(int i) const {
+        inline const RObject& expr(int i) const {
             return expressions[i] ;    
         }
         
@@ -54,7 +54,7 @@ namespace Rcpp {
         
     private:
         std::vector<Environment> environments ;
-        std::vector<SEXP> expressions;
+        std::vector<RObject> expressions;
     } ;
           
 }    
