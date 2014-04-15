@@ -8,6 +8,7 @@
 #' @param vars a list of quoted variables.
 #' @export
 #' @examples
+#' if (require("data.table")) {
 #' data("hflights", package = "hflights")
 #' hflights_dt <- tbl_dt(hflights)
 #' group_size(group_by(hflights_dt, Year, Month, DayofMonth))
@@ -15,6 +16,7 @@
 #'
 #' monthly <- group_by(hflights_dt, Month)
 #' summarise(monthly, n = n(), delay = mean(ArrDelay))
+#' }
 grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
