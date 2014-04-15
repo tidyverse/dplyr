@@ -19,11 +19,10 @@ the underlying data, even when applied to a remote data source.)
 }
 \examples{
 glimpse(mtcars)
-glimpse(hflights::hflights)
 
 if (require("RSQLite") && has_lahman("sqlite")) {
-batting <- tbl(lahman_sqlite(), "Batting")
-glimpse(batting)
+  batting <- tbl(lahman_sqlite(), "Batting")
+  glimpse(batting)
 }
 }
 

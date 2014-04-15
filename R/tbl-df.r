@@ -12,7 +12,6 @@
 #' ds
 #' as.data.frame(ds)
 #'
-#' if (require("Lahman")) {
 #' data("Batting", package = "Lahman")
 #' batting <- tbl_df(Batting)
 #' dim(batting)
@@ -44,6 +43,7 @@
 #' # mutate(stints, cumsum(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
+#' data("Master", "HallOfFame", package = "Lahman")
 #' player_info <- select(tbl_df(Master), playerID, hofID, birthYear)
 #' hof <- select(filter(tbl_df(HallOfFame), inducted == "Y"),
 #'  hofID, votedBy, category)
@@ -56,7 +56,6 @@
 #' semi_join(player_info, hof)
 #' # Find players not in hof
 #' anti_join(player_info, hof)
-#' }
 tbl_df <- function(data) {
   assert_that(is.data.frame(data))
   tbl_df_impl(data)

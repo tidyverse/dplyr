@@ -16,9 +16,10 @@ Imports:
     utils,
     methods,
     Rcpp,
-    magrittr
+    magrittr,
+    Lahman,
+    hflights
 Suggests:
-    hflights,
     RSQLite,
     RSQLite.extfuns,
     RMySQL,
@@ -27,7 +28,6 @@ Suggests:
     data.table,
     bigrquery,
     testthat,
-    Lahman,
     knitr,
     microbenchmark,
     ggplot2,
