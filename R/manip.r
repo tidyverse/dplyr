@@ -47,6 +47,12 @@
 #'    \item remote sources (like databases) will typically return a local
 #'      source from at least \code{summarise} and \code{mutate}
 #' }
+#'
+#' @section Row names:
+#'
+#' dplyr methods do not preserve row names. If have been using row names
+#' to store important information, please make them explicit variables.
+#'
 #' @name manip
 #' @param .data a tbl
 #' @param ... variables interpreted in the context of that data frame.
