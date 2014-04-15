@@ -1369,7 +1369,7 @@ SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDo
     }
     
     // we already checked that we have only one expression
-    Call call( (SEXP)args[0] ) ;
+    Call call( (SEXP)args[dots.expr_index(0)] ) ;
     
     std::vector<int> indx ; indx.reserve(1000) ;
     
@@ -1407,7 +1407,7 @@ SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const Da
     }
     
     Environment env = dots.envir(0) ;
-    Call call( (SEXP)args[0] );
+    Call call( (SEXP)args[dots.expr_index(0)] );
     CallProxy proxy( call, df, env ) ;
     
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
@@ -1452,7 +1452,7 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     const DataFrame& df = gdf.data() ;
-    int nexpr = args.size() ;
+    int nexpr = dots.size() ;
     CharacterVector results_names = args.names() ;
     check_not_groups(results_names, gdf);
 
@@ -1472,8 +1472,8 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     
         env = dots.envir(i) ;
         proxy.set_env( env ) ;
-        SEXP call = args[i] ;
-        SEXP name = results_names[i] ;
+        SEXP call = args[dots.expr_index(i)] ;
+        SEXP name = results_names[dots.expr_index(i)] ;
         SEXP variable = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
@@ -1519,7 +1519,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
 
     Environment env = dots.envir(0) ;
 
-    int nexpr = args.size() ;
+    int nexpr = dots.size() ;
     CharacterVector results_names = args.names() ;
 
     NamedListAccumulator accumulator ;
@@ -1536,7 +1536,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
         env = dots.envir(i) ;
         call_proxy.set_env(env) ;
 
-        SEXP call = args[i] ;
+        SEXP call = args[dots.expr_index(i)] ;
         SEXP name = results_names[i] ;
         SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
@@ -1546,7 +1546,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
                 result = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
             }
         } else if( TYPEOF(call) == LANGSXP ){
-            call_proxy.set_call( args[i] );
+            call_proxy.set_call( args[dots.expr_index(i)] );
 
             // we need to protect the SEXP, that's what the Shelter does
             result = __( call_proxy.eval() ) ;

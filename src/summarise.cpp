@@ -6,7 +6,7 @@ using namespace dplyr ;
 SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& dots){
     DataFrame df = gdf.data() ;
 
-    int nexpr = args.size() ;
+    int nexpr = dots.size() ;
     int nvars = gdf.nvars() ;
     CharacterVector results_names = args.names() ;
     check_not_groups(results_names, gdf);
@@ -24,15 +24,15 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         
         Environment env = dots.envir(k) ;
 
-        Result* res = get_handler( args[k], subsets, env ) ;
+        Result* res = get_handler( args[dots.expr_index(k)], subsets, env ) ;
         
         // if we could not find a direct Result
         // we can use a GroupedCalledReducer which will callback to R
-        if( !res ) res = new GroupedCalledReducer( args[k], subsets, env) ;
+        if( !res ) res = new GroupedCalledReducer( args[dots.expr_index(k)], subsets, env) ;
         
         
         SEXP result = __( res->process(gdf) ) ;
-        SEXP name = results_names[k] ;
+        SEXP name = results_names[dots.expr_index(k)] ;
         accumulator.set( name, result );
         subsets.input( Symbol(name), SummarisedVariable(result) ) ;
         delete res;
@@ -42,7 +42,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
 }
 
 SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
-    int nexpr = args.size() ;
+    int nexpr = dots.size() ;
     if( nexpr == 0) return DataFrame() ;
     
     CharacterVector names = args.names();
@@ -56,14 +56,14 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         
-        SEXP name = names[i] ;
+        SEXP name = names[dots.expr_index(i)] ;
         Environment env = dots.envir(i) ;
         Result* res = get_handler( args[i], subsets, env ) ;
         SEXP result ;
         if(res) {
             result = __(res->process( FullDataFrame(df) )) ;
         } else {
-            result = __(CallProxy( args[i], subsets, env).eval()) ;
+            result = __(CallProxy( args[dots.expr_index(i)], subsets, env).eval()) ;
         }
         delete res ;
         if( Rf_length(result) != 1 ){

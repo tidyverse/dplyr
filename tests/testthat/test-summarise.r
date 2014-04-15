@@ -232,11 +232,6 @@ test_that("names attribute is not retained (#357)", {
   expect_null(names(m$b))
 })
 
-test_that("missing variable errors (#314)", {
-  x <- data.frame( aa = 1:10 )
-  expect_error( summarise(x, a = min(aa), ))
-})
-
 test_that("na.rm is supported (#168)", {
   df <- data.frame( x = c(1:5, NA, 7:10), y = rep(1:2, each = 5 ), z = c(rnorm(5), NA, rnorm(4) ) )
   res <- df %>% group_by(y) %>%

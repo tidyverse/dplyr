@@ -127,10 +127,10 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
 
     LogicalVector g_test ;
 
-    for( int k=0; k<args.size(); k++){
+    for( int k=0; k<dots.size(); k++){
         Rcpp::checkUserInterrupt() ;
     
-        Call call( (SEXP)args[k] ) ;
+        Call call( (SEXP)args[dots.expr_index(k)] ) ;
         GroupedCallProxy call_proxy( call, gdf, dots.envir(k) ) ;
         int ngroups = gdf.ngroups() ;
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;

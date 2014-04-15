@@ -8,25 +8,27 @@ namespace Rcpp {
         
         DataDots( Environment env ) : environments() {                
           SEXP dots = env.find( "..." );
-          if( dots != R_MissingArg ){ 
+          if( dots != R_MissingArg ){
+            
+            int i= 0 ;
             while( dots != R_NilValue ){
               Promise prom = CAR(dots) ;
               
-              while(true){
+              while(true){                                                  
                 SEXP code = PRCODE(prom) ;
                 if( code == R_MissingArg){
                     break ;    
                 }
                 if( TYPEOF(code) != PROMSXP ){
                     environments.push_back(prom.environment()) ;
-                    expressions.push_back(code) ;
+                    index.push_back(i) ;
                     break ;  
                 }
                 prom = code ;
               }
               
-              
-              dots = CDR(dots) ;
+              dots = CDR(dots) ; 
+              i++ ;
             }
           }
         }
@@ -35,8 +37,8 @@ namespace Rcpp {
             return environments[i] ;
         }
         
-        inline const RObject& expr(int i) const {
-            return expressions[i] ;    
+        inline int expr_index(int i) const {
+            return index[i] ; 
         }
         
         inline int size() const{ 
@@ -54,7 +56,7 @@ namespace Rcpp {
         
     private:
         std::vector<Environment> environments ;
-        std::vector<RObject> expressions;
+        std::vector<int> index;
     } ;
           
 }    
