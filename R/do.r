@@ -103,6 +103,13 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
       attr(.data, "drop") %||% TRUE)
   }
 
+  # Create version of data frame without groups or grouping vars
+  gvars <- vapply(groups(.data), as.character, character(1))
+  vars <- setdiff(names(.data), gvars)
+  group_data <- ungroup(.data)
+  group_data <- select_impl(group_data, setNames(vars, vars))
+
+
   args <- dots(...)
   named <- named_args(args)
 
@@ -112,7 +119,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   index <- attr(.data, "indices")
   env <- new.env(parent = parent.frame())
   makeActiveBinding(".", function() {
-    .data[index[[`_i`]] + 1L, , drop = FALSE]
+    group_data[index[[`_i`]] + 1L, , drop = FALSE]
   }, env)
 
   n <- length(index)

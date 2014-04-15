@@ -44,7 +44,8 @@ test_that("can only use single unnamed argument", {
 test_that("named argument become list columns", {
   out <- grp$df %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
-  expect_equal(out$ncol, list(3, 3, 3))
+  # doesn't including grouping columns
+  expect_equal(out$ncol, list(2, 2, 2))
 })
 
 # Ungrouped data frames --------------------------------------------------------
@@ -67,8 +68,7 @@ test_that("ungrouped data frame with named argument returns list data frame", {
 test_that("named argument become list columns", {
   out <- grp$dt %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
-
-  # .SD doesn't including grouping columns
+  # doesn't including grouping columns
   expect_equal(out$ncol, list(2, 2, 2))
 })
 
