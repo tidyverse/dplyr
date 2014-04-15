@@ -15,14 +15,16 @@ namespace Rcpp {
               while(true){
                 SEXP code = PRCODE(prom) ;
                 if( code == R_MissingArg){
-                    stop( "missing variable, probably a ',' added by mistake" ) ;    
+                    break ;    
                 }
                 if( TYPEOF(code) != PROMSXP ){
-                  break ;  
+                    environments.push_back(prom.environment()) ;
+                    expressions.push_back(code) ;
+                    break ;  
                 }
                 prom = code ;
               }
-              environments.push_back(prom.environment()) ;
+              
               
               dots = CDR(dots) ;
             }
@@ -31,6 +33,10 @@ namespace Rcpp {
             
         inline const Environment& envir(int i) const {
             return environments[i] ;
+        }
+        
+        inline SEXP expr(int i) const {
+            return expressions[i] ;    
         }
         
         inline int size() const{ 
@@ -48,6 +54,7 @@ namespace Rcpp {
         
     private:
         std::vector<Environment> environments ;
+        std::vector<SEXP> expressions;
     } ;
           
 }    

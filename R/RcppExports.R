@@ -13,8 +13,8 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
-arrange_impl <- function(data, args, dots) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, dots)
+arrange_impl <- function(data, dots) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
 
 #' @export

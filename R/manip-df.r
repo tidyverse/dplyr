@@ -24,7 +24,9 @@ NULL
 
 #' @rdname manip_df
 #' @export
-arrange.tbl_df    <- .data_dots(arrange_impl)
+arrange.tbl_df    <- function(.data, ...){
+  arrange_impl(.data, environment())  
+}
 
 #' @rdname manip_df
 #' @export

@@ -4,17 +4,18 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-List arrange_impl( DataFrame data, List args, DataDots dots ){
+List arrange_impl( DataFrame data, DataDots dots ){
     if( dots.size() == 0 || data.nrows() == 0) return data ;
     assert_all_white_list(data) ;
     
-    int nargs = args.size() ;
+    int nargs = dots.size() ;
     List variables(nargs) ;
     LogicalVector ascending(nargs) ;
-    Shelter<SEXP> __ ;
     
     for(int i=0; i<nargs; i++){
-        SEXP call = args[i] ;
+        Shelter<SEXP> __ ;
+    
+        SEXP call = __(dots.expr(i)) ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
         
         CallProxy call_proxy(is_desc ? CADR(call) : call, data, dots.envir(i)) ;
