@@ -3,6 +3,7 @@
 \alias{collapse}
 \alias{collect}
 \alias{compute}
+\alias{compute.tbl_sql}
 \title{Compute a lazy tbl.}
 \usage{
 compute(x, name = random_table_name(), ...)
@@ -10,6 +11,9 @@ compute(x, name = random_table_name(), ...)
 collect(x, ...)
 
 collapse(x, ...)
+
+\method{compute}{tbl_sql}(x, name = random_table_name(), temporary = TRUE,
+  ...)
 }
 \arguments{
 \item{x}{a data tbl}
@@ -17,6 +21,10 @@ collapse(x, ...)
 \item{name}{name of temporary table on database.}
 
 \item{...}{other arguments passed on to methods}
+
+\item{temporary}{if \code{TRUE}, will create a temporary table that is
+local to this connection and will be automatically deleted when the
+connection expires}
 }
 \description{
 \code{compute} forces computation of lazy tbls, leaving data in the remote

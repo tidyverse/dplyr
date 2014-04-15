@@ -44,6 +44,9 @@ dplyr 0.2 adds three new verbs:
 
 ## Minor improvements
 
+* `compute()` gains `temporary` argument so you can control whether the
+  results are temporary or permanent (#382, @cpsievert)
+
 * `group_by()` now defaults to `add = FALSE` so that it sets the grouping
   variables rather than adding to the existing list. I think this is how
   most people expected `group_by` to work anyway, so it's unlikely to

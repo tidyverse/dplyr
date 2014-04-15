@@ -14,6 +14,7 @@
 #' @param x a data tbl
 #' @param name name of temporary table on database.
 #' @param ... other arguments passed on to methods
+#' @inheritParams copy_to.src_sql
 #' @seealso \code{\link{copy_to}} which is the conceptual opposite: it
 #'   takes a local data frame and makes it available to the remote source.
 #' @export
@@ -56,6 +57,7 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
 }
 
 #' @export
+#' @rdname compute
 compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE, ...) {
   x$query$save_into(name, temporary = temporary)
   update(tbl(x$src, name), group_by = groups(x))
