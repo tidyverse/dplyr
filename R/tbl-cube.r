@@ -194,6 +194,10 @@ as.tbl_cube.table <- as.tbl_cube.array
 
 #' @export
 #' @rdname as.tbl_cube
+as.tbl_cube.matrix <- as.tbl_cube.array
+
+#' @export
+#' @rdname as.tbl_cube
 as.tbl_cube.data.frame <- function(x, dim_names, ...) {
   if (!is.character(dim_names)) {
     dim_names <- names(x)[dim_names]
