@@ -19,7 +19,6 @@ ds <- tbl_df(mtcars)
 ds
 as.data.frame(ds)
 
-if (require("Lahman")) {
 data("Batting", package = "Lahman")
 batting <- tbl_df(Batting)
 dim(batting)
@@ -51,6 +50,7 @@ stints <- summarise(per_year, stints = max(stint))
 # mutate(stints, cumsum(stints))
 
 # Joins ---------------------------------------------------------------------
+data("Master", "HallOfFame", package = "Lahman")
 player_info <- select(tbl_df(Master), playerID, hofID, birthYear)
 hof <- select(filter(tbl_df(HallOfFame), inducted == "Y"),
  hofID, votedBy, category)
@@ -63,6 +63,5 @@ left_join(player_info, hof)
 semi_join(player_info, hof)
 # Find players not in hof
 anti_join(player_info, hof)
-}
 }
 

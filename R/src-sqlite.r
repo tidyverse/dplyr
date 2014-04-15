@@ -96,6 +96,10 @@ src_sqlite <- function(path, create = FALSE) {
       call. = FALSE)
   }
 
+  if (!create && !file.exists(path)) {
+    stop("Path does not exist and create = FALSE", call. = FALSE)
+  }
+
   con <- dbi_connect(SQLite(), dbname = path)
   info <- db_info(con)
 

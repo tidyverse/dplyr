@@ -11,11 +11,10 @@
 #' @export
 #' @examples
 #' glimpse(mtcars)
-#' glimpse(hflights::hflights)
 #'
 #' if (require("RSQLite") && has_lahman("sqlite")) {
-#' batting <- tbl(lahman_sqlite(), "Batting")
-#' glimpse(batting)
+#'   batting <- tbl(lahman_sqlite(), "Batting")
+#'   glimpse(batting)
 #' }
 glimpse <- function(tbl, width = getOption("width")) {
   if (ncol(tbl) == 0) return(invisible())

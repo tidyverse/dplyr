@@ -32,14 +32,12 @@ restrictions can be placed on.
 it.
 }
 \examples{
-\donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
-batting <- tbl(lahman_sqlite(), "Batting")
-remote <- select(filter(batting, yearID > 2010 && stint == 1), playerID:H)
-remote2 <- collapse(remote)
-cached <- compute(remote)
-local  <- collect(remote)
-}
+  batting <- tbl(lahman_sqlite(), "Batting")
+  remote <- select(filter(batting, yearID > 2010 && stint == 1), playerID:H)
+  remote2 <- collapse(remote)
+  cached <- compute(remote)
+  local  <- collect(remote)
 }
 }
 \seealso{

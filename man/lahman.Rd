@@ -12,7 +12,7 @@
 \alias{lahman_srcs}
 \title{Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.}
 \usage{
-lahman_sqlite(path = NULL)
+lahman_sqlite()
 
 lahman_postgres(...)
 
@@ -31,10 +31,6 @@ has_lahman(type, ...)
 lahman_srcs(..., quiet = NULL)
 }
 \arguments{
-\item{path}{location to look for and cache SQLite database. If \code{NULL},
-the default, will first try storing in the installed package directory, and
-if that isn't writeable, a temporary directory.}
-
 \item{...}{Arguments passed to \code{src} on first
   load. For mysql and postgresql, the defaults assume you have a local
   server with \code{lahman} database already created. For bigquery,
@@ -57,12 +53,11 @@ Michael Friendly, Dennis Murphy and Martin Monkman. See the documentation
 for that package for documentation of the inidividual tables.
 }
 \examples{
-\donttest{
+# Connect to a local sqlite database, if already created
 if (require("RSQLite") && has_lahman("sqlite")) {
   lahman_sqlite()
   batting <- tbl(lahman_sqlite(), "Batting")
   batting
-}
 }
 
 # Connect to a local postgres database with lahman database, if available

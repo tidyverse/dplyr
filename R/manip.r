@@ -139,12 +139,11 @@ select <- function(.data, ...) UseMethod("select")
 #'
 #' @export
 #' @examples
-#' if (require("hflights")) {
+#' data("hflights", package = "hflights")
 #' carriers <- group_by(hflights, UniqueCarrier)
 #' summarise(carriers, n())
 #' mutate(carriers, n = n())
 #' filter(carriers, n() == 79)
-#' }
 n <- function() {
   stop("This function should not be called directly")
 }

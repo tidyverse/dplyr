@@ -30,7 +30,8 @@ prior to modification to avoid changes propagating via reference.}
 Data manipulation for grouped data tables.
 }
 \examples{
-if (require("data.table") && require("hflights")) {
+if (require("data.table")) {
+data("hflights", package = "hflights")
 hflights2 <- tbl_dt(hflights)
 by_dest <- group_by(hflights2, Dest)
 

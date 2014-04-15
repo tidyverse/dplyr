@@ -21,13 +21,12 @@ method on a data table or tbl: this will take care of capturing
 the unevalated expressions for you.
 }
 \examples{
-if (require("hflights")) {
+data("hflights", package = "hflights")
 hflights_dt <- tbl_dt(hflights)
 group_size(group_by(hflights_dt, Year, Month, DayofMonth))
 group_size(group_by(hflights_dt, Dest))
 
 monthly <- group_by(hflights_dt, Month)
 summarise(monthly, n = n(), delay = mean(ArrDelay))
-}
 }
 

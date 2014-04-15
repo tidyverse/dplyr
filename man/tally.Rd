@@ -19,18 +19,17 @@ will perform a "weighted" tally but summing over the specified variable.}
 for the first time, or re-tallying.
 }
 \examples{
-if (require("Lahman")) {
-  batting_tbl <- tbl_df(Batting)
-  tally(group_by(batting_tbl, yearID))
-  tally(group_by(batting_tbl, yearID), sort = TRUE)
+library(Lahman)
+batting_tbl <- tbl_df(Batting)
+tally(group_by(batting_tbl, yearID))
+tally(group_by(batting_tbl, yearID), sort = TRUE)
 
-  # Multiple tallys progressively role up the groups
-  plays_by_year <- tally(group_by(batting_tbl, playerID, stint), sort = TRUE)
-  tally(plays_by_year, sort = TRUE)
-  tally(tally(plays_by_year))
+# Multiple tallys progressively role up the groups
+plays_by_year <- tally(group_by(batting_tbl, playerID, stint), sort = TRUE)
+tally(plays_by_year, sort = TRUE)
+tally(tally(plays_by_year))
 
-  # This looks a little nicer if you use the infix \%>\% operator
-  batting_tbl \%>\% group_by(playerID) \%>\% tally(sort = TRUE)
-}
+# This looks a little nicer if you use the infix \%>\% operator
+batting_tbl \%>\% group_by(playerID) \%>\% tally(sort = TRUE)
 }
 

@@ -25,8 +25,8 @@
 #'   operation you should not need to set this parameter.
 #' @export
 #' @examples
-#' if (require("hflights")) {
 #' # If you're performing many operations you can either do step by step
+#' data("hflights", package = "hflights")
 #' a1 <- group_by(hflights, Year, Month, DayofMonth)
 #' a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
 #' a3 <- summarise(a2,
@@ -61,8 +61,6 @@
 #'     dep = mean(DepDelay, na.rm = TRUE)
 #'   ) %>%
 #'   filter(arr > 30 | dep > 30)
-#'
-#' }
 chain <- function(..., env = parent.frame()) {
   # Deprecated 0.2. Remove in 0.3
   warning("Chain is deprecated. Please use %>%", call. = FALSE)

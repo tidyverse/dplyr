@@ -12,13 +12,12 @@
 #' @param .data a data frame
 #' @param ... variables interpreted in the context of \code{.data}
 #' @examples
-#' if (require("hflights")) {
+#' data("hflights", package = "hflights")
 #' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
 #' head(select(hflights, Year:DayOfWeek))
 #' summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
 #' head(mutate(hflights, gained = ArrDelay - DepDelay))
 #' head(arrange(hflights, Dest, desc(ArrDelay)))
-#' }
 #' @name manip_df
 NULL
 

@@ -12,14 +12,13 @@
 #'   the last variable in the tbl.
 #' @export
 #' @examples
-#' if (require("Lahman")) {
-#'   players <- group_by(tbl_df(Batting), playerID)
-#'   games <- tally(players, G)
-#'   top_n(games, 10, n)
+#' data("Batting", package = "Lahman")
+#' players <- group_by(tbl_df(Batting), playerID)
+#' games <- tally(players, G)
+#' top_n(games, 10, n)
 #'
-#'   # A little nicer with %>%
-#'   tbl_df(Batting) %>% group_by(playerID) %>% tally(G) %>% top_n(10)
-#' }
+#' # A little nicer with %>%
+#' tbl_df(Batting) %>% group_by(playerID) %>% tally(G) %>% top_n(10)
 top_n <- function(x, n, wt = NULL) {
   if (is.null(wt)) {
     vars <- tbl_vars(x)

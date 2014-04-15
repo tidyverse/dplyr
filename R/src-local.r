@@ -12,19 +12,17 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' if (require("Lahman")) {
 #' src_dt("Lahman")
 #' src_df("Lahman")
 #'
 #' batting_df <- tbl(src_df("Lahman"), "Batting")
 #' batting_dt <- tbl(src_dt("Lahman"), "Batting")
-#' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
     stop("Must supply exactly one of pkg and env", call. = FALSE)
   }
-  if (is.null(env)) {
-    env <- as.environment(paste0("package:", pkg))
+  if (!is.null(pkg)) {
+    env <- getNamespaceInfo(pkg, "lazydata")
     name <- paste0("<package: ", pkg, ">")
   } else {
     name <- capture.output(print(env))

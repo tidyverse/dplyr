@@ -24,7 +24,6 @@ This requires a little bit of knowledge about how \code{EXPLAIN} works for
 your database, but is very useful for diagnosing performance problems.
 }
 \examples{
-\donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
 
 batting <- tbl(lahman_sqlite(), "Batting")
@@ -49,7 +48,6 @@ explain(filter(batting, lgID == "NL" & yearID == 2000))
 
 # OR's will use multiple indexes
 explain(filter(batting, lgID == "NL" | yearID == 2000))
-}
 }
 }
 

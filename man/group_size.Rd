@@ -12,9 +12,8 @@ group_size(x)
 Calculate the size of each group
 }
 \examples{
-if (require("hflights")) {
+data("hflights", package = "hflights")
 group_size(group_by(hflights, Year, Month, DayofMonth))
 group_size(group_by(hflights, Dest))
-}
 }
 

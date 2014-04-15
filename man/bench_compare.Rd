@@ -47,7 +47,7 @@ multiple sources.
 }
 \examples{
 \donttest{
-if (require("Lahman") && require("microbenchmark")) {
+if (require("microbenchmark")) {
 lahman_local <- lahman_srcs("df", "dt", "cpp")
 teams <- lapply(lahman_local, function(x) x \%>\% tbl("Teams"))
 
