@@ -16,7 +16,9 @@
 #' src_df("Lahman")
 #'
 #' batting_df <- tbl(src_df("Lahman"), "Batting")
+#' if (require("data.table")) {
 #' batting_dt <- tbl(src_dt("Lahman"), "Batting")
+#' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
     stop("Must supply exactly one of pkg and env", call. = FALSE)
