@@ -5,7 +5,6 @@
 
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
-library(Lahman)
 knitr::opts_chunk$set(tidy = FALSE, comment = "#>")
 ```
 
@@ -16,6 +15,7 @@ A __window function__ is a variation on an aggregation function. Where an aggreg
 Window functions are used in conjunction with `mutate` and `filter` to solve a wide range of problems, some of which are shown below:
 
 ```{r, results = "hide"}
+library(Lahman)
 batting <- select(tbl_df(Batting), playerID, yearID, teamID, G, AB:H) 
 batting <- arrange(batting, playerID, yearID, teamID)
 players <- group_by(batting, playerID)
