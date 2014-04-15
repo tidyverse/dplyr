@@ -68,6 +68,8 @@ dplyr 0.2 adds three new verbs:
 * `changes()` output more clearly distinguishes which columns were added or
   deleted.
 
+* `explain()` is now generic.
+
 * dplyr is more careful when setting the keys of data tables, so it never
   accidentally modifies an object that it doesn't own. It also avoids
   unnecessary key setting which negatively affected performance.

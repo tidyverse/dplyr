@@ -53,13 +53,28 @@ show_sql <- function(code) {
 
 #' @export
 #' @rdname explain_sql
-explain <- function(tbl) {
-  force(tbl)
+explain.tbl_sql <- function(x) {
+  force(x)
   message(
-    "<SQL>\n", tbl$query$sql,
+    "<SQL>\n", x$query$sql,
     "\n\n",
-    "<PLAN>\n", qry_explain(tbl$query$con, tbl$query$sql)
+    "<PLAN>\n", qry_explain(x$query$con, x$query$sql)
   )
 
   invisible(NULL)
+}
+
+#' Explain details of an object
+#'
+#' This is a generic function which gives more details about an object than
+#' \code{\link{print}}, and is more focussed on human readable output than
+#' \code{\link{str}}.
+#'
+#' For more details of explaining dplyr sql tbls, see \code{\link{explain_tbl}}.
+#'
+#' @export
+#' @param x An object to explain
+#' @param ... Other parameters possibly used by generic
+explain <- function(x, ...) {
+  UseMethod("explain")
 }
