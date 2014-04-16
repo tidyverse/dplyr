@@ -16,3 +16,11 @@ rowwise <- function(data) {
 
   structure(data, class = c("rowwise_df", "tbl_df", "data.frame"))
 }
+
+#' @export
+print.rowwise_df <- function(x, ..., n = NULL) {
+  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
+  cat("Groups: <by row>\n")
+  cat("\n")
+  trunc_mat(x, n = n)
+}
