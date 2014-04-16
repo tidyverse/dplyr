@@ -31,7 +31,10 @@ ungroup.rowwise_df <- function(x) {
   x
 }
 #' @export
-as.data.frame.rowwise_df <- ungroup.rowwise_df
+as.data.frame.rowwise_df <- function(x, row.names, optional, ...) {
+  class(x) <- "data.frame"
+  x
+}
 
 #' @export
 group_size.rowwise_df <- function(x) {

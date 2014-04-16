@@ -9,13 +9,15 @@ explain_sql(code)
 
 show_sql(code)
 
-\method{explain}{tbl_sql}(x)
+\method{explain}{tbl_sql}(x, ...)
 }
 \arguments{
 \item{code}{code to run. All sql queries executed during the running of the
 code will be shown and explained.}
 
-\item{tbl}{an sql-based table to explain.}
+\item{x}{an sql-based table to explain.}
+
+\item{...}{Ignored. Needed for compatibility with generic.}
 }
 \description{
 Any queries run inside this function will automatically be explained:

@@ -16,6 +16,6 @@ This is a generic function which gives more details about an object than
 \code{\link{str}}.
 }
 \details{
-For more details of explaining dplyr sql tbls, see \code{\link{explain_tbl}}.
+For more details of explaining dplyr sql tbls, see \code{\link{explain_sql}}.
 }
 

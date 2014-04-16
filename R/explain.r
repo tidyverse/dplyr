@@ -7,7 +7,8 @@
 #'
 #' @param code code to run. All sql queries executed during the running of the
 #'   code will be shown and explained.
-#' @param tbl an sql-based table to explain.
+#' @param x an sql-based table to explain.
+#' @param ... Ignored. Needed for compatibility with generic.
 #' @export
 #' @examples
 #' if (require("RSQLite") && has_lahman("sqlite")) {
@@ -53,7 +54,7 @@ show_sql <- function(code) {
 
 #' @export
 #' @rdname explain_sql
-explain.tbl_sql <- function(x) {
+explain.tbl_sql <- function(x, ...) {
   force(x)
   message(
     "<SQL>\n", x$query$sql,
@@ -70,7 +71,7 @@ explain.tbl_sql <- function(x) {
 #' \code{\link{print}}, and is more focussed on human readable output than
 #' \code{\link{str}}.
 #'
-#' For more details of explaining dplyr sql tbls, see \code{\link{explain_tbl}}.
+#' For more details of explaining dplyr sql tbls, see \code{\link{explain_sql}}.
 #'
 #' @export
 #' @param x An object to explain
