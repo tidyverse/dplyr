@@ -95,6 +95,7 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/EmptySubset.h>
 #include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/RowwiseDataFrame.h>
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/comparisons_different.h>
@@ -119,5 +120,6 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/registration.h>
 
 void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) ;
+void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) ;
 
 #endif

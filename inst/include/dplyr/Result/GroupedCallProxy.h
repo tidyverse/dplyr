@@ -3,22 +3,24 @@
 
 namespace dplyr {
      
+    template <typename Data = GroupedDataFrame, typename Subsets = LazyGroupedSubsets>
     class GroupedCallProxy {
     public:
+        typedef GroupedHybridCall<Subsets> HybridCall ;
         
-        GroupedCallProxy( Call& call_, const LazyGroupedSubsets& subsets_, const Environment& env_) : 
+        GroupedCallProxy( Call& call_, const Subsets& subsets_, const Environment& env_) : 
             call(call_), subsets(subsets_), proxies(), env(env_), hybrid(false)
         {
             set_call(call) ; 
         }
         
-        GroupedCallProxy( Call& call_, const GroupedDataFrame& data_, const Environment& env_) : 
+        GroupedCallProxy( Call& call_, const Data& data_, const Environment& env_) : 
             call(call_), subsets(data_), proxies(), env(env_), hybrid(false)
         {
             set_call(call) ; 
         }
         
-        GroupedCallProxy( const GroupedDataFrame& data_, const Environment& env_ ) : 
+        GroupedCallProxy( const Data& data_, const Environment& env_ ) : 
             subsets(data_), proxies(), env(env_), hybrid(false)
         {}
         
@@ -29,7 +31,7 @@ namespace dplyr {
             subsets.clear();
             if( TYPEOF(call) == LANGSXP){
                 if( hybrid ) {
-                    GroupedHybridCall hybrid_eval( call, indices, subsets, env ) ;
+                    HybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;
                 }
                 
@@ -145,7 +147,7 @@ namespace dplyr {
         }
         
         Rcpp::Call call ;
-        LazyGroupedSubsets subsets ;
+        Subsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env; 
         bool hybrid ;

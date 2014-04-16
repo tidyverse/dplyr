@@ -72,7 +72,7 @@ test_that("arrange results same regardless of backend", {
 
 test_that("arrange uses the white list", {
   env <- environment()
-  Period <- setClass("Period", contains = "numeric", where = env)
+  Period <- suppressWarnings( setClass("Period", contains = "numeric", where = env) )
   on.exit(removeClass("Period", where = env))
 
   df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )

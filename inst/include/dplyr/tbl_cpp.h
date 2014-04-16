@@ -31,9 +31,10 @@ namespace dplyr {
         List data ;
     } ;
     
+    template <typename Data>
     class summarised_grouped_tbl_cpp{
     public:
-        summarised_grouped_tbl_cpp( Rcpp::List data_, const GroupedDataFrame& source ) : data(data_){
+        summarised_grouped_tbl_cpp( Rcpp::List data_, const Data& source ) : data(data_){
             int nr = source.ngroups() ;
             set_rownames(data, nr ) ;
             

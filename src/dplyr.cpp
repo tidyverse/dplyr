@@ -1360,6 +1360,8 @@ inline SEXP check_filter_integer_result(SEXP tmp){
 }
 
 SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots){
+    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
+    
     const DataFrame& data = gdf.data() ;
     Environment env = dots.envir(0);
     CharacterVector names = data.names() ;
@@ -1374,7 +1376,7 @@ SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDo
     std::vector<int> indx ; indx.reserve(1000) ;
     
     IntegerVector g_test ;
-    GroupedCallProxy call_proxy( call, gdf, env ) ;
+    Proxy call_proxy( call, gdf, env ) ;
     
     int ngroups = gdf.ngroups() ;
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
@@ -1442,6 +1444,7 @@ SEXP structure_mutate( const NamedListAccumulator& accumulator, const DataFrame&
     return res ;
 }
 
+void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf){}
 void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf){
     int n = result_names.size() ;
     for( int i=0; i<n; i++){
@@ -1451,13 +1454,15 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
 }
 
 SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
+    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy; 
+    
     const DataFrame& df = gdf.data() ;
     int nexpr = dots.size() ;
     CharacterVector results_names = args.names() ;
     check_not_groups(results_names, gdf);
 
     Environment env = dots.envir(0) ;
-    GroupedCallProxy proxy(gdf, env) ;
+    Proxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
 
     NamedListAccumulator accumulator ;
@@ -1497,11 +1502,11 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
 
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
-            Gatherer* gather = gatherer( proxy, gdf, name ) ;
+            Gatherer* gather = gatherer<GroupedDataFrame, LazyGroupedSubsets>( proxy, gdf, name ) ;
             variable = __( gather->collect() ) ;
             delete gather ;
         } else if(Rf_length(call) == 1) {
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, gdf.nrows() ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<GroupedDataFrame, LazyGroupedSubsets>( call, gdf.nrows() ) );
             variable = __( gather->collect() ) ;
         } else {
             stop( "cannot handle" ) ;
@@ -1516,7 +1521,6 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
 
 SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
     Shelter<SEXP> __ ;
-
     Environment env = dots.envir(0) ;
 
     int nexpr = dots.size() ;
@@ -1552,7 +1556,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             result = __( call_proxy.eval() ) ;
 
         } else if( Rf_length(call) == 1 ){
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, df.nrows() ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, df.nrows() ) );
             result = __( gather->collect() ) ;
         } else {
             stop( "cannot handle" ) ;
@@ -1564,7 +1568,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
             // ok
         } else if( Rf_length(result) == 1 ){
             // recycle
-            Gatherer* gather = constant_gatherer( result, df.nrows() ) ;
+            Gatherer* gather = constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) ;
             result = __( gather->collect() ) ;
             delete gather ;
         } else {

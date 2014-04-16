@@ -72,6 +72,8 @@ inline SEXP check_filter_logical_result(SEXP tmp){
 }
 
 DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& args, const Environment& env){
+    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ; 
+    
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
     SymbolSet set ;
@@ -86,7 +88,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     LogicalVector test(nrows, TRUE);
 
     LogicalVector g_test ;
-    GroupedCallProxy call_proxy( call, gdf, env ) ;
+    Proxy call_proxy( call, gdf, env ) ;
 
     int ngroups = gdf.ngroups() ;
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
@@ -131,7 +133,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
         Rcpp::checkUserInterrupt() ;
     
         Call call( (SEXP)args[dots.expr_index(k)] ) ;
-        GroupedCallProxy call_proxy( call, gdf, dots.envir(k) ) ;
+        GroupedCallProxy<GroupedDataFrame> call_proxy( call, gdf, dots.envir(k) ) ;
         int ngroups = gdf.ngroups() ;
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
         for( int i=0; i<ngroups; i++, ++git){

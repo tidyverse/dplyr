@@ -18,6 +18,17 @@ namespace dplyr {
             return out ;
         }
         
+        virtual SEXP process(const RowwiseDataFrame& gdf ){
+            int ng = gdf.ngroups() ; 
+            
+            Vector<RTYPE> out = no_init(gdf.nrows()) ;
+            RowwiseDataFrame::group_iterator git = gdf.group_begin(); 
+            for( int i=0; i<ng; i++, ++git){
+                static_cast<Derived&>(*this).process_slice(out, *git, *git) ;
+            }
+            return out ;
+        }
+        
         virtual SEXP process(const FullDataFrame& df){
             Vector<RTYPE> out = no_init(df.nrows()) ;
             SlicingIndex index = df.get_index() ;

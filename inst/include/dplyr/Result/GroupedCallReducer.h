@@ -1,25 +1,26 @@
-#ifndef dplyr_GroupedCalledReducer_H
-#define dplyr_GroupedCalledReducer_H
+#ifndef dplyr_GroupedCallReducer_H
+#define dplyr_GroupedCallReducer_H
 
 namespace dplyr {
-       
-    class GroupedCalledReducer : public CallbackProcessor<GroupedCalledReducer> {
+        
+    template <typename Data, typename Subsets>
+    class GroupedCallReducer : public CallbackProcessor< GroupedCallReducer<Data,Subsets> > {
     public:
-        GroupedCalledReducer(Rcpp::Call call, const LazyGroupedSubsets& subsets, const Environment& env): 
+        GroupedCallReducer(Rcpp::Call call, const Subsets& subsets, const Environment& env): 
             proxy(call, subsets, env) 
         {
         }
         
-        virtual ~GroupedCalledReducer(){} ;
+        virtual ~GroupedCallReducer(){} ;
         
         inline SEXP process_chunk( const SlicingIndex& indices ){
             return proxy.get(indices) ;
         }               
-        
+                                       
     private:
-        GroupedCallProxy proxy ;
+        GroupedCallProxy<Data, Subsets> proxy ;
     } ;
 
 } // namespace dplyr
 
-#endif
+#endif                                                                                                 

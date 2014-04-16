@@ -3,9 +3,10 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& dots){
-    DataFrame df = gdf.data() ;
-
+template <typename Data, typename Subsets>
+SEXP summarise_grouped(const DataFrame& df, List args, const DataDots& dots){
+    Data gdf(df) ;
+    
     int nexpr = dots.size() ;
     int nvars = gdf.nvars() ;
     CharacterVector results_names = args.names() ;
@@ -17,7 +18,7 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         accumulator.set( PRINTNAME(gdf.symbol(i)), shared_SEXP(gdf.label(i)) ) ;
     }
 
-    LazyGroupedSubsets subsets(gdf) ;
+    Subsets subsets(gdf) ;
     Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
         Rcpp::checkUserInterrupt() ;
@@ -27,8 +28,8 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         Result* res = get_handler( args[dots.expr_index(k)], subsets, env ) ;
         
         // if we could not find a direct Result
-        // we can use a GroupedCalledReducer which will callback to R
-        if( !res ) res = new GroupedCalledReducer( args[dots.expr_index(k)], subsets, env) ;
+        // we can use a GroupedCallReducer which will callback to R
+        if( !res ) res = new GroupedCallReducer<Data, Subsets>( args[dots.expr_index(k)], subsets, env) ;
         
         
         SEXP result = __( res->process(gdf) ) ;
@@ -38,8 +39,9 @@ SEXP summarise_grouped(const GroupedDataFrame& gdf, List args, const DataDots& d
         delete res;
     }
 
-    return summarised_grouped_tbl_cpp(accumulator, gdf );
+    return summarised_grouped_tbl_cpp<Data>(accumulator, gdf );
 }
+
 
 SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
     int nexpr = dots.size() ;
@@ -82,8 +84,10 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
 // [[Rcpp::export]]
 SEXP summarise_impl( DataFrame df, List args, Environment env){
     DataDots dots(env) ;
-    if( is<GroupedDataFrame>( df ) ){
-        return summarise_grouped( GroupedDataFrame(df), args, dots);
+    if( is<RowwiseDataFrame>(df) ){
+        return summarise_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, args, dots);
+    } else if( is<GroupedDataFrame>( df ) ){
+        return summarise_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, args, dots);
     } else {
         return summarise_not_grouped( df, args, dots) ;
     }

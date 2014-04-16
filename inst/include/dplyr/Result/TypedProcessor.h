@@ -15,6 +15,10 @@ namespace dplyr {
       return promote( proc.process(gdf) ) ;
     }
     
+    virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf ) {
+      return promote( proc.process(gdf) ) ;
+    }
+    
     virtual SEXP process( const Rcpp::FullDataFrame& df){
       return promote( proc.process(df) ) ;
     }

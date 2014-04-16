@@ -20,6 +20,13 @@ namespace dplyr {
             return out ;
         }
         
+        virtual SEXP process(const RowwiseDataFrame& gdf ){
+            int nrows = gdf.nrows() ;
+            
+            Vector<RTYPE> out(nrows, Vector<RTYPE>::get_na() ) ;
+            return out ;
+        }
+        
         virtual SEXP process(const FullDataFrame& df){
             int nrows = df.nrows() ;
             Vector<RTYPE> out = no_init(nrows) ;
@@ -59,6 +66,9 @@ namespace dplyr {
         TypedLead(SEXP data_, int n_, CharacterVector classes_) : lead(data_, n_), classes(classes_){}
         
         virtual SEXP process(const GroupedDataFrame& gdf ){
+            return promote( lead.process(gdf) ) ;
+        }
+        virtual SEXP process(const RowwiseDataFrame& gdf ){
             return promote( lead.process(gdf) ) ;
         }
         virtual SEXP process(const FullDataFrame& df){

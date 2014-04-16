@@ -15,14 +15,11 @@ namespace dplyr{
         Processor(){}
         
         virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
-            int n = gdf.ngroups() ; 
-            Rcpp::Shield<SEXP> res( Rf_allocVector( OUTPUT, n) );
-            STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
-            CLASS* obj = static_cast<CLASS*>(this) ;
-            GroupedDataFrame::group_iterator git = gdf.group_begin(); 
-            for( int i=0; i<n; i++, ++git)
-                ptr[i] = obj->process_chunk(*git) ;
-            return res ;        
+            return process_grouped<GroupedDataFrame>( gdf ) ;       
+        }
+        
+        virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf ) {
+            return process_grouped<RowwiseDataFrame>( gdf ) ;       
         }
         
         virtual SEXP process( const Rcpp::FullDataFrame& df){
@@ -33,6 +30,21 @@ namespace dplyr{
             CLASS* obj = static_cast<CLASS*>(this) ;
             return Rcpp::Vector<OUTPUT>::create( obj->process_chunk(index) );    
         }
+        
+    private:
+        
+        template <typename Data>
+        SEXP process_grouped(const Data& gdf ) {
+            int n = gdf.ngroups() ; 
+            Rcpp::Shield<SEXP> res( Rf_allocVector( OUTPUT, n) );
+            STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
+            CLASS* obj = static_cast<CLASS*>(this) ;
+            typename Data::group_iterator git = gdf.group_begin(); 
+            for( int i=0; i<n; i++, ++git)
+                ptr[i] = obj->process_chunk(*git) ;
+            return res ;        
+        }
+        
     } ;
     
     template <typename CLASS>
@@ -41,13 +53,10 @@ namespace dplyr{
         Processor(){}
         
         virtual SEXP process(const Rcpp::GroupedDataFrame& gdf) {
-            int n = gdf.ngroups() ; 
-            Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
-            CLASS* obj = static_cast<CLASS*>(this) ;
-            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
-            for( int i=0; i<n; i++, ++git)
-                SET_STRING_ELT( res, i, obj->process_chunk(*git) );
-            return res ;        
+            return process_grouped<GroupedDataFrame>(gdf) ;       
+        }
+        virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf) {
+            return process_grouped<RowwiseDataFrame>(gdf) ;       
         }
         
         virtual SEXP process( const Rcpp::FullDataFrame& df){
@@ -58,6 +67,19 @@ namespace dplyr{
             CLASS* obj = static_cast<CLASS*>(this) ;
             // return Rf_mkString( obj->process_chunk(index) );
             return CharacterVector::create( obj->process_chunk(index) );
+        }
+        
+    private:
+        
+        template <typename Data>
+        SEXP process_grouped(const Data& gdf) {
+            int n = gdf.ngroups() ; 
+            Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
+            CLASS* obj = static_cast<CLASS*>(this) ;
+            typename Data::group_iterator git = gdf.group_begin() ;
+            for( int i=0; i<n; i++, ++git)
+                SET_STRING_ELT( res, i, obj->process_chunk(*git) );
+            return res ;        
         }
     } ;
 

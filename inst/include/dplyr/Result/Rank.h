@@ -126,7 +126,10 @@ namespace dplyr {
                 process_slice( out, *git ) ;
             }
             return out ;
-            
+        }
+        
+        virtual SEXP process( const RowwiseDataFrame& gdf) {
+            return IntegerVector( gdf.nrows(), 1 ) ;
         }
         
         virtual SEXP process( const FullDataFrame& df ) {
@@ -211,6 +214,10 @@ namespace dplyr {
             
         }
         
+        virtual SEXP process( const RowwiseDataFrame& gdf) {
+            return IntegerVector( gdf.nrows(), 1 ) ;
+        }
+        
         virtual SEXP process( const FullDataFrame& df ) {
             return process( df.get_index() ) ;
             
@@ -268,9 +275,12 @@ namespace dplyr {
             
         }
         
+        virtual SEXP process( const RowwiseDataFrame& gdf) {
+            return IntegerVector( gdf.nrows(), 1 ) ;
+        }
+        
         virtual SEXP process( const FullDataFrame& df ) {
             return process( df.get_index() ) ;
-            
         }
         
         virtual SEXP process( const SlicingIndex& index ){
@@ -305,6 +315,10 @@ namespace dplyr {
                 for( int j=0; j<m; j++) res[index[j]] = j + 1 ;
             }
             return res ;
+        }
+        
+        virtual SEXP process( const RowwiseDataFrame& gdf) {
+            return IntegerVector( gdf.nrows(), 1 ) ;
         }
         
         virtual SEXP process( const FullDataFrame& df ) {

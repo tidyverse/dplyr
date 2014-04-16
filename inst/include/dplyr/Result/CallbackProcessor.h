@@ -21,24 +21,11 @@ namespace dplyr{
         CallbackProcessor(){}
         
         virtual SEXP process( const GroupedDataFrame& gdf){
-            Shelter<SEXP> __ ;
-            CLASS* obj = static_cast<CLASS*>( this ) ;
-            GroupedDataFrame::group_iterator git = gdf.group_begin() ;
-            
-            // first call, we don't know yet the type
-            SEXP first_result = __( obj->process_chunk(*git) );
-            
-            // get the appropriate Delayed Processor to handle it
-            DelayedProcessor_Base<CLASS>* processor = get_delayed_processor<CLASS>(first_result) ;
-            if(!processor)
-                stop( "expecting a single value" );
-            SEXP res = __( processor->delayed_process( gdf, first_result, obj ) ) ;
-            
-            delete processor ;
-            
-            copy_most_attributes(res, first_result) ;
-            
-            return res ;        
+            return process_data<GroupedDataFrame>( gdf ) ;       
+        }
+        
+        virtual SEXP process( const RowwiseDataFrame& gdf){
+            return process_data<RowwiseDataFrame>( gdf ) ;       
         }
         
         virtual SEXP process( const Rcpp::FullDataFrame& df){
@@ -48,6 +35,30 @@ namespace dplyr{
         
         virtual SEXP process( const SlicingIndex& index ){
             return R_NilValue ;    
+        }
+        
+    private:
+        
+        template <typename Data>
+        SEXP process_data( const Data& gdf ){
+            Shelter<SEXP> __ ;
+            CLASS* obj = static_cast<CLASS*>( this ) ;
+            typename Data::group_iterator git = gdf.group_begin() ;
+            
+            // first call, we don't know yet the type
+            SEXP first_result = __( obj->process_chunk(*git) );
+            
+            // get the appropriate Delayed Processor to handle it
+            DelayedProcessor_Base<CLASS, Data>* processor = get_delayed_processor<CLASS, Data>(first_result) ;
+            if(!processor)
+                stop( "expecting a single value" );
+            SEXP res = __( processor->delayed_process( gdf, first_result, obj ) ) ;
+            
+            delete processor ;
+            
+            copy_most_attributes(res, first_result) ;
+            
+            return res ;        
         }
         
     } ;

@@ -14,6 +14,10 @@ namespace dplyr {
             return Vector<RTYPE>( gdf.ngroups(), value ) ;        
         }
         
+        SEXP process( const RowwiseDataFrame& gdf) {
+            return Vector<RTYPE>( gdf.ngroups(), value ) ;        
+        }
+        
         virtual SEXP process( const FullDataFrame& df) {
             return Vector<RTYPE>::create( value ) ;    
         }
@@ -34,6 +38,10 @@ namespace dplyr {
             value( Rcpp::internal::r_vector_start<RTYPE>(x)[0] ), classes(classes_) {}
         
         SEXP process( const GroupedDataFrame& gdf) {
+            return get(gdf.ngroups()) ;        
+        }
+        
+        SEXP process( const RowwiseDataFrame& gdf) {
             return get(gdf.ngroups()) ;        
         }
         

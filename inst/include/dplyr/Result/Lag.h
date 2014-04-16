@@ -20,6 +20,11 @@ namespace dplyr {
             return out ;
         }
         
+        virtual SEXP process(const RowwiseDataFrame& gdf ){
+            Vector<RTYPE> out(gdf.nrows(), Vector<RTYPE>::get_na() ) ;
+            return out ;
+        }
+        
         virtual SEXP process(const FullDataFrame& df){
             int nrows = df.nrows() ;
             Vector<RTYPE> out = no_init(nrows) ;
@@ -66,6 +71,9 @@ namespace dplyr {
         TypedLag(SEXP data_, int n_, CharacterVector classes_) : lag(data_, n_), classes(classes_){}
         
         virtual SEXP process(const GroupedDataFrame& gdf ){
+            return promote( lag.process(gdf) ) ;
+        }
+        virtual SEXP process(const RowwiseDataFrame& gdf ){
             return promote( lag.process(gdf) ) ;
         }
         virtual SEXP process(const FullDataFrame& df){

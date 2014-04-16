@@ -1,30 +1,29 @@
-#ifndef dplyr_LazyGroupedSubsets_H
-#define dplyr_LazyGroupedSubsets_H
+#ifndef dplyr_LazyRowwiseSubsets_H
+#define dplyr_LazyRowwiseSubsets_H
 
 namespace dplyr {
-        
-    class LazyGroupedSubsets : public LazySubsets {
+
+    class LazyRowwiseSubsets : public LazySubsets {
     public:
-        typedef dplyr_hash_map<SEXP, GroupedSubset*> GroupedSubsetMap ;
+        typedef dplyr_hash_map<SEXP, RowwiseSubset*> RowwiseSubsetMap ;
         typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap ;
         
-        LazyGroupedSubsets( const GroupedDataFrame& gdf_ ): gdf(gdf_), subset_map(), resolved_map(), owner(true) {
-            int max_size = gdf.max_group_size() ;
-            const DataFrame& data = gdf.data() ;
+        LazyRowwiseSubsets( const RowwiseDataFrame& rdf_ ): rdf(rdf_), subset_map(), resolved_map(), owner(true) {
+            const DataFrame& data = rdf.data() ;
             CharacterVector names = data.names() ;
             int n = data.size() ;
             for( int i=0; i<n; i++){
-                subset_map[ as_symbol( names[i] ) ] = grouped_subset( data[i], max_size );    
+                subset_map[ as_symbol( names[i] ) ] = rowwise_subset( data[i] );    
             }
         }
         
-        LazyGroupedSubsets( const LazyGroupedSubsets& other) : 
-            gdf(other.gdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+        LazyRowwiseSubsets( const LazyRowwiseSubsets& other) : 
+            rdf(other.rdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
         {}
         
         void clear(){
             resolved_map.clear() ;
-        }
+        }               
         
         int count(SEXP head) const {
             return subset_map.count(head);    
@@ -35,11 +34,11 @@ namespace dplyr {
         }
         
         SEXP get_variable( SEXP symbol ) const {
-            GroupedSubsetMap::const_iterator it = subset_map.find( symbol );
+            RowwiseSubsetMap::const_iterator it = subset_map.find( symbol );
             return it->second->get_variable() ;  
         }
         bool is_summary( SEXP symbol ) const {
-            GroupedSubsetMap::const_iterator it = subset_map.find( symbol );
+            RowwiseSubsetMap::const_iterator it = subset_map.find( symbol );
             return it->second->is_summary() ;    
         } 
         SEXP get( SEXP symbol, const SlicingIndex& indices ){
@@ -53,26 +52,22 @@ namespace dplyr {
             }
         }
         
-        ~LazyGroupedSubsets(){
+        ~LazyRowwiseSubsets(){
             if(owner) delete_all_second( subset_map ) ;    
         }
         
         void input(SEXP symbol, SEXP x){                    
-            input_subset( symbol, grouped_subset(x, gdf.max_group_size() ) );
+            input_subset( symbol, rowwise_subset(x) );
         }
         
-        void input(SEXP symbol, SummarisedVariable x){                    
-            input_subset( symbol, summarised_grouped_subset(x, gdf.max_group_size() ) ) ;
-        }
-
     private:
-        const GroupedDataFrame& gdf ;
-        GroupedSubsetMap subset_map ;
+        const RowwiseDataFrame& rdf ;
+        RowwiseSubsetMap subset_map ;
         ResolvedSubsetMap resolved_map ;
         bool owner ; 
         
-        void input_subset(SEXP symbol, GroupedSubset* sub){
-            GroupedSubsetMap::iterator it = subset_map.find(symbol) ;
+        void input_subset(SEXP symbol, RowwiseSubset* sub){
+            RowwiseSubsetMap::iterator it = subset_map.find(symbol) ;
             if( it == subset_map.end() ){
                 subset_map[symbol] = sub ;
             } else {
@@ -83,5 +78,7 @@ namespace dplyr {
         }
     } ;
 
+
 }
 #endif
+    
