@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' df <- expand.grid(x = 1:3, y = 3:1)
-#' df %>% rowwise() %>% do(seq(.$x, .$y))
+#' df %>% rowwise() %>% do(i = seq(.$x, .$y))
 rowwise <- function(data) {
   stopifnot(is.data.frame(data))
 
