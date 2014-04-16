@@ -3,3 +3,13 @@ The following notes were generated across my local OS X install, ubuntu running 
 * checking CRAN incoming feasibility ... NOTE
 
   Roxygen2 is not a spelling error.
+
+* checking dependencies in R code ... NOTE
+  Namespaces in Imports field not imported from:
+  'Lahman' 'hflights' 'magrittr' 'methods'
+  
+  I'm resonably certain this is a spurious warning. Lahman and hflights
+  are data packages and hence have nothing to import. Functions from
+  magrittr and methods are used with :: (but during package build 
+  so I don't think the current checks see them)
+ 
