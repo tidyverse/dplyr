@@ -12,14 +12,6 @@ srcs <- temp_srcs(c("df", "dt", "sqlite"))
 tbls <- temp_load(srcs, df)
 grp <- lapply(tbls, function(x) x %>% group_by(g))
 
-
-grp$dt <- data.table(
-  g = c(1, 2, 2, 3, 3, 3),
-  x = 1:6,
-  y = 6:1
-) %>% group_by(g)
-
-
 test_that("can't use both named and unnamed args", {
   expect_error(grp$df %>% do(x = 1, 2), "must either be all named or all unnamed")
 })
@@ -44,9 +36,16 @@ test_that("can only use single unnamed argument", {
 test_that("named argument become list columns", {
   out <- grp$df %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
-  # doesn't including grouping columns
-  expect_equal(out$ncol, list(2, 2, 2))
+  # includes grouping columns
+  expect_equal(out$ncol, list(3, 3, 3))
 })
+
+test_that("colums in output override columns in input", {
+  out <- grp$df %>% do(data.frame(g = 1))
+  expect_equal(names(out), "g")
+  expect_equal(out$g, c(1, 1, 1))
+})
+
 
 # Ungrouped data frames --------------------------------------------------------
 

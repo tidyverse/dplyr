@@ -103,12 +103,8 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
       attr(.data, "drop") %||% TRUE)
   }
 
-  # Create version of data frame without groups or grouping vars
-  gvars <- vapply(groups(.data), as.character, character(1))
-  vars <- setdiff(names(.data), gvars)
+  # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
-  group_data <- select_impl(group_data, setNames(vars, vars))
-
 
   args <- dots(...)
   named <- named_args(args)
@@ -156,6 +152,10 @@ label_output_dataframe <- function(labels, out, groups) {
   rownames(labels) <- NULL
 
   out <- rbind_all(out[[1]])
+
+  # Remove any common columns from labels
+  labels <- labels[setdiff(names(labels), names(out))]
+
   grouped_df(cbind(labels, out), groups)
 }
 
