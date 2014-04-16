@@ -77,7 +77,7 @@ namespace dplyr {
             }
         }
         
-        const GroupedDataFrame& gdf ;
+        const Data& gdf ;
         Proxy& proxy ;
         Vector<RTYPE> data ;
         

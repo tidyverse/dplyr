@@ -3,11 +3,13 @@
 
 namespace dplyr {
 
+    template <typename Data>
     class NamedListAccumulator {
     public:
         
         inline void set(SEXP name, SEXP x){
-            check_supported_type(x, name);
+            if( ! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value )
+                check_supported_type(x, name);
             
             std::vector<SEXP>::iterator it = std::find( names.begin(), names.end(), name ) ;
             if(it == names.end() ){

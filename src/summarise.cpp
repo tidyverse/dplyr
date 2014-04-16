@@ -11,7 +11,7 @@ SEXP summarise_grouped(const DataFrame& df, List args, const DataDots& dots){
     int nvars = gdf.nvars() ;
     CharacterVector results_names = args.names() ;
     check_not_groups(results_names, gdf);
-    NamedListAccumulator accumulator ;
+    NamedListAccumulator<Data> accumulator ;
 
     int i=0;
     for( ; i<nvars; i++){
@@ -52,7 +52,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
     LazySubsets subsets( df ) ;
     std::vector<SEXP> results ;
     std::vector<SEXP> result_names ;
-    NamedListAccumulator accumulator ;
+    NamedListAccumulator<DataFrame> accumulator ;
 
     Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){

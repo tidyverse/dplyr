@@ -1432,7 +1432,8 @@ SEXP integer_filter_impl( DataFrame df, List args, Environment env){
     }
 }
 
-SEXP structure_mutate( const NamedListAccumulator& accumulator, const DataFrame& df, CharacterVector classes){
+template <typename Data>
+SEXP structure_mutate( const NamedListAccumulator<Data>& accumulator, const DataFrame& df, CharacterVector classes){
     List res = accumulator ;
     res.attr("class") = classes ;
     set_rownames( res, df.nrows() ) ;
@@ -1453,10 +1454,11 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
     }
 }
 
-SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
-    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy; 
+template <typename Data, typename Subsets>
+SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
+    typedef GroupedCallProxy<Data, Subsets> Proxy; 
     
-    const DataFrame& df = gdf.data() ;
+    Data gdf(df); 
     int nexpr = dots.size() ;
     CharacterVector results_names = args.names() ;
     check_not_groups(results_names, gdf);
@@ -1465,7 +1467,7 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
     Proxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
 
-    NamedListAccumulator accumulator ;
+    NamedListAccumulator<Data> accumulator ;
     int ncolumns = df.size() ;
     CharacterVector column_names = df.names() ;
     for( int i=0; i<ncolumns; i++){
@@ -1490,11 +1492,11 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
                     s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
                     stop(s.str());
                 } else if( Rf_length(v) == 1){
-                    Replicator* rep = constant_replicator(v, gdf.nrows() );
+                    Replicator* rep = constant_replicator<Data>(v, gdf.nrows() );
                     variable = __( rep->collect() );
                     delete rep ;
                 } else {
-                    Replicator* rep = replicator(v, gdf) ;
+                    Replicator* rep = replicator<Data>(v, gdf) ;
                     variable = __( rep->collect() );
                     delete rep ;
                 }
@@ -1502,11 +1504,11 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
 
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
-            Gatherer* gather = gatherer<GroupedDataFrame, LazyGroupedSubsets>( proxy, gdf, name ) ;
+            Gatherer* gather = gatherer<Data, Subsets>( proxy, gdf, name ) ;
             variable = __( gather->collect() ) ;
             delete gather ;
         } else if(Rf_length(call) == 1) {
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer<GroupedDataFrame, LazyGroupedSubsets>( call, gdf.nrows() ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
             variable = __( gather->collect() ) ;
         } else {
             stop( "cannot handle" ) ;
@@ -1518,7 +1520,7 @@ SEXP mutate_grouped(GroupedDataFrame gdf, List args, const DataDots& dots){
 
     return structure_mutate(accumulator, df, classes_grouped() );
 }
-
+  
 SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
     Shelter<SEXP> __ ;
     Environment env = dots.envir(0) ;
@@ -1526,7 +1528,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
     int nexpr = dots.size() ;
     CharacterVector results_names = args.names() ;
 
-    NamedListAccumulator accumulator ;
+    NamedListAccumulator<DataFrame> accumulator ;
     int nvars = df.size() ;
     CharacterVector df_names = df.names() ;
     for( int i=0; i<nvars; i++){
@@ -1595,8 +1597,10 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
 SEXP mutate_impl( DataFrame df, List args, Environment env){
     if( args.size() == 0 ) return df ;
     DataDots dots(env) ; 
-    if( is<GroupedDataFrame>( df ) ){
-        return mutate_grouped( GroupedDataFrame(df), args, dots);
+    if(is<RowwiseDataFrame>(df) ) {
+        return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, args, dots);
+    } else if( is<GroupedDataFrame>( df ) ){                           
+        return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, args, dots);
     } else {
         return mutate_not_grouped( df, args, dots) ;
     }

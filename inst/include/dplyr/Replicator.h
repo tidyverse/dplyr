@@ -9,7 +9,7 @@ namespace dplyr {
         virtual SEXP collect() = 0 ;
     } ;
         
-    template <int RTYPE>
+    template <int RTYPE, typename Data>
     class ReplicatorImpl : public Replicator {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -33,10 +33,10 @@ namespace dplyr {
         int ngroups ; 
     } ;   
     
-    template <int RTYPE>
-    class TypedReplicator : public ReplicatorImpl<RTYPE> {
+    template <int RTYPE, typename Data>
+    class TypedReplicator : public ReplicatorImpl<RTYPE, Data> {
     public:
-        typedef ReplicatorImpl<RTYPE> Base ;
+        typedef ReplicatorImpl<RTYPE, Data> Base ;
         
         TypedReplicator( SEXP v, int n_, int ngroups_, SEXP classes_) : 
           Base(v,n_,ngroups_), classes(classes_) {}
@@ -51,7 +51,7 @@ namespace dplyr {
         SEXP classes ;        
     } ;
     
-    template <int RTYPE>
+    template <int RTYPE, typename Data>
     class ConstantReplicatorImpl : public Replicator {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -67,14 +67,14 @@ namespace dplyr {
         Vector<RTYPE> data ;
     } ;
     
-    template <int RTYPE>
-    class ConstantTypedReplicator : public ConstantReplicatorImpl<RTYPE>{
+    template <int RTYPE, typename Data>
+    class ConstantTypedReplicator : public ConstantReplicatorImpl<RTYPE, Data>{
     public:
         ConstantTypedReplicator( SEXP v, int n, SEXP classes_ ) : 
-            ConstantReplicatorImpl<RTYPE>(v,n), classes(classes_){}
+            ConstantReplicatorImpl<RTYPE, Data>(v,n), classes(classes_){}
         
         SEXP collect(){
-            Vector<RTYPE> out = ConstantReplicatorImpl<RTYPE>::collect() ;
+            Vector<RTYPE> out = ConstantReplicatorImpl<RTYPE, Data>::collect() ;
             out.attr("class") = classes ;
             return out ;
         }
@@ -83,28 +83,30 @@ namespace dplyr {
         SEXP classes ;
     } ;
     
+    template <typename Data>
     inline Replicator* constant_replicator(SEXP v, const int n){
         switch( TYPEOF(v) ){
             case INTSXP:  
                 {
-                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<INTSXP>(v,n, get_date_classes() ) ;
-                    return new ConstantReplicatorImpl<INTSXP>( v, n ) ;
+                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<INTSXP, Data>(v,n, get_date_classes() ) ;
+                    return new ConstantReplicatorImpl<INTSXP, Data>( v, n ) ;
                 }
             case REALSXP: 
                 {
-                    if( Rf_inherits(v, "POSIXct" )) return new ConstantTypedReplicator<REALSXP>(v,n, get_time_classes() ) ;
-                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<REALSXP>(v,n, get_date_classes() ) ;
-                    return new ConstantReplicatorImpl<REALSXP>( v, n ) ;
+                    if( Rf_inherits(v, "POSIXct" )) return new ConstantTypedReplicator<REALSXP, Data>(v,n, get_time_classes() ) ;
+                    if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<REALSXP, Data>(v,n, get_date_classes() ) ;
+                    return new ConstantReplicatorImpl<REALSXP, Data>( v, n ) ;
                 }
-            case STRSXP:  return new ConstantReplicatorImpl<STRSXP>( v, n ) ;
-            case LGLSXP:  return new ConstantReplicatorImpl<LGLSXP>( v, n ) ;
+            case STRSXP:  return new ConstantReplicatorImpl<STRSXP, Data>( v, n ) ;
+            case LGLSXP:  return new ConstantReplicatorImpl<LGLSXP, Data>( v, n ) ;
             default: break ;
         }
         stop( "cannot handle variable" ) ;
         return 0 ;
     }
     
-    inline Replicator* replicator( SEXP v, const GroupedDataFrame& gdf ){
+    template <typename Data>
+    inline Replicator* replicator( SEXP v, const Data& gdf ){
         int n = Rf_length(v) ;
         bool test = all( gdf.get_group_sizes() == n ).is_true() ;
         if( !test ){
@@ -116,16 +118,16 @@ namespace dplyr {
         switch( TYPEOF(v) ){
             case INTSXP:  
                 {
-                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<INTSXP>(v, n, gdf.ngroups(), get_date_classes() ) ;
-                    return new ReplicatorImpl<INTSXP> ( v, n, gdf.ngroups() ) ;
+                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<INTSXP, Data>(v, n, gdf.ngroups(), get_date_classes() ) ;
+                    return new ReplicatorImpl<INTSXP, Data> ( v, n, gdf.ngroups() ) ;
                 }
             case REALSXP: {
-                    if( Rf_inherits( v, "POSIXct" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), get_time_classes() ) ;
-                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<REALSXP>(v, n, gdf.ngroups(), get_date_classes() ) ;
-                    return new ReplicatorImpl<REALSXP>( v, n, gdf.ngroups() ) ;
+                    if( Rf_inherits( v, "POSIXct" ) ) return new TypedReplicator<REALSXP, Data>(v, n, gdf.ngroups(), get_time_classes() ) ;
+                    if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<REALSXP, Data>(v, n, gdf.ngroups(), get_date_classes() ) ;
+                    return new ReplicatorImpl<REALSXP, Data>( v, n, gdf.ngroups() ) ;
             }
-            case STRSXP:  return new ReplicatorImpl<STRSXP> ( v, n, gdf.ngroups() ) ;
-            case LGLSXP:  return new ReplicatorImpl<LGLSXP> ( v, n, gdf.ngroups() ) ;
+            case STRSXP:  return new ReplicatorImpl<STRSXP, Data> ( v, n, gdf.ngroups() ) ;
+            case LGLSXP:  return new ReplicatorImpl<LGLSXP, Data> ( v, n, gdf.ngroups() ) ;
             default: break ;
         }
         stop( "cannot handle variable" ) ;
