@@ -1,10 +1,22 @@
-#' Apply a function to a tbl
+#' Do arbitrary operations on a tbl.
 #'
 #' This is a general purpose complement to the specialised manipulation
 #' functions \code{\link{filter}}, \code{\link{select}}, \code{\link{mutate}},
 #' \code{\link{summarise}} and \code{\link{arrange}}. You can use \code{do}
 #' to perform arbitrary computation, returning either a data frame or
-#' arbitrary objects which will be stored in a list.
+#' arbitrary objects which will be stored in a list. This is particularly
+#' useful when working with models: you can fit models per group with
+#' \code{do} and then flexibly extract components with either another
+#' \code{do} or \code{summarise}.
+#'
+#' @section Connection to plyr:
+#'
+#' If you're familiar with plyr, \code{do} with named arguments is basically
+#' eqvuivalent to \code{dlply}, and \code{do} with a single unnamed argument
+#' is basically equivalent to \code{ldply}. However, instead of storing
+#' labels in a separate attribute, the result is always a data frame. This
+#' means that \code{summarise} applied to the result of \code{do} can
+#' act like \code{ldply}.
 #'
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
@@ -17,9 +29,12 @@
 #' arguments become list-columns, with one element for each group; unnamed
 #' elements must be data frames and labels will be duplicated accordingly.
 #'
-#' Unlike \code{\link{summarise}} groups are preserved in input and output.
-#' This is because while \code{summarise} reduces the complexity of the
-#' data, \code{do} generally does not.
+#' Groups are preserved for a single unnamed input. This is different to
+#' \code{\link{summarise}} because \code{do} generally does not reduce the
+#' complexity of the data, it just expresses it in a special way. For
+#' multiple named inputs, the output is grouped by row with
+#' \code{\link{rowwise}}. This allows other verbs to work in an intuitive
+#' way.
 #' @export
 #' @examples
 #' by_cyl <- group_by(mtcars, cyl)

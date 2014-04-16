@@ -25,7 +25,7 @@ If you use an unnamed argument, the result should be a data frame. This allows y
 
     mtcars %>% group_by(cyl) %>% do(head(., 1))
 
-Note the use of the `.` pronoun to refer to the data in the current group. This will be a data frame and will exclude the (constant) variables used in the grouping.
+Note the use of the `.` pronoun to refer to the data in the current group.
 
 `do()` also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.
 

@@ -4,13 +4,18 @@
 #' create list-variables. It is also useful to support arbitrary
 #' complex operations that need to be applied to each row.
 #'
-#' Currently \code{rowwise} grouping only works with data frames.
+#' Currently \code{rowwise} grouping only works with data frames. It's
+#' main impact is to allow you to work with list-variables in
+#' \code{\link{summarise}} and \code{\link{mutate}} without having to
+#' use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
+#' effectively equivalent to plyr's \code{ldply}.
 #'
 #' @param data Input data frame.
 #' @export
 #' @examples
 #' df <- expand.grid(x = 1:3, y = 3:1)
 #' df %>% rowwise() %>% do(i = seq(.$x, .$y))
+#' .Last.value %>% summarise(n = length(i))
 rowwise <- function(data) {
   stopifnot(is.data.frame(data))
 
