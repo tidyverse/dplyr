@@ -24,3 +24,22 @@ print.rowwise_df <- function(x, ..., n = NULL) {
   cat("\n")
   trunc_mat(x, n = n)
 }
+
+#' @export
+ungroup.rowwise_df <- function(x) {
+  class(x) <- "data.frame"
+  x
+}
+#' @export
+as.data.frame.rowwise_df <- ungroup.rowwise_df
+
+#' @export
+group_size.rowwise_df <- function(x) {
+  rep.int(1L, nrow(x))
+}
+
+#' @export
+regroup.rowwise_df <- function(x, value) {
+  warning("Grouping rowwise data frame strips rowwise nature", call. = FALSE)
+  grouped_df(ungroup(x), value)
+}
