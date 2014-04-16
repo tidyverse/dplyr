@@ -18,6 +18,6 @@ Currently \code{rowwise} grouping only works with data frames.
 }
 \examples{
 df <- expand.grid(x = 1:3, y = 3:1)
-# df \%>\% rowwise() \%>\% do(seq(.$x, .$y))
+df \%>\% rowwise() \%>\% do(seq(.$x, .$y))
 }
 

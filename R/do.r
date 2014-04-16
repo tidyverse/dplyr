@@ -41,10 +41,7 @@
 #' )
 #' models
 #' compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
-#' compare
-#' # Want to get to:
-#' # compare <- models %>% mutate(aov = anova(mod_linear, .$mod_quad))
-#' # compare %>% summarise(p.value = aov$`Pr(>F)`[2])
+#' # compare %>% summarise(p.value = aov$`Pr(>F)`)
 #'
 #' # You can use it to do any arbitrary computation, like fitting a linear
 #' # model. Let's explore how carrier departure delays vary over the time
@@ -53,8 +50,8 @@
 #' group_size(carriers)
 #'
 #' mods <- do(carriers, mod = lm(ArrDelay ~ DepTime, data = .))
-#' mods %>% do(as.data.frame(coef(.$mod[[1]])))
-#' mods %>% summarise(rsq = summary(mod[[1]])$r.squared)
+#' mods %>% do(as.data.frame(coef(.$mod)))
+#' mods %>% summarise(rsq = summary(mod)$r.squared)
 #'
 #' \dontrun{
 #' # This longer example shows the progress bar in action
@@ -140,6 +137,45 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   }
 }
 
+#' @export
+do.rowwise_df <- function(.data, ..., env = parent.frame()) {
+  # Create ungroup version of data frame suitable for subsetting
+  group_data <- ungroup(.data)
+
+  args <- dots(...)
+  named <- named_args(args)
+
+  # Create new environment, inheriting from parent, with an active binding
+  # for . that resolves to the current subset. `_i` is found in environment
+  # of this function because of usual scoping rules.
+  index <- attr(.data, "indices")
+  env <- new.env(parent = parent.frame())
+  makeActiveBinding(".", function() {
+    lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
+  }, env)
+
+  n <- nrow(.data)
+  m <- length(args)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
+  p <- Progress(n * m, min_time = 2)
+
+  for (`_i` in seq_len(n)) {
+    for (j in seq_len(m)) {
+      out[[j]][`_i`] <- list(eval(args[[j]], envir = env))
+      p$tick()$show()
+    }
+  }
+
+  if (!named) {
+    label_output_dataframe(NULL, out, groups(.data))
+  } else {
+    label_output_list(NULL, out, groups(.data))
+  }
+}
+
+
 label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
@@ -148,20 +184,31 @@ label_output_dataframe <- function(labels, out, groups) {
   }
 
   rows <- vapply(out[[1]], nrow, numeric(1))
-  labels <- labels[rep(1:nrow(labels), rows), , drop = FALSE]
-  rownames(labels) <- NULL
-
   out <- rbind_all(out[[1]])
 
-  # Remove any common columns from labels
-  labels <- labels[setdiff(names(labels), names(out))]
+  if (!is.null(labels)) {
+    # Remove any common columns from labels
+    labels <- labels[setdiff(names(labels), names(out))]
 
-  grouped_df(cbind(labels, out), groups)
+    # Repeat each row to match data
+    labels <- labels[rep(1:nrow(labels), rows), , drop = FALSE]
+    rownames(labels) <- NULL
+
+    grouped_df(cbind(labels, out), groups)
+  } else {
+    rowwise(out)
+  }
 }
 
 label_output_list <- function(labels, out, groups) {
-  labels[names(out)] <- out
-  rowwise(labels)
+  if (!is.null(labels)) {
+    labels[names(out)] <- out
+    rowwise(labels)
+  } else {
+    class(out) <- "data.frame"
+    attr(out, "row.names") <- .set_row_names(length(out[[1]]))
+    rowwise(out)
+  }
 }
 
 # Data tables ------------------------------------------------------------------

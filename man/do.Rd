@@ -58,10 +58,7 @@ models <- by_cyl \%>\% do(
 )
 models
 compare <- models \%>\% do(aov = anova(.$mod_linear, .$mod_quad))
-compare
-# Want to get to:
-# compare <- models \%>\% mutate(aov = anova(mod_linear, .$mod_quad))
-# compare \%>\% summarise(p.value = aov$`Pr(>F)`[2])
+# compare \%>\% summarise(p.value = aov$`Pr(>F)`)
 
 # You can use it to do any arbitrary computation, like fitting a linear
 # model. Let's explore how carrier departure delays vary over the time
@@ -70,8 +67,8 @@ carriers <- group_by(hflights, UniqueCarrier)
 group_size(carriers)
 
 mods <- do(carriers, mod = lm(ArrDelay ~ DepTime, data = .))
-mods \%>\% do(as.data.frame(coef(.$mod[[1]])))
-mods \%>\% summarise(rsq = summary(mod[[1]])$r.squared)
+mods \%>\% do(as.data.frame(coef(.$mod)))
+mods \%>\% summarise(rsq = summary(mod)$r.squared)
 
 \dontrun{
 # This longer example shows the progress bar in action
