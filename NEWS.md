@@ -18,9 +18,10 @@ Thanks to @smbache for the excellent margrittr package. dplyr only provides `%>%
 If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so it's particularly well suited for storing models.
 
     library(dplyr)
-    mtcars %>% group_by(cyl) %>% do(lm = lm(mpg ~ wt, data = .))
+    models <- mtcars %>% group_by(cyl) %>% do(lm = lm(mpg ~ wt, data = .))
+    models %>% summarise(rsq = summary(lm)$r.squared)
     
-If you use an unnamed argument, the result should be a data frame. This allows you to arbitrary functions to each group.
+If you use an unnamed argument, the result should be a data frame. This allows you to apply arbitrary functions to each group.
 
     mtcars %>% group_by(cyl) %>% do(head(., 1))
 

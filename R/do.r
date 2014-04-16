@@ -28,11 +28,11 @@
 #' models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
 #' models
 #'
-#' summarise(models, rsq = summary(mod[[1]])$r.squared)
-#' models %>% do(data.frame(coef = coef(.$mod[[1]])))
+#' summarise(models, rsq = summary(mod)$r.squared)
+#' models %>% do(data.frame(coef = coef(.$mod)))
 #' models %>% do(data.frame(
-#'   var = names(coef(.$mod[[1]])),
-#'   coef(summary(.$mod[[1]])))
+#'   var = names(coef(.$mod)),
+#'   coef(summary(.$mod)))
 #' )
 #'
 #' models <- by_cyl %>% do(
@@ -40,7 +40,7 @@
 #'   mod_quad = lm(mpg ~ poly(disp, 2), data = .)
 #' )
 #' models
-#' compare <- models %>% do(aov = anova(.$mod_linear[[1]], .$mod_quad[[1]]))
+#' compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
 #' compare
 #' # Want to get to:
 #' # compare <- models %>% mutate(aov = anova(mod_linear, .$mod_quad))
@@ -161,7 +161,7 @@ label_output_dataframe <- function(labels, out, groups) {
 
 label_output_list <- function(labels, out, groups) {
   labels[names(out)] <- out
-  grouped_df(labels, groups) # really should be rowwise
+  rowwise(labels)
 }
 
 # Data tables ------------------------------------------------------------------
