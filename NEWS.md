@@ -89,6 +89,8 @@ dplyr 0.2 adds three new verbs:
   handle the `na.rm` argument (#168). This should yield substantial
   performance improvements for those functions.
 
+* Special case for call to `arrange()` on a grouped data frame with no arguments. (#369)  
+  
 ## Bug fixes
 
 * Code adapted to Rcpp > 0.11.1
@@ -132,6 +134,8 @@ dplyr 0.2 adds three new verbs:
   implicitly adds grouping variables (#170).
   
 * internal `grouped_df_impl` function errors if there are no variables to group by (#398). 
+
+* `n_distinct` did not treat NA correctly in the numeric case #384. 
 
 # dplyr 0.1.3
 
@@ -219,7 +223,7 @@ dplyr 0.2 adds three new verbs:
 
 * The `benchmark-baseball` vignette now contains fairer (including grouping
   times) comparisons with `data.table`. (#222)
-
+  
 ## Bug fixes
 
 * `filter()` (#221) and `summarise()` (#194) correctly propagate attributes.
@@ -244,6 +248,4 @@ dplyr 0.2 adds three new verbs:
 
 * dplyr source package no longer includes pandas benchmark, reducing
   download size from 2.8 MB to 0.5 MB.
-  
-* `n_distinct` did not treat NA correctly in the numeric case #384. 
 

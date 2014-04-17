@@ -96,3 +96,9 @@ test_that("arrange handles 0-rows data frames", {
   expect_equal(d, arrange(d))
 })
 
+test_that("arrange implements special case (#369)", {
+  d <- mtcars %>% group_by(cyl,disp) %>% arrange()
+  expect_false( is.unsorted( d[, c( "cyl", "disp" ) ] ) )
+  indices <- unlist( attr( d, "indices" ) )
+  expect_equal( indices, seq(0, nrow(d)-1) )
+})

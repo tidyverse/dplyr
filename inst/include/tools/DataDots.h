@@ -6,7 +6,7 @@ namespace Rcpp {
     class DataDots {
     public:
         
-        DataDots( Environment env ) : environments() {                
+        DataDots( Environment env ) : environments(), parent(env) {                
           SEXP dots = env.find( "..." );
           if( dots != R_MissingArg ){
             
@@ -54,9 +54,14 @@ namespace Rcpp {
             return true ;
         }
         
+        inline const Environment& parent_env() const {
+            return parent ;
+        }
+        
     private:
         std::vector<Environment> environments ;
         std::vector<int> index;
+        Environment parent ;
     } ;
           
 }    
