@@ -130,6 +130,8 @@ dplyr 0.2 adds three new verbs:
 
 * `select()` now renames variables in remote sql tbls (#317) and  
   implicitly adds grouping variables (#170).
+  
+* internal `grouped_df_impl` function errors if there are no variables to group by (#398). 
 
 # dplyr 0.1.3
 
