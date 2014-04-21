@@ -55,6 +55,10 @@ namespace dplyr {
             return compare::is_less( vec[i], vec[j] ) ;
         }
         
+        inline bool equal_or_both_na(int i, int j) const {
+            return compare::equal_or_both_na( vec[i], vec[j] ) ;    
+        }
+        
         inline bool greater(int i, int j) const { 
             return compare::is_greater( vec[i], vec[j] ) ;
         }
