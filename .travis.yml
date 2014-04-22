@@ -6,6 +6,7 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
 install:
+  - mkdir ~/.R
   - ./travis-tool.sh r_binary_install ggplot2
   - ./travis-tool.sh r_binary_install RSQLite
   - ./travis-tool.sh r_binary_install RMySQL
@@ -40,5 +41,5 @@ notifications:
     on_success: change
     on_failure: change
 env:
-  - RCPP=release
-  - RCPP=devel
+  - RCPP=release CXXFLAGS="-g -O3 -Wall -pedantic"
+  - RCPP=devel CXXFLAGS="-g -O3 -Wall -pedantic"
