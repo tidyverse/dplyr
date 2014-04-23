@@ -166,8 +166,9 @@ namespace dplyr {
             typename Increment::scalar_type j = Increment::start() ;
             for( ; oit != ordered.end(); ++oit){
                 const std::vector<int>& chunk = *oit->second ;
+                int n = chunk.size() ;
                 j += Increment::pre_increment( chunk, m ) ;
-                for( int k=0; k<chunk.size(); k++){
+                for( int k=0; k<n; k++){
                     out[ chunk[k] ] = j ;
                 }
                 j += Increment::post_increment( chunk, m ) ;
