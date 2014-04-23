@@ -137,6 +137,8 @@ dplyr 0.2 adds three new verbs:
 
 * `n_distinct` did not treat NA correctly in the numeric case #384. 
 
+* Some compiler warnings triggered by -Wall or -pedantic have been eliminated. 
+
 # dplyr 0.1.3
 
 ## Bug fixes

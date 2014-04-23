@@ -10,7 +10,6 @@ namespace Rcpp {
         DotsOf( Environment env ) : data() {
           SEXP dots = env.find( "..." );
           if( dots != R_MissingArg ) collect(dots) ;
-          
         }
         
         inline T& operator[](int i){
