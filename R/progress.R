@@ -61,7 +61,7 @@ Progress <- setRefClass("Progress",
     },
 
     width = function() {
-      getOption("width") - nchar('|100% ~ 99.9 h remaining') - 2
+      getOption("width") - nchar("|100% ~ 99.9 h remaining") - 2
     },
 
     tick = function() {
@@ -90,10 +90,10 @@ Progress <- setRefClass("Progress",
         overall <- show_time(stop_time - init_time)
         if (i == n) {
           cat_line("Completed after ", overall)
-          cat('\n')
+          cat("\n")
         } else {
           cat_line("Killed after ", overall)
-          cat('\n')
+          cat("\n")
         }
         return(invisible(.self))
       }
