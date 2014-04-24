@@ -48,7 +48,7 @@ namespace dplyr {
             return hash_fun( vec[i] ) ;
         } 
         inline bool equal(int i, int j) const { 
-            return compare::is_equal( vec[i], vec[j] ) ;
+            return compare::equal_or_both_na( vec[i], vec[j] ) ;
         }
         
         inline bool less(int i, int j) const { 

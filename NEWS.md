@@ -139,6 +139,8 @@ dplyr 0.2 adds three new verbs:
 
 * Some compiler warnings triggered by -Wall or -pedantic have been eliminated. 
 
+* `group_by` only creates one group for NA (#401). 
+
 # dplyr 0.1.3
 
 ## Bug fixes
