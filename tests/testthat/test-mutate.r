@@ -201,3 +201,12 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
 test_that("assignments are forbidden (#315)", {
    expect_error(mutate(mtcars, cyl2 = { x <- cyl^2; -x } ))
 })
+
+test_that("hybrid evaluator uses correct environment (#403)", {
+  func1 <- function() {
+    func2 <- function(x) floor(x)
+    mutate(mtcars, xx = func2(mpg / sum(mpg)))
+  }
+  res <- func1()
+  expect_equal(res$xx, rep(0,nrow(res)) )
+})

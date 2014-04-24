@@ -14,7 +14,7 @@ namespace dplyr {
         SEXP eval(){
             if( TYPEOF(call) == LANGSXP ){
                 substitute(call) ;
-                return Rf_eval( call, R_GlobalEnv ) ;
+                return Rf_eval( call, env ) ;
             } else if(TYPEOF(call) == SYMSXP) {
                 if(subsets.count(call)){
                     return subsets.get_variable(call) ;    

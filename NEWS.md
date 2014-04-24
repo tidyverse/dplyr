@@ -141,6 +141,8 @@ dplyr 0.2 adds three new verbs:
 
 * `group_by` only creates one group for NA (#401). 
 
+* Hybrid evaluator did not evaluate expression in correct environment (#403). 
+
 # dplyr 0.1.3
 
 ## Bug fixes
