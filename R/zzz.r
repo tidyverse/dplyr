@@ -1,4 +1,4 @@
-.onAttach <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(
     dplyr.show_sql = FALSE,
