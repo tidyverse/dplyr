@@ -97,6 +97,10 @@ ruler <- function() {
   cat(x %% 10, "\n", sep = "")
 }
 
+rule <- function(char = "-") {
+  paste0(rep(char, getOption("width") - 2), collapse = "")
+}
+
 #' @export
 print.BoolResult <- function(x, ...) {
   cat(x)
