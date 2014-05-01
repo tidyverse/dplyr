@@ -45,6 +45,9 @@ dplyr 0.2 adds three new verbs:
 
 ## Minor improvements
 
+* If you load plyr after dplyr, you'll get a message suggesting that you
+  load plyr first (#347).
+
 * `as.tbl_cube()` gains a method for matrices (#359, @paulstaab)
 
 * `compute()` gains `temporary` argument so you can control whether the

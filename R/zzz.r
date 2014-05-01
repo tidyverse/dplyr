@@ -12,3 +12,14 @@
 
   invisible()
 }
+
+.onAttach <- function(libname, pkgname) {
+
+  setHook(packageEvent("plyr", "attach"), function(...) {
+    message(rule())
+    message("You have loaded plyr after dplyr - this is likely to cause ",
+      "problems.\nIf you need functions from both plyr and dplyr, please load",
+      " plyr first, then dplyr:\nlibrary(plyr); library(dplyr)")
+    message(rule())
+  })
+}
