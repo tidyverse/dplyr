@@ -1,4 +1,4 @@
-# dplyr 0.1.3.0.99
+# dplyr 0.2
 
 ## Piping
 
