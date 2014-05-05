@@ -1,9 +1,5 @@
 The following notes were generated across my local OS X install, ubuntu running on travis-ci and win builder. Response to NOTEs across three platforms below.
 
-* checking CRAN incoming feasibility ... NOTE
-
-  Roxygen2 is not a spelling error.
-
 * checking dependencies in R code ... NOTE
   Namespaces in Imports field not imported from:
   'Lahman' 'hflights' 'magrittr' 'methods'
