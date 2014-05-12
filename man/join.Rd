@@ -4,6 +4,7 @@
 \alias{inner_join}
 \alias{join}
 \alias{left_join}
+\alias{outer_join}
 \alias{right_join}
 \alias{semi_join}
 \title{Join two tbls together.}
@@ -13,6 +14,8 @@ inner_join(x, y, by = NULL, copy = FALSE, ...)
 left_join(x, y, by = NULL, copy = FALSE, ...)
 
 right_join(x, y, by = NULL, copy = FALSE, ...)
+
+outer_join(x, y, by = NULL, copy = FALSE, ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
