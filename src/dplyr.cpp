@@ -658,20 +658,22 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
     return visitors.subset(indices, classes) ;
 }
 
-template <typename Index>
-DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by, CharacterVector classes ){
-    CharacterVector x_columns = x.names() ;
-    DataFrameVisitors visitors_x(x, x_columns) ;
 
-    CharacterVector all_y_columns = y.names() ;
-    CharacterVector y_columns( all_y_columns.size() - by.size() ) ;
-    for( int i=0, k=0; i<all_y_columns.size(); i++){
-        SEXP name = all_y_columns[i] ;
-        if( std::find(by.begin(), by.end(), name) == by.end() ) y_columns[k++] = name ;
+
+template <typename Index>
+DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by, CharacterVector classes, const bool& right = false){
+    CharacterVector x_columns = x.names();
+    CharacterVector y_columns = y.names();
+    
+    if(right) {
+      x_columns = setdiff(x_columns, by);
+    } else {
+      y_columns = setdiff(y_columns, by);
     }
     
     JoinColumnSuffixer suffixer(x_columns, y_columns, by) ;
 
+    DataFrameVisitors visitors_x(x, x_columns) ;
     DataFrameVisitors visitors_y(y, y_columns) ;
 
     int nrows = indices_x.size() ;
@@ -854,7 +856,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
     DataFrameJoinVisitors visitors(x, y, by) ;
     Map map(visitors);
 
-    // train the map in terms of y
+    // train the map in terms of x
     train_push_back( map, x.nrows() ) ;
 
     std::vector<int> indices_x ;
@@ -872,7 +874,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
             indices_y.push_back(i) ;
         }
     }
-    return subset( x, y, indices_x, indices_y, by, x.attr( "class" ) ) ;
+    return subset( x, y, indices_x, indices_y, by, x.attr( "class" ), true ) ;
 }
 
 SEXP promote(SEXP x){
