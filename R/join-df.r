@@ -56,6 +56,15 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname join.tbl_df
+right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+  by <- by %||% common_by(x, y)
+  if( !length(by) ) stop("no common variables")
+  y <- auto_copy(x, y, copy = copy)
+  right_join_impl(x, y, by)
+}
+
+#' @export
+#' @rdname join.tbl_df
 semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
   if( !length(by) ) stop("no common variables")
