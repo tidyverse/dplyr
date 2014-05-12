@@ -862,7 +862,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by){
 
     int n_y = y.nrows() ;
     for( int i=0; i<n_y; i++){
-        // find a row in y that matches row i in x
+        // find a row in x that matches row i in y
         Map::iterator it = map.find(-i-1) ;
         if( it != map.end() ){
             push_back( indices_x,    it->second ) ;
