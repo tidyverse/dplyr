@@ -24,11 +24,11 @@ grouped_df <- function(data, vars, drop = TRUE) {
 is.grouped_df <- function(x) inherits(x, "grouped_df")
 
 #' @export
-print.grouped_df <- function(x, ...) {
+print.grouped_df <- function(x, ..., n=NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
-  trunc_mat(x)
+  trunc_mat(x, n=n)
 }
 
 #' @export
