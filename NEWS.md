@@ -6,7 +6,7 @@ dplyr now imports `%>%` from magrittr (#330). I recommend that you use this inst
 
     mtcars %>% xtabs( ~ cyl + vs, data = .)
     
-Thanks to @smbache for the excellent margrittr package. dplyr only provides `%>%` from magrittr, but it contains many other useful functions. To use them, load `magrittr` explicitly: `library(magrittr)`. For more details, see `vignette("magrittr")`.
+Thanks to @smbache for the excellent magrittr package. dplyr only provides `%>%` from magrittr, but it contains many other useful functions. To use them, load `magrittr` explicitly: `library(magrittr)`. For more details, see `vignette("magrittr")`.
 
 `%.%` will be deprecated in a future version of dplyr, but it won't happen for a while. I've also deprecated `chain()` to encourage a single style of dplyr usage: please use `%>%` instead.
 
