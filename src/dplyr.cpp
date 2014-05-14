@@ -658,17 +658,24 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
     return visitors.subset(indices, classes) ;
 }
 
-
+template <typename Vector> 
+Vector substract(const Vector& x, const Vector& y) {
+  Vector res( x.size() - y.size() );
+  for( int i = 0, k = 0; i < x.size(); i++){
+    SEXP elem = x[i] ;
+    if( std::find(y.begin(), y.end(), elem) == y.end() ) res[k++] = elem ;
+  }
+  return res;
+}
 
 template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by, CharacterVector classes, const bool& right = false){
     CharacterVector x_columns = x.names();
     CharacterVector y_columns = y.names();
-    
     if(right) {
-      x_columns = setdiff(x_columns, by);
+      x_columns = substract(x_columns, by);
     } else {
-      y_columns = setdiff(y_columns, by);
+      y_columns = substract(y_columns, by);
     }
     
     JoinColumnSuffixer suffixer(x_columns, y_columns, by) ;
