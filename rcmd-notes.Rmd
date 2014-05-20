@@ -10,3 +10,17 @@ The following notes were generated across my local OS X install, ubuntu running 
   so I don't think the current checks see them)
  
 Checking all dependencies (summary at https://github.com/wch/checkresults/blob/master/dplyr/r-release/00check-summary.txt), discovered one problem, with the freqweights package). I have corresponded with the maintainer, and he will release a new version once dplyr 0.2 is on CRAN.
+
+Since the previous submission, I have fixed the three reported problems:
+
+* Used `packageStartupMessage()` in more places.
+
+* Informed the Rcpp maintainers about 
+  "/home/ripley/R/test-3.2/Rcpp/include/Rcpp/DataFrame.h:55:9: warning: 
+  no return statement in function returning non-void [-Wreturn-type]"
+
+* Fixed a NAMESPACE problem.
+
+Regards,
+
+Hadley
