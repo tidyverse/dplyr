@@ -40,7 +40,7 @@ hflights_sqlite <- copy_to(my_db, hflights, temporary = FALSE, indexes = list(
   c("Year", "Month", "DayofMonth"), "UniqueCarrier", "TailNum"))
 ```
 
-As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` comomand: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
+As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
 
 For this particular dataset, there's a built `src` that will cache `hflights` in a standard location:
 
