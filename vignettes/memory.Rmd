@@ -43,7 +43,7 @@ iris2$Sepal.Length <- iris2$Sepal.Length * 2
 changes(iris, iris2)
 ```
 
-(This was not the case prior to R 3.0.1: R created a deep copy of the entire data frame.)
+(This was not the case prior to R 3.1.0: R created a deep copy of the entire data frame.)
 
 dplyr is similarly smart
 
