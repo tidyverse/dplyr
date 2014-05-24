@@ -17,11 +17,34 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
 
 
   if (!is.sql(from)) { # Must be a character string
-    if (isFALSE(db_has_table(src$con, from))) {
+    tblschema <- NA
+    if (is.character(from)) {
+      parts <- strsplit(from, "\\.")[[1]]
+      if (length(parts) == 1) {
+        tblname <- parts[[1]]
+      }
+      else if (length(parts)== 2) {
+        tblschema <- parts[[1]]
+        tblname <- parts[[2]]
+      }
+      else {
+        stop("Invalid table format ", from, call. = FALSE)
+      }
+    }
+    else {
+      tblname <- from
+    }
+
+    if (isFALSE(db_has_table(src$con, tblname))) {
       stop("Table ", from, " not found in database ", src$path, call. = FALSE)
     }
 
-    from <- ident(from)
+    if (!is.na(tblschema)) {
+      from <- build_sql(ident(tblschema), ".", ident(tblname))
+    }
+    else {
+      from <- ident(tblname)
+    }
   } else if (!is.join(from)) { # Must be arbitrary sql
     # Abitrary sql needs to be wrapped into a named subquery
     from <- build_sql("(", from, ") AS ", ident(unique_name()), con = src$con)
