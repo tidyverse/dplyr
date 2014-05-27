@@ -50,7 +50,7 @@
 #'
 #' @section Row names:
 #'
-#' dplyr methods do not preserve row names. If have been using row names
+#' dplyr methods do not preserve row names. If you have been using row names
 #' to store important information, please make them explicit variables.
 #'
 #' @name manip
