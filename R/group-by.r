@@ -27,7 +27,7 @@
 #'   will be silently dropped.
 #' @param add By default, when \code{add = FALSE}, \code{group_by} will
 #'   override existing groups. To instead add to the existing groups,
-#'   use \code{add = FALSE}
+#'   use \code{add = TRUE}
 #' @export
 #' @examples
 #' by_cyl <- group_by(mtcars, cyl)
