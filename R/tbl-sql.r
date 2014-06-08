@@ -24,7 +24,7 @@ tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
     from <- ident(from)
   } else if (!is.join(from)) { # Must be arbitrary sql
     # Abitrary sql needs to be wrapped into a named subquery
-    from <- build_sql("(", from, ") AS ", ident(unique_name()), con = src$con)
+    from <- build_sql(sql_subquery("(", from, ")", name = ident(unique_name()), con = src$con))
   }
 
   tbl <- make_tbl(c(subclass, "sql"),
@@ -151,7 +151,7 @@ dim.tbl_sql <- function(x) {
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  build_query(x, limit = n)$fetch()
+  build_query(x)$fetch(n)
 }
 
 #' @export
