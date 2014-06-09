@@ -286,13 +286,19 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   paste(expl[[1]], collapse = "\n")
 }
 
-# #' @export
-# qry_explain.OraConnection <- function(con, sql, ...) {
-#   exsql <- build_sql("EXPLAIN PLAN FOR ", sql)
-#   expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
-#   expl2 <- qry_fetch(con, "select * from table(dbms_xplan.display", show = FALSE, explain = FALSE)
-#   a = 1
-# }
+# http://docs.oracle.com/cd/E16655_01/appdev.121/e17602/d_xplan.htm
+#' @export
+qry_explain.OraConnection <- function(con, sql, ...) {
+
+  exsql <- build_sql("EXPLAIN PLAN FOR ", sql)
+  expl  <- qry_run(con, exsql, show = FALSE, explain = FALSE) # need to first execute 'explain plan for'
+  expl  <- qry_fetch(con, "select * from table(dbms_xplan.display)", show = FALSE, explain = FALSE) # then call this table
+  
+  rownames(expl) <- NULL
+  out <- capture.output(print(expl))
+  
+  paste(out, collapse = "\n")
+}
 
 
 # Result sets ------------------------------------------------------------------
@@ -338,6 +344,7 @@ sql_begin_trans.MySQLConnection <- function(con) {
 #' @export
 sql_begin_trans.OraConnection <- function(con) {
   qry_run(con, "START TRANSACTION")
+  #qry_run(con, "")
 }
 
 
