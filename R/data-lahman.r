@@ -53,6 +53,10 @@ lahman_monetdb <- function(...) cache_lahman("monetdb", ...)
 
 #' @export
 #' @rdname lahman
+lahman_impaladb <- function(...) cache_lahman("impaladb", ...)
+
+#' @export
+#' @rdname lahman
 lahman_df <- function() {
   src_df("Lahman")
 }
@@ -100,7 +104,11 @@ cache_lahman <- function(type, ...) {
   if (is_cached(cache_name)) return(get_cache(cache_name))
 
   src <- lahman_src(type, ...)
-  tables <- setdiff(lahman_tables(), src_tbls(src))
+  tables <- setdiff(tolower(lahman_tables()), tolower(src_tbls(src)))
+  orig_tables <- as.list(lahman_tables())
+  names(orig_tables) <- tolower(lahman_tables())
+  # do this to preserve case of names
+  tables <- unlist(orig_tables[tables])
 
   # Create missing tables
   for(table in tables) {
@@ -125,6 +133,7 @@ lahman_src <- function(type, ...) {
     df = lahman_df(),
     dt = lahman_dt(),
     sqlite = src_sqlite(db_location(filename = "lahman.sqlite"), ...),
+    impaladb = src_impaladb("lahman", ...),
     mysql = src_mysql("lahman", ...),
     monetdb = src_monetdb("lahman", ...),
     postgres = src_postgres("lahman", ...),

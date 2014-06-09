@@ -153,7 +153,7 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
   }
 
   if (is.null(data)) {
-    res <- dbSendQuery(con, sql)
+    res <- dbSendQuery(con, sql, ignoreResult=TRUE)
   } else {
     res <- dbSendPreparedQuery(con, sql, bind.data = data)
   }

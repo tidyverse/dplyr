@@ -98,13 +98,18 @@ format.sql <- function(x, ...) paste0("<SQL> ", x)
 
 #' @rdname sql
 #' @export
-escape <- function(x, parens = NA, collapse = " ", con = NULL) {
+escape <- function(x, parens = NA, collapse = " ", con = NULL, alias = NULL) {
   UseMethod("escape")
 }
 
 #' @export
-escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL) {
-  y <- escape_ident(con, x)
+escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL, alias = NULL) {
+  if (is.null(alias)) {
+    y <- escape_ident(con, x)
+  }
+  else {
+    y <- escape_ident(con, x, alias)
+  }
   sql_vector(names_to_as(y, con), parens, collapse)
 }
 
@@ -235,7 +240,7 @@ escape_string.bigquery <- function(con, x) {
   encodeString(x, na.encode = FALSE, quote = '"')
 }
 
-escape_ident <- function(con, x) UseMethod("escape_ident")
+escape_ident <- function(con, x, alias=NULL) UseMethod("escape_ident")
 
 #' @export
 escape_ident.default <- function(con, x) {

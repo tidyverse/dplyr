@@ -139,12 +139,22 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
     on.exit(set_partition(old))
   }
 
-  pieces <- lapply(expr, function(x) {
-    if (is.atomic(x)) return(escape(x, con = con))
+  if (is.null(attr(expr, 'alias'))) {
+    pieces <- lapply(expr, function(x) {
+      if (is.atomic(x)) return(escape(x, con = con))
 
-    env <- sql_env(x, variant, con, window = window)
-    eval(x, envir = env)
-  })
+      env <- sql_env(x, variant, con, window = window)
+      eval(x, envir = env)
+    })
+  }
+  else {
+    pieces <- mapply(function(x, alias) {
+      if (is.atomic(x)) return(escape(x, con = con))
+
+      env <- sql_env(x, variant, con, window = window, alias = alias)
+      eval(x, envir = env)
+    }, expr, attr(expr, 'alias'))
+  }
 
   sql(unlist(pieces))
 }
@@ -161,7 +171,7 @@ translate_env.NULL <- function(x) {
 }
 
 sql_env <- function(expr, variant, con, window = FALSE,
-                    strict = getOption("dplyr.strict_sql")) {
+                    strict = getOption("dplyr.strict_sql"), alias = NULL) {
   stopifnot(is.sql_variant(variant))
 
   # Default for unknown functions
@@ -183,7 +193,7 @@ sql_env <- function(expr, variant, con, window = FALSE,
 
   # Existing symbols in expression
   names <- all_names(expr)
-  name_env <- ceply(names, function(x) escape(ident(x), con = con),
+  name_env <- ceply(names, function(x) escape(ident(x), con = con, alias = alias),
     parent = special_calls2)
 
   # Known sql expressions

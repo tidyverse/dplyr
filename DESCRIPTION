@@ -25,6 +25,8 @@ Suggests:
     RMySQL,
     MonetDB.R,
     RPostgreSQL,
+    RJDBC,
+    rhdfs,
     data.table,
     bigrquery,
     testthat,
@@ -95,6 +97,7 @@ Collate:
     'sql-escape.r'
     'sql-star.r'
     'src-bigquery.r'
+    'src-impaladb.r'
     'src-local.r'
     'src-monetdb.r'
     'src-mysql.r'

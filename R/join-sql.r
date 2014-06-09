@@ -136,13 +136,18 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   }
   vars <- lapply(c(by, setdiff(sel_vars, by)), as.name)
 
+  left <- random_table_name()
+  right <- random_table_name()
+  col_names <- lapply(vars, function (col) {if (length(grep(col, x=x_names)) == 1) { left } else if (length(grep(col, x=y_names)) == 1) { right } else NULL})
+  attr(vars, 'alias') <- col_names
+
   join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
     right = stop("Right join not supported", call. = FALSE),
     full = stop("Full join not supported", call. = FALSE))
 
-  from <- build_sql(from(x), "\n\n",
+  from <- build_sql(from(x, left), "\n\n",
     join, " JOIN \n\n" ,
-    from(y), "\n\n",
+    from(y, right), "\n\n",
     "USING ", lapply(by, ident), con = x$src$con)
 
   update(tbl(x$src, as.join(from), vars = vars), group_by = groups(x))
