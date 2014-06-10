@@ -9,7 +9,7 @@ group_by(x, ..., add = FALSE)
 \item{x}{a tbl}
 
 \item{...}{variables to group by. All tbls accept variable names,
-some will also accept functons of variables. Duplicated groups
+some will also accept functions of variables. Duplicated groups
 will be silently dropped.}
 
 \item{add}{By default, when \code{add = FALSE}, \code{group_by} will

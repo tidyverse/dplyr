@@ -24,7 +24,12 @@ dbi_connect.DBIDriver <- function(driver, ...) {
 
 # Database details -------------------------------------------------------------
 
-db_info <- function(con) dbGetInfo(con)
+#' @export
+db_info <- function(con) UseMethod("db_info")
+db_info.default <- function(con) dbGetInfo(con)
+db_info.JDBCConnection <- function(con) {
+# TODO
+}
 
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
@@ -37,6 +42,12 @@ db_list_tables.SQLiteConnection <- function(con) {
     WHERE type = 'table' OR type = 'view'
     ORDER BY name"
   qry_fetch(con, sql)[[1]]
+}
+db_list_tables.JDBCConnection <- function(con) {
+  table_fields <- dbGetTables(con)
+  # some JDBC connectors use upper case for these results
+  names(table_fields) <- tolower(names(table_fields))
+  paste(table_fields[["table_schem"]], table_fields[["table_name"]], sep = ".")
 }
 #' @export
 db_list_tables.bigquery <- function(con) {
@@ -171,6 +182,13 @@ qry_fields.DBIConnection <- function(con, from) {
 qry_fields.SQLiteConnection <- function(con, from) {
   names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
+#' @export
+qry_fields.JDBCConnection <- function(con, from) {
+  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
+  on.exit(dbClearResult(qry))
+
+  info = dbColumnInfo(qry)
+}
 
 table_fields <- function(con, table) UseMethod("table_fields")
 #' @export
@@ -180,6 +198,11 @@ table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
 table_fields.PostgreSQLConnection <- function(con, table) {
   qry_fields.DBIConnection(con, table)
 }
+#' @export
+table_fields.JDBCConnection <- function(con, table) {
+  qry_fields.JDBCConnection(con, table)
+}
+
 
 #' @export
 table_fields.bigquery <- function(con, table) {

@@ -94,6 +94,7 @@ Collate:
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
+    'src-JDBC.r'
     'src-bigquery.r'
     'src-local.r'
     'src-monetdb.r'
