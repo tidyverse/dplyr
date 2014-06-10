@@ -1627,7 +1627,9 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
 //' n_distinct(x)
 // [[Rcpp::export]]
 SEXP n_distinct(SEXP x){
-    SlicingIndex everything(0, Rf_length(x) );
+    int n = Rf_length(x) ;
+    if( n == 0 ) return wrap(0) ;
+    SlicingIndex everything(0, n);
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){
         std::stringstream ss ;
