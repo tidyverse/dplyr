@@ -18,10 +18,10 @@ inline bool is_bare_vector( SEXP x){
 
 inline bool white_list(SEXP x){
     switch( TYPEOF(x) ){
-    case INTSXP:   return Rf_inherits(x, "Date") || Rf_inherits(x, "POSIXct" ) || Rf_inherits(x, "factor" ) || is_bare_vector( x ) ;
-    case REALSXP:  return Rf_inherits(x, "Date") || Rf_inherits(x, "POSIXct" ) || is_bare_vector( x ) ;
-    case LGLSXP:   return is_bare_vector( x ) ;
-    case STRSXP:   return is_bare_vector( x ) ;
+    case INTSXP:   return Rf_inherits(x, "Date") || Rf_inherits(x, "POSIXct" ) || Rf_inherits(x, "factor" ) || Rf_inherits(x, "AsIs") || is_bare_vector( x ) ;
+    case REALSXP:  return Rf_inherits(x, "Date") || Rf_inherits(x, "POSIXct" ) || Rf_inherits(x, "AsIs") || is_bare_vector( x ) ;
+    case LGLSXP:   return Rf_inherits(x, "AsIs") || is_bare_vector( x ) ;
+    case STRSXP:   return Rf_inherits(x, "AsIs") || is_bare_vector( x ) ;
     
     case VECSXP:   return ! Rf_inherits(x, "POSIXlt") && is_bare_vector( x ) ;
     

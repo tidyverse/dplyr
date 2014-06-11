@@ -4,6 +4,8 @@
 
 * `cumany` and `cumall` properly handle `NA` (#408). 
 
+* The `AsIs` class is white listed (#453). 
+
 # dplyr 0.2
 
 ## Piping

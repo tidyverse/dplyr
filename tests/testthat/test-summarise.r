@@ -221,6 +221,12 @@ test_that("comment attribute is white listed (#346)",{
   expect_equal(comment(res$B), "2nd Var" )
 })
 
+test_that("AsIs class is white listed (#453)",{
+  test <- data.frame(A = c(1,1,0,0), B = I(c(2,2,3,3)))
+  res <- group_by(test, B)
+  expect_equal(res$B, test$B )
+})
+
 test_that("names attribute is not retained (#357)", {
   df <- data.frame(x=c(1:3), y=letters[1:3])
   df <- group_by(df, y)
