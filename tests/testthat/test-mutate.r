@@ -210,3 +210,12 @@ test_that("hybrid evaluator uses correct environment (#403)", {
   res <- func1()
   expect_equal(res$xx, rep(0,nrow(res)) )
 })
+
+test_that("mutate remove variables with = NULL syntax (#462)", {
+  data <- mtcars %>% mutate(cyl = NULL)
+  expect_false( "cyl" %in% names(data) )
+  
+  data <- mtcars %>% group_by(disp) %>% mutate(cyl = NULL)
+  expect_false( "cyl" %in% names(data) )
+})
+

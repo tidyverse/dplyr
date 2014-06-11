@@ -1482,6 +1482,9 @@ SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
             variable = __( gather->collect() ) ;
+        } else if( Rf_isNull(call) ){
+            accumulator.rm(name) ;
+            continue ; 
         } else {
             stop( "cannot handle" ) ;
         }
@@ -1532,6 +1535,9 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, df.nrows() ) );
             result = __( gather->collect() ) ;
+        } else if( Rf_isNull(call)) {
+            accumulator.rm(name) ;
+            continue ;
         } else {
             stop( "cannot handle" ) ;
         }

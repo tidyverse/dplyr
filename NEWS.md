@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* `mutate(data, a = NULL)` removes the variable `a` from the returned dataset (#462). 
+
 # dplyr 0.2
 
 ## Piping

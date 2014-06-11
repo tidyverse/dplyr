@@ -20,6 +20,14 @@ namespace dplyr {
             }
         }
         
+        inline void rm(SEXP name){
+            std::vector<SEXP>::iterator it = std::find( names.begin(), names.end(), name ) ;
+            if( it != names.end() ){
+                names.erase(it) ;
+                data.erase( data.begin() + std::distance( names.begin(), it ) );
+            }
+        }
+        
         inline operator List() const {
             int n = data.size() ;
             List out(n) ;
