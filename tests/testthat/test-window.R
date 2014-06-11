@@ -17,4 +17,11 @@ test_that("cumany handles NA (#408)", {
   batman <- c(NA,NA,NA,NA,NA)
   expect_that(all(is.na(cumany(batman))))
   expect_that(all(is.na(cumall(batman))))
+  
+  x <- c(FALSE,NA)
+  expect_that( all( !cumall(x) ) )
+  
+  x <- c(TRUE,NA)
+  expect_that( all( cumany(x) ) )
+  
 })
