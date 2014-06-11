@@ -2,6 +2,8 @@
 
 * `mutate(data, a = NULL)` removes the variable `a` from the returned dataset (#462). 
 
+* `cumany` and `cumall` properly handle `NA` (#408). 
+
 # dplyr 0.2
 
 ## Piping

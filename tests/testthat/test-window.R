@@ -12,3 +12,9 @@ test_that("If n = length(x), returns all missing", {
   expect_equal(lag(1:2, 2), miss)
   
 })
+
+test_that("cumany handles NA (#408)", {
+  batman <- c(NA,NA,NA,NA,NA)
+  expect_that(all(is.na(cumany(batman))))
+  expect_that(all(is.na(cumall(batman))))
+})
