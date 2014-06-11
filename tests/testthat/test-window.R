@@ -15,13 +15,13 @@ test_that("If n = length(x), returns all missing", {
 
 test_that("cumany handles NA (#408)", {
   batman <- c(NA,NA,NA,NA,NA)
-  expect_that(all(is.na(cumany(batman))))
-  expect_that(all(is.na(cumall(batman))))
+  expect_true(all(is.na(cumany(batman))))
+  expect_true(all(is.na(cumall(batman))))
   
   x <- c(FALSE,NA)
-  expect_that( all( !cumall(x) ) )
+  expect_true( all( !cumall(x) ) )
   
   x <- c(TRUE,NA)
-  expect_that( all( cumany(x) ) )
+  expect_true( all( cumany(x) ) )
   
 })
