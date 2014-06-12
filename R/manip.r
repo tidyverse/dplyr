@@ -35,6 +35,7 @@
 #'   \item SQLite: \code{\link{src_sqlite}}
 #'   \item PostgreSQL: \code{\link{src_postgres}}
 #'   \item MySQL: \code{\link{src_mysql}}
+#'   \item Oracle: \code{\link{src_oracle}}
 #' }
 #'
 #' @section Output:

@@ -45,6 +45,10 @@ lahman_postgres <- function(...) cache_lahman("postgres", ...)
 
 #' @export
 #' @rdname lahman
+lahman_oracle <- function(...) cache_lahman("oracle", ...)
+
+#' @export
+#' @rdname lahman
 lahman_mysql <- function(...) cache_lahman("mysql", ...)
 
 #' @export
@@ -129,6 +133,7 @@ lahman_src <- function(type, ...) {
     monetdb = src_monetdb("lahman", ...),
     postgres = src_postgres("lahman", ...),
     bigquery = src_bigquery(Sys.getenv("BIGQUERY_PROJECT"), "lahman", ...),
+    oracle = src_oracle("lahman", ...),
     stop("Unknown src type ", type, call. = FALSE)
   )
 }

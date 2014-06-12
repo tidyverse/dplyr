@@ -114,7 +114,11 @@ unique_name <- local({
 
   function() {
     i <<- i + 1
+<<<<<<< HEAD
     paste0(" DPLYR_", i)
+=======
+    paste0("DPLYR_", i)
+>>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
   }
 })
 
