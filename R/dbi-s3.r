@@ -295,7 +295,6 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   paste(expl[[1]], collapse = "\n")
 }
 
-<<<<<<< HEAD
 # http://docs.oracle.com/cd/E16655_01/appdev.121/e17602/d_xplan.htm
 #' @export
 qry_explain.OraConnection <- function(con, sql, ...) {
@@ -310,15 +309,6 @@ qry_explain.OraConnection <- function(con, sql, ...) {
   paste(out, collapse = "\n")
 }
 
-=======
-# #' @export
-# qry_explain.OraConnection <- function(con, sql, ...) {
-#   exsql <- build_sql("EXPLAIN PLAN FOR ", sql)
-#   expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
-#   expl2 <- qry_fetch(con, "select * from table(dbms_xplan.display", show = FALSE, explain = FALSE)
-#   a = 1
-# }
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
 
 # Result sets ------------------------------------------------------------------
 

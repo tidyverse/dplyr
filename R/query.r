@@ -53,12 +53,10 @@ Query <- methods::setRefClass("Query",
       if (is.ident(sql)) {
         sql
       } else {
-<<<<<<< HEAD
+
         build_sql(sql_subquery("(", sql, ") ", name = "master", con = con))
-=======
-        
-          build_sql(sql_subquery("(", sql, ") ", name = "master", con = con))
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
+
+
       }
     },
 

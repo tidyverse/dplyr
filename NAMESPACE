@@ -99,14 +99,11 @@ S3method(filter,tbl_cube)
 S3method(filter,tbl_df)
 S3method(filter,tbl_dt)
 S3method(filter,tbl_sql)
-<<<<<<< HEAD
 S3method(format,sql)
 S3method(format,src_local)
 S3method(format,src_sql)
 S3method(format_v,character)
 S3method(format_v,default)
-=======
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
 S3method(group_size,grouped_df)
 S3method(group_size,grouped_dt)
 S3method(group_size,rowwise_df)
@@ -154,11 +151,7 @@ S3method(qry_explain,SQLiteConnection)
 S3method(qry_fetch,DBIConnection)
 S3method(qry_fetch,bigquery)
 S3method(qry_fields,DBIConnection)
-<<<<<<< HEAD
 S3method(qry_fields,MonetDBConnection)
-=======
-S3method(qry_fields,OraConnection)
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
 S3method(qry_fields,SQLiteConnection)
 S3method(query,DBIConnection)
 S3method(query,MonetDBConnection)
