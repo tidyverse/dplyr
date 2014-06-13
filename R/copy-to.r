@@ -53,6 +53,8 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   if (isTRUE(db_has_table(dest$con, name))) {
     stop("Table ", name, " already exists.", call. = FALSE)
   }
+  
+ 
 
   types <- types %||% db_data_type(dest$con, df)
   names(types) <- names(df)
@@ -75,6 +77,36 @@ copy_to.src_bigquery <- function(dest, df, name = deparse(substitute(df)), ...) 
   wait_for(job)
 
   tbl(dest, name)
+}
+
+
+#' @export
+copy_to.src_oracle <- function(dest, df, name = deparse(substitute(df)), types = NULL, 
+                               temporary = TRUE, indexes = NULL, ...) {
+  
+  assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
+  
+  if (isTRUE(db_has_table(dest$con, name))) {
+    stop("Table ", name, " already exists.", call. = FALSE)
+  }
+    
+  
+  types <- types %||% db_data_type(dest$con, df)
+  names(types) <- names(df)
+  
+  con <- dest$con
+  
+
+  
+  #sql_begin_trans(con)
+  sql_create_table(con, name, types)
+  sql_insert_into(con, name, df)
+  sql_create_indexes(con, name, indexes)
+  #if (analyze) sql_analyze(con, name)
+  sql_commit(con)
+  
+  tbl(dest, name)
+  
 }
 
 auto_copy <- function(x, y, copy = FALSE, ...) {

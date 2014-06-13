@@ -352,7 +352,7 @@ sql_begin_trans.MySQLConnection <- function(con) {
 
 #' @export
 sql_begin_trans.OraConnection <- function(con) {
-  qry_run(con, "START TRANSACTION")
+  qry_run(con, "BEGIN TRANSACTION")
   #qry_run(con, "")
 }
 
@@ -367,14 +367,31 @@ sql_commit.MySQLConnection <- function(con) {
 
 sql_rollback <- function(con) dbRollback(con)
 
+sql_create_temp <- function(con, table, temporary, fields) 
+  UseMethod("sql_create_temp")
+
+#' @export
+sql_create_temp.DBIConnection <- function(con, table, temporary, fields){
+  build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+            "TABLE ", ident(table), " ", fields, con = con)
+}
+#' @export
+sql_create_temp.OraConnection <- function(con, table, temporary, fields){
+
+  build_sql("CREATE ", if (temporary) sql("GLOBAL TEMPORARY "),
+            "TABLE ", ident(table), " ", fields, 
+            if (temporary) sql("ON COMMIT PRESERVE ROWS") ,con = con)
+}
+
+
+
 sql_create_table <- function(con, table, types, temporary = FALSE) {
   assert_that(is.string(table), is.character(types))
-
+  
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE,
     collapse = ", ", con = con)
-  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
-    "TABLE ", ident(table), " ", fields, con = con)
+  sql <- sql_create_temp(con, table, temporary, fields)
 
   qry_run(con, sql)
 }
@@ -425,6 +442,13 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
   invisible()
 }
 
+#' @export
+sql_insert_into.OraConnection <- function(con, table, values) {
+  
+  dbWriteTable(con, table, values, overwrite = TRUE)
+  
+}
+
 sql_subquery <- function(con = NULL, name = NULL, ...) {
   UseMethod("sql_subquery")
 }
@@ -439,19 +463,7 @@ sql_subquery.OraConnection <- function(con = NULL, name = NULL, ...) {
   sql(paste0(..., name))
 }
 
-#' @export
-sql_insert_into.OraConnection <- function(con, table, values) {
-  
-  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
-  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
-  
-  rows <- apply(col_mat, 1, paste0, collapse = ", ")
-  values <- paste0("(", rows, ")", collapse = "\n, ")
-  
-  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values), ";")
-  qry_run(con, sql)
-  
-}
+
 
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
   UseMethod("sql_create_indexes")
@@ -511,6 +523,12 @@ sql_analyze.MySQLConnection <- function(con, table) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
   qry_run(con, sql)
 }
+
+# #' @export
+# sql_analyze.OraConnection <- function(con, table) {
+#   sql <- build_sql("ANALYZE TABLE ", ident(table), con = con)
+#   qry_run(con, sql)
+# }
 
 sql_select <- function(con, ...) {
   UseMethod("sql_select")
