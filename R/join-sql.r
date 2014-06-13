@@ -180,9 +180,5 @@ semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 }
 
 from <- function(x, name = random_table_name()) {
-<<<<<<< HEAD
   build_sql(sql_subquery("(", x$query$sql, ") ", name = ident(name), con = x$src$con))
-=======
-  build_sql(sql_subquery("(", x$query$sql, ")", name = ident(name), con = x$src$con))
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
 }

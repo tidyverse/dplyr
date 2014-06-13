@@ -2,12 +2,6 @@
 #'
 #' Use \code{src_oracle} to connect to an existing Oracle database,
 #' and \code{tbl} to connect to tables within that database.
-<<<<<<< HEAD
-#' 
-#' 
-#' 
-=======
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
 #'
 #' @template db-info
 #' @param dbname Database name
@@ -98,13 +92,11 @@ src_oracle <- function(dbname = NULL, user = NULL,
     stop("ROracle package required to connect to Oracle db", call. = FALSE)
   }
   
-<<<<<<< HEAD
+
   user <- user %||% if (in_travis()) "oracle" else ""
   
   con  <- dbi_connect(Oracle(), username = user %||% "", password = password %||% "", dbname = dbname %||% "", ...)
-=======
-  con  <- dbi_connect(Oracle(), username = user, password = password, dbname = dbname, ...)
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
+
   info <- db_info(con)
   
   src_sql("oracle", con,
@@ -118,12 +110,8 @@ tbl.src_oracle <- function(src, from, ...) {
 }
 
 #' @export
-<<<<<<< HEAD
 brief_desc.src_oracle <- function(x) {  
-=======
-brief_desc.src_oracle <- function(x) {
-  
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
+
    info <- x$info
    paste0("oracle ", info$serverVersion, " [", info$username, "@",
           info$dbname,"]")
@@ -134,7 +122,6 @@ translate_env.src_oracle <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
-<<<<<<< HEAD
      n = function() sql("count(*)"),
      cor = sql_prefix("corr"),
      cov = sql_prefix("covar_samp"),
@@ -143,16 +130,7 @@ translate_env.src_oracle <- function(x) {
      #all = sql_prefix("bool_and"),
      #any = sql_prefix("bool_or"),
      paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")                  
-=======
-                   n = function() sql("count(*)"),
-                   cor = sql_prefix("corr"),
-                   cov = sql_prefix("covar_samp"),
-                   sd =  sql_prefix("stddev"),
-                   var = sql_prefix("var_samp"),
-                   #all = sql_prefix("bool_and"),
-                   #any = sql_prefix("bool_or"),
-                   paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")                  
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
+
     ),
     base_win
   )

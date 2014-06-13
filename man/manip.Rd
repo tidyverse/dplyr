@@ -54,7 +54,6 @@ as with \code{\link{group_by}}
 }
 
 \section{Tbls}{
-<<<<<<< HEAD
 
 
 dplyr comes with three built-in tbls.  Read the help for the
@@ -66,18 +65,8 @@ manip methods of that class to get more details:
   \item SQLite: \code{\link{src_sqlite}}
   \item PostgreSQL: \code{\link{src_postgres}}
   \item MySQL: \code{\link{src_mysql}}
+  \item Oracle: \code{\link{src_oracle}}
 }
-=======
-  dplyr comes with three built-in tbls.  Read the help for
-  the manip methods of that class to get more details:
-
-  \itemize{ \item data.frame: \link{manip_df} \item
-  data.table: \link{manip_dt} \item SQLite:
-  \code{\link{src_sqlite}} \item PostgreSQL:
-  \code{\link{src_postgres}} \item MySQL:
-  \code{\link{src_mysql}} \item Oracle:
-  \code{\link{src_oracle}} }
->>>>>>> 5249e6f5251d100af4bdde4f1b4feacee7b0e341
 }
 
 \section{Output}{
