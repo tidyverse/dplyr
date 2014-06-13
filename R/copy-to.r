@@ -95,14 +95,11 @@ copy_to.src_oracle <- function(dest, df, name = deparse(substitute(df)), types =
   names(types) <- names(df)
   
   con <- dest$con
-  
-
-  
-  #sql_begin_trans(con)
-  sql_create_table(con, name, types)
+    
+  sql_create_table(con, name, types, temporary = FALSE)
   sql_insert_into(con, name, df)
   sql_create_indexes(con, name, indexes)
-  #if (analyze) sql_analyze(con, name)
+  
   sql_commit(con)
   
   tbl(dest, name)

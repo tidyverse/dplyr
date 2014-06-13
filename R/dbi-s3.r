@@ -370,20 +370,6 @@ sql_rollback <- function(con) dbRollback(con)
 sql_create_temp <- function(con, table, temporary, fields) 
   UseMethod("sql_create_temp")
 
-#' @export
-sql_create_temp.DBIConnection <- function(con, table, temporary, fields){
-  build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
-            "TABLE ", ident(table), " ", fields, con = con)
-}
-#' @export
-sql_create_temp.OraConnection <- function(con, table, temporary, fields){
-
-  build_sql("CREATE ", if (temporary) sql("GLOBAL TEMPORARY "),
-            "TABLE ", ident(table), " ", fields, 
-            if (temporary) sql("ON COMMIT PRESERVE ROWS") ,con = con)
-}
-
-
 
 sql_create_table <- function(con, table, types, temporary = FALSE) {
   assert_that(is.string(table), is.character(types))
@@ -391,8 +377,9 @@ sql_create_table <- function(con, table, types, temporary = FALSE) {
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE,
     collapse = ", ", con = con)
-  sql <- sql_create_temp(con, table, temporary, fields)
-
+  sql <-   build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+                     "TABLE ", ident(table), " ", fields, con = con)
+  
   qry_run(con, sql)
 }
 
