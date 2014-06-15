@@ -93,9 +93,11 @@ src_oracle <- function(dbname = NULL, user = NULL,
   }
   
 
-  user <- user %||% if (in_travis()) "oracle" else ""
+  user <- user %||% if (in_travis()) "oracle" else NULL
   
-  con  <- dbi_connect(Oracle(), username = user %||% "", password = password %||% "", dbname = dbname %||% "", ...)
+  con  <- dbi_connect(Oracle(), username = user %||% "hr", 
+                      password = password %||% "hr", 
+                      dbname = dbname %||% "locahost", ...)
 
   info <- db_info(con)
   

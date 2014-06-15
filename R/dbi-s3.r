@@ -19,6 +19,7 @@ dbi_connect.SQLiteDriver <- function(driver, ...) {
 }
 #' @export
 dbi_connect.DBIDriver <- function(driver, ...) {
+ 
   dbConnect(driver, ...)
 }
 
