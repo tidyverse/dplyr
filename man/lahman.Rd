@@ -35,7 +35,7 @@ lahman_srcs(..., quiet = NULL)
 }
 \arguments{
 \item{...}{Arguments passed to \code{src} on first
-  load. For mysql and postgresql, the defaults assume you have a local
+  load. For mysql, postgresql and oracle, the defaults assume you have a local
   server with \code{lahman} database already created. For bigquery,
   it assumes you have read/write access to a project called
   \code{Sys.getenv("BIGQUERY_PROJECT")}
@@ -67,6 +67,12 @@ if (require("RSQLite") && has_lahman("sqlite")) {
 if (require("RPostgreSQL") && has_lahman("postgres")) {
   lahman_postgres()
   batting <- tbl(lahman_postgres(), "Batting")
+}
+
+# Connect to a local oracle database with lahman database, if available
+if (require("ROracle") && has_lahman("oracle")) {
+  lahman_oracle()
+  batting <- tbl(lahman_oracle(), "Batting")
 }
 }
 

@@ -442,7 +442,8 @@ sql_subquery <- function(con = NULL, name = NULL, ...) {
 }
 
 #' @export
-sql_subquery.DBIConnection <- function(con = NULL, name = NULL, ...) {
+#sql_subquery.DBIConnection <- function(con = NULL, name = NULL, ...) {
+sql_subquery.default <- function(con = NULL, name = NULL, ...) {
   sql(paste0(..., " AS ", name))
 }
  
