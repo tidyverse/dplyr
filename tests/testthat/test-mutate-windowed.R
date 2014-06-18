@@ -7,13 +7,13 @@ tbls <- temp_load(srcs, df)
 test_that("mutate calls windowed versions of sql functions", {
   compare_tbls(tbls, function(x) {
     x %>% group_by(g) %>% mutate(r = as.numeric(row_number(x)))
-  })
+  }, convert = T)
 })
 
 test_that("recycled aggregates generate window function", {
   compare_tbls(tbls, function(x) {
     x %>% group_by(g) %>% mutate(r = x > mean(x))
-  })
+  }, convert = T)
 })
 
 test_that("cumulative aggregates generate window function", {

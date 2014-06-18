@@ -92,10 +92,13 @@ src_JDBC <- function(driver, url = NULL, user = NULL, password = NULL, ...) {
     stop("RJDBC package required to connect to JDBC db", call. = FALSE)
   }
 
-  user <- user %||% if (in_travis()) "JDBC" else ""
+  user <- user %||% ""
 
   con <- dbi_connect(driver, url = url %||% "", user = user %||% "",
     password = password %||% "", ...)
+
+  .jcall(con@jc, "V", "setAutoCommit", FALSE)
+
   info <- list(url=url, user=user, driver=.jstrVal(con@jc))
 
   src_sql("JDBC", con,
@@ -119,8 +122,11 @@ brief_desc.src_JDBC <- function(x) {
 translate_env.src_JDBC <- function(x) {
   sql_variant(
     base_scalar,
-    base_agg,
+    sql_translator(.parent = base_agg,
+      n = function() sql("count(*)")
+    ),
     base_win
   )
 }
 
+setMethod("dbHasCompleted", "JDBCResult", def=function(res, ...) TRUE, valueClass="logical")

@@ -45,9 +45,15 @@ db_list_tables.SQLiteConnection <- function(con) {
 }
 db_list_tables.JDBCConnection <- function(con) {
   table_fields <- dbGetTables(con)
+
   # some JDBC connectors use upper case for these results
   names(table_fields) <- tolower(names(table_fields))
-  paste(table_fields[["table_schem"]], table_fields[["table_name"]], sep = ".")
+
+  # ignore system tables
+  table_fields <- table_fields[!(is.na(table_fields[['table_type']]) | grepl('SYSTEM', table_fields[['table_type']])), ]
+
+  table_fields[["table_name"]]
+  #paste(table_fields[["table_schem"]], table_fields[["table_name"]], sep = ".")
 }
 #' @export
 db_list_tables.bigquery <- function(con) {
@@ -199,9 +205,7 @@ table_fields.PostgreSQLConnection <- function(con, table) {
   qry_fields.DBIConnection(con, table)
 }
 #' @export
-table_fields.JDBCConnection <- function(con, table) {
-  qry_fields.JDBCConnection(con, table)
-}
+table_fields.JDBCConnection <- function(con, table) dbListFields(con, table)
 
 
 #' @export
@@ -211,9 +215,16 @@ table_fields.bigquery <- function(con, table) {
 }
 
 # Run a query, abandoning results
+table_fields <- function(con, table) UseMethod("table_fields")
 qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
                     show = getOption("dplyr.show_sql"),
                     explain = getOption("dplyr.explain_sql")) {
+  UseMethod("qry_run")
+}
+
+qry_run.default <- function(con, sql, data = NULL, in_transaction = FALSE,
+                                   show = getOption("dplyr.show_sql"),
+                                   explain = getOption("dplyr.explain_sql")) {
   if (show) message(sql)
   if (explain) message(qry_explain(con, sql))
 
@@ -228,6 +239,28 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
     res <- dbSendPreparedQuery(con, sql, bind.data = data)
   }
   dbClearResult(res)
+
+  invisible(NULL)
+}
+
+qry_run.JDBCConnection <- function(con, sql, data = NULL, in_transaction = FALSE,
+                                   show = getOption("dplyr.show_sql"),
+                                   explain = getOption("dplyr.explain_sql")) {
+  if (show) message(sql)
+  if (explain) message(qry_explain(con, sql))
+
+  if (in_transaction) {
+    dbBeginTransaction(con)
+    on.exit(dbCommit(con))
+  }
+
+  if (is.null(data)) {
+    dbSendUpdate(con, sql)
+    #dbCommit(con)
+  } else {
+    res <- dbSendPreparedQuery(con, sql, bind.data = data)
+    dbClearResult(res)
+  }
 
   invisible(NULL)
 }
@@ -334,6 +367,9 @@ sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
 sql_begin_trans.DBIConnection <- function(con) {
   qry_run(con, "BEGIN TRANSACTION")
 }
+sql_begin_trans.JDBCConnection <- function(con) {
+  dbSendUpdate(con, "BEGIN TRANSACTION")
+}
 #' @export
 sql_begin_trans.MySQLConnection <- function(con) {
   qry_run(con, "START TRANSACTION")
@@ -375,6 +411,18 @@ sql_insert_into.SQLiteConnection <- function(con, table, values) {
 
 #' @export
 sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
+
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
+
+  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
+  qry_run(con, sql)
+}
+
+#' @export
+sql_insert_into.JDBCConnection <- function(con, table, values) {
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 

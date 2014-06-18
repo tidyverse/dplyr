@@ -2,7 +2,7 @@ context("Group by")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres", "JDBC_postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("group_by with add = TRUE adds groups", {

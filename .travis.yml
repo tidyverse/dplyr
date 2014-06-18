@@ -5,6 +5,7 @@ before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
+  - curl -O http://jdbc.postgresql.org/download/postgresql-9.3-1101.jdbc41.jar
 install:
   - mkdir ~/.R
   - ./travis-tool.sh r_binary_install ggplot2
@@ -21,11 +22,13 @@ install:
 
 before_script:
 - psql -c 'create database lahman;' -U postgres
+- psql -c 'create database lahman_jdbc;' -U postgres
 - psql -c 'create database hflights;' -U postgres
 - psql -c 'create database test;' -U postgres
+- psql -c 'create database test_jdbc;' -U postgres
 # Install dplyr package then cache sqlite and postgres version of Lahman
 - R CMD INSTALL .
-- Rscript -e "library(dplyr); lahman_sqlite(); lahman_postgres()"
+- Rscript -e "library(dplyr); lahman_sqlite(); lahman_postgres(); cache_lahman('JDBC_postgres')"
 - Rscript -e "library(dplyr); hflights_postgres(); hflights_sqlite()"
 script: ./travis-tool.sh run_tests
 
