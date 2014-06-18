@@ -9,9 +9,16 @@ namespace dplyr {
             Rcpp::IntegerVector::get_na(), -n) ;   
     }
     
+    template <typename Data>
     inline Rcpp::CharacterVector classes_grouped(){
         return Rcpp::CharacterVector::create( "grouped_df", "tbl_df", "tbl", "data.frame") ;        
     }
+    
+    template <>
+    inline Rcpp::CharacterVector classes_grouped<RowwiseDataFrame>(){
+        return Rcpp::CharacterVector::create( "rowwise_df", "tbl_df", "tbl", "data.frame") ;        
+    }
+    
     inline Rcpp::CharacterVector classes_not_grouped(){
         return Rcpp::CharacterVector::create( "tbl_df", "tbl", "data.frame") ;
     }
@@ -39,7 +46,7 @@ namespace dplyr {
             set_rownames(data, nr ) ;
             
             if( source.nvars() > 1){
-                data.attr( "class" ) = classes_grouped()  ;
+                data.attr( "class" ) = classes_grouped<Data>()  ;
                 List vars = source.data().attr("vars") ;
                 vars.erase( source.nvars() - 1) ;
                 data.attr( "vars") = vars ;

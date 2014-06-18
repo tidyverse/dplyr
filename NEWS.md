@@ -6,6 +6,8 @@
 
 * The `AsIs` class is white listed (#453). 
 
+* `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
+
 # dplyr 0.2
 
 ## Piping

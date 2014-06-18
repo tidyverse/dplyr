@@ -1366,7 +1366,7 @@ SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDo
         
     }
     
-    DataFrame res = subset( data, indx, names, classes_grouped() ) ;
+    DataFrame res = subset( data, indx, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
     
     return res ;
@@ -1493,7 +1493,7 @@ SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
         accumulator.set( name, variable) ;
     }
 
-    return structure_mutate(accumulator, df, classes_grouped() );
+    return structure_mutate(accumulator, df, classes_grouped<Data>() );
 }
   
 SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){

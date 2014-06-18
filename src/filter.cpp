@@ -109,7 +109,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
             }
         }
     }
-    DataFrame res = subset( data, test, names, classes_grouped() ) ;
+    DataFrame res = subset( data, test, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
 
     return res ;
@@ -157,7 +157,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
             }
         }
     }
-    DataFrame res = subset( data, test, names, classes_grouped() ) ;
+    DataFrame res = subset( data, test, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars") = data.attr("vars") ;
 
     return res ;
@@ -255,7 +255,7 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
             if( what[0] == TRUE ){
                 return df ;   
             } else {
-                return empty_subset( df, df.names(), is<GroupedDataFrame>(df) ? classes_grouped() : classes_not_grouped() ) ;    
+                return empty_subset( df, df.names(), is<GroupedDataFrame>(df) ? classes_grouped<GroupedDataFrame>() : classes_not_grouped() ) ;    
             }
         }
     }
