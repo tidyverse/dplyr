@@ -34,7 +34,7 @@ temp_src <- function(type, ...) {
     bigquery = src_bigquery(Sys.getenv("BIGQUERY_PROJECT"), "test", ...),
     JDBC_postgres = src_JDBC(JDBC("org.postgresql.Driver",
                                   "postgresql-9.3.1101.jdbc41.jar"),
-                             "jdbc:postgresql://localhost/test_jdbc", identifier.quote="'", ...),
+                             "jdbc:postgresql://localhost/test_jdbc", identifier.quote='"', ...),
     stop("Unknown src type ", type, call. = FALSE)
   )
 

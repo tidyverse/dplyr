@@ -124,3 +124,12 @@ substitute_q <- function(x, env) {
   call <- substitute(substitute(x, env), list(x = x))
   eval(call)
 }
+
+get_slot <- function(x, name, default='') {
+  if(name %in% slotNames(x)) {
+    slot(x, name)
+  }
+  else {
+    default
+  }
+}

@@ -164,7 +164,7 @@ DbDisconnector <- setRefClass("DbDisconnector",
     finalize = function() {
       if (!quiet) {
         message("Auto-disconnecting ", name, " connection ",
-          "(", paste(con@Id, collapse = ", "), ")")
+          "(", paste(get_slot(con, 'Id'), collapse = ", "), ")")
       }
       dbDisconnect(con)
     }

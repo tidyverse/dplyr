@@ -1,7 +1,7 @@
 context("Mutate - windowed")
 
 df <- data.frame(x = 1:10, y = seq(1,10,by=1), g = rep(c(1, 2), each = 5))
-srcs <- temp_srcs("df", "dt", "postgres")
+srcs <- temp_srcs("df", "dt", "postgres", "JDBC_postgres")
 tbls <- temp_load(srcs, df)
 
 test_that("mutate calls windowed versions of sql functions", {
@@ -11,15 +11,16 @@ test_that("mutate calls windowed versions of sql functions", {
 })
 
 test_that("recycled aggregates generate window function", {
-  compare_tbls(tbls, function(x) {
+  # JDBC does not return logical values
+  compare_tbls(tbls[-4], function(x) {
     x %>% group_by(g) %>% mutate(r = x > mean(x))
-  }, convert = T)
+  })
 })
 
 test_that("cumulative aggregates generate window function", {
   compare_tbls(tbls, function(x) {
     x %>% group_by(g) %>% mutate(cx = as.integer(cumsum(x)))
-  })
+  }, convert = T)
 })
 
 test_that("desc is correctly handled by window functions", {

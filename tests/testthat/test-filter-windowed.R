@@ -11,7 +11,8 @@ test_that("filter calls windowed versions of sql functions", {
 })
 
 test_that("recycled aggregates generate window function", {
-  compare_tbls(tbls, function(x) {
+  # JDBC does not return logical columns
+  compare_tbls(tbls[-4], function(x) {
     x %>% group_by(g) %>% filter(x > mean(x))
   }, convert = TRUE)
 })

@@ -128,5 +128,3 @@ translate_env.src_JDBC <- function(x) {
     base_win
   )
 }
-
-setMethod("dbHasCompleted", "JDBCResult", def=function(res, ...) TRUE, valueClass="logical")
