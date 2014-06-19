@@ -1,4 +1,4 @@
-language: c
+language: java
 services: PostgreSQL
 
 before_install:
