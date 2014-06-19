@@ -11,7 +11,6 @@ install:
   - ./travis-tool.sh r_binary_install ggplot2
   - ./travis-tool.sh r_binary_install RSQLite
   - ./travis-tool.sh r_binary_install RMySQL
-  - ./travis-tool.sh r_binary_install RPostgreSQL
   - ./travis-tool.sh r_binary_install rgl
   - ./travis-tool.sh r_binary_install XML
   - ./travis-tool.sh r_binary_install knitr
