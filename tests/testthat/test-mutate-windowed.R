@@ -1,7 +1,7 @@
 context("Mutate - windowed")
 
 df <- data.frame(x = 1:10, y = seq(1,10,by=1), g = rep(c(1, 2), each = 5))
-srcs <- temp_srcs("df", "dt", "postgres")
+srcs <- temp_srcs("df", "dt", "postgres", "oracle")
 tbls <- temp_load(srcs, df)
 
 test_that("mutate calls windowed versions of sql functions", {

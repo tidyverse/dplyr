@@ -4,7 +4,7 @@ df <- expand.grid(a = 1:10, b = letters[1:10],
   KEEP.OUT.ATTRS = FALSE,
   stringsAsFactors = FALSE)
 
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres", "oracle"))
 tbls <- temp_load(srcs, df)
 
 test_that("filter results independent of data tbl (simple)", {

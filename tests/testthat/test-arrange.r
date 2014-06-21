@@ -1,7 +1,7 @@
 context("Arrange")
 
 local <- c("df", "dt")
-db <- c("sqlite", "postgres")
+db <- c("sqlite", "postgres", "oracle")
 
 df1 <- expand.grid(
   a = sample(letters, 5),

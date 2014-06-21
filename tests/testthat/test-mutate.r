@@ -22,7 +22,7 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 })
 
 df <- data.frame(x = 1:10, y = 6:15)
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres", "oracle"))
 tbls <- temp_load(srcs, df)
 
 test_that("two mutates equivalent to one", {

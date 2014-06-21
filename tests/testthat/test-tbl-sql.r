@@ -1,6 +1,6 @@
 context("tbl_sql")
 
-srcs <- temp_srcs("sqlite", "postgres")
+srcs <- temp_srcs("sqlite", "postgres", "oracle")
 
 df <- data.frame(x = 1:3, y = 3:1)
 tbls <- temp_load(srcs, list(df = df))

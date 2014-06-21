@@ -1,6 +1,6 @@
 context("Equivalence (grouped)")
 
-srcs <- lahman_srcs("df", "dt", "postgres", "sqlite")
+srcs <- lahman_srcs("df", "dt", "postgres", "sqlite", "oracle")
 players <- lapply(srcs, function(src) {
   src %>% tbl("Batting") %>% group_by(playerID)
 })
@@ -22,7 +22,7 @@ test_that("filter the same regardless of tbl", {
 })
 
 test_that("mutate the same regardless of tbl", {
-  ok <- intersect(names(players), c("df", "dt", "postgres"))
+  ok <- intersect(names(players), c("df", "dt", "postgres", "oracle"))
 
   compare_tbls(players[ok], function(tbl) {
     tbl %>% select(playerID, yearID) %>%
