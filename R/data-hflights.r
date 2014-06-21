@@ -48,3 +48,21 @@ hflights_postgres <- function(dbname = "hflights", ...) {
   cache$hflights_postgres <- src
   src
 }
+
+#' @export
+#' @rdname hflights_df
+#' @param dbname,... Arguments passed on to \code{\link{src_oracle}}
+hflights_oracle <- function(dbname = "localhost", user = "hflights", password = "hflights", ...) {
+  if (!is.null(cache$hflights_oracle)) return(cache$hflights_oracle)
+  
+  src <- src_oracle(dbname, user, password, ...)
+  if (!db_has_table(src$con, "hflights")) {
+    copy_to(src, getExportedValue("hflights", "hflights"), "hflights",
+            temporary = FALSE,
+            indexes = list("Dest", c("Year", "Month", "DayofMonth"), "UniqueCarrier")
+    )
+  }
+  
+  cache$hflights_oracle <- src
+  src
+}

@@ -19,6 +19,7 @@ dbi_connect.SQLiteDriver <- function(driver, ...) {
 }
 #' @export
 dbi_connect.DBIDriver <- function(driver, ...) {
+ 
   dbConnect(driver, ...)
 }
 
@@ -42,6 +43,9 @@ db_list_tables.SQLiteConnection <- function(con) {
 db_list_tables.bigquery <- function(con) {
   list_tables(con$project, con$dataset)
 }
+
+
+
 
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
@@ -89,6 +93,33 @@ db_data_type.MySQLConnection <- function(con, fields) {
   vapply(fields, data_type, character(1))
 }
 
+
+#' @export
+db_data_type.OraConnection <- function(con, fields) {
+  char_type <- function(x) {
+    n <- max(nchar(as.character(x), "bytes"))
+    if (n <= 4000) {
+      paste0("varchar2(", n, ")")
+    } else {
+      "long"
+    }
+  }
+  
+  data_type <- function(x) {
+    switch(class(x)[1],
+           logical = "number",
+           integer = "number",
+           numeric = "number",
+           factor =  char_type(x),
+           character = char_type(x),
+           Date =    "date",
+           POSIXct = "date",
+           stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
+    )
+  }
+  vapply(fields, data_type, character(1))
+}
+
 # Creates an environment that disconnects the database when it's
 # garbage collected
 db_disconnector <- function(con, name, quiet = FALSE) {
@@ -109,21 +140,31 @@ DbDisconnector <- setRefClass("DbDisconnector",
 
 # Query details ----------------------------------------------------------------
 
-qry_fields <- function(con, from) {
+qry_fields <- function(con, from) {  
   UseMethod("qry_fields")
 }
 
 #' @export
-qry_fields.DBIConnection <- function(con, from) {
+qry_fields.DBIConnection <- function(con, from) {  
   qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
   on.exit(dbClearResult(qry))
 
   dbGetInfo(qry)$fieldDescription[[1]]$name
+  
 }
 #' @export
 qry_fields.SQLiteConnection <- function(con, from) {
   names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
 }
+
+#' @export
+qry_fields.OraConnection <- function(con, from) {
+  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1"))
+  on.exit(dbClearResult(qry))
+  
+  dbGetInfo(qry)$fields$name 
+}
+
 
 table_fields <- function(con, table) UseMethod("table_fields")
 #' @export
@@ -135,9 +176,20 @@ table_fields.PostgreSQLConnection <- function(con, table) {
 }
 
 #' @export
+table_fields.OraConnection <- function(con, table) {
+  qry_fields.OraConnection(con, table)
+}
+
+#' @export
 table_fields.bigquery <- function(con, table) {
   info <- get_table(con$project, con$dataset, table)
   vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
+}
+
+
+#' @export
+table_fields.OraConnection <- function(con, table) {
+  qry_fields.OraConnection(con, table)
 }
 
 # Run a query, abandoning results
@@ -244,6 +296,21 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   paste(expl[[1]], collapse = "\n")
 }
 
+# http://docs.oracle.com/cd/E16655_01/appdev.121/e17602/d_xplan.htm
+#' @export
+qry_explain.OraConnection <- function(con, sql, ...) {
+
+  exsql <- build_sql("EXPLAIN PLAN FOR ", sql)
+  expl  <- qry_run(con, exsql, show = FALSE, explain = FALSE) # need to first execute 'explain plan for'
+  expl  <- qry_fetch(con, "select * from table(dbms_xplan.display)", show = FALSE, explain = FALSE) # then call this table
+  
+  rownames(expl) <- NULL
+  out <- capture.output(print(expl))
+  
+  paste(out, collapse = "\n")
+}
+
+
 # Result sets ------------------------------------------------------------------
 
 res_warn_incomplete <- function(res) {
@@ -255,6 +322,21 @@ res_warn_incomplete <- function(res) {
 }
 
 # SQL queries ------------------------------------------------------------------
+
+#'@export
+sql_as <- function(con, alias = NULL) {
+  UseMethod("sql_as")
+}
+
+#' @export
+sql_as.DBIConnection <- function(con, alias = NULL) {
+  sql(paste0(" AS ", alias))
+}
+
+#'@export
+sql_as.OraConnection <- function(con, alias = NULL) {
+  sql(alias)
+}
 
 
 sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
@@ -269,6 +351,13 @@ sql_begin_trans.MySQLConnection <- function(con) {
   qry_run(con, "START TRANSACTION")
 }
 
+#' @export
+sql_begin_trans.OraConnection <- function(con) {
+  qry_run(con, "BEGIN TRANSACTION")
+  #qry_run(con, "")
+}
+
+
 sql_commit <- function(con) UseMethod("sql_commit")
 #' @export
 sql_commit.DBIConnection <- function(con) dbCommit(con)
@@ -279,15 +368,19 @@ sql_commit.MySQLConnection <- function(con) {
 
 sql_rollback <- function(con) dbRollback(con)
 
+sql_create_temp <- function(con, table, temporary, fields) 
+  UseMethod("sql_create_temp")
+
+
 sql_create_table <- function(con, table, types, temporary = FALSE) {
   assert_that(is.string(table), is.character(types))
-
+  
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE,
     collapse = ", ", con = con)
-  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
-    "TABLE ", ident(table), " ", fields, con = con)
-
+  sql <-   build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+                     "TABLE ", ident(table), " ", fields, con = con)
+  
   qry_run(con, sql)
 }
 
@@ -336,6 +429,29 @@ sql_insert_into.MySQLConnection <- function(con, table, values) {
 
   invisible()
 }
+
+#' @export
+sql_insert_into.OraConnection <- function(con, table, values) {
+  
+  dbWriteTable(con, table, values, overwrite = TRUE)
+  
+}
+
+sql_subquery <- function(con = NULL, name = NULL, ...) {
+  UseMethod("sql_subquery")
+}
+
+#' @export
+#sql_subquery.DBIConnection <- function(con = NULL, name = NULL, ...) {
+sql_subquery.default <- function(con = NULL, name = NULL, ...) {
+  sql(paste0(..., " AS ", name))
+}
+ 
+#' @export
+sql_subquery.OraConnection <- function(con = NULL, name = NULL, ...) {
+  sql(paste0(..., name))
+}
+
 
 
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
@@ -397,6 +513,12 @@ sql_analyze.MySQLConnection <- function(con, table) {
   qry_run(con, sql)
 }
 
+# #' @export
+# sql_analyze.OraConnection <- function(con, table) {
+#   sql <- build_sql("ANALYZE TABLE ", ident(table), con = con)
+#   qry_run(con, sql)
+# }
+
 sql_select <- function(con, ...) {
   UseMethod("sql_select")
 }
@@ -410,6 +532,7 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by =
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
     "limit", "offset")
 
+ 
   assert_that(is.character(select), length(select) > 0L)
   out$select <- build_sql("SELECT ", escape(select, collapse = ", ", con = con))
 
@@ -453,8 +576,22 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by =
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
 }
 
+
+sql_subquery <- function(con = NULL, name = NULL, ...) {
+  UseMethod("sql_subquery")
+}
+
+sql_subquery.DBIConnection <- function(con = NULL, name = NULL, ...) {
+  sql(paste0(..., " AS ", name))
+}
+
+sql_subquery.OraConnection <- function(con = NULL, name = NULL, ...) {
+  sql(paste0(" ", ..., name))
+}
+
 # Utility functions ------------------------------------------------------------
 
 random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
+

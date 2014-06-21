@@ -98,6 +98,7 @@ Collate:
     'src-local.r'
     'src-monetdb.r'
     'src-mysql.r'
+    'src-oracle.r'
     'src-postgres.r'
     'src-sql.r'
     'src-sqlite.r'

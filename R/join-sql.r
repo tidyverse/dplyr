@@ -163,16 +163,16 @@ semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 
   con <- x$src$con
   by_escaped <- escape(ident(by), collapse = NULL, con = con)
-  left <- escape(ident("_LEFT"), con = con)
-  right <- escape(ident("_RIGHT"), con = con)
+  left <- escape(ident("LEFT_"), con = con)
+  right <- escape(ident("RIGHT_"), con = con)
 
   join <- sql(paste0(left, ".", by_escaped, " = ", right, ".", by_escaped,
     collapse = " AND "))
 
   from <- build_sql(
-    'SELECT * FROM ', from(x, "_LEFT"), '\n\n',
+    'SELECT * FROM ', from(x, "LEFT_"), '\n\n',
     'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
-    '  SELECT 1 FROM ', from(y, "_RIGHT"), '\n',
+    '  SELECT 1 FROM ', from(y, "RIGHT_"), '\n',
     '  WHERE ', join, ')'
   )
 
@@ -180,5 +180,5 @@ semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 }
 
 from <- function(x, name = random_table_name()) {
-  build_sql("(", x$query$sql, ") AS ", ident(name), con = x$src$con)
+  build_sql(sql_subquery("(", x$query$sql, ") ", name = ident(name), con = x$src$con))
 }

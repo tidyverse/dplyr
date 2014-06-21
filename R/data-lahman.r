@@ -8,7 +8,7 @@
 #' for that package for documentation of the inidividual tables.
 #'
 #' @param ... Arguments passed to \code{src} on first
-#'   load. For mysql and postgresql, the defaults assume you have a local
+#'   load. For mysql, postgresql and oracle, the defaults assume you have a local
 #'   server with \code{lahman} database already created. For bigquery,
 #'   it assumes you have read/write access to a project called
 #'   \code{Sys.getenv("BIGQUERY_PROJECT")}
@@ -30,6 +30,12 @@
 #'   lahman_postgres()
 #'   batting <- tbl(lahman_postgres(), "Batting")
 #' }
+#' 
+#' # Connect to a local oracle database with lahman database, if available
+#' if (require("ROracle") && has_lahman("oracle")) {
+#'   lahman_oracle()
+#'   batting <- tbl(lahman_oracle(), "Batting")
+#' }
 #' @name lahman
 NULL
 
@@ -42,6 +48,10 @@ lahman_sqlite <- function() {
 #' @export
 #' @rdname lahman
 lahman_postgres <- function(...) cache_lahman("postgres", ...)
+
+#' @export
+#' @rdname lahman
+lahman_oracle <- function(...) cache_lahman("oracle", ...)
 
 #' @export
 #' @rdname lahman
@@ -101,7 +111,7 @@ cache_lahman <- function(type, ...) {
 
   src <- lahman_src(type, ...)
   tables <- setdiff(lahman_tables(), src_tbls(src))
-
+  
   # Create missing tables
   for(table in tables) {
     df <- getExportedValue("Lahman", table)
@@ -129,6 +139,7 @@ lahman_src <- function(type, ...) {
     monetdb = src_monetdb("lahman", ...),
     postgres = src_postgres("lahman", ...),
     bigquery = src_bigquery(Sys.getenv("BIGQUERY_PROJECT"), "lahman", ...),
+    oracle = src_oracle("localhost", "lahman", "lahman", ...),
     stop("Unknown src type ", type, call. = FALSE)
   )
 }

@@ -176,7 +176,7 @@ sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
 
 names_to_as <- function(x, con = NULL) {
   names <- names2(x)
-  as <- ifelse(names == '', '', paste0(' AS ', escape_ident(con, names)))
+  as <- ifelse(names == '', '', sql_subquery(name = escape_ident(con, names), con = con))
 
   paste0(x, as)
 }
@@ -218,7 +218,6 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
 
     escape(val, con = con)
   }
-
   pieces <- vapply(dots(...), escape_expr, character(1))
   sql(paste0(pieces, collapse = ""))
 }
