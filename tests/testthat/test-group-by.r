@@ -160,3 +160,10 @@ test_that("group_by only creates one group for NA (#401)", {
   res <- data.frame(x=x,w=w) %>% group_by(x) %>% summarise(n=n())
   expect_equal(nrow(res), 11L) 
 })
+
+test_that("data.table invalid .selfref issue (#475)", {
+  dt <- data.table(x=1:5, y=6:10)
+  expect_that((dt %>% group_by(x))[, z := 2L], not(gives_warning()))
+  dt <- data.table(x=1:5, y=6:10)
+  expect_that((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], not(gives_warning()))
+})

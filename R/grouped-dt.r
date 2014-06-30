@@ -29,9 +29,9 @@ grouped_dt <- function(data, vars) {
 
   data <- copy(data)
   setkeyv(data, deparse_all(vars))
-
-  structure(data, vars = vars,
-    class = c("grouped_dt", "tbl_dt", "tbl", class(data)))
+  setattr(data, "vars", vars)
+  setattr(data, "class", c("grouped_dt", "tbl_dt", "tbl", class(data)))
+  data
 }
 
 #' @export
@@ -74,7 +74,7 @@ regroup.grouped_dt <- function(x, value) {
 
 #' @export
 ungroup.grouped_dt <- function(x) {
-  attr(x, "vars") <- NULL
-  class(x) <- setdiff(class(x), "grouped_dt")
+  setattr(x, "vars", NULL)
+  setattr(x, "class", setdiff(class(x), "grouped_dt"))
   x
 }
