@@ -20,6 +20,7 @@ tbl_dt <- function(data) {
 
   if (is.data.table(data)) data <- copy(data) else data <- as.data.table(data)
   setattr(data, "class", c("tbl_dt", "tbl", "data.table", "data.frame"))
+  data
 }
 
 #' @export
