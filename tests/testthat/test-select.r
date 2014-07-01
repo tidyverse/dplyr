@@ -32,6 +32,14 @@ test_that("select_vars prefix/suffix matching", {
   expect_equal(select_vars(vars, contains("eee")), c("eee" = "eee"))
 })
 
+test_that("select_vars throws an error if an empty pattern is provided", {
+  vars <- c("abc", "def", "ghi")
+  expect_error(select_vars(vars, starts_with("")))
+  expect_error(select_vars(vars, ends_with("")))
+  expect_error(select_vars(vars, contains("")))
+  expect_error(select_vars(vars, matches("")))
+})
+
 test_that("select_vars can rename variables", {
   vars <- c("a", "b")
   expect_equal(select_vars(vars, b = a, a = b), c("b" = "a", "a" = "b"))

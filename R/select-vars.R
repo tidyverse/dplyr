@@ -66,7 +66,7 @@ select_vars_q <- function(vars, args, env = parent.frame(),
 
   select_funs <- list(
     starts_with = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), !is.na(match))
+      stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
 
       if (ignore.case) match <- tolower(match)
       n <- nchar(match)
@@ -75,7 +75,7 @@ select_vars_q <- function(vars, args, env = parent.frame(),
       which(substr(vars, 1, n) == match)
     },
     ends_with = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), !is.na(match))
+      stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
 
       if (ignore.case) match <- tolower(match)
       n <- nchar(match)
@@ -86,12 +86,12 @@ select_vars_q <- function(vars, args, env = parent.frame(),
       which(substr(vars, pmax(1, length - n + 1), length) == match)
     },
     contains = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match))
+      stopifnot(is.string(match), nchar(match) > 0)
 
       grep(match, vars, ignore.case = ignore.case)
     },
     matches = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match))
+      stopifnot(is.string(match), nchar(match) > 0)
 
       grep(match, vars, ignore.case = ignore.case)
     },
