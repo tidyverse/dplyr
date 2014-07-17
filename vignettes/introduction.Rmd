@@ -47,8 +47,8 @@ The goal of this document is to introduce you to the basic tools that dplyr prov
   manipulation on a realistic use case.
 
 * window-functions: a window function is a variation on an aggregation
-  function, where an aggregate functions `n` inputs to produce 1 output, a
-  window function uses `n` inputs to produce `n` outputs.
+  function. Where an aggregate function uses `n` inputs to produce 1 
+  output, a window function uses `n` inputs to produce `n` outputs.
 
 ## Data: hflights
 
