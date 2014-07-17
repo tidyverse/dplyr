@@ -1,9 +1,9 @@
-#' Create a data frame tble.
+#' Create a data frame tbl.
 #'
 #' A data frame tbl wraps a local data frame. The main advantage to using
 #' a \code{tbl_df} over a regular data frame is the printing:
 #' tbl objects only print a few rows and all the columns that fit on one
-#' screen, providing describing the rest of it as text.
+#' screen, describing the rest of it as text.
 #'
 #' @export
 #' @param data a data frame
