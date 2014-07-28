@@ -120,6 +120,12 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   excl <- abs(ind[ind < 0])
   incl <- incl[match(incl, excl, 0L) == 0L]
 
+  bad_idx <- incl < 0 | incl > length(vars)
+  if (any(bad_idx)) {
+    stop("Bad indices: ", paste0(which(bad_idx), collapse = ", "),
+      call. = FALSE)
+  }
+
   # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
   sel <- c(setdiff2(include, sel), sel)

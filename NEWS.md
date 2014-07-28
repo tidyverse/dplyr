@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `select()` gives error message if you attempt to select invalid columns
+  (#348)
+
 * Export `sample_n()` and `sample_frac()` methods for data.frames. 
   (#405, @alyst)
 
