@@ -17,6 +17,16 @@ test_that("select does not lose grouping (#147)", {
   expect_equal(groups(grouped), list(quote(a)))
 })
 
+test_that("select doesn't fail if some names missing", {
+  df1 <- data.frame(x = 1:10, y = 1:10, z = 1:10)
+  df2 <- setNames(df1, c("x", "y", ""))
+  df3 <- setNames(df1, c("x", "", ""))
+
+  expect_equal(select(df1, x), data.frame(x = 1:10))
+  expect_equal(select(df2, x), data.frame(x = 1:10))
+  expect_equal(select(df3, x), data.frame(x = 1:10))
+})
+
 # Select variables -----------------------------------------------
 
 test_that("select_vars prefix/suffix matching", {

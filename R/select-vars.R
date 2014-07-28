@@ -58,6 +58,7 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   }
 
   names_list <- setNames(as.list(seq_along(vars)), vars)
+  names_list[names(names_list) == ""] <- NULL
   names_env <- list2env(names_list, parent = env)
 
   # No non-standard evaluation - but all names mapped to their position.

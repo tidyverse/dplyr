@@ -16,6 +16,9 @@
 
 * `summarise.tbl_cube()` works with single grouping variable (#480).
 
+* `select()` no longer fails when data frame if some columns are not named.
+  (#492)
+
 # dplyr 0.2
 
 ## Piping
