@@ -8,6 +8,9 @@
 
 * `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
 
+* Set generics now pass their arguments down to the base functions, which
+  will ensure they raise errors if you pass in two many arguments.
+
 # dplyr 0.2
 
 ## Piping
