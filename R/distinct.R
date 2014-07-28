@@ -37,6 +37,15 @@ distinct_.data.frame <- function(.data, vars = character()) {
 }
 
 #' @export
+distinct_.grouped_df <- function(.data, vars = character()) {
+  if (length(vars) > 0) {
+    vars <- c(standardise_vars(groups(.data)), standardise_vars(vars))
+  }
+
+  grouped_df(distinct_.data.frame(.data, vars = vars), groups(.data))
+}
+
+#' @export
 distinct_.data.table <- function(.data, vars = character()) {
   vars <- standardise_vars(vars)
   if (length(vars) == 0) {
@@ -49,6 +58,16 @@ distinct_.data.table <- function(.data, vars = character()) {
 #' @export
 distinct_.tbl_dt <- function(.data, vars = character()) {
   tbl_dt(NextMethod())
+}
+
+
+#' @export
+distinct_.grouped_dt <- function(.data, vars = character()) {
+  if (length(vars) > 0) {
+    vars <- c(standardise_vars(groups(.data)), standardise_vars(vars))
+  }
+
+  grouped_df(distinct_.data.table(.data, vars = vars), groups(.data))
 }
 
 #' @export

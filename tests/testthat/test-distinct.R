@@ -18,3 +18,11 @@ test_that("distinct removes duplicates (data.table)", {
 test_that("distinct removes duplicates (sql)", {
   expect_error(nrow(distinct(tbls$sqlite, x)), "specified columns")
 })
+
+test_that("grouped_by uses grouping vars & preserves groups", {
+  out <- mtcars %>% tbl_dt() %>% group_by(cyl) %>% distinct(vs)
+
+  expect_equal(nrow(out), 5)
+  expect_equal(groups(out), list(quote(cyl)))
+
+})

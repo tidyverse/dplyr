@@ -1,7 +1,8 @@
 # dplyr 0.2.0.99
 
 * new `verb()` distinct returns distinct (unique) rows of a tbl. Currently
-  implemented for `tbl_df()`, `tbl_dt()` and `tbl_sql()`
+  implemented for `tbl_df()`, `grouped_df()`, `tbl_dt()`, `grouped_dt()`, and 
+  `tbl_sql()`
 
 * `select()` gives error message if you attempt to select invalid columns
   (#348)
