@@ -136,9 +136,13 @@ join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
   }
   vars <- lapply(c(by, setdiff(sel_vars, by)), as.name)
 
-  join <- switch(type, left = sql("LEFT"), inner = sql("INNER"),
-    right = stop("Right join not supported", call. = FALSE),
-    full = stop("Full join not supported", call. = FALSE))
+  join <- switch(type,
+    left = sql("LEFT"),
+    inner = sql("INNER"),
+    right = sql("RIGHT"),
+    full = sql("FULL"),
+    stop("Unknown join type: ", join, call. = FALSE)
+  )
 
   from <- build_sql(from(x), "\n\n",
     join, " JOIN \n\n" ,
