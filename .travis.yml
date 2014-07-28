@@ -16,10 +16,9 @@ install:
   - ./travis-tool.sh r_binary_install knitr
   - ./travis-tool.sh github_package hadley/hflights
   - ./travis-tool.sh github_package bigrquery
-  - sudo R CMD javareconf
-  - ./travis-tool.sh r_binary_install RJDBC
   - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
+  - sudo R CMD javareconf
   - ./travis-tool.sh install_deps
 
 before_script:

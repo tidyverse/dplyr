@@ -31,7 +31,8 @@ Suggests:
     knitr,
     microbenchmark,
     ggplot2,
-    mgcv
+    mgcv,
+    RJAVA
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.11.1),
