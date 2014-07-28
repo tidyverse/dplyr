@@ -63,6 +63,6 @@ groups(group_by(by_cyl, cyl, cyl))
 }
 \seealso{
 \code{\link{ungroup}} for the inverse operation,
-  \code{\link{group}} for accessors that don't do special evaluation.
+  \code{\link{groups}} for accessors that don't do special evaluation.
 }
 
