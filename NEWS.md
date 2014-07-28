@@ -11,6 +11,9 @@
 * Set generics now pass their arguments down to the base functions, which
   will ensure they raise errors if you pass in two many arguments.
 
+* `%>%` is simply re-exported from magrittr, instead of creating a local copy 
+  (#496, thanks to @jimhester)
+
 # dplyr 0.2
 
 ## Piping

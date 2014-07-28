@@ -97,4 +97,5 @@ chain_q <- function(calls, env = parent.frame()) {
 #' @name %>%
 #' @export
 #' @rdname chain
+#' @usage lhs \%>\% rhs
 NULL
