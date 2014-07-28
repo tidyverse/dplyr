@@ -14,6 +14,8 @@
 * `%>%` is simply re-exported from magrittr, instead of creating a local copy 
   (#496, thanks to @jimhester)
 
+* `summarise.tbl_cube()` works with single grouping variable (#480).
+
 # dplyr 0.2
 
 ## Piping

@@ -73,7 +73,6 @@ summarise.tbl_cube <- function(.data, ...) {
 
   slices <- expand.grid(lapply(out_dims, seq_along), KEEP.OUT.ATTRS = FALSE)
 
-
   # Loop over each group
   for (i in seq_len(nrow(slices))) {
     index <- as.list(slices[i, , drop = FALSE])
@@ -97,7 +96,7 @@ subs_index <- function(x, i, val, drop = FALSE) {
 
   if (length(i) == 1 && is.atomic(val)) {
     args[[i]] <- quote(val)
-  } else if (length(i) > 1 && is.list(val)) {
+  } else if (length(i) >= 1 && is.list(val)) {
     exprs <- lapply(seq_along(i), function(i) as.call(c(quote(`[[`), quote(val), i)))
     args[i] <- exprs
   } else {
