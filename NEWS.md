@@ -1,5 +1,12 @@
 # dplyr 0.2.0.99
 
+* `order_by()` now works in conjunction with window functions in databases 
+  that support them. 
+  
+* `src_bigquery()` (through the bigrquery package) works again. It now
+  supports cumulative functions (min, max, mean, sum) and throws an error
+  if you attempt to use recycled aggregates (which bq doesn't support).
+
 * new `verb()` distinct returns distinct (unique) rows of a tbl. Currently
   implemented for `tbl_df()`, `grouped_df()`, `tbl_dt()`, `grouped_dt()`, and 
   `tbl_sql()`

@@ -130,11 +130,7 @@ group_size(players)
 
 summarise(players, mean_g = mean(G), best_ab = max(AB))
 filter(players, AB == max(AB) | G == max(G))
-# Not supported yet:
-\dontrun{
-mutate(players, cyear = yearID - min(yearID) + 1,
- cumsum(AB, yearID))
-}
+mutate(players, cumulative = order_by(yearID, cumsum(AB)))
 mutate(players, rank())
 
 # When you group by multiple level, each summarise peels off one level

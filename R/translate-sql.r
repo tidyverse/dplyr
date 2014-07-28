@@ -133,8 +133,8 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
 
   # Translate partition ordering and grouping, and make available
   if (window && !is.null(tbl)) {
-    group_by <- translate_sql_q(tbl$group_by, variant = variant, env = NULL)
-    order_by <- translate_sql_q(tbl$order_by, variant = variant, env = NULL)
+    group_by <- translate_sql_q(tbl$group_by, tbl, variant = variant, env = NULL)
+    order_by <- translate_sql_q(tbl$order_by, tbl, variant = variant, env = NULL)
     old <- set_partition(group_by, order_by)
     on.exit(set_partition(old))
   }

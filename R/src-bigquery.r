@@ -54,11 +54,7 @@
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
 #' filter(players, AB == max(AB) | G == max(G))
-#' # Not supported yet:
-#' \dontrun{
-#' mutate(players, cyear = yearID - min(yearID) + 1,
-#'  cumsum(AB, yearID))
-#' }
+#' mutate(players, cumulative = order_by(yearID, cumsum(AB)))
 #' mutate(players, rank())
 #'
 #' # When you group by multiple level, each summarise peels off one level
@@ -156,9 +152,28 @@ translate_env.src_bigquery <- function(x) {
       "%||%" = sql_prefix("concat"),
       sd = sql_prefix("stddev")
     ),
-    base_win
+    sql_translator(.parent = base_win,
+      mean  = function(...) stop("Not supported by bigquery"),
+      sum   = function(...) stop("Not supported by bigquery"),
+      min   = function(...) stop("Not supported by bigquery"),
+      max   = function(...) stop("Not supported by bigquery"),
+      n     = function(...) stop("Not supported by bigquery"),
+      cummean = win_bq("mean"),
+      cumsum  = win_bq("sum"),
+      cummin  = win_bq("min"),
+      cummax  = win_bq("max")
+    )
   )
 }
+
+# BQ doesn't need frame clause
+win_bq <- function(f) {
+  force(f)
+  function(x) {
+    over(build_sql(sql(f), list(x)), partition_group(), partition_order())
+  }
+}
+
 
 globalVariables(c("insert_upload_job", "wait_for", "list_tables",
   "insert_upload_job", "query_exec", "get_table"))

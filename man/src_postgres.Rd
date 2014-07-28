@@ -136,8 +136,10 @@ group_size(players)
 
 summarise(players, mean_g = mean(G), best_ab = max(AB))
 best_year <- filter(players, AB == max(AB) | G == max(G))
-progress <- mutate(players, cyear = yearID - min(yearID) + 1,
- rank(desc(AB)), cumsum(AB, yearID))
+progress <- mutate(players,
+  cyear = yearID - min(yearID) + 1,
+  ab_rank = rank(desc(AB)),
+  cumulative_ab = order_by(yearID, cumsum(AB)))
 
 # When you group by multiple level, each summarise peels off one level
 per_year <- group_by(batting, playerID, yearID)
