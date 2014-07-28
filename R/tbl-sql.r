@@ -12,7 +12,7 @@
 #'   relatively expensive to determine automatically, so is cached throughout
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
-tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
+tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
   assert_that(is.character(from), length(from) == 1)
 
 

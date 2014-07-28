@@ -40,6 +40,11 @@
 #'   default, \code{join} will do a natural join, using all variables with
 #'   common names across the two tables. A message lists the variables so
 #'   that you can check they're right.
+#'
+#'   To join by different variables on x and y use a named vector.
+#'   For example, \code{by = c("a" = "b")} will match \code{x.a} to
+#'   \code{y.b}.
+#'
 #' @param copy If \code{x} and \code{y} are not from the same data source,
 #'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 #'   same src as \code{x}.  This allows you to join tables across srcs, but
@@ -74,6 +79,9 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 common_by <- function(x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
+  if (length(by) == 0) {
+    stop("No common columns. Please specify `by` param.", call. = FALSE)
+  }
   message("Joining by: ", capture.output(dput(by)))
   by
 }
@@ -83,10 +91,12 @@ unique_names <- function(x_names, y_names, by, x_suffix = ".x", y_suffix = ".y")
   if (length(common) == 0) return(NULL)
 
   x_match <- match(common, x_names)
-  x_names[x_match] <- paste0(x_names[x_match], x_suffix)
+  x_new <- x_names
+  x_new[x_match] <- paste0(x_names[x_match], x_suffix)
 
   y_match <- match(common, y_names)
-  y_names[y_match] <- paste0(y_names[y_match], y_suffix)
+  y_new <- y_names
+  y_new[y_match] <- paste0(y_names[y_match], y_suffix)
 
-  list(x = x_names, y = y_names)
+  list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
 }

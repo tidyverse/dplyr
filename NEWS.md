@@ -1,5 +1,10 @@
 # dplyr 0.2.0.99
 
+* joins (e.g. `left_join()`, `inner_join()`, `semi_join()`, `anti_join()`)
+  now allow you to join on different variables in `x` and `y` tables by
+  supplying a named vector to `by`. For example, `by = c("a" = "b")` joins
+  `x.a` to `y.b`.  (Currently only supported in sql sources)
+  
 * `order_by()` now works in conjunction with window functions in databases 
   that support them. 
   

@@ -88,99 +88,129 @@ NULL
 #' @export
 inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                   auto_index = FALSE, ...) {
-  join_sql(x, y, "inner", by = by, copy = copy, auto_index = auto_index, ...)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  sql <- sql_join(x$src$con, x, y, type = "inner", by = by)
+  update(tbl(x$src, sql), group_by = groups(x))
 }
 
 #' @rdname join.tbl_sql
 #' @export
 left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                  auto_index = FALSE, ...) {
-  join_sql(x, y, "left", by = by, copy = copy, auto_index = auto_index, ...)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  sql <- sql_join(x$src$con, x, y, type = "left", by = by)
+  update(tbl(x$src, sql), group_by = groups(x))
 }
 
 #' @rdname join.tbl_sql
 #' @export
 semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                  auto_index = FALSE, ...) {
-  semi_join_sql(x, y, FALSE, by = by, copy = copy, auto_index = auto_index,
-    ...)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  sql <- sql_semi_join(x$src$con, x, y, anti = FALSE, by = by)
+  update(tbl(x$src, sql), group_by = groups(x))
 }
 
 #' @rdname join.tbl_sql
 #' @export
 anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                  auto_index = FALSE, ...) {
-  semi_join_sql(x, y, TRUE, by = by, copy = copy, auto_index = auto_index,
-    ...)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  sql <- sql_semi_join(x$src$con, x, y, anti = TRUE, by = by)
+  update(tbl(x$src, sql), group_by = groups(x))
 }
 
-join_sql <- function(x, y, type, by = NULL, copy = FALSE, auto_index = FALSE,
-  ...) {
-  type <- match.arg(type, c("left", "right", "inner", "full"))
-  by <- by %||% common_by(x, y)
+sql_join <- function(con, x, y, type = "inner", by = NULL) {
+  UseMethod("sql_join")
+}
 
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+#' @export
+sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL) {
+  join <- switch(type,
+    left = sql("LEFT"),
+    inner = sql("INNER"),
+    right = sql("RIGHT"),
+    full = sql("FULL"),
+    stop("Unknown join type:", type, call. = FALSE)
+  )
+
+  by <- by %||% common_by(x, y)
+  if (!is.null(names(by))) {
+    by_x <- names(by)
+    by_y <- unname(by)
+  } else {
+    by_x <- by
+    by_y <- by
+  }
+  using <- all(by_x == by_y)
 
   # Ensure tables have unique names
   x_names <- auto_names(x$select)
   y_names <- auto_names(y$select)
+  uniques <- unique_names(x_names, y_names, by_x[by_x == by_y])
 
-  uniques <- unique_names(x_names, y_names, by)
   if (is.null(uniques)) {
     sel_vars <- c(x_names, y_names)
   } else {
     x <- update(x, select = setNames(x$select, uniques$x))
     y <- update(y, select = setNames(y$select, uniques$y))
 
+    by_x <- unname(uniques$x[by_x])
+    by_y <- unname(uniques$y[by_y])
+
     sel_vars <- unique(c(uniques$x, uniques$y))
   }
-  vars <- lapply(c(by, setdiff(sel_vars, by)), as.name)
 
-  join <- switch(type,
-    left = sql("LEFT"),
-    inner = sql("INNER"),
-    right = sql("RIGHT"),
-    full = sql("FULL"),
-    stop("Unknown join type: ", join, call. = FALSE)
-  )
+  if (using) {
+    cond <- build_sql("USING ", lapply(by_x, ident), con = con)
+  } else {
+    on <- sql_vector(paste0(escape_ident(con, by_x), " = ", escape_ident(con, by_y)),
+      collapse = " AND ", parens = TRUE)
+    cond <- build_sql("ON ", on, con = con)
+  }
 
   from <- build_sql(from(x), "\n\n",
     join, " JOIN \n\n" ,
     from(y), "\n\n",
-    "USING ", lapply(by, ident), con = x$src$con)
+    cond, con = con)
+  attr(from, "vars") <- lapply(sel_vars, as.name)
 
-  update(tbl(x$src, as.join(from), vars = vars), group_by = groups(x))
+  from
 }
 
-as.join <- function(x) {
-  structure(x, class = c("join", class(x)))
-}
-is.join <- function(x) {
-  inherits(x, "join")
+sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL) {
+  UseMethod("sql_semi_join")
 }
 
-semi_join_sql <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
-  auto_index = FALSE, ...) {
-
+#' @export
+sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL) {
   by <- by %||% common_by(x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  if (!is.null(names(by))) {
+    by_x <- names(by)
+    by_y <- unname(by)
+  } else {
+    by_x <- by
+    by_y <- by
+  }
 
-  con <- x$src$con
-  by_escaped <- escape(ident(by), collapse = NULL, con = con)
   left <- escape(ident("_LEFT"), con = con)
   right <- escape(ident("_RIGHT"), con = con)
-
-  join <- sql(paste0(left, ".", by_escaped, " = ", right, ".", by_escaped,
-    collapse = " AND "))
+  on <- sql_vector(paste0(
+    left, ".", escape_ident(con, by_x), " = ", right, ".", escape_ident(con, by_y)),
+    collapse = " AND ", parens = TRUE)
 
   from <- build_sql(
     'SELECT * FROM ', from(x, "_LEFT"), '\n\n',
     'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
     '  SELECT 1 FROM ', from(y, "_RIGHT"), '\n',
-    '  WHERE ', join, ')'
+    '  WHERE ', on, ')'
   )
+  attr(from, "vars") <- x$select
+  from
+}
 
-  update(tbl(x$src, from, vars = x$select), group_by = groups(x))
+is.join <- function(x) {
+  inherits(x, "join")
 }
 
 from <- function(x, name = random_table_name()) {
