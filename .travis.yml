@@ -16,6 +16,7 @@ install:
   - ./travis-tool.sh r_binary_install knitr
   - ./travis-tool.sh github_package hadley/hflights
   - ./travis-tool.sh github_package bigrquery
+    ./travis-tool.sh r_binary_install rjava
   - CRAN=http://rforge.net/ ./travis-tool.sh install_r RJDBC
   - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
