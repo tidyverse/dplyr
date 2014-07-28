@@ -80,7 +80,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 common_by <- function(x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
-    stop("No common columns. Please specify `by` param.", call. = FALSE)
+    stop("No common variables. Please specify `by` param.", call. = FALSE)
   }
   message("Joining by: ", capture.output(dput(by)))
   by
