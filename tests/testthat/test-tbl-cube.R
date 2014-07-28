@@ -1,6 +1,6 @@
 context("tbl_cube")
 
-expect_that("summarise works with single group", {
+test_that("summarise works with single group", {
   by_month <- group_by(nasa, month)
 
   out <- summarise(by_month, temp = mean(temperature))
