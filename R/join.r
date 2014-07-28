@@ -62,6 +62,21 @@ left_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
+right_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("right_join")
+}
+
+#' @rdname join
+#' @export
+outer_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  union(
+    left_join(x, y, by, copy, ...),
+    right_join(x, y, by, copy, ...)
+  )
+}
+
+#' @rdname join
+#' @export
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("semi_join")
 }
