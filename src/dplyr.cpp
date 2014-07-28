@@ -893,36 +893,6 @@ SEXP promote(SEXP x){
     return x ;
 }
 
-SEXP pairlist_shallow_copy(SEXP p){
-    Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
-    SEXP q = attr ;
-    SET_TAG(q, TAG(p)) ;
-    p = CDR(p) ;
-    while( !Rf_isNull(p) ){
-        Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
-        SETCDR(q, s) ;
-        q = CDR(q) ;
-        SET_TAG(q, TAG(p)) ;
-        p = CDR(p) ;
-    }
-    return attr ;   
-}
-
-void copy_attributes(SEXP out, SEXP data){
-    SEXP att = ATTRIB(data) ;
-    if( !Rf_isNull(att) ){
-        SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
-    }
-    SET_OBJECT( out, OBJECT(data) );
-}
-
-// same as copy_attributes but without names
-void copy_most_attributes(SEXP out, SEXP data){
-    copy_attributes(out,data) ;
-    Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
-}
-
-
 // [[Rcpp::export]]
 SEXP shallow_copy(const List& data){
     int n = data.size() ;
@@ -1396,7 +1366,7 @@ SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDo
         
     }
     
-    DataFrame res = subset( data, indx, names, classes_grouped() ) ;
+    DataFrame res = subset( data, indx, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
     
     return res ;
@@ -1512,6 +1482,9 @@ SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
             variable = __( gather->collect() ) ;
+        } else if( Rf_isNull(call) ){
+            accumulator.rm(name) ;
+            continue ; 
         } else {
             stop( "cannot handle" ) ;
         }
@@ -1520,7 +1493,7 @@ SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
         accumulator.set( name, variable) ;
     }
 
-    return structure_mutate(accumulator, df, classes_grouped() );
+    return structure_mutate(accumulator, df, classes_grouped<Data>() );
 }
   
 SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
@@ -1562,6 +1535,9 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, df.nrows() ) );
             result = __( gather->collect() ) ;
+        } else if( Rf_isNull(call)) {
+            accumulator.rm(name) ;
+            continue ;
         } else {
             stop( "cannot handle" ) ;
         }
@@ -1657,7 +1633,9 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
 //' n_distinct(x)
 // [[Rcpp::export]]
 SEXP n_distinct(SEXP x){
-    SlicingIndex everything(0, Rf_length(x) );
+    int n = Rf_length(x) ;
+    if( n == 0 ) return wrap(0) ;
+    SlicingIndex everything(0, n);
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){
         std::stringstream ss ;

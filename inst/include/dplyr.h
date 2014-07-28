@@ -62,9 +62,35 @@ inline SEXP shared_SEXP(SEXP x){
     return x ;  
 }
 void check_supported_type(SEXP) ;
-SEXP pairlist_shallow_copy(SEXP) ;
-void copy_attributes(SEXP, SEXP) ;
-void copy_most_attributes(SEXP, SEXP); 
+
+inline SEXP pairlist_shallow_copy(SEXP p){
+    Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
+    SEXP q = attr ;
+    SET_TAG(q, TAG(p)) ;
+    p = CDR(p) ;
+    while( !Rf_isNull(p) ){
+        Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
+        SETCDR(q, s) ;
+        q = CDR(q) ;
+        SET_TAG(q, TAG(p)) ;
+        p = CDR(p) ;
+    }
+    return attr ;   
+}
+
+inline void copy_attributes(SEXP out, SEXP data){
+    SEXP att = ATTRIB(data) ;
+    if( !Rf_isNull(att) ){
+        SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
+    }
+    SET_OBJECT( out, OBJECT(data) );
+}
+
+// same as copy_attributes but without names
+inline void copy_most_attributes(SEXP out, SEXP data){
+    copy_attributes(out,data) ;
+    Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
+}
 
 // currently [[Rcpp::register]] does nothing.
 //

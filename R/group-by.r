@@ -23,11 +23,11 @@
 #'   \code{\link{group}} for accessors that don't do special evaluation.
 #' @param x a tbl
 #' @param ... variables to group by. All tbls accept variable names,
-#'   some will also accept functons of variables. Duplicated groups
+#'   some will also accept functions of variables. Duplicated groups
 #'   will be silently dropped.
 #' @param add By default, when \code{add = FALSE}, \code{group_by} will
 #'   override existing groups. To instead add to the existing groups,
-#'   use \code{add = FALSE}
+#'   use \code{add = TRUE}
 #' @export
 #' @examples
 #' by_cyl <- group_by(mtcars, cyl)

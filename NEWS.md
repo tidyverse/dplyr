@@ -1,5 +1,13 @@
 # dplyr 0.2.0.99
 
+* `mutate(data, a = NULL)` removes the variable `a` from the returned dataset (#462). 
+
+* `cumany` and `cumall` properly handle `NA` (#408). 
+
+* The `AsIs` class is white listed (#453). 
+
+* `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
+
 # dplyr 0.2
 
 ## Piping

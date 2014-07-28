@@ -210,3 +210,29 @@ test_that("hybrid evaluator uses correct environment (#403)", {
   res <- func1()
   expect_equal(res$xx, rep(0,nrow(res)) )
 })
+
+test_that("mutate remove variables with = NULL syntax (#462)", {
+  data <- mtcars %>% mutate(cyl = NULL)
+  expect_false( "cyl" %in% names(data) )
+  
+  data <- mtcars %>% group_by(disp) %>% mutate(cyl = NULL)
+  expect_false( "cyl" %in% names(data) )
+})
+
+test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
+  one_mod <- data.frame(grp = "a", x = runif(5,0,1)) %>%
+    tbl_df %>%
+    mutate(y = rnorm(x,x*2,1)) %>%
+    group_by(grp) %>%
+    do(mod = lm(y~x,data = .)) 
+  
+  out <- one_mod %>%
+    mutate(rsq = summary(mod)$r.squared) %>%
+    mutate(aic = AIC(mod))
+                
+  expect_is(out, "rowwise_df")
+  expect_equal(nrow(out), 1L) 
+  expect_is(out$mod, "list")
+  expect_is(out$mod[[1L]], "lm" )  
+})
+
