@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Export `sample_n()` and `sample_frac()` methods for data.frames. 
+  (#405, @alyst)
+
 * `mutate(data, a = NULL)` removes the variable `a` from the returned dataset (#462). 
 
 * `cumany` and `cumall` properly handle `NA` (#408). 
