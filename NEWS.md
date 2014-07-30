@@ -41,6 +41,10 @@
 * `select()` no longer fails when data frame if some columns are not named.
   (#492)
 
+* `do()` now displays the progress bar only when used in interactive prompts
+  and not when knitting (#428, @jimhester).
+
+
 # dplyr 0.2
 
 ## Piping
