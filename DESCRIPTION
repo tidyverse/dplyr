@@ -55,6 +55,7 @@ Collate:
     'data.r'
     'dbi-s3.r'
     'desc.r'
+    'distinct.R'
     'do.r'
     'dplyr.r'
     'explain.r'

@@ -142,7 +142,7 @@ print(object.size(mod2), unit = "MB")
 
 ### Binary verbs
 
-As well as verbs that work on a single tbl, there are also a set of useful verbs that work with two tbls are a time: joins.  dplyr implements the four most useful joins from SQL:
+As well as verbs that work on a single tbl, there are also a set of useful verbs that work with two tbls at a time: joins.  dplyr implements the four most useful joins from SQL:
 
 * `inner_join(x, y)`: matching x + y
 * `left_join(x, y)`: all x + matching y
