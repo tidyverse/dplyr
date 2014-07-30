@@ -107,9 +107,6 @@ dplyr 0.2 adds three new verbs:
 * Support for [MonetDB](http://www.monetdb.org) tables with `src_monetdb()` 
   (#8, thanks to @hannesmuehleisen).
 
-* `do()` now displays the progress bar only when used in interactive prompts
-  and not when knitting (#426, @jimhester).
-
 * New vignettes: 
   
     * `memory` vignette which discusses how dplyr minimises memory usage
