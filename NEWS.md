@@ -8,6 +8,8 @@
 
 * `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
 
+* `summarise` and `group_by` now retain over allocation when working with data.tables (#475, arunsrinivasan).
+
 # dplyr 0.2
 
 ## Piping
