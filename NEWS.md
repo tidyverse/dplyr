@@ -6,6 +6,8 @@
 
 * The `AsIs` class is white listed (#453). 
 
+* `select` fails early when providing empty pattern to `starts_with`, `ends_with`, `contains` or `matches` (#481, @leondutoit).
+
 * `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
 
 # dplyr 0.2
