@@ -82,6 +82,9 @@ Progress <- setRefClass("Progress",
     },
 
     show = function() {
+      if(!interactive() || !is.null(getOption('knitr.in.progress'))) {
+        return(invisible(.self))
+      }
       if (now() - init_time < min_time) {
         return(invisible(.self))
       }

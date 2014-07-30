@@ -3,7 +3,7 @@
 \alias{tbl_sql}
 \title{Create an SQL tbl (abstract)}
 \usage{
-tbl_sql(subclass, src, from, ..., vars = NULL)
+tbl_sql(subclass, src, from, ..., vars = attr(from, "vars"))
 }
 \arguments{
 \item{subclass}{name of subclass}

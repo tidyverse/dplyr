@@ -1,5 +1,27 @@
 # dplyr 0.2.0.99
 
+* joins (e.g. `left_join()`, `inner_join()`, `semi_join()`, `anti_join()`)
+  now allow you to join on different variables in `x` and `y` tables by
+  supplying a named vector to `by`. For example, `by = c("a" = "b")` joins
+  `x.a` to `y.b`.  (Currently only supported in sql sources)
+  
+* `order_by()` now works in conjunction with window functions in databases 
+  that support them. 
+  
+* `src_bigquery()` (through the bigrquery package) works again. It now
+  supports cumulative functions (min, max, mean, sum) and throws an error
+  if you attempt to use recycled aggregates (which bq doesn't support).
+
+* new `verb()` distinct returns distinct (unique) rows of a tbl. Currently
+  implemented for `tbl_df()`, `grouped_df()`, `tbl_dt()`, `grouped_dt()`, and 
+  `tbl_sql()`
+
+* `select()` gives error message if you attempt to select invalid columns
+  (#348)
+
+* Export `sample_n()` and `sample_frac()` methods for data.frames. 
+  (#405, @alyst)
+
 * `mutate(data, a = NULL)` removes the variable `a` from the returned dataset (#462). 
 
 * `cumany` and `cumall` properly handle `NA` (#408). 
@@ -7,6 +29,20 @@
 * The `AsIs` class is white listed (#453). 
 
 * `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
+
+* Set generics now pass their arguments down to the base functions, which
+  will ensure they raise errors if you pass in two many arguments.
+
+* `%>%` is simply re-exported from magrittr, instead of creating a local copy 
+  (#496, thanks to @jimhester)
+
+* `summarise.tbl_cube()` works with single grouping variable (#480).
+
+* `select()` no longer fails when data frame if some columns are not named.
+  (#492)
+
+* `do()` now displays the progress bar only when used in interactive prompts
+  and not when knitting (#428, @jimhester).
 
 * `summarise` and `group_by` now retain over allocation when working with data.tables (#475, arunsrinivasan).
 

@@ -453,6 +453,9 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by =
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
 }
 
+#' @export
+sql_select.bigquery <- sql_select.DBIConnection
+
 # Utility functions ------------------------------------------------------------
 
 random_table_name <- function(n = 10) {

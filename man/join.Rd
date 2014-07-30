@@ -19,9 +19,13 @@ anti_join(x, y, by = NULL, copy = FALSE, ...)
 \item{x,y}{tbls to join}
 
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
-default, \code{join} will do a natural join, using all variables with
-common names across the two tables. A message lists the variables so
-that you can check they're right.}
+  default, \code{join} will do a natural join, using all variables with
+  common names across the two tables. A message lists the variables so
+  that you can check they're right.
+
+  To join by different variables on x and y use a named vector.
+  For example, \code{by = c("a" = "b")} will match \code{x.a} to
+  \code{y.b}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the

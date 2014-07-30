@@ -91,6 +91,7 @@ sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
 
 # Grouped data frames ----------------------------------------------------------
 
+#' @export
 sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
@@ -105,6 +106,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
 
+#' @export
 sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                    .env = parent.frame()) {
 

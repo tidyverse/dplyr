@@ -20,7 +20,7 @@
 #' }
 #'
 #' @seealso \code{\link{ungroup}} for the inverse operation,
-#'   \code{\link{group}} for accessors that don't do special evaluation.
+#'   \code{\link{groups}} for accessors that don't do special evaluation.
 #' @param x a tbl
 #' @param ... variables to group by. All tbls accept variable names,
 #'   some will also accept functions of variables. Duplicated groups

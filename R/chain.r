@@ -93,7 +93,9 @@ chain_q <- function(calls, env = parent.frame()) {
   chain_q(list(substitute(lhs), substitute(rhs)), env = parent.frame())
 }
 
+#' @importFrom magrittr %>%
+#' @name %>%
 #' @export
 #' @rdname chain
-`%>%` <- magrittr::`%>%`
-
+#' @usage lhs \%>\% rhs
+NULL

@@ -180,6 +180,9 @@ base_win <- sql_translator(
   },
 
   order_by = function(order_by, expr) {
-    over(expr, partition_group(), order_by)
+    old <- set_partition(partition_group(), order_by)
+    on.exit(set_partition(old))
+
+    expr
   }
 )

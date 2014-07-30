@@ -9,12 +9,12 @@ group_by(x, ..., add = FALSE)
 \item{x}{a tbl}
 
 \item{...}{variables to group by. All tbls accept variable names,
-some will also accept functons of variables. Duplicated groups
+some will also accept functions of variables. Duplicated groups
 will be silently dropped.}
 
 \item{add}{By default, when \code{add = FALSE}, \code{group_by} will
 override existing groups. To instead add to the existing groups,
-use \code{add = FALSE}}
+use \code{add = TRUE}}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the
@@ -63,6 +63,6 @@ groups(group_by(by_cyl, cyl, cyl))
 }
 \seealso{
 \code{\link{ungroup}} for the inverse operation,
-  \code{\link{group}} for accessors that don't do special evaluation.
+  \code{\link{groups}} for accessors that don't do special evaluation.
 }
 

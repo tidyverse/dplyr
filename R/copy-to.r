@@ -50,6 +50,8 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
                             types = NULL, temporary = TRUE, indexes = NULL,
                             analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
+  class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
+
   if (isTRUE(db_has_table(dest$con, name))) {
     stop("Table ", name, " already exists.", call. = FALSE)
   }

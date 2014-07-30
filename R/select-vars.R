@@ -58,6 +58,7 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   }
 
   names_list <- setNames(as.list(seq_along(vars)), vars)
+  names_list[names(names_list) == ""] <- NULL
   names_env <- list2env(names_list, parent = env)
 
   # No non-standard evaluation - but all names mapped to their position.
@@ -118,6 +119,12 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   # Remove variables to be excluded (setdiff loses names)
   excl <- abs(ind[ind < 0])
   incl <- incl[match(incl, excl, 0L) == 0L]
+
+  bad_idx <- incl < 0 | incl > length(vars)
+  if (any(bad_idx)) {
+    stop("Bad indices: ", paste0(which(bad_idx), collapse = ", "),
+      call. = FALSE)
+  }
 
   # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
