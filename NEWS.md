@@ -44,6 +44,7 @@
 * `do()` now displays the progress bar only when used in interactive prompts
   and not when knitting (#428, @jimhester).
 
+* `summarise` and `group_by` now retain over allocation when working with data.tables (#475, arunsrinivasan).
 
 # dplyr 0.2
 
