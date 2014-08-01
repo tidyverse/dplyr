@@ -56,7 +56,7 @@ group_by <- function(x, ..., add = FALSE) {
   new_groups <- named_dots(...)
 
   # If any calls, use mutate to add new columns, then group by those
-  calls <- vapply(new_groups, is.call, logical(1))
+  calls <- vapply(new_groups, function(x) !is.name(x), logical(1))
   if (any(calls)) {
     env <- new.env(parent = parent.frame())
     env$x <- x

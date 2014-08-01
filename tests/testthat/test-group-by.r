@@ -47,6 +47,12 @@ test_that("constructors drops groups", {
   expect_equal(groups(tbl_df(df)), NULL)
 })
 
+test_that("grouping by constant adds column (#410)", {
+  grouped <- group_by(mtcars, "cyl") %>% summarise(foo = n())
+  expect_equal(names(grouped), c('"cyl"', "foo"))
+  expect_equal(nrow(grouped), 1L)
+})
+
 # Test full range of variable types --------------------------------------------
 
 df_var <- data.frame(
@@ -148,17 +154,17 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
 
 test_that("grouped_df errors on empty vars (#398)",{
   m <- mtcars %>% group_by(cyl)
-  m <- m[1:3,1:3] 
+  m <- m[1:3,1:3]
   expect_error( m %>% do(mpg = mean(.$mpg)) )
 })
 
 test_that("group_by only creates one group for NA (#401)", {
   x <- as.numeric(c(NA,NA,NA,10:1,10:1))
   w <- c(20,30,40,1:10,1:10)*10
-  
+
   n_distinct(x) # 11 OK
   res <- data.frame(x=x,w=w) %>% group_by(x) %>% summarise(n=n())
-  expect_equal(nrow(res), 11L) 
+  expect_equal(nrow(res), 11L)
 })
 
 test_that("data.table invalid .selfref issue (#475)", {

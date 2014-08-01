@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `group_by()` has more consistent behaviour when grouping by constants:
+  it creates a new column with that value (#410).
+
 * joining two data.tables now correctly dispatches to data table methods,
   and result is a data table (#470)
 
