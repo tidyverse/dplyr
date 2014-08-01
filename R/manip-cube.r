@@ -6,6 +6,14 @@ select.tbl_cube <- function(.data, ...) {
 }
 
 #' @export
+rename.tbl_cube <- function(.data, ...) {
+  vars <- rename_vars(names(.data$mets), ..., env = parent.frame())
+  .data$mets <- .data$mets[vars]
+  .data
+}
+
+
+#' @export
 filter.tbl_cube <- function(.data, ...) {
   exprs <- dots(...)
 

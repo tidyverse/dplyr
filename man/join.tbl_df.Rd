@@ -5,7 +5,7 @@
 \alias{join.tbl_df}
 \alias{left_join.tbl_df}
 \alias{semi_join.tbl_df}
-\title{Join data table tbls.}
+\title{Join data frame tbls.}
 \usage{
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
@@ -31,8 +31,7 @@ a character vector.}
 }
 \description{
 See \code{\link{join}} for a description of the general purpose of the
-functions. The data frame implementations are currently not terribly
-efficient.
+functions.
 }
 \examples{
 data("Batting", package = "Lahman")

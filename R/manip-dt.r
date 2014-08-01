@@ -130,6 +130,16 @@ select.data.table <- function(.data, ...) {
   out
 }
 
+#' @rdname manip_dt
+#' @export
+rename.data.table <- function(.data, ...) {
+  vars <- rename_vars(names(.data), ..., env = parent.frame())
+
+  out <- .data[, vars, drop = FALSE, with = FALSE]
+  setnames(out, names(vars))
+  out
+}
+
 #' @export
 select.tbl_dt <- function(.data, ...) {
   tbl_dt(

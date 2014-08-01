@@ -23,7 +23,7 @@ NULL
 
 #' @rdname manip_df
 #' @export
-arrange.tbl_df    <- .data_dots(arrange_impl)  
+arrange.tbl_df    <- .data_dots(arrange_impl)
 
 #' @rdname manip_df
 #' @export
@@ -39,13 +39,6 @@ mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 #' @export
 summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 
-#' @rdname manip_df
-#' @export
-select.tbl_df <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame())
-  select_impl(.data, vars)
-}
-
 #' @export
 select.grouped_df <- function(.data, ...) {
   vars <- select_vars(names(.data), ..., env = parent.frame(),
@@ -53,6 +46,15 @@ select.grouped_df <- function(.data, ...) {
 
   select_impl(.data, vars)
 }
+
+#' @export
+rename.grouped_df <- function(.data, ...) {
+  vars <- rename_vars(names(.data), ..., env = parent.frame(),
+    include = as.character(groups(.data)))
+
+  select_impl(.data, vars)
+}
+
 
 # Other methods that currently don't have a better home -----------------------
 

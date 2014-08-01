@@ -144,8 +144,10 @@ select(iris, -contains("etal"))
 select(iris, -matches(".t."))
 select(iris, -Petal.Length, -Petal.Width)
 
-# Rename variables
+# Rename variables:
+# * select() keeps only the variables you specify
 select(iris, petal_length = Petal.Length)
-select(iris, petal = starts_with("Petal"))
+# * rename() keeps all variables
+rename(iris, petal_length = Petal.Length)
 }
 

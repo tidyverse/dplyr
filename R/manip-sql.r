@@ -24,6 +24,20 @@ select.tbl_sql <- function(.data, ...) {
 }
 
 #' @export
+rename.tbl_sql <- function(.data, ...) {
+  vars <- rename_vars(tbl_vars(.data), ..., env = parent.frame(),
+    include = as.character(groups(.data)))
+  # Index into variables so that select can be applied multiple times
+  # and after a mutate.
+  idx <- match(vars, tbl_vars(.data))
+  new_select <- .data$select[idx]
+  names(new_select) <- names(vars)
+
+  update(.data, select = new_select)
+}
+
+
+#' @export
 summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
   input <- partial_eval(dots(...), .data, parent.frame())
   input <- auto_name(input)

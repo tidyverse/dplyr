@@ -12,9 +12,9 @@ select_vars(vars, ..., env = parent.frame(), include = character(),
 select_vars_q(vars, args, env = parent.frame(), include = character(),
   exclude = character())
 
-rename_vars(vars, ...)
+rename_vars(vars, ..., env = parent.frame())
 
-rename_vars_q(vars, args)
+rename_vars_q(vars, args, env = parent.frame())
 }
 \arguments{
 \item{vars}{A character vector of existing column names.}

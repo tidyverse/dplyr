@@ -45,6 +45,12 @@ select.data.frame <- function(.data, ...) {
   vars <- select_vars(names(.data), ..., env = parent.frame())
   select_impl(.data, vars)
 }
+#' @export
+rename.data.frame <- function(.data, ...) {
+  vars <- rename_vars(names(.data), ..., env = parent.frame())
+  select_impl(.data, vars)
+}
+
 
 # Joins ------------------------------------------------------------------------
 

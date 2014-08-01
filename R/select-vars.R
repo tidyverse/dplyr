@@ -145,13 +145,13 @@ setdiff2 <- function(x, y) {
 
 #' @export
 #' @rdname select_vars
-rename_vars <- function(vars, ...) {
-  rename_vars_q(vars, dots(...))
+rename_vars <- function(vars, ..., env = parent.frame()) {
+  rename_vars_q(vars, dots(...), env = env)
 }
 
 #' @export
 #' @rdname select_vars
-rename_vars_q <- function(vars, args) {
+rename_vars_q <- function(vars, args, env = parent.frame()) {
   if (any(names2(args) == "")) {
     stop("All arguments to rename must be named.", stop = FALSE)
   }

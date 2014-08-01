@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `rename()` makes it easy to rename variables - it works similarly to select
+  but it preserves columns that you didn't otherwise touch.
+
 * `%.%` has been deprecated: please use `%>%` instead. `chain()` is 
   defunct. (#518)
 

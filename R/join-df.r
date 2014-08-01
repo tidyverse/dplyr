@@ -1,8 +1,7 @@
-#' Join data table tbls.
+#' Join data frame tbls.
 #'
 #' See \code{\link{join}} for a description of the general purpose of the
-#' functions. The data frame implementations are currently not terribly
-#' efficient.
+#' functions.
 #'
 #' @param x,y tbls to join
 #' @param by a character vector of variables to join by.  If \code{NULL}, the

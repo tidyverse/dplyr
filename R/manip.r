@@ -132,10 +132,16 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' select(iris, -matches(".t."))
 #' select(iris, -Petal.Length, -Petal.Width)
 #'
-#' # Rename variables
+#' # Rename variables:
+#' # * select() keeps only the variables you specify
 #' select(iris, petal_length = Petal.Length)
-#' select(iris, petal = starts_with("Petal"))
+#' # * rename() keeps all variables
+#' rename(iris, petal_length = Petal.Length)
 select <- function(.data, ...) UseMethod("select")
+
+#' @rdname select
+#' @export
+rename <- function(.data, ...) UseMethod("rename")
 
 #' The number of observations in the current group.
 #'

@@ -4,6 +4,7 @@
 \alias{filter.grouped_dt}
 \alias{manip_grouped_dt}
 \alias{mutate.grouped_dt}
+\alias{rename.grouped_dt}
 \alias{select.grouped_dt}
 \alias{summarise.grouped_dt}
 \title{Data manipulation for grouped data tables.}
@@ -17,6 +18,8 @@
 \method{arrange}{grouped_dt}(.data, ...)
 
 \method{select}{grouped_dt}(.data, ...)
+
+\method{rename}{grouped_dt}(.data, ...)
 }
 \arguments{
 \item{.data}{a data table}

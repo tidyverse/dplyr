@@ -4,7 +4,6 @@
 \alias{filter.tbl_df}
 \alias{manip_df}
 \alias{mutate.tbl_df}
-\alias{select.tbl_df}
 \alias{summarise.tbl_df}
 \title{Data manipulation for data frames.}
 \usage{
@@ -15,8 +14,6 @@
 \method{mutate}{tbl_df}(.data, ...)
 
 \method{summarise}{tbl_df}(.data, ...)
-
-\method{select}{tbl_df}(.data, ...)
 }
 \arguments{
 \item{.data}{a data frame}
