@@ -1,6 +1,6 @@
 context("Equivalence (grouped)")
 
-srcs <- lahman_srcs("df", "dt", "postgres", "sqlite")
+srcs <- lahman_srcs("df", "dt", "postgres", "sqlite", "JDBC_postgres")
 players <- lapply(srcs, function(src) {
   src %>% tbl("Batting") %>% group_by(playerID)
 })
@@ -22,10 +22,11 @@ test_that("filter the same regardless of tbl", {
 })
 
 test_that("mutate the same regardless of tbl", {
-  ok <- intersect(names(players), c("df", "dt", "postgres"))
+  ok <- intersect(names(players), c("df", "dt", "postgres", "JDBC_postgres"))
 
+  # FIXME: convert only needed because JDBC returns numeric rather than integer for count
   compare_tbls(players[ok], function(tbl) {
     tbl %>% select(playerID, yearID) %>%
       mutate(cyear = yearID - min(yearID) + 1)
-  })
+  }, convert = TRUE)
 })

@@ -15,17 +15,7 @@
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
   assert_that(is.character(from), length(from) == 1)
 
-
-  if (!is.sql(from)) { # Must be a character string
-    if (isFALSE(db_has_table(src$con, from))) {
-      stop("Table ", from, " not found in database ", src$path, call. = FALSE)
-    }
-
-    from <- ident(from)
-  } else if (!is.join(from)) { # Must be arbitrary sql
-    # Abitrary sql needs to be wrapped into a named subquery
-    from <- build_sql("(", from, ") AS ", ident(unique_name()), con = src$con)
-  }
+  from <- db_table_source(src$con, src$path, from)
 
   tbl <- make_tbl(c(subclass, "sql"),
     src = src,              # src object

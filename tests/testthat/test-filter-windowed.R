@@ -1,23 +1,24 @@
 context("Filter - windowed")
 
 df <- data.frame(x = 1:10, g = rep(c(1, 2), each = 5))
-srcs <- temp_srcs("df", "dt", "postgres")
+srcs <- temp_srcs("df", "dt", "postgres", "JDBC_postgres")
 tbls <- temp_load(srcs, df)
 
 test_that("filter calls windowed versions of sql functions", {
   compare_tbls(tbls, function(x) {
     x %>% group_by(g) %>% filter(row_number(x) < 3)
-  })
+  }, convert = TRUE)
 })
 
 test_that("recycled aggregates generate window function", {
-  compare_tbls(tbls, function(x) {
+  # JDBC does not return logical columns
+  compare_tbls(tbls[-4], function(x) {
     x %>% group_by(g) %>% filter(x > mean(x))
-  })
+  }, convert = TRUE)
 })
 
 test_that("cumulative aggregates generate window function", {
   compare_tbls(tbls, function(x) {
     x %>% group_by(g) %>% filter(cumsum(x) > 10)
-  })
+  }, convert = TRUE)
 })

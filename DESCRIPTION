@@ -31,7 +31,8 @@ Suggests:
     knitr,
     microbenchmark,
     ggplot2,
-    mgcv
+    mgcv,
+    RJDBC
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.11.1),
@@ -95,6 +96,7 @@ Collate:
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
+    'src-JDBC.r'
     'src-bigquery.r'
     'src-local.r'
     'src-monetdb.r'

@@ -23,7 +23,7 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 
 
 df <- data.frame(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres", "JDBC_postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("summarise peels off a single layer of grouping", {
