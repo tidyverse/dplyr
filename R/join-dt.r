@@ -58,15 +58,15 @@ join_dt <- function(op) {
 
 #' @export
 #' @rdname join.tbl_dt
-inner_join.tbl_dt <- join_dt(merge(x, y, by = by, allow.cartesian = TRUE))
+inner_join.data.table <- join_dt(merge(x, y, by = by, allow.cartesian = TRUE))
 
 #' @export
 #' @rdname join.tbl_dt
-left_join.tbl_dt  <- join_dt(merge(x, y, by = by, all.x = TRUE, allow.cartesian = TRUE))
+left_join.data.table  <- join_dt(merge(x, y, by = by, all.x = TRUE, allow.cartesian = TRUE))
 
 #' @export
 #' @rdname join.tbl_dt
-semi_join.tbl_dt  <- join_dt({
+semi_join.data.table  <- join_dt({
   # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table
   w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
   w <- w[!is.na(w)]
@@ -75,4 +75,4 @@ semi_join.tbl_dt  <- join_dt({
 
 #' @export
 #' @rdname join.tbl_dt
-anti_join.tbl_dt <- join_dt(x[!y, allow.cartesian = TRUE])
+anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])

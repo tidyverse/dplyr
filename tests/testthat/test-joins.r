@@ -184,3 +184,10 @@ test_that("join functions error on column not found #371", {
     "No common variables"
   )
 })
+
+test_that("joining data tables yields a data table (#470)", {
+  out <- left_join(data.table(a), data.table(b))
+  expect_is(out, "data.table")
+  out <- semi_join(data.table(a), data.table(b))
+  expect_is(out, "data.table")
+})

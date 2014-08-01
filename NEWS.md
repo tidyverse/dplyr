@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* joining two data.tables now correctly dispatches to data table methods,
+  and result is a data table (#470)
+
 * New `n_groups()` function tells you how many groups in a tbl. It returns
   1 for ungrouped data. (#477)
 
