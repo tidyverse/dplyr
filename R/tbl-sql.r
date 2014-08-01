@@ -94,6 +94,14 @@ group_size.tbl_sql <- function(x) {
   df$n
 }
 
+#' @export
+n_groups.tbl_sql <- function(x) {
+  if (is.null(groups(x))) return(1L)
+
+  x <- update(x, select = groups(x))
+  nrow(compute(distinct(x)))
+}
+
 # Standard data frame methods --------------------------------------------------
 
 #' @export

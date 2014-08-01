@@ -37,6 +37,11 @@ group_size.grouped_df <- function(x) {
 }
 
 #' @export
+n_groups.grouped_df <- function(x) {
+  length(attr(x, "indices"))
+}
+
+#' @export
 groups.grouped_df <- function(x) {
   attr(x, "vars")
 }

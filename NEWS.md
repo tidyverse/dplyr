@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* New `n_groups()` function tells you how many groups in a tbl. It returns
+  1 for ungrouped data. (#477)
+
 * `tally()` and `top_n()` work consistently: neither accidentally
   evaluates the the `wt` param. (#426, @mnel)
 

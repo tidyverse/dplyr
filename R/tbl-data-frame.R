@@ -11,6 +11,12 @@ groups.data.frame <- function(x) NULL
 #' @export
 ungroup.data.frame <- function(x) x
 
+#' @export
+group_size.data.frame <- function(x) nrow(x)
+
+#' @export
+n_groups.data.frame <- function(x) 1L
+
 # Manipulation functions ------------------------------------------------------
 
 # These could potentially be rewritten to avoid any copies, but since this

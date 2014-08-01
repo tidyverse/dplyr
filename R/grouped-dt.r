@@ -58,6 +58,12 @@ group_size.grouped_dt <- function(x) {
 }
 
 #' @export
+n_groups.grouped_dt <- function(x) {
+  env <- dt_env(x, parent.frame())
+  nrow(eval(quote(dt[, list(1), by = vars]), env))
+}
+
+#' @export
 regroup.data.table <- function(x, value) {
   grouped_dt(x, unname(value))
 }

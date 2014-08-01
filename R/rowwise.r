@@ -47,6 +47,11 @@ group_size.rowwise_df <- function(x) {
 }
 
 #' @export
+n_groups.rowwise_df <- function(x) {
+  nrow(x)
+}
+
+#' @export
 regroup.rowwise_df <- function(x, value) {
   warning("Grouping rowwise data frame strips rowwise nature", call. = FALSE)
   grouped_df(ungroup(x), value)
