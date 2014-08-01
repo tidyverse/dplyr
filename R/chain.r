@@ -62,9 +62,8 @@
 #'   ) %>%
 #'   filter(arr > 30 | dep > 30)
 chain <- function(..., env = parent.frame()) {
-  # Deprecated 0.2. Remove in 0.3
-  warning("Chain is deprecated. Please use %>%", call. = FALSE)
-  chain_q(dots(...), env = env)
+  # Defunct 0.3. Remove in 0.4
+  stop("Chain is defunct Please use %>%", call. = FALSE)
 }
 
 #' @export
@@ -90,6 +89,9 @@ chain_q <- function(calls, env = parent.frame()) {
 #' @export
 #' @rdname chain
 "%.%" <- function(lhs, rhs) {
+  # Deprecated 0.3. Defunct in 0.4
+  warning("%.% is deprecated. Please use %>%", call. = FALSE)
+
   chain_q(list(substitute(lhs), substitute(rhs)), env = parent.frame())
 }
 

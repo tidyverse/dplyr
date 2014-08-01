@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `%.%` has been deprecated: please use `%>%` instead. `chain()` is 
+  defunct. (#518)
+
 * `group_by()` has more consistent behaviour when grouping by constants:
   it creates a new column with that value (#410).
 
