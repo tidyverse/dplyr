@@ -68,6 +68,23 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// between
+LogicalVector between(NumericVector x, double left, double right);
+RcppExport SEXP dplyr_between(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< double >::type left(leftSEXP );
+        Rcpp::traits::input_parameter< double >::type right(rightSEXP );
+        LogicalVector __result = between(x, left, right);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // rbind_all
 List rbind_all(StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots);
 RcppExport SEXP dplyr_rbind_all(SEXP dotsSEXP) {

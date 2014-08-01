@@ -17,6 +17,22 @@ arrange_impl <- function(data, args, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, dots)
 }
 
+#' Do values in a numeric vector fail in specified range?
+#'
+#' This is a shortcut for \code{x >= left & x <= right}, implemented
+#' efficiently in C++ for local values, and translated to the
+#' appropriate SQL for remote tables.
+#'
+#' @param x A numeric vector of values
+#' @param left,right Boundary values
+#' @export
+#' @examples
+#' x <- rnorm(1e2)
+#' x[between(x, -1, 1)]
+between <- function(x, left, right) {
+    .Call('dplyr_between', PACKAGE = 'dplyr', x, left, right)
+}
+
 #' @export
 #' @rdname rbind
 rbind_all <- function(dots) {

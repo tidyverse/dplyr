@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `between()` vector function efficiently determines if numeric values fall
+  in a range, and is translated to special form for SQL (#503).
+
 * `transmute()` works like `mutate()` but drops all variables that you didn't
   explicitly refer to (#302).
 

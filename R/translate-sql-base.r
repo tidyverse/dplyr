@@ -93,7 +93,11 @@ base_scalar <- sql_translator(
   as.character = function(x) build_sql("CAST(", x, " AS TEXT)"),
 
   c = function(...) escape(c(...)),
-  `:` = function(from, to) escape(from:to)
+  `:` = function(from, to) escape(from:to),
+
+  between = function(x, left, right) {
+    build_sql(x, " BETWEEN ", left, " AND ", right)
+  }
 )
 
 base_symbols <- sql_translator(
