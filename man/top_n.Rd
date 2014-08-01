@@ -3,7 +3,7 @@
 \alias{top_n}
 \title{Select top n rows (by value).}
 \usage{
-top_n(x, n, wt = NULL)
+top_n(x, n, wt)
 }
 \arguments{
 \item{x}{a \code{\link{tbl}} to filter}
@@ -12,21 +12,28 @@ top_n(x, n, wt = NULL)
 the number of rows per group. May include more than \code{n} if there
 are ties.}
 
-\item{wt}{the variable to use for ordering. If not specified, defaults to
-the last variable in the tbl.}
+\item{wt}{(Optional). The variable to use for ordering. If not specified,
+defaults to the last variable in the tbl.}
 }
 \description{
 This is a convenient wrapper that uses \code{\link{filter}} and
-\code{\link{rank}} to select the top n entries in each group, ordered
+\code{\link{min_rank}} to select the top n entries in each group, ordered
 by \code{wt}.
 }
 \examples{
+# Find 10 players with most games
 data("Batting", package = "Lahman")
 players <- group_by(tbl_df(Batting), playerID)
 games <- tally(players, G)
 top_n(games, 10, n)
 
 # A little nicer with \%>\%
-tbl_df(Batting) \%>\% group_by(playerID) \%>\% tally(G) \%>\% top_n(10)
+tbl_df(Batting) \%>\%
+  group_by(playerID) \%>\%
+  tally(G) \%>\%
+  top_n(10)
+
+# Find year with most games for each player
+tbl_df(Batting) \%>\% group_by(playerID) \%>\% top_n(1, G)
 }
 

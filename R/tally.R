@@ -5,8 +5,9 @@
 #' for the first time, or re-tallying.
 #'
 #' @param x a \code{\link{tbl}} to tally
-#' @param wt if not specified, will tally the number of rows. If specified,
-#'   will perform a "weighted" tally but summing over the specified variable.
+#' @param wt (Optional) If not specified, will tally the number of rows.
+#'   If specified, will perform a "weighted" tally but summing over the
+#'   specified variable.
 #' @param sort if \code{TRUE} will sort output in descending order of \code{n}
 #' @export
 #' @examples

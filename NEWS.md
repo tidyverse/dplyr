@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `tally()` and `top_n()` work consistently: neither accidentally
+  evaluates the the `wt` param. (#426, @mnel)
+
 * joins (e.g. `left_join()`, `inner_join()`, `semi_join()`, `anti_join()`)
   now allow you to join on different variables in `x` and `y` tables by
   supplying a named vector to `by`. For example, `by = c("a" = "b")` joins

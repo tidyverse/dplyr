@@ -8,8 +8,9 @@ tally(x, wt, sort = FALSE)
 \arguments{
 \item{x}{a \code{\link{tbl}} to tally}
 
-\item{wt}{if not specified, will tally the number of rows. If specified,
-will perform a "weighted" tally but summing over the specified variable.}
+\item{wt}{(Optional) If not specified, will tally the number of rows.
+If specified, will perform a "weighted" tally but summing over the
+specified variable.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 }
