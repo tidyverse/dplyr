@@ -20,7 +20,7 @@
 #' # A little nicer with %>%
 #' tbl_df(Batting) %>% group_by(playerID) %>% tally(G) %>% top_n(10)
 top_n <- function(x, n, wt = NULL) {
-  if (is.null(wt)) {
+  if (missing(wt)) {
     vars <- tbl_vars(x)
     message("Selecting by ", vars[length(vars)])
     wt <- as.name(vars[length(vars)])
