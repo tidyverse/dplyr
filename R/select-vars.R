@@ -19,6 +19,7 @@
 #' select_vars(names(iris), contains("etal"))
 #' select_vars(names(iris), matches(".t."))
 #' select_vars(names(iris), Petal.Length, Petal.Width)
+#' select_vars(names(iris), one_of("Petal.Length", "Petal.Width"))
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)]
@@ -101,6 +102,11 @@ select_vars_q <- function(vars, args, env = parent.frame(),
         range <- sprintf(paste0("%0", width, "d"), range)
       }
       match(paste0(prefix, range), vars)
+    },
+    one_of = function(...) {
+      keep <- c(...)
+      stopifnot(is.character(keep))
+      match(keep, vars)
     }
   )
   select_env <- list2env(select_funs, names_env)

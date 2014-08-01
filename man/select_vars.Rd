@@ -40,6 +40,7 @@ select_vars(names(iris), ends_with("Width"))
 select_vars(names(iris), contains("etal"))
 select_vars(names(iris), matches(".t."))
 select_vars(names(iris), Petal.Length, Petal.Width)
+select_vars(names(iris), one_of("Petal.Length", "Petal.Width"))
 
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)]

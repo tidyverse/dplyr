@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `select()` gains `one_of()` selector: this allows you to select variables
+  provided by a character vector. (#396)
+
 * `rename()` makes it easy to rename variables - it works similarly to select
   but it preserves columns that you didn't otherwise touch.
 

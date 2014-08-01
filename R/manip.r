@@ -105,6 +105,8 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #'    selects all variables whose name matches the regular expression \code{x}
 #'  \item \code{num_range("x", 1:5, width = 2)}:
 #'    selects all variables (numerically) from x01 to x05.
+#'  \item \code{one_of("x", "y", "z")}:
+#'    selects variables provided in a character vector.
 #' }
 #'
 #' To drop variables, use \code{-}. You can rename variables with
@@ -119,6 +121,8 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' select(iris, contains("etal"))
 #' select(iris, matches(".t."))
 #' select(iris, Petal.Length, Petal.Width)
+#' vars <- c("Petal.Length", "Petal.Width")
+#' select(iris, one_of(vars))
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
