@@ -156,7 +156,7 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' rename(iris, petal_length = Petal.Length)
 select <- function(.data, ...) UseMethod("select")
 
-#' @rdname select
+#' @rdname manip
 #' @export
 rename <- function(.data, ...) UseMethod("rename")
 

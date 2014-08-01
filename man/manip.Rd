@@ -4,6 +4,7 @@
 \alias{filter}
 \alias{manip}
 \alias{mutate}
+\alias{rename}
 \alias{select}
 \alias{summarise}
 \alias{summarize}
@@ -23,6 +24,8 @@ transmute(.data, ...)
 arrange(.data, ...)
 
 select(.data, ...)
+
+rename(.data, ...)
 }
 \arguments{
 \item{.data}{a tbl}
