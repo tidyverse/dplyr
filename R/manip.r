@@ -61,6 +61,7 @@
 #' select(mtcars, mpg, cyl, hp:vs)
 #' arrange(mtcars, cyl, disp)
 #' mutate(mtcars, displ_l = disp / 61.0237)
+#' transmute(mtcars, displ_l = disp / 61.0237)
 #' summarise(mtcars, mean(disp))
 #' summarise(group_by(mtcars, cyl), mean(disp))
 NULL
@@ -79,6 +80,18 @@ summarize <- summarise
 #' @rdname manip
 #' @export
 mutate <- function(.data, ...) UseMethod("mutate")
+
+#' @rdname manip
+#' @export
+transmute <- function(.data, ...) UseMethod("transmute")
+
+#' @export
+transmute.default <- function(.data, ...) {
+  out <- mutate(.data, ...)
+
+  keep <- names(dots(...))
+  select(out, one_of(keep))
+}
 
 #' @section Arrange:
 #'

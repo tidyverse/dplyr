@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `transmute()` works like `mutate()` but drops all variables that you didn't
+  explicitly refer to (#302).
+
 * `select()` gains `one_of()` selector: this allows you to select variables
   provided by a character vector. (#396)
 
