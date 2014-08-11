@@ -44,7 +44,8 @@ summarize <- summarise
 #'
 #' @export
 #' @inheritParams filter
-#' @param ... Name-value pairs of expressions.
+#' @param ... Name-value pairs of expressions. Use \code{NULL} to drop
+#'   a variable.
 #' @family single table verbs
 #' @return An object of the same class as \code{.data}.
 #'
@@ -53,6 +54,8 @@ summarize <- summarise
 #' @examples
 #' mutate(mtcars, displ_l = disp / 61.0237)
 #' transmute(mtcars, displ_l = disp / 61.0237)
+#'
+#' mutate(mtcars, cyl = NULL)
 mutate <- function(.data, ...) UseMethod("mutate")
 
 #' @rdname mutate

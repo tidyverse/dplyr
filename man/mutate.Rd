@@ -9,7 +9,8 @@ mutate(.data, ...)
 transmute(.data, ...)
 }
 \arguments{
-\item{...}{Name-value pairs of expressions.}
+\item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
+a variable.}
 
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
@@ -27,6 +28,8 @@ variables.
 \examples{
 mutate(mtcars, displ_l = disp / 61.0237)
 transmute(mtcars, displ_l = disp / 61.0237)
+
+mutate(mtcars, cyl = NULL)
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}};
