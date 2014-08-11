@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* Main verbs now have individual documentation pages (#519).
+
 * `between()` vector function efficiently determines if numeric values fall
   in a range, and is translated to special form for SQL (#503).
 

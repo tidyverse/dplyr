@@ -1,87 +1,61 @@
-#' Data manipulation functions.
+#' Return rows with matching conditions.
 #'
-#' These five functions form the backbone of dplyr. They are all S3 generic
-#' functions with methods for each individual data type. All functions work
-#' exactly the same way: the first argument is the tbl, and the
-#' subsequent arguments are interpreted in the context of that tbl.
+#' @family single table verbs
+#' @param .data A tbl. All main verbs are S3 generics and provide methods
+#'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
+#' @param ... Logical predicates. Multiple conditions are combined with \code{&}.
+#' @return An object of the same class as \code{.data}.
 #'
-#' @section Manipulation functions:
-#'
-#' The five key data manipulation functions are:
-#'
-#' \itemize{
-#'   \item filter: return only a subset of the rows. If multiple conditions are
-#'     supplied they are combined with \code{&}.
-#'   \item select: return only a subset of the columns. If multiple columns are
-#'     supplied they are all used.
-#'   \item arrange: reorder the rows. Multiple inputs are ordered from left-to-
-#'    right.
-#'   \item mutate: add new columns. Multiple inputs create multiple columns.
-#'   \item summarise: reduce each group to a single row. Multiple inputs create
-#'     multiple output summaries.
-#' }
-#'
-#' These are all made significantly more useful when applied by group,
-#' as with \code{\link{group_by}}
-#'
-#' @section Tbls:
-#'
-#' dplyr comes with three built-in tbls.  Read the help for the
-#' manip methods of that class to get more details:
-#'
-#' \itemize{
-#'   \item data.frame: \link{manip_df}
-#'   \item data.table: \link{manip_dt}
-#'   \item SQLite: \code{\link{src_sqlite}}
-#'   \item PostgreSQL: \code{\link{src_postgres}}
-#'   \item MySQL: \code{\link{src_mysql}}
-#' }
-#'
-#' @section Output:
-#'
-#' Generally, manipulation functions will return an output object of the
-#' same type as their input. The exceptions are:
-#'
-#' \itemize{
-#'    \item \code{summarise} will return an ungrouped source
-#'    \item remote sources (like databases) will typically return a local
-#'      source from at least \code{summarise} and \code{mutate}
-#' }
-#'
-#' @section Row names:
-#'
-#' dplyr methods do not preserve row names. If you have been using row names
-#' to store important information, please make them explicit variables.
-#'
-#' @name manip
-#' @param .data a tbl
-#' @param ... variables interpreted in the context of that data frame.
+#'   Data frame row names are silently dropped. To preserve, convert to an
+#'   explicit variable.
+#' @export
 #' @examples
 #' filter(mtcars, cyl == 8)
-#' select(mtcars, mpg, cyl, hp:vs)
-#' arrange(mtcars, cyl, disp)
-#' mutate(mtcars, displ_l = disp / 61.0237)
-#' transmute(mtcars, displ_l = disp / 61.0237)
-#' summarise(mtcars, mean(disp))
-#' summarise(group_by(mtcars, cyl), mean(disp))
-NULL
-
-#' @rdname manip
-#' @export
+#' filter(mtcars, cyl < 6)
 filter <- function(.data, ...) UseMethod("filter")
 
-#' @rdname manip
+#' Summarise multiple values to a single value.
+#'
 #' @export
+#' @inheritParams filter
+#' @param ... Name-value pairs of summary functions like \code{\link{min}()},
+#'   \code{\link{mean}()}, \code{\link{max}()} etc.
+#' @family single table verbs
+#' @return An object of the same class as \code{.data}. One grouping level will
+#'   be dropped.
+#'
+#'   Data frame row names are silently dropped. To preserve, convert to an
+#'   explicit variable.
+#' @examples
+#' summarise(mtcars, mean(disp))
+#' summarise(group_by(mtcars, cyl), mean(disp))
+#'
+#' summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
 summarise <- function(.data, ...) UseMethod("summarise")
-#' @rdname manip
+
+#' @rdname summarise
 #' @export
 summarize <- summarise
 
-#' @rdname manip
+#' Add new variables.
+#'
+#' Mutate adds new variables and preserves existing; transmute drops existing
+#' variables.
+#'
 #' @export
+#' @inheritParams filter
+#' @param ... Name-value pairs of expressions.
+#' @family single table verbs
+#' @return An object of the same class as \code{.data}.
+#'
+#'   Data frame row names are silently dropped. To preserve, convert to an
+#'   explicit variable.
+#' @examples
+#' mutate(mtcars, displ_l = disp / 61.0237)
+#' transmute(mtcars, displ_l = disp / 61.0237)
 mutate <- function(.data, ...) UseMethod("mutate")
 
-#' @rdname manip
+#' @rdname mutate
 #' @export
 transmute <- function(.data, ...) UseMethod("transmute")
 
@@ -93,17 +67,36 @@ transmute.default <- function(.data, ...) {
   select(out, one_of(keep))
 }
 
-#' @section Arrange:
+#' Arrange rows by variables.
+#'
+#' Use \code{\link{desc}} to sort a variable in descending order.
+#'
+#' @section Locales:
 #'
 #' Note that for local data frames, the ordering is done in C++ code which
 #' does not have access to the local specific ordering usually done in R.
 #' This means that strings are ordered as if in the C locale.
 #'
-#' @rdname manip
 #' @export
+#' @inheritParams filter
+#' @param ... Comma separated list of unquoted variable names. Use
+#'   \code{\link{desc}} to sort a variable in descending order.
+#' @family single table verbs
+#' @return An object of the same class as \code{.data}.
+#'
+#'   Data frame row names are silently dropped. To preserve, convert to an
+#'   explicit variable.
+#' @examples
+#' arrange(mtcars, cyl, disp)
+#' arrange(mtcars, desc(disp))
 arrange <- function(.data, ...) UseMethod("arrange")
 
-#' @section Selection:
+#' Select/rename variables by name.
+#'
+#' \code{select()} keeps only the variables you mention; \code{rename()}
+#' keeps all variables.
+#'
+#' @section Special functions:
 #' As well as using existing functions like \code{:} and \code{c}, there are
 #' a number of special functions that only work inside \code{select}
 #'
@@ -124,10 +117,18 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #'
 #' To drop variables, use \code{-}. You can rename variables with
 #' named arguments.
-#' @rdname manip
+#'
+#' @inheritParams filter
+#' @param ... Comma separated list of unquoted expressions. You can treat
+#'   variable names like they are positions. Use positive values to select
+#'   variables; use negative values to drop variables.
+#' @return An object of the same class as \code{.data}.
+#'
+#'   Data frame row names are silently dropped. To preserve, convert to an
+#'   explicit variable.
+#' @family single table verbs
 #' @export
 #' @examples
-#' # More detailed select examples ------------------------------
 #' iris <- tbl_df(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))
 #' select(iris, ends_with("Width"))
@@ -156,7 +157,7 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' rename(iris, petal_length = Petal.Length)
 select <- function(.data, ...) UseMethod("select")
 
-#' @rdname manip
+#' @rdname select
 #' @export
 rename <- function(.data, ...) UseMethod("rename")
 

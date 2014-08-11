@@ -7,35 +7,17 @@
   f
 }
 
-#' Data manipulation for data frames.
-#'
-#' @param .data a data frame
-#' @param ... variables interpreted in the context of \code{.data}
-#' @examples
-#' data("hflights", package = "hflights")
-#' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
-#' head(select(hflights, Year:DayOfWeek))
-#' summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
-#' head(mutate(hflights, gained = ArrDelay - DepDelay))
-#' head(arrange(hflights, Dest, desc(ArrDelay)))
-#' @name manip_df
-NULL
-
-#' @rdname manip_df
 #' @export
 arrange.tbl_df    <- .data_dots(arrange_impl)
 
-#' @rdname manip_df
 #' @export
 filter.tbl_df    <- .data_dots(filter_impl)
 
 integer_filter   <- .data_dots(integer_filter_impl)
 
-#' @rdname manip_df
 #' @export
 mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 
-#' @rdname manip_df
 #' @export
 summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 
@@ -54,7 +36,6 @@ rename.grouped_df <- function(.data, ...) {
 
   select_impl(.data, vars)
 }
-
 
 # Other methods that currently don't have a better home -----------------------
 
