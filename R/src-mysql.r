@@ -1,17 +1,20 @@
 #' Connect to mysql/mariadb.
-#' 
+#'
 #' Use \code{src_mysql} to connect to an existing mysql or mariadb database,
-#' and \code{tbl} to connect to tables within that database. 
-#' If you are running a local mysqlql database, leave all parameters set as 
-#' their defaults to connect. If you're connecting to a remote database, 
+#' and \code{tbl} to connect to tables within that database.
+#' If you are running a local mysqlql database, leave all parameters set as
+#' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
-#' 
+#'
 #' @template db-info
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
-#' @param user,password User name and password (if needed)
+#' @param user,password User name and password. Rather than supplying a
+#'   username and password here, it's better to save them in \code{my.cnf},
+#'   as described in \code{\link[RMySQL]{MySQL}}. In that case, supply
+#'   \code{NULL} to both \code{user} and \code{password}.
 #' @param ... for the src, other arguments passed on to the underlying
-#'   database connector, \code{dbConnect}. For the tbl, included for 
+#'   database connector, \code{dbConnect}. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
 #' @param src a mysql src created with \code{src_mysql}.
 #' @param from Either a string giving the name of table in database, or
@@ -28,9 +31,9 @@
 #' }
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
-#' # create a local database called "lahman", or tell lahman_mysql() how to 
+#' # create a local database called "lahman", or tell lahman_mysql() how to
 #' # a database that you can write to
-#' 
+#'
 #' if (has_lahman("mysql")) {
 #' # Methods -------------------------------------------------------------------
 #' batting <- tbl(lahman_mysql(), "Batting")
@@ -44,14 +47,14 @@
 #' arrange(batting, playerID, desc(yearID))
 #' summarise(batting, G = mean(G), n = n())
 #' mutate(batting, rbi2 = 1.0 * R / AB)
-#' 
+#'
 #' # note that all operations are lazy: they don't do anything until you
-#' # request the data, either by `print()`ing it (which shows the first ten 
+#' # request the data, either by `print()`ing it (which shows the first ten
 #' # rows), by looking at the `head()`, or `collect()` the results locally.
 #'
 #' system.time(recent <- filter(batting, yearID > 2010))
 #' system.time(collect(recent))
-#' 
+#'
 #' # Group by operations -------------------------------------------------------
 #' # To perform operations by group, create a grouped object with group_by
 #' players <- group_by(batting, playerID)
@@ -68,11 +71,11 @@
 #' summarise(stints, max(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_mysql(), "Master"), playerID, hofID, 
+#' player_info <- select(tbl(lahman_mysql(), "Master"), playerID, hofID,
 #'   birthYear)
 #' hof <- select(filter(tbl(lahman_mysql(), "HallOfFame"), inducted == "Y"),
 #'  hofID, votedBy, category)
-#' 
+#'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
 #' # Keep all players, match hof data where available
@@ -88,17 +91,17 @@
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }
-src_mysql <- function(dbname, host = NULL, port = 0L, user = "root", 
-  password = "", ...) {
+src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
+                      password = "", ...) {
   if (!require("RMySQL")) {
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
-  
-  con <- dbi_connect(MySQL(), dbname = dbname , host = host, port = port, 
+
+  con <- dbi_connect(MySQL(), dbname = dbname , host = host, port = port,
     username = user, password = password, ...)
   info <- db_info(con)
-  
-  src_sql("mysql", con, 
+
+  src_sql("mysql", con,
     info = info, disco = db_disconnector(con, "mysql"))
 }
 
@@ -111,8 +114,8 @@ tbl.src_mysql <- function(src, from, ...) {
 #' @export
 brief_desc.src_mysql <- function(x) {
   info <- x$info
-  
-  paste0("mysql ", info$serverVersion, " [", info$user, "@", 
+
+  paste0("mysql ", info$serverVersion, " [", info$user, "@",
     info$host, ":", info$port, "/", info$dbname, "]")
 }
 

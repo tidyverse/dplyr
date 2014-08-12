@@ -14,7 +14,10 @@ src_mysql(dbname, host = NULL, port = 0L, user = "root", password = "",
 
 \item{host,port}{Host name and port number of database}
 
-\item{user,password}{User name and password (if needed)}
+\item{user,password}{User name and password. Rather than supplying a
+username and password here, it's better to save them in \code{my.cnf},
+as described in \code{\link[RMySQL]{MySQL}}. In that case, supply
+\code{NULL} to both \code{user} and \code{password}.}
 
 \item{...}{for the src, other arguments passed on to the underlying
 database connector, \code{dbConnect}. For the tbl, included for
