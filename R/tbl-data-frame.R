@@ -74,6 +74,21 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...))
 }
 
+# Set operations ---------------------------------------------------------------
+
+#' @export
+intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
+
+#' @export
+union.data.frame <-     function(x, y, ...) union_data_frame(x, y)
+
+#' @export
+setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
+
+#' @export
+setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
+
+
 # Misc -------------------------------------------------------------------------
 
 #' @export

@@ -25,4 +25,16 @@ These functions override the set functions provided in base to make them
 generic so that efficient versions for data frames and other tables can be
 provided. The default methods call the base versions.
 }
+\examples{
+mtcars$model <- rownames(mtcars)
+first <- mtcars[1:20, ]
+second <- mtcars[10:32, ]
+
+intersect(first, second)
+union(first, second)
+setdiff(first, second)
+setdiff(second, first)
+
+setequal(mtcars, mtcars[32:1, ])
+}
 
