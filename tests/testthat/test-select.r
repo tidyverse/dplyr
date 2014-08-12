@@ -27,6 +27,20 @@ test_that("select doesn't fail if some names missing", {
   expect_equal(select(df3, x), data.frame(x = 1:10))
 })
 
+# Empty selects -------------------------------------------------
+
+test_that("select with no args returns nothing", {
+  empty <- select(mtcars)
+  expect_equal(ncol(empty), 0)
+  expect_equal(nrow(empty), 32)
+})
+
+test_that("select excluding all vars returns nothing", {
+  expect_equal(dim(select(mtcars, -(mpg:carb))), c(32, 0))
+  expect_equal(dim(select(mtcars, starts_with("x"))), c(32, 0))
+  expect_equal(dim(select(mtcars, -matches("."))), c(32, 0))
+})
+
 # Select variables -----------------------------------------------
 
 test_that("select_vars prefix/suffix matching", {
@@ -53,11 +67,6 @@ test_that("select_vars throws an error if an empty pattern is provided", {
 test_that("select_vars can rename variables", {
   vars <- c("a", "b")
   expect_equal(select_vars(vars, b = a, a = b), c("b" = "a", "a" = "b"))
-})
-
-test_that("no inputs selects all vars", {
-  vars <- c("a", "b")
-  expect_equal(select_vars(vars), c("a" = "a", "b" = "b"))
 })
 
 test_that("negative index removes values", {

@@ -50,7 +50,7 @@ select_vars <- function(vars, ..., env = parent.frame(),
 select_vars_q <- function(vars, args, env = parent.frame(),
                           include = character(), exclude = character()) {
   if (length(args) == 0) {
-    vars <- setdiff(union(vars, include), exclude)
+    vars <- setdiff(include, exclude)
     return(setNames(vars, vars))
   }
 
@@ -116,7 +116,9 @@ select_vars_q <- function(vars, args, env = parent.frame(),
 
   ind <- unlist(ind_list)
   incl <- ind[ind > 0]
-  if (length(incl) == 0) {
+
+  # If only negative values, implicitly assumes all variables to be removed.
+  if (sum(ind > 0) == 0 && sum(ind < 0) > 0) {
     incl <- seq_along(vars)
   }
   # Remove duplicates (unique loses names)
@@ -131,15 +133,19 @@ select_vars_q <- function(vars, args, env = parent.frame(),
     stop("Bad indices: ", paste0(which(bad_idx), collapse = ", "),
       call. = FALSE)
   }
-
   # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
   sel <- c(setdiff2(include, sel), sel)
   sel <- setdiff2(sel, exclude)
 
+
   # Ensure all output vars named
-  unnamed <- names2(sel) == ""
-  names(sel)[unnamed] <- sel[unnamed]
+  if (length(sel) == 0) {
+    names(sel) <- sel
+  } else {
+    unnamed <- names2(sel) == ""
+    names(sel)[unnamed] <- sel[unnamed]
+  }
 
   sel
 }

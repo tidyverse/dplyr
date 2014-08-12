@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* If `select()` doesn't match any variables, it returns a 0-column data frame,
+  instead of the original (#498).
+
 * Main verbs now have individual documentation pages (#519).
 
 * `between()` vector function efficiently determines if numeric values fall
