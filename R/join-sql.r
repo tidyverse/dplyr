@@ -12,11 +12,6 @@
 #'
 #' @inheritParams join
 #' @param x,y tbls to join
-#' @param by a character vector of variables to join by.  If \code{NULL}, the
-#'   default, \code{join} will do a natural join, using all variables with
-#'   common names across the two tables. A message lists the variables so
-#'   that you can check they're right - to suppress the message, supply
-#'   a character vector.
 #' @param copy If \code{x} and \code{y} are not from the same data source,
 #'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
 #'   temporary table in same database as \code{x}. \code{join} will automatically

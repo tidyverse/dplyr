@@ -18,16 +18,21 @@
 \arguments{
 \item{x,y}{tbls to join}
 
-\item{by}{a character vector of variables to join by.  If \code{NULL}, the
-default, \code{join} will do a natural join, using all variables with
-common names across the two tables. A message lists the variables so
-that you can check they're right - to suppress the message, supply
-a character vector.}
-
-\item{copy}{If \code{y} is not a data table or \code{\link{tbl_dt}} and
-\code{copy} is \code{TRUE}, \code{y} will be converted into a data table.}
-
 \item{...}{Included for compatibility with generic; otherwise ignored.}
+
+\item{by}{a character vector of variables to join by.  If \code{NULL}, the
+  default, \code{join} will do a natural join, using all variables with
+  common names across the two tables. A message lists the variables so
+  that you can check they're right.
+
+  To join by different variables on x and y use a named vector.
+  For example, \code{by = c("a" = "b")} will match \code{x.a} to
+  \code{y.b}.}
+
+\item{copy}{If \code{x} and \code{y} are not from the same data source,
+and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
+same src as \code{x}.  This allows you to join tables across srcs, but
+it is a potentially expensive operation so you must opt into it.}
 }
 \description{
 See \code{\link{join}} for a description of the general purpose of the

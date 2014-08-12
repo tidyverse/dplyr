@@ -22,12 +22,6 @@
 \arguments{
 \item{x,y}{tbls to join}
 
-\item{by}{a character vector of variables to join by.  If \code{NULL}, the
-default, \code{join} will do a natural join, using all variables with
-common names across the two tables. A message lists the variables so
-that you can check they're right - to suppress the message, supply
-a character vector.}
-
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
   and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
   temporary table in same database as \code{x}. \code{join} will automatically
@@ -41,6 +35,15 @@ a character vector.}
 \item{auto_index}{if \code{copy} is \code{TRUE}, automatically create
 indices for the variables in \code{by}. This may speed up the join if
 there are matching indexes in \code{x}.}
+
+\item{by}{a character vector of variables to join by.  If \code{NULL}, the
+  default, \code{join} will do a natural join, using all variables with
+  common names across the two tables. A message lists the variables so
+  that you can check they're right.
+
+  To join by different variables on x and y use a named vector.
+  For example, \code{by = c("a" = "b")} will match \code{x.a} to
+  \code{y.b}.}
 
 \item{...}{other parameters passed onto methods}
 }
