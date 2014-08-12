@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Added `[.grouped_df` method - it's better to use `filter()`/`select()`
+  but `[` is useful programmatically (#398).
+
 * If `select()` doesn't match any variables, it returns a 0-column data frame,
   instead of the original (#498).
 

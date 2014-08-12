@@ -58,3 +58,8 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 ungroup.grouped_df <- function(x) {
   ungroup_grouped_df(x)
 }
+
+#' @export
+`[.grouped_df` <- function(x, i, j, ...) {
+  grouped_df(NextMethod(), attr(x, "vars"), attr(x, "drop"))
+}
