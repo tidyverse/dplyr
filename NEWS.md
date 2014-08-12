@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Set operations, `intersect()`, `union()` and `setdiff()` now have methods 
+  for data frames, data tables and SQL database tables (#93).
+
 * Added `[.grouped_df` method - it's better to use `filter()`/`select()`
   but `[` is useful programmatically (#398).
 
