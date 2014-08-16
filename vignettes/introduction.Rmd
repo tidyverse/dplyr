@@ -200,7 +200,7 @@ delay <- summarise(planes,
 delay <- filter(delay, count > 20, dist < 2000)
 
 # Interestingly, the average delay is only slightly related to the
-# average distance flown a plane.
+# average distance flown by a plane.
 ggplot(delay, aes(dist, delay)) +
   geom_point(aes(size = count), alpha = 1/2) +
   geom_smooth() +
