@@ -185,7 +185,7 @@ These five functions provide the basis of a language of data manipulation. At th
 
 # Grouped operations
 
-These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on groups of observations within the dataset. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups of rows. You can then use the resulting object in the exactly the same functions as above; they'll automatically work "by group" when the input is a grouped.
+These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on groups of observations within the dataset. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups of rows. You can then use the resulting object in exactly the same functions as above; they'll automatically work "by group" when the input is a grouped.
 
 Of the five verbs, `select()` is unaffected by grouping, and grouped `arrange()` orders first by grouping variables. Group-wise `mutate()` and `filter()` are most useful in conjunction with window functions, and are described in detail in the corresponding vignette(). `summarise()` is easy to understand and very useful, and is described in more detail below.
 
