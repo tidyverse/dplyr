@@ -321,7 +321,7 @@ Compared to all existing options, dplyr:
 
 * abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same functions. This lets you think about what you want to achieve, not the logistics of data storage.
 
-* it provides a thoughtful default `print()` method so you don't accidentally print pages of data to the screen (this was inspired by data tables output)
+* it provides a thoughtful default `print()` method so you don't accidentally print pages of data to the screen (this was inspired by data table's output)
 
 Compared to base functions:
 
