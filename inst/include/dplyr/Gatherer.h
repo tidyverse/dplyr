@@ -40,6 +40,7 @@ namespace dplyr {
         inline void grab(SEXP data, const SlicingIndex& indices){
             int n = Rf_length(data) ;
             
+            check_type(data) ;
             if(n == indices.size() ){
                 grab_along( data, indices ) ;
             } else if( n == 1) {
@@ -57,16 +58,19 @@ namespace dplyr {
         
         void grab_along( SEXP subset, const SlicingIndex& indices ){
             int n = indices.size();
+            STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( subset ) ;
+            for( int j=0; j<n; j++){
+                data[ indices[j] ] = ptr[j] ;
+            }
+        }
+        
+        void check_type(SEXP subset){
             if( TYPEOF(subset) != RTYPE ){
                 std::stringstream s ;
                 s << "incompatible types, expecting a " 
                   << vector_class<RTYPE>()
                   << " vector" ;
                 stop( s.str() ); 
-            }
-            STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( subset ) ;
-            for( int j=0; j<n; j++){
-                data[ indices[j] ] = ptr[j] ;
             }
         }
         
