@@ -141,3 +141,24 @@ test_that("filter handles $ correctly (#278)", {
 test_that( "filter returns the input data if no parameters are given", {
   expect_equal( filter(mtcars), mtcars )
 })
+
+test_that( "$ does not end call traversing. #502", {
+  # Suppose some analysis options are set much earlier in the script
+  analysis_opts <- list(min_outcome = .25)
+  
+  # Generate some dummy data
+  d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>% tbl_df %>%
+    arrange(Subject, TrialNo, Time) %>%
+    mutate(Outcome = (1:18 %% c(5, 7, 11)) / 10)
+  
+  # Do some aggregation
+  trial_outcomes <- d %>% group_by(Subject, TrialNo) %>%
+    summarise(MeanOutcome = mean(Outcome))
+  
+  left  <- filter(trial_outcomes, MeanOutcome < analysis_opts$min_outcome)  
+  right <- filter(trial_outcomes, analysis_opts$min_outcome > MeanOutcome)  
+  
+  expect_equal(left,right)  
+  
+})
+

@@ -39,6 +39,7 @@ namespace dplyr {
                 for( int i=0; i<n; i++){
                     proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;
                 }
+                
                 return call.eval(env) ;
             } else if( TYPEOF(call) == SYMSXP ) {
                 if(subsets.count(call)){
@@ -98,6 +99,7 @@ namespace dplyr {
             
             if( ! Rf_isNull(obj) ){ 
                 SEXP head = CAR(obj) ;
+                
                 switch( TYPEOF( head ) ){
                 case LANGSXP: 
                     if( CAR(head) == Rf_install("function") ) break ;
@@ -109,11 +111,11 @@ namespace dplyr {
                     if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
                             SETCAR(obj, Rf_eval(head, env) ) ;
-                            return ;
+                            break ;
                         } else if( CAR(head) == Rf_install("@")) {
                             SETCAR(obj, Rf_eval(head, env) ) ;
-                            return ;
-                        } 
+                            break ;
+                        }
                     } 
                     traverse_call( CDR(head) ) ;
                     break ;
@@ -142,6 +144,7 @@ namespace dplyr {
                     }
                     break ;
                 }
+                
                 traverse_call( CDR(obj) ) ;
             }    
         }
