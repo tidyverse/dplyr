@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* `arrange()` and `group_by()` correctly work together (#491). 
+
 * Call substitution stopped too early when a sub expression contained a `$` (#502).
 
 * Set operations, `intersect()`, `union()` and `setdiff()` now have methods 
