@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* Call substitution stopped too early when a sub expression contained a `$` (#502).
+
 * Set operations, `intersect()`, `union()` and `setdiff()` now have methods 
   for data frames, data tables and SQL database tables (#93).
 
