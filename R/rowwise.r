@@ -32,9 +32,10 @@ print.rowwise_df <- function(x, ..., n = NULL) {
 
 #' @export
 ungroup.rowwise_df <- function(x) {
-  class(x) <- "data.frame"
+  class(x) <- setdiff(class(x), "rowwise_df")
   x
 }
+
 #' @export
 as.data.frame.rowwise_df <- function(x, row.names, optional, ...) {
   class(x) <- "data.frame"
