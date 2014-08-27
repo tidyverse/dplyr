@@ -30,28 +30,28 @@
 #'   use \code{add = TRUE}
 #' @export
 #' @examples
-#' by_cyl <- group_by(mtcars, cyl)
-#' summarise(by_cyl, mean(disp), mean(hp))
-#' filter(by_cyl, disp == max(disp))
+#' mtcars.by_cyl <- group_by(mtcars, cyl)
+#' summarise(mtcars.by_cyl, mean(disp), mean(hp))
+#' filter(mtcars.by_cyl, disp == max(disp))
 #'
 #' # summarise peels off a single layer of grouping
-#' by_vs_am <- group_by(mtcars, vs, am)
-#' by_vs <- summarise(by_vs_am, n = n())
-#' by_vs
-#' summarise(by_vs, n = sum(n))
+#' mtcars.by_vs_am <- group_by(mtcars, vs, am)
+#' mtcars.by_vs <- summarise(mtcars.by_vs_am, n = n())
+#' mtcars.by_vs
+#' summarise(mtcars.by_vs, n = sum(n))
 #' # use ungroup() to remove if not wanted
-#' summarise(ungroup(by_vs), n = sum(n))
+#' summarise(ungroup(mtcars.by_vs), n = sum(n))
 #'
 #' # You can group by expressions: this is just short-hand for
 #' # a mutate followed by a simple group_by
 #' group_by(mtcars, vsam = vs + am)
 #'
 #' # By default, group_by sets groups. Use add = TRUE to add groups
-#' groups(group_by(by_cyl, vs, am))
-#' groups(group_by(by_cyl, vs, am, add = TRUE))
+#' groups(group_by(mtcars.by_cyl, vs, am))
+#' groups(group_by(mtcars.by_cyl, vs, am, add = TRUE))
 #'
 #' # Duplicate groups are silently dropped
-#' groups(group_by(by_cyl, cyl, cyl))
+#' groups(group_by(mtcars.by_cyl, cyl, cyl))
 group_by <- function(x, ..., add = FALSE) {
   new_groups <- named_dots(...)
 
