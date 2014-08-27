@@ -7,10 +7,7 @@
 #' @param x,y tbls to join
 #' @param ... Included for compatibility with generic; otherwise ignored.
 #' @examples
-#' if (require("RSQLite") && require("RSQLite.extfuns")) {
-#' data("Batting", package = "Lahman")
-#' data("Master", package = "Lahman")
-#'
+#' if (require("data.table") && require("Lahman")) {
 #' batting_dt <- tbl_dt(Batting)
 #' person_dt <- tbl_dt(Master)
 #'

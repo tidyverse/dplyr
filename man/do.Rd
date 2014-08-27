@@ -76,9 +76,9 @@ models
 compare <- models \%>\% do(aov = anova(.$mod_linear, .$mod_quad))
 # compare \%>\% summarise(p.value = aov$`Pr(>F)`)
 
+if (require("hflights")) {
 # You can use it to do any arbitrary computation, like fitting a linear
 # model. Let's explore how carrier departure delays vary over the time
-data("hflights", package = "hflights")
 carriers <- group_by(hflights, UniqueCarrier)
 group_size(carriers)
 
@@ -91,6 +91,7 @@ mods \%>\% summarise(rsq = summary(mod)$r.squared)
 by_dest <- hflights \%>\% group_by(Dest) \%>\% filter(n() > 100)
 library(mgcv)
 by_dest \%>\% do(smooth = gam(ArrDelay ~ s(DepTime) + Month, data = .))
+}
 }
 }
 

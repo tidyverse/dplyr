@@ -7,9 +7,8 @@
 #' @param .env The environment in which to evaluate arguments not included
 #'   in the data. The default should suffice for ordinary usage.
 #' @examples
-#' if (require("data.table")) {
+#' if (require("data.table") && require("hflights")) {
 #' # If you start with a data table, you end up with a data table
-#' data("hflights", package = "hflights")
 #' hflights <- as.data.table(hflights)
 #' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
 #' head(select(hflights, Year:DayOfWeek))

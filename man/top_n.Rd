@@ -22,7 +22,7 @@ by \code{wt}.
 }
 \examples{
 # Find 10 players with most games
-data("Batting", package = "Lahman")
+if (require("Lahman")) {
 players <- group_by(tbl_df(Batting), playerID)
 games <- tally(players, G)
 top_n(games, 10, n)
@@ -35,5 +35,6 @@ tbl_df(Batting) \%>\%
 
 # Find year with most games for each player
 tbl_df(Batting) \%>\% group_by(playerID) \%>\% top_n(1, G)
+}
 }
 

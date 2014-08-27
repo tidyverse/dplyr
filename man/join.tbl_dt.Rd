@@ -39,10 +39,7 @@ See \code{\link{join}} for a description of the general purpose of the
 functions.
 }
 \examples{
-if (require("RSQLite") && require("RSQLite.extfuns")) {
-data("Batting", package = "Lahman")
-data("Master", package = "Lahman")
-
+if (require("data.table") && require("Lahman")) {
 batting_dt <- tbl_dt(Batting)
 person_dt <- tbl_dt(Master)
 

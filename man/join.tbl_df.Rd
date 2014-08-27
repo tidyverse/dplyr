@@ -34,9 +34,7 @@ See \code{\link{join}} for a description of the general purpose of the
 functions.
 }
 \examples{
-data("Batting", package = "Lahman")
-data("Master", package = "Lahman")
-
+if (require("Lahman")) {
 batting_df <- tbl_df(Batting)
 person_df <- tbl_df(Master)
 
@@ -53,5 +51,6 @@ left_join(batting_df, uperson_df)
 anti_join(batting_df, person_df)
 # or people who didn't bat
 anti_join(person_df, batting_df)
+}
 }
 

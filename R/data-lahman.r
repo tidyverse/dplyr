@@ -117,6 +117,9 @@ cache_lahman <- function(type, ...) {
 #' @rdname lahman
 #' @export
 has_lahman <- function(type, ...) {
+  if (!requireNamespace("Lahman", quietly = TRUE)) return(FALSE)
+  if (missing(type)) return(TRUE)
+
   succeeds(lahman_src(type, ...), quiet = TRUE)
 }
 

@@ -26,12 +26,15 @@ Generally, \code{src_local} should not be called directly, but instead
 one of the (currently three) constructors should be used.
 }
 \examples{
+if (require("Lahman")) {
 src_dt("Lahman")
-src_df("Lahman")
 
 batting_df <- tbl(src_df("Lahman"), "Batting")
+
 if (require("data.table")) {
-batting_dt <- tbl(src_dt("Lahman"), "Batting")
+  src_df("Lahman")
+  batting_dt <- tbl(src_dt("Lahman"), "Batting")
+}
 }
 }
 \keyword{internal}

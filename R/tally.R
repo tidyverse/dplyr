@@ -11,7 +11,7 @@
 #' @param sort if \code{TRUE} will sort output in descending order of \code{n}
 #' @export
 #' @examples
-#' library(Lahman)
+#' if (require("Lahman")) {
 #' batting_tbl <- tbl_df(Batting)
 #' tally(group_by(batting_tbl, yearID))
 #' tally(group_by(batting_tbl, yearID), sort = TRUE)
@@ -23,6 +23,7 @@
 #'
 #' # This looks a little nicer if you use the infix %>% operator
 #' batting_tbl %>% group_by(playerID) %>% tally(sort = TRUE)
+#' }
 tally <- function(x, wt, sort = FALSE) {
   if (missing(wt)) {
     if ("n" %in% names(x)) {

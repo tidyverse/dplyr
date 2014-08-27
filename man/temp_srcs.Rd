@@ -20,8 +20,6 @@ db <- c("sqlite", "mysql", "postgres")
 
 temp_srcs(local)
 temp_srcs(db)
-
-mtcars_tbls <- temp_tbls(local, mtcars)
 }
 }
 \keyword{internal}

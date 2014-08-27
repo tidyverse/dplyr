@@ -13,8 +13,6 @@
 #'
 #' temp_srcs(local)
 #' temp_srcs(db)
-#'
-#' mtcars_tbls <- temp_tbls(local, mtcars)
 #' }
 temp_srcs <- function(..., quiet = NULL) {
   load_srcs(temp_src, c(...), quiet = quiet)

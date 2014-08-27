@@ -34,7 +34,7 @@ do this 100% perfectly. \code{partial_eval} uses the following heuristic:
 }
 }
 \examples{
-data("Batting", package = "Lahman")
+if (require("Lahman")) {
 bdf <- tbl_df(Batting)
 partial_eval(quote(year > 1980), bdf)
 
@@ -57,6 +57,7 @@ partial_eval(quote(year > local(f(1980))), bdf)
 partial_eval(quote(1 + 2 * 3))
 x <- 1
 partial_eval(quote(x ^ y))
+}
 }
 \keyword{internal}
 

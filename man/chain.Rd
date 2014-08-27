@@ -46,7 +46,7 @@ standardised and \code{\%.\%} is much more popular.
 }
 \examples{
 # If you're performing many operations you can either do step by step
-data("hflights", package = "hflights")
+if (require("hflights")) {
 a1 <- group_by(hflights, Year, Month, DayofMonth)
 a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
 a3 <- summarise(a2,
@@ -81,5 +81,6 @@ hflights \%>\%
     dep = mean(DepDelay, na.rm = TRUE)
   ) \%>\%
   filter(arr > 30 | dep > 30)
+}
 }
 

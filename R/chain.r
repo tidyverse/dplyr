@@ -26,7 +26,7 @@
 #' @export
 #' @examples
 #' # If you're performing many operations you can either do step by step
-#' data("hflights", package = "hflights")
+#' if (require("hflights")) {
 #' a1 <- group_by(hflights, Year, Month, DayofMonth)
 #' a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
 #' a3 <- summarise(a2,
@@ -61,6 +61,7 @@
 #'     dep = mean(DepDelay, na.rm = TRUE)
 #'   ) %>%
 #'   filter(arr > 30 | dep > 30)
+#' }
 chain <- function(..., env = parent.frame()) {
   # Defunct 0.3. Remove in 0.4
   stop("Chain is defunct Please use %>%", call. = FALSE)
