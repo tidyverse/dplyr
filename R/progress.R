@@ -3,34 +3,39 @@
 #' This reference class represents a text progress bar displayed estimated
 #' time remaining. When finished, it displays the total duration.
 #'
-#' Progress bar will wait until at least \code{min_time} seconds have
-#' elapsed before displaying any results.
-#'
+#' @param n Total number of
+#' @param min_time Progress bar will wait until at least \code{min_time}
+#'   seconds have elapsed before displaying any results.
+#' @return A ref class with methods \code{tick()}, \code{show()},
+#'   \code{pause()}, and \code{stop()}.
 #' @keywords internal
-#' @export Progress
-#' @exportClass Progress
+#' @export
 #' @examples
-#' p <- Progress(3)
+#' p <- progress_estimated(3)
 #' p$tick()
 #' p$tick()
 #' p$tick()
 #'
-#' p <- Progress(3)
+#' p <- progress_estimated(3)
 #' for (i in 1:3) p$pause(0.1)$tick()$show()
 #'
-#' p <- Progress(3)
+#' p <- progress_estimated(3)
 #' p$tick()$show()$
 #'  pause(1)$stop()
 #'
 #' # If min_time is set, progress bar not shown until that many
 #' # seconds have elapsed
-#' p <- Progress(3, min_time = 3)
+#' p <- progress_estimated(3, min_time = 3)
 #' for (i in 1:3) p$pause(0.1)$tick()$show()
 #'
 #' \dontrun{
-#' p <- Progress(10, min_time = 3)
+#' p <- progress_estimated(10, min_time = 3)
 #' for (i in 1:10) p$pause(0.5)$tick()$show()
 #' }
+progress_estimated <- function(n, min_time = 0) {
+  Progress(n, min_time = min_time)
+}
+
 Progress <- setRefClass("Progress",
   fields = list(
     n = "numeric",

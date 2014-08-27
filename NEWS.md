@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* The `Progress` refclass is no longer exported to avoid conflicts with shiny. 
+  Instead use `progress_estimated()` (#535).
+
 * `arrange()` and `group_by()` correctly work together (#491). 
 
 * Call substitution stopped too early when a sub expression contained a `$` (#502).
