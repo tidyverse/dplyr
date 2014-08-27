@@ -14,7 +14,7 @@ Depends:
 Imports:
     assertthat,
     utils,
-    methods,
+    R6,
     Rcpp,
     magrittr,
     Lahman,
