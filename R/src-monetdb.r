@@ -170,33 +170,33 @@ query.MonetDBConnection <- function(con, sql, .vars) {
   MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
 }
 
-#' @export
-MonetDBQuery <- methods::setRefClass("MonetDBQuery", contains = "Query",  methods = list(
-  # MonetDB needs the WITH DATA in the end
-  save_into = function(name = random_table_name()) {
-    tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ", sql," WITH DATA",
-                        con = con)
-    qry_run(con, tt_sql)
+MonetDBQuery <- R6::R6Class("MonetDBQuery",
+  inherit = Query,
+  public = list(
+    # MonetDB needs the WITH DATA in the end
+    save_into = function(name = random_table_name()) {
+      tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ",
+                          self$sql," WITH DATA", con = self$con)
+      qry_run(self$con, tt_sql)
+      name
+    },
 
-    name
-  },
+    from = function() {
+      if (is.ident(self$sql)) {
+        self$sql
+      } else {
+        monetdb_check_subquery(self$sql)
+        build_sql("(", self$sql, ") AS master", con = self$con)
+      }
+    },
 
-  from = function() {
-    if (is.ident(sql)) {
-      sql
-    } else {
-      monetdb_check_subquery(sql)
-      build_sql("(", sql, ") AS master", con = con)
+    nrow = function() {
+      if (!is.null(private$.nrow)) return(private$.nrow)
+      private$.nrow <- monetdb_queryinfo(self$con, self$sql)$rows
+      private$.nrow
     }
-  },
-
-  nrow = function() {
-    if (!is.null(.nrow)) return(.nrow)
-    .nrow <<- monetdb_queryinfo(con, sql)$rows
-    .nrow
-  }
-
-))
+  )
+)
 
 monetdb_check_subquery <- function(sql) {
   if (grepl("ORDER BY|LIMIT|OFFSET", as.character(sql), ignore.case=TRUE)) {

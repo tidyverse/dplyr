@@ -135,12 +135,12 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
-  p <- Progress(n * m, min_time = 2)
+  p <- progress_estimated(n * m, min_time = 2)
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
       out[[j]][`_i`] <- list(eval(args[[j]], envir = env))
-      p$tick()$show()
+      p$tick()$print()
     }
   }
 
@@ -174,12 +174,12 @@ do.rowwise_df <- function(.data, ..., env = parent.frame()) {
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
-  p <- Progress(n * m, min_time = 2)
+  p <- progress_estimated(n * m, min_time = 2)
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
       out[[j]][`_i`] <- list(eval(args[[j]], envir = env))
-      p$tick()$show()
+      p$tick()$print()
     }
   }
 
@@ -280,7 +280,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
-  p <- Progress(n * m, min_time = 2)
+  p <- progress_estimated(n * m, min_time = 2)
   env <- new.env(parent = parent.frame())
 
   # Create ungrouped data frame suitable for chunked retrieval
@@ -312,7 +312,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
       env$. <- chunk[index[[j]], , drop = FALSE]
       for (k in seq_len(m)) {
         out[[k]][i + j] <<- list(eval(args[[k]], envir = env))
-        p$tick()$show()
+        p$tick()$print()
       }
     }
     i <<- i + (n - 1)
@@ -323,7 +323,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
     env$. <- last_group
     for (k in seq_len(m)) {
       out[[k]][i + 1] <- list(eval(args[[k]], envir = env))
-      p$tick()$show()
+      p$tick()$print()
     }
   }
 

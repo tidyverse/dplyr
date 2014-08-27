@@ -92,20 +92,16 @@ db_data_type.MySQLConnection <- function(con, fields) {
 # Creates an environment that disconnects the database when it's
 # garbage collected
 db_disconnector <- function(con, name, quiet = FALSE) {
-  DbDisconnector$new(con = con, name = name, quiet = quiet)
-}
-DbDisconnector <- setRefClass("DbDisconnector",
-  fields = c("con", "name", "quiet"),
-  methods = list(
-    finalize = function() {
-      if (!quiet) {
-        message("Auto-disconnecting ", name, " connection ",
-          "(", paste(con@Id, collapse = ", "), ")")
-      }
-      dbDisconnect(con)
+  reg.finalizer(environment(), function(...) {
+    if (!quiet) {
+      message("Auto-disconnecting ", name, " connection ",
+        "(", paste(con@Id, collapse = ", "), ")")
     }
-  )
-)
+    dbDisconnect(con)
+  })
+  environment()
+}
+
 
 # Query details ----------------------------------------------------------------
 

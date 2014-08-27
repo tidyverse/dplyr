@@ -5,72 +5,81 @@
 #' DBI and the individual database implementation.
 #'
 #' @keywords internal
-#' @aliases Query-class MonetDBQuery-class
 #' @param con a \code{DBOConnection}
 #' @param sql a string containing an sql query.
-#' @export
 query <- function(con, sql, .vars) UseMethod("query")
 
 #' @export
 query.DBIConnection <- function(con, sql, .vars) {
   assert_that(is.string(sql))
 
-  Query$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
+  Query$new(con, sql(sql), .vars)
 }
 
-#' @export
-Query <- methods::setRefClass("Query",
-  fields = c("con", "sql", ".vars", ".res", ".nrow"),
-  methods = list(
-    show = function() {
-      cat("<Query> ", sql, "\n", sep = "")
-      print(con)
+Query <- R6::R6Class("Query",
+  private = list(
+    .nrow = NULL,
+    .vars = NULL
+  ),
+  public = list(
+    con = NULL,
+    sql = NULL,
+
+    initialize = function(con, sql, vars) {
+      self$con <- con
+      self$sql <- sql
+      private$.vars <- vars
+    },
+
+    print = function(...) {
+      cat("<Query> ", self$sql, "\n", sep = "")
+      print(self$con)
     },
 
     # Currently, RSQLite supports only a single result set per connection
     # making holding on pointless, because it blocks the entire connection.
-
     run = function(data = NULL, in_transaction = FALSE) {
-      qry_run(con, sql, data = data, in_transaction = in_transaction)
+      qry_run(self$con, self$sql, data = data, in_transaction = in_transaction)
     },
 
     fetch = function(n = -1L) {
-      qry_fetch(con, sql, n = n)
+      qry_fetch(self$con, self$sql, n = n)
     },
 
     fetch_paged = function(chunk_size = 1e4, callback) {
-      qry_fetch_paged(con, sql, chunk_size, callback)
+      qry_fetch_paged(self$con, self$sql, chunk_size, callback)
     },
 
     save_into = function(name = random_table_name(), temporary = TRUE) {
       tt_sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
-                          "TABLE ", ident(name), " AS ", sql, con = con)
-      qry_run(con, tt_sql) 
+                          "TABLE ", ident(name), " AS ", self$sql,
+                          con = self$con)
+      qry_run(self$con, tt_sql)
       name
     },
 
     from = function() {
-      if (is.ident(sql)) {
-        sql
+      if (is.ident(self$sql)) {
+        self$sql
       } else {
-        build_sql("(", sql, ") AS master", con = con)
+        build_sql("(", self$sql, ") AS master", con = self$con)
       }
     },
 
     vars = function() {
-      .vars
+      private$.vars
     },
 
     nrow = function() {
-      if (!is.null(.nrow)) return(.nrow)
+      if (!is.null(private$.nrow)) return(private$.nrow)
 
-      rows <- build_sql("SELECT count(*) FROM ", from(), con = con)
-      .nrow <<- as.integer(qry_fetch(con, rows)[[1]])
-      .nrow
+      rows <- build_sql("SELECT count(*) FROM ", self$from(), con = self$con)
+      private$.nrow <- as.integer(qry_fetch(self$con, rows)[[1]])
+      private$.nrow
     },
 
     ncol = function() {
-      length(vars())
+      length(self$vars())
     }
   )
 )

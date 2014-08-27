@@ -12,7 +12,7 @@ progress_estimated(n, min_time = 0)
 seconds have elapsed before displaying any results.}
 }
 \value{
-A ref class with methods \code{tick()}, \code{show()},
+A ref class with methods \code{tick()}, \code{print()},
   \code{pause()}, and \code{stop()}.
 }
 \description{
@@ -26,20 +26,20 @@ p$tick()
 p$tick()
 
 p <- progress_estimated(3)
-for (i in 1:3) p$pause(0.1)$tick()$show()
+for (i in 1:3) p$pause(0.1)$tick()$print()
 
 p <- progress_estimated(3)
-p$tick()$show()$
+p$tick()$print()$
  pause(1)$stop()
 
 # If min_time is set, progress bar not shown until that many
 # seconds have elapsed
 p <- progress_estimated(3, min_time = 3)
-for (i in 1:3) p$pause(0.1)$tick()$show()
+for (i in 1:3) p$pause(0.1)$tick()$print()
 
 \dontrun{
 p <- progress_estimated(10, min_time = 3)
-for (i in 1:10) p$pause(0.5)$tick()$show()
+for (i in 1:10) p$pause(0.5)$tick()$print()
 }
 }
 \keyword{internal}

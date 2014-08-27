@@ -6,7 +6,7 @@
 #' @param n Total number of
 #' @param min_time Progress bar will wait until at least \code{min_time}
 #'   seconds have elapsed before displaying any results.
-#' @return A ref class with methods \code{tick()}, \code{show()},
+#' @return A ref class with methods \code{tick()}, \code{print()},
 #'   \code{pause()}, and \code{stop()}.
 #' @keywords internal
 #' @export
@@ -17,52 +17,52 @@
 #' p$tick()
 #'
 #' p <- progress_estimated(3)
-#' for (i in 1:3) p$pause(0.1)$tick()$show()
+#' for (i in 1:3) p$pause(0.1)$tick()$print()
 #'
 #' p <- progress_estimated(3)
-#' p$tick()$show()$
+#' p$tick()$print()$
 #'  pause(1)$stop()
 #'
 #' # If min_time is set, progress bar not shown until that many
 #' # seconds have elapsed
 #' p <- progress_estimated(3, min_time = 3)
-#' for (i in 1:3) p$pause(0.1)$tick()$show()
+#' for (i in 1:3) p$pause(0.1)$tick()$print()
 #'
 #' \dontrun{
 #' p <- progress_estimated(10, min_time = 3)
-#' for (i in 1:10) p$pause(0.5)$tick()$show()
+#' for (i in 1:10) p$pause(0.5)$tick()$print()
 #' }
 progress_estimated <- function(n, min_time = 0) {
-  Progress(n, min_time = min_time)
+  Progress$new(n, min_time = min_time)
 }
 
-Progress <- setRefClass("Progress",
-  fields = list(
-    n = "numeric",
-    i = "numeric",
-    init_time = "numeric",
-    stopped = "logical",
-    stop_time = "numeric",
-    min_time = "numeric"
-  ),
-  methods = list(
+Progress <- R6::R6Class("Progress",
+  public = list(
+    n = NULL,
+    i = 0,
+    init_time = NULL,
+    stopped = FALSE,
+    stop_time = NULL,
+    min_time = NULL,
+
     initialize = function(n, min_time = 0, ...) {
-      initFields(n = n, min_time = min_time, stopped = FALSE, ...)
-      begin()
+      self$n <- n
+      self$min_time <- min_time
+      self$begin()
     },
 
     begin = function() {
       "Initialise timer. Call this before beginning timing."
-      i <<- 0
-      init_time <<- now()
-      stopped <<- FALSE
-      .self
+      self$i <- 0
+      self$init_time <- now()
+      self$stopped <- FALSE
+      self
     },
 
     pause = function(x) {
       "Sleep for x seconds. Useful for testing."
       Sys.sleep(x)
-      .self
+      self
     },
 
     width = function() {
@@ -71,52 +71,52 @@ Progress <- setRefClass("Progress",
 
     tick = function() {
       "Process one element"
-      if (stopped) return(.self)
+      if (self$stopped) return(self)
 
-      i <<- i + 1
-      if (i == n) stop()
-      .self
+      if (self$i == self$n) stop("No more ticks")
+      self$i <- self$i + 1
+      self
     },
 
     stop = function() {
-      if (stopped) return(.self)
+      if (self$stopped) return(self)
 
-      stopped <<- TRUE
-      stop_time <<- now()
-      .self
+      self$stopped <- TRUE
+      self$stop_time <- now()
+      self
     },
 
-    show = function() {
+    print = function(...) {
       if(!interactive() || !is.null(getOption('knitr.in.progress'))) {
-        return(invisible(.self))
+        return(invisible(self))
       }
-      if (now() - init_time < min_time) {
-        return(invisible(.self))
+      if (now() - self$init_time < self$min_time) {
+        return(invisible(self))
       }
 
-      if (stopped) {
-        overall <- show_time(stop_time - init_time)
-        if (i == n) {
+      if (self$stopped) {
+        overall <- show_time(self$stop_time - self$init_time)
+        if (self$i == self$n) {
           cat_line("Completed after ", overall)
           cat("\n")
         } else {
           cat_line("Killed after ", overall)
           cat("\n")
         }
-        return(invisible(.self))
+        return(invisible(self))
       }
 
-      avg <- (now() - init_time) / i
-      time_left <- (n - i) * avg
-      nbars <- trunc(i / n * width())
+      avg <- (now() - self$init_time) / self$i
+      time_left <- (self$n - self$i) * avg
+      nbars <- trunc(self$i / self$n * self$width())
 
       cat_line(
-        "|", str_rep("=", nbars), str_rep(" ", width() - nbars), "|",
-        format(round(i / n * 100), width = 3), "% ",
+        "|", str_rep("=", nbars), str_rep(" ", self$width() - nbars), "|",
+        format(round(self$i / self$n * 100), width = 3), "% ",
         "~", show_time(time_left), " remaining"
       )
 
-      invisible(.self)
+      invisible(self)
     }
 
   )
