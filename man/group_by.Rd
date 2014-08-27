@@ -3,7 +3,7 @@
 \alias{group_by}
 \title{Group a tbl by one or more variables.}
 \usage{
-group_by(x, ..., add = FALSE)
+group_by(.data, ..., add = FALSE)
 }
 \arguments{
 \item{x}{a tbl}

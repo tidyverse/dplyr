@@ -52,28 +52,28 @@
 #'
 #' # Duplicate groups are silently dropped
 #' groups(group_by(by_cyl, cyl, cyl))
-group_by <- function(x, ..., add = FALSE) {
+group_by <- function(.data, ..., add = FALSE) {
   new_groups <- named_dots(...)
 
   # If any calls, use mutate to add new columns, then group by those
   calls <- vapply(new_groups, function(x) !is.name(x), logical(1))
   if (any(calls)) {
     env <- new.env(parent = parent.frame())
-    env$x <- x
+    env$.data <- .data
 
-    call <- as.call(c(quote(mutate), quote(x), new_groups[calls]))
-    x <- eval(call, env)
+    call <- as.call(c(quote(mutate), quote(.data), new_groups[calls]))
+    .data <- eval(call, env)
 
     new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
   }
   names(new_groups) <- NULL
 
   if (add) {
-    new_groups <- c(groups(x), new_groups)
+    new_groups <- c(groups(.data), new_groups)
   }
   new_groups <- new_groups[!duplicated(new_groups)]
 
-  regroup(x, new_groups)
+  regroup(.data, new_groups)
 }
 
 #' Get/set the grouping variables for tbl.

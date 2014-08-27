@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Change first argument name of `group_by()` to `.data` so you can create
+  new groups with name x (#534).
+
 * The `Progress` refclass is no longer exported to avoid conflicts with shiny. 
   Instead use `progress_estimated()` (#535).
 
