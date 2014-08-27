@@ -6,7 +6,7 @@
 group_by(.data, ..., add = FALSE)
 }
 \arguments{
-\item{x}{a tbl}
+\item{.data}{a tbl}
 
 \item{...}{variables to group by. All tbls accept variable names,
 some will also accept functions of variables. Duplicated groups
