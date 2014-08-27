@@ -16,9 +16,7 @@ Imports:
     utils,
     R6,
     Rcpp,
-    magrittr,
-    Lahman,
-    hflights
+    magrittr
 Suggests:
     RSQLite,
     RSQLite.extfuns,
@@ -31,7 +29,9 @@ Suggests:
     knitr,
     microbenchmark,
     ggplot2,
-    mgcv
+    mgcv,
+    Lahman,
+    hflights
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.11.1),
