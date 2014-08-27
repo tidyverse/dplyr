@@ -41,7 +41,10 @@ trunc_mat <- function(x, n = NULL) {
     }
   }
 
-  df <- as.data.frame(head(x, n))
+  peek <- function(x,n) x[sample.int(size=n,nrow(x),replace=TRUE),]
+
+
+  df <- as.data.frame(peek(x, n))
   if (nrow(df) == 0) return()
 
   # List columns need special treatment because format can't be trusted
