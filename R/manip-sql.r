@@ -1,6 +1,7 @@
 #' @export
 filter.tbl_sql <- function(.data, ...) {
   input <- partial_eval(dots(...), .data, parent.frame())
+
   update(.data, where = c(.data$where, input))
 }
 
@@ -96,5 +97,14 @@ mutate.tbl_sql <- function(.data, ...) {
   input <- auto_name(input)
 
   .data$mutate <- TRUE
-  update(.data, select = c(.data$select, input))
+  new <- update(.data, select = c(.data$select, input))
+  # If we're creating a variable that uses a window function, it's
+  # safest to turn that into a subquery so that filter etc can use
+  # the new variable name
+  if (uses_window_fun(input, .data)) {
+    collapse(new)
+  } else {
+    new
+  }
+
 }

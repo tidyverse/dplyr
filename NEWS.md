@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* When `mutate()` creates a new variable that uses a window function, 
+  automatically wrap the result in a subquery (#484).
+
 * Correct sql generation for `first()` and last()` (#531).
 
 * Lahman and hflights have are (once again) suggested packages. This means 
