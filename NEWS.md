@@ -1,5 +1,9 @@
 # dplyr 0.2.0.99
 
+* Now instead of overriding `lag()`, dplyr overrides `lag.default()`, 
+  which should avoid clobbering lag methods added by other packages. 
+  (#277).
+
 * Now use `nycflights13` instead of `hflights` because it the variables have
   better names and there are a few interlinked tables (#562).
 
