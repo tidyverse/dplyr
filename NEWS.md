@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Fix buglet in `select()` so that you can create variables called `val`. 
+  (#564).
+
 * New single table verb for selecting rows by position (#226).
 
 * Now instead of overriding `lag()`, dplyr overrides `lag.default()`, 

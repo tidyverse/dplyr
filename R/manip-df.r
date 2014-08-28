@@ -24,7 +24,7 @@ summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame(),
+  vars <- select_vars_q(names(.data), dots(...), env = parent.frame(),
     include = as.character(groups(.data)))
 
   select_impl(.data, vars)
@@ -32,8 +32,7 @@ select.grouped_df <- function(.data, ...) {
 
 #' @export
 rename.grouped_df <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ..., env = parent.frame(),
-    include = as.character(groups(.data)))
+  vars <- rename_vars_q(names(.data), dots(...), env = parent.frame())
 
   select_impl(.data, vars)
 }
