@@ -51,8 +51,12 @@ summarise(by_vs, n = sum(n))
 summarise(ungroup(by_vs), n = sum(n))
 
 # You can group by expressions: this is just short-hand for
-# a mutate followed by a simple group_by
+# a mutate/rename followed by a simple group_by
 group_by(mtcars, vsam = vs + am)
+group_by(mtcars, vs2 = vs)
+
+# You can also group by a constant, but it's not very useful
+group_by(mtcars, "vs")
 
 # By default, group_by sets groups. Use add = TRUE to add groups
 groups(group_by(by_cyl, vs, am))

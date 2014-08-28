@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* `group_by()` will rename grouping variables (#410).
+
 * When `mutate()` creates a new variable that uses a window function, 
   automatically wrap the result in a subquery (#484).
 

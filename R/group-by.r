@@ -43,8 +43,12 @@
 #' summarise(ungroup(by_vs), n = sum(n))
 #'
 #' # You can group by expressions: this is just short-hand for
-#' # a mutate followed by a simple group_by
+#' # a mutate/rename followed by a simple group_by
 #' group_by(mtcars, vsam = vs + am)
+#' group_by(mtcars, vs2 = vs)
+#'
+#' # You can also group by a constant, but it's not very useful
+#' group_by(mtcars, "vs")
 #'
 #' # By default, group_by sets groups. Use add = TRUE to add groups
 #' groups(group_by(by_cyl, vs, am))
@@ -53,20 +57,22 @@
 #' # Duplicate groups are silently dropped
 #' groups(group_by(by_cyl, cyl, cyl))
 group_by <- function(.data, ..., add = FALSE) {
-  new_groups <- named_dots(...)
+  new_groups <- dots(...)
 
   # If any calls, use mutate to add new columns, then group by those
-  calls <- vapply(new_groups, function(x) !is.name(x), logical(1))
-  if (any(calls)) {
+  is_name <- vapply(new_groups, function(x) is.name(x), logical(1))
+  has_name <- names2(new_groups) != ""
+  needs_mutate <- has_name | !is_name
+  if (any(needs_mutate)) {
     env <- new.env(parent = parent.frame())
     env$.data <- .data
 
-    call <- as.call(c(quote(mutate), quote(.data), new_groups[calls]))
+    call <- as.call(c(quote(mutate), quote(.data), new_groups[needs_mutate]))
     .data <- eval(call, env)
 
-    new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
+    new_groups[needs_mutate] <- lapply(auto_names(new_groups)[needs_mutate], as.name)
+    names(new_groups)[needs_mutate] <- ""
   }
-  names(new_groups) <- NULL
 
   if (add) {
     new_groups <- c(groups(.data), new_groups)
