@@ -162,10 +162,10 @@ base_win <- sql_translator(
     over(build_sql("NTH_VALUE", list(x)), partition_group(), order %||% partition$order())
   },
   first = function(x, order = NULL) {
-    over(sql("FIRST_VALUE()"), partition_group(), order %||% partition_order())
+    over(build_sql("FIRST_VALUE", list(x)), partition_group(), order %||% partition_order())
   },
   last = function(x, order = NULL) {
-    over(sql("LAST_VALUE()"), partition_group(), order %||% partition_order())
+    over(build_sql("LAST_VALUE", list(x)), partition_group(), order %||% partition_order())
   },
 
   lead = function(x, n = 1L, default = NA, order = NULL) {

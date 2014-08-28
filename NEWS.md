@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* Correct sql generation for `first()` and last()` (#531).
+
 * Lahman and hflights have are (once again) suggested packages. This means 
   many demos will not work unless you explicitly install them with
   `install.packages(c("Lahman", "hflights"))` (#508).
