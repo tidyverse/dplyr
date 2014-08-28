@@ -80,7 +80,7 @@ rename(iris, petal_length = Petal.Length)
 \seealso{
 Other single.table.verbs: \code{\link{arrange}};
   \code{\link{filter}}; \code{\link{mutate}},
-  \code{\link{transmute}}; \code{\link{summarise}},
-  \code{\link{summarize}}
+  \code{\link{transmute}}; \code{\link{slice}};
+  \code{\link{summarise}}, \code{\link{summarize}}
 }
 

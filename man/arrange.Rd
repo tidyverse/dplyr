@@ -36,6 +36,7 @@ arrange(mtcars, desc(disp))
 Other single.table.verbs: \code{\link{filter}};
   \code{\link{mutate}}, \code{\link{transmute}};
   \code{\link{rename}}, \code{\link{select}};
-  \code{\link{summarise}}, \code{\link{summarize}}
+  \code{\link{slice}}; \code{\link{summarise}},
+  \code{\link{summarize}}
 }
 

@@ -35,6 +35,6 @@ summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
 Other single.table.verbs: \code{\link{arrange}};
   \code{\link{filter}}; \code{\link{mutate}},
   \code{\link{transmute}}; \code{\link{rename}},
-  \code{\link{select}}
+  \code{\link{select}}; \code{\link{slice}}
 }
 

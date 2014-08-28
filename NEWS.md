@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* New single table verb for selecting rows by position (#226).
+
 * Now instead of overriding `lag()`, dplyr overrides `lag.default()`, 
   which should avoid clobbering lag methods added by other packages. 
   (#277).

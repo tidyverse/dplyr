@@ -14,6 +14,23 @@
 #' filter(mtcars, cyl < 6)
 filter <- function(.data, ...) UseMethod("filter")
 
+#' Select rows by position.
+#'
+#' @family single table verbs
+#' @param .data A tbl. All main verbs are S3 generics and provide methods
+#'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
+#' @param ... Integer row values
+#' @export
+#' @examples
+#' slice(mtcars, 1L)
+#' slice(mtcars, n())
+#' slice(mtcars, 5:n())
+#'
+#' by_cyl <- group_by(mtcars, cyl)
+#' slice(by_cyl, 1:2)
+slice <- function(.data, ...) UseMethod("slice")
+
+
 #' Summarise multiple values to a single value.
 #'
 #' @export
