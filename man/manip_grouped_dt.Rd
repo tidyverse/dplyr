@@ -33,24 +33,24 @@ prior to modification to avoid changes propagating via reference.}
 Data manipulation for grouped data tables.
 }
 \examples{
-if (require("data.table") && require("hflights")) {
-hflights2 <- tbl_dt(hflights)
-by_dest <- group_by(hflights2, Dest)
+if (require("data.table") && require("nycflights13")) {
+flights2 <- tbl_dt(flights)
+by_dest <- group_by(flights2, dest)
 
-filter(by_dest, ArrDelay == max(ArrDelay, na.rm = TRUE))
-summarise(by_dest, arr = mean(ArrDelay, na.rm = TRUE))
+filter(by_dest, arr_delay == max(arr_delay, na.rm = TRUE))
+summarise(by_dest, arr = mean(arr_delay, na.rm = TRUE))
 
 # Normalise arrival and departure delays by airport
-scaled <- mutate(by_dest, arr_z = scale(ArrDelay), dep_z = scale(DepDelay))
-select(scaled, Year:DayOfWeek, Dest, arr_z:dep_z)
+scaled <- mutate(by_dest, arr_z = scale(arr_delay), dep_z = scale(dep_delay))
+select(scaled, year:day, dest, arr_z:dep_z)
 
-arrange(by_dest, desc(ArrDelay))
-select(by_dest, -(DayOfWeek:TailNum))
+arrange(by_dest, desc(arr_delay))
+select(by_dest, -(day:tailnum))
 
 # All manip functions preserve grouping structure, except for summarise
 # which removes a grouping level
-by_day <- group_by(hflights, Year, Month, DayofMonth)
-by_month <- summarise(by_day, delayed = sum(ArrDelay > 0, na.rm = TRUE))
+by_day <- group_by(flights, year, month, day)
+by_month <- summarise(by_day, delayed = sum(arr_delay > 0, na.rm = TRUE))
 by_month
 summarise(by_month, delayed = sum(delayed))
 

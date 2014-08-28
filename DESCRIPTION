@@ -31,7 +31,7 @@ Suggests:
     ggplot2,
     mgcv,
     Lahman,
-    hflights
+    nycflights13
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.11.1),
@@ -48,9 +48,9 @@ Collate:
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
-    'data-hflights.r'
     'data-lahman.r'
     'data-nasa.r'
+    'data-nycflights13.r'
     'data-temp.r'
     'data.r'
     'dbi-s3.r'

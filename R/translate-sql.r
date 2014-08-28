@@ -65,46 +65,46 @@
 #'
 #' # Translation with data source --------------------------------------------
 #' \donttest{
-#' hflights <- tbl(hflights_postgres(), "hflights")
+#' flights <- tbl(nycflights13_postgres(), "flights")
 #' # Note distinction between integers and reals
-#' translate_sql(Month == 1, tbl = hflights)
-#' translate_sql(Month == 1L, tbl = hflights)
+#' translate_sql(month == 1, tbl = flights)
+#' translate_sql(month == 1L, tbl = flights)
 #'
 #' # Know how to translate most simple mathematical expressions
-#' translate_sql(Month %in% 1:3, tbl = hflights)
-#' translate_sql(Month >= 1L & Month <= 3L, tbl = hflights)
-#' translate_sql((Month >= 1L & Month <= 3L) | Carrier == "AA", tbl = hflights)
+#' translate_sql(month %in% 1:3, tbl = flights)
+#' translate_sql(month >= 1L & month <= 3L, tbl = flights)
+#' translate_sql((month >= 1L & month <= 3L) | carrier == "AA", tbl = flights)
 #'
 #' # Some R functions don't have equivalents in SQL: where possible they
 #' # will be translated to the equivalent
-#' translate_sql(xor(Month <= 3L, Carrier == "AA"), tbl = hflights)
+#' translate_sql(xor(month <= 3L, carrier == "AA"), tbl = flights)
 #'
 #' # Local variables will be automatically inserted into the SQL
 #' x <- 5L
-#' translate_sql(Month == x, tbl = hflights)
+#' translate_sql(month == x, tbl = flights)
 #'
 #' # By default all computation will happen in sql
-#' translate_sql(Month < 1 + 1, source = hflights)
+#' translate_sql(month < 1 + 1, source = flights)
 #' # Use local to force local evaluation
-#' translate_sql(Month < local(1 + 1), source = hflights)
+#' translate_sql(month < local(1 + 1), source = flights)
 #'
 #' # This is also needed if you call a local function:
 #' inc <- function(x) x + 1
-#' translate_sql(Month == inc(x), source = hflights)
-#' translate_sql(Month == local(inc(x)), source = hflights)
+#' translate_sql(month == inc(x), source = flights)
+#' translate_sql(month == local(inc(x)), source = flights)
 #'
 #' # Windowed translation --------------------------------------------
-#' planes <- arrange(group_by(hflights, TailNum), desc(DepTime))
+#' planes <- arrange(group_by(flights, tailnum), desc(DepTime))
 #'
-#' translate_sql(DepTime > mean(DepTime), tbl = planes, window = TRUE)
-#' translate_sql(DepTime == min(DepTime), tbl = planes, window = TRUE)
+#' translate_sql(dep_time > mean(dep_time), tbl = planes, window = TRUE)
+#' translate_sql(dep_time == min(dep_time), tbl = planes, window = TRUE)
 #'
 #' translate_sql(rank(), tbl = planes, window = TRUE)
-#' translate_sql(rank(DepTime), tbl = planes, window = TRUE)
-#' translate_sql(ntile(DepTime, 2L), tbl = planes, window = TRUE)
-#' translate_sql(lead(DepTime, 2L), tbl = planes, window = TRUE)
-#' translate_sql(cumsum(DepDelay), tbl = planes, window = TRUE)
-#' translate_sql(order_by(DepDelay, cumsum(DepDelay)), tbl = planes, window = TRUE)
+#' translate_sql(rank(dep_time), tbl = planes, window = TRUE)
+#' translate_sql(ntile(dep_time, 2L), tbl = planes, window = TRUE)
+#' translate_sql(lead(dep_time, 2L), tbl = planes, window = TRUE)
+#' translate_sql(cumsum(dep_time), tbl = planes, window = TRUE)
+#' translate_sql(order_by(dep_time, cumsum(dep_time)), tbl = planes, window = TRUE)
 #' }
 translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL,
                           window = FALSE) {

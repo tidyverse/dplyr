@@ -17,7 +17,7 @@ mysql_install_db --verbose --user=hadley --basedir=/usr/local \
 mysqld --datadir='/Users/hadley/db/mysql'
 
 mysql -u root -p -e "CREATE DATABASE lahman;"
-mysql -u root -p -e "CREATE DATABASE hflights;"
+mysql -u root -p -e "CREATE DATABASE nycflights13;"
 mysql -u root -p -e "CREATE DATABASE test;"
 ```
 

@@ -7,22 +7,22 @@
 #' @param .env The environment in which to evaluate arguments not included
 #'   in the data. The default should suffice for ordinary usage.
 #' @examples
-#' if (require("data.table") && require("hflights")) {
+#' if (require("data.table") && require("nycflights13")) {
 #' # If you start with a data table, you end up with a data table
-#' hflights <- as.data.table(hflights)
-#' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
-#' head(select(hflights, Year:DayOfWeek))
-#' summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
-#' head(mutate(hflights, gained = ArrDelay - DepDelay))
-#' head(arrange(hflights, Dest, desc(ArrDelay)))
+#' flights <- as.data.table(flights)
+#' filter(flights, month == 1, day == 1, dest == "DFW")
+#' head(select(flights, year:day))
+#' summarise(flights, delay = mean(arr_delay, na.rm = TRUE), n = length(arr_delay))
+#' head(mutate(flights, gained = arr_delay - dep_delay))
+#' head(arrange(flights, dest, desc(arr_delay)))
 #'
 #' # If you start with a tbl, you end up with a tbl
-#' hflights2 <- as.tbl(hflights)
-#' filter(hflights2, Month == 1, DayofMonth == 1, Dest == "DFW")
-#' head(select(hflights2, Year:DayOfWeek))
-#' summarise(hflights2, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
-#' head(mutate(hflights2, gained = ArrDelay - DepDelay))
-#' head(arrange(hflights2, Dest, desc(ArrDelay)))
+#' flights2 <- as.tbl(flights)
+#' filter(flights2, month == 1, day == 1, dest == "DFW")
+#' head(select(flights2, year:day))
+#' summarise(flights2, delay = mean(arr_delay, na.rm = TRUE), n = length(arr_delay))
+#' head(mutate(flights2, gained = arr_delay - dep_delay))
+#' head(arrange(flights2, dest, desc(arr_delay)))
 #' }
 #' @name manip_dt
 NULL

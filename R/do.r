@@ -58,21 +58,21 @@
 #' compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
 #' # compare %>% summarise(p.value = aov$`Pr(>F)`)
 #'
-#' if (require("hflights")) {
+#' if (require("nycflights13")) {
 #' # You can use it to do any arbitrary computation, like fitting a linear
 #' # model. Let's explore how carrier departure delays vary over the time
-#' carriers <- group_by(hflights, UniqueCarrier)
+#' carriers <- group_by(flights, carrier)
 #' group_size(carriers)
 #'
-#' mods <- do(carriers, mod = lm(ArrDelay ~ DepTime, data = .))
+#' mods <- do(carriers, mod = lm(arr_delay ~ dep_time, data = .))
 #' mods %>% do(as.data.frame(coef(.$mod)))
 #' mods %>% summarise(rsq = summary(mod)$r.squared)
 #'
 #' \dontrun{
 #' # This longer example shows the progress bar in action
-#' by_dest <- hflights %>% group_by(Dest) %>% filter(n() > 100)
+#' by_dest <- flights %>% group_by(dest) %>% filter(n() > 100)
 #' library(mgcv)
-#' by_dest %>% do(smooth = gam(ArrDelay ~ s(DepTime) + Month, data = .))
+#' by_dest %>% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))
 #' }
 #' }
 do <- function(.data, ...) UseMethod("do")

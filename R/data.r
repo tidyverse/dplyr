@@ -12,6 +12,16 @@ get_cache <- function(name) {
   get(name, envir = cache)
 }
 
+cache_computation <- function(name, computation) {
+  if (is_cached(name)) {
+    get_cache(name)
+  } else {
+    res <- force(computation)
+    set_cache(name, res)
+    res
+  }
+}
+
 load_srcs <- function(f, src_names, quiet = NULL) {
   if (is.null(quiet)) {
     quiet <- !identical(Sys.getenv("NOT_CRAN"), "true")

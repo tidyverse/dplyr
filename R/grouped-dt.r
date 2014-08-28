@@ -8,13 +8,13 @@
 #' @param vars a list of quoted variables.
 #' @export
 #' @examples
-#' if (require("data.table") && require("hflights")) {
-#' hflights_dt <- tbl_dt(hflights)
-#' group_size(group_by(hflights_dt, Year, Month, DayofMonth))
-#' group_size(group_by(hflights_dt, Dest))
+#' if (require("data.table") && require("nycflights")) {
+#' flights_dt <- tbl_dt(flights)
+#' group_size(group_by(flights_dt, year, month, day))
+#' group_size(group_by(flights_dt, dest))
 #'
-#' monthly <- group_by(hflights_dt, Month)
-#' summarise(monthly, n = n(), delay = mean(ArrDelay))
+#' monthly <- group_by(flights_dt, month)
+#' summarise(monthly, n = n(), delay = mean(arr_delay))
 #' }
 grouped_dt <- function(data, vars) {
   stopifnot(is.data.table(data))

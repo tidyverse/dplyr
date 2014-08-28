@@ -11,10 +11,11 @@ be used from within \code{\link{summarise}}, \code{\link{mutate}} and
 \code{\link{filter}}
 }
 \examples{
-data("hflights", package = "hflights")
-carriers <- group_by(hflights, UniqueCarrier)
+if (require("nycflights13")) {
+carriers <- group_by(flights, carrier)
 summarise(carriers, n())
 mutate(carriers, n = n())
-filter(carriers, n() == 79)
+filter(carriers, n() < 100)
+}
 }
 

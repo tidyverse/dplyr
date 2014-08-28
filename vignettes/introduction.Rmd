@@ -50,23 +50,18 @@ The goal of this document is to introduce you to the basic tools that dplyr prov
   function. Where an aggregate function uses `n` inputs to produce 1 
   output, a window function uses `n` inputs to produce `n` outputs.
 
-## Data: hflights
+## Data: nycflights13
 
 To explore the basic data manipulation verbs of dplyr, we'll start with the built in
-`hflights` data frame. This dataset contains all 227,496 flights that departed from Houston in 2011. The data comes from the US [Bureau of Transporation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?hflights`
+`nycflights13` data frame. This dataset contains all `r nrow(nycflights13::flights)` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transporation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?nycflights13`
 
 ```{r}
-library(hflights)
-dim(hflights)
-head(hflights)
+library(nycflights13)
+dim(flights)
+head(flights)
 ```
 
 dplyr can work with data frames as is, but if you're dealing with large data, it's worthwhile to convert them to a `tbl_df`: this is a wrapper around a data frame that won't accidentally print a lot of data to the screen.
-
-```{r}
-hflights_df <- tbl_df(hflights)
-hflights_df
-```
 
 ## Basic verbs
 
@@ -79,19 +74,19 @@ dplyr provides five basic data manipulation verbs that work on a single table: `
 For example, we can select all flights on January 1st with:
 
 ```{r}
-filter(hflights_df, Month == 1, DayofMonth == 1)
+filter(flights, month == 1, day == 1)
 ```
 
 This is equivalent to the more verbose:
 
 ```{r, eval = FALSE}
-hflights[hflights$Month == 1 & hflights$DayofMonth == 1, ]
+flights[flights$month == 1 & flights$day == 1, ]
 ```
 
 `filter()` works similarly to `subset()` except that you can give it any number of filtering conditions which are joined together with `&` (not `&&` which is easy to do accidentally!).  You can use other boolean operators explicitly:
 
 ```{r, eval = FALSE}
-filter(hflights_df, Month == 1 | Month == 2)
+filter(flights, month == 1 | month == 2)
 ```
 
 ## Arrange rows with `arrange()`
@@ -99,20 +94,20 @@ filter(hflights_df, Month == 1 | Month == 2)
 `arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:
 
 ```{r}
-arrange(hflights_df, DayofMonth, Month, Year)
+arrange(flights, year, month, day)
 ```
 
 Use `desc()` to order a column in descending order:
 
 ```{r}
-arrange(hflights_df, desc(ArrDelay))
+arrange(flights, desc(arr_delay))
 ```
 
 `dplyr::arrange()` works the same way as `plyr::arrange()`. It's a straighforward wrapper around `order()` that requires less typing. The previous code is equivalent to:
 
 ```{r, eval = FALSE}
-hflights[order(hflights$DayofMonth, hflights$Month, hflights$Year), ]
-hflights[order(desc(hflights$ArrDelay)), ]
+flights[order(flights$year, flights$month, flights$day), ]
+flights[order(desc(flights$arr_delay)), ]
 ```
 
 ## Select columns with `select()`
@@ -121,11 +116,11 @@ Often you work with large datasets with many columns where only a few are actual
 
 ```{r}
 # Select columns by name
-select(hflights_df, Year, Month, DayOfWeek)
-# Select all columns between Year and DayOfWeek (inclusive)
-select(hflights_df, Year:DayOfWeek)
-# Select all columns except those from Year to DayOfWeek (inclusive)
-select(hflights_df, -(Year:DayOfWeek))
+select(flights, year, month, day)
+# Select all columns between year and day (inclusive)
+select(flights, year:day)
+# Select all columns except those from year to day (inclusive)
+select(flights, -(year:day))
 ```
 
 This function works similarly to the `select` argument to the `base::subset()`. It's its own function in dplyr, because the dplyr philosophy is to have small functions that each do one thing well.
@@ -135,24 +130,24 @@ This function works similarly to the `select` argument to the `base::subset()`. 
 As well as selecting from the set of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
 
 ```{r}
-mutate(hflights_df,
-  gain = ArrDelay - DepDelay,
-  speed = Distance / AirTime * 60)
+mutate(flights,
+  gain = arr_delay - dep_delay,
+  speed = distance / air_time * 60)
 ```
 
 `dplyr::mutate()` works the same way as `plyr::mutate()` and similarly to `base::transform()`. The key difference between `mutate()` and `transform()` is that mutate allows you to refer to columns that you just created:
 
 ```{r}
-mutate(hflights_df,
-  gain = ArrDelay - DepDelay,
-  gain_per_hour = gain / (AirTime / 60)
+mutate(flights,
+  gain = arr_delay - dep_delay,
+  gain_per_hour = gain / (air_time / 60)
 )
 ```
 
 ```{r, eval = FALSE}
-transform(hflights,
-  gain = ArrDelay - DepDelay,
-  gain_per_hour = gain / (AirTime / 60)
+transform(flights,
+  gain = arr_delay - delay,
+  gain_per_hour = gain / (air_time / 60)
 )
 #> Error: object 'gain' not found
 ```
@@ -162,8 +157,8 @@ transform(hflights,
 The last verb is `summarise()`, which collapses a data frame to a single row. It's not very useful yet:
 
 ```{r}
-summarise(hflights_df,
-  delay = mean(DepDelay, na.rm = TRUE))
+summarise(flights,
+  delay = mean(dep_delay, na.rm = TRUE))
 ```
 
 This is exactly equivalent to `plyr::summarise()`.
@@ -192,11 +187,11 @@ Of the five verbs, `select()` is unaffected by grouping, and grouped `arrange()`
 In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
 ```{r, warning = FALSE, message = FALSE}
-planes <- group_by(hflights_df, TailNum)
+planes <- group_by(flights, tailnum)
 delay <- summarise(planes,
   count = n(),
-  dist = mean(Distance, na.rm = TRUE),
-  delay = mean(ArrDelay, na.rm = TRUE))
+  dist = mean(distance, na.rm = TRUE),
+  delay = mean(arr_delay, na.rm = TRUE))
 delay <- filter(delay, count > 20, dist < 2000)
 
 # Interestingly, the average delay is only slightly related to the
@@ -220,9 +215,9 @@ You use `summarise()` with __aggregate functions__, which take a vector of value
 For example, we could use these to find the number of planes and the number of flights that go to each possible destination:
 
 ```{r}
-destinations <- group_by(hflights_df, Dest)
+destinations <- group_by(flights, dest)
 summarise(destinations,
-  planes = n_distinct(TailNum),
+  planes = n_distinct(tailnum),
   flights = n()
 )
 ```
@@ -232,7 +227,7 @@ You can also use any function that you write yourself. For performance, dplyr pr
 When you group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset:
 
 ```{r}
-daily <- group_by(hflights_df, Year, Month, DayofMonth)
+daily <- group_by(flights, year, month, day)
 (per_day   <- summarise(daily, flights = n()))
 (per_month <- summarise(per_day, flights = sum(flights)))
 (per_year  <- summarise(per_month, flights = sum(flights)))
@@ -245,11 +240,11 @@ However you need to be careful when progressively rolling up summaries like this
 The dplyr API is functional in the sense that function calls don't have side-effects, and you must always save their results. This doesn't lead to particularly elegant code if you want to do many operations at once. You either have to do it step-by-step:
 
 ```{r, eval = FALSE}
-a1 <- group_by(hflights, Year, Month, DayofMonth)
-a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
+a1 <- group_by(flights, year, month, day)
+a2 <- select(a1, arr_delay, dep_delay)
 a3 <- summarise(a2,
-  arr = mean(ArrDelay, na.rm = TRUE),
-  dep = mean(DepDelay, na.rm = TRUE))
+  arr = mean(arr_delay, na.rm = TRUE),
+  dep = mean(dep_delay, na.rm = TRUE))
 a4 <- filter(a3, arr > 30 | dep > 30)
 ```
 
@@ -259,11 +254,11 @@ Or if you don't want to save the intermediate results, you need to wrap the func
 filter(
   summarise(
     select(
-      group_by(hflights, Year, Month, DayofMonth),
-      Year:DayofMonth, ArrDelay, DepDelay
+      group_by(flights, year, month, day),
+      arr_delay, dep_delay
     ),
-    arr = mean(ArrDelay, na.rm = TRUE),
-    dep = mean(DepDelay, na.rm = TRUE)
+    arr = mean(arr_delay, na.rm = TRUE),
+    dep = mean(dep_delay, na.rm = TRUE)
   ),
   arr > 30 | dep > 30
 )
@@ -272,12 +267,12 @@ filter(
 This is difficult to read because the order of the operations is from inside to out, and the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations so you can read from left-to-right, top-to-bottom:
 
 ```{r, eval = FALSE}
-hflights %>%
-  group_by(Year, Month, DayofMonth) %>%
-  select(Year:DayofMonth, ArrDelay, DepDelay) %>%
+flights %>%
+  group_by(year, month, day) %>%
+  select(arr_delay, dep_delay) %>%
   summarise(
-    arr = mean(ArrDelay, na.rm = TRUE),
-    dep = mean(DepDelay, na.rm = TRUE)
+    arr = mean(arr_delay, na.rm = TRUE),
+    dep = mean(dep_delay, na.rm = TRUE)
   ) %>%
   filter(arr > 30 | dep > 30)
 ```

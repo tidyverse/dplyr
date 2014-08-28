@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Now use `nycflights13` instead of `hflights` because it the variables have
+  better names and there are a few interlinked tables (#562).
+
 * `group_by()` will rename grouping variables (#410).
 
 * When `mutate()` creates a new variable that uses a window function, 
