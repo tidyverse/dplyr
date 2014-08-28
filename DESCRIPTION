@@ -31,7 +31,8 @@ Suggests:
     ggplot2,
     mgcv,
     Lahman,
-    nycflights13
+    nycflights13,
+    methods
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.11.1),

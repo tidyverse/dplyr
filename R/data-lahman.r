@@ -78,7 +78,7 @@ lahman_bigquery <- function(...) {
   for(table in tables) {
     df <- getExportedValue("Lahman", table)
 
-    if (!quiet) message("Creating table ", table)
+    message("Creating table ", table)
     jobs[[table]] <- insert_upload_job(src$con$project, src$con$dataset, table,
       df, billing = src$con$billing)
   }

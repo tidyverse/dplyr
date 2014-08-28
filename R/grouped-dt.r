@@ -8,7 +8,7 @@
 #' @param vars a list of quoted variables.
 #' @export
 #' @examples
-#' if (require("data.table") && require("nycflights")) {
+#' if (require("data.table") && require("nycflights13")) {
 #' flights_dt <- tbl_dt(flights)
 #' group_size(group_by(flights_dt, year, month, day))
 #' group_size(group_by(flights_dt, dest))

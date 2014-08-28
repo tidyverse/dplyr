@@ -21,7 +21,7 @@ method on a data table or tbl: this will take care of capturing
 the unevalated expressions for you.
 }
 \examples{
-if (require("data.table") && require("nycflights")) {
+if (require("data.table") && require("nycflights13")) {
 flights_dt <- tbl_dt(flights)
 group_size(group_by(flights_dt, year, month, day))
 group_size(group_by(flights_dt, dest))
