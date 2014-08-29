@@ -164,5 +164,6 @@ You'll need to be a little careful if you load both plyr and dplyr at the same t
 
 ## Related approaches
 
+* [Blaze](http://blaze.pydata.org)
 * [|Stat](http://hcibib.org/perlman/stat/introman.html)
 * [Pig](http://infolab.stanford.edu/~usriv/papers/pig-latin.pdf)
