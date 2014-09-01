@@ -55,6 +55,53 @@ db_has_table.MySQLConnection <- function(con, table) {
   NA
 }
 
+db_table_source <- function(con, path, from) UseMethod("db_table_source")
+#' @export
+db_table_source.default <- function(con, path, from) {
+  if (!is.sql(from)) { # Must be a character string
+    if (isFALSE(db_has_table(con, from))) {
+      stop("Table ", from, " not found in database ", path, call. = FALSE)
+    }
+
+    from <- ident(from)
+  } else if (!is.join(from)) { # Must be arbitrary sql
+    # Abitrary sql needs to be wrapped into a named subquery
+    from <- build_sql("(", from, ") AS ", ident(unique_name()), con = con)
+  }
+  from
+}
+#' @export
+db_table_source.PostgreSQLConnection <- function(con, path, from) {
+  if (!is.sql(from)) { # Must be a character string
+    tblschema <- NA
+    parts <- strsplit(from, "\\.")[[1]]
+    if (length(parts) == 1) {
+      tblname <- parts[[1]]
+    }
+    else if (length(parts)== 2) {
+      tblschema <- parts[[1]]
+      tblname <- parts[[2]]
+    }
+    else {
+      stop("Invalid table format ", from, ". [schema.]tablename is accepted.", call. = FALSE)
+    }
+
+    if (isFALSE(db_has_table(con, tblname))) {
+      stop("Table ", from, " not found in database ", path, call. = FALSE)
+    }
+
+    if (!is.na(tblschema)) {
+      from <- build_sql(ident(tblschema), ".", ident(tblname))
+    }
+    else {
+      from <- ident(tblname)
+    }
+  } else if (!is.join(from)) { # Must be arbitrary sql
+    # Abitrary sql needs to be wrapped into a named subquery
+    from <- build_sql("(", from, ") AS ", ident(unique_name()), con = con)
+  }
+  from
+}
 
 db_data_type <- function(con, fields) UseMethod("db_data_type")
 
