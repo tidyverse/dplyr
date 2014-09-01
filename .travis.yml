@@ -13,7 +13,7 @@ install:
   - ./travis-tool.sh r_binary_install rgl
   - ./travis-tool.sh r_binary_install XML
   - ./travis-tool.sh r_binary_install knitr
-  - ./travis-tool.sh github_package hadley/hflights
+  - ./travis-tool.sh github_package hadley/lazy
   - ./travis-tool.sh github_package bigrquery
   - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi

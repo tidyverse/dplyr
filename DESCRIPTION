@@ -16,7 +16,8 @@ Imports:
     utils,
     R6,
     Rcpp,
-    magrittr
+    magrittr,
+    lazy
 Suggests:
     RSQLite,
     RSQLite.extfuns,
