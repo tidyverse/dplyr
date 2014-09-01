@@ -13,7 +13,7 @@ arrange.tbl_sql <- function(.data, ...) {
 
 #' @export
 select.tbl_sql <- function(.data, ...) {
-  vars <- select_vars_q(tbl_vars(.data), dots(...), env = parent.frame(),
+  vars <- select_vars_(tbl_vars(.data), lazy::lazy_dots(...),
     include = as.character(groups(.data)))
   # Index into variables so that select can be applied multiple times
   # and after a mutate.
@@ -26,7 +26,7 @@ select.tbl_sql <- function(.data, ...) {
 
 #' @export
 rename.tbl_sql <- function(.data, ...) {
-  vars <- rename_vars_q(tbl_vars(.data), dots(...), env = parent.frame())
+  vars <- rename_vars_(tbl_vars(.data), lazy::lazy_dots(...))
   # Index into variables so that select can be applied multiple times
   # and after a mutate.
   idx <- match(vars, tbl_vars(.data))

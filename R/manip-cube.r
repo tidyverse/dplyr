@@ -1,13 +1,13 @@
 #' @export
 select.tbl_cube <- function(.data, ...) {
-  vars <- select_vars_q(names(.data$mets), dots(...), env = parent.frame())
+  vars <- select_vars_(names(.data$mets), lazy::lazy_dots(...))
   .data$mets <- .data$mets[vars]
   .data
 }
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- rename_vars_q(names(.data$mets), dots(...), env = parent.frame())
+  vars <- rename_vars_(names(.data$mets), lazy::lazy_dots(...))
   .data$mets <- .data$mets[vars]
   .data
 }

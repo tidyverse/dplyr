@@ -5,7 +5,8 @@
 #' the original order: you can only change their names, not their positions.
 #'
 #' @param vars A character vector of existing column names.
-#' @param ...,args Expressions to compute
+#' @param ...,args Expressions to compute. \code{select_vars} and
+#'   \code{rename_vars}
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export
@@ -38,25 +39,30 @@
 #'
 #' # Rename variables preserving all existing
 #' rename_vars(names(iris), petal_length = Petal.Length)
+#'
+#' # Standard evaluation -------------------------------------------------------
+#' # You can use names, calls, formulas (or lists of), or a character vector
+#' select_vars_(names(iris), list(~Petal.Length))
+#' select_vars_(names(iris), list(quote(Petal.Length)))
+#' select_vars_(names(iris), "Petal.Length")
 select_vars <- function(vars, ..., env = parent.frame(),
                         include = character(), exclude = character()) {
 
-  select_vars_q(vars, dots(...), env = env, include = include,
-    exclude = exclude)
+  args <- lazy::lazy_dots(...)
+  select_vars_(vars, args, include = include, exclude = exclude)
 }
 
 #' @rdname select_vars
 #' @export
-select_vars_q <- function(vars, args, env = parent.frame(),
+select_vars_ <- function(vars, args, env = parent.frame(),
                           include = character(), exclude = character()) {
+
   if (length(args) == 0) {
     vars <- setdiff(include, exclude)
     return(setNames(vars, vars))
   }
 
-  if (is.character(args)) {
-    args <- lapply(args, as.name)
-  }
+  args <- lazy::as.lazy_dots(args, env = env)
 
   names_list <- setNames(as.list(seq_along(vars)), vars)
   names_list[names(names_list) == ""] <- NULL
@@ -111,7 +117,7 @@ select_vars_q <- function(vars, args, env = parent.frame(),
   )
   select_env <- list2env(select_funs, names_env)
 
-  ind_list <- lapply(args, eval, env = select_env)
+  ind_list <- lazy::lazy_eval(args, select_env)
   names(ind_list) <- names2(args)
 
   ind <- unlist(ind_list)
@@ -157,18 +163,19 @@ setdiff2 <- function(x, y) {
 
 #' @export
 #' @rdname select_vars
-rename_vars <- function(vars, ..., env = parent.frame()) {
-  rename_vars_q(vars, dots(...), env = env)
+rename_vars <- function(vars, ...) {
+  rename_vars_(vars, lazy::lazy_dots(...))
 }
 
 #' @export
 #' @rdname select_vars
-rename_vars_q <- function(vars, args, env = parent.frame()) {
+rename_vars_ <- function(vars, args, env = parent.frame()) {
   if (any(names2(args) == "")) {
     stop("All arguments to rename must be named.", stop = FALSE)
   }
 
-  is_name <- vapply(args, is.name, logical(1))
+  args <- lazy::as.lazy_dots(args, env = env)
+  is_name <- vapply(args, function(x) is.name(x$expr), logical(1))
   if (!all(is_name)) {
     stop("Arguments to rename must be unquoted variable names. ",
       "Arguments ", paste0(names(args)[!is_name], collapse =", "), " are not.",
@@ -176,7 +183,7 @@ rename_vars_q <- function(vars, args, env = parent.frame()) {
     )
   }
 
-  old_vars <- vapply(args, as.character, character(1))
+  old_vars <- vapply(args, function(x) as.character(x$expr), character(1))
   new_vars <- names(args)
 
   unknown_vars <- setdiff(old_vars, vars)

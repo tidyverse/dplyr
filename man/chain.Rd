@@ -10,7 +10,7 @@ chain(..., env = parent.frame())
 
 chain_q(calls, env = parent.frame())
 
-lhs %.% rhs
+lhs \%.\% rhs
 
 lhs \%>\% rhs
 }

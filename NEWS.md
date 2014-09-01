@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `select_vars()` and `rename_vars()` have standard evaluation versions
+  `select_vars_()` and `rename_vars_()`.
+
 * Fix buglet in `select()` so that you can create variables called `val`. 
   (#564).
 

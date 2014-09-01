@@ -3,13 +3,13 @@
 \alias{rename_vars}
 \alias{rename_vars_q}
 \alias{select_vars}
-\alias{select_vars_q}
+\alias{select_vars_}
 \title{Select variables.}
 \usage{
 select_vars(vars, ..., env = parent.frame(), include = character(),
   exclude = character())
 
-select_vars_q(vars, args, env = parent.frame(), include = character(),
+select_vars_(vars, args, env = parent.frame(), include = character(),
   exclude = character())
 
 rename_vars(vars, ..., env = parent.frame())
