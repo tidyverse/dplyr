@@ -2,9 +2,12 @@
 \name{select}
 \alias{rename}
 \alias{select}
+\alias{select_}
 \title{Select/rename variables by name.}
 \usage{
 select(.data, ...)
+
+select_(.data, args)
 
 rename(.data, ...)
 }
@@ -12,9 +15,13 @@ rename(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
-\item{...}{Comma separated list of unquoted expressions. You can treat
-variable names like they are positions. Use positive values to select
-variables; use negative values to drop variables.}
+\item{...,args}{Comma separated list of unquoted expressions. You can treat
+  variable names like they are positions. Use positive values to select
+  variables; use negative values to drop variables.
+
+  Use \code{select_()} and \code{args} to do standard evaluation.
+  You can supply a list of formulas, calls or names, or a character
+  vector.}
 }
 \value{
 An object of the same class as \code{.data}.
@@ -76,6 +83,12 @@ select(iris, -Petal.Length, -Petal.Width)
 select(iris, petal_length = Petal.Length)
 # * rename() keeps all variables
 rename(iris, petal_length = Petal.Length)
+
+# Programming with select ---------------------------------------------------
+select_(iris, ~Petal.Length)
+select_(iris, list(quote(-Petal.Length), quote(-Petal.Width)))
+select_(iris, c("Petal.Length"))
+select_(iris, substitute(matches(x), list(x = ".t.")))
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}};

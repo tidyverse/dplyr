@@ -139,9 +139,13 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' named arguments.
 #'
 #' @inheritParams filter
-#' @param ... Comma separated list of unquoted expressions. You can treat
+#' @param ...,args Comma separated list of unquoted expressions. You can treat
 #'   variable names like they are positions. Use positive values to select
 #'   variables; use negative values to drop variables.
+#'
+#'   Use \code{select_()} and \code{args} to do standard evaluation.
+#'   You can supply a list of formulas, calls or names, or a character
+#'   vector.
 #' @return An object of the same class as \code{.data}.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an
@@ -175,7 +179,20 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' select(iris, petal_length = Petal.Length)
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
-select <- function(.data, ...) UseMethod("select")
+#'
+#' # Programming with select ---------------------------------------------------
+#' select_(iris, ~Petal.Length)
+#' select_(iris, list(quote(-Petal.Length), quote(-Petal.Width)))
+#' select_(iris, c("Petal.Length"))
+#' select_(iris, substitute(matches(x), list(x = ".t.")))
+select <- function(.data, ...) {
+  select_(.data, lazy::lazy_dots(...))
+}
+
+#' @rdname select
+select_ <- function(.data, args) {
+  UseMethod("select_")
+}
 
 #' @rdname select
 #' @export

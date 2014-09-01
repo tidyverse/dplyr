@@ -23,8 +23,9 @@ mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 
 #' @export
-select.grouped_df <- function(.data, ...) {
-  vars <- select_vars_(names(.data), lazy::lazy_dots(...),
+select_.grouped_df <- function(.data, args) {
+  args <- lazy::as.lazy_dots(args, parent.frame())
+  vars <- select_vars_(names(.data), args,
     include = as.character(groups(.data)))
 
   select_impl(.data, vars)

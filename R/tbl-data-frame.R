@@ -45,8 +45,9 @@ arrange.data.frame <- function(.data, ...) {
   as.data.frame(arrange(tbl_df(.data), ...))
 }
 #' @export
-select.data.frame <- function(.data, ...) {
-  vars <- select_vars_(names(.data), lazy::lazy_dots(...))
+select_.data.frame <- function(.data, args) {
+  args <- lazy::as.lazy_dots(args, parent.frame())
+  vars <- select_vars_(names(.data), args)
   select_impl(.data, vars)
 }
 #' @export

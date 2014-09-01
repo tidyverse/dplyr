@@ -27,8 +27,8 @@ filter(mtcars, cyl < 6)
 \seealso{
 Other single.table.verbs: \code{\link{arrange}};
   \code{\link{mutate}}, \code{\link{transmute}};
-  \code{\link{rename}}, \code{\link{select}};
-  \code{\link{slice}}; \code{\link{summarise}},
-  \code{\link{summarize}}
+  \code{\link{rename}}, \code{\link{select}},
+  \code{\link{select_}}; \code{\link{slice}};
+  \code{\link{summarise}}, \code{\link{summarize}}
 }
 

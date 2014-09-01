@@ -121,8 +121,9 @@ arrange.tbl_dt <- function(.data, ...) {
 
 #' @rdname manip_dt
 #' @export
-select.data.table <- function(.data, ...) {
-  vars <- select_vars_(names(.data), lazy::lazy_dots(...))
+select_.data.table <- function(.data, args) {
+  args <- lazy::as.lazy_dots(args, parent.frame())
+  vars <- select_vars_(names(.data), args)
 
   out <- .data[, vars, drop = FALSE, with = FALSE]
   setnames(out, names(vars))
@@ -140,9 +141,10 @@ rename.data.table <- function(.data, ...) {
 }
 
 #' @export
-select.tbl_dt <- function(.data, ...) {
+select_.tbl_dt <- function(.data, args) {
+  args <- lazy::as.lazy_dots(args, parent.frame())
   tbl_dt(
-    select.data.table(.data, ...)
+    select_.data.table(.data, args)
   )
 }
 

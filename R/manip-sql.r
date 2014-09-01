@@ -12,8 +12,9 @@ arrange.tbl_sql <- function(.data, ...) {
 }
 
 #' @export
-select.tbl_sql <- function(.data, ...) {
-  vars <- select_vars_(tbl_vars(.data), lazy::lazy_dots(...),
+select_.tbl_sql <- function(.data, args) {
+  args <- lazy::as.lazy_dots(args, parent.frame())
+  vars <- select_vars_(tbl_vars(.data), args,
     include = as.character(groups(.data)))
   # Index into variables so that select can be applied multiple times
   # and after a mutate.

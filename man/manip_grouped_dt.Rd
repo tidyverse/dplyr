@@ -5,7 +5,7 @@
 \alias{manip_grouped_dt}
 \alias{mutate.grouped_dt}
 \alias{rename.grouped_dt}
-\alias{select.grouped_dt}
+\alias{select_.grouped_dt}
 \alias{summarise.grouped_dt}
 \title{Data manipulation for grouped data tables.}
 \usage{
@@ -17,7 +17,7 @@
 
 \method{arrange}{grouped_dt}(.data, ...)
 
-\method{select}{grouped_dt}(.data, ...)
+\method{select_}{grouped_dt}(.data, args)
 
 \method{rename}{grouped_dt}(.data, ...)
 }

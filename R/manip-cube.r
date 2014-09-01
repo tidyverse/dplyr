@@ -1,6 +1,7 @@
 #' @export
-select.tbl_cube <- function(.data, ...) {
-  vars <- select_vars_(names(.data$mets), lazy::lazy_dots(...))
+select_.tbl_cube <- function(.data, args) {
+  args <- lazy::as.lazy_dots(args, parent.frame())
+  vars <- select_vars_(names(.data$mets), args)
   .data$mets <- .data$mets[vars]
   .data
 }

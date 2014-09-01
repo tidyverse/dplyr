@@ -26,7 +26,7 @@ slice(by_cyl, 1:2)
 Other single.table.verbs: \code{\link{arrange}};
   \code{\link{filter}}; \code{\link{mutate}},
   \code{\link{transmute}}; \code{\link{rename}},
-  \code{\link{select}}; \code{\link{summarise}},
-  \code{\link{summarize}}
+  \code{\link{select}}, \code{\link{select_}};
+  \code{\link{summarise}}, \code{\link{summarize}}
 }
 

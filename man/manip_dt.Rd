@@ -5,7 +5,7 @@
 \alias{manip_dt}
 \alias{mutate.data.table}
 \alias{rename.data.table}
-\alias{select.data.table}
+\alias{select_.data.table}
 \alias{summarise.data.table}
 \title{Data manipulation for data tables.}
 \usage{
@@ -17,7 +17,7 @@
 
 \method{arrange}{data.table}(.data, ...)
 
-\method{select}{data.table}(.data, ...)
+\method{select_}{data.table}(.data, args)
 
 \method{rename}{data.table}(.data, ...)
 }

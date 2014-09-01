@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `select()` gets SE equivalent, `select_()`. This allows you to construct
+  calls to `select()` easily inside functions.
+
 * `select_vars()` and `rename_vars()` have standard evaluation versions
   `select_vars_()` and `rename_vars_()`.
 
