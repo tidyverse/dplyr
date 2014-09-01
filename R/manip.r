@@ -189,6 +189,7 @@ select <- function(.data, ...) {
   select_(.data, lazy::lazy_dots(...))
 }
 
+#' @export
 #' @rdname select
 select_ <- function(.data, args) {
   UseMethod("select_")
