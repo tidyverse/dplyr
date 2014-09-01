@@ -63,9 +63,19 @@ head(flights)
 
 dplyr can work with data frames as is, but if you're dealing with large data, it's worthwhile to convert them to a `tbl_df`: this is a wrapper around a data frame that won't accidentally print a lot of data to the screen.
 
-## Basic verbs
+## Single table verbs
 
-dplyr provides five basic data manipulation verbs that work on a single table: `filter()`, `arrange()`, `select()`, `mutate()` and `summarise()`. If you've used plyr before, many of these will be familar.
+Dplyr aims to provide a function for each basic verb of data manipulating:
+
+* `filter()` (and `slice()`)
+* `arrange()`
+* `select()` (and `rename()`)
+* `distinct()`
+* `mutate()` (and `transmute()`)
+* `summarise()`
+* `sample_n()` and `sample_frac()`
+
+If you've used plyr before, many of these will be familar.
 
 ## Filter rows with `filter()`
 
@@ -87,6 +97,12 @@ flights[flights$month == 1 & flights$day == 1, ]
 
 ```{r, eval = FALSE}
 filter(flights, month == 1 | month == 2)
+```
+
+To select rows by position, use `slice()`:
+
+```{r}
+slice(flights, 1:10)
 ```
 
 ## Arrange rows with `arrange()`
@@ -125,6 +141,31 @@ select(flights, -(year:day))
 
 This function works similarly to the `select` argument to the `base::subset()`. It's its own function in dplyr, because the dplyr philosophy is to have small functions that each do one thing well.
 
+There are a number of helper functions you can use within `select()`, like `starts_with()`, `ends_with()`, `matches()` and `contains()`. Theese let you quickly match larger blocks of variable that meet some criterion. See `?select` for more details.
+
+You can rename variables with `select()` by using named arguments:
+
+```{r}
+select(flights, tail_num = tailnum)
+```
+
+But because `select()` drops all the variables not explicitly mentioned, it's not that use. Instead, use `rename()`:
+
+```{r}
+rename(flights, tail_num = tailnum)
+```
+
+## Extract distinct (unique) rows
+
+A common use of `select()` is to find out what values are set of variables takes. This is particularly useful in conjunction with the `distinct()` verb which only returns the unique values in a table.
+
+```{r}
+distinct(select(flights, tailnum))
+distinct(select(flights, origin, dest))
+```
+
+(This is very similar to `base::unique()` but should be much faster.)
+
 ## Add new columns with `mutate()`
 
 As well as selecting from the set of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
@@ -152,6 +193,15 @@ transform(flights,
 #> Error: object 'gain' not found
 ```
 
+If you only want to keep the new variables, use `transmute()`:
+
+```{r}
+transmute(flights,
+  gain = arr_delay - dep_delay,
+  gain_per_hour = gain / (air_time / 60)
+)
+```
+
 ## Summarise values with `summarise()`
 
 The last verb is `summarise()`, which collapses a data frame to a single row. It's not very useful yet:
@@ -162,6 +212,17 @@ summarise(flights,
 ```
 
 This is exactly equivalent to `plyr::summarise()`.
+
+## Randomly sample rows with `sample_n()` and `sample_frac()`
+
+You can use `sample_n()` and `sample_frac()` to take a random sample of rows, either a fixed number for `sample_n()` or a fixed fraction for `sample_frac()`.
+
+```{r}
+sample_n(flights, 10)
+sample_frac(flights, 0.01)
+```
+
+Use `replace = TRUE` to perform a bootstrap sample, and optionally weight the sample with the `weight` argument.
 
 ## Commonalities
 
@@ -182,7 +243,24 @@ These five functions provide the basis of a language of data manipulation. At th
 
 These verbs are useful, but they become really powerful when you combine them with the idea of "group by", repeating the operation individually on groups of observations within the dataset. In dplyr, you use the `group_by()` function to describe how to break a dataset down into groups of rows. You can then use the resulting object in exactly the same functions as above; they'll automatically work "by group" when the input is a grouped.
 
-Of the five verbs, `select()` is unaffected by grouping, and grouped `arrange()` orders first by grouping variables. Group-wise `mutate()` and `filter()` are most useful in conjunction with window functions, and are described in detail in the corresponding vignette(). `summarise()` is easy to understand and very useful, and is described in more detail below.
+The verbs are affected by grouping as follows:
+
+* grouped `select()` is the same ungrouped `select()`, excepted that retains 
+  grouping variables are always retained. 
+   
+* grouped `arrange()` orders first by grouping variables
+
+* `mutate()` and `filter()` are most useful in conjunction with window 
+  functions (like `rank()`, or `min(x) == x`), and are described in detail in 
+  `vignette("window-function")`.
+  
+* `sample_n()` and `sample_frac()` sample the specified number/fraction of
+  rows in each group.
+  
+* `slice()` extracts rows within each group.
+  
+* `summarise()` is easy to understand and very useful, and is described in 
+  more detail below.
 
 In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
