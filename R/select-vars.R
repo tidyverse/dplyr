@@ -64,14 +64,11 @@ select_vars_ <- function(vars, args, env = parent.frame(),
 
   args <- lazy::as.lazy_dots(args, env = env)
 
-  names_list <- setNames(as.list(seq_along(vars)), vars)
-  names_list[names(names_list) == ""] <- NULL
-  names_env <- list2env(names_list, parent = env)
-
   # No non-standard evaluation - but all names mapped to their position.
   # Keep integer semantics: include = +, exclude = -
-  # How to document starts_with, ends_with etc?
+  names_list <- setNames(as.list(seq_along(vars)), vars)
 
+  # How to document starts_with, ends_with etc?
   select_funs <- list(
     starts_with = function(match, ignore.case = TRUE) {
       stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
@@ -115,9 +112,8 @@ select_vars_ <- function(vars, args, env = parent.frame(),
       match(keep, vars)
     }
   )
-  select_env <- list2env(select_funs, names_env)
 
-  ind_list <- lazy::lazy_eval(args, select_env)
+  ind_list <- lazy::lazy_eval(args, c(names_list, select_funs))
   names(ind_list) <- names2(args)
 
   ind <- unlist(ind_list)
