@@ -17,7 +17,8 @@ Imports:
     R6,
     Rcpp,
     magrittr,
-    lazy
+    lazy,
+    DBI
 Suggests:
     RSQLite,
     RSQLite.extfuns,
