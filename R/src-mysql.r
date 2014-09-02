@@ -99,7 +99,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
 
   con <- DBI::dbConnect(MySQL(), dbname = dbname , host = host, port = port,
     username = user, password = password, ...)
-  info <- db_info(con)
+  info <- DBI::dbGetInfo(con)
 
   src_sql("mysql", con,
     info = info, disco = db_disconnector(con, "mysql"))

@@ -89,7 +89,7 @@ src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monet
 
   con <- DBI::dbConnect(MonetDB.R(), dbname = dbname , host = host, port = port,
     user = user, password = password, ...)
-  info <- db_info(con)
+  info <- DBI::dbGetInfo(con)
 
   src_sql("monetdb", con,
     info = info, disco = db_disconnector(con, "monetdb"))

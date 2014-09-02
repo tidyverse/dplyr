@@ -88,10 +88,10 @@
 #' }
 #' }
 src_sqlite <- function(path, create = FALSE) {
-  if (!requireNamespace("RSQLite", quietly = TRUE)) {
+  if (!require("RSQLite")) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
-  if (!requireNamespace("RSQLite.extfuns", quietly = TRUE)) {
+  if (!require("RSQLite.extfuns")) {
     stop("RSQLite.extfuns package required to effectively use sqlite db",
       call. = FALSE)
   }
@@ -103,7 +103,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- DBI::dbConnect(RSQLite::SQLite(), dbname = path)
   RSQLite.extfuns::init_extensions(con)
 
-  info <- db_info(con)
+  info <- DBI::dbGetInfo(con)
 
   src_sql("sqlite", con, path = path, info = info)
 }

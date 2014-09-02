@@ -31,7 +31,7 @@ Next, implement a method for `brief_desc()` that briefly describe the source:
 ```{r}
 #' @export
 brief_desc.src_postgres <- function(x) {
-  info <- db_info(x)
+  info <- DBI::dbGetInfo(con)
   host <- if (info$host == "") "localhost" else info$host
 
   paste0("postgres ", info$serverVersion, " [", info$user, "@",
@@ -39,7 +39,7 @@ brief_desc.src_postgres <- function(x) {
 }
 ```
 
-If you read the source code for the real `src_postgres()` you'll notice that it caches the `db_info()` field on creation, since this saves a little time when printing tbls.
+If you read the source code for the real `src_postgres()` you'll notice that it caches the `getGetInfo()` field on creation, since this saves a little time when printing tbls.
 
 Before continuing, check that you can create a connection to a local database. Don't worry if the object doesn't print correctly, you'll need to add a few other methods first.
 

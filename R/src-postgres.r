@@ -102,7 +102,7 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
   con <- DBI::dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
-  info <- db_info(con)
+  info <- DBI::dbGetInfo(con)
 
   src_sql("postgres", con,
     info = info, disco = db_disconnector(con, "postgres"))
