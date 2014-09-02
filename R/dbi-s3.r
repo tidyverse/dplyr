@@ -10,7 +10,6 @@
 # This also makes it possible to shim over bugs in packages until they're
 # fixed upstream.
 
-
 #' Database generics.
 #'
 #' These three generics are used to get information about the database.
@@ -20,6 +19,7 @@
 #' DBI compliant interfaces.
 #'
 #' @name dbi-database
+#' @param con A database connection.
 #' @keywords internal
 NULL
 
@@ -31,14 +31,14 @@ db_list_tables.DBIConnection <- function(con) DBI::dbListTables(con)
 
 #' @rdname dbi-database
 #' @export
+#' @param table A string, the table name.
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
-db_has_table.default <- function(con, table) {
-  table %in% db_list_tables(con)
-}
+db_has_table.DBIConnection <- function(con, table) DBI::dbExistsTable(con, table)
 
 #' @rdname dbi-database
 #' @export
+#' @param fields A list of fields, as in a data frame.
 db_data_type <- function(con, fields) UseMethod("db_data_type")
 #' @export
 db_data_type.DBIConnection <- function(con, fields) {

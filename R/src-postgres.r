@@ -143,6 +143,12 @@ translate_env.src_postgres <- function(x) {
 
 # DBI methods ------------------------------------------------------------------
 
+# Doesn't return TRUE for temporary tables
+#' @export
+db_has_table.PostgreSQLConnection <- function(con, table) {
+  table %in% db_list_tables(con)
+}
+
 #' @export
 table_fields.PostgreSQLConnection <- function(con, table) {
   qry_fields.DBIConnection(con, table)

@@ -140,6 +140,7 @@ db_has_table.MySQLConnection <- function(con, table) {
   # skip any local checks and rely on the database to throw informative errors
   NA
 }
+
 #' @export
 db_data_type.MySQLConnection <- function(con, fields) {
   char_type <- function(x) {

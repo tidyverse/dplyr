@@ -131,6 +131,7 @@ translate_env.src_sqlite <- function(x) {
 
 # DBI methods ------------------------------------------------------------------
 
+# Doesn't include temporary tables
 #' @export
 db_list_tables.SQLiteConnection <- function(con) {
   sql <- "SELECT name FROM
@@ -139,6 +140,12 @@ db_list_tables.SQLiteConnection <- function(con) {
     WHERE type = 'table' OR type = 'view'
     ORDER BY name"
   qry_fetch(con, sql)[[1]]
+}
+
+# Doesn't return TRUE for temporary tables
+#' @export
+db_has_table.SQLiteConnection <- function(con, table) {
+  table %in% db_list_tables(con)
 }
 
 #' @export

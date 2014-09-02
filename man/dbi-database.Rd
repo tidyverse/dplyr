@@ -12,6 +12,13 @@ db_has_table(con, table)
 
 db_data_type(con, fields)
 }
+\arguments{
+\item{con}{A database connection.}
+
+\item{table}{A string, the table name.}
+
+\item{fields}{A list of fields, as in a data frame.}
+}
 \description{
 These three generics are used to get information about the database.
 dplyr provides default methods for DBIConnection which call the DBI
