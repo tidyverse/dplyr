@@ -120,6 +120,8 @@ translate_env.src_monetdb <- function(x) {
   )
 }
 
+# DBI methods ------------------------------------------------------------------
+
 #' @export
 sql_begin_trans.MonetDBConnection <- function(con) {
   qry_run(con, "START TRANSACTION")

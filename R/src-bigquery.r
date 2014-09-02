@@ -177,3 +177,37 @@ win_bq <- function(f) {
 
 globalVariables(c("insert_upload_job", "wait_for", "list_tables",
   "insert_upload_job", "query_exec", "get_table"))
+
+# DBI methods ------------------------------------------------------------------
+
+#' @export
+db_list_tables.bigquery <- function(con) {
+  list_tables(con$project, con$dataset)
+}
+
+#' @export
+table_fields.bigquery <- function(con, table) {
+  info <- get_table(con$project, con$dataset, table)
+  vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
+}
+
+#' @export
+qry_fetch.bigquery <- function(con, sql, n = -1L,
+  show = getOption("dplyr.show_sql"),
+  explain = getOption("dplyr.explain_sql")) {
+
+  if (show) message(sql)
+
+  if (identical(n, -1L)) {
+    max_pages <- Inf
+  } else {
+    max_pages <- ceiling(n / 1e4)
+  }
+
+  query_exec(con$project, con$dataset, sql, max_pages = max_pages,
+    page_size = 1e4)
+}
+
+
+#' @export
+sql_select.bigquery <- sql_select.DBIConnection

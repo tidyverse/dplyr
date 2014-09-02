@@ -131,3 +131,90 @@ translate_env.src_mysql <- function(x) {
     )
   )
 }
+
+# DBI methods ------------------------------------------------------------------
+
+#' @export
+db_has_table.MySQLConnection <- function(con, table) {
+  # MySQL has no way to list temporary tables, so we always NA to
+  # skip any local checks and rely on the database to throw informative errors
+  NA
+}
+#' @export
+db_data_type.MySQLConnection <- function(con, fields) {
+  char_type <- function(x) {
+    n <- max(nchar(as.character(x), "bytes"))
+    if (n <= 65535) {
+      paste0("varchar(", n, ")")
+    } else {
+      "mediumtext"
+    }
+  }
+
+  data_type <- function(x) {
+    switch(class(x)[1],
+      logical = "boolean",
+      integer = "integer",
+      numeric = "double",
+      factor =  char_type(x),
+      character = char_type(x),
+      Date =    "date",
+      POSIXct = "datetime",
+      stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
+    )
+  }
+  vapply(fields, data_type, character(1))
+}
+
+#' @export
+sql_begin_trans.MySQLConnection <- function(con) {
+  qry_run(con, "START TRANSACTION")
+}
+
+#' @export
+sql_commit.MySQLConnection <- function(con) {
+  qry_run(con, "COMMIT")
+}
+
+#' @export
+sql_insert_into.MySQLConnection <- function(con, table, values) {
+
+  # Convert factors to strings
+  is_factor <- vapply(values, is.factor, logical(1))
+  values[is_factor] <- lapply(values[is_factor], as.character)
+
+  # Encode special characters in strings
+  is_char <- vapply(values, is.character, logical(1))
+  values[is_char] <- lapply(values[is_char], encodeString)
+
+  tmp <- tempfile(fileext = ".csv")
+  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
+    row.names = FALSE, col.names = FALSE)
+
+  sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
+    ident(table), con = con)
+  qry_run(con, sql)
+
+  invisible()
+}
+
+
+#' @export
+sql_create_indexes.MySQLConnection <- function(con, table, indexes = NULL, ...) {
+  sql_add_index <- function(columns) {
+    name <- paste0(c(table, columns), collapse = "_")
+    fields <- escape(ident(columns), parens = TRUE, con = con)
+    build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
+  }
+  add_index <- sql(vapply(indexes, sql_add_index, character(1)))
+  sql <- build_sql("ALTER TABLE ", ident(table), "\n",
+    escape(add_index, collapse = ",\n"), con = con)
+  qry_run(con, sql)
+}
+
+
+#' @export
+sql_analyze.MySQLConnection <- function(con, table) {
+  sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
+  qry_run(con, sql)
+}

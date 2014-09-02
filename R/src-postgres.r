@@ -140,3 +140,35 @@ translate_env.src_postgres <- function(x) {
     base_win
   )
 }
+
+# DBI methods ------------------------------------------------------------------
+
+#' @export
+table_fields.PostgreSQLConnection <- function(con, table) {
+  qry_fields.DBIConnection(con, table)
+}
+
+# http://www.postgresql.org/docs/9.3/static/sql-explain.html
+#' @export
+qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
+  format <- match.arg(format, c("text", "json", "yaml", "xml"))
+
+  exsql <- build_sql("EXPLAIN ",
+    if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "),
+    sql)
+  expl <- suppressWarnings(qry_fetch(con, exsql, show = FALSE, explain = FALSE))
+
+  paste(expl[[1]], collapse = "\n")
+}
+
+#' @export
+sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
+
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
+
+  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
+  qry_run(con, sql)
+}

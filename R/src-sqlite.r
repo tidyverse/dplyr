@@ -126,3 +126,49 @@ translate_env.src_sqlite <- function(x) {
     )
   )
 }
+
+# DBI methods ------------------------------------------------------------------
+
+#' @export
+dbi_connect.SQLiteDriver <- function(driver, ...) {
+  con <- dbConnect(driver, ...)
+  RSQLite.extfuns::init_extensions(con)
+  con
+}
+
+#' @export
+db_list_tables.SQLiteConnection <- function(con) {
+  sql <- "SELECT name FROM
+    (SELECT * FROM sqlite_master UNION ALL
+     SELECT * FROM sqlite_temp_master)
+    WHERE type = 'table' OR type = 'view'
+    ORDER BY name"
+  qry_fetch(con, sql)[[1]]
+}
+
+#' @export
+qry_fields.SQLiteConnection <- function(con, from) {
+  names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
+}
+
+# http://sqlite.org/lang_explain.html
+#' @export
+qry_explain.SQLiteConnection <- function(con, sql, ...) {
+  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
+  expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
+  rownames(expl) <- NULL
+  out <- capture.output(print(expl))
+
+  paste(out, collapse = "\n")
+}
+
+#' @export
+sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
+
+#' @export
+sql_insert_into.SQLiteConnection <- function(con, table, values) {
+  params <- paste(rep("?", ncol(values)), collapse = ", ")
+
+  sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
+  qry_run(con, sql, data = values)
+}
