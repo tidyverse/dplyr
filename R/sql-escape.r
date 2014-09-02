@@ -230,10 +230,6 @@ escape_string <- function(con, x) UseMethod("escape_string")
 escape_string.default <- function(con, x) {
   sql_quote(x, "'")
 }
-#' @export
-escape_string.bigquery <- function(con, x) {
-  encodeString(x, na.encode = FALSE, quote = '"')
-}
 
 escape_ident <- function(con, x) UseMethod("escape_ident")
 
@@ -244,14 +240,6 @@ escape_ident.default <- function(con, x) {
 #' @export
 escape_ident.MySQLConnection <- function(con, x) {
   sql_quote(x, "`")
-}
-#' @export
-escape_ident.bigquery <- function(con, x) {
-  y <- paste0("[", x, "]")
-  y[is.na(x)] <- "NULL"
-  names(y) <- names(x)
-
-  y
 }
 
 sql_quote <- function(x, quote) {

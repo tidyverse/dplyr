@@ -25,7 +25,6 @@ Suggests:
     MonetDB.R,
     RPostgreSQL,
     data.table,
-    bigrquery,
     testthat,
     knitr,
     microbenchmark,
@@ -88,7 +87,6 @@ Collate:
     'partial-eval.r'
     'progress.R'
     'query.r'
-    'query-bq.r'
     'rank.R'
     'rbind.r'
     'rowwise.r'
@@ -97,7 +95,6 @@ Collate:
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
-    'src-bigquery.r'
     'src-local.r'
     'src-monetdb.r'
     'src-mysql.r'

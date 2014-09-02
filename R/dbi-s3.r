@@ -15,7 +15,7 @@
 
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
-db_list_tables.DBIConnection <- function(con) dbListTables(con)
+db_list_tables.DBIConnection <- function(con) DBI::dbListTables(con)
 
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
@@ -27,7 +27,7 @@ db_data_type <- function(con, fields) UseMethod("db_data_type")
 
 #' @export
 db_data_type.DBIConnection <- function(con, fields) {
-  vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
+  vapply(fields, DBI::dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
 # Query details ----------------------------------------------------------------

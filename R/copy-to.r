@@ -70,15 +70,6 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   tbl(dest, name)
 }
 
-#' @export
-copy_to.src_bigquery <- function(dest, df, name = deparse(substitute(df)), ...) {
-  job <- insert_upload_job(dest$con$project, dest$con$dataset, name, df,
-    billing = dest$con$billing)
-  wait_for(job)
-
-  tbl(dest, name)
-}
-
 auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)
 

@@ -2,7 +2,6 @@
 \name{lahman}
 \alias{has_lahman}
 \alias{lahman}
-\alias{lahman_bigquery}
 \alias{lahman_df}
 \alias{lahman_dt}
 \alias{lahman_monetdb}
@@ -24,20 +23,15 @@ lahman_df()
 
 lahman_dt()
 
-lahman_bigquery(...)
-
 has_lahman(type, ...)
 
 lahman_srcs(..., quiet = NULL)
 }
 \arguments{
 \item{...}{Arguments passed to \code{src} on first
-  load. For mysql and postgresql, the defaults assume you have a local
-  server with \code{lahman} database already created. For bigquery,
-  it assumes you have read/write access to a project called
-  \code{Sys.getenv("BIGQUERY_PROJECT")}
-
-  For \code{lahman_srcs}, character vector of names giving srcs to generate.}
+load. For mysql and postgresql, the defaults assume you have a local
+server with \code{lahman} database already created.
+For \code{lahman_srcs}, character vector of names giving srcs to generate.}
 
 \item{type}{src type.}
 
