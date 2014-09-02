@@ -52,11 +52,7 @@ update.tbl_sql <- function(object, ...) {
 
   # Figure out variables
   if (is.null(object$select)) {
-    if (is.ident(object$from)) {
-      var_names <- table_fields(object$src$con, object$from)
-    } else {
-      var_names <- qry_fields(object$src$con, object$from)
-    }
+    var_names <- qry_fields(object$src$con, object$from)
     vars <- lapply(var_names, as.name)
     object$select <- vars
   }

@@ -58,10 +58,6 @@ qry_fields.DBIConnection <- function(con, from) {
   DBI::dbGetInfo(qry)$fieldDescription[[1]]$name
 }
 
-table_fields <- function(con, table) UseMethod("table_fields")
-#' @export
-table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
-
 # Run a query, abandoning results
 qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
                     show = getOption("dplyr.show_sql"),

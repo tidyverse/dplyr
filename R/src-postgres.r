@@ -149,11 +149,6 @@ db_has_table.PostgreSQLConnection <- function(con, table) {
   table %in% db_list_tables(con)
 }
 
-#' @export
-table_fields.PostgreSQLConnection <- function(con, table) {
-  qry_fields.DBIConnection(con, table)
-}
-
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
 #' @export
 qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {

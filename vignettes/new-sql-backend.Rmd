@@ -69,7 +69,6 @@ tbl.src_mssql <- function(src, from, ...) {
 Next implement the query related methods in `dbi-s3.r`:
 
 * `qry_fields()`
-* `table_fields()`
 * `qry_fetch()`
 * `qry_explain()`
 
