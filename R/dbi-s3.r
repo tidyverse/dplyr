@@ -11,20 +11,35 @@
 # fixed upstream.
 
 
-# Database details -------------------------------------------------------------
+#' Database generics.
+#'
+#' These three generics are used to get information about the database.
+#' dplyr provides default methods for DBIConnection which call the DBI
+#' equivalents, \code{dbListTables}, \code{dbExistsTable} and \code{dbDataType}.
+#' It should be rarely necessary to provide more specific methods for
+#' DBI compliant interfaces.
+#'
+#' @name dbi-database
+#' @keywords internal
+NULL
 
+#' @rdname dbi-database
+#' @export
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
 db_list_tables.DBIConnection <- function(con) DBI::dbListTables(con)
 
+#' @rdname dbi-database
+#' @export
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
 db_has_table.default <- function(con, table) {
   table %in% db_list_tables(con)
 }
 
+#' @rdname dbi-database
+#' @export
 db_data_type <- function(con, fields) UseMethod("db_data_type")
-
 #' @export
 db_data_type.DBIConnection <- function(con, fields) {
   vapply(fields, DBI::dbDataType, dbObj = con, FUN.VALUE = character(1))
