@@ -10,16 +10,8 @@
 # This also makes it possible to shim over bugs in packages until they're
 # fixed upstream.
 
-dbi_connect <- function(driver, ...) UseMethod("dbi_connect")
-
-#' @export
-dbi_connect.DBIDriver <- function(driver, ...) {
-  dbConnect(driver, ...)
-}
 
 # Database details -------------------------------------------------------------
-
-db_info <- function(con) dbGetInfo(con)
 
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
@@ -48,7 +40,7 @@ qry_fields.DBIConnection <- function(con, from) {
   qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
   on.exit(dbClearResult(qry))
 
-  dbGetInfo(qry)$fieldDescription[[1]]$name
+  DBI::dbGetInfo(qry)$fieldDescription[[1]]$name
 }
 
 table_fields <- function(con, table) UseMethod("table_fields")

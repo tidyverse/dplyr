@@ -100,7 +100,7 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
   user <- user %||% if (in_travis()) "postgres" else ""
 
-  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
+  con <- DBI::dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
   info <- db_info(con)
 

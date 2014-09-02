@@ -87,7 +87,7 @@ src_monetdb <- function(dbname, host = "localhost", port = 50000L, user = "monet
     stop("MonetDB.R package required to connect to MonetDB", call. = FALSE)
   }
 
-  con <- dbi_connect(MonetDB.R(), dbname = dbname , host = host, port = port,
+  con <- DBI::dbConnect(MonetDB.R(), dbname = dbname , host = host, port = port,
     user = user, password = password, ...)
   info <- db_info(con)
 

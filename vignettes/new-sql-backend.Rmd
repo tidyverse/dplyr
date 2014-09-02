@@ -17,7 +17,7 @@ Start by creating a new src function to represent the backend. Assuming we're go
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
                          password = NULL, ...) {
 
-  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
+  con <- DBI::dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
 
   src_sql("postgres", con)

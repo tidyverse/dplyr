@@ -88,10 +88,10 @@
 #' }
 #' }
 src_sqlite <- function(path, create = FALSE) {
-  if (!require("RSQLite")) {
+  if (!requireNamespace("RSQLite", quietly = TRUE)) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
   }
-  if (!require("RSQLite.extfuns")) {
+  if (!requireNamespace("RSQLite.extfuns", quietly = TRUE)) {
     stop("RSQLite.extfuns package required to effectively use sqlite db",
       call. = FALSE)
   }
@@ -100,7 +100,9 @@ src_sqlite <- function(path, create = FALSE) {
     stop("Path does not exist and create = FALSE", call. = FALSE)
   }
 
-  con <- dbi_connect(SQLite(), dbname = path)
+  con <- DBI::dbConnect(RSQLite::SQLite(), dbname = path)
+  RSQLite.extfuns::init_extensions(con)
+
   info <- db_info(con)
 
   src_sql("sqlite", con, path = path, info = info)
@@ -128,13 +130,6 @@ translate_env.src_sqlite <- function(x) {
 }
 
 # DBI methods ------------------------------------------------------------------
-
-#' @export
-dbi_connect.SQLiteDriver <- function(driver, ...) {
-  con <- dbConnect(driver, ...)
-  RSQLite.extfuns::init_extensions(con)
-  con
-}
 
 #' @export
 db_list_tables.SQLiteConnection <- function(con) {
