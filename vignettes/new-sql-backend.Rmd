@@ -81,7 +81,7 @@ Before continuing, make sure you can connect to an existing table, and get a rea
 If you the database is not ANSI SQL compliant, you'll need to provide
 methods for the sql level methods in `dbi-s3.r`:
 
-* `sql_begin_trans()`
+* `sql_begin()`
 * `sql_commit()`
 * `sql_insert_into()`
 * `sql_create_indexes()`

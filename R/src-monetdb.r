@@ -123,8 +123,8 @@ translate_env.src_monetdb <- function(x) {
 # DBI methods ------------------------------------------------------------------
 
 #' @export
-sql_begin_trans.MonetDBConnection <- function(con) {
-  qry_run(con, "START TRANSACTION")
+sql_begin.MonetDBConnection <- function(con) {
+  dbGetQuery(con, "START TRANSACTION")
 }
 
 #' @export
@@ -143,7 +143,7 @@ sql_insert_into.MonetDBConnection <- function(con, table, values) {
 
   sql <- build_sql("COPY ",sql(nrow(values))," RECORDS INTO ", ident(table),
     " FROM ", tmp, " USING DELIMITERS ',','\\n','\"' NULL AS ''", con = con)
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 
   invisible()
 }
@@ -179,7 +179,7 @@ MonetDBQuery <- R6::R6Class("MonetDBQuery",
     save_into = function(name = random_table_name()) {
       tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ",
                           self$sql," WITH DATA", con = self$con)
-      qry_run(self$con, tt_sql)
+      dbGetQuery(self$con, tt_sql)
       name
     },
 

@@ -58,29 +58,12 @@ qry_fields.DBIConnection <- function(con, from) {
   DBI::dbGetInfo(qry)$fieldDescription[[1]]$name
 }
 
-# Run a query, abandoning results
-qry_run <- function(con, sql, data = NULL, in_transaction = FALSE) {
-  if (in_transaction) {
-    dbBeginTransaction(con)
-    on.exit(dbCommit(con))
-  }
-
-  if (is.null(data)) {
-    res <- dbSendQuery(con, sql)
-  } else {
-    res <- dbSendPreparedQuery(con, sql, bind.data = data)
-  }
-  dbClearResult(res)
-
-  invisible(NULL)
-}
-
 # SQL queries ------------------------------------------------------------------
 
-sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
+sql_begin <- function(con) UseMethod("sql_begin")
 #' @export
-sql_begin_trans.DBIConnection <- function(con) {
-  qry_run(con, "BEGIN TRANSACTION")
+sql_begin.DBIConnection <- function(con) {
+  dbGetQuery(con, "BEGIN TRANSACTION")
 }
 
 sql_commit <- function(con) UseMethod("sql_commit")
@@ -98,7 +81,7 @@ sql_create_table <- function(con, table, types, temporary = FALSE) {
   sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
     "TABLE ", ident(table), " ", fields, con = con)
 
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
 sql_insert_into <- function(con, table, values) {
@@ -128,13 +111,13 @@ sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
   sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name),
     " ON ", ident(table), " ", fields, con = con)
 
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
 sql_drop_table <- function(con, table, force = FALSE) {
   sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con)
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
 sql_analyze <- function(con, table) UseMethod("sql_analyze")
@@ -142,7 +125,7 @@ sql_analyze <- function(con, table) UseMethod("sql_analyze")
 #' @export
 sql_analyze.DBIConnection <- function(con, table) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
 sql_select <- function(con, ...) {

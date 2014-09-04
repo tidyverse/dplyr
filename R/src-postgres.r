@@ -171,5 +171,5 @@ sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
   values <- paste0("(", rows, ")", collapse = "\n, ")
 
   sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }

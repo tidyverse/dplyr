@@ -169,12 +169,16 @@ sql_explain.SQLiteConnection <- function(con, sql, ...) {
 }
 
 #' @export
-sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
+sql_begin.SQLiteConnection <- function(con) dbBeginTransaction(con)
 
 #' @export
 sql_insert_into.SQLiteConnection <- function(con, table, values) {
   params <- paste(rep("?", ncol(values)), collapse = ", ")
 
   sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
-  qry_run(con, sql, data = values)
+
+  res <- dbSendPreparedQuery(con, sql, bind.data = values)
+  dbClearResult(res)
+
+  TRUE
 }

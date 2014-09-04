@@ -37,12 +37,6 @@ Query <- R6::R6Class("Query",
       print(self$con)
     },
 
-    # Currently, RSQLite supports only a single result set per connection
-    # making holding on pointless, because it blocks the entire connection.
-    run = function(data = NULL, in_transaction = FALSE) {
-      qry_run(self$con, self$sql, data = data, in_transaction = in_transaction)
-    },
-
     fetch = function(n = -1L) {
       res <- dbSendQuery(self$con, self$sql)
       on.exit(dbClearResult(res))
@@ -68,7 +62,7 @@ Query <- R6::R6Class("Query",
       tt_sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
                           "TABLE ", ident(name), " AS ", self$sql,
                           con = self$con)
-      qry_run(self$con, tt_sql)
+      dbGetQuery(self$con, tt_sql)
       name
     },
 

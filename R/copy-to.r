@@ -60,12 +60,16 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   names(types) <- names(df)
 
   con <- dest$con
-  sql_begin_trans(con)
+  sql_begin(con)
+  on.exit(sql_rollback(con))
+
   sql_create_table(con, name, types, temporary = temporary)
   sql_insert_into(con, name, df)
   sql_create_indexes(con, name, indexes)
   if (analyze) sql_analyze(con, name)
+
   sql_commit(con)
+  on.exit(NULL)
 
   tbl(dest, name)
 }
