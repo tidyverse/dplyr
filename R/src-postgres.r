@@ -151,7 +151,7 @@ db_has_table.PostgreSQLConnection <- function(con, table) {
 
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
 #' @export
-qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
+sql_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   format <- match.arg(format, c("text", "json", "yaml", "xml"))
 
   exsql <- build_sql("EXPLAIN ",

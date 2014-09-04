@@ -7,6 +7,7 @@
 #' @keywords internal
 #' @param con a \code{DBOConnection}
 #' @param sql a string containing an sql query.
+#' @export
 query <- function(con, sql, .vars) UseMethod("query")
 
 #' @export

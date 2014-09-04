@@ -75,10 +75,6 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE) {
   invisible(NULL)
 }
 
-qry_explain <- function(con, sql, ...) {
-  UseMethod("qry_explain")
-}
-
 # SQL queries ------------------------------------------------------------------
 
 sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
@@ -108,9 +104,6 @@ sql_create_table <- function(con, table, types, temporary = FALSE) {
 sql_insert_into <- function(con, table, values) {
   UseMethod("sql_insert_into")
 }
-
-
-
 
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
   UseMethod("sql_create_indexes")
@@ -206,6 +199,10 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by =
   }
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
+}
+
+sql_explain <- function(con, sql, ...) {
+  UseMethod("sql_explain")
 }
 
 # Utility functions ------------------------------------------------------------

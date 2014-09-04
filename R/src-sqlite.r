@@ -159,7 +159,7 @@ qry_fields.SQLiteConnection <- function(con, from) {
 
 # http://sqlite.org/lang_explain.html
 #' @export
-qry_explain.SQLiteConnection <- function(con, sql, ...) {
+sql_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
   expl <- dbGetQuery(con, exsql)
   rownames(expl) <- NULL
