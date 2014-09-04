@@ -52,7 +52,8 @@ qry_fields <- function(con, from) {
 }
 #' @export
 qry_fields.DBIConnection <- function(con, from) {
-  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
+  sql <- build_sql("SELECT * FROM ", from, " WHERE 0=1", con = con)
+  qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
 
   DBI::dbGetInfo(qry)$fieldDescription[[1]]$name
@@ -63,7 +64,7 @@ qry_fields.DBIConnection <- function(con, from) {
 #' SQL generics.
 #'
 #' These generics are used to run various types of SQL queries.
-#' Default methods are provides for \code{DBIConnection}, but variations in
+#' Default methods are provides for \code{DBIConnectdion}, but variations in
 #' SQL across databases means that it's likely that each backend will require
 #' a few variations of these.
 #'
@@ -125,13 +126,7 @@ sql_insert_into <- function(con, table, values, ...) {
   UseMethod("sql_insert_into")
 }
 
-#' @rdname dbi-sql
-#' @export
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
-  UseMethod("sql_create_indexes")
-}
-#' @export
-sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
@@ -140,14 +135,22 @@ sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   }
 }
 
-sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
+
+#' @rdname dbi-sql
+#' @export
+sql_create_index <- function(con, table, columns, name = NULL, ...) {
+  UseMethod("sql_create_index")
+}
+
+#' @export
+sql_create_index.DBIConnection <- function(con, table, columns, name = NULL,
+                                           ...) {
   assert_that(is.string(table), is.character(columns))
 
   name <- name %||% paste0(c(table, columns), collapse = "_")
-
   fields <- escape(ident(columns), parens = TRUE, con = con)
-  sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name),
-    " ON ", ident(table), " ", fields, con = con)
+  sql <- build_sql("CREATE INDEX ", ident(name), " ON ", ident(table), " ", fields,
+    con = con)
 
   dbGetQuery(con, sql)
 }

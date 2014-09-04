@@ -4,7 +4,7 @@
 \alias{sql_analyze}
 \alias{sql_begin}
 \alias{sql_commit}
-\alias{sql_create_indexes}
+\alias{sql_create_index}
 \alias{sql_create_table}
 \alias{sql_drop_table}
 \alias{sql_explain}
@@ -23,7 +23,7 @@ sql_create_table(con, table, types, temporary = FALSE, ...)
 
 sql_insert_into(con, table, values, ...)
 
-sql_create_indexes(con, table, indexes = NULL, ...)
+sql_create_index(con, table, columns, name = NULL, ...)
 
 sql_drop_table(con, table, force = FALSE, ...)
 
@@ -39,7 +39,7 @@ sql_explain(con, sql, ...)
 }
 \description{
 These generics are used to run various types of SQL queries.
-Default methods are provides for \code{DBIConnection}, but variations in
+Default methods are provides for \code{DBIConnectdion}, but variations in
 SQL across databases means that it's likely that each backend will require
 a few variations of these.
 }

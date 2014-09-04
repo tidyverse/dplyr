@@ -201,18 +201,15 @@ sql_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
 
 #' @export
-sql_create_indexes.MySQLConnection <- function(con, table, indexes = NULL, ...) {
-  sql_add_index <- function(columns) {
-    name <- paste0(c(table, columns), collapse = "_")
-    fields <- escape(ident(columns), parens = TRUE, con = con)
-    build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
-  }
-  add_index <- sql(vapply(indexes, sql_add_index, character(1)))
-  sql <- build_sql("ALTER TABLE ", ident(table), "\n",
-    escape(add_index, collapse = ",\n"), con = con)
+sql_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
+                                             ...) {
+  name <- name %||% paste0(c(table, columns), collapse = "_")
+  fields <- escape(ident(columns), parens = TRUE, con = con)
+  index <- build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
+
+  sql <- build_sql("ALTER TABLE ", ident(table), "\n", index, con = con)
   dbGetQuery(con, sql)
 }
-
 
 #' @export
 sql_analyze.MySQLConnection <- function(con, table, ...) {

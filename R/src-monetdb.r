@@ -155,7 +155,8 @@ sql_analyze.MonetDBConnection <- function(con, table, ...) {
 }
 
 #' @export
-sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...) {
+sql_create_index.MonetDBConnection <- function(con, table, columns, name = NULL,
+                                               ...) {
   # MonetDB does not benefit from indices
   invisible(TRUE)
 }
