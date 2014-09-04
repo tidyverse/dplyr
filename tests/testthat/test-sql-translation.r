@@ -6,7 +6,7 @@ expect_same_in_sql <- function(expr) {
   expr <- substitute(expr)
 
   sql <- translate_sql_q(list(expr))
-  actual <- qry_fetch(test$con, paste0("SELECT ", sql))[[1]]
+  actual <- dbGetQuery(test$con, paste0("SELECT ", sql))[[1]]
 
   exp <- eval(expr, parent.frame())
 

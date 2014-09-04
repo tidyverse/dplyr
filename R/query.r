@@ -43,11 +43,24 @@ Query <- R6::R6Class("Query",
     },
 
     fetch = function(n = -1L) {
-      qry_fetch(self$con, self$sql, n = n)
+      res <- dbSendQuery(self$con, self$sql)
+      on.exit(dbClearResult(res))
+
+      out <- fetch(res, n)
+      res_warn_incomplete(res)
+      out
     },
 
     fetch_paged = function(chunk_size = 1e4, callback) {
-      qry_fetch_paged(self$con, self$sql, chunk_size, callback)
+      qry <- dbSendQuery(self$con, self$sql)
+      on.exit(dbClearResult(qry))
+
+      while (!dbHasCompleted(qry)) {
+        chunk <- fetch(qry, chunk_size)
+        callback(chunk)
+      }
+
+      invisible(TRUE)
     },
 
     save_into = function(name = random_table_name(), temporary = TRUE) {
@@ -74,7 +87,7 @@ Query <- R6::R6Class("Query",
       if (!is.null(private$.nrow)) return(private$.nrow)
 
       rows <- build_sql("SELECT count(*) FROM ", self$from(), con = self$con)
-      private$.nrow <- as.integer(qry_fetch(self$con, rows)[[1]])
+      private$.nrow <- as.integer(dbGetQuery(self$con, rows)[[1]])
       private$.nrow
     },
 

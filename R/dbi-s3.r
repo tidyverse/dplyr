@@ -75,33 +75,6 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE) {
   invisible(NULL)
 }
 
-# Run a query, fetching n results
-qry_fetch <- function(con, sql, n = -1L) {
-  UseMethod("qry_fetch")
-}
-
-#' @export
-qry_fetch.DBIConnection <- function(con, sql, n = -1L) {
-  res <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(res))
-
-  out <- fetch(res, n)
-  res_warn_incomplete(res)
-  out
-}
-
-qry_fetch_paged <- function(con, sql, chunk_size, callback) {
-  qry <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(qry))
-
-  while (!dbHasCompleted(qry)) {
-    chunk <- fetch(qry, chunk_size)
-    callback(chunk)
-  }
-
-  invisible(TRUE)
-}
-
 qry_explain <- function(con, sql, ...) {
   UseMethod("qry_explain")
 }

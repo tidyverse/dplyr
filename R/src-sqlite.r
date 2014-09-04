@@ -139,7 +139,8 @@ db_list_tables.SQLiteConnection <- function(con) {
      SELECT * FROM sqlite_temp_master)
     WHERE type = 'table' OR type = 'view'
     ORDER BY name"
-  qry_fetch(con, sql)[[1]]
+
+  dbGetQuery(con, sql)[[1]]
 }
 
 # Doesn't return TRUE for temporary tables
@@ -150,14 +151,17 @@ db_has_table.SQLiteConnection <- function(con, table) {
 
 #' @export
 qry_fields.SQLiteConnection <- function(con, from) {
-  names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
+  rs <- dbSendQuery(con, paste0("SELECT * FROM ", from))
+  on.exit(dbClearResult(rs))
+
+  names(fetch(rs, 0L))
 }
 
 # http://sqlite.org/lang_explain.html
 #' @export
 qry_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-  expl <- qry_fetch(con, exsql)
+  expl <- dbGetQuery(con, exsql)
   rownames(expl) <- NULL
   out <- capture.output(print(expl))
 
