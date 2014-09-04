@@ -125,3 +125,17 @@ substitute_q <- function(x, env) {
   eval(call)
 }
 
+#' @useDynLib dplyr setattr_
+setattr <- function(object, attr, value) {
+  .Call(setattr_, object, as.name(attr), value)
+}
+
+#' @useDynLib dplyr set_string_elt_
+set_string_elt <- function(vector, index, value) {
+  .Call(set_string_elt_, vector, as.integer(index) - 1L, value)
+}
+
+#' @useDynLib dplyr set_vector_elt_
+set_vector_elt <- function(vector, index, value) {
+  .Call(set_vector_elt_, vector, as.integer(index) - 1L, value)
+}
