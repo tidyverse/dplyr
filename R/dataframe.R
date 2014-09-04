@@ -56,8 +56,8 @@ data_frame_ <- function(columns) {
   while (i <= n) {
 
     # Fill by reference
-    set_vector_elt(output, i, lazy::lazy_eval(columns[[i]], output))
-    set_string_elt(output_nm, i, col_names[[i]])
+    output[[i]] <-  lazy::lazy_eval(columns[[i]], output)
+    names(output)[i] <- col_names[[i]]
 
     # Update
     i <- i + 1L
@@ -77,8 +77,8 @@ data_frame_ <- function(columns) {
   }
 
   # Set attributes
-  setattr(output, "row.names", c(NA_integer_, -lengths[[1]]))
-  setattr(output, "class", c("tbl_df", "tbl", "data.frame"))
+  attr(output, "row.names") <- c(NA_integer_, -lengths[[1]])
+  attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
 
   output
 }
