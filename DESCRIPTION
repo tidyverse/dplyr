@@ -55,6 +55,7 @@ Collate:
     'data-nycflights13.r'
     'data-temp.r'
     'data.r'
+    'dataframe.R'
     'dbi-s3.r'
     'desc.r'
     'distinct.R'

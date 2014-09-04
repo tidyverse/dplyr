@@ -124,3 +124,15 @@ substitute_q <- function(x, env) {
   call <- substitute(substitute(x, env), list(x = x))
   eval(call)
 }
+
+setattr <- function(object, attr, value) {
+  .Call("setattr", object, as.name(attr), value, PACKAGE = "dplyr")
+}
+
+set_string_elt <- function(vector, index, value) {
+  .Call("set_string_elt", vector, as.integer(index) - 1L, value, PACKAGE = "dplyr")
+}
+
+set_vector_elt <- function(vector, index, value) {
+  .Call("set_vector_elt", vector, as.integer(index) - 1L, value, PACKAGE = "dplyr")
+}
