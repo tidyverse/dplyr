@@ -1,5 +1,10 @@
 # dplyr 0.2.0.99
 
+* `data_frame()` by @kevinushey is a nicer way of creating data frames.
+  It never coerces column types (no more `stringsAsFactors = FALSE`!),
+  never munges column names, and never adds row names. You can use previously 
+  defined columns to compute new columns (#376).
+
 * `select()` gets SE equivalent, `select_()`. This allows you to construct
   calls to `select()` easily inside functions.
 
