@@ -135,14 +135,14 @@ translate_env.src_mysql <- function(x) {
 # DBI methods ------------------------------------------------------------------
 
 #' @export
-db_has_table.MySQLConnection <- function(con, table) {
+db_has_table.MySQLConnection <- function(con, table, ...) {
   # MySQL has no way to list temporary tables, so we always NA to
   # skip any local checks and rely on the database to throw informative errors
   NA
 }
 
 #' @export
-db_data_type.MySQLConnection <- function(con, fields) {
+db_data_type.MySQLConnection <- function(con, fields, ...) {
   char_type <- function(x) {
     n <- max(nchar(as.character(x), "bytes"))
     if (n <= 65535) {
@@ -168,17 +168,17 @@ db_data_type.MySQLConnection <- function(con, fields) {
 }
 
 #' @export
-sql_begin.MySQLConnection <- function(con) {
+sql_begin.MySQLConnection <- function(con, ...) {
   dbGetQuery(con, "START TRANSACTION")
 }
 
 #' @export
-sql_commit.MySQLConnection <- function(con) {
+sql_commit.MySQLConnection <- function(con, ...) {
   dbGetQuery(con, "COMMIT")
 }
 
 #' @export
-sql_insert_into.MySQLConnection <- function(con, table, values) {
+sql_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
@@ -215,7 +215,7 @@ sql_create_indexes.MySQLConnection <- function(con, table, indexes = NULL, ...) 
 
 
 #' @export
-sql_analyze.MySQLConnection <- function(con, table) {
+sql_analyze.MySQLConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
   dbGetQuery(con, sql)
 }

@@ -145,7 +145,7 @@ translate_env.src_postgres <- function(x) {
 
 # Doesn't return TRUE for temporary tables
 #' @export
-db_has_table.PostgreSQLConnection <- function(con, table) {
+db_has_table.PostgreSQLConnection <- function(con, table, ...) {
   table %in% db_list_tables(con)
 }
 
@@ -163,7 +163,7 @@ sql_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 }
 
 #' @export
-sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
+sql_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 

@@ -60,19 +60,54 @@ qry_fields.DBIConnection <- function(con, from) {
 
 # SQL queries ------------------------------------------------------------------
 
-sql_begin <- function(con) UseMethod("sql_begin")
+#' SQL generics.
+#'
+#' These generics are used to run various types of SQL queries.
+#' Default methods are provides for \code{DBIConnection}, but variations in
+#' SQL across databases means that it's likely that each backend will require
+#' a few variations of these.
+#'
+#' @section copy_to:
+#' Currently, the only user of \code{sql_begin()}, \code{sql_commit()},
+#' \code{sql_rollback()}, \code{sql_create_table()}, \code{sql_insert_into()},
+#' \code{sql_create_indexes()}, \code{sql_drop_table()} and
+#' \code{sql_analyze()}. If you find yourself overriding many of these
+#' functions it may suggest that you should just override \code{\link{copy_to}}
+#' instead.
+#'
+#' @name dbi-sql
+#' @param con A database connection.
+#' @keywords internal
+NULL
+
+#' @rdname dbi-sql
 #' @export
-sql_begin.DBIConnection <- function(con) {
+sql_begin <- function(con, ...) UseMethod("sql_begin")
+#' @export
+sql_begin.DBIConnection <- function(con, ...) {
   dbGetQuery(con, "BEGIN TRANSACTION")
 }
 
-sql_commit <- function(con) UseMethod("sql_commit")
+#' @rdname dbi-sql
 #' @export
-sql_commit.DBIConnection <- function(con) dbCommit(con)
+sql_commit <- function(con, ...) UseMethod("sql_commit")
+#' @export
+sql_commit.DBIConnection <- function(con, ...) dbCommit(con)
 
-sql_rollback <- function(con) dbRollback(con)
+#' @rdname dbi-sql
+#' @export
+sql_rollback <- function(con, ...) UseMethod("sql_rollback")
+#' @export
+sql_rollback.DBIConnection <- function(con, ...) dbRollback(con)
 
-sql_create_table <- function(con, table, types, temporary = FALSE) {
+#' @rdname dbi-sql
+#' @export
+sql_create_table <- function(con, table, types, temporary = FALSE, ...) {
+  UseMethod("sql_create_table")
+}
+#' @export
+sql_create_table.DBIConnection <- function(con, table, types,
+                                           temporary = FALSE, ...) {
   assert_that(is.string(table), is.character(types))
 
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
@@ -84,14 +119,17 @@ sql_create_table <- function(con, table, types, temporary = FALSE) {
   dbGetQuery(con, sql)
 }
 
-sql_insert_into <- function(con, table, values) {
+#' @rdname dbi-sql
+#' @export
+sql_insert_into <- function(con, table, values, ...) {
   UseMethod("sql_insert_into")
 }
 
+#' @rdname dbi-sql
+#' @export
 sql_create_indexes <- function(con, table, indexes = NULL, ...) {
   UseMethod("sql_create_indexes")
 }
-
 #' @export
 sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
@@ -114,28 +152,39 @@ sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
   dbGetQuery(con, sql)
 }
 
-sql_drop_table <- function(con, table, force = FALSE) {
+#' @rdname dbi-sql
+#' @export
+sql_drop_table <- function(con, table, force = FALSE, ...) {
+  UseMethod("sql_drop_table")
+}
+#' @export
+sql_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
   sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con)
   dbGetQuery(con, sql)
 }
 
-sql_analyze <- function(con, table) UseMethod("sql_analyze")
-
+#' @rdname dbi-sql
 #' @export
-sql_analyze.DBIConnection <- function(con, table) {
+sql_analyze <- function(con, table, ...) UseMethod("sql_analyze")
+#' @export
+sql_analyze.DBIConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
   dbGetQuery(con, sql)
 }
 
-sql_select <- function(con, ...) {
+#' @rdname dbi-sql
+#' @export
+sql_select <- function(con, select, from, where = NULL, group_by = NULL,
+  having = NULL, order_by = NULL, limit = NULL, offset = NULL, ...) {
   UseMethod("sql_select")
 }
 
 #' @export
-sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by = NULL,
-                       having = NULL, order_by = NULL, limit = NULL,
-                       offset = NULL) {
+sql_select.DBIConnection <- function(con, select, from, where = NULL,
+                                     group_by = NULL, having = NULL,
+                                     order_by = NULL, limit = NULL,
+                                     offset = NULL, ...) {
 
   out <- vector("list", 8)
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
@@ -184,6 +233,8 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by =
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
 }
 
+#' @export
+#' @rdname dbi-sql
 sql_explain <- function(con, sql, ...) {
   UseMethod("sql_explain")
 }

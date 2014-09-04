@@ -123,12 +123,12 @@ translate_env.src_monetdb <- function(x) {
 # DBI methods ------------------------------------------------------------------
 
 #' @export
-sql_begin.MonetDBConnection <- function(con) {
+sql_begin.MonetDBConnection <- function(con, ...) {
   dbGetQuery(con, "START TRANSACTION")
 }
 
 #' @export
-sql_insert_into.MonetDBConnection <- function(con, table, values) {
+sql_insert_into.MonetDBConnection <- function(con, table, values, ...) {
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
   values[is_factor] <- lapply(values[is_factor], as.character)
@@ -149,7 +149,7 @@ sql_insert_into.MonetDBConnection <- function(con, table, values) {
 }
 
 #' @export
-sql_analyze.MonetDBConnection <- function(con, table) {
+sql_analyze.MonetDBConnection <- function(con, table, ...) {
   # Chuck Norris (and MonetDB) do not need ANALYZE
   invisible(TRUE)
 }
@@ -161,7 +161,7 @@ sql_create_indexes.MonetDBConnection <- function(con, table, indexes = NULL, ...
 }
 
 #' @export
-qry_fields.MonetDBConnection <- function(con, from) {
+qry_fields.MonetDBConnection <- function(con, from, ...) {
   # prepare gives us column info without actually running a query
   dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
 }

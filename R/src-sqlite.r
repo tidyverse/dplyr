@@ -145,7 +145,7 @@ db_list_tables.SQLiteConnection <- function(con) {
 
 # Doesn't return TRUE for temporary tables
 #' @export
-db_has_table.SQLiteConnection <- function(con, table) {
+db_has_table.SQLiteConnection <- function(con, table, ...) {
   table %in% db_list_tables(con)
 }
 
@@ -169,10 +169,10 @@ sql_explain.SQLiteConnection <- function(con, sql, ...) {
 }
 
 #' @export
-sql_begin.SQLiteConnection <- function(con) dbBeginTransaction(con)
+sql_begin.SQLiteConnection <- function(con, ...) dbBeginTransaction(con)
 
 #' @export
-sql_insert_into.SQLiteConnection <- function(con, table, values) {
+sql_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   params <- paste(rep("?", ncol(values)), collapse = ", ")
 
   sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
