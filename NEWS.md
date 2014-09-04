@@ -1,5 +1,9 @@
 # dplyr 0.2.0.99
 
+* `show_sql()` and `explain_sql()` and matching global options `dplyr.show_sql`
+  and `dplyr.explain_sql` have been removed. Instead use `show_query()` and 
+  `explain()`.
+
 * `data_frame()` by @kevinushey is a nicer way of creating data frames.
   It never coerces column types (no more `stringsAsFactors = FALSE`!),
   never munges column names, and never adds row names. You can use previously 

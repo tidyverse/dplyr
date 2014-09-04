@@ -59,12 +59,7 @@ qry_fields.DBIConnection <- function(con, from) {
 }
 
 # Run a query, abandoning results
-qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
-                    show = getOption("dplyr.show_sql"),
-                    explain = getOption("dplyr.explain_sql")) {
-  if (show) message(sql)
-  if (explain) message(qry_explain(con, sql))
-
+qry_run <- function(con, sql, data = NULL, in_transaction = FALSE) {
   if (in_transaction) {
     dbBeginTransaction(con)
     on.exit(dbCommit(con))
@@ -81,19 +76,12 @@ qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
 }
 
 # Run a query, fetching n results
-qry_fetch <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
-                      explain = getOption("dplyr.explain_sql")) {
+qry_fetch <- function(con, sql, n = -1L) {
   UseMethod("qry_fetch")
 }
 
 #' @export
-qry_fetch.DBIConnection <- function(con, sql, n = -1L,
-                                    show = getOption("dplyr.show_sql"),
-                                    explain = getOption("dplyr.explain_sql")) {
-
-  if (show) message(sql)
-  if (explain) message(qry_explain(con, sql))
-
+qry_fetch.DBIConnection <- function(con, sql, n = -1L) {
   res <- dbSendQuery(con, sql)
   on.exit(dbClearResult(res))
 
@@ -102,13 +90,7 @@ qry_fetch.DBIConnection <- function(con, sql, n = -1L,
   out
 }
 
-
-qry_fetch_paged <- function(con, sql, chunk_size, callback,
-                            show = getOption("dplyr.show_sql"),
-                            explain = getOption("dplyr.explain_sql")) {
-  if (show) message(sql)
-  if (explain) message(qry_explain(con, sql))
-
+qry_fetch_paged <- function(con, sql, chunk_size, callback) {
   qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
 

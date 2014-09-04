@@ -157,7 +157,7 @@ qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   exsql <- build_sql("EXPLAIN ",
     if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "),
     sql)
-  expl <- suppressWarnings(qry_fetch(con, exsql, show = FALSE, explain = FALSE))
+  expl <- suppressWarnings(qry_fetch(con, exsql))
 
   paste(expl[[1]], collapse = "\n")
 }

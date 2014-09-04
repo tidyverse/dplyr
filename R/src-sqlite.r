@@ -157,7 +157,7 @@ qry_fields.SQLiteConnection <- function(con, from) {
 #' @export
 qry_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-  expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
+  expl <- qry_fetch(con, exsql)
   rownames(expl) <- NULL
   out <- capture.output(print(expl))
 

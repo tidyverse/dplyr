@@ -38,11 +38,8 @@ ask your database administrator for the values of these variables.
 \section{Debugging}{
 
 
-To see exactly what SQL is being sent to the database, you can set option
-\code{dplyr.show_sql} to true: \code{options(dplyr.show_sql = TRUE).}
-If you're wondering why a particularly query is slow, it can be helpful
-to see the query plan. You can do this by setting
-\code{options(dplyr.explain_sql = TRUE)}.
+To see exactly what SQL is being sent to the database, you see
+\code{\link{show_query}} and \code{\link{explain}}.
 }
 
 \section{Grouping}{
@@ -53,8 +50,8 @@ method on a mysql tbl: this will take care of capturing
 the unevalated expressions for you.
 
 For best performance, the database should have an index on the variables
-that you are grouping by. Use \code{\link{explain_sql}} to check that
-mysql is using the indexes that you expect.
+that you are grouping by. Use \code{\link{explain}} to check that
+the database is using the indexes that you expect.
 }
 
 \section{Output}{
