@@ -13,9 +13,12 @@
 ##' data_frame(x = a, y = x ^ 2, z = x + y, a = a + 1, b = a)
 ##' @export
 data_frame <- function(...) {
+  data_frame_(lazy::lazy_dots(...))
+}
+
+data_frame_ <- function(dots) {
 
   ## Get the dots used
-  dots <- named_dots(...)
   dots_nm <- names(dots)
   n <- length(dots)
 
@@ -35,15 +38,15 @@ data_frame <- function(...) {
   }
 
   ## Fill the output
-  i <- 1
+  i <- 1L
   while (i <= n) {
 
     ## Fill by reference
-    set_vector_elt(output, i, eval(dots[[i]], envir = output))
+    set_vector_elt(output, i, lazy::lazy_eval(dots[[i]], output))
     set_string_elt(output_nm, i, dots_nm[[i]])
 
     ## Update
-    i <- i + 1
+    i <- i + 1L
   }
 
   ## Validate column lengths
