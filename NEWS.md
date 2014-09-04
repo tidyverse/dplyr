@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* `src_mysql()` gains a method so that `explain()` now works.
+
 * `show_sql()` and `explain_sql()` and matching global options `dplyr.show_sql`
   and `dplyr.explain_sql` have been removed. Instead use `show_query()` and 
   `explain()`.
