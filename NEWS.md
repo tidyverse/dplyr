@@ -1,5 +1,10 @@
 # dplyr 0.2.0.99
 
+* The db backend system has been completely overhauled in order to make 
+  it possible to add backends in other packages, and to support a much
+  wider range of databases. See `vignette("new-sql-backend")` for instruction
+  on how to create your own (#568).
+
 * `src_mysql()` gains a method so that `explain()` now works.
 
 * `show_sql()` and `explain_sql()` and matching global options `dplyr.show_sql`
