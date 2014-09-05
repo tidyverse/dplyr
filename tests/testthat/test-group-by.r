@@ -40,8 +40,8 @@ test_that("joins preserve grouping", {
 })
 
 test_that("constructors drops groups", {
-  dt <- lahman_src("dt") %>% tbl("Batting") %>% group_by(playerID)
-  df <- lahman_src("df") %>% tbl("Batting") %>% group_by(playerID)
+  dt <- lahman_dt() %>% tbl("Batting") %>% group_by(playerID)
+  df <- lahman_df() %>% tbl("Batting") %>% group_by(playerID)
 
   expect_equal(groups(tbl_dt(dt)), NULL)
   expect_equal(groups(tbl_df(df)), NULL)

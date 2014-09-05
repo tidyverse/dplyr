@@ -16,7 +16,7 @@ nycflights13_sqlite <- function(path = NULL) {
     path <- db_location(path, "nycflights13.sqlite")
     message("Caching nycflights db at ", path)
     src <- src_sqlite(path, create = TRUE)
-    cache_nycflights13(src)
+    copy_nycflights13(src)
   })
 }
 
@@ -26,11 +26,13 @@ nycflights13_sqlite <- function(path = NULL) {
 nycflights13_postgres <- function(dbname = "nycflights13", ...) {
   cache_computation("nycflights_postgres", {
     message("Caching nycflights db in postgresql db ", dbname)
-    cache_nycflights13(src_postgres(dbname, ...))
+    copy_nycflights13(src_postgres(dbname, ...))
   })
 }
 
-cache_nycflights13 <- function(src, ...) {
+#' @export
+#' @rdname nycflights13
+copy_nycflights13 <- function(src, ...) {
   all <- data(package = "nycflights13")$results[, 3]
   index <- list(
     airlines = list("carrier"),

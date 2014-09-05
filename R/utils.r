@@ -124,3 +124,11 @@ substitute_q <- function(x, env) {
   call <- substitute(substitute(x, env), list(x = x))
   eval(call)
 }
+
+
+succeeds <- function(x, quiet = FALSE) {
+  tryCatch({x; TRUE}, error = function(e) {
+    if (!quiet) message("Error: ", e$message)
+    FALSE
+  })
+}

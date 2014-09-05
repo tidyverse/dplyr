@@ -34,7 +34,7 @@
 #' # create a local database called "lahman", or tell lahman_mysql() how to
 #' # a database that you can write to
 #'
-#' if (has_lahman("mysql")) {
+#' if (!has_lahman("postgresql") && has_lahman("mysql")) {
 #' # Methods -------------------------------------------------------------------
 #' batting <- tbl(lahman_mysql(), "Batting")
 #' dim(batting)
@@ -97,9 +97,9 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
 
-  con <- DBI::dbConnect(MySQL(), dbname = dbname , host = host, port = port,
+  con <- dbConnect(MySQL(), dbname = dbname , host = host, port = port,
     username = user, password = password, ...)
-  info <- DBI::dbGetInfo(con)
+  info <- dbGetInfo(con)
 
   src_sql("mysql", con,
     info = info, disco = db_disconnector(con, "mysql"))

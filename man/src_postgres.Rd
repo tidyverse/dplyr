@@ -143,7 +143,7 @@ per_year <- group_by(batting, playerID, yearID)
 stints <- summarise(per_year, stints = max(stint))
 filter(stints, stints > 3)
 summarise(stints, max(stints))
-mutate(stints, cumsum(stints, yearID))
+mutate(stints, order_by(yearID, cumsum(stints)))
 
 # Joins ---------------------------------------------------------------------
 player_info <- select(tbl(lahman_postgres(), "Master"), playerID, hofID,

@@ -69,7 +69,7 @@
 #' stints <- summarise(per_year, stints = max(stint))
 #' filter(stints, stints > 3)
 #' summarise(stints, max(stints))
-#' mutate(stints, cumsum(stints, yearID))
+#' mutate(stints, order_by(yearID, cumsum(stints)))
 #'
 #' # Joins ---------------------------------------------------------------------
 #' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, hofID,
@@ -100,9 +100,9 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
   user <- user %||% if (in_travis()) "postgres" else ""
 
-  con <- DBI::dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
+  con <- dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
-  info <- DBI::dbGetInfo(con)
+  info <- dbGetInfo(con)
 
   src_sql("postgres", con,
     info = info, disco = db_disconnector(con, "postgres"))

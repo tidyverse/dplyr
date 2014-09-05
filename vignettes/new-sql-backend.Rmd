@@ -17,7 +17,7 @@ Start by creating a new src function to represent the backend. Assuming we're go
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
                          password = NULL, ...) {
 
-  con <- DBI::dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
+  con <- dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
 
   src_sql("postgres", con)
@@ -31,7 +31,7 @@ Next, implement a method for `brief_desc()` that briefly describe the source:
 ```{r}
 #' @export
 brief_desc.src_postgres <- function(x) {
-  info <- DBI::dbGetInfo(con)
+  info <- dbGetInfo(con)
   host <- if (info$host == "") "localhost" else info$host
 
   paste0("postgres ", info$serverVersion, " [", info$user, "@",
@@ -84,7 +84,8 @@ If the database doesn't support a function, just return `TRUE` without doing any
 At this point, you should be able to copy the nycflights13 data packages into your database with (e.g.):
 
 ```{r, eval = FALSE}
-cache_nycflights13(src_mssql())
+copy_nycflights13(src_mssql(...))
+copy_lahman(src_mssql(...))
 ```
 
 Don't proceed further until this works, and you've verified that the basic single table verbs word.

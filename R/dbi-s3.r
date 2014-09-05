@@ -1,14 +1,5 @@
-# An S3 shim on top of DBI.  The goal is to isolate all DBI calls into this
-# file, so that when writing new connectors you can see all the existing
-# code in one place, and hopefully remember the annoying DBI function names.
-#
-# * db_ -> con = DBIConnection
-# * qry_ -> con = DBIConnection, sql = string
-# * res_ -> res = DBIResult
-# * sql_ -> con = DBIConnection, table = string, ...
-#
-# This also makes it possible to shim over bugs in packages until they're
-# fixed upstream.
+#' @import DBI
+NULL
 
 #' Database generics.
 #'
@@ -27,14 +18,14 @@ NULL
 #' @export
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
-db_list_tables.DBIConnection <- function(con) DBI::dbListTables(con)
+db_list_tables.DBIConnection <- function(con) dbListTables(con)
 
 #' @rdname dbi-database
 #' @export
 #' @param table A string, the table name.
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
-db_has_table.DBIConnection <- function(con, table) DBI::dbExistsTable(con, table)
+db_has_table.DBIConnection <- function(con, table) dbExistsTable(con, table)
 
 #' @rdname dbi-database
 #' @export
@@ -42,7 +33,7 @@ db_has_table.DBIConnection <- function(con, table) DBI::dbExistsTable(con, table
 db_data_type <- function(con, fields) UseMethod("db_data_type")
 #' @export
 db_data_type.DBIConnection <- function(con, fields) {
-  vapply(fields, DBI::dbDataType, dbObj = con, FUN.VALUE = character(1))
+  vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
 # Query details ----------------------------------------------------------------
@@ -56,7 +47,7 @@ qry_fields.DBIConnection <- function(con, from) {
   qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
 
-  DBI::dbGetInfo(qry)$fieldDescription[[1]]$name
+  dbGetInfo(qry)$fieldDescription[[1]]$name
 }
 
 # SQL queries ------------------------------------------------------------------

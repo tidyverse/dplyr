@@ -100,10 +100,10 @@ src_sqlite <- function(path, create = FALSE) {
     stop("Path does not exist and create = FALSE", call. = FALSE)
   }
 
-  con <- DBI::dbConnect(RSQLite::SQLite(), dbname = path)
+  con <- dbConnect(RSQLite::SQLite(), dbname = path)
   RSQLite.extfuns::init_extensions(con)
 
-  info <- DBI::dbGetInfo(con)
+  info <- dbGetInfo(con)
 
   src_sql("sqlite", con, path = path, info = info)
 }
