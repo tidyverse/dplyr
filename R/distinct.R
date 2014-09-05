@@ -77,8 +77,9 @@ distinct_.tbl_sql <- function(.data, vars = character()) {
       call. = FALSE)
   }
 
-  from <- build_sql("SELECT DISTINCT * FROM ", from(.data), con = .data$src$con)
-  update(tbl(.data$src, from, vars = .data$select), group_by = groups(.data))
+  from <- sql_subquery(.data$src$con, .data$query$sql)
+  sql <- build_sql("SELECT DISTINCT * FROM ", from, con = .data$src$con)
+  update(tbl(.data$src, sql, vars = .data$select), group_by = groups(.data))
 }
 
 standardise_vars <- function(vars) {

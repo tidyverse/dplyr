@@ -66,14 +66,6 @@ Query <- R6::R6Class("Query",
       name
     },
 
-    from = function() {
-      if (is.ident(self$sql)) {
-        self$sql
-      } else {
-        build_sql("(", self$sql, ") AS master", con = self$con)
-      }
-    },
-
     vars = function() {
       private$.vars
     },
@@ -81,7 +73,8 @@ Query <- R6::R6Class("Query",
     nrow = function() {
       if (!is.null(private$.nrow)) return(private$.nrow)
 
-      rows <- build_sql("SELECT count(*) FROM ", self$from(), con = self$con)
+      from <- sql_subquery(self$con, self$sql, "master")
+      rows <- build_sql("SELECT count(*) FROM ", from, con = self$con)
       private$.nrow <- as.integer(dbGetQuery(self$con, rows)[[1]])
       private$.nrow
     },

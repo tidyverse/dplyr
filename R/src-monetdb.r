@@ -170,7 +170,15 @@ qry_fields.MonetDBConnection <- function(con, from, ...) {
 #' @export
 query.MonetDBConnection <- function(con, sql, .vars) {
   assert_that(is.string(sql))
-  MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars, .res = NULL, .nrow = NULL)
+  MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars)
+}
+
+#' @export
+sql_subquery.MonetDBConnection <- function(con, sql, name, ...) {
+  if (is.ident(sql)) return(sql)
+
+  monetdb_check_subquery(sql)
+  build_sql("(", sql, ") AS ", name, con = con)
 }
 
 MonetDBQuery <- R6::R6Class("MonetDBQuery",
@@ -182,15 +190,6 @@ MonetDBQuery <- R6::R6Class("MonetDBQuery",
                           self$sql," WITH DATA", con = self$con)
       dbGetQuery(self$con, tt_sql)
       name
-    },
-
-    from = function() {
-      if (is.ident(self$sql)) {
-        self$sql
-      } else {
-        monetdb_check_subquery(self$sql)
-        build_sql("(", self$sql, ") AS master", con = self$con)
-      }
     },
 
     nrow = function() {

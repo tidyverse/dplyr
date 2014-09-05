@@ -11,6 +11,7 @@
 \alias{sql_insert_into}
 \alias{sql_rollback}
 \alias{sql_select}
+\alias{sql_subquery}
 \title{SQL generics.}
 \usage{
 sql_begin(con, ...)
@@ -31,6 +32,8 @@ sql_analyze(con, table, ...)
 
 sql_select(con, select, from, where = NULL, group_by = NULL,
   having = NULL, order_by = NULL, limit = NULL, offset = NULL, ...)
+
+sql_subquery(con, sql, name = random_table_name(), ...)
 
 sql_explain(con, sql, ...)
 }

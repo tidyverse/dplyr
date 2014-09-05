@@ -164,10 +164,12 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL) {
     cond <- build_sql("ON ", on, con = con)
   }
 
-  from <- build_sql(from(x), "\n\n",
+  from <- build_sql(
+    sql_subquery(con, x$query$sql), "\n\n",
     join, " JOIN \n\n" ,
-    from(y), "\n\n",
-    cond, con = con)
+    sql_subquery(con, y$query$sql), "\n\n",
+    cond, con = con
+  )
   attr(from, "vars") <- lapply(sel_vars, as.name)
 
   from
@@ -195,9 +197,9 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL) {
     collapse = " AND ", parens = TRUE)
 
   from <- build_sql(
-    'SELECT * FROM ', from(x, "_LEFT"), '\n\n',
+    'SELECT * FROM ', sql_subquery(con, x$query$sql, "_LEFT"), '\n\n',
     'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
-    '  SELECT 1 FROM ', from(y, "_RIGHT"), '\n',
+    '  SELECT 1 FROM ', sql_subquery(con, y$query$sql, "_RIGHT"), '\n',
     '  WHERE ', on, ')'
   )
   attr(from, "vars") <- x$select
@@ -206,8 +208,4 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL) {
 
 is.join <- function(x) {
   inherits(x, "join")
-}
-
-from <- function(x, name = random_table_name()) {
-  build_sql("(", x$query$sql, ") AS ", ident(name), con = x$src$con)
 }

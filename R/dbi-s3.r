@@ -238,6 +238,19 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
 
 #' @export
 #' @rdname dbi-sql
+sql_subquery <- function(con, sql, name = random_table_name(), ...) {
+  UseMethod("sql_subquery")
+}
+
+#' @export
+sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
+  if (is.ident(sql)) return(sql)
+
+  build_sql("(", sql, ") AS ", ident(name), con = con)
+}
+
+#' @export
+#' @rdname dbi-sql
 sql_explain <- function(con, sql, ...) {
   UseMethod("sql_explain")
 }

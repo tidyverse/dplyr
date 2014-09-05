@@ -72,7 +72,7 @@ Before continuing, make sure you can connect to an existing table, and that the 
 
 If the package you're wrapping isn't built on top of DBI, you'll probably also need to subclass the [R6](http://cran.r-project.org/web/packages/R6/vignettes/Introduction.html) Query class, and the `S3` query method that creates a new query object. It's normally better to 
 
-## ANSI SQL compliance
+## `copy_to()`
 
 To make `copy_to()` work, implement methods for each of the following methods if the default method doesn't work.
 
@@ -84,9 +84,12 @@ If the database doesn't support a function, just return `TRUE` without doing any
 
 To support `explain()`, add a method for `sql_explain()`.
 
-
-
 At this point, all the basic verbs (`summarise()`, `filter()`, `arrange()`, `mutate()` etc) should work.
+
+## Joins
+
+If your database has a non-standard way of constructing subqueries, add a method for `sql_subquery()`.
+
 
 ## Lahman
 

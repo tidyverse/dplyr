@@ -24,7 +24,7 @@ tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
     from <- ident(from)
   } else if (!is.join(from)) { # Must be arbitrary sql
     # Abitrary sql needs to be wrapped into a named subquery
-    from <- build_sql("(", from, ") AS ", ident(unique_name()), con = src$con)
+    from <- sql_subquery(src$con, from, unique_name())
   }
 
   tbl <- make_tbl(c(subclass, "sql"),
