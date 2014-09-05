@@ -3,6 +3,7 @@
 \alias{db_data_type}
 \alias{db_has_table}
 \alias{db_list_tables}
+\alias{db_save_query}
 \alias{dbi-database}
 \title{Database generics.}
 \usage{
@@ -11,6 +12,8 @@ db_list_tables(con)
 db_has_table(con, table)
 
 db_data_type(con, fields)
+
+db_save_query(con, sql, name, temporary = TRUE, ...)
 }
 \arguments{
 \item{con}{A database connection.}

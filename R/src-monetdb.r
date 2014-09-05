@@ -181,17 +181,18 @@ sql_subquery.MonetDBConnection <- function(con, sql, name, ...) {
   build_sql("(", sql, ") AS ", name, con = con)
 }
 
+#' @export
+db_save_query.MonetDBConnection <- function(con, sql, name, temporary = TRUE,
+                                            ...) {
+  tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ",
+    sql, " WITH DATA", con = con)
+  dbGetQuery(con, sql)
+  name
+}
+
 MonetDBQuery <- R6::R6Class("MonetDBQuery",
   inherit = Query,
   public = list(
-    # MonetDB needs the WITH DATA in the end
-    save_into = function(name = random_table_name()) {
-      tt_sql <- build_sql("CREATE TEMPORARY TABLE ", ident(name), " AS ",
-                          self$sql," WITH DATA", con = self$con)
-      dbGetQuery(self$con, tt_sql)
-      name
-    },
-
     nrow = function() {
       if (!is.null(private$.nrow)) return(private$.nrow)
       private$.nrow <- monetdb_queryinfo(self$con, self$sql)$rows

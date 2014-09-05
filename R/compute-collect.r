@@ -59,7 +59,7 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
 #' @export
 #' @rdname compute
 compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE, ...) {
-  x$query$save_into(name, temporary = temporary)
+  db_save_query(x$src$con, x$query$sql, name = name, temporary = temporary)
   update(tbl(x$src, name), group_by = groups(x))
 }
 

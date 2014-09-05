@@ -90,9 +90,18 @@ copy_lahman(src_mssql(...))
 
 Don't proceed further until this works, and you've verified that the basic single table verbs word.
 
+## Compute, collect and collapse
+
+Next, check that `collapse()`, `compute()`, and `collect()` work.
+
+* If `collapse()` fails, your database has a non-standard way of constructing 
+  subqueries. Add a method for `sql_subquery()`.
+  
+* If `compute()` fails, your database has a non-standard way of saving queries
+  in temporary tables. Add a method for `db_save_query()`.
+
 ## Joins
 
-If your database has a non-standard way of constructing subqueries, add a method for `sql_subquery()`.
 
 ## sql translation
 

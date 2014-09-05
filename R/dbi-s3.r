@@ -36,6 +36,22 @@ db_data_type.DBIConnection <- function(con, fields) {
   vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
+#' @rdname dbi-database
+#' @export
+db_save_query <- function(con, sql, name, temporary = TRUE, ...) {
+  UseMethod("db_save_query")
+}
+
+#' @export
+db_save_query.DBIConnection <- function(con, sql, name, temporary = TRUE,
+                                        ...) {
+  tt_sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+    "TABLE ", ident(name), " AS ", sql, con = con)
+  dbGetQuery(con, tt_sql)
+  name
+}
+
+
 # Query details ----------------------------------------------------------------
 
 qry_fields <- function(con, from) {

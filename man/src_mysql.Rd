@@ -108,7 +108,7 @@ my_tbl <- tbl(my_db, "my_table")
 # create a local database called "lahman", or tell lahman_mysql() how to
 # a database that you can write to
 
-if (FALSE && has_lahman("mysql")) {
+if (!has_lahman("postgres") && has_lahman("mysql")) {
 # Methods -------------------------------------------------------------------
 batting <- tbl(lahman_mysql(), "Batting")
 dim(batting)

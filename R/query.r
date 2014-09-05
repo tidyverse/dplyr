@@ -58,14 +58,6 @@ Query <- R6::R6Class("Query",
       invisible(TRUE)
     },
 
-    save_into = function(name = random_table_name(), temporary = TRUE) {
-      tt_sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
-                          "TABLE ", ident(name), " AS ", self$sql,
-                          con = self$con)
-      dbGetQuery(self$con, tt_sql)
-      name
-    },
-
     vars = function() {
       private$.vars
     },
