@@ -202,6 +202,6 @@ MonetDBQuery <- R6::R6Class("MonetDBQuery",
 
 monetdb_check_subquery <- function(sql) {
   if (grepl("ORDER BY|LIMIT|OFFSET", as.character(sql), ignore.case=TRUE)) {
-    stop(from," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported.")
+    stop(sql," contains ORDER BY, LIMIT or OFFSET keywords, which are not supported.")
   }
 }
