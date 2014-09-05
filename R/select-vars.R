@@ -68,49 +68,13 @@ select_vars_ <- function(vars, args, env = parent.frame(),
   # Keep integer semantics: include = +, exclude = -
   names_list <- setNames(as.list(seq_along(vars)), vars)
 
-  # How to document starts_with, ends_with etc?
   select_funs <- list(
-    starts_with = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
-
-      if (ignore.case) match <- tolower(match)
-      n <- nchar(match)
-
-      if (ignore.case) vars <- tolower(vars)
-      which(substr(vars, 1, n) == match)
-    },
-    ends_with = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
-
-      if (ignore.case) match <- tolower(match)
-      n <- nchar(match)
-
-      if (ignore.case) vars <- tolower(vars)
-      length <- nchar(vars)
-
-      which(substr(vars, pmax(1, length - n + 1), length) == match)
-    },
-    contains = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), nchar(match) > 0)
-
-      grep(match, vars, ignore.case = ignore.case)
-    },
-    matches = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), nchar(match) > 0)
-
-      grep(match, vars, ignore.case = ignore.case)
-    },
-    num_range = function(prefix, range, width = NULL) {
-      if (!is.null(width)) {
-        range <- sprintf(paste0("%0", width, "d"), range)
-      }
-      match(paste0(prefix, range), vars)
-    },
-    one_of = function(...) {
-      keep <- c(...)
-      stopifnot(is.character(keep))
-      match(keep, vars)
-    }
+    starts_with = function(...) starts_with(vars, ...),
+    ends_with = function(...) ends_with(vars, ...),
+    contains = function(...) contains(vars, ...),
+    matches = function(...) matches(vars, ...),
+    num_range = function(...) num_range(vars, ...),
+    one_of = function(...) one_of(vars, ...)
   )
 
   ind_list <- lazy::lazy_eval(args, c(names_list, select_funs))
