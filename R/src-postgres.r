@@ -151,7 +151,7 @@ db_has_table.PostgreSQLConnection <- function(con, table, ...) {
 
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
 #' @export
-sql_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
+db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   format <- match.arg(format, c("text", "json", "yaml", "xml"))
 
   exsql <- build_sql("EXPLAIN ",
@@ -163,7 +163,7 @@ sql_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 }
 
 #' @export
-sql_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
+db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 

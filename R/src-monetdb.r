@@ -123,12 +123,12 @@ translate_env.src_monetdb <- function(x) {
 # DBI methods ------------------------------------------------------------------
 
 #' @export
-sql_begin.MonetDBConnection <- function(con, ...) {
+db_begin.MonetDBConnection <- function(con, ...) {
   dbGetQuery(con, "START TRANSACTION")
 }
 
 #' @export
-sql_insert_into.MonetDBConnection <- function(con, table, values, ...) {
+db_insert_into.MonetDBConnection <- function(con, table, values, ...) {
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
   values[is_factor] <- lapply(values[is_factor], as.character)
@@ -149,13 +149,13 @@ sql_insert_into.MonetDBConnection <- function(con, table, values, ...) {
 }
 
 #' @export
-sql_analyze.MonetDBConnection <- function(con, table, ...) {
+db_analyze.MonetDBConnection <- function(con, table, ...) {
   # Chuck Norris (and MonetDB) do not need ANALYZE
   invisible(TRUE)
 }
 
 #' @export
-sql_create_index.MonetDBConnection <- function(con, table, columns, name = NULL,
+db_create_index.MonetDBConnection <- function(con, table, columns, name = NULL,
                                                ...) {
   # MonetDB does not benefit from indices
   invisible(TRUE)

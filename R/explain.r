@@ -40,7 +40,7 @@ explain.tbl_sql <- function(x, ...) {
   force(x)
   show_query(x)
   message("\n")
-  message("<PLAN>\n", sql_explain(x$query$con, x$query$sql))
+  message("<PLAN>\n", db_explain(x$query$con, x$query$sql))
 
   invisible(NULL)
 }

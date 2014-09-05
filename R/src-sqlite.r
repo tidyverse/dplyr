@@ -159,7 +159,7 @@ qry_fields.SQLiteConnection <- function(con, from) {
 
 # http://sqlite.org/lang_explain.html
 #' @export
-sql_explain.SQLiteConnection <- function(con, sql, ...) {
+db_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
   expl <- dbGetQuery(con, exsql)
   rownames(expl) <- NULL
@@ -169,10 +169,10 @@ sql_explain.SQLiteConnection <- function(con, sql, ...) {
 }
 
 #' @export
-sql_begin.SQLiteConnection <- function(con, ...) dbBeginTransaction(con)
+db_begin.SQLiteConnection <- function(con, ...) dbBeginTransaction(con)
 
 #' @export
-sql_insert_into.SQLiteConnection <- function(con, table, values, ...) {
+db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   params <- paste(rep("?", ncol(values)), collapse = ", ")
 
   sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")

@@ -168,17 +168,17 @@ db_data_type.MySQLConnection <- function(con, fields, ...) {
 }
 
 #' @export
-sql_begin.MySQLConnection <- function(con, ...) {
+db_begin.MySQLConnection <- function(con, ...) {
   dbGetQuery(con, "START TRANSACTION")
 }
 
 #' @export
-sql_commit.MySQLConnection <- function(con, ...) {
+db_commit.MySQLConnection <- function(con, ...) {
   dbGetQuery(con, "COMMIT")
 }
 
 #' @export
-sql_explain.MySQLConnection <- function(con, sql, ...) {
+db_explain.MySQLConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN ", sql, con = con)
   expl <- dbGetQuery(con, exsql)
   out <- capture.output(print(expl))
@@ -187,7 +187,7 @@ sql_explain.MySQLConnection <- function(con, sql, ...) {
 }
 
 #' @export
-sql_insert_into.MySQLConnection <- function(con, table, values, ...) {
+db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
@@ -208,9 +208,8 @@ sql_insert_into.MySQLConnection <- function(con, table, values, ...) {
   invisible()
 }
 
-
 #' @export
-sql_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
+db_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
                                              ...) {
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)
@@ -221,7 +220,7 @@ sql_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
 }
 
 #' @export
-sql_analyze.MySQLConnection <- function(con, table, ...) {
+db_analyze.MySQLConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
   dbGetQuery(con, sql)
 }

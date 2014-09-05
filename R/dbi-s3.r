@@ -3,31 +3,39 @@ NULL
 
 #' Database generics.
 #'
-#' These three generics are used to get information about the database.
-#' dplyr provides default methods for DBIConnection which call the DBI
-#' equivalents, \code{dbListTables}, \code{dbExistsTable} and \code{dbDataType}.
-#' It should be rarely necessary to provide more specific methods for
-#' DBI compliant interfaces.
+#' These generics execute actions on the database. All generics have a method
+#' for \code{DBIConnection} which typically just call the standard DBI S4
+#' method.
 #'
-#' @name dbi-database
+#' @section copy_to:
+#' Currently, the only user of \code{sql_begin()}, \code{sql_commit()},
+#' \code{sql_rollback()}, \code{sql_create_table()}, \code{sql_insert_into()},
+#' \code{sql_create_indexes()}, \code{sql_drop_table()} and
+#' \code{sql_analyze()}. If you find yourself overriding many of these
+#' functions it may suggest that you should just override \code{\link{copy_to}}
+#' instead.
+#'
+#' @return A logical value indicating success. Most failures should generate
+#'  an error.
+#' @name backend_db
 #' @param con A database connection.
 #' @keywords internal
 NULL
 
-#' @rdname dbi-database
+#' @name backend_db
 #' @export
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
 db_list_tables.DBIConnection <- function(con) dbListTables(con)
 
-#' @rdname dbi-database
+#' @name backend_db
 #' @export
 #' @param table A string, the table name.
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
 db_has_table.DBIConnection <- function(con, table) dbExistsTable(con, table)
 
-#' @rdname dbi-database
+#' @name backend_db
 #' @export
 #' @param fields A list of fields, as in a data frame.
 db_data_type <- function(con, fields) UseMethod("db_data_type")
@@ -36,7 +44,7 @@ db_data_type.DBIConnection <- function(con, fields) {
   vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
-#' @rdname dbi-database
+#' @name backend_db
 #' @export
 db_save_query <- function(con, sql, name, temporary = TRUE, ...) {
   UseMethod("db_save_query")
@@ -51,70 +59,33 @@ db_save_query.DBIConnection <- function(con, sql, name, temporary = TRUE,
   name
 }
 
-
-# Query details ----------------------------------------------------------------
-
-qry_fields <- function(con, from) {
-  UseMethod("qry_fields")
-}
+#' @name backend_db
 #' @export
-qry_fields.DBIConnection <- function(con, from) {
-  sql <- build_sql("SELECT * FROM ", from, " WHERE 0=1", con = con)
-  qry <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(qry))
-
-  dbGetInfo(qry)$fieldDescription[[1]]$name
-}
-
-# SQL queries ------------------------------------------------------------------
-
-#' SQL generics.
-#'
-#' These generics are used to run various types of SQL queries.
-#' Default methods are provides for \code{DBIConnectdion}, but variations in
-#' SQL across databases means that it's likely that each backend will require
-#' a few variations of these.
-#'
-#' @section copy_to:
-#' Currently, the only user of \code{sql_begin()}, \code{sql_commit()},
-#' \code{sql_rollback()}, \code{sql_create_table()}, \code{sql_insert_into()},
-#' \code{sql_create_indexes()}, \code{sql_drop_table()} and
-#' \code{sql_analyze()}. If you find yourself overriding many of these
-#' functions it may suggest that you should just override \code{\link{copy_to}}
-#' instead.
-#'
-#' @name dbi-sql
-#' @param con A database connection.
-#' @keywords internal
-NULL
-
-#' @rdname dbi-sql
+db_begin <- function(con, ...) UseMethod("db_begin")
 #' @export
-sql_begin <- function(con, ...) UseMethod("sql_begin")
-#' @export
-sql_begin.DBIConnection <- function(con, ...) {
+db_begin.DBIConnection <- function(con, ...) {
   dbGetQuery(con, "BEGIN TRANSACTION")
 }
 
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_commit <- function(con, ...) UseMethod("sql_commit")
+db_commit <- function(con, ...) UseMethod("db_commit")
 #' @export
-sql_commit.DBIConnection <- function(con, ...) dbCommit(con)
+db_commit.DBIConnection <- function(con, ...) dbCommit(con)
 
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_rollback <- function(con, ...) UseMethod("sql_rollback")
+db_rollback <- function(con, ...) UseMethod("db_rollback")
 #' @export
-sql_rollback.DBIConnection <- function(con, ...) dbRollback(con)
+db_rollback.DBIConnection <- function(con, ...) dbRollback(con)
 
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_create_table <- function(con, table, types, temporary = FALSE, ...) {
-  UseMethod("sql_create_table")
+db_create_table <- function(con, table, types, temporary = FALSE, ...) {
+  UseMethod("db_create_table")
 }
 #' @export
-sql_create_table.DBIConnection <- function(con, table, types,
+db_create_table.DBIConnection <- function(con, table, types,
                                            temporary = FALSE, ...) {
   assert_that(is.string(table), is.character(types))
 
@@ -127,30 +98,29 @@ sql_create_table.DBIConnection <- function(con, table, types,
   dbGetQuery(con, sql)
 }
 
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_insert_into <- function(con, table, values, ...) {
-  UseMethod("sql_insert_into")
+db_insert_into <- function(con, table, values, ...) {
+  UseMethod("db_insert_into")
 }
 
-sql_create_indexes <- function(con, table, indexes = NULL, ...) {
+db_create_indexes <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
   for(index in indexes) {
-    sql_create_index(con, table, index, ...)
+    db_create_index(con, table, index, ...)
   }
 }
 
-
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_create_index <- function(con, table, columns, name = NULL, ...) {
-  UseMethod("sql_create_index")
+db_create_index <- function(con, table, columns, name = NULL, ...) {
+  UseMethod("db_create_index")
 }
 
 #' @export
-sql_create_index.DBIConnection <- function(con, table, columns, name = NULL,
+db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
                                            ...) {
   assert_that(is.string(table), is.character(columns))
 
@@ -162,30 +132,51 @@ sql_create_index.DBIConnection <- function(con, table, columns, name = NULL,
   dbGetQuery(con, sql)
 }
 
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_drop_table <- function(con, table, force = FALSE, ...) {
-  UseMethod("sql_drop_table")
+db_drop_table <- function(con, table, force = FALSE, ...) {
+  UseMethod("db_drop_table")
 }
 #' @export
-sql_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
+db_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
   sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con)
   dbGetQuery(con, sql)
 }
 
-#' @rdname dbi-sql
+#' @name backend_db
 #' @export
-sql_analyze <- function(con, table, ...) UseMethod("sql_analyze")
+db_analyze <- function(con, table, ...) UseMethod("db_analyze")
 #' @export
-sql_analyze.DBIConnection <- function(con, table, ...) {
+db_analyze.DBIConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
   dbGetQuery(con, sql)
 }
 
+#' @export
+#' @rdname backend_db
+db_explain <- function(con, sql, ...) {
+  UseMethod("db_explain")
+}
+
+
+
 # SQL generation --------------------------------------------------------------
 
-#' @rdname dbi-sql
+#' SQL generation.
+#'
+#' These generics are used to run build various SQL queries.  Default methods
+#' are provided for \code{DBIConnectdion}, but variations in SQL across
+#' databases means that it's likely that a backend will require at least a
+#' few methods.
+#'
+#' @return An SQL string.
+#' @name backend_sql
+#' @param con A database connection.
+#' @keywords internal
+NULL
+
+#' @rdname backend_sql
 #' @export
 sql_select <- function(con, select, from, where = NULL, group_by = NULL,
   having = NULL, order_by = NULL, limit = NULL, offset = NULL, ...) {
@@ -245,7 +236,7 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
 }
 
 #' @export
-#' @rdname dbi-sql
+#' @rdname backend_sql
 sql_subquery <- function(con, sql, name = random_table_name(), ...) {
   UseMethod("sql_subquery")
 }
@@ -256,13 +247,7 @@ sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
   build_sql("(", sql, ") AS ", ident(name), con = con)
 }
 
-#' @export
-#' @rdname dbi-sql
-sql_explain <- function(con, sql, ...) {
-  UseMethod("sql_explain")
-}
-
-#' @rdname dbi-sql
+#' @rdname backend_sql
 sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
@@ -322,7 +307,7 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   from
 }
 
-#' @rdname dbi-sql
+#' @rdname backend_sql
 #' @export
 sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
   UseMethod("sql_semi_join")
@@ -354,7 +339,7 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...)
   from
 }
 
-#' @rdname dbi-sql
+#' @rdname backend_sql
 #' @export
 sql_set_op <- function(con, x, y, method) {
   UseMethod("sql_set_op")
@@ -370,7 +355,7 @@ sql_set_op.DBIConnection <- function(con, x, y, method) {
   sql
 }
 
-#' @rdname dbi-sql
+#' @rdname backend_sql
 #' @export
 sql_escape_string <- function(con, x) UseMethod("sql_escape_string")
 
@@ -381,7 +366,7 @@ sql_escape_string.DBIConnection <- function(con, x) {
 #' @export
 sql_escape_string.NULL <- sql_escape_string.DBIConnection
 
-#' @rdname dbi-sql
+#' @rdname backend_sql
 #' @export
 sql_escape_ident <- function(con, x) UseMethod("sql_escape_ident")
 
@@ -391,6 +376,21 @@ sql_escape_ident.DBIConnection <- function(con, x) {
 }
 #' @export
 sql_escape_ident.NULL <- sql_escape_ident.DBIConnection
+
+
+# Query details ----------------------------------------------------------------
+
+qry_fields <- function(con, from) {
+  UseMethod("qry_fields")
+}
+#' @export
+qry_fields.DBIConnection <- function(con, from) {
+  sql <- build_sql("SELECT * FROM ", from, " WHERE 0=1", con = con)
+  qry <- dbSendQuery(con, sql)
+  on.exit(dbClearResult(qry))
+
+  dbGetInfo(qry)$fieldDescription[[1]]$name
+}
 
 # Utility functions ------------------------------------------------------------
 

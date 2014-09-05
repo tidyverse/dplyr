@@ -66,7 +66,7 @@ tbl.src_mssql <- function(src, from, ...) {
 
 Before continuing, make sure you can connect to an existing table, and that the results are printed reasonably. If not, that may indicate your database uses a non-standard DBI interface. That means you'll probably you'll probably also need to subclass the [R6](http://cran.r-project.org/web/packages/R6/vignettes/Introduction.html) Query class, and the `S3` query method that creates a new query object. If that happens to you, I'd strongly recommend asking for help.
 
-This is also a good time implement `explain()`, by adding a method for `sql_explain()`.
+This is also a good time implement `explain()`, by adding a method for `db_explain()`.
 
 If your database uses non-standard quoting (i.e. something other than `"` for identifiers and `'` for strings), implement methods for `sql_escape_string()` and `sql_escape_ident()`.
 
