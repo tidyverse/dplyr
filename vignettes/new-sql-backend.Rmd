@@ -94,6 +94,10 @@ copy_lahman(src_mssql(...))
 
 Don't proceed further until this works, and you've verified that the basic single table verbs word.
 
+## Query metadata
+
+If you database provides a nice way to access query metadata, implement `db_query_fields()` and `db_query_rows()` which return field names and row count for a given query.
+
 ## Compute, collect and collapse
 
 Next, check that `collapse()`, `compute()`, and `collect()` work.

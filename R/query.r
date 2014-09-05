@@ -64,10 +64,7 @@ Query <- R6::R6Class("Query",
 
     nrow = function() {
       if (!is.null(private$.nrow)) return(private$.nrow)
-
-      from <- sql_subquery(self$con, self$sql, "master")
-      rows <- build_sql("SELECT count(*) FROM ", from, con = self$con)
-      private$.nrow <- as.integer(dbGetQuery(self$con, rows)[[1]])
+      private$.nrow <- db_query_rows(self$con, self$sql)
       private$.nrow
     },
 

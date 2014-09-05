@@ -380,16 +380,30 @@ sql_escape_ident.NULL <- sql_escape_ident.DBIConnection
 
 #' @rdname backend_db
 #' @export
-db_query_fields <- function(con, from) {
+db_query_fields <- function(con, sql, ...) {
   UseMethod("db_query_fields")
 }
 #' @export
-db_query_fields.DBIConnection <- function(con, from) {
-  sql <- build_sql("SELECT * FROM ", from, " WHERE 0=1", con = con)
-  qry <- dbSendQuery(con, sql)
+db_query_fields.DBIConnection <- function(con, sql, ...) {
+  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
+
+  qry <- dbSendQuery(con, fields)
   on.exit(dbClearResult(qry))
 
   dbGetInfo(qry)$fieldDescription[[1]]$name
+}
+
+#' @rdname backend_db
+#' @export
+db_query_rows <- function(con, sql, ...) {
+  UseMethod("db_query_rows")
+}
+#' @export
+db_query_rows.DBIConnection <- function(con, sql, ...) {
+  from <- sql_subquery(con, sql, "master")
+  rows <- build_sql("SELECT count(*) FROM ", from, con = self$con)
+
+  as.integer(dbGetQuery(con, rows)[[1]])
 }
 
 # Utility functions ------------------------------------------------------------

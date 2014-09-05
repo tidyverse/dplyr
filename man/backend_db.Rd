@@ -13,6 +13,7 @@
 \alias{db_insert_into}
 \alias{db_list_tables}
 \alias{db_query_fields}
+\alias{db_query_rows}
 \alias{db_rollback}
 \alias{db_save_query}
 \title{Database generics.}
@@ -43,7 +44,9 @@ db_analyze(con, table, ...)
 
 db_explain(con, sql, ...)
 
-db_query_fields(con, from)
+db_query_fields(con, sql, ...)
+
+db_query_rows(con, sql, ...)
 }
 \arguments{
 \item{con}{A database connection.}

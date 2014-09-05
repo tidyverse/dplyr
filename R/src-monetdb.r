@@ -162,15 +162,14 @@ db_create_index.MonetDBConnection <- function(con, table, columns, name = NULL,
 }
 
 #' @export
-db_query_fields.MonetDBConnection <- function(con, from, ...) {
+db_query_fields.MonetDBConnection <- function(con, sql, ...) {
   # prepare gives us column info without actually running a query
-  dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
+  dbGetQuery(con,paste0("PREPARE SELECT * FROM ", sql))$column
 }
 
 #' @export
-query.MonetDBConnection <- function(con, sql, .vars) {
-  assert_that(is.string(sql))
-  MonetDBQuery$new(con = con, sql = sql(sql), .vars = .vars)
+db_query_rows.MonetDBConnection <- function(con, sql, ...) {
+  MonetDB.R::monetdb_queryinfo(con, sql)$rows
 }
 
 #' @export
@@ -189,17 +188,6 @@ db_save_query.MonetDBConnection <- function(con, sql, name, temporary = TRUE,
   dbGetQuery(con, sql)
   name
 }
-
-MonetDBQuery <- R6::R6Class("MonetDBQuery",
-  inherit = Query,
-  public = list(
-    nrow = function() {
-      if (!is.null(private$.nrow)) return(private$.nrow)
-      private$.nrow <- monetdb_queryinfo(self$con, self$sql)$rows
-      private$.nrow
-    }
-  )
-)
 
 monetdb_check_subquery <- function(sql) {
   if (grepl("ORDER BY|LIMIT|OFFSET", as.character(sql), ignore.case=TRUE)) {
