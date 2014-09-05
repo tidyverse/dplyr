@@ -93,6 +93,7 @@ Collate:
     'rbind.r'
     'rowwise.r'
     'sample.R'
+    'select-utils.R'
     'select-vars.R'
     'sets.r'
     'sql-escape.r'
