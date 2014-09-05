@@ -255,6 +255,101 @@ sql_explain <- function(con, sql, ...) {
   UseMethod("sql_explain")
 }
 
+#' @rdname dbi-sql
+sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
+  UseMethod("sql_join")
+}
+
+#' @export
+sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
+  join <- switch(type,
+    left = sql("LEFT"),
+    inner = sql("INNER"),
+    right = sql("RIGHT"),
+    full = sql("FULL"),
+    stop("Unknown join type:", type, call. = FALSE)
+  )
+
+  by <- by %||% common_by(x, y)
+  if (!is.null(names(by))) {
+    by_x <- names(by)
+    by_y <- unname(by)
+  } else {
+    by_x <- by
+    by_y <- by
+  }
+  using <- all(by_x == by_y)
+
+  # Ensure tables have unique names
+  x_names <- auto_names(x$select)
+  y_names <- auto_names(y$select)
+  uniques <- unique_names(x_names, y_names, by_x[by_x == by_y])
+
+  if (is.null(uniques)) {
+    sel_vars <- c(x_names, y_names)
+  } else {
+    x <- update(x, select = setNames(x$select, uniques$x))
+    y <- update(y, select = setNames(y$select, uniques$y))
+
+    by_x <- unname(uniques$x[by_x])
+    by_y <- unname(uniques$y[by_y])
+
+    sel_vars <- unique(c(uniques$x, uniques$y))
+  }
+
+  if (using) {
+    cond <- build_sql("USING ", lapply(by_x, ident), con = con)
+  } else {
+    on <- sql_vector(paste0(escape_ident(con, by_x), " = ", escape_ident(con, by_y)),
+      collapse = " AND ", parens = TRUE)
+    cond <- build_sql("ON ", on, con = con)
+  }
+
+  from <- build_sql(
+    sql_subquery(con, x$query$sql), "\n\n",
+    join, " JOIN \n\n" ,
+    sql_subquery(con, y$query$sql), "\n\n",
+    cond, con = con
+  )
+  attr(from, "vars") <- lapply(sel_vars, as.name)
+
+  from
+}
+
+#' @rdname dbi-sql
+#' @export
+sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
+  UseMethod("sql_semi_join")
+}
+
+#' @export
+sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...) {
+  by <- by %||% common_by(x, y)
+  if (!is.null(names(by))) {
+    by_x <- names(by)
+    by_y <- unname(by)
+  } else {
+    by_x <- by
+    by_y <- by
+  }
+
+  left <- escape(ident("_LEFT"), con = con)
+  right <- escape(ident("_RIGHT"), con = con)
+  on <- sql_vector(paste0(
+    left, ".", escape_ident(con, by_x), " = ", right, ".", escape_ident(con, by_y)),
+    collapse = " AND ", parens = TRUE)
+
+  from <- build_sql(
+    'SELECT * FROM ', sql_subquery(con, x$query$sql, "_LEFT"), '\n\n',
+    'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
+    '  SELECT 1 FROM ', sql_subquery(con, y$query$sql, "_RIGHT"), '\n',
+    '  WHERE ', on, ')'
+  )
+  attr(from, "vars") <- x$select
+  from
+}
+
+
 # Utility functions ------------------------------------------------------------
 
 random_table_name <- function(n = 10) {

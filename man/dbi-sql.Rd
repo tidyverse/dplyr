@@ -9,8 +9,10 @@
 \alias{sql_drop_table}
 \alias{sql_explain}
 \alias{sql_insert_into}
+\alias{sql_join}
 \alias{sql_rollback}
 \alias{sql_select}
+\alias{sql_semi_join}
 \alias{sql_subquery}
 \title{SQL generics.}
 \usage{
@@ -36,6 +38,10 @@ sql_select(con, select, from, where = NULL, group_by = NULL,
 sql_subquery(con, sql, name = random_table_name(), ...)
 
 sql_explain(con, sql, ...)
+
+sql_join(con, x, y, type = "inner", by = NULL, ...)
+
+sql_semi_join(con, x, y, anti = FALSE, by = NULL, ...)
 }
 \arguments{
 \item{con}{A database connection.}
