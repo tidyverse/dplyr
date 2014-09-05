@@ -68,6 +68,8 @@ Before continuing, make sure you can connect to an existing table, and that the 
 
 This is also a good time implement `explain()`, by adding a method for `sql_explain()`.
 
+If your database uses non-standard quoting (i.e. something other than `"` for identifiers and `'` for strings), implement methods for `sql_escape_string()` and `sql_escape_ident()`.
+
 At this point, all the basic verbs (`summarise()`, `filter()`, `arrange()`, `mutate()` etc) should also work, but it's hard to test without some data.
 
 ## `copy_to()`

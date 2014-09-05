@@ -225,3 +225,8 @@ sql_analyze.MySQLConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
   dbGetQuery(con, sql)
 }
+
+#' @export
+sql_escape_ident.MySQLConnection <- function(con, x) {
+  sql_quote(x, "`")
+}

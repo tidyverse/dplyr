@@ -307,7 +307,7 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   if (using) {
     cond <- build_sql("USING ", lapply(by_x, ident), con = con)
   } else {
-    on <- sql_vector(paste0(escape_ident(con, by_x), " = ", escape_ident(con, by_y)),
+    on <- sql_vector(paste0(sql_escape_ident(con, by_x), " = ", sql_escape_ident(con, by_y)),
       collapse = " AND ", parens = TRUE)
     cond <- build_sql("ON ", on, con = con)
   }
@@ -343,7 +343,7 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...)
   left <- escape(ident("_LEFT"), con = con)
   right <- escape(ident("_RIGHT"), con = con)
   on <- sql_vector(paste0(
-    left, ".", escape_ident(con, by_x), " = ", right, ".", escape_ident(con, by_y)),
+    left, ".", sql_escape_ident(con, by_x), " = ", right, ".", sql_escape_ident(con, by_y)),
     collapse = " AND ", parens = TRUE)
 
   from <- build_sql(
@@ -356,6 +356,29 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...)
   from
 }
 
+# Database specific methods ----------------------------------------------------
+
+#' @rdname dbi-sql
+#' @export
+sql_escape_string <- function(con, x) UseMethod("sql_escape_string")
+
+#' @export
+sql_escape_string.DBIConnection <- function(con, x) {
+  sql_quote(x, "'")
+}
+#' @export
+sql_escape_string.NULL <- sql_escape_string.DBIConnection
+
+#' @rdname dbi-sql
+#' @export
+sql_escape_ident <- function(con, x) UseMethod("sql_escape_ident")
+
+#' @export
+sql_escape_ident.DBIConnection <- function(con, x) {
+  sql_quote(x, '"')
+}
+#' @export
+sql_escape_ident.NULL <- sql_escape_ident.DBIConnection
 
 # Utility functions ------------------------------------------------------------
 

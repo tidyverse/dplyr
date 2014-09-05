@@ -7,6 +7,8 @@
 \alias{sql_create_index}
 \alias{sql_create_table}
 \alias{sql_drop_table}
+\alias{sql_escape_ident}
+\alias{sql_escape_string}
 \alias{sql_explain}
 \alias{sql_insert_into}
 \alias{sql_join}
@@ -42,6 +44,10 @@ sql_explain(con, sql, ...)
 sql_join(con, x, y, type = "inner", by = NULL, ...)
 
 sql_semi_join(con, x, y, anti = FALSE, by = NULL, ...)
+
+sql_escape_string(con, x)
+
+sql_escape_ident(con, x)
 }
 \arguments{
 \item{con}{A database connection.}
