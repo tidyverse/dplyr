@@ -9,6 +9,8 @@ This document describes how to describe a new SQL backend to dplyr. It's a work 
 
 dplyr uses S3, so make sure that you're [familiar with the basics](http://adv-r.had.co.nz/OO-essentials.html#s3) before you start.
 
+See `?backend_sql` and `?backend_db` for a complete list of generics.
+
 ## Create the src object
 
 Start by creating a new src function to represent the backend. Assuming we're going to create a src for mssql, you'd call it `src_mssql()`, and you'd follow the pattern of an existing src. A simplified version of `src_postgres()` is show below:

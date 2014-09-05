@@ -162,7 +162,7 @@ db_create_index.MonetDBConnection <- function(con, table, columns, name = NULL,
 }
 
 #' @export
-qry_fields.MonetDBConnection <- function(con, from, ...) {
+db_query_fields.MonetDBConnection <- function(con, from, ...) {
   # prepare gives us column info without actually running a query
   dbGetQuery(con,paste0("PREPARE SELECT * FROM ", from))$column
 }

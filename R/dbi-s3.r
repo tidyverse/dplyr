@@ -378,13 +378,13 @@ sql_escape_ident.DBIConnection <- function(con, x) {
 sql_escape_ident.NULL <- sql_escape_ident.DBIConnection
 
 
-# Query details ----------------------------------------------------------------
-
-qry_fields <- function(con, from) {
-  UseMethod("qry_fields")
+#' @rdname backend_db
+#' @export
+db_query_fields <- function(con, from) {
+  UseMethod("db_query_fields")
 }
 #' @export
-qry_fields.DBIConnection <- function(con, from) {
+db_query_fields.DBIConnection <- function(con, from) {
   sql <- build_sql("SELECT * FROM ", from, " WHERE 0=1", con = con)
   qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))

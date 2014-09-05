@@ -150,7 +150,7 @@ db_has_table.SQLiteConnection <- function(con, table, ...) {
 }
 
 #' @export
-qry_fields.SQLiteConnection <- function(con, from) {
+db_query_fields.SQLiteConnection <- function(con, from) {
   rs <- dbSendQuery(con, paste0("SELECT * FROM ", from))
   on.exit(dbClearResult(rs))
 
