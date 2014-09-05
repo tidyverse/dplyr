@@ -43,14 +43,12 @@ If you read the source code for the real `src_postgres()` you'll notice that it 
 
 Before continuing, check that you can create a connection to a local database. Don't worry if the object doesn't print correctly, you'll need to add a few other methods first.
 
-## Database methods
+## Table listing
 
-Next implement the database level methods in `dbi-s3.r` that need special behaviour for your database:
+Next implement two methods that allow dplyr to query the tables present in a database:
 
-* `dbi_connect()`
 * `db_list_tables()`
 * `db_has_table()`
-* `db_data_type()`
 
 These should be very straightforward if there's an existing DBI interface, and only a little harder if not. This methods basically provide a shim around individual database packages to make them behave the same. See the documentation for more details.
 
@@ -66,34 +64,34 @@ tbl.src_mssql <- function(src, from, ...) {
 }
 ```
 
-Before continuing, make sure you can connect to an existing table, and that the results are printed reasonably. If not, your database probably doesn't implements `SELECT` differently to the standard, so override `sql_select()`.
+Before continuing, make sure you can connect to an existing table, and that the results are printed reasonably. If not, that may indicate your database uses a non-standard DBI interface. That means you'll probably you'll probably also need to subclass the [R6](http://cran.r-project.org/web/packages/R6/vignettes/Introduction.html) Query class, and the `S3` query method that creates a new query object. If that happens to you, I'd strongly recommend asking for help.
 
-## Non-DBI interfaces
+This is also a good time implement `explain()`, by adding a method for `sql_explain()`.
 
-If the package you're wrapping isn't built on top of DBI, you'll probably also need to subclass the [R6](http://cran.r-project.org/web/packages/R6/vignettes/Introduction.html) Query class, and the `S3` query method that creates a new query object. It's normally better to 
+At this point, all the basic verbs (`summarise()`, `filter()`, `arrange()`, `mutate()` etc) should also work, but it's hard to test without some data.
 
 ## `copy_to()`
 
-To make `copy_to()` work, implement methods for each of the following methods if the default method doesn't work.
+Next, implement the methods that power `copy_to()` work. Once you've implemented these methods, you'll be able copy datasets from R into your database, which will make testing much easier.
 
+* `db_data_type()`
 * `sql_begin()`, `sql_commit()`, `sql_rollback()`
 * `sql_create_table()`, `sql_insert_into()`, `sql_drop_table()`
 * `sql_create_index()`, `sql_analyze()`
 
-If the database doesn't support a function, just return `TRUE` without doing anything.
+If the database doesn't support a function, just return `TRUE` without doing anything. If you find these methods a very poor match to your backend, you may find it easier to provide a direct `copy_to()` method.
 
-To support `explain()`, add a method for `sql_explain()`.
+At this point, you should be able to copy the nycflights13 data packages into your database with (e.g.):
 
-At this point, all the basic verbs (`summarise()`, `filter()`, `arrange()`, `mutate()` etc) should work.
+```{r, eval = FALSE}
+cache_nycflights13(src_mssql())
+```
+
+Don't proceed further until this works, and you've verified that the basic single table verbs word.
 
 ## Joins
 
 If your database has a non-standard way of constructing subqueries, add a method for `sql_subquery()`.
-
-
-## Lahman
-
-To test your implementation, add `lahman_src()` and a line to `has_lahman()`. This will check that you've correctly implemented the sql modification functions, and is useful for testing other code.
 
 ## sql translation
 
