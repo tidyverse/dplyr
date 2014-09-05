@@ -183,13 +183,14 @@ sql_analyze.DBIConnection <- function(con, table, ...) {
   dbGetQuery(con, sql)
 }
 
+# SQL generation --------------------------------------------------------------
+
 #' @rdname dbi-sql
 #' @export
 sql_select <- function(con, select, from, where = NULL, group_by = NULL,
   having = NULL, order_by = NULL, limit = NULL, offset = NULL, ...) {
   UseMethod("sql_select")
 }
-
 #' @export
 sql_select.DBIConnection <- function(con, select, from, where = NULL,
                                      group_by = NULL, having = NULL,
@@ -248,7 +249,6 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
 sql_subquery <- function(con, sql, name = random_table_name(), ...) {
   UseMethod("sql_subquery")
 }
-
 #' @export
 sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
   if (is.ident(sql)) return(sql)
@@ -266,7 +266,6 @@ sql_explain <- function(con, sql, ...) {
 sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
-
 #' @export
 sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   join <- switch(type,
@@ -328,7 +327,6 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
 sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
   UseMethod("sql_semi_join")
 }
-
 #' @export
 sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...) {
   by <- by %||% common_by(x, y)
@@ -356,7 +354,21 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...)
   from
 }
 
-# Database specific methods ----------------------------------------------------
+#' @rdname dbi-sql
+#' @export
+sql_set_op <- function(con, x, y, method) {
+  UseMethod("sql_set_op")
+}
+#' @export
+sql_set_op.DBIConnection <- function(con, x, y, method) {
+  sql <- build_sql(
+    x$query$sql,
+    "\n", sql(method), "\n",
+    y$query$sql
+  )
+  attr(sql, "vars") <- x$select
+  sql
+}
 
 #' @rdname dbi-sql
 #' @export

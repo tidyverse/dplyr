@@ -15,6 +15,7 @@
 \alias{sql_rollback}
 \alias{sql_select}
 \alias{sql_semi_join}
+\alias{sql_set_op}
 \alias{sql_subquery}
 \title{SQL generics.}
 \usage{
@@ -44,6 +45,8 @@ sql_explain(con, sql, ...)
 sql_join(con, x, y, type = "inner", by = NULL, ...)
 
 sql_semi_join(con, x, y, anti = FALSE, by = NULL, ...)
+
+sql_set_op(con, x, y, method)
 
 sql_escape_string(con, x)
 

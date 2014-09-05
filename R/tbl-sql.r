@@ -165,16 +165,6 @@ tail.tbl_sql <- function(x, n = 6L, ...) {
 
 # Set operations ---------------------------------------------------------------
 
-sql_set_op <- function(con, x, y, method) {
-  sql <- build_sql(
-    x$query$sql,
-    "\n", sql(method), "\n",
-    y$query$sql
-  )
-  attr(sql, "vars") <- x$select
-  sql
-}
-
 #' @export
 intersect.tbl_sql <- function(x, y, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy)
@@ -193,7 +183,6 @@ setdiff.tbl_sql <- function(x, y, copy = FALSE, ...) {
   sql <- sql_set_op(x$src$con, x, y, "EXCEPT")
   update(tbl(x$src, sql), group_by = groups(x))
 }
-
 
 # SQL select generation --------------------------------------------------------
 
