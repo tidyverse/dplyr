@@ -39,13 +39,13 @@ As well as using existing functions like \code{:} and \code{c}, there are
 a number of special functions that only work inside \code{select}
 
 \itemize{
- \item \code{starts_with(x, ignore.case = FALSE)}:
+ \item \code{starts_with(x, ignore.case = TRUE)}:
    names starts with \code{x}
- \item \code{ends_with(x, ignore.case = FALSE)}:
+ \item \code{ends_with(x, ignore.case = TRUE)}:
    names ends in \code{x}
- \item \code{contains(x, ignore.case = FALSE)}:
+ \item \code{contains(x, ignore.case = TRUE)}:
    selects all variables whose name contains \code{x}
- \item \code{matches(x, ignore.case = FALSE)}:
+ \item \code{matches(x, ignore.case = TRUE)}:
    selects all variables whose name matches the regular expression \code{x}
  \item \code{num_range("x", 1:5, width = 2)}:
    selects all variables (numerically) from x01 to x05.
