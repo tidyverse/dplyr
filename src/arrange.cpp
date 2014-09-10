@@ -98,9 +98,8 @@ List arrange_impl( DataFrame data, List args, DataDots dots ){
     IntegerVector index = o.apply() ;
     
     DataFrameVisitors visitors( data, data.names() ) ;
-    List res = visitors.subset(index, CharacterVector::create("data.frame") ) ;
+    List res = visitors.subset(index, data.attr("class") ) ;
     SET_ATTRIB(res, strip_group_attributes(res));
-    res.attr("class") = "data.frame" ;
     return res ;
 }
 
