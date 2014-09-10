@@ -105,7 +105,7 @@ test_that("arrange implements special case (#369)", {
 
 test_that("grouped arrange sorts first by group (#491)", {
   df1 <- mtcars %>% group_by(cyl) %>% arrange(disp) %>% ungroup()
-  df2 <- mtcars %>% arrange(cyl, disp)
+  df2 <- mtcars %>% arrange(cyl, disp) %>% tbl_df()
 
   expect_equal(df1, df2)
 })
