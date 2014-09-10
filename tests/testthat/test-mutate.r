@@ -242,3 +242,9 @@ test_that("mutate allows list columns (#555)", {
   expect_equal(res$pieces, list(c("a", "b"), c("c", "d", "e")))
 })
 
+test_that("hybrid evaluation goes deep enough (#554)", {
+  res1 <- iris %>% mutate(test = 1 == 2 | row_number() < 10)
+  res2 <- iris %>% mutate(test = row_number() < 10 | 1 == 2)
+  expect_equal(res1,res2)
+})
+
