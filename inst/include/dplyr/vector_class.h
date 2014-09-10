@@ -22,6 +22,10 @@ namespace dplyr {
     inline std::string vector_class<LGLSXP>(){
         return "logical" ;    
     }
+    template <>
+    inline std::string vector_class<VECSXP>(){
+        return "list" ;    
+    }
 
 }
 
