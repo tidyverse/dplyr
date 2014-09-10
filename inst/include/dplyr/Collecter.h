@@ -332,6 +332,7 @@ namespace dplyr {
             return new Collecter_Impl<REALSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
+        case VECSXP: return new Collecter_Impl<VECSXP>(n) ;
         default: break ;
         }
         return 0 ;

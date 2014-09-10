@@ -123,3 +123,8 @@ test_that( "Collecter_Impl<INTSXP> can collect LGLSXP. #321", {
   expect_equal( res$x, c(1:3, NA) )
 })
 
+test_that("rbind_all handles list columns (#463)", {
+  dfl <- data.frame(x = I(list(1:2, 1:3, 1:4)))
+  res <- rbind_all(list(dfl, dfl))
+  expect_equal(rep(dfl$x,2L), res$x)
+})
