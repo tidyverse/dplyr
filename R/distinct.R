@@ -33,7 +33,7 @@ distinct_ <- function(.data, vars = character()) {
 #' @export
 distinct_.data.frame <- function(.data, vars = character()) {
   vars <- standardise_vars(vars)
-  distinct_impl(.data)
+  distinct_impl(.data, vars)
 }
 
 #' @export

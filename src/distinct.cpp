@@ -4,8 +4,8 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-SEXP distinct_impl( DataFrame df ){
-    DataFrameVisitors visitors(df) ;
+SEXP distinct_impl( DataFrame df, CharacterVector vars){
+    DataFrameVisitors visitors(df, vars) ;
     
     std::vector<int> indices ;
     VisitorSetIndexSet<DataFrameVisitors> set(visitors) ;
