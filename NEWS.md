@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* allow list, i.e. `VECSXP` columns in mutate (#555)
+
 * `arrange` was losing `tbl_df` class (#563)
 
 * The db backend system has been completely overhauled in order to make 

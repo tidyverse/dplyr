@@ -9,6 +9,7 @@ namespace dplyr {
       case REALSXP:
       case LGLSXP:
       case STRSXP:
+      case VECSXP:
         return ;
       default:
         break ;
@@ -18,7 +19,7 @@ namespace dplyr {
        << CHAR(name)
        << "' ("
        << type2name(x) ;
-    SEXP classes = Rf_getAttrib(x, R_ClassSymbol ) ;
+    SEXP classes = Rf_getAttrib(x, R_ClassSymbol) ;
     if( !Rf_isNull(classes) ){   
       ss << ",  classes = " << collapse<STRSXP>(classes) ;
     }

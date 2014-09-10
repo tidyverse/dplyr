@@ -236,3 +236,9 @@ test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
   expect_is(out$mod[[1L]], "lm" )  
 })
 
+test_that("mutate allows list columns (#555)", {
+  df  <- data.frame(x = c("a;b", "c;d;e"), stringsAsFactors = FALSE) 
+  res <- mutate( df, pieces = strsplit(x, ";"))
+  expect_equal(res$pieces, list(c("a", "b"), c("c", "d", "e")))
+})
+

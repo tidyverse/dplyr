@@ -10,7 +10,9 @@ namespace dplyr {
         typedef VisitorEqualPredicate<Visitor> Pred ;
         typedef dplyr_hash_set<int, Hash, Pred > Set ;
         
-        Count_Distinct(Visitor v_): v(v_), set(1024, Hash(v), Pred(v) ) {}
+        Count_Distinct(Visitor v_): 
+            v(v_), set(1024, Hash(v), Pred(v) ) 
+        {}
         
         inline int process_chunk( const SlicingIndex& indices ){ 
             set.clear() ;

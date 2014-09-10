@@ -135,9 +135,8 @@ Result* count_prototype(SEXP args, const LazySubsets&, int){
 
 Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
     SEXP arg = CADR(call) ;
-    if( TYPEOF(arg) == SYMSXP ){
-      if( subsets.count(arg) ) arg = subsets.get_variable(arg) ;                                       
-      else return 0 ;
+    if( TYPEOF(arg) == SYMSXP && subsets.count(arg) ) {
+        return count_distinct_result(subsets.get_variable(arg)) ;
     }
     return count_distinct_result( arg ) ;
 }
