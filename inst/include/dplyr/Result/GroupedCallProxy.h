@@ -126,10 +126,13 @@ namespace dplyr {
                    
                 case SYMSXP:
                     if( TYPEOF(obj) != LANGSXP ){
-                        if( ! subsets.count(head) ){  
+                        if( ! subsets.count(head) ){
+                            
                             // in the Environment -> resolve
                             try{
                                 if( head == R_MissingArg ) break ;
+                                if( head == Rf_install(".") ) break ;
+                                
                                 Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
                                 SETCAR( obj, x );
                             } catch(...){

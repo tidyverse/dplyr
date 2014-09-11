@@ -1543,6 +1543,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
         call_proxy.set_env(env) ;
 
         SEXP call = args[dots.expr_index(i)] ;
+        
         SEXP name = results_names[i] ;
         SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){

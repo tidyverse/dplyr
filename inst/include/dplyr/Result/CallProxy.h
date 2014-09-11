@@ -52,8 +52,10 @@ namespace dplyr {
         void set_call( SEXP call_ ){
             proxies.clear() ;
             call = call_ ;
+            
             if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
             hybrid = can_simplify_call(call) ; 
+            
         }
         
         void input( Rcpp::String name, SEXP x ){
@@ -96,7 +98,6 @@ namespace dplyr {
                     if( CAR(head) == Rf_install("<-") ){
                         stop( "assignments are forbidden" ) ;    
                     }
-                    
                     if( Rf_length(head) == 3 ){
                         if( CAR(head) == R_DollarSymbol ){
                             SETCAR(obj, Rf_eval(head, env) ) ;
@@ -119,6 +120,7 @@ namespace dplyr {
                         LazySubsets::const_iterator it = subsets.find(head) ;
                         if( it == subsets.end() ){
                             if( head == R_MissingArg ) break ;
+                            if( head == Rf_install(".") ) break ;
                             
                             // in the Environment -> resolve
                             try{
@@ -127,6 +129,7 @@ namespace dplyr {
                             } catch( ...){
                                 // what happens when not found in environment
                             }
+                            
                         } else {
                             // in the data frame
                             proxies.push_back( CallElementProxy( head, obj ) );
