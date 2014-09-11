@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* `slice` allows numeric as well as integer, e.g. `slice(1)` now also works in 
+  addition to `slice(1L)` (#226). 
+
 * Internal `n_distinct` is stricter and requires it is given only one symbol
   as input which must be from the data frame (#567). 
 

@@ -1324,8 +1324,8 @@ DataFrame grouped_df_adj_impl( DataFrame data, ListOf<Symbol> symbols, bool drop
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 inline SEXP check_filter_integer_result(SEXP tmp){
-    if( TYPEOF(tmp) != INTSXP ){
-        stop( "integer_filter condition does not evaluate to an integer vector. " ) ;
+    if( TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP ){
+        stop( "integer_filter condition does not evaluate to an integer or numeric vector. " ) ;
     }
     return tmp ;
 }
