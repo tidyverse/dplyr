@@ -1,5 +1,8 @@
 # dplyr 0.2.0.99
 
+* Internal `n_distinct` is stricter and requires it is given only one symbol
+  as input which must be from the data frame (#567). 
+
 * Internal `distinct_impl` gets a second argument to control the variables (#97). 
 
 * `rbind_all` now handles list columns (#463). 
