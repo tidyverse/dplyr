@@ -5,6 +5,9 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 SEXP distinct_impl( DataFrame df, CharacterVector vars){
+    if( !vars.size() ){
+        vars = df.names() ;
+    }
     DataFrameVisitors visitors(df, vars) ;
     
     std::vector<int> indices ;
