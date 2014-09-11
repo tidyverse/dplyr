@@ -59,24 +59,24 @@ distinct_impl <- function(df, vars) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars)
 }
 
-semi_join_impl <- function(x, y, by) {
-    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by)
+semi_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-anti_join_impl <- function(x, y, by) {
-    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by)
+anti_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-inner_join_impl <- function(x, y, by) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by)
+inner_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-left_join_impl <- function(x, y, by) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by)
+left_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-right_join_impl <- function(x, y, by) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by)
+right_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
 shallow_copy <- function(data) {

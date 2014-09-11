@@ -10,17 +10,22 @@ namespace dplyr{
     public:
         typedef JoinVisitor visitor_type ;
         
-        DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_) : 
-            left(left_), right(right_), visitor_names(names_), nvisitors(names_.size()), visitors(nvisitors)
+        DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right ) : 
+            left(left_), right(right_), 
+            visitor_names_left(names_left), 
+            visitor_names_right(names_right), 
+            nvisitors(names_left.size()), 
+            visitors(nvisitors)
         {    
-            std::string name ;
+            std::string name_left, name_right ;
             for( int i=0; i<nvisitors; i++){
-                name = names_[i] ;
+                name_left  = names_left[i] ;
+                name_right = names_right[i] ;
                 try{
-                    visitors[i] = join_visitor( left[name], right[name], name) ;
+                    visitors[i] = join_visitor( left[name_left], right[name_right], name_left, name_right ) ;
                 } catch( ... ){
                     std::stringstream s ;
-                    s << "cannot join on column '" << name << "'" ;
+                    s << "cannot join on columns '" << name_left << "' x '" << name_right << "'" ;
                     stop(s.str());
                 }
             }
@@ -30,8 +35,12 @@ namespace dplyr{
             delete_all(visitors);    
         }
         
-        inline JoinVisitor* get(int k) const { return visitors[k] ; }
-        inline int size() const{ return nvisitors ; } 
+        inline JoinVisitor* get(int k) const { 
+            return visitors[k] ; 
+        }
+        inline int size() const{ 
+            return nvisitors ; 
+        } 
         
         template <typename Container>
         inline DataFrame subset( const Container& index, const CharacterVector& classes ){
@@ -42,7 +51,7 @@ namespace dplyr{
             }
             out.attr( "class" ) = classes ;
             set_rownames(out, nrows) ;
-            out.names() = visitor_names ;
+            out.names() = visitor_names_left ; 
             SEXP vars = left.attr( "vars" ) ;
             if( !Rf_isNull(vars) )
                 out.attr( "vars" ) = vars ;
@@ -57,7 +66,9 @@ namespace dplyr{
     private:
         const DataFrame& left ;
         const DataFrame& right ;
-        CharacterVector visitor_names ;
+        CharacterVector visitor_names_left ;
+        CharacterVector visitor_names_right ;
+        
         int nvisitors ;
         std::vector<JoinVisitor*> visitors ;
         

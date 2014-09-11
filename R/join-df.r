@@ -36,7 +36,7 @@ NULL
 
 #' @export
 #' @rdname join.tbl_df
-inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+inner_join.tbl_df <- function(x, y, by_x = NULL, by_y = by_x, copy = FALSE, ...) {
   by <- by %||% common_by(x, y)
   y <- auto_copy(x, y, copy = copy)
   inner_join_impl(x, y, by)

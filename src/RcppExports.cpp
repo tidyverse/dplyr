@@ -177,16 +177,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // semi_join_impl
-DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by);
-RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
+RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
-        DataFrame __result = semi_join_impl(x, y, by);
+        Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP );
+        DataFrame __result = semi_join_impl(x, y, by_x, by_y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -194,16 +195,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // anti_join_impl
-DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by);
-RcppExport SEXP dplyr_anti_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
+RcppExport SEXP dplyr_anti_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
-        DataFrame __result = anti_join_impl(x, y, by);
+        Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP );
+        DataFrame __result = anti_join_impl(x, y, by_x, by_y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -211,16 +213,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // inner_join_impl
-DataFrame inner_join_impl(DataFrame x, DataFrame y, CharacterVector by);
-RcppExport SEXP dplyr_inner_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+DataFrame inner_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
+RcppExport SEXP dplyr_inner_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
-        DataFrame __result = inner_join_impl(x, y, by);
+        Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP );
+        DataFrame __result = inner_join_impl(x, y, by_x, by_y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -228,16 +231,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // left_join_impl
-DataFrame left_join_impl(DataFrame x, DataFrame y, CharacterVector by);
-RcppExport SEXP dplyr_left_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+DataFrame left_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
+RcppExport SEXP dplyr_left_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
-        DataFrame __result = left_join_impl(x, y, by);
+        Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP );
+        DataFrame __result = left_join_impl(x, y, by_x, by_y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -245,16 +249,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // right_join_impl
-DataFrame right_join_impl(DataFrame x, DataFrame y, CharacterVector by);
-RcppExport SEXP dplyr_right_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+DataFrame right_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
+RcppExport SEXP dplyr_right_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
         Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type by(bySEXP );
-        DataFrame __result = right_join_impl(x, y, by);
+        Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP );
+        DataFrame __result = right_join_impl(x, y, by_x, by_y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
