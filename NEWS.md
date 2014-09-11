@@ -1,6 +1,6 @@
 # dplyr 0.2.0.99
 
-* a grouped data frame may have 0 groups (#483). 
+* a grouped data frame may have 0 groups (#486). 
 
 * `slice` allows numeric as well as integer, e.g. `slice(1)` now also works in 
   addition to `slice(1L)`. `slice` also silently ignores out of range indices (#226). 
