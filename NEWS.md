@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* The `SlicingIndex` internal class handles 0 sized groups (#413).  
+
 * a grouped data frame may have 0 groups (#486). 
 
 * `slice` allows numeric as well as integer, e.g. `slice(1)` now also works in 

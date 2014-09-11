@@ -61,6 +61,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
         SEXP name = names[dots.expr_index(i)] ;
         Environment env = dots.envir(i) ;
         Result* res = get_handler( args[i], subsets, env ) ;
+        
         SEXP result ;
         if(res) {
             result = __(res->process( FullDataFrame(df) )) ;
