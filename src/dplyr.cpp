@@ -1400,6 +1400,7 @@ SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const Da
 
 // [[Rcpp::export]]
 SEXP integer_filter_impl( DataFrame df, List args, Environment env){
+    if( args.size() == 0 ) return df ;
     if( args.size() != 1 )
         stop( "integer_filter only accepts one expression" );
     DataDots dots(env) ;

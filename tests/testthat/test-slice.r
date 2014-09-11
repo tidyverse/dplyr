@@ -17,3 +17,7 @@ test_that( "slice silently ignores out of range values (#226)", {
   
 })
 
+test_that( "slice works with 0 args", {
+  expect_equal(slice(mtcars), mtcars)
+})
+
