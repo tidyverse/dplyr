@@ -1384,9 +1384,16 @@ SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const Da
     CallProxy proxy( call, df, env ) ;
     
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
-    // this should rather be handled in subset
-    test = test - 1 ;
-    DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+    
+    int n = test.size() ;
+    int nr = df.nrows() ;
+    std::vector<int> indices ; indices.reserve(n) ;
+    for( int i=0; i<n; i++){
+        int test_i = test[i] ;
+        if( test_i > 0 && test_i <= nr ) indices.push_back(test_i - 1 );
+    }
+    
+    DataFrame res = subset( df, indices, df.names(), classes_not_grouped() ) ;
     return res ;
     
 }
