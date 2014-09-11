@@ -51,6 +51,10 @@ cbind_all <- function(dots) {
     .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }
 
+combine_all <- function(data) {
+    .Call('dplyr_combine_all', PACKAGE = 'dplyr', data)
+}
+
 distinct_impl <- function(df, vars) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars)
 }

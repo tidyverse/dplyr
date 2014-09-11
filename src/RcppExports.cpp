@@ -145,6 +145,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// combine_all
+SEXP combine_all(List data);
+RcppExport SEXP dplyr_combine_all(SEXP dataSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< List >::type data(dataSEXP );
+        SEXP __result = combine_all(data);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // distinct_impl
 SEXP distinct_impl(DataFrame df, CharacterVector vars);
 RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP) {
