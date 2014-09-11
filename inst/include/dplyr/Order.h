@@ -74,6 +74,7 @@ namespace dplyr {
     } ;
     
     inline Rcpp::IntegerVector OrderVisitors::apply() const {
+        if( nrows == 0 ) return IntegerVector(0); 
         IntegerVector x = seq(0, nrows -1 ) ;
         std::sort( x.begin(), x.end(), OrderVisitors_Compare(*this) ) ;
         return x ;

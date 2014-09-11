@@ -1257,7 +1257,7 @@ DataFrame build_index_cpp( DataFrame data ){
 
     DataFrame labels = visitors.subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
-
+    
     OrderVisitors labels_order_visitors(labels) ;
     IntegerVector labels_order = labels_order_visitors.apply() ;
     
@@ -1273,6 +1273,7 @@ DataFrame build_index_cpp( DataFrame data ){
     for( int i=0; i<ngroups; i++, ++it){
         chunks[i] = &it->second ;    
     }
+    
     for( int i=0; i<ngroups; i++){
         int idx = labels_order[i] ; 
         const std::vector<int>& chunk = *chunks[idx] ;

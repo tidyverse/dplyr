@@ -174,3 +174,11 @@ test_that("data.table invalid .selfref issue (#475)", {
   dt <- data.table(x=1:5, y=6:10)
   expect_that((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], not(gives_warning()))
 })
+
+test_that("there can be 0 groups (#486)", {
+  data <- regroup(data.frame(a = numeric(0), g = character(0)), list(quote(g)))
+  expect_equal(length(data$a), 0L)
+  expect_equal(length(data$g), 0L)
+  expect_equal(attr(data, "group_sizes"), integer(0))
+  
+})
