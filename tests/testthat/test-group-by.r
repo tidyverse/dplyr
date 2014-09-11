@@ -134,6 +134,37 @@ test_that("group_by fails when lists are used as grouping variables (#276)",{
   expect_error(group_by(df,y))
 })
 
+test_that("group_by works with zero-row data frames (#486)", {
+  dfg <- group_by(data.frame(a = numeric(0), b = numeric(0), g = character(0)), g)
+  expect_equal(dim(dfg), c(0, 3))
+  expect_equal(groups(dfg), list(quote(g)))
+  expect_equal(group_size(dfg), integer(0))
+
+  x <- summarise(dfg, n = n())
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), NULL)
+
+  x <- mutate(dfg, c = b + 1)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- filter(dfg, a == 100)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- arrange(dfg, a, g)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- select(dfg, a)  # Only select 'a' column; should result in 'g' and 'a'
+  expect_equal(dim(x), c(0, 2))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+})
+
 # Data tables ------------------------------------------------------------------
 
 test_that("original data table not modified by grouping", {
