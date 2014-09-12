@@ -13,16 +13,16 @@ df_all <- data.frame(
 )
 
 test_that("data frames equal to themselves", {
-  expect_true(all.equal(mtcars, mtcars))
-  expect_true(all.equal(iris, iris))
-  expect_true(all.equal(df_all, df_all))
+  expect_true(all.equal(tbl_df(mtcars), tbl_df(mtcars)))
+  expect_true(all.equal(tbl_df(iris), tbl_df(iris)))
+  expect_true(all.equal(tbl_df(df_all), tbl_df(df_all)))
 })
 
 test_that("data frames equal to random permutations of themselves", {
   scramble <- function(x){
     x[sample(nrow(x)), sample(ncol(x)), drop = FALSE]
   }
-  
+
   expect_equal(tbl_df(mtcars), tbl_df(scramble(mtcars)))
   expect_equal(tbl_df(iris), tbl_df(scramble(iris)))
   expect_equal(tbl_df(df_all), tbl_df(scramble(df_all)))
@@ -49,11 +49,11 @@ test_that("factors equal only if levels equal", {
 test_that("integers and reals are not equal", {
   x <- 1:10
   y <- as.numeric(x)
-  
+
   df1 <- data.frame(x = x)
   df2 <- data.frame(x = y)
-  
-  expect_match(all.equal(tbl_df(df1), df2), 
+
+  expect_match(all.equal(tbl_df(df1), df2),
     "Incompatible type for column x: x integer, y numeric")
 })
 
