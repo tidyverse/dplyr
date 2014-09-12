@@ -214,7 +214,7 @@ test_that("hybrid evaluator uses correct environment (#403)", {
 test_that("mutate remove variables with = NULL syntax (#462)", {
   data <- mtcars %>% mutate(cyl = NULL)
   expect_false( "cyl" %in% names(data) )
-  
+
   data <- mtcars %>% group_by(disp) %>% mutate(cyl = NULL)
   expect_false( "cyl" %in% names(data) )
 })
@@ -224,27 +224,27 @@ test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
     tbl_df %>%
     mutate(y = rnorm(x,x*2,1)) %>%
     group_by(grp) %>%
-    do(mod = lm(y~x,data = .)) 
-  
+    do(mod = lm(y~x,data = .))
+
   out <- one_mod %>%
     mutate(rsq = summary(mod)$r.squared) %>%
     mutate(aic = AIC(mod))
-                
+
   expect_is(out, "rowwise_df")
-  expect_equal(nrow(out), 1L) 
+  expect_equal(nrow(out), 1L)
   expect_is(out$mod, "list")
-  expect_is(out$mod[[1L]], "lm" )  
+  expect_is(out$mod[[1L]], "lm" )
 })
 
 test_that("mutate allows list columns (#555)", {
-  df  <- data.frame(x = c("a;b", "c;d;e"), stringsAsFactors = FALSE) 
+  df  <- data.frame(x = c("a;b", "c;d;e"), stringsAsFactors = FALSE)
   res <- mutate( df, pieces = strsplit(x, ";"))
   expect_equal(res$pieces, list(c("a", "b"), c("c", "d", "e")))
 })
 
 test_that("hybrid evaluation goes deep enough (#554)", {
   res1 <- iris %>% mutate(test = 1 == 2 | row_number() < 10)
-  res2 <- iris %>% mutate(test = row_number() < 10 | 1 == 2)
+  res2 <- iris %>% mutate(test = row_number() < 10 | 1 == 2)
   expect_equal(res1,res2)
 })
 
