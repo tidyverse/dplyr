@@ -1,4 +1,4 @@
-# dplyr 0.2.0.99
+# dplyr 0.2.0.9000
 
 * `glimpse()` now prints a trailing new line (#590).
 
