@@ -77,13 +77,24 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("anti_join")
 }
 
-common_by <- function(x, y) {
+common_by <- function(by = NULL, x, y) {
+  if (!is.null(by)) {
+    return(list(
+      x = names(by) %||% by,
+      y = unname(by)
+    ))
+  }
+
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
   }
   message("Joining by: ", capture.output(dput(by)))
-  by
+
+  list(
+    x = by,
+    y = by
+  )
 }
 
 unique_names <- function(x_names, y_names, by, x_suffix = ".x", y_suffix = ".y") {

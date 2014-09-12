@@ -31,13 +31,16 @@ NULL
 
 join_dt <- function(op) {
   template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {
-    by <- by %||% common_by(x, y)
+    by <- common_by(by, x, y)
+    if (!identical(by$x, by$y)) {
+      stop("Data table joins must be on same key", call. = FALSE)
+    }
     y <- auto_copy(x, y, copy = copy)
 
     x <- copy(x)
     y <- copy(y)
-    setkeyv(x, by)
-    setkeyv(y, by)
+    setkeyv(x, by$x)
+    setkeyv(y, by$x)
     out <- op
     grouped_dt(out, groups(x))
   })
@@ -49,11 +52,11 @@ join_dt <- function(op) {
 
 #' @export
 #' @rdname join.tbl_dt
-inner_join.data.table <- join_dt(merge(x, y, by = by, allow.cartesian = TRUE))
+inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))
 
 #' @export
 #' @rdname join.tbl_dt
-left_join.data.table  <- join_dt(merge(x, y, by = by, all.x = TRUE, allow.cartesian = TRUE))
+left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))
 
 #' @export
 #' @rdname join.tbl_dt

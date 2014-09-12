@@ -261,20 +261,13 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
     stop("Unknown join type:", type, call. = FALSE)
   )
 
-  by <- by %||% common_by(x, y)
-  if (!is.null(names(by))) {
-    by_x <- names(by)
-    by_y <- unname(by)
-  } else {
-    by_x <- by
-    by_y <- by
-  }
-  using <- all(by_x == by_y)
+  by <- common_by(by, x, y)
+  using <- all(by$x == by$y)
 
   # Ensure tables have unique names
   x_names <- auto_names(x$select)
   y_names <- auto_names(y$select)
-  uniques <- unique_names(x_names, y_names, by_x[by_x == by_y])
+  uniques <- unique_names(x_names, y_names, by$x[by$x == by$y])
 
   if (is.null(uniques)) {
     sel_vars <- c(x_names, y_names)
@@ -282,16 +275,16 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
     x <- update(x, select = setNames(x$select, uniques$x))
     y <- update(y, select = setNames(y$select, uniques$y))
 
-    by_x <- unname(uniques$x[by_x])
-    by_y <- unname(uniques$y[by_y])
+    by$x <- unname(uniques$x[by$x])
+    by$y <- unname(uniques$y[by$y])
 
     sel_vars <- unique(c(uniques$x, uniques$y))
   }
 
   if (using) {
-    cond <- build_sql("USING ", lapply(by_x, ident), con = con)
+    cond <- build_sql("USING ", lapply(by$x, ident), con = con)
   } else {
-    on <- sql_vector(paste0(sql_escape_ident(con, by_x), " = ", sql_escape_ident(con, by_y)),
+    on <- sql_vector(paste0(sql_escape_ident(con, by$x), " = ", sql_escape_ident(con, by$y)),
       collapse = " AND ", parens = TRUE)
     cond <- build_sql("ON ", on, con = con)
   }
@@ -314,19 +307,12 @@ sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
 }
 #' @export
 sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...) {
-  by <- by %||% common_by(x, y)
-  if (!is.null(names(by))) {
-    by_x <- names(by)
-    by_y <- unname(by)
-  } else {
-    by_x <- by
-    by_y <- by
-  }
+  by <- common_by(by, x, y)
 
   left <- escape(ident("_LEFT"), con = con)
   right <- escape(ident("_RIGHT"), con = con)
   on <- sql_vector(paste0(
-    left, ".", sql_escape_ident(con, by_x), " = ", right, ".", sql_escape_ident(con, by_y)),
+    left, ".", sql_escape_ident(con, by$x), " = ", right, ".", sql_escape_ident(con, by$y)),
     collapse = " AND ", parens = TRUE)
 
   from <- build_sql(
