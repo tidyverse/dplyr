@@ -1,5 +1,7 @@
 # dplyr 0.2.0.99
 
+* `glimpse()` now prints a trailing new line (#590).
+
 * The `SlicingIndex` internal class handles 0 sized groups (#413).  
 
 * a grouped data frame may have 0 groups (#486). 

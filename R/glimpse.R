@@ -36,7 +36,7 @@ glimpse <- function(tbl, width = getOption("width")) {
     character(1), USE.NAMES = FALSE)
   truncated <- str_trunc(formatted, data_width)
 
-  cat(paste0(var_names, truncated, collapse = "\n"))
+  cat(paste0(var_names, truncated, collapse = "\n"), "\n", sep = "")
 }
 
 str_trunc <- function(x, max_width) {
