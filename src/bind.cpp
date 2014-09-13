@@ -94,7 +94,7 @@ List rbind__impl( Dots dots ){
     out.attr( "names" ) = out_names ;
     delete_all( columns ) ;
     set_rownames( out, n );
-    out.attr( "class" ) = "data.frame" ;
+    out.attr( "class" ) = classes_not_grouped() ;
 
     return out ;
 }

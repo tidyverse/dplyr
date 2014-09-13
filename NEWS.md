@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `rbind_all` creates `tbl_df` objects instead of raw `data.frame`. 
+
 * `glimpse()` now prints a trailing new line (#590).
 
 * The `SlicingIndex` internal class handles 0 sized groups (#413).  

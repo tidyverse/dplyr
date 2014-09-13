@@ -128,3 +128,9 @@ test_that("rbind_all handles list columns (#463)", {
   res <- rbind_all(list(dfl, dfl))
   expect_equal(rep(dfl$x,2L), res$x)
 })
+
+test_that("rbind_all creates tbl_df object", {
+  res <- rbind_list(tbl_df(mtcars))
+  expect_is( res, "tbl_df" )  
+})
+
