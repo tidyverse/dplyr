@@ -248,3 +248,6 @@ test_that("hybrid evaluation goes deep enough (#554)", {
   expect_equal(res1,res2)
 })
 
+test_that("hybrid does not segfault when given non existing variable (#569)", {
+  expect_error( mtcars %>% summarise(first(mp)), "variable 'mp' not found" )   
+})

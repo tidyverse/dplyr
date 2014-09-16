@@ -20,6 +20,13 @@ namespace dplyr {
         
         virtual SEXP get_variable(SEXP symbol) const {
             DataMap::const_iterator it = data_map.find(symbol) ;
+            if( it == data_map.end() ){
+                std::stringstream s ;
+                s << "variable '"
+                  << CHAR(PRINTNAME(symbol))
+                  << "' not found" ;
+                Rcpp::stop(s.str()) ;
+            }
             return it->second ;
         }
         virtual bool is_summary( SEXP symbol ) const {

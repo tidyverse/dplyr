@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* hybrid evaluation was segfaulting when using a variable that was not found
+  in the data (#569). 
+
 * `rbind_all` creates `tbl_df` objects instead of raw `data.frame`. 
 
 * `glimpse()` now prints a trailing new line (#590).

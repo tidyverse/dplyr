@@ -50,7 +50,6 @@ namespace dplyr {
             // initial
             if( TYPEOF(call) == LANGSXP ){
                 Result* res = get_handler(call, subsets, env) ;
-                
                 if( res ){
                     // replace the call by the result of process
                     call = res->process(indices) ;

@@ -353,7 +353,7 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     }
     SEXP data = CADR(call) ;
     if( TYPEOF(data) == SYMSXP ) data = subsets.get_variable(data) ;
-
+    
     // easy case : just a single variable: first(x)
     if( nargs == 1 ){
         switch( TYPEOF(data) ){
