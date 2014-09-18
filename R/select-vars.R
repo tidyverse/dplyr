@@ -48,7 +48,7 @@
 select_vars <- function(vars, ..., env = parent.frame(),
                         include = character(), exclude = character()) {
 
-  args <- lazy::lazy_dots(...)
+  args <- lazyeval::lazy_dots(...)
   select_vars_(vars, args, include = include, exclude = exclude)
 }
 
@@ -62,7 +62,7 @@ select_vars_ <- function(vars, args, env = parent.frame(),
     return(setNames(vars, vars))
   }
 
-  args <- lazy::as.lazy_dots(args, env = env)
+  args <- lazyeval::as.lazy_dots(args, env = env)
 
   # No non-standard evaluation - but all names mapped to their position.
   # Keep integer semantics: include = +, exclude = -
@@ -77,7 +77,7 @@ select_vars_ <- function(vars, args, env = parent.frame(),
     one_of = function(...) one_of(vars, ...)
   )
 
-  ind_list <- lazy::lazy_eval(args, c(names_list, select_funs))
+  ind_list <- lazyeval::lazy_eval(args, c(names_list, select_funs))
   names(ind_list) <- names2(args)
 
   ind <- unlist(ind_list)
@@ -124,7 +124,7 @@ setdiff2 <- function(x, y) {
 #' @export
 #' @rdname select_vars
 rename_vars <- function(vars, ...) {
-  rename_vars_(vars, lazy::lazy_dots(...))
+  rename_vars_(vars, lazyeval::lazy_dots(...))
 }
 
 #' @export
@@ -134,7 +134,7 @@ rename_vars_ <- function(vars, args, env = parent.frame()) {
     stop("All arguments to rename must be named.", stop = FALSE)
   }
 
-  args <- lazy::as.lazy_dots(args, env = env)
+  args <- lazyeval::as.lazy_dots(args, env = env)
   is_name <- vapply(args, function(x) is.name(x$expr), logical(1))
   if (!all(is_name)) {
     stop("Arguments to rename must be unquoted variable names. ",

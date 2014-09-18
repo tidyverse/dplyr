@@ -1,6 +1,6 @@
 #' @export
 select_.tbl_cube <- function(.data, args) {
-  args <- lazy::as.lazy_dots(args, parent.frame())
+  args <- lazyeval::as.lazy_dots(args, parent.frame())
   vars <- select_vars_(names(.data$mets), args)
   .data$mets <- .data$mets[vars]
   .data
@@ -8,7 +8,7 @@ select_.tbl_cube <- function(.data, args) {
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- rename_vars_(names(.data$mets), lazy::lazy_dots(...))
+  vars <- rename_vars_(names(.data$mets), lazyeval::lazy_dots(...))
   .data$mets <- .data$mets[vars]
   .data
 }

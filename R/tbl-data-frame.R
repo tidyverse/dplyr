@@ -46,13 +46,13 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 select_.data.frame <- function(.data, args) {
-  args <- lazy::as.lazy_dots(args, parent.frame())
+  args <- lazyeval::as.lazy_dots(args, parent.frame())
   vars <- select_vars_(names(.data), args)
   select_impl(.data, vars)
 }
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- rename_vars_(names(.data), lazy::lazy_dots(...))
+  vars <- rename_vars_(names(.data), lazyeval::lazy_dots(...))
   select_impl(.data, vars)
 }
 

@@ -186,7 +186,7 @@ arrange <- function(.data, ...) UseMethod("arrange")
 #' select_(iris, c("Petal.Length"))
 #' select_(iris, substitute(matches(x), list(x = ".t.")))
 select <- function(.data, ...) {
-  select_(.data, lazy::lazy_dots(...))
+  select_(.data, lazyeval::lazy_dots(...))
 }
 
 #' @export

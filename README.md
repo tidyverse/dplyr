@@ -24,6 +24,7 @@ You can install:
 * the latest development version from github with
 
     ```R
+    devtools::install_github("hadley/lazyeval")
     devtools::install_github("hadley/dplyr")
     ```
 

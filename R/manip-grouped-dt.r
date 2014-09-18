@@ -117,7 +117,7 @@ arrange.grouped_dt <- function(.data, ...) {
 #' @rdname manip_grouped_dt
 #' @export
 select_.grouped_dt <- function(.data, args) {
-  args <- lazy::as.lazy_dots(args, parent.frame())
+  args <- lazyeval::as.lazy_dots(args, parent.frame())
   vars <- select_vars_(names(.data), args,
     include = as.character(groups(.data)))
   out <- .data[, vars, drop = FALSE, with = FALSE]
@@ -132,7 +132,7 @@ select_.grouped_dt <- function(.data, args) {
 #' @rdname manip_grouped_dt
 #' @export
 rename.grouped_dt <- function(.data, ...) {
-  vars <- rename_vars_(names(.data), lazy::lazy_dots(...))
+  vars <- rename_vars_(names(.data), lazyeval::lazy_dots(...))
   out <- .data[, vars, drop = FALSE, with = FALSE]
   setnames(out, names(vars))
 

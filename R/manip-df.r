@@ -24,7 +24,7 @@ summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
 
 #' @export
 select_.grouped_df <- function(.data, args) {
-  args <- lazy::as.lazy_dots(args, parent.frame())
+  args <- lazyeval::as.lazy_dots(args, parent.frame())
   vars <- select_vars_(names(.data), args,
     include = as.character(groups(.data)))
 
@@ -33,7 +33,7 @@ select_.grouped_df <- function(.data, args) {
 
 #' @export
 rename.grouped_df <- function(.data, ...) {
-  vars <- rename_vars_(names(.data), lazy::lazy_dots(...))
+  vars <- rename_vars_(names(.data), lazyeval::lazy_dots(...))
 
   select_impl(.data, vars)
 }

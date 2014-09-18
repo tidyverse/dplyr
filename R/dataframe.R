@@ -26,7 +26,7 @@
 #' # or munges column names
 #' data_frame(`a + b` = 1:5)
 data_frame <- function(...) {
-  data_frame_(lazy::lazy_dots(...))
+  data_frame_(lazyeval::lazy_dots(...))
 }
 
 #' @export
@@ -56,7 +56,7 @@ data_frame_ <- function(columns) {
   while (i <= n) {
 
     # Fill by reference
-    output[[i]] <-  lazy::lazy_eval(columns[[i]], output)
+    output[[i]] <-  lazyeval::lazy_eval(columns[[i]], output)
     names(output)[i] <- col_names[[i]]
 
     # Update
