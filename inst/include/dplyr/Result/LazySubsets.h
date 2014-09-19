@@ -10,7 +10,7 @@ namespace dplyr {
         
         LazySubsets(){}
         
-        LazySubsets( const DataFrame& df) : data_map(){
+        LazySubsets( const DataFrame& df) : data_map(), nr(df.nrows()){
             CharacterVector names = df.names() ;
             for( int i=0; i<df.size(); i++){
                 data_map[as_symbol(names[i])] = df[i] ;    
@@ -57,11 +57,12 @@ namespace dplyr {
         }
         
         inline int nrows() const {
-            return Rf_length( data_map.begin()->second ) ;  
+            return nr ;
         }
         
     private:
         DataMap data_map ;
+        int nr ;
     } ;
 
 }
