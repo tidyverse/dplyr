@@ -191,3 +191,19 @@ test_that("joining data tables yields a data table (#470)", {
   out <- semi_join(data.table(a), data.table(b))
   expect_is(out, "data.table")
 })
+
+test_that("inner_join is symmetric (even when joining on character & factor)", {
+  foo <- data_frame(id = factor(c("a", "b")), var1 = "foo")
+  bar <- data_frame(id = c("a", "b"), var2 = "bar")
+
+  tmp1 <- inner_join(foo, bar, by="id")
+  tmp2 <- inner_join(bar, foo, by="id")
+  
+  expect_is(tmp1$id, "character")
+  expect_is(tmp2$id, "character")
+  
+  expect_equal(names(tmp1), c("id", "var1", "var2"))
+  expect_equal(names(tmp2), c("id", "var2", "var1"))
+
+  expect_equal(tmp1, tmp2)
+})

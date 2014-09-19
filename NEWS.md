@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* Fixing namespace extraction operators `::` and `:::` in dplyr verbs (#412). 
+
 * `LazySubset` was confused about input data size (#452). 
 
 * hybrid evaluation was segfaulting when using a variable that was not found

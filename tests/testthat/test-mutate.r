@@ -251,3 +251,10 @@ test_that("hybrid evaluation goes deep enough (#554)", {
 test_that("hybrid does not segfault when given non existing variable (#569)", {
   expect_error( mtcars %>% summarise(first(mp)), "variable 'mp' not found" )   
 })
+
+test_that("namespace extraction works in hybrid (#412)", {
+  expect_equal(
+    mutate(mtcars, cyl2 = stats::lag(cyl)), 
+    mutate(mtcars, cyl2 = lag(cyl)) 
+  )  
+})
