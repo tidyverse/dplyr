@@ -66,9 +66,6 @@ namespace dplyr {
         inline SEXP subset( const Rcpp::IntegerVector& index) const {
             return subset_int_index( index) ;    
         }
-        inline SEXP subset( const OneBasedIndex<IntegerVector>& index) const {
-            return subset_int_index(index) ;    
-        }
         
         inline SEXP subset( const std::vector<int>& index) const {
             return subset_int_index( index) ;    

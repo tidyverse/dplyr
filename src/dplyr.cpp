@@ -1427,7 +1427,6 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
             while( drop_it != drop.end() ){
                 int next_drop = *drop_it - 1;
                 while( j < next_drop ){
-                    Rprintf( "indx[%d] = %d\n", indx.size(), g_test[j] ) ;
                     indx.push_back( indices[j++] ) ;
                     k++ ;
                 }
@@ -1469,8 +1468,15 @@ SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& d
     CountIndices counter(nr, test) ;
     
     // just positives -> one based subset
-    if( counter.get_n_positive() == n ){
-        OneBasedIndex<IntegerVector> idx(test);
+    if( counter.is_positive() ){
+        int n_pos = counter.get_n_positive() ;
+        std::vector<int> idx(n_pos) ;
+        int j=0 ;
+        for( int i=0; i<n_pos; i++){
+            while( test[j] > nr ) j++ ;
+            idx[i] = test[j] - 1 ;   
+        }
+        
         return subset( df, idx, df.names(), classes_not_grouped() ) ;        
     }
     

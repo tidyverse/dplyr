@@ -11,7 +11,6 @@
 #include <tools/collapse.h>
 #include <tools/get_single_class.h>
 #include <tools/SlicingIndex.h>
-#include <tools/OneBasedIndex.h>
 #include <tools/ShrinkableVector.h>
 #include <tools/wrap_subset.h>
 #include <tools/get_all_second.h>

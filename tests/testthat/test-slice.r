@@ -6,7 +6,10 @@ test_that( "slice handles numeric input (#226)", {
   expect_equal(nrow(res), 3)
   expect_equal(res, g %>% filter(row_number()==1L))
   
-  expect_equal(mtcars %>% slice(1), mtcars %>% filter(row_number() == 1L) )
+  expect_equal(
+    mtcars %>% slice(1), 
+    mtcars %>% filter(row_number() == 1L) 
+  )
 })
 
 test_that( "slice silently ignores out of range values (#226)", {
