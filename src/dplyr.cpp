@@ -1390,6 +1390,31 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
 
 }
 
+class CountIndices {
+public:
+    CountIndices( int nr_ ) : nr(nr_), n_pos(0), n_neg(0){}
+
+    void operator()(int i){
+        if( i > 0 && i <= nr ) {
+            n_pos++ ;
+        } else if( i < 0 && i >= -nr ){
+            n_neg++ ;    
+        } else {
+            std::stringstream s ;
+            s << "index out of range : " << i ;
+            stop(s.str());
+        }
+    }
+    
+    inline int get_n_positive() const { return n_pos; }
+    inline int get_n_negative() const { return n_neg; }
+    
+private:
+    int nr ;
+    int n_pos ;
+    int n_neg ;   
+} ;
+
 SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
@@ -1400,17 +1425,53 @@ SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& d
     Environment env = dots.envir(0) ;
     Call call( (SEXP)args[dots.expr_index(0)] );
     CallProxy proxy( call, df, env ) ;
-
+    int nr = df.nrows() ;
+    
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
 
     int n = test.size() ;
-    int nr = df.nrows() ;
-    std::vector<int> indices ; indices.reserve(n) ;
+    
+    // count the positive and negatives
+    CountIndices counter(nr) ;
     for( int i=0; i<n; i++){
-        int test_i = test[i] ;
-        if( test_i > 0 && test_i <= nr ) indices.push_back(test_i - 1 );
+        counter( test[i] ) ;    
     }
-
+    
+    // found negatives and positives -> stop
+    if( counter.get_n_positive() > 0 && counter.get_n_negative() > 0 ){
+        std::stringstream s;
+        s << "found " << counter.get_n_positive() << " indices and " << counter.get_n_negative() << " negative indices" ;  
+        stop( s.str() ) ;    
+    }
+    
+    // just positives -> one based subset
+    if( counter.get_n_positive() == n ){
+        OneBasedIndex<IntegerVector> idx(test);
+        return subset( df, idx, df.names(), classes_not_grouped() ) ;        
+    }
+    
+    // just negatives (out of range is dealt with early in CountIndices). 
+    std::set<int> drop ;
+    for( int i=0; i<n; i++){
+        drop.insert( -test[i] ) ;
+    }
+    int n_drop = drop.size() ;
+    std::vector<int> indices(nr - n_drop) ; 
+    std::set<int>::const_iterator drop_it = drop.begin() ;
+    
+    int i = 0, j = 0 ;
+    while( drop_it != drop.end() ){
+        int next_drop = *drop_it - 1;
+        while( j < next_drop ){
+            indices[i++] = j++ ; 
+        }
+        j++ ;
+        ++drop_it ;
+    }
+    while( i < nr - n_drop){
+        indices[i++] = j++ ; 
+    }
+    
     DataFrame res = subset( df, indices, df.names(), classes_not_grouped() ) ;
     return res ;
 

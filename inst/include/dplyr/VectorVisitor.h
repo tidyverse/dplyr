@@ -34,6 +34,8 @@ public:
      */
     virtual SEXP subset( const ChunkIndexMap& index ) const = 0 ;
     
+    virtual SEXP subset( const OneBasedIndex<Rcpp::IntegerVector>& index ) const = 0 ;
+    
     virtual SEXP subset( const Rcpp::LogicalVector& index ) const = 0 ;
     
     virtual SEXP subset( EmptySubset ) const = 0 ;

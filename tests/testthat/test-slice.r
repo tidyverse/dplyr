@@ -21,3 +21,16 @@ test_that( "slice works with 0 args", {
   expect_equal(slice(mtcars), mtcars)
 })
 
+test_that("slice works with negative indices", {
+  res <- slice(mtcars, -(1:2))
+  exp <- tail(mtcars, -2)
+  expect_equal(names(res), names(exp))
+  for( col in names(res)){
+    expect_equal( res[[col]], exp[[col]] )  
+  }
+})
+
+test_that("slice forbids positive and negative together", {
+  expect_error(mtcars %>% slice(c(-1,2)))
+})
+
