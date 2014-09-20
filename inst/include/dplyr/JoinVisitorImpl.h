@@ -174,7 +174,10 @@ namespace dplyr{
             left_ptr(left_.begin()), 
             left_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_.attr("levels")) ), 
             right_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_))
-        {}
+        {
+            check_all_utf8(right_) ;
+            check_all_utf8(left_.attr("levels")) ;
+        }
             
         inline size_t hash(int i){
             return string_hash( get(i) ) ;
@@ -231,8 +234,11 @@ namespace dplyr{
             right_ptr(right_.begin()), 
             right_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_.attr("levels")) ), 
             left_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_))
-        {}
-            
+        {
+            check_all_utf8(left_) ;
+            check_all_utf8(right_.attr("levels")) ;
+        }
+                
         inline size_t hash(int i){ 
             return string_hash( get(i) ) ;
         }
