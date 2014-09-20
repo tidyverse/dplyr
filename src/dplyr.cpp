@@ -1411,7 +1411,9 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
             // positive indexing
             int ntest = g_test.size() ;
             for( int j=0; j<ntest; j++){
-                indx.push_back( indices[g_test[j]-1] ) ;
+                if( g_test[j] <= nr ){
+                    indx.push_back( indices[g_test[j]-1] ) ;
+                }
             }        
         } else {
             // negative indexing
