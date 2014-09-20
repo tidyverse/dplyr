@@ -102,6 +102,7 @@ namespace dplyr {
                 
                 switch( TYPEOF( head ) ){
                 case LANGSXP: 
+                    if( CAR(head) == Rf_install("order_by") ) break ;
                     if( CAR(head) == Rf_install("::") ) break ;
                     if( CAR(head) == Rf_install(":::") ) break ;
                     if( CAR(head) == Rf_install("function") ) break ;

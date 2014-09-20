@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* hybrid evaluator no longer substitutes within `order_by` because `order_by` 
+  needs to do its own NSE (#169). 
+
 * Fixing namespace extraction operators `::` and `:::` in dplyr verbs (#412). 
 
 * `LazySubset` was confused about input data size (#452). 

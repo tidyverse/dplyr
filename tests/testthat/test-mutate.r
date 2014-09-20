@@ -258,3 +258,10 @@ test_that("namespace extraction works in hybrid (#412)", {
     mutate(mtcars, cyl2 = lag(cyl)) 
   )  
 })
+
+test_that("hybrid not get in the way of order_by (#169)", {
+  df <- data_frame(x = 10:1, y = 1:10)
+  res <- mutate(df, z = order_by(x, cumsum(y)))  
+  expect_equal(res$z, rev(cumsum(10:1)))
+})
+
