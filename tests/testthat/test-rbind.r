@@ -20,13 +20,14 @@ test_that("rbind_list works on key types", {
 
 test_that("rbind_list reorders columns", {
   columns <- seq_len(ncol(df_var))
+  exp <- structure( rbind( df_var, df_var, df_var ), class = c("tbl_df", "tbl", "data.frame" ) )
   expect_equal(
     rbind_list(
       df_var,
       df_var[, sample(columns)],
       df_var[, sample(columns)]
     ),
-    rbind( df_var, df_var, df_var )
+    exp
   )
 })
 
