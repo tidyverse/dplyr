@@ -1343,12 +1343,12 @@ typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 inline SEXP check_filter_integer_result(SEXP tmp){
     if( TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP ){
-        stop( "integer_filter condition does not evaluate to an integer or numeric vector. " ) ;
+        stop( "slice condition does not evaluate to an integer or numeric vector. " ) ;
     }
     return tmp ;
 }
 
-SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots){
+SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots){
     typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
 
     const DataFrame& data = gdf.data() ;
@@ -1390,7 +1390,7 @@ SEXP integer_filter_grouped(GroupedDataFrame gdf, const List& args, const DataDo
 
 }
 
-SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const DataDots& dots){
+SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
@@ -1417,15 +1417,15 @@ SEXP integer_filter_not_grouped( const DataFrame& df, const List& args, const Da
 }
 
 // [[Rcpp::export]]
-SEXP integer_filter_impl( DataFrame df, List args, Environment env){
+SEXP slice_impl( DataFrame df, List args, Environment env){
     if( args.size() == 0 ) return df ;
     if( args.size() != 1 )
-        stop( "integer_filter only accepts one expression" );
+        stop( "slice only accepts one expression" );
     DataDots dots(env) ;
     if( is<GroupedDataFrame>(df) ){
-        return integer_filter_grouped( GroupedDataFrame(df), args, dots ) ;
+        return slice_grouped( GroupedDataFrame(df), args, dots ) ;
     } else {
-        return integer_filter_not_grouped(df, args, dots ) ;
+        return slice_not_grouped(df, args, dots ) ;
     }
 }
 

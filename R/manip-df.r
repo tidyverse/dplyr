@@ -14,7 +14,7 @@ arrange.tbl_df    <- .data_dots(arrange_impl)
 filter.tbl_df    <- .data_dots(filter_impl)
 
 #' @export
-slice.tbl_df   <- .data_dots(integer_filter_impl)
+slice.tbl_df   <- .data_dots(slice_impl)
 
 #' @export
 mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)

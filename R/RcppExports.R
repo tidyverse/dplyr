@@ -119,8 +119,8 @@ grouped_df_adj_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_adj_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
-integer_filter_impl <- function(df, args, env) {
-    .Call('dplyr_integer_filter_impl', PACKAGE = 'dplyr', df, args, env)
+slice_impl <- function(df, args, env) {
+    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
 mutate_impl <- function(df, args, env) {

@@ -432,9 +432,9 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// integer_filter_impl
-SEXP integer_filter_impl(DataFrame df, List args, Environment env);
-RcppExport SEXP dplyr_integer_filter_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+// slice_impl
+SEXP slice_impl(DataFrame df, List args, Environment env);
+RcppExport SEXP dplyr_slice_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -442,7 +442,7 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
         Rcpp::traits::input_parameter< List >::type args(argsSEXP );
         Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = integer_filter_impl(df, args, env);
+        SEXP __result = slice_impl(df, args, env);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
