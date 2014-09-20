@@ -52,14 +52,13 @@ namespace dplyr{
         return UNKNOWN ;
     }
     
-    inline bool check_all_utf8( CharacterVector s){
+    inline void check_all_utf8( CharacterVector s){
         int n=s.size() ;
         for( int i=0; i<n; i++){
             if( get_encoding(s[i]) != UTF8 ){
-                return false ;    
+                stop("not encoded as UTF-8");    
             }
         }
-        return true ;
     }
 
 }
