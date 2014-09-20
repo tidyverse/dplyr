@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* more coherence when joining columns of compatible but different types, e.g. when
+  joining a character vector and a factor (#455). 
+
 * hybrid evaluator no longer substitutes within `order_by` because `order_by` 
   needs to do its own NSE (#169). 
 

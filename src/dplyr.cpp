@@ -659,26 +659,49 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
 
 template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by_x, CharacterVector by_y , CharacterVector classes ){
-    CharacterVector x_columns = x.names() ;
+    // first the joined columns 
+    DataFrameJoinVisitors join_visitors(x, y, by_x, by_y) ;
+    int n_join_visitors = join_visitors.size() ;
+    
+    // then columns from x but not y
+    CharacterVector all_x_columns = x.names() ;
+    CharacterVector x_columns( all_x_columns.size() - n_join_visitors ) ;
+    for( int i=0, k=0; i<all_x_columns.size(); i++){
+        SEXP name = all_x_columns[i] ;
+        if( std::find(by_x.begin(), by_x.end(), name) == by_x.end() ) {
+            x_columns[k++] = name ;
+        }
+    }
     DataFrameVisitors visitors_x(x, x_columns) ;
-
+    int nv_x = visitors_x.size() ;
+    
+    // then columns from y but not x
     CharacterVector all_y_columns = y.names() ;
-    CharacterVector y_columns( all_y_columns.size() - by_x.size() ) ;
+    CharacterVector y_columns( all_y_columns.size() - n_join_visitors ) ;
     for( int i=0, k=0; i<all_y_columns.size(); i++){
         SEXP name = all_y_columns[i] ;
-        if( std::find(by_y.begin(), by_y.end(), name) == by_y.end() ) y_columns[k++] = name ;
+        if( std::find(by_y.begin(), by_y.end(), name) == by_y.end() ) {
+            y_columns[k++] = name ;
+        }
     }
-
     DataFrameVisitors visitors_y(y, y_columns) ;
-
+    int nv_y = visitors_y.size() ;
+    
+    // construct out object
     int nrows = indices_x.size() ;
-    int nv_x = visitors_x.size(), nv_y = visitors_y.size() ;
-    List out(nv_x+nv_y);
-    CharacterVector names(nv_x+nv_y) ;
+    List out(n_join_visitors+nv_x+nv_y);
+    CharacterVector names(n_join_visitors+nv_x+nv_y) ;
     int k=0;
-    for( ; k<nv_x; k++){
-        out[k] = visitors_x.get(k)->subset(indices_x) ;
-        String col_name = x_columns[k] ;
+    
+    // ---- join visitors
+    for( ; k<n_join_visitors; k++){
+        out[k] = join_visitors.get(k)->subset(indices_x) ;
+        names[k] = by_x[k] ;
+    }
+    
+    for( int i=0; i<nv_x; k++, i++){
+        out[k] = visitors_x.get(i)->subset(indices_x) ;
+        String col_name = x_columns[i] ;
 
         if( std::find( by_x.begin(), by_x.end(), col_name.get_sexp() ) != by_x.end() ){
             // if the variable is from by_x, just use it verbatim
