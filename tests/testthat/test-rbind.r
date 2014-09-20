@@ -12,15 +12,16 @@ df_var <- data.frame(
 )
 
 test_that("rbind_list works on key types", {
+  exp <- tbl_df( rbind( df_var, df_var, df_var ) ) 
   expect_equal(
     rbind_list( df_var, df_var, df_var) ,
-    rbind( df_var, df_var, df_var )
+    exp
   )
 })
 
 test_that("rbind_list reorders columns", {
   columns <- seq_len(ncol(df_var))
-  exp <- structure( rbind( df_var, df_var, df_var ), class = c("tbl_df", "tbl", "data.frame" ) )
+  exp <- tbl_df( rbind( df_var, df_var, df_var ) )
   expect_equal(
     rbind_list(
       df_var,
