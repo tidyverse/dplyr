@@ -10,10 +10,10 @@ test_that( "slice handles numeric input (#226)", {
 })
 
 test_that( "slice silently ignores out of range values (#226)", {
-  expect_equal( slice(mtcars, c(-3,2,100)), slice(mtcars, 2))
+  expect_equal( slice(mtcars, c(2,100)), slice(mtcars, 2))
   
   g <- group_by(mtcars, cyl)
-  expect_equal( slice(g, c(-3,2,100)), slice(g, 2))
+  expect_equal( slice(g, c(2,100)), slice(g, 2))
   
 })
 
@@ -34,3 +34,15 @@ test_that("slice forbids positive and negative together", {
   expect_error(mtcars %>% slice(c(-1,2)))
 })
 
+test_that("slice works with grouped data", {
+  g <- group_by(mtcars, cyl)
+  
+  res <- slice(g, 1:2)
+  exp <- filter(g, row_number() < 3)
+  expect_equal(res,exp)
+  
+  res <- slice(g, -(1:2))
+  exp <- filter(g, row_number() >= 3)
+  expect_equal(res,exp)
+  
+})

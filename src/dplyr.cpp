@@ -1348,6 +1348,38 @@ inline SEXP check_filter_integer_result(SEXP tmp){
     return tmp ;
 }
 
+class CountIndices {
+public:
+    CountIndices( int nr_, IntegerVector test_ ) : nr(nr_), test(test_), n_pos(0), n_neg(0){
+    
+        for( int j=0; j<test.size(); j++){ 
+            int i = test[j] ;
+            if( i > 0 && i <= nr ) {
+                n_pos++ ;
+            } else if( i < 0 && i >= -nr ){
+                n_neg++ ;    
+            }
+        }
+        
+        if( n_neg > 0 && n_pos > 0 ){
+            std::stringstream s;
+            s << "found " << n_pos << " positive indices and " << n_neg << " negative indices" ;  
+            stop(s.str()) ;    
+        }
+        
+    }
+    
+    inline bool is_positive() const { return n_pos > 0 ; }
+    inline int get_n_positive() const { return n_pos; }
+    inline int get_n_negative() const { return n_neg; }
+    
+private:
+    int nr ;
+    IntegerVector test ;
+    int n_pos ;
+    int n_neg ;   
+} ;
+   
 SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots){
     typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
 
@@ -1371,16 +1403,43 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
     GroupedDataFrame::group_iterator git = gdf.group_begin() ;
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
+        int nr = indices.size() ;
         g_test = check_filter_integer_result( call_proxy.get( indices ) ) ;
-
-        int ntest = g_test.size() ;
-        for( int j=0; j<ntest; j++){
-            int k = g_test[j] ;
-            if( k > 0 && k <= indices.size() ){
-                indx.push_back( indices[k-1] ) ;
+        CountIndices counter( indices.size(), g_test ) ;
+        
+        if( counter.is_positive() ){
+            // positive indexing
+            int ntest = g_test.size() ;
+            for( int j=0; j<ntest; j++){
+                indx.push_back( indices[g_test[j]-1] ) ;
+            }        
+        } else {
+            // negative indexing
+            std::set<int> drop ;
+            int n = g_test.size() ;
+            for( int j=0; j<n; j++){
+                drop.insert( -g_test[j] ) ;
             }
+            int n_drop = drop.size() ;
+            std::set<int>::const_iterator drop_it = drop.begin() ;
+            
+            int k = 0, j = 0 ;
+            while( drop_it != drop.end() ){
+                int next_drop = *drop_it - 1;
+                while( j < next_drop ){
+                    Rprintf( "indx[%d] = %d\n", indx.size(), g_test[j] ) ;
+                    indx.push_back( indices[j++] ) ;
+                    k++ ;
+                }
+                j++ ;
+                ++drop_it ;
+            }
+            while( k < nr - n_drop){
+                indx.push_back( indices[j++] ) ;
+                k++ ;
+            }
+            
         }
-
     }
 
     DataFrame res = subset( data, indx, names, classes_grouped<GroupedDataFrame>() ) ;
@@ -1389,31 +1448,6 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
     return res ;
 
 }
-
-class CountIndices {
-public:
-    CountIndices( int nr_ ) : nr(nr_), n_pos(0), n_neg(0){}
-
-    void operator()(int i){
-        if( i > 0 && i <= nr ) {
-            n_pos++ ;
-        } else if( i < 0 && i >= -nr ){
-            n_neg++ ;    
-        } else {
-            std::stringstream s ;
-            s << "index out of range : " << i ;
-            stop(s.str());
-        }
-    }
-    
-    inline int get_n_positive() const { return n_pos; }
-    inline int get_n_negative() const { return n_neg; }
-    
-private:
-    int nr ;
-    int n_pos ;
-    int n_neg ;   
-} ;
 
 SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& dots){
     CharacterVector names = df.names() ;
@@ -1432,17 +1466,7 @@ SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& d
     int n = test.size() ;
     
     // count the positive and negatives
-    CountIndices counter(nr) ;
-    for( int i=0; i<n; i++){
-        counter( test[i] ) ;    
-    }
-    
-    // found negatives and positives -> stop
-    if( counter.get_n_positive() > 0 && counter.get_n_negative() > 0 ){
-        std::stringstream s;
-        s << "found " << counter.get_n_positive() << " indices and " << counter.get_n_negative() << " negative indices" ;  
-        stop( s.str() ) ;    
-    }
+    CountIndices counter(nr, test) ;
     
     // just positives -> one based subset
     if( counter.get_n_positive() == n ){
