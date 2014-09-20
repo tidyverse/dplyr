@@ -1,6 +1,7 @@
 #ifndef dplyr_tools_tools_H
 #define dplyr_tools_tools_H
 
+#include <tools/Encoding.h>
 #include <tools/DotsOf.h>
 #include <tools/Call.h>
 #include <tools/hash.h>

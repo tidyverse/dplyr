@@ -2,7 +2,7 @@
 #define dplyr_JoinVisitorImpl_H
 
 namespace dplyr{
-        
+       
     template <int LHS_RTYPE, int RHS_RTYPE>
     class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE>{
     public:
@@ -103,6 +103,63 @@ namespace dplyr{
         
     } ; 
     
+    template <>
+    class JoinVisitorImpl<STRSXP,STRSXP> : public JoinVisitor, public comparisons<STRSXP>{
+    public:
+        typedef comparisons<STRSXP> Compare ;
+        
+        typedef CharacterVector Vec ;
+        typedef SEXP STORAGE ;
+        typedef boost::hash<STORAGE> hasher ;
+    
+        JoinVisitorImpl( CharacterVector left_, CharacterVector right_ ) : left(left_), right(right_){
+            check_all_utf8(left); 
+            check_all_utf8(right);
+        }
+              
+        inline size_t hash(int i){
+            return hash_fun( get(i) ) ; 
+        }
+        
+        inline bool equal( int i, int j) {
+            return Compare::equal_or_both_na(
+                get(i), get(j) 
+            ) ;  
+        }
+        
+        inline SEXP subset( const std::vector<int>& indices ) {
+            int n = indices.size() ;
+            Vec res = no_init(n) ;
+            for( int i=0; i<n; i++) {
+                res[i] = get(indices[i]) ;
+            }
+            return res ;
+        }
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+            int n = set.size() ;
+            Vec res = no_init(n) ;
+            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+            for( int i=0; i<n; i++, ++it) {
+                res[i] = get(*it) ;
+            }
+            return res ;    
+        }
+        
+        inline void print(int i){
+            Rcpp::Rcout << get(i) << std::endl ;
+        }
+        
+        
+    protected:
+        CharacterVector left, right ;
+        hasher hash_fun ;
+        
+        inline STORAGE get(int i){
+            return i >= 0 ? left[i] : right[-i-1] ;    
+        }
+        
+    } ;
+    
     class StringLessPredicate : comparisons<STRSXP>{
     public:
         typedef SEXP value_type ;
@@ -124,7 +181,9 @@ namespace dplyr{
         }
         
         inline bool equal( int i, int j){
-            return get(i) == get(j) ;     
+            SEXP left  = get(i) ;
+            SEXP right = get(j) ;
+            return left == right ;     
         }
         
         inline void print(int i){
@@ -179,7 +238,9 @@ namespace dplyr{
         }
         
         inline bool equal( int i, int j){
-            return get(i) == get(j) ;     
+            SEXP left = get(i) ;
+            SEXP right = get(j) ;
+            return left == right ;     
         }
         
         inline void print(int i){
