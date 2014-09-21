@@ -301,7 +301,14 @@ test_that( "nth promotes dates and times (#509)", {
   )
   res <- data %>% group_by(ID) %>% summarise( date2 = nth(date,2), time2 = nth(time,2))
   expect_is(res$date2, "Date")
-  expect_is(res$time3, "POSIXct")
+  expect_is(res$time2, "POSIXct")
   expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times,2)) )
+})
+
+test_that( "nth preserves factor data (#509)", {
+  dat  <- data_frame(a = rep(seq(1,20,2),3),b = as.ordered(b))
+  dat1 <- dat %>% group_by(a) %>% summarise(der = nth(b,2))
+  expect_is(dat1$der, "ordered")
+  expect_equal(levels(dat1$der), levels(dat$b))
 })
 

@@ -530,7 +530,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
         switch( TYPEOF(data) ){
         case INTSXP: 
             {
-                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") ) 
+                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") || Rf_inherits(data, "factor") ) 
                     return typed_processor( Nth<INTSXP>(data, idx), data ) ;
                 return new Nth<INTSXP>(data, idx) ;
             }
@@ -582,7 +582,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                 case LGLSXP: return nth_with<LGLSXP>( data, idx, order_by ) ;
                 case INTSXP:
                     {
-                        if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                        if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "factor" ) )
                             return nth_with__typed<INTSXP>( data, idx, order_by ) ;
                         return nth_with<INTSXP>( data, idx, order_by ) ;
                     }
@@ -602,7 +602,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                     case LGLSXP: return nth_noorder_default<LGLSXP>(data, idx, def) ;
                     case INTSXP: 
                         {
-                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "POSIXct" ))
                                 return nth_noorder_default__typed<INTSXP>( data, idx, order_by ) ;
                             return nth_noorder_default<INTSXP>(data, idx, def) ;
                         }
@@ -624,7 +624,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                 switch( TYPEOF(data) ){
                     case LGLSXP: return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
                     case INTSXP: {
-                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "POSIXct" ) )
                                 return nth_with_default__typed<INTSXP>( data, idx, order_by, def ) ;
                             return nth_with_default<INTSXP>(data, idx, order_by, def) ;
                     }

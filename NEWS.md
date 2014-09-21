@@ -2,7 +2,7 @@
 
 * hashing a numeric column and an integer column was wrong (#450)
 
-* `nth` now correctly promotes the result when using dates and times (#509). 
+* `nth` now correctly promotes the result when using dates, times and factors (#509). 
 
 * more coherence when joining columns of compatible but different types, e.g. when
   joining a character vector and a factor (#455). 
