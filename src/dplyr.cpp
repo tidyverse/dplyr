@@ -8,8 +8,18 @@ typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 template <template <int,bool> class Fun, bool narm>
 Result* simple_prototype_impl( SEXP arg, bool is_summary ){
     switch( TYPEOF(arg) ){
-        case INTSXP:  return new Fun<INTSXP,narm>( arg, is_summary ) ;
-        case REALSXP: return new Fun<REALSXP,narm>( arg, is_summary ) ;
+        case INTSXP:  
+            {
+                if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
+                    return typed_processor( Fun<INTSXP, narm>(arg, is_summary), arg  ) ;
+                return new Fun<INTSXP,narm>( arg, is_summary ) ;
+            }
+        case REALSXP: 
+            {
+                if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) || Rf_inherits(arg, "difftime" ) )
+                    return typed_processor( Fun<REALSXP,narm>( arg, is_summary ), arg) ;
+                return new Fun<REALSXP,narm>( arg, is_summary ) ;
+            }
         default: break ;
     }
     return 0 ;
