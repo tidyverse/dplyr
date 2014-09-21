@@ -262,11 +262,19 @@ namespace dplyr {
       typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
       DateVisitor( SEXP v) : Parent(v){}
     } ;
+    
     template <int RTYPE>
     class POSIXctVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
     public:
       typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
       POSIXctVisitor( SEXP v) : Parent(v){}
+    } ;
+    
+    template <int RTYPE>
+    class DifftimeVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
+    public:
+      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
+      DifftimeVisitor( SEXP v) : Parent(v){}
     } ;
     
     
@@ -281,6 +289,8 @@ namespace dplyr {
                     return new POSIXctVisitor<INTSXP>(vec) ;
                 return new VectorVisitorImpl<INTSXP>( vec ) ;
             case REALSXP:
+                if( Rf_inherits( vec, "difftime" ) )
+                    return new DifftimeVisitor<REALSXP>( vec ) ;
                 if( Rf_inherits( vec, "Date" ) )
                     return new DateVisitor<REALSXP>( vec ) ;
                 if( Rf_inherits( vec, "POSIXct" ) )

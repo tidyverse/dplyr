@@ -55,7 +55,7 @@ Result* minmax_prototype_impl(SEXP arg, bool is_summary){
                 return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
         case REALSXP:
-            if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
+            if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) || Rf_inherits(arg, "difftime" ) )
                 return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<REALSXP,narm>( arg, is_summary ) ;
         default: break ;
@@ -111,6 +111,8 @@ Result* count_distinct_result(SEXP vec){
 
             return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
         case REALSXP:
+            if( Rf_inherits( vec, "difftime" ) )
+                return new Count_Distinct< DifftimeVisitor<REALSXP> >( DifftimeVisitor<REALSXP>(vec) ) ;
             if( Rf_inherits( vec, "Date" ) )
                 return new Count_Distinct< DateVisitor<REALSXP> >( DateVisitor<REALSXP>(vec) ) ;
             if( Rf_inherits( vec, "POSIXct" ) )
@@ -259,6 +261,7 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
             if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, get_date_classes() ) ;
             return new Lead<INTSXP>(data, n) ;
         case REALSXP:
+            if( Rf_inherits(data, "difftime") ) return new DifftimeLead<REALSXP>(data, n ) ;
             if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, get_time_classes() ) ;
             if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, get_date_classes() ) ;
             return new Lead<REALSXP>(data, n) ;
@@ -523,7 +526,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
             }
         case REALSXP: 
             {
-                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") ) 
+                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") || Rf_inherits(data, "difftime" ) ) 
                     return typed_processor( Nth<REALSXP>(data, idx), data ) ;
                 return new Nth<REALSXP>(data, idx) ;
             }
@@ -575,7 +578,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                     }
                 case REALSXP: 
                     {
-                        if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                        if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime") )
                             return nth_with__typed<REALSXP>( data, idx, order_by ) ;
                         return nth_with<REALSXP>( data, idx, order_by ) ;
                     }
@@ -595,7 +598,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                         }
                     case REALSXP: 
                         {
-                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime") )
                                 return nth_noorder_default__typed<REALSXP>( data, idx, order_by ) ;
                             return nth_noorder_default<REALSXP>(data, idx, def) ;
                         }
@@ -616,7 +619,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                             return nth_with_default<INTSXP>(data, idx, order_by, def) ;
                     }
                     case REALSXP: {
-                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime" ) )
                                 return nth_with_default__typed<REALSXP>( data, idx, order_by, def ) ;
                             return nth_with_default<REALSXP>(data, idx, order_by, def) ;
                     }
@@ -675,6 +678,7 @@ Result* constant_handler(SEXP constant){
         }
     case REALSXP:
         {
+            if( Rf_inherits(constant, "difftime") ) return new DifftimeConstantResult<REALSXP>(constant) ;
             if( Rf_inherits(constant, "POSIXct") ) return new TypedConstantResult<REALSXP>(constant, get_time_classes() ) ;
             if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<REALSXP>(constant, get_date_classes() ) ;
             return new ConstantResult<REALSXP>(constant) ;
