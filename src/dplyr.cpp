@@ -51,16 +51,12 @@ template< template <int, bool> class Tmpl, bool narm>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary){
     switch( TYPEOF(arg) ){
         case INTSXP:
-            if( Rf_inherits(arg, "Date" ) )
-                return new TypedProcessor< Tmpl<INTSXP,narm> >( arg, "Date", is_summary ) ;
-            if( Rf_inherits(arg, "POSIXct" ) )
-                return new TypedProcessor< Tmpl<INTSXP,narm> >( arg, CharacterVector::create( "POSIXct", "POSIXt"), is_summary ) ;
+            if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
+                return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
         case REALSXP:
-            if( Rf_inherits(arg, "Date" ) )
-                return new TypedProcessor< Tmpl<REALSXP,narm> >( arg, "Date", is_summary ) ;
-            if( Rf_inherits(arg, "POSIXct" ) )
-                return new TypedProcessor< Tmpl<REALSXP,narm> >( arg, CharacterVector::create( "POSIXct", "POSIXt" ), is_summary) ;
+            if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
+                return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<REALSXP,narm>( arg, is_summary ) ;
         default: break ;
     }
@@ -479,9 +475,21 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     // easy case : just a single variable: first(x,n)
     if( nargs == 2 ){
         switch( TYPEOF(data) ){
-        case INTSXP: return new Nth<INTSXP>(data, idx) ;
-        case REALSXP: return new Nth<REALSXP>(data, idx) ;
+        case INTSXP: 
+            {
+                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") ) 
+                    return typed_processor( Nth<INTSXP>(data, idx), data ) ;
+                return new Nth<INTSXP>(data, idx) ;
+            }
+        case REALSXP: 
+            {
+                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") ) 
+                    return typed_processor( Nth<REALSXP>(data, idx), data ) ;
+                return new Nth<REALSXP>(data, idx) ;
+            }
         case STRSXP: return new Nth<STRSXP>(data, idx) ;
+        case LGLSXP: return new Nth<LGLSXP>(data, idx) ;
+        
         default: break ;
         }
     } else {

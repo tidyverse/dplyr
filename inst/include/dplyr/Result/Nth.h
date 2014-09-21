@@ -24,7 +24,7 @@ namespace dplyr {
         int idx ;
         STORAGE def ;
     } ;
-
+    
     template <int RTYPE, int ORDER_RTYPE>
     class NthWith : public Processor< RTYPE, NthWith<RTYPE, ORDER_RTYPE> > {
     public:
