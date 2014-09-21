@@ -493,7 +493,14 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
         stop( "the first argument of 'nth' should be either 'x' or unnamed" ) ;
     }
     SEXP data = CADR(call) ;
-    if( TYPEOF(data) == SYMSXP ) data = subsets.get_variable(data) ;
+    if( TYPEOF(data) == SYMSXP ) {
+        if( ! subsets.count(data) ){
+            std::stringstream s ;
+            s << "could not find variable '" << CHAR(PRINTNAME(data)) << "'" ;
+            stop(s.str()) ;
+        }
+        data = subsets.get_variable(data) ;
+    }
 
     tag = TAG(CDDR(call)) ;
     if( tag != R_NilValue && tag != Rf_install("n") ){

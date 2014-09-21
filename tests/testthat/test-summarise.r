@@ -302,5 +302,6 @@ test_that( "nth promotes dates and times (#509)", {
   res <- data %>% group_by(ID) %>% summarise( date2 = nth(date,2), time2 = nth(time,2))
   expect_is(res$date2, "Date")
   expect_is(res$time3, "POSIXct")
+  expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times,2)) )
 })
 
