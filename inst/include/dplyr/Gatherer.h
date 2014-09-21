@@ -134,6 +134,26 @@ namespace dplyr {
         Vector<RTYPE> value ;
         SEXP classes ;
     } ;
+    
+    template <int RTYPE, typename Data, typename Subsets>
+    class ConstantDifftimeGatherer : public ConstantGathererImpl<RTYPE, Data, Subsets> {
+    public:
+        ConstantDifftimeGatherer( Vector<RTYPE> constant, int n ) : 
+            ConstantGathererImpl<RTYPE,Data,Subsets>( constant, n), 
+            units(constant.attr("units"))
+        {}
+        
+        inline SEXP collect() {
+            Vector<RTYPE> out = ConstantGathererImpl<RTYPE,Data,Subsets>::collect() ;
+            out.attr("class") = "difftime" ;
+            out.attr("units") = units ; 
+            return out ;
+        }
+        
+    private:
+        Vector<RTYPE> value ;
+        CharacterVector units ;
+    } ;
 
     template <typename Data, typename Subsets>
     inline Gatherer* constant_gatherer(SEXP x, int n){
@@ -143,6 +163,7 @@ namespace dplyr {
                     return new ConstantGathererImpl<INTSXP,Data,Subsets>( x, n ) ;
             }
             case REALSXP: {
+                    if( Rf_inherits(x, "difftime" )) return new ConstantDifftimeGatherer<REALSXP,Data,Subsets>(x,n) ;
                     if( Rf_inherits(x, "POSIXct" )) return new ConstantTypedGatherer<REALSXP,Data,Subsets>(x,n, get_time_classes() ) ;
                     if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<REALSXP,Data,Subsets>(x,n, get_date_classes() ) ;
                     return new ConstantGathererImpl<REALSXP,Data,Subsets>( x, n ) ;
