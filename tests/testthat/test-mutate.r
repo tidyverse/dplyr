@@ -271,7 +271,7 @@ test_that("mutate supports difftime objects (#390)", {
     val =   c(1, 3,  4, 6),
     date1 = c(rep(Sys.Date() - 10, 2), rep(Sys.Date() - 20, 2)),
     date2 = Sys.Date() + c(1,2,1,2),
-    diffdate = difftime(df$date2, df$date1, unit = "days")
+    diffdate = difftime(date2, date1, unit = "days")
   )
   
   res <- df %>% group_by(grp) %>% 
