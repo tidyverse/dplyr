@@ -278,5 +278,9 @@ test_that("mutate supports difftime objects (#390)", {
     mutate(mean_val = mean(val), mean_diffdate = mean(diffdate) )
   expect_is(res$mean_diffdate, "difftime")
   expect_equal( as.numeric(res$mean_diffdate), c(11.5,11.5,21.5,21.5)) 
+  
+  res <- df %>% group_by(grp) %>% summarise(dt = mean(diffdate))
+  expect_is( res$dt, "difftime" )
+  expect_equal( as.numeric(res$dt), c(11.5,21.5) )
 })
 
