@@ -60,6 +60,25 @@ namespace dplyr{
             }
         }
     }
+    
+    inline void check_all_same_encoding( CharacterVector x, CharacterVector y){
+        int nx=x.size(), ny = y.size() ;
+        if( nx == 0 && ny == 0 ) return ;
+        
+        encoding first_enc = ( nx == 0 ) ? get_encoding(y[0]) : get_encoding(x[0]) ; 
+        
+        for( int i=0; i<nx; i++) {
+            if(get_encoding(x[i]) != first_enc ){
+                stop("found multiple encodings in character string");    
+            }
+        }
+        for( int i=0; i<ny; i++) {
+            if(get_encoding(y[i]) != first_enc ){
+                stop("found multiple encodings in character string");    
+            }
+        }
+        
+    }
 
 }
 
