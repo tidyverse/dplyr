@@ -462,9 +462,22 @@ Result* nth_with__typed( Vector<RTYPE> data, int idx, SEXP order ){
 template <int RTYPE>
 Result* nth_with_default( Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> def ){
     switch( TYPEOF(order) ){
+    case LGLSXP: return new NthWith<RTYPE, LGLSXP>( data, idx, order, def[0] );
     case INTSXP: return new NthWith<RTYPE, INTSXP>( data, idx, order, def[0] );
     case REALSXP: return new NthWith<RTYPE, REALSXP>( data, idx, order, def[0] );
     case STRSXP: return new NthWith<RTYPE, STRSXP>( data, idx, order, def[0] );
+    default: break ;
+    }
+    return 0 ;
+}
+
+template <int RTYPE>
+Result* nth_with_default__typed( Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> def ){
+    switch( TYPEOF(order) ){
+    case LGLSXP:  return typed_processor( NthWith<RTYPE, LGLSXP>( data, idx, order, def[0] ), data );
+    case INTSXP:  return typed_processor( NthWith<RTYPE, INTSXP>( data, idx, order, def[0] ), data );
+    case REALSXP: return typed_processor( NthWith<RTYPE, REALSXP>( data, idx, order, def[0]), data );
+    case STRSXP:  return typed_processor( NthWith<RTYPE, STRSXP>( data, idx, order, def[0] ), data );
     default: break ;
     }
     return 0 ;
@@ -589,8 +602,17 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                 order_by = subsets.get_variable(order_by) ;
 
                 switch( TYPEOF(data) ){
-                    case INTSXP: return nth_with_default<INTSXP>(data, idx, order_by, def) ;
-                    case REALSXP: return nth_with_default<REALSXP>(data, idx, order_by, def) ;
+                    case LGLSXP: return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
+                    case INTSXP: {
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                                return nth_with_default__typed<INTSXP>( data, idx, order_by, def ) ;
+                            return nth_with_default<INTSXP>(data, idx, order_by, def) ;
+                    }
+                    case REALSXP: {
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                                return nth_with_default__typed<REALSXP>( data, idx, order_by, def ) ;
+                            return nth_with_default<REALSXP>(data, idx, order_by, def) ;
+                    }
                     case STRSXP: return nth_with_default<STRSXP>(data, idx, order_by, def) ;
                     default: break ;
                 }

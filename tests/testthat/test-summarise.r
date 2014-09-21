@@ -291,3 +291,16 @@ test_that( "LazySubset is not confused about input data size (#452)", {
   expect_equal(res$b, 110)
   expect_equal(res$c, 220)
 })
+
+test_that( "nth promotes dates and times (#509)", {
+  data <- data_frame( 
+    ID = rep(letters[1:4],each=5), 
+    date = Sys.Date() + 1:20, 
+    times = Sys.time() + 1:20,
+    number = rnorm(20)
+  )
+  res <- data %>% group_by(ID) %>% summarise( date2 = nth(date,2), time2 = nth(time,2))
+  expect_is(res$date2, "Date")
+  expect_is(res$time3, "POSIXct")
+})
+
