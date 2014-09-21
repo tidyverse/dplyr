@@ -429,6 +429,12 @@ Result* nth_noorder_default( Vector<RTYPE> data, int idx, Vector<RTYPE> def ){
 }
 
 template <int RTYPE>
+Result* nth_noorder_default__typed( Vector<RTYPE> data, int idx, Vector<RTYPE> def ){
+     return typed_processor( Nth<RTYPE>(data, idx, def[0] ), data );
+}
+
+
+template <int RTYPE>
 Result* nth_with( Vector<RTYPE> data, int idx, SEXP order ){
     switch( TYPEOF(order) ){
     case LGLSXP: return new NthWith<RTYPE, LGLSXP>( data, idx, order );
@@ -560,8 +566,19 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
         } else {
             if( order_by == R_NilValue ){
                 switch( TYPEOF(data) ){
-                    case INTSXP: return nth_noorder_default<INTSXP>(data, idx, def) ;
-                    case REALSXP: return nth_noorder_default<REALSXP>(data, idx, def) ;
+                    case LGLSXP: return nth_noorder_default<LGLSXP>(data, idx, def) ;
+                    case INTSXP: 
+                        {
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                                return nth_noorder_default__typed<INTSXP>( data, idx, order_by ) ;
+                            return nth_noorder_default<INTSXP>(data, idx, def) ;
+                        }
+                    case REALSXP: 
+                        {
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) )
+                                return nth_noorder_default__typed<REALSXP>( data, idx, order_by ) ;
+                            return nth_noorder_default<REALSXP>(data, idx, def) ;
+                        }
                     case STRSXP: return nth_noorder_default<STRSXP>(data, idx, def) ;
                     default: break ;
                 }
