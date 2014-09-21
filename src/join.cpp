@@ -136,16 +136,19 @@ namespace dplyr{
     // -------------- (double,int)
     template <int RTYPE>
     inline size_t hash_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, int i ){
+        // if(i < 0) we need to take data in right
         if( i<0 ){
-            int val = joiner.left[-i-1] ;
+            int val = joiner.right[-i-1] ;
             if( val == NA_INTEGER ) return joiner.LHS_hash_fun( NA_REAL );
             return joiner.LHS_hash_fun( (double)val );
         }
-        return joiner.LHS_hash_fun( joiner.right[i] ) ; 
+        // otherwise take data in left
+        return joiner.LHS_hash_fun( joiner.left[i] ) ; 
     }
     template <>
     inline size_t JoinVisitorImpl<REALSXP,INTSXP>::hash(int i){
-        return  hash_double_int<INTSXP>( *this, i );  
+        size_t res = hash_double_int<INTSXP>( *this, i );
+        return res ;
     }
     template <>
     inline size_t JoinVisitorImpl<REALSXP,LGLSXP>::hash(int i){
