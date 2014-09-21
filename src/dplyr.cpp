@@ -468,7 +468,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
 
     tag = TAG(CDDR(call)) ;
     if( tag != R_NilValue && tag != Rf_install("n") ){
-        stop( "the first argument of 'first' should be either 'x' or unnamed" ) ;
+        stop( "the second argument of 'first' should be either 'n' or unnamed" ) ;
     }
     SEXP nidx = CADDR(call) ;
     if( ( TYPEOF(nidx) != REALSXP && TYPEOF(nidx) != INTSXP ) || LENGTH(nidx) != 1 ){
