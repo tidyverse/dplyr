@@ -296,7 +296,7 @@ test_that( "nth promotes dates and times (#509)", {
   data <- data_frame( 
     ID = rep(letters[1:4],each=5), 
     date = Sys.Date() + 1:20, 
-    times = Sys.time() + 1:20,
+    time = Sys.time() + 1:20,
     number = rnorm(20)
   )
   res <- data %>% group_by(ID) %>% summarise( date2 = nth(date,2), time2 = nth(time,2))
