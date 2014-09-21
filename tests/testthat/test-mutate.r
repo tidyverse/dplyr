@@ -265,3 +265,18 @@ test_that("hybrid not get in the way of order_by (#169)", {
   expect_equal(res$z, rev(cumsum(10:1)))
 })
 
+test_that("mutate supports difftime objects (#390)", {
+  df <- data_frame(
+    grp =   c(1, 1,  2, 2),
+    val =   c(1, 3,  4, 6),
+    date1 = c(rep(Sys.Date() - 10, 2), rep(Sys.Date() - 20, 2)),
+    date2 = Sys.Date() + c(1,2,1,2),
+    diffdate = difftime(df$date2, df$date1, unit = "days")
+  )
+  
+  res <- df %>% group_by(grp) %>% 
+    mutate(mean_val = mean(val), mean_diffdate = mean(diffdate) )
+  expect_is(res$mean_diffdate, "difftime")
+  expect_equal( as.numeric(res$mean_diffdate), c(11.5,11.5,21.5,21.5)) 
+})
+
