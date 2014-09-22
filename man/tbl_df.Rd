@@ -30,7 +30,7 @@ ds <- tbl_df(mtcars)
 ds
 as.data.frame(ds)
 
-if (require("Lahman")) {
+if (require("Lahman") && packageVersion("Lahman") >= "3.0.1") {
 batting <- tbl_df(Batting)
 dim(batting)
 colnames(batting)
@@ -61,9 +61,9 @@ stints <- summarise(per_year, stints = max(stint))
 # mutate(stints, cumsum(stints))
 
 # Joins ---------------------------------------------------------------------
-player_info <- select(tbl_df(Master), playerID, hofID, birthYear)
+player_info <- select(tbl_df(Master), playerID, birthYear)
 hof <- select(filter(tbl_df(HallOfFame), inducted == "Y"),
- hofID, votedBy, category)
+ playerID, votedBy, category)
 
 # Match players and their hall of fame data
 inner_join(player_info, hof)

@@ -30,7 +30,7 @@ Suggests:
     microbenchmark,
     ggplot2,
     mgcv,
-    Lahman,
+    Lahman (>= 3.0-1),
     nycflights13,
     methods
 VignetteBuilder: knitr
