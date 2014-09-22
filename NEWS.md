@@ -1,5 +1,9 @@
 # dplyr 0.2.0.9000
 
+* `trunc_mat()` and hence `print.tbl_df()` and friends gets a `width` argument
+  to control the deafult output width. Set `options(dplyr.width = Inf)` to
+  always show all columns (#589).
+
 * `[.tbl_df` always returns a tbl_df (i.e. `drop = FALSE` is the default) 
   (#587, #610).
 

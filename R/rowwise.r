@@ -23,11 +23,11 @@ rowwise <- function(data) {
 }
 
 #' @export
-print.rowwise_df <- function(x, ..., n = NULL) {
+print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: <by row>\n")
   cat("\n")
-  trunc_mat(x, n = n)
+  trunc_mat(x, n = n, width = width)
 }
 
 #' @export

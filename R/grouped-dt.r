@@ -44,11 +44,11 @@ groups.grouped_dt <- function(x) {
 is.grouped_dt <- function(x) inherits(x, "grouped_dt")
 
 #' @export
-print.grouped_dt <- function(x, ..., n = NULL) {
+print.grouped_dt <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data table ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
-  trunc_mat(x, n = n)
+  trunc_mat(x, n = n, width = width)
 }
 
 #' @export

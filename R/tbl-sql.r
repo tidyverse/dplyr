@@ -108,7 +108,7 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 
 #' @export
 #' @rdname dplyr-formatting
-print.tbl_sql <- function(x, ..., n = NULL) {
+print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: ", brief_desc(x$src), "\n", sep = "")
 
   if (inherits(x$from, "ident")) {
@@ -129,7 +129,7 @@ print.tbl_sql <- function(x, ..., n = NULL) {
 
   cat("\n")
 
-  trunc_mat(x, n = n)
+  trunc_mat(x, n = n, width = width)
 }
 
 brief_desc <- function(x) UseMethod("brief_desc")
