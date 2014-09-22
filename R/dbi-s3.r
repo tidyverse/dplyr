@@ -64,7 +64,7 @@ db_save_query.DBIConnection <- function(con, sql, name, temporary = TRUE,
 db_begin <- function(con, ...) UseMethod("db_begin")
 #' @export
 db_begin.DBIConnection <- function(con, ...) {
-  dbGetQuery(con, "BEGIN TRANSACTION")
+  dbBegin(con)
 }
 
 #' @name backend_db
