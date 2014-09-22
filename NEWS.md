@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `rbind_*` fills character vector columns with `NA` instead of blanks (#595). 
+
 * `filter` asserts all variables are white listed (#566). 
 
 * More rubustness about missing columns (#600). 

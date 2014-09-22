@@ -89,7 +89,7 @@ namespace dplyr {
     template <>
     class Collecter_Impl<STRSXP> : public Collecter {
     public:
-        Collecter_Impl( int n_ ): data( n_ ){}
+        Collecter_Impl( int n_ ): data( n_, NA_STRING ){}
         
         void collect( const SlicingIndex& index, SEXP v ){
             if( TYPEOF(v) == STRSXP ){

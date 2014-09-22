@@ -136,3 +136,12 @@ test_that("rbind_all creates tbl_df object", {
   expect_is( res, "tbl_df" )  
 })
 
+test_that("string vectors are filled with NA not blanks before collection (#595)", {
+  one <- mtcars[1:10, -10]
+  two <- mtcars[11:32, ]
+  two$char_col <- letters[1:22]
+  
+  res <- rbind_list(one, two)
+  expect_true( all(is.na(res$char_col[1:10])) )  
+})
+
