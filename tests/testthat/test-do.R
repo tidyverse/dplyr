@@ -46,6 +46,17 @@ test_that("colums in output override columns in input", {
   expect_equal(out$g, c(1, 1, 1))
 })
 
+test_that("empty inputs give empty outputs (#597)", {
+  out <- data.frame(a = numeric(), b = factor()) %>%
+    group_by(b) %>%
+    do(data.frame())
+  expect_equal(out, data.frame(b = factor()) %>% group_by(b))
+
+  out <- data.frame(a = numeric(), b = character()) %>%
+    group_by(b) %>%
+    do(data.frame())
+  expect_equal(out, data.frame(b = character()) %>% group_by(b))
+})
 
 # Ungrouped data frames --------------------------------------------------------
 
