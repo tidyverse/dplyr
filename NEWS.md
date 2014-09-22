@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* `[.tbl_df` always returns a tbl_df (i.e. `drop = FALSE` is the default) 
+  (#587, #610).
+
 * `rbind_*` fills character vector columns with `NA` instead of blanks (#595). 
 
 * `filter` asserts all variables are white listed (#566). 

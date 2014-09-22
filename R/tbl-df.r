@@ -5,6 +5,16 @@
 #' tbl objects only print a few rows and all the columns that fit on one
 #' screen, describing the rest of it as text.
 #'
+#' @section Methods:
+#'
+#' \code{tbl_df} implements two important base methods:
+#'
+#' \describe{
+#' \item{print}{Only prints the first 10 rows, and the columns that fit on
+#'   screen}
+#' \item{\code{[}}{Never simplifies (drops), so always returns data.frame}
+#' }
+#'
 #' @export
 #' @param data a data frame
 #' @examples
@@ -91,5 +101,34 @@ print.tbl_df <- function(x, ..., n = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x, n = n)
+}
+
+#' @export
+`[.tbl_df` <- function (x, i, j, drop = FALSE) {
+  if (missing(i) && missing(j)) return(x)
+  if (drop) warning("drop ignored", call. = FALSE)
+
+  # Escape early if nargs() == 2L; ie, column subsetting
+  if (nargs() == 2L) {
+    result <- .subset(x, i)
+    class(result) <- c("tbl_df", "data.frame")
+    attr(result, "row.names") <- .set_row_names(length(x[[1]]))
+    return(result)
+  }
+
+  # First, subset columns
+  if (!missing(j)) {
+    x <- .subset(x, j)
+  }
+
+  # Next, subset rows
+  if (!missing(i)) {
+    x <- lapply(x, `[`, i)
+  }
+
+  # TODO: handle 0 column case
+  class(x) <- c("tbl_df", "data.frame")
+  attr(x, "row.names") <- .set_row_names(length(x[[1]]))
+  x
 }
 

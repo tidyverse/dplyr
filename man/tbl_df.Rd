@@ -14,6 +14,17 @@ a \code{tbl_df} over a regular data frame is the printing:
 tbl objects only print a few rows and all the columns that fit on one
 screen, describing the rest of it as text.
 }
+\section{Methods}{
+
+
+\code{tbl_df} implements two important base methods:
+
+\describe{
+\item{print}{Only prints the first 10 rows, and the columns that fit on
+  screen}
+\item{\code{[}}{Never simplifies (drops), so always returns data.frame}
+}
+}
 \examples{
 ds <- tbl_df(mtcars)
 ds
