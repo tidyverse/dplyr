@@ -1,6 +1,19 @@
 #' @import DBI
 NULL
 
+
+#' Source generics.
+#'
+#' These generics retrieve metadata for a given src.
+#'
+#' @keywords internal
+#' @name backend_src
+NULL
+
+#' @name backend_src
+#' @export
+src_desc <- function(x) UseMethod("src_desc")
+
 #' Database generics.
 #'
 #' These generics execute actions on the database. All generics have a method

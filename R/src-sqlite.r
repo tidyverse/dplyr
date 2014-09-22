@@ -114,7 +114,7 @@ tbl.src_sqlite <- function(src, from, ...) {
 }
 
 #' @export
-brief_desc.src_sqlite <- function(x) {
+src_desc.src_sqlite <- function(x) {
   paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
 }
 

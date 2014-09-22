@@ -112,7 +112,7 @@ tbl.src_mysql <- function(src, from, ...) {
 }
 
 #' @export
-brief_desc.src_mysql <- function(x) {
+src_desc.src_mysql <- function(x) {
   info <- x$info
 
   paste0("mysql ", info$serverVersion, " [", info$user, "@",

@@ -28,11 +28,11 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
 Use `src_sql()` to create a new S3 object with the correct structure. It must have a DBI connection, but it can store anything else that might be useful.
 
-Next, implement a method for `brief_desc()` that briefly describe the source:
+Next, implement a method for `src_desc()` that briefly describes the source:
 
 ```{r}
 #' @export
-brief_desc.src_postgres <- function(x) {
+src_desc.src_postgres <- function(x) {
   info <- dbGetInfo(con)
   host <- if (info$host == "") "localhost" else info$host
 

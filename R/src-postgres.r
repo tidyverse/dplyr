@@ -114,7 +114,7 @@ tbl.src_postgres <- function(src, from, ...) {
 }
 
 #' @export
-brief_desc.src_postgres <- function(x) {
+src_desc.src_postgres <- function(x) {
   info <- x$info
   host <- if (info$host == "") "localhost" else info$host
 

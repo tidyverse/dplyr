@@ -151,7 +151,7 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
 
 translate_env <- function(x) UseMethod("translate_env")
 #' @export
-translate_env.tbl_sql <- function(x) translate_env(x$src)
+translate_env.tbl_sql <- function(x) db_translate_env(x$src)
 #' @export
 translate_env.NULL <- function(x) {
   sql_variant(
