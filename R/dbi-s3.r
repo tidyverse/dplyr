@@ -387,7 +387,7 @@ db_query_rows <- function(con, sql, ...) {
 #' @export
 db_query_rows.DBIConnection <- function(con, sql, ...) {
   from <- sql_subquery(con, sql, "master")
-  rows <- build_sql("SELECT count(*) FROM ", from, con = self$con)
+  rows <- build_sql("SELECT count(*) FROM ", from, con = con)
 
   as.integer(dbGetQuery(con, rows)[[1]])
 }
