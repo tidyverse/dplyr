@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `filter` asserts all variables are white listed (#566). 
+
 * More rubustness about missing columns (#600). 
 
 * dplyr now understands how to work with `difftime()` objects (#390).

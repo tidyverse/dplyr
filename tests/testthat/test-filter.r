@@ -175,3 +175,17 @@ test_that( "GroupedDataFrame checks consistency of data (#606)", {
   expect_error( df3 %>% filter(group == "C"), "corrupt 'grouped_df', contains" )
 
 })
+
+test_that( "filter uses the white list (#566)", {
+  datesDF <- read.csv(stringsAsFactors=FALSE, text="
+X
+2014-03-13 16:08:19
+2014-03-13 16:16:23
+2014-03-13 16:28:28
+2014-03-13 16:28:54
+")
+
+  datesDF$X <- as.POSIXlt(datesDF$X)
+  expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")), "has unsupported type")  
+})
+
