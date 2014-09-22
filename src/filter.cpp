@@ -246,7 +246,7 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
 
 // [[Rcpp::export]]
 SEXP filter_impl( DataFrame df, List args, Environment env){
-    check_valid_rownames(df) ;
+    check_valid_colnames(df) ;
             
     if( args.size() == 0 ) return df ;
     

@@ -84,7 +84,7 @@ SEXP summarise_not_grouped(DataFrame df, List args, const DataDots& dots){
 
 // [[Rcpp::export]]
 SEXP summarise_impl( DataFrame df, List args, Environment env){
-    check_valid_rownames(df) ;
+    check_valid_colnames(df) ;
     DataDots dots(env) ;
     if( is<RowwiseDataFrame>(df) ){
         return summarise_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, args, dots);
