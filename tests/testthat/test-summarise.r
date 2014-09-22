@@ -306,7 +306,7 @@ test_that( "nth promotes dates and times (#509)", {
 })
 
 test_that( "nth preserves factor data (#509)", {
-  dat  <- data_frame(a = rep(seq(1,20,2),3),b = as.ordered(b))
+  dat  <- data_frame(a = rep(seq(1,20,2),3),b = as.ordered(a))
   dat1 <- dat %>% group_by(a) %>% summarise(der = nth(b,2))
   expect_is(dat1$der, "ordered")
   expect_equal(levels(dat1$der), levels(dat$b))
