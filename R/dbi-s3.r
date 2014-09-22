@@ -266,6 +266,7 @@ sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
 }
 
 #' @rdname backend_sql
+#' @export
 sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
