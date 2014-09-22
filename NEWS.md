@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `src_monetdb()` is now implemented in MonetDB.R, not dplyr.
+
 * `trunc_mat()` and hence `print.tbl_df()` and friends gets a `width` argument
   to control the deafult output width. Set `options(dplyr.width = Inf)` to
   always show all columns (#589).

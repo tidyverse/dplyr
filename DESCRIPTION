@@ -23,7 +23,6 @@ Suggests:
     RSQLite,
     RSQLite.extfuns,
     RMySQL,
-    MonetDB.R,
     RPostgreSQL,
     data.table,
     testthat,
@@ -99,7 +98,6 @@ Collate:
     'sql-escape.r'
     'sql-star.r'
     'src-local.r'
-    'src-monetdb.r'
     'src-mysql.r'
     'src-postgres.r'
     'src-sql.r'
