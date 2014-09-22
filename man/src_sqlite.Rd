@@ -138,10 +138,9 @@ filter(ungroup(stints), stints > 3)
 summarise(stints, max(stints))
 
 # Joins ---------------------------------------------------------------------
-player_info <- select(tbl(lahman_sqlite(), "Master"), playerID, hofID,
-  birthYear)
+player_info <- select(tbl(lahman_sqlite(), "Master"), playerID, birthYear)
 hof <- select(filter(tbl(lahman_sqlite(), "HallOfFame"), inducted == "Y"),
- hofID, votedBy, category)
+ playerID, votedBy, category)
 
 # Match players and their hall of fame data
 inner_join(player_info, hof)

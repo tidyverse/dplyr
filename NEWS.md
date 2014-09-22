@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* dplyr now depends on Lahman 3.0.1. A number of examples have been updated
+  to reflect modified field names (#586).
+
 * `contains()` accidentally matched regualar expression now it passes
   `fixed = TRUE` to `grep()` (#608).
 

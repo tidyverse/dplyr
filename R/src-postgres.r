@@ -72,10 +72,9 @@
 #' mutate(stints, order_by(yearID, cumsum(stints)))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, hofID,
-#'   birthYear)
+#' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, birthYear)
 #' hof <- select(filter(tbl(lahman_postgres(), "HallOfFame"), inducted == "Y"),
-#'  hofID, votedBy, category)
+#'  playerID, votedBy, category)
 #'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
