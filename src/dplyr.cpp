@@ -309,7 +309,9 @@ template < template <int> class Templ>
 Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 1 ) return 0 ;
     Armor<SEXP> data( CADR(call) );
-    if(TYPEOF(data) == SYMSXP) data = subsets.get_variable(data) ;
+    if(TYPEOF(data) == SYMSXP) {
+        data = subsets.get_variable(data) ;
+    }
     switch( TYPEOF(data) ){
         case INTSXP: return new Templ<INTSXP>(data) ;
         case REALSXP: return new Templ<REALSXP>(data) ;
