@@ -38,7 +38,7 @@ Data manipulation for data tables.
 \examples{
 if (require("data.table") && require("nycflights13")) {
 # If you start with a data table, you end up with a data table
-flights <- as.data.table(flights)
+flights <- as.data.table(as.data.frame(flights))
 filter(flights, month == 1, day == 1, dest == "DFW")
 head(select(flights, year:day))
 summarise(flights, delay = mean(arr_delay, na.rm = TRUE), n = length(arr_delay))
