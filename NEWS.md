@@ -1,7 +1,7 @@
 # dplyr 0.2.0.9000
 
 * `contains()` accidentally matched regualar expression now it passes
-  `fixed = TRUE` to `grepl()` (#608).
+  `fixed = TRUE` to `grep()` (#608).
 
 * `src_monetdb()` is now implemented in MonetDB.R, not dplyr.
 
