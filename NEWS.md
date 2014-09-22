@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* verbs now checks that colnames are unique (#483). 
+
 * `GroupedDataFrame` performs some checks on the `grouped_df` objects, which 
   prevent some issues related to corrupt `grouped_df` objects as the one 
   made by rbind (#606).

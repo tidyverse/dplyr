@@ -5,6 +5,7 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 SEXP distinct_impl( DataFrame df, CharacterVector vars){
+    check_valid_rownames(df) ;
     if( !vars.size() ){
         vars = df.names() ;
     }

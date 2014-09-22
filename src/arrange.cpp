@@ -5,6 +5,7 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 List arrange_impl( DataFrame data, List args, DataDots dots ){
+    check_valid_rownames(data) ;
     assert_all_white_list(data) ;
     
     // special case arrange() with no arguments for grouped data

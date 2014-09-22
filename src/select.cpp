@@ -75,6 +75,7 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
 
 // [[Rcpp::export]]
 DataFrame select_impl( DataFrame df, CharacterVector vars ){
+  check_valid_rownames(df) ;
   if( is<GroupedDataFrame>(df) ){
     return select_grouped( GroupedDataFrame(df), vars, vars.names() ) ;  
   } else {
