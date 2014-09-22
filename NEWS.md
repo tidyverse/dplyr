@@ -1,6 +1,10 @@
 # dplyr 0.2.0.9000
 
-* hashing a numeric column and an integer column was wrong (#450)
+* `GroupedDataFrame` performs some checks on the `grouped_df` objects, which 
+  prevent some issues related to corrupt `grouped_df` objects as the one 
+  made by rbind (#606).
+
+* hashing a numeric column and an integer column was wrong (#450).
 
 * `nth` now correctly promotes the result when using dates, times and factors (#509). 
 

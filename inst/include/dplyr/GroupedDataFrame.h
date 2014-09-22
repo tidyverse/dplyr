@@ -36,6 +36,20 @@ namespace Rcpp {
             group_sizes = data_.attr( "group_sizes" );
             biggest_group_size  = data_.attr( "biggest_group_size" ) ;
             labels = data_.attr( "labels" );
+            
+            if( !is_lazy ){
+                // check consistency of the groups
+                int rows_in_groups = sum(group_sizes) ;
+                if( data_.nrows() != rows_in_groups ){
+                    std::stringstream s ; 
+                    s << "corrupt 'grouped_df', contains "
+                      << data_.nrows()
+                      << " rows, and "
+                      << rows_in_groups
+                      << " rows in groups" ;
+                    stop(s.str()) ;
+                }
+            }
         }
         
         group_iterator group_begin() const {

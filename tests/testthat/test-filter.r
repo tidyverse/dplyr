@@ -162,3 +162,16 @@ test_that( "$ does not end call traversing. #502", {
   
 })
 
+test_that( "GroupedDataFrame checks consistency of data (#606)", {
+  df1 <- data.frame(
+   group = factor(rep(c("C", "G"), 5)),
+   value = 1:10)
+  df1 <- df1 %>% group_by(group) #df1 is now tbl
+  df2 <- data.frame(
+     group = factor(rep("G", 10)),
+     value = 11:20)
+  df3 <- rbind(df1, df2) #df2 is data.frame
+  
+  expect_error( df3 %>% filter(group == "C"), "corrupt 'grouped_df', contains" )
+
+})
