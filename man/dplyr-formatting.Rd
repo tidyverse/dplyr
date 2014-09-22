@@ -8,15 +8,15 @@
 \alias{trunc_mat}
 \title{Tools for describing matrices}
 \usage{
-\method{print}{tbl_df}(x, ..., n = NULL)
+\method{print}{tbl_df}(x, ..., n = NULL, width = NULL)
 
-\method{print}{tbl_dt}(x, ..., n = NULL)
+\method{print}{tbl_dt}(x, ..., n = NULL, width = NULL)
 
-\method{print}{tbl_sql}(x, ..., n = NULL)
+\method{print}{tbl_sql}(x, ..., n = NULL, width = NULL)
 
 dim_desc(x)
 
-trunc_mat(x, n = NULL)
+trunc_mat(x, n = NULL, width = NULL)
 }
 \arguments{
 \item{x}{Object to show.}
@@ -24,6 +24,11 @@ trunc_mat(x, n = NULL)
 \item{n}{Number of rows to show. If \code{NULL}, the default, will print
 all rows if less than option \code{dplyr.print_max}. Otherwise, will
 print \code{dplyr.print_min}}
+
+\item{width}{Width of text output to generate. This defaults to NULL, which
+means use \code{getOption("width")} and only display the columns that
+fit on one screen. You can also set \code{option(dplyr.width = Inf)} to
+override this default and always print all columns.}
 }
 \description{
 Tools for describing matrices
