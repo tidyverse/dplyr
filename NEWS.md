@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* `contains()` accidentally matched regualar expression now it passes
+  `fixed = TRUE` to `grepl()` (#608).
+
 * `src_monetdb()` is now implemented in MonetDB.R, not dplyr.
 
 * `trunc_mat()` and hence `print.tbl_df()` and friends gets a `width` argument

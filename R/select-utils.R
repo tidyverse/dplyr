@@ -23,7 +23,7 @@ ends_with <- function(vars, match, ignore.case = TRUE) {
 contains <- function(vars, match, ignore.case = TRUE) {
   stopifnot(is.string(match), nchar(match) > 0)
 
-  grep(match, vars, ignore.case = ignore.case)
+  grep(match, vars, fixed = TRUE, ignore.case = ignore.case)
 }
 
 matches <- function(vars, match, ignore.case = TRUE) {
