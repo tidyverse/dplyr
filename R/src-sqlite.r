@@ -119,7 +119,7 @@ src_desc.src_sqlite <- function(x) {
 }
 
 #' @export
-translate_env.src_sqlite <- function(x) {
+src_translate_env.src_sqlite <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,

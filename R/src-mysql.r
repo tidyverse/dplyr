@@ -120,7 +120,7 @@ src_desc.src_mysql <- function(x) {
 }
 
 #' @export
-translate_env.src_mysql <- function(x) {
+src_translate_env.src_mysql <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,

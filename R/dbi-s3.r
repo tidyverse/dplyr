@@ -14,6 +14,11 @@ NULL
 #' @export
 src_desc <- function(x) UseMethod("src_desc")
 
+#' @name backend_src
+#' @export
+src_translate_env <- function(x) UseMethod("src_translate_env")
+
+
 #' Database generics.
 #'
 #' These generics execute actions on the database. All generics have a method

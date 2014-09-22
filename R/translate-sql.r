@@ -129,7 +129,7 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
   if (!is.null(env) && !is.null(tbl)) {
     expr <- partial_eval(expr, tbl, env)
   }
-  variant <- variant %||% translate_env(tbl)
+  variant <- variant %||% src_translate_env(tbl)
 
   # Translate partition ordering and grouping, and make available
   if (window && !is.null(tbl)) {
@@ -149,11 +149,10 @@ translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
   sql(unlist(pieces))
 }
 
-translate_env <- function(x) UseMethod("translate_env")
 #' @export
-translate_env.tbl_sql <- function(x) db_translate_env(x$src)
+src_translate_env.tbl_sql <- function(x) src_translate_env(x$src)
 #' @export
-translate_env.NULL <- function(x) {
+src_translate_env.NULL <- function(x) {
   sql_variant(
     base_scalar,
     base_agg,

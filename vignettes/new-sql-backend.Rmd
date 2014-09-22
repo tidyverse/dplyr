@@ -118,4 +118,4 @@ Next check the multitable verbs:
 
 ## sql translation
 
-To finish off, you can add custom R -> SQL translation by providing a method for `translate_env()`. This function should return an object created by `sql_variant()`. See existing methods for examples.
+To finish off, you can add custom R -> SQL translation by providing a method for `src_translate_env()`. This function should return an object created by `sql_variant()`. See existing methods for examples.

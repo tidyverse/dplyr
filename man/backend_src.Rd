@@ -2,9 +2,12 @@
 \name{backend_src}
 \alias{backend_src}
 \alias{src_desc}
+\alias{src_translate_env}
 \title{Source generics.}
 \usage{
 src_desc(x)
+
+src_translate_env(x)
 }
 \description{
 These generics retrieve metadata for a given src.
