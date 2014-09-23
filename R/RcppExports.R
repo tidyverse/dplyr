@@ -177,8 +177,8 @@ select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
 }
 
-summarise_impl <- function(df, args, env) {
-    .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
+summarise_impl <- function(df, dots) {
+    .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 test_comparisons <- function() {

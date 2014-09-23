@@ -148,6 +148,9 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) ;
 void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) ;
 
+void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) ;
+void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) ;
+
 template <typename Data>
 SEXP strip_group_attributes(Data df){
   Shield<SEXP> attribs( Rf_cons( dplyr::classes_not_grouped(), R_NilValue ) ) ;
@@ -177,6 +180,12 @@ SEXP strip_group_attributes(Data df){
     p = CDR(p) ;
   }
   return attribs ;
+}
+
+template <typename T>
+CharacterVector names( const T& obj ){
+    SEXP x = obj ;
+    return Rf_getAttrib(x, Rf_install("names" ) ) ;    
 }
 
 
