@@ -74,7 +74,7 @@ summarise_.data.table <- function(.data, ..., .dots) {
 summarise_.tbl_dt <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   tbl_dt(
-    summarise_.data.table(.data, .dots = .dots)
+    summarise_.data.table(.data, .dots = dots)
   )
 }
 
