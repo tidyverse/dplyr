@@ -17,7 +17,7 @@ Imports:
     R6,
     Rcpp,
     magrittr,
-    lazyeval,
+    lazyeval (>= 0.1.2),
     DBI (>= 0.3)
 Suggests:
     RSQLite,
