@@ -11,7 +11,7 @@
 \usage{
 \method{filter}{data.table}(.data, ..., .env = parent.frame())
 
-\method{summarise_}{data.table}(.data, dots)
+\method{summarise_}{data.table}(.data, ..., .dots)
 
 \method{mutate}{data.table}(.data, ..., inplace = FALSE)
 

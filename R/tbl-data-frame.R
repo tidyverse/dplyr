@@ -31,9 +31,9 @@ slice.data.frame <- function(.data, ...) {
   as.data.frame(slice(tbl_df(.data), ...))
 }
 #' @export
-summarise_.data.frame <- function(.data, dots) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
-  as.data.frame(summarise_(tbl_df(.data), dots))
+summarise_.data.frame <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  as.data.frame(summarise_(tbl_df(.data), .dots = .dots))
 }
 #' @export
 mutate.data.frame <-  function(.data, ...) {

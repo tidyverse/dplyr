@@ -11,7 +11,7 @@
 \usage{
 \method{filter}{grouped_dt}(.data, ...)
 
-\method{summarise_}{grouped_dt}(.data, dots)
+\method{summarise_}{grouped_dt}(.data, ..., .dots)
 
 \method{mutate}{grouped_dt}(.data, ..., inplace = FALSE)
 

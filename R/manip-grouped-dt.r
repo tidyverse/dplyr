@@ -53,8 +53,8 @@ filter.grouped_dt <- function(.data, ...) {
 
 #' @rdname manip_grouped_dt
 #' @export
-summarise_.grouped_dt <- function(.data, dots) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+summarise_.grouped_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
 
   # Replace n() with .N
   for (i in seq_along(dots)) {

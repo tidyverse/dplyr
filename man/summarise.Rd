@@ -8,11 +8,11 @@
 \usage{
 summarise(.data, ...)
 
-summarise_(.data, dots)
+summarise_(.data, ..., .dots)
 
 summarize(.data, ...)
 
-summarize_(.data, dots)
+summarize_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -21,7 +21,7 @@ for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 \item{...}{Name-value pairs of summary functions like \code{\link{min}()},
 \code{\link{mean}()}, \code{\link{max}()} etc.}
 
-\item{dots}{A \code{\link[lazy]{lazy_dots}} object, or a named list containing
+\item{.args}{A \code{\link[lazy]{lazy_dots}} object, or a named list containing
 quoted calls, strings, formulas, or \code{\link[lazy]{lazy}} objects.}
 }
 \value{

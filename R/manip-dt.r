@@ -60,20 +60,21 @@ filter.tbl_dt <- function(.data, ..., .env = parent.frame()) {
 
 #' @rdname manip_dt
 #' @export
-summarise_.data.table <- function(.data, dots) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+summarise_.data.table <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
 
   list_call <- lazyeval::make_call(quote(list), dots)
-  call <- substitute(.data[, vars], list(vars = list_call$expr))
+  call <- substitute(dt[, vars], list(vars = list_call$expr))
 
-  eval(call, parent.frame())
+  env <- dt_env(.data, parent.frame())
+  eval(call, env)
 }
 
 #' @export
-summarise_.tbl_dt <- function(.data, dots) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+summarise_.tbl_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   tbl_dt(
-    summarise_.data.table(.data, dots)
+    summarise_.data.table(.data, .dots = .dots)
   )
 }
 

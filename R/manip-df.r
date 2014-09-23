@@ -20,8 +20,8 @@ slice.tbl_df   <- .data_dots(slice_impl)
 mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 
 #' @export
-summarise_.tbl_df <- function(.data, dots, ...) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+summarise_.tbl_df <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   summarise_impl(.data, dots)
 }
 

@@ -70,8 +70,8 @@ groups.tbl_cube <- function(x) {
 # for better performance
 
 #' @export
-summarise_.tbl_cube <- function(.data, dots) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+summarise_.tbl_cube <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
 
   out_dims <- .data$dims[.data$group]
   n <- vapply(out_dims, length, integer(1))
