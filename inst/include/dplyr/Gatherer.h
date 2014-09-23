@@ -18,7 +18,6 @@ namespace dplyr {
         GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_ ) : 
             gdf(gdf_), proxy(proxy_), data(no_init(gdf.nrows())) 
         {
-            Rprintf( "GathererImpl = %s\n", DEMANGLE(GathererImpl) ) ;
             grab( first, indices ) ;
             copy_most_attributes( data, first ) ;
         }
