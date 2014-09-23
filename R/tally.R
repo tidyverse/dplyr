@@ -36,16 +36,21 @@ tally <- function(x, wt, sort = FALSE) {
     wt <- substitute(wt)
   }
 
+  tally_(x, wt, sort = sort)
+}
+
+tally_ <- function(x, wt, sort = FALSE) {
   if (is.null(wt)) {
-    out <- summarise(x, n = n())
+    n <- quote(n())
   } else {
-    wt <- substitute(summarise(x, n = sum(wt)), list(wt = wt))
-    out <- eval(wt)
+    n <- lazyeval::interp(quote(sum(wt)), wt = wt)
   }
 
-  if (sort) {
-    arrange(out, desc(n))
-  } else {
+  out <- summarise_(x, n = n)
+
+  if (!sort) {
     out
+  } else {
+    arrange(out, desc(n))
   }
 }
