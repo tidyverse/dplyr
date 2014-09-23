@@ -1,0 +1,77 @@
+---
+title: "Non-standard evaluation"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Non-standard evaluation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+```
+
+This vignette describe how non-standard evaluation (NSE) works in dplyr, and how the standard evaluation alternatives work.  The majority of functions in dplyr use NSE, but every function that uses NSE provides a version that only does standard evaluation (SE) ending with `_`.
+
+```{r, message = FALSE}
+library(dplyr)
+# Use tbl_dt until C++ backend updated
+mtcars <- tbl_dt(mtcars)
+
+summarise(mtcars, mean(mpg))
+summarise_(mtcars, ~mean(mpg))
+summarise_(mtcars, .dots = list(~mean(mpg)))
+```
+
+Behind the scenes, NSE is powered by the [lazyeval](https://github.com/hadley/lazyeval) package. That means in the SE versions of accept a variety of inputs:
+
+```{r}
+library(lazyeval)
+
+# Formulas
+summarise_(mtcars, ~mean(mpg))
+# Lazy objects
+summarise_(mtcars, lazy(mean(mpg)))
+# Quoted calls
+summarise_(mtcars, quote(mean(mpg)))
+# Strings
+summarise_(mtcars, "mean(mpg)")
+```
+
+It's important to understand that every argument has two important components:
+
+* A expression, e.g. `mean(mpg)`
+* The environment in which to evaluate the expression.
+
+Lazy captures both of these components. Formulas are particularly useful for SE because they capture both the expression and the environment, and the function name is very short!
+
+What if you need to mingle constants and variables? Use the handy `lazyeval::interp()`:
+
+```{r}
+# Interp works with formulas, lazy objects, quoted calls and strings
+interp(~ x + y, x = 10)
+interp(lazy(x + y), x = 10)
+interp(quote(x + y), x = 10)
+interp("x + y", x = 10)
+
+# Use as.name if you have a character string that gives a
+# variable name
+interp(~ mean(var), var = as.name("mpg"))
+# or supply the quoted name directly
+interp(~ mean(var), var = quote(mpg))
+
+# Or a function!
+interp(~ f(a, b), f = as.name("+"))
+# Remember every action in R is a function call:
+# http://adv-r.had.co.nz/Functions.html#all-calls
+
+# If you've built up a list of values through some other
+# mechanism, use .values
+interp(~ x + y, .values = list(x = 10))
+
+# You can also interpolate variables defined in the current
+# environment, but this is a little risky.
+y <- 10
+interp(~ x + y, .values = environment())
+```
