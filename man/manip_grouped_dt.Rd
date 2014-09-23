@@ -6,12 +6,12 @@
 \alias{mutate.grouped_dt}
 \alias{rename.grouped_dt}
 \alias{select_.grouped_dt}
-\alias{summarise.grouped_dt}
+\alias{summarise_.grouped_dt}
 \title{Data manipulation for grouped data tables.}
 \usage{
 \method{filter}{grouped_dt}(.data, ...)
 
-\method{summarise}{grouped_dt}(.data, ...)
+\method{summarise_}{grouped_dt}(.data, dots)
 
 \method{mutate}{grouped_dt}(.data, ..., inplace = FALSE)
 

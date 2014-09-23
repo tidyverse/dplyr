@@ -37,6 +37,8 @@ slice <- function(.data, ...) UseMethod("slice")
 #' @inheritParams filter
 #' @param ... Name-value pairs of summary functions like \code{\link{min}()},
 #'   \code{\link{mean}()}, \code{\link{max}()} etc.
+#' @param dots A \code{\link[lazy]{lazy_dots}} object, or a named list containing
+#'   quoted calls, strings, formulas, or \code{\link[lazy]{lazy}} objects.
 #' @family single table verbs
 #' @return An object of the same class as \code{.data}. One grouping level will
 #'   be dropped.
@@ -48,11 +50,25 @@ slice <- function(.data, ...) UseMethod("slice")
 #' summarise(group_by(mtcars, cyl), mean(disp))
 #'
 #' summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
-summarise <- function(.data, ...) UseMethod("summarise")
+summarise <- function(.data, ...) {
+  summarise_(.data, lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname summarise
+summarise_ <- function(.data, dots) {
+  UseMethod("summarise_")
+}
+
 
 #' @rdname summarise
 #' @export
 summarize <- summarise
+
+#' @rdname summarise
+#' @export
+summarize_ <- summarise_
+
 
 #' Add new variables.
 #'

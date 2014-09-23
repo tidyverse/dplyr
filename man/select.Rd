@@ -94,6 +94,7 @@ select_(iris, substitute(matches(x), list(x = ".t.")))
 Other single.table.verbs: \code{\link{arrange}};
   \code{\link{filter}}; \code{\link{mutate}},
   \code{\link{transmute}}; \code{\link{slice}};
-  \code{\link{summarise}}, \code{\link{summarize}}
+  \code{\link{summarise}}, \code{\link{summarise_}},
+  \code{\link{summarize}}, \code{\link{summarize_}}
 }
 

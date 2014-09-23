@@ -70,13 +70,14 @@ groups.tbl_cube <- function(x) {
 # for better performance
 
 #' @export
-summarise.tbl_cube <- function(.data, ...) {
-  exprs <- named_dots(...)
+summarise_.tbl_cube <- function(.data, dots) {
+  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+
   out_dims <- .data$dims[.data$group]
   n <- vapply(out_dims, length, integer(1))
 
   out_mets <- list()
-  for (nm in names(exprs)) {
+  for (nm in names(dots)) {
     out_mets[[nm]] <- array(logical(), n)
   }
 
@@ -89,8 +90,8 @@ summarise.tbl_cube <- function(.data, ...) {
       drop = TRUE)
 
     # Loop over each expression
-    for (j in seq_along(exprs)) {
-      res <- eval(exprs[[j]], mets, parent.frame())
+    for (j in seq_along(dots)) {
+      res <- eval(dots$expr[[j]], mets, dots$env[[j]])
       out_mets[[j]][i] <- res
     }
   }

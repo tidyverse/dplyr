@@ -39,8 +39,10 @@ rename.tbl_sql <- function(.data, ...) {
 
 
 #' @export
-summarise.tbl_sql <- function(.data, ..., .collapse_result = TRUE) {
-  input <- partial_eval(dots(...), .data, parent.frame())
+summarise.tbl_sql <- function(.data, dots, .collapse_result = TRUE) {
+  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+
+  input <- lapply(dots, function(l) partial_eval(l$expr, .data, l$env))
   input <- auto_name(input)
 
   # Effect of previous operations on summarise:

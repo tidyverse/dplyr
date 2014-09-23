@@ -53,17 +53,18 @@ filter.grouped_dt <- function(.data, ...) {
 
 #' @rdname manip_grouped_dt
 #' @export
-summarise.grouped_dt <- function(.data, ...) {
-  cols <- named_dots(...)
+summarise_.grouped_dt <- function(.data, dots) {
+  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+
   # Replace n() with .N
-  for (i in seq_along(cols)) {
-    if (identical(cols[[i]], quote(n()))) {
-      cols[[i]] <- quote(.N)
+  for (i in seq_along(dots)) {
+    if (identical(dots[[i]]$expr, quote(n()))) {
+      dots[[i]]$expr <- quote(.N)
     }
   }
 
-  list_call <- as.call(c(quote(list), cols))
-  call <- substitute(dt[, list_call, by = vars])
+  list_call <- lazyeval::make_call(quote(list), dots)
+  call <- substitute(dt[, list_call, by = vars], list(list_call = list_call$expr))
 
   env <- dt_env(.data, parent.frame())
   out <- eval(call, env)

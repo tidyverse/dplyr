@@ -20,7 +20,11 @@ slice.tbl_df   <- .data_dots(slice_impl)
 mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
 
 #' @export
-summarise.tbl_df <- .data_dots(summarise_impl, named_dots)
+summarise_.tbl_df <- function(.data, dots, ...) {
+  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
+  summarise_impl(.data, dots)
+}
+
 
 #' @export
 select_.grouped_df <- function(.data, args) {

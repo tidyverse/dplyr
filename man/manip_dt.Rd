@@ -6,12 +6,12 @@
 \alias{mutate.data.table}
 \alias{rename.data.table}
 \alias{select_.data.table}
-\alias{summarise.data.table}
+\alias{summarise_.data.table}
 \title{Data manipulation for data tables.}
 \usage{
 \method{filter}{data.table}(.data, ..., .env = parent.frame())
 
-\method{summarise}{data.table}(.data, ...)
+\method{summarise_}{data.table}(.data, dots)
 
 \method{mutate}{data.table}(.data, ..., inplace = FALSE)
 

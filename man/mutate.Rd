@@ -36,6 +36,7 @@ Other single.table.verbs: \code{\link{arrange}};
   \code{\link{filter}}; \code{\link{rename}},
   \code{\link{select}}, \code{\link{select_}};
   \code{\link{slice}}; \code{\link{summarise}},
-  \code{\link{summarize}}
+  \code{\link{summarise_}}, \code{\link{summarize}},
+  \code{\link{summarize_}}
 }
 
