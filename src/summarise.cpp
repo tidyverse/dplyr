@@ -21,7 +21,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
     Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
         Rcpp::checkUserInterrupt() ;
-        Lazy lazy = dots[k] ;
+        const Lazy& lazy = dots[k] ;
         const Environment& env = lazy.env ;
         
         Result* res = get_handler( lazy.expr, subsets, env ) ;
@@ -52,7 +52,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         
-        Lazy lazy = dots[i] ;
+        const Lazy& lazy = dots[i] ;
         Environment env = lazy.env ;
         Result* res = get_handler( lazy.expr, subsets, env ) ;
         
