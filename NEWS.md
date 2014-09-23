@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `rbind_*` handle data frames with 0 rows (#597). 
+
 * `mutate` works for on zero-row grouped data frame
 
 * `arrange` keeps the grouping structure of grouped data (#605). 

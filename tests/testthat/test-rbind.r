@@ -145,3 +145,9 @@ test_that("string vectors are filled with NA not blanks before collection (#595)
   expect_true( all(is.na(res$char_col[1:10])) )  
 })
 
+test_that("rbind handles data frames with no rows (#597)",{
+  empty <- data.frame(result = numeric())
+  expect_equal(rbind_list(empty), tbl_df(empty))
+  expect_equal(rbind_list(empty, empty), tbl_df(empty))
+  expect_equal(rbind_list(empty, empty, empty), tbl_df(empty))  
+})
