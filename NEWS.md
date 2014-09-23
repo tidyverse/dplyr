@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `mutate` works for on zero-row grouped data frame
+
 * `arrange` keeps the grouping structure of grouped data (#605). 
 
 * `left_join` was confused about by variables for x and y (#617). 

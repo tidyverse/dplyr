@@ -284,3 +284,15 @@ test_that("mutate supports difftime objects (#390)", {
   expect_equal( as.numeric(res$dt), c(11.5,21.5) )
 })
 
+test_that("mutate works on zero-row grouped data frame (#596)", {
+  dat <- data.frame(a = numeric(0), b = character(0))
+  res <- dat %>% group_by(b) %>% mutate(a2 = a*2)
+  expect_is(res$a2, "numeric")
+  expect_is(res, "grouped_df")
+  expect_equal(res$a2, numeric(0))
+  expect_equal(attr(res, "indices"), list())
+  expect_equal(attr(res, "vars"), list( quote(b) ))
+  expect_equal(attr(res, "group_sizes"), integer(0))
+  expect_equal(attr(res, "biggest_group_size"), 0L)
+})
+

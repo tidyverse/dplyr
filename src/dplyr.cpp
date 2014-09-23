@@ -1816,6 +1816,15 @@ SEXP mutate_impl( DataFrame df, List args, Environment env){
     if(is<RowwiseDataFrame>(df) ) {
         return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, args, dots);
     } else if( is<GroupedDataFrame>( df ) ){
+        // handle special case where there are no groups
+        IntegerVector group_sizes = df.attr("group_sizes" );
+        if( !group_sizes.size() ){
+            DataFrame res = mutate_not_grouped( df, args, dots) ;
+            res.attr("vars") = df.attr("vars" ) ;
+            return GroupedDataFrame(res).data() ;
+        }
+        
+        // regular case
         return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, args, dots);
     } else {
         return mutate_not_grouped( df, args, dots) ;
