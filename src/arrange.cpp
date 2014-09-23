@@ -4,7 +4,7 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-List arrange_impl( DataFrame data, List args, DataDots dots ){
+SEXP arrange_impl( DataFrame data, List args, DataDots dots ){
     check_valid_colnames(data) ;
     assert_all_white_list(data) ;
     
@@ -100,6 +100,11 @@ List arrange_impl( DataFrame data, List args, DataDots dots ){
     
     DataFrameVisitors visitors( data, data.names() ) ;
     List res = visitors.subset(index, data.attr("class") ) ;
+    
+    if( is<GroupedDataFrame>(data) ){
+        res.attr( "vars" ) = data.attr("vars" ) ;
+        return GroupedDataFrame(res).data() ;
+    } 
     SET_ATTRIB(res, strip_group_attributes(res));
     return res ;
 }
