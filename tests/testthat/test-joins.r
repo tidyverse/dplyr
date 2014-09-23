@@ -221,3 +221,12 @@ test_that("inner_join is symmetric, even when type of join var is different (#45
   expect_equal(tmp1, tmp2)
 })
 
+test_that("left_join by different variable names (#617)",{
+  x <- data_frame(x1 = c(1, 3, 2))
+  y <- data_frame(y1 = c(1, 2, 3), y2 = c("foo", "foo", "bar"))
+  res <- left_join(x, y, by = c("x1" = "y1"))
+  expect_equal(names(res), c("x1", "y2" ) )
+  expect_equal(res$x1, c(1,3,2))
+  expect_equal(res$y2, c("foo", "bar", "foo"))
+})
+

@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* `left_join` was confused about by variables for x and y (#617). 
+
 * dplyr now depends on Lahman 3.0.1. A number of examples have been updated
   to reflect modified field names (#586).
 

@@ -958,7 +958,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 // [[Rcpp::export]]
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(y, x, by_x, by_y) ;
+    DataFrameJoinVisitors visitors(y, x, by_y, by_x) ;
     Map map(visitors);
 
     // train the map in terms of y
