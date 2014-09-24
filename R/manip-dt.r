@@ -24,10 +24,7 @@ filter_.grouped_dt <- function(.data, ..., .dots) {
   indices <- eval(call, env)$V1
   out <- .data[indices[!is.na(indices)]]
 
-  grouped_dt(
-    data = out,
-    vars = groups(.data)
-  )
+  grouped_dt(out, groups(.data), copy = FALSE)
 }
 
 #' @export
@@ -65,10 +62,7 @@ summarise_.grouped_dt <- function(.data, ..., .dots) {
   env <- dt_env(.data, parent.frame())
   out <- eval(call, env)
 
-  grouped_dt(
-    data = out,
-    vars = drop_last(groups(.data))
-  )
+  grouped_dt(out, groups(.data), copy = FALSE)
 }
 
 #' @export
@@ -102,10 +96,7 @@ mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
     eval(call, env)
   }
 
-  grouped_dt(
-    data = env$dt,
-    vars = groups(.data)
-  )
+  grouped_dt(out, groups(.data), copy = FALSE)
 }
 
 
@@ -147,10 +138,7 @@ arrange_.grouped_dt <- function(.data, ..., .dots) {
   env <- dt_env(.data, order$env)
   out <- eval(call, env)
 
-  grouped_dt(
-    data = out,
-    vars = groups(.data)
-  )
+  grouped_dt(out, groups(.data), copy = FALSE)
 }
 
 #' @export
@@ -179,10 +167,7 @@ select_.grouped_dt <- function(.data, ..., .dots) {
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
 
-  grouped_dt(
-    data = out,
-    vars = groups(.data)
-  )
+  grouped_dt(out, groups(.data), copy = FALSE)
 }
 
 #' @export
@@ -210,10 +195,7 @@ rename_.grouped_dt <- function(.data, ..., .dots) {
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
 
-  grouped_dt(
-    data = out,
-    vars = groups(.data)
-  )
+  grouped_dt(out, groups(.data), copy = FALSE)
 }
 
 #' @export
@@ -232,8 +214,6 @@ rename_.tbl_dt <- function(.data, ..., .dots) {
 }
 
 # Do ---------------------------------------------------------------------------
-
-
 
 #' @export
 do.data.table <- function(.data, .f, ...) {

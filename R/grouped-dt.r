@@ -6,6 +6,7 @@
 #'
 #' @param data a tbl or data frame.
 #' @param vars a list of quoted variables.
+#' @param copy If \code{TRUE}, will make copy of input.
 #' @export
 #' @examples
 #' if (require("data.table") && require("nycflights13")) {
@@ -16,7 +17,7 @@
 #' monthly <- group_by(flights_dt, month)
 #' summarise(monthly, n = n(), delay = mean(arr_delay))
 #' }
-grouped_dt <- function(data, vars) {
+grouped_dt <- function(data, vars, copy = TRUE) {
   stopifnot(is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
 
@@ -26,7 +27,9 @@ grouped_dt <- function(data, vars) {
       call. = FALSE)
   }
 
-  data <- copy(data)
+  if (copy) {
+    data <- copy(data)
+  }
   setkeyv(data, deparse_all(vars))
   setattr(data, "vars", vars)
   setattr(data, "class", c("grouped_dt", "tbl_dt", "tbl", class(data)))
