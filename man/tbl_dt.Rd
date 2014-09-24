@@ -4,10 +4,12 @@
 \alias{tbl_dt}
 \title{Create a data table tbl.}
 \usage{
-tbl_dt(data)
+tbl_dt(data, copy = TRUE)
 }
 \arguments{
 \item{data}{a data table}
+
+\item{copy}{If the input is a data.table, copy it?}
 }
 \description{
 A data table tbl wraps a local data table.
@@ -18,6 +20,23 @@ ds <- tbl_dt(mtcars)
 ds
 as.data.table(ds)
 as.tbl(mtcars)
+}
+
+if (require("data.table") && require("nycflights13")) {
+flights2 <- tbl_dt(flights)
+flights2 \%>\% filter(month == 1, day == 1, dest == "DFW")
+flights2 \%>\% select(year:day)
+flights2 \%>\% rename(Year = year)
+flights2 \%>\%
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = length(arr_delay)
+  )
+flights2 \%>\%
+  mutate(gained = arr_delay - dep_delay) \%>\%
+  select(ends_with("delay"), gained)
+flights2 \%>\%
+  arrange(dest, desc(arr_delay))
 }
 }
 

@@ -57,7 +57,7 @@ distinct_.data.table <- function(.data, vars = character()) {
 
 #' @export
 distinct_.tbl_dt <- function(.data, vars = character()) {
-  tbl_dt(NextMethod())
+  tbl_dt(NextMethod(), copy = FALSE)
 }
 
 

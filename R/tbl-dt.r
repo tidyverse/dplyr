@@ -4,6 +4,7 @@
 #'
 #' @export
 #' @param data a data table
+#' @param copy If the input is a data.table, copy it?
 #' @aliases .datatable.aware
 #' @examples
 #' if (require("data.table")) {
@@ -12,14 +13,36 @@
 #' as.data.table(ds)
 #' as.tbl(mtcars)
 #' }
-tbl_dt <- function(data) {
-  if (!require("data.table")) {
+#'
+#' if (require("data.table") && require("nycflights13")) {
+#' flights2 <- tbl_dt(flights)
+#' flights2 %>% filter(month == 1, day == 1, dest == "DFW")
+#' flights2 %>% select(year:day)
+#' flights2 %>% rename(Year = year)
+#' flights2 %>%
+#'   summarise(
+#'     delay = mean(arr_delay, na.rm = TRUE),
+#'     n = length(arr_delay)
+#'   )
+#' flights2 %>%
+#'   mutate(gained = arr_delay - dep_delay) %>%
+#'   select(ends_with("delay"), gained)
+#' flights2 %>%
+#'   arrange(dest, desc(arr_delay))
+#' }
+tbl_dt <- function(data, copy = TRUE) {
+  if (!requireNamespace("data.table")) {
     stop("data.table package required to use data tables", call. = FALSE)
   }
   if (is.grouped_dt(data)) return(ungroup(data))
 
-  if (is.data.table(data)) data <- copy(data) else data <- as.data.table(data)
-  setattr(data, "class", c("tbl_dt", "tbl", "data.table", "data.frame"))
+  if (data.table::is.data.table(data)) {
+    if (copy)
+      data <- data.table::copy(data)
+  } else {
+    data <- data.table::as.data.table(data)
+  }
+  data.table::setattr(data, "class", c("tbl_dt", "tbl", "data.table", "data.frame"))
   data
 }
 

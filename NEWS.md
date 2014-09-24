@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* Fix major omission in `tbl_df()` methods - I was accidentally doing a 
+  deep copy on every result :(
+
 * dplyr now depends on Lahman 3.0.1. A number of examples have been updated
   to reflect modified field names (#586).
 
