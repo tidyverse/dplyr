@@ -27,8 +27,9 @@ filter.data.frame <- function(.data, ...) {
   as.data.frame(filter(tbl_df(.data), ...))
 }
 #' @export
-slice.data.frame <- function(.data, ...) {
-  as.data.frame(slice(tbl_df(.data), ...))
+slice_.data.frame <- function(.data, ...) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  as.data.frame(slice_(tbl_df(.data), .dots = dots))
 }
 #' @export
 summarise_.data.frame <- function(.data, ..., .dots) {

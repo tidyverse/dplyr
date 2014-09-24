@@ -433,16 +433,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // slice_impl
-SEXP slice_impl(DataFrame df, List args, Environment env);
-RcppExport SEXP dplyr_slice_impl(SEXP dfSEXP, SEXP argsSEXP, SEXP envSEXP) {
+SEXP slice_impl(DataFrame df, LazyDots dots);
+RcppExport SEXP dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
-        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< Environment >::type env(envSEXP );
-        SEXP __result = slice_impl(df, args, env);
+        Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP );
+        SEXP __result = slice_impl(df, dots);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

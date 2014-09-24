@@ -28,8 +28,15 @@ filter <- function(.data, ...) UseMethod("filter")
 #'
 #' by_cyl <- group_by(mtcars, cyl)
 #' slice(by_cyl, 1:2)
-slice <- function(.data, ...) UseMethod("slice")
+slice <- function(.data, ...) {
+  slice_(.data, .dots = lazyeval::lazy_dots(...))
+}
 
+#' @export
+#' @rdname slice
+slice_ <- function(.data, ..., .dots) {
+  UseMethod("slice_")
+}
 
 #' Summarise multiple values to a single value.
 #'

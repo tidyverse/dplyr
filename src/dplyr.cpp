@@ -1498,11 +1498,12 @@ private:
     int n_neg ;   
 } ;
    
-SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots){
+SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
 
     const DataFrame& data = gdf.data() ;
-    Environment env = dots.envir(0);
+    const Lazy& lazy = dots[0] ;
+    Environment env = lazy.env ;
     CharacterVector names = data.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
@@ -1510,7 +1511,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
     }
 
     // we already checked that we have only one expression
-    Call call( (SEXP)args[dots.expr_index(0)] ) ;
+    Call call( lazy.expr ) ;
 
     std::vector<int> indx ; indx.reserve(1000) ;
 
@@ -1568,16 +1569,15 @@ SEXP slice_grouped(GroupedDataFrame gdf, const List& args, const DataDots& dots)
 
 }
 
-SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& dots){
+SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
         set.insert( Rf_install( names[i] ) ) ;
     }
-
-    Environment env = dots.envir(0) ;
-    Call call( (SEXP)args[dots.expr_index(0)] );
-    CallProxy proxy( call, df, env ) ;
+    const Lazy& lazy = dots[0] ;
+    Call call( lazy.expr );
+    CallProxy proxy( call, df, lazy.env ) ;
     int nr = df.nrows() ;
     
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
@@ -1628,15 +1628,14 @@ SEXP slice_not_grouped( const DataFrame& df, const List& args, const DataDots& d
 }
 
 // [[Rcpp::export]]
-SEXP slice_impl( DataFrame df, List args, Environment env){
-    if( args.size() == 0 ) return df ;
-    if( args.size() != 1 )
+SEXP slice_impl( DataFrame df, LazyDots dots){
+    if( dots.size() == 0 ) return df ;
+    if( dots.size() != 1 )
         stop( "slice only accepts one expression" );
-    DataDots dots(env) ;
     if( is<GroupedDataFrame>(df) ){
-        return slice_grouped( GroupedDataFrame(df), args, dots ) ;
+        return slice_grouped( GroupedDataFrame(df), dots ) ;
     } else {
-        return slice_not_grouped(df, args, dots ) ;
+        return slice_not_grouped(df, dots ) ;
     }
 }
 
