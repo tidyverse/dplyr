@@ -87,12 +87,8 @@
 #' }
 #' }
 src_sqlite <- function(path, create = FALSE) {
-  if (!require("RSQLite")) {
+  if (!requireNamespace("RSQLite", quietly = TRUE)) {
     stop("RSQLite package required to connect to sqlite db", call. = FALSE)
-  }
-  if (!require("RSQLite.extfuns")) {
-    stop("RSQLite.extfuns package required to effectively use sqlite db",
-      call. = FALSE)
   }
 
   if (!create && !file.exists(path)) {
@@ -100,11 +96,26 @@ src_sqlite <- function(path, create = FALSE) {
   }
 
   con <- dbConnect(RSQLite::SQLite(), path)
-  RSQLite.extfuns::init_extensions(con)
+  load_extension(con)
 
   info <- dbGetInfo(con)
 
   src_sql("sqlite", con, path = path, info = info)
+}
+
+load_extension <- function(con) {
+  if (packageVersion("RSQLite") >= 1) {
+    RSQLite::initExtension(con)
+    return()
+  }
+
+  require("RSQLite")
+  if (!require("RSQLite.extfuns")) {
+    stop("RSQLite.extfuns package required to effectively use sqlite db",
+      call. = FALSE)
+  }
+
+  RSQLite.extfuns::init_extensions(con)
 }
 
 #' @export
@@ -168,7 +179,13 @@ db_explain.SQLiteConnection <- function(con, sql, ...) {
 }
 
 #' @export
-db_begin.SQLiteConnection <- function(con, ...) dbBeginTransaction(con)
+db_begin.SQLiteConnection <- function(con, ...) {
+  if (packageVersion("RSQLite") < 1) {
+    dbBeginTransaction(con)
+  } else {
+    dbBegin(con)
+  }
+}
 
 #' @export
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
