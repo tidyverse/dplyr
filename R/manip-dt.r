@@ -1,3 +1,5 @@
+# Filter -----------------------------------------------------------------------
+
 and_expr <- function(exprs) {
   assert_that(is.list(exprs))
   if (length(exprs) == 0) return(TRUE)
@@ -8,6 +10,24 @@ and_expr <- function(exprs) {
     left <- substitute(left & right, list(left = left, right = exprs[[i]]))
   }
   left
+}
+
+#' @export
+filter_.grouped_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+
+  # http://stackoverflow.com/questions/16573995/subset-by-group-with-data-table
+  expr <- lapply(dots, `[[`, "expr")
+  call <- substitute(dt[, .I[expr], by = vars], list(expr = and_expr(expr)))
+
+  env <- dt_env(.data, lazyeval::common_env(dots))
+  indices <- eval(call, env)$V1
+  out <- .data[indices[!is.na(indices)]]
+
+  grouped_dt(
+    data = out,
+    vars = groups(.data)
+  )
 }
 
 #' @export
@@ -26,6 +46,31 @@ filter_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
 
+# Summarise --------------------------------------------------------------------
+
+#' @export
+summarise_.grouped_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+
+  # Replace n() with .N
+  for (i in seq_along(dots)) {
+    if (identical(dots[[i]]$expr, quote(n()))) {
+      dots[[i]]$expr <- quote(.N)
+    }
+  }
+
+  list_call <- lazyeval::make_call(quote(list), dots)
+  call <- substitute(dt[, list_call, by = vars], list(list_call = list_call$expr))
+
+  env <- dt_env(.data, parent.frame())
+  out <- eval(call, env)
+
+  grouped_dt(
+    data = out,
+    vars = drop_last(groups(.data))
+  )
+}
+
 #' @export
 summarise_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
@@ -41,6 +86,28 @@ summarise_.data.table <- function(.data, ..., .dots) {
 summarise_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
+
+# Mutate -----------------------------------------------------------------------
+
+#' @export
+mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  if (!inplace) .data <- copy(.data)
+
+  env <- dt_env(.data, lazyeval::common_env(dots))
+  # For each new variable, generate a call of the form df[, new := expr]
+  for(col in names(dots)) {
+    call <- substitute(dt[, lhs := rhs, by = vars],
+      list(lhs = as.name(col), rhs = dots[[col]]$expr))
+    eval(call, env)
+  }
+
+  grouped_dt(
+    data = env$dt,
+    vars = groups(.data)
+  )
+}
+
 
 #' @export
 mutate_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
@@ -65,6 +132,27 @@ mutate.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
 
+# Arrange ----------------------------------------------------------------------
+
+#' @export
+arrange_.grouped_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+
+  env <- lazyeval::common_env(dots)
+  groups <- lazyeval::as.lazy_dots(groups(.data), env = env)
+
+  order <- lazyeval::make_call(quote(order), c(groups, dots))
+  call <- substitute(dt[order, , ], list(order = order$expr))
+
+  env <- dt_env(.data, order$env)
+  out <- eval(call, env)
+
+  grouped_dt(
+    data = out,
+    vars = groups(.data)
+  )
+}
+
 #' @export
 arrange_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
@@ -79,6 +167,22 @@ arrange_.data.table <- function(.data, ..., .dots) {
 #' @export
 arrange_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
+}
+
+# Select -----------------------------------------------------------------------
+
+#' @export
+select_.grouped_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- select_vars_(names(.data), dots,
+    include = as.character(groups(.data)))
+  out <- .data[, vars, drop = FALSE, with = FALSE]
+  data.table::setnames(out, names(vars))
+
+  grouped_dt(
+    data = out,
+    vars = groups(.data)
+  )
 }
 
 #' @export
@@ -96,6 +200,22 @@ select_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
 
+# Rename -----------------------------------------------------------------------
+
+#' @export
+rename_.grouped_dt <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- rename_vars_(names(.data), dots)
+
+  out <- .data[, vars, drop = FALSE, with = FALSE]
+  data.table::setnames(out, names(vars))
+
+  grouped_dt(
+    data = out,
+    vars = groups(.data)
+  )
+}
+
 #' @export
 rename_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
@@ -110,6 +230,9 @@ rename_.data.table <- function(.data, ..., .dots) {
 rename_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
+
+# Do ---------------------------------------------------------------------------
+
 
 
 #' @export

@@ -37,6 +37,30 @@ flights2 \%>\%
   select(ends_with("delay"), gained)
 flights2 \%>\%
   arrange(dest, desc(arr_delay))
+
+by_dest <- group_by(flights2, dest)
+
+filter(by_dest, arr_delay == max(arr_delay, na.rm = TRUE))
+summarise(by_dest, arr = mean(arr_delay, na.rm = TRUE))
+
+# Normalise arrival and departure delays by airport
+by_dest \%>\%
+  mutate(arr_z = scale(arr_delay), dep_z = scale(dep_delay)) \%>\%
+  select(starts_with("arr"), starts_with("dep"))
+
+arrange(by_dest, desc(arr_delay))
+select(by_dest, -(day:tailnum))
+rename(by_dest, Year = year)
+
+# All manip functions preserve grouping structure, except for summarise
+# which removes a grouping level
+by_day <- group_by(flights2, year, month, day)
+by_month <- summarise(by_day, delayed = sum(arr_delay > 0, na.rm = TRUE))
+by_month
+summarise(by_month, delayed = sum(delayed))
+
+# You can also manually ungroup:
+ungroup(by_day)
 }
 }
 

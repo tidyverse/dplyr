@@ -79,7 +79,6 @@ Collate:
     'manip-cube.r'
     'manip-df.r'
     'manip-dt.r'
-    'manip-grouped-dt.r'
     'manip-sql.r'
     'manip.r'
     'nth-value.R'
