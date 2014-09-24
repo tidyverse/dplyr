@@ -19,7 +19,7 @@ arrange.grouped_dt(.data, ...)
 
 \method{select_}{grouped_dt}(.data, args)
 
-\method{rename}{grouped_dt}(.data, ...)
+rename.grouped_dt(.data, ...)
 }
 \arguments{
 \item{.data}{a data table}

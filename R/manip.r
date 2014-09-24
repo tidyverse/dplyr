@@ -126,7 +126,7 @@ transmute_ <- function(.data, ..., .dots) {
 
 #' @export
 transmute_.default <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   out <- mutate_(.data, .dots = dots)
 
   keep <- names(dots)
@@ -236,22 +236,31 @@ arrange_ <- function(.data, ..., .dots) {
 #'
 #' # Programming with select ---------------------------------------------------
 #' select_(iris, ~Petal.Length)
-#' select_(iris, list(quote(-Petal.Length), quote(-Petal.Width)))
-#' select_(iris, c("Petal.Length"))
-#' select_(iris, substitute(matches(x), list(x = ".t.")))
+#' select_(iris, "Petal.Length")
+#' select_(iris, lazyeval::interp(~matches(x), x = ".t."))
+#' select_(iris, quote(-Petal.Length), quote(-Petal.Width))
+#' select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
 select <- function(.data, ...) {
-  select_(.data, lazyeval::lazy_dots(...))
+  select_(.data, .dots = lazyeval::lazy_dots(...))
 }
 
 #' @export
 #' @rdname select
-select_ <- function(.data, args) {
+select_ <- function(.data, ..., .dots) {
   UseMethod("select_")
 }
 
 #' @rdname select
 #' @export
-rename <- function(.data, ...) UseMethod("rename")
+rename <- function(.data, ...) {
+  rename_(.data, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @rdname select
+#' @export
+rename_ <- function(.data, ...) {
+  UseMethod("rename_")
+}
 
 #' The number of observations in the current group.
 #'

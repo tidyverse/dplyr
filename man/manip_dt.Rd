@@ -19,7 +19,7 @@ arrange.data.table(.data, ...)
 
 \method{select_}{data.table}(.data, args)
 
-\method{rename}{data.table}(.data, ...)
+rename.data.table(.data, ...)
 }
 \arguments{
 \item{.data}{a data table}

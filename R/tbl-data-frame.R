@@ -48,14 +48,15 @@ arrange_.data.frame <- function(.data, ..., .dots) {
   as.data.frame(arrange_(tbl_df(.data), .dots = dots))
 }
 #' @export
-select_.data.frame <- function(.data, args) {
-  args <- lazyeval::as.lazy_dots(args, parent.frame())
-  vars <- select_vars_(names(.data), args)
+select_.data.frame <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- select_vars_(names(.data), dots)
   select_impl(.data, vars)
 }
 #' @export
-rename.data.frame <- function(.data, ...) {
-  vars <- rename_vars_(names(.data), lazyeval::lazy_dots(...))
+rename_.data.frame <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- rename_vars_(names(.data), dots)
   select_impl(.data, vars)
 }
 
