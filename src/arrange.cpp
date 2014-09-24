@@ -71,10 +71,10 @@ List arrange_impl( DataFrame data, LazyDots dots ){
         Shelter<SEXP> __ ;
         const Lazy& lazy = dots[k] ;
         
-        SEXP call = lazy.expr ;
+        SEXP call = lazy.expr() ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
         
-        CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env) ;
+        CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env()) ;
         
         SEXP v = __(call_proxy.eval()) ;
         if( !white_list(v) || TYPEOF(v) == VECSXP ){

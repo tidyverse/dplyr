@@ -1503,7 +1503,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
 
     const DataFrame& data = gdf.data() ;
     const Lazy& lazy = dots[0] ;
-    Environment env = lazy.env ;
+    Environment env = lazy.env() ;
     CharacterVector names = data.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
@@ -1511,7 +1511,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     }
 
     // we already checked that we have only one expression
-    Call call( lazy.expr ) ;
+    Call call( lazy.expr() ) ;
 
     std::vector<int> indx ; indx.reserve(1000) ;
 
@@ -1576,8 +1576,8 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
         set.insert( Rf_install( names[i] ) ) ;
     }
     const Lazy& lazy = dots[0] ;
-    Call call( lazy.expr );
-    CallProxy proxy( call, df, lazy.env ) ;
+    Call call( lazy.expr() );
+    CallProxy proxy( call, df, lazy.env() ) ;
     int nr = df.nrows() ;
     
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
@@ -1665,7 +1665,7 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
 void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf){
     int n = dots.size() ;
     for( int i=0; i<n; i++){
-        if( gdf.has_group( dots[i].name ) )
+        if( gdf.has_group( dots[i].name() ) )
             stop( "cannot modify grouping variable" ) ;
     }
 }
@@ -1678,7 +1678,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     int nexpr = dots.size() ;
     check_not_groups(dots, gdf);
 
-    Environment env = dots[0].env ;
+    Environment env = dots[0].env() ;
     Proxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
 
@@ -1693,9 +1693,9 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
         
-        proxy.set_env( lazy.env ) ;
-        SEXP call = lazy.expr ;
-        SEXP name = lazy.name ;
+        proxy.set_env( lazy.env() ) ;
+        SEXP call = lazy.expr() ;
+        SEXP name = lazy.name() ;
         SEXP variable = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
@@ -1741,7 +1741,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     Shelter<SEXP> __ ;
-    Environment env = dots[0].env ;
+    Environment env = dots[0].env() ;
 
     int nexpr = dots.size() ;
     
@@ -1756,10 +1756,10 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
-        call_proxy.set_env(lazy.env) ;
+        call_proxy.set_env(lazy.env()) ;
 
-        SEXP call = lazy.expr ;
-        SEXP name = lazy.name ;
+        SEXP call = lazy.expr() ;
+        SEXP name = lazy.name() ;
         SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){

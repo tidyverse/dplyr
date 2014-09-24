@@ -5,15 +5,31 @@ namespace Rcpp {
 
     class Lazy {
     public:
-        Lazy( List data_, SEXP name_ ) :
-            env(data_[1]),
-            expr(data_[0]),
-            name(name_)
+        Lazy( List data_, SEXP name__ ) :
+            data(data_),
+            name_(name__)
+        {}
+        
+        Lazy( const Lazy& other ) : 
+            data(other.data), 
+            name_(other.name_)
         {}
 
-        Environment env ;
-        SEXP expr ;
-        SEXP name ;
+        inline SEXP expr() const {
+            return data[0] ;
+        }
+        inline SEXP env() const { 
+            return data[1]; 
+        } 
+        inline SEXP name() const { 
+            return name_ ; 
+        }
+        
+    private:
+        Lazy& operator=( const Lazy&) ; 
+        
+        List data ;
+        SEXP name_ ;
     } ;
 
     template <>
@@ -33,11 +49,11 @@ namespace Rcpp {
 
             CharacterVector names = data_.names() ;
             for(int i=0; i<n; i++){
-                SEXP x = data_[i] ;
+                List x = data_[i] ;
                 if( !is<Lazy>(x) ){
                     stop( "corrupt lazy object" );
                 }
-                data.push_back( Lazy(data_[i], names[i]) ) ;
+                data.push_back(Lazy(x, names[i])) ;
             }
         }
 
@@ -51,9 +67,9 @@ namespace Rcpp {
 
         inline bool single_env() const {
             if( data.size() <= 1 ) return true ;
-            SEXP env = data[0].env ;
+            SEXP env = data[0].env() ;
             for( size_t i=1; i<data.size(); i++){
-                if( data[i].env != env ) return false ;
+                if( data[i].env() != env ) return false ;
             }
             return true ;
         }
