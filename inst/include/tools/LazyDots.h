@@ -50,7 +50,7 @@ namespace Rcpp {
         inline bool single_env() const {
             if( data.size() <= 1 ) return true ;
             SEXP env = data[0].env ;
-            for( int i=1; i<data.size(); i++){
+            for( size_t i=1; i<data.size(); i++){
                 if( data[i].env != env ) return false ;    
             }
             return true ;
