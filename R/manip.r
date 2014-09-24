@@ -115,13 +115,21 @@ mutate_ <- function(.data, ..., .dots) {
 
 #' @rdname mutate
 #' @export
-transmute <- function(.data, ...) UseMethod("transmute")
+transmute <- function(.data, ...) {
+  transmute_(.data, .dots = lazyeval::lazy_dots(...))
+}
+
+transmute_ <- function(.data, ..., .dots) {
+  UseMethod("transmute_")
+}
+
 
 #' @export
-transmute.default <- function(.data, ...) {
-  out <- mutate(.data, ...)
+transmute_.default <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  out <- mutate_(.data, .dots = dots)
 
-  keep <- names(dots(...))
+  keep <- names(dots)
   select(out, one_of(keep))
 }
 
