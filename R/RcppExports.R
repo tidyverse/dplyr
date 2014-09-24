@@ -123,8 +123,8 @@ slice_impl <- function(df, args, env) {
     .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, args, env)
 }
 
-mutate_impl <- function(df, args, env) {
-    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
+mutate_impl <- function(df, dots) {
+    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 order_impl <- function(args, env) {

@@ -88,7 +88,15 @@ summarize_ <- summarise_
 #' transmute(mtcars, displ_l = disp / 61.0237)
 #'
 #' mutate(mtcars, cyl = NULL)
-mutate <- function(.data, ...) UseMethod("mutate")
+mutate <- function(.data, ...) {
+  mutate_(.data, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname mutate
+mutate_ <- function(.data, ..., .dots) {
+  UseMethod("mutate_")
+}
 
 #' @rdname mutate
 #' @export

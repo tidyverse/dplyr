@@ -1672,15 +1672,14 @@ void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf){
 }
 
 template <typename Data, typename Subsets>
-SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
+SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     typedef GroupedCallProxy<Data, Subsets> Proxy;
 
     Data gdf(df);
     int nexpr = dots.size() ;
-    CharacterVector results_names = args.names() ;
-    check_not_groups(results_names, gdf);
+    check_not_groups(dots, gdf);
 
-    Environment env = dots.envir(0) ;
+    Environment env = dots[0].env ;
     Proxy proxy(gdf, env) ;
     Shelter<SEXP> __ ;
 
@@ -1693,11 +1692,11 @@ SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
 
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
-
-        env = dots.envir(i) ;
-        proxy.set_env( env ) ;
-        SEXP call = args[dots.expr_index(i)] ;
-        SEXP name = results_names[dots.expr_index(i)] ;
+        const Lazy& lazy = dots[i] ;
+        
+        proxy.set_env( lazy.env ) ;
+        SEXP call = lazy.expr ;
+        SEXP name = lazy.name ;
         SEXP variable = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
@@ -1741,13 +1740,12 @@ SEXP mutate_grouped(const DataFrame& df, List args, const DataDots& dots){
     return structure_mutate(accumulator, df, classes_grouped<Data>() );
 }
 
-SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
+SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     Shelter<SEXP> __ ;
-    Environment env = dots.envir(0) ;
+    Environment env = dots[0].env ;
 
     int nexpr = dots.size() ;
-    CharacterVector results_names = args.names() ;
-
+    
     NamedListAccumulator<DataFrame> accumulator ;
     int nvars = df.size() ;
     CharacterVector df_names = df.names() ;
@@ -1758,13 +1756,11 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
     CallProxy call_proxy(df, env) ;
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
+        const Lazy& lazy = dots[i] ;
+        call_proxy.set_env(lazy.env) ;
 
-        env = dots.envir(i) ;
-        call_proxy.set_env(env) ;
-
-        SEXP call = args[dots.expr_index(i)] ;
-
-        SEXP name = results_names[i] ;
+        SEXP call = lazy.expr ;
+        SEXP name = lazy.name ;
         SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
@@ -1773,7 +1769,7 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
                 result = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
             }
         } else if( TYPEOF(call) == LANGSXP ){
-            call_proxy.set_call( args[dots.expr_index(i)] );
+            call_proxy.set_call( call );
 
             // we need to protect the SEXP, that's what the Shelter does
             result = __( call_proxy.eval() ) ;
@@ -1818,16 +1814,15 @@ SEXP mutate_not_grouped(DataFrame df, List args, const DataDots& dots){
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl( DataFrame df, List args, Environment env){
+SEXP mutate_impl( DataFrame df, LazyDots dots){
     check_valid_colnames(df) ;
-    if( args.size() == 0 ) return df ;
-    DataDots dots(env) ;
+    if( dots.size() == 0 ) return df ;
     if(is<RowwiseDataFrame>(df) ) {
-        return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, args, dots);
+        return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, dots);
     } else if( is<GroupedDataFrame>( df ) ){
-        return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, args, dots);
+        return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, dots);
     } else {
-        return mutate_not_grouped( df, args, dots) ;
+        return mutate_not_grouped( df, dots) ;
     }
 }
 

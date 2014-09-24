@@ -17,7 +17,10 @@ filter.tbl_df    <- .data_dots(filter_impl)
 slice.tbl_df   <- .data_dots(slice_impl)
 
 #' @export
-mutate.tbl_df    <- .data_dots(mutate_impl, named_dots)
+mutate_.tbl_df  <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  mutate_impl(.data, dots)
+}
 
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots) {
