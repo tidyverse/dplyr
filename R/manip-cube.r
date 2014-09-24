@@ -1,26 +1,30 @@
 #' @export
-select_.tbl_cube <- function(.data, args) {
-  args <- lazyeval::as.lazy_dots(args, parent.frame())
-  vars <- select_vars_(names(.data$mets), args)
+select_.tbl_cube <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- select_vars_(names(.data$mets), dots)
+
   .data$mets <- .data$mets[vars]
   .data
 }
 
 #' @export
-rename.tbl_cube <- function(.data, ...) {
-  vars <- rename_vars_(names(.data$mets), lazyeval::lazy_dots(...))
+rename_.tbl_cube <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- rename_vars_(names(.data$mets), dots)
+
   .data$mets <- .data$mets[vars]
   .data
 }
 
 
 #' @export
-filter.tbl_cube <- function(.data, ...) {
-  exprs <- dots(...)
+filter_.tbl_cube <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
 
-  idx <- vapply(exprs, find_index_check, integer(1), names = names(.data$dims))
-  for(i in seq_along(exprs)) {
-    sel <- eval(exprs[[i]], .data$dims, parent.frame())
+  idx <- vapply(dots, function(d) find_index_check(d$expr, names(.data$dims)),
+    integer(1))
+  for(i in seq_along(dots)) {
+    sel <- eval(dots[[i]]$expr, .data$dims, dots[[i]]$env)
     sel <- sel & !is.na(sel)
 
     .data$dims[[idx[i]]] <- .data$dims[[idx[i]]][sel]
@@ -91,7 +95,7 @@ summarise_.tbl_cube <- function(.data, ..., .dots) {
 
     # Loop over each expression
     for (j in seq_along(dots)) {
-      res <- eval(dots$expr[[j]], mets, dots$env[[j]])
+      res <- eval(dots[[j]]$expr, mets, dots[[j]]$env)
       out_mets[[j]][i] <- res
     }
   }
