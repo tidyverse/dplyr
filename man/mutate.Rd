@@ -35,11 +35,12 @@ transmute(mtcars, displ_l = disp / 61.0237)
 mutate(mtcars, cyl = NULL)
 }
 \seealso{
-Other single.table.verbs: \code{\link{arrange}};
-  \code{\link{filter}}; \code{\link{rename}},
-  \code{\link{select}}, \code{\link{select_}};
-  \code{\link{slice}}, \code{\link{slice_}};
-  \code{\link{summarise}}, \code{\link{summarise_}},
-  \code{\link{summarize}}, \code{\link{summarize_}}
+Other single.table.verbs: \code{\link{arrange}},
+  \code{\link{arrange_}}; \code{\link{filter}};
+  \code{\link{rename}}, \code{\link{select}},
+  \code{\link{select_}}; \code{\link{slice}},
+  \code{\link{slice_}}; \code{\link{summarise}},
+  \code{\link{summarise_}}, \code{\link{summarize}},
+  \code{\link{summarize_}}
 }
 

@@ -15,7 +15,7 @@
 
 mutate.data.table(.data, ..., inplace = FALSE)
 
-\method{arrange}{data.table}(.data, ...)
+arrange.data.table(.data, ...)
 
 \method{select_}{data.table}(.data, args)
 

@@ -139,7 +139,15 @@ transmute.default <- function(.data, ...) {
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
-arrange <- function(.data, ...) UseMethod("arrange")
+arrange <- function(.data, ...) {
+  arrange_(.data, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname arrange
+arrange_ <- function(.data, ..., .dots) {
+  UseMethod("arrange_")
+}
 
 #' Select/rename variables by name.
 #'

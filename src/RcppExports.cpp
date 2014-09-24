@@ -52,16 +52,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-List arrange_impl(DataFrame data, List args, DataDots dots);
-RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP argsSEXP, SEXP dotsSEXP) {
+List arrange_impl(DataFrame data, LazyDots dots);
+RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP );
-        Rcpp::traits::input_parameter< List >::type args(argsSEXP );
-        Rcpp::traits::input_parameter< DataDots >::type dots(dotsSEXP );
-        List __result = arrange_impl(data, args, dots);
+        Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP );
+        List __result = arrange_impl(data, dots);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

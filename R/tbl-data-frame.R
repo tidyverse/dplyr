@@ -42,8 +42,9 @@ mutate_.data.frame <-  function(.data, ..., .dots) {
   as.data.frame(mutate_(tbl_df(.data), .dots = dots))
 }
 #' @export
-arrange.data.frame <- function(.data, ...) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+arrange_.data.frame <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  as.data.frame(arrange_(tbl_df(.data), .dots = dots))
 }
 #' @export
 select_.data.frame <- function(.data, args) {

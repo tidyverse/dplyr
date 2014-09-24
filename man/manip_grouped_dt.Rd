@@ -15,7 +15,7 @@
 
 mutate.grouped_dt(.data, ..., inplace = FALSE)
 
-\method{arrange}{grouped_dt}(.data, ...)
+arrange.grouped_dt(.data, ...)
 
 \method{select_}{grouped_dt}(.data, args)
 

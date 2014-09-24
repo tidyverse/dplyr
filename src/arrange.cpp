@@ -4,7 +4,7 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-List arrange_impl( DataFrame data, List args, DataDots dots ){
+List arrange_impl( DataFrame data, LazyDots dots ){
     check_valid_colnames(data) ;
     assert_all_white_list(data) ;
     
@@ -69,11 +69,12 @@ List arrange_impl( DataFrame data, List args, DataDots dots ){
     
     for(int i=0; k<nargs; i++, k++){
         Shelter<SEXP> __ ;
-    
-        SEXP call = args[dots.expr_index(i)] ;
+        const Lazy& lazy = dots[k] ;
+        
+        SEXP call = lazy.expr ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
         
-        CallProxy call_proxy(is_desc ? CADR(call) : call, data, dots.envir(i)) ;
+        CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env) ;
         
         SEXP v = __(call_proxy.eval()) ;
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
