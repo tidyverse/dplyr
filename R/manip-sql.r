@@ -1,21 +1,25 @@
 #' @export
-filter.tbl_sql <- function(.data, ...) {
-  input <- partial_eval(dots(...), .data, parent.frame())
+filter_.tbl_sql <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  input <- partial_eval(dots, .data)
 
   update(.data, where = c(.data$where, input))
 }
 
 #' @export
-arrange.tbl_sql <- function(.data, ...) {
-  input <- partial_eval(dots(...), .data, parent.frame())
+arrange_.tbl_sql <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  input <- partial_eval(dots, .data)
+
   update(.data, order_by = c(input, .data$order_by))
 }
 
 #' @export
-select_.tbl_sql <- function(.data, args) {
-  args <- lazyeval::as.lazy_dots(args, parent.frame())
-  vars <- select_vars_(tbl_vars(.data), args,
+select_.tbl_sql <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- select_vars_(tbl_vars(.data), dots,
     include = as.character(groups(.data)))
+
   # Index into variables so that select can be applied multiple times
   # and after a mutate.
   idx <- match(vars, tbl_vars(.data))
@@ -26,8 +30,10 @@ select_.tbl_sql <- function(.data, args) {
 }
 
 #' @export
-rename.tbl_sql <- function(.data, ...) {
-  vars <- rename_vars_(tbl_vars(.data), lazyeval::lazy_dots(...))
+rename_.tbl_sql <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  vars <- rename_vars_(tbl_vars(.data), dots)
+
   # Index into variables so that select can be applied multiple times
   # and after a mutate.
   idx <- match(vars, tbl_vars(.data))
@@ -37,13 +43,10 @@ rename.tbl_sql <- function(.data, ...) {
   update(.data, select = new_select)
 }
 
-
 #' @export
-summarise.tbl_sql <- function(.data, dots, .collapse_result = TRUE) {
-  dots <- lazyeval::as.lazy_dots(dots, parent.frame())
-
-  input <- lapply(dots, function(l) partial_eval(l$expr, .data, l$env))
-  input <- auto_name(input)
+summarise_.tbl_sql <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  input <- partial_eval(dots, .data)
 
   # Effect of previous operations on summarise:
   # * select: none
@@ -57,7 +60,6 @@ summarise.tbl_sql <- function(.data, dots, .collapse_result = TRUE) {
   .data$summarise <- TRUE
   .data <- update(.data, select = c(.data$group_by, input))
 
-  if (!.collapse_result) return(.data)
   # Technically, don't always need to collapse result because summarise + filter
   # could be expressed in SQL using HAVING, but that's the only dplyr operation
   # that can be, so would be a lot of extra work for minimal gain
@@ -65,6 +67,23 @@ summarise.tbl_sql <- function(.data, dots, .collapse_result = TRUE) {
     collapse(.data),
     group_by = drop_last(.data$group_by)
   )
+}
+
+#' @export
+mutate_.tbl_sql <- function(.data, ..., .dots) {
+  input <- partial_eval(dots(...), .data, parent.frame())
+  input <- auto_name(input)
+
+  .data$mutate <- TRUE
+  new <- update(.data, select = c(.data$select, input))
+  # If we're creating a variable that uses a window function, it's
+  # safest to turn that into a subquery so that filter etc can use
+  # the new variable name
+  if (uses_window_fun(input, .data)) {
+    collapse(new)
+  } else {
+    new
+  }
 }
 
 #' @export
@@ -90,23 +109,4 @@ regroup.tbl_sql <- function(x, value) {
     x <- collapse(update(x, order_by = NULL))
   }
   update(x, group_by = unname(value), order_by = arrange)
-}
-
-
-#' @export
-mutate.tbl_sql <- function(.data, ...) {
-  input <- partial_eval(dots(...), .data, parent.frame())
-  input <- auto_name(input)
-
-  .data$mutate <- TRUE
-  new <- update(.data, select = c(.data$select, input))
-  # If we're creating a variable that uses a window function, it's
-  # safest to turn that into a subquery so that filter etc can use
-  # the new variable name
-  if (uses_window_fun(input, .data)) {
-    collapse(new)
-  } else {
-    new
-  }
-
 }
