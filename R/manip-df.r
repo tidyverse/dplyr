@@ -1,12 +1,3 @@
-.data_dots <- function(fun, DOTS = dots){
-  f <- function(.data, ...){}
-  body(f) <- substitute({
-    FUN(.data, DOTS(...), environment() )
-  }, list( FUN = substitute(fun), DOTS = substitute(DOTS)))
-  attr(f, "srcref") <- NULL
-  f
-}
-
 #' @export
 arrange_.tbl_df  <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
