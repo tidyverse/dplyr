@@ -9,7 +9,7 @@
 \alias{summarise_.grouped_dt}
 \title{Data manipulation for grouped data tables.}
 \usage{
-\method{filter}{grouped_dt}(.data, ...)
+filter.grouped_dt(.data, ...)
 
 \method{summarise_}{grouped_dt}(.data, ..., .dots)
 

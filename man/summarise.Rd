@@ -42,10 +42,11 @@ summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
-  \code{\link{arrange_}}; \code{\link{filter}};
-  \code{\link{mutate}}, \code{\link{mutate_}},
-  \code{\link{transmute}}; \code{\link{rename}},
-  \code{\link{select}}, \code{\link{select_}};
-  \code{\link{slice}}, \code{\link{slice_}}
+  \code{\link{arrange_}}; \code{\link{filter_}},
+  \code{\link{slice}}, \code{\link{slice_}};
+  \code{\link{filter}}; \code{\link{mutate}},
+  \code{\link{mutate_}}, \code{\link{transmute}};
+  \code{\link{rename}}, \code{\link{select}},
+  \code{\link{select_}}
 }
 

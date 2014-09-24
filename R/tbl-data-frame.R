@@ -23,11 +23,12 @@ n_groups.data.frame <- function(x) 1L
 # is just a convenience layer, I didn't bother. They should still be fast.
 
 #' @export
-filter.data.frame <- function(.data, ...) {
-  as.data.frame(filter(tbl_df(.data), ...))
+filter_.data.frame <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  as.data.frame(filter_(tbl_df(.data), .dots = dots))
 }
 #' @export
-slice_.data.frame <- function(.data, ...) {
+slice_.data.frame <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   as.data.frame(slice_(tbl_df(.data), .dots = dots))
 }

@@ -12,7 +12,15 @@
 #' @examples
 #' filter(mtcars, cyl == 8)
 #' filter(mtcars, cyl < 6)
-filter <- function(.data, ...) UseMethod("filter")
+filter <- function(.data, ...) {
+  filter_(.data, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname slice
+filter_ <- function(.data, ..., .dots) {
+  UseMethod("filter_")
+}
 
 #' Select rows by position.
 #'

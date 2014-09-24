@@ -36,12 +36,13 @@ arrange(mtcars, cyl, disp)
 arrange(mtcars, desc(disp))
 }
 \seealso{
-Other single.table.verbs: \code{\link{filter}};
-  \code{\link{mutate}}, \code{\link{mutate_}},
-  \code{\link{transmute}}; \code{\link{rename}},
-  \code{\link{select}}, \code{\link{select_}};
+Other single.table.verbs: \code{\link{filter_}},
   \code{\link{slice}}, \code{\link{slice_}};
-  \code{\link{summarise}}, \code{\link{summarise_}},
-  \code{\link{summarize}}, \code{\link{summarize_}}
+  \code{\link{filter}}; \code{\link{mutate}},
+  \code{\link{mutate_}}, \code{\link{transmute}};
+  \code{\link{rename}}, \code{\link{select}},
+  \code{\link{select_}}; \code{\link{summarise}},
+  \code{\link{summarise_}}, \code{\link{summarize}},
+  \code{\link{summarize_}}
 }
 

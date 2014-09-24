@@ -9,7 +9,7 @@
 \alias{summarise_.data.table}
 \title{Data manipulation for data tables.}
 \usage{
-\method{filter}{data.table}(.data, ..., .env = parent.frame())
+filter.data.table(.data, ..., .env = parent.frame())
 
 \method{summarise_}{data.table}(.data, ..., .dots)
 
