@@ -40,11 +40,13 @@ There are three ways to quote inputs that dplyr understands:
 It's best to use a formula, because a formula captures both the expression to evaluate, and the environment in which it should be a evaluated. This is important if the expression is a mixture of variables in the data frame and objects in the local environment:
 
 ```{r}
-n <- 100
-
 constant1 <- function(n) ~n
 summarise_(mtcars, constant1(4))
+```
 
+```{r, error = TRUE, purl = FALSE}
+# Using anything other than a formula will fail because it doesn't
+# know which environment to look in
 constant2 <- function(n) quote(n)
 summarise_(mtcars, constant2(4))
 ```
@@ -54,6 +56,7 @@ summarise_(mtcars, constant2(4))
 If you also want to output variables to vary, you need to pass a list of quoted objects to the `.dots` argument:
 
 ```{r}
+n <- 10
 dots <- list(~mean(mpg), ~n)
 summarise_(mtcars, .dots = dots)
 

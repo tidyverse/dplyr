@@ -1,6 +1,6 @@
 #' @export
 select_.tbl_cube <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data$mets), dots)
 
   .data$mets <- .data$mets[vars]
@@ -9,7 +9,7 @@ select_.tbl_cube <- function(.data, ..., .dots) {
 
 #' @export
 rename_.tbl_cube <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data$mets), dots)
 
   .data$mets <- .data$mets[vars]
@@ -19,7 +19,7 @@ rename_.tbl_cube <- function(.data, ..., .dots) {
 
 #' @export
 filter_.tbl_cube <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
 
   idx <- vapply(dots, function(d) find_index_check(d$expr, names(.data$dims)),
     integer(1))
@@ -78,7 +78,7 @@ groups.tbl_cube <- function(x) {
 
 #' @export
 summarise_.tbl_cube <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
   out_dims <- .data$dims[.data$group]
   n <- vapply(out_dims, length, integer(1))

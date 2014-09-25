@@ -1,36 +1,36 @@
 #' @export
 arrange_.tbl_df  <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   arrange_impl(.data, dots)
 }
 
 #' @export
 filter_.tbl_df    <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   filter_impl(.data, dots)
 }
 
 #' @export
 slice_.tbl_df  <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   slice_impl(.data, dots)
 }
 
 #' @export
 mutate_.tbl_df  <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   mutate_impl(.data, dots)
 }
 
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   summarise_impl(.data, dots)
 }
 
 #' @export
 select_.grouped_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
 
   vars <- select_vars_(names(.data), dots,
     include = as.character(groups(.data)))
@@ -40,7 +40,7 @@ select_.grouped_df <- function(.data, ..., .dots) {
 
 #' @export
 rename_.grouped_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data), lazyeval::lazy_dots(...))
 
   select_impl(.data, vars)

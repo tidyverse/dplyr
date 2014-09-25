@@ -1,6 +1,6 @@
 #' @export
 filter_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   input <- partial_eval(dots, .data)
 
   update(.data, where = c(.data$where, input))
@@ -8,7 +8,7 @@ filter_.tbl_sql <- function(.data, ..., .dots) {
 
 #' @export
 arrange_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   input <- partial_eval(dots, .data)
 
   update(.data, order_by = c(input, .data$order_by))
@@ -16,7 +16,7 @@ arrange_.tbl_sql <- function(.data, ..., .dots) {
 
 #' @export
 select_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(tbl_vars(.data), dots,
     include = as.character(groups(.data)))
 
@@ -31,7 +31,7 @@ select_.tbl_sql <- function(.data, ..., .dots) {
 
 #' @export
 rename_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(tbl_vars(.data), dots)
 
   # Index into variables so that select can be applied multiple times
@@ -45,7 +45,7 @@ rename_.tbl_sql <- function(.data, ..., .dots) {
 
 #' @export
 summarise_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   input <- partial_eval(dots, .data)
 
   # Effect of previous operations on summarise:
@@ -71,7 +71,7 @@ summarise_.tbl_sql <- function(.data, ..., .dots) {
 
 #' @export
 mutate_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   input <- partial_eval(dots, .data)
 
   .data$mutate <- TRUE

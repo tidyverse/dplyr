@@ -20,9 +20,6 @@ test_that("distinct removes duplicates (sql)", {
 })
 
 test_that("grouped_by uses grouping vars & preserves groups", {
-  out <- mtcars %>% tbl_dt() %>% group_by(cyl) %>% distinct(vs)
-
-  expect_equal(nrow(out), 5)
-  expect_equal(groups(out), list(quote(cyl)))
-
+  compare_tbls(tbls[c("df", "dt")],
+    function(x) x %>% group_by(x) %>% distinct(y))
 })

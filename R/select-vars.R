@@ -46,24 +46,21 @@
 #' select_vars_(names(iris), list(~Petal.Length))
 #' select_vars_(names(iris), list(quote(Petal.Length)))
 #' select_vars_(names(iris), "Petal.Length")
-select_vars <- function(vars, ..., env = parent.frame(),
-                        include = character(), exclude = character()) {
-
+select_vars <- function(vars, ..., include = character(), exclude = character()) {
   args <- lazyeval::lazy_dots(...)
   select_vars_(vars, args, include = include, exclude = exclude)
 }
 
 #' @rdname select_vars
 #' @export
-select_vars_ <- function(vars, args, env = parent.frame(),
-                          include = character(), exclude = character()) {
+select_vars_ <- function(vars, args, include = character(), exclude = character()) {
 
   if (length(args) == 0) {
     vars <- setdiff(include, exclude)
     return(setNames(vars, vars))
   }
 
-  args <- lazyeval::as.lazy_dots(args, env = env)
+  args <- lazyeval::as.lazy_dots(args)
 
   # No non-standard evaluation - but all names mapped to their position.
   # Keep integer semantics: include = +, exclude = -
@@ -131,12 +128,12 @@ rename_vars <- function(vars, ...) {
 
 #' @export
 #' @rdname select_vars
-rename_vars_ <- function(vars, args, env = parent.frame()) {
+rename_vars_ <- function(vars, args) {
   if (any(names2(args) == "")) {
     stop("All arguments to rename must be named.", stop = FALSE)
   }
 
-  args <- lazyeval::as.lazy_dots(args, env = env)
+  args <- lazyeval::as.lazy_dots(args)
   is_name <- vapply(args, function(x) is.name(x$expr), logical(1))
   if (!all(is_name)) {
     stop("Arguments to rename must be unquoted variable names. ",

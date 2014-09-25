@@ -25,38 +25,38 @@ n_groups.data.frame <- function(x) 1L
 
 #' @export
 filter_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(filter_(tbl_df(.data), .dots = dots))
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(slice_(tbl_df(.data), .dots = dots))
 }
 #' @export
 summarise_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(summarise_(tbl_df(.data), .dots = dots))
 }
 #' @export
 mutate_.data.frame <-  function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(mutate_(tbl_df(.data), .dots = dots))
 }
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(arrange_(tbl_df(.data), .dots = dots))
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots)
   select_impl(.data, vars)
 }
 #' @export
 rename_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data), dots)
   select_impl(.data, vars)
 }

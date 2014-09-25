@@ -127,7 +127,7 @@ transmute_ <- function(.data, ..., .dots) {
 
 #' @export
 transmute_.default <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   out <- mutate_(.data, .dots = dots)
 
   keep <- names(dots)

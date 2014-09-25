@@ -6,15 +6,13 @@
 \alias{select_vars_}
 \title{Select variables.}
 \usage{
-select_vars(vars, ..., env = parent.frame(), include = character(),
-  exclude = character())
+select_vars(vars, ..., include = character(), exclude = character())
 
-select_vars_(vars, args, env = parent.frame(), include = character(),
-  exclude = character())
+select_vars_(vars, args, include = character(), exclude = character())
 
 rename_vars(vars, ...)
 
-rename_vars_(vars, args, env = parent.frame())
+rename_vars_(vars, args)
 }
 \arguments{
 \item{vars}{A character vector of existing column names.}

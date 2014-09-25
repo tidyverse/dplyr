@@ -84,8 +84,7 @@ colwise_ <- function(tbl, calls, vars) {
   if (length(vars) == 0) {
     vars <- lazyeval::lazy_dots(everything())
   }
-  vars <- select_vars_(tbl_vars(tbl), vars, env = parent.frame(),
-    exclude = as.character(groups(tbl)))
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))
 
   out <- vector("list", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))

@@ -2,25 +2,24 @@
 \name{distinct}
 \alias{distinct}
 \alias{distinct_}
-\title{Select}
+\title{Select distinct/unique rows.}
 \usage{
 distinct(.data, ...)
 
-distinct_(.data, vars = character())
+distinct_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{a tbl}
 
-\item{...,vars}{Variables to use when determining uniqueness. If there
-  are multiple rows for a given combination of inputs, only the first
-  row will be preserved.
+\item{...}{Variables to use when determining uniqueness. If there
+are multiple rows for a given combination of inputs, only the first
+row will be preserved.}
 
-  \code{...} should be an unquoted, comma-separated list of variable
-  names. \code{vars} can be either a character vector of column names,
-  or a list of symbols.}
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
 }
 \description{
-Retain only unique/distinct variables from an input tbl. This is an
+Retain only unique/distinct rows from an input tbl. This is an
 efficient version of \code{\link{unique}}. \code{distinct()} is best-suited
 for interactive use, \code{distinct_()} for calling from a function.
 }
@@ -33,5 +32,8 @@ nrow(df)
 nrow(distinct(df))
 distinct(df, x)
 distinct(df, y)
+
+# You can also use distinct on computed variables
+distinct(df, diff = abs(x - y))
 }
 
