@@ -41,7 +41,6 @@ License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
     'all-equal.r'
-    'base.R'
     'bench-compare.r'
     'cbind.r'
     'chain.r'
