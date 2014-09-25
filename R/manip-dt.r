@@ -62,7 +62,7 @@ summarise_.grouped_dt <- function(.data, ..., .dots) {
   env <- dt_env(.data, parent.frame())
   out <- eval(call, env)
 
-  grouped_dt(out, groups(.data), copy = FALSE)
+  grouped_dt(out, drop_last(groups(.data)), copy = FALSE)
 }
 
 #' @export
