@@ -1,4 +1,4 @@
-# dplyr 0.2.0.9000
+# dplyr 0.3
 
 ## New functions
 

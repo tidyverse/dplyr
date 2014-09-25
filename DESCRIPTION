@@ -1,6 +1,6 @@
 Package: dplyr
 Type: Package
-Version: 0.2.0.9002
+Version: 0.3
 Title: dplyr: a grammar of data manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
