@@ -4,7 +4,7 @@
 \alias{is.grouped_dt}
 \title{A grouped data table.}
 \usage{
-grouped_dt(data, vars)
+grouped_dt(data, vars, copy = TRUE)
 
 is.grouped_dt(x)
 }
@@ -12,6 +12,8 @@ is.grouped_dt(x)
 \item{data}{a tbl or data frame.}
 
 \item{vars}{a list of quoted variables.}
+
+\item{copy}{If \code{TRUE}, will make copy of input.}
 
 \item{x}{an object to check}
 }
