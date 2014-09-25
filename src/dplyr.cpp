@@ -8,13 +8,13 @@ typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 template <template <int,bool> class Fun, bool narm>
 Result* simple_prototype_impl( SEXP arg, bool is_summary ){
     switch( TYPEOF(arg) ){
-        case INTSXP:  
+        case INTSXP:
             {
                 if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
                     return typed_processor( Fun<INTSXP, narm>(arg, is_summary), arg  ) ;
                 return new Fun<INTSXP,narm>( arg, is_summary ) ;
             }
-        case REALSXP: 
+        case REALSXP:
             {
                 if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) || Rf_inherits(arg, "difftime" ) )
                     return typed_processor( Fun<REALSXP,narm>( arg, is_summary ), arg) ;
@@ -364,7 +364,7 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     }
     SEXP data = CADR(call) ;
     if( TYPEOF(data) == SYMSXP ) data = subsets.get_variable(data) ;
-    
+
     // easy case : just a single variable: first(x)
     if( nargs == 1 ){
         switch( TYPEOF(data) ){
@@ -530,21 +530,21 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     // easy case : just a single variable: first(x,n)
     if( nargs == 2 ){
         switch( TYPEOF(data) ){
-        case INTSXP: 
+        case INTSXP:
             {
-                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") || Rf_inherits(data, "factor") ) 
+                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") || Rf_inherits(data, "factor") )
                     return typed_processor( Nth<INTSXP>(data, idx), data ) ;
                 return new Nth<INTSXP>(data, idx) ;
             }
-        case REALSXP: 
+        case REALSXP:
             {
-                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") || Rf_inherits(data, "difftime" ) ) 
+                if( Rf_inherits(data, "Date") || Rf_inherits(data, "POSIXct") || Rf_inherits(data, "difftime" ) )
                     return typed_processor( Nth<REALSXP>(data, idx), data ) ;
                 return new Nth<REALSXP>(data, idx) ;
             }
         case STRSXP: return new Nth<STRSXP>(data, idx) ;
         case LGLSXP: return new Nth<LGLSXP>(data, idx) ;
-        
+
         default: break ;
         }
     } else {
@@ -588,7 +588,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                             return nth_with__typed<INTSXP>( data, idx, order_by ) ;
                         return nth_with<INTSXP>( data, idx, order_by ) ;
                     }
-                case REALSXP: 
+                case REALSXP:
                     {
                         if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime") )
                             return nth_with__typed<REALSXP>( data, idx, order_by ) ;
@@ -602,13 +602,13 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
             if( order_by == R_NilValue ){
                 switch( TYPEOF(data) ){
                     case LGLSXP: return nth_noorder_default<LGLSXP>(data, idx, def) ;
-                    case INTSXP: 
+                    case INTSXP:
                         {
                             if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "POSIXct" ))
                                 return nth_noorder_default__typed<INTSXP>( data, idx, order_by ) ;
                             return nth_noorder_default<INTSXP>(data, idx, def) ;
                         }
-                    case REALSXP: 
+                    case REALSXP:
                         {
                             if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime") )
                                 return nth_noorder_default__typed<REALSXP>( data, idx, order_by ) ;
@@ -754,10 +754,10 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
 
 template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by_x, CharacterVector by_y , CharacterVector classes ){
-    // first the joined columns 
+    // first the joined columns
     DataFrameJoinVisitors join_visitors(x, y, by_x, by_y) ;
     int n_join_visitors = join_visitors.size() ;
-    
+
     // then columns from x but not y
     CharacterVector all_x_columns = x.names() ;
     CharacterVector x_columns( all_x_columns.size() - n_join_visitors ) ;
@@ -769,7 +769,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     }
     DataFrameVisitors visitors_x(x, x_columns) ;
     int nv_x = visitors_x.size() ;
-    
+
     // then columns from y but not x
     CharacterVector all_y_columns = y.names() ;
     CharacterVector y_columns( all_y_columns.size() - n_join_visitors ) ;
@@ -781,19 +781,19 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     }
     DataFrameVisitors visitors_y(y, y_columns) ;
     int nv_y = visitors_y.size() ;
-    
+
     // construct out object
     int nrows = indices_x.size() ;
     List out(n_join_visitors+nv_x+nv_y);
     CharacterVector names(n_join_visitors+nv_x+nv_y) ;
     int k=0;
-    
+
     // ---- join visitors
     for( ; k<n_join_visitors; k++){
         out[k] = join_visitors.get(k)->subset(indices_x) ;
         names[k] = by_x[k] ;
     }
-    
+
     for( int i=0; i<nv_x; k++, i++){
         out[k] = visitors_x.get(i)->subset(indices_x) ;
         String col_name = x_columns[i] ;
@@ -1469,35 +1469,35 @@ inline SEXP check_filter_integer_result(SEXP tmp){
 class CountIndices {
 public:
     CountIndices( int nr_, IntegerVector test_ ) : nr(nr_), test(test_), n_pos(0), n_neg(0){
-    
-        for( int j=0; j<test.size(); j++){ 
+
+        for( int j=0; j<test.size(); j++){
             int i = test[j] ;
             if( i > 0 && i <= nr ) {
                 n_pos++ ;
             } else if( i < 0 && i >= -nr ){
-                n_neg++ ;    
+                n_neg++ ;
             }
         }
-        
+
         if( n_neg > 0 && n_pos > 0 ){
             std::stringstream s;
-            s << "found " << n_pos << " positive indices and " << n_neg << " negative indices" ;  
-            stop(s.str()) ;    
+            s << "found " << n_pos << " positive indices and " << n_neg << " negative indices" ;
+            stop(s.str()) ;
         }
-        
+
     }
-    
+
     inline bool is_positive() const { return n_pos > 0 ; }
     inline int get_n_positive() const { return n_pos; }
     inline int get_n_negative() const { return n_neg; }
-    
+
 private:
     int nr ;
     IntegerVector test ;
     int n_pos ;
-    int n_neg ;   
+    int n_neg ;
 } ;
-   
+
 SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
 
@@ -1525,7 +1525,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
         int nr = indices.size() ;
         g_test = check_filter_integer_result( call_proxy.get( indices ) ) ;
         CountIndices counter( indices.size(), g_test ) ;
-        
+
         if( counter.is_positive() ){
             // positive indexing
             int ntest = g_test.size() ;
@@ -1533,7 +1533,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
                 if( g_test[j] <= nr ){
                     indx.push_back( indices[g_test[j]-1] ) ;
                 }
-            }        
+            }
         } else {
             // negative indexing
             std::set<int> drop ;
@@ -1543,7 +1543,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
             }
             int n_drop = drop.size() ;
             std::set<int>::const_iterator drop_it = drop.begin() ;
-            
+
             int k = 0, j = 0 ;
             while( drop_it != drop.end() ){
                 int next_drop = *drop_it - 1;
@@ -1558,7 +1558,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
                 indx.push_back( indices[j++] ) ;
                 k++ ;
             }
-            
+
         }
     }
 
@@ -1579,14 +1579,14 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
     Call call( lazy.expr() );
     CallProxy proxy( call, df, lazy.env() ) ;
     int nr = df.nrows() ;
-    
+
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
 
     int n = test.size() ;
-    
+
     // count the positive and negatives
     CountIndices counter(nr, test) ;
-    
+
     // just positives -> one based subset
     if( counter.is_positive() ){
         int n_pos = counter.get_n_positive() ;
@@ -1594,34 +1594,34 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
         int j=0 ;
         for( int i=0; i<n_pos; i++){
             while( test[j] > nr ) j++ ;
-            idx[i] = test[j] - 1 ;   
+            idx[i] = test[j] - 1 ;
         }
-        
-        return subset( df, idx, df.names(), classes_not_grouped() ) ;        
+
+        return subset( df, idx, df.names(), classes_not_grouped() ) ;
     }
-    
-    // just negatives (out of range is dealt with early in CountIndices). 
+
+    // just negatives (out of range is dealt with early in CountIndices).
     std::set<int> drop ;
     for( int i=0; i<n; i++){
         drop.insert( -test[i] ) ;
     }
     int n_drop = drop.size() ;
-    std::vector<int> indices(nr - n_drop) ; 
+    std::vector<int> indices(nr - n_drop) ;
     std::set<int>::const_iterator drop_it = drop.begin() ;
-    
+
     int i = 0, j = 0 ;
     while( drop_it != drop.end() ){
         int next_drop = *drop_it - 1;
         while( j < next_drop ){
-            indices[i++] = j++ ; 
+            indices[i++] = j++ ;
         }
         j++ ;
         ++drop_it ;
     }
     while( i < nr - n_drop){
-        indices[i++] = j++ ; 
+        indices[i++] = j++ ;
     }
-    
+
     DataFrame res = subset( df, indices, df.names(), classes_not_grouped() ) ;
     return res ;
 
@@ -1678,8 +1678,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     int nexpr = dots.size() ;
     check_not_groups(dots, gdf);
 
-    Environment env = dots[0].env() ;
-    Proxy proxy(gdf, env) ;
+    Proxy proxy(gdf) ;
     Shelter<SEXP> __ ;
 
     NamedListAccumulator<Data> accumulator ;
@@ -1692,11 +1691,14 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
-        
-        proxy.set_env( lazy.env() ) ;
+
+        Environment env = lazy.env() ;
         SEXP call = lazy.expr() ;
         SEXP name = lazy.name() ;
         SEXP variable = R_NilValue ;
+
+        proxy.set_env( env ) ;
+
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
                 variable = proxy.get_variable( PRINTNAME(call) ) ;
@@ -1741,10 +1743,9 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     Shelter<SEXP> __ ;
-    Environment env = dots[0].env() ;
 
     int nexpr = dots.size() ;
-    
+
     NamedListAccumulator<DataFrame> accumulator ;
     int nvars = df.size() ;
     CharacterVector df_names = df.names() ;
@@ -1752,14 +1753,16 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         accumulator.set( df_names[i], df[i] ) ;
     }
 
-    CallProxy call_proxy(df, env) ;
+    CallProxy call_proxy(df) ;
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
-        call_proxy.set_env(lazy.env()) ;
 
         SEXP call = lazy.expr() ;
         SEXP name = lazy.name() ;
+        Environment env = lazy.env() ;
+        call_proxy.set_env(env) ;
+
         SEXP result = R_NilValue ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
