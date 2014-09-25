@@ -25,7 +25,7 @@ namespace Rcpp {
             return name_ ;
         }
 
-        Lazy& operator=( const Lazy&) ;
+        inline Lazy& operator=( const Lazy&) ;
     private:
 
         List data ;
