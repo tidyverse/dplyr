@@ -25,6 +25,9 @@ for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
   Use \code{select_()} and \code{args} to do standard evaluation.
   You can supply a list of formulas, calls or names, or a character
   vector.}
+
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.

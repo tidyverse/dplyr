@@ -4,6 +4,8 @@
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
 #' @param ... Logical predicates. Multiple conditions are combined with \code{&}.
+#' @param .dots Used to work around non-standard evaluation. See
+#'   \code{vignette("nse")} for details.
 #' @return An object of the same class as \code{.data}.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an

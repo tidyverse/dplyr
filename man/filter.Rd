@@ -10,6 +10,9 @@ filter(.data, ...)
 for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
 \item{...}{Logical predicates. Multiple conditions are combined with \code{&}.}
+
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.

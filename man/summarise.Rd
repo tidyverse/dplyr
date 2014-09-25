@@ -21,6 +21,9 @@ for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 \item{...}{Name-value pairs of summary functions like \code{\link{min}()},
 \code{\link{mean}()}, \code{\link{max}()} etc.}
 
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
+
 \item{.args}{A \code{\link[lazy]{lazy_dots}} object, or a named list containing
 quoted calls, strings, formulas, or \code{\link[lazy]{lazy}} objects.}
 }

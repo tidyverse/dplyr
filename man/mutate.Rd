@@ -17,6 +17,9 @@ for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
 \item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
 a variable.}
+
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.

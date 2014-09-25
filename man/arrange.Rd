@@ -14,6 +14,9 @@ for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
 \item{...}{Comma separated list of unquoted variable names. Use
 \code{\link{desc}} to sort a variable in descending order.}
+
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.
