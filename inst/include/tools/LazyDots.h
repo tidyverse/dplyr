@@ -25,8 +25,8 @@ namespace Rcpp {
             return name_ ;
         }
 
-    private:
         Lazy& operator=( const Lazy&) ;
+    private:
 
         List data ;
         SEXP name_ ;
