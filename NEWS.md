@@ -1,241 +1,222 @@
 # dplyr 0.2.0.9000
 
-* New `count()` function to make it even easier to do (weighted) counts (#358).
+## New functions
 
-* `summarise_each_q()` and `mutate_each_q()` are deprecated. Please use
-  `summarise_each_()` and `mutate_each_()` instead. 
+* `between()` vector function efficiently determines if numeric values fall
+  in a range, and is translated to special form for SQL (#503).
 
-* `regroup()` is deprecated. Please use the more flexible `group_by_()`
-  instead.
-
-* You can now program with dplyr - every function that does non-standard
-  evaluation (NSE) has a standard evaluation (SE) version ending in `_`.
-  This is powered by the new lazyeval package which provides all the tools
-  needed to implement NSE consistently and correctly.
-
-* `filter.numeric()` removed. Need to figure out how to reimplement with
-  new lazy eval system.
-
-* Fix major omission in `tbl_dt()` and `grouped_dt()` methods - I was 
-  accidentally doing a deep copy on every result :(
-
-* `rbind_*` handle data frames with 0 rows (#597). 
-
-* `mutate` works for on zero-row grouped data frame
-
-* `arrange` keeps the grouping structure of grouped data (#605). 
-
-* `left_join` was confused about by variables for x and y (#617). 
-
-* dplyr now depends on Lahman 3.0.1. A number of examples have been updated
-  to reflect modified field names (#586).
-
-* `contains()` accidentally matched regular expression now it passes
-  `fixed = TRUE` to `grep()` (#608).
-
-* `src_monetdb()` is now implemented in MonetDB.R, not dplyr.
-
-* `trunc_mat()` and hence `print.tbl_df()` and friends gets a `width` argument
-  to control the deafult output width. Set `options(dplyr.width = Inf)` to
-  always show all columns (#589).
-
-* `[.tbl_df` always returns a tbl_df (i.e. `drop = FALSE` is the default) 
-  (#587, #610).
-
-* `rbind_*` fills character vector columns with `NA` instead of blanks (#595). 
-
-* `filter` asserts all variables are white listed (#566). 
-
-* More rubustness about missing columns (#600). 
-
-* dplyr now understands how to work with `difftime()` objects (#390).
-
-* verbs now checks that colnames are unique (#483). 
-
-* `GroupedDataFrame` performs some checks on the `grouped_df` objects, which 
-  prevent some issues related to corrupt `grouped_df` objects as the one 
-  made by rbind (#606).
-
-* hashing a numeric column and an integer column was wrong (#450).
-
-* `nth` now correctly promotes the result when using dates, times and factors (#509). 
-
-* more coherence when joining columns of compatible but different types, e.g. when
-  joining a character vector and a factor (#455). 
-
-* hybrid evaluator no longer substitutes within `order_by` because `order_by` 
-  needs to do its own NSE (#169). 
-
-* Fixing namespace extraction operators `::` and `:::` in dplyr verbs (#412). 
-
-* `LazySubset` was confused about input data size (#452). 
-
-* hybrid evaluation was segfaulting when using a variable that was not found
-  in the data (#569). 
-
-* `rbind_all` creates `tbl_df` objects instead of raw `data.frame`. 
-
-* `glimpse()` now prints a trailing new line (#590).
-
-* The `SlicingIndex` internal class handles 0 sized groups (#413).  
-
-* a grouped data frame may have 0 groups (#486). 
-
-* `slice` allows numeric as well as integer, e.g. `slice(1)` now also works in 
-  addition to `slice(1L)`. `slice` also silently ignores out of range indices (#226). 
-  slice works with negative indices. 
-
-* Internal `n_distinct` is stricter and requires it is given only one symbol
-  as input which must be from the data frame (#567). 
-
-* Internal `distinct_impl` gets a second argument to control the variables (#97). 
-
-* `rbind_all` now handles list columns (#463). 
-
-* allow list, i.e. `VECSXP` columns in mutate (#555).
-
-* `arrange` was losing `tbl_df` class (#563).
-
-* The db backend system has been completely overhauled in order to make 
-  it possible to add backends in other packages, and to support a much
-  wider range of databases. See `vignette("new-sql-backend")` for instruction
-  on how to create your own (#568).
-
-* `src_mysql()` gains a method so that `explain()` now works.
-
-* `show_sql()` and `explain_sql()` and matching global options `dplyr.show_sql`
-  and `dplyr.explain_sql` have been removed. Instead use `show_query()` and 
-  `explain()`.
+* `count()` makes it even easier to do (weighted) counts (#358).
 
 * `data_frame()` by @kevinushey is a nicer way of creating data frames.
   It never coerces column types (no more `stringsAsFactors = FALSE`!),
   never munges column names, and never adds row names. You can use previously 
   defined columns to compute new columns (#376).
 
-* `select()` gets SE equivalent, `select_()`. This allows you to construct
-  calls to `select()` easily inside functions.
+* `distinct()` returns distinct (unique) rows of a tbl (#97). Supply
+  additional variables to return the first row for each unique combination
+  of variables.
 
-* `select_vars()` and `rename_vars()` have standard evaluation versions
-  `select_vars_()` and `rename_vars_()`.
+* Set operations, `intersect()`, `union()` and `setdiff()` now have methods 
+  for data frames, data tables and SQL database tables (#93). They pass their 
+  arguments down to the base functions, which will ensure they raise errors if 
+  you pass in two many arguments.
 
-* Fix buglet in `select()` so that you can create variables called `val`. 
-  (#564).
+* Joins (e.g. `left_join()`, `inner_join()`, `semi_join()`, `anti_join()`)
+  now allow you to join on different variables in `x` and `y` tables by
+  supplying a named vector to `by`. For example, `by = c("a" = "b")` joins
+  `x.a` to `y.b`.
 
-* New single table verb for selecting rows by position (#226).
+* `n_groups()` function tells you how many groups in a tbl. It returns
+  1 for ungrouped data. (#477)
+
+* `transmute()` works like `mutate()` but drops all variables that you didn't
+  explicitly refer to (#302).
+
+* `rename()` makes it easy to rename variables - it works similarly to 
+  `select()` but it preserves columns that you didn't otherwise touch.
+
+* `slice()` allows you to selecting rows by position (#226). It includes
+  positive integers, drops negative integers and you can use expression like
+  `n()`.
+
+## Programming with dplyr (non-standard evaluation)
+
+* You can now program with dplyr - every function that does non-standard
+  evaluation (NSE) has a standard evaluation (SE) version ending in `_`.
+  This is powered by the new lazyeval package which provides all the tools
+  needed to implement NSE consistently and correctly.
+  
+* See `vignette("nse")` for full details.
+
+* `regroup()` is deprecated. Please use the more flexible `group_by_()`
+  instead.
+
+* `summarise_each_q()` and `mutate_each_q()` are deprecated. Please use
+  `summarise_each_()` and `mutate_each_()` instead. 
+
+## Removed and deprecated features
+
+* `%.%` has been deprecated: please use `%>%` instead. `chain()` is 
+  defunct. (#518)
+
+* `filter.numeric()` removed. Need to figure out how to reimplement with
+  new lazy eval system.
+
+* The `Progress` refclass is no longer exported to avoid conflicts with shiny. 
+  Instead use `progress_estimated()` (#535).
+
+* `src_monetdb()` is now implemented in MonetDB.R, not dplyr.
+
+* `show_sql()` and `explain_sql()` and matching global options `dplyr.show_sql`
+  and `dplyr.explain_sql` have been removed. Instead use `show_query()` and 
+  `explain()`.
+
+
+## Minor improvements and bug fixes
+
+* Main verbs now have individual documentation pages (#519).
+
+* `%>%` is simply re-exported from magrittr, instead of creating a local copy 
+  (#496, thanks to @jimhester)
+
+* Examples now use `nycflights13` instead of `hflights` because it the variables 
+  have better names and there are a few interlinked tables (#562). `Lahman` and 
+  `nycflights` are (once again) suggested packages. This means many exampless
+  will not work unless you explicitly install them with
+  `install.packages(c("Lahman", "nycflights13"))` (#508). dplyr now depends on 
+  Lahman 3.0.1. A number of examples have been updated to reflect modified 
+  field names (#586).
+
+* `do()` now displays the progress bar only when used in interactive prompts
+  and not when knitting (#428, @jimhester).
+
+* `glimpse()` now prints a trailing new line (#590).
+
+* `group_by()` has more consistent behaviour when grouping by constants:
+  it creates a new column with that value (#410). It renames grouping 
+  variables (#410). The first argument is now `.data` so you can create
+  new groups with name x (#534).
 
 * Now instead of overriding `lag()`, dplyr overrides `lag.default()`, 
   which should avoid clobbering lag methods added by other packages. 
   (#277).
 
-* Now use `nycflights13` instead of `hflights` because it the variables have
-  better names and there are a few interlinked tables (#562).
+* `mutate(data, a = NULL)` removes the variable `a` from the returned 
+  dataset (#462). 
 
-* `group_by()` will rename grouping variables (#410).
-
-* When `mutate()` creates a new variable that uses a window function, 
-  automatically wrap the result in a subquery (#484).
-
-* Correct sql generation for `first()` and last()` (#531).
-
-* Lahman and hflights have are (once again) suggested packages. This means 
-  many demos will not work unless you explicitly install them with
-  `install.packages(c("Lahman", "hflights"))` (#508).
-
-* Switched from RC to R6.
-
-* Change first argument name of `group_by()` to `.data` so you can create
-  new groups with name x (#534).
-
-* The `Progress` refclass is no longer exported to avoid conflicts with shiny. 
-  Instead use `progress_estimated()` (#535).
-
-* `arrange()` and `group_by()` correctly work together (#491). 
-
-* Call substitution stopped too early when a sub expression contained a `$` (#502).
-
-* Set operations, `intersect()`, `union()` and `setdiff()` now have methods 
-  for data frames, data tables and SQL database tables (#93).
-
-* Added `[.grouped_df` method - it's better to use `filter()`/`select()`
-  but `[` is useful programmatically (#398).
-
-* If `select()` doesn't match any variables, it returns a 0-column data frame,
-  instead of the original (#498).
-
-* Main verbs now have individual documentation pages (#519).
-
-* `between()` vector function efficiently determines if numeric values fall
-  in a range, and is translated to special form for SQL (#503).
-
-* `transmute()` works like `mutate()` but drops all variables that you didn't
-  explicitly refer to (#302).
+* `trunc_mat()` and hence `print.tbl_df()` and friends gets a `width` argument
+  to control the deafult output width. Set `options(dplyr.width = Inf)` to
+  always show all columns (#589).
 
 * `select()` gains `one_of()` selector: this allows you to select variables
-  provided by a character vector. (#396)
+  provided by a character vector (#396). It fails immediately if you give an
+  empty pattern to `starts_with()`,  `ends_with()`, `contains()` or `matches()` 
+  (#481, @leondutoit). Fixed buglet in `select()` so that you can now create 
+  variables called `val` (#564).
 
-* `rename()` makes it easy to rename variables - it works similarly to select
-  but it preserves columns that you didn't otherwise touch.
-
-* `%.%` has been deprecated: please use `%>%` instead. `chain()` is 
-  defunct. (#518)
-
-* `group_by()` has more consistent behaviour when grouping by constants:
-  it creates a new column with that value (#410).
-
-* joining two data.tables now correctly dispatches to data table methods,
-  and result is a data table (#470)
-
-* New `n_groups()` function tells you how many groups in a tbl. It returns
-  1 for ungrouped data. (#477)
+* Switched from RC to R6.
 
 * `tally()` and `top_n()` work consistently: neither accidentally
   evaluates the the `wt` param. (#426, @mnel)
 
-* joins (e.g. `left_join()`, `inner_join()`, `semi_join()`, `anti_join()`)
-  now allow you to join on different variables in `x` and `y` tables by
-  supplying a named vector to `by`. For example, `by = c("a" = "b")` joins
-  `x.a` to `y.b`.
-  
+## Minor improvements and bug fixes by backend
+
+### Databases
+
+* The db backend system has been completely overhauled in order to make 
+  it possible to add backends in other packages, and to support a much
+  wider range of databases. See `vignette("new-sql-backend")` for instruction
+  on how to create your own (#568).
+
+* `src_mysql()` gains a method for `explain()`.
+
+* When `mutate()` creates a new variable that uses a window function, 
+  automatically wrap the result in a subquery (#484).
+
+* Correct SQL generation for `first()` and last()` (#531).
+
 * `order_by()` now works in conjunction with window functions in databases 
   that support them. 
+
+### Data frames/`tbl_df`
+
+* All verbs now understand how to work with `difftime()` (#390) and
+  `AsIs`(#453) objects. They all check that colnames are unique (#483), and  
+  are more robust when columns are not present (#348, #569, #600).
+
+* Hybrid evaluation bugs fixed:
+
+    * Call substitution stopped too early when a sub expression contained a 
+      `$` (#502).
+    
+    * Handle `::` and `:::` (#412). 
+    
+    * `cumany()` and `cumall()` properly handle `NA` (#408). 
   
-* `src_bigquery()` (through the bigrquery package) works again. It now
-  supports cumulative functions (min, max, mean, sum) and throws an error
-  if you attempt to use recycled aggregates (which bq doesn't support).
+    * `nth()` now correctly preserve the class when using dates, times and 
+      factors (#509). 
+        
+    * no longer substitutes within `order_by()` because `order_by()` needs to do 
+      its own NSE (#169). 
 
-* new verb `distinct()` returns distinct (unique) rows of a tbl (#97).
+* `[.tbl_df` always returns a tbl_df (i.e. `drop = FALSE` is the default) 
+  (#587, #610). `[.grouped_df` preserves important output attributes (#398).
 
-* `select()` gives error message if you attempt to select invalid columns
-  (#348)
+* `arrange()` keeps the grouping structure of grouped data (#491, #605), 
+  and preserves input classes (#563).
 
-* Export `sample_n()` and `sample_frac()` methods for data.frames. 
+* `contains()` accidentally matched regular expression now it passes
+  `fixed = TRUE` to `grep()` (#608).
+
+* `filter()` asserts all variables are white listed (#566). 
+
+* `mutate()` makes a `rowwise_df` when given a `rowwise_df` (#463). 
+
+* `rbind_all()` creates `tbl_df` objects instead of raw `data.frame`s. 
+
+* If `select()` doesn't match any variables, it returns a 0-column data frame,
+  instead of the original (#498). It no longer fails when if some columns 
+  are not named (#492)
+
+* `sample_n()` and `sample_frac()` methods for data.frames exported. 
   (#405, @alyst)
 
-* `mutate(data, a = NULL)` removes the variable `a` from the returned dataset (#462). 
+* A grouped data frame may have 0 groups (#486). Grouped df objects
+  gain some basic validity checking, which should prevent some crashes 
+  related to corrupt `grouped_df` objects made by `rbind()` (#606).
 
-* `cumany` and `cumall` properly handle `NA` (#408). 
+* More coherence when joining columns of compatible but different types,
+  e.g. when joining a character vector and a factor (#455), 
+  or a numeric and integer (#450)
 
-* The `AsIs` class is white listed (#453). 
+* `mutate()` works for on zero-row grouped data frame, and 
+  with list columns (#555).
 
-* `select` fails early when providing empty pattern to `starts_with`, `ends_with`, `contains` or `matches` (#481, @leondutoit).
+* `LazySubset` was confused about input data size (#452). 
 
-* `mutate` makes a `rowwise_df` when given a `rowwise_df` (#463). 
+* Internal `n_distinct()` is stricter about it's inputs: it requires one symbol
+  which must be from the data frame (#567). 
 
-* Set generics now pass their arguments down to the base functions, which
-  will ensure they raise errors if you pass in two many arguments.
+* `rbind_*()` handle data frames with 0 rows (#597). They fill character 
+  vector columns with `NA` instead of blanks (#595).  They work with
+  list columns (#463). 
 
-* `%>%` is simply re-exported from magrittr, instead of creating a local copy 
-  (#496, thanks to @jimhester)
+### Data tables
+
+* Fix major omission in `tbl_dt()` and `grouped_dt()` methods - I was 
+  accidentally doing a deep copy on every result :(
+
+* `summarise()` and `group_by()` now retain over allocation when working with 
+  data.tables (#475, arunsrinivasan).
+
+* joining two data.tables now correctly dispatches to data table methods,
+  and result is a data table (#470)
+
+### Cubes
 
 * `summarise.tbl_cube()` works with single grouping variable (#480).
 
-* `select()` no longer fails when data frame if some columns are not named.
-  (#492)
-
-* `do()` now displays the progress bar only when used in interactive prompts
-  and not when knitting (#428, @jimhester).
-
-* `summarise` and `group_by` now retain over allocation when working with data.tables (#475, arunsrinivasan).
+---------
 
 # dplyr 0.2
 
