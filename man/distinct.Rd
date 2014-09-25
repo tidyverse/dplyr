@@ -31,5 +31,7 @@ df <- data.frame(
 )
 nrow(df)
 nrow(distinct(df))
+distinct(df, x)
+distinct(df, y)
 }
 

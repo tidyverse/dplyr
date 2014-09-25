@@ -20,6 +20,8 @@
 #' )
 #' nrow(df)
 #' nrow(distinct(df))
+#' distinct(df, x)
+#' distinct(df, y)
 distinct <- function(.data, ...) {
   distinct_(.data, dots(...))
 }
@@ -67,7 +69,7 @@ distinct_.grouped_dt <- function(.data, vars = character()) {
     vars <- c(standardise_vars(groups(.data)), standardise_vars(vars))
   }
 
-  grouped_df(distinct_.data.table(.data, vars = vars), groups(.data))
+  grouped_df(distinct_.data.table(.data, vars = vars), groups(.data), copy = FALSE)
 }
 
 #' @export
