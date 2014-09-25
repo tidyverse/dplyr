@@ -10,8 +10,6 @@ ungroup(x)
 }
 \arguments{
 \item{x}{data \code{\link{tbl}}}
-
-\item{value}{a list of symbols}
 }
 \description{
 These functions do not perform non-standard evaluation, and so are useful

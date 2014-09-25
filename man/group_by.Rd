@@ -19,6 +19,9 @@ will be silently dropped.}
 \item{add}{By default, when \code{add = FALSE}, \code{group_by} will
 override existing groups. To instead add to the existing groups,
 use \code{add = TRUE}}
+
+\item{.dots}{Used to work around non-standard evaluation. See
+\code{vignette("nse")} for details.}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the

@@ -19,7 +19,7 @@ filter <- function(.data, ...) {
 }
 
 #' @export
-#' @rdname slice
+#' @rdname filter
 filter_ <- function(.data, ..., .dots) {
   UseMethod("filter_")
 }
@@ -30,6 +30,7 @@ filter_ <- function(.data, ..., .dots) {
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
 #' @param ... Integer row values
+#' @inheritParams filter
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
@@ -54,8 +55,6 @@ slice_ <- function(.data, ..., .dots) {
 #' @inheritParams filter
 #' @param ... Name-value pairs of summary functions like \code{\link{min}()},
 #'   \code{\link{mean}()}, \code{\link{max}()} etc.
-#' @param .args A \code{\link[lazy]{lazy_dots}} object, or a named list containing
-#'   quoted calls, strings, formulas, or \code{\link[lazy]{lazy}} objects.
 #' @family single table verbs
 #' @return An object of the same class as \code{.data}. One grouping level will
 #'   be dropped.
@@ -195,13 +194,11 @@ arrange_ <- function(.data, ..., .dots) {
 #' named arguments.
 #'
 #' @inheritParams filter
-#' @param ...,args Comma separated list of unquoted expressions. You can treat
+#' @param ... Comma separated list of unquoted expressions. You can treat
 #'   variable names like they are positions. Use positive values to select
 #'   variables; use negative values to drop variables.
-#'
-#'   Use \code{select_()} and \code{args} to do standard evaluation.
-#'   You can supply a list of formulas, calls or names, or a character
-#'   vector.
+#' @param .dots Use \code{select_()} to do standard evaluation. See
+#'   \code{vignette("nse")} for details
 #' @return An object of the same class as \code{.data}.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an

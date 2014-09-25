@@ -18,16 +18,12 @@ rename_(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
-\item{...,args}{Comma separated list of unquoted expressions. You can treat
-  variable names like they are positions. Use positive values to select
-  variables; use negative values to drop variables.
+\item{...}{Comma separated list of unquoted expressions. You can treat
+variable names like they are positions. Use positive values to select
+variables; use negative values to drop variables.}
 
-  Use \code{select_()} and \code{args} to do standard evaluation.
-  You can supply a list of formulas, calls or names, or a character
-  vector.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+\item{.dots}{Use \code{select_()} to do standard evaluation. See
+\code{vignette("nse")} for details}
 }
 \value{
 An object of the same class as \code{.data}.
@@ -99,10 +95,10 @@ select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
-  \code{\link{arrange_}}; \code{\link{filter_}},
-  \code{\link{slice}}, \code{\link{slice_}};
-  \code{\link{filter}}; \code{\link{mutate}},
+  \code{\link{arrange_}}; \code{\link{filter}},
+  \code{\link{filter_}}; \code{\link{mutate}},
   \code{\link{mutate_}}, \code{\link{transmute}};
+  \code{\link{slice}}, \code{\link{slice_}};
   \code{\link{summarise}}, \code{\link{summarise_}},
   \code{\link{summarize}}, \code{\link{summarize_}}
 }

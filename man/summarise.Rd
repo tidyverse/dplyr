@@ -23,9 +23,6 @@ for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
-
-\item{.args}{A \code{\link[lazy]{lazy_dots}} object, or a named list containing
-quoted calls, strings, formulas, or \code{\link[lazy]{lazy}} objects.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will
@@ -45,11 +42,11 @@ summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
-  \code{\link{arrange_}}; \code{\link{filter_}},
-  \code{\link{slice}}, \code{\link{slice_}};
-  \code{\link{filter}}; \code{\link{mutate}},
+  \code{\link{arrange_}}; \code{\link{filter}},
+  \code{\link{filter_}}; \code{\link{mutate}},
   \code{\link{mutate_}}, \code{\link{transmute}};
   \code{\link{rename}}, \code{\link{rename_}},
-  \code{\link{select}}, \code{\link{select_}}
+  \code{\link{select}}, \code{\link{select_}};
+  \code{\link{slice}}, \code{\link{slice_}}
 }
 

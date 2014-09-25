@@ -28,6 +28,7 @@
 #' @param add By default, when \code{add = FALSE}, \code{group_by} will
 #'   override existing groups. To instead add to the existing groups,
 #'   use \code{add = TRUE}
+#' @inheritParams filter
 #' @export
 #' @examples
 #' by_cyl <- group_by(mtcars, cyl)
@@ -108,7 +109,6 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 #' inline way of removing existing grouping.
 #'
 #' @param x data \code{\link{tbl}}
-#' @param value a list of symbols
 #' @export
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
