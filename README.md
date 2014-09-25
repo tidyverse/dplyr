@@ -24,8 +24,8 @@ You can install:
 * the latest development version from github with
 
     ```R
-    devtools::install_github("hadley/lazyeval")
-    devtools::install_github("hadley/dplyr")
+    devtools::install_github("hadley/lazyeval", build_vignettes = FALSE)
+    devtools::install_github("hadley/dplyr", build_vignettes = FALSE)
     ```
 
 You'll probably also want to install the data packages used in most examples: `install.packages(c("hflights", "Lahman"))`.
