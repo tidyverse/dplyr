@@ -9,25 +9,25 @@ namespace Rcpp {
             data(data_),
             name_(name__)
         {}
-        
-        Lazy( const Lazy& other ) : 
-            data(other.data), 
+
+        Lazy( const Lazy& other ) :
+            data(other.data),
             name_(other.name_)
         {}
 
         inline SEXP expr() const {
-            return data[0] ;
+            return Rf_duplicate(data[0]) ;
         }
-        inline SEXP env() const { 
-            return data[1]; 
-        } 
-        inline SEXP name() const { 
-            return name_ ; 
+        inline SEXP env() const {
+            return data[1];
         }
-        
+        inline SEXP name() const {
+            return name_ ;
+        }
+
     private:
-        Lazy& operator=( const Lazy&) ; 
-        
+        Lazy& operator=( const Lazy&) ;
+
         List data ;
         SEXP name_ ;
     } ;

@@ -1,18 +1,18 @@
 #' @export
 arrange_.tbl_df  <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   arrange_impl(.data, dots)
 }
 
 #' @export
 filter_.tbl_df    <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   filter_impl(.data, dots)
 }
 
 #' @export
 slice_.tbl_df  <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame())
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
   slice_impl(.data, dots)
 }
 

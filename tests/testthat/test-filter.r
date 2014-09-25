@@ -9,7 +9,9 @@ tbls <- temp_load(srcs, df)
 
 test_that("filter results independent of data tbl (simple)", {
   expected <- df[df$a > 6, , drop = FALSE]
-  compare_tbls(tbls, function(x) x %>% filter(a > 6), ref = expected)
+  eval_tbls(tbls[c("df","postgres")], function(x) {
+    filter_(x, ~ a > 6)
+  })
 })
 
 test_that("filter captures local variables", {
@@ -145,21 +147,21 @@ test_that( "filter returns the input data if no parameters are given", {
 test_that( "$ does not end call traversing. #502", {
   # Suppose some analysis options are set much earlier in the script
   analysis_opts <- list(min_outcome = .25)
-  
+
   # Generate some dummy data
   d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>% tbl_df %>%
     arrange(Subject, TrialNo, Time) %>%
     mutate(Outcome = (1:18 %% c(5, 7, 11)) / 10)
-  
+
   # Do some aggregation
   trial_outcomes <- d %>% group_by(Subject, TrialNo) %>%
     summarise(MeanOutcome = mean(Outcome))
-  
-  left  <- filter(trial_outcomes, MeanOutcome < analysis_opts$min_outcome)  
-  right <- filter(trial_outcomes, analysis_opts$min_outcome > MeanOutcome)  
-  
-  expect_equal(left,right)  
-  
+
+  left  <- filter(trial_outcomes, MeanOutcome < analysis_opts$min_outcome)
+  right <- filter(trial_outcomes, analysis_opts$min_outcome > MeanOutcome)
+
+  expect_equal(left,right)
+
 })
 
 test_that( "GroupedDataFrame checks consistency of data (#606)", {
@@ -171,7 +173,7 @@ test_that( "GroupedDataFrame checks consistency of data (#606)", {
      group = factor(rep("G", 10)),
      value = 11:20)
   df3 <- rbind(df1, df2) #df2 is data.frame
-  
+
   expect_error( df3 %>% filter(group == "C"), "corrupt 'grouped_df', contains" )
 
 })
@@ -186,6 +188,6 @@ X
 ")
 
   datesDF$X <- as.POSIXlt(datesDF$X)
-  expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")), "has unsupported type")  
+  expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")), "has unsupported type")
 })
 
