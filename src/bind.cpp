@@ -18,7 +18,7 @@ List rbind__impl( Dots dots ){
         Rcpp::checkUserInterrupt() ;
         
         DataFrame df = dots[i] ;
-        if( !df.size() || !Rf_length(df[0]) ) continue ;
+        if( !df.size() ) continue ;
             
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;

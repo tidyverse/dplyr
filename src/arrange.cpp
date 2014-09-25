@@ -101,6 +101,11 @@ List arrange_impl( DataFrame data, LazyDots dots ){
 
     DataFrameVisitors visitors( data, data.names() ) ;
     List res = visitors.subset(index, data.attr("class") ) ;
+
+    if( is<GroupedDataFrame>(data) ){
+        res.attr( "vars" ) = data.attr("vars" ) ;
+        return GroupedDataFrame(res).data() ;
+    }
     SET_ATTRIB(res, strip_group_attributes(res));
     return res ;
 }

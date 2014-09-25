@@ -11,10 +11,18 @@
 * Fix major omission in `tbl_dt()` and `grouped_dt()` methods - I was 
   accidentally doing a deep copy on every result :(
 
+* `rbind_*` handle data frames with 0 rows (#597). 
+
+* `mutate` works for on zero-row grouped data frame
+
+* `arrange` keeps the grouping structure of grouped data (#605). 
+
+* `left_join` was confused about by variables for x and y (#617). 
+
 * dplyr now depends on Lahman 3.0.1. A number of examples have been updated
   to reflect modified field names (#586).
 
-* `contains()` accidentally matched regualar expression now it passes
+* `contains()` accidentally matched regular expression now it passes
   `fixed = TRUE` to `grep()` (#608).
 
 * `src_monetdb()` is now implemented in MonetDB.R, not dplyr.

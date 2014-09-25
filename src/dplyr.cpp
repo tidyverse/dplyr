@@ -958,7 +958,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 // [[Rcpp::export]]
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(y, x, by_x, by_y) ;
+    DataFrameJoinVisitors visitors(y, x, by_y, by_x) ;
     Map map(visitors);
 
     // train the map in terms of y
@@ -1822,6 +1822,14 @@ SEXP mutate_impl( DataFrame df, LazyDots dots){
     if(is<RowwiseDataFrame>(df) ) {
         return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, dots);
     } else if( is<GroupedDataFrame>( df ) ){
+        // handle special case where there are no groups
+        if( df.nrows() == 0 ){
+            DataFrame res = mutate_not_grouped( df, dots) ;
+            res.attr("vars") = df.attr("vars" ) ;
+            return GroupedDataFrame(res).data() ;
+        }
+
+        // regular case
         return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, dots);
     } else {
         return mutate_not_grouped( df, dots) ;
