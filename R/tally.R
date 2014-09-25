@@ -1,10 +1,12 @@
-#' Tally observations by group.
+#' Counts/tally observations by group.
 #'
 #' \code{tally} is a convenient wrapper for summarise that will either call
 #' \code{\link{n}} or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying.
+#' for the first time, or re-tallying. \code{tally()} is similar, but also
+#' does the \code{\link{group_by}} for you.
 #'
-#' @param x a \code{\link{tbl}} to tally
+#' @param x a \code{\link{tbl}} to tally/count.
+#' @param ... Variables to group by.
 #' @param wt (Optional) If not specified, will tally the number of rows.
 #'   If specified, will perform a "weighted" tally but summing over the
 #'   specified variable.
@@ -23,6 +25,11 @@
 #'
 #' # This looks a little nicer if you use the infix %>% operator
 #' batting_tbl %>% group_by(playerID) %>% tally(sort = TRUE)
+#'
+#' # count is even more succinct - it also does the grouping for you
+#' batting_tbl %>% count(playerID)
+#' batting_tbl %>% count(playerID, wt = G)
+#' batting_tbl %>% count(playerID, wt = G, sort = TRUE)
 #' }
 tally <- function(x, wt, sort = FALSE) {
   if (missing(wt)) {
@@ -53,4 +60,18 @@ tally_ <- function(x, wt, sort = FALSE) {
   } else {
     arrange(out, desc(n))
   }
+}
+
+#' @export
+#' @rdname tally
+count <- function(x, ..., wt = NULL, sort = FALSE) {
+  vars <- lazyeval::lazy_dots(...)
+  wt <- substitute(wt)
+
+  count_(x, vars, wt, sort = sort)
+}
+
+count_ <- function(x, vars, wt = NULL, sort = FALSE) {
+  grouped <- group_by_(x, .dots = vars)
+  tally_(grouped, wt = wt, sort = sort)
 }

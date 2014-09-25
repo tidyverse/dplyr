@@ -1,5 +1,7 @@
 # dplyr 0.2.0.9000
 
+* New `count()` function to make it even easier to do (weighted) counts (#358).
+
 * `summarise_each_q()` and `mutate_each_q()` are deprecated. Please use
   `summarise_each_()` and `mutate_each_()` instead. 
 
