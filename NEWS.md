@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* `filter.numeric()` removed. Need to figure out how to reimplement with
+  new lazy eval system.
+
 * Fix major omission in `tbl_dt()` and `grouped_dt()` methods - I was 
   accidentally doing a deep copy on every result :(
 
