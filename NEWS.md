@@ -71,7 +71,6 @@
   and `dplyr.explain_sql` have been removed. Instead use `show_query()` and 
   `explain()`.
 
-
 ## Minor improvements and bug fixes
 
 * Main verbs now have individual documentation pages (#519).
@@ -215,8 +214,6 @@
 ### Cubes
 
 * `summarise.tbl_cube()` works with single grouping variable (#480).
-
----------
 
 # dplyr 0.2
 
