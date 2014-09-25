@@ -68,11 +68,6 @@ df_var <- data.frame(
 srcs <- temp_srcs(c("df", "dt"))
 var_tbls <- temp_load(srcs, df_var)
 
-group_by_ <- function(x, vars) {
-  call <- as.call(c(quote(group_by), quote(x), lapply(vars, as.symbol)))
-  eval(call)
-}
-
 test_that("local group_by preserves variable types", {
   for(var in names(df_var)) {
     expected <- data.frame(unique(df_var[[var]]), n = 1L,
@@ -175,7 +170,7 @@ test_that("data.table invalid .selfref issue (#475)", {
 })
 
 test_that("there can be 0 groups (#486)", {
-  data <- regroup(data.frame(a = numeric(0), g = character(0)), list(quote(g)))
+  data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(attr(data, "group_sizes"), integer(0))

@@ -56,30 +56,49 @@
 #'
 #' # Duplicate groups are silently dropped
 #' groups(group_by(by_cyl, cyl, cyl))
+#' @aliases regroup
 group_by <- function(.data, ..., add = FALSE) {
-  new_groups <- dots(...)
+  group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add)
+}
+
+#' @export
+#' @rdname group_by
+group_by_ <- function(.data, ..., .dots, add = FALSE) {
+  UseMethod("group_by_")
+}
+
+#' Prepare for grouping.
+#'
+#' Performs standard operations that should happen before individual methods
+#' process the data. This includes mutating the tbl to add new grouping columns
+#' and updating the groups (based on add)
+#'
+#' @return A list
+#'   \item{data}{Modified tbl}
+#'   \item{groups}{Modified groups}
+#' @noRd
+group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
+  new_groups <- lazyeval::all_dots(.dots, ..., env = parent.frame())
 
   # If any calls, use mutate to add new columns, then group by those
-  is_name <- vapply(new_groups, function(x) is.name(x), logical(1))
+  is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
   has_name <- names2(new_groups) != ""
+
   needs_mutate <- has_name | !is_name
   if (any(needs_mutate)) {
-    env <- new.env(parent = parent.frame())
-    env$.data <- .data
-
-    call <- as.call(c(quote(mutate), quote(.data), new_groups[needs_mutate]))
-    .data <- eval(call, env)
-
-    new_groups[needs_mutate] <- lapply(auto_names(new_groups)[needs_mutate], as.name)
-    names(new_groups)[needs_mutate] <- ""
+    .data <- mutate_(.data, .dots = new_groups[needs_mutate])
   }
 
+  # Once we've done the mutate, we no longer need lazy objects, and
+  # can instead just use symbols
+  new_groups <- lazyeval::auto_name(new_groups)
+  groups <- lapply(names(new_groups), as.name)
   if (add) {
-    new_groups <- c(groups(.data), new_groups)
+    groups <- c(groups(.data), groups)
   }
-  new_groups <- new_groups[!duplicated(new_groups)]
+  groups <- groups[!duplicated(groups)]
 
-  regroup(.data, new_groups)
+  list(data = .data, groups = groups)
 }
 
 #' Get/set the grouping variables for tbl.
@@ -91,12 +110,8 @@ group_by <- function(.data, ..., add = FALSE) {
 #' @param x data \code{\link{tbl}}
 #' @param value a list of symbols
 #' @export
-#' @seealso \code{\link{group_by}} for a version that does non-standard
-#'   evaluation to save typing
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
-#' groups(grouped)
-#' grouped <- regroup(grouped, list(quote(vs)))
 #' groups(grouped)
 #' groups(ungroup(grouped))
 groups <- function(x) {
@@ -104,11 +119,9 @@ groups <- function(x) {
 }
 
 #' @export
-#' @rdname groups
 regroup <- function(x, value) {
-  stopifnot(is.list(value))
-
-  UseMethod("regroup")
+  .Deprecated("group_by_")
+  group_by_(x, .dots = value)
 }
 
 #' @export

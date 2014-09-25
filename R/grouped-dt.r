@@ -66,18 +66,9 @@ n_groups.grouped_dt <- function(x) {
 }
 
 #' @export
-regroup.data.table <- function(x, value) {
-  grouped_dt(x, unname(value))
-}
-
-#' @export
-regroup.tbl_dt <- function(x, value) {
-  grouped_dt(x, unname(value))
-}
-
-#' @export
-regroup.grouped_dt <- function(x, value) {
-  grouped_dt(x, unname(value))
+group_by_.data.table <- function(.data, ..., .dots, add = FALSE) {
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+  grouped_dt(groups$data, groups$groups)
 }
 
 #' @export

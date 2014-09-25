@@ -87,10 +87,9 @@ mutate_.tbl_sql <- function(.data, ..., .dots) {
 }
 
 #' @export
-regroup.tbl_sql <- function(x, value) {
-  if (!all_apply(value, is.name)) {
-    stop("May only group by variable names, not expressions", call. = FALSE)
-  }
+group_by_.tbl_sql <- function(.data, ..., .dots, add = FALSE) {
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+  x <- groups$data
 
   # Effect of group_by on previous operations:
   # * select: none
@@ -108,5 +107,5 @@ regroup.tbl_sql <- function(x, value) {
   if (needed) {
     x <- collapse(update(x, order_by = NULL))
   }
-  update(x, group_by = unname(value), order_by = arrange)
+  update(x, group_by = groups$groups, order_by = arrange)
 }

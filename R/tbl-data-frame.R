@@ -1,8 +1,9 @@
 # Grouping methods ------------------------------------------------------------
 
 #' @export
-regroup.data.frame <- function(x, value) {
-  grouped_df(x, value)
+group_by_.data.frame <- function(.data, ..., .dots, add = FALSE) {
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+  grouped_df(groups$data, groups$groups)
 }
 
 #' @export

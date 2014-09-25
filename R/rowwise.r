@@ -52,7 +52,10 @@ n_groups.rowwise_df <- function(x) {
 }
 
 #' @export
-regroup.rowwise_df <- function(x, value) {
+group_by_.rowwise_df <- function(.data, ..., .dots, add = FALSE) {
   warning("Grouping rowwise data frame strips rowwise nature", call. = FALSE)
-  grouped_df(ungroup(x), value)
+  .data <- ungroup(.data)
+
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+  grouped_df(groups$data, groups$groups)
 }

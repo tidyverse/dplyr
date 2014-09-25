@@ -56,12 +56,15 @@ find_index <- function(x, names) {
 }
 
 #' @export
-regroup.tbl_cube <- function(x, value) {
-  nms <- names(x$dims)
+group_by_.tbl_cube <- function(.data, ..., .dots, add = FALSE) {
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+
+  # Convert symbols to indices
+  nms <- names(groups$data$dims)
   nms_list <- as.list(setNames(seq_along(nms), nms))
 
-  x$group <- unlist(lapply(value, eval, nms_list))
-  x
+  groups$data$groups <- unlist(lapply(groups$group, eval, nms_list))
+  groups$data
 }
 
 #' @export
