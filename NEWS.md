@@ -1,5 +1,10 @@
 # dplyr 0.2.0.9000
 
+* You can now program with dplyr - every function that does non-standard
+  evaluation (NSE) has a standard evaluation (SE) version ending in `_`.
+  This is powered by the new lazyeval package which provides all the tools
+  needed to implement NSE consistently and correctly.
+
 * `filter.numeric()` removed. Need to figure out how to reimplement with
   new lazy eval system.
 
