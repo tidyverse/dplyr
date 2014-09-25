@@ -126,14 +126,14 @@ test_that("univariate left join has all columns, all rows", {
 test_that("inner_join does not segfault on NA in factors (#306)", {
   a <- data.frame(x=c("p", "q", NA), y=c(1, 2, 3), stringsAsFactors=TRUE)
   b <- data.frame(x=c("p", "q", "r"), z=c(4,5,6), stringsAsFactors=TRUE)
-  res <- inner_join(a, b)
+  res <- inner_join(a, b, "x")
   expect_equal( nrow(res), 2L )
 })
 
 test_that("joins don't reorder columns #328", {
   a <- data.frame(a=1:3)
   b <- data.frame(a=1:3, b=1, c=2, d=3, e=4, f=5)
-  res <- left_join(a,b)
+  res <- left_join(a, b, "a")
   expect_equal( names(res), names(b) )
 })
 
@@ -150,14 +150,14 @@ test_that("join handles type promotions #123", {
     V2 = c(3.0, 4.0),
     stringsAsFactors = FALSE
   )
-  res <- semi_join(df, match)
+  res <- semi_join(df, match, c("V1", "V2"))
   expect_equal( res$V2, 3:4 )
   expect_equal( res$V3, c(103L, 109L) )
 
   df1 <- data.frame( a = c("a", "b" ), b = 1:2, stringsAsFactors = TRUE )
   df2 <- data.frame( a = c("a", "b" ), c = 4:5, stringsAsFactors = FALSE )
-  res <- semi_join( df1, df2 )
-  res <- semi_join( df2, df1 )
+  res <- semi_join( df1, df2, "a" )
+  res <- semi_join( df2, df1, "a" )
 
 })
 
@@ -186,9 +186,12 @@ test_that("join functions error on column not found #371", {
 })
 
 test_that("joining data tables yields a data table (#470)", {
-  out <- left_join(data.table(a), data.table(b))
+  a <- data.table(x = c(1, 1, 2, 3), y = 1:4)
+  b <- data.table(x = c(1, 2, 2, 4), z = 1:4)
+
+  out <- left_join(a, b, "x")
   expect_is(out, "data.table")
-  out <- semi_join(data.table(a), data.table(b))
+  out <- semi_join(a, b, "x")
   expect_is(out, "data.table")
 })
 
@@ -198,10 +201,10 @@ test_that("inner_join is symmetric (even when joining on character & factor)", {
 
   tmp1 <- inner_join(foo, bar, by="id")
   tmp2 <- inner_join(bar, foo, by="id")
-  
+
   expect_is(tmp1$id, "character")
   expect_is(tmp2$id, "character")
-  
+
   expect_equal(names(tmp1), c("id", "var1", "var2"))
   expect_equal(names(tmp2), c("id", "var2", "var1"))
 

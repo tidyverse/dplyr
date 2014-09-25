@@ -32,10 +32,10 @@ test_that("joins preserve grouping", {
   for (tbl in tbls) {
     g <- group_by(tbl, x)
 
-    expect_equal(groups(inner_join(g, g)), groups(g))
-    expect_equal(groups(left_join(g, g)), groups(g))
-    expect_equal(groups(semi_join(g, g)), groups(g))
-    expect_equal(groups(anti_join(g, g)), groups(g))
+    expect_equal(groups(inner_join(g, g, by = c("x", "y"))), groups(g))
+    expect_equal(groups(left_join(g, g, by = c("x", "y"))), groups(g))
+    expect_equal(groups(semi_join(g, g, by = c("x", "y"))), groups(g))
+    expect_equal(groups(anti_join(g, g, by = c("x", "y"))), groups(g))
   }
 })
 
@@ -105,9 +105,8 @@ test_that("group_by uses shallow copy", {
 })
 
 test_that("FactorVisitor handles NA. #183", {
-  library(MASS)
-  g <- group_by(survey, M.I)
-  expect_equal(g$M.I, survey$M.I)
+  g <- group_by(MASS::survey, M.I)
+  expect_equal(g$M.I, MASS::survey$M.I)
 })
 
 test_that("group_by orders by groups. #242", {
@@ -180,5 +179,5 @@ test_that("there can be 0 groups (#486)", {
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(attr(data, "group_sizes"), integer(0))
-  
+
 })
