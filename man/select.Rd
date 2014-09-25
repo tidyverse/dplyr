@@ -53,6 +53,8 @@ a number of special functions that only work inside \code{select}
    selects all variables (numerically) from x01 to x05.
  \item \code{one_of("x", "y", "z")}:
    selects variables provided in a character vector.
+ \item \code{everything()}:
+   selects all variables.
 }
 
 To drop variables, use \code{-}. You can rename variables with

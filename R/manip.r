@@ -188,6 +188,8 @@ arrange_ <- function(.data, ..., .dots) {
 #'    selects all variables (numerically) from x01 to x05.
 #'  \item \code{one_of("x", "y", "z")}:
 #'    selects variables provided in a character vector.
+#'  \item \code{everything()}:
+#'    selects all variables.
 #' }
 #'
 #' To drop variables, use \code{-}. You can rename variables with

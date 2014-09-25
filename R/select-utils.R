@@ -48,3 +48,7 @@ one_of <- function(vars, ...) {
   stopifnot(is.character(keep))
   match(keep, vars)
 }
+
+everything <- function(vars) {
+  seq_along(vars)
+}

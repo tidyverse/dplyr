@@ -36,6 +36,7 @@ the original order: you can only change their names, not their positions.
 }
 \examples{
 # Keep variables
+select_vars(names(iris), everything())
 select_vars(names(iris), starts_with("Petal"))
 select_vars(names(iris), ends_with("Width"))
 select_vars(names(iris), contains("etal"))

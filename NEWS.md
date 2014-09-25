@@ -1,5 +1,8 @@
 # dplyr 0.2.0.9000
 
+* `summarise_each_q()` and `mutate_each_q()` are deprecated. Please use
+  `summarise_each_()` and `mutate_each_()` instead. 
+
 * `regroup()` is deprecated. Please use the more flexible `group_by_()`
   instead.
 

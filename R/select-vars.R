@@ -15,6 +15,7 @@
 #'   names are new names.
 #' @examples
 #' # Keep variables
+#' select_vars(names(iris), everything())
 #' select_vars(names(iris), starts_with("Petal"))
 #' select_vars(names(iris), ends_with("Width"))
 #' select_vars(names(iris), contains("etal"))
@@ -74,7 +75,8 @@ select_vars_ <- function(vars, args, env = parent.frame(),
     contains = function(...) contains(vars, ...),
     matches = function(...) matches(vars, ...),
     num_range = function(...) num_range(vars, ...),
-    one_of = function(...) one_of(vars, ...)
+    one_of = function(...) one_of(vars, ...),
+    everything = function(...) everything(vars, ...)
   )
 
   ind_list <- lazyeval::lazy_eval(args, c(names_list, select_funs))
