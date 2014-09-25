@@ -71,8 +71,8 @@ summarise_.tbl_sql <- function(.data, ..., .dots) {
 
 #' @export
 mutate_.tbl_sql <- function(.data, ..., .dots) {
-  input <- partial_eval(dots(...), .data, parent.frame())
-  input <- auto_name(input)
+  dots <- lazyeval::all_dots(.dots, ..., env = parent.frame(), all_named = TRUE)
+  input <- partial_eval(dots, .data)
 
   .data$mutate <- TRUE
   new <- update(.data, select = c(.data$select, input))

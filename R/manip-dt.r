@@ -96,7 +96,7 @@ mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
     eval(call, env)
   }
 
-  grouped_dt(out, groups(.data), copy = FALSE)
+  grouped_dt(.data, groups(.data), copy = FALSE)
 }
 
 
@@ -119,7 +119,7 @@ mutate_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
 }
 
 #' @export
-mutate.tbl_dt <- function(.data, ..., .dots) {
+mutate_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
 
