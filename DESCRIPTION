@@ -1,14 +1,16 @@
 Package: dplyr
 Type: Package
-Title: dplyr: a grammar of data manipulation
 Version: 0.2.0.9002
-Author: Hadley Wickham <h.wickham@gmail.com>,
-    Romain Francois <romain@r-enthusiasts.com>
-Maintainer: Hadley Wickham <h.wickham@gmail.com>
+Title: dplyr: a grammar of data manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
+Authors@R: as.person(c(
+    "Hadley Wickham <hadley@rstudio.com> [aut, cre]",
+    "Romain Francois <romain@r-enthusiasts.com> [aut]",
+    "RStudio [cph]"
+    ))
 URL: https://github.com/hadley/dplyr
-Roxygen: list(wrap = FALSE)
+BugReports: https://github.com/hadley/dplyr/issues
 Depends:
     R (>= 3.0.2)
 Imports:
@@ -35,7 +37,8 @@ Suggests:
     methods
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.11.1),
+LinkingTo:
+    Rcpp (>= 0.11.1),
     BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
