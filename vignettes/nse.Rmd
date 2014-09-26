@@ -35,7 +35,7 @@ There are three ways to quote inputs that dplyr understands:
 
 * With a formula, `~ mean(mpg)`.
 * With `quote()`, `quote(mean(mpg))`.
-* As a string: `"mean(mpg")`.
+* As a string: `"mean(mpg)"`.
 
 It's best to use a formula, because a formula captures both the expression to evaluate, and the environment in which it should be a evaluated. This is important if the expression is a mixture of variables in the data frame and objects in the local environment:
 
