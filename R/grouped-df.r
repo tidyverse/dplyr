@@ -61,7 +61,5 @@ ungroup.grouped_df <- function(x) {
 
 #' @export
 `[.grouped_df` <- function(x, i, j, ...) {
-  structure(NextMethod(),
-    vars = attr(x, "vars"),
-    class = c("grouped_df", "data.frame"))
+  grouped_df(NextMethod(), groups(x))
 }
