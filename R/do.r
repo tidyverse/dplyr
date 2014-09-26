@@ -121,18 +121,36 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
 
   args <- dots(...)
   named <- named_args(args)
+  labels <- attr(.data, "labels")
+
+  index <- attr(.data, "indices")
+  n <- length(index)
+  m <- length(args)
+
+  # Special case for zero-group input
+  if (n == 0) {
+    env <- new.env(parent = parent.frame())
+    env$. <- group_data
+
+    out <- vector("list", m)
+    for (j in seq_len(m)) {
+      out[[j]] <- eval(args[[j]], envir = env)
+    }
+
+    if (!named) {
+      return(label_output_dataframe(labels, list(out), groups(.data)))
+    } else {
+      return(label_output_list(labels, list(out), groups(.data)))
+    }
+  }
 
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
-  index <- attr(.data, "indices")
   env <- new.env(parent = parent.frame())
   makeActiveBinding(".", function() {
     group_data[index[[`_i`]] + 1L, , drop = FALSE]
   }, env)
-
-  n <- length(index)
-  m <- length(args)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
@@ -145,7 +163,6 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
     }
   }
 
-  labels <- attr(.data, "labels")
   if (!named) {
     label_output_dataframe(labels, out, groups(.data))
   } else {
