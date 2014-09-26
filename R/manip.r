@@ -120,6 +120,8 @@ transmute <- function(.data, ...) {
   transmute_(.data, .dots = lazyeval::lazy_dots(...))
 }
 
+#' @rdname mutate
+#' @export
 transmute_ <- function(.data, ..., .dots) {
   UseMethod("transmute_")
 }
