@@ -1,4 +1,4 @@
-dt_env <- function(dt, env, dt_unique, vars_unique) {
+dt_env <- function(dt, env, dt_unique = "dt", vars_unique = "vars") {
   env <- new.env(parent = env, size = 2L)
   assign(dt_unique,dt,env)
   assign(vars_unique, deparse_all(groups(dt)),env)
