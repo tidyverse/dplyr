@@ -86,7 +86,7 @@ mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   if (!inplace) .data <- copy(.data)
 
   env <- dt_env(.data, lazyeval::common_env(dots))
-  # For each unique_ variable, generate a call of the form df[, new := expr]
+  # For each new variable, generate a call of the form df[, new := expr]
   for(col in names(dots)) {
     call <- substitute(`_dt`[, lhs := rhs, by = `_vars`],
       list(lhs = as.name(col), rhs = dots[[col]]$expr))
