@@ -17,3 +17,14 @@ dt_col_compute <- function(dt, call, env = parent.frame()) {
 
   eval(wrapper, env)$V1
 }
+
+
+newname <- function(prefix,env){
+  i <- 0L
+  name <- prefix
+  while (exists(name,env)) {
+    i <- i + 1L
+    name <- paste0(prefix,as.character(i))
+    }
+  name
+}
