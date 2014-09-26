@@ -18,13 +18,10 @@ filter_.grouped_dt <- function(.data, ..., .dots) {
 
   # http://stackoverflow.com/questions/16573995/subset-by-group-with-data-table
   expr <- lapply(dots, `[[`, "expr")
-  dots_env <- lazyeval::common_env(dots)
-  dt_unique <- dt_unique_name("dt", dots_env)
-  vars_unique <- dt_unique_name("vars", dots_env)
-  call <- substitute(dt[, .I[expr], by = vars], list(dt=as.name(dt_unique), vars=as.name(vars_unique), expr = and_expr(expr)))
-  env <- dt_env(.data, dots_env, dt_unique, vars_unique)
+  call <- substitute(`_dt`[, .I[expr], by = `_vars`], list(expr = and_expr(expr)))
+  env <- dt_env(.data, lazyeval::common_env(dots))
   table <- eval(call, env)
-  indices <- setDF(table)[,length(table)]
+  indices <- table[[length(table)]]
   out <- .data[indices[!is.na(indices)]]
   grouped_dt(out, groups(.data), copy = FALSE)
 }
@@ -32,12 +29,9 @@ filter_.grouped_dt <- function(.data, ..., .dots) {
 #' @export
 filter_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-
   expr <- lapply(dots, `[[`, "expr")
-  dt_unique <- dt_unique_name("dt", dots_env)
-  vars_unique <- dt_unique_name("vars", dots_env)
-  call <- substitute(dt[expr, ], list(dt=as.name(dt_unique), vars=as.name(vars_unique), expr = and_expr(expr)))
-  env <- dt_env(.data, dots_env)
+  call <- substitute(`_dt`[expr, ], list(expr = and_expr(expr)))
+  env <- dt_env(.data, lazyeval::common_env(dots))
   eval(call, env)
 }
 
@@ -60,7 +54,7 @@ summarise_.grouped_dt <- function(.data, ..., .dots) {
   }
 
   list_call <- lazyeval::make_call(quote(list), dots)
-  call <- substitute(dt[, list_call, by = vars], list(list_call = list_call$expr))
+  call <- substitute(`_dt`[, list_call, by = `_vars`], list(list_call = list_call$expr))
 
   env <- dt_env(.data, parent.frame())
   out <- eval(call, env)
@@ -73,7 +67,7 @@ summarise_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
   expr <- lazyeval::make_call(quote(list), dots)
-  call <- substitute(dt[, expr], list(expr = expr$expr))
+  call <- substitute(`_dt`[, expr], list(expr = expr$expr))
 
   env <- dt_env(.data, lazyeval::common_env(dots))
   eval(call, env)
@@ -94,7 +88,7 @@ mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   env <- dt_env(.data, lazyeval::common_env(dots))
   # For each unique_ variable, generate a call of the form df[, new := expr]
   for(col in names(dots)) {
-    call <- substitute(dt[, lhs := rhs, by = vars],
+    call <- substitute(`_dt`[, lhs := rhs, by = `_vars`],
       list(lhs = as.name(col), rhs = dots[[col]]$expr))
     eval(call, env)
   }
@@ -113,7 +107,7 @@ mutate_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   names <- lapply(names(dots), as.name)
   # For each new variable, generate a call of the form df[, new := expr]
   for(i in seq_along(dots)) {
-    call <- substitute(dt[, lhs := rhs],
+    call <- substitute(`_dt`[, lhs := rhs],
       list(lhs = names[[i]], rhs = dots[[i]]$expr))
     eval(call, env)
   }
@@ -136,7 +130,7 @@ arrange_.grouped_dt <- function(.data, ..., .dots) {
     env = lazyeval::common_env(dots))
 
   order <- lazyeval::make_call(quote(order), c(groups, dots))
-  call <- substitute(dt[order, , ], list(order = order$expr))
+  call <- substitute(`_dt`[order, , ], list(order = order$expr))
 
   env <- dt_env(.data, order$env)
   out <- eval(call, env)
@@ -149,7 +143,7 @@ arrange_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
 
   order <- lazyeval::make_call(quote(order), dots)
-  call <- substitute(dt[order], list(order = order$expr))
+  call <- substitute(`_dt`[order], list(order = order$expr))
 
   env <- dt_env(.data, order$env)
   eval(call, env)
