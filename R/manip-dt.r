@@ -83,8 +83,12 @@ summarise_.tbl_dt <- function(.data, ..., .dots) {
 #' @export
 mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  index <- match("inplace",names(dots))
+  if (!is.na(index) & is.logical(dots$inplace$expr)){
+    inplace <- dots$inplace$expr
+    dots[[index]] <- NULL
+  }
   if (!inplace) .data <- copy(.data)
-
   env <- dt_env(.data, lazyeval::common_env(dots))
   # For each new variable, generate a call of the form df[, new := expr]
   for(col in names(dots)) {
@@ -100,6 +104,11 @@ mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
 #' @export
 mutate_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  index <- match("inplace",names(dots))
+  if (!is.na(index) & is.logical(dots$inplace$expr)){
+    inplace <- dots$inplace$expr
+    dots[[index]] <- NULL
+  }
   if (!inplace) .data <- data.table::copy(.data)
 
   env <- dt_env(.data, lazyeval::common_env(dots))
@@ -159,6 +168,11 @@ arrange_.tbl_dt <- function(.data, ..., .dots) {
 #' @export
 select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
+  index <- match("inplace",names(dots))
+  if (!is.na(index) & is.logical(dots$inplace$expr)){
+    inplace <- dots$inplace$expr
+    dots[[index]] <- NULL
+  }
   vars <- select_vars_(names(.data), dots,
     include = as.character(groups(.data)))
   if (inplace){
@@ -174,6 +188,10 @@ select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
 #' @export
 select_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
+  if (!is.na(index) & is.logical(dots$inplace$expr)){
+    inplace <- dots$inplace$expr
+    dots[[index]] <- NULL
+  }
   vars <- select_vars_(names(.data), dots)
   if (inplace){
     vars_drop <- setdiff(names(.data), vars)
