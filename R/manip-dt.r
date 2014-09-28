@@ -157,10 +157,14 @@ arrange_.tbl_dt <- function(.data, ..., .dots) {
 # Select -----------------------------------------------------------------------
 
 #' @export
-select_.grouped_dt <- function(.data, ..., .dots) {
+select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots,
     include = as.character(groups(.data)))
+  if (inplace){
+    vars_drop = setdiff(vars,names(.data))
+    .data[,(vars) := NULL]
+  }
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
 
@@ -168,10 +172,13 @@ select_.grouped_dt <- function(.data, ..., .dots) {
 }
 
 #' @export
-select_.data.table <- function(.data, ..., .dots) {
+select_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots)
-
+  if (inplace){
+    vars_drop = setdiff(vars,names(.data))
+    .data[,(vars) := NULL]
+  }
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
   out
