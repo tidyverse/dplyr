@@ -44,8 +44,9 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL, ...)
 
   if (!is.null(match_by)) {
     if (!is.null(order_by)) stop("order_by and match_by cannot be specified together")
-    index <- match(is.na(match_by)+n, match_by, incomparable = NA)
+    index <- match(match_by + n, match_by, incomparable = NA)
     out <- x[index]
+    if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
     xlen <- length(x)
     n <- pmin(n, xlen)
@@ -67,8 +68,9 @@ lag.default <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NUL
 
   if (!is.null(match_by)) {
     if (!is.null(order_by)) stop("order_by and match_by cannot be specified together")
-    index <- match(match_by-n, match_by, incomparable = NA)
+    index <- match(match_by - n, match_by, incomparable = NA)
     out <- x[index]
+    if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
     xlen <- length(x)
     n <- pmin(n, xlen)
