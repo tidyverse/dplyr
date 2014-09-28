@@ -59,21 +59,17 @@ summarise_each_q <- function(...) {
 
 #' @export
 #' @rdname summarise_each
-mutate_each <- function(tbl, funs, ...) {
-  mutate_each_(tbl, funs, dots(...))
+mutate_each <- function(tbl, funs, ..., inplace = FALSE) {
+  mutate_each_(tbl, funs, dots(...), inplace = inplace)
 }
 
 #' @export
 #' @rdname summarise_each
-mutate_each_ <- function(tbl, funs, vars) {
-  index <- match("inplace",names(vars))
-  if (!is.na(index) & is.logical(vars$inplace)){
-    inplace <- vars$inplace
-    vars[[index]] <- NULL
-  }
+mutate_each_ <- function(tbl, funs, vars, inplace = FALSE) {
   funs <- as.fun_list(funs, globalenv())
+  index <- match("inplace",names(vars))
   vars <- colwise_(tbl, funs, vars)
-  mutate_(tbl, .dots = vars, inplace = TRUE)
+  mutate_(tbl, .dots = vars,  inplace = inplace)
 }
 
 #' @export

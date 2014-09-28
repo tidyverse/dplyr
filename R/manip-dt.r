@@ -84,7 +84,7 @@ summarise_.tbl_dt <- function(.data, ..., .dots) {
 mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   index <- match("inplace",names(dots))
-  if (!is.na(index) & is.logical(dots$inplace$expr)){
+  if  (!is.na(index) && is.logical(dots$inplace$expr) && length(dots$inplace$expr)==1) {
     inplace <- dots$inplace$expr
     dots[[index]] <- NULL
   }
@@ -105,7 +105,8 @@ mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
 mutate_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   index <- match("inplace",names(dots))
-  if (!is.na(index) & is.logical(dots$inplace$expr)){
+  content <- dots$inplace$expr
+  if  (!is.na(index) && is.logical(dots$inplace$expr) && length(dots$inplace$expr)==1){
     inplace <- dots$inplace$expr
     dots[[index]] <- NULL
   }
@@ -169,7 +170,7 @@ arrange_.tbl_dt <- function(.data, ..., .dots) {
 select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
   index <- match("inplace",names(dots))
-  if (!is.na(index) & is.logical(dots$inplace$expr)){
+  if (!is.na(index) && is.logical(dots$inplace$expr) && length(dots$inplace$expr)==1){
     inplace <- dots$inplace$expr
     dots[[index]] <- NULL
   }
@@ -189,7 +190,8 @@ select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
 select_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
   index <- match("inplace",names(dots))
-  if (!is.na(index) & is.logical(dots$inplace$expr)){
+  content <- dots$inplace$expr
+  if  (!is.na(index) && is.logical(dots$inplace$expr) && length(dots$inplace$expr)==1){
     inplace <- dots$inplace$expr
     dots[[index]] <- NULL
   }
