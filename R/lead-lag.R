@@ -34,7 +34,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
@@ -44,7 +44,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL ...) 
 
   if (!is.null(match_by)) {
     if (!is.null(order_by)) stop("order_by and match_by cannot be specified together")
-    index <- match(match_by+n,match_by)
+    index <- match(is.na(match_by)+n, match_by, incomparable = NA)
     out <- x[index]
   } else{
     xlen <- length(x)
@@ -57,7 +57,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL ...) 
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+lag.default <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lag, x, n = n, default = default))
   }
@@ -67,7 +67,7 @@ lag.default <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 
   if (!is.null(match_by)) {
     if (!is.null(order_by)) stop("order_by and match_by cannot be specified together")
-    index <- match(match_by-n, match_by)
+    index <- match(match_by-n, match_by, incomparable = NA)
     out <- x[index]
   } else{
     xlen <- length(x)
