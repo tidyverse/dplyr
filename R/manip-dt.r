@@ -163,11 +163,11 @@ select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
     include = as.character(groups(.data)))
   if (inplace){
     vars_drop = setdiff(vars,names(.data))
-    .data[,(vars) := NULL]
+    out <- .data[, (vars_drop) := NULL]
+  } else{
+    out <- .data[, vars, drop = FALSE, with = FALSE]
   }
-  out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
-
   grouped_dt(out, groups(.data), copy = FALSE)
 }
 
@@ -177,9 +177,10 @@ select_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   vars <- select_vars_(names(.data), dots)
   if (inplace){
     vars_drop = setdiff(vars,names(.data))
-    .data[,(vars) := NULL]
+    out <- .data[,(vars_drop) := NULL]
+  } else{
+    out <- .data[, vars, drop = FALSE, with = FALSE]
   }
-  out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
   out
 }
