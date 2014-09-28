@@ -188,6 +188,7 @@ select_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
 #' @export
 select_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
+  index <- match("inplace",names(dots))
   if (!is.na(index) & is.logical(dots$inplace$expr)){
     inplace <- dots$inplace$expr
     dots[[index]] <- NULL
