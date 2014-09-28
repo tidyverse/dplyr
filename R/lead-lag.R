@@ -34,7 +34,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, match_by = NULL ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
@@ -42,10 +42,15 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
-  xlen <- length(x)
-  n <- pmin(n, xlen)
-
-  out <- c(x[-seq_len(n)], rep(default, n))
+  if (!is.null(match_by)) {
+    if (!is.null(order_by)) stop("order_by and match_by cannot be specified together")
+    index <- match(match_by+n,match_by)
+    out <- x[index]
+  } else{
+    xlen <- length(x)
+    n <- pmin(n, xlen)
+    out <- c(x[-seq_len(n)], rep(default, n))
+  }
   attributes(out) <- attributes(x)
   out
 }
@@ -60,10 +65,15 @@ lag.default <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
-  xlen <- length(x)
-  n <- pmin(n, xlen)
-
-  out <- c(rep(default, n), x[seq_len(xlen - n)])
+  if (!is.null(match_by)) {
+    if (!is.null(order_by)) stop("order_by and match_by cannot be specified together")
+    index <- match(match_by-n, match_by)
+    out <- x[index]
+  } else{
+    xlen <- length(x)
+    n <- pmin(n, xlen)
+    out <- c(rep(default, n), x[seq_len(xlen - n)])
+  }
   attributes(out) <- attributes(x)
   out
 }
