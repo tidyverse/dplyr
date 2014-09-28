@@ -36,6 +36,7 @@ NULL
 #' @rdname lead-lag
 lead <- function(x, n = 1L, default = NA, order_by = NULL, along = NULL, ...) {
   if (!is.null(order_by)) {
+    if (!is.null(along)) stop("order_by and along cannot be specified together")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
@@ -43,7 +44,6 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, along = NULL, ...) {
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
   if (!is.null(along)) {
-    if (!is.null(order_by)) stop("order_by and along cannot be specified together")
     index <- match(along + n, along, incomparable = NA)
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
@@ -60,6 +60,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, along = NULL, ...) {
 #' @rdname lead-lag
 lag.default <- function(x, n = 1L, default = NA, order_by = NULL, along = NULL, ...) {
   if (!is.null(order_by)) {
+    if (!is.null(along)) stop("order_by and along cannot be specified together")
     return(with_order(order_by, lag, x, n = n, default = default))
   }
 
@@ -67,7 +68,6 @@ lag.default <- function(x, n = 1L, default = NA, order_by = NULL, along = NULL, 
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
   if (!is.null(along)) {
-    if (!is.null(order_by)) stop("order_by and along cannot be specified together")
     index <- match(along - n, along, incomparable = NA)
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
