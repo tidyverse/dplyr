@@ -66,9 +66,14 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
+  index <- match("inplace",names(vars))
+  if (!is.na(index) & is.logical(vars$inplace)){
+    inplace <- vars$inplace
+    vars[[index]] <- NULL
+  }
   funs <- as.fun_list(funs, globalenv())
   vars <- colwise_(tbl, funs, vars)
-  mutate_(tbl, .dots = vars)
+  mutate_(tbl, .dots = vars, inplace = TRUE)
 }
 
 #' @export
