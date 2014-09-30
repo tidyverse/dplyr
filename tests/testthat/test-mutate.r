@@ -301,3 +301,8 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   expect_equal(res, c("a", "å") )
 })
 
+test_that("nested hybrid functions do the right thing (#637)", {
+  res <- mtcars %>% mutate(mean(1))
+  expect_true( all( res[["mean(1)"]] == 1L ) )
+})
+

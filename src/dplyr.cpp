@@ -32,10 +32,18 @@ Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
     bool is_summary = false ;
     if( TYPEOF(arg) == SYMSXP ){
       if( subsets.count(arg) ) {
+          // we have a symbol from the data - great
           is_summary = subsets.is_summary(arg) ;
           arg = subsets.get_variable(arg) ;
+      } else {
+          // we have a symbol but we don't know about it, so we give up and let R evaluation handle it
+          return 0 ;
       }
-      else return 0 ;
+    } else {
+        // anything else: expressions, constants ...
+        // workaround for now : we just let R deal with it
+        // of course this needs some specializations, i.e. sum(1) does not need R to get involved
+        return 0 ;    
     }
 
     if( nargs == 1 ){
