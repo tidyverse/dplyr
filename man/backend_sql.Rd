@@ -33,7 +33,7 @@ An SQL string.
 }
 \description{
 These generics are used to run build various SQL queries.  Default methods
-are provided for \code{DBIConnectdion}, but variations in SQL across
+are provided for \code{DBIConnection}, but variations in SQL across
 databases means that it's likely that a backend will require at least a
 few methods.
 }
