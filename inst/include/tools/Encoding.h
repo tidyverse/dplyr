@@ -52,6 +52,16 @@ namespace dplyr{
         return UNKNOWN ;
     }
     
+    inline const char* human_readable_encoding( encoding e ){
+        switch(e){
+        case BYTES: return "bytes" ;
+        case LATIN1: return "latin1" ;
+        case UTF8: return "UTF-8" ;
+        default: break ;
+        }
+        return "unknown" ;
+    }
+    
     inline void check_all_utf8( CharacterVector s){
         int n=s.size() ;
         for( int i=0; i<n; i++){
