@@ -66,6 +66,8 @@ dplyr never makes copies unless it has to:
   This is an expensive operation for big data, but you can generally avoid
   it using the order argument to [window functions](window-functions.html)
 
+* `filter()` creates new data
+  
 * `summarise()` creates new data, but it's usually at least an order of
   magnitude smaller than the original data.
 

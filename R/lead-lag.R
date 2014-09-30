@@ -34,36 +34,48 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, ...) {
   if (!is.null(order_by)) {
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
-  xlen <- length(x)
-  n <- pmin(n, xlen)
-
-  out <- c(x[-seq_len(n)], rep(default, n))
+  if (!is.null(along_with)) {
+    index <- match(along_with + n, along_with, incomparable = NA)
+    out <- x[index]
+    if (!is.na(default)) out[which(is.na(index))] <- default
+  } else{
+    xlen <- length(x)
+    n <- pmin(n, xlen)
+    out <- c(x[-seq_len(n)], rep(default, n))
+  }
   attributes(out) <- attributes(x)
   out
 }
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+lag.default <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, ...) {
   if (!is.null(order_by)) {
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     return(with_order(order_by, lag, x, n = n, default = default))
   }
 
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
-  xlen <- length(x)
-  n <- pmin(n, xlen)
-
-  out <- c(rep(default, n), x[seq_len(xlen - n)])
+  if (!is.null(along_with)) {
+    index <- match(along_with - n, along_with, incomparable = NA)
+    out <- x[index]
+    if (!is.na(default)) out[which(is.na(index))] <- default
+  } else{
+    xlen <- length(x)
+    n <- pmin(n, xlen)
+    out <- c(rep(default, n), x[seq_len(xlen - n)])
+  }
   attributes(out) <- attributes(x)
   out
 }
