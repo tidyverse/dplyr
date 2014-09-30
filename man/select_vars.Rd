@@ -28,9 +28,7 @@ A named character vector. Values are existing column names,
   names are new names.
 }
 \description{
-\code{select()} implements a rich set of tools for including (and excluding)
-variables. \code{rename()} is simpler, but always includes all variables in
-the original order: you can only change their names, not their positions.
+These functions power \code{\link{select}()} and \code{\link{rename}()}.
 }
 \examples{
 # Keep variables
