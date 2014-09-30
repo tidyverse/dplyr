@@ -3,6 +3,7 @@
 \alias{mutate}
 \alias{mutate_}
 \alias{transmute}
+\alias{transmute_}
 \title{Add new variables.}
 \usage{
 mutate(.data, ...)
@@ -10,6 +11,8 @@ mutate(.data, ...)
 mutate_(.data, ..., .dots)
 
 transmute(.data, ...)
+
+transmute_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

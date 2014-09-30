@@ -54,6 +54,8 @@
 * `summarise_each_q()` and `mutate_each_q()` are deprecated. Please use
   `summarise_each_()` and `mutate_each_()` instead. 
 
+* `funs_q` has been replaced with `funs_`.
+
 ## Removed and deprecated features
 
 * `%.%` has been deprecated: please use `%>%` instead. `chain()` is 

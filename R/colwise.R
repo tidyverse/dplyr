@@ -46,8 +46,7 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  funs <- as.fun_list(funs, globalenv())
-  vars <- colwise_(tbl, funs, vars)
+  vars <- colwise_(tbl, funs_(funs), vars)
   summarise_(tbl, .dots = vars)
 }
 
@@ -66,8 +65,7 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  funs <- as.fun_list(funs, globalenv())
-  vars <- colwise_(tbl, funs, vars)
+  vars <- colwise_(tbl, funs_(funs), vars)
   mutate_(tbl, .dots = vars)
 }
 
@@ -79,7 +77,7 @@ mutate_each_q <- function(...) {
 
 
 colwise_ <- function(tbl, calls, vars) {
-  stopifnot(is.fun_calls(calls))
+  stopifnot(is.fun_list(calls))
 
   if (length(vars) == 0) {
     vars <- lazyeval::lazy_dots(everything())
