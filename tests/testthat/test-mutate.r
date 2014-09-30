@@ -296,3 +296,8 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_equal(attr(res, "biggest_group_size"), 0L)
 })
 
+test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
+  res <- data_frame(a = "1", å = "2") %>% mutate_each(funs(as.numeric)) %>% names
+  expect_equal(res, c("a", "å") )
+})
+

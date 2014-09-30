@@ -201,6 +201,8 @@
 * `rbind_*()` handle data frames with 0 rows (#597). They fill character 
   vector columns with `NA` instead of blanks (#595).  They work with
   list columns (#463). 
+  
+* Improved handling of encoding for column names (#636).   
 
 ### Data tables
 
