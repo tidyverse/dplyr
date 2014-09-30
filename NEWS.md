@@ -206,6 +206,8 @@
   
 * Improved handling of encoding for column names (#636).   
 
+* Improved handling of hybrid evaluation re $ and @ (#645). 
+
 ### Data tables
 
 * Fix major omission in `tbl_dt()` and `grouped_dt()` methods - I was 

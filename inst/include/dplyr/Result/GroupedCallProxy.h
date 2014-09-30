@@ -101,7 +101,7 @@ namespace dplyr {
         void traverse_call( SEXP obj ){
             if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return ;
 
-            if( ! Rf_isNull(obj) ){
+            if( ! Rf_isNull(obj) ){ 
                 SEXP head = CAR(obj) ;
 
                 switch( TYPEOF( head ) ){
@@ -116,13 +116,20 @@ namespace dplyr {
                     }
 
                     if( Rf_length(head) == 3 ){
-                        if( CAR(head) == R_DollarSymbol ){
-                            SETCAR(obj, Rf_eval(head, env) ) ;
+                        if( CAR(head) == R_DollarSymbol || CAR(head) == Rf_install("@") ){
+                            // for things like : foo( bar = bling )$bla
+                            // so that `foo( bar = bling )` gets processed
+                            if( TYPEOF(CADR(head)) == LANGSXP ){
+                                traverse_call( CDR(head) ) ;    
+                            }
+                            
+                            // deal with foo$bar( bla = boom )
+                            if( TYPEOF(CADDR(head)) == LANGSXP ){
+                                traverse_call( CDDR(head) ) ;
+                            }
+                            
                             break ;
-                        } else if( CAR(head) == Rf_install("@")) {
-                            SETCAR(obj, Rf_eval(head, env) ) ;
-                            break ;
-                        }
+                        } 
                     }
                     traverse_call( CDR(head) ) ;
                     break ;

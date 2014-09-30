@@ -317,3 +317,23 @@ test_that( "LazyGroupSubsets is robust about columns not from the data (#600)", 
   expect_error( foo %>% group_by(x) %>% summarise(first_y = first(z)), "not found in the dataset" )
 })
 
+test_that( "hybrid eval handles $ and @ (#645)", {
+  tmp <- expand.grid(a = 1:3, b = 0:1, i = 1:10)
+  g   <- tmp %>% group_by(a)
+  
+  res <- g %>% summarise(
+    r = sum(b),
+    n = length(b),
+    p = prop.test(r, n, p = 0.05)$conf.int[1]
+  )
+  expect_equal(names(res), c("a", "r", "n", "p" ))
+  
+  res <- tmp %>% summarise(
+    r = sum(b),
+    n = length(b),
+    p = prop.test(r, n, p = 0.05)$conf.int[1]
+  )
+  expect_equal(names(res), c("r", "n", "p" ))
+  
+})
+

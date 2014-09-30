@@ -105,10 +105,19 @@ namespace dplyr {
                         stop( "assignments are forbidden" ) ;
                     }
                     if( Rf_length(head) == 3 ){
-                        if( CAR(head) == R_DollarSymbol ){
-                            SETCAR(obj, Rf_eval(head, env) ) ;
-                        } else if( CAR(head) == Rf_install("@")) {
-                            SETCAR(obj, Rf_eval(head, env) ) ;
+                        if( CAR(head) == R_DollarSymbol || CAR(head) == Rf_install("@") ){
+                            // for things like : foo( bar = bling )$bla
+                            // so that `foo( bar = bling )` gets processed
+                            if( TYPEOF(CADR(head)) == LANGSXP ){
+                                traverse_call( CDR(head) ) ;    
+                            }
+                            
+                            // deal with foo$bar( bla = boom )
+                            if( TYPEOF(CADDR(head)) == LANGSXP ){
+                                traverse_call( CDDR(head) ) ;
+                            }
+                            
+                            break ;
                         } else {
                           traverse_call( CDR(head) ) ;
                         }
