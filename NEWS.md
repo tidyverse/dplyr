@@ -117,6 +117,8 @@
 
 * `tally()` and `top_n()` work consistently: neither accidentally
   evaluates the the `wt` param. (#426, @mnel)
+  
+* `rename` handles grouped data (#640). 
 
 ## Minor improvements and bug fixes by backend
 

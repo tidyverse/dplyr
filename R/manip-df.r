@@ -41,7 +41,7 @@ select_.grouped_df <- function(.data, ..., .dots) {
 #' @export
 rename_.grouped_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  vars <- rename_vars_(names(.data), lazyeval::lazy_dots(...))
+  vars <- rename_vars_(names(.data), dots)
 
   select_impl(.data, vars)
 }

@@ -127,3 +127,8 @@ test_that("select preserves grouping vars", {
   first <- tbls$sqlite %>% group_by(b) %>% select(a)
   expect_equal(tbl_vars(first), c("b", "a"))
 })
+
+test_that("rename handles grouped data (#640)", {
+  res <- data_frame(a = 1, b = 2) %>% group_by(a) %>% rename(c = b)
+  expect_equal(names(res), c("a", "c"))
+})
