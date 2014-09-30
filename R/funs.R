@@ -3,7 +3,7 @@
 #' \code{funs} provides a flexible to generate a named list of functions for
 #' input to other functions like \code{colwise}.
 #'
-#' @param calls,... A list of functions specified by:
+#' @param dots,... A list of functions specified by:
 #'
 #'   \itemize{
 #'     \item Their name, \code{"mean"}
@@ -11,7 +11,6 @@
 #'     \item A call to the function with \code{.} as a dummy parameter,
 #'       \code{mean(., na.rm = TRUE)}
 #'   }
-#' @param env The environment in which to evaluate calls.
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))
@@ -21,26 +20,32 @@
 #'
 #' # If you have a function names in a vector, use funs_q
 #' fs <- c("min", "max")
-#' funs_q(fs)
-funs <- function(..., env = parent.frame()) funs_q(dots(...), env)
+#' funs_(fs)
+funs <- function(...) funs_(lazyeval::lazy_dots(...))
 
 #' @export
 #' @rdname funs
-funs_q <- function(calls, env = parent.frame()) {
-  names(calls) <- names2(calls)
+funs_ <- function(dots) {
+  dots <- lazyeval::as.lazy_dots(dots)
+  env <- lazyeval::common_env(dots)
 
-  calls[] <- lapply(calls, make_call)
+  names(dots) <- names2(dots)
 
-  missing_names <- names(calls) == ""
-  default_names <- vapply(calls[missing_names], make_name, character(1))
-  names(calls)[missing_names] <- default_names
+  dots[] <- lapply(dots, function(x) {
+    x$expr <- make_call(x$expr)
+    x
+  })
 
-  class(calls) <- "fun_list"
-  attr(calls, "env") <- env
-  calls
+  missing_names <- names(dots) == ""
+  default_names <- vapply(dots[missing_names], function(x) make_name(x$expr),
+    character(1))
+  names(dots)[missing_names] <- default_names
+
+  class(dots) <- c("fun_list", "lazy_dots")
+  dots
 }
 
-is.fun_calls <- function(x, env) inherits(x, "fun_list")
+is.fun_list <- function(x, env) inherits(x, "fun_list")
 
 as.fun_list <- function(x, env) UseMethod("as.fun_list")
 #' @export
@@ -48,7 +53,7 @@ as.fun_list.fun_list <- function(x, env) x
 #' @export
 as.fun_list.character <- function(x, env) {
   parsed <- lapply(x, function(x) parse(text = x)[[1]])
-  funs_q(parsed, env)
+  funs_(parsed, env)
 }
 
 #' @export
@@ -56,8 +61,9 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("<fun_calls>\n")
   names <- format(names(x))
 
-  code <- vapply(x, deparse_trunc, width = width - 2 - nchar(names[1]),
-    character(1))
+  code <- vapply(x, function(x) {
+    deparse_trunc(x$expr, width - 2 - nchar(names[1]))
+  }, character(1))
 
   cat(paste0("$ ", names, ": ", code, collapse = "\n"))
   cat("\n")
@@ -74,7 +80,7 @@ make_call <- function(x) {
     stop("Unknown inputs")
   }
 }
-make_name <- function(x, env) {
+make_name <- function(x) {
   if (is.character(x)) {
     x
   } else if (is.name(x)) {
