@@ -97,15 +97,14 @@ namespace dplyr {
                 switch( TYPEOF( head ) ){
                 case LANGSXP:
                     if( CAR(head) == Rf_install("order_by") ) break ;
-                    if( CAR(head) == Rf_install("::") ) break ;
-                    if( CAR(head) == Rf_install(":::") ) break ;
                     if( CAR(head) == Rf_install("function") ) break ;
                     if( CAR(head) == Rf_install("local") ) return ;
                     if( CAR(head) == Rf_install("<-") ){
                         stop( "assignments are forbidden" ) ;
                     }
                     if( Rf_length(head) == 3 ){
-                        if( CAR(head) == R_DollarSymbol || CAR(head) == Rf_install("@") ){
+                        SEXP symb = CAR(head) ;
+                        if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ){
                             // for things like : foo( bar = bling )$bla
                             // so that `foo( bar = bling )` gets processed
                             if( TYPEOF(CADR(head)) == LANGSXP ){
