@@ -230,6 +230,7 @@ namespace dplyr{
                     default:
                         break ;
                     }
+                    break ;
                 }
             case INTSXP:
                 {
