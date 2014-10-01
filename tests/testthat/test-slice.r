@@ -49,3 +49,15 @@ test_that("slice works with grouped data", {
   expect_equal(res,exp)
   
 })
+
+test_that("slice gives correct rows (#649)", {
+  a <- data_frame(value = paste0("row", 1:10))
+  expect_equal( slice(a, 1:3)$value, paste0("row", 1:3) )
+  expect_equal( slice(a, c(4, 6, 9))$value, paste0("row", c(4,6,9)))
+  
+  a <- data_frame(value = paste0("row", 1:10), group = rep(1:2, each = 5)) %>% group_by(group)
+  
+  expect_equal( slice(a, 1:3)$value, paste0("row", c(1:3,6:8) ) )
+  expect_equal( slice(a, c(2,4))$value, paste0("row", c(2,4,7,9)))
+})
+

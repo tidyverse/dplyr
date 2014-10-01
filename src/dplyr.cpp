@@ -1589,7 +1589,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
     int nr = df.nrows() ;
 
     IntegerVector test = check_filter_integer_result(proxy.eval()) ;
-
+    
     int n = test.size() ;
 
     // count the positive and negatives
@@ -1602,7 +1602,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
         int j=0 ;
         for( int i=0; i<n_pos; i++){
             while( test[j] > nr ) j++ ;
-            idx[i] = test[j] - 1 ;
+            idx[i] = test[j++] - 1 ;
         }
 
         return subset( df, idx, df.names(), classes_not_grouped() ) ;
