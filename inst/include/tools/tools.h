@@ -3,6 +3,7 @@
 
 #include <tools/Encoding.h>
 #include <tools/StringUTF8.h>
+#include <tools/complex.h>
 #include <tools/DotsOf.h>
 #include <tools/Call.h>
 #include <tools/hash.h>
