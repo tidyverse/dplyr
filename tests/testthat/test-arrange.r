@@ -125,3 +125,22 @@ test_that("arrange keeps the grouping structure (#605)", {
   expect_equal(attr(res,"indices"), list( c(0,1), c(2,3)) )
 })
 
+test_that("arrange handles complex vectors", {
+  d <- data.frame(x=1:10,y=10:1+2i)
+  res <- arrange(d,y)
+  expect_equal( res$y, rev(d$y) )
+  expect_equal( res$x, rev(d$x) )
+  
+  res <- arrange(res, desc(y))
+  expect_equal( res$y, d$y )
+  expect_equal( res$x, d$x )
+  
+  d$y[ c(3,6) ] <- NA
+  res <- arrange(d,y)
+  expect_true( all(is.na(res$y[9:10])) )
+  
+  res <- arrange(d,desc(y))
+  expect_true( all(is.na(res$y[9:10])) )
+  
+})
+

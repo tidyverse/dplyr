@@ -111,7 +111,7 @@ namespace dplyr {
             if (is_na(lhs)) return false;
             if (is_na(rhs)) return true;
             
-            return lhs.r > rhs.r || ( lhs.r == rhs.r && lhs.i > rhs.i ) ; 
+            return ! ( lhs.r < rhs.r || ( lhs.r == rhs.r && lhs.i <= rhs.i ) );
         }
         
         inline bool equal_or_both_na( Rcomplex lhs, Rcomplex rhs ) const {

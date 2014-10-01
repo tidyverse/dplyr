@@ -63,6 +63,7 @@ namespace dplyr {
                 case REALSXP: return new OrderVectorVisitorImpl<REALSXP, true, Vector<REALSXP> >( vec ) ;
                 case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , true, Vector<LGLSXP > >( vec ) ;
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , true, Vector<STRSXP > >( vec ) ;
+                case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , true, Vector<CPLXSXP > >( vec ) ;
                 default: break ;
             }
         } else { 
@@ -71,6 +72,7 @@ namespace dplyr {
                 case REALSXP: return new OrderVectorVisitorImpl<REALSXP, false, Vector<REALSXP> >( vec ) ;
                 case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , false, Vector<LGLSXP > >( vec ) ;
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , false, Vector<STRSXP > >( vec ) ;
+                case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , false, Vector<CPLXSXP > >( vec ) ;
                 default: break ;
             }
         }
