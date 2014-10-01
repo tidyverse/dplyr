@@ -233,3 +233,13 @@ test_that("left_join by different variable names (#617)",{
   expect_equal(res$y2, c("foo", "bar", "foo"))
 })
 
+test_that("joins support comple vectors" ,{
+  a <- data.frame(x = c(1, 1, 2, 3)*1i, y = 1:4)
+  b <- data.frame(x = c(1, 2, 2, 4)*1i, z = 1:4)
+  j <- inner_join(a, b, "x")
+
+  expect_equal(names(j), c("x", "y", "z"))
+  expect_equal(j$y, c(1, 2, 3, 3))
+  expect_equal(j$z, c(1, 1, 2, 3))
+})
+
