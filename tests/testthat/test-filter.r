@@ -191,3 +191,9 @@ X
   expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")), "has unsupported type")
 })
 
+test_that( "filter handles complex vectors (#436)", {
+  d <- data.frame(x=1:10, y=1:10+2i)
+  expect_equal(filter(d, x<4)$y, 1:3+2i)
+  expect_equal(filter(d, Re(y)<4)$y, 1:3+2i)
+})
+

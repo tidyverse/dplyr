@@ -97,6 +97,33 @@ namespace dplyr {
         
     } ;
 
+    template <>
+    struct comparisons<CPLXSXP> {
+        
+        inline bool is_less(Rcomplex lhs, Rcomplex rhs) const {
+            if (is_na(lhs)) return false;
+            if (is_na(rhs)) return true;
+            
+            return lhs.r < rhs.r || ( lhs.r == rhs.r && lhs.i < rhs.i ) ;   
+        }
+        
+        inline bool is_greater(Rcomplex lhs, Rcomplex rhs) const {
+            if (is_na(lhs)) return false;
+            if (is_na(rhs)) return true;
+            
+            return lhs.r > rhs.r || ( lhs.r == rhs.r && lhs.i > rhs.i ) ; 
+        }
+        
+        inline bool equal_or_both_na( Rcomplex lhs, Rcomplex rhs ) const {
+            return lhs.r == rhs.r && lhs.i == rhs.i ;    
+        }
+        
+        inline bool is_na(Rcomplex x) const { 
+            return Rcpp::traits::is_na<CPLXSXP>(x); 
+        }
+        
+    } ;
+
 
 }
 
