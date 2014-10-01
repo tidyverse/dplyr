@@ -26,6 +26,11 @@ namespace dplyr {
     inline std::string vector_class<VECSXP>(){
         return "list" ;    
     }
+    template <>
+    inline std::string vector_class<CPLXSXP>(){
+        return "complex" ;    
+    }
+
 
 }
 

@@ -1,3 +1,9 @@
+# dplyr 0.3.1
+
+## Minor improvements and bug fixes
+
+* `mutate` now handles complex vectors (#436)
+
 # dplyr 0.3
 
 ## New functions
