@@ -11,7 +11,7 @@
 #' }
 #'
 #' @param ... A set of named arguments
-#' @param columns A \code{\link[lazy]{lazy_dots}}.
+#' @param columns A \code{\link[lazyeval]{lazy_dots}}.
 #' @export
 #' @examples
 #' a <- 1:5

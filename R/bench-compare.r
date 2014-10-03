@@ -84,7 +84,7 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
   if (length(tbls) < 2 && is.null(ref)) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
-  if (!require("testthat")) {
+  if (!requireNamespace("testthat", quietly = TRUE)) {
     stop("Please install the testthat package", call. = FALSE)
   }
 
@@ -104,7 +104,7 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
     # if (!ok) browser()
     msg <- paste0(names(rest)[[i]], " not equal to ", ref_name, "\n",
       attr(ok, "comment"))
-    expect_true(ok, info = msg)
+    testthat::expect_true(ok, info = msg)
   }
 
   invisible(TRUE)

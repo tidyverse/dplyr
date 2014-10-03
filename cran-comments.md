@@ -13,6 +13,13 @@ The following notes were generated across my local OS X install and ubuntu runni
   This is used for compatibility with RSQlite 1.0 (not yet on CRAN), and is
   only called if packageVersion("RSQLite") >= 1.
 
+* checking R code for possible problems ... NOTE
+
+  src_mysql: no visible global function definition for ‘MySQL’
+  src_postgres: no visible global function definition for ‘PostgreSQL’
+  
+  These packages currently need to be attached in order to work.
+
 I couldn't check on win-builder because it doesn't have the latest Rcpp and appears to be missing RMySQL.
 
 Important reverse dependency check notes (summary at https://github.com/wch/checkresults/blob/master/dplyr/r-release/00check-summary.txt);

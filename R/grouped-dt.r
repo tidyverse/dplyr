@@ -28,11 +28,11 @@ grouped_dt <- function(data, vars, copy = TRUE) {
   }
 
   if (copy) {
-    data <- copy(data)
+    data <- data.table::copy(data)
   }
-  setkeyv(data, deparse_all(vars))
-  setattr(data, "vars", vars)
-  setattr(data, "class", c("grouped_dt", "tbl_dt", "tbl", class(data)))
+  data.table::setkeyv(data, deparse_all(vars))
+  data.table::setattr(data, "vars", vars)
+  data.table::setattr(data, "class", c("grouped_dt", "tbl_dt", "tbl", class(data)))
   data
 }
 
@@ -73,7 +73,7 @@ group_by_.data.table <- function(.data, ..., .dots, add = FALSE) {
 
 #' @export
 ungroup.grouped_dt <- function(x) {
-  setattr(x, "vars", NULL)
-  setattr(x, "class", setdiff(class(x), "grouped_dt"))
+  data.table::setattr(x, "vars", NULL)
+  data.table::setattr(x, "class", setdiff(class(x), "grouped_dt"))
   x
 }
