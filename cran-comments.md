@@ -1,26 +1,30 @@
-The following notes were generated across my local OS X install, ubuntu running on travis-ci and win builder. Response to NOTEs across three platforms below.
+The following notes were generated across my local OS X install and ubuntu running on travis-ci. Response to NOTEs across three platforms below.
+
+* checking CRAN incoming feasibility ... NOTE
+
+  I changed my email address to hadley@rstudio.com.
 
 * checking dependencies in R code ... NOTE
-  Namespaces in Imports field not imported from:
-  'Lahman' 'hflights' 'magrittr' 'methods'
   
-  I'm resonably certain this is a spurious warning. Lahman and hflights
-  are data packages and hence have nothing to import. Functions from
-  magrittr and methods are used with :: (but during package build 
-  so I don't think the current checks see them)
- 
-Checking all dependencies (summary at https://github.com/wch/checkresults/blob/master/dplyr/r-release/00check-summary.txt), discovered one problem, with the freqweights package). I have corresponded with the maintainer, and he will release a new version once dplyr 0.2 is on CRAN.
+  Namespaces in Imports field not imported from: 'R6'
+  R6 is a build time dependency.
+  
+  Missing or unexported object: ‘RSQLite::initExtension’
+  This is used for compatibility with RSQlite 1.0 (not yet on CRAN), and is
+  only called if packageVersion("RSQLite") >= 1.
 
-Since the previous submission, I have fixed the three reported problems:
+I couldn't check on win-builder because it doesn't have the latest Rcpp and appears to be missing RMySQL.
 
-* Used `packageStartupMessage()` in more places.
+Important reverse dependency check notes (summary at https://github.com/wch/checkresults/blob/master/dplyr/r-release/00check-summary.txt);
 
-* Informed the Rcpp maintainers about 
-  "/home/ripley/R/test-3.2/Rcpp/include/Rcpp/DataFrame.h:55:9: warning: 
-  no return statement in function returning non-void [-Wreturn-type]"
+* COPASutils, freqweights, qdap, simPH: fail for various reasons. All package 
+  authors were informed of the upcoming release and shown R CMD check issues 
+  over a week ago.
 
-* Fixed a NAMESPACE problem.
+* ecoengine: same problem as always on our test machine.
 
-Regards,
+* ggvis: You'll be recieving a submission that fixes these issues very shortly
+  from Winston.
 
-Hadley
+* repra, rPref: uses a deprecated function.
+
