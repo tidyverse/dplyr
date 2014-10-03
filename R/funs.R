@@ -53,7 +53,7 @@ as.fun_list.fun_list <- function(x, env) x
 #' @export
 as.fun_list.character <- function(x, env) {
   parsed <- lapply(x, function(x) parse(text = x)[[1]])
-  funs_(parsed, env)
+  funs_(parsed)
 }
 
 #' @export
