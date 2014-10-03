@@ -11,7 +11,7 @@ data_frame_(columns)
 \arguments{
 \item{...}{A set of named arguments}
 
-\item{columns}{A \code{\link[lazy]{lazy_dots}}.}
+\item{columns}{A \code{\link[lazyeval]{lazy_dots}}.}
 }
 \description{
 A trimmed down version of \code{\link{data.frame}} that:
