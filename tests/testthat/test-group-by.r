@@ -174,5 +174,35 @@ test_that("there can be 0 groups (#486)", {
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(attr(data, "group_sizes"), integer(0))
+})
 
+test_that("group_by works with zero-row data frames (#486)", {
+  dfg <- group_by(data.frame(a = numeric(0), b = numeric(0), g = character(0)), g)
+  expect_equal(dim(dfg), c(0, 3))
+  expect_equal(groups(dfg), list(quote(g)))
+  expect_equal(group_size(dfg), integer(0))
+
+  x <- summarise(dfg, n = n())
+  expect_equal(dim(x), c(0, 2))
+  expect_equal(groups(x), NULL)
+
+  x <- mutate(dfg, c = b + 1)
+  expect_equal(dim(x), c(0, 4))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- filter(dfg, a == 100)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- arrange(dfg, a, g)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- select(dfg, a)  # Only select 'a' column; should result in 'g' and 'a'
+  expect_equal(dim(x), c(0, 2))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
 })
