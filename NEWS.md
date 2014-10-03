@@ -4,6 +4,11 @@
 
 * `mutate` now handles complex vectors (#436)
 
+* More flexible handling of the `order_by` argument in hybrid versions of `first`
+  and `last`. When `order_by` is a symbol, the hybrid version is used, otherwise
+  standard R evaluation is used. This might get further optimized for more cases
+  later (#626)
+
 # dplyr 0.3
 
 ## New functions

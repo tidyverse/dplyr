@@ -403,21 +403,21 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
 
         // handle cases
         if( def == R_NilValue ){
-
-            // then we know order_by is not NULL, we only handle the case where
-            // order_by is a symbol and that symbol is in the data
-            if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
-                stop("invalid order_by") ;
-            }
-            order_by = subsets.get_variable(order_by) ;
-
-            switch( TYPEOF(data) ){
-                case INTSXP: return first_with<INTSXP, With>( data, order_by ) ;
-                case REALSXP: return first_with<REALSXP, With>( data, order_by ) ;
-                case STRSXP: return first_with<STRSXP, With>( data, order_by ) ;
-                default: break ;
-            }
-
+                  
+            // then we know order_by is not NULL
+            if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
+                
+                // the optimized case, when order_by is a variable from the data set
+                order_by = subsets.get_variable(order_by) ;
+                
+                switch( TYPEOF(data) ){
+                    case INTSXP: return first_with<INTSXP, With>( data, order_by ) ;
+                    case REALSXP: return first_with<REALSXP, With>( data, order_by ) ;
+                    case STRSXP: return first_with<STRSXP, With>( data, order_by ) ;
+                    default: break ;
+                }    
+            } 
+            
         } else {
             if( order_by == R_NilValue ){
                 switch( TYPEOF(data) ){
@@ -427,17 +427,17 @@ Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                     default: break ;
                 }
             } else {
-                if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
-                    stop("invalid order_by") ;
-                }
-                order_by = subsets.get_variable(order_by) ;
+                if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
+                    order_by = subsets.get_variable(order_by) ;
 
-                switch( TYPEOF(data) ){
-                    case INTSXP: return first_with_default<INTSXP, With>(data, order_by, def) ;
-                    case REALSXP: return first_with_default<REALSXP,With>(data, order_by, def) ;
-                    case STRSXP: return first_with_default<STRSXP,With>(data, order_by, def) ;
-                    default: break ;
+                    switch( TYPEOF(data) ){
+                        case INTSXP: return first_with_default<INTSXP, With>(data, order_by, def) ;
+                        case REALSXP: return first_with_default<REALSXP,With>(data, order_by, def) ;
+                        case STRSXP: return first_with_default<STRSXP,With>(data, order_by, def) ;
+                        default: break ;
+                    }    
                 }
+                
             }
         }
 
