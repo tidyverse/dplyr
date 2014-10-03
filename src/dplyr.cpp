@@ -269,23 +269,36 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
 Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 2 ) return 0 ;
     Armor<SEXP> data( CADR(call) );
-    int n = as<int>( CADDR(call) );
-    if( TYPEOF(data) == SYMSXP ){
-      if( subsets.count(data) ) data = subsets.get_variable(data) ;
-      else return 0 ;
+    int n = 1 ; 
+    try{ 
+        n = as<int>( CADDR(call) );
+    } catch( ... ){
+        SEXP n_ = CADDR(call); 
+        std::stringstream s ; 
+        s << "could not convert second argument to an integer. type="
+          << type2name(n_)
+          << ", length = "
+          << Rf_length(n_)
+        ;
+        stop(s.str());
     }
-    switch( TYPEOF(data) ){
-        case INTSXP:
-            if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, get_date_classes() ) ;
-            return new Lead<INTSXP>(data, n) ;
-        case REALSXP:
-            if( Rf_inherits(data, "difftime") ) return new DifftimeLead<REALSXP>(data, n ) ;
-            if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, get_time_classes() ) ;
-            if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, get_date_classes() ) ;
-            return new Lead<REALSXP>(data, n) ;
-        case STRSXP: return new Lead<STRSXP>(data, n) ;
-        case LGLSXP: return new Lead<LGLSXP>(data, n) ;
-        default: break ;
+    if( TYPEOF(data) == SYMSXP && subsets.count(data) ) {
+        data = subsets.get_variable(data) ;
+        
+        switch( TYPEOF(data) ){
+            case INTSXP:
+                if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, get_date_classes() ) ;
+                return new Lead<INTSXP>(data, n) ;
+            case REALSXP:
+                if( Rf_inherits(data, "difftime") ) return new DifftimeLead<REALSXP>(data, n ) ;
+                if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, get_time_classes() ) ;
+                if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, get_date_classes() ) ;
+                return new Lead<REALSXP>(data, n) ;
+            case STRSXP: return new Lead<STRSXP>(data, n) ;
+            case LGLSXP: return new Lead<LGLSXP>(data, n) ;
+            default: break ;
+        }
+    
     }
     return 0 ;
 }
@@ -293,7 +306,19 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
 Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 2 ) return 0 ;
     Armor<SEXP> data( CADR(call) );
-    int n = as<int>( CADDR(call) );
+    int n = 1 ; 
+    try{ 
+        n = as<int>( CADDR(call) );
+    } catch( ... ){
+        SEXP n_ = CADDR(call); 
+        std::stringstream s ; 
+        s << "could not convert second argument to an integer. type="
+          << type2name(n_)
+          << ", length = "
+          << Rf_length(n_)
+        ;
+        stop(s.str());
+    }
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
         data = subsets.get_variable(data) ;
           
@@ -679,8 +704,8 @@ HybridHandlerMap& get_handlers(){
         // handlers[ Rf_install( "cumsum")          ] = cumfun_prototype<CumSum> ;
         // handlers[ Rf_install( "cummin")          ] = cumfun_prototype<CumMin> ;
         // handlers[ Rf_install( "cummax")          ] = cumfun_prototype<CumMax> ;
-
-        // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
+                                                       
+        handlers[ Rf_install( "lead" )           ] = lead_prototype ;
         handlers[ Rf_install( "lag" )            ] = lag_prototype ;
 
         handlers[ Rf_install( "first" ) ] = first_prototype<dplyr::First, dplyr::FirstWith> ;
@@ -698,7 +723,7 @@ Result* constant_handler(SEXP constant){
             return new ConstantResult<INTSXP>(constant) ;
         }
     case REALSXP:
-        {
+        {                     
             if( Rf_inherits(constant, "difftime") ) return new DifftimeConstantResult<REALSXP>(constant) ;
             if( Rf_inherits(constant, "POSIXct") ) return new TypedConstantResult<REALSXP>(constant, get_time_classes() ) ;
             if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<REALSXP>(constant, get_date_classes() ) ;

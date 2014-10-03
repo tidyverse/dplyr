@@ -85,6 +85,24 @@ test_that("cum(sum,min,max) works", {
 
 })
 
+test_that( "lead and lag simple hybrid version gives correct results (#133)", {
+  res <- group_by(mtcars, cyl) %>%
+    mutate( disp_lag_2 = lag(disp, 2), disp_lead_2 = lead(disp, 2) ) %>% 
+    summarise( 
+        lag1  = all(is.na(head(disp_lag_2, 2))), 
+        lag2  = all(!is.na(tail(disp_lag_2, -2))),
+        
+        lead1 = all(is.na(tail(disp_lead_2, 2))), 
+        lead2 = all(!is.na(head(disp_lead_2, -2)))
+        
+    )
+  expect_true( all(res$lag1) )
+  expect_true( all(res$lag2) )
+  
+  expect_true( all(res$lead1) )
+  expect_true( all(res$lead2) )
+})
+
 # FIXME: this should only fail if strict checking is on.
 # test_that("window functions fail if db doesn't support windowing", {
 #   df_sqlite <- temp_load(temp_srcs("sqlite"), df)$sql %>% group_by(g)
