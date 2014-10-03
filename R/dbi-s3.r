@@ -309,6 +309,7 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   }
 
   from <- build_sql(
+    'SELECT * FROM ',
     sql_subquery(con, x$query$sql), "\n\n",
     join, " JOIN \n\n" ,
     sql_subquery(con, y$query$sql), "\n\n",
