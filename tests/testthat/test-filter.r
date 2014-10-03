@@ -9,9 +9,9 @@ tbls <- temp_load(srcs, df)
 
 test_that("filter results independent of data tbl (simple)", {
   expected <- df[df$a > 6, , drop = FALSE]
-  eval_tbls(tbls[c("df","postgres")], function(x) {
+  compare_tbls(tbls[c("df","sqlite")], function(x) {
     filter_(x, ~ a > 6)
-  })
+  }, expected)
 })
 
 test_that("filter captures local variables", {
