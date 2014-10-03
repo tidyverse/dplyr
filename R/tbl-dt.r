@@ -76,7 +76,7 @@ as.tbl.data.table <- function(x, ...) {
 }
 
 #' @export
-tbl_vars.tbl_dt <- function(x) copy(names(x))
+tbl_vars.tbl_dt <- function(x) data.table::copy(names(x))
 
 #' @export
 groups.tbl_dt <- function(x) {
@@ -113,7 +113,7 @@ print.tbl_dt <- function(x, ..., n = NULL, width = NULL) {
 }
 
 #' @export
-dimnames.tbl_dt <- function(x) copy(NextMethod())
+dimnames.tbl_dt <- function(x) data.table::copy(NextMethod())
 
 #' @export
 head.tbl_dt <- function(x, ...) as.data.frame(NextMethod())

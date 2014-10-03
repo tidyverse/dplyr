@@ -18,7 +18,7 @@
 #' summarise(monthly, n = n(), delay = mean(arr_delay))
 #' }
 grouped_dt <- function(data, vars, copy = TRUE) {
-  stopifnot(is.data.table(data))
+  stopifnot(data.table::is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
 
   is_name <- vapply(vars, is.name, logical(1))
