@@ -340,16 +340,20 @@ test_that( "hybrid eval handles $ and @ (#645)", {
 test_that( "argument order_by in last is flexible enough to handle more than just a symbol (#626)", {
   res1 <- summarize(group_by(mtcars,cyl),
     big=last(mpg[drat>3],order_by=wt[drat>3]), 
-    small=first(mpg[drat>3],order_by=wt[drat>3])
+    small=first(mpg[drat>3],order_by=wt[drat>3]), 
+    second=nth(mpg[drat>3],2,order_by=wt[drat>3])
   )
   
   # turning off lazy eval
   last. <- last
   first. <- first
+  nth. <- nth
   res2 <- summarize(group_by(mtcars,cyl),
     big=last.(mpg[drat>3],order_by=wt[drat>3]), 
-    small=first.(mpg[drat>3],order_by=wt[drat>3])
+    small=first.(mpg[drat>3],order_by=wt[drat>3]), 
+    second=nth.(mpg[drat>3],2,order_by=wt[drat>3])
   )
   expect_equal(res1, res2)
   
 })
+

@@ -583,28 +583,28 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
 
             // then we know order_by is not NULL, we only handle the case where
             // order_by is a symbol and that symbol is in the data
-            if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
-                stop("invalid order_by") ;
-            }
-            order_by = subsets.get_variable(order_by) ;
+            if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
+                order_by = subsets.get_variable(order_by) ;
 
-            switch( TYPEOF(data) ){
-                case LGLSXP: return nth_with<LGLSXP>( data, idx, order_by ) ;
-                case INTSXP:
-                    {
-                        if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "factor" ) )
-                            return nth_with__typed<INTSXP>( data, idx, order_by ) ;
-                        return nth_with<INTSXP>( data, idx, order_by ) ;
-                    }
-                case REALSXP:
-                    {
-                        if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime") )
-                            return nth_with__typed<REALSXP>( data, idx, order_by ) ;
-                        return nth_with<REALSXP>( data, idx, order_by ) ;
-                    }
-                case STRSXP: return nth_with<STRSXP>( data, idx, order_by ) ;
-                default: break ;
+                switch( TYPEOF(data) ){
+                    case LGLSXP: return nth_with<LGLSXP>( data, idx, order_by ) ;
+                    case INTSXP:
+                        {
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "factor" ) )
+                                return nth_with__typed<INTSXP>( data, idx, order_by ) ;
+                            return nth_with<INTSXP>( data, idx, order_by ) ;
+                        }
+                    case REALSXP:
+                        {
+                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime") )
+                                return nth_with__typed<REALSXP>( data, idx, order_by ) ;
+                            return nth_with<REALSXP>( data, idx, order_by ) ;
+                        }
+                    case STRSXP: return nth_with<STRSXP>( data, idx, order_by ) ;
+                    default: break ;
+                }    
             }
+            
 
         } else {
             if( order_by == R_NilValue ){
@@ -626,26 +626,26 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                     default: break ;
                 }
             } else {
-                if( TYPEOF(order_by) != SYMSXP || ! subsets.count(order_by) ){
-                    stop("invalid order_by") ;
-                }
-                order_by = subsets.get_variable(order_by) ;
+                if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
+                    order_by = subsets.get_variable(order_by) ;
 
-                switch( TYPEOF(data) ){
-                    case LGLSXP: return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
-                    case INTSXP: {
-                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "POSIXct" ) )
-                                return nth_with_default__typed<INTSXP>( data, idx, order_by, def ) ;
-                            return nth_with_default<INTSXP>(data, idx, order_by, def) ;
-                    }
-                    case REALSXP: {
-                            if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime" ) )
-                                return nth_with_default__typed<REALSXP>( data, idx, order_by, def ) ;
-                            return nth_with_default<REALSXP>(data, idx, order_by, def) ;
-                    }
-                    case STRSXP: return nth_with_default<STRSXP>(data, idx, order_by, def) ;
-                    default: break ;
+                    switch( TYPEOF(data) ){
+                        case LGLSXP: return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
+                        case INTSXP: {
+                                if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits( data, "POSIXct" ) )
+                                    return nth_with_default__typed<INTSXP>( data, idx, order_by, def ) ;
+                                return nth_with_default<INTSXP>(data, idx, order_by, def) ;
+                        }
+                        case REALSXP: {
+                                if( Rf_inherits( data, "Date" ) || Rf_inherits( data, "POSIXct" ) || Rf_inherits(data, "difftime" ) )
+                                    return nth_with_default__typed<REALSXP>( data, idx, order_by, def ) ;
+                                return nth_with_default<REALSXP>(data, idx, order_by, def) ;
+                        }
+                        case STRSXP: return nth_with_default<STRSXP>(data, idx, order_by, def) ;
+                        default: break ;
+                    }     
                 }
+                
             }
         }
 
