@@ -1,3 +1,16 @@
+This is a resubmission. Compare to the previous submission I have:
+
+* Fixed many of the missing namespaces, but note:
+
+  src_mysql: no visible global function definition for ‘MySQL’
+  src_postgres: no visible global function definition for ‘PostgreSQL’
+  
+  These packages currently need to be attached in order to work.
+
+* Fixed a spurious test failure when postgresql was not available.
+
+--------------------------------------------------------------------------------
+
 The following notes were generated across my local OS X install and ubuntu running on travis-ci. Response to NOTEs across three platforms below.
 
 * checking CRAN incoming feasibility ... NOTE
