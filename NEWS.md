@@ -1,5 +1,10 @@
 # dplyr 0.3.1
 
+## not sure where these belong
+
+* Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
+  for now, i.e. `lag(x, 2)`. All other forms still fall back to R version. 
+
 ## Minor improvements and bug fixes
 
 * `mutate` now handles complex vectors (#436)
