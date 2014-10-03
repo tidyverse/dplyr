@@ -7,7 +7,7 @@ dt_env <- function(dt, env) {
 }
 
 dt_col_compute <- function(dt, call, env = parent.frame()) {
-  stopifnot(is.data.table(dt), is.call(call), is.environment(env))
+  stopifnot(data.table::is.data.table(dt), is.call(call), is.environment(env))
   env <- dt_env(dt, env)
 
   wrapper <- substitute(dt[, call], list(call = call))
