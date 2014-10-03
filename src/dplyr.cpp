@@ -294,21 +294,22 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 2 ) return 0 ;
     Armor<SEXP> data( CADR(call) );
     int n = as<int>( CADDR(call) );
-    if( TYPEOF(data) == SYMSXP ){
-      if( subsets.count(data) ) data = subsets.get_variable(data) ;
-      else return 0 ;
-    }
-    switch( TYPEOF(data) ){
-        case INTSXP:
-            if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, get_date_classes() ) ;
-            return new Lag<INTSXP>(data, n) ;
-        case REALSXP:
-            if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, get_time_classes() ) ;
-            if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, get_date_classes() ) ;
-            return new Lag<REALSXP>(data, n) ;
-        case STRSXP: return new Lag<STRSXP>(data, n) ;
-        case LGLSXP: return new Lag<LGLSXP>(data, n) ;
-        default: break ;
+    if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
+        data = subsets.get_variable(data) ;
+          
+        switch( TYPEOF(data) ){
+            case INTSXP:
+                if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, get_date_classes() ) ;
+                return new Lag<INTSXP>(data, n) ;
+            case REALSXP:
+                if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, get_time_classes() ) ;
+                if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, get_date_classes() ) ;
+                return new Lag<REALSXP>(data, n) ;
+            case STRSXP: return new Lag<STRSXP>(data, n) ;
+            case LGLSXP: return new Lag<LGLSXP>(data, n) ;
+            default: break ;
+        }
+    
     }
     return 0 ;
 }
@@ -534,7 +535,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
         stop("'n' should be a scalar integer") ;
     }
     int idx = as<int>(nidx) ;
-
+                    
     // easy case : just a single variable: first(x,n)
     if( nargs == 2 ){
         switch( TYPEOF(data) ){
@@ -680,7 +681,7 @@ HybridHandlerMap& get_handlers(){
         // handlers[ Rf_install( "cummax")          ] = cumfun_prototype<CumMax> ;
 
         // handlers[ Rf_install( "lead" )           ] = lead_prototype ;
-        // handlers[ Rf_install( "lag" )            ] = lag_prototype ;
+        handlers[ Rf_install( "lag" )            ] = lag_prototype ;
 
         handlers[ Rf_install( "first" ) ] = first_prototype<dplyr::First, dplyr::FirstWith> ;
         handlers[ Rf_install( "last" ) ]  = first_prototype<dplyr::Last, dplyr::LastWith> ;
