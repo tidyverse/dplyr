@@ -5,6 +5,10 @@
 * Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
   for now, i.e. `lag(x, 2)`. All other forms still fall back to R version. 
 
+## New functions
+
+* `right_join()` for right joins (#96). 
+
 ## Minor improvements and bug fixes
 
 * `mutate` now handles complex vectors (#436)
