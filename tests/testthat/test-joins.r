@@ -255,3 +255,16 @@ test_that("joins suffix variable names (#655)" ,{
   
 })
 
+test_that("right_join gets the column in the right order #96", {
+  a <- data.frame(x=1:10,y=2:11)
+  b <- data.frame(x=5:14,z=3:12)
+  res <- right_join(a,b)
+  expect_equal(names(res), c("x", "y", "z"))
+  
+  a <- data.frame(x=1:10,y=2:11)
+  b <- data.frame(z=5:14,a=3:12)
+  res <- right_join(a,b, by= c("x"="z"))
+  expect_equal(names(res), c("x", "y", "a"))
+  
+})
+
