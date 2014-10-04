@@ -7,7 +7,7 @@
 
 ## New functions
 
-* `right_join()` for right joins (#96). 
+* `right_join()` and `outer_join()` ... (#96).  
 
 ## Minor improvements and bug fixes
 

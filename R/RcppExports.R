@@ -79,6 +79,10 @@ right_join_impl <- function(x, y, by_x, by_y) {
     .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
+outer_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_outer_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+}
+
 shallow_copy <- function(data) {
     .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }

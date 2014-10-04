@@ -1022,7 +1022,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
     DataFrameJoinVisitors visitors(x, y, by_x, by_y) ;
     Map map(visitors);
 
-    // train the map in terms of y
+    // train the map in terms of x
     train_push_back( map, x.nrows() ) ;
 
     std::vector<int> indices_x ;
@@ -1040,6 +1040,50 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
             indices_y.push_back(i) ;
         }
     }
+    return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
+}
+
+// [[Rcpp::export]]
+DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
+    typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
+    DataFrameJoinVisitors visitors(y, x, by_y, by_x) ;
+    Map map(visitors);
+
+    // train the map in terms of y
+    train_push_back( map, y.nrows() ) ;
+
+    std::vector<int> indices_x ;
+    std::vector<int> indices_y ;
+
+    int n_x = x.nrows(), n_y = y.nrows() ;
+    
+    // get both the matches and the rows from left but not right
+    for( int i=0; i<n_x; i++){
+        // find a row in y that matches row i in x
+        Map::iterator it = map.find(-i-1) ;
+        if( it != map.end() ){
+            push_back( indices_y,    it->second ) ;
+            push_back( indices_x, i, it->second.size() ) ;
+        } else {
+            indices_y.push_back(-1) ; // mark NA
+            indices_x.push_back(i) ;
+        }
+    }
+    
+    // train a new map in terms of x this time
+    DataFrameJoinVisitors visitors2(x,y,by_x,by_y) ;
+    Map map2(visitors2);
+    train_push_back( map2, x.nrows() ) ;
+
+    for( int i=0; i<n_y; i++){
+        // try to find row in x that matches this row of y
+        Map::iterator it = map2.find(-i-1) ;
+        if( it == map2.end() ){
+            indices_x.push_back(-i-1) ;
+            indices_y.push_back(i) ; 
+        }
+    }
+    
     return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
 }
 

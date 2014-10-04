@@ -265,6 +265,24 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// outer_join_impl
+DataFrame outer_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
+RcppExport SEXP dplyr_outer_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP );
+        Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP );
+        Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP );
+        DataFrame __result = outer_join_impl(x, y, by_x, by_y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // shallow_copy
 SEXP shallow_copy(const List& data);
 RcppExport SEXP dplyr_shallow_copy(SEXP dataSEXP) {
