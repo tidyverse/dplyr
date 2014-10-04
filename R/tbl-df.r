@@ -126,9 +126,12 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
     x <- lapply(x, `[`, i)
   }
 
-  # TODO: handle 0 column case
   class(x) <- c("tbl_df", "data.frame")
-  attr(x, "row.names") <- .set_row_names(length(x[[1]]))
+  attr(x, "row.names") <- if(length(x)){
+    .set_row_names(length(x[[1]]))
+  } else {
+    c(NA_integer_,0)  
+  }
   x
 }
 
