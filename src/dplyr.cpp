@@ -848,7 +848,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
         // we suffix by .y if this column is in x_columns
 
-        if( std::find(x_columns.begin(), x_columns.end(), col_name.get_sexp()) != x_columns.end() ){
+        if( std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end() ){
             col_name += ".y" ;
         }
 

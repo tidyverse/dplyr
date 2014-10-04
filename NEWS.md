@@ -14,6 +14,8 @@
   otherwise standard R evaluation is used. This might get further optimized for 
   more cases later (#626)
 
+* Better naming of columns in joins (#655).   
+  
 # dplyr 0.3
 
 ## New functions
