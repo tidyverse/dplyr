@@ -47,19 +47,22 @@ join_dt <- function(op) {
     # Accept different names
     # In future versions, the command copy below may be replaced by shallow copies.
     
+    # first check no duplicates (not accepted in merge.data.table)
+     if (any(duplicated(names(x)))) stop("x has some duplicated column name(s): ",paste(names(x)[duplicated(names(x))],collapse=","),". Please remove or rename the duplicate(s) and try again.")
+    if (any(duplicated(names(y)))) stop("y has some duplicated column name(s): ",paste(names(y)[duplicated(names(y))],collapse=","),". Please remove or rename the duplicate(s) and try again.")
     # first output error if there are variables in y-by$y with the same name than variables in by$x 
     # This behavior is different from dplyr behavior for data.frame that does not output error
     # Needed because merge.data.table does not accept names duplicates in master/using data.tables
     names_byx_y <- intersect(by$x, setdiff(names(y), by$y))
-    if (length(names_byx_y) >0) stop(paste(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y"))
+    if (length(names_byx_y) >0) stop(paste(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y and try again"))
     if (!identical(by$x,by$y)){
       y <- copy(y)
       data.table::setnames(y, by$y, by$x)
     }
     # Rename duplicates in non joined variables
     common_names <- setdiff(intersect(names(x), names(y)), by$x)
-    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"))
-    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"))
+    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x to", common_names,"creates duplicate(s). Please remove or rename the duplicate(s) and try again."))
+    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y to", common_names,"creates duplicate(s). Please remove or rename the duplicate(s) and try again."))
 
     if (length(common_names)>0){
       x <- copy(x)
