@@ -30,7 +30,7 @@
 NULL
 
 join_dt <- function(op) {
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {
     by <- common_by(by, x, y)
     if (!identical(by$x, by$y)) {
       stop("Data table joins must be on same key", call. = FALSE)
