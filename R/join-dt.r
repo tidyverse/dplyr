@@ -58,6 +58,9 @@ join_dt <- function(op) {
     }
     # Rename duplicates in non joined variables
     common_names <- setdiff(intersect(names(x), names(y)), by$x)
+    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"))
+    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"))
+
     if (length(common_names)>0){
       x <- copy(x)
       y <- copy(y)
