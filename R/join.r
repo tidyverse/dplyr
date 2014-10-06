@@ -1,97 +1,113 @@
-#' Join data table tbls.
+#' Join two tbls together.
 #'
-#' See \code{\link{join}} for a description of the general purpose of the
-#' functions.
+#' These are generic functions that dispatch to individual tbl methods - see the
+#' method documentation for details of individual data sources. \code{x} and
+#' \code{y} should usually be from the same data source, but if \code{copy} is
+#' \code{TRUE}, \code{y} will automatically be copied to the same source as
+#' \code{x} - this may be an expensive operation.
 #'
-#' @inheritParams join
-#' @param x,y tbls to join
-#' @param ... Included for compatibility with generic; otherwise ignored.
-#' @examples
-#' if (require("data.table") && require("Lahman")) {
-#' batting_dt <- tbl_dt(Batting)
-#' person_dt <- tbl_dt(Master)
+#' @section Join types:
 #'
-#' # Inner join: match batting and person data
-#' inner_join(batting_dt, person_dt)
+#' Currently dplyr supports four join types:
 #'
-#' # Left join: keep batting data even if person missing
-#' left_join(batting_dt, person_dt)
+#' \describe{
+#'    \item{\code{inner_join}}{return all rows from x where there are matching
+#'    values in y, and all columns from x and y. If there are multiple matches
+#'    between x and y, all combination of the matches are returned.}
 #'
-#' # Semi-join: find batting data for top 4 teams, 2010:2012
-#' grid <- expand.grid(
-#'   teamID = c("WAS", "ATL", "PHI", "NYA"),
-#'   yearID = 2010:2012)
-#' top4 <- semi_join(batting_dt, grid, copy = TRUE)
+#'    \item{\code{left_join}}{return all rows from x, and all columns from x
+#'    and y. If there are multiple matches between x and y, all combination of
+#'    the matches are returned.}
 #'
-#' # Anti-join: find batting data with out player data
-#' anti_join(batting_dt, person_dt)
+#'    \item{\code{semi_join}}{return all rows from x where there are matching
+#'    values in y, keeping just columns from x.
+#'
+#'    A semi join differs from an inner join because an inner join will return
+#'    one row of \code{x} for each matching row  of \code{y}, where a semi
+#'    join will never duplicate rows of \code{x}.}
+#'
+#'    \item{\code{anti_join}}{return all rows from x where there are not
+#'    matching values in y, keeping just columns from x}
 #' }
-#' @name join.tbl_dt
+#'
+#' @section Grouping:
+#'
+#' Groups are ignored for the purpose of joining, but the result preserves
+#' the grouping of \code{x}.
+#'
+#' @param x,y tbls to join
+#' @param by a character vector of variables to join by.  If \code{NULL}, the
+#'   default, \code{join} will do a natural join, using all variables with
+#'   common names across the two tables. A message lists the variables so
+#'   that you can check they're right.
+#'
+#'   To join by different variables on x and y use a named vector.
+#'   For example, \code{by = c("a" = "b")} will match \code{x.a} to
+#'   \code{y.b}.
+#'
+#' @param copy If \code{x} and \code{y} are not from the same data source,
+#'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
+#'   same src as \code{x}.  This allows you to join tables across srcs, but
+#'   it is a potentially expensive operation so you must opt into it.
+#' @param ... other parameters passed onto methods
+#' @name join
 NULL
 
-join_dt <- function(op) {
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {
-    by <- common_by(by, x, y)
-    
-    y <- auto_copy(x, y, copy = copy)
-    if (!identical(data.table::key(x),by$x)){
-      if (!setkey) x <- copy(x)
-      data.table::setkeyv(x, by$x)
-    }
-    if (!identical(data:table::key(y),by$y)){
-      if (!setkey) y <- copy(y)
-      data.table::setkeyv(y, by$y)
-    }
-    
-
-    # Accept different names
-    # In future versions, the command copy below may be replaced by shallow copies.
-    
-    # first rename variables in y-by$y with the same name than variables in by$x 
-    # This behavior is different from dplyr behavior for data.frame. 
-    # Needed because merge.data.table does not accept names duplicates in master/using data.tables
-    names_byx_y <- intersect(by$x, setdiff(names(y), by$y))
-    if (length(names_byx_y)>0){
-      y <- copy(y)
-      data.table::setnames(y, names_byx_y, paste0(names_byx_y,".y"))
-      data.table::setnames(y, by$y , by$x)
-    }
-    
-    # then rename duplicates in non joined variables
-    common_names <- setdiff(intersect(names(x), names(y)), by$x)
-    if (length(common_names)>0){
-      x <- copy(x)
-      y <- copy(y)
-      data.table::setnames(x, common_names, paste0(common_names, ".x"))
-      data.table::setnames(y, common_names, paste0(common_names, ".y")) 
-    }
-    
-    out <- op
-    grouped_dt(out, groups(x))
-  })
-
-  f <- eval(template, parent.frame())
-  attr(f, "srcref") <- NULL # fix so prints correctly
-  f
+#' @rdname join
+#' @export
+inner_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("inner_join")
 }
 
+#' @rdname join
 #' @export
-#' @rdname join.tbl_dt
-inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))
+left_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("left_join")
+}
 
+#' @rdname join
 #' @export
-#' @rdname join.tbl_dt
-left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))
+semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("semi_join")
+}
 
+#' @rdname join
 #' @export
-#' @rdname join.tbl_dt
-semi_join.data.table  <- join_dt({
-  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table
-  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
-  w <- w[!is.na(w)]
-  x[w]
-})
+anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("anti_join")
+}
 
-#' @export
-#' @rdname join.tbl_dt
-anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
+common_by <- function(by = NULL, x, y) {
+  if (!is.null(by)) {
+    return(list(
+      x = names(by) %||% by,
+      y = unname(by)
+    ))
+  }
+
+  by <- intersect(tbl_vars(x), tbl_vars(y))
+  if (length(by) == 0) {
+    stop("No common variables. Please specify `by` param.", call. = FALSE)
+  }
+  message("Joining by: ", capture.output(dput(by)))
+
+  list(
+    x = by,
+    y = by
+  )
+}
+
+unique_names <- function(x_names, y_names, by, x_suffix = ".x", y_suffix = ".y") {
+  common <- setdiff(intersect(x_names, y_names), by)
+  if (length(common) == 0) return(NULL)
+
+  x_match <- match(common, x_names)
+  x_new <- x_names
+  x_new[x_match] <- paste0(x_names[x_match], x_suffix)
+
+  y_match <- match(common, y_names)
+  y_new <- y_names
+  y_new[y_match] <- paste0(y_names[y_match], y_suffix)
+
+  list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
+}
