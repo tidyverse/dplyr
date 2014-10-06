@@ -32,8 +32,6 @@ NULL
 join_dt <- function(op) {
   template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {
     by <- common_by(by, x, y)
-    names_x <- names(x)
-    names_y <- names(y)
     
     y <- auto_copy(x, y, copy = copy)
     if (!identical(data.table::key(x),by$x)){
@@ -52,7 +50,7 @@ join_dt <- function(op) {
     # first rename variables in y-by$y with the same name than variables in by$x 
     # This behavior is different from dplyr behavior for data.frame. 
     # Needed because merge.data.table does not accept names duplicates in master/using data.tables
-    names_byx_y <- intersect(by$x, setdiff(names_y, by$y))
+    names_byx_y <- intersect(by$x, setdiff(names(y), by$y))
     if (length(names_byx_y)>0){
       y <- copy(y)
       data.table::setnames(y, names_byx_y, paste0(names_byx_y,".y"))
@@ -60,7 +58,7 @@ join_dt <- function(op) {
     }
     
     # then rename duplicates in non joined variables
-    common_names <- setdiff(intersect(names_x, names(y)), by$x)
+    common_names <- setdiff(intersect(names(x), names(y)), by$x)
     if (length(common_names)>0){
       x <- copy(x)
       y <- copy(y)
