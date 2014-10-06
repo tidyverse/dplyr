@@ -51,8 +51,8 @@ join_dt <- function(op) {
     # This behavior is different from dplyr behavior for data.frame that does not output error
     # Needed because merge.data.table does not accept names duplicates in master/using data.tables
     names_byx_y <- intersect(by$x, setdiff(names(y), by$y))
-    if (length(names_byx_y) >0) stop(paste0(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y")
-    if !identical(by.x,by.y){
+    if (length(names_byx_y) >0) stop(paste(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y"))
+    if (!identical(by$x,by$y)){
       y <- copy(y)
       data.table::setnames(y, by$y, by$x)
     }
