@@ -36,11 +36,11 @@ join_dt <- function(op) {
       stop("Data table joins must be on same key", call. = FALSE)
     }
     y <- auto_copy(x, y, copy = copy)
-    if !identical(data.table::key(x),by$x)){
+    if (!identical(data.table::key(x),by$x)){
       if (!setkey) x <- copy(x)
       data.table::setkeyv(x, by$x)
     }
-    if !identical(data:table::key(y),by$y)){
+    if (!identical(data:table::key(y),by$y)){
       if (!setkey) y <- copy(y)
       data.table::setkeyv(y, by$y)
     }
