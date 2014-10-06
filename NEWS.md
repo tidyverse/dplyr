@@ -1,6 +1,6 @@
 # dplyr 0.3.0.1
 
-* Fixed problem with test script on Windows
+* Fixed problem with test script on Windows.
 
 # dplyr 0.3
 
