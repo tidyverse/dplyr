@@ -45,9 +45,13 @@ join_dt <- function(op) {
       data.table::setkeyv(y, by$y)
     }
     
-    # different from dplyr behavior for data.frame. 
-    # Needed because merge.data.table does not accept names duplicates in y
-    # In future versions, copy belows may be replaced by a shallow copy
+
+    # Accept different names
+    # In future versions, the command copy below may be replaced by shallow copies.
+    
+    # first rename variables in y-by$y with the same name than variables in by$x 
+    # This behavior is different from dplyr behavior for data.frame. 
+    # Needed because merge.data.table does not accept names duplicates in master/using data.tables
     names_byx_y <- intersect(by$x, setdiff(names_y, by$y))
     if (length(names_byx_y)>0){
       y <- copy(y)
@@ -55,6 +59,7 @@ join_dt <- function(op) {
       data.table::setnames(y, by$y , by$x)
     }
     
+    # then rename duplicates in non joined variables
     common_names <- setdiff(intersect(names_x, names(y)), by$x)
     if (length(common_names)>0){
       x <- copy(x)
