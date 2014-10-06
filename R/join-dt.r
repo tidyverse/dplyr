@@ -47,17 +47,16 @@ join_dt <- function(op) {
     # Accept different names
     # In future versions, the command copy below may be replaced by shallow copies.
     
-    # first rename variables in y-by$y with the same name than variables in by$x 
-    # This behavior is different from dplyr behavior for data.frame. 
+    # first output error if there are variables in y-by$y with the same name than variables in by$x 
+    # This behavior is different from dplyr behavior for data.frame that does not output error
     # Needed because merge.data.table does not accept names duplicates in master/using data.tables
     names_byx_y <- intersect(by$x, setdiff(names(y), by$y))
-    if (length(names_byx_y)>0){
+    if (length(names_byx_y) >0) stop(paste0(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y")
+    if !identical(by.x,by.y){
       y <- copy(y)
-      data.table::setnames(y, names_byx_y, paste0(names_byx_y,".y"))
-      data.table::setnames(y, by$y , by$x)
+      data.table::setnames(y, by$y, by$x)
     }
-    
-    # then rename duplicates in non joined variables
+    # Rename duplicates in non joined variables
     common_names <- setdiff(intersect(names(x), names(y)), by$x)
     if (length(common_names)>0){
       x <- copy(x)
