@@ -1,3 +1,7 @@
+# dplyr 0.3.0.1
+
+* Fixed problem with test script on Windows
+
 # dplyr 0.3
 
 ## New functions

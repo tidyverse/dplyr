@@ -1,21 +1,11 @@
 This is a resubmission. Compare to the previous submission I have:
 
-* Fixed many of the missing namespaces, but note:
-
-  src_mysql: no visible global function definition for ‘MySQL’
-  src_postgres: no visible global function definition for ‘PostgreSQL’
-  
-  These packages currently need to be attached in order to work.
-
-* Fixed a spurious test failure when postgresql was not available.
+* used an alternative way of specifying unicode characters in a test
+  that doesn't fail on Windows.
 
 --------------------------------------------------------------------------------
 
 The following notes were generated across my local OS X install and ubuntu running on travis-ci. Response to NOTEs across three platforms below.
-
-* checking CRAN incoming feasibility ... NOTE
-
-  I changed my email address to hadley@rstudio.com.
 
 * checking dependencies in R code ... NOTE
   
