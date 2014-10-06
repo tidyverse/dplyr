@@ -92,7 +92,7 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 
 #' @export
 auto_copy.tbl_dt <- function(x, y, copy = FALSE, ...) {
-  as.data.table(as.data.frame(y))
+  data.table::as.data.table(as.data.frame(y))
 }
 
 #' @export

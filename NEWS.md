@@ -1,4 +1,4 @@
-# dplyr 0.3.1
+# dplyr 0.3.0.1
 
 ## not sure where these belong
 
@@ -20,6 +20,8 @@
 
 * Better naming of columns in joins (#655).   
   
+* Fixed problem with test script on Windows.
+
 # dplyr 0.3
 
 ## New functions
@@ -104,7 +106,7 @@
 
 * Examples now use `nycflights13` instead of `hflights` because it the variables 
   have better names and there are a few interlinked tables (#562). `Lahman` and 
-  `nycflights` are (once again) suggested packages. This means many exampless
+  `nycflights13` are (once again) suggested packages. This means many examples
   will not work unless you explicitly install them with
   `install.packages(c("Lahman", "nycflights13"))` (#508). dplyr now depends on 
   Lahman 3.0.1. A number of examples have been updated to reflect modified 
@@ -158,7 +160,7 @@
 * When `mutate()` creates a new variable that uses a window function, 
   automatically wrap the result in a subquery (#484).
 
-* Correct SQL generation for `first()` and last()` (#531).
+* Correct SQL generation for `first()` and `last()` (#531).
 
 * `order_by()` now works in conjunction with window functions in databases 
   that support them. 
@@ -166,7 +168,7 @@
 ### Data frames/`tbl_df`
 
 * All verbs now understand how to work with `difftime()` (#390) and
-  `AsIs`(#453) objects. They all check that colnames are unique (#483), and  
+  `AsIs` (#453) objects. They all check that colnames are unique (#483), and 
   are more robust when columns are not present (#348, #569, #600).
 
 * Hybrid evaluation bugs fixed:
@@ -190,7 +192,7 @@
 * `arrange()` keeps the grouping structure of grouped data (#491, #605), 
   and preserves input classes (#563).
 
-* `contains()` accidentally matched regular expression now it passes
+* `contains()` accidentally matched regular expressions, now it passes
   `fixed = TRUE` to `grep()` (#608).
 
 * `filter()` asserts all variables are white listed (#566). 
@@ -235,8 +237,8 @@
 * Fix major omission in `tbl_dt()` and `grouped_dt()` methods - I was 
   accidentally doing a deep copy on every result :(
 
-* `summarise()` and `group_by()` now retain over allocation when working with 
-  data.tables (#475, arunsrinivasan).
+* `summarise()` and `group_by()` now retain over-allocation when working with 
+  data.tables (#475, @arunsrinivasan).
 
 * joining two data.tables now correctly dispatches to data table methods,
   and result is a data table (#470)

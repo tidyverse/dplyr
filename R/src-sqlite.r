@@ -181,9 +181,9 @@ db_explain.SQLiteConnection <- function(con, sql, ...) {
 #' @export
 db_begin.SQLiteConnection <- function(con, ...) {
   if (packageVersion("RSQLite") < 1) {
-    dbBeginTransaction(con)
+    RSQLite::dbBeginTransaction(con)
   } else {
-    dbBegin(con)
+    DBI::dbBegin(con)
   }
 }
 
@@ -193,8 +193,8 @@ db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
 
   sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
 
-  res <- dbSendPreparedQuery(con, sql, bind.data = values)
-  dbClearResult(res)
+  res <- RSQLite::dbSendPreparedQuery(con, sql, bind.data = values)
+  DBI::dbClearResult(res)
 
   TRUE
 }

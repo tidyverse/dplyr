@@ -86,7 +86,7 @@ summarise_.tbl_dt <- function(.data, ..., .dots) {
 #' @export
 mutate_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  if (!inplace) .data <- copy(.data)
+  if (!inplace) .data <- data.table::copy(.data)
 
   env <- dt_env(.data, lazyeval::common_env(dots))
   # For each new variable, generate a call of the form df[, new := expr]

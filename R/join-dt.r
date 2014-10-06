@@ -39,8 +39,8 @@ join_dt <- function(op) {
 
     x <- copy(x)
     y <- copy(y)
-    setkeyv(x, by$x)
-    setkeyv(y, by$x)
+    data.table::setkeyv(x, by$x)
+    data.table::setkeyv(y, by$x)
     out <- op
     grouped_dt(out, groups(x))
   })
