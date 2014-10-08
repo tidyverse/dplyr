@@ -1,4 +1,4 @@
-# dplyr 0.3.0.1
+# dplyr 0.3.0.2
 
 ## not sure where these belong
 
@@ -20,6 +20,8 @@
 
 * Better naming of columns in joins (#655).   
   
+# dplyr 0.3.0.1
+
 * Fixed problem with test script on Windows.
 
 # dplyr 0.3
