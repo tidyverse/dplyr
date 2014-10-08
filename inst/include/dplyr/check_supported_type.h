@@ -10,6 +10,7 @@ namespace dplyr {
       case LGLSXP:
       case STRSXP:
       case VECSXP:
+      case CPLXSXP: 
         return ;
       default:
         break ;

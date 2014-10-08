@@ -233,3 +233,50 @@ test_that("left_join by different variable names (#617)",{
   expect_equal(res$y2, c("foo", "bar", "foo"))
 })
 
+test_that("joins support comple vectors" ,{
+  a <- data.frame(x = c(1, 1, 2, 3)*1i, y = 1:4)
+  b <- data.frame(x = c(1, 2, 2, 4)*1i, z = 1:4)
+  j <- inner_join(a, b, "x")
+
+  expect_equal(names(j), c("x", "y", "z"))
+  expect_equal(j$y, c(1, 2, 3, 3))
+  expect_equal(j$z, c(1, 1, 2, 3))
+})
+
+test_that("joins suffix variable names (#655)" ,{
+  a <- data.frame(x=1:10,y=2:11)
+  b <- data.frame(z=5:14,x=3:12) # x from this gets suffixed by .y
+  res <- left_join(a,b,by=c('x'='z'))
+  expect_equal(names(res), c("x", "y", "x.y" ) )
+  
+  a <- data.frame(x=1:10,z=2:11)
+  b <- data.frame(z=5:14,x=3:12) # x from this gets suffixed by .y
+  res <- left_join(a,b,by=c('x'='z'))
+  
+})
+
+test_that("right_join gets the column in the right order #96", {
+  a <- data.frame(x=1:10,y=2:11)
+  b <- data.frame(x=5:14,z=3:12)
+  res <- right_join(a,b)
+  expect_equal(names(res), c("x", "y", "z"))
+  
+  a <- data.frame(x=1:10,y=2:11)
+  b <- data.frame(z=5:14,a=3:12)
+  res <- right_join(a,b, by= c("x"="z"))
+  expect_equal(names(res), c("x", "y", "a"))
+  
+})
+
+test_that("outer_join #96",{
+  a <- data.frame(x=1:3,y=2:4)
+  b <- data.frame(x=3:5,z=3:5)
+  res <- outer_join(a,b, "x")
+  expect_equal(res$x, 1:5)
+  expect_equal(res$y[1:3], 2:4)
+  expect_true( all(is.na(res$y[4:5]) ))
+  
+  expect_true( all(is.na(res$z[1:2]) ))  
+  expect_equal( res$z[3:5], 3:5 )
+  
+})

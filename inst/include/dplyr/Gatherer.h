@@ -192,6 +192,7 @@ namespace dplyr {
             }
             case LGLSXP: return new ConstantGathererImpl<LGLSXP,Data,Subsets>( x, n ) ;
             case STRSXP: return new ConstantGathererImpl<STRSXP,Data,Subsets>( x, n ) ;
+            case CPLXSXP: return new ConstantGathererImpl<CPLXSXP,Data,Subsets>( x, n ) ;
             case VECSXP: return new ConstantGathererImpl<STRSXP,Data,Subsets>( x, n ) ;
             default: break ;
         }
@@ -219,6 +220,7 @@ namespace dplyr {
             case LGLSXP:  return new GathererImpl<LGLSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
             case STRSXP:  return new GathererImpl<STRSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
             case VECSXP:  return new GathererImpl<VECSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
+            case CPLXSXP: return new GathererImpl<CPLXSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
             default: break ;
         }
         

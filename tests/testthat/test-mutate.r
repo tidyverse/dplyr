@@ -310,3 +310,13 @@ test_that("nested hybrid functions do the right thing (#637)", {
   expect_true( all( res[["mean(1)"]] == 1L ) )
 })
 
+test_that("mutate handles using and gathering complex data (#436)", {
+  d <- data_frame(x=1:10, y=1:10+2i)
+  res <- mutate(d, real=Re(y), imag=Im(y), z=2*y, constant=2+2i)
+  expect_equal(names(res), c("x", "y", "real", "imag", "z", "constant"))
+  expect_equal(res$real, Re(d$y))
+  expect_equal(res$imag, Im(d$y))
+  expect_equal(res$z, d$y * 2)
+  expect_true( all(res$constant == 2+2i) )
+})
+

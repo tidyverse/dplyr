@@ -75,6 +75,16 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 }
 
 #' @export
+right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(right_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
+outer_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(outer_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   as.data.frame(semi_join(tbl_df(x), y, by = by, copy = copy, ...))
 }

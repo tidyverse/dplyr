@@ -3,11 +3,11 @@
 
 #include <tools/Encoding.h>
 #include <tools/StringUTF8.h>
+#include <tools/complex.h>
 #include <tools/DotsOf.h>
 #include <tools/Call.h>
 #include <tools/hash.h>
 #include <tools/delete_all.h>
-#include <tools/ListOf.h>
 #include <tools/StrictListOf.h>
 #include <tools/FilteredListOf.h>
 #include <tools/collapse.h>

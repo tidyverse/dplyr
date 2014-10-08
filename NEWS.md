@@ -1,3 +1,25 @@
+# dplyr 0.3.0.2
+
+## not sure where these belong
+
+* Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
+  for now, i.e. `lag(x, 2)`. All other forms still fall back to R version. 
+
+## New functions
+
+* `right_join()` and `outer_join()` ... (#96).  
+
+## Minor improvements and bug fixes
+
+* `mutate` now handles complex vectors (#436)
+
+* More flexible handling of the `order_by` argument in hybrid versions of `first`, 
+  `nth` and `last`. When `order_by` is a symbol, the hybrid version is used, 
+  otherwise standard R evaluation is used. This might get further optimized for 
+  more cases later (#626)
+
+* Better naming of columns in joins (#655).   
+  
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.
