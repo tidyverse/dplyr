@@ -1,3 +1,8 @@
+# dplyr 0.3.0.2
+
+* Ensure tests work when RPostgreSQL not available (e.g. on on CRAN 
+  mavericks builder.)
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

@@ -1,7 +1,8 @@
-This is a resubmission. Compare to the previous submission I have:
+This is a minor update to fix problem on CRAN mavericks builder. Compared to the previous submission I have:
 
-* used an alternative way of specifying unicode characters in a test
-  that doesn't fail on Windows.
+* Fixed two unqualified function calls.
+
+* Ensured that tests work even when RPostgreSQL is not available.
 
 --------------------------------------------------------------------------------
 
@@ -15,13 +16,6 @@ The following notes were generated across my local OS X install and ubuntu runni
   Missing or unexported object: ‘RSQLite::initExtension’
   This is used for compatibility with RSQlite 1.0 (not yet on CRAN), and is
   only called if packageVersion("RSQLite") >= 1.
-
-* checking R code for possible problems ... NOTE
-
-  src_mysql: no visible global function definition for ‘MySQL’
-  src_postgres: no visible global function definition for ‘PostgreSQL’
-  
-  These packages currently need to be attached in order to work.
 
 I couldn't check on win-builder because it doesn't have the latest Rcpp and appears to be missing RMySQL.
 

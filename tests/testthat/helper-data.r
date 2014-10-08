@@ -1,7 +1,7 @@
-library(data.table, warn.conflicts = FALSE)
-library(RSQLite, quietly = TRUE)
-library(RSQLite.extfuns, quietly = TRUE)
-library(RPostgreSQL, quietly = TRUE)
+require(data.table, warn.conflicts = FALSE)
+require(RSQLite, quietly = TRUE)
+require(RSQLite.extfuns, quietly = TRUE)
+require(RPostgreSQL, quietly = TRUE)
 
 int_to_num <- function(x, y) {
   is_integer_x <- vapply(x, is.integer, logical(1))

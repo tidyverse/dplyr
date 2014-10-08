@@ -97,7 +97,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
 
-  con <- dbConnect(MySQL(), dbname = dbname , host = host, port = port,
+  con <- dbConnect(RMySQL::MySQL(), dbname = dbname , host = host, port = port,
     username = user, password = password, ...)
   info <- dbGetInfo(con)
 
