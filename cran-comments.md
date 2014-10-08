@@ -4,6 +4,8 @@ This is a minor update to fix problem on CRAN mavericks builder. Compared to the
 
 * Ensured that tests work even when RPostgreSQL is not available.
 
+Apologies for the multiple submissions - if I'd noticed this problem earlier I would've fixed it with 0.3.0.1.
+
 --------------------------------------------------------------------------------
 
 The following notes were generated across my local OS X install and ubuntu running on travis-ci. Response to NOTEs across three platforms below.
