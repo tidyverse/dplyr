@@ -1,5 +1,7 @@
 This is a minor update to fix problem on CRAN mavericks builder. Compared to the previous submission I have:
 
+* Bump R version requirement to 3.1.
+
 * Fixed two unqualified function calls.
 
 * Ensured that tests work even when RPostgreSQL is not available.
