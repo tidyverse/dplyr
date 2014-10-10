@@ -1,12 +1,17 @@
-This is a minor update to fix problem on CRAN mavericks builder. Compared to the previous submission I have:
+This is a minor update to fix build errors on:
 
-* Bump R version requirement to 3.1.
+* oldrel-windows
+* release-osx-x86_64-mavericks.
+
+Compared to the previous submission I have:
+
+* Bumped R version requirement to 3.1.
 
 * Fixed two unqualified function calls.
 
 * Ensured that tests work even when RPostgreSQL is not available.
 
-Apologies for the multiple submissions - if I'd noticed this problem earlier I would've fixed it with 0.3.0.1.
+Apologies for the multiple submissions - if I'd noticed these problem earlier I would've fixed it with 0.3.0.1. I've added a note to check the check results before future submissions.
 
 --------------------------------------------------------------------------------
 
