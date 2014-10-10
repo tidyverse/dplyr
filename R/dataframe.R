@@ -77,7 +77,7 @@ data_frame_ <- function(columns) {
   }
 
   # Set attributes
-  attr(output, "row.names") <- c(NA_integer_, -lengths[!short][[1]])
+  attr(output, "row.names") <- c(NA_integer_, max)
   attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
 
   output
