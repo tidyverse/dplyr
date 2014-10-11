@@ -266,22 +266,54 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
-Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-    if( nargs != 2 ) return 0 ;
-    Armor<SEXP> data( CADR(call) );
-    int n = 1 ; 
-    try{ 
-        n = as<int>( CADDR(call) );
-    } catch( ... ){
-        SEXP n_ = CADDR(call); 
-        std::stringstream s ; 
-        s << "could not convert second argument to an integer. type="
-          << type2name(n_)
-          << ", length = "
-          << Rf_length(n_)
-        ;
-        stop(s.str());
+struct LeadLag{
+
+    LeadLag( SEXP call ) : data(R_NilValue), n(1), ok(true) {
+        
+        SEXP p = CDR(call) ;
+        SEXP tag = TAG(p) ;
+        if( tag != R_NilValue && tag != Rf_install("x") ) {
+            ok = false ;
+            return ;
+        }
+        data = CAR(p) ;
+        
+        p = CDR(p);
+        if( p != R_NilValue ){
+            tag = TAG(p) ;
+            if( tag != R_NilValue && tag != Rf_install("n") ) {
+                ok = false ;
+                return ;
+            }
+            
+            try{
+                n = as<int>( CAR(p) );
+            } catch( ... ){
+                SEXP n_ = CADDR(call); 
+                std::stringstream s ; 
+                s << "could not convert second argument to an integer. type="
+                  << type2name(n_)
+                  << ", length = "
+                  << Rf_length(n_)
+                ;
+                stop(s.str());
+            }
+        }
     }
+    
+    Armor<SEXP> data ;
+    int n ;
+    
+    bool ok ;
+    
+} ;
+
+Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+    LeadLag args(call) ; 
+    if( !args.ok ) return 0 ;
+    Armor<SEXP>& data = args.data ;
+    int n = args.n ;
+    
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ) {
         data = subsets.get_variable(data) ;
         
@@ -304,21 +336,12 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
 }
 
 Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-    if( nargs != 2 ) return 0 ;
-    Armor<SEXP> data( CADR(call) );
-    int n = 1 ; 
-    try{ 
-        n = as<int>( CADDR(call) );
-    } catch( ... ){
-        SEXP n_ = CADDR(call); 
-        std::stringstream s ; 
-        s << "could not convert second argument to an integer. type="
-          << type2name(n_)
-          << ", length = "
-          << Rf_length(n_)
-        ;
-        stop(s.str());
-    }
+    LeadLag args(call) ; 
+    if( !args.ok ) return 0 ;
+    
+    Armor<SEXP>& data = args.data ;
+    int n = args.n ;
+    
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
         data = subsets.get_variable(data) ;
           

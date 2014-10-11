@@ -13,7 +13,12 @@
   more cases later (#626)
 
 * Better naming of columns in joins (#655).   
-  
+
+* hybrid `lag` and `lead` only handles simple call forms, the first 
+  argument must have either no name or be called `x`. 
+  Then the second argument must be either missing, with no name or be called `n`. 
+  All other forms of the call are handled by R evaluation. (#683).
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.
