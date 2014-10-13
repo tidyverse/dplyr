@@ -206,3 +206,9 @@ test_that("group_by works with zero-row data frames (#486)", {
   expect_equal(groups(x), list(quote(g)))
   expect_equal(group_size(x), integer(0))
 })
+
+test_that("grouped_df requires a list of symbols (#665)", {
+  features <- list("feat1", "feat2", "feat3")
+  expect_error( grouped_df(data.frame(feat1=1, feat2=2, feat3=3), features) )
+})
+
