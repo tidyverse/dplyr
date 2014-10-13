@@ -22,6 +22,9 @@
 * Fixed segfault in `JoinStringFactorVisitor` class (#688).
 
 * `grouped_df` requires `vars` to be a list of symbols (#665).
+
+* Added class `JoinFactorFactorVisitor_SameLevels` for the special case when 
+  two factors with the same levels (in the same order) are joined (#675). 
   
 # dplyr 0.3.0.1
 

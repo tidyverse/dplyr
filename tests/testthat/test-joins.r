@@ -289,4 +289,17 @@ test_that("JoinStringFactorVisitor handles NA #688", {
   res <- left_join(x, y, by = "Greek")
   expect_true( is.na(res$Greek[3]) )
   expect_true( is.na(res$Letters[3]) )
+})     
+
+test_that("JoinFactorFactorVisitor_SameLevels preserve levels order (#675)",{
+  input <- data.frame(g1 = factor(c('A','B','C'), levels = c('B','A','C')))
+  output <- data.frame(
+    g1 = factor(c('A','B','C'), levels = c('B','A','C')),
+    g2 = factor(c('A','B','C'), levels = c('B','A','C'))
+  )
+  
+  res <- inner_join(group_by(input, g1), group_by(output, g1))
+  expect_equal( levels(res$g1), levels(input$g1))
+  expect_equal( levels(res$g2), levels(input$g2)) 
 })
+
