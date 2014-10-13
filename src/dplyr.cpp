@@ -1889,6 +1889,9 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
 
         check_supported_type(result, name) ;
 
+        if( Rf_inherits(result, "POSIXlt") ){
+            stop("`mutate` does not support `POSIXlt` results");    
+        }
         if( Rf_length(result) == df.nrows() ){
             // ok
         } else if( Rf_length(result) == 1 ){

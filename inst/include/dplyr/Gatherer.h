@@ -179,6 +179,9 @@ namespace dplyr {
 
     template <typename Data, typename Subsets>
     inline Gatherer* constant_gatherer(SEXP x, int n){
+        if( Rf_inherits(x, "POSIXlt" ) ){
+            stop("`mutate` does not support `POSIXlt` results");    
+        }
         switch( TYPEOF(x) ){
             case INTSXP: {
                     if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<INTSXP,Data,Subsets>(x,n, get_date_classes() ) ;
@@ -204,6 +207,9 @@ namespace dplyr {
         typename Data::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;
         Shield<SEXP> first( proxy.get(indices) ) ;
+        if( Rf_inherits(first, "POSIXlt" ) ){
+            stop("`mutate` does not support `POSIXlt` results");    
+        }
         switch( TYPEOF(first) ){
             case INTSXP:  
                 {

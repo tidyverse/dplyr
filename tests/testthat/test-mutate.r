@@ -320,3 +320,16 @@ test_that("mutate handles using and gathering complex data (#436)", {
   expect_true( all(res$constant == 2+2i) )
 })
 
+test_that("mutate forbids POSIXlt results (#670)", {
+  expect_error( 
+    data.frame(time='2014/01/01 10:10:10') %>% mutate(time=as.POSIXlt(time)), 
+    "does not support" 
+  )
+  
+  expect_error( 
+    data.frame(time='2014/01/01 10:10:10', a=2) %>% group_by(a) %>% mutate(time=as.POSIXlt(time)),
+    "does not support" 
+  )
+  
+})
+
