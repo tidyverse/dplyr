@@ -300,6 +300,6 @@ test_that("JoinFactorFactorVisitor_SameLevels preserve levels order (#675)",{
   
   res <- inner_join(group_by(input, g1), group_by(output, g1))
   expect_equal( levels(res$g1), levels(input$g1))
-  expect_equal( levels(res$g2), levels(input$g2)) 
+  expect_equal( levels(res$g2), levels(output$g2)) 
 })
 
