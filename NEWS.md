@@ -19,6 +19,8 @@
   Then the second argument must be either missing, with no name or be called `n`. 
   All other forms of the call are handled by R evaluation. (#683).
 
+* Fixed segfault in `JoinStringFactorVisitor` class. (#688)  
+  
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

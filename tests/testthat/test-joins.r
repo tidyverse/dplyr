@@ -280,3 +280,13 @@ test_that("outer_join #96",{
   expect_equal( res$z[3:5], 3:5 )
   
 })
+
+test_that("JoinStringFactorVisitor handles NA #688", {
+  x <- data.frame(Greek = c("Alpha", "Beta", NA))
+  y <- data.frame(Greek = c("Alpha", "Beta", "Gamma"),
+                        Letters = c("C", "B", "C"), stringsAsFactors = F)
+  
+  res <- left_join(x, y, by = "Greek")
+  expect_true( is.na(res$Greek[3]) )
+  expect_true( is.na(res$Letters[3]) )
+})

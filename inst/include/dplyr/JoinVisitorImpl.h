@@ -233,13 +233,13 @@ namespace dplyr{
     class JoinStringFactorVisitor : public JoinVisitor {
     public:
         JoinStringFactorVisitor( const CharacterVector& left_, const IntegerVector& right_ ) : 
+            left(left_), 
+            right(right_),
             right_ptr(right_.begin()), 
             right_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_.attr("levels")) ), 
             left_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_))
         {
             check_all_same_encoding(left_,right_.attr("levels")) ;
-            // check_all_utf8(left_) ;
-            // check_all_utf8(right_.attr("levels")) ;
         }
                 
         inline size_t hash(int i){ 
@@ -275,6 +275,8 @@ namespace dplyr{
         }
         
     private:
+        CharacterVector left ;
+        IntegerVector right ;
         int*  right_ptr ;
         SEXP* right_factor_ptr ;
         SEXP* left_ptr ;
@@ -282,14 +284,17 @@ namespace dplyr{
     
         inline SEXP get(int i){
             SEXP res ;
+            
             if( i>=0 ){
                 res = left_ptr[i] ;
             } else {
                 int index = -i-1 ;
-                if( right_ptr[index] == NA_INTEGER ) res = NA_STRING ;
-                res = right_factor_ptr[ right_ptr[index] - 1 ] ;
+                if( right_ptr[index] == NA_INTEGER ) {
+                    res = NA_STRING ;
+                } else {
+                    res = right_factor_ptr[ right_ptr[index] - 1 ] ;
+                }
             }
-            
             
             return res ;
         }
