@@ -7,6 +7,7 @@ namespace dplyr{
         SEXP s_levels = Rf_install("levels") ;
         CharacterVector levels_left  = Rf_getAttrib(left,s_levels) ;
         CharacterVector levels_right = Rf_getAttrib(right,s_levels) ;
+        if( (SEXP)levels_left == (SEXP)levels_right ) return true ; 
         int n = levels_left.size() ;
         if( n != levels_right.size() ) return false ;
         
