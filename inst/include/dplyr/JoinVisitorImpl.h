@@ -172,6 +172,8 @@ namespace dplyr{
     class JoinFactorStringVisitor : public JoinVisitor {
     public:
         JoinFactorStringVisitor( const IntegerVector& left_, const CharacterVector& right_ ) : 
+            left(left_), 
+            right(right_),
             left_ptr(left_.begin()), 
             left_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_.attr("levels")) ), 
             right_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_))
@@ -214,6 +216,8 @@ namespace dplyr{
         }
         
     private:
+        IntegerVector left ;
+        CharacterVector right ;
         int* left_ptr ;
         SEXP* left_factor_ptr ;
         SEXP* right_ptr ;
