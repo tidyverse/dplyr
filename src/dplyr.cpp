@@ -556,6 +556,33 @@ Result* nth_with_default__typed( Vector<RTYPE> data, int idx, SEXP order, Vector
 }
 
 
+Result* in_prototype( SEXP call, const LazySubsets& subsets, int nargs){
+    SEXP lhs = CADR(call) ;
+    SEXP rhs = CADDR(call) ;
+    
+    // if lhs is not a symbol, let R handle it
+    if( TYPEOF(lhs) != SYMSXP ) return 0 ;
+    
+    // if the lhs is not in the data, let R handle it
+    if( !subsets.count(lhs) ) return 0 ;
+    
+    SEXP v = subsets.get_variable(lhs) ;
+    
+    // if the type of the data is not the same as the type of rhs, 
+    // including if it needs evaluation, let R handle it
+    if( TYPEOF(v) != TYPEOF(rhs) ) return 0 ;
+    
+    // otherwise use hybrid version
+    switch( TYPEOF(v) ){
+    case STRSXP: return new In<STRSXP>(v, rhs) ;
+    default: break ;    
+    }
+    
+    // type not handled
+    return 0 ;
+    
+}
+
 Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     // has to have at least two arguments
     if( nargs < 2 ) return 0 ;
@@ -734,6 +761,9 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "first" ) ] = first_prototype<dplyr::First, dplyr::FirstWith> ;
         handlers[ Rf_install( "last" ) ]  = first_prototype<dplyr::Last, dplyr::LastWith> ;
         handlers[ Rf_install( "nth" ) ]  = nth_prototype ;
+        
+        // handlers[ Rf_install( "%in%" ) ] = in_prototype ;
+        
     }
     return handlers ;
 }

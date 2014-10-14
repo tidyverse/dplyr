@@ -26,7 +26,9 @@
 * Added class `JoinFactorFactorVisitor_SameLevels` for the special case when 
   two factors with the same levels (in the same order) are joined (#675). 
   
-* `mutate` forbids `POSIXlt` results (#670)  
+* `mutate` forbids `POSIXlt` results (#670). 
+
+* Initial hybrid handling of `%in%` (#126). 
   
 # dplyr 0.3.0.1
 

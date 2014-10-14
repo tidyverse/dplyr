@@ -52,7 +52,7 @@ namespace dplyr {
             }
             return call ;
         }
-
+        
         void set_call( SEXP call_ ){
             proxies.clear() ;
             call = call_ ;
@@ -82,7 +82,7 @@ namespace dplyr {
         }
 
     private:
-
+        
         inline bool can_simplify_call( SEXP call_){
             bool res =  can_simplify(call_);
             return res ;

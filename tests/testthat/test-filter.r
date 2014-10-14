@@ -197,3 +197,14 @@ test_that( "filter handles complex vectors (#436)", {
   expect_equal(filter(d, Re(y)<4)$y, 1:3+2i)
 })
 
+test_that("%in% works as expected (#126)", {
+  df <- data_frame( a = c("a", "b", "ab"), g = c(1,1,2) )
+  
+  res <- df %>% filter( a %in% letters )
+  expect_equal(nrow(res), 2L)
+  
+  res <- df %>% group_by(g) %>% filter( a %in% letters )
+  expect_equal(nrow(res), 2L)
+  
+})
+

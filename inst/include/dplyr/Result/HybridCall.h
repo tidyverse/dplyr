@@ -3,7 +3,7 @@
 
 namespace dplyr {
      
-    class HybridCall {
+    class HybridCall {                                                                                    
     public:
         HybridCall( const Call& call_, LazySubsets& subsets_, const Environment& env_ ) : 
             call( clone(call_) ), subsets(subsets_), env(env_), indices(0,subsets.nrows())
@@ -50,6 +50,7 @@ namespace dplyr {
             // initial
             if( TYPEOF(call) == LANGSXP ){
                 Result* res = get_handler(call, subsets, env) ;
+                
                 if( res ){
                     // replace the call by the result of process
                     call = res->process(indices) ;
