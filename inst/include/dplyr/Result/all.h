@@ -25,7 +25,6 @@
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>
-#include <dplyr/Result/HybridCall.h>
 #include <dplyr/Result/GroupedHybridCall.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/GroupedCallReducer.h>

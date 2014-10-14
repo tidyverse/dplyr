@@ -9,23 +9,23 @@ namespace dplyr {
         typedef GroupedHybridCall<Subsets> HybridCall ;
 
         GroupedCallProxy( Call& call_, const Subsets& subsets_, const Environment& env_) :
-            call(call_), subsets(subsets_), proxies(), env(env_), hybrid(false)
+            call(call_), subsets(subsets_), proxies(), env(env_)
         {
             set_call(call) ;
         }
 
         GroupedCallProxy( Call& call_, const Data& data_, const Environment& env_) :
-            call(call_), subsets(data_), proxies(), env(env_), hybrid(false)
+            call(call_), subsets(data_), proxies(), env(env_)
         {
             set_call(call) ;
         }
 
         GroupedCallProxy( const Data& data_, const Environment& env_ ) :
-            subsets(data_), proxies(), env(env_), hybrid(false)
+            subsets(data_), proxies(), env(env_)
         {}
 
         GroupedCallProxy( const Data& data_) :
-            subsets(data_), proxies(), hybrid(false)
+            subsets(data_), proxies()
         {}
 
         ~GroupedCallProxy(){}
@@ -34,7 +34,7 @@ namespace dplyr {
         SEXP get(const Container& indices){
             subsets.clear();
             if( TYPEOF(call) == LANGSXP){
-                if( hybrid ) {
+                if( can_simplify(call) ) {
                     HybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;
                 }
@@ -60,7 +60,6 @@ namespace dplyr {
             proxies.clear() ;
             call = call_ ;
             if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
-            hybrid = can_simplify(call) ;
         }
 
         void input( Rcpp::String name, SEXP x ){
@@ -164,7 +163,7 @@ namespace dplyr {
         Subsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env;
-        bool hybrid ;
+        
     } ;
 
 }
