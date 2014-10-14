@@ -58,7 +58,7 @@ namespace dplyr {
             call = call_ ;
 
             if( TYPEOF(call) == LANGSXP ) traverse_call(call) ;
-            hybrid = can_simplify_call(call) ;
+            hybrid = can_simplify(call) ;
         }
 
         void input( Rcpp::String name, SEXP x ){
@@ -83,11 +83,6 @@ namespace dplyr {
 
     private:
         
-        inline bool can_simplify_call( SEXP call_){
-            bool res =  can_simplify(call_);
-            return res ;
-        }
-
         void traverse_call( SEXP obj ){
             if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return ;
 
