@@ -37,7 +37,7 @@ The main new concert here is the `src`, which is a collection of tables. Use `sr
 ```{r, eval = FALSE}
 library(nycflights13)
 flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
-  c("year", "month", "day"), "carrer", "tailnum"))
+  c("year", "month", "day"), "carrier", "tailnum"))
 ```
 
 As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
