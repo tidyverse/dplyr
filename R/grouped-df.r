@@ -61,5 +61,10 @@ ungroup.grouped_df <- function(x) {
 
 #' @export
 `[.grouped_df` <- function(x, i, j, ...) {
-  grouped_df(NextMethod(), groups(x))
+  y <- NextMethod()
+  if( !all(groups(x) %in% names(y)) ){
+    missings <- sprintf( "'%s'", paste(setdiff( groups(x), names(y) ), sep = "," ) )
+    stop( sprintf( "cannot group, grouping variables %s not included", missings ) )    
+  }
+  grouped_df(y, groups(x))
 }
