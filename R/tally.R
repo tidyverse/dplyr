@@ -2,7 +2,7 @@
 #'
 #' \code{tally} is a convenient wrapper for summarise that will either call
 #' \code{\link{n}} or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying. \code{tally()} is similar, but also
+#' for the first time, or re-tallying. \code{count()} is similar, but also
 #' does the \code{\link{group_by}} for you.
 #'
 #' @param x a \code{\link{tbl}} to tally/count.
