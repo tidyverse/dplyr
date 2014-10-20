@@ -4,12 +4,18 @@
 \alias{inner_join.tbl_df}
 \alias{join.tbl_df}
 \alias{left_join.tbl_df}
+\alias{outer_join.tbl_df}
+\alias{right_join.tbl_df}
 \alias{semi_join.tbl_df}
 \title{Join data frame tbls.}
 \usage{
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
 \method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+
+\method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+
+\method{outer_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
 \method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
