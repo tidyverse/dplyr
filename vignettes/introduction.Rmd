@@ -149,7 +149,7 @@ You can rename variables with `select()` by using named arguments:
 select(flights, tail_num = tailnum)
 ```
 
-But because `select()` drops all the variables not explicitly mentioned, it's not that use. Instead, use `rename()`:
+But because `select()` drops all the variables not explicitly mentioned, it's not that useful. Instead, use `rename()`:
 
 ```{r}
 rename(flights, tail_num = tailnum)
