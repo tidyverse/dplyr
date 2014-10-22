@@ -26,7 +26,7 @@ namespace dplyr {
                 visitor_names = data.names() ;
                 nvisitors =  visitor_names.size() ;
                 for( int i=0; i<nvisitors; i++){
-                   visitors.push_back( visitor(data[i]) ) ;     
+                    visitors.push_back( visitor(data[i]) ) ;     
                 }
             }
             DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) : 
@@ -39,7 +39,16 @@ namespace dplyr {
                 std::vector<std::string> visitor_names_ ;
                 for( int i=0; i<n; i++){
                     name = (String)names[i] ;
-                    SEXP column = data[name] ;
+                    SEXP column ; 
+                    try {
+                        column = data[name] ;
+                    } catch(...){
+                        std::stringstream s ;
+                        s << "unknown column '"
+                          << name
+                          << "'"; 
+                        stop(s.str()); 
+                    }
                     if( column != R_NilValue ){
                         nvisitors++ ;
                         visitor_names_.push_back( name ) ;

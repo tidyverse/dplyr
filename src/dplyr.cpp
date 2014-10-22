@@ -1480,14 +1480,23 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
 
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
-
+    
     int nsymbols = symbols.size() ;
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
         vars[i] = PRINTNAME(symbols[i]) ;
 
         const char* name = vars[i] ;
-        SEXP v = data[name] ;
+        SEXP v  ;
+        try{ 
+            v = data[name] ;
+        } catch(...){
+           std::stringstream s ;
+           s << "unknown column '"
+             << name
+             << "'"; 
+           stop(s.str()); 
+        }
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
             std::stringstream ss ;
             ss << "cannot group column "

@@ -212,3 +212,7 @@ test_that("grouped_df requires a list of symbols (#665)", {
   expect_error( grouped_df(data.frame(feat1=1, feat2=2, feat3=3), features) )
 })
 
+test_that("group_by gives meaningful message with unknow column (#716)",{
+  expect_error( group_by(iris, wrong_name_of_variable), "unknown column" )  
+})
+

@@ -28,7 +28,10 @@
   
 * `mutate` forbids `POSIXlt` results (#670). 
 
-* Initial hybrid handling of `%in%` (#126). 
+* Initial hybrid handling of `%in%` (#126).
+
+* `group_by` gives meaninful error message when a variable is not found in the
+  data frame (#716). 
   
 # dplyr 0.3.0.1
 
