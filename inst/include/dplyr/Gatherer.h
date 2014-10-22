@@ -176,6 +176,22 @@ namespace dplyr {
         Vector<RTYPE> value ;
         CharacterVector units ;
     } ;
+    
+    template <typename Data, typename Subsets>
+    class ConstantFactorGatherer : public ConstantGathererImpl<INTSXP, Data, Subsets> {
+    public:
+        typedef ConstantGathererImpl<INTSXP, Data, Subsets> Parent ;
+        ConstantFactorGatherer( SEXP x, int n ) : Parent(x,n), source(x) {}
+        
+        inline SEXP collect(){
+            IntegerVector out = Parent::collect() ;
+            copy_most_attributes(out, source) ;
+            return out ;
+        }
+        
+    private:
+        IntegerVector source ;
+    } ;
 
     template <typename Data, typename Subsets>
     inline Gatherer* constant_gatherer(SEXP x, int n){
@@ -184,6 +200,7 @@ namespace dplyr {
         }
         switch( TYPEOF(x) ){
             case INTSXP: {
+                    if( Rf_inherits(x, "factor")) return new ConstantFactorGatherer<Data,Subsets>( x, n ) ;
                     if( Rf_inherits(x, "Date" )) return new ConstantTypedGatherer<INTSXP,Data,Subsets>(x,n, get_date_classes() ) ;
                     return new ConstantGathererImpl<INTSXP,Data,Subsets>( x, n ) ;
             }

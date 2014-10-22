@@ -333,3 +333,9 @@ test_that("mutate forbids POSIXlt results (#670)", {
   
 })
 
+test_that("constant factor can be handled by mutate (#715)",{
+  d <- data_frame(x=1:2) %>% mutate(y=factor("A"))
+  expect_true( is.factor(d$y) )
+  expect_equal( d$y, factor( c("A", "A") ) )  
+})
+
