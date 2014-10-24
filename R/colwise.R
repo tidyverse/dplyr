@@ -58,15 +58,15 @@ summarise_each_q <- function(...) {
 
 #' @export
 #' @rdname summarise_each
-mutate_each <- function(tbl, funs, ...) {
-  mutate_each_(tbl, funs, dots(...))
+mutate_each <- function(tbl, funs, ..., inplace = FALSE) {
+  mutate_each_(tbl, funs, dots(...), inplace = inplace)
 }
 
 #' @export
 #' @rdname summarise_each
-mutate_each_ <- function(tbl, funs, vars) {
+mutate_each_ <- function(tbl, funs, vars, inplace = FALSE) {
   vars <- colwise_(tbl, funs_(funs), vars)
-  mutate_(tbl, .dots = vars)
+  mutate_(tbl, .dots = vars, inplace = inplace)
 }
 
 #' @export
