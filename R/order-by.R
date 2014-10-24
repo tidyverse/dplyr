@@ -49,7 +49,8 @@ order_by <- function(order_by, call) {
 with_order <- function(order_by, fun, x, ...) {
   ord <- order(order_by)
   undo <- match(seq_along(order_by), ord)
-  
-  out <- fun(x[ord], ...)
-  out[undo]
+  z <- fun(x[ord], ...)
+  out <- z[undo]
+  attributes(out) <- attributes(x)
+  out
 }
