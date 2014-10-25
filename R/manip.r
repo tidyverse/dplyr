@@ -104,6 +104,7 @@ summarize_ <- summarise_
 #' transmute(mtcars, displ_l = disp / 61.0237)
 #'
 #' mutate(mtcars, cyl = NULL)
+#' @export
 mutate <- function(.data, ..., inplace = FALSE) {
   if (data.table:::is.data.table(.data)){
     mutate_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
@@ -113,9 +114,6 @@ mutate <- function(.data, ..., inplace = FALSE) {
 }
 
 
-mutate <- function(.data, ..., inplace = FALSE) {
-  mutate_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
-}
 
 #' @export
 #' @rdname mutate
