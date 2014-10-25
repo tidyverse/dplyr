@@ -57,7 +57,7 @@ summarise_.grouped_dt <- function(.data, ..., .dots) {
   }
 
   list_call <- lazyeval::make_call(quote(list), dots)
-  call <- substitute(dt[, list_call, by = vars], list(list_call = list_call$expr))
+  call <- substitute(dt[, list_call, keyby = vars], list(list_call = list_call$expr))
 
   env <- dt_env(.data, parent.frame())
   out <- eval(call, env)
