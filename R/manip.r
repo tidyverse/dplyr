@@ -105,6 +105,15 @@ summarize_ <- summarise_
 #'
 #' mutate(mtcars, cyl = NULL)
 mutate <- function(.data, ..., inplace = FALSE) {
+  if (data.table:::is.data.table(.data)){
+    mutate_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
+  } else{
+    mutate_(.data, .dots = lazyeval::lazy_dots(...))
+  }
+}
+
+
+mutate <- function(.data, ..., inplace = FALSE) {
   mutate_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
 }
 
@@ -159,7 +168,11 @@ transmute_.default <- function(.data, ..., .dots) {
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
 arrange <- function(.data, ..., inplace = FALSE) {
-  arrange_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
+  if (data.table:::is.data.table(.data)){
+    arrange_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
+  } else{
+    arrange_(.data, .dots = lazyeval::lazy_dots(...))
+  }
 }
 
 #' @export

@@ -59,14 +59,18 @@ summarise_each_q <- function(...) {
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ..., inplace = FALSE) {
-  mutate_each_(tbl, funs, dots(...), inplace = inplace)
+  mutate_each_(tbl, funs = funs, vars = lazyeval::lazy_dots(...), inplace = inplace)
 }
 
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars, inplace = FALSE) {
   vars <- colwise_(tbl, funs_(funs), vars)
-  mutate_(tbl, .dots = vars, inplace = inplace)
+  if (data.table:::is.data.table(tbl)){
+    mutate_(tbl, .dots = vars, inplace = inplace)
+  } else{
+    mutate_(tbl, .dots = vars)
+  }
 }
 
 #' @export
