@@ -84,6 +84,9 @@ Because [every action in R is a function call](http://adv-r.had.co.nz/Functions.
 
 ```{r}
 interp(~ f(a, b), f = quote(mean))
+# If you are quoting the function outside of `interp`, use `enquote` to avoid early evaluation.
+f <- enquote(mean)
+interp(~ f(a, b), f = f)
 interp(~ f(a, b), f = as.name("+"))
 interp(~ f(a, b), f = quote(`if`))
 ```
