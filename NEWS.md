@@ -34,6 +34,8 @@
   data frame (#716). 
   
 * hybrid `min_rank` correctly handles `NaN` values (#726).  
+
+* `first` and `last` correctly promote factors, dates and times (#509). 
   
 # dplyr 0.3.0.1
 

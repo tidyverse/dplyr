@@ -292,23 +292,33 @@ test_that( "LazySubset is not confused about input data size (#452)", {
   expect_equal(res$c, 220)
 })
 
-test_that( "nth promotes dates and times (#509)", {
+test_that( "nth, first, last promote dates and times (#509)", {
   data <- data_frame( 
     ID = rep(letters[1:4],each=5), 
     date = Sys.Date() + 1:20, 
     time = Sys.time() + 1:20,
     number = rnorm(20)
   )
-  res <- data %>% group_by(ID) %>% summarise( date2 = nth(date,2), time2 = nth(time,2))
+  res <- data %>% group_by(ID) %>% summarise( 
+    date2 = nth(date,2), time2 = nth(time,2), 
+    first_date = first(date), last_date = last(date),
+    first_time = first(time), last_time = last(time)
+    )
   expect_is(res$date2, "Date")
+  expect_is(res$first_date, "Date")
+  expect_is(res$last_date, "Date")
   expect_is(res$time2, "POSIXct")
+  expect_is(res$first_time, "POSIXct")
+  expect_is(res$last_time, "POSIXct")
   expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times,2)) )
 })
 
-test_that( "nth preserves factor data (#509)", {
+test_that( "nth, first, last preserves factor data (#509)", {
   dat  <- data_frame(a = rep(seq(1,20,2),3),b = as.ordered(a))
-  dat1 <- dat %>% group_by(a) %>% summarise(der = nth(b,2))
+  dat1 <- dat %>% group_by(a) %>% summarise(der = nth(b,2), first = first(b), last = last(b) )
   expect_is(dat1$der, "ordered")
+  expect_is(dat1$first, "ordered")
+  expect_is(dat1$last, "ordered")
   expect_equal(levels(dat1$der), levels(dat$b))
 })
 
