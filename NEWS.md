@@ -33,6 +33,8 @@
 * `group_by` gives meaninful error message when a variable is not found in the
   data frame (#716). 
   
+* hybrid `min_rank` correctly handles `NaN` values (#726).  
+  
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

@@ -100,7 +100,16 @@ namespace dplyr {
             return comparisons<RTYPE>::is_greater(lhs,rhs) ;
         }
     } ;
+    
+    template <int RTYPE>
+    class RankEqual : public comparisons<RTYPE> {
+    public:
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
+        inline bool operator()(STORAGE lhs, STORAGE rhs) const {
+            return comparisons<RTYPE>::equal_or_both_na(lhs,rhs) ;
+        }
+    } ;
     
     // powers both dense_rank and min_rank, see dplyr.cpp for how it is used
     template <int RTYPE, typename Increment, bool ascending = true>
@@ -111,8 +120,9 @@ namespace dplyr {
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
         typedef RankComparer<RTYPE,ascending> Comparer ;
+        typedef RankEqual<RTYPE> Equal ;
         
-        typedef dplyr_hash_map<STORAGE, std::vector<int> > Map ;
+        typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map ;
         typedef std::map<STORAGE,const std::vector<int>*, Comparer> oMap ;
         
         Rank_Impl(SEXP data_) : data(data_), map() {}

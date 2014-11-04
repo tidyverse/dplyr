@@ -103,6 +103,16 @@ test_that( "lead and lag simple hybrid version gives correct results (#133)", {
   expect_true( all(res$lead2) )
 })
 
+test_that("min_rank handles columns full of NaN (#726)", {
+  test <- data.frame( 
+    Name = c("a", "b","c", "d", "e"),
+    ID = c(1, 1, 1, 1, 1),
+    expression = c(NaN, NaN, NaN, NaN, NaN)
+  )
+  data <- group_by(test, ID) %>% mutate(rank = min_rank(expression) )
+  expect_true( all(data$rank == 1L ) )
+})
+
 # FIXME: this should only fail if strict checking is on.
 # test_that("window functions fail if db doesn't support windowing", {
 #   df_sqlite <- temp_load(temp_srcs("sqlite"), df)$sql %>% group_by(g)
