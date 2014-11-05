@@ -904,6 +904,12 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
 }
 
 template <typename Index>
+DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
+    DataFrameVisitors visitors(df) ;
+    return visitors.subset(indices, classes) ;
+}
+
+template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by_x, CharacterVector by_y , CharacterVector classes ){
     // first the joined columns
     DataFrameJoinVisitors join_visitors(x, y, by_x, by_y) ;

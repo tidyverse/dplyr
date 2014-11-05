@@ -37,6 +37,8 @@
 
 * `first` and `last` correctly promote factors, dates and times (#509). 
   
+* `DataFrameVisitors` handles data frames as columns of data frames, recursively. (#602)
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

@@ -13,6 +13,24 @@ namespace dplyr {
         LazySubsets( const DataFrame& df) : data_map(), nr(df.nrows()){
             CharacterVector names = df.names() ;
             for( int i=0; i<df.size(); i++){
+                SEXP column = df[i] ;
+                if( Rf_inherits( column, "data.frame" ) ){
+                    DataFrame inner_df(column) ;
+                    if( inner_df.nrows() != df.nrows() ){
+                        std::stringstream s ;
+                        s << "inner data frame with number of rows ("
+                          << inner_df.nrows()
+                          << ") incompatible with host data frame number of rows ("
+                          << df.nrows() 
+                          << ")" ;
+                        stop(s.str()) ;
+                    }
+                    int inner_ncol = inner_df.size() ;
+                    CharacterVector inner_names = inner_df.names() ;
+                    for(int j=0; j<inner_ncol; j++){
+                        data_map[as_symbol(inner_names[j])] = inner_df[j] ;
+                    }
+                }
                 data_map[as_symbol(names[i])] = df[i] ;    
             }
         }

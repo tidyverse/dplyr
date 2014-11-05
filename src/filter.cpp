@@ -217,7 +217,7 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
             }
         } else {
             check_filter_result(test, df.nrows());
-            DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+            DataFrame res = subset( df, test, classes_not_grouped() ) ;
             return res ;
         }
     } else {
@@ -241,7 +241,7 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
             }
         }
 
-        DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+        DataFrame res = subset( df, test, classes_not_grouped() ) ;
         return res ;
     }
 }
