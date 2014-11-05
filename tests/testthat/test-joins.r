@@ -303,3 +303,11 @@ test_that("JoinFactorFactorVisitor_SameLevels preserve levels order (#675)",{
   expect_equal( levels(res$g2), levels(output$g2)) 
 })
 
+test_that("inner_join does not reorder (#684)", {
+  test <- data_frame(Greek = c("Alpha", "Beta", "Gamma"), Letters = LETTERS[1:3])
+  lookup <- data_frame(Letters = c("C", "B", "C"))
+  res <- inner_join(lookup, test)
+  expect_equal( res$Letters, c("C", "B", "C" ) )
+})
+
+

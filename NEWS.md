@@ -36,7 +36,9 @@
 * hybrid `min_rank` correctly handles `NaN` values (#726).  
 
 * `first` and `last` correctly promote factors, dates and times (#509). 
-  
+ 
+* `inner_join` no longer reorders (#684). 
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.
