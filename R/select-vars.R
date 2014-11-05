@@ -71,7 +71,8 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
     matches = function(...) matches(vars, ...),
     num_range = function(...) num_range(vars, ...),
     one_of = function(...) one_of(vars, ...),
-    everything = function(...) everything(vars, ...)
+    everything = function(...) everything(vars, ...),
+    w = function(...) w(vars, ...)
   )
 
   ind_list <- lazyeval::lazy_eval(args, c(names_list, select_funs))
