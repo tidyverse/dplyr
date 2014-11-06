@@ -162,7 +162,7 @@ namespace dplyr {
         }
         
         bool can_promote(SEXP x) const {
-            return TYPEOF(x) == REALSXP || Rf_inherits( x, "factor" ) ;    
+            return TYPEOF(x) == REALSXP ;    
         }
         
         std::string describe() const {

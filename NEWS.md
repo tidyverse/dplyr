@@ -42,6 +42,8 @@
 * joining factors whose levels are not identical (same levels, same order) generates
   a warning and coerces to character (#684). Same when joining a character vector
   with a factor and vice versa. 
+  
+* `rbind_list` fails to combine `INTSXP` and `factor` (#751)
 
 # dplyr 0.3.0.1
 
