@@ -221,6 +221,11 @@ namespace dplyr{
         stop( s.str() ) ;    
     }
     
+    inline void warn( const char* msg ){
+        Rcpp::Function warning("warning") ;
+        warning( msg ) ;
+    }
+    
     JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name_left, const std::string& name_right){
         switch( TYPEOF(left) ){
             case CPLXSXP:
@@ -243,6 +248,7 @@ namespace dplyr{
                                     if( same_levels(left, right) ){
                                         return new JoinFactorFactorVisitor_SameLevels(left, right) ;
                                     } else {
+                                        warn( "joining factors with different levels, coercing to character vector" );
                                         return new JoinFactorFactorVisitor(left, right) ;
                                     }
                                 } else if( !lhs_factor && !rhs_factor) {
@@ -274,6 +280,7 @@ namespace dplyr{
                         case STRSXP:
                             {
                                 if( lhs_factor ){
+                                    warn( "joining factor and character vector, coercing into character vector" ) ;
                                     return new JoinFactorStringVisitor( left, right );     
                                 }
                             }
@@ -345,6 +352,7 @@ namespace dplyr{
                     case INTSXP:
                         {
                             if( Rf_inherits(right, "factor" ) ){
+                                warn( "joining character vector and factor, coercing into character vector" ) ;
                                 return new JoinStringFactorVisitor( left, right ) ;    
                             }
                             break ;

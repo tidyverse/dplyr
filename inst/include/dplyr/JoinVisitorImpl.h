@@ -330,64 +330,24 @@ namespace dplyr{
         
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
             int n = set.size() ;
-            Vec res = no_init(n) ;
+            CharacterVector res(n) ;
             
-            typedef std::set<SEXP, StringLessPredicate> LevelsSet ;
-            LevelsSet levels ;
-            std::vector<SEXP> strings(n) ;
             VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it = set.begin() ;
             for( int i=0; i<n; i++, ++it){
-                SEXP s = get(*it) ;
-                levels.insert( s );
-                strings[i] = s ;
+                res[i] = get(*it) ;
             }
-            dplyr_hash_map<SEXP,int> invmap ;
-            
-            int nlevels = levels.size() ;
-            LevelsSet::const_iterator lit = levels.begin() ;
-            CharacterVector levels_vector( nlevels );
-            for( int i=0; i<nlevels; i++, ++lit){
-                invmap[*lit] = i+1 ;
-                levels_vector[i] = *lit ;
-            }
-            
-            for( int i=0; i<n; i++){
-                res[i] = invmap[strings[i]] ;
-            }
-            res.attr( "class" )  = Parent::left.attr("class" ) ;
-            res.attr( "levels" ) = levels_vector ;
             
             return res ;
         }
         
         inline SEXP subset( const std::vector<int>& indices ){
             int n = indices.size() ;
-            Vec res = no_init(n) ;
-            
-            typedef std::set<SEXP, StringLessPredicate> LevelsSet ;
-            LevelsSet levels ;
-            std::vector<SEXP> strings(n) ;
-            for( int i=0; i<n; i++){
-                SEXP s = get(indices[i]) ;
-                levels.insert( s );
-                strings[i] = s ;
-            }
-            dplyr_hash_map<SEXP,int> invmap ;
-            
-            int nlevels = levels.size() ;
-            LevelsSet::const_iterator lit = levels.begin() ;
-            CharacterVector levels_vector( nlevels );
-            for( int i=0; i<nlevels; i++, ++lit){
-                invmap[*lit] = i+1 ;
-                levels_vector[i] = *lit ;
-            }
+            CharacterVector res(n) ;
             
             for( int i=0; i<n; i++){
-                res[i] = invmap[ strings[i] ] ;
+                res[i] = get(indices[i]) ;
             }
-            res.attr( "class" )  = Parent::left.attr("class" ) ;
-            res.attr( "levels" ) = levels_vector ;
-            
+
             return res ;
         }
         
