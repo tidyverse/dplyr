@@ -191,11 +191,13 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
-  values[is_factor] <- lapply(values[is_factor], as.character)
-
+  if(sum(is_factor) > 0) {
+    values[is_factor] <- lapply(values[is_factor], as.character)
+  }
+  
   # Encode special characters in strings
   is_char <- vapply(values, is.character, logical(1))
-  values[is_char] <- lapply(values[is_char], encodeString)
+  if(sum(is_char) > 0) values[is_char] <- lapply(values[is_char], encodeString)
 
   tmp <- tempfile(fileext = ".csv")
   write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
