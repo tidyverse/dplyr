@@ -189,15 +189,15 @@ db_explain.MySQLConnection <- function(con, sql, ...) {
 #' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
+  class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
+  
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
-  if(sum(is_factor) > 0) {
-    values[is_factor] <- lapply(values[is_factor], as.character)
-  }
+  values[is_factor] <- lapply(values[is_factor], as.character)
   
   # Encode special characters in strings
   is_char <- vapply(values, is.character, logical(1))
-  if(sum(is_char) > 0) values[is_char] <- lapply(values[is_char], encodeString)
+  values[is_char] <- lapply(values[is_char], encodeString)
 
   tmp <- tempfile(fileext = ".csv")
   write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
