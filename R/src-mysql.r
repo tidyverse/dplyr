@@ -189,7 +189,7 @@ db_explain.MySQLConnection <- function(con, sql, ...) {
 #' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
-  class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
+  class(values) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
   
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
