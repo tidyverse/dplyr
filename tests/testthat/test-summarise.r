@@ -367,3 +367,11 @@ test_that( "argument order_by in last is flexible enough to handle more than jus
   
 })
 
+test_that("min(., na.rm=TRUE) correctly handles Dates that are coded as REALSXP (#755)",{
+  dates <- as.Date(c("2014-01-01", "2013-01-01"))
+  dd <- data.frame(Dates = dates)
+  res <- summarise(dd, Dates = min(Dates, na.rm=TRUE))
+  expect_is( res$Dates, "Date" )
+  expect_equal( res$Dates, as.Date("2013-01-01"))
+})
+

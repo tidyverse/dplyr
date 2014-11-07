@@ -45,6 +45,8 @@
   
 * `rbind_list` fails to combine `INTSXP` and `factor` (#751)
 
+* `min(.,na.rm = TRUE)` did not handle `Date` encoded as `REALSXP` (#755)
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

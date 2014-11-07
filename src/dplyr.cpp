@@ -69,13 +69,17 @@ template< template <int, bool> class Tmpl, bool narm>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary){
     switch( TYPEOF(arg) ){
         case INTSXP:
+            {
             if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
                 return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
+            }
         case REALSXP:
+            {
             if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) || Rf_inherits(arg, "difftime" ) )
-                return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
+                return typed_processor( Tmpl<REALSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<REALSXP,narm>( arg, is_summary ) ;
+            }
         default: break ;
     }
     return 0 ;
