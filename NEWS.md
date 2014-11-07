@@ -47,6 +47,9 @@
 
 * `min(.,na.rm = TRUE)` did not handle `Date` encoded as `REALSXP` (#755)
 
+* data frames and matrices as column of data frame processed by verbs 
+  generates an error (#602). 
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

@@ -21,29 +21,31 @@ namespace dplyr {
                                     
             DataFrameVisitors( const Rcpp::DataFrame& data_) :
                 data(data_), 
-                visitors()
+                visitors(), 
+                visitor_names(data.names()),
+                nvisitors(visitor_names.size())
             {
-                visitor_names = get_DataFrame_names(data) ;
-                nvisitors =  visitor_names.size() ;
-                             
-                int index = 0 ;
-                fill_all_visitors(index, data) ;
-                
+                       
+                for( int i=0; i<nvisitors; i++){
+                    visitors.push_back( visitor( data[i] ) ) ;    
+                }
             }
             DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) : 
                 data(data_), 
-                visitors()
+                visitors(), 
+                visitor_names(names), 
+                nvisitors(visitor_names.size())
             {
                 
                 std::string name ;
                 int n = names.size() ;
-                nvisitors = 0 ;
-                std::vector<std::string> visitor_names_ ;
                 for( int i=0; i<n; i++){
                     name = (String)names[i] ;
-                    SEXP column = get_column(data, name) ; 
+                    SEXP column ; 
                     
-                    if( column == R_NilValue ){
+                    try{ 
+                        column = data[name] ; 
+                    } catch( ... ){
                         std::stringstream s ;
                         s << "unknown column '"
                           << name
@@ -51,12 +53,9 @@ namespace dplyr {
                         stop(s.str()); 
                     }
                     
-                    nvisitors++ ;
-                    visitor_names_.push_back( name ) ;
                     visitors.push_back( visitor( column ) ) ;
                     
                 }
-                visitor_names = wrap( visitor_names_ );
                 
             } 
             
@@ -85,22 +84,6 @@ namespace dplyr {
             
         private:
             
-            inline SEXP get_column( const Rcpp::DataFrame& df, std::string& name ){
-                int n = df.size() ;
-                CharacterVector names = df.names() ;
-                for(int i=0; i<n; i++){
-                    SEXP column  = df[i] ;
-                    if( Rf_inherits( column, "data.frame" ) ){
-                        SEXP res = get_column( column, name ) ;
-                        if( res != R_NilValue ) return res ;
-                    } else {
-                        String column_name = names[i] ;
-                        if( column_name == name ) return column ;
-                    }
-                }
-                return R_NilValue ;
-            }
-            
             inline void structure( List& x, int nrows, CharacterVector classes ) const {
                 x.attr( "class" ) = classes ;
                 set_rownames(x, nrows) ;
@@ -109,61 +92,6 @@ namespace dplyr {
                 if( !Rf_isNull(vars) )
                     x.attr( "vars" ) = vars ;
             }
-            
-            inline void fill_all_visitors( int& index, const Rcpp::DataFrame& df){
-                int n = df.size() ;
-                CharacterVector names = df.names() ;
-                for(int i=0; i<n; i++){
-                    SEXP column = df[i] ;
-                    if( Rf_inherits( column, "data.frame" ) ){
-                        fill_all_visitors( index, column ) ;        
-                    } else {
-                        visitors.push_back( visitor(column) ) ;
-                        index++ ;
-                    }
-                }
-            }
-        
-            inline int get_DataFrame_column_count( const Rcpp::DataFrame& df ){
-                int nc = 0 ;
-                
-                int n = df.size() ;
-                for( int i=0; i<n; i++){
-                    SEXP column = df[i] ;
-                    if( Rf_inherits( column, "data.frame" ) ){
-                        nc += get_DataFrame_column_count( column ) ;    
-                    } else {
-                        nc++ ;    
-                    }
-                }
-                return nc ;
-            }
-            
-            inline void fill_names( CharacterVector& out, int& index, const Rcpp::DataFrame& df){
-                int n = df.size() ;
-                CharacterVector names = df.names() ;
-                for(int i=0; i<n; i++){
-                    SEXP column = df[i] ;
-                    if( Rf_inherits( column, "data.frame" ) ){
-                        fill_names( out, index, column ) ;
-                    } else {
-                        out[index] = names[i] ;
-                        index++ ;
-                    }
-                }
-                
-            }
-            
-            inline CharacterVector get_DataFrame_names(const Rcpp::DataFrame& df ){
-                // first count how many columns
-                int nc = get_DataFrame_column_count(df) ;
-                
-                CharacterVector out(nc) ;
-                int index = 0 ;
-                fill_names(out, index, df ) ;
-                return out ;
-            }
-    
             
     } ;
           

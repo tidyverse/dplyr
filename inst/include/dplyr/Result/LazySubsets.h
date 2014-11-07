@@ -15,21 +15,10 @@ namespace dplyr {
             for( int i=0; i<df.size(); i++){
                 SEXP column = df[i] ;
                 if( Rf_inherits( column, "data.frame" ) ){
-                    DataFrame inner_df(column) ;
-                    if( inner_df.nrows() != df.nrows() ){
-                        std::stringstream s ;
-                        s << "inner data frame with number of rows ("
-                          << inner_df.nrows()
-                          << ") incompatible with host data frame number of rows ("
-                          << df.nrows() 
-                          << ")" ;
-                        stop(s.str()) ;
-                    }
-                    int inner_ncol = inner_df.size() ;
-                    CharacterVector inner_names = inner_df.names() ;
-                    for(int j=0; j<inner_ncol; j++){
-                        data_map[as_symbol(inner_names[j])] = inner_df[j] ;
-                    }
+                    stop( "data frame as column is not supported" ) ;
+                }
+                if( Rf_inherits( column, "matrix" ) ){
+                    stop( "matrix as column is not supported" ) ;    
                 }
                 data_map[as_symbol(names[i])] = df[i] ;    
             }

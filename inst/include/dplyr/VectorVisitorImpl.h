@@ -302,7 +302,15 @@ namespace dplyr {
             case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
             case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
                 
-            case VECSXP:  return new VectorVisitorImpl<VECSXP>( vec ) ;
+            case VECSXP:  {
+                    if( Rf_inherits( vec, "data.frame" ) ){
+                        stop( "data frames as columns are not supported" ) ;    
+                    } 
+                    if( Rf_inherits( vec, "matrix" ) ){
+                        stop( "matrices as columns are not supported" ) ;    
+                    }
+                    return new VectorVisitorImpl<VECSXP>( vec ) ;
+            }
             default: break ;
         }
         
