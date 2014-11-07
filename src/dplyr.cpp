@@ -1019,7 +1019,7 @@ void assert_all_white_list(const DataFrame& data){
         if( !white_list(data[i]) ){
             std::stringstream ss ;
             CharacterVector names = data.names() ;
-            ss << "column '" << names[i] << "' has unsupported type" ;
+            ss << "column '" << names[i] << "' has unsupported type : " << get_single_class(data[i]);
             stop(ss.str()) ;
         }
     }

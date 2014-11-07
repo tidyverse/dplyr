@@ -26,12 +26,7 @@ inline bool white_list(SEXP x){
     
     case VECSXP:   {
             if( Rf_inherits(x, "data.frame" ) ){
-                // check that all variables are white listed
-                DataFrame df = x ;
-                for( int i=0; i<df.size() ; i++){
-                    if( !white_list( df[i] ) ) return false ;    
-                }
-                return true ;
+                return false ;
             }
             return ! Rf_inherits(x, "POSIXlt") && is_bare_vector( x ) ;
     }

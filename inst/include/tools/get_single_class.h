@@ -9,6 +9,10 @@ namespace dplyr {
             return collapse( CharacterVector(klass) ).c_str() ;    
         } 
         
+        if(Rf_isMatrix(x)){
+            return "matrix" ;
+        }
+        
         switch( TYPEOF(x) ){
         case INTSXP: return "integer" ;
         case REALSXP : return "numeric" ;
