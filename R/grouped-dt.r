@@ -20,7 +20,6 @@
 grouped_dt <- function(data, vars, copy = TRUE) {
   stopifnot(data.table::is.data.table(data))
   if (length(vars) == 0) return(tbl_dt(data))
-
   is_name <- vapply(vars, is.name, logical(1))
   if (!all(is_name)) {
     stop("Data tables can only be grouped by variables, not expressions",
@@ -30,7 +29,7 @@ grouped_dt <- function(data, vars, copy = TRUE) {
   if (copy) {
     data <- data.table::copy(data)
   }
-  data.table::setkeyv(data, deparse_all(vars))
+  #data.table::setkeyv(data, deparse_all(vars))
   data.table::setattr(data, "vars", vars)
   data.table::setattr(data, "class", c("grouped_dt", "tbl_dt", "tbl", class(data)))
   data
@@ -66,9 +65,9 @@ n_groups.grouped_dt <- function(x) {
 }
 
 #' @export
-group_by_.data.table <- function(.data, ..., .dots, add = FALSE) {
-  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
-  grouped_dt(groups$data, groups$groups)
+group_by_.data.table <- function(.data, ..., .dots, add = FALSE, inplace = inplace) {
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add, inplace = inplace)
+  grouped_dt(groups$data, groups$groups, copy = !inplace)
 }
 
 #' @export

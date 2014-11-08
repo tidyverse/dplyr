@@ -104,13 +104,20 @@ summarize_ <- summarise_
 #' transmute(mtcars, displ_l = disp / 61.0237)
 #'
 #' mutate(mtcars, cyl = NULL)
-mutate <- function(.data, ...) {
-  mutate_(.data, .dots = lazyeval::lazy_dots(...))
+#' @export
+mutate <- function(.data, ..., inplace = FALSE) {
+  if (data.table:::is.data.table(.data)){
+    mutate_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
+  } else{
+    mutate_(.data, .dots = lazyeval::lazy_dots(...))
+  }
 }
+
+
 
 #' @export
 #' @rdname mutate
-mutate_ <- function(.data, ..., .dots) {
+mutate_ <- function(.data, ..., .dots, inplace = FALSE) {
   UseMethod("mutate_")
 }
 
@@ -158,8 +165,12 @@ transmute_.default <- function(.data, ..., .dots) {
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
-arrange <- function(.data, ...) {
-  arrange_(.data, .dots = lazyeval::lazy_dots(...))
+arrange <- function(.data, ..., inplace = FALSE) {
+  if (data.table:::is.data.table(.data)){
+    arrange_(.data, .dots = lazyeval::lazy_dots(...), inplace = inplace)
+  } else{
+    arrange_(.data, .dots = lazyeval::lazy_dots(...))
+  }
 }
 
 #' @export

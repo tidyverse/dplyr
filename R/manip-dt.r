@@ -57,7 +57,7 @@ summarise_.grouped_dt <- function(.data, ..., .dots) {
   }
 
   list_call <- lazyeval::make_call(quote(list), dots)
-  call <- substitute(dt[, list_call, by = vars], list(list_call = list_call$expr))
+  call <- substitute(dt[, list_call, keyby = vars], list(list_call = list_call$expr))
 
   env <- dt_env(.data, parent.frame())
   out <- eval(call, env)
@@ -126,35 +126,52 @@ mutate_.tbl_dt <- function(.data, ..., .dots) {
 # Arrange ----------------------------------------------------------------------
 
 #' @export
-arrange_.grouped_dt <- function(.data, ..., .dots) {
+arrange_.grouped_dt <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
-
-  groups <- lazyeval::as.lazy_dots(groups(.data),
+  if (!inplace){
+    groups <- lazyeval::as.lazy_dots(groups(.data),
     env = lazyeval::common_env(dots))
-
-  order <- lazyeval::make_call(quote(order), c(groups, dots))
-  call <- substitute(dt[order, , ], list(order = order$expr))
-
-  env <- dt_env(.data, order$env)
-  out <- eval(call, env)
-
-  grouped_dt(out, groups(.data), copy = FALSE)
+    order <- lazyeval::make_call(quote(order), c(groups, dots))
+    call <- substitute(dt[order, , ], list(order = order$expr))
+    env <- dt_env(.data, order$env)
+    out <- eval(call, env)
+    return(grouped_dt(out, groups(.data), copy = FALSE))
+  } else{
+    for (i in length(dots)){
+      if (is.call(dots[[i]]$expr)){
+        stop("Cannot sort in place if the variable is not an expression")
+      }
+    }
+    vars <- select_vars_(names(.data), dots, include = as.character(groups(.data)))
+    data.table::setorderv(.data, vars, na.last = TRUE)
+  }
 }
 
+
 #' @export
-arrange_.data.table <- function(.data, ..., .dots) {
+arrange_.data.table <- function(.data, ..., .dots, inplace = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
-
-  order <- lazyeval::make_call(quote(order), dots)
-  call <- substitute(dt[order], list(order = order$expr))
-
-  env <- dt_env(.data, order$env)
-  eval(call, env)
+  
+  if (!inplace){
+    order <- lazyeval::make_call(quote(order), dots)
+    call <- substitute(dt[order, , ], list(order = order$expr))
+    env <- dt_env(.data, order$env)
+    out <- eval(call, env)
+    return(out)
+  } else{
+    for (i in length(dots)){
+      if (is.call(dots[[i]]$expr)){
+        stop("Cannot sort in place if the variable is not an expression")
+      }
+    }
+    vars <- select_vars_(names(.data), dots)
+    setorderv(.data, vars, na.last = TRUE)
+  }
 }
 
 #' @export
-arrange_.tbl_dt <- function(.data, ..., .dots) {
-  tbl_dt(NextMethod(), copy = FALSE)
+arrange_.tbl_dt <- function(.data, ..., .dots, inplace = FALSE) {
+  tbl_dt(NextMethod())
 }
 
 # Select -----------------------------------------------------------------------
@@ -166,7 +183,6 @@ select_.grouped_dt <- function(.data, ..., .dots) {
     include = as.character(groups(.data)))
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
-
   grouped_dt(out, groups(.data), copy = FALSE)
 }
 
@@ -174,7 +190,6 @@ select_.grouped_dt <- function(.data, ..., .dots) {
 select_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots)
-
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
   out
@@ -186,27 +201,18 @@ select_.tbl_dt <- function(.data, ..., .dots) {
 }
 
 # Rename -----------------------------------------------------------------------
-
+# use data.frame  instead of copying
 #' @export
 rename_.grouped_dt <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data), dots)
-
-  out <- .data[, vars, drop = FALSE, with = FALSE]
-  data.table::setnames(out, names(vars))
-
-  grouped_dt(out, groups(.data), copy = FALSE)
-}
+  select_impl(.data, vars)}
 
 #' @export
 rename_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data), dots)
-
-  out <- .data[, vars, drop = FALSE, with = FALSE]
-  data.table::setnames(out, names(vars))
-  out
-}
+  select_impl(.data, vars)}
 
 #' @export
 rename_.tbl_dt <- function(.data, ..., .dots) {

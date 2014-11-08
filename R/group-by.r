@@ -58,13 +58,13 @@
 #' # Duplicate groups are silently dropped
 #' groups(group_by(by_cyl, cyl, cyl))
 #' @aliases regroup
-group_by <- function(.data, ..., add = FALSE) {
-  group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add)
+group_by <- function(.data, ..., add = FALSE, inplace = FALSE) {
+  group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add, inplace = inplace)
 }
 
 #' @export
 #' @rdname group_by
-group_by_ <- function(.data, ..., .dots, add = FALSE) {
+group_by_ <- function(.data, ..., .dots, add = FALSE, inplace = FALSE) {
   UseMethod("group_by_")
 }
 
@@ -78,7 +78,7 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
 #'   \item{data}{Modified tbl}
 #'   \item{groups}{Modified groups}
 #' @noRd
-group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
+group_by_prepare <- function(.data, ..., .dots, add = FALSE, inplace = FALSE) {
   new_groups <- lazyeval::all_dots(.dots, ...)
 
   # If any calls, use mutate to add new columns, then group by those
@@ -87,7 +87,7 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 
   needs_mutate <- has_name | !is_name
   if (any(needs_mutate)) {
-    .data <- mutate_(.data, .dots = new_groups[needs_mutate])
+    .data <- mutate_(.data, .dots = new_groups[needs_mutate], inplace = inplace)
   }
 
   # Once we've done the mutate, we no longer need lazy objects, and
