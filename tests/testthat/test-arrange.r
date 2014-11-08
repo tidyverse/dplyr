@@ -144,3 +144,22 @@ test_that("arrange handles complex vectors", {
   
 })
 
+test_that("arrange respects locale ordering (#325)", {
+  old <- Sys.getlocale( "LC_COLLATE" )
+  Sys.setlocale( "LC_COLLATE", "fr_FR.UTF-8" )  
+  a <- data_frame( Name = c("IODOHIPPURATE DE SODIUM [131 I]", 
+    "IODOHIPPURATE [123-I] DE SODIUM",
+    "IODURE DE POTASSIUM", "IODURE DE POTASSIUM", "IODURE [123 I] DE SODIUM",
+    "IODURE [131 I] DE SODIUM", "IODURE [131 I] DE SODIUM POUR THERAPIE"
+  )) 
+  res_dplyr <- arrange( a, Name )
+  res_R     <- a[ order(a$Name), , drop = FALSE ]
+  expect_equal( res_dplyr$Name, res_R$Name )
+  
+  res_dplyr <- arrange( a, desc(Name) )
+  res_R     <- a[ order(a$Name, decreasing=TRUE), , drop = FALSE ]
+  expect_equal( res_dplyr$Name, res_R$Name )
+  
+  Sys.setlocale( "LC_COLLATE", old )
+})
+

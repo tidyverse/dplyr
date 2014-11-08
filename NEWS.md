@@ -49,6 +49,10 @@
 
 * data frames and matrices as column of data frame processed by verbs 
   generates an error (#602). 
+  
+* The implementation of `OrderVisitor` for character vectors now honours 
+  locale ordering, using a callback to R to sort the strings. This affects
+  `arrange` and `order_` (#325)
 
 # dplyr 0.3.0.1
 
