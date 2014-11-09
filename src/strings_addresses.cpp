@@ -12,6 +12,7 @@ CharacterVector strings_addresses(CharacterVector s){
         snprintf( buffer, 20, "%p", reinterpret_cast<void*>(x) ) ;
         res[i] = buffer ;
     }
+    res.names() = s ;
     
     return res ;
 }
