@@ -2,10 +2,10 @@
 #define dplyr_LazySubsets_H
 
 namespace dplyr {
-     
+        
     class LazySubsets {
     public:
-        typedef dplyr_hash_map<SEXP,SEXP> DataMap ;
+        typedef dplyr_hash_map<Name,SEXP> DataMap ;
         typedef DataMap::const_iterator const_iterator ;
         
         LazySubsets(){}
