@@ -6,18 +6,29 @@ namespace dplyr {
     class Name {
     public:
     
-        Name( SEXP s ) : original( TYPEOF(s) == CHARSXP ? s : PRINTNAME(s) ), utf8(StringUtf8(original)){}
+        Name( SEXP s ) : 
+            original( TYPEOF(s) == CHARSXP ? s : PRINTNAME(s) ), 
+            utf8(StringUtf8(original)){}
+        
+        Name( const CharacterVector::Proxy& proxy ) : 
+            original( proxy ), 
+            utf8(StringUtf8(original)){}
+        
         
         inline bool operator==( const Name& other ) const {
             return other.utf8 == utf8 ;    
         }
-        
+             
         inline SEXP get() const {
             return original ;
         }
         
         inline size_t hash() const {
             return boost::hash<SEXP>()(utf8) ;    
+        }
+        
+        inline operator SEXP() const {
+            return original ;    
         }
         
     private:
