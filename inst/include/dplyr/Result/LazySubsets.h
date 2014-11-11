@@ -14,9 +14,6 @@ namespace dplyr {
             CharacterVector names = df.names() ;
             for( int i=0; i<df.size(); i++){
                 SEXP column = df[i] ;
-                if( Rf_inherits( column, "data.frame" ) ){
-                    stop( "data frame as column is not supported" ) ;
-                }
                 if( Rf_inherits( column, "matrix" ) ){
                     stop( "matrix as column is not supported" ) ;    
                 }
