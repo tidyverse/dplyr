@@ -151,3 +151,15 @@ test_that("rbind handles data frames with no rows (#597)",{
   expect_equal(rbind_list(empty, empty), tbl_df(empty))
   expect_equal(rbind_list(empty, empty, empty), tbl_df(empty))  
 })
+
+test_that("rbind handles all NA columns (#493)", {
+  mydata <- list(
+    data.frame(x=c("foo", "bar")),
+    data.frame(x=NA)
+  )
+  res <- rbind_all(mydata)
+  expect_true( is.na(res$x[3]) )
+  expect_is( res$x, "factor" )
+  
+})
+

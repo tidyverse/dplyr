@@ -1,3 +1,8 @@
+# dplyr 0.3.1.9000
+
+* `rbind`ing a column full of `NA` is allowed and just collects the appropriate 
+  missing value for the column type being collected (#493). 
+
 # dplyr 0.3.0.9000
 
 * Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
