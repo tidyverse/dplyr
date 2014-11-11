@@ -375,3 +375,10 @@ test_that("min(., na.rm=TRUE) correctly handles Dates that are coded as REALSXP 
   expect_equal( res$Dates, as.Date("2013-01-01"))
 })
 
+test_that("nth handles expressions for n argument (#734)", {
+  df <- data.frame(x = c(1:4, 7:9, 13:19), y = sample(100:999, 14))
+  idx <- which( df$x == 16 ) 
+  res <- df %>% summarize(abc = nth(y, n = which(x == 16)) )
+  expect_equal( res$abc, df$y[idx])
+})
+

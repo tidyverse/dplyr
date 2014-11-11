@@ -675,7 +675,10 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     }
     SEXP nidx = CADDR(call) ;
     if( ( TYPEOF(nidx) != REALSXP && TYPEOF(nidx) != INTSXP ) || LENGTH(nidx) != 1 ){
-        stop("'n' should be a scalar integer") ;
+        // we only know how to handle the case where nidx is a length one 
+        // integer or numeric. In any other case, e.g. an expression for R to evaluate
+        // we just fallback to R evaluation (#734)
+        return 0 ;
     }
     int idx = as<int>(nidx) ;
                     

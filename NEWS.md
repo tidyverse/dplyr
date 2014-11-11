@@ -2,6 +2,9 @@
 
 * `rbind`ing a column full of `NA` is allowed and just collects the appropriate 
   missing value for the column type being collected (#493). 
+  
+* Internal impl of `nth` falls back to R evaluation when `n` is not a length one
+  integer or numeric, e.g. when it is an R expression to evaluate (#734). 
 
 # dplyr 0.3.0.9000
 
