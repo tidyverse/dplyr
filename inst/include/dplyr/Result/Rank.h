@@ -130,6 +130,7 @@ namespace dplyr {
         virtual SEXP process( const GroupedDataFrame& gdf) {
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
+            if( n == 0 ) return IntegerVector(0) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
             OutputVector out = no_init(n) ;
             for( int i=0; i<ng; i++, ++git){
@@ -144,6 +145,7 @@ namespace dplyr {
         
         virtual SEXP process( const FullDataFrame& df ) {
             int n = df.nrows() ;
+            if( n == 0) return IntegerVector(0) ;
             OutputVector out = no_init(n) ;
             process_slice(out, df.get_index() ) ;
             return out ;
@@ -151,6 +153,7 @@ namespace dplyr {
         
         virtual SEXP process( const SlicingIndex& index ){
             int n = index.size() ;
+            if( n == 0 ) return IntegerVector(0) ;
             OutputVector out = no_init(n) ;
             process_slice(out, index) ;
             return out ;
@@ -206,6 +209,7 @@ namespace dplyr {
             
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
+            if( n == 0 ) return IntegerVector(0) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
             IntegerVector out(n) ;
             for( int i=0; i<ng; i++, ++git){
@@ -231,11 +235,11 @@ namespace dplyr {
         
         virtual SEXP process( const FullDataFrame& df ) {
             return process( df.get_index() ) ;
-            
         }
         
         virtual SEXP process( const SlicingIndex& index ){
             int nrows = index.size() ;
+            if( nrows == 0 ) return IntegerVector(0) ;
             IntegerVector x = seq(0, nrows -1 ) ;
             std::sort( x.begin(), x.end(), 
                 Comparer( Visitor( Slice(data, index ) ) ) 
@@ -267,6 +271,7 @@ namespace dplyr {
             
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
+            if( n == 0 ) return IntegerVector(0) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
             IntegerVector out(n) ;
             for( int i=0; i<ng; i++, ++git){
@@ -296,6 +301,7 @@ namespace dplyr {
         
         virtual SEXP process( const SlicingIndex& index ){
             int nrows = index.size() ;
+            if( nrows == 0 ) return IntegerVector(0) ;
             IntegerVector x = seq(0, nrows -1 ) ;
             std::sort( x.begin(), x.end(), 
                 Comparer( Visitor( Slice(data, index ) ) ) 
@@ -317,6 +323,7 @@ namespace dplyr {
         
         virtual SEXP process( const GroupedDataFrame& gdf ){
             int n = gdf.nrows(), ng = gdf.ngroups() ;
+            if( n == 0 ) return IntegerVector(0) ;
             
             IntegerVector res = no_init(n) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
@@ -333,11 +340,13 @@ namespace dplyr {
         }
         
         virtual SEXP process( const FullDataFrame& df ) {
+            if( df.nrows() == 0 ) return IntegerVector(0) ;
             IntegerVector res = seq(1, df.nrows() ) ;
             return res ;
         }
         
         virtual SEXP process( const SlicingIndex& index ){
+            if( index.size() == 0 ) return IntegerVector(0) ;
             IntegerVector res = seq(1, index.size() ) ;
             return res ;
         }

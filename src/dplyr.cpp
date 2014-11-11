@@ -162,7 +162,7 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
 }
 
 Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
-    if( nargs >  1 ) return 0;
+    if( nargs >  1 || subsets.size() == 0 ) return 0;
 
     if( nargs == 0 ) return new RowNumber_0() ;
 

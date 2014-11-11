@@ -339,3 +339,15 @@ test_that("constant factor can be handled by mutate (#715)",{
   expect_equal( d$y, factor( c("A", "A") ) )  
 })
 
+test_that("row_number handles empty data frames (#762)", {
+  df <- data.frame(a = numeric(0))
+  res <- df %>% mutate( 
+    row_number_0 = row_number(), row_number_a =  row_number(a), ntile = ntile(a, 2), 
+    min_rank = min_rank(a), percent_rank = percent_rank(a), 
+    dense_rank = dense_rank(a), cume_dist = cume_dist(a) 
+  )
+  expect_equal( names(res), c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist" ) )
+  expect_equal( nrow(res), 0L )
+  
+})
+

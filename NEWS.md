@@ -4,7 +4,10 @@
   missing value for the column type being collected (#493). 
   
 * Internal impl of `nth` falls back to R evaluation when `n` is not a length one
-  integer or numeric, e.g. when it is an R expression to evaluate (#734). 
+  integer or numeric, e.g. when it is an R expression to evaluate (#734).
+  
+* `row_number`, `min_rank`, `percent_rank`, `dense_rank`, `ntile` and `cume_dist` 
+  handles data frames with 0 rows (#762).   
 
 # dplyr 0.3.0.9000
 
