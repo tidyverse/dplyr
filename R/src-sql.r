@@ -1,6 +1,6 @@
 #' Create a "sql src" object
 #'
-#' \code{src_sql} is the standard constructor for all SLQ based srcs.
+#' \code{src_sql} is the standard constructor for all SQL based srcs.
 #'
 #' @keywords internal
 #' @export
