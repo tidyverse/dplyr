@@ -218,3 +218,14 @@ test_that("data frames and matrices as column of data frame processed by verb ge
    
 })
 
+test_that( "filter handles data.frames as columns (#602)", {
+  df <- data.frame( a = 1:10, b = 1:10, c = 1:10 )
+  df$b <- data.frame( x = 1:10, y = 1:10 )
+  res <- filter( df, a < 5 )
+  expect_equal( nrow(res), 4L )
+  expect_equal( names(res), names(df) )
+  expect_is( res$b, "data.frame" )
+  expect_equal( nrow(res$b), 4L )
+  expect_equal( names(res$b), c("x", "y") )
+})
+

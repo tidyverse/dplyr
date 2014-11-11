@@ -133,6 +133,8 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/VectorVisitorImpl.h>
 #include <dplyr/DataFrameVisitors.h>
+#include <dplyr/DataFrameColumnVisitor.h>
+#include <dplyr/visitor.h>
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/JoinVisitorImpl.h>

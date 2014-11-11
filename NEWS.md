@@ -8,6 +8,9 @@
   
 * `row_number`, `min_rank`, `percent_rank`, `dense_rank`, `ntile` and `cume_dist` 
   handles data frames with 0 rows (#762).   
+  
+* Added the internal class `DataFrameColumnVisitor` to represent `VectorVisitor`
+  concept for a column that is a `data.frame`. Part of #602. 
 
 # dplyr 0.3.0.9000
 
