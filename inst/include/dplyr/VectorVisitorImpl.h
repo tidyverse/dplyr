@@ -99,7 +99,9 @@ namespace dplyr {
             return VectorVisitorType<RTYPE>() ;    
         }
         
-        int size() const { return vec.size() ; }
+        int size() const { 
+            return vec.size() ; 
+        }
         
     protected: 
         VECTOR vec ;

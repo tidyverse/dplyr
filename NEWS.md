@@ -11,6 +11,9 @@
   
 * Added the internal class `DataFrameColumnVisitor` to represent `VectorVisitor`
   concept for a column that is a `data.frame`. Part of #602. 
+  
+* Added the internal class template `MatrixColumnVisitor` to represent 
+  `VectorVisitor` concept for a column that is a `matrix`. Part of #602  
 
 # dplyr 0.3.0.9000
 
