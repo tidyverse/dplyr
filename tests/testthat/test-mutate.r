@@ -348,6 +348,24 @@ test_that("row_number handles empty data frames (#762)", {
   )
   expect_equal( names(res), c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist" ) )
   expect_equal( nrow(res), 0L )
+})
+
+test_that("no utf8 invasion (#722)", {
+  df  <- data.frame(中文1 = 1:10, 中文2 = 1:10, eng = 1:10)
+  df2 <- df %>% mutate(中文1 = 中文1 + 1)
+  gdf2 <- df %>% group_by(eng) %>% mutate(中文1 = 中文1 + 1)
   
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(df2)) )
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(gdf2)) )
+  
+  df3 <- filter(df2, eng > 5)
+  gdf3 <- filter(gdf2, eng > 5)
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(df3)) )
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(gdf3)) )
+  
+  df4 <- filter(df2, 中文1 > 5)
+  gdf4 <- filter(gdf2, 中文1 > 5)
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(df4)) )
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(gdf4)) )
 })
 

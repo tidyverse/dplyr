@@ -7,13 +7,13 @@ namespace dplyr {
     class NamedListAccumulator {
     public:
         
-        inline void set(StringUtf8 name, SEXP x){
+        inline void set(Name name, SEXP x){
             if( ! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value )
                 check_supported_type(x, name);
                     
             size_t n = size() ;
             for( size_t i = 0; i<n; i++){
-                SEXP s = names[i] ;
+                const Name& s = names[i] ;
                 if( s == name ){
                     data[i] = x ;
                     return ;
@@ -25,8 +25,8 @@ namespace dplyr {
             
         }
         
-        inline void rm(StringUtf8 name){
-            std::vector<SEXP>::iterator it = std::find( names.begin(), names.end(), name ) ;
+        inline void rm(Name name){
+            std::vector<Name>::iterator it = std::find( names.begin(), names.end(), name ) ;
             if( it != names.end() ){
                 names.erase(it) ;
                 data.erase( data.begin() + std::distance( names.begin(), it ) );
@@ -39,7 +39,7 @@ namespace dplyr {
             CharacterVector out_names(n) ;
             for( int i=0; i<n; i++){
                 out[i] = data[i] ;
-                out_names[i] = names[i] ;
+                out_names[i] = names[i].get() ;
             }
             out.attr( "names" ) = out_names ;
             return out ;
@@ -51,7 +51,7 @@ namespace dplyr {
         
     private:
         std::vector<SEXP> data ;
-        std::vector<SEXP> names ;
+        std::vector<Name> names ;
     } ;
 
 }

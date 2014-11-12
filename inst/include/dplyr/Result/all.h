@@ -22,6 +22,7 @@
 #include <dplyr/Result/CallbackProcessor.h>
 #include <dplyr/Result/Reducer.h>
 #include <dplyr/Result/DelayedReducer.h>
+#include <dplyr/Result/Name.h>
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>

@@ -635,6 +635,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// strings_addresses
+CharacterVector strings_addresses(CharacterVector s);
+RcppExport SEXP dplyr_strings_addresses(SEXP sSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< CharacterVector >::type s(sSEXP );
+        CharacterVector __result = strings_addresses(s);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // summarise_impl
 SEXP summarise_impl(DataFrame df, LazyDots dots);
 RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {

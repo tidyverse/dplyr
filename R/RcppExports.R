@@ -181,6 +181,10 @@ select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
 }
 
+strings_addresses <- function(s) {
+    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
+}
+
 summarise_impl <- function(df, dots) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, dots)
 }
