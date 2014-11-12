@@ -1090,29 +1090,16 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
     std::vector<int> indices_x ;
     std::vector<int> indices_y ;
 
-    if( n_x <= n_y ){
-        // train the map in terms of x
-        train_push_back( map, n_x ) ;
-
-        for( int i=0; i<n_y; i++){
-            // find indices for rows in x that match the row i in y
-            Map::iterator it = map.find(-i-1) ;
-            if( it != map.end() ){
-                push_back( indices_x, it->second );
-                push_back( indices_y, i, it->second.size() ) ;
-            }
-        }
-    } else {
-        train_push_back_right( map, n_y ) ;
-
-        for( int i=0; i<n_x; i++){
-            Map::iterator it = map.find(i) ;
-            if( it != map.end() ){
-                push_back_right( indices_y, it->second );
-                push_back( indices_x, i, it->second.size() ) ;
-            }
+    train_push_back_right( map, n_y ) ;
+    
+    for( int i=0; i<n_x; i++){
+        Map::iterator it = map.find(i) ;
+        if( it != map.end() ){
+            push_back_right( indices_y, it->second );
+            push_back( indices_x, i, it->second.size() ) ;
         }
     }
+    
     return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class") );
 }
 

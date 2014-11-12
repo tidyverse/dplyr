@@ -36,9 +36,9 @@
 * hybrid `min_rank` correctly handles `NaN` values (#726).  
 
 * `first` and `last` correctly promote factors, dates and times (#509). 
+ 
+* `inner_join` no longer reorders (#684). 
   
-* `DataFrameVisitors` handles data frames as columns of data frames, recursively. (#602)
-
 * joining factors whose levels are not identical (same levels, same order) generates
   a warning and coerces to character (#684). Same when joining a character vector
   with a factor and vice versa. 
