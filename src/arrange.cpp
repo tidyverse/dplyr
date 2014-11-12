@@ -77,7 +77,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
         CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env()) ;
 
         SEXP v = __(call_proxy.eval()) ;
-        if( !white_list(v) || TYPEOF(v) == VECSXP ){
+        if( !white_list(v) ){
             std::stringstream ss ;
             ss << "cannot arrange column of class '"
                << get_single_class(v)
@@ -85,7 +85,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
             stop(ss.str()) ;
         }
 
-        if( Rf_length(v) != data.nrows() ){
+        if( !Rf_inherits(v, "data.frame" ) && Rf_length(v) != data.nrows() ){
             std::stringstream s ;
             s << "incorrect size ("
               << Rf_length(v)

@@ -54,6 +54,51 @@ namespace dplyr {
         
     private: 
         VECTOR vec ;    
+    } ;   
+    
+    // ascending = true
+    template <bool ascending>
+    class OrderVisitorDataFrame : public OrderVisitor {
+    public:
+        OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
+        
+        inline bool equal( int i, int j) const {
+            return visitors.equal(i,j) ;    
+        }
+        
+        inline bool before( int i, int j) const {
+            return visitors.less(i,j) ; 
+        }
+        
+        inline SEXP get(){
+            return data ; 
+        }
+        
+    private:
+        DataFrame data ;
+        DataFrameVisitors visitors ;
+    } ;
+    
+    template <>
+    class OrderVisitorDataFrame<false> : public OrderVisitor{
+    public:
+        OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
+        
+        inline bool equal( int i, int j) const {
+            return visitors.equal(i,j) ;    
+        }
+        
+        inline bool before( int i, int j) const {
+            return visitors.greater(i,j) ; 
+        }
+        
+        inline SEXP get(){
+            return data ; 
+        }
+        
+    private:
+        DataFrame data ;
+        DataFrameVisitors visitors ;
     } ;
 
     inline OrderVisitor* order_visitor( SEXP vec, bool ascending ){
@@ -64,6 +109,13 @@ namespace dplyr {
                 case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , true, Vector<LGLSXP > >( vec ) ;
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , true, Vector<STRSXP > >( vec ) ;
                 case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , true, Vector<CPLXSXP > >( vec ) ;
+                case VECSXP: 
+                    {
+                        if( Rf_inherits( vec, "data.frame" ) ){
+                            return new OrderVisitorDataFrame<true>( vec ) ;
+                        }
+                        break ;
+                    }
                 default: break ;
             }
         } else { 
@@ -73,6 +125,14 @@ namespace dplyr {
                 case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , false, Vector<LGLSXP > >( vec ) ;
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , false, Vector<STRSXP > >( vec ) ;
                 case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , false, Vector<CPLXSXP > >( vec ) ;
+                case VECSXP: 
+                {
+                    if( Rf_inherits( vec, "data.frame" ) ){
+                        return new OrderVisitorDataFrame<false>( vec ) ;
+                    }
+                    break ;
+                }
+                
                 default: break ;
             }
         }

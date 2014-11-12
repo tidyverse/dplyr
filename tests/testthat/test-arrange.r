@@ -144,3 +144,24 @@ test_that("arrange handles complex vectors", {
   
 })
 
+test_that("arrange handles data.frame columns (#765)", {
+  df <- data.frame( a = rep(c(2,1), each = 5), b = 1:10, c = 1:10 )
+  df$b <- data.frame( x = 10:1, y = 1:10 )
+  res <- arrange( df, a, b )
+  expect_equal( names(res), c("a", "b", "c" ) )
+  expect_equal( sapply(res, class ), sapply(df, class) )
+  expect_equal( res$a, rep(c(1,2), each = 5 ) )
+  expect_equal( res$b$x, 1:10 )
+  expect_equal( res$b$y, 10:1 )
+  expect_equal( res$c, 10:1 )
+  
+  res <- arrange( df, a, desc(b) )
+  expect_equal( names(res), c("a", "b", "c" ) )
+  expect_equal( sapply(res, class ), sapply(df, class) )
+  expect_equal( res$a, rep(c(1,2), each = 5 ) )
+  expect_equal( res$b$x, c(5:1,10:6) )
+  expect_equal( res$b$y, c(6:10, 1:5) )
+  expect_equal( res$c, c(6:10, 1:5) )
+  
+})
+
