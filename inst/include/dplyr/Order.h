@@ -18,8 +18,9 @@ namespace dplyr {
         OrderVisitors( DataFrame data ) : 
             visitors(data.size()), n(data.size()), nrows( data.nrows() )
         {
-            for( int i=0; i<n; i++)
+            for( int i=0; i<n; i++){
                 visitors[i]  = order_visitor( data[i], true );
+            }
         } 
         
         OrderVisitors( DataFrame data, CharacterVector names ) : 
