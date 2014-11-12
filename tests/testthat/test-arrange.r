@@ -165,3 +165,24 @@ test_that("arrange handles data.frame columns (#765)", {
   
 })
 
+test_that("arrange handles matrix columns (#765)", {
+  df <- data.frame( a = rep(c(2,1), each = 5), b = 1:10, c = 1:10 )
+  df$b <- cbind(10:1, 1:10)
+  res <- arrange( df, a, b )
+  expect_equal( names(res), c("a", "b", "c" ) )
+  expect_equal( sapply(res, class ), sapply(df, class) )
+  expect_equal( res$a, rep(c(1,2), each = 5 ) )
+  expect_equal( res$b[,1], 1:10 )
+  expect_equal( res$b[,2], 10:1 )
+  expect_equal( res$c, 10:1 )
+  
+  res <- arrange( df, a, desc(b) )
+  expect_equal( names(res), c("a", "b", "c" ) )
+  expect_equal( sapply(res, class ), sapply(df, class) )
+  expect_equal( res$a, rep(c(1,2), each = 5 ) )
+  expect_equal( res$b[,1], c(5:1,10:6) )
+  expect_equal( res$b[,2], c(6:10, 1:5) )
+  expect_equal( res$c, c(6:10, 1:5) )
+  
+})
+

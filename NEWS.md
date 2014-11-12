@@ -15,7 +15,7 @@
 * Added the internal class template `MatrixColumnVisitor` to represent 
   `VectorVisitor` concept for a column that is a `matrix`. Part of #602  
 
-* `arrange` can sort based on `data.frame` columns (#765).   
+* `arrange` can sort based on `data.frame` and `matrix` columns (#765).   
   
 # dplyr 0.3.0.9000
 

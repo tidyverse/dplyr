@@ -85,13 +85,39 @@ List arrange_impl( DataFrame data, LazyDots dots ){
             stop(ss.str()) ;
         }
 
-        if( !Rf_inherits(v, "data.frame" ) && Rf_length(v) != data.nrows() ){
-            std::stringstream s ;
-            s << "incorrect size ("
-              << Rf_length(v)
-              << "), expecting :"
-              << data.nrows() ;
-            stop(s.str()) ;
+        if( Rf_inherits(v, "data.frame" ) ){
+            DataFrame df(v) ;
+            int nr = df.nrows() ;
+            if( nr != data.nrows() ){
+                std::stringstream s ;
+                s << "data frame column with incompatible number of rows ("
+                  << nr
+                  << "), expecting :"
+                  << data.nrows() ;
+                stop(s.str()) ;
+                
+            }
+        } else if( Rf_isMatrix(v) ) {
+            SEXP dim = Rf_getAttrib(v, Rf_install( "dim" ) ) ;
+            int nr = INTEGER(dim)[0] ;
+            if( nr != data.nrows() ){
+                std::stringstream s ;
+                s << "matrix column with incompatible number of rows ("
+                  << nr
+                  << "), expecting :"
+                  << data.nrows() ;
+                stop(s.str()) ;
+                
+            }
+        } else {
+            if( Rf_length(v) != data.nrows() ){
+                std::stringstream s ;
+                s << "incorrect size ("
+                  << Rf_length(v)
+                  << "), expecting :"
+                  << data.nrows() ;
+                stop(s.str()) ;
+            }
         }
         variables[k] = v ;
         ascending[k] = !is_desc ;
