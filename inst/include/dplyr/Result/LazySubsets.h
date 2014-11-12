@@ -2,10 +2,10 @@
 #define dplyr_LazySubsets_H
 
 namespace dplyr {
-     
+        
     class LazySubsets {
     public:
-        typedef dplyr_hash_map<SEXP,SEXP> DataMap ;
+        typedef dplyr_hash_map<Name,SEXP> DataMap ;
         typedef DataMap::const_iterator const_iterator ;
         
         LazySubsets(){}
@@ -13,6 +13,13 @@ namespace dplyr {
         LazySubsets( const DataFrame& df) : data_map(), nr(df.nrows()){
             CharacterVector names = df.names() ;
             for( int i=0; i<df.size(); i++){
+                SEXP column = df[i] ;
+                if( Rf_inherits( column, "data.frame" ) ){
+                    stop( "data frame as column is not supported" ) ;
+                }
+                if( Rf_inherits( column, "matrix" ) ){
+                    stop( "matrix as column is not supported" ) ;    
+                }
                 data_map[as_symbol(names[i])] = df[i] ;    
             }
         }

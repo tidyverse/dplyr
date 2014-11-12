@@ -310,4 +310,28 @@ test_that("inner_join does not reorder (#684)", {
   expect_equal( res$Letters, c("C", "B", "C" ) )
 })
 
+test_that("joins coerce factors with different levels to character (#684)", {
+  d1 <- data_frame( a = factor( c("a", "b", "c" ) ) )
+  d2 <- data_frame( a = factor( c("a", "e" ) ) )
+  expect_warning( { res <- inner_join( d1, d2 ) })
+  expect_is( res$a, "character" )
+  
+  # different orders
+  d2 <- d1
+  attr( d2$a, "levels" ) <- c("c", "b", "a" )
+  expect_warning( { res <- inner_join( d1, d2 ) })
+  expect_is( res$a, "character" )
+  
+})
+
+test_that("joins between factor and character coerces to character with a warning (#684)", {
+  d1 <- data_frame( a = factor( c("a", "b", "c" ) ) )
+  d2 <- data_frame( a = c("a", "e" ) )
+  expect_warning( { res <- inner_join( d1, d2 ) })
+  expect_is( res$a, "character" )
+  
+  expect_warning( { res <- inner_join( d2, d1 ) })
+  expect_is( res$a, "character" )
+    
+})
 

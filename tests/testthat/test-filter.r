@@ -208,3 +208,13 @@ test_that("%in% works as expected (#126)", {
   
 })
 
+test_that("data frames and matrices as column of data frame processed by verb generates error (#602)", {
+   df <- data.frame( a = 1:10, b = 1:10, c = 1:10 )
+   df$b <- data.frame( x = 1:10, y = 1:10 )
+   expect_error( filter( df, a < 5 ) )
+   
+   df$b <- matrix( 1:20, nc = 2 )
+   expect_error( filter( df, a < 5 ) )
+   
+})
+

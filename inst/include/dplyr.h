@@ -49,6 +49,10 @@ namespace dplyr {
     class LazySubsets ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
     const char* get_single_class(SEXP x) ;
+    
+    template <typename Index>
+    DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
+    
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
 bool can_simplify(SEXP) ;

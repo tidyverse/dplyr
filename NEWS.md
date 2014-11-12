@@ -38,6 +38,17 @@
 * `first` and `last` correctly promote factors, dates and times (#509). 
  
 * `inner_join` no longer reorders (#684). 
+  
+* joining factors whose levels are not identical (same levels, same order) generates
+  a warning and coerces to character (#684). Same when joining a character vector
+  with a factor and vice versa. 
+  
+* `rbind_list` fails to combine `INTSXP` and `factor` (#751)
+
+* `min(.,na.rm = TRUE)` did not handle `Date` encoded as `REALSXP` (#755)
+
+* data frames and matrices as column of data frame processed by verbs 
+  generates an error (#602). 
 
 # dplyr 0.3.0.1
 

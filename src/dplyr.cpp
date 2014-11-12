@@ -69,13 +69,17 @@ template< template <int, bool> class Tmpl, bool narm>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary){
     switch( TYPEOF(arg) ){
         case INTSXP:
+            {
             if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) )
                 return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
+            }
         case REALSXP:
+            {
             if( Rf_inherits(arg, "Date" ) || Rf_inherits(arg, "POSIXct" ) || Rf_inherits(arg, "difftime" ) )
-                return typed_processor( Tmpl<INTSXP, narm>(arg, is_summary), arg  ) ;
+                return typed_processor( Tmpl<REALSXP, narm>(arg, is_summary), arg  ) ;
             return new Tmpl<REALSXP,narm>( arg, is_summary ) ;
+            }
         default: break ;
     }
     return 0 ;
@@ -904,6 +908,12 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
 }
 
 template <typename Index>
+DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
+    DataFrameVisitors visitors(df) ;
+    return visitors.subset(indices, classes) ;
+}
+
+template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by_x, CharacterVector by_y , CharacterVector classes ){
     // first the joined columns
     DataFrameJoinVisitors join_visitors(x, y, by_x, by_y) ;
@@ -1009,7 +1019,7 @@ void assert_all_white_list(const DataFrame& data){
         if( !white_list(data[i]) ){
             std::stringstream ss ;
             CharacterVector names = data.names() ;
-            ss << "column '" << names[i] << "' has unsupported type" ;
+            ss << "column '" << names[i] << "' has unsupported type : " << get_single_class(data[i]);
             stop(ss.str()) ;
         }
     }
