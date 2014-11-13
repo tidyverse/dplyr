@@ -53,13 +53,28 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
     int n = data.nrows() ;
     train_push_back( map, n ) ;
 
+    DataFrame labels = visitors.subset( map, "data.frame") ;
+    OrderVisitors labels_order_visitors(labels) ;
+    IntegerVector labels_order = labels_order_visitors.apply() ;
+
+    DataFrameVisitors labels_visitors(labels ) ;
+    labels = labels_visitors.subset(labels_order, "data.frame" ) ;
+
+
     int ngroups = map.size() ;
 
     IntegerVector res = no_init(n) ;
     
+    std::vector<const std::vector<int>* > chunks(ngroups) ;
     ChunkIndexMap::const_iterator it = map.begin() ;
     for( int i=0; i<ngroups; i++, ++it){
-        const std::vector<int>& v = it->second ;
+        chunks[i] = &it->second ;
+    }
+
+    for( int i=0; i<ngroups; i++){
+        int idx = labels_order[i] ;
+        const std::vector<int>& v = *chunks[idx] ;
+        
         int n_index = v.size() ;
         for( int j=0; j<n_index; j++){
             res[ v[j] ] = i+1 ;    
