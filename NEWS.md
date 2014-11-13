@@ -17,6 +17,10 @@
 
 * `arrange` can sort based on `data.frame` and `matrix` columns (#765).   
   
+* New function `group_indices` that gives unique id (#771). `group_indices` can be 
+  either called on a `grouped_df` without any argument or on a `data.frame` with
+  same arguments as `group_by`. 
+
 # dplyr 0.3.0.9000
 
 * Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
