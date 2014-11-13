@@ -20,7 +20,8 @@ group_indices_ <- function(.data, ..., .dots, add = FALSE) {
 
 #' @export
 group_indices_.data.frame <- function(.data, ..., .dots ){
-  group_indices_(group_by_(.data, .dots = .dots))
+  groups <- group_by_prepare(.data, .dots = .dots )
+  grouped_indices_impl(groups$data, groups$groups)
 }
 
 #' @export
