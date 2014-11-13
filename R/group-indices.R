@@ -18,14 +18,16 @@ group_indices_ <- function(.data, ..., .dots, add = FALSE) {
   UseMethod("group_indices_")
 }
 
+#' @export
 group_indices_.data.frame <- function(.data, ..., .dots ){
-  n <- nrow(.data)
-  res <- integer(n)
-  indices <- attr(data, "indices")
-  ngroups <- length(indices)
-  for(i in seq_len(ngroups)){
-    res[ indices[[i]] + 1 ] <- i
+  group_indices_(group_by(.data, ..., .dots))
+}
+
+#' @export
+group_indices_.grouped_df <- function(.data, ..., .dots ){
+  if( length(...) || length(.dots) ){
+    warning( "group_indices_.grouped_df ignores extra arguments" )
   }
-  res
+  grouped_indices_grouped_df_impl(.data)
 }
 

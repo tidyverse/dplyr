@@ -619,6 +619,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// grouped_indices_grouped_df_impl
+IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf);
+RcppExport SEXP dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP );
+        IntegerVector __result = grouped_indices_grouped_df_impl(gdf);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // select_impl
 DataFrame select_impl(DataFrame df, CharacterVector vars);
 RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
