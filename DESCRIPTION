@@ -66,6 +66,7 @@ Collate:
     'funs.R'
     'glimpse.R'
     'group-by.r'
+    'group-indices.R'
     'group-size.r'
     'grouped-df.r'
     'grouped-dt.r'
