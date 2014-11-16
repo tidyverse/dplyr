@@ -13,6 +13,9 @@ namespace dplyr {
         virtual bool is_factor_collecter() const{ 
             return false ;    
         }
+        virtual bool is_logical_all_na() const {
+            return false ;    
+        }
         virtual std::string describe() const = 0 ;
     } ;
     
@@ -45,6 +48,10 @@ namespace dplyr {
         
         std::string describe() const {
             return vector_class<RTYPE>() ; 
+        }
+        
+        bool is_logical_all_na() const {
+            return RTYPE == LGLSXP && all(is_na(data)).is_true() ;    
         }
         
     protected:

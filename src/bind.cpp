@@ -72,6 +72,11 @@ List rbind__impl( Dots dots ){
             } else if( all_na(source) ) {
                 // do nothing, the collecter already initialized data with the
                 // right NA 
+            } else if( coll->is_logical_all_na()  ) {
+                Collecter* new_collecter = collecter( source, n ) ;
+                new_collecter->collect( SlicingIndex(k, nrows), source ) ;
+                delete coll ;
+                columns[index] = new_collecter ;
             } else {
                 std::stringstream msg ;
                 std::string column_name(name) ;

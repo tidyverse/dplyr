@@ -161,5 +161,13 @@ test_that("rbind handles all NA columns (#493)", {
   expect_true( is.na(res$x[3]) )
   expect_is( res$x, "factor" )
   
+  mydata <- list(
+    data.frame(x=NA),
+    data.frame(x=c("foo", "bar"))
+  )
+  res <- rbind_all(mydata)
+  expect_true( is.na(res$x[1]) )
+  expect_is( res$x, "factor" )
+  
 })
 
