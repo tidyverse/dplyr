@@ -40,7 +40,22 @@ namespace dplyr {
     inline std::size_t hash_value(const Name& name){
         return name.hash() ;
     }
-
+    
 }
+
+#if defined(_WIN32)
+namespace std {
+    namespace tr1 {
+        
+        template <>
+        struct hash< mystruct > {
+            std::size_t operator()( dplyr::Name & c ) const { 
+                return dplyr::hash_value( const_cast<const dplyr::Name&>(c) ); 
+            }
+        };
+        
+    }
+}
+#endif
 
 #endif
