@@ -99,7 +99,7 @@ namespace dplyr {
         inline SEXP subset( const ChunkIndexMap& index ) const {
             int n = index.size() ;
             Matrix<RTYPE> res( n, data.ncol() ) ;
-            for( int h=0; h<visitors.size(); h++){ 
+            for( size_t h=0; h<visitors.size(); h++){ 
                 ChunkIndexMap::const_iterator it = index.begin(); 
                 Column column = res.column(h) ;
                 Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h) ;
