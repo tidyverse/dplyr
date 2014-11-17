@@ -49,8 +49,8 @@ namespace std {
         
         template <>
         struct hash< dplyr::Name > {
-            std::size_t operator()( dplyr::Name & c ) const { 
-                return dplyr::hash_value( const_cast<const dplyr::Name&>(c) ); 
+            std::size_t operator()( const dplyr::Name & c ) const { 
+                return dplyr::hash_value( c ); 
             }
         };
         
