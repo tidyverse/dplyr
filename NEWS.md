@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20).
+  #710
+
 * `rbind`ing a column full of `NA` is allowed and just collects the appropriate 
   missing value for the column type being collected (#493). 
   
