@@ -35,7 +35,7 @@ a sqlite \code{\link{tbl}} object
 This standard method works for all sql sources.
 }
 \examples{
-if (require("RSQLite") && require("RSQLite.extfuns")) {
+if (requireNamespace("RSQLite")) {
 db <- src_sqlite(tempfile(), create = TRUE)
 
 iris2 <- copy_to(db, iris)

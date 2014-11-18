@@ -22,8 +22,7 @@ Imports:
     lazyeval (>= 0.1.8),
     DBI (>= 0.3)
 Suggests:
-    RSQLite,
-    RSQLite.extfuns,
+    RSQLite (>= 1.0.0),
     RMySQL,
     RPostgreSQL,
     data.table,

@@ -101,7 +101,7 @@ my_tbl <- tbl(my_db, "my_table")
 # run lahman_sqlite()
 
 \donttest{
-if (require("RSQLite") && has_lahman("sqlite")) {
+if (requireNamespace("RSQLite") && has_lahman("sqlite")) {
 # Methods -------------------------------------------------------------------
 batting <- tbl(lahman_sqlite(), "Batting")
 dim(batting)

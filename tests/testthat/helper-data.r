@@ -1,6 +1,5 @@
 library(data.table, warn.conflicts = FALSE)
 library(RSQLite, quietly = TRUE)
-library(RSQLite.extfuns, quietly = TRUE)
 library(RPostgreSQL, quietly = TRUE)
 
 int_to_num <- function(x, y) {
