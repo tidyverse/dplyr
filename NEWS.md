@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* dplyr no longer prints row names, since this is misleading as dplyr 
+  operations will silently discard them (#669).
+
 * `[.tbl_df` correctly computes row names for 0-column data frames, avoiding
   problems with xtable (#656).
 
