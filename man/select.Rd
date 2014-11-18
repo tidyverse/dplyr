@@ -12,7 +12,7 @@ select_(.data, ..., .dots)
 
 rename(.data, ...)
 
-rename_(.data, ...)
+rename_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

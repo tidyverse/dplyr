@@ -261,7 +261,7 @@ rename <- function(.data, ...) {
 
 #' @rdname select
 #' @export
-rename_ <- function(.data, ...) {
+rename_ <- function(.data, ..., .dots) {
   UseMethod("rename_")
 }
 

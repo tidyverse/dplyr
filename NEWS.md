@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* `rename_()` generic gains missing `.dots` argument (#708).
+
 * dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20).
   #710
 
