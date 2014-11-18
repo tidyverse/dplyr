@@ -1,5 +1,9 @@
 # dplyr 0.3.1.9000
 
+* dplyr now requires RSQLite >= 1.0. This shouldn't affect your code
+  in any way (except that RSQLite now doesn't need to be loaded) 
+  but does simplify the internals (#622).
+
 * `rename_()` generic gains missing `.dots` argument (#708).
 
 * dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20),
