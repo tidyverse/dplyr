@@ -22,7 +22,9 @@ percent_rank(x)
 cume_dist(x)
 }
 \arguments{
-\item{x}{a vector of values to rank}
+\item{x}{a vector of values to rank. Missing values are left as is.
+If you want to treat them as the smallest or largest values, replace
+with Inf or -Inf before ranking.}
 
 \item{n}{number of groups to split up into.}
 }
@@ -54,7 +56,7 @@ to smallest outputs. Use \code{\link{desc}} to reverse the direction..
 }
 }
 \examples{
-x <- c(5, 1, 3, 2, 2)
+x <- c(5, 1, 3, 2, 2, NA)
 row_number(x)
 min_rank(x)
 dense_rank(x)

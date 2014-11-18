@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* Ranking functions now preserve missing values (#774).
+
 * dplyr now requires RSQLite >= 1.0. This shouldn't affect your code
   in any way (except that RSQLite now doesn't need to be loaded) 
   but does simplify the internals (#622).
