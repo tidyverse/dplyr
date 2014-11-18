@@ -62,9 +62,11 @@ ungroup.grouped_df <- function(x) {
 #' @export
 `[.grouped_df` <- function(x, i, j, ...) {
   y <- NextMethod()
-  if( !all(groups(x) %in% names(y)) ){
-    missings <- sprintf( "'%s'", paste(setdiff( groups(x), names(y) ), sep = "," ) )
-    stop( sprintf( "cannot group, grouping variables %s not included", missings ) )    
+
+  if (!all(groups(x) %in% names(y))) {
+    tbl_df(y)
+  } else {
+    grouped_df(y, groups(x))
   }
-  grouped_df(y, groups(x))
+
 }

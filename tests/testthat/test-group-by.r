@@ -213,6 +213,18 @@ test_that("grouped_df requires a list of symbols (#665)", {
 })
 
 test_that("group_by gives meaningful message with unknow column (#716)",{
-  expect_error( group_by(iris, wrong_name_of_variable), "unknown column" )  
+  expect_error( group_by(iris, wrong_name_of_variable), "unknown column" )
 })
 
+test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
+  by_cyl <- mtcars %>% group_by(cyl)
+  expect_equal(by_cyl %>% groups(), by_cyl %>% `[`(1:3) %>% groups)
+})
+
+test_that("[ on grouped_df drops grouping if subset doesn't include grouping vars", {
+  by_cyl <- mtcars %>% group_by(cyl)
+  no_cyl <- by_cyl %>% `[`(c(1, 3))
+
+  expect_equal(groups(no_cyl), NULL)
+  expect_is(no_cyl, "tbl_df")
+})

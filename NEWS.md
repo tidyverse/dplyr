@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* Subsetting a `grouped_df` with `[` will silently dropping grouping status
+  if you don't include the grouping column (#733).
+
 * Do uses lazyeval to correctly evaluate its arguments in the correct 
   environment (#744).
 
