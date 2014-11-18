@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* Do allows in place modification of the grouped data. This is probably a bad
+  idea but it's sometimes convenient (#737).
+
 * Ranking functions now preserve missing values (#774).
 
 * dplyr now requires RSQLite >= 1.0. This shouldn't affect your code

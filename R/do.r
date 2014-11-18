@@ -148,8 +148,12 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
   env <- new.env(parent = parent.frame())
-  makeActiveBinding(".", function() {
-    group_data[index[[`_i`]] + 1L, , drop = FALSE]
+  makeActiveBinding(".", function(value) {
+    if (missing(value)) {
+      group_data[index[[`_i`]] + 1L, , drop = FALSE]
+    } else {
+      group_data[index[[`_i`]] + 1L, ] <<- value
+    }
   }, env)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
