@@ -2,7 +2,7 @@
 
 * `rename_()` generic gains missing `.dots` argument (#708).
 
-* dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20)
+* dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20),
   (#710).
 
 * `rbind`ing a column full of `NA` is allowed and just collects the appropriate 
