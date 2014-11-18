@@ -47,6 +47,7 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
 
   df <- as.data.frame(head(x, n))
   if (nrow(df) == 0 || ncol(df) == 0) return()
+  rownames(df) <- NULL
 
   # List columns need special treatment because format can't be trusted
   is_list <- vapply(df, is.list, logical(1))
