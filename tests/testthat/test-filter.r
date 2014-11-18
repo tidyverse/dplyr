@@ -241,3 +241,10 @@ test_that( "filter handles matrices as columns (#602)", {
   expect_equal( ncol(res$b), 2L )
 })
 
+test_that("row_number does not segfault with example from #781", {
+  z <- data.frame(a=c(1,2,3))
+  b <- "a"
+  res <- z %>% filter(row_number(b) == 2)
+  expect_equal( nrow(res), 0L )
+})
+

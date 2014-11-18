@@ -173,23 +173,28 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
         if( TYPEOF(data) == SYMSXP ){
           if( subsets.count(data) ) data = subsets.get_variable(data) ;
           else return 0 ;
+        }    
+        if (Rf_length(data) == subsets.nrows() ){
+            switch( TYPEOF(data) ){
+                case INTSXP:  return new RowNumber<INTSXP,  false>( data ) ;
+                case REALSXP: return new RowNumber<REALSXP, false>( data ) ;
+                case STRSXP:  return new RowNumber<STRSXP,  false>( data ) ;
+                default: break;
+            }
         }
-        switch( TYPEOF(data) ){
-            case INTSXP:  return new RowNumber<INTSXP,  false>( data ) ;
-            case REALSXP: return new RowNumber<REALSXP, false>( data ) ;
-            case STRSXP:  return new RowNumber<STRSXP,  false>( data ) ;
-            default: break;
-        }
+        return 0 ;
     }
     if( TYPEOF(data) == SYMSXP ){
       if( subsets.count(data) ) data = subsets.get_variable(data) ;
       else return 0 ;
     }
-    switch( TYPEOF(data) ){
-        case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
-        case REALSXP: return new RowNumber<REALSXP,true>( data ) ;
-        case STRSXP: return new RowNumber<STRSXP,true>( data ) ;
-        default: break;
+    if (Rf_length(data) == subsets.nrows() ){
+        switch( TYPEOF(data) ){
+            case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
+            case REALSXP: return new RowNumber<REALSXP,true>( data ) ;
+            case STRSXP: return new RowNumber<STRSXP,true>( data ) ;
+            default: break;
+        }
     }
     // we don't know how to handle it.
     return 0 ;

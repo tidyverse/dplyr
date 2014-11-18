@@ -20,6 +20,8 @@
 * New function `group_indices` that gives unique id (#771). `group_indices` can be 
   either called on a `grouped_df` without any argument or on a `data.frame` with
   same arguments as `group_by`. 
+  
+* `row_number` more careful (#781)  
 
 # dplyr 0.3.0.9000
 
