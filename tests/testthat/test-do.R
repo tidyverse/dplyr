@@ -66,6 +66,14 @@ test_that("empty inputs give empty outputs (#597)", {
   expect_equal(out, data.frame(b = character()) %>% group_by(b))
 })
 
+test_that("grouped do evaluates args in correct environment", {
+  a <- 10
+  f <- function(a) {
+    mtcars %>% group_by(cyl) %>% do(a = a)
+  }
+  expect_equal(f(100)$a, list(100, 100, 100))
+})
+
 # Ungrouped data frames --------------------------------------------------------
 
 test_that("ungrouped data frame with unnamed argument returns data frame", {
@@ -79,6 +87,14 @@ test_that("ungrouped data frame with named argument returns list data frame", {
   expect_is(out, "tbl_df")
   expect_equal(out$x, list(1))
   expect_equal(out$y, list(2:10))
+})
+
+test_that("ungrouped do evaluates args in correct environment", {
+  a <- 10
+  f <- function(a) {
+    mtcars %>% do(a = a)
+  }
+  expect_equal(f(100)$a, list(100))
 })
 
 # Data tables  -----------------------------------------------------------------

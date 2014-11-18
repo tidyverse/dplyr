@@ -86,19 +86,23 @@ do.NULL <- function(.data, ...) {
 
 #' @export
 do.data.frame <- function(.data, ...) {
-  args <- dots(...)
+  args <- lazyeval::lazy_dots(...)
   named <- named_args(args)
 
-  env <- new.env(parent = parent.frame())
-  env$. <- .data
+  data <- list(. = .data)
 
   if (!named) {
-    out <- eval(args[[1]], envir = env)
+    env <- new.env(parent = args[[1]]$env)
+    env$. <- .data
+
+    out <- lazyeval::lazy_eval(args[[1]], data)
     if (!is.data.frame(out)) {
       stop("Result must be a data frame", call. = FALSE)
     }
   } else {
-    out <- lapply(args, function(arg) list(eval(arg, envir = env)))
+    out <- lapply(args, function(arg) {
+      list(lazyeval::lazy_eval(arg, data))
+    })
     names(out) <- names(args)
     attr(out, "row.names") <- .set_row_names(1L)
     # Use tbl_df to ensure safe printing of list columns
@@ -119,8 +123,9 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- dots(...)
+  args <- lazyeval::lazy_dots(...)
   named <- named_args(args)
+  env <- new.env(parent = lazyeval::common_env(args))
   labels <- attr(.data, "labels")
 
   index <- attr(.data, "indices")
@@ -129,12 +134,11 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
 
   # Special case for zero-group input
   if (n == 0) {
-    env <- new.env(parent = parent.frame())
     env$. <- group_data
 
     out <- vector("list", m)
     for (j in seq_len(m)) {
-      out[[j]] <- eval(args[[j]], envir = env)
+      out[[j]] <- eval(args[[j]]$expr, envir = env)
     }
 
     if (!named) {
@@ -147,14 +151,13 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
-  env <- new.env(parent = parent.frame())
-  makeActiveBinding(".", function(value) {
+  makeActiveBinding(env = env, ".", function(value) {
     if (missing(value)) {
       group_data[index[[`_i`]] + 1L, , drop = FALSE]
     } else {
       group_data[index[[`_i`]] + 1L, ] <<- value
     }
-  }, env)
+  })
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
@@ -162,7 +165,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval(args[[j]], envir = env))
+      out[[j]][`_i`] <- list(eval(args[[j]]$expr, envir = env))
       p$tick()$print()
     }
   }
@@ -179,14 +182,14 @@ do.rowwise_df <- function(.data, ..., env = parent.frame()) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- dots(...)
+  args <- lazyeval::lazy_dots(...)
   named <- named_args(args)
+  env <- new.env(parent = lazyeval::common_env(args))
+  index <- attr(.data, "indices")
 
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
-  index <- attr(.data, "indices")
-  env <- new.env(parent = parent.frame())
   makeActiveBinding(".", function() {
     lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
   }, env)
@@ -200,7 +203,7 @@ do.rowwise_df <- function(.data, ..., env = parent.frame()) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval(args[[j]], envir = env))
+      out[[j]][`_i`] <- list(eval(args[[j]]$expr, envir = env))
       p$tick()$print()
     }
   }

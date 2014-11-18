@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* Do uses lazyeval to correctly evaluate its arguments in the correct 
+  environment (#744).
+
 * Do allows in place modification of the grouped data. This is probably a bad
   idea but it's sometimes convenient (#737).
 
