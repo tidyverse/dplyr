@@ -21,8 +21,8 @@ before_script:
 # - psql -c 'create database test;' -U postgres
 # Install dplyr package then cache sqlite and postgres version of Lahman
 - R CMD INSTALL .
-- Rscript -e "library(methods); library(dplyr); lahman_sqlite(); lahman_postgres()"
-# - Rscript -e "library(methods); library(dplyr); nycflights13_postgres(); nycflights13_sqlite()"
+- Rscript -e "library(methods); library(dplyr); lahman_sqlite(); #lahman_postgres()"
+- Rscript -e "library(methods); library(dplyr); nycflights13_sqlite(); #nycflights13_postgres()"
 script: ./travis-tool.sh run_tests
 
 after_failure:
