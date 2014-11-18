@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* `[.tbl_df` correctly computes row names for 0-column data frames, avoiding
+  problems with xtable (#656).
+
 * Subsetting a `grouped_df` with `[` will silently dropping grouping status
   if you don't include the grouping column (#733).
 

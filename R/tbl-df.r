@@ -108,11 +108,13 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
   if (missing(i) && missing(j)) return(x)
   if (drop) warning("drop ignored", call. = FALSE)
 
+  nr <- nrow(x)
+
   # Escape early if nargs() == 2L; ie, column subsetting
   if (nargs() == 2L) {
     result <- .subset(x, i)
     class(result) <- c("tbl_df", "data.frame")
-    attr(result, "row.names") <- .set_row_names(length(x[[1]]))
+    attr(result, "row.names") <- .set_row_names(nr)
     return(result)
   }
 
@@ -123,15 +125,16 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
 
   # Next, subset rows
   if (!missing(i)) {
-    x <- lapply(x, `[`, i)
+    if (length(x) == 0) {
+      nr <- length(attr(x, "row.names")[i])
+    } else {
+      x <- lapply(x, `[`, i)
+      nr <- length(x[[1]])
+    }
   }
 
   class(x) <- c("tbl_df", "data.frame")
-  attr(x, "row.names") <- if(length(x)){
-    .set_row_names(length(x[[1]]))
-  } else {
-    c(NA_integer_,0)  
-  }
+  attr(x, "row.names") <- .set_row_names(nr)
   x
 }
 
