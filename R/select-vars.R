@@ -128,7 +128,7 @@ rename_vars <- function(vars, ...) {
 #' @rdname select_vars
 rename_vars_ <- function(vars, args) {
   if (any(names2(args) == "")) {
-    stop("All arguments to rename must be named.", stop = FALSE)
+    stop("All arguments to rename must be named.", call. = FALSE)
   }
 
   args <- lazyeval::as.lazy_dots(args)
