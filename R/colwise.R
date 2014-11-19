@@ -51,6 +51,14 @@ summarise_each_ <- function(tbl, funs, vars) {
 }
 
 #' @export
+#' @rdname summarise_each
+summarize_each <- summarise_each
+
+#' @export
+#' @rdname summarise_each
+summarize_each_ <- summarise_each_
+
+#' @export
 summarise_each_q <- function(...) {
   .Deprecated("summarise_each_")
   summarise_each_(...)
