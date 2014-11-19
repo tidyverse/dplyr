@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* `glimpse()` includes the total number of observations (#692).
+
 * `group_by()` on a data table preserves original order of the rows (#623).
 
 * Filtering data tables no longer fails when the table has a variable called 
