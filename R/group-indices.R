@@ -2,9 +2,10 @@
 #'
 #' Generate a unique id for each group
 #'
-#' @seealso \code{\link{group_by}} 
+#' @seealso \code{\link{group_by}}
 #' @param .data a tbl
-#' @param ... variables to group by. 
+#' @inheritParams group_by
+#' @inheritParams filter
 #' @export
 #' @examples
 #' group_indices(mtcars, cyl)
