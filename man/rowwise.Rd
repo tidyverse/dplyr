@@ -14,7 +14,7 @@ create list-variables. It is also useful to support arbitrary
 complex operations that need to be applied to each row.
 }
 \details{
-Currently \code{rowwise} grouping only works with data frames. It's
+Currently \code{rowwise} grouping only works with data frames. Its
 main impact is to allow you to work with list-variables in
 \code{\link{summarise}} and \code{\link{mutate}} without having to
 use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
