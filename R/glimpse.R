@@ -17,6 +17,7 @@
 #'   glimpse(batting)
 #' }
 glimpse <- function(tbl, width = getOption("width")) {
+  cat("Observations: ", nrow(tbl), "\n", sep = "")
   if (ncol(tbl) == 0) return(invisible())
 
   cat("Variables:\n")
