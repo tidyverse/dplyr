@@ -21,8 +21,8 @@ namespace dplyr{
         
         virtual SEXP delayed_process(const Data& gdf, SEXP first_result, CLASS* obj) {
             int n = gdf.ngroups() ; 
-            Shield<SEXP> res( Rf_allocVector( RTYPE, n) ) ;
-            STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>(res) ;
+            Vector<RTYPE> res(n) ;
+            STORAGE* ptr = res.begin() ;
             ptr[0] = Rcpp::as<STORAGE>( first_result );
             typename Data::group_iterator git = gdf.group_begin() ;
             ++git ;
@@ -40,7 +40,7 @@ namespace dplyr{
         
         virtual SEXP delayed_process(const Data& gdf, SEXP first_result, CLASS* obj) {
             int n = gdf.ngroups() ; 
-            Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
+            CharacterVector res(n) ;
             SET_STRING_ELT( res, 0, STRING_ELT(first_result, 0 ) ) ;
             typename Data::group_iterator git = gdf.group_begin() ;
             ++git ;
