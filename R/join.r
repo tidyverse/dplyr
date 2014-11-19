@@ -91,10 +91,13 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 common_by <- function(by = NULL, x, y) {
   if (!is.null(by)) {
-    return(list(
-      x = names(by) %||% by,
-      y = unname(by)
-    ))
+    x <- names(by) %||% by
+    y <- unname(by)
+
+    # If x partially named, assume unnamed are the same in both tables
+    x[x == ""] <- y[x == ""]
+
+    return(list(x = x, y = y))
   }
 
   by <- intersect(tbl_vars(x), tbl_vars(y))

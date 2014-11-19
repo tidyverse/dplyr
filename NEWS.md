@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* In joins, you can now name only those variables that are different between
+  the two tables, e.g. `inner_join(x, y, c("a", "b", "c" = "d"))` (#682).
+
 * You can now `group_by()` variables with more than 39 characters thanks to
   a fix in lazyeval (#705).
 
