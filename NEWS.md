@@ -86,6 +86,9 @@
 
 * Better naming of columns in joins (#655).   
 
+* `data_frame` now acts correctly if the first argument is a vector to be
+  recycled. (#680 thanks @jimhester)
+
 * hybrid `lag` and `lead` only handles simple call forms, the first 
   argument must have either no name or be called `x`. 
   Then the second argument must be either missing, with no name or be called `n`. 
