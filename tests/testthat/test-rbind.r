@@ -55,14 +55,14 @@ test_that("rbind_list doesn't promote factor to numeric", {
   df1 <- data.frame( a = 1:5, b = 1:5 )
   df2 <- data.frame( a = 1:5, b = factor(letters[1:5]) )
 
-  expect_error(rbind_list( df1, df2 ), "not compatible")
+  expect_error(rbind_list( df1, df2 ), "incompatible type")
 })
 
 test_that("rbind_list doesn't coerce integer to factor", {
   df1 <- data.frame( a = 1:10, b = 1:10 )
   df2 <- data.frame( a = 1:5, b = factor(letters[1:5]) )
 
-  expect_error( rbind_list( df1, df2 ), "not compatible" )
+  expect_error( rbind_list( df1, df2 ), "incompatible type" )
 })
 
 test_that( "rbind_list coerces factor to character when levels don't match", {
