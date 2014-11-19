@@ -382,3 +382,14 @@ test_that("nth handles expressions for n argument (#734)", {
   expect_equal( res$abc, df$y[idx])
 })
 
+test_that("summarise is not polluted by logical NA (#599)", {
+  dat <- data.frame(grp = rep(1:4, each = 2), val = c(NA, 2, 3:8))
+  Mean <- function(x, thresh = 2) {
+    res <- mean(x, na.rm = TRUE)
+    if (res > thresh) res else NA
+  }
+  res <- dat %>% group_by(grp) %>% summarise( val = Mean(val, thresh = 2))
+  expect_is( res$val, "numeric" )
+  expect_true( is.na(res$val[1]) )
+})
+

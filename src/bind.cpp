@@ -3,15 +3,6 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
-template <int RTYPE>
-inline bool all_na_impl( const Vector<RTYPE>& x ){
-    return all( is_na(x) ).is_true() ; 
-}
-
-inline bool all_na( SEXP x ){
-    RCPP_RETURN_VECTOR( all_na_impl, x ) ;        
-}
-
 template <typename Dots>
 List rbind__impl( Dots dots ){
     int ndata = dots.size() ;

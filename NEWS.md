@@ -47,7 +47,10 @@
   either called on a `grouped_df` without any argument or on a `data.frame` with
   same arguments as `group_by`. 
   
-* `row_number` more careful (#781)  
+* `row_number` more careful (#781) 
+
+* `summarise` more careful about `NA`, e.g. the decision on the result type will
+  be delayed until the first non NA value is returned. (#599) 
 
 # dplyr 0.3.0.9000
 
