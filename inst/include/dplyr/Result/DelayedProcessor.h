@@ -14,6 +14,35 @@ namespace dplyr{
            virtual SEXP delayed_process( const Data& map, SEXP first_result, CLASS*, group_iterator git ) = 0;
     } ;
     
+    template <int RTYPE>
+    typename Rcpp::traits::storage_type<RTYPE>::type strong_as( SEXP x ){
+        return as< typename Rcpp::traits::storage_type<RTYPE>::type >(x) ;   
+    }
+    
+    template <>
+    inline int strong_as<INTSXP>( SEXP x){
+        if( TYPEOF(x) == REALSXP ){
+            std::stringstream s ; 
+            s << "loss of precision when attempting to convert a "  
+              << get_single_class(x) 
+              << " to an integer" ;
+            stop(s.str());
+        }
+        return as<int>(x) ;
+    }
+    
+    template <>
+    inline int strong_as<LGLSXP>( SEXP x){
+        if( TYPEOF(x) == REALSXP || TYPEOF(x) == INTSXP ){
+            std::stringstream s ; 
+            s << "loss of precision when attempting to convert a "  
+              << get_single_class(x) 
+              << " to an logical" ;
+            stop(s.str());
+        }
+        return as<int>(x) ;
+    }
+    
     template <int RTYPE, typename CLASS, typename Data>
     class DelayedProcessor : public DelayedProcessor_Base<CLASS, Data> {
     public:
@@ -33,11 +62,11 @@ namespace dplyr{
             for( ; i<first_non_na; i++){ 
                 ptr[i] = Vec::get_na() ;   
             }
-            ptr[i] = Rcpp::as<STORAGE>( first_result );
+            ptr[i] = strong_as<RTYPE>( first_result );
             ++git ;
             i++ ;
             for( ; i<n; i++, ++git )
-                ptr[i] = Rcpp::as<STORAGE>( obj->process_chunk(*git) ) ;
+                ptr[i] = strong_as<RTYPE>( obj->process_chunk(*git) ) ;
             return res ;        
         }
          

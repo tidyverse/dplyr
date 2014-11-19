@@ -50,7 +50,11 @@
 * `row_number` more careful (#781) 
 
 * `summarise` more careful about `NA`, e.g. the decision on the result type will
-  be delayed until the first non NA value is returned. (#599) 
+  be delayed until the first non NA value is returned. (#599)
+  
+* `summarise` errors about loss of precision coercion, which can happen for 
+  esoteric R expression that return an `integer` for some groups and a `numeric`
+  for other groups. (#599)
 
 # dplyr 0.3.0.9000
 
