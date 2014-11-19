@@ -52,3 +52,13 @@ one_of <- function(vars, ...) {
 everything <- function(vars) {
   seq_along(vars)
 }
+
+w <- function(vars, match, ignore.case = TRUE){
+  stopifnot(is.string(match), nchar(match) > 0)
+  grep(glob2rx(match), vars, ignore.case = ignore.case)
+}
+
+r <-function(vars, match, ignore.case = TRUE) {
+  stopifnot(is.string(match), nchar(match) > 0)
+  grep(match, vars, ignore.case = ignore.case)
+}
