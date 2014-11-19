@@ -133,9 +133,10 @@ test_that("group_by fails when lists are used as grouping variables (#276)",{
 test_that("original data table not modified by grouping", {
   dt <- data.table(x = 5:1)
   dt2 <- group_by(dt, x)
+  dt2$y <- 1:5
 
   expect_equal(dt$x, 5:1)
-  expect_equal(dt2$x, 1:5)
+  expect_equal(dt$y, NULL)
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {

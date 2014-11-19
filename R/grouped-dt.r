@@ -30,7 +30,7 @@ grouped_dt <- function(data, vars, copy = TRUE) {
   if (copy) {
     data <- data.table::copy(data)
   }
-  data.table::setkeyv(data, deparse_all(vars))
+
   data.table::setattr(data, "vars", vars)
   data.table::setattr(data, "class", c("grouped_dt", "tbl_dt", "tbl", class(data)))
   data
