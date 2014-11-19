@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* Clarified that slice won't work with relational databases, and showed
+  the equivalent `filter()` code in the examples (#720).
+
 * dplyr no longer prints row names, since this is misleading as dplyr 
   operations will silently discard them (#669).
 

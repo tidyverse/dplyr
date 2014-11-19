@@ -26,6 +26,10 @@ filter_ <- function(.data, ..., .dots) {
 
 #' Select rows by position.
 #'
+#' Slice does not work with relational databases because they have no
+#' intrinsic notion of row order. If you want to perform the equivalent
+#' operation, use \code{\link{filter}()} and \code{\link{row_number}()}.
+#'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
@@ -39,6 +43,13 @@ filter_ <- function(.data, ..., .dots) {
 #'
 #' by_cyl <- group_by(mtcars, cyl)
 #' slice(by_cyl, 1:2)
+#'
+#' # Equivalent code using filter that will also work with databases,
+#' # but won't be as fast for in-memory data. For many databases, you'll
+#' # need to supply an explicit variable to use to compute the row number.
+#' filter(mtcars, row_number() == 1L)
+#' filter(mtcars, row_number() == n())
+#' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ...) {
   slice_(.data, .dots = lazyeval::lazy_dots(...))
 }
