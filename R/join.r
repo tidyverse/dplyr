@@ -16,8 +16,9 @@
 #'    between x and y, all combination of the matches are returned.}
 #'
 #'    \item{\code{left_join}}{return all rows from x, and all columns from x
-#'    and y. If there are multiple matches between x and y, all combination of
-#'    the matches are returned.}
+#'    and y. Rows in x with no match in y will have NA values in the new
+#'    columns. If there are multiple matches between x and y, all combinations
+#'    of the matches are returned.}
 #'
 #'    \item{\code{semi_join}}{return all rows from x where there are matching
 #'    values in y, keeping just columns from x.
