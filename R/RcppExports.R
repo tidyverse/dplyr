@@ -17,7 +17,7 @@ arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
 
-#' Do values in a numeric vector fail in specified range?
+#' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for \code{x >= left & x <= right}, implemented
 #' efficiently in C++ for local values, and translated to the
