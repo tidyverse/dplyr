@@ -103,7 +103,7 @@ test_that("named argument become list columns", {
   out <- grp$dt %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
   # doesn't including grouping columns
-  expect_equal(out$ncol, list(2, 2, 2))
+  expect_equal(out$ncol, list(3, 3, 3))
 })
 
 test_that("unnamed results bound together by row", {
