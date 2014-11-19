@@ -157,7 +157,7 @@ rename(flights, tail_num = tailnum)
 
 ## Extract distinct (unique) rows
 
-A common use of `select()` is to find out what values are set of variables takes. This is particularly useful in conjunction with the `distinct()` verb which only returns the unique values in a table.
+A common use of `select()` is to find out which values a set of variables takes. This is particularly useful in conjunction with the `distinct()` verb which only returns the unique values in a table.
 
 ```{r}
 distinct(select(flights, tailnum))
@@ -245,7 +245,7 @@ These verbs are useful, but they become really powerful when you combine them wi
 
 The verbs are affected by grouping as follows:
 
-* grouped `select()` is the same ungrouped `select()`, excepted that retains 
+* grouped `select()` is the same as ungrouped `select()`, excepted that retains 
   grouping variables are always retained. 
    
 * grouped `arrange()` orders first by grouping variables
