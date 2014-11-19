@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* Implemented slice methods for data tables (#717).
+
 * In joins, you can now name only those variables that are different between
   the two tables, e.g. `inner_join(x, y, c("a", "b", "c" = "d"))` (#682).
 

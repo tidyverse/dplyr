@@ -213,6 +213,28 @@ rename_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
 
+
+# Slice -------------------------------------------------------------------
+
+#' @export
+slice_.grouped_dt <- function(.data, ..., .dots) {
+  grouped_dt(NextMethod(), groups(.data), copy = FALSE)
+}
+
+#' @export
+slice_.tbl_dt <- function(.data, ..., .dots) {
+  tbl_dt(NextMethod(), copy = FALSE)
+}
+
+#' @export
+slice_.data.table <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  env <- lazyeval::common_env(dots)
+
+  j <- substitute(.SD[rows], list(rows = dots[[1]]$expr))
+  dt_subset(.data, , j, env)
+}
+
 # Do ---------------------------------------------------------------------------
 
 #' @export

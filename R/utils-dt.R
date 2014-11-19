@@ -1,3 +1,20 @@
+# j <- lazyeval::interp(~ .I[rows], rows = args[[1]]$expr)
+# dt_subset(dt, , j, env)
+
+dt_subset <- function(dt, i, j, env = parent.frame()) {
+  env <- new.env(parent = env, size = 2L)
+  env$`_dt` <- dt
+  env$`_vars` <- deparse_all(groups(dt))
+
+  args <- list(
+    i = if (missing(i)) quote(expr =) else i,
+    j = if (missing(j)) quote(expr =) else j
+  )
+  call <- substitute(`_dt`[i, j, by = `_vars`], args)
+
+  eval(call, env)
+}
+
 dt_env <- function(dt, env) {
   env <- new.env(parent = env, size = 2L)
   env$dt <- dt
