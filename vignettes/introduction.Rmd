@@ -382,7 +382,7 @@ Compared to DBI and the database connection algorithms:
 
 * it hides, as much as possible, the fact that you're working with a remote database
 * you don't need to know any sql (although it helps!)
-* it shims over the many differences between the different DBI implementations
+* it abstracts over the many differences between the different DBI implementations
 
 ## Multidimensional arrays / cubes
 
