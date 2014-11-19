@@ -114,6 +114,14 @@ test_that("unnamed results bound together by row", {
   expect_equal(first$x, c(1, 2, 4))
 })
 
+test_that("grouped_dt do evaluates args in correct env", {
+  a <- 10
+  f <- function(a) {
+    grp$dt %>% do(a = a)
+  }
+  expect_equal(f(20)$a, list(20, 20, 20))
+})
+
 # SQLite -----------------------------------------------------------------------
 
 test_that("named argument become list columns", {

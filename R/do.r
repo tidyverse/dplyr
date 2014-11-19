@@ -18,6 +18,7 @@
 #' means that \code{summarise} applied to the result of \code{do} can
 #' act like \code{ldply}.
 #'
+#' @inheritParams filter
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
 #'   stored in a new column. If unnamed, should return a data frame. You can
@@ -75,18 +76,26 @@
 #' by_dest %>% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))
 #' }
 #' }
-do <- function(.data, ...) UseMethod("do")
+do <- function(.data, ...) {
+  do_(.data, .dots = lazyeval::lazy_dots(...))
+}
 
 #' @export
-do.NULL <- function(.data, ...) {
+#' @rdname do
+do_ <- function(.data, ..., .dots) {
+  UseMethod("do_")
+}
+
+#' @export
+do_.NULL <- function(.data, ..., .dots) {
   NULL
 }
 
 # Data frames -----------------------------------------------------------------
 
 #' @export
-do.data.frame <- function(.data, ...) {
-  args <- lazyeval::lazy_dots(...)
+do_.data.frame <- function(.data, ..., .dots) {
+  args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)
 
   data <- list(. = .data)
@@ -113,7 +122,7 @@ do.data.frame <- function(.data, ...) {
 }
 
 #' @export
-do.grouped_df <- function(.data, ..., env = parent.frame()) {
+do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
   # Force computation of indices
   if (is.null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(.data, attr(.data, "vars"),
@@ -123,7 +132,7 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- lazyeval::lazy_dots(...)
+  args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)
   env <- new.env(parent = lazyeval::common_env(args))
   labels <- attr(.data, "labels")
@@ -178,11 +187,11 @@ do.grouped_df <- function(.data, ..., env = parent.frame()) {
 }
 
 #' @export
-do.rowwise_df <- function(.data, ..., env = parent.frame()) {
+do_.rowwise_df <- function(.data, ..., .dots) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- lazyeval::lazy_dots(...)
+  args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)
   env <- new.env(parent = lazyeval::common_env(args))
   index <- attr(.data, "indices")
@@ -254,16 +263,16 @@ label_output_list <- function(labels, out, groups) {
 # Data tables ------------------------------------------------------------------
 
 #' @export
-do.grouped_dt <- function(.data, ...) {
-  args <- dots(...)
+do_.grouped_dt <- function(.data, ..., .dots) {
+  args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)
 
-  env <- dt_env(.data, parent.frame())
+  env <- dt_env(.data, lazyeval::common_env(args))
 
   if (!named) {
-    cols <- replace_sd(args[[1]])
+    cols <- replace_sd(args[[1]]$expr)
   } else {
-    args <- lapply(args, function(x) call("list", replace_sd(x)))
+    args <- lapply(args, function(x) call("list", replace_sd(x$expr)))
     cols <- as.call(c(quote(list), args))
   }
   call <- substitute(dt[, cols, by = vars], list(cols = cols))
@@ -285,11 +294,11 @@ do.grouped_dt <- function(.data, ...) {
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
-do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
+do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   group_by <- .data$group_by
   if (is.null(group_by)) stop("No grouping", call. = FALSE)
 
-  args <- dots(...)
+  args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)
 
   gvars <- seq_along(group_by)
@@ -306,7 +315,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
   p <- progress_estimated(n * m, min_time = 2)
-  env <- new.env(parent = parent.frame())
+  env <- new.env(parent = lazyeval::common_env(args))
 
   # Create ungrouped data frame suitable for chunked retrieval
   chunky <- update(.data,
@@ -336,7 +345,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
     for (j in seq_len(n - 1)) {
       env$. <- chunk[index[[j]], , drop = FALSE]
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(eval(args[[k]], envir = env))
+        out[[k]][i + j] <<- list(eval(args[[k]]$expr, envir = env))
         p$tick()$print()
       }
     }
@@ -347,7 +356,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   if (!is.null(last_group)) {
     env$. <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(eval(args[[k]], envir = env))
+      out[[k]][i + 1] <- list(eval(args[[k]]$expr, envir = env))
       p$tick()$print()
     }
   }

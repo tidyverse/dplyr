@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* Added `do_()` the SE equivalent of `do()` (#718).
+
 * Clarified that slice won't work with relational databases, and showed
   the equivalent `filter()` code in the examples (#720).
 

@@ -216,11 +216,11 @@ rename_.tbl_dt <- function(.data, ..., .dots) {
 # Do ---------------------------------------------------------------------------
 
 #' @export
-do.data.table <- function(.data, .f, ...) {
+do_.data.table <- function(.data, .f, ...) {
   list(.f(as.data.frame(.data), ...))
 }
 
 #' @export
-do.tbl_dt <- function(.data, .f, ...) {
+do_.tbl_dt <- function(.data, .f, ...) {
   list(.f(as.data.frame(.data), ...))
 }
