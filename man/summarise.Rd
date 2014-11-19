@@ -34,11 +34,31 @@ An object of the same class as \code{.data}. One grouping level will
 \description{
 Summarise multiple values to a single value.
 }
+\section{Backend variations}{
+
+
+Data frames are the only backend that supports creating a variable and
+using it in the same summary. See examples for more details.
+you create
+}
 \examples{
 summarise(mtcars, mean(disp))
 summarise(group_by(mtcars, cyl), mean(disp))
-
 summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
+
+# With data frames, you can create and immediately use summaries
+by_cyl <- mtcars \%>\% group_by(cyl)
+by_cyl \%>\% summarise(a = n(), b = a + 1)
+
+\dontrun{
+# You can't with data tables or databases
+by_cyl_dt <- mtcars \%>\% tbl_dt() \%>\% group_by(cyl)
+by_cyl_dt \%>\% summarise(a = n(), b = a + 1)
+
+by_cyl_db <- src_sqlite(":memory:", create = TRUE) \%>\%
+  copy_to(mtcars) \%>\% group_by(cyl)
+by_cyl_db \%>\% summarise(a = n(), b = a + 1)
+}
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
