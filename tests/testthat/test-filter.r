@@ -199,13 +199,13 @@ test_that( "filter handles complex vectors (#436)", {
 
 test_that("%in% works as expected (#126)", {
   df <- data_frame( a = c("a", "b", "ab"), g = c(1,1,2) )
-  
+
   res <- df %>% filter( a %in% letters )
   expect_equal(nrow(res), 2L)
-  
+
   res <- df %>% group_by(g) %>% filter( a %in% letters )
   expect_equal(nrow(res), 2L)
-  
+
 })
 
 test_that( "filter handles data.frames as columns (#602)", {
@@ -238,3 +238,12 @@ test_that("row_number does not segfault with example from #781", {
   expect_equal( nrow(res), 0L )
 })
 
+
+# data.table --------------------------------------------------------------
+
+test_that("filter succeeds even if column called V1 (#615)", {
+  dt <- data.table(x = 1:10 ,V1 = 0)
+  out <- dt %>% group_by(V1) %>% filter(x > 5)
+
+  expect_equal(nrow(out), 5)
+})

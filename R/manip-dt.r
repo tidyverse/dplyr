@@ -14,33 +14,25 @@ and_expr <- function(exprs) {
 
 #' @export
 filter_.grouped_dt <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-
-  # http://stackoverflow.com/questions/16573995/subset-by-group-with-data-table
-  expr <- lapply(dots, `[[`, "expr")
-  call <- substitute(dt[, .I[expr], by = vars], list(expr = and_expr(expr)))
-
-  env <- dt_env(.data, lazyeval::common_env(dots))
-  indices <- eval(call, env)$V1
-  out <- .data[indices[!is.na(indices)]]
-
-  grouped_dt(out, groups(.data), copy = FALSE)
-}
-
-#' @export
-filter_.data.table <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-
-  expr <- lapply(dots, `[[`, "expr")
-  call <- substitute(dt[expr, ], list(expr = and_expr(expr)))
-
-  env <- dt_env(.data, lazyeval::common_env(dots))
-  eval(call, env)
+  grouped_dt(NextMethod(), groups(.data), copy = FALSE)
 }
 
 #' @export
 filter_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
+}
+
+#' @export
+filter_.data.table <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  env <- lazyeval::common_env(.dots)
+
+  # http://stackoverflow.com/questions/16573995/subset-by-group-with-data-table
+  expr <- lapply(dots, `[[`, "expr")
+  j <- substitute(list(`_row` = .I[expr]), list(expr = and_expr(expr)))
+  indices <- dt_subset(.data, , j, env)$`_row`
+
+  .data[indices[!is.na(indices)]]
 }
 
 # Summarise --------------------------------------------------------------------
