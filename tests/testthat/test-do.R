@@ -122,6 +122,16 @@ test_that("grouped_dt do evaluates args in correct env", {
   expect_equal(f(20)$a, list(20, 20, 20))
 })
 
+test_that("grouped_dt passes all columns", {
+  out <- mtcars %>%
+    tbl_dt() %>%
+    select(mpg, cyl) %>%
+    group_by(cyl) %>%
+    do(n = names(.))
+
+  expect_equal(out$n[[1]], c("mpg", "cyl"))
+})
+
 # SQLite -----------------------------------------------------------------------
 
 test_that("named argument become list columns", {

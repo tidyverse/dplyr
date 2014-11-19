@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* `do()` on grouped data tables now passes in all columns (not all columns
+  except grouping vars) (#735, thanks to @kismsu).
+
 * Added `do_()` the SE equivalent of `do()` (#718).
 
 * Clarified that slice won't work with relational databases, and showed

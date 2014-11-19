@@ -275,7 +275,8 @@ do_.grouped_dt <- function(.data, ..., .dots) {
     args <- lapply(args, function(x) call("list", replace_sd(x$expr)))
     cols <- as.call(c(quote(list), args))
   }
-  call <- substitute(dt[, cols, by = vars], list(cols = cols))
+  call <- substitute(dt[, cols, by = vars, .SDcols = names(dt)],
+    list(cols = cols))
 
   out <- eval(call, env)
 
