@@ -14,7 +14,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
   UseMethod("copy_to")
 }
 
-#' Copy a local data fram to a sqlite src.
+#' Copy a local data frame to a sqlite src.
 #'
 #' This standard method works for all sql sources.
 #'
