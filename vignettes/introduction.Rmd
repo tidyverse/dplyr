@@ -157,7 +157,7 @@ rename(flights, tail_num = tailnum)
 
 ## Extract distinct (unique) rows
 
-A common use of `select()` is to find out what values are set of variables takes. This is particularly useful in conjunction with the `distinct()` verb which only returns the unique values in a table.
+A common use of `select()` is to find out what values a set of variables takes. This is particularly useful in conjunction with the `distinct()` verb which only returns the unique values in a table.
 
 ```{r}
 distinct(select(flights, tailnum))
@@ -382,7 +382,7 @@ Compared to DBI and the database connection algorithms:
 
 * it hides, as much as possible, the fact that you're working with a remote database
 * you don't need to know any sql (although it helps!)
-* it shims over the many differences between the different DBI implementations
+* it skims over the many differences between the different DBI implementations
 
 ## Multidimensional arrays / cubes
 
