@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* You can now `group_by()` variables with more than 39 characters thanks to
+  a fix in lazyeval (#705).
+
 * `do()` on grouped data tables now passes in all columns (not all columns
   except grouping vars) (#735, thanks to @kismsu).
 
