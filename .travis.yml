@@ -11,6 +11,7 @@ install:
   - ./travis-tool.sh r_binary_install RSQLite
   - ./travis-tool.sh r_binary_install RMySQL
   - ./travis-tool.sh r_binary_install knitr
+  - ./travis-tool.sh r_github_install hadley/lazyeval
   - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
   - ./travis-tool.sh install_deps
