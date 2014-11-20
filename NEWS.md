@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* `add_rownames()` turns row names into an explicit variable (#639).
+
 * All `print()` method methods invisibly return input so you can interleave
   `print()` statements into a pipeline.
 
