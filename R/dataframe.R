@@ -12,6 +12,8 @@
 #'
 #' @param ... A set of named arguments
 #' @param columns A \code{\link[lazyeval]{lazy_dots}}.
+#' @seealso \code{\link{as_data_frame}} to turn an existing list into
+#'   a data frame.
 #' @export
 #' @examples
 #' a <- 1:5
@@ -81,4 +83,50 @@ data_frame_ <- function(columns) {
   attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
 
   output
+}
+
+#' Coerce a list to a data frame.
+#'
+#' \code{as.data.frame} is effectively a thin wrapper around \code{data.frame},
+#' and hence is rather slow (because it calls \code{data.frame} on each element
+#' before \code{cbind}ing together). \code{as_data_frame} just verifies that
+#' the list is structured correctly (i.e. named, and each element is same
+#' length) then sets class and row name attributes.
+#'
+#' @param x A list. Each element of the list must have the same length.
+#' @export
+#' @examples
+#' l <- list(x = 1:500, y = runif(500), z = 500:1)
+#' df <- as_data_frame(l)
+#'
+#' # Coercing to a data frame does not copy columns
+#' changes(as_data_frame(l), as_data_frame(l))
+#'
+#' # as_data_frame is considerably simpler/faster than as.data.frame
+#' # making it more suitable for use when you have things that are
+#' # lists
+#' \dontrun{
+#' l2 <- replicate(26, sample(letters), simplify = FALSE)
+#' names(l2) <- letters
+#' microbenchmark::microbenchmark(
+#'   as_data_frame(l2),
+#'   as.data.frame(l2)
+#' )
+#' }
+as_data_frame <- function(x) {
+  stopifnot(is.list(x))
+
+  if (any(names2(x) == "")) {
+    stop("All elements must be named", call. = FALSE)
+  }
+
+  n <- unique(vapply(x, NROW, integer(1)))
+  if (length(n) != 1) {
+    stop("Columns are not all same length", call. = FALSE)
+  }
+
+  class(x) <- c("tbl_df", "tbl", "data.frame")
+  attr(x, "row.names") <- .set_row_names(n)
+
+  x
 }
