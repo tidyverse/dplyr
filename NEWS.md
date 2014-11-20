@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* `print()` displays column names of 0 row data frames (#652).
+
 * `join()` methods for data table now work when data.table isn't attached
   (#786).
 
