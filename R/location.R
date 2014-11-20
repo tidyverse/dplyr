@@ -39,6 +39,7 @@ print.location <- function(x, ...) {
 
   attr <- paste0(def_list(x$attr), collapse = "\n")
   cat("Attributes:\n", attr, "\n", sep = "")
+  invisible(x)
 }
 
 #' @rdname location

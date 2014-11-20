@@ -139,6 +139,7 @@ print.tbl_cube <- function(x, ...) {
   types <- vapply(x$mets, type_sum, character(1))
   vars <- paste0("M: ", names(x$mets), " [", types, "]")
   cat(vars, sep = "\n")
+  invisible(x)
 }
 
 #' @export

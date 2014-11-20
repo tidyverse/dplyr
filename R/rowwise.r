@@ -28,6 +28,7 @@ print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Groups: <by row>\n")
   cat("\n")
   trunc_mat(x, n = n, width = width)
+  invisible(x)
 }
 
 #' @export
