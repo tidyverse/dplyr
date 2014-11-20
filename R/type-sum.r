@@ -16,6 +16,11 @@
 type_sum <- function(x) UseMethod("type_sum")
 
 #' @export
+type_sum.data.frame <- function(x) {
+  vapply(x, type_sum, character(1))
+}
+
+#' @export
 type_sum.numeric <- function(x) "dbl"
 #' @export
 type_sum.integer <- function(x) "int"
