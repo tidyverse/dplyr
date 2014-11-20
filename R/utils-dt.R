@@ -1,36 +1,46 @@
 # j <- lazyeval::interp(~ .I[rows], rows = args[[1]]$expr)
 # dt_subset(dt, , j, env)
 
-dt_subset <- function(dt, i, j, env = parent.frame()) {
+dt_subset <- function(dt, i, j, env = parent.frame(), sd_cols = NULL) {
   env <- new.env(parent = env, size = 2L)
   env$`_dt` <- dt
   env$`_vars` <- deparse_all(groups(dt))
 
   args <- list(
-    i = if (missing(i)) quote(expr =) else i,
-    j = if (missing(j)) quote(expr =) else j
+    i = if (missing(i)) quote(expr =) else dt_replace(i),
+    j = if (missing(j)) quote(expr =) else dt_replace(j)
   )
-  call <- substitute(`_dt`[i, j, by = `_vars`], args)
+
+  if (missing(j)) {
+    call <- substitute(`_dt`[i], args)
+  } else {
+    call <- substitute(`_dt`[i, j, by = `_vars`], args)
+    call$.SDcols = sd_cols
+  }
+  # print(call)
 
   eval(call, env)
 }
 
-dt_env <- function(dt, env) {
-  env <- new.env(parent = env, size = 2L)
-  env$dt <- dt
-  env$vars <- deparse_all(groups(dt))
-
-  env
-}
-
-dt_col_compute <- function(dt, call, env = parent.frame()) {
-  stopifnot(data.table::is.data.table(dt), is.call(call), is.environment(env))
-  env <- dt_env(dt, env)
-
-  wrapper <- substitute(dt[, call], list(call = call))
-  if (length(env$vars) > 0) {
-    wrapper$by <- quote(vars)
+dt_replace <- function(x) {
+  if (is.atomic(x)) {
+    x
+  } else if (is.name(x)) {
+    if (identical(x, quote(.))) {
+      quote(.SD)
+    } else {
+      x
+    }
+  } else if (is.call(x)) {
+    if (identical(x, quote(n()))) {
+      quote(.N)
+    } else {
+      x[] <- lapply(x, dt_replace)
+      x
+    }
+  } else {
+    # User supplied incorrect input
+    stop("Don't know how to handle type ", typeof(x),
+      call. = FALSE)
   }
-
-  eval(wrapper, env)$V1
 }

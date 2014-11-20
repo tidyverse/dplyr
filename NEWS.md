@@ -1,5 +1,9 @@
 # dplyr 0.3.1.9000
 
+* Overall of single table verbs for data.table backend. They now all use
+  a consistent (and simpler) code base. This ensures that (e.g.) `n()`
+  now works in all verbs (#579).
+
 * `type_sum()` gains a data frame method.
 
 * `add_rownames()` turns row names into an explicit variable (#639).
