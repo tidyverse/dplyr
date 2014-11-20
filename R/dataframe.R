@@ -130,3 +130,22 @@ as_data_frame <- function(x) {
 
   x
 }
+
+#' Convert row names to an explicit variable.
+#'
+#' @param df Input data frame with rownames.
+#' @param var Name of variable to use
+#' @export
+#' @examples
+#' mtcars %>%
+#'   tbl_df() %>%
+#'   print() %>%
+#'   add_rownames()
+add_rownames <- function(df, var = "rowname") {
+  stopifnot(is.data.frame(df))
+
+  df[[var]] <- rownames(df)
+  rownames(df) <- NULL
+
+  df
+}
