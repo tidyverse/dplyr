@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* `join()` methods for data table now work when data.table isn't attached
+  (#786).
+
 * `as_data_frame()` efficiently coerces a list into a data frame (#749).
 
 * `glimpse()` includes the total number of observations (#692).
