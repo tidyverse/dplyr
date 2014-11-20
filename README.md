@@ -155,8 +155,6 @@ As well as verbs that work on a single tbl, there are also a set of useful verbs
 * `semi_join(x, y)`: all x with match in y
 * `anti_join(x, y)`: all x without match in y
 
-Currently join variables must be the same in both the left-hand and right-hand sides.
-
 ### Other operations
 
 All tbls also provide `head()` and `print()` methods. The default print method gives information about the data source and shows the first 10 rows and all the columns that will fit on one screen.
