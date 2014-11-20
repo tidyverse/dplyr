@@ -1159,7 +1159,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
             push_back( indices_x,    it->second ) ;
             push_back( indices_y, i, it->second.size() ) ;
         } else {
-            indices_x.push_back(-1) ; // mark NA
+            indices_x.push_back(-i-1) ; // point to the i-th row in the right table
             indices_y.push_back(i) ;
         }
     }
