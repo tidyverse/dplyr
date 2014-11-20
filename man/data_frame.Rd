@@ -37,4 +37,8 @@ str(data_frame(x = diag(5)))
 # or munges column names
 data_frame(`a + b` = 1:5)
 }
+\seealso{
+\code{\link{as_data_frame}} to turn an existing list into
+  a data frame.
+}
 

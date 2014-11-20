@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* `as_data_frame()` efficiently coerces a list into a data frame (#749).
+
 * `glimpse()` includes the total number of observations (#692).
 
 * `group_by()` on a data table preserves original order of the rows (#623).
