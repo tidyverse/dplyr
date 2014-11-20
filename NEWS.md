@@ -1,5 +1,7 @@
 # dplyr 0.3.1.9000
 
+* `type_sum()` gains a data frame method.
+
 * `add_rownames()` turns row names into an explicit variable (#639).
 
 * All `print()` method methods invisibly return input so you can interleave
