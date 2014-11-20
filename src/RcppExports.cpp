@@ -144,6 +144,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// combine_vars
+IntegerVector combine_vars(CharacterVector vars, ListOf<IntegerVector> xs);
+RcppExport SEXP dplyr_combine_vars(SEXP varsSEXP, SEXP xsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP );
+        Rcpp::traits::input_parameter< ListOf<IntegerVector> >::type xs(xsSEXP );
+        IntegerVector __result = combine_vars(vars, xs);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // distinct_impl
 SEXP distinct_impl(DataFrame df, CharacterVector vars);
 RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP) {

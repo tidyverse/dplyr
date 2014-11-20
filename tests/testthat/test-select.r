@@ -69,6 +69,13 @@ test_that("select_vars can rename variables", {
   expect_equal(select_vars(vars, b = a, a = b), c("b" = "a", "a" = "b"))
 })
 
+test_that("last rename wins", {
+  vars <- c("a", "b")
+
+  expect_equal(select_vars(vars, b = a, c = a), c("c" = "a"))
+
+})
+
 test_that("negative index removes values", {
   vars <- letters[1:3]
 
