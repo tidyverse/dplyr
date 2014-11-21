@@ -132,9 +132,10 @@ List cbind__impl( Dots dots ){
     if( current.nrows() != nrows ){
       std::stringstream ss ;
       ss << "incompatible number of rows ("
-         << current.size()
+         << current.nrows()
          << ", expecting "
          << nrows
+         << ")"
       ;
       stop( ss.str() ) ;
     }
