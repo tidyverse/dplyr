@@ -46,6 +46,22 @@ test_that("univariate anti join has x columns, missing rows", {
   expect_equal(j2$z, 4)
 })
 
+test_that("univariate right join has all columns, all rows", {
+  j1 <- right_join(a, b, "x")
+  j2 <- right_join(b, a, "x")
+
+  expect_equal(names(j1), c("x", "y", "z"))
+  expect_equal(names(j2), c("x", "z", "y"))
+
+  expect_equal(j1$x, c(1, 1, 2, 2, 4))
+  expect_equal(j1$y, c(1, 2, 3, 3, NA))
+  expect_equal(j1$z, c(1, 1, 2, 3, 4))
+
+  expect_equal(j2$x, c(1, 1, 2, 2, 3))
+  expect_equal(j2$y, c(1, 2, 3, 3, 4))
+  expect_equal(j2$z, c(1, 1, 2, 3, NA))
+})
+
 # Bivariate keys ---------------------------------------------------------------
 
 c <- data.frame(
