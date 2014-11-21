@@ -1,5 +1,8 @@
 # dplyr 0.3.1.9000
 
+* Export and document `cbind_all()` and `cbind_list()`, the column binding
+  equivalents of `rbind_all()` and `rbind_list()`.
+
 * Overall of single table verbs for data.table backend. They now all use
   a consistent (and simpler) code base. This ensures that (e.g.) `n()`
   now works in all verbs (#579).
