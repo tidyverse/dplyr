@@ -265,20 +265,17 @@ label_output_list <- function(labels, out, groups) {
 #' @export
 do_.grouped_dt <- function(.data, ..., .dots) {
   args <- lazyeval::all_dots(.dots, ...)
+  env <- lazyeval::common_env(args)
   named <- named_args(args)
 
-  env <- dt_env(.data, lazyeval::common_env(args))
-
   if (!named) {
-    cols <- replace_sd(args[[1]]$expr)
+    j <- args[[1]]$expr
   } else {
-    args <- lapply(args, function(x) call("list", replace_sd(x$expr)))
-    cols <- as.call(c(quote(list), args))
+    args <- lapply(args, function(x) call("list", x$expr))
+    j <- as.call(c(quote(list), args))
   }
-  call <- substitute(dt[, cols, by = vars, .SDcols = names(dt)],
-    list(cols = cols))
 
-  out <- eval(call, env)
+  out <- dt_subset(.data, , j, env = env, sd_cols = names(.data))
 
   if (!named) {
     grouped_dt(out, groups(.data))
@@ -390,18 +387,4 @@ named_args <- function(args) {
   }
 
   named != 0
-}
-
-replace_sd <- function(x) {
-  if (is.atomic(x)) {
-    x
-  } else if (is.name(x)) {
-    if (identical(x, quote(.))) quote(.SD) else x
-  } else if (is.pairlist(x)) {
-    as.pairlist(lapply(x, replace_sd))
-  } else if (is.call(x)) {
-    as.call(lapply(x, replace_sd))
-  } else {
-    stop("Unknown input")
-  }
 }

@@ -67,6 +67,7 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
 
   cat(paste0("$ ", names, ": ", code, collapse = "\n"))
   cat("\n")
+  invisible(x)
 }
 
 make_call <- function(x) {

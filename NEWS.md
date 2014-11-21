@@ -1,5 +1,21 @@
 # dplyr 0.3.1.9000
 
+* Overall of single table verbs for data.table backend. They now all use
+  a consistent (and simpler) code base. This ensures that (e.g.) `n()`
+  now works in all verbs (#579).
+
+* `type_sum()` gains a data frame method.
+
+* `add_rownames()` turns row names into an explicit variable (#639).
+
+* All `print()` method methods invisibly return input so you can interleave
+  `print()` statements into a pipeline.
+
+* `print()` displays column names of 0 row data frames (#652).
+
+* `join()` methods for data table now work when data.table isn't attached
+  (#786).
+
 * `as_data_frame()` efficiently coerces a list into a data frame (#749).
 
 * `glimpse()` includes the total number of observations (#692).

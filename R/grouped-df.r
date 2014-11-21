@@ -29,6 +29,7 @@ print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
   trunc_mat(x, n = n, width = width)
+  invisible(x)
 }
 
 #' @export

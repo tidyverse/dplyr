@@ -8,3 +8,4 @@ NEWS\.md
 demo/pandas
 ^\.httr-oauth$
 ^cran-comments\.md$
+^README\.Rmd$

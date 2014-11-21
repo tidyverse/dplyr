@@ -37,8 +37,8 @@ join_dt <- function(op) {
     }
     y <- auto_copy(x, y, copy = copy)
 
-    x <- copy(x)
-    y <- copy(y)
+    x <- data.table::copy(x)
+    y <- data.table::copy(y)
     data.table::setkeyv(x, by$x)
     data.table::setkeyv(y, by$x)
     out <- op

@@ -35,7 +35,6 @@ dim_desc <- function(x) {
 #' @rdname dplyr-formatting
 trunc_mat <- function(x, n = NULL, width = NULL) {
   rows <- nrow(x)
-  if (!is.na(rows) && rows == 0) return()
 
   if (is.null(n)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
@@ -46,7 +45,13 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   }
 
   df <- as.data.frame(head(x, n))
-  if (nrow(df) == 0 || ncol(df) == 0) return()
+  if (ncol(df) == 0) return()
+  if (nrow(df) == 0) {
+    names <- paste(names(df), " ")
+    cat("  ", names, "\n", sep = " ")
+    return()
+  }
+
   rownames(df) <- NULL
 
   # List columns need special treatment because format can't be trusted
