@@ -1,57 +1,39 @@
 # dplyr 0.3.1.9000
 
+## New features
+
+* `right_join()` and `outer_join()` ... (#96).  
+
 * Export and document `cbind_all()` and `cbind_list()`, the column binding
   equivalents of `rbind_all()` and `rbind_list()`.
 
-* Overall of single table verbs for data.table backend. They now all use
+* `add_rownames()` turns row names into an explicit variable (#639).
+
+* New function `group_indices` that gives unique id (#771). `group_indices` can be 
+  either called on a `grouped_df` without any argument or on a `data.frame` with
+  same arguments as `group_by`. 
+
+## Minor improvements
+
+* Overhaul of single table verbs for data.table backend. They now all use
   a consistent (and simpler) code base. This ensures that (e.g.) `n()`
   now works in all verbs (#579).
 
 * `type_sum()` gains a data frame method.
-
-* `add_rownames()` turns row names into an explicit variable (#639).
 
 * All `print()` method methods invisibly return input so you can interleave
   `print()` statements into a pipeline.
 
 * `print()` displays column names of 0 row data frames (#652).
 
-* `join()` methods for data table now work when data.table isn't attached
-  (#786).
-
-* `as_data_frame()` efficiently coerces a list into a data frame (#749).
-
 * `glimpse()` includes the total number of observations (#692).
 
-* `group_by()` on a data table preserves original order of the rows (#623).
-
-* Filtering data tables no longer fails when the table has a variable called 
-  "V1" (#615).
-
 * Implemented slice methods for data tables (#717).
-
-* In joins, you can now name only those variables that are different between
-  the two tables, e.g. `inner_join(x, y, c("a", "b", "c" = "d"))` (#682).
-
-* You can now `group_by()` variables with more than 39 characters thanks to
-  a fix in lazyeval (#705).
 
 * `do()` on grouped data tables now passes in all columns (not all columns
   except grouping vars) (#735, thanks to @kismsu).
 
 * Added `do_()` the SE equivalent of `do()` (#718).
-
-* Clarified that slice won't work with relational databases, and showed
-  the equivalent `filter()` code in the examples (#720).
-
-* dplyr no longer prints row names, since this is misleading as dplyr 
-  operations will silently discard them (#669).
-
-* `[.tbl_df` correctly computes row names for 0-column data frames, avoiding
-  problems with xtable (#656).
-
-* Subsetting a `grouped_df` with `[` will silently dropping grouping status
-  if you don't include the grouping column (#733).
 
 * Do uses lazyeval to correctly evaluate its arguments in the correct 
   environment (#744).
@@ -59,39 +41,23 @@
 * Do allows in place modification of the grouped data. This is probably a bad
   idea but it's sometimes convenient (#737).
 
-* Ranking functions now preserve missing values (#774).
+* dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20),
+  (#710).
+
 
 * dplyr now requires RSQLite >= 1.0. This shouldn't affect your code
   in any way (except that RSQLite now doesn't need to be loaded) 
   but does simplify the internals (#622).
 
-* `rename_()` generic gains missing `.dots` argument (#708).
 
-* dplyr now only prints up to 20 rows (i.e. options(dplyr.print_max) is now 20),
-  (#710).
+* Clarified that slice won't work with relational databases, and showed
+  the equivalent `filter()` code in the examples (#720).
 
-* `rbind`ing a column full of `NA` is allowed and just collects the appropriate 
-  missing value for the column type being collected (#493). 
-  
-* Internal impl of `nth` falls back to R evaluation when `n` is not a length one
-  integer or numeric, e.g. when it is an R expression to evaluate (#734).
-  
-* `row_number`, `min_rank`, `percent_rank`, `dense_rank`, `ntile` and `cume_dist` 
-  handles data frames with 0 rows (#762).   
-  
-* Added the internal class `DataFrameColumnVisitor` to represent `VectorVisitor`
-  concept for a column that is a `data.frame`. Part of #602. 
-  
-* Added the internal class template `MatrixColumnVisitor` to represent 
-  `VectorVisitor` concept for a column that is a `matrix`. Part of #602  
+* dplyr no longer prints row names, since this is misleading as dplyr 
+  operations will silently discard them (#669).
 
-* `arrange` can sort based on `data.frame` and `matrix` columns (#765).   
-  
-* New function `group_indices` that gives unique id (#771). `group_indices` can be 
-  either called on a `grouped_df` without any argument or on a `data.frame` with
-  same arguments as `group_by`. 
-  
-* `row_number` more careful (#781) 
+* In joins, you can now name only those variables that are different between
+  the two tables, e.g. `inner_join(x, y, c("a", "b", "c" = "d"))` (#682).
 
 * `summarise` more careful about `NA`, e.g. the decision on the result type will
   be delayed until the first non NA value is returned. (#599)
@@ -100,12 +66,8 @@
   esoteric R expression that return an `integer` for some groups and a `numeric`
   for other groups. (#599)
 
-# dplyr 0.3.0.9000
-
 * Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
   for now, i.e. `lag(x, 2)`. All other forms still fall back to R version. 
-
-* `right_join()` and `outer_join()` ... (#96).  
 
 * `mutate` now handles complex vectors (#436)
 
@@ -116,40 +78,86 @@
 
 * Better naming of columns in joins (#655).   
 
-* `data_frame` now acts correctly if the first argument is a vector to be
-  recycled. (#680 thanks @jimhester)
-
 * hybrid `lag` and `lead` only handles simple call forms, the first 
   argument must have either no name or be called `x`. 
   Then the second argument must be either missing, with no name or be called `n`. 
   All other forms of the call are handled by R evaluation. (#683).
 
-* Fixed segfault in `JoinStringFactorVisitor` class (#688).
-
-* `grouped_df` requires `vars` to be a list of symbols (#665).
-
 * Added class `JoinFactorFactorVisitor_SameLevels` for the special case when 
   two factors with the same levels (in the same order) are joined (#675). 
   
-* `mutate` forbids `POSIXlt` results (#670). 
-
 * Initial hybrid handling of `%in%` (#126).
 
-* `group_by` gives meaninful error message when a variable is not found in the
-  data frame (#716). 
-  
 * hybrid `min_rank` correctly handles `NaN` values (#726).  
 
 * `first` and `last` correctly promote factors, dates and times (#509). 
  
-* `inner_join` no longer reorders (#684). 
-  
 * joining factors whose levels are not identical (same levels, same order) generates
   a warning and coerces to character (#684). Same when joining a character vector
   with a factor and vice versa. 
   
 * `rbind_list` fails to combine `INTSXP` and `factor` (#751)
 
+
+## Bug fixes
+
+* `join()` methods for data table now work when data.table isn't attached
+  (#786).
+
+* `as_data_frame()` efficiently coerces a list into a data frame (#749).
+
+* `group_by()` on a data table preserves original order of the rows (#623).
+
+* Filtering data tables no longer fails when the table has a variable called 
+  "V1" (#615).
+
+* You can now `group_by()` variables with more than 39 characters thanks to
+  a fix in lazyeval (#705).
+
+* `[.tbl_df` correctly computes row names for 0-column data frames, avoiding
+  problems with xtable (#656).
+
+* Subsetting a `grouped_df` with `[` will silently drop grouping status
+  if you don't include the grouping column (#733).
+
+* Ranking functions now preserve missing values (#774).
+
+* `rename_()` generic gains missing `.dots` argument (#708).
+
+* `rbind`ing a column full of `NA` is allowed and just collects the appropriate 
+  missing value for the column type being collected (#493). 
+  
+* Internal impl of `nth` falls back to R evaluation when `n` is not a length one
+  integer or numeric, e.g. when it is an R expression to evaluate (#734).
+  
+* `row_number`, `min_rank`, `percent_rank`, `dense_rank`, `ntile` and `cume_dist` 
+  handle data frames with 0 rows (#762).   
+  
+* Added the internal class `DataFrameColumnVisitor` to represent `VectorVisitor`
+  concept for a column that is a `data.frame`. Part of #602. 
+  
+* Added the internal class template `MatrixColumnVisitor` to represent 
+  `VectorVisitor` concept for a column that is a `matrix`. Part of #602  
+
+* `arrange` can sort based on `data.frame` and `matrix` columns (#765).   
+  
+* `row_number` doesn't segfault when giving an external variable with the 
+  wrong number of variables (#781) 
+
+* `data_frame` now acts correctly if the first argument is a vector to be
+  recycled. (#680 thanks @jimhester)
+
+* Fixed segfault in `JoinStringFactorVisitor` class (#688).
+
+* `grouped_df` requires `vars` to be a list of symbols (#665).
+
+* `mutate` forbids `POSIXlt` results (#670). 
+
+* `group_by` gives meaninful error message when a variable is not found in the
+  data frame (#716). 
+
+* `inner_join` no longer reorders (#684). 
+  
 * `min(.,na.rm = TRUE)` did not handle `Date` encoded as `REALSXP` (#755)
 
 * data frames and matrices as column of data frame processed by verbs 
