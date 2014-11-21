@@ -119,7 +119,9 @@ print.BoolResult <- function(x, ...) {
 }
 
 obj_type <- function(x) {
-  if (!is.object(x)) {
+  if (is.null(x)) {
+    "<NULL>"
+  } else if (!is.object(x)) {
     paste0("<", type_sum(x), if (!is.array(x)) paste0("[", length(x), "]"), ">")
   } else if (!isS4(x)) {
     paste0("<S3:", paste0(class(x), collapse = ", "), ">")
