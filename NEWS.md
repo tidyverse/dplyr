@@ -97,6 +97,8 @@
   esoteric R expression that return an `integer` for some groups and a `numeric`
   for other groups. (#599)
 
+* `summarize_each` and `summarize_each_` are aliases for `summarise_each` and `summarise_each_`
+
 # dplyr 0.3.0.9000
 
 * Hybrid version of `lead` and `lag` are enabled, only for the simple 2 args case
