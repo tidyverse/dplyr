@@ -3,10 +3,12 @@
 
 namespace dplyr {
 
-    inline const char* get_single_class(SEXP x){
+    inline std::string get_single_class(SEXP x){
         SEXP klass = Rf_getAttrib(x, R_ClassSymbol) ;
         if( !Rf_isNull(klass) ){
-            return collapse( CharacterVector(klass) ).c_str() ;    
+            CharacterVector classes(klass) ;
+            const char* res = collapse<STRSXP>(classes).c_str() ;
+            return res;
         } 
         
         if(Rf_isMatrix(x)){

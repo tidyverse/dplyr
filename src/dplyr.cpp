@@ -1027,7 +1027,8 @@ void assert_all_white_list(const DataFrame& data){
         if( !white_list(data[i]) ){
             std::stringstream ss ;
             CharacterVector names = data.names() ;
-            ss << "column '" << names[i] << "' has unsupported type : " << get_single_class(data[i]);
+            ss << "column '" << names[i] << "' has unsupported type : " ; 
+            ss << get_single_class(data[i]);
             stop(ss.str()) ;
         }
     }
@@ -1158,7 +1159,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
             push_back( indices_x,    it->second ) ;
             push_back( indices_y, i, it->second.size() ) ;
         } else {
-            indices_x.push_back(-1) ; // mark NA
+            indices_x.push_back(-i-1) ; // point to the i-th row in the right table
             indices_y.push_back(i) ;
         }
     }

@@ -1,5 +1,6 @@
 *.o
 *.so
+.RData
 .Rproj.user
 .Rhistory
 inst/doc
