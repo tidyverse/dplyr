@@ -7,8 +7,10 @@
 
 using namespace Rcpp ;
 
-#include <tools/all_na.h>
+#include <tools/tinyformat.h>
+#include <tools/stop.h>
 
+#include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
     #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    

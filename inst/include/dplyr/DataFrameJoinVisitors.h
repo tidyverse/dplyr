@@ -24,9 +24,7 @@ namespace dplyr{
                 try{
                     visitors[i] = join_visitor( left[name_left], right[name_right], name_left, name_right ) ;
                 } catch( const std::exception& ex ){
-                    std::stringstream s ;
-                    s << "cannot join on columns '" << name_left << "' x '" << name_right << "' : " << ex.what() ;
-                    stop(s.str());    
+                    stop( "cannot join on column '%s' x '%s': %s ", name_left, name_right, ex.what() ) ;
                 } catch( ... ){
                     std::stringstream s ;
                     s << "cannot join on columns '" << name_left << "' x '" << name_right << "'" ;
