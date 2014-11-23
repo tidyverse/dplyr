@@ -7,7 +7,7 @@
 
 using namespace Rcpp ;
 
-#if RCPP_VERSION >=  Rcpp_Version(0,11,4)
+#if RCPP_VERSION < Rcpp_Version(0,11,4)
   #include <tools/tinyformat.h>
   #include <tools/stop.h>
 #endif
