@@ -46,11 +46,7 @@ namespace dplyr {
                     try{ 
                         column = data[name] ; 
                     } catch( ... ){
-                        std::stringstream s ;
-                        s << "unknown column '"
-                          << name
-                          << "'"; 
-                        stop(s.str()); 
+                        stop( "unknown column '%s' ", name ) ;
                     }
                     
                     visitors.push_back( visitor( column ) ) ;

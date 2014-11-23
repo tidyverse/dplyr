@@ -31,20 +31,10 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
         try{ 
             v = data[name] ;
         } catch(...){
-           std::stringstream s ;
-           s << "unknown column '"
-             << name
-             << "'"; 
-           stop(s.str()); 
+            stop( "unknown column '%s'", name ) ;
         }
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
-            std::stringstream ss ;
-            ss << "cannot group column "
-               << name
-               <<", of class '"
-               << get_single_class(v)
-               << "'" ;
-            stop(ss.str()) ;
+            stop( "cannot group column %s, of class '%s'", name, get_single_class(v) ) ;
         }
     }
 

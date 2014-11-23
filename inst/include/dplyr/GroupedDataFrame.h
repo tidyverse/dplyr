@@ -48,13 +48,7 @@ namespace Rcpp {
                 // check consistency of the groups
                 int rows_in_groups = sum(group_sizes) ;
                 if( data_.nrows() != rows_in_groups ){
-                    std::stringstream s ; 
-                    s << "corrupt 'grouped_df', contains "
-                      << data_.nrows()
-                      << " rows, and "
-                      << rows_in_groups
-                      << " rows in groups" ;
-                    stop(s.str()) ;
+                    stop( "corrupt 'grouped_df', contains %d rows, and %s rows in groups" );
                 }
             }
         }

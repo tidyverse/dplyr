@@ -46,13 +46,7 @@ namespace dplyr {
             } else if( n == 1) {
                 grab_rep( Rcpp::internal::r_vector_start<RTYPE>(data)[0], indices ) ;    
             } else {
-                std::stringstream s ;
-                s << "incompatible size ("
-                  << n
-                  << "), expecting "
-                  << indices.size()
-                  << " (the group size) or 1" ;
-                stop( s.str() ) ;        
+                stop ("incompatible size (%d), expecting %d (the group size) or 1" ) ;
             }
         }
         
@@ -66,11 +60,7 @@ namespace dplyr {
         
         void check_type(SEXP subset){
             if( TYPEOF(subset) != RTYPE ){
-                std::stringstream s ;
-                s << "incompatible types, expecting a " 
-                  << vector_class<RTYPE>()
-                  << " vector" ;
-                stop( s.str() ); 
+                stop( "incompatible types, expecting a %s vector", vector_class<RTYPE>() ) ;
             }
         }
         
