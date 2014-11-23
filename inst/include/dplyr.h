@@ -7,8 +7,10 @@
 
 using namespace Rcpp ;
 
-#include <tools/tinyformat.h>
-#include <tools/stop.h>
+#if RCPP_VERSION >=  Rcpp_Version(0,11,4)
+  #include <tools/tinyformat.h>
+  #include <tools/stop.h>
+#endif
 
 #include <tools/all_na.h>
 // borrowed from Rcpp11
