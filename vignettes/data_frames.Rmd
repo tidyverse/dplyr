@@ -1,0 +1,83 @@
+---
+title: "Data frames"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(dplyr.print_min = 5)
+library(dplyr)
+```
+## Creating
+
+`data_frame()` is a nice way to create data frames. It encapsulates best practices for data frames:
+
+  * It never changes the type of its inputs (i.e. no more `stringsAsFactors = FALSE`!)
+    
+    ```{r}
+    data.frame(x = letters) %>% sapply(class)
+    data_frame(x = letters) %>% sapply(class)
+    ```
+    
+    This makes it easier to use with list-columns:
+    
+    ```{r}
+    data_frame(x = 1:3, y = list(1:5, 1:10, 1:20))
+    ```
+    
+    List-columns are most commonly created by `do()`, but they can be useful to
+    create by hand.
+      
+  * It never adjusts the names of variables:
+  
+    ```{r}
+    data.frame(`crazy name` = 1) %>% names()
+    data_frame(`crazy name` = 1) %>% names()
+    ```
+
+  * It evaluates its arguments lazyily and in order:
+  
+    ```{r}
+    data_frame(x = 1:5, y = x ^ 2)
+    ```
+
+  * It adds `tbl_df()` class to output so that if you accidentaly print a large 
+    data frames you only get the first few rows.
+    
+    ```{r}
+    data_frame(x = 1:5) %>% class()
+    ```
+    
+  * It never uses `row.names()`, because the whole point of tidy data is to 
+    store variables in a consistent way, so we shouldn't put one variable in a 
+    special attribute.
+  
+  * It only recycles vectors of length 1. Recycling vectors of other lengths 
+    is a frequent source of bugs in my experience.
+
+## Coercion
+
+To complement `data_frame()`, dplyr provides `as_data_frame()` for coercing lists into data frames. It does two things:
+
+* Checks that the input list is valid for a data frame, i.e. that each element
+  is named and of the equal length.
+  
+* Sets the class and attributes of the list to make it behave like a data frame.
+  This modification does not require a deep copy of the input list, so is
+  very fast.
+  
+This is much simpler than `as.data.frame()`. It's hard to explain precisely what `as.data.frame()` does, but similar to `do.call(cbind, lapply(x, data.frame))` - i.e. it coerces each component to a data frame and then `cbinds()` them all together. Consequently `as_data_frame()` is much faster than `as.data.frame()`:
+
+```{r}
+l2 <- replicate(26, sample(100), simplify = FALSE)
+names(l2) <- letters
+microbenchmark::microbenchmark(
+  as_data_frame(l2),
+  as.data.frame(l2)
+)
+```
