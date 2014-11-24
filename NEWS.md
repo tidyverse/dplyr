@@ -17,6 +17,13 @@
 
 * `as_data_frame()` efficiently coerces a list into a data frame (#749).
 
+## New vignettes
+
+* `vignette("two-table")` describe how the two-table verbs work in dplyr.
+
+* `vignette("data_frame")` describes dplyr functions that make it easier
+  and faster to create and coerce data frames.
+
 ## Minor improvements
 
 * Overhaul of single table verbs for data.table backend. They now all use
