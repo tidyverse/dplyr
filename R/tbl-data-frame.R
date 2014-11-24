@@ -80,8 +80,8 @@ right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 }
 
 #' @export
-outer_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(outer_join(tbl_df(x), y, by = by, copy = copy, ...))
+full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(full_join(tbl_df(x), y, by = by, copy = copy, ...))
 }
 
 #' @export

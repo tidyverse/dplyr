@@ -4,7 +4,7 @@
 
 * The family of SQL joins has been completed with the addition of the 
   `right_join()` (include all rows in `y`, and matching rows in `x`) and
-  `outer_join()` (include all rows in `x` and `y`) (#96).
+  `full_join()` (include all rows in `x` and `y`) (#96).
 
 * Export and document `cbind_all()` and `cbind_list()`, the column binding
   equivalents of `rbind_all()` and `rbind_list()`.

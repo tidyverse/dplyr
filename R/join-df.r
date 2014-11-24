@@ -61,7 +61,7 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname join.tbl_df
-outer_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   outer_join_impl(x, y, by$x, by$y)

@@ -178,7 +178,7 @@ When joining tables, dplyr is a little more conservative than base R about what 
     ```{r}
     df1 <- data_frame(x = 1, y = factor("a"))
     df2 <- data_frame(x = 2, y = factor("b"))
-    outer_join(df1, df2) %>% str()
+    full_join(df1, df2) %>% str()
     ```
 
   * Factors with the same levels in a different order are coerced to character 
@@ -187,7 +187,7 @@ When joining tables, dplyr is a little more conservative than base R about what 
     ```{r}
     df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
     df2 <- data_frame(x = 2, y = factor("b", levels = c("b", "a")))
-    outer_join(df1, df2) %>% str()
+    full_join(df1, df2) %>% str()
     ```
 
   * Factors are preserved only if the levels match exactly:
@@ -195,7 +195,7 @@ When joining tables, dplyr is a little more conservative than base R about what 
     ```{r}
     df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
     df2 <- data_frame(x = 2, y = factor("b", levels = c("a", "b")))
-    outer_join(df1, df2) %>% str()
+    full_join(df1, df2) %>% str()
     ```
 
   * A factor and a character are coerced to character with a warning:
@@ -203,7 +203,7 @@ When joining tables, dplyr is a little more conservative than base R about what 
     ```{r}
     df1 <- data_frame(x = 1, y = "a")
     df2 <- data_frame(x = 2, y = factor("a"))
-    outer_join(df1, df2) %>% str()
+    full_join(df1, df2) %>% str()
     ```
     
 Otherwise logicals will be silently upcast to integer, and integer to numeric, but coercing to character will raise an error:
@@ -211,11 +211,11 @@ Otherwise logicals will be silently upcast to integer, and integer to numeric, b
 ```{r, error = TRUE, purl = FALSE}
 df1 <- data_frame(x = 1, y = 1L)
 df2 <- data_frame(x = 2, y = 1.5)
-outer_join(df1, df2) %>% str()
+full_join(df1, df2) %>% str()
 
 df1 <- data_frame(x = 1, y = 1L)
 df2 <- data_frame(x = 2, y = "a")
-outer_join(df1, df2) %>% str()
+full_join(df1, df2) %>% str()
 ```
 
 

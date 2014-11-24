@@ -74,8 +74,8 @@ right_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
-outer_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  UseMethod("outer_join")
+full_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("full_join")
 }
 
 #' @rdname join

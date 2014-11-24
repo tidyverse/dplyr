@@ -284,10 +284,10 @@ test_that("right_join gets the column in the right order #96", {
 
 })
 
-test_that("outer_join #96",{
+test_that("full_join #96",{
   a <- data.frame(x=1:3,y=2:4)
   b <- data.frame(x=3:5,z=3:5)
-  res <- outer_join(a,b, "x")
+  res <- full_join(a,b, "x")
   expect_equal(res$x, 1:5)
   expect_equal(res$y[1:3], 2:4)
   expect_true( all(is.na(res$y[4:5]) ))
