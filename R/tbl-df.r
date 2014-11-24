@@ -68,7 +68,7 @@
 #' }
 tbl_df <- function(data) {
   assert_that(is.data.frame(data))
-  tbl_df_impl(data)
+  as_data_frame(data)
 }
 
 #' @export

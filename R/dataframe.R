@@ -23,7 +23,7 @@
 #'
 #' # data_frame never coerces its inputs
 #' str(data_frame(letters))
-#' str(data_frame(x = diag(5)))
+#' str(data_frame(x = list(diag(1), diag(2))))
 #'
 #' # or munges column names
 #' data_frame(`a + b` = 1:5)
@@ -60,6 +60,10 @@ data_frame_ <- function(columns) {
     # Fill by reference
     output[[i]] <-  lazyeval::lazy_eval(columns[[i]], output)
     names(output)[i] <- col_names[[i]]
+    if (!is.null(dim(output[[i]]))) {
+      stop("data_frames can not contain data.frames, matrices or arrays",
+        call. = FALSE)
+    }
 
     # Update
     i <- i + 1L
@@ -118,6 +122,12 @@ as_data_frame <- function(x) {
 
   if (any(names2(x) == "")) {
     stop("All elements must be named", call. = FALSE)
+  }
+
+  ok <- vapply(x, is_1d, logical(1))
+  if (any(!ok)) {
+    stop("data_frames can not contain data.frames, matrices or arrays",
+      call. = FALSE)
   }
 
   n <- unique(vapply(x, NROW, integer(1)))
