@@ -74,7 +74,7 @@ data_frame_ <- function(columns) {
          paste(lengths, collapse = ", "))
   }
   short <- lengths == 1
-  if (any(short)) {
+  if (max != 1L && any(short)) {
     output[short] <- lapply(output[short], rep, max)
   }
 
