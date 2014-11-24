@@ -70,7 +70,7 @@ List rbind__impl( Dots dots ){
                 columns[index] = new_collecter ;
             } else {
                 std::string column_name(name) ;
-                stop( "incompatible type (data index: %d, column: '%s', was collecting: %s (%s), incompatible with data of type: ", 
+                stop( "incompatible type (data index: %d, column: '%s', was collecting: %s (%s), incompatible with data of type: %s",
                     (i+1), column_name, coll->describe(), DEMANGLE(*coll), get_single_class(source) );
 
             }
@@ -186,7 +186,7 @@ SEXP combine_all( List data ){
             delete coll ;
             coll = new_coll ;
         } else {
-            stop( "incompatible type at index %d : %s, was collecting : %s", 
+            stop( "incompatible type at index %d : %s, was collecting : %s",
                 (i+1), get_single_class(current), get_single_class(coll->get()) ) ;
         }
         k += n_current ;
