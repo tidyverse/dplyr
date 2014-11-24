@@ -64,10 +64,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         }
         delete res ;
         if( Rf_length(result) != 1 ){
-            std::stringstream s ;
-            s << "expecting result of length one, got : "
-              << Rf_length(result) ;
-            stop(s.str()) ;
+            stop( "expecting result of length one, got : %d", Rf_length(result) ) ;
         }
         accumulator.set(lazy.name(), result);
         subsets.input( Symbol(lazy.name()), result ) ;

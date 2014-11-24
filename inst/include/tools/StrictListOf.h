@@ -10,9 +10,7 @@ namespace Rcpp {
         }
         
         inline std::string why_not(SEXP){
-            std::stringstream s ;
-            s << "not compatible with class " << DEMANGLE(T) ;
-            return s.str() ;
+            stop( "not compatible with class %s", DEMANGLE(T) );
         }
     } ;
     
@@ -35,12 +33,7 @@ namespace Rcpp {
           int n = data.size() ;
           for( int i=0; i<n; i++){
             if( !valid(data[i]) ){
-              std::stringstream s ;
-              s << "object at index " 
-                << (i+1) 
-                << " "
-                << valid.why_not(data[i]) ;
-              stop( s.str() ) ;
+              stop( "object at index %d %s", (i+1), valid.why_not(data[i]) );
             }
           }
         }

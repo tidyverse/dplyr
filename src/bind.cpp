@@ -69,22 +69,10 @@ List rbind__impl( Dots dots ){
                 delete coll ;
                 columns[index] = new_collecter ;
             } else {
-                std::stringstream msg ;
                 std::string column_name(name) ;
-                msg << "incompatible type ("
-                    << "data index: "
-                    << (i+1)
-                    << ", column: '"
-                    << column_name
-                    << "', was collecting: "
-                    << coll->describe()
-                    << " ("
-                    << DEMANGLE(*coll)
-                    << ")"
-                    << ", incompatible with data of type: "
-                    << get_single_class(source) ;
+                stop( "incompatible type (data index: %d, column: '%s', was collecting: %s (%s), incompatible with data of type: ", 
+                    (i+1), column_name, coll->describe(), DEMANGLE(*coll), get_single_class(source) );
 
-                stop( msg.str() ) ;
             }
 
         }
@@ -131,13 +119,7 @@ List cbind__impl( Dots dots ){
     DataFrame current = dots[i] ;
     if( current.nrows() != nrows ){
       std::stringstream ss ;
-      ss << "incompatible number of rows ("
-         << current.nrows()
-         << ", expecting "
-         << nrows
-         << ")"
-      ;
-      stop( ss.str() ) ;
+      stop( "incompatible number of rows (%d, expecting %d)", current.nrows(), nrows ) ;
     }
     nv += current.size() ;
   }
@@ -204,15 +186,8 @@ SEXP combine_all( List data ){
             delete coll ;
             coll = new_coll ;
         } else {
-            std::stringstream msg ;
-            msg << "incompatible type at index "
-                << (i+1)
-                << " : "
-                << get_single_class(current)
-                << ", was collecting : "
-                << get_single_class(coll->get())
-            ;
-            stop( msg.str() ) ;
+            stop( "incompatible type at index %d : %s, was collecting : %s", 
+                (i+1), get_single_class(current), get_single_class(coll->get()) ) ;
         }
         k += n_current ;
     }

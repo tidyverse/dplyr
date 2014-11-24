@@ -25,11 +25,7 @@ namespace dplyr {
         virtual SEXP get_variable(SEXP symbol) const {
             DataMap::const_iterator it = data_map.find(symbol) ;
             if( it == data_map.end() ){
-                std::stringstream s ;
-                s << "variable '"
-                  << CHAR(PRINTNAME(symbol))
-                  << "' not found" ;
-                Rcpp::stop(s.str()) ;
+                stop( "variable '%s' not found", CHAR(PRINTNAME(symbol)) ) ;
             }
             return it->second ;
         }

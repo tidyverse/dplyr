@@ -300,12 +300,8 @@ struct LeadLag{
             } catch( ... ){
                 SEXP n_ = CADDR(call); 
                 std::stringstream s ; 
-                s << "could not convert second argument to an integer. type="
-                  << type2name(n_)
-                  << ", length = "
-                  << Rf_length(n_)
-                ;
-                stop(s.str());
+                stop( "could not convert second argument to an integer. type=%s, length = %d", 
+                    type2name(n_), Rf_length(n_) ) ;
             }
         }
     }
@@ -667,9 +663,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     SEXP data = CADR(call) ;
     if( TYPEOF(data) == SYMSXP ) {
         if( ! subsets.count(data) ){
-            std::stringstream s ;
-            s << "could not find variable '" << CHAR(PRINTNAME(data)) << "'" ;
-            stop(s.str()) ;
+            stop( "could not find variable '%s'", CHAR(PRINTNAME(data)) );
         }
         data = subsets.get_variable(data) ;
     }
@@ -1025,11 +1019,10 @@ void assert_all_white_list(const DataFrame& data){
     int nc = data.size() ;
     for( int i=0; i<nc; i++){
         if( !white_list(data[i]) ){
-            std::stringstream ss ;
             CharacterVector names = data.names() ;
-            ss << "column '" << names[i] << "' has unsupported type : " ; 
-            ss << get_single_class(data[i]);
-            stop(ss.str()) ;
+            String name_i = names[i] ;
+            stop( "column '%s' has unsupported type : %s", 
+                name_i.get_cstring() , get_single_class(data[i]) );
         }
     }
 }
@@ -1561,20 +1554,11 @@ DataFrame build_index_cpp( DataFrame data ){
         try{ 
             v = data[name] ;
         } catch(...){
-           std::stringstream s ;
-           s << "unknown column '"
-             << name
-             << "'"; 
-           stop(s.str()); 
+           stop( "unknown column '%s'", name ); 
         }
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
-            std::stringstream ss ;
-            ss << "cannot group column "
-               << name
-               <<", of class '"
-               << get_single_class(v)
-               << "'" ;
-            stop(ss.str()) ;
+            stop( "cannot group column %s, of class '%s'", 
+                name, get_single_class(v) ) ;
         }
     }
 
@@ -1690,9 +1674,7 @@ public:
         }
 
         if( n_neg > 0 && n_pos > 0 ){
-            std::stringstream s;
-            s << "found " << n_pos << " positive indices and " << n_neg << " negative indices" ;
-            stop(s.str()) ;
+            stop( "found %d positive indices and %d negative indices", n_pos, n_neg );
         }
 
     }
@@ -1915,9 +1897,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
             } else {
                 SEXP v = env.find(CHAR(PRINTNAME(call))) ;
                 if( Rf_isNull(v) ){
-                    std::stringstream s ;
-                    s << "unknown variable: " << CHAR(PRINTNAME(call)) ;
-                    stop(s.str());
+                    stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
                 } else if( Rf_length(v) == 1){
                     Replicator* rep = constant_replicator<Data>(v, gdf.nrows() );
                     variable = __( rep->collect() );
@@ -2009,13 +1989,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             result = __( gather->collect() ) ;
             delete gather ;
         } else {
-            std::stringstream s ;
-            s << "wrong result size ("
-              << Rf_length(result)
-              << "), expected "
-              << df.nrows()
-              << " or 1" ;
-            stop(s.str()) ;
+            stop( "wrong result size (%d), expected %d or 1", Rf_length(result), df.nrows() ) ;
         }
 
         call_proxy.input( name, result ) ;
@@ -2103,9 +2077,7 @@ SEXP n_distinct(SEXP x){
     SlicingIndex everything(0, n);
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){
-        std::stringstream ss ;
-        ss << "cannot handle object of type" << type2name(x) ;
-        stop( ss.str() ) ;
+        stop( "cannot handle object of type %s", type2name(x) );
     }
     return res->process(everything) ;
 }

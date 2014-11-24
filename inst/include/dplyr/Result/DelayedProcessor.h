@@ -22,11 +22,7 @@ namespace dplyr{
     template <>
     inline int strong_as<INTSXP>( SEXP x){
         if( TYPEOF(x) == REALSXP ){
-            std::stringstream s ; 
-            s << "loss of precision when attempting to convert a "  
-              << get_single_class(x) 
-              << " to an integer" ;
-            stop(s.str());
+            stop( "loss of precision when attempting to convert a %s to an integer", get_single_class(x) ) ;
         }
         return as<int>(x) ;
     }
@@ -34,11 +30,7 @@ namespace dplyr{
     template <>
     inline int strong_as<LGLSXP>( SEXP x){
         if( TYPEOF(x) == REALSXP || TYPEOF(x) == INTSXP ){
-            std::stringstream s ; 
-            s << "loss of precision when attempting to convert a "  
-              << get_single_class(x) 
-              << " to an logical" ;
-            stop(s.str());
+            stop( "loss of precision when attempting to convert a %s to an logical", get_single_class(x) ) ;
         }
         return as<int>(x) ;
     }

@@ -25,10 +25,7 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
                 } else if( x == Rf_install("F") ){
                     return Rf_ScalarLogical(FALSE) ;    
                 }
-                
-                std::stringstream s ;
-                s << "unknown column : " << CHAR(PRINTNAME(x)) ;
-                stop(s.str());
+                stop( "unknown column : %s", CHAR(PRINTNAME(x)) );
             }
             return res ;
         }
@@ -55,12 +52,7 @@ SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& e
 
 void check_filter_result(const LogicalVector& test, int n){
     if( test.size() != n ) {
-        std::stringstream s ;
-        s << "incorrect length ("
-          << test.size()
-          << "), expecting: "
-          << n ;
-        stop( s.str() ) ;
+        stop( "incorrect length (%d), expecting: %d", test.size(), n );
     }
 }
 

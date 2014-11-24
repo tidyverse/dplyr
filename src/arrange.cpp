@@ -78,45 +78,24 @@ List arrange_impl( DataFrame data, LazyDots dots ){
 
         SEXP v = __(call_proxy.eval()) ;
         if( !white_list(v) ){
-            std::stringstream ss ;
-            ss << "cannot arrange column of class '"
-               << get_single_class(v)
-               << "'" ;
-            stop(ss.str()) ;
+            stop( "cannot arrange column of class '%s'", get_single_class(v) ) ;
         }
 
         if( Rf_inherits(v, "data.frame" ) ){
             DataFrame df(v) ;
             int nr = df.nrows() ;
             if( nr != data.nrows() ){
-                std::stringstream s ;
-                s << "data frame column with incompatible number of rows ("
-                  << nr
-                  << "), expecting :"
-                  << data.nrows() ;
-                stop(s.str()) ;
-                
+                stop( "data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows() );
             }
         } else if( Rf_isMatrix(v) ) {
             SEXP dim = Rf_getAttrib(v, Rf_install( "dim" ) ) ;
             int nr = INTEGER(dim)[0] ;
             if( nr != data.nrows() ){
-                std::stringstream s ;
-                s << "matrix column with incompatible number of rows ("
-                  << nr
-                  << "), expecting :"
-                  << data.nrows() ;
-                stop(s.str()) ;
-                
+                stop( "matrix column with incompatible number of rows (%d), expecting : ", nr, data.nrows() ) ;
             }
         } else {
             if( Rf_length(v) != data.nrows() ){
-                std::stringstream s ;
-                s << "incorrect size ("
-                  << Rf_length(v)
-                  << "), expecting :"
-                  << data.nrows() ;
-                stop(s.str()) ;
+                stop( "incorrect size (%d), expecting : %d", Rf_length(v), data.nrows() ) ;
             }
         }
         variables[k] = v ;

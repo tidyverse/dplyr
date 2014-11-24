@@ -15,18 +15,8 @@ namespace dplyr {
       default:
         break ;
     }
-    std::stringstream ss; 
-    ss << "unsupported type for column '"
-       << CHAR(name)
-       << "' ("
-       << type2name(x) ;
-    SEXP classes = Rf_getAttrib(x, R_ClassSymbol) ;
-    if( !Rf_isNull(classes) ){   
-      ss << ",  classes = " << collapse<STRSXP>(classes) ;
-    }
-    ss << ")" ;
-    stop( ss.str() ) ;
-      
+    stop( "unsupported type for column '%s' (%s, classes = %s)", 
+        CHAR(name), type2name(x), get_single_class(x) ) ;
   }
 
 }

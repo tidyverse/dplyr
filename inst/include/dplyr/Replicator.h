@@ -153,9 +153,7 @@ namespace dplyr {
         int n = Rf_length(v) ;
         bool test = all( gdf.get_group_sizes() == n ).is_true() ;
         if( !test ){
-            std::stringstream s ;
-            s << "impossible to replicate vector of size " << n ;
-            stop(s.str()) ;
+            stop( "impossible to replicate vector of size %s", n );
         }
                       
         switch( TYPEOF(v) ){
