@@ -1,0 +1,224 @@
+---
+title: "Two-table verbs"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(dplyr.print_min = 5)
+library(dplyr)
+```
+
+It's rare to have a data analysis that only involves a single table of data. In practice, you have many tables that contribute to an analysis, and you need flexible tools to combine them. In dplyr, there are three families of verbs that work with two-tables:
+
+* Matching joins, which allow you to combine variables from two-tables.
+* Filtering joins, which match the values of variables to filter observations.
+* Set operations, which treat observations like set elements
+
+All functions behave similarly. The first two arguments are `x` and `y` and give the tables to combine, and they alway return a new table. If the types of `x` and `y` are different, the returned object will be the same type as `x`.
+
+This discussion assumes that you have [tidy data](http://www.jstatsoft.org/v59/i10/), where the rows are observations and the columns are variables.)
+
+## Matching joins
+
+Matching joins allow you combine variables from two-tables, matching observations based on a subset of the variables. For example, imagine you have one table with flight information that uses two letter carrier codes. To add the full carrier names, you can use a join:
+
+```{r, warning = FALSE}
+library("nycflights13")
+flightnum <- flights %>% select(carrier, flight)
+flightnum
+
+flightnum %>% 
+  left_join(airlines)
+```
+
+As well as `x` and `y`, each matching join takes an argument `by` that control which variables are used to match observations in the two-tables. There are a few ways to specify it:
+
+* Omit it: dplyr will default (with a message) to will use variables common
+  to both tables (this is known as a natural join).
+  
+* Give a character vector: `by = "x"`. This will match the specified
+  variables in both tables.
+  
+* Give a named character vector: `by = c("x" = "a")`. This will
+  match column `x` in table `x` to column `a` in table `b`
+
+Each of these are illustrated below with different tables from nycflight13:
+
+```{r}
+# Flights and weather weather join on date and origin
+flights %>% left_join(weather)
+
+# Both flights and planes have year columns, but they mean different things
+# so we only want to join by the tailnum variable
+flights %>% left_join(planes, by = "tailnum")
+
+# We could join airport to either destination or origin:
+flights %>% select(origin, dest) %>% left_join(airports, c("dest" = "faa"))
+flights %>% select(origin, dest) %>% left_join(airports, c("origin" = "faa"))
+```
+
+dplyr provides four matching joins. They differ in their behaviour when a match is not found:
+
+* `inner_join(x, y)` only includes observations that match in both `x` and `y`.
+
+* `left_join(x, y)` includes all observations in `x`, regardless of whether
+  they match or not. This is the most commonly used join because it ensures 
+  that you don't lose observations from your primary table.
+
+* `right_join(x, y)` includes all obserations in `y`. It's equivalent to 
+  `left_join(y, x)`, but the columns will be ordered differently.
+
+* `full_join()` includes all observations from `x` and `y`.
+
+The left, right and full joins are collectively know as outer joins. When a row doesn't match in an outer join, it fills in the new variables with missing values:
+
+```{r}
+df1 <- data_frame(x = 1:2, y = 2:1)
+df2 <- data_frame(x = 1, a = 10, b = "a")
+
+left_join(df1, df2)
+```
+
+(Note that currently dplyr only supports equi-joins. Support for non-equi joins is planned for a future release.)
+
+### Observations
+
+While joins are primarily used to add new variables, they can also generate new observations. If a matche is not unique, a join will add all possible combinations (the Cartesian products) of the matching observations:
+
+```{r}
+df1 <- data_frame(x = c(1, 1, 2), y = 1:3)
+df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
+
+left_join(df1, df2)
+```
+
+## Filtering joins
+
+Filtering joins are similar to regular joins, but they only affect the observations, not the variables. There are two types:
+
+* `semi_join(x, y)` return all observations in `x` that have a match in `y`.
+* `anti_join(x, y)` return all observaitons in `x` that __don't__ have a 
+  match in `y`.
+
+These are most useful for diagnosing join mismatches. For example, there are many flights in the nycflights13 dataset that don't have a matching tail number in the planes table:
+
+```{r}
+library("nycflights13")
+flights %>% 
+  anti_join(planes, by = "tailnum") %>% 
+  count(tailnum, sort = TRUE)
+```
+
+If you're ever worried about what observations your joins will match, start with a `semi_join()` or `anti_join()`. `semi_join()` and `anti_join()` never duplicate; they only ever remove observations. 
+
+```{r}
+df1 <- data_frame(x = c(1, 1, 3, 4), y = 1:4)
+df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
+
+# Four rows to start with:
+df1 %>% nrow()
+# And we get four rows after the join
+df1 %>% inner_join(df2, by = "x") %>% nrow()
+# But only two rows actually match
+df1 %>% semi_join(df2, by = "x") %>% nrow()
+```
+
+## Set operations
+
+The final type of two-table verbs are the set operation. These expect the `x` and `y` inputs to have the same variables, and treat the observations like sets.
+
+* `intersect(x, y)`: return only rows in both `x` and `y`
+* `union(x, y)`: return unique rows in `x` and `y`
+* `setdiff(x, y)`: return rows in `x`, but not in `y`.
+
+Here they are in action with some simple inputs:
+
+```{r}
+df1 <- data_frame(x = 1:2, y = c(1L, 1L))
+df1
+df2 <- data_frame(x = 1:2, y = 1:2)
+df2
+
+intersect(df1, df2)
+# Note that we get 3 rows, not 4
+union(df1, df2)
+setdiff(df1, df2)
+```
+
+## Databases
+
+Each function has a straightforward conversion to the equivalent SQL:
+
+| R                | SQL
+|------------------|--------
+| `inner_join()`   | `SELECT * FROM x JOIN y ON x.a = y.a`
+| `left_join()`    | `SELECT * FROM x LEFT JOIN y ON x.a = y.a`
+| `right_join()`   | `SELECT * FROM x RIGHT JOIN y ON x.a = y.a`
+| `full_join()`    | `SELECT * FROM x FULL JOIN y ON x.a = y.a`
+| `semi_join()`    | `SELECT * FROM x WHERE EXISTS (SELECT 1 FROM y WHERE x.a = y.a)`
+| `anti_join()`    | `SELECT * FROM x WHERE NOT EXISTS (SELECT 1 FROM y WHERE x.a = y.a)`
+| `intersect(x, y)`| `SELECT * FROM x INTERSECT SELECT * FROM y`
+| `union(x, y)`    | `SELECT * FROM x UNION SELECT * FROM y`
+| `setdiff(x, y)`  | `SELECT * FROM x EXCEPT SELECT * FROM y`
+
+Note that `x` and `y` don't have to be both database tables. If you specify `copy = TRUE`, dplyr will copy the `y` table into the same location as the `x` variable. This is useful if you've downloaded a summarised dataset and determined a subset of interest that you now want the full data for. You can use `semi_join(x, y, copy = TRUE)` to upload `y` to a temporary table in the same database as `x`, and then perform a efficient semi join in the database.  If you're working with large data, it maybe also be helpful to set `auto_index = TRUE`. That will automatically add an index on the join variables to the temporary table.
+
+## Coercion rules
+
+When joining tables, dplyr is a little more conservative than base R about what types of variable it considers equivalent. This is mostly likely to cause you problems if you're using factors:
+
+  * Factors with different levels are coerced to character with a warning:
+    
+    ```{r}
+    df1 <- data_frame(x = 1, y = factor("a"))
+    df2 <- data_frame(x = 2, y = factor("b"))
+    outer_join(df1, df2) %>% str()
+    ```
+
+  * Factors with the same levels in a different order are coerced to character 
+    with a warning:
+  
+    ```{r}
+    df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
+    df2 <- data_frame(x = 2, y = factor("b", levels = c("b", "a")))
+    outer_join(df1, df2) %>% str()
+    ```
+
+  * Factors are preserved only if the levels match exactly:
+    
+    ```{r}
+    df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
+    df2 <- data_frame(x = 2, y = factor("b", levels = c("a", "b")))
+    outer_join(df1, df2) %>% str()
+    ```
+
+  * A factor and a character are coerced to character with a warning:
+    
+    ```{r}
+    df1 <- data_frame(x = 1, y = "a")
+    df2 <- data_frame(x = 2, y = factor("a"))
+    outer_join(df1, df2) %>% str()
+    ```
+    
+Otherwise logicals will be silently upcast to integer, and integer to numeric, but coercing to character will raise an error:
+
+```{r, error = TRUE, purl = FALSE}
+df1 <- data_frame(x = 1, y = 1L)
+df2 <- data_frame(x = 2, y = 1.5)
+outer_join(df1, df2) %>% str()
+
+df1 <- data_frame(x = 1, y = 1L)
+df2 <- data_frame(x = 2, y = "a")
+outer_join(df1, df2) %>% str()
+```
+
+
+## Multiple-table verbs
+
+dplyr does not provide any functions for working with three or more tables. Instead use `Reduce()`, as described in [Advanced R](http://adv-r.had.co.nz/Functionals.html#functionals-fp), to iteratively combine the two-table verbs to handle as many tables as you need.
