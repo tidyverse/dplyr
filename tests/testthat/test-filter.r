@@ -90,7 +90,7 @@ test_that( "filter handles simple symbols", {
 })
 
 test_that("filter handlers scalar results", {
-  expect_equal( filter(mtcars, min(mpg)>0 ), mtcars )
+  expect_equivalent( filter(mtcars, min(mpg)>0 ), mtcars )
   expect_equal( filter(group_by(mtcars,cyl), min(mpg)>0 ), group_by(mtcars,cyl) )
 })
 
@@ -141,7 +141,7 @@ test_that("filter handles $ correctly (#278)", {
 })
 
 test_that( "filter returns the input data if no parameters are given", {
-  expect_equal( filter(mtcars), mtcars )
+  expect_equivalent( filter(mtcars), mtcars )
 })
 
 test_that( "$ does not end call traversing. #502", {
@@ -206,29 +206,6 @@ test_that("%in% works as expected (#126)", {
   res <- df %>% group_by(g) %>% filter( a %in% letters )
   expect_equal(nrow(res), 2L)
 
-})
-
-test_that( "filter handles data.frames as columns (#602)", {
-  df <- data.frame( a = 1:10, b = 1:10, c = 1:10 )
-  df$b <- data.frame( x = 1:10, y = 1:10 )
-  res <- filter( df, a < 5 )
-  expect_equal( nrow(res), 4L )
-  expect_equal( names(res), names(df) )
-  expect_is( res$b, "data.frame" )
-  expect_equal( nrow(res$b), 4L )
-  expect_equal( names(res$b), c("x", "y") )
-})
-
-
-test_that( "filter handles matrices as columns (#602)", {
-  df <- data.frame( a = 1:10, b = 1:10, c = 1:10 )
-  df$b <- matrix( 1:20, nrow = 10 )
-  res <- filter( df, a < 5 )
-  expect_equal( nrow(res), 4L )
-  expect_equal( names(res), names(df) )
-  expect_is( res$b, "matrix" )
-  expect_equal( nrow(res$b), 4L )
-  expect_equal( ncol(res$b), 2L )
 })
 
 test_that("row_number does not segfault with example from #781", {

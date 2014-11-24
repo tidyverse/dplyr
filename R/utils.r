@@ -132,3 +132,5 @@ succeeds <- function(x, quiet = FALSE) {
     FALSE
   })
 }
+
+is_1d <- function(x) length(dim(x)) <= 1

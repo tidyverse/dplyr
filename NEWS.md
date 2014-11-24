@@ -26,6 +26,9 @@
 
 ## Minor improvements
 
+* `data_frame()` (and `as_data_frame()` & `tbl_df()`) now explicitly
+  forbid columns that are data frames or matrices (#775).
+
 * Overhaul of single table verbs for data.table backend. They now all use
   a consistent (and simpler) code base. This ensures that (e.g.) `n()`
   now works in all verbs (#579).

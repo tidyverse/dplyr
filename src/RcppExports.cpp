@@ -572,21 +572,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// tbl_df_impl
-DataFrame tbl_df_impl(DataFrame df);
-RcppExport SEXP dplyr_tbl_df_impl(SEXP dfSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP );
-        DataFrame __result = tbl_df_impl(df);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // split_indices
 std::vector<std::vector<int> > split_indices(IntegerVector group, int groups);
 RcppExport SEXP dplyr_split_indices(SEXP groupSEXP, SEXP groupsSEXP) {
