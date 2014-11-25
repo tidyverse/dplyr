@@ -22,7 +22,8 @@
 * `vignette("two-table")` describe how the two-table verbs work in dplyr.
 
 * `vignette("data_frame")` describes dplyr functions that make it easier
-  and faster to create and coerce data frames.
+  and faster to create and coerce data frames. The old `memory` vignette
+  has been moved in here.
 
 ## Minor improvements
 
