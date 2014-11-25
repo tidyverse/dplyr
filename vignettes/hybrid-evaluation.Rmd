@@ -1,15 +1,18 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Hybrid Evaluation}
--->
+---
+title: "Hybrid evaluation"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
 ```{r, echo = FALSE, message = FALSE}
-library(ggplot2)
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 library(dplyr)
-knitr::opts_chunk$set(tidy = FALSE)
 ```
-
-# Hybrid Evaluation
 
 Consider this call to `summarise` : 
 

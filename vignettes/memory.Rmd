@@ -1,13 +1,18 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Memory usage}
--->
+---
+title: "Memory usage"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
-```{r, message = FALSE, echo = FALSE}
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 library(dplyr)
 ```
-
-# Memory usage
 
 One of the reasons that dplyr is fast is that it is very careful about when it makes copies of columns. This vignette describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.
 

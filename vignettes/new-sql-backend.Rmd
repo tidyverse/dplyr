@@ -1,9 +1,19 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Adding new database support to dplyr}
--->
+---
+title: "Adding a new SQL backend"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
-# Adding a new sql backend
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(dplyr.print_min = 4L, dplyr.print_max = 4L)
+library(dplyr)
+```
+
 
 This document describes how to describe a new SQL backend to dplyr. It's a work in progress, but will hopefully get started. If you're familiar with how your database works, and at least one other database that dplyr already supports, this should be reasonably simple, and I'm happy to help if you get stuck.  It's also possible that a new database backend may need new methods - I'm also happy to add those as needed. If you need more help, please email the [mailing list](mailto:manipulatr@googlegroups.com) and I'll help you get unstuck.
 

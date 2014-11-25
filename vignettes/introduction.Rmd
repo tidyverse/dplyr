@@ -1,19 +1,19 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Introduction to dplyr}
--->
+---
+title: "Introduction to dplyr"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
 ```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 library(dplyr)
 library(ggplot2)
-knitr::opts_chunk$set(
-  comment = "#>",
-  error = FALSE,
-  tidy = FALSE)
-options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 ```
-
-# Introduction to dplyr
 
 When working with data you must:
 
@@ -264,7 +264,7 @@ The verbs are affected by grouping as follows:
 
 In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
-```{r, warning = FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, fig.width = 6}
 planes <- group_by(flights, tailnum)
 delay <- summarise(planes,
   count = n(),

@@ -10,9 +10,10 @@ vignette: >
 
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
-options(dplyr.print_min = 5)
+options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 library(dplyr)
 ```
+
 ## Creating
 
 `data_frame()` is a nice way to create data frames. It encapsulates best practices for data frames:
