@@ -107,6 +107,8 @@ print.trunc_mat <- function(x, ...) {
   invisible()
 }
 
+#' knit_print method for trunc mat
+#' @keywords internal
 #' @export
 knit_print.trunc_mat <- function(x, options) {
   kable <- knitr::kable(x$table, row.names = FALSE)
