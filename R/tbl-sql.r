@@ -129,7 +129,7 @@ print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
 
   cat("\n")
 
-  trunc_mat(x, n = n, width = width)
+  print(trunc_mat(x, n = n, width = width))
   invisible(x)
 }
 

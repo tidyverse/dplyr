@@ -27,7 +27,7 @@ print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("Groups: <by row>\n")
   cat("\n")
-  trunc_mat(x, n = n, width = width)
+  print(trunc_mat(x, n = n, width = width))
   invisible(x)
 }
 

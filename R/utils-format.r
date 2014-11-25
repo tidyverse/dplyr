@@ -45,11 +45,11 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   }
 
   df <- as.data.frame(head(x, n))
-  if (ncol(df) == 0) return()
-  if (nrow(df) == 0) {
-    names <- paste(names(df), " ")
-    cat("  ", names, "\n", sep = " ")
-    return()
+  if (ncol(df) == 0 || nrow(df) == 0) {
+    types <- vapply(df, type_sum, character(1))
+    extra <- setNames(types, names(df))
+
+    return(structure(list(table = NULL, extra = extra), class = "trunc_mat"))
   }
 
   rownames(df) <- NULL
@@ -82,15 +82,29 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
       FUN.VALUE = character(1))
     shrunk <- rbind(shrunk, ".." = dots)
   }
-  print(shrunk)
 
   if (any(too_wide)) {
     vars <- colnames(mat)[too_wide]
     types <- vapply(df[too_wide], type_sum, character(1))
-    var_types <- paste0(vars, " (", types, ")", collapse = ", ")
+    extra <- setNames(types, vars)
+  } else {
+    extra <- character()
+  }
 
+  structure(list(table = shrunk, extra = extra), class = "trunc_mat")
+}
+
+#' @export
+print.trunc_mat <- function(x, ...) {
+  if (!is.null(x$table)) {
+    print(x$table)
+  }
+
+  if (length(x$extra) > 0) {
+    var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
     cat(wrap("Variables not shown: ", var_types), "\n", sep = "")
   }
+  invisible()
 }
 
 wrap <- function(..., indent = 0) {
