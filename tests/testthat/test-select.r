@@ -151,15 +151,20 @@ test_that("empty index gives empty output", {
   expect_equal(length(vars), 0)
 })
 
-test_that("negative index in first position includes all others", {
-  vars <- combine_vars(letters[1:3], list(-1))
-  expect_equal(vars, c(b = 2, c = 3))
-})
-
-test_that("position indexes keep", {
+test_that("positive indexes kept", {
   expect_equal(combine_vars(letters, list(1)), c(a = 1))
   expect_equal(combine_vars(letters, list(1, 26)), c(a = 1, z = 26))
   expect_equal(combine_vars(letters, list(c(1, 26))), c(a = 1, z = 26))
+})
+
+test_that("indexes returned in order they appear", {
+  expect_equal(combine_vars(list(26, 1)), c(z = 26, a = 1))
+})
+
+
+test_that("negative index in first position includes all others", {
+  vars <- combine_vars(letters[1:3], list(-1))
+  expect_equal(vars, c(b = 2, c = 3))
 })
 
 test_that("named inputs rename outputs", {

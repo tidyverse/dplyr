@@ -22,26 +22,82 @@ int vector_sign(IntegerVector x) {
   }
 }
 
+class VarList {
+
+  std::vector<int> out_indx;
+  std::vector<std::string> out_name;
+
+  int find(int i) {
+    std::vector<int>::iterator pos = std::find(out_indx.begin(), out_indx.end(), i);
+    if (pos == out_indx.end()) {
+      return -1;
+    } else {
+      return pos - out_indx.begin();
+    }
+  }
+
+public:
+  VarList(int n) {
+    out_indx = std::vector<int>();
+    out_name = std::vector<std::string>();
+
+    out_indx.reserve(n);
+    out_name.reserve(n);
+  }
+
+  bool has(int i) {
+    return find(i) != -1;
+  }
+
+  void add(int i, std::string name) {
+    out_indx.push_back(i);
+    out_name.push_back(name);
+  }
+  void remove(int i) {
+    int pos = find(i);
+    if (pos == -1) return;
+
+    out_indx.erase(out_indx.begin() + pos);
+    out_name.erase(out_name.begin() + pos);
+  }
+  void update(int i, std::string name) {
+    int pos = find(i);
+    if (pos == -1) {
+      add(i, name);
+    } else {
+      out_name[pos] = name;
+    }
+  }
+
+  operator SEXP() {
+    IntegerVector out(out_indx.begin(), out_indx.end());
+    CharacterVector out_names(out_name.begin(), out_name.end());
+    out.attr("names") = out_names;
+
+    return out;
+  }
+};
+
 // [[Rcpp::export]]
-IntegerVector combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
-  std::map<int, std::string> selected;
+SEXP combine_vars(std::vector<std::string> vars, ListOf<IntegerVector> xs) {
+  VarList selected(vars.size());
+
   if (xs.size() == 0)
     return IntegerVector::create();
 
   // Workaround bug in ListOf<>; can't access attributes
   SEXP raw_names = Rf_getAttrib(xs, Rf_mkString("names"));
-  CharacterVector xs_names;
+  std::vector<std::string> xs_names;
   if (raw_names == R_NilValue) {
-    xs_names = CharacterVector(xs.size());
-    std::fill(xs_names.begin(), xs_names.end(), "");
+    xs_names = std::vector<std::string>(xs.size(), "");
   } else {
-    xs_names = as<CharacterVector>(raw_names);
+    xs_names = as< std::vector<std::string> >(raw_names);
   }
 
   // If first component is negative, pre-fill with existing vars
   if (vector_sign(xs[0]) == -1) {
     for (int j = 0; j < vars.size(); ++j) {
-      selected[j + 1] = vars[j];
+      selected.add(j + 1, vars[j]);
     }
   }
 
@@ -59,19 +115,19 @@ IntegerVector combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
       bool has_names = x.attr("names") != R_NilValue;
       if (group_named) {
         if (x.size() == 1) {
-          selected[x[0]] = xs_names[i];
+          selected.update(x[0], xs_names[i]);
         } else {
           // If the group is named, children are numbered sequentially
           for (int j = 0; j < x.size(); ++j) {
             std::stringstream out;
             out << xs_names[i] << j + 1;
-            selected[x[j]] = out.str();
+            selected.update(x[j], out.str());
           }
         }
       } else if (has_names) {
-        CharacterVector names = as<CharacterVector>(x.attr("names"));
+        std::vector<std::string> names = as<std::vector<std::string> >(x.attr("names"));
         for (int j = 0; j < x.size(); ++j) {
-          selected[x[j]] = names[j];
+          selected.update(x[j], names[j]);
         }
       } else {
         for (int j = 0; j < x.size(); ++j) {
@@ -80,28 +136,17 @@ IntegerVector combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
             stop("Position must be between 0 and n");
 
           // Add default name, if not all ready present
-          if (!selected.count(pos))
-            selected[pos] = vars[pos - 1];
+          if (!selected.has(pos))
+            selected.update(pos, vars[pos - 1]);
         }
       }
     } else {
       for (int j = 0; j < x.size(); ++j) {
-        selected.erase(-x[j]);
+        selected.remove(-x[j]);
       }
     }
   }
 
-  int m = selected.size();
-  IntegerVector out(m);
-  CharacterVector out_names(m);
-
-  std::map<int, std::string>::iterator selected_it = selected.begin();
-  int i = 0;
-  for(; selected_it != selected.end(); ++selected_it, ++i) {
-    out[i] = selected_it->first;
-    out_names[i] = selected_it->second;
-  }
-  out.attr("names") = out_names;
-  return out;
+  return selected;
 }
 
