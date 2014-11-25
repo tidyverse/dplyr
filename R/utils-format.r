@@ -107,6 +107,21 @@ print.trunc_mat <- function(x, ...) {
   invisible()
 }
 
+#' @export
+knit_print.trunc_mat <- function(x, options) {
+  kable <- knitr::kable(x$table, row.names = TRUE)
+
+  if (length(x$extra) > 0) {
+    var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
+    extra <- wrap("\nVariables not shown: ", var_types)
+  } else {
+    extra <- "\n"
+  }
+
+  res <- paste(c('', '', kable, '', extra), collapse = '\n')
+  knitr::asis_output(res)
+}
+
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
