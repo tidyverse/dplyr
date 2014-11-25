@@ -113,7 +113,7 @@ knit_print.trunc_mat <- function(x, options) {
 
   if (length(x$extra) > 0) {
     var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
-    extra <- wrap("\nVariables not shown: ", var_types)
+    extra <- wrap("\n__Variables not shown__: ", var_types)
   } else {
     extra <- "\n"
   }
