@@ -119,6 +119,12 @@ data_frame_ <- function(columns) {
 #' }
 as_data_frame <- function(x) {
   stopifnot(is.list(x))
+  if (length(x) == 0) {
+    x <- list()
+    class(x) <- c("tbl_df", "tbl", "data.frame")
+    attr(x, "row.names") <- .set_row_names(0)
+    return(x)
+  }
 
   if (any(names2(x) == "")) {
     stop("All elements must be named", call. = FALSE)
