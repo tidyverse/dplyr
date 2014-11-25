@@ -147,13 +147,6 @@ List cbind__impl( Dots dots ){
 }
 
 // [[Rcpp::export]]
-List cbind_list__impl( DotsOf<DataFrame> dots ){
-  return cbind__impl( dots ) ;
-}
-
-//' @export
-//' @rdname bind
-// [[Rcpp::export]]
 List cbind_all( StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots ){
     return cbind__impl( dots ) ;
 }

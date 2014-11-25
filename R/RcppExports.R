@@ -43,12 +43,6 @@ rbind_list__impl <- function(dots) {
     .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
 }
 
-cbind_list__impl <- function(dots) {
-    .Call('dplyr_cbind_list__impl', PACKAGE = 'dplyr', dots)
-}
-
-#' @export
-#' @rdname bind
 cbind_all <- function(dots) {
     .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }

@@ -6,8 +6,8 @@
   `right_join()` (include all rows in `y`, and matching rows in `x`) and
   `full_join()` (include all rows in `x` and `y`) (#96).
 
-* Export and document `cbind_all()` and `cbind_list()`, the column binding
-  equivalents of `rbind_all()` and `rbind_list()`.
+* New `bind_rows()` and `bind_cols()` efficiently bind a list of 
+  data frames by row or column.
 
 * Turn row names into an explicit variable with `add_rownames()` (#639).
 

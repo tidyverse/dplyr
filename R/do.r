@@ -243,7 +243,7 @@ label_output_dataframe <- function(labels, out, groups) {
     labels <- labels[rep(seq_len(nrow(labels)), rows), , drop = FALSE]
     rownames(labels) <- NULL
 
-    grouped_df(cbind_list(labels, out), groups)
+    grouped_df(bind_cols(labels, out), groups)
   } else {
     rowwise(out)
   }
