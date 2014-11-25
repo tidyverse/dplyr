@@ -77,3 +77,67 @@ ungroup.grouped_dt <- function(x) {
   data.table::setattr(x, "class", setdiff(class(x), "grouped_dt"))
   x
 }
+
+
+# Do ---------------------------------------------------------------------------
+
+#' @export
+do_.grouped_dt <- function(.data, ..., .dots) {
+  args <- lazyeval::all_dots(.dots, ...)
+  env <- lazyeval::common_env(args)
+  named <- named_args(args)
+
+  if (!named) {
+    j <- args[[1]]$expr
+  } else {
+    args <- lapply(args, function(x) call("list", x$expr))
+    j <- as.call(c(quote(list), args))
+  }
+
+  out <- dt_subset(.data, , j, env = env, sd_cols = names(.data))
+
+  if (!named) {
+    grouped_dt(out, groups(.data))
+  } else {
+    tbl_dt(out)
+  }
+}
+
+# Set operations ---------------------------------------------------------------
+
+#' @export
+distinct_.grouped_dt <- function(.data, ..., .dots) {
+  groups <- lazyeval::as.lazy_dots(groups(.data))
+  dist <- distinct_vars(.data, ..., .dots = c(.dots, groups))
+
+  grouped_dt(unique(dist$data, by = dist$vars), groups(.data), copy = FALSE)
+}
+
+
+# Random samples ---------------------------------------------------------------
+
+#' @export
+sample_n.grouped_dt <- function(tbl, size, replace = FALSE, weight = NULL,
+  .env = parent.frame()) {
+
+  idx_call <- substitute(
+    list(`row_` = .I[sample(.N, size = size, replace = replace, prob = weight)]),
+    list(size = size, replace = replace, weight = substitute(weight))
+  )
+  idx <- dt_subset(tbl, , idx_call, env = .env)$row_
+
+  grouped_dt(tbl[idx], groups(tbl))
+}
+
+#' @export
+sample_frac.grouped_dt <- function(tbl, size = 1, replace = FALSE, weight = NULL,
+  .env = parent.frame()) {
+
+  idx_call <- substitute(
+    list(`row_` = .I[sample(.N, size = round(size * .N), replace = replace, prob = weight)]),
+    list(size = size, replace = replace, weight = substitute(weight))
+  )
+  idx <- dt_subset(tbl, , idx_call, env = .env)$row_
+
+  grouped_dt(tbl[idx], groups(tbl))
+}

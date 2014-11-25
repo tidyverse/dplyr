@@ -56,90 +56,7 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL,
 
 # Data frames (and tbl_df) -----------------------------------------------------
 
-#' @export
-sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
-  }
-
-  sample_n_basic(tbl, size, replace = replace, weight = weight)
-}
-
-
-#' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
-  }
-
-  sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
-}
-
-sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
-  n <- nrow(tbl)
-
-  weight <- check_weight(weight, n)
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  check_size(size, n, replace)
-
-  idx <- sample.int(n, size, replace = replace, prob = weight)
-  tbl[idx, , drop = FALSE]
-}
-
 # Grouped data frames ----------------------------------------------------------
-
-#' @export
-sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  weight <- substitute(weight)
-
-  index <- attr(tbl, "indices")
-  sampled <- lapply(index, sample_group, frac = FALSE,
-    tbl = tbl, size = size, replace = replace, weight = weight, .env = .env)
-  idx <- unlist(sampled) + 1
-
-  grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
-}
-
-#' @export
-sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                                   .env = parent.frame()) {
-
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  if (size > 1 && !replace) {
-    stop("Sampled fraction can't be greater than one unless replace = TRUE",
-      call. = FALSE)
-  }
-  weight <- substitute(weight)
-
-  index <- attr(tbl, "indices")
-  sampled <- lapply(index, sample_group, frac = TRUE,
-    tbl = tbl, size = size, replace = replace, weight = weight, .env = .env)
-  idx <- unlist(sampled) + 1
-
-  grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
-}
-
-sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE,
-                         weight = NULL, .env = parent.frame()) {
-  n <- length(i)
-  if (frac) size <- round(size * n)
-
-  check_size(size, n, replace)
-
-  # weight use standard evaluation in this function
-  if (!is.null(weight)) {
-    weight <- eval(weight, tbl[i + 1, , drop = FALSE], .env)
-    weight <- check_weight(weight, n)
-  }
-
-  i[sample.int(n, size, replace = replace, prob = weight)]
-}
 
 
 # Data tables ------------------------------------------------------------------
@@ -155,34 +72,6 @@ sample_n.tbl_dt <- function(tbl, size, replace = FALSE, weight = NULL,
 sample_frac.tbl_dt <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                .env = parent.frame()) {
   tbl_dt(NextMethod())
-}
-
-# Grouped data tables ----------------------------------------------------------
-
-#' @export
-sample_n.grouped_dt <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-
-  idx_call <- substitute(
-    list(`row_` = .I[sample(.N, size = size, replace = replace, prob = weight)]),
-    list(size = size, replace = replace, weight = substitute(weight))
-  )
-  idx <- dt_subset(tbl, , idx_call, env = .env)$row_
-
-  grouped_dt(tbl[idx], groups(tbl))
-}
-
-#' @export
-sample_frac.grouped_dt <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                                   .env = parent.frame()) {
-
-  idx_call <- substitute(
-    list(`row_` = .I[sample(.N, size = round(size * .N), replace = replace, prob = weight)]),
-    list(size = size, replace = replace, weight = substitute(weight))
-  )
-  idx <- dt_subset(tbl, , idx_call, env = .env)$row_
-
-  grouped_dt(tbl[idx], groups(tbl))
 }
 
 # Default method ---------------------------------------------------------------

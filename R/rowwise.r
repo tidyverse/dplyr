@@ -60,3 +60,46 @@ group_by_.rowwise_df <- function(.data, ..., .dots, add = FALSE) {
   groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
   grouped_df(groups$data, groups$groups)
 }
+
+
+# Do ---------------------------------------------------------------------------
+
+#' @export
+do_.rowwise_df <- function(.data, ..., .dots) {
+  # Create ungroup version of data frame suitable for subsetting
+  group_data <- ungroup(.data)
+
+  args <- lazyeval::all_dots(.dots, ...)
+  named <- named_args(args)
+  env <- new.env(parent = lazyeval::common_env(args))
+  index <- attr(.data, "indices")
+
+  # Create new environment, inheriting from parent, with an active binding
+  # for . that resolves to the current subset. `_i` is found in environment
+  # of this function because of usual scoping rules.
+  makeActiveBinding(".", function() {
+    lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
+  }, env)
+
+  n <- nrow(.data)
+  m <- length(args)
+
+  out <- replicate(m, vector("list", n), simplify = FALSE)
+  names(out) <- names(args)
+  p <- progress_estimated(n * m, min_time = 2)
+
+  for (`_i` in seq_len(n)) {
+    for (j in seq_len(m)) {
+      out[[j]][`_i`] <- list(eval(args[[j]]$expr, envir = env))
+      p$tick()$print()
+    }
+  }
+
+  if (!named) {
+    label_output_dataframe(NULL, out, groups(.data))
+  } else {
+    label_output_list(NULL, out, groups(.data))
+  }
+}
+
+
