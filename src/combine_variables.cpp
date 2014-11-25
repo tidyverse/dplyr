@@ -28,6 +28,16 @@ IntegerVector combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
   if (xs.size() == 0)
     return IntegerVector::create();
 
+  // Workaround bug in ListOf<>; can't access attributes
+  SEXP raw_names = Rf_getAttrib(xs, Rf_mkString("names"));
+  CharacterVector xs_names;
+  if (raw_names == R_NilValue) {
+    xs_names = CharacterVector(xs.size());
+    std::fill(xs_names.begin(), xs_names.end(), "");
+  } else {
+    xs_names = as<CharacterVector>(raw_names);
+  }
+
   // If first component is negative, pre-fill with existing vars
   if (vector_sign(xs[0]) == -1) {
     for (int j = 0; j < vars.size(); ++j) {
@@ -37,18 +47,31 @@ IntegerVector combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
 
   for (int i = 0; i < xs.size(); ++i) {
     IntegerVector x = xs[i];
+    if (x.size() == 0) continue;
+
     int sign = vector_sign(x);
 
     if (sign == 0)
-      stop("Each argument must yield either position or negative integers");
+      stop("Each argument must yield either positive or negative integers");
 
     if (sign == 1) {
+      bool group_named = xs_names[i] != "";
       bool has_names = x.attr("names") != R_NilValue;
-      if (has_names) {
-        // Named vectors always override existing
+      if (group_named) {
+        if (x.size() == 1) {
+          selected[x[0]] = xs_names[i];
+        } else {
+          // If the group is named, children are numbered sequentially
+          for (int j = 0; j < x.size(); ++j) {
+            std::stringstream out;
+            out << xs_names[i] << j + 1;
+            selected[x[j]] = out.str();
+          }
+        }
+      } else if (has_names) {
         CharacterVector names = as<CharacterVector>(x.attr("names"));
         for (int j = 0; j < x.size(); ++j) {
-          selected[x[j] + 1] = names[j];
+          selected[x[j]] = names[j];
         }
       } else {
         for (int j = 0; j < x.size(); ++j) {
