@@ -39,3 +39,9 @@ test_that("can't coerce list data.frame or array", {
   expect_error(as_data_frame(list(x = mtcars)), "can not contain data.frames")
   expect_error(as_data_frame(list(x = diag(5))), "can not contain data.frames")
 })
+
+test_that("Zero column list makes 0 x 0 tbl_df", {
+  zero <- as_data_frame(list())
+  expect_is(zero, "tbl_df")
+  expect_equal(dim(zero), c(0L, 0L))
+})
