@@ -12,80 +12,110 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(dplyr.print_min = 5)
 library(dplyr)
+knit_print.tbl_df <- function(x, options) {
+  knitr::knit_print(trunc_mat(x), options)
+}
 ```
 
-It's rare to have a data analysis that only involves a single table of data. In practice, you have many tables that contribute to an analysis, and you need flexible tools to combine them. In dplyr, there are three families of verbs that work with two-tables:
+It's rare to have a data analysis that only involves a single table of data. In practice, you'll normally have many tables that contribute to an analysis, and you need flexible tools to combine them. 
 
-* Matching joins, which allow you to combine variables from two-tables.
-* Filtering joins, which match the values of variables to filter observations.
-* Set operations, which treat observations like set elements
+In dplyr, there are three families of verbs that work with two tables at a time:
 
-All functions behave similarly. The first two arguments are `x` and `y` and give the tables to combine, and they alway return a new table. If the types of `x` and `y` are different, the returned object will be the same type as `x`.
+* Matching joins, which combine the variables from two tables.
+* Filtering joins, which filter rows from one table based on whether or not 
+  they match a row in the other table.
+* Set operations, which treat observations like set elements.
 
-This discussion assumes that you have [tidy data](http://www.jstatsoft.org/v59/i10/), where the rows are observations and the columns are variables.)
+(This discussion assumes that you have [tidy data](http://www.jstatsoft.org/v59/i10/), where the rows are observations and the columns are variables. If you're not familiar with that framework, I'd recommend reading up on it first.)
+
+All two-table verbs work similarly. The first two arguments are `x` and `y`, giving the tables to combine. The output is always a new table with the same type as `x`.
 
 ## Matching joins
 
-Matching joins allow you combine variables from two-tables, matching observations based on a subset of the variables. For example, imagine you have one table with flight information that uses two letter carrier codes. To add the full carrier names, you can use a join:
+Matching joins allow you combine variables, matching observations based on the "by" variables. For example, take the nycflights13 data. In one table we have flight information with an abbreviation for carrier, and in an other we have a mapping between abbreviations and full names. You can use a join to add the carrier names to the flight data:
 
 ```{r, warning = FALSE}
 library("nycflights13")
-flightnum <- flights %>% select(carrier, flight)
-flightnum
+# Drop unimportant variables so it's easier to understand the join results.
+flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
 
-flightnum %>% 
+flights2 %>% 
   left_join(airlines)
 ```
 
-As well as `x` and `y`, each matching join takes an argument `by` that control which variables are used to match observations in the two-tables. There are a few ways to specify it:
+### Controlling how the tables are matched
 
-* Omit it: dplyr will default (with a message) to will use variables common
-  to both tables (this is known as a natural join).
-  
-* Give a character vector: `by = "x"`. This will match the specified
-  variables in both tables.
-  
-* Give a named character vector: `by = c("x" = "a")`. This will
-  match column `x` in table `x` to column `a` in table `b`
+As well as `x` and `y`, each matching join takes an argument `by` that control which variables are used to match observations in the two-tables. There are a few ways to specify it, which I'll illustrate with various tables from nycflights.
 
-Each of these are illustrated below with different tables from nycflight13:
+  * `NULL`, the default. dplyr will will use all variables that appear in 
+    both tables, a __natural__ join. For example, the flights and 
+    weather tables match on their common variables: year, month, day, hour and 
+    origin.
+    
+    ```{r}
+    flights2 %>% left_join(weather)
+    ```
+
+  * A character vector, `by = "x"`. Like a natural join, but uses only 
+    some of the common variables. For example, `flights` and `planes` have 
+    `year` columns, but they mean different things so we only want to join by 
+    `tailnum`.
+    
+    ```{r}
+    flights2 %>% left_join(planes, by = "tailnum")
+    ```
+    
+    Note that the year columns in the output are disambiguated with a suffix.
+
+  * Give a named character vector: `by = c("x" = "a")`. This will
+    match column `x` in table `x` to column `a` in table `b`.
+    
+    Each flight has an origin and destination `airport`, so we need to specify
+    which one we want to join to:
+    
+    ```{r}
+    flights2 %>% left_join(airports, c("dest" = "faa"))
+    flights2 %>% left_join(airports, c("origin" = "faa"))
+    ```
+
+### Types of join
+
+The four matching joins differ in their behaviour when a match is not found. We'll illustrate each with a simple example:
 
 ```{r}
-# Flights and weather weather join on date and origin
-flights %>% left_join(weather)
-
-# Both flights and planes have year columns, but they mean different things
-# so we only want to join by the tailnum variable
-flights %>% left_join(planes, by = "tailnum")
-
-# We could join airport to either destination or origin:
-flights %>% select(origin, dest) %>% left_join(airports, c("dest" = "faa"))
-flights %>% select(origin, dest) %>% left_join(airports, c("origin" = "faa"))
+(df1 <- data_frame(x = 1:2, y = 2:1))
+(df2 <- data_frame(x = 1, a = 10, b = "a"))
 ```
 
-dplyr provides four matching joins. They differ in their behaviour when a match is not found:
-
-* `inner_join(x, y)` only includes observations that match in both `x` and `y`.
-
-* `left_join(x, y)` includes all observations in `x`, regardless of whether
-  they match or not. This is the most commonly used join because it ensures 
-  that you don't lose observations from your primary table.
-
-* `right_join(x, y)` includes all obserations in `y`. It's equivalent to 
-  `left_join(y, x)`, but the columns will be ordered differently.
+  * `inner_join(x, y)` only includes observations that match in both `x` and `y`.
+    
+    ```{r}
+    df1 %>% inner_join(df2) %>% knitr::kable()
+    ```
+    
+  * `left_join(x, y)` includes all observations in `x`, regardless of whether
+    they match or not. This is the most commonly used join because it ensures 
+    that you don't lose observations from your primary table.
+  
+    ```{r}
+    df1 %>% left_join(df2)
+    ```
+  
+  * `right_join(x, y)` includes all obserations in `y`. It's equivalent to 
+    `left_join(y, x)`, but the columns will be ordered differently.
+  
+    ```{r}
+    df1 %>% right_join(df2)
+    df2 %>% left_join(df1)
+    ```
 
 * `full_join()` includes all observations from `x` and `y`.
 
-The left, right and full joins are collectively know as outer joins. When a row doesn't match in an outer join, it fills in the new variables with missing values:
+    ```{r}
+    df1 %>% full_join(df2)
+    ```
 
-```{r}
-df1 <- data_frame(x = 1:2, y = 2:1)
-df2 <- data_frame(x = 1, a = 10, b = "a")
-
-left_join(df1, df2)
-```
-
-(Note that currently dplyr only supports equi-joins. Support for non-equi joins is planned for a future release.)
+The left, right and full joins are collectively know as __outer joins__. When a row doesn't match in an outer join, the new variables are filled in with missing values.
 
 ### Observations
 
@@ -95,7 +125,7 @@ While joins are primarily used to add new variables, they can also generate new 
 df1 <- data_frame(x = c(1, 1, 2), y = 1:3)
 df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
 
-left_join(df1, df2)
+df1 %>% left_join(df2)
 ```
 
 ## Filtering joins
