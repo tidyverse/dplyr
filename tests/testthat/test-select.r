@@ -158,7 +158,7 @@ test_that("positive indexes kept", {
 })
 
 test_that("indexes returned in order they appear", {
-  expect_equal(combine_vars(list(26, 1)), c(z = 26, a = 1))
+  expect_equal(combine_vars(letters, list(26, 1)), c(z = 26, a = 1))
 })
 
 
