@@ -109,7 +109,7 @@ print.trunc_mat <- function(x, ...) {
 
 #' @export
 knit_print.trunc_mat <- function(x, options) {
-  kable <- knitr::kable(x$table, row.names = TRUE)
+  kable <- knitr::kable(x$table, row.names = FALSE)
 
   if (length(x$extra) > 0) {
     var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
