@@ -30,6 +30,10 @@
 * `data_frame()` (and `as_data_frame()` & `tbl_df()`) now explicitly
   forbid columns that are data frames or matrices (#775).
 
+* `select()` now implements a more sophisticated algorithm so if you're
+  doing multiples includes and excludes with and without names, you're more
+  likely to get what you expect (#644).
+
 * Overhaul of single table verbs for data.table backend. They now all use
   a consistent (and simpler) code base. This ensures that (e.g.) `n()`
   now works in all verbs (#579).
