@@ -923,11 +923,15 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
     // then columns from x but not y
     CharacterVector all_x_columns = x.names() ;
+    std::vector<bool> joiner( all_x_columns.size() ) ;
     CharacterVector x_columns( all_x_columns.size() - n_join_visitors ) ;
     for( int i=0, k=0; i<all_x_columns.size(); i++){
         SEXP name = all_x_columns[i] ;
         if( std::find(by_x.begin(), by_x.end(), name) == by_x.end() ) {
+            joiner[i] = true ;
             x_columns[k++] = name ;
+        } else {
+            joiner[i] = false ;
         }
     }
     DataFrameVisitors visitors_x(x, x_columns) ;
@@ -949,29 +953,39 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     int nrows = indices_x.size() ;
     List out(n_join_visitors+nv_x+nv_y);
     CharacterVector names(n_join_visitors+nv_x+nv_y) ;
-    int k=0;
-
+    
+    int index_join_visitor = 0 ;
+    int index_x_visitor = 0 ;
     // ---- join visitors
-    for( ; k<n_join_visitors; k++){
-        out[k] = join_visitors.get(k)->subset(indices_x) ;
-        names[k] = by_x[k] ;
-    }
-
-    for( int i=0; i<nv_x; k++, i++){
-        out[k] = visitors_x.get(i)->subset(indices_x) ;
-        String col_name = x_columns[i] ;
-
-        if( std::find( by_x.begin(), by_x.end(), col_name.get_sexp() ) != by_x.end() ){
-            // if the variable is from by_x, just use it verbatim
-        } else if( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) {
-            // if it is not, but is also in y, then suffix with .x
-            col_name += ".x" ;
+    for( int i=0; i<all_x_columns.size(); i++){
+        if( joiner[i] ){
+            out[i] = join_visitors.get(index_join_visitor)->subset(indices_x) ;
+            index_join_visitor++ ;
         } else {
-            // otherwise just use verbatim
+            
+            // TODO handle naming, see below
+            out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;  
+            index_x_visitor++ ;
         }
-
-        names[k] = col_name ;
+        names[i] = all_x_columns[i] ;
     }
+
+    // for( int i=0; i<nv_x; k++, i++){
+    //     out[k] = visitors_x.get(i)->subset(indices_x) ;
+    //     String col_name = x_columns[i] ;
+    // 
+    //     if( std::find( by_x.begin(), by_x.end(), col_name.get_sexp() ) != by_x.end() ){
+    //         // if the variable is from by_x, just use it verbatim
+    //     } else if( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) {
+    //         // if it is not, but is also in y, then suffix with .x
+    //         col_name += ".x" ;
+    //     } else {
+    //         // otherwise just use verbatim
+    //     }
+    // 
+    //     names[k] = col_name ;
+    // }  
+    int k = index_join_visitor +  index_x_visitor
     for( int i=0; i<nv_y; i++, k++){
         String col_name = y_columns[i] ;
 
