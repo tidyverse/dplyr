@@ -362,3 +362,11 @@ test_that("unnamed vars are the same in both tables", {
   expect_equal(by2$x, c("x", "y", "z"))
   expect_equal(by2$y, c("a", "y", "z"))
 })
+
+test_that("join columns are not moved to the left (#802)", {
+  df1 <- data.frame(x = 1, y = 1:5)
+  df2 <- data.frame(y = 1:5, z = 2)
+  
+  out <- left_join(df1, df2)
+  expect_equal(names(out), c("x", "y", "z"))  
+})
