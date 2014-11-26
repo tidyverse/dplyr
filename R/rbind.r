@@ -2,7 +2,8 @@
 #'
 #' This is an efficient implementation of the common pattern of
 #' \code{do.call(rbind, dfs)} or \code{do.call{cbind, dfs}} for binding many
-#' data frames into one.
+#' data frames into one. \code{combine()} acts like \code{\link{c}()} or
+#' \code{\link{unlist}()} but uses consistent dplyr coercion rules.
 #'
 #' @section Deprecated functions:
 #' \code{rbind_list} and \code{rbind_all} have been deprecated. Instead use
@@ -37,6 +38,15 @@
 #'
 #' bind_cols(one, two)
 #' bind_cols(list(one, two))
+#'
+#' # combine applies the same coercion rules
+#' f1 <- factor("a")
+#' f2 <- factor("b")
+#' c(f1, f2)
+#' unlist(list(f1, f2))
+#'
+#' combine(f1, f2)
+#' combine(list(f1, f2))
 #' @name bind
 NULL
 
@@ -60,6 +70,17 @@ bind_cols <- function(x, ...) {
     cbind_all(list(x, ...))
   }
 }
+
+#' @export
+#' @rdname bind
+combine <- function(x, ...) {
+  if (is.list(x) && !is.data.frame(x)) {
+    combine_all(x)
+  } else {
+    combine_all(list(x, ...))
+  }
+}
+
 
 #' @export
 #' @rdname bind

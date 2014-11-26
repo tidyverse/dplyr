@@ -7,7 +7,8 @@
   `full_join()` (include all rows in `x` and `y`) (#96).
 
 * New `bind_rows()` and `bind_cols()` efficiently bind a list of 
-  data frames by row or column.
+  data frames by row or column. `combine()` applies the same coercion
+  rules to vectors (it works like `c()` or `unlist()` but is consistent).
 
 * Turn row names into an explicit variable with `add_rownames()` (#639).
 
