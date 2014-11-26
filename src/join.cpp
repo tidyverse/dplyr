@@ -215,7 +215,7 @@ namespace dplyr{
     
     inline void warn( const char* msg ){
         Rcpp::Function warning("warning") ;
-        warning( msg ) ;
+        warning( msg, _["call."] = false ) ;
     }
     
     JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name_left, const std::string& name_right){
