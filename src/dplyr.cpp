@@ -958,34 +958,23 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     int index_x_visitor = 0 ;
     // ---- join visitors
     for( int i=0; i<all_x_columns.size(); i++){
+        String col_name = all_x_columns[i] ;
         if( joiner[i] ){
             out[i] = join_visitors.get(index_join_visitor)->subset(indices_x) ;
             index_join_visitor++ ;
         } else {
+            // not from by_x, but is also in y, so we suffix with .x
+            if( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) {
+                col_name += ".x" ;        
+            }
             
-            // TODO handle naming, see below
             out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;  
             index_x_visitor++ ;
         }
-        names[i] = all_x_columns[i] ;
+        names[i] = col_name ;
     }
 
-    // for( int i=0; i<nv_x; k++, i++){
-    //     out[k] = visitors_x.get(i)->subset(indices_x) ;
-    //     String col_name = x_columns[i] ;
-    // 
-    //     if( std::find( by_x.begin(), by_x.end(), col_name.get_sexp() ) != by_x.end() ){
-    //         // if the variable is from by_x, just use it verbatim
-    //     } else if( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) {
-    //         // if it is not, but is also in y, then suffix with .x
-    //         col_name += ".x" ;
-    //     } else {
-    //         // otherwise just use verbatim
-    //     }
-    // 
-    //     names[k] = col_name ;
-    // }  
-    int k = index_join_visitor +  index_x_visitor
+    int k = index_join_visitor +  index_x_visitor ;
     for( int i=0; i<nv_y; i++, k++){
         String col_name = y_columns[i] ;
 
