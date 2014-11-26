@@ -1190,7 +1190,7 @@ DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
     }
 
     // train a new map in terms of x this time
-    DataFrameJoinVisitors visitors2(x,y,by_x,by_y, true) ;
+    DataFrameJoinVisitors visitors2(x,y,by_x,by_y, false) ;
     Map map2(visitors2);
     train_push_back( map2, x.nrows() ) ;
 

@@ -97,6 +97,8 @@
 
     Hybrid `min_rank()` correctly handles `NaN` values (#726).
 
+* join functions only warn once about each incompatibility (#798).     
+    
 ## Bug fixes
 
 * `join()` methods for data table now work when data.table isn't attached
