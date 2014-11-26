@@ -77,6 +77,16 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
   ind_list <- lazyeval::lazy_eval(args, c(names_list, select_funs))
   names(ind_list) <- names2(args)
 
+  is_numeric <- vapply(ind_list, is.numeric, logical(1))
+  if (any(!is_numeric)) {
+    bad_inputs <- lapply(args[!is_numeric], `[[`, "expr")
+    labels <- vapply(bad_inputs, deparse_trunc, character(1))
+
+    stop("All select() inputs must resolve to integer column positions.\n",
+      "The following do not:\n", paste("* ", labels, collapse = "\n"),
+      call. = FALSE)
+  }
+
   incl <- combine_vars(vars, ind_list)
 
   # Include/exclude specified variables

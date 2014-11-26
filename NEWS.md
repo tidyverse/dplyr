@@ -32,7 +32,9 @@
 
 * `select()` now implements a more sophisticated algorithm so if you're
   doing multiples includes and excludes with and without names, you're more
-  likely to get what you expect (#644).
+  likely to get what you expect (#644). You'll also get a better error
+  message if you supply an input that doesn't resolve to an integer 
+  column position (#643).
 
 * Overhaul of single table verbs for data.table backend. They now all use
   a consistent (and simpler) code base. This ensures that (e.g.) `n()`
