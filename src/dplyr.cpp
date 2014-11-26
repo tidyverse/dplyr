@@ -928,10 +928,10 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     for( int i=0, k=0; i<all_x_columns.size(); i++){
         SEXP name = all_x_columns[i] ;
         if( std::find(by_x.begin(), by_x.end(), name) == by_x.end() ) {
-            joiner[i] = true ;
+            joiner[i] = false ;
             x_columns[k++] = name ;
         } else {
-            joiner[i] = false ;
+            joiner[i] = true ;
         }
     }
     DataFrameVisitors visitors_x(x, x_columns) ;
