@@ -918,7 +918,7 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
 template <typename Index>
 DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by_x, CharacterVector by_y , CharacterVector classes ){
     // first the joined columns
-    DataFrameJoinVisitors join_visitors(x, y, by_x, by_y) ;
+    DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false) ;
     int n_join_visitors = join_visitors.size() ;
 
     // then columns from x but not y
@@ -1033,7 +1033,7 @@ void assert_all_white_list(const DataFrame& data){
 // [[Rcpp::export]]
 DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(x, y, by_x, by_y) ;
+    DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
 
     // train the map in terms of x
@@ -1062,7 +1062,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 // [[Rcpp::export]]
 DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(x, y, by_x, by_y) ;
+    DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
 
     // train the map in terms of x
@@ -1087,7 +1087,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 // [[Rcpp::export]]
 DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(x, y, by_x, by_y) ;
+    DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
 
     int n_x = x.nrows(), n_y = y.nrows() ;
@@ -1111,7 +1111,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 // [[Rcpp::export]]
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(y, x, by_y, by_x) ;
+    DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
     Map map(visitors);
 
     // train the map in terms of y
@@ -1138,7 +1138,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 // [[Rcpp::export]]
 DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(x, y, by_x, by_y) ;
+    DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
 
     // train the map in terms of x
@@ -1165,7 +1165,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 // [[Rcpp::export]]
 DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(y, x, by_y, by_x) ;
+    DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
     Map map(visitors);
 
     // train the map in terms of y
@@ -1190,7 +1190,7 @@ DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
     }
 
     // train a new map in terms of x this time
-    DataFrameJoinVisitors visitors2(x,y,by_x,by_y) ;
+    DataFrameJoinVisitors visitors2(x,y,by_x,by_y, true) ;
     Map map2(visitors2);
     train_push_back( map2, x.nrows() ) ;
 
@@ -1377,7 +1377,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     if( !compat ) return compat ;
 
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(x, y, x.names(), x.names() ) ;
+    DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
     Map map(visitors);
 
     // train the map in both x and y
@@ -1455,7 +1455,7 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
         stop( "not compatible" );
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
-    DataFrameJoinVisitors visitors(x, y, x.names(), x.names() ) ;
+    DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true) ;
     Set set(visitors);
 
     train_insert( set, x.nrows() ) ;
@@ -1470,7 +1470,7 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
         stop( "not compatible" );
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
-    DataFrameJoinVisitors visitors(x, y, x.names(), x.names() ) ;
+    DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
     Set set(visitors);
 
     train_insert( set, x.nrows() ) ;
@@ -1494,7 +1494,7 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
         stop( "not compatible" );
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
-    DataFrameJoinVisitors visitors(y, x, y.names(), y.names() ) ;
+    DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true ) ;
     Set set(visitors);
 
     train_insert( set, y.nrows() ) ;
@@ -1518,7 +1518,7 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
         stop( "not compatible" );
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
-    DataFrameJoinVisitors visitors(y, x, x.names(), x.names() ) ;
+    DataFrameJoinVisitors visitors(y, x, x.names(), x.names(), true ) ;
     Set set(visitors);
 
     train_insert( set, y.nrows() ) ;

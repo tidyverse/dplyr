@@ -400,7 +400,7 @@ namespace dplyr{
     PROMOTE_JOIN_VISITOR(DateJoinVisitor)
     PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
     
-    JoinVisitor* join_visitor( SEXP, SEXP, const std::string&, const std::string& ) ;
+    JoinVisitor* join_visitor( SEXP, SEXP, const std::string&, const std::string&, bool warn ) ;
 }
 
 #endif

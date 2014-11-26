@@ -218,7 +218,7 @@ namespace dplyr{
         warning( msg, _["call."] = false ) ;
     }
     
-    JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name_left, const std::string& name_right){
+    JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name_left, const std::string& name_right, bool warn_ ){
         switch( TYPEOF(left) ){
             case CPLXSXP:
                 {
@@ -240,7 +240,7 @@ namespace dplyr{
                                     if( same_levels(left, right) ){
                                         return new JoinFactorFactorVisitor_SameLevels(left, right) ;
                                     } else {
-                                        warn( "joining factors with different levels, coercing to character vector" );
+                                        if(warn_) warn( "joining factors with different levels, coercing to character vector" );
                                         return new JoinFactorFactorVisitor(left, right) ;
                                     }
                                 } else if( !lhs_factor && !rhs_factor) {
@@ -272,7 +272,7 @@ namespace dplyr{
                         case STRSXP:
                             {
                                 if( lhs_factor ){
-                                    warn( "joining factor and character vector, coercing into character vector" ) ;
+                                    if(warn_) warn( "joining factor and character vector, coercing into character vector" ) ;
                                     return new JoinFactorStringVisitor( left, right );     
                                 }
                             }
@@ -344,7 +344,7 @@ namespace dplyr{
                     case INTSXP:
                         {
                             if( Rf_inherits(right, "factor" ) ){
-                                warn( "joining character vector and factor, coercing into character vector" ) ;
+                                if(warn_) warn( "joining character vector and factor, coercing into character vector" ) ;
                                 return new JoinStringFactorVisitor( left, right ) ;    
                             }
                             break ;
