@@ -240,6 +240,7 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
 
 // [[Rcpp::export]]
 SEXP filter_impl( DataFrame df, LazyDots dots){
+    if( df.nrows() == 0 || Rf_isNull(df) ) return df ;
     check_valid_colnames(df) ;
     assert_all_white_list(df) ;
     

@@ -101,6 +101,8 @@
 
 * join functions only warn once about each incompatibility (#798).     
     
+* `filter` returns its input when it has no rows or no columns (#782). 
+
 ## Bug fixes
 
 * `join()` methods for data table now work when data.table isn't attached
