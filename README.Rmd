@@ -63,7 +63,7 @@ If you need more, help I recommend the following (paid) resources:
   
 * [Introduction to Data Science with R](http://shop.oreilly.com/product/0636920034834.do): 
   How to Manipulate, Visualize, and Model Data with the R Language, by Garrett
-  Grolemund. This O'Reilly video series will teach you the basics oto be
+  Grolemund. This O'Reilly video series will teach you the basics to be
   an effective analyst in R.
 
 ## Key data structures
@@ -90,7 +90,7 @@ flights
 # Caches data in local SQLite db
 flights_db1 <- tbl(nycflights13_sqlite(), "flights")
 
-# Caches data in local postgres db
+# Caches data in local postgress db
 flights_db2 <- tbl(nycflights13_postgres(), "flights")
 ```
 
