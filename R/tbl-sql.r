@@ -494,7 +494,7 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
 
   # Create ungrouped data frame suitable for chunked retrieval
   chunky <- update(.data,
-    select = c(group_by, .data$select),
+    select = unique(c(group_by, .data$select)),
     order_by = c(unname(group_by), .data$order_by),
     group_by = NULL
   )

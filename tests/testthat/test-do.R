@@ -137,8 +137,7 @@ test_that("grouped_dt passes all columns", {
 test_that("named argument become list columns", {
   out <- grp$sqlite %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
-  # Currently get one extra column (grouping variable repeated)
-  expect_equal(out$ncol, list(4, 4, 4))
+  expect_equal(out$ncol, list(3, 3, 3))
 })
 
 test_that("unnamed results bound together by row", {
@@ -151,7 +150,12 @@ test_that("unnamed results bound together by row", {
 
 test_that("Results respect select", {
   smaller <- grp$sqlite %>% select(g, x) %>% do(ncol = ncol(.))
-  expect_equal(smaller$ncol, list(3, 3, 3))
+  expect_equal(smaller$ncol, list(2, 2, 2))
+})
+
+test_that("grouping column not repeated", {
+  out <- grp$sqlite %>% do(names = names(.))
+  expect_equal(out$names[[1]], c("g", "x", "y"))
 })
 
 test_that("results independent of chunk_size", {
