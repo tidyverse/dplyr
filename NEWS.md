@@ -106,6 +106,10 @@
     implementation of `nth()` falls back to R evaluation when `n` is not 
     a length one integer or numeric, e.g. when it's an expression (#734).
 
+* join functions only warn once about each incompatibility (#798).     
+    
+* `filter` returns its input when it has no rows or no columns (#782). 
+
 ## Bug fixes
 
 * `[.tbl_df` correctly computes row names for 0-column data frames, avoiding

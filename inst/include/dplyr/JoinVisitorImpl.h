@@ -218,7 +218,7 @@ namespace dplyr{
     private:
         IntegerVector left ;
         CharacterVector right ;
-        int* left_ptr ;
+        IntegerVector::const_iterator left_ptr ;
         SEXP* left_factor_ptr ;
         SEXP* right_ptr ;
         boost::hash<SEXP> string_hash ;
@@ -281,7 +281,7 @@ namespace dplyr{
     private:
         CharacterVector left ;
         IntegerVector right ;
-        int*  right_ptr ;
+        IntegerVector::const_iterator  right_ptr ;
         SEXP* right_factor_ptr ;
         SEXP* left_ptr ;
         boost::hash<SEXP> string_hash ;
