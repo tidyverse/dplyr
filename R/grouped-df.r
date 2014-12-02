@@ -116,19 +116,16 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
   n <- length(index)
   m <- length(args)
 
-  # Special case for zero-group input
+  # Special case for zero-group/zero-row input
   if (n == 0) {
     env$. <- group_data
 
-    out <- vector("list", m)
-    for (j in seq_len(m)) {
-      out[[j]] <- eval(args[[j]]$expr, envir = env)
-    }
-
     if (!named) {
-      return(label_output_dataframe(labels, list(out), groups(.data)))
+      out <- eval(args[[1]]$expr, envir = env)[0, , drop = FALSE]
+      return(label_output_dataframe(labels, list(list(out)), groups(.data)))
     } else {
-      return(label_output_list(labels, list(out), groups(.data)))
+      out <- setNames(rep(list(list()), length(args)), names(args))
+      return(label_output_list(labels, out, groups(.data)))
     }
   }
 

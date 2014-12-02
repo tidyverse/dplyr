@@ -97,6 +97,50 @@ test_that("ungrouped do evaluates args in correct environment", {
   expect_equal(f(100)$a, list(100))
 })
 
+# Zero row inputs --------------------------------------------------------------
+
+test_that("empty data frames give consistent outputs", {
+  dat <- data_frame(x = numeric(0), g = character(0))
+  grp <- dat %>% group_by(g)
+  emt <- grp %>% filter(FALSE)
+
+  dat %>% do(data.frame()) %>% type_sum() %>%
+    expect_equal(character())
+  dat %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+    expect_equal(c(y = "int"))
+  dat %>% do(data.frame(.)) %>% type_sum() %>%
+    expect_equal(c(x = "dbl", g = "chr"))
+  dat %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+    expect_equal(c(x = "dbl", g = "chr", y = "int"))
+  dat %>% do(y = ncol(.)) %>% type_sum() %>%
+    expect_equal(c(y = "list"))
+
+  # Grouped data frame should have same col types as ungrouped, with addition
+  # of grouping variable
+  grp %>% do(data.frame()) %>% type_sum() %>%
+    expect_equal(c(g = "chr"))
+  grp %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+    expect_equal(c(g = "chr", y = "int"))
+  grp %>% do(data.frame(.)) %>% type_sum() %>%
+    expect_equal(c(x = "dbl", g = "chr"))
+  grp %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+    expect_equal(c(x = "dbl", g = "chr", y = "int"))
+  grp %>% do(y = ncol(.)) %>% type_sum() %>%
+    expect_equal(c(g = "chr", y = "list"))
+
+  # A empty grouped dataset should have same types as grp
+  emt %>% do(data.frame()) %>% type_sum() %>%
+    expect_equal(c(g = "chr"))
+  emt %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+    expect_equal(c(g = "chr", y = "int"))
+  emt %>% do(data.frame(.)) %>% type_sum() %>%
+    expect_equal(c(x = "dbl", g = "chr"))
+  emt %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+    expect_equal(c(x = "dbl", g = "chr", y = "int"))
+  emt %>% do(y = ncol(.)) %>% type_sum() %>%
+    expect_equal(c(g = "chr", y = "list"))
+})
+
 # Data tables  -----------------------------------------------------------------
 
 test_that("named argument become list columns", {

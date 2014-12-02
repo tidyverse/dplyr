@@ -37,7 +37,8 @@
   sometimes convenient (#737). `do()` on grouped data tables now passes in all 
   columns (not all columns except grouping vars) (#735, thanks to @kismsu).
   `do()` with database tables no longer potentially includes grouping 
-  variables twice (#673).
+  variables twice (#673). Finally, it's more consistent when there are
+  no rows/no groups (#625).
 
 * `first()` and `last()` preserve factors, dates and times (#509). 
 

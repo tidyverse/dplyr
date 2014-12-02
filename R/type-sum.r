@@ -17,6 +17,8 @@ type_sum <- function(x) UseMethod("type_sum")
 
 #' @export
 type_sum.data.frame <- function(x) {
+  if (length(x) == 0) return(character(0))
+
   vapply(x, type_sum, character(1))
 }
 
