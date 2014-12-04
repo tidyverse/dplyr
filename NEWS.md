@@ -113,6 +113,9 @@
     
 * `filter` returns its input when it has no rows or no columns (#782). 
 
+* Join functions keep attributes (e.g. time zone information) from the 
+  left argument for `POSIXct` and `Date` objects (#819). 
+
 ## Bug fixes
 
 * `[.tbl_df` correctly computes row names for 0-column data frames, avoiding

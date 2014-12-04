@@ -385,7 +385,8 @@ namespace dplyr{
         
     private:
         inline SEXP promote( Vec vec){
-            vec.attr( "class" ) = JoinVisitorImpl::left.attr( "class" );
+            // vec.attr( "class" ) = JoinVisitorImpl::left.attr( "class" );
+            copy_most_attributes(vec,JoinVisitorImpl::left ) ; 
             return vec ;
         }
     } ;
