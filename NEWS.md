@@ -2,6 +2,10 @@
 
 ## New features
 
+* `mutate_each()` and `summarise_each` gain a `.if` argument to selectively
+  operate on columns. The same behavior as `plyr::numcolwise` can now be
+  achieved by setting `.if = is.numeric` (@lionelgit).
+
 * `add_rownames()` turns row names into an explicit variable (#639).
 
 * `as_data_frame()` efficiently coerces a list into a data frame (#749).
