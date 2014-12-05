@@ -14,8 +14,8 @@
 #'   be either a list of expressions or a character vector.
 #' @param .if a predicate function (returning either TRUE or FALSE)
 #'   When \code{.if} is supplied, it is applied to each column of the
-#'   data frame is tested. Only those columns for which \code{.if}
-#'   returns \code{TRUE} will be relayed to \code{mutate_each} or
+#'   data frame. Only those columns for which \code{.if} returns
+#'   \code{TRUE} will be relayed to \code{mutate_each} or
 #'   \code{summarise_each}.
 #' @examples
 #' # One function
