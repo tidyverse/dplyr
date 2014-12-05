@@ -43,7 +43,8 @@
 #' summarise_each_(iris, funs(max), names(iris)[-5])
 #' summarise_each_(iris, funs(max), list(quote(-Species)))
 #'
-#' # Conditional transformation
+#' # Conditional transformation. By setting the predicate function to
+#' # is.numeric, we achieve the same behavior as plyr::numcolwise
 #' summarise_each(iris, funs(mean), .if = is.numeric)
 #' mutate_each(iris, funs(half = . / 2), .if = is.numeric)
 #' @aliases summarise_each_q mutate_each_q
