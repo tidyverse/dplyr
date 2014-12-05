@@ -12,6 +12,11 @@
 #'
 #'   For standard evaluation versions (ending in \code{_q}) these can
 #'   be either a list of expressions or a character vector.
+#' @param .if a predicate function (returning either TRUE or FALSE)
+#'   When \code{.if} is supplied, it is applied to each column of the
+#'   data frame is tested. Only those columns for which \code{.if}
+#'   returns \code{TRUE} will be relayed to \code{mutate_each} or
+#'   \code{summarise_each}.
 #' @examples
 #' # One function
 #' by_species <- iris %>% group_by(Species)
@@ -37,16 +42,20 @@
 #' # Alternative variable specification
 #' summarise_each_(iris, funs(max), names(iris)[-5])
 #' summarise_each_(iris, funs(max), list(quote(-Species)))
+#'
+#' # Conditional transformation
+#' summarise_each(iris, funs(mean), .if = is.numeric)
+#' mutate_each(iris, funs(half = . / 2), .if = is.numeric)
 #' @aliases summarise_each_q mutate_each_q
 #' @export
-summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, lazyeval::lazy_dots(...))
+summarise_each <- function(tbl, funs, ..., .if = NULL) {
+  summarise_each_(tbl, funs, lazyeval::lazy_dots(...), predicate = .if)
 }
 
 #' @export
 #' @rdname summarise_each
-summarise_each_ <- function(tbl, funs, vars) {
-  vars <- colwise_(tbl, funs_(funs), vars)
+summarise_each_ <- function(tbl, funs, vars, predicate = NULL) {
+  vars <- colwise_(tbl, funs_(funs), vars, predicate)
   summarise_(tbl, .dots = vars)
 }
 
@@ -58,14 +67,14 @@ summarise_each_q <- function(...) {
 
 #' @export
 #' @rdname summarise_each
-mutate_each <- function(tbl, funs, ...) {
-  mutate_each_(tbl, funs, dots(...))
+mutate_each <- function(tbl, funs, ..., .if = NULL) {
+  mutate_each_(tbl, funs, dots(...), predicate = .if)
 }
 
 #' @export
 #' @rdname summarise_each
-mutate_each_ <- function(tbl, funs, vars) {
-  vars <- colwise_(tbl, funs_(funs), vars)
+mutate_each_ <- function(tbl, funs, vars, predicate = NULL) {
+  vars <- colwise_(tbl, funs_(funs), vars, predicate)
   mutate_(tbl, .dots = vars)
 }
 
@@ -76,13 +85,20 @@ mutate_each_q <- function(...) {
 }
 
 
-colwise_ <- function(tbl, calls, vars) {
+colwise_ <- function(tbl, calls, vars, predicate = NULL) {
   stopifnot(is.fun_list(calls))
 
   if (length(vars) == 0) {
     vars <- lazyeval::lazy_dots(everything())
   }
   vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))
+
+  if (!is.null(predicate)) {
+    stopifnot(is.function(predicate))
+    to_keep <- vapply(tbl, predicate, logical(1))
+    to_keep <- names(tbl)[to_keep]
+    vars <- vars[vars %in% to_keep]
+  }
 
   out <- vector("list", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))
