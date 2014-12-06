@@ -370,7 +370,7 @@ test_that("no utf8 invasion (#722)", {
 })
 
 test_that("mutate warns about unsupported attributes", {
-  d <- data.frame( x = structure( 1:10, foo = "bar" ) ) %>% group_by(x) 
-  expect_error( mutate( g, y = x ), "has unsupported attributes" )
+  d <- data.frame( x = structure( 1:10, foo = "bar" ) )  
+  expect_error( d %>% group_by(x), "has unsupported attributes" )
 })
 
