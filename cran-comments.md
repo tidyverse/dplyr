@@ -1,3 +1,7 @@
+R CMD check failures notified Dec 9
+
+--------------------------------------------------------------------------------
+
 This is a resubmission. Compare to the previous submission I have:
 
 * used an alternative way of specifying unicode characters in a test
