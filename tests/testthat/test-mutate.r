@@ -369,3 +369,8 @@ test_that("no utf8 invasion (#722)", {
   expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(gdf4)) )
 })
 
+test_that("mutate warns about unsupported attributes", {
+  d <- data.frame( x = structure( 1:10, foo = "bar" ) )  
+  expect_error( d %>% group_by(x), "has unsupported attributes" )
+})
+
