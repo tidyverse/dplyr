@@ -398,7 +398,7 @@ Compared to all existing options, dplyr:
 
 Compared to base functions:
 
-* dplyr is much more consistent; functions have the same interface so that once you've mastered one, you can easily pick the others
+* dplyr is much more consistent; functions have the same interface so that once you've mastered one, you can easily pick up the others
 
 * base functions tend to be based around vectors; dplyr is centered around data frames
 
