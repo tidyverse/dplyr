@@ -110,7 +110,7 @@ test_that("min_rank handles columns full of NaN (#726)", {
     expression = c(NaN, NaN, NaN, NaN, NaN)
   )
   data <- group_by(test, ID) %>% mutate(rank = min_rank(expression) )
-  expect_true( all(data$rank == 1L ) )
+  expect_true( all(is.na(data$rank)) )
 })
 
 test_that("rank functions deal correctly with NA (#774)", {
