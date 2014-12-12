@@ -113,6 +113,26 @@ test_that("min_rank handles columns full of NaN (#726)", {
   expect_true( all(data$rank == 1L ) )
 })
 
+test_that("rank functions deal correctly with NA (#774)", {
+  data <- data_frame( x = c(1,2,NA,1,0,NA) )
+  res <- data %>% mutate( 
+    min_rank = min_rank(x), 
+    percent_rank = percent_rank(x), 
+    dense_rank = dense_rank(x), 
+    cume_dist = cume_dist(x)
+  )
+  expect_true( all( is.na( res$min_rank[c(3,6)] ) ) )
+  expect_true( all( is.na( res$dense_rank[c(3,6)] ) ) )
+  expect_true( all( is.na( res$percent_rank[c(3,6)] ) ) )
+  expect_true( all( is.na( res$cume_dist[c(3,6)] ) ) )
+  
+  expect_equal( res$percent_rank[ c(1,2,4,5) ], c(1/3, 1, 1/3, 0 ) )
+  expect_equal( res$min_rank[ c(1,2,4,5) ], c(2L,4L,2L,1L) )
+  expect_equal( res$dense_rank[ c(1,2,4,5) ], c(2L,3L,2L,1L) )
+  expect_equal( res$cume_dist[ c(1,2,4,5) ], c(.75,1,.75,.25) )
+  
+})
+
 # FIXME: this should only fail if strict checking is on.
 # test_that("window functions fail if db doesn't support windowing", {
 #   df_sqlite <- temp_load(temp_srcs("sqlite"), df)$sql %>% group_by(g)

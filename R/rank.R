@@ -68,12 +68,12 @@ dense_rank <- function(x) {
 #' @export
 #' @rdname ranking
 percent_rank <- function(x) {
-  (min_rank(x) - 1) / (length(x) - 1)
+  (min_rank(x) - 1) / (length(!is.na(x)) - 1)
 }
 
 #' @export
 #' @rdname ranking
 cume_dist <- function(x) {
-  rank(x, ties.method = "max", na.last = "keep") / length(x)
+  rank(x, ties.method = "max", na.last = "keep") / length(!is.na(x))
 }
 

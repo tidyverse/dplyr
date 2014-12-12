@@ -21,6 +21,7 @@ namespace dplyr {
             inline int start() const {
                 return 1 ;    
             }
+            
         } ;
     
         struct dense_rank_increment{
@@ -40,6 +41,7 @@ namespace dplyr {
             inline int start() const {
                 return 1 ;    
             }
+            
         } ;
         
         struct percent_rank_increment{
@@ -59,6 +61,8 @@ namespace dplyr {
             inline double start() const {
                 return 0.0 ;    
             }
+            
+            
         } ;
         
         struct cume_dist_increment{
@@ -168,21 +172,35 @@ namespace dplyr {
             for( int j=0; j<m; j++) {
                 map[ slice[j] ].push_back(j) ;
             }
-               
+            STORAGE na = Rcpp::traits::get_na<RTYPE>() ;
+            typename Map::const_iterator it = map.find( na ) ;
+            if( it != map.end() ){
+                m -= it->second.size() ;
+            }
+            
             oMap ordered;
             
-            typename Map::const_iterator it = map.begin() ;
+            it = map.begin() ;
             for( ; it != map.end() ; ++it){
                 ordered[it->first] = &it->second ;
             }
             typename oMap::const_iterator oit = ordered.begin() ;
             typename Increment::scalar_type j = Increment::start() ;
             for( ; oit != ordered.end(); ++oit){
+                STORAGE key = oit->first ;
                 const std::vector<int>& chunk = *oit->second ;
                 int n = chunk.size() ;
                 j += Increment::pre_increment( chunk, m ) ;
-                for( int k=0; k<n; k++){
-                    out[ chunk[k] ] = j ;
+                if( Rcpp::traits::is_na<RTYPE>( key ) ){
+                    typename Increment::scalar_type na = 
+                        Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >() ;
+                    for( int k=0; k<n; k++){
+                        out[ chunk[k] ] = na ;
+                    }
+                } else {
+                    for( int k=0; k<n; k++){
+                        out[ chunk[k] ] = j ;
+                    }
                 }
                 j += Increment::post_increment( chunk, m ) ;
             }
