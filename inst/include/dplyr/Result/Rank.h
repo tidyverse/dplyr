@@ -298,12 +298,22 @@ namespace dplyr {
                 // tmp <- 0:(m-1)
                 int m = index.size() ;
                 for( int j=0; j<m; j++) tmp[j] = j ;
+                Slice slice(data, index ) ;
                 
                 // order( gdf.group(i) )
                 std::sort( tmp.begin(), tmp.begin() + m, 
-                    Comparer( Visitor( Slice(data, index ) ) )     
+                    Comparer( Visitor( slice ) )     
                 ) ;
-                for( int j=0; j<m; j++) out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
+                for( int j=m; j>= 0; j-- ){
+                    if( Rcpp::traits::is_na<RTYPE>(slice[tmp[j]]) ){
+                        m-- ;
+                    } else {
+                        break ;    
+                    }
+                }
+                for( int j=0; j<m; j++) {
+                    out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
+                }
             }
             return out ;
             
@@ -321,12 +331,26 @@ namespace dplyr {
             int nrows = index.size() ;
             if( nrows == 0 ) return IntegerVector(0) ;
             IntegerVector x = seq(0, nrows -1 ) ;
-            std::sort( x.begin(), x.end(), 
-                Comparer( Visitor( Slice(data, index ) ) ) 
-                ) ;
+            Slice slice(data, index) ;
+            Visitor visitor( slice ) ;
+            std::sort( x.begin(), x.end(), Comparer( visitor ) ) ;
             IntegerVector out = no_init(nrows); 
+            int not_na = nrows ;
+            for( int i=nrows-1; i>=0; i--){
+                if( Rcpp::traits::is_na<RTYPE>(slice[x[i]] ) ) {
+                    not_na-- ;
+                } else {
+                    break ;    
+                }
+            }
+            
             for( int i=0; i<nrows; i++){
-                out[ x[i] ] = (int)floor(ntiles * i / nrows ) + 1;
+                STORAGE value = slice[x[i]] ;
+                if( Rcpp::traits::is_na<RTYPE>( value ) ){
+                    out[ x[i] ] = NA_INTEGER ;
+                } else {
+                    out[ x[i] ] = (int)floor(ntiles * i / not_na ) + 1;
+                }
             }
             return out ;
         }

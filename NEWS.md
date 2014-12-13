@@ -148,7 +148,7 @@
   
 * `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755)
 
-* Internal implementations of `dense_rank`, `min_rank`, `cume_dist` and 
+* Internal implementations of `dense_rank`, `min_rank`, `cume_dist`, `ntile` and 
   `percent_rank` deal correctly with NA (#774)
 
 # dplyr 0.3.0.1
