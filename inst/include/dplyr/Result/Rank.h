@@ -304,14 +304,16 @@ namespace dplyr {
                 std::sort( tmp.begin(), tmp.begin() + m, 
                     Comparer( Visitor( slice ) )     
                 ) ;
-                for( int j=m; j>= 0; j-- ){
+                int j=m-1 ;
+                for( ; j>= 0; j-- ){
                     if( Rcpp::traits::is_na<RTYPE>(slice[tmp[j]]) ){
+                        out[index[j]] = NA_INTEGER ;
                         m-- ;
                     } else {
                         break ;    
                     }
                 }
-                for( int j=0; j<m; j++) {
+                for( ; j>=0; j--) {
                     out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
                 }
             }
@@ -335,22 +337,18 @@ namespace dplyr {
             Visitor visitor( slice ) ;
             std::sort( x.begin(), x.end(), Comparer( visitor ) ) ;
             IntegerVector out = no_init(nrows); 
-            int not_na = nrows ;
-            for( int i=nrows-1; i>=0; i--){
+            int i=nrows-1 ;
+            for( ; i>=0; i--){
                 if( Rcpp::traits::is_na<RTYPE>(slice[x[i]] ) ) {
-                    not_na-- ;
+                    nrows-- ;
+                    out[x[i]] = NA_INTEGER ;
                 } else {
                     break ;    
                 }
             }
             
-            for( int i=0; i<nrows; i++){
-                STORAGE value = slice[x[i]] ;
-                if( Rcpp::traits::is_na<RTYPE>( value ) ){
-                    out[ x[i] ] = NA_INTEGER ;
-                } else {
-                    out[ x[i] ] = (int)floor(ntiles * i / not_na ) + 1;
-                }
+            for( ; i>=0; i--){
+                out[ x[i] ] = (int)floor(ntiles * i / nrows ) + 1;
             }
             return out ;
         }
