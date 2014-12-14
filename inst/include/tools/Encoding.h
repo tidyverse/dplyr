@@ -62,34 +62,6 @@ namespace dplyr{
         return "unknown" ;
     }
     
-    inline void check_all_utf8( CharacterVector s){
-        int n=s.size() ;
-        for( int i=0; i<n; i++){
-            if( get_encoding(s[i]) != UTF8 ){
-                stop("not encoded as UTF-8");    
-            }
-        }
-    }
-    
-    inline void check_all_same_encoding( CharacterVector x, CharacterVector y){
-        int nx=x.size(), ny = y.size() ;
-        if( nx == 0 && ny == 0 ) return ;
-        
-        encoding first_enc = ( nx == 0 ) ? get_encoding(y[0]) : get_encoding(x[0]) ; 
-        
-        for( int i=0; i<nx; i++) {
-            if(get_encoding(x[i]) != first_enc ){
-                stop("found multiple encodings in character string");    
-            }
-        }
-        for( int i=0; i<ny; i++) {
-            if(get_encoding(y[i]) != first_enc ){
-                stop("found multiple encodings in character string");    
-            }
-        }
-        
-    }
-
 }
 
 #endif

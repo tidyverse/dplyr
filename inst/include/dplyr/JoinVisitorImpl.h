@@ -103,6 +103,36 @@ namespace dplyr{
         
     } ; 
     
+    class JoinStringOrderer {
+    public:
+        JoinStringOrderer( const CharacterVector& left_, const CharacterVector& right_ ) : 
+            left(left_), right(right_), nleft(left.size()), nright(right.size())
+        {
+            make_orders() ;       
+        }
+            
+        inline int get_order(int i) const {
+            return (i>=0) ? orders[i] : orders[nleft-i-1] ;
+        }
+        
+    private:
+        const CharacterVector& left ;
+        const CharacterVector& right ;
+        int nleft, nright ;
+        IntegerVector orders ;
+        
+        inline void make_orders(){
+            CharacterVector big( nleft + nright ) ;
+            CharacterVector::iterator it = big.begin() ;
+            std::copy( left.begin(), left.end(), it ) ;
+            std::copy( right.begin(), right.end(), it ) ;
+            
+            Language call( "rank", big, _["ties.method"] = "min" ) ;
+            orders = call.eval() ;        
+        }
+    } ;
+    
+    
     template <>
     class JoinVisitorImpl<STRSXP,STRSXP> : public JoinVisitor, public comparisons<STRSXP>{
     public:
@@ -110,20 +140,18 @@ namespace dplyr{
         
         typedef CharacterVector Vec ;
         typedef SEXP STORAGE ;
-        typedef boost::hash<STORAGE> hasher ;
+        typedef boost::hash<int> hasher ;
     
-        JoinVisitorImpl( CharacterVector left_, CharacterVector right_ ) : left(left_), right(right_){
-            check_all_same_encoding(left,right) ;
-        }
+        JoinVisitorImpl( CharacterVector left_, CharacterVector right_ ) : 
+            left(left_), right(right_), orderer(left,right)
+        {}
               
         inline size_t hash(int i){
-            return hash_fun( get(i) ) ; 
+            return hash_fun( orderer.get_order(i) ) ;
         }
         
         inline bool equal( int i, int j) {
-            return Compare::equal_or_both_na(
-                get(i), get(j) 
-            ) ;  
+            return orderer.get_order(i) == orderer.get_order(j) ;
         }
         
         inline SEXP subset( const std::vector<int>& indices ) {
@@ -150,8 +178,10 @@ namespace dplyr{
         
         
     protected:
+        
         CharacterVector left, right ;
         hasher hash_fun ;
+        JoinStringOrderer orderer ;
         
         inline STORAGE get(int i){
             return i >= 0 ? left[i] : right[-i-1] ;    
@@ -173,22 +203,18 @@ namespace dplyr{
             left(left_), 
             right(right_),
             left_ptr(left_.begin()), 
-            left_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_.attr("levels")) ), 
-            right_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_))
-        {
-            check_all_same_encoding(right_, left_.attr("levels")) ; 
-            // check_all_utf8(right_) ;
-            // check_all_utf8(left_.attr("levels")) ;
-        }
+            left_levels( left_.attr("levels") ), 
+            left_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_levels) ), 
+            right_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_)), 
+            orderer(left_levels, right)
+        {}
             
         inline size_t hash(int i){
-            return string_hash( get(i) ) ;
+            return hash_fun( orderer.get_order(get_pos(i)) ) ;
         }
         
         inline bool equal( int i, int j){
-            SEXP left  = get(i) ;
-            SEXP right = get(j) ;
-            return left == right ;     
+            return orderer.get_order(get_pos(i)) == orderer.get_order(get_pos(j)) ;      
         }
         
         inline void print(int i){
@@ -217,9 +243,11 @@ namespace dplyr{
         IntegerVector left ;
         CharacterVector right ;
         IntegerVector::const_iterator left_ptr ;
+        CharacterVector left_levels ;
         SEXP* left_factor_ptr ;
         SEXP* right_ptr ;
-        boost::hash<SEXP> string_hash ;
+        boost::hash<int> hash_fun ;
+        JoinStringOrderer orderer ;
     
         inline SEXP get(int i){
             if( i>=0 ){
@@ -230,6 +258,11 @@ namespace dplyr{
             }
         }
         
+        inline int get_pos( int i ){
+            if( i>= 0 ) return left_ptr[i] - 1 ;
+            return i ;
+        }
+        
     } ;
     
     class JoinStringFactorVisitor : public JoinVisitor {
@@ -238,20 +271,18 @@ namespace dplyr{
             left(left_), 
             right(right_),
             right_ptr(right_.begin()), 
-            right_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_.attr("levels")) ), 
-            left_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_))
-        {
-            check_all_same_encoding(left_,right_.attr("levels")) ;
-        }
+            right_levels(right_.attr("levels")),
+            right_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_levels) ), 
+            left_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_)), 
+            orderer(left, right_levels) 
+        {}
                 
         inline size_t hash(int i){ 
-            return string_hash( get(i) ) ;
+            return hash_fun( orderer.get_order(get_pos(i) ) ) ;
         }
         
         inline bool equal( int i, int j){
-            SEXP left = get(i) ;
-            SEXP right = get(j) ;
-            return left == right ;     
+            return orderer.get_order(get_pos(i) ) == orderer.get_order(get_pos(j) ) ;
         }
         
         inline void print(int i){
@@ -280,9 +311,11 @@ namespace dplyr{
         CharacterVector left ;
         IntegerVector right ;
         IntegerVector::const_iterator  right_ptr ;
+        CharacterVector right_levels ;
         SEXP* right_factor_ptr ;
         SEXP* left_ptr ;
-        boost::hash<SEXP> string_hash ;
+        boost::hash<int> hash_fun ;
+        JoinStringOrderer orderer ;
     
         inline SEXP get(int i){
             SEXP res ;
@@ -300,6 +333,12 @@ namespace dplyr{
             
             return res ;
         }
+        
+        inline int get_pos(int i) const {
+            if( i>=0 ) return i ;
+            return - right_ptr[-i-1] ;
+        }
+        
         
     } ;
     

@@ -151,6 +151,8 @@
 * Internal implementations of `dense_rank`, `min_rank`, `cume_dist`, `ntile`, 
   `row_number` and `percent_rank` deal correctly with NA (#774)
 
+* `*_join` functions can now deal with multiple encodings (#769)  
+  
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.
