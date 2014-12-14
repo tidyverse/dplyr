@@ -114,8 +114,6 @@ namespace dplyr{
     
         JoinVisitorImpl( CharacterVector left_, CharacterVector right_ ) : left(left_), right(right_){
             check_all_same_encoding(left,right) ;
-            // check_all_utf8(left); 
-            // check_all_utf8(right);
         }
               
         inline size_t hash(int i){
