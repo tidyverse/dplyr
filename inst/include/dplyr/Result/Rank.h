@@ -237,11 +237,23 @@ namespace dplyr {
                 int m = index.size() ;
                 for( int j=0; j<m; j++) tmp[j] = j ;
                 
+                Slice slice(data, index) ;
                 // order( gdf.group(i) )
                 std::sort( tmp.begin(), tmp.begin() + m, 
-                    Comparer( Visitor( Slice(data, index ) ) )     
+                    Comparer( Visitor( slice ) )     
                 ) ;
-                for( int j=0; j<m; j++) out[ index[j] ] = tmp[j] + 1 ;
+                int j=m-1; 
+                for( ; j>=0; j--){
+                    if( Rcpp::traits::is_na<RTYPE>( slice[ tmp[j] ] ) ){
+                        m-- ;
+                        out[ index[j] ] = NA_INTEGER ;
+                    } else {
+                        break ;    
+                    }
+                }
+                for( ; j>=0; j--){
+                    out[ index[j] ] = tmp[j] + 1 ;
+                }
             }
             return out ;
             
@@ -259,12 +271,21 @@ namespace dplyr {
             int nrows = index.size() ;
             if( nrows == 0 ) return IntegerVector(0) ;
             IntegerVector x = seq(0, nrows -1 ) ;
+            Slice slice(data, index) ;
             std::sort( x.begin(), x.end(), 
-                Comparer( Visitor( Slice(data, index ) ) ) 
+                Comparer( Visitor( slice ) ) 
                 ) ;
             IntegerVector out = no_init(nrows); 
-            for( int i=0; i<nrows; i++){
-                out[ x[i] ] = i + 1 ;
+            int j=nrows-1 ;
+            for( ; j>=0; j--){
+                if( Rcpp::traits::is_na<RTYPE>( slice[ x[j] ] ) ){
+                    out[ x[j] ] = NA_INTEGER ;    
+                } else {
+                    break ;    
+                }
+            }
+            for( ; j>=0; j--){
+                out[ x[j] ] = j + 1 ;
             }
             return out ;
         }

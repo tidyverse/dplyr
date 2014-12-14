@@ -120,19 +120,50 @@ test_that("rank functions deal correctly with NA (#774)", {
     percent_rank = percent_rank(x), 
     dense_rank = dense_rank(x), 
     cume_dist = cume_dist(x), 
-    ntile = ntile(x,2)
+    ntile = ntile(x,2), 
+    row_number = row_number(x)
   )
   expect_true( all( is.na( res$min_rank[c(3,6)] ) ) )
   expect_true( all( is.na( res$dense_rank[c(3,6)] ) ) )
   expect_true( all( is.na( res$percent_rank[c(3,6)] ) ) )
   expect_true( all( is.na( res$cume_dist[c(3,6)] ) ) )
   expect_true( all( is.na( res$ntile[c(3,6)] ) ) )
+  expect_true( all( is.na( res$row_number[c(3,6)] ) ) )
   
   expect_equal( res$percent_rank[ c(1,2,4,5) ], c(1/3, 1, 1/3, 0 ) )
   expect_equal( res$min_rank[ c(1,2,4,5) ], c(2L,4L,2L,1L) )
   expect_equal( res$dense_rank[ c(1,2,4,5) ], c(2L,3L,2L,1L) )
   expect_equal( res$cume_dist[ c(1,2,4,5) ], c(.75,1,.75,.25) )
   expect_equal( res$ntile[ c(1,2,4,5) ], c(1L,2L,2L,1L) )
+  expect_equal( res$row_number[ c(1,2,4,5) ], c(2L,4L,3L,1L) )
+  
+  data <- data_frame( 
+    x = rep(c(1,2,NA,1,0,NA), 2), 
+    g = rep(c(1,2), each = 6)
+  )
+  res <- data %>%
+    group_by(g) %>%
+    mutate( 
+      min_rank = min_rank(x), 
+      percent_rank = percent_rank(x), 
+      dense_rank = dense_rank(x), 
+      cume_dist = cume_dist(x), 
+      ntile = ntile(x,2), 
+      row_number = row_number(x)
+    )
+  expect_true( all( is.na( res$min_rank[c(3,6,9,12)] ) ) )
+  expect_true( all( is.na( res$dense_rank[c(3,6,9,12)] ) ) )
+  expect_true( all( is.na( res$percent_rank[c(3,6,9,12)] ) ) )
+  expect_true( all( is.na( res$cume_dist[c(3,6,9,12)] ) ) )
+  expect_true( all( is.na( res$ntile[c(3,6,9,12)] ) ) )
+  expect_true( all( is.na( res$row_number[c(3,6,9,12)] ) ) )
+   
+  expect_equal( res$percent_rank[ c(1,2,4,5,7,8,10,11) ], rep(c(1/3, 1, 1/3, 0 ), 2) )
+  expect_equal( res$min_rank[ c(1,2,4,5,7,8,10,11) ], rep(c(2L,4L,2L,1L), 2) )
+  expect_equal( res$dense_rank[ c(1,2,4,5,7,8,10,11) ], rep(c(2L,3L,2L,1L), 2) )
+  expect_equal( res$cume_dist[ c(1,2,4,5,7,8,10,11) ], rep(c(.75,1,.75,.25), 2) )
+  expect_equal( res$ntile[ c(1,2,4,5,7,8,10,11) ], rep(c(1L,2L,2L,1L), 2) )
+  expect_equal( res$row_number[ c(1,2,4,5,7,8,10,11) ], rep(c(2L,4L,3L,1L), 2 ) )
   
 })
 
