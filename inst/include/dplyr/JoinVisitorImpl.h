@@ -108,7 +108,7 @@ namespace dplyr{
         JoinStringOrderer( const CharacterVector& left_, const CharacterVector& right_ ) : 
             left(left_), right(right_), nleft(left.size()), nright(right.size())
         {
-            make_orders() ;       
+            make_orders() ;  
         }
             
         inline int get_order(int i) const {
@@ -125,10 +125,10 @@ namespace dplyr{
             CharacterVector big( nleft + nright ) ;
             CharacterVector::iterator it = big.begin() ;
             std::copy( left.begin(), left.end(), it ) ;
-            std::copy( right.begin(), right.end(), it ) ;
+            std::copy( right.begin(), right.end(), it + nleft ) ;
             
             Language call( "rank", big, _["ties.method"] = "min" ) ;
-            orders = call.eval() ;        
+            orders = call.eval() ;  
         }
     } ;
     
@@ -259,7 +259,9 @@ namespace dplyr{
         }
         
         inline int get_pos( int i ){
-            if( i>= 0 ) return left_ptr[i] - 1 ;
+            if( i>= 0 ) {
+                return left_ptr[i] - 1 ;
+            }
             return i ;
         }
         
@@ -278,11 +280,13 @@ namespace dplyr{
         {}
                 
         inline size_t hash(int i){ 
-            return hash_fun( orderer.get_order(get_pos(i) ) ) ;
+            int pos = get_pos(i) ;
+            if( pos == NA_INTEGER ) return hash_fun( NA_INTEGER ) ;
+            return hash_fun( orderer.get_order(pos) ) ;
         }
         
         inline bool equal( int i, int j){
-            return orderer.get_order(get_pos(i) ) == orderer.get_order(get_pos(j) ) ;
+            return orderer.get_order(get_pos(i)) == orderer.get_order(get_pos(j)) ;
         }
         
         inline void print(int i){
@@ -335,8 +339,12 @@ namespace dplyr{
         }
         
         inline int get_pos(int i) const {
-            if( i>=0 ) return i ;
-            return - right_ptr[-i-1] ;
+            if( i>=0 ) {
+                return i ;
+            }
+            int index = right_ptr[-i-1] ;
+            if( index == NA_INTEGER ) return NA_INTEGER ;
+            return - index - 1 ;
         }
         
         
