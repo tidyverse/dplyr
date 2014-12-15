@@ -358,12 +358,15 @@ namespace dplyr{
         
         JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) : 
             Parent(left, right), 
-            left_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( left.attr("levels") ) ) ,
-            right_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( right.attr("levels") ) )
+            left_levels(left.attr("levels")), 
+            right_levels(right.attr("levels")),
+            left_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( left_levels ) ) ,
+            right_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( right_levels ) ),
+            orderer(left_levels, right_levels)
             {}
         
         inline size_t hash(int i){
-            return string_hash( get(i) ) ; 
+            return hash_fun( orderer.get_order(get_pos(i)) ) ;
         }
         
         void print(int i){
@@ -371,7 +374,7 @@ namespace dplyr{
         }
         
         inline bool equal( int i, int j){
-            return string_compare.equal_or_both_na( get(i), get(j) ) ;
+            return orderer.get_order(get_pos(i)) ==  orderer.get_order(get_pos(j)) ; 
         }
         
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
@@ -399,16 +402,27 @@ namespace dplyr{
         
             
     private:
+        CharacterVector left_levels, right_levels ;
         SEXP* left_levels_ptr ;
         SEXP* right_levels_ptr ;
-        comparisons<STRSXP> string_compare ;
-        boost::hash<SEXP> string_hash ;
+        JoinStringOrderer orderer ;
+        boost::hash<int> hash_fun ;
     
         inline SEXP get(int i){
             if( i >= 0 ){
                 return ( left[i] == NA_INTEGER ) ? NA_STRING : left_levels_ptr[ left[i] - 1] ;
             } else {
                 return ( right[-i-1] == NA_INTEGER ) ? NA_STRING : right_levels_ptr[right[-i-1] - 1] ;                  
+            }
+        }
+        
+        inline int get_pos(int i) const {
+            if( i >= 0 ){
+                if( left[i] == NA_INTEGER ) return NA_INTEGER ;    
+                return left[i] - 1 ;
+            } else {
+                if( right[-i-1] == NA_INTEGER ) return NA_INTEGER ;
+                return - right[-i-1] ;
             }
         }
         

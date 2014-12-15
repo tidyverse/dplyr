@@ -1126,15 +1126,15 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
     std::vector<int> indices_y ;
 
     train_push_back_right( map, n_y ) ;
-
+    
     for( int i=0; i<n_x; i++){
         Map::iterator it = map.find(i) ;
         if( it != map.end() ){
             push_back_right( indices_y, it->second );
             push_back( indices_x, i, it->second.size() ) ;
-        }
+        } 
     }
-
+    
     return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class") );
 }
 
