@@ -1,4 +1,5 @@
 *.o
+src/*.o-*
 *.so
 .RData
 .Rproj.user
