@@ -130,6 +130,7 @@ namespace dplyr{
             Language call( "rank", big, _["ties.method"] = "min" ) ;
             orders = call.eval() ;  
         }
+        
     } ;
     
     
@@ -344,7 +345,7 @@ namespace dplyr{
             }
             int index = right_ptr[-i-1] ;
             if( index == NA_INTEGER ) return NA_INTEGER ;
-            return - index - 1 ;
+            return - index ;
         }
         
         
