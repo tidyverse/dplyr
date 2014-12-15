@@ -298,18 +298,20 @@ test_that("full_join #96",{
 })
 
 test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", {
-  x <- data.frame(Greek = c("Alpha", "Beta", NA))
+  x <- data.frame(Greek = c("Alpha", "Beta", NA), numbers= 1:3)
   y <- data.frame(Greek = c("Alpha", "Beta", "Gamma"),
                         Letters = c("C", "B", "C"), stringsAsFactors = F)
 
   res <- left_join(x, y, by = "Greek")
   expect_true( is.na(res$Greek[3]) )
   expect_true( is.na(res$Letters[3]) )
+  expect_equal( res$numbers, 1:3 )
   
   res <- left_join(y, x, by="Greek" )
-  expect_true( is.na(res$Greek[3]) )
-  expect_true( is.na(res$Letters[3]) )
-  
+  expect_equal( res$Greek, y$Greek)
+  expect_equal( res$Letters, y$Letters )
+  expect_equal( res$numbers[1:2], 1:2 )
+  expect_true( is.na(res$numbers[3]) )
 })
 
 
@@ -394,6 +396,12 @@ test_that("join can handle multiple encodings (#769)", {
   y <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )
   expect_equal( nrow(res), 3L)
+  expect_equal( res$x, x$x)
+  
+  x <- data_frame(name=factor(c("\xC9lise","Pierre")),score=c(5,7))
+  y <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),attendance=c(8,10,9))
+  res <- suppressWarnings( left_join(x, y, by = "name") )
+  expect_equal( nrow(res), 2L)
   expect_equal( res$x, x$x)
 })
 

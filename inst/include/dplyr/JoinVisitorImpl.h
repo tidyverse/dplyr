@@ -112,6 +112,7 @@ namespace dplyr{
         }
             
         inline int get_order(int i) const {
+            if( i == NA_INTEGER ) return NA_INTEGER ;
             return (i>=0) ? orders[i] : orders[nleft-i-1] ;
         }
         
@@ -261,6 +262,7 @@ namespace dplyr{
         
         inline int get_pos( int i ){
             if( i>= 0 ) {
+                if( left_ptr[i] == NA_INTEGER ) return NA_INTEGER ;
                 return left_ptr[i] - 1 ;
             }
             return i ;
@@ -281,9 +283,7 @@ namespace dplyr{
         {}
                 
         inline size_t hash(int i){ 
-            int pos = get_pos(i) ;
-            if( pos == NA_INTEGER ) return hash_fun( NA_INTEGER ) ;
-            return hash_fun( orderer.get_order(pos) ) ;
+            return hash_fun( orderer.get_order(get_pos(i)) ) ;
         }
         
         inline bool equal( int i, int j){
