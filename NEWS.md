@@ -1,3 +1,5 @@
+* `summarise` handles list output columns (#832)
+
 # dplyr 0.3.1.9000
 
 ## New features

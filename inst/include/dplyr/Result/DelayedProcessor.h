@@ -91,6 +91,40 @@ namespace dplyr{
     } ;
     
     template <typename CLASS, typename Data>
+    class DelayedProcessor<VECSXP, CLASS, Data> : public DelayedProcessor_Base<CLASS, Data> {
+    public:
+        typedef typename Data::group_iterator group_iterator ;
+        
+        DelayedProcessor(int first_non_na_) : first_non_na(first_non_na_){}
+        
+        virtual SEXP delayed_process(const Data& gdf, SEXP first_result, CLASS* obj, group_iterator git) {
+            int n = gdf.ngroups() ; 
+            List res(n) ;
+            int i=0 ;
+            res[0] = maybe_copy(VECTOR_ELT(first_result, 0)) ;
+            ++git ;
+            i++ ;
+            for( ; i<n; i++, ++git ){
+                Shield<SEXP> tmp( obj->process_chunk(*git) ) ;
+                if( ! is<List>(tmp) || Rf_length(tmp) != 1){
+                    stop( "expecting a list of length 1" ) ;
+                }
+                res[i] = maybe_copy(VECTOR_ELT( tmp, 0)) ;
+            }
+            return res ;        
+        }
+       
+    private:
+        int first_non_na ;
+        
+        inline SEXP maybe_copy(SEXP x) const {
+            return is_ShrinkableVector(x) ? Rf_duplicate(x) : x ;
+        }
+        
+        
+    } ;
+    
+    template <typename CLASS, typename Data>
     DelayedProcessor_Base<CLASS, Data>* get_delayed_processor(SEXP first_result, int i){
         if( Rcpp::is<int>( first_result ) ){       
             return new DelayedProcessor<INTSXP, CLASS, Data>(i) ;    
@@ -100,6 +134,9 @@ namespace dplyr{
             return new DelayedProcessor<STRSXP, CLASS, Data>(i) ;
         } else if( Rcpp::is<bool>( first_result) ){
             return new DelayedProcessor<LGLSXP, CLASS, Data>(i) ;
+        } else if( Rcpp::is<Rcpp::List>( first_result ) ){
+            if( Rf_length(first_result) != 1 ) return 0 ;
+            return new DelayedProcessor<VECSXP, CLASS, Data>(i) ;    
         }
         return 0 ;
     }

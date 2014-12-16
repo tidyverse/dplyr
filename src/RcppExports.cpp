@@ -589,6 +589,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// gp
+unsigned short gp(SEXP x);
+RcppExport SEXP dplyr_gp(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< SEXP >::type x(xSEXP );
+        unsigned short __result = gp(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // filter_impl
 SEXP filter_impl(DataFrame df, LazyDots dots);
 RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {

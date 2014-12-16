@@ -2143,3 +2143,11 @@ std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
   return ids;
 }
 
+
+// simple internal debugging function to access the gp part of the SEXP
+// only meant for internal use in dplyr debugging
+
+// [[Rcpp::export]]
+unsigned short gp( SEXP x){
+    return reinterpret_cast<sxpinfo_struct*>(x)->gp ;
+}
