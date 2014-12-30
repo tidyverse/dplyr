@@ -960,7 +960,8 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     for( int i=0; i<all_x_columns.size(); i++){
         String col_name = all_x_columns[i] ;
         if( joiner[i] ){
-            out[i] = join_visitors.get(index_join_visitor)->subset(indices_x) ;
+            JoinVisitor* v = join_visitors.get(col_name) ;
+            out[i] = v->subset(indices_x) ;
             index_join_visitor++ ;
         } else {
             // not from by_x, but is also in y, so we suffix with .x

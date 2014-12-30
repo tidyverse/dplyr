@@ -405,3 +405,11 @@ test_that("join can handle multiple encodings (#769)", {
   expect_equal( res$x, x$x)
 })
 
+test_that("join creates correctly named results (#855)", {
+  x <- data.frame(q=c("a","b","c"),r=c("d","e","f"),s=c("1","2","3"))
+  y <- data.frame(q=c("a","b","c"),r=c("d","e","f"),t=c("xxx","xxx","xxx"))
+  res <- left_join(x,y,by=c("r","q"))
+  expect_equal(names(res), c("q", "r", "s", "t") )
+  expect_equal(res$q, x$q)
+  expect_equal(res$r, x$r)
+})

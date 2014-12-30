@@ -39,6 +39,13 @@ namespace dplyr{
         inline JoinVisitor* get(int k) const { 
             return visitors[k] ; 
         }
+        inline JoinVisitor* get( String name ) const {
+            for( int i=0; i<nvisitors; i++){
+                if( name == visitor_names_left[i] ) return get(i) ;    
+            }
+            stop("visitor not found for name '%s' ", name.get_cstring() ) ;
+            return 0 ;
+        }
         inline int size() const{ 
             return nvisitors ; 
         } 

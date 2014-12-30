@@ -153,6 +153,8 @@
 
 * `*_join` functions can now deal with multiple encodings (#769)  
   
+* `*_join` functions creates correctly named results (#855)
+
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

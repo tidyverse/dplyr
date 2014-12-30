@@ -44,6 +44,10 @@ namespace dplyr{
             return res ;
         }
         
+        inline void debug(){
+            Rprintf( "visitor= JoinFactorFactorVisitor_SameLevels. levels=" ) ;
+            Rf_PrintValue(levels) ;
+        }
             
     private:     
         CharacterVector levels ;

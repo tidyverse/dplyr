@@ -42,6 +42,13 @@ namespace dplyr{
             }
         }
         
+        inline void debug(){
+            Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
+            Rf_PrintValue(left) ;
+            Rprintf( "right=" ) ;
+            Rf_PrintValue(right) ;
+        }
+        
         LHS_Vec left ;
         RHS_Vec right ;
         LHS_hasher LHS_hash_fun ;
@@ -92,6 +99,12 @@ namespace dplyr{
             Rcpp::Rcout << get(i) << std::endl ;
         }
         
+        inline void debug(){
+            Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
+            Rf_PrintValue(left) ;
+            Rprintf( "right=" ) ;
+            Rf_PrintValue(right) ;
+        }
         
     protected:
         Vec left, right ;
@@ -178,6 +191,13 @@ namespace dplyr{
             Rcpp::Rcout << get(i) << std::endl ;
         }
         
+        inline void debug(){
+            Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
+            Rf_PrintValue(left) ;
+            Rprintf( "right=" ) ;
+            Rf_PrintValue(right) ;
+        }
+        
         
     protected:
         
@@ -239,6 +259,13 @@ namespace dplyr{
                 res[i] = get(*it) ;
             }
             return res ;    
+        }
+        
+        inline void debug(){
+            Rprintf( "visitor= %s. left(levels) =", DEMANGLE(JoinFactorStringVisitor) ) ;
+            Rf_PrintValue(left_levels) ;
+            Rprintf( "right=" ) ;
+            Rf_PrintValue(right) ;
         }
         
     private:
@@ -310,6 +337,13 @@ namespace dplyr{
                 res[i] = get(*it) ;
             }
             return res ;    
+        }
+        
+        inline void debug(){
+            Rprintf( "visitor= %s. left =", DEMANGLE(JoinStringFactorVisitor) ) ;
+            Rf_PrintValue(left) ;
+            Rprintf( "right(levels)=" ) ;
+            Rf_PrintValue(right_levels) ;
         }
         
     private:
@@ -400,7 +434,13 @@ namespace dplyr{
             return res ;
         }
         
-            
+        inline void debug(){
+            Rprintf( "visitor= %s. left(levels) =", DEMANGLE(JoinVisitorImpl) ) ;
+            Rf_PrintValue(left_levels) ;
+            Rprintf( "right(levels)=" ) ;
+            Rf_PrintValue(right_levels) ;
+        }
+        
     private:
         CharacterVector left_levels, right_levels ;
         SEXP* left_levels_ptr ;
