@@ -169,6 +169,10 @@ split_indices <- function(group, groups) {
     .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
 }
 
+gp <- function(x) {
+    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
+}
+
 filter_impl <- function(df, dots) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
 }

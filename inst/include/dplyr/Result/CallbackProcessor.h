@@ -60,7 +60,7 @@ namespace dplyr{
                 return LogicalVector(ngroups, NA_LOGICAL) ;    
             }
             
-            // otherwise, instatntiate a DElayedProcessor based on the first non NA 
+            // otherwise, instantiate a DelayedProcessor based on the first non NA 
             // result we get
             
             // get the appropriate Delayed Processor to handle it
