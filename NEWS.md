@@ -1,5 +1,3 @@
-* `summarise` handles list output columns (#832)
-
 # dplyr 0.3.1.9000
 
 ## New features
@@ -72,6 +70,8 @@
     `glimpse()` prints the number of observations (#692)
     
     `type_sum()` gains a data frame method.
+
+* `summarise()` handles list output columns (#832)
 
 * `slice()` works for data tables (#717). Documentation clarifies that
   slice can't work with relational databases. The examples now show
