@@ -1,4 +1,4 @@
-# dplyr 0.3.1.9000
+# dplyr 0.4.0
 
 ## New features
 
