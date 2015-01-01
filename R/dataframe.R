@@ -158,12 +158,9 @@ as_data_frame <- function(x) {
 #'   print() %>%
 #'   add_rownames()
 add_rownames <- function(df, var = "rowname") {
-  stopifnot(is.data.frame(df))
-
-  df[[var]] <- rownames(df)
-  rownames(df) <- NULL
-
-  df
+  assert_that(is.data.frame(df), is.string(var))
+  rowname_df <- setNames(data_frame(rownames(df)), var)
+  cbind(rowname_df, df)
 }
 
 # Grouping methods ------------------------------------------------------------
