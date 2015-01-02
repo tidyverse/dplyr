@@ -29,7 +29,8 @@
 ## Minor improvements
 
 * `data_frame()` (and `as_data_frame()` & `tbl_df()`) now explicitly
-  forbid columns that are data frames or matrices (#775).
+  forbid columns that are data frames or matrices (#775). All columns
+  must be either a 1d atomic vector or a 1d list.
 
 * `do()` uses lazyeval to correctly evaluate its arguments in the correct 
   environment (#744), and `do_()` is the SE equivalent of `do()` (#718).
