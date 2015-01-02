@@ -58,12 +58,13 @@ data_frame_ <- function(columns) {
   while (i <= n) {
 
     # Fill by reference
-    output[[i]] <-  lazyeval::lazy_eval(columns[[i]], output)
-    names(output)[i] <- col_names[[i]]
-    if (!is.null(dim(output[[i]]))) {
-      stop("data_frames can not contain data.frames, matrices or arrays",
+    res <- lazyeval::lazy_eval(columns[[i]], output)
+    if (!is_1d(res)) {
+      stop("data_frames can only contain 1d atomic vectors and lists",
         call. = FALSE)
     }
+    output[[i]] <- res
+    names(output)[i] <- col_names[[i]]
 
     # Update
     i <- i + 1L
@@ -132,7 +133,7 @@ as_data_frame <- function(x) {
 
   ok <- vapply(x, is_1d, logical(1))
   if (any(!ok)) {
-    stop("data_frames can not contain data.frames, matrices or arrays",
+    stop("data_frames can only contain 1d atomic vectors and lists",
       call. = FALSE)
   }
 
