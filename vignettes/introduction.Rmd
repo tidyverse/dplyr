@@ -265,8 +265,8 @@ The verbs are affected by grouping as follows:
 In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
 ```{r, warning = FALSE, message = FALSE, fig.width = 6}
-planes <- group_by(flights, tailnum)
-delay <- summarise(planes,
+by_tailnum <- group_by(flights, tailnum)
+delay <- summarise(by_tailnum,
   count = n(),
   dist = mean(distance, na.rm = TRUE),
   delay = mean(arr_delay, na.rm = TRUE))

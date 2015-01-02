@@ -191,8 +191,8 @@ translate_sql(x %like% "ab*")
 SQLite lacks window functions, which are needed for grouped mutation and filtering. This means that the only really useful operations for grouped sqlite tables are in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
 
 ```{r}
-planes <- group_by(flights_sqlite, tailnum)
-delay <- summarise(planes,
+by_tailnum <- group_by(flights_sqlite, tailnum)
+delay <- summarise(by_tailnum,
   count = n(),
   dist = mean(distance),
   delay = mean(arr_delay)
