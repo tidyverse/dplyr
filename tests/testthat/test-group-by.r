@@ -218,9 +218,15 @@ test_that("group_by gives meaningful message with unknow column (#716)",{
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
-  by_cyl <- mtcars %>% group_by(cyl)
-  expect_equal(by_cyl %>% groups(), by_cyl %>% `[`(1:3) %>% groups)
+  df <- data_frame(x = 1:5, ` ` = 6:10)
+  by_x <- df %>% group_by(x)
+  expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups)
+
+  # non-syntactic name
+  by_ns <- df %>% group_by(` `)
+  expect_equal(by_ns %>% groups(), by_ns %>% `[`(1:2) %>% groups)
 })
+
 
 test_that("[ on grouped_df drops grouping if subset doesn't include grouping vars", {
   by_cyl <- mtcars %>% group_by(cyl)

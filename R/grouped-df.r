@@ -64,7 +64,9 @@ ungroup.grouped_df <- function(x) {
 `[.grouped_df` <- function(x, i, j, ...) {
   y <- NextMethod()
 
-  if (!all(groups(x) %in% names(y))) {
+  group_vars <- vapply(groups(x), as.character, character(1))
+
+  if (!all(group_vars %in% names(y))) {
     tbl_df(y)
   } else {
     grouped_df(y, groups(x))
