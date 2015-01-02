@@ -6,7 +6,7 @@
 |:--------|:----------------------------|
 |version  |R version 3.1.2 (2014-10-31) |
 |system   |x86_64, darwin13.4.0         |
-|ui       |RStudio (0.99.90)            |
+|ui       |RStudio (0.99.104)           |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
@@ -16,7 +16,7 @@
 |package        |*  |version  |date       |source         |
 |:--------------|:--|:--------|:----------|:--------------|
 |assertthat     |*  |0.1      |2013-12-06 |CRAN (R 3.1.0) |
-|BH             |*  |1.54.0-5 |2014-11-10 |CRAN (R 3.1.2) |
+|BH             |*  |1.55.0-1 |2014-12-21 |CRAN (R 3.1.2) |
 |data.table     |*  |1.9.4    |2014-10-02 |CRAN (R 3.1.1) |
 |DBI            |*  |0.3.1    |2014-09-24 |CRAN (R 3.1.1) |
 |ggplot2        |*  |1.0.0    |2014-05-21 |CRAN (R 3.1.0) |
@@ -26,13 +26,14 @@
 |magrittr       |*  |1.5      |2014-11-22 |CRAN (R 3.1.2) |
 |mgcv           |*  |1.8-4    |2014-11-27 |CRAN (R 3.1.2) |
 |microbenchmark |*  |1.4-2    |2014-09-28 |CRAN (R 3.1.1) |
+|nycflights13   |*  |0.1      |2014-07-22 |CRAN (R 3.1.1) |
 |R6             |*  |2.0.1    |2014-10-29 |CRAN (R 3.1.2) |
 |Rcpp           |*  |0.11.3   |2014-09-29 |CRAN (R 3.1.1) |
 |RSQLite        |*  |1.0.0    |2014-10-25 |CRAN (R 3.1.2) |
 |testthat       |   |0.9.1    |2014-10-01 |CRAN (R 3.1.1) |
 
 # Check results
-38 checked out of 38 dependencies 
+43 checked out of 43 dependencies 
 
 ## aemo (0.1.0)
 Maintainer: Imanuel Costigan <i.costigan@me.com>
@@ -86,32 +87,16 @@ Error: data_frames can not contain data.frames, matrices or arrays
 Execution halted
 ```
 
-## choroplethr (2.1.0)
+## choroplethr (2.1.1)
 Maintainer: Ari Lamstein <arilamstein@gmail.com>  
 Bug reports: https://github.com/trulia/choroplethr/issues
 
 __OK__
 
-## COPASutils (0.1.4)
+## COPASutils (0.1.5)
 Maintainer: Erik Andersen <erik.andersen@northwestern.edu>
 
-```
-checking running R code from vignettes ... [23s/23s] ERROR
-Errors in running code in vignettes:
-when running code in ‘Overview.Rmd’
-  ...
-> dosesRaw <- doseData
-
-> strains <- rep(c("Strain 1", "Strain 2", "Strain 3", 
-+     "Strain 4"), each = 6, times = 4)
-
-> dosesSummarized <- summarizePlate(dosesRaw, strains)
-
-  When sourcing ‘Overview.R’:
-Error: loss of precision when attempting to convert a numeric to an integer
-Execution halted
-
-```
+__OK__
 
 ## DataCombine (0.2.7.1)
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
@@ -123,14 +108,20 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking whether package ‘DepthProc’ can be installed ... [41s/42s] ERROR
+checking whether package ‘DepthProc’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/Rtmpkx3JxP/check_crand7df75a96fc5/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpQrGDb5/check_cran1848878fb2e9a/DepthProc.Rcheck/00install.out’ for details.
 ```
 
 ## ecoengine (1.6)
 Maintainer: Karthik Ram <karthik.ram@gmail.com>  
 Bug reports: https://github.com/ropensci/ecoengine/issues
+
+__OK__
+
+## enigma (0.1.1)
+Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
+Bug reports: https://github.com/ropengov/enigma/issues
 
 __OK__
 
@@ -144,16 +135,27 @@ Maintainer: 'Hadley Wickham' <h.wickham@gmail.com>
 
 __OK__
 
-## gender (0.4.2)
+## gender (0.4.3)
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/gender/issues
 
 __OK__
 
-## ggRandomForests (1.1.0)
-Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>
+## ggmcmc (0.6)
+Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>
 
 __OK__
+
+## ggRandomForests (1.1.2)
+Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>
+
+```
+checking installed package size ... NOTE
+  installed size is  6.0Mb
+  sub-directories of 1Mb or more:
+    data   2.8Mb
+    doc    2.9Mb
+```
 
 ## ggvis (0.4)
 Maintainer: Winston Chang <winston@rstudio.com>
@@ -204,7 +206,12 @@ checking installed package size ... NOTE
     doc   6.7Mb
 ```
 
-## nullabor (0.3.0)
+## myTAI (0.0.2)
+Maintainer: Hajk-Georg Drost <hajk-georg.drost@informatik.uni-halle.de>
+
+__OK__
+
+## nullabor (0.3.1)
 Maintainer: Di Cook <dicook@iastate.edu>
 
 __OK__
@@ -256,32 +263,25 @@ Bug reports: http://github.com/trinker/qdap/issues
 ```
 checking whether package ‘qdap’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/Rtmpkx3JxP/check_crand7df75a96fc5/qdap.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpQrGDb5/check_cran1848878fb2e9a/qdap.Rcheck/00install.out’ for details.
 ```
 
-## rattle (3.3.0)
+## rattle (3.4.1)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 
 ```
 checking package dependencies ... NOTE
 Packages suggested but not available for checking:
-  ‘RGtk2’ ‘cairoDevice’ ‘gWidgetsRGtk2’ ‘latticist’ ‘playwith’ ‘rggobi’
+  ‘RGtk2’ ‘cairoDevice’ ‘gWidgetsRGtk2’ ‘playwith’ ‘rggobi’
   ‘RGtk2Extras’ ‘RODBC’ ‘pkgDepTools’
 ```
 ```
 checking installed package size ... NOTE
-  installed size is  6.8Mb
+  installed size is  6.9Mb
   sub-directories of 1Mb or more:
-    data   2.0Mb
+    data   2.1Mb
     etc    2.5Mb
     po     1.2Mb
-```
-```
-checking dependencies in R code ... NOTE
-Unavailable namespace imported from by a ':::' call: ‘pkgDepTools’
-  See the note in ?`:::` about the use of this operator.
-See the information on DESCRIPTION files in the chapter ‘Creating R
-packages’ of the ‘Writing R Extensions’ manual.
 ```
 ```
 checking R code for possible problems ... NOTE
@@ -293,35 +293,18 @@ dev.new() is the preferred way to open a new device, in the unlikely
 event one is needed.
 ```
 
-## rbison (0.4.3)
+## rbison (0.4.5)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rbison/issues
 
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  bison_datause() for data use and bison_citation() for how to cite data from BISON
-  Use suppressPackageStartupMessages() to suppress these startup messages in the future
-  
-  bison : .............
-  bison_solr : ........
-  bison_tax : ........
-  bisonmap : 12..
-  is.bison : ....
-  Error in vapply(failures, "[[", "failure_msg", FUN.VALUE = character(1)) : 
-    values must be length 1,
-   but FUN(X[[2]]) result is length 2
-  Calls: test_check ... <Anonymous> -> .oapply -> eval -> eval -> <Anonymous> -> vapply
-  Execution halted
-```
+__OK__
 
 ## RCMIP5 (1.1)
 Maintainer: Kathe Todd-Brown <ktoddbrown@gmail.com>
 
 __OK__
 
-## rcrossref (0.2.0)
+## rcrossref (0.2.1)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rcrossref/issues
 
@@ -339,16 +322,17 @@ Bug reports: https://github.com/kevinushey/rex/issues
 
 __OK__
 
-## rplexos (0.10.0.1)
+## rnoaa (0.3.3)
+Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
+Bug reports: http://www.github.com/ropensci/rnoaa/issues
+
+__OK__
+
+## rplexos (0.11)
 Maintainer: Eduardo Ibanez <eduardo.ibanez@nrel.gov>  
 Bug reports: https://github.com/NREL/rplexos/issues
 
-```
-checking R code for possible problems ... NOTE
-log_steps: possible error in stri_split_regex(steps2, " step| of |time:
-  |elapsed: ", n_max = 5, opts_regex = caseins): unused argument (n_max
-  = 5)
-```
+__OK__
 
 ## rPref (0.3)
 Maintainer: Patrick Roocks <mail@p-roocks.de>
@@ -405,6 +389,27 @@ Error: All select() inputs must resolve to integer column positions.
 The following do not:
 ```
 
+## tcR (1.0)
+Maintainer: Vadim Nazarov <vdm.nazarov@gmail.com>
+
+```
+checking running R code from vignettes ... [11s/11s] ERROR
+Errors in running code in vignettes:
+when running code in ‘tcrvignette.Rnw’
+  ...
+
+> class(pca.segments(twb, .do.plot = F))
+[1] "prcomp"
+
+> imm.shared <- shared.repertoire(.data = twb, .type = "avc", 
++     .min.ppl = 2, .verbose = F)
+
+  When sourcing ‘tcrvignette.R’:
+Error: Elements 1, 2 of sapply(vars, is.name) are not true
+Execution halted
+
+```
+
 ## TH.data (1.0-5)
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 
@@ -427,7 +432,7 @@ Maintainer: Jack Horne <jack@jackhorne.net>
 
 __OK__
 
-## USAboundaries (0.1)
+## USAboundaries (0.1.1)
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/USAboundaries/issues
 
