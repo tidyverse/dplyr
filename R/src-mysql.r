@@ -93,7 +93,7 @@
 #' }
 src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
                       password = "", ...) {
-  if (!require("RMySQL")) {
+  if (!requireNamespace("RMySQL", quietly = TRUE)) {
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
 

@@ -63,7 +63,7 @@ NULL
 #' @export
 #' @rdname bench_compare
 bench_tbls <- function(tbls, op, ..., times = 10) {
-  if (!require("microbenchmark")) {
+  if (!requireNamespace("microbenchmark")) {
     stop("Please install the microbenchmark package", call. = FALSE)
   }
 
@@ -73,7 +73,7 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
   })
   names(calls) <- names(tbls)
 
-  mb <- as.call(c(quote(microbenchmark), calls, dots(...),
+  mb <- as.call(c(quote(microbenchmark::microbenchmark), calls, dots(...),
     list(times = times)))
   eval(mb)
 }

@@ -93,7 +93,7 @@
 #' }
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
                          password = NULL, ...) {
-  if (!require("RPostgreSQL")) {
+  if (!requireNamespace("RPostgreSQL", quietly = TRUE)) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 
