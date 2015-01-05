@@ -631,7 +631,8 @@ NULL
 #' @export
 inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_join(x$src$con, x, y, type = "inner", by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
@@ -640,7 +641,8 @@ inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_join(x$src$con, x, y, type = "left", by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
@@ -649,7 +651,8 @@ left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_semi_join(x$src$con, x, y, anti = FALSE, by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
@@ -658,7 +661,8 @@ semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_semi_join(x$src$con, x, y, anti = TRUE, by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
