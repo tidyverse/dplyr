@@ -24,3 +24,5 @@ I ran `R CMD check` on all 43 reverse dependencies (https://github.com/hadley/dp
   
   This failure is related to improved error checking in dplyr: the fact that 
   the code worked previously is the bug.
+
+* (broom: this has been fixed by a recent submission)
