@@ -17,13 +17,10 @@ There was 1 NOTEs:
 
 ## Downstream dependencies
 
-I ran `R CMD check` on all 43 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). As far as I can tell, there are two failures caused by changes to dplyr:
-
-* broom: I informed the maintainer a month ago; the bug is fixed and they are 
-  planning a CRAN release in the next couple of days.
-  (https://github.com/dgrtwo/broom/issues/18)
+I ran `R CMD check` on all 43 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). As far as I can tell, there is only one failure caused by changes to dplyr:
 
 * statar: I informed the maintainer of the problem almost a month ago,
   and have heard nothing back (https://github.com/matthieugomez/statar/issues/1)
-
-(Both failures are due to improve error checking in dplyr: the fact that the code worked previously is the bug.)
+  
+  This failure is related to improved error checking in dplyr: the fact that 
+  the code worked previously is the bug.
