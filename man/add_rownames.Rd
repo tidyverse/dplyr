@@ -16,7 +16,7 @@ Convert row names to an explicit variable.
 }
 \examples{
 mtcars \%>\%
-  tbl_df() \%>\%
+  head() \%>\%
   print() \%>\%
   add_rownames()
 }
