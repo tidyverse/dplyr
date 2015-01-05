@@ -155,16 +155,16 @@ as_data_frame <- function(x) {
 #' @export
 #' @examples
 #' mtcars %>%
-#'   tbl_df() %>%
+#'   head() %>%
 #'   print() %>%
 #'   add_rownames()
 add_rownames <- function(df, var = "rowname") {
   stopifnot(is.data.frame(df))
 
-  df[[var]] <- rownames(df)
+  rn <- as_data_frame(setNames(list(rownames(df)), var))
   rownames(df) <- NULL
 
-  df
+  bind_cols(rn, df)
 }
 
 # Grouping methods ------------------------------------------------------------
