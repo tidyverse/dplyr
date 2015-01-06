@@ -1,3 +1,7 @@
+Resubmission: compared to the previous submission this includes two possible fixes for the problem reported by BDR (but they're just guesses because I couldn't reproduce his error locally.)
+
+---
+
 ## Test environments
 
 * local OS X install, R 3.1.2
