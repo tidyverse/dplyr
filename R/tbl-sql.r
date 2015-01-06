@@ -13,8 +13,6 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
-
-
   if (!is.sql(from)) { # Must be a character string
     assert_that(length(from) == 1)
     if (isFALSE(db_has_table(src$con, from))) {
@@ -409,8 +407,8 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' src_tbls(db2)
 #' }
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
-  types = NULL, temporary = TRUE, indexes = NULL,
-  analyze = TRUE, ...) {
+                            types = NULL, temporary = TRUE, indexes = NULL,
+                            analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
 

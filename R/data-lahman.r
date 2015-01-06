@@ -35,19 +35,19 @@ NULL
 #' @rdname lahman
 lahman_sqlite <- function(path = NULL) {
   path <- db_location(path, "lahman.sqlite")
-  cache_computation("lahman_sqlite3", copy_lahman(src_sqlite(path = path, create = TRUE)))
+  copy_lahman(src_sqlite(path = path, create = TRUE))
 }
 
 #' @export
 #' @rdname lahman
 lahman_postgres <- function(dbname = "lahman", ...) {
-  cache_computation("lahman_postgres", copy_lahman(src_postgres(dbname, ...)))
+  copy_lahman(src_postgres(dbname, ...))
 }
 
 #' @export
 #' @rdname lahman
 lahman_mysql <- function(dbname = "lahman", ...) {
-  cache_computation("lahman_mysql", copy_lahman(src_mysql(dbname, ...)))
+  copy_lahman(src_mysql(dbname, ...))
 }
 
 #' @export
