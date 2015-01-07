@@ -112,12 +112,15 @@ base_symbols <- sql_translator(
 base_agg <- sql_translator(
   # SQL-92 aggregates
   # http://db.apache.org/derby/docs/10.7/ref/rrefsqlj33923.html
-  n     = sql_prefix("count"),
-  mean  = sql_prefix("avg", 1),
-  var   = sql_prefix("variance", 1),
-  sum   = sql_prefix("sum", 1),
-  min   = sql_prefix("min", 1),
-  max   = sql_prefix("max", 1)
+  n          = sql_prefix("count"),
+  mean       = sql_prefix("avg", 1),
+  var        = sql_prefix("variance", 1),
+  sum        = sql_prefix("sum", 1),
+  min        = sql_prefix("min", 1),
+  max        = sql_prefix("max", 1),
+  n_distinct = function(x) {
+    build_sql("COUNT(DISTINCT ", x, ")")
+  }
 )
 
 #' @export
