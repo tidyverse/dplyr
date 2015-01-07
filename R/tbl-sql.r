@@ -571,12 +571,13 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
 #'   indices for the variables in \code{by}. This may speed up the join if
 #'   there are matching indexes in \code{x}.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'
 #' # Left joins ----------------------------------------------------------------
-#' batting <- tbl(lahman_sqlite(), "Batting")
-#' team_info <- select(tbl(lahman_sqlite(), "Teams"), yearID, lgID, teamID, G, R:H)
+#' lahman_s <- lahman_sqlite()
+#' batting <- tbl(lahman_s, "Batting")
+#' team_info <- select(tbl(lahman_s, "Teams"), yearID, lgID, teamID, G, R:H)
 #'
 #' # Combine player and whole team statistics
 #' first_stint <- select(filter(batting, stint == 1), playerID:H)
@@ -598,17 +599,17 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
 #'
 #' # Semi-joins ----------------------------------------------------------------
 #'
-#' people <- tbl(lahman_sqlite(), "Master")
+#' people <- tbl(lahman_s, "Master")
 #'
 #' # All people in half of fame
-#' hof <- tbl(lahman_sqlite(), "HallOfFame")
+#' hof <- tbl(lahman_s, "HallOfFame")
 #' semi_join(people, hof)
 #'
 #' # All people not in the hall of fame
 #' anti_join(people, hof)
 #'
 #' # Find all managers
-#' manager <- tbl(lahman_sqlite(), "Managers")
+#' manager <- tbl(lahman_s, "Managers")
 #' semi_join(people, manager)
 #'
 #' # Find all managers in hall of fame

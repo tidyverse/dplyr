@@ -27,7 +27,7 @@
 #'   \code{\link[microbenchmark]{microbenchmark}}
 #' @seealso \code{\link{src_local}} for working with local data
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (require("microbenchmark") && has_lahman()) {
 #' lahman_local <- lahman_srcs("df", "dt")
 #' teams <- lapply(lahman_local, function(x) x %>% tbl("Teams"))

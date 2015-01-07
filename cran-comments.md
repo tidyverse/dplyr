@@ -1,4 +1,4 @@
-Resubmission: compared to the previous submission this should fix the problem reported by BDR.
+Resubmission: all \donttest{} are now \dontrun{}. I fixed a number of other problems, but discovered that you currently can't have RMySQL and RPostgreSQL loaded at the same time, so until that's sorted out I'm disabling the risky examples.
 ---
 
 ## Test environments

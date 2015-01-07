@@ -47,7 +47,7 @@ These functions support the comparison of results and timings across
 multiple sources.
 }
 \examples{
-\donttest{
+\dontrun{
 if (require("microbenchmark") && has_lahman()) {
 lahman_local <- lahman_srcs("df", "dt")
 teams <- lapply(lahman_local, function(x) x \%>\% tbl("Teams"))

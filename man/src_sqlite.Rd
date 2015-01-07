@@ -101,10 +101,11 @@ my_tbl <- tbl(my_db, "my_table")
 # Here we'll use the Lahman database: to create your own local copy,
 # run lahman_sqlite()
 
-\donttest{
+\dontrun{
 if (requireNamespace("RSQLite") && has_lahman("sqlite")) {
+lahman_s <- lahman_sqlite()
 # Methods -------------------------------------------------------------------
-batting <- tbl(lahman_sqlite(), "Batting")
+batting <- tbl(lahman_s, "Batting")
 dim(batting)
 colnames(batting)
 head(batting)
@@ -139,8 +140,8 @@ filter(ungroup(stints), stints > 3)
 summarise(stints, max(stints))
 
 # Joins ---------------------------------------------------------------------
-player_info <- select(tbl(lahman_sqlite(), "Master"), playerID, birthYear)
-hof <- select(filter(tbl(lahman_sqlite(), "HallOfFame"), inducted == "Y"),
+player_info <- select(tbl(lahman_s, "Master"), playerID, birthYear)
+hof <- select(filter(tbl(lahman_s, "HallOfFame"), inducted == "Y"),
  playerID, votedBy, category)
 
 # Match players and their hall of fame data
@@ -154,7 +155,7 @@ anti_join(player_info, hof)
 
 # Arbitrary SQL -------------------------------------------------------------
 # You can also provide sql as is, using the sql function:
-batting2008 <- tbl(lahman_sqlite(),
+batting2008 <- tbl(lahman_s,
   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 batting2008
 }
