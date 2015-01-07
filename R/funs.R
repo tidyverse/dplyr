@@ -1,7 +1,7 @@
 #' Create a list of functions calls.
 #'
-#' \code{funs} provides a flexible to generate a named list of functions for
-#' input to other functions like \code{colwise}.
+#' \code{funs} provides a flexible way to generate a named list of functions for
+#' input to other functions like \code{summarise_each}.
 #'
 #' @param dots,... A list of functions specified by:
 #'
