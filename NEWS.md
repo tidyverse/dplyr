@@ -158,6 +158,8 @@
   missing values (#774). `row_number()` doesn't segfault when giving an external
   variable with the wrong number of variables (#781) 
   
+* `group_indices` handles the edge case when there are no variables (#867)  
+  
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.
