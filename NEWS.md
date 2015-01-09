@@ -23,7 +23,7 @@
 
 ## New vignettes
 
-* `vignette("data_frame")` describes dplyr functions that make it easier
+* `vignette("data_frames")` describes dplyr functions that make it easier
   and faster to create and coerce data frames. It subsumes the old `memory` 
   vignette.
 
