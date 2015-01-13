@@ -1,4 +1,4 @@
-This is a patch release to fix a build error on the CRAN Mavericks builder. No package behaviour has changed.
+This is a patch release to fix a build error on the CRAN Mavericks builder. No package behaviour has changed. (I also updated Authors@R to the new specification.)
 
 ---
 
