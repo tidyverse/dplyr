@@ -1,4 +1,6 @@
-# dplyr 0.4.0.9000
+# dplyr 0.4.1
+
+* Don't assume that RPostgreSQL is available.
 
 # dplyr 0.4.0
 

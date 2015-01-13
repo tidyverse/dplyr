@@ -1,4 +1,5 @@
-Resubmission: all \donttest{} are now \dontrun{}. I fixed a number of other problems, but discovered that you currently can't have RMySQL and RPostgreSQL loaded at the same time, so until that's sorted out I'm disabling the risky examples.
+This is a patch release to fix a build error on the CRAN Mavericks builder. No package behaviour has changed.
+
 ---
 
 ## Test environments
