@@ -131,7 +131,7 @@ test_that("group_by fails when lists are used as grouping variables (#276)",{
 # Data tables ------------------------------------------------------------------
 
 test_that("original data table not modified by grouping", {
-  dt <- data.table(x = 5:1)
+  dt <- data.table::data.table(x = 5:1)
   dt2 <- group_by(dt, x)
   dt2$y <- 1:5
 
@@ -164,9 +164,9 @@ test_that("group_by only creates one group for NA (#401)", {
 })
 
 test_that("data.table invalid .selfref issue (#475)", {
-  dt <- data.table(x=1:5, y=6:10)
+  dt <- data.table::data.table(x=1:5, y=6:10)
   expect_that((dt %>% group_by(x))[, z := 2L], not(gives_warning()))
-  dt <- data.table(x=1:5, y=6:10)
+  dt <- data.table::data.table(x=1:5, y=6:10)
   expect_that((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], not(gives_warning()))
 })
 
