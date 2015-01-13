@@ -4,11 +4,11 @@ Version: 0.4.1
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
-Authors@R: as.person(c(
-    "Hadley Wickham <hadley@rstudio.com> [aut, cre]",
-    "Romain Francois <romain@r-enthusiasts.com> [aut]",
-    "RStudio [cph]"
-    ))
+Authors@R: c(
+    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
+    person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
+    person("RStudio", role = "cph")
+    )
 URL: https://github.com/hadley/dplyr
 BugReports: https://github.com/hadley/dplyr/issues
 Depends:
