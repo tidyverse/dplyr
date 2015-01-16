@@ -38,6 +38,7 @@ branches:
   except:
   - /-expt$/
   - solaris
+
 notifications:
   email:
     on_success: change
