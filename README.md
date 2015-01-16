@@ -44,7 +44,7 @@ If you need more, help I recommend the following (paid) resources:
 
 -   [dplyr](https://www.datacamp.com/courses/dplyr) on datacamp, by Garrett Grolemund. Learn the basics of dplyr at your own pace in this interactive online course.
 
--   [Introduction to Data Science with R](http://shop.oreilly.com/product/0636920034834.do): How to Manipulate, Visualize, and Model Data with the R Language, by Garrett Grolemund. This O'Reilly video series will teach you the basics oto be an effective analyst in R.
+-   [Introduction to Data Science with R](http://shop.oreilly.com/product/0636920034834.do): How to Manipulate, Visualize, and Model Data with the R Language, by Garrett Grolemund. This O'Reilly video series will teach you the basics to be an effective analyst in R.
 
 Key data structures
 -------------------
