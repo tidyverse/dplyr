@@ -32,7 +32,7 @@ after_failure:
   - ./travis-tool.sh dump_logs
 
 after_success:
-  - Rscript -e 'library(covr);coveralls()'
+  - PKG_CXXFLAGS="" Rscript -e 'library(covr);coveralls()'
 
 branches:
   except:
