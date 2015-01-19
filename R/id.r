@@ -15,8 +15,8 @@
 #' @export
 id <- function(.variables, drop = FALSE) {
   # Drop all zero length inputs
-  lengths <- vapply(.variables, length, integer(1))
-  if (!drop) {
+  if (drop) {
+    lengths <- vapply(.variables, length, integer(1))
     .variables <- .variables[lengths != 0]
   }
 
