@@ -16,7 +16,9 @@
 id <- function(.variables, drop = FALSE) {
   # Drop all zero length inputs
   lengths <- vapply(.variables, length, integer(1))
-  .variables <- .variables[lengths != 0]
+  if (!drop) {
+    .variables <- .variables[lengths != 0]
+  }
 
   if (length(.variables) == 0) {
     n <- nrow(.variables) %||% 0L
@@ -58,13 +60,13 @@ id <- function(.variables, drop = FALSE) {
 }
 
 id_var <- function(x, drop = FALSE) {
-  if (length(x) == 0) return(structure(integer(), n = 0L))
   if (!is.null(attr(x, "n")) && !drop) return(x)
 
   if (is.factor(x) && !drop) {
     id <- as.integer(addNA(x, ifany = TRUE))
     n <- length(levels(x))
   } else {
+    if (length(x) == 0) return(structure(integer(), n = 0L))
     levels <- sort(unique(x), na.last = TRUE)
     id <- match(x, levels)
     n <- max(id)
