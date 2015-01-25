@@ -3,10 +3,12 @@
 \name{summarise_each}
 \alias{mutate_each}
 \alias{mutate_each_}
-\alias{mutate_each_q}
+\alias{mutate_each_q,}
 \alias{summarise_each}
 \alias{summarise_each_}
 \alias{summarise_each_q}
+\alias{summarize_each}
+\alias{summarize_each_}
 \title{Summarise and mutate multiple columns.}
 \usage{
 summarise_each(tbl, funs, ...)
@@ -14,6 +16,10 @@ summarise_each(tbl, funs, ...)
 summarise_each_(tbl, funs, vars)
 
 mutate_each(tbl, funs, ...)
+
+summarize_each(tbl, funs, ...)
+
+summarize_each_(tbl, funs, vars)
 
 mutate_each_(tbl, funs, vars)
 }

@@ -37,7 +37,7 @@
 #' # Alternative variable specification
 #' summarise_each_(iris, funs(max), names(iris)[-5])
 #' summarise_each_(iris, funs(max), list(quote(-Species)))
-#' @aliases summarise_each_q mutate_each_q
+#' @aliases summarise_each_q mutate_each_q, summarize_each
 #' @export
 summarise_each <- function(tbl, funs, ...) {
   summarise_each_(tbl, funs, lazyeval::lazy_dots(...))
@@ -61,6 +61,14 @@ summarise_each_q <- function(...) {
 mutate_each <- function(tbl, funs, ...) {
   mutate_each_(tbl, funs, dots(...))
 }
+
+#' @rdname summarise_each
+#' @export
+summarize_each <- summarise_each
+
+#' @rdname summarise_each
+#' @export
+summarize_each_ <- summarise_each_
 
 #' @export
 #' @rdname summarise_each

@@ -1,5 +1,8 @@
 # dplyr 0.4.1.9000
 
+* `summarize_each()` and `summarize_each_()` added as aliases for
+  `summarise_each()` and `summarise_each_()`, respectively.
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.
