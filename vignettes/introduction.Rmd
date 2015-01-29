@@ -252,7 +252,7 @@ The verbs are affected by grouping as follows:
 
 * `mutate()` and `filter()` are most useful in conjunction with window 
   functions (like `rank()`, or `min(x) == x`), and are described in detail in 
-  `vignette("window-function")`.
+  `vignette("window-functions")`.
   
 * `sample_n()` and `sample_frac()` sample the specified number/fraction of
   rows in each group.
