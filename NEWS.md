@@ -1,5 +1,8 @@
 # dplyr 0.4.1.9000
 
+* `lag` for grouped data was confused about indices and therefore produced wrong 
+  results (#925)
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.
