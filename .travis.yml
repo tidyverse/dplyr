@@ -15,7 +15,7 @@ install:
   - ./travis-tool.sh install_github hadley/lazyeval
   - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
-  - if [ "$RCPP" = "bugfix-eval-interruption" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; git checkout bugfix/eval-interruption; R CMD INSTALL Rcpp; cd -; fi
+  - if [ "$RCPP" = "bugfix-eval-interruption" ]; then cd ..; git clone -b bugfix/eval-interruption https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
   - ./travis-tool.sh install_deps
 
 before_script:
