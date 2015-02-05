@@ -29,3 +29,14 @@ test_that("#925 is fixed", {
   expect_equal( res$lag_time[ res$name == "John" ], c(NA, head( data$time[data$name == "John"], -1 ) ) )
 })
 
+test_that("#937 is fixed", {
+  df <- data_frame(
+    name=rep(c('Al','Jen'),3),
+    score=rep(c(100, 80, 60),2)
+  )
+
+  res <- df %>% group_by(name) %>% mutate( next.score = lead(score) )
+  expect_equal( res$next.score[ res$name == "Al" ]  , c(tail( df$score[df$name == "Al"] , -1 ), NA ) )
+  expect_equal( res$next.score[ res$name == "Jen" ] , c(tail( df$score[df$name == "Jen"] , -1 ), NA ) )
+})
+

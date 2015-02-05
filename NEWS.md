@@ -1,7 +1,7 @@
 # dplyr 0.4.1.9000
 
-* `lag` for grouped data was confused about indices and therefore produced wrong 
-  results (#925)
+* `lag` and `lead` for grouped data were confused about indices and therefore 
+  produced wrong results (#925, #937)
 
 # dplyr 0.4.1
 
