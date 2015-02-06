@@ -69,7 +69,7 @@ summarise(flights_sqlite, delay = mean(dep_time))
 
 The most important difference is that the expressions in `select()`, `filter()`, `arrange()`, `mutate()`, and `summarise()` are translated into SQL so they can be run on the database. This translation is almost perfect for the most common operations but there are some limitations, which you'll learn about later.
 
-## Lazyness
+## Laziness
 
 When working with databases, dplyr tries to be as lazy as possible. It's lazy in two ways:
 
