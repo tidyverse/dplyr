@@ -30,7 +30,7 @@ To experiement with databases, it's easiest to get started with SQLite because e
 my_db <- src_sqlite("my_db.sqlite3", create = T)
 ```
 
-The main new concert here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
+The main new concept here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
 
 `my_db` currently has no data in it, so we'll load it up with the `flights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
 
@@ -42,14 +42,22 @@ flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
 
 As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
 
-For this particular dataset, there's a built `src` that will cache `flights` in a standard location:
+The nycflights13 package contains a special function that essentially repeats the above `copy_to()` function for all of the tables it contains. Then it caches them to speed things up:
 
 ```{r}
 flights_sqlite <- tbl(nycflights13_sqlite(), "flights")
+
+Caching nycflights db at C:\Users\muenchen\AppData\Local\Temp\RtmpIP2ZeB/nycflights13.sqlite
+Creating table: airlines
+Creating table: airports
+Creating table: flights
+Creating table: planes
+Creating table: weather
+
 flights_sqlite
 ```
 
-You can also create `tbl` from arbitrary SQL:
+You can also query `tbl` from arbitrary SQL:
 
 ```{r, eval = FALSE}
 tbl(my_db, sql("SELECT * FROM flights"))
@@ -179,7 +187,7 @@ translate_sql(mean(x, trim = T))
 # Error: Invalid number of args to SQL AVG. Expecting 1
 ```
 
-Any function that dplyr does't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
+Any function that dplyr doesn't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
 
 ```{r}
 translate_sql(glob(x, y))
@@ -205,7 +213,7 @@ Other databases do support window functions and you can learn about them in the 
 
 ## Other databases
 
-Using other databases instead of SQLite works similarly, the overall workflow is the same regardless of what database you're connecting to. The following sections go in to more details on the pecularities of each database engine. All of these databases follow a client-server model - as well as your computer which is connecting to the databse, there is another computer actually running it (that might be your computer but usually isn't). Getting one of these databases setup up is beyond the scope of this article, but there are plenty of tutorials available on the web.
+Using other databases instead of SQLite works similarly, the overall workflow is the same regardless of what database you're connecting to. The following sections go in to more details on the pecularities of each database engine. All of these databases follow a client-server model - as well as your computer which is connecting to the database, there is another computer actually running it (that might be your computer but usually isn't). Getting one of these databases setup up is beyond the scope of this article, but there are plenty of tutorials available on the web.
 
 ### Postgresql
 
