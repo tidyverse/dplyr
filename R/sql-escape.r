@@ -51,7 +51,16 @@
 #' rounder <- sql_variant(sql_translator(round = sql_round, .parent = base_agg))
 #' translate_sql(round(X), variant = rounder)
 #' translate_sql(round(X, 5), variant = rounder)
-sql <- function(x) {
+sql <- function(x = "", file = NULL) {
+  if (!missing(file)) {
+    if (!file.exists(file)) {
+      stop("File does not exist", call. = FALSE)
+    }
+    x <- paste(readLines(file, warn=F), collapse="\n")
+  }
+  if (grepl("\\.sql|\\.txt", x)) {
+    stop("Is this a file? Use file= argument", call. = FALSE)
+  }
   structure(x, class = c("sql", "character"))
 }
 
