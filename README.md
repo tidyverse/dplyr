@@ -57,7 +57,7 @@ The key object in dplyr is a *tbl*, a representation of a tabular data structure
 -   [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 -   [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
 -   [Bigquery](https://developers.google.com/bigquery/)
--   [MonetDB](http://www.monetdb.org/)
+-   [MonetDB](http://www.monetdb.org/) (via [MonetDB.R](http://monetr.r-forge.r-project.org/))
 -   data cubes with arrays (partial implementation)
 
 You can create them as follows:
