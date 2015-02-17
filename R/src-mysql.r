@@ -125,6 +125,7 @@ src_translate_env.src_mysql <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
+      ifelse = sql_prefix("if"),
       n = function() sql("count(*)"),
       sd =  sql_prefix("stddev_samp"),
       var = sql_prefix("var_samp"),
