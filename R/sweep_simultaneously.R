@@ -6,6 +6,9 @@ sweep_simultaneously <- function(df, margin, stat, fun, ...) {
     return(mutate_each(df, funs(fun(., stat$.))))
   }
   else {
-    return(as.data.frame(t(mutate_each(as.data.frame(t(df)), funs(fun(., stat$.))))))
+    cn <- colnames(df)
+    result <- as.data.frame(t(mutate_each(as.data.frame(t(df)), funs(fun(., stat$.)))))
+    colnames(result) <- cn
+    return(result)
   }
 }
