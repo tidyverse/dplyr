@@ -443,7 +443,10 @@ db_disconnector <- function(con, name, quiet = FALSE) {
 res_warn_incomplete <- function(res) {
   if (dbHasCompleted(res)) return()
 
-  rows <- formatC(dbGetRowCount(res), big.mark = ",")
+  # use "," as the thousand separator,
+  # unless it's used for the decimal point, in which case use "."
+  big.mark <- ifelse(getOption("OutDec") != ",", ",", ".")
+  rows <- formatC(dbGetRowCount(res), big.mark = big.mark)
   warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
     call. = FALSE)
 }

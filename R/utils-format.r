@@ -24,8 +24,11 @@ NULL
 #' @export
 #' @rdname dplyr-formatting
 dim_desc <- function(x) {
+  # use "," as the thousand separator,
+  # unless it's used for the decimal point, in which case use "."
+  big.mark <- ifelse(getOption("OutDec") != ",", ",", ".")
   d <- dim(x)
-  d2 <- format(d, big.mark = ",", justify = "none", trim = TRUE)
+  d2 <- format(d, big.mark = big.mark, justify = "none", trim = TRUE)
   d2[is.na(d)] <- "??"
 
   paste0("[", paste0(d2, collapse = " x "), "]")
