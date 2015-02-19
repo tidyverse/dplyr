@@ -1,6 +1,8 @@
 #' Sweep over several columns sweep_simultaneously.
 #'
 sweep_simultaneously <- function(df, margin, stat, fun, ...) {
+  fun <- match.fun(fun)
+
   stat <- as.data.frame(t(as.data.frame(stat)))
   if (margin == 2) {
     return(mutate_each(df, funs(fun(., stat$.))))
