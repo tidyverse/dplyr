@@ -1,5 +1,10 @@
-#' Sweep over several columns sweep_simultaneously.
+#' Sweep over several rows or columns sweep_simultaneously.
 #'
+#' @param df object to sweep.
+#' @param margin dimention to be swept over (1 indicates rows, 2 indicates columns).
+#' @param stat the summary statistic which is to be swept out.
+#' @param fun the function to be applied.
+#' @param ... optional arguments to fun.
 sweep_simultaneously <- function(df, margin, stat, fun, ...) {
   fun <- match.fun(fun)
 
