@@ -17,10 +17,15 @@
 #'   glimpse(batting)
 #' }
 glimpse <- function(tbl, width = getOption("width")) {
-  cat("Observations: ", nrow(tbl), "\n", sep = "")
+  # use "," as the thousand separator,
+  # unless it's used for the decimal point, in which case use "."
+  big.mark <- ifelse(getOption("OutDec") != ",", ",", ".")
+  
+  cat("Observations: ", prettyNum(nrow(tbl), big.mark = big.mark), "\n",
+    sep = "")
   if (ncol(tbl) == 0) return(invisible())
 
-  cat("Variables: ", ncol(tbl), "\n", sep = "")
+  cat("Variables: ", prettyNum(ncol(tbl), big.mark = big.mark), "\n", sep = "")
 
   # this is an overestimate, but shouldn't be too expensive.
   # every type needs at least three characters: "x, "
