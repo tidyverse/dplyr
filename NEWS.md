@@ -3,6 +3,8 @@
 * `lag` and `lead` for grouped data were confused about indices and therefore 
   produced wrong results (#925, #937)
 
+* `summarize_each` and `summarize_each_` are aliases for `summarise_each` and `summarise_each_`
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.
