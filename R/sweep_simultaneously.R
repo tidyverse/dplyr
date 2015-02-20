@@ -7,13 +7,22 @@
 #' @param ... optional arguments to fun.
 sweep_simultaneously <- function(df, margin, stat, fun, ...) {
   fun <- match.fun(fun)
+  args <- lazyeval::lazy_dots(...)
 
   stat <- as.data.frame(t(as.data.frame(stat)))
   if (margin == 2) {
-    return(mutate_each(df, funs(fun(., stat$., ...))))
+    if(length(args) == 0) {
+      return(mutate_each(df, funs(fun(., stat$.))))
+    } else {
+      return(mutate_each(df, funs(fun(., stat$., ...))))
+    }
   }
   else {
-    result <- as.data.frame(t(mutate_each(as.data.frame(t(df)), funs(fun(., stat$., ...)))))
+    if(length(args) == 0) {
+      result <- as.data.frame(t(mutate_each(as.data.frame(t(df)), funs(fun(., stat$.)))))
+    } else {
+      result <- as.data.frame(t(mutate_each(as.data.frame(t(df)), funs(fun(., stat$., ...)))))
+    }
     setnames(result, colnames(df))
     return(result)
   }
