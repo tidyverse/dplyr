@@ -11,19 +11,18 @@
 \usage{
 rbind_all(dots)
 
-bind_rows(x, ...)
+bind_rows(...)
 
-bind_cols(x, ...)
+bind_cols(...)
 
-combine(x, ...)
+combine(...)
 
 rbind_list(...)
 }
 \arguments{
-\item{x,dots,...}{Data frames to combine.
+\item{...,dots}{Data frames or lists of data frames to combine.
 
-  You can either supply one data frame per argument, or a list of
-  data frames in the first argument.
+  You can supply data frames and lists of data frames indistinctly.
 
   When column-binding, rows are matched by position, not value so all data
   frames must have the same number of rows. To match by value, not
@@ -48,11 +47,14 @@ data frames into one. \code{combine()} acts like \code{\link{c}()} or
 one <- mtcars[1:4, ]
 two <- mtcars[11:14, ]
 
-# You can either supply data frames as arguments
+# You can supply data frames as arguments
 bind_rows(one, two)
-# Or a single argument containing a list of data frames
+# Or lists of data frames
 bind_rows(list(one, two))
+bind_rows(list(one, two), list(two, one, one))
 bind_rows(split(mtcars, mtcars$cyl))
+# Or any combination thereof
+bind_rows(mtcars, list(one, two), two)
 
 # Columns don't need to match when row-binding
 bind_rows(data.frame(x = 1:3), data.frame(y = 1:4))
