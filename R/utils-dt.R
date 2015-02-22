@@ -14,7 +14,8 @@ dt_subset <- function(dt, i, j, env = parent.frame(), sd_cols = NULL) {
   if (missing(j)) {
     call <- substitute(`_dt`[i], args)
   } else {
-    args$groupings <- lazyeval::make_call(quote(list), env$`_vars`)$expr
+    vars_tick <- sprintf("`%s`", env$`_vars`)
+    args$groupings <- lazyeval::make_call(quote(list), vars_tick)$expr
     call <- substitute(`_dt`[i, j, by = groupings], args)
     call$.SDcols = sd_cols
   }
