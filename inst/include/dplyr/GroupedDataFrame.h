@@ -6,11 +6,21 @@ namespace Rcpp {
     inline void check_valid_colnames( const DataFrame& df){
         CharacterVector names(df.names()) ;
         LogicalVector duplicatedNames = duplicated(names);
-        CharacterVector duplicates = names[duplicatedNames];
-        duplicates = unique(duplicated(duplicates));
+        CharacterVector duplicates = CharacterVector(sum(duplicatedNames));
+        int it = 0;
+        for(int i = 0; i < names.size(); i++) {
+            if (duplicatedNames[i]) {
+                duplicates[it] = names[i];
+                it++;
+            }
+        }
         if( any( duplicatedNames ).is_true() ){
-            std::string duplicatesString = as<std::string>(duplicates);
-            stop("found duplicated column name %s", duplicatesString) ;    
+            std::string s = "";
+            for (int i = 0; i < duplicates.size(); ++i) {
+                s.append(as<std::string>(duplicates[0]));
+                if(i < duplicates.size() - 1) s.append(", ");
+            }
+            stop("found duplicated column names: %s", s) ;    
         }
     }
     
