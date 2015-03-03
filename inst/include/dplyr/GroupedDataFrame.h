@@ -5,8 +5,12 @@ namespace Rcpp {
     
     inline void check_valid_colnames( const DataFrame& df){
         CharacterVector names(df.names()) ;
-        if( any( duplicated(names) ).is_true() ){
-            stop("found duplicated column name") ;    
+        LogicalVector duplicatedNames = duplicated(names);
+        CharacterVector duplicates = names[duplicatedNames];
+        duplicates = unique(duplicated(duplicates));
+        if( any( duplicatedNames ).is_true() ){
+            std::string duplicatesString = as<std::string>(duplicates);
+            stop("found duplicated column name %s", duplicatesString) ;    
         }
     }
     
