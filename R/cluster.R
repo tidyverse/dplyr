@@ -39,7 +39,7 @@ set_cluster <- function(x) {
 stop_cluster <- function() {
   if (has_cluster()) {
     stopCluster(cluster_env$cluster)
-    cluster_env$cluster <- NULL
+    rm("cluster", envir = cluster_env)
   }
 
   invisible()

@@ -32,8 +32,9 @@
 #' # a database that you can write to
 #'
 #' if (has_lahman("postgres")) {
+#' lahman_p <- lahman_postgres()
 #' # Methods -------------------------------------------------------------------
-#' batting <- tbl(lahman_postgres(), "Batting")
+#' batting <- tbl(lahman_p, "Batting")
 #' dim(batting)
 #' colnames(batting)
 #' head(batting)
@@ -72,8 +73,8 @@
 #' mutate(stints, order_by(yearID, cumsum(stints)))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, birthYear)
-#' hof <- select(filter(tbl(lahman_postgres(), "HallOfFame"), inducted == "Y"),
+#' player_info <- select(tbl(lahman_p, "Master"), playerID, birthYear)
+#' hof <- select(filter(tbl(lahman_p, "HallOfFame"), inducted == "Y"),
 #'  playerID, votedBy, category)
 #'
 #' # Match players and their hall of fame data
@@ -87,13 +88,13 @@
 #'
 #' # Arbitrary SQL -------------------------------------------------------------
 #' # You can also provide sql as is, using the sql function:
-#' batting2008 <- tbl(lahman_postgres(),
+#' batting2008 <- tbl(lahman_p,
 #'   sql('SELECT * FROM "Batting" WHERE "yearID" = 2008'))
 #' batting2008
 #' }
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
                          password = NULL, ...) {
-  if (!require("RPostgreSQL")) {
+  if (!requireNamespace("RPostgreSQL", quietly = TRUE)) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 

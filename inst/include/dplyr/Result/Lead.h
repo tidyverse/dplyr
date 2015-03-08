@@ -49,7 +49,7 @@ namespace dplyr {
             int chunk_size = index.size() ;
             int i=0 ;
             for( ; i<chunk_size-n; i++ ){
-                out[out_index[i]] = data[index[i]+n] ;    
+                out[out_index[i]] = data[index[i+n]] ;    
             }
             for(; i<chunk_size; i++){
                 out[out_index[i]] = Vector<RTYPE>::get_na() ;    

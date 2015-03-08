@@ -59,20 +59,21 @@ library(dplyr)
     special attribute.
   
   * It only recycles vectors of length 1. Recycling vectors of other lengths 
-    is a frequent source of bugs in my experience.
+    is a frequent source of bugs.
 
 ## Coercion
 
 To complement `data_frame()`, dplyr provides `as_data_frame()` for coercing lists into data frames. It does two things:
 
 * Checks that the input list is valid for a data frame, i.e. that each element
-  is named and of the equal length.
+  is named, is a 1d atomic vector or list, and all elements have the same 
+  length.
   
 * Sets the class and attributes of the list to make it behave like a data frame.
   This modification does not require a deep copy of the input list, so is
   very fast.
   
-This is much simpler than `as.data.frame()`. It's hard to explain precisely what `as.data.frame()` does, but similar to `do.call(cbind, lapply(x, data.frame))` - i.e. it coerces each component to a data frame and then `cbinds()` them all together. Consequently `as_data_frame()` is much faster than `as.data.frame()`:
+This is much simpler than `as.data.frame()`. It's hard to explain precisely what `as.data.frame()` does, but it's similar to `do.call(cbind, lapply(x, data.frame))` - i.e. it coerces each component to a data frame and then `cbinds()` them all together. Consequently `as_data_frame()` is much faster than `as.data.frame()`:
 
 ```{r}
 l2 <- replicate(26, sample(100), simplify = FALSE)
@@ -83,9 +84,11 @@ microbenchmark::microbenchmark(
 )
 ```
 
+The speed of `as.data.frame()` is not usually a bottleneck in interatively use, but can be a problem when combining thousands of messy inputs into one tidy data frame.
+
 ## Memory
 
-One of the reasons that dplyr is fast is that it is very careful about when it makes copies of columns. This vignette describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.
+One of the reasons that dplyr is fast is that it is very careful about when it makes copies of columns. This section describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.
 
 The first tool we'll use is `dplyr::location()`. It tells us three things about a data frame:
 

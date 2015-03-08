@@ -1,44 +1,32 @@
-R CMD check failures notified Dec 9
+This is a patch release to fix a build error on the CRAN Mavericks builder. No package behaviour has changed. (I also updated Authors@R to the new specification.)
 
---------------------------------------------------------------------------------
+---
 
-This is a resubmission. Compare to the previous submission I have:
+## Test environments
 
-* used an alternative way of specifying unicode characters in a test
-  that doesn't fail on Windows.
+* local OS X install, R 3.1.2
+* ubuntu 12.04 (on travis-ci), R 3.1.2
+* win-builder (devel and release)
 
---------------------------------------------------------------------------------
+## R CMD check results
 
-The following notes were generated across my local OS X install and ubuntu running on travis-ci. Response to NOTEs across three platforms below.
+There were no ERRORs or WARNINGs.
+
+There was 1 NOTEs:
 
 * checking dependencies in R code ... NOTE
   
   Namespaces in Imports field not imported from: 'R6'
   R6 is a build time dependency.
+
+## Downstream dependencies
+
+I ran `R CMD check` on all 43 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). As far as I can tell, there is only one failure caused by changes to dplyr:
+
+* statar: I informed the maintainer of the problem almost a month ago,
+  and have heard nothing back (https://github.com/matthieugomez/statar/issues/1)
   
-  Missing or unexported object: ‘RSQLite::initExtension’
-  This is used for compatibility with RSQlite 1.0 (not yet on CRAN), and is
-  only called if packageVersion("RSQLite") >= 1.
+  This failure is related to improved error checking in dplyr: the fact that 
+  the code worked previously is the bug.
 
-* checking R code for possible problems ... NOTE
-
-  src_mysql: no visible global function definition for ‘MySQL’
-  src_postgres: no visible global function definition for ‘PostgreSQL’
-  
-  These packages currently need to be attached in order to work.
-
-I couldn't check on win-builder because it doesn't have the latest Rcpp and appears to be missing RMySQL.
-
-Important reverse dependency check notes (summary at https://github.com/wch/checkresults/blob/master/dplyr/r-release/00check-summary.txt);
-
-* COPASutils, freqweights, qdap, simPH: fail for various reasons. All package 
-  authors were informed of the upcoming release and shown R CMD check issues 
-  over a week ago.
-
-* ecoengine: same problem as always on our test machine.
-
-* ggvis: You'll be recieving a submission that fixes these issues very shortly
-  from Winston.
-
-* repra, rPref: uses a deprecated function.
-
+* (broom: this has been fixed by a recent submission)

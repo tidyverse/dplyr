@@ -202,8 +202,8 @@ test_that("join functions error on column not found #371", {
 })
 
 test_that("joining data tables yields a data table (#470)", {
-  a <- data.table(x = c(1, 1, 2, 3), y = 1:4)
-  b <- data.table(x = c(1, 2, 2, 4), z = 1:4)
+  a <- data.table::data.table(x = c(1, 1, 2, 3), y = 1:4)
+  b <- data.table::data.table(x = c(1, 2, 2, 4), z = 1:4)
 
   out <- left_join(a, b, "x")
   expect_is(out, "data.table")
@@ -306,7 +306,7 @@ test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", 
   expect_true( is.na(res$Greek[3]) )
   expect_true( is.na(res$Letters[3]) )
   expect_equal( res$numbers, 1:3 )
-  
+
   res <- left_join(y, x, by="Greek" )
   expect_equal( res$Greek, y$Greek)
   expect_equal( res$Letters, y$Letters )
@@ -374,9 +374,9 @@ test_that("unnamed vars are the same in both tables", {
 test_that("join columns are not moved to the left (#802)", {
   df1 <- data.frame(x = 1, y = 1:5)
   df2 <- data.frame(y = 1:5, z = 2)
-  
+
   out <- left_join(df1, df2)
-  expect_equal(names(out), c("x", "y", "z"))  
+  expect_equal(names(out), c("x", "y", "z"))
 })
 
 test_that("join can handle multiple encodings (#769)", {
@@ -385,19 +385,19 @@ test_that("join can handle multiple encodings (#769)", {
   res <- left_join(x, y, by = "name")
   expect_equal( nrow(res), 3L)
   expect_equal( res$x, x$x)
-  
+
   x <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),score=c(5,7,6))
   y <- data_frame(name=c("\xC9lise","Pierre","Fran\xE7ois"),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )
   expect_equal( nrow(res), 3L)
   expect_equal( res$x, y$x)
-  
+
   x <- data_frame(name=c("\xC9lise","Pierre","Fran\xE7ois"),score=c(5,7,6))
   y <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )
   expect_equal( nrow(res), 3L)
   expect_equal( res$x, x$x)
-  
+
   x <- data_frame(name=factor(c("\xC9lise","Fran\xE7ois","Pierre")),score=c(5,7,6))
   y <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )

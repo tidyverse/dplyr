@@ -91,6 +91,8 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 }
 
 common_by <- function(by = NULL, x, y) {
+  if (is.list(by)) return(by)
+
   if (!is.null(by)) {
     x <- names(by) %||% by
     y <- unname(by)

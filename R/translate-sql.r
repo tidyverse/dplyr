@@ -64,8 +64,8 @@
 #' translate_sql_q(list(x))
 #'
 #' # Translation with data source --------------------------------------------
-#' \donttest{
-#' flights <- tbl(nycflights13_postgres(), "flights")
+#' \dontrun{
+#' flights <- tbl(nycflights13_sqlite(), "flights")
 #' # Note distinction between integers and reals
 #' translate_sql(month == 1, tbl = flights)
 #' translate_sql(month == 1L, tbl = flights)

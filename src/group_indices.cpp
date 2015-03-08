@@ -22,6 +22,8 @@ IntegerVector grouped_indices_grouped_df_impl( GroupedDataFrame gdf ){
 // [[Rcpp::export]]
 IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
     int nsymbols = symbols.size() ;
+    if( nsymbols == 0 ) 
+        return rep(1, data.nrows()) ;
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
         vars[i] = PRINTNAME(symbols[i]) ;

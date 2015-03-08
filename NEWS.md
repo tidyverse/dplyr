@@ -1,3 +1,12 @@
+# dplyr 0.4.1.9000
+
+* `lag` and `lead` for grouped data were confused about indices and therefore 
+  produced wrong results (#925, #937)
+
+# dplyr 0.4.1
+
+* Don't assume that RPostgreSQL is available.
+
 # dplyr 0.4.0
 
 ## New features
@@ -8,11 +17,12 @@
 
 * `bind_rows()` and `bind_cols()` efficiently bind a list of data frames by 
   row or column. `combine()` applies the same coercion rules to vectors 
-  (it works like `c()` or `unlist()` but is consistent).
+  (it works like `c()` or `unlist()` but is consistent with the `bind_rows()`
+  rules).
 
 * `right_join()` (include all rows in `y`, and matching rows in `x`) and
   `full_join()` (include all rows in `x` and `y`) complete the family of
-  matching joins (#96).
+  mutating joins (#96).
 
 * `group_indices()` computes a unique integer id for each group (#771). It 
   can be called on a grouped_df without any arguments or on a data frame
@@ -20,11 +30,11 @@
 
 ## New vignettes
 
-* `vignette("data_frame")` describes dplyr functions that make it easier
+* `vignette("data_frames")` describes dplyr functions that make it easier
   and faster to create and coerce data frames. It subsumes the old `memory` 
   vignette.
 
-* `vignette("two-table")` describe how the two-table verbs work in dplyr.
+* `vignette("two-table")` describes how two-table verbs work in dplyr.
 
 ## Minor improvements
 
@@ -33,13 +43,13 @@
   must be either a 1d atomic vector or a 1d list.
 
 * `do()` uses lazyeval to correctly evaluate its arguments in the correct 
-  environment (#744), and `do_()` is the SE equivalent of `do()` (#718).
+  environment (#744), and new `do_()` is the SE equivalent of `do()` (#718).
   You can modify grouped data in place: this is probably a bad idea but it's
   sometimes convenient (#737). `do()` on grouped data tables now passes in all 
   columns (not all columns except grouping vars) (#735, thanks to @kismsu).
   `do()` with database tables no longer potentially includes grouping 
-  variables twice (#673). Finally, it's more consistent when there are
-  no rows/no groups (#625).
+  variables twice (#673). Finally, `do()` gives more consistent outputs when 
+  there are no rows or no groups (#625).
 
 * `first()` and `last()` preserve factors, dates and times (#509). 
 
@@ -75,7 +85,7 @@
 * `summarise()` handles list output columns (#832)
 
 * `slice()` works for data tables (#717). Documentation clarifies that
-  slice can't work with relational databases. The examples now show
+  slice can't work with relational databases, and the examples show
   how to achieve the same results using `filter()` (#720).
 
 * dplyr now requires RSQLite >= 1.0. This shouldn't affect your code
@@ -98,9 +108,9 @@
     (#493). 
   
     `summarise()` is more careful about `NA`, e.g. the decision on the result 
-    type will be delayed until the first non NA value is returned. (#599). 
-    It will complain about loss of precision coercion, which can happen for 
-    expression that return integers for some groups and a doubles for others 
+    type will be delayed until the first non NA value is returned (#599). 
+    It will complain about loss of precision coercions, which can happen for 
+    expressions that return integers for some groups and a doubles for others 
     (#599).
 
 * A number of functions gained new or improved hybrid handlers: `first()`, 
@@ -111,13 +121,15 @@
     Hybrid `min_rank()` correctly handles `NaN` values (#726). Hybrid 
     implementation of `nth()` falls back to R evaluation when `n` is not 
     a length one integer or numeric, e.g. when it's an expression (#734).
-
-* join functions only warn once about each incompatibility (#798).     
+    
+    Hybrid `dense_rank()`, `min_rank()`, `cume_dist()`, `ntile()`, `row_number()` 
+    and `percent_rank()` now preserve NAs (#774)
     
 * `filter` returns its input when it has no rows or no columns (#782). 
 
 * Join functions keep attributes (e.g. time zone information) from the 
-  left argument for `POSIXct` and `Date` objects (#819). 
+  left argument for `POSIXct` and `Date` objects (#819), and only
+  only warn once about each incompatibility (#798).
 
 ## Bug fixes
 
@@ -132,6 +144,8 @@
 
 * `*_join()` keeps columns in original order (#684). 
   Joining a factor to a character vector doesn't segfault (#688).
+  `*_join` functions can now deal with multiple encodings (#769), 
+  and correctly name results (#855).
 
 * `*_join.data.table()` works when data.table isn't attached (#786).
 
@@ -142,6 +156,8 @@
 
 * `grouped_df()` requires `vars` to be a list of symbols (#665).
 
+* `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755)
+
 * `rename_()` generic gets missing `.dots` argument (#708).
   
 * `row_number()`, `min_rank()`, `percent_rank()`, `dense_rank()`, `ntile()` and
@@ -149,15 +165,8 @@
   missing values (#774). `row_number()` doesn't segfault when giving an external
   variable with the wrong number of variables (#781) 
   
-* `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755)
-
-* Internal implementations of `dense_rank`, `min_rank`, `cume_dist`, `ntile`, 
-  `row_number` and `percent_rank` deal correctly with NA (#774)
-
-* `*_join` functions can now deal with multiple encodings (#769)  
+* `group_indices` handles the edge case when there are no variables (#867)  
   
-* `*_join` functions creates correctly named results (#855)
-
 # dplyr 0.3.0.1
 
 * Fixed problem with test script on Windows.

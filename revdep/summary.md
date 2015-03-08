@@ -83,7 +83,7 @@ The error most likely occurred in:
 + }
 Warning in FUN(newX[, i], ...) : non-factor id coerced to factor
 Warning in FUN(newX[, i], ...) : non-factor v1 coerced to factor
-Error: data_frames can not contain data.frames, matrices or arrays
+Error: data_frames can only contain 1d atomic vectors and lists
 Execution halted
 ```
 
@@ -110,7 +110,7 @@ Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 ```
 checking whether package ‘DepthProc’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmpQrGDb5/check_cran1848878fb2e9a/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpbfPj9v/check_cran73ee768bde89/DepthProc.Rcheck/00install.out’ for details.
 ```
 
 ## ecoengine (1.6)
@@ -160,36 +160,7 @@ checking installed package size ... NOTE
 ## ggvis (0.4)
 Maintainer: Winston Chang <winston@rstudio.com>
 
-```
-checking examples ... ERROR
-Running examples in ‘ggvis-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: layer_boxplots
-> ### Title: Display data with a boxplot.
-> ### Aliases: layer_boxplots
-> 
-> ### ** Examples
-> 
-> library(dplyr)
-
-Attaching package: ‘dplyr’
-
-The following object is masked from ‘package:stats’:
-
-    filter
-
-The following objects are masked from ‘package:base’:
-
-    intersect, setdiff, setequal, union
-
-> 
-> mtcars %>% ggvis(~factor(cyl), ~mpg) %>% layer_boxplots()
-Error in factor(cyl) : object 'cyl' not found
-Calls: %>% ... prop_value -> prop_value.prop_variable -> eval -> eval -> factor
-Execution halted
-```
+__OK__
 
 ## mosaic (0.9.1-3)
 Maintainer: Randall Pruim <rpruim@calvin.edu>
@@ -263,7 +234,7 @@ Bug reports: http://github.com/trinker/qdap/issues
 ```
 checking whether package ‘qdap’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmpQrGDb5/check_cran1848878fb2e9a/qdap.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpbfPj9v/check_cran73ee768bde89/qdap.Rcheck/00install.out’ for details.
 ```
 
 ## rattle (3.4.1)
@@ -393,7 +364,7 @@ The following do not:
 Maintainer: Vadim Nazarov <vdm.nazarov@gmail.com>
 
 ```
-checking running R code from vignettes ... [11s/11s] ERROR
+checking running R code from vignettes ... [13s/13s] ERROR
 Errors in running code in vignettes:
 when running code in ‘tcrvignette.Rnw’
   ...

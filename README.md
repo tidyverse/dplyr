@@ -3,6 +3,7 @@ dplyr
 =====
 
 [![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr)
+[![Coverage Status](https://img.shields.io/coveralls/hadley/dplyr.svg)](https://coveralls.io/r/hadley/dplyr?branch=master)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
@@ -43,7 +44,7 @@ If you need more, help I recommend the following (paid) resources:
 
 -   [dplyr](https://www.datacamp.com/courses/dplyr) on datacamp, by Garrett Grolemund. Learn the basics of dplyr at your own pace in this interactive online course.
 
--   [Introduction to Data Science with R](http://shop.oreilly.com/product/0636920034834.do): How to Manipulate, Visualize, and Model Data with the R Language, by Garrett Grolemund. This O'Reilly video series will teach you the basics oto be an effective analyst in R.
+-   [Introduction to Data Science with R](http://shop.oreilly.com/product/0636920034834.do): How to Manipulate, Visualize, and Model Data with the R Language, by Garrett Grolemund. This O'Reilly video series will teach you the basics to be an effective analyst in R.
 
 Key data structures
 -------------------
@@ -56,7 +57,7 @@ The key object in dplyr is a *tbl*, a representation of a tabular data structure
 -   [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 -   [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
 -   [Bigquery](https://developers.google.com/bigquery/)
--   [MonetDB](http://www.monetdb.org/)
+-   [MonetDB](http://www.monetdb.org/) (via [MonetDB.R](http://monetr.r-forge.r-project.org/))
 -   data cubes with arrays (partial implementation)
 
 You can create them as follows:
