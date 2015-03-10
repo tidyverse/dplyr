@@ -51,4 +51,16 @@ test_that("'rdf' produces data.frames as expected", {
    names = "cells"
  ))
 
+ df <- rdf(
+   , these | are | names
+   , ...................
+   , these | are | cells
+ )
+
+ expect_identical(df, data_frame(
+   these = "these",
+   are = "are",
+   names = "cells"
+ ))
+
 })
