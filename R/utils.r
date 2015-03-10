@@ -174,6 +174,19 @@ is_vbar_call <- function(call) {
   identical(as.character(call[[1]]), "|")
 }
 
+extract_rdf_header <- function(call) {
+  n <- length(call)
+  header <- character(n)
+  i <- n
+  while (is_vbar_call(call)) {
+    header[[i]] <- as.character(call[[3]])
+    i <- i - 1
+    call <- call[[2]]
+  }
+  header[[1]] <- as.character(call)
+  header
+}
+
 #' Row-wise Tbl Creation
 #'
 #' Create a \code{tbl_df} using a markdown-like language.
@@ -187,9 +200,36 @@ is_vbar_call <- function(call) {
 rdf <- function(...) {
 
   matched <- match.call(expand.dots = FALSE)$`...`
+
+  # drop any missing arguments
+  not_missing <- which(unlist(lapply(matched, function(x) {
+    !identical(x, quote(expr =)) # `quote(expr =)` == missing arg
+  })))
+  matched <- matched[not_missing]
+
   nm <- unique(names(matched))
   if (any(nm != ""))
     stop("all arguments to 'rdf' should be unnamed", call. = FALSE)
+
+  # Figure out if there is a header associated with the call
+  dot_indices <- which(unlist(lapply(matched, function(x) {
+    is.symbol(x) && grep("\\.+", as.character(x), perl = TRUE)
+  })))
+
+  header <- NULL
+  if (length(dot_indices) > 0) {
+
+    if (!identical(as.numeric(dot_indices), 2))
+      stop("the header delimiter should exist at index 2 of call")
+
+    if (length(matched) < 3)
+      stop("expected content following header delimiter")
+
+    header <- extract_rdf_header(matched[[1]])
+    matched <- matched[3:length(matched)]
+
+  }
+
 
   n_row <- length(matched)
 
@@ -241,6 +281,10 @@ rdf <- function(...) {
     output[[1]][[row_num]] <- current_row
   }
 
-  names(output) <- paste("V", 1:n_col, sep = "")
+  if (is.null(header))
+    names(output) <- paste("V", 1:n_col, sep = "")
+  else
+    names(output) <- header
+
   tbl_df(output)
 }
