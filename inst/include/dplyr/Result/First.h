@@ -10,7 +10,8 @@ namespace dplyr {
         
         First( Vector<RTYPE> data_, STORAGE def_ = Vector<RTYPE>::get_na() ) : 
             data(data_), 
-            def(def_) {}
+            def(def_) 
+            {}
         
         inline STORAGE process_chunk( const SlicingIndex& indices ){
             return indices.size() == 0 ? def : data[ indices[0] ] ;

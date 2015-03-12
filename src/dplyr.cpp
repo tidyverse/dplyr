@@ -1905,8 +1905,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     check_not_groups(dots, gdf);
 
     Proxy proxy(gdf) ;
-    Shelter<SEXP> __ ;
-
+    
     NamedListAccumulator<Data> accumulator ;
     int ncolumns = df.size() ;
     CharacterVector column_names = df.names() ;
@@ -1921,36 +1920,42 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         Environment env = lazy.env() ;
         SEXP call = lazy.expr() ;
         SEXP name = lazy.name() ;
-        SEXP variable = R_NilValue ;
-
+        
         proxy.set_env( env ) ;
 
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
-                variable = proxy.get_variable( PRINTNAME(call) ) ;
+                SEXP variable = proxy.get_variable( PRINTNAME(call) ) ;
+                proxy.input( name, variable ) ;
+                accumulator.set( name, variable) ;
             } else {
                 SEXP v = env.find(CHAR(PRINTNAME(call))) ;
                 if( Rf_isNull(v) ){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
                 } else if( Rf_length(v) == 1){
-                    Replicator* rep = constant_replicator<Data>(v, gdf.nrows() );
-                    variable = __( rep->collect() );
-                    delete rep ;
+                    boost::scoped_ptr<Replicator> rep( constant_replicator<Data>(v, gdf.nrows() ) );
+                    Shield<SEXP> variable( rep->collect() );
+                    proxy.input( name, variable ) ;
+                    accumulator.set( name, variable) ;
                 } else {
-                    Replicator* rep = replicator<Data>(v, gdf) ;
-                    variable = __( rep->collect() );
-                    delete rep ;
+                    boost::scoped_ptr<Replicator> rep( replicator<Data>(v, gdf) ) ;
+                    Shield<SEXP> variable( rep->collect() );
+                    proxy.input( name, variable ) ;
+                    accumulator.set( name, variable) ;
                 }
             }
 
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
-            Gatherer* gather = gatherer<Data, Subsets>( proxy, gdf, name ) ;
-            variable = __( gather->collect() ) ;
-            delete gather ;
+            boost::scoped_ptr<Gatherer> gather( gatherer<Data, Subsets>( proxy, gdf, name ) );
+            SEXP variable = gather->collect() ;
+            proxy.input( name, variable ) ;
+            accumulator.set( name, variable) ;
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
-            variable = __( gather->collect() ) ;
+            Shield<SEXP> variable( gather->collect() );
+            proxy.input( name, variable ) ;
+            accumulator.set( name, variable) ;
         } else if( Rf_isNull(call) ){
             accumulator.rm(name) ;
             continue ;
@@ -1958,8 +1963,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
             stop( "cannot handle" ) ;
         }
 
-        proxy.input( name, variable ) ;
-        accumulator.set( name, variable) ;
+        
     }
 
     return structure_mutate(accumulator, df, classes_grouped<Data>() );

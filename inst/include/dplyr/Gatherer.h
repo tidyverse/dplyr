@@ -24,17 +24,16 @@ namespace dplyr {
             
         SEXP collect(){
             int ngroups = gdf.ngroups() ;
-            Rcpp::Armor<SEXP> subset ;
             typename Data::group_iterator git = gdf.group_begin() ;
             ++git ;
             for( int i=1; i<ngroups; i++, ++git){
                 SlicingIndex indices = *git ;
-                subset = proxy.get( indices ) ;
+                Shield<SEXP> subset( proxy.get( indices ) ) ;
                 grab(subset, indices); 
             }
-            
             return data ;
         }
+        
     private: 
         
         inline void grab(SEXP data, const SlicingIndex& indices){

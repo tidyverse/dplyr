@@ -22,7 +22,7 @@ namespace Rcpp {
         
         int i ;
         const GroupedDataFrame& gdf ;
-        ListOf<IntegerVector> indices ;
+        List indices ;
     } ;
     
     class GroupedDataFrame {
@@ -125,7 +125,7 @@ namespace Rcpp {
     }
     
     inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-        return SlicingIndex( indices[i], i ) ;
+        return SlicingIndex( IntegerVector(indices[i]), i ) ;
     }
     
     

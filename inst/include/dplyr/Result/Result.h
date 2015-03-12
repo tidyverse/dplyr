@@ -6,6 +6,7 @@ namespace dplyr {
     class Result {
     public:
         Result(){}
+        
         virtual ~Result(){} ;
         
         virtual SEXP process( const RowwiseDataFrame& gdf) = 0 ;

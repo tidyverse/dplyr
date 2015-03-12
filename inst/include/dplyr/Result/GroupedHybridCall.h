@@ -56,6 +56,8 @@ namespace dplyr {
                     // replace the call by the result of process
                     call = res->process(indices) ;
                     
+                    delete res ;
+                    
                     // no need to go any further, we simplified the top level
                     return true ;
                 }
@@ -71,6 +73,7 @@ namespace dplyr {
                 Result* res = get_handler(obj, subsets, env) ;
                 if(res){
                     SETCAR(p, res->process(indices) ) ;
+                    delete res ;
                     return true ;
                 }
                 
