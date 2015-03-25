@@ -84,7 +84,7 @@ microbenchmark::microbenchmark(
 )
 ```
 
-The speed of `as.data.frame()` is not usually a bottleneck in interatively use, but can be a problem when combining thousands of messy inputs into one tidy data frame.
+The speed of `as.data.frame()` is not usually a bottleneck in interative use, but can be a problem when combining thousands of messy inputs into one tidy data frame.
 
 ## Memory
 
