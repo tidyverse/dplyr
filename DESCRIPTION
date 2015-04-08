@@ -12,7 +12,7 @@ Authors@R: c(
 URL: https://github.com/hadley/dplyr
 BugReports: https://github.com/hadley/dplyr/issues
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.1.2)
 Imports:
     assertthat,
     utils,
