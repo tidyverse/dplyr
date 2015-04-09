@@ -26,7 +26,7 @@ namespace dplyr {
         typedef typename Vector::value_type value_type ;
         
         pointer_vector() : data(){}
-        
+        pointer_vector(size_type n) : data(n){}
         ~pointer_vector(){
             delete_all( data ) ;    
         }
@@ -34,7 +34,7 @@ namespace dplyr {
         inline reference operator[](size_type i){ 
             return data[i] ; 
         } 
-        inline reference operator[](size_type i) const { 
+        inline const_reference operator[](size_type i) const { 
             return data[i]; 
         }
         inline void push_back( const value_type& value ){

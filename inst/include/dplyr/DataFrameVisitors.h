@@ -12,7 +12,7 @@ namespace dplyr {
         private:
             
             const Rcpp::DataFrame& data ;
-            std::vector<VectorVisitor*> visitors ;
+            pointer_vector<VectorVisitor> visitors ;
             Rcpp::CharacterVector visitor_names ;
             int nvisitors ;
             
@@ -54,11 +54,6 @@ namespace dplyr {
                 }
                 
             } 
-            
-            ~DataFrameVisitors(){
-                delete_all( visitors );
-            }     
-            
             
             template <typename Container>
             DataFrame subset( const Container& index, const CharacterVector& classes ) const {

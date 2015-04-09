@@ -74,7 +74,7 @@ namespace dplyr{
         CharacterVector visitor_names_right ;
         
         int nvisitors ;
-        std::vector<JoinVisitor*> visitors ;
+        pointer_vector<JoinVisitor> visitors ;
         bool warn ;
         
     } ;
