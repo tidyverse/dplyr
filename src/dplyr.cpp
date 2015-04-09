@@ -2023,9 +2023,8 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             // ok
         } else if( Rf_length(result) == 1 ){
             // recycle
-            Gatherer* gather = constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) ;
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) );
             result = __( gather->collect() ) ;
-            delete gather ;
         } else {
             stop( "wrong result size (%d), expected %d or 1", Rf_length(result), df.nrows() ) ;
         }

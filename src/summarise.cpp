@@ -24,16 +24,17 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
         const Lazy& lazy = dots[k] ;
         const Environment& env = lazy.env() ;
         
-        Result* res = get_handler( lazy.expr(), subsets, env ) ;
+        boost::scoped_ptr<Result> res( get_handler( lazy.expr(), subsets, env ) );
         
         // if we could not find a direct Result
         // we can use a GroupedCallReducer which will callback to R
-        if( !res ) res = new GroupedCallReducer<Data, Subsets>( lazy.expr(), subsets, env) ;
-        
+        if( !res ) {
+            res.reset( new GroupedCallReducer<Data, Subsets>( lazy.expr(), subsets, env) );
+        }
         SEXP result = __( res->process(gdf) ) ;
         accumulator.set( lazy.name(), result );
         subsets.input( Symbol(lazy.name()), SummarisedVariable(result) ) ;
-        delete res;
+        
     }
 
     return summarised_grouped_tbl_cpp<Data>(accumulator, gdf );
@@ -54,7 +55,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         
         const Lazy& lazy = dots[i] ;
         Environment env = lazy.env() ;
-        Result* res = get_handler( lazy.expr(), subsets, env ) ;
+        boost::scoped_ptr<Result> res( get_handler( lazy.expr(), subsets, env ) ) ;
         
         SEXP result ;
         if(res) {
@@ -62,7 +63,6 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         } else {
             result = __(CallProxy( lazy.expr(), subsets, env).eval()) ;
         }
-        delete res ;
         if( Rf_length(result) != 1 ){
             stop( "expecting result of length one, got : %d", Rf_length(result) ) ;
         }
