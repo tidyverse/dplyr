@@ -188,6 +188,7 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
       if( subsets.count(data) ) data = subsets.get_variable(data) ;
       else return 0 ;
     }
+    Rprintf( "subsets.nrows() = %d\n", subsets.nrows() ) ;
     if (Rf_length(data) == subsets.nrows() ){
         switch( TYPEOF(data) ){
             case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
