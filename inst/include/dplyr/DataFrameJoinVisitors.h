@@ -32,10 +32,6 @@ namespace dplyr{
             }
         }
         
-        ~DataFrameJoinVisitors(){
-            delete_all(visitors);    
-        }
-        
         inline JoinVisitor* get(int k) const { 
             return visitors[k] ; 
         }

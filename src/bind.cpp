@@ -11,7 +11,8 @@ List rbind__impl( Dots dots ){
       DataFrame df = dots[i] ;
       if( df.size() ) n += df.nrows() ;
     }
-    std::vector<Collecter*> columns ;
+    pointer_vector<Collecter> columns ;
+    
     std::vector<String> names ;
     int k=0 ;
     for( int i=0; i<ndata; i++){
@@ -88,7 +89,6 @@ List rbind__impl( Dots dots ){
         out_names[i] = names[i] ;
     }
     out.attr( "names" ) = out_names ;
-    delete_all( columns ) ;
     set_rownames( out, n );
     out.attr( "class" ) = classes_not_grouped() ;
 

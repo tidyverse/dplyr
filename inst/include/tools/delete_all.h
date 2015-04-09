@@ -17,7 +17,34 @@ namespace dplyr {
         value.clear() ;
     }
     
-    
+    template <typename T>
+    struct pointer_vector {
+        typedef typename std::vector<T*> Vector ;
+        typedef typename Vector::reference reference ;
+        typedef typename Vector::const_reference const_reference ;
+        typedef typename Vector::size_type size_type ;
+        typedef typename Vector::value_type value_type ;
+        
+        pointer_vector() : data(){}
+        
+        ~pointer_vector(){
+            delete_all( data ) ;    
+        }
+        
+        inline reference operator[](size_type i){ 
+            return data[i] ; 
+        } 
+        inline reference operator[](size_type i) const { 
+            return data[i]; 
+        }
+        inline void push_back( const value_type& value ){
+            data.push_back(value);    
+        }
+        inline size_type size() const {
+            return data.size() ;
+        }
+        Vector data ;
+    } ;
 }
 
 #endif
