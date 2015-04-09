@@ -9,7 +9,7 @@ namespace dplyr {
         typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap ;
         
         LazyRowwiseSubsets( const RowwiseDataFrame& rdf_ ): 
-            LazySubsets(rdf_.data()), rdf(rdf_), subset_map(), resolved_map(), owner(true) 
+            LazySubsets(rdf_.data()), rdf(rdf_), subset_map(), resolved_map() 
         {
             const DataFrame& data = rdf.data() ;
             CharacterVector names = data.names() ;
@@ -18,10 +18,6 @@ namespace dplyr {
                 subset_map[ as_symbol( names[i] ) ] = rowwise_subset( data[i] );    
             }
         }
-        
-        LazyRowwiseSubsets( const LazyRowwiseSubsets& other) : 
-            LazySubsets(other.rdf.data()), rdf(other.rdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
-        {}
         
         void clear(){
             resolved_map.clear() ;
@@ -58,7 +54,7 @@ namespace dplyr {
         }
         
         ~LazyRowwiseSubsets(){
-            if(owner) delete_all_second( subset_map ) ;    
+            delete_all_second( subset_map ) ;    
         }
         
         void input(SEXP symbol, SEXP x){                    
@@ -69,7 +65,6 @@ namespace dplyr {
         const RowwiseDataFrame& rdf ;
         RowwiseSubsetMap subset_map ;
         ResolvedSubsetMap resolved_map ;
-        bool owner ; 
         
         void input_subset(SEXP symbol, RowwiseSubset* sub){
             RowwiseSubsetMap::iterator it = subset_map.find(symbol) ;
