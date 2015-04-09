@@ -4,12 +4,6 @@
 namespace dplyr {
     
     template <typename T>
-    void delete_all( T& value ){
-        for( typename T::iterator it=value.begin(); it!=value.end(); ++it) delete *it ;
-        value.clear() ;
-    }
-    
-    template <typename T>
     void delete_all_second( T& value ){
         for( typename T::iterator it=value.begin(); it!=value.end(); ++it) {
             delete it->second ;
@@ -18,17 +12,21 @@ namespace dplyr {
     }
     
     template <typename T>
-    struct pointer_vector {
+    class pointer_vector {
+    public:
+        
         typedef typename std::vector<T*> Vector ;
         typedef typename Vector::reference reference ;
         typedef typename Vector::const_reference const_reference ;
         typedef typename Vector::size_type size_type ;
         typedef typename Vector::value_type value_type ;
+        typedef typename Vector::iterator iterator ;
         
         pointer_vector() : data(){}
         pointer_vector(size_type n) : data(n){}
         ~pointer_vector(){
-            delete_all( data ) ;    
+            for( iterator it=data.begin(); it!=data.end(); ++it) delete *it ;
+            data.clear() ;    
         }
         
         inline reference operator[](size_type i){ 
@@ -43,7 +41,10 @@ namespace dplyr {
         inline size_type size() const {
             return data.size() ;
         }
+        
+    private:
         Vector data ;
+        
     } ;
 }
 
