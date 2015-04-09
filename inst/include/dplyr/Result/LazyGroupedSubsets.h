@@ -9,7 +9,7 @@ namespace dplyr {
         typedef dplyr_hash_map<Name, SEXP> ResolvedSubsetMap ;
         
         LazyGroupedSubsets( const GroupedDataFrame& gdf_ ) : 
-            LazySubsets(gdf_.data()), gdf(gdf_), subset_map(), resolved_map() 
+            LazySubsets(gdf_.data()), gdf(gdf_), subset_map(), resolved_map(), owner(true) 
         {
             int max_size = gdf.max_group_size() ;
             const DataFrame& data = gdf.data() ;
@@ -19,6 +19,10 @@ namespace dplyr {
                 subset_map[ as_symbol( names[i] ) ] = grouped_subset( data[i], max_size );    
             }
         }
+        
+        LazyGroupedSubsets( const LazyGroupedSubsets& other) : 
+            LazySubsets(other.gdf.data()), gdf(other.gdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+        {}
         
         void clear(){
             resolved_map.clear() ;
@@ -55,7 +59,7 @@ namespace dplyr {
         }
         
         ~LazyGroupedSubsets(){
-            delete_all_second( subset_map ) ;    
+            if(owner) delete_all_second( subset_map ) ;    
         }
         
         void input(SEXP symbol, SEXP x){                    
@@ -70,6 +74,7 @@ namespace dplyr {
         const GroupedDataFrame& gdf ;
         GroupedSubsetMap subset_map ;
         ResolvedSubsetMap resolved_map ;
+        bool owner ; 
         
         void input_subset(SEXP symbol, GroupedSubset* sub){
             GroupedSubsetMap::iterator it = subset_map.find(symbol) ;
