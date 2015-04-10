@@ -59,7 +59,6 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
         
         boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) ) ;
-        Rprintf( "res = %p\n", (Result*)res.get() ) ;
         SEXP result ;
         if(res) {
             result = __(res->process( FullDataFrame(df) )) ;
