@@ -24,7 +24,8 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
         const Lazy& lazy = dots[k] ;
         const Environment& env = lazy.env() ;
         
-        boost::scoped_ptr<Result> res( get_handler( lazy.expr(), subsets, env ) );
+        Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
+        boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) );
         
         // if we could not find a direct Result
         // we can use a GroupedCallReducer which will callback to R
@@ -55,7 +56,9 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         
         const Lazy& lazy = dots[i] ;
         Environment env = lazy.env() ;
-        boost::scoped_ptr<Result> res( get_handler( lazy.expr(), subsets, env ) ) ;
+        Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
+        
+        boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) ) ;
         
         SEXP result ;
         if(res) {

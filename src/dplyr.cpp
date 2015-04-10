@@ -1918,7 +1918,8 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         const Lazy& lazy = dots[i] ;
 
         Environment env = lazy.env() ;
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() );
+        SEXP call = call_ ;
         SEXP name = lazy.name() ;
         
         proxy.set_env( env ) ;
@@ -1986,7 +1987,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
 
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() ) ; SEXP call = call_ ;
         SEXP name = lazy.name() ;
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
