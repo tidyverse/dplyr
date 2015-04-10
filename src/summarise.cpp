@@ -47,7 +47,6 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
     if( nexpr == 0) return DataFrame() ;
     
     LazySubsets subsets( df ) ;
-    Rprintf( "subsets.size() = %d\n", subsets.size() ) ; 
     std::vector<SEXP> results ;
     NamedListAccumulator<DataFrame> accumulator ;
 
@@ -60,7 +59,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
         
         boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) ) ;
-        
+        Rprintf( "res = %p, type=%s\n", (Result*)p, DEMANGLE(*res) ) ;
         SEXP result ;
         if(res) {
             result = __(res->process( FullDataFrame(df) )) ;
