@@ -47,6 +47,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
     if( nexpr == 0) return DataFrame() ;
     
     LazySubsets subsets( df ) ;
+    Rprintf( "subsets.size() = %d\n", subsets.size() ) ; 
     std::vector<SEXP> results ;
     NamedListAccumulator<DataFrame> accumulator ;
 
