@@ -231,3 +231,8 @@ test_that("filter correctly handles empty data frames (#782)", {
   expect_true( is.null(names(res)) )
 })
 
+test_that("filter_ works (#906)", {
+  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
+  out <- dt %>% filter_(~x > 5)
+  expect_equal(nrow(out), 5)
+})
