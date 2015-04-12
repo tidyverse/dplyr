@@ -3,6 +3,8 @@
 * `lag` and `lead` for grouped data were confused about indices and therefore 
   produced wrong results (#925, #937)
 
+* Fix `filter_` for data tables (#906)
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.
