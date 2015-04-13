@@ -138,3 +138,22 @@ is_1d <- function(x) {
   # dimension check is for matrices and data.frames
   ((is.atomic(x) && !is.null(x)) || is.list(x)) && length(dim(x)) <= 1
 }
+
+# From hadley/purrr
+enlist <- function(...) {
+  dots <- list(...)
+
+  names <- Map(function(dot, name) {
+    if (!is.object(dot) && is.list(dot))
+      names2(dot)
+    else
+      name
+  }, dots, names2(dots))
+  names <- unlist(names)
+
+  is_not_list <- vapply(dots, function(x) {
+     is.object(x) || !is.list(x)
+  }, logical(1))
+  dots[is_not_list] <- lapply(dots[is_not_list], list)
+  dots %>% unlist(recursive = FALSE) %>% setNames(names)
+}
