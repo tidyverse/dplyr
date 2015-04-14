@@ -4,6 +4,8 @@
   produced wrong results (#925, #937)
 
 * fixed a number of memory issues identified by valgrind  
+
+* `rbind_all` gains a test for a form of data frame corruption (#1074). 
   
 # dplyr 0.4.1
 
