@@ -64,12 +64,10 @@ namespace dplyr{
             // result we get
             
             // get the appropriate Delayed Processor to handle it
-            DelayedProcessor_Base<CLASS, Data>* processor = get_delayed_processor<CLASS, Data>(first_result, i) ;
+            boost::scoped_ptr< DelayedProcessor_Base<CLASS, Data> > processor(get_delayed_processor<CLASS, Data>(first_result, i)) ;
             if(!processor)
                 stop( "expecting a single value" );
             Shield<SEXP> res( processor->delayed_process( gdf, first_result, obj, git ) ) ;
-            
-            delete processor ;
             
             copy_most_attributes(res, first_result) ;
             

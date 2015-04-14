@@ -71,7 +71,8 @@ List arrange_impl( DataFrame data, LazyDots dots ){
         Shelter<SEXP> __ ;
         const Lazy& lazy = dots[i] ;
 
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() ) ;
+        SEXP call = call_ ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
 
         CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env()) ;

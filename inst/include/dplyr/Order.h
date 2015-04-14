@@ -30,13 +30,10 @@ namespace dplyr {
                 visitors[i]  = order_visitor( data[name], true );
             }
         } 
-        ~OrderVisitors(){
-            delete_all( visitors ) ;
-        }
         
         Rcpp::IntegerVector apply() const ;
         
-        std::vector<OrderVisitor*> visitors ;
+        pointer_vector<OrderVisitor> visitors ;
         int n;
         int nrows ;    
     } ;    
