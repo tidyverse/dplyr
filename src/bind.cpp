@@ -173,7 +173,7 @@ SEXP combine_all( List data ){
         if( coll->compatible(current) ){
             coll->collect( SlicingIndex(k, n_current), current ) ;
         } else if( coll->can_promote(current) ) {
-            Collecter* new_coll = promote_collecter(current, n, coll) ;
+            Collecter* new_coll = promote_collecter(current, n, coll.get() ) ;
             new_coll->collect( SlicingIndex(k, n_current), current ) ;
             new_coll->collect( SlicingIndex(0, k), coll->get() ) ;
             coll.reset( new_coll ) ;
