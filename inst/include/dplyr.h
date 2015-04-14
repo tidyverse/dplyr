@@ -8,6 +8,7 @@
 using namespace Rcpp ;
 
 // missing from Rcpp
+#if RCPP_DEV_VERSION < RcppDevVersion(0,11,5,3)
 namespace Rcpp{
     namespace internal {
         template <> inline bool is__simple<Rcomplex>(SEXP x) {
@@ -15,7 +16,7 @@ namespace Rcpp{
         }
     }
 }
-
+#endif
 
 #ifndef TINYFORMAT_H_INCLUDED
   #include <tools/tinyformat.h>
