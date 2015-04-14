@@ -163,7 +163,7 @@ SEXP combine_all( List data ){
     }
 
     // collect
-    Collecter* coll = collecter( data[0], n ) ;
+    boost::scoped_ptr<Collecter> coll( collecter( data[0], n ) ) ;
     coll->collect( SlicingIndex(0, Rf_length(data[0])), data[0] ) ;
     int k = Rf_length(data[0]) ;
 
@@ -176,8 +176,7 @@ SEXP combine_all( List data ){
             Collecter* new_coll = promote_collecter(current, n, coll) ;
             new_coll->collect( SlicingIndex(k, n_current), current ) ;
             new_coll->collect( SlicingIndex(0, k), coll->get() ) ;
-            delete coll ;
-            coll = new_coll ;
+            coll.reset( new_coll ) ;
         } else {
             stop( "incompatible type at index %d : %s, was collecting : %s",
                 (i+1), get_single_class(current), get_single_class(coll->get()) ) ;
@@ -186,7 +185,6 @@ SEXP combine_all( List data ){
     }
 
     RObject out = coll->get() ;
-    delete coll ;
     return out ;
 }
 
