@@ -5,7 +5,9 @@
 
 * fixed a number of memory issues identified by valgrind  
 
-* `rbind_all` gains a test for a form of data frame corruption (#1074). 
+* `bind_rows` gains a test for a form of data frame corruption (#1074). 
+
+* `bind_rows` handles complex columns (#933). 
   
 # dplyr 0.4.1
 
