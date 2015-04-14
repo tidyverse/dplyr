@@ -18,11 +18,6 @@ namespace Rcpp{
 }
 #endif
 
-#ifndef TINYFORMAT_H_INCLUDED
-  #include <tools/tinyformat.h>
-  #include <tools/stop.h>
-#endif
-
 #include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
