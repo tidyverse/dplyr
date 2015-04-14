@@ -8,6 +8,8 @@
 * `bind_rows` gains a test for a form of data frame corruption (#1074). 
 
 * `bind_rows` handles complex columns (#933). 
+
+* Fixed issue about complex variables used in `summarise` (#933). 
   
 # dplyr 0.4.1
 

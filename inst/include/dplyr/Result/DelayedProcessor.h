@@ -137,6 +137,8 @@ namespace dplyr{
         } else if( Rcpp::is<Rcpp::List>( first_result ) ){
             if( Rf_length(first_result) != 1 ) return 0 ;
             return new DelayedProcessor<VECSXP, CLASS, Data>(i) ;    
+        } else if( Rcpp::is<Rcomplex>( first_result) ){
+            return new DelayedProcessor<CPLXSXP, CLASS, Data>(i) ;    
         }
         return 0 ;
     }

@@ -7,6 +7,16 @@
 
 using namespace Rcpp ;
 
+// missing from Rcpp
+namespace Rcpp{
+    namespace internal {
+        template <> inline bool is__simple<Rcomplex>(SEXP x) {
+            return is_atomic(x) && TYPEOF(x) == CPLXSXP;
+        }
+    }
+}
+
+
 #ifndef TINYFORMAT_H_INCLUDED
   #include <tools/tinyformat.h>
   #include <tools/stop.h>
