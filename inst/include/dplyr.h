@@ -7,17 +7,6 @@
 
 using namespace Rcpp ;
 
-// missing from Rcpp
-#if RCPP_DEV_VERSION < RcppDevVersion(0,11,5,3)
-namespace Rcpp{
-    namespace internal {
-        template <> inline bool is__simple<Rcomplex>(SEXP x) {
-            return is_atomic(x) && TYPEOF(x) == CPLXSXP;
-        }
-    }
-}
-#endif
-
 #include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
