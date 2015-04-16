@@ -3,6 +3,14 @@
 * `lag` and `lead` for grouped data were confused about indices and therefore 
   produced wrong results (#925, #937)
 
+* fixed a number of memory issues identified by valgrind  
+
+* `bind_rows` gains a test for a form of data frame corruption (#1074). 
+
+* `bind_rows` handles complex columns (#933). 
+
+* Fixed issue about complex variables used in `summarise` (#933). 
+  
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.

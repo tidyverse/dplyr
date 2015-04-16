@@ -9,9 +9,14 @@ List rbind__impl( Dots dots ){
     int n = 0 ;
     for( int i=0; i<ndata; i++) {
       DataFrame df = dots[i] ;
+      CharacterVector df_names = df.names() ;
+      if( any(is_na(df_names)).is_true() ){
+        stop( "corrupt data frame at index %d", (i+1) ) ;    
+      }
       if( df.size() ) n += df.nrows() ;
     }
-    std::vector<Collecter*> columns ;
+    pointer_vector<Collecter> columns ;
+    
     std::vector<String> names ;
     int k=0 ;
     for( int i=0; i<ndata; i++){
@@ -88,7 +93,6 @@ List rbind__impl( Dots dots ){
         out_names[i] = names[i] ;
     }
     out.attr( "names" ) = out_names ;
-    delete_all( columns ) ;
     set_rownames( out, n );
     out.attr( "class" ) = classes_not_grouped() ;
 
@@ -163,7 +167,7 @@ SEXP combine_all( List data ){
     }
 
     // collect
-    Collecter* coll = collecter( data[0], n ) ;
+    boost::scoped_ptr<Collecter> coll( collecter( data[0], n ) ) ;
     coll->collect( SlicingIndex(0, Rf_length(data[0])), data[0] ) ;
     int k = Rf_length(data[0]) ;
 
@@ -173,11 +177,10 @@ SEXP combine_all( List data ){
         if( coll->compatible(current) ){
             coll->collect( SlicingIndex(k, n_current), current ) ;
         } else if( coll->can_promote(current) ) {
-            Collecter* new_coll = promote_collecter(current, n, coll) ;
+            Collecter* new_coll = promote_collecter(current, n, coll.get() ) ;
             new_coll->collect( SlicingIndex(k, n_current), current ) ;
             new_coll->collect( SlicingIndex(0, k), coll->get() ) ;
-            delete coll ;
-            coll = new_coll ;
+            coll.reset( new_coll ) ;
         } else {
             stop( "incompatible type at index %d : %s, was collecting : %s",
                 (i+1), get_single_class(current), get_single_class(coll->get()) ) ;
@@ -186,7 +189,6 @@ SEXP combine_all( List data ){
     }
 
     RObject out = coll->get() ;
-    delete coll ;
     return out ;
 }
 

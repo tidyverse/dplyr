@@ -34,7 +34,7 @@ namespace Rcpp {
       }
     
       inline SEXP eval(SEXP env) const {
-          return Rf_eval(data, env) ;
+          return Rcpp_eval(data, env) ;
       }
       
       inline operator SEXP() const{

@@ -171,3 +171,10 @@ test_that("rbind handles all NA columns (#493)", {
   
 })
 
+test_that( "bind_rows handles complex. #933", {
+  df1 <- data.frame(r = c(1+1i, 2-1i))
+  df2 <- data.frame(r = c(1-1i, 2+1i))
+  df3 <- bind_rows(df1,df2)
+  expect_equal( nrow(df3), 4L)
+  expect_equal( df3$r, c(df1$r, df2$r) )
+})

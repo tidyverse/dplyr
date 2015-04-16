@@ -219,3 +219,7 @@ test_that("handling of empty data frames in do",{
   expect_equal(names(res), c("b", "blank"))
 })
 
+test_that("rbind_all checks for corrupt data frame. #1074", {
+  df <- data.frame(groups=c(1, 2, 3, 4,4,4), value=1) %>% group_by(groups)
+  expect_error( do(df, { .[.$value==first(.$value)] }) , "corrupt"  )
+})

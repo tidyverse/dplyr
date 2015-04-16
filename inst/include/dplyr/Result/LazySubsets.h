@@ -8,8 +8,6 @@ namespace dplyr {
         typedef dplyr_hash_map<Name,SEXP> DataMap ;
         typedef DataMap::const_iterator const_iterator ;
         
-        LazySubsets(){}
-        
         LazySubsets( const DataFrame& df) : data_map(), nr(df.nrows()){
             CharacterVector names = df.names() ;
             for( int i=0; i<df.size(); i++){

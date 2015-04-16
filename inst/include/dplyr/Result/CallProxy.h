@@ -86,12 +86,12 @@ namespace dplyr {
         bool simplified(const SlicingIndex& indices){
             // initial
             if( TYPEOF(call) == LANGSXP ){
-                Result* res = get_handler(call, subsets, env) ;
+                boost::scoped_ptr<Result> res( get_handler(call, subsets, env) );
                 
                 if( res ){
                     // replace the call by the result of process
                     call = res->process(indices) ;
-                    
+
                     // no need to go any further, we simplified the top level
                     return true ;
                 }
@@ -107,7 +107,7 @@ namespace dplyr {
             SEXP obj = CAR(p) ;
             
             if( TYPEOF(obj) == LANGSXP ){
-                Result* res = get_handler(obj, subsets, env) ;
+                boost::scoped_ptr<Result> res( get_handler(obj, subsets, env) );
                 if(res){
                     SETCAR(p, res->process(indices) ) ;
                     return true ;
