@@ -146,7 +146,7 @@ List cbind__impl( Dots dots ){
   }
   out.names() = out_names ;
   set_rownames( out, nrows ) ;
-  out.attr( "class") = "data.frame" ;
+  out.attr( "class" ) = classes_not_grouped() ;
   return out ;
 }
 

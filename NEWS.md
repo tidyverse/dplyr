@@ -15,6 +15,8 @@
 
 * `all.equal` gives the correct result when `ignore_row_order` is `TRUE` (#1065). 
 
+* `bind_cols` always produces a `tbl_df` (#779). 
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.
