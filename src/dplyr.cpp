@@ -1327,14 +1327,14 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
     if( names_y_not_in_x.size() ){
         ok = false ;
-        ss << "Cols in y but not x: " << collapse(names_y_not_in_x) ;
+        ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
     }
 
     if( names_x_not_in_y.size() ){
         ok = false ;
-        ss << "Cols in x but not y: " << collapse(names_x_not_in_y) ;
+        ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
     }
-
+    
     if(!ok){
         return no_because( ss.str() ) ;
     }
@@ -1482,8 +1482,10 @@ dplyr::BoolResult all_equal_data_frame( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame union_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
-        stop( "not compatible" );
+    BoolResult compat = compatible_data_frame(x,y) ; 
+    if( !compat ){
+        stop( "not compatible: %s", compat.why_not() );
+    }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true) ;
@@ -1497,8 +1499,10 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame intersect_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
-        stop( "not compatible" );
+    BoolResult compat = compatible_data_frame(x,y) ; 
+    if( !compat ){
+        stop( "not compatible: %s", compat.why_not() );
+    }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
@@ -1521,8 +1525,10 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
-        stop( "not compatible" );
+    BoolResult compat = compatible_data_frame(x,y) ; 
+    if( !compat ){
+        stop( "not compatible: %s", compat.why_not() );
+    }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
     DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true ) ;

@@ -10,6 +10,8 @@
 * `bind_rows` handles complex columns (#933). 
 
 * Fixed issue about complex variables used in `summarise` (#933). 
+
+* Set operations give more useful error message on incompatible data frames (#903). 
   
 # dplyr 0.4.1
 
