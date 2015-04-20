@@ -71,5 +71,10 @@ test_that("all.equal.data.frame handles data.frames with NULL names", {
 test_that( "data frame equality test with ignore_row_order=TRUE detects difference in number of rows. #1065", {
   DF1 <- data_frame(a = 1:4, b = letters[1:4])
   DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
-  expect_false( isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
+  expect_false( isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))  
+  
+  DF1 <- data_frame(a = c(1:4,2L), b = letters[c(1:4,2L)])
+  DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
+  expect_false(isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
+
 })
