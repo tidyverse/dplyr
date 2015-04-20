@@ -1423,6 +1423,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
     RowTrack track_x( "Rows in x but not y: " ) ;
     RowTrack track_y( "Rows in y but not x: " ) ;
+    RowTrack track_mismatch( "Rows with difference occurences in x and y: " ) ;
 
     bool ok = true ;
     Map::const_iterator it = map.begin() ;
@@ -1447,6 +1448,10 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
             track_y.record( chunk[0] ) ;
             ok = false ;
         }
+        if( count_left != count_right ){
+            track_mismatch.record( chunk[0] ) ;
+            ok = false ;    
+        }
 
     }
 
@@ -1454,6 +1459,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
         std::stringstream ss ;
         if( ! track_x.empty() ) ss << track_x.str() ;
         if( ! track_y.empty() ) ss << track_y.str() ;
+        if( ! track_mismatch.empty() ) ss << track_mismatch.str() ;
+        
         return no_because( ss.str() ) ;
     }
 
