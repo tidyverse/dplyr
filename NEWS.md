@@ -12,7 +12,9 @@
 * Fixed issue about complex variables used in `summarise` (#933). 
 
 * Set operations give more useful error message on incompatible data frames (#903). 
-  
+
+* `all.equal` gives the correct result when `ignore_row_order` is `TRUE` (#1065). 
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.

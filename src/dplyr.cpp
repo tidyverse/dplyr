@@ -1413,9 +1413,12 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
     // train the map in both x and y
     int nrows_x = x.nrows() ;
-    for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
-
     int nrows_y = y.nrows() ;
+    
+    if( nrows_x != nrows_y )
+        return no_because( "Different number of rows" ) ;
+        
+    for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
 
     RowTrack track_x( "Rows in x but not y: " ) ;
@@ -1457,8 +1460,6 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     if(ok && ignore_row_order) return yes();
 
     if( !ignore_row_order ){
-        if( nrows_x != nrows_y )
-            return no_because( "Different number of rows" ) ;
         for( int i=0; i<nrows_x; i++){
             if( !visitors.equal( i, -i-1) ){
                     return no_because( "Same row values, but different order" ) ;
