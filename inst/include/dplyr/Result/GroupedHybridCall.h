@@ -84,7 +84,7 @@ namespace dplyr {
             return false ;
         }
         
-        Armor<SEXP> call ;
+        Call call ;
         const SlicingIndex& indices ;
         Subsets& subsets ;
         const Environment& env ;
