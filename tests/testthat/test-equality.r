@@ -29,9 +29,9 @@ test_that("data frames equal to random permutations of themselves", {
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all.equal(tbl_df(mtcars), mtcars[-1, ]), "Rows in x but not y: 1")
-  expect_match(all.equal(tbl_df(iris), iris[-1, ]),     "Rows in x but not y: 1")
-  expect_match(all.equal(tbl_df(df_all), df_all[-1, ]), "Rows in x but not y: 1")
+  expect_match(all.equal(tbl_df(mtcars), mtcars[-1, ]), "Different number of rows")
+  expect_match(all.equal(tbl_df(iris), iris[-1, ]),     "Different number of rows")
+  expect_match(all.equal(tbl_df(df_all), df_all[-1, ]), "Different number of rows")
 })
 
 test_that("data frames not equal if missing col", {
