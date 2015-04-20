@@ -20,10 +20,6 @@ namespace Rcpp {
           if( data != R_NilValue ) R_PreserveObject(data) ;
       }
       
-      Call& operator=( const Call& other){
-          *this = other.data ;
-          return *this ;
-      }
       Call& operator=( SEXP other ){
           if( other != data ){
               if( data != R_NilValue ) R_ReleaseObject(data) ;
@@ -43,6 +39,13 @@ namespace Rcpp {
       
   private:
       SEXP data ;
+      
+      Call& operator=( const Call& other) ;
+      // {
+      //     *this = other.data ;
+      //     return *this ;
+      // }
+      
   } ;
   
 }
