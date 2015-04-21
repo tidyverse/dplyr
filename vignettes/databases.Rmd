@@ -42,7 +42,7 @@ flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
 
 As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
 
-For this particular dataset, there's a built `src` that will cache `flights` in a standard location:
+For this particular dataset, there's a built-in `src` that will cache `flights` in a standard location:
 
 ```{r}
 flights_sqlite <- tbl(nycflights13_sqlite(), "flights")
