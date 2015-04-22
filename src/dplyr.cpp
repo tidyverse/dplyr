@@ -166,7 +166,7 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
 
     if( nargs == 0 ) return new RowNumber_0() ;
 
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
 
@@ -212,7 +212,7 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
         stop("could not convert n to scalar integer") ;
     }
 
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
 
@@ -244,7 +244,7 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
 template <typename Increment>
 Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs != 1) return 0;
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
 
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
@@ -306,7 +306,7 @@ struct LeadLag{
         }
     }
 
-    Armor<SEXP> data ;
+    RObject data ;
     int n ;
 
     bool ok ;
@@ -316,7 +316,7 @@ struct LeadLag{
 Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     LeadLag args(call) ;
     if( !args.ok ) return 0 ;
-    Armor<SEXP>& data = args.data ;
+    RObject& data = args.data ;
     int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ) {
@@ -344,7 +344,7 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     LeadLag args(call) ;
     if( !args.ok ) return 0 ;
 
-    Armor<SEXP>& data = args.data ;
+    RObject& data = args.data ;
     int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
@@ -370,7 +370,7 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
 template < template <int> class Templ>
 Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 1 ) return 0 ;
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
     if(TYPEOF(data) == SYMSXP) {
         data = subsets.get_variable(data) ;
     }

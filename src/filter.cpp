@@ -42,7 +42,7 @@ SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& e
         stop("incompatible input") ;
     }
     Shield<SEXP> call_( dots[0].expr() ) ;
-    Armor<SEXP> res( assert_correct_filter_subcall(call_, set, env) ) ;
+    RObject res( assert_correct_filter_subcall(call_, set, env) ) ;
     SEXP and_symbol = Rf_install( "&" ) ;
     for( int i=1; i<ncalls; i++){
         Shield<SEXP> call( dots[i].expr() ) ;

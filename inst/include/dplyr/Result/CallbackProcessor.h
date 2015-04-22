@@ -49,7 +49,7 @@ namespace dplyr{
             int ngroups = gdf.ngroups() ;
             
             // evaluate the expression within each group until we find something that is not NA
-            Armor<SEXP> first_result(R_NilValue) ;
+            RObject first_result(R_NilValue) ;
             for( ; i<ngroups; i++, ++git ){
                 first_result = obj->process_chunk(*git) ;
                 if( ! all_na(first_result) ) break ;    
