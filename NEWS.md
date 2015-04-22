@@ -17,6 +17,8 @@
 
 * `bind_cols` always produces a `tbl_df` (#779). 
 
+* `all.equal` correctly treats character missing values (#1095). 
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.

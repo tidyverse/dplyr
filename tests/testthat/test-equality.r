@@ -78,3 +78,12 @@ test_that( "data frame equality test with ignore_row_order=TRUE detects differen
   expect_false(isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
 
 })
+
+test_that("all.equal handles NA_character_ correctly. #1095", {
+  d1 <- data_frame(x = c(NA_character_))
+  expect_true(all.equal(d1, d1))
+  
+  d2 <- data_frame( x = c(NA_character_, "foo", "bar" ) )
+  expect_true(all.equal(d2, d2))
+  
+})

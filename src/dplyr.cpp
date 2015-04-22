@@ -1420,7 +1420,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
         
     for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
-
+    
     RowTrack track_x( "Rows in x but not y: " ) ;
     RowTrack track_y( "Rows in y but not x: " ) ;
     RowTrack track_mismatch( "Rows with difference occurences in x and y: " ) ;
