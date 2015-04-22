@@ -1985,8 +1985,6 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 }
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
-    Shelter<SEXP> __ ;
-
     int nexpr = dots.size() ;
 
     NamedListAccumulator<DataFrame> accumulator ;
@@ -2006,7 +2004,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
 
-        SEXP result = R_NilValue ;
+        RObject result(R_NilValue) ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
                 result = call_proxy.get_variable(PRINTNAME(call)) ;
@@ -2015,13 +2013,10 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             }
         } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( call );
-
-            // we need to protect the SEXP, that's what the Shelter does
-            result = __( call_proxy.eval() ) ;
-
+            result = call_proxy.eval() ;
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, df.nrows() ) );
-            result = __( gather->collect() ) ;
+            result = gather->collect() ;
         } else if( Rf_isNull(call)) {
             accumulator.rm(name) ;
             continue ;
@@ -2039,7 +2034,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         } else if( Rf_length(result) == 1 ){
             // recycle
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) );
-            result = __( gather->collect() ) ;
+            result = gather->collect() ;
         } else {
             stop( "wrong result size (%d), expected %d or 1", Rf_length(result), df.nrows() ) ;
         }

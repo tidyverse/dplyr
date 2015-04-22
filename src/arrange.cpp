@@ -68,7 +68,6 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     }
 
     for(int i=0; k<nargs; i++, k++){
-        Shelter<SEXP> __ ;
         const Lazy& lazy = dots[i] ;
 
         Shield<SEXP> call_( lazy.expr() ) ;
@@ -77,7 +76,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
 
         CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env()) ;
 
-        SEXP v = __(call_proxy.eval()) ;
+        Shield<SEXP> v(call_proxy.eval()) ;
         if( !white_list(v) ){
             stop( "cannot arrange column of class '%s'", get_single_class(v) ) ;
         }

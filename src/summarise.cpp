@@ -18,7 +18,6 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
     }
 
     Subsets subsets(gdf) ;
-    Shelter<SEXP> __ ;
     for( int k=0; k<nexpr; k++, i++ ){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[k] ;
@@ -32,7 +31,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
         if( !res ) {
             res.reset( new GroupedCallReducer<Data, Subsets>( lazy.expr(), subsets, env) );
         }
-        SEXP result = __( res->process(gdf) ) ;
+        Shield<SEXP> result( res->process(gdf) ) ;
         accumulator.set( lazy.name(), result );
         subsets.input( Symbol(lazy.name()), SummarisedVariable(result) ) ;
         
@@ -50,7 +49,6 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
     std::vector<SEXP> results ;
     NamedListAccumulator<DataFrame> accumulator ;
 
-    Rcpp::Shelter<SEXP> __ ;
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         
@@ -59,11 +57,11 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
         
         boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) ) ;
-        SEXP result ;
+        RObject result ;
         if(res) {
-            result = __(res->process( FullDataFrame(df) )) ;
+            result = res->process( FullDataFrame(df) ) ;
         } else {
-            result = __(CallProxy( lazy.expr(), subsets, env).eval()) ;
+            result = CallProxy( lazy.expr(), subsets, env).eval() ;
         }
         if( Rf_length(result) != 1 ){
             stop( "expecting result of length one, got : %d", Rf_length(result) ) ;

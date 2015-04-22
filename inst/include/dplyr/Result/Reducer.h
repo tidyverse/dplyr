@@ -25,10 +25,9 @@ namespace dplyr {
         
         // used by DelayedReducer
         SEXP delayed_process(const Rcpp::GroupedDataFrame& gdf, SEXP first_result) {
-            Rcpp::Shelter<SEXP> __ ;
             int n = gdf.ngroups() ; 
-            SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
-            OUT* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
+            Vector<OUTPUT> res = no_init(n) ;
+            OUT* ptr = res.begin() ;
             ptr[0] = Rcpp::as<OUT>( first_result );
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
             for( int i=1; i<n; i++,++git)
