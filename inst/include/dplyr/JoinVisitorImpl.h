@@ -132,10 +132,8 @@ namespace dplyr{
 
             Language call( "rank", big, _["ties.method"] = "min" ) ;
             orders = call.eval() ;
-            for(int i=n-1; i>=0; i--, n_na++){
-                if( big[ orders[i-1] ] != NA_STRING ) return ; 
-            }
             
+            n_na = std::count( big.begin(), big.end(), NA_STRING ) ; 
         }
 
     } ;
@@ -324,13 +322,6 @@ namespace dplyr{
             }
             return res ;
         }
-
-      // inline void debug(){
-      //     Rprintf( "visitor= %s. left =", DEMANGLE(JoinStringFactorVisitor) ) ;
-      //     Rf_PrintValue(left) ;
-      //     Rprintf( "right(levels)=" ) ;
-      //     Rf_PrintValue(right_levels) ;
-      // }
 
     private:
         CharacterVector left ;
