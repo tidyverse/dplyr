@@ -113,7 +113,7 @@ namespace dplyr{
         inline int get_order(int i) const {
             if( i == NA_INTEGER ) return NA_INTEGER ;
             int val = (i>=0) ? orders[i] : orders[nleft-i-1] ;
-            if( val >= n - n_na ) val= NA_INTEGER ;
+            if( val > n - n_na ) val= NA_INTEGER ;
             return val ;
         }
 
