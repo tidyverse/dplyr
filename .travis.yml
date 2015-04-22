@@ -44,6 +44,6 @@ notifications:
     on_success: change
     on_failure: change
 env:
-  - RCPP=release PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
-  - RCPP=devel PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
+  - RCPP=release PKG_CXXFLAGS="-Wall -pedantic"
+  - RCPP=devel PKG_CXXFLAGS="-Wall -pedantic"
 
