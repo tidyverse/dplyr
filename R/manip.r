@@ -66,7 +66,6 @@ slice_ <- function(.data, ..., .dots) {
 #'
 #' Data frames are the only backend that supports creating a variable and
 #' using it in the same summary. See examples for more details.
-#' you create
 #'
 #' @export
 #' @inheritParams filter
