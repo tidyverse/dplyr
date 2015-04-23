@@ -432,7 +432,7 @@ validate_divisible <- function(n, k) {
 #' recycle_each(1:5, 1:5, 30)
 #' recycle(1:2, 10)
 #'
-#' # Best used in conjunction with \code{data_frame}, where the
+#' # Best used in conjunction with data_frame, where the
 #' # output length is automatically inferred for you:
 #'
 #' data_frame(x = 1:20, y = recycle_each(1:4, 1:4))
