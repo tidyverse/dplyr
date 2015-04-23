@@ -49,3 +49,22 @@ test_that("Zero column list makes 0 x 0 tbl_df", {
   expect_is(zero, "tbl_df")
   expect_equal(dim(zero), c(0L, 0L))
 })
+
+test_that("data_frame recycling works as expected", {
+
+  df1 <- data_frame(x = rep(1:2, each = 5),
+                    y = rep.int(1:2, 5),
+                    z = 1:10)
+
+  df2 <- data_frame(x = recycle_each(1:2),
+                    y = recycle_whole(1:2),
+                    z = 1:10)
+
+  expect_identical(df1, df2)
+
+  expect_warning(data_frame(x = recycle_each(1:3),
+                            z = 1:10))
+
+  expect_error(data_frame(recycle_each(1:10)))
+
+})

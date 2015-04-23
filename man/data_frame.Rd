@@ -37,6 +37,11 @@ str(data_frame(x = list(diag(1), diag(2))))
 
 # or munges column names
 data_frame(`a + b` = 1:5)
+
+# data_frame allows explicit recycling
+data_frame(a = recycle_each(1:2),
+           b = recycle_whole(1:2),
+           c = 1:10)
 }
 \seealso{
 \code{\link{as_data_frame}} to turn an existing list into
