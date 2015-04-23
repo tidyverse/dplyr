@@ -417,11 +417,30 @@ validate_divisible <- function(n, k) {
 #' that enable explicit recycling for vectors.
 #'
 #' @param x An (atomic, one-dimensional) vector.
+#' @param times The number of times the vector (or, in the case of
+#'   \code{recycle_each}, each element of the vector) should be
+#'   repeated.
 #' @param n The desired output length. Note that, when
 #'   evaluated within the context of a \code{data_frame}
 #'   call, \code{n} will automatically be filled with
 #'   the resultant number of rows.
 #'
+#' @rdname recycle
+#' @export
+#' @examples
+#'
+#' recycle_each(1:5, 1:5, 30)
+#' recycle(1:2, 10)
+#'
+#' # Best used in conjunction with \code{data_frame}, where the
+#' # output length is automatically inferred for you:
+#'
+#' data_frame(x = 1:20, y = recycle_each(1:4, 1:4))
+recycle <- function(x, n = NULL) {
+  validate_divisible(n, length(x))
+  rep(x, length.out = n)
+}
+
 #' @rdname recycle
 #' @export
 recycle_each <- function(x, times = (n / length(x)), n = NULL) {
@@ -433,13 +452,6 @@ recycle_each <- function(x, times = (n / length(x)), n = NULL) {
     validate_divisible(n, len)
     rep(rep(x, times = times), times = n / len)
   }
-}
-
-#' @rdname recycle
-#' @export
-recycle <- function(x, n = NULL) {
-  validate_divisible(n, length(x))
-  rep(x, length.out = n)
 }
 
 #' @rdname recycle
