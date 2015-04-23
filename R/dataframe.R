@@ -31,7 +31,8 @@
 #' # data_frame allows explicit recycling
 #' data_frame(a = recycle_each(1:2),
 #'            b = recycle_whole(1:2),
-#'            c = 1:10)
+#'            c = recycle_each(1:3, c(6, 2, 2)),
+#'            x = 1:20)
 data_frame <- function(...) {
   data_frame_(lazyeval::lazy_dots(...))
 }
@@ -56,6 +57,7 @@ data_frame_ <- function(columns) {
   # Construct the list output
   output <- vector("list", n)
   names(output) <- col_names
+  output_env <- new.env()
 
   # Figure out which calls are recycle calls; leave those for
   # the second pass
@@ -70,14 +72,14 @@ data_frame_ <- function(columns) {
   # Evaluate the (non-recycled) lazy expressions
   for (i in not_recycled) {
 
-    res <- lazyeval::lazy_eval(columns[[i]], output)
+    res <- lazyeval::lazy_eval(columns[[i]], output_env)
 
     if (!is_1d(res)) {
       stop("data_frames can only contain 1d atomic vectors and lists",
         call. = FALSE)
     }
 
-    output[[i]] <- res
+    output[[i]] <- output_env[[col_names[[i]]]] <- res
   }
 
   # Determine and validate the number of rows
@@ -102,18 +104,18 @@ data_frame_ <- function(columns) {
     )
 
     # Set 'n' explicitly for this call if not set
-    if (!("n" %in% names(expr[-1L])))
+    if (is.null(expr[["n"]]))
       expr[["n"]] <- max
 
     dots$expr <- expr
-    res <- lazyeval::lazy_eval(dots, output)
+    res <- lazyeval::lazy_eval(dots, output_env)
 
     if (!is_1d(res)) {
       stop("data_frames can only contain 1d atomic vectors and lists",
         call. = FALSE)
     }
 
-    output[[i]] <- res
+    output[[i]] <- output_env[[col_names[[i]]]] <- res
   }
 
   short <- lengths == 1
@@ -404,8 +406,8 @@ collapse.data.frame <- function(x, ...) x
 
 validate_divisible <- function(n, k) {
   if (n %% k != 0)
-    warning(sprintf(
-      "number of rows (%s) is not divisible by vector length (%s); result will be padded with NAs",
+    stop(sprintf(
+      "number of rows (%s) is not divisible by vector length (%s)",
       n, k))
 }
 
@@ -422,19 +424,29 @@ validate_divisible <- function(n, k) {
 #'
 #' @rdname recycle
 #' @export
-recycle_each <- function(x, n) {
-  validate_divisible(n, length(x))
-  rep(x, each = (n / length(x)))
+recycle_each <- function(x, times = (n / length(x)), n = NULL) {
+  if (length(times) == 1) {
+    validate_divisible(n, length(x))
+    rep(x, each = times)
+  } else {
+    len <- sum(times)
+    validate_divisible(n, len)
+    rep(rep(x, times = times), times = n / len)
+  }
 }
 
 #' @rdname recycle
 #' @export
-recycle_whole <- function(x, n) {
+recycle <- function(x, n = NULL) {
   validate_divisible(n, length(x))
   rep(x, length.out = n)
 }
 
+#' @rdname recycle
+#' @export
+recycle_whole <- recycle
+
 is_recycle_call <- function(call) {
   is.call(call) && is.symbol(call[[1]]) &&
-    as.character(call[[1]]) %in% c("recycle_each", "recycle_whole")
+    as.character(call[[1]]) %in% c("recycle", "recycle_each", "recycle_whole")
 }

@@ -62,9 +62,24 @@ test_that("data_frame recycling works as expected", {
 
   expect_identical(df1, df2)
 
-  expect_warning(data_frame(x = recycle_each(1:3),
-                            z = 1:10))
+  expect_error(
+    data_frame(x = recycle_each(1:3),
+               z = 1:10)
+  )
 
   expect_error(data_frame(recycle_each(1:10)))
+
+  df1 <- data_frame(x = 1:12,
+                    y = recycle_each(1:3, 1:3))
+
+  df2 <- tbl_df(data.frame(x = 1:12,
+                           y = rep(1:3, 1:3)))
+
+  expect_identical(df1, df2)
+
+  data_frame(x = 1:12,
+             y = recycle(1:2),
+             z = recycle_each(1:3),
+             k = recycle_whole(1:4))
 
 })

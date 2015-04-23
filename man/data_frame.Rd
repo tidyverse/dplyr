@@ -41,7 +41,8 @@ data_frame(`a + b` = 1:5)
 # data_frame allows explicit recycling
 data_frame(a = recycle_each(1:2),
            b = recycle_whole(1:2),
-           c = 1:10)
+           c = recycle_each(1:3, c(6, 2, 2)),
+           x = 1:20)
 }
 \seealso{
 \code{\link{as_data_frame}} to turn an existing list into
