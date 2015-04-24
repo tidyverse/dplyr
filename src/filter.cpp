@@ -187,7 +187,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
     return false;
 }
 
-SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
+DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){

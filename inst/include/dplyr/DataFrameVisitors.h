@@ -27,7 +27,8 @@ namespace dplyr {
             {
                        
                 for( int i=0; i<nvisitors; i++){
-                    visitors.push_back( visitor( data[i] ) ) ;    
+                    VectorVisitor* v = visitor( data[i] ) ;
+                    visitors.push_back(v) ;    
                 }
             }
             DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) : 
@@ -59,7 +60,7 @@ namespace dplyr {
             DataFrame subset_impl( const Container& index, const CharacterVector& classes, traits::false_type ) const {
                 List out(nvisitors);
                 for( int k=0; k<nvisitors; k++){
-                   out[k] = get(k)->subset(index) ;
+                    out[k] = get(k)->subset(index) ;
                 }
                 structure( out, Rf_length(out[0]) , classes) ;
                 return out ;
@@ -72,7 +73,7 @@ namespace dplyr {
                 IntegerVector idx = no_init(n_out) ;
                 for(int i=0, k=0; i<n; i++){
                     if( index[i] == TRUE ){
-                        idx[k++] = i+1 ;    
+                        idx[k++] = i ;    
                     }
                 }
                 return subset_impl( idx, classes, traits::false_type() ) ;
