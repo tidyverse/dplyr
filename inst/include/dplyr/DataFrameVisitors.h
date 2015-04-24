@@ -56,14 +56,33 @@ namespace dplyr {
             } 
             
             template <typename Container>
-            DataFrame subset( const Container& index, const CharacterVector& classes ) const {
+            DataFrame subset_impl( const Container& index, const CharacterVector& classes, traits::false_type ) const {
                 List out(nvisitors);
                 for( int k=0; k<nvisitors; k++){
-                   out[k] = get(k)->subset(index) ;    
+                   out[k] = get(k)->subset(index) ;
                 }
                 structure( out, Rf_length(out[0]) , classes) ;
-                
-                return (SEXP)out ;
+                return out ;
+            }
+            
+            template <typename Container>
+            DataFrame subset_impl( const Container& index, const CharacterVector& classes, traits::true_type ) const {
+                int n = index.size() ;
+                int n_out = std::count( index.begin(), index.end(), TRUE ) ;
+                IntegerVector idx = no_init(n_out) ;
+                for(int i=0, k=0; i<n; i++){
+                    if( index[i] == TRUE ){
+                        idx[k++] = i+1 ;    
+                    }
+                }
+                return subset_impl( idx, classes, traits::false_type() ) ;
+            }
+            
+            template <typename Container>
+            inline DataFrame subset( const Container& index, const CharacterVector& classes ) const {
+                return subset_impl( index, classes, 
+                    typename traits::same_type<Container, LogicalVector>::type() 
+                ) ;
             }
             
             inline int size() const { return nvisitors ; }
@@ -93,7 +112,8 @@ namespace dplyr {
 
     inline DataFrame subset( DataFrame data, LogicalVector test, CharacterVector classes ){
         DataFrameVisitors visitors( data ) ;
-        return visitors.subset(test, classes ) ;
+        DataFrame res = visitors.subset(test, classes ) ;
+        return res ;
     }
 
 
