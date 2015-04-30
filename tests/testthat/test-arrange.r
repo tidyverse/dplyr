@@ -140,6 +140,6 @@ test_that("arrange respects attributes #1105", {
   on.exit(removeClass("Period", where = env))
 
   df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
-  expect_error(arrange(df, p))
-
+  res <- arrange(df, p)
+  expect_is(res$p, "Period") 
 })
