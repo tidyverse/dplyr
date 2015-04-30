@@ -1019,25 +1019,6 @@ void push_back( Container& x, typename Container::value_type value, int n ){
         x.push_back( value ) ;
 }
 
-std::string get_unsupported_attributes( SEXP v ){
-    SEXP att = ATTRIB(v) ;
-    std::stringstream s ;
-    int i = 0 ;
-    
-    // only allow R_Names. as in R's do_isvector
-    while( att != R_NilValue ){
-        SEXP tag = TAG(att) ;
-        if( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) {
-            if( i > 0 ) s << ", " ;
-            i++ ;
-            s << CHAR(PRINTNAME(tag)) ;
-        }
-        att = CDR(att) ;    
-    }
-    
-    return s.str() ; 
-}
-
 void assert_all_white_list(const DataFrame& data){
     // checking variables are on the white list
     int nc = data.size() ;
@@ -1052,11 +1033,6 @@ void assert_all_white_list(const DataFrame& data){
                 stop( "column '%s' has unsupported type : %s",
                     name_i.get_cstring() , get_single_class(v) );
             }
-            
-            std::string unsupported_attributes = get_unsupported_attributes(v) ;
-            
-            stop( "column '%s' of type %s has unsupported attributes: %s",
-                    name_i.get_cstring() , get_single_class(v), unsupported_attributes );    
             
         }
     }
