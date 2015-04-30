@@ -1,6 +1,6 @@
 #' Create an SQL tbl (abstract)
 #'
-#' This method shouldn't be called be users - it should only be used by
+#' This method shouldn't be called by users - it should only be used by
 #' backend implementors who are creating backends that extend the basic
 #' sql behaviour.
 #'
