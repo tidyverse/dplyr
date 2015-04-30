@@ -126,19 +126,8 @@ Result* count_distinct_result(SEXP vec){
         case INTSXP:
             if( Rf_inherits(vec, "factor" ))
                 return new Count_Distinct<FactorVisitor>( FactorVisitor(vec) ) ;
-            if( Rf_inherits( vec, "Date" ) )
-                return new Count_Distinct< DateVisitor<INTSXP> >( DateVisitor<INTSXP>(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return new Count_Distinct<POSIXctVisitor<INTSXP> >( POSIXctVisitor<INTSXP>(vec) ) ;
-
             return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
         case REALSXP:
-            if( Rf_inherits( vec, "difftime" ) )
-                return new Count_Distinct< DifftimeVisitor<REALSXP> >( DifftimeVisitor<REALSXP>(vec) ) ;
-            if( Rf_inherits( vec, "Date" ) )
-                return new Count_Distinct< DateVisitor<REALSXP> >( DateVisitor<REALSXP>(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return new Count_Distinct<POSIXctVisitor<REALSXP> >( POSIXctVisitor<REALSXP>(vec) ) ;
             return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
         case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
         case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
