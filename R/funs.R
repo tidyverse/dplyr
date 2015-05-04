@@ -18,7 +18,7 @@
 #' # Overide default names
 #' funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
 #'
-#' # If you have a function names in a vector, use funs_q
+#' # If you have function names in a vector, use funs_
 #' fs <- c("min", "max")
 #' funs_(fs)
 funs <- function(...) funs_(lazyeval::lazy_dots(...))
