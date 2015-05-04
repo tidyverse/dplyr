@@ -187,7 +187,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
     return false;
 }
 
-SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
+DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
@@ -200,8 +200,8 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
-        
         LogicalVector test = check_filter_logical_result(proxy.eval()) ;
+    
         if( test.size() == 1){
             if( test[0] == TRUE ){
                 return df ; 
@@ -210,8 +210,7 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
             }
         } else {
             check_filter_result(test, df.nrows());
-            DataFrame res = subset( df, test, classes_not_grouped() ) ;
-            return res ;
+            return subset(df, test, classes_not_grouped() ) ;
         }
     } else {
         int nargs = dots.size() ;
@@ -264,11 +263,10 @@ SEXP filter_impl( DataFrame df, LazyDots dots){
             }
         }
     }
-    
     if( is<GroupedDataFrame>( df ) ){
         return filter_grouped( GroupedDataFrame(df), dots);
     } else {
-        return filter_not_grouped( df, dots) ;
+        return filter_not_grouped( df, dots ) ;
     }
 }
 

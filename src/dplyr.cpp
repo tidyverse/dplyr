@@ -912,7 +912,8 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
     DataFrameVisitors visitors(df) ;
-    return visitors.subset(indices, classes) ;
+    DataFrame res =  visitors.subset(indices, classes) ;
+    return res ;
 }
 
 template <typename Index>

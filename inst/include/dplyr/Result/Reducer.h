@@ -20,7 +20,7 @@ namespace dplyr {
         
         OUT process_chunk( const SlicingIndex& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
-            return Rcpp::as<OUT>( call.fast_eval() ) ;    
+            return Rcpp::as<OUT>( call.eval() ) ;    
         }
         
         // used by DelayedReducer
@@ -62,7 +62,7 @@ namespace dplyr {
         
         SEXP process_chunk( const SlicingIndex& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
-            return STRING_ELT( call.fast_eval(), 0 ) ;    
+            return STRING_ELT( call.eval(), 0 ) ;    
         }
         
         // used by DelayedReducer

@@ -16,9 +16,11 @@ namespace dplyr {
         
         pointer_vector() : data(){}
         pointer_vector(size_type n) : data(n){}
-        ~pointer_vector(){
-            for( iterator it=data.begin(); it!=data.end(); ++it) delete *it ;
-            data.clear() ;    
+        inline ~pointer_vector(){
+            typedef typename Vector::size_type size_type ; 
+            size_type n = data.size() ;
+            iterator it = data.end() ; --it ;
+            for( size_type i=0 ; i<n; --it, i++) delete *it ;
         }
         
         inline reference operator[](size_type i){ 
