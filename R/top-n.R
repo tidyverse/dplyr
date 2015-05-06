@@ -13,7 +13,7 @@
 #' @export
 #' @examples
 #' # Find 10 players with most games
-#' data("Batting", package = "Lahman")
+#' if (require("Lahman")) {
 #' players <- group_by(tbl_df(Batting), playerID)
 #' games <- tally(players, G)
 #' top_n(games, 10, n)
@@ -26,6 +26,7 @@
 #'
 #' # Find year with most games for each player
 #' tbl_df(Batting) %>% group_by(playerID) %>% top_n(1, G)
+#' }
 top_n <- function(x, n, wt) {
   if (missing(wt)) {
     vars <- tbl_vars(x)

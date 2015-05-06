@@ -22,10 +22,10 @@
 #include <dplyr/Result/CallbackProcessor.h>
 #include <dplyr/Result/Reducer.h>
 #include <dplyr/Result/DelayedReducer.h>
+#include <dplyr/Result/Name.h>
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>
-#include <dplyr/Result/HybridCall.h>
 #include <dplyr/Result/GroupedHybridCall.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/GroupedCallReducer.h>
@@ -44,6 +44,7 @@
 #include <dplyr/Result/CumSum.h>
 #include <dplyr/Result/CumMin.h>
 #include <dplyr/Result/CumMax.h>
+#include <dplyr/Result/In.h>
 
 #include <dplyr/Result/First.h>
 #include <dplyr/Result/Last.h>

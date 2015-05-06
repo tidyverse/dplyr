@@ -20,15 +20,14 @@ namespace dplyr {
         
         OUT process_chunk( const SlicingIndex& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
-            return Rcpp::as<OUT>( call.fast_eval() ) ;    
+            return Rcpp::as<OUT>( call.eval() ) ;    
         }
         
         // used by DelayedReducer
         SEXP delayed_process(const Rcpp::GroupedDataFrame& gdf, SEXP first_result) {
-            Rcpp::Shelter<SEXP> __ ;
             int n = gdf.ngroups() ; 
-            SEXP res = __( Rf_allocVector( OUTPUT, n) ) ;
-            OUT* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
+            Vector<OUTPUT> res = no_init(n) ;
+            OUT* ptr = res.begin() ;
             ptr[0] = Rcpp::as<OUT>( first_result );
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
             for( int i=1; i<n; i++,++git)
@@ -63,7 +62,7 @@ namespace dplyr {
         
         SEXP process_chunk( const SlicingIndex& indices ){
             proxy = wrap_subset<INPUT_RTYPE>( data, indices ) ;
-            return STRING_ELT( call.fast_eval(), 0 ) ;    
+            return STRING_ELT( call.eval(), 0 ) ;    
         }
         
         // used by DelayedReducer

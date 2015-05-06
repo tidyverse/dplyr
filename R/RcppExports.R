@@ -13,11 +13,11 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
-arrange_impl <- function(data, args, dots) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, args, dots)
+arrange_impl <- function(data, dots) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
 
-#' Do values in a numeric vector fail in specified range?
+#' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for \code{x >= left & x <= right}, implemented
 #' efficiently in C++ for local values, and translated to the
@@ -34,7 +34,7 @@ between <- function(x, left, right) {
 }
 
 #' @export
-#' @rdname rbind
+#' @rdname bind
 rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
@@ -43,36 +43,44 @@ rbind_list__impl <- function(dots) {
     .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
 }
 
-cbind_list__impl <- function(dots) {
-    .Call('dplyr_cbind_list__impl', PACKAGE = 'dplyr', dots)
-}
-
 cbind_all <- function(dots) {
     .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }
 
-distinct_impl <- function(df) {
-    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df)
+combine_all <- function(data) {
+    .Call('dplyr_combine_all', PACKAGE = 'dplyr', data)
 }
 
-semi_join_impl <- function(x, y, by) {
-    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by)
+combine_vars <- function(vars, xs) {
+    .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
 }
 
-anti_join_impl <- function(x, y, by) {
-    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by)
+distinct_impl <- function(df, vars) {
+    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars)
 }
 
-inner_join_impl <- function(x, y, by) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by)
+semi_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-left_join_impl <- function(x, y, by) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by)
+anti_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-right_join_impl <- function(x, y, by) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by)
+inner_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+}
+
+left_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+}
+
+right_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+}
+
+outer_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_outer_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
 shallow_copy <- function(data) {
@@ -115,12 +123,12 @@ grouped_df_adj_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_adj_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
-integer_filter_impl <- function(df, args, env) {
-    .Call('dplyr_integer_filter_impl', PACKAGE = 'dplyr', df, args, env)
+slice_impl <- function(df, dots) {
+    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
 }
 
-mutate_impl <- function(df, args, env) {
-    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, args, env)
+mutate_impl <- function(df, dots) {
+    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 order_impl <- function(args, env) {
@@ -157,24 +165,36 @@ ungroup_grouped_df <- function(df) {
     .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
 }
 
-tbl_df_impl <- function(df) {
-    .Call('dplyr_tbl_df_impl', PACKAGE = 'dplyr', df)
-}
-
 split_indices <- function(group, groups) {
     .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
 }
 
-filter_impl <- function(df, args, env) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, args, env)
+gp <- function(x) {
+    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
+}
+
+filter_impl <- function(df, dots) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
+}
+
+grouped_indices_grouped_df_impl <- function(gdf) {
+    .Call('dplyr_grouped_indices_grouped_df_impl', PACKAGE = 'dplyr', gdf)
+}
+
+grouped_indices_impl <- function(data, symbols) {
+    .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
 }
 
 select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
 }
 
-summarise_impl <- function(df, args, env) {
-    .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, args, env)
+strings_addresses <- function(s) {
+    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
+}
+
+summarise_impl <- function(df, dots) {
+    .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 test_comparisons <- function() {

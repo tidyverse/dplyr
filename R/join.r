@@ -16,8 +16,9 @@
 #'    between x and y, all combination of the matches are returned.}
 #'
 #'    \item{\code{left_join}}{return all rows from x, and all columns from x
-#'    and y. If there are multiple matches between x and y, all combination of
-#'    the matches are returned.}
+#'    and y. Rows in x with no match in y will have NA values in the new
+#'    columns. If there are multiple matches between x and y, all combinations
+#'    of the matches are returned.}
 #'
 #'    \item{\code{semi_join}}{return all rows from x where there are matching
 #'    values in y, keeping just columns from x.
@@ -67,6 +68,18 @@ left_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
+right_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("right_join")
+}
+
+#' @rdname join
+#' @export
+full_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  UseMethod("full_join")
+}
+
+#' @rdname join
+#' @export
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("semi_join")
 }
@@ -77,13 +90,29 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("anti_join")
 }
 
-common_by <- function(x, y) {
+common_by <- function(by = NULL, x, y) {
+  if (is.list(by)) return(by)
+
+  if (!is.null(by)) {
+    x <- names(by) %||% by
+    y <- unname(by)
+
+    # If x partially named, assume unnamed are the same in both tables
+    x[x == ""] <- y[x == ""]
+
+    return(list(x = x, y = y))
+  }
+
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
   }
   message("Joining by: ", capture.output(dput(by)))
-  by
+
+  list(
+    x = by,
+    y = by
+  )
 }
 
 unique_names <- function(x_names, y_names, by, x_suffix = ".x", y_suffix = ".y") {

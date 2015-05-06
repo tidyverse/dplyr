@@ -6,7 +6,8 @@
 #include <dplyr/config.h>
 
 using namespace Rcpp ;
-
+#include <Rcpp/Benchmark/Timer.h>
+#include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
     #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
@@ -48,7 +49,11 @@ namespace dplyr {
     class DataFrameJoinVisitors ;
     class LazySubsets ;
     template <typename OUT, int INPUT_RTYPE> class Reducer ; 
-    const char* get_single_class(SEXP x) ;
+    std::string get_single_class(SEXP x) ;
+    
+    template <typename Index>
+    DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
+    
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
 bool can_simplify(SEXP) ;
@@ -91,25 +96,18 @@ inline void copy_most_attributes(SEXP out, SEXP data){
     copy_attributes(out,data) ;
     Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
-
-// currently [[Rcpp::register]] does nothing.
-//
-// I'd like it to generate the boiler plate code
-// that is in init.cpp and registration.h
-//
-// [[Rcpp::register]]
-DataFrame build_index_cpp( DataFrame data ) ;
-
-SEXP get_time_classes() ;
-SEXP get_date_classes() ;
-
+    
 CharacterVector dfloc(List) ;
 SEXP shallow_copy(const List& data) ;
 
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 
-// [[Rcpp::register]]
-void registerHybridHandler( const char* , HybridHandler ) ;
+#if defined(COMPILING_DPLYR)
+    DataFrame build_index_cpp( DataFrame data ) ;
+    void registerHybridHandler( const char* , HybridHandler ) ;
+    SEXP get_time_classes() ;
+    SEXP get_date_classes() ;
+#endif
 
 #include <dplyr/white_list.h>
 #include <dplyr/check_supported_type.h>
@@ -129,9 +127,13 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/VectorVisitorImpl.h>
 #include <dplyr/DataFrameVisitors.h>
+#include <dplyr/MatrixColumnVisitor.h>
+#include <dplyr/DataFrameColumnVisitor.h>
+#include <dplyr/visitor.h>
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/JoinFactorFactorVisitor_SameLevels.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Order.h>
 #include <dplyr/SummarisedVariable.h>
@@ -147,6 +149,9 @@ void registerHybridHandler( const char* , HybridHandler ) ;
 
 void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) ;
 void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) ;
+
+void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) ;
+void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) ;
 
 template <typename Data>
 SEXP strip_group_attributes(Data df){
@@ -177,6 +182,12 @@ SEXP strip_group_attributes(Data df){
     p = CDR(p) ;
   }
   return attribs ;
+}
+
+template <typename T>
+CharacterVector names( const T& obj ){
+    SEXP x = obj ;
+    return Rf_getAttrib(x, Rf_install("names" ) ) ;    
 }
 
 

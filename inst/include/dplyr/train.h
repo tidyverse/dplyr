@@ -12,7 +12,6 @@ namespace dplyr {
                 for( int j=0; j<m; j++, i++) op(i) ;
                 Rcpp::checkUserInterrupt() ;
             }        
-            
         }
         for( ; i<n; i++) op(i) ;    
     }

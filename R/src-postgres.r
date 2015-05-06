@@ -32,8 +32,9 @@
 #' # a database that you can write to
 #'
 #' if (has_lahman("postgres")) {
+#' lahman_p <- lahman_postgres()
 #' # Methods -------------------------------------------------------------------
-#' batting <- tbl(lahman_postgres(), "Batting")
+#' batting <- tbl(lahman_p, "Batting")
 #' dim(batting)
 #' colnames(batting)
 #' head(batting)
@@ -69,13 +70,12 @@
 #' stints <- summarise(per_year, stints = max(stint))
 #' filter(stints, stints > 3)
 #' summarise(stints, max(stints))
-#' mutate(stints, cumsum(stints, yearID))
+#' mutate(stints, order_by(yearID, cumsum(stints)))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_postgres(), "Master"), playerID, hofID,
-#'   birthYear)
-#' hof <- select(filter(tbl(lahman_postgres(), "HallOfFame"), inducted == "Y"),
-#'  hofID, votedBy, category)
+#' player_info <- select(tbl(lahman_p, "Master"), playerID, birthYear)
+#' hof <- select(filter(tbl(lahman_p, "HallOfFame"), inducted == "Y"),
+#'  playerID, votedBy, category)
 #'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
@@ -88,21 +88,21 @@
 #'
 #' # Arbitrary SQL -------------------------------------------------------------
 #' # You can also provide sql as is, using the sql function:
-#' batting2008 <- tbl(lahman_postgres(),
+#' batting2008 <- tbl(lahman_p,
 #'   sql('SELECT * FROM "Batting" WHERE "yearID" = 2008'))
 #' batting2008
 #' }
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
                          password = NULL, ...) {
-  if (!require("RPostgreSQL")) {
+  if (!requireNamespace("RPostgreSQL", quietly = TRUE)) {
     stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
   }
 
   user <- user %||% if (in_travis()) "postgres" else ""
 
-  con <- dbi_connect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
+  con <- dbConnect(RPostgreSQL::PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
-  info <- db_info(con)
+  info <- dbGetInfo(con)
 
   src_sql("postgres", con,
     info = info, disco = db_disconnector(con, "postgres"))
@@ -115,7 +115,7 @@ tbl.src_postgres <- function(src, from, ...) {
 }
 
 #' @export
-brief_desc.src_postgres <- function(x) {
+src_desc.src_postgres <- function(x) {
   info <- x$info
   host <- if (info$host == "") "localhost" else info$host
 
@@ -124,7 +124,7 @@ brief_desc.src_postgres <- function(x) {
 }
 
 #' @export
-translate_env.src_postgres <- function(x) {
+src_translate_env.src_postgres <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
@@ -139,4 +139,42 @@ translate_env.src_postgres <- function(x) {
     ),
     base_win
   )
+}
+
+# DBI methods ------------------------------------------------------------------
+
+# Doesn't return TRUE for temporary tables
+#' @export
+db_has_table.PostgreSQLConnection <- function(con, table, ...) {
+  table %in% db_list_tables(con)
+}
+
+#' @export
+db_begin.PostgreSQLConnection <- function(con, ...) {
+  dbGetQuery(con, "BEGIN TRANSACTION")
+}
+
+# http://www.postgresql.org/docs/9.3/static/sql-explain.html
+#' @export
+db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
+  format <- match.arg(format, c("text", "json", "yaml", "xml"))
+
+  exsql <- build_sql("EXPLAIN ",
+    if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "),
+    sql)
+  expl <- dbGetQuery(con, exsql)
+
+  paste(expl[[1]], collapse = "\n")
+}
+
+#' @export
+db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
+
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
+
+  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
+  dbGetQuery(con, sql)
 }

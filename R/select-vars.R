@@ -1,11 +1,10 @@
 #' Select variables.
 #'
-#' \code{select()} implements a rich set of tools for including (and excluding)
-#' variables. \code{rename()} is simpler, but always includes all variables in
-#' the original order: you can only change their names, not their positions.
+#' These functions power \code{\link{select}()} and \code{\link{rename}()}.
 #'
 #' @param vars A character vector of existing column names.
-#' @param ...,args Expressions to compute
+#' @param ...,args Expressions to compute. \code{select_vars} and
+#'   \code{rename_vars}
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export
@@ -14,6 +13,7 @@
 #'   names are new names.
 #' @examples
 #' # Keep variables
+#' select_vars(names(iris), everything())
 #' select_vars(names(iris), starts_with("Petal"))
 #' select_vars(names(iris), ends_with("Width"))
 #' select_vars(names(iris), contains("etal"))
@@ -38,101 +38,57 @@
 #'
 #' # Rename variables preserving all existing
 #' rename_vars(names(iris), petal_length = Petal.Length)
-select_vars <- function(vars, ..., env = parent.frame(),
-                        include = character(), exclude = character()) {
-
-  select_vars_q(vars, dots(...), env = env, include = include,
-    exclude = exclude)
+#'
+#' # Standard evaluation -------------------------------------------------------
+#' # You can use names, calls, formulas (or lists of), or a character vector
+#' select_vars_(names(iris), list(~Petal.Length))
+#' select_vars_(names(iris), list(quote(Petal.Length)))
+#' select_vars_(names(iris), "Petal.Length")
+select_vars <- function(vars, ..., include = character(), exclude = character()) {
+  args <- lazyeval::lazy_dots(...)
+  select_vars_(vars, args, include = include, exclude = exclude)
 }
 
 #' @rdname select_vars
 #' @export
-select_vars_q <- function(vars, args, env = parent.frame(),
-                          include = character(), exclude = character()) {
+select_vars_ <- function(vars, args, include = character(), exclude = character()) {
+
   if (length(args) == 0) {
     vars <- setdiff(include, exclude)
     return(setNames(vars, vars))
   }
 
-  if (is.character(args)) {
-    args <- lapply(args, as.name)
-  }
-
-  names_list <- setNames(as.list(seq_along(vars)), vars)
-  names_list[names(names_list) == ""] <- NULL
-  names_env <- list2env(names_list, parent = env)
+  args <- lazyeval::as.lazy_dots(args)
 
   # No non-standard evaluation - but all names mapped to their position.
   # Keep integer semantics: include = +, exclude = -
-  # How to document starts_with, ends_with etc?
+  names_list <- setNames(as.list(seq_along(vars)), vars)
 
   select_funs <- list(
-    starts_with = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
-
-      if (ignore.case) match <- tolower(match)
-      n <- nchar(match)
-
-      if (ignore.case) vars <- tolower(vars)
-      which(substr(vars, 1, n) == match)
-    },
-    ends_with = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
-
-      if (ignore.case) match <- tolower(match)
-      n <- nchar(match)
-
-      if (ignore.case) vars <- tolower(vars)
-      length <- nchar(vars)
-
-      which(substr(vars, pmax(1, length - n + 1), length) == match)
-    },
-    contains = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), nchar(match) > 0)
-
-      grep(match, vars, ignore.case = ignore.case)
-    },
-    matches = function(match, ignore.case = TRUE) {
-      stopifnot(is.string(match), nchar(match) > 0)
-
-      grep(match, vars, ignore.case = ignore.case)
-    },
-    num_range = function(prefix, range, width = NULL) {
-      if (!is.null(width)) {
-        range <- sprintf(paste0("%0", width, "d"), range)
-      }
-      match(paste0(prefix, range), vars)
-    },
-    one_of = function(...) {
-      keep <- c(...)
-      stopifnot(is.character(keep))
-      match(keep, vars)
-    }
+    starts_with = function(...) starts_with(vars, ...),
+    ends_with = function(...) ends_with(vars, ...),
+    contains = function(...) contains(vars, ...),
+    matches = function(...) matches(vars, ...),
+    num_range = function(...) num_range(vars, ...),
+    one_of = function(...) one_of(vars, ...),
+    everything = function(...) everything(vars, ...)
   )
-  select_env <- list2env(select_funs, names_env)
 
-  ind_list <- lapply(args, eval, env = select_env)
+  ind_list <- lazyeval::lazy_eval(args, c(names_list, select_funs))
   names(ind_list) <- names2(args)
 
-  ind <- unlist(ind_list)
-  incl <- ind[ind > 0]
+  is_numeric <- vapply(ind_list, is.numeric, logical(1))
+  if (any(!is_numeric)) {
+    bad_inputs <- lapply(args[!is_numeric], `[[`, "expr")
+    labels <- vapply(bad_inputs, deparse_trunc, character(1))
 
-  # If only negative values, implicitly assumes all variables to be removed.
-  if (sum(ind > 0) == 0 && sum(ind < 0) > 0) {
-    incl <- seq_along(vars)
-  }
-  # Remove duplicates (unique loses names)
-  incl <- incl[!duplicated(incl)]
-
-  # Remove variables to be excluded (setdiff loses names)
-  excl <- abs(ind[ind < 0])
-  incl <- incl[match(incl, excl, 0L) == 0L]
-
-  bad_idx <- incl < 0 | incl > length(vars)
-  if (any(bad_idx)) {
-    stop("Bad indices: ", paste0(which(bad_idx), collapse = ", "),
+    stop("All select() inputs must resolve to integer column positions.\n",
+      "The following do not:\n", paste("* ", labels, collapse = "\n"),
       call. = FALSE)
   }
+
+  incl <- combine_vars(vars, ind_list)
+
   # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
   sel <- c(setdiff2(include, sel), sel)
@@ -157,18 +113,19 @@ setdiff2 <- function(x, y) {
 
 #' @export
 #' @rdname select_vars
-rename_vars <- function(vars, ..., env = parent.frame()) {
-  rename_vars_q(vars, dots(...), env = env)
+rename_vars <- function(vars, ...) {
+  rename_vars_(vars, lazyeval::lazy_dots(...))
 }
 
 #' @export
 #' @rdname select_vars
-rename_vars_q <- function(vars, args, env = parent.frame()) {
+rename_vars_ <- function(vars, args) {
   if (any(names2(args) == "")) {
-    stop("All arguments to rename must be named.", stop = FALSE)
+    stop("All arguments to rename must be named.", call. = FALSE)
   }
 
-  is_name <- vapply(args, is.name, logical(1))
+  args <- lazyeval::as.lazy_dots(args)
+  is_name <- vapply(args, function(x) is.name(x$expr), logical(1))
   if (!all(is_name)) {
     stop("Arguments to rename must be unquoted variable names. ",
       "Arguments ", paste0(names(args)[!is_name], collapse =", "), " are not.",
@@ -176,7 +133,7 @@ rename_vars_q <- function(vars, args, env = parent.frame()) {
     )
   }
 
-  old_vars <- vapply(args, as.character, character(1))
+  old_vars <- vapply(args, function(x) as.character(x$expr), character(1))
   new_vars <- names(args)
 
   unknown_vars <- setdiff(old_vars, vars)

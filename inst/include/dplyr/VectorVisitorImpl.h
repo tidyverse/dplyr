@@ -14,11 +14,12 @@ namespace dplyr {
     }
     
     template <int RTYPE> std::string VectorVisitorType() ;
-    template <> inline std::string VectorVisitorType<INTSXP>() { return "integer" ; }
-    template <> inline std::string VectorVisitorType<REALSXP>(){ return "numeric" ; }
-    template <> inline std::string VectorVisitorType<LGLSXP>() { return "logical" ; }
-    template <> inline std::string VectorVisitorType<STRSXP>() { return "character" ; }
-    template <> inline std::string VectorVisitorType<VECSXP>() { return "list" ; }
+    template <> inline std::string VectorVisitorType<INTSXP>()  { return "integer" ; }
+    template <> inline std::string VectorVisitorType<REALSXP>() { return "numeric" ; }
+    template <> inline std::string VectorVisitorType<LGLSXP>()  { return "logical" ; }
+    template <> inline std::string VectorVisitorType<STRSXP>()  { return "character" ; }
+    template <> inline std::string VectorVisitorType<CPLXSXP>() { return "complex" ; }
+    template <> inline std::string VectorVisitorType<VECSXP>()  { return "list" ; }
     
     /** 
      * Implementations 
@@ -66,6 +67,7 @@ namespace dplyr {
         inline SEXP subset( const Rcpp::IntegerVector& index) const {
             return subset_int_index( index) ;    
         }
+        
         inline SEXP subset( const std::vector<int>& index) const {
             return subset_int_index( index) ;    
         }
@@ -97,7 +99,9 @@ namespace dplyr {
             return VectorVisitorType<RTYPE>() ;    
         }
         
-        int size() const { return vec.size() ; }
+        int size() const { 
+            return vec.size() ; 
+        }
         
     protected: 
         VECTOR vec ;
@@ -261,6 +265,7 @@ namespace dplyr {
       typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
       DateVisitor( SEXP v) : Parent(v){}
     } ;
+    
     template <int RTYPE>
     class POSIXctVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
     public:
@@ -268,34 +273,13 @@ namespace dplyr {
       POSIXctVisitor( SEXP v) : Parent(v){}
     } ;
     
+    template <int RTYPE>
+    class DifftimeVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
+    public:
+      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
+      DifftimeVisitor( SEXP v) : Parent(v){}
+    } ;
     
-    inline VectorVisitor* visitor( SEXP vec ){
-        switch( TYPEOF(vec) ){
-            case INTSXP: 
-                if( Rf_inherits(vec, "factor" ))
-                    return new FactorVisitor( vec ) ;
-                if( Rf_inherits(vec, "Date") )
-                    return new DateVisitor<INTSXP>(vec) ;
-                if( Rf_inherits(vec, "POSIXct") )
-                    return new POSIXctVisitor<INTSXP>(vec) ;
-                return new VectorVisitorImpl<INTSXP>( vec ) ;
-            case REALSXP:
-                if( Rf_inherits( vec, "Date" ) )
-                    return new DateVisitor<REALSXP>( vec ) ;
-                if( Rf_inherits( vec, "POSIXct" ) )
-                    return new POSIXctVisitor<REALSXP>( vec ) ;
-                return new VectorVisitorImpl<REALSXP>( vec ) ;
-            case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
-            case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
-                
-            case VECSXP:  return new VectorVisitorImpl<VECSXP>( vec ) ;
-            default: break ;
-        }
-        
-        // should not happen
-        return 0 ;
-    }
-
 }
 
 #endif

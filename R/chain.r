@@ -26,12 +26,12 @@
 #' @export
 #' @examples
 #' # If you're performing many operations you can either do step by step
-#' data("hflights", package = "hflights")
-#' a1 <- group_by(hflights, Year, Month, DayofMonth)
-#' a2 <- select(a1, Year:DayofMonth, ArrDelay, DepDelay)
+#' if (require("nycflights13")) {
+#' a1 <- group_by(flights, year, month, day)
+#' a2 <- select(a1, arr_delay, dep_delay)
 #' a3 <- summarise(a2,
-#'   arr = mean(ArrDelay, na.rm = TRUE),
-#'   dep = mean(DepDelay, na.rm = TRUE))
+#'   arr = mean(arr_delay, na.rm = TRUE),
+#'   dep = mean(dep_delay, na.rm = TRUE))
 #' a4 <- filter(a3, arr > 30 | dep > 30)
 #'
 #' # If you don't want to save the intermediate results, you need to
@@ -39,11 +39,11 @@
 #' filter(
 #'   summarise(
 #'     select(
-#'       group_by(hflights, Year, Month, DayofMonth),
-#'       Year:DayofMonth, ArrDelay, DepDelay
+#'       group_by(flights, year, month, day),
+#'       arr_delay, dep_delay
 #'     ),
-#'     arr = mean(ArrDelay, na.rm = TRUE),
-#'     dep = mean(DepDelay, na.rm = TRUE)
+#'     arr = mean(arr_delay, na.rm = TRUE),
+#'     dep = mean(dep_delay, na.rm = TRUE)
 #'   ),
 #'   arr > 30 | dep > 30
 #' )
@@ -53,14 +53,15 @@
 #' # Alternatively you can use chain or %>% to sequence the operations
 #' # linearly:
 #'
-#' hflights %>%
-#'   group_by(Year, Month, DayofMonth) %>%
-#'   select(Year:DayofMonth, ArrDelay, DepDelay) %>%
+#' flights %>%
+#'   group_by(year, month, day) %>%
+#'   select(arr_delay, dep_delay) %>%
 #'   summarise(
-#'     arr = mean(ArrDelay, na.rm = TRUE),
-#'     dep = mean(DepDelay, na.rm = TRUE)
+#'     arr = mean(arr_delay, na.rm = TRUE),
+#'     dep = mean(dep_delay, na.rm = TRUE)
 #'   ) %>%
 #'   filter(arr > 30 | dep > 30)
+#' }
 chain <- function(..., env = parent.frame()) {
   # Defunct 0.3. Remove in 0.4
   stop("Chain is defunct Please use %>%", call. = FALSE)

@@ -7,26 +7,24 @@
 #' Michael Friendly, Dennis Murphy and Martin Monkman. See the documentation
 #' for that package for documentation of the inidividual tables.
 #'
-#' @param ... Arguments passed to \code{src} on first
+#' @param ... Other arguments passed to \code{src} on first
 #'   load. For mysql and postgresql, the defaults assume you have a local
-#'   server with \code{lahman} database already created. For bigquery,
-#'   it assumes you have read/write access to a project called
-#'   \code{Sys.getenv("BIGQUERY_PROJECT")}
-#'
+#'   server with \code{lahman} database already created.
 #'   For \code{lahman_srcs}, character vector of names giving srcs to generate.
 #' @param quiet if \code{TRUE}, suppress messages about databases failing to
 #'   connect.
 #' @param type src type.
+#' @keywords internal
 #' @examples
 #' # Connect to a local sqlite database, if already created
-#' if (require("RSQLite") && has_lahman("sqlite")) {
+#' if (has_lahman("sqlite")) {
 #'   lahman_sqlite()
 #'   batting <- tbl(lahman_sqlite(), "Batting")
 #'   batting
 #' }
 #'
 #' # Connect to a local postgres database with lahman database, if available
-#' if (require("RPostgreSQL") && has_lahman("postgres")) {
+#' if (has_lahman("postgres")) {
 #'   lahman_postgres()
 #'   batting <- tbl(lahman_postgres(), "Batting")
 #' }
@@ -35,21 +33,22 @@ NULL
 
 #' @export
 #' @rdname lahman
-lahman_sqlite <- function() {
-  cache_lahman("sqlite", create = TRUE)
+lahman_sqlite <- function(path = NULL) {
+  path <- db_location(path, "lahman.sqlite")
+  copy_lahman(src_sqlite(path = path, create = TRUE))
 }
 
 #' @export
 #' @rdname lahman
-lahman_postgres <- function(...) cache_lahman("postgres", ...)
+lahman_postgres <- function(dbname = "lahman", ...) {
+  copy_lahman(src_postgres(dbname, ...))
+}
 
 #' @export
 #' @rdname lahman
-lahman_mysql <- function(...) cache_lahman("mysql", ...)
-
-#' @export
-#' @rdname lahman
-lahman_monetdb <- function(...) cache_lahman("monetdb", ...)
+lahman_mysql <- function(dbname = "lahman", ...) {
+  copy_lahman(src_mysql(dbname, ...))
+}
 
 #' @export
 #' @rdname lahman
@@ -63,46 +62,11 @@ lahman_dt <- function() {
   src_dt("Lahman")
 }
 
-#' @export
 #' @rdname lahman
-lahman_bigquery <- function(...) {
-  if (is_cached("lahman_bigquery")) return(get_cache("lahman_bigquery"))
-
-  src <- lahman_src("bigquery", ...)
-  tables <- setdiff(lahman_tables(), src_tbls(src))
-
-  jobs <- vector("list", length(tables))
-  names(jobs) <- tables
-
-  # Submit all upload jobs
-  for(table in tables) {
-    df <- getExportedValue("Lahman", table)
-
-    if (!quiet) message("Creating table ", table)
-    jobs[[table]] <- insert_upload_job(src$con$project, src$con$dataset, table,
-      df, billing = src$con$billing)
-  }
-
-  # Wait for all results
-  all_ok <- TRUE
-  for (table in names(jobs)) {
-    message("Waiting for ", table)
-    all_ok <- all_ok && succeeds(wait_for(jobs[[table]]))
-  }
-
-  if (!all_ok) stop("Load failed", call. = FALSE)
-
-  set_cache("lahman_bigquery", src)
-}
-
-cache_lahman <- function(type, ...) {
-  cache_name <- paste0("lahman_", type)
-  if (is_cached(cache_name)) return(get_cache(cache_name))
-
-  src <- lahman_src(type, ...)
-  tables <- setdiff(lahman_tables(), src_tbls(src))
-
+#' @export
+copy_lahman <- function(src, ...) {
   # Create missing tables
+  tables <- setdiff(lahman_tables(), src_tbls(src))
   for(table in tables) {
     df <- getExportedValue("Lahman", table)
     message("Creating table: ", table)
@@ -111,47 +75,34 @@ cache_lahman <- function(type, ...) {
     copy_to(src, df, table, indexes = ids, temporary = FALSE)
   }
 
-  set_cache(cache_name, src)
+  src
+}
+# Get list of all non-label data frames in package
+lahman_tables <- function() {
+  tables <- data(package = "Lahman")$results[, 3]
+  tables[!grepl("Labels", tables)]
 }
 
 #' @rdname lahman
 #' @export
 has_lahman <- function(type, ...) {
-  succeeds(lahman_src(type, ...), quiet = TRUE)
-}
+  if (!requireNamespace("Lahman", quietly = TRUE)) return(FALSE)
+  if (missing(type)) return(TRUE)
 
-lahman_src <- function(type, ...) {
-  switch(type,
-    df = lahman_df(),
-    dt = lahman_dt(),
-    sqlite = src_sqlite(db_location(filename = "lahman.sqlite"), ...),
-    mysql = src_mysql("lahman", ...),
-    monetdb = src_monetdb("lahman", ...),
-    postgres = src_postgres("lahman", ...),
-    bigquery = src_bigquery(Sys.getenv("BIGQUERY_PROJECT"), "lahman", ...),
-    stop("Unknown src type ", type, call. = FALSE)
-  )
+  succeeds(lahman(type, ...), quiet = TRUE)
 }
 
 #' @rdname lahman
 #' @export
 lahman_srcs <- function(..., quiet = NULL) {
-  load_srcs(lahman_src, c(...), quiet = quiet)
+  load_srcs(lahman, c(...), quiet = quiet)
 }
 
-
-succeeds <- function(x, quiet = FALSE) {
-  ok <- FALSE
-  try({
-    force(x)
-    ok <- TRUE
-  }, silent = quiet)
-
-  ok
-}
-
-# Get list of all non-label data frames in package
-lahman_tables <- function() {
-  tables <- data(package = "Lahman")$results[, 3]
-  tables[!grepl("Labels", tables)]
+lahman <- function(type, ...) {
+  if (missing(type)) {
+    src_df("Lahman")
+  } else {
+    f <- match.fun(paste0("lahman_", type))
+    f(...)
+  }
 }

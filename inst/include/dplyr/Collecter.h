@@ -13,6 +13,9 @@ namespace dplyr {
         virtual bool is_factor_collecter() const{ 
             return false ;    
         }
+        virtual bool is_logical_all_na() const {
+            return false ;    
+        }
         virtual std::string describe() const = 0 ;
     } ;
     
@@ -45,6 +48,10 @@ namespace dplyr {
         
         std::string describe() const {
             return vector_class<RTYPE>() ; 
+        }
+        
+        bool is_logical_all_na() const {
+            return RTYPE == LGLSXP && all(is_na(data)).is_true() ;    
         }
         
     protected:
@@ -89,7 +96,7 @@ namespace dplyr {
     template <>
     class Collecter_Impl<STRSXP> : public Collecter {
     public:
-        Collecter_Impl( int n_ ): data( n_ ){}
+        Collecter_Impl( int n_ ): data( n_, NA_STRING ){}
         
         void collect( const SlicingIndex& index, SEXP v ){
             if( TYPEOF(v) == STRSXP ){
@@ -162,7 +169,7 @@ namespace dplyr {
         }
         
         bool can_promote(SEXP x) const {
-            return TYPEOF(x) == REALSXP || Rf_inherits( x, "factor" ) ;    
+            return TYPEOF(x) == REALSXP ;    
         }
         
         std::string describe() const {
@@ -330,8 +337,11 @@ namespace dplyr {
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<REALSXP>(n, get_date_classes()) ;
             return new Collecter_Impl<REALSXP>(n) ;
+        case CPLXSXP: 
+            return new Collecter_Impl<CPLXSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
+        case VECSXP: return new Collecter_Impl<VECSXP>(n) ;
         default: break ;
         }
         return 0 ;

@@ -54,15 +54,143 @@ namespace dplyr {
         
     private: 
         VECTOR vec ;    
+    } ;   
+        
+    // ---------- data frame columns 
+    
+    // ascending = true
+    template <bool ascending>
+    class OrderVisitorDataFrame : public OrderVisitor {
+    public:
+        OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
+        
+        inline bool equal( int i, int j) const {
+            return visitors.equal(i,j) ;    
+        }
+        
+        inline bool before( int i, int j) const {
+            return visitors.less(i,j) ; 
+        }
+        
+        inline SEXP get(){
+            return data ; 
+        }
+        
+    private:
+        DataFrame data ;
+        DataFrameVisitors visitors ;
+    } ;
+    
+    template <>
+    class OrderVisitorDataFrame<false> : public OrderVisitor{
+    public:
+        OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
+        
+        inline bool equal( int i, int j) const {
+            return visitors.equal(i,j) ;    
+        }
+        
+        inline bool before( int i, int j) const {
+            return visitors.greater(i,j) ; 
+        }
+        
+        inline SEXP get(){
+            return data ; 
+        }
+        
+    private:
+        DataFrame data ;
+        DataFrameVisitors visitors ;
     } ;
 
+    // ---------- matrix columns 
+    
+    // ascending = true
+    template <int RTYPE, bool ascending>
+    class OrderVisitorMatrix : public OrderVisitor {
+    public:
+        OrderVisitorMatrix( const Matrix<RTYPE>& data_ ) : data(data_), visitors(data) {}
+        
+        inline bool equal( int i, int j) const {
+            return visitors.equal(i,j) ;    
+        }
+        
+        inline bool before( int i, int j) const {
+            return visitors.less(i,j) ; 
+        }
+        
+        inline SEXP get(){
+            return data ; 
+        }
+        
+    private:
+        Matrix<RTYPE> data ;
+        MatrixColumnVisitor<RTYPE> visitors ;
+    } ;
+    
+    // ascending = false
+    template <int RTYPE>
+    class OrderVisitorMatrix<RTYPE, false> : public OrderVisitor {
+    public:
+        OrderVisitorMatrix( const Matrix<RTYPE>& data_ ) : data(data_), visitors(data) {}
+        
+        inline bool equal( int i, int j) const {
+            return visitors.equal(i,j) ;    
+        }
+        
+        inline bool before( int i, int j) const {
+            return visitors.greater(i,j) ; 
+        }
+        
+        inline SEXP get(){
+            return data ; 
+        }
+        
+    private:
+        Matrix<RTYPE> data ;
+        MatrixColumnVisitor<RTYPE> visitors ;
+    } ;
+    
+    
     inline OrderVisitor* order_visitor( SEXP vec, bool ascending ){
+        if( Rf_isMatrix(vec) ){
+            if(ascending) {
+                switch( TYPEOF(vec) ){
+                    case INTSXP:   return new OrderVisitorMatrix<INTSXP  , true>( vec ) ;
+                    case REALSXP:  return new OrderVisitorMatrix<REALSXP , true>( vec ) ;
+                    case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , true>( vec ) ;
+                    case STRSXP:   return new OrderVisitorMatrix<STRSXP  , true>( vec ) ;
+                    case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , true>( vec ) ;
+                    default: break ;  
+                }
+            } else {
+                switch( TYPEOF(vec) ){
+                    case INTSXP:   return new OrderVisitorMatrix<INTSXP  , false>( vec ) ;
+                    case REALSXP:  return new OrderVisitorMatrix<REALSXP , false>( vec ) ;
+                    case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , false>( vec ) ;
+                    case STRSXP:   return new OrderVisitorMatrix<STRSXP  , false>( vec ) ;
+                    case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , false>( vec ) ;
+                    default: break ;
+                }
+            }
+            stop( "unimplemented matrix type" ) ;
+            return 0 ;
+        } 
+        
         if( ascending ){
             switch( TYPEOF(vec) ){
                 case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , true, Vector<INTSXP > >( vec ) ;
                 case REALSXP: return new OrderVectorVisitorImpl<REALSXP, true, Vector<REALSXP> >( vec ) ;
                 case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , true, Vector<LGLSXP > >( vec ) ;
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , true, Vector<STRSXP > >( vec ) ;
+                case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , true, Vector<CPLXSXP > >( vec ) ;
+                case VECSXP: 
+                    {
+                        if( Rf_inherits( vec, "data.frame" ) ){
+                            return new OrderVisitorDataFrame<true>( vec ) ;
+                        }
+                        break ;
+                    }
                 default: break ;
             }
         } else { 
@@ -71,6 +199,15 @@ namespace dplyr {
                 case REALSXP: return new OrderVectorVisitorImpl<REALSXP, false, Vector<REALSXP> >( vec ) ;
                 case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , false, Vector<LGLSXP > >( vec ) ;
                 case STRSXP:  return new OrderVectorVisitorImpl<STRSXP , false, Vector<STRSXP > >( vec ) ;
+                case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , false, Vector<CPLXSXP > >( vec ) ;
+                case VECSXP: 
+                {
+                    if( Rf_inherits( vec, "data.frame" ) ){
+                        return new OrderVisitorDataFrame<false>( vec ) ;
+                    }
+                    break ;
+                }
+                
                 default: break ;
             }
         }

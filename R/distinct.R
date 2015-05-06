@@ -1,17 +1,14 @@
-#' Select
+#' Select distinct/unique rows.
 #'
-#' Retain only unique/distinct variables from an input tbl. This is an
+#' Retain only unique/distinct rows from an input tbl. This is an
 #' efficient version of \code{\link{unique}}. \code{distinct()} is best-suited
 #' for interactive use, \code{distinct_()} for calling from a function.
 #'
 #' @param .data a tbl
-#' @param ...,vars Variables to use when determining uniqueness. If there
+#' @param ... Variables to use when determining uniqueness. If there
 #'   are multiple rows for a given combination of inputs, only the first
 #'   row will be preserved.
-#'
-#'   \code{...} should be an unquoted, comma-separated list of variable
-#'   names. \code{vars} can be either a character vector of column names,
-#'   or a list of symbols.
+#' @inheritParams filter
 #' @export
 #' @examples
 #' df <- data.frame(
@@ -20,73 +17,34 @@
 #' )
 #' nrow(df)
 #' nrow(distinct(df))
+#' distinct(df, x)
+#' distinct(df, y)
+#'
+#' # You can also use distinct on computed variables
+#' distinct(df, diff = abs(x - y))
 distinct <- function(.data, ...) {
-  distinct_(.data, dots(...))
+  distinct_(.data, .dots = lazyeval::lazy_dots(...))
 }
 
 #' @export
 #' @rdname distinct
-distinct_ <- function(.data, vars = character()) {
+distinct_ <- function(.data, ..., .dots) {
   UseMethod("distinct_")
 }
 
-#' @export
-distinct_.data.frame <- function(.data, vars = character()) {
-  vars <- standardise_vars(vars)
-  distinct_impl(.data)
-}
+#' Same basic philosophy as group_by: lazy_dots comes in, list of data and
+#' vars (character vector) comes out.
+#' @noRd
+distinct_vars <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
-#' @export
-distinct_.grouped_df <- function(.data, vars = character()) {
-  if (length(vars) > 0) {
-    vars <- c(standardise_vars(groups(.data)), standardise_vars(vars))
+  # If any calls, use mutate to add new columns, then distinct on those
+  needs_mutate <- vapply(dots, function(x) !is.name(x$expr), logical(1))
+  if (any(needs_mutate)) {
+    .data <- mutate_(.data, .dots = dots[needs_mutate])
   }
 
-  grouped_df(distinct_.data.frame(.data, vars = vars), groups(.data))
-}
-
-#' @export
-distinct_.data.table <- function(.data, vars = character()) {
-  vars <- standardise_vars(vars)
-  if (length(vars) == 0) {
-    unique(.data)
-  } else {
-    unique(.data, by = vars)
-  }
-}
-
-#' @export
-distinct_.tbl_dt <- function(.data, vars = character()) {
-  tbl_dt(NextMethod())
-}
-
-
-#' @export
-distinct_.grouped_dt <- function(.data, vars = character()) {
-  if (length(vars) > 0) {
-    vars <- c(standardise_vars(groups(.data)), standardise_vars(vars))
-  }
-
-  grouped_df(distinct_.data.table(.data, vars = vars), groups(.data))
-}
-
-#' @export
-distinct_.tbl_sql <- function(.data, vars = character()) {
-  if (length(vars) > 0) {
-    stop("Can't calculate distinct only on specified columns with SQL",
-      call. = FALSE)
-  }
-
-  from <- build_sql("SELECT DISTINCT * FROM ", from(.data), con = x$src$con)
-  update(tbl(.data$src, from, vars = .data$select), group_by = groups(.data))
-}
-
-standardise_vars <- function(vars) {
-  if (is.character(vars)) {
-    vars
-  } else if (is.list(vars)) {
-    vapply(vars, as.character, character(1))
-  } else {
-    stop("Unknown variable specification", call. = FALSE)
-  }
+  # Once we've done the mutate, we no longer need lazy objects, and
+  # can instead just use their names
+  list(data = .data, vars = names(dots))
 }

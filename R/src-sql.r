@@ -1,6 +1,6 @@
 #' Create a "sql src" object
 #'
-#' \code{src_sql} is the standard constructor for all SLQ based srcs.
+#' \code{src_sql} is the standard constructor for all SQL based srcs.
 #'
 #' @keywords internal
 #' @export
@@ -27,6 +27,6 @@ src_tbls.src_sql <- function(x, ...) {
 
 #' @export
 format.src_sql <- function(x, ...) {
-  paste0("src:  ", brief_desc(x), "\n",
+  paste0("src:  ", src_desc(x), "\n",
     wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", ")))
 }

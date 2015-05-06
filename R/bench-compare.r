@@ -27,9 +27,9 @@
 #'   \code{\link[microbenchmark]{microbenchmark}}
 #' @seealso \code{\link{src_local}} for working with local data
 #' @examples
-#' \donttest{
-#' if (require("microbenchmark")) {
-#' lahman_local <- lahman_srcs("df", "dt", "cpp")
+#' \dontrun{
+#' if (require("microbenchmark") && has_lahman()) {
+#' lahman_local <- lahman_srcs("df", "dt")
 #' teams <- lapply(lahman_local, function(x) x %>% tbl("Teams"))
 #'
 #' compare_tbls(teams, function(x) x %>% filter(yearID == 2010))
@@ -38,7 +38,7 @@
 #' # You can also supply arbitrary additional arguments to bench_tbls
 #' # if there are other operations you'd like to compare.
 #' bench_tbls(teams, function(x) x %>% filter(yearID == 2010),
-#'    base = subset(Teams, yearID == 2010))
+#'    base = subset(Lahman::Teams, yearID == 2010))
 #'
 #' # A more complicated example using multiple tables
 #' setup <- function(src) {
@@ -63,7 +63,7 @@ NULL
 #' @export
 #' @rdname bench_compare
 bench_tbls <- function(tbls, op, ..., times = 10) {
-  if (!require("microbenchmark")) {
+  if (!requireNamespace("microbenchmark")) {
     stop("Please install the microbenchmark package", call. = FALSE)
   }
 
@@ -73,7 +73,7 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
   })
   names(calls) <- names(tbls)
 
-  mb <- as.call(c(quote(microbenchmark), calls, dots(...),
+  mb <- as.call(c(quote(microbenchmark::microbenchmark), calls, dots(...),
     list(times = times)))
   eval(mb)
 }
@@ -84,7 +84,7 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
   if (length(tbls) < 2 && is.null(ref)) {
     stop("Need at least two srcs to compare", call. = FALSE)
   }
-  if (!require("testthat")) {
+  if (!requireNamespace("testthat", quietly = TRUE)) {
     stop("Please install the testthat package", call. = FALSE)
   }
 
@@ -104,7 +104,7 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
     # if (!ok) browser()
     msg <- paste0(names(rest)[[i]], " not equal to ", ref_name, "\n",
       attr(ok, "comment"))
-    expect_true(ok, info = msg)
+    testthat::expect_true(ok, info = msg)
   }
 
   invisible(TRUE)

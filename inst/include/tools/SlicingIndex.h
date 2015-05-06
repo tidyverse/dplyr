@@ -7,7 +7,11 @@ public:
     SlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
     SlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
     
-    SlicingIndex(int start, int n) : data(seq(start,start+n-1)), group_index(-1) {}
+    SlicingIndex(int start, int n) : data(0), group_index(-1) {
+        if(n>0) {
+            data = seq(start, start + n - 1 ) ;
+        }
+    }
     
     inline int size() const { 
         return data.size() ; 

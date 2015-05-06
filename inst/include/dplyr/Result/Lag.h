@@ -56,7 +56,7 @@ namespace dplyr {
                     out[out_index[i]] = Vector<RTYPE>::get_na() ;    
                 }
                 for( ; i<chunk_size; i++ ){
-                    out[out_index[i]] = data[index[i]-n] ;    
+                    out[out_index[i]] = data[index[i-n]] ;    
                 }
             }
         }

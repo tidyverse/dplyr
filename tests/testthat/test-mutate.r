@@ -189,7 +189,7 @@ test_that("mutate modifies same column repeatedly (#243)", {
   df <- data.frame(x = 1)
   expect_equal(mutate(df, x = x + 1, x = x + 1)$x, 3)
 
-  dt <- data.table(x = 1)
+  dt <- data.table::data.table(x = 1)
   expect_equal(mutate(dt, x = x + 1, x = x + 1)$x, 3)
 })
 
@@ -214,7 +214,7 @@ test_that("hybrid evaluator uses correct environment (#403)", {
 test_that("mutate remove variables with = NULL syntax (#462)", {
   data <- mtcars %>% mutate(cyl = NULL)
   expect_false( "cyl" %in% names(data) )
-  
+
   data <- mtcars %>% group_by(disp) %>% mutate(cyl = NULL)
   expect_false( "cyl" %in% names(data) )
 })
@@ -224,15 +224,140 @@ test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
     tbl_df %>%
     mutate(y = rnorm(x,x*2,1)) %>%
     group_by(grp) %>%
-    do(mod = lm(y~x,data = .)) 
-  
+    do(mod = lm(y~x,data = .))
+
   out <- one_mod %>%
     mutate(rsq = summary(mod)$r.squared) %>%
     mutate(aic = AIC(mod))
-                
+
   expect_is(out, "rowwise_df")
-  expect_equal(nrow(out), 1L) 
+  expect_equal(nrow(out), 1L)
   expect_is(out$mod, "list")
-  expect_is(out$mod[[1L]], "lm" )  
+  expect_is(out$mod[[1L]], "lm" )
+})
+
+test_that("mutate allows list columns (#555)", {
+  df  <- data.frame(x = c("a;b", "c;d;e"), stringsAsFactors = FALSE)
+  res <- mutate( df, pieces = strsplit(x, ";"))
+  expect_equal(res$pieces, list(c("a", "b"), c("c", "d", "e")))
+})
+
+test_that("hybrid evaluation goes deep enough (#554)", {
+  res1 <- iris %>% mutate(test = 1 == 2 | row_number() < 10)
+  res2 <- iris %>% mutate(test = row_number() < 10 | 1 == 2)
+  expect_equal(res1,res2)
+})
+
+test_that("hybrid does not segfault when given non existing variable (#569)", {
+  expect_error( mtcars %>% summarise(first(mp)), "variable 'mp' not found" )
+})
+
+test_that("namespace extraction works in hybrid (#412)", {
+  expect_equal(
+    mutate(mtcars, cyl2 = stats::lag(cyl)),
+    mutate(mtcars, cyl2 = lag(cyl))
+  )
+})
+
+test_that("hybrid not get in the way of order_by (#169)", {
+  df <- data_frame(x = 10:1, y = 1:10)
+  res <- mutate(df, z = order_by(x, cumsum(y)))
+  expect_equal(res$z, rev(cumsum(10:1)))
+})
+
+test_that("mutate supports difftime objects (#390)", {
+  df <- data_frame(
+    grp =   c(1, 1,  2, 2),
+    val =   c(1, 3,  4, 6),
+    date1 = c(rep(Sys.Date() - 10, 2), rep(Sys.Date() - 20, 2)),
+    date2 = Sys.Date() + c(1,2,1,2),
+    diffdate = difftime(date2, date1, unit = "days")
+  )
+
+  res <- df %>% group_by(grp) %>%
+    mutate(mean_val = mean(val), mean_diffdate = mean(diffdate) )
+  expect_is(res$mean_diffdate, "difftime")
+  expect_equal( as.numeric(res$mean_diffdate), c(11.5,11.5,21.5,21.5))
+
+  res <- df %>% group_by(grp) %>% summarise(dt = mean(diffdate))
+  expect_is( res$dt, "difftime" )
+  expect_equal( as.numeric(res$dt), c(11.5,21.5) )
+})
+
+test_that("mutate works on zero-row grouped data frame (#596)", {
+  dat <- data.frame(a = numeric(0), b = character(0))
+  res <- dat %>% group_by(b) %>% mutate(a2 = a*2)
+  expect_is(res$a2, "numeric")
+  expect_is(res, "grouped_df")
+  expect_equal(res$a2, numeric(0))
+  expect_equal(attr(res, "indices"), list())
+  expect_equal(attr(res, "vars"), list( quote(b) ))
+  expect_equal(attr(res, "group_sizes"), integer(0))
+  expect_equal(attr(res, "biggest_group_size"), 0L)
+})
+
+test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
+  df  <- data_frame(a = "1", b = "2")
+  names(df) <- c("a", "å")
+  Encoding(names(df)) <- "unknown"
+
+  res <- df %>% mutate_each(funs(as.numeric)) %>% names
+  expect_equal(res, c("a", "å") )
+})
+
+test_that("nested hybrid functions do the right thing (#637)", {
+  res <- mtcars %>% mutate(mean(1))
+  expect_true( all( res[["mean(1)"]] == 1L ) )
+})
+
+test_that("mutate handles using and gathering complex data (#436)", {
+  d <- data_frame(x=1:10, y=1:10+2i)
+  res <- mutate(d, real=Re(y), imag=Im(y), z=2*y, constant=2+2i)
+  expect_equal(names(res), c("x", "y", "real", "imag", "z", "constant"))
+  expect_equal(res$real, Re(d$y))
+  expect_equal(res$imag, Im(d$y))
+  expect_equal(res$z, d$y * 2)
+  expect_true( all(res$constant == 2+2i) )
+})
+
+test_that("mutate forbids POSIXlt results (#670)", {
+  expect_error(
+    data.frame(time='2014/01/01 10:10:10') %>% mutate(time=as.POSIXlt(time)),
+    "does not support"
+  )
+
+  expect_error(
+    data.frame(time='2014/01/01 10:10:10', a=2) %>% group_by(a) %>% mutate(time=as.POSIXlt(time)),
+    "does not support"
+  )
+
+})
+
+test_that("constant factor can be handled by mutate (#715)",{
+  d <- data_frame(x=1:2) %>% mutate(y=factor("A"))
+  expect_true( is.factor(d$y) )
+  expect_equal( d$y, factor( c("A", "A") ) )
+})
+
+test_that("row_number handles empty data frames (#762)", {
+  df <- data.frame(a = numeric(0))
+  res <- df %>% mutate(
+    row_number_0 = row_number(), row_number_a =  row_number(a), ntile = ntile(a, 2),
+    min_rank = min_rank(a), percent_rank = percent_rank(a),
+    dense_rank = dense_rank(a), cume_dist = cume_dist(a)
+  )
+  expect_equal( names(res), c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist" ) )
+  expect_equal( nrow(res), 0L )
+})
+
+test_that("no utf8 invasion (#722)", {
+  skip_on_cran()
+
+  source("utf-8.R", local = TRUE)
+})
+
+test_that("mutate warns about unsupported attributes", {
+  d <- data.frame( x = structure( 1:10, foo = "bar" ) )
+  expect_error( d %>% group_by(x), "has unsupported attributes" )
 })
 

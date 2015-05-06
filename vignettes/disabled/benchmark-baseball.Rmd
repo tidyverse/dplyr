@@ -143,40 +143,40 @@ microbenchmark(
 We conclude with some quick comparisons of joins. First we create two new datasets: `master` which contains demographic information on each player, and `hall_of_fame` which contains all players inducted into the hall of fame.
 
 ```{r}
-master_df <- tbl_df(Master) %>% select(playerID, hofID, birthYear)
+master_df <- tbl_df(Master) %>% select(playerID, birthYear)
 hall_of_fame_df <- tbl_df(HallOfFame) %>% filter(inducted == "Y") %>%
-  select(hofID, votedBy, category)
+  select(playerID, votedBy, category)
 
-master_dt <- tbl_dt(Master) %>% select(playerID, hofID, birthYear)
+master_dt <- tbl_dt(Master) %>% select(playerID, birthYear)
 hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
-  select(hofID, votedBy, category)
+  select(playerID, votedBy, category)
 ```
 
 
 ```{r}
 microbenchmark(
-  dplyr_df = left_join(master_df, hall_of_fame_df, by = "hofID"),
-  dplyr_dt = left_join(master_dt, hall_of_fame_dt, by = "hofID"),
-  base     = merge(master_df, hall_of_fame_df, by = "hofID", all.x = TRUE),
+  dplyr_df = left_join(master_df, hall_of_fame_df, by = "playerID"),
+  dplyr_dt = left_join(master_dt, hall_of_fame_dt, by = "playerID"),
+  base     = merge(master_df, hall_of_fame_df, by = "playerID", all.x = TRUE),
   times = 10
 )
 
 microbenchmark(
-  dplyr_df = inner_join(master_df, hall_of_fame_df, by = "hofID"),
-  dplyr_dt = inner_join(master_dt, hall_of_fame_dt, by = "hofID"),
-  base     = merge(master_df, hall_of_fame_df, by = "hofID"),
+  dplyr_df = inner_join(master_df, hall_of_fame_df, by = "playerID"),
+  dplyr_dt = inner_join(master_dt, hall_of_fame_dt, by = "playerID"),
+  base     = merge(master_df, hall_of_fame_df, by = "playerID"),
   times = 10
 )
 
 microbenchmark(
-  dplyr_df = semi_join(master_df, hall_of_fame_df, by = "hofID"),
-  dplyr_dt = semi_join(master_dt, hall_of_fame_dt, by = "hofID"),
+  dplyr_df = semi_join(master_df, hall_of_fame_df, by = "playerID"),
+  dplyr_dt = semi_join(master_dt, hall_of_fame_dt, by = "playerID"),
   times = 10
 )
 
 microbenchmark(
-  dplyr_df = anti_join(master_df, hall_of_fame_df, by = "hofID"),
-  dplyr_dt = anti_join(master_dt, hall_of_fame_dt, by = "hofID"),
+  dplyr_df = anti_join(master_df, hall_of_fame_df, by = "playerID"),
+  dplyr_dt = anti_join(master_dt, hall_of_fame_dt, by = "playerID"),
   times = 10
 )
 ```

@@ -2,45 +2,47 @@
 #define dplyr_Result_TypedProcessor_H
 
 namespace dplyr {
-          
-  template <typename Processor>
-  class TypedProcessor : public Result {
-  public:
-    typedef typename Processor::STORAGE STORAGE ;
+                    
+    template <typename Processor>
+    class TypedProcessor : public Result {
+    public:
+        TypedProcessor( Processor proc_, SEXP data_) :
+            proc(proc_), data(data_){}
+            
+        virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
+            return promote( proc.process(gdf) ) ;
+        }
+        
+        virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf ) {
+            return promote( proc.process(gdf) ) ;
+        }
+        
+        virtual SEXP process( const Rcpp::FullDataFrame& df){
+            return promote( proc.process(df) ) ;
+        }
+        
+        virtual SEXP process( const SlicingIndex& index){
+            return promote( proc.process(index) ) ;    
+        }
+        
+    private:
+        Processor proc ;
+        SEXP data ;
+        
+        inline SEXP promote(SEXP obj){
+            RObject res(obj) ;
+            copy_attributes(res, data) ; 
+            return res ;
+        }
+         
+    } ;                                 
     
-    TypedProcessor( SEXP data_, const char* cl, bool is_summary = false ) : proc(data_, is_summary), classes(cl), data(data_) {}
-    TypedProcessor( SEXP data_, CharacterVector classes_, bool is_summary = false ) : proc(data_, is_summary), classes(classes_), data(data_) {}
-    
-    virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
-      return promote( proc.process(gdf) ) ;
+    template <typename Processor>
+    inline TypedProcessor<Processor>* typed_processor( const Processor& proc, SEXP data ){
+        return new TypedProcessor<Processor>(proc, data );
     }
     
-    virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf ) {
-      return promote( proc.process(gdf) ) ;
-    }
     
-    virtual SEXP process( const Rcpp::FullDataFrame& df){
-      return promote( proc.process(df) ) ;
-    }
-    
-    virtual SEXP process( const SlicingIndex& index){
-      return promote( proc.process(index) ) ;  
-    }
-    
-  private:
-    Processor proc ;
-    CharacterVector classes ;
-    SEXP data ;
-    
-    inline SEXP promote(SEXP obj){
-      RObject res(obj) ;
-      copy_attributes(res, data) ; 
-      res.attr("class") = classes ;
-      return res ;
-    }
-     
-  } ;                 
-  
 }
 
 #endif

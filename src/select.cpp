@@ -11,18 +11,14 @@ SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, Chara
   for( int i=0; i<n; i++){
       int pos = positions[i] ;
       if( pos < 1 || pos > df.size() ){
-          std::stringstream s ; 
-          s << "invalid column index : " ; 
+          std::stringstream s ;
           if( pos == NA_INTEGER ){ 
               s << "NA" ;
           } else {
               s << pos ;    
           }
-          s << " for variable: " ;
-          s << CHAR((SEXP)new_names[i]) ;
-          s << " = " ;
-          s << CHAR((SEXP)keep[i]) ;
-          stop(s.str()); 
+          stop( "invalid column index : %d for variable: %s = %s", 
+              s.str(), CHAR((SEXP)new_names[i]), CHAR((SEXP)keep[i]) );
       }
       res[i] = df[ pos-1 ] ;  
   }
@@ -75,6 +71,7 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
 
 // [[Rcpp::export]]
 DataFrame select_impl( DataFrame df, CharacterVector vars ){
+  check_valid_colnames(df) ;
   if( is<GroupedDataFrame>(df) ){
     return select_grouped( GroupedDataFrame(df), vars, vars.names() ) ;  
   } else {

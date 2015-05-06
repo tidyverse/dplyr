@@ -13,8 +13,6 @@
 #'
 #' temp_srcs(local)
 #' temp_srcs(db)
-#'
-#' mtcars_tbls <- temp_tbls(local, mtcars)
 #' }
 temp_srcs <- function(..., quiet = NULL) {
   load_srcs(temp_src, c(...), quiet = quiet)
@@ -31,7 +29,6 @@ temp_src <- function(type, ...) {
     sqlite =   src_sqlite(tempfile(), create = TRUE),
     mysql =    src_mysql("test", ...),
     postgres = src_postgres("test", ...),
-    bigquery = src_bigquery(Sys.getenv("BIGQUERY_PROJECT"), "test", ...),
     stop("Unknown src type ", type, call. = FALSE)
   )
 

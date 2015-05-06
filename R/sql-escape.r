@@ -104,7 +104,7 @@ escape <- function(x, parens = NA, collapse = " ", con = NULL) {
 
 #' @export
 escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL) {
-  y <- escape_ident(con, x)
+  y <- sql_escape_ident(con, x)
   sql_vector(names_to_as(y, con), parens, collapse)
 }
 
@@ -129,7 +129,7 @@ escape.Date <- function(x, parens = NA, collapse = ", ", con = NULL) {
 
 #' @export
 escape.character <- function(x, parens = NA, collapse = ", ", con = NULL) {
-  sql_vector(escape_string(con, x), parens, collapse, con = con)
+  sql_vector(sql_escape_string(con, x), parens, collapse, con = con)
 }
 
 #' @export
@@ -176,7 +176,7 @@ sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
 
 names_to_as <- function(x, con = NULL) {
   names <- names2(x)
-  as <- ifelse(names == '', '', paste0(' AS ', escape_ident(con, names)))
+  as <- ifelse(names == '', '', paste0(' AS ', sql_escape_ident(con, names)))
 
   paste0(x, as)
 }
@@ -223,37 +223,20 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
   sql(paste0(pieces, collapse = ""))
 }
 
-# Database specific methods ----------------------------------------------------
-
-escape_string <- function(con, x) UseMethod("escape_string")
+#' Helper function for quoting sql elements.
+#'
+#' If the quote character is present in the string, it will be doubled.
+#' \code{NA}s will be replaced with NULL.
+#'
 #' @export
-escape_string.default <- function(con, x) {
-  sql_quote(x, "'")
-}
+#' @param x Character vector to escape.
+#' @param quote Single quoting character.
 #' @export
-escape_string.bigquery <- function(con, x) {
-  encodeString(x, na.encode = FALSE, quote = '"')
-}
-
-escape_ident <- function(con, x) UseMethod("escape_ident")
-
-#' @export
-escape_ident.default <- function(con, x) {
-  sql_quote(x, '"')
-}
-#' @export
-escape_ident.MySQLConnection <- function(con, x) {
-  sql_quote(x, "`")
-}
-#' @export
-escape_ident.bigquery <- function(con, x) {
-  y <- paste0("[", x, "]")
-  y[is.na(x)] <- "NULL"
-  names(y) <- names(x)
-
-  y
-}
-
+#' @keywords internal
+#' @examples
+#' sql_quote("abc", "'")
+#' sql_quote("I've had a good day", "'")
+#' sql_quote(c("abc", NA), "'")
 sql_quote <- function(x, quote) {
   y <- gsub(quote, paste0(quote, quote), x, fixed = TRUE)
   y <- paste0(quote, y, quote)

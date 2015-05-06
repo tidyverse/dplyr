@@ -3,6 +3,13 @@
 
 namespace Rcpp {
     
+    inline void check_valid_colnames( const DataFrame& df){
+        CharacterVector names(df.names()) ;
+        if( any( duplicated(names) ).is_true() ){
+            stop("found duplicated column name") ;    
+        }
+    }
+    
     class GroupedDataFrame ;
     
     class GroupedDataFrameIndexIterator {
@@ -15,7 +22,7 @@ namespace Rcpp {
         
         int i ;
         const GroupedDataFrame& gdf ;
-        ListOf<IntegerVector> indices ;
+        List indices ;
     } ;
     
     class GroupedDataFrame {
@@ -36,6 +43,14 @@ namespace Rcpp {
             group_sizes = data_.attr( "group_sizes" );
             biggest_group_size  = data_.attr( "biggest_group_size" ) ;
             labels = data_.attr( "labels" );
+            
+            if( !is_lazy ){
+                // check consistency of the groups
+                int rows_in_groups = sum(group_sizes) ;
+                if( data_.nrows() != rows_in_groups ){
+                    stop( "corrupt 'grouped_df', contains %d rows, and %s rows in groups", data_.nrows(), rows_in_groups );
+                }
+            }
         }
         
         group_iterator group_begin() const {
@@ -110,7 +125,7 @@ namespace Rcpp {
     }
     
     inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-        return SlicingIndex( indices[i], i ) ;
+        return SlicingIndex( IntegerVector(indices[i]), i ) ;
     }
     
     

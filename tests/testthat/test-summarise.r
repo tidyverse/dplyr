@@ -280,3 +280,151 @@ test_that( "summarise hybrid functions can use summarized variables", {
   expect_identical( res$x, res$mean )
   expect_identical( res$var, rep(NA_real_, 2) )
 })
+
+test_that( "n_distinct refuse to treat anything else than single variable name (#567)", {
+  expect_error(summarise(mtcars, n = n_distinct("mpg")))
+  expect_error(summarise(mtcars, n = n_distinct(mpg*2)))
+})
+
+test_that( "LazySubset is not confused about input data size (#452)", {
+  res <- data.frame(a = c(10, 100)) %>% summarise(b = sum(a), c = sum(a) * 2)
+  expect_equal(res$b, 110)
+  expect_equal(res$c, 220)
+})
+
+test_that( "nth, first, last promote dates and times (#509)", {
+  data <- data_frame( 
+    ID = rep(letters[1:4],each=5), 
+    date = Sys.Date() + 1:20, 
+    time = Sys.time() + 1:20,
+    number = rnorm(20)
+  )
+  res <- data %>% group_by(ID) %>% summarise( 
+    date2 = nth(date,2), time2 = nth(time,2), 
+    first_date = first(date), last_date = last(date),
+    first_time = first(time), last_time = last(time)
+    )
+  expect_is(res$date2, "Date")
+  expect_is(res$first_date, "Date")
+  expect_is(res$last_date, "Date")
+  expect_is(res$time2, "POSIXct")
+  expect_is(res$first_time, "POSIXct")
+  expect_is(res$last_time, "POSIXct")
+  expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times,2)) )
+})
+
+test_that( "nth, first, last preserves factor data (#509)", {
+  dat  <- data_frame(a = rep(seq(1,20,2),3),b = as.ordered(a))
+  dat1 <- dat %>% group_by(a) %>% summarise(der = nth(b,2), first = first(b), last = last(b) )
+  expect_is(dat1$der, "ordered")
+  expect_is(dat1$first, "ordered")
+  expect_is(dat1$last, "ordered")
+  expect_equal(levels(dat1$der), levels(dat$b))
+})
+
+test_that( "LazyGroupSubsets is robust about columns not from the data (#600)", {
+  foo <- data_frame(x = 1:10, y = 1:10)
+  expect_error( foo %>% group_by(x) %>% summarise(first_y = first(z)), "not found in the dataset" )
+})
+
+test_that( "hybrid eval handles $ and @ (#645)", {
+  tmp <- expand.grid(a = 1:3, b = 0:1, i = 1:10)
+  g   <- tmp %>% group_by(a)
+  
+  res <- g %>% summarise(
+    r = sum(b),
+    n = length(b),
+    p = prop.test(r, n, p = 0.05)$conf.int[1]
+  )
+  expect_equal(names(res), c("a", "r", "n", "p" ))
+  
+  res <- tmp %>% summarise(
+    r = sum(b),
+    n = length(b),
+    p = prop.test(r, n, p = 0.05)$conf.int[1]
+  )
+  expect_equal(names(res), c("r", "n", "p" ))
+  
+})
+
+test_that( "argument order_by in last is flexible enough to handle more than just a symbol (#626)", {
+  res1 <- summarize(group_by(mtcars,cyl),
+    big=last(mpg[drat>3],order_by=wt[drat>3]), 
+    small=first(mpg[drat>3],order_by=wt[drat>3]), 
+    second=nth(mpg[drat>3],2,order_by=wt[drat>3])
+  )
+  
+  # turning off lazy eval
+  last. <- last
+  first. <- first
+  nth. <- nth
+  res2 <- summarize(group_by(mtcars,cyl),
+    big=last.(mpg[drat>3],order_by=wt[drat>3]), 
+    small=first.(mpg[drat>3],order_by=wt[drat>3]), 
+    second=nth.(mpg[drat>3],2,order_by=wt[drat>3])
+  )
+  expect_equal(res1, res2)
+  
+})
+
+test_that("min(., na.rm=TRUE) correctly handles Dates that are coded as REALSXP (#755)",{
+  dates <- as.Date(c("2014-01-01", "2013-01-01"))
+  dd <- data.frame(Dates = dates)
+  res <- summarise(dd, Dates = min(Dates, na.rm=TRUE))
+  expect_is( res$Dates, "Date" )
+  expect_equal( res$Dates, as.Date("2013-01-01"))
+})
+
+test_that("nth handles expressions for n argument (#734)", {
+  df <- data.frame(x = c(1:4, 7:9, 13:19), y = sample(100:999, 14))
+  idx <- which( df$x == 16 ) 
+  res <- df %>% summarize(abc = nth(y, n = which(x == 16)) )
+  expect_equal( res$abc, df$y[idx])
+})
+
+test_that("summarise is not polluted by logical NA (#599)", {
+  dat <- data.frame(grp = rep(1:4, each = 2), val = c(NA, 2, 3:8))
+  Mean <- function(x, thresh = 2) {
+    res <- mean(x, na.rm = TRUE)
+    if (res > thresh) res else NA
+  }
+  res <- dat %>% group_by(grp) %>% summarise( val = Mean(val, thresh = 2))
+  expect_is( res$val, "numeric" )
+  expect_true( is.na(res$val[1]) )
+})
+
+test_that("summarise protects against loss of precision coercion (#599)", {
+  dat <- data.frame(grp = rep(1:4, each = 2), val = c(NA, 2, 3:8))
+  Mean <- function(x, thresh = 2) {
+    res <- mean(x, na.rm = TRUE)
+    if (res > thresh) res else as.integer(res)
+  }
+  expect_error(
+    dat %>% group_by(grp) %>% summarise( val = Mean(val, thresh = 2)) 
+  )  
+})
+
+test_that("summarise handles list output columns (#832)", {
+  df <- data_frame( x = 1:10, g = rep(1:2, each = 5) )
+  res <- df %>% group_by(g) %>% summarise(y=list(x))
+  expect_equal( res$y[[1]], 1:5)
+  expect_equal( res$y[[2]], 6:10)
+  # just checking objects are not messed up internally
+  expect_equal( gp(res$y[[1]]), 0L )
+  expect_equal( gp(res$y[[2]]), 0L )
+  
+  res <- df %>% group_by(g) %>% summarise(y=list(x+1))
+  expect_equal( res$y[[1]], 1:5+1)
+  expect_equal( res$y[[2]], 6:10+1)
+  # just checking objects are not messed up internally
+  expect_equal( gp(res$y[[1]]), 0L )
+  expect_equal( gp(res$y[[2]]), 0L )
+  
+  df <- data_frame( x = 1:10, g = rep(1:2, each = 5) )
+  res <- df %>% summarise(y=list(x))
+  expect_equal( res$y[[1]], 1:10 )
+  res <- df %>% summarise(y=list(x+1))
+  expect_equal( res$y[[1]], 1:10+1)
+  
+})
+

@@ -25,10 +25,7 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
                 } else if( x == Rf_install("F") ){
                     return Rf_ScalarLogical(FALSE) ;    
                 }
-                
-                std::stringstream s ;
-                s << "unknown column : " << CHAR(PRINTNAME(x)) ;
-                stop(s.str());
+                stop( "unknown column : %s", CHAR(PRINTNAME(x)) );
             }
             return res ;
         }
@@ -39,28 +36,24 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
     return x ; // never happens
 }
 
-SEXP and_calls( List args, const SymbolSet& set, const Environment& env ){
-    int ncalls = args.size() ;
+SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& env ){
+    int ncalls = dots.size() ;
     if( !ncalls ) {
         stop("incompatible input") ;
     }
-
-    Rcpp::Armor<SEXP> res( assert_correct_filter_subcall(args[0], set, env) ) ;
+    Shield<SEXP> call_( dots[0].expr() ) ;
+    RObject res( assert_correct_filter_subcall(call_, set, env) ) ;
     SEXP and_symbol = Rf_install( "&" ) ;
-    for( int i=1; i<ncalls; i++)
-        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(args[i], set, env) ) ;
-    
+    for( int i=1; i<ncalls; i++){
+        Shield<SEXP> call( dots[i].expr() ) ;
+        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(call, set, env) ) ;
+    }
     return res ;
 }
 
 void check_filter_result(const LogicalVector& test, int n){
     if( test.size() != n ) {
-        std::stringstream s ;
-        s << "incorrect length ("
-          << test.size()
-          << "), expecting: "
-          << n ;
-        stop( s.str() ) ;
+        stop( "incorrect length (%d), expecting: %d", test.size(), n );
     }
 }
 
@@ -71,8 +64,9 @@ inline SEXP check_filter_logical_result(SEXP tmp){
     return tmp ;
 }
 
-DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& args, const Environment& env){
+DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots& dots){
     typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ; 
+    Environment env = dots[0].env() ;
     
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
@@ -82,7 +76,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
     }
 
     // a, b, c ->  a & b & c
-    Call call( and_calls( args, set, env ) ) ;
+    Call call( and_calls( dots, set, env ) ) ;
 
     int nrows = data.nrows() ;
     LogicalVector test(nrows, TRUE);
@@ -116,7 +110,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const List& ar
 }
 
 // version of grouped filter when contributions to ... come from several environment
-DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& args, const DataDots& dots){
+DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDots& dots){
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
     SymbolSet set ;
@@ -131,9 +125,10 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
 
     for( int k=0; k<dots.size(); k++){
         Rcpp::checkUserInterrupt() ;
-    
-        Call call( (SEXP)args[dots.expr_index(k)] ) ;
-        GroupedCallProxy<GroupedDataFrame> call_proxy( call, gdf, dots.envir(k) ) ;
+        const Lazy& lazy = dots[k] ;
+        
+        Call call( lazy.expr() ) ;
+        GroupedCallProxy<GroupedDataFrame> call_proxy( call, gdf, lazy.env() ) ;
         int ngroups = gdf.ngroups() ;
         GroupedDataFrame::group_iterator git = gdf.group_begin() ;
         for( int i=0; i<ngroups; i++, ++git){
@@ -163,11 +158,11 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const List& 
     return res ;
 }
 
-DataFrame filter_grouped( const GroupedDataFrame& gdf, List args, const DataDots& dots){
+DataFrame filter_grouped( const GroupedDataFrame& gdf, const LazyDots& dots){
     if( dots.single_env() ){
-        return filter_grouped_single_env(gdf, args, dots.envir(0) ) ;
+        return filter_grouped_single_env(gdf, dots) ;
     } else {
-        return filter_grouped_multiple_env(gdf,args,dots) ;
+        return filter_grouped_multiple_env(gdf, dots) ;
     }
 }
 
@@ -192,21 +187,21 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
     return false;
 }
 
-SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
+DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
         set.insert( Rf_install( names[i] ) ) ;
     }
     if( dots.single_env() ){
-        Environment env = dots.envir(0) ;
+        Environment env = dots[0].env() ;
         // a, b, c ->  a & b & c
-        Shield<SEXP> call( and_calls( args, set, env ) ) ;
+        Shield<SEXP> call( and_calls( dots, set, env ) ) ;
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
-        
         LogicalVector test = check_filter_logical_result(proxy.eval()) ;
+    
         if( test.size() == 1){
             if( test[0] == TRUE ){
                 return df ; 
@@ -215,12 +210,13 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
             }
         } else {
             check_filter_result(test, df.nrows());
-            DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
-            return res ;
+            return subset(df, test, classes_not_grouped() ) ;
         }
     } else {
-        int nargs = args.size() ;
-        CallProxy first_proxy(args[0], df, dots.envir(0) ) ;
+        int nargs = dots.size() ;
+        
+        Call call(dots[0].expr());
+        CallProxy first_proxy(call, df, dots[0].env() ) ;
         LogicalVector test = check_filter_logical_result(first_proxy.eval()) ;
         if( test.size() == 1 ) {
             if( !test[0] ){
@@ -232,25 +228,33 @@ SEXP filter_not_grouped( DataFrame df, List args, const DataDots& dots){
         
         for( int i=1; i<nargs; i++){
             Rcpp::checkUserInterrupt() ;
-    
-            LogicalVector test2 = check_filter_logical_result(CallProxy(args[i], df, dots.envir(i) ).eval()) ;
+            
+            Call call( dots[i].expr() ) ;
+            CallProxy proxy(call, df, dots[i].env() ) ;
+            LogicalVector test2 = check_filter_logical_result(proxy.eval()) ;
             if( combine_and(test, test2) ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;
             }
         }
 
-        DataFrame res = subset( df, test, df.names(), classes_not_grouped() ) ;
+        DataFrame res = subset( df, test, classes_not_grouped() ) ;
         return res ;
     }
 }
 
 // [[Rcpp::export]]
-SEXP filter_impl( DataFrame df, List args, Environment env){
-    if( args.size() == 0 ) return df ;
+SEXP filter_impl( DataFrame df, LazyDots dots){
+    if( df.nrows() == 0 || Rf_isNull(df) ) {
+        return df ;
+    }
+    check_valid_colnames(df) ;
+    assert_all_white_list(df) ;
+    
+    if( dots.size() == 0 ) return df ;
     
     // special case
-    if( args.size() == 1 && TYPEOF(args[0]) == LGLSXP){
-        LogicalVector what = args[0] ;
+    if( dots.size() == 1 && TYPEOF(dots[0].expr()) == LGLSXP){
+        LogicalVector what = dots[0].expr() ;
         if( what.size() == 1 ){
             if( what[0] == TRUE ){
                 return df ;   
@@ -259,13 +263,10 @@ SEXP filter_impl( DataFrame df, List args, Environment env){
             }
         }
     }
-    
-    DataDots dots(env) ;
-    
     if( is<GroupedDataFrame>( df ) ){
-        return filter_grouped( GroupedDataFrame(df), args, dots);
+        return filter_grouped( GroupedDataFrame(df), dots);
     } else {
-        return filter_not_grouped( df, args, dots) ;
+        return filter_not_grouped( df, dots ) ;
     }
 }
 

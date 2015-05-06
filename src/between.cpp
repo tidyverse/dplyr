@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Do values in a numeric vector fail in specified range?
+//' Do values in a numeric vector fall in specified range?
 //'
 //' This is a shortcut for \code{x >= left & x <= right}, implemented
 //' efficiently in C++ for local values, and translated to the
@@ -21,7 +21,7 @@ LogicalVector between(NumericVector x, double left, double right) {
   for (int i = 0; i < n; ++i) {
     if (NumericVector::is_na(x[i])) {
       out[i] = NA_REAL;
-    } else if (x[i] >= left & x[i] <= right) {
+    } else if ( (x[i] >= left) && (x[i] <= right) ) {
       out[i] = true;
     } else {
       out[i] = false;

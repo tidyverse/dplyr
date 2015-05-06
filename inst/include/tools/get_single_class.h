@@ -3,11 +3,16 @@
 
 namespace dplyr {
 
-    inline const char* get_single_class(SEXP x){
+    inline std::string get_single_class(SEXP x){
         SEXP klass = Rf_getAttrib(x, R_ClassSymbol) ;
         if( !Rf_isNull(klass) ){
-            return collapse( CharacterVector(klass) ).c_str() ;    
+            CharacterVector classes(klass) ;
+            return collapse<STRSXP>(classes) ;
         } 
+        
+        if(Rf_isMatrix(x)){
+            return "matrix" ;
+        }
         
         switch( TYPEOF(x) ){
         case INTSXP: return "integer" ;

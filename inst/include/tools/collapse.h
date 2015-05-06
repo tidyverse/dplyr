@@ -15,8 +15,10 @@ namespace Rcpp {
         int n = x.size() ;
         if( n > 0){
             ss << toString<RTYPE>(x[0]) ;
-            for( int i=1; i<n; i++) 
-                ss << sep << toString<RTYPE>(x[i]) ;
+            for( int i=1; i<n; i++) {
+                const char* st = toString<RTYPE>(x[i]) ;
+                ss << sep << st ;
+            }
         }
         
         return ss.str(); 

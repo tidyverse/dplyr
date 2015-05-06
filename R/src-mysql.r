@@ -34,9 +34,10 @@
 #' # create a local database called "lahman", or tell lahman_mysql() how to
 #' # a database that you can write to
 #'
-#' if (has_lahman("mysql")) {
+#' if (!has_lahman("postgres") && has_lahman("mysql")) {
+#' lahman_m <- lahman_mysql()
 #' # Methods -------------------------------------------------------------------
-#' batting <- tbl(lahman_mysql(), "Batting")
+#' batting <- tbl(lahman_m, "Batting")
 #' dim(batting)
 #' colnames(batting)
 #' head(batting)
@@ -71,10 +72,10 @@
 #' summarise(stints, max(stints))
 #'
 #' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl(lahman_mysql(), "Master"), playerID, hofID,
+#' player_info <- select(tbl(lahman_m, "Master"), playerID,
 #'   birthYear)
-#' hof <- select(filter(tbl(lahman_mysql(), "HallOfFame"), inducted == "Y"),
-#'  hofID, votedBy, category)
+#' hof <- select(filter(tbl(lahman_m, "HallOfFame"), inducted == "Y"),
+#'  playerID, votedBy, category)
 #'
 #' # Match players and their hall of fame data
 #' inner_join(player_info, hof)
@@ -87,19 +88,19 @@
 #'
 #' # Arbitrary SQL -------------------------------------------------------------
 #' # You can also provide sql as is, using the sql function:
-#' batting2008 <- tbl(lahman_mysql(),
+#' batting2008 <- tbl(lahman_m,
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }
 src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
                       password = "", ...) {
-  if (!require("RMySQL")) {
+  if (!requireNamespace("RMySQL", quietly = TRUE)) {
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
 
-  con <- dbi_connect(MySQL(), dbname = dbname , host = host, port = port,
+  con <- dbConnect(RMySQL::MySQL(), dbname = dbname , host = host, port = port,
     username = user, password = password, ...)
-  info <- db_info(con)
+  info <- dbGetInfo(con)
 
   src_sql("mysql", con,
     info = info, disco = db_disconnector(con, "mysql"))
@@ -112,7 +113,7 @@ tbl.src_mysql <- function(src, from, ...) {
 }
 
 #' @export
-brief_desc.src_mysql <- function(x) {
+src_desc.src_mysql <- function(x) {
   info <- x$info
 
   paste0("mysql ", info$serverVersion, " [", info$user, "@",
@@ -120,7 +121,7 @@ brief_desc.src_mysql <- function(x) {
 }
 
 #' @export
-translate_env.src_mysql <- function(x) {
+src_translate_env.src_mysql <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
@@ -130,4 +131,102 @@ translate_env.src_mysql <- function(x) {
       paste = function(x, collapse) build_sql("group_concat(", x, collapse, ")")
     )
   )
+}
+
+# DBI methods ------------------------------------------------------------------
+
+#' @export
+db_has_table.MySQLConnection <- function(con, table, ...) {
+  # MySQL has no way to list temporary tables, so we always NA to
+  # skip any local checks and rely on the database to throw informative errors
+  NA
+}
+
+#' @export
+db_data_type.MySQLConnection <- function(con, fields, ...) {
+  char_type <- function(x) {
+    n <- max(nchar(as.character(x), "bytes"))
+    if (n <= 65535) {
+      paste0("varchar(", n, ")")
+    } else {
+      "mediumtext"
+    }
+  }
+
+  data_type <- function(x) {
+    switch(class(x)[1],
+      logical = "boolean",
+      integer = "integer",
+      numeric = "double",
+      factor =  char_type(x),
+      character = char_type(x),
+      Date =    "date",
+      POSIXct = "datetime",
+      stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
+    )
+  }
+  vapply(fields, data_type, character(1))
+}
+
+#' @export
+db_begin.MySQLConnection <- function(con, ...) {
+  dbGetQuery(con, "START TRANSACTION")
+}
+
+#' @export
+db_commit.MySQLConnection <- function(con, ...) {
+  dbGetQuery(con, "COMMIT")
+}
+
+#' @export
+db_explain.MySQLConnection <- function(con, sql, ...) {
+  exsql <- build_sql("EXPLAIN ", sql, con = con)
+  expl <- dbGetQuery(con, exsql)
+  out <- capture.output(print(expl))
+
+  paste(out, collapse = "\n")
+}
+
+#' @export
+db_insert_into.MySQLConnection <- function(con, table, values, ...) {
+
+  # Convert factors to strings
+  is_factor <- vapply(values, is.factor, logical(1))
+  values[is_factor] <- lapply(values[is_factor], as.character)
+
+  # Encode special characters in strings
+  is_char <- vapply(values, is.character, logical(1))
+  values[is_char] <- lapply(values[is_char], encodeString)
+
+  tmp <- tempfile(fileext = ".csv")
+  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
+    row.names = FALSE, col.names = FALSE)
+
+  sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
+    ident(table), con = con)
+  dbGetQuery(con, sql)
+
+  invisible()
+}
+
+#' @export
+db_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
+                                             ...) {
+  name <- name %||% paste0(c(table, columns), collapse = "_")
+  fields <- escape(ident(columns), parens = TRUE, con = con)
+  index <- build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
+
+  sql <- build_sql("ALTER TABLE ", ident(table), "\n", index, con = con)
+  dbGetQuery(con, sql)
+}
+
+#' @export
+db_analyze.MySQLConnection <- function(con, table, ...) {
+  sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
+  dbGetQuery(con, sql)
+}
+
+#' @export
+sql_escape_ident.MySQLConnection <- function(con, x) {
+  sql_quote(x, "`")
 }

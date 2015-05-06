@@ -32,16 +32,16 @@ test_that("joins preserve grouping", {
   for (tbl in tbls) {
     g <- group_by(tbl, x)
 
-    expect_equal(groups(inner_join(g, g)), groups(g))
-    expect_equal(groups(left_join(g, g)), groups(g))
-    expect_equal(groups(semi_join(g, g)), groups(g))
-    expect_equal(groups(anti_join(g, g)), groups(g))
+    expect_equal(groups(inner_join(g, g, by = c("x", "y"))), groups(g))
+    expect_equal(groups(left_join(g, g, by = c("x", "y"))), groups(g))
+    expect_equal(groups(semi_join(g, g, by = c("x", "y"))), groups(g))
+    expect_equal(groups(anti_join(g, g, by = c("x", "y"))), groups(g))
   }
 })
 
 test_that("constructors drops groups", {
-  dt <- lahman_src("dt") %>% tbl("Batting") %>% group_by(playerID)
-  df <- lahman_src("df") %>% tbl("Batting") %>% group_by(playerID)
+  dt <- lahman_dt() %>% tbl("Batting") %>% group_by(playerID)
+  df <- lahman_df() %>% tbl("Batting") %>% group_by(playerID)
 
   expect_equal(groups(tbl_dt(dt)), NULL)
   expect_equal(groups(tbl_df(df)), NULL)
@@ -67,11 +67,6 @@ df_var <- data.frame(
 )
 srcs <- temp_srcs(c("df", "dt"))
 var_tbls <- temp_load(srcs, df_var)
-
-group_by_ <- function(x, vars) {
-  call <- as.call(c(quote(group_by), quote(x), lapply(vars, as.symbol)))
-  eval(call)
-}
 
 test_that("local group_by preserves variable types", {
   for(var in names(df_var)) {
@@ -105,9 +100,8 @@ test_that("group_by uses shallow copy", {
 })
 
 test_that("FactorVisitor handles NA. #183", {
-  library(MASS)
-  g <- group_by(survey, M.I)
-  expect_equal(g$M.I, survey$M.I)
+  g <- group_by(MASS::survey, M.I)
+  expect_equal(g$M.I, MASS::survey$M.I)
 })
 
 test_that("group_by orders by groups. #242", {
@@ -137,11 +131,12 @@ test_that("group_by fails when lists are used as grouping variables (#276)",{
 # Data tables ------------------------------------------------------------------
 
 test_that("original data table not modified by grouping", {
-  dt <- data.table(x = 5:1)
+  dt <- data.table::data.table(x = 5:1)
   dt2 <- group_by(dt, x)
+  dt2$y <- 1:5
 
   expect_equal(dt$x, 5:1)
-  expect_equal(dt2$x, 1:5)
+  expect_equal(dt$y, NULL)
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
@@ -169,8 +164,85 @@ test_that("group_by only creates one group for NA (#401)", {
 })
 
 test_that("data.table invalid .selfref issue (#475)", {
-  dt <- data.table(x=1:5, y=6:10)
+  dt <- data.table::data.table(x=1:5, y=6:10)
   expect_that((dt %>% group_by(x))[, z := 2L], not(gives_warning()))
-  dt <- data.table(x=1:5, y=6:10)
+  dt <- data.table::data.table(x=1:5, y=6:10)
   expect_that((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], not(gives_warning()))
 })
+
+test_that("there can be 0 groups (#486)", {
+  data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
+  expect_equal(length(data$a), 0L)
+  expect_equal(length(data$g), 0L)
+  expect_equal(attr(data, "group_sizes"), integer(0))
+})
+
+test_that("group_by works with zero-row data frames (#486)", {
+  dfg <- group_by(data.frame(a = numeric(0), b = numeric(0), g = character(0)), g)
+  expect_equal(dim(dfg), c(0, 3))
+  expect_equal(groups(dfg), list(quote(g)))
+  expect_equal(group_size(dfg), integer(0))
+
+  x <- summarise(dfg, n = n())
+  expect_equal(dim(x), c(0, 2))
+  expect_equal(groups(x), NULL)
+
+  x <- mutate(dfg, c = b + 1)
+  expect_equal(dim(x), c(0, 4))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- filter(dfg, a == 100)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- arrange(dfg, a, g)
+  expect_equal(dim(x), c(0, 3))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+
+  x <- select(dfg, a)  # Only select 'a' column; should result in 'g' and 'a'
+  expect_equal(dim(x), c(0, 2))
+  expect_equal(groups(x), list(quote(g)))
+  expect_equal(group_size(x), integer(0))
+})
+
+test_that("grouped_df requires a list of symbols (#665)", {
+  features <- list("feat1", "feat2", "feat3")
+  expect_error( grouped_df(data.frame(feat1=1, feat2=2, feat3=3), features) )
+})
+
+test_that("group_by gives meaningful message with unknow column (#716)",{
+  expect_error( group_by(iris, wrong_name_of_variable), "unknown column" )
+})
+
+test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
+  df <- data_frame(x = 1:5, ` ` = 6:10)
+  by_x <- df %>% group_by(x)
+  expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups)
+
+  # non-syntactic name
+  by_ns <- df %>% group_by(` `)
+  expect_equal(by_ns %>% groups(), by_ns %>% `[`(1:2) %>% groups)
+})
+
+
+test_that("[ on grouped_df drops grouping if subset doesn't include grouping vars", {
+  by_cyl <- mtcars %>% group_by(cyl)
+  no_cyl <- by_cyl %>% `[`(c(1, 3))
+
+  expect_equal(groups(no_cyl), NULL)
+  expect_is(no_cyl, "tbl_df")
+})
+
+test_that("group_by works after arrange (#959)",{
+  df  <- data_frame(Log= c(1,2,1,2,1,2), Time = c(10,1,3,0,15,11))
+  res <- df %>% 
+     arrange(Time) %>%
+     group_by(Log) %>%
+     mutate(Diff = Time - lag(Time))
+  expect_true( all(is.na( res$Diff[ c(1,3) ] )))
+  expect_equal( res$Diff[ c(2,4,5,6) ], c(1,7,10,5) )
+})
+

@@ -5,10 +5,12 @@ namespace dplyr {
         
     class LazyGroupedSubsets : public LazySubsets {
     public:
-        typedef dplyr_hash_map<SEXP, GroupedSubset*> GroupedSubsetMap ;
-        typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap ;
+        typedef dplyr_hash_map<Name, GroupedSubset*> GroupedSubsetMap ;
+        typedef dplyr_hash_map<Name, SEXP> ResolvedSubsetMap ;
         
-        LazyGroupedSubsets( const GroupedDataFrame& gdf_ ): gdf(gdf_), subset_map(), resolved_map(), owner(true) {
+        LazyGroupedSubsets( const GroupedDataFrame& gdf_ ) : 
+            LazySubsets(gdf_.data()), gdf(gdf_), subset_map(), resolved_map(), owner(true) 
+        {
             int max_size = gdf.max_group_size() ;
             const DataFrame& data = gdf.data() ;
             CharacterVector names = data.names() ;
@@ -19,7 +21,7 @@ namespace dplyr {
         }
         
         LazyGroupedSubsets( const LazyGroupedSubsets& other) : 
-            gdf(other.gdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+            LazySubsets(other.gdf.data()), gdf(other.gdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
         {}
         
         void clear(){
@@ -36,6 +38,9 @@ namespace dplyr {
         
         SEXP get_variable( SEXP symbol ) const {
             GroupedSubsetMap::const_iterator it = subset_map.find( symbol );
+            if( it == subset_map.end() ){
+                stop( "variable '%s' not found in the dataset",CHAR(PRINTNAME(symbol)) ) ;
+            }
             return it->second->get_variable() ;  
         }
         bool is_summary( SEXP symbol ) const {

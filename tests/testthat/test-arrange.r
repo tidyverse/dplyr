@@ -88,7 +88,7 @@ test_that("arrange handles list columns (#282)", {
 })
 
 test_that("arrange handles the case where ... is missing (#338)",{
-  expect_equal(arrange(mtcars), mtcars)
+  expect_equivalent(arrange(mtcars), mtcars)
 })
 
 test_that("arrange handles 0-rows data frames", {
@@ -105,7 +105,41 @@ test_that("arrange implements special case (#369)", {
 
 test_that("grouped arrange sorts first by group (#491)", {
   df1 <- mtcars %>% group_by(cyl) %>% arrange(disp) %>% ungroup()
-  df2 <- mtcars %>% arrange(cyl, disp)
+  df2 <- mtcars %>% arrange(cyl, disp) %>% tbl_df()
 
   expect_equal(df1, df2)
+})
+
+test_that("arrange keeps the grouping structure (#605)", {
+  dat <- data_frame(x = 4:1, g = c('b','b','a','a'))
+  res <- dat %>% group_by(g) %>% arrange()
+  expect_is(res, "grouped_df" )
+  expect_false(is.unsorted(res$g))
+  expect_equal(res$x, c(2,1,4,3))
+  expect_equal(res$g, c("a", "a", "b", "b"))
+
+  res <- dat %>% group_by(g) %>% arrange(x)
+  expect_is(res, "grouped_df")
+  expect_false(is.unsorted(res$g))
+  expect_true(all(summarise(res, sorted = ! is.unsorted(x) )$sorted))
+  expect_equal(attr(res,"indices"), list( c(0,1), c(2,3)) )
+})
+
+test_that("arrange handles complex vectors", {
+  d <- data.frame(x=1:10,y=10:1+2i)
+  res <- arrange(d,y)
+  expect_equal( res$y, rev(d$y) )
+  expect_equal( res$x, rev(d$x) )
+
+  res <- arrange(res, desc(y))
+  expect_equal( res$y, d$y )
+  expect_equal( res$x, d$x )
+
+  d$y[ c(3,6) ] <- NA
+  res <- arrange(d,y)
+  expect_true( all(is.na(res$y[9:10])) )
+
+  res <- arrange(d,desc(y))
+  expect_true( all(is.na(res$y[9:10])) )
+
 })

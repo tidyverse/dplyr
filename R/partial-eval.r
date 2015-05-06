@@ -25,7 +25,7 @@
 #' @export
 #' @keywords internal
 #' @examples
-#' data("Batting", package = "Lahman")
+#' if (require("Lahman")) {
 #' bdf <- tbl_df(Batting)
 #' partial_eval(quote(year > 1980), bdf)
 #'
@@ -48,10 +48,13 @@
 #' partial_eval(quote(1 + 2 * 3))
 #' x <- 1
 #' partial_eval(quote(x ^ y))
+#' }
 partial_eval <- function(call, tbl = NULL, env = parent.frame()) {
   if (is.atomic(call)) return(call)
 
-  if (is.list(call)) {
+  if (inherits(call, "lazy_dots")) {
+    lapply(call, function(l) partial_eval(l$expr, tbl, l$env))
+  } else if (is.list(call)) {
     lapply(call, partial_eval, tbl = tbl, env = env)
   } else if (is.symbol(call)) {
     name <- as.character(call)

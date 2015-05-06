@@ -11,8 +11,9 @@ namespace dplyr {
         OrderVisitors( List args, LogicalVector ascending, int n_ ) : 
             visitors(n_), n(n_), nrows(0){
             nrows = Rf_length( args[0] );
-            for( int i=0; i<n; i++)
+            for( int i=0; i<n; i++){
                 visitors[i]  = order_visitor( args[i], ascending[i] );
+            }
         } 
         OrderVisitors( DataFrame data ) : 
             visitors(data.size()), n(data.size()), nrows( data.nrows() )
@@ -29,13 +30,10 @@ namespace dplyr {
                 visitors[i]  = order_visitor( data[name], true );
             }
         } 
-        ~OrderVisitors(){
-            delete_all( visitors ) ;
-        }
         
         Rcpp::IntegerVector apply() const ;
         
-        std::vector<OrderVisitor*> visitors ;
+        pointer_vector<OrderVisitor> visitors ;
         int n;
         int nrows ;    
     } ;    
@@ -74,6 +72,7 @@ namespace dplyr {
     } ;
     
     inline Rcpp::IntegerVector OrderVisitors::apply() const {
+        if( nrows == 0 ) return IntegerVector(0); 
         IntegerVector x = seq(0, nrows -1 ) ;
         std::sort( x.begin(), x.end(), OrderVisitors_Compare(*this) ) ;
         return x ;

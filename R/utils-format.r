@@ -4,6 +4,10 @@
 #' @param n Number of rows to show. If \code{NULL}, the default, will print
 #'   all rows if less than option \code{dplyr.print_max}. Otherwise, will
 #'   print \code{dplyr.print_min}
+#' @param width Width of text output to generate. This defaults to NULL, which
+#'   means use \code{getOption("width")} and only display the columns that
+#'   fit on one screen. You can also set \code{option(dplyr.width = Inf)} to
+#'   override this default and always print all columns.
 #' @keywords internal
 #' @examples
 #' dim_desc(mtcars)
@@ -29,9 +33,8 @@ dim_desc <- function(x) {
 
 #' @export
 #' @rdname dplyr-formatting
-trunc_mat <- function(x, n = NULL) {
+trunc_mat <- function(x, n = NULL, width = NULL) {
   rows <- nrow(x)
-  if (!is.na(rows) && rows == 0) return()
 
   if (is.null(n)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
@@ -42,7 +45,14 @@ trunc_mat <- function(x, n = NULL) {
   }
 
   df <- as.data.frame(head(x, n))
-  if (nrow(df) == 0) return()
+  if (ncol(df) == 0 || nrow(df) == 0) {
+    types <- vapply(df, type_sum, character(1))
+    extra <- setNames(types, names(df))
+
+    return(structure(list(table = NULL, extra = extra), class = "trunc_mat"))
+  }
+
+  rownames(df) <- NULL
 
   # List columns need special treatment because format can't be trusted
   is_list <- vapply(df, is.list, logical(1))
@@ -50,7 +60,7 @@ trunc_mat <- function(x, n = NULL) {
 
   mat <- format(df, justify = "left")
 
-  width <- getOption("width")
+  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
 
   values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
   names <- c("", colnames(mat))
@@ -72,15 +82,46 @@ trunc_mat <- function(x, n = NULL) {
       FUN.VALUE = character(1))
     shrunk <- rbind(shrunk, ".." = dots)
   }
-  print(shrunk)
 
   if (any(too_wide)) {
     vars <- colnames(mat)[too_wide]
     types <- vapply(df[too_wide], type_sum, character(1))
-    var_types <- paste0(vars, " (", types, ")", collapse = ", ")
+    extra <- setNames(types, vars)
+  } else {
+    extra <- character()
+  }
 
+  structure(list(table = shrunk, extra = extra), class = "trunc_mat")
+}
+
+#' @export
+print.trunc_mat <- function(x, ...) {
+  if (!is.null(x$table)) {
+    print(x$table)
+  }
+
+  if (length(x$extra) > 0) {
+    var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
     cat(wrap("Variables not shown: ", var_types), "\n", sep = "")
   }
+  invisible()
+}
+
+#' knit_print method for trunc mat
+#' @keywords internal
+#' @export
+knit_print.trunc_mat <- function(x, options) {
+  kable <- knitr::kable(x$table, row.names = FALSE)
+
+  if (length(x$extra) > 0) {
+    var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
+    extra <- wrap("\n(_Variables not shown_: ", var_types, ")")
+  } else {
+    extra <- "\n"
+  }
+
+  res <- paste(c('', '', kable, '', extra), collapse = '\n')
+  knitr::asis_output(res)
 }
 
 wrap <- function(..., indent = 0) {
@@ -109,7 +150,9 @@ print.BoolResult <- function(x, ...) {
 }
 
 obj_type <- function(x) {
-  if (!is.object(x)) {
+  if (is.null(x)) {
+    "<NULL>"
+  } else if (!is.object(x)) {
     paste0("<", type_sum(x), if (!is.array(x)) paste0("[", length(x), "]"), ">")
   } else if (!isS4(x)) {
     paste0("<S3:", paste0(class(x), collapse = ", "), ">")

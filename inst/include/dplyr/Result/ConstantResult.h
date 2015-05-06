@@ -65,6 +65,45 @@ namespace dplyr {
         SEXP classes ;
     } ;
     
+    template <int RTYPE>
+    class DifftimeConstantResult : public Result {
+    public:
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+        
+        DifftimeConstantResult(SEXP x) : 
+            value( Rcpp::internal::r_vector_start<RTYPE>(x)[0] ), 
+            units(Rf_getAttrib(x, Rf_install("units"))) 
+        {}
+        
+        SEXP process( const GroupedDataFrame& gdf) {
+            return get(gdf.ngroups()) ;        
+        }
+        
+        SEXP process( const RowwiseDataFrame& gdf) {
+            return get(gdf.ngroups()) ;        
+        }
+        
+        virtual SEXP process( const FullDataFrame& df) {
+            return get(1);    
+        }
+        
+        virtual SEXP process( const SlicingIndex& index ){
+            return get(1);     
+        }
+        
+    private:
+        
+        SEXP get( int n ) const {
+            Vector<RTYPE> res(n, value);
+            res.attr("class") = "difftime" ;
+            res.attr("units") = units ;
+            return res ;
+        }
+        
+        STORAGE value ;
+        CharacterVector units ;
+    } ;
+    
 }
 
 #endif

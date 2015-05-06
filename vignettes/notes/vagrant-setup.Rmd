@@ -22,11 +22,11 @@ sudo -u postgres psql
 # Ctrl + D
 
 mysql -u root -p -e "CREATE DATABASE lahman;"
-mysql -u root -p -e "CREATE DATABASE hflights;"
+mysql -u root -p -e "CREATE DATABASE nycflights13;"
 mysql -u root -p -e "CREATE DATABASE test;"
 
 sudo -u postgres createdb lahman
-sudo -u postgres createdb hflights
+sudo -u postgres createdb nycflights13
 sudo -u postgres createdb test
 # Ctrl + D
 
@@ -37,6 +37,6 @@ install.packages(c("RPostgreSQL", "RMySQL"))
 library(dplyr)
 lahman_mysql()
 lahman_postgres()
-hflights_postgres()
+nycflights13_postgres()
 
 ```

@@ -26,9 +26,11 @@
 #' }
 #'
 #' @name ranking
-#' @param x a vector of values to rank
+#' @param x a vector of values to rank. Missing values are left as is.
+#'   If you want to treat them as the smallest or largest values, replace
+#'   with Inf or -Inf before ranking.
 #' @examples
-#' x <- c(5, 1, 3, 2, 2)
+#' x <- c(5, 1, 3, 2, 2, NA)
 #' row_number(x)
 #' min_rank(x)
 #' dense_rank(x)
@@ -41,7 +43,7 @@ NULL
 
 #' @export
 #' @rdname ranking
-row_number <- function(x) rank(x, ties.method = "first")
+row_number <- function(x) rank(x, ties.method = "first", na.last = "keep")
 
 # Definition from
 # http://blogs.msdn.com/b/craigfr/archive/2008/03/31/ranking-functions-rank-dense-rank-and-ntile.aspx
@@ -54,24 +56,24 @@ ntile <- function(x, n) {
 
 #' @export
 #' @rdname ranking
-min_rank <- function(x) rank(x, ties.method = "min")
+min_rank <- function(x) rank(x, ties.method = "min", na.last = "keep")
 
 #' @export
 #' @rdname ranking
 dense_rank <- function(x) {
-  r <- rank(x)
+  r <- rank(x, na.last = "keep")
   match(r, sort(unique(r)))
 }
 
 #' @export
 #' @rdname ranking
 percent_rank <- function(x) {
-  (min_rank(x) - 1) / (length(x) - 1)
+  (min_rank(x) - 1) / (length(!is.na(x)) - 1)
 }
 
 #' @export
 #' @rdname ranking
 cume_dist <- function(x) {
-  rank(x, ties.method = "max") / length(x)
+  rank(x, ties.method = "max", na.last = "keep") / length(!is.na(x))
 }
 

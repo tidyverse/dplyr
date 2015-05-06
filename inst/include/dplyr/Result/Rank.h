@@ -21,6 +21,7 @@ namespace dplyr {
             inline int start() const {
                 return 1 ;    
             }
+            
         } ;
     
         struct dense_rank_increment{
@@ -40,6 +41,7 @@ namespace dplyr {
             inline int start() const {
                 return 1 ;    
             }
+            
         } ;
         
         struct percent_rank_increment{
@@ -59,6 +61,8 @@ namespace dplyr {
             inline double start() const {
                 return 0.0 ;    
             }
+            
+            
         } ;
         
         struct cume_dist_increment{
@@ -100,7 +104,16 @@ namespace dplyr {
             return comparisons<RTYPE>::is_greater(lhs,rhs) ;
         }
     } ;
+    
+    template <int RTYPE>
+    class RankEqual : public comparisons<RTYPE> {
+    public:
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
+        inline bool operator()(STORAGE lhs, STORAGE rhs) const {
+            return comparisons<RTYPE>::equal_or_both_na(lhs,rhs) ;
+        }
+    } ;
     
     // powers both dense_rank and min_rank, see dplyr.cpp for how it is used
     template <int RTYPE, typename Increment, bool ascending = true>
@@ -111,8 +124,9 @@ namespace dplyr {
         
         typedef VectorSliceVisitor<RTYPE> Slice ;
         typedef RankComparer<RTYPE,ascending> Comparer ;
+        typedef RankEqual<RTYPE> Equal ;
         
-        typedef dplyr_hash_map<STORAGE, std::vector<int> > Map ;
+        typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map ;
         typedef std::map<STORAGE,const std::vector<int>*, Comparer> oMap ;
         
         Rank_Impl(SEXP data_) : data(data_), map() {}
@@ -120,6 +134,7 @@ namespace dplyr {
         virtual SEXP process( const GroupedDataFrame& gdf) {
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
+            if( n == 0 ) return IntegerVector(0) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
             OutputVector out = no_init(n) ;
             for( int i=0; i<ng; i++, ++git){
@@ -134,6 +149,7 @@ namespace dplyr {
         
         virtual SEXP process( const FullDataFrame& df ) {
             int n = df.nrows() ;
+            if( n == 0) return IntegerVector(0) ;
             OutputVector out = no_init(n) ;
             process_slice(out, df.get_index() ) ;
             return out ;
@@ -141,6 +157,7 @@ namespace dplyr {
         
         virtual SEXP process( const SlicingIndex& index ){
             int n = index.size() ;
+            if( n == 0 ) return IntegerVector(0) ;
             OutputVector out = no_init(n) ;
             process_slice(out, index) ;
             return out ;
@@ -155,21 +172,35 @@ namespace dplyr {
             for( int j=0; j<m; j++) {
                 map[ slice[j] ].push_back(j) ;
             }
-               
+            STORAGE na = Rcpp::traits::get_na<RTYPE>() ;
+            typename Map::const_iterator it = map.find( na ) ;
+            if( it != map.end() ){
+                m -= it->second.size() ;
+            }
+            
             oMap ordered;
             
-            typename Map::const_iterator it = map.begin() ;
+            it = map.begin() ;
             for( ; it != map.end() ; ++it){
                 ordered[it->first] = &it->second ;
             }
             typename oMap::const_iterator oit = ordered.begin() ;
             typename Increment::scalar_type j = Increment::start() ;
             for( ; oit != ordered.end(); ++oit){
+                STORAGE key = oit->first ;
                 const std::vector<int>& chunk = *oit->second ;
                 int n = chunk.size() ;
                 j += Increment::pre_increment( chunk, m ) ;
-                for( int k=0; k<n; k++){
-                    out[ chunk[k] ] = j ;
+                if( Rcpp::traits::is_na<RTYPE>( key ) ){
+                    typename Increment::scalar_type na = 
+                        Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >() ;
+                    for( int k=0; k<n; k++){
+                        out[ chunk[k] ] = na ;
+                    }
+                } else {
+                    for( int k=0; k<n; k++){
+                        out[ chunk[k] ] = j ;
+                    }
                 }
                 j += Increment::post_increment( chunk, m ) ;
             }
@@ -196,6 +227,7 @@ namespace dplyr {
             
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
+            if( n == 0 ) return IntegerVector(0) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
             IntegerVector out(n) ;
             for( int i=0; i<ng; i++, ++git){
@@ -205,11 +237,23 @@ namespace dplyr {
                 int m = index.size() ;
                 for( int j=0; j<m; j++) tmp[j] = j ;
                 
+                Slice slice(data, index) ;
                 // order( gdf.group(i) )
                 std::sort( tmp.begin(), tmp.begin() + m, 
-                    Comparer( Visitor( Slice(data, index ) ) )     
+                    Comparer( Visitor( slice ) )     
                 ) ;
-                for( int j=0; j<m; j++) out[ index[j] ] = tmp[j] + 1 ;
+                int j=m-1; 
+                for( ; j>=0; j--){
+                    if( Rcpp::traits::is_na<RTYPE>( slice[ tmp[j] ] ) ){
+                        m-- ;
+                        out[ index[j] ] = NA_INTEGER ;
+                    } else {
+                        break ;    
+                    }
+                }
+                for( ; j>=0; j--){
+                    out[ index[j] ] = tmp[j] + 1 ;
+                }
             }
             return out ;
             
@@ -221,18 +265,27 @@ namespace dplyr {
         
         virtual SEXP process( const FullDataFrame& df ) {
             return process( df.get_index() ) ;
-            
         }
         
         virtual SEXP process( const SlicingIndex& index ){
             int nrows = index.size() ;
+            if( nrows == 0 ) return IntegerVector(0) ;
             IntegerVector x = seq(0, nrows -1 ) ;
+            Slice slice(data, index) ;
             std::sort( x.begin(), x.end(), 
-                Comparer( Visitor( Slice(data, index ) ) ) 
+                Comparer( Visitor( slice ) ) 
                 ) ;
             IntegerVector out = no_init(nrows); 
-            for( int i=0; i<nrows; i++){
-                out[ x[i] ] = i + 1 ;
+            int j=nrows-1 ;
+            for( ; j>=0; j--){
+                if( Rcpp::traits::is_na<RTYPE>( slice[ x[j] ] ) ){
+                    out[ x[j] ] = NA_INTEGER ;    
+                } else {
+                    break ;    
+                }
+            }
+            for( ; j>=0; j--){
+                out[ x[j] ] = j + 1 ;
             }
             return out ;
         }
@@ -257,6 +310,7 @@ namespace dplyr {
             
             int ng = gdf.ngroups() ; 
             int n  = gdf.nrows() ;
+            if( n == 0 ) return IntegerVector(0) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin(); 
             IntegerVector out(n) ;
             for( int i=0; i<ng; i++, ++git){
@@ -265,12 +319,24 @@ namespace dplyr {
                 // tmp <- 0:(m-1)
                 int m = index.size() ;
                 for( int j=0; j<m; j++) tmp[j] = j ;
+                Slice slice(data, index ) ;
                 
                 // order( gdf.group(i) )
                 std::sort( tmp.begin(), tmp.begin() + m, 
-                    Comparer( Visitor( Slice(data, index ) ) )     
+                    Comparer( Visitor( slice ) )     
                 ) ;
-                for( int j=0; j<m; j++) out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
+                int j=m-1 ;
+                for( ; j>= 0; j-- ){
+                    if( Rcpp::traits::is_na<RTYPE>(slice[tmp[j]]) ){
+                        out[index[j]] = NA_INTEGER ;
+                        m-- ;
+                    } else {
+                        break ;    
+                    }
+                }
+                for( ; j>=0; j--) {
+                    out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
+                }
             }
             return out ;
             
@@ -286,12 +352,23 @@ namespace dplyr {
         
         virtual SEXP process( const SlicingIndex& index ){
             int nrows = index.size() ;
+            if( nrows == 0 ) return IntegerVector(0) ;
             IntegerVector x = seq(0, nrows -1 ) ;
-            std::sort( x.begin(), x.end(), 
-                Comparer( Visitor( Slice(data, index ) ) ) 
-                ) ;
+            Slice slice(data, index) ;
+            Visitor visitor( slice ) ;
+            std::sort( x.begin(), x.end(), Comparer( visitor ) ) ;
             IntegerVector out = no_init(nrows); 
-            for( int i=0; i<nrows; i++){
+            int i=nrows-1 ;
+            for( ; i>=0; i--){
+                if( Rcpp::traits::is_na<RTYPE>(slice[x[i]] ) ) {
+                    nrows-- ;
+                    out[x[i]] = NA_INTEGER ;
+                } else {
+                    break ;    
+                }
+            }
+            
+            for( ; i>=0; i--){
                 out[ x[i] ] = (int)floor(ntiles * i / nrows ) + 1;
             }
             return out ;
@@ -307,6 +384,7 @@ namespace dplyr {
         
         virtual SEXP process( const GroupedDataFrame& gdf ){
             int n = gdf.nrows(), ng = gdf.ngroups() ;
+            if( n == 0 ) return IntegerVector(0) ;
             
             IntegerVector res = no_init(n) ;
             GroupedDataFrame::group_iterator git = gdf.group_begin() ;
@@ -323,11 +401,13 @@ namespace dplyr {
         }
         
         virtual SEXP process( const FullDataFrame& df ) {
+            if( df.nrows() == 0 ) return IntegerVector(0) ;
             IntegerVector res = seq(1, df.nrows() ) ;
             return res ;
         }
         
         virtual SEXP process( const SlicingIndex& index ){
+            if( index.size() == 0 ) return IntegerVector(0) ;
             IntegerVector res = seq(1, index.size() ) ;
             return res ;
         }

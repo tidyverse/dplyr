@@ -49,7 +49,7 @@ namespace dplyr {
             int chunk_size = index.size() ;
             int i=0 ;
             for( ; i<chunk_size-n; i++ ){
-                out[out_index[i]] = data[index[i]+n] ;    
+                out[out_index[i]] = data[index[i+n]] ;    
             }
             for(; i<chunk_size; i++){
                 out[out_index[i]] = Vector<RTYPE>::get_na() ;    
@@ -88,6 +88,40 @@ namespace dplyr {
         Lead<RTYPE> lead ;
         CharacterVector classes ;
     } ;
+    
+    template <int RTYPE>
+    class DifftimeLead : public Result {
+    public:
+        DifftimeLead(SEXP data_, int n_) : 
+            lead(data_, n_), 
+            units(Rf_getAttrib(data_, Rf_install("units")))
+        {}
+        
+        virtual SEXP process(const GroupedDataFrame& gdf ){
+            return promote( lead.process(gdf) ) ;
+        }
+        virtual SEXP process(const RowwiseDataFrame& gdf ){
+            return promote( lead.process(gdf) ) ;
+        }
+        virtual SEXP process(const FullDataFrame& df){
+            return promote( lead.process(df) ) ;    
+        }
+        virtual SEXP process(const SlicingIndex& index){
+            return promote( lead.process(index) ) ;    
+        }
+        
+    private:
+        
+        SEXP promote( Vector<RTYPE> res ){
+            res.attr( "class" ) = "difftime" ;
+            res.attr( "units" ) = units ;
+            return res ;
+        }
+        
+        Lead<RTYPE> lead ;
+        CharacterVector units ;
+    } ;
+    
     
 }
 

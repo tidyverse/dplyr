@@ -12,21 +12,23 @@ df_var <- data.frame(
 )
 
 test_that("rbind_list works on key types", {
+  exp <- tbl_df( rbind( df_var, df_var, df_var ) ) 
   expect_equal(
     rbind_list( df_var, df_var, df_var) ,
-    rbind( df_var, df_var, df_var )
+    exp
   )
 })
 
 test_that("rbind_list reorders columns", {
   columns <- seq_len(ncol(df_var))
+  exp <- tbl_df( rbind( df_var, df_var, df_var ) )
   expect_equal(
     rbind_list(
       df_var,
       df_var[, sample(columns)],
       df_var[, sample(columns)]
     ),
-    rbind( df_var, df_var, df_var )
+    exp
   )
 })
 
@@ -53,14 +55,14 @@ test_that("rbind_list doesn't promote factor to numeric", {
   df1 <- data.frame( a = 1:5, b = 1:5 )
   df2 <- data.frame( a = 1:5, b = factor(letters[1:5]) )
 
-  expect_error(rbind_list( df1, df2 ), "not compatible")
+  expect_error(rbind_list( df1, df2 ), "incompatible type")
 })
 
 test_that("rbind_list doesn't coerce integer to factor", {
   df1 <- data.frame( a = 1:10, b = 1:10 )
   df2 <- data.frame( a = 1:5, b = factor(letters[1:5]) )
 
-  expect_error( rbind_list( df1, df2 ), "not compatible" )
+  expect_error( rbind_list( df1, df2 ), "incompatible type" )
 })
 
 test_that( "rbind_list coerces factor to character when levels don't match", {
@@ -123,3 +125,56 @@ test_that( "Collecter_Impl<INTSXP> can collect LGLSXP. #321", {
   expect_equal( res$x, c(1:3, NA) )
 })
 
+test_that("rbind_all handles list columns (#463)", {
+  dfl <- data.frame(x = I(list(1:2, 1:3, 1:4)))
+  res <- rbind_all(list(dfl, dfl))
+  expect_equal(rep(dfl$x,2L), res$x)
+})
+
+test_that("rbind_all creates tbl_df object", {
+  res <- rbind_list(tbl_df(mtcars))
+  expect_is( res, "tbl_df" )  
+})
+
+test_that("string vectors are filled with NA not blanks before collection (#595)", {
+  one <- mtcars[1:10, -10]
+  two <- mtcars[11:32, ]
+  two$char_col <- letters[1:22]
+  
+  res <- rbind_list(one, two)
+  expect_true( all(is.na(res$char_col[1:10])) )  
+})
+
+test_that("rbind handles data frames with no rows (#597)",{
+  empty <- data.frame(result = numeric())
+  expect_equal(rbind_list(empty), tbl_df(empty))
+  expect_equal(rbind_list(empty, empty), tbl_df(empty))
+  expect_equal(rbind_list(empty, empty, empty), tbl_df(empty))  
+})
+
+test_that("rbind handles all NA columns (#493)", {
+  mydata <- list(
+    data.frame(x=c("foo", "bar")),
+    data.frame(x=NA)
+  )
+  res <- rbind_all(mydata)
+  expect_true( is.na(res$x[3]) )
+  expect_is( res$x, "factor" )
+  
+  mydata <- list(
+    data.frame(x=NA),
+    data.frame(x=c("foo", "bar"))
+  )
+  res <- rbind_all(mydata)
+  expect_true( is.na(res$x[1]) )
+  expect_is( res$x, "factor" )
+  
+})
+
+test_that( "bind_rows handles complex. #933", {
+  df1 <- data.frame(r = c(1+1i, 2-1i))
+  df2 <- data.frame(r = c(1-1i, 2+1i))
+  df3 <- bind_rows(df1,df2)
+  expect_equal( nrow(df3), 4L)
+  expect_equal( df3$r, c(df1$r, df2$r) )
+})

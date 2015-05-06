@@ -8,6 +8,8 @@
 #'   lead or lag by
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @param order_by override the default ordering to use another vector
+#' @param ... Needed for compatibility with lag generic.
+#' @importFrom stats lag
 #' @examples
 #' lead(1:10, 1)
 #' lead(1:10, 2)
@@ -32,7 +34,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
@@ -50,7 +52,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL) {
 
 #' @export
 #' @rdname lead-lag
-lag <- function(x, n = 1L, default = NA, order_by = NULL) {
+lag.default <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lag, x, n = n, default = default))
   }

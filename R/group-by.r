@@ -21,13 +21,14 @@
 #'
 #' @seealso \code{\link{ungroup}} for the inverse operation,
 #'   \code{\link{groups}} for accessors that don't do special evaluation.
-#' @param x a tbl
+#' @param .data a tbl
 #' @param ... variables to group by. All tbls accept variable names,
 #'   some will also accept functions of variables. Duplicated groups
 #'   will be silently dropped.
 #' @param add By default, when \code{add = FALSE}, \code{group_by} will
 #'   override existing groups. To instead add to the existing groups,
 #'   use \code{add = TRUE}
+#' @inheritParams filter
 #' @export
 #' @examples
 #' by_cyl <- group_by(mtcars, cyl)
@@ -43,8 +44,12 @@
 #' summarise(ungroup(by_vs), n = sum(n))
 #'
 #' # You can group by expressions: this is just short-hand for
-#' # a mutate followed by a simple group_by
+#' # a mutate/rename followed by a simple group_by
 #' group_by(mtcars, vsam = vs + am)
+#' group_by(mtcars, vs2 = vs)
+#'
+#' # You can also group by a constant, but it's not very useful
+#' group_by(mtcars, "vs")
 #'
 #' # By default, group_by sets groups. Use add = TRUE to add groups
 #' groups(group_by(by_cyl, vs, am))
@@ -52,28 +57,49 @@
 #'
 #' # Duplicate groups are silently dropped
 #' groups(group_by(by_cyl, cyl, cyl))
-group_by <- function(x, ..., add = FALSE) {
-  new_groups <- named_dots(...)
+#' @aliases regroup
+group_by <- function(.data, ..., add = FALSE) {
+  group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add)
+}
+
+#' @export
+#' @rdname group_by
+group_by_ <- function(.data, ..., .dots, add = FALSE) {
+  UseMethod("group_by_")
+}
+
+#' Prepare for grouping.
+#'
+#' Performs standard operations that should happen before individual methods
+#' process the data. This includes mutating the tbl to add new grouping columns
+#' and updating the groups (based on add)
+#'
+#' @return A list
+#'   \item{data}{Modified tbl}
+#'   \item{groups}{Modified groups}
+#' @noRd
+group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
+  new_groups <- lazyeval::all_dots(.dots, ...)
 
   # If any calls, use mutate to add new columns, then group by those
-  calls <- vapply(new_groups, function(x) !is.name(x), logical(1))
-  if (any(calls)) {
-    env <- new.env(parent = parent.frame())
-    env$x <- x
+  is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
+  has_name <- names2(new_groups) != ""
 
-    call <- as.call(c(quote(mutate), quote(x), new_groups[calls]))
-    x <- eval(call, env)
-
-    new_groups[calls] <- lapply(names(new_groups)[calls], as.name)
+  needs_mutate <- has_name | !is_name
+  if (any(needs_mutate)) {
+    .data <- mutate_(.data, .dots = new_groups[needs_mutate])
   }
-  names(new_groups) <- NULL
 
+  # Once we've done the mutate, we no longer need lazy objects, and
+  # can instead just use symbols
+  new_groups <- lazyeval::auto_name(new_groups)
+  groups <- lapply(names(new_groups), as.name)
   if (add) {
-    new_groups <- c(groups(x), new_groups)
+    groups <- c(groups(.data), groups)
   }
-  new_groups <- new_groups[!duplicated(new_groups)]
+  groups <- groups[!duplicated(groups)]
 
-  regroup(x, new_groups)
+  list(data = .data, groups = groups)
 }
 
 #' Get/set the grouping variables for tbl.
@@ -83,14 +109,9 @@ group_by <- function(x, ..., add = FALSE) {
 #' inline way of removing existing grouping.
 #'
 #' @param x data \code{\link{tbl}}
-#' @param value a list of symbols
 #' @export
-#' @seealso \code{\link{group_by}} for a version that does non-standard
-#'   evaluation to save typing
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
-#' groups(grouped)
-#' grouped <- regroup(grouped, list(quote(vs)))
 #' groups(grouped)
 #' groups(ungroup(grouped))
 groups <- function(x) {
@@ -98,11 +119,9 @@ groups <- function(x) {
 }
 
 #' @export
-#' @rdname groups
 regroup <- function(x, value) {
-  stopifnot(is.list(value))
-
-  UseMethod("regroup")
+  .Deprecated("group_by_")
+  group_by_(x, .dots = value)
 }
 
 #' @export

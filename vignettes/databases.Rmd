@@ -1,18 +1,18 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Databases}
--->
+---
+title: "Databases"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Databases}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
 ```{r, echo = FALSE, message = FALSE}
-library(dplyr)
-knitr::opts_chunk$set(
-  comment = "#>",
-  error = FALSE,
-  tidy = FALSE)
+knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(dplyr.print_min = 4L, dplyr.print_max = 4L)
+library(dplyr)
 ```
-
-# Databases
 
 As well as working with local in-memory data like data frames and data tables, dplyr also works with remote on-disk data stored in databases. Generally, if your data fits in memory there is no advantage to putting it in a database: it will only be slower and more hassle. The reason you'd want to use dplyr with a database is because either your data is already in a database (and you don't want to work with static csv files that someone else has dumped out for you), or you have so much data that it does not fit in memory and you have to use a database. Currently dplyr supports the three most popular open source databases (sqlite, mysql and postgresql), and google's bigquery.
 
@@ -30,29 +30,29 @@ To experiement with databases, it's easiest to get started with SQLite because e
 my_db <- src_sqlite("my_db.sqlite3", create = T)
 ```
 
-The main new concert here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
+The main new concept here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
 
-`my_db` currently has no data in it, so we'll load it up with the `hflights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
+`my_db` currently has no data in it, so we'll load it up with the `flights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
 
 ```{r, eval = FALSE}
-data("hflights", package = "hflights")
-hflights_sqlite <- copy_to(my_db, hflights, temporary = FALSE, indexes = list(
-  c("Year", "Month", "DayofMonth"), "UniqueCarrier", "TailNum"))
+library(nycflights13)
+flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
+  c("year", "month", "day"), "carrier", "tailnum"))
 ```
 
 As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
 
-For this particular dataset, there's a built `src` that will cache `hflights` in a standard location:
+For this particular dataset, there's a built-in `src` that will cache `flights` in a standard location:
 
 ```{r}
-hflights_sqlite <- tbl(hflights_sqlite(), "hflights")
-hflights_sqlite
+flights_sqlite <- tbl(nycflights13_sqlite(), "flights")
+flights_sqlite
 ```
 
 You can also create `tbl` from arbitrary SQL:
 
 ```{r, eval = FALSE}
-tbl(my_db, sql("SELECT * FROM hflights"))
+tbl(my_db, sql("SELECT * FROM flights"))
 ```
 
 ## Basic verbs
@@ -60,16 +60,16 @@ tbl(my_db, sql("SELECT * FROM hflights"))
 Remote data sources use exactly the same five verbs as local data sources:
 
 ```{r}
-select(hflights_sqlite, Year:DayofMonth, DepDelay, ArrDelay)
-filter(hflights_sqlite, depDelay > 240)
-arrange(hflights_sqlite, Year, Month, DayofMonth)
-mutate(hflights_sqlite, speed = AirTime / Distance)
-summarise(hflights_sqlite, delay = mean(DepTime))
+select(flights_sqlite, year:day, dep_delay, arr_delay)
+filter(flights_sqlite, dep_delay > 240)
+arrange(flights_sqlite, year, month, day)
+mutate(flights_sqlite, speed = air_time / distance)
+summarise(flights_sqlite, delay = mean(dep_time))
 ```
 
 The most important difference is that the expressions in `select()`, `filter()`, `arrange()`, `mutate()`, and `summarise()` are translated into SQL so they can be run on the database. This translation is almost perfect for the most common operations but there are some limitations, which you'll learn about later.
 
-## Lazyness
+## Laziness
 
 When working with databases, dplyr tries to be as lazy as possible. It's lazy in two ways:
 
@@ -81,10 +81,10 @@ When working with databases, dplyr tries to be as lazy as possible. It's lazy in
 For example, take the following code:
 
 ```{r}
-c1 <- filter(hflights_sqlite, DepDelay > 0)
-c2 <- select(c1, Year, Month, DayofMonth, UniqueCarrier, DepDelay, AirTime, Distance)
-c3 <- mutate(c2, Speed = Distance / AirTime * 60)
-c4 <- arrange(c3, Year, Month, DayofMonth, UniqueCarrier)
+c1 <- filter(flights_sqlite, year == 2013, month == 1, day == 1)
+c2 <- select(c1, year, month, day, carrier, dep_delay, air_time, distance)
+c3 <- mutate(c2, speed = distance / air_time * 60)
+c4 <- arrange(c3, year, month, day, carrier)
 ```
 
 Suprisingly, this sequence of operations never actually touches the database. It's not until you ask for the data (e.g. by printing `c4`) that dplyr generates the SQL and requests the results from the database, and even then it only pulls down 10 rows.
@@ -191,11 +191,11 @@ translate_sql(x %like% "ab*")
 SQLite lacks window functions, which are needed for grouped mutation and filtering. This means that the only really useful operations for grouped sqlite tables are in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
 
 ```{r}
-planes <- group_by(hflights_sqlite, TailNum)
-delay <- summarise(planes,
+by_tailnum <- group_by(flights_sqlite, tailnum)
+delay <- summarise(by_tailnum,
   count = n(),
-  dist = mean(Distance),
-  delay = mean(ArrDelay)
+  dist = mean(distance),
+  delay = mean(arr_delay)
 )
 delay <- filter(delay, count > 20, dist < 2000)
 delay_local <- collect(delay)
@@ -211,11 +211,11 @@ Using other databases instead of SQLite works similarly, the overall workflow is
 
 `src_postgres()` has five arguments: `dbname`, `host`, `port`, `user` and `password`. If you are running a local postgresql database with the default settings you'll only need `dbname`, but in most cases you'll need all five. dplyr uses the RPostgreSQL package to connect to postgres databases, which means you can't currently connect to remote databases that require a SSL connection (e.g. Heroku).
 
-For example, the following code allows me to connect to a local postgresql database that contains a copy of the `hflights` data:
+For example, the following code allows me to connect to a local postgresql database that contains a copy of the `flights` data:
 
 ```{r}
 if (has_lahman("postgres")) {
-  hflights_postgres <- tbl(src_postgres("hflights"), "hflights")
+  flights_postgres <- tbl(src_postgres("nycflights13"), "flights")
 }
 ```
 
@@ -229,15 +229,18 @@ The following examples shows the grouped filter and mutate possible with Postgre
 
 ```{r}
 if (has_lahman("postgres")) {
-  daily <- group_by(hflights_postgres, Year, Month, DayofMonth)
+  daily <- group_by(flights_postgres, year, month, day)
 
   # Find the most and least delayed flight each day
-  bestworst <- filter(daily, ArrDelay == min(ArrDelay) ||
-    ArrDelay == max(ArrDelay))
+  bestworst <- daily %>% 
+    select(flight, arr_delay) %>% 
+    filter(arr_delay == min(arr_delay) || arr_delay == max(arr_delay))
   bestworst$query
 
   # Rank each flight within a daily
-  ranked <- mutate(daily, rank = rank(desc(ArrDelay)))
+  ranked <- daily %>% 
+    select(arr_delay) %>% 
+    mutate(rank = rank(desc(arr_delay)))
   ranked$query
 }
 ```

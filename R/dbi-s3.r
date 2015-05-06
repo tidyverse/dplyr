@@ -1,285 +1,110 @@
-# An S3 shim on top of DBI.  The goal is to isolate all DBI calls into this
-# file, so that when writing new connectors you can see all the existing
-# code in one place, and hopefully remember the annoying DBI function names.
-#
-# * db_ -> con = DBIConnection
-# * qry_ -> con = DBIConnection, sql = string
-# * res_ -> res = DBIResult
-# * sql_ -> con = DBIConnection, table = string, ...
-#
-# This also makes it possible to shim over bugs in packages until they're
-# fixed upstream.
+#' @import DBI
+NULL
 
-dbi_connect <- function(driver, ...) UseMethod("dbi_connect")
+
+#' Source generics.
+#'
+#' These generics retrieve metadata for a given src.
+#'
+#' @keywords internal
+#' @name backend_src
+NULL
+
+#' @name backend_src
 #' @export
-dbi_connect.SQLiteDriver <- function(driver, ...) {
-  con <- dbConnect(driver, ...)
-  RSQLite.extfuns::init_extensions(con)
-  con
-}
+src_desc <- function(x) UseMethod("src_desc")
+
+#' @name backend_src
 #' @export
-dbi_connect.DBIDriver <- function(driver, ...) {
-  dbConnect(driver, ...)
-}
+src_translate_env <- function(x) UseMethod("src_translate_env")
 
-# Database details -------------------------------------------------------------
 
-db_info <- function(con) dbGetInfo(con)
+#' Database generics.
+#'
+#' These generics execute actions on the database. All generics have a method
+#' for \code{DBIConnection} which typically just call the standard DBI S4
+#' method.
+#'
+#' @section copy_to:
+#' Currently, the only user of \code{sql_begin()}, \code{sql_commit()},
+#' \code{sql_rollback()}, \code{sql_create_table()}, \code{sql_insert_into()},
+#' \code{sql_create_indexes()}, \code{sql_drop_table()} and
+#' \code{sql_analyze()}. If you find yourself overriding many of these
+#' functions it may suggest that you should just override \code{\link{copy_to}}
+#' instead.
+#'
+#' @return A logical value indicating success. Most failures should generate
+#'  an error.
+#' @name backend_db
+#' @param con A database connection.
+#' @keywords internal
+NULL
 
+#' @name backend_db
+#' @export
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
 db_list_tables.DBIConnection <- function(con) dbListTables(con)
-#' @export
-db_list_tables.SQLiteConnection <- function(con) {
-  sql <- "SELECT name FROM
-    (SELECT * FROM sqlite_master UNION ALL
-     SELECT * FROM sqlite_temp_master)
-    WHERE type = 'table' OR type = 'view'
-    ORDER BY name"
-  qry_fetch(con, sql)[[1]]
-}
-#' @export
-db_list_tables.bigquery <- function(con) {
-  list_tables(con$project, con$dataset)
-}
 
+#' @name backend_db
+#' @export
+#' @param table A string, the table name.
 db_has_table <- function(con, table) UseMethod("db_has_table")
 #' @export
-db_has_table.default <- function(con, table) {
-  table %in% db_list_tables(con)
-}
+db_has_table.DBIConnection <- function(con, table) dbExistsTable(con, table)
+
+#' @name backend_db
 #' @export
-db_has_table.MySQLConnection <- function(con, table) {
-  # MySQL has no way to list temporary tables, so we always NA to
-  # skip any local checks and rely on the database to throw informative errors
-  NA
-}
-
-
+#' @param fields A list of fields, as in a data frame.
 db_data_type <- function(con, fields) UseMethod("db_data_type")
-
 #' @export
 db_data_type.DBIConnection <- function(con, fields) {
   vapply(fields, dbDataType, dbObj = con, FUN.VALUE = character(1))
 }
 
+#' @name backend_db
 #' @export
-db_data_type.MySQLConnection <- function(con, fields) {
-  char_type <- function(x) {
-    n <- max(nchar(as.character(x), "bytes"))
-    if (n <= 65535) {
-      paste0("varchar(", n, ")")
-    } else {
-      "mediumtext"
-    }
-  }
-
-  data_type <- function(x) {
-    switch(class(x)[1],
-      logical = "boolean",
-      integer = "integer",
-      numeric = "double",
-      factor =  char_type(x),
-      character = char_type(x),
-      Date =    "date",
-      POSIXct = "datetime",
-      stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
-    )
-  }
-  vapply(fields, data_type, character(1))
-}
-
-# Creates an environment that disconnects the database when it's
-# garbage collected
-db_disconnector <- function(con, name, quiet = FALSE) {
-  DbDisconnector$new(con = con, name = name, quiet = quiet)
-}
-DbDisconnector <- setRefClass("DbDisconnector",
-  fields = c("con", "name", "quiet"),
-  methods = list(
-    finalize = function() {
-      if (!quiet) {
-        message("Auto-disconnecting ", name, " connection ",
-          "(", paste(con@Id, collapse = ", "), ")")
-      }
-      dbDisconnect(con)
-    }
-  )
-)
-
-# Query details ----------------------------------------------------------------
-
-qry_fields <- function(con, from) {
-  UseMethod("qry_fields")
+db_save_query <- function(con, sql, name, temporary = TRUE, ...) {
+  UseMethod("db_save_query")
 }
 
 #' @export
-qry_fields.DBIConnection <- function(con, from) {
-  qry <- dbSendQuery(con, build_sql("SELECT * FROM ", from, " WHERE 0=1;"))
-  on.exit(dbClearResult(qry))
+db_save_query.DBIConnection <- function(con, sql, name, temporary = TRUE,
+                                        ...) {
+  tt_sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+    "TABLE ", ident(name), " AS ", sql, con = con)
+  dbGetQuery(con, tt_sql)
+  name
+}
 
-  dbGetInfo(qry)$fieldDescription[[1]]$name
+#' @name backend_db
+#' @export
+db_begin <- function(con, ...) UseMethod("db_begin")
+#' @export
+db_begin.DBIConnection <- function(con, ...) {
+  dbBegin(con)
+}
+
+#' @name backend_db
+#' @export
+db_commit <- function(con, ...) UseMethod("db_commit")
+#' @export
+db_commit.DBIConnection <- function(con, ...) dbCommit(con)
+
+#' @name backend_db
+#' @export
+db_rollback <- function(con, ...) UseMethod("db_rollback")
+#' @export
+db_rollback.DBIConnection <- function(con, ...) dbRollback(con)
+
+#' @name backend_db
+#' @export
+db_create_table <- function(con, table, types, temporary = FALSE, ...) {
+  UseMethod("db_create_table")
 }
 #' @export
-qry_fields.SQLiteConnection <- function(con, from) {
-  names(qry_fetch(con, paste0("SELECT * FROM ", from), 0L))
-}
-
-table_fields <- function(con, table) UseMethod("table_fields")
-#' @export
-table_fields.DBIConnection <- function(con, table) dbListFields(con, table)
-
-#' @export
-table_fields.PostgreSQLConnection <- function(con, table) {
-  qry_fields.DBIConnection(con, table)
-}
-
-#' @export
-table_fields.bigquery <- function(con, table) {
-  info <- get_table(con$project, con$dataset, table)
-  vapply(info$schema$fields, "[[", "name", FUN.VALUE = character(1))
-}
-
-# Run a query, abandoning results
-qry_run <- function(con, sql, data = NULL, in_transaction = FALSE,
-                    show = getOption("dplyr.show_sql"),
-                    explain = getOption("dplyr.explain_sql")) {
-  if (show) message(sql)
-  if (explain) message(qry_explain(con, sql))
-
-  if (in_transaction) {
-    dbBeginTransaction(con)
-    on.exit(dbCommit(con))
-  }
-
-  if (is.null(data)) {
-    res <- dbSendQuery(con, sql)
-  } else {
-    res <- dbSendPreparedQuery(con, sql, bind.data = data)
-  }
-  dbClearResult(res)
-
-  invisible(NULL)
-}
-
-# Run a query, fetching n results
-qry_fetch <- function(con, sql, n = -1L, show = getOption("dplyr.show_sql"),
-                      explain = getOption("dplyr.explain_sql")) {
-  UseMethod("qry_fetch")
-}
-
-#' @export
-qry_fetch.DBIConnection <- function(con, sql, n = -1L,
-                                    show = getOption("dplyr.show_sql"),
-                                    explain = getOption("dplyr.explain_sql")) {
-
-  if (show) message(sql)
-  if (explain) message(qry_explain(con, sql))
-
-  res <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(res))
-
-  out <- fetch(res, n)
-  res_warn_incomplete(res)
-  out
-}
-
-#' @export
-qry_fetch.bigquery <- function(con, sql, n = -1L,
-                                    show = getOption("dplyr.show_sql"),
-                                    explain = getOption("dplyr.explain_sql")) {
-
-  if (show) message(sql)
-
-  if (identical(n, -1L)) {
-    max_pages <- Inf
-  } else {
-    max_pages <- ceiling(n / 1e4)
-  }
-
-  query_exec(con$project, con$dataset, sql, max_pages = max_pages,
-    page_size = 1e4)
-}
-
-qry_fetch_paged <- function(con, sql, chunk_size, callback,
-                            show = getOption("dplyr.show_sql"),
-                            explain = getOption("dplyr.explain_sql")) {
-  if (show) message(sql)
-  if (explain) message(qry_explain(con, sql))
-
-  qry <- dbSendQuery(con, sql)
-  on.exit(dbClearResult(qry))
-
-  while (!dbHasCompleted(qry)) {
-    chunk <- fetch(qry, chunk_size)
-    callback(chunk)
-  }
-
-  invisible(TRUE)
-}
-
-qry_explain <- function(con, sql, ...) {
-  UseMethod("qry_explain")
-}
-# http://sqlite.org/lang_explain.html
-#' @export
-qry_explain.SQLiteConnection <- function(con, sql, ...) {
-  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-  expl <- qry_fetch(con, exsql, show = FALSE, explain = FALSE)
-  rownames(expl) <- NULL
-  out <- capture.output(print(expl))
-
-  paste(out, collapse = "\n")
-}
-# http://www.postgresql.org/docs/9.3/static/sql-explain.html
-#' @export
-qry_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
-  format <- match.arg(format, c("text", "json", "yaml", "xml"))
-
-  exsql <- build_sql("EXPLAIN ",
-    if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "),
-    sql)
-  expl <- suppressWarnings(qry_fetch(con, exsql, show = FALSE, explain = FALSE))
-
-  paste(expl[[1]], collapse = "\n")
-}
-
-# Result sets ------------------------------------------------------------------
-
-res_warn_incomplete <- function(res) {
-  if (dbHasCompleted(res)) return()
-
-  rows <- formatC(dbGetRowCount(res), big.mark = ",")
-  warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
-    call. = FALSE)
-}
-
-# SQL queries ------------------------------------------------------------------
-
-
-sql_begin_trans <- function(con) UseMethod("sql_begin_trans")
-#' @export
-sql_begin_trans.SQLiteConnection <- function(con) dbBeginTransaction(con)
-#' @export
-sql_begin_trans.DBIConnection <- function(con) {
-  qry_run(con, "BEGIN TRANSACTION")
-}
-#' @export
-sql_begin_trans.MySQLConnection <- function(con) {
-  qry_run(con, "START TRANSACTION")
-}
-
-sql_commit <- function(con) UseMethod("sql_commit")
-#' @export
-sql_commit.DBIConnection <- function(con) dbCommit(con)
-#' @export
-sql_commit.MySQLConnection <- function(con) {
-  qry_run(con, "COMMIT")
-}
-
-sql_rollback <- function(con) dbRollback(con)
-
-sql_create_table <- function(con, table, types, temporary = FALSE) {
+db_create_table.DBIConnection <- function(con, table, types,
+                                           temporary = FALSE, ...) {
   assert_that(is.string(table), is.character(types))
 
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
@@ -288,123 +113,98 @@ sql_create_table <- function(con, table, types, temporary = FALSE) {
   sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
     "TABLE ", ident(table), " ", fields, con = con)
 
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
-sql_insert_into <- function(con, table, values) {
-  UseMethod("sql_insert_into")
-}
-
+#' @name backend_db
 #' @export
-sql_insert_into.SQLiteConnection <- function(con, table, values) {
-  params <- paste(rep("?", ncol(values)), collapse = ", ")
-
-  sql <- build_sql("INSERT INTO ", table, " VALUES (", sql(params), ")")
-  qry_run(con, sql, data = values)
+db_insert_into <- function(con, table, values, ...) {
+  UseMethod("db_insert_into")
 }
 
-#' @export
-sql_insert_into.PostgreSQLConnection <- function(con, table, values) {
-  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
-  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
-
-  rows <- apply(col_mat, 1, paste0, collapse = ", ")
-  values <- paste0("(", rows, ")", collapse = "\n, ")
-
-  sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
-  qry_run(con, sql)
-}
-
-#' @export
-sql_insert_into.MySQLConnection <- function(con, table, values) {
-
-  # Convert factors to strings
-  is_factor <- vapply(values, is.factor, logical(1))
-  values[is_factor] <- lapply(values[is_factor], as.character)
-
-  # Encode special characters in strings
-  is_char <- vapply(values, is.character, logical(1))
-  values[is_char] <- lapply(values[is_char], encodeString)
-
-  tmp <- tempfile(fileext = ".csv")
-  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
-    row.names = FALSE, col.names = FALSE)
-
-  sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
-    ident(table), con = con)
-  qry_run(con, sql)
-
-  invisible()
-}
-
-
-sql_create_indexes <- function(con, table, indexes = NULL, ...) {
-  UseMethod("sql_create_indexes")
-}
-
-#' @export
-sql_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
+db_create_indexes <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
   for(index in indexes) {
-    sql_create_index(con, table, index, ...)
+    db_create_index(con, table, index, ...)
   }
+}
+
+#' @name backend_db
+#' @export
+db_create_index <- function(con, table, columns, name = NULL, ...) {
+  UseMethod("db_create_index")
 }
 
 #' @export
-sql_create_indexes.MySQLConnection <- function(con, table, indexes = NULL, ...) {
-  sql_add_index <- function(columns) {
-    name <- paste0(c(table, columns), collapse = "_")
-    fields <- escape(ident(columns), parens = TRUE, con = con)
-    build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
-  }
-  add_index <- sql(vapply(indexes, sql_add_index, character(1)))
-  sql <- build_sql("ALTER TABLE ", ident(table), "\n",
-    escape(add_index, collapse = ",\n"), con = con)
-  qry_run(con, sql)
-}
-
-sql_create_index <- function(con, table, columns, name = NULL, unique = FALSE) {
+db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
+                                           ...) {
   assert_that(is.string(table), is.character(columns))
 
   name <- name %||% paste0(c(table, columns), collapse = "_")
-
   fields <- escape(ident(columns), parens = TRUE, con = con)
-  sql <- build_sql("CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name),
-    " ON ", ident(table), " ", fields, con = con)
+  sql <- build_sql("CREATE INDEX ", ident(name), " ON ", ident(table), " ", fields,
+    con = con)
 
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
-sql_drop_table <- function(con, table, force = FALSE) {
+#' @name backend_db
+#' @export
+db_drop_table <- function(con, table, force = FALSE, ...) {
+  UseMethod("db_drop_table")
+}
+#' @export
+db_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
   sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con)
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
-sql_analyze <- function(con, table) UseMethod("sql_analyze")
-
+#' @name backend_db
 #' @export
-sql_analyze.DBIConnection <- function(con, table) {
+db_analyze <- function(con, table, ...) UseMethod("db_analyze")
+#' @export
+db_analyze.DBIConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
-  qry_run(con, sql)
+  dbGetQuery(con, sql)
 }
 
 #' @export
-sql_analyze.MySQLConnection <- function(con, table) {
-  sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
-  qry_run(con, sql)
+#' @rdname backend_db
+db_explain <- function(con, sql, ...) {
+  UseMethod("db_explain")
 }
 
-sql_select <- function(con, ...) {
+
+
+# SQL generation --------------------------------------------------------------
+
+#' SQL generation.
+#'
+#' These generics are used to run build various SQL queries.  Default methods
+#' are provided for \code{DBIConnection}, but variations in SQL across
+#' databases means that it's likely that a backend will require at least a
+#' few methods.
+#'
+#' @return An SQL string.
+#' @name backend_sql
+#' @param con A database connection.
+#' @keywords internal
+NULL
+
+#' @rdname backend_sql
+#' @export
+sql_select <- function(con, select, from, where = NULL, group_by = NULL,
+  having = NULL, order_by = NULL, limit = NULL, offset = NULL, ...) {
   UseMethod("sql_select")
 }
-
 #' @export
-sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by = NULL,
-                       having = NULL, order_by = NULL, limit = NULL,
-                       offset = NULL) {
+sql_select.DBIConnection <- function(con, select, from, where = NULL,
+                                     group_by = NULL, having = NULL,
+                                     order_by = NULL, limit = NULL,
+                                     offset = NULL, ...) {
 
   out <- vector("list", 8)
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
@@ -454,10 +254,197 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL, group_by =
 }
 
 #' @export
-sql_select.bigquery <- sql_select.DBIConnection
+#' @rdname backend_sql
+sql_subquery <- function(con, sql, name = random_table_name(), ...) {
+  UseMethod("sql_subquery")
+}
+#' @export
+sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
+  if (is.ident(sql)) return(sql)
+
+  build_sql("(", sql, ") AS ", ident(name), con = con)
+}
+
+#' @rdname backend_sql
+#' @export
+sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
+  UseMethod("sql_join")
+}
+#' @export
+sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
+  join <- switch(type,
+    left = sql("LEFT"),
+    inner = sql("INNER"),
+    right = sql("RIGHT"),
+    full = sql("FULL"),
+    stop("Unknown join type:", type, call. = FALSE)
+  )
+
+  by <- common_by(by, x, y)
+  using <- all(by$x == by$y)
+
+  # Ensure tables have unique names
+  x_names <- auto_names(x$select)
+  y_names <- auto_names(y$select)
+  uniques <- unique_names(x_names, y_names, by$x[by$x == by$y])
+
+  if (is.null(uniques)) {
+    sel_vars <- c(x_names, y_names)
+  } else {
+    x <- update(x, select = setNames(x$select, uniques$x))
+    y <- update(y, select = setNames(y$select, uniques$y))
+
+    by$x <- unname(uniques$x[by$x])
+    by$y <- unname(uniques$y[by$y])
+
+    sel_vars <- unique(c(uniques$x, uniques$y))
+  }
+
+  if (using) {
+    cond <- build_sql("USING ", lapply(by$x, ident), con = con)
+  } else {
+    on <- sql_vector(paste0(sql_escape_ident(con, by$x), " = ", sql_escape_ident(con, by$y)),
+      collapse = " AND ", parens = TRUE)
+    cond <- build_sql("ON ", on, con = con)
+  }
+
+  from <- build_sql(
+    'SELECT * FROM ',
+    sql_subquery(con, x$query$sql), "\n\n",
+    join, " JOIN \n\n" ,
+    sql_subquery(con, y$query$sql), "\n\n",
+    cond, con = con
+  )
+  attr(from, "vars") <- lapply(sel_vars, as.name)
+
+  from
+}
+
+#' @rdname backend_sql
+#' @export
+sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
+  UseMethod("sql_semi_join")
+}
+#' @export
+sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...) {
+  by <- common_by(by, x, y)
+
+  left <- escape(ident("_LEFT"), con = con)
+  right <- escape(ident("_RIGHT"), con = con)
+  on <- sql_vector(paste0(
+    left, ".", sql_escape_ident(con, by$x), " = ", right, ".", sql_escape_ident(con, by$y)),
+    collapse = " AND ", parens = TRUE)
+
+  from <- build_sql(
+    'SELECT * FROM ', sql_subquery(con, x$query$sql, "_LEFT"), '\n\n',
+    'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
+    '  SELECT 1 FROM ', sql_subquery(con, y$query$sql, "_RIGHT"), '\n',
+    '  WHERE ', on, ')'
+  )
+  attr(from, "vars") <- x$select
+  from
+}
+
+#' @rdname backend_sql
+#' @export
+sql_set_op <- function(con, x, y, method) {
+  UseMethod("sql_set_op")
+}
+#' @export
+sql_set_op.DBIConnection <- function(con, x, y, method) {
+  sql <- build_sql(
+    x$query$sql,
+    "\n", sql(method), "\n",
+    y$query$sql
+  )
+  attr(sql, "vars") <- x$select
+  sql
+}
+
+#' @rdname backend_sql
+#' @export
+sql_escape_string <- function(con, x) UseMethod("sql_escape_string")
+
+#' @export
+sql_escape_string.DBIConnection <- function(con, x) {
+  sql_quote(x, "'")
+}
+#' @export
+sql_escape_string.NULL <- sql_escape_string.DBIConnection
+
+#' @rdname backend_sql
+#' @export
+sql_escape_ident <- function(con, x) UseMethod("sql_escape_ident")
+
+#' @export
+sql_escape_ident.DBIConnection <- function(con, x) {
+  sql_quote(x, '"')
+}
+#' @export
+sql_escape_ident.NULL <- sql_escape_ident.DBIConnection
+
+
+#' @rdname backend_db
+#' @export
+db_query_fields <- function(con, sql, ...) {
+  UseMethod("db_query_fields")
+}
+#' @export
+db_query_fields.DBIConnection <- function(con, sql, ...) {
+  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
+
+  qry <- dbSendQuery(con, fields)
+  on.exit(dbClearResult(qry))
+
+  dbListFields(qry)
+}
+#' @export
+db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
+  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
+
+  qry <- dbSendQuery(con, fields)
+  on.exit(dbClearResult(qry))
+
+  dbGetInfo(qry)$fieldDescription[[1]]$name
+}
+
+#' @rdname backend_db
+#' @export
+db_query_rows <- function(con, sql, ...) {
+  UseMethod("db_query_rows")
+}
+#' @export
+db_query_rows.DBIConnection <- function(con, sql, ...) {
+  from <- sql_subquery(con, sql, "master")
+  rows <- build_sql("SELECT count(*) FROM ", from, con = con)
+
+  as.integer(dbGetQuery(con, rows)[[1]])
+}
 
 # Utility functions ------------------------------------------------------------
 
 random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
+
+# Creates an environment that disconnects the database when it's
+# garbage collected
+db_disconnector <- function(con, name, quiet = FALSE) {
+  reg.finalizer(environment(), function(...) {
+    if (!quiet) {
+      message("Auto-disconnecting ", name, " connection ",
+        "(", paste(con@Id, collapse = ", "), ")")
+    }
+    dbDisconnect(con)
+  })
+  environment()
+}
+
+res_warn_incomplete <- function(res) {
+  if (dbHasCompleted(res)) return()
+
+  rows <- formatC(dbGetRowCount(res), big.mark = ",")
+  warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
+    call. = FALSE)
+}
+

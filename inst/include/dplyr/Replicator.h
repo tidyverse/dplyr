@@ -52,6 +52,27 @@ namespace dplyr {
     } ;
     
     template <int RTYPE, typename Data>
+    class DifftimeReplicator : public ReplicatorImpl<RTYPE, Data> {
+    public:
+        typedef ReplicatorImpl<RTYPE, Data> Base ;
+        
+        DifftimeReplicator( SEXP v, int n_, int ngroups_) : 
+            Base(v,n_,ngroups_), 
+            units(Rf_getAttrib(v, Rf_install("units")))
+        {}
+        
+        SEXP collect(){
+            Vector<RTYPE> res( Base::collect() ) ;
+            res.attr( "class" ) = "difftime" ;
+            res.attr( "units" ) = units ;
+            return res ;
+        }
+        
+    private:
+        CharacterVector units ;        
+    } ;
+    
+    template <int RTYPE, typename Data>
     class ConstantReplicatorImpl : public Replicator {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -83,6 +104,27 @@ namespace dplyr {
         SEXP classes ;
     } ;
     
+    template <int RTYPE, typename Data>
+    class ConstantDifftimeReplicator : public ConstantReplicatorImpl<RTYPE, Data>{
+    public:
+        ConstantDifftimeReplicator( SEXP v, int n ) : 
+            ConstantReplicatorImpl<RTYPE, Data>(v,n), 
+            units(Rf_getAttrib(v, Rf_install("units")))
+        {}
+        
+        SEXP collect(){
+            Vector<RTYPE> out = ConstantReplicatorImpl<RTYPE, Data>::collect() ;
+            out.attr("class") = "difftime" ;
+            out.attr("units") = units ;
+            return out ;
+        }
+        
+    private:
+        SEXP classes ;
+        CharacterVector units ;
+    } ;
+    
+    
     template <typename Data>
     inline Replicator* constant_replicator(SEXP v, const int n){
         switch( TYPEOF(v) ){
@@ -93,6 +135,7 @@ namespace dplyr {
                 }
             case REALSXP: 
                 {
+                    if( Rf_inherits(v, "difftime" )) return new ConstantDifftimeReplicator<REALSXP, Data>(v,n) ;
                     if( Rf_inherits(v, "POSIXct" )) return new ConstantTypedReplicator<REALSXP, Data>(v,n, get_time_classes() ) ;
                     if( Rf_inherits(v, "Date" )) return new ConstantTypedReplicator<REALSXP, Data>(v,n, get_date_classes() ) ;
                     return new ConstantReplicatorImpl<REALSXP, Data>( v, n ) ;
@@ -110,9 +153,7 @@ namespace dplyr {
         int n = Rf_length(v) ;
         bool test = all( gdf.get_group_sizes() == n ).is_true() ;
         if( !test ){
-            std::stringstream s ;
-            s << "impossible to replicate vector of size " << n ;
-            stop(s.str()) ;
+            stop( "impossible to replicate vector of size %s", n );
         }
                       
         switch( TYPEOF(v) ){
@@ -122,6 +163,7 @@ namespace dplyr {
                     return new ReplicatorImpl<INTSXP, Data> ( v, n, gdf.ngroups() ) ;
                 }
             case REALSXP: {
+                    if( Rf_inherits( v, "difftime" ) ) return new DifftimeReplicator<REALSXP, Data>(v, n, gdf.ngroups() ) ;
                     if( Rf_inherits( v, "POSIXct" ) ) return new TypedReplicator<REALSXP, Data>(v, n, gdf.ngroups(), get_time_classes() ) ;
                     if( Rf_inherits( v, "Date" ) ) return new TypedReplicator<REALSXP, Data>(v, n, gdf.ngroups(), get_date_classes() ) ;
                     return new ReplicatorImpl<REALSXP, Data>( v, n, gdf.ngroups() ) ;
