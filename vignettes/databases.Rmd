@@ -61,7 +61,7 @@ Remote data sources use exactly the same five verbs as local data sources:
 
 ```{r}
 select(flights_sqlite, year:day, dep_delay, arr_delay)
-filter(flights_sqlite, dep_deply > 240)
+filter(flights_sqlite, dep_delay > 240)
 arrange(flights_sqlite, year, month, day)
 mutate(flights_sqlite, speed = air_time / distance)
 summarise(flights_sqlite, delay = mean(dep_time))
