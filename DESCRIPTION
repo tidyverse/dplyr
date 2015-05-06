@@ -1,58 +1,59 @@
 Package: dplyr
 Type: Package
-Title: dplyr: a grammar of data manipulation
-Version: 0.2.0.99
-Author: Hadley Wickham <h.wickham@gmail.com>,
-    Romain Francois <romain@r-enthusiasts.com>
-Maintainer: Hadley Wickham <h.wickham@gmail.com>
+Version: 0.4.1.9000
+Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
+Authors@R: c(
+    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
+    person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
+    person("RStudio", role = "cph")
+    )
 URL: https://github.com/hadley/dplyr
-Roxygen: list(wrap = FALSE)
+BugReports: https://github.com/hadley/dplyr/issues
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.1.2)
 Imports:
     assertthat,
     utils,
-    methods,
+    R6,
     Rcpp,
     magrittr,
-    Lahman,
-    hflights
+    lazyeval (>= 0.1.10),
+    DBI (>= 0.3)
 Suggests:
-    RSQLite,
-    RSQLite.extfuns,
+    RSQLite (>= 1.0.0),
     RMySQL,
-    MonetDB.R,
     RPostgreSQL,
     data.table,
-    bigrquery,
     testthat,
     knitr,
     microbenchmark,
     ggplot2,
-    mgcv
+    mgcv,
+    Lahman (>= 3.0-1),
+    nycflights13,
+    methods
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.11.1),
+LinkingTo: Rcpp (>= 0.11.5),
     BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
     'all-equal.r'
-    'base.R'
     'bench-compare.r'
-    'cbind.r'
     'chain.r'
     'cluster.R'
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
-    'data-hflights.r'
     'data-lahman.r'
     'data-nasa.r'
+    'data-nycflights13.r'
     'data-temp.r'
     'data.r'
+    'dataframe.R'
     'dbi-s3.r'
     'desc.r'
     'distinct.R'
@@ -63,22 +64,15 @@ Collate:
     'funs.R'
     'glimpse.R'
     'group-by.r'
+    'group-indices.R'
     'group-size.r'
     'grouped-df.r'
     'grouped-dt.r'
     'id.r'
     'inline.r'
-    'join-df.r'
-    'join-dt.r'
-    'join-sql.r'
     'join.r'
     'lead-lag.R'
     'location.R'
-    'manip-cube.r'
-    'manip-df.r'
-    'manip-dt.r'
-    'manip-grouped-dt.r'
-    'manip-sql.r'
     'manip.r'
     'nth-value.R'
     'order-by.R'
@@ -86,18 +80,16 @@ Collate:
     'partial-eval.r'
     'progress.R'
     'query.r'
-    'query-bq.r'
     'rank.R'
     'rbind.r'
     'rowwise.r'
     'sample.R'
+    'select-utils.R'
     'select-vars.R'
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
-    'src-bigquery.r'
     'src-local.r'
-    'src-monetdb.r'
     'src-mysql.r'
     'src-postgres.r'
     'src-sql.r'
@@ -105,7 +97,6 @@ Collate:
     'src.r'
     'tally.R'
     'tbl-cube.r'
-    'tbl-data-frame.R'
     'tbl-df.r'
     'tbl-dt.r'
     'tbl-sql.r'

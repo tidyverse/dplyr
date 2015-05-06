@@ -13,25 +13,25 @@ df_all <- data.frame(
 )
 
 test_that("data frames equal to themselves", {
-  expect_true(all.equal(mtcars, mtcars))
-  expect_true(all.equal(iris, iris))
-  expect_true(all.equal(df_all, df_all))
+  expect_true(all.equal(tbl_df(mtcars), tbl_df(mtcars)))
+  expect_true(all.equal(tbl_df(iris), tbl_df(iris)))
+  expect_true(all.equal(tbl_df(df_all), tbl_df(df_all)))
 })
 
 test_that("data frames equal to random permutations of themselves", {
   scramble <- function(x){
     x[sample(nrow(x)), sample(ncol(x)), drop = FALSE]
   }
-  
+
   expect_equal(tbl_df(mtcars), tbl_df(scramble(mtcars)))
   expect_equal(tbl_df(iris), tbl_df(scramble(iris)))
   expect_equal(tbl_df(df_all), tbl_df(scramble(df_all)))
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all.equal(tbl_df(mtcars), mtcars[-1, ]), "Rows in x but not y: 1")
-  expect_match(all.equal(tbl_df(iris), iris[-1, ]),     "Rows in x but not y: 1")
-  expect_match(all.equal(tbl_df(df_all), df_all[-1, ]), "Rows in x but not y: 1")
+  expect_match(all.equal(tbl_df(mtcars), mtcars[-1, ]), "Different number of rows")
+  expect_match(all.equal(tbl_df(iris), iris[-1, ]),     "Different number of rows")
+  expect_match(all.equal(tbl_df(df_all), df_all[-1, ]), "Different number of rows")
 })
 
 test_that("data frames not equal if missing col", {
@@ -49,11 +49,11 @@ test_that("factors equal only if levels equal", {
 test_that("integers and reals are not equal", {
   x <- 1:10
   y <- as.numeric(x)
-  
+
   df1 <- data.frame(x = x)
   df2 <- data.frame(x = y)
-  
-  expect_match(all.equal(tbl_df(df1), df2), 
+
+  expect_match(all.equal(tbl_df(df1), df2),
     "Incompatible type for column x: x integer, y numeric")
 })
 
@@ -66,4 +66,24 @@ test_that("all.equal.data.frame handles data.frames with NULL names", {
   x <- data.frame(LETTERS[1:3], rnorm(3))
   names(x) <- NULL
   expect_true(all.equal(x,x))
+})
+
+test_that( "data frame equality test with ignore_row_order=TRUE detects difference in number of rows. #1065", {
+  DF1 <- data_frame(a = 1:4, b = letters[1:4])
+  DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
+  expect_false( isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))  
+  
+  DF1 <- data_frame(a = c(1:4,2L), b = letters[c(1:4,2L)])
+  DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
+  expect_false(isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
+
+})
+
+test_that("all.equal handles NA_character_ correctly. #1095", {
+  d1 <- data_frame(x = c(NA_character_))
+  expect_true(all.equal(d1, d1))
+  
+  d2 <- data_frame( x = c(NA_character_, "foo", "bar" ) )
+  expect_true(all.equal(d2, d2))
+  
 })

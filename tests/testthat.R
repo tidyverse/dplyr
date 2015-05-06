@@ -3,9 +3,9 @@ library("dplyr")
 
 # Ensure database creation done before tests
 library("Lahman")
-lahman_sqlite()
+has_lahman("sqlite")
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
-  lahman_postgres()  
+  has_lahman("postgresql")
 }
 
 test_check("dplyr")

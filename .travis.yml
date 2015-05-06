@@ -7,39 +7,43 @@ before_install:
   - ./travis-tool.sh bootstrap
 install:
   - mkdir ~/.R
+  - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh r_binary_install ggplot2
   - ./travis-tool.sh r_binary_install RSQLite
   - ./travis-tool.sh r_binary_install RMySQL
-  - ./travis-tool.sh r_binary_install rgl
-  - ./travis-tool.sh r_binary_install XML
   - ./travis-tool.sh r_binary_install knitr
-  - ./travis-tool.sh github_package hadley/hflights
-  - ./travis-tool.sh github_package bigrquery
-  - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
+  - ./travis-tool.sh install_github hadley/lazyeval
+  - if [ "$RCPP" = "release" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; cd Rcpp; git checkout tags/0.11.5; cd ..; R CMD INSTALL Rcpp; cd dplyr; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
   - ./travis-tool.sh install_deps
 
 before_script:
-- psql -c 'create database lahman;' -U postgres
-- psql -c 'create database hflights;' -U postgres
-- psql -c 'create database test;' -U postgres
+# - psql -c 'create database lahman;' -U postgres
+# - psql -c 'create database nycflights13;' -U postgres
+# - psql -c 'create database test;' -U postgres
 # Install dplyr package then cache sqlite and postgres version of Lahman
 - R CMD INSTALL .
-- Rscript -e "library(dplyr); lahman_sqlite(); lahman_postgres()"
-- Rscript -e "library(dplyr); hflights_postgres(); hflights_sqlite()"
+- Rscript -e "library(methods); library(dplyr); lahman_sqlite()"
+- Rscript -e "library(methods); library(dplyr); nycflights13_sqlite()"
+# lahman_postgres; #nycflights13_postgres()
 script: ./travis-tool.sh run_tests
 
 after_failure:
   - ./travis-tool.sh dump_logs
 
+after_success:
+  - Rscript -e 'library(covr);coveralls()'
+
 branches:
   except:
   - /-expt$/
   - solaris
+
 notifications:
   email:
     on_success: change
     on_failure: change
 env:
-  - RCPP=release PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
-  # - RCPP=devel PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
+  - RCPP=release PKG_CXXFLAGS="-Wall -pedantic"
+  - RCPP=devel PKG_CXXFLAGS="-Wall -pedantic"
+
