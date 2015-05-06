@@ -43,7 +43,10 @@ namespace dplyr {
             case VECSXP:  {
                     if( Rf_inherits( vec, "data.frame" ) ){
                         return new DataFrameColumnVisitor(vec) ;    
-                    } 
+                    }
+                    if( Rf_inherits( vec, "POSIXlt" )) {
+                        stop( "POSIXlt not supported" ) ;    
+                    }
                     return new VectorVisitorImpl<VECSXP>( vec ) ;
             }
             default: break ;

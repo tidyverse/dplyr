@@ -7,8 +7,7 @@ namespace dplyr {
         SEXP klass = Rf_getAttrib(x, R_ClassSymbol) ;
         if( !Rf_isNull(klass) ){
             CharacterVector classes(klass) ;
-            const char* res = collapse<STRSXP>(classes).c_str() ;
-            return res;
+            return collapse<STRSXP>(classes) ;
         } 
         
         if(Rf_isMatrix(x)){

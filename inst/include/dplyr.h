@@ -6,12 +6,7 @@
 #include <dplyr/config.h>
 
 using namespace Rcpp ;
-
-#ifndef TINYFORMAT_H_INCLUDED
-  #include <tools/tinyformat.h>
-  #include <tools/stop.h>
-#endif
-
+#include <Rcpp/Benchmark/Timer.h>
 #include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
@@ -101,25 +96,18 @@ inline void copy_most_attributes(SEXP out, SEXP data){
     copy_attributes(out,data) ;
     Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
-
-// currently [[Rcpp::register]] does nothing.
-//
-// I'd like it to generate the boiler plate code
-// that is in init.cpp and registration.h
-//
-// [[Rcpp::register]]
-DataFrame build_index_cpp( DataFrame data ) ;
-
-SEXP get_time_classes() ;
-SEXP get_date_classes() ;
-
+    
 CharacterVector dfloc(List) ;
 SEXP shallow_copy(const List& data) ;
 
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 
-// [[Rcpp::register]]
-void registerHybridHandler( const char* , HybridHandler ) ;
+#if defined(COMPILING_DPLYR)
+    DataFrame build_index_cpp( DataFrame data ) ;
+    void registerHybridHandler( const char* , HybridHandler ) ;
+    SEXP get_time_classes() ;
+    SEXP get_date_classes() ;
+#endif
 
 #include <dplyr/white_list.h>
 #include <dplyr/check_supported_type.h>

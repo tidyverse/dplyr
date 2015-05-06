@@ -22,7 +22,7 @@ namespace Rcpp {
         
         int i ;
         const GroupedDataFrame& gdf ;
-        ListOf<IntegerVector> indices ;
+        List indices ;
     } ;
     
     class GroupedDataFrame {
@@ -48,7 +48,7 @@ namespace Rcpp {
                 // check consistency of the groups
                 int rows_in_groups = sum(group_sizes) ;
                 if( data_.nrows() != rows_in_groups ){
-                    stop( "corrupt 'grouped_df', contains %d rows, and %s rows in groups" );
+                    stop( "corrupt 'grouped_df', contains %d rows, and %s rows in groups", data_.nrows(), rows_in_groups );
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace Rcpp {
     }
     
     inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-        return SlicingIndex( indices[i], i ) ;
+        return SlicingIndex( IntegerVector(indices[i]), i ) ;
     }
     
     

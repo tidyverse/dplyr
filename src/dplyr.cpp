@@ -166,7 +166,7 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
 
     if( nargs == 0 ) return new RowNumber_0() ;
 
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
 
@@ -212,7 +212,7 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
         stop("could not convert n to scalar integer") ;
     }
 
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
 
@@ -244,7 +244,7 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
 template <typename Increment>
 Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     if( nargs != 1) return 0;
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
 
     if( TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc") ){
         data = CADR(data) ;
@@ -306,7 +306,7 @@ struct LeadLag{
         }
     }
 
-    Armor<SEXP> data ;
+    RObject data ;
     int n ;
 
     bool ok ;
@@ -316,7 +316,7 @@ struct LeadLag{
 Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     LeadLag args(call) ;
     if( !args.ok ) return 0 ;
-    Armor<SEXP>& data = args.data ;
+    RObject& data = args.data ;
     int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ) {
@@ -344,7 +344,7 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     LeadLag args(call) ;
     if( !args.ok ) return 0 ;
 
-    Armor<SEXP>& data = args.data ;
+    RObject& data = args.data ;
     int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
@@ -370,7 +370,7 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
 template < template <int> class Templ>
 Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( nargs != 1 ) return 0 ;
-    Armor<SEXP> data( CADR(call) );
+    RObject data( CADR(call) );
     if(TYPEOF(data) == SYMSXP) {
         data = subsets.get_variable(data) ;
     }
@@ -912,7 +912,8 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, C
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
     DataFrameVisitors visitors(df) ;
-    return visitors.subset(indices, classes) ;
+    DataFrame res =  visitors.subset(indices, classes) ;
+    return res ;
 }
 
 template <typename Index>
@@ -1327,14 +1328,14 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
     if( names_y_not_in_x.size() ){
         ok = false ;
-        ss << "Cols in y but not x: " << collapse(names_y_not_in_x) ;
+        ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
     }
 
     if( names_x_not_in_y.size() ){
         ok = false ;
-        ss << "Cols in x but not y: " << collapse(names_x_not_in_y) ;
+        ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
     }
-
+    
     if(!ok){
         return no_because( ss.str() ) ;
     }
@@ -1413,13 +1414,17 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
     // train the map in both x and y
     int nrows_x = x.nrows() ;
-    for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
-
     int nrows_y = y.nrows() ;
+    
+    if( nrows_x != nrows_y )
+        return no_because( "Different number of rows" ) ;
+        
+    for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
-
+    
     RowTrack track_x( "Rows in x but not y: " ) ;
     RowTrack track_y( "Rows in y but not x: " ) ;
+    RowTrack track_mismatch( "Rows with difference occurences in x and y: " ) ;
 
     bool ok = true ;
     Map::const_iterator it = map.begin() ;
@@ -1444,6 +1449,10 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
             track_y.record( chunk[0] ) ;
             ok = false ;
         }
+        if( count_left != count_right ){
+            track_mismatch.record( chunk[0] ) ;
+            ok = false ;    
+        }
 
     }
 
@@ -1451,14 +1460,14 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
         std::stringstream ss ;
         if( ! track_x.empty() ) ss << track_x.str() ;
         if( ! track_y.empty() ) ss << track_y.str() ;
+        if( ! track_mismatch.empty() ) ss << track_mismatch.str() ;
+        
         return no_because( ss.str() ) ;
     }
 
     if(ok && ignore_row_order) return yes();
 
     if( !ignore_row_order ){
-        if( nrows_x != nrows_y )
-            return no_because( "Different number of rows" ) ;
         for( int i=0; i<nrows_x; i++){
             if( !visitors.equal( i, -i-1) ){
                     return no_because( "Same row values, but different order" ) ;
@@ -1482,8 +1491,10 @@ dplyr::BoolResult all_equal_data_frame( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame union_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
-        stop( "not compatible" );
+    BoolResult compat = compatible_data_frame(x,y) ; 
+    if( !compat ){
+        stop( "not compatible: %s", compat.why_not() );
+    }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true) ;
@@ -1497,8 +1508,10 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame intersect_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
-        stop( "not compatible" );
+    BoolResult compat = compatible_data_frame(x,y) ; 
+    if( !compat ){
+        stop( "not compatible: %s", compat.why_not() );
+    }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
@@ -1521,8 +1534,10 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
-        stop( "not compatible" );
+    BoolResult compat = compatible_data_frame(x,y) ; 
+    if( !compat ){
+        stop( "not compatible: %s", compat.why_not() );
+    }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
     DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true ) ;
@@ -1905,8 +1920,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     check_not_groups(dots, gdf);
 
     Proxy proxy(gdf) ;
-    Shelter<SEXP> __ ;
-
+    
     NamedListAccumulator<Data> accumulator ;
     int ncolumns = df.size() ;
     CharacterVector column_names = df.names() ;
@@ -1919,38 +1933,45 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         const Lazy& lazy = dots[i] ;
 
         Environment env = lazy.env() ;
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() );
+        SEXP call = call_ ;
         SEXP name = lazy.name() ;
-        SEXP variable = R_NilValue ;
-
+        
         proxy.set_env( env ) ;
 
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
-                variable = proxy.get_variable( PRINTNAME(call) ) ;
+                SEXP variable = proxy.get_variable( PRINTNAME(call) ) ;
+                proxy.input( name, variable ) ;
+                accumulator.set( name, variable) ;
             } else {
                 SEXP v = env.find(CHAR(PRINTNAME(call))) ;
                 if( Rf_isNull(v) ){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
                 } else if( Rf_length(v) == 1){
-                    Replicator* rep = constant_replicator<Data>(v, gdf.nrows() );
-                    variable = __( rep->collect() );
-                    delete rep ;
+                    boost::scoped_ptr<Replicator> rep( constant_replicator<Data>(v, gdf.nrows() ) );
+                    Shield<SEXP> variable( rep->collect() );
+                    proxy.input( name, variable ) ;
+                    accumulator.set( name, variable) ;
                 } else {
-                    Replicator* rep = replicator<Data>(v, gdf) ;
-                    variable = __( rep->collect() );
-                    delete rep ;
+                    boost::scoped_ptr<Replicator> rep( replicator<Data>(v, gdf) ) ;
+                    Shield<SEXP> variable( rep->collect() );
+                    proxy.input( name, variable ) ;
+                    accumulator.set( name, variable) ;
                 }
             }
 
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
-            Gatherer* gather = gatherer<Data, Subsets>( proxy, gdf, name ) ;
-            variable = __( gather->collect() ) ;
-            delete gather ;
+            boost::scoped_ptr<Gatherer> gather( gatherer<Data, Subsets>( proxy, gdf, name ) );
+            SEXP variable = gather->collect() ;
+            proxy.input( name, variable ) ;
+            accumulator.set( name, variable) ;
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
-            variable = __( gather->collect() ) ;
+            Shield<SEXP> variable( gather->collect() );
+            proxy.input( name, variable ) ;
+            accumulator.set( name, variable) ;
         } else if( Rf_isNull(call) ){
             accumulator.rm(name) ;
             continue ;
@@ -1958,16 +1979,13 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
             stop( "cannot handle" ) ;
         }
 
-        proxy.input( name, variable ) ;
-        accumulator.set( name, variable) ;
+        
     }
 
     return structure_mutate(accumulator, df, classes_grouped<Data>() );
 }
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
-    Shelter<SEXP> __ ;
-
     int nexpr = dots.size() ;
 
     NamedListAccumulator<DataFrame> accumulator ;
@@ -1982,12 +2000,12 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
 
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() ) ; SEXP call = call_ ;
         SEXP name = lazy.name() ;
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
 
-        SEXP result = R_NilValue ;
+        RObject result(R_NilValue) ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
                 result = call_proxy.get_variable(PRINTNAME(call)) ;
@@ -1996,13 +2014,10 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             }
         } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( call );
-
-            // we need to protect the SEXP, that's what the Shelter does
-            result = __( call_proxy.eval() ) ;
-
+            result = call_proxy.eval() ;
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, df.nrows() ) );
-            result = __( gather->collect() ) ;
+            result = gather->collect() ;
         } else if( Rf_isNull(call)) {
             accumulator.rm(name) ;
             continue ;
@@ -2019,9 +2034,8 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             // ok
         } else if( Rf_length(result) == 1 ){
             // recycle
-            Gatherer* gather = constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) ;
-            result = __( gather->collect() ) ;
-            delete gather ;
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) );
+            result = gather->collect() ;
         } else {
             stop( "wrong result size (%d), expected %d or 1", Rf_length(result), df.nrows() ) ;
         }

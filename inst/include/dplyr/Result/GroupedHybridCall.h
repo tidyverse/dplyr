@@ -15,7 +15,7 @@ namespace dplyr {
         SEXP eval(){
             if( TYPEOF(call) == LANGSXP ){
                 substitute(call) ;
-                return Rf_eval( call, env ) ;
+                return Rcpp_eval( call, env ) ;
             } else if(TYPEOF(call) == SYMSXP) {
                 if(subsets.count(call)){
                     return subsets.get(call, indices) ;    
@@ -50,7 +50,7 @@ namespace dplyr {
         bool simplified(){
             // initial
             if( TYPEOF(call) == LANGSXP ){
-                Result* res = get_handler(call, subsets, env) ;
+                boost::scoped_ptr<Result> res( get_handler(call, subsets, env) );
                 
                 if( res ){
                     // replace the call by the result of process
@@ -68,7 +68,7 @@ namespace dplyr {
         bool replace( SEXP p ){
             SEXP obj = CAR(p) ;
             if( TYPEOF(obj) == LANGSXP ){
-                Result* res = get_handler(obj, subsets, env) ;
+                boost::scoped_ptr<Result> res( get_handler(obj, subsets, env) );
                 if(res){
                     SETCAR(p, res->process(indices) ) ;
                     return true ;
@@ -84,7 +84,7 @@ namespace dplyr {
             return false ;
         }
         
-        Armor<SEXP> call ;
+        Call call ;
         const SlicingIndex& indices ;
         Subsets& subsets ;
         const Environment& env ;

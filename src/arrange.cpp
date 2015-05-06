@@ -68,15 +68,15 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     }
 
     for(int i=0; k<nargs; i++, k++){
-        Shelter<SEXP> __ ;
         const Lazy& lazy = dots[i] ;
 
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() ) ;
+        SEXP call = call_ ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
 
         CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env()) ;
 
-        SEXP v = __(call_proxy.eval()) ;
+        Shield<SEXP> v(call_proxy.eval()) ;
         if( !white_list(v) ){
             stop( "cannot arrange column of class '%s'", get_single_class(v) ) ;
         }

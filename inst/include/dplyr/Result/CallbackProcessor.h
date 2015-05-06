@@ -49,7 +49,7 @@ namespace dplyr{
             int ngroups = gdf.ngroups() ;
             
             // evaluate the expression within each group until we find something that is not NA
-            Armor<SEXP> first_result(R_NilValue) ;
+            RObject first_result(R_NilValue) ;
             for( ; i<ngroups; i++, ++git ){
                 first_result = obj->process_chunk(*git) ;
                 if( ! all_na(first_result) ) break ;    
@@ -64,12 +64,10 @@ namespace dplyr{
             // result we get
             
             // get the appropriate Delayed Processor to handle it
-            DelayedProcessor_Base<CLASS, Data>* processor = get_delayed_processor<CLASS, Data>(first_result, i) ;
+            boost::scoped_ptr< DelayedProcessor_Base<CLASS, Data> > processor(get_delayed_processor<CLASS, Data>(first_result, i)) ;
             if(!processor)
                 stop( "expecting a single value" );
             Shield<SEXP> res( processor->delayed_process( gdf, first_result, obj, git ) ) ;
-            
-            delete processor ;
             
             copy_most_attributes(res, first_result) ;
             

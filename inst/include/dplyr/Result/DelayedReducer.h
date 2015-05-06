@@ -13,7 +13,7 @@ namespace dplyr {
             
             inline SEXP process_chunk( const SlicingIndex& indices){
                 proxy = wrap_subset<INPUT_RTYPE>( data, indices );
-                return call.fast_eval() ;
+                return call.eval() ;
             }
             
         private:

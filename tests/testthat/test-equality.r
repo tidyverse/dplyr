@@ -29,9 +29,9 @@ test_that("data frames equal to random permutations of themselves", {
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all.equal(tbl_df(mtcars), mtcars[-1, ]), "Rows in x but not y: 1")
-  expect_match(all.equal(tbl_df(iris), iris[-1, ]),     "Rows in x but not y: 1")
-  expect_match(all.equal(tbl_df(df_all), df_all[-1, ]), "Rows in x but not y: 1")
+  expect_match(all.equal(tbl_df(mtcars), mtcars[-1, ]), "Different number of rows")
+  expect_match(all.equal(tbl_df(iris), iris[-1, ]),     "Different number of rows")
+  expect_match(all.equal(tbl_df(df_all), df_all[-1, ]), "Different number of rows")
 })
 
 test_that("data frames not equal if missing col", {
@@ -66,4 +66,24 @@ test_that("all.equal.data.frame handles data.frames with NULL names", {
   x <- data.frame(LETTERS[1:3], rnorm(3))
   names(x) <- NULL
   expect_true(all.equal(x,x))
+})
+
+test_that( "data frame equality test with ignore_row_order=TRUE detects difference in number of rows. #1065", {
+  DF1 <- data_frame(a = 1:4, b = letters[1:4])
+  DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
+  expect_false( isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))  
+  
+  DF1 <- data_frame(a = c(1:4,2L), b = letters[c(1:4,2L)])
+  DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
+  expect_false(isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
+
+})
+
+test_that("all.equal handles NA_character_ correctly. #1095", {
+  d1 <- data_frame(x = c(NA_character_))
+  expect_true(all.equal(d1, d1))
+  
+  d2 <- data_frame( x = c(NA_character_, "foo", "bar" ) )
+  expect_true(all.equal(d2, d2))
+  
 })

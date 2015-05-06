@@ -41,12 +41,13 @@ SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& e
     if( !ncalls ) {
         stop("incompatible input") ;
     }
-
-    Rcpp::Armor<SEXP> res( assert_correct_filter_subcall(dots[0].expr(), set, env) ) ;
+    Shield<SEXP> call_( dots[0].expr() ) ;
+    RObject res( assert_correct_filter_subcall(call_, set, env) ) ;
     SEXP and_symbol = Rf_install( "&" ) ;
-    for( int i=1; i<ncalls; i++)
-        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(dots[i].expr(), set, env) ) ;
-    
+    for( int i=1; i<ncalls; i++){
+        Shield<SEXP> call( dots[i].expr() ) ;
+        res = Rcpp_lang3( and_symbol, res, assert_correct_filter_subcall(call, set, env) ) ;
+    }
     return res ;
 }
 
@@ -186,7 +187,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
     return false;
 }
 
-SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
+DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
@@ -199,8 +200,8 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
-        
         LogicalVector test = check_filter_logical_result(proxy.eval()) ;
+    
         if( test.size() == 1){
             if( test[0] == TRUE ){
                 return df ; 
@@ -209,12 +210,13 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
             }
         } else {
             check_filter_result(test, df.nrows());
-            DataFrame res = subset( df, test, classes_not_grouped() ) ;
-            return res ;
+            return subset(df, test, classes_not_grouped() ) ;
         }
     } else {
         int nargs = dots.size() ;
-        CallProxy first_proxy(dots[0].expr(), df, dots[0].env() ) ;
+        
+        Call call(dots[0].expr());
+        CallProxy first_proxy(call, df, dots[0].env() ) ;
         LogicalVector test = check_filter_logical_result(first_proxy.eval()) ;
         if( test.size() == 1 ) {
             if( !test[0] ){
@@ -226,8 +228,10 @@ SEXP filter_not_grouped( DataFrame df, const LazyDots& dots){
         
         for( int i=1; i<nargs; i++){
             Rcpp::checkUserInterrupt() ;
-    
-            LogicalVector test2 = check_filter_logical_result(CallProxy(dots[i].expr(), df, dots[i].env() ).eval()) ;
+            
+            Call call( dots[i].expr() ) ;
+            CallProxy proxy(call, df, dots[i].env() ) ;
+            LogicalVector test2 = check_filter_logical_result(proxy.eval()) ;
             if( combine_and(test, test2) ){
                 return empty_subset(df, df.names(), classes_not_grouped() ) ;
             }
@@ -259,11 +263,10 @@ SEXP filter_impl( DataFrame df, LazyDots dots){
             }
         }
     }
-    
     if( is<GroupedDataFrame>( df ) ){
         return filter_grouped( GroupedDataFrame(df), dots);
     } else {
-        return filter_not_grouped( df, dots) ;
+        return filter_not_grouped( df, dots ) ;
     }
 }
 

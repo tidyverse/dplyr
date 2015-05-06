@@ -42,13 +42,6 @@ namespace dplyr{
             }
         }
 
-        // inline void debug(){
-        //    Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
-        //    Rf_PrintValue(left) ;
-        //    Rprintf( "right=" ) ;
-        //    Rf_PrintValue(right) ;
-        // }
-
         LHS_Vec left ;
         RHS_Vec right ;
         LHS_hasher LHS_hash_fun ;
@@ -98,14 +91,7 @@ namespace dplyr{
         inline void print(int i){
             Rcpp::Rcout << get(i) << std::endl ;
         }
-
-        // inline void debug(){
-        //     Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
-        //     Rf_PrintValue(left) ;
-        //     Rprintf( "right=" ) ;
-        //     Rf_PrintValue(right) ;
-        // }
-
+        
     protected:
         Vec left, right ;
         hasher hash_fun ;
@@ -119,30 +105,35 @@ namespace dplyr{
     class JoinStringOrderer {
     public:
         JoinStringOrderer( const CharacterVector& left_, const CharacterVector& right_ ) :
-            left(left_), right(right_), nleft(left.size()), nright(right.size())
+            left(left_), right(right_), nleft(left.size()), nright(right.size()), n(nleft+nright), n_na(0)
         {
             make_orders() ;
         }
 
         inline int get_order(int i) const {
             if( i == NA_INTEGER ) return NA_INTEGER ;
-            return (i>=0) ? orders[i] : orders[nleft-i-1] ;
+            int val = (i>=0) ? orders[i] : orders[nleft-i-1] ;
+            if( val > n - n_na ) val= NA_INTEGER ;
+            return val ;
         }
 
     private:
         const CharacterVector& left ;
         const CharacterVector& right ;
-        int nleft, nright ;
+        int nleft, nright, n ;
         IntegerVector orders ;
+        int n_na ;
 
         inline void make_orders(){
-            CharacterVector big( nleft + nright ) ;
+            CharacterVector big(n) ;
             CharacterVector::iterator it = big.begin() ;
             std::copy( left.begin(), left.end(), it ) ;
             std::copy( right.begin(), right.end(), it + nleft ) ;
 
             Language call( "rank", big, _["ties.method"] = "min" ) ;
             orders = call.eval() ;
+            
+            n_na = std::count( big.begin(), big.end(), NA_STRING ) ; 
         }
 
     } ;
@@ -190,14 +181,7 @@ namespace dplyr{
         inline void print(int i){
             Rcpp::Rcout << get(i) << std::endl ;
         }
-
-        // inline void debug(){
-        //     Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
-        //     Rf_PrintValue(left) ;
-        //     Rprintf( "right=" ) ;
-        //     Rf_PrintValue(right) ;
-        //  }
-
+        
 
     protected:
 
@@ -338,13 +322,6 @@ namespace dplyr{
             }
             return res ;
         }
-
-      // inline void debug(){
-      //     Rprintf( "visitor= %s. left =", DEMANGLE(JoinStringFactorVisitor) ) ;
-      //     Rf_PrintValue(left) ;
-      //     Rprintf( "right(levels)=" ) ;
-      //     Rf_PrintValue(right_levels) ;
-      // }
 
     private:
         CharacterVector left ;

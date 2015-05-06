@@ -8,7 +8,9 @@ namespace dplyr {
         typedef dplyr_hash_map<SEXP, RowwiseSubset*> RowwiseSubsetMap ;
         typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap ;
         
-        LazyRowwiseSubsets( const RowwiseDataFrame& rdf_ ): rdf(rdf_), subset_map(), resolved_map(), owner(true) {
+        LazyRowwiseSubsets( const RowwiseDataFrame& rdf_ ): 
+            LazySubsets(rdf_.data()), rdf(rdf_), subset_map(), resolved_map(), owner(true) 
+        {
             const DataFrame& data = rdf.data() ;
             CharacterVector names = data.names() ;
             int n = data.size() ;
@@ -18,7 +20,7 @@ namespace dplyr {
         }
         
         LazyRowwiseSubsets( const LazyRowwiseSubsets& other) : 
-            rdf(other.rdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+            LazySubsets(other.rdf.data()), rdf(other.rdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
         {}
         
         void clear(){
