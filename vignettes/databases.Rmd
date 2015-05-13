@@ -179,7 +179,7 @@ translate_sql(mean(x, trim = T))
 # Error: Invalid number of args to SQL AVG. Expecting 1
 ```
 
-Any function that dplyr does't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
+Any function that dplyr doesn't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
 
 ```{r}
 translate_sql(glob(x, y))
