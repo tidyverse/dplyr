@@ -19,7 +19,9 @@
 
 * `all.equal` correctly treats character missing values (#1095). 
 
-* Improved performance when working with large number of columns (#879). 
+* Improved performance when working with large number of columns (#879).
+
+* Fixed `percent_rank` and `cume_dist` so that missing values no longer affect results (#1132). 
 
 # dplyr 0.4.1
 
