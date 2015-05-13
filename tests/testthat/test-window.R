@@ -27,15 +27,10 @@ test_that("cumany handles NA (#408)", {
 })
 
 test_that("percent_rank ignores NAs (#1132)", {
-  testdata <- c(1:4, rep(NA, 4))
-  expect_equal( percent_rank(testdata), (min_rank(testdata) - 1) / (sum(!is.na(testdata)) - 1) )
-  expect_equal( percent_rank(testdata), (min_rank(testdata) - 1) / (length(testdata[!is.na(testdata)]) - 1) )
+  expect_equal( percent_rank(c(1:3, NA)), (min_rank(c(1:3, NA)) - 1) / (sum(!is.na(c(1:3, NA))) - 1) )
 })
 
 test_that("cume_dist ignores NAs (#1132)", {
-  testdata <- c(1:4, rep(NA, 4))
-  expect_equal( cume_dist(testdata), rank(testdata, ties.method = "max", na.last = "keep") / sum(!is.na(testdata) ) )
-  expect_equal( cume_dist(testdata), rank(testdata, ties.method = "max", na.last = "keep") / length(testdata[!is.na(testdata)] ) )
+  expect_equal( cume_dist(c(1:3, NA)), rank(c(1:3, NA), ties.method = "max", na.last = "keep") / sum(!is.na(c(1:3, NA))) )
 })
-
 
