@@ -27,6 +27,12 @@
 #'
 #' # or munges column names
 #' data_frame(`a + b` = 1:5)
+#'
+#' # data_frame allows explicit recycling
+#' data_frame(a = recycle_each(1:2),
+#'            b = recycle_whole(1:2),
+#'            c = recycle_each(1:3, c(6, 2, 2)),
+#'            x = 1:20)
 data_frame <- function(...) {
   data_frame_(lazyeval::lazy_dots(...))
 }
@@ -37,7 +43,7 @@ data_frame_ <- function(columns) {
   n <- length(columns)
   if (n == 0) return(data.frame())
 
-  # If named not supplied, used deparsed expression
+  # If names not supplied, used deparsed expression
   col_names <- names2(columns)
   missing_names <- col_names == ""
   if (any(missing_names)) {
@@ -50,34 +56,68 @@ data_frame_ <- function(columns) {
 
   # Construct the list output
   output <- vector("list", n)
-  names(output) <- character(n)
-  output_nm <- names(output) # Get reference to names
+  names(output) <- col_names
+  output_env <- new.env()
 
-  # Fill the output
-  i <- 1L
-  while (i <= n) {
+  # Figure out which calls are recycle calls; leave those for
+  # the second pass
+  recycled <- which(vapply(columns, FUN.VALUE = logical(1), USE.NAMES = FALSE, function(x) {
+    is_recycle_call(x$expr)
+  }))
+  not_recycled <- setdiff(1:n, recycled)
 
-    # Fill by reference
-    res <- lazyeval::lazy_eval(columns[[i]], output)
+  if (!length(not_recycled))
+    stop("At least one vector must be non-recycled")
+
+  # Evaluate the (non-recycled) lazy expressions
+  for (i in not_recycled) {
+
+    res <- lazyeval::lazy_eval(columns[[i]], output_env)
+
     if (!is_1d(res)) {
       stop("data_frames can only contain 1d atomic vectors and lists",
         call. = FALSE)
     }
-    output[[i]] <- res
-    names(output)[i] <- col_names[[i]]
 
-    # Update
-    i <- i + 1L
+    output[[i]] <- output_env[[col_names[[i]]]] <- res
   }
 
-  # Validate column lengths
-  lengths <- vapply(output, NROW, integer(1))
+  # Determine and validate the number of rows
+  lengths <- vapply(output[not_recycled], NROW, integer(1), USE.NAMES = FALSE)
   max <- max(lengths)
 
   if (!all(lengths %in% c(1L, max))) {
     stop("arguments imply differing number of rows: ",
          paste(lengths, collapse = ", "))
   }
+
+  for (i in recycled) {
+
+    dots <- columns[[i]]
+    expr <- dots$expr
+
+    # Fill in a matched call for the expression, and
+    # then explicitly set 'n' (if unset)
+    expr <- match.call(
+      get(as.character(expr[[1]])),
+      expr
+    )
+
+    # Set 'n' explicitly for this call if not set
+    if (is.null(expr[["n"]]))
+      expr[["n"]] <- max
+
+    dots$expr <- expr
+    res <- lazyeval::lazy_eval(dots, output_env)
+
+    if (!is_1d(res)) {
+      stop("data_frames can only contain 1d atomic vectors and lists",
+        call. = FALSE)
+    }
+
+    output[[i]] <- output_env[[col_names[[i]]]] <- res
+  }
+
   short <- lengths == 1
   if (max != 1L && any(short)) {
     output[short] <- lapply(output[short], rep, max)
@@ -360,3 +400,65 @@ collect.data.frame <- function(x, ...) x
 compute.data.frame <- function(x, ...) x
 #' @export
 collapse.data.frame <- function(x, ...) x
+
+
+# data_frame recycling ---------------------------
+
+validate_divisible <- function(n, k) {
+  if (n %% k != 0)
+    stop(sprintf(
+      "number of rows (%s) is not divisible by vector length (%s)",
+      n, k))
+}
+
+#' Recycle a Vector
+#'
+#' Helper functions (primarily for \code{\link{data_frame}})
+#' that enable explicit recycling for vectors.
+#'
+#' @param x An (atomic, one-dimensional) vector.
+#' @param times The number of times the vector (or, in the case of
+#'   \code{recycle_each}, each element of the vector) should be
+#'   repeated.
+#' @param n The desired output length. Note that, when
+#'   evaluated within the context of a \code{data_frame}
+#'   call, \code{n} will automatically be filled with
+#'   the resultant number of rows.
+#'
+#' @rdname recycle
+#' @export
+#' @examples
+#'
+#' recycle_each(1:5, 1:5, 30)
+#' recycle(1:2, 10)
+#'
+#' # Best used in conjunction with data_frame, where the
+#' # output length is automatically inferred for you:
+#'
+#' data_frame(x = 1:20, y = recycle_each(1:4, 1:4))
+recycle <- function(x, n = NULL) {
+  validate_divisible(n, length(x))
+  rep(x, length.out = n)
+}
+
+#' @rdname recycle
+#' @export
+recycle_each <- function(x, times = (n / length(x)), n = NULL) {
+  if (length(times) == 1) {
+    validate_divisible(n, length(x))
+    rep(x, each = times)
+  } else {
+    len <- sum(times)
+    validate_divisible(n, len)
+    rep(rep(x, times = times), times = n / len)
+  }
+}
+
+#' @rdname recycle
+#' @export
+recycle_whole <- recycle
+
+is_recycle_call <- function(call) {
+  is.call(call) && is.symbol(call[[1]]) &&
+    as.character(call[[1]]) %in% c("recycle", "recycle_each", "recycle_whole")
+}
