@@ -130,8 +130,8 @@ batting_df <- collect(batting_db)
 years_db <- group_by(batting_db, yearID)
 years_df <- group_by(batting_df, yearID)
 
-system.time(do(years_db, failwith(NULL, lm), formula = R ~ AB))
-system.time(do(years_df, failwith(NULL, lm), formula = R ~ AB))
+system.time(do(years_db, model = failwith(NULL, lm)(formula = R ~ AB, data = .)))
+system.time(do(years_df, model = failwith(NULL, lm)(formula = R ~ AB, data = .)))
 ```
 
 Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
