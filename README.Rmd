@@ -180,4 +180,4 @@ You'll need to be a little careful if you load both plyr and dplyr at the same t
 
 * [Blaze](http://blaze.pydata.org)
 * [|Stat](http://hcibib.org/perlman/stat/introman.html)
-* [Pig](http://infolab.stanford.edu/~usriv/papers/pig-latin.pdf)
+* [Pig](http://infolab.stanford.edu/~olston/publications/sigmod08.pdf)
