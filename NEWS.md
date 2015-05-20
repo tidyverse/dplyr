@@ -1,5 +1,7 @@
 # dplyr 0.4.1.9000
 
+* `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
+
 * `lag` and `lead` for grouped data were confused about indices and therefore 
   produced wrong results (#925, #937)
 
