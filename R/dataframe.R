@@ -87,7 +87,10 @@ data_frame_ <- function(columns) {
     output[short] <- lapply(output[short], rep, max)
   }
 
-  tbl_df(output)
+  # Set attributes (make it a tbl_df)
+  attr(output, "row.names") <- c(NA_integer_, max)
+  attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
+  output
 }
 
 #' Coerce a list to a data frame.
