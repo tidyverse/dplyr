@@ -1,5 +1,7 @@
 # dplyr 0.4.1.9000
 
+* `print` now returns duplicated column names correctly (#1159).
+
 * `lag` and `lead` for grouped data were confused about indices and therefore 
   produced wrong results (#925, #937)
 
