@@ -1,5 +1,8 @@
 # dplyr 0.4.1.9000
 
+* Lists-cols that contain data frames now print a slightly nicer summary 
+  (#1147)
+
 * `lag` and `lead` for grouped data were confused about indices and therefore 
   produced wrong results (#925, #937)
 

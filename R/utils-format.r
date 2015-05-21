@@ -149,14 +149,21 @@ print.BoolResult <- function(x, ...) {
   cat("\n")
 }
 
-obj_type <- function(x) {
-  if (is.null(x)) {
-    "<NULL>"
-  } else if (!is.object(x)) {
+obj_type <- function(x) UseMethod("obj_type")
+obj_type.NULL <- function(x) "<NULL>"
+obj_type.default <- function(x) {
+  if (!is.object(x)) {
     paste0("<", type_sum(x), if (!is.array(x)) paste0("[", length(x), "]"), ">")
   } else if (!isS4(x)) {
     paste0("<S3:", paste0(class(x), collapse = ", "), ">")
   } else {
     paste0("<S4:", paste0(is(x), collapse = ", "), ">")
   }
+}
+
+obj_type.data.frame <- function(x) {
+  paste0("<", class(x)[1], " [", paste0(dim(x), collapse = ","), "]", ">")
+}
+obj_type.data_frame <- function(x) {
+  paste0("<data_frame l[", paste0(dim(x), collapse = ","), "]", ">")
 }
