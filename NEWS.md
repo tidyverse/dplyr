@@ -1,32 +1,31 @@
 # dplyr 0.4.1.9000
 
-* `lag()` once again overrides `lag()` instead of just the default method
-  `lag.default()`. This is necesary due to changes in R CMD check. To use
-  the lag function provided by another package, use `pkg::lag`.
+This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK:
+
+* `lag()` and `lead()` for grouped data were confused about indices and therefore 
+  produced wrong results (#925, #937). `lag()` once again overrides `lag()` 
+  instead of just the default method `lag.default()`. This is necesary due to 
+  changes in R CMD check. To use the lag function provided by another package, 
+  use `pkg::lag`.
+
+* Fixed a number of memory issues identified by valgrind.
+
+* Improved performance when working with large number of columns (#879). 
 
 * Lists-cols that contain data frames now print a slightly nicer summary 
   (#1147)
 
-* `lag` and `lead` for grouped data were confused about indices and therefore 
-  produced wrong results (#925, #937)
+* Set operations give more useful error message on incompatible data frames 
+  (#903). 
 
-* fixed a number of memory issues identified by valgrind  
+* `all.equal()` gives the correct result when `ignore_row_order` is `TRUE` 
+  (#1065) and `all.equal()` correctly handles character missing values (#1095). 
 
-* `bind_rows` gains a test for a form of data frame corruption (#1074). 
+* `bind_cols()` always produces a `tbl_df` (#779). 
 
-* `bind_rows` handles complex columns (#933). 
+* `bind_rows()` gains a test for a form of data frame corruption (#1074).
 
-* Fixed issue about complex variables used in `summarise` (#933). 
-
-* Set operations give more useful error message on incompatible data frames (#903). 
-
-* `all.equal` gives the correct result when `ignore_row_order` is `TRUE` (#1065). 
-
-* `bind_cols` always produces a `tbl_df` (#779). 
-
-* `all.equal` correctly treats character missing values (#1095). 
-
-* Improved performance when working with large number of columns (#879). 
+* `bind_rows()` and `summarise()` now handles complex columns (#933). 
 
 # dplyr 0.4.1
 
