@@ -1,5 +1,9 @@
 # dplyr 0.4.1.9000
 
+* `lag()` once again overrides `lag()` instead of just the default method
+  `lag.default()`. This is necesary due to changes in R CMD check. To use
+  the lag function provided by another package, use `pkg::lag`.
+
 * Lists-cols that contain data frames now print a slightly nicer summary 
   (#1147)
 
