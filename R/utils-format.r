@@ -150,7 +150,9 @@ print.BoolResult <- function(x, ...) {
 }
 
 obj_type <- function(x) UseMethod("obj_type")
+#' @export
 obj_type.NULL <- function(x) "<NULL>"
+#' @export
 obj_type.default <- function(x) {
   if (!is.object(x)) {
     paste0("<", type_sum(x), if (!is.array(x)) paste0("[", length(x), "]"), ">")
@@ -161,9 +163,11 @@ obj_type.default <- function(x) {
   }
 }
 
+#' @export
 obj_type.data.frame <- function(x) {
   paste0("<", class(x)[1], " [", paste0(dim(x), collapse = ","), "]", ">")
 }
+#' @export
 obj_type.data_frame <- function(x) {
-  paste0("<data_frame l[", paste0(dim(x), collapse = ","), "]", ">")
+  paste0("<data_frame [", paste0(dim(x), collapse = ","), "]", ">")
 }
