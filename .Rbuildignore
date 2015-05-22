@@ -10,3 +10,4 @@ demo/pandas
 ^cran-comments\.md$
 ^README\.Rmd$
 ^revdep$
+^README-.*\.png$

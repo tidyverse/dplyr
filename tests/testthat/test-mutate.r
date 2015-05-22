@@ -253,9 +253,15 @@ test_that("hybrid does not segfault when given non existing variable (#569)", {
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
+  df <- data.frame(x = 1:2)
+
   expect_equal(
-    mutate(mtcars, cyl2 = stats::lag(cyl)),
-    mutate(mtcars, cyl2 = lag(cyl))
+    mutate(df, y = base::mean(x)),
+    mutate(df, y = mean(x))
+  )
+  expect_equal(
+    mutate(df, y = stats::IQR(x)),
+    mutate(df, y = IQR(x))
   )
 })
 
