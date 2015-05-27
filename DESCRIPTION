@@ -36,8 +36,8 @@ Suggests:
     methods
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.11.5),
-    BH (>= 1.51.0-2)
+LinkingTo: Rcpp (>= 0.11.6),
+    BH (>= 1.58.0-1)
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
