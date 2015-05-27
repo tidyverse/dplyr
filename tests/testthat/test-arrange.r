@@ -70,16 +70,6 @@ test_that("arrange results same regardless of backend", {
   compare_tbls(tbls, function(x) x %>% arrange(desc(d), id), compare = equal_df)
 })
 
-test_that("arrange uses the white list", {
-  env <- environment()
-  Period <- suppressWarnings( setClass("Period", contains = "numeric", where = env) )
-  on.exit(removeClass("Period", where = env))
-
-  df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
-  expect_error(arrange(df, p))
-
-})
-
 test_that("arrange handles list columns (#282)", {
   df <- data.frame( a = 2:1 )
   df$b <- list( "foo", "bar" )
@@ -142,4 +132,14 @@ test_that("arrange handles complex vectors", {
   res <- arrange(d,desc(y))
   expect_true( all(is.na(res$y[9:10])) )
 
+})
+
+test_that("arrange respects attributes #1105", {
+  env <- environment()
+  Period <- suppressWarnings( setClass("Period", contains = "numeric", where = env) )
+  on.exit(removeClass("Period", where = env))
+
+  df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
+  res <- arrange(df, p)
+  expect_is(res$p, "Period") 
 })

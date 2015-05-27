@@ -126,19 +126,8 @@ Result* count_distinct_result(SEXP vec){
         case INTSXP:
             if( Rf_inherits(vec, "factor" ))
                 return new Count_Distinct<FactorVisitor>( FactorVisitor(vec) ) ;
-            if( Rf_inherits( vec, "Date" ) )
-                return new Count_Distinct< DateVisitor<INTSXP> >( DateVisitor<INTSXP>(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return new Count_Distinct<POSIXctVisitor<INTSXP> >( POSIXctVisitor<INTSXP>(vec) ) ;
-
             return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
         case REALSXP:
-            if( Rf_inherits( vec, "difftime" ) )
-                return new Count_Distinct< DifftimeVisitor<REALSXP> >( DifftimeVisitor<REALSXP>(vec) ) ;
-            if( Rf_inherits( vec, "Date" ) )
-                return new Count_Distinct< DateVisitor<REALSXP> >( DateVisitor<REALSXP>(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return new Count_Distinct<POSIXctVisitor<REALSXP> >( POSIXctVisitor<REALSXP>(vec) ) ;
             return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
         case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
         case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
@@ -1019,25 +1008,6 @@ void push_back( Container& x, typename Container::value_type value, int n ){
         x.push_back( value ) ;
 }
 
-std::string get_unsupported_attributes( SEXP v ){
-    SEXP att = ATTRIB(v) ;
-    std::stringstream s ;
-    int i = 0 ;
-    
-    // only allow R_Names. as in R's do_isvector
-    while( att != R_NilValue ){
-        SEXP tag = TAG(att) ;
-        if( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) {
-            if( i > 0 ) s << ", " ;
-            i++ ;
-            s << CHAR(PRINTNAME(tag)) ;
-        }
-        att = CDR(att) ;    
-    }
-    
-    return s.str() ; 
-}
-
 void assert_all_white_list(const DataFrame& data){
     // checking variables are on the white list
     int nc = data.size() ;
@@ -1052,11 +1022,6 @@ void assert_all_white_list(const DataFrame& data){
                 stop( "column '%s' has unsupported type : %s",
                     name_i.get_cstring() , get_single_class(v) );
             }
-            
-            std::string unsupported_attributes = get_unsupported_attributes(v) ;
-            
-            stop( "column '%s' of type %s has unsupported attributes: %s",
-                    name_i.get_cstring() , get_single_class(v), unsupported_attributes );    
             
         }
     }

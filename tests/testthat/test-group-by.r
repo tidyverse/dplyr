@@ -246,3 +246,8 @@ test_that("group_by works after arrange (#959)",{
   expect_equal( res$Diff[ c(2,4,5,6) ], c(1,7,10,5) )
 })
 
+test_that("group_by keeps attributes", {
+  d <- data.frame( x = structure( 1:10, foo = "bar" ) )
+  gd <- group_by(d)
+  expect_equal( attr(gd$x, "foo"), "bar")
+})
