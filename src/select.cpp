@@ -33,6 +33,9 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
   
   // handle vars  attribute : make a shallow copy of the list and alter 
   //   its names attribute
+  // 
+  // note: this does not need the SHALLOW_COPY macro because the 
+  //      Vector(SEXP) ctor is fine
   List vars = shallow_copy( copy.attr("vars") ); 
   
   int nv = vars.size() ;
@@ -54,7 +57,7 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
       
     DataFrame original_labels( copy.attr("labels" ) ) ;
     
-    DataFrame labels = shallow_copy(original_labels) ;
+    SHALLOW_COPY(labels,original_labels) ;
     CharacterVector label_names = clone<CharacterVector>( labels.names() ) ;
     
     IntegerVector positions = match( label_names, keep ); 
