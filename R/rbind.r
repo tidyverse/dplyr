@@ -1,7 +1,7 @@
 #' Efficiently bind multiple data frames by row and column.
 #'
 #' This is an efficient implementation of the common pattern of
-#' \code{do.call(rbind, dfs)} or \code{do.call{cbind, dfs}} for binding many
+#' \code{do.call(rbind, dfs)} or \code{do.call(cbind, dfs)} for binding many
 #' data frames into one. \code{combine()} acts like \code{\link{c}()} or
 #' \code{\link{unlist}()} but uses consistent dplyr coercion rules.
 #'
@@ -9,7 +9,7 @@
 #' \code{rbind_list} and \code{rbind_all} have been deprecated. Instead use
 #' \code{bind_rows}.
 #'
-#' @param x,dots,... Data frames to combine.
+#' @param x,... Data frames to combine.
 #'
 #'   You can either supply one data frame per argument, or a list of
 #'   data frames in the first argument.
@@ -19,6 +19,7 @@
 #'   position, see \code{left_join} etc. When row-binding, columns are
 #'   matched by name, and any values that don't match will be filled with NA.
 #' @return \code{bind_rows} and \code{bind_cols} always return a \code{tbl_df}
+#' @aliases rbind_all rbind_list
 #' @examples
 #' one <- mtcars[1:4, ]
 #' two <- mtcars[11:14, ]
@@ -83,7 +84,6 @@ combine <- function(x, ...) {
 
 
 #' @export
-#' @rdname bind
 rbind_list <- function(...){
   rbind_list__impl(environment())
 }

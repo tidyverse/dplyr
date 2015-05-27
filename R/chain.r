@@ -7,13 +7,14 @@
 #' manipulation) functions that you read can from left to right.
 #'
 #' The functions work via simple substitution so that
-#' \code{x \%.\% f(y)} is translated into \code{f(x, y)}.
+#' \code{x \%>\% f(y)} is translated into \code{f(x, y)}.
 #'
 #' @section Deprecation:
 #'
 #' \code{chain} was deprecated in version 0.2, and will be removed in
-#' 0.3. It was removed in the interest of making dplyr code more
-#' standardised and \code{\%.\%} is much more popular.
+#' 0.3. \code{\%.\%} was deprecated in version 0.3, and defunct in 0.4.
+#' They wwere removed in the interest of making dplyr code more
+#' standardised and \code{\%>\%} is much more popular.
 #'
 #' @param lhs,rhs A dataset and function to apply to it
 #' @param ...,calls A sequence of data transformations, starting with a dataset.
@@ -23,6 +24,8 @@
 #'   when calling from another function.
 #' @param env Environment in which to evaluation expressions. In ordinary
 #'   operation you should not need to set this parameter.
+#' @seealso \code{\link[magrittr]{\%>\%}} in the magrittr package for a more
+#' detailed explanation of the forward pipe semantics.
 #' @export
 #' @examples
 #' # If you're performing many operations you can either do step by step
@@ -50,7 +53,7 @@
 #'
 #' # This is difficult to read because the order of the operations is from
 #' # inside to out, and the arguments are a long way away from the function.
-#' # Alternatively you can use chain or %>% to sequence the operations
+#' # Alternatively you can use %>% to sequence the operations
 #' # linearly:
 #'
 #' flights %>%
@@ -64,7 +67,7 @@
 #' }
 chain <- function(..., env = parent.frame()) {
   # Defunct 0.3. Remove in 0.4
-  stop("Chain is defunct Please use %>%", call. = FALSE)
+  .Defunct("%>%")
 }
 
 #' @export
@@ -91,7 +94,7 @@ chain_q <- function(calls, env = parent.frame()) {
 #' @rdname chain
 "%.%" <- function(lhs, rhs) {
   # Deprecated 0.3. Defunct in 0.4
-  warning("%.% is deprecated. Please use %>%", call. = FALSE)
+  .Deprecated("%>%")
 
   chain_q(list(substitute(lhs), substitute(rhs)), env = parent.frame())
 }

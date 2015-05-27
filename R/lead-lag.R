@@ -52,7 +52,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   if (!is.null(order_by)) {
     return(with_order(order_by, lag, x, n = n, default = default))
   }
