@@ -27,6 +27,9 @@
 #'
 #' # or munges column names
 #' data_frame(`a + b` = 1:5)
+#'
+#' # With the SE version, you give it a list of formulas/expressions
+#' data_frame_(list(x = ~1:10, y = quote(x * 2)))
 data_frame <- function(...) {
   data_frame_(lazyeval::lazy_dots(...))
 }
