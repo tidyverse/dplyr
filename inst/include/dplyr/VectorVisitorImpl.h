@@ -78,6 +78,7 @@ namespace dplyr {
             ChunkIndexMap::const_iterator it = map.begin(); 
             for( int i=0; i<n; i++, ++it)
                 out[i] = vec[ it->first ] ;
+            copy_most_attributes(out, vec) ;
             return out ;
         }
         
@@ -88,11 +89,14 @@ namespace dplyr {
                 while( index[i] != TRUE ) i++; 
                 out[k] = vec[i] ;
             }
+            copy_most_attributes(out, vec) ;
             return out ;
         }
         
         inline SEXP subset( EmptySubset ) const {
-            return VECTOR(0) ;    
+            VECTOR out(0) ;
+            copy_most_attributes(out, vec) ;
+            return out ;
         }
     
         inline std::string get_r_type() const {
@@ -118,6 +122,7 @@ namespace dplyr {
                     out[i] = vec[ index[i] ] ;
                 }
             }
+            copy_most_attributes(out, vec) ;
             return out ;
         }
         
@@ -130,57 +135,10 @@ namespace dplyr {
         List out(n) ;
         for( int i=0; i<n; i++) 
             out[i] = (index[i] < 0) ? R_NilValue : vec[ index[i] ] ;
+        copy_most_attributes(out, vec) ;
         return out ;
     }
-    
-    template <typename VisitorImpl> 
-    class PromoteClassVisitor : public VisitorImpl {
-    public:
-        typedef typename VisitorImpl::VECTOR VECTOR ;
-        PromoteClassVisitor( const VECTOR& vec ) : VisitorImpl(vec){}
         
-        inline SEXP subset( const Rcpp::IntegerVector& index) const{
-            return promote( VisitorImpl::subset( index ) );
-        }
-        
-        inline SEXP subset( const std::vector<int>& index) const{
-            return promote( VisitorImpl::subset( index ) ) ;    
-        }
-        
-        inline SEXP subset( const ChunkIndexMap& map ) const{
-            return promote( VisitorImpl::subset( map ) ) ;
-        }
-        
-        inline SEXP subset( const Rcpp::LogicalVector& index ) const{
-            return promote( VisitorImpl::subset( index ) ) ;
-        }
-        
-        inline SEXP subset( EmptySubset empty) const {
-            return promote( VisitorImpl::subset(empty) ) ;    
-        }
-        
-        inline std::string get_r_type() const {
-            CharacterVector classes = VisitorImpl::vec.attr( "class" ) ;
-            return collapse(classes) ;    
-        }
-        
-        bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name  ) const{
-            return compatible( dynamic_cast<PromoteClassVisitor*>(other), ss, name ) ;
-        }
-        
-    private:
-        
-        inline bool compatible(PromoteClassVisitor* other, std::stringstream&, const std::string& ) const{
-            // TODO: impl here class specific tests
-            return true ;    
-        }
-        
-        inline SEXP promote(VECTOR x) const{
-            copy_most_attributes(x, VisitorImpl::vec ) ;
-            return x ;
-        }
-    } ;
-    
     class FactorVisitor : public VectorVisitorImpl<INTSXP> {
     public:    
         typedef VectorVisitorImpl<INTSXP> Parent ;
@@ -257,27 +215,6 @@ namespace dplyr {
         CharacterVector levels ;
         SEXP* levels_ptr ;
         comparisons<STRSXP> string_compare ;
-    } ;
-    
-    template <int RTYPE>
-    class DateVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
-    public:
-      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
-      DateVisitor( SEXP v) : Parent(v){}
-    } ;
-    
-    template <int RTYPE>
-    class POSIXctVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
-    public:
-      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
-      POSIXctVisitor( SEXP v) : Parent(v){}
-    } ;
-    
-    template <int RTYPE>
-    class DifftimeVisitor : public PromoteClassVisitor< VectorVisitorImpl<RTYPE> > {
-    public:
-      typedef PromoteClassVisitor< VectorVisitorImpl<RTYPE> > Parent ;
-      DifftimeVisitor( SEXP v) : Parent(v){}
     } ;
     
 }

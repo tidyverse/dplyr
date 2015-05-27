@@ -24,18 +24,8 @@ namespace dplyr {
             case INTSXP: 
                 if( Rf_inherits(vec, "factor" ))
                     return new FactorVisitor( vec ) ;
-                if( Rf_inherits(vec, "Date") )
-                    return new DateVisitor<INTSXP>(vec) ;
-                if( Rf_inherits(vec, "POSIXct") )
-                    return new POSIXctVisitor<INTSXP>(vec) ;
                 return new VectorVisitorImpl<INTSXP>( vec ) ;
             case REALSXP:
-                if( Rf_inherits( vec, "difftime" ) )
-                    return new DifftimeVisitor<REALSXP>( vec ) ;
-                if( Rf_inherits( vec, "Date" ) )
-                    return new DateVisitor<REALSXP>( vec ) ;
-                if( Rf_inherits( vec, "POSIXct" ) )
-                    return new POSIXctVisitor<REALSXP>( vec ) ;
                 return new VectorVisitorImpl<REALSXP>( vec ) ;
             case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
             case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
