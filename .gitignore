@@ -7,3 +7,4 @@ src/*.o-*
 .Rhistory
 inst/doc
 .httr-oauth
+*.Rds
