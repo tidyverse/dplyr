@@ -1929,7 +1929,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
             boost::scoped_ptr<Gatherer> gather( gatherer<Data, Subsets>( proxy, gdf, name ) );
-            SEXP variable = gather->collect() ;
+            Shield<SEXP> variable( gather->collect() ) ;
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
         } else if(Rf_length(call) == 1) {
