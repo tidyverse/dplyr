@@ -1893,6 +1893,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         accumulator.set( column_names[i], df[i] ) ;
     }
 
+    List variables(nexpr) ;
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
@@ -1906,7 +1907,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
-                SEXP variable = proxy.get_variable( PRINTNAME(call) ) ;
+                SEXP variable = variables[i] = proxy.get_variable( PRINTNAME(call) ) ;
                 proxy.input( name, variable ) ;
                 accumulator.set( name, variable) ;
             } else {
@@ -1915,12 +1916,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
                 } else if( Rf_length(v) == 1){
                     boost::scoped_ptr<Replicator> rep( constant_replicator<Data>(v, gdf.nrows() ) );
-                    Shield<SEXP> variable( rep->collect() );
+                    SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
                     accumulator.set( name, variable) ;
                 } else {
                     boost::scoped_ptr<Replicator> rep( replicator<Data>(v, gdf) ) ;
-                    Shield<SEXP> variable( rep->collect() );
+                    SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
                     accumulator.set( name, variable) ;
                 }
@@ -1929,12 +1930,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
             boost::scoped_ptr<Gatherer> gather( gatherer<Data, Subsets>( proxy, gdf, name ) );
-            Shield<SEXP> variable( gather->collect() ) ;
+            SEXP variable = variables[i] = gather->collect() ;
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
-            Shield<SEXP> variable( gather->collect() );
+            SEXP variable = variables[i] = gather->collect() ;
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
         } else if( Rf_isNull(call) ){
