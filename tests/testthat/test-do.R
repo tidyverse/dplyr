@@ -17,8 +17,8 @@ test_that("can't use both named and unnamed args", {
 })
 
 test_that("unnamed elements must return data frames", {
-  expect_error(grp$df %>% do(1), "not data frames")
-  expect_error(grp$df %>% do("a"), "not data frames")
+  expect_error(grp$df %>% do(1), "Result must be a data frame")
+  expect_error(grp$df %>% do("a"), "Result must be a data frame")
 })
 
 test_that("unnamed results bound together by row", {
