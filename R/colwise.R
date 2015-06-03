@@ -65,7 +65,7 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  vars <- colwise_(tbl, funs_(funs), vars)
+  vars <- columnwise_(tbl, funs_(funs), vars)
   mutate_(tbl, .dots = vars)
 }
 
@@ -97,7 +97,8 @@ colwise_ <- function(tbl, calls, vars) {
 
   if (length(calls) == 1) {
     names(out) <- names(vars)
-  } else if (length(vars) == 1) {
+  } else 
+  if (length(vars) == 1) {
     names(out) <- names(calls)
   } else {
     grid <- expand.grid(var = names(vars), call = names(calls))
@@ -107,3 +108,32 @@ colwise_ <- function(tbl, calls, vars) {
   out
 }
 
+columnwise_ <- function(tbl, calls, vars) {
+  stopifnot(is.fun_list(calls))
+
+  if (length(vars) == 0) {
+    vars <- lazyeval::lazy_dots(everything())
+  }
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))
+
+  out <- vector("list", length(vars) * length(calls))
+  dim(out) <- c(length(vars), length(calls))
+
+  for (i in seq_along(vars)) {
+    for (j in seq_along(calls)) {
+      out[[i, j]] <- lazyeval::interp(calls[[j]],
+        .values = list(. = as.name(vars[i])))
+    }
+  }
+  dim(out) <- NULL
+
+  if (length(calls) == 1 
+	  & make_name(calls[[1]]$expr) == names(calls)[1]) {
+    names(out) <- names(vars)
+  } else {
+    grid <- expand.grid(var = names(vars), call = names(calls))
+    names(out) <- paste(grid$var, grid$call, sep = "_")
+  }
+
+  out
+}
