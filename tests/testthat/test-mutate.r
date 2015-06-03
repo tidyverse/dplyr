@@ -253,9 +253,15 @@ test_that("hybrid does not segfault when given non existing variable (#569)", {
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
+  df <- data.frame(x = 1:2)
+
   expect_equal(
-    mutate(mtcars, cyl2 = stats::lag(cyl)),
-    mutate(mtcars, cyl2 = lag(cyl))
+    mutate(df, y = base::mean(x)),
+    mutate(df, y = mean(x))
+  )
+  expect_equal(
+    mutate(df, y = stats::IQR(x)),
+    mutate(df, y = IQR(x))
   )
 })
 
@@ -354,10 +360,5 @@ test_that("no utf8 invasion (#722)", {
   skip_on_cran()
 
   source("utf-8.R", local = TRUE)
-})
-
-test_that("mutate warns about unsupported attributes", {
-  d <- data.frame( x = structure( 1:10, foo = "bar" ) )
-  expect_error( d %>% group_by(x), "has unsupported attributes" )
 })
 

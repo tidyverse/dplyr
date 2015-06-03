@@ -11,12 +11,12 @@ List rbind__impl( Dots dots ){
       DataFrame df = dots[i] ;
       CharacterVector df_names = df.names() ;
       if( any(is_na(df_names)).is_true() ){
-        stop( "corrupt data frame at index %d", (i+1) ) ;    
+        stop( "corrupt data frame at index %d", (i+1) ) ;
       }
       if( df.size() ) n += df.nrows() ;
     }
     pointer_vector<Collecter> columns ;
-    
+
     std::vector<String> names ;
     int k=0 ;
     for( int i=0; i<ndata; i++){
@@ -100,7 +100,6 @@ List rbind__impl( Dots dots ){
 }
 
 //' @export
-//' @rdname bind
 // [[Rcpp::export]]
 List rbind_all( StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots ){
     return rbind__impl(dots) ;

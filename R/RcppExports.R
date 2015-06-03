@@ -34,7 +34,6 @@ between <- function(x, left, right) {
 }
 
 #' @export
-#' @rdname bind
 rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }

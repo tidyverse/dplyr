@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include <solaris/solaris.h>
 #include <dplyr/config.h>
+#include <dplyr/workarounds.h>
 
 using namespace Rcpp ;
 #include <Rcpp/Benchmark/Timer.h>
