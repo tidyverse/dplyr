@@ -29,6 +29,7 @@
 |Rcpp         |   |0.11.6   |2015-05-01 |CRAN (R 3.2.0) |
 |RMySQL       |   |0.10.3   |2015-04-21 |CRAN (R 3.2.0) |
 |RSQLite      |   |1.0.0    |2014-10-25 |CRAN (R 3.2.0) |
+|testthat     |*  |0.10.0   |2015-05-22 |CRAN (R 3.2.0) |
 
 # Check results
 85 checked out of 85 dependencies 
@@ -41,127 +42,30 @@ __OK__
 ## aemo (0.1.0)
 Maintainer: Imanuel Costigan <i.costigan@me.com>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## assertr (0.4.1)
 Maintainer: Tony Fischetti <tony.fischetti@gmail.com>  
 Bug reports: https://github.com/tonyfischetti/assertr/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## bayesGDS (0.6.1)
 Maintainer: Michael Braun <braunm@smu.edu>
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘testthat’ ‘MCMCpack’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## bigrquery (0.1.0)
 Maintainer: Hadley Wickham <hadley@rstudio.com>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
 ```
 checking dependencies in R code ... NOTE
 Namespace in Imports field not imported from: ‘R6’
   All declared Imports should be used.
 ```
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library("testthat")
-  Error in library("testthat") : there is no package called 'testthat'
-  Execution halted
-```
-```
 DONE
-Status: 1 ERROR, 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## bootnet (0.1)
@@ -173,74 +77,31 @@ __OK__
 Maintainer: Brendan Rocks <rocks.brendan@gmail.com>  
 Bug reports: https://github.com/brendan-R/boxr/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## broom (0.3.7)
 Maintainer: David Robinson <admiral.david@gmail.com>  
 Bug reports: http://github.com/dgrtwo/broom/issues
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘testthat’ ‘plm’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## choroplethr (3.1.0)
 Maintainer: Ari Lamstein <arilamstein@gmail.com>  
 Bug reports: https://github.com/arilamstein/choroplethr/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## chromer (0.1)
 Maintainer: Matthew Pennell <mwpennell@gmail.com>  
 Bug reports: http://www.github.com/ropensci/chromer/issues/new
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
 checking DESCRIPTION meta-information ... NOTE
 Malformed Description field: should contain one or more complete sentences.
 ```
 ```
 DONE
-Status: 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## COPASutils (0.1.6)
@@ -252,32 +113,7 @@ __OK__
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
 Bug reports: https://github.com/christophergandrud/DataCombine/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## denovolyzeR (0.1.0)
 Maintainer: James Ware <j.ware@imperial.ac.uk>  
@@ -289,28 +125,17 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘sn’
-```
-```
-checking whether package ‘DepthProc’ can be installed ... [49s/50s] ERROR
+checking whether package ‘DepthProc’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/Rtmp53ONgA/check_cran790b3df09c08/DepthProc.Rcheck/00install.out’ for details.
-Status: 1 ERROR, 1 NOTE
+See ‘/private/tmp/RtmpZj1yIA/check_cranc607778a836f/DepthProc.Rcheck/00install.out’ for details.
+Status: 1 ERROR
 ```
 
 ## ecoengine (1.9.1)
 Maintainer: Karthik Ram <karthik.ram@gmail.com>  
 Bug reports: https://github.com/ropensci/ecoengine/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## EFDR (0.1.1)
 Maintainer: Andrew Zammit-Mangion <andrewzm@gmail.com>
@@ -321,86 +146,31 @@ __OK__
 Maintainer: Christofer Backlin <christofer.backlin@medsci.uu.se>  
 Bug reports: https://github.com/Molmed/emil/issues
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘pamr’ ‘testthat’
-```
-```
-checking Rd cross-references ... NOTE
-Package unavailable to check Rd xrefs: ‘pamr’
-```
-```
-checking examples ... ERROR
-Running examples in ‘emil-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_importance
-> ### Title: Feature (variable) importance of a fitted model
-> ### Aliases: get_importance
-> 
-> ### ** Examples
-> 
-> procedure <- modeling_procedure("pamr")
-> model <- fit(procedure, x=iris[-5], y=iris$Species)
-04 Jun 10:33  Fitting model
-Loading required namespace: pamr
-Failed with error:  ‘there is no package called ‘pamr’’
-Use the `pre_pamr` pre-processing function better pamr efficiency.
-Error in loadNamespace(name) : there is no package called ‘pamr’
-Calls: fit ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
-Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 2 NOTEs
-```
+__OK__
 
 ## enigma (0.1.1)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropengov/enigma/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## freqweights (1.0.1)
 Maintainer: Emilio Torres-Manzanera <torres@uniovi.es>
 
 ```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘hflights’ ‘testthat’
-```
-```
-checking Rd cross-references ... NOTE
-Package unavailable to check Rd xrefs: ‘hflights’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > ## Emilio Torres Manzanera
-  > ## University of Oviedo
-  > ## Time-stamp: <2014-04-19 Sat 16:06 emilio on emilio-despacho>
-  > ## ============================================================
-  > 
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
+checking examples ... WARNING
+Found the following significant warnings:
+
+  Warning: '%.%' is deprecated.
+  Warning: '%.%' is deprecated.
+  Warning: '%.%' is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 ```
 DONE
-Status: 1 ERROR, 2 NOTEs
+Status: 1 WARNING
 ```
 
 ## fueleconomy (0.1)
@@ -412,63 +182,13 @@ __OK__
 Maintainer: Jennifer Bryan <jenny@stat.ubc.ca>  
 Bug reports: https://github.com/jennybc/gapminder/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## gender (0.4.3)
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/gender/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/run-all.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## ggmcmc (0.6)
 Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>
@@ -487,10 +207,6 @@ Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>
 Bug reports: https://github.com/ehrlinger/ggRandomForests/issues
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
 checking installed package size ... NOTE
   installed size is  6.1Mb
   sub-directories of 1Mb or more:
@@ -499,113 +215,52 @@ checking installed package size ... NOTE
 ```
 ```
 DONE
-Status: 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## ggvis (0.4.1)
 Maintainer: Winston Chang <winston@rstudio.com>
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
+  15: mutate_.tbl_df(x, .dots = lazyeval::as.lazy_dots(args, asNamespace("ggvis"))) at /Users/hadley/Documents/plyr/dplyr/R/manip.r:143
+  16: mutate_impl(.data, dots) at /Users/hadley/Documents/plyr/dplyr/R/tbl-df.r:172
   
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
+  testthat results ================================================================
+  OK: 437 SKIPPED: 0 FAILED: 3
+  1. Failure (at test-compute-stack.r#17): compute_stack works as expected 
+  2. Failure (at test-compute-stack.r#24): compute_stack works as expected 
+  3. Error: Zero-row inputs 
   
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
+  Error: testthat unit tests failed
+  In addition: Warning message:
+  In rbind_all(out[[1]]) : Unequal factor levels: coercing to character
   Execution halted
 ```
 ```
 DONE
-Status: 1 ERROR, 1 NOTE
+Status: 1 ERROR
 ```
 
 ## gistr (0.2.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/gistr/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## gsheet (0.1.0)
 Maintainer: Max Conway <conway.max1@gmail.com>  
 Bug reports: https://github.com/maxconway/gsheet/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## haven (0.2.0)
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/hadley/haven/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## IATscores (0.1-2)
 Maintainer: Giulio Costantini <costantinigiulio@gmail.com>
@@ -625,32 +280,7 @@ Status: 1 ERROR
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/internetarchive/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## laketemps (0.5.1)
 Maintainer: Jordan S Read <jread@usgs.gov>  
@@ -672,72 +302,23 @@ __OK__
 Maintainer: Jirka Lewandowski <jirka.lewandowski@wzb.eu>  
 Bug reports: https://github.com/ManifestoProject/manifestoR/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## MazamaSpatialUtils (0.2.4)
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(MazamaSpatialUtils)
-  > 
-  > testthat::test_check("MazamaSpatialUtils")
-  Error in loadNamespace(name) : there is no package called 'testthat'
-  Calls: :: ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## mosaic (0.10.0)
 Maintainer: Randall Pruim <rpruim@calvin.edu>
 
 ```
 checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘fastR’ ‘NHANES’ ‘testthat’
-
 Package which this enhances but not available for checking: ‘manipulate’
 ```
 ```
-checking re-building of vignette outputs ... NOTE
-Error in re-building vignettes:
-  ...
-geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-Quitting from lines 108-119 (GraphicsWithMosaic.Rmd) 
-Error: processing vignette 'GraphicsWithMosaic.Rmd' failed with diagnostics:
-object 'NHANES' not found
-Execution halted
-
-```
-```
 DONE
-Status: 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## muir (0.1.0)
@@ -750,32 +331,7 @@ __OK__
 Maintainer: Hajk-Georg Drost <hajk-georg.drost@informatik.uni-halle.de>  
 Bug reports: https://github.com/HajkD/myTAI/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## NCmisc (1.1.4)
 Maintainer: Nicholas Cooper <nick.cooper@cimr.cam.ac.uk>
@@ -828,7 +384,7 @@ Bug reports: http://github.com/davidcarslaw/openair/issues
 ```
 checking whether package ‘openair’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/Rtmp53ONgA/check_cran790b3df09c08/openair.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpZj1yIA/check_cranc607778a836f/openair.Rcheck/00install.out’ for details.
 Status: 1 ERROR
 ```
 
@@ -842,14 +398,7 @@ __OK__
 Maintainer: Carson Sievert <sievert@iastate.edu>  
 Bug reports: http://github.com/cpsievert/pitchRx/issues
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘testthat’ ‘ggsubplot’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## PogromcyDanych (1.5)
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
@@ -873,71 +422,20 @@ Status: 2 NOTEs
 Maintainer: Jeffrey B. Arnold <jeffrey.arnold@gmail.com>  
 Bug reports: https://github.com/rOpenGov/pollstR/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## PopED (0.2.0)
 Maintainer: Andrew C. Hooker <andrew.hooker@farmbio.uu.se>  
 Bug reports: https://github.com/andrewhooker/PopED/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## poplite (0.99.16)
 Maintainer: Daniel Bottomly <bottomly@ohsu.edu>
 
 ```
 checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘testthat’ ‘VariantAnnotation’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
+Package suggested but not available for checking: ‘VariantAnnotation’
 ```
 ```
 checking running R code from vignettes ... WARNING
@@ -989,7 +487,7 @@ Execution halted
 ```
 ```
 DONE
-Status: 1 ERROR, 1 WARNING, 2 NOTEs
+Status: 1 WARNING, 2 NOTEs
 ```
 
 ## pRF (1.0)
@@ -1008,32 +506,7 @@ Status: 1 ERROR
 Maintainer: Tyler Rinker <tyler.rinker@gmail.com>  
 Bug reports: http://github.com/trinker/qdap/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library("testthat")
-  Error in library("testthat") : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## quickpsy (0.1.0)
 Maintainer: Linares Daniel <danilinares@gmail.com>
@@ -1049,67 +522,18 @@ __OK__
 Maintainer: Vincent Nijs <radiant@rady.ucsd.edu>  
 Bug reports: https://github.com/vnijs/radiant/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## randNames (0.2)
 Maintainer: Karthik Ram <karthik.ram@gmail.com>  
 Bug reports: https://github.com/karthik/randNames/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## randomizr (0.2.2)
 Maintainer: Alexander Coppock <ac3242@columbia.edu>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘blockTools’
-```
-```
-checking re-building of vignette outputs ... NOTE
-Error in re-building vignettes:
-  ...
-Quitting from lines 272-290 (randomizr_vignette.Rmd) 
-Error: processing vignette 'randomizr_vignette.Rmd' failed with diagnostics:
-there is no package called 'blockTools'
-Execution halted
-
-```
-```
-DONE
-Status: 2 NOTEs
-```
+__OK__
 
 ## rattle (3.4.1)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
@@ -1117,8 +541,7 @@ Maintainer: Graham Williams <Graham.Williams@togaware.com>
 ```
 checking package dependencies ... NOTE
 Packages suggested but not available for checking:
-  ‘graph’ ‘playwith’ ‘RBGL’ ‘rggobi’ ‘RGtk2Extras’ ‘RODBC’
-  ‘pkgDepTools’ ‘Rgraphviz’
+  ‘graph’ ‘RBGL’ ‘rggobi’ ‘RODBC’ ‘pkgDepTools’ ‘Rgraphviz’
 ```
 ```
 checking installed package size ... NOTE
@@ -1164,22 +587,11 @@ Status: 5 NOTEs
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rbison/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## RCMIP5 (1.1)
 Maintainer: Kathe Todd-Brown <ktoddbrown@gmail.com>
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘ncdf4’ ‘testthat’
-```
 ```
 checking dependencies in R code ... NOTE
 'library' or 'require' calls in package code:
@@ -1188,40 +600,15 @@ checking dependencies in R code ... NOTE
   See section 'Suggested packages' in the 'Writing R Extensions' manual.
 ```
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
 DONE
-Status: 1 ERROR, 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## rcrossref (0.3.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rcrossref/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## RDML (0.8-4)
 Maintainer: Konstantin A. Blagodatskikh <k.blag@yandex.ru>
@@ -1231,58 +618,19 @@ __OK__
 ## rdrop2 (0.6)
 Maintainer: Karthik Ram <karthik.ram@gmail.com>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## repra (0.4.2)
 Maintainer: Eduardo Ibanez <eduardo.ibanez@nrel.gov>  
 Bug reports: https://github.com/NREL/repra/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## rerddap (0.1.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/rerddap/issues
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘testthat’ ‘ncdf4’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## reval (2.0.0)
 Maintainer: Michael C Koohafkan <michael.koohafkan@gmail.com>  
@@ -1294,32 +642,7 @@ __OK__
 Maintainer: Jim Hester <james.f.hester@gmail.com>  
 Bug reports: https://github.com/kevinushey/rex/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## rivr (0.9.2)
 Maintainer: Michael C Koohafkan <michael.koohafkan@gmail.com>  
@@ -1331,73 +654,51 @@ __OK__
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/rnoaa/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## rplexos (1.0)
 Maintainer: Eduardo Ibanez <eduardo.ibanez@nrel.gov>  
 Bug reports: https://github.com/NREL/rplexos/issues
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
+  19: function_list[[k]](value)
+  20: do(., rbind(plexos_list_files(., TRUE), plexos_list_files(., FALSE)))
+  21: do_(.data, .dots = lazyeval::lazy_dots(...)) at /Users/hadley/Documents/plyr/dplyr/R/do.r:80
+  22: do_.grouped_df(.data, .dots = lazyeval::lazy_dots(...)) at /Users/hadley/Documents/plyr/dplyr/R/do.r:86
+  23: label_output_dataframe(labels, out, groups(.data)) at /Users/hadley/Documents/plyr/dplyr/R/grouped-df.r:157
+  24: rbind_all(out[[1]]) at /Users/hadley/Documents/plyr/dplyr/R/do.r:104
   
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
+  testthat results ================================================================
+  OK: 106 SKIPPED: 0 FAILED: 1
+  1. Error: Expected errors and warnings 
   
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
+  Error: testthat unit tests failed
   Execution halted
 ```
 ```
 DONE
-Status: 1 ERROR, 1 NOTE
+Status: 1 ERROR
 ```
 
 ## rplos (0.4.7)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rplos/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## rPref (0.5)
 Maintainer: Patrick Roocks <mail@p-roocks.de>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
 ```
 checking for GNU extensions in Makefiles ... NOTE
 GNU make is a SystemRequirements.
 ```
 ```
 DONE
-Status: 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## rtable (0.1.0)
@@ -1410,32 +711,7 @@ __OK__
 Maintainer: Sebastian Warnholz <Sebastian.Warnholz@fu-berlin.de>  
 Bug reports: https://github.com/wahani/saeSim/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## SEERaBomb (2015.1)
 Maintainer: Tomas Radivoyevitch <radivot@ccf.org>
@@ -1452,104 +728,13 @@ __OK__
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
 Bug reports: https://github.com/sjPlot/devel/issues
 
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘effects’ ‘lmerTest’ ‘lsmeans’
-```
-```
-checking Rd cross-references ... NOTE
-Packages unavailable to check Rd xrefs: ‘effects’, ‘lmerTest’
-```
-```
-checking examples ... ERROR
-Running examples in ‘sjPlot-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: sjp.int
-> ### Title: Plot interaction effects of (generalized) linear (mixed) models
-> ### Aliases: sjp.int
-> 
-> ### ** Examples
-> 
-> # Note that the data sets used in this example may not be perfectly suitable for
-> # fitting linear models. I just used them because they are part of the R-software.
-> 
-> # fit "dummy" model. Note that moderator should enter
-> # first the model, followed by predictor. Else, use
-> # parameter "swapPredictors" to change predictor on
-> # x-axis with moderator
-> fit <- lm(weight ~ Diet * Time, data = ChickWeight)
-> 
-> # show summary to see significant interactions
-> summary(fit)
-
-Call:
-lm(formula = weight ~ Diet * Time, data = ChickWeight)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--135.425  -13.757   -1.311   11.069  130.391 
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  30.9310     4.2468   7.283 1.09e-12 ***
-Diet2        -2.2974     7.2672  -0.316  0.75202    
-Diet3       -12.6807     7.2672  -1.745  0.08154 .  
-Diet4        -0.1389     7.2865  -0.019  0.98480    
-Time          6.8418     0.3408  20.076  < 2e-16 ***
-Diet2:Time    1.7673     0.5717   3.092  0.00209 ** 
-Diet3:Time    4.5811     0.5717   8.014 6.33e-15 ***
-Diet4:Time    2.8726     0.5781   4.969 8.92e-07 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 34.07 on 570 degrees of freedom
-Multiple R-squared:  0.773,	Adjusted R-squared:  0.7702 
-F-statistic: 277.3 on 7 and 570 DF,  p-value: < 2.2e-16
-
-> 
-> # plot interaction effects
-> sjp.int(fit, type = "eff")
-Error: Package 'effects' needed for this function to work. Please install it.
-Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 2 NOTEs
-```
+__OK__
 
 ## statar (0.2)
 Maintainer: Matthieu Gomez <mattg@princeton.edu>  
 Bug reports: https://github.com/matthieugomez/statar/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## SWMPr (2.0.0)
 Maintainer: Marcus W. Beck <mbafs2012@gmail.com>  
@@ -1591,48 +776,19 @@ Status: 1 NOTE
 ## tidyjson (0.2.1)
 Maintainer: Jeremy Stanley <jeremy.stanley@gmail.com>
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## tidyr (0.2.0)
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/hadley/tidyr/issues
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
 checking DESCRIPTION meta-information ... NOTE
 Malformed Title field: should not end in a period.
 ```
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
 DONE
-Status: 1 ERROR, 2 NOTEs
+Status: 1 NOTE
 ```
 
 ## turfR (0.8-7)
@@ -1644,48 +800,15 @@ __OK__
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/USAboundaries/issues
 
-```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR, 1 NOTE
-```
+__OK__
 
 ## vdmR (0.1.0)
 Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
 ```
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘testthat’
-```
-```
 checking tests ... ERROR
 Running the tests in ‘tests/run-all.R’ failed.
 Last 13 lines of output:
-  Type 'license()' or 'licence()' for distribution details.
-  
-  R is a collaborative project with many contributors.
-  Type 'contributors()' for more information and
   'citation()' on how to cite R or R packages in publications.
   
   Type 'demo()' for some demos, 'help()' for on-line help, or
@@ -1693,11 +816,15 @@ Last 13 lines of output:
   Type 'q()' to quit R.
   
   > library(testthat)
-  Error in library(testthat) : there is no package called 'testthat'
+  > library(vdmR)
+  > test_package("vdmR")
+  Error in test_dir(test_path, reporter = reporter, env = env, filter = filter,  : 
+    No matching test file in dir
+  Calls: test_package -> run_tests -> with_top_env -> test_dir
   Execution halted
 ```
 ```
 DONE
-Status: 1 ERROR, 1 NOTE
+Status: 1 ERROR
 ```
 

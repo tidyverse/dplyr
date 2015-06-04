@@ -1,3 +1,7 @@
+## Release summary
+
+This release adds one minor feature, but is mostly concerned with fixing crashing bugs, memory errors and R CMD checks problem.  I'm pretty sure we caught all the valgrind and UBSAN problems. Some problems are still flagged, but to the best of our knowledge are coming from Rcpp. We have submitted patches upstream and they will be fixed in the next release of Rcpp.
+
 ## Test environments
 
 * local OS X install, R 3.2.0
@@ -14,8 +18,10 @@ There was 1 NOTE:
 
   This is all compiled code in the libs/ directory.
 
-This release contains a number of fixes for problems spotted by UBSAN and valgrind. Some problems are still flagged, but to the best of our knowledge are coming from Rcpp. We have submitted patches upstream and they will be fixed in the next release of Rcpp.
-
 ## Downstream dependencies
 
-I ran `R CMD check` on all 43 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). 
+I ran `R CMD check` on all 85 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). 
+Two issues appear to be related to dplyr:
+
+* ggvis
+* rplexos
