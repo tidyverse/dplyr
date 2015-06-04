@@ -126,19 +126,8 @@ Result* count_distinct_result(SEXP vec){
         case INTSXP:
             if( Rf_inherits(vec, "factor" ))
                 return new Count_Distinct<FactorVisitor>( FactorVisitor(vec) ) ;
-            if( Rf_inherits( vec, "Date" ) )
-                return new Count_Distinct< DateVisitor<INTSXP> >( DateVisitor<INTSXP>(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return new Count_Distinct<POSIXctVisitor<INTSXP> >( POSIXctVisitor<INTSXP>(vec) ) ;
-
             return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
         case REALSXP:
-            if( Rf_inherits( vec, "difftime" ) )
-                return new Count_Distinct< DifftimeVisitor<REALSXP> >( DifftimeVisitor<REALSXP>(vec) ) ;
-            if( Rf_inherits( vec, "Date" ) )
-                return new Count_Distinct< DateVisitor<REALSXP> >( DateVisitor<REALSXP>(vec) ) ;
-            if( Rf_inherits( vec, "POSIXct" ) )
-                return new Count_Distinct<POSIXctVisitor<REALSXP> >( POSIXctVisitor<REALSXP>(vec) ) ;
             return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
         case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
         case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
@@ -1019,25 +1008,6 @@ void push_back( Container& x, typename Container::value_type value, int n ){
         x.push_back( value ) ;
 }
 
-std::string get_unsupported_attributes( SEXP v ){
-    SEXP att = ATTRIB(v) ;
-    std::stringstream s ;
-    int i = 0 ;
-    
-    // only allow R_Names. as in R's do_isvector
-    while( att != R_NilValue ){
-        SEXP tag = TAG(att) ;
-        if( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) {
-            if( i > 0 ) s << ", " ;
-            i++ ;
-            s << CHAR(PRINTNAME(tag)) ;
-        }
-        att = CDR(att) ;    
-    }
-    
-    return s.str() ; 
-}
-
 void assert_all_white_list(const DataFrame& data){
     // checking variables are on the white list
     int nc = data.size() ;
@@ -1052,11 +1022,6 @@ void assert_all_white_list(const DataFrame& data){
                 stop( "column '%s' has unsupported type : %s",
                     name_i.get_cstring() , get_single_class(v) );
             }
-            
-            std::string unsupported_attributes = get_unsupported_attributes(v) ;
-            
-            stop( "column '%s' of type %s has unsupported attributes: %s",
-                    name_i.get_cstring() , get_single_class(v), unsupported_attributes );    
             
         }
     }
@@ -1582,7 +1547,7 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 // [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     assert_all_white_list(data);
-    DataFrame copy = shallow_copy(data) ;
+    SHALLOW_COPY(copy,data) ;
     copy.attr("vars") = symbols ;
     copy.attr("drop") = drop ;
     if( !symbols.size() )
@@ -1694,7 +1659,7 @@ DataFrame build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
 
 // [[Rcpp::export]]
 DataFrame grouped_df_adj_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
-    DataFrame copy = shallow_copy(data) ;
+    SHALLOW_COPY(copy,data) ;
     copy.attr("vars") = symbols ;
     copy.attr("drop") = drop ;
     return build_index_adj(data, symbols) ;
@@ -1928,6 +1893,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         accumulator.set( column_names[i], df[i] ) ;
     }
 
+    List variables(nexpr) ;
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
@@ -1941,7 +1907,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
-                SEXP variable = proxy.get_variable( PRINTNAME(call) ) ;
+                SEXP variable = variables[i] = proxy.get_variable( PRINTNAME(call) ) ;
                 proxy.input( name, variable ) ;
                 accumulator.set( name, variable) ;
             } else {
@@ -1950,12 +1916,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
                 } else if( Rf_length(v) == 1){
                     boost::scoped_ptr<Replicator> rep( constant_replicator<Data>(v, gdf.nrows() ) );
-                    Shield<SEXP> variable( rep->collect() );
+                    SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
                     accumulator.set( name, variable) ;
                 } else {
                     boost::scoped_ptr<Replicator> rep( replicator<Data>(v, gdf) ) ;
-                    Shield<SEXP> variable( rep->collect() );
+                    SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
                     accumulator.set( name, variable) ;
                 }
@@ -1964,12 +1930,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         } else if(TYPEOF(call) == LANGSXP){
             proxy.set_call( call );
             boost::scoped_ptr<Gatherer> gather( gatherer<Data, Subsets>( proxy, gdf, name ) );
-            SEXP variable = gather->collect() ;
+            SEXP variable = variables[i] = gather->collect() ;
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
         } else if(Rf_length(call) == 1) {
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
-            Shield<SEXP> variable( gather->collect() );
+            SEXP variable = variables[i] = gather->collect() ;
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
         } else if( Rf_isNull(call) ){
@@ -2132,7 +2098,7 @@ SEXP n_distinct(SEXP x){
 
 // [[Rcpp::export]]
 DataFrame as_regular_df(DataFrame df){
-  DataFrame copy = shallow_copy(df) ;
+  SHALLOW_COPY(copy,df) ;
   SET_ATTRIB(copy, strip_group_attributes(df)) ;
   SET_OBJECT(copy, OBJECT(df)) ;
   copy.attr("class") = CharacterVector::create("data.frame") ;
@@ -2141,7 +2107,7 @@ DataFrame as_regular_df(DataFrame df){
 
 // [[Rcpp::export]]
 DataFrame ungroup_grouped_df( DataFrame df){
-  DataFrame copy = shallow_copy(df) ;
+  SHALLOW_COPY(copy,df) ;
   SET_ATTRIB(copy, strip_group_attributes(df)) ;
   return copy ;
 }

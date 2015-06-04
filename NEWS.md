@@ -27,6 +27,9 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * `bind_rows()` and `summarise()` now handles complex columns (#933). 
 
+* Workaround for using the constructor of `DataFrame` on an unprotected object
+  (#998)
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.

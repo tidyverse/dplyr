@@ -4,6 +4,20 @@ using namespace Rcpp ;
 
 namespace dplyr{
 
+    inline bool is_bare_vector( SEXP x){
+        SEXP att = ATTRIB(x) ;
+        
+        // only allow R_Names. as in R's do_isvector
+        while( att != R_NilValue ){
+            SEXP tag = TAG(att) ;
+            if( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) return false ;
+            att = CDR(att) ;    
+        }
+        
+        return true ;
+    }
+
+    
     // -------------- (int,lgl)
     template <int LHS_RTYPE, int RHS_RTYPE>
     inline size_t hash_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, int i){
