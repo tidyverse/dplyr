@@ -203,5 +203,5 @@ Related approaches
 ------------------
 
 -   [Blaze](http://blaze.pydata.org)
--   [|Stat](http://hcibib.org/perlman/stat/introman.html)
+-   [|Stat](http://oldwww.acm.org/perlman/stat/)
 -   [Pig](http://dx.doi.org/10.1145/1376616.1376726)
