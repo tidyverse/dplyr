@@ -169,6 +169,10 @@ db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 
 #' @export
 db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
+
+  if (nrow(values) == 0)
+    return(NULL)
+  
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 
