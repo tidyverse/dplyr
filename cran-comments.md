@@ -1,5 +1,9 @@
 ## Release summary
 
+This is a resubmission to fix a broken url.
+
+---
+
 This release adds one minor feature, but is mostly concerned with fixing crashing bugs, memory errors and R CMD checks problem.  I'm pretty sure we caught all the valgrind and UBSAN problems. Some problems are still flagged, but to the best of our knowledge are coming from Rcpp. We have submitted patches upstream and they will be fixed in the next release of Rcpp.
 
 ## Test environments
