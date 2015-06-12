@@ -21,7 +21,4 @@ There was 1 NOTE:
 ## Downstream dependencies
 
 I ran `R CMD check` on all 85 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). 
-Two issues appear to be related to dplyr:
-
-* ggvis
-* rplexos
+I did not find any errors related to dplyr changes.

@@ -6,33 +6,35 @@
 |:--------|:----------------------------|
 |version  |R version 3.2.0 (2015-04-16) |
 |system   |x86_64, darwin13.4.0         |
-|ui       |RStudio (0.99.561)           |
+|ui       |RStudio (0.99.584)           |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
 
 ## Packages
 
-|package      |*  |version  |date       |source         |
-|:------------|:--|:--------|:----------|:--------------|
-|assertthat   |   |0.1      |2013-12-06 |CRAN (R 3.2.0) |
-|BH           |   |1.58.0-1 |2015-05-21 |CRAN (R 3.2.0) |
-|data.table   |   |1.9.4    |2014-10-02 |CRAN (R 3.2.0) |
-|DBI          |   |0.3.1    |2014-09-24 |CRAN (R 3.2.0) |
-|ggplot2      |   |1.0.1    |2015-03-17 |CRAN (R 3.2.0) |
-|knitr        |   |1.10.5   |2015-05-06 |CRAN (R 3.2.0) |
-|Lahman       |   |3.0-1    |2014-09-13 |CRAN (R 3.2.0) |
-|lazyeval     |   |0.1.10   |2015-01-02 |CRAN (R 3.2.0) |
-|magrittr     |   |1.5      |2014-11-22 |CRAN (R 3.2.0) |
-|nycflights13 |   |0.1      |2014-07-22 |CRAN (R 3.2.0) |
-|R6           |   |2.0.1    |2014-10-29 |CRAN (R 3.2.0) |
-|Rcpp         |   |0.11.6   |2015-05-01 |CRAN (R 3.2.0) |
-|RMySQL       |   |0.10.3   |2015-04-21 |CRAN (R 3.2.0) |
-|RSQLite      |   |1.0.0    |2014-10-25 |CRAN (R 3.2.0) |
-|testthat     |*  |0.10.0   |2015-05-22 |CRAN (R 3.2.0) |
+|package        |*  |version  |date       |source         |
+|:--------------|:--|:--------|:----------|:--------------|
+|assertthat     |   |0.1      |2013-12-06 |CRAN (R 3.2.0) |
+|BH             |   |1.58.0-1 |2015-05-21 |CRAN (R 3.2.0) |
+|data.table     |   |1.9.4    |2014-10-02 |CRAN (R 3.2.0) |
+|DBI            |   |0.3.1    |2014-09-24 |CRAN (R 3.2.0) |
+|ggplot2        |   |1.0.1    |2015-03-17 |CRAN (R 3.2.0) |
+|knitr          |   |1.10.5   |2015-05-06 |CRAN (R 3.2.0) |
+|Lahman         |   |3.0-1    |2014-09-13 |CRAN (R 3.2.0) |
+|lazyeval       |   |0.1.10   |2015-01-02 |CRAN (R 3.2.0) |
+|magrittr       |   |1.5      |2014-11-22 |CRAN (R 3.2.0) |
+|microbenchmark |   |1.4-2    |2014-09-28 |CRAN (R 3.2.0) |
+|nycflights13   |   |0.1      |2014-07-22 |CRAN (R 3.2.0) |
+|R6             |   |2.0.1    |2014-10-29 |CRAN (R 3.2.0) |
+|Rcpp           |   |0.11.6   |2015-05-01 |CRAN (R 3.2.0) |
+|RMySQL         |   |0.10.3   |2015-04-21 |CRAN (R 3.2.0) |
+|RPostgreSQL    |   |0.4      |2013-03-27 |CRAN (R 3.2.0) |
+|RSQLite        |   |1.0.0    |2014-10-25 |CRAN (R 3.2.0) |
+|testthat       |*  |0.10.0   |2015-05-22 |CRAN (R 3.2.0) |
 
 # Check results
-85 checked out of 85 dependencies 
+88 checked out of 88 dependencies 
 
 ## ADPclust (0.6.3)
 Maintainer: Yifan "Ethan" Xu <ethan.yifanxu@gmail.com>
@@ -115,6 +117,11 @@ Bug reports: https://github.com/christophergandrud/DataCombine/issues
 
 __OK__
 
+## datastepr (0.0.1)
+Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>
+
+__OK__
+
 ## denovolyzeR (0.1.0)
 Maintainer: James Ware <j.ware@imperial.ac.uk>  
 Bug reports: http://github.com/jamesware/denovolyzeR/issues
@@ -125,9 +132,9 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking whether package ‘DepthProc’ can be installed ... ERROR
+checking whether package ‘DepthProc’ can be installed ... [47s/47s] ERROR
 Installation failed.
-See ‘/private/tmp/RtmpZj1yIA/check_cranc607778a836f/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/Rtmpe7ufPg/check_cran12f6847060d3d/DepthProc.Rcheck/00install.out’ for details.
 Status: 1 ERROR
 ```
 
@@ -218,31 +225,10 @@ DONE
 Status: 1 NOTE
 ```
 
-## ggvis (0.4.1)
+## ggvis (0.4.2)
 Maintainer: Winston Chang <winston@rstudio.com>
 
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  15: mutate_.tbl_df(x, .dots = lazyeval::as.lazy_dots(args, asNamespace("ggvis"))) at /Users/hadley/Documents/plyr/dplyr/R/manip.r:143
-  16: mutate_impl(.data, dots) at /Users/hadley/Documents/plyr/dplyr/R/tbl-df.r:172
-  
-  testthat results ================================================================
-  OK: 437 SKIPPED: 0 FAILED: 3
-  1. Failure (at test-compute-stack.r#17): compute_stack works as expected 
-  2. Failure (at test-compute-stack.r#24): compute_stack works as expected 
-  3. Error: Zero-row inputs 
-  
-  Error: testthat unit tests failed
-  In addition: Warning message:
-  In rbind_all(out[[1]]) : Unequal factor levels: coercing to character
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## gistr (0.2.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
@@ -384,7 +370,7 @@ Bug reports: http://github.com/davidcarslaw/openair/issues
 ```
 checking whether package ‘openair’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmpZj1yIA/check_cranc607778a836f/openair.Rcheck/00install.out’ for details.
+See ‘/private/tmp/Rtmpe7ufPg/check_cran12f6847060d3d/openair.Rcheck/00install.out’ for details.
 Status: 1 ERROR
 ```
 
@@ -656,32 +642,11 @@ Bug reports: http://www.github.com/ropensci/rnoaa/issues
 
 __OK__
 
-## rplexos (1.0)
+## rplexos (1.1.1)
 Maintainer: Eduardo Ibanez <eduardo.ibanez@nrel.gov>  
 Bug reports: https://github.com/NREL/rplexos/issues
 
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  19: function_list[[k]](value)
-  20: do(., rbind(plexos_list_files(., TRUE), plexos_list_files(., FALSE)))
-  21: do_(.data, .dots = lazyeval::lazy_dots(...)) at /Users/hadley/Documents/plyr/dplyr/R/do.r:80
-  22: do_.grouped_df(.data, .dots = lazyeval::lazy_dots(...)) at /Users/hadley/Documents/plyr/dplyr/R/do.r:86
-  23: label_output_dataframe(labels, out, groups(.data)) at /Users/hadley/Documents/plyr/dplyr/R/grouped-df.r:157
-  24: rbind_all(out[[1]]) at /Users/hadley/Documents/plyr/dplyr/R/do.r:104
-  
-  testthat results ================================================================
-  OK: 106 SKIPPED: 0 FAILED: 1
-  1. Error: Expected errors and warnings 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## rplos (0.4.7)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
@@ -730,7 +695,7 @@ Bug reports: https://github.com/sjPlot/devel/issues
 
 __OK__
 
-## statar (0.2)
+## statar (0.3.0)
 Maintainer: Matthieu Gomez <mattg@princeton.edu>  
 Bug reports: https://github.com/matthieugomez/statar/issues
 
@@ -791,6 +756,12 @@ DONE
 Status: 1 NOTE
 ```
 
+## traits (0.1.0)
+Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
+Bug reports: http://www.github.com/ropensci/traits/issues
+
+__OK__
+
 ## turfR (0.8-7)
 Maintainer: Jack Horne <jack@jackhorne.net>
 
@@ -802,29 +773,22 @@ Bug reports: https://github.com/ropensci/USAboundaries/issues
 
 __OK__
 
-## vdmR (0.1.0)
+## vdmR (0.1.1)
 Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
+__OK__
+
+## wikipediatrend (1.1.4)
+Maintainer: Peter Meissner <retep.meissner@gmail.com>  
+Bug reports: https://github.com/petermeissner/wikipediatrend/issues
+
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/run-all.R’ failed.
-Last 13 lines of output:
-  'citation()' on how to cite R or R packages in publications.
-  
-  Type 'demo()' for some demos, 'help()' for on-line help, or
-  'help.start()' for an HTML browser interface to help.
-  Type 'q()' to quit R.
-  
-  > library(testthat)
-  > library(vdmR)
-  > test_package("vdmR")
-  Error in test_dir(test_path, reporter = reporter, env = env, filter = filter,  : 
-    No matching test file in dir
-  Calls: test_package -> run_tests -> with_top_env -> test_dir
-  Execution halted
+checking package dependencies ... NOTE
+Packages suggested but not available for checking:
+  ‘AnomalyDetection’ ‘BreakoutDetection’
 ```
 ```
 DONE
-Status: 1 ERROR
+Status: 1 NOTE
 ```
 
