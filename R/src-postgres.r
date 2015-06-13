@@ -182,3 +182,77 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
   sql <- build_sql("INSERT INTO ", sql(paste0(table, collapse='.')), " VALUES ", sql(values))
   dbGetQuery(con, sql)
 }
+
+#' @export
+db_update.PostgreSQLConnection <- function(con, table, where_cols, values, ...) {
+  
+  stopifnot(all(where_cols %in% names(values)))
+  
+  if (nrow(values) == 0)
+    return(NULL)
+  
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
+  
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
+  
+  non_where_cols <- names(cols)[which(!names(cols) %in% where_cols)]
+  set_clause <- paste0(paste0(postgresqlQuoteId(non_where_cols), " = source.", postgresqlQuoteId(non_where_cols)), collapse=", ")
+  where_clause <- if(!is.null(where_cols)) paste0(" WHERE ", paste0("target.", postgresqlQuoteId(where_cols), " = source.", postgresqlQuoteId(where_cols)), collapse=" AND ") else ""
+  fields <- paste0("(", paste0(postgresqlQuoteId(names(cols)), collapse = ", "), ")")
+  
+  sql <- build_sql("UPDATE ", 
+                   sql(paste0(table, collapse='.')), 
+                   " as target SET ", 
+                   sql(set_clause), 
+                   " FROM ( VALUES ", 
+                   sql(values),
+                   ") as source", sql(fields),
+                   sql(where_clause))
+  dbGetQuery(con, sql)
+}
+
+#' @export
+db_upsert.PostgreSQLConnection <- function(con, table, where_cols, values, lock_table = FALSE, ...) {
+  
+  stopifnot(all(where_cols %in% names(values)))
+  
+  if (nrow(values) == 0)
+    return(NULL)
+  
+  db_begin(con)
+  # provide the option for explicit locking to force concurrent transactions to serialize 
+  # if the user is concerned that concurrent transactions will alter the records between the update and insert steps
+  if (lock_table)
+    dbGetQuery(con, sql(paste0("LOCK TABLE ", sql(paste0(table, collapse='.')), " IN SHARE ROW EXCLUSIVE MODE")))
+  
+  commit <- tryCatch({
+    existing_records <- dbGetQuery(con, sql(paste("SELECT ", if (is.null(where_cols)) "* " else paste0(postgresqlQuoteId(where_cols), collapse=', '), "FROM ", sql(paste0(table, collapse='.')))))
+    
+    values %>% 
+      inner_join(existing_records, copy=TRUE, by=where_cols) %>%
+      db_update(con = con, 
+                table = table,
+                where_cols = where_cols,
+                values = .) 
+    
+    # the columns of values need to be ordered exactly as in the database with a value
+    values %>%
+      anti_join(existing_records, copy=TRUE, by=where_cols) %>%
+      db_insert_into(con = con, 
+                     table = table, 
+                     values = .)
+    TRUE
+  }, error=function(e) {
+    return(FALSE)
+  })
+  
+  if (!commit) {
+    warning("Rolling back transaction")
+    dbRollback(con)
+  } else {
+    dbCommit(con)
+  }
+}
+
