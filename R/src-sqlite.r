@@ -127,7 +127,7 @@ src_translate_env.src_sqlite <- function(x) {
 
 #' @export
 db_query_fields.SQLiteConnection <- function(con, sql, ...) {
-  rs <- DBI::dbSendQuery(con, paste0("SELECT * FROM ", sql))
+  rs <- DBI::dbSendQuery(con, build_sql("SELECT * FROM ", sql))
   on.exit(DBI::dbClearResult(rs))
 
   names(fetch(rs, 0L))
@@ -146,5 +146,8 @@ db_explain.SQLiteConnection <- function(con, sql, ...) {
 
 #' @export
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
-  DBI::dbWriteTable(con, table, values, append = TRUE, row.names = FALSE)
+  assert_that(is.string(table), is.data.frame(values))
+  valStr <- paste(rep("?", ncol(values)), collapse = ",")
+  sql <- build_sql("insert into ", ident(table), " values (", sql(valStr), ")")
+  RSQLite::dbSendPreparedQuery(con, sql, bind.data = values)
 }
