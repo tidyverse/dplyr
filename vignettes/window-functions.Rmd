@@ -63,7 +63,7 @@ The other three families are variations on familiar aggregate functions:
 * Rolling aggregates operate in a fixed width window. You won't find them in 
   base R or in dplyr, but there are many implementations in 
   other packages, such as 
-  [RcppRoll](http://cran.r-project.org/web/packages/RcppRoll/).
+  [RcppRoll](http://cran.r-project.org/package=RcppRoll).
 
 * Recycled aggregates, where an aggregate is repeated to match the length
   of the input. These are not needed in R because vector recycling 
