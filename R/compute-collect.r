@@ -22,9 +22,11 @@
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'   batting <- tbl(lahman_sqlite(), "Batting")
 #'   remote <- select(filter(batting, yearID > 2010 && stint == 1), playerID:H)
+#' \donttest{
 #'   remote2 <- collapse(remote)
 #'   cached <- compute(remote)
 #'   local  <- collect(remote)
+#' }
 #' }
 compute <- function(x, name = random_table_name(), ...) {
   UseMethod("compute")
