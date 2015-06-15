@@ -149,5 +149,6 @@ db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   assert_that(is.string(table), is.data.frame(values))
   valStr <- paste(rep("?", ncol(values)), collapse = ",")
   sql <- build_sql("insert into ", ident(table), " values (", sql(valStr), ")")
-  RSQLite::dbSendPreparedQuery(con, sql, bind.data = values)
+  rs <- RSQLite::dbSendPreparedQuery(con, sql, bind.data = values)
+  dbClearResult(rs)
 }
