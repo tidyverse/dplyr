@@ -55,11 +55,13 @@ progress <- mutate(players, cyear = yearID - min(yearID) + 1,
  rank(desc(AB)), cumsum(AB))
 
 # When you group by multiple level, each summarise peels off one level
+\donttest{
 per_year <- group_by(batting, playerID, yearID)
 stints <- summarise(per_year, stints = max(stint))
-# filter(stints, stints > 3)
-# summarise(stints, max(stints))
-# mutate(stints, cumsum(stints))
+filter(stints, stints > 3)
+summarise(stints, max(stints))
+mutate(stints, cumsum(stints))
+}
 
 # Joins ---------------------------------------------------------------------
 player_info <- select(tbl_df(Master), playerID, birthYear)
