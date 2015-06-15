@@ -1,5 +1,12 @@
 ## Release summary
 
+This is a resubmission:
+
+* To use a canoncial package URL
+* To reduce example run time to less than 5s for two examples
+
+---
+
 This is a resubmission to fix a broken url.
 
 ---
