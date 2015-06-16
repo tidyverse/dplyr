@@ -89,6 +89,7 @@ Collate:
     'sets.r'
     'sql-escape.r'
     'sql-star.r'
+    'src-bigquery.r'
     'src-local.r'
     'src-mysql.r'
     'src-postgres.r'
