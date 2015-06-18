@@ -138,3 +138,153 @@ is_1d <- function(x) {
   # dimension check is for matrices and data.frames
   ((is.atomic(x) && !is.null(x)) || is.list(x)) && length(dim(x)) <= 1
 }
+
+validate_rdf_entry <- function(call) {
+
+  msg <- "expected cell delimited by '|'"
+
+  if (!is.call(call))
+    stop(msg)
+
+  if (length(call) != 3)
+    stop(msg)
+
+  if (!is.symbol(call[[1]]))
+    stop(msg)
+
+  if (!identical(as.character(call[[1]]), "|"))
+    stop(msg)
+
+  rhs <- call[[3]]
+  if (length(rhs) != 1 ||
+      is.call(rhs))
+  {
+    stop("expected cell to be length-one symbol, string or literal")
+  }
+
+}
+
+is_vbar_call <- function(call) {
+  if (!is.call(call))
+    return(FALSE)
+
+  if (!(is.symbol(call[[1]]) || is.character(call[[1]])))
+    return(FALSE)
+
+  identical(as.character(call[[1]]), "|")
+}
+
+extract_rdf_header <- function(call) {
+  n <- length(call)
+  header <- character(n)
+  i <- n
+  while (is_vbar_call(call)) {
+    header[[i]] <- as.character(call[[3]])
+    i <- i - 1
+    call <- call[[2]]
+  }
+  header[[1]] <- as.character(call)
+  header
+}
+
+#' Row-wise Tbl Creation
+#'
+#' Create a \code{tbl_df} using a markdown-like language.
+#'
+#' @export
+#' @examples
+#' rdf(
+#'    1 | 2 | 3,
+#'    4 | 5 | 6
+#' )
+rdf <- function(...) {
+
+  matched <- match.call(expand.dots = FALSE)$`...`
+
+  # drop any missing arguments
+  not_missing <- which(unlist(lapply(matched, function(x) {
+    !identical(x, quote(expr =)) # `quote(expr =)` == missing arg
+  })))
+  matched <- matched[not_missing]
+
+  nm <- unique(names(matched))
+  if (any(nm != ""))
+    stop("all arguments to 'rdf' should be unnamed", call. = FALSE)
+
+  # Figure out if there is a header associated with the call
+  dot_indices <- which(unlist(lapply(matched, function(x) {
+    is.symbol(x) && grep("\\.+", as.character(x), perl = TRUE)
+  })))
+
+  header <- NULL
+  if (length(dot_indices) > 0) {
+
+    if (!identical(as.numeric(dot_indices), 2))
+      stop("the header delimiter should exist at index 2 of call")
+
+    if (length(matched) < 3)
+      stop("expected content following header delimiter")
+
+    header <- extract_rdf_header(matched[[1]])
+    matched <- matched[3:length(matched)]
+
+  }
+
+
+  n_row <- length(matched)
+
+  # Validate that the 'row' calls are valid (should be a cascading
+  # set of calls to `|`)
+  lengths <- vapply(matched, FUN.VALUE = numeric(1), USE.NAMES = FALSE, function(row) {
+
+    len <- 1
+    current_row <- row
+    while (is_vbar_call(current_row)) {
+      validate_rdf_entry(current_row)
+      len <- len + 1
+      current_row <- current_row[[2]]
+    }
+    len
+  })
+
+  if (length(unique(lengths)) != 1)
+    stop("not all lengths are of same size; row lengths are:\n- ",
+         paste(shQuote(lengths), collapse = ", "))
+
+  n_col <- lengths[[1]]
+
+  # create a shell data.frame to house the data -- allow implicit
+  # conversions here as speed not a concern
+  output <- lapply(vector("list", n_col), function(x) {
+    logical(n_row)
+  })
+  class(output) <- "data.frame"
+  attr(output, "row.names") <- .set_row_names(n_row)
+
+  for (i in seq_along(matched)) {
+    col_num <- n_col
+    row_num <- i
+    current_row <- matched[[i]]
+    while (is_vbar_call(current_row)) {
+
+      if (is.symbol(current_row[[3]]))
+        current_row[[3]] <- as.character(current_row[[3]])
+
+      output[[col_num]][[row_num]] <- current_row[[3]]
+      col_num <- col_num - 1
+      current_row <- current_row[[2]]
+    }
+
+    if (is.symbol(current_row))
+      current_row <- as.character(current_row)
+
+    output[[1]][[row_num]] <- current_row
+  }
+
+  if (is.null(header))
+    names(output) <- paste("V", 1:n_col, sep = "")
+  else
+    names(output) <- header
+
+  tbl_df(output)
+}
