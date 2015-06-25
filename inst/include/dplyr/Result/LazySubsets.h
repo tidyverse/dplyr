@@ -9,13 +9,16 @@ namespace dplyr {
         typedef DataMap::const_iterator const_iterator ;
         
         LazySubsets( const DataFrame& df) : data_map(), nr(df.nrows()){
-            CharacterVector names = df.names() ;
-            for( int i=0; i<df.size(); i++){
-                SEXP column = df[i] ;
-                if( Rf_inherits( column, "matrix" ) ){
-                    stop( "matrix as column is not supported" ) ;    
+            int nvars = df.size() ;
+            if( nvars ){
+                CharacterVector names = df.names() ;
+                for( int i=0; i<nvars; i++){
+                    SEXP column = df[i] ;
+                    if( Rf_inherits( column, "matrix" ) ){
+                        stop( "matrix as column is not supported" ) ;    
+                    }
+                    data_map[as_symbol(names[i])] = df[i] ;    
                 }
-                data_map[as_symbol(names[i])] = df[i] ;    
             }
         }
         virtual ~LazySubsets(){}

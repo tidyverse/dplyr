@@ -1953,12 +1953,15 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     int nexpr = dots.size() ;
-
+    int nrows = df.nrows() ;
+        
     NamedListAccumulator<DataFrame> accumulator ;
     int nvars = df.size() ;
-    CharacterVector df_names = df.names() ;
-    for( int i=0; i<nvars; i++){
-        accumulator.set( df_names[i], df[i] ) ;
+    if( nvars ){
+        CharacterVector df_names = df.names() ;
+        for( int i=0; i<nvars; i++){
+            accumulator.set( df_names[i], df[i] ) ;
+        }
     }
 
     CallProxy call_proxy(df) ;
@@ -1982,7 +1985,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             call_proxy.set_call( call );
             result = call_proxy.eval() ;
         } else if( Rf_length(call) == 1 ){
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, df.nrows() ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, nrows ) );
             result = gather->collect() ;
         } else if( Rf_isNull(call)) {
             accumulator.rm(name) ;
@@ -1996,20 +1999,20 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         if( Rf_inherits(result, "POSIXlt") ){
             stop("`mutate` does not support `POSIXlt` results");
         }
-        if( Rf_length(result) == df.nrows() ){
+        int n_res = Rf_length(result) ;
+        if( n_res == nrows ){
             // ok
-        } else if( Rf_length(result) == 1 ){
+        } else if( n_res == 1 && nrows != 0 ){
             // recycle
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) );
             result = gather->collect() ;
         } else {
-            stop( "wrong result size (%d), expected %d or 1", Rf_length(result), df.nrows() ) ;
+            stop( "wrong result size (%d), expected %d or 1", n_res, nrows ) ;
         }
 
         call_proxy.input( name, result ) ;
         accumulator.set( name, result );
     }
-
     List res = structure_mutate(accumulator, df, classes_not_grouped() ) ;
 
     return res ;

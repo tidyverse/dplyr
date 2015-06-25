@@ -367,4 +367,9 @@ test_that("mutate works on empty data frames (#1142)", {
   res <- df %>% mutate
   expect_equal( nrow(res), 0L )
   expect_equal( length(res), 0L )
+  
+  res <- df %>% mutate(x = numeric())
+  expect_equal( names(res), "x")
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 1L) 
 })
