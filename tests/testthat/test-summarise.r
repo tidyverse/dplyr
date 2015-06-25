@@ -428,3 +428,10 @@ test_that("summarise handles list output columns (#832)", {
   
 })
 
+test_that("summarise works with empty data frame (#1142)", {
+  df <- data.frame()
+  res <- df %>% summarise
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 0L )
+})
+
