@@ -2018,8 +2018,8 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
 
 // [[Rcpp::export]]
 SEXP mutate_impl( DataFrame df, LazyDots dots){
-    check_valid_colnames(df) ;
     if( dots.size() == 0 ) return df ;
+    check_valid_colnames(df) ;
     if(is<RowwiseDataFrame>(df) ) {
         return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, dots);
     } else if( is<GroupedDataFrame>( df ) ){

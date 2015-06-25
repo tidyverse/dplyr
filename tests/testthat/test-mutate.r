@@ -362,3 +362,9 @@ test_that("no utf8 invasion (#722)", {
   source("utf-8.R", local = TRUE)
 })
 
+test_that("mutate works on empty data frames (#1142)", {
+  df <- data.frame()
+  res <- df %>% mutate
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 0L )
+})
