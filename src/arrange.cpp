@@ -5,6 +5,7 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 List arrange_impl( DataFrame data, LazyDots dots ){
+    if( data.size() == 0 ) return data ;
     check_valid_colnames(data) ;
     assert_all_white_list(data) ;
 

@@ -1,6 +1,6 @@
 # dplyr 0.4.2.9000
 
-* `mutate` works on empty data frames
+* `mutate` and `arrange` works on empty data frames (#1142). 
 
 # dplyr 0.4.2
 

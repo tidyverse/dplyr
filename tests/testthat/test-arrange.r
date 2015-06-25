@@ -143,3 +143,11 @@ test_that("arrange respects attributes #1105", {
   res <- arrange(df, p)
   expect_is(res$p, "Period") 
 })
+
+test_that("arrange works with empty data frame (#1142)", {
+  df <- data.frame()
+  res <- df %>% arrange
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 0L )
+})
+
