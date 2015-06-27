@@ -107,6 +107,10 @@ namespace dplyr {
             return vec.size() ; 
         }
         
+        bool is_na( int i ) const {
+            return VECTOR::is_na( vec[i] ) ;    
+        }
+        
     protected: 
         VECTOR vec ;
         hasher hash_fun ;
@@ -194,7 +198,6 @@ namespace dplyr {
         bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name ) const {
             return compatible( dynamic_cast<FactorVisitor*>(other), ss, name ) ;
         }
-        
         
     private:
     

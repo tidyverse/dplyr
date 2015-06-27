@@ -136,17 +136,40 @@ Result* count_distinct_result(SEXP vec){
     return 0 ;
 }
 
+Result* count_distinct_result_narm(SEXP vec){
+    switch( TYPEOF(vec) ){
+        case INTSXP:
+            if( Rf_inherits(vec, "factor" ))
+                return new Count_Distinct_Narm<FactorVisitor>( FactorVisitor(vec) ) ;
+            return new Count_Distinct_Narm< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
+        case REALSXP:
+            return new Count_Distinct_Narm< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
+        case LGLSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
+        case STRSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
+        default: break ;
+    }
+    return 0 ;
+}
+
 Result* count_prototype(SEXP args, const LazySubsets&, int){
     if( Rf_length(args) != 1)
         stop("n does not take arguments") ;
     return new Count ;
 }
 
-Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int){
+Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     SEXP arg = CADR(call) ;
-    if( TYPEOF(arg) != SYMSXP || !subsets.count(arg) || Rf_length(call) != 2) {
+    if( TYPEOF(arg) != SYMSXP || !subsets.count(arg) || !(nargs == 1 || nargs==2) ) {
         stop( "Input to n_distinct() must be a single variable name from the data set" ) ;
     }
+    if(nargs == 2){
+        SEXP narm = CADDR(call) ;
+        if( TYPEOF(narm) == LGLSXP && LOGICAL(narm)[0] == TRUE ){
+            // n_distinct( ., na.rm = TRUE )
+            return count_distinct_result_narm(subsets.get_variable(arg)) ;
+        }
+    }
+    // n_distinct( ., na.rm = FALSE )
     return count_distinct_result(subsets.get_variable(arg)) ;
 }
 
@@ -1668,7 +1691,7 @@ DataFrame grouped_df_adj_impl( DataFrame data, ListOf<Symbol> symbols, bool drop
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 inline SEXP check_filter_integer_result(SEXP tmp){
-    if( TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP ){
+    if( TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP ){
         stop( "slice condition does not evaluate to an integer or numeric vector. " ) ;
     }
     return tmp ;
@@ -1736,16 +1759,17 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
             // positive indexing
             int ntest = g_test.size() ;
             for( int j=0; j<ntest; j++){
-                if( g_test[j] <= nr ){
+                if( !( g_test[j] > nr || g_test[j] == NA_INTEGER ) ){
                     indx.push_back( indices[g_test[j]-1] ) ;
                 }
             }
-        } else {
+        } else if( counter.get_n_negative() != 0){
             // negative indexing
             std::set<int> drop ;
             int n = g_test.size() ;
             for( int j=0; j<n; j++){
-                drop.insert( -g_test[j] ) ;
+                if( g_test[j] != NA_INTEGER)
+                    drop.insert( -g_test[j] ) ;
             }
             int n_drop = drop.size() ;
             std::set<int>::const_iterator drop_it = drop.begin() ;
@@ -1767,7 +1791,6 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
 
         }
     }
-
     DataFrame res = subset( data, indx, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
 
@@ -1792,24 +1815,32 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
 
     // count the positive and negatives
     CountIndices counter(nr, test) ;
-
+    
     // just positives -> one based subset
     if( counter.is_positive() ){
         int n_pos = counter.get_n_positive() ;
         std::vector<int> idx(n_pos) ;
         int j=0 ;
         for( int i=0; i<n_pos; i++){
-            while( test[j] > nr ) j++ ;
+            while( test[j] > nr || test[j] == NA_INTEGER) j++ ;
             idx[i] = test[j++] - 1 ;
         }
-
+        
         return subset( df, idx, df.names(), classes_not_grouped() ) ;
     }
 
+    // special case where only NA
+    if( counter.get_n_negative() == 0){
+        std::vector<int> indices ;
+        DataFrame res = subset( df, indices, df.names(), classes_not_grouped() ) ;
+        return res ;
+    }
+    
     // just negatives (out of range is dealt with early in CountIndices).
     std::set<int> drop ;
     for( int i=0; i<n; i++){
-        drop.insert( -test[i] ) ;
+        if( test[i] != NA_INTEGER )
+            drop.insert( -test[i] ) ;
     }
     int n_drop = drop.size() ;
     std::vector<int> indices(nr - n_drop) ;

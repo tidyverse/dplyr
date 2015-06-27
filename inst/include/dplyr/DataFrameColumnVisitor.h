@@ -55,6 +55,10 @@ namespace dplyr {
             return true ;
         }
         
+        bool is_na( int i ) const {
+            return false ;    
+        }
+        
     private:
         DataFrame data ;
         DataFrameVisitors visitors ;

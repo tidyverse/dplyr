@@ -45,6 +45,8 @@ namespace dplyr {
         virtual bool is_compatible( VectorVisitor* other, std::stringstream&, const std::string& ) const {
             return true ;    
         }
+        
+        virtual bool is_na( int i ) const = 0 ;
     } ;
     
     // defined in visitor.h
