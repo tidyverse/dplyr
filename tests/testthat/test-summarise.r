@@ -445,3 +445,8 @@ test_that("n_distint uses na.rm argument", {
   
 })
 
+test_that("n_distinct front end supports na_rm argument (#1052)", {
+  x <- c(1:3, NA)
+  expect_equal( n_distinct(x, TRUE), 3L )
+})
+
