@@ -401,13 +401,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // n_distinct
-SEXP n_distinct(SEXP x);
-RcppExport SEXP dplyr_n_distinct(SEXP xSEXP) {
+SEXP n_distinct(SEXP x, bool na_rm);
+RcppExport SEXP dplyr_n_distinct(SEXP xSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    __result = Rcpp::wrap(n_distinct(x));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    __result = Rcpp::wrap(n_distinct(x, na_rm));
     return __result;
 END_RCPP
 }
