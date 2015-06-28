@@ -29,7 +29,7 @@ namespace dplyr {
     } ;
     
     template <typename Visitor>
-    class Count_Distinct_Narm : public Processor<INTSXP, Count_Distinct<Visitor> > {
+    class Count_Distinct_Narm : public Processor<INTSXP, Count_Distinct_Narm<Visitor> > {
     public:  
         typedef VisitorHash<Visitor> Hash ;
         typedef VisitorEqualPredicate<Visitor> Pred ;

@@ -435,3 +435,13 @@ test_that("summarise works with empty data frame (#1142)", {
   expect_equal( length(res), 0L )
 })
 
+test_that("n_distint uses na.rm argument", {
+  df <- data.frame( x = c(1:3,NA), g = rep(1:2,2) )
+  res <- summarise( df, n = n_distinct(x, na.rm = TRUE) )
+  expect_equal( res$n, 3L )
+  
+  res <- group_by(df, g) %>% summarise( n = n_distinct(x, na.rm = TRUE) )
+  expect_equal( res$n, c(2L,1L) )
+  
+})
+
