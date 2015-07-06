@@ -1,7 +1,7 @@
 #' dplyr: a grammar of data manipulation
 #'
 #' dplyr provides a flexible grammar of data manipulation. It's the next
-#' iteration of plyr, focussed on tools for working with data frames (hence the
+#' iteration of plyr, focused on tools for working with data frames (hence the
 #' \emph{d} in the name).
 #'
 #' It has three main goals:
