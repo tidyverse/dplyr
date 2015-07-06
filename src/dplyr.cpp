@@ -2004,7 +2004,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         SEXP name = lazy.name() ;
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
-
+        
         RObject result(R_NilValue) ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){

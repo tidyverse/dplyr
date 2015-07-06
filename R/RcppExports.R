@@ -147,6 +147,7 @@ group_size_grouped_cpp <- function(gdf) {
 #' This is a faster and more concise equivalent of \code{length(unique(x))}
 #'
 #' @param x a vector of values
+#' @param na_rm if \code{TRUE} missing values don't count
 #' @export
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
