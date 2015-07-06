@@ -1996,6 +1996,8 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     }
 
     CallProxy call_proxy(df) ;
+    List results(nexpr) ;
+        
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
@@ -2005,19 +2007,18 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
         
-        RObject result(R_NilValue) ;
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
-                result = call_proxy.get_variable(PRINTNAME(call)) ;
+                results[i] = call_proxy.get_variable(PRINTNAME(call)) ;
             } else {
-                result = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
+                results[i] = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
             }
         } else if( TYPEOF(call) == LANGSXP ){
             call_proxy.set_call( call );
-            result = call_proxy.eval() ;
+            results[i] = call_proxy.eval() ;
         } else if( Rf_length(call) == 1 ){
             boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, nrows ) );
-            result = gather->collect() ;
+            results[i] = gather->collect() ;
         } else if( Rf_isNull(call)) {
             accumulator.rm(name) ;
             continue ;
@@ -2025,24 +2026,24 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             stop( "cannot handle" ) ;
         }
 
-        check_supported_type(result, name) ;
+        check_supported_type(results[i], name) ;
 
-        if( Rf_inherits(result, "POSIXlt") ){
+        if( Rf_inherits(results[i], "POSIXlt") ){
             stop("`mutate` does not support `POSIXlt` results");
         }
-        int n_res = Rf_length(result) ;
+        int n_res = Rf_length(results[i]) ;
         if( n_res == nrows ){
             // ok
         } else if( n_res == 1 && nrows != 0 ){
             // recycle
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( result, df.nrows() ) );
-            result = gather->collect() ;
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( results[i] , df.nrows() ) );
+            results[i] = gather->collect() ;
         } else {
             stop( "wrong result size (%d), expected %d or 1", n_res, nrows ) ;
         }
 
-        call_proxy.input( name, result ) ;
-        accumulator.set( name, result );
+        call_proxy.input( name, results[i] ) ;
+        accumulator.set( name, results[i] );
     }
     List res = structure_mutate(accumulator, df, classes_not_grouped() ) ;
 
