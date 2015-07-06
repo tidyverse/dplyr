@@ -5,8 +5,6 @@ namespace dplyr {
 
     class CallProxy {
     public:
-        typedef dplyr_hash_map<SEXP, SEXP> DataMap ;
-
         CallProxy( const Rcpp::Call& call_, LazySubsets& subsets_, const Environment& env_) :
             call(call_), subsets(subsets_), proxies(), env(env_)
         {
