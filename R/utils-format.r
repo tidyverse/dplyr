@@ -64,7 +64,7 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
 
   values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
   names <- c("", colnames(mat))
-  w <- pmax(nchar(values), nchar(names))
+  w <- pmax(nchar(encodeString(values)), nchar(encodeString(names)))
   cumw <- cumsum(w + 1)
 
   too_wide <- cumw[-1] > width
