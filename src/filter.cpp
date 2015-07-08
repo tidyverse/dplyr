@@ -12,6 +12,7 @@ inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, Characte
 
 SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env){
     switch(TYPEOF(x)){
+    case LGLSXP: return x; 
     case LANGSXP: return x ;
     case SYMSXP:
         {
