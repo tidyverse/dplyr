@@ -6,9 +6,11 @@ namespace dplyr {
     template <int RTYPE>
     class First : public Processor< RTYPE, First<RTYPE> > {
     public:
+        typedef Processor< RTYPE, First<RTYPE> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         First( Vector<RTYPE> data_, STORAGE def_ = Vector<RTYPE>::get_na() ) : 
+            Base(data_),
             data(data_), 
             def(def_) 
             {}
@@ -25,9 +27,11 @@ namespace dplyr {
     template <int RTYPE, int ORDER_RTYPE>
     class FirstWith : public Processor< RTYPE, FirstWith<RTYPE, ORDER_RTYPE> > {
     public:
+        typedef Processor< RTYPE, FirstWith<RTYPE, ORDER_RTYPE> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         FirstWith( Vector<RTYPE> data_, Vector<ORDER_RTYPE> order_, STORAGE def_ = Vector<RTYPE>::get_na() ) : 
+            Base(data_), 
             data(data_),
             order(order_),
             def(def_) {}

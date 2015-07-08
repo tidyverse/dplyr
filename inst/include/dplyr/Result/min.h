@@ -6,10 +6,14 @@ namespace dplyr {
     template <int RTYPE, bool NA_RM>
     class Min : public Processor<RTYPE, Min<RTYPE,NA_RM> > {
     public:
+        typedef Processor<RTYPE, Min<RTYPE,NA_RM> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Min(SEXP x, bool is_summary_ = false) : 
-            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
+            Base(x), 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), 
+            is_summary(is_summary_) 
+        {}
         ~Min(){}
         
         STORAGE process_chunk( const SlicingIndex& indices ){
@@ -41,9 +45,14 @@ namespace dplyr {
     template <int RTYPE>
     class Min<RTYPE,false> : public Processor<RTYPE, Min<RTYPE,false> > {
     public:
+        typedef Processor<RTYPE, Min<RTYPE,false> > Base ; 
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Min(SEXP x, bool is_summary_ = false) : data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
+        Min(SEXP x, bool is_summary_ = false) : 
+            Base(x), 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), 
+            is_summary(is_summary_) 
+        {}
         ~Min(){}
         
         STORAGE process_chunk( const SlicingIndex& indices ){

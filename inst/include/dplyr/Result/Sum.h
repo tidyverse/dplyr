@@ -77,10 +77,14 @@ namespace internal {
     template <int RTYPE, bool NA_RM>
     class Sum : public Processor< RTYPE, Sum<RTYPE,NA_RM> > {
     public:
+        typedef Processor< RTYPE, Sum<RTYPE,NA_RM> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Sum(SEXP x, bool is_summary_ = false) : 
-            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
+            Base(x), 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), 
+            is_summary(is_summary_) 
+        {}
         ~Sum(){}
         
         inline STORAGE process_chunk( const SlicingIndex& indices ){

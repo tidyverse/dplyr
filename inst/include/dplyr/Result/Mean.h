@@ -90,10 +90,14 @@ namespace internal {
     template <int RTYPE, bool NA_RM>
     class Mean : public Processor< REALSXP, Mean<RTYPE,NA_RM> > {
     public:
+        typedef Processor< REALSXP, Mean<RTYPE,NA_RM> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         Mean(SEXP x, bool is_summary_ = false) : 
-            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x)), is_summary(is_summary_) {}
+            Base(x), 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x)), 
+            is_summary(is_summary_) 
+        {}
         ~Mean(){}
         
         inline double process_chunk( const SlicingIndex& indices ){

@@ -45,8 +45,8 @@ namespace dplyr {
     } ;
 
 
-    template <int INPUT_RTYPE> class Reducer<Rcpp::String,INPUT_RTYPE> :
-        public Processor<STRSXP, Reducer<Rcpp::String,INPUT_RTYPE> > {
+    template <int INPUT_RTYPE> 
+    class Reducer<Rcpp::String,INPUT_RTYPE> : public Processor<STRSXP, Reducer<Rcpp::String,INPUT_RTYPE> > {
     public:
         Reducer(Rcpp::Function fun_, SEXP data_ ) :
             call(fun_, R_NilValue),
