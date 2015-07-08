@@ -234,5 +234,5 @@ test_that("filter correctly handles empty data frames (#782)", {
 test_that("filter(.,TRUE,TRUE) works (#1210)", {
   df <- data.frame(x=1:5)
   res <- filter(df,TRUE,TRUE)
-  
+  expect_equal(res, df)
 })

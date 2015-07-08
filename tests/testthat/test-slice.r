@@ -89,3 +89,9 @@ test_that( "slice handles NA (#1235)", {
   
 })
 
+test_that("slice handles empty data frames (#1219)", {
+  df <- data.frame(x=numeric())
+  res <- df %>% slice(1:3)
+  expect_equal( nrow(res), 0L)
+  expect_equal( names(res), "x" )
+})
