@@ -49,7 +49,6 @@ namespace dplyr {
     class DataFrameVisitors ;
     class DataFrameJoinVisitors ;
     class LazySubsets ;
-    template <typename OUT, int INPUT_RTYPE> class Reducer ; 
     std::string get_single_class(SEXP x) ;
     
     template <typename Index>

@@ -19,7 +19,6 @@
 
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/CallbackProcessor.h>
-#include <dplyr/Result/Reducer.h>
 #include <dplyr/Result/DelayedReducer.h>
 #include <dplyr/Result/Name.h>
 #include <dplyr/Result/LazySubsets.h>
