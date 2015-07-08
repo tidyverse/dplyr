@@ -5,8 +5,42 @@ using namespace dplyr ;
 
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 
+bool has_no_class( const RObject& arg) {
+    return RCPP_GET_CLASS(arg) == R_NilValue ;    
+}
+
+bool hybridable( RObject arg ){
+    if( arg.isObject() || arg.isS4() ) return false ;
+    
+    int type = arg.sexp_type() ;
+    switch( type ){
+        case INTSXP: 
+            {
+                if( has_no_class(arg) || Rf_inherits(arg, "Date") || Rf_inherits(arg, "POSIXct") ) 
+                    return true ;
+                break ; 
+            }
+        case REALSXP:
+            {
+                if( has_no_class(arg) || Rf_inherits(arg, "Date") || Rf_inherits(arg, "POSIXct") || Rf_inherits(arg, "difftime") )
+                    return true ;
+                break ;
+            }
+        case LGLSXP:
+        case STRSXP:
+        case CPLXSXP:
+        case RAWSXP:
+            return has_no_class(arg) ;
+        default: break ;
+    } 
+    return false ;
+}
+
 template <template <int,bool> class Fun, bool narm>
 Result* simple_prototype_impl( SEXP arg, bool is_summary ){
+    // if not hybridable, just let R handle it
+    if( !hybridable(arg) ) return 0 ;
+    
     switch( TYPEOF(arg) ){
         case INTSXP:
             {
@@ -88,7 +122,6 @@ Result* minmax_prototype_impl(SEXP arg, bool is_summary){
 template< template <int, bool> class Tmpl>
 Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     using namespace dplyr ;
-
     if( nargs == 1 ) return 0 ;
 
     // the first argument is the data to operate on

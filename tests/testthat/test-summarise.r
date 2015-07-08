@@ -450,3 +450,16 @@ test_that("n_distinct front end supports na_rm argument (#1052)", {
   expect_equal( n_distinct(x, TRUE), 3L )
 })
 
+test_that("hybrid evaluation does not take place for objects with a class (#1237)", {
+  mean.foo <- function(x) 42
+  df <- data_frame( x = structure(1:10, class = "foo" ) )
+  expect_equal( summarise(df, m = mean(x))$m[1], 42 )
+  
+  env <- environment()
+  Foo <- suppressWarnings( setClass("Foo", contains = "numeric", where = env) )
+  suppressMessages( setMethod( "mean", "Foo", function(x, ...) 42 , where = env) )
+  on.exit(removeClass("Foo", where = env))
+  
+  df <- data.frame( x = Foo(c(1, 2, 3)) )
+  expect_equal( summarise( df, m = mean(x) )$m[1], 42 )
+})

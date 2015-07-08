@@ -10,6 +10,8 @@
 
 * `[.tbl_df` is more careful about subsetting columns names (#1245). 
 
+* hybrid evaluation does not take place for objects with a class (#1237). 
+
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.
