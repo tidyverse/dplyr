@@ -7,7 +7,7 @@ before_install:
   - ./travis-tool.sh bootstrap
 install:
   - mkdir ~/.R
-  - ./travis-tool.sh install_github jimhester/covr
+#  - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh r_binary_install ggplot2
   - ./travis-tool.sh r_binary_install RSQLite
   - ./travis-tool.sh r_binary_install RMySQL
