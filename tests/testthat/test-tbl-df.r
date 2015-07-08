@@ -27,3 +27,12 @@ test_that("[ with 0 cols creates correct row names (#656)", {
   expect_equal(ncol(zero_row), 0)
   expect_output(print(zero_row), "[150 x 0]", fixed = TRUE)
 })
+
+test_that("[.tbl_df is careful about names (#1245)", {
+  foo <- data_frame(x = 1:10, y = 1:10)
+  expect_error( foo["z"] )
+  expect_error( foo[ c("x", "y", "z") ] )
+  
+  expect_error( foo[, "z"] )
+  expect_error( foo[, c("x", "y", "z") ] )
+})
