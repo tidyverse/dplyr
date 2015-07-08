@@ -1331,8 +1331,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
     if(!ok){
         std::stringstream ss ;
-        if( ! track_x.empty() ) ss << track_x.str() ;
-        if( ! track_y.empty() ) ss << track_y.str() ;
+        if( ! track_x.empty() ) ss << track_x.str() << ". " ;
+        if( ! track_y.empty() ) ss << track_y.str() << ". " ;
         if( ! track_mismatch.empty() ) ss << track_mismatch.str() ;
         
         return no_because( ss.str() ) ;
