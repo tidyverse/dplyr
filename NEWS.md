@@ -22,6 +22,8 @@
 
 * Minor formatting change in result of `all.equal` (#1130). 
 
+* `sum` issues a warning about integer overflow when used inside dplyr verbs (#1108). 
+
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.

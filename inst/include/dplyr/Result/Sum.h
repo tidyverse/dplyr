@@ -30,6 +30,7 @@ namespace internal {
                 if( ! Rcpp::traits::is_na<INTSXP>( value ) ) res += value ;    
             }
             if(res > INT_MAX || res <= INT_MIN){
+                warning( "integer overflow - use sum(as.numeric(.))" ) ;
                 return IntegerVector::get_na() ;   
             }
             return (int)res ;    
@@ -49,6 +50,7 @@ namespace internal {
                 res += value ;    
             }
             if(res > INT_MAX || res <= INT_MIN){
+                warning( "integer overflow - use sum(as.numeric(.))" ) ;
                 return IntegerVector::get_na() ;   
             }
             return (int)res ;
