@@ -1317,12 +1317,10 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
         if( count_right == 0 ){
             track_x.record( chunk[0] ) ;
             ok = false ;
-        }
-        if( count_left == 0){
+        } else if( count_left == 0){
             track_y.record( chunk[0] ) ;
             ok = false ;
-        }
-        if( count_left != count_right ){
+        } else if( count_left != count_right ){
             track_mismatch.record( chunk[0] ) ;
             ok = false ;    
         }
