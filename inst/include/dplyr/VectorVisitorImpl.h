@@ -220,6 +220,103 @@ namespace dplyr {
         comparisons<STRSXP> string_compare ;
     } ;
     
+    
+    template <>
+    class VectorVisitorImpl<STRSXP> : public VectorVisitor {
+    public:
+        
+        VectorVisitorImpl( const CharacterVector& vec_ ) : vec(vec_){
+            Language call( "rank", vec, _["ties.method"] = "min" ) ;
+            orders = call.eval() ;
+        }
+            
+        size_t hash(int i) const { 
+            return orders[i] ;
+        } 
+        inline bool equal(int i, int j) const { 
+            return orders[i] == orders[j] ;
+        }
+        
+        inline bool less(int i, int j) const { 
+            return orders[i] < orders[j] ;
+        }
+        
+        inline bool equal_or_both_na(int i, int j) const {
+            return orders[i] == orders[j] ;    
+        }
+        
+        inline bool greater(int i, int j) const { 
+            return orders[i] > orders[j] ;
+        }
+        
+        inline SEXP subset( const Rcpp::IntegerVector& index) const {
+            return subset_int_index( index) ;    
+        }
+        
+        inline SEXP subset( const std::vector<int>& index) const {
+            return subset_int_index( index) ;    
+        }
+        
+        inline SEXP subset( const ChunkIndexMap& map ) const {
+            int n = output_size(map) ;
+            CharacterVector out = Rcpp::no_init(n) ;
+            ChunkIndexMap::const_iterator it = map.begin(); 
+            for( int i=0; i<n; i++, ++it)
+                out[i] = vec[ it->first ] ;
+            copy_most_attributes(out, vec) ;
+            return out ;
+        }
+        
+        inline SEXP subset( const Rcpp::LogicalVector& index ) const {
+            int n = output_size(index) ;
+            CharacterVector out = Rcpp::no_init(n) ;
+            for( int i=0, k=0; k<n; k++, i++ ) {
+                while( index[i] != TRUE ) i++; 
+                out[k] = vec[i] ;
+            }
+            copy_most_attributes(out, vec) ;
+            return out ;
+        }
+        
+        inline SEXP subset( EmptySubset ) const {
+            CharacterVector out(0) ;
+            copy_most_attributes(out, vec) ;
+            return out ;
+        }
+    
+        inline std::string get_r_type() const {
+            return VectorVisitorType<STRSXP>() ;    
+        }
+        
+        int size() const { 
+            return vec.size() ; 
+        }
+        
+        bool is_na( int i ) const {
+            return CharacterVector::is_na(vec[i]) ;    
+        }
+        
+    protected: 
+        CharacterVector vec ;
+        IntegerVector orders ;
+        
+        template <typename Container>
+        inline SEXP subset_int_index( const Container& index ) const {
+            int n = output_size(index) ;
+            CharacterVector out = Rcpp::no_init(n) ;
+            for( int i=0; i<n; i++){
+                if( index[i] < 0 ){
+                    out[i] = NA_STRING ;
+                } else {
+                    out[i] = vec[ index[i] ] ;
+                }
+            }
+            copy_most_attributes(out, vec) ;
+            return out ;
+        }
+        
+    } ;
+    
 }
 
 #endif

@@ -14,6 +14,10 @@
 
 * `filter` handles series of `TRUE` (#1210). 
 
+* New custom implementation for `VectorVisitorImpl<STRSXP>`, so that 
+  hashing, comparison and equality of two strings are independent from their 
+  encodings. This makes `distinct` respect encodings (#1179). 
+
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.
