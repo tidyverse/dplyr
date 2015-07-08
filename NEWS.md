@@ -17,6 +17,8 @@
 * New custom implementation for `VectorVisitorImpl<STRSXP>`, so that 
   hashing, comparison and equality of two strings are independent from their 
   encodings. This makes `distinct` respect encodings (#1179). 
+  
+* Fixed bug in printing `tbl_df` objects (#851). 
 
 # dplyr 0.4.2
 
