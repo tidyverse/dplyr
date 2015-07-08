@@ -19,7 +19,9 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
             if( set.count(x) ) return x ;
             
             // look in the environment
-            SEXP res = Rf_findVar( x, env ) ;
+            SEXP var = PROTECT( Rf_findVar( x, env ) ) ;
+            SEXP res = Rf_duplicate(var) ;
+            UNPROTECT(1) ;
             if( res == R_UnboundValue ){
                 if( x == Rf_install("T") ){
                     return Rf_ScalarLogical(TRUE) ;
@@ -43,7 +45,9 @@ SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& e
         stop("incompatible input") ;
     }
     Shield<SEXP> call_( dots[0].expr() ) ;
+    
     RObject res( assert_correct_filter_subcall(call_, set, env) ) ;
+    
     SEXP and_symbol = Rf_install( "&" ) ;
     for( int i=1; i<ncalls; i++){
         Shield<SEXP> call( dots[i].expr() ) ;
@@ -78,7 +82,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots
 
     // a, b, c ->  a & b & c
     Call call( and_calls( dots, set, env ) ) ;
-
+    
     int nrows = data.nrows() ;
     LogicalVector test(nrows, TRUE);
 
@@ -198,6 +202,7 @@ DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
         Environment env = dots[0].env() ;
         // a, b, c ->  a & b & c
         Shield<SEXP> call( and_calls( dots, set, env ) ) ;
+    
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
