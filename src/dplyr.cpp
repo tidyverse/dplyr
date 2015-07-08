@@ -101,6 +101,8 @@ Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
 
 template< template <int, bool> class Tmpl, bool narm>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary){
+    if( !hybridable(arg) ) return 0 ;
+    
     switch( TYPEOF(arg) ){
         case INTSXP:
             {
@@ -122,7 +124,8 @@ Result* minmax_prototype_impl(SEXP arg, bool is_summary){
 template< template <int, bool> class Tmpl>
 Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     using namespace dplyr ;
-    if( nargs == 1 ) return 0 ;
+    // we only can handle 1 or two arguments
+    if( nargs == 0 || nargs > 2 ) return 0 ;
 
     // the first argument is the data to operate on
     SEXP arg = CADR(call) ;
