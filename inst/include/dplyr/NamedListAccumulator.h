@@ -4,8 +4,8 @@
 namespace dplyr {
 
     struct Index {
-        enum Origin { HASH, RMATCH, NEW } origin ;
         int index ;
+        enum Origin { HASH, RMATCH, NEW } origin ;
         
         Index( int index_, Origin origin_ ) : index(index_), origin(origin_){}
     } ;
