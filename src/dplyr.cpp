@@ -1619,7 +1619,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     CharacterVector names = data.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
 
     // we already checked that we have only one expression
@@ -1685,7 +1685,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
     const Lazy& lazy = dots[0] ;
     Call call( lazy.expr() );
