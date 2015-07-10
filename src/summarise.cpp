@@ -33,7 +33,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
         }
         Shield<SEXP> result( res->process(gdf) ) ;
         accumulator.set( lazy.name(), result );
-        subsets.input( Symbol(lazy.name()), SummarisedVariable(result) ) ;
+        subsets.input( lazy.name(), SummarisedVariable(result) ) ;
         
     }
 
@@ -55,7 +55,6 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         const Lazy& lazy = dots[i] ;
         Environment env = lazy.env() ;
         Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
-        
         boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) ) ;
         RObject result ;
         if(res) {
@@ -67,7 +66,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
             stop( "expecting result of length one, got : %d", Rf_length(result) ) ;
         }
         accumulator.set(lazy.name(), result);
-        subsets.input( Symbol(lazy.name()), result ) ;
+        subsets.input( lazy.name(), result ) ;
     }
 
     return tbl_cpp( accumulator, 1 ) ;
