@@ -63,7 +63,7 @@ namespace dplyr {
         }
 
         void input( Rcpp::String name, SEXP x ){
-            subsets.input( as_symbol(name.get_sexp()) , x ) ;
+            subsets.input( Rf_installChar(name.get_sexp()) , x ) ;
         }
 
         inline int nsubsets(){
@@ -71,7 +71,7 @@ namespace dplyr {
         }
 
         inline SEXP get_variable( Rcpp::String name ) const {
-            return subsets.get_variable(as_symbol(name.get_sexp()) ) ;
+            return subsets.get_variable(Rf_installChar(name.get_sexp()) ) ;
         }
 
         inline bool is_constant() const {

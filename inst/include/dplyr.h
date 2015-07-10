@@ -59,9 +59,6 @@ dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& 
 bool can_simplify(SEXP) ;
 
 void assert_all_white_list(const DataFrame&) ;
-inline SEXP as_symbol(SEXP x) {
-    return Rf_install( CHAR(x) );
-}
 inline SEXP shared_SEXP(SEXP x){
     SET_NAMED(x, 2 );  
     return x ;  

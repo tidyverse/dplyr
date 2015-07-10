@@ -15,7 +15,7 @@ namespace dplyr {
             CharacterVector names = data.names() ;
             int n = data.size() ;
             for( int i=0; i<n; i++){
-                subset_map[ as_symbol( names[i] ) ] = rowwise_subset( data[i] );    
+                subset_map[ Rf_installChar( names[i] ) ] = rowwise_subset( data[i] );    
             }
         }
         
