@@ -32,7 +32,7 @@ namespace dplyr {
         {}
 
         void clear(){
-            for( int i=0; i<resolved.size(); i++){
+            for( size_t i=0; i<resolved.size(); i++){
                 resolved[i] = R_NilValue ;    
             }
         }
