@@ -207,10 +207,10 @@ build_query <- function(x, limit = NULL) {
     # Don't use group_by - grouping affects window functions only
     group_by_sql <- NULL
 
-    # If the user requested ordering, ensuring group_by is included
+    # If the user does not use window functions, then order full results as requested
     # Otherwise don't, because that may make queries substantially slower
-    if (!is.null(x$order_by) && !is.null(x$group_by)) {
-      order_by_sql <- translate(c(x$group_by, x$order_by))
+    if (uses_window_fun(x$select, x)) {
+      order_by_sql <- NULL
     } else {
       order_by_sql <- translate(x$order_by)
     }
