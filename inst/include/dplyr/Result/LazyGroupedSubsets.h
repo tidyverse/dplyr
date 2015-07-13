@@ -7,8 +7,8 @@ namespace dplyr {
     public:
         LazyGroupedSubsets( const GroupedDataFrame& gdf_ ) :
             LazySubsets(gdf_.data()),
-            gdf(gdf_), 
-            symbol_map(), 
+            gdf(gdf_),
+            symbol_map(),
             subsets(),
             resolved(),
             owner(true)
@@ -23,9 +23,9 @@ namespace dplyr {
         }
 
         LazyGroupedSubsets( const LazyGroupedSubsets& other) :
-            LazySubsets(other.gdf.data()), 
-            gdf(other.gdf), 
-            symbol_map(other.symbol_map), 
+            LazySubsets(other.gdf.data()),
+            gdf(other.gdf),
+            symbol_map(other.symbol_map),
             subsets(other.subsets),
             resolved(other.resolved),
             owner(false)
@@ -33,7 +33,7 @@ namespace dplyr {
 
         void clear(){
             for( size_t i=0; i<resolved.size(); i++){
-                resolved[i] = R_NilValue ;    
+                resolved[i] = R_NilValue ;
             }
         }
 
@@ -54,8 +54,8 @@ namespace dplyr {
         }
         SEXP get( SEXP symbol, const SlicingIndex& indices ){
             int idx = symbol_map.get(symbol) ;
-            
-            SEXP value = resolved[idx] ; 
+
+            SEXP value = resolved[idx] ;
             if( value == R_NilValue ){
                 resolved[idx] = value = subsets[idx]->get(indices) ;
             }
@@ -63,9 +63,9 @@ namespace dplyr {
         }
 
         ~LazyGroupedSubsets(){
-            if(owner) { 
+            if(owner) {
                 for( size_t i=0; i<subsets.size(); i++){
-                    delete subsets[i] ;   
+                    delete subsets[i] ;
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace dplyr {
         SymbolMap symbol_map ;
         std::vector<GroupedSubset*> subsets ;
         std::vector<SEXP> resolved ;
-        
+
         bool owner ;
 
         void input_subset(SEXP symbol, GroupedSubset* sub){

@@ -71,6 +71,7 @@ namespace dplyr{
     }
           
     void CallProxy::traverse_call( SEXP obj ){
+        
         if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return ;
         if( ! Rf_isNull(obj) ){
             SEXP head = CAR(obj) ;
@@ -85,6 +86,10 @@ namespace dplyr{
                 if( Rf_length(head) == 3 ){
                     SEXP symb = CAR(head) ;
                     if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ){
+                        
+                        // Rprintf( "CADR(obj) = " ) ;
+                        // Rf_PrintValue( CADR(obj) ) ;
+                        
                         // for things like : foo( bar = bling )$bla
                         // so that `foo( bar = bling )` gets processed
                         if( TYPEOF(CADR(head)) == LANGSXP ){

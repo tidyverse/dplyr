@@ -77,7 +77,7 @@ namespace dplyr {
         
     } ;
     
-    template <int RTYPE, typename Data, typename Subsets>
+    template <int RTYPE>
     class ConstantGathererImpl : public Gatherer {
     public:
         ConstantGathererImpl( Vector<RTYPE> constant, int n ) : 
@@ -94,18 +94,17 @@ namespace dplyr {
         Vector<RTYPE> value ;
     } ;
     
-    template <typename Data, typename Subsets>
     inline Gatherer* constant_gatherer(SEXP x, int n){
         if( Rf_inherits(x, "POSIXlt" ) ){
             stop("`mutate` does not support `POSIXlt` results");    
         }
         switch( TYPEOF(x) ){
-            case INTSXP:  return new ConstantGathererImpl<INTSXP,Data,Subsets>( x, n ) ;
-            case REALSXP: return new ConstantGathererImpl<REALSXP,Data,Subsets>( x, n ) ;
-            case LGLSXP:  return new ConstantGathererImpl<LGLSXP,Data,Subsets>( x, n ) ;
-            case STRSXP:  return new ConstantGathererImpl<STRSXP,Data,Subsets>( x, n ) ;
-            case CPLXSXP: return new ConstantGathererImpl<CPLXSXP,Data,Subsets>( x, n ) ;
-            case VECSXP:  return new ConstantGathererImpl<STRSXP,Data,Subsets>( x, n ) ;
+            case INTSXP:  return new ConstantGathererImpl<INTSXP>( x, n ) ;
+            case REALSXP: return new ConstantGathererImpl<REALSXP>( x, n ) ;
+            case LGLSXP:  return new ConstantGathererImpl<LGLSXP>( x, n ) ;
+            case STRSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
+            case CPLXSXP: return new ConstantGathererImpl<CPLXSXP>( x, n ) ;
+            case VECSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
             default: break ;
         }
         return 0 ;
