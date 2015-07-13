@@ -3,7 +3,8 @@
   op.dplyr <- list(
     dplyr.strict_sql = FALSE,
     dplyr.print_min = 10L,
-    dplyr.print_max = 20L
+    dplyr.print_max = 20L,
+    dplyr.show_progress = TRUE
   )
   toset <- !(names(op.dplyr) %in% names(op))
   if(any(toset)) options(op.dplyr[toset])

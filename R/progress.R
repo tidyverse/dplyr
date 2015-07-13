@@ -1,7 +1,9 @@
 #' Progress bar with estimated time.
 #'
 #' This reference class represents a text progress bar displayed estimated
-#' time remaining. When finished, it displays the total duration.
+#' time remaining. When finished, it displays the total duration.  The
+#' automatic progress bar can be disabled by setting option
+#' \code{dplyr.show_progress} to \code{FALSE}.
 #'
 #' @param n Total number of
 #' @param min_time Progress bar will wait until at least \code{min_time}
@@ -88,7 +90,9 @@ Progress <- R6::R6Class("Progress",
     },
 
     print = function(...) {
-      if(!interactive() || !is.null(getOption('knitr.in.progress'))) {
+      if(!isTRUE(getOption("dplyr.show_progress")) || # user sepecifies no progress
+         !interactive() || # not an interactive session
+         !is.null(getOption("knitr.in.progress"))) { # dplyr used within knitr document
         return(invisible(self))
       }
       if (now() - self$init_time < self$min_time) {

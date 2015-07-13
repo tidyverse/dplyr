@@ -1,5 +1,8 @@
 # dplyr 0.4.2.9000
 
+* `Progress` respects global option `dplyr.show_progress` (default is TRUE)
+  (@jimhester #1264, #1226).
+
 * `mutate` better protects intermediary results (#1231). 
 
 * `mutate` and `arrange` works on empty data frames (#1142). 
