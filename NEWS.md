@@ -1,5 +1,7 @@
 # dplyr 0.4.2.9000
 
+* `bind_rows` is more careful about column names encodings (#1265). 
+
 * `mutate` better protects intermediary results (#1231). 
 
 * `mutate` and `arrange` works on empty data frames (#1142). 

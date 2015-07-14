@@ -178,3 +178,12 @@ test_that( "bind_rows handles complex. #933", {
   expect_equal( nrow(df3), 4L)
   expect_equal( df3$r, c(df1$r, df2$r) )
 })
+
+test_that("bind_rows is careful about column names encoding #1265", {
+  one <- data.frame(fü=1:3, bar=1:3)
+  two <- data.frame(fü=1:3, bar=1:3)
+  Encoding(names(one)[1]) <- "UTF-8"
+  expect_equal( names(one), names(two))
+  res <- bind_rows(one,two)
+  expect_equal(ncol(res), 2L)  
+})
