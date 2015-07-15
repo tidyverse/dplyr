@@ -8,7 +8,7 @@ namespace dplyr {
         virtual ~Collecter(){} ;
         virtual void collect( const SlicingIndex& index, SEXP v ) = 0 ;
         virtual SEXP get() = 0 ;
-        virtual bool compatible(SEXP) const = 0 ;
+        virtual bool compatible(SEXP) = 0 ;
         virtual bool can_promote(SEXP) const = 0 ;
         virtual bool is_factor_collecter() const{ 
             return false ;    
@@ -38,7 +38,7 @@ namespace dplyr {
             return data ;    
         }
         
-        inline bool compatible(SEXP x) const{
+        inline bool compatible(SEXP x) {
             return RTYPE == TYPEOF(x) ;    
         }
         
@@ -75,7 +75,7 @@ namespace dplyr {
             return data ;    
         }
         
-        inline bool compatible(SEXP x) const{
+        inline bool compatible(SEXP x) {
             int RTYPE = TYPEOF(x) ;
             return RTYPE == REALSXP || RTYPE == INTSXP || RTYPE == LGLSXP ;    
         }
@@ -110,7 +110,7 @@ namespace dplyr {
             return data ;    
         }
         
-        inline bool compatible(SEXP x) const{
+        inline bool compatible(SEXP x) {
             return ( STRSXP == TYPEOF(x) ) || Rf_inherits( x, "factor" ) ;
         }
         
@@ -163,7 +163,7 @@ namespace dplyr {
             return data ;    
         }
         
-        inline bool compatible(SEXP x) const{
+        inline bool compatible(SEXP x) {
             int RTYPE = TYPEOF(x) ;
             return ( INTSXP == RTYPE || RTYPE == LGLSXP ) && !Rf_inherits( x, "factor" ) ;
         }
@@ -192,7 +192,7 @@ namespace dplyr {
             return Collecter_Impl<RTYPE>::data ;
         }
         
-        inline bool compatible(SEXP x) const {
+        inline bool compatible(SEXP x) {
             String type = STRING_ELT(types,0) ;
             return Rf_inherits(x, type.get_cstring() ) ;    
         }
@@ -223,11 +223,15 @@ namespace dplyr {
             return Collecter_Impl<RTYPE>::data ;
         }
         
-        inline bool compatible(SEXP x) const {
+        inline bool compatible(SEXP x) {
             if( !Rf_inherits(x, "POSIXct" ) ) return false ;
-            if( Rf_isNull(tz) ) return Rf_isNull( Rf_getAttrib(x, Rf_install("tzone") ) ) ;
+            SEXP xtz = Rf_getAttrib(x, Rf_install("tzone") ) ;
             
-            SEXP xtz = Rf_getAttrib(x, Rf_install("tzone" ) ) ;
+            if( Rf_isNull(tz) ) {
+                tz = xtz ;
+                return true ;
+            }
+            
             if( Rf_isNull( xtz ) ) return false ;
             
             return STRING_ELT(tz, 0) == STRING_ELT(xtz, 0 ) ;
@@ -289,7 +293,7 @@ namespace dplyr {
             return data ;
         }
         
-        inline bool compatible(SEXP x) const{
+        inline bool compatible(SEXP x) {
             return Rf_inherits( x, "factor" ) && has_same_levels_as(x) ;    
         }
         

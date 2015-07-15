@@ -187,3 +187,11 @@ test_that("bind_rows is careful about column names encoding #1265", {
   res <- bind_rows(one,two)
   expect_equal(ncol(res), 2L)  
 })
+
+test_that("bind_rows handles POSIXct (#1125)", {
+  df1 <- data.frame(date = as.POSIXct(NA))
+  df2 <- data.frame(date = as.POSIXct("2015-05-05"))
+  res <- bind_rows(df1,df2)
+  expect_equal(nrow(res),2L)
+  expect_true(is.na(res$date[1]))
+})
