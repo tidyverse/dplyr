@@ -3,11 +3,9 @@
 
 namespace dplyr{
 
-    template <typename CLASS, typename Data>
+    template <typename CLASS>
     class DelayedProcessor_Base {
        public:
-           typedef typename Data::group_iterator group_iterator ;
-
            DelayedProcessor_Base(){}
            virtual ~DelayedProcessor_Base(){}
 
@@ -60,13 +58,11 @@ namespace dplyr{
         return rtype == REALSXP || rtype == INTSXP ;
     }
     
-    template <int RTYPE, typename CLASS, typename Data>
-    class DelayedProcessor : public DelayedProcessor_Base<CLASS, Data> {
+    template <int RTYPE, typename CLASS>
+    class DelayedProcessor : public DelayedProcessor_Base<CLASS> {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         typedef Vector<RTYPE> Vec ;
-        typedef typename Data::group_iterator group_iterator ;
-
         
         DelayedProcessor( int first_non_na, SEXP first_result, int ngroups_) :
             res( no_init(ngroups_) ) 
@@ -94,12 +90,12 @@ namespace dplyr{
         virtual bool can_promote(const RObject& chunk ) {
             return valid_promotion<RTYPE>( TYPEOF(chunk) ) ;    
         }
-        virtual DelayedProcessor_Base<CLASS,Data>* promote(int i, const RObject& chunk){
+        virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk){
             int rtype = TYPEOF(chunk) ;
             switch( rtype ){
-            case INTSXP:  return new DelayedProcessor<INTSXP , CLASS, Data>(i, chunk, res ) ;
-            case REALSXP: return new DelayedProcessor<REALSXP, CLASS, Data>(i, chunk, res ) ;
-            case CPLXSXP: return new DelayedProcessor<CPLXSXP, CLASS, Data>(i, chunk, res ) ;
+            case INTSXP:  return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res ) ;
+            case REALSXP: return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res ) ;
+            case CPLXSXP: return new DelayedProcessor<CPLXSXP, CLASS>(i, chunk, res ) ;
             default: break ;
             }
             return 0 ;
@@ -116,8 +112,8 @@ namespace dplyr{
         
     } ;
 
-    template <typename CLASS, typename Data>
-    class DelayedProcessor<STRSXP, CLASS, Data> : public DelayedProcessor_Base<CLASS, Data> {
+    template <typename CLASS>
+    class DelayedProcessor<STRSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
     public:
         DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) : 
             res(ngroups)
@@ -132,7 +128,7 @@ namespace dplyr{
         virtual bool can_promote(const RObject& chunk ) {
             return false ;    
         }
-        virtual DelayedProcessor_Base<CLASS,Data>* promote(int i, const RObject& chunk) {
+        virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
             return 0 ;    
         }
         virtual SEXP get() {
@@ -143,8 +139,8 @@ namespace dplyr{
         CharacterVector res ;
     } ;
 
-    template <typename CLASS, typename Data>
-    class DelayedProcessor<VECSXP, CLASS, Data> : public DelayedProcessor_Base<CLASS, Data> {
+    template <typename CLASS>
+    class DelayedProcessor<VECSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
     public:
         DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) : 
             res(ngroups)
@@ -162,7 +158,7 @@ namespace dplyr{
         virtual bool can_promote(const RObject& chunk ) {
             return false ;    
         }
-        virtual DelayedProcessor_Base<CLASS,Data>* promote(int i, const RObject& chunk) {
+        virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
             return 0 ;    
         }
         virtual SEXP get() {
@@ -179,21 +175,21 @@ namespace dplyr{
 
     } ;
 
-    template <typename CLASS, typename Data>
-    DelayedProcessor_Base<CLASS, Data>* get_delayed_processor(int i, SEXP first_result, int ngroups){
+    template <typename CLASS>
+    DelayedProcessor_Base<CLASS>* get_delayed_processor(int i, SEXP first_result, int ngroups){
         if( Rcpp::is<int>( first_result ) ){
-            return new DelayedProcessor<INTSXP, CLASS, Data>(i, first_result, ngroups) ;
+            return new DelayedProcessor<INTSXP, CLASS>(i, first_result, ngroups) ;
         } else if( Rcpp::is<double>( first_result) ){
-            return new DelayedProcessor<REALSXP, CLASS, Data>(i, first_result, ngroups) ;
+            return new DelayedProcessor<REALSXP, CLASS>(i, first_result, ngroups) ;
         } else if( Rcpp::is<Rcpp::String>( first_result) ){
-            return new DelayedProcessor<STRSXP, CLASS, Data>(i, first_result, ngroups) ;
+            return new DelayedProcessor<STRSXP, CLASS>(i, first_result, ngroups) ;
         } else if( Rcpp::is<bool>( first_result) ){
-            return new DelayedProcessor<LGLSXP, CLASS, Data>(i, first_result, ngroups) ;
+            return new DelayedProcessor<LGLSXP, CLASS>(i, first_result, ngroups) ;
         } else if( Rcpp::is<Rcpp::List>( first_result ) ){
             if( Rf_length(first_result) != 1 ) return 0 ;
-            return new DelayedProcessor<VECSXP, CLASS, Data>(i, first_result, ngroups) ;
+            return new DelayedProcessor<VECSXP, CLASS>(i, first_result, ngroups) ;
         } else if( Rf_length(first_result) == 1 && TYPEOF(first_result) == CPLXSXP ){
-            return new DelayedProcessor<CPLXSXP, CLASS, Data>(i, first_result, ngroups) ;
+            return new DelayedProcessor<CPLXSXP, CLASS>(i, first_result, ngroups) ;
         }
         return 0 ;
     }

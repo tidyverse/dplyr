@@ -64,8 +64,8 @@ namespace dplyr{
             // result we get
             
             // get the appropriate Delayed Processor to handle it
-            boost::scoped_ptr< DelayedProcessor_Base<CLASS, Data> > processor(
-                get_delayed_processor<CLASS, Data>(i, first_result, ngroups )
+            boost::scoped_ptr< DelayedProcessor_Base<CLASS> > processor(
+                get_delayed_processor<CLASS>(i, first_result, ngroups )
             ) ;
             if(!processor)
                 stop( "expecting a single value" );
