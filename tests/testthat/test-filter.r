@@ -221,6 +221,11 @@ test_that("filter does not alter expression (#971)", {
   expect_equal( my_filter[[2]][[2]], as.name("am") )
 })
 
+test_that("hybrid evaluation handles $ correctly (#1134)", {
+  df <- data_frame( x = 1:10, g = rep(1:5, 2 ) )
+  res <- df %>% group_by(g) %>% filter( x > min(df$x) )
+  expect_equal( nrow(res), 9L )
+})
 
 # data.table --------------------------------------------------------------
 

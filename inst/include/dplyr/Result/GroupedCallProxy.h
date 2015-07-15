@@ -33,17 +33,17 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
+            
             if( TYPEOF(call) == LANGSXP){
                 if( can_simplify(call) ) {
                     HybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;
                 }
-
+                
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){
                     proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;
                 }
-
                 return call.eval(env) ;
             } else if( TYPEOF(call) == SYMSXP ) {
                 if(subsets.count(call)){
@@ -110,6 +110,7 @@ namespace dplyr {
                     if( Rf_length(head) == 3 ){
                         SEXP symb = CAR(head) ;
                         if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ){
+                            
                             // for things like : foo( bar = bling )$bla
                             // so that `foo( bar = bling )` gets processed
                             if( TYPEOF(CADR(head)) == LANGSXP ){
