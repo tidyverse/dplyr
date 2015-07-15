@@ -393,17 +393,6 @@ test_that("summarise is not polluted by logical NA (#599)", {
   expect_true( is.na(res$val[1]) )
 })
 
-test_that("summarise protects against loss of precision coercion (#599)", {
-  dat <- data.frame(grp = rep(1:4, each = 2), val = c(NA, 2, 3:8))
-  Mean <- function(x, thresh = 2) {
-    res <- mean(x, na.rm = TRUE)
-    if (res > thresh) res else as.integer(res)
-  }
-  expect_error(
-    dat %>% group_by(grp) %>% summarise( val = Mean(val, thresh = 2)) 
-  )  
-})
-
 test_that("summarise handles list output columns (#832)", {
   df <- data_frame( x = 1:10, g = rep(1:2, each = 5) )
   res <- df %>% group_by(g) %>% summarise(y=list(x))
