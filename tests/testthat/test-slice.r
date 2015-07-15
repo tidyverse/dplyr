@@ -95,3 +95,9 @@ test_that("slice handles empty data frames (#1219)", {
   expect_equal( nrow(res), 0L)
   expect_equal( names(res), "x" )
 })
+
+test_that("slice works fine if n > nrow(df) (#1269)", {
+  slice_res <- mtcars %>% group_by(cyl) %>% slice(8)
+  filter_res <- mtcars %>% group_by(cyl) %>% filter( row_number() == 8 )
+  expect_equal( slice_res, filter_res )
+})
