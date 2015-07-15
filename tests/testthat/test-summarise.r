@@ -452,3 +452,25 @@ test_that("hybrid evaluation does not take place for objects with a class (#1237
   df <- data.frame( x = Foo(c(1, 2, 3)) )
   expect_equal( summarise( df, m = mean(x) )$m[1], 42 )
 })
+
+test_that("summarise handles promotion of results (#893)", {
+  df <- structure( list(
+    price = c(580L, 650L, 630L, 706L, 1080L, 3082L, 3328L, 4229L, 1895L, 
+              3546L, 752L, 13003L, 814L, 6115L, 645L, 3749L, 2926L, 765L, 
+              1140L, 1158L), 
+    cut = structure(c(2L, 4L, 4L, 2L, 3L, 2L, 2L, 3L, 4L, 1L, 1L, 3L, 2L, 
+                      4L, 3L, 3L, 1L, 2L, 2L, 2L), 
+                    .Label = c("Good", "Ideal", "Premium", "Very Good"), 
+                    class = "factor")), 
+    row.names = c(NA,-20L), 
+    .Names = c("price", "cut"), 
+    class = "data.frame"
+  )
+  res <- df %>% 
+    group_by(cut) %>% 
+    select(price) %>% 
+    summarise(price = median(price))
+  expect_is( res$price, "numeric" )
+  
+})
+  

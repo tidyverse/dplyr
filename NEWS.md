@@ -28,6 +28,9 @@
 
 * `filter` does not alter a named expression (#971). 
 
+* `summarise` handles expression returning heterogenous outputs depending on inputs, 
+  e.g. `median` that sometimes returns `integer` sometimes `numeric`. (#893). 
+
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.
