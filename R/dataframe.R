@@ -132,7 +132,7 @@ as_data_frame <- function(x) {
 
   names_x <- names2(x)
   if (any(is.na(names_x) | names_x == "")){
-    stop("All elements must be named", call. = FALSE)
+    stop("All columns must be named", call. = FALSE)
   }
 
   ok <- vapply(x, is_1d, logical(1))
