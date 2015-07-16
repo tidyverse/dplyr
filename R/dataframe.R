@@ -130,7 +130,8 @@ as_data_frame <- function(x) {
     return(x)
   }
 
-  if (any(names2(x) == "")) {
+  names_x <- names2(x)
+  if (any(is.na(names_x) | names_x == "")){
     stop("All elements must be named", call. = FALSE)
   }
 

@@ -35,6 +35,8 @@
 
 * Fixed `bind_rows` `POSIXct` bug (#1125). 
 
+* `as_data_frame` gives better error message with NA column names (#1101). 
+
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.
