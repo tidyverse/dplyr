@@ -1,9 +1,14 @@
 #' Tools for describing matrices
 #'
 #' @param x Object to show.
-#' @param n Number of rows to show. If \code{NULL}, the default, will print
-#'   all rows if less than option \code{dplyr.print_max}. Otherwise, will
-#'   print \code{dplyr.print_min}
+#' @param n Number of top rows to show. If \code{NULL}, the default, will print
+#'   all rows if less than option \code{dplyr.print_max}. Otherwise, will print
+#'   \code{dplyr.print_min}. Setting \code{n} without setting \code{m} implies
+#'   \code{m = 0}.
+#' @param m Number of bottom rows to show. If \code{NULL}, the default, will
+#'   print all rows if less than option \code{dplyr.print_max}. Otherwise, will
+#'   print \code{dplyr.print_min}. Setting \code{m} without setting \code{n}
+#'   implies \code{n = 0}.
 #' @param width Width of text output to generate. This defaults to NULL, which
 #'   means use \code{getOption("width")} and only display the columns that
 #'   fit on one screen. You can also set \code{option(dplyr.width = Inf)} to
@@ -17,11 +22,20 @@
 #' trunc_mat(mtcars)
 #'
 #' print(tbl_df(mtcars))
+#'
 #' print(tbl_df(mtcars), n = 1)
 #' print(tbl_df(mtcars), n = 3)
 #' print(tbl_df(mtcars), n = 100)
 #'
-#' print(tbl_df(mtcars), n = 100, show_classes = T)
+#' print(tbl_df(mtcars), m = 1)
+#' print(tbl_df(mtcars), m = 3)
+#' print(tbl_df(mtcars), m = 100)
+#'
+#' print(tbl_df(mtcars), n = 1, m = 3)
+#' print(tbl_df(mtcars), n = 3, m = 1)
+#' print(tbl_df(mtcars), n = 100, m = 100)
+#'
+#' print(tbl_df(mtcars), show_classes = T)
 #'
 #' @name dplyr-formatting
 NULL
@@ -38,11 +52,16 @@ dim_desc <- function(x) {
 
 #' @export
 #' @rdname dplyr-formatting
-trunc_mat <- function(x, n = NULL, width = NULL, show_classes = NULL) {
+trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) {
   rows <- nrow(x)
 
   show_classes <- show_classes %||% getOption("dplyr.print_show_classes") %||% FALSE
 
+  # setting only one implies that the other is zero
+  if (is.null(n) && !is.null(m)) n <- 0
+  if (!is.null(n) && is.null(m)) m <- 0
+
+  # for head
   if (is.null(n)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
       n <- getOption("dplyr.print_min")
@@ -51,8 +70,28 @@ trunc_mat <- function(x, n = NULL, width = NULL, show_classes = NULL) {
     }
   }
 
-  df <- as.data.frame(head(x, n))
-  if (ncol(df) == 0 || nrow(df) == 0) {
+  # for tail
+  if (is.null(m)) {
+    if (is.na(rows) || rows > getOption("dplyr.print_max")) {
+      m <- getOption("dplyr.print_min")
+    } else {
+      m <- 0
+    }
+  }
+
+  # make sure the head and tail parts don't overlap
+  if (n+m < rows) {
+    df <- as.data.frame(head(x, n))
+    df_t <- as.data.frame(tail(x, m))
+  } else {
+    df <- as.data.frame(x)
+    n <- rows
+    df_t <- as.data.frame(tail(x, 0))
+    m <- 0
+  }
+
+
+  if (ncol(df) == 0 || (nrow(df) == 0 && nrow(df_t) == 0)) {
     types <- vapply(df, type_sum, character(1))
     extra <- setNames(types, names(df))
 
@@ -60,13 +99,17 @@ trunc_mat <- function(x, n = NULL, width = NULL, show_classes = NULL) {
   }
 
   # this function never prints row names
-  rownames(df) <- NULL
+  if (n>0) rownames(df) <- 1:n
+  if (m>0) rownames(df_t) <- (rows-m+1):rows
 
   # List columns need special treatment because format can't be trusted
   is_list <- vapply(df, is.list, logical(1))
   df[is_list] <- lapply(df[is_list], function(x) vapply(x, obj_type, character(1)))
 
-  mat <- format(df, justify = "left")
+  is_list <- vapply(df_t, is.list, logical(1))
+  df_t[is_list] <- lapply(df_t[is_list], function(x) vapply(x, obj_type, character(1)))
+
+  mat <- format(rbind(df, df_t), justify = "left")
 
   width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
 
@@ -87,15 +130,17 @@ trunc_mat <- function(x, n = NULL, width = NULL, show_classes = NULL) {
   if (all(too_wide)) {
     too_wide[1] <- FALSE
     df[[1]] <- substr(df[[1]], 1, width)
+    df_t[[1]] <- substr(df_t[[1]], 1, width)
   }
   shrunk <- format(df[, !too_wide, drop = FALSE])
+  shrunk_t <- format(df_t[, !too_wide, drop = FALSE])
 
-  needs_dots <- is.na(rows) || rows > n
+  needs_dots <- is.na(rows) || rows > n + m
   if (needs_dots) {
     dot_width <- pmin(w[-1][!too_wide], 3)
     dots <- vapply(dot_width, function(i) paste(rep(".", i), collapse = ""),
                    FUN.VALUE = character(1))
-    shrunk <- rbind(shrunk, ".." = dots)
+    shrunk <- rbind(shrunk, ".." = dots, shrunk_t)
     if (show_classes) shrunk <- rbind(" " = classes[!too_wide], shrunk)
   }
 

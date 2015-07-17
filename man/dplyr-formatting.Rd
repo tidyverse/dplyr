@@ -9,7 +9,7 @@
 \alias{trunc_mat}
 \title{Tools for describing matrices}
 \usage{
-\method{print}{tbl_df}(x, ..., n = NULL, width = NULL,
+\method{print}{tbl_df}(x, ..., n = NULL, m = NULL, width = NULL,
   show_classes = NULL)
 
 \method{print}{tbl_dt}(x, ..., n = NULL, width = NULL)
@@ -18,14 +18,20 @@
 
 dim_desc(x)
 
-trunc_mat(x, n = NULL, width = NULL, show_classes = NULL)
+trunc_mat(x, n = NULL, m = NULL, width = NULL, show_classes = NULL)
 }
 \arguments{
 \item{x}{Object to show.}
 
-\item{n}{Number of rows to show. If \code{NULL}, the default, will print
-all rows if less than option \code{dplyr.print_max}. Otherwise, will
-print \code{dplyr.print_min}}
+\item{n}{Number of top rows to show. If \code{NULL}, the default, will print
+all rows if less than option \code{dplyr.print_max}. Otherwise, will print
+\code{dplyr.print_min}. Setting \code{n} without setting \code{m} implies
+\code{m = 0}.}
+
+\item{m}{Number of bottom rows to show. If \code{NULL}, the default, will
+print all rows if less than option \code{dplyr.print_max}. Otherwise, will
+print \code{dplyr.print_min}. Setting \code{m} without setting \code{n}
+implies \code{n = 0}.}
 
 \item{width}{Width of text output to generate. This defaults to NULL, which
 means use \code{getOption("width")} and only display the columns that
@@ -34,7 +40,7 @@ override this default and always print all columns.}
 
 \item{show_classes}{If set to \code{TRUE}, the class short names will be
 printed under the column names. The default value can be overwritten by
-setting \code{option(dplyr.print_show_classes = TRUE)}}
+setting \code{option(dplyr.print_show_classes = TRUE)}.}
 }
 \description{
 Tools for describing matrices
@@ -44,11 +50,20 @@ dim_desc(mtcars)
 trunc_mat(mtcars)
 
 print(tbl_df(mtcars))
+
 print(tbl_df(mtcars), n = 1)
 print(tbl_df(mtcars), n = 3)
 print(tbl_df(mtcars), n = 100)
 
-print(tbl_df(mtcars), n = 100, show_classes = T)
+print(tbl_df(mtcars), m = 1)
+print(tbl_df(mtcars), m = 3)
+print(tbl_df(mtcars), m = 100)
+
+print(tbl_df(mtcars), n = 1, m = 3)
+print(tbl_df(mtcars), n = 3, m = 1)
+print(tbl_df(mtcars), n = 100, m = 100)
+
+print(tbl_df(mtcars), show_classes = T)
 }
 \keyword{internal}
 

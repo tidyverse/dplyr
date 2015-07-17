@@ -104,10 +104,10 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 
 #' @rdname dplyr-formatting
 #' @export
-print.tbl_df <- function(x, ..., n = NULL, width = NULL, show_classes = NULL) {
+print.tbl_df <- function(x, ..., n = NULL, m = NULL, width = NULL, show_classes = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
   cat("\n")
-  print(trunc_mat(x, n = n, width = width, show_classes = show_classes))
+  print(trunc_mat(x, n = n, m = m, width = width, show_classes = show_classes))
 
   invisible(x)
 }
