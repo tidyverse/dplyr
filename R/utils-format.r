@@ -8,6 +8,9 @@
 #'   means use \code{getOption("width")} and only display the columns that
 #'   fit on one screen. You can also set \code{option(dplyr.width = Inf)} to
 #'   override this default and always print all columns.
+#' @param show_classes If set to \code{TRUE}, the class short names will be
+#'   printed under the column names. The default value can be overwritten by
+#'   setting \code{option(dplyr.print_show_classes = TRUE)}.
 #' @keywords internal
 #' @examples
 #' dim_desc(mtcars)
@@ -17,6 +20,8 @@
 #' print(tbl_df(mtcars), n = 1)
 #' print(tbl_df(mtcars), n = 3)
 #' print(tbl_df(mtcars), n = 100)
+#'
+#' print(tbl_df(mtcars), n = 100, show_classes = T)
 #'
 #' @name dplyr-formatting
 NULL
@@ -33,8 +38,10 @@ dim_desc <- function(x) {
 
 #' @export
 #' @rdname dplyr-formatting
-trunc_mat <- function(x, n = NULL, width = NULL) {
+trunc_mat <- function(x, n = NULL, width = NULL, show_classes = NULL) {
   rows <- nrow(x)
+
+  show_classes <- show_classes %||% getOption("dplyr.print_show_classes") %||% FALSE
 
   if (is.null(n)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
@@ -52,6 +59,7 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
     return(structure(list(table = NULL, extra = extra), class = "trunc_mat"))
   }
 
+  # this function never prints row names
   rownames(df) <- NULL
 
   # List columns need special treatment because format can't be trusted
@@ -65,6 +73,13 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
   names <- c("", colnames(mat))
   w <- pmax(nchar(encodeString(values)), nchar(encodeString(names)))
+
+  # expand columns to accommodate class names
+  if (show_classes) {
+    classes <- paste0("<", vapply(df, type_sum, character(1)), ">")
+    w <- pmax(w, nchar(encodeString(c("", classes))))
+  }
+
   cumw <- cumsum(w + 1)
 
   too_wide <- cumw[-1] > width
@@ -79,8 +94,9 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   if (needs_dots) {
     dot_width <- pmin(w[-1][!too_wide], 3)
     dots <- vapply(dot_width, function(i) paste(rep(".", i), collapse = ""),
-      FUN.VALUE = character(1))
+                   FUN.VALUE = character(1))
     shrunk <- rbind(shrunk, ".." = dots)
+    if (show_classes) shrunk <- rbind(" " = classes[!too_wide], shrunk)
   }
 
   if (any(too_wide)) {
@@ -127,7 +143,7 @@ knit_print.trunc_mat <- function(x, options) {
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
-    width = getOption("width"))
+                     width = getOption("width"))
   paste0(wrapped, collapse = "\n")
 }
 

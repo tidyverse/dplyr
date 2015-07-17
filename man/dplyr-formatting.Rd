@@ -9,7 +9,8 @@
 \alias{trunc_mat}
 \title{Tools for describing matrices}
 \usage{
-\method{print}{tbl_df}(x, ..., n = NULL, width = NULL)
+\method{print}{tbl_df}(x, ..., n = NULL, width = NULL,
+  show_classes = NULL)
 
 \method{print}{tbl_dt}(x, ..., n = NULL, width = NULL)
 
@@ -17,7 +18,7 @@
 
 dim_desc(x)
 
-trunc_mat(x, n = NULL, width = NULL)
+trunc_mat(x, n = NULL, width = NULL, show_classes = NULL)
 }
 \arguments{
 \item{x}{Object to show.}
@@ -30,6 +31,10 @@ print \code{dplyr.print_min}}
 means use \code{getOption("width")} and only display the columns that
 fit on one screen. You can also set \code{option(dplyr.width = Inf)} to
 override this default and always print all columns.}
+
+\item{show_classes}{If set to \code{TRUE}, the class short names will be
+printed under the column names. The default value can be overwritten by
+setting \code{option(dplyr.print_show_classes = TRUE)}}
 }
 \description{
 Tools for describing matrices
@@ -42,6 +47,8 @@ print(tbl_df(mtcars))
 print(tbl_df(mtcars), n = 1)
 print(tbl_df(mtcars), n = 3)
 print(tbl_df(mtcars), n = 100)
+
+print(tbl_df(mtcars), n = 100, show_classes = T)
 }
 \keyword{internal}
 
