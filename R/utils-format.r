@@ -35,7 +35,7 @@
 #' print(tbl_df(mtcars), n = 3, m = 1)
 #' print(tbl_df(mtcars), n = 100, m = 100)
 #'
-#' print(tbl_df(mtcars), show_classes = T)
+#' print(tbl_df(mtcars), show_classes = TRUE)
 #'
 #' @name dplyr-formatting
 NULL
