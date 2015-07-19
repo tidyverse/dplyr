@@ -1,6 +1,7 @@
 #' Tools for describing matrices
 #'
 #' @param x Object to show.
+<<<<<<< HEAD
 #' @param n Number of top rows to show. If \code{NULL}, the default, will print
 #'   all rows if less than option \code{dplyr.print_max}. Otherwise, will print
 #'   \code{dplyr.print_min}. Setting \code{n} without setting \code{m} implies
@@ -9,24 +10,36 @@
 #'   print all rows if less than option \code{dplyr.print_max}. Otherwise, will
 #'   print \code{dplyr.print_min}. Setting \code{m} without setting \code{n}
 #'   implies \code{n = 0}.
+=======
+#' @param n Number of rows to show. If \code{NULL}, the default, will print
+#'   all rows if less than option \code{dplyr.print_max}. Otherwise, will
+#'   print \code{dplyr.print_min}
+>>>>>>> upstream/master
 #' @param width Width of text output to generate. This defaults to NULL, which
 #'   means use \code{getOption("width")} and only display the columns that
 #'   fit on one screen. You can also set \code{option(dplyr.width = Inf)} to
 #'   override this default and always print all columns.
+<<<<<<< HEAD
 #' @param show_classes If set to \code{TRUE}, the class short names will be
 #'   printed under the column names. The default value can be overwritten by
 #'   setting \code{option(dplyr.print_show_classes = TRUE)}.
+=======
+>>>>>>> upstream/master
 #' @keywords internal
 #' @examples
 #' dim_desc(mtcars)
 #' trunc_mat(mtcars)
 #'
 #' print(tbl_df(mtcars))
+<<<<<<< HEAD
 #'
+=======
+>>>>>>> upstream/master
 #' print(tbl_df(mtcars), n = 1)
 #' print(tbl_df(mtcars), n = 3)
 #' print(tbl_df(mtcars), n = 100)
 #'
+<<<<<<< HEAD
 #' print(tbl_df(mtcars), m = 1)
 #' print(tbl_df(mtcars), m = 3)
 #' print(tbl_df(mtcars), m = 100)
@@ -37,6 +50,8 @@
 #'
 #' print(tbl_df(mtcars), show_classes = TRUE)
 #'
+=======
+>>>>>>> upstream/master
 #' @name dplyr-formatting
 NULL
 
@@ -52,6 +67,7 @@ dim_desc <- function(x) {
 
 #' @export
 #' @rdname dplyr-formatting
+<<<<<<< HEAD
 trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) {
   rows <- nrow(x)
 
@@ -62,6 +78,11 @@ trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) 
   if (!is.null(n) && is.null(m)) m <- 0
 
   # for head
+=======
+trunc_mat <- function(x, n = NULL, width = NULL) {
+  rows <- nrow(x)
+
+>>>>>>> upstream/master
   if (is.null(n)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
       n <- getOption("dplyr.print_min")
@@ -70,6 +91,7 @@ trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) 
     }
   }
 
+<<<<<<< HEAD
   # for tail
   if (is.null(m)) {
     if (is.na(rows) || rows > getOption("dplyr.print_max")) {
@@ -92,30 +114,43 @@ trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) 
 
 
   if (ncol(df) == 0 || (nrow(df) == 0 && nrow(df_t) == 0)) {
+=======
+  df <- as.data.frame(head(x, n))
+  if (ncol(df) == 0 || nrow(df) == 0) {
+>>>>>>> upstream/master
     types <- vapply(df, type_sum, character(1))
     extra <- setNames(types, names(df))
 
     return(structure(list(table = NULL, extra = extra), class = "trunc_mat"))
   }
 
+<<<<<<< HEAD
   # this function never prints row names
   if (n>0) rownames(df) <- 1:n
   if (m>0) rownames(df_t) <- (rows-m+1):rows
+=======
+  rownames(df) <- NULL
+>>>>>>> upstream/master
 
   # List columns need special treatment because format can't be trusted
   is_list <- vapply(df, is.list, logical(1))
   df[is_list] <- lapply(df[is_list], function(x) vapply(x, obj_type, character(1)))
 
+<<<<<<< HEAD
   is_list <- vapply(df_t, is.list, logical(1))
   df_t[is_list] <- lapply(df_t[is_list], function(x) vapply(x, obj_type, character(1)))
 
   mat <- format(rbind(df, df_t), justify = "left")
+=======
+  mat <- format(df, justify = "left")
+>>>>>>> upstream/master
 
   width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
 
   values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
   names <- c("", colnames(mat))
   w <- pmax(nchar(encodeString(values)), nchar(encodeString(names)))
+<<<<<<< HEAD
 
   # expand columns to accommodate class names
   if (show_classes) {
@@ -123,6 +158,8 @@ trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) 
     w <- pmax(w, nchar(encodeString(c("", classes))))
   }
 
+=======
+>>>>>>> upstream/master
   cumw <- cumsum(w + 1)
 
   too_wide <- cumw[-1] > width
@@ -130,6 +167,7 @@ trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) 
   if (all(too_wide)) {
     too_wide[1] <- FALSE
     df[[1]] <- substr(df[[1]], 1, width)
+<<<<<<< HEAD
     df_t[[1]] <- substr(df_t[[1]], 1, width)
   }
   shrunk <- format(df[, !too_wide, drop = FALSE])
@@ -142,6 +180,17 @@ trunc_mat <- function(x, n = NULL, m = NULL, width = NULL, show_classes = NULL) 
                    FUN.VALUE = character(1))
     shrunk <- rbind(shrunk, ".." = dots, shrunk_t)
     if (show_classes) shrunk <- rbind(" " = classes[!too_wide], shrunk)
+=======
+  }
+  shrunk <- format(df[, !too_wide, drop = FALSE])
+
+  needs_dots <- is.na(rows) || rows > n
+  if (needs_dots) {
+    dot_width <- pmin(w[-1][!too_wide], 3)
+    dots <- vapply(dot_width, function(i) paste(rep(".", i), collapse = ""),
+      FUN.VALUE = character(1))
+    shrunk <- rbind(shrunk, ".." = dots)
+>>>>>>> upstream/master
   }
 
   if (any(too_wide)) {
@@ -188,7 +237,11 @@ knit_print.trunc_mat <- function(x, options) {
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
+<<<<<<< HEAD
                      width = getOption("width"))
+=======
+    width = getOption("width"))
+>>>>>>> upstream/master
   paste0(wrapped, collapse = "\n")
 }
 
