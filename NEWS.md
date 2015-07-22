@@ -26,7 +26,9 @@
 
 * `sum` issues a warning about integer overflow when used inside dplyr verbs (#1108). 
 
-* `filter` does not alter a named expression (#971). 
+* `filter` does not alter a named expression (#971).
+
+* `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0` (#926, @NikNakk)
 
 * `summarise` handles expression returning heterogenous outputs depending on inputs, 
   e.g. `median` that sometimes returns `integer` sometimes `numeric`. (#893). 
