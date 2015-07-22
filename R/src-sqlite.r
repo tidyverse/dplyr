@@ -146,9 +146,5 @@ db_explain.SQLiteConnection <- function(con, sql, ...) {
 
 #' @export
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
-  assert_that(is.string(table), is.data.frame(values))
-  valStr <- paste(rep("?", ncol(values)), collapse = ",")
-  sql <- build_sql("INSERT INTO ", ident(table), " values (", sql(valStr), ")")
-  rs <- RSQLite::dbSendPreparedQuery(con, sql, bind.data = values)
-  dbClearResult(rs)
+  DBI::dbWriteTable(con, table, values, append = TRUE, row.names = FALSE)
 }
