@@ -64,13 +64,24 @@ namespace dplyr{
             // result we get
             
             // get the appropriate Delayed Processor to handle it
-            boost::scoped_ptr< DelayedProcessor_Base<CLASS, Data> > processor(get_delayed_processor<CLASS, Data>(first_result, i)) ;
+            boost::scoped_ptr< DelayedProcessor_Base<CLASS> > processor(
+                get_delayed_processor<CLASS>(i, first_result, ngroups )
+            ) ;
             if(!processor)
                 stop( "expecting a single value" );
-            Shield<SEXP> res( processor->delayed_process( gdf, first_result, obj, git ) ) ;
+            for( ; i<ngroups ; i++, ++git ){
+                first_result = obj->process_chunk(*git) ;
+                if( !processor->handled(i, first_result) ){
+                    if( processor->can_promote(first_result) ){
+                        processor.reset( 
+                            processor->promote(i, first_result)   
+                        ) ;
+                    }
+                }
+            }
             
+            Shield<SEXP> res( processor->get() ) ;
             copy_most_attributes(res, first_result) ;
-            
             return res ;        
         }
         

@@ -1,5 +1,7 @@
 # dplyr 0.4.2.9000
 
+* `bind_rows` is more careful about column names encodings (#1265). 
+
 * `mutate` better protects intermediary results (#1231). 
 
 * `mutate` and `arrange` works on empty data frames (#1142). 
@@ -27,6 +29,15 @@
 * `filter` does not alter a named expression (#971).
 
 * `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0` (#926, @NikNakk)
+
+* `summarise` handles expression returning heterogenous outputs depending on inputs, 
+  e.g. `median` that sometimes returns `integer` sometimes `numeric`. (#893). 
+
+* update hybrid evaluation to handle `$` better (#1134).   
+
+* Fixed `bind_rows` `POSIXct` bug (#1125). 
+
+* `as_data_frame` gives better error message with NA column names (#1101). 
 
 # dplyr 0.4.2
 

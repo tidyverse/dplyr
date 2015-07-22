@@ -6,19 +6,18 @@ using namespace dplyr ;
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 
 bool has_no_class( const RObject& arg) {
-    return RCPP_GET_CLASS(arg) == R_NilValue ;    
+    return RCPP_GET_CLASS(arg) == R_NilValue ;
 }
 
 bool hybridable( RObject arg ){
     if( arg.isObject() || arg.isS4() ) return false ;
-    
     int type = arg.sexp_type() ;
     switch( type ){
-        case INTSXP: 
+        case INTSXP:
             {
-                if( has_no_class(arg) || Rf_inherits(arg, "Date") || Rf_inherits(arg, "POSIXct") ) 
+                if( has_no_class(arg) || Rf_inherits(arg, "Date") || Rf_inherits(arg, "POSIXct") )
                     return true ;
-                break ; 
+                break ;
             }
         case REALSXP:
             {
@@ -32,7 +31,7 @@ bool hybridable( RObject arg ){
         case RAWSXP:
             return has_no_class(arg) ;
         default: break ;
-    } 
+    }
     return false ;
 }
 
@@ -40,7 +39,7 @@ template <template <int,bool> class Fun, bool narm>
 Result* simple_prototype_impl( SEXP arg, bool is_summary ){
     // if not hybridable, just let R handle it
     if( !hybridable(arg) ) return 0 ;
-    
+
     switch( TYPEOF(arg) ){
         case INTSXP:
             return new Fun<INTSXP,narm>( arg, is_summary ) ;
@@ -94,7 +93,7 @@ Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
 template< template <int, bool> class Tmpl, bool narm>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary){
     if( !hybridable(arg) ) return 0 ;
-    
+
     switch( TYPEOF(arg) ){
         case INTSXP:
             return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
@@ -851,7 +850,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
     int nrows = indices_x.size() ;
     List out(n_join_visitors+nv_x+nv_y);
     CharacterVector names(n_join_visitors+nv_x+nv_y) ;
-    
+
     int index_join_visitor = 0 ;
     int index_x_visitor = 0 ;
     // ---- join visitors
@@ -864,10 +863,10 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
         } else {
             // not from by_x, but is also in y, so we suffix with .x
             if( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) {
-                col_name += ".x" ;        
+                col_name += ".x" ;
             }
-            
-            out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;  
+
+            out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;
             index_x_visitor++ ;
         }
         names[i] = col_name ;
@@ -924,13 +923,13 @@ void assert_all_white_list(const DataFrame& data){
             CharacterVector names = data.names() ;
             String name_i = names[i] ;
             SEXP v = data[i] ;
-            
+
             SEXP klass = Rf_getAttrib(v, R_ClassSymbol) ;
             if( !Rf_isNull(klass) ){
                 stop( "column '%s' has unsupported type : %s",
                     name_i.get_cstring() , get_single_class(v) );
             }
-            
+
         }
     }
 }
@@ -1001,15 +1000,15 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
     std::vector<int> indices_y ;
 
     train_push_back_right( map, n_y ) ;
-    
+
     for( int i=0; i<n_x; i++){
         Map::iterator it = map.find(i) ;
         if( it != map.end() ){
             push_back_right( indices_y, it->second );
             push_back( indices_x, i, it->second.size() ) ;
-        } 
+        }
     }
-    
+
     return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class") );
 }
 
@@ -1208,7 +1207,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
         ok = false ;
         ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
     }
-    
+
     if(!ok){
         return no_because( ss.str() ) ;
     }
@@ -1288,13 +1287,13 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     // train the map in both x and y
     int nrows_x = x.nrows() ;
     int nrows_y = y.nrows() ;
-    
+
     if( nrows_x != nrows_y )
         return no_because( "Different number of rows" ) ;
-        
+
     for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
-    
+
     RowTrack track_x( "Rows in x but not y: " ) ;
     RowTrack track_y( "Rows in y but not x: " ) ;
     RowTrack track_mismatch( "Rows with difference occurences in x and y: " ) ;
@@ -1322,7 +1321,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
             ok = false ;
         } else if( count_left != count_right ){
             track_mismatch.record( chunk[0] ) ;
-            ok = false ;    
+            ok = false ;
         }
 
     }
@@ -1332,7 +1331,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
         if( ! track_x.empty() ) ss << track_x.str() << ". " ;
         if( ! track_y.empty() ) ss << track_y.str() << ". " ;
         if( ! track_mismatch.empty() ) ss << track_mismatch.str() ;
-        
+
         return no_because( ss.str() ) ;
     }
 
@@ -1362,7 +1361,7 @@ dplyr::BoolResult all_equal_data_frame( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame union_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ; 
+    BoolResult compat = compatible_data_frame(x,y) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1379,7 +1378,7 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame intersect_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ; 
+    BoolResult compat = compatible_data_frame(x,y) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1405,7 +1404,7 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ; 
+    BoolResult compat = compatible_data_frame(x,y) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1619,7 +1618,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     CharacterVector names = data.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
 
     // we already checked that we have only one expression
@@ -1685,7 +1684,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
     const Lazy& lazy = dots[0] ;
     Call call( lazy.expr() );
@@ -1698,7 +1697,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
 
     // count the positive and negatives
     CountIndices counter(nr, test) ;
-    
+
     // just positives -> one based subset
     if( counter.is_positive() ){
         int n_pos = counter.get_n_positive() ;
@@ -1708,7 +1707,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
             while( test[j] > nr || test[j] == NA_INTEGER) j++ ;
             idx[i] = test[j++] - 1 ;
         }
-        
+
         return subset( df, idx, df.names(), classes_not_grouped() ) ;
     }
 
@@ -1718,7 +1717,7 @@ SEXP slice_not_grouped( const DataFrame& df, const LazyDots& dots){
         DataFrame res = subset( df, indices, df.names(), classes_not_grouped() ) ;
         return res ;
     }
-    
+
     // just negatives (out of range is dealt with early in CountIndices).
     std::set<int> drop ;
     for( int i=0; i<n; i++){
@@ -1799,7 +1798,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     check_not_groups(dots, gdf);
 
     Proxy proxy(gdf) ;
-    
+
     NamedListAccumulator<Data> accumulator ;
     int ncolumns = df.size() ;
     CharacterVector column_names = df.names() ;
@@ -1816,7 +1815,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         Shield<SEXP> call_( lazy.expr() );
         SEXP call = call_ ;
         SEXP name = lazy.name() ;
-        
+
         proxy.set_env( env ) ;
 
         if( TYPEOF(call) == SYMSXP ){
@@ -1828,12 +1827,18 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
                 SEXP v = env.find(CHAR(PRINTNAME(call))) ;
                 if( Rf_isNull(v) ){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
-                } else if( Rf_length(v) == 1){
-                    boost::scoped_ptr<Replicator> rep( constant_replicator<Data>(v, gdf.nrows() ) );
+                } else if( Rf_length(v) == 1){      
+                    boost::scoped_ptr<Gatherer> rep( constant_gatherer(v, gdf.nrows() ) );
                     SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
                     accumulator.set( name, variable) ;
                 } else {
+                    int n = Rf_length(v) ;
+                    bool test = all( gdf.get_group_sizes() == n ).is_true() ;
+                    if( !test ){
+                        stop( "impossible to replicate vector of size %d", n );
+                    }
+        
                     boost::scoped_ptr<Replicator> rep( replicator<Data>(v, gdf) ) ;
                     SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
@@ -1848,7 +1853,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
         } else if(Rf_length(call) == 1) {
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer<Data, Subsets>( call, gdf.nrows() ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, gdf.nrows() ) );
             SEXP variable = variables[i] = gather->collect() ;
             proxy.input( name, variable ) ;
             accumulator.set( name, variable) ;
@@ -1859,7 +1864,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
             stop( "cannot handle" ) ;
         }
 
-        
+
     }
 
     return structure_mutate(accumulator, df, classes_grouped<Data>() );
@@ -1868,7 +1873,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     int nexpr = dots.size() ;
     int nrows = df.nrows() ;
-        
+
     NamedListAccumulator<DataFrame> accumulator ;
     int nvars = df.size() ;
     if( nvars ){
@@ -1880,7 +1885,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
 
     CallProxy call_proxy(df) ;
     List results(nexpr) ;
-        
+
     for( int i=0; i<nexpr; i++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[i] ;
@@ -1889,7 +1894,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         SEXP name = lazy.name() ;
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
-        
+
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
                 results[i] = call_proxy.get_variable(PRINTNAME(call)) ;
@@ -1900,7 +1905,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             call_proxy.set_call( call );
             results[i] = call_proxy.eval() ;
         } else if( Rf_length(call) == 1 ){
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( call, nrows ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, nrows ) );
             results[i] = gather->collect() ;
         } else if( Rf_isNull(call)) {
             accumulator.rm(name) ;
@@ -1919,7 +1924,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
             // ok
         } else if( n_res == 1 && nrows != 0 ){
             // recycle
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer<DataFrame,LazySubsets>( results[i] , df.nrows() ) );
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( results[i] , df.nrows() ) );
             results[i] = gather->collect() ;
         } else {
             stop( "wrong result size (%d), expected %d or 1", n_res, nrows ) ;
@@ -2014,7 +2019,7 @@ SEXP n_distinct(SEXP x, bool na_rm = false){
             stop( "cannot handle object of type %s", type2name(x) );
         }
         return res->process(everything) ;
-    } 
+    }
     boost::scoped_ptr<Result> res( count_distinct_result(x) );
     if( !res ){
         stop( "cannot handle object of type %s", type2name(x) );

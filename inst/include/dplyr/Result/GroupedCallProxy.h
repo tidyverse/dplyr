@@ -33,17 +33,17 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
+            
             if( TYPEOF(call) == LANGSXP){
                 if( can_simplify(call) ) {
                     HybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;
                 }
-
+                
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){
                     proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;
                 }
-
                 return call.eval(env) ;
             } else if( TYPEOF(call) == SYMSXP ) {
                 if(subsets.count(call)){
@@ -63,7 +63,7 @@ namespace dplyr {
         }
 
         void input( Rcpp::String name, SEXP x ){
-            subsets.input( as_symbol(name.get_sexp()) , x ) ;
+            subsets.input( Rf_installChar(name.get_sexp()) , x ) ;
         }
 
         inline int nsubsets(){
@@ -71,7 +71,7 @@ namespace dplyr {
         }
 
         inline SEXP get_variable( Rcpp::String name ) const {
-            return subsets.get_variable(as_symbol(name.get_sexp()) ) ;
+            return subsets.get_variable(Rf_installChar(name.get_sexp()) ) ;
         }
 
         inline bool is_constant() const {
@@ -110,6 +110,7 @@ namespace dplyr {
                     if( Rf_length(head) == 3 ){
                         SEXP symb = CAR(head) ;
                         if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ){
+                            
                             // for things like : foo( bar = bling )$bla
                             // so that `foo( bar = bling )` gets processed
                             if( TYPEOF(CADR(head)) == LANGSXP ){

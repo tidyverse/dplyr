@@ -10,7 +10,6 @@ namespace dplyr {
         {
             // fill proxies
             set_call(call);
-
         }
 
         CallProxy( const Rcpp::Call& call_, const Rcpp::DataFrame& data_, const Environment& env_) :
@@ -31,7 +30,7 @@ namespace dplyr {
         ~CallProxy(){}
 
         SEXP eval() ;
-        
+
         void set_call( SEXP call_ ) ;
 
         void input( Rcpp::String name, SEXP x ){
@@ -55,7 +54,7 @@ namespace dplyr {
         }
 
     private:
-        
+
         bool simplified(const SlicingIndex& indices) ;
         bool replace( SEXP p, const SlicingIndex& indices ) ;
         void traverse_call( SEXP obj ) ;
@@ -64,7 +63,7 @@ namespace dplyr {
         LazySubsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env;
-        
+
     } ;
 
 }

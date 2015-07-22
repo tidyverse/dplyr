@@ -91,7 +91,7 @@ namespace Rcpp {
         }
         
         inline bool has_group(SEXP g) const {
-            SEXP symb = as_symbol(g) ;
+            SEXP symb = Rf_installChar(g) ;
             int n = symbols.size() ;
             for( int i=0; i<n; i++){
               if( symbols[i] == symb ) return true ;  

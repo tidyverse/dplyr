@@ -19,6 +19,8 @@ List rbind__impl( Dots dots ){
 
     std::vector<String> names ;
     int k=0 ;
+
+    Function enc2native( "enc2native" ) ;
     for( int i=0; i<ndata; i++){
         Rcpp::checkUserInterrupt() ;
 
@@ -28,7 +30,7 @@ List rbind__impl( Dots dots ){
         DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
 
-        CharacterVector df_names = df.names() ;
+        CharacterVector df_names = enc2native(df.names()) ;
         for( int j=0; j<df.size(); j++){
             SEXP source = df[j] ;
             String name = df_names[j] ;

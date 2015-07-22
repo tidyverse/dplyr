@@ -44,7 +44,7 @@ DataFrame select_grouped( GroupedDataFrame gdf, const CharacterVector& keep, Cha
     int j = 0; 
     for( ; j < n; j++){
       if( s == keep[j] ){
-        vars[i] = Rf_install( CHAR(new_names[j]) );  
+        vars[i] = Rf_installChar( new_names[j] );  
       }
     }
   }

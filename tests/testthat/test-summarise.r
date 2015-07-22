@@ -393,17 +393,6 @@ test_that("summarise is not polluted by logical NA (#599)", {
   expect_true( is.na(res$val[1]) )
 })
 
-test_that("summarise protects against loss of precision coercion (#599)", {
-  dat <- data.frame(grp = rep(1:4, each = 2), val = c(NA, 2, 3:8))
-  Mean <- function(x, thresh = 2) {
-    res <- mean(x, na.rm = TRUE)
-    if (res > thresh) res else as.integer(res)
-  }
-  expect_error(
-    dat %>% group_by(grp) %>% summarise( val = Mean(val, thresh = 2)) 
-  )  
-})
-
 test_that("summarise handles list output columns (#832)", {
   df <- data_frame( x = 1:10, g = rep(1:2, each = 5) )
   res <- df %>% group_by(g) %>% summarise(y=list(x))
@@ -463,3 +452,25 @@ test_that("hybrid evaluation does not take place for objects with a class (#1237
   df <- data.frame( x = Foo(c(1, 2, 3)) )
   expect_equal( summarise( df, m = mean(x) )$m[1], 42 )
 })
+
+test_that("summarise handles promotion of results (#893)", {
+  df <- structure( list(
+    price = c(580L, 650L, 630L, 706L, 1080L, 3082L, 3328L, 4229L, 1895L, 
+              3546L, 752L, 13003L, 814L, 6115L, 645L, 3749L, 2926L, 765L, 
+              1140L, 1158L), 
+    cut = structure(c(2L, 4L, 4L, 2L, 3L, 2L, 2L, 3L, 4L, 1L, 1L, 3L, 2L, 
+                      4L, 3L, 3L, 1L, 2L, 2L, 2L), 
+                    .Label = c("Good", "Ideal", "Premium", "Very Good"), 
+                    class = "factor")), 
+    row.names = c(NA,-20L), 
+    .Names = c("price", "cut"), 
+    class = "data.frame"
+  )
+  res <- df %>% 
+    group_by(cut) %>% 
+    select(price) %>% 
+    summarise(price = median(price))
+  expect_is( res$price, "numeric" )
+  
+})
+  

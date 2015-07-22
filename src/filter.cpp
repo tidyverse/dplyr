@@ -77,7 +77,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots
     CharacterVector names = data.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
 
     // a, b, c ->  a & b & c
@@ -120,7 +120,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDo
     CharacterVector names = data.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
 
     int nrows = data.nrows() ;
@@ -196,7 +196,7 @@ DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
     CharacterVector names = df.names() ;
     SymbolSet set ;
     for( int i=0; i<names.size(); i++){
-        set.insert( Rf_install( names[i] ) ) ;
+        set.insert( Rf_installChar( names[i] ) ) ;
     }
     if( dots.single_env() ){
         Environment env = dots[0].env() ;
