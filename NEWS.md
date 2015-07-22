@@ -24,7 +24,9 @@
 
 * `sum` issues a warning about integer overflow when used inside dplyr verbs (#1108). 
 
-* `filter` does not alter a named expression (#971). 
+* `filter` does not alter a named expression (#971).
+
+* `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste` (#926, @NikNakk)
 
 # dplyr 0.4.2
 
