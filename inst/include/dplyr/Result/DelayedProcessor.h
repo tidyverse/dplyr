@@ -17,9 +17,9 @@ namespace dplyr{
 
     template <int RTYPE>
     bool valid_conversion(int rtype){
-        return false ;    
+        return rtype == RTYPE ;
     }
-    
+
     template <>
     inline bool valid_conversion<REALSXP>( int rtype ){
         switch( rtype ){
@@ -31,8 +31,8 @@ namespace dplyr{
         }
         return false ;
     }
-    
-    template <> 
+
+    template <>
     inline bool valid_conversion<INTSXP>( int rtype ){
         switch( rtype ){
         case INTSXP:
@@ -42,57 +42,58 @@ namespace dplyr{
         }
         return false ;
     }
-    
+
     template <int RTYPE>
     inline bool valid_promotion(int rtype) {
-        return false ;    
+        return false ;
     }
-    
-    template <> 
+
+    template <>
     inline bool valid_promotion<INTSXP>( int rtype ){
         return rtype == REALSXP ;
     }
-    
-    template <> 
+
+    template <>
     inline bool valid_promotion<LGLSXP>( int rtype ){
         return rtype == REALSXP || rtype == INTSXP ;
     }
-    
+
     template <int RTYPE, typename CLASS>
     class DelayedProcessor : public DelayedProcessor_Base<CLASS> {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         typedef Vector<RTYPE> Vec ;
-        
+
         DelayedProcessor( int first_non_na, SEXP first_result, int ngroups_) :
-            res( no_init(ngroups_) ) 
+            res( no_init(ngroups_) )
         {
-            std::fill( res.begin(), res.begin() + first_non_na, Vec::get_na() ); 
+            std::fill( res.begin(), res.begin() + first_non_na, Vec::get_na() );
             res[first_non_na] = as<STORAGE>( first_result ) ;
         }
-        
+
         DelayedProcessor( int i, const RObject& chunk, SEXP res_ ) :
             res( as<Vec>( res_ ) )
         {
-            res[i] = as<STORAGE>(chunk) ;        
+            res[i] = as<STORAGE>(chunk) ;
         }
-        
+
         virtual bool handled(int i, const RObject& chunk ) {
             int rtype = TYPEOF(chunk) ;
             if( valid_conversion<RTYPE>(rtype) ){
                 res[i] = as<STORAGE>( chunk ) ;
-                return true ;                                         
+                return true ;
             } else {
-                return false ;    
+                return false ;
             }
         }
-        
+
         virtual bool can_promote(const RObject& chunk ) {
-            return valid_promotion<RTYPE>( TYPEOF(chunk) ) ;    
+            return valid_promotion<RTYPE>( TYPEOF(chunk) ) ;
         }
         virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk){
             int rtype = TYPEOF(chunk) ;
             switch( rtype ){
+            case LGLSXP:  return new DelayedProcessor<LGLSXP , CLASS>(i, chunk, res ) ;
             case INTSXP:  return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res ) ;
             case REALSXP: return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res ) ;
             case CPLXSXP: return new DelayedProcessor<CPLXSXP, CLASS>(i, chunk, res ) ;
@@ -100,39 +101,39 @@ namespace dplyr{
             }
             return 0 ;
         }
-        
+
         virtual SEXP get() {
-            return res ;    
+            return res ;
         }
-        
-        
+
+
     private:
         Vec res ;
-        
-        
+
+
     } ;
 
     template <typename CLASS>
     class DelayedProcessor<STRSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
     public:
-        DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) : 
+        DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
             res(ngroups)
         {
             res[first_non_na_] = as<String>(first_result) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
-            res[i] = as<String>(chunk) ; 
+            res[i] = as<String>(chunk) ;
             return true ;
-        }                                 
+        }
         virtual bool can_promote(const RObject& chunk ) {
-            return false ;    
+            return false ;
         }
         virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
-            return 0 ;    
+            return 0 ;
         }
         virtual SEXP get() {
-            return res ;    
+            return res ;
         }
 
     private:
@@ -142,10 +143,10 @@ namespace dplyr{
     template <typename CLASS>
     class DelayedProcessor<VECSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
     public:
-        DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) : 
+        DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
             res(ngroups)
         {
-            res[first_non_na_] = maybe_copy(VECTOR_ELT(first_result, 0)) ;   
+            res[first_non_na_] = maybe_copy(VECTOR_ELT(first_result, 0)) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
@@ -156,13 +157,13 @@ namespace dplyr{
             return false ;
         }
         virtual bool can_promote(const RObject& chunk ) {
-            return false ;    
+            return false ;
         }
         virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
-            return 0 ;    
+            return 0 ;
         }
         virtual SEXP get() {
-            return res ;    
+            return res ;
         }
 
     private:
