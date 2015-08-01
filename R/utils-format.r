@@ -74,6 +74,7 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
     df[[1]] <- substr(df[[1]], 1, width)
   }
   shrunk <- format(df[, !too_wide, drop = FALSE])
+  colnames(shrunk) <- colnames(df)
 
   needs_dots <- is.na(rows) || rows > n
   if (needs_dots) {
