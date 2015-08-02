@@ -141,7 +141,7 @@ test_that("arrange respects attributes #1105", {
 
   df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
   res <- arrange(df, p)
-  expect_is(res$p, "Period") 
+  expect_is(res$p, "Period")
 })
 
 test_that("arrange works with empty data frame (#1142)", {
@@ -151,3 +151,12 @@ test_that("arrange works with empty data frame (#1142)", {
   expect_equal( length(res), 0L )
 })
 
+test_that("arrange respects locale (#1280)", {
+  df2 <- data_frame( words = c("casa", "árbol", "zona", "órgano") )
+  res <- df2 %>% arrange( words )
+  expect_equal( res$words, sort(df2$words) )
+
+  res <- df2 %>% arrange( desc(words) )
+  expect_equal( res$words, sort(df2$words, decreasing = TRUE) )
+
+})

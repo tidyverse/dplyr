@@ -104,7 +104,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     }
     OrderVisitors o(variables, ascending, nargs) ;
     IntegerVector index = o.apply() ;
-
+    
     DataFrameVisitors visitors( data, data.names() ) ;
     List res = visitors.subset(index, data.attr("class") ) ;
 
@@ -115,4 +115,3 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     SET_ATTRIB(res, strip_group_attributes(res));
     return res ;
 }
-
