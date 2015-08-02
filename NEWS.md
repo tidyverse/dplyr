@@ -37,7 +37,9 @@
 
 * `as_data_frame` gives better error message with NA column names (#1101).
 
-* `arrange` respects locale when arranging character vectors (#1280). 
+* `arrange` respects locale when arranging character vectors (#1280).
+
+* More explicit duplicated column name error message (#996). 
 
 # dplyr 0.4.2
 

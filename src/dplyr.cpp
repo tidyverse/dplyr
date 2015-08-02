@@ -1827,7 +1827,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
                 SEXP v = env.find(CHAR(PRINTNAME(call))) ;
                 if( Rf_isNull(v) ){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
-                } else if( Rf_length(v) == 1){      
+                } else if( Rf_length(v) == 1){
                     boost::scoped_ptr<Gatherer> rep( constant_gatherer(v, gdf.nrows() ) );
                     SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
@@ -1838,7 +1838,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
                     if( !test ){
                         stop( "impossible to replicate vector of size %d", n );
                     }
-        
+
                     boost::scoped_ptr<Replicator> rep( replicator<Data>(v, gdf) ) ;
                     SEXP variable = variables[i] = rep->collect() ;
                     proxy.input( name, variable ) ;
