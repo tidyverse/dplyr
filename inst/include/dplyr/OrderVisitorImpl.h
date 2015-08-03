@@ -61,11 +61,11 @@ namespace dplyr {
     public:
       OrderCharacterVectorVisitorImpl( const CharacterVector& vec_ ) :
         vec(vec_),
-        orders( Language("rank", vec, _["ties.method"] = "min").eval() )
+        orders( Language("rank", vec, _["ties.method"] = "min", _["na.last"] = "keep" ).eval() )
       {}
 
       inline bool equal(int i, int j) const {
-        return orders.equal(i,j) ;
+        return vec[i] == vec[j] ;
       }
 
       inline bool before( int i, int j) const{
