@@ -111,7 +111,7 @@ namespace dplyr {
         }
 
         inline bool compatible(SEXP x) {
-            return ( STRSXP == TYPEOF(x) ) || Rf_inherits( x, "factor" ) ;
+            return  ( STRSXP == TYPEOF(x) ) || Rf_inherits( x, "factor" ) ;
         }
 
         bool can_promote(SEXP x) const {
@@ -119,7 +119,7 @@ namespace dplyr {
         }
 
         std::string describe() const {
-            return "character" ; 
+            return "character" ;
         }
 
     protected:
@@ -128,8 +128,11 @@ namespace dplyr {
     private:
 
         void collect_strings( const SlicingIndex& index, CharacterVector source){
-            for( int i=0; i<index.size(); i++){
-                data[index[i]] = source[i] ;
+            SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source) ;
+            SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data) ;
+            int n = index.size() ;
+            for( int i=0; i<n; i++){
+                p_data[index[i]] = p_source[i] ;
             }
         }
 

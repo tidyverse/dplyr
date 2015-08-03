@@ -27,7 +27,6 @@ List rbind__impl( Dots dots ){
         DataFrame df = dots[i] ;
         if( !df.size() ) continue ;
 
-        DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
 
         CharacterVector df_names = enc2native(df.names()) ;
@@ -86,7 +85,6 @@ List rbind__impl( Dots dots ){
 
         k += nrows ;
     }
-
     int nc = columns.size() ;
     List out(nc) ;
     CharacterVector out_names(nc) ;
@@ -97,7 +95,6 @@ List rbind__impl( Dots dots ){
     out.attr( "names" ) = out_names ;
     set_rownames( out, n );
     out.attr( "class" ) = classes_not_grouped() ;
-
     return out ;
 }
 
