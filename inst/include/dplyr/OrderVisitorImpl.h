@@ -65,7 +65,7 @@ namespace dplyr {
       {}
 
       inline bool equal(int i, int j) const {
-        return vec[i] == vec[j] ;
+        return orders.equal(i,j) ;
       }
 
       inline bool before( int i, int j) const{
