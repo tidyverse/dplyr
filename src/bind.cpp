@@ -192,4 +192,3 @@ SEXP combine_all( List data ){
     RObject out = coll->get() ;
     return out ;
 }
-
