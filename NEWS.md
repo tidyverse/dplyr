@@ -39,7 +39,9 @@
 
 * `arrange` respects locale when arranging character vectors (#1280).
 
-* More explicit duplicated column name error message (#996). 
+* More explicit duplicated column name error message (#996).
+
+* Fixed performance regression of `bind_rows` (#1298). 
 
 # dplyr 0.4.2
 
