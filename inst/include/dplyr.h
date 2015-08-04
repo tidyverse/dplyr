@@ -11,7 +11,7 @@ using namespace Rcpp ;
 #include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
-    #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;    
+    #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;
 #endif
 
 #ifndef RCPP_INSPECT_OBJECT
@@ -44,24 +44,24 @@ using namespace Rcpp ;
 
 namespace dplyr {
     class Result ;
-    class ResultSet ;   
+    class ResultSet ;
     class Reducer_Proxy ;
     class DataFrameVisitors ;
     class DataFrameJoinVisitors ;
     class LazySubsets ;
     std::string get_single_class(SEXP x) ;
-    
+
     template <typename Index>
     DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
-    
+
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
 bool can_simplify(SEXP) ;
 
 void assert_all_white_list(const DataFrame&) ;
 inline SEXP shared_SEXP(SEXP x){
-    SET_NAMED(x, 2 );  
-    return x ;  
+    SET_NAMED(x, 2 );
+    return x ;
 }
 void check_supported_type(SEXP) ;
 
@@ -77,7 +77,7 @@ inline SEXP pairlist_shallow_copy(SEXP p){
         SET_TAG(q, TAG(p)) ;
         p = CDR(p) ;
     }
-    return attr ;   
+    return attr ;
 }
 
 inline void copy_attributes(SEXP out, SEXP data){
@@ -93,7 +93,7 @@ inline void copy_most_attributes(SEXP out, SEXP data){
     copy_attributes(out,data) ;
     Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
-    
+
 CharacterVector dfloc(List) ;
 SEXP shallow_copy(const List& data) ;
 
@@ -121,11 +121,15 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 #include <dplyr/comparisons.h>
 #include <dplyr/comparisons_different.h>
 #include <dplyr/VectorVisitor.h>
+#include <dplyr/SubsetVectorVisitor.h>
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/VectorVisitorImpl.h>
+#include <dplyr/SubsetVectorVisitorImpl.h>
 #include <dplyr/DataFrameVisitors.h>
+#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/MatrixColumnVisitor.h>
 #include <dplyr/DataFrameColumnVisitor.h>
+#include <dplyr/subset_visitor.h>
 #include <dplyr/visitor.h>
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>
@@ -184,7 +188,7 @@ SEXP strip_group_attributes(Data df){
 template <typename T>
 CharacterVector names( const T& obj ){
     SEXP x = obj ;
-    return Rf_getAttrib(x, Rf_install("names" ) ) ;    
+    return Rf_getAttrib(x, Rf_install("names" ) ) ;
 }
 
 

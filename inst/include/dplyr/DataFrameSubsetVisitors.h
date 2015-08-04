@@ -1,25 +1,20 @@
-#ifndef dplyr_DataFrameVisitors_H
-#define dplyr_DataFrameVisitors_H
+#ifndef dplyr_DataFrameSubsetVisitors_H
+#define dplyr_DataFrameSubsetVisitors_H
 
 namespace dplyr {
 
-    class DataFrameVisitors :
-        public VisitorSetEqual<DataFrameVisitors>,
-        public VisitorSetHash<DataFrameVisitors>,
-        public VisitorSetLess<DataFrameVisitors>,
-        public VisitorSetGreater<DataFrameVisitors> {
-
+    class DataFrameSubsetVisitors {
         private:
 
             const Rcpp::DataFrame& data ;
-            pointer_vector<VectorVisitor> visitors ;
+            pointer_vector<SubsetVectorVisitor> visitors ;
             Rcpp::CharacterVector visitor_names ;
             int nvisitors ;
 
         public:
-            typedef VectorVisitor visitor_type ;
+            typedef SubsetVectorVisitor visitor_type ;
 
-            DataFrameVisitors( const Rcpp::DataFrame& data_) :
+            DataFrameSubsetVisitors( const Rcpp::DataFrame& data_) :
                 data(data_),
                 visitors(),
                 visitor_names(data.names()),
@@ -27,11 +22,11 @@ namespace dplyr {
             {
 
                 for( int i=0; i<nvisitors; i++){
-                    VectorVisitor* v = visitor( data[i] ) ;
-                    visitors.push_back(v) ;
+                    visitors.push_back( subset_visitor( data[i] ) ) ;
                 }
             }
-            DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) :
+
+            DataFrameSubsetVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) :
                 data(data_),
                 visitors(),
                 visitor_names(names),
@@ -50,7 +45,7 @@ namespace dplyr {
                         stop( "unknown column '%s' ", name ) ;
                     }
 
-                    visitors.push_back( visitor( column ) ) ;
+                    visitors.push_back( subset_visitor( column ) ) ;
 
                 }
 
@@ -87,7 +82,7 @@ namespace dplyr {
             }
 
             inline int size() const { return nvisitors ; }
-            inline VectorVisitor* get(int k) const { return visitors[k] ; }
+            inline SubsetVectorVisitor* get(int k) const { return visitors[k] ; }
 
             Rcpp::String name(int k) const { return visitor_names[k] ; }
 
@@ -105,7 +100,19 @@ namespace dplyr {
             }
 
     } ;
-    
+
+    inline DataFrame subset( DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes ){
+        DataFrameSubsetVisitors visitors( data, select ) ;
+        return visitors.subset(test, classes ) ;
+    }
+
+    inline DataFrame subset( DataFrame data, LogicalVector test, CharacterVector classes ){
+        DataFrameSubsetVisitors visitors( data ) ;
+        DataFrame res = visitors.subset(test, classes ) ;
+        return res ;
+    }
+
+
 } // namespace dplyr
 
 
