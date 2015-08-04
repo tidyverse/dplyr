@@ -257,6 +257,11 @@ uses_window_fun <- function(x, tbl) {
 #' @export
 filter_.tbl_sql <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
+  dots <- Map(function(d) {
+    expr <- sprintf("(%s)", deparse(d$expr))
+    lazyeval::as.lazy(expr, env = d$env)
+  }, dots)
+  dots <- lazyeval::all_dots(dots)
   input <- partial_eval(dots, .data)
 
   update(.data, where = c(.data$where, input))
