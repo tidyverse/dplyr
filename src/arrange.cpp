@@ -105,7 +105,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     OrderVisitors o(variables, ascending, nargs) ;
     IntegerVector index = o.apply() ;
 
-    DataFrameVisitors visitors( data, data.names() ) ;
+    DataFrameSubsetVisitors visitors( data, data.names() ) ;
     List res = visitors.subset(index, data.attr("class") ) ;
 
     if( is<GroupedDataFrame>(data) ){
