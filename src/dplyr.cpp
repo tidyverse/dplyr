@@ -1980,12 +1980,8 @@ IntegerVector order_impl( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame sort_impl( DataFrame data ){
-    OrderVisitors o(data) ;
-    IntegerVector index = o.apply() ;
-
-    DataFrameVisitors visitors( data, data.names() ) ;
-    DataFrame res = visitors.subset(index, "data.frame" ) ;
-    return res;
+    IntegerVector index = OrderVisitors(data).apply() ;
+    return DataFrameSubsetVisitors( data, data.names() ).subset(index, "data.frame" ) ;
 }
 
 // [[Rcpp::export]]
