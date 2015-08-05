@@ -21,7 +21,5 @@ SEXP distinct_impl( DataFrame df, CharacterVector vars){
         }
     }
 
-    DataFrameVisitors out(df, df.names()) ;
-    return out.subset(indices, df.attr("class")) ;
+    return DataFrameSubsetVisitors(df, df.names()).subset(indices, df.attr("class")) ;
 }
-
