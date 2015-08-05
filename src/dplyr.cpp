@@ -1485,9 +1485,7 @@ DataFrame build_index_cpp( DataFrame data ){
 
     DataFrame labels = visitors.subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
-
-    OrderVisitors labels_order_visitors(labels) ;
-    IntegerVector labels_order = labels_order_visitors.apply() ;
+    IntegerVector labels_order = OrderVisitors(labels).apply() ;
 
     labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame" ) ;
 
