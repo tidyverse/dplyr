@@ -6,18 +6,17 @@ using namespace dplyr ;
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, CharacterVector classes ){
-    DataFrameVisitors visitors(df, columns) ;
-    return visitors.subset( EmptySubset(), classes) ;
+    return DataFrameSubsetVisitors visitors(df, columns).subset( EmptySubset(), classes) ;
 }
 
 SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env){
     switch(TYPEOF(x)){
-    case LGLSXP: return x; 
+    case LGLSXP: return x;
     case LANGSXP: return x ;
     case SYMSXP:
         {
             if( set.count(x) ) return x ;
-            
+
             // look in the environment
             SEXP var = PROTECT( Rf_findVar( x, env ) ) ;
             SEXP res = Rf_duplicate(var) ;
@@ -26,7 +25,7 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
                 if( x == Rf_install("T") ){
                     return Rf_ScalarLogical(TRUE) ;
                 } else if( x == Rf_install("F") ){
-                    return Rf_ScalarLogical(FALSE) ;    
+                    return Rf_ScalarLogical(FALSE) ;
                 }
                 stop( "unknown column : %s", CHAR(PRINTNAME(x)) );
             }
@@ -45,9 +44,9 @@ SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& e
         stop("incompatible input") ;
     }
     Shield<SEXP> call_( dots[0].expr() ) ;
-    
+
     RObject res( assert_correct_filter_subcall(call_, set, env) ) ;
-    
+
     SEXP and_symbol = Rf_install( "&" ) ;
     for( int i=1; i<ncalls; i++){
         Shield<SEXP> call( dots[i].expr() ) ;
@@ -64,15 +63,15 @@ void check_filter_result(const LogicalVector& test, int n){
 
 inline SEXP check_filter_logical_result(SEXP tmp){
     if( TYPEOF(tmp) != LGLSXP ){
-        stop( "filter condition does not evaluate to a logical vector. " ) ; 
+        stop( "filter condition does not evaluate to a logical vector. " ) ;
     }
     return tmp ;
 }
 
 DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots& dots){
-    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ; 
+    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
     Environment env = dots[0].env() ;
-    
+
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
     SymbolSet set ;
@@ -82,7 +81,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots
 
     // a, b, c ->  a & b & c
     Call call( and_calls( dots, set, env ) ) ;
-    
+
     int nrows = data.nrows() ;
     LogicalVector test(nrows, TRUE);
 
@@ -94,7 +93,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
         int chunk_size = indices.size() ;
-        
+
         g_test = check_filter_logical_result( call_proxy.get( indices ) ) ;
         if( g_test.size() == 1 ){
             int val = g_test[0] == TRUE ;
@@ -131,7 +130,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDo
     for( int k=0; k<dots.size(); k++){
         Rcpp::checkUserInterrupt() ;
         const Lazy& lazy = dots[k] ;
-        
+
         Call call( lazy.expr() ) ;
         GroupedCallProxy<GroupedDataFrame> call_proxy( call, gdf, lazy.env() ) ;
         int ngroups = gdf.ngroups() ;
@@ -144,7 +143,7 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDo
             if( g_test.size() == 1 ){
                 if( g_test[0] != TRUE ){
                     for( int j=0; j<chunk_size; j++){
-                        test[indices[j]] = FALSE ;    
+                        test[indices[j]] = FALSE ;
                     }
                 }
             } else {
@@ -175,7 +174,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
     int n = test.size() ;
     if(n == 1) {
         test = test2 ;
-    } else { 
+    } else {
         int n2 = test2.size() ;
         if( n2 == 1 ){
             if( !test2[0] ){
@@ -186,7 +185,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
                 test[i] = test[i] && test2[i] ;
             }
         } else {
-            stop( "incompatible sizes" ) ;    
+            stop( "incompatible sizes" ) ;
         }
     }
     return false;
@@ -202,17 +201,17 @@ DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
         Environment env = dots[0].env() ;
         // a, b, c ->  a & b & c
         Shield<SEXP> call( and_calls( dots, set, env ) ) ;
-    
+
         // replace the symbols that are in the data frame by vectors from the data frame
         // and evaluate the expression
         CallProxy proxy( (SEXP)call, df, env ) ;
         LogicalVector test = check_filter_logical_result(proxy.eval()) ;
-    
+
         if( test.size() == 1){
             if( test[0] == TRUE ){
-                return df ; 
+                return df ;
             } else {
-                return empty_subset(df, df.names(), classes_not_grouped()) ;    
+                return empty_subset(df, df.names(), classes_not_grouped()) ;
             }
         } else {
             check_filter_result(test, df.nrows());
@@ -220,21 +219,21 @@ DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
         }
     } else {
         int nargs = dots.size() ;
-        
+
         Call call(dots[0].expr());
         CallProxy first_proxy(call, df, dots[0].env() ) ;
         LogicalVector test = check_filter_logical_result(first_proxy.eval()) ;
         if( test.size() == 1 ) {
             if( !test[0] ){
-                return empty_subset(df, df.names(), classes_not_grouped() ) ;    
+                return empty_subset(df, df.names(), classes_not_grouped() ) ;
             }
         } else {
             check_filter_result(test, df.nrows());
         }
-        
+
         for( int i=1; i<nargs; i++){
             Rcpp::checkUserInterrupt() ;
-            
+
             Call call( dots[i].expr() ) ;
             CallProxy proxy(call, df, dots[i].env() ) ;
             LogicalVector test2 = check_filter_logical_result(proxy.eval()) ;
@@ -255,17 +254,17 @@ SEXP filter_impl( DataFrame df, LazyDots dots){
     }
     check_valid_colnames(df) ;
     assert_all_white_list(df) ;
-    
+
     if( dots.size() == 0 ) return df ;
-    
+
     // special case
     if( dots.size() == 1 && TYPEOF(dots[0].expr()) == LGLSXP){
         LogicalVector what = dots[0].expr() ;
         if( what.size() == 1 ){
             if( what[0] == TRUE ){
-                return df ;   
+                return df ;
             } else {
-                return empty_subset( df, df.names(), is<GroupedDataFrame>(df) ? classes_grouped<GroupedDataFrame>() : classes_not_grouped() ) ;    
+                return empty_subset( df, df.names(), is<GroupedDataFrame>(df) ? classes_grouped<GroupedDataFrame>() : classes_not_grouped() ) ;
             }
         }
     }
@@ -275,4 +274,3 @@ SEXP filter_impl( DataFrame df, LazyDots dots){
         return filter_not_grouped( df, dots ) ;
     }
 }
-
