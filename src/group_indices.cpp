@@ -45,10 +45,10 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
     int n = data.nrows() ;
     train_push_back( map, n ) ;
 
-    DataFrame labels = visitors.subset( map, "data.frame") ;
+    DataFrame labels = DataFrameSubsetVisitors(data, vars).subset( map, "data.frame") ;
     IntegerVector labels_order = OrderVisitors(labels).apply() ;
 
-    labels = DataFrameSubsetVisitors(labels ).subset(labels_order, "data.frame" ) ;
+    labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame" ) ;
 
     int ngroups = map.size() ;
 

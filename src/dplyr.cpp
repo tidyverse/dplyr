@@ -1483,7 +1483,7 @@ DataFrame build_index_cpp( DataFrame data ){
 
     train_push_back( map, data.nrows() ) ;
 
-    DataFrame labels = visitors.subset( map, "data.frame") ;
+    DataFrame labels = DataFrameSubsetVisitors(data, vars).subset( map, "data.frame") ;
     int ngroups = labels.nrows() ;
     IntegerVector labels_order = OrderVisitors(labels).apply() ;
 
@@ -1547,7 +1547,7 @@ DataFrame build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
     }
 
     df.attr( "indices") = indices ;
-    df.attr( "labels")  = visitors.subset(first, "data.frame") ;
+    df.attr( "labels")  = DataFrameSubsetVisitors(df, vars).subset(first, "data.frame") ;
     df.attr( "group_sizes") = sizes ;
     df.attr( "biggest_group_size") = biggest_group ;
     df.attr( "class" ) = CharacterVector::create("adj_grouped_df", "grouped_df", "tbl_df", "tbl", "data.frame") ;
