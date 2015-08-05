@@ -6,7 +6,7 @@ using namespace dplyr ;
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, CharacterVector classes ){
-    return DataFrameSubsetVisitors visitors(df, columns).subset( EmptySubset(), classes) ;
+    return DataFrameSubsetVisitors(df, columns).subset( EmptySubset(), classes) ;
 }
 
 SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env){
