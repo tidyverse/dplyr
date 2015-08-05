@@ -30,6 +30,10 @@ namespace dplyr {
 
         virtual std::string get_r_type() const = 0 ;
 
+        virtual bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
+            return true ;
+        }
+
     } ;
 
     // defined in visitor.h

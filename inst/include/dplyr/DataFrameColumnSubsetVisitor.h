@@ -27,12 +27,16 @@ namespace dplyr {
             return visitors.subset( index, data.attr("class")  );
         }
 
-        virtual int size() const {
+        inline int size() const {
             return visitors.nrows() ;
         }
 
-        virtual std::string get_r_type() const {
+        inline std::string get_r_type() const {
             return "data.frame"  ;
+        }
+
+        inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
+          return true ;
         }
 
     private:

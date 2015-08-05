@@ -64,6 +64,10 @@ namespace dplyr {
             return "matrix"  ;
         }
 
+        inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string&  ) const {
+            return true ;
+        }
+
     private:
 
         template <typename Container>

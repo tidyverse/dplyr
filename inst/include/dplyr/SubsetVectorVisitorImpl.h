@@ -57,7 +57,7 @@ namespace dplyr {
             return VectorVisitorType<RTYPE>() ;
         }
 
-        int size() const {
+        inline int size() const {
             return vec.size() ;
         }
 
@@ -126,8 +126,21 @@ namespace dplyr {
             return collapse(classes) ;
         }
 
+        inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name ) const {
+            return compatible( dynamic_cast<SubsetFactorVisitor*>(other), ss, name ) ;
+        }
 
     private:
+
+        inline bool compatible(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
+            CharacterVector levels_other = other->levels ;
+            if( setdiff( levels, levels_other ).size() ){
+                ss << "Factor levels not equal for column " << name ;
+                return false ;
+            }
+            return true;
+        }
+
 
         inline SEXP promote( IntegerVector x) const {
             copy_most_attributes(x, vec ) ;

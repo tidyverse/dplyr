@@ -1218,8 +1218,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
         }
     }
 
-    DataFrameVisitors v_x( x, names_x );
-    DataFrameVisitors v_y( y, names_x );
+    DataFrameSubsetVisitors v_x( x, names_x );
+    DataFrameSubsetVisitors v_y( y, names_x );
 
     ok = true ;
     for( int i=0; i<n; i++){
