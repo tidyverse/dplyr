@@ -1489,8 +1489,7 @@ DataFrame build_index_cpp( DataFrame data ){
     OrderVisitors labels_order_visitors(labels) ;
     IntegerVector labels_order = labels_order_visitors.apply() ;
 
-    DataFrameVisitors labels_visitors(labels ) ;
-    labels = labels_visitors.subset(labels_order, "data.frame" ) ;
+    labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame" ) ;
 
     List indices(ngroups) ;
     IntegerVector group_sizes = no_init( ngroups );
