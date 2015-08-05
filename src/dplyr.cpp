@@ -801,15 +801,12 @@ bool can_simplify( SEXP call ){
 
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes){
-    DataFrameVisitors visitors(df, columns) ;
-    return visitors.subset(indices, classes) ;
+    return DataFrameSubsetVisitors visitors(df, columns).subset(indices, classes) ;
 }
 
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
-    DataFrameVisitors visitors(df) ;
-    DataFrame res =  visitors.subset(indices, classes) ;
-    return res ;
+    return DataFrameSubsetVisitors visitors(df).subset(indices, classes) ;
 }
 
 template <typename Index>
