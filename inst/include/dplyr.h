@@ -127,6 +127,7 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 #include <dplyr/SubsetVectorVisitorImpl.h>
 #include <dplyr/DataFrameVisitors.h>
 #include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/MatrixColumnSubsetVisitor.h>
 #include <dplyr/MatrixColumnVisitor.h>
 #include <dplyr/DataFrameColumnVisitor.h>
 #include <dplyr/subset_visitor.h>
