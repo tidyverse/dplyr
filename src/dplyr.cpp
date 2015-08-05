@@ -801,12 +801,12 @@ bool can_simplify( SEXP call ){
 
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes){
-    return DataFrameSubsetVisitors visitors(df, columns).subset(indices, classes) ;
+    return DataFrameSubsetVisitors(df, columns).subset(indices, classes) ;
 }
 
 template <typename Index>
 DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
-    return DataFrameSubsetVisitors visitors(df).subset(indices, classes) ;
+    return DataFrameSubsetVisitors(df).subset(indices, classes) ;
 }
 
 template <typename Index>
@@ -828,7 +828,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
             joiner[i] = true ;
         }
     }
-    DataFrameVisitors visitors_x(x, x_columns) ;
+    DataFrameSubsetVisitors visitors_x(x, x_columns) ;
     int nv_x = visitors_x.size() ;
 
     // then columns from y but not x
@@ -840,7 +840,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
             y_columns[k++] = name ;
         }
     }
-    DataFrameVisitors visitors_y(y, y_columns) ;
+    DataFrameSubsetVisitors visitors_y(y, y_columns) ;
     int nv_y = visitors_y.size() ;
 
     // construct out object
