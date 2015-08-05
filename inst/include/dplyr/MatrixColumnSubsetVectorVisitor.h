@@ -22,8 +22,9 @@ namespace dplyr {
 
         inline SEXP subset( const ChunkIndexMap& index ) const {
             int n = index.size() ;
+            int nc = data.ncol() ;
             Matrix<RTYPE> res( n, data.ncol() ) ;
-            for( size_t h=0; h<visitors.size(); h++){
+            for( int h=0; h<nc; h++){
                 ChunkIndexMap::const_iterator it = index.begin();
                 Column column = res.column(h) ;
                 Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h) ;
@@ -37,8 +38,9 @@ namespace dplyr {
 
         inline SEXP subset( const Rcpp::LogicalVector& index ) const {
             int n = output_size(index) ;
+            int nc = data.ncol() ;
             Matrix<RTYPE> res(n, data.ncol()) ;
-            for( size_t h=0; h<visitors.size(); h++){
+            for( int h=0; h<nc; h++){
                 Column column = res.column(h) ;
                 Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h) ;
 
@@ -66,9 +68,9 @@ namespace dplyr {
 
         template <typename Container>
         inline SEXP subset_int( const Container& index ) const {
-            int n = index.size() ;
+            int n = index.size(), nc = data.ncol() ;
             Matrix<RTYPE> res( n, data.ncol() ) ;
-            for( size_t h=0; h<visitors.size() ; h++){
+            for( int h=0; h<nc; h++){
                 Column column = res.column(h) ;
                 Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h) ;
                 for(int k=0; k< n; k++){

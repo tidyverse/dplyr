@@ -7,12 +7,12 @@ namespace dplyr {
 
         if( Rf_isMatrix( vec ) ){
             switch( TYPEOF(vec) ){
-            case CPLXSXP: return new MatrixColumnVisitor<CPLXSXP>( vec ) ;
-            case INTSXP:  return new MatrixColumnVisitor<INTSXP>( vec ) ;
-            case REALSXP: return new MatrixColumnVisitor<REALSXP>( vec ) ;
-            case LGLSXP:  return new MatrixColumnVisitor<LGLSXP>( vec ) ;
-            case STRSXP:  return new MatrixColumnVisitor<STRSXP>( vec ) ;
-            case VECSXP:  return new MatrixColumnVisitor<VECSXP>( vec ) ;
+            case CPLXSXP: return new MatrixColumnSubsetVisitor<CPLXSXP>( vec ) ;
+            case INTSXP:  return new MatrixColumnSubsetVisitor<INTSXP>( vec ) ;
+            case REALSXP: return new MatrixColumnSubsetVisitor<REALSXP>( vec ) ;
+            case LGLSXP:  return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
+            case STRSXP:  return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
+            case VECSXP:  return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
             default:
                 return 0 ;
             }
@@ -25,8 +25,7 @@ namespace dplyr {
                 if( Rf_inherits(vec, "factor" ))
                     return new SubsetFactorVisitor( vec ) ;
                 return new SubsetVectorVisitorImpl<INTSXP>( vec ) ;
-            case REALSXP:
-                return new SubsetVectorVisitorImpl<REALSXP>( vec ) ;
+            case REALSXP: return new SubsetVectorVisitorImpl<REALSXP>( vec ) ;
             case LGLSXP:  return new SubsetVectorVisitorImpl<LGLSXP>( vec ) ;
             case STRSXP:  return new SubsetVectorVisitorImpl<STRSXP>( vec ) ;
 

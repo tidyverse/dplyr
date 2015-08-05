@@ -5,7 +5,7 @@ namespace dplyr {
 
     class DataFrameColumnSubsetVisitor : public SubsetVectorVisitor {
     public:
-        DataFrameColumnVisitor( const DataFrame& data_ ) : data(data_), visitors(data) {}
+        DataFrameColumnSubsetVisitor( const DataFrame& data_ ) : data(data_), visitors(data) {}
 
         inline SEXP subset( const Rcpp::IntegerVector& index ) const {
             return visitors.subset( index, data.attr("class") ) ;

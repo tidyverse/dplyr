@@ -16,7 +16,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
         IntegerVector index = o.apply() ;
 
         // reorganize
-        labels = DataFrameVisitors( labels, labels.names() ).subset( index, labels.attr("class") );
+        labels = DataFrameSubsetVisitors( labels, labels.names() ).subset( index, labels.attr("class") );
 
         ListOf<IntegerVector> indices( data.attr("indices") ) ;
         int ngroups = indices.size() ;
@@ -37,7 +37,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
             new_group_sizes[i] = idx.size() ;
         }
 
-        DataFrame res = DataFrameVisitors( data, data.names() ).subset( master_index, data.attr("class" ) ) ;
+        DataFrame res = DataFrameSubsetVisitors( data, data.names() ).subset( master_index, data.attr("class" ) ) ;
         res.attr( "labels" )  = labels ;
         res.attr( "indices" ) = new_indices ;
         res.attr( "vars"    ) = data.attr("vars" ) ;
@@ -104,7 +104,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     }
     OrderVisitors o(variables, ascending, nargs) ;
     IntegerVector index = o.apply() ;
-    
+
     DataFrameVisitors visitors( data, data.names() ) ;
     List res = visitors.subset(index, data.attr("class") ) ;
 
