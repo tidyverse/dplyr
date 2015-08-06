@@ -41,7 +41,11 @@
 
 * More explicit duplicated column name error message (#996).
 
-* Fixed performance regression of `bind_rows` (#1298). 
+* Fixed performance regression of `bind_rows` (#1298).
+
+* Introduced the SubsetVectorVisitor class and various implementations, and the
+  DataFrameSubsetVisitors. Simplified the VectorVisitor and DataFrameVisitors.
+  This deals with several performance regression problems. 
 
 # dplyr 0.4.2
 
