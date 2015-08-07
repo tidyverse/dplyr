@@ -1449,7 +1449,7 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 // [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     assert_all_white_list(data);
-    SHALLOW_COPY(copy,data) ;
+    DataFrame copy( shallow_copy(data));
     copy.attr("vars") = symbols ;
     copy.attr("drop") = drop ;
     if( !symbols.size() )
@@ -1558,7 +1558,7 @@ DataFrame build_index_adj(DataFrame df, ListOf<Symbol> symbols ){
 
 // [[Rcpp::export]]
 DataFrame grouped_df_adj_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
-    SHALLOW_COPY(copy,data) ;
+    DataFrame copy( shallow_copy(data));
     copy.attr("vars") = symbols ;
     copy.attr("drop") = drop ;
     return build_index_adj(data, symbols) ;
@@ -2019,7 +2019,7 @@ SEXP n_distinct(SEXP x, bool na_rm = false){
 
 // [[Rcpp::export]]
 DataFrame as_regular_df(DataFrame df){
-  SHALLOW_COPY(copy,df) ;
+  DataFrame copy( shallow_copy(df));
   SET_ATTRIB(copy, strip_group_attributes(df)) ;
   SET_OBJECT(copy, OBJECT(df)) ;
   copy.attr("class") = CharacterVector::create("data.frame") ;
@@ -2028,7 +2028,7 @@ DataFrame as_regular_df(DataFrame df){
 
 // [[Rcpp::export]]
 DataFrame ungroup_grouped_df( DataFrame df){
-  SHALLOW_COPY(copy,df) ;
+  DataFrame copy( shallow_copy(df));
   SET_ATTRIB(copy, strip_group_attributes(df)) ;
   return copy ;
 }
