@@ -45,8 +45,8 @@
 
 * Introduced the SubsetVectorVisitor class and various implementations, and the
   DataFrameSubsetVisitors. Simplified the VectorVisitor and DataFrameVisitors.
-  This deals with several performance regression problems. 
-
+  This deals with several performance regression problems.
+  
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.
