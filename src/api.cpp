@@ -167,17 +167,20 @@ namespace dplyr{
         CharacterVector uniques( set.begin(), set.end() ) ;
 
         // order the uniques with a callback to R
-        IntegerVector o = Language( "rank", uniques, _["ties.method"] = "min", _["na.last"] = "keep" ).eval() ;
+        IntegerVector o = Language( "rank", uniques, _["ties.method"] = "min", _["na.last"] = "keep" ).fast_eval() ;
 
-        // populate orders
+        // combine uniques and o into a hash map for fast retrieval
+        dplyr_hash_map<SEXP,int> map ;
+        for( int i=0; i<n_uniques; i++){
+            map.insert( std::make_pair(uniques[i], o[i] ) ) ;
+        }
+
+        // grab min ranks
         p_data = Rcpp::internal::r_vector_start<STRSXP>(data);
         previous = *p_data++ ;
-        SEXP* uniques_begin = Rcpp::internal::r_vector_start<STRSXP>(uniques);
-        SEXP* uniques_end   = uniques_begin + n_uniques ;
 
-        int pos   = std::find( uniques_begin, uniques_end, previous ) - uniques_begin ;
-        int o_pos = o[pos] ;
-        orders[0] = o_pos ;
+        int o_pos ;
+        orders[0] = o_pos = map.find(previous)->second ;
 
         for( int i=1; i<n; i++, p_data++){
             SEXP s = *p_data;
@@ -186,12 +189,9 @@ namespace dplyr{
                 continue ;
             }
             previous = s ;
-            pos = std::find( uniques_begin, uniques_end, previous ) - uniques_begin ;
-            o_pos = o[pos] ;
-
-            orders[i] = o_pos ;
+            orders[i] = o_pos = map.find(previous)->second ;
         }
-        
+
     }
 
 
