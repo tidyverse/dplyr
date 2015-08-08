@@ -139,10 +139,10 @@ namespace dplyr {
     class VectorVisitorImpl<STRSXP> : public VectorVisitor {
     public:
 
-        VectorVisitorImpl( const CharacterVector& vec_ ) : vec(vec_){
-            Language call( "rank", vec, _["ties.method"] = "min" ) ;
-            orders = call.eval() ;
-        }
+        VectorVisitorImpl( const CharacterVector& vec_ ) :
+            vec(vec_),
+            orders( CharacterVectorOrderer(vec).get() )
+        {}
 
         size_t hash(int i) const {
             return orders[i] ;

@@ -49,6 +49,10 @@
 
 * up Rcpp dependency to 0.12.0, and remove the obsolete SHALLOW_COPY workaround
 
+* Added better method for ranking character vectors, by first grabbing unique
+  CHARSXP, then callback to R to rank the uniques (which respects encodings and
+  locale) and then generate an order vector from that data. related to #1299
+
 # dplyr 0.4.2
 
 This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new "feature": dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.

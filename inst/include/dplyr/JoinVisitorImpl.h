@@ -91,7 +91,7 @@ namespace dplyr{
         inline void print(int i){
             Rcpp::Rcout << get(i) << std::endl ;
         }
-        
+
     protected:
         Vec left, right ;
         hasher hash_fun ;
@@ -129,11 +129,8 @@ namespace dplyr{
             CharacterVector::iterator it = big.begin() ;
             std::copy( left.begin(), left.end(), it ) ;
             std::copy( right.begin(), right.end(), it + nleft ) ;
-
-            Language call( "rank", big, _["ties.method"] = "min" ) ;
-            orders = call.eval() ;
-            
-            n_na = std::count( big.begin(), big.end(), NA_STRING ) ; 
+            orders = CharacterVectorOrderer(big).get() ;
+            n_na = std::count( big.begin(), big.end(), NA_STRING ) ;
         }
 
     } ;
@@ -181,7 +178,7 @@ namespace dplyr{
         inline void print(int i){
             Rcpp::Rcout << get(i) << std::endl ;
         }
-        
+
 
     protected:
 
@@ -482,4 +479,3 @@ namespace dplyr{
 }
 
 #endif
-
