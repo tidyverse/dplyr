@@ -39,6 +39,17 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// rank_strings
+IntegerVector rank_strings(CharacterVector s);
+RcppExport SEXP dplyr_rank_strings(SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< CharacterVector >::type s(sSEXP);
+    __result = Rcpp::wrap(rank_strings(s));
+    return __result;
+END_RCPP
+}
 // arrange_impl
 List arrange_impl(DataFrame data, LazyDots dots);
 RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP dotsSEXP) {

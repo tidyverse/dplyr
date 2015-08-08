@@ -13,6 +13,10 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+rank_strings <- function(s) {
+    .Call('dplyr_rank_strings', PACKAGE = 'dplyr', s)
+}
+
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }

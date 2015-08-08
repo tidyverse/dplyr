@@ -106,6 +106,7 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
     SEXP get_date_classes() ;
 #endif
 
+#include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/white_list.h>
 #include <dplyr/check_supported_type.h>
 #include <dplyr/visitor_set/visitor_set.h>
