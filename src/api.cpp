@@ -188,7 +188,7 @@ namespace dplyr{
             pos = std::find( uniques_begin, uniques_end, previous ) - uniques_begin ;
             o_pos = o[pos] ;
             orders[i] = o_pos ;
-
+            previous = s ;
         }
 
     }
