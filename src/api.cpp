@@ -179,7 +179,7 @@ namespace dplyr{
         int o_pos = o[pos] ;
         orders[0] = o_pos ;
 
-        for( int i=0; i<n; i++, p_data++){
+        for( int i=1; i<n; i++, p_data++){
             SEXP s = *p_data;
             if( s == previous ) {
                 orders[i] = o_pos ;
@@ -188,8 +188,10 @@ namespace dplyr{
             previous = s ;
             pos = std::find( uniques_begin, uniques_end, previous ) - uniques_begin ;
             o_pos = o[pos] ;
+
             orders[i] = o_pos ;
         }
+        
     }
 
 
