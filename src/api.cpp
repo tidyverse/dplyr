@@ -174,6 +174,7 @@ namespace dplyr{
         previous = *p_data++ ;
         SEXP* uniques_begin = Rcpp::internal::r_vector_start<STRSXP>(uniques);
         SEXP* uniques_end   = uniques_begin + n_uniques ;
+
         int pos   = std::find( uniques_begin, uniques_end, previous ) - uniques_begin ;
         int o_pos = o[pos] ;
         orders[0] = o_pos ;
@@ -184,13 +185,11 @@ namespace dplyr{
                 orders[i] = o_pos ;
                 continue ;
             }
-
+            previous = s ;
             pos = std::find( uniques_begin, uniques_end, previous ) - uniques_begin ;
             o_pos = o[pos] ;
             orders[i] = o_pos ;
-            previous = s ;
         }
-
     }
 
 
