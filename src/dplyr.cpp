@@ -1916,7 +1916,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         int n_res = Rf_length(results[i]) ;
         if( n_res == nrows ){
             // ok
-        } else if( n_res == 1 && nrows != 0 ){
+        } else if( n_res == 1 ){
             // recycle
             boost::scoped_ptr<Gatherer> gather( constant_gatherer( results[i] , df.nrows() ) );
             results[i] = gather->collect() ;
