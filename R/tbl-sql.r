@@ -152,7 +152,12 @@ dim.tbl_sql <- function(x) {
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  build_query(x, limit = as.integer(n))$fetch()
+  if (is.infinite(n)) {
+    limit <- NULL
+  } else {
+    limit <- as.integer(limit)
+  }
+  build_query(x, limit)$fetch()
 }
 
 #' @export
