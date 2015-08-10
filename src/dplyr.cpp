@@ -1786,7 +1786,6 @@ void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf){
 template <typename Data, typename Subsets>
 SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     typedef GroupedCallProxy<Data, Subsets> Proxy;
-
     Data gdf(df);
     int nexpr = dots.size() ;
     check_not_groups(dots, gdf);
@@ -1811,7 +1810,6 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         SEXP name = lazy.name() ;
 
         proxy.set_env( env ) ;
-
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
                 SEXP variable = variables[i] = proxy.get_variable( PRINTNAME(call) ) ;
@@ -1938,6 +1936,13 @@ SEXP mutate_impl( DataFrame df, LazyDots dots){
     if( dots.size() == 0 ) return df ;
     check_valid_colnames(df) ;
     if(is<RowwiseDataFrame>(df) ) {
+
+        // handle special case where there are no groups
+        if( df.nrows() == 0 ){
+            DataFrame res = mutate_not_grouped( df, dots) ;
+            return RowwiseDataFrame(res).data() ;
+        }
+
         return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, dots);
     } else if( is<GroupedDataFrame>( df ) ){
         // handle special case where there are no groups
