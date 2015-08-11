@@ -155,7 +155,7 @@ head.tbl_sql <- function(x, n = 6L, ...) {
   if (is.infinite(n)) {
     limit <- NULL
   } else {
-    limit <- as.integer(limit)
+    limit <- as.integer(n)
   }
   build_query(x, limit)$fetch()
 }
