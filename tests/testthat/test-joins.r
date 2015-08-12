@@ -413,3 +413,13 @@ test_that("join creates correctly named results (#855)", {
   expect_equal(res$q, x$q)
   expect_equal(res$r, x$r)
 })
+
+test_that("inner join gives same result as merge. #1281", {
+  set.seed(75)
+  x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+    cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
+    stringsAsFactors = FALSE)
+  y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+    cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
+    stringsAsFactors = FALSE)
+})
