@@ -491,3 +491,16 @@ test_that("summarise correctly handles logical (#1291)",{
   expect_equal( test_sum$anyvar, c(TRUE,TRUE,FALSE,TRUE) )
 
 })
+
+test_that("summarise correctly handles NA groups (#1261)", {
+  tmp <- data_frame(
+    a = c(1, 1, 1, 2, 2),
+    b1 = NA_integer_,
+    b2 = NA_character_
+  )
+  
+  res <- tmp %>% group_by(a, b1) %>% summarise(n())
+  expect_equal( nrow(res), 2L)
+  res <- tmp %>% group_by(a, b2) %>% summarise(n())
+  expect_equal( nrow(res), 2L)
+})
