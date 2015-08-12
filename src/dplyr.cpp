@@ -1783,8 +1783,84 @@ void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf){
     }
 }
 
+
+SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
+    int nexpr = dots.size() ;
+    int nrows = df.nrows() ;
+
+    NamedListAccumulator<DataFrame> accumulator ;
+    int nvars = df.size() ;
+    if( nvars ){
+        CharacterVector df_names = df.names() ;
+        for( int i=0; i<nvars; i++){
+            accumulator.set( df_names[i], df[i] ) ;
+        }
+    }
+
+    CallProxy call_proxy(df) ;
+    List results(nexpr) ;
+
+    for( int i=0; i<nexpr; i++){
+        Rcpp::checkUserInterrupt() ;
+        const Lazy& lazy = dots[i] ;
+
+        Shield<SEXP> call_( lazy.expr() ) ; SEXP call = call_ ;
+        SEXP name = lazy.name() ;
+        Environment env = lazy.env() ;
+        call_proxy.set_env(env) ;
+
+        if( TYPEOF(call) == SYMSXP ){
+            if(call_proxy.has_variable(call)){
+                results[i] = call_proxy.get_variable(PRINTNAME(call)) ;
+            } else {
+                results[i] = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
+            }
+        } else if( TYPEOF(call) == LANGSXP ){
+            call_proxy.set_call( call );
+            results[i] = call_proxy.eval() ;
+        } else if( Rf_length(call) == 1 ){
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, nrows ) );
+            results[i] = gather->collect() ;
+        } else if( Rf_isNull(call)) {
+            accumulator.rm(name) ;
+            continue ;
+        } else {
+            stop( "cannot handle" ) ;
+        }
+
+        check_supported_type(results[i], name) ;
+
+        if( Rf_inherits(results[i], "POSIXlt") ){
+            stop("`mutate` does not support `POSIXlt` results");
+        }
+        int n_res = Rf_length(results[i]) ;
+        if( n_res == nrows ){
+            // ok
+        } else if( n_res == 1 ){
+            // recycle
+            boost::scoped_ptr<Gatherer> gather( constant_gatherer( results[i] , df.nrows() ) );
+            results[i] = gather->collect() ;
+        } else {
+            stop( "wrong result size (%d), expected %d or 1", n_res, nrows ) ;
+        }
+
+        call_proxy.input( name, results[i] ) ;
+        accumulator.set( name, results[i] );
+    }
+    List res = structure_mutate(accumulator, df, classes_not_grouped() ) ;
+
+    return res ;
+}
+
 template <typename Data, typename Subsets>
 SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
+    // special 0 rows case
+    if( df.nrows() == 0 ){
+        DataFrame res = mutate_not_grouped(df, dots) ;
+        res.attr("vars") = df.attr("vars") ;
+        return Data(res).data() ;
+    }
+
     typedef GroupedCallProxy<Data, Subsets> Proxy;
     Data gdf(df);
     int nexpr = dots.size() ;
@@ -1862,97 +1938,14 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     return structure_mutate(accumulator, df, classes_grouped<Data>() );
 }
 
-SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
-    int nexpr = dots.size() ;
-    int nrows = df.nrows() ;
-
-    NamedListAccumulator<DataFrame> accumulator ;
-    int nvars = df.size() ;
-    if( nvars ){
-        CharacterVector df_names = df.names() ;
-        for( int i=0; i<nvars; i++){
-            accumulator.set( df_names[i], df[i] ) ;
-        }
-    }
-
-    CallProxy call_proxy(df) ;
-    List results(nexpr) ;
-
-    for( int i=0; i<nexpr; i++){
-        Rcpp::checkUserInterrupt() ;
-        const Lazy& lazy = dots[i] ;
-
-        Shield<SEXP> call_( lazy.expr() ) ; SEXP call = call_ ;
-        SEXP name = lazy.name() ;
-        Environment env = lazy.env() ;
-        call_proxy.set_env(env) ;
-
-        if( TYPEOF(call) == SYMSXP ){
-            if(call_proxy.has_variable(call)){
-                results[i] = call_proxy.get_variable(PRINTNAME(call)) ;
-            } else {
-                results[i] = shared_SEXP(env.find(CHAR(PRINTNAME(call)))) ;
-            }
-        } else if( TYPEOF(call) == LANGSXP ){
-            call_proxy.set_call( call );
-            results[i] = call_proxy.eval() ;
-        } else if( Rf_length(call) == 1 ){
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, nrows ) );
-            results[i] = gather->collect() ;
-        } else if( Rf_isNull(call)) {
-            accumulator.rm(name) ;
-            continue ;
-        } else {
-            stop( "cannot handle" ) ;
-        }
-
-        check_supported_type(results[i], name) ;
-
-        if( Rf_inherits(results[i], "POSIXlt") ){
-            stop("`mutate` does not support `POSIXlt` results");
-        }
-        int n_res = Rf_length(results[i]) ;
-        if( n_res == nrows ){
-            // ok
-        } else if( n_res == 1 ){
-            // recycle
-            boost::scoped_ptr<Gatherer> gather( constant_gatherer( results[i] , df.nrows() ) );
-            results[i] = gather->collect() ;
-        } else {
-            stop( "wrong result size (%d), expected %d or 1", n_res, nrows ) ;
-        }
-
-        call_proxy.input( name, results[i] ) ;
-        accumulator.set( name, results[i] );
-    }
-    List res = structure_mutate(accumulator, df, classes_not_grouped() ) ;
-
-    return res ;
-}
-
 
 // [[Rcpp::export]]
 SEXP mutate_impl( DataFrame df, LazyDots dots){
     if( dots.size() == 0 ) return df ;
     check_valid_colnames(df) ;
     if(is<RowwiseDataFrame>(df) ) {
-
-        // handle special case where there are no groups
-        if( df.nrows() == 0 ){
-            DataFrame res = mutate_not_grouped( df, dots) ;
-            return RowwiseDataFrame(res).data() ;
-        }
-
         return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, dots);
     } else if( is<GroupedDataFrame>( df ) ){
-        // handle special case where there are no groups
-        if( df.nrows() == 0 ){
-            DataFrame res = mutate_not_grouped( df, dots) ;
-            res.attr("vars") = df.attr("vars" ) ;
-            return GroupedDataFrame(res).data() ;
-        }
-
-        // regular case
         return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, dots);
     } else {
         return mutate_not_grouped( df, dots) ;
