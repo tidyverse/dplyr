@@ -408,13 +408,6 @@ namespace dplyr{
             return res ;
         }
 
-        // inline void debug(){
-        //     Rprintf( "visitor= %s. left(levels) =", DEMANGLE(JoinVisitorImpl) ) ;
-        //     Rf_PrintValue(left_levels) ;
-        //     Rprintf( "right(levels)=" ) ;
-        //     Rf_PrintValue(right_levels) ;
-        // }
-
     private:
         CharacterVector left_levels, right_levels ;
         SEXP* left_levels_ptr ;
