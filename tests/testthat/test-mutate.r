@@ -367,9 +367,23 @@ test_that("mutate works on empty data frames (#1142)", {
   res <- df %>% mutate
   expect_equal( nrow(res), 0L )
   expect_equal( length(res), 0L )
-  
+
   res <- df %>% mutate(x = numeric())
   expect_equal( names(res), "x")
   expect_equal( nrow(res), 0L )
-  expect_equal( length(res), 1L) 
+  expect_equal( length(res), 1L)
+})
+
+test_that("mutate handles 0 rows rowwise #1300",{
+  a <- data.frame(x= 1)
+  b <- data.frame(y = character(), stringsAsFactors = F)
+
+  g <- function(y){1}
+  f <- function() { b %>% rowwise() %>% mutate(z = g(y))}
+
+  res <- f()
+  expect_equal( nrow(res), 0L )
+
+  expect_error(a %>% mutate(b = f()), "wrong result size" )
+  expect_error(a %>% rowwise() %>% mutate(b = f()), "incompatible size")
 })
