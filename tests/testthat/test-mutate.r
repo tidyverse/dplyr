@@ -387,3 +387,11 @@ test_that("mutate handles 0 rows rowwise #1300",{
   expect_error(a %>% mutate(b = f()), "wrong result size" )
   expect_error(a %>% rowwise() %>% mutate(b = f()), "incompatible size")
 })
+
+test_that("regression test for #637", {
+  res <- mtcars %>% mutate(xx = mean(1))
+  expect_true( all(res$xx == 1))
+
+  res <- mtcars %>% mutate(xx = sum(mean(mpg)))
+  expect_true( all( res$xx == sum(mean(mtcars$mpg))))
+})
