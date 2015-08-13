@@ -354,16 +354,10 @@ Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
         data = subsets.get_variable(data) ;
 
         switch( TYPEOF(data) ){
-            case INTSXP:
-                if( Rf_inherits(data, "Date") ) return new TypedLead<INTSXP>(data, n, get_date_classes() ) ;
-                return new Lead<INTSXP>(data, n) ;
-            case REALSXP:
-                if( Rf_inherits(data, "difftime") ) return new DifftimeLead<REALSXP>(data, n ) ;
-                if( Rf_inherits(data, "POSIXct") ) return new TypedLead<REALSXP>(data, n, get_time_classes() ) ;
-                if( Rf_inherits(data, "Date") ) return new TypedLead<REALSXP>(data, n, get_date_classes() ) ;
-                return new Lead<REALSXP>(data, n) ;
-            case STRSXP: return new Lead<STRSXP>(data, n) ;
-            case LGLSXP: return new Lead<LGLSXP>(data, n) ;
+            case INTSXP:  return new Lead<INTSXP>(data, n) ;
+            case REALSXP: return new Lead<REALSXP>(data, n) ;
+            case STRSXP:  return new Lead<STRSXP>(data, n) ;
+            case LGLSXP:  return new Lead<LGLSXP>(data, n) ;
             default: break ;
         }
 
@@ -382,15 +376,10 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
         data = subsets.get_variable(data) ;
 
         switch( TYPEOF(data) ){
-            case INTSXP:
-                if( Rf_inherits(data, "Date") ) return new TypedLag<INTSXP>(data, n, get_date_classes() ) ;
-                return new Lag<INTSXP>(data, n) ;
-            case REALSXP:
-                if( Rf_inherits(data, "POSIXct") ) return new TypedLag<REALSXP>(data, n, get_time_classes() ) ;
-                if( Rf_inherits(data, "Date") ) return new TypedLag<REALSXP>(data, n, get_date_classes() ) ;
-                return new Lag<REALSXP>(data, n) ;
-            case STRSXP: return new Lag<STRSXP>(data, n) ;
-            case LGLSXP: return new Lag<LGLSXP>(data, n) ;
+            case INTSXP:  return new Lag<INTSXP>(data, n) ;
+            case REALSXP: return new Lag<REALSXP>(data, n) ;
+            case STRSXP:  return new Lag<STRSXP>(data, n) ;
+            case LGLSXP:  return new Lag<LGLSXP>(data, n) ;
             default: break ;
         }
 

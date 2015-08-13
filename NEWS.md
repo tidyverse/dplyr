@@ -53,7 +53,10 @@
   CHARSXP, then callback to R to rank the uniques (which respects encodings and
   locale) and then generate an order vector from that data. related to #1299
 
-* rowwise version of mutate did not take care of the special 0 rows case (#1300). 
+* rowwise version of mutate did not take care of the special 0 rows case (#1300).
+
+* Simplified code for `lead`/`lag` and make sure they work properly on factors
+  inside `mutate` (#955). 
 
 # dplyr 0.4.2
 
