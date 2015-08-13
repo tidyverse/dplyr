@@ -73,12 +73,17 @@ namespace dplyr {
         template <typename Container>
         inline SEXP subset_int( const Container& index ) const {
             int n = index.size(), nc = data.ncol() ;
-            Matrix<RTYPE> res( n, data.ncol() ) ;
+            Matrix<RTYPE> res( n, nc ) ;
             for( int h=0; h<nc; h++){
                 Column column = res.column(h) ;
                 Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h) ;
                 for(int k=0; k< n; k++){
-                    column[k] = source_column[ index[k] ] ;
+                    int idx = index[k] ;
+                    if( idx < 0){
+                      column[k] = Vector<RTYPE>::get_na() ;
+                    } else {
+                      column[k] = source_column[ index[k] ] ;
+                    }
                 }
             }
             return res ;

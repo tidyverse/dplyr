@@ -56,7 +56,9 @@
 * rowwise version of mutate did not take care of the special 0 rows case (#1300).
 
 * Simplified code for `lead`/`lag` and make sure they work properly on factors
-  inside `mutate` (#955). 
+  inside `mutate` (#955).
+
+* joins handle matrix columns better (#1230). 
 
 # dplyr 0.4.2
 
