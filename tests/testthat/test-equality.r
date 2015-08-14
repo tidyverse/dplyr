@@ -71,8 +71,8 @@ test_that("all.equal.data.frame handles data.frames with NULL names", {
 test_that( "data frame equality test with ignore_row_order=TRUE detects difference in number of rows. #1065", {
   DF1 <- data_frame(a = 1:4, b = letters[1:4])
   DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
-  expect_false( isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))  
-  
+  expect_false( isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
+
   DF1 <- data_frame(a = c(1:4,2L), b = letters[c(1:4,2L)])
   DF2 <- data_frame(a = c(1:4,4L), b = letters[c(1:4,4L)])
   expect_false(isTRUE(all.equal(DF1, DF2, ignore_row_order=TRUE)))
@@ -82,8 +82,13 @@ test_that( "data frame equality test with ignore_row_order=TRUE detects differen
 test_that("all.equal handles NA_character_ correctly. #1095", {
   d1 <- data_frame(x = c(NA_character_))
   expect_true(all.equal(d1, d1))
-  
+
   d2 <- data_frame( x = c(NA_character_, "foo", "bar" ) )
   expect_true(all.equal(d2, d2))
-  
+})
+
+test_that( "handle Date columns of different types, integer and numeric (#1204)", {
+  a <- data.frame(date = as.Date("2015-06-07"))
+  b <- data.frame(date = structure( as.integer(a$date), class = "Date" ) )
+  expect_true( all.equal(a, b) )
 })

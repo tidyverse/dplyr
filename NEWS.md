@@ -60,7 +60,10 @@
 
 * joins handle matrix columns better (#1230).
 
-* strings ordering more resistant to collate issues (#1315). 
+* strings ordering more resistant to collate issues (#1315).
+
+* Join visitors handle `Date` objects with heterogenous repretation (integer
+  and numeric), making e.g `all.equal` more resistant  (#1204). 
 
 # dplyr 0.4.2
 
