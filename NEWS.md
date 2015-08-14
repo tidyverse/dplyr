@@ -65,7 +65,9 @@
 * Join visitors handle `Date` objects with heterogenous repretation (integer
   and numeric), making e.g `all.equal` more resistant  (#1204).
 
-* `bind_rows` respects `ordered` factors (#1112). 
+* `bind_rows` respects `ordered` factors (#1112).
+
+* `filter`, `slice` and `arrange` preserve attributes (#1064). 
 
 # dplyr 0.4.2
 

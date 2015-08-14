@@ -57,6 +57,7 @@ namespace dplyr {
                 for( int k=0; k<nvisitors; k++){
                     out[k] = get(k)->subset(index) ;
                 }
+                copy_most_attributes( out, data ) ;
                 structure( out, Rf_length(out[0]) , classes) ;
                 return out ;
             }

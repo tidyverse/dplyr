@@ -109,7 +109,12 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     List res = visitors.subset(index, data.attr("class") ) ;
 
     if( is<GroupedDataFrame>(data) ){
-        res.attr( "vars" ) = data.attr("vars" ) ;
+        // so that all attributes are recalculated (indices ... )
+        // see the lazyness feature in GroupedDataFrame
+        // if we don't do that, we get the values of the un-arranged data
+        // set for free from subset (#1064)
+        res.attr("labels") = R_NilValue ;
+        res.attr( "vars" )  = data.attr("vars" ) ;
         return GroupedDataFrame(res).data() ;
     }
     SET_ATTRIB(res, strip_group_attributes(res));

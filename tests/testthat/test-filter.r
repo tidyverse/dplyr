@@ -216,7 +216,7 @@ test_that("row_number does not segfault with example from #781", {
 })
 
 test_that("filter does not alter expression (#971)", {
-  my_filter <- ~ am == 1; 
+  my_filter <- ~ am == 1;
   expect_error( mtcars %>% filter(my_filter) )
   expect_equal( my_filter[[2]][[2]], as.name("am") )
 })
@@ -246,4 +246,20 @@ test_that("filter(.,TRUE,TRUE) works (#1210)", {
   df <- data.frame(x=1:5)
   res <- filter(df,TRUE,TRUE)
   expect_equal(res, df)
+})
+
+test_that("filter, slice and arrange preserves attributes (#1064)", {
+  df <- structure( data.frame( x = 1:10 ), meta = "this is important" )
+  res <- filter( df, x < 5 ) %>% attr("meta" )
+  expect_equal( res, "this is important")
+
+  res <- filter( df, x < 5, x > 4) %>% attr("meta" )
+  expect_equal( res, "this is important")
+
+  res <- df %>% slice(1:50) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% arrange(x) %>% attr("meta")
+  expect_equal( res, "this is important")
+
 })
