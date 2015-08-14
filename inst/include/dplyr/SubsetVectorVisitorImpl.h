@@ -152,6 +152,59 @@ namespace dplyr {
 
     } ;
 
+    class DateSubsetVectorVisitor : public SubsetVectorVisitor {
+    public:
+
+        DateSubsetVectorVisitor( SEXP data ) : impl(0){
+          if( TYPEOF(data) == INTSXP ) {
+            impl  = new SubsetVectorVisitorImpl<INTSXP>(data) ;
+          } else if( TYPEOF(data) == REALSXP ) {
+            impl = new SubsetVectorVisitorImpl<REALSXP>(data) ;
+          } else {
+            stop( "" ) ;
+          }
+        }
+
+        ~DateSubsetVectorVisitor( ){
+          delete impl ;
+        }
+
+        virtual SEXP subset( const Rcpp::IntegerVector& index ) const {
+          return impl->subset( index ) ;
+        }
+
+        virtual SEXP subset( const std::vector<int>& index ) const {
+          return impl->subset( index ) ;
+        }
+
+        virtual SEXP subset( const ChunkIndexMap& index ) const {
+          return impl->subset(index) ;
+        }
+
+        virtual SEXP subset( const Rcpp::LogicalVector& index ) const {
+          return impl->subset( index ) ;
+        }
+
+        virtual SEXP subset( EmptySubset index ) const {
+          return impl->subset( index ) ;
+        }
+
+        virtual int size() const {
+          return impl->size() ;
+        }
+
+        virtual std::string get_r_type() const {
+          return impl->get_r_type() ;
+        }
+
+    private:
+        SubsetVectorVisitor* impl ;
+        DateSubsetVectorVisitor( const DateSubsetVectorVisitor& ) ;
+
+    } ;
+
+
+
 }
 
 #endif

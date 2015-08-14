@@ -18,6 +18,10 @@ namespace dplyr {
             }
         }
 
+        if( Rf_inherits(vec, "Date") ){
+            return new DateSubsetVectorVisitor(vec) ;
+        }
+
         switch( TYPEOF(vec) ){
             case CPLXSXP:
                 return new SubsetVectorVisitorImpl<CPLXSXP>( vec ) ;
