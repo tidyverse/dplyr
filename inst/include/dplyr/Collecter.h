@@ -257,7 +257,12 @@ namespace dplyr {
     public:
         typedef dplyr_hash_map<SEXP,int> LevelsMap ;
 
-        FactorCollecter( int n, CharacterVector levels): data(n, IntegerVector::get_na() ), levels_map() {
+        FactorCollecter( int n, SEXP model_):
+          data(n, IntegerVector::get_na() ),
+          model(model_),
+          levels( Rf_getAttrib(model, Rf_install("levels")) ),
+          levels_map()
+        {
             int nlevels = levels.size() ;
             for( int i=0; i<nlevels; i++) levels_map[ levels[i] ] = i + 1;
         }
@@ -285,14 +290,8 @@ namespace dplyr {
         }
 
         inline SEXP get() {
-            int nlevels = levels_map.size() ;
-            CharacterVector levels(nlevels);
-            LevelsMap::iterator it = levels_map.begin() ;
-            for( int i=0; i<nlevels; i++, ++it){
-                levels[it->second - 1] = it->first ;
-            }
             data.attr( "levels" ) = levels ;
-            data.attr( "class" ) = "factor" ;
+            data.attr( "class" ) = model.attr("class") ;
             return data ;
         }
 
@@ -322,6 +321,8 @@ namespace dplyr {
 
     private:
         IntegerVector data ;
+        RObject model ;
+        CharacterVector levels ;
         LevelsMap levels_map ;
     } ;
 
@@ -334,7 +335,7 @@ namespace dplyr {
         switch( TYPEOF(model) ){
         case INTSXP:
             if( Rf_inherits(model, "factor") )
-                return new FactorCollecter(n, Rf_getAttrib(model, Rf_install("levels") ) ) ;
+                return new FactorCollecter(n, model ) ;
             if( Rf_inherits(model, "Date") )
                 return new TypedCollecter<INTSXP>(n, get_date_classes()) ;
             return new Collecter_Impl<INTSXP>(n) ;
@@ -369,7 +370,7 @@ namespace dplyr {
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<INTSXP>(n, get_date_classes() ) ;
             if( Rf_inherits(model, "factor") )
-                return new FactorCollecter(n, Rf_getAttrib(model, Rf_install("levels") ) ) ;
+                return new FactorCollecter(n, model ) ;
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP:
             if( Rf_inherits( model, "POSIXct" ) )

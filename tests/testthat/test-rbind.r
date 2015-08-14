@@ -12,7 +12,7 @@ df_var <- data.frame(
 )
 
 test_that("rbind_list works on key types", {
-  exp <- tbl_df( rbind( df_var, df_var, df_var ) ) 
+  exp <- tbl_df( rbind( df_var, df_var, df_var ) )
   expect_equal(
     rbind_list( df_var, df_var, df_var) ,
     exp
@@ -99,18 +99,18 @@ test_that( "rbind_all only accepts data frames #288",{
 })
 
 test_that( "rbind propagates timezone for POSIXct #298", {
-  dates1 <- data.frame(ID=c("a", "b", "c"), 
-                     dates=structure(c(-247320000, -246196800, -245073600), 
+  dates1 <- data.frame(ID=c("a", "b", "c"),
+                     dates=structure(c(-247320000, -246196800, -245073600),
                                      tzone = "GMT",
-                                     class = c("POSIXct", "POSIXt")), 
+                                     class = c("POSIXct", "POSIXt")),
                      stringsAsFactors=FALSE)
-  
-  dates2 <- data.frame(ID=c("d", "e", "f"), 
-                       dates=structure(c(-243864000, -242654400, -241444800), 
+
+  dates2 <- data.frame(ID=c("d", "e", "f"),
+                       dates=structure(c(-243864000, -242654400, -241444800),
                                        tzone = "GMT",
-                                       class = c("POSIXct", "POSIXt")), 
+                                       class = c("POSIXct", "POSIXt")),
                        stringsAsFactors=FALSE)
-  
+
   alldates <- rbind_list(dates1, dates2)
   expect_equal( attr( alldates$dates, "tzone" ), "GMT" )
 })
@@ -133,23 +133,23 @@ test_that("rbind_all handles list columns (#463)", {
 
 test_that("rbind_all creates tbl_df object", {
   res <- rbind_list(tbl_df(mtcars))
-  expect_is( res, "tbl_df" )  
+  expect_is( res, "tbl_df" )
 })
 
 test_that("string vectors are filled with NA not blanks before collection (#595)", {
   one <- mtcars[1:10, -10]
   two <- mtcars[11:32, ]
   two$char_col <- letters[1:22]
-  
+
   res <- rbind_list(one, two)
-  expect_true( all(is.na(res$char_col[1:10])) )  
+  expect_true( all(is.na(res$char_col[1:10])) )
 })
 
 test_that("rbind handles data frames with no rows (#597)",{
   empty <- data.frame(result = numeric())
   expect_equal(rbind_list(empty), tbl_df(empty))
   expect_equal(rbind_list(empty, empty), tbl_df(empty))
-  expect_equal(rbind_list(empty, empty, empty), tbl_df(empty))  
+  expect_equal(rbind_list(empty, empty, empty), tbl_df(empty))
 })
 
 test_that("rbind handles all NA columns (#493)", {
@@ -160,7 +160,7 @@ test_that("rbind handles all NA columns (#493)", {
   res <- rbind_all(mydata)
   expect_true( is.na(res$x[3]) )
   expect_is( res$x, "factor" )
-  
+
   mydata <- list(
     data.frame(x=NA),
     data.frame(x=c("foo", "bar"))
@@ -168,7 +168,7 @@ test_that("rbind handles all NA columns (#493)", {
   res <- rbind_all(mydata)
   expect_true( is.na(res$x[1]) )
   expect_is( res$x, "factor" )
-  
+
 })
 
 test_that( "bind_rows handles complex. #933", {
@@ -185,7 +185,7 @@ test_that("bind_rows is careful about column names encoding #1265", {
   Encoding(names(one)[1]) <- "UTF-8"
   expect_equal( names(one), names(two))
   res <- bind_rows(one,two)
-  expect_equal(ncol(res), 2L)  
+  expect_equal(ncol(res), 2L)
 })
 
 test_that("bind_rows handles POSIXct (#1125)", {
@@ -194,4 +194,18 @@ test_that("bind_rows handles POSIXct (#1125)", {
   res <- bind_rows(df1,df2)
   expect_equal(nrow(res),2L)
   expect_true(is.na(res$date[1]))
+})
+
+test_that("bind_rows respects ordered factors (#1112)", {
+  l <- c("a", "b", "c", "d")
+  id <- factor(c("a", "c", "d"), levels = l, ordered = TRUE)
+  df <- data.frame(id = rep(id, 2), val = rnorm(6))
+  res <- bind_rows(df, df)
+  expect_is( res$id, "ordered")
+  expect_equal( levels(df$id), levels(res$id) )
+
+  res <- group_by(df, id) %>% do(na.omit(.))
+  expect_is( res$id, "ordered")
+  expect_equal( levels(df$id), levels(res$id) )
+
 })

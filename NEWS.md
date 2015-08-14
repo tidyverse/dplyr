@@ -63,7 +63,9 @@
 * strings ordering more resistant to collate issues (#1315).
 
 * Join visitors handle `Date` objects with heterogenous repretation (integer
-  and numeric), making e.g `all.equal` more resistant  (#1204). 
+  and numeric), making e.g `all.equal` more resistant  (#1204).
+
+* `bind_rows` respects `ordered` factors (#1112). 
 
 # dplyr 0.4.2
 
