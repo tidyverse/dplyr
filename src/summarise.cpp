@@ -41,6 +41,9 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
     }
 
     List out = accumulator ;
+    copy_most_attributes( out, df) ;
+    out.names() = accumulator.names() ;
+
     int nr = gdf.ngroups() ;
     set_rownames(out, nr ) ;
 
@@ -49,10 +52,15 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
         List vars = gdf.data().attr("vars") ;
         vars.erase( gdf.nvars() - 1) ;
         out.attr( "vars") = vars ;
+        out.attr( "labels") = R_NilValue ;
+        out.attr( "indices") = R_NilValue ;
+        out.attr( "group_sizes") = R_NilValue ;
+        out.attr( "biggest_group_size") = R_NilValue ;
+
         out.attr( "drop" ) = true ;
     } else {
         out.attr( "class" ) = classes_not_grouped()  ;
-        out.attr( "drop" ) = true ;
+        SET_ATTRIB( out, strip_group_attributes(out) ) ;
     }
 
     return out ;
@@ -86,8 +94,11 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
         accumulator.set(lazy.name(), result );
         subsets.input( lazy.name(), result ) ;
     }
-
-    return tbl_cpp( accumulator, 1 ) ;
+    List data = accumulator ;
+    copy_most_attributes(data, df) ;
+    data.names() = accumulator.names() ; 
+    set_rownames(data, 1 ) ;
+    return data ;
 }
 
 // [[Rcpp::export]]

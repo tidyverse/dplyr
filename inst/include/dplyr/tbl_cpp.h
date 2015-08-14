@@ -23,21 +23,6 @@ namespace dplyr {
         return Rcpp::CharacterVector::create( "tbl_df", "tbl", "data.frame") ;
     }
 
-    class tbl_cpp{
-    public:
-        tbl_cpp( Rcpp::List data_, int nr ) : data(data_){
-            set_rownames(data, nr ) ;
-            data.attr( "class" ) = classes_not_grouped()  ;
-        }
-
-        inline operator SEXP(){
-            return data ;
-        }
-
-    private:
-        List data ;
-    } ;
-    
 }
 
 #endif

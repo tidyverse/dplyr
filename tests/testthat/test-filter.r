@@ -249,7 +249,10 @@ test_that("filter(.,TRUE,TRUE) works (#1210)", {
 })
 
 test_that("filter, slice and arrange preserves attributes (#1064)", {
-  df <- structure( data.frame( x = 1:10 ), meta = "this is important" )
+  df <- structure(
+      data.frame( x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2) ),
+      meta = "this is important"
+  )
   res <- filter( df, x < 5 ) %>% attr("meta" )
   expect_equal( res, "this is important")
 
@@ -260,6 +263,15 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
   expect_equal( res, "this is important")
 
   res <- df %>% arrange(x) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% summarise( n() ) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% group_by(g1) %>% summarise( n() ) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% group_by(g1,g2) %>% summarise( n() ) %>% attr("meta")
   expect_equal( res, "this is important")
 
 })

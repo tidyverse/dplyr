@@ -67,7 +67,8 @@
 
 * `bind_rows` respects `ordered` factors (#1112).
 
-* `filter`, `slice` and `arrange` preserve attributes (#1064). 
+* `filter`, `slice` and `arrange` and `summarise` preserve data frame meta
+  attributes (#1064). 
 
 # dplyr 0.4.2
 
