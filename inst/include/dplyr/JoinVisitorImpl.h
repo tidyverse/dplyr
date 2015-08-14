@@ -242,13 +242,6 @@ namespace dplyr{
             return res ;
         }
 
-      // inline void debug(){
-      //     Rprintf( "visitor= %s. left(levels) =", DEMANGLE(JoinFactorStringVisitor) ) ;
-      //     Rf_PrintValue(left_levels) ;
-      //     Rprintf( "right=" ) ;
-      //     Rf_PrintValue(right) ;
-      // }
-
     private:
         IntegerVector left ;
         CharacterVector right ;
