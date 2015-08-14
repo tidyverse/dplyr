@@ -58,7 +58,9 @@
 * Simplified code for `lead`/`lag` and make sure they work properly on factors
   inside `mutate` (#955).
 
-* joins handle matrix columns better (#1230). 
+* joins handle matrix columns better (#1230).
+
+* strings ordering more resistant to collate issues (#1315). 
 
 # dplyr 0.4.2
 

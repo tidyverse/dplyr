@@ -165,9 +165,10 @@ namespace dplyr{
         // retrieve unique strings from the set
         int n_uniques = set.size() ;
         CharacterVector uniques( set.begin(), set.end() ) ;
+        CharacterVector s_uniques = Language( "sort", uniques ).fast_eval() ;
 
         // order the uniques with a callback to R
-        IntegerVector o = Language( "rank", uniques, _["ties.method"] = "min", _["na.last"] = "keep" ).fast_eval() ;
+        IntegerVector o = Language( "match", uniques, s_uniques ).fast_eval() ;
 
         // combine uniques and o into a hash map for fast retrieval
         dplyr_hash_map<SEXP,int> map ;
@@ -189,12 +190,10 @@ namespace dplyr{
                 continue ;
             }
             previous = s ;
-            orders[i] = o_pos = map.find(previous)->second ;
+            orders[i] = o_pos = map.find(s)->second ;
         }
 
     }
-
-
 }
 
 // [[Rcpp::export]]

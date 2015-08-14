@@ -438,3 +438,12 @@ test_that("join handles matrices #1230", {
   expect_equal( dim(text.y), c(5,2) )
   expect_true( all(is.na(text.y)) )
 })
+
+test_that( "ordering of strings is not confused by R's collate order (#1315)", {
+  a= data.frame(character = c("\u0663"),set=c("arabic_the_language"),stringsAsFactors=F)
+  b = data.frame(character = c("3"),set=c("arabic_the_numeral_set"),stringsAsFactors = F)
+  res <- b %>% inner_join(a,by=c("character"))
+  expect_equal( nrow(res), 0L)
+  res <- a %>% inner_join(b,by=c("character"))
+  expect_equal( nrow(res), 0L)
+})
