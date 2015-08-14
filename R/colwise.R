@@ -59,7 +59,7 @@ summarise_each_q <- function(...) {
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ...) {
-  mutate_each_(tbl, funs, dots(...))
+  mutate_each_(tbl, funs, lazyeval::lazy_dots(...))
 }
 
 #' @export
@@ -86,7 +86,7 @@ colwise_ <- function(tbl, calls, vars) {
 
   out <- vector("list", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))
-  
+
   vars <- enc2native(vars)
   for (i in seq_along(vars)) {
     for (j in seq_along(calls)) {
