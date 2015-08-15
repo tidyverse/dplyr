@@ -98,12 +98,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // cbind_all
-List cbind_all(StrictListOf<DataFrame, CanConvertToDataFrame > dots);
+List cbind_all(List dots);
 RcppExport SEXP dplyr_cbind_all(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< StrictListOf<DataFrame, CanConvertToDataFrame > >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
     __result = Rcpp::wrap(cbind_all(dots));
     return __result;
 END_RCPP

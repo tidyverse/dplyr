@@ -110,14 +110,18 @@ template <typename Dots>
 List cbind__impl( Dots dots ){
   int n = dots.size() ;
 
+  std::vector<DataFrameAble> chunks ;
+  for( int i=0; i<n; i++) {
+    chunks.push_back( DataFrameAble( dots[i] ) );
+  }
+
   // first check that the number of rows is the same
-  DataFrame df = dots[0] ;
+  const DataFrameAble& df = chunks[0] ;
   int nrows = df.nrows() ;
   int nv = df.size() ;
   for( int i=1; i<n; i++){
-    DataFrame current = dots[i] ;
+    const DataFrameAble& current = dots[i] ;
     if( current.nrows() != nrows ){
-      std::stringstream ss ;
       stop( "incompatible number of rows (%d, expecting %d)", current.nrows(), nrows ) ;
     }
     nv += current.size() ;
@@ -131,11 +135,11 @@ List cbind__impl( Dots dots ){
   for( int i=0, k=0 ; i<n; i++){
       Rcpp::checkUserInterrupt() ;
 
-      DataFrame current = dots[i] ;
+      const DataFrameAble& current = dots[i] ;
       CharacterVector current_names = current.names() ;
       int nc = current.size() ;
       for( int j=0; j<nc; j++, k++){
-          out[k] = shared_SEXP(current[j]) ;
+          out[k] = shared_SEXP(current.get(j)) ;
           out_names[k] = current_names[j] ;
       }
   }
@@ -146,7 +150,7 @@ List cbind__impl( Dots dots ){
 }
 
 // [[Rcpp::export]]
-List cbind_all( StrictListOf<DataFrame, CanConvertToDataFrame > dots ){
+List cbind_all( List dots ){
     return cbind__impl( dots ) ;
 }
 

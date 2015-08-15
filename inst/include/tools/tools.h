@@ -10,7 +10,6 @@
 #include <tools/hash.h>
 #include <tools/delete_all.h>
 #include <tools/pointer_vector.h>
-#include <tools/StrictListOf.h>
 #include <tools/FilteredListOf.h>
 #include <tools/collapse.h>
 #include <tools/get_single_class.h>
