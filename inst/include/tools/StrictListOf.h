@@ -15,14 +15,29 @@ namespace Rcpp {
         }
     } ;
 
-    template <typename T>
-    struct NULL_or_Is {
+    struct CanConvertToDataFrame {
         inline bool operator()(SEXP x){
-            return Rf_isNull(x) || is<DataFrame>(x) ;
+            if( Rf_isNull(x) || is<DataFrame>(x) ) return true ;
+            if( TYPEOF(x) == VECSXP && !Rf_isNull(Rf_getAttrib(x, Rf_install("names"))) ) {
+                // a list that is not a data frame, so let's check if all
+                // elements have the same length
+
+                List data(x) ;
+                int n = data.size() ;
+                if( n == 0 ) return true ;
+
+                int m = Rf_length(data[0]) ;
+                for( int i=1; i<n; i++){
+                  if( Rf_length(data[i]) != m ) return false ;
+                }
+
+                return true  ;
+            }
+            return false ;
         }
 
         inline std::string why_not(SEXP){
-            return "not a data.frame" ;
+            return "not convertible to a data.frame" ;
         }
     } ;
 

@@ -207,5 +207,17 @@ test_that("bind_rows respects ordered factors (#1112)", {
   res <- group_by(df, id) %>% do(na.omit(.))
   expect_is( res$id, "ordered")
   expect_equal( levels(df$id), levels(res$id) )
+})
 
+test_that("rbind can handle lists (#1104)", {
+  my_list <- list(list(x = 1, y = 'a'), list(x = 2, y = 'b'))
+  res <- bind_rows(my_list)
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
+
+  res <- bind_rows(list(x = 1, y = 'a'), list(x = 2, y = 'b'))
+  expect_equal(nrow(res), 2L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
 })

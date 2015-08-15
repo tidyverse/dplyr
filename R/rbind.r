@@ -55,7 +55,7 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(x, ...) {
-  if (is.list(x) && !is.data.frame(x)) {
+  if (is.list(x) && !is.data.frame(x) && !length(list(...)) ) {
     rbind_all(x)
   } else {
     rbind_all(list(x, ...))

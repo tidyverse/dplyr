@@ -19,6 +19,7 @@ using namespace Rcpp ;
 #endif
 
 #include <boost/scoped_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 #include <boost/functional/hash.hpp>
 
 #ifndef dplyr_hash_map
@@ -106,6 +107,7 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
     SEXP get_date_classes() ;
 #endif
 
+#include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/white_list.h>
 #include <dplyr/check_supported_type.h>

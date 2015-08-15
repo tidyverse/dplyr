@@ -76,34 +76,34 @@ BEGIN_RCPP
 END_RCPP
 }
 // rbind_all
-List rbind_all(StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots);
+List rbind_all(List dots);
 RcppExport SEXP dplyr_rbind_all(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< StrictListOf<DataFrame, NULL_or_Is<DataFrame> > >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
     __result = Rcpp::wrap(rbind_all(dots));
     return __result;
 END_RCPP
 }
 // rbind_list__impl
-List rbind_list__impl(DotsOf<DataFrame> dots);
+List rbind_list__impl(Dots dots);
 RcppExport SEXP dplyr_rbind_list__impl(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< DotsOf<DataFrame> >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< Dots >::type dots(dotsSEXP);
     __result = Rcpp::wrap(rbind_list__impl(dots));
     return __result;
 END_RCPP
 }
 // cbind_all
-List cbind_all(StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots);
+List cbind_all(StrictListOf<DataFrame, CanConvertToDataFrame > dots);
 RcppExport SEXP dplyr_cbind_all(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< StrictListOf<DataFrame, NULL_or_Is<DataFrame> > >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< StrictListOf<DataFrame, CanConvertToDataFrame > >::type dots(dotsSEXP);
     __result = Rcpp::wrap(cbind_all(dots));
     return __result;
 END_RCPP

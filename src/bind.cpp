@@ -7,13 +7,11 @@ template <typename Dots>
 List rbind__impl( Dots dots ){
     int ndata = dots.size() ;
     int n = 0 ;
+    std::vector<DataFrameAble> chunks ;
+
     for( int i=0; i<ndata; i++) {
-      DataFrame df = dots[i] ;
-      CharacterVector df_names = df.names() ;
-      if( any(is_na(df_names)).is_true() ){
-        stop( "corrupt data frame at index %d", (i+1) ) ;
-      }
-      if( df.size() ) n += df.nrows() ;
+      chunks.push_back( DataFrameAble( dots[i] ) );
+      n += chunks[i].nrows() ;
     }
     pointer_vector<Collecter> columns ;
 
@@ -24,14 +22,14 @@ List rbind__impl( Dots dots ){
     for( int i=0; i<ndata; i++){
         Rcpp::checkUserInterrupt() ;
 
-        DataFrame df = dots[i] ;
+        const DataFrameAble& df = chunks[i] ;
         if( !df.size() ) continue ;
 
         int nrows = df.nrows() ;
 
         CharacterVector df_names = enc2native(df.names()) ;
         for( int j=0; j<df.size(); j++){
-            SEXP source = df[j] ;
+            SEXP source = df.get(j) ;
             String name = df_names[j] ;
 
             Collecter* coll = 0;
@@ -99,12 +97,12 @@ List rbind__impl( Dots dots ){
 
 //' @export
 // [[Rcpp::export]]
-List rbind_all( StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots ){
+List rbind_all( List dots ){
     return rbind__impl(dots) ;
 }
 
 // [[Rcpp::export]]
-List rbind_list__impl( DotsOf<DataFrame> dots ){
+List rbind_list__impl( Dots dots ){
     return rbind__impl(dots) ;
 }
 
@@ -148,7 +146,7 @@ List cbind__impl( Dots dots ){
 }
 
 // [[Rcpp::export]]
-List cbind_all( StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots ){
+List cbind_all( StrictListOf<DataFrame, CanConvertToDataFrame > dots ){
     return cbind__impl( dots ) ;
 }
 
