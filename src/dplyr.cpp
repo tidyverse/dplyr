@@ -1453,7 +1453,7 @@ DataFrame build_index_cpp( DataFrame data ){
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
         vars[i] = PRINTNAME(symbols[i]) ;
-
+        
         const char* name = vars[i] ;
         SEXP v  ;
         try{
