@@ -95,6 +95,7 @@ Collate:
     'src-sql.r'
     'src-sqlite.r'
     'src.r'
+    'sweep_simultaneously.R'
     'tally.R'
     'tbl-cube.r'
     'tbl-df.r'
