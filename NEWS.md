@@ -72,7 +72,11 @@
 
 * `bind_rows` and `bind_cols` accepts lists (#104).
 
-* `lead` and `lag` handle the `default` argument in mutate calls (#915). 
+* `lead` and `lag` handle the `default` argument in mutate calls (#915).
+
+* `ungroup.rowwise_df` gives a `tbl_df` (#936).
+
+* `mutate.rowwise_df` handles factors (#886). 
 
 # dplyr 0.4.2
 

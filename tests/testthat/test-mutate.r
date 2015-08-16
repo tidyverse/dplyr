@@ -395,3 +395,10 @@ test_that("regression test for #637", {
   res <- mtcars %>% mutate(xx = sum(mean(mpg)))
   expect_true( all( res$xx == sum(mean(mtcars$mpg))))
 })
+
+test_that("mutate.rowwise handles factors (#886)", {
+  res <- data.frame(processed=c("foo", "bar")) %>%
+    rowwise() %>%
+    mutate(processed_trafo=paste("test", processed))
+  expect_equal( res$processed_trafo, c("test foo", "test bar"))
+})

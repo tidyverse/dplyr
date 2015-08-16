@@ -238,7 +238,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
 
 test_that("group_by works after arrange (#959)",{
   df  <- data_frame(Log= c(1,2,1,2,1,2), Time = c(10,1,3,0,15,11))
-  res <- df %>% 
+  res <- df %>%
      arrange(Time) %>%
      group_by(Log) %>%
      mutate(Diff = Time - lag(Time))
@@ -250,4 +250,9 @@ test_that("group_by keeps attributes", {
   d <- data.frame( x = structure( 1:10, foo = "bar" ) )
   gd <- group_by(d)
   expect_equal( attr(gd$x, "foo"), "bar")
+})
+
+test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
+  res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
+  expect_equal( res, c("tbl_df", "data.frame"))
 })
