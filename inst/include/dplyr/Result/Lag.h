@@ -6,7 +6,18 @@ namespace dplyr {
     template <int RTYPE>
     class Lag : public Result {
     public:
-        Lag( SEXP data_, int n_ ) : data(data_), n(n_){}
+        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+
+        Lag( SEXP data_, int n_, const RObject& def_) :
+            data(data_),
+            n(n_),
+            def( Vector<RTYPE>::get_na() )
+        {
+          if( !Rf_isNull(def_) ){
+            def = as<STORAGE>(def_) ;
+          }
+
+        }
 
         virtual SEXP process(const GroupedDataFrame& gdf ){
             int nrows = gdf.nrows() ;
@@ -22,7 +33,7 @@ namespace dplyr {
         }
 
         virtual SEXP process(const RowwiseDataFrame& gdf ){
-            Vector<RTYPE> out(gdf.nrows(), Vector<RTYPE>::get_na() ) ;
+            Vector<RTYPE> out(gdf.nrows(), def ) ;
             copy_most_attributes( out, data ) ;
             return out ;
         }
@@ -53,11 +64,11 @@ namespace dplyr {
 
             if( n > chunk_size ) {
                 for(int i=0; i<chunk_size ; i++){
-                    out[out_index[i]] = Vector<RTYPE>::get_na() ;
+                    out[out_index[i]] = def ;
                 }
             } else {
                 for(; i<n ; i++){
-                    out[out_index[i]] = Vector<RTYPE>::get_na() ;
+                    out[out_index[i]] = def ;
                 }
                 for( ; i<chunk_size; i++ ){
                     out[out_index[i]] = data[index[i-n]] ;
@@ -67,6 +78,7 @@ namespace dplyr {
 
         Vector<RTYPE> data ;
         int n ;
+        STORAGE def ;
     } ;
 
 }

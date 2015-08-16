@@ -70,7 +70,9 @@
 * `filter`, `slice` and `arrange` and `summarise` preserve data frame meta
   attributes (#1064).
 
-* `bind_rows` and `bind_cols` accepts lists (#104). 
+* `bind_rows` and `bind_cols` accepts lists (#104).
+
+* `lead` and `lag` handle the `default` argument in mutate calls (#915). 
 
 # dplyr 0.4.2
 

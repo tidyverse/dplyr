@@ -308,7 +308,7 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
 
 struct LeadLag{
 
-    LeadLag( SEXP call ) : data(R_NilValue), n(1), ok(true) {
+    LeadLag( SEXP call ) : data(R_NilValue), n(1), def(R_NilValue), ok(true){
 
         SEXP p = CDR(call) ;
         SEXP tag = TAG(p) ;
@@ -319,53 +319,39 @@ struct LeadLag{
         data = CAR(p) ;
 
         p = CDR(p);
-        if( p != R_NilValue ){
+        while( p != R_NilValue ){
             tag = TAG(p) ;
-            if( tag != R_NilValue && tag != Rf_install("n") ) {
+            if( tag != R_NilValue && tag != Rf_install("n") && tag != Rf_install("default") ) {
                 ok = false ;
                 return ;
             }
-
-            try{
-                n = as<int>( CAR(p) );
-            } catch( ... ){
-                SEXP n_ = CADDR(call);
-                std::stringstream s ;
-                stop( "could not convert second argument to an integer. type=%s, length = %d",
-                    type2name(n_), Rf_length(n_) ) ;
+            if( tag == Rf_install("n") || tag == R_NilValue ){
+                try{
+                    n = as<int>( CAR(p) );
+                } catch( ... ){
+                    SEXP n_ = CADDR(call);
+                    std::stringstream s ;
+                    stop( "could not convert second argument to an integer. type=%s, length = %d",
+                        type2name(n_), Rf_length(n_) ) ;
+                }
             }
+            if( tag == Rf_install("default") ){
+                def = CAR(p) ;
+            }
+            p = CDR(p) ;
         }
     }
 
     RObject data ;
     int n ;
+    RObject def ;
 
     bool ok ;
 
 } ;
 
-Result* lead_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-    LeadLag args(call) ;
-    if( !args.ok ) return 0 ;
-    RObject& data = args.data ;
-    int n = args.n ;
-
-    if( TYPEOF(data) == SYMSXP && subsets.count(data) ) {
-        data = subsets.get_variable(data) ;
-
-        switch( TYPEOF(data) ){
-            case INTSXP:  return new Lead<INTSXP>(data, n) ;
-            case REALSXP: return new Lead<REALSXP>(data, n) ;
-            case STRSXP:  return new Lead<STRSXP>(data, n) ;
-            case LGLSXP:  return new Lead<LGLSXP>(data, n) ;
-            default: break ;
-        }
-
-    }
-    return 0 ;
-}
-
-Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
+template < template<int> class Templ>
+Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     LeadLag args(call) ;
     if( !args.ok ) return 0 ;
 
@@ -376,10 +362,10 @@ Result* lag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
         data = subsets.get_variable(data) ;
 
         switch( TYPEOF(data) ){
-            case INTSXP:  return new Lag<INTSXP>(data, n) ;
-            case REALSXP: return new Lag<REALSXP>(data, n) ;
-            case STRSXP:  return new Lag<STRSXP>(data, n) ;
-            case LGLSXP:  return new Lag<LGLSXP>(data, n) ;
+            case INTSXP:  return new Templ<INTSXP> (data, n, args.def) ;
+            case REALSXP: return new Templ<REALSXP>(data, n, args.def) ;
+            case STRSXP:  return new Templ<STRSXP> (data, n, args.def) ;
+            case LGLSXP:  return new Templ<LGLSXP> (data, n, args.def) ;
             default: break ;
         }
 
@@ -710,8 +696,8 @@ HybridHandlerMap& get_handlers(){
         // handlers[ Rf_install( "cummin")          ] = cumfun_prototype<CumMin> ;
         // handlers[ Rf_install( "cummax")          ] = cumfun_prototype<CumMax> ;
 
-        handlers[ Rf_install( "lead" )           ] = lead_prototype ;
-        handlers[ Rf_install( "lag" )            ] = lag_prototype ;
+        handlers[ Rf_install( "lead" )           ] = leadlag_prototype<Lead> ;
+        handlers[ Rf_install( "lag" )            ] = leadlag_prototype<Lag> ;
 
         handlers[ Rf_install( "first" ) ] = first_prototype<dplyr::First, dplyr::FirstWith> ;
         handlers[ Rf_install( "last" ) ]  = first_prototype<dplyr::Last, dplyr::LastWith> ;
@@ -1453,7 +1439,7 @@ DataFrame build_index_cpp( DataFrame data ){
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
         vars[i] = PRINTNAME(symbols[i]) ;
-        
+
         const char* name = vars[i] ;
         SEXP v  ;
         try{

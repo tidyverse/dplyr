@@ -182,6 +182,20 @@ test_that("lag and lead work on factors inside mutate (#955)", {
 
 })
 
+test_that("lag handles default argument in mutate (#915)", {
+  blah <- data.frame(x1 = c(5,10,20,27,35,58,5,6), y = 8:1)
+  blah <- mutate(blah,
+    x2 = x1 - lag(x1, n=1, default=0),
+    x3 = x1 - lead(x1, n=1, default=0),
+    x4 = lag(x1, n=1L, order_by = y),
+    x5 = lead(x1, n=1L, order_by = y)
+  )
+  expect_equal( blah$x2, blah$x1 - lag(blah$x1, n = 1, default = 0))
+  expect_equal( blah$x3, blah$x1 - lead(blah$x1, n = 1, default = 0))
+  expect_equal( blah$x4, lag( blah$x1, n=1L, order_by = blah$y ) )
+  expect_equal( blah$x5, lead( blah$x1, n=1L, order_by = blah$y ) )
+})
+
 # FIXME: this should only fail if strict checking is on.
 # test_that("window functions fail if db doesn't support windowing", {
 #   df_sqlite <- temp_load(temp_srcs("sqlite"), df)$sql %>% group_by(g)

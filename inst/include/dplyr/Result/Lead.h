@@ -6,7 +6,15 @@ namespace dplyr {
     template <int RTYPE>
     class Lead : public Result {
     public:
-        Lead( SEXP data_, int n_ ) : data(data_), n(n_){}
+        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+
+        Lead( SEXP data_, int n_, const RObject& def_) :
+            data(data_), n(n_), def(Vector<RTYPE>::get_na())
+        {
+          if( !Rf_isNull(def_)){
+            def = as<STORAGE>( def_ ) ;
+          }
+        }
 
         virtual SEXP process(const GroupedDataFrame& gdf ){
             int nrows = gdf.nrows() ;
@@ -24,7 +32,7 @@ namespace dplyr {
         virtual SEXP process(const RowwiseDataFrame& gdf ){
             int nrows = gdf.nrows() ;
 
-            Vector<RTYPE> out(nrows, Vector<RTYPE>::get_na() ) ;
+            Vector<RTYPE> out(nrows, def ) ;
             copy_most_attributes( out, data ) ;
             return out ;
         }
@@ -56,12 +64,13 @@ namespace dplyr {
                 out[out_index[i]] = data[index[i+n]] ;
             }
             for(; i<chunk_size; i++){
-                out[out_index[i]] = Vector<RTYPE>::get_na() ;
+                out[out_index[i]] = def ;
             }
         }
 
         Vector<RTYPE> data ;
         int n ;
+        STORAGE def ;
     } ;
 
 }
