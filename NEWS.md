@@ -76,7 +76,9 @@
 
 * `ungroup.rowwise_df` gives a `tbl_df` (#936).
 
-* `mutate.rowwise_df` handles factors (#886). 
+* `mutate.rowwise_df` handles factors (#886).
+
+* `filter` works with rowwise data (#1099). 
 
 # dplyr 0.4.2
 

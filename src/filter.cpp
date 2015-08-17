@@ -68,8 +68,9 @@ inline SEXP check_filter_logical_result(SEXP tmp){
     return tmp ;
 }
 
-DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots& dots){
-    typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy ;
+template <typename Data, typename Subsets>
+DataFrame filter_grouped_single_env( const Data& gdf, const LazyDots& dots){
+    typedef GroupedCallProxy<Data, Subsets> Proxy ;
     Environment env = dots[0].env() ;
 
     const DataFrame& data = gdf.data() ;
@@ -89,7 +90,7 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots
     Proxy call_proxy( call, gdf, env ) ;
 
     int ngroups = gdf.ngroups() ;
-    GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+    typename Data::group_iterator git = gdf.group_begin() ;
     for( int i=0; i<ngroups; i++, ++git){
         SlicingIndex indices = *git ;
         int chunk_size = indices.size() ;
@@ -107,14 +108,15 @@ DataFrame filter_grouped_single_env( const GroupedDataFrame& gdf, const LazyDots
             }
         }
     }
-    DataFrame res = subset( data, test, names, classes_grouped<GroupedDataFrame>() ) ;
+    DataFrame res = subset( data, test, names, classes_grouped<Data>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
 
     return res ;
 }
 
 // version of grouped filter when contributions to ... come from several environment
-DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDots& dots){
+template <typename Data, typename Subsets>
+DataFrame filter_grouped_multiple_env( const Data& gdf, const LazyDots& dots){
     const DataFrame& data = gdf.data() ;
     CharacterVector names = data.names() ;
     SymbolSet set ;
@@ -132,9 +134,9 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDo
         const Lazy& lazy = dots[k] ;
 
         Call call( lazy.expr() ) ;
-        GroupedCallProxy<GroupedDataFrame> call_proxy( call, gdf, lazy.env() ) ;
+        GroupedCallProxy<Data, Subsets> call_proxy( call, gdf, lazy.env() ) ;
         int ngroups = gdf.ngroups() ;
-        GroupedDataFrame::group_iterator git = gdf.group_begin() ;
+        typename Data::group_iterator git = gdf.group_begin() ;
         for( int i=0; i<ngroups; i++, ++git){
             SlicingIndex indices = *git ;
             int chunk_size = indices.size() ;
@@ -156,17 +158,18 @@ DataFrame filter_grouped_multiple_env( const GroupedDataFrame& gdf, const LazyDo
             }
         }
     }
-    DataFrame res = subset( data, test, names, classes_grouped<GroupedDataFrame>() ) ;
+    DataFrame res = subset( data, test, names, classes_grouped<Data>() ) ;
     res.attr( "vars") = data.attr("vars") ;
 
     return res ;
 }
 
-DataFrame filter_grouped( const GroupedDataFrame& gdf, const LazyDots& dots){
+template <typename Data, typename Subsets>
+DataFrame filter_grouped( const Data& gdf, const LazyDots& dots){
     if( dots.single_env() ){
-        return filter_grouped_single_env(gdf, dots) ;
+        return filter_grouped_single_env<Data, Subsets>(gdf, dots) ;
     } else {
-        return filter_grouped_multiple_env(gdf, dots) ;
+        return filter_grouped_multiple_env<Data, Subsets>(gdf, dots) ;
     }
 }
 
@@ -269,7 +272,9 @@ SEXP filter_impl( DataFrame df, LazyDots dots){
         }
     }
     if( is<GroupedDataFrame>( df ) ){
-        return filter_grouped( GroupedDataFrame(df), dots);
+        return filter_grouped<GroupedDataFrame, LazyGroupedSubsets>( GroupedDataFrame(df), dots);
+    } else if( is<RowwiseDataFrame>(df) ){
+        return filter_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( RowwiseDataFrame(df), dots);
     } else {
         return filter_not_grouped( df, dots ) ;
     }
