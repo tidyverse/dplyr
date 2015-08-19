@@ -402,3 +402,12 @@ test_that("mutate.rowwise handles factors (#886)", {
     mutate(processed_trafo=paste("test", processed))
   expect_equal( res$processed_trafo, c("test foo", "test bar"))
 })
+
+test_that("setting first column to NULL with mutate works (#1329)", {
+    df <- data.frame(x = 1:10, y = 1:10)
+    expect_equal( mutate(df, x=NULL), select(df,-x) )
+    expect_equal( mutate(df, y=NULL), select(df,-y) )
+
+    gdf <- group_by(df, y)
+    expect_equal( select(gdf, -x), mutate(gdf, x = NULL) )
+})

@@ -78,7 +78,9 @@
 
 * `mutate.rowwise_df` handles factors (#886).
 
-* `filter` works with rowwise data (#1099). 
+* `filter` works with rowwise data (#1099).
+
+* `mutate` can set to `NULL` the first column (used to segfault, #1329).  
 
 # dplyr 0.4.2
 
