@@ -4,10 +4,19 @@
 \alias{n_distinct}
 \title{Efficiently count the number of unique values in a vector.}
 \usage{
+<<<<<<< HEAD
+n_distinct(x, na_rm = FALSE)
+}
+\arguments{
+\item{x}{a vector of values}
+
+\item{na_rm}{if \code{TRUE} missing values don't count}
+=======
 n_distinct(x)
 }
 \arguments{
 \item{x}{a vector of values}
+>>>>>>> upstream/master
 }
 \description{
 This is a faster and more concise equivalent of \code{length(unique(x))}

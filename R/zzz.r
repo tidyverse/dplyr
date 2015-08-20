@@ -2,7 +2,11 @@
   op <- options()
   op.dplyr <- list(
     dplyr.strict_sql = FALSE,
+<<<<<<< HEAD
+    dplyr.print_min = 5L,
+=======
     dplyr.print_min = 10L,
+>>>>>>> upstream/master
     dplyr.print_max = 20L
   )
   toset <- !(names(op.dplyr) %in% names(op))
