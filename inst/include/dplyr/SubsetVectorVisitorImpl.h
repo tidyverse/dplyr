@@ -61,6 +61,10 @@ namespace dplyr {
             return vec.size() ;
         }
 
+        inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+            return true ;
+        }
+
     protected:
         VECTOR vec ;
 
@@ -127,7 +131,13 @@ namespace dplyr {
         }
 
         inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name ) const {
-            return compatible( dynamic_cast<SubsetFactorVisitor*>(other), ss, name ) ;
+            if( typeid(*other) == typeid(*this) )
+              return compatible( dynamic_cast<SubsetFactorVisitor*>(other), ss, name ) ;
+
+            if( typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>) )
+              return true ;
+              
+            return false ;
         }
 
     private:
@@ -197,13 +207,30 @@ namespace dplyr {
           return impl->get_r_type() ;
         }
 
+        bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+          return typeid(*other) == typeid(*this) ;
+        }
+
     private:
         SubsetVectorVisitor* impl ;
         DateSubsetVectorVisitor( const DateSubsetVectorVisitor& ) ;
 
     } ;
 
+    template <>
+    inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+        return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetVectorVisitorImpl<REALSXP>) ;
+    }
 
+    template <>
+    inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+        return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetVectorVisitorImpl<INTSXP>) ;
+    }
+
+    template <>
+    inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+        return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetFactorVisitor) ;
+    }
 
 }
 

@@ -1198,7 +1198,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
     ok = true ;
     for( int i=0; i<n; i++){
-        if( typeid(*v_x.get(i)) != typeid(*v_y.get(i)) ){
+        String name = names_x[i];
+        if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
             ss << "Incompatible type for column "
                << names_x[i]
                << ": x "
@@ -1206,13 +1207,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
                << ", y "
                << v_y.get(i)->get_r_type() ;
             ok = false ;
-        } else {
-            String name = names_x[i];
-            if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
-                ok = false ;
-            }
-        }
-
+        } 
     }
     if(!ok) return no_because( ss.str() ) ;
     return yes() ;

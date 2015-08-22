@@ -1,3 +1,7 @@
+# future
+
+* set operations respect coercion rules (#799). 
+
 # dplyr 0.4.2.9000
 
 * `bind_rows` is more careful about column names encodings (#1265).
