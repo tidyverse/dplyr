@@ -46,17 +46,6 @@ test_that("factors equal only if levels equal", {
   expect_match(all.equal(tbl_df(df1), tbl_df(df2)), "Factor levels not equal for column x" )
 })
 
-test_that("integers and reals are not equal", {
-  x <- 1:10
-  y <- as.numeric(x)
-
-  df1 <- data.frame(x = x)
-  df2 <- data.frame(x = y)
-
-  expect_match(all.equal(tbl_df(df1), df2),
-    "Incompatible type for column x: x integer, y numeric")
-})
-
 test_that("BoolResult does not overwrite singleton R_TrueValue", {
   dplyr:::equal_data_frame(mtcars, mtcars)
   expect_equal( class(2 == 2), "logical" )
