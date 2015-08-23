@@ -1,6 +1,8 @@
 # future
 
-* set operations respect coercion rules (#799). 
+* set operations respect coercion rules (#799).
+
+* joins on `POSIXct` consider time zones (#819). 
 
 # dplyr 0.4.2.9000
 
