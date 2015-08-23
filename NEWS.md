@@ -80,7 +80,9 @@
 
 * `filter` works with rowwise data (#1099).
 
-* `mutate` can set to `NULL` the first column (used to segfault, #1329).  
+* `mutate` can set to `NULL` the first column (used to segfault, #1329).
+
+* `filter` on grouped data handles indices correctly (#880).  
 
 # dplyr 0.4.2
 

@@ -282,3 +282,11 @@ test_that("filter works with rowwise data (#1099)", {
   expect_equal( nrow(res), 1L)
   expect_equal( df[1,], res)
 })
+
+test_that("grouped filter nukes indices (#880)", {
+  res <- iris %>% group_by(Species) %>% filter( Sepal.Length > 5 )
+  expect_null( attr(res, "indices") )
+
+  res2 <- mutate( res, Petal = Petal.Width * Petal.Length)
+  expect_equal( nrow(res), nrow(res2) )
+})
