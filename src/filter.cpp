@@ -69,14 +69,15 @@ inline SEXP check_filter_logical_result(SEXP tmp){
 }
 
 template <typename Data>
-inline SEXP grouped_subset( const Data& data, const LogicalVector& test, const CharacterVector& names, CharacterVector classes){
+inline DataFrame grouped_subset( const Data& gdf, const LogicalVector& test, const CharacterVector& names, CharacterVector classes){
+  DataFrame data = gdf.data() ;
   DataFrame res = subset( data, test, names, classes) ;
   res.attr("vars")   = data.attr("vars") ;
   res.attr("indices") = R_NilValue ;
   res.attr("group_sizes") = R_NilValue ;
   res.attr("biggest_group_size") = R_NilValue ;
   res.attr("labels") = R_NilValue ;
-  return res ;
+  return Data(res).data() ;
 }
 
 template <typename Data, typename Subsets>
@@ -119,7 +120,7 @@ DataFrame filter_grouped_single_env( const Data& gdf, const LazyDots& dots){
             }
         }
     }
-    return grouped_subset( data, test, names, classes_grouped<Data>() ) ;
+    return grouped_subset<Data>( gdf, test, names, classes_grouped<Data>() ) ;
 }
 
 // version of grouped filter when contributions to ... come from several environment
@@ -166,7 +167,7 @@ DataFrame filter_grouped_multiple_env( const Data& gdf, const LazyDots& dots){
             }
         }
     }
-    return grouped_subset( data, test, names, classes_grouped<Data>() ) ;
+    return grouped_subset<Data>( gdf, test, names, classes_grouped<Data>() ) ;
 }
 
 template <typename Data, typename Subsets>
