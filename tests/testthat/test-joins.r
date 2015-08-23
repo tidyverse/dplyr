@@ -447,14 +447,3 @@ test_that( "ordering of strings is not confused by R's collate order (#1315)", {
   res <- a %>% inner_join(b,by=c("character"))
   expect_equal( nrow(res), 0L)
 })
-
-test_that("joins handle tzone differences (#819)", {
-  date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
-  date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
-
-  df1 <- data.frame( date = date1 )
-  df2 <- data.frame( date = date2 )
-
-  expect_equal( attr(left_join(df1, df1)$date, "tzone"), "America/Chicago" )
-  expect_equal( attr(left_join(df1, df2)$date, "tzone"), "UTC" )
-})
