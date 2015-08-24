@@ -18,7 +18,9 @@ A ref class with methods \code{tick()}, \code{print()},
 }
 \description{
 This reference class represents a text progress bar displayed estimated
-time remaining. When finished, it displays the total duration.
+time remaining. When finished, it displays the total duration.  The
+automatic progress bar can be disabled by setting option
+\code{dplyr.show_progress} to \code{FALSE}.
 }
 \examples{
 p <- progress_estimated(3)
