@@ -266,8 +266,8 @@ arrange_ <- function(.data, ..., .dots) {
 #' # Renaming multiple variables uses a prefix:
 #' select(iris, petal = starts_with("Petal"))
 #'
-#' # Reorder variables: keep the variable "Sepcies" in the front
-#' select(iris, Species, everthing())
+#' # Reorder variables: keep the variable "Species" in the front
+#' select(iris, Species, everything())
 #'
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
