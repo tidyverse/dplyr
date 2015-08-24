@@ -10,7 +10,7 @@
 #'   You can use same specifications as in \code{\link{select}}. If missing,
 #'   defaults to all non-grouping variables.
 #'
-#'   For standard evaluation versions (ending in \code{_q}) these can
+#'   For standard evaluation versions (ending in \code{_}) these can
 #'   be either a list of expressions or a character vector.
 #' @examples
 #' # One function
