@@ -153,12 +153,8 @@ Result* count_distinct_result(SEXP vec){
 
 Result* count_distinct_result_narm(SEXP vec){
     switch( TYPEOF(vec) ){
-        case INTSXP:
-            if( Rf_inherits(vec, "factor" ))
-                return new Count_Distinct_Narm<FactorVisitor>( FactorVisitor(vec) ) ;
-            return new Count_Distinct_Narm< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP:
-            return new Count_Distinct_Narm< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
+        case INTSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
+        case REALSXP: return new Count_Distinct_Narm< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
         case LGLSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
         case STRSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
         default: break ;
