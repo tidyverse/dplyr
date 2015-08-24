@@ -25,7 +25,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `filter(x, TRUE, TRUE)` now just returns `x` (#1210), 
   it doesn't internally modify the first argument (#971), and 
-  it now works with rowwise data (#1099).
+  it now works with rowwise data (#1099). It once again works with
+  data tables (#906).
 
 * `filter()`, `slice()` and `arrange()` and `summarise()` preserve data frame 
   meta attributes (#1064).
