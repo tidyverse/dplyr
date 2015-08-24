@@ -4,10 +4,12 @@
 \alias{n_distinct}
 \title{Efficiently count the number of unique values in a vector.}
 \usage{
-n_distinct(x)
+n_distinct(x, na_rm = FALSE)
 }
 \arguments{
 \item{x}{a vector of values}
+
+\item{na_rm}{if \code{TRUE} missing values don't count}
 }
 \description{
 This is a faster and more concise equivalent of \code{length(unique(x))}
