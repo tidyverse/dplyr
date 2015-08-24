@@ -16,7 +16,7 @@
 #' if (require("Lahman")) {
 #' batting_tbl <- tbl_df(Batting)
 #' tally(group_by(batting_tbl, yearID))
-#' tally(group_by(batting_tbl, yearID), sort = TRUE)
+#' tally(group_by(batting_tbl, yearID), sort = TRUE)}
 #'
 #' # Multiple tallys progressively roll up the groups
 #' plays_by_year <- tally(group_by(batting_tbl, playerID, stint), sort = TRUE)
