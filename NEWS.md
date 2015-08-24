@@ -65,6 +65,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * Up Rcpp dependency to 0.12.0, and remove the obsolete SHALLOW_COPY workaround
 
+* `print(n = Inf)` now works for remote sources (#1310).
+
 ## Hybrid evaluation
 
 * Hybrid evaluation does not take place for objects with a class (#1237).
