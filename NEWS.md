@@ -106,6 +106,8 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * Improved performance when working with large number of columns (#879). 
 
+* Added `escape.POSIXt` function (#857).
+
 # dplyr 0.4.1
 
 * Don't assume that RPostgreSQL is available.
