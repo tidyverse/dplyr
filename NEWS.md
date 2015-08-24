@@ -34,6 +34,9 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   with heterogenous representations (some `Date`s are integers, while other
   are numeric). This also improves `all.equal()` more resistant (#1204).
 
+* Fixed `percent_rank()` and `cume_dist()` so that missing values no longer 
+  affect denominator (#1132). 
+
 * `print.tbl_df()` now displays the class for all variables, not just those
   that don't fit on the screen (#1276). It also displays duplicated column 
   names correctly (#1159).
@@ -100,6 +103,8 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * Workaround for using the constructor of `DataFrame` on an unprotected object
   (#998)
+
+* Improved performance when working with large number of columns (#879). 
 
 # dplyr 0.4.1
 
