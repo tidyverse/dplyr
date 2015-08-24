@@ -83,7 +83,7 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   }
   shrunk <- format(df[, !too_wide, drop = FALSE])
   shrunk <- rbind(" " = classes, shrunk)
-  colnames(shrunk) <- colnames(df)
+  colnames(shrunk) <- colnames(df)[!too_wide]
 
   needs_dots <- is.na(rows) || rows > n
   if (needs_dots) {
