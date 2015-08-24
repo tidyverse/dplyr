@@ -456,5 +456,17 @@ test_that("joins handle tzone differences (#819)", {
   df2 <- data.frame( date = date2 )
 
   expect_equal( attr(left_join(df1, df1)$date, "tzone"), "America/Chicago" )
+})
 
+test_that("joins matches NA in character vector (#892)", {
+  x <- data.frame(id = c(NA_character_, NA_character_),
+                   stringsAsFactors = F)
+
+  y <- expand.grid(id = c(NA_character_, NA_character_),
+                    LETTER = LETTERS[1:2],
+                    stringsAsFactors = F)
+
+  res <- left_join(x, y, by = 'id')
+  expect_true( all( is.na(res$id)) )
+  expect_equal( res$LETTER, rep(rep(c("A", "B"), each = 2), 2) )
 })
