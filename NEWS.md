@@ -1,7 +1,6 @@
 # dplyr 0.4.3.9000
 
 ## Improved encoding support
-
 Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This release brings a number of improvement to fix these problems: it's probably not perfect, but should be a lot better than the previously version. This includes fixes to `arrange()` (#1280), `bind_rows()` (#1265), `distinct()` (#1179), and joins (#1315). `print.tbl_df()` also recieved a fix for strings with invalid encodings (#851).
 
 ## Other minor improvements and bug fixes
@@ -49,6 +48,10 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   0-row inputs (#1300).
 
 * `n_distinct()` gains an `na_rm` argument (#1052).
+
+* The `Progress` bar used by `do()` now respects global option 
+  `dplyr.show_progress` (default is TRUE) so you can turn it off globally
+  (@jimhester #1264, #1226).
 
 * `summarise()` handles expressions that returning heterogenous outputs, 
   e.g. `median()`, which that sometimes returns an integer, and other times a 
