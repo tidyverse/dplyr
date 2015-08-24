@@ -69,6 +69,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0` 
   (#926, @NikNakk)
+  
+* `n_distinct(x)` is translated to `COUNT(DISTINCT(x))` (@skparkes, #873).
 
 * `print(n = Inf)` now works for remote sources (#1310).
 
