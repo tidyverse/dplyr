@@ -408,7 +408,7 @@ Compared to plyr:
 
 * it provides a better thought out set of joins
 
-* it only provides tools for working with data frames (e.g. most of dplyr is equivalent to `ddply()` + various functions, `do()` is equivalent to `dlply()`)
+* it only provides tools for working with data frames (e.g. most of dplyr is equivalent to `ddply()` + various functions, `do()` is equivalent to `dlply()`. For example `ddply(iris, .(Species),head)` is equivalent to `iris %>% group_by(Species) %>% do(head(.))`)
 
 Compared to virtual data frame approaches:
 
