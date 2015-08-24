@@ -70,6 +70,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 * `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0` 
   (#926, @NikNakk)
 
+* `print(n = Inf)` now works for remote sources (#1310).
+
 ## Hybrid evaluation
 
 * Hybrid evaluation does not take place for objects with a class (#1237).
