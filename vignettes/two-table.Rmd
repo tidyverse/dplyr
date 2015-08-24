@@ -104,7 +104,7 @@ There are four types of mutating join, which differ in their behaviour when a ma
     df1 %>% left_join(df2)
     ```
   
-  * `right_join(x, y)` includes all obserations in `y`. It's equivalent to 
+  * `right_join(x, y)` includes all observations in `y`. It's equivalent to 
     `left_join(y, x)`, but the columns will be ordered differently.
   
     ```{r}
@@ -136,7 +136,7 @@ df1 %>% left_join(df2)
 Filtering joins match obserations in the same way as mutating joins, but affect the observations, not the variables. There are two types:
 
 * `semi_join(x, y)` __keeps__ all observations in `x` that have a match in `y`.
-* `anti_join(x, y)` __drops__ all observaitons in `x` that have a match in `y`.
+* `anti_join(x, y)` __drops__ all observations in `x` that have a match in `y`.
 
 These are most useful for diagnosing join mismatches. For example, there are many flights in the nycflights13 dataset that don't have a matching tail number in the planes table:
 
