@@ -142,12 +142,8 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
 
 Result* count_distinct_result(SEXP vec){
     switch( TYPEOF(vec) ){
-        case INTSXP:
-            if( Rf_inherits(vec, "factor" ))
-                return new Count_Distinct<FactorVisitor>( FactorVisitor(vec) ) ;
-            return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP:
-            return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
+        case INTSXP:  return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
+        case REALSXP: return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
         case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
         case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
         default: break ;
@@ -1207,7 +1203,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
                << ", y "
                << v_y.get(i)->get_r_type() ;
             ok = false ;
-        } 
+        }
     }
     if(!ok) return no_because( ss.str() ) ;
     return yes() ;
