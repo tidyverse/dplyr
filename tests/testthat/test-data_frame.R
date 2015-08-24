@@ -53,5 +53,5 @@ test_that("Zero column list makes 0 x 0 tbl_df", {
 test_that("error on NA column names (#1101)", {
   df <- data.frame( x = 1:10, y = 1:10 )
   names(df)[1] <- NA
-  expect_error( as_data_frame(df), "All elements must be named" )
+  expect_error( as_data_frame(df), "All columns must be named" )
 })
