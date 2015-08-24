@@ -59,14 +59,22 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   df[is_list] <- lapply(df[is_list], function(x) vapply(x, obj_type, character(1)))
 
   mat <- format(df, justify = "left")
-
-  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
-
   values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
+
+  classes <- paste0("(", vapply(df, type_sum, character(1)), ")")
   names <- c("", colnames(mat))
-  w <- pmax(nchar(encodeString(values)), nchar(encodeString(names)))
+
+  # Column needs to be as wide as widest of name, values, and class
+  w <- pmax(
+    pmax(
+      nchar(encodeString(values)),
+      nchar(encodeString(names))
+    ),
+    nchar(encodeString(c("", classes)))
+  )
   cumw <- cumsum(w + 1)
 
+  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
   too_wide <- cumw[-1] > width
   # Always display at least one column
   if (all(too_wide)) {
@@ -74,6 +82,7 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
     df[[1]] <- substr(df[[1]], 1, width)
   }
   shrunk <- format(df[, !too_wide, drop = FALSE])
+  shrunk <- rbind(" " = classes, shrunk)
 
   needs_dots <- is.na(rows) || rows > n
   if (needs_dots) {
