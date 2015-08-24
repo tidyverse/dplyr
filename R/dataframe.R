@@ -158,10 +158,9 @@ as_data_frame <- function(x) {
 #' @param var Name of variable to use
 #' @export
 #' @examples
-#' mtcars %>%
-#'   head() %>%
-#'   print() %>%
-#'   add_rownames()
+#' mtcars %>% tbl_df()
+#'
+#' mtcars %>% add_rownames()
 add_rownames <- function(df, var = "rowname") {
   stopifnot(is.data.frame(df))
 

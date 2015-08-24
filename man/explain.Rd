@@ -3,7 +3,7 @@
 \name{explain}
 \alias{explain}
 \alias{show_query}
-\title{Explain details of an tbl.}
+\title{Explain details of a tbl.}
 \usage{
 explain(x, ...)
 
