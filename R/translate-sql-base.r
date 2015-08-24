@@ -51,7 +51,9 @@ base_scalar <- sql_translator(
   coth    = sql_prefix("coth", 1),
   exp     = sql_prefix("exp", 1),
   floor   = sql_prefix("floor", 1),
-  log     = sql_prefix("log", 2),
+  log     = function(x, base = exp(1)) {
+    build_sql(sql("log"), list(x, base))
+  },
   log10   = sql_prefix("log10", 1),
   round   = sql_prefix("round", 2),
   sign    = sql_prefix("sign", 1),
