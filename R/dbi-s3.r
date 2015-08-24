@@ -42,6 +42,28 @@ NULL
 
 #' @name backend_db
 #' @export
+db_create_database <- function(con, nameDB, owner = NULL) {
+  UseMethod("db_create_database")
+}
+#' @name backend_db
+#' @export
+db_create_database.DBIConnection <- function(con, nameDB, owner = NULL) {
+  
+  assert_that(!is.null(con), is.character(nameDB), length(nameDB) == 1)
+  
+  if (is.null(owner)){
+    s <- build_sql("CREATE DATABASE ", ident(nameDB), con = con)
+  } else {
+    s <- build_sql("CREATE DATABASE ", ident(nameDB), " OWNER ", ident(owner), con = con)
+  }
+
+  dbGetQuery(con, s)
+  
+}
+
+
+#' @name backend_db
+#' @export
 db_list_tables <- function(con) UseMethod("db_list_tables")
 #' @export
 db_list_tables.DBIConnection <- function(con) dbListTables(con)
