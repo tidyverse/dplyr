@@ -14,6 +14,7 @@
 #' @examples
 #' filter(mtcars, cyl == 8)
 #' filter(mtcars, cyl < 6)
+#' filter(mtcars, cyl == 8 & mpg > 16)
 filter <- function(.data, ...) {
   filter_(.data, .dots = lazyeval::lazy_dots(...))
 }
