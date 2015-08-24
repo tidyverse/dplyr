@@ -282,3 +282,9 @@ test_that("filter works with rowwise data (#1099)", {
   expect_equal( nrow(res), 1L)
   expect_equal( df[1,], res)
 })
+
+test_that("filter_ works (#906)", {
+  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
+  out <- dt %>% filter_(~x > 5)
+  expect_equal(nrow(out), 5)
+})
