@@ -25,3 +25,12 @@ test_that("cumany handles NA (#408)", {
   expect_true( all( cumany(x) ) )
   
 })
+
+test_that("percent_rank ignores NAs (#1132)", {
+  expect_equal( percent_rank(c(1:3, NA)), c(0, 0.5, 1, NA) )
+})
+
+test_that("cume_dist ignores NAs (#1132)", {
+  expect_equal( cume_dist(c(1:3, NA)), c(1/3, 2/3, 1, NA) )
+})
+
