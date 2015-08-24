@@ -77,6 +77,8 @@ This is a minor release containing fixes for a number of crashes and issues iden
   changes in R CMD check. To use the lag function provided by another package,
   use `pkg::lag`.
 
+* `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
+
 * Fixed a number of memory issues identified by valgrind.
 
 * Improved performance when working with large number of columns (#879).
