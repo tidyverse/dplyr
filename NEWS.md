@@ -23,6 +23,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
 
+* Added `escape.POSIXt` function (@eibanez, #857).
+
 * `filter(x, TRUE, TRUE)` now just returns `x` (#1210), 
   it doesn't internally modify the first argument (#971), and 
   it now works with rowwise data (#1099).
@@ -105,8 +107,6 @@ This is a minor release containing fixes for a number of crashes and issues iden
   (#998)
 
 * Improved performance when working with large number of columns (#879). 
-
-* Added `escape.POSIXt` function (#857).
 
 # dplyr 0.4.1
 
