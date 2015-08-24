@@ -33,7 +33,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   are numeric). This also improves `all.equal()` more resistant (#1204).
 
 * `print.tbl_df()` now displays the class for all variables, not just those
-  that don't fit on the screen (#1276)
+  that don't fit on the screen (#1276). It also displays duplicated column 
+  names correctly (#1159).
 
 * `mutate()` can set to `NULL` the first column (used to segfault, #1329) and 
   it better protects intermediary results (avoiding random segfaults, #1231).
