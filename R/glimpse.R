@@ -17,12 +17,10 @@
 #'   glimpse(batting)
 #' }
 glimpse <- function(tbl, width = getOption("width")) {
-  cat("Observations: ", prettyNum(nrow(tbl), big.mark = big_mark()), "\n",
-    sep = "")
+  cat("Observations: ", big_mark(nrow(tbl)), "\n", sep = "")
   if (ncol(tbl) == 0) return(invisible())
 
-  cat("Variables: ", prettyNum(ncol(tbl), big.mark = big_mark()), "\n",
-    sep = "")
+  cat("Variables: ", big_mark(ncol(tbl)), "\n", sep = "")
 
   # this is an overestimate, but shouldn't be too expensive.
   # every type needs at least three characters: "x, "
