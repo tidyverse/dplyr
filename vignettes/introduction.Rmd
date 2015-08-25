@@ -19,29 +19,21 @@ When working with data you must:
 
 * Figure out what you want to do.
 
-* Precisely describe what you want in the form of a computer program.
+* Describe those tasks in the form of a computer program.
 
-* Execute the code.
+* Execute the program.
 
-The dplyr package makes each of these steps as fast and easy as possible by:
+The dplyr package makes these steps fast and easy:
 
-* Elucidating the most common data manipulation operations, so that your
-  options are helpfully constrained when thinking about how to tackle a
-  problem.
+* By constraining your options, it simplifies how you can think about common data manipulation tasks.
 
-* Providing simple functions that correspond to the most common
-  data manipulation verbs, so that you can easily translate your thoughts
-  into code.
+* It provides simple "verbs", functions that correspond to the most common data manipulation tasks, to help you translate those thoughts into code.
 
-* Using efficient data storage backends, so that you spend as little time
-  waiting for the computer as possible.
+* It uses efficient data storage backends, so you spend less time waiting for the computer.
 
-The goal of this document is to introduce you to the basic tools that dplyr provides, and show how you to apply them to data frames. Other vignettes provide more details on specific topics:
+This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. Other vignettes provide more details on specific topics:
 
-* databases: as well as in memory data frames, dplyr also connects to
-  databases. It allows you to work with remote, out-of-memory data, using
-  exactly the same tools, because dplyr will translate your R code into
-  the appropriate SQL.
+* databases: Besides in-memory data frames, dplyr also connects to out-of-memory, remote databases. And by translating your R code into the appropriate SQL, it allows you to work with both types of data using the same set of tools.
 
 * benchmark-baseball: see how dplyr compares to other tools for data
   manipulation on a realistic use case.
