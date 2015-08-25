@@ -94,7 +94,7 @@ namespace dplyr{
 
                     for( dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end(); ){
                         int k = it->second ;
-                        
+
                         if( k < idx ) {
                           // nothing to do in that case
                           ++it ;
@@ -122,6 +122,6 @@ namespace dplyr{
 
     } ;
 
-} ;
+}
 
 #endif
