@@ -14,34 +14,34 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 * `arrange()` and `mutate()` work on empty data frames (#1142).
 
 * `bind_rows()` and `bind_cols()` accept lists (#1104): during initial data
-  cleaning you no longer need to convert lists to data frames, but can 
+  cleaning you no longer need to convert lists to data frames, but can
   instead feed them to `bind_rows()` directly.
 
-* `bind_rows()` respects the `ordered` attribute of factors (#1112), and 
+* `bind_rows()` respects the `ordered` attribute of factors (#1112), and
   does better at comparing `POSIXct`s bug (#1125).
 
 * `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
 
-* `filter(x, TRUE, TRUE)` now just returns `x` (#1210), 
-  it doesn't internally modify the first argument (#971), and 
+* `filter(x, TRUE, TRUE)` now just returns `x` (#1210),
+  it doesn't internally modify the first argument (#971), and
   it now works with rowwise data (#1099). It once again works with
   data tables (#906).
 
-* `filter()`, `slice()` and `arrange()` and `summarise()` preserve data frame 
+* `filter()`, `slice()` and `arrange()` and `summarise()` preserve data frame
   meta attributes (#1064).
 
-* Joins handles matrix columns better (#1230), and can join `Date` objects 
+* Joins handles matrix columns better (#1230), and can join `Date` objects
   with heterogenous representations (some `Date`s are integers, while other
   are numeric). This also improves `all.equal()` more resistant (#1204).
 
-* Fixed `percent_rank()` and `cume_dist()` so that missing values no longer 
-  affect denominator (#1132). 
+* Fixed `percent_rank()` and `cume_dist()` so that missing values no longer
+  affect denominator (#1132).
 
 * `print.tbl_df()` now displays the class for all variables, not just those
-  that don't fit on the screen (#1276). It also displays duplicated column 
+  that don't fit on the screen (#1276). It also displays duplicated column
   names correctly (#1159).
 
-* `mutate()` can set to `NULL` the first column (used to segfault, #1329) and 
+* `mutate()` can set to `NULL` the first column (used to segfault, #1329) and
   it better protects intermediary results (avoiding random segfaults, #1231).
 
 * `mutate.rowwise_df()` handles factors (#886) and correctly handles
@@ -49,12 +49,12 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `n_distinct()` gains an `na_rm` argument (#1052).
 
-* The `Progress` bar used by `do()` now respects global option 
+* The `Progress` bar used by `do()` now respects global option
   `dplyr.show_progress` (default is TRUE) so you can turn it off globally
   (@jimhester #1264, #1226).
 
-* `summarise()` handles expressions that returning heterogenous outputs, 
-  e.g. `median()`, which that sometimes returns an integer, and other times a 
+* `summarise()` handles expressions that returning heterogenous outputs,
+  e.g. `median()`, which that sometimes returns an integer, and other times a
   numeric (#893).
 
 * `slice()` silently drops columns corresponding to an NA (#1235).
@@ -67,11 +67,11 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 ## Databases
 
-* `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0` 
+* `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0`
   (#926, @NikNakk)
 
 * Improved handling of `log()` (#1330).
-  
+
 * `n_distinct(x)` is translated to `COUNT(DISTINCT(x))` (@skparkes, #873).
 
 * `print(n = Inf)` now works for remote sources (#1310).
@@ -82,8 +82,12 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * Improved `$` handling (#1134).
 
-* Simplified code for `lead()` and `lag()` and make sure they work properly on 
+* Simplified code for `lead()` and `lag()` and make sure they work properly on
   factors (#955). Both repsect the `default` argument (#915).
+
+* `mutate` can set to `NULL` the first column (used to segfault, #1329).
+
+* `filter` on grouped data handles indices correctly (#880).  
 
 * `sum()` issues a warning about integer overflow (#1108).
 
@@ -119,7 +123,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 * Workaround for using the constructor of `DataFrame` on an unprotected object
   (#998)
 
-* Improved performance when working with large number of columns (#879). 
+* Improved performance when working with large number of columns (#879).
 
 # dplyr 0.4.1
 
