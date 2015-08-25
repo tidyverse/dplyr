@@ -51,7 +51,7 @@ Key data structures
 The key object in dplyr is a *tbl*, a representation of a tabular data structure. Currently `dplyr` supports:
 
 -   data frames
--   [data tables](http://datatable.r-forge.r-project.org/)
+-   [data tables](https://github.com/Rdatatable/data.table/wiki)
 -   [SQLite](http://sqlite.org/)
 -   [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 -   [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
