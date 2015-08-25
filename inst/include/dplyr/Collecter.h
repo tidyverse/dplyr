@@ -212,21 +212,28 @@ namespace dplyr {
         SEXP types ;
     } ;
 
-    template <int RTYPE>
-    class POSIXctCollecter : public Collecter_Impl<RTYPE>{
+    class POSIXctCollecter : public Collecter_Impl<REALSXP>{
     public:
+        typedef Collecter_Impl<REALSXP> Parent ;
+
         POSIXctCollecter( int n, SEXP tz_) :
-            Collecter_Impl<RTYPE>(n), tz(tz_){}
+            Parent(n), tz(tz_){}
+
+        void collect( const SlicingIndex& index, SEXP v ){
+          Parent::collect(index, v) ;
+          update_tz(v) ;
+        }
 
         inline SEXP get(){
-            Collecter_Impl<RTYPE>::data.attr("class") = get_time_classes() ;
-            if( !Rf_isNull(tz) ){
-                Collecter_Impl<RTYPE>::data.attr("tzone") = tz ;
+            Parent::data.attr("class") = get_time_classes() ;
+            if( !tz.isNULL() ){
+                Parent::data.attr("tzone") = tz ;
             }
-            return Collecter_Impl<RTYPE>::data ;
+            return Parent::data ;
         }
 
         inline bool compatible(SEXP x) {
+            return Rf_inherits(x, "POSIXct") ;
             if( !Rf_inherits(x, "POSIXct" ) ) return false ;
             SEXP xtz = Rf_getAttrib(x, Rf_install("tzone") ) ;
 
@@ -249,7 +256,25 @@ namespace dplyr {
         }
 
     private:
-        SEXP tz ;
+        RObject tz ;
+
+        void update_tz(SEXP v){
+            RObject v_tz( Rf_getAttrib(v, Rf_install("tzone")) );
+            // if the new tz is NULL, keep previous value
+            if( v_tz.isNULL() ) return ;
+
+            if( tz.isNULL() ){
+                // if current tz is NULL, grab the new one
+                tz = v_tz ;
+            } else {
+                // none are NULL, so compare them
+                // if they are equal, fine
+                if( STRING_ELT(tz, 0) == STRING_ELT(v_tz,0) ) return ;
+
+                // otherwise, settle to UTC
+                tz = wrap( "UTC") ;
+            }
+        }
 
     } ;
 
@@ -341,7 +366,7 @@ namespace dplyr {
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP:
             if( Rf_inherits( model, "POSIXct" ) )
-                return new POSIXctCollecter<REALSXP>(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
+                return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<REALSXP>(n, get_date_classes()) ;
             return new Collecter_Impl<REALSXP>(n) ;
@@ -374,7 +399,7 @@ namespace dplyr {
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP:
             if( Rf_inherits( model, "POSIXct" ) )
-                return new POSIXctCollecter<REALSXP>(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
+                return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<REALSXP>(n, get_date_classes() ) ;
             return new Collecter_Impl<REALSXP>(n) ;

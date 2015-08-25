@@ -221,3 +221,26 @@ test_that("bind_rows can handle lists (#1104)", {
   expect_is(res$x, "numeric")
   expect_is(res$y, "character")
 })
+
+test_that("bind handles POSIXct of different tz ", {
+  date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
+  date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
+  date3 <- structure(-1735660800, class = c("POSIXct", "POSIXt"))
+
+  df1 <- data.frame( date = date1 )
+  df2 <- data.frame( date = date2 )
+  df3 <- data.frame( date = date3 )
+
+  res <- bind_rows(df1, df2)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
+  res <- bind_rows(df1, df3)
+  expect_equal( attr(res$date, "tzone"), "America/Chicago" )
+
+  res <- bind_rows(df2, df3)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
+  res <- bind_rows(df1, df2, df3)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
+})
