@@ -240,4 +240,7 @@ test_that("bind handles POSIXct of different tz ", {
   res <- bind_rows(df2, df3)
   expect_equal( attr(res$date, "tzone"), "UTC" )
 
+  res <- bind_rows(df1, df2, df3)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
 })
