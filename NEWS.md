@@ -18,8 +18,10 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   instead feed them to `bind_rows()` directly.
 
 * `bind_rows()` respects the `ordered` attribute of factors (#1112), and
-  does better at comparing `POSIXct`s bug (#1125).
-
+  does better at comparing `POSIXct`s (#1125). The `tz` attribute is ignored
+  when determining if two `POSIXct` vectors are comparable. If the `tz` of 
+  all inputs is the same, it's used, otherwise its set to `UTC`.
+  
 * `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
 
 * `filter(x, TRUE, TRUE)` now just returns `x` (#1210),
