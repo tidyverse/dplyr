@@ -15,9 +15,8 @@ add_rownames(df, var = "rowname")
 Convert row names to an explicit variable.
 }
 \examples{
-mtcars \%>\%
-  head() \%>\%
-  print() \%>\%
-  add_rownames()
+mtcars \%>\% tbl_df()
+
+mtcars \%>\% add_rownames()
 }
 
