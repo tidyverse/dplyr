@@ -195,7 +195,7 @@ test_that("mutate modifies same column repeatedly (#243)", {
 
 test_that("mutate errors when results are not compatible accross groups (#299)",{
   d <- data.frame(x = rep(1:5, each = 3))
-  expect_error(mutate(group_by(d,x),val = ifelse(x < 3, NA, 2)))
+  expect_error(mutate(group_by(d,x),val = ifelse(x < 3, "foo", 2)))
 })
 
 test_that("assignments are forbidden (#315)", {
@@ -410,4 +410,21 @@ test_that("setting first column to NULL with mutate works (#1329)", {
 
     gdf <- group_by(df, y)
     expect_equal( select(gdf, -x), mutate(gdf, x = NULL) )
+})
+
+test_that("mutate handles the all NA case (#958)", {
+  x <- rep(c("Bob", "Jane"), each = 36)
+  y <- rep(rep(c("A", "B", "C"), each = 12), 2)
+  day <- rep(rep(1:12, 3), 2)
+  values <- rep(rep(c(10, 11, 30, 12, 13, 14, 15, 16, 17, 18, 19, 20), 3), 2)
+
+  df <- data.frame(x = x, y = y, day = day, values = values)
+  df$values[1:12] <- NA
+
+  res <- df %>%
+    group_by(x, y) %>%
+    mutate(max.sum = day[which.max(values)[1]]) %>%
+    mutate(adjusted_values = ifelse(day < max.sum, 30, values))
+  expect_true( all(is.na( res$adjusted_values[1:12] )))
+
 })

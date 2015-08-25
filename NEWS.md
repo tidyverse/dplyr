@@ -19,9 +19,9 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `bind_rows()` respects the `ordered` attribute of factors (#1112), and
   does better at comparing `POSIXct`s (#1125). The `tz` attribute is ignored
-  when determining if two `POSIXct` vectors are comparable. If the `tz` of 
+  when determining if two `POSIXct` vectors are comparable. If the `tz` of
   all inputs is the same, it's used, otherwise its set to `UTC`.
-  
+
 * `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
 
 * `filter(x, TRUE, TRUE)` now just returns `x` (#1210),
@@ -45,6 +45,10 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `mutate()` can set to `NULL` the first column (used to segfault, #1329) and
   it better protects intermediary results (avoiding random segfaults, #1231).
+
+* `mutate()` on grouped data handles the special case where for the first few
+  groups, the result consists of a `logical` vector with only `NA`. This can
+  happen when the condition of an `ifelse` is an all `NA` logical vector (#958).
 
 * `mutate.rowwise_df()` handles factors (#886) and correctly handles
   0-row inputs (#1300).

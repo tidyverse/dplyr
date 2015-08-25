@@ -15,8 +15,8 @@ namespace dplyr {
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         typedef GroupedCallProxy<Data,Subsets> Proxy ;
 
-        GathererImpl( Shield<SEXP>& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_ ) :
-            gdf(gdf_), proxy(proxy_), data(no_init(gdf.nrows()))
+        GathererImpl( RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_ ) :
+            gdf(gdf_), proxy(proxy_), data(gdf.nrows(), Vector<RTYPE>::get_na() ), first_non_na(first_non_na_)
         {
             grab( first, indices ) ;
             copy_most_attributes( data, first ) ;
@@ -25,8 +25,9 @@ namespace dplyr {
         SEXP collect(){
             int ngroups = gdf.ngroups() ;
             typename Data::group_iterator git = gdf.group_begin() ;
-            ++git ;
-            for( int i=1; i<ngroups; i++, ++git){
+            int i = 0 ;
+            for(; i<first_non_na; i++) ++git ;
+            for(; i<ngroups; i++, ++git){
                 SlicingIndex indices = *git ;
                 Shield<SEXP> subset( proxy.get( indices ) ) ;
                 grab(subset, indices);
@@ -74,6 +75,7 @@ namespace dplyr {
         const Data& gdf ;
         Proxy& proxy ;
         Vector<RTYPE> data ;
+        int first_non_na ;
 
     } ;
 
@@ -114,17 +116,24 @@ namespace dplyr {
     inline Gatherer* gatherer( GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, SEXP name ){
         typename Data::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;
-        Shield<SEXP> first( proxy.get(indices) ) ;
+        RObject first( proxy.get(indices) ) ;
         if( Rf_inherits(first, "POSIXlt" ) ){
             stop("`mutate` does not support `POSIXlt` results");
         }
+        int ng = gdf.ngroups() ;
+        int i = 1 ;
+        for( ; all_na(first) && i<ng; i++, ++git){
+          indices = *git ;
+          first = proxy.get(indices) ;
+        }
+
         switch( TYPEOF(first) ){
-            case INTSXP:  return new GathererImpl<INTSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
-            case REALSXP: return new GathererImpl<REALSXP,Data,Subsets>( first, indices, proxy, gdf ) ;
-            case LGLSXP:  return new GathererImpl<LGLSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
-            case STRSXP:  return new GathererImpl<STRSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
-            case VECSXP:  return new GathererImpl<VECSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
-            case CPLXSXP: return new GathererImpl<CPLXSXP,Data,Subsets> ( first, indices, proxy, gdf ) ;
+            case INTSXP:  return new GathererImpl<INTSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+            case REALSXP: return new GathererImpl<REALSXP,Data,Subsets> ( first, indices, proxy, gdf, i ) ;
+            case LGLSXP:  return new GathererImpl<LGLSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+            case STRSXP:  return new GathererImpl<STRSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+            case VECSXP:  return new GathererImpl<VECSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+            case CPLXSXP: return new GathererImpl<CPLXSXP,Data,Subsets> ( first, indices, proxy, gdf, i ) ;
             default: break ;
         }
         check_supported_type(first, name) ;
