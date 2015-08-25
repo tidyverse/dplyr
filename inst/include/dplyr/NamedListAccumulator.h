@@ -6,52 +6,45 @@ namespace dplyr {
     template <typename Data>
     class NamedListAccumulator {
     public:
-        
-        inline void set(Name name, SEXP x){
+        SymbolMap symbol_map ;
+        std::vector<SEXP> data ;
+
+        NamedListAccumulator(){}
+
+        inline void set(SEXP name, SEXP x){
             if( ! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value )
                 check_supported_type(x, name);
-                    
-            size_t n = size() ;
-            for( size_t i = 0; i<n; i++){
-                const Name& s = names[i] ;
-                if( s == name ){
-                    data[i] = x ;
-                    return ;
-                }
+
+            SymbolMapIndex index = symbol_map.insert(name) ;
+            if( index.origin == NEW ){
+                data.push_back(x);
+            } else {
+                data[ index.pos ] = x ;
             }
-            
-            names.push_back(name) ;
-            data.push_back(x) ;
-            
+
         }
-        
-        inline void rm(Name name){
-            std::vector<Name>::iterator it = std::find( names.begin(), names.end(), name ) ;
-            if( it != names.end() ){
-                names.erase(it) ;
-                data.erase( data.begin() + std::distance( names.begin(), it ) );
+
+        inline void rm(SEXP name){
+            SymbolMapIndex index = symbol_map.rm(name) ;
+            if( index.origin != NEW ){
+                data.erase( data.begin() + index.pos ) ;
             }
         }
-        
+
         inline operator List() const {
-            int n = data.size() ;
-            List out(n) ;
-            CharacterVector out_names(n) ;
-            for( int i=0; i<n; i++){
-                out[i] = data[i] ;
-                out_names[i] = names[i].get() ;
-            }
-            out.attr( "names" ) = out_names ;
+            List out = wrap(data) ;
+            out.names() = symbol_map.names ;
             return out ;
         }
-        
+
         inline size_t size() const {
-            return data.size() ;    
+            return data.size() ;
         }
-        
-    private:
-        std::vector<SEXP> data ;
-        std::vector<Name> names ;
+
+        inline CharacterVector names() const {
+            return symbol_map.names ;
+        }
+
     } ;
 
 }

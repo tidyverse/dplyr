@@ -1,32 +1,35 @@
-This is a patch release to fix a build error on the CRAN Mavericks builder. No package behaviour has changed. (I also updated Authors@R to the new specification.)
+## Release summary
+
+This is a resubmission:
+
+* To use a canoncial package URL
+* To reduce example run time to less than 5s for two examples
 
 ---
 
+This is a resubmission to fix a broken url.
+
+---
+
+This release adds one minor feature, but is mostly concerned with fixing crashing bugs, memory errors and R CMD checks problem.  I'm pretty sure we caught all the valgrind and UBSAN problems. Some problems are still flagged, but to the best of our knowledge are coming from Rcpp. We have submitted patches upstream and they will be fixed in the next release of Rcpp.
+
 ## Test environments
 
-* local OS X install, R 3.1.2
-* ubuntu 12.04 (on travis-ci), R 3.1.2
+* local OS X install, R 3.2.0
+* ubuntu 12.04 (on travis-ci), R 3.2.0
 * win-builder (devel and release)
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs.
+There were no ERRORs or WARNINGs. 
 
-There was 1 NOTEs:
+There was 1 NOTE:
 
-* checking dependencies in R code ... NOTE
-  
-  Namespaces in Imports field not imported from: 'R6'
-  R6 is a build time dependency.
+* checking installed package size ... NOTE. 
+
+  This is all compiled code in the libs/ directory.
 
 ## Downstream dependencies
 
-I ran `R CMD check` on all 43 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). As far as I can tell, there is only one failure caused by changes to dplyr:
-
-* statar: I informed the maintainer of the problem almost a month ago,
-  and have heard nothing back (https://github.com/matthieugomez/statar/issues/1)
-  
-  This failure is related to improved error checking in dplyr: the fact that 
-  the code worked previously is the bug.
-
-* (broom: this has been fixed by a recent submission)
+I ran `R CMD check` on all 85 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md). 
+I did not find any errors related to dplyr changes.

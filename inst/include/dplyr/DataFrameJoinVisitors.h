@@ -32,10 +32,6 @@ namespace dplyr{
             }
         }
         
-        ~DataFrameJoinVisitors(){
-            delete_all(visitors);    
-        }
-        
         inline JoinVisitor* get(int k) const { 
             return visitors[k] ; 
         }
@@ -78,7 +74,7 @@ namespace dplyr{
         CharacterVector visitor_names_right ;
         
         int nvisitors ;
-        std::vector<JoinVisitor*> visitors ;
+        pointer_vector<JoinVisitor> visitors ;
         bool warn ;
         
     } ;

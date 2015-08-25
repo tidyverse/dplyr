@@ -15,7 +15,7 @@ namespace dplyr {
         SEXP eval(){
             if( TYPEOF(call) == LANGSXP ){
                 substitute(call) ;
-                return Rf_eval( call, env ) ;
+                return Rcpp_eval( call, env ) ;
             } else if(TYPEOF(call) == SYMSXP) {
                 if(subsets.count(call)){
                     return subsets.get(call, indices) ;    
@@ -29,28 +29,48 @@ namespace dplyr {
         
         void substitute( SEXP obj){
             if( ! Rf_isNull(obj) ){ 
-                 SEXP head = CAR(obj) ;
-                 switch( TYPEOF( head ) ){
-                 case LISTSXP:
-                 case LANGSXP: 
-                     substitute( CDR(head) ) ;
-                     break ;
-                 case SYMSXP:
+                SEXP head = CAR(obj) ;
+                switch( TYPEOF( head ) ){
+                case LISTSXP:
+                    substitute( CDR(head) ) ;
+                    break ;
+                    
+                case LANGSXP:
+                    {
+                        SEXP symb = CAR(head) ;
+                        if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ){
+                        
+                            if( TYPEOF(CADR(head)) == LANGSXP ){
+                                substitute( CDR(head) ) ;    
+                            }
+                            
+                            // deal with foo$bar( bla = boom )
+                            if( TYPEOF(CADDR(head)) == LANGSXP ){
+                                substitute( CDDR(head) ) ;
+                            }
+                            
+                            break ;
+                        }
+                        
+                        substitute( CDR(head) ) ;
+                        break ;
+                    }
+                case SYMSXP:
                     if( TYPEOF(obj) != LANGSXP ){
                        if( subsets.count(head) ){
                            SETCAR(obj, subsets.get(head, indices) ) ;
                        } 
                     }
                     break ;
-                 }
-                 substitute( CDR(obj) ) ;
-             }        
+                }
+                substitute( CDR(obj) ) ;
+            }        
         }
         
         bool simplified(){
             // initial
             if( TYPEOF(call) == LANGSXP ){
-                Result* res = get_handler(call, subsets, env) ;
+                boost::scoped_ptr<Result> res( get_handler(call, subsets, env) );
                 
                 if( res ){
                     // replace the call by the result of process
@@ -68,7 +88,7 @@ namespace dplyr {
         bool replace( SEXP p ){
             SEXP obj = CAR(p) ;
             if( TYPEOF(obj) == LANGSXP ){
-                Result* res = get_handler(obj, subsets, env) ;
+                boost::scoped_ptr<Result> res( get_handler(obj, subsets, env) );
                 if(res){
                     SETCAR(p, res->process(indices) ) ;
                     return true ;
@@ -84,7 +104,7 @@ namespace dplyr {
             return false ;
         }
         
-        Armor<SEXP> call ;
+        Call call ;
         const SlicingIndex& indices ;
         Subsets& subsets ;
         const Environment& env ;

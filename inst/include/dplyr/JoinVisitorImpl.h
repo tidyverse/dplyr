@@ -42,13 +42,6 @@ namespace dplyr{
             }
         }
 
-        // inline void debug(){
-        //    Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
-        //    Rf_PrintValue(left) ;
-        //    Rprintf( "right=" ) ;
-        //    Rf_PrintValue(right) ;
-        // }
-
         LHS_Vec left ;
         RHS_Vec right ;
         LHS_hasher LHS_hash_fun ;
@@ -99,13 +92,6 @@ namespace dplyr{
             Rcpp::Rcout << get(i) << std::endl ;
         }
 
-        // inline void debug(){
-        //     Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
-        //     Rf_PrintValue(left) ;
-        //     Rprintf( "right=" ) ;
-        //     Rf_PrintValue(right) ;
-        // }
-
     protected:
         Vec left, right ;
         hasher hash_fun ;
@@ -119,30 +105,32 @@ namespace dplyr{
     class JoinStringOrderer {
     public:
         JoinStringOrderer( const CharacterVector& left_, const CharacterVector& right_ ) :
-            left(left_), right(right_), nleft(left.size()), nright(right.size())
+            left(left_), right(right_), nleft(left.size()), nright(right.size()), n(nleft+nright), n_na(0)
         {
             make_orders() ;
         }
 
         inline int get_order(int i) const {
             if( i == NA_INTEGER ) return NA_INTEGER ;
-            return (i>=0) ? orders[i] : orders[nleft-i-1] ;
+            int val = (i>=0) ? orders[i] : orders[nleft-i-1] ;
+            if( val > n - n_na ) val= NA_INTEGER ;
+            return val ;
         }
 
     private:
         const CharacterVector& left ;
         const CharacterVector& right ;
-        int nleft, nright ;
+        int nleft, nright, n ;
         IntegerVector orders ;
+        int n_na ;
 
         inline void make_orders(){
-            CharacterVector big( nleft + nright ) ;
+            CharacterVector big(n) ;
             CharacterVector::iterator it = big.begin() ;
             std::copy( left.begin(), left.end(), it ) ;
             std::copy( right.begin(), right.end(), it + nleft ) ;
-
-            Language call( "rank", big, _["ties.method"] = "min" ) ;
-            orders = call.eval() ;
+            orders = CharacterVectorOrderer(big).get() ;
+            n_na = std::count( big.begin(), big.end(), NA_STRING ) ;
         }
 
     } ;
@@ -190,13 +178,6 @@ namespace dplyr{
         inline void print(int i){
             Rcpp::Rcout << get(i) << std::endl ;
         }
-
-        // inline void debug(){
-        //     Rprintf( "visitor= %s. left=", DEMANGLE(JoinVisitorImpl) ) ;
-        //     Rf_PrintValue(left) ;
-        //     Rprintf( "right=" ) ;
-        //     Rf_PrintValue(right) ;
-        //  }
 
 
     protected:
@@ -260,13 +241,6 @@ namespace dplyr{
             }
             return res ;
         }
-
-      // inline void debug(){
-      //     Rprintf( "visitor= %s. left(levels) =", DEMANGLE(JoinFactorStringVisitor) ) ;
-      //     Rf_PrintValue(left_levels) ;
-      //     Rprintf( "right=" ) ;
-      //     Rf_PrintValue(right) ;
-      // }
 
     private:
         IntegerVector left ;
@@ -338,13 +312,6 @@ namespace dplyr{
             }
             return res ;
         }
-
-      // inline void debug(){
-      //     Rprintf( "visitor= %s. left =", DEMANGLE(JoinStringFactorVisitor) ) ;
-      //     Rf_PrintValue(left) ;
-      //     Rprintf( "right(levels)=" ) ;
-      //     Rf_PrintValue(right_levels) ;
-      // }
 
     private:
         CharacterVector left ;
@@ -434,13 +401,6 @@ namespace dplyr{
             return res ;
         }
 
-        // inline void debug(){
-        //     Rprintf( "visitor= %s. left(levels) =", DEMANGLE(JoinVisitorImpl) ) ;
-        //     Rf_PrintValue(left_levels) ;
-        //     Rprintf( "right(levels)=" ) ;
-        //     Rf_PrintValue(right_levels) ;
-        // }
-
     private:
         CharacterVector left_levels, right_levels ;
         SEXP* left_levels_ptr ;
@@ -485,7 +445,6 @@ namespace dplyr{
 
     private:
         inline SEXP promote( Vec vec){
-            // vec.attr( "class" ) = JoinVisitorImpl::left.attr( "class" );
             copy_most_attributes(vec,JoinVisitorImpl::left ) ;
             return vec ;
         }
@@ -498,11 +457,110 @@ namespace dplyr{
         __CLASS__( const NumericVector& left_, const NumericVector& right_) :                 \
             Parent(left_, right_){}                                                           \
     } ;
-    PROMOTE_JOIN_VISITOR(DateJoinVisitor)
     PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
 
     JoinVisitor* join_visitor( SEXP, SEXP, const std::string&, const std::string&, bool warn ) ;
+
+    class DateJoinVisitorGetter {
+    public:
+      virtual ~DateJoinVisitorGetter(){} ;
+      virtual double get(int i) = 0 ;
+    } ;
+
+    template <int RTYPE>
+    class DateJoinVisitorGetterImpl : public DateJoinVisitorGetter {
+    public:
+        DateJoinVisitorGetterImpl( SEXP x) : data(x){}
+
+        inline double get(int i){
+          return (double) data[i] ;
+        }
+
+    private:
+        Vector<RTYPE> data ;
+    } ;
+
+    class DateJoinVisitor : public JoinVisitor, public comparisons<REALSXP>{
+    public:
+        typedef comparisons<REALSXP> Compare ;
+        typedef boost::hash<double> hasher ;
+
+        DateJoinVisitor( SEXP lhs, SEXP rhs)
+        {
+            if( TYPEOF(lhs) == INTSXP ) {
+              left = new DateJoinVisitorGetterImpl<INTSXP>(lhs) ;
+            } else if( TYPEOF(lhs) == REALSXP) {
+              left = new DateJoinVisitorGetterImpl<REALSXP>(lhs) ;
+            } else {
+              stop("Date objects should be represented as integer or numeric") ;
+            }
+
+            if( TYPEOF(rhs) == INTSXP) {
+              right = new DateJoinVisitorGetterImpl<INTSXP>(rhs) ;
+            } else if( TYPEOF(rhs) == REALSXP) {
+              right = new DateJoinVisitorGetterImpl<REALSXP>(rhs) ;
+            } else {
+              stop("Date objects should be represented as integer or numeric") ;
+            }
+
+        }
+
+        ~DateJoinVisitor(){
+          delete left ;
+          delete right;
+        }
+
+        inline size_t hash(int i) {
+            return hash_fun( get(i) ) ;
+        }
+        inline bool equal(int i, int j) {
+            return Compare::equal_or_both_na(
+                get(i), get(j)
+            ) ;
+        }
+
+        inline SEXP subset( const std::vector<int>& indices ) {
+            int n = indices.size() ;
+            NumericVector res = no_init(n) ;
+            for( int i=0; i<n; i++) {
+                res[i] = get(indices[i]) ;
+            }
+            res.attr("class") = "Date" ;
+            return res ;
+        }
+
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+            int n = set.size() ;
+            NumericVector res = no_init(n) ;
+            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+            for( int i=0; i<n; i++, ++it) {
+                res[i] = get(*it) ;
+            }
+            res.attr("class") = "Date" ;
+            return res ;
+        }
+
+        inline void print(int i){
+            Rcpp::Rcout << get(i) << std::endl ;
+        }
+
+    private:
+        DateJoinVisitorGetter* left ;
+        DateJoinVisitorGetter* right ;
+        hasher hash_fun ;
+
+        DateJoinVisitor( const DateJoinVisitor& ) ;
+
+        inline double get( int i) {
+            if( i>= 0 ){
+                return left->get(i) ;
+            } else {
+                return right->get(-i-1) ;
+            }
+        }
+    } ;
+
+
 }
 
 #endif
-

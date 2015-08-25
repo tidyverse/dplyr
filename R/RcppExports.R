@@ -13,6 +13,10 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+rank_strings <- function(s) {
+    .Call('dplyr_rank_strings', PACKAGE = 'dplyr', s)
+}
+
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
@@ -34,7 +38,6 @@ between <- function(x, left, right) {
 }
 
 #' @export
-#' @rdname bind
 rbind_all <- function(dots) {
     .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
 }
@@ -148,13 +151,14 @@ group_size_grouped_cpp <- function(gdf) {
 #' This is a faster and more concise equivalent of \code{length(unique(x))}
 #'
 #' @param x a vector of values
+#' @param na_rm if \code{TRUE} missing values don't count
 #' @export
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
 #' length(unique(x))
 #' n_distinct(x)
-n_distinct <- function(x) {
-    .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x)
+n_distinct <- function(x, na_rm = FALSE) {
+    .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x, na_rm)
 }
 
 as_regular_df <- function(df) {

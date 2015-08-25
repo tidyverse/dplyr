@@ -13,7 +13,7 @@ IntegerVector grouped_indices_grouped_df_impl( GroupedDataFrame gdf ){
         SlicingIndex index = *it ;
         int n_index = index.size() ;
         for( int j=0; j<n_index; j++){
-            res[ index[j] ] = i + 1 ;    
+            res[ index[j] ] = i + 1 ;
         }
     }
     return res ;
@@ -22,7 +22,7 @@ IntegerVector grouped_indices_grouped_df_impl( GroupedDataFrame gdf ){
 // [[Rcpp::export]]
 IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
     int nsymbols = symbols.size() ;
-    if( nsymbols == 0 ) 
+    if( nsymbols == 0 )
         return rep(1, data.nrows()) ;
     CharacterVector vars(nsymbols) ;
     for( int i=0; i<nsymbols; i++){
@@ -30,7 +30,7 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
 
         const char* name = vars[i] ;
         SEXP v  ;
-        try{ 
+        try{
             v = data[name] ;
         } catch(...){
             stop( "unknown column '%s'", name ) ;
@@ -45,18 +45,15 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
     int n = data.nrows() ;
     train_push_back( map, n ) ;
 
-    DataFrame labels = visitors.subset( map, "data.frame") ;
-    OrderVisitors labels_order_visitors(labels) ;
-    IntegerVector labels_order = labels_order_visitors.apply() ;
+    DataFrame labels = DataFrameSubsetVisitors(data, vars).subset( map, "data.frame") ;
+    IntegerVector labels_order = OrderVisitors(labels).apply() ;
 
-    DataFrameVisitors labels_visitors(labels ) ;
-    labels = labels_visitors.subset(labels_order, "data.frame" ) ;
-
+    labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame" ) ;
 
     int ngroups = map.size() ;
 
     IntegerVector res = no_init(n) ;
-    
+
     std::vector<const std::vector<int>* > chunks(ngroups) ;
     ChunkIndexMap::const_iterator it = map.begin() ;
     for( int i=0; i<ngroups; i++, ++it){
@@ -66,13 +63,12 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
     for( int i=0; i<ngroups; i++){
         int idx = labels_order[i] ;
         const std::vector<int>& v = *chunks[idx] ;
-        
+
         int n_index = v.size() ;
         for( int j=0; j<n_index; j++){
-            res[ v[j] ] = i+1 ;    
+            res[ v[j] ] = i+1 ;
         }
     }
 
     return res ;
 }
-

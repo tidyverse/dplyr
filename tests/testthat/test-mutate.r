@@ -253,9 +253,15 @@ test_that("hybrid does not segfault when given non existing variable (#569)", {
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
+  df <- data.frame(x = 1:2)
+
   expect_equal(
-    mutate(mtcars, cyl2 = stats::lag(cyl)),
-    mutate(mtcars, cyl2 = lag(cyl))
+    mutate(df, y = base::mean(x)),
+    mutate(df, y = mean(x))
+  )
+  expect_equal(
+    mutate(df, y = stats::IQR(x)),
+    mutate(df, y = IQR(x))
   )
 })
 
@@ -356,8 +362,52 @@ test_that("no utf8 invasion (#722)", {
   source("utf-8.R", local = TRUE)
 })
 
-test_that("mutate warns about unsupported attributes", {
-  d <- data.frame( x = structure( 1:10, foo = "bar" ) )
-  expect_error( d %>% group_by(x), "has unsupported attributes" )
+test_that("mutate works on empty data frames (#1142)", {
+  df <- data.frame()
+  res <- df %>% mutate
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 0L )
+
+  res <- df %>% mutate(x = numeric())
+  expect_equal( names(res), "x")
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 1L)
 })
 
+test_that("mutate handles 0 rows rowwise #1300",{
+  a <- data.frame(x= 1)
+  b <- data.frame(y = character(), stringsAsFactors = F)
+
+  g <- function(y){1}
+  f <- function() { b %>% rowwise() %>% mutate(z = g(y))}
+
+  res <- f()
+  expect_equal( nrow(res), 0L )
+
+  expect_error(a %>% mutate(b = f()), "wrong result size" )
+  expect_error(a %>% rowwise() %>% mutate(b = f()), "incompatible size")
+})
+
+test_that("regression test for #637", {
+  res <- mtcars %>% mutate(xx = mean(1))
+  expect_true( all(res$xx == 1))
+
+  res <- mtcars %>% mutate(xx = sum(mean(mpg)))
+  expect_true( all( res$xx == sum(mean(mtcars$mpg))))
+})
+
+test_that("mutate.rowwise handles factors (#886)", {
+  res <- data.frame(processed=c("foo", "bar")) %>%
+    rowwise() %>%
+    mutate(processed_trafo=paste("test", processed))
+  expect_equal( res$processed_trafo, c("test foo", "test bar"))
+})
+
+test_that("setting first column to NULL with mutate works (#1329)", {
+    df <- data.frame(x = 1:10, y = 1:10)
+    expect_equal( mutate(df, x=NULL), select(df,-x) )
+    expect_equal( mutate(df, y=NULL), select(df,-y) )
+
+    gdf <- group_by(df, y)
+    expect_equal( select(gdf, -x), mutate(gdf, x = NULL) )
+})

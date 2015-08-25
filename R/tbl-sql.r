@@ -1,6 +1,6 @@
 #' Create an SQL tbl (abstract)
 #'
-#' This method shouldn't be called be users - it should only be used by
+#' This method shouldn't be called by users - it should only be used by
 #' backend implementors who are creating backends that extend the basic
 #' sql behaviour.
 #'
@@ -152,7 +152,12 @@ dim.tbl_sql <- function(x) {
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  build_query(x, limit = as.integer(n))$fetch()
+  if (is.infinite(n)) {
+    limit <- NULL
+  } else {
+    limit <- as.integer(n)
+  }
+  build_query(x, limit)$fetch()
 }
 
 #' @export

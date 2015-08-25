@@ -7,25 +7,29 @@ template <typename Dots>
 List rbind__impl( Dots dots ){
     int ndata = dots.size() ;
     int n = 0 ;
+    std::vector<DataFrameAble> chunks ;
+
     for( int i=0; i<ndata; i++) {
-      DataFrame df = dots[i] ;
-      if( df.size() ) n += df.nrows() ;
+      chunks.push_back( DataFrameAble( dots[i] ) );
+      n += chunks[i].nrows() ;
     }
-    std::vector<Collecter*> columns ;
+    pointer_vector<Collecter> columns ;
+
     std::vector<String> names ;
     int k=0 ;
+
+    Function enc2native( "enc2native" ) ;
     for( int i=0; i<ndata; i++){
         Rcpp::checkUserInterrupt() ;
 
-        DataFrame df = dots[i] ;
+        const DataFrameAble& df = chunks[i] ;
         if( !df.size() ) continue ;
 
-        DataFrameVisitors visitors( df, df.names() ) ;
         int nrows = df.nrows() ;
 
-        CharacterVector df_names = df.names() ;
+        CharacterVector df_names = enc2native(df.names()) ;
         for( int j=0; j<df.size(); j++){
-            SEXP source = df[j] ;
+            SEXP source = df.get(j) ;
             String name = df_names[j] ;
 
             Collecter* coll = 0;
@@ -41,7 +45,6 @@ List rbind__impl( Dots dots ){
                 columns.push_back( coll );
                 names.push_back(name) ;
             }
-
             if( coll->compatible(source) ){
                 // if the current source is compatible, collect
                 coll->collect( SlicingIndex( k, nrows), source ) ;
@@ -79,7 +82,6 @@ List rbind__impl( Dots dots ){
 
         k += nrows ;
     }
-
     int nc = columns.size() ;
     List out(nc) ;
     CharacterVector out_names(nc) ;
@@ -88,22 +90,19 @@ List rbind__impl( Dots dots ){
         out_names[i] = names[i] ;
     }
     out.attr( "names" ) = out_names ;
-    delete_all( columns ) ;
     set_rownames( out, n );
     out.attr( "class" ) = classes_not_grouped() ;
-
     return out ;
 }
 
 //' @export
-//' @rdname bind
 // [[Rcpp::export]]
-List rbind_all( StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots ){
+List rbind_all( List dots ){
     return rbind__impl(dots) ;
 }
 
 // [[Rcpp::export]]
-List rbind_list__impl( DotsOf<DataFrame> dots ){
+List rbind_list__impl( Dots dots ){
     return rbind__impl(dots) ;
 }
 
@@ -111,14 +110,18 @@ template <typename Dots>
 List cbind__impl( Dots dots ){
   int n = dots.size() ;
 
+  std::vector<DataFrameAble> chunks ;
+  for( int i=0; i<n; i++) {
+    chunks.push_back( DataFrameAble( dots[i] ) );
+  }
+
   // first check that the number of rows is the same
-  DataFrame df = dots[0] ;
+  const DataFrameAble& df = chunks[0] ;
   int nrows = df.nrows() ;
   int nv = df.size() ;
   for( int i=1; i<n; i++){
-    DataFrame current = dots[i] ;
+    const DataFrameAble& current = dots[i] ;
     if( current.nrows() != nrows ){
-      std::stringstream ss ;
       stop( "incompatible number of rows (%d, expecting %d)", current.nrows(), nrows ) ;
     }
     nv += current.size() ;
@@ -132,22 +135,22 @@ List cbind__impl( Dots dots ){
   for( int i=0, k=0 ; i<n; i++){
       Rcpp::checkUserInterrupt() ;
 
-      DataFrame current = dots[i] ;
+      const DataFrameAble& current = dots[i] ;
       CharacterVector current_names = current.names() ;
       int nc = current.size() ;
       for( int j=0; j<nc; j++, k++){
-          out[k] = shared_SEXP(current[j]) ;
+          out[k] = shared_SEXP(current.get(j)) ;
           out_names[k] = current_names[j] ;
       }
   }
   out.names() = out_names ;
   set_rownames( out, nrows ) ;
-  out.attr( "class") = "data.frame" ;
+  out.attr( "class" ) = classes_not_grouped() ;
   return out ;
 }
 
 // [[Rcpp::export]]
-List cbind_all( StrictListOf<DataFrame, NULL_or_Is<DataFrame> > dots ){
+List cbind_all( List dots ){
     return cbind__impl( dots ) ;
 }
 
@@ -163,7 +166,7 @@ SEXP combine_all( List data ){
     }
 
     // collect
-    Collecter* coll = collecter( data[0], n ) ;
+    boost::scoped_ptr<Collecter> coll( collecter( data[0], n ) ) ;
     coll->collect( SlicingIndex(0, Rf_length(data[0])), data[0] ) ;
     int k = Rf_length(data[0]) ;
 
@@ -173,11 +176,10 @@ SEXP combine_all( List data ){
         if( coll->compatible(current) ){
             coll->collect( SlicingIndex(k, n_current), current ) ;
         } else if( coll->can_promote(current) ) {
-            Collecter* new_coll = promote_collecter(current, n, coll) ;
+            Collecter* new_coll = promote_collecter(current, n, coll.get() ) ;
             new_coll->collect( SlicingIndex(k, n_current), current ) ;
             new_coll->collect( SlicingIndex(0, k), coll->get() ) ;
-            delete coll ;
-            coll = new_coll ;
+            coll.reset( new_coll ) ;
         } else {
             stop( "incompatible type at index %d : %s, was collecting : %s",
                 (i+1), get_single_class(current), get_single_class(coll->get()) ) ;
@@ -186,7 +188,5 @@ SEXP combine_all( List data ){
     }
 
     RObject out = coll->get() ;
-    delete coll ;
     return out ;
 }
-

@@ -5,64 +5,57 @@ namespace dplyr {
         
     class LazySubsets {
     public:
-        typedef dplyr_hash_map<Name,SEXP> DataMap ;
-        typedef DataMap::const_iterator const_iterator ;
-        
-        LazySubsets(){}
-        
-        LazySubsets( const DataFrame& df) : data_map(), nr(df.nrows()){
-            CharacterVector names = df.names() ;
-            for( int i=0; i<df.size(); i++){
-                SEXP column = df[i] ;
-                if( Rf_inherits( column, "matrix" ) ){
-                    stop( "matrix as column is not supported" ) ;    
+        SymbolMap symbol_map ;
+        std::vector<SEXP> data ;
+        int nr ;
+
+        LazySubsets( const DataFrame& df) : nr(df.nrows()){
+            int nvars = df.size() ;
+            if( nvars ){
+                CharacterVector names = df.names() ;
+                for( int i=0; i<nvars; i++){
+                    SEXP column = df[i] ;
+                    if( Rf_inherits( column, "matrix" ) ){
+                        stop( "matrix as column is not supported" ) ;    
+                    }
+                    symbol_map.insert( names[i] ) ;
+                    data.push_back( df[i] ) ;    
                 }
-                data_map[as_symbol(names[i])] = df[i] ;    
             }
         }
         virtual ~LazySubsets(){}
         
         virtual SEXP get_variable(SEXP symbol) const {
-            DataMap::const_iterator it = data_map.find(symbol) ;
-            if( it == data_map.end() ){
-                stop( "variable '%s' not found", CHAR(PRINTNAME(symbol)) ) ;
-            }
-            return it->second ;
+            return data[ symbol_map.get(symbol) ] ;
         }
         virtual bool is_summary( SEXP symbol ) const {
             return false ;    
         }
         virtual int count(SEXP symbol) const{
-            return data_map.count(symbol);    
+            int res = symbol_map.has(symbol); 
+            return res ;  
         }
         
         virtual void input( SEXP symbol, SEXP x){
-            data_map[symbol] = x;    
-        }
-        
-        inline const_iterator find(SEXP x) const {
-            return data_map.find(x) ;
-        }
-        
-        inline const_iterator end() const {
-            return data_map.end() ;   
+            SymbolMapIndex index = symbol_map.insert(symbol) ;
+            if( index.origin == NEW ){
+                data.push_back(x) ;    
+            } else {
+                data[index.pos] = x ;    
+            }
         }
         
         virtual int size() const{ 
-            return data_map.size() ; 
-        }
-        
-        inline SEXP& operator[](SEXP symbol){
-            return data_map[symbol] ;    
+            return data.size() ; 
         }
         
         inline int nrows() const {
             return nr ;
         }
         
-    private:
-        DataMap data_map ;
-        int nr ;
+        inline SEXP& operator[](SEXP symbol){
+            return data[symbol_map.get(symbol)] ;    
+        }
     } ;
 
 }

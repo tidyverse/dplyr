@@ -46,11 +46,13 @@
 #'  rank(desc(AB)), cumsum(AB))
 #'
 #' # When you group by multiple level, each summarise peels off one level
+#' \donttest{
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
-#' # filter(stints, stints > 3)
-#' # summarise(stints, max(stints))
-#' # mutate(stints, cumsum(stints))
+#' filter(stints, stints > 3)
+#' summarise(stints, max(stints))
+#' mutate(stints, cumsum(stints))
+#' }
 #'
 #' # Joins ---------------------------------------------------------------------
 #' player_info <- select(tbl_df(Master), playerID, birthYear)
@@ -110,6 +112,13 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
   invisible(x)
 }
 
+.check_names_df <- function(x, j){
+  if( is.character(j) && any( wrong <- ! j %in% names(x) ) ){
+    names <- j[wrong]
+    stop( sprintf( "undefined columns: %s", paste(names, collapse = ", " ) ) ) ;
+  }
+}
+
 #' @export
 `[.tbl_df` <- function (x, i, j, drop = FALSE) {
   if (missing(i) && missing(j)) return(x)
@@ -119,6 +128,7 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
 
   # Escape early if nargs() == 2L; ie, column subsetting
   if (nargs() == 2L) {
+    .check_names_df(x,i)
     result <- .subset(x, i)
     class(result) <- c("tbl_df", "data.frame")
     attr(result, "row.names") <- .set_row_names(nr)
@@ -127,6 +137,7 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
 
   # First, subset columns
   if (!missing(j)) {
+    .check_names_df(x,j)
     x <- .subset(x, j)
   }
 
