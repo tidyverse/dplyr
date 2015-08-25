@@ -1978,6 +1978,14 @@ SEXP n_distinct(SEXP x, bool na_rm = false){
 }
 
 // [[Rcpp::export]]
+SEXP n_distinct_multi( List variables, bool na_rm = false){
+    MultipleVectorVisitors visitors(variables) ;
+    SlicingIndex everything(0, visitors.nrows()) ;
+    Count_Distinct<MultipleVectorVisitors> counter(visitors) ;
+    return counter.process(everything) ;
+}
+
+// [[Rcpp::export]]
 DataFrame as_regular_df(DataFrame df){
   DataFrame copy( shallow_copy(df));
   SET_ATTRIB(copy, strip_group_attributes(df)) ;

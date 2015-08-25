@@ -161,6 +161,10 @@ n_distinct <- function(x, na_rm = FALSE) {
     .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x, na_rm)
 }
 
+n_distinct_multi <- function(variables, na_rm = FALSE) {
+    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
+}
+
 as_regular_df <- function(df) {
     .Call('dplyr_as_regular_df', PACKAGE = 'dplyr', df)
 }

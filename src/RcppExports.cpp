@@ -423,6 +423,18 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// n_distinct_multi
+SEXP n_distinct_multi(List variables, bool na_rm);
+RcppExport SEXP dplyr_n_distinct_multi(SEXP variablesSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type variables(variablesSEXP);
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    __result = Rcpp::wrap(n_distinct_multi(variables, na_rm));
+    return __result;
+END_RCPP
+}
 // as_regular_df
 DataFrame as_regular_df(DataFrame df);
 RcppExport SEXP dplyr_as_regular_df(SEXP dfSEXP) {
