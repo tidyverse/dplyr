@@ -20,7 +20,7 @@ Consider this call to `summarise` :
 summarise(per_day, flights = sum(flights))
 ```
 
-One of the way `dplyr` achieves dramatic speedups is that expressions might not 
+One of the ways `dplyr` achieves dramatic speedups is that expressions might not 
 be evaluated by R, but by alternative code that is faster and uses less memory. 
 
 Conceptually the call to `summarise` above evaluates the expression `sum(flights)`

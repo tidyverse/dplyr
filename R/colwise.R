@@ -10,7 +10,7 @@
 #'   You can use same specifications as in \code{\link{select}}. If missing,
 #'   defaults to all non-grouping variables.
 #'
-#'   For standard evaluation versions (ending in \code{_q}) these can
+#'   For standard evaluation versions (ending in \code{_}) these can
 #'   be either a list of expressions or a character vector.
 #' @examples
 #' # One function
@@ -50,6 +50,14 @@ summarise_each_ <- function(tbl, funs, vars) {
   summarise_(tbl, .dots = vars)
 }
 
+#' @rdname summarise_each
+#' @export
+summarize_each <- summarise_each
+
+#' @rdname summarise_each
+#' @export
+summarize_each_ <- summarise_each_
+
 #' @export
 summarise_each_q <- function(...) {
   .Deprecated("summarise_each_")
@@ -59,7 +67,7 @@ summarise_each_q <- function(...) {
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ...) {
-  mutate_each_(tbl, funs, dots(...))
+  mutate_each_(tbl, funs, lazyeval::lazy_dots(...))
 }
 
 #' @export
@@ -86,7 +94,7 @@ colwise_ <- function(tbl, calls, vars) {
 
   out <- vector("list", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))
-  
+
   vars <- enc2native(vars)
   for (i in seq_along(vars)) {
     for (j in seq_along(calls)) {

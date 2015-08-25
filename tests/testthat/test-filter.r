@@ -289,3 +289,9 @@ test_that("grouped filter handles indices (#880)", {
   expect_equal( nrow(res), nrow(res2) )
   expect_equal( attr(res, "indices"), attr(res2, "indices") )
 })
+
+test_that("filter_ works (#906)", {
+  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
+  out <- dt %>% filter_(~x > 5)
+  expect_equal(nrow(out), 5)
+})

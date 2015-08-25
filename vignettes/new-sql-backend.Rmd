@@ -23,7 +23,7 @@ See `?backend_sql` and `?backend_db` for a complete list of generics.
 
 ## Create the src object
 
-Start by creating a new src function to represent the backend. Assuming we're going to create a src for mssql, you'd call it `src_mssql()`, and you'd follow the pattern of an existing src. A simplified version of `src_postgres()` is show below:
+Start by creating a new src function to represent the backend. Assuming we're going to create a src for postgres, you'd call it `src_postgres()`, and you'd follow the pattern of an existing src. A simplified version of `src_postgres()` is show below:
 
 ```{r, eval = FALSE}
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
@@ -42,7 +42,7 @@ Next, implement a method for `src_desc()` that briefly describes the source:
 
 ```{r}
 #' @export
-src_desc.src_postgres <- function(x) {
+src_desc.src_postgres <- function(con) {
   info <- dbGetInfo(con)
   host <- if (info$host == "") "localhost" else info$host
 

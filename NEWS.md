@@ -1,88 +1,95 @@
-# dplyr 0.4.2.9000
+# dplyr 0.4.3.9000
 
-* `bind_rows` is more careful about column names encodings (#1265).
+## Improved encoding support
+Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This release brings a number of improvement to fix these problems: it's probably not perfect, but should be a lot better than the previously version. This includes fixes to `arrange()` (#1280), `bind_rows()` (#1265), `distinct()` (#1179), and joins (#1315). `print.tbl_df()` also recieved a fix for strings with invalid encodings (#851).
 
-* `mutate` better protects intermediary results (#1231).
+## Other minor improvements and bug fixes
 
-* `mutate` and `arrange` works on empty data frames (#1142).
+* Minor formatting change in result of `all.equal()` (#1130).
 
-* `slice` handles NA (#1235).
+* `as_data_frame()` gives better error message with NA column names (#1101).
 
-* `n_distinct` gains an `na_rm` argument (#1052).
+* `[.tbl_df` is more careful about subsetting column names (#1245).
 
-* `[.tbl_df` is more careful about subsetting columns names (#1245).
+* `arrange()` and `mutate()` work on empty data frames (#1142).
 
-* hybrid evaluation does not take place for objects with a class (#1237).
+* `bind_rows()` and `bind_cols()` accept lists (#1104): during initial data
+  cleaning you no longer need to convert lists to data frames, but can
+  instead feed them to `bind_rows()` directly.
 
-* `filter` handles series of `TRUE` (#1210).
+* `bind_rows()` respects the `ordered` attribute of factors (#1112), and
+  does better at comparing `POSIXct`s bug (#1125).
 
-* New custom implementation for `VectorVisitorImpl<STRSXP>`, so that
-  hashing, comparison and equality of two strings are independent from their
-  encodings. This makes `distinct` respect encodings (#1179).
+* `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
 
-* Fixed bug in printing `tbl_df` objects (#851).
+* `filter(x, TRUE, TRUE)` now just returns `x` (#1210),
+  it doesn't internally modify the first argument (#971), and
+  it now works with rowwise data (#1099). It once again works with
+  data tables (#906).
 
-* Minor formatting change in result of `all.equal` (#1130).
+* `filter()`, `slice()` and `arrange()` and `summarise()` preserve data frame
+  meta attributes (#1064).
 
-* `sum` issues a warning about integer overflow when used inside dplyr verbs (#1108).
+* Joins handles matrix columns better (#1230), and can join `Date` objects
+  with heterogenous representations (some `Date`s are integers, while other
+  are numeric). This also improves `all.equal()` more resistant (#1204).
 
-* `filter` does not alter a named expression (#971).
+* Fixed `percent_rank()` and `cume_dist()` so that missing values no longer
+  affect denominator (#1132).
 
-* `summarise` handles expression returning heterogenous outputs depending on inputs,
-  e.g. `median` that sometimes returns `integer` sometimes `numeric`. (#893).
+* `print.tbl_df()` now displays the class for all variables, not just those
+  that don't fit on the screen (#1276). It also displays duplicated column
+  names correctly (#1159).
 
-* update hybrid evaluation to handle `$` better (#1134).
+* `mutate()` can set to `NULL` the first column (used to segfault, #1329) and
+  it better protects intermediary results (avoiding random segfaults, #1231).
 
-* Fixed `bind_rows` `POSIXct` bug (#1125).
+* `mutate.rowwise_df()` handles factors (#886) and correctly handles
+  0-row inputs (#1300).
 
-* `as_data_frame` gives better error message with NA column names (#1101).
+* `n_distinct()` gains an `na_rm` argument (#1052).
 
-* `arrange` respects locale when arranging character vectors (#1280).
+* The `Progress` bar used by `do()` now respects global option
+  `dplyr.show_progress` (default is TRUE) so you can turn it off globally
+  (@jimhester #1264, #1226).
+
+* `summarise()` handles expressions that returning heterogenous outputs,
+  e.g. `median()`, which that sometimes returns an integer, and other times a
+  numeric (#893).
+
+* `slice()` silently drops columns corresponding to an NA (#1235).
+
+* `ungroup.rowwise_df()` gives a `tbl_df` (#936).
 
 * More explicit duplicated column name error message (#996).
 
-* Fixed performance regression of `bind_rows` (#1298).
+* Up Rcpp dependency to 0.12.0, and remove the obsolete SHALLOW_COPY workaround
 
-* Introduced the SubsetVectorVisitor class and various implementations, and the
-  DataFrameSubsetVisitors. Simplified the VectorVisitor and DataFrameVisitors.
-  This deals with several performance regression problems.
+## Databases
 
-* up Rcpp dependency to 0.12.0, and remove the obsolete SHALLOW_COPY workaround
+* `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0`
+  (#926, @NikNakk)
 
-* Added better method for ranking character vectors, by first grabbing unique
-  CHARSXP, then callback to R to rank the uniques (which respects encodings and
-  locale) and then generate an order vector from that data. related to #1299
+* Improved handling of `log()` (#1330).
 
-* rowwise version of mutate did not take care of the special 0 rows case (#1300).
+* `n_distinct(x)` is translated to `COUNT(DISTINCT(x))` (@skparkes, #873).
 
-* Simplified code for `lead`/`lag` and make sure they work properly on factors
-  inside `mutate` (#955).
+* `print(n = Inf)` now works for remote sources (#1310).
 
-* joins handle matrix columns better (#1230).
+## Hybrid evaluation
 
-* strings ordering more resistant to collate issues (#1315).
+* Hybrid evaluation does not take place for objects with a class (#1237).
 
-* Join visitors handle `Date` objects with heterogenous repretation (integer
-  and numeric), making e.g `all.equal` more resistant  (#1204).
+* Improved `$` handling (#1134).
 
-* `bind_rows` respects `ordered` factors (#1112).
-
-* `filter`, `slice` and `arrange` and `summarise` preserve data frame meta
-  attributes (#1064).
-
-* `bind_rows` and `bind_cols` accepts lists (#104).
-
-* `lead` and `lag` handle the `default` argument in mutate calls (#915).
-
-* `ungroup.rowwise_df` gives a `tbl_df` (#936).
-
-* `mutate.rowwise_df` handles factors (#886).
-
-* `filter` works with rowwise data (#1099).
+* Simplified code for `lead()` and `lag()` and make sure they work properly on
+  factors (#955). Both repsect the `default` argument (#915).
 
 * `mutate` can set to `NULL` the first column (used to segfault, #1329).
 
 * `filter` on grouped data handles indices correctly (#880).  
+
+* `sum()` issues a warning about integer overflow (#1108).
 
 # dplyr 0.4.2
 
@@ -115,6 +122,8 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * Workaround for using the constructor of `DataFrame` on an unprotected object
   (#998)
+
+* Improved performance when working with large number of columns (#879).
 
 # dplyr 0.4.1
 

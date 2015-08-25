@@ -120,7 +120,7 @@ There are three ways to force the computation of a query:
 * `compute()` executes the query and stores the results in a temporary table
   in the database.
 
-* `collapse()` turns the query into a table expresion.
+* `collapse()` turns the query into a table expression.
 
 You are most likely to use `collect()`: once you have interactively converged on the right set of operations, use `collect()` to pull down the data into a local `tbl_df()`. If you have some knowledge of SQL, you can use `compute()` and `collapse()` to optimise performance.
 

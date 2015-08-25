@@ -35,7 +35,7 @@ batting_tbl <- tbl_df(Batting)
 tally(group_by(batting_tbl, yearID))
 tally(group_by(batting_tbl, yearID), sort = TRUE)
 
-# Multiple tallys progressively role up the groups
+# Multiple tallys progressively roll up the groups
 plays_by_year <- tally(group_by(batting_tbl, playerID, stint), sort = TRUE)
 tally(plays_by_year, sort = TRUE)
 tally(tally(plays_by_year))
