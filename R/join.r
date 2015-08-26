@@ -35,7 +35,7 @@
 #'    \item{\code{anti_join}}{return all rows from \code{x} where there are not
 #'    matching values in \code{y}, keeping just columns from \code{x}.}
 #'
-#'    \item{\code{full_join}}{return all rows and all columns from both \code{x} and \code{y}. 
+#'    \item{\code{full_join}}{return all rows and all columns from both \code{x} and \code{y}.
 #'    Where there are not matching values, returns \code{NA} for the one missing.}
 #' }
 #'
@@ -115,7 +115,7 @@ common_by <- function(by = NULL, x, y) {
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
   }
-  message("Joining by: ", capture.output(dput(by)))
+  message("Joining by: ", utils::capture.output(dput(by)))
 
   list(
     x = by,
