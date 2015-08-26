@@ -304,11 +304,11 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   df  <- data_frame(a = "1", b = "2")
-  names(df) <- c("a", "å")
+  names(df) <- c("a", "\u00e5")
   Encoding(names(df)) <- "unknown"
 
   res <- df %>% mutate_each(funs(as.numeric)) %>% names
-  expect_equal(res, c("a", "å") )
+  expect_equal(res, c("a", "\u00e5") )
 })
 
 test_that("nested hybrid functions do the right thing (#637)", {

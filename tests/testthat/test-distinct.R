@@ -25,7 +25,7 @@ test_that("grouped_by uses grouping vars & preserves groups", {
 })
 
 test_that("distinct respects encodings (#1179)", {
-  x <- c("Montréal", "Montréal")
+  x <- c("Montr\u00e9al", "Montr\u00e9al")
   Encoding(x[2]) <- ""
   df <- data_frame(x=x)
   expect_equal( nrow(distinct(df)), 1L )

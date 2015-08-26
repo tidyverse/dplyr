@@ -152,7 +152,8 @@ test_that("arrange works with empty data frame (#1142)", {
 })
 
 test_that("arrange respects locale (#1280)", {
-  df2 <- data_frame( words = c("casa", "árbol", "zona", "órgano") )
+  df2 <- data_frame( words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano") )
+
   res <- df2 %>% arrange( words )
   expect_equal( res$words, sort(df2$words) )
 

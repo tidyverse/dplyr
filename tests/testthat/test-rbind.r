@@ -180,8 +180,8 @@ test_that( "bind_rows handles complex. #933", {
 })
 
 test_that("bind_rows is careful about column names encoding #1265", {
-  one <- data.frame(fü=1:3, bar=1:3)
-  two <- data.frame(fü=1:3, bar=1:3)
+  one <- data.frame(foo=1:3, bar=1:3);  names(one) <- c("f\u00fc", "bar")
+  two <- data.frame(foo=1:3, bar=1:3);  names(two) <- c("f\u00fc", "bar")
   Encoding(names(one)[1]) <- "UTF-8"
   expect_equal( names(one), names(two))
   res <- bind_rows(one,two)
