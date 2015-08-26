@@ -1,17 +1,21 @@
 # dplyr 0.4.3.9000
 
 ## Improved encoding support
+
 Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This release brings a number of improvement to fix these problems: it's probably not perfect, but should be a lot better than the previously version. This includes fixes to `arrange()` (#1280), `bind_rows()` (#1265), `distinct()` (#1179), and joins (#1315). `print.tbl_df()` also recieved a fix for strings with invalid encodings (#851).
 
 ## Other minor improvements and bug fixes
 
-* Minor formatting change in result of `all.equal()` (#1130).
+* `all.equal()` no longer runs all outputs together (#1130).
 
 * `as_data_frame()` gives better error message with NA column names (#1101).
 
 * `[.tbl_df` is more careful about subsetting column names (#1245).
 
 * `arrange()` and `mutate()` work on empty data frames (#1142).
+
+* `arrange()`, `filter()`, `slice()`, and `summarise()` preserve data frame
+  meta attributes (#1064).
 
 * `bind_rows()` and `bind_cols()` accept lists (#1104): during initial data
   cleaning you no longer need to convert lists to data frames, but can
@@ -29,12 +33,12 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   it now works with rowwise data (#1099). It once again works with
   data tables (#906).
 
-* `filter()`, `slice()` and `arrange()` and `summarise()` preserve data frame
-  meta attributes (#1064).
+* `glimpse()` also prints out the number of variables in addition to the number
+  of observations (@ilarischeinin, #988).
 
 * Joins handles matrix columns better (#1230), and can join `Date` objects
   with heterogenous representations (some `Date`s are integers, while other
-  are numeric). This also improves `all.equal()` more resistant (#1204).
+  are numeric). This also improves `all.equal()` (#1204).
 
 * Fixed `percent_rank()` and `cume_dist()` so that missing values no longer
   affect denominator (#1132).
@@ -68,11 +72,6 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 * `ungroup.rowwise_df()` gives a `tbl_df` (#936).
 
 * More explicit duplicated column name error message (#996).
-
-* Up Rcpp dependency to 0.12.0, and remove the obsolete SHALLOW_COPY workaround
-
-* `glimpse()` also prints out the number of variables in addition to the number
-  of observations (@ilarischeinin, #988).
 
 * When "," is already being used as the decimal point (`getOption("OutDec")`),
   use "." as the thousands separator when printing out formatted numbers
