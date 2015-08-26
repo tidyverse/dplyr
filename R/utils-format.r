@@ -169,7 +169,7 @@ obj_type.default <- function(x) {
   } else if (!isS4(x)) {
     paste0("<S3:", paste0(class(x), collapse = ", "), ">")
   } else {
-    paste0("<S4:", paste0(is(x), collapse = ", "), ">")
+    paste0("<S4:", paste0(methods::is(x), collapse = ", "), ">")
   }
 }
 
@@ -184,7 +184,7 @@ obj_type.data_frame <- function(x) {
 
 # function for the thousand separator,
 # returns "," unless it's used for the decimal point, in which case returns "."
-big_mark <- function(x, ...) { 
+big_mark <- function(x, ...) {
   mark <- if (identical(getOption("OutDec"), ",")) "." else ","
   formatC(x, big.mark = mark, ...)
 }
