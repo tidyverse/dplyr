@@ -71,6 +71,13 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * Up Rcpp dependency to 0.12.0, and remove the obsolete SHALLOW_COPY workaround
 
+* `glimpse()` also prints out the number of variables in addition to the number
+  of observations (@ilarischeinin, #988).
+
+* When "," is already being used as the decimal point (`getOption("OutDec")`),
+  use "." as the thousands separator when printing out formatted numbers
+  (@ilarischeinin, #988).
+
 ## Databases
 
 * `db_query_fields.SQLiteConnection` uses `build_sql` rather than `paste0`
