@@ -54,12 +54,11 @@ library(dplyr)
     data_frame(x = 1:5) %>% class()
     ```
 
-  * It changes the subsetting behaviour to make the use of `[` consistent.
-    For a `tbl_df()` object, subsetting by `[` will always return a `tbl_df()`
-    object; whereas subsetting by `[[` will always return its (subsetted) 
-    contents.
+  * It changes the behaviour of `[` to always return the same type of object.
+    Subsetting using `[` will always return a `tbl_df()` object; whereas
+    subsetting using `[[` will always return a column.
     
-    The user should be aware of one subsetting case where a `tbl_df()` object  
+    You should be aware of one subsetting case where a `tbl_df()` object  
     will produce a different result than a `data.frame()` object:
   
     ```{r}
