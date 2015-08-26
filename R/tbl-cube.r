@@ -174,7 +174,7 @@ as.tbl_cube.array <- function(x, met_name = deparse(substitute(x)),
   force(met_name)
 
   dims <- dimnames(x)
-  dims <- lapply(dims, type.convert, as.is = TRUE)
+  dims <- lapply(dims, utils::type.convert, as.is = TRUE)
 
   if (is.table(x)) {
     class(x) <- setdiff(class(x), "table")

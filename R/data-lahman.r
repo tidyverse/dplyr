@@ -79,7 +79,7 @@ copy_lahman <- function(src, ...) {
 }
 # Get list of all non-label data frames in package
 lahman_tables <- function() {
-  tables <- data(package = "Lahman")$results[, 3]
+  tables <- utils::data(package = "Lahman")$results[, 3]
   tables[!grepl("Labels", tables)]
 }
 

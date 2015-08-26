@@ -182,7 +182,7 @@ db_commit.MySQLConnection <- function(con, ...) {
 db_explain.MySQLConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN ", sql, con = con)
   expl <- dbGetQuery(con, exsql)
-  out <- capture.output(print(expl))
+  out <- utils::capture.output(print(expl))
 
   paste(out, collapse = "\n")
 }
@@ -199,7 +199,7 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
   values[is_char] <- lapply(values[is_char], encodeString)
 
   tmp <- tempfile(fileext = ".csv")
-  write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
+  utils::write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
     row.names = FALSE, col.names = FALSE)
 
   sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",

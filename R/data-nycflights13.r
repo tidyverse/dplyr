@@ -33,7 +33,7 @@ nycflights13_postgres <- function(dbname = "nycflights13", ...) {
 #' @export
 #' @rdname nycflights13
 copy_nycflights13 <- function(src, ...) {
-  all <- data(package = "nycflights13")$results[, 3]
+  all <- utils::data(package = "nycflights13")$results[, 3]
   index <- list(
     airlines = list("carrier"),
     airports = list("faa"),

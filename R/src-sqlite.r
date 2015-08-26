@@ -141,7 +141,7 @@ db_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
   expl <- DBI::dbGetQuery(con, exsql)
   rownames(expl) <- NULL
-  out <- capture.output(print(expl))
+  out <- utils::capture.output(print(expl))
 
   paste(out, collapse = "\n")
 }

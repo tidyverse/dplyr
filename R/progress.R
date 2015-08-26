@@ -131,7 +131,7 @@ cat_line <- function(...) {
   msg <- paste(..., sep = "", collapse = "")
   gap <- max(c(0, getOption("width") - nchar(msg, "width")))
   cat("\r", msg, rep.int(" ", gap), sep = "")
-  flush.console()
+  utils::flush.console()
 }
 
 str_rep <- function(x, i) {
