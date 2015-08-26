@@ -114,7 +114,7 @@ unique_name <- local({
 
   function() {
     i <<- i + 1
-    paste0("xxx", i)
+    paste0("zzz", i)
   }
 })
 
