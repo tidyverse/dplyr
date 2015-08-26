@@ -53,6 +53,21 @@ library(dplyr)
     ```{r}
     data_frame(x = 1:5) %>% class()
     ```
+
+  * It changes the behaviour of `[` to always return the same type of object.
+    Subsetting using `[` will always return a `tbl_df()` object; whereas
+    subsetting using `[[` will always return a column.
+    
+    You should be aware of one subsetting case where a `tbl_df()` object  
+    will produce a different result than a `data.frame()` object:
+  
+    ```{r}
+    df <- data.frame(a = 1:2, b = 1:2)
+    str(df[, "a"])
+    
+    tbldf <- tbl_df(df)
+    str(tbldf[, "a"])
+    ```
     
   * It never uses `row.names()`, because the whole point of tidy data is to 
     store variables in a consistent way, so we shouldn't put one variable in a 
