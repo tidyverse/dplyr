@@ -19,10 +19,10 @@
 #'   takes a local data frame and makes it available to the remote source.
 #' @export
 #' @examples
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'   batting <- tbl(lahman_sqlite(), "Batting")
 #'   remote <- select(filter(batting, yearID > 2010 && stint == 1), playerID:H)
-#' \donttest{
 #'   remote2 <- collapse(remote)
 #'   cached <- compute(remote)
 #'   local  <- collect(remote)

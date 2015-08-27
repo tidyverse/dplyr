@@ -27,6 +27,7 @@ how \code{EXPLAIN} works for your database, but is very useful for
 diagnosing performance problems.
 }
 \examples{
+\donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
 
 lahman_s <- lahman_sqlite()
@@ -44,6 +45,7 @@ batting \%>\% filter(lgID == "NL" | yearID == 2000) \%>\% explain()
 # Joins will use indexes in both tables
 teams <- tbl(lahman_s, "Teams")
 batting \%>\% left_join(teams, c("yearID", "teamID")) \%>\% explain()
+}
 }
 }
 
