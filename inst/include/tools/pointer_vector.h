@@ -22,7 +22,7 @@ namespace dplyr {
             iterator it = data.end() ; --it ;
             for( size_type i=0 ; i<n; --it, i++) delete *it ;
         }
-        
+
         inline reference operator[](size_type i){
             return data[i] ;
         }
@@ -38,7 +38,7 @@ namespace dplyr {
 
     private:
         Vector data ;
-
+        pointer_vector( const pointer_vector& ) ;
     } ;
 }
 
