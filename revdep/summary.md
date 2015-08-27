@@ -4,12 +4,13 @@
 
 |setting  |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.2.0 (2015-04-16) |
+|version  |R version 3.2.1 (2015-06-18) |
 |system   |x86_64, darwin13.4.0         |
-|ui       |RStudio (0.99.584)           |
+|ui       |RStudio (0.99.669)           |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
+|date     |2015-08-27                   |
 
 ## Packages
 
@@ -26,15 +27,33 @@
 |magrittr       |   |1.5      |2014-11-22 |CRAN (R 3.2.0) |
 |microbenchmark |   |1.4-2    |2014-09-28 |CRAN (R 3.2.0) |
 |nycflights13   |   |0.1      |2014-07-22 |CRAN (R 3.2.0) |
-|R6             |   |2.0.1    |2014-10-29 |CRAN (R 3.2.0) |
-|Rcpp           |   |0.11.6   |2015-05-01 |CRAN (R 3.2.0) |
+|R6             |   |2.1.1    |2015-08-19 |CRAN (R 3.2.0) |
+|Rcpp           |   |0.12.0   |2015-07-25 |CRAN (R 3.2.0) |
 |RMySQL         |   |0.10.3   |2015-04-21 |CRAN (R 3.2.0) |
 |RPostgreSQL    |   |0.4      |2013-03-27 |CRAN (R 3.2.0) |
 |RSQLite        |   |1.0.0    |2014-10-25 |CRAN (R 3.2.0) |
 |testthat       |*  |0.10.0   |2015-05-22 |CRAN (R 3.2.0) |
 
 # Check results
-88 checked out of 88 dependencies 
+117 checked out of 120 dependencies 
+
+## ACDm (1.0.2)
+Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
+
+```
+checking whether package ‘ACDm’ can be installed ... ERROR
+Installation failed.
+See ‘/private/tmp/RtmpDfhwWO/check_cran86016e6832d/ACDm.Rcheck/00install.out’ for details.
+```
+```
+DONE
+Status: 1 ERROR
+```
+
+## adegenet (2.0.0)
+Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
+
+__OK__
 
 ## ADPclust (0.6.3)
 Maintainer: Yifan "Ethan" Xu <ethan.yifanxu@gmail.com>
@@ -44,11 +63,42 @@ __OK__
 ## aemo (0.1.0)
 Maintainer: Imanuel Costigan <i.costigan@me.com>
 
-__OK__
+```
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  12: mode(current)
+  13: GET(co_url)
+  14: request_perform(req, hu$handle$handle)
+  15: request_fetch(req$output, req$url, handle)
+  16: request_fetch.write_memory(req$output, req$url, handle)
+  17: curl::curl_fetch_memory(url, handle = handle)
+  
+  testthat results ================================================================
+  OK: 5 SKIPPED: 0 FAILED: 1
+  1. Error: AEMO data URLs still correct 
+  
+  Error: testthat unit tests failed
+  Execution halted
+```
+```
+DONE
+Status: 1 ERROR
+```
 
-## assertr (0.4.1)
+## assertr (1.0.0)
 Maintainer: Tony Fischetti <tony.fischetti@gmail.com>  
 Bug reports: https://github.com/tonyfischetti/assertr/issues
+
+__OK__
+
+## AutoModel (0.4.9)
+Maintainer: Alex Lishinski <alexlishinski@gmail.com>
+
+__OK__
+
+## backtestGraphics (0.1.5)
+Maintainer: Miller Zijie Zhu <zijie.miller.zhu@gmail.com>
 
 __OK__
 
@@ -70,12 +120,28 @@ DONE
 Status: 1 NOTE
 ```
 
+## biomartr (0.0.2)
+Maintainer: Hajk-Georg Drost <hajk-georg.drost@informatik.uni-halle.de>  
+Bug reports: https://github.com/HajkD/biomartr/issues
+
+```
+checking package dependencies ... ERROR
+Packages required but not available: ‘biomaRt’ ‘Biostrings’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
+
 ## bootnet (0.1)
 Maintainer: Sacha Epskamp <mail@sachaepskamp.com>
 
 __OK__
 
-## boxr (0.2.6)
+## boxr (0.2.9)
 Maintainer: Brendan Rocks <rocks.brendan@gmail.com>  
 Bug reports: https://github.com/brendan-R/boxr/issues
 
@@ -87,7 +153,19 @@ Bug reports: http://github.com/dgrtwo/broom/issues
 
 __OK__
 
-## choroplethr (3.1.0)
+## cdcfluview (0.4.0)
+Maintainer: Bob Rudis <bob@rudis.net>  
+Bug reports: https://github.com/hrbrmstr/cdcfluview/issues
+
+__OK__
+
+## checkmate (1.6.2)
+Maintainer: Michel Lang <michellang@gmail.com>  
+Bug reports: https://github.com/mllg/checkmate/issues
+
+__OK__
+
+## choroplethr (3.2.0)
 Maintainer: Ari Lamstein <arilamstein@gmail.com>  
 Bug reports: https://github.com/arilamstein/choroplethr/issues
 
@@ -132,10 +210,50 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking whether package ‘DepthProc’ can be installed ... [47s/47s] ERROR
+checking whether package ‘DepthProc’ can be installed ... [47s/48s] ERROR
 Installation failed.
-See ‘/private/tmp/Rtmpe7ufPg/check_cran12f6847060d3d/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpDfhwWO/check_cran86016e6832d/DepthProc.Rcheck/00install.out’ for details.
+```
+```
+DONE
 Status: 1 ERROR
+```
+
+## dotwhisker (0.1.0.1)
+Maintainer: Yue Hu <yue-hu-1@uiowa.edu>
+
+```
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘mfx’
+```
+```
+checking re-building of vignette outputs ... NOTE
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Loading required package: ggplot2
+Loading required package: gridExtra
+Loading required package: gtable
+Loading required package: grid
+Quitting from lines 72-79 (dwplot-vignette.Rmd) 
+Error: processing vignette 'dwplot-vignette.Rmd' failed with diagnostics:
+there is no package called 'mfx'
+Execution halted
+
+```
+```
+DONE
+Status: 2 NOTEs
 ```
 
 ## ecoengine (1.9.1)
@@ -149,36 +267,22 @@ Maintainer: Andrew Zammit-Mangion <andrewzm@gmail.com>
 
 __OK__
 
-## emil (2.0.2)
-Maintainer: Christofer Backlin <christofer.backlin@medsci.uu.se>  
+## emil (2.1.1)
+Maintainer: Christofer Backlin <emil@christofer.backlin.se>  
 Bug reports: https://github.com/Molmed/emil/issues
 
 __OK__
 
-## enigma (0.1.1)
+## enigma (0.2.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropengov/enigma/issues
 
 __OK__
 
-## freqweights (1.0.1)
+## freqweights (1.0.2)
 Maintainer: Emilio Torres-Manzanera <torres@uniovi.es>
 
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: '%.%' is deprecated.
-  Warning: '%.%' is deprecated.
-  Warning: '%.%' is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
-```
-DONE
-Status: 1 WARNING
-```
+__OK__
 
 ## fueleconomy (0.1)
 Maintainer: 'Hadley Wickham' <h.wickham@gmail.com>
@@ -191,23 +295,116 @@ Bug reports: https://github.com/jennybc/gapminder/issues
 
 __OK__
 
-## gender (0.4.3)
+## GenCAT (1.0.1)
+Maintainer: Eric Reed <reeder@bu.edu>
+
+```
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘snpStats’
+```
+```
+checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘snpStats’
+```
+```
+checking data for non-ASCII characters ... NOTE
+  Error in .requirePackage(package) : 
+    unable to find required package 'snpStats'
+  Calls: <Anonymous> ... .extendsForS3 -> extends -> getClassDef -> .requirePackage
+  Execution halted
+```
+```
+checking examples ... ERROR
+Running examples in ‘GenCAT-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: GenCAT
+> ### Title: Running GenCAT
+> ### Aliases: GenCAT
+> ### Keywords: ~kwd1 ~kwd2
+> 
+> ### ** Examples
+> 
+> 
+> ###############
+> #Running GenCAT
+> ###############
+> data("CardioMapped")
+> 
+> #Subset CardioMapped to decrease CPU time
+> CardioMappedSub<-CardioMapped[CardioMapped$chr < 15,]
+> set.seed(1)
+> CardioMappedSub<-CardioMappedSub[sample(1:nrow(CardioMappedSub), 100),]
+> 
+> print(head(CardioMappedSub))
+            SNP effect_allele other_allele   testStat chr position class
+17232 rs9572807             C            T -0.3014771  13 72423959 DACH1
+24151 rs4389009             G            A -1.4443860  13 99193519 STK24
+37178 rs7151730             T            A  0.1387317  14 33531585 NPAS3
+58941 rs1076958             G            A  2.0597766  14 91131857 TTC7B
+13089 rs7987481             G            A -1.0024210  13 47318950 LRCH1
+58302  rs411064             G            A  0.2132412  14 90008860 FOXN3
+> 
+> library(snpStats)
+Error in library(snpStats) : there is no package called ‘snpStats’
+Execution halted
+```
+```
+checking re-building of vignette outputs ... NOTE
+Error in re-building vignettes:
+  ...
+Loading required package: dplyr
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Loading required package: doParallel
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+Loading required package: ggplot2
+Quitting from lines 62-69 (GenCAT-vignette.Rmd) 
+Error: processing vignette 'GenCAT-vignette.Rmd' failed with diagnostics:
+unable to find required package 'snpStats'
+Execution halted
+
+```
+```
+DONE
+Status: 1 ERROR, 4 NOTEs
+```
+
+## gender (0.5.0)
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/gender/issues
 
-__OK__
-
-## ggmcmc (0.6)
-Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>
-
 ```
-checking DESCRIPTION meta-information ... NOTE
-Malformed Title field: should not end in a period.
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘genderdata’
 ```
 ```
 DONE
 Status: 1 NOTE
 ```
+
+## ggmap (2.5.2)
+Maintainer: David Kahle <david.kahle@gmail.com>  
+Bug reports: https://github.com/dkahle/ggmap/issues
+
+__OK__
+
+## ggmcmc (0.7.1)
+Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>
+
+__OK__
 
 ## ggRandomForests (1.1.4)
 Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>  
@@ -228,11 +425,38 @@ Status: 1 NOTE
 ## ggvis (0.4.2)
 Maintainer: Winston Chang <winston@rstudio.com>
 
-__OK__
+```
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  23: stop(gettextf("arguments imply differing number of rows: %s", paste(unique(nrows), 
+         collapse = ", ")), domain = NA)
+  
+  testthat results ================================================================
+  OK: 436 SKIPPED: 0 FAILED: 3
+  1. Error: Zero-row inputs 
+  2. Error: Zero-row inputs 
+  3. Error: Zero-row inputs 
+  
+  Error: testthat unit tests failed
+  In addition: Warning message:
+  In rbind_all(out[[1]]) : Unequal factor levels: coercing to character
+  Execution halted
+```
+```
+DONE
+Status: 1 ERROR
+```
 
-## gistr (0.2.0)
+## gistr (0.3.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/gistr/issues
+
+__OK__
+
+## googlesheets (0.1.0)
+Maintainer: Jennifer Bryan <jenny@stat.ubc.ca>  
+Bug reports: https://github.com/jennybc/googlesheets/issues
 
 __OK__
 
@@ -248,6 +472,22 @@ Bug reports: https://github.com/hadley/haven/issues
 
 __OK__
 
+## HydeNet (0.9.0)
+Maintainer: Benjamin Nutter <benjamin.nutter@gmail.com>  
+Bug reports: https://github.com/nutterb/HydeNet/issues
+
+```
+checking package dependencies ... ERROR
+Package required but not available: ‘graph’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
+
 ## IATscores (0.1-2)
 Maintainer: Giulio Costantini <costantinigiulio@gmail.com>
 
@@ -259,12 +499,20 @@ Package suggested but not available for checking: ‘nparcomp’
 
 See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
+```
+```
+DONE
 Status: 1 ERROR
 ```
 
 ## internetarchive (0.1.2)
 Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
 Bug reports: https://github.com/ropensci/internetarchive/issues
+
+__OK__
+
+## JacobiEigen (0.1)
+Maintainer: Bill Venables <Bill.Venables@gmail.com>
 
 __OK__
 
@@ -279,33 +527,37 @@ Maintainer: Kris Sankaran <kriss1@stanford.edu>
 
 __OK__
 
+## longurl (0.1.1)
+Maintainer: Bob Rudis <bob@rudis.net>
+
+__OK__
+
 ## loopr (1.0.1)
 Maintainer: Brandon Taylor <Brandon.Taylor221@gmail.com>
 
 __OK__
 
-## manifestoR (1.0-1)
+## manifestoR (1.0-4)
 Maintainer: Jirka Lewandowski <jirka.lewandowski@wzb.eu>  
 Bug reports: https://github.com/ManifestoProject/manifestoR/issues
 
 __OK__
 
-## MazamaSpatialUtils (0.2.4)
+## MazamaSpatialUtils (0.3.2)
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
+
+__OK__
+
+## metricsgraphics (0.8.5)
+Maintainer: Bob Rudis <bob@rudis.net>  
+Bug reports: https://github.com/hrbrmstr/metricsgraphics/issues
 
 __OK__
 
 ## mosaic (0.10.0)
 Maintainer: Randall Pruim <rpruim@calvin.edu>
 
-```
-checking package dependencies ... NOTE
-Package which this enhances but not available for checking: ‘manipulate’
-```
-```
-DONE
-Status: 1 NOTE
-```
+__OK__
 
 ## muir (0.1.0)
 Maintainer: Justin Alford <justin.alford@gmail.com>  
@@ -313,11 +565,21 @@ Bug reports: https://github.com/alforj/muir/issues
 
 __OK__
 
-## myTAI (0.1.0)
+## myTAI (0.3.0)
 Maintainer: Hajk-Georg Drost <hajk-georg.drost@informatik.uni-halle.de>  
 Bug reports: https://github.com/HajkD/myTAI/issues
 
-__OK__
+```
+checking package dependencies ... ERROR
+Package required but not available: ‘edgeR’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
 
 ## NCmisc (1.1.4)
 Maintainer: Nicholas Cooper <nick.cooper@cimr.cam.ac.uk>
@@ -363,14 +625,17 @@ DONE
 Status: 2 NOTEs
 ```
 
-## openair (1.5)
+## openair (1.6)
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>  
 Bug reports: http://github.com/davidcarslaw/openair/issues
 
 ```
 checking whether package ‘openair’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/Rtmpe7ufPg/check_cran12f6847060d3d/openair.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmpDfhwWO/check_cran86016e6832d/openair.Rcheck/00install.out’ for details.
+```
+```
+DONE
 Status: 1 ERROR
 ```
 
@@ -385,6 +650,38 @@ Maintainer: Carson Sievert <sievert@iastate.edu>
 Bug reports: http://github.com/cpsievert/pitchRx/issues
 
 __OK__
+
+## pixiedust (0.1.1)
+Maintainer: Benjamin Nutter <nutter@battelle.org>  
+Bug reports: https://github.com/nutterb/pixiedust/issues
+
+```
+checking package dependencies ... ERROR
+Packages required but not available: ‘ArgumentCheck’ ‘lazyWeave’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
+
+## pmc (1.0.0)
+Maintainer: Carl Boettiger <cboettig@gmail.com>  
+Bug reports: https://github.com/cboettig/pmc/issues
+
+```
+checking package dependencies ... ERROR
+Package required but not available: ‘ouch’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
 
 ## PogromcyDanych (1.5)
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
@@ -404,7 +701,7 @@ DONE
 Status: 2 NOTEs
 ```
 
-## pollstR (1.2.0)
+## pollstR (1.2.1)
 Maintainer: Jeffrey B. Arnold <jeffrey.arnold@gmail.com>  
 Bug reports: https://github.com/rOpenGov/pollstR/issues
 
@@ -428,10 +725,10 @@ checking running R code from vignettes ... WARNING
 Errors in running code in vignettes:
 when running code in ‘poplite.Rnw’
   ...
-8             8         8  18      0  1.6844357  0.53539884          2   F
-9             9         9  20      1  0.9113913 -0.55527835          2   F
-10           10        10  12      1  0.2374303  1.77950291          1   M
-..          ...       ... ...    ...        ...         ...        ... ...
+8             8         8    18      0  1.6844357  0.53539884          2     F
+9             9         9    20      1  0.9113913 -0.55527835          2     F
+10           10        10    12      1  0.2374303  1.77950291          1     M
+..          ...       ...   ...    ...        ...         ...        ...   ...
 
 > library(VariantAnnotation)
 
@@ -476,6 +773,12 @@ DONE
 Status: 1 WARNING, 2 NOTEs
 ```
 
+## poppr (2.0.2)
+Maintainer: Zhian N. Kamvar <kamvarz@science.oregonstate.edu>  
+Bug reports: https://github.com/grunwaldlab/poppr/issues
+
+__OK__
+
 ## pRF (1.0)
 Maintainer: Ankur Chakravarthy <ankur.chakravarthy.10@ucl.ac.uk>
 
@@ -485,12 +788,20 @@ Package required but not available: ‘multtest’
 
 See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
+```
+```
+DONE
 Status: 1 ERROR
 ```
 
-## qdap (2.2.1)
+## qdap (2.2.2)
 Maintainer: Tyler Rinker <tyler.rinker@gmail.com>  
 Bug reports: http://github.com/trinker/qdap/issues
+
+__OK__
+
+## qualvar (0.1.0)
+Maintainer: Joel Gombin <joel.gombin@gmail.com>
 
 __OK__
 
@@ -510,18 +821,12 @@ Bug reports: https://github.com/vnijs/radiant/issues
 
 __OK__
 
-## randNames (0.2)
-Maintainer: Karthik Ram <karthik.ram@gmail.com>  
-Bug reports: https://github.com/karthik/randNames/issues
-
-__OK__
-
 ## randomizr (0.2.2)
 Maintainer: Alexander Coppock <ac3242@columbia.edu>
 
 __OK__
 
-## rattle (3.4.1)
+## rattle (3.5.0)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 
 ```
@@ -531,29 +836,11 @@ Packages suggested but not available for checking:
 ```
 ```
 checking installed package size ... NOTE
-  installed size is  6.9Mb
+  installed size is  7.8Mb
   sub-directories of 1Mb or more:
-    data   2.1Mb
-    etc    2.5Mb
+    data   2.3Mb
+    etc    3.1Mb
     po     1.2Mb
-```
-```
-checking dependencies in R code ... NOTE
-'library' or 'require' calls in package code:
-  ‘Hmisc’ ‘RBGL’ ‘RGtk2’ ‘RGtk2Extras’ ‘ROCR’ ‘RODBC’ ‘Rgraphviz’ ‘XML’
-  ‘ada’ ‘arules’ ‘bitops’ ‘cairoDevice’ ‘colorspace’ ‘e1071’ ‘fBasics’
-  ‘foreign’ ‘fpc’ ‘graph’ ‘grid’ ‘kernlab’ ‘methods’ ‘nnet’
-  ‘pkgDepTools’ ‘pmml’ ‘randomForest’ ‘reshape’ ‘rggobi’ ‘rpart’
-  ‘stats’ ‘survival’ ‘utils’
-  Please use :: or requireNamespace() instead.
-  See section 'Suggested packages' in the 'Writing R Extensions' manual.
-```
-```
-checking S3 generic/method consistency ... NOTE
-Found the following apparent S3 methods exported but not registered:
-  predict.hclust predict.kmeans print.summary.nnet
-See section ‘Registering S3 methods’ in the ‘Writing R Extensions’
-manual.
 ```
 ```
 checking R code for possible problems ... NOTE
@@ -566,12 +853,17 @@ event one is needed.
 ```
 ```
 DONE
-Status: 5 NOTEs
+Status: 3 NOTEs
 ```
 
-## rbison (0.4.5)
+## rbison (0.4.8)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rbison/issues
+
+__OK__
+
+## rcicr (0.3.2)
+Maintainer: Ron Dotsch <rdotsch@gmail.com>
 
 __OK__
 
@@ -590,31 +882,32 @@ DONE
 Status: 1 NOTE
 ```
 
-## rcrossref (0.3.0)
+## rcrossref (0.3.4)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rcrossref/issues
 
 __OK__
 
-## RDML (0.8-4)
+## RDML (0.9-1)
 Maintainer: Konstantin A. Blagodatskikh <k.blag@yandex.ru>
 
 __OK__
 
-## rdrop2 (0.6)
-Maintainer: Karthik Ram <karthik.ram@gmail.com>
+## rdrop2 (0.7.0)
+Maintainer: Karthik Ram <karthik.ram@gmail.com>  
+Bug reports: https://github.com/karthik/rdrop2/issues
 
 __OK__
 
-## repra (0.4.2)
-Maintainer: Eduardo Ibanez <eduardo.ibanez@nrel.gov>  
+## rebird (0.2)
+Maintainer: Sebastian Pardo <sebpardo@gmail.com>  
+Bug reports: http://github.com/ropensci/rebird/issues
+
+__OK__
+
+## repra (0.4.4)
+Maintainer: Eduardo Ibanez <edu.ibanez@gmail.com>  
 Bug reports: https://github.com/NREL/repra/issues
-
-__OK__
-
-## rerddap (0.1.0)
-Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
-Bug reports: http://www.github.com/ropensci/rerddap/issues
 
 __OK__
 
@@ -630,31 +923,58 @@ Bug reports: https://github.com/kevinushey/rex/issues
 
 __OK__
 
+## rfishbase (2.0.1)
+Maintainer: Carl Boettiger <cboettig@ropensci.org>  
+Bug reports: https://github.com/ropensci/rfishbase/issues
+
+```
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  9: request_perform(req, hu$handle$handle)
+  10: request_fetch(req$output, req$url, handle)
+  11: request_fetch.write_memory(req$output, req$url, handle)
+  12: curl::curl_fetch_memory(url, handle = handle)
+  
+  testthat results ================================================================
+  OK: 73 SKIPPED: 0 FAILED: 3
+  1. Failure (at test_list_fields.R#7): we can search for a field name 
+  2. Error: We can refresh the taxa list and use it in future calls 
+  3. Error: population_dynamics methods can all be called successfully 
+  
+  Error: testthat unit tests failed
+  Execution halted
+```
+```
+DONE
+Status: 1 ERROR
+```
+
 ## rivr (0.9.2)
 Maintainer: Michael C Koohafkan <michael.koohafkan@gmail.com>  
 Bug reports: https://github.com/mkoohafkan/rivr/issues
 
 __OK__
 
-## rnoaa (0.3.3)
+## rnoaa (0.4.2)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/rnoaa/issues
 
 __OK__
 
-## rplexos (1.1.1)
-Maintainer: Eduardo Ibanez <eduardo.ibanez@nrel.gov>  
+## rplexos (1.1.4)
+Maintainer: Eduardo Ibanez <edu.ibanez@gmail.com>  
 Bug reports: https://github.com/NREL/rplexos/issues
 
 __OK__
 
-## rplos (0.4.7)
+## rplos (0.5.2)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rplos/issues
 
 __OK__
 
-## rPref (0.5)
+## rPref (0.6)
 Maintainer: Patrick Roocks <mail@p-roocks.de>
 
 ```
@@ -672,9 +992,21 @@ Bug reports: https://github.com/davidgohel/rtable/issues
 
 __OK__
 
+## rvertnet (0.3.0)
+Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
+Bug reports: https://github.com/ropensci/rvertnet/issues
+
+__OK__
+
 ## saeSim (0.7.0)
 Maintainer: Sebastian Warnholz <Sebastian.Warnholz@fu-berlin.de>  
 Bug reports: https://github.com/wahani/saeSim/issues
+
+__OK__
+
+## SciencesPo (1.3.7)
+Maintainer: Daniel Marcelino <dmarcelino@live.com>  
+Bug reports: http://github.com/danielmarcelino/SciencesPo
 
 __OK__
 
@@ -689,11 +1021,60 @@ Bug reports: https://github.com/christophergandrud/simPH/issues
 
 __OK__
 
-## sjPlot (1.8.1)
+## SimReg (1.1)
+Maintainer: Daniel Greene <dg333@cam.ac.uk>
+
+```
+checking package dependencies ... ERROR
+Package required but not available: ‘hpoPlot’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
+
+## sjPlot (1.8.3)
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
 Bug reports: https://github.com/sjPlot/devel/issues
 
+```
+checking package dependencies ... ERROR
+Package required and available but unsuitable version: ‘sjmisc’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
+
+## sorvi (0.7.26)
+Maintainer: Leo Lahti <louhos@googlegroups.com>  
+Bug reports: https://github.com/ropengov/sorvi/issues
+
 __OK__
+
+## SpaDES (1.0.1)
+Maintainer: Alex M Chubaty <achubaty@NRCan.gc.ca>  
+Bug reports: https://github.com/PredictiveEcology/SpaDES/issues
+
+```
+checking package dependencies ... ERROR
+Package required but not available: ‘secr’
+
+Package suggested but not available for checking: ‘fastshp’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+```
+```
+DONE
+Status: 1 ERROR
+```
 
 ## statar (0.3.0)
 Maintainer: Matthieu Gomez <mattg@princeton.edu>  
@@ -701,13 +1082,24 @@ Bug reports: https://github.com/matthieugomez/statar/issues
 
 __OK__
 
-## SWMPr (2.0.0)
+## stationaRy (0.3)
+Maintainer: Richard Iannone <riannone@me.com>
+
+__OK__
+
+## SWMPr (2.1.0)
 Maintainer: Marcus W. Beck <mbafs2012@gmail.com>  
 Bug reports: https://github.com/fawda123/SWMPr/issues
 
 __OK__
 
-## tcR (2.0)
+## taber (0.1.0)
+Maintainer: Seth Wenchel <seth@wenchel.com>  
+Bug reports: http://github.com/restonslacker/taber/issues
+
+__OK__
+
+## tcR (2.1.1)
 Maintainer: Vadim Nazarov <vdm.nazarov@gmail.com>  
 Bug reports: https://github.com/imminfo/tcr/issues
 
@@ -756,6 +1148,11 @@ DONE
 Status: 1 NOTE
 ```
 
+## Tmisc (0.1.1)
+Maintainer: Stephen Turner <vustephen@gmail.com>
+
+__OK__
+
 ## traits (0.1.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/traits/issues
@@ -778,7 +1175,7 @@ Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
 __OK__
 
-## wikipediatrend (1.1.4)
+## wikipediatrend (1.1.6)
 Maintainer: Peter Meissner <retep.meissner@gmail.com>  
 Bug reports: https://github.com/petermeissner/wikipediatrend/issues
 
@@ -791,4 +1188,10 @@ Packages suggested but not available for checking:
 DONE
 Status: 1 NOTE
 ```
+
+## WufooR (0.5.5)
+Maintainer: John Malc <cincenko@outlook.com>  
+Bug reports: https://github.com/dmpe/wufoor/issues
+
+__OK__
 
