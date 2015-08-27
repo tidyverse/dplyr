@@ -295,3 +295,12 @@ test_that("filter_ works (#906)", {
   out <- dt %>% filter_(~x > 5)
   expect_equal(nrow(out), 5)
 })
+
+test_that("filter(FALSE) drops indices", {
+  out <- mtcars %>%
+    group_by(cyl) %>%
+    filter(FALSE) %>%
+    attr("indices")
+  expect_equal(out, NULL)
+
+})
