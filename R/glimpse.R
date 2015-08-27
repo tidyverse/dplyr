@@ -12,9 +12,11 @@
 #' @examples
 #' glimpse(mtcars)
 #'
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'   batting <- tbl(lahman_sqlite(), "Batting")
 #'   glimpse(batting)
+#' }
 #' }
 glimpse <- function(tbl, width = getOption("width")) {
   cat("Observations: ", big_mark(nrow(tbl)), "\n", sep = "")
