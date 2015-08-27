@@ -66,6 +66,14 @@ namespace dplyr {
             return true ;
         }
 
+        inline bool equal_or_both_na(int i, int j) const {
+            if( i == j ) return true ;
+            for( size_t h=0; h<visitors.size(); h++){
+                if( !visitors[h].equal_or_both_na(i,j) ) return false ;
+            }
+            return true ;
+        }
+
         inline bool less( int i, int j ) const {
             if( i == j ) return false ;
             for( size_t h=0; h<visitors.size(); h++){

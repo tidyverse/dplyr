@@ -12,7 +12,7 @@ namespace dplyr {
         private:
 
             List data ;
-            pointer_vector<VectorVisitor> visitors ;
+            std::vector< boost::shared_ptr<VectorVisitor> > visitors ;
             Rcpp::CharacterVector visitor_names ;
             int nvisitors ;
 
@@ -26,13 +26,14 @@ namespace dplyr {
             {
                 for( int i=0; i<nvisitors; i++){
                     VectorVisitor* v = visitor( data[i] ) ;
-                    visitors.push_back(v) ;
+                    visitors.push_back( boost::shared_ptr<VectorVisitor>(v) ) ;
                 }
             }
 
             inline int size() const { return nvisitors ; }
-            inline VectorVisitor* get(int k) const { return visitors[k] ; }
+            inline VectorVisitor* get(int k) const { return visitors[k].get() ; }
             inline int nrows() const { return visitors[0]->size() ;}
+
     } ;
 
 } // namespace dplyr

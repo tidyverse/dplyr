@@ -15,6 +15,10 @@ namespace dplyr {
             return visitors.equal(i,j) ;
         }
 
+        inline bool equal_or_both_na(int i, int j) const {
+            return visitors.equal_or_both_na(i,j) ;
+        }
+
         inline bool less( int i, int j ) const {
             return visitors.less(i,j) ;
         }
