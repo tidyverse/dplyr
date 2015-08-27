@@ -61,6 +61,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'frame-data.R'
     'funs.R'
     'glimpse.R'
     'group-by.r'
