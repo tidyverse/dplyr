@@ -104,11 +104,11 @@ Single table verbs
 
 `dplyr` implements the following data manipulation verbs :
 
--   `select()`: selects a subset of columns or variables
--   `filter()`: selects a subset of rows or observations
--   `mutate()`: adds new columns or variables
+-   `select()`: selects a subset of variables
+-   `filter()`: selects a subset of observations
+-   `mutate()`: adds new variables
 -   `summarise()`: reduces a group(s) to a smaller number of values (e.g., summary statistics)
--   `arrange()`: re-orders rows or observations
+-   `arrange()`: re-orders observations
 
 They all work as similarly as possible across the range of data sources. The main difference is performance:
 
