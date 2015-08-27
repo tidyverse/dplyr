@@ -6,6 +6,9 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 ## Other minor improvements and bug fixes
 
+* `frame_data()` provides a means for constructing `data_frame`s using
+  a simple row-wise language. (#1358, @kevinushey)
+
 * `all.equal()` no longer runs all outputs together (#1130).
 
 * `as_data_frame()` gives better error message with NA column names (#1101).
