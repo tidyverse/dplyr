@@ -50,6 +50,8 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   that don't fit on the screen (#1276). It also displays duplicated column
   names correctly (#1159).
 
+* `print.grouped_df()` now tells you how many groups there are.
+
 * `mutate()` can set to `NULL` the first column (used to segfault, #1329) and
   it better protects intermediary results (avoiding random segfaults, #1231).
 
