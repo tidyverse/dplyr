@@ -135,7 +135,7 @@ src_translate_env.src_postgres <- function(x) {
       var = sql_prefix("var_samp"),
       all = sql_prefix("bool_and"),
       any = sql_prefix("bool_or"),
-      paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
+      paste = function(x, collapse) build_sql("string_agg(", x, ", ", collapse, ")")
     ),
     base_win
   )
