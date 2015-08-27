@@ -34,6 +34,11 @@ namespace dplyr {
             inline VectorVisitor* get(int k) const { return visitors[k].get() ; }
             inline int nrows() const { return visitors[0]->size() ;}
 
+            inline bool is_na(int index) const {
+              for( int i=0; i<nvisitors; i++) if( visitors[i]->is_na(i)) return true ;
+              return false ;
+            }
+
     } ;
 
 } // namespace dplyr

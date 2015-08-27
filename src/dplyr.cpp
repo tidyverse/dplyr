@@ -1981,8 +1981,13 @@ SEXP n_distinct(SEXP x, bool na_rm = false){
 SEXP n_distinct_multi( List variables, bool na_rm = false){
     MultipleVectorVisitors visitors(variables) ;
     SlicingIndex everything(0, visitors.nrows()) ;
-    Count_Distinct<MultipleVectorVisitors> counter(visitors) ;
-    return counter.process(everything) ;
+    if( na_rm ){
+      Count_Distinct_Narm<MultipleVectorVisitors> counter(visitors) ;
+      return counter.process(everything) ;
+    } else {
+      Count_Distinct<MultipleVectorVisitors> counter(visitors) ;
+      return counter.process(everything) ;
+    }
 }
 
 // [[Rcpp::export]]
