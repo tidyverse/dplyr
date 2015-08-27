@@ -48,3 +48,18 @@ distinct_vars <- function(.data, ..., .dots) {
   # can instead just use their names
   list(data = .data, vars = names(dots))
 }
+
+#' Efficiently count the number of unique values in a set of vector
+#'
+#' This is a faster and more concise equivalent of \code{length(unique(x))}
+#'
+#' @param \dots vectors of values
+#' @param na.rm id \code{TRUE} missing values don't count
+#' @examples
+#' x <- sample(1:10, 1e5, rep = TRUE)
+#' length(unique(x))
+#' n_distinct(x)
+#' @export
+n_distinct <- function(..., na.rm = FALSE){
+  n_distinct_multi(list(...), na.rm)
+}

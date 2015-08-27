@@ -1947,36 +1947,6 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
     return Count().process(gdf) ;
 }
 
-//' Efficiently count the number of unique values in a vector.
-//'
-//' This is a faster and more concise equivalent of \code{length(unique(x))}
-//'
-//' @param x a vector of values
-//' @param na_rm if \code{TRUE} missing values don't count
-//' @export
-//' @examples
-//' x <- sample(1:10, 1e5, rep = TRUE)
-//' length(unique(x))
-//' n_distinct(x)
-// [[Rcpp::export]]
-SEXP n_distinct(SEXP x, bool na_rm = false){
-    int n = Rf_length(x) ;
-    if( n == 0 ) return wrap(0) ;
-    SlicingIndex everything(0, n);
-    if( na_rm ){
-        boost::scoped_ptr<Result> res( count_distinct_result_narm(x) );
-        if( !res ){
-            stop( "cannot handle object of type %s", type2name(x) );
-        }
-        return res->process(everything) ;
-    }
-    boost::scoped_ptr<Result> res( count_distinct_result(x) );
-    if( !res ){
-        stop( "cannot handle object of type %s", type2name(x) );
-    }
-    return res->process(everything) ;
-}
-
 // [[Rcpp::export]]
 SEXP n_distinct_multi( List variables, bool na_rm = false){
     MultipleVectorVisitors visitors(variables) ;
