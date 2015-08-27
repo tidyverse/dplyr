@@ -67,6 +67,10 @@ namespace Rcpp {
             return data.size();
         }
 
+        inline int names() const{
+            return data.names();
+        }
+
     private:
         List data ;
 
