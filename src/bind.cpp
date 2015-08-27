@@ -88,13 +88,13 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
     }
 
     int nc = columns.size() ;
-    int nc_id = nc + (Rf_isNull(id) ? 0 : 1) ;
+    int has_id = Rf_isNull(id) ? 0 : 1;
 
-    List out(nc_id) ;
-    CharacterVector out_names(nc_id) ;
+    List out(nc + has_id) ;
+    CharacterVector out_names(nc + has_id) ;
     for( int i=0; i<nc; i++){
-        out[i] = columns[i]->get() ;
-        out_names[i] = names[i] ;
+        out[i + has_id] = columns[i]->get() ;
+        out_names[i + has_id] = names[i] ;
     }
 
     // Add vector of identifiers if .id is supplied
@@ -108,10 +108,10 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
         it += df_nrows[i] ;
       }
 
-      out[nc_id - 1] = id_col ;
-      out_names[nc_id - 1] = Rcpp::as<std::string>(id) ;
+      out[0] = id_col ;
+      out_names[0] = Rcpp::as<std::string>(id) ;
     }
-    
+
     out.attr( "names" ) = out_names ;
     set_rownames( out, n ) ;
     out.attr( "class" ) = classes_not_grouped() ;

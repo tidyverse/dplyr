@@ -40,6 +40,7 @@
 #'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
+#' bind_rows(list(one, two), .id = "id")
 #' bind_rows(list(a = one, b = two), .id = "id")
 #' bind_rows("group 1" = one, "group 2" = two, .id = "groups")
 #'
@@ -83,12 +84,6 @@ bind_rows <- function(..., .id = NULL) {
       stop(".id is not a string", call. = FALSE)
     }
     names(x) <- names(x) %||% seq_along(x)
-    if (any(is.na(names(x)))) {
-      warning("Some ID labels are missing", call. = FALSE)
-    }
-    if (any(na.omit(names(x) == ""))) {
-      warning("Some ID labels are empty", call. = FALSE)
-    }
   }
 
   rbind_all(x, .id)

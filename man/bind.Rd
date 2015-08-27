@@ -61,6 +61,7 @@ bind_rows(split(mtcars, mtcars$cyl))
 
 # When you supply a column name with the `.id` argument, a new
 # column is created to link each row to its original data frame
+bind_rows(list(one, two), .id = "id")
 bind_rows(list(a = one, b = two), .id = "id")
 bind_rows("group 1" = one, "group 2" = two, .id = "groups")
 
