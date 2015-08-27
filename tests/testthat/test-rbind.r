@@ -247,3 +247,24 @@ test_that("bind handles POSIXct of different tz ", {
   expect_equal( attr(res$date, "tzone"), "UTC" )
 
 })
+
+test_that("bind_rows() creates a column of identifiers (#1337)", {
+  data1 <- mtcars[c(2, 3), ]
+  data2 <- mtcars[1, ]
+
+  out <- bind_rows(data1, data2, .id = "col")
+  out_list <- bind_rows(list(data1, data2), .id = "col")
+  expect_equal(names(out)[12], "col")
+  expect_equal(out$col, c("1", "1", "2"))
+  expect_equal(out_list$col, c("1", "1", "2"))
+
+  out_labelled <- bind_rows(one = data1, two = data2, .id = "col")
+  out_list_labelled <- bind_rows(list(one = data1, two = data2), .id = "col")
+  expect_equal(out_labelled$col, c("one", "one", "two"))
+  expect_equal(out_list_labelled$col, c("one", "one", "two"))
+
+  list_missing <- list(data1, data2)
+  names(list_missing) <- c(NA, "two")
+  expect_warning(bind_rows(list_missing, .id = "col"))
+  expect_warning(bind_rows(list(data1, two = data2), .id = "col"))
+})

@@ -21,6 +21,10 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   cleaning you no longer need to convert lists to data frames, but can
   instead feed them to `bind_rows()` directly.
 
+* `bind_rows()` gains a `.id` argument. When supplied, it creates a
+  new column of identifiers that links each row to its original data
+  frame (#1337, @lionel-).
+
 * `bind_rows()` respects the `ordered` attribute of factors (#1112), and
   does better at comparing `POSIXct`s (#1125). The `tz` attribute is ignored
   when determining if two `POSIXct` vectors are comparable. If the `tz` of
