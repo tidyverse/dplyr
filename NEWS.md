@@ -371,6 +371,9 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 ### Databases
 
+* Correct SQL generation for `paste()` when used with the collapse parameter
+  targeting a Postgres database. (@rbdixon, #1357)
+
 * The db backend system has been completely overhauled in order to make
   it possible to add backends in other packages, and to support a much
   wider range of databases. See `vignette("new-sql-backend")` for instruction
