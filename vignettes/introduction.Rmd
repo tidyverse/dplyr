@@ -71,7 +71,7 @@ If you've used plyr before, many of these will be familar.
 
 ## Filter rows with `filter()`
 
-`filter()` allows you to select a subset of the rows of a data frame. The first argument is the name of the data frame, and the second and subsequent are filtering expressions evaluated in the context of that data frame:
+`filter()` allows you to select a subset of rows in a data frame. The first argument is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame:
 
 For example, we can select all flights on January 1st with:
 
@@ -85,7 +85,7 @@ This is equivalent to the more verbose:
 flights[flights$month == 1 & flights$day == 1, ]
 ```
 
-`filter()` works similarly to `subset()` except that you can give it any number of filtering conditions which are joined together with `&` (not `&&` which is easy to do accidentally!).  You can use other boolean operators explicitly:
+`filter()` works similarly to `subset()` except that you can give it any number of filtering conditions, which are joined together with `&` (not `&&` which is easy to do accidentally!).  You can also use other boolean operators:
 
 ```{r, eval = FALSE}
 filter(flights, month == 1 | month == 2)
