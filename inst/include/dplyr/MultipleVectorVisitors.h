@@ -10,19 +10,13 @@ namespace dplyr {
         public VisitorSetGreater<MultipleVectorVisitors> {
 
         private:
-
-            List data ;
             std::vector< boost::shared_ptr<VectorVisitor> > visitors ;
-            Rcpp::CharacterVector visitor_names ;
-            int nvisitors ;
 
         public:
             typedef VectorVisitor visitor_type ;
 
             MultipleVectorVisitors( List data_) :
-                data(data_),
-                visitors(),
-                nvisitors(data.size())
+                visitors()
             {
                 for( int i=0; i<nvisitors; i++){
                     VectorVisitor* v = visitor( data[i] ) ;
@@ -30,12 +24,19 @@ namespace dplyr {
                 }
             }
 
-            inline int size() const { return nvisitors ; }
-            inline VectorVisitor* get(int k) const { return visitors[k].get() ; }
-            inline int nrows() const { return visitors[0]->size() ;}
+            inline int size() const {
+              return visitors.size() ;
+            }
+            inline VectorVisitor* get(int k) const {
+              return visitors[k].get() ;
+            }
+            inline int nrows() const {
+              return visitors[0]->size() ;
+            }
 
             inline bool is_na(int index) const {
-              for( int i=0; i<nvisitors; i++) if( visitors[i]->is_na(i)) return true ;
+              int n = size() ;
+              for( int i=0; i<n; i++) if( visitors[i]->is_na(i)) return true ;
               return false ;
             }
 

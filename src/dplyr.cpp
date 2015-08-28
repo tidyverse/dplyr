@@ -170,6 +170,7 @@ Result* count_prototype(SEXP args, const LazySubsets&, int){
 
 Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     SEXP arg = CADR(call) ;
+    
     if( TYPEOF(arg) != SYMSXP || !subsets.count(arg) || !(nargs == 1 || nargs==2) ) {
         stop( "Input to n_distinct() must be a single variable name from the data set" ) ;
     }
