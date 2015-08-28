@@ -263,3 +263,8 @@ test_that("bind_rows() creates a column of identifiers (#1337)", {
   expect_equal(out_labelled$col, c("one", "one", "two"))
   expect_equal(out_list_labelled$col, c("one", "one", "two"))
 })
+
+test_that("empty data frame are handled (#1346)", {
+  res <- data_frame() %>% bind_rows(data_frame(x = "a"))
+  expect_equal( nrow(res), 1L)
+})
