@@ -15,12 +15,14 @@ namespace dplyr {
         public:
             typedef VectorVisitor visitor_type ;
 
-            MultipleVectorVisitors( List data_) :
+            MultipleVectorVisitors() : visitors(){}
+
+            MultipleVectorVisitors(List data) :
                 visitors()
             {
-                for( int i=0; i<nvisitors; i++){
-                    VectorVisitor* v = visitor( data[i] ) ;
-                    visitors.push_back( boost::shared_ptr<VectorVisitor>(v) ) ;
+                int n = data.size() ;
+                for( int i=0; i<n; i++){
+                    push_back( data[i] )  ;
                 }
             }
 
@@ -32,6 +34,9 @@ namespace dplyr {
             }
             inline int nrows() const {
               return visitors[0]->size() ;
+            }
+            inline void push_back( SEXP x) {
+              visitors.push_back( boost::shared_ptr<VectorVisitor>( visitor(x) ) ) ;
             }
 
             inline bool is_na(int index) const {

@@ -140,28 +140,6 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
-Result* count_distinct_result(SEXP vec){
-    switch( TYPEOF(vec) ){
-        case INTSXP:  return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP: return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
-        case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
-        case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
-        default: break ;
-    }
-    return 0 ;
-}
-
-Result* count_distinct_result_narm(SEXP vec){
-    switch( TYPEOF(vec) ){
-        case INTSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP: return new Count_Distinct_Narm< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
-        case LGLSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
-        case STRSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
-        default: break ;
-    }
-    return 0 ;
-}
-
 Result* count_prototype(SEXP args, const LazySubsets&, int){
     if( Rf_length(args) != 1)
         stop("n does not take arguments") ;
@@ -169,20 +147,27 @@ Result* count_prototype(SEXP args, const LazySubsets&, int){
 }
 
 Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-    SEXP arg = CADR(call) ;
-    
-    if( TYPEOF(arg) != SYMSXP || !subsets.count(arg) || !(nargs == 1 || nargs==2) ) {
-        stop( "Input to n_distinct() must be a single variable name from the data set" ) ;
-    }
-    if(nargs == 2){
-        SEXP narm = CADDR(call) ;
-        if( TYPEOF(narm) == LGLSXP && LOGICAL(narm)[0] == TRUE ){
-            // n_distinct( ., na.rm = TRUE )
-            return count_distinct_result_narm(subsets.get_variable(arg)) ;
+    MultipleVectorVisitors visitors ;
+    bool na_rm = false ;
+
+    for( SEXP p = CDR(call) ; !Rf_isNull(p) ; p = CDR(p) ){
+      if( !Rf_isNull(TAG(p)) && TAG(p) == Rf_install("na.rm") ){
+        SEXP narm = CAR(p) ;
+        if( TYPEOF(narm) == LGLSXP && Rf_length(narm) == 1){
+          na_rm = LOGICAL(narm)[0] ;
+        } else {
+          stop("incompatible value for `na.rm` parameter") ;
         }
+      } else {
+        visitors.push_back( subsets.get_variable( CAR(p) ) )  ;
+      }
     }
-    // n_distinct( ., na.rm = FALSE )
-    return count_distinct_result(subsets.get_variable(arg)) ;
+
+    if( na_rm ){
+      return new Count_Distinct_Narm<MultipleVectorVisitors>(visitors) ;
+    } else {
+      return new Count_Distinct_Narm<MultipleVectorVisitors>(visitors) ;
+    }
 }
 
 Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
