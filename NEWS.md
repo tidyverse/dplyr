@@ -2,7 +2,9 @@
 
 * set operations respect coercion rules (#799).
 
-* joins on `POSIXct` consider time zones (#819). 
+* joins on `POSIXct` consider time zones (#819).
+
+* `n_distinct` uses multiple arguments (#1084). 
 
 # dplyr 0.4.2.9000
 

@@ -162,11 +162,10 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int narg
         visitors.push_back( subsets.get_variable( CAR(p) ) )  ;
       }
     }
-
     if( na_rm ){
       return new Count_Distinct_Narm<MultipleVectorVisitors>(visitors) ;
     } else {
-      return new Count_Distinct_Narm<MultipleVectorVisitors>(visitors) ;
+      return new Count_Distinct<MultipleVectorVisitors>(visitors) ;
     }
 }
 

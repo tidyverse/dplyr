@@ -41,7 +41,7 @@ namespace dplyr {
 
             inline bool is_na(int index) const {
               int n = size() ;
-              for( int i=0; i<n; i++) if( visitors[i]->is_na(i)) return true ;
+              for( int i=0; i<n; i++) if( visitors[i]->is_na(index)) return true ;
               return false ;
             }
 

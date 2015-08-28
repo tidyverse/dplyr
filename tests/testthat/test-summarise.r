@@ -434,9 +434,9 @@ test_that("n_distint uses na.rm argument", {
 
 })
 
-test_that("n_distinct front end supports na_rm argument (#1052)", {
+test_that("n_distinct front end supports na.rm argument (#1052)", {
   x <- c(1:3, NA)
-  expect_equal( n_distinct(x, TRUE), 3L )
+  expect_equal( n_distinct(x, na.rm = TRUE), 3L )
 })
 
 test_that("hybrid evaluation does not take place for objects with a class (#1237)", {
@@ -498,9 +498,31 @@ test_that("summarise correctly handles NA groups (#1261)", {
     b1 = NA_integer_,
     b2 = NA_character_
   )
-  
+
   res <- tmp %>% group_by(a, b1) %>% summarise(n())
   expect_equal( nrow(res), 2L)
   res <- tmp %>% group_by(a, b2) %>% summarise(n())
   expect_equal( nrow(res), 2L)
+})
+
+test_that("n_distinct handles multiple columns (#1084)", {
+  df <- data.frame( x = rep(1:4, each = 2), y = rep(1:2, each = 4), g = rep(1:2, 4))
+  res <- summarise( df, n = n_distinct(x,y) )
+  expect_equal( res$n, 4L)
+
+  res <- group_by(df, g) %>% summarise( n = n_distinct(x,y) )
+  expect_equal( res$n, c(4L,4L) )
+
+  df$x[3] <- df$y[7] <- NA
+  res <- summarise( df, n = n_distinct(x,y) )
+  expect_equal( res$n, 6L)
+  res <- summarise( df, n = n_distinct(x,y, na.rm=TRUE) )
+  expect_equal( res$n, 4L)
+
+  res <- group_by(df, g) %>% summarise( n = n_distinct(x, y) )
+  expect_equal( res$n, c(4L,4L) )
+
+  res <- group_by(df, g) %>% summarise( n = n_distinct(x, y, na.rm = TRUE) )
+  expect_equal( res$n, c(2L,4L) )
+
 })
