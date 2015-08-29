@@ -22,7 +22,7 @@
 |DBI            |   |0.3.1    |2014-09-24 |CRAN (R 3.2.0) |
 |ggplot2        |   |1.0.1    |2015-03-17 |CRAN (R 3.2.0) |
 |knitr          |   |1.10.5   |2015-05-06 |CRAN (R 3.2.0) |
-|Lahman         |   |3.0-1    |2014-09-13 |CRAN (R 3.2.0) |
+|Lahman         |*  |3.0-1    |2014-09-13 |CRAN (R 3.2.0) |
 |lazyeval       |   |0.1.10   |2015-01-02 |CRAN (R 3.2.0) |
 |magrittr       |   |1.5      |2014-11-22 |CRAN (R 3.2.0) |
 |microbenchmark |   |1.4-2    |2014-09-28 |CRAN (R 3.2.0) |
@@ -43,7 +43,7 @@ Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
 ```
 checking whether package ‘ACDm’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmpDfhwWO/check_cran86016e6832d/ACDm.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmplmWFrP/check_cran90c95643eaf3/ACDm.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -63,28 +63,7 @@ __OK__
 ## aemo (0.1.0)
 Maintainer: Imanuel Costigan <i.costigan@me.com>
 
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  12: mode(current)
-  13: GET(co_url)
-  14: request_perform(req, hu$handle$handle)
-  15: request_fetch(req$output, req$url, handle)
-  16: request_fetch.write_memory(req$output, req$url, handle)
-  17: curl::curl_fetch_memory(url, handle = handle)
-  
-  testthat results ================================================================
-  OK: 5 SKIPPED: 0 FAILED: 1
-  1. Error: AEMO data URLs still correct 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## assertr (1.0.0)
 Maintainer: Tony Fischetti <tony.fischetti@gmail.com>  
@@ -210,9 +189,9 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking whether package ‘DepthProc’ can be installed ... [47s/48s] ERROR
+checking whether package ‘DepthProc’ can be installed ... [46s/46s] ERROR
 Installation failed.
-See ‘/private/tmp/RtmpDfhwWO/check_cran86016e6832d/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmplmWFrP/check_cran90c95643eaf3/DepthProc.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -425,28 +404,7 @@ Status: 1 NOTE
 ## ggvis (0.4.2)
 Maintainer: Winston Chang <winston@rstudio.com>
 
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  23: stop(gettextf("arguments imply differing number of rows: %s", paste(unique(nrows), 
-         collapse = ", ")), domain = NA)
-  
-  testthat results ================================================================
-  OK: 436 SKIPPED: 0 FAILED: 3
-  1. Error: Zero-row inputs 
-  2. Error: Zero-row inputs 
-  3. Error: Zero-row inputs 
-  
-  Error: testthat unit tests failed
-  In addition: Warning message:
-  In rbind_all(out[[1]]) : Unequal factor levels: coercing to character
-  Execution halted
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## gistr (0.3.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
@@ -632,7 +590,7 @@ Bug reports: http://github.com/davidcarslaw/openair/issues
 ```
 checking whether package ‘openair’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmpDfhwWO/check_cran86016e6832d/openair.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmplmWFrP/check_cran90c95643eaf3/openair.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
