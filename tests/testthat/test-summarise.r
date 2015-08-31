@@ -498,9 +498,15 @@ test_that("summarise correctly handles NA groups (#1261)", {
     b1 = NA_integer_,
     b2 = NA_character_
   )
-  
+
   res <- tmp %>% group_by(a, b1) %>% summarise(n())
   expect_equal( nrow(res), 2L)
   res <- tmp %>% group_by(a, b2) %>% summarise(n())
   expect_equal( nrow(res), 2L)
+})
+
+test_that("hybrid max works when not used on columns (#1369)", {
+  df <- data_frame(x = 1:1000)
+  expect_equal( summarise(df, z = max(y))$z, 10 )
+  expect_equal( summarise(df, z = max(10))$z, 10 )
 })

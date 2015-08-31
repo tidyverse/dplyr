@@ -112,6 +112,7 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
 
     // the first argument is the data to operate on
     SEXP arg = CADR(call) ;
+
     bool is_summary = false ;
     if( TYPEOF(arg) == SYMSXP ){
       if( subsets.count(arg) ) {
@@ -119,8 +120,10 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
           arg = subsets.get_variable(arg) ;
       }
       else return 0 ;
+    } else {
+      return 0 ;
     }
-
+    
     if( nargs == 1 ){
         return minmax_prototype_impl<Tmpl,false>(arg, is_summary) ;
     } else if( nargs == 2 ){
