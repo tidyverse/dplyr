@@ -86,6 +86,7 @@ inline void copy_attributes(SEXP out, SEXP data){
         SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
     }
     SET_OBJECT( out, OBJECT(data) );
+    if( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out) ;
 }
 
 // same as copy_attributes but without names
