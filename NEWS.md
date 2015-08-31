@@ -1,4 +1,4 @@
-# dplyr 0.4.3.9000
+# dplyr 0.4.3
 
 ## Improved encoding support
 
