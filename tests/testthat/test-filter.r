@@ -302,5 +302,16 @@ test_that("filter(FALSE) drops indices", {
     filter(FALSE) %>%
     attr("indices")
   expect_equal(out, NULL)
+})
 
+test_that("filter handles S4 objects (#1366)", {
+  env <- environment()
+  Numbers <- suppressWarnings( setClass("Numbers", slots = c(foo = "numeric"), contains = "integer", where = env) )
+  on.exit(removeClass("Numbers", where = env))
+
+  df <- data.frame( x = Numbers( 1:10, foo = 10 ) )
+  res <- filter( df, x > 3 )
+  expect_true( isS4(res$x) )
+  expect_is( res$x, "Numbers")
+  expect_equal( res$x@foo, 10)
 })
