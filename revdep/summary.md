@@ -43,7 +43,7 @@ Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
 ```
 checking whether package ‘ACDm’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/ACDm.Rcheck/00install.out’ for details.
+See ‘/private/tmp/Rtmpequdv0/check_cran546d6d57fe4d/ACDm.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -189,9 +189,9 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking whether package ‘DepthProc’ can be installed ... [44s/45s] ERROR
+checking whether package ‘DepthProc’ can be installed ... [43s/43s] ERROR
 Installation failed.
-See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/Rtmpequdv0/check_cran546d6d57fe4d/DepthProc.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -395,40 +395,7 @@ __OK__
 ## ggmcmc (0.7.1)
 Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>
 
-```
-checking examples ... ERROR
-Running examples in ‘ggmcmc-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: ggmcmc
-> ### Title: Wrapper function that creates a single pdf file with all plots
-> ###   that ggmcmc can produce.
-> ### Aliases: ggmcmc ggmcmc-package
-> 
-> ### ** Examples
-> 
-> data(linear)
-> ggmcmc(ggs(s))  # Directly from a coda object
-Plotting histograms
-Plotting density plots
-Plotting traceplots
-Plotting running means
-Plotting comparison of partial and full chain
-Plotting autocorrelation plots
-Plotting crosscorrelation plot
-Warning: Non Lab interpolation is deprecated
-Plotting Potential Scale Reduction Factors
-Plotting Geweke Diagnostic
-Error in data.frame(Parameter = M$Parameter, Chain = M$Chain, z = (M$first -  : 
-  arguments imply differing number of rows: 6, 0
-Calls: ggmcmc -> print -> ggs_geweke -> data.frame
-Execution halted
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## ggRandomForests (1.1.4)
 Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>  
@@ -640,7 +607,7 @@ Bug reports: http://github.com/davidcarslaw/openair/issues
 ```
 checking whether package ‘openair’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/openair.Rcheck/00install.out’ for details.
+See ‘/private/tmp/Rtmpequdv0/check_cran546d6d57fe4d/openair.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -1039,9 +1006,9 @@ __OK__
 Maintainer: Daniel Greene <dg333@cam.ac.uk>
 
 ```
-checking whether package ‘SimReg’ can be installed ... [26s/26s] ERROR
+checking whether package ‘SimReg’ can be installed ... [25s/25s] ERROR
 Installation failed.
-See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/SimReg.Rcheck/00install.out’ for details.
+See ‘/private/tmp/Rtmpequdv0/check_cran546d6d57fe4d/SimReg.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
