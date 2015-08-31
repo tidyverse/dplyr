@@ -507,6 +507,7 @@ test_that("summarise correctly handles NA groups (#1261)", {
 
 test_that("hybrid max works when not used on columns (#1369)", {
   df <- data_frame(x = 1:1000)
+  y <- 1:10
   expect_equal( summarise(df, z = max(y))$z, 10 )
   expect_equal( summarise(df, z = max(10))$z, 10 )
 })
