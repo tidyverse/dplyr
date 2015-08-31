@@ -6,11 +6,11 @@
 |:--------|:----------------------------|
 |version  |R version 3.2.1 (2015-06-18) |
 |system   |x86_64, darwin13.4.0         |
-|ui       |RStudio (0.99.669)           |
+|ui       |RStudio (0.99.671)           |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2015-08-27                   |
+|date     |2015-08-31                   |
 
 ## Packages
 
@@ -22,7 +22,7 @@
 |DBI            |   |0.3.1    |2014-09-24 |CRAN (R 3.2.0) |
 |ggplot2        |   |1.0.1    |2015-03-17 |CRAN (R 3.2.0) |
 |knitr          |   |1.10.5   |2015-05-06 |CRAN (R 3.2.0) |
-|Lahman         |*  |3.0-1    |2014-09-13 |CRAN (R 3.2.0) |
+|Lahman         |   |3.0-1    |2014-09-13 |CRAN (R 3.2.0) |
 |lazyeval       |   |0.1.10   |2015-01-02 |CRAN (R 3.2.0) |
 |magrittr       |   |1.5      |2014-11-22 |CRAN (R 3.2.0) |
 |microbenchmark |   |1.4-2    |2014-09-28 |CRAN (R 3.2.0) |
@@ -35,7 +35,7 @@
 |testthat       |*  |0.10.0   |2015-05-22 |CRAN (R 3.2.0) |
 
 # Check results
-117 checked out of 120 dependencies 
+120 checked out of 123 dependencies 
 
 ## ACDm (1.0.2)
 Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
@@ -43,7 +43,7 @@ Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
 ```
 checking whether package ‘ACDm’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmplmWFrP/check_cran90c95643eaf3/ACDm.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/ACDm.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -189,17 +189,23 @@ __OK__
 Maintainer: Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
 
 ```
-checking whether package ‘DepthProc’ can be installed ... [46s/46s] ERROR
+checking whether package ‘DepthProc’ can be installed ... [44s/45s] ERROR
 Installation failed.
-See ‘/private/tmp/RtmplmWFrP/check_cran90c95643eaf3/DepthProc.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/DepthProc.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
 Status: 1 ERROR
 ```
 
-## dotwhisker (0.1.0.1)
-Maintainer: Yue Hu <yue-hu-1@uiowa.edu>
+## docxtractr (0.1.0.9000)
+Maintainer: Bob Rudis <bob@rudis.net>
+
+__OK__
+
+## dotwhisker (0.2.0.0)
+Maintainer: Yue Hu <yue-hu-1@uiowa.edu>  
+Bug reports: https://github.com/fsolt/dotwhisker/issues
 
 ```
 checking package dependencies ... NOTE
@@ -209,6 +215,7 @@ Package suggested but not available for checking: ‘mfx’
 checking re-building of vignette outputs ... NOTE
 Error in re-building vignettes:
   ...
+Loading required package: grid
 
 Attaching package: 'dplyr'
 
@@ -220,12 +227,17 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-Loading required package: ggplot2
-Loading required package: gridExtra
-Loading required package: gtable
-Loading required package: grid
-Quitting from lines 72-79 (dwplot-vignette.Rmd) 
-Error: processing vignette 'dwplot-vignette.Rmd' failed with diagnostics:
+Joining by: "model"
+Joining by: "model"
+Joining by: "model"
+Joining by: "model"
+Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
+Joining by: "model"
+Joining by: "model"
+Joining by: "model"
+Joining by: "model"
+Quitting from lines 142-150 (dotwhisker-vignette.Rmd) 
+Error: processing vignette 'dotwhisker-vignette.Rmd' failed with diagnostics:
 there is no package called 'mfx'
 Execution halted
 
@@ -383,7 +395,40 @@ __OK__
 ## ggmcmc (0.7.1)
 Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>
 
-__OK__
+```
+checking examples ... ERROR
+Running examples in ‘ggmcmc-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ggmcmc
+> ### Title: Wrapper function that creates a single pdf file with all plots
+> ###   that ggmcmc can produce.
+> ### Aliases: ggmcmc ggmcmc-package
+> 
+> ### ** Examples
+> 
+> data(linear)
+> ggmcmc(ggs(s))  # Directly from a coda object
+Plotting histograms
+Plotting density plots
+Plotting traceplots
+Plotting running means
+Plotting comparison of partial and full chain
+Plotting autocorrelation plots
+Plotting crosscorrelation plot
+Warning: Non Lab interpolation is deprecated
+Plotting Potential Scale Reduction Factors
+Plotting Geweke Diagnostic
+Error in data.frame(Parameter = M$Parameter, Chain = M$Chain, z = (M$first -  : 
+  arguments imply differing number of rows: 6, 0
+Calls: ggmcmc -> print -> ggs_geweke -> data.frame
+Execution halted
+```
+```
+DONE
+Status: 1 ERROR
+```
 
 ## ggRandomForests (1.1.4)
 Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>  
@@ -490,6 +535,11 @@ Maintainer: Bob Rudis <bob@rudis.net>
 
 __OK__
 
+## lookupTable (0.1)
+Maintainer: Enzo Jia <enzo.jia@gmail.com>
+
+__OK__
+
 ## loopr (1.0.1)
 Maintainer: Brandon Taylor <Brandon.Taylor221@gmail.com>
 
@@ -590,7 +640,7 @@ Bug reports: http://github.com/davidcarslaw/openair/issues
 ```
 checking whether package ‘openair’ can be installed ... ERROR
 Installation failed.
-See ‘/private/tmp/RtmplmWFrP/check_cran90c95643eaf3/openair.Rcheck/00install.out’ for details.
+See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/openair.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -956,6 +1006,12 @@ Bug reports: https://github.com/ropensci/rvertnet/issues
 
 __OK__
 
+## rwunderground (0.1.0)
+Maintainer: Alex Shum <alex@ALShum.com>  
+Bug reports: https://github.com/alshum/rwunderground/issues
+
+__OK__
+
 ## saeSim (0.7.0)
 Maintainer: Sebastian Warnholz <Sebastian.Warnholz@fu-berlin.de>  
 Bug reports: https://github.com/wahani/saeSim/issues
@@ -983,11 +1039,9 @@ __OK__
 Maintainer: Daniel Greene <dg333@cam.ac.uk>
 
 ```
-checking package dependencies ... ERROR
-Package required but not available: ‘hpoPlot’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
+checking whether package ‘SimReg’ can be installed ... [26s/26s] ERROR
+Installation failed.
+See ‘/private/tmp/RtmphALrZx/check_cran14bb84e4a3ef/SimReg.Rcheck/00install.out’ for details.
 ```
 ```
 DONE
@@ -998,17 +1052,7 @@ Status: 1 ERROR
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
 Bug reports: https://github.com/sjPlot/devel/issues
 
-```
-checking package dependencies ... ERROR
-Package required and available but unsuitable version: ‘sjmisc’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## sorvi (0.7.26)
 Maintainer: Leo Lahti <louhos@googlegroups.com>  
@@ -1147,7 +1191,7 @@ DONE
 Status: 1 NOTE
 ```
 
-## WufooR (0.5.5)
+## WufooR (0.5.7)
 Maintainer: John Malc <cincenko@outlook.com>  
 Bug reports: https://github.com/dmpe/wufoor/issues
 
