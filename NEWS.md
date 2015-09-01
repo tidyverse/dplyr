@@ -31,6 +31,12 @@
 
 * When printing a grouped data frame the number of groups is now printed with thousands separators. (#1398)
 
+* Swap order of `dim_names` and `met_name` arguments in `as.tbl_cube`
+  (for `array`, `table` and `matrix`) for consistency with `tbl_cube` and
+  `as.tbl_cube.data.frame`. Also, the `met_name` argument to `as.tbl_cube.table`
+  now defaults to `"Freq"` for consistency with `as.data.frame.table`.
+  (@krlmlr, #1374).
+
 # dplyr 0.4.3
 
 ## Improved encoding support
