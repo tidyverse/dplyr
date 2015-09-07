@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `frame_data()` properly constructs rectangular tables. (#1377, @kevinushey)
+
 # dplyr 0.4.3
 
 ## Improved encoding support
