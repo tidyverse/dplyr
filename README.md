@@ -110,7 +110,7 @@ Single table verbs
 -   `summarise()`: reduces a group(s) to a smaller number of values (e.g., summary statistics)
 -   `arrange()`: re-orders observations
 
-They all work as similarly as possible across the range of data sources. The main difference is performance:
+They work across the range of data sources. The main difference is their performance:
 
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
@@ -135,7 +135,7 @@ system.time(plyr::ddply(flights, "carrier", plyr::summarise,
 
 ### `do()`
 
-As well as the specialised operations described above, `dplyr` also provides a generic `do()` function that applies any R function to each group of the data.
+As well as the specialised operations described above, `dplyr` also provides a generic `do()` function that applies any R function to specified groups in the data.
 
 Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between the number of at bats and runs:
 
