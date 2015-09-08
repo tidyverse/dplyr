@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `trunc_mat()` correctly prints the type of list columns (#1379)
+
 # dplyr 0.4.3
 
 ## Improved encoding support
