@@ -55,13 +55,13 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   rownames(df) <- NULL
 
   # List columns need special treatment because format can't be trusted
+  classes <- paste0("(", vapply(df, type_sum, character(1)), ")")
   is_list <- vapply(df, is.list, logical(1))
   df[is_list] <- lapply(df[is_list], function(x) vapply(x, obj_type, character(1)))
 
   mat <- format(df, justify = "left")
   values <- c(format(rownames(mat))[[1]], unlist(mat[1, ]))
 
-  classes <- paste0("(", vapply(df, type_sum, character(1)), ")")
   names <- c("", colnames(mat))
 
   # Column needs to be as wide as widest of name, values, and class
