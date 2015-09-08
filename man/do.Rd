@@ -51,6 +51,11 @@ useful when working with models: you can fit models per group with
 \code{do} and then flexibly extract components with either another
 \code{do} or \code{summarise}.
 }
+\details{
+For an empty data frame, the expressions will be evaluated once, even in the
+presence of a grouping.  This makes sure that the format of the resulting
+data frame is the same for both empty and non-empty input.
+}
 \section{Connection to plyr}{
 
 
