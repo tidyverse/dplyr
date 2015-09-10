@@ -282,3 +282,25 @@ test_that("filter works with rowwise data (#1099)", {
   expect_equal( nrow(res), 1L)
   expect_equal( df[1,], res)
 })
+
+test_that("grouped filter handles indices (#880)", {
+  res <- iris %>% group_by(Species) %>% filter( Sepal.Length > 5 )
+  res2 <- mutate( res, Petal = Petal.Width * Petal.Length)
+  expect_equal( nrow(res), nrow(res2) )
+  expect_equal( attr(res, "indices"), attr(res2, "indices") )
+})
+
+test_that("filter_ works (#906)", {
+  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
+  out <- dt %>% filter_(~x > 5)
+  expect_equal(nrow(out), 5)
+})
+
+test_that("filter(FALSE) drops indices", {
+  out <- mtcars %>%
+    group_by(cyl) %>%
+    filter(FALSE) %>%
+    attr("indices")
+  expect_equal(out, NULL)
+
+})

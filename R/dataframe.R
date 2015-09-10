@@ -37,8 +37,9 @@ data_frame <- function(...) {
 #' @export
 #' @rdname data_frame
 data_frame_ <- function(columns) {
+
   n <- length(columns)
-  if (n == 0) return(data.frame())
+  if (n == 0) return(as_data_frame(list()))
 
   # If named not supplied, used deparsed expression
   col_names <- names2(columns)
@@ -86,10 +87,9 @@ data_frame_ <- function(columns) {
     output[short] <- lapply(output[short], rep, max)
   }
 
-  # Set attributes
+  # Set attributes (make it a tbl_df)
   attr(output, "row.names") <- c(NA_integer_, max)
   attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
-
   output
 }
 
@@ -132,7 +132,7 @@ as_data_frame <- function(x) {
 
   names_x <- names2(x)
   if (any(is.na(names_x) | names_x == "")){
-    stop("All elements must be named", call. = FALSE)
+    stop("All columns must be named", call. = FALSE)
   }
 
   ok <- vapply(x, is_1d, logical(1))
@@ -158,10 +158,9 @@ as_data_frame <- function(x) {
 #' @param var Name of variable to use
 #' @export
 #' @examples
-#' mtcars %>%
-#'   head() %>%
-#'   print() %>%
-#'   add_rownames()
+#' mtcars %>% tbl_df()
+#'
+#' mtcars %>% add_rownames()
 add_rownames <- function(df, var = "rowname") {
   stopifnot(is.data.frame(df))
 

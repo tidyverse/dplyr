@@ -76,13 +76,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // rbind_all
-List rbind_all(List dots);
-RcppExport SEXP dplyr_rbind_all(SEXP dotsSEXP) {
+List rbind_all(List dots, SEXP id);
+RcppExport SEXP dplyr_rbind_all(SEXP dotsSEXP, SEXP idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
-    __result = Rcpp::wrap(rbind_all(dots));
+    Rcpp::traits::input_parameter< SEXP >::type id(idSEXP);
+    __result = Rcpp::wrap(rbind_all(dots, id));
     return __result;
 END_RCPP
 }

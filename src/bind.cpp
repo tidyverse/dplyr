@@ -4,14 +4,18 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 template <typename Dots>
-List rbind__impl( Dots dots ){
+List rbind__impl( Dots dots, SEXP id = R_NilValue ){
     int ndata = dots.size() ;
     int n = 0 ;
     std::vector<DataFrameAble> chunks ;
+    std::vector<int> df_nrows ;
 
     for( int i=0; i<ndata; i++) {
-      chunks.push_back( DataFrameAble( dots[i] ) );
-      n += chunks[i].nrows() ;
+      chunks.push_back( DataFrameAble( dots[i] ) ) ;
+
+      int nrows = chunks[i].nrows() ;
+      df_nrows.push_back(nrows) ;
+      n += nrows ;
     }
     pointer_vector<Collecter> columns ;
 
@@ -82,23 +86,42 @@ List rbind__impl( Dots dots ){
 
         k += nrows ;
     }
+
     int nc = columns.size() ;
-    List out(nc) ;
-    CharacterVector out_names(nc) ;
+    int has_id = Rf_isNull(id) ? 0 : 1;
+
+    List out(nc + has_id) ;
+    CharacterVector out_names(nc + has_id) ;
     for( int i=0; i<nc; i++){
-        out[i] = columns[i]->get() ;
-        out_names[i] = names[i] ;
+        out[i + has_id] = columns[i]->get() ;
+        out_names[i + has_id] = names[i] ;
     }
+
+    // Add vector of identifiers if .id is supplied
+    if (!Rf_isNull(id)) {
+      CharacterVector df_names = dots.names() ;
+      CharacterVector id_col = no_init(n) ;
+
+      CharacterVector::iterator it = id_col.begin() ;
+      for (int i=0; i<ndata; ++i) {
+        std::fill( it, it + df_nrows[i], df_names[i] ) ;
+        it += df_nrows[i] ;
+      }
+
+      out[0] = id_col ;
+      out_names[0] = Rcpp::as<std::string>(id) ;
+    }
+
     out.attr( "names" ) = out_names ;
-    set_rownames( out, n );
+    set_rownames( out, n ) ;
     out.attr( "class" ) = classes_not_grouped() ;
     return out ;
 }
 
 //' @export
 // [[Rcpp::export]]
-List rbind_all( List dots ){
-    return rbind__impl(dots) ;
+List rbind_all( List dots, SEXP id = R_NilValue ){
+    return rbind__impl(dots, id) ;
 }
 
 // [[Rcpp::export]]

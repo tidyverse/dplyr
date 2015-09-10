@@ -38,8 +38,8 @@ between <- function(x, left, right) {
 }
 
 #' @export
-rbind_all <- function(dots) {
-    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
+rbind_all <- function(dots, id = NULL) {
+    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots, id)
 }
 
 rbind_list__impl <- function(dots) {

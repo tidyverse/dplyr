@@ -524,5 +524,11 @@ test_that("n_distinct handles multiple columns (#1084)", {
 
   res <- group_by(df, g) %>% summarise( n = n_distinct(x, y, na.rm = TRUE) )
   expect_equal( res$n, c(2L,4L) )
+})
 
+test_that("hybrid max works when not used on columns (#1369)", {
+  df <- data_frame(x = 1:1000)
+  y <- 1:10
+  expect_equal( summarise(df, z = max(y))$z, 10 )
+  expect_equal( summarise(df, z = max(10))$z, 10 )
 })

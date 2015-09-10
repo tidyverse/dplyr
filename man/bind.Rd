@@ -9,13 +9,22 @@
 \alias{rbind_list}
 \title{Efficiently bind multiple data frames by row and column.}
 \usage{
-bind_rows(x, ...)
+bind_rows(..., .id = NULL)
 
 bind_cols(x, ...)
 
 combine(x, ...)
 }
 \arguments{
+\item{.id}{Data frames identifier.
+
+  When \code{.id} is supplied, a new column of identifiers is
+  created to link each row to its original data frame. The labels
+  are taken from the named arguments to \code{bind_rows()}. When a
+  list of data frames is supplied, the labels are taken from the
+  names of the list. If no names are found a numeric sequence is
+  used instead.}
+
 \item{x,...}{Data frames to combine.
 
   You can either supply one data frame per argument, or a list of
@@ -49,6 +58,12 @@ bind_rows(one, two)
 # Or a single argument containing a list of data frames
 bind_rows(list(one, two))
 bind_rows(split(mtcars, mtcars$cyl))
+
+# When you supply a column name with the `.id` argument, a new
+# column is created to link each row to its original data frame
+bind_rows(list(one, two), .id = "id")
+bind_rows(list(a = one, b = two), .id = "id")
+bind_rows("group 1" = one, "group 2" = two, .id = "groups")
 
 # Columns don't need to match when row-binding
 bind_rows(data.frame(x = 1:3), data.frame(y = 1:4))

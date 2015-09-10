@@ -14,6 +14,13 @@
 #' @examples
 #' filter(mtcars, cyl == 8)
 #' filter(mtcars, cyl < 6)
+#'
+#' # Multiple criteria
+#' filter(mtcars, cyl < 6 & vs == 1)
+#' filter(mtcars, cyl < 6 | vs == 1)
+#'
+#' # Multiple arguments are equivalent to and
+#' filter(mtcars, cyl < 6, vs == 1)
 filter <- function(.data, ...) {
   filter_(.data, .dots = lazyeval::lazy_dots(...))
 }
@@ -265,6 +272,9 @@ arrange_ <- function(.data, ..., .dots) {
 #' select(iris, petal_length = Petal.Length)
 #' # Renaming multiple variables uses a prefix:
 #' select(iris, petal = starts_with("Petal"))
+#'
+#' # Reorder variables: keep the variable "Species" in the front
+#' select(iris, Species, everything())
 #'
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)

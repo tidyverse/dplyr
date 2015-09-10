@@ -104,7 +104,7 @@ my_tbl <- tbl(my_db, "my_table")
 
 # Here we'll use the Lahman database: to create your own local copy,
 # create a local database called "lahman", or tell lahman_postgres() how to
-# a database that you can write to
+# access a database that you can write to
 
 if (has_lahman("postgres")) {
 lahman_p <- lahman_postgres()

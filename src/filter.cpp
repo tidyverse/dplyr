@@ -5,8 +5,17 @@ using namespace dplyr ;
 
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
+void strip_index(DataFrame x) {
+  x.attr("indices") = R_NilValue ;
+  x.attr("group_sizes") = R_NilValue ;
+  x.attr("biggest_group_size") = R_NilValue ;
+  x.attr("labels") = R_NilValue ;
+}
+
 inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, CharacterVector classes ){
-    return DataFrameSubsetVisitors(df, columns).subset( EmptySubset(), classes) ;
+    DataFrame res = DataFrameSubsetVisitors(df, columns).subset( EmptySubset(), classes) ;
+    strip_index(res);
+    return res;
 }
 
 SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env){
@@ -68,6 +77,15 @@ inline SEXP check_filter_logical_result(SEXP tmp){
     return tmp ;
 }
 
+template <typename Data>
+inline DataFrame grouped_subset( const Data& gdf, const LogicalVector& test, const CharacterVector& names, CharacterVector classes){
+  DataFrame data = gdf.data() ;
+  DataFrame res = subset( data, test, names, classes) ;
+  res.attr("vars")   = data.attr("vars") ;
+  strip_index(res);
+  return Data(res).data() ;
+}
+
 template <typename Data, typename Subsets>
 DataFrame filter_grouped_single_env( const Data& gdf, const LazyDots& dots){
     typedef GroupedCallProxy<Data, Subsets> Proxy ;
@@ -108,10 +126,7 @@ DataFrame filter_grouped_single_env( const Data& gdf, const LazyDots& dots){
             }
         }
     }
-    DataFrame res = subset( data, test, names, classes_grouped<Data>() ) ;
-    res.attr( "vars")   = data.attr("vars") ;
-
-    return res ;
+    return grouped_subset<Data>( gdf, test, names, classes_grouped<Data>() ) ;
 }
 
 // version of grouped filter when contributions to ... come from several environment
@@ -158,10 +173,7 @@ DataFrame filter_grouped_multiple_env( const Data& gdf, const LazyDots& dots){
             }
         }
     }
-    DataFrame res = subset( data, test, names, classes_grouped<Data>() ) ;
-    res.attr( "vars") = data.attr("vars") ;
-
-    return res ;
+    return grouped_subset<Data>( gdf, test, names, classes_grouped<Data>() ) ;
 }
 
 template <typename Data, typename Subsets>

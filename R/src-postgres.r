@@ -29,7 +29,7 @@
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
 #' # create a local database called "lahman", or tell lahman_postgres() how to
-#' # a database that you can write to
+#' # access a database that you can write to
 #'
 #' if (has_lahman("postgres")) {
 #' lahman_p <- lahman_postgres()
@@ -135,7 +135,7 @@ src_translate_env.src_postgres <- function(x) {
       var = sql_prefix("var_samp"),
       all = sql_prefix("bool_and"),
       any = sql_prefix("bool_or"),
-      paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
+      paste = function(x, collapse) build_sql("string_agg(", x, ", ", collapse, ")")
     ),
     base_win
   )
@@ -169,6 +169,10 @@ db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 
 #' @export
 db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
+
+  if (nrow(values) == 0)
+    return(NULL)
+  
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 

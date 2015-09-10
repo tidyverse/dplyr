@@ -49,6 +49,7 @@ for that package for documentation of the inidividual tables.
 }
 \examples{
 # Connect to a local sqlite database, if already created
+\donttest{
 if (has_lahman("sqlite")) {
   lahman_sqlite()
   batting <- tbl(lahman_sqlite(), "Batting")
@@ -59,6 +60,7 @@ if (has_lahman("sqlite")) {
 if (has_lahman("postgres")) {
   lahman_postgres()
   batting <- tbl(lahman_postgres(), "Batting")
+}
 }
 }
 \keyword{internal}

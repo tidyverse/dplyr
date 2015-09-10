@@ -21,9 +21,11 @@ the underlying data, even when applied to a remote data source.)
 \examples{
 glimpse(mtcars)
 
+\donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
   batting <- tbl(lahman_sqlite(), "Batting")
   glimpse(batting)
+}
 }
 }
 

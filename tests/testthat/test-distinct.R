@@ -23,10 +23,3 @@ test_that("grouped_by uses grouping vars & preserves groups", {
   compare_tbls(tbls[c("df", "dt")],
     function(x) x %>% group_by(x) %>% distinct(y))
 })
-
-test_that("distinct respects encodings (#1179)", {
-  x <- c("Montréal", "Montréal")
-  Encoding(x[2]) <- ""
-  df <- data_frame(x=x)
-  expect_equal( nrow(distinct(df)), 1L )
-})

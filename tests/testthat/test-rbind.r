@@ -180,8 +180,8 @@ test_that( "bind_rows handles complex. #933", {
 })
 
 test_that("bind_rows is careful about column names encoding #1265", {
-  one <- data.frame(fü=1:3, bar=1:3)
-  two <- data.frame(fü=1:3, bar=1:3)
+  one <- data.frame(foo=1:3, bar=1:3);  names(one) <- c("f\u00fc", "bar")
+  two <- data.frame(foo=1:3, bar=1:3);  names(two) <- c("f\u00fc", "bar")
   Encoding(names(one)[1]) <- "UTF-8"
   expect_equal( names(one), names(two))
   res <- bind_rows(one,two)
@@ -229,4 +229,51 @@ test_that("rbind_list keeps ordered factors (#948)", {
   )
   expect_is( y$x, "ordered" )
   expect_equal( levels(y$x), as.character(1:3) )
+})
+
+test_that("bind handles POSIXct of different tz ", {
+  date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
+  date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
+  date3 <- structure(-1735660800, class = c("POSIXct", "POSIXt"))
+
+  df1 <- data.frame( date = date1 )
+  df2 <- data.frame( date = date2 )
+  df3 <- data.frame( date = date3 )
+
+  res <- bind_rows(df1, df2)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
+  res <- bind_rows(df1, df3)
+  expect_equal( attr(res$date, "tzone"), "America/Chicago" )
+
+  res <- bind_rows(df2, df3)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
+  res <- bind_rows(df3, df3)
+  expect_equal( attr(res$date, "tzone"), NULL )
+
+  res <- bind_rows(df1, df2, df3)
+  expect_equal( attr(res$date, "tzone"), "UTC" )
+
+})
+
+test_that("bind_rows() creates a column of identifiers (#1337)", {
+  data1 <- mtcars[c(2, 3), ]
+  data2 <- mtcars[1, ]
+
+  out <- bind_rows(data1, data2, .id = "col")
+  out_list <- bind_rows(list(data1, data2), .id = "col")
+  expect_equal(names(out)[1], "col")
+  expect_equal(out$col, c("1", "1", "2"))
+  expect_equal(out_list$col, c("1", "1", "2"))
+
+  out_labelled <- bind_rows(one = data1, two = data2, .id = "col")
+  out_list_labelled <- bind_rows(list(one = data1, two = data2), .id = "col")
+  expect_equal(out_labelled$col, c("one", "one", "two"))
+  expect_equal(out_list_labelled$col, c("one", "one", "two"))
+})
+
+test_that("empty data frame are handled (#1346)", {
+  res <- data_frame() %>% bind_rows(data_frame(x = "a"))
+  expect_equal( nrow(res), 1L)
 })

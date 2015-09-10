@@ -15,9 +15,11 @@ namespace dplyr {
   class DataFrameAble_DataFrame : public DataFrameAbleImpl {
   public:
     DataFrameAble_DataFrame( DataFrame data_) : data(data_){
-      CharacterVector df_names = data.names() ;
-      if( any(is_na(df_names)).is_true() ){
-        stop( "corrupt data frame" ) ;
+      if( data.size() ){
+        CharacterVector df_names = data.names() ;
+        if( any(is_na(df_names)).is_true() ){
+          stop( "corrupt data frame" ) ;
+        }
       }
     }
 
