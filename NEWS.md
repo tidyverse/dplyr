@@ -8,6 +8,8 @@
 
 * `n_distinct` uses multiple arguments (#1084).
 
+* When printing a grouped data frame the number of groups is now printed with thousands separators. (#1398)
+
 # dplyr 0.4.3
 
 ## Improved encoding support
