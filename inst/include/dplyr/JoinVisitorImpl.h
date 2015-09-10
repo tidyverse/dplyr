@@ -428,36 +428,52 @@ namespace dplyr{
 
     } ;
 
-    template <typename Class, typename JoinVisitorImpl>
-    class PromoteClassJoinVisitor : public JoinVisitorImpl {
+    class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP,REALSXP> {
     public:
-        typedef typename JoinVisitorImpl::Vec Vec ;
+        typedef JoinVisitorImpl<REALSXP,REALSXP> Parent ;
+        POSIXctJoinVisitor( NumericVector left, NumericVector right) :
+          Parent(left, right),
+          tzone(R_NilValue)
+        {
+          RObject tzone_left  = left.attr("tzone") ;
+          RObject tzone_right = right.attr("tzone") ;
+          if( tzone_left.isNULL() && tzone_right.isNULL() ) return ;
 
-        PromoteClassJoinVisitor( const Vec& left, const Vec& right) : JoinVisitorImpl(left, right){}
+          if( tzone_left.isNULL() ) {
+            tzone = tzone_right ;
+          } else if( tzone_right.isNULL() ) {
+            tzone = tzone_left ;
+          } else {
+            std::string s_left  = as<std::string>( tzone_left  ) ;
+            std::string s_right = as<std::string>( tzone_right ) ;
 
-        inline SEXP subset( const std::vector<int>& indices ){
-            return promote( JoinVisitorImpl::subset( indices) ) ;
+            if( s_left == s_right){
+              tzone = wrap(s_left) ;
+            } else {
+              tzone = wrap("UTC") ;
+            }
+          }
         }
 
-        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
-            return promote( JoinVisitorImpl::subset( set) ) ;
+        inline SEXP subset( const std::vector<int>& indices ){
+          return promote( Parent::subset( indices ) ) ;
+        }
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+          return promote( Parent::subset(set)) ;
         }
 
     private:
-        inline SEXP promote( Vec vec){
-            copy_most_attributes(vec,JoinVisitorImpl::left ) ;
-            return vec ;
-        }
-    } ;
+        RObject tzone ;
 
-    #define PROMOTE_JOIN_VISITOR(__CLASS__)                                                   \
-    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP,REALSXP> >{   \
-    public:                                                                                   \
-        typedef PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP,REALSXP> > Parent ;        \
-        __CLASS__( const NumericVector& left_, const NumericVector& right_) :                 \
-            Parent(left_, right_){}                                                           \
+        inline SEXP promote( NumericVector x){
+          x.attr("class") = "POSIXct" ;
+          if( !tzone.isNULL() ){
+            x.attr("tzone") = tzone ;
+          }
+          return x ;
+        }
+
     } ;
-    PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
 
     JoinVisitor* join_visitor( SEXP, SEXP, const std::string&, const std::string&, bool warn ) ;
 

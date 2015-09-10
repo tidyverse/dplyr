@@ -143,36 +143,6 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     return 0 ;
 }
 
-Result* count_distinct_result(SEXP vec){
-    switch( TYPEOF(vec) ){
-        case INTSXP:
-            if( Rf_inherits(vec, "factor" ))
-                return new Count_Distinct<FactorVisitor>( FactorVisitor(vec) ) ;
-            return new Count_Distinct< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP:
-            return new Count_Distinct< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
-        case LGLSXP:  return new Count_Distinct< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
-        case STRSXP:  return new Count_Distinct< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
-        default: break ;
-    }
-    return 0 ;
-}
-
-Result* count_distinct_result_narm(SEXP vec){
-    switch( TYPEOF(vec) ){
-        case INTSXP:
-            if( Rf_inherits(vec, "factor" ))
-                return new Count_Distinct_Narm<FactorVisitor>( FactorVisitor(vec) ) ;
-            return new Count_Distinct_Narm< VectorVisitorImpl<INTSXP> >( VectorVisitorImpl<INTSXP>(vec) ) ;
-        case REALSXP:
-            return new Count_Distinct_Narm< VectorVisitorImpl<REALSXP> >( VectorVisitorImpl<REALSXP>(vec) ) ;
-        case LGLSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<LGLSXP> >( VectorVisitorImpl<LGLSXP>(vec) ) ;
-        case STRSXP:  return new Count_Distinct_Narm< VectorVisitorImpl<STRSXP> >( VectorVisitorImpl<STRSXP>(vec) ) ;
-        default: break ;
-    }
-    return 0 ;
-}
-
 Result* count_prototype(SEXP args, const LazySubsets&, int){
     if( Rf_length(args) != 1)
         stop("n does not take arguments") ;
@@ -180,19 +150,26 @@ Result* count_prototype(SEXP args, const LazySubsets&, int){
 }
 
 Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int nargs){
-    SEXP arg = CADR(call) ;
-    if( TYPEOF(arg) != SYMSXP || !subsets.count(arg) || !(nargs == 1 || nargs==2) ) {
-        stop( "Input to n_distinct() must be a single variable name from the data set" ) ;
-    }
-    if(nargs == 2){
-        SEXP narm = CADDR(call) ;
-        if( TYPEOF(narm) == LGLSXP && LOGICAL(narm)[0] == TRUE ){
-            // n_distinct( ., na.rm = TRUE )
-            return count_distinct_result_narm(subsets.get_variable(arg)) ;
+    MultipleVectorVisitors visitors ;
+    bool na_rm = false ;
+
+    for( SEXP p = CDR(call) ; !Rf_isNull(p) ; p = CDR(p) ){
+      if( !Rf_isNull(TAG(p)) && TAG(p) == Rf_install("na.rm") ){
+        SEXP narm = CAR(p) ;
+        if( TYPEOF(narm) == LGLSXP && Rf_length(narm) == 1){
+          na_rm = LOGICAL(narm)[0] ;
+        } else {
+          stop("incompatible value for `na.rm` parameter") ;
         }
+      } else {
+        visitors.push_back( subsets.get_variable( CAR(p) ) )  ;
+      }
     }
-    // n_distinct( ., na.rm = FALSE )
-    return count_distinct_result(subsets.get_variable(arg)) ;
+    if( na_rm ){
+      return new Count_Distinct_Narm<MultipleVectorVisitors>(visitors) ;
+    } else {
+      return new Count_Distinct<MultipleVectorVisitors>(visitors) ;
+    }
 }
 
 Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
@@ -1201,7 +1178,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
     ok = true ;
     for( int i=0; i<n; i++){
-        if( typeid(*v_x.get(i)) != typeid(*v_y.get(i)) ){
+        String name = names_x[i];
+        if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
             ss << "Incompatible type for column "
                << names_x[i]
                << ": x "
@@ -1209,13 +1187,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
                << ", y "
                << v_y.get(i)->get_r_type() ;
             ok = false ;
-        } else {
-            String name = names_x[i];
-            if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
-                ok = false ;
-            }
         }
-
     }
     if(!ok) return no_because( ss.str() ) ;
     return yes() ;
@@ -1963,34 +1935,17 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
     return Count().process(gdf) ;
 }
 
-//' Efficiently count the number of unique values in a vector.
-//'
-//' This is a faster and more concise equivalent of \code{length(unique(x))}
-//'
-//' @param x a vector of values
-//' @param na_rm if \code{TRUE} missing values don't count
-//' @export
-//' @examples
-//' x <- sample(1:10, 1e5, rep = TRUE)
-//' length(unique(x))
-//' n_distinct(x)
 // [[Rcpp::export]]
-SEXP n_distinct(SEXP x, bool na_rm = false){
-    int n = Rf_length(x) ;
-    if( n == 0 ) return wrap(0) ;
-    SlicingIndex everything(0, n);
+SEXP n_distinct_multi( List variables, bool na_rm = false){
+    MultipleVectorVisitors visitors(variables) ;
+    SlicingIndex everything(0, visitors.nrows()) ;
     if( na_rm ){
-        boost::scoped_ptr<Result> res( count_distinct_result_narm(x) );
-        if( !res ){
-            stop( "cannot handle object of type %s", type2name(x) );
-        }
-        return res->process(everything) ;
+      Count_Distinct_Narm<MultipleVectorVisitors> counter(visitors) ;
+      return counter.process(everything) ;
+    } else {
+      Count_Distinct<MultipleVectorVisitors> counter(visitors) ;
+      return counter.process(everything) ;
     }
-    boost::scoped_ptr<Result> res( count_distinct_result(x) );
-    if( !res ){
-        stop( "cannot handle object of type %s", type2name(x) );
-    }
-    return res->process(everything) ;
 }
 
 // [[Rcpp::export]]

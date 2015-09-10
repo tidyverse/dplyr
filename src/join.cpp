@@ -235,8 +235,17 @@ namespace dplyr{
 
         switch( lhs_date + rhs_date ){
           case 2: return new DateJoinVisitor( left, right ) ;
-          case 1: stop( "cannot join a Date object with a object that is not a Date object" ) ;
+          case 1: stop( "cannot join a Date object with an object that is not a Date object" ) ;
           case 0: break ;
+          default: break ;
+        }
+
+        bool lhs_time = Rf_inherits( left, "POSIXct" );
+        bool rhs_time = Rf_inherits( right, "POSIXct" );
+        switch( lhs_time + rhs_time ){
+          case 2: return new POSIXctJoinVisitor( left, right) ;
+          case 1: stop( "cannot join a POSIXct object with an object that is not a POSIXct object" ) ;
+          case 0: break;
           default: break ;
         }
 
@@ -303,16 +312,10 @@ namespace dplyr{
                 }
             case REALSXP:
                 {
-                    bool lhs_time = Rf_inherits( left, "POSIXct" );
 
                     switch( TYPEOF(right) ){
                     case REALSXP:
                         {
-                            if( Rf_inherits( right, "POSIXct" ) ){
-                                if( lhs_time ) return new POSIXctJoinVisitor(left, right ) ;
-                                incompatible_join_visitor(left, right, name_left, name_right) ;
-                            }
-
                             if( is_bare_vector( right ) ){
                                 return new JoinVisitorImpl<REALSXP, REALSXP>( left, right) ;
                             }

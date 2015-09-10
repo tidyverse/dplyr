@@ -2,6 +2,12 @@
 
 * `trunc_mat()` correctly prints the type of list columns (#1379)
 
+* set operations respect coercion rules (#799).
+
+* joins on `POSIXct` consider time zones (#819).
+
+* `n_distinct` uses multiple arguments (#1084).
+
 # dplyr 0.4.3
 
 ## Improved encoding support

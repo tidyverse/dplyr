@@ -55,3 +55,8 @@ test_that("error on NA column names (#1101)", {
   names(df)[1] <- NA
   expect_error( as_data_frame(df), "All columns must be named" )
 })
+
+test_that( "add_rownames keeps the tbl classes (#882)", {
+    res <- mtcars %>% add_rownames( "Make&Model" )
+    expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
+})
