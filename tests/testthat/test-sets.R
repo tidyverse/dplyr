@@ -40,20 +40,20 @@ test_that("set operations use coercion rules (#799)", {
 
   df1 <- data.frame(x = letters[1:10])
   df2 <- data.frame(x = letters[6:15], stringsAsFactors = FALSE)
-  expect_warning( { res <- intersect(df1, df2) })
+  expect_warning( { res <- intersect(df1, df2) })
   expect_equal( res, data_frame(x = letters[6:10]) )
-  expect_warning( { res <- intersect(df2, df1) })
+  expect_warning( { res <- intersect(df2, df1) })
   expect_equal( res, data_frame(x = letters[6:10]) )
 
 
-  expect_warning( { res <- union(df1, df2) })
+  expect_warning( { res <- union(df1, df2) })
   expect_equal( res, data_frame(x = letters[1:15]) )
-  expect_warning( { res <- union(df2, df1) })
+  expect_warning( { res <- union(df2, df1) })
   expect_equal( res, data_frame(x = letters[1:15]) )
 
-  expect_warning( { res <- setdiff(df1, df2) })
+  expect_warning( { res <- setdiff(df1, df2) })
   expect_equal( res, data_frame(x = letters[1:5]) )
-  expect_warning( { res <- setdiff(df2, df1) })
+  expect_warning( { res <- setdiff(df2, df1) })
   expect_equal( res, data_frame(x = letters[11:15]) )
 
 })
