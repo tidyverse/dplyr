@@ -123,7 +123,7 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     } else {
       return 0 ;
     }
-    
+
     if( nargs == 1 ){
         return minmax_prototype_impl<Tmpl,false>(arg, is_summary) ;
     } else if( nargs == 2 ){
@@ -1619,8 +1619,9 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     }
     DataFrame res = subset( data, indx, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
+    strip_index(res) ;
 
-    return res ;
+    return GroupedDataFrame(res).data() ;
 
 }
 

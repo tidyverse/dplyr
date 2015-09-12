@@ -51,6 +51,7 @@ namespace dplyr {
     class LazySubsets ;
     std::string get_single_class(SEXP x) ;
 
+    void strip_index(DataFrame x) ;
     template <typename Index>
     DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
 

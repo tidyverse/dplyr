@@ -8,6 +8,8 @@
 
 * `n_distinct` uses multiple arguments (#1084).
 
+* `slice` correctly handles grouped attributes (#1405).
+
 # dplyr 0.4.3
 
 ## Improved encoding support
