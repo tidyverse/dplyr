@@ -10,6 +10,9 @@
 
 * `slice` correctly handles grouped attributes (#1405).
 
+* `lead` and `lag` correctly handle default values for string columns in
+  hybrid (#1403).
+
 # dplyr 0.4.3
 
 ## Improved encoding support

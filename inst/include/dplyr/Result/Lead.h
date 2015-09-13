@@ -4,9 +4,18 @@
 namespace dplyr {
 
     template <int RTYPE>
+    struct scalar_type {
+        typedef typename traits::storage_type<RTYPE>::type type ;
+    } ;
+    template <>
+    struct scalar_type<STRSXP> {
+      typedef String type ;
+    } ;
+
+    template <int RTYPE>
     class Lead : public Result {
     public:
-        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+        typedef typename scalar_type<RTYPE>::type STORAGE ;
 
         Lead( SEXP data_, int n_, const RObject& def_) :
             data(data_), n(n_), def(Vector<RTYPE>::get_na())

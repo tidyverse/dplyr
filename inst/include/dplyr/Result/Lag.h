@@ -6,7 +6,7 @@ namespace dplyr {
     template <int RTYPE>
     class Lag : public Result {
     public:
-        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+        typedef typename scalar_type<RTYPE>::type STORAGE ;
 
         Lag( SEXP data_, int n_, const RObject& def_) :
             data(data_),
@@ -16,7 +16,6 @@ namespace dplyr {
           if( !Rf_isNull(def_) ){
             def = as<STORAGE>(def_) ;
           }
-
         }
 
         virtual SEXP process(const GroupedDataFrame& gdf ){
