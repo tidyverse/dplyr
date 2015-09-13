@@ -320,14 +320,14 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
   res <- mtcars %>%
     mutate(xx=LETTERS[gear]) %>%
     filter(xx==lag(xx, default='foo'))
-  xx <- LETTERS[ mtcars$gear ]
+  xx <- LETTERS[ mtcars$gear ]
   ok <- xx == lag( xx, default = "foo" )
   expect_equal( xx[ok], res$xx )
 
   res <- mtcars %>%
     mutate(xx=LETTERS[gear]) %>%
     filter(xx==lead(xx, default='foo'))
-  xx <- LETTERS[ mtcars$gear ]
+  xx <- LETTERS[mtcars$gear ]
   ok <- xx == lead( xx, default = "foo" )
   expect_equal( xx[ok], res$xx )
 })
