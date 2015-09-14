@@ -13,6 +13,8 @@
 * `lead` and `lag` correctly handle default values for string columns in
   hybrid (#1403).
 
+* `bind_rows` handles `POSIXct` stored as integer (#1402).   
+
 # dplyr 0.4.3
 
 ## Improved encoding support

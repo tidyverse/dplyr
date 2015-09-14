@@ -359,6 +359,8 @@ namespace dplyr {
     inline Collecter* collecter(SEXP model, int n){
         switch( TYPEOF(model) ){
         case INTSXP:
+            if( Rf_inherits( model, "POSIXct" ) )
+                return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
             if( Rf_inherits(model, "factor") )
                 return new FactorCollecter(n, model ) ;
             if( Rf_inherits(model, "Date") )

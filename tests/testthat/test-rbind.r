@@ -277,3 +277,13 @@ test_that("empty data frame are handled (#1346)", {
   res <- data_frame() %>% bind_rows(data_frame(x = "a"))
   expect_equal( nrow(res), 1L)
 })
+
+test_that("bind_rows handles POSIXct stored as integer (#1402)", {
+  now <- Sys.time()
+
+  df1 <- data.frame(time = now)
+  expect_equal( class(bind_rows(df1)$time), c("POSIXct", "POSIXt") )
+
+  df2 <- data.frame(time = seq(now, length.out = 1, by = 1))
+  expect_equal( class(bind_rows(df2)$time), c("POSIXct", "POSIXt") )
+})
