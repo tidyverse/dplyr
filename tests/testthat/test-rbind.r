@@ -291,3 +291,9 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
   expect_equal( class(res$time), c("POSIXct", "POSIXt") )
   expect_true( all(res$time == c(df1$time, df2$time) ) )
 })
+
+test_that("bind_rows gives meaningful error msg when used on several lists (#1389)", {
+  df <- lapply(1, function(x) data.frame(id=x, data=runif(5)))
+  df2 <- lapply(2:3, function(x) data.frame(id=x, data=runif(5)))
+  expect_error( bind_rows(df, df2), "unexpected input for bind_rows" )
+})

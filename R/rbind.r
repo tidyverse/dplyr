@@ -70,9 +70,10 @@ NULL
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
   dots <- list(...)
-  if (is.list(dots[[1]]) &&
-        !is.data.frame(dots[[1]]) &&
-        !length(dots[-1])) {
+  if (is.list(dots[[1]]) && !is.data.frame(dots[[1]]) ) &&
+    if( length(dots[-1]) ) {
+      stop( "undexpected input for bind_rows. expecting either a collection of data frames or a single list of data frames" )
+    }
     x <- dots[[1]]
   }
   else {
