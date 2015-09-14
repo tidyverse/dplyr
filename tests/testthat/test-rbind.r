@@ -286,4 +286,8 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
 
   df2 <- data.frame(time = seq(now, length.out = 1, by = 1))
   expect_equal( class(bind_rows(df2)$time), c("POSIXct", "POSIXt") )
+
+  res <- bind_rows( df1, df2 )
+  expect_equal( class(res$time), c("POSIXct", "POSIXt") )
+  expect_true( all(res$time == c(df1$time, df2$time) ) )
 })
