@@ -65,15 +65,17 @@
 #' @name bind
 NULL
 
+is_dataframe_able <- function(x){
+  inherits( x, "data.frame") ||
+    is.null(x) ||
+    ( is.list(x) && !is.null(names(x)) && do.call( all.equal, unname(lapply(x, length)) ) )
+}
 
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
   dots <- list(...)
-  if (is.list(dots[[1]]) && !is.data.frame(dots[[1]]) ) &&
-    if( length(dots[-1]) ) {
-      stop( "undexpected input for bind_rows. expecting either a collection of data frames or a single list of data frames" )
-    }
+  if (is.list(dots[[1]]) && !is_dataframe_able(dots[[1]]) && !length(dots[-1])) {
     x <- dots[[1]]
   }
   else {
