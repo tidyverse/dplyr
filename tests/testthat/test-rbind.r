@@ -220,6 +220,11 @@ test_that("bind_rows can handle lists (#1104)", {
   expect_equal(nrow(res), 2L)
   expect_is(res$x, "numeric")
   expect_is(res$y, "character")
+
+  res <- bind_rows(list(x=2, y="a"))
+  expect_equal(nrow(res), 1L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
 })
 
 test_that("rbind_list keeps ordered factors (#948)", {
