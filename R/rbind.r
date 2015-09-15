@@ -110,7 +110,7 @@ bind_cols <- function(...) {
   } else if( all(sapply(dots, is_dataframe_able)) ){
     x <- dots
   } else {
-    stop( "unexpected input for `bind_rows`" )
+    stop( "unexpected input for `bind_cols`" )
   }
 
   cbind_all(x)
