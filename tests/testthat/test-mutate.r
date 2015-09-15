@@ -425,5 +425,10 @@ test_that("mutate handles the all NA case (#958)", {
     mutate(max.sum = day[which.max(values)[1]]) %>%
     mutate(adjusted_values = ifelse(day < max.sum, 30, values))
   expect_true( all(is.na( res$adjusted_values[1:12] )))
+})
 
+test_that("rowwie mutate gives expected results (#1381)", {
+  f  <- function( x ) ifelse( x < 2, NA_real_, x )
+  res <- data_frame( x = 1:3 ) %>% rowwise() %>% mutate( y = f(x) )
+  expect_equal( res$y, c(NA,2,3) )
 })

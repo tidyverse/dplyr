@@ -17,6 +17,8 @@
 
 * `cummean` is more stable against floating point errors (#1387).
 
+* `rowwise` mutate gives expected results (#1381). 
+
 # dplyr 0.4.3
 
 ## Improved encoding support

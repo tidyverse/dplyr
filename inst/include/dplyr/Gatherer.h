@@ -121,7 +121,7 @@ namespace dplyr {
             stop("`mutate` does not support `POSIXlt` results");
         }
         int ng = gdf.ngroups() ;
-        int i = 1 ;
+        int i = 1 ; ++git ;
         for( ; all_na(first) && i<ng; i++, ++git){
           indices = *git ;
           first = proxy.get(indices) ;
