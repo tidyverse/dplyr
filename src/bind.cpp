@@ -5,18 +5,22 @@ using namespace dplyr ;
 
 template <typename Dots>
 List rbind__impl( Dots dots, SEXP id = R_NilValue ){
+
     int ndata = dots.size() ;
     int n = 0 ;
     std::vector<DataFrameAble> chunks ;
     std::vector<int> df_nrows ;
 
-    for( int i=0; i<ndata; i++) {
-      chunks.push_back( DataFrameAble( dots[i] ) ) ;
+    for( int i=0, k=0; i<ndata; i++) {
+      if( Rf_isNull(dots[i])) continue ;
 
-      int nrows = chunks[i].nrows() ;
+      chunks.push_back( DataFrameAble( dots[i] ) ) ;
+      int nrows = chunks[k].nrows() ;
       df_nrows.push_back(nrows) ;
       n += nrows ;
+      k++ ;
     }
+    ndata = chunks.size() ;
     pointer_vector<Collecter> columns ;
 
     std::vector<String> names ;
