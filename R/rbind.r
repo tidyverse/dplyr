@@ -101,12 +101,19 @@ bind_rows <- function(..., .id = NULL) {
 
 #' @export
 #' @rdname bind
-bind_cols <- function(x, ...) {
-  if (is.list(x) && !is.data.frame(x) && !length(list(...)) ) {
-    cbind_all(x)
+bind_cols <- function(...) {
+  dots <- list(...)
+  if( all(sapply(dots, is.data.frame)) ){
+    x <- dots
+  } else if ( is.list(dots[[1]]) && length(dots) == 1L && !is_dataframe_able(dots[[1]]) ) {
+    x <- dots[[1]]
+  } else if( all(sapply(dots, is_dataframe_able)) ){
+    x <- dots
   } else {
-    cbind_all(list(x, ...))
+    stop( "unexpected input for `bind_rows`" )
   }
+
+  cbind_all(x)
 }
 
 #' @export

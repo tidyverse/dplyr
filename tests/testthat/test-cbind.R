@@ -44,3 +44,23 @@ test_that("bind_cols can handle lists (#1104)", {
   expect_is(res$y, "character")
   expect_is(res$z, "numeric")
 })
+
+test_that( "bind_cols skips NULL (#1148)", {
+  d1 <- data_frame( x = 1:10 )
+  d2 <- data_frame( y = letters[1:10] )
+
+  res <- bind_cols(NULL, d1, d2)
+  expect_equal( ncol(res), 2L )
+  expect_equal( res$x, d1$x)
+  expect_equal( res$y, d2$y)
+
+  res <- bind_cols(d1, NULL, d2)
+  expect_equal( ncol(res), 2L )
+  expect_equal( res$x, d1$x)
+  expect_equal( res$y, d2$y)
+
+  res <- bind_cols(d1, d2, NULL)
+  expect_equal( ncol(res), 2L )
+  expect_equal( res$x, d1$x)
+  expect_equal( res$y, d2$y)
+})

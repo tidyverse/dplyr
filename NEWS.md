@@ -17,6 +17,8 @@
 
 * Better message when trying to use `bind_rows` on several lists (#1389).
 
+* `bind_cols` skips `NULL` (#1148).
+
 # dplyr 0.4.3
 
 ## Improved encoding support
