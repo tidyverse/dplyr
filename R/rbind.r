@@ -66,20 +66,27 @@
 NULL
 
 is_dataframe_able <- function(x){
-  inherits( x, "data.frame") ||
-    is.null(x) ||
-    ( is.list(x) && !is.null(names(x)) && do.call( all.equal, unname(lapply(x, length)) ) )
+  if( inherits( x, "data.frame") || is.null(x) ){
+    TRUE
+  } else {
+    is.list(x) &&
+      all( sapply(x, function(.) is.vector(.) && !is.list(.)  ) ) &&
+      ( length(x) == 1 || do.call( all.equal, unname(lapply(x, length)) ) )
+  }
 }
 
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
   dots <- list(...)
-  if (is.list(dots[[1]]) && !is_dataframe_able(dots[[1]]) && !length(dots[-1])) {
-    x <- dots[[1]]
-  }
-  else {
+  if( all(sapply(dots, is.data.frame)) ){
     x <- dots
+  } else if ( is.list(dots[[1]]) && length(dots) == 1L && !is_dataframe_able(dots[[1]]) ) {
+    x <- dots[[1]]
+  } else if( all(sapply(dots, is_dataframe_able)) ){
+    x <- dots
+  } else {
+    stop( "unexpected input for `bind_rows`" )
   }
 
   if (!is.null(.id)) {
