@@ -13,7 +13,9 @@
 * `lead` and `lag` correctly handle default values for string columns in
   hybrid (#1403).
 
-* `bind_rows` handles `POSIXct` stored as integer (#1402).   
+* `bind_rows` handles `POSIXct` stored as integer (#1402).
+
+* `cummean` is more stable against floating point errors (#1387).
 
 # dplyr 0.4.3
 
