@@ -105,16 +105,14 @@ namespace dplyr{
     class JoinStringOrderer {
     public:
         JoinStringOrderer( const CharacterVector& left_, const CharacterVector& right_ ) :
-            left(left_), right(right_), nleft(left.size()), nright(right.size()), n(nleft+nright), n_na(0)
+            left(left_), right(right_), nleft(left.size()), nright(right.size()), n(nleft+nright)
         {
             make_orders() ;
         }
 
         inline int get_order(int i) const {
             if( i == NA_INTEGER ) return NA_INTEGER ;
-            int val = (i>=0) ? orders[i] : orders[nleft-i-1] ;
-            if( val > n - n_na ) val= NA_INTEGER ;
-            return val ;
+            return (i>=0) ? orders[i] : orders[nleft-i-1] ;
         }
 
     private:
@@ -122,15 +120,13 @@ namespace dplyr{
         const CharacterVector& right ;
         int nleft, nright, n ;
         IntegerVector orders ;
-        int n_na ;
 
         inline void make_orders(){
             CharacterVector big(n) ;
             CharacterVector::iterator it = big.begin() ;
             std::copy( left.begin(), left.end(), it ) ;
             std::copy( right.begin(), right.end(), it + nleft ) ;
-            orders = CharacterVectorOrderer(big).get() ;
-            n_na = std::count( big.begin(), big.end(), NA_STRING ) ;
+            orders = CharacterVectorDifferentiator(big).get() ;
         }
 
     } ;

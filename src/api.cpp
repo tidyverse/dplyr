@@ -194,7 +194,20 @@ namespace dplyr{
         }
 
     }
+
+
+    CharacterVectorDifferentiator::CharacterVectorDifferentiator( const CharacterVector& data_ ) :
+        data(data_),
+        orders(no_init(data.size()))
+    {
+        CharacterVector uniques = Language( "unique", data).fast_eval() ;
+
+        orders = Language( "match", data, uniques ).fast_eval() ;
+
+    }
 }
+
+
 
 // [[Rcpp::export]]
 IntegerVector rank_strings( CharacterVector s ){

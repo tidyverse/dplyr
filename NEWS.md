@@ -17,7 +17,9 @@
 
 * `cummean` is more stable against floating point errors (#1387).
 
-* `rowwise` mutate gives expected results (#1381). 
+* `rowwise` mutate gives expected results (#1381).
+
+* Faster joining by character column (#1386).
 
 # dplyr 0.4.3
 

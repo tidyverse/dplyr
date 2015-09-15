@@ -968,6 +968,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
+
     Map map(visitors);
 
     // train the map in terms of y
@@ -988,6 +989,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
             indices_x.push_back(i) ;
         }
     }
+
     return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
 }
 
