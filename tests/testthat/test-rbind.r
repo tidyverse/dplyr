@@ -220,6 +220,11 @@ test_that("bind_rows can handle lists (#1104)", {
   expect_equal(nrow(res), 2L)
   expect_is(res$x, "numeric")
   expect_is(res$y, "character")
+
+  res <- bind_rows(list(x=2, y="a"))
+  expect_equal(nrow(res), 1L)
+  expect_is(res$x, "numeric")
+  expect_is(res$y, "character")
 })
 
 test_that("rbind_list keeps ordered factors (#948)", {
@@ -290,4 +295,10 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
   res <- bind_rows( df1, df2 )
   expect_equal( class(res$time), c("POSIXct", "POSIXt") )
   expect_true( all(res$time == c(df1$time, df2$time) ) )
+})
+
+test_that("bind_rows gives meaningful error msg when used on several lists (#1389)", {
+  df <- lapply(1, function(x) data.frame(id=x, data=runif(5)))
+  df2 <- lapply(2:3, function(x) data.frame(id=x, data=runif(5)))
+  expect_error( bind_rows(df, df2), "unexpected input" )
 })
