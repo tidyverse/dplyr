@@ -201,10 +201,24 @@ namespace dplyr{
         orders(no_init(data.size()))
     {
         CharacterVector uniques = Language( "unique", data).fast_eval() ;
-
         orders = Language( "match", data, uniques ).fast_eval() ;
-
     }
+
+    CharacterVector get_uniques( const CharacterVector& left, const CharacterVector& right){
+        int nleft = left.size(), nright = right.size() ;
+        int n = nleft + nright ;
+
+        CharacterVector big = no_init(n) ;
+        CharacterVector::iterator it = big.begin() ;
+        std::copy( left.begin(), left.end(), it ) ;
+        std::copy( right.begin(), right.end(), it + nleft ) ;
+        return Language( "unique", big ).fast_eval() ;
+    }
+
+    IntegerVector match( const CharacterVector& s, const CharacterVector& levels){
+      return Language( "match", s, levels).fast_eval() ;
+    }
+
 }
 
 
