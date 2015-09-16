@@ -276,20 +276,23 @@ namespace dplyr{
     public:
         JoinFactorStringVisitor( const IntegerVector& left_, const CharacterVector& right_ ) :
             left(left_),
+            left_ptr(left.begin()),
+
             right(right_),
-            left_ptr(left_.begin()),
-            left_levels( left_.attr("levels") ),
-            left_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_levels) ),
-            right_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_)),
-            orderer(left_levels, right)
+            uniques( get_uniques(left.attr("levels"), right) ) ,
+            p_uniques( internal::r_vector_start<STRSXP>(uniques) ),
+
+            i_right( match( right, uniques )),
+            int_visitor( left, i_right )
+
         {}
 
         inline size_t hash(int i){
-            return hash_fun( orderer.get_order(get_pos(i)) ) ;
+            return int_visitor.hash(i) ;
         }
 
         inline bool equal( int i, int j){
-            return orderer.get_order(get_pos(i)) == orderer.get_order(get_pos(j)) ;
+            return int_visitor.equal(i,j) ;
         }
 
         inline void print(int i){
@@ -316,29 +319,22 @@ namespace dplyr{
 
     private:
         IntegerVector left ;
+        int* left_ptr ;
+
         CharacterVector right ;
-        IntegerVector::const_iterator left_ptr ;
-        CharacterVector left_levels ;
-        SEXP* left_factor_ptr ;
-        SEXP* right_ptr ;
-        boost::hash<int> hash_fun ;
-        JoinStringOrderer orderer ;
+        CharacterVector uniques ;
+        SEXP* p_uniques ;
+        IntegerVector i_right ;
+
+        JoinVisitorImpl<INTSXP,INTSXP> int_visitor ;
 
         inline SEXP get(int i){
             if( i>=0 ){
                 if( left_ptr[i] == NA_INTEGER ) return NA_STRING ;
-                return left_factor_ptr[ left_ptr[i] - 1 ] ;
+                return p_uniques[ left_ptr[i] - 1 ] ;
             } else {
-                return right_ptr[ -i-1 ] ;
+                return p_uniques[ i_right[ -i-1 ] - 1] ;
             }
-        }
-
-        inline int get_pos( int i ){
-            if( i>= 0 ) {
-                if( left_ptr[i] == NA_INTEGER ) return NA_INTEGER ;
-                return left_ptr[i] - 1 ;
-            }
-            return i ;
         }
 
     } ;
