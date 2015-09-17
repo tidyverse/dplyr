@@ -342,21 +342,20 @@ namespace dplyr{
     class JoinStringFactorVisitor : public JoinVisitor {
     public:
         JoinStringFactorVisitor( const CharacterVector& left_, const IntegerVector& right_ ) :
-            left(left_),
-            right(right_),
-            right_ptr(right_.begin()),
-            right_levels(right_.attr("levels")),
-            right_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_levels) ),
-            left_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_)),
-            orderer(left, right_levels)
+            i_right(right_),
+            uniques( get_uniques(i_right.attr("levels"), left_) ),
+            p_uniques( internal::r_vector_start<STRSXP>(uniques) ),
+            i_left( match(left_, uniques) ),
+
+            int_visitor(i_left, i_right)
         {}
 
         inline size_t hash(int i){
-            return hash_fun( orderer.get_order(get_pos(i)) ) ;
+            return int_visitor.hash(i) ;
         }
 
         inline bool equal( int i, int j){
-            return orderer.get_order(get_pos(i)) == orderer.get_order(get_pos(j)) ;
+            return int_visitor.equal(i,j) ;
         }
 
         inline void print(int i){
@@ -382,41 +381,29 @@ namespace dplyr{
         }
 
     private:
-        CharacterVector left ;
-        IntegerVector right ;
-        IntegerVector::const_iterator  right_ptr ;
-        CharacterVector right_levels ;
-        SEXP* right_factor_ptr ;
-        SEXP* left_ptr ;
-        boost::hash<int> hash_fun ;
-        JoinStringOrderer orderer ;
+        IntegerVector i_right ;
+        CharacterVector uniques ;
+        SEXP* p_uniques ;
+        IntegerVector i_left ;
+
+        JoinVisitorImpl<INTSXP, INTSXP> int_visitor ;
 
         inline SEXP get(int i){
             SEXP res ;
 
             if( i>=0 ){
-                res = left_ptr[i] ;
+                res = p_uniques[ i_left[i] - 1 ] ;
             } else {
                 int index = -i-1 ;
-                if( right_ptr[index] == NA_INTEGER ) {
+                if( i_right[index] == NA_INTEGER ) {
                     res = NA_STRING ;
                 } else {
-                    res = right_factor_ptr[ right_ptr[index] - 1 ] ;
+                    res = p_uniques[ i_right[index] - 1 ] ;
                 }
             }
 
             return res ;
         }
-
-        inline int get_pos(int i) const {
-            if( i>=0 ) {
-                return i ;
-            }
-            int index = right_ptr[-i-1] ;
-            if( index == NA_INTEGER ) return NA_INTEGER ;
-            return - index ;
-        }
-
 
     } ;
 
