@@ -24,15 +24,15 @@ To get the most out of this chapter, you'll need to be familiar with querying SQ
 
 ## Getting started
 
-To experiement with databases, it's easiest to get started with SQLite because everything you need is included in the R package. You don't need to install anything else, and you don't need to deal with the hassle of setting up a database server. Using a SQLite database in dplyr is really easy: just give it a path and the ok to create it.
+The easiest way to experiement with databases using dplyr is to use SQLite. This is because everything you need is already included in the R package. You won't need to install anything, and you won't need to deal with the hassle of setting up a database server. Doing so is really easy: just give the path and the ok to create a table.
 
 ```{r, eval = FALSE}
 my_db <- src_sqlite("my_db.sqlite3", create = T)
 ```
 
-The main new concept here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
+The main new concept here is the `src`, which is a collection of types of database tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the specific types supported by dplyr.
 
-`my_db` currently has no data in it, so we'll load it up with the `flights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
+`my_db` currently has no data in it, so we'll import the `flights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database. Because all the data has to flow through R, you should note that this is not suitable for very large datasets.
 
 ```{r, eval = FALSE}
 library(nycflights13)
@@ -40,7 +40,7 @@ flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
   c("year", "month", "day"), "carrier", "tailnum"))
 ```
 
-As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
+As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and performs the appropriate query optimisations.
 
 For this particular dataset, there's a built-in `src` that will cache `flights` in a standard location:
 
@@ -49,7 +49,7 @@ flights_sqlite <- tbl(nycflights13_sqlite(), "flights")
 flights_sqlite
 ```
 
-You can also create `tbl` from arbitrary SQL:
+You can also use arbitrary SQL:
 
 ```{r, eval = FALSE}
 tbl(my_db, sql("SELECT * FROM flights"))
