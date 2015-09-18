@@ -37,14 +37,6 @@ namespace dplyr{
         inline SEXP subset( const std::vector<int>& indices );
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) ;
 
-        inline void print(int i){
-            if( i >= 0){
-                Rcpp::Rcout << left[i] << std::endl ;
-            } else {
-                Rcpp::Rcout << right[-i-1] << std::endl ;
-            }
-        }
-
         LHS_Vec left ;
         RHS_Vec right ;
         LHS_hasher LHS_hash_fun ;
@@ -91,10 +83,6 @@ namespace dplyr{
             return res ;
         }
 
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
-        }
-
     protected:
         Vec left, right ;
         hasher hash_fun ;
@@ -117,10 +105,6 @@ namespace dplyr{
 
         inline size_t hash(int i){
             return hash_fun( get_pos(i) ) ;
-        }
-
-        void print(int i){
-            Rcpp::Rcout << get(i) << " :: " << toString<STRSXP>(get(i)) << std::endl ;
         }
 
         inline bool equal( int i, int j){
@@ -208,10 +192,6 @@ namespace dplyr{
             return res ;
         }
 
-        virtual void print(int i) {
-            Rprintf( CHAR(get(i)) )  ;
-        }
-
     private:
         CharacterVector uniques ;
         IntegerVector i_left, i_right ;
@@ -250,10 +230,6 @@ namespace dplyr{
 
         inline bool equal( int i, int j){
             return int_visitor.equal(i,j) ;
-        }
-
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
@@ -313,10 +289,6 @@ namespace dplyr{
 
         inline bool equal( int i, int j){
             return int_visitor.equal(i,j) ;
-        }
-
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
@@ -492,10 +464,6 @@ namespace dplyr{
             }
             res.attr("class") = "Date" ;
             return res ;
-        }
-
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
         }
 
     private:

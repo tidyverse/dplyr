@@ -62,11 +62,6 @@ namespace dplyr{
             return (SEXP)out ;
         }
 
-        inline void print(int i){
-            for( int k=0; k<nvisitors; k++)
-                visitors[k]->print(i) ;
-        }
-
     private:
         const DataFrame& left ;
         const DataFrame& right ;
