@@ -3,6 +3,9 @@
 
 namespace dplyr{
 
+    CharacterVector get_uniques( const CharacterVector& left, const CharacterVector& right) ;
+    IntegerVector match( const CharacterVector& s, const CharacterVector& levels) ;
+
     template <int LHS_RTYPE, int RHS_RTYPE>
     class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE>{
     public:
@@ -107,7 +110,7 @@ namespace dplyr{
         JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) :
             left_levels (left.attr("levels")),
             right_levels(right.attr("levels")),
-            uniques(left.attr("levels"), right.attr("levels")),
+            uniques( get_uniques(left_levels, right_levels) ),
             left_match ( match( left_levels, uniques) ),
             right_match( match( right_levels, uniques) )
             {}
@@ -162,9 +165,6 @@ namespace dplyr{
         }
 
     } ;
-
-    CharacterVector get_uniques( const CharacterVector& left, const CharacterVector& right) ;
-    IntegerVector match( const CharacterVector& s, const CharacterVector& levels) ;
 
     class JoinStringStringVisitor : public JoinVisitor {
     public:
