@@ -102,50 +102,18 @@ namespace dplyr{
 
     } ;
 
-    class JoinStringOrderer {
+    class JoinFactorFactorVisitor : public JoinVisitor {
     public:
-        JoinStringOrderer( const CharacterVector& left_, const CharacterVector& right_ ) :
-            left(left_), right(right_), nleft(left.size()), nright(right.size()), n(nleft+nright)
-        {
-            make_orders() ;
-        }
-
-        inline int get_order(int i) const {
-            if( i == NA_INTEGER ) return NA_INTEGER ;
-            return (i>=0) ? orders[i] : orders[nleft-i-1] ;
-        }
-
-    private:
-        const CharacterVector& left ;
-        const CharacterVector& right ;
-        int nleft, nright, n ;
-        IntegerVector orders ;
-
-        inline void make_orders(){
-            CharacterVector big(n) ;
-            CharacterVector::iterator it = big.begin() ;
-            std::copy( left.begin(), left.end(), it ) ;
-            std::copy( right.begin(), right.end(), it + nleft ) ;
-            orders = CharacterVectorDifferentiator(big).get() ;
-        }
-
-    } ;
-
-    class JoinFactorFactorVisitor : public JoinVisitorImpl<INTSXP, INTSXP> {
-    public:
-        typedef JoinVisitorImpl<INTSXP,INTSXP> Parent ;
-
         JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) :
-            Parent(left, right),
-            left_levels(left.attr("levels")),
+            left_levels (left.attr("levels")),
             right_levels(right.attr("levels")),
-            left_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( left_levels ) ) ,
-            right_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( right_levels ) ),
-            orderer(left_levels, right_levels)
+            uniques(left.attr("levels"), right.attr("levels")),
+            left_match ( match( left_levels, uniques) ),
+            right_match( match( right_levels, uniques) )
             {}
 
         inline size_t hash(int i){
-            return hash_fun( orderer.get_order(get_pos(i)) ) ;
+            return hash_fun( get_pos(i) ) ;
         }
 
         void print(int i){
@@ -153,7 +121,7 @@ namespace dplyr{
         }
 
         inline bool equal( int i, int j){
-            return orderer.get_order(get_pos(i)) ==  orderer.get_order(get_pos(j)) ;
+            return get_pos(i) == get_pos(j) ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
@@ -181,27 +149,16 @@ namespace dplyr{
 
     private:
         CharacterVector left_levels, right_levels ;
-        SEXP* left_levels_ptr ;
-        SEXP* right_levels_ptr ;
-        JoinStringOrderer orderer ;
+        CharacterVector uniques ;
+        IntegerVector left_match, right_match ;
         boost::hash<int> hash_fun ;
 
         inline SEXP get(int i){
-            if( i >= 0 ){
-                return ( left[i] == NA_INTEGER ) ? NA_STRING : left_levels_ptr[ left[i] - 1] ;
-            } else {
-                return ( right[-i-1] == NA_INTEGER ) ? NA_STRING : right_levels_ptr[right[-i-1] - 1] ;
-            }
+            return uniques[get_pos(i)] ;
         }
 
         inline int get_pos(int i) const {
-            if( i >= 0 ){
-                if( left[i] == NA_INTEGER ) return NA_INTEGER ;
-                return left[i] - 1 ;
-            } else {
-                if( right[-i-1] == NA_INTEGER ) return NA_INTEGER ;
-                return - right[-i-1] ;
-            }
+            return i>=0 ? ( left_match[i] -1 ) : ( right_match[-i-1] - 1 ) ;
         }
 
     } ;
