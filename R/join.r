@@ -8,7 +8,7 @@
 #'
 #' @section Join types:
 #'
-#' Currently dplyr supports four join types:
+#' Currently dplyr supports six join types:
 #'
 #' \describe{
 #'    \item{\code{inner_join}}{return all rows from \code{x} where there are matching
