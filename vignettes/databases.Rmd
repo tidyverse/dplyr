@@ -57,7 +57,7 @@ tbl(my_db, sql("SELECT * FROM flights"))
 
 ## Basic verbs
 
-Whether you're dealing with remote or local data sources, uou use the same five verbs:
+Whether you're dealing with remote or local data sources, you use the same five verbs:
 
 ```{r}
 select(flights_sqlite, year:day, dep_delay, arr_delay)
