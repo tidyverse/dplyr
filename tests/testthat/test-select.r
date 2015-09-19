@@ -99,7 +99,7 @@ test_that("num_range selects numeric ranges", {
 # Data table -------------------------------------------------------------------
 
 test_that("select changes columns in copy of data table", {
-  dt <- data.table(x = 1:4, y = letters[1:4])
+  dt <- data.table::data.table(x = 1:4, y = letters[1:4])
 
   expect_equal(names(select(dt, x, z = y)), c("x", "z"))
   expect_equal(names(dt), c("x", "y"))

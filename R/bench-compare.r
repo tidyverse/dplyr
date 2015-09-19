@@ -27,7 +27,7 @@
 #'   \code{\link[microbenchmark]{microbenchmark}}
 #' @seealso \code{\link{src_local}} for working with local data
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (require("microbenchmark") && has_lahman()) {
 #' lahman_local <- lahman_srcs("df", "dt")
 #' teams <- lapply(lahman_local, function(x) x %>% tbl("Teams"))
@@ -63,7 +63,7 @@ NULL
 #' @export
 #' @rdname bench_compare
 bench_tbls <- function(tbls, op, ..., times = 10) {
-  if (!require("microbenchmark")) {
+  if (!requireNamespace("microbenchmark")) {
     stop("Please install the microbenchmark package", call. = FALSE)
   }
 
@@ -73,7 +73,7 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
   })
   names(calls) <- names(tbls)
 
-  mb <- as.call(c(quote(microbenchmark), calls, dots(...),
+  mb <- as.call(c(quote(microbenchmark::microbenchmark), calls, dots(...),
     list(times = times)))
   eval(mb)
 }

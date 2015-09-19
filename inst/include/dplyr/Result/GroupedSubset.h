@@ -43,6 +43,7 @@ namespace dplyr {
             case LGLSXP: return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
             case STRSXP: return new GroupedSubsetTemplate<STRSXP>(x, max_size) ;
             case VECSXP: return new GroupedSubsetTemplate<VECSXP>(x, max_size) ;
+            case CPLXSXP: return new GroupedSubsetTemplate<CPLXSXP>(x, max_size) ;
         }
         return 0 ;
     }

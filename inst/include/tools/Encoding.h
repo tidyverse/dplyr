@@ -6,6 +6,14 @@
 #define LATIN1_MASK (1<<2)
 #define UTF8_MASK (1<<3)
 
+// that bit seems unused by R. Just using it to mark 
+// objects as Shrinkable Vectors
+// that is useful for things like summarise(list(x)) where x is a 
+// variable from the data, because the SEXP that goes into the list
+// is the shrinkable vector, we use this information to duplicate
+// it if needed. See the maybe_copy method in DelayedProcessor
+#define DPLYR_SHRINKABLE_MASK (1<<8)
+
 struct sxpinfo_struct {
     SEXPTYPE type      :  TYPE_BITS;/* ==> (FUNSXP == 99) %% 2^5 == 3 == CLOSXP
 			     * -> warning: `type' is narrower than values
@@ -38,7 +46,6 @@ struct sxpinfo_struct {
 # define IS_UTF8(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp & UTF8_MASK)
 #endif
 
-
 namespace dplyr{
     
     enum encoding {
@@ -62,34 +69,6 @@ namespace dplyr{
         return "unknown" ;
     }
     
-    inline void check_all_utf8( CharacterVector s){
-        int n=s.size() ;
-        for( int i=0; i<n; i++){
-            if( get_encoding(s[i]) != UTF8 ){
-                stop("not encoded as UTF-8");    
-            }
-        }
-    }
-    
-    inline void check_all_same_encoding( CharacterVector x, CharacterVector y){
-        int nx=x.size(), ny = y.size() ;
-        if( nx == 0 && ny == 0 ) return ;
-        
-        encoding first_enc = ( nx == 0 ) ? get_encoding(y[0]) : get_encoding(x[0]) ; 
-        
-        for( int i=0; i<nx; i++) {
-            if(get_encoding(x[i]) != first_enc ){
-                stop("found multiple encodings in character string");    
-            }
-        }
-        for( int i=0; i<ny; i++) {
-            if(get_encoding(y[i]) != first_enc ){
-                stop("found multiple encodings in character string");    
-            }
-        }
-        
-    }
-
 }
 
 #endif

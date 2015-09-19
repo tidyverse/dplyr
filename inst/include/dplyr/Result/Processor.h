@@ -12,7 +12,9 @@ namespace dplyr{
     public:
         typedef typename Rcpp::traits::storage_type<OUTPUT>::type STORAGE ;
          
-        Processor(){}
+        Processor() : data(R_NilValue) {}
+        
+        Processor(SEXP data_) : data(data_) {}
         
         virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
             return process_grouped<GroupedDataFrame>( gdf ) ;       
@@ -23,12 +25,14 @@ namespace dplyr{
         }
         
         virtual SEXP process( const Rcpp::FullDataFrame& df){
-            return process( df.get_index() );    
+            return promote(process( df.get_index() )) ;
         }
         
         virtual SEXP process( const SlicingIndex& index){
             CLASS* obj = static_cast<CLASS*>(this) ;
-            return Rcpp::Vector<OUTPUT>::create( obj->process_chunk(index) );    
+            Rcpp::Vector<OUTPUT> res = Rcpp::Vector<OUTPUT>::create( obj->process_chunk(index) );
+            copy_attributes(res, data) ;
+            return res ;
         }
         
     private:
@@ -42,15 +46,27 @@ namespace dplyr{
             typename Data::group_iterator git = gdf.group_begin(); 
             for( int i=0; i<n; i++, ++git)
                 ptr[i] = obj->process_chunk(*git) ;
+            copy_attributes(res, data) ;
             return res ;        
         }
+        
+        inline SEXP promote(SEXP obj){
+            RObject res(obj) ;
+            copy_attributes(res, data) ;
+            return res ;
+        }
+        
+        
+        SEXP data ;
+        
+       
         
     } ;
     
     template <typename CLASS>
     class Processor<STRSXP, CLASS> : public Result {
     public:
-        Processor(){}
+        Processor(SEXP data_): data(data_){}
         
         virtual SEXP process(const Rcpp::GroupedDataFrame& gdf) {
             return process_grouped<GroupedDataFrame>(gdf) ;       
@@ -65,7 +81,6 @@ namespace dplyr{
         
         virtual SEXP process( const SlicingIndex& index){
             CLASS* obj = static_cast<CLASS*>(this) ;
-            // return Rf_mkString( obj->process_chunk(index) );
             return CharacterVector::create( obj->process_chunk(index) );
         }
         
@@ -81,6 +96,8 @@ namespace dplyr{
                 SET_STRING_ELT( res, i, obj->process_chunk(*git) );
             return res ;        
         }
+        
+        SEXP data ;
     } ;
 
 }

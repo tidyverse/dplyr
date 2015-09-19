@@ -13,6 +13,10 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+rank_strings <- function(s) {
+    .Call('dplyr_rank_strings', PACKAGE = 'dplyr', s)
+}
+
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
@@ -34,9 +38,8 @@ between <- function(x, left, right) {
 }
 
 #' @export
-#' @rdname bind
-rbind_all <- function(dots) {
-    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
+rbind_all <- function(dots, id = NULL) {
+    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots, id)
 }
 
 rbind_list__impl <- function(dots) {
@@ -143,18 +146,8 @@ group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
-#' Efficiently count the number of unique values in a vector.
-#'
-#' This is a faster and more concise equivalent of \code{length(unique(x))}
-#'
-#' @param x a vector of values
-#' @export
-#' @examples
-#' x <- sample(1:10, 1e5, rep = TRUE)
-#' length(unique(x))
-#' n_distinct(x)
-n_distinct <- function(x) {
-    .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x)
+n_distinct_multi <- function(variables, na_rm = FALSE) {
+    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
 as_regular_df <- function(df) {
@@ -167,6 +160,10 @@ ungroup_grouped_df <- function(df) {
 
 split_indices <- function(group, groups) {
     .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
+}
+
+gp <- function(x) {
+    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
 }
 
 filter_impl <- function(df, dots) {

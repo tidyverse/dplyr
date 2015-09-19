@@ -1,40 +1,23 @@
-This is a resubmission. Compare to the previous submission I have:
+## Release summary
 
-* used an alternative way of specifying unicode characters in a test
-  that doesn't fail on Windows.
+This release add a few minor features, but is mostly concerned with fixing crashing bugs and memory errors. (It also fixes the new NOTEs about functions imported from "base" packages).
 
---------------------------------------------------------------------------------
+## Test environments
 
-The following notes were generated across my local OS X install and ubuntu running on travis-ci. Response to NOTEs across three platforms below.
+* local OS X install, R 3.2.1
+* ubuntu 12.04 (on travis-ci), R 3.2.2
+* win-builder (devel and release)
 
-* checking dependencies in R code ... NOTE
-  
-  Namespaces in Imports field not imported from: 'R6'
-  R6 is a build time dependency.
-  
-  Missing or unexported object: ‘RSQLite::initExtension’
-  This is used for compatibility with RSQlite 1.0 (not yet on CRAN), and is
-  only called if packageVersion("RSQLite") >= 1.
+## R CMD check results
 
-* checking R code for possible problems ... NOTE
+There were no ERRORs or WARNINGs. 
 
-  src_mysql: no visible global function definition for ‘MySQL’
-  src_postgres: no visible global function definition for ‘PostgreSQL’
-  
-  These packages currently need to be attached in order to work.
+There was 1 NOTE:
 
-I couldn't check on win-builder because it doesn't have the latest Rcpp and appears to be missing RMySQL.
+* checking installed package size ... NOTE. 
 
-Important reverse dependency check notes (summary at https://github.com/wch/checkresults/blob/master/dplyr/r-release/00check-summary.txt);
+  This is all compiled code in the libs/ directory.
 
-* COPASutils, freqweights, qdap, simPH: fail for various reasons. All package 
-  authors were informed of the upcoming release and shown R CMD check issues 
-  over a week ago.
+## Downstream dependencies
 
-* ecoengine: same problem as always on our test machine.
-
-* ggvis: You'll be recieving a submission that fixes these issues very shortly
-  from Winston.
-
-* repra, rPref: uses a deprecated function.
-
+I ran `R CMD check` on all 123 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md).  As far as I can tell, there are no new problems related to dplyr.

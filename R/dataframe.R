@@ -27,6 +27,9 @@
 #'
 #' # or munges column names
 #' data_frame(`a + b` = 1:5)
+#'
+#' # With the SE version, you give it a list of formulas/expressions
+#' data_frame_(list(x = ~1:10, y = quote(x * 2)))
 data_frame <- function(...) {
   data_frame_(lazyeval::lazy_dots(...))
 }
@@ -34,8 +37,9 @@ data_frame <- function(...) {
 #' @export
 #' @rdname data_frame
 data_frame_ <- function(columns) {
+
   n <- length(columns)
-  if (n == 0) return(data.frame())
+  if (n == 0) return(as_data_frame(list()))
 
   # If named not supplied, used deparsed expression
   col_names <- names2(columns)
@@ -58,12 +62,13 @@ data_frame_ <- function(columns) {
   while (i <= n) {
 
     # Fill by reference
-    output[[i]] <-  lazyeval::lazy_eval(columns[[i]], output)
-    names(output)[i] <- col_names[[i]]
-    if (!is.null(dim(output[[i]]))) {
-      stop("data_frames can not contain data.frames, matrices or arrays",
+    res <- lazyeval::lazy_eval(columns[[i]], output)
+    if (!is_1d(res)) {
+      stop("data_frames can only contain 1d atomic vectors and lists",
         call. = FALSE)
     }
+    output[[i]] <- res
+    names(output)[i] <- col_names[[i]]
 
     # Update
     i <- i + 1L
@@ -82,10 +87,9 @@ data_frame_ <- function(columns) {
     output[short] <- lapply(output[short], rep, max)
   }
 
-  # Set attributes
+  # Set attributes (make it a tbl_df)
   attr(output, "row.names") <- c(NA_integer_, max)
   attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
-
   output
 }
 
@@ -126,13 +130,14 @@ as_data_frame <- function(x) {
     return(x)
   }
 
-  if (any(names2(x) == "")) {
-    stop("All elements must be named", call. = FALSE)
+  names_x <- names2(x)
+  if (any(is.na(names_x) | names_x == "")){
+    stop("All columns must be named", call. = FALSE)
   }
 
   ok <- vapply(x, is_1d, logical(1))
   if (any(!ok)) {
-    stop("data_frames can not contain data.frames, matrices or arrays",
+    stop("data_frames can only contain 1d atomic vectors and lists",
       call. = FALSE)
   }
 
@@ -153,17 +158,16 @@ as_data_frame <- function(x) {
 #' @param var Name of variable to use
 #' @export
 #' @examples
-#' mtcars %>%
-#'   tbl_df() %>%
-#'   print() %>%
-#'   add_rownames()
+#' mtcars %>% tbl_df()
+#'
+#' mtcars %>% add_rownames()
 add_rownames <- function(df, var = "rowname") {
   stopifnot(is.data.frame(df))
 
-  df[[var]] <- rownames(df)
+  rn <- as_data_frame(setNames(list(rownames(df)), var))
   rownames(df) <- NULL
 
-  df
+  bind_cols(rn, df)
 }
 
 # Grouping methods ------------------------------------------------------------

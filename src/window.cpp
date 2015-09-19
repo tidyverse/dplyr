@@ -19,10 +19,10 @@ LogicalVector cumall(LogicalVector x) {
   if( current == NA_LOGICAL) return out ;
   if( current == FALSE){
     std::fill( out.begin(), out.end(), FALSE ) ;
-    return out ;    
+    return out ;
   }
   for (int i = 1; i < n; i++) {
-    current = x[i] ; 
+    current = x[i] ;
     if( current == NA_LOGICAL ) break ;
     if( current == FALSE ){
       std::fill( out.begin() + i, out.end(), FALSE ) ;
@@ -44,18 +44,18 @@ LogicalVector cumany(LogicalVector x) {
   if( current == NA_LOGICAL ) return out ;
   if( current == TRUE ){
     std::fill( out.begin(), out.end(), TRUE ) ;
-    return out ;      
+    return out ;
   }
   for (int i = 1; i < n; i++) {
     current = x[i] ;
     if( current == NA_LOGICAL ) break ;
     if( current == TRUE ){
       std::fill( out.begin() + i, out.end(), TRUE ) ;
-      break ;        
+      break ;
     }
     out[i] = current || out[i - 1];
   }
-  
+
   return out;
 }
 
@@ -64,11 +64,12 @@ LogicalVector cumany(LogicalVector x) {
 // [[Rcpp::export]]
 NumericVector cummean(NumericVector x) {
   int n = x.length();
-  NumericVector out(n);
+  NumericVector out = no_init(n);
 
-  out[0] = x[0];
-  for (int i = 1; i < n; i++) {
-    out[i] = out[i - 1] * ((i * 1.0) / (i + 1)) + x[i] / (i + 1);
+  double sum = out[0] = x[0];
+  for (int i = 1; i < n; i++ ) {
+    sum += x[i];
+    out[i] = sum / (i + 1.0);
   }
 
   return out;

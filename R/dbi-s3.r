@@ -396,6 +396,15 @@ db_query_fields.DBIConnection <- function(con, sql, ...) {
   qry <- dbSendQuery(con, fields)
   on.exit(dbClearResult(qry))
 
+  dbListFields(qry)
+}
+#' @export
+db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
+  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
+
+  qry <- dbSendQuery(con, fields)
+  on.exit(dbClearResult(qry))
+
   dbGetInfo(qry)$fieldDescription[[1]]$name
 }
 
@@ -434,7 +443,7 @@ db_disconnector <- function(con, name, quiet = FALSE) {
 res_warn_incomplete <- function(res) {
   if (dbHasCompleted(res)) return()
 
-  rows <- formatC(dbGetRowCount(res), big.mark = ",")
+  rows <- big_mark(dbGetRowCount(res))
   warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
     call. = FALSE)
 }

@@ -157,7 +157,7 @@ filter_.tbl_dt <- function(.data, ..., .dots) {
 #' @export
 filter_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  env <- lazyeval::common_env(.dots)
+  env <- lazyeval::common_env(dots)
 
   # http://stackoverflow.com/questions/16573995/subset-by-group-with-data-table
   expr <- lapply(dots, `[[`, "expr")

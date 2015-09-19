@@ -2,23 +2,26 @@
 #define dplyr_JoinVisitorImpl_H
 
 namespace dplyr{
-       
+
+    CharacterVector get_uniques( const CharacterVector& left, const CharacterVector& right) ;
+    IntegerVector match( const CharacterVector& s, const CharacterVector& levels) ;
+
     template <int LHS_RTYPE, int RHS_RTYPE>
     class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE>{
     public:
         typedef Vector<LHS_RTYPE> LHS_Vec ;
         typedef Vector<RHS_RTYPE> RHS_Vec ;
-        
+
         typedef typename Rcpp::traits::storage_type<LHS_RTYPE>::type LHS_STORAGE ;
         typedef typename Rcpp::traits::storage_type<RHS_RTYPE>::type RHS_STORAGE ;
-        
+
         typedef boost::hash<LHS_STORAGE> LHS_hasher ;
         typedef boost::hash<RHS_STORAGE> RHS_hasher ;
-    
+
         JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){}
-          
+
         size_t hash(int i) ;
-        
+
         inline bool equal( int i, int j) {
             if( i>=0 && j>=0 ) {
                 return comparisons<LHS_RTYPE>().equal_or_both_na( left[i], left[j] ) ;
@@ -30,379 +33,433 @@ namespace dplyr{
                 return comparisons_different<RHS_RTYPE,LHS_RTYPE>().equal_or_both_na( right[-i-1], left[j] ) ;
             }
         }
-        
-        inline SEXP subset( const std::vector<int>& indices ); 
+
+        inline SEXP subset( const std::vector<int>& indices );
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) ;
-        
-        inline void print(int i){
-            if( i >= 0){
-                Rcpp::Rcout << left[i] << std::endl ;
-            } else {
-                Rcpp::Rcout << right[-i-1] << std::endl ;
-            }
-        }
-        
+
         LHS_Vec left ;
         RHS_Vec right ;
         LHS_hasher LHS_hash_fun ;
         RHS_hasher RHS_hash_fun ;
-        
-    } ;   
-    
+
+    } ;
+
+    template <typename Visitor>
+    class Subsetter {
+    public:
+        typedef typename Visitor::Vec Vec ;
+
+        Subsetter( const Visitor& v_) : v(v_){} ;
+
+        inline SEXP subset( const std::vector<int>& indices ) {
+          int n = indices.size() ;
+          Vec res = no_init(n) ;
+          for( int i=0; i<n; i++) {
+              res[i] = v.get(indices[i]) ;
+          }
+          return res ;
+        }
+
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+            int n = set.size() ;
+            Vec res = no_init(n) ;
+            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
+            for( int i=0; i<n; i++, ++it) {
+                res[i] = v.get(*it) ;
+            }
+            return res ;
+        }
+    private:
+        const Visitor& v ;
+    } ;
+
     template <int RTYPE>
     class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE>{
     public:
         typedef comparisons<RTYPE> Compare ;
-        
+
         typedef Vector<RTYPE> Vec ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         typedef boost::hash<STORAGE> hasher ;
-    
+
         JoinVisitorImpl( Vec left_, Vec right_ ) : left(left_), right(right_){}
-          
+
         inline size_t hash(int i){
-            return hash_fun( get(i) ) ; 
+            return hash_fun( get(i) ) ;
         }
-        
+
         inline bool equal( int i, int j) {
             return Compare::equal_or_both_na(
-                get(i), get(j) 
-            ) ;  
+                get(i), get(j)
+            ) ;
         }
-        
+
         inline SEXP subset( const std::vector<int>& indices ) {
-            int n = indices.size() ;
-            Vec res = no_init(n) ;
-            for( int i=0; i<n; i++) {
-                res[i] = get(indices[i]) ;
-            }
-            return res ;
+            return Subsetter<JoinVisitorImpl>(*this).subset(indices) ;
         }
+
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            int n = set.size() ;
-            Vec res = no_init(n) ;
-            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-            for( int i=0; i<n; i++, ++it) {
-                res[i] = get(*it) ;
-            }
-            return res ;    
+            return Subsetter<JoinVisitorImpl>(*this).subset(set) ;
         }
-        
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
+
+        inline STORAGE get(int i) const {
+            return i >= 0 ? left[i] : right[-i-1] ;
         }
-        
-        
+
     protected:
         Vec left, right ;
         hasher hash_fun ;
-        
-        inline STORAGE get(int i){
-            return i >= 0 ? left[i] : right[-i-1] ;    
-        }
-        
-    } ; 
-    
-    template <>
-    class JoinVisitorImpl<STRSXP,STRSXP> : public JoinVisitor, public comparisons<STRSXP>{
-    public:
-        typedef comparisons<STRSXP> Compare ;
-        
-        typedef CharacterVector Vec ;
-        typedef SEXP STORAGE ;
-        typedef boost::hash<STORAGE> hasher ;
-    
-        JoinVisitorImpl( CharacterVector left_, CharacterVector right_ ) : left(left_), right(right_){
-            check_all_same_encoding(left,right) ;
-            // check_all_utf8(left); 
-            // check_all_utf8(right);
-        }
-              
-        inline size_t hash(int i){
-            return hash_fun( get(i) ) ; 
-        }
-        
-        inline bool equal( int i, int j) {
-            return Compare::equal_or_both_na(
-                get(i), get(j) 
-            ) ;  
-        }
-        
-        inline SEXP subset( const std::vector<int>& indices ) {
-            int n = indices.size() ;
-            Vec res = no_init(n) ;
-            for( int i=0; i<n; i++) {
-                res[i] = get(indices[i]) ;
-            }
-            return res ;
-        }
-        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            int n = set.size() ;
-            Vec res = no_init(n) ;
-            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-            for( int i=0; i<n; i++, ++it) {
-                res[i] = get(*it) ;
-            }
-            return res ;    
-        }
-        
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
-        }
-        
-        
-    protected:
-        CharacterVector left, right ;
-        hasher hash_fun ;
-        
-        inline STORAGE get(int i){
-            return i >= 0 ? left[i] : right[-i-1] ;    
-        }
-        
+
     } ;
-    
-    class StringLessPredicate : comparisons<STRSXP>{
+
+    class JoinFactorFactorVisitor : public JoinVisitor {
     public:
-        typedef SEXP value_type ;
-        inline bool operator()( SEXP x, SEXP y){
-            return is_less(x, y) ;    
+        typedef CharacterVector Vec ;
+
+        JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) :
+            left_levels (left.attr("levels")),
+            right_levels(right.attr("levels")),
+            uniques( get_uniques(left_levels, right_levels) ),
+            left_match ( match( left_levels, uniques) ),
+            right_match( match( right_levels, uniques) )
+            {}
+
+        inline size_t hash(int i){
+            return hash_fun( get_pos(i) ) ;
         }
-    } ;  
-    
+
+        inline bool equal( int i, int j){
+            return get_pos(i) == get_pos(j) ;
+        }
+
+        inline SEXP subset( const std::vector<int>& indices ) {
+            return Subsetter<JoinFactorFactorVisitor>(*this).subset(indices) ;
+        }
+
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+            return Subsetter<JoinFactorFactorVisitor>(*this).subset(set) ;
+        }
+
+        inline SEXP get(int i) const {
+            return uniques[get_pos(i)] ;
+        }
+
+    private:
+        CharacterVector left_levels, right_levels ;
+        CharacterVector uniques ;
+        IntegerVector left_match, right_match ;
+        boost::hash<int> hash_fun ;
+
+
+        inline int get_pos(int i) const {
+            return i>=0 ? ( left_match[i] -1 ) : ( right_match[-i-1] - 1 ) ;
+        }
+
+    } ;
+
+    class JoinStringStringVisitor : public JoinVisitor {
+    public:
+        typedef CharacterVector Vec ;
+
+        JoinStringStringVisitor( CharacterVector left, CharacterVector right) :
+            uniques( get_uniques(left, right) ),
+            i_left( match(left, uniques) ),
+            i_right( match(right, uniques) ),
+            int_visitor( i_left, i_right),
+            p_uniques( internal::r_vector_start<STRSXP>(uniques) ),
+            p_left( i_left.begin() ),
+            p_right( i_right.begin() )
+        {}
+
+        inline size_t hash(int i) {
+          return int_visitor.hash(i) ;
+        }
+        bool equal(int i, int j) {
+          return int_visitor.equal(i,j) ;
+        }
+
+        inline SEXP subset( const std::vector<int>& indices ) {
+            return Subsetter<JoinStringStringVisitor>(*this).subset(indices) ;
+        }
+
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+            return Subsetter<JoinStringStringVisitor>(*this).subset(set) ;
+        }
+
+        inline SEXP get(int i) const {
+            if( i >= 0 ){
+                return ( i_left[i] == NA_INTEGER ) ? NA_STRING : p_uniques[ p_left[i] - 1] ;
+            } else {
+                return ( i_right[-i-1] == NA_INTEGER ) ? NA_STRING : p_uniques[ p_right[-i-1] - 1] ;
+            }
+        }
+
+    private:
+        CharacterVector uniques ;
+        IntegerVector i_left, i_right ;
+        JoinVisitorImpl<INTSXP,INTSXP> int_visitor ;
+        SEXP* p_uniques ;
+        int* p_left ;
+        int* p_right ;
+
+
+    } ;
+
     class JoinFactorStringVisitor : public JoinVisitor {
     public:
-        JoinFactorStringVisitor( const IntegerVector& left_, const CharacterVector& right_ ) : 
-            left(left_), 
+        typedef CharacterVector Vec ;
+
+        JoinFactorStringVisitor( const IntegerVector& left_, const CharacterVector& right_ ) :
+            left(left_),
+            left_ptr(left.begin()),
+
             right(right_),
-            left_ptr(left_.begin()), 
-            left_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_.attr("levels")) ), 
-            right_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_))
-        {
-            check_all_same_encoding(right_, left_.attr("levels")) ; 
-            // check_all_utf8(right_) ;
-            // check_all_utf8(left_.attr("levels")) ;
-        }
-            
+            uniques( get_uniques(left.attr("levels"), right) ) ,
+            p_uniques( internal::r_vector_start<STRSXP>(uniques) ),
+
+            i_right( match( right, uniques )),
+            int_visitor( left, i_right )
+
+        {}
+
         inline size_t hash(int i){
-            return string_hash( get(i) ) ;
+            return int_visitor.hash(i) ;
         }
-        
+
         inline bool equal( int i, int j){
-            SEXP left  = get(i) ;
-            SEXP right = get(j) ;
-            return left == right ;     
+            return int_visitor.equal(i,j) ;
         }
-        
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
-        }
-        
+
         inline SEXP subset( const std::vector<int>& indices ) {
-            int n = indices.size() ;
-            CharacterVector res(n) ;
-            for( int i=0; i<n; i++) {
-                res[i] = get(indices[i]) ;
-            }
-            return res ;
+            return Subsetter<JoinFactorStringVisitor>(*this).subset(indices) ;
         }
+
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            int n = set.size() ;
-            CharacterVector res(n) ;
-            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-            for( int i=0; i<n; i++, ++it) {
-                res[i] = get(*it) ;
-            }
-            return res ;    
+            return Subsetter<JoinFactorStringVisitor>(*this).subset(set) ;
         }
-        
-    private:
-        IntegerVector left ;
-        CharacterVector right ;
-        IntegerVector::const_iterator left_ptr ;
-        SEXP* left_factor_ptr ;
-        SEXP* right_ptr ;
-        boost::hash<SEXP> string_hash ;
-    
-        inline SEXP get(int i){
+
+        inline SEXP get(int i) const {
             if( i>=0 ){
                 if( left_ptr[i] == NA_INTEGER ) return NA_STRING ;
-                return left_factor_ptr[ left_ptr[i] - 1 ] ;
+                return p_uniques[ left_ptr[i] - 1 ] ;
             } else {
-                return right_ptr[ -i-1 ] ;    
+                return p_uniques[ i_right[ -i-1 ] - 1] ;
             }
         }
-        
+
+    private:
+        IntegerVector left ;
+        int* left_ptr ;
+
+        CharacterVector right ;
+        CharacterVector uniques ;
+        SEXP* p_uniques ;
+        IntegerVector i_right ;
+
+        JoinVisitorImpl<INTSXP,INTSXP> int_visitor ;
+
+
     } ;
-    
+
     class JoinStringFactorVisitor : public JoinVisitor {
     public:
-        JoinStringFactorVisitor( const CharacterVector& left_, const IntegerVector& right_ ) : 
-            left(left_), 
-            right(right_),
-            right_ptr(right_.begin()), 
-            right_factor_ptr(Rcpp::internal::r_vector_start<STRSXP>(right_.attr("levels")) ), 
-            left_ptr(Rcpp::internal::r_vector_start<STRSXP>(left_))
-        {
-            check_all_same_encoding(left_,right_.attr("levels")) ;
+        typedef CharacterVector Vec ;
+
+        JoinStringFactorVisitor( const CharacterVector& left_, const IntegerVector& right_ ) :
+            i_right(right_),
+            uniques( get_uniques(i_right.attr("levels"), left_) ),
+            p_uniques( internal::r_vector_start<STRSXP>(uniques) ),
+            i_left( match(left_, uniques) ),
+
+            int_visitor(i_left, i_right)
+        {}
+
+        inline size_t hash(int i){
+            return int_visitor.hash(i) ;
         }
-                
-        inline size_t hash(int i){ 
-            return string_hash( get(i) ) ;
-        }
-        
+
         inline bool equal( int i, int j){
-            SEXP left = get(i) ;
-            SEXP right = get(j) ;
-            return left == right ;     
+            return int_visitor.equal(i,j) ;
         }
-        
-        inline void print(int i){
-            Rcpp::Rcout << get(i) << std::endl ;
-        }
-        
+
         inline SEXP subset( const std::vector<int>& indices ) {
-            int n = indices.size() ;
-            CharacterVector res(n) ;
-            for( int i=0; i<n; i++) {
-                res[i] = get(indices[i]) ;
-            }
-            return res ;
+            return Subsetter<JoinStringFactorVisitor>(*this).subset(indices) ;
         }
+
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            int n = set.size() ;
-            CharacterVector res(n) ;
-            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-            for( int i=0; i<n; i++, ++it) {
-                res[i] = get(*it) ;
-            }
-            return res ;    
+            return Subsetter<JoinStringFactorVisitor>(*this).subset(set) ;
         }
-        
-    private:
-        CharacterVector left ;
-        IntegerVector right ;
-        IntegerVector::const_iterator  right_ptr ;
-        SEXP* right_factor_ptr ;
-        SEXP* left_ptr ;
-        boost::hash<SEXP> string_hash ;
-    
-        inline SEXP get(int i){
+
+        inline SEXP get(int i) const {
             SEXP res ;
-            
+
             if( i>=0 ){
-                res = left_ptr[i] ;
+                res = p_uniques[ i_left[i] - 1 ] ;
             } else {
                 int index = -i-1 ;
-                if( right_ptr[index] == NA_INTEGER ) {
+                if( i_right[index] == NA_INTEGER ) {
                     res = NA_STRING ;
                 } else {
-                    res = right_factor_ptr[ right_ptr[index] - 1 ] ;
+                    res = p_uniques[ i_right[index] - 1 ] ;
                 }
-            }
-            
-            return res ;
-        }
-        
-    } ;
-    
-    
-    class JoinFactorFactorVisitor : public JoinVisitorImpl<INTSXP, INTSXP> {
-    public:
-        typedef JoinVisitorImpl<INTSXP,INTSXP> Parent ;
-        
-        JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) : 
-            Parent(left, right), 
-            left_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( left.attr("levels") ) ) ,
-            right_levels_ptr( Rcpp::internal::r_vector_start<STRSXP>( right.attr("levels") ) )
-            {}
-        
-        inline size_t hash(int i){
-            return string_hash( get(i) ) ; 
-        }
-        
-        void print(int i){
-            Rcpp::Rcout << get(i) << " :: " << toString<STRSXP>(get(i)) << std::endl ;    
-        }
-        
-        inline bool equal( int i, int j){
-            return string_compare.equal_or_both_na( get(i), get(j) ) ;
-        }
-        
-        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
-            int n = set.size() ;
-            CharacterVector res(n) ;
-            
-            VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it = set.begin() ;
-            for( int i=0; i<n; i++, ++it){
-                res[i] = get(*it) ;
-            }
-            
-            return res ;
-        }
-        
-        inline SEXP subset( const std::vector<int>& indices ){
-            int n = indices.size() ;
-            CharacterVector res(n) ;
-            
-            for( int i=0; i<n; i++){
-                res[i] = get(indices[i]) ;
             }
 
             return res ;
         }
-        
-            
+
     private:
-        SEXP* left_levels_ptr ;
-        SEXP* right_levels_ptr ;
-        comparisons<STRSXP> string_compare ;
-        boost::hash<SEXP> string_hash ;
-    
-        inline SEXP get(int i){
-            if( i >= 0 ){
-                return ( left[i] == NA_INTEGER ) ? NA_STRING : left_levels_ptr[ left[i] - 1] ;
+        IntegerVector i_right ;
+        CharacterVector uniques ;
+        SEXP* p_uniques ;
+        IntegerVector i_left ;
+
+        JoinVisitorImpl<INTSXP, INTSXP> int_visitor ;
+
+
+
+    } ;
+
+
+
+    class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP,REALSXP> {
+    public:
+        typedef JoinVisitorImpl<REALSXP,REALSXP> Parent ;
+        POSIXctJoinVisitor( NumericVector left, NumericVector right) :
+          Parent(left, right),
+          tzone(R_NilValue)
+        {
+          RObject tzone_left  = left.attr("tzone") ;
+          RObject tzone_right = right.attr("tzone") ;
+          if( tzone_left.isNULL() && tzone_right.isNULL() ) return ;
+
+          if( tzone_left.isNULL() ) {
+            tzone = tzone_right ;
+          } else if( tzone_right.isNULL() ) {
+            tzone = tzone_left ;
+          } else {
+            std::string s_left  = as<std::string>( tzone_left  ) ;
+            std::string s_right = as<std::string>( tzone_right ) ;
+
+            if( s_left == s_right){
+              tzone = wrap(s_left) ;
             } else {
-                return ( right[-i-1] == NA_INTEGER ) ? NA_STRING : right_levels_ptr[right[-i-1] - 1] ;                  
+              tzone = wrap("UTC") ;
+            }
+          }
+        }
+
+        inline SEXP subset( const std::vector<int>& indices ){
+          return promote( Parent::subset( indices ) ) ;
+        }
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+          return promote( Parent::subset(set)) ;
+        }
+
+    private:
+        RObject tzone ;
+
+        inline SEXP promote( NumericVector x){
+          x.attr("class") = "POSIXct" ;
+          if( !tzone.isNULL() ){
+            x.attr("tzone") = tzone ;
+          }
+          return x ;
+        }
+
+    } ;
+
+    JoinVisitor* join_visitor( SEXP, SEXP, const std::string&, const std::string&, bool warn ) ;
+
+    class DateJoinVisitorGetter {
+    public:
+      virtual ~DateJoinVisitorGetter(){} ;
+      virtual double get(int i) = 0 ;
+    } ;
+
+    template <int RTYPE>
+    class DateJoinVisitorGetterImpl : public DateJoinVisitorGetter {
+    public:
+        DateJoinVisitorGetterImpl( SEXP x) : data(x){}
+
+        inline double get(int i){
+          return (double) data[i] ;
+        }
+
+    private:
+        Vector<RTYPE> data ;
+    } ;
+
+    class DateJoinVisitor : public JoinVisitor, public comparisons<REALSXP>{
+    public:
+        typedef NumericVector Vec ;
+        typedef comparisons<REALSXP> Compare ;
+        typedef boost::hash<double> hasher ;
+
+        DateJoinVisitor( SEXP lhs, SEXP rhs)
+        {
+            if( TYPEOF(lhs) == INTSXP ) {
+              left = new DateJoinVisitorGetterImpl<INTSXP>(lhs) ;
+            } else if( TYPEOF(lhs) == REALSXP) {
+              left = new DateJoinVisitorGetterImpl<REALSXP>(lhs) ;
+            } else {
+              stop("Date objects should be represented as integer or numeric") ;
+            }
+
+            if( TYPEOF(rhs) == INTSXP) {
+              right = new DateJoinVisitorGetterImpl<INTSXP>(rhs) ;
+            } else if( TYPEOF(rhs) == REALSXP) {
+              right = new DateJoinVisitorGetterImpl<REALSXP>(rhs) ;
+            } else {
+              stop("Date objects should be represented as integer or numeric") ;
+            }
+
+        }
+
+        ~DateJoinVisitor(){
+          delete left ;
+          delete right;
+        }
+
+        inline size_t hash(int i) {
+            return hash_fun( get(i) ) ;
+        }
+        inline bool equal(int i, int j) {
+            return Compare::equal_or_both_na(
+                get(i), get(j)
+            ) ;
+        }
+
+        inline SEXP subset( const std::vector<int>& indices ) {
+            NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(indices) ;
+            res.attr("class") = "Date" ;
+            return res ;
+        }
+
+        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
+            NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(set) ;
+            res.attr("class") = "Date" ;
+            return res ;
+        }
+
+        inline double get( int i) const {
+            if( i>= 0 ){
+                return left->get(i) ;
+            } else {
+                return right->get(-i-1) ;
             }
         }
-        
-    } ;
-    
-    template <typename Class, typename JoinVisitorImpl> 
-    class PromoteClassJoinVisitor : public JoinVisitorImpl {
-    public:
-        typedef typename JoinVisitorImpl::Vec Vec ;
-        
-        PromoteClassJoinVisitor( const Vec& left, const Vec& right) : JoinVisitorImpl(left, right){}
-        
-        inline SEXP subset( const std::vector<int>& indices ){
-            return promote( JoinVisitorImpl::subset( indices) ) ; 
-        }
-        
-        inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
-            return promote( JoinVisitorImpl::subset( set) ) ;
-        }
-        
+
     private:
-        inline SEXP promote( Vec vec){
-            // vec.attr( "class" ) = JoinVisitorImpl::left.attr( "class" );
-            copy_most_attributes(vec,JoinVisitorImpl::left ) ; 
-            return vec ;
-        }
+        DateJoinVisitorGetter* left ;
+        DateJoinVisitorGetter* right ;
+        hasher hash_fun ;
+
+        DateJoinVisitor( const DateJoinVisitor& ) ;
+
+
     } ;
-    
-    #define PROMOTE_JOIN_VISITOR(__CLASS__)                                                   \
-    class __CLASS__ : public PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP,REALSXP> >{   \
-    public:                                                                                   \
-        typedef PromoteClassJoinVisitor<__CLASS__, JoinVisitorImpl<REALSXP,REALSXP> > Parent ;        \
-        __CLASS__( const NumericVector& left_, const NumericVector& right_) :                 \
-            Parent(left_, right_){}                                                           \
-    } ;
-    PROMOTE_JOIN_VISITOR(DateJoinVisitor)
-    PROMOTE_JOIN_VISITOR(POSIXctJoinVisitor)
-    
-    JoinVisitor* join_visitor( SEXP, SEXP, const std::string&, const std::string&, bool warn ) ;
+
+
 }
 
 #endif
-

@@ -20,7 +20,7 @@ Consider this call to `summarise` :
 summarise(per_day, flights = sum(flights))
 ```
 
-One of the way `dplyr` achieves dramatic speedups is that expressions might not 
+One of the ways `dplyr` achieves dramatic speedups is that expressions might not 
 be evaluated by R, but by alternative code that is faster and uses less memory. 
 
 Conceptually the call to `summarise` above evaluates the expression `sum(flights)`
@@ -53,7 +53,7 @@ custom hybrid evaluation handlers, we need to understand the system.
 
 The first building block we need to cover is the `Result` class. 
 
-```{cpp}
+```cpp
 namespace dplyr {
     class Result {
     public:
@@ -82,7 +82,7 @@ Hybrid evaluation really just is deriving from the `Result` class. Let's conside
 a simpler version of `sum` that only handles numeric vectors. (The internal version 
 is more complete, handles missing values, ...). 
 
-```{cpp}
+```cpp
 class Sum : public Result {
   public:
     Sum( NumericVector data_ ): data(data_){}
@@ -121,7 +121,7 @@ code for the three `process` methods defined by the `Result` interface.
 
 A possible `Sum` implementation would then look something like this:
 
-```{cpp}
+```cpp
 class Sum : public Processor<REALSXP, Sum> {
   public:
     Sum( NumericVector data_ ): data(data_){}
@@ -140,7 +140,7 @@ class Sum : public Processor<REALSXP, Sum> {
 Recognizing genericity here, we might want to make `Sum` a template class
 in order to handle more than just numeric vector : 
 
-```{cpp}
+```cpp
 template <int RTYPE>
 class Sum : public Processor<REALSXP, Sum<RTYPE> > {
   public:
@@ -168,7 +168,7 @@ internal implementation in `dplyr`.
 `dplyr` functions use the `get_handler` function to retrieve handlers for 
 particular expressions. 
 
-```{cpp}
+```cpp
 Result* get_handler( SEXP call, const LazySubsets& subsets ){
     int depth = Rf_length(call) ;
     HybridHandlerMap& handlers = get_handlers() ;
@@ -184,7 +184,7 @@ Result* get_handler( SEXP call, const LazySubsets& subsets ){
 
 The `get_handler` performs a lookup in a hash table of type `HybridHandlerMap`. 
 
-```{cpp}
+```cpp
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 ```
@@ -206,7 +206,7 @@ the call or 0 if it cannot.
 with our previous `Sum` template class, we could define a hybrid handler function 
 like this: 
 
-```{cpp}
+```cpp
 Result* sum_handler(SEXP call, const LazySubsets& subsets, int nargs ){
   // we only know how to deal with argument
   if( nargs != 1 ) return 0 ;
@@ -234,13 +234,13 @@ Result* sum_handler(SEXP call, const LazySubsets& subsets, int nargs ){
 `dplyr` enables users, most likely packages, to register their own hybrid handlers
 through the `registerHybridHandler`. 
 
-```{cpp}
+```cpp
 void registerHybridHandler( const char* , HybridHandler ) ;
 ```
 
 To register the handler we created above, we then simply: 
 
-```{cpp}
+```cpp
 registerHybridHandler( "sum", sum_handler )  ;
 ```
 
@@ -251,7 +251,7 @@ answer to everything, i.e. `42`.
 
 The code below is suitable to run through `sourceCpp`. 
 
-```{cpp}
+```cpp
 #include <dplyr.h>
 // [[Rcpp::depends(dplyr,BH)]]
 

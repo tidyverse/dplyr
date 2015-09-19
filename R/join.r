@@ -11,24 +11,32 @@
 #' Currently dplyr supports four join types:
 #'
 #' \describe{
-#'    \item{\code{inner_join}}{return all rows from x where there are matching
-#'    values in y, and all columns from x and y. If there are multiple matches
-#'    between x and y, all combination of the matches are returned.}
+#'    \item{\code{inner_join}}{return all rows from \code{x} where there are matching
+#'    values in \code{x}, and all columns from \code{x} and \code{y}. If there are multiple matches
+#'    between \code{x} and \code{y}, all combination of the matches are returned.}
 #'
-#'    \item{\code{left_join}}{return all rows from x, and all columns from x
-#'    and y. Rows in x with no match in y will have NA values in the new
-#'    columns. If there are multiple matches between x and y, all combinations
+#'    \item{\code{left_join}}{return all rows from \code{x}, and all columns from \code{x}
+#'    and \code{y}. Rows in \code{x} with no match in \code{y} will have \code{NA} values in the new
+#'    columns. If there are multiple matches between \code{x} and \code{y}, all combinations
 #'    of the matches are returned.}
 #'
-#'    \item{\code{semi_join}}{return all rows from x where there are matching
-#'    values in y, keeping just columns from x.
+#'   \item{\code{right_join}}{return all rows from \code{y}, and all columns from \code{x}
+#'    and y. Rows in \code{y} with no match in \code{x} will have \code{NA} values in the new
+#'    columns. If there are multiple matches between \code{x} and \code{y}, all combinations
+#'    of the matches are returned.}
+#'
+#'    \item{\code{semi_join}}{return all rows from \code{x} where there are matching
+#'    values in \code{y}, keeping just columns from \code{x}.
 #'
 #'    A semi join differs from an inner join because an inner join will return
 #'    one row of \code{x} for each matching row  of \code{y}, where a semi
 #'    join will never duplicate rows of \code{x}.}
 #'
-#'    \item{\code{anti_join}}{return all rows from x where there are not
-#'    matching values in y, keeping just columns from x}
+#'    \item{\code{anti_join}}{return all rows from \code{x} where there are not
+#'    matching values in \code{y}, keeping just columns from \code{x}.}
+#'
+#'    \item{\code{full_join}}{return all rows and all columns from both \code{x} and \code{y}.
+#'    Where there are not matching values, returns \code{NA} for the one missing.}
 #' }
 #'
 #' @section Grouping:
@@ -91,6 +99,8 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 }
 
 common_by <- function(by = NULL, x, y) {
+  if (is.list(by)) return(by)
+
   if (!is.null(by)) {
     x <- names(by) %||% by
     y <- unname(by)
@@ -105,7 +115,7 @@ common_by <- function(by = NULL, x, y) {
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
   }
-  message("Joining by: ", capture.output(dput(by)))
+  message("Joining by: ", utils::capture.output(dput(by)))
 
   list(
     x = by,

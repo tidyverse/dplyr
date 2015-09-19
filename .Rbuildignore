@@ -9,3 +9,5 @@ demo/pandas
 ^\.httr-oauth$
 ^cran-comments\.md$
 ^README\.Rmd$
+^revdep$
+^README-.*\.png$

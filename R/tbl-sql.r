@@ -1,6 +1,6 @@
 #' Create an SQL tbl (abstract)
 #'
-#' This method shouldn't be called be users - it should only be used by
+#' This method shouldn't be called by users - it should only be used by
 #' backend implementors who are creating backends that extend the basic
 #' sql behaviour.
 #'
@@ -13,8 +13,6 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
-
-
   if (!is.sql(from)) { # Must be a character string
     assert_that(length(from) == 1)
     if (isFALSE(db_has_table(src$con, from))) {
@@ -154,7 +152,12 @@ dim.tbl_sql <- function(x) {
 head.tbl_sql <- function(x, n = 6L, ...) {
   assert_that(length(n) == 1, n > 0L)
 
-  build_query(x, limit = as.integer(n))$fetch()
+  if (is.infinite(n)) {
+    limit <- NULL
+  } else {
+    limit <- as.integer(n)
+  }
+  build_query(x, limit)$fetch()
 }
 
 #' @export
@@ -409,8 +412,8 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' src_tbls(db2)
 #' }
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
-  types = NULL, temporary = TRUE, indexes = NULL,
-  analyze = TRUE, ...) {
+                            types = NULL, temporary = TRUE, indexes = NULL,
+                            analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
 
@@ -573,12 +576,13 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
 #'   indices for the variables in \code{by}. This may speed up the join if
 #'   there are matching indexes in \code{x}.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'
 #' # Left joins ----------------------------------------------------------------
-#' batting <- tbl(lahman_sqlite(), "Batting")
-#' team_info <- select(tbl(lahman_sqlite(), "Teams"), yearID, lgID, teamID, G, R:H)
+#' lahman_s <- lahman_sqlite()
+#' batting <- tbl(lahman_s, "Batting")
+#' team_info <- select(tbl(lahman_s, "Teams"), yearID, lgID, teamID, G, R:H)
 #'
 #' # Combine player and whole team statistics
 #' first_stint <- select(filter(batting, stint == 1), playerID:H)
@@ -600,17 +604,17 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
 #'
 #' # Semi-joins ----------------------------------------------------------------
 #'
-#' people <- tbl(lahman_sqlite(), "Master")
+#' people <- tbl(lahman_s, "Master")
 #'
 #' # All people in half of fame
-#' hof <- tbl(lahman_sqlite(), "HallOfFame")
+#' hof <- tbl(lahman_s, "HallOfFame")
 #' semi_join(people, hof)
 #'
 #' # All people not in the hall of fame
 #' anti_join(people, hof)
 #'
 #' # Find all managers
-#' manager <- tbl(lahman_sqlite(), "Managers")
+#' manager <- tbl(lahman_s, "Managers")
 #' semi_join(people, manager)
 #'
 #' # Find all managers in hall of fame
@@ -631,7 +635,8 @@ NULL
 #' @export
 inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_join(x$src$con, x, y, type = "inner", by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
@@ -640,7 +645,8 @@ inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_join(x$src$con, x, y, type = "left", by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
@@ -649,7 +655,8 @@ left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_semi_join(x$src$con, x, y, anti = FALSE, by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }
@@ -658,7 +665,8 @@ semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               auto_index = FALSE, ...) {
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by))
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
   sql <- sql_semi_join(x$src$con, x, y, anti = TRUE, by = by)
   update(tbl(x$src, sql), group_by = groups(x))
 }

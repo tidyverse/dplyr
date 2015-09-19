@@ -7,14 +7,14 @@ before_install:
   - ./travis-tool.sh bootstrap
 install:
   - mkdir ~/.R
+#  - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh r_binary_install ggplot2
   - ./travis-tool.sh r_binary_install RSQLite
   - ./travis-tool.sh r_binary_install RMySQL
   - ./travis-tool.sh r_binary_install knitr
   - ./travis-tool.sh install_github hadley/lazyeval
-  - if [ "$RCPP" = "release" ]; then ./travis-tool.sh r_binary_install Rcpp; fi
+  - if [ "$RCPP" = "release" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; cd Rcpp; git checkout tags/0.12.0; cd ..; R CMD INSTALL Rcpp; cd dplyr; fi
   - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
-  - if [ "$RCPP" = "constcorrect" ]; then cd ..; git clone https://github.com/romainfrancois/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
   - ./travis-tool.sh install_deps
 
 before_script:
@@ -31,15 +31,18 @@ script: ./travis-tool.sh run_tests
 after_failure:
   - ./travis-tool.sh dump_logs
 
+# after_success:
+#   - Rscript -e 'library(covr);coveralls()'
+#
 branches:
   except:
   - /-expt$/
   - solaris
+
 notifications:
   email:
     on_success: change
     on_failure: change
 env:
-  - RCPP=release PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
-  - RCPP=devel PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
-  - RCPP=constcorrect PKG_CXXFLAGS="-g -O3 -Wall -pedantic"
+  - RCPP=release PKG_CXXFLAGS="-Wall -pedantic"
+  - RCPP=devel PKG_CXXFLAGS="-Wall -pedantic"

@@ -215,11 +215,22 @@ test_that("row_number does not segfault with example from #781", {
   expect_equal( nrow(res), 0L )
 })
 
+test_that("filter does not alter expression (#971)", {
+  my_filter <- ~ am == 1;
+  expect_error( mtcars %>% filter(my_filter) )
+  expect_equal( my_filter[[2]][[2]], as.name("am") )
+})
+
+test_that("hybrid evaluation handles $ correctly (#1134)", {
+  df <- data_frame( x = 1:10, g = rep(1:5, 2 ) )
+  res <- df %>% group_by(g) %>% filter( x > min(df$x) )
+  expect_equal( nrow(res), 9L )
+})
 
 # data.table --------------------------------------------------------------
 
 test_that("filter succeeds even if column called V1 (#615)", {
-  dt <- data.table(x = 1:10 ,V1 = 0)
+  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
   out <- dt %>% group_by(V1) %>% filter(x > 5)
 
   expect_equal(nrow(out), 5)
@@ -231,3 +242,92 @@ test_that("filter correctly handles empty data frames (#782)", {
   expect_true( is.null(names(res)) )
 })
 
+test_that("filter(.,TRUE,TRUE) works (#1210)", {
+  df <- data.frame(x=1:5)
+  res <- filter(df,TRUE,TRUE)
+  expect_equal(res, df)
+})
+
+test_that("filter, slice and arrange preserves attributes (#1064)", {
+  df <- structure(
+      data.frame( x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2) ),
+      meta = "this is important"
+  )
+  res <- filter( df, x < 5 ) %>% attr("meta" )
+  expect_equal( res, "this is important")
+
+  res <- filter( df, x < 5, x > 4) %>% attr("meta" )
+  expect_equal( res, "this is important")
+
+  res <- df %>% slice(1:50) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% arrange(x) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% summarise( n() ) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% group_by(g1) %>% summarise( n() ) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+  res <- df %>% group_by(g1,g2) %>% summarise( n() ) %>% attr("meta")
+  expect_equal( res, "this is important")
+
+})
+
+test_that("filter works with rowwise data (#1099)", {
+  df <- data_frame(First = c("string1", "string2"), Second = c("Sentence with string1", "something"))
+  res <- df %>% rowwise() %>% filter(grepl(First, Second, fixed = TRUE))
+  expect_equal( nrow(res), 1L)
+  expect_equal( df[1,], res)
+})
+
+test_that("grouped filter handles indices (#880)", {
+  res <- iris %>% group_by(Species) %>% filter( Sepal.Length > 5 )
+  res2 <- mutate( res, Petal = Petal.Width * Petal.Length)
+  expect_equal( nrow(res), nrow(res2) )
+  expect_equal( attr(res, "indices"), attr(res2, "indices") )
+})
+
+test_that("filter_ works (#906)", {
+  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
+  out <- dt %>% filter_(~x > 5)
+  expect_equal(nrow(out), 5)
+})
+
+test_that("filter(FALSE) drops indices", {
+  out <- mtcars %>%
+    group_by(cyl) %>%
+    filter(FALSE) %>%
+    attr("indices")
+  expect_equal(out, NULL)
+})
+
+test_that("filter handles S4 objects (#1366)", {
+  env <- environment()
+  Numbers <- suppressWarnings( setClass("Numbers", slots = c(foo = "numeric"), contains = "integer", where = env) )
+  on.exit(removeClass("Numbers", where = env))
+
+  df <- data.frame( x = Numbers( 1:10, foo = 10 ) )
+  res <- filter( df, x > 3 )
+  expect_true( isS4(res$x) )
+  expect_is( res$x, "Numbers")
+  expect_equal( res$x@foo, 10)
+})
+
+test_that("hybrid lag and default value for string columns work (#1403)", {
+  res <- mtcars %>%
+    mutate(xx=LETTERS[gear]) %>%
+    filter(xx==lag(xx, default='foo'))
+  xx <- LETTERS[ mtcars$gear ]
+  ok <- xx == lag( xx, default = "foo" )
+  expect_equal( xx[ok], res$xx )
+
+  res <- mtcars %>%
+    mutate(xx=LETTERS[gear]) %>%
+    filter(xx==lead(xx, default='foo'))
+  xx <- LETTERS[mtcars$gear ]
+  ok <- xx == lead( xx, default = "foo" )
+  expect_equal( xx[ok], res$xx )
+})

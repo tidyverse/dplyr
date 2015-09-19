@@ -1,4 +1,4 @@
-#' Explain details of an tbl.
+#' Explain details of a tbl.
 #'
 #' This is a generic function which gives more details about an object than
 #' \code{\link{print}}, and is more focussed on human readable output than
@@ -14,9 +14,11 @@
 #' @param x An object to explain
 #' @param ... Other parameters possibly used by generic
 #' @examples
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'
-#' batting <- tbl(lahman_sqlite(), "Batting")
+#' lahman_s <- lahman_sqlite()
+#' batting <- tbl(lahman_s, "Batting")
 #' batting %>% show_query()
 #' batting %>% explain()
 #'
@@ -28,8 +30,9 @@
 #' batting %>% filter(lgID == "NL" | yearID == 2000) %>% explain()
 #'
 #' # Joins will use indexes in both tables
-#' teams <- tbl(lahman_sqlite(), "Teams")
+#' teams <- tbl(lahman_s, "Teams")
 #' batting %>% left_join(teams, c("yearID", "teamID")) %>% explain()
+#' }
 #' }
 explain <- function(x, ...) {
   UseMethod("explain")

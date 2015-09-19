@@ -10,10 +10,14 @@ namespace internal{
     template <int RTYPE, bool NA_RM>
     class Var : public Processor<REALSXP, Var<RTYPE,NA_RM> > {
     public:
+        typedef Processor<REALSXP, Var<RTYPE,NA_RM> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Var(SEXP x, bool is_summary_ = false) : 
-            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
+            Base(x), 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), 
+            is_summary(is_summary_) 
+        {}
         ~Var(){}
         
         inline double process_chunk( const SlicingIndex& indices ){
@@ -42,10 +46,14 @@ namespace internal{
     template <int RTYPE>
     class Var<RTYPE,true> : public Processor<REALSXP, Var<RTYPE,true> > {
     public:
+        typedef Processor<REALSXP, Var<RTYPE,true> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Var(SEXP x, bool is_summary_ = false) : 
-            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), is_summary(is_summary_) {}
+        Var(SEXP x, bool is_summary_ = false) :
+            Base(x), 
+            data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ), 
+            is_summary(is_summary_)
+        {}
         ~Var(){}
         
         inline double process_chunk( const SlicingIndex& indices ){

@@ -30,7 +30,7 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
     env <- getNamespaceInfo(pkg, "lazydata")
     name <- paste0("<package: ", pkg, ">")
   } else {
-    name <- capture.output(print(env))
+    name <- utils::capture.output(print(env))
   }
 
   structure(

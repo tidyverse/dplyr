@@ -26,7 +26,9 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @export
 print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
+
+  grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
+  cat("Groups: ", commas(deparse_all(groups(x))), " [", grps, "]\n", sep = "")
   cat("\n")
   print(trunc_mat(x, n = n, width = width))
   invisible(x)
@@ -64,7 +66,9 @@ ungroup.grouped_df <- function(x) {
 `[.grouped_df` <- function(x, i, j, ...) {
   y <- NextMethod()
 
-  if (!all(groups(x) %in% names(y))) {
+  group_vars <- vapply(groups(x), as.character, character(1))
+
+  if (!all(group_vars %in% names(y))) {
     tbl_df(y)
   } else {
     grouped_df(y, groups(x))

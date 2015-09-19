@@ -63,9 +63,9 @@ data.table <- list(
 dplyr <- list(
   setup = function(x, y) list(x = x, y = y),
   
-  left  = function(x, y) dplyr:::left_join_impl(x, y, by = c("key", "key2")),
+  left  = function(x, y) left_join(x, y, by = c("key", "key2")),
   right = function(x, y) NULL,
-  inner = function(x, y) dplyr:::inner_join_impl(x, y, by = c("key", "key2"))
+  inner = function(x, y) inner_join(x, y, by = c("key", "key2"))
 )
 
 techniques <- list(base = base, data.table = data.table, dplyr = dplyr)
