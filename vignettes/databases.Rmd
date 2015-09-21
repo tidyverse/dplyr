@@ -124,7 +124,6 @@ There are three ways to force the computation of a query:
 
 `collect()` is the function you'll use most. Once you reach the set of operations you want, you use collect() to pull the data into a local `tbl_df()`. If you know SQL, you can use `compute()` and `collapse()` to optimise performance.
 
-
 ### Performance considerations
 
 dplyr tries to prevent you from accidentally performing expensive query operations:
