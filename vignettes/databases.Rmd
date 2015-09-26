@@ -188,7 +188,7 @@ translate_sql(x %like% "ab*")
 
 ## Grouping
 
-SQLite lacks window functions, which are needed for grouped mutation and filtering. This means that the only really useful operations for grouped sqlite tables are in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
+SQLite lacks the window functions that are needed for grouped mutation and filtering. This means that the only really useful operations for grouped SQLite tables are found in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
 
 ```{r}
 by_tailnum <- group_by(flights_sqlite, tailnum)
@@ -201,7 +201,7 @@ delay <- filter(delay, count > 20, dist < 2000)
 delay_local <- collect(delay)
 ```
 
-Other databases do support window functions and you can learn about them in the corresponding vignette. It's sometimes possible to simulate grouped filters and mutates using self joins, where you join the original table with a summarised version, but that topic is beyond the scope of this intro.
+Other databases do support window functions. You can learn about them in the corresponding vignette. It's sometimes possible to simulate grouped filtering and mutation using self joins, which join the original table with a summarised version, but that topic is beyond the scope of this introduction.
 
 ## Other databases
 
