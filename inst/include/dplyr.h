@@ -2,6 +2,7 @@
 #define dplyr_dplyr_H
 
 #include <Rcpp.h>
+#include <dplyr/workarounds/static_assert.h>
 #include <solaris/solaris.h>
 #include <dplyr/config.h>
 #include <dplyr/workarounds.h>
@@ -38,7 +39,6 @@ using namespace Rcpp ;
         #define dplyr_hash_set boost::unordered_set
     #endif
 #endif
-
 
 #include <tools/tools.h>
 
