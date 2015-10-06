@@ -21,6 +21,8 @@
 
 * Faster joining by character column (#1386).
 
+* Fixed `distinct` for zero column data frames (#1437). 
+
 # dplyr 0.4.3
 
 ## Improved encoding support
