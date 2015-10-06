@@ -115,7 +115,7 @@ arrange(flights, desc(arr_delay))
 
 ```{r, eval = FALSE}
 flights[order(flights$year, flights$month, flights$day), ]
-flights[order(desc(flights$arr_delay)), ]
+flights[order(flights$arr_delay, decreasing = TRUE), ] or flights[order(-flights$arr_delay), ]
 ```
 
 ## Select columns with `select()`
