@@ -21,7 +21,9 @@
 
 * Faster joining by character column (#1386).
 
-* Fixed `distinct` for zero column data frames (#1437). 
+* Fixed `distinct` for zero column data frames (#1437).
+
+* grouped `mutate` handles factors correctly (#1414). 
 
 # dplyr 0.4.3
 

@@ -432,3 +432,9 @@ test_that("rowwie mutate gives expected results (#1381)", {
   res <- data_frame( x = 1:3 ) %>% rowwise() %>% mutate( y = f(x) )
   expect_equal( res$y, c(NA,2,3) )
 })
+
+test_that("mutate handles factors (#1414)", {
+  d <- data_frame( g = c(1,1,1,2,2,3,3), f = c("a", "b", "a", "a", "a", "b", "b" ) )
+  res <- d %>% group_by(g) %>% mutate( f2 = factor(f) )
+  expect_equal( res$f2, res$f)
+})
