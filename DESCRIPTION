@@ -43,7 +43,6 @@ Collate:
     'RcppExports.R'
     'all-equal.r'
     'bench-compare.r'
-    'chain.r'
     'cluster.R'
     'colwise.R'
     'compute-collect.r'
