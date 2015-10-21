@@ -1,3 +1,7 @@
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 dots <- function(...) {
   eval(substitute(alist(...)))
 }

@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `chain()`, `chain_q()` and `%.%` have been removed
+
 * `trunc_mat()` correctly prints the type of list columns (#1379)
 
 * set operations respect coercion rules (#799).
