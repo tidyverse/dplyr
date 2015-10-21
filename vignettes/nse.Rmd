@@ -54,7 +54,7 @@ summarise_(mtcars, constant2(4))
 
 ## Setting variable names
 
-If you also want to output variables to vary, you need to pass a list of quoted objects to the `.dots` argument:
+If you also want output variables to vary, you need to pass a list of quoted objects to the `.dots` argument:
 
 ```{r}
 n <- 10
