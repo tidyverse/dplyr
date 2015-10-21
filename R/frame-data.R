@@ -9,7 +9,8 @@
 #' frame_data(
 #'   ~colA, ~colB,
 #'   "a",   1,
-#'   "b",   2
+#'   "b",   2,
+#'   "c",   3
 #' )
 frame_data <- function(...) {
 
@@ -61,7 +62,7 @@ frame_data <- function(...) {
 
   # Extract the columns from 'frame_rest'
   frame_columns <- lapply(seq_len(frame_ncol), function(i) {
-    indices <- seq.default(from = i, to = length(frame_rest), by = frame_nrow)
+    indices <- seq.default(from = i, to = length(frame_rest), by = frame_ncol)
     unlist(frame_rest[indices])
   })
 
