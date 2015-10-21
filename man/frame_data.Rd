@@ -19,7 +19,8 @@ Create a row-wise \code{\link{data_frame}}.
 frame_data(
   ~colA, ~colB,
   "a",   1,
-  "b",   2
+  "b",   2,
+  "c",   3
 )
 }
 
