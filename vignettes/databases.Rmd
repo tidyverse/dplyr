@@ -122,19 +122,18 @@ There are three ways to force the computation of a query:
 
 * `collapse()` turns the query into a table expression.
 
-You are most likely to use `collect()`: once you have interactively converged on the right set of operations, use `collect()` to pull down the data into a local `tbl_df()`. If you have some knowledge of SQL, you can use `compute()` and `collapse()` to optimise performance.
+`collect()` is the function you'll use most. Once you reach the set of operations you want, you use collect() to pull the data into a local `tbl_df()`. If you know SQL, you can use `compute()` and `collapse()` to optimise performance.
 
 ### Performance considerations
 
 dplyr tries to prevent you from accidentally performing expensive query operations:
 
-* `nrow()` is always `NA`: in general, there's no way to determine how
-  many rows a query will return unless you actually run it.
+* Because there's generally no way to determine how many rows a query will return unless 
+  you actually run it, `nrow()` is always `NA`.
 
-* Printing a tbl only runs the query enough to get the first 10 rows
+* Printing a tbl only runs the query for the first 10 rows.
 
-* You can't use `tail()` on database tbls: you can't find the last rows
-  without executing the whole query.
+* Because you can't find the last few rows without executing the whole query, you can't use `tail()`.
 
 ## SQL translation
 
