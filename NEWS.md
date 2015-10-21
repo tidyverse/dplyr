@@ -27,6 +27,8 @@
 
 * grouped `mutate` handles factors correctly (#1414). 
 
+* `frame_data()` properly constructs rectangular tables. (#1377, @kevinushey)
+
 # dplyr 0.4.3
 
 ## Improved encoding support
