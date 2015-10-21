@@ -1,6 +1,6 @@
 #' A data cube tbl.
 #'
-#' An cube tbl stores data in a compact array format where dimension
+#' A cube tbl stores data in a compact array format where dimension
 #' names are not needlessly repeated. They are particularly appropriate for
 #' experimental data where all combinations of factors are tried (e.g.
 #' complete factorial designs), or for storing the result of aggregations.
@@ -10,7 +10,7 @@
 #' \code{tbl_cube} support is currently experimental and little performance
 #' optimisation has been done, but you may find them useful if your data
 #' already comes in this form, or you struggle with the memory overhead of the
-#' sparse/crossed of data frames.  There is no supported for hierarchical
+#' sparse/crossed of data frames.  There is no support for hierarchical
 #' indices (although I think that would be a relatively straightforward
 #' extension to storing data frames for indices rather than vectors).
 #'
