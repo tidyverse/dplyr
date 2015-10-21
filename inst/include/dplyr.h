@@ -2,6 +2,7 @@
 #define dplyr_dplyr_H
 
 #include <Rcpp.h>
+#include <dplyr/workarounds/static_assert.h>
 #include <solaris/solaris.h>
 #include <dplyr/config.h>
 #include <dplyr/workarounds.h>
@@ -39,7 +40,6 @@ using namespace Rcpp ;
     #endif
 #endif
 
-
 #include <tools/tools.h>
 
 namespace dplyr {
@@ -51,6 +51,7 @@ namespace dplyr {
     class LazySubsets ;
     std::string get_single_class(SEXP x) ;
 
+    void strip_index(DataFrame x) ;
     template <typename Index>
     DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
 

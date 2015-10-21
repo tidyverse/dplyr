@@ -5,11 +5,13 @@ using namespace dplyr ;
 
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
-void strip_index(DataFrame x) {
-  x.attr("indices") = R_NilValue ;
-  x.attr("group_sizes") = R_NilValue ;
-  x.attr("biggest_group_size") = R_NilValue ;
-  x.attr("labels") = R_NilValue ;
+namespace dplyr {
+  void strip_index(DataFrame x) {
+    x.attr("indices") = R_NilValue ;
+    x.attr("group_sizes") = R_NilValue ;
+    x.attr("biggest_group_size") = R_NilValue ;
+    x.attr("labels") = R_NilValue ;
+  }
 }
 
 inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, CharacterVector classes ){

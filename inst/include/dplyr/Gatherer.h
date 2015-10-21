@@ -79,6 +79,74 @@ namespace dplyr {
 
     } ;
 
+    template <typename Data, typename Subsets>
+    class FactorGatherer : public Gatherer {
+    public:
+        typedef GroupedCallProxy<Data,Subsets> Proxy ;
+        typedef IntegerVector Factor;
+
+        FactorGatherer( RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_ ) :
+          levels(), data(gdf_.nrows()), first_non_na(first_non_na_), proxy(proxy_), gdf(gdf_)
+        {
+          grab( (SEXP)first, indices ) ;
+          copy_most_attributes( data, first ) ;
+        }
+
+        inline SEXP collect(){
+          int ngroups = gdf.ngroups() ;
+          typename Data::group_iterator git = gdf.group_begin() ;
+          int i = 0 ;
+          for(; i<first_non_na; i++) ++git ;
+          for(; i<ngroups; i++, ++git){
+              SlicingIndex indices = *git ;
+              Factor subset( proxy.get( indices ) ) ;
+              grab(subset, indices);
+          }
+          CharacterVector levels_(levels_vector.begin(), levels_vector.end() ) ;
+          data.attr("levels") = levels_ ;
+          return data ;
+        }
+
+    private:
+        dplyr_hash_map<SEXP, int> levels ;
+        Factor data ;
+        int first_non_na ;
+        Proxy& proxy ;
+        const Data& gdf ;
+        std::vector<SEXP> levels_vector ;
+
+        void grab( Factor f, const SlicingIndex& indices ){
+            // update levels if needed
+            CharacterVector lev = f.attr("levels") ;
+            std::vector<int> matches( lev.size() ) ;
+            int nlevels = levels.size() ;
+            for( int i=0; i<lev.size(); i++){
+                SEXP level = lev[i] ;
+                if( !levels.count(level) ){
+                    nlevels++ ;
+                    levels_vector.push_back(level) ;
+                    levels[level] = nlevels ;
+                    matches[i] = nlevels ;
+                } else {
+                  matches[i] = levels[level] ;
+                }
+            }
+
+            // grab data
+            int n = indices.size() ;
+            for( int i=0; i<n; i++){
+                if( f[i] == NA_INTEGER ){
+                  data[ indices[i] ] = NA_INTEGER ;
+                } else {
+                  data[ indices[i] ] = matches[ f[i] - 1 ] ;
+                }
+
+            }
+        }
+
+
+    } ;
+
     template <int RTYPE>
     class ConstantGathererImpl : public Gatherer {
     public:
@@ -121,14 +189,19 @@ namespace dplyr {
             stop("`mutate` does not support `POSIXlt` results");
         }
         int ng = gdf.ngroups() ;
-        int i = 1 ;
+        int i = 1 ; ++git ;
         for( ; all_na(first) && i<ng; i++, ++git){
           indices = *git ;
           first = proxy.get(indices) ;
         }
 
         switch( TYPEOF(first) ){
-            case INTSXP:  return new GathererImpl<INTSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+            case INTSXP:
+              {
+                if( Rf_inherits(first, "factor"))
+                  return new FactorGatherer<Data, Subsets>( first, indices, proxy, gdf, i) ;
+                return new GathererImpl<INTSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+              }
             case REALSXP: return new GathererImpl<REALSXP,Data,Subsets> ( first, indices, proxy, gdf, i ) ;
             case LGLSXP:  return new GathererImpl<LGLSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
             case STRSXP:  return new GathererImpl<STRSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;

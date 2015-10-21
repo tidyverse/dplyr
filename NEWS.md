@@ -10,6 +10,23 @@
 
 * `n_distinct` uses multiple arguments (#1084).
 
+* `slice` correctly handles grouped attributes (#1405).
+
+* `lead` and `lag` correctly handle default values for string columns in
+  hybrid (#1403).
+
+* `bind_rows` handles `POSIXct` stored as integer (#1402).
+
+* `cummean` is more stable against floating point errors (#1387).
+
+* `rowwise` mutate gives expected results (#1381).
+
+* Faster joining by character column (#1386).
+
+* Fixed `distinct` for zero column data frames (#1437).
+
+* grouped `mutate` handles factors correctly (#1414). 
+
 # dplyr 0.4.3
 
 ## Improved encoding support

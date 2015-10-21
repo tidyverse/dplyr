@@ -369,7 +369,7 @@ namespace dplyr{
                         }
                     case STRSXP:
                         {
-                            return new JoinVisitorImpl<STRSXP,STRSXP> ( left, right ) ;
+                            return new JoinStringStringVisitor( left, right ) ;
                         }
                     default: break ;
                     }

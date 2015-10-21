@@ -81,12 +81,12 @@ test_that( "slice handles NA (#1235)", {
   expect_equal( nrow(slice(df, NA_integer_)), 0L )
   expect_equal( nrow(slice(df, c(1L, NA_integer_))), 1L )
   expect_equal( nrow(slice(df, c(-1L, NA_integer_))), 2L )
-  
+
   df <- data_frame( x = 1:4, g = rep(1:2, 2) ) %>% group_by(g)
   expect_equal( nrow(slice(df, NA)), 0L )
   expect_equal( nrow(slice(df, c(1,NA))), 2 )
   expect_equal( nrow(slice(df, c(-1,NA))), 2 )
-  
+
 })
 
 test_that("slice handles empty data frames (#1219)", {
@@ -100,4 +100,10 @@ test_that("slice works fine if n > nrow(df) (#1269)", {
   slice_res <- mtcars %>% group_by(cyl) %>% slice(8)
   filter_res <- mtcars %>% group_by(cyl) %>% filter( row_number() == 8 )
   expect_equal( slice_res, filter_res )
+})
+
+test_that("slice strips grouped indices (#1405)", {
+  res <- mtcars %>% group_by(cyl) %>% slice(1) %>% mutate(mpgplus = mpg + 1)
+  expect_equal( nrow(res), 3L)
+  expect_equal( attr(res, "indices"), as.list(0:2) )
 })

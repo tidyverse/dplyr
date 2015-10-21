@@ -123,7 +123,7 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
     } else {
       return 0 ;
     }
-    
+
     if( nargs == 1 ){
         return minmax_prototype_impl<Tmpl,false>(arg, is_summary) ;
     } else if( nargs == 2 ){
@@ -968,6 +968,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
+
     Map map(visitors);
 
     // train the map in terms of y
@@ -988,6 +989,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
             indices_x.push_back(i) ;
         }
     }
+
     return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
 }
 
@@ -1619,8 +1621,9 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
     }
     DataFrame res = subset( data, indx, names, classes_grouped<GroupedDataFrame>() ) ;
     res.attr( "vars")   = data.attr("vars") ;
+    strip_index(res) ;
 
-    return res ;
+    return GroupedDataFrame(res).data() ;
 
 }
 
