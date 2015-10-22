@@ -166,11 +166,10 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 
 #' @export
 #' @rdname as.tbl_cube
-#' @param met_name a string to use as the name for the metric
 #' @param dim_names names of the dimesions. Defaults to the names of
+#' @param met_name a string to use as the name for the measure
 #'   the \code{\link{dimnames}}.
-as.tbl_cube.array <- function(x, met_name = deparse(substitute(x)),
-                               dim_names = names(dimnames(x)), ...) {
+as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)), ...) {
   force(met_name)
 
   dims <- dimnames(x)
@@ -191,7 +190,9 @@ undimname <- function(x) {
 
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.table <- as.tbl_cube.array
+as.tbl_cube.table <- function(x, dim_names = names(dimnames(x)), met_name = "Freq", ...) {
+  as.tbl_cube.array(x, dim_names = dim_names, met_name = met_name)
+}
 
 #' @export
 #' @rdname as.tbl_cube
