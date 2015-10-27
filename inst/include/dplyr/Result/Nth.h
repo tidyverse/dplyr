@@ -6,9 +6,11 @@ namespace dplyr {
     template <int RTYPE>
     class Nth : public Processor< RTYPE, Nth<RTYPE> > {
     public:
+        typedef Processor< RTYPE, Nth<RTYPE> >  Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         Nth( Vector<RTYPE> data_, int idx_, STORAGE def_ = Vector<RTYPE>::get_na() ) : 
+            Base(data_), 
             data(data_), 
             idx(idx_),
             def(def_) {}
@@ -28,9 +30,11 @@ namespace dplyr {
     template <int RTYPE, int ORDER_RTYPE>
     class NthWith : public Processor< RTYPE, NthWith<RTYPE, ORDER_RTYPE> > {
     public:
+        typedef Processor< RTYPE, NthWith<RTYPE, ORDER_RTYPE> > Base ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ; 
         
         NthWith( Vector<RTYPE> data_, int idx_, Vector<ORDER_RTYPE> order_, STORAGE def_ = Vector<RTYPE>::get_na() ) : 
+            Base(data_), 
             data(data_),
             idx(idx_),
             order(order_),

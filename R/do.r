@@ -9,6 +9,10 @@
 #' \code{do} and then flexibly extract components with either another
 #' \code{do} or \code{summarise}.
 #'
+#' For an empty data frame, the expressions will be evaluated once, even in the
+#' presence of a grouping.  This makes sure that the format of the resulting
+#' data frame is the same for both empty and non-empty input.
+#'
 #' @section Connection to plyr:
 #'
 #' If you're familiar with plyr, \code{do} with named arguments is basically

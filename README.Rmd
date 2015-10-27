@@ -72,7 +72,7 @@ The key object in dplyr is a _tbl_, a representation of a tabular data structure
 Currently `dplyr` supports:
 
 * data frames
-* [data tables](http://datatable.r-forge.r-project.org/)
+* [data tables](https://github.com/Rdatatable/data.table/wiki)
 * [SQLite](http://sqlite.org/)
 * [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 * [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
@@ -179,5 +179,5 @@ You'll need to be a little careful if you load both plyr and dplyr at the same t
 ## Related approaches
 
 * [Blaze](http://blaze.pydata.org)
-* [|Stat](http://hcibib.org/perlman/stat/introman.html)
-* [Pig](http://infolab.stanford.edu/~usriv/papers/pig-latin.pdf)
+* [|Stat](http://oldwww.acm.org/perlman/stat/)
+* [Pig](http://dx.doi.org/10.1145/1376616.1376726)

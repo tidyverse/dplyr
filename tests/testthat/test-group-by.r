@@ -235,3 +235,24 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   expect_equal(groups(no_cyl), NULL)
   expect_is(no_cyl, "tbl_df")
 })
+
+test_that("group_by works after arrange (#959)",{
+  df  <- data_frame(Log= c(1,2,1,2,1,2), Time = c(10,1,3,0,15,11))
+  res <- df %>%
+     arrange(Time) %>%
+     group_by(Log) %>%
+     mutate(Diff = Time - lag(Time))
+  expect_true( all(is.na( res$Diff[ c(1,3) ] )))
+  expect_equal( res$Diff[ c(2,4,5,6) ], c(1,7,10,5) )
+})
+
+test_that("group_by keeps attributes", {
+  d <- data.frame( x = structure( 1:10, foo = "bar" ) )
+  gd <- group_by(d)
+  expect_equal( attr(gd$x, "foo"), "bar")
+})
+
+test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
+  res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
+  expect_equal( res, c("tbl_df", "data.frame"))
+})

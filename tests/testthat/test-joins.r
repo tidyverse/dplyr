@@ -211,6 +211,40 @@ test_that("joining data tables yields a data table (#470)", {
   expect_is(out, "data.table")
 })
 
+test_that("joining data tables does not modify them (#659)", {
+  a <- data.table::data.table(x = c(1, 1, 2, 3), y = 4:1)
+  b <- data.table::data.table(x = c(1, 2, 2, 4), z = 1:4)
+
+  for (ak in names(a)) {
+    for (bk in names(b)) {
+      label <- sprintf("keys: %s, %s", ak, bk)
+      data.table::setkeyv(a, ak)
+      data.table::setkeyv(b, bk)
+      ac <- data.table::copy(a)
+      bc <- data.table::copy(b)
+
+      out <- left_join(a, b, "x")
+      expect_equal(a, ac, label = label)
+      expect_equal(b, bc, label = label)
+      out <- semi_join(a, b, "x")
+      expect_equal(a, ac, label = label)
+      expect_equal(b, bc, label = label)
+      out <- right_join(a, b, "x")
+      expect_equal(a, ac, label = label)
+      expect_equal(b, bc, label = label)
+      out <- full_join(a, b, "x")
+      expect_equal(a, ac, label = label)
+      expect_equal(b, bc, label = label)
+      out <- inner_join(a, b, "x")
+      expect_equal(a, ac, label = label)
+      expect_equal(b, bc, label = label)
+      out <- anti_join(a, b, "x")
+      expect_equal(a, ac, label = label)
+      expect_equal(b, bc, label = label)
+    }
+  }
+})
+
 test_that("inner_join is symmetric (even when joining on character & factor)", {
   foo <- data_frame(id = factor(c("a", "b")), var1 = "foo")
   bar <- data_frame(id = c("a", "b"), var2 = "bar")
@@ -412,4 +446,61 @@ test_that("join creates correctly named results (#855)", {
   expect_equal(names(res), c("q", "r", "s", "t") )
   expect_equal(res$q, x$q)
   expect_equal(res$r, x$r)
+})
+
+test_that("inner join gives same result as merge. #1281", {
+  set.seed(75)
+  x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+    cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
+    stringsAsFactors = FALSE)
+  y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+    cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
+    stringsAsFactors = FALSE)
+  ij <- inner_join(x, y, by = c("cat1","cat2"))
+  me <- merge(x, y, by = c("cat1","cat2"))
+  expect_true( equal_data_frame(ij, me) )
+})
+
+test_that("join handles matrices #1230", {
+  df1 <- data_frame( x = 1:10, text = letters[1:10])
+  df2 <- data_frame( x = 1:5,  text = "" )
+  df2$text <- matrix( LETTERS[1:10], nrow=5)
+
+  res <- left_join( df1, df2, by = c("x"="x")) %>% filter( x > 5)
+  text.y <- res$text.y
+  expect_true( is.matrix(text.y) )
+  expect_equal( dim(text.y), c(5,2) )
+  expect_true( all(is.na(text.y)) )
+})
+
+test_that( "ordering of strings is not confused by R's collate order (#1315)", {
+  a= data.frame(character = c("\u0663"),set=c("arabic_the_language"),stringsAsFactors=F)
+  b = data.frame(character = c("3"),set=c("arabic_the_numeral_set"),stringsAsFactors = F)
+  res <- b %>% inner_join(a,by=c("character"))
+  expect_equal( nrow(res), 0L)
+  res <- a %>% inner_join(b,by=c("character"))
+  expect_equal( nrow(res), 0L)
+})
+
+test_that("joins handle tzone differences (#819)", {
+  date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
+  date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
+
+  df1 <- data.frame( date = date1 )
+  df2 <- data.frame( date = date2 )
+
+  expect_equal( attr(left_join(df1, df1)$date, "tzone"), "America/Chicago" )
+})
+
+test_that("joins matches NA in character vector (#892)", {
+  x <- data.frame(id = c(NA_character_, NA_character_),
+                   stringsAsFactors = F)
+
+  y <- expand.grid(id = c(NA_character_, NA_character_),
+                    LETTER = LETTERS[1:2],
+                    stringsAsFactors = F)
+
+  res <- left_join(x, y, by = 'id')
+  expect_true( all( is.na(res$id)) )
+  expect_equal( res$LETTER, rep(rep(c("A", "B"), each = 2), 2) )
 })

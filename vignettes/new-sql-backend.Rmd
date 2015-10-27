@@ -15,7 +15,7 @@ library(dplyr)
 ```
 
 
-This document describes how to describe a new SQL backend to dplyr. It's a work in progress, but will hopefully get started. If you're familiar with how your database works, and at least one other database that dplyr already supports, this should be reasonably simple, and I'm happy to help if you get stuck.  It's also possible that a new database backend may need new methods - I'm also happy to add those as needed. If you need more help, please email the [mailing list](mailto:manipulatr@googlegroups.com) and I'll help you get unstuck.
+This document describes how to add a new SQL backend to dplyr. While it's a work in progress, it will hopefully get you started. If you're familiar with how your database and at least one other database that dplyr supports work, this should be reasonably simple task. However, if you get stuck I'm happy to help. For example, it's possible that a new database backend may need new methods - I'm happy to add those as needed. If you need more help, please email the [mailing list](mailto:manipulatr@googlegroups.com) and I'll help you get unstuck.
 
 dplyr uses S3, so make sure that you're [familiar with the basics](http://adv-r.had.co.nz/OO-essentials.html#s3) before you start.
 
@@ -23,7 +23,7 @@ See `?backend_sql` and `?backend_db` for a complete list of generics.
 
 ## Create the src object
 
-Start by creating a new src function to represent the backend. Assuming we're going to create a src for mssql, you'd call it `src_mssql()`, and you'd follow the pattern of an existing src. A simplified version of `src_postgres()` is show below:
+Start by creating a new src function to represent the backend. Assuming we're going to create a src for postgres, you'd call it `src_postgres()`, and you'd follow the pattern of an existing src. A simplified version of `src_postgres()` is show below:
 
 ```{r, eval = FALSE}
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
@@ -42,7 +42,7 @@ Next, implement a method for `src_desc()` that briefly describes the source:
 
 ```{r}
 #' @export
-src_desc.src_postgres <- function(x) {
+src_desc.src_postgres <- function(con) {
   info <- dbGetInfo(con)
   host <- if (info$host == "") "localhost" else info$host
 

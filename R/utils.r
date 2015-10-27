@@ -1,3 +1,7 @@
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
@@ -114,7 +118,7 @@ unique_name <- local({
 
   function() {
     i <<- i + 1
-    paste0("_W", i)
+    paste0("zzz", i)
   }
 })
 

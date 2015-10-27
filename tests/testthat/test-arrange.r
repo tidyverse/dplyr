@@ -70,16 +70,6 @@ test_that("arrange results same regardless of backend", {
   compare_tbls(tbls, function(x) x %>% arrange(desc(d), id), compare = equal_df)
 })
 
-test_that("arrange uses the white list", {
-  env <- environment()
-  Period <- suppressWarnings( setClass("Period", contains = "numeric", where = env) )
-  on.exit(removeClass("Period", where = env))
-
-  df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
-  expect_error(arrange(df, p))
-
-})
-
 test_that("arrange handles list columns (#282)", {
   df <- data.frame( a = 2:1 )
   df$b <- list( "foo", "bar" )
@@ -142,4 +132,42 @@ test_that("arrange handles complex vectors", {
   res <- arrange(d,desc(y))
   expect_true( all(is.na(res$y[9:10])) )
 
+})
+
+test_that("arrange respects attributes #1105", {
+  env <- environment()
+  Period <- suppressWarnings( setClass("Period", contains = "numeric", where = env) )
+  on.exit(removeClass("Period", where = env))
+
+  df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
+  res <- arrange(df, p)
+  expect_is(res$p, "Period")
+})
+
+test_that("arrange works with empty data frame (#1142)", {
+  df <- data.frame()
+  res <- df %>% arrange
+  expect_equal( nrow(res), 0L )
+  expect_equal( length(res), 0L )
+})
+
+test_that("arrange respects locale (#1280)", {
+  df2 <- data_frame( words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano") )
+
+  res <- df2 %>% arrange( words )
+  expect_equal( res$words, sort(df2$words) )
+
+  res <- df2 %>% arrange( desc(words) )
+  expect_equal( res$words, sort(df2$words, decreasing = TRUE) )
+
+})
+
+test_that("duplicated column name is explicit about which column (#996)", {
+    df <- data.frame( x = 1:10, x = 1:10 )
+    names(df) <- c("x", "x")
+    expect_error( df %>% arrange, "found duplicated column name: x" )
+
+    df <- data.frame( x = 1:10, x = 1:10, y = 1:10, y = 1:10 )
+    names(df) <- c("x", "x", "y", "y")
+    expect_error( df %>% arrange, "found duplicated column name: x, y" )
 })

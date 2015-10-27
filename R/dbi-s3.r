@@ -443,7 +443,7 @@ db_disconnector <- function(con, name, quiet = FALSE) {
 res_warn_incomplete <- function(res) {
   if (dbHasCompleted(res)) return()
 
-  rows <- formatC(dbGetRowCount(res), big.mark = ",")
+  rows <- big_mark(dbGetRowCount(res))
   warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
     call. = FALSE)
 }

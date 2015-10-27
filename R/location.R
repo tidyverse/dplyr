@@ -3,7 +3,7 @@
 #' This is useful for understand how and when dplyr makes copies of data
 #' frames
 #'
-#' @param df, a data frame
+#' @param df a data frame
 #' @param x,y two data frames to compare
 #' @export
 #' @examples

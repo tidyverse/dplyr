@@ -18,7 +18,7 @@ library(dplyr)
 
 `data_frame()` is a nice way to create data frames. It encapsulates best practices for data frames:
 
-  * It never changes the type of its inputs (i.e. no more `stringsAsFactors = FALSE`!)
+  * It never changes an input's type (i.e., no more `stringsAsFactors = FALSE`!).
     
     ```{r}
     data.frame(x = letters) %>% sapply(class)
@@ -41,36 +41,51 @@ library(dplyr)
     data_frame(`crazy name` = 1) %>% names()
     ```
 
-  * It evaluates its arguments lazyily and in order:
+  * It evaluates its arguments lazily and sequentially:
   
     ```{r}
     data_frame(x = 1:5, y = x ^ 2)
     ```
 
-  * It adds `tbl_df()` class to output so that if you accidentaly print a large 
-    data frames you only get the first few rows.
+  * It adds the `tbl_df()` class to the output so that if you accidentally print a large 
+    data frame you only get the first few rows.
     
     ```{r}
     data_frame(x = 1:5) %>% class()
     ```
+
+  * It changes the behaviour of `[` to always return the same type of object:
+    subsetting using `[` always returns a `tbl_df()` object; subsetting using 
+    `[[` always returns a column.
     
-  * It never uses `row.names()`, because the whole point of tidy data is to 
-    store variables in a consistent way, so we shouldn't put one variable in a 
+    You should be aware of one case where subsetting a `tbl_df()` object  
+    will produce a different result than a `data.frame()` object:
+  
+    ```{r}
+    df <- data.frame(a = 1:2, b = 1:2)
+    str(df[, "a"])
+    
+    tbldf <- tbl_df(df)
+    str(tbldf[, "a"])
+    ```
+    
+  * It never uses `row.names()`. The whole point of tidy data is to 
+    store variables in a consistent way. So it never stores a variable as 
     special attribute.
   
-  * It only recycles vectors of length 1. Recycling vectors of other lengths 
+  * It only recycles vectors of length 1. This is because recycling vectors of greater lengths 
     is a frequent source of bugs.
 
 ## Coercion
 
-To complement `data_frame()`, dplyr provides `as_data_frame()` for coercing lists into data frames. It does two things:
+To complement `data_frame()`, dplyr provides `as_data_frame()` to coerce lists into data frames. It does two things:
 
-* Checks that the input list is valid for a data frame, i.e. that each element
+* It checks that the input list is valid for a data frame, i.e. that each element
   is named, is a 1d atomic vector or list, and all elements have the same 
   length.
   
-* Sets the class and attributes of the list to make it behave like a data frame.
-  This modification does not require a deep copy of the input list, so is
+* It sets the class and attributes of the list to make it behave like a data frame.
+  This modification does not require a deep copy of the input list, so it's
   very fast.
   
 This is much simpler than `as.data.frame()`. It's hard to explain precisely what `as.data.frame()` does, but it's similar to `do.call(cbind, lapply(x, data.frame))` - i.e. it coerces each component to a data frame and then `cbinds()` them all together. Consequently `as_data_frame()` is much faster than `as.data.frame()`:
@@ -84,23 +99,23 @@ microbenchmark::microbenchmark(
 )
 ```
 
-The speed of `as.data.frame()` is not usually a bottleneck in interatively use, but can be a problem when combining thousands of messy inputs into one tidy data frame.
+The speed of `as.data.frame()` is not usually a bottleneck when used interactively, but can be a problem when combining thousands of messy inputs into one tidy data frame.
 
 ## Memory
 
-One of the reasons that dplyr is fast is that it is very careful about when it makes copies of columns. This section describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.
+One of the reasons that dplyr is fast is that it is very careful about when it makes copies. This section describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.
 
-The first tool we'll use is `dplyr::location()`. It tells us three things about a data frame:
+The first tool we'll use is `dplyr::location()`. It tells us the memory location of three components of a data frame object:
 
-* where the object itself is located in memory
-* where each column is located
-* where each attribute is located
+* the data frame itself
+* each column
+* each attribute
 
 ```{r}
 location(iris)
 ```
 
-It's useful to know the memory address, because if the address changes, then you know R has made a copy. Copies are bad because it takes time to copy a vector. This isn't usually a bottleneck if you have a few thousand values, but if you have millions or tens of millions it starts to take up a significant amount of time. Unnecessary copies are also bad because they take up memory.
+It's useful to know the memory address, because if the address changes, then you'll know that R has made a copy. Copies are bad because they take time to create. This isn't usually a bottleneck if you have a few thousand values, but if you have millions or tens of millions of values it starts to take significant amounts of time. Unnecessary copies are also bad because they take up memory.
 
 R tries to avoid making copies where possible. For example, if you just assign `iris` to another variable, it continues to the point same location:
 
@@ -109,29 +124,29 @@ iris2 <- iris
 location(iris2)
 ```
 
-Rather than carefully comparing long memory locations, we can instead use the `dplyr::changes()` function to highlights changes between two versions of a data frame. This shows us that `iris` and `iris2` are identical: both names point to the same location in memory.
+Rather than having to compare hard to read memory locations, we can instead use the `dplyr::changes()` function to highlights changes between two versions of a data frame. The code below shows us that `iris` and `iris2` are identical: both names point to the same location in memory.
 
 ```{r}
 changes(iris2, iris)
 ```
 
-What do you think happens if you modify a single column of `iris2`? In R 3.1.0 and above, R knows enough to only modify one column and leave the others pointing to the existing location:
+What do you think happens if you modify a single column of `iris2`? In R 3.1.0 and above, R knows to modify only that one column and to leave the others pointing to their existing locations:
 
 ```{r}
 iris2$Sepal.Length <- iris2$Sepal.Length * 2
 changes(iris, iris2)
 ```
 
-(This was not the case prior to R 3.1.0: R created a deep copy of the entire data frame.)
+(This was not the case prior to version 3.1.0, where R created a deep copy of the entire data frame.)
 
-dplyr is similarly smart:
+dplyr is equally smart:
 
 ```{r}
 iris3 <- mutate(iris, Sepal.Length = Sepal.Length * 2)
 changes(iris3, iris)
 ```
 
-It's smart enough to create only one new column: all the other columns continue to point at their old locations. You might notice that the attributes have still been copied. This has little impact on performance because the attributes are usually short vectors and copying makes the internal dplyr code considerably simpler.
+It creates only one new column while all the other columns continue to point at their original locations. You might notice that the attributes are still copied. However, this has little impact on performance. Because attributes are usually short vectors, the internal dplyr code needed to copy them is also considerably simpler.
 
 dplyr never makes copies unless it has to:
 
@@ -141,13 +156,13 @@ dplyr never makes copies unless it has to:
 
 * `mutate()` never copies columns, except when you modify an existing column
 
-* `arrange()` must copy because you're changing the order of every column.
+* `arrange()` must always copy all columns because you're changing the order of every one.
   This is an expensive operation for big data, but you can generally avoid
   it using the order argument to [window functions](window-functions.html)
 
 * `summarise()` creates new data, but it's usually at least an order of
   magnitude smaller than the original data.
 
-This means that dplyr lets you work with data frames with very little memory overhead.
+In short, dplyr lets you work with data frames with very little memory overhead.
 
-data.table takes this idea one step further than dplyr, and provides functions that modify a data table in place. This avoids the need to copy the pointers to existing columns and attributes, and provides speed up when you have many columns. dplyr doesn't do this with data frames (although it could) because I think it's safer to keep data immutable: all dplyr data frame methods return a new data frame, even while they share as much data as possible.
+data.table takes this idea one step further: it provides functions that modify a data table in place. This avoids the need to make copies of pointers to existing columns and attributes, and speeds up operations when you have many columns. dplyr doesn't do this with data frames (although it could) because I think it's safer to keep data immutable: even if the resulting data frame shares practically all the data of the original data frame, all dplyr data frame methods return a new data frame.

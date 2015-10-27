@@ -17,6 +17,7 @@
 #' @keywords internal
 #' @examples
 #' # Connect to a local sqlite database, if already created
+#' \donttest{
 #' if (has_lahman("sqlite")) {
 #'   lahman_sqlite()
 #'   batting <- tbl(lahman_sqlite(), "Batting")
@@ -27,6 +28,7 @@
 #' if (has_lahman("postgres")) {
 #'   lahman_postgres()
 #'   batting <- tbl(lahman_postgres(), "Batting")
+#' }
 #' }
 #' @name lahman
 NULL
@@ -79,7 +81,7 @@ copy_lahman <- function(src, ...) {
 }
 # Get list of all non-label data frames in package
 lahman_tables <- function() {
-  tables <- data(package = "Lahman")$results[, 3]
+  tables <- utils::data(package = "Lahman")$results[, 3]
   tables[!grepl("Labels", tables)]
 }
 

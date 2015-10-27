@@ -116,7 +116,9 @@ src_desc.src_sqlite <- function(x) {
 #' @export
 src_translate_env.src_sqlite <- function(x) {
   sql_variant(
-    base_scalar,
+    sql_translator(.parent = base_scalar,
+      log = sql_prefix("log")
+    ),
     sql_translator(.parent = base_agg,
       sd = sql_prefix("stdev")
     )
@@ -127,7 +129,7 @@ src_translate_env.src_sqlite <- function(x) {
 
 #' @export
 db_query_fields.SQLiteConnection <- function(con, sql, ...) {
-  rs <- DBI::dbSendQuery(con, paste0("SELECT * FROM ", sql))
+  rs <- DBI::dbSendQuery(con, build_sql("SELECT * FROM ", sql))
   on.exit(DBI::dbClearResult(rs))
 
   names(fetch(rs, 0L))
@@ -139,7 +141,7 @@ db_explain.SQLiteConnection <- function(con, sql, ...) {
   exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
   expl <- DBI::dbGetQuery(con, exsql)
   rownames(expl) <- NULL
-  out <- capture.output(print(expl))
+  out <- utils::capture.output(print(expl))
 
   paste(out, collapse = "\n")
 }

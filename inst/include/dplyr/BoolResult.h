@@ -22,6 +22,10 @@ namespace dplyr{
             return result ;    
         }
         
+        inline const std::string& why_not() const {
+            return message ;
+        }
+        
     private:
         bool result ;
         std::string message ;

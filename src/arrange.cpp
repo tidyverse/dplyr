@@ -5,6 +5,7 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 List arrange_impl( DataFrame data, LazyDots dots ){
+    if( data.size() == 0 ) return data ;
     check_valid_colnames(data) ;
     assert_all_white_list(data) ;
 
@@ -15,7 +16,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
         IntegerVector index = o.apply() ;
 
         // reorganize
-        labels = DataFrameVisitors( labels, labels.names() ).subset( index, labels.attr("class") );
+        labels = DataFrameSubsetVisitors( labels, labels.names() ).subset( index, labels.attr("class") );
 
         ListOf<IntegerVector> indices( data.attr("indices") ) ;
         int ngroups = indices.size() ;
@@ -36,7 +37,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
             new_group_sizes[i] = idx.size() ;
         }
 
-        DataFrame res = DataFrameVisitors( data, data.names() ).subset( master_index, data.attr("class" ) ) ;
+        DataFrame res = DataFrameSubsetVisitors( data, data.names() ).subset( master_index, data.attr("class" ) ) ;
         res.attr( "labels" )  = labels ;
         res.attr( "indices" ) = new_indices ;
         res.attr( "vars"    ) = data.attr("vars" ) ;
@@ -68,15 +69,15 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     }
 
     for(int i=0; k<nargs; i++, k++){
-        Shelter<SEXP> __ ;
         const Lazy& lazy = dots[i] ;
 
-        SEXP call = lazy.expr() ;
+        Shield<SEXP> call_( lazy.expr() ) ;
+        SEXP call = call_ ;
         bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call) ;
 
         CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env()) ;
 
-        SEXP v = __(call_proxy.eval()) ;
+        Shield<SEXP> v(call_proxy.eval()) ;
         if( !white_list(v) ){
             stop( "cannot arrange column of class '%s'", get_single_class(v) ) ;
         }
@@ -104,14 +105,18 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     OrderVisitors o(variables, ascending, nargs) ;
     IntegerVector index = o.apply() ;
 
-    DataFrameVisitors visitors( data, data.names() ) ;
+    DataFrameSubsetVisitors visitors( data, data.names() ) ;
     List res = visitors.subset(index, data.attr("class") ) ;
 
     if( is<GroupedDataFrame>(data) ){
-        res.attr( "vars" ) = data.attr("vars" ) ;
+        // so that all attributes are recalculated (indices ... )
+        // see the lazyness feature in GroupedDataFrame
+        // if we don't do that, we get the values of the un-arranged data
+        // set for free from subset (#1064)
+        res.attr("labels") = R_NilValue ;
+        res.attr( "vars" )  = data.attr("vars" ) ;
         return GroupedDataFrame(res).data() ;
     }
     SET_ATTRIB(res, strip_group_attributes(res));
     return res ;
 }
-

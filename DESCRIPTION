@@ -1,6 +1,6 @@
 Package: dplyr
 Type: Package
-Version: 0.4.1.9000
+Version: 0.4.3.9000
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -12,7 +12,7 @@ Authors@R: c(
 URL: https://github.com/hadley/dplyr
 BugReports: https://github.com/hadley/dplyr/issues
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.1.2)
 Imports:
     assertthat,
     utils,
@@ -36,14 +36,13 @@ Suggests:
     methods
 VignetteBuilder: knitr
 LazyData: yes
-LinkingTo: Rcpp (>= 0.11.3),
-    BH (>= 1.51.0-2)
+LinkingTo: Rcpp (>= 0.12.0),
+    BH (>= 1.58.0-1)
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
     'all-equal.r'
     'bench-compare.r'
-    'chain.r'
     'cluster.R'
     'colwise.R'
     'compute-collect.r'
@@ -61,6 +60,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'frame-data.R'
     'funs.R'
     'glimpse.R'
     'group-by.r'
@@ -112,3 +112,4 @@ Collate:
     'utils.r'
     'view.r'
     'zzz.r'
+RoxygenNote: 4.1.1.9001

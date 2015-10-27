@@ -13,16 +13,12 @@ namespace dplyr {
             n++ ;
         }
         
-        ~ResultSet(){
-            delete_all( results ) ;
-        }
-        
         Result* get(int k){ return results[k] ; }
         inline int size() const { return n ; }
         Rcpp::String name(int k) const { return names[k] ; } 
         
     private:
-        std::vector<Result*> results ;
+        pointer_vector<Result> results ;
         std::vector<std::string> names ;
         int n ;
     } ;

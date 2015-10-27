@@ -5,6 +5,8 @@ using namespace dplyr ;
 
 // [[Rcpp::export]]
 SEXP distinct_impl( DataFrame df, CharacterVector vars){
+    if( df.size() == 0 )
+        return df ;
     check_valid_colnames(df) ;
     if( !vars.size() ){
         vars = df.names() ;
@@ -21,7 +23,5 @@ SEXP distinct_impl( DataFrame df, CharacterVector vars){
         }
     }
 
-    DataFrameVisitors out(df, df.names()) ;
-    return out.subset(indices, df.attr("class")) ;
+    return DataFrameSubsetVisitors(df, df.names()).subset(indices, df.attr("class")) ;
 }
-
