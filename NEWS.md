@@ -25,7 +25,7 @@
 
 * Fixed `distinct` for zero column data frames (#1437).
 
-* grouped `mutate` handles factors correctly (#1414). 
+* grouped `mutate` handles factors correctly (#1414).
 
 * `frame_data()` properly constructs rectangular tables. (#1377, @kevinushey)
 
@@ -36,6 +36,8 @@
   `as.tbl_cube.data.frame`. Also, the `met_name` argument to `as.tbl_cube.table`
   now defaults to `"Freq"` for consistency with `as.data.frame.table`.
   (@krlmlr, #1374).
+
+* Consistent behavior on distinct() when key is set in data.table (#990).
 
 # dplyr 0.4.3
 

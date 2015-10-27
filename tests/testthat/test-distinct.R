@@ -29,3 +29,11 @@ test_that("distinct works for 0-sized columns (#1437)", {
   ddf <- distinct(df)
   expect_equal( ncol(ddf), 0L )
 })
+
+test_that("distinct works when key is set (data.table) ", {
+  dt <- tbl_dt(df)
+  # in data.table this would result in only 1 row (1, 1, 1)
+  setkey(dt, x)
+  expect_equal(as.data.frame(distinct(dt)),
+    as.data.frame(distinct(df)))
+})
