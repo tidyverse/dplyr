@@ -39,15 +39,18 @@ namespace dplyr {
 
         inline void grab(SEXP data, const SlicingIndex& indices){
             int n = Rf_length(data) ;
-
-            check_type(data) ;
-            if(n == indices.size() ){
-                grab_along( data, indices ) ;
-            } else if( n == 1) {
-                grab_rep( Rcpp::internal::r_vector_start<RTYPE>(data)[0], indices ) ;
+            if( is<LogicalVector>(data) && all(is_na(LogicalVector(data))).is_true() ){
+              grab_rep( Vector<RTYPE>::get_na(), indices ) ;
             } else {
-                stop ( "incompatible size (%d), expecting %d (the group size) or 1",
-                        n, indices.size()) ;
+              check_type(data) ;
+              if(n == indices.size() ){
+                  grab_along( data, indices ) ;
+              } else if( n == 1) {
+                  grab_rep( Rcpp::internal::r_vector_start<RTYPE>(data)[0], indices ) ;
+              } else {
+                  stop ( "incompatible size (%d), expecting %d (the group size) or 1",
+                          n, indices.size()) ;
+              }
             }
         }
 
