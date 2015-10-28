@@ -60,7 +60,6 @@ a number of special functions that only work inside \code{select}
 
 To drop variables, use \code{-}. You can rename variables with
 named arguments.
-
 }
 \examples{
 iris <- tbl_df(iris) # so it prints a little nicer

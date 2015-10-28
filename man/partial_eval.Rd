@@ -33,7 +33,6 @@ do this 100% perfectly. \code{partial_eval} uses the following heuristic:
   \item If the symbol is defined locally, local.
   \item Otherwise, remote.
 }
-
 }
 \examples{
 if (require("Lahman")) {

@@ -60,7 +60,6 @@ Manipulation functions:
 Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
 Probably straightforward if you get the indexes right, and that's probably
 some straightforward array/tensor operation.
-
 }
 \examples{
 # The built in nasa dataset records meterological data (temperature,

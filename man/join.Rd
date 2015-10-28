@@ -81,7 +81,6 @@ Currently dplyr supports four join types:
    \item{\code{full_join}}{return all rows and all columns from both \code{x} and \code{y}.
    Where there are not matching values, returns \code{NA} for the one missing.}
 }
-
 }
 
 \section{Grouping}{
@@ -89,6 +88,5 @@ Currently dplyr supports four join types:
 
 Groups are ignored for the purpose of joining, but the result preserves
 the grouping of \code{x}.
-
 }
 

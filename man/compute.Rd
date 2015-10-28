@@ -39,7 +39,6 @@ restrictions can be placed on.
 
 \code{compute} and \code{collect} preserve grouping, \code{collapse} drops
 it.
-
 }
 \examples{
 \donttest{

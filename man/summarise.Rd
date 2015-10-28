@@ -40,7 +40,6 @@ Summarise multiple values to a single value.
 
 Data frames are the only backend that supports creating a variable and
 using it in the same summary. See examples for more details.
-
 }
 \examples{
 summarise(mtcars, mean(disp))

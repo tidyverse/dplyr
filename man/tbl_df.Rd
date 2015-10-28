@@ -25,7 +25,6 @@ screen, describing the rest of it as text.
   screen}
 \item{\code{[}}{Never simplifies (drops), so always returns data.frame}
 }
-
 }
 \examples{
 ds <- tbl_df(mtcars)

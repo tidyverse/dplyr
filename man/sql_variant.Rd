@@ -59,7 +59,6 @@ easy.
 functions given the name of the SQL function. They don't perform any input
 checking, but do correctly escape their input, and are useful for
 quickly providing default wrappers for a new SQL variant.
-
 }
 \examples{
 # An example of adding some mappings for the statistical functions that

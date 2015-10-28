@@ -51,14 +51,12 @@ know how to translate a function it encounters, using set the
 \code{dplyr.strict_sql} option to \code{TRUE}.
 
 You can also use \code{sql} to insert a raw sql string.
-
 }
 
 \section{SQLite translation}{
 
 The SQLite variant currently only adds one additional function: a mapping
 from \code{sd} to the SQL aggregation function \code{stdev}.
-
 }
 \examples{
 # Regular maths is translated in a very straightforward way

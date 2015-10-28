@@ -38,7 +38,6 @@ ask your database administrator for the values of these variables.
 
 To see exactly what SQL is being sent to the database, you see
 \code{\link{show_query}} and \code{\link{explain}}.
-
 }
 
 \section{Grouping}{
@@ -51,7 +50,6 @@ the unevalated expressions for you.
 For best performance, the database should have an index on the variables
 that you are grouping by. Use \code{\link{explain}} to check that
 the database is using the indexes that you expect.
-
 }
 
 \section{Output}{
@@ -67,7 +65,6 @@ Note that \code{do} is not lazy since it must pull the data into R.
 It returns a \code{\link{tbl_df}} or \code{\link{grouped_df}}, with one
 column for each grouping variable, and one list column that contains the
 results of the operation. \code{do} never simplifies its output.
-
 }
 
 \section{Query principles}{

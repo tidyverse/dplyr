@@ -34,7 +34,6 @@ Use \code{\link{desc}} to sort a variable in descending order.
 Note that for local data frames, the ordering is done in C++ code which
 does not have access to the local specific ordering usually done in R.
 This means that strings are ordered as if in the C locale.
-
 }
 \examples{
 arrange(mtcars, cyl, disp)

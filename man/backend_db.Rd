@@ -73,7 +73,6 @@ Currently, the only user of \code{sql_begin()}, \code{sql_commit()},
 \code{sql_analyze()}. If you find yourself overriding many of these
 functions it may suggest that you should just override \code{\link{copy_to}}
 instead.
-
 }
 \keyword{internal}
 

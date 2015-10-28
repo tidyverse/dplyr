@@ -34,8 +34,7 @@ supplied, defaults to the results from the first \code{src}.}
    For \code{bench_tbls}: additional benchmarks to run.}
 }
 \value{
-
-  \code{eval_tbls}: a list of data frames.
+\code{eval_tbls}: a list of data frames.
 
   \code{compare_tbls}: an invisible \code{TRUE} on success, otherwise
   an error is thrown.

@@ -44,7 +44,6 @@ methods for more details:
   \item PostgreSQL: \code{\link{src_postgres}}
   \item MySQL: \code{\link{src_mysql}}
 }
-
 }
 \examples{
 by_cyl <- group_by(mtcars, cyl)

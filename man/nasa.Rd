@@ -25,7 +25,6 @@ Data Center (with permission; see important copyright terms below).
   \item \code{lat}, \code{long}: latitude and longitude
   \item \code{year}, \code{month}: month and year
 }
-
 }
 
 \section{Measures}{

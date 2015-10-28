@@ -59,7 +59,6 @@ Semi-joins are implemented using \code{WHERE EXISTS}, and anti-joins with
 \code{WHERE NOT EXISTS}. Support for semi-joins is somewhat partial: you
 can only create semi joins where the \code{x} and \code{y} columns are
 compared with \code{=} not with more general operators.
-
 }
 \examples{
 \dontrun{

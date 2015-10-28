@@ -29,7 +29,6 @@ of memory. If it's too small, it will be slow, because of the overhead of
 talking to the database.}
 }
 \value{
-
 \code{do} always returns a data frame. The first columns in the data frame
 will be the labels, the others will be computed from \code{...}. Named
 arguments become list-columns, with one element for each group; unnamed
@@ -66,7 +65,6 @@ is basically equivalent to \code{ldply}. However, instead of storing
 labels in a separate attribute, the result is always a data frame. This
 means that \code{summarise} applied to the result of \code{do} can
 act like \code{ldply}.
-
 }
 \examples{
 by_cyl <- group_by(mtcars, cyl)

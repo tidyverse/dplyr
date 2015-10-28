@@ -25,7 +25,6 @@ Explaining a \code{tbl_sql} will run the SQL \code{EXPLAIN} command which
 will describe the query plan. This requires a little bit of knowledge about
 how \code{EXPLAIN} works for your database, but is very useful for
 diagnosing performance problems.
-
 }
 \examples{
 \donttest{
