@@ -101,6 +101,49 @@ microbenchmark::microbenchmark(
 
 The speed of `as.data.frame()` is not usually a bottleneck when used interactively, but can be a problem when combining thousands of messy inputs into one tidy data frame.
 
+## tbl_dfs vs data.frames
+
+There are two key differences between tbl_dfs and data.frames:
+
+*   When you print a tbl_df, it only shows the first ten rows and all the
+    columns that fit on one screen. It also prints an abbreviated description
+    of the column type:
+    
+    ```{r}
+    data_frame(x = 1:1000)
+    ```
+    
+    You can control the default appearance with options:
+    
+    * `options(dplyr.print_max = n, dplyr.print_min = m)`: if more than `n`
+      rows print `m` rows. Use `options(dplyr.print_max = Inf)` to always
+      show all rows.
+    
+    * `options(dply.width = Inf)` will always print all columns, regardless
+       of the width of the screen.
+
+    
+*   When you subset a tbl\_df with `[`, it always returns another tbl\_df. 
+    Contrast this with a data frame: sometimes `[` returns a data frame and
+    sometimes it just returns a single column:
+    
+    ```{r}
+    df1 <- data.frame(x = 1:3, y = 3:1)
+    class(df1[, 1:2])
+    class(df1[, 1])
+    
+    df2 <- data_frame(x = 1:3, y = 3:1)
+    class(df2[, 1:2])
+    class(df2[, 1])
+    ```
+    
+    To extract a single column it's use `[[` or `$`:
+    
+    ```{r}
+    class(df2[[1]])
+    class(df2$x)
+    ```
+
 ## Memory
 
 One of the reasons that dplyr is fast is that it is very careful about when it makes copies. This section describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.

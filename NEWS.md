@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `vignette("data_frames")` describes the difference between tbl_dfs and
+  regular data frames (#1468).
+
 * `print.tbl_df()` is considerably faster if you have very wide data frames.
   It will now also only list the first 100 additional variables not already
   on screen - control this with the new `n_extra` parameter to `print()` 
