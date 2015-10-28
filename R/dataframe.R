@@ -30,6 +30,13 @@
 #'
 #' # With the SE version, you give it a list of formulas/expressions
 #' data_frame_(list(x = ~1:10, y = quote(x * 2)))
+#'
+#' # data frames can only contain 1d atomic lists and vectors
+#' # and can not contain POSIXlt
+#' \dontrun{
+#' data_frame(x = data_frame(1, 2, 3))
+#' data_frame(y = strptime("2000/01/01", "%x"))
+#' }
 data_frame <- function(...) {
   data_frame_(lazyeval::lazy_dots(...))
 }
@@ -64,9 +71,14 @@ data_frame_ <- function(columns) {
     # Fill by reference
     res <- lazyeval::lazy_eval(columns[[i]], output)
     if (!is_1d(res)) {
-      stop("data_frames can only contain 1d atomic vectors and lists",
+      stop("`", col_names[i], "` is not an 1d atomic vector or list.",
         call. = FALSE)
     }
+    if (inherits(res, "POSIXlt")) {
+      stop("`", col_names[i], "` is a `POSIXlt`; use a `POSIXct` instead.",
+        call. = FALSE)
+    }
+
     output[[i]] <- res
     names(output)[i] <- col_names[[i]]
 
@@ -137,8 +149,16 @@ as_data_frame <- function(x) {
 
   ok <- vapply(x, is_1d, logical(1))
   if (any(!ok)) {
-    stop("data_frames can only contain 1d atomic vectors and lists",
+    bad <- names(x)[!ok]
+    stop(paste0("`", bad, "`", collapse = ","), ": not 1d atomic vectors or lists.",
       call. = FALSE)
+  }
+
+  posixlt <- vapply(x, inherits, "POSIXlt", FUN.VALUE = logical(1))
+  if (any(posixlt)) {
+    bad <- names(x)[posixlt]
+    stop(paste0("`", bad, "`", collapse = ","), ": are `POSIXlt`; ",
+      "use `POSIXct` instead", call. = FALSE)
   }
 
   n <- unique(vapply(x, NROW, integer(1)))
