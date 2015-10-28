@@ -504,3 +504,13 @@ test_that("joins matches NA in character vector (#892)", {
   expect_true( all( is.na(res$id)) )
   expect_equal( res$LETTER, rep(rep(c("A", "B"), each = 2), 2) )
 })
+
+test_that( "joins avoid name repetition (#1460)", {
+  d1 <- data.frame(id=1:5, foo=rnorm(5))
+  d2 <- data.frame(id=1:5, foo=rnorm(5))
+  d3 <- data.frame(id=1:5, foo=rnorm(5))
+  d <- d1 %>% left_join(d1, by="id") %>%
+    left_join(d2, by="id") %>%
+    left_join(d3, by="id")
+  expect_equal( names(d), c("id", "foo.x", "foo.y", "foo.x.x", "foo.y.y"))
+})
