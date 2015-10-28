@@ -438,3 +438,20 @@ test_that("mutate handles factors (#1414)", {
   res <- d %>% group_by(g) %>% mutate( f2 = factor(f) )
   expect_equal( as.character(res$f2), res$f)
 })
+
+test_that("mutate recognizes global #1469", {
+    vs <- 4
+    res <- mtcars %>% mutate(a = global(vs))
+    expect_true( all(res$a == 4) )
+    res <- mtcars %>% mutate(a = global(vs) + 1)
+    expect_true( all(res$a == 5) )
+    res <- mtcars %>% mutate(a = 1+global(vs) )
+    expect_true( all(res$a == 5) )
+
+    res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs))
+    expect_true( all(res$a == 4) )
+    res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs)+1)
+    expect_true( all(res$a == 5) )
+    res <- mtcars %>% group_by(cyl) %>% mutate(a = 1+global(vs))
+    expect_true( all(res$a == 5) )
+})

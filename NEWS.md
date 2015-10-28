@@ -25,7 +25,7 @@
 
 * Fixed `distinct` for zero column data frames (#1437).
 
-* grouped `mutate` handles factors correctly (#1414). 
+* grouped `mutate` handles factors correctly (#1414).
 
 * `frame_data()` properly constructs rectangular tables. (#1377, @kevinushey)
 
@@ -36,6 +36,11 @@
   `as.tbl_cube.data.frame`. Also, the `met_name` argument to `as.tbl_cube.table`
   now defaults to `"Freq"` for consistency with `as.data.frame.table`.
   (@krlmlr, #1374).
+
+* Added interpretation for `global` in dplyr expressions. `global(var)` means
+   getting the `var` variable from the calling environment, not from the data.
+   This is useful to disambiguate the case where `var` is also a variable from
+   the dataset (#1469).
 
 # dplyr 0.4.3
 
