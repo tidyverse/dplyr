@@ -1,6 +1,6 @@
 #' A data cube tbl.
 #'
-#' An cube tbl stores data in a compact array format where dimension
+#' A cube tbl stores data in a compact array format where dimension
 #' names are not needlessly repeated. They are particularly appropriate for
 #' experimental data where all combinations of factors are tried (e.g.
 #' complete factorial designs), or for storing the result of aggregations.
@@ -10,7 +10,7 @@
 #' \code{tbl_cube} support is currently experimental and little performance
 #' optimisation has been done, but you may find them useful if your data
 #' already comes in this form, or you struggle with the memory overhead of the
-#' sparse/crossed of data frames.  There is no supported for hierarchical
+#' sparse/crossed of data frames.  There is no support for hierarchical
 #' indices (although I think that would be a relatively straightforward
 #' extension to storing data frames for indices rather than vectors).
 #'
@@ -166,11 +166,10 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 
 #' @export
 #' @rdname as.tbl_cube
-#' @param met_name a string to use as the name for the metric
 #' @param dim_names names of the dimesions. Defaults to the names of
+#' @param met_name a string to use as the name for the measure
 #'   the \code{\link{dimnames}}.
-as.tbl_cube.array <- function(x, met_name = deparse(substitute(x)),
-                               dim_names = names(dimnames(x)), ...) {
+as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)), ...) {
   force(met_name)
 
   dims <- dimnames(x)
@@ -191,7 +190,9 @@ undimname <- function(x) {
 
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.table <- as.tbl_cube.array
+as.tbl_cube.table <- function(x, dim_names = names(dimnames(x)), met_name = "Freq", ...) {
+  as.tbl_cube.array(x, dim_names = dim_names, met_name = met_name)
+}
 
 #' @export
 #' @rdname as.tbl_cube

@@ -813,10 +813,13 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
             out[i] = v->subset(indices_x) ;
             index_join_visitor++ ;
         } else {
-            // not from by_x, but is also in y, so we suffix with .x
-            if( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) {
-                col_name += ".x" ;
-            }
+
+          while(
+            ( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) ||
+            ( std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
+          ){
+            col_name += ".x" ;
+          }
 
             out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;
             index_x_visitor++ ;
@@ -830,7 +833,10 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
         // we suffix by .y if this column is in x_columns
 
-        if( std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end() ){
+        while(
+          ( std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end() ) ||
+          ( std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k ) 
+        ){
             col_name += ".y" ;
         }
 

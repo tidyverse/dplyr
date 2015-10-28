@@ -33,8 +33,7 @@ glimpse <- function(tbl, width = getOption("width")) {
   var_names <- paste0("$ ", format(names(df)), " (", var_types, ") ")
 
   data_width <- width - nchar(var_names) - 2
-  length_est <- pmin(ceiling(max(data_width) / 3) + 1, nrow(tbl))
-
+  
   formatted <- vapply(df, function(x) paste0(format_v(x), collapse = ", "),
     character(1), USE.NAMES = FALSE)
   truncated <- str_trunc(formatted, data_width)

@@ -12,7 +12,7 @@
 #'
 #' \describe{
 #'    \item{\code{inner_join}}{return all rows from \code{x} where there are matching
-#'    values in \code{x}, and all columns from \code{x} and \code{y}. If there are multiple matches
+#'    values in \code{y}, and all columns from \code{x} and \code{y}. If there are multiple matches
 #'    between \code{x} and \code{y}, all combination of the matches are returned.}
 #'
 #'    \item{\code{left_join}}{return all rows from \code{x}, and all columns from \code{x}

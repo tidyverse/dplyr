@@ -331,3 +331,12 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
   ok <- xx == lead( xx, default = "foo" )
   expect_equal( xx[ok], res$xx )
 })
+
+test_that("filter recognizes global #1469", {
+    vs <- 4
+    res <- mtcars %>% filter(cyl == global(vs))
+    expect_true( all(res$cyl == 4) )
+
+    res <- mtcars %>% group_by(cyl) %>% filter(cyl == global(vs))
+    expect_true( all(res$cyl == 4) )
+})

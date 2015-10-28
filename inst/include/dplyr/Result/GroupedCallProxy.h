@@ -33,13 +33,13 @@ namespace dplyr {
         template <typename Container>
         SEXP get(const Container& indices){
             subsets.clear();
-            
+
             if( TYPEOF(call) == LANGSXP){
                 if( can_simplify(call) ) {
                     HybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;
                 }
-                
+
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){
                     proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;
@@ -95,11 +95,30 @@ namespace dplyr {
         void traverse_call( SEXP obj ){
             if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return ;
 
-            if( ! Rf_isNull(obj) ){ 
+            if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("global") ){
+              SEXP symb = CADR(obj) ;
+              if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
+              SEXP res = env.find(CHAR(PRINTNAME(symb))) ;
+              call = res ;
+              return ;
+            }
+
+            if( ! Rf_isNull(obj) ){
                 SEXP head = CAR(obj) ;
 
                 switch( TYPEOF( head ) ){
                 case LANGSXP:
+                    if( CAR(head) == Rf_install("global") ){
+                        SEXP symb = CADR(head) ;
+                        if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
+
+                        SEXP res  = env.find( CHAR(PRINTNAME(symb)) ) ;
+
+                        SETCAR(obj, res) ;
+                        SET_TYPEOF(obj, LISTSXP) ;
+                        break ;
+                    }
+
                     if( CAR(head) == Rf_install("order_by") ) break ;
                     if( CAR(head) == Rf_install("function") ) break ;
                     if( CAR(head) == Rf_install("local") ) return ;
@@ -110,20 +129,20 @@ namespace dplyr {
                     if( Rf_length(head) == 3 ){
                         SEXP symb = CAR(head) ;
                         if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ){
-                            
+
                             // for things like : foo( bar = bling )$bla
                             // so that `foo( bar = bling )` gets processed
                             if( TYPEOF(CADR(head)) == LANGSXP ){
-                                traverse_call( CDR(head) ) ;    
+                                traverse_call( CDR(head) ) ;
                             }
-                            
+
                             // deal with foo$bar( bla = boom )
                             if( TYPEOF(CADDR(head)) == LANGSXP ){
                                 traverse_call( CDDR(head) ) ;
                             }
-                            
+
                             break ;
-                        } 
+                        }
                     }
                     traverse_call( CDR(head) ) ;
                     break ;
@@ -164,7 +183,7 @@ namespace dplyr {
         Subsets subsets ;
         std::vector<CallElementProxy> proxies ;
         Environment env;
-        
+
     } ;
 
 }

@@ -24,15 +24,15 @@ To get the most out of this chapter, you'll need to be familiar with querying SQ
 
 ## Getting started
 
-To experiement with databases, it's easiest to get started with SQLite because everything you need is included in the R package. You don't need to install anything else, and you don't need to deal with the hassle of setting up a database server. Using a SQLite database in dplyr is really easy: just give it a path and the ok to create it.
+The easiest way to experiement with databases using dplyr is to use SQLite. This is because everything you need is already included in the R package. You won't need to install anything, and you won't need to deal with the hassle of setting up a database server. Doing so is really easy: just give the path and the ok to create a table.
 
 ```{r, eval = FALSE}
 my_db <- src_sqlite("my_db.sqlite3", create = T)
 ```
 
-The main new concept here is the `src`, which is a collection of tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the different databases supported by dplyr.
+The main new concept here is the `src`, which is a collection of types of database tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the specific types supported by dplyr.
 
-`my_db` currently has no data in it, so we'll load it up with the `flights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database, but it's not suitable for very large datasets because all the data has to flow through R.
+`my_db` currently has no data in it, so we'll import the `flights` data using the convenient `copy_to()` function. This is a quick and dirty way of getting data into a database. Because all the data has to flow through R, you should note that this is not suitable for very large datasets.
 
 ```{r, eval = FALSE}
 library(nycflights13)
@@ -40,7 +40,7 @@ flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
   c("year", "month", "day"), "carrier", "tailnum"))
 ```
 
-As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and can pick appropriate query optimisations.
+As you can see, the `copy_to()` operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. `copy_to()` also executes the SQL `ANALYZE` command: this ensures that the database has up-to-date table statistics and performs the appropriate query optimisations.
 
 For this particular dataset, there's a built-in `src` that will cache `flights` in a standard location:
 
@@ -49,7 +49,7 @@ flights_sqlite <- tbl(nycflights13_sqlite(), "flights")
 flights_sqlite
 ```
 
-You can also create `tbl` from arbitrary SQL:
+You can also use arbitrary SQL:
 
 ```{r, eval = FALSE}
 tbl(my_db, sql("SELECT * FROM flights"))
@@ -122,25 +122,24 @@ There are three ways to force the computation of a query:
 
 * `collapse()` turns the query into a table expression.
 
-You are most likely to use `collect()`: once you have interactively converged on the right set of operations, use `collect()` to pull down the data into a local `tbl_df()`. If you have some knowledge of SQL, you can use `compute()` and `collapse()` to optimise performance.
+`collect()` is the function you'll use most. Once you reach the set of operations you want, you use collect() to pull the data into a local `tbl_df()`. If you know SQL, you can use `compute()` and `collapse()` to optimise performance.
 
 ### Performance considerations
 
 dplyr tries to prevent you from accidentally performing expensive query operations:
 
-* `nrow()` is always `NA`: in general, there's no way to determine how
-  many rows a query will return unless you actually run it.
+* Because there's generally no way to determine how many rows a query will return unless 
+  you actually run it, `nrow()` is always `NA`.
 
-* Printing a tbl only runs the query enough to get the first 10 rows
+* Printing a tbl only runs the query for the first 10 rows.
 
-* You can't use `tail()` on database tbls: you can't find the last rows
-  without executing the whole query.
+* Because you can't find the last few rows without executing the whole query, you can't use `tail()`.
 
 ## SQL translation
 
-When doing simple mathematical operations of the form you normally use when filtering, mutating and summarising it's relatively straightforward to translate R code to SQL (or indeed to any programming language).
+When performing the simple mathematical operations used when filtering, mutating or summarising, translating R code to SQL (or indeed to any programming language) is relatively straightforward.
 
-To experiment with the translation, use `translate_sql()`. The following examples work through some basic differences between R and SQL.
+To experiment with this, use `translate_sql()`. The following examples work through some of the basic differences between R and SQL.
 
 ```{r}
 # In SQLite variable names are escaped by double quotes:
@@ -153,7 +152,7 @@ translate_sql(x == 1 && (y < 2 || z > 3))
 translate_sql(x ^ 2 < 10)
 translate_sql(x %% 2 == 10)
 
-# R and SQL have different defaults for integers vs reals.
+# R and SQL have different defaults for integers and reals.
 # In R, 1 is a real, and 1L is an integer
 # In SQL, 1 is an integer, and 1.0 is a real
 translate_sql(1)
@@ -170,16 +169,16 @@ dplyr knows how to convert the following R functions to SQL:
 * boolean operations: `&`, `&&`, `|`, `||`, `!`, `xor`
 * basic aggregations: `mean`, `sum`, `min`, `max`, `sd`, `var`
 
-The basic techniques underying the implementation of `translate_sql()` are described in the [Advanced R book](http://adv-r.had.co.nz/dsl.html). `translate_sql()` is built on top of R's parsing engine and has been carefully designed to generate correct sql. It also protects you against SQL injection attacks by correctly escaping strings and variable names as needed by the database that you're connecting to.
+The basic techniques that underlie the implementation of `translate_sql()` are described in the [Advanced R book](http://adv-r.had.co.nz/dsl.html). `translate_sql()` is built on top of R's parsing engine and has been carefully designed to generate correct SQL. It also protects you against SQL injection attacks by correctly escaping the strings and variable names needed by the database that you're connecting to.
 
-It's not possible to provide a perfect translation because databases don't have all the functions that R does. The goal of dplyr is to provide a semantic translation: to translate what you mean, not the precise details. Even for functions that exist both in databases and R you shouldn't expect results to be exactly the same; database programmers have different priorities to R core. For example, in R, `mean()` loops through the data twice in order to get a higher level of numerical accuracy at the cost of being twice as slow. R's `mean()` also provides a `trim` option for computing trimmed means, which databases do not provide. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. This means the essense of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will raise an error:
+Perfect translation is not possible because databases don't have all the functions that R does. The goal of dplyr is to provide a semantic rather than a literal translation: what you mean rather than what is done. In fact, even for functions that exist both in databases and R, you shouldn't expect results to be identical; database programmers have different priorities than R core programmers. For example, in R in order to get a higher level of numerical accuracy, `mean()` loops through the data twice. R's `mean()` also provides a `trim` option for computing trimmed means; this is something that databases do not provide. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. This means the essence of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will raise an error:
 
 ```{r, eval = FALSE}
 translate_sql(mean(x, trim = T))
 # Error: Invalid number of args to SQL AVG. Expecting 1
 ```
 
-Any function that dplyr doesn't know how to convert it leaves as is - that means if you want to use any other function that database provides, you can use it as is. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
+Any function that dplyr doesn't know how to convert is left as is. This means that database functions that are not covered by dplyr can be used directly via `translate_sql()`. Here a couple of examples that will work with [SQLite](http://www.sqlite.org/lang_corefunc.html):
 
 ```{r}
 translate_sql(glob(x, y))
@@ -188,7 +187,7 @@ translate_sql(x %like% "ab*")
 
 ## Grouping
 
-SQLite lacks window functions, which are needed for grouped mutation and filtering. This means that the only really useful operations for grouped sqlite tables are in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
+SQLite lacks the window functions that are needed for grouped mutation and filtering. This means that the only really useful operations for grouped SQLite tables are found in `summarise()`. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don't supply `na.rm = TRUE`.
 
 ```{r}
 by_tailnum <- group_by(flights_sqlite, tailnum)
@@ -201,17 +200,17 @@ delay <- filter(delay, count > 20, dist < 2000)
 delay_local <- collect(delay)
 ```
 
-Other databases do support window functions and you can learn about them in the corresponding vignette. It's sometimes possible to simulate grouped filters and mutates using self joins, where you join the original table with a summarised version, but that topic is beyond the scope of this intro.
+Other databases do support window functions. You can learn about them in the corresponding vignette. It's sometimes possible to simulate grouped filtering and mutation using self joins, which join the original table with a summarised version, but that topic is beyond the scope of this introduction.
 
 ## Other databases
 
-Using other databases instead of SQLite works similarly, the overall workflow is the same regardless of what database you're connecting to. The following sections go in to more details on the pecularities of each database engine. All of these databases follow a client-server model - as well as your computer which is connecting to the databse, there is another computer actually running it (that might be your computer but usually isn't). Getting one of these databases setup up is beyond the scope of this article, but there are plenty of tutorials available on the web.
+Aside from SQLite, the overall workflow is essentially the same regardless of the database you're connecting to. The following sections go in to more details about the peculiarities of each database engine. All of these databases follow a client-server model - a computer that connects to the database and the computer that is running the database (the two may be one and the same but usually isn't). Getting one of these databases up and running is beyond the scope of this article, but there are plenty of tutorials available on the web.
 
-### Postgresql
+### PostgreSQL
 
-`src_postgres()` has five arguments: `dbname`, `host`, `port`, `user` and `password`. If you are running a local postgresql database with the default settings you'll only need `dbname`, but in most cases you'll need all five. dplyr uses the RPostgreSQL package to connect to postgres databases, which means you can't currently connect to remote databases that require a SSL connection (e.g. Heroku).
+`src_postgres()` has five arguments: `dbname`, `host`, `port`, `user` and `password`. If you are running a local postgresql database with the default settings you only need `dbname`. But in most cases, you'll need all five. dplyr uses the RPostgreSQL package to connect to postgres databases. This means that you can't currently connect to remote databases that require a SSL connection (e.g. Heroku).
 
-For example, the following code allows me to connect to a local postgresql database that contains a copy of the `flights` data:
+For example, the following code allows me to connect to a local PostgreSQL database that contains a copy of the `flights` data:
 
 ```{r}
 if (has_lahman("postgres")) {
@@ -219,13 +218,13 @@ if (has_lahman("postgres")) {
 }
 ```
 
-Postgres is a considerably more powerful database than SQLite.  It has:
+PostgreSQL is a considerably more powerful database than SQLite.  It has:
 
-* a much wider [range of functions](http://www.postgresql.org/docs/9.3/static/functions.html) built in to the database
+* a much wider range of [built-in functions](http://www.postgresql.org/docs/9.3/static/functions.html)
 
 * support for [window functions](http://www.postgresql.org/docs/9.3/static/tutorial-window.html), which allow grouped subset and mutates to work.
 
-The following examples shows the grouped filter and mutate possible with PostgreSQL. The SQL generated from the grouped filter is quite complex because you can't filter on window functions directly; instead they have to go in a subquery.
+The following examples show how we can perform grouped filter and mutate operations with PostgreSQL. Because you can't filter on window functions directly, the SQL generated from the grouped filter is quite complex; so they instead have to go in a subquery.
 
 ```{r}
 if (has_lahman("postgres")) {
@@ -247,16 +246,16 @@ if (has_lahman("postgres")) {
 
 ### MySQL and MariaDB
 
-You can connect to MySQL and MariaDB (a recent fork of MySQL) through `src_mysql()`, mediated by the [RMySQL](https://github.com/jeffreyhorner/RMySQL) package. Like PostgreSQL, you'll need to provide a `dbname`, `username`, `password`, `host`, and `port`.
+You can connect to MySQL and MariaDB (a recent fork of MySQL) using `src_mysql()`, mediated by the [RMySQL](https://github.com/jeffreyhorner/RMySQL) package. Like PostgreSQL, you'll need to provide a `dbname`, `username`, `password`, `host`, and `port`.
 
 In terms of functionality, MySQL lies somewhere between SQLite and PostgreSQL. It provides a wider range of [built-in functions](http://dev.mysql.com/doc/refman/5.0/en/functions.html), but it does not support window functions (so you can't do grouped mutates and filters).
 
-### Bigquery
+### BigQuery
 
-Bigquery is a hosted database server provided by google. To connect, you need to provide your `project`, `dataset` and optionally a project for `billing` (if billing for `project` isn't enabled). After you create the src, your web browser will open and ask you to authenticate. Your credentials are stored in a local cache, so you should only need to do this once.
+BigQuery is a hosted database server provided by Google. To connect, you need to provide your `project`, `dataset` and optionally a project for `billing` (if billing for `project` isn't enabled). After you create the src, your web browser will open and ask you to authenticate. Your credentials are stored in a local cache, so you should only need to do this once.
 
-Bigquery supports only a single SQL statement: [SELECT](https://developers.google.com/bigquery/query-reference). Fortunately this is all you need for data analysis, and within SELECT bigquery provides comprehensive coverage at a similar level to postgresql.
+BigQuery supports only one SQL statement: [SELECT](https://developers.google.com/bigquery/query-reference). Fortunately this is all you need for data analysis. Within SELECT, BigQuery provides comprehensive coverage at a similar level to PostgreSQL.
 
 ## Picking a database
 
-If you don't already have a database, here's some advice from my experiences setting up and running all of them. SQLite is by far the easiest to get started with, but the lack of window functions makes it limited for data analysis. PostgreSQL is not too much harder to use and has a wide range of built in functions. Don't bother with MySQL/MariaDB: it's a pain to set up and the documentation is subpar. Google bigquery might be a good fit if you have very large data, or you're willing to pay (a small amount of) money for someone else to look after your database.
+If you don't already have a database, here's some advice from my experiences setting up and running all of them. SQLite is by far the easiest to get started with, but the lack of window functions makes it limited for data analysis. PostgreSQL is not too much harder to use and has a wide range of built-in functions. Don't bother with MySQL/MariaDB: it's a pain to set up and the documentation is subpar. Google BigQuery might be a good fit if you have very large data, or if you're willing to pay (a small amount of) money to someone who'll look after your database.

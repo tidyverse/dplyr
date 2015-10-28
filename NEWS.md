@@ -30,11 +30,26 @@
 
 * Fixed `distinct` for zero column data frames (#1437).
 
-* grouped `mutate` handles factors correctly (#1414). 
+* grouped `mutate` handles factors correctly (#1414).
 
 * `frame_data()` properly constructs rectangular tables. (#1377, @kevinushey)
 
 * When printing a grouped data frame the number of groups is now printed with thousands separators. (#1398)
+
+* Swap order of `dim_names` and `met_name` arguments in `as.tbl_cube`
+  (for `array`, `table` and `matrix`) for consistency with `tbl_cube` and
+  `as.tbl_cube.data.frame`. Also, the `met_name` argument to `as.tbl_cube.table`
+  now defaults to `"Freq"` for consistency with `as.data.frame.table`.
+  (@krlmlr, #1374).
+
+* Added interpretation for `global` in dplyr expressions. `global(var)` means
+   getting the `var` variable from the calling environment, not from the data.
+   This is useful to disambiguate the case where `var` is also a variable from
+   the dataset (#1469).
+
+* grouped `mutate` promotes up results that consists of all NA in one group (#1463).
+
+* joins avoid repetitions of column names (#1460). 
 
 # dplyr 0.4.3
 

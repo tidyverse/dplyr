@@ -73,10 +73,29 @@ namespace dplyr{
     void CallProxy::traverse_call( SEXP obj ){
 
         if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return ;
+
+        if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("global") ){
+          SEXP symb = CADR(obj) ;
+          if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
+          SEXP res = env.find(CHAR(PRINTNAME(symb))) ;
+          call = res ;
+          return ;
+        }
+
         if( ! Rf_isNull(obj) ){
             SEXP head = CAR(obj) ;
             switch( TYPEOF( head ) ){
             case LANGSXP:
+                if( CAR(head) == Rf_install("global") ){
+                    SEXP symb = CADR(head) ;
+                    if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
+                    SEXP res  = env.find( CHAR(PRINTNAME(symb)) ) ;
+
+                    SETCAR(obj, res) ;
+                    SET_TYPEOF(obj, LISTSXP) ;
+
+                    break ;
+                }
                 if( CAR(head) == Rf_install("order_by") ) break ;
                 if( CAR(head) == Rf_install("function") ) break ;
                 if( CAR(head) == Rf_install("local") ) return ;
