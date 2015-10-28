@@ -337,6 +337,6 @@ test_that("filter recognizes global #1469", {
     res <- mtcars %>% filter(cyl == global(vs))
     expect_true( all(res$cyl == 4) )
 
-    res <- mtcars %>% group_by(cyl) %>% filter(mtcars, cyl == global(vs))
+    res <- mtcars %>% group_by(cyl) %>% filter(cyl == global(vs))
     expect_true( all(res$cyl == 4) )
 })
