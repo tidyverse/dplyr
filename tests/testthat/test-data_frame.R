@@ -15,13 +15,18 @@ test_that("data_frame returns correct number of rows with all combinatinos", {
 })
 
 test_that("can't make data_frame containing data.frame or array", {
-  expect_error(data_frame(mtcars), "only contain 1d atomic vectors and lists")
-  expect_error(data_frame(diag(5)), "only contain 1d atomic vectors and lists")
+  expect_error(data_frame(mtcars), "`mtcars` is not an 1d atomic vector or list")
+  expect_error(data_frame(x = diag(5)), "`x` is not an 1d atomic vector or list")
+})
+
+test_that("can't make data_frame containing a POSIXlt", {
+  lt <- as.POSIXlt(Sys.time())
+  expect_error(data_frame(x = lt), "`x` is a `POSIXlt`")
 })
 
 test_that("null isn't a valid column", {
-  expect_error(data_frame(a = NULL), "only contain 1d atomic vectors and lists")
-  expect_error(as_data_frame(list(a = NULL)), "only contain 1d atomic vectors and lists")
+  expect_error(data_frame(a = NULL), "`a` is not an 1d atomic vector or list")
+  expect_error(as_data_frame(list(a = NULL)), "`a`: not 1d atomic vectors or lists")
 })
 
 # as_data_frame -----------------------------------------------------------
@@ -40,8 +45,12 @@ test_that("columns must be named", {
 })
 
 test_that("can't coerce list data.frame or array", {
-  expect_error(as_data_frame(list(x = mtcars)), "only contain 1d atomic vectors and lists")
-  expect_error(as_data_frame(list(x = diag(5))), "only contain 1d atomic vectors and lists")
+  expect_error(as_data_frame(list(x = mtcars)), "`x`: not 1d atomic vectors or lists")
+  expect_error(as_data_frame(list(x = diag(5))), "`x`: not 1d atomic vectors or lists")
+})
+
+test_that("can't make data_frame containing a POSIXlt", {
+  expect_error(as_data_frame(list(x = strptime("2000/01/01", "%x"))), "`x`: are `POSIXlt`")
 })
 
 test_that("Zero column list makes 0 x 0 tbl_df", {

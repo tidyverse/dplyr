@@ -40,6 +40,13 @@ data_frame(`a + b` = 1:5)
 
 # With the SE version, you give it a list of formulas/expressions
 data_frame_(list(x = ~1:10, y = quote(x * 2)))
+
+# data frames can only contain 1d atomic lists and vectors
+# and can not contain POSIXlt
+\dontrun{
+data_frame(x = data_frame(1, 2, 3))
+data_frame(y = strptime("2000/01/01", "\%x"))
+}
 }
 \seealso{
 \code{\link{as_data_frame}} to turn an existing list into
