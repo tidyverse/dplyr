@@ -17,7 +17,7 @@
 
 dim_desc(x)
 
-trunc_mat(x, n = NULL, width = NULL)
+trunc_mat(x, n = NULL, width = NULL, n_extra = 100)
 }
 \arguments{
 \item{x}{Object to show.}
