@@ -42,6 +42,10 @@
    This is useful to disambiguate the case where `var` is also a variable from
    the dataset (#1469).
 
+* grouped `mutate` promotes up results that consists of all NA in one group (#1463).
+
+* joins avoid repetitions of column names (#1460). 
+
 # dplyr 0.4.3
 
 ## Improved encoding support

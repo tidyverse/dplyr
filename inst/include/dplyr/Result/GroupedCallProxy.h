@@ -111,7 +111,7 @@ namespace dplyr {
                     if( CAR(head) == Rf_install("global") ){
                         SEXP symb = CADR(head) ;
                         if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
-                        
+
                         SEXP res  = env.find( CHAR(PRINTNAME(symb)) ) ;
 
                         SETCAR(obj, res) ;
