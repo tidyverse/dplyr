@@ -76,6 +76,7 @@ namespace dplyr{
 
         if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("global") ){
           SEXP symb = CADR(obj) ;
+          if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
           SEXP res = env.find(CHAR(PRINTNAME(symb))) ;
           call = res ;
           return ;
@@ -85,8 +86,9 @@ namespace dplyr{
             SEXP head = CAR(obj) ;
             switch( TYPEOF( head ) ){
             case LANGSXP:
-                if( CAR(head) == Rf_install("global") && TYPEOF(CADR(head)) == SYMSXP ){
+                if( CAR(head) == Rf_install("global") ){
                     SEXP symb = CADR(head) ;
+                    if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
                     SEXP res  = env.find( CHAR(PRINTNAME(symb)) ) ;
 
                     SETCAR(obj, res) ;

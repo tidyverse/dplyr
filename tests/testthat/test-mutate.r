@@ -443,15 +443,23 @@ test_that("mutate recognizes global #1469", {
     vs <- 4
     res <- mtcars %>% mutate(a = global(vs))
     expect_true( all(res$a == 4) )
+    expect_error( mtcars %>% mutate(global("vs")), "global only handles symbols" )
     res <- mtcars %>% mutate(a = global(vs) + 1)
     expect_true( all(res$a == 5) )
+    expect_error( mtcars %>% mutate(global("vs") + 1), "global only handles symbols" )
     res <- mtcars %>% mutate(a = 1+global(vs) )
     expect_true( all(res$a == 5) )
+    expect_error( mtcars %>% mutate(1 + global("vs")), "global only handles symbols" )
 
     res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs))
     expect_true( all(res$a == 4) )
+    expect_error( mtcars %>% group_by(cyl) %>% mutate(a = global("vs")), "global only handles symbols" )
     res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs)+1)
     expect_true( all(res$a == 5) )
+    expect_error( mtcars %>% group_by(cyl) %>% mutate(a = global("vs") + 1), "global only handles symbols" )
+
     res <- mtcars %>% group_by(cyl) %>% mutate(a = 1+global(vs))
     expect_true( all(res$a == 5) )
+    expect_error( mtcars %>% group_by(cyl) %>% mutate(a = 1 + global("vs")), "global only handles symbols" )
+
 })
