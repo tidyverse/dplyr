@@ -162,6 +162,50 @@ add_rownames <- function(df, var = "rowname") {
   bind_cols(rn, df)
 }
 
+#' Add a row to a data frame
+#'
+#' This is a convenient way to add a single row of data to an existing data
+#' frame. See \code{\link{frame_data}} for an easy way to create an complete
+#' data frame row-by-row.
+#'
+#' @param .data Data frame to append to.
+#' @param ... Name-value pairs. If you don't supply the name of a variable,
+#'   it'll be given the value \code{NA}.
+#' @examples
+#' # add_row ---------------------------------
+#' df <- data_frame(x = 1:3, y = 3:1)
+#'
+#' df %>%
+#'   add_row(x = 4, y = 0)
+#'
+#' # You can supply vectors, to add multiple rows (this isn't
+#' # recommended because it's a bit hard to read)
+#' df %>%
+#'   add_row(x = 4:5, y = 0:-1)
+#'
+#' # Absent variables get missing values
+#' df %>%
+#'   add_row(x = 4)
+#'
+#' # You can't create new variables
+#' \dontrun{
+#' df %>%
+#'   add_row(z = 10)
+#' }
+#' @export
+add_row <- function(.data, ...) {
+  df <- data_frame(...)
+
+  extra_vars <- setdiff(names(df), names(.data))
+  if (length(extra_vars) > 0) {
+    stop(
+      "This row would add new variables: ", paste0(extra_vars, collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  bind_rows(.data, data_frame(...))
+}
 
 # Validity checks --------------------------------------------------------------
 
