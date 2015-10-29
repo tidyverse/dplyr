@@ -3,19 +3,27 @@
 \name{data_frame}
 \alias{data_frame}
 \alias{data_frame_}
-\title{Build a data frame.}
+\alias{lst}
+\alias{lst_}
+\title{Build a data frame or list.}
 \usage{
 data_frame(...)
 
-data_frame_(columns)
+data_frame_(xs)
+
+lst(...)
+
+lst_(xs)
 }
 \arguments{
-\item{...}{A set of named arguments}
+\item{...}{A set of name-value pairs. Arguments are evaluated sequentially,
+so you can refer to previously created variables.}
 
-\item{columns}{A \code{\link[lazyeval]{lazy_dots}}.}
+\item{xs}{A list of unevaluated expressions created with \code{~},
+\code{quote()}, or \code{\link[lazyeval]{lazy}}.}
 }
 \description{
-A trimmed down version of \code{\link{data.frame}} that:
+\code{data_frame} is trimmed down version of \code{\link{data.frame}} that:
 \enumerate{
 \item Never coerces inputs (i.e. strings stay as strings!).
 \item Never adds \code{row.names}.
@@ -23,13 +31,20 @@ A trimmed down version of \code{\link{data.frame}} that:
 \item Only recycles length 1 inputs.
 \item Evaluates its arguments lazily and in order.
 \item Adds \code{tbl_df} class to output.
+\item Automatically adds column names.
 }
+}
+\details{
+\code{lst} is similar to \code{\link{list}}, but like \code{data_frame}, it
+evaluates its arguments lazily and in order, and automatically adds names.
 }
 \examples{
 a <- 1:5
 data_frame(a, b = a * 2)
 data_frame(a, b = a * 2, c = 1)
 data_frame(x = runif(10), y = x * 2)
+
+lst(n = 5, x = runif(n))
 
 # data_frame never coerces its inputs
 str(data_frame(letters))

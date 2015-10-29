@@ -4,10 +4,15 @@
 \alias{as_data_frame}
 \title{Coerce a list to a data frame.}
 \usage{
-as_data_frame(x)
+as_data_frame(x, validate = TRUE)
 }
 \arguments{
 \item{x}{A list. Each element of the list must have the same length.}
+
+\item{validate}{When \code{TRUE}, verifies that the input is a valid data
+frame (i.e. all columns are named, and are 1d vectors or lists). You may
+want to suppress this when you know that you already have a valid data
+frame and you want to save some time.}
 }
 \description{
 \code{as.data.frame} is effectively a thin wrapper around \code{data.frame},
@@ -30,6 +35,7 @@ changes(as_data_frame(l), as_data_frame(l))
 l2 <- replicate(26, sample(letters), simplify = FALSE)
 names(l2) <- letters
 microbenchmark::microbenchmark(
+  as_data_frame(l2, validate = FALSE),
   as_data_frame(l2),
   as.data.frame(l2)
 )

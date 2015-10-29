@@ -1,6 +1,6 @@
-#' Build a data frame.
+#' Build a data frame or list.
 #'
-#' A trimmed down version of \code{\link{data.frame}} that:
+#' \code{data_frame} is trimmed down version of \code{\link{data.frame}} that:
 #' \enumerate{
 #' \item Never coerces inputs (i.e. strings stay as strings!).
 #' \item Never adds \code{row.names}.
@@ -8,10 +8,16 @@
 #' \item Only recycles length 1 inputs.
 #' \item Evaluates its arguments lazily and in order.
 #' \item Adds \code{tbl_df} class to output.
+#' \item Automatically adds column names.
 #' }
 #'
-#' @param ... A set of named arguments
-#' @param columns A \code{\link[lazyeval]{lazy_dots}}.
+#' \code{lst} is similar to \code{\link{list}}, but like \code{data_frame}, it
+#' evaluates its arguments lazily and in order, and automatically adds names.
+#'
+#' @param ... A set of name-value pairs. Arguments are evaluated sequentially,
+#'   so you can refer to previously created variables.
+#' @param xs  A list of unevaluated expressions created with \code{~},
+#'   \code{quote()}, or \code{\link[lazyeval]{lazy}}.
 #' @seealso \code{\link{as_data_frame}} to turn an existing list into
 #'   a data frame.
 #' @export
@@ -20,6 +26,8 @@
 #' data_frame(a, b = a * 2)
 #' data_frame(a, b = a * 2, c = 1)
 #' data_frame(x = runif(10), y = x * 2)
+#'
+#' lst(n = 5, x = runif(n))
 #'
 #' # data_frame never coerces its inputs
 #' str(data_frame(letters))
@@ -38,72 +46,50 @@
 #' data_frame(y = strptime("2000/01/01", "%x"))
 #' }
 data_frame <- function(...) {
-  data_frame_(lazyeval::lazy_dots(...))
+  as_data_frame(lst(...))
 }
 
 #' @export
 #' @rdname data_frame
-data_frame_ <- function(columns) {
+data_frame_ <- function(xs) {
+  as_data_frame(lst_(xs))
+}
 
-  n <- length(columns)
-  if (n == 0) return(as_data_frame(list()))
+#' @export
+#' @rdname data_frame
+lst <- function(...) {
+  lst_(lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname data_frame
+lst_ <- function(xs) {
+  n <- length(xs)
+  if (n == 0) return(list())
 
   # If named not supplied, used deparsed expression
-  col_names <- names2(columns)
+  col_names <- names2(xs)
   missing_names <- col_names == ""
   if (any(missing_names)) {
     deparse2 <- function(x) paste(deparse(x$expr, 500L), collapse = "")
-    defaults <- vapply(columns[missing_names], deparse2, character(1),
+    defaults <- vapply(xs[missing_names], deparse2, character(1),
       USE.NAMES = FALSE)
 
     col_names[missing_names] <- defaults
   }
 
-  # Construct the list output
+  # Evaluate each column in turn
   output <- vector("list", n)
   names(output) <- character(n)
-  output_nm <- names(output) # Get reference to names
 
-  # Fill the output
-  i <- 1L
-  while (i <= n) {
-
-    # Fill by reference
-    res <- lazyeval::lazy_eval(columns[[i]], output)
-    if (!is_1d(res)) {
-      stop("`", col_names[i], "` is not an 1d atomic vector or list.",
-        call. = FALSE)
-    }
-    if (inherits(res, "POSIXlt")) {
-      stop("`", col_names[i], "` is a `POSIXlt`; use a `POSIXct` instead.",
-        call. = FALSE)
-    }
-
-    output[[i]] <- res
+  for (i in seq_len(n)) {
+    output[[i]] <- lazyeval::lazy_eval(xs[[i]], output)
     names(output)[i] <- col_names[[i]]
-
-    # Update
-    i <- i + 1L
   }
 
-  # Validate column lengths
-  lengths <- vapply(output, NROW, integer(1))
-  max <- max(lengths)
-
-  if (!all(lengths %in% c(1L, max))) {
-    stop("arguments imply differing number of rows: ",
-         paste(lengths, collapse = ", "))
-  }
-  short <- lengths == 1
-  if (max != 1L && any(short)) {
-    output[short] <- lapply(output[short], rep, max)
-  }
-
-  # Set attributes (make it a tbl_df)
-  attr(output, "row.names") <- c(NA_integer_, max)
-  attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
   output
 }
+
 
 #' Coerce a list to a data frame.
 #'
@@ -114,6 +100,10 @@ data_frame_ <- function(columns) {
 #' length) then sets class and row name attributes.
 #'
 #' @param x A list. Each element of the list must have the same length.
+#' @param validate When \code{TRUE}, verifies that the input is a valid data
+#'   frame (i.e. all columns are named, and are 1d vectors or lists). You may
+#'   want to suppress this when you know that you already have a valid data
+#'   frame and you want to save some time.
 #' @export
 #' @examples
 #' l <- list(x = 1:500, y = runif(500), z = 500:1)
@@ -129,11 +119,12 @@ data_frame_ <- function(columns) {
 #' l2 <- replicate(26, sample(letters), simplify = FALSE)
 #' names(l2) <- letters
 #' microbenchmark::microbenchmark(
+#'   as_data_frame(l2, validate = FALSE),
 #'   as_data_frame(l2),
 #'   as.data.frame(l2)
 #' )
 #' }
-as_data_frame <- function(x) {
+as_data_frame <- function(x, validate = TRUE) {
   stopifnot(is.list(x))
   if (length(x) == 0) {
     x <- list()
@@ -142,32 +133,13 @@ as_data_frame <- function(x) {
     return(x)
   }
 
-  names_x <- names2(x)
-  if (any(is.na(names_x) | names_x == "")){
-    stop("All columns must be named", call. = FALSE)
+  if (validate) {
+    check_data_frame(x)
   }
-
-  ok <- vapply(x, is_1d, logical(1))
-  if (any(!ok)) {
-    bad <- names(x)[!ok]
-    stop(paste0("`", bad, "`", collapse = ","), ": not 1d atomic vectors or lists.",
-      call. = FALSE)
-  }
-
-  posixlt <- vapply(x, inherits, "POSIXlt", FUN.VALUE = logical(1))
-  if (any(posixlt)) {
-    bad <- names(x)[posixlt]
-    stop(paste0("`", bad, "`", collapse = ","), ": are `POSIXlt`; ",
-      "use `POSIXct` instead", call. = FALSE)
-  }
-
-  n <- unique(vapply(x, NROW, integer(1)))
-  if (length(n) != 1) {
-    stop("Columns are not all same length", call. = FALSE)
-  }
+  x <- recycle_columns(x)
 
   class(x) <- c("tbl_df", "tbl", "data.frame")
-  attr(x, "row.names") <- .set_row_names(n)
+  attr(x, "row.names") <- .set_row_names(length(x[[1]]))
 
   x
 }
@@ -188,6 +160,60 @@ add_rownames <- function(df, var = "rowname") {
   rownames(df) <- NULL
 
   bind_cols(rn, df)
+}
+
+
+# Validity checks --------------------------------------------------------------
+
+check_data_frame <- function(x) {
+  # Names
+  names_x <- names2(x)
+  bad_name <- is.na(names_x) | names_x == ""
+  if (any(bad_name)) {
+    invalid_df("Each variable must be named", x, which(bad_name))
+  }
+
+  # Types
+  is_1d <- vapply(x, is_1d, logical(1))
+  if (any(!is_1d)) {
+    invalid_df("Each variable must be a 1d atomic vector or list", x, !is_1d)
+  }
+
+  posixlt <- vapply(x, inherits, "POSIXlt", FUN.VALUE = logical(1))
+  if (any(posixlt)) {
+    invalid_df("Date/times must be stored as POSIXct, not POSIXlt", x, posixlt)
+  }
+
+  x
+}
+
+recycle_columns <- function(x) {
+  # Validate column lengths
+  lengths <- vapply(x, NROW, integer(1))
+  max <- max(lengths)
+
+  bad_len <- lengths != 1L & lengths != max
+  if (any(bad_len)) {
+    invalid_df(paste0("Variables must be length 1 or ", max), x, bad_len)
+  }
+
+  short <- lengths == 1
+  if (max != 1L && any(short)) {
+    x[short] <- lapply(x[short], rep, max)
+  }
+
+  x
+}
+
+invalid_df <- function(problem, df, vars) {
+  if (is.logical(vars)) {
+    vars <- names(df)[vars]
+  }
+  stop(
+    problem, ".\n",
+    "Problem variables: ", paste0(vars, collapse = ", "), ".\n",
+    call. = FALSE
+  )
 }
 
 # Grouping methods ------------------------------------------------------------
