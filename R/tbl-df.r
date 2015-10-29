@@ -69,7 +69,6 @@
 #' anti_join(player_info, hof)
 #' }
 tbl_df <- function(data) {
-  assert_that(is.data.frame(data))
   as_data_frame(data)
 }
 

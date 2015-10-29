@@ -91,15 +91,18 @@ lst_ <- function(xs) {
 }
 
 
-#' Coerce a list to a data frame.
+#' Coerce lists and matrices to data frames.
 #'
 #' \code{as.data.frame} is effectively a thin wrapper around \code{data.frame},
 #' and hence is rather slow (because it calls \code{data.frame} on each element
-#' before \code{cbind}ing together). \code{as_data_frame} just verifies that
-#' the list is structured correctly (i.e. named, and each element is same
-#' length) then sets class and row name attributes.
+#' before \code{cbind}ing together). \code{as_data_frame} is a new S3 generic
+#' with more efficient methods for matrices and data frames.
+#'
+#' This is an S3 generic. dplyr includes methods for data frames (adds tbl_df
+#' classes), tbl_dfs (trivial!), grouped_dfs (ungroups), lists, and matrices.
 #'
 #' @param x A list. Each element of the list must have the same length.
+#' @param ... Other arguments passed on to individual methods.
 #' @param validate When \code{TRUE}, verifies that the input is a valid data
 #'   frame (i.e. all columns are named, and are 1d vectors or lists). You may
 #'   want to suppress this when you know that you already have a valid data
@@ -108,6 +111,10 @@ lst_ <- function(xs) {
 #' @examples
 #' l <- list(x = 1:500, y = runif(500), z = 500:1)
 #' df <- as_data_frame(l)
+#'
+#' m <- matrix(rnorm(50), ncol = 5)
+#' colnames(m) <- c("a", "b", "c", "d", "e")
+#' df <- as_data_frame(m)
 #'
 #' # Coercing to a data frame does not copy columns
 #' changes(as_data_frame(l), as_data_frame(l))
@@ -123,9 +130,43 @@ lst_ <- function(xs) {
 #'   as_data_frame(l2),
 #'   as.data.frame(l2)
 #' )
+#'
+#' m <- matrix(runif(26 * 100), ncol = 26)
+#' colnames(m) <- letters
+#' microbenchmark::microbenchmark(
+#'   as_data_frame(m),
+#'   as.data.frame(m)
+#' )
 #' }
-as_data_frame <- function(x, validate = TRUE) {
-  stopifnot(is.list(x))
+as_data_frame <- function(x, ...) {
+  UseMethod("as_data_frame")
+}
+
+#' @export
+#' @rdname as_data_frame
+as_data_frame.grouped_df <- function(x, ...) {
+  x <- ungroup(x)
+  class(x) <- c("tbl_df", "tbl", "data.frame")
+  x
+}
+
+
+#' @export
+#' @rdname as_data_frame
+as_data_frame.tbl_df <- function(x, ...) {
+  x
+}
+
+#' @export
+#' @rdname as_data_frame
+as_data_frame.data.frame <- function(x, ...) {
+  class(x) <- c("tbl_df", "tbl", "data.frame")
+  x
+}
+
+#' @export
+#' @rdname as_data_frame
+as_data_frame.list <- function(x, validate = TRUE, ...) {
   if (length(x) == 0) {
     x <- list()
     class(x) <- c("tbl_df", "tbl", "data.frame")
@@ -142,6 +183,12 @@ as_data_frame <- function(x, validate = TRUE) {
   attr(x, "row.names") <- .set_row_names(length(x[[1]]))
 
   x
+}
+
+#' @export
+#' @rdname as_data_frame
+as_data_frame.matrix <- function(x, ...) {
+  matrixToDataFrame(x)
 }
 
 #' Convert row names to an explicit variable.
