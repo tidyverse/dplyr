@@ -1,6 +1,6 @@
 # dplyr 0.4.3.9000
 
-* `data_frame()` and `as_data_frame()` now check that you don't have any 
+* `data_frame()` and `as_data_frame()` now check that you don't have any
   `POSIXlt` columns, and tell you to use `POSIXct` if you do (#813).
   `data_frame()` gives slightly better error messages if you have
   non-1d atomic vectors/lists.
@@ -49,7 +49,9 @@
 
 * grouped `mutate` promotes up results that consists of all NA in one group (#1463).
 
-* joins avoid repetitions of column names (#1460). 
+* joins avoid repetitions of column names (#1460).
+
+* `min` and `max` handle empty sets (#1481). 
 
 # dplyr 0.4.3
 
