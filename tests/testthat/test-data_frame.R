@@ -75,3 +75,10 @@ test_that("columns must be named (#1101)", {
     "Each variable must be named"
   )
 })
+
+test_that("names must be unique (#820)", {
+  expect_error(
+    check_data_frame(list(x = 1, x = 2)),
+    "Each variable must have a unique name"
+  )
+})

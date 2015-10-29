@@ -264,6 +264,11 @@ check_data_frame <- function(x) {
     invalid_df("Each variable must be named", x, which(bad_name))
   }
 
+  dups <- duplicated(names_x)
+  if (any(dups)) {
+    invalid_df("Each variable must have a unique name", x, dups)
+  }
+
   # Types
   is_1d <- vapply(x, is_1d, logical(1))
   if (any(!is_1d)) {

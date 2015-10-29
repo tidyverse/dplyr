@@ -15,7 +15,8 @@
 * The internals of `data_frame()` and `as_data_frame()` have been aligned,
   so `as_data_frame()` will now automatically recycle length-1 vectors.
   Both functions give more informative error messages if you attempting to 
-  create an invalid data frame.
+  create an invalid data frame. You can no longer create a data frame with
+  duplicated names (#820).
 
 * `vignette("data_frames")` describes the difference between tbl_dfs and
   regular data frames (#1468).
