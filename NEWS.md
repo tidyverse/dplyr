@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `all_equal()` allows to compare data frames ignoring row and column order,
+  and optionally ignoring minor differences in type (e.g. int vs. double) 
+  (#821).
+
 * `rbind_all()` and `rbind_list()` are formally deprecated. Please use 
   `bind_rows()` instead (#803).
 
