@@ -1,6 +1,16 @@
 # dplyr 0.4.3.9000
 
 * `data_frame()` and `as_data_frame()` now check that you don't have any
+
+* `vignette("data_frames")` describes the difference between tbl_dfs and
+  regular data frames (#1468).
+
+* `print.tbl_df()` is considerably faster if you have very wide data frames.
+  It will now also only list the first 100 additional variables not already
+  on screen - control this with the new `n_extra` parameter to `print()`
+  (#1161).
+
+* `data_frame()` and `as_data_frame()` now check that you don't have any
   `POSIXlt` columns, and tell you to use `POSIXct` if you do (#813).
   `data_frame()` gives slightly better error messages if you have
   non-1d atomic vectors/lists.
@@ -51,7 +61,7 @@
 
 * joins avoid repetitions of column names (#1460).
 
-* `min` and `max` handle empty sets (#1481). 
+* `min` and `max` handle empty sets (#1481).
 
 # dplyr 0.4.3
 

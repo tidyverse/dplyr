@@ -33,7 +33,7 @@ dim_desc <- function(x) {
 
 #' @export
 #' @rdname dplyr-formatting
-trunc_mat <- function(x, n = NULL, width = NULL) {
+trunc_mat <- function(x, n = NULL, width = NULL, n_extra = 100) {
   rows <- nrow(x)
 
   if (is.null(n)) {
@@ -45,14 +45,25 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   }
 
   df <- as.data.frame(head(x, n))
+  var_types <- vapply(df, type_sum, character(1))
+  var_names <- names(df)
+
   if (ncol(df) == 0 || nrow(df) == 0) {
-    types <- vapply(df, type_sum, character(1))
-    extra <- setNames(types, names(df))
+    extra <- setNames(var_types, var_names)
 
     return(structure(list(table = NULL, extra = extra), class = "trunc_mat"))
   }
 
   rownames(df) <- NULL
+
+  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
+  # Minimum width of each column is 5 "(int)", so we can make a quick first
+  # pass
+  max_cols <- floor(width / 5)
+  extra_wide <- seq_along(var_names) > max_cols
+  if (any(extra_wide)) {
+    df <- df[!extra_wide]
+  }
 
   # List columns need special treatment because format can't be trusted
   classes <- paste0("(", vapply(df, type_sum, character(1)), ")")
@@ -74,7 +85,6 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
   )
   cumw <- cumsum(w + 1)
 
-  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
   too_wide <- cumw[-1] > width
   # Always display at least one column
   if (all(too_wide)) {
@@ -93,12 +103,16 @@ trunc_mat <- function(x, n = NULL, width = NULL) {
     shrunk <- rbind(shrunk, ".." = dots)
   }
 
-  if (any(too_wide)) {
-    vars <- colnames(mat)[too_wide]
-    types <- vapply(df[too_wide], type_sum, character(1))
-    extra <- setNames(types, vars)
+  if (any(extra_wide)) {
+    extra_wide[seq_along(too_wide)] <- too_wide
+    extra <- setNames(var_types[extra_wide], var_names[extra_wide])
   } else {
-    extra <- character()
+    extra <- setNames(var_types[too_wide], var_names[too_wide])
+  }
+
+  if (length(extra) > n_extra) {
+    more <- paste0("and ", length(extra) - n_extra, " more")
+    extra <- c(extra[1:n_extra], setNames("...", more))
   }
 
   structure(list(table = shrunk, extra = extra), class = "trunc_mat")
@@ -112,7 +126,7 @@ print.trunc_mat <- function(x, ...) {
 
   if (length(x$extra) > 0) {
     var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
-    cat(wrap("Variables not shown: ", var_types), "\n", sep = "")
+    cat(wrap("Variables not shown: ", var_types), ".\n", sep = "")
   }
   invisible()
 }
@@ -138,6 +152,7 @@ wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
     width = getOption("width"))
+
   paste0(wrapped, collapse = "\n")
 }
 
