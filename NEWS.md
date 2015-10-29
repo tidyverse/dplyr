@@ -2,7 +2,7 @@
 
 * `as_data_frame()` is now an S3 generic with methods for lists (the old 
   `as_data_frame()`), data frames (trivial), and matrices (with efficient
-  C++ implementation) (#)
+  C++ implementation) (#876)
 
 * New `add_row()` makes it easy to add a new row to data frame (#1021)
 
