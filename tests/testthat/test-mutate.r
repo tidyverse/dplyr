@@ -469,3 +469,12 @@ test_that("mutate handles results from one group with all NA values (#1463) ", {
   expect_true( is.na(res$z[2]) )
   expect_is( res$z, "numeric")
 })
+
+test_that("rowwise mutate handles the NA special case (#1448)", {
+  res <- data.frame(k = c(-1, 1, 1)) %>%
+    rowwise() %>%
+    mutate(l = ifelse(k > 0, 1, NA))
+  expect_is(res$l, "numeric")
+  expect_true( is.na(res$l[1]) )
+  expect_true( !anyNA(res$l[-1]) )
+})
