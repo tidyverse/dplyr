@@ -484,3 +484,12 @@ test_that("rowwise mutate handles the NA special case (#1448)", {
   expect_true( all(is.na(res$l[res$k <= 0]) ) )
   expect_true( !any(is.na(res$l[res$k > 0]) ) )
 })
+
+test_that("mutate disambiguates NA and NaN (#1448)", {
+  Pass <- data.frame(P2 = c(0,3,2), F2 = c(0,2,0), id = 1:3)
+  res <- Pass %>% group_by(id) %>% mutate(pass2 = P2/(P2 + F2))
+  expect_true( is.nan(res$pass2[1]) )
+
+  res <- Pass %>% rowwise %>% mutate(pass2 = P2/(P2 + F2))
+  expect_true( is.nan(res$pass2[1]) )
+})

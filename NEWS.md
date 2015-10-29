@@ -63,6 +63,8 @@
 
 * `min` and `max` handle empty sets (#1481).
 
+* grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448). 
+
 # dplyr 0.4.3
 
 ## Improved encoding support
