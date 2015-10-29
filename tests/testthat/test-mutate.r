@@ -481,7 +481,6 @@ test_that("rowwise mutate handles the NA special case (#1448)", {
   res <- data.frame(k = rnorm(10)) %>%
     rowwise() %>%
     mutate(l = ifelse(k > 0, 1L, NA_integer_))
-  expect_true( all(is.na(res$l[res$k <= 1L]) ) )
-  expect_true( !any(is.na(res$l[res$k > 1L]) ) )
-
+  expect_true( all(is.na(res$l[res$k <= 0]) ) )
+  expect_true( !any(is.na(res$l[res$k > 0]) ) )
 })
