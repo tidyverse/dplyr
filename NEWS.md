@@ -13,10 +13,10 @@
 
 * `print.tbl_df()` is considerably faster if you have very wide data frames.
   It will now also only list the first 100 additional variables not already
-  on screen - control this with the new `n_extra` parameter to `print()` 
+  on screen - control this with the new `n_extra` parameter to `print()`
   (#1161).
 
-* `data_frame()` and `as_data_frame()` now check that you don't have any 
+* `data_frame()` and `as_data_frame()` now check that you don't have any
   `POSIXlt` columns, and tell you to use `POSIXct` if you do (#813).
 
 * `chain()`, `chain_q()` and `%.%` have been removed
@@ -63,7 +63,11 @@
 
 * grouped `mutate` promotes up results that consists of all NA in one group (#1463).
 
-* joins avoid repetitions of column names (#1460). 
+* joins avoid repetitions of column names (#1460).
+
+* `min` and `max` handle empty sets (#1481).
+
+* grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448). 
 
 # dplyr 0.4.3
 
