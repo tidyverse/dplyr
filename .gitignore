@@ -9,3 +9,4 @@ inst/doc
 .httr-oauth
 *.Rds
 vignettes/*.R
+.DS_Store
