@@ -46,8 +46,8 @@ data frames into one. \code{combine()} acts like \code{\link{c}()} or
 }
 \section{Deprecated functions}{
 
-\code{rbind_list} and \code{rbind_all} have been deprecated. Instead use
-\code{bind_rows}.
+\code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
+\code{bind_rows()}.
 }
 \examples{
 one <- mtcars[1:4, ]

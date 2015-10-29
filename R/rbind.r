@@ -6,8 +6,8 @@
 #' \code{\link{unlist}()} but uses consistent dplyr coercion rules.
 #'
 #' @section Deprecated functions:
-#' \code{rbind_list} and \code{rbind_all} have been deprecated. Instead use
-#' \code{bind_rows}.
+#' \code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
+#' \code{bind_rows()}.
 #'
 #' @param x,... Data frames to combine.
 #'
@@ -86,7 +86,7 @@ bind_rows <- function(..., .id = NULL) {
     names(x) <- names(x) %||% seq_along(x)
   }
 
-  rbind_all(x, .id)
+  bind_rows_(x, .id)
 }
 
 #' @export
@@ -111,6 +111,19 @@ combine <- function(x, ...) {
 
 
 #' @export
+#' @rdname bind
+#' @usage NULL
 rbind_list <- function(...){
+  warning("`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
+    call. = FALSE)
   rbind_list__impl(environment())
+}
+
+#' @export
+#' @rdname bind
+#' @usage NULL
+rbind_all <- function(x, id = NULL) {
+  warning("`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
+    call. = FALSE)
+  bind_rows_(x, id = id)
 }

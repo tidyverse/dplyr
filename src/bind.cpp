@@ -118,9 +118,8 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
     return out ;
 }
 
-//' @export
 // [[Rcpp::export]]
-List rbind_all( List dots, SEXP id = R_NilValue ){
+List bind_rows_( List dots, SEXP id = R_NilValue ){
     return rbind__impl(dots, id) ;
 }
 

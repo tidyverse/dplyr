@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `rbind_all()` and `rbind_list()` are formally deprecated. Please use 
+  `bind_rows()` instead (#803).
+
 * `as_data_frame()` is now an S3 generic with methods for lists (the old 
   `as_data_frame()`), data frames (trivial), and matrices (with efficient
   C++ implementation) (#876)

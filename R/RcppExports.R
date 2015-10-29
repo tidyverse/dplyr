@@ -37,9 +37,8 @@ between <- function(x, left, right) {
     .Call('dplyr_between', PACKAGE = 'dplyr', x, left, right)
 }
 
-#' @export
-rbind_all <- function(dots, id = NULL) {
-    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots, id)
+bind_rows_ <- function(dots, id = NULL) {
+    .Call('dplyr_bind_rows_', PACKAGE = 'dplyr', dots, id)
 }
 
 rbind_list__impl <- function(dots) {
