@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* New `add_row()` makes it easy to add a new row to data frame (#1021)
+
 * New `lst()` and `lst_()` which create lists in the same way that 
   `data_frame()` and `data_frame_()` create data frames (#1290). 
   
