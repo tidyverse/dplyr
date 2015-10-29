@@ -1,5 +1,13 @@
 # dplyr 0.4.3.9000
 
+* New `lst()` and `lst_()` which create lists in the same way that 
+  `data_frame()` and `data_frame_()` create data frames (#1290). 
+  
+* The internals of `data_frame()` and `as_data_frame()` have been aligned,
+  so `as_data_frame()` will now automatically recycle length-1 vectors.
+  Both functions give more informative error messages if you attempting to 
+  create an invalid data frame.
+
 * `vignette("data_frames")` describes the difference between tbl_dfs and
   regular data frames (#1468).
 
@@ -10,8 +18,6 @@
 
 * `data_frame()` and `as_data_frame()` now check that you don't have any 
   `POSIXlt` columns, and tell you to use `POSIXct` if you do (#813).
-  `data_frame()` gives slightly better error messages if you have
-  non-1d atomic vectors/lists.
 
 * `chain()`, `chain_q()` and `%.%` have been removed
 

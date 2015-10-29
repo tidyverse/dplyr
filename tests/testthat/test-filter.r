@@ -188,7 +188,10 @@ X
 ")
 
   datesDF$X <- as.POSIXlt(datesDF$X)
-  expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")), "use `POSIXct` instead")
+  expect_error(
+    filter(datesDF, X > as.POSIXlt("2014-03-13")),
+    "Date/times must be stored as POSIXct"
+  )
 })
 
 test_that( "filter handles complex vectors (#436)", {
