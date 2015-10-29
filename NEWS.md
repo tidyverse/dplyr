@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `as_data_frame()` is now an S3 generic with methods for lists (the old 
+  `as_data_frame()`), data frames (trivial), and matrices (with efficient
+  C++ implementation) (#)
+
 * New `add_row()` makes it easy to add a new row to data frame (#1021)
 
 * New `lst()` and `lst_()` which create lists in the same way that 

@@ -504,6 +504,17 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// matrixToDataFrame
+List matrixToDataFrame(RObject x);
+RcppExport SEXP dplyr_matrixToDataFrame(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    __result = Rcpp::wrap(matrixToDataFrame(x));
+    return __result;
+END_RCPP
+}
 // select_impl
 DataFrame select_impl(DataFrame df, CharacterVector vars);
 RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {

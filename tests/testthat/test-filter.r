@@ -190,7 +190,7 @@ X
   datesDF$X <- as.POSIXlt(datesDF$X)
   expect_error(
     filter(datesDF, X > as.POSIXlt("2014-03-13")),
-    "Date/times must be stored as POSIXct"
+    "column 'X' has unsupported type"
   )
 })
 
