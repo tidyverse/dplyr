@@ -492,4 +492,19 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
 
   res <- Pass %>% rowwise %>% mutate(pass2 = P2/(P2 + F2))
   expect_true( is.nan(res$pass2[1]) )
+
+  Pass <- data_frame(
+    P1 = c(2L, 0L, 10L,8L, 9L),
+    F1 = c(0L, 2L, 0L, 4L,3L),
+    P2 = c(0L, 3L, 2L, 2L, 2L),
+    F2 = c(0L, 2L, 0L, 1L,1L),
+    id = c(1,2,4,4,5)
+  )
+
+  res <- Pass %>%
+     group_by(id) %>%
+       dplyr::mutate(pass_rate = (P1 + P2) / (P1 + P2 + F1 + F2) * 100,
+              pass_rate1 = P1 / (P1 + F1) * 100,
+              pass_rate2 = P2 / (P2 + F2) * 100)
+  expect_true( is.nan(res$pass_rate2[1]) )
 })
