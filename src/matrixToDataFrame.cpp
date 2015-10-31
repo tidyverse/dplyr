@@ -29,6 +29,9 @@ List matrixToDataFrame(RObject x) {
       case REALSXP:
         REAL(col)[i] = REAL(x)[offset + i];
         break;
+      case CPLXSXP:
+        COMPLEX(col)[i] = COMPLEX(x)[offset + i];
+        break;
       case STRSXP:
         SET_STRING_ELT(col, i, STRING_ELT(x, offset + i));
         break;
