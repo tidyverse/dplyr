@@ -45,7 +45,6 @@ test_that("set operations use coercion rules (#799)", {
   expect_warning( { res <- intersect(df2, df1) })
   expect_equal( res, data_frame(x = letters[6:10]) )
 
-
   expect_warning( { res <- union(df1, df2) })
   expect_equal( res, data_frame(x = letters[1:15]) )
   expect_warning( { res <- union(df2, df1) })

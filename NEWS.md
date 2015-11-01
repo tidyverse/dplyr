@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `bind_rows` warns on binding factor and character (#1485). 
+* equality test fails when convert is FALSE and types don't match (#1484). 
+
+* `bind_rows` warns on binding factor and character (#1485).
 
 * `arrange()` fails gracefully on list columns (#1489).
 
