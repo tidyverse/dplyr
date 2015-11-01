@@ -228,7 +228,6 @@ namespace dplyr{
     }
 
     JoinVisitor* join_visitor( SEXP left, SEXP right, const std::string& name_left, const std::string& name_right, bool warn_ ){
-
         // handle Date separately
         bool lhs_date = Rf_inherits( left, "Date") ;
         bool rhs_date = Rf_inherits( right, "Date") ;

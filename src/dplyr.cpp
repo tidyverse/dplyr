@@ -1074,6 +1074,7 @@ SEXP promote(SEXP x){
     if( TYPEOF(x) == INTSXP ){
         IntegerVector data(x) ;
         if( Rf_inherits( x, "factor" ) ){
+            Rf_warning( "coercing factor to character vector" ) ; 
             CharacterVector levels = data.attr( "levels" ) ;
             int n = data.size() ;
             CharacterVector out( data.size() ) ;
@@ -1202,6 +1203,9 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
                << visitor_y->get_r_type() ;
             ok = false ;
         }
+        if(convert && typeid(*visitor_x) != typeid(*visitor_y) ){
+          Rf_warning("type coercion") ;
+        }
     }
     if(!ok) return no_because( ss.str() ) ;
     return yes() ;
@@ -1322,7 +1326,7 @@ dplyr::BoolResult all_equal_data_frame( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame union_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ;
+    BoolResult compat = compatible_data_frame(x,y,true,true) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1339,12 +1343,13 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame intersect_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ;
+    BoolResult compat = compatible_data_frame(x,y,true,true) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
     Set set(visitors);
 
@@ -1365,7 +1370,7 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ;
+    BoolResult compat = compatible_data_frame(x,y,true,true) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1391,7 +1396,7 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 IntegerVector match_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
+    if( !compatible_data_frame(x,y,true,true) )
         stop( "not compatible" );
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
