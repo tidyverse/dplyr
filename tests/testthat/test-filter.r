@@ -343,3 +343,18 @@ test_that("filter recognizes global #1469", {
     res <- mtcars %>% group_by(cyl) %>% filter(cyl == global(vs))
     expect_true( all(res$cyl == 4) )
 })
+
+test_that("filter understands column. #1012", {
+    ir1 <- filter( iris, Sepal.Length < 5)
+    ir2 <- filter( iris, column("Sepal.Length") < 5)
+    ir3 <- filter( iris, column(paste0("Sepal.", "Length")) < 5)
+    expect_equal(ir1, ir2)
+    expect_equal(ir1, ir3)
+
+    ir1 <- filter( group_by(iris, Species), Sepal.Length < 5)
+    ir2 <- filter( group_by(iris, Species), column("Sepal.Length") < 5)
+    ir3 <- filter( group_by(iris, Species), column(paste0("Sepal.", "Length")) < 5)
+    expect_equal(ir1, ir2)
+    expect_equal(ir1, ir3)
+
+})

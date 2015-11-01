@@ -537,3 +537,19 @@ test_that( "lead/lag inside mutate handles expressions as value for default (#14
   expect_equal( res$lagn, lag(df$x, default = 1) )
 
 })
+
+test_that("mutate understands column. #1012", {
+    ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
+    ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
+    expect_equal(ir1, ir2)
+
+    ir1 <- mutate( group_by(iris, Species), Sepal = Sepal.Length * Sepal.Width )
+    ir2 <- mutate( group_by(iris, Species), Sepal = column("Sepal.Length") * column("Sepal.Width") )
+    expect_equal(ir1, ir2)
+
+    ir <- iris %>% mutate( a = column("Species") )
+    expect_equal( ir$a, ir$Species)
+
+    ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
+    expect_equal( ir$a, ir$Species)
+})

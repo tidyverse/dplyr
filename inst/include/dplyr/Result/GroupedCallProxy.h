@@ -103,6 +103,16 @@ namespace dplyr {
               return ;
             }
 
+            if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("column") ){
+              SEXP arg = CADR(obj) ;
+              RObject value = Rf_eval(arg, env) ;
+              if( !is<String>(value) ){
+                stop("column must return a single string") ;
+              }
+              call = Rf_installChar(STRING_ELT(value, 0)) ;
+              return ;
+            }
+
             if( ! Rf_isNull(obj) ){
                 SEXP head = CAR(obj) ;
 
@@ -118,6 +128,20 @@ namespace dplyr {
                         SET_TYPEOF(obj, LISTSXP) ;
                         break ;
                     }
+                    if( CAR(head) == Rf_install("column")){
+                      SEXP arg = CADR(head) ;
+                      RObject value = Rf_eval(arg, env) ;
+                      if( !is<String>(value) ){
+                        stop("column must return a single string") ;
+                      }
+
+                      SETCAR(obj, Rf_installChar(STRING_ELT(value, 0)) ) ;
+                      head = CAR(obj) ;
+                      proxies.push_back( CallElementProxy( head, obj ) );
+
+                      break ;
+                    }
+
                     if( CAR(head) == Rf_install("~") ) return ;
                     if( CAR(head) == Rf_install("order_by") ) break ;
                     if( CAR(head) == Rf_install("function") ) break ;

@@ -1,7 +1,9 @@
 # dplyr 0.4.3.9000
 
+* New pronoun `column` giving a compromise between SE and NSE. (#1012)
+
 * `lead` and `lag` falls back on R evaluation when the value for default is
-  and expression (#1411). 
+  and expression (#1411).
 
 * `lead` and `lag` behave correctly on `summarise` (#1434).
 
