@@ -291,3 +291,9 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
   expect_equal( class(res$time), c("POSIXct", "POSIXt") )
   expect_true( all(res$time == c(df1$time, df2$time) ) )
 })
+
+test_that("bind_rows warns on binding factor and character (#1485)", {
+  df1 <- head(iris, 1)
+  df2 <- tail(iris, 1) %>% mutate(Species = as.character(Species))
+  expect_warning( bind_rows(df1, df2), "binding factor and character vector, coercing into character vector" )
+})

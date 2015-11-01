@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `arrange()` fails gracefully on list columns (#1489). 
+* `bind_rows` warns on binding factor and character (#1485). 
+
+* `arrange()` fails gracefully on list columns (#1489).
 
 * `all_equal()` allows to compare data frames ignoring row and column order,
   and optionally ignoring minor differences in type (e.g. int vs. double)
