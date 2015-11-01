@@ -539,3 +539,22 @@ test_that( "min and max handle empty sets in summarise (#1481)", {
   expect_equal( res$Min, Inf )
   expect_equal( res$Max, -Inf )
 })
+
+test_that("lead and lag behave correctly in summarise (#1434)", {
+  res <- mtcars %>%
+    group_by(cyl) %>%
+    summarise(n = n(), leadn = lead(n), lagn=lag(n), leadn10=lead(n, default=10), lagn10 = lag(n, default = 10))
+  expect_true(all(is.na(res$lagn)))
+  expect_true(all(is.na(res$leadn)))
+  expect_true(all(res$lagn10  == 10))
+  expect_true(all(res$leadn10 == 10))
+
+  res <- mtcars %>%
+    rowwise() %>%
+    summarise(n = n(), leadn = lead(n), lagn=lag(n), leadn10=lead(n, default=10), lagn10 = lag(n, default = 10))
+  expect_true(all(is.na(res$lagn)))
+  expect_true(all(is.na(res$leadn)))
+  expect_true(all(res$lagn10  == 10))
+  expect_true(all(res$leadn10 == 10))
+
+})

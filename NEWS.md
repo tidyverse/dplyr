@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* hybrid evaluation leaves formulas untouched (#1447). 
+* `lead` and `lag` behave correctly on `summarise` (#1434). 
+
+* hybrid evaluation leaves formulas untouched (#1447).
 
 * equality test fails when convert is FALSE and types don't match (#1484).
 

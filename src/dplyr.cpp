@@ -336,16 +336,17 @@ Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( !args.ok ) return 0 ;
 
     RObject& data = args.data ;
+    bool is_summary = subsets.is_summary(data) ;
     int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
         data = subsets.get_variable(data) ;
 
         switch( TYPEOF(data) ){
-            case INTSXP:  return new Templ<INTSXP> (data, n, args.def) ;
-            case REALSXP: return new Templ<REALSXP>(data, n, args.def) ;
-            case STRSXP:  return new Templ<STRSXP> (data, n, args.def) ;
-            case LGLSXP:  return new Templ<LGLSXP> (data, n, args.def) ;
+            case INTSXP:  return new Templ<INTSXP> (data, n, args.def, is_summary) ;
+            case REALSXP: return new Templ<REALSXP>(data, n, args.def, is_summary) ;
+            case STRSXP:  return new Templ<STRSXP> (data, n, args.def, is_summary) ;
+            case LGLSXP:  return new Templ<LGLSXP> (data, n, args.def, is_summary) ;
             default: break ;
         }
 
@@ -1074,7 +1075,7 @@ SEXP promote(SEXP x){
     if( TYPEOF(x) == INTSXP ){
         IntegerVector data(x) ;
         if( Rf_inherits( x, "factor" ) ){
-            Rf_warning( "coercing factor to character vector" ) ; 
+            Rf_warning( "coercing factor to character vector" ) ;
             CharacterVector levels = data.attr( "levels" ) ;
             int n = data.size() ;
             CharacterVector out( data.size() ) ;
