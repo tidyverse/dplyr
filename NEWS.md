@@ -1,6 +1,9 @@
 # dplyr 0.4.3.9000
 
-* `lead` and `lag` behave correctly on `summarise` (#1434). 
+* `lead` and `lag` falls back on R evaluation when the value for default is
+  and expression (#1411). 
+
+* `lead` and `lag` behave correctly on `summarise` (#1434).
 
 * hybrid evaluation leaves formulas untouched (#1447).
 

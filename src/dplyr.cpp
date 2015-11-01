@@ -317,6 +317,7 @@ struct LeadLag{
             }
             if( tag == Rf_install("default") ){
                 def = CAR(p) ;
+                if( TYPEOF(def) == LANGSXP ) ok = false ;
             }
             p = CDR(p) ;
         }
