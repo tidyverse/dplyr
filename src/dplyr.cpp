@@ -835,7 +835,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
         while(
           ( std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end() ) ||
-          ( std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k ) 
+          ( std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k )
         ){
             col_name += ".y" ;
         }
@@ -1186,14 +1186,20 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
     ok = true ;
     for( int i=0; i<n; i++){
+        SubsetVectorVisitor* visitor_x = v_x.get(i) ;
+        SubsetVectorVisitor* visitor_y = v_y.get(i) ;
+
         String name = names_x[i];
-        if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
+        if(
+          ( !convert && typeid(*visitor_x) != typeid(*visitor_y) ) ||
+          ( ! visitor_x->is_compatible( visitor_y, ss, name ) )
+        ){
             ss << "Incompatible type for column "
                << names_x[i]
                << ": x "
-               << v_x.get(i)->get_r_type()
+               << visitor_x->get_r_type()
                << ", y "
-               << v_y.get(i)->get_r_type() ;
+               << visitor_y->get_r_type() ;
             ok = false ;
         }
     }
