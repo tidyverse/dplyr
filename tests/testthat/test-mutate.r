@@ -508,3 +508,20 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
               pass_rate2 = P2 / (P2 + F2) * 100)
   expect_true( is.nan(res$pass_rate2[1]) )
 })
+
+test_that("hybrid evaluator leaves formulas untouched (#1447)", {
+  d <- data_frame(g = 1:2, training = list(mtcars, mtcars * 2))
+  mpg <- data.frame(x=1:10, y=1:10)
+  res <- d %>% mutate(lm_result = map(training, ~ lm(mpg ~ wt, data = .)))
+  expect_is( res$lm_result, "list" )
+  expect_is( res$lm_result[[1]], "lm" )
+  expect_is( res$lm_result[[2]], "lm" )
+
+  res <- d %>%
+    group_by(g) %>% 
+    mutate(lm_result = map(training, ~ lm(mpg ~ wt, data = .)))
+  expect_is( res$lm_result, "list" )
+  expect_is( res$lm_result[[1]], "lm" )
+  expect_is( res$lm_result[[2]], "lm" )
+
+})
