@@ -43,12 +43,13 @@ using namespace Rcpp ;
 #include <tools/tools.h>
 
 namespace dplyr {
+    class LazySubsets ;
+    Symbol get_column(SEXP, const Environment&, const LazySubsets& ) ;
     class Result ;
     class ResultSet ;
     class Reducer_Proxy ;
     class DataFrameVisitors ;
     class DataFrameJoinVisitors ;
-    class LazySubsets ;
     std::string get_single_class(SEXP x) ;
 
     void strip_index(DataFrame x) ;

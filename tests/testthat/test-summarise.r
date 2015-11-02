@@ -567,5 +567,4 @@ test_that("summarise understands column. #1012", {
     ir1 <- summarise( group_by(iris, Species), Sepal = sum(Sepal.Length * Sepal.Width) )
     ir2 <- summarise( group_by(iris, Species), Sepal = sum(column("Sepal.Length") * column("Sepal.Width")) )
     expect_equal(ir1, ir2)
-
 })
