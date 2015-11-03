@@ -9,7 +9,7 @@
 #' \code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
 #' \code{bind_rows()}.
 #'
-#' @param x,... Data frames to combine.
+#' @param ... Data frames to combine.
 #'
 #'   You can either supply one data frame per argument, or a list of
 #'   data frames in the first argument.
@@ -65,19 +65,10 @@
 #' @name bind
 NULL
 
-
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  dots <- list(...)
-  if (is.list(dots[[1]]) &&
-        !is.data.frame(dots[[1]]) &&
-        !length(dots[-1])) {
-    x <- dots[[1]]
-  }
-  else {
-    x <- dots
-  }
+  x <- list_or_dots(...)
 
   if (!is.null(.id)) {
     if (!(is.character(.id) && length(.id) == 1)) {
@@ -89,26 +80,39 @@ bind_rows <- function(..., .id = NULL) {
   bind_rows_(x, .id)
 }
 
+
 #' @export
 #' @rdname bind
-bind_cols <- function(x, ...) {
-  if (is.list(x) && !is.data.frame(x) && !length(list(...)) ) {
-    cbind_all(x)
-  } else {
-    cbind_all(list(x, ...))
-  }
+bind_cols <- function(...) {
+  x <- list_or_dots(...)
+  cbind_all(x)
 }
 
 #' @export
 #' @rdname bind
-combine <- function(x, ...) {
-  if (is.list(x) && !is.data.frame(x)) {
-    combine_all(x)
-  } else {
-    combine_all(list(x, ...))
-  }
+combine <- function(...) {
+  x <- list_or_dots(...)
+  combine_all(x)
 }
 
+list_or_dots <- function(...) {
+  dots <- list(...)
+  first <- dots[[1]]
+
+  if (!is_bare_list(first))
+    return(dots)
+
+  if (length(dots) > 1) {
+    warning("First argument is a list, so ignoring other arguments.",
+      call. = FALSE)
+  }
+  first
+}
+
+is_bare_list <- function(x) is.list(x) && !is.object(x)
+
+
+# Deprecated functions ----------------------------------------------------
 
 #' @export
 #' @rdname bind
