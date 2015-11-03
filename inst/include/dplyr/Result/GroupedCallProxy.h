@@ -103,6 +103,11 @@ namespace dplyr {
               return ;
             }
 
+            if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("column") ){
+              call = get_column(CADR(obj), env, subsets) ;
+              return ;
+            }
+
             if( ! Rf_isNull(obj) ){
                 SEXP head = CAR(obj) ;
 
@@ -118,7 +123,15 @@ namespace dplyr {
                         SET_TYPEOF(obj, LISTSXP) ;
                         break ;
                     }
+                    if( CAR(head) == Rf_install("column")){
+                      Symbol column = get_column( CADR(head), env, subsets) ;
+                      SETCAR(obj, column ) ;
+                      head = CAR(obj) ;
+                      proxies.push_back( CallElementProxy( head, obj ) );
+                      break ;
+                    }
 
+                    if( CAR(head) == Rf_install("~") ) return ;
                     if( CAR(head) == Rf_install("order_by") ) break ;
                     if( CAR(head) == Rf_install("function") ) break ;
                     if( CAR(head) == Rf_install("local") ) return ;

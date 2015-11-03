@@ -3,25 +3,40 @@
 * `tbl_df`s gain `$` and `[[` methods that are ~5x faster than the defaults,
   and never do partial matching (#1504).
 
+* New pronoun `column` giving a compromise between SE and NSE. (#1012)
+
+* `lead` and `lag` falls back on R evaluation when the value for default is
+  and expression (#1411).
+
+* `lead` and `lag` behave correctly on `summarise` (#1434).
+
+* hybrid evaluation leaves formulas untouched (#1447).
+
+* equality test fails when convert is FALSE and types don't match (#1484).
+
+* `bind_rows` warns on binding factor and character (#1485).
+
+* `arrange()` fails gracefully on list columns (#1489).
+
 * `all_equal()` allows to compare data frames ignoring row and column order,
-  and optionally ignoring minor differences in type (e.g. int vs. double) 
+  and optionally ignoring minor differences in type (e.g. int vs. double)
   (#821).
 
-* `rbind_all()` and `rbind_list()` are formally deprecated. Please use 
+* `rbind_all()` and `rbind_list()` are formally deprecated. Please use
   `bind_rows()` instead (#803).
 
-* `as_data_frame()` is now an S3 generic with methods for lists (the old 
+* `as_data_frame()` is now an S3 generic with methods for lists (the old
   `as_data_frame()`), data frames (trivial), and matrices (with efficient
   C++ implementation) (#876)
 
 * New `add_row()` makes it easy to add a new row to data frame (#1021)
 
-* New `lst()` and `lst_()` which create lists in the same way that 
-  `data_frame()` and `data_frame_()` create data frames (#1290). 
-  
+* New `lst()` and `lst_()` which create lists in the same way that
+  `data_frame()` and `data_frame_()` create data frames (#1290).
+
 * The internals of `data_frame()` and `as_data_frame()` have been aligned,
   so `as_data_frame()` will now automatically recycle length-1 vectors.
-  Both functions give more informative error messages if you attempting to 
+  Both functions give more informative error messages if you attempting to
   create an invalid data frame. You can no longer create a data frame with
   duplicated names (#820).
 
@@ -84,7 +99,7 @@
 
 * `min` and `max` handle empty sets (#1481).
 
-* grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448). 
+* grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448).
 
 # dplyr 0.4.3
 

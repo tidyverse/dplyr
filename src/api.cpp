@@ -2,6 +2,28 @@
 
 namespace dplyr{
 
+    Symbol get_column(SEXP arg, const Environment& env, const LazySubsets& subsets ){
+      RObject value ;
+      if( TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~") ){
+        if( Rf_length(arg) != 2 || TYPEOF(CADR(arg)) != SYMSXP )
+          stop( "unhandled formula in column" ) ;
+        value = CharacterVector::create( PRINTNAME(CADR(arg)) ) ;
+      } else {
+        value = Rcpp_eval(arg, env) ;
+      }
+      if( is<Symbol>(value) ){
+        value = CharacterVector::create(PRINTNAME(value)) ;
+      }
+      if( !is<String>(value) ){
+        stop("column must return a single string") ;
+      }
+      Symbol res(STRING_ELT(value,0)) ;
+      if( !subsets.count(res) ){
+        stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)) ) ;
+      }
+      return res ;
+    }
+
     void CallProxy::set_call( SEXP call_ ){
         proxies.clear() ;
         call = call_ ;
@@ -82,6 +104,11 @@ namespace dplyr{
           return ;
         }
 
+        if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("column") ){
+          call = get_column(CADR(obj), env, subsets) ;
+          return ;
+        }
+
         if( ! Rf_isNull(obj) ){
             SEXP head = CAR(obj) ;
             switch( TYPEOF( head ) ){
@@ -96,6 +123,15 @@ namespace dplyr{
 
                     break ;
                 }
+                if( CAR(head) == Rf_install("column")){
+                  Symbol column = get_column( CADR(head), env, subsets) ;
+                  SETCAR(obj, column ) ;
+                  head = CAR(obj) ;
+                  proxies.push_back( CallElementProxy( head, obj ) );
+
+                  break ;
+                }
+                if( CAR(head) == Rf_install("~")) return ;
                 if( CAR(head) == Rf_install("order_by") ) break ;
                 if( CAR(head) == Rf_install("function") ) break ;
                 if( CAR(head) == Rf_install("local") ) return ;

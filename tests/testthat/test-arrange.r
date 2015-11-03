@@ -171,3 +171,10 @@ test_that("duplicated column name is explicit about which column (#996)", {
     names(df) <- c("x", "x", "y", "y")
     expect_error( df %>% arrange, "found duplicated column name: x, y" )
 })
+
+test_that("arrange fails gracefully on list comumns (#1489)",{
+  df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
+    group_by(group) %>%
+    do(fit = lm(data = ., y ~ x))
+  expect_error( arrange(df, fit), "Cannot order based on this column" )
+})

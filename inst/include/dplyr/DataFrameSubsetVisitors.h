@@ -22,7 +22,8 @@ namespace dplyr {
             {
 
                 for( int i=0; i<nvisitors; i++){
-                    visitors.push_back( subset_visitor( data[i] ) ) ;
+                    SubsetVectorVisitor* v = subset_visitor( data[i] ) ;
+                    visitors.push_back(v) ;
                 }
             }
 
@@ -44,8 +45,8 @@ namespace dplyr {
                     } catch( ... ){
                         stop( "unknown column '%s' ", name ) ;
                     }
-
-                    visitors.push_back( subset_visitor( column ) ) ;
+                    SubsetVectorVisitor* v = subset_visitor( column ) ;
+                    visitors.push_back(v) ;
 
                 }
 

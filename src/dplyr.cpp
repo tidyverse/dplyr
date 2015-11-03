@@ -317,6 +317,7 @@ struct LeadLag{
             }
             if( tag == Rf_install("default") ){
                 def = CAR(p) ;
+                if( TYPEOF(def) == LANGSXP ) ok = false ;
             }
             p = CDR(p) ;
         }
@@ -336,16 +337,17 @@ Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     if( !args.ok ) return 0 ;
 
     RObject& data = args.data ;
+    bool is_summary = subsets.is_summary(data) ;
     int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
         data = subsets.get_variable(data) ;
 
         switch( TYPEOF(data) ){
-            case INTSXP:  return new Templ<INTSXP> (data, n, args.def) ;
-            case REALSXP: return new Templ<REALSXP>(data, n, args.def) ;
-            case STRSXP:  return new Templ<STRSXP> (data, n, args.def) ;
-            case LGLSXP:  return new Templ<LGLSXP> (data, n, args.def) ;
+            case INTSXP:  return new Templ<INTSXP> (data, n, args.def, is_summary) ;
+            case REALSXP: return new Templ<REALSXP>(data, n, args.def, is_summary) ;
+            case STRSXP:  return new Templ<STRSXP> (data, n, args.def, is_summary) ;
+            case LGLSXP:  return new Templ<LGLSXP> (data, n, args.def, is_summary) ;
             default: break ;
         }
 
@@ -835,7 +837,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
 
         while(
           ( std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end() ) ||
-          ( std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k ) 
+          ( std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k )
         ){
             col_name += ".y" ;
         }
@@ -1074,6 +1076,7 @@ SEXP promote(SEXP x){
     if( TYPEOF(x) == INTSXP ){
         IntegerVector data(x) ;
         if( Rf_inherits( x, "factor" ) ){
+            Rf_warning( "coercing factor to character vector" ) ;
             CharacterVector levels = data.attr( "levels" ) ;
             int n = data.size() ;
             CharacterVector out( data.size() ) ;
@@ -1186,15 +1189,24 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
 
     ok = true ;
     for( int i=0; i<n; i++){
+        SubsetVectorVisitor* visitor_x = v_x.get(i) ;
+        SubsetVectorVisitor* visitor_y = v_y.get(i) ;
+
         String name = names_x[i];
-        if( ! v_x.get(i)->is_compatible( v_y.get(i), ss, name ) ){
+        if(
+          ( !convert && typeid(*visitor_x) != typeid(*visitor_y) ) ||
+          ( ! visitor_x->is_compatible( visitor_y, ss, name ) )
+        ){
             ss << "Incompatible type for column "
                << names_x[i]
                << ": x "
-               << v_x.get(i)->get_r_type()
+               << visitor_x->get_r_type()
                << ", y "
-               << v_y.get(i)->get_r_type() ;
+               << visitor_y->get_r_type() ;
             ok = false ;
+        }
+        if(convert && typeid(*visitor_x) != typeid(*visitor_y) ){
+          Rf_warning("type coercion") ;
         }
     }
     if(!ok) return no_because( ss.str() ) ;
@@ -1316,7 +1328,7 @@ dplyr::BoolResult all_equal_data_frame( List args, Environment env ){
 
 // [[Rcpp::export]]
 DataFrame union_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ;
+    BoolResult compat = compatible_data_frame(x,y,true,true) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1333,12 +1345,13 @@ DataFrame union_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame intersect_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ;
+    BoolResult compat = compatible_data_frame(x,y,true,true) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
+
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
     Set set(visitors);
 
@@ -1359,7 +1372,7 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
-    BoolResult compat = compatible_data_frame(x,y) ;
+    BoolResult compat = compatible_data_frame(x,y,true,true) ;
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
@@ -1385,7 +1398,7 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
 
 // [[Rcpp::export]]
 IntegerVector match_data_frame( DataFrame x, DataFrame y){
-    if( !compatible_data_frame(x,y) )
+    if( !compatible_data_frame(x,y,true,true) )
         stop( "not compatible" );
 
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;

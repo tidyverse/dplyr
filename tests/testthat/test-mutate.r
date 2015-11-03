@@ -492,4 +492,64 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
 
   res <- Pass %>% rowwise %>% mutate(pass2 = P2/(P2 + F2))
   expect_true( is.nan(res$pass2[1]) )
+
+  Pass <- data_frame(
+    P1 = c(2L, 0L, 10L,8L, 9L),
+    F1 = c(0L, 2L, 0L, 4L,3L),
+    P2 = c(0L, 3L, 2L, 2L, 2L),
+    F2 = c(0L, 2L, 0L, 1L,1L),
+    id = c(1,2,4,4,5)
+  )
+
+  res <- Pass %>%
+     group_by(id) %>%
+       dplyr::mutate(pass_rate = (P1 + P2) / (P1 + P2 + F1 + F2) * 100,
+              pass_rate1 = P1 / (P1 + F1) * 100,
+              pass_rate2 = P2 / (P2 + F2) * 100)
+  expect_true( is.nan(res$pass_rate2[1]) )
+})
+
+test_that("hybrid evaluator leaves formulas untouched (#1447)", {
+  d <- data_frame(g = 1:2, training = list(mtcars, mtcars * 2))
+  mpg <- data.frame(x=1:10, y=1:10)
+  res <- d %>% mutate(lm_result = map(training, ~ lm(mpg ~ wt, data = .)))
+  expect_is( res$lm_result, "list" )
+  expect_is( res$lm_result[[1]], "lm" )
+  expect_is( res$lm_result[[2]], "lm" )
+
+  res <- d %>%
+    group_by(g) %>%
+    mutate(lm_result = map(training, ~ lm(mpg ~ wt, data = .)))
+  expect_is( res$lm_result, "list" )
+  expect_is( res$lm_result[[1]], "lm" )
+  expect_is( res$lm_result[[2]], "lm" )
+
+})
+
+test_that( "lead/lag inside mutate handles expressions as value for default (#1411) ", {
+  df <- data_frame(x = 1:3)
+  res <- mutate(df, leadn = lead(x, default = x[1]), lagn = lag(x, default = x[1]) )
+  expect_equal( res$leadn, lead(df$x, default = df$x[1]) )
+  expect_equal( res$lagn, lag(df$x, default = df$x[1]) )
+
+  res <- mutate(df, leadn = lead(x, default = c(1)), lagn = lag(x, default = c(1)))
+  expect_equal( res$leadn, lead(df$x, default = 1) )
+  expect_equal( res$lagn, lag(df$x, default = 1) )
+
+})
+
+test_that("mutate understands column. #1012", {
+    ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
+    ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
+    expect_equal(ir1, ir2)
+
+    ir1 <- mutate( group_by(iris, Species), Sepal = Sepal.Length * Sepal.Width )
+    ir2 <- mutate( group_by(iris, Species), Sepal = column("Sepal.Length") * column("Sepal.Width") )
+    expect_equal(ir1, ir2)
+
+    ir <- iris %>% mutate( a = column("Species") )
+    expect_equal( ir$a, ir$Species)
+
+    ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
+    expect_equal( ir$a, ir$Species)
 })

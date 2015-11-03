@@ -105,7 +105,7 @@ label_output_dataframe <- function(labels, out, groups) {
   }
 
   rows <- vapply(out[[1]], nrow, numeric(1))
-  out <- rbind_all(out[[1]])
+  out <- bind_rows(out[[1]])
 
   if (!is.null(labels)) {
     # Remove any common columns from labels

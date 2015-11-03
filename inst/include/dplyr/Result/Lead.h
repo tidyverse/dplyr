@@ -17,8 +17,11 @@ namespace dplyr {
     public:
         typedef typename scalar_type<RTYPE>::type STORAGE ;
 
-        Lead( SEXP data_, int n_, const RObject& def_) :
-            data(data_), n(n_), def(Vector<RTYPE>::get_na())
+        Lead( SEXP data_, int n_, const RObject& def_, bool is_summary_) :
+            data(data_),
+            n(n_),
+            def(Vector<RTYPE>::get_na()),
+            is_summary(is_summary_)
         {
           if( !Rf_isNull(def_)){
             def = as<STORAGE>( def_ ) ;
@@ -30,9 +33,13 @@ namespace dplyr {
             int ng = gdf.ngroups() ;
 
             Vector<RTYPE> out = no_init(nrows) ;
-            GroupedDataFrame::group_iterator git = gdf.group_begin();
-            for( int i=0; i<ng; i++, ++git){
-                process_slice(out, *git, *git) ;
+            if( is_summary ){
+              for(int i=0; i<nrows; i++) out[i] = def ;
+            } else {
+              GroupedDataFrame::group_iterator git = gdf.group_begin();
+              for( int i=0; i<ng; i++, ++git){
+                  process_slice(out, *git, *git) ;
+              }
             }
             copy_most_attributes( out, data ) ;
             return out ;
@@ -80,6 +87,7 @@ namespace dplyr {
         Vector<RTYPE> data ;
         int n ;
         STORAGE def ;
+        bool is_summary ;
     } ;
 
 }
