@@ -18,12 +18,14 @@ screen, describing the rest of it as text.
 \section{Methods}{
 
 
-\code{tbl_df} implements two important base methods:
+\code{tbl_df} implements four important base methods:
 
 \describe{
 \item{print}{Only prints the first 10 rows, and the columns that fit on
   screen}
 \item{\code{[}}{Never simplifies (drops), so always returns data.frame}
+\item{\code{[[}, \code{$}}{Calls \code{\link{.subset2}} directly,
+  so is considerably faster.}
 }
 }
 \examples{
