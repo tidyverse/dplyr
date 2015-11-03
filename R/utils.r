@@ -82,6 +82,15 @@ names2 <- function(x) {
   names(x) %||% rep("", length(x))
 }
 
+has_names <- function(x) {
+  nms <- names(x)
+  if (is.null(nms)) {
+    rep(FALSE, length(x))
+  } else {
+    !is.na(nms) && nms != ""
+  }
+}
+
 "%||%" <- function(x, y) if(is.null(x)) y else x
 
 is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
@@ -144,3 +153,5 @@ is_1d <- function(x) {
   # dimension check is for matrices and data.frames
   (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
 }
+
+is_bare_list <- function(x) is.list(x) && !is.object(x)

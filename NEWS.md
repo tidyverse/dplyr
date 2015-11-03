@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `bind_rows()` is more flexible in the way it can accept data frames,
+  lists, list of data frames, and list of lists (#1389).
+
 * `tbl_df`s gain `$` and `[[` methods that are ~5x faster than the defaults,
   and never do partial matching (#1504).
 

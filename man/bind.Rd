@@ -18,8 +18,8 @@ combine(...)
 \arguments{
 \item{...}{Data frames to combine.
 
-  You can either supply one data frame per argument, or a list of
-  data frames in the first argument.
+  Each argument can either be a data frame, a list that could be a data
+  frame, or a list of data frames.
 
   When column-binding, rows are matched by position, not value so all data
   frames must have the same number of rows. To match by value, not

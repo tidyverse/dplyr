@@ -11,8 +11,8 @@
 #'
 #' @param ... Data frames to combine.
 #'
-#'   You can either supply one data frame per argument, or a list of
-#'   data frames in the first argument.
+#'   Each argument can either be a data frame, a list that could be a data
+#'   frame, or a list of data frames.
 #'
 #'   When column-binding, rows are matched by position, not value so all data
 #'   frames must have the same number of rows. To match by value, not
@@ -97,19 +97,40 @@ combine <- function(...) {
 
 list_or_dots <- function(...) {
   dots <- list(...)
-  first <- dots[[1]]
 
-  if (!is_bare_list(first))
-    return(dots)
+  # Need to ensure that each component is a data list:
+  data_lists <- vapply(dots, is_data_list, logical(1))
+  dots[data_lists] <- lapply(dots[data_lists], list)
 
-  if (length(dots) > 1) {
-    warning("First argument is a list, so ignoring other arguments.",
-      call. = FALSE)
-  }
-  first
+  unlist(dots, recursive = FALSE)
 }
 
-is_bare_list <- function(x) is.list(x) && !is.object(x)
+# Is this object a
+is_data_list <- function(x) {
+  # data frames are trivially data list, and so are nulls
+  if (is.data.frame(x) || is.null(x))
+    return(TRUE)
+
+  # Must be a list
+  if (!is.list(x))
+    return(FALSE)
+
+  # With names
+  if (any(!has_names(x)))
+    return(FALSE)
+
+  # Where each element is an 1d vector or list
+  is_1d <- vapply(x, is_1d, logical(1))
+  if (any(!is_1d))
+    return(FALSE)
+
+  # All of which have the same length
+  n <- vapply(x, length, integer(1))
+  if (any(n != n[1]))
+    return(FALSE)
+
+  TRUE
+}
 
 
 # Deprecated functions ----------------------------------------------------
