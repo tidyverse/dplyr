@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `tbl_df`s gain `$` and `[[` methods that are ~5x faster than the defaults,
+  and never do partial matching (#1504).
+
 * `all_equal()` allows to compare data frames ignoring row and column order,
   and optionally ignoring minor differences in type (e.g. int vs. double) 
   (#821).

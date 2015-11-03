@@ -103,7 +103,7 @@ The speed of `as.data.frame()` is not usually a bottleneck when used interactive
 
 ## tbl_dfs vs data.frames
 
-There are two key differences between tbl_dfs and data.frames:
+There are three key differences between tbl_dfs and data.frames:
 
 *   When you print a tbl_df, it only shows the first ten rows and all the
     columns that fit on one screen. It also prints an abbreviated description
@@ -142,6 +142,17 @@ There are two key differences between tbl_dfs and data.frames:
     ```{r}
     class(df2[[1]])
     class(df2$x)
+    ```
+
+*   When you extract a variable with `$`, tbl\_dfs never do partial 
+    matching:
+    
+    ```{r}
+    df <- data.frame(abc = 1)
+    df$a
+    
+    df2 <- data_frame(abc = 1)
+    df2$a
     ```
 
 ## Memory
