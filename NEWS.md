@@ -10,7 +10,8 @@
   lists, list of data frames, and list of lists (#1389).
 
 * `tbl_df`s gain `$` and `[[` methods that are ~5x faster than the defaults,
-  and never do partial matching (#1504).
+  never do partial matching (#1504), and throw an error if the variable
+  does not exist.
 
 * New pronoun `column` giving a compromise between SE and NSE. (#1012)
 
