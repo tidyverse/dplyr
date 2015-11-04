@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `glimpse()` is now a generic. The default method dispatches to `str()`
+  (#1325).
+
 * `id()` has been deprecated (#808).
 
 * `do.data.table()` and `do.tbl_dt()` now work (#1081).
