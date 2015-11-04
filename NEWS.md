@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `id()` has been deprecated (#808).
+
 * `do.data.table()` and `do.tbl_dt()` now work (#1081).
 
 * `top_n()` can now also select bottom `n` values by passing a negative value
