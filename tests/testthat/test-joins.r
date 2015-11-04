@@ -514,3 +514,15 @@ test_that( "joins avoid name repetition (#1460)", {
     left_join(d3, by="id")
   expect_equal( names(d), c("id", "foo.x", "foo.y", "foo.x.x", "foo.y.y"))
 })
+
+test_that("join functions are protected against empty by (#1496)", {
+  x <- data.frame()
+  y <- data.frame(a=1)
+  expect_error( left_join(x,y, by = names(x) ), "no variable to join by" )
+  expect_error( right_join(x,y, by = names(x) ), "no variable to join by" )
+  expect_error( semi_join(x,y, by = names(x) ), "no variable to join by" )
+  expect_error( full_join(x,y, by = names(x) ), "no variable to join by" )
+  expect_error( anti_join(x,y, by = names(x) ), "no variable to join by" )
+  expect_error( inner_join(x,y, by = names(x) ), "no variable to join by" )
+
+})
