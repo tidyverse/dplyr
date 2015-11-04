@@ -510,6 +510,7 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
 })
 
 test_that("hybrid evaluator leaves formulas untouched (#1447)", {
+  d <- data_frame(g = 1:2, training = list(mtcars, mtcars * 2))
   mpg <- data.frame(x=1:10, y=1:10)
   res <- d %>%
     group_by(g) %>%
@@ -517,6 +518,7 @@ test_that("hybrid evaluator leaves formulas untouched (#1447)", {
   expect_is( res$lm_result, "list" )
   expect_is( res$lm_result[[1]], "lm" )
   expect_is( res$lm_result[[2]], "lm" )
+
 })
 
 test_that( "lead/lag inside mutate handles expressions as value for default (#1411) ", {
