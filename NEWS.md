@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `ungroup()` generic gains `...` (#922).
+
 * Weighted `tally()` now ignores NAs (#1145).
 
 * equality test for `data.frame` handles the case where the df has 0 columns (#1506). 

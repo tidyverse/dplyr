@@ -84,10 +84,10 @@ groups.tbl_dt <- function(x) {
 }
 
 #' @export
-ungroup.tbl_dt <- function(x) x
+ungroup.tbl_dt <- function(x, ...) x
 
 #' @export
-ungroup.data.table <- function(x) x
+ungroup.data.table <- function(x, ...) x
 
 #' @export
 same_src.tbl_dt <- function(x, y) {

@@ -32,7 +32,7 @@ print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
 }
 
 #' @export
-ungroup.rowwise_df <- function(x) {
+ungroup.rowwise_df <- function(x, ...) {
   class(x) <- c( "tbl_df", "data.frame")
   x
 }

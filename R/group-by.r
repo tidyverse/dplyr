@@ -109,6 +109,7 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 #' inline way of removing existing grouping.
 #'
 #' @param x data \code{\link{tbl}}
+#' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
@@ -126,6 +127,6 @@ regroup <- function(x, value) {
 
 #' @export
 #' @rdname groups
-ungroup <- function(x) {
+ungroup <- function(x, ...) {
   UseMethod("ungroup")
 }
