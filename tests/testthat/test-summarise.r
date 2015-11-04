@@ -568,3 +568,9 @@ test_that("summarise understands column. #1012", {
     ir2 <- summarise( group_by(iris, Species), Sepal = sum(column("Sepal.Length") * column("Sepal.Width")) )
     expect_equal(ir1, ir2)
 })
+
+test_that("data.frame columns are supported in summarise (#1425)" , {
+  df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
+  df$x3 <- df %>% mutate(x3 = x2)
+  res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))
+})

@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* protect join functions from empty `by` spec (#1496). 
+* `summarise` supports data frames as columns (#1425). 
+
+* protect join functions from empty `by` spec (#1496).
 
 * Weighted `tally()` now ignores NAs (#1145).
 

@@ -15,6 +15,10 @@ namespace dplyr {
             return visitors.subset( index, data.attr("class")  ) ;
         }
 
+        inline SEXP subset( const SlicingIndex& index ) const {
+            return visitors.subset( index, data.attr("class")  ) ;
+        }
+
         inline SEXP subset( const ChunkIndexMap& index ) const {
             return visitors.subset( index, data.attr("class")  ) ;
         }
