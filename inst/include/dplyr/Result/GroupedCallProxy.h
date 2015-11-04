@@ -131,7 +131,7 @@ namespace dplyr {
                       break ;
                     }
 
-                    if( CAR(head) == Rf_install("~") ) return ;
+                    if( CAR(head) == Rf_install("~") ) break ;
                     if( CAR(head) == Rf_install("order_by") ) break ;
                     if( CAR(head) == Rf_install("function") ) break ;
                     if( CAR(head) == Rf_install("local") ) return ;
