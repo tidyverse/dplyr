@@ -14,7 +14,7 @@
 #'   screen}
 #' \item{\code{[}}{Never simplifies (drops), so always returns data.frame}
 #' \item{\code{[[}, \code{$}}{Calls \code{\link{.subset2}} directly,
-#'   so is considerably faster.}
+#'   so is considerably faster. Throws error if column does not exist.}
 #' }
 #'
 #'
@@ -123,11 +123,17 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
 
 #' @export
 `[[.tbl_df` <- function(x, i) {
+  if (is.character(i) && !(i %in% names(x)))
+    stop("Unknown name", call. = FALSE)
+
   .subset2(x, i)
 }
 
 #' @export
 `$.tbl_df` <- function(x, i) {
+  if (is.character(i) && !(i %in% names(x)))
+    stop("Unknown name", call. = FALSE)
+
   .subset2(x, i)
 }
 
