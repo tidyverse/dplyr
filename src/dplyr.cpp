@@ -1257,6 +1257,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
     if( nrows_x != nrows_y )
         return no_because( "Different number of rows" ) ;
+    if( x.size() == 0 )
+        return yes() ;
 
     for( int i=0; i<nrows_x; i++) map[i].push_back(i) ;
     for( int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1) ;
