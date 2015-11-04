@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* Dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4 
+  (#969).
+
 * `glimpse()` is now a generic. The default method dispatches to `str()`
   (#1325).
 

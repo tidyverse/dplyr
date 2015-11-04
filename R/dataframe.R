@@ -1,3 +1,5 @@
+setOldClass(c("tbl_df", "tbl", "data.frame"))
+
 #' Build a data frame or list.
 #'
 #' \code{data_frame} is trimmed down version of \code{\link{data.frame}} that:
