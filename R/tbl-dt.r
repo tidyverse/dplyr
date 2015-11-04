@@ -320,13 +320,15 @@ slice_.data.table <- function(.data, ..., .dots) {
 # Do ---------------------------------------------------------------------------
 
 #' @export
-do_.data.table <- function(.data, .f, ...) {
-  list(.f(as.data.frame(.data), ...))
+do_.data.table <- function(.data, ..., .dots) {
+  out <- do_.data.frame(.data, ..., .dots = .dots)
+  data.table::as.data.table(out)
 }
 
 #' @export
-do_.tbl_dt <- function(.data, .f, ...) {
-  list(.f(as.data.frame(.data), ...))
+do_.tbl_dt <- function(.data, ..., .dots) {
+  out <- do_.data.frame(.data, ..., .dots = .dots)
+  tbl_dt(out)
 }
 
 
