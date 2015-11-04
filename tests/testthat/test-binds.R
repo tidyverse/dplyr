@@ -106,6 +106,17 @@ test_that("bind_rows handles data frames with no rows (#597)",{
   expect_equal(bind_rows(df0, df1), df1)
 })
 
+test_that("bind_rows handles data frames with no columns (#1346)", {
+  df1 <- data_frame(x = 1, y = factor("a"))
+  df0 <- df1[, 0]
+
+  expect_equal(bind_rows(df0), df0)
+  expect_equal(dim(bind_rows(df0, df0)), c(2, 0))
+
+  res <- bind_rows(df0, df1)
+  expect_equal(res$x, c(1, NA))
+})
+
 # Column coercion --------------------------------------------------------------
 
 test_that("bind_rows promotes integer to numeric", {
