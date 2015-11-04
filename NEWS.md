@@ -1,8 +1,23 @@
 # dplyr 0.4.3.9000
 
-* `summarise` supports data frames as columns (#1425). 
+* `summarise` supports data frames as columns (#1425).
 
 * protect join functions from empty `by` spec (#1496).
+
+* dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4
+  (#969).
+
+* `glimpse()` is now a generic. The default method dispatches to `str()`
+  (#1325).
+
+* `id()` has been deprecated (#808).
+
+* `do.data.table()` and `do.tbl_dt()` now work (#1081).
+
+* `top_n()` can now also select bottom `n` values by passing a negative value
+  to `n` (#1008, #1352).
+
+* `ungroup()` generic gains `...` (#922).
 
 * Weighted `tally()` now ignores NAs (#1145).
 
@@ -12,7 +27,8 @@
   lists, list of data frames, and list of lists (#1389).
 
 * `tbl_df`s gain `$` and `[[` methods that are ~5x faster than the defaults,
-  and never do partial matching (#1504).
+  never do partial matching (#1504), and throw an error if the variable
+  does not exist.
 
 * New pronoun `column` giving a compromise between SE and NSE. (#1012)
 

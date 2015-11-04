@@ -72,7 +72,7 @@ group_by_.data.table <- function(.data, ..., .dots, add = FALSE) {
 }
 
 #' @export
-ungroup.grouped_dt <- function(x) {
+ungroup.grouped_dt <- function(x, ...) {
   data.table::setattr(x, "vars", NULL)
   data.table::setattr(x, "class", setdiff(class(x), "grouped_dt"))
   x

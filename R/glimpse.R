@@ -6,8 +6,13 @@
 #' but it tries to show you as much data as possible. (And it always shows
 #' the underlying data, even when applied to a remote data source.)
 #'
-#' @param tbl A data table
+#' @section S3 methods:
+#' \code{glimpse} is an S3 generic with a customised method for \code{tbl}s and
+#' \code{data.frames}, and a default method that calls \code{\link{str}}.
+#'
+#' @param x An object to glimpse at.
 #' @param width Width of output: defaults to the width of the console.
+#' @param ... Other arguments passed onto individual methods.
 #' @export
 #' @examples
 #' glimpse(mtcars)
@@ -18,27 +23,40 @@
 #'   glimpse(batting)
 #' }
 #' }
-glimpse <- function(tbl, width = getOption("width")) {
-  cat("Observations: ", big_mark(nrow(tbl)), "\n", sep = "")
-  if (ncol(tbl) == 0) return(invisible())
+glimpse <- function(x, width = getOption("width"), ...) {
+  UseMethod("glimpse")
+}
 
-  cat("Variables: ", big_mark(ncol(tbl)), "\n", sep = "")
+#' @export
+glimpse.tbl <- function(x, width = getOption("width"), ...) {
+  cat("Observations: ", big_mark(nrow(x)), "\n", sep = "")
+  if (ncol(x) == 0) return(invisible())
+
+  cat("Variables: ", big_mark(ncol(x)), "\n", sep = "")
 
   # this is an overestimate, but shouldn't be too expensive.
   # every type needs at least three characters: "x, "
   rows <- as.integer(width / 3)
-  df <- as.data.frame(head(tbl, rows))
+  df <- as.data.frame(head(x, rows))
 
   var_types <- vapply(df, type_sum, character(1))
   var_names <- paste0("$ ", format(names(df)), " (", var_types, ") ")
 
   data_width <- width - nchar(var_names) - 2
-  
+
   formatted <- vapply(df, function(x) paste0(format_v(x), collapse = ", "),
     character(1), USE.NAMES = FALSE)
   truncated <- str_trunc(formatted, data_width)
 
   cat(paste0(var_names, truncated, collapse = "\n"), "\n", sep = "")
+}
+
+#' @export
+glimpse.data.frame <- glimpse.tbl
+
+#' @export
+glimpse.default <- function(x, width = getOption("width"), max.level = 3, ...) {
+  str(x, width = width, max.level = max.level, ...)
 }
 
 str_trunc <- function(x, max_width) {

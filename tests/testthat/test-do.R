@@ -143,6 +143,19 @@ test_that("empty data frames give consistent outputs", {
 
 # Data tables  -----------------------------------------------------------------
 
+test_that("ungrouped data table with unnamed argument returns data frame", {
+  out <- tbl_dt(mtcars) %>% do(head(.))
+  expect_is(out, c("tbl_dt", "data.table"))
+  expect_equal(dim(out), c(6, 11))
+})
+
+test_that("ungrouped data frame with named argument returns list data frame", {
+  out <- tbl_dt(mtcars) %>% do(x = 1, y = 2:10)
+  expect_is(out, c("tbl_dt", "data.table"))
+  expect_equal(out$x, list(1))
+  expect_equal(out$y, list(2:10))
+})
+
 test_that("named argument become list columns", {
   out <- grp$dt %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))

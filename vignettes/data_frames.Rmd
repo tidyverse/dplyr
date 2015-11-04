@@ -145,16 +145,16 @@ There are three key differences between tbl_dfs and data.frames:
     ```
 
 *   When you extract a variable with `$`, tbl\_dfs never do partial 
-    matching:
+    matching and they'll throw an error if the column doesn't exist:
     
-    ```{r}
+    ```{r, error = TRUE}
     df <- data.frame(abc = 1)
     df$a
     
     df2 <- data_frame(abc = 1)
     df2$a
     ```
-
+    
 ## Memory
 
 One of the reasons that dplyr is fast is that it is very careful about when it makes copies. This section describes how this works, and gives you some useful tools for understanding the memory usage of data frames in R.
