@@ -2,32 +2,39 @@
 % Please edit documentation in R/top-n.R
 \name{top_n}
 \alias{top_n}
-\title{Select top n rows (by value).}
+\title{Select top (or bottom) n rows (by value).}
 \usage{
 top_n(x, n, wt)
 }
 \arguments{
 \item{x}{a \code{\link{tbl}} to filter}
 
-\item{n}{number of rows to return. If \code{x} is grouped, this is
-the number of rows per group. May include more than \code{n} if there
-are ties.}
+\item{n}{number of rows to return. If \code{x} is grouped, this is the
+  number of rows per group. Will include more than \code{n} rows if
+  there are ties.
+
+  If \code{n} is positive, selects the top \code{n} rows. If negative,
+  selects the bottom \code{n} rows.}
 
 \item{wt}{(Optional). The variable to use for ordering. If not specified,
 defaults to the last variable in the tbl.}
 }
 \description{
 This is a convenient wrapper that uses \code{\link{filter}} and
-\code{\link{min_rank}} to select the top n entries in each group, ordered
-by \code{wt}.
+\code{\link{min_rank}} to select the top or bottom entries in each group,
+ordered by \code{wt}.
 }
 \examples{
-# Find 10 players with most games
-if (require("Lahman")) {
-players <- group_by(tbl_df(Batting), playerID)
-games <- tally(players, G)
-top_n(games, 10, n)
+df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
+df \%>\% top_n(2)
 
+# Negative values select bottom from group. Note that we get more
+# than 2 values here because there's a tie: top_n() either takes
+# all rows with a value, or none.
+df \%>\% top_n(-2)
+
+if (require("Lahman")) {
+# Find 10 players with most games
 # A little nicer with \%>\%
 tbl_df(Batting) \%>\%
   group_by(playerID) \%>\%

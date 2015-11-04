@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `top_n()` can now also select bottom `n` values by passing a negative value
+  to `n` (#1008, #1352).
+
 * `ungroup()` generic gains `...` (#922).
 
 * Weighted `tally()` now ignores NAs (#1145).
