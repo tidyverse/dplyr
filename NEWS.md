@@ -5,9 +5,11 @@
 
 * `ungroup()` generic gains `...` (#922).
 
+* protect join functions from empty `by` spec (#1496). 
+
 * Weighted `tally()` now ignores NAs (#1145).
 
-* equality test for `data.frame` handles the case where the df has 0 columns (#1506). 
+* equality test for `data.frame` handles the case where the df has 0 columns (#1506).
 
 * `bind_rows()` is more flexible in the way it can accept data frames,
   lists, list of data frames, and list of lists (#1389).

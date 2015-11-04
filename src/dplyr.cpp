@@ -896,6 +896,7 @@ void assert_all_white_list(const DataFrame& data){
 
 // [[Rcpp::export]]
 DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
+    if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
@@ -925,6 +926,7 @@ DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 
 // [[Rcpp::export]]
 DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
+    if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
@@ -950,6 +952,7 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 
 // [[Rcpp::export]]
 DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
+    if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
@@ -974,6 +977,7 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 
 // [[Rcpp::export]]
 DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
+    if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
 
@@ -1003,6 +1007,7 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 
 // [[Rcpp::export]]
 DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
+    if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
     Map map(visitors);
@@ -1030,6 +1035,7 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
 
 // [[Rcpp::export]]
 DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
+    if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
     Map map(visitors);
