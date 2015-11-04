@@ -1,3 +1,5 @@
+setOldClass(c("tbl_df", "tbl", "data.frame"))
+
 #' Build a data frame or list.
 #'
 #' \code{data_frame} is trimmed down version of \code{\link{data.frame}} that:
@@ -324,7 +326,7 @@ group_by_.data.frame <- function(.data, ..., .dots, add = FALSE) {
 groups.data.frame <- function(x) NULL
 
 #' @export
-ungroup.data.frame <- function(x) x
+ungroup.data.frame <- function(x, ...) x
 
 #' @export
 group_size.data.frame <- function(x) nrow(x)
