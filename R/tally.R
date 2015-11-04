@@ -7,9 +7,9 @@
 #'
 #' @param x a \code{\link{tbl}} to tally/count.
 #' @param ...,vars Variables to group by.
-#' @param wt (Optional) If not specified, will tally the number of rows.
-#'   If specified, will perform a "weighted" tally but summing over the
-#'   specified variable.
+#' @param wt (Optional) If omitted, will count the number of rows. If specified,
+#'   will perform a "weighted" tally by summing the (non-missing) values of
+#'   variable \code{wt}.
 #' @param sort if \code{TRUE} will sort output in descending order of \code{n}
 #' @export
 #' @examples
@@ -50,7 +50,7 @@ tally_ <- function(x, wt, sort = FALSE) {
   if (is.null(wt)) {
     n <- quote(n())
   } else {
-    n <- lazyeval::interp(quote(sum(wt)), wt = wt)
+    n <- lazyeval::interp(quote(sum(wt, na.rm = TRUE)), wt = wt)
   }
 
   out <- summarise_(x, n = n)

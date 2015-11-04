@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Weighted `tally()` now ignores NAs (#1145).
+
 * equality test for `data.frame` handles the case where the df has 0 columns (#1506). 
 
 * `bind_rows()` is more flexible in the way it can accept data frames,

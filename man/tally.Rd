@@ -15,9 +15,9 @@ count_(x, vars, wt = NULL, sort = FALSE)
 \arguments{
 \item{x}{a \code{\link{tbl}} to tally/count.}
 
-\item{wt}{(Optional) If not specified, will tally the number of rows.
-If specified, will perform a "weighted" tally but summing over the
-specified variable.}
+\item{wt}{(Optional) If omitted, will count the number of rows. If specified,
+will perform a "weighted" tally by summing the (non-missing) values of
+variable \code{wt}.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 
