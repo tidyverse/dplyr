@@ -71,7 +71,6 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
                 // do nothing, the collecter already initialized data with the
                 // right NA
             } else if( coll->is_logical_all_na()  ) {
-              Rprintf( "is_locgical all na\n" ) ;
                 Collecter* new_collecter = collecter( source, n ) ;
                 new_collecter->collect( SlicingIndex(k, nrows), source ) ;
                 delete coll ;
