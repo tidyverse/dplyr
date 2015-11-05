@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `bind_cols` matches the behaviour of `bind_rows` and accepts `NULL` (#1148). 
+* `mutate` on a grouped data does not drop grouping attributes (#1120). 
+
+* `bind_cols` matches the behaviour of `bind_rows` and accepts `NULL` (#1148).
 
 * join funtions take care of duplicates in argument `by` (#1192).
 

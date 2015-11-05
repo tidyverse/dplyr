@@ -546,3 +546,10 @@ test_that("mutate understands column. #1012", {
   ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
   expect_equal( ir$a, ir$Species)
 })
+
+test_that("grouped mutate does not drop grouping attributes (#1020)", {
+  d <- data.frame(subject=c('Jack','Jill'),id=c(2,1)) %>% group_by(subject)
+  a1 <- names(attributes(d))
+  a2 <- names(attributes(d %>% mutate(foo=1)))
+  expect_equal( setdiff(a1, a2), character(0) )
+})

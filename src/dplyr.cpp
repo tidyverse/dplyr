@@ -1459,7 +1459,7 @@ DataFrame build_index_cpp( DataFrame data ){
 
         const char* name = vars[i] ;
         SEXP v = data[pos-1] ;
-        
+
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
             stop( "cannot group column %s, of class '%s'",
                 name, get_single_class(v) ) ;
@@ -1750,6 +1750,9 @@ SEXP structure_mutate( const NamedListAccumulator<Data>& accumulator, const Data
     res.attr( "labels" )  = df.attr("labels" );
     res.attr( "index")    = df.attr("index") ;
     res.attr( "indices" ) = df.attr("indices" ) ;
+    res.attr( "drop" ) = df.attr("drop" ) ;
+    res.attr( "group_sizes" ) = df.attr("group_sizes" ) ;
+    res.attr( "biggest_group_size" ) = df.attr("biggest_group_size" ) ;
 
     return res ;
 }
@@ -1920,8 +1923,6 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         } else {
             stop( "cannot handle" ) ;
         }
-
-
     }
 
     return structure_mutate(accumulator, df, classes_grouped<Data>() );
