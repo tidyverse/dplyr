@@ -3,15 +3,36 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
+class DataFrameAbleVector {
+public:
+
+  DataFrameAbleVector() : data(){}
+
+  inline void push_back( SEXP x) {
+    data.push_back( DataFrameAble(x) ) ;
+  }
+
+  inline const DataFrameAble& operator[]( int i) const {
+    return data[i] ;
+  }
+
+  ~DataFrameAbleVector(){
+    while (data.size()) data.pop_back();
+  }
+
+private:
+  std::vector<DataFrameAble> data ;
+} ;
+
 template <typename Dots>
 List rbind__impl( Dots dots, SEXP id = R_NilValue ){
     int ndata = dots.size() ;
     int n = 0 ;
-    std::vector<DataFrameAble> chunks ;
+    DataFrameAbleVector chunks ;
     std::vector<int> df_nrows ;
 
     for( int i=0; i<ndata; i++) {
-      chunks.push_back( DataFrameAble( dots[i] ) ) ;
+      chunks.push_back( dots[i] ) ;
 
       int nrows = chunks[i].nrows() ;
       df_nrows.push_back(nrows) ;

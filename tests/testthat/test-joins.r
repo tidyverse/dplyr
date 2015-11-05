@@ -418,25 +418,25 @@ test_that("join can handle multiple encodings (#769)", {
   y <- data_frame(name=c("\xC9lise","Pierre","Fran\xE7ois"),attendance=c(8,10,9))
   res <- left_join(x, y, by = "name")
   expect_equal( nrow(res), 3L)
-  expect_equal( res$name, x$name)
+  expect_equal( res$x, x$x)
 
   x <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),score=c(5,7,6))
   y <- data_frame(name=c("\xC9lise","Pierre","Fran\xE7ois"),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )
   expect_equal( nrow(res), 3L)
-  expect_equal( res$name, y$name)
+  expect_equal( res$x, y$x)
 
   x <- data_frame(name=c("\xC9lise","Pierre","Fran\xE7ois"),score=c(5,7,6))
   y <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )
   expect_equal( nrow(res), 3L)
-  expect_equal( res$name, x$name)
+  expect_equal( res$x, x$x)
 
   x <- data_frame(name=factor(c("\xC9lise","Fran\xE7ois","Pierre")),score=c(5,7,6))
   y <- data_frame(name=factor(c("\xC9lise","Pierre","Fran\xE7ois")),attendance=c(8,10,9))
   res <- suppressWarnings( left_join(x, y, by = "name") )
   expect_equal( nrow(res), 3L)
-  expect_equal( res$name, x$name)
+  expect_equal( res$x, x$x)
 })
 
 test_that("join creates correctly named results (#855)", {
@@ -524,5 +524,4 @@ test_that("join functions are protected against empty by (#1496)", {
   expect_error( full_join(x,y, by = names(x) ), "no variable to join by" )
   expect_error( anti_join(x,y, by = names(x) ), "no variable to join by" )
   expect_error( inner_join(x,y, by = names(x) ), "no variable to join by" )
-
 })
