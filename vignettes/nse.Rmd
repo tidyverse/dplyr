@@ -14,9 +14,9 @@ options(dplyr.print_min = 4L, dplyr.print_max = 4L)
 library(dplyr)
 ```
 
-Dplyr uses non-standard evaluation (NSE) in all of the most important single table verbs: `filter()`, `mutate()`, `summarise()`, `arrange()`, `select()` and `group_by()`. NSE is important not only to save you typing, but for database backends, is what makes it possible to translate your R code to SQL. However, while NSE is great for interactive use it's hard to program with. This vignette describes how you can opt out of NSE in dplyr, and instead rely only on SE (along with a little quoting).
+Dplyr uses non-standard evaluation (NSE) in all the important single table verbs: `filter()`, `mutate()`, `summarise()`, `arrange()`, `select()` and `group_by()`. NSE is important not only because it reduces typing; for database backends, it's what makes it possible to translate R code into SQL. However, while NSE is great for interactive use it's hard to program with. This vignette describes how you can opt out of NSE in dplyr, and instead (with a little quoting) rely only on standard evaluation (SE).
 
-Behind the scenes, NSE is powered by the [lazyeval](https://github.com/hadley/lazyeval) package. The goal is to provide an approach to NSE that you can learn once and then apply in many places (dplyr is the first of my packages to use this approach, but over time I will adopt it everywhere). You may want to read the lazyeval vignettes, if you like to learn more about the underlying details, or if you'd like to use this approach in your own packages.
+Behind the scenes, NSE is powered by the [lazyeval](https://github.com/hadley/lazyeval) package. The goal is to provide an approach to NSE that you can learn once and then apply in many places (dplyr is the first of my packages to use this approach, but over time I will implement it everywhere). You may want to read the lazyeval vignettes, if you'd like to learn more about the underlying details, or if you'd like to use this approach in your own packages.
 
 ## Standard evaluation basics
 
