@@ -1850,6 +1850,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     if( df.nrows() == 0 ){
         DataFrame res = mutate_not_grouped(df, dots) ;
         res.attr("vars") = df.attr("vars") ;
+        res.attr("class") = df.attr("class") ;
         return Data(res).data() ;
     }
 
@@ -1925,7 +1926,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         }
     }
 
-    return structure_mutate(accumulator, df, classes_grouped<Data>() );
+    return structure_mutate(accumulator, df, df.attr("class") );
 }
 
 
