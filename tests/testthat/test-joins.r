@@ -525,3 +525,12 @@ test_that("join functions are protected against empty by (#1496)", {
   expect_error( anti_join(x,y, by = names(x) ), "no variable to join by" )
   expect_error( inner_join(x,y, by = names(x) ), "no variable to join by" )
 })
+
+test_that("joins takes care of duplicates in by (#1192)", {
+  data2 <- data_frame(a=1:3)
+  data1 <- data_frame(a=1:3, c=3:5)
+
+  res1 <- left_join(data1, data2, by=c("a","a"))
+  res2 <- left_join(data1, data2, by="a" = "a")
+  expect_equal(res1, res2)
+})

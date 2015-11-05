@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* join funtions take care of duplicates in argument `by` (#1192). 
+
 * `summarise` supports data frames as columns (#1425).
 
 * protect join functions from empty `by` spec (#1496).
