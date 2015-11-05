@@ -35,19 +35,22 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
     DataFrameAbleVector chunks ;
     std::vector<int> df_nrows ;
 
+    int k=0 ;
     for( int i=0; i<ndata; i++) {
-      chunks.push_back( dots[i] ) ;
-
-      int nrows = chunks[i].nrows() ;
+      SEXP obj = dots[i] ;
+      if( Rf_isNull(obj) ) continue ;
+      chunks.push_back( obj ) ;
+      int nrows = chunks[k].nrows() ;
       df_nrows.push_back(nrows) ;
       n += nrows ;
+      k++ ;
     }
     ndata = chunks.size() ;
     pointer_vector<Collecter> columns ;
 
     std::vector<String> names ;
-    int k=0 ;
 
+    k=0 ;
     Function enc2native( "enc2native" ) ;
     for( int i=0; i<ndata; i++){
         Rcpp::checkUserInterrupt() ;
