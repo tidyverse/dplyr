@@ -1436,21 +1436,30 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     return build_index_cpp(copy) ;
 }
 
+int get_name_pos( const CharacterVector& source, const String& s){
+  // CharacterVector st = CharacterVector::create(s) ;
+  Function match( "match" ) ;
+  return as<int>(match( s, source)) ;
+}
+
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
 
     int nsymbols = symbols.size() ;
     CharacterVector vars(nsymbols) ;
+    CharacterVector names = data.names() ;
+
     for( int i=0; i<nsymbols; i++){
-        vars[i] = PRINTNAME(symbols[i]) ;
+        String s = PRINTNAME(symbols[i]) ;
+        vars[i] = s ;
+        int pos = get_name_pos(names, s) ;
+        if( pos == NA_INTEGER){
+          stop("unknown column '%s' ", s.get_cstring() ) ;
+        }
 
         const char* name = vars[i] ;
-        SEXP v  ;
-        try{
-            v = data[name] ;
-        } catch(...){
-           stop( "unknown column '%s'", name );
-        }
+        SEXP v = data[pos-1] ;
+        
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
             stop( "cannot group column %s, of class '%s'",
                 name, get_single_class(v) ) ;
@@ -1788,7 +1797,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
         SEXP name = lazy.name() ;
         Environment env = lazy.env() ;
         call_proxy.set_env(env) ;
-        
+
         if( TYPEOF(call) == SYMSXP ){
             if(call_proxy.has_variable(call)){
                 results[i] = call_proxy.get_variable(PRINTNAME(call)) ;
