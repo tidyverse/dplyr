@@ -10,27 +10,13 @@ namespace dplyr{
     public:
         typedef JoinVisitor visitor_type ;
 
-        DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_ ) :
-            left(left_), right(right_),
-            visitor_names_left(names_left),
-            visitor_names_right(names_right),
-            nvisitors(names_left.size()),
-            visitors(nvisitors),
-            warn(warn_)
-        {
-            std::string name_left, name_right ;
-            for( int i=0; i<nvisitors; i++){
-                name_left  = names_left[i] ;
-                name_right = names_right[i] ;
-                try{
-                    visitors[i] = join_visitor( left[name_left], right[name_right], name_left, name_right, warn ) ;
-                } catch( const std::exception& ex ){
-                    stop( "cannot join on columns '%s' x '%s': %s ", name_left, name_right, ex.what() ) ;
-                } catch( ... ){
-                    stop( "cannot join on columns '%s' x '%s'", name_left, name_right ) ;
-                }
-            }
-        }
+        DataFrameJoinVisitors(
+          const Rcpp::DataFrame& left_,
+          const Rcpp::DataFrame& right_,
+          Rcpp::CharacterVector names_left,
+          Rcpp::CharacterVector names_right,
+          bool warn_
+       ) ;
 
         inline JoinVisitor* get(int k) const {
             return visitors[k] ;
