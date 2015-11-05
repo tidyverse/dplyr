@@ -531,6 +531,6 @@ test_that("joins takes care of duplicates in by (#1192)", {
   data1 <- data_frame(a=1:3, c=3:5)
 
   res1 <- left_join(data1, data2, by=c("a","a"))
-  res2 <- left_join(data1, data2, by="a" = "a")
+  res2 <- left_join(data1, data2, by=c("a" = "a"))
   expect_equal(res1, res2)
 })
