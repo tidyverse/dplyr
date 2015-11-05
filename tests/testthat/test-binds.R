@@ -335,3 +335,19 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
   expect_equal( class(res$time), c("POSIXct", "POSIXt") )
   expect_true( all(res$time == c(df1$time, df2$time) ) )
 })
+
+test_that("bind_cols accepts NULL (#1148)", {
+  df1 <- data_frame(a=1:10, b = 1:10)
+  df2 <- data_frame(c=1:10, d = 1:10)
+
+  res1 <- bind_cols(df1,df2)
+  res2 <- bind_cols(NULL,df1,df2)
+  res3 <- bind_cols(df1, NULL,df2)
+  res4 <- bind_cols(df1, df2, NULL)
+
+  expect_equal(res1, res2)
+  expect_equal(res1, res3)
+  expect_equal(res1, res4)
+
+
+})

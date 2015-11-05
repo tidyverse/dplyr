@@ -16,6 +16,10 @@ public:
     return data[i] ;
   }
 
+  inline int size() const {
+    return data.size() ;
+  }
+
   ~DataFrameAbleVector(){
     while (data.size()) data.pop_back();
   }
@@ -38,6 +42,7 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
       df_nrows.push_back(nrows) ;
       n += nrows ;
     }
+    ndata = chunks.size() ;
     pointer_vector<Collecter> columns ;
 
     std::vector<String> names ;
@@ -155,15 +160,18 @@ List cbind__impl( Dots dots ){
 
   DataFrameAbleVector chunks ;
   for( int i=0; i<n; i++) {
-    chunks.push_back( dots[i] );
+    SEXP obj = dots[i] ;
+    if( !Rf_isNull(obj) )
+      chunks.push_back( dots[i] );
   }
+  n = chunks.size() ;
 
   // first check that the number of rows is the same
   const DataFrameAble& df = chunks[0] ;
   int nrows = df.nrows() ;
   int nv = df.size() ;
   for( int i=1; i<n; i++){
-    const DataFrameAble& current = dots[i] ;
+    const DataFrameAble& current = chunks[i] ;
     if( current.nrows() != nrows ){
       stop( "incompatible number of rows (%d, expecting %d)", current.nrows(), nrows ) ;
     }
@@ -178,7 +186,7 @@ List cbind__impl( Dots dots ){
   for( int i=0, k=0 ; i<n; i++){
       Rcpp::checkUserInterrupt() ;
 
-      const DataFrameAble& current = dots[i] ;
+      const DataFrameAble& current = chunks[i] ;
       CharacterVector current_names = current.names() ;
       int nc = current.size() ;
       for( int j=0; j<nc; j++, k++){
