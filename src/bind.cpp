@@ -153,9 +153,9 @@ template <typename Dots>
 List cbind__impl( Dots dots ){
   int n = dots.size() ;
 
-  std::vector<DataFrameAble> chunks ;
+  DataFrameAbleVector chunks ;
   for( int i=0; i<n; i++) {
-    chunks.push_back( DataFrameAble( dots[i] ) );
+    chunks.push_back( dots[i] );
   }
 
   // first check that the number of rows is the same
