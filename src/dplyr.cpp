@@ -1439,7 +1439,7 @@ SEXP resolve_vars( List new_groups, CharacterVector names){
     } else if( TYPEOF(s) == LANGSXP && CAR(s) == Rf_install("column") && Rf_length(s) == 2 ){
       s = extract_column( CADR(s), env ) ;
     } else {
-      stop("unsupported value in group_by") ;
+      continue ;
     }
     // check that s is indeed in the data
 
