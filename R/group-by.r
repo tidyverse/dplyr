@@ -80,6 +80,7 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
 #' @noRd
 group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   new_groups <- lazyeval::all_dots(.dots, ...)
+  new_groups <- resolve_vars(new_groups, names(.data))
 
   # If any calls, use mutate to add new columns, then group by those
   is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))

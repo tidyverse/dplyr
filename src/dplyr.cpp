@@ -1426,6 +1426,35 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 }
 
 // [[Rcpp::export]]
+SEXP resolve_vars( List new_groups, CharacterVector names){
+  int n = new_groups.size() ;
+  for( int i=0; i<n; i++){
+    List lazy = new_groups[i] ;
+    Environment env = lazy[1] ;
+    SEXP s = lazy[0] ;
+
+    // expand column
+    if( TYPEOF(s) == SYMSXP ){
+
+    } else if( TYPEOF(s) == LANGSXP && CAR(s) == Rf_install("column") && Rf_length(s) == 2 ){
+      s = extract_column( CADR(s), env ) ;
+    } else {
+      stop("unsupported value in group_by") ;
+    }
+    // check that s is indeed in the data
+
+    Function match( "match" ) ;
+    int pos = as<int>(match( CharacterVector::create(PRINTNAME(s)), names));
+    if( pos == NA_INTEGER){
+      stop("unknown variable to group by : %s", CHAR(PRINTNAME(s))) ;
+    }
+    lazy[0] = s ;
+  }
+
+  return new_groups ;
+}
+
+// [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     assert_all_white_list(data);
     DataFrame copy( shallow_copy(data));

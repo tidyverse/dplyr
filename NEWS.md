@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `mutate` on a grouped data does not drop grouping attributes (#1120). 
+* `group_by` supports `column` (#1012). 
+
+* `mutate` on a grouped data does not drop grouping attributes (#1120).
 
 * `bind_cols` matches the behaviour of `bind_rows` and accepts `NULL` (#1148).
 

@@ -117,6 +117,10 @@ match_data_frame <- function(x, y) {
     .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+resolve_vars <- function(new_groups, names) {
+    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
+}
+
 grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }

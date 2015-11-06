@@ -25,7 +25,7 @@ namespace dplyr{
         }
     }
 
-    Symbol get_column(SEXP arg, const Environment& env, const LazySubsets& subsets ){
+    Symbol extract_column( SEXP arg, const Environment& env ){
       RObject value ;
       if( TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~") ){
         if( Rf_length(arg) != 2 || TYPEOF(CADR(arg)) != SYMSXP )
@@ -41,6 +41,11 @@ namespace dplyr{
         stop("column must return a single string") ;
       }
       Symbol res(STRING_ELT(value,0)) ;
+      return res ;
+    }
+
+    Symbol get_column(SEXP arg, const Environment& env, const LazySubsets& subsets ){
+      Symbol res = extract_column(arg, env) ;
       if( !subsets.count(res) ){
         stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)) ) ;
       }
