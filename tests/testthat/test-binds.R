@@ -348,6 +348,11 @@ test_that("bind_cols accepts NULL (#1148)", {
   expect_equal(res1, res2)
   expect_equal(res1, res3)
   expect_equal(res1, res4)
+})
 
-
+test_that("bind_rows handles 0-length named list (#1515)", {
+    res <- bind_rows(list(a=1)[-1])
+    expect_equal( nrow(res), 0L)
+    expect_is(res, "data.frame")
+    expect_equal( ncol(res), 0L)
 })

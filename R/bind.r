@@ -115,6 +115,10 @@ is_data_list <- function(x) {
   if (!is.list(x))
     return(FALSE)
 
+  # 0 length named list (#1515)
+  if( !is.null(names(x)) && length(x) == 0)
+    return(TRUE)
+
   # With names
   if (any(!has_names(x)))
     return(FALSE)
