@@ -68,12 +68,6 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
   UseMethod("group_by_")
 }
 
-column_names <- function(x){
-  UseMethod( "column_names" )
-}
-column_names.data.frame  <- function(x) names(x)
-column_names.tbl_sql <- function(x) x$query$vars()
-
 #' Prepare for grouping.
 #'
 #' Performs standard operations that should happen before individual methods
@@ -86,7 +80,7 @@ column_names.tbl_sql <- function(x) x$query$vars()
 #' @noRd
 group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   new_groups <- lazyeval::all_dots(.dots, ...)
-  new_groups <- resolve_vars(new_groups, column_names(.data))
+  new_groups <- resolve_vars(new_groups, tbl_vars(.data))
 
   # If any calls, use mutate to add new columns, then group by those
   is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
