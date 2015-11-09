@@ -20,7 +20,7 @@ Behind the scenes, NSE is powered by the [lazyeval](https://github.com/hadley/la
 
 ## Standard evaluation basics
 
-Every function in dplyr that uses NSE also has a version that uses SE. There's a consistent naming scheme: the SE is the NSE name with `_` on the end. For example, the SE version of `summarise()` is `summarise_()`, the SE version of `arrange()` is `arrange_()`. These functions work very similarly to their NSE cousins, but the inputs must be "quoted":
+Every function in dplyr that uses NSE also has a version that uses SE. The name of the SE version is always the NSE name with an `_` on the end. For example, the SE version of `summarise()` is `summarise_()`; the SE version of `arrange()` is `arrange_()`. These functions work very similarly to their NSE cousins, but their inputs must be "quoted":
 
 ```{r}
 # NSE version:
@@ -38,7 +38,7 @@ There are three ways to quote inputs that dplyr understands:
 * With `quote()`, `quote(mean(mpg))`.
 * As a string: `"mean(mpg)"`.
 
-It's best to use a formula, because a formula captures both the expression to evaluate, and the environment in which it should be a evaluated. This is important if the expression is a mixture of variables in the data frame and objects in the local environment:
+It's best to use a formula because a formula captures both the expression to evaluate and the environment where the evaluation occurs. This is important if the expression is a mixture of variables in a data frame and objects in the local environment:
 
 ```{r}
 constant1 <- function(n) ~n
