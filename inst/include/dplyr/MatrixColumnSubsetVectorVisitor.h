@@ -20,6 +20,10 @@ namespace dplyr {
             return subset_int( index ) ;
         }
 
+        inline SEXP subset( const SlicingIndex& index ) const {
+            return subset_int( index ) ;
+        }
+
         inline SEXP subset( const ChunkIndexMap& index ) const {
             int n = index.size() ;
             int nc = data.ncol() ;

@@ -1426,6 +1426,35 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 }
 
 // [[Rcpp::export]]
+SEXP resolve_vars( List new_groups, CharacterVector names){
+  int n = new_groups.size() ;
+  for( int i=0; i<n; i++){
+    List lazy = new_groups[i] ;
+    Environment env = lazy[1] ;
+    SEXP s = lazy[0] ;
+
+    // expand column
+    if( TYPEOF(s) == SYMSXP ){
+
+    } else if( TYPEOF(s) == LANGSXP && CAR(s) == Rf_install("column") && Rf_length(s) == 2 ){
+      s = extract_column( CADR(s), env ) ;
+    } else {
+      continue ;
+    }
+    // check that s is indeed in the data
+
+    Function match( "match" ) ;
+    int pos = as<int>(match( CharacterVector::create(PRINTNAME(s)), names));
+    if( pos == NA_INTEGER){
+      stop("unknown variable to group by : %s", CHAR(PRINTNAME(s))) ;
+    }
+    lazy[0] = s ;
+  }
+
+  return new_groups ;
+}
+
+// [[Rcpp::export]]
 DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     assert_all_white_list(data);
     DataFrame copy( shallow_copy(data));
@@ -1436,21 +1465,30 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     return build_index_cpp(copy) ;
 }
 
+int get_name_pos( const CharacterVector& source, const String& s){
+  // CharacterVector st = CharacterVector::create(s) ;
+  Function match( "match" ) ;
+  return as<int>(match( s, source)) ;
+}
+
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
 
     int nsymbols = symbols.size() ;
     CharacterVector vars(nsymbols) ;
+    CharacterVector names = data.names() ;
+
     for( int i=0; i<nsymbols; i++){
-        vars[i] = PRINTNAME(symbols[i]) ;
+        String s = PRINTNAME(symbols[i]) ;
+        vars[i] = s ;
+        int pos = get_name_pos(names, s) ;
+        if( pos == NA_INTEGER){
+          stop("unknown column '%s' ", s.get_cstring() ) ;
+        }
 
         const char* name = vars[i] ;
-        SEXP v  ;
-        try{
-            v = data[name] ;
-        } catch(...){
-           stop( "unknown column '%s'", name );
-        }
+        SEXP v = data[pos-1] ;
+
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
             stop( "cannot group column %s, of class '%s'",
                 name, get_single_class(v) ) ;
@@ -1741,6 +1779,9 @@ SEXP structure_mutate( const NamedListAccumulator<Data>& accumulator, const Data
     res.attr( "labels" )  = df.attr("labels" );
     res.attr( "index")    = df.attr("index") ;
     res.attr( "indices" ) = df.attr("indices" ) ;
+    res.attr( "drop" ) = df.attr("drop" ) ;
+    res.attr( "group_sizes" ) = df.attr("group_sizes" ) ;
+    res.attr( "biggest_group_size" ) = df.attr("biggest_group_size" ) ;
 
     return res ;
 }
@@ -1838,6 +1879,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
     if( df.nrows() == 0 ){
         DataFrame res = mutate_not_grouped(df, dots) ;
         res.attr("vars") = df.attr("vars") ;
+        res.attr("class") = df.attr("class") ;
         return Data(res).data() ;
     }
 
@@ -1911,11 +1953,9 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         } else {
             stop( "cannot handle" ) ;
         }
-
-
     }
 
-    return structure_mutate(accumulator, df, classes_grouped<Data>() );
+    return structure_mutate(accumulator, df, df.attr("class") );
 }
 
 

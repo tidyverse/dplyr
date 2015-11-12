@@ -53,7 +53,7 @@ namespace Rcpp {
         {
             // handle lazyness
             bool is_lazy = Rf_isNull( data_.attr( "group_sizes") ) || Rf_isNull( data_.attr( "labels") ) ;
-
+            
             if( is_lazy ){
                 data_ = build_index_cpp( data_) ;
             }

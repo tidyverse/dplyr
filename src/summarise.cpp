@@ -96,7 +96,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
     }
     List data = accumulator ;
     copy_most_attributes(data, df) ;
-    data.names() = accumulator.names() ; 
+    data.names() = accumulator.names() ;
     set_rownames(data, 1 ) ;
     return data ;
 }

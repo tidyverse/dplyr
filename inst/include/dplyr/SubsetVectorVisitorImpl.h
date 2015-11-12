@@ -26,6 +26,10 @@ namespace dplyr {
             return subset_int_index( index) ;
         }
 
+        inline SEXP subset( const SlicingIndex& index) const {
+            return subset_int_index( index) ;
+        }
+
         inline SEXP subset( const ChunkIndexMap& map ) const {
             int n = output_size(map) ;
             VECTOR out = Rcpp::no_init(n) ;
@@ -109,6 +113,10 @@ namespace dplyr {
             return promote( Parent::subset( index ) );
         }
 
+        inline SEXP subset( const SlicingIndex& index) const {
+            return promote( Parent::subset( index ) );
+        }
+
         inline SEXP subset( const std::vector<int>& index) const {
             return promote( Parent::subset( index ) ) ;
         }
@@ -136,7 +144,7 @@ namespace dplyr {
 
             if( typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>) )
               return true ;
-              
+
             return false ;
         }
 
@@ -180,6 +188,10 @@ namespace dplyr {
         }
 
         virtual SEXP subset( const Rcpp::IntegerVector& index ) const {
+          return impl->subset( index ) ;
+        }
+
+        virtual SEXP subset( const SlicingIndex& index ) const {
           return impl->subset( index ) ;
         }
 

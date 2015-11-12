@@ -345,8 +345,6 @@ test_that("filter recognizes global #1469", {
 })
 
 test_that("filter understands column. #1012", {
-  skip("Broken")
-
     ir1 <- filter( iris, Sepal.Length < 5)
     ir2 <- filter( iris, column("Sepal.Length") < 5)
     ir3 <- filter( iris, column(paste0("Sepal.", "Length")) < 5)
@@ -360,7 +358,7 @@ test_that("filter understands column. #1012", {
     expect_equal(ir1, ir5)
     expect_equal(ir1, ir6)
     expect_error( filter(iris, column(~Sepal.Length + Species) < 5), "unhandled formula in column")
-    expect_error( filter(iris, column(~foo) < 5), "result of column() expands to a symbol that is not a variable from the data")
+    expect_error( filter(iris, column(~foo) < 5), "expands to a symbol that is not a variable from the data")
     expect_error( filter(iris, column(letters) < 5), "column must return a single string" )
 
     ir1 <- filter( group_by(iris, Species), Sepal.Length < 5)
@@ -376,7 +374,7 @@ test_that("filter understands column. #1012", {
     expect_equal(ir1, ir6)
 
     expect_error( iris %>% group_by(Species) %>% filter(column(~Sepal.Length + Species) < 5 ), "unhandled formula in column")
-    expect_error( iris %>% group_by(Species) %>% filter(column(~foo) < 5), "result of column() expands to a symbol that is not a variable from the data")
+    expect_error( iris %>% group_by(Species) %>% filter(column(~foo) < 5), "expands to a symbol that is not a variable from the data")
     expect_error( iris %>% group_by(Species) %>% filter(column(letters) < 5), "column must return a single string" )
 
 })

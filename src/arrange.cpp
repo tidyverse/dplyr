@@ -11,6 +11,8 @@ List arrange_impl( DataFrame data, LazyDots dots ){
 
     // special case arrange() with no arguments for grouped data
     if( dots.size() == 0 && is<GroupedDataFrame>(data) ){
+        GroupedDataFrame gdata(data) ;
+        data = gdata.data() ;
         DataFrame labels( data.attr( "labels" ) );
         OrderVisitors o(labels) ;
         IntegerVector index = o.apply() ;
@@ -53,7 +55,6 @@ List arrange_impl( DataFrame data, LazyDots dots ){
     if( is<GroupedDataFrame>(data) ){
         nargs += GroupedDataFrame(data).nvars() ;
     }
-
     List variables(nargs) ;
     LogicalVector ascending(nargs) ;
 

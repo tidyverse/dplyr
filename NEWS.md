@@ -5,6 +5,20 @@
 * Dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4 
   (#969).
 
+* `bind_rows` handles 0 length named list (#1515). 
+
+* `group_by` supports `column` (#1012).
+
+* `mutate` on a grouped data does not drop grouping attributes (#1120).
+
+* `bind_cols` matches the behaviour of `bind_rows` and accepts `NULL` (#1148).
+
+* join funtions take care of duplicates in argument `by` (#1192).
+
+* `summarise` supports data frames as columns (#1425).
+
+* protect join functions from empty `by` spec (#1496).
+
 * `glimpse()` is now a generic. The default method dispatches to `str()`
   (#1325).
 
@@ -16,8 +30,6 @@
   to `n` (#1008, #1352).
 
 * `ungroup()` generic gains `...` (#922).
-
-* protect join functions from empty `by` spec (#1496). 
 
 * Weighted `tally()` now ignores NAs (#1145).
 

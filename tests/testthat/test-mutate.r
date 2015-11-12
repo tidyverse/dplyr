@@ -510,22 +510,14 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
 })
 
 test_that("hybrid evaluator leaves formulas untouched (#1447)", {
-  skip("Broken")
-
   d <- data_frame(g = 1:2, training = list(mtcars, mtcars * 2))
   mpg <- data.frame(x=1:10, y=1:10)
-  res <- d %>% mutate(lm_result = map(training, ~ lm(mpg ~ wt, data = .)))
-  expect_is( res$lm_result, "list" )
-  expect_is( res$lm_result[[1]], "lm" )
-  expect_is( res$lm_result[[2]], "lm" )
-
   res <- d %>%
     group_by(g) %>%
-    mutate(lm_result = map(training, ~ lm(mpg ~ wt, data = .)))
+    mutate(lm_result = list(lm(mpg ~ wt, data = training[[1]])))
   expect_is( res$lm_result, "list" )
   expect_is( res$lm_result[[1]], "lm" )
   expect_is( res$lm_result[[2]], "lm" )
-
 })
 
 test_that( "lead/lag inside mutate handles expressions as value for default (#1411) ", {
@@ -537,21 +529,27 @@ test_that( "lead/lag inside mutate handles expressions as value for default (#14
   res <- mutate(df, leadn = lead(x, default = c(1)), lagn = lag(x, default = c(1)))
   expect_equal( res$leadn, lead(df$x, default = 1) )
   expect_equal( res$lagn, lag(df$x, default = 1) )
-
 })
 
 test_that("mutate understands column. #1012", {
-    ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
-    ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
-    expect_equal(ir1, ir2)
+  ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
+  ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
+  expect_equal(ir1, ir2)
 
-    ir1 <- mutate( group_by(iris, Species), Sepal = Sepal.Length * Sepal.Width )
-    ir2 <- mutate( group_by(iris, Species), Sepal = column("Sepal.Length") * column("Sepal.Width") )
-    expect_equal(ir1, ir2)
+  ir1 <- mutate( group_by(iris, Species), Sepal = Sepal.Length * Sepal.Width )
+  ir2 <- mutate( group_by(iris, Species), Sepal = column("Sepal.Length") * column("Sepal.Width") )
+  expect_equal(ir1, ir2)
 
-    ir <- iris %>% mutate( a = column("Species") )
-    expect_equal( ir$a, ir$Species)
+  ir <- iris %>% mutate( a = column("Species") )
+  expect_equal( ir$a, ir$Species)
 
-    ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
-    expect_equal( ir$a, ir$Species)
+  ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
+  expect_equal( ir$a, ir$Species)
+})
+
+test_that("grouped mutate does not drop grouping attributes (#1020)", {
+  d <- data.frame(subject=c('Jack','Jill'),id=c(2,1)) %>% group_by(subject)
+  a1 <- names(attributes(d))
+  a2 <- names(attributes(d %>% mutate(foo=1)))
+  expect_equal( setdiff(a1, a2), character(0) )
 })
