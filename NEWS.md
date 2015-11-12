@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Cluster code moved out to [multidplyr](http://github.com/hadley/multidplyr).
+
 * Dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4 
   (#969).
 
