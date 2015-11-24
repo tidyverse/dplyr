@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Avoid unnecessary execution of SQL query for determining column names (#1548, @krlmlr).
+
 * `bind_rows` handles 0 length named list (#1515). 
 
 * `group_by` supports `column` (#1012).
