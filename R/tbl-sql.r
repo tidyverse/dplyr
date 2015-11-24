@@ -13,6 +13,8 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
+  force(vars) # to make sure default value is used
+
   if (!is.sql(from)) { # Must be a character string
     assert_that(length(from) == 1)
     if (isFALSE(db_has_table(src$con, from))) {
