@@ -462,8 +462,8 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   if (!is.list(unique_indexes)) {
     unique_indexes <- as.list(unique_indexes)
   }
-  assert_that(unlist(indexes) %in% x$select)
-  assert_that(unlist(unique_indexes) %in% x$select)
+  assert_that(all(unlist(indexes) %in% x$select))
+  assert_that(all(unlist(unique_indexes) %in% x$select))
   db_save_query(x$src$con, x$query$sql, name = name, temporary = temporary)
   db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
   db_create_indexes(x$src$con, name, indexes, unique = FALSE)
