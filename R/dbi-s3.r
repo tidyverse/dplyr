@@ -146,7 +146,7 @@ db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)
   sql <- build_sql(
-    "CREATE ", if (unique) "UNIQUE ", "INDEX ", ident(name),
+    "CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name),
     " ON ", ident(table), " ", fields,
     con = con)
 
