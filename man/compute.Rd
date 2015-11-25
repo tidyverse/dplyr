@@ -14,7 +14,7 @@ collect(x, ...)
 collapse(x, ...)
 
 \method{compute}{tbl_sql}(x, name = random_table_name(), temporary = TRUE,
-  ...)
+  unique_indexes = list(), indexes = list(), ...)
 }
 \arguments{
 \item{x}{a data tbl}
@@ -26,6 +26,13 @@ collapse(x, ...)
 \item{temporary}{if \code{TRUE}, will create a temporary table that is
 local to this connection and will be automatically deleted when the
 connection expires}
+
+\item{unique_indexes}{a list of character vectors. Each element of the list
+will create a new unique index over the specified column(s). Duplicate rows
+will result in failure.}
+
+\item{indexes}{a list of character vectors. Each element of the list
+will create a new index.}
 }
 \description{
 \code{compute} forces computation of lazy tbls, leaving data in the remote
