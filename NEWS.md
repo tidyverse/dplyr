@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* new parameters `indexes` and `unique_indexes` to `compute()` (#1499, @krlmlr).
+
 * `bind_rows` handles 0 length named list (#1515). 
 
 * `group_by` supports `column` (#1012).
