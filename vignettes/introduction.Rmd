@@ -111,7 +111,7 @@ Use `desc()` to order a column in descending order:
 arrange(flights, desc(arr_delay))
 ```
 
-`dplyr::arrange()` works the same way as `plyr::arrange()`. It's a straighforward wrapper around `order()` that requires less typing. The previous code is equivalent to:
+`dplyr::arrange()` works the same way as `plyr::arrange()`. It's a straightforward wrapper around `order()` that requires less typing. The previous code is equivalent to:
 
 ```{r, eval = FALSE}
 flights[order(flights$year, flights$month, flights$day), ]
