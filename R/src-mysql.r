@@ -211,10 +211,12 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
 #' @export
 db_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
-                                             ...) {
+                                            unique = FALSE, ...) {
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)
-  index <- build_sql("ADD INDEX ", ident(name), " ", fields, con = con)
+  index <- build_sql(
+    "ADD ", if (unique) "UNIQUE ", "INDEX ", ident(name), " ", fields,
+    con = con)
 
   sql <- build_sql("ALTER TABLE ", ident(table), "\n", index, con = con)
   dbGetQuery(con, sql)

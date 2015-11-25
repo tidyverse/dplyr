@@ -37,7 +37,7 @@ db_create_table(con, table, types, temporary = FALSE, ...)
 
 db_insert_into(con, table, values, ...)
 
-db_create_index(con, table, columns, name = NULL, ...)
+db_create_index(con, table, columns, name = NULL, unique = FALSE, ...)
 
 db_drop_table(con, table, force = FALSE, ...)
 
