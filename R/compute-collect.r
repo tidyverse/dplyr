@@ -13,9 +13,6 @@
 #'
 #' @param x a data tbl
 #' @param name name of temporary table on database.
-#' @param unique_indexes a list of character vectors. Each element of the list
-#'   will create a new unique index over the specified column(s). Duplicate rows
-#'   will result in failure.
 #' @param ... other arguments passed on to methods
 #' @inheritParams copy_to.src_sql
 #' @seealso \code{\link{copy_to}} which is the conceptual opposite: it
