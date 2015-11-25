@@ -34,11 +34,13 @@ nycflights13_postgres <- function(dbname = "nycflights13", ...) {
 #' @rdname nycflights13
 copy_nycflights13 <- function(src, ...) {
   all <- utils::data(package = "nycflights13")$results[, 3]
-  index <- list(
+  unique_index <- list(
     airlines = list("carrier"),
     airports = list("faa"),
-    flights =  list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
     planes =   list("tailnum"),
+  )
+  index <- list(
+    flights =  list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
     weather =  list(c("year", "month", "day"), "origin")
   )
 
@@ -49,7 +51,8 @@ copy_nycflights13 <- function(src, ...) {
     df <- getExportedValue("nycflights13", table)
     message("Creating table: ", table)
 
-    copy_to(src, df, table, indexes = index[[table]], temporary = FALSE)
+    copy_to(src, df, table, unique_indexes = unique_index[[table]],
+            indexes = index[[table]], temporary = FALSE)
   }
   src
 }
