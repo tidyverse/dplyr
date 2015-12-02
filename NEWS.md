@@ -1,5 +1,11 @@
 # dplyr 0.4.3.9000
 
+* `tbl_cube` are now constructed correctly from data frames, duplicate
+  dimension values are detected, missing dimension values are filled
+  with `NA`. The construction from data frames now guesses the measure
+  variables by default, and allows specification of dimension and/or
+  measure variables (#1568, @krlmlr).
+
 * `bind_rows` handles 0 length named list (#1515). 
 
 * `group_by` supports `column` (#1012).
