@@ -231,12 +231,18 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 
   dims <- lapply(x[dim_names], unique)
   n <- vapply(dims, length, integer(1))
-  # need to check for uniqueness of combinations
 
-  grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE)
-  all <- merge(grid, x, all.x = TRUE, by = dim_names)
+  grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+  all <- left_join(grid, x, by = dim_names)
+  if (nrow(all) > nrow(grid)) {
+    dupe_row <- anyDuplicated(all[dim_names])
+    dupe <- unlist(all[dupe_row, dim_names])
 
-  mets <- lapply(met_name, function(i) array(x[[i]], unname(n)))
+    stop("Duplicate combination of dimension variables: ",
+         paste(names(dupe), "=", dupe, collapse = ", "), call. = FALSE)
+  }
+
+  mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
   names(mets) <- met_name
 
   tbl_cube(dims, mets)
