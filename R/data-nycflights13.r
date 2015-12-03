@@ -37,7 +37,7 @@ copy_nycflights13 <- function(src, ...) {
   unique_index <- list(
     airlines = list("carrier"),
     airports = list("faa"),
-    planes =   list("tailnum"),
+    planes =   list("tailnum")
   )
   index <- list(
     flights =  list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
