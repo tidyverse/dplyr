@@ -2,7 +2,7 @@ context("Truncated matrix")
 
 test_that("trunc_mat output matches known output", {
   expect_identical(
-    capture.output(print(tbl_df(mtcars), width = 30L)),
+    capture.output(print(tbl_df(mtcars), n = 8L, width = 30L)),
     c("Source: local data frame [32 x 11]", "",
       "     mpg   cyl  disp    hp",
       "   (dbl) (dbl) (dbl) (dbl)",
@@ -14,8 +14,6 @@ test_that("trunc_mat output matches known output", {
       "6   18.1     6 225.0   105",
       "7   14.3     8 360.0   245",
       "8   24.4     4 146.7    62",
-      "9   22.8     4 140.8    95",
-      "10  19.2     6 167.6   123",
       "..   ...   ...   ...   ...",
       "Variables not shown: drat",
       "  (dbl), wt (dbl), qsec",
@@ -25,7 +23,7 @@ test_that("trunc_mat output matches known output", {
   )
 
   expect_identical(
-    capture.output(print(tbl_df(iris), width = 30L)),
+    capture.output(print(tbl_df(iris), n = 5L, width = 30L)),
     c("Source: local data frame [150 x 5]", "",
       "   Sepal.Length Sepal.Width",
       "          (dbl)       (dbl)",
@@ -34,11 +32,6 @@ test_that("trunc_mat output matches known output", {
       "3           4.7         3.2",
       "4           4.6         3.1",
       "5           5.0         3.6",
-      "6           5.4         3.9",
-      "7           4.6         3.4",
-      "8           5.0         3.4",
-      "9           4.4         2.9",
-      "10          4.9         3.1",
       "..          ...         ...",
       "Variables not shown:",
       "  Petal.Length (dbl),",
@@ -46,7 +39,17 @@ test_that("trunc_mat output matches known output", {
       "  (fctr)."))
 
   expect_identical(
-    capture.output(print(tbl_df(df_all), width = 30L)),
+    capture.output(print(tbl_df(iris), n = 3L, width = 5L))[1:8],
+    c("Source: local data frame [150 x 5]", "",
+      "   Sepal.Length",
+      "          (dbl)",
+      "1           5.1",
+      "2           4.9",
+      "3           4.7",
+      "..          ..."))
+
+  expect_identical(
+    capture.output(print(tbl_df(df_all), n = 5L, width = 30L)),
     c("Source: local data frame [2 x 7]", "",
       "      a     b     c     d",
       "  (dbl) (int) (lgl) (chr)",
