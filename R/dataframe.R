@@ -178,7 +178,7 @@ as_data_frame.list <- function(x, validate = TRUE, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.matrix <- function(x, ...) {
-  matrixToDataFrame(x)
+  as_data_frame(as.data.frame(x))
 }
 
 #' Convert row names to an explicit variable.
