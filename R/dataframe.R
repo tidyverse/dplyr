@@ -240,7 +240,11 @@ add_row <- function(.data, ...) {
     )
   }
 
-  bind_rows(.data, data_frame(...))
+  missing_vars <- setdiff(names(.data), names(df))
+  df[missing_vars] <- NA
+  df <- df[names(.data)]
+
+  as_data_frame(rbind(.data, df))
 }
 
 # Validity checks --------------------------------------------------------------
