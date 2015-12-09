@@ -2,8 +2,6 @@
 % Please edit documentation in R/tibble.R
 \docType{package}
 \name{tibble-package}
-\alias{tibble}
-\alias{tibble-package}
 \title{Simple data frames}
 \description{
 Data frames in "dplyr" style.
