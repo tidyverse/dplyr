@@ -1,11 +1,45 @@
+# .travis.yml using container-based infrastructure
+
+# use c as catch-all language
 language: c
-sudo: required
+
+# use containers
+sudo: false
+
+# install R: use r-packages-precise (https://cran.r-project.org/bin/linux/ubuntu/precise/)
+# as source which is white listed (https://github.com/travis-ci/apt-source-whitelist/)
+addons:
+  apt:
+    sources:
+    - r-packages-precise
+    packages:
+    - r-base-dev
+    - r-recommended
+    - r-cran-devtools
+    - r-cran-testthat
+    - pandoc
+
+# cache local R libraries directory:
+cache:
+  directories:
+    - ~/Rlib
 
 before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
+
+# install the package and dependencies:
+# - create directory for R libraries (if not already exists)
+# - create .Renviron with location of R libraries
+# - define R repository in .Rprofile
+# - update all installed packages
+# - install covr if not already installed
+# - install package with dependencies
 install:
+  - mkdir -p ~/Rlib
+  - echo 'R_LIBS=~/Rlib' > .Renviron
+  - Rscript -e 'update.packages(ask = FALSE, instlib = "~/Rlib")'
   - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh install_deps
 
@@ -14,9 +48,11 @@ script: ./travis-tool.sh run_tests
 after_failure:
   - ./travis-tool.sh dump_logs
 
+# report coverage rate to codecov
 after_success:
   - Rscript -e 'covr::codecov()'
 
+# send e-mails if stuff changes
 notifications:
   email:
     on_success: change
