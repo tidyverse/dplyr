@@ -1,5 +1,29 @@
 context("data_frame")
 
+test_that("data_frame returns correct number of rows with all combinatinos", {
+
+  expect_equal(nrow(data_frame(value = 1:10)), 10L)
+
+  expect_equal(nrow(data_frame(value = 1:10, name = "recycle_me")), 10L)
+
+  expect_equal(nrow(data_frame(name = "recycle_me", value = 1:10)), 10L)
+
+  expect_equal(nrow(data_frame(name = "recycle_me", value = 1:10, value2 = 11:20)), 10L)
+
+  expect_equal(nrow(data_frame(value = 1:10, name = "recycle_me", value2 = 11:20)), 10L)
+
+})
+
+test_that("can't make data_frame containing data.frame or array", {
+  expect_error(data_frame(mtcars), "must be a 1d atomic vector or list")
+  expect_error(data_frame(diag(5)), "must be a 1d atomic vector or list")
+})
+
+test_that("null isn't a valid column", {
+  expect_error(data_frame(a = NULL))
+  expect_error(as_data_frame(list(a = NULL)), "must be a 1d atomic vector or list")
+})
+
 test_that("length 1 vectors are recycled", {
   expect_equal(nrow(data_frame(x = 1:10)), 10)
   expect_equal(nrow(data_frame(x = 1:10, y = 1)), 10)
@@ -23,14 +47,32 @@ test_that("empty input makes 0 x 0 tbl_df", {
 
 # as_data_frame -----------------------------------------------------------
 
-test_that("empty list() makes 0 x 0 tbl_df", {
+test_that("columns must be same length", {
+  l <- list(x = 1:2, y = 1:3)
+  expect_error(as_data_frame(l), "must be length 1 or")
+})
+
+test_that("columns must be named", {
+  l1 <- list(1:10)
+  l2 <- list(x = 1, 2)
+
+  expect_error(as_data_frame(l1), "must be named")
+  expect_error(as_data_frame(l2), "must be named")
+})
+
+test_that("can't coerce list data.frame or array", {
+  expect_error(as_data_frame(list(x = mtcars)), "must be a 1d atomic vector or list")
+  expect_error(as_data_frame(list(x = diag(5))), "must be a 1d atomic vector or list")
+})
+
+test_that("Zero column list makes 0 x 0 tbl_df", {
   zero <- as_data_frame(list())
   expect_is(zero, "tbl_df")
   expect_equal(dim(zero), c(0L, 0L))
 })
 
 test_that("add_rownames keeps the tbl classes (#882)", {
-  res <- mtcars %>% add_rownames( "Make&Model" )
+  res <- add_rownames( mtcars, "Make&Model" )
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
 })
 

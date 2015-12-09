@@ -44,11 +44,6 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
 src_df <- function(pkg = NULL, env = NULL) {
   src_local("tbl_df", pkg, env)
 }
-#' @rdname src_local
-#' @export
-src_dt <- function(pkg = NULL, env = NULL) {
-  src_local("tbl_dt", pkg, env)
-}
 
 #' @export
 src_tbls.src_local <- function(x, ...) {
@@ -59,12 +54,6 @@ src_tbls.src_local <- function(x, ...) {
 #' @export
 tbl.src_local <- function(src, from, ...) {
   src$tbl_f(get(from, src$env))
-}
-
-#' @export
-copy_to.src_local <- function(dest, df, name = deparse(substitute(df)), ...) {
-  assign(name, envir = dest$env, df)
-  tbl(dest, name)
 }
 
 #' @export

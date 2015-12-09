@@ -37,8 +37,8 @@ trunc_mat <- function(x, n = NULL, width = NULL, n_extra = 100) {
   rows <- nrow(x)
 
   if (is.null(n)) {
-    if (is.na(rows) || rows > getOption("dplyr.print_max")) {
-      n <- getOption("dplyr.print_min")
+    if (is.na(rows) || rows > getOption("dplyr.print_max", 20L)) {
+      n <- getOption("dplyr.print_min", 10L)
     } else {
       n <- rows
     }
@@ -165,13 +165,6 @@ ruler <- function(width = getOption("width")) {
 
 rule <- function(char = "-") {
   paste0(rep(char, getOption("width") - 2), collapse = "")
-}
-
-#' @export
-print.BoolResult <- function(x, ...) {
-  cat(x)
-  if (!x) cat(": ", attr(x, "comment"), sep = "")
-  cat("\n")
 }
 
 obj_type <- function(x) UseMethod("obj_type")

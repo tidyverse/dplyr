@@ -1,7 +1,3 @@
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
-
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
@@ -42,20 +38,9 @@ is.lang.list <- function(x) {
 
   is.list(x) && all_apply(x, is.lang)
 }
-on_failure(is.lang.list) <- function(call, env) {
-  paste0(call$x, " is not a list containing only names, calls and atomic vectors")
-}
 
 only_has_names <- function(x, nms) {
   all(names(x) %in% nms)
-}
-on_failure(all_names) <- function(call, env) {
-  x_nms <- names(eval(call$x, env))
-  nms <- eval(call$nms, env)
-  extra <- setdiff(x_nms, nms)
-
-  paste0(call$x, " has named components: ", paste0(extra, collapse = ", "), ".",
-    "Should only have names: ", paste0(nms, collapse = ","))
 }
 
 all_apply <- function(xs, f) {

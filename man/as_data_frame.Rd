@@ -3,15 +3,12 @@
 \name{as_data_frame}
 \alias{as_data_frame}
 \alias{as_data_frame.data.frame}
-\alias{as_data_frame.grouped_df}
 \alias{as_data_frame.list}
 \alias{as_data_frame.matrix}
 \alias{as_data_frame.tbl_df}
 \title{Coerce lists and matrices to data frames.}
 \usage{
 as_data_frame(x, ...)
-
-\method{as_data_frame}{grouped_df}(x, ...)
 
 \method{as_data_frame}{tbl_df}(x, ...)
 
