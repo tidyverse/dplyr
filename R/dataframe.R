@@ -190,9 +190,9 @@ as_data_frame.matrix <- function(x, ...) {
 #' @param var Name of variable to use
 #' @export
 #' @examples
-#' mtcars %>% tbl_df()
+#' tbl_df(mtcars)
 #'
-#' mtcars %>% add_rownames()
+#' add_rownames(mtcars)
 add_rownames <- function(df, var = "rowname") {
   stopifnot(is.data.frame(df))
 
@@ -215,22 +215,18 @@ add_rownames <- function(df, var = "rowname") {
 #' # add_row ---------------------------------
 #' df <- data_frame(x = 1:3, y = 3:1)
 #'
-#' df %>%
-#'   add_row(x = 4, y = 0)
+#' add_row(df, x = 4, y = 0)
 #'
 #' # You can supply vectors, to add multiple rows (this isn't
 #' # recommended because it's a bit hard to read)
-#' df %>%
-#'   add_row(x = 4:5, y = 0:-1)
+#' add_row(df, x = 4:5, y = 0:-1)
 #'
 #' # Absent variables get missing values
-#' df %>%
-#'   add_row(x = 4)
+#' add_row(df, x = 4)
 #'
 #' # You can't create new variables
 #' \dontrun{
-#' df %>%
-#'   add_row(z = 10)
+#' add_row(df, z = 10)
 #' }
 #' @export
 add_row <- function(.data, ...) {

@@ -21,22 +21,18 @@ data frame row-by-row.
 # add_row ---------------------------------
 df <- data_frame(x = 1:3, y = 3:1)
 
-df \%>\%
-  add_row(x = 4, y = 0)
+add_row(df, x = 4, y = 0)
 
 # You can supply vectors, to add multiple rows (this isn't
 # recommended because it's a bit hard to read)
-df \%>\%
-  add_row(x = 4:5, y = 0:-1)
+add_row(df, x = 4:5, y = 0:-1)
 
 # Absent variables get missing values
-df \%>\%
-  add_row(x = 4)
+add_row(df, x = 4)
 
 # You can't create new variables
 \dontrun{
-df \%>\%
-  add_row(z = 10)
+add_row(df, z = 10)
 }
 }
 
