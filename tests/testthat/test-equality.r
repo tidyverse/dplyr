@@ -46,11 +46,6 @@ test_that("factors equal only if levels equal", {
   expect_match(all.equal(tbl_df(df1), tbl_df(df2)), "Factor levels not equal for column x" )
 })
 
-test_that("BoolResult does not overwrite singleton R_TrueValue", {
-  dplyr:::equal_data_frame(mtcars, mtcars)
-  expect_equal( class(2 == 2), "logical" )
-})
-
 test_that("all.equal.data.frame handles data.frames with NULL names", {
   x <- data.frame(LETTERS[1:3], rnorm(3))
   names(x) <- NULL
