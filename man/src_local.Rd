@@ -28,11 +28,6 @@ if (require("Lahman")) {
 src_df("Lahman")
 
 batting_df <- tbl(src_df("Lahman"), "Batting")
-
-if (require("data.table")) {
-  src_df("Lahman")
-  batting_dt <- tbl(src_df("Lahman"), "Batting")
-}
 }
 }
 \keyword{internal}
