@@ -18,8 +18,8 @@
 #' glimpse(mtcars)
 #'
 #' \donttest{
-#' if (require("RSQLite") && has_lahman("sqlite")) {
-#'   batting <- tbl(lahman_sqlite(), "Batting")
+#' if (require("Lahman")) {
+#'   batting <- tbl(src_df("Lahman"), "Batting")
 #'   glimpse(batting)
 #' }
 #' }
