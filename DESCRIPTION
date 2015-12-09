@@ -15,13 +15,14 @@ BugReports: https://github.com/krlmlr/tibble/issues
 Depends:
     R (>= 3.1.2)
 Imports:
+    methods,
     assertthat,
     utils,
     lazyeval (>= 0.1.10)
 Suggests:
     testthat,
     knitr,
-    methods
+    Lahman
 LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 5.0.1.9000
