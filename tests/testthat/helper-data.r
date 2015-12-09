@@ -5,7 +5,7 @@ df_all <- data.frame(
   c = c(T, F),
   d = c("a", "b"),
   e = factor(c("a", "b")),
-  f = Sys.Date() + 1:2,
-  g = Sys.time() + 1:2,
+  f = as.Date("2015-12-09") + 1:2,
+  g = as.POSIXct("2015-12-09 10:51:34 UTC") + 1:2,
   stringsAsFactors = FALSE
 )
