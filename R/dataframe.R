@@ -118,10 +118,7 @@ lst_ <- function(xs) {
 #' colnames(m) <- c("a", "b", "c", "d", "e")
 #' df <- as_data_frame(m)
 #'
-#' # Coercing to a data frame does not copy columns
-#' changes(as_data_frame(l), as_data_frame(l))
-#'
-#' # as_data_frame is considerably simpler/faster than as.data.frame
+#' # as_data_frame is considerably simpler than as.data.frame
 #' # making it more suitable for use when you have things that are
 #' # lists
 #' \dontrun{
