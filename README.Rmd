@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tibble [![Build Status](https://travis-ci.org/krlmlr/tibble.png?branch=master)](https://travis-ci.org/krlmlr/tibble)
+# tibble [![Build Status](https://travis-ci.org/krlmlr/tibble.png?branch=master)](https://travis-ci.org/krlmlr/tibble) [![Coverage Status](https://img.shields.io/codecov/c/github/krlmlr/tibble/master.svg)](https://codecov.io/github/krlmlr/tibble?branch=master)
 
 Data frames in `dplyr` style.
 
