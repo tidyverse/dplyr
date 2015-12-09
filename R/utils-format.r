@@ -115,7 +115,8 @@ trunc_mat <- function(x, n = NULL, width = NULL, n_extra = 100) {
     extra <- c(extra[1:n_extra], setNames("...", more))
   }
 
-  structure(list(table = shrunk, extra = extra), class = "trunc_mat")
+  structure(list(table = shrunk, extra = extra, width = width),
+            class = "trunc_mat")
 }
 
 #' @export
@@ -126,7 +127,8 @@ print.trunc_mat <- function(x, ...) {
 
   if (length(x$extra) > 0) {
     var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
-    cat(wrap("Variables not shown: ", var_types), ".\n", sep = "")
+    cat(wrap("Variables not shown: ", var_types, width = x$width),
+        ".\n", sep = "")
   }
   invisible()
 }
@@ -139,7 +141,7 @@ knit_print.trunc_mat <- function(x, options) {
 
   if (length(x$extra) > 0) {
     var_types <- paste0(names(x$extra), " (", x$extra, ")", collapse = ", ")
-    extra <- wrap("\n(_Variables not shown_: ", var_types, ")")
+    extra <- wrap("\n(_Variables not shown_: ", var_types, ")", width = x$width)
   } else {
     extra <- "\n"
   }
@@ -148,10 +150,10 @@ knit_print.trunc_mat <- function(x, options) {
   knitr::asis_output(res)
 }
 
-wrap <- function(..., indent = 0) {
+wrap <- function(..., indent = 0, width) {
   x <- paste0(..., collapse = "")
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
-    width = getOption("width"))
+    width = width)
 
   paste0(wrapped, collapse = "\n")
 }

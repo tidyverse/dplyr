@@ -52,7 +52,8 @@ tbl.src_local <- function(src, from, ...) {
 }
 
 #' @export
-format.src_local <- function(x, ...) {
+format.src_local <- function(x, width = NULL, ...) {
+  width <- width %||% getOption("width")
   paste0("src:  ", x$name, "\n",
-    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", ")))
+    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", "), width = width))
 }

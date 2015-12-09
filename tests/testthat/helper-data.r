@@ -1,9 +1,11 @@
-int_to_num <- function(x, y) {
-  is_integer_x <- vapply(x, is.integer, logical(1))
-  is_integer_y <- vapply(y, is.integer, logical(1))
-
-  x[is_integer_x] <- lapply(x[is_integer_x], as.numeric)
-  y[is_integer_y] <- lapply(y[is_integer_y], as.numeric)
-
-  equal_data_frame(x, y)
-}
+# A data frame with all major types
+df_all <- data.frame(
+  a = c(1, 2.5),
+  b = 1:2,
+  c = c(T, F),
+  d = c("a", "b"),
+  e = factor(c("a", "b")),
+  f = as.Date("2015-12-09") + 1:2,
+  g = as.POSIXct("2015-12-09 10:51:34 UTC") + 1:2,
+  stringsAsFactors = FALSE
+)
