@@ -14,10 +14,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tibble
+# tibble [![Build Status](https://travis-ci.org/krlmlr/tibble.png?branch=master)](https://travis-ci.org/krlmlr/tibble)
 
 Data frames in `dplyr` style.
 
 ```{r}
-tbl_df(iris)
+tibble::tbl_df(iris)
 ```

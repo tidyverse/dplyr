@@ -1,11 +1,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-tibble
-======
+tibble [![Build Status](https://travis-ci.org/krlmlr/tibble.png?branch=master)](https://travis-ci.org/krlmlr/tibble)
+====================================================================================================================
 
 Data frames in `dplyr` style.
 
 ``` r
-tbl_df(iris)
+tibble::tbl_df(iris)
 #> Source: local data frame [150 x 5]
 #> 
 #>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
