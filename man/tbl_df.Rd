@@ -33,7 +33,7 @@ ds <- tbl_df(mtcars)
 ds
 as.data.frame(ds)
 
-if (require("Lahman") && packageVersion("Lahman") >= "3.0.1") {
+if (require("Lahman")) {
 batting <- tbl_df(Batting)
 dim(batting)
 colnames(batting)

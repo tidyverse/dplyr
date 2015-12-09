@@ -22,7 +22,7 @@ Imports:
 Suggests:
     testthat,
     knitr,
-    Lahman
+    Lahman (>= 3.0.1)
 LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 5.0.1.9000
