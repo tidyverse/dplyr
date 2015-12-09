@@ -15,6 +15,8 @@ addons:
     packages:
     - r-base-dev
     - r-recommended
+    - r-cran-devtools
+    - r-cran-testthat
     - pandoc
 
 # cache local R libraries directory:
@@ -25,20 +27,18 @@ cache:
 before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
 
 # install the package and dependencies:
 # - create directory for R libraries (if not already exists)
 # - create .Renviron with location of R libraries
 # - define R repository in .Rprofile
-# - install devtools if not already installed
 # - update all installed packages
-# - install/upgrade covr from GitHub
+# - install covr if not already installed
 # - install package with dependencies
 install:
   - mkdir -p ~/Rlib
   - echo 'R_LIBS=~/Rlib' > .Renviron
-  - echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
-  - Rscript -e 'if(!"devtools" %in% rownames(installed.packages())) { install.packages("devtools", dependencies = TRUE) }'
   - Rscript -e 'update.packages(ask = FALSE, instlib = "~/Rlib")'
   - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh install_deps
