@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-tibble [![Build Status](https://travis-ci.org/krlmlr/tibble.png?branch=master)](https://travis-ci.org/krlmlr/tibble) [![Coverage Status](https://img.shields.io/codecov/c/github/krlmlr/tibble/master.svg)](https://codecov.io/github/krlmlr/tibble?branch=master)
+tibble [![Build Status](https://travis-ci.org/krlmlr/tibble.svg?branch=master)](https://travis-ci.org/krlmlr/tibble) [![Coverage Status](https://img.shields.io/codecov/c/github/krlmlr/tibble/master.svg)](https://codecov.io/github/krlmlr/tibble?branch=master)
 ==================================================================================================================================================================================================================================================================
 
 Data frames in `dplyr` style.
