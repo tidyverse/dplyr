@@ -15,20 +15,21 @@
 #'   result in an \code{if} expression.
 #' @examples
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
+#' mtcars_df <- as_data_frame(mtcars)
 #'
 #' # By default, ordering of rows and columns ignored
-#' all_equal(mtcars, scramble(mtcars))
+#' all.equal(mtcars_df, scramble(mtcars_df))
 #'
 #' # But those can be overriden if desired
-#' all_equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
-#' all_equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
+#' all.equal(mtcars_df, scramble(mtcars_df), ignore_col_order = FALSE)
+#' all.equal(mtcars_df, scramble(mtcars_df), ignore_row_order = FALSE)
 #'
-#' # By default all_equal is sensitive to variable differences
-#' df1 <- data.frame(x = "a")
-#' df2 <- data.frame(x = factor("a"))
-#' all_equal(df1, df2)
+#' # By default all.equal is sensitive to variable differences
+#' df1 <- data_frame(x = "a")
+#' df2 <- data_frame(x = factor("a"))
+#' all.equal(df1, df2)
 #' # But you can request dplyr convert similar types
-#' all_equal(df1, df2, convert = TRUE)
+#' all.equal(df1, df2, convert = TRUE)
 all_equal <- function(target, current, ignore_col_order = TRUE,
                       ignore_row_order = TRUE, convert = FALSE, ...) {
 
