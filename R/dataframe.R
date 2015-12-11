@@ -365,6 +365,11 @@ arrange_.data.frame <- function(.data, ..., .dots) {
   as.data.frame(arrange_(tbl_df(.data), .dots = dots))
 }
 #' @export
+#' @rdname select
+select.data.frame <- function(x, ..., .dots) {
+  select_.data.frame(x, .dots = lazyeval::lazy_dots(...))
+}
+#' @export
 select_.data.frame <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots)

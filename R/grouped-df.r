@@ -78,6 +78,12 @@ ungroup.grouped_df <- function(x, ...) {
 # One-table verbs --------------------------------------------------------------
 
 #' @export
+#' @rdname select
+select.grouped_df <- function(x, ..., .dots) {
+  select_.grouped_df(x, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @export
 select_.grouped_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
 

@@ -222,6 +222,13 @@ as.tbl_cube.data.frame <- function(x, dim_names, ...) {
 
 # Verbs -------------------------------------------------------------------
 
+
+#' @export
+#' @rdname select
+select.tbl_cube <- function(x, ..., .dots) {
+  select_.tbl_cube(x, .dots = lazyeval::lazy_dots(...))
+}
+
 #' @export
 select_.tbl_cube <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
