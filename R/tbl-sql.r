@@ -276,12 +276,6 @@ arrange_.tbl_sql <- function(.data, ..., .dots) {
 }
 
 #' @export
-#' @rdname select
-select.tbl_sql <- function(x, ..., .dots) {
-  select_.tbl_sql(x, .dots = lazyeval::lazy_dots(...))
-}
-
-#' @export
 select_.tbl_sql <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(tbl_vars(.data), dots,

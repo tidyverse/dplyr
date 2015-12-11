@@ -366,8 +366,8 @@ arrange_.data.frame <- function(.data, ..., .dots) {
 }
 #' @export
 #' @rdname select
-select.data.frame <- function(x, ..., .dots) {
-  select_.data.frame(x, .dots = lazyeval::lazy_dots(...))
+select.data.frame <- function(.data, ..., .dots) {
+  select_.data.frame(.data, .dots = lazyeval::lazy_dots(...))
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots) {

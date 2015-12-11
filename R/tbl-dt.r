@@ -242,12 +242,6 @@ arrange_.data.table <- function(.data, ..., .dots) {
 # Select -----------------------------------------------------------------------
 
 #' @export
-#' @rdname select
-select.grouped_dt <- function(x, ..., .dots) {
-  select_.grouped_dt(x, .dots = lazyeval::lazy_dots(...))
-}
-
-#' @export
 select_.grouped_dt <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots,
@@ -259,12 +253,6 @@ select_.grouped_dt <- function(.data, ..., .dots) {
 }
 
 #' @export
-#' @rdname select
-select.data.table <- function(x, ..., .dots) {
-  select_.data.table(x, .dots = lazyeval::lazy_dots(...))
-}
-
-#' @export
 select_.data.table <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots)
@@ -272,12 +260,6 @@ select_.data.table <- function(.data, ..., .dots) {
   out <- .data[, vars, drop = FALSE, with = FALSE]
   data.table::setnames(out, names(vars))
   out
-}
-
-#' @export
-#' @rdname select
-select.tbl_dt <- function(x, ..., .dots) {
-  select_(x, .dots = lazyeval::lazy_dots(...))
 }
 
 #' @export

@@ -291,6 +291,12 @@ generics::select
 
 #' @export
 #' @rdname select
+select.tbl <- function(.data, ..., .dots) {
+  select_(.data, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname select
 select_ <- function(.data, ..., .dots) {
   UseMethod("select_")
 }
