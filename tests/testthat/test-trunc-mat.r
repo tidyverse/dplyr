@@ -49,7 +49,7 @@ test_that("trunc_mat output matches known output", {
       "..          ..."))
 
   expect_identical(
-    capture.output(print(tbl_df(df_all), n = 5L, width = 30L)),
+    capture.output(print(df_all, n = NULL, width = 30L)),
     c("Source: local data frame [2 x 8]", "",
       "      a     b     c     d",
       "  (dbl) (int) (lgl) (chr)",
