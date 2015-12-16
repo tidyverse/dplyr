@@ -4,6 +4,6 @@
 \name{tibble-package}
 \title{Simple data frames}
 \description{
-Data frames in "dplyr" style.
+Data frames and data sources in "dplyr" style.
 }
 
