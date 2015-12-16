@@ -36,7 +36,7 @@ test_that("length 1 vectors are recycled", {
 test_that("missing names are imputed from call", {
   x <- 1:10
   df <- data_frame(x, y = x)
-  expect_equal(names(df), c("x", "y"))
+  expect_equal(tbl_vars(df), c("x", "y"))
 })
 
 test_that("empty input makes 0 x 0 tbl_df", {
