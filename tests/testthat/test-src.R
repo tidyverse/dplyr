@@ -5,7 +5,7 @@ test_that("local and env sources", {
   env <- src_df(env = as.environment(list(cars = mtcars, flowers = iris)))
 
   expect_identical(tbl(local, "iris"), iris)
-  expect_match(format(env),
+  expect_match(paste(capture.output(print(env, width = 40L)), collapse = "\n"),
                "src:  <environment: .*>\ntbls: cars, flowers")
 
   expect_true(is.src(local))
