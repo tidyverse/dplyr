@@ -8,3 +8,8 @@ test_that("local and env sources", {
   expect_match(format(env),
                "src:  <environment: .*>\ntbls: cars, flowers")
 })
+
+test_that("same_src", {
+  expect_true(same_src(iris, mtcars))
+  expect_false(same_src(iris, NULL))
+})
