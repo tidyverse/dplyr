@@ -39,4 +39,6 @@ test_that("glimpse output matches known output", {
       "$ g (time) 2015-12-09 10:51:35, 2015-12-09 10:51:36",
       "$ h (list) 1, 2"
     ))
+
+  expect_identical(capture.output(glimpse(5)), " num 5")
 })

@@ -8,6 +8,9 @@ test_that("local and env sources", {
   expect_match(paste(capture.output(print(env, width = 40L)), collapse = "\n"),
                "src:  <environment: .*>\ntbls: cars, flowers")
 
+  expect_error(src_df(), "exactly one of")
+  expect_error(src_df(pkg = "datasets", env = new.env()), "exactly one of")
+
   expect_true(is.src(local))
   expect_false(is.src(5))
 })
