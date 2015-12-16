@@ -68,4 +68,22 @@ test_that("trunc_mat output matches known output", {
       "Variables not shown: e",
       "  (fctr), f (date), and 2",
       "  more (...)."))
+
+  expect_identical(
+    knitr::knit_print(trunc_mat(df_all, width = 60L)),
+    structure(
+      paste(
+        "",
+        "",
+        "|a     |b     |c     |d     |e      |f          |",
+        "|:-----|:-----|:-----|:-----|:------|:----------|",
+        "|(dbl) |(int) |(lgl) |(chr) |(fctr) |(date)     |",
+        "|1.0   |1     |TRUE  |a     |a      |2015-12-10 |",
+        "|2.5   |2     |FALSE |b     |b      |2015-12-11 |",
+        "",
+        "(_Variables not shown_: g (time), h (list))",
+        sep = "\n"),
+      class = "knit_asis",
+      knit_cacheable = TRUE)
+  )
 })
