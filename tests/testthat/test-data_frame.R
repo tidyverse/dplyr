@@ -91,6 +91,10 @@ test_that("matrix", {
                    as_data_frame(as.data.frame(diag(3L))))
 })
 
+test_that("as.tbl", {
+  expect_identical(as.tbl(data.frame()), data_frame())
+})
+
 # Validation --------------------------------------------------------------
 
 test_that("2d object isn't a valid column", {
