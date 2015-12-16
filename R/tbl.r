@@ -9,26 +9,6 @@ tbl <- function(src, ...) {
   UseMethod("tbl")
 }
 
-#' Create a "tbl" object
-#'
-#' \code{tbl} is the standard constructor for tbls. \code{as.tbl} coerces,
-#' and \code{is.tbl} tests.
-#'
-#' @keywords internal
-#' @export
-#' @param subclass name of subclass. "tbl" is an abstract base class, so you
-#'   must supply this value. \code{tbl_} is automatically prepended to the
-#'   class name
-#' @param object to test/coerce.
-#' @param ... For \code{tbl}, other fields used by class. For \code{as.tbl},
-#'   other arguments passed to methods.
-#' @examples
-#' as.tbl(mtcars)
-make_tbl <- function(subclass, ...) {
-  subclass <- paste0("tbl_", subclass)
-  structure(list(...), class = c(subclass, "tbl"))
-}
-
 #' @rdname tbl
 #' @export
 is.tbl <- function(x) inherits(x, "tbl")
