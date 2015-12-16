@@ -58,4 +58,14 @@ test_that("trunc_mat output matches known output", {
       "Variables not shown: e",
       "  (fctr), f (date), g (time),",
       "  h (list)."))
+
+  expect_identical(
+    capture.output(trunc_mat(df_all, n = 1L, n_extra = 2L, width = 30L)),
+    c("       a     b     c     d",
+      "   (dbl) (int) (lgl) (chr)",
+      "1      1     1  TRUE     a",
+      "..   ...   ...   ...   ...",
+      "Variables not shown: e",
+      "  (fctr), f (date), and 2",
+      "  more (...)."))
 })
