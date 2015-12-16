@@ -124,3 +124,17 @@ test_that("names must be unique (#820)", {
     "Each variable must have a unique name"
   )
 })
+
+# add_row ---------------------------------------------------------------
+
+test_that("can add new row", {
+  df_all_new <- add_row(df_all, a = 4, b = 3L)
+  expect_identical(nrow(df_all_new), nrow(df_all) + 1L)
+  expect_identical(df_all_new$a, c(df_all$a, 4))
+  expect_identical(df_all_new$b, c(df_all$b, 3L))
+  expect_identical(df_all_new$c, c(df_all$c, NA))
+})
+
+test_that("error if adding row with unknown variables", {
+  expect_error(add_row(data_frame(a = 3), data_frame(xxyzy = "err")))
+})
