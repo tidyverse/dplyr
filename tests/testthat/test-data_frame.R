@@ -45,6 +45,10 @@ test_that("empty input makes 0 x 0 tbl_df", {
   expect_equal(dim(zero), c(0L, 0L))
 })
 
+test_that("SE version", {
+  expect_identical(data_frame_(list(a = ~1:10)), data_frame(a = 1:10))
+})
+
 # as_data_frame -----------------------------------------------------------
 
 test_that("columns must be same length", {
