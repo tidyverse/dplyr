@@ -28,10 +28,7 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
     name <- utils::capture.output(print(env))
   }
 
-  structure(
-    list(tbl_f = match.fun(tbl), name = name, env = env),
-    class = c("src_local", "src")
-  )
+  src("local", tbl_f = match.fun(tbl), name = name, env = env)
 }
 
 #' @rdname src_local
