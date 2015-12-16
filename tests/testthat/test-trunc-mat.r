@@ -50,11 +50,12 @@ test_that("trunc_mat output matches known output", {
 
   expect_identical(
     capture.output(print(tbl_df(df_all), n = 5L, width = 30L)),
-    c("Source: local data frame [2 x 7]", "",
+    c("Source: local data frame [2 x 8]", "",
       "      a     b     c     d",
       "  (dbl) (int) (lgl) (chr)",
       "1   1.0     1  TRUE     a",
       "2   2.5     2 FALSE     b",
       "Variables not shown: e",
-      "  (fctr), f (date), g (time)."))
+      "  (fctr), f (date), g (time),",
+      "  h (list)."))
 })
