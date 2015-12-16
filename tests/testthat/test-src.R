@@ -7,6 +7,9 @@ test_that("local and env sources", {
   expect_identical(tbl(local, "iris"), iris)
   expect_match(format(env),
                "src:  <environment: .*>\ntbls: cars, flowers")
+
+  expect_true(is.src(local))
+  expect_false(is.src(5))
 })
 
 test_that("same_src", {
