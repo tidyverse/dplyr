@@ -161,6 +161,7 @@ as_data_frame.list <- function(x, validate = TRUE, ...) {
     x <- list()
     class(x) <- c("tbl_df", "tbl", "data.frame")
     attr(x, "row.names") <- .set_row_names(0)
+    attr(x, ".Names") <- character(0L)
     return(x)
   }
 
