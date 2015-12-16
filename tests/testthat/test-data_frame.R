@@ -43,7 +43,7 @@ test_that("empty input makes 0 x 0 tbl_df", {
   zero <- data_frame()
   expect_is(zero, "tbl_df")
   expect_equal(dim(zero), c(0L, 0L))
-  expect_identical(attr(zero, ".Names"), character(0L))
+  expect_identical(attr(zero, "names"), character(0L))
 })
 
 test_that("SE version", {
