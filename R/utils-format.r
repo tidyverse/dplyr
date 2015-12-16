@@ -158,17 +158,6 @@ wrap <- function(..., indent = 0, width) {
   paste0(wrapped, collapse = "\n")
 }
 
-ruler <- function(width = getOption("width")) {
-  x <- seq_len(width)
-  y <- ifelse(x %% 10 == 0, x %/% 10, ifelse(x %% 5 == 0, "+", "-"))
-  cat(y, "\n", sep = "")
-  cat(x %% 10, "\n", sep = "")
-}
-
-rule <- function(char = "-") {
-  paste0(rep(char, getOption("width") - 2), collapse = "")
-}
-
 obj_type <- function(x) UseMethod("obj_type")
 #' @export
 obj_type.NULL <- function(x) "<NULL>"

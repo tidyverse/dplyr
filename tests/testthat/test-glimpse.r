@@ -29,13 +29,16 @@ test_that("glimpse output matches known output", {
 
   expect_identical(
     capture.output(glimpse(tbl_df(df_all), width = 70L)),
-    c("Observations: 2", "Variables: 7",
+    c("Observations: 2", "Variables: 8",
       "$ a (dbl) 1.0, 2.5",
       "$ b (int) 1, 2",
       "$ c (lgl) TRUE, FALSE",
       "$ d (chr) \"a\", \"b\"",
       "$ e (fctr) a, b",
       "$ f (date) 2015-12-10, 2015-12-11",
-      "$ g (time) 2015-12-09 10:51:35, 2015-12-09 10:51:36"
+      "$ g (time) 2015-12-09 10:51:35, 2015-12-09 10:51:36",
+      "$ h (list) 1, 2"
     ))
+
+  expect_identical(capture.output(glimpse(5)), " num 5")
 })

@@ -24,8 +24,12 @@ test_that("data frames not equal if missing row", {
 
 test_that("data frames not equal if missing col", {
   expect_match(all.equal(tbl_df(mtcars), tbl_df(mtcars)[, -1]), "Cols in x but not y: mpg")
+  expect_match(all.equal(tbl_df(mtcars)[, -1], tbl_df(mtcars)), "Cols in y but not x: mpg")
   expect_match(all.equal(tbl_df(iris), tbl_df(iris)[, -1]),     "Cols in x but not y: Sepal.Length")
   expect_match(all.equal(tbl_df(df_all), tbl_df(df_all)[, -1]), "Cols in x but not y: a")
+  expect_match(all.equal(tbl_df(mtcars), rev(tbl_df(mtcars)),
+                         ignore_col_order = FALSE),
+               "Column names same but in different order")
 })
 
 test_that("factors equal only if levels equal", {

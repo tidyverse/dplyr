@@ -49,12 +49,41 @@ test_that("trunc_mat output matches known output", {
       "..          ..."))
 
   expect_identical(
-    capture.output(print(tbl_df(df_all), n = 5L, width = 30L)),
-    c("Source: local data frame [2 x 7]", "",
+    capture.output(print(df_all, n = NULL, width = 30L)),
+    c("Source: local data frame [2 x 8]", "",
       "      a     b     c     d",
       "  (dbl) (int) (lgl) (chr)",
       "1   1.0     1  TRUE     a",
       "2   2.5     2 FALSE     b",
       "Variables not shown: e",
-      "  (fctr), f (date), g (time)."))
+      "  (fctr), f (date), g (time),",
+      "  h (list)."))
+
+  expect_identical(
+    capture.output(trunc_mat(df_all, n = 1L, n_extra = 2L, width = 30L)),
+    c("       a     b     c     d",
+      "   (dbl) (int) (lgl) (chr)",
+      "1      1     1  TRUE     a",
+      "..   ...   ...   ...   ...",
+      "Variables not shown: e",
+      "  (fctr), f (date), and 2",
+      "  more (...)."))
+
+  expect_identical(
+    knitr::knit_print(trunc_mat(df_all, width = 60L)),
+    structure(
+      paste(
+        "",
+        "",
+        "|a     |b     |c     |d     |e      |f          |",
+        "|:-----|:-----|:-----|:-----|:------|:----------|",
+        "|(dbl) |(int) |(lgl) |(chr) |(fctr) |(date)     |",
+        "|1.0   |1     |TRUE  |a     |a      |2015-12-10 |",
+        "|2.5   |2     |FALSE |b     |b      |2015-12-11 |",
+        "",
+        "(_Variables not shown_: g (time), h (list))",
+        sep = "\n"),
+      class = "knit_asis",
+      knit_cacheable = TRUE)
+  )
 })
