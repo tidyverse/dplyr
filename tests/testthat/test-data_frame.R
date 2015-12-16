@@ -150,5 +150,6 @@ test_that("can add new row", {
 })
 
 test_that("error if adding row with unknown variables", {
-  expect_error(add_row(data_frame(a = 3), data_frame(xxyzy = "err")))
+  expect_error(add_row(data_frame(a = 3), xxyzy = "err"),
+               "would add new variables")
 })
