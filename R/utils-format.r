@@ -133,7 +133,7 @@ print.trunc_mat <- function(x, ...) {
   invisible()
 }
 
-#' knit_print method for trunc mat
+#' @importFrom knitr knit_print
 #' @keywords internal
 #' @export
 knit_print.trunc_mat <- function(x, options) {
