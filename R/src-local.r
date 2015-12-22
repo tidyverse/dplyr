@@ -4,7 +4,7 @@
 #' local and remote tables using exactly the same syntax.
 #'
 #' Generally, \code{src_local} should not be called directly, but instead
-#' one of the (currently three) constructors should be used.
+#' \code{tbl_df} should be used.
 #'
 #' @param tbl name of the function used to generate \code{tbl} objects
 #' @param pkg,env Either the name of a package or an environment object in
