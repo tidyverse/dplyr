@@ -35,8 +35,8 @@ before \code{cbind}ing together). \code{as_data_frame} is a new S3 generic
 with more efficient methods for matrices and data frames.
 }
 \details{
-This is an S3 generic. dplyr includes methods for data frames (adds tbl_df
-classes), tbl_dfs (trivial!), grouped_dfs (ungroups), lists, and matrices.
+This is an S3 generic. tibble includes methods for data frames (adds tbl_df
+classes), tbl_dfs (trivial!), lists, and matrices.
 }
 \examples{
 l <- list(x = 1:500, y = runif(500), z = 500:1)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tbl-df.r, R/utils-format.r
 \name{print.tbl_df}
 \alias{dim_desc}
-\alias{dplyr-formatting}
+\alias{formatting}
 \alias{print.tbl_df}
 \alias{trunc_mat}
 \title{Tools for describing matrices}

@@ -21,7 +21,7 @@ local and remote tables using exactly the same syntax.
 }
 \details{
 Generally, \code{src_local} should not be called directly, but instead
-one of the (currently three) constructors should be used.
+\code{tbl_df} should be used.
 }
 \examples{
 if (require("Lahman")) {
