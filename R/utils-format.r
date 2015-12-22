@@ -18,11 +18,11 @@
 #' print(tbl_df(mtcars), n = 3)
 #' print(tbl_df(mtcars), n = 100)
 #'
-#' @name dplyr-formatting
+#' @name formatting
 NULL
 
 #' @export
-#' @rdname dplyr-formatting
+#' @rdname formatting
 dim_desc <- function(x) {
   d <- dim(x)
   d2 <- big_mark(d)
@@ -32,7 +32,7 @@ dim_desc <- function(x) {
 }
 
 #' @export
-#' @rdname dplyr-formatting
+#' @rdname formatting
 trunc_mat <- function(x, n = NULL, width = NULL, n_extra = 100) {
   rows <- nrow(x)
 

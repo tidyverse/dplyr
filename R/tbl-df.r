@@ -55,7 +55,7 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
   structure(x, class = "data.frame")
 }
 
-#' @rdname dplyr-formatting
+#' @rdname formatting
 #' @export
 print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
