@@ -4,7 +4,7 @@
 #' generic so that efficient versions for data frames and other tables can be
 #' provided. The default methods call the base versions.
 #'
-#' @param x,y objects to compare (ignoring order)
+#' @param x,y objects to perform set function on (ignoring order)
 #' @param ... other arguments passed on to methods
 #' @name setops
 #' @examples
