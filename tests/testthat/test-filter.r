@@ -235,7 +235,7 @@ test_that("hybrid evaluation handles $ correctly (#1134)", {
 test_that("filter correctly handles empty data frames (#782)", {
   res <- data_frame() %>% filter(F)
   expect_equal( nrow(res), 0L )
-  expect_true( is.null(names(res)) )
+  expect_equal( length(names(res)), 0L )
 })
 
 test_that("filter(.,TRUE,TRUE) works (#1210)", {
