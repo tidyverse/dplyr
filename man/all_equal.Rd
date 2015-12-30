@@ -48,7 +48,7 @@ all.equal(mtcars_df, scramble(mtcars_df), ignore_row_order = FALSE)
 df1 <- data_frame(x = "a")
 df2 <- data_frame(x = factor("a"))
 all.equal(df1, df2)
-# But you can request dplyr convert similar types
+# But you can request to convert similar types
 all.equal(df1, df2, convert = TRUE)
 }
 

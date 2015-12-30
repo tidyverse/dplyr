@@ -36,13 +36,23 @@ test_that("length 1 vectors are recycled", {
 test_that("missing names are imputed from call", {
   x <- 1:10
   df <- data_frame(x, y = x)
-  expect_equal(names(df), c("x", "y"))
+  expect_equal(tbl_vars(df), c("x", "y"))
 })
 
 test_that("empty input makes 0 x 0 tbl_df", {
   zero <- data_frame()
   expect_is(zero, "tbl_df")
   expect_equal(dim(zero), c(0L, 0L))
+  expect_identical(attr(zero, "names"), character(0L))
+})
+
+test_that("SE version", {
+  expect_identical(data_frame_(list(a = ~1:10)), data_frame(a = 1:10))
+})
+
+test_that("is.tbl", {
+  expect_true(is.tbl(as_data_frame(iris)))
+  expect_false(is.tbl(iris))
 })
 
 # as_data_frame -----------------------------------------------------------
@@ -74,6 +84,15 @@ test_that("Zero column list makes 0 x 0 tbl_df", {
 test_that("add_rownames keeps the tbl classes (#882)", {
   res <- add_rownames( mtcars, "Make&Model" )
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
+})
+
+test_that("matrix", {
+  expect_identical(as_data_frame(diag(3L)),
+                   as_data_frame(as.data.frame(diag(3L))))
+})
+
+test_that("as.tbl", {
+  expect_identical(as.tbl(data.frame()), data_frame())
 })
 
 # Validation --------------------------------------------------------------
@@ -123,4 +142,19 @@ test_that("names must be unique (#820)", {
     check_data_frame(list(x = 1, x = 2)),
     "Each variable must have a unique name"
   )
+})
+
+# add_row ---------------------------------------------------------------
+
+test_that("can add new row", {
+  df_all_new <- add_row(df_all, a = 4, b = 3L)
+  expect_identical(nrow(df_all_new), nrow(df_all) + 1L)
+  expect_identical(df_all_new$a, c(df_all$a, 4))
+  expect_identical(df_all_new$b, c(df_all$b, 3L))
+  expect_identical(df_all_new$c, c(df_all$c, NA))
+})
+
+test_that("error if adding row with unknown variables", {
+  expect_error(add_row(data_frame(a = 3), xxyzy = "err"),
+               "would add new variables")
 })

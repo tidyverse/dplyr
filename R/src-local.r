@@ -4,7 +4,7 @@
 #' local and remote tables using exactly the same syntax.
 #'
 #' Generally, \code{src_local} should not be called directly, but instead
-#' one of the (currently three) constructors should be used.
+#' \code{tbl_df} should be used.
 #'
 #' @param tbl name of the function used to generate \code{tbl} objects
 #' @param pkg,env Either the name of a package or an environment object in
@@ -28,10 +28,7 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
     name <- utils::capture.output(print(env))
   }
 
-  structure(
-    list(tbl_f = match.fun(tbl), name = name, env = env),
-    class = c("src_local", "src")
-  )
+  src("local", tbl_f = match.fun(tbl), name = name, env = env)
 }
 
 #' @rdname src_local
@@ -52,7 +49,8 @@ tbl.src_local <- function(src, from, ...) {
 }
 
 #' @export
-format.src_local <- function(x, ...) {
+format.src_local <- function(x, width = NULL, ...) {
+  width <- width %||% getOption("width")
   paste0("src:  ", x$name, "\n",
-    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", ")))
+    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", "), width = width))
 }
