@@ -1,3 +1,11 @@
+Version 0.1-1 (2015-12-30)
+===
+
+- Remove spurious usage of "dplyr" in documentation (#3).
+- Remove unused `make_tbl()`.
+- Almost full test coverage.
+
+
 tibble 0.1
 ==========
 
