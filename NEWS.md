@@ -1,3 +1,10 @@
+Version 0.1-2 (2015-12-30)
+===
+
+- Add former `matrixToDataFrame()` tests, and fix unwanted conversion to factor.
+- `base::getElement()` now works with tibbles (#9).
+
+
 Version 0.1-1 (2015-12-30)
 ===
 
