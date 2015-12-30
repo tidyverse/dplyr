@@ -1,29 +1,20 @@
 Encoding: UTF-8
 Package: tibble
 Type: Package
-Version: 0.1
+Version: 0.1-1
 Date: 2015-12-30
 Title: Simple data frames
 Description: Data frames and data sources in "dplyr" style.
-Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"),
-    person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
-    person("Kirill", "Müller", , "krlmlr+r@mailbox.org", role = c("aut", "cre")),
-    person("RStudio", role = "cph")
-    )
+Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role
+        = "aut"), person("Romain", "Francois", ,
+        "romain@r-enthusiasts.com", role = "aut"), person("Kirill",
+        "Müller", , "krlmlr+r@mailbox.org", role = c("aut", "cre")),
+        person("RStudio", role = "cph") )
 URL: https://github.com/krlmlr/tibble
 BugReports: https://github.com/krlmlr/tibble/issues
-Depends:
-    R (>= 3.1.2)
-Imports:
-    methods,
-    assertthat,
-    utils,
-    lazyeval (>= 0.1.10)
-Suggests:
-    testthat,
-    knitr,
-    Lahman (>= 3.0.1)
+Depends: R (>= 3.1.2)
+Imports: methods, assertthat, utils, lazyeval (>= 0.1.10)
+Suggests: testthat, knitr, Lahman (>= 3.0.1)
 LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 5.0.1.9000
