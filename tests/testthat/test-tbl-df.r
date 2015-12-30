@@ -31,3 +31,10 @@ test_that("[.tbl_df is careful about names (#1245)",{
   expect_error( foo[, "z"] )
   expect_error( foo[, c("x", "y", "z") ] )
 })
+
+test_that("[[.tbl_df ignores exact argument",{
+  foo <- data_frame(x = 1:10, y = 1:10)
+  expect_warning(foo[["x"]], NA)
+  expect_warning(foo[["x", exact = FALSE]], "ignored")
+  expect_identical(getElement(foo, "y"), 1:10)
+})
