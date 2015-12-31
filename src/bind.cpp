@@ -220,12 +220,19 @@ SEXP combine_all( List data ){
     }
 
     // collect
-    boost::scoped_ptr<Collecter> coll( collecter( data[0], n ) ) ;
-    coll->collect( SlicingIndex(0, Rf_length(data[0])), data[0] ) ;
-    int k = Rf_length(data[0]) ;
+    SEXP current = data[0];
+    boost::scoped_ptr<Collecter> coll( collecter( current, n ) ) ;
+    if(!Rf_isNull(current)) {
+        coll->collect( SlicingIndex(0, Rf_length(current)), current ) ;
+    } else {
+        stop( "incompatible type at index %d : %s",
+                1, get_single_class(R_NilValue) );
+    }
+
+    int k = Rf_length(current) ;
 
     for( int i=1; i<nv; i++){
-        SEXP current = data[i] ;
+        current = data[i] ;
         int n_current= Rf_length(current) ;
         if( coll->compatible(current) ){
             coll->collect( SlicingIndex(k, n_current), current ) ;
