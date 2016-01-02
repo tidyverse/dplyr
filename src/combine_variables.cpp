@@ -5,11 +5,13 @@ int vector_sign(IntegerVector x) {
   bool pos = false, neg = false;
 
   int n = x.size();
-  for (int i = 0; i < n; ++i) {
-    if (x[i] < 0) neg = true;
-    if (x[i] > 0) pos = true;
+  IntegerVector::iterator iter;
+  IntegerVector::const_iterator end = x.end();
+  for(iter = x.begin(); iter < end; ++iter) {
+      if(*iter < 0) neg = true;
+      if(*iter > 0) pos = true;
 
-    if (neg && pos) break;
+      if ( neg && pos ) break;
   }
 
   if (neg == pos) {
