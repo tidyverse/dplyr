@@ -1,3 +1,10 @@
+Version 0.1-3 (2016-01-05)
+===
+
+- Use C++ implementation for `as_data_frame.matrix()` (#14)
+- `as_data_frame(NULL)` returns `NULL` (#16, @jennybc)
+
+
 Version 0.1-2 (2015-12-30)
 ===
 
