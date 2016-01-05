@@ -48,7 +48,6 @@ test_that("handles atomic vectors", {
 })
 
 test_that("auto-assigning names", {
-  skip("Not yet implemented")
   expect_identical(as_data_frame(diag(3L)),
                    as_data_frame(as.data.frame(diag(3L))))
 })
