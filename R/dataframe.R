@@ -189,7 +189,7 @@ as_data_frame.matrix <- function(x, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.NULL <- function(x, ...) {
-  NULL
+  as_data_frame(list())
 }
 
 #' Convert row names to an explicit variable.
