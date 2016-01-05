@@ -86,13 +86,12 @@ test_that("add_rownames keeps the tbl classes (#882)", {
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
 })
 
-test_that("matrix", {
-  expect_identical(as_data_frame(diag(3L)),
-                   as_data_frame(as.data.frame(diag(3L))))
-})
-
 test_that("as.tbl", {
   expect_identical(as.tbl(data.frame()), data_frame())
+})
+
+test_that("as_data_frame(NULL) is NULL, not error", {
+  expect_null(as_data_frame(NULL))
 })
 
 # Validation --------------------------------------------------------------

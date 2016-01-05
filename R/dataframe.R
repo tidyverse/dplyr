@@ -179,7 +179,17 @@ as_data_frame.list <- function(x, validate = TRUE, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.matrix <- function(x, ...) {
-  as_data_frame(as.data.frame(x, stringsAsFactors = FALSE))
+  x <- matrixToDataFrame(x)
+  if (is.null(colnames(x))) {
+    colnames(x) <- paste0("V", seq_len(ncol(x)))
+  }
+  x
+}
+
+#' @export
+#' @rdname as_data_frame
+as_data_frame.NULL <- function(x, ...) {
+  NULL
 }
 
 #' Convert row names to an explicit variable.

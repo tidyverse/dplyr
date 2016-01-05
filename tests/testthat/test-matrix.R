@@ -47,5 +47,7 @@ test_that("handles atomic vectors", {
   expect_equal(out[[1]], as.vector(x))
 })
 
-x <- matrix(list("a"), nrow = 2)
-as_data_frame(x)
+test_that("auto-assigning names", {
+  expect_identical(as_data_frame(diag(3L)),
+                   as_data_frame(as.data.frame(diag(3L))))
+})
