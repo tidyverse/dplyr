@@ -95,6 +95,10 @@ test_that("as.tbl", {
   expect_identical(as.tbl(data.frame()), data_frame())
 })
 
+test_that("as_data_frame(NULL) is NULL, not error", {
+  expect_null(as_data_frame(NULL))
+})
+
 # Validation --------------------------------------------------------------
 
 test_that("2d object isn't a valid column", {

@@ -182,6 +182,12 @@ as_data_frame.matrix <- function(x, ...) {
   as_data_frame(as.data.frame(x, stringsAsFactors = FALSE))
 }
 
+#' @export
+#' @rdname as_data_frame
+as_data_frame.NULL <- function(x, ...) {
+  NULL
+}
+
 #' Convert row names to an explicit variable.
 #'
 #' @param df Input data frame with rownames.

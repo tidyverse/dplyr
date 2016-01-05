@@ -2,6 +2,7 @@
 % Please edit documentation in R/dataframe.R
 \name{as_data_frame}
 \alias{as_data_frame}
+\alias{as_data_frame.NULL}
 \alias{as_data_frame.data.frame}
 \alias{as_data_frame.list}
 \alias{as_data_frame.matrix}
@@ -17,6 +18,8 @@ as_data_frame(x, ...)
 \method{as_data_frame}{list}(x, validate = TRUE, ...)
 
 \method{as_data_frame}{matrix}(x, ...)
+
+\method{as_data_frame}{NULL}(x, ...)
 }
 \arguments{
 \item{x}{A list. Each element of the list must have the same length.}
