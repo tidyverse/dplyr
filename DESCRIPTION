@@ -1,8 +1,8 @@
 Encoding: UTF-8
 Package: tibble
 Type: Package
-Version: 0.1-2
-Date: 2015-12-30
+Version: 0.1-3
+Date: 2016-01-05
 Title: Simple data frames
 Description: Data frames and data sources in "dplyr" style.
 Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role
@@ -13,12 +13,7 @@ Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role
 URL: https://github.com/krlmlr/tibble
 BugReports: https://github.com/krlmlr/tibble/issues
 Depends: R (>= 3.1.2)
-Imports:
-    methods,
-    assertthat,
-    utils,
-    lazyeval (>= 0.1.10),
-    Rcpp
+Imports: methods, assertthat, utils, lazyeval (>= 0.1.10), Rcpp
 Suggests: testthat, knitr, Lahman (>= 3.0.1)
 LazyData: yes
 License: MIT + file LICENSE
