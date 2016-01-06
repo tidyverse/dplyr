@@ -60,6 +60,21 @@ test_that("trunc_mat output matches known output", {
       "  h (list)."))
 
   expect_identical(
+    capture.output(print(data_frame(a = character(), b = logical()),
+                         width = 30L)),
+    c("Source: local data frame [0 x 2]",
+      "",
+      "Variables not shown: a (chr),",
+      "  b (lgl).")
+  )
+
+  expect_identical(
+    capture.output(print(tbl_df(iris)[character()], n = 5L, width = 30L)),
+    c("Source: local data frame [150 x 0]",
+      "")
+  )
+
+  expect_identical(
     capture.output(trunc_mat(df_all, n = 1L, n_extra = 2L, width = 30L)),
     c("       a     b     c     d",
       "   (dbl) (int) (lgl) (chr)",
