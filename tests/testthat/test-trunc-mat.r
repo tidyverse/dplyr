@@ -60,19 +60,11 @@ test_that("trunc_mat output matches known output", {
       "  h (list)."))
 
   expect_identical(
-    capture.output(trunc_mat(df_all, n = 1L, n_extra = 2L, width = 30L)),
-    c("       a     b     c     d",
-      "   (dbl) (int) (lgl) (chr)",
-      "1      1     1  TRUE     a",
-      "..   ...   ...   ...   ...",
-      "Variables not shown: e",
-      "  (fctr), f (date), and 2",
-      "  more (...)."))
-
-  expect_identical(
-    capture.output(trunc_mat(data_frame(a = character(), b = logical()),
-                             width = 30L)),
-    c("Variables not shown: a (chr),",
+    capture.output(print(data_frame(a = character(), b = logical()),
+                         width = 30L)),
+    c("Source: local data frame [0 x 2]",
+      "",
+      "Variables not shown: a (chr),",
       "  b (lgl).")
   )
 
@@ -81,6 +73,16 @@ test_that("trunc_mat output matches known output", {
     c("Source: local data frame [150 x 0]",
       "")
   )
+
+  expect_identical(
+    capture.output(trunc_mat(df_all, n = 1L, n_extra = 2L, width = 30L)),
+    c("       a     b     c     d",
+      "   (dbl) (int) (lgl) (chr)",
+      "1      1     1  TRUE     a",
+      "..   ...   ...   ...   ...",
+      "Variables not shown: e",
+      "  (fctr), f (date), and 2",
+      "  more (...)."))
 
   expect_identical(
     knitr::knit_print(trunc_mat(df_all, width = 60L)),
