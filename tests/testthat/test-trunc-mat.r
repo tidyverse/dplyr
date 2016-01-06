@@ -77,6 +77,12 @@ test_that("trunc_mat output matches known output", {
   )
 
   expect_identical(
+    capture.output(print(tbl_df(iris)[character()], n = 5L, width = 30L)),
+    c("Source: local data frame [150 x 0]",
+      "")
+  )
+
+  expect_identical(
     knitr::knit_print(trunc_mat(df_all, width = 60L)),
     structure(
       paste(
