@@ -85,11 +85,12 @@ lst_ <- function(xs) {
   names(output) <- character(n)
 
   for (i in seq_len(n)) {
-    output[[i]] <- lazyeval::lazy_eval(xs[[i]], output) %||% list(NULL)
-    names(output)[i] <- col_names[[i]]
+    res <- lazyeval::lazy_eval(xs[[i]], output)
+    if (!is.null(res)) {
+      output[[i]] <-  res
+      names(output)[i] <- col_names[[i]]
+    }
   }
-  is_NULL <- vapply(output, identical, logical(1), list(NULL))
-  output[is_NULL] <- list(NULL)
 
   output
 }
