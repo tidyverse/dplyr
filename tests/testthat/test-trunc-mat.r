@@ -70,6 +70,13 @@ test_that("trunc_mat output matches known output", {
       "  more (...)."))
 
   expect_identical(
+    capture.output(trunc_mat(data_frame(a = character(), b = logical()),
+                             width = 30L)),
+    c("Variables not shown: a (chr),",
+      "  b (lgl).")
+  )
+
+  expect_identical(
     knitr::knit_print(trunc_mat(df_all, width = 60L)),
     structure(
       paste(
