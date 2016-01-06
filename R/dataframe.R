@@ -85,9 +85,11 @@ lst_ <- function(xs) {
   names(output) <- character(n)
 
   for (i in seq_len(n)) {
-    output[[i]] <- lazyeval::lazy_eval(xs[[i]], output)
+    output[[i]] <- lazyeval::lazy_eval(xs[[i]], output) %||% list(NULL)
     names(output)[i] <- col_names[[i]]
   }
+  is_NULL <- vapply(output, identical, logical(1), list(NULL))
+  output[is_NULL] <- list(NULL)
 
   output
 }
@@ -157,6 +159,9 @@ as_data_frame.data.frame <- function(x, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.list <- function(x, validate = TRUE, ...) {
+
+  x <- compact(x)
+
   if (length(x) == 0) {
     x <- list()
     class(x) <- c("tbl_df", "tbl", "data.frame")

@@ -1,3 +1,5 @@
+compact <- function(x) Filter(Negate(is.null), x)
+
 names2 <- function(x) {
   names(x) %||% rep("", length(x))
 }
