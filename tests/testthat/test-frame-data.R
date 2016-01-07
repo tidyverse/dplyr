@@ -11,6 +11,8 @@ test_that("frame_data() constructs 'data_frame' as expected", {
   compared <- data_frame(colA = c("a", "b"), colB = c(1, 2))
   expect_equal(result, compared)
 
+  expect_identical(frame_data(~a, ~b), data_frame())
+
   ## wide
   wide <- frame_data(
     ~colA, ~colB, ~colC, ~colD,
@@ -59,6 +61,12 @@ test_that("frame_data() creates lists for non-atomic inputs (#7)", {
 })
 
 test_that("frame_data() errs appropriately on bad calls", {
+
+  # invalid colname syntax
+  expect_error(frame_data(a~b), "single argument")
+
+  # invalid colname syntax
+  expect_error(frame_data(~a + b), "symbol or string")
 
   # frame_data() must be passed colnames
   expect_error(frame_data(
