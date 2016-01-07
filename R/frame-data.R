@@ -20,6 +20,9 @@ frame_data <- function(...) {
   frame_names <- character()
   i <- 1
   while (TRUE) {
+    if (i > length(dots)) {
+      return(data_frame())
+    }
 
     el <- dots[[i]]
     if (!is.call(el))

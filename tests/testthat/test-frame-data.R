@@ -11,6 +11,8 @@ test_that("frame_data() constructs 'data_frame' as expected", {
   compared <- data_frame(colA = c("a", "b"), colB = c(1, 2))
   expect_equal(result, compared)
 
+  expect_identical(frame_data(~a, ~b), data_frame())
+
   ## wide
   wide <- frame_data(
     ~colA, ~colB, ~colC, ~colD,
