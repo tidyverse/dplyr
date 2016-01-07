@@ -19,12 +19,12 @@ test_that("can't make data_frame containing data.frame or array", {
   expect_error(data_frame(diag(5)), "must be a 1d atomic vector or list")
 })
 
-test_that("null columns are dropped", {
-  expect_identical(data_frame(a = NULL), data_frame())
-  just_b <- data_frame(a = NULL, b = character())
-  expect_is(just_b, "tbl_df")
-  expect_equal(dim(just_b), c(0L, 1L))
-  expect_identical(attr(just_b, "names"), "b")
+test_that("bogus columns raise an error", {
+  expect_error(as_data_frame(list(1)), "named")
+  expect_error(data_frame(a = NULL), "1d atomic vector or list")
+  expect_error(data_frame(a = ~a), "1d atomic vector or list")
+  expect_error(data_frame(a = new.env()), "1d atomic vector or list")
+  expect_error(data_frame(a = quote(a)), "1d atomic vector or list")
 })
 
 test_that("length 1 vectors are recycled", {
