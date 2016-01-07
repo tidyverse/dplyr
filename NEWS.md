@@ -1,3 +1,13 @@
+Version 0.1-4 (2016-01-07)
+===
+
+- Non-scalar input to `frame_data()` and `tibble()` creates list-valued columns (#7).
+- `frame_data()` and `tibble()` create empty `data_frame` if no rows are given (#20).
+- `as_data_frame(NULL)` is 0-row 0-column data frame (#17, @jennybc).
+- `lst(NULL)` doesn't raise an error anymore (#17, @jennybc), but always uses deparsed expression as name (even for `NULL`).
+- `trunc_mat()` and `print()` use `width` argument also for zero-row and zero-column data frames (#18).
+
+
 Version 0.1-3 (2016-01-05)
 ===
 
