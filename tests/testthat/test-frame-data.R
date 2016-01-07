@@ -46,6 +46,18 @@ test_that("frame_data() constructs 'data_frame' as expected", {
 
 })
 
+test_that("frame_data() creates lists for non-atomic inputs (#7)", {
+  expect_identical(
+    frame_data(~a, ~b, NA, "A", letters, LETTERS[-1L]),
+    data_frame(a = list(NA, letters), b = list("A", LETTERS[-1L]))
+  )
+
+  expect_identical(
+    frame_data(~a, ~b, NA, NULL, 1, 2),
+    data_frame(a = c(NA, 1), b = list(NULL, 2))
+  )
+})
+
 test_that("frame_data() errs appropriately on bad calls", {
 
   # frame_data() must be passed colnames
