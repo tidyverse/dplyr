@@ -50,6 +50,12 @@ test_that("frame_data() constructs 'data_frame' as expected", {
 
 test_that("frame_data() errs appropriately on bad calls", {
 
+  # invalid colname syntax
+  expect_error(frame_data(a~b), "single argument")
+
+  # invalid colname syntax
+  expect_error(frame_data(~a + b), "symbol or string")
+
   # frame_data() must be passed colnames
   expect_error(frame_data(
     "a", "b",
