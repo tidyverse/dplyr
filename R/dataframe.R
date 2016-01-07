@@ -159,9 +159,6 @@ as_data_frame.data.frame <- function(x, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.list <- function(x, validate = TRUE, ...) {
-
-  x <- compact(x)
-
   if (length(x) == 0) {
     x <- list()
     class(x) <- c("tbl_df", "tbl", "data.frame")
