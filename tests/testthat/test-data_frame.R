@@ -19,9 +19,12 @@ test_that("can't make data_frame containing data.frame or array", {
   expect_error(data_frame(diag(5)), "must be a 1d atomic vector or list")
 })
 
-test_that("null isn't a valid column", {
-  expect_error(data_frame(a = NULL))
-  expect_error(as_data_frame(list(a = NULL)), "must be a 1d atomic vector or list")
+test_that("null columns are dropped", {
+  expect_identical(data_frame(a = NULL), data_frame())
+  just_b <- data_frame(a = NULL, b = character())
+  expect_is(just_b, "tbl_df")
+  expect_equal(dim(just_b), c(0L, 1L))
+  expect_identical(attr(just_b, "names"), "b")
 })
 
 test_that("length 1 vectors are recycled", {
@@ -81,6 +84,12 @@ test_that("Zero column list makes 0 x 0 tbl_df", {
   expect_equal(dim(zero), c(0L, 0L))
 })
 
+test_that("NULL makes 0 x 0 tbl_df", {
+  nnnull <- as_data_frame(NULL)
+  expect_is(nnnull, "tbl_df")
+  expect_equal(dim(nnnull), c(0L, 0L))
+})
+
 test_that("add_rownames keeps the tbl classes (#882)", {
   res <- add_rownames( mtcars, "Make&Model" )
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
@@ -88,10 +97,6 @@ test_that("add_rownames keeps the tbl classes (#882)", {
 
 test_that("as.tbl", {
   expect_identical(as.tbl(data.frame()), data_frame())
-})
-
-test_that("as_data_frame(NULL) is NULL, not error", {
-  expect_null(as_data_frame(NULL))
 })
 
 # Validation --------------------------------------------------------------

@@ -20,6 +20,9 @@ frame_data <- function(...) {
   frame_names <- character()
   i <- 1
   while (TRUE) {
+    if (i > length(dots)) {
+      return(data_frame())
+    }
 
     el <- dots[[i]]
     if (!is.call(el))
@@ -28,20 +31,23 @@ frame_data <- function(...) {
     if (!identical(el[[1]], as.name("~")))
       break
 
-    if (length(el) != 2)
+    if (length(el) != 2) {
       stop("expected a column name with a single argument; e.g. '~ name'")
+    }
 
     candidate <- el[[2]]
-    if (!(is.symbol(candidate) || is.character(candidate)))
+    if (!(is.symbol(candidate) || is.character(candidate))) {
         stop("expected a symbol or string denoting a column name")
+    }
 
     frame_names <- c(frame_names, as.character(el[[2]]))
 
     i <- i + 1
   }
 
-  if (!length(frame_names))
+  if (!length(frame_names)) {
     stop("no column names detected in 'frame_data()' call")
+  }
 
   frame_rest <- dots[i:length(dots)]
   n_elements <- length(frame_rest)
@@ -63,7 +69,11 @@ frame_data <- function(...) {
   # Extract the columns from 'frame_rest'
   frame_columns <- lapply(seq_len(frame_ncol), function(i) {
     indices <- seq.default(from = i, to = length(frame_rest), by = frame_ncol)
-    unlist(frame_rest[indices])
+    col <- frame_rest[indices]
+    if (all(vapply(col, length, integer(1L)) == 1L)) {
+      col <- unlist(col)
+    }
+    col
   })
 
   # Create a tbl_df and return it

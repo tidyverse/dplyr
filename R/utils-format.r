@@ -48,15 +48,19 @@ trunc_mat <- function(x, n = NULL, width = NULL, n_extra = 100) {
   var_types <- vapply(df, type_sum, character(1))
   var_names <- names(df)
 
+  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
   if (ncol(df) == 0 || nrow(df) == 0) {
-    extra <- setNames(var_types, var_names)
-
-    return(structure(list(table = NULL, extra = extra), class = "trunc_mat"))
+    shrunk <- list(table = NULL, extra = setNames(var_types, var_names))
+  } else {
+    shrunk <- shrink_mat(df, width, n_extra, var_names, var_types, rows, n)
   }
 
+  return(structure(c(shrunk, list(width = width)), class = "trunc_mat"))
+}
+
+shrink_mat <- function(df, width, n_extra, var_names, var_types, rows, n) {
   rownames(df) <- NULL
 
-  width <- width %||% getOption("dplyr.width", NULL) %||% getOption("width")
   # Minimum width of each column is 5 "(int)", so we can make a quick first
   # pass
   max_cols <- floor(width / 5)
@@ -115,8 +119,7 @@ trunc_mat <- function(x, n = NULL, width = NULL, n_extra = 100) {
     extra <- c(extra[1:n_extra], setNames("...", more))
   }
 
-  structure(list(table = shrunk, extra = extra, width = width),
-            class = "trunc_mat")
+  list(table = shrunk, extra = extra)
 }
 
 #' @export

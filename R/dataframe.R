@@ -76,7 +76,6 @@ lst_ <- function(xs) {
     deparse2 <- function(x) paste(deparse(x$expr, 500L), collapse = "")
     defaults <- vapply(xs[missing_names], deparse2, character(1),
       USE.NAMES = FALSE)
-
     col_names[missing_names] <- defaults
   }
 
@@ -85,7 +84,10 @@ lst_ <- function(xs) {
   names(output) <- character(n)
 
   for (i in seq_len(n)) {
-    output[[i]] <- lazyeval::lazy_eval(xs[[i]], output)
+    res <- lazyeval::lazy_eval(xs[[i]], output)
+    if (!is.null(res)) {
+      output[[i]] <-  res
+    }
     names(output)[i] <- col_names[[i]]
   }
 
@@ -157,6 +159,9 @@ as_data_frame.data.frame <- function(x, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.list <- function(x, validate = TRUE, ...) {
+
+  x <- compact(x)
+
   if (length(x) == 0) {
     x <- list()
     class(x) <- c("tbl_df", "tbl", "data.frame")
@@ -189,7 +194,7 @@ as_data_frame.matrix <- function(x, ...) {
 #' @export
 #' @rdname as_data_frame
 as_data_frame.NULL <- function(x, ...) {
-  NULL
+  as_data_frame(list())
 }
 
 #' Convert row names to an explicit variable.
