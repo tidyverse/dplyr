@@ -31,20 +31,23 @@ frame_data <- function(...) {
     if (!identical(el[[1]], as.name("~")))
       break
 
-    if (length(el) != 2)
+    if (length(el) != 2) {
       stop("expected a column name with a single argument; e.g. '~ name'")
+    }
 
     candidate <- el[[2]]
-    if (!(is.symbol(candidate) || is.character(candidate)))
+    if (!(is.symbol(candidate) || is.character(candidate))) {
         stop("expected a symbol or string denoting a column name")
+    }
 
     frame_names <- c(frame_names, as.character(el[[2]]))
 
     i <- i + 1
   }
 
-  if (!length(frame_names))
+  if (!length(frame_names)) {
     stop("no column names detected in 'frame_data()' call")
+  }
 
   frame_rest <- dots[i:length(dots)]
   n_elements <- length(frame_rest)
