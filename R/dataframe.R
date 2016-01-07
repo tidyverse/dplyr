@@ -76,7 +76,6 @@ lst_ <- function(xs) {
     deparse2 <- function(x) paste(deparse(x$expr, 500L), collapse = "")
     defaults <- vapply(xs[missing_names], deparse2, character(1),
       USE.NAMES = FALSE)
-    defaults <- ifelse(defaults == "NULL", "", defaults)
     col_names[missing_names] <- defaults
   }
 
