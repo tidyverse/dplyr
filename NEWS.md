@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `bind_rows` handles 0 length named list (#1515). 
+* `combine` handles `NULL` (#1596). 
+
+* `bind_rows` handles 0 length named list (#1515).
 
 * `group_by` supports `column` (#1012).
 
