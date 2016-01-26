@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* grouped `mutate` correctly fails on incompatible columns (#1641). 
+* `lead` and `lag` more careful about more complicate expressions (#1588). 
+
+* grouped `mutate` correctly fails on incompatible columns (#1641).
 
 * `combine` handles `NULL` (#1596).
 

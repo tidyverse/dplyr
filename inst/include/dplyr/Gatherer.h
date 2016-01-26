@@ -188,6 +188,7 @@ namespace dplyr {
         typename Data::group_iterator git = gdf.group_begin() ;
         SlicingIndex indices = *git ;
         RObject first( proxy.get(indices) ) ;
+
         if( Rf_inherits(first, "POSIXlt" ) ){
             stop("`mutate` does not support `POSIXlt` results");
         }

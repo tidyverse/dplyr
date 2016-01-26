@@ -558,3 +558,9 @@ test_that("grouped mutate errors on incompatible column type (#1641)", {
   df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
   expect_error( mutate(df, foo = mean), "unsupported type for column" )
 })
+
+test_that("lead/lag works on more complex expressions (#1588)", {
+  df <- data_frame(x = rep(1:5,2), g = rep(1:2, each = 5) ) %>% group_by(g)
+  res <- df %>% mutate( y = lead(x > 3) )
+  expect_equal(res$y, rep(lead(1:5 > 3), 2) )
+})

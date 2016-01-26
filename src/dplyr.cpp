@@ -335,12 +335,11 @@ template < template<int> class Templ>
 Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     LeadLag args(call) ;
     if( !args.ok ) return 0 ;
-
     RObject& data = args.data ;
-    bool is_summary = subsets.is_summary(data) ;
-    int n = args.n ;
 
     if( TYPEOF(data) == SYMSXP && subsets.count(data) ){
+        bool is_summary = subsets.is_summary(data) ;
+        int n = args.n ;
         data = subsets.get_variable(data) ;
 
         switch( TYPEOF(data) ){
@@ -1907,6 +1906,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         SEXP call = call_ ;
         SEXP name = lazy.name() ;
         proxy.set_env( env ) ;
+
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
                 SEXP variable = variables[i] = proxy.get_variable( PRINTNAME(call) ) ;
