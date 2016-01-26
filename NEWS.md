@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `combine` handles `NULL` (#1596). 
+* grouped `mutate` correctly fails on incompatible columns (#1641). 
+
+* `combine` handles `NULL` (#1596).
 
 * `bind_rows` handles 0 length named list (#1515).
 

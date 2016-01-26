@@ -1906,7 +1906,6 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
         Shield<SEXP> call_( lazy.expr() );
         SEXP call = call_ ;
         SEXP name = lazy.name() ;
-
         proxy.set_env( env ) ;
         if( TYPEOF(call) == SYMSXP ){
             if(proxy.has_variable(call)){
@@ -1915,6 +1914,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
                 accumulator.set( name, variable) ;
             } else {
                 SEXP v = env.find(CHAR(PRINTNAME(call))) ;
+                check_supported_type(v, name) ;
                 if( Rf_isNull(v) ){
                     stop( "unknown variable: %s", CHAR(PRINTNAME(call)) );
                 } else if( Rf_length(v) == 1){
