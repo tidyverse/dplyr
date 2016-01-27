@@ -368,4 +368,9 @@ test_that("bind_rows handles promotion to strings (#1538)", {
   df23 <- bind_rows(df2,df3)
   df24 <- bind_rows(df2,df4)
 
+  expect_equal(df13$b, c("1", "2", "A", "B") )
+  expect_equal(df14$b, c("1", "2", "C", "D") )
+  expect_equal(df23$b, c("1", "2", "A", "B") )
+  expect_equal(df24$b, c("1", "2", "C", "D") )
+
 })
