@@ -356,3 +356,16 @@ test_that("bind_rows handles 0-length named list (#1515)", {
     expect_is(res, "data.frame")
     expect_equal( ncol(res), 0L)
 })
+
+test_that("bind_rows handles promotion to strings (#1538)", {
+  df1 <- data_frame(b=c(1,2))
+  df2 <- data_frame(b=c(1L,2L))
+  df3 <- data_frame(b=factor(c("A","B")))
+  df4 <- data_frame(b=c("C","D"))
+
+  df13 <- bind_rows(df1,df3)
+  df14 <- bind_rows(df1,df4)
+  df23 <- bind_rows(df2,df3)
+  df24 <- bind_rows(df2,df4)
+
+})

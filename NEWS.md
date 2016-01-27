@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `summarise` handles min/max of already summarised variable (#1622). 
+* `bind_rows` handles promotion to strings (#1538). 
+
+* `summarise` handles min/max of already summarised variable (#1622).
 
 * `lead` and `lag` more careful about more complicate expressions (#1588).
 

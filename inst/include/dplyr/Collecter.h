@@ -81,7 +81,7 @@ namespace dplyr {
         }
 
         bool can_promote(SEXP x) const {
-            return false ;
+            return Rf_inherits(x, "factor") || TYPEOF(x) == STRSXP ;
         }
 
         std::string describe() const {
@@ -103,6 +103,9 @@ namespace dplyr {
                 collect_strings(index, v) ;
             } else if( Rf_inherits( v, "factor" ) ){
                 collect_factor(index, v) ;
+            } else {
+                CharacterVector vec(v) ;
+                collect_strings(index, vec) ;
             }
         }
 
@@ -172,7 +175,7 @@ namespace dplyr {
         }
 
         bool can_promote(SEXP x) const {
-            return TYPEOF(x) == REALSXP ;
+            return TYPEOF(x) == REALSXP || TYPEOF(x) == STRSXP || Rf_inherits(x, "factor") ;
         }
 
         std::string describe() const {
@@ -397,7 +400,7 @@ namespace dplyr {
             if( Rf_inherits( model, "Date" ) )
                 return new TypedCollecter<INTSXP>(n, get_date_classes() ) ;
             if( Rf_inherits(model, "factor") )
-                return new FactorCollecter(n, model ) ;
+                return new Collecter_Impl<STRSXP>(n) ;
             return new Collecter_Impl<INTSXP>(n) ;
         case REALSXP:
             if( Rf_inherits( model, "POSIXct" ) )
