@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `lead` and `lag` more careful about more complicate expressions (#1588). 
+* `summarise` handles min/max of already summarised variable (#1622). 
+
+* `lead` and `lag` more careful about more complicate expressions (#1588).
 
 * grouped `mutate` correctly fails on incompatible columns (#1641).
 

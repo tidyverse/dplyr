@@ -575,3 +575,13 @@ test_that("data.frame columns are supported in summarise (#1425)" , {
   res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))
   expect_true(all(res$nr==3))
 })
+
+test_that("summarise handles min/max of already summarised variable (#1622)", {
+  df <- data.frame(
+    FIRST_DAY=rep(seq(as.POSIXct("2015-12-01", tz="UTC"), length.out=2, by="days"),2),
+    event=c("a","a","b","b")
+  )
+
+  df_summary <- df %>% group_by(event) %>% summarise(FIRST_DAY=min(FIRST_DAY), LAST_DAY=max(FIRST_DAY))
+  expect_equal(df_summary$FIRST_DAY, df_summary$LAST_DAY)
+})
