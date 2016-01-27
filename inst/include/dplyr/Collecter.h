@@ -77,7 +77,7 @@ namespace dplyr {
 
         inline bool compatible(SEXP x) {
             int RTYPE = TYPEOF(x) ;
-            return RTYPE == REALSXP || RTYPE == INTSXP || RTYPE == LGLSXP ;
+            return RTYPE == REALSXP || ( RTYPE == INTSXP && !Rf_inherits(x, "factor") ) || RTYPE == LGLSXP ;
         }
 
         bool can_promote(SEXP x) const {

@@ -78,6 +78,7 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
                 columns.push_back( coll );
                 names.push_back(name) ;
             }
+
             if( coll->compatible(source) ){
                 // if the current source is compatible, collect
                 coll->collect( SlicingIndex( k, nrows), source ) ;
