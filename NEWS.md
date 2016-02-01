@@ -1,6 +1,6 @@
 # dplyr 0.4.3.9000
 
-* `mutate` handles adding a factor that is all `NA` (#1645)
+* `mutate` handles adding a factor that is all `NA` (#1645).
 
 * `bind_rows` handles promotion to strings (#1538).
 
