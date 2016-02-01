@@ -18,7 +18,8 @@ namespace dplyr {
         GathererImpl( RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_ ) :
             gdf(gdf_), proxy(proxy_), data(gdf.nrows(), Vector<RTYPE>::get_na() ), first_non_na(first_non_na_)
         {
-            grab( first, indices ) ;
+            if( first_non_na < gdf.ngroups() )
+              grab( first, indices ) ;
             copy_most_attributes( data, first ) ;
         }
 
@@ -89,9 +90,10 @@ namespace dplyr {
         typedef IntegerVector Factor;
 
         FactorGatherer( RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_ ) :
-          levels(), data(gdf_.nrows()), first_non_na(first_non_na_), proxy(proxy_), gdf(gdf_)
+          levels(), data(gdf_.nrows(), NA_INTEGER), first_non_na(first_non_na_), proxy(proxy_), gdf(gdf_)
         {
-          grab( (SEXP)first, indices ) ;
+          if( first_non_na <  gdf.ngroups() )
+            grab( (SEXP)first, indices ) ;
           copy_most_attributes( data, first ) ;
         }
 
@@ -137,13 +139,24 @@ namespace dplyr {
 
             // grab data
             int n = indices.size() ;
-            for( int i=0; i<n; i++){
-                if( f[i] == NA_INTEGER ){
-                  data[ indices[i] ] = NA_INTEGER ;
-                } else {
-                  data[ indices[i] ] = matches[ f[i] - 1 ] ;
-                }
 
+            int nf = f.size() ;
+            if( n == nf ){
+              for( int i=0; i<n; i++){
+                  if( f[i] != NA_INTEGER ){
+                    data[ indices[i] ] = matches[ f[i] - 1 ] ;
+                  }
+              }
+            } else if( nf == 1){
+              int value = NA_INTEGER  ;
+              if( f[0] != NA_INTEGER ){
+                value = matches[ f[0] - 1] ;
+                for( int i=0; i<n; i++){
+                  data[ indices[i] ] = value ;
+                }
+              }
+            } else {
+              stop( "incompatible size" ) ;
             }
         }
 

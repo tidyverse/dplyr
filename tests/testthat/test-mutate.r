@@ -564,3 +564,11 @@ test_that("lead/lag works on more complex expressions (#1588)", {
   res <- df %>% mutate( y = lead(x > 3) )
   expect_equal(res$y, rep(lead(1:5 > 3), 2) )
 })
+
+test_that("Adding a Column of NA to a Grouped Table gives expected results (#1645)", {
+  dataset <- data_frame(A = 1:10, B = 10:1, group = factor(sample(LETTERS[25:26], 10, TRUE)))
+  res <- dataset %>% group_by(group) %>% mutate(prediction = factor(NA))
+  expect_true( all(is.na(res$prediction) ) )
+  expect_is( res$prediction, "factor")
+  expect_equal( levels(res$prediction), character() )
+})
