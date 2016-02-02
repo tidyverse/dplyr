@@ -25,9 +25,11 @@ namespace dplyr {
 
         SEXP collect(){
             int ngroups = gdf.ngroups() ;
+            if( first_non_na == ngroups ) return data ;
             typename Data::group_iterator git = gdf.group_begin() ;
             int i = 0 ;
             for(; i<first_non_na; i++) ++git ;
+            ++git; i++ ;
             for(; i<ngroups; i++, ++git){
                 SlicingIndex indices = *git ;
                 Shield<SEXP> subset( proxy.get( indices ) ) ;
@@ -38,16 +40,16 @@ namespace dplyr {
 
     private:
 
-        inline void grab(SEXP data, const SlicingIndex& indices){
-            int n = Rf_length(data) ;
-            if( is<LogicalVector>(data) && all(is_na(LogicalVector(data))).is_true() ){
+        inline void grab(SEXP subset, const SlicingIndex& indices){
+            int n = Rf_length(subset) ;
+            if( is<LogicalVector>(subset) && all(is_na(LogicalVector(subset))).is_true() ){
               grab_rep( Vector<RTYPE>::get_na(), indices ) ;
             } else {
-              check_type(data) ;
+              check_type(subset) ;
               if(n == indices.size() ){
-                  grab_along( data, indices ) ;
+                  grab_along( subset, indices ) ;
               } else if( n == 1) {
-                  grab_rep( Rcpp::internal::r_vector_start<RTYPE>(data)[0], indices ) ;
+                  grab_rep( Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices ) ;
               } else {
                   stop ( "incompatible size (%d), expecting %d (the group size) or 1",
                           n, indices.size()) ;
@@ -79,6 +81,87 @@ namespace dplyr {
         const Data& gdf ;
         Proxy& proxy ;
         Vector<RTYPE> data ;
+        int first_non_na ;
+
+    } ;
+
+    template <typename Data, typename Subsets>
+    class ListGatherer : public Gatherer {
+    public:
+        typedef GroupedCallProxy<Data,Subsets> Proxy ;
+
+        ListGatherer( List first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_ ) :
+            gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_)
+        {
+            if( first_non_na < gdf.ngroups() ){
+                perhaps_duplicate(first) ;
+                grab( first, indices ) ;
+            }
+
+            copy_most_attributes( data, first ) ;
+        }
+
+        SEXP collect(){
+            int ngroups = gdf.ngroups() ;
+            if( first_non_na == ngroups ) return data ;
+            typename Data::group_iterator git = gdf.group_begin() ;
+            int i = 0 ;
+            for(; i<first_non_na; i++) ++git ;
+            ++git; i++ ;
+            for(; i<ngroups; i++, ++git){
+                SlicingIndex indices = *git ;
+                List subset( proxy.get(indices) ) ;
+                perhaps_duplicate(subset) ;
+                grab(subset, indices);
+            }
+            return data ;
+        }
+
+    private:
+
+        inline void perhaps_duplicate( List& x ){
+          int n = x.size() ;
+          for( int i=0; i<n; i++){
+              SEXP xi = x[i] ;
+              if( IS_DPLYR_SHRINKABLE_VECTOR(xi) ) {
+                x[i] = Rf_duplicate(xi) ;
+              } else if( TYPEOF(xi) == VECSXP ){
+                List lxi(xi) ;
+                perhaps_duplicate( lxi ) ;
+              }
+          }
+        }
+
+        inline void grab(const List& subset, const SlicingIndex& indices){
+            int n = subset.size() ;
+
+            if(n == indices.size() ){
+                grab_along( subset, indices ) ;
+            } else if( n == 1) {
+                grab_rep( subset[0], indices ) ;
+            } else {
+                stop ( "incompatible size (%d), expecting %d (the group size) or 1",
+                        n, indices.size()) ;
+            }
+        }
+
+        void grab_along( const List& subset, const SlicingIndex& indices ){
+            int n = indices.size();
+            for( int j=0; j<n; j++){
+                data[ indices[j] ] = subset[j] ;
+            }
+        }
+
+        void grab_rep( SEXP value, const SlicingIndex& indices ){
+            int n = indices.size();
+            for( int j=0; j<n; j++){
+                data[ indices[j] ] = value ;
+            }
+        }
+
+        const Data& gdf ;
+        Proxy& proxy ;
+        List data ;
         int first_non_na ;
 
     } ;
@@ -224,7 +307,7 @@ namespace dplyr {
             case REALSXP: return new GathererImpl<REALSXP,Data,Subsets> ( first, indices, proxy, gdf, i ) ;
             case LGLSXP:  return new GathererImpl<LGLSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
             case STRSXP:  return new GathererImpl<STRSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
-            case VECSXP:  return new GathererImpl<VECSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
+            case VECSXP:  return new ListGatherer<Data,Subsets>  ( List(first), indices, proxy, gdf, i ) ;
             case CPLXSXP: return new GathererImpl<CPLXSXP,Data,Subsets> ( first, indices, proxy, gdf, i ) ;
             default: break ;
         }

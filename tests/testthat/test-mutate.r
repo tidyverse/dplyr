@@ -572,3 +572,18 @@ test_that("Adding a Column of NA to a Grouped Table gives expected results (#164
   expect_is( res$prediction, "factor")
   expect_equal( levels(res$prediction), character() )
 })
+
+test_that("Deep copies are performed when needed (#1463)", {
+
+  res <- data.frame(prob = c(F,T)) %>%
+    rowwise %>%
+    mutate(model = list(x=prob) )
+  expect_equal(unlist(res$model), c(FALSE,TRUE))
+
+  res <- data.frame(x=1:4, g=c(1,1,1,2)) %>%
+    group_by(g) %>%
+    mutate(model = list(y=x) )
+  expect_equal(res$model[[1]], 1:3)
+  expect_equal(res$model[[4]], 4)
+
+})
