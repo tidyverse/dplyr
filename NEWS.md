@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Added `as.tbl.matrix` (#1658). 
+
 * hybrid `n_distinct` falls back to R evaluation when needed (#1657).
 
 * `tbl_df` automatically generates column names (#1606).

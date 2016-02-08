@@ -41,6 +41,9 @@ as.tbl <- function(x, ...) UseMethod("as.tbl")
 #' @export
 as.tbl.tbl <- function(x, ...) x
 
+#' @export
+as.tbl.matrix <- function(x, ...) as_data_frame(x)
+
 #' List variables provided by a tbl.
 #'
 #' @export
