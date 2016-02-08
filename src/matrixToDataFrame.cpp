@@ -1,4 +1,5 @@
-#include <Rcpp.h>
+#include <dplyr.h>
+
 using namespace Rcpp;
 
 template <int RTYPE>
@@ -39,7 +40,10 @@ List copy_columns( const Matrix<RTYPE>& m ){
   List out(ncol) ;
   for(int j=0; j<ncol; j++) {
     typename Matrix<RTYPE>::ConstColumn column( m.column(j) ) ;
-    out[j] = Vector<RTYPE>( column.begin(), column.end() )  ;
+    Vector<RTYPE> vec( column.begin(), column.end() )  ;
+    copy_most_attributes( vec, m ) ;
+    Rf_setAttrib( vec, R_DimSymbol, R_NilValue ) ;
+    out[j] = vec ;
   }
 
   out.attr("names") = names ;
