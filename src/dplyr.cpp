@@ -146,15 +146,17 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int narg
     bool na_rm = false ;
 
     for( SEXP p = CDR(call) ; !Rf_isNull(p) ; p = CDR(p) ){
+      SEXP x = CAR(p) ;
       if( !Rf_isNull(TAG(p)) && TAG(p) == Rf_install("na.rm") ){
-        SEXP narm = CAR(p) ;
-        if( TYPEOF(narm) == LGLSXP && Rf_length(narm) == 1){
-          na_rm = LOGICAL(narm)[0] ;
+        if( TYPEOF(x) == LGLSXP && Rf_length(x) == 1){
+          na_rm = LOGICAL(x)[0] ;
         } else {
           stop("incompatible value for `na.rm` parameter") ;
         }
+      } else if( TYPEOF(x) == SYMSXP ) {
+        visitors.push_back( subsets.get_variable( x ) )  ;
       } else {
-        visitors.push_back( subsets.get_variable( CAR(p) ) )  ;
+        return 0 ;
       }
     }
     if( na_rm ){

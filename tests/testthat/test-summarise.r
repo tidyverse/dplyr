@@ -586,17 +586,17 @@ test_that("summarise handles min/max of already summarised variable (#1622)", {
   expect_equal(df_summary$FIRST_DAY, df_summary$LAST_DAY)
 })
 
-test_that("", {
-  df <- data.frame(a=1, b=as.Date(NA)) %>% summarize(c=min(b))
-  expect_equal( class(df$c), "Date")
-
+test_that("group_by keeps classes (#1631)", {
   df <- data.frame(a=1, b=as.Date(NA)) %>% group_by(a) %>% summarize(c=min(b))
   expect_equal( class(df$c), "Date")
-
-  df <- data.frame(a=1, b=as.POSIXct(NA)) %>% summarize(c=min(b))
-  expect_equal( class(df$c), c( "POSIXct", "POSIXt") )
 
   df <- data.frame(a=1, b=as.POSIXct(NA)) %>% group_by(a) %>% summarize(c=min(b))
   expect_equal( class(df$c), c( "POSIXct", "POSIXt") )
 
+})
+
+test_that("hybrid n_distinct falls back to R evaluation when needed (#1657)", {
+  dat3 <- data.frame(id = c(2,6,7,10,10))
+  res <- dat3 %>% summarise(n_unique = n_distinct(id[id>6]))
+  expect_equal(res$n_unique, 2)
 })

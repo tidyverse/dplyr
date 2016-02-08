@@ -1,6 +1,8 @@
 # dplyr 0.4.3.9000
 
-* `tbl_df` automatically generates column names (#1606). 
+* hybrid `n_distinct` falls back to R evaluation when needed (#1657).
+
+* `tbl_df` automatically generates column names (#1606).
 
 * `mutate` failed to deep copy data that ends up in a list column (#1643).  
 
