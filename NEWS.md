@@ -1,6 +1,7 @@
 # dplyr 0.4.3.9000
 
-* hybrid `n_distinct` falls back to R evaluation when needed (#1657).
+* hybrid `n_distinct` falls back to R evaluation when needed (#1657), this
+  revert the decision made in (#567)
 
 * `tbl_df` automatically generates column names (#1606).
 

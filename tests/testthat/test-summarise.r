@@ -281,11 +281,6 @@ test_that( "summarise hybrid functions can use summarized variables", {
   expect_identical( res$var, rep(NA_real_, 2) )
 })
 
-test_that( "n_distinct refuse to treat anything else than single variable name (#567)", {
-  expect_error(summarise(mtcars, n = n_distinct("mpg")))
-  expect_error(summarise(mtcars, n = n_distinct(mpg*2)))
-})
-
 test_that( "LazySubset is not confused about input data size (#452)", {
   res <- data.frame(a = c(10, 100)) %>% summarise(b = sum(a), c = sum(a) * 2)
   expect_equal(res$b, 110)
