@@ -585,3 +585,18 @@ test_that("summarise handles min/max of already summarised variable (#1622)", {
   df_summary <- df %>% group_by(event) %>% summarise(FIRST_DAY=min(FIRST_DAY), LAST_DAY=max(FIRST_DAY))
   expect_equal(df_summary$FIRST_DAY, df_summary$LAST_DAY)
 })
+
+test_that("", {
+  df <- data.frame(a=1, b=as.Date(NA)) %>% summarize(c=min(b))
+  expect_equal( class(df$c), "Date")
+
+  df <- data.frame(a=1, b=as.Date(NA)) %>% group_by(a) %>% summarize(c=min(b))
+  expect_equal( class(df$c), "Date")
+
+  df <- data.frame(a=1, b=as.POSIXct(NA)) %>% summarize(c=min(b))
+  expect_equal( class(df$c), c( "POSIXct", "POSIXt") )
+
+  df <- data.frame(a=1, b=as.POSIXct(NA)) %>% group_by(a) %>% summarize(c=min(b))
+  expect_equal( class(df$c), c( "POSIXct", "POSIXt") )
+
+})
