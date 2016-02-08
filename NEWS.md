@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `tbl_df` automatically generates column names (#1606). 
+
 * `mutate` failed to deep copy data that ends up in a list column (#1643).  
 
 * `mutate` handles adding a factor that is all `NA` (#1645).
