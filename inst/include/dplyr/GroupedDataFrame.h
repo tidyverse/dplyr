@@ -34,6 +34,8 @@ namespace Rcpp {
 
         GroupedDataFrameIndexIterator& operator++() ;
 
+        GroupedDataFrameIndexIterator& operator+(int) ;
+
         SlicingIndex operator*() const  ;
 
         int i ;
@@ -138,6 +140,11 @@ namespace Rcpp {
 
     inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator++(){
         i++;
+        return *this ;
+    }
+
+    inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator+(int n){
+        i+=n;
         return *this ;
     }
 

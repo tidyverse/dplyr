@@ -13,6 +13,11 @@ namespace Rcpp {
             ++i ;
             return *this ;
         }
+
+        RowwiseDataFrameIndexIterator& operator+(int n) {
+            i+=n ;
+            return *this ;
+        }
         
         SlicingIndex operator*() const {
             return SlicingIndex( IntegerVector::create(i), i) ;    

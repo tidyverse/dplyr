@@ -25,12 +25,12 @@ namespace dplyr {
 
         SEXP collect(){
             int ngroups = gdf.ngroups() ;
+
             if( first_non_na == ngroups ) return data ;
-            typename Data::group_iterator git = gdf.group_begin() ;
-            int i = 0 ;
-            for(; i<first_non_na; i++) ++git ;
-            ++git; i++ ;
-            for(; i<ngroups; i++, ++git){
+
+            typename Data::group_iterator git = gdf.group_begin() + first_non_na ;
+
+            for(int i = first_non_na; i < ngroups; ++i, ++git){
                 SlicingIndex indices = *git ;
                 Shield<SEXP> subset( proxy.get( indices ) ) ;
                 grab(subset, indices);
@@ -182,10 +182,8 @@ namespace dplyr {
 
         inline SEXP collect(){
           int ngroups = gdf.ngroups() ;
-          typename Data::group_iterator git = gdf.group_begin() ;
-          int i = 0 ;
-          for(; i<first_non_na; i++) ++git ;
-          for(; i<ngroups; i++, ++git){
+          typename Data::group_iterator git = gdf.group_begin() + first_non_na;
+          for(int i = first_non_na; i<ngroups; i++, ++git){
               SlicingIndex indices = *git ;
               Factor subset( proxy.get( indices ) ) ;
               grab(subset, indices);
