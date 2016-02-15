@@ -9,7 +9,9 @@
 #' @template db-info
 #' @param path Path to SQLite database
 #' @param create if \code{FALSE}, \code{path} must already exist. If
-#'   \code{TRUE}, will create a new SQlite3 database at \code{path}.
+#'   \code{TRUE}, will create a new SQlite3 database at \code{path} if
+#'   \code{path} does not exist and connect to the existing database if
+#'   \code{path} does exist.
 #' @param src a sqlite src created with \code{src_sqlite}.
 #' @param from Either a string giving the name of table in database, or
 #'   \code{\link{sql}} described a derived table or compound join.
