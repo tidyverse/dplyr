@@ -144,7 +144,7 @@ print.tbl_cube <- function(x, ...) {
 
 #' @export
 as.data.frame.tbl_cube <- function(x, ...) {
-  dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE)
+  dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE, ...)
   mets <- lapply(x$mets, as.vector)
 
   all <- c(dims, mets)
