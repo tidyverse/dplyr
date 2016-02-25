@@ -43,11 +43,6 @@ as.tbl.data.frame <- function(x, ...) {
 #' @export
 tbl_vars.data.frame <- function(x) names(x)
 
-#' @export
-same_src.data.frame <- function(x, y) {
-  is.data.frame(y)
-}
-
 # Standard data frame methods --------------------------------------------------
 
 #' @export
