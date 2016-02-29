@@ -38,21 +38,21 @@ test_that("add_rownames keeps the tbl classes (#882)", {
 
 test_that("2d object isn't a valid column", {
   expect_error(
-    check_data_frame(list(x = mtcars)),
+    tibble:::check_data_frame(list(x = mtcars)),
     "Each variable must be a 1d atomic vector"
   )
 })
 
 test_that("POSIXlt isn't a valid column", {
   expect_error(
-    check_data_frame(list(x = as.POSIXlt(Sys.time()))),
+    tibble:::check_data_frame(list(x = as.POSIXlt(Sys.time()))),
     "Date/times must be stored as POSIXct"
   )
 })
 
 test_that("NULL isn't a valid column", {
   expect_error(
-    check_data_frame(list(a = NULL)),
+    tibble:::check_data_frame(list(a = NULL)),
     "Each variable must be a 1d atomic vector"
   )
 })
@@ -61,24 +61,24 @@ test_that("columns must be named (#1101)", {
   l <- list(1:10, 1:10)
 
   expect_error(
-    check_data_frame(l),
+    tibble:::check_data_frame(l),
     "Each variable must be named"
   )
 
   expect_error(
-    check_data_frame(setNames(l, c("x", ""))),
+    tibble:::check_data_frame(setNames(l, c("x", ""))),
     "Each variable must be named"
   )
 
   expect_error(
-    check_data_frame(setNames(l, c("x", NA))),
+    tibble:::check_data_frame(setNames(l, c("x", NA))),
     "Each variable must be named"
   )
 })
 
 test_that("names must be unique (#820)", {
   expect_error(
-    check_data_frame(list(x = 1, x = 2)),
+    tibble:::check_data_frame(list(x = 1, x = 2)),
     "Each variable must have a unique name"
   )
 })
