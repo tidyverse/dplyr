@@ -154,6 +154,12 @@ as.data.frame.tbl_cube <- function(x, ...) {
   all
 }
 
+#' @export
+#' @rdname as_data_frame
+as_data_frame.tbl_cube <- function(x, ...) {
+  as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
+}
+
 # Coercion methods -------------------------------------------------------------
 
 #' Coerce an existing data structure into a \code{tbl_cube}
