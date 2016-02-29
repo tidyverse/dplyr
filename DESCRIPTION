@@ -38,9 +38,10 @@ Suggests:
     dtplyr
 Remotes: hadley/testthat
 VignetteBuilder: knitr
-LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1)
+Remotes: krlmlr/tibble
+LazyData: yes
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
