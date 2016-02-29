@@ -126,7 +126,7 @@ src_memdb <- function() {
   cache_computation("src_memdb", src_sqlite(":memory:", TRUE))
 }
 
-#' @inheritParams data_frame
+#' @inheritParams tibble::data_frame
 #' @param .name Name of table in database: defaults to a random name that's
 #'   unlikely to conflict with exist
 #' @export
