@@ -36,12 +36,6 @@ test_that("length 1 vectors are recycled", {
   )
 })
 
-test_that("missing names are imputed from call", {
-  x <- 1:10
-  df <- data_frame(x, y = x)
-  expect_equal(tbl_vars(df), c("x", "y"))
-})
-
 test_that("empty input makes 0 x 0 tbl_df", {
   zero <- data_frame()
   expect_is(zero, "tbl_df")
@@ -51,11 +45,6 @@ test_that("empty input makes 0 x 0 tbl_df", {
 
 test_that("SE version", {
   expect_identical(data_frame_(list(a = ~1:10)), data_frame(a = 1:10))
-})
-
-test_that("is.tbl", {
-  expect_true(is.tbl(as_data_frame(iris)))
-  expect_false(is.tbl(iris))
 })
 
 # as_data_frame -----------------------------------------------------------
@@ -93,10 +82,6 @@ test_that("NULL makes 0 x 0 tbl_df", {
 test_that("add_rownames keeps the tbl classes (#882)", {
   res <- add_rownames( mtcars, "Make&Model" )
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
-})
-
-test_that("as.tbl", {
-  expect_identical(as.tbl(data.frame()), data_frame())
 })
 
 # Validation --------------------------------------------------------------
