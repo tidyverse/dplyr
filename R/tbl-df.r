@@ -35,14 +35,6 @@ tbl_df <- function(data) {
   as_data_frame(data)
 }
 
-#' @export
-as.tbl.data.frame <- function(x, ...) {
-  tbl_df(x)
-}
-
-#' @export
-tbl_vars.data.frame <- function(x) names(x)
-
 # Standard data frame methods --------------------------------------------------
 
 #' @export
