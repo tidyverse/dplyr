@@ -15,6 +15,8 @@
   variables by default, and allows specification of dimension and/or
   measure variables (#1568, @krlmlr).
 
+* Avoid unnecessary execution of SQL query for determining column names (#1548, @krlmlr).
+
 * `bind_rows` handles 0 length named list (#1515). 
 
 * hybrid `n_distinct` falls back to R evaluation when needed (#1657), this
