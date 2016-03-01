@@ -1,3 +1,10 @@
+Version 0.1-5 (2016-02-29)
+===
+
+- Functions related to `tbl` and `src` stay in `dplyr` (#26).
+- `data_frame(NULL)` raises error "must be a 1d atomic vector or list".
+
+
 Version 0.1-4 (2016-01-07)
 ===
 
