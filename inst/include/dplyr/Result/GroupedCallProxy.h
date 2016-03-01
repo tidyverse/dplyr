@@ -39,11 +39,11 @@ namespace dplyr {
                     HybridCall hybrid_eval( call, indices, subsets, env ) ;
                     return hybrid_eval.eval() ;
                 }
-
                 int n = proxies.size() ;
                 for( int i=0; i<n; i++){
                     proxies[i].set( subsets.get(proxies[i].symbol, indices ) ) ;
                 }
+
                 return call.eval(env) ;
             } else if( TYPEOF(call) == SYMSXP ) {
                 if(subsets.count(call)){

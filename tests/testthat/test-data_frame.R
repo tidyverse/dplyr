@@ -82,3 +82,17 @@ test_that("names must be unique (#820)", {
     "Each variable must have a unique name"
   )
 })
+
+test_that("data frame column names are automatically generated (#1606)", {
+  m <- matrix( 1:6, nr = 3)
+  df <- tbl_df(m)
+  expect_equal( names(df), c("V1", "V2") )
+
+  row.names(m) <- 1:3
+  df <- tbl_df(m)
+  expect_equal( names(df), c("V1", "V2") )
+
+  colnames(m) <- c("a", "b")
+  df <- tbl_df(m)
+  expect_equal( names(df), c("a", "b") )
+})

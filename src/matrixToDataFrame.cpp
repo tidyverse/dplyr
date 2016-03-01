@@ -1,10 +1,9 @@
-#include <Rcpp.h>
+#include <dplyr.h>
+
 using namespace Rcpp;
 
-// [[Rcpp::export]]
-List matrixToDataFrame(RObject x) {
-  SEXPTYPE type = TYPEOF(x);
-
+template <int RTYPE>
+IntegerVector get_dim( const Matrix<RTYPE>& x){
   if (!x.hasAttribute("dim"))
     stop("`x` is not a matrix");
 
@@ -12,43 +11,64 @@ List matrixToDataFrame(RObject x) {
   if (dim.size() != 2)
     stop("`x` is not a matrix");
 
-  int nrow = dim[0], ncol = dim[1];
+  return dim ;
+}
 
-  List out = List(ncol);
-  for (int j = 0; j < ncol; ++j) {
-    out[j] = Rf_allocVector(type, nrow);
-    SEXP col = out[j];
-    Rf_copyMostAttrib(x, col);
-    int offset = j * nrow;
-    for (int i = 0; i < nrow; ++i) {
-      switch(type) {
-      case LGLSXP:
-      case INTSXP:
-        INTEGER(col)[i] = INTEGER(x)[offset + i];
-        break;
-      case REALSXP:
-        REAL(col)[i] = REAL(x)[offset + i];
-        break;
-      case CPLXSXP:
-        COMPLEX(col)[i] = COMPLEX(x)[offset + i];
-        break;
-      case STRSXP:
-        SET_STRING_ELT(col, i, STRING_ELT(x, offset + i));
-        break;
-      case VECSXP:
-        SET_VECTOR_ELT(col, i, VECTOR_ELT(x, offset + i));
-        break;
-      }
-    }
+template <int RTYPE>
+CharacterVector get_names( const Matrix<RTYPE>& x, int nc){
+  if( x.hasAttribute("dimnames") ){
+    List dimnames = x.attr("dimnames") ;
+    try {
+      CharacterVector res( dimnames[1] ) ;
+      return res ;
+    } catch(...){}
   }
 
-  if (x.hasAttribute("dimnames")) {
-    List dimnames = x.attr("dimnames");
-    out.attr("names") = dimnames[1];
+  CharacterVector names( nc ) ;
+  for( int i=0; i<nc; i++){
+    names[i] = tfm::format( "V%d", (i+1) ) ;
+  }
+  return names ;
+}
+
+template <int RTYPE>
+List copy_columns( const Matrix<RTYPE>& m ){
+  int ncol = m.ncol(), nrow = m.nrow() ;
+
+  CharacterVector names = get_names(m, ncol) ;
+
+  List out(ncol) ;
+  for(int j=0; j<ncol; j++) {
+    typename Matrix<RTYPE>::ConstColumn column( m.column(j) ) ;
+    Vector<RTYPE> vec( column.begin(), column.end() )  ;
+    copy_most_attributes( vec, m ) ;
+    Rf_setAttrib( vec, R_DimSymbol, R_NilValue ) ;
+    out[j] = vec ;
   }
 
+  out.attr("names") = names ;
   out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
   out.attr("row.names") = IntegerVector::create(NA_INTEGER, -nrow);
 
-  return out;
+  return out ;
+}
+
+
+// [[Rcpp::export]]
+List matrixToDataFrame(SEXP x) {
+  SEXPTYPE type = TYPEOF(x);
+
+  switch(type){
+    case LGLSXP:  return copy_columns<LGLSXP>(x) ;  break ;
+    case INTSXP:  return copy_columns<INTSXP>(x) ;  break ;
+    case REALSXP: return copy_columns<REALSXP>(x) ; break ;
+    case CPLXSXP: return copy_columns<CPLXSXP>(x) ; break ;
+    case STRSXP:  return copy_columns<STRSXP>(x) ;  break ;
+    case VECSXP:  return copy_columns<VECSXP>(x) ;  break ;
+    default:
+    break ;
+  }
+  stop( "data type not handled" ) ;
+  return List() ;
+
 }

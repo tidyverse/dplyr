@@ -9,6 +9,27 @@
 
 * `bind_rows` handles 0 length named list (#1515). 
 
+* hybrid `n_distinct` falls back to R evaluation when needed (#1657), this
+  revert the decision made in (#567)
+
+* `tbl_df` automatically generates column names (#1606).
+
+* `mutate` failed to deep copy data that ends up in a list column (#1643).  
+
+* `mutate` handles adding a factor that is all `NA` (#1645).
+
+* `bind_rows` handles promotion to strings (#1538).
+
+* `summarise` handles min/max of already summarised variable (#1622).
+
+* `lead` and `lag` more careful about more complicate expressions (#1588).
+
+* grouped `mutate` correctly fails on incompatible columns (#1641).
+
+* `combine` handles `NULL` (#1596).
+
+* `bind_rows` handles 0 length named list (#1515).
+
 * `group_by` supports `column` (#1012).
 
 * `mutate` on a grouped data does not drop grouping attributes (#1120).

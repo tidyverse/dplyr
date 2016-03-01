@@ -78,6 +78,7 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
                 columns.push_back( coll );
                 names.push_back(name) ;
             }
+
             if( coll->compatible(source) ){
                 // if the current source is compatible, collect
                 coll->collect( SlicingIndex( k, nrows), source ) ;
@@ -219,13 +220,22 @@ SEXP combine_all( List data ){
         n += Rf_length(data[i]) ;
     }
 
-    // collect
-    boost::scoped_ptr<Collecter> coll( collecter( data[0], n ) ) ;
-    coll->collect( SlicingIndex(0, Rf_length(data[0])), data[0] ) ;
-    int k = Rf_length(data[0]) ;
+    // go to the first non NULL
+    int i=0;
+    for( ; i<nv; i++){
+      if( !Rf_isNull(data[i]) ) break ;
+    }
+    if( i == nv) stop( "no data to combine, all elements are NULL" ) ;
 
-    for( int i=1; i<nv; i++){
+    // collect
+    boost::scoped_ptr<Collecter> coll( collecter( data[i], n ) ) ;
+    int k = Rf_length(data[i]) ;
+    coll->collect( SlicingIndex(0, k), data[i] ) ;
+    i++;
+
+    for(; i<nv; i++){
         SEXP current = data[i] ;
+        if( Rf_isNull(current)) continue ;
         int n_current= Rf_length(current) ;
         if( coll->compatible(current) ){
             coll->collect( SlicingIndex(k, n_current), current ) ;
@@ -241,6 +251,5 @@ SEXP combine_all( List data ){
         k += n_current ;
     }
 
-    RObject out = coll->get() ;
-    return out ;
+    return coll->get() ;
 }
