@@ -391,6 +391,9 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' @param temporary if \code{TRUE}, will create a temporary table that is
 #'   local to this connection and will be automatically deleted when the
 #'   connection expires
+#' @param unique_indexes a list of character vectors. Each element of the list
+#'   will create a new unique index over the specified column(s). Duplicate rows
+#'   will result in failure.
 #' @param indexes a list of character vectors. Each element of the list
 #'   will create a new index.
 #' @param analyze if \code{TRUE} (the default), will automatically ANALYZE the
@@ -414,7 +417,8 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' src_tbls(db2)
 #' }
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
-                            types = NULL, temporary = TRUE, indexes = NULL,
+                            types = NULL, temporary = TRUE,
+                            unique_indexes = NULL, indexes = NULL,
                             analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
@@ -432,7 +436,8 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
 
   db_create_table(con, name, types, temporary = temporary)
   db_insert_into(con, name, df)
-  db_create_indexes(con, name, indexes)
+  db_create_indexes(con, name, unique_indexes, unique = TRUE)
+  db_create_indexes(con, name, indexes, unique = FALSE)
   if (analyze) db_analyze(con, name)
 
   db_commit(con)
@@ -455,8 +460,20 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
 
 #' @export
 #' @rdname compute
-compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE, ...) {
+compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
+                            unique_indexes = list(), indexes = list(),
+                            ...) {
+  if (!is.list(indexes)) {
+    indexes <- as.list(indexes)
+  }
+  if (!is.list(unique_indexes)) {
+    unique_indexes <- as.list(unique_indexes)
+  }
+  assert_that(all(unlist(indexes) %in% x$select))
+  assert_that(all(unlist(unique_indexes) %in% x$select))
   db_save_query(x$src$con, x$query$sql, name = name, temporary = temporary)
+  db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
+  db_create_indexes(x$src$con, name, indexes, unique = FALSE)
   update(tbl(x$src, name), group_by = groups(x))
 }
 

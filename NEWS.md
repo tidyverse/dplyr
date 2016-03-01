@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* new parameters `indexes` and `unique_indexes` to `compute()` (#1499, @krlmlr).
+
 * Outdated benchmarking demos have been removed (#1487).
 
 * `frame_data()` supports list-cols.

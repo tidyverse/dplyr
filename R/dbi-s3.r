@@ -122,29 +122,32 @@ db_insert_into <- function(con, table, values, ...) {
   UseMethod("db_insert_into")
 }
 
-db_create_indexes <- function(con, table, indexes = NULL, ...) {
+db_create_indexes <- function(con, table, indexes = NULL, unique = FALSE, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
   for(index in indexes) {
-    db_create_index(con, table, index, ...)
+    db_create_index(con, table, index, unique = unique, ...)
   }
 }
 
 #' @name backend_db
 #' @export
-db_create_index <- function(con, table, columns, name = NULL, ...) {
+db_create_index <- function(con, table, columns, name = NULL, unique = FALSE,
+                            ...) {
   UseMethod("db_create_index")
 }
 
 #' @export
 db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
-                                           ...) {
+                                          unique = FALSE, ...) {
   assert_that(is.string(table), is.character(columns))
 
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)
-  sql <- build_sql("CREATE INDEX ", ident(name), " ON ", ident(table), " ", fields,
+  sql <- build_sql(
+    "CREATE ", if (unique) sql("UNIQUE "), "INDEX ", ident(name),
+    " ON ", ident(table), " ", fields,
     con = con)
 
   dbGetQuery(con, sql)
