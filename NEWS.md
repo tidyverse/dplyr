@@ -9,6 +9,12 @@
 
 *  `glimpse` now (invisibly) returns its argument (#1570).
 
+* `tbl_cube` are now constructed correctly from data frames, duplicate
+  dimension values are detected, missing dimension values are filled
+  with `NA`. The construction from data frames now guesses the measure
+  variables by default, and allows specification of dimension and/or
+  measure variables (#1568, @krlmlr).
+
 * `bind_rows` handles 0 length named list (#1515). 
 
 * hybrid `n_distinct` falls back to R evaluation when needed (#1657), this

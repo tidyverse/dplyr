@@ -175,9 +175,6 @@ as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = depa
   dims <- dimnames(x)
   dims <- lapply(dims, utils::type.convert, as.is = TRUE)
 
-  if (is.table(x)) {
-    class(x) <- setdiff(class(x), "table")
-  }
   mets <- setNames(list(undimname(x)), met_name)
 
   tbl_cube(dims, mets)
@@ -191,30 +188,62 @@ undimname <- function(x) {
 #' @export
 #' @rdname as.tbl_cube
 as.tbl_cube.table <- function(x, dim_names = names(dimnames(x)), met_name = "Freq", ...) {
-  as.tbl_cube.array(x, dim_names = dim_names, met_name = met_name)
+  as.tbl_cube.array(unclass(x), dim_names = dim_names, met_name = met_name)
 }
 
 #' @export
 #' @rdname as.tbl_cube
 as.tbl_cube.matrix <- as.tbl_cube.array
 
+guess_met <- function(df) {
+  if ("Freq" %in% names(df)) {
+    met <- "Freq"
+  } else {
+    is_num <- vapply(df, is.numeric, logical(1L))
+    met <- names(df)[is_num]
+  }
+
+  message("Using ", paste(met, collapse = ", "), " as measure column(s): use met_name to override.")
+  met
+}
+
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.data.frame <- function(x, dim_names, ...) {
-  if (!is.character(dim_names)) {
-    dim_names <- names(x)[dim_names]
+as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x), ...) {
+  if (is.null(dim_names)) {
+    dim_names <- setdiff(names(x), met_name)
+  } else {
+    met_name <- NULL
+    if (!is.character(dim_names)) {
+      dim_names <- names(x)[dim_names]
+    }
   }
-  met_names <- setdiff(names(x), dim_names)
+
+  if (is.null(met_name)) {
+    met_name <- setdiff(names(x), dim_names)
+  } else if (!is.character(met_name)) {
+    met_name <- names(x)[met_name]
+  }
+
+  if (is.null(dim_names) && is.null(met_name)) {
+    stop("At least one of dim_names and met_name must be non-NULL.", call. = FALSE)
+  }
 
   dims <- lapply(x[dim_names], unique)
   n <- vapply(dims, length, integer(1))
-  # need to check for uniqueness of combinations
 
-  grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE)
-  all <- merge(grid, x, all.x = TRUE, by = dim_names)
+  grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+  all <- left_join(grid, x, by = dim_names)
+  if (nrow(all) > nrow(grid)) {
+    dupe_row <- anyDuplicated(all[dim_names])
+    dupe <- unlist(all[dupe_row, dim_names])
 
-  mets <- lapply(met_names, function(i) array(x[[i]], n))
-  names(mets) <- met_names
+    stop("Duplicate combination of dimension variables: ",
+         paste(names(dupe), "=", dupe, collapse = ", "), call. = FALSE)
+  }
+
+  mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
+  names(mets) <- met_name
 
   tbl_cube(dims, mets)
 }
