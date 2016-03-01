@@ -19,7 +19,8 @@ as.tbl_cube(x, ...)
 \method{as.tbl_cube}{matrix}(x, dim_names = names(dimnames(x)),
   met_name = deparse(substitute(x)), ...)
 
-\method{as.tbl_cube}{data.frame}(x, dim_names, ...)
+\method{as.tbl_cube}{data.frame}(x, dim_names = NULL,
+  met_name = guess_met(x), ...)
 }
 \arguments{
 \item{x}{an object to convert. Built in methods will convert arrays,
