@@ -173,6 +173,8 @@
 
 * grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448).
 
+* Consistent behavior on distinct() when key is set in data.table (#990).
+
 # dplyr 0.4.3
 
 ## Improved encoding support
