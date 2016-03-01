@@ -7,6 +7,8 @@
 * Dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4 
   (#969).
 
+*  `glimpse` now (invisibly) returns its argument (#1570).
+
 * `bind_rows` handles 0 length named list (#1515). 
 
 * hybrid `n_distinct` falls back to R evaluation when needed (#1657), this
