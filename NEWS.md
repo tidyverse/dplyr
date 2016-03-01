@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Outdated benchmarking demos have been removed (#1487).
+
 * `frame_data()` supports list-cols.
 
 * Cluster code moved out to [multidplyr](http://github.com/hadley/multidplyr).
