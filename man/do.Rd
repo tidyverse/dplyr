@@ -60,7 +60,7 @@ data frame is the same for both empty and non-empty input.
 
 
 If you're familiar with plyr, \code{do} with named arguments is basically
-eqvuivalent to \code{dlply}, and \code{do} with a single unnamed argument
+equivalent to \code{dlply}, and \code{do} with a single unnamed argument
 is basically equivalent to \code{ldply}. However, instead of storing
 labels in a separate attribute, the result is always a data frame. This
 means that \code{summarise} applied to the result of \code{do} can
