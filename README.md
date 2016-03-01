@@ -3,6 +3,8 @@ dplyr
 =====
 
 [![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr)
+[![CRAN Status](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
+![CRAN Downloads](http://cranlogs-dev.r-pkg.org/badges/dplyr)
 
 dplyr is the next iteration of plyr. It is focussed on tools for working with data frames (hence the `d` in its name). It has three main goals:
 
