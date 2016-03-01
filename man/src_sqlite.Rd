@@ -13,7 +13,9 @@ src_sqlite(path, create = FALSE)
 \item{path}{Path to SQLite database}
 
 \item{create}{if \code{FALSE}, \code{path} must already exist. If
-\code{TRUE}, will create a new SQlite3 database at \code{path}.}
+\code{TRUE}, will create a new SQlite3 database at \code{path} if
+\code{path} does not exist and connect to the existing database if
+\code{path} does exist.}
 
 \item{src}{a sqlite src created with \code{src_sqlite}.}
 

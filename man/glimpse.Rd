@@ -13,6 +13,10 @@ glimpse(x, width = getOption("width"), ...)
 
 \item{...}{Other arguments passed onto individual methods.}
 }
+\value{
+x original x is (invisibly) returned, allowing \code{glimpse} to be
+used within a data pipe line.
+}
 \description{
 This is like a transposed version of print: columns run down the page,
 and data runs across. This makes it possible to see every column in

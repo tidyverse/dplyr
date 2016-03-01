@@ -2,7 +2,47 @@
 
 * new parameters `indexes` and `unique_indexes` to `compute()` (#1499, @krlmlr).
 
+* Outdated benchmarking demos have been removed (#1487).
+
+* `frame_data()` supports list-cols.
+
+* Cluster code moved out to [multidplyr](http://github.com/hadley/multidplyr).
+
+* Dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4 
+  (#969).
+
+*  `glimpse` now (invisibly) returns its argument (#1570).
+
+* `tbl_cube` are now constructed correctly from data frames, duplicate
+  dimension values are detected, missing dimension values are filled
+  with `NA`. The construction from data frames now guesses the measure
+  variables by default, and allows specification of dimension and/or
+  measure variables (#1568, @krlmlr).
+
+* Avoid unnecessary execution of SQL query for determining column names (#1548, @krlmlr).
+
 * `bind_rows` handles 0 length named list (#1515). 
+
+* hybrid `n_distinct` falls back to R evaluation when needed (#1657), this
+  revert the decision made in (#567)
+
+* `tbl_df` automatically generates column names (#1606).
+
+* `mutate` failed to deep copy data that ends up in a list column (#1643).  
+
+* `mutate` handles adding a factor that is all `NA` (#1645).
+
+* `bind_rows` handles promotion to strings (#1538).
+
+* `summarise` handles min/max of already summarised variable (#1622).
+
+* `lead` and `lag` more careful about more complicate expressions (#1588).
+
+* grouped `mutate` correctly fails on incompatible columns (#1641).
+
+* `combine` handles `NULL` (#1596).
+
+* `bind_rows` handles 0 length named list (#1515).
 
 * `group_by` supports `column` (#1012).
 
@@ -15,9 +55,6 @@
 * `summarise` supports data frames as columns (#1425).
 
 * protect join functions from empty `by` spec (#1496).
-
-* dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4
-  (#969).
 
 * `glimpse()` is now a generic. The default method dispatches to `str()`
   (#1325).
@@ -139,6 +176,8 @@
 * `min` and `max` handle empty sets (#1481).
 
 * grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448).
+
+* Consistent behavior on distinct() when key is set in data.table (#990).
 
 # dplyr 0.4.3
 

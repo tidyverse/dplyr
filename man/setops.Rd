@@ -17,7 +17,7 @@ setdiff(x, y, ...)
 setequal(x, y, ...)
 }
 \arguments{
-\item{x, y}{objects to compare (ignoring order)}
+\item{x, y}{objects to perform set function on (ignoring order)}
 
 \item{...}{other arguments passed on to methods}
 }

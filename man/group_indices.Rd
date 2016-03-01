@@ -7,7 +7,7 @@
 \usage{
 group_indices(.data, ...)
 
-group_indices_(.data, ..., .dots, add = FALSE)
+group_indices_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{a tbl}
@@ -18,10 +18,6 @@ will be silently dropped.}
 
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
-
-\item{add}{By default, when \code{add = FALSE}, \code{group_by} will
-override existing groups. To instead add to the existing groups,
-use \code{add = TRUE}}
 }
 \description{
 Generate a unique id for each group

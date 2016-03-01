@@ -553,3 +553,37 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
   a2 <- names(attributes(d %>% mutate(foo=1)))
   expect_equal( setdiff(a1, a2), character(0) )
 })
+
+test_that("grouped mutate errors on incompatible column type (#1641)", {
+  df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
+  expect_error( mutate(df, foo = mean), "unsupported type for column" )
+})
+
+test_that("lead/lag works on more complex expressions (#1588)", {
+  df <- data_frame(x = rep(1:5,2), g = rep(1:2, each = 5) ) %>% group_by(g)
+  res <- df %>% mutate( y = lead(x > 3) )
+  expect_equal(res$y, rep(lead(1:5 > 3), 2) )
+})
+
+test_that("Adding a Column of NA to a Grouped Table gives expected results (#1645)", {
+  dataset <- data_frame(A = 1:10, B = 10:1, group = factor(sample(LETTERS[25:26], 10, TRUE)))
+  res <- dataset %>% group_by(group) %>% mutate(prediction = factor(NA))
+  expect_true( all(is.na(res$prediction) ) )
+  expect_is( res$prediction, "factor")
+  expect_equal( levels(res$prediction), character() )
+})
+
+test_that("Deep copies are performed when needed (#1463)", {
+
+  res <- data.frame(prob = c(F,T)) %>%
+    rowwise %>%
+    mutate(model = list(x=prob) )
+  expect_equal(unlist(res$model), c(FALSE,TRUE))
+
+  res <- data.frame(x=1:4, g=c(1,1,1,2)) %>%
+    group_by(g) %>%
+    mutate(model = list(y=x) )
+  expect_equal(res$model[[1]], 1:3)
+  expect_equal(res$model[[4]], 4)
+
+})

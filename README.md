@@ -2,15 +2,15 @@
 dplyr
 =====
 
-[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr)
+[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
 
-dplyr is the next iteration of plyr. It is focussed on tools for working with data frames (hence the `d` in its name). It has three main goals:
+dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
--   Identify the most important data manipulation tools needed for data analysis and make them easy to use in R.
+-   Identify the most important data manipulation tools needed for data analysis and make them easy to use from R.
 
--   Provide blazing fast performance for in-memory data by writing key pieces of code in [C++](http://www.rcpp.org/).
+-   Provide blazing fast performance for in-memory data by writing key pieces in [C++](http://www.rcpp.org/).
 
--   Use the same code interface to work with data no matter where it's stored, whether in a data frame, a data table or database.
+-   Use the same interface to work with data no matter where it's stored, whether in a data frame, a data table or database.
 
 You can install:
 
@@ -37,7 +37,7 @@ If you encounter a clear bug, please file a minimal reproducible example on [git
 Learning dplyr
 --------------
 
-To get started, read the notes below, and then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
+To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
 
 If you need more, help I recommend the following (paid) resources:
 
@@ -57,7 +57,6 @@ The key object in dplyr is a *tbl*, a representation of a tabular data structure
 -   [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
 -   [Bigquery](https://developers.google.com/bigquery/)
 -   [MonetDB](http://www.monetdb.org/)
--   [Presto](https://prestodb.io/)
 -   data cubes with arrays (partial implementation)
 
 You can create them as follows:
@@ -91,7 +90,7 @@ flights_db1 <- tbl(nycflights13_sqlite(), "flights")
 flights_db2 <- tbl(nycflights13_postgres(), "flights")
 ```
 
-A tbl can be converted to a grouped variant that makes performing "by group" operations easy.:
+Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
 
 ``` r
 carriers_df  <- flights %>% group_by(carrier)
@@ -102,42 +101,42 @@ carriers_db2 <- flights_db2 %>% group_by(carrier)
 Single table verbs
 ------------------
 
-`dplyr` implements the following data manipulation verbs :
+`dplyr` implements the following verbs useful for data manipulation:
 
--   `select()`: selects a subset of variables
--   `filter()`: selects a subset of observations
--   `mutate()`: adds new variables
--   `summarise()`: reduces a group(s) to a smaller number of values (e.g., summary statistics)
--   `arrange()`: re-orders observations
+-   `select()`: focus on a subset of variables
+-   `filter()`: focus on a subset of rows
+-   `mutate()`: add new columns
+-   `summarise()`: reduce each group to a smaller number of summary statistics
+-   `arrange()`: re-order the rows
 
-They work across the range of data sources. The main difference is their performance:
+They all work as similarly as possible across the range of data sources. The main difference is performance:
 
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.036   0.001   0.037
+#>   0.041   0.001   0.048
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.263   0.130   0.392
+#>   0.289   0.145   0.435
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.016   0.001   0.151
+#>   0.016   0.000   0.151
 ```
 
-Data frame methods are much much faster than their plyr equivalents. The database methods are slower, but can work with data that don't fit in memory.
+Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
 
 ``` r
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.100   0.032   0.133
+#>   0.101   0.028   0.128
 ```
 
 ### `do()`
 
-As well as the specialised operations described above, `dplyr` also provides a generic `do()` function that applies any R function to specified groups in the data.
+As well as the specialised operations described above, `dplyr` also provides the generic `do()` function which applies any R function to each group of the data.
 
-Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between the number of at bats and runs:
+Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between their number of at bats and runs:
 
 ``` r
 by_year <- lahman_df() %>% 
@@ -145,7 +144,7 @@ by_year <- lahman_df() %>%
   group_by(yearID)
 by_year %>% 
   do(mod = lm(R ~ AB, data = .))
-#> Source: local data frame [143 x 2]
+#> Source: local data frame [144 x 2]
 #> Groups: <by row>
 #> 
 #>    yearID     mod
@@ -170,7 +169,7 @@ by_year %>%
   do(mod = lm(R ~ AB, data = .)) %>%
   object.size() %>%
   print(unit = "MB")
-#> 22.2 Mb
+#> 22.7 Mb
 
 by_year %>% 
   do(mod = biglm::biglm(R ~ AB, data = .)) %>%
@@ -182,9 +181,9 @@ by_year %>%
 Multiple table verbs
 --------------------
 
-Besides verbs that work on a single tbl, there are also a set of verbs that work with pairs of tbls: joins and set operations.
+As well as verbs that work on a single tbl, there are also a set of useful verbs that work with two tbls at a time: joins and set operations.
 
-dplyr implements the four most useful SQL joins:
+dplyr implements the four most useful joins from SQL:
 
 -   `inner_join(x, y)`: matching x + y
 -   `left_join(x, y)`: all x + matching y
@@ -200,7 +199,7 @@ And provides methods for:
 Plyr compatibility
 ------------------
 
-You'll need to be a little careful if you load both plyr and dplyr at the same time. I'd recommend loading plyr before dplyr, so that the faster dplyr functions come first in the search path. By and large, any function provided by both dplyr and plyr works in a similar way, but dplyr functions tend to be faster and more general.
+You'll need to be a little careful if you load both plyr and dplyr at the same time. I'd recommend loading plyr first, then dplyr, so that the faster dplyr functions come first in the search path. By and large, any function provided by both dplyr and plyr works in a similar way, although dplyr functions tend to be faster and more general.
 
 Related approaches
 ------------------

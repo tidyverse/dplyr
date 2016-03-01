@@ -17,7 +17,7 @@ Imports:
     assertthat,
     utils,
     R6,
-    Rcpp,
+    Rcpp (>= 0.12.3),
     magrittr,
     lazyeval (>= 0.1.10),
     DBI (>= 0.3)
@@ -44,7 +44,6 @@ Collate:
     'all-equal.r'
     'bench-compare.r'
     'bind.r'
-    'cluster.R'
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
@@ -112,4 +111,4 @@ Collate:
     'utils.r'
     'view.r'
     'zzz.r'
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1

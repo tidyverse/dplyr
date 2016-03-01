@@ -414,7 +414,7 @@ distinct_.data.table <- function(.data, ..., .dots) {
   dist <- distinct_vars(.data, ..., .dots = .dots)
 
   if (length(dist$vars) == 0) {
-    unique(dist$data)
+    unique(dist$data, by = NULL)
   } else {
     unique(dist$data, by = dist$vars)
   }

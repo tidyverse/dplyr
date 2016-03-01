@@ -15,7 +15,7 @@ group_indices <- function(.data, ...) {
 
 #' @export
 #' @rdname group_indices
-group_indices_ <- function(.data, ..., .dots, add = FALSE) {
+group_indices_ <- function(.data, ..., .dots) {
   UseMethod("group_indices_")
 }
 

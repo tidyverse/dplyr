@@ -281,11 +281,6 @@ test_that( "summarise hybrid functions can use summarized variables", {
   expect_identical( res$var, rep(NA_real_, 2) )
 })
 
-test_that( "n_distinct refuse to treat anything else than single variable name (#567)", {
-  expect_error(summarise(mtcars, n = n_distinct("mpg")))
-  expect_error(summarise(mtcars, n = n_distinct(mpg*2)))
-})
-
 test_that( "LazySubset is not confused about input data size (#452)", {
   res <- data.frame(a = c(10, 100)) %>% summarise(b = sum(a), c = sum(a) * 2)
   expect_equal(res$b, 110)
@@ -574,4 +569,29 @@ test_that("data.frame columns are supported in summarise (#1425)" , {
   df$x3 <- df %>% mutate(x3 = x2)
   res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))
   expect_true(all(res$nr==3))
+})
+
+test_that("summarise handles min/max of already summarised variable (#1622)", {
+  df <- data.frame(
+    FIRST_DAY=rep(seq(as.POSIXct("2015-12-01", tz="UTC"), length.out=2, by="days"),2),
+    event=c("a","a","b","b")
+  )
+
+  df_summary <- df %>% group_by(event) %>% summarise(FIRST_DAY=min(FIRST_DAY), LAST_DAY=max(FIRST_DAY))
+  expect_equal(df_summary$FIRST_DAY, df_summary$LAST_DAY)
+})
+
+test_that("group_by keeps classes (#1631)", {
+  df <- data.frame(a=1, b=as.Date(NA)) %>% group_by(a) %>% summarize(c=min(b))
+  expect_equal( class(df$c), "Date")
+
+  df <- data.frame(a=1, b=as.POSIXct(NA)) %>% group_by(a) %>% summarize(c=min(b))
+  expect_equal( class(df$c), c( "POSIXct", "POSIXt") )
+
+})
+
+test_that("hybrid n_distinct falls back to R evaluation when needed (#1657)", {
+  dat3 <- data.frame(id = c(2,6,7,10,10))
+  res <- dat3 %>% summarise(n_unique = n_distinct(id[id>6]))
+  expect_equal(res$n_unique, 2)
 })
