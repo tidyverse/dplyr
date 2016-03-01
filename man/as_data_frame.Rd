@@ -6,6 +6,7 @@
 \alias{as_data_frame.grouped_df}
 \alias{as_data_frame.list}
 \alias{as_data_frame.matrix}
+\alias{as_data_frame.tbl_cube}
 \alias{as_data_frame.tbl_df}
 \title{Coerce lists and matrices to data frames.}
 \usage{
@@ -20,6 +21,8 @@ as_data_frame(x, ...)
 \method{as_data_frame}{list}(x, validate = TRUE, ...)
 
 \method{as_data_frame}{matrix}(x, ...)
+
+\method{as_data_frame}{tbl_cube}(x, ...)
 }
 \arguments{
 \item{x}{A list. Each element of the list must have the same length.}

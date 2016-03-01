@@ -46,3 +46,10 @@ test_that("summarise works with single group", {
   expect_equal(names(out$mets), "temp")
   expect_equal(dim(out), c(12, 1))
 })
+
+test_that("can coerce to data_frame", {
+  slice <- filter(nasa, year == 1995L, month == 1L)
+
+  expect_identical(tbl_df(as.data.frame(slice, stringsAsFactors = FALSE)),
+                   as_data_frame(slice))
+})

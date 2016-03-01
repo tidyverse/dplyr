@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* new `as_data_frame.tbl_cube()` (#1563, @krlmlr).
+
 * new parameters `indexes` and `unique_indexes` to `compute()` (#1499, @krlmlr).
 
 * Outdated benchmarking demos have been removed (#1487).
