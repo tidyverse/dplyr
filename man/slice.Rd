@@ -41,6 +41,6 @@ filter(mtcars, between(row_number(), 5, n()))
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{mutate}},
-  \code{\link{select}}, \code{\link{summarise}}
+  \code{\link{select.data.frame}}, \code{\link{summarise}}
 }
 

@@ -41,7 +41,7 @@ arrange(mtcars, desc(disp))
 }
 \seealso{
 Other single.table.verbs: \code{\link{filter}},
-  \code{\link{mutate}}, \code{\link{select}},
+  \code{\link{mutate}}, \code{\link{select.data.frame}},
   \code{\link{slice}}, \code{\link{summarise}}
 }
 

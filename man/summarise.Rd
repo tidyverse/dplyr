@@ -63,6 +63,6 @@ by_cyl_db \%>\% summarise(a = n(), b = a + 1)
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{mutate}},
-  \code{\link{select}}, \code{\link{slice}}
+  \code{\link{select.data.frame}}, \code{\link{slice}}
 }
 

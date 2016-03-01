@@ -244,7 +244,9 @@ arrange_ <- function(.data, ..., .dots) {
 #'   Data frame row names are silently dropped. To preserve, convert to an
 #'   explicit variable.
 #' @family single table verbs
+#' @importFrom generics select
 #' @export
+#' @name select
 #' @examples
 #' iris <- tbl_df(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))
@@ -285,7 +287,11 @@ arrange_ <- function(.data, ..., .dots) {
 #' select_(iris, lazyeval::interp(~matches(x), x = ".t."))
 #' select_(iris, quote(-Petal.Length), quote(-Petal.Width))
 #' select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
-select <- function(.data, ...) {
+generics::select
+
+#' @export
+#' @rdname select
+select.tbl <- function(.data, ..., .dots) {
   select_(.data, .dots = lazyeval::lazy_dots(...))
 }
 

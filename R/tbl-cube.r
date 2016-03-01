@@ -104,7 +104,7 @@ tbl_cube <- function(dimensions, measures) {
       "dimensions (", paste0(dims, collapse = " x "), ")", call. = FALSE)
   }
 
-  structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
+  structure(list(dims = dimensions, mets = measures), class = c("tbl_cube", "tbl"))
 }
 
 #' @export
@@ -251,6 +251,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 
 # Verbs -------------------------------------------------------------------
 
+
 #' @export
 select_.tbl_cube <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
@@ -356,7 +357,7 @@ summarise_.tbl_cube <- function(.data, ..., .dots) {
     }
   }
 
-  structure(list(dims = out_dims, mets = out_mets), class = "tbl_cube")
+  structure(list(dims = out_dims, mets = out_mets), class = c("tbl_cube", "tbl"))
 }
 
 subs_index <- function(x, i, val, drop = FALSE) {

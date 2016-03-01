@@ -43,7 +43,7 @@ mutate(mtcars, cyl = NULL)
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},
-  \code{\link{filter}}, \code{\link{select}},
+  \code{\link{filter}}, \code{\link{select.data.frame}},
   \code{\link{slice}}, \code{\link{summarise}}
 }
 

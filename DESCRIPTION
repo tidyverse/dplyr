@@ -19,6 +19,7 @@ Imports:
     R6,
     Rcpp (>= 0.12.3),
     magrittr,
+    generics,
     lazyeval (>= 0.1.10),
     DBI (>= 0.3)
 Suggests:
@@ -34,6 +35,8 @@ Suggests:
     Lahman (>= 3.0-1),
     nycflights13,
     methods
+Remotes:
+  Bioconductor/generics
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
