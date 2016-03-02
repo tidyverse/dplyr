@@ -33,12 +33,6 @@ tibble::lst
 #' @export
 tibble::lst_
 
-#' @export
-#' @rdname as_data_frame
-as_data_frame.matrix <- function(x, ...) {
-  matrixToDataFrame(x)
-}
-
 #' Convert row names to an explicit variable.
 #'
 #' @param df Input data frame with rownames.

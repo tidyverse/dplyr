@@ -181,10 +181,6 @@ grouped_indices_impl <- function(data, symbols) {
     .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
 }
 
-matrixToDataFrame <- function(x) {
-    .Call('dplyr_matrixToDataFrame', PACKAGE = 'dplyr', x)
-}
-
 select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
 }
