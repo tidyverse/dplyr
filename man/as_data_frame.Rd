@@ -3,13 +3,10 @@
 \name{as_data_frame}
 \alias{as_data_frame}
 \alias{as_data_frame.grouped_df}
-\alias{as_data_frame.matrix}
 \alias{as_data_frame.tbl_cube}
 \title{Remove grouping}
 \usage{
 \method{as_data_frame}{grouped_df}(x, ...)
-
-\method{as_data_frame}{matrix}(x, ...)
 
 \method{as_data_frame}{tbl_cube}(x, ...)
 }
