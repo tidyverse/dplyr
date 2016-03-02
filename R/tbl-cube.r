@@ -156,6 +156,8 @@ as.data.frame.tbl_cube <- function(x, ...) {
 
 #' @export
 #' @rdname as_data_frame
+#' @details For a cube, the resulting data frame contains the dimensions
+#'   as character values.
 as_data_frame.tbl_cube <- function(x, ...) {
   as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }

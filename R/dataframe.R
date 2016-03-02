@@ -1,19 +1,11 @@
-#' @importFrom tibble data_frame
-#' @export
-tibble::data_frame
+# Grouping methods ------------------------------------------------------------
 
-#' @importFrom tibble data_frame_
-#' @export
-tibble::data_frame_
-
-#' @importFrom tibble as_data_frame
-#' @export
-tibble::as_data_frame
-
-#' Remove grouping
+#' Convert to a data frame
 #'
-#' For a grouped data frame, the \code{\link[tibble]{as_data_frame}} S3 generic
-#' simply removes the grouping.
+#' Functions that convert the input to a \code{data_frame}.
+#'
+#' @details For a grouped data frame, the \code{\link[tibble]{as_data_frame}}
+#' S3 generic simply removes the grouping.
 #'
 #' @inheritParams tibble::as_data_frame
 #' @seealso \code{\link[tibble]{as_data_frame}}
@@ -24,14 +16,6 @@ as_data_frame.grouped_df <- function(x, ...) {
   class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }
-
-#' @importFrom tibble lst
-#' @export
-tibble::lst
-
-#' @importFrom tibble lst_
-#' @export
-tibble::lst_
 
 #' Convert row names to an explicit variable.
 #'
@@ -50,10 +34,6 @@ add_rownames <- function(df, var = "rowname") {
 
   bind_cols(rn, df)
 }
-
-#' @importFrom tibble add_row
-#' @export
-tibble::add_row
 
 # Grouping methods ------------------------------------------------------------
 

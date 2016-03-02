@@ -16,10 +16,6 @@ dim_desc <- function(x) {
   paste0("[", paste0(d2, collapse = " x "), "]")
 }
 
-#' @importFrom tibble trunc_mat
-#' @export
-tibble::trunc_mat
-
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
   wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
