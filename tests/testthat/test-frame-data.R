@@ -82,3 +82,13 @@ test_that("frame_data() errs appropriately on bad calls", {
   ))
 
 })
+
+test_that("frame_data can have list columns", {
+  df <- frame_data(
+    ~x, ~y,
+    1,  list(a = 1),
+    2,  list(b = 2)
+  )
+  expect_equal(df$x, c(1, 2))
+  expect_equal(df$y, list(list(a = 1), list(b = 2)))
+})

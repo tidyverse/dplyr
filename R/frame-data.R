@@ -70,7 +70,8 @@ frame_data <- function(...) {
   frame_columns <- lapply(seq_len(frame_ncol), function(i) {
     indices <- seq.default(from = i, to = length(frame_rest), by = frame_ncol)
     col <- frame_rest[indices]
-    if (all(vapply(col, length, integer(1L)) == 1L)) {
+    if (!any(vapply(col, function(x) is.list(x) || length(x) != 1L,
+                    logical(1L)))) {
       col <- unlist(col)
     }
     col
