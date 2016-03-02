@@ -1,47 +1,16 @@
-Version 0.1-6 (2016-03-02)
+Version 0.2 (2016-03-02)
 ===
 
-- `frame_data()` forces list-mode columns if length-one lists are given as input.
-- Add tests for `matrixToDataFrame()`.
-- `glimpse()` now (invisibly) returns `x`, so it can be used within a chain of `dplyr` verbs (@edwindj).
-
-
-Version 0.1-5 (2016-02-29)
-===
-
-- Functions related to `tbl` and `src` stay in `dplyr` (#26).
+- Functions related to `tbl` and `src` stay in `dplyr` (#26). Remove unused `make_tbl()`.
+- Non-scalar input to `frame_data()` and `tibble()` (including lists) creates list-valued columns (#7).
+- Use C++ implementation for `as_data_frame.matrix()` (#14). Also add former `matrixToDataFrame()` tests, and fix unwanted conversion to factor.
+- `as_data_frame(NULL)` is 0-row 0-column data frame (#17, @jennybc). `frame_data()` and `tibble()` create empty `data_frame` if no rows are given (#20).
 - `data_frame(NULL)` raises error "must be a 1d atomic vector or list".
-
-
-Version 0.1-4 (2016-01-07)
-===
-
-- Non-scalar input to `frame_data()` and `tibble()` creates list-valued columns (#7).
-- `frame_data()` and `tibble()` create empty `data_frame` if no rows are given (#20).
-- `as_data_frame(NULL)` is 0-row 0-column data frame (#17, @jennybc).
 - `lst(NULL)` doesn't raise an error anymore (#17, @jennybc), but always uses deparsed expression as name (even for `NULL`).
 - `trunc_mat()` and `print()` use `width` argument also for zero-row and zero-column data frames (#18).
-
-
-Version 0.1-3 (2016-01-05)
-===
-
-- Use C++ implementation for `as_data_frame.matrix()` (#14)
-- `as_data_frame(NULL)` returns `NULL` (#16, @jennybc)
-
-
-Version 0.1-2 (2015-12-30)
-===
-
-- Add former `matrixToDataFrame()` tests, and fix unwanted conversion to factor.
+- `glimpse()` now (invisibly) returns `x`, so it can be used within a chain of `dplyr` verbs (@edwindj).
 - `base::getElement()` now works with tibbles (#9).
-
-
-Version 0.1-1 (2015-12-30)
-===
-
 - Remove spurious usage of "dplyr" in documentation (#3).
-- Remove unused `make_tbl()`.
 - Almost full test coverage.
 
 
