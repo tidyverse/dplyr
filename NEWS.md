@@ -1,3 +1,11 @@
+Version 0.1-6 (2016-03-02)
+===
+
+- `frame_data()` forces list-mode columns if length-one lists are given as input.
+- Add tests for `matrixToDataFrame()`.
+- `glimpse()` now (invisibly) returns `x`, so it can be used within a chain of `dplyr` verbs (@edwindj).
+
+
 Version 0.1-5 (2016-02-29)
 ===
 
