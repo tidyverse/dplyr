@@ -1,7 +1,3 @@
-#' @importFrom tibble tbl_df
-#' @export
-tibble::tbl_df
-
 #' @export
 as.tbl.data.frame <- function(x, ...) {
   tbl_df(x)

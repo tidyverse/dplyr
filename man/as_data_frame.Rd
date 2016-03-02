@@ -4,7 +4,7 @@
 \alias{as_data_frame}
 \alias{as_data_frame.grouped_df}
 \alias{as_data_frame.tbl_cube}
-\title{Remove grouping}
+\title{Convert to a data frame}
 \usage{
 \method{as_data_frame}{grouped_df}(x, ...)
 
@@ -16,8 +16,14 @@
 \item{...}{Other arguments passed on to individual methods.}
 }
 \description{
-For a grouped data frame, the \code{\link[tibble]{as_data_frame}} S3 generic
-simply removes the grouping.
+Functions that convert the input to a \code{data_frame}.
+}
+\details{
+For a grouped data frame, the \code{\link[tibble]{as_data_frame}}
+S3 generic simply removes the grouping.
+
+For a cube, the resulting data frame contains the dimensions
+  as character values.
 }
 \seealso{
 \code{\link[tibble]{as_data_frame}}
