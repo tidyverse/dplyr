@@ -202,9 +202,11 @@ test_that("integer overflow (#304)",{
                 X1 = as.integer(values),
                 X2 = values)
   # now group and summarise
-  res <- group_by(dat, groups) %>%
-               summarise(sum_integer = sum(X1),
-                         sum_numeric = sum(X2))
+  expect_warning(
+    res <- group_by(dat, groups) %>%
+      summarise(sum_integer = sum(X1), sum_numeric = sum(X2)),
+    "integer overflow"
+  )
   expect_true( all(is.na(res$sum_integer)) )
   expect_equal( res$sum_numeric, rep(3e9, 2L) )
 })
