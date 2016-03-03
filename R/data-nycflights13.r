@@ -36,10 +36,10 @@ copy_nycflights13 <- function(src, ...) {
   all <- utils::data(package = "nycflights13")$results[, 3]
   unique_index <- list(
     airlines = list("carrier"),
-    airports = list("faa"),
     planes =   list("tailnum")
   )
   index <- list(
+    airports = list("faa"),
     flights =  list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
     weather =  list(c("year", "month", "day"), "origin")
   )
