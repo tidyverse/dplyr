@@ -4,5 +4,5 @@ cache: packages
 
 before_script:
 - R CMD INSTALL .
-- Rscript -e "dplyr::lahman_sqlite()"
-- Rscript -e "dplyr::nycflights13_sqlite()"
+- Rscript -e "library(methods); dplyr::lahman_sqlite()"
+- Rscript -e "library(methods); dplyr::nycflights13_sqlite()"
