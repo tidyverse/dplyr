@@ -33,7 +33,8 @@ Suggests:
     mgcv,
     Lahman (>= 3.0-1),
     nycflights13,
-    methods
+    methods,
+    rmarkdown
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
