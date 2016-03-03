@@ -165,9 +165,9 @@ test_that("group_by only creates one group for NA (#401)", {
 
 test_that("data.table invalid .selfref issue (#475)", {
   dt <- data.table::data.table(x=1:5, y=6:10)
-  expect_that((dt %>% group_by(x))[, z := 2L], not(gives_warning()))
+  expect_warning((dt %>% group_by(x))[, z := 2L], NA)
   dt <- data.table::data.table(x=1:5, y=6:10)
-  expect_that((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], not(gives_warning()))
+  expect_warning((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], NA)
 })
 
 test_that("there can be 0 groups (#486)", {
