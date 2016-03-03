@@ -326,17 +326,21 @@ test_that( "hybrid eval handles $ and @ (#645)", {
   tmp <- expand.grid(a = 1:3, b = 0:1, i = 1:10)
   g   <- tmp %>% group_by(a)
 
+  f <- function(a, b) {
+    list(x = 1:10)
+  }
+
   res <- g %>% summarise(
     r = sum(b),
     n = length(b),
-    p = prop.test(r, n, p = 0.05)$conf.int[1]
+    p = f(r, n)$x[1]
   )
   expect_equal(names(res), c("a", "r", "n", "p" ))
 
   res <- tmp %>% summarise(
     r = sum(b),
     n = length(b),
-    p = prop.test(r, n, p = 0.05)$conf.int[1]
+    p = f(r, n)$x[1]
   )
   expect_equal(names(res), c("r", "n", "p" ))
 
