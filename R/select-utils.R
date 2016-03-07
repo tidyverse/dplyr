@@ -111,7 +111,7 @@ one_of <- function(..., vars = current_vars()) {
   keep <- c(...)
 
   if (!is.character(keep)) {
-    stop("Must be a vector of strings", call. = FALSE)
+    stop("`c(...)` must be a character vector", call. = FALSE)
   }
 
   if (!all(keep %in% vars)) {
