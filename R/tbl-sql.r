@@ -530,17 +530,18 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   i <- 0
 
   chunky$query$fetch_paged(.chunk_size, function(chunk) {
-    if (!is.null(last_group)) chunk <- rbind(last_group, chunk)
+    if (!is.null(last_group)) {
+      chunk <- rbind(last_group, chunk)
+    }
 
     # Create an id for each group
-    group_id <- id(chunk[gvars], drop = TRUE)
-    n <- attr(group_id, "n")
+    grouped <- chunk %>% group_by_(.dots = names(chunk)[gvars])
+    index <- attr(grouped, "indices") # zero indexed
 
-    index <- split_indices(group_id, n)
-    last_group <<- chunk[index[[length(index)]], , drop = FALSE]
+    last_group <<- chunk[index[[length(index)]] + 1L, , drop = FALSE]
 
     for (j in seq_len(n - 1)) {
-      env$. <- chunk[index[[j]], , drop = FALSE]
+      env$. <- chunk[index[[j]] + 1L, , drop = FALSE]
       for (k in seq_len(m)) {
         out[[k]][i + j] <<- list(eval(args[[k]]$expr, envir = env))
         p$tick()$print()
