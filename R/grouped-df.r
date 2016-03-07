@@ -84,11 +84,6 @@ select_.grouped_df <- function(.data, ..., .dots) {
   group_vars <- as.character(groups(.data))
   vars <- select_vars_(names(.data), dots, include = group_vars)
 
-  if (any(group_vars %in% vars)) {
-    warning("")
-  }
-
-
   select_impl(.data, vars)
 }
 
