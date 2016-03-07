@@ -378,3 +378,22 @@ test_that("filter understands column. #1012", {
     expect_error( iris %>% group_by(Species) %>% filter(column(letters) < 5), "column must return a single string" )
 
 })
+
+
+test_that("each argument gets implicit parens", {
+  df <- data_frame(
+    v1 = c("a", "b", "a", "b"),
+    v2 = c("b", "a", "a", "b"),
+    v3 = c("a", "b", "c", "d")
+  )
+
+  tbls <- temp_load(srcs, df)
+
+  one <- tbls %>% lapply(. %>% filter((v1 == "a" | v2 == "a") & v3 == "a"))
+  two <- tbls %>% lapply(. %>% filter(v1 == "a" | v2 == "a", v3 == "a"))
+
+  expect_equal(one$df, two$df)
+  expect_equal(one$dt, two$dt)
+  expect_equal(collect(one$sqlite), collect(two$sqlite))
+  expect_equal(collect(one$postgres), collect(two$postgres))
+})

@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `filter.tbl_sql()` now puts parens around each argument (#934).
+
 * `select()` now informs you that it's adding missing the grouping variables
   (#1511).
 

@@ -221,8 +221,9 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
 
   if (length(where) > 0L) {
     assert_that(is.character(where))
-    out$where <- build_sql("WHERE ",
-      escape(where, collapse = " AND ", con = con))
+
+    where_paren <- escape(where, parens = TRUE, con = con)
+    out$where <- build_sql("WHERE ", sql_vector(where_paren, collapse = " AND "))
   }
 
   if (!is.null(group_by)) {
