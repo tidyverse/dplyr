@@ -2,9 +2,11 @@
 % Please edit documentation in R/tbl-sql.r
 \name{join.tbl_sql}
 \alias{anti_join.tbl_sql}
+\alias{full_join.tbl_sql}
 \alias{inner_join.tbl_sql}
 \alias{join.tbl_sql}
 \alias{left_join.tbl_sql}
+\alias{right_join.tbl_sql}
 \alias{semi_join.tbl_sql}
 \title{Join sql tbls.}
 \usage{
@@ -14,6 +16,12 @@
 \method{left_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), auto_index = FALSE, ...)
 
+\method{right_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"), auto_index = FALSE, ...)
+
+\method{full_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"), auto_index = FALSE, ...)
+
 \method{semi_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
   auto_index = FALSE, ...)
 
@@ -21,7 +29,9 @@
   auto_index = FALSE, ...)
 }
 \arguments{
-\item{x, y}{tbls to join}
+\item{x}{tbls to join}
+
+\item{y}{tbls to join}
 
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
   default, \code{join} will do a natural join, using all variables with

@@ -582,7 +582,6 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
 #' compared with \code{=} not with more general operators.
 #'
 #' @inheritParams join
-#' @param x,y tbls to join
 #' @param copy If \code{x} and \code{y} are not from the same data source,
 #'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
 #'   temporary table in same database as \code{x}. \code{join} will automatically
@@ -656,10 +655,9 @@ NULL
 inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                                suffix = c(".x", ".y"),
                                auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_join(x$src$con, x, y, type = "inner", by = by, suffix = suffix)
-  update(tbl(x$src, sql), group_by = groups(x))
+  sql_mutating_join("inner",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
 }
 
 #' @rdname join.tbl_sql
@@ -667,9 +665,38 @@ inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
 left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"),
                               auto_index = FALSE, ...) {
+  sql_mutating_join("left",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+#' @rdname join.tbl_sql
+#' @export
+right_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+                               suffix = c(".x", ".y"),
+                               auto_index = FALSE, ...) {
+  sql_mutating_join("right",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+#' @rdname join.tbl_sql
+#' @export
+full_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"),
+                              auto_index = FALSE, ...) {
+
+  sql_mutating_join("full",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+sql_mutating_join <- function(type, x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"),
+                              auto_index = FALSE, ...) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_join(x$src$con, x, y, type = "left", by = by, suffix = suffix)
+  sql <- sql_join(x$src$con, x, y, type = type, by = by, suffix = suffix)
   update(tbl(x$src, sql), group_by = groups(x))
 }
 

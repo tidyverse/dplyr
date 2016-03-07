@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Add tbl\_sql methods for `right_join()` and `full_join()` (#1172).
+
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable
   names recieve (#1296).
