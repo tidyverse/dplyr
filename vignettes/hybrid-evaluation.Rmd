@@ -109,6 +109,7 @@ class Sum : public Result {
 
 Implementation of `Result` derived classes can be facilitated by the template 
 class `Processor`. `Processor` is templated by two template parameters: 
+
  - the R output type (`REALSXP`, `STRSXP`, ...) 
  - the class you are defining. (This uses the CRTP pattern). 
  
@@ -193,6 +194,7 @@ typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 function and the map value type is a function pointer defined by `HybridHandler`. 
 
 The parameters of the `HybridHandler` function pointer type are: 
+
  - The call we want to hybridify, e.g. something like `sum(flights)`
  - a `LazySubsets` reference. The only thing that is relevant about 
    this class here is that it defines a `get_variable` method that takes a 
