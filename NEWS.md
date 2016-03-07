@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `select()` now informs you that it's adding missing the grouping variables
+  (#1511).
+
 * The `select()` helpers are now exported and have their own documentation 
   (#1410).
 

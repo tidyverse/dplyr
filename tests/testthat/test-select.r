@@ -17,6 +17,13 @@ test_that("select does not lose grouping (#147)", {
   expect_equal(groups(grouped), list(quote(a)))
 })
 
+test_that("grouping variables preserved with a message (#1511)", {
+  df <- data_frame(g = 1:3, x = 3:1) %>% group_by(g)
+
+  expect_message(res <- select(df, x), "Adding missing grouping variables")
+  expect_named(res, c("g", "x"))
+})
+
 test_that("select doesn't fail if some names missing", {
   df1 <- data.frame(x = 1:10, y = 1:10, z = 1:10)
   df2 <- setNames(df1, c("x", "y", ""))

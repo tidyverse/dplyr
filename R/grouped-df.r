@@ -80,9 +80,17 @@ ungroup.grouped_df <- function(x, ...) {
 #' @export
 select_.grouped_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
+  vars <- select_vars_(names(.data), dots)
 
-  group_vars <- as.character(groups(.data))
-  vars <- select_vars_(names(.data), dots, include = group_vars)
+  # Ensure all grouping variables are present, notifying user with a message
+  missing <- setdiff(as.character(groups(.data)), vars)
+
+  if (length(missing) > 0) {
+    message("Adding missing grouping variables: ",
+      paste0("`", missing, "`", collapse = ", "))
+
+    vars <- c(stats::setNames(missing, missing), vars)
+  }
 
   select_impl(.data, vars)
 }
