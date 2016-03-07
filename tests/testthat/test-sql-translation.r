@@ -55,3 +55,21 @@ test_that("between translated to special form (#503)", {
   out <- translate_sql(between(x, 1, 2))
   expect_equal(out, sql('"x" BETWEEN 1.0 AND 2.0'))
 })
+
+
+# Minus -------------------------------------------------------------------
+
+test_that("unary minus flips sign of number", {
+  expect_equal(translate_sql(-10), sql(-10))
+  expect_equal(translate_sql(x == -10), sql('"x" = -10.0'))
+  expect_equal(translate_sql(x %in% c(-1L, 0L)), sql('"x" IN (-1, 0)'))
+})
+
+test_that("unary minus wraps non-numeric expressions", {
+  expect_equal(translate_sql(-(1L + 2L)), sql("-(1 + 2)"))
+  expect_equal(translate_sql(-mean(x)), sql('-AVG("x")'))
+})
+
+test_that("binary minus subtracts", {
+  expect_equal(translate_sql(1L - 10L), sql("1 - 10"))
+})

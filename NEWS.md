@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Unary `-` minus is better translated in to SQL (fixes #1002).
+
 * New `union_all()` method. Maps to `UNION ALL` for SQL sources, `bind_rows()`
   for data frames/tbl\_dfs, and `combine()` for vectors (#1045).
 

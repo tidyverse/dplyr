@@ -13,7 +13,11 @@ base_scalar <- sql_translator(
   `^`    = sql_prefix("power", 2),
   `-`    = function(x, y = NULL) {
     if (is.null(y)) {
-      build_sql(sql(" - "), x)
+      if (is.numeric(x)) {
+        -x
+      } else {
+        build_sql(sql("-"), x)
+      }
     } else {
       build_sql(x, sql(" - "), y)
     }
