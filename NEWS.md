@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `escape.POSIXt()` method makes it easier to use date times with databases.
+  The date is rendered in ISO 8601 format in UTC, which should work in most
+  databases (#857).
+
 * `grouped_df()` methods for `rbind` and `cbind` (#1385).
 
 * `filter.tbl_sql()` now puts parens around each argument (#934).

@@ -128,6 +128,12 @@ escape.Date <- function(x, parens = NA, collapse = ", ", con = NULL) {
 }
 
 #' @export
+escape.POSIXt <- function(x, parens = NA, collapse = ", ", con = NULL) {
+  x <- strftime(x, "%Y-%m-%d %H:%M:%S", tz = "UTC")
+  escape.character(x, parens = parens, collapse = collapse, con = con)
+}
+
+#' @export
 escape.character <- function(x, parens = NA, collapse = ", ", con = NULL) {
   sql_vector(sql_escape_string(con, x), parens, collapse, con = con)
 }
