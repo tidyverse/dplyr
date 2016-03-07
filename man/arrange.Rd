@@ -26,7 +26,8 @@ An object of the same class as \code{.data}.
   explicit variable.
 }
 \description{
-Use \code{\link{desc}} to sort a variable in descending order.
+Use \code{\link{desc}} to sort a variable in descending order. Generally,
+this will not also automatically order by grouping variables.
 }
 \section{Locales}{
 

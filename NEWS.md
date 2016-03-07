@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `arrange()` once again ignores grouping (#1206)
+
 * `coalesce()` finds the first non-missing value from a set of vectors.
   (#1666, thanks to @krlmlr for initial implementation).
 

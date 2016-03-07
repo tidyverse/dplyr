@@ -174,7 +174,8 @@ transmute_.default <- function(.data, ..., .dots) {
 
 #' Arrange rows by variables.
 #'
-#' Use \code{\link{desc}} to sort a variable in descending order.
+#' Use \code{\link{desc}} to sort a variable in descending order. Generally,
+#' this will not also automatically order by grouping variables.
 #'
 #' @section Locales:
 #'
