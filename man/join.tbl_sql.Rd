@@ -9,10 +9,10 @@
 \title{Join sql tbls.}
 \usage{
 \method{inner_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
-  auto_index = FALSE, ...)
+  suffix = c(".x", ".y"), auto_index = FALSE, ...)
 
 \method{left_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
-  auto_index = FALSE, ...)
+  suffix = c(".x", ".y"), auto_index = FALSE, ...)
 
 \method{semi_join}{tbl_sql}(x, y, by = NULL, copy = FALSE,
   auto_index = FALSE, ...)
@@ -26,7 +26,8 @@
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
   default, \code{join} will do a natural join, using all variables with
   common names across the two tables. A message lists the variables so
-  that you can check they're right.
+  that you can check they're right (to suppress the message, simply
+  explicitly list the variables that you want to join).
 
   To join by different variables on x and y use a named vector.
   For example, \code{by = c("a" = "b")} will match \code{x.a} to
@@ -41,6 +42,9 @@
 
   This allows you to join tables across srcs, but it's potentially expensive
   operation so you must opt into it.}
+
+\item{suffix}{If there are non-joined duplicate variables in \code{x} and
+\code{y}, these suffixes will be added to the output to diambiguate them.}
 
 \item{auto_index}{if \code{copy} is \code{TRUE}, automatically create
 indices for the variables in \code{by}. This may speed up the join if

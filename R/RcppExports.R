@@ -69,20 +69,20 @@ anti_join_impl <- function(x, y, by_x, by_y) {
     .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-inner_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-left_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-right_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-outer_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_outer_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+outer_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_outer_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
 shallow_copy <- function(data) {

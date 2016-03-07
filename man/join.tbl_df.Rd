@@ -10,29 +10,44 @@
 \alias{semi_join.tbl_df}
 \title{Join data frame tbls.}
 \usage{
-\method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+\method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"), ...)
 
-\method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+\method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
+  ".y"), ...)
 
-\method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+\method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"), ...)
 
-\method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+\method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
+  ".y"), ...)
 
 \method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 
 \method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
-\item{x, y}{tbls to join}
+\item{x}{tbls to join}
+
+\item{y}{tbls to join}
 
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
-default, \code{join} will do a natural join, using all variables with
-common names across the two tables. A message lists the variables so
-that you can check they're right - to suppress the message, supply
-a character vector.}
+  default, \code{join} will do a natural join, using all variables with
+  common names across the two tables. A message lists the variables so
+  that you can check they're right (to suppress the message, simply
+  explicitly list the variables that you want to join).
 
-\item{copy}{If \code{y} is not a data frame or \code{\link{tbl_df}} and
-\code{copy} is \code{TRUE}, \code{y} will be converted into a data frame}
+  To join by different variables on x and y use a named vector.
+  For example, \code{by = c("a" = "b")} will match \code{x.a} to
+  \code{y.b}.}
+
+\item{copy}{If \code{x} and \code{y} are not from the same data source,
+and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
+same src as \code{x}.  This allows you to join tables across srcs, but
+it is a potentially expensive operation so you must opt into it.}
+
+\item{suffix}{If there are non-joined duplicate variables in \code{x} and
+\code{y}, these suffixes will be added to the output to diambiguate them.}
 
 \item{...}{included for compatibility with the generic; otherwise ignored.}
 }

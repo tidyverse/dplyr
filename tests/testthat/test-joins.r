@@ -139,6 +139,20 @@ test_that("univariate left join has all columns, all rows", {
   expect_equal(j2$z.y, c(1, 2, 3, 3, NA))
 })
 
+test_that("can control suffixes with suffix argument", {
+
+  j1 <- inner_join(e, f, "x", suffix = c("1", "2"))
+  j2 <- left_join(e, f, "x", suffix = c("1", "2"))
+  j3 <- right_join(e, f, "x", suffix = c("1", "2"))
+  j4 <- full_join(e, f, "x", suffix = c("1", "2"))
+
+  expect_named(j1, c("x", "z1", "z2"))
+  expect_named(j2, c("x", "z1", "z2"))
+  expect_named(j3, c("x", "z1", "z2"))
+  expect_named(j4, c("x", "z1", "z2"))
+})
+
+
 test_that("inner_join does not segfault on NA in factors (#306)", {
   a <- data.frame(x=c("p", "q", NA), y=c(1, 2, 3), stringsAsFactors=TRUE)
   b <- data.frame(x=c("p", "q", "r"), z=c(4,5,6), stringsAsFactors=TRUE)

@@ -10,13 +10,13 @@
 \alias{semi_join}
 \title{Join two tbls together.}
 \usage{
-inner_join(x, y, by = NULL, copy = FALSE, ...)
+inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
-left_join(x, y, by = NULL, copy = FALSE, ...)
+left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
-right_join(x, y, by = NULL, copy = FALSE, ...)
+right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
-full_join(x, y, by = NULL, copy = FALSE, ...)
+full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
@@ -28,7 +28,8 @@ anti_join(x, y, by = NULL, copy = FALSE, ...)
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
   default, \code{join} will do a natural join, using all variables with
   common names across the two tables. A message lists the variables so
-  that you can check they're right.
+  that you can check they're right (to suppress the message, simply
+  explicitly list the variables that you want to join).
 
   To join by different variables on x and y use a named vector.
   For example, \code{by = c("a" = "b")} will match \code{x.a} to
@@ -38,6 +39,9 @@ anti_join(x, y, by = NULL, copy = FALSE, ...)
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
+
+\item{suffix}{If there are non-joined duplicate variables in \code{x} and
+\code{y}, these suffixes will be added to the output to diambiguate them.}
 
 \item{...}{other parameters passed onto methods}
 }

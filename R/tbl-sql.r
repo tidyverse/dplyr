@@ -654,20 +654,22 @@ NULL
 #' @rdname join.tbl_sql
 #' @export
 inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+                               suffix = c(".x", ".y"),
                                auto_index = FALSE, ...) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_join(x$src$con, x, y, type = "inner", by = by)
+  sql <- sql_join(x$src$con, x, y, type = "inner", by = by, suffix = suffix)
   update(tbl(x$src, sql), group_by = groups(x))
 }
 
 #' @rdname join.tbl_sql
 #' @export
 left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"),
                               auto_index = FALSE, ...) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_join(x$src$con, x, y, type = "left", by = by)
+  sql <- sql_join(x$src$con, x, y, type = "left", by = by, suffix = suffix)
   update(tbl(x$src, sql), group_by = groups(x))
 }
 

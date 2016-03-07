@@ -31,3 +31,11 @@ test_that("self-joins allowed with named by", {
   expect_equal(j3, filter(collect(fam), !is.na(parent)))
   expect_equal(j4, filter(collect(fam), is.na(parent)))
 })
+
+test_that("suffix modifies duplicated variable names", {
+  j1 <- collect(inner_join(fam, fam, by = c("parent" = "id"), suffix = c("1", "2")))
+  j2 <- collect(left_join(fam, fam, by = c("parent" = "id"), suffix = c("1", "2")))
+
+  expect_named(j1, c("id1", "parent1", "id2", "parent2"))
+  expect_named(j2, c("id1", "parent1", "id2", "parent2"))
+})

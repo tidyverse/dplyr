@@ -214,14 +214,7 @@ summarise_.tbl_df <- function(.data, ..., .dots) {
 #' See \code{\link{join}} for a description of the general purpose of the
 #' functions.
 #'
-#' @param x,y tbls to join
-#' @param by a character vector of variables to join by.  If \code{NULL}, the
-#'   default, \code{join} will do a natural join, using all variables with
-#'   common names across the two tables. A message lists the variables so
-#'   that you can check they're right - to suppress the message, supply
-#'   a character vector.
-#' @param copy If \code{y} is not a data frame or \code{\link{tbl_df}} and
-#'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data frame
+#' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
 #' @examples
 #' if (require("Lahman")) {
@@ -247,35 +240,48 @@ NULL
 
 #' @export
 #' @rdname join.tbl_df
-inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y)
+  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export
 #' @rdname join.tbl_df
-left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
-  left_join_impl(x, y, by$x, by$y)
+
+  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export
 #' @rdname join.tbl_df
-right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y)
+  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export
 #' @rdname join.tbl_df
-full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
-  outer_join_impl(x, y, by$x, by$y)
+  outer_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export

@@ -760,7 +760,11 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
 }
 
 template <typename Index>
-DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index& indices_y, CharacterVector by_x, CharacterVector by_y , CharacterVector classes ){
+DataFrame subset( DataFrame x, DataFrame y,
+                  const Index& indices_x, const Index& indices_y,
+                  CharacterVector by_x, CharacterVector by_y ,
+                  const std::string& suffix_x, const std::string& suffix_y,
+                  CharacterVector classes) {
     // first the joined columns
     DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false) ;
     int n_join_visitors = join_visitors.size() ;
@@ -813,7 +817,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
             ( std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end() ) ||
             ( std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
           ){
-            col_name += ".x" ;
+            col_name += suffix_x ;
           }
 
             out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;
@@ -832,7 +836,7 @@ DataFrame subset( DataFrame x, DataFrame y, const Index& indices_x, const Index&
           ( std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end() ) ||
           ( std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k )
         ){
-            col_name += ".y" ;
+            col_name += suffix_y ;
         }
 
         out[k] = visitors_y.get(i)->subset(indices_y) ;
@@ -944,7 +948,9 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 }
 
 // [[Rcpp::export]]
-DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
+DataFrame inner_join_impl(DataFrame x, DataFrame y,
+                          CharacterVector by_x, CharacterVector by_y,
+                          std::string& suffix_x, std::string& suffix_y){
     if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
@@ -965,11 +971,19 @@ DataFrame inner_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
         }
     }
 
-    return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class") );
+    return subset(
+      x, y,
+      indices_x, indices_y,
+      by_x, by_y,
+      suffix_x, suffix_y,
+      x.attr( "class")
+    );
 }
 
 // [[Rcpp::export]]
-DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
+DataFrame left_join_impl(DataFrame x, DataFrame y,
+                         CharacterVector by_x, CharacterVector by_y,
+                         std::string& suffix_x, std::string& suffix_y){
     if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
@@ -995,11 +1009,19 @@ DataFrame left_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
         }
     }
 
-    return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
+    return subset(
+      x, y,
+      indices_x, indices_y,
+      by_x, by_y,
+      suffix_x, suffix_y,
+      x.attr( "class" )
+    );
 }
 
 // [[Rcpp::export]]
-DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y){
+DataFrame right_join_impl(DataFrame x, DataFrame y,
+                          CharacterVector by_x, CharacterVector by_y,
+                          std::string& suffix_x, std::string& suffix_y){
     if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
@@ -1023,11 +1045,19 @@ DataFrame right_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
             indices_y.push_back(i) ;
         }
     }
-    return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
+    return subset(
+      x, y,
+      indices_x, indices_y,
+      by_x, by_y,
+      suffix_x, suffix_y,
+      x.attr( "class" )
+    );
 }
 
 // [[Rcpp::export]]
-DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
+DataFrame outer_join_impl(DataFrame x, DataFrame y,
+                          CharacterVector by_x, CharacterVector by_y,
+                          std::string& suffix_x, std::string& suffix_y){
     if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
     DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
@@ -1068,7 +1098,12 @@ DataFrame outer_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Chara
         }
     }
 
-    return subset( x, y, indices_x, indices_y, by_x, by_y, x.attr( "class" ) ) ;
+    return subset(x, y,
+      indices_x, indices_y,
+      by_x, by_y,
+      suffix_x, suffix_y,
+      x.attr( "class" )
+    );
 }
 
 SEXP promote(SEXP x){

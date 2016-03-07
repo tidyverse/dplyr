@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
+  `suffix` argument which allows you to control what suffix duplicated variable
+  names recieve (#1296).
+
 * `escape.POSIXt()` method makes it easier to use date times with databases.
   The date is rendered in ISO 8601 format in UTC, which should work in most
   databases (#857).

@@ -275,7 +275,8 @@ sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
 #' @export
-sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
+sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL,
+                                   suffix = c(".x", ".y"), ...) {
   join <- switch(type,
     left = sql("LEFT"),
     inner = sql("INNER"),
@@ -290,7 +291,9 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   # Ensure tables have unique names
   x_names <- auto_names(x$select)
   y_names <- auto_names(y$select)
-  uniques <- unique_names(x_names, y_names, by$x[by$x == by$y])
+  uniques <- unique_names(
+    x_names, y_names, by = by$x[by$x == by$y], suffix = suffix
+  )
 
   if (is.null(uniques)) {
     sel_vars <- c(x_names, y_names)

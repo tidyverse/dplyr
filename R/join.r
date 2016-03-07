@@ -48,41 +48,43 @@
 #' @param by a character vector of variables to join by.  If \code{NULL}, the
 #'   default, \code{join} will do a natural join, using all variables with
 #'   common names across the two tables. A message lists the variables so
-#'   that you can check they're right.
+#'   that you can check they're right (to suppress the message, simply
+#'   explicitly list the variables that you want to join).
 #'
 #'   To join by different variables on x and y use a named vector.
 #'   For example, \code{by = c("a" = "b")} will match \code{x.a} to
 #'   \code{y.b}.
-#'
 #' @param copy If \code{x} and \code{y} are not from the same data source,
 #'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 #'   same src as \code{x}.  This allows you to join tables across srcs, but
 #'   it is a potentially expensive operation so you must opt into it.
+#' @param suffix If there are non-joined duplicate variables in \code{x} and
+#'   \code{y}, these suffixes will be added to the output to diambiguate them.
 #' @param ... other parameters passed onto methods
 #' @name join
 NULL
 
 #' @rdname join
 #' @export
-inner_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("inner_join")
 }
 
 #' @rdname join
 #' @export
-left_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("left_join")
 }
 
 #' @rdname join
 #' @export
-right_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("right_join")
 }
 
 #' @rdname join
 #' @export
-full_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   UseMethod("full_join")
 }
 
@@ -124,17 +126,27 @@ common_by <- function(by = NULL, x, y) {
   )
 }
 
-unique_names <- function(x_names, y_names, by, x_suffix = ".x", y_suffix = ".y") {
+unique_names <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
   common <- setdiff(intersect(x_names, y_names), by)
   if (length(common) == 0) return(NULL)
 
+  suffix <- check_suffix(suffix)
+
   x_match <- match(common, x_names)
   x_new <- x_names
-  x_new[x_match] <- paste0(x_names[x_match], x_suffix)
+  x_new[x_match] <- paste0(x_names[x_match], suffix$x)
 
   y_match <- match(common, y_names)
   y_new <- y_names
-  y_new[y_match] <- paste0(y_names[y_match], y_suffix)
+  y_new[y_match] <- paste0(y_names[y_match], suffix$y)
 
   list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
+}
+
+check_suffix <- function(x) {
+  if (!is.character(x) || length(x) != 2) {
+    stop("`suffix` must be a character vector of length 2.", call. = FALSE)
+  }
+
+  list(x = x[1], y = x[2])
 }
