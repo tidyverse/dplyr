@@ -220,9 +220,9 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// outer_join_impl
-DataFrame outer_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y);
-RcppExport SEXP dplyr_outer_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP) {
+// full_join_impl
+DataFrame full_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y);
+RcppExport SEXP dplyr_full_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -232,7 +232,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_x(suffix_xSEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_y(suffix_ySEXP);
-    __result = Rcpp::wrap(outer_join_impl(x, y, by_x, by_y, suffix_x, suffix_y));
+    __result = Rcpp::wrap(full_join_impl(x, y, by_x, by_y, suffix_x, suffix_y));
     return __result;
 END_RCPP
 }

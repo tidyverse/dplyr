@@ -281,7 +281,7 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  outer_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export

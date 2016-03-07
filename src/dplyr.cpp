@@ -1055,7 +1055,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 }
 
 // [[Rcpp::export]]
-DataFrame outer_join_impl(DataFrame x, DataFrame y,
+DataFrame full_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
                           std::string& suffix_x, std::string& suffix_y){
     if( by_x.size() == 0) stop("no variable to join by") ;
