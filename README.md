@@ -2,7 +2,7 @@
 dplyr
 =====
 
-[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
+[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
@@ -81,7 +81,7 @@ flights
 #> 10  2013     1     1      558        -2      753         8      AA  N3ALAA
 #> ..   ...   ...   ...      ...       ...      ...       ...     ...     ...
 #> Variables not shown: flight (int), origin (chr), dest (chr), air_time
-#>   (dbl), distance (dbl), hour (dbl), minute (dbl)
+#>   (dbl), distance (dbl), hour (dbl), minute (dbl).
 
 # Caches data in local SQLite db
 flights_db1 <- tbl(nycflights13_sqlite(), "flights")
@@ -114,13 +114,13 @@ They all work as similarly as possible across the range of data sources. The mai
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.041   0.001   0.048
+#>   0.040   0.001   0.043
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.289   0.145   0.435
+#>   0.348   0.302   1.280
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.016   0.000   0.151
+#>   0.015   0.000   0.142
 ```
 
 Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
@@ -129,7 +129,7 @@ Data frame methods are much much faster than the plyr equivalent. The database m
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.101   0.028   0.128
+#>   0.104   0.029   0.134
 ```
 
 ### `do()`
@@ -148,7 +148,7 @@ by_year %>%
 #> Groups: <by row>
 #> 
 #>    yearID     mod
-#>     (int)   (chr)
+#>     (int)  (list)
 #> 1    1871 <S3:lm>
 #> 2    1872 <S3:lm>
 #> 3    1873 <S3:lm>

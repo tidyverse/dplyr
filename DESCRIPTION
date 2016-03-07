@@ -34,7 +34,8 @@ Suggests:
     Lahman (>= 3.0-1),
     nycflights13,
     methods,
-    rmarkdown
+    rmarkdown,
+    covr
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),

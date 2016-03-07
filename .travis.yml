@@ -6,3 +6,6 @@ before_script:
 - R CMD INSTALL .
 - Rscript -e "library(methods); dplyr::lahman_sqlite()"
 - Rscript -e "library(methods); dplyr::nycflights13_sqlite()"
+
+after_success:
+  - Rscript -e 'covr::codecov()'
