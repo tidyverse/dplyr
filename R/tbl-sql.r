@@ -182,6 +182,12 @@ union.tbl_sql <- function(x, y, copy = FALSE, ...) {
   update(tbl(x$src, sql), group_by = groups(x))
 }
 #' @export
+union_all.tbl_sql <- function(x, y, copy = FALSE, ...) {
+  y <- auto_copy(x, y, copy)
+  sql <- sql_set_op(x$src$con, x, y, "UNION ALL")
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+#' @export
 setdiff.tbl_sql <- function(x, y, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy)
   sql <- sql_set_op(x$src$con, x, y, "EXCEPT")

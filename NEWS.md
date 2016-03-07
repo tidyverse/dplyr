@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* New `union_all()` method. Maps to `UNION ALL` for SQL sources, `bind_rows()`
+  for data frames/tbl\_dfs, and `combine()` for vectors (#1045).
+
 * `src_sqlite()` throws errors if you try and use it with window functions 
   (#907).
 

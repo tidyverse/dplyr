@@ -425,6 +425,9 @@ intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
 union.data.frame <-     function(x, y, ...) union_data_frame(x, y)
 
 #' @export
+union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
+
+#' @export
 setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
 
 #' @export

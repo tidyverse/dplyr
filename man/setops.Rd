@@ -6,11 +6,14 @@
 \alias{setequal}
 \alias{setops}
 \alias{union}
+\alias{union_all}
 \title{Set operations.}
 \usage{
 intersect(x, y, ...)
 
 union(x, y, ...)
+
+union_all(x, y, ...)
 
 setdiff(x, y, ...)
 
@@ -36,6 +39,7 @@ union(first, second)
 setdiff(first, second)
 setdiff(second, first)
 
+union_all(first, second)
 setequal(mtcars, mtcars[32:1, ])
 }
 

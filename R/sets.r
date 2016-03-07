@@ -17,6 +17,7 @@
 #' setdiff(first, second)
 #' setdiff(second, first)
 #'
+#' union_all(first, second)
 #' setequal(mtcars, mtcars[32:1, ])
 NULL
 
@@ -28,6 +29,9 @@ intersect <- function(x, y, ...) UseMethod("intersect")
 union <- function(x, y, ...) UseMethod("union")
 #' @rdname setops
 #' @export
+union_all <- function(x, y, ...) UseMethod("union_all")
+#' @rdname setops
+#' @export
 setdiff <- function(x, y, ...) UseMethod("setdiff")
 #' @rdname setops
 #' @export
@@ -37,6 +41,8 @@ setequal <- function(x, y, ...) UseMethod("setequal")
 intersect.default <- function(x, y, ...) base::intersect(x, y, ...)
 #' @export
 union.default <-     function(x, y, ...) base::union(x, y, ...)
+#' @export
+union_all.default <- function(x, y, ...) combine(x, y, ...)
 #' @export
 setdiff.default <-   function(x, y, ...) base::setdiff(x, y, ...)
 #' @export
