@@ -75,6 +75,16 @@ ungroup.grouped_df <- function(x, ...) {
 
 }
 
+#' @export
+rbind.grouped_df <- function(...) {
+  bind_rows(...)
+}
+
+#' @export
+cbind.grouped_df <- function(...) {
+  bind_cols(...)
+}
+
 # One-table verbs --------------------------------------------------------------
 
 #' @export

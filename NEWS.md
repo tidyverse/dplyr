@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `grouped_df()` methods for `rbind` and `cbind` (#1385).
+
 * `filter.tbl_sql()` now puts parens around each argument (#934).
 
 * `select()` now informs you that it's adding missing the grouping variables
