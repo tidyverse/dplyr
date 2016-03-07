@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* new `near(x, y)` is a helper for `abs(x, y) < tol` (#1607).
+
 * new `as_data_frame.tbl_cube()` (#1563, @krlmlr).
 
 * new parameters `indexes` and `unique_indexes` to `compute()` (#1499, @krlmlr).

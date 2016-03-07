@@ -76,6 +76,7 @@ Collate:
     'lead-lag.R'
     'location.R'
     'manip.r'
+    'near.R'
     'nth-value.R'
     'order-by.R'
     'over.R'
