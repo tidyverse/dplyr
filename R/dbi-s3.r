@@ -399,7 +399,7 @@ db_query_fields.DBIConnection <- function(con, sql, ...) {
   qry <- dbSendQuery(con, fields)
   on.exit(dbClearResult(qry))
 
-  dbListFields(qry)
+  dbColumnInfo(qry)$name
 }
 #' @export
 db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
