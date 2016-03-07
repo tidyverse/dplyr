@@ -176,7 +176,9 @@ test_that("grouped_dt do evaluates args in correct env", {
   f <- function(a) {
     grp$dt %>% do(a = a)
   }
-  expect_equal(f(20)$a, list(20, 20, 20))
+
+  expect_warning(x <- f(20)$a)
+  expect_equal(x, list(20, 20, 20))
 })
 
 test_that("grouped_dt passes all columns", {
