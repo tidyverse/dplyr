@@ -112,7 +112,7 @@ tbl_vars.tbl_cube <- function(x) names(x$dims)
 
 #' @export
 dim.tbl_cube <- function(x) {
-  c(length(x$mets[[1]]), length(x$dim))
+  c(length(x$mets[[1]]), length(x$dims))
 }
 
 #' @export
@@ -124,8 +124,8 @@ same_src.tbl_cube <- function(x, y) {
 print.tbl_cube <- function(x, ...) {
   cat("Source: local array ", dim_desc(x), "\n",
     sep = "")
-  if (!is.null(x$group)) {
-    cat("Grouped by: ", paste(names(x$dims)[x$group], collapse = ", "),
+  if (!is.null(x$groups)) {
+    cat("Grouped by: ", paste(names(x$dims)[x$groups], collapse = ", "),
       "\n", sep = "")
   }
 
@@ -316,7 +316,7 @@ group_by_.tbl_cube <- function(.data, ..., .dots, add = FALSE) {
   nms <- names(groups$data$dims)
   nms_list <- as.list(setNames(seq_along(nms), nms))
 
-  groups$data$groups <- unlist(lapply(groups$group, eval, nms_list))
+  groups$data$groups <- unlist(lapply(groups$groups, eval, nms_list))
   groups$data
 }
 
@@ -333,7 +333,7 @@ groups.tbl_cube <- function(x) {
 summarise_.tbl_cube <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
-  out_dims <- .data$dims[.data$group]
+  out_dims <- .data$dims[.data$groups]
   n <- vapply(out_dims, length, integer(1))
 
   out_mets <- list()
@@ -346,7 +346,7 @@ summarise_.tbl_cube <- function(.data, ..., .dots) {
   # Loop over each group
   for (i in seq_len(nrow(slices))) {
     index <- as.list(slices[i, , drop = FALSE])
-    mets <- lapply(.data$mets, subs_index, i = .data$group, val = index,
+    mets <- lapply(.data$mets, subs_index, i = .data$groups, val = index,
       drop = TRUE)
 
     # Loop over each expression
