@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `one_of()` gives a useful error message if variables names are not found 
+  in data frame (#1407).
+
 * `arrange()` once again ignores grouping (#1206)
 
 * `coalesce()` finds the first non-missing value from a set of vectors.

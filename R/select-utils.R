@@ -45,7 +45,16 @@ num_range <- function(vars, prefix, range, width = NULL) {
 
 one_of <- function(vars, ...) {
   keep <- c(...)
-  stopifnot(is.character(keep))
+
+  if (!is.character(keep)) {
+    stop("Must be a vector of strings", call. = FALSE)
+  }
+
+  if (!all(keep %in% vars)) {
+    bad <- setdiff(keep, vars)
+    stop("Unknown variables: ", paste0("`", bad, "`", collapse = ", "))
+  }
+
   match(keep, vars)
 }
 
