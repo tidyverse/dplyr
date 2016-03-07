@@ -46,6 +46,7 @@ Collate:
     'all-equal.r'
     'bench-compare.r'
     'bind.r'
+    'coalesce.R'
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'

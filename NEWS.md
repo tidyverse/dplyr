@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `coalesce()` finds the first non-missing value from a set of vectors.
+  (#1666, thanks to @krlmlr for initial implementation).
+
 * `nth()` now supports negative indices to select from end, e.g. `nth(x, -2)`
   selects the 2nd value from the end of `x` (#1584).
 
