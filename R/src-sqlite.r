@@ -123,7 +123,8 @@ src_translate_env.src_sqlite <- function(x) {
     ),
     sql_translator(.parent = base_agg,
       sd = sql_prefix("stdev")
-    )
+    ),
+    base_no_win
   )
 }
 

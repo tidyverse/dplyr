@@ -3,6 +3,7 @@
 \docType{data}
 \name{sql_variant}
 \alias{base_agg}
+\alias{base_no_win}
 \alias{base_scalar}
 \alias{base_win}
 \alias{sql_infix}
@@ -28,13 +29,15 @@ sql_not_supported(f)
 'base_agg'
 
 'base_win'
+
+'base_no_win'
 }
 \arguments{
-\item{scalar, aggregate, window}{The three families of functions than an 
+\item{scalar, aggregate, window}{The three families of functions than an
 SQL variant can supply.}
 
 \item{..., .funs}{named functions, used to add custom converters from standard
-R functions to sql functions. Specify individually in \code{...}, or 
+R functions to sql functions. Specify individually in \code{...}, or
 provide a list of \code{.funs}}
 
 \item{.parent}{the sql variant that this variant should inherit from.

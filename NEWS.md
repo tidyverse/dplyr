@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `src_sqlite()` throws errors if you try and use it with window functions 
+  (#907).
+
 * Add tbl\_sql methods for `right_join()` and `full_join()` (#1172).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
