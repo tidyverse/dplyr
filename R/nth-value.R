@@ -1,13 +1,16 @@
 #' Extract the first, last or nth value from a vector.
-#' 
-#' These are straightforward wrappers around \code{\link{[[}}. The main 
+#'
+#' These are straightforward wrappers around \code{\link{[[}}. The main
 #' advantage is that you can provide an optional secondary vector that defines
 #' the ordering, and provide a default value to use when the input is shorter
 #' than expected.
-#' 
+#'
 #' @param x A vector
-#' @param n For \code{nth_value}, a single integer specifying the position. 
-#'   If a numeric is supplied, it will be silently truncated.
+#' @param n For \code{nth_value}, a single integer specifying the position.
+#'   Negative integers index from the end (i.e. \code{-1L} will return the
+#'   last value in the vector).
+#'
+#'   If a double is supplied, it will be silently truncated.
 #' @param order_by An optional vector used to determine the order
 #' @param default A default value to use if the position does not exist in
 #'   the input. This is guessed by default for atomic vectors, where a
@@ -19,19 +22,29 @@
 #' @examples
 #' x <- 1:10
 #' y <- 10:1
-#' 
+#'
+#' nth(x, 1)
+#' nth(x, 5)
+#' nth(x, -2)
+#' nth(x, 11)
+#'
 #' last(x)
 #' last(x, y)
 nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
-  stopifnot(length(n) == 1, is.numeric(n), n >= 0)
+  stopifnot(length(n) == 1, is.numeric(n))
   n <- trunc(n)
-  
-  if (n == 0 || n > length(x)) {
+
+  if (n == 0 || n > length(x) || n < -length(x)) {
     return(default)
   }
-  
+
+  # Negative values index from RHS
+  if (n < 0) {
+    n <- length(x) + n + 1
+  }
+
   if (is.null(order_by)) {
-    x[[n]] 
+    x[[n]]
   } else {
     x[[order(order_by)[n]]]
   }
@@ -46,14 +59,14 @@ first <- function(x, order_by = NULL, default = default_missing(x)) {
 #' @export
 #' @rdname nth
 last <- function(x, order_by = NULL, default = default_missing(x)) {
-  nth(x, length(x), order_by = order_by, default = default)
+  nth(x, -1L, order_by = order_by, default = default)
 }
 
 default_missing <- function(x) {
-  # The user needs to supply a default for anything with attributes 
+  # The user needs to supply a default for anything with attributes
   if (!is.vector(x)) {
-    stop("Don't know how to generate default for object of class ", 
-      paste0(class(x), collapse = "/"), call. = FALSE)    
+    stop("Don't know how to generate default for object of class ",
+      paste0(class(x), collapse = "/"), call. = FALSE)
   }
 
   if (is.list(x)) {

@@ -15,8 +15,11 @@ last(x, order_by = NULL, default = default_missing(x))
 \arguments{
 \item{x}{A vector}
 
-\item{n}{For \code{nth_value}, a single integer specifying the position. 
-If a numeric is supplied, it will be silently truncated.}
+\item{n}{For \code{nth_value}, a single integer specifying the position.
+  Negative integers index from the end (i.e. \code{-1L} will return the
+  last value in the vector).
+
+  If a double is supplied, it will be silently truncated.}
 
 \item{order_by}{An optional vector used to determine the order}
 
@@ -30,7 +33,7 @@ supply this value.}
 A single value. \code{[[} is used to do the subsetting.
 }
 \description{
-These are straightforward wrappers around \code{\link{[[}}. The main 
+These are straightforward wrappers around \code{\link{[[}}. The main
 advantage is that you can provide an optional secondary vector that defines
 the ordering, and provide a default value to use when the input is shorter
 than expected.
@@ -38,6 +41,11 @@ than expected.
 \examples{
 x <- 1:10
 y <- 10:1
+
+nth(x, 1)
+nth(x, 5)
+nth(x, -2)
+nth(x, 11)
 
 last(x)
 last(x, y)

@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `nth()` now supports negative indices to select from end, e.g. `nth(x, -2)`
+  selects the 2nd value from the end of `x` (#1584).
+
 * new `near(x, y)` is a helper for `abs(x, y) < tol` (#1607).
 
 * new `as_data_frame.tbl_cube()` (#1563, @krlmlr).
