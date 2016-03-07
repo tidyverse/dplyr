@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* The `select()` helpers are now exported and have their own documentation 
+  (#1410).
+
 * `one_of()` gives a useful error message if variables names are not found 
   in data frame (#1407).
 

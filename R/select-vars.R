@@ -58,23 +58,15 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
     return(setNames(vars, vars))
   }
 
-  args <- lazyeval::as.lazy_dots(args)
+  # Set current_vars so avaialble to select_helpers
+  set_current_vars(vars)
+  on.exit(reset_current_vars(), add = TRUE)
 
-  # No non-standard evaluation - but all names mapped to their position.
-  # Keep integer semantics: include = +, exclude = -
+  # Map variable names to their positions: this keeps integer semantics
+  args <- lazyeval::as.lazy_dots(args)
   names_list <- setNames(as.list(seq_along(vars)), vars)
 
-  select_funs <- list(
-    starts_with = function(...) starts_with(vars, ...),
-    ends_with = function(...) ends_with(vars, ...),
-    contains = function(...) contains(vars, ...),
-    matches = function(...) matches(vars, ...),
-    num_range = function(...) num_range(vars, ...),
-    one_of = function(...) one_of(vars, ...),
-    everything = function(...) everything(vars, ...)
-  )
-
-  ind_list <- lazyeval::lazy_eval(args, c(names_list, select_funs))
+  ind_list <- lazyeval::lazy_eval(args, names_list)
   names(ind_list) <- names2(args)
 
   is_numeric <- vapply(ind_list, is.numeric, logical(1))
@@ -93,7 +85,6 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
   sel <- setNames(vars[incl], names(incl))
   sel <- c(setdiff2(include, sel), sel)
   sel <- setdiff2(sel, exclude)
-
 
   # Ensure all output vars named
   if (length(sel) == 0) {

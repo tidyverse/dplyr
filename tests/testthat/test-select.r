@@ -186,13 +186,3 @@ test_that("invalid inputs raise error", {
   expect_error(combine_vars(names(mtcars), list(c(-1, 1))), "positive or negative")
   expect_error(combine_vars(names(mtcars), list(12)), "must be between")
 })
-
-# one_of ------------------------------------------------------------------
-
-test_that("one_of gives useful error", {
-  df <- data_frame(x = 1, y = 1)
-
-  expect_error(select(df, one_of("z")), "Unknown variables: `z`")
-  expect_error(select(df, one_of("x", "z")), "Unknown variables: `z`")
-})
-
