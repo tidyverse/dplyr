@@ -75,11 +75,13 @@ ungroup.grouped_df <- function(x, ...) {
 
 }
 
+#' @method rbind grouped_df
 #' @export
 rbind.grouped_df <- function(...) {
   bind_rows(...)
 }
 
+#' @method cbind grouped_df
 #' @export
 cbind.grouped_df <- function(...) {
   bind_cols(...)
