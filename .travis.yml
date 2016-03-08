@@ -3,7 +3,7 @@ sudo: false
 cache: packages
 
 env:
-- _R_CHECK_FORCE_SUGGESTS_=true
+- _R_CHECK_FORCE_SUGGESTS_=false
 
 before_script:
 - R CMD INSTALL .
