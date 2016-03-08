@@ -359,7 +359,7 @@ namespace dplyr{
         RObject tzone ;
 
         inline SEXP promote( NumericVector x){
-          x.attr("class") = "POSIXct" ;
+          x.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt") ;
           if( !tzone.isNULL() ){
             x.attr("tzone") = tzone ;
           }
