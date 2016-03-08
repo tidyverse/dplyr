@@ -36,8 +36,6 @@ Suggests:
     rmarkdown,
     covr,
     dtplyr
-Remotes:
-    hadley/dtplyr
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
