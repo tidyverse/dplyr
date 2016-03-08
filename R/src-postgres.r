@@ -110,7 +110,11 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
 
 has_postgres <- function(...) {
-  succeeds(src_postgres(...), quiet = TRUE)
+  ok <- succeeds(src <- src_postgres(...), quiet = TRUE)
+  if (ok) {
+    dbDisconnect(src$con)
+  }
+  ok
 }
 
 #' @export
