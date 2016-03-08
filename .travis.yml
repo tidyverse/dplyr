@@ -2,6 +2,8 @@ language: R
 sudo: false
 cache: packages
 
+warnings_are_errors: false
+
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
 
