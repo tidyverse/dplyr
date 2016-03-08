@@ -108,6 +108,11 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
     info = info, disco = db_disconnector(con, "postgres"))
 }
 
+
+has_postgres <- function(...) {
+  succeeds(src_postgres(...), quiet = TRUE)
+}
+
 #' @export
 #' @rdname src_postgres
 tbl.src_postgres <- function(src, from, ...) {
@@ -172,7 +177,7 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
 
   if (nrow(values) == 0)
     return(NULL)
-  
+
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 
