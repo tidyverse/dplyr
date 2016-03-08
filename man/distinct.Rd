@@ -12,7 +12,7 @@ distinct_(.data, ..., .dots)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to use when determining uniqueness. If there
+\item{...}{Optional variables to use when determining uniqueness. If there
 are multiple rows for a given combination of inputs, only the first
 row will be preserved.}
 
@@ -21,8 +21,7 @@ row will be preserved.}
 }
 \description{
 Retain only unique/distinct rows from an input tbl. This is an
-efficient version of \code{\link{unique}}. \code{distinct()} is best-suited
-for interactive use, \code{distinct_()} for calling from a function.
+efficient version of \code{\link{unique.data.frame}}.
 }
 \examples{
 df <- data.frame(
@@ -31,6 +30,8 @@ df <- data.frame(
 )
 nrow(df)
 nrow(distinct(df))
+
+# Keeps first row for unique x/y
 distinct(df, x)
 distinct(df, y)
 

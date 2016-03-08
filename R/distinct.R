@@ -1,11 +1,10 @@
 #' Select distinct/unique rows.
 #'
 #' Retain only unique/distinct rows from an input tbl. This is an
-#' efficient version of \code{\link{unique}}. \code{distinct()} is best-suited
-#' for interactive use, \code{distinct_()} for calling from a function.
+#' efficient version of \code{\link{unique.data.frame}}.
 #'
 #' @param .data a tbl
-#' @param ... Variables to use when determining uniqueness. If there
+#' @param ... Optional variables to use when determining uniqueness. If there
 #'   are multiple rows for a given combination of inputs, only the first
 #'   row will be preserved.
 #' @inheritParams filter
@@ -17,6 +16,8 @@
 #' )
 #' nrow(df)
 #' nrow(distinct(df))
+#'
+#' # Keeps first row for unique x/y
 #' distinct(df, x)
 #' distinct(df, y)
 #'
