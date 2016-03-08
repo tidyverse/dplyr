@@ -1,5 +1,10 @@
 # dplyr 0.4.3.9000
 
+* The naming behaviour of `summarise_each()` and `mutate_each()` has been
+  tweaked so that you can force inclusion of both the function and the 
+  variable name: `summarise_each(mtcars, funs(mean = mean), everything())` 
+  (#442).
+
 * All data table related code has been separated out in to a new dtplyr package.
   You'll get a message reminding you to load it if both data.table and dplyr are
   loaded.

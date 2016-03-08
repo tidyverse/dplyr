@@ -12,6 +12,9 @@
 #'
 #'   For standard evaluation versions (ending in \code{_}) these can
 #'   be either a list of expressions or a character vector.
+#' @return A data frame. By default, the newly created columns the shortest
+#'   names needed to distinguish the output. To force inclusion of a name,
+#'   even when not needed, name the input (see examples for details).
 #' @examples
 #' # One function
 #' by_species <- iris %>% group_by(Species)
@@ -27,6 +30,13 @@
 #' by_species %>% summarise_each(funs(min, max))
 #' by_species %>% summarise_each(funs(min, max), Petal.Width, Sepal.Width)
 #' by_species %>% summarise_each(funs(min, max), matches("Width"))
+#'
+#' # By default the names are minimal. Name the inputs to make them
+#' # explicit
+#' by_species %>% summarise_each(funs(min))
+#' by_species %>% summarise_each(funs(min = min))
+#' by_species %>% summarise_each(funs(min, max), Sepal.Length)
+#' by_species %>% summarise_each(funs(min, max), Sepal.Length = Sepal.Length)
 #'
 #' # Alternative function specification
 #' iris %>% summarise_each(funs(ul = length(unique(.))))
@@ -46,7 +56,11 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  vars <- colwise_(tbl, funs_(funs), vars)
+  if (is.character(funs)) {
+    funs <- funs_(funs)
+  }
+
+  vars <- colwise_(tbl, funs, vars)
   summarise_(tbl, .dots = vars)
 }
 
@@ -67,13 +81,17 @@ summarise_each_q <- function(...) {
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ...) {
+  if (is.character(funs)) {
+    funs <- funs_(funs)
+  }
+
   mutate_each_(tbl, funs, lazyeval::lazy_dots(...))
 }
 
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  vars <- colwise_(tbl, funs_(funs), vars)
+  vars <- colwise_(tbl, funs, vars)
   mutate_(tbl, .dots = vars)
 }
 
@@ -86,6 +104,9 @@ mutate_each_q <- function(...) {
 
 colwise_ <- function(tbl, calls, vars) {
   stopifnot(is.fun_list(calls))
+
+  named_calls <- attr(calls, "has_names")
+  named_vars <- any(has_names(vars))
 
   if (length(vars) == 0) {
     vars <- lazyeval::lazy_dots(everything())
@@ -104,9 +125,9 @@ colwise_ <- function(tbl, calls, vars) {
   }
   dim(out) <- NULL
 
-  if (length(calls) == 1) {
+  if (length(calls) == 1 && !named_calls) {
     names(out) <- names(vars)
-  } else if (length(vars) == 1) {
+  } else if (length(vars) == 1 && !named_vars) {
     names(out) <- names(calls)
   } else {
     grid <- expand.grid(var = names(vars), call = names(calls))

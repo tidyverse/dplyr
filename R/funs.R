@@ -42,6 +42,7 @@ funs_ <- function(dots) {
   names(dots)[missing_names] <- default_names
 
   class(dots) <- c("fun_list", "lazy_dots")
+  attr(dots, "has_names") <- any(!missing_names)
   dots
 }
 
