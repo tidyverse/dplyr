@@ -5,6 +5,7 @@ srcs <- temp_srcs("df", "postgres")
 tbls <- temp_load(srcs, df)
 
 test_that("mutate calls windowed versions of sql functions", {
+  skip_on_travis()
   if (!has_postgres()) skip("Postgres not available")
 
   compare_tbls(tbls, function(x) {
@@ -13,6 +14,7 @@ test_that("mutate calls windowed versions of sql functions", {
 })
 
 test_that("recycled aggregates generate window function", {
+  skip_on_travis()
   if (!has_postgres()) skip("Postgres not available")
 
   compare_tbls(tbls, function(x) {
@@ -21,6 +23,7 @@ test_that("recycled aggregates generate window function", {
 })
 
 test_that("cumulative aggregates generate window function", {
+  skip_on_travis()
   if (!has_postgres()) skip("Postgres not available")
 
   compare_tbls(tbls, function(x) {

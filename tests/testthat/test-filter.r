@@ -376,6 +376,7 @@ test_that("each argument gets implicit parens", {
   expect_equal(one$df, two$df)
   expect_equal(collect(one$sqlite), collect(two$sqlite))
 
+  skip_on_travis()
   if (!has_postgres())
     skip("Postgres not available")
   expect_equal(collect(one$postgres), collect(two$postgres))
