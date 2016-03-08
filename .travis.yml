@@ -5,10 +5,5 @@ cache: packages
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
 
-before_script:
-- R CMD INSTALL .
-- Rscript -e "library(methods); dplyr::lahman_sqlite()"
-- Rscript -e "library(methods); dplyr::nycflights13_sqlite()"
-
 after_success:
-  - Rscript -e 'covr::codecov()'
+- Rscript -e 'covr::codecov()'
