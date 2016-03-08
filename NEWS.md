@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Joins now use correct class when joining on POSIXct colums (#1582, @joel23888).
+
 * `select()` works even if the grouping variable has a non-syntactic name 
   (#1138).
 

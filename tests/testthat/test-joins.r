@@ -510,3 +510,14 @@ test_that("joins takes care of duplicates in by (#1192)", {
   res2 <- left_join(data1, data2, by=c("a" = "a"))
   expect_equal(res1, res2)
 })
+
+# Joined columns result in correct type ----------------------------------------
+
+test_that("result of joining POSIXct is POSIXct (#1578)", {
+  data1 <- data_frame(t=seq(as.POSIXct("2015-12-01", tz="UTC"), length.out=2,
+                            by="days"), x=1:2)
+  data2 <- inner_join(data1, data1, by = "t")
+  res1 <- class(data2$t)
+  expected <- c("POSIXct", "POSIXt")
+  expect_identical(res1, expected)
+})
