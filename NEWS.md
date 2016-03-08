@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `select()` works even if the grouping variable has a non-syntactic name 
+  (#1138).
+
 * In `select()`, negating a failed match (e.g. `select(mtcars, -contains("x"))`)
   returns all columns, instead of no columns (#1176)
   

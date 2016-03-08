@@ -95,7 +95,8 @@ select_.grouped_df <- function(.data, ..., .dots) {
   vars <- select_vars_(names(.data), dots)
 
   # Ensure all grouping variables are present, notifying user with a message
-  missing <- setdiff(as.character(groups(.data)), vars)
+  group_names <- vapply(groups(.data), as.character, character(1))
+  missing <- setdiff(group_names, vars)
 
   if (length(missing) > 0) {
     message("Adding missing grouping variables: ",

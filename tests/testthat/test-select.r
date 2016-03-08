@@ -24,6 +24,11 @@ test_that("grouping variables preserved with a message (#1511)", {
   expect_named(res, c("g", "x"))
 })
 
+test_that("non-syntactic grouping variable is preserved (#1138)", {
+  df <- data_frame(`a b` = 1L) %>% group_by(`a b`) %>% select()
+  expect_named(df, "a b")
+})
+
 test_that("select doesn't fail if some names missing", {
   df1 <- data.frame(x = 1:10, y = 1:10, z = 1:10)
   df2 <- setNames(df1, c("x", "y", ""))
