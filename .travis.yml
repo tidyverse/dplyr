@@ -2,6 +2,9 @@ language: R
 sudo: false
 cache: packages
 
+env:
+- _R_CHECK_FORCE_SUGGESTS_=true
+
 before_script:
 - R CMD INSTALL .
 - Rscript -e "library(methods); dplyr::lahman_sqlite()"
