@@ -25,7 +25,7 @@ temp_src <- function(type, ...) {
   env <- new.env(parent = emptyenv())
   src <- switch(type,
     df =       src_df(env = env),
-    dt =       src_dt(env = env),
+    dt =       dtplyr::src_dt(env = env),
     sqlite =   src_sqlite(tempfile(), create = TRUE),
     mysql =    src_mysql("test", ...),
     postgres = src_postgres("test", ...),

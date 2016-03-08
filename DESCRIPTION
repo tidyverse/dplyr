@@ -1,6 +1,6 @@
 Package: dplyr
 Type: Package
-Version: 0.4.3.9000
+Version: 0.4.3.9001
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -25,7 +25,6 @@ Suggests:
     RSQLite (>= 1.0.0),
     RMySQL,
     RPostgreSQL,
-    data.table,
     testthat,
     knitr,
     microbenchmark,
@@ -35,7 +34,10 @@ Suggests:
     nycflights13,
     methods,
     rmarkdown,
-    covr
+    covr,
+    dtplyr
+Remotes:
+    hadley/dtplyr
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
@@ -70,7 +72,6 @@ Collate:
     'group-indices.R'
     'group-size.r'
     'grouped-df.r'
-    'grouped-dt.r'
     'id.r'
     'inline.r'
     'join.r'
@@ -101,7 +102,6 @@ Collate:
     'tally.R'
     'tbl-cube.r'
     'tbl-df.r'
-    'tbl-dt.r'
     'tbl-sql.r'
     'tbl.r'
     'top-n.R'
@@ -110,7 +110,6 @@ Collate:
     'translate-sql-window.r'
     'translate-sql.r'
     'type-sum.r'
-    'utils-dt.R'
     'utils-format.r'
     'utils.r'
     'view.r'

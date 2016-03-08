@@ -61,21 +61,6 @@ test_that("slice gives correct rows (#649)", {
   expect_equal( slice(a, c(2,4))$value, paste0("row", c(2,4,7,9)))
 })
 
-# Data tables ------------------------------------------------------------------
-
-test_that("slicing data.table yields same output as slicing data.frame ", {
-  tbls <- list(mtcars, mtcars %>% tbl_dt())
-  compare_tbls(tbls, function(x) x %>% group_by(cyl) %>% slice(c(1, 3)))
-})
-
-test_that("slicing data table preserves input class", {
-  mtcars_dt <- mtcars %>% data.table::data.table()
-
-  expect_is(mtcars_dt %>% slice(1), "data.table")
-  expect_is(mtcars_dt %>% tbl_dt() %>% slice(1), "tbl_dt")
-  expect_is(mtcars_dt %>% group_by(cyl) %>% slice(1), "grouped_dt")
-})
-
 test_that( "slice handles NA (#1235)", {
   df <- data_frame( x = 1:3 )
   expect_equal( nrow(slice(df, NA_integer_)), 0L )

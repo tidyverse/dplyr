@@ -17,7 +17,7 @@ summarize_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
 
 \item{...}{Name-value pairs of summary functions like \code{\link{min}()},
 \code{\link{mean}()}, \code{\link{max}()} etc.}
@@ -52,7 +52,7 @@ by_cyl \%>\% summarise(a = n(), b = a + 1)
 
 \dontrun{
 # You can't with data tables or databases
-by_cyl_dt <- mtcars \%>\% tbl_dt() \%>\% group_by(cyl)
+by_cyl_dt <- mtcars \%>\% dtplyr::tbl_dt() \%>\% group_by(cyl)
 by_cyl_dt \%>\% summarise(a = n(), b = a + 1)
 
 by_cyl_db <- src_sqlite(":memory:", create = TRUE) \%>\%

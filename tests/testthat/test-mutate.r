@@ -22,7 +22,7 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 })
 
 df <- data.frame(x = 1:10, y = 6:15)
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("two mutates equivalent to one", {
@@ -188,9 +188,6 @@ test_that("mutate fails on unsupported column type", {
 test_that("mutate modifies same column repeatedly (#243)", {
   df <- data.frame(x = 1)
   expect_equal(mutate(df, x = x + 1, x = x + 1)$x, 3)
-
-  dt <- data.table::data.table(x = 1)
-  expect_equal(mutate(dt, x = x + 1, x = x + 1)$x, 3)
 })
 
 test_that("mutate errors when results are not compatible accross groups (#299)",{

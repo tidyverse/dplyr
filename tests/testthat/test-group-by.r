@@ -2,7 +2,7 @@ context("Group by")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("group_by with add = TRUE adds groups", {
@@ -12,9 +12,6 @@ test_that("group_by with add = TRUE adds groups", {
 
   expect_equal(add_groups1(tbls$df), list(quote(x), quote(y)))
   expect_equal(add_groups2(tbls$df), list(quote(x), quote(y)))
-
-  expect_equal(add_groups1(tbls$dt), list(quote(x), quote(y)))
-  expect_equal(add_groups2(tbls$dt), list(quote(x), quote(y)))
 
   expect_equal(add_groups1(tbls$sqlite), list(quote(x), quote(y)))
   expect_equal(add_groups2(tbls$sqlite), list(quote(x), quote(y)))
@@ -40,10 +37,7 @@ test_that("joins preserve grouping", {
 })
 
 test_that("constructors drops groups", {
-  dt <- lahman_dt() %>% tbl("Batting") %>% group_by(playerID)
   df <- lahman_df() %>% tbl("Batting") %>% group_by(playerID)
-
-  expect_equal(groups(tbl_dt(dt)), NULL)
   expect_equal(groups(tbl_df(df)), NULL)
 })
 
@@ -65,7 +59,7 @@ df_var <- data.frame(
   c = letters[1:2],
   stringsAsFactors = FALSE
 )
-srcs <- temp_srcs(c("df", "dt"))
+srcs <- temp_srcs(c("df"))
 var_tbls <- temp_load(srcs, df_var)
 
 test_that("local group_by preserves variable types", {
@@ -128,22 +122,9 @@ test_that("group_by fails when lists are used as grouping variables (#276)",{
   expect_error(group_by(df,y))
 })
 
-# Data tables ------------------------------------------------------------------
-
-test_that("original data table not modified by grouping", {
-  dt <- data.table::data.table(x = 5:1)
-  dt2 <- group_by(dt, x)
-  dt2$y <- 1:5
-
-  expect_equal(dt$x, 5:1)
-  expect_equal(dt$y, NULL)
-})
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   res <- mtcars %>% group_by(vs) %>% select(mpg)
-  expect_equal(names(res), c("vs", "mpg"))
-
-  res <- mtcars %>% tbl_dt() %>% group_by(vs) %>% select(mpg)
   expect_equal(names(res), c("vs", "mpg"))
 })
 
@@ -161,13 +142,6 @@ test_that("group_by only creates one group for NA (#401)", {
   n_distinct(x) # 11 OK
   res <- data.frame(x=x,w=w) %>% group_by(x) %>% summarise(n=n())
   expect_equal(nrow(res), 11L)
-})
-
-test_that("data.table invalid .selfref issue (#475)", {
-  dt <- data.table::data.table(x=1:5, y=6:10)
-  expect_warning((dt %>% group_by(x))[, z := 2L], NA)
-  dt <- data.table::data.table(x=1:5, y=6:10)
-  expect_warning((dt %>% group_by(x) %>% summarise(z = y^2))[, foo := 1L], NA)
 })
 
 test_that("there can be 0 groups (#486)", {

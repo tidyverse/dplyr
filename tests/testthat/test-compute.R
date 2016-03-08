@@ -2,7 +2,7 @@ context("Compute")
 
 df <- data_frame(x = 5:1, y = 1:5, z = "a")
 
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("compute doesn't change representation", {
@@ -26,7 +26,7 @@ test_that("compute can create indexes", {
   # FIXME: Reenable Postgres when it starts throwing errors on execution
   # failures
   compare_tbls(
-    tbls[!(names(tbls) %in% c("df", "dt", "postgres"))],
+    tbls[!(names(tbls) %in% c("df", "postgres"))],
     function(tbl) {
       expect_error(compute(tbl, unique_indexes = "z"), ".")
       expect_error(compute(tbl, indexes = "x", unique_indexes = "z"))

@@ -1,7 +1,7 @@
 context("Select")
 
 df <- as.data.frame(as.list(setNames(1:26, letters)))
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 
@@ -101,20 +101,6 @@ test_that("num_range selects numeric ranges", {
   expect_equal(select_vars(vars, num_range("x", 1:2, width = 2)), vars[3:4])
   expect_equal(select_vars(vars, num_range("x", 10:11)), vars[5:6])
   expect_equal(select_vars(vars, num_range("x", 10:11, width = 2)), vars[5:6])
-})
-
-# Data table -------------------------------------------------------------------
-
-test_that("select changes columns in copy of data table", {
-  dt <- data.table::data.table(x = 1:4, y = letters[1:4])
-
-  expect_equal(names(select(dt, x, z = y)), c("x", "z"))
-  expect_equal(names(dt), c("x", "y"))
-
-
-  gdt <- dt %>% group_by(x)
-  expect_equal(names(select(gdt, x, z = y)), c("x", "z"))
-  expect_equal(names(gdt), c("x", "y"))
 })
 
 test_that("select can be before group_by (#309)",{

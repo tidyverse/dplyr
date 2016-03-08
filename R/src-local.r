@@ -4,7 +4,7 @@
 #' local and remote tables using exactly the same syntax.
 #'
 #' Generally, \code{src_local} should not be called directly, but instead
-#' one of the (currently three) constructors should be used.
+#' one of the constructors should be used.
 #'
 #' @param tbl name of the function used to generate \code{tbl} objects
 #' @param pkg,env Either the name of a package or an environment object in
@@ -13,14 +13,7 @@
 #' @export
 #' @examples
 #' if (require("Lahman")) {
-#' src_dt("Lahman")
-#'
 #' batting_df <- tbl(src_df("Lahman"), "Batting")
-#'
-#' if (require("data.table")) {
-#'   src_df("Lahman")
-#'   batting_dt <- tbl(src_dt("Lahman"), "Batting")
-#' }
 #' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
@@ -43,11 +36,6 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
 #' @export
 src_df <- function(pkg = NULL, env = NULL) {
   src_local("tbl_df", pkg, env)
-}
-#' @rdname src_local
-#' @export
-src_dt <- function(pkg = NULL, env = NULL) {
-  src_local("tbl_dt", pkg, env)
 }
 
 #' @export

@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* All data table related code has been separated out in to a new dtplyr package.
+  You'll get a message reminding you to load it if both data.table and dplyr are
+  loaded.
+
 * Unary `-` minus is better translated in to SQL (fixes #1002).
 
 * New `union_all()` method. Maps to `UNION ALL` for SQL sources, `bind_rows()`

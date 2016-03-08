@@ -5,13 +5,9 @@ context("Sample")
 test_that("sample preserves class", {
   expect_is(sample_n(mtcars, 1), "data.frame")
   expect_is(sample_n(tbl_df(mtcars), 1), "tbl_df")
-  expect_is(sample_n(data.table::data.table(mtcars), 1), "data.table")
-  expect_is(sample_n(tbl_dt(mtcars), 1), "tbl_dt")
 
   expect_is(sample_frac(mtcars, 1), "data.frame")
   expect_is(sample_frac(tbl_df(mtcars), 1), "tbl_df")
-  expect_is(sample_frac(data.table::data.table(mtcars), 1), "data.table")
-  expect_is(sample_frac(tbl_dt(mtcars), 1), "tbl_dt")
 })
 
 # Ungrouped  -------------------------------------------------------------------

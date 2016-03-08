@@ -1,7 +1,7 @@
 #' Flexible equality comparison for data frames.
 #'
 #' You can use \code{all_equal} with any data frame, and dplyr also provides
-#' \code{tbl_df} and \code{tbl_dt} methods for \code{\link{all.equal}}.
+#' \code{tbl_df} methods for \code{\link{all.equal}}.
 #'
 #' @param target,current Two data frames to compare.
 #' @param ignore_col_order Should order of columns be ignored?
@@ -46,8 +46,3 @@ all_equal <- function(target, current, ignore_col_order = TRUE,
 #' @rdname all_equal
 #' @method all.equal tbl_df
 all.equal.tbl_df <- all_equal
-
-#' @export
-#' @rdname all_equal
-#' @method all.equal tbl_dt
-all.equal.tbl_dt <- all_equal

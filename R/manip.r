@@ -2,7 +2,7 @@
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
+#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
 #' @param ... Logical predicates. Multiple conditions are combined with \code{&}.
 #' @param .dots Used to work around non-standard evaluation. See
 #'   \code{vignette("nse")} for details.
@@ -39,7 +39,7 @@ filter_ <- function(.data, ..., .dots) {
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
+#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
 #' @param ... Integer row values
 #' @inheritParams filter
 #' @export
@@ -95,7 +95,7 @@ slice_ <- function(.data, ..., .dots) {
 #'
 #' \dontrun{
 #' # You can't with data tables or databases
-#' by_cyl_dt <- mtcars %>% tbl_dt() %>% group_by(cyl)
+#' by_cyl_dt <- mtcars %>% dtplyr::tbl_dt() %>% group_by(cyl)
 #' by_cyl_dt %>% summarise(a = n(), b = a + 1)
 #'
 #' by_cyl_db <- src_sqlite(":memory:", create = TRUE) %>%

@@ -100,6 +100,10 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("anti_join")
 }
 
+#' Extract out common by variables
+#'
+#' @export
+#' @keywords internal
 common_by <- function(by = NULL, x, y) {
   if (is.list(by)) return(by)
 

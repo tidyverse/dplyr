@@ -353,7 +353,7 @@ As well as data frames, dplyr works with data that is stored in other ways, like
 
 ## Data table
 
-dplyr also provides [data table](http://datatable.r-forge.r-project.org/) methods for all verbs. If you're using data.tables already this lets you to use dplyr syntax for data manipulation, and data.table for everything else.
+dplyr also provides [data table](http://datatable.r-forge.r-project.org/) methods for all verbs through [dtplyr](http://github.com/hadley/dtplyr). If you're using data.tables already this lets you to use dplyr syntax for data manipulation, and data.table for everything else.
 
 For multiple operations, data.table can be faster because you usually use it with multiple verbs simultaneously. For example, with data table you can do a mutate and a select in a single step. It's smart enough to know that there's no point in computing the new variable for rows you're about to throw away.
 

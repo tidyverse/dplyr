@@ -39,7 +39,7 @@ methods for more details:
 
 \itemize{
   \item data.frame: \link{grouped_df}
-  \item data.table: \link{grouped_dt}
+  \item data.table: \link[dtplyr]{grouped_dt}
   \item SQLite: \code{\link{src_sqlite}}
   \item PostgreSQL: \code{\link{src_postgres}}
   \item MySQL: \code{\link{src_mysql}}

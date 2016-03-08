@@ -1,6 +1,6 @@
 context("Equivalence (grouped)")
 
-srcs <- lahman_srcs("df", "dt", "postgres", "sqlite")
+srcs <- lahman_srcs("df", "postgres", "sqlite")
 players <- lapply(srcs, function(src) {
   src %>% tbl("Batting") %>% group_by(playerID)
 })
@@ -13,15 +13,8 @@ test_that("n the same regardless of tbl", {
     compare = equal_data_frame, convert = TRUE)
 })
 
-test_that("filter the same regardless of tbl", {
-  # Only test on local sources
-  compare_tbls(players[c("df", "dt")], function(tbl) {
-    tbl %>% filter(yearID == min(yearID))
-  })
-})
-
 test_that("mutate the same regardless of tbl", {
-  ok <- intersect(names(players), c("df", "dt", "postgres"))
+  ok <- intersect(names(players), c("df", "postgres"))
 
   compare_tbls(players[ok], function(tbl) {
     tbl %>% select(playerID, yearID) %>%

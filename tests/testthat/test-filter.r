@@ -4,7 +4,7 @@ df <- expand.grid(a = 1:10, b = letters[1:10],
   KEEP.OUT.ATTRS = FALSE,
   stringsAsFactors = FALSE)
 
-srcs <- temp_srcs(c("df", "dt", "sqlite", "postgres"))
+srcs <- temp_srcs(c("df", "sqlite", "postgres"))
 tbls <- temp_load(srcs, df)
 
 test_that("filter results independent of data tbl (simple)", {
@@ -226,15 +226,6 @@ test_that("hybrid evaluation handles $ correctly (#1134)", {
   expect_equal( nrow(res), 9L )
 })
 
-# data.table --------------------------------------------------------------
-
-test_that("filter succeeds even if column called V1 (#615)", {
-  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
-  out <- dt %>% group_by(V1) %>% filter(x > 5)
-
-  expect_equal(nrow(out), 5)
-})
-
 test_that("filter correctly handles empty data frames (#782)", {
   res <- data_frame() %>% filter(F)
   expect_equal( nrow(res), 0L )
@@ -287,12 +278,6 @@ test_that("grouped filter handles indices (#880)", {
   res2 <- mutate( res, Petal = Petal.Width * Petal.Length)
   expect_equal( nrow(res), nrow(res2) )
   expect_equal( attr(res, "indices"), attr(res2, "indices") )
-})
-
-test_that("filter_ works (#906)", {
-  dt <- data.table::data.table(x = 1:10 ,V1 = 0)
-  out <- dt %>% filter_(~x > 5)
-  expect_equal(nrow(out), 5)
 })
 
 test_that("filter(FALSE) drops indices", {
@@ -389,7 +374,6 @@ test_that("each argument gets implicit parens", {
   two <- tbls %>% lapply(. %>% filter(v1 == "a" | v2 == "a", v3 == "a"))
 
   expect_equal(one$df, two$df)
-  expect_equal(one$dt, two$dt)
   expect_equal(collect(one$sqlite), collect(two$sqlite))
   expect_equal(collect(one$postgres), collect(two$postgres))
 })

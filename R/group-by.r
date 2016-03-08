@@ -13,7 +13,7 @@
 #'
 #' \itemize{
 #'   \item data.frame: \link{grouped_df}
-#'   \item data.table: \link{grouped_dt}
+#'   \item data.table: \link[dtplyr]{grouped_dt}
 #'   \item SQLite: \code{\link{src_sqlite}}
 #'   \item PostgreSQL: \code{\link{src_postgres}}
 #'   \item MySQL: \code{\link{src_mysql}}
@@ -77,7 +77,8 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
 #' @return A list
 #'   \item{data}{Modified tbl}
 #'   \item{groups}{Modified groups}
-#' @noRd
+#' @export
+#' @keywords internal
 group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   new_groups <- lazyeval::all_dots(.dots, ...)
   new_groups <- resolve_vars(new_groups, tbl_vars(.data))

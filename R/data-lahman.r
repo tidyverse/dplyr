@@ -61,7 +61,7 @@ lahman_df <- function() {
 #' @export
 #' @rdname lahman
 lahman_dt <- function() {
-  src_dt("Lahman")
+  dtplyr::src_dt("Lahman")
 }
 
 #' @rdname lahman

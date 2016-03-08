@@ -56,7 +56,6 @@ test_that("between translated to special form (#503)", {
   expect_equal(out, sql('"x" BETWEEN 1.0 AND 2.0'))
 })
 
-
 # Minus -------------------------------------------------------------------
 
 test_that("unary minus flips sign of number", {
@@ -73,3 +72,4 @@ test_that("unary minus wraps non-numeric expressions", {
 test_that("binary minus subtracts", {
   expect_equal(translate_sql(1L - 10L), sql("1 - 10"))
 })
+

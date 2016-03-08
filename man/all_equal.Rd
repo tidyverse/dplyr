@@ -2,7 +2,6 @@
 % Please edit documentation in R/all-equal.r
 \name{all_equal}
 \alias{all.equal.tbl_df}
-\alias{all.equal.tbl_dt}
 \alias{all_equal}
 \title{Flexible equality comparison for data frames.}
 \usage{
@@ -10,9 +9,6 @@ all_equal(target, current, ignore_col_order = TRUE, ignore_row_order = TRUE,
   convert = FALSE, ...)
 
 \method{all.equal}{tbl_df}(target, current, ignore_col_order = TRUE,
-  ignore_row_order = TRUE, convert = FALSE, ...)
-
-\method{all.equal}{tbl_dt}(target, current, ignore_col_order = TRUE,
   ignore_row_order = TRUE, convert = FALSE, ...)
 }
 \arguments{
@@ -34,7 +30,7 @@ convert factor to character and integer to double.}
 }
 \description{
 You can use \code{all_equal} with any data frame, and dplyr also provides
-\code{tbl_df} and \code{tbl_dt} methods for \code{\link{all.equal}}.
+\code{tbl_df} methods for \code{\link{all.equal}}.
 }
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]

@@ -1,7 +1,7 @@
 context("Group sizes")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
-tbls <- temp_load(c("df", "dt", "sqlite"), df)
+tbls <- temp_load(c("df", "sqlite"), df)
 
 test_that("ungrouped data has 1 group, with group size = nrow()", {
   for (tbl in tbls) {
