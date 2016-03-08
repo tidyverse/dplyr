@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* In `select()`, negating a failed match (e.g. `select(mtcars, -contains("x"))`)
+  returns all columns, instead of no columns (#1176)
+  
 * The naming behaviour of `summarise_each()` and `mutate_each()` has been
   tweaked so that you can force inclusion of both the function and the 
   variable name: `summarise_each(mtcars, funs(mean = mean), everything())` 

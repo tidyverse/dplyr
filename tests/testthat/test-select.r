@@ -48,6 +48,11 @@ test_that("select excluding all vars returns nothing", {
   expect_equal(dim(select(mtcars, -matches("."))), c(32, 0))
 })
 
+test_that("negating empty match returns everything", {
+  df <- data.frame(x = 1:3, y = 3:1)
+  expect_equal(select(df, -starts_with("xyz")), df)
+})
+
 # Select variables -----------------------------------------------
 
 test_that("select_vars prefix/suffix matching", {

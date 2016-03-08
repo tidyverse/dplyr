@@ -54,7 +54,7 @@ starts_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
   n <- nchar(match)
 
   if (ignore.case) vars <- tolower(vars)
-  which(substr(vars, 1, n) == match)
+  which_vars(match, substr(vars, 1, n))
 }
 
 #' @export
@@ -68,7 +68,7 @@ ends_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
   if (ignore.case) vars <- tolower(vars)
   length <- nchar(vars)
 
-  which(substr(vars, pmax(1, length - n + 1), length) == match)
+  which_vars(match, substr(vars, pmax(1, length - n + 1), length))
 }
 
 #' @export
@@ -80,7 +80,7 @@ contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
     vars <- tolower(vars)
     match <- tolower(match)
   }
-  grep(match, vars, fixed = TRUE)
+  grep_vars(match, vars, fixed = TRUE)
 }
 
 #' @export
@@ -88,7 +88,7 @@ contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
 matches <- function(match, ignore.case = TRUE, vars = current_vars()) {
   stopifnot(is.string(match), nchar(match) > 0)
 
-  grep(match, vars, ignore.case = ignore.case)
+  grep_vars(match, vars, ignore.case = ignore.case)
 }
 
 #' @export
@@ -101,7 +101,7 @@ num_range <- function(prefix, range, width = NULL, vars = current_vars()) {
   if (!is.null(width)) {
     range <- sprintf(paste0("%0", width, "d"), range)
   }
-  match(paste0(prefix, range), vars)
+  match_vars(paste0(prefix, range), vars)
 }
 
 #' @export
@@ -119,11 +119,31 @@ one_of <- function(..., vars = current_vars()) {
     stop("Unknown variables: ", paste0("`", bad, "`", collapse = ", "))
   }
 
-  match(keep, vars)
+  match_vars(keep, vars)
 }
 
 #' @export
 #' @rdname select_helpers
 everything <- function(vars = current_vars()) {
   seq_along(vars)
+}
+
+match_vars <- function(needle, haystack) {
+  x <- match(needle, haystack)
+  x <- x[!is.na(x)]
+
+  fill_out(x, haystack)
+}
+
+grep_vars <- function(needle, haystack, ...) {
+  fill_out(grep(needle, haystack, ...), haystack)
+}
+
+which_vars <- function(needle, haystack) {
+  fill_out(which(needle == haystack), haystack)
+}
+
+fill_out <- function(x, haystack) {
+  if (length(x) > 0) return(x)
+  -seq_along(haystack)
 }
