@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `filter()` throws an error if you supply an named arguments. This is usually
+  a type: `filter(df, x = 1)` instead of `filter(df, x == 1)` (#1529).
+
 * Joins now use correct class when joining on POSIXct colums (#1582, @joel23888).
 
 * `select()` works even if the grouping variable has a non-syntactic name 

@@ -185,7 +185,13 @@ arrange_.tbl_df  <- function(.data, ..., .dots) {
 
 #' @export
 filter_.tbl_df    <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ...)
+  if (any(has_names(dots))) {
+    stop("filter() takes unnamed arguments. Do you need `==`?", call. = FALSE)
+  }
+  # C++ code assumes that elements are named, so give them automatic names
+  dots <- lazyeval::auto_name(dots)
+
   filter_impl(.data, dots)
 }
 

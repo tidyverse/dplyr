@@ -347,7 +347,7 @@ n_groups.data.frame <- function(x) 1L
 
 #' @export
 filter_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ...)
   as.data.frame(filter_(tbl_df(.data), .dots = dots))
 }
 #' @export

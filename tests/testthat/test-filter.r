@@ -37,6 +37,11 @@ test_that("filter gives useful error message when given incorrect input", {
   expect_error( filter(tbl_df(mtcars), x ), "unknown column" )
 })
 
+test_that("filter complains in inputs are named", {
+  expect_error(filter(mtcars, x = 1), "takes unnamed arguments")
+  expect_error(filter(mtcars, x = 1 & y > 2), "takes unnamed arguments")
+})
+
 test_that("filter handles passing ...", {
   df <- data.frame( x = 1:4 )
 
