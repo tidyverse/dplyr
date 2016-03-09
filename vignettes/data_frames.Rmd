@@ -10,7 +10,7 @@ vignette: >
 
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
-options(dplyr.print_min = 4L, dplyr.print_max = 4L)
+options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
 
@@ -115,8 +115,8 @@ There are three key differences between tbl_dfs and data.frames:
     
     You can control the default appearance with options:
     
-    * `options(dplyr.print_max = n, dplyr.print_min = m)`: if more than `n`
-      rows print `m` rows. Use `options(dplyr.print_max = Inf)` to always
+    * `options(tibble.print_max = n, tibble.print_min = m)`: if more than `n`
+      rows print `m` rows. Use `options(tibble.print_max = Inf)` to always
       show all rows.
     
     * `options(dply.width = Inf)` will always print all columns, regardless
