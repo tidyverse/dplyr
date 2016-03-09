@@ -56,6 +56,11 @@ test_that("between translated to special form (#503)", {
   expect_equal(out, sql('"x" BETWEEN 1.0 AND 2.0'))
 })
 
+test_that("is.na and is.null are equivalent",{
+  expect_equal(translate_sql(!is.na(x)), sql('NOT("x" IS NULL)'))
+  expect_equal(translate_sql(!is.null(x)), sql('NOT("x" IS NULL)'))
+})
+
 # Minus -------------------------------------------------------------------
 
 test_that("unary minus flips sign of number", {
