@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* The backend testing system has been improved. This lead to the removal of 
+  `temp_srcs()`. In the unlikely event that you were using this function,
+  you can instead use `test_register_src()` and `test_load()`.
+
 * `filter()` throws an error if you supply an named arguments. This is usually
   a type: `filter(df, x = 1)` instead of `filter(df, x == 1)` (#1529).
 

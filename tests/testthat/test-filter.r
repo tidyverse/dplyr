@@ -4,8 +4,7 @@ df <- expand.grid(a = 1:10, b = letters[1:10],
   KEEP.OUT.ATTRS = FALSE,
   stringsAsFactors = FALSE)
 
-srcs <- temp_srcs(c("df", "sqlite", "postgres"))
-tbls <- temp_load(srcs, df)
+tbls <- test_load(df)
 
 test_that("filter results independent of data tbl (simple)", {
   expected <- df[df$a > 6, , drop = FALSE]
@@ -373,16 +372,12 @@ test_that("each argument gets implicit parens", {
     v3 = c("a", "b", "c", "d")
   )
 
-  tbls <- temp_load(srcs, df)
+  tbls <- test_load(df)
 
   one <- tbls %>% lapply(. %>% filter((v1 == "a" | v2 == "a") & v3 == "a"))
   two <- tbls %>% lapply(. %>% filter(v1 == "a" | v2 == "a", v3 == "a"))
 
-  expect_equal(one$df, two$df)
-  expect_equal(collect(one$sqlite), collect(two$sqlite))
-
-  skip_on_travis()
-  if (!has_postgres())
-    skip("Postgres not available")
-  expect_equal(collect(one$postgres), collect(two$postgres))
+  lapply(seq_along(one), function(i) {
+    expect_equal(collect(one[[i]]), collect(two[[i]]))
+  })
 })

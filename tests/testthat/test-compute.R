@@ -1,18 +1,15 @@
 context("Compute")
 
-df <- data_frame(x = 5:1, y = 1:5, z = "a")
-
-srcs <- temp_srcs(c("df", "sqlite", "postgres"))
-tbls <- temp_load(srcs, df)
-
 test_that("compute doesn't change representation", {
-  compare_tbls(tbls, . %>% compute,
-               compare = equal_data_frame, convert = TRUE)
-  compare_tbls(tbls, . %>% mutate(a = x) %>% compute,
-               compare = equal_data_frame, convert = TRUE)
+  tbls <- test_frame(x = 5:1, y = 1:5, z = "a")
+
+  compare_tbls(tbls, . %>% compute, convert = TRUE)
+  compare_tbls(tbls, . %>% mutate(a = x) %>% compute, convert = TRUE)
 })
 
 test_that("compute can create indexes", {
+  tbls <- test_frame(x = 5:1, y = 1:5, z = "a")
+
   compare_tbls(tbls, . %>% compute(indexes = c("x", "y")),
                compare = equal_data_frame, convert = TRUE)
   compare_tbls(tbls, . %>% compute(indexes = list("x", "y", c("x", "y"))),

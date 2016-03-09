@@ -1,4 +1,4 @@
-library("testthat")
-library("dplyr")
+library(testthat)
+library(dplyr)
 
 test_check("dplyr")

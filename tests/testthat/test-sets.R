@@ -1,6 +1,6 @@
 context("Set ops")
 
-tbls <- temp_load(c("df", "sqlite", "postgres"), mtcars)
+tbls <- test_load(mtcars)
 
 test_that("results are the same across sources", {
   compare_tbls(tbls,

@@ -8,8 +8,7 @@ df <- data.frame(
   y = 6:1
 )
 
-srcs <- temp_srcs(c("df", "sqlite"))
-tbls <- temp_load(srcs, df)
+tbls <- test_load(df)
 grp <- lapply(tbls, function(x) x %>% group_by(g))
 
 test_that("can't use both named and unnamed args", {

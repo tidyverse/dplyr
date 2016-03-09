@@ -108,19 +108,6 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
     info = info, disco = db_disconnector(con, "postgres"))
 }
 
-
-has_postgres <- function(...) {
-  tryCatch(
-    {
-      src <- src_postgres(...)
-      dbDisconnect(src$con)
-      TRUE
-    },
-    error = function(e) {
-      FALSE
-  })
-}
-
 #' @export
 #' @rdname src_postgres
 tbl.src_postgres <- function(src, from, ...) {

@@ -50,7 +50,7 @@ test_that("local arrange sorts missing values to end", {
 test_that("two arranges equivalent to one", {
   single <- arrange(df1, a, b)
 
-  tbls <- temp_load(c(local, db), df1)
+  tbls <- test_load(df1)
   compare_tbls(tbls, ref = single, compare = equal_df,
     function(x) x %>% arrange(b) %>% arrange(a))
 })

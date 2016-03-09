@@ -2,8 +2,7 @@ context("Group by")
 
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
-srcs <- temp_srcs(c("df", "sqlite", "postgres"))
-tbls <- temp_load(srcs, df)
+tbls <- test_load(df)
 
 test_that("group_by with add = TRUE adds groups", {
   add_groups1 <- function(tbl) groups(group_by(tbl, x, y, add = TRUE))
@@ -49,31 +48,24 @@ test_that("grouping by constant adds column (#410)", {
 
 # Test full range of variable types --------------------------------------------
 
-df_var <- data.frame(
-  l = c(T, F),
-  i = 1:2,
-  d = Sys.Date() + 1:2,
-  f = factor(letters[1:2]),
-  num = 1:2 + 0.5,
-  t = Sys.time() + 1:2,
-  c = letters[1:2],
-  stringsAsFactors = FALSE
-)
-srcs <- temp_srcs(c("df"))
-var_tbls <- temp_load(srcs, df_var)
 
 test_that("local group_by preserves variable types", {
-  for(var in names(df_var)) {
-    expected <- data.frame(unique(df_var[[var]]), n = 1L,
-      stringsAsFactors = FALSE)
+  df_var <- data_frame(
+    l = c(T, F),
+    i = 1:2,
+    d = Sys.Date() + 1:2,
+    f = factor(letters[1:2]),
+    num = 1:2 + 0.5,
+    t = Sys.time() + 1:2,
+    c = letters[1:2]
+  )
+
+  for (var in names(df_var)) {
+    expected <- data_frame(unique(df_var[[var]]), n = 1L)
     names(expected)[1] <- var
 
-    for(tbl in names(var_tbls)) {
-      grouped <- group_by_(var_tbls[[tbl]], var)
-      summarised <- summarise(grouped, n = n())
-      expect_true(all.equal(summarised, expected),
-        label = paste0("summarised_", tbl, "_", var))
-    }
+    summarised <- df_var %>% group_by_(var) %>% summarise(n = n())
+    expect_equal(summarised, expected, info = var)
   }
 })
 

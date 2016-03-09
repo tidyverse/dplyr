@@ -5,7 +5,7 @@ df <- data.frame(
   y = c(1, 1, 2, 2),
   z = c(1, 1, 2, 2)
 )
-tbls <- temp_load(c("df", "sqlite"), df)
+tbls <- test_load(df)
 
 test_that("distinct equivalent to local unique", {
   compare_tbls(tbls, function(x) x %>% distinct(), ref = unique(df))
