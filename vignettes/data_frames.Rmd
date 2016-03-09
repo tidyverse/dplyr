@@ -119,7 +119,7 @@ There are three key differences between tbl_dfs and data.frames:
       rows print `m` rows. Use `options(tibble.print_max = Inf)` to always
       show all rows.
     
-    * `options(dply.width = Inf)` will always print all columns, regardless
+    * `options(tibble.width = Inf)` will always print all columns, regardless
        of the width of the screen.
 
     
