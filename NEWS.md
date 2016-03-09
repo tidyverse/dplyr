@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* The were some minor improvements to SQL translation. `is.na()` gets a missing
+  space. `if`, `is.na()`, and `is.null()` get extra parens to make precendence
+  more clear (#1695).
+
 * The backend testing system has been improved. This lead to the removal of 
   `temp_srcs()`. In the unlikely event that you were using this function,
   you can instead use `test_register_src()` and `test_load()`.

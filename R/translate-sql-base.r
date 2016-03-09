@@ -71,9 +71,11 @@ base_scalar <- sql_translator(
   nchar   = sql_prefix("length", 1),
 
   `if` = function(cond, if_true, if_false = NULL) {
-    build_sql("CASE WHEN ", cond, " THEN ", if_true,
-      if (!is.null(if_false)) build_sql(" ELSE "), if_false, " ",
-      "END")
+    build_sql(
+      "CASE WHEN (", cond, ")",
+      " THEN (", if_true, ")",
+      if (!is.null(if_false)) build_sql(" ELSE (", if_false, ")"),
+      " END")
   },
 
   sql = function(...) sql(...),
@@ -88,10 +90,10 @@ base_scalar <- sql_translator(
   },
 
   is.null = function(x) {
-    build_sql(x, " IS NULL")
+    build_sql("(", x, ") IS NULL")
   },
   is.na = function(x) {
-    build_sql(x, " IS NULL")
+    build_sql("(", x, ") IS NULL")
   },
 
   as.numeric = function(x) build_sql("CAST(", x, " AS NUMERIC)"),

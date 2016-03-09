@@ -57,8 +57,20 @@ test_that("between translated to special form (#503)", {
 })
 
 test_that("is.na and is.null are equivalent",{
-  expect_equal(translate_sql(!is.na(x)), sql('NOT("x" IS NULL)'))
-  expect_equal(translate_sql(!is.null(x)), sql('NOT("x" IS NULL)'))
+  expect_equal(translate_sql(!is.na(x)), sql('NOT(("x") IS NULL)'))
+  expect_equal(translate_sql(!is.null(x)), sql('NOT(("x") IS NULL)'))
+})
+
+test_that("if translation adds parens", {
+  expect_equal(
+    translate_sql(if (x) y),
+    sql('CASE WHEN ("x") THEN ("y") END')
+  )
+  expect_equal(
+    translate_sql(if (x) y else z),
+    sql('CASE WHEN ("x") THEN ("y") ELSE ("z") END')
+  )
+
 })
 
 # Minus -------------------------------------------------------------------
