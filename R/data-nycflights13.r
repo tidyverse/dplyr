@@ -30,6 +30,20 @@ nycflights13_postgres <- function(dbname = "nycflights13", ...) {
   })
 }
 
+#' @rdname nycflights13
+#' @export
+has_nycflights13 <- function(type = c("sqlite", "postgresql"), ...) {
+  if (!requireNamespace("nycflights13", quietly = TRUE)) return(FALSE)
+
+  type <- match.arg(type)
+
+  succeeds(switch(type,
+    sqlite = nycflights13_sqlite(...), quiet = TRUE,
+    postgres = nycflights13_postgres(...), quiet = TRUE
+  ))
+}
+
+
 #' @export
 #' @rdname nycflights13
 copy_nycflights13 <- function(src, ...) {

@@ -2,6 +2,7 @@
 % Please edit documentation in R/data-nycflights13.r
 \name{nycflights13}
 \alias{copy_nycflights13}
+\alias{has_nycflights13}
 \alias{nycflights13}
 \alias{nycflights13_postgres}
 \alias{nycflights13_sqlite}
@@ -10,6 +11,8 @@
 nycflights13_sqlite(path = NULL)
 
 nycflights13_postgres(dbname = "nycflights13", ...)
+
+has_nycflights13(type = c("sqlite", "postgresql"), ...)
 
 copy_nycflights13(src, ...)
 }
