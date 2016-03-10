@@ -44,3 +44,14 @@ test_that( "cummean is not confused by FP error (#1387)", {
 test_that("over() only requires first argument", {
   expect_equal(over("X"), sql("'X' OVER ()"))
 })
+
+test_that("multiple group by or order values don't have parens", {
+  expect_equal(
+    over("x", order = c("x", "y")),
+    sql("'x' OVER (ORDER BY x, y)")
+  )
+  expect_equal(
+    over("x", partition = c("x", "y")),
+    sql("'x' OVER (PARTITION BY x, y)")
+  )
+})

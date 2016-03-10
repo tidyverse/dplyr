@@ -5,6 +5,10 @@
     * Work on ungrouped data (#1061).
 
     * Warning if order is not set on cumulative window functions.
+    
+    * Multiple partitions or ordering variables in windowed functions no
+      longer generate extra parentheses, so should work for more databases 
+      (#1060)
 
 * The were some minor improvements to SQL translation. `is.na()` gets a missing
   space. `if`, `is.na()`, and `is.null()` get extra parens to make precendence
