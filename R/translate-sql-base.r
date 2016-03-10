@@ -143,7 +143,6 @@ base_win <- sql_translator(
   percent_rank = win_rank("percent_rank"),
   cume_dist    = win_rank("cume_dist"),
   ntile        = function(order_by, n) {
-    browser()
     over(
       build_sql("NTILE", list(as.integer(n))),
       partition_group(),
