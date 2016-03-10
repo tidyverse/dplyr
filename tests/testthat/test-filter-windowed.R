@@ -34,6 +34,7 @@ test_that("cumulative aggregates generate window function", {
   test_f <- function(tbl) {
     res <- tbl %>%
       group_by(g) %>%
+      arrange(x) %>%
       filter(cumsum(x) > 3) %>%
       collect()
     expect_equal(res$x, c(3, 3, 4))

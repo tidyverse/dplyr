@@ -38,3 +38,9 @@ test_that( "cummean is not confused by FP error (#1387)", {
   a <- rep(99, 9)
   expect_true( all( cummean(a) == a) )
 })
+
+# Databases ---------------------------------------------------------------
+
+test_that("over() only requires first argument", {
+  expect_equal(over("X"), sql("'X' OVER ()"))
+})

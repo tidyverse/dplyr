@@ -1,5 +1,11 @@
 # dplyr 0.4.3.9000
 
+* Database window functions:
+
+    * Work on ungrouped data (#1061).
+
+    * Warning if order is not set on cumulative window functions.
+
 * The were some minor improvements to SQL translation. `is.na()` gets a missing
   space. `if`, `is.na()`, and `is.null()` get extra parens to make precendence
   more clear (#1695).

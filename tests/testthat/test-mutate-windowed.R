@@ -32,6 +32,7 @@ test_that("cumulative aggregates generate window function", {
   test_f <- function(tbl) {
     res <- tbl %>%
       group_by(g) %>%
+      arrange(x) %>%
       mutate(r = cumsum(x)) %>%
       collect()
     expect_equal(res$r, c(1, 3, 3, 7))

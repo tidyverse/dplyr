@@ -149,7 +149,7 @@ win_rank <- function(f) {
 win_recycled <- function(f) {
   force(f)
   function(x) {
-    over(build_sql(sql(f), list(x)), partition_group(), NULL, frame = c(-Inf, Inf))
+    over(build_sql(sql(f), list(x)), partition_group())
   }
 }
 win_cumulative <- function(f) {

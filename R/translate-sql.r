@@ -112,6 +112,13 @@ translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL,
     window = window)
 }
 
+translate_window_sql <- function(..., order_by = NULL, group_by = NULL) {
+  old <- set_partition(group_by, order_by)
+  on.exit(set_partition(old))
+
+  translate_sql_q(dots(...), window = TRUE)
+}
+
 #' @export
 #' @rdname translate_sql
 translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
@@ -156,6 +163,7 @@ src_translate_env.NULL <- function(x) {
   sql_variant(
     base_scalar,
     base_agg,
+    base_win
   )
 }
 
