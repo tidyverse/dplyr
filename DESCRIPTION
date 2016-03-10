@@ -37,11 +37,12 @@ Suggests:
     rmarkdown,
     covr,
     dtplyr
-Remotes: hadley/testthat
+Remotes:
+    hadley/testthat,
+    hadley/tibble
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1)
-Remotes: krlmlr/tibble
 LazyData: yes
 License: MIT + file LICENSE
 Collate:
