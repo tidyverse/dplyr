@@ -179,15 +179,6 @@ db_commit.MySQLConnection <- function(con, ...) {
 }
 
 #' @export
-db_explain.MySQLConnection <- function(con, sql, ...) {
-  exsql <- build_sql("EXPLAIN ", sql, con = con)
-  expl <- dbGetQuery(con, exsql)
-  out <- utils::capture.output(print(expl))
-
-  paste(out, collapse = "\n")
-}
-
-#' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Convert factors to strings

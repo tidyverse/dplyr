@@ -138,17 +138,6 @@ db_query_fields.SQLiteConnection <- function(con, sql, ...) {
   names(fetch(rs, 0L))
 }
 
-# http://sqlite.org/lang_explain.html
-#' @export
-db_explain.SQLiteConnection <- function(con, sql, ...) {
-  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
-  expl <- DBI::dbGetQuery(con, exsql)
-  rownames(expl) <- NULL
-  out <- utils::capture.output(print(expl))
-
-  paste(out, collapse = "\n")
-}
-
 #' @export
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   DBI::dbWriteTable(con, table, values, append = TRUE, row.names = FALSE)

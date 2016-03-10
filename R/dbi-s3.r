@@ -180,6 +180,15 @@ db_explain <- function(con, sql, ...) {
   UseMethod("db_explain")
 }
 
+#' @export
+db_explain.DBIConnection <- function(con, sql, ...) {
+  exsql <- build_sql("EXPLAIN ", sql, con = con)
+  expl <- dbGetQuery(con, exsql)
+  out <- utils::capture.output(print(expl))
+
+  paste(out, collapse = "\n")
+}
+
 
 
 # SQL generation --------------------------------------------------------------

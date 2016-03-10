@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `db_explain()` gains a default method for DBIConnections (#1177).
+
 * Database window functions:
 
     * Work on ungrouped data (#1061).
