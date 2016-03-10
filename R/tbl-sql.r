@@ -240,8 +240,7 @@ build_query <- function(x, limit = NULL) {
       where = NULL,
       select = c(x$select, where$comp))$query
 
-    from_sql <- build_sql("(", base_query$sql, ") AS ", ident(unique_name()),
-      con = x$src$con)
+    from_sql <- sql_subquery(x$src$con, base_query$sql, unique_name())
     where_sql <- translate(where$expr)
   }
 
