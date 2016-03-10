@@ -114,4 +114,11 @@ test_that("cumulative windows warn if no order", {
   expect_warning(translate_window_sql(cumsum(x), order_by = "x"), NA)
 })
 
+test_that("ntile always casts to integer", {
+  expect_equal(
+    translate_window_sql(ntile(x, 10.5)),
+    sql('NTILE(10) OVER (ORDER BY "x")')
+  )
+})
+
 
