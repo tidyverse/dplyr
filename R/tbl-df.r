@@ -132,7 +132,7 @@ print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
 #' @export
 `$.tbl_df` <- function(x, i) {
   if (is.character(i) && !(i %in% names(x)))
-    stop("Unknown name", call. = FALSE)
+    stop("Unknown column '", i, "'", call. = FALSE)
 
   .subset2(x, i)
 }
