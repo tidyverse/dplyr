@@ -74,7 +74,6 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 #' @rdname tally
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  old_vars <- lapply(groups(x), lazyeval::as.lazy, env=parent.frame())
-  grouped <- group_by_(x, .dots = c(old_vars, vars))
+  grouped <- group_by_(x, .dots = vars, add=TRUE)
   tally_(grouped, wt = wt, sort = sort)
 }
