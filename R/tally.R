@@ -74,6 +74,6 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 #' @rdname tally
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  grouped <- group_by_(x, .dots = vars)
+  grouped <- group_by_(x, .dots = vars, add=TRUE)
   tally_(grouped, wt = wt, sort = sort)
 }

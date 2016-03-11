@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `count` now respects and expands group_by statements (#1703, @edwindj)
+
 * `db_explain()` gains a default method for DBIConnections (#1177).
 
 * Database window functions:
