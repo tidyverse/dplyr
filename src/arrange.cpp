@@ -39,7 +39,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
             SEXP dim = Rf_getAttrib(v, Rf_install( "dim" ) ) ;
             int nr = INTEGER(dim)[0] ;
             if( nr != data.nrows() ){
-                stop( "matrix column with incompatible number of rows (%d), expecting : ", nr, data.nrows() ) ;
+                stop( "matrix column with incompatible number of rows (%d), expecting : %d", nr, data.nrows() ) ;
             }
         } else {
             if( Rf_length(v) != data.nrows() ){
