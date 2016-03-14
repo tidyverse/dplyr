@@ -36,7 +36,8 @@ combine(...)
   used instead.}
 }
 \value{
-\code{bind_rows} and \code{bind_cols} always return a \code{tbl_df}
+\code{bind_rows} and \code{bind_cols} return the same type as
+  the first input, either a data frame, \code{tbl_df}, or \code{grouped_df}.
 }
 \description{
 This is an efficient implementation of the common pattern of

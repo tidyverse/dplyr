@@ -26,7 +26,8 @@
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @return \code{bind_rows} and \code{bind_cols} always return a \code{tbl_df}
+#' @return \code{bind_rows} and \code{bind_cols} return the same type as
+#'   the first input, either a data frame, \code{tbl_df}, or \code{grouped_df}.
 #' @aliases rbind_all rbind_list
 #' @examples
 #' one <- mtcars[1:4, ]
