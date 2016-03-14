@@ -19,17 +19,6 @@ test_that("cbind uses shallow copies", {
   expect_equal(dfloc(df2), dfloc(df)[names(df2)])
 })
 
-test_that( "bind_cols produces a tbl_df (#779)", {
-  df1 <- data.frame(a = letters)
-  df2 <- data.frame(A = LETTERS)
-
-  expect_is(bind_cols(df1, df2), "tbl_df")
-  expect_is(bind_cols(df1, tbl_df(df2)), "tbl_df")
-  expect_is(bind_cols(tbl_df(df1), df2), "tbl_df")
-  expect_is(bind_cols(tbl_df(df1), tbl_df(df2)), "tbl_df")
-
-})
-
 test_that("bind_cols handles lists (#1104)", {
   exp <- data_frame(x = 1, y = "a", z = 2)
 
@@ -83,11 +72,6 @@ test_that("bind_rows handles list columns (#463)", {
   dfl <- data_frame(x = I(list(1:2, 1:3, 1:4)))
   res <- bind_rows(list(dfl, dfl))
   expect_equal(rep(dfl$x, 2L), res$x)
-})
-
-test_that("bind_rows returns tbl_df", {
-  res <- bind_rows(mtcars)
-  expect_is(res, "tbl_df")
 })
 
 test_that("can bind lists of data frames #1389", {
@@ -372,5 +356,38 @@ test_that("bind_rows handles promotion to strings (#1538)", {
   expect_equal(df14$b, c("1", "2", "C", "D") )
   expect_equal(df23$b, c("1", "2", "A", "B") )
   expect_equal(df24$b, c("1", "2", "C", "D") )
+})
+
+test_that("bind_rows infers classes from first result (#1692)", {
+  d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
+  d2 <- tbl_df(d1)
+  d3 <- group_by(d1, b)
+  d4 <- rowwise(d1)
+  d5 <- list(a = 1:10, b = rep(1:2, each = 5))
+
+  expect_equal( class(bind_rows(d1,d1)), "data.frame" )
+  expect_equal( class(bind_rows(d2,d1)), c("tbl_df", "tbl", "data.frame") )
+  res3 <- bind_rows(d3,d1)
+  expect_equal( class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame") )
+  expect_equal( attr(res3, "group_sizes"), c(10,10) )
+  expect_equal( class(bind_rows(d4,d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame") )
+  expect_equal( class(bind_rows(d5,d1)), c("tbl_df", "tbl", "data.frame") )
+
+})
+
+test_that("bind_cols infers classes from first result (#1692)", {
+  d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
+  d2 <- data_frame(c = 1:10, d = rep(1:2, each = 5))
+  d3 <- group_by(d2, d)
+  d4 <- rowwise(d2)
+  d5 <- list(c = 1:10, d = rep(1:2, each = 5))
+
+  expect_equal( class(bind_cols(d1,d1)), "data.frame" )
+  expect_equal( class(bind_cols(d2,d1)), c("tbl_df", "tbl", "data.frame") )
+  res3 <- bind_cols(d3,d1)
+  expect_equal( class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame") )
+  expect_equal( attr(res3, "group_sizes"), c(5,5) )
+  expect_equal( class(bind_rows(d4,d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame") )
+  expect_equal( class(bind_rows(d5,d1)), c("tbl_df", "tbl", "data.frame") )
 
 })
