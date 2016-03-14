@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `count()` now adds additional grouping variables, rather than overriding
+  existing (#1703).
+
 * `pmin()` and `pmax()` are translated to SQL `MIN()` and `MAX()` (#1711).
 
 * `case_when()` is a general vectorised if + else if (#631).

@@ -11,6 +11,14 @@ test_that("can count variable called n", {
   expect_equal(out$nn, c(3, 2))
 })
 
+test_that("grouped count includes group", {
+  df <- data.frame(g = c(1, 2, 2, 2))
+
+  res <- df %>% group_by(g) %>% count()
+  expect_equal(names(res), c("g", "n"))
+  expect_equal(res$n, c(1, 3))
+})
+
 # n_distinct --------------------------------------------------------------
 
 test_that("count_distinct gives the correct results on iris", {
