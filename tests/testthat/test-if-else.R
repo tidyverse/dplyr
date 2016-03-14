@@ -5,16 +5,16 @@ test_that("first argument must be logical", {
 })
 
 test_that("true and false must be same length as condition (or length 1)", {
-  expect_error(if_else(1:3 < 2, 1:2, 1:3), "must be length one or the same length")
-  expect_error(if_else(1:3 < 2, 1:3, 1:2), "must be length one or the same length")
+  expect_error(if_else(1:3 < 2, 1:2, 1:3), "`true` is length 2 not 1 or 3")
+  expect_error(if_else(1:3 < 2, 1:3, 1:2), "`false` is length 2 not 1 or 3")
 })
 
 test_that("true and false must be same type and same class", {
-  expect_error(if_else(1:3 < 2, 1, 1L), "must be the same type")
+  expect_error(if_else(1:3 < 2, 1, 1L), "`false` has type 'integer'")
 
   x <- factor("x")
   y <- ordered("x")
-  expect_error(if_else(1:3 < 2, x, y), "must have same class")
+  expect_error(if_else(1:3 < 2, x, y), "`false` has class ordered/factor")
 })
 
 test_that("scalar true and false are vectorised", {

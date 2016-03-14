@@ -14,5 +14,5 @@ test_that("finds non-missing values in multiple positions", {
 })
 
 test_that("error if invalid length", {
-  expect_error(coalesce(1:2, 1:3), "position 1 is not length 1 or 2")
+  expect_error(coalesce(1:2, 1:3), "Vector 1 is length 3 not 1 or 2")
 })

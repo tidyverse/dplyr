@@ -4,7 +4,7 @@
 \alias{if_else}
 \title{Vectorised if.}
 \usage{
-if_else(condition, true, false)
+if_else(condition, true, false, missing = NULL)
 }
 \arguments{
 \item{condition}{Logical vector}
@@ -14,6 +14,9 @@ if_else(condition, true, false)
 or length 1. They must also be the same type: \code{if_else} checks that
 they have the same type and same class. All other attributes are
 taken from \code{true}.}
+
+\item{missing}{If not \code{NULL}, will be used to replace missing
+values.}
 }
 \value{
 Where \code{condition} is \code{TRUE}, the matching value from
@@ -27,8 +30,9 @@ strictness makes the output type more predictable, and makes it somewhat
 faster.
 }
 \examples{
-x <- -10:10
-ifelse(x < 0, NA, x)
+x <- c(-5:5, NA)
+if_else(x < 0, NA_integer_, x)
+if_else(x < 0, "negative", "positive", "missing")
 
 # Unlike ifelse, if_else preserves types
 x <- factor(sample(letters[1:5], 10, replace = TRUE))

@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `recode()` provides a vectorised equivalent to `switch()` (#1710).
+
 * `if_else()` is a vectorisd if statement: it's a stricter (type-safe), faster, 
   and more predictable version of `ifelse()`. In SQL it is translated to a 
   `CASE` statement.
