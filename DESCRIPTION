@@ -36,8 +36,7 @@ Suggests:
     rmarkdown,
     covr,
     dtplyr
-Remotes:
-    hadley/testthat
+Remotes: hadley/testthat
 VignetteBuilder: knitr
 LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
@@ -78,6 +77,7 @@ Collate:
     'lead-lag.R'
     'location.R'
     'manip.r'
+    'na_if.R'
     'near.R'
     'nth-value.R'
     'order-by.R'

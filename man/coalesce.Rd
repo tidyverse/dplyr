@@ -29,4 +29,7 @@ y <- c(1, 2, NA, NA, 5)
 z <- c(NA, NA, 3, 4, 5)
 coalesce(y, z)
 }
+\seealso{
+\code{\link{na_if}()} to replace specified values with a \code{NA}.
+}
 

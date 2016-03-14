@@ -95,6 +95,7 @@ base_scalar <- sql_translator(
   is.na = function(x) {
     build_sql("(", x, ") IS NULL")
   },
+  na_if = sql_prefix("NULL_IF", 2),
 
   as.numeric = function(x) build_sql("CAST(", x, " AS NUMERIC)"),
   as.integer = function(x) build_sql("CAST(", x, " AS INTEGER)"),

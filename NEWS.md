@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
+  In SQL it is translated to `NULL_IF`.
+
 * `tally()` and `count()` can now count a variable called `n` (#1633).
 
 * `bind_rows` and `bind_cols` infer classes and extra information (e.g. about

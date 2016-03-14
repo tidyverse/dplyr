@@ -8,6 +8,7 @@
 #'   same length as \code{x}
 #' @return A vector the same length as \code{x} with missing values replaced
 #'   by the first non-missing value.
+#' @seealso \code{\link{na_if}()} to replace specified values with a \code{NA}.
 #' @export
 #' @examples
 #' # Use a single value to replace all missing values
