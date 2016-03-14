@@ -133,14 +133,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // distinct_impl
-SEXP distinct_impl(DataFrame df, CharacterVector vars);
-RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP) {
+SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep);
+RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
-    __result = Rcpp::wrap(distinct_impl(df, vars));
+    Rcpp::traits::input_parameter< CharacterVector >::type keep(keepSEXP);
+    __result = Rcpp::wrap(distinct_impl(df, vars, keep));
     return __result;
 END_RCPP
 }

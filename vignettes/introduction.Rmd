@@ -149,11 +149,11 @@ rename(flights, tail_num = tailnum)
 
 ## Extract distinct (unique) rows
 
-A common use of `select()` is to find the values of a set of variables. This is particularly useful in conjunction with the `distinct()` verb which only returns the unique values in a table.
+Use `distinct()`to find unique values in a table:
 
 ```{r}
-distinct(select(flights, tailnum))
-distinct(select(flights, origin, dest))
+distinct(flights, tailnum)
+distinct(flights, origin, dest)
 ```
 
 (This is very similar to `base::unique()` but should be much faster.)

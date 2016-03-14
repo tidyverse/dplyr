@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `distinct()` now only keeps the distinct variables. If you want to return
+  all variables (using the first row for non-distinct values) use
+  `.keep_all = TRUE` (#1110).
+
 * `count()` now adds additional grouping variables, rather than overriding
   existing (#1703).
 

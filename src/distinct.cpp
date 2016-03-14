@@ -4,7 +4,7 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-SEXP distinct_impl( DataFrame df, CharacterVector vars){
+SEXP distinct_impl( DataFrame df, CharacterVector vars, CharacterVector keep){
     if( df.size() == 0 )
         return df ;
     check_valid_colnames(df) ;
@@ -23,5 +23,5 @@ SEXP distinct_impl( DataFrame df, CharacterVector vars){
         }
     }
 
-    return DataFrameSubsetVisitors(df, df.names()).subset(indices, df.attr("class")) ;
+    return DataFrameSubsetVisitors(df, keep).subset(indices, df.attr("class")) ;
 }

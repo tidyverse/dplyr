@@ -434,9 +434,9 @@ setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
 setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
-distinct_.data.frame <- function(.data, ..., .dots) {
-  dist <- distinct_vars(.data, ..., .dots = .dots)
-  distinct_impl(dist$data, dist$vars)
+distinct_.data.frame <- function(.data, ..., .dots, .keep_all = FALSE) {
+  dist <- distinct_vars(.data, ..., .dots = .dots, .keep_all = .keep_all)
+  distinct_impl(dist$data, dist$vars, dist$keep)
 }
 
 

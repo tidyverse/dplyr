@@ -57,8 +57,8 @@ combine_vars <- function(vars, xs) {
     .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
 }
 
-distinct_impl <- function(df, vars) {
-    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars)
+distinct_impl <- function(df, vars, keep) {
+    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars, keep)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y) {

@@ -94,8 +94,11 @@ group_size.tbl_sql <- function(x) {
 n_groups.tbl_sql <- function(x) {
   if (is.null(groups(x))) return(1L)
 
-  x <- update(x, select = groups(x))
-  nrow(compute(distinct(x)))
+  x %>%
+    select_(.dots = groups(x)) %>%
+    distinct_(.dots = groups(x), .keep_all = TRUE) %>%
+    compute() %>%
+    nrow()
 }
 
 # Standard data frame methods --------------------------------------------------
@@ -732,9 +735,10 @@ is.join <- function(x) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.tbl_sql <- function(.data, ..., .dots) {
+distinct_.tbl_sql <- function(.data, ..., .dots, .keep_all = FALSE) {
   dist <- distinct_vars(.data, ..., .dots = .dots)
-  if (length(dist$vars) > 0) {
+
+  if (length(dist$vars) > 0 && !.keep_all) {
     stop("Can't calculate distinct only on specified columns with SQL",
       call. = FALSE)
   }
