@@ -137,14 +137,29 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
         std::fill( it, it + df_nrows[i], df_names[i] ) ;
         it += df_nrows[i] ;
       }
-
       out[0] = id_col ;
       out_names[0] = Rcpp::as<std::string>(id) ;
     }
-
     out.attr( "names" ) = out_names ;
     set_rownames( out, n ) ;
-    out.attr( "class" ) = classes_not_grouped() ;
+
+    // infer the classes and extra info (groups, etc ) from the first (#1692)
+    if( ndata ){
+      const DataFrameAble& first = chunks[0] ;
+      if( first.is_dataframe() ){
+        DataFrame df = first.get() ;
+        out.attr("class") = df.attr("class") ;
+        if( df.inherits("grouped_df") ){
+          out.attr("vars") = df.attr("vars") ;
+          out = GroupedDataFrame(out).data() ;
+        }
+      } else {
+        out.attr( "class" ) = classes_not_grouped() ;
+      }
+    } else {
+      out.attr( "class" ) = classes_not_grouped() ;
+    }
+
     return out ;
 }
 
@@ -198,9 +213,22 @@ List cbind__impl( Dots dots ){
           out_names[k] = current_names[j] ;
       }
   }
+
+  // infer the classes and extra info (groups, etc ) from the first (#1692)
+  if( n ){
+    const DataFrameAble& first = chunks[0] ;
+    if( first.is_dataframe() ){
+      DataFrame df = first.get() ;
+      copy_most_attributes(out, df) ;
+    } else {
+      out.attr( "class" ) = classes_not_grouped() ;
+    }
+  } else {
+    out.attr( "class" ) = classes_not_grouped() ;
+  }
   out.names() = out_names ;
   set_rownames( out, nrows ) ;
-  out.attr( "class" ) = classes_not_grouped() ;
+
   return out ;
 }
 
