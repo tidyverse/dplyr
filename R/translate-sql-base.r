@@ -2,6 +2,16 @@
 #' @include sql-escape.r
 NULL
 
+
+sql_if <- function(cond, if_true, if_false = NULL) {
+  build_sql(
+    "CASE WHEN (", cond, ")",
+    " THEN (", if_true, ")",
+    if (!is.null(if_false)) build_sql(" ELSE (", if_false, ")"),
+    " END"
+  )
+}
+
 #' @export
 #' @rdname sql_variant
 #' @format NULL
@@ -70,13 +80,9 @@ base_scalar <- sql_translator(
   toupper = sql_prefix("upper", 1),
   nchar   = sql_prefix("length", 1),
 
-  `if` = function(cond, if_true, if_false = NULL) {
-    build_sql(
-      "CASE WHEN (", cond, ")",
-      " THEN (", if_true, ")",
-      if (!is.null(if_false)) build_sql(" ELSE (", if_false, ")"),
-      " END")
-  },
+  `if` = sql_if,
+  if_else = sql_if,
+  ifelse = sql_if,
 
   sql = function(...) sql(...),
   `(` = function(x) {

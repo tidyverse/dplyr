@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `if_else()` is a vectorisd if statement: it's a stricter (type-safe), faster, 
+  and more predictable version of `ifelse()`. In SQL it is translated to a 
+  `CASE` statement.
+
 * `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
   In SQL it is translated to `NULL_IF`.
 

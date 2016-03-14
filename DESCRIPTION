@@ -72,6 +72,7 @@ Collate:
     'group-size.r'
     'grouped-df.r'
     'id.r'
+    'if_else.R'
     'inline.r'
     'join.r'
     'lead-lag.R'
