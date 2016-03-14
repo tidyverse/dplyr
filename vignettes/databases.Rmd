@@ -212,10 +212,8 @@ Aside from SQLite, the overall workflow is essentially the same regardless of th
 
 For example, the following code allows me to connect to a local PostgreSQL database that contains a copy of the `flights` data:
 
-```{r}
-if (has_nycflights13("postgres")) {
-  flights_postgres <- tbl(src_postgres("nycflights13"), "flights")
-}
+```{r, eval = FALSE}
+flights_postgres <- tbl(src_postgres("nycflights13"), "flights")
 ```
 
 PostgreSQL is a considerably more powerful database than SQLite.  It has:
@@ -226,22 +224,20 @@ PostgreSQL is a considerably more powerful database than SQLite.  It has:
 
 The following examples show how we can perform grouped filter and mutate operations with PostgreSQL. Because you can't filter on window functions directly, the SQL generated from the grouped filter is quite complex; so they instead have to go in a subquery.
 
-```{r}
-if (has_nycflights13("postgres")) {
-  daily <- group_by(flights_postgres, year, month, day)
+```{r, eval = FALSE}
+daily <- group_by(flights_postgres, year, month, day)
 
-  # Find the most and least delayed flight each day
-  bestworst <- daily %>% 
-    select(flight, arr_delay) %>% 
-    filter(arr_delay == min(arr_delay) || arr_delay == max(arr_delay))
-  bestworst$query
+# Find the most and least delayed flight each day
+bestworst <- daily %>% 
+  select(flight, arr_delay) %>% 
+  filter(arr_delay == min(arr_delay) || arr_delay == max(arr_delay))
+bestworst$query
 
-  # Rank each flight within a daily
-  ranked <- daily %>% 
-    select(arr_delay) %>% 
-    mutate(rank = rank(desc(arr_delay)))
-  ranked$query
-}
+# Rank each flight within a daily
+ranked <- daily %>% 
+  select(arr_delay) %>% 
+  mutate(rank = rank(desc(arr_delay)))
+ranked$query
 ```
 
 ### MySQL and MariaDB
