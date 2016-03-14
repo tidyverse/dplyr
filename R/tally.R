@@ -53,13 +53,25 @@ tally_ <- function(x, wt, sort = FALSE) {
     n <- lazyeval::interp(quote(sum(wt, na.rm = TRUE)), wt = wt)
   }
 
-  out <- summarise_(x, n = n)
+  n_name <- n_name(tbl_vars(x))
+  out <- summarise_(x, .dots = setNames(list(n), n_name))
 
   if (!sort) {
     out
   } else {
-    arrange(out, desc(n))
+    desc_n <- lazyeval::interp(quote(desc(n)), n = as.name(n_name))
+    arrange_(out, desc_n)
   }
+}
+
+n_name <- function(x) {
+  name <- "n"
+  while (name %in% x) {
+    name <- paste0(name, "n")
+  }
+
+  name
+
 }
 
 #' @export

@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `tally()` and `count()` can now count a variable called `n` (#1633).
+
 * `bind_rows` and `bind_cols` infer classes and extra information (e.g. about
    the groupings) from the first data frame (#1692). 
 
