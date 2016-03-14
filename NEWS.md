@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* `pmin()` and `pmax()` are translated to SQL `MIN()` and `MAX()` (#1711).
+
 * `case_when()` is a general vectorised if + else if (#631).
 
 * `recode()` provides a vectorised equivalent to `switch()` (#1710).

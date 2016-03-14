@@ -112,7 +112,10 @@ base_scalar <- sql_translator(
 
   between = function(x, left, right) {
     build_sql(x, " BETWEEN ", left, " AND ", right)
-  }
+  },
+
+  pmin = sql_prefix("min"),
+  pmax = sql_prefix("max")
 )
 
 base_symbols <- sql_translator(

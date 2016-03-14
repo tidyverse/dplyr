@@ -73,6 +73,11 @@ test_that("if translation adds parens", {
 
 })
 
+test_that("pmin and pmax become min and max", {
+  expect_equal(translate_sql(pmin(x, y)), sql('MIN("x", "y")'))
+  expect_equal(translate_sql(pmax(x, y)), sql('MAX("x", "y")'))
+})
+
 # Minus -------------------------------------------------------------------
 
 test_that("unary minus flips sign of number", {
