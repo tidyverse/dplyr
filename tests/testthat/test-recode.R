@@ -31,17 +31,21 @@ test_that("named substitution works", {
 
 test_that("missing values replaced by missing argument", {
   expect_equal(recode(c(1, NA), "a"), c("a", NA))
-  expect_equal(recode(c(1, NA), "a", missing = "b"), c("a", "b"))
+  expect_equal(recode(c(1, NA), "a", .missing = "b"), c("a", "b"))
 })
 
 test_that("unmatched value replaced by default argument", {
   expect_equal(recode(c(1, 2), "a"), c("a", NA))
-  expect_equal(recode(c(1, 2), "a", default = "b"), c("a", "b"))
+  expect_equal(recode(c(1, 2), "a", .default = "b"), c("a", "b"))
 })
 
 test_that("missing and default place nicely together", {
   expect_equal(
-    recode(c(1, 2, NA), "a", default = "b", missing = "c"),
+    recode(c(1, 2, NA), "a", .default = "b", .missing = "c"),
     c("a", "b", "c")
   )
+})
+
+test_that("can give name x", {
+  expect_equal(recode("x", x = "a"), "a")
 })

@@ -4,26 +4,28 @@
 \alias{recode}
 \title{Recode values}
 \usage{
-recode(x, ..., default = NULL, missing = NULL)
+recode(.x, ..., .default = NULL, .missing = NULL)
 }
 \arguments{
-\item{x}{A vector to modify}
+\item{.x}{A vector to modify}
 
 \item{...}{Replacments. These should be named for character and factor
-\code{x}.  All replacements must be the same type, and must have either
-length one or the same length as x.}
+  \code{x}, and can be named for numeric \code{x}.
 
-\item{default}{If supplied, all values not otherwise matched will be
+  All replacements must be the same type, and must have either
+  length one or the same length as x.}
+
+\item{.default}{If supplied, all values not otherwise matched will be
 given this value instead of \code{NA}. Must be either length 1 or the same
 length as \code{x}.}
 
-\item{missing}{If supplied, any missing values in \code{x} will be
+\item{.missing}{If supplied, any missing values in \code{x} will be
 replaced by this value. Must be either length 1 or the same length as
 \code{x}.}
 }
 \value{
 A vector the same length as \code{x}, and the same type as the
-  first of \code{...}, \code{default}, or \code{missing}.
+  first of \code{...}, \code{.default}, or \code{.missing}.
 }
 \description{
 This is a vectorised version of \code{\link{switch}()}: you can replace
@@ -34,12 +36,14 @@ and factors. For logical vectors, use \code{\link{if_else}}
 \examples{
 x <- c(1:5, NA)
 recode(x, "a", "b", "c")
-recode(x, "a", "b", "c", default = "other")
-recode(x, "a", "b", "c", default = "other", missing = "missing")
+recode(x, "a", "b", "c", .default = "other")
+recode(x, "a", "b", "c", .default = "other", .missing = "missing")
+# Supply explicit values with named
+recode(x, `2` = "b", `4` = "d")
 
 # Use named arguments with a character vector
 x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 recode(x, a = "Apple")
-recode(x, a = "Apple", default = x)
+recode(x, a = "Apple", .default = x)
 }
 
