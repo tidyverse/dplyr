@@ -1,22 +1,23 @@
 #' @noRd
 #' @examples
-#' x <- tbl_lazy_local(mtcars)
+#' x <- tbl_lazy(mtcars)
 #' x %>% group_by(cyl) %>% summarise(n = n()) %>% filter(n > 10)
 tbl_lazy_remote <- function(src, base) {
   make_tbl("lazy", ops = op_base_remote(src, base))
 }
-tbl_lazy_local <- function(df) {
+
+tbl_lazy <- function(df) {
   make_tbl("lazy", ops = op_base_local(df, env = parent.frame()))
 }
 
 #' @export
-print.tbl_lazy <- function(df) {
+print.tbl_lazy <- function(x, ...) {
   cat("Source: lazy\n")
   cat("Vars  : ", commas(op_vars(x$ops)), "\n", sep = "")
   cat("Groups: ", commas(op_grps(x$ops)), "\n", sep = "")
   cat("\n")
 
-  print(df$ops)
+  print(x$ops)
 }
 
 #' @export
@@ -168,11 +169,11 @@ op_vars.op_base <- function(x) {
 }
 #' @export
 op_vars.op_select <- function(x) {
-  select_vars_(op_vars(x$x), x$xdots, include = op_grps(x$x))
+  names(select_vars_(op_vars(x$x), x$dots, include = op_grps(x$x)))
 }
 #' @export
 op_vars.op_rename <- function(x) {
-  rename_vars(op_vars(x$x), dots)
+  names(rename_vars_(op_vars(x$x), x$dots))
 }
 #' @export
 op_vars.op_summarise <- function(x) {
@@ -180,7 +181,7 @@ op_vars.op_summarise <- function(x) {
 }
 #' @export
 op_vars.op_mutate <- function(x) {
-  c(op_vars(x$x), names(x$x))
+  c(op_vars(x$x), names(x$dots))
 }
 #' @export
 op_vars.op_single <- function(x) {
@@ -200,7 +201,12 @@ op_vars.op_anti_join <- function(x) {
 }
 #' @export
 op_vars.op_set <- function(x) {
-  op_var(x$x)
+  op_vars(x$x)
+}
+
+#' @export
+op_vars.tbl_lazy <- function(x) {
+  op_vars(x$ops)
 }
 
 # op_grps -----------------------------------------------------------------
