@@ -7,7 +7,9 @@
 #'
 #' @param x A vector to modify
 #' @param ... Replacments. These should be named for character and factor
-#'   \code{x}.  All replacements must be the same type, and must have either
+#'   \code{x}, and can be named for numeric \code{x}.
+#'
+#'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
 #' @param default If supplied, all values not otherwise matched will be
 #'   given this value instead of \code{NA}. Must be either length 1 or the same
@@ -23,6 +25,8 @@
 #' recode(x, "a", "b", "c")
 #' recode(x, "a", "b", "c", default = "other")
 #' recode(x, "a", "b", "c", default = "other", missing = "missing")
+#' # Supply explicit values with named
+#' recode(x, `2` = "b", `4` = "d")
 #'
 #' # Use named arguments with a character vector
 #' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
@@ -35,8 +39,15 @@ recode <- function(x, ..., default = NULL, missing = NULL) {
 #' @export
 recode.numeric <- function(x, ..., default = NULL, missing = NULL) {
   values <- list(...)
-  if (any(has_names(values))) {
-    warning("Names are ignored", call. = FALSE)
+
+  nms <- has_names(values)
+  if (all(nms)) {
+    vals <- as.double(names(values))
+  } else if (all(!nms)) {
+    vals <- seq_along(values)
+  } else {
+    stop("Either all values must be named, or none must be named.",
+      call. = FALSE)
   }
 
   n <- length(x)
@@ -45,7 +56,7 @@ recode.numeric <- function(x, ..., default = NULL, missing = NULL) {
   replaced <- rep(FALSE, n)
 
   for (i in seq_along(values)) {
-    out <- replace_with(out, x == i, values[[i]], paste0("Vector ", i))
+    out <- replace_with(out, x == vals[i], values[[i]], paste0("Vector ", i))
     replaced[x == i] <- TRUE
   }
 

@@ -87,7 +87,7 @@ has_names <- function(x) {
   if (is.null(nms)) {
     rep(FALSE, length(x))
   } else {
-    !is.na(nms) && nms != ""
+    !is.na(nms) & nms != ""
   }
 }
 

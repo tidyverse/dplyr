@@ -10,8 +10,15 @@ test_that("positional substitution works", {
   expect_equal(recode(1:2, "a", "b"), c("a", "b"))
 })
 
-test_that("warning if names used with numeric input", {
-  expect_warning(recode(1:2, a = "a"), "Names are ignored")
+test_that("names override positions", {
+  expect_equal(recode(1:2, `2` = "b", `1` = "a"), c("a", "b"))
+})
+
+test_that("numeric vals must be all named or not named at all", {
+  expect_error(
+    recode(1:2, "b", `1` = "a"),
+    "Either all values must be named, or none must be named"
+  )
 })
 
 test_that("named substitution works", {
