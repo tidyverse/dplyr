@@ -57,7 +57,7 @@ mutate_.tbl_lazy <- function(.data, ..., .dots) {
 }
 
 #' @export
-group_by_.tbl_lazy <- function(.data, ..., .dots, add = FALSE) {
+group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   add_op_single(.data, "group_by", dots = dots, args = list(add = add))
 }
@@ -217,18 +217,33 @@ op_grps.op_base <- function(x) character()
 #' @export
 op_grps.op_group_by <- function(x) {
   if (isTRUE(x$args$add)) {
-    union(names(x$dots), op_grps(x$x))
+    union(op_grps(x$x), names(x$dots))
   } else {
     names(x$dots)
   }
 }
 #' @export
-op_grps.op_summarise <- function(x) drop_last(op_grps(x$x))
+op_grps.op_summarise <- function(x) {
+  grps <- op_grps(x$x)
+  if (length(grps) == 1) {
+    character()
+  } else {
+    grps[-length(grps)]
+  }
+}
 #' @export
-op_grps.op_single <- function(x) op_grps(x$x)
+op_grps.op_single <- function(x) {
+  op_grps(x$x)
+}
 #' @export
-op_grps.op_double <- function(x) op_grps(x$x)
+op_grps.op_double <- function(x) {
+  op_grps(x$x)
+}
 
+#' @export
+op_grps.tbl_lazy <- function(x) {
+  op_grps(x$ops)
+}
 
 
 
