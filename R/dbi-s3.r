@@ -235,20 +235,20 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
     out$where <- build_sql("WHERE ", sql_vector(where_paren, collapse = " AND "))
   }
 
-  if (!is.null(group_by)) {
-    assert_that(is.character(group_by), length(group_by) > 0L)
+  if (length(group_by) > 0L) {
+    assert_that(is.character(group_by))
     out$group_by <- build_sql("GROUP BY ",
       escape(group_by, collapse = ", ", con = con))
   }
 
-  if (!is.null(having)) {
-    assert_that(is.character(having), length(having) == 1L)
+  if (length(having) > 0L) {
+    assert_that(is.character(having))
     out$having <- build_sql("HAVING ",
       escape(having, collapse = ", ", con = con))
   }
 
-  if (!is.null(order_by)) {
-    assert_that(is.character(order_by), length(order_by) > 0L)
+  if (length(order_by) > 0L) {
+    assert_that(is.character(order_by))
     out$order_by <- build_sql("ORDER BY ",
       escape(order_by, collapse = ", ", con = con))
   }
@@ -265,6 +265,8 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
 }
+#' @export
+sql_select.NULL <- sql_select.DBIConnection
 
 #' @export
 #' @rdname backend_sql
@@ -277,6 +279,8 @@ sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
 
   build_sql("(", sql, ") AS ", ident(name), con = con)
 }
+#' @export
+sql_subquery.NULL <- sql_subquery.DBIConnection
 
 #' @rdname backend_sql
 #' @export

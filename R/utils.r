@@ -109,6 +109,15 @@ deparse_all <- function(x) {
   vapply(x, deparse2, FUN.VALUE = character(1))
 }
 
+named_commas <- function(...) {
+  x <- c(...)
+  if (is.null(names(x))) {
+    paste0(x, collapse = ", ")
+  } else {
+    paste0(names(x), " = ", x, collapse = ", ")
+  }
+}
+
 commas <- function(...) paste0(..., collapse = ", ")
 
 in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
