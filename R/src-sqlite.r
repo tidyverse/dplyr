@@ -5,6 +5,8 @@
 #' If you are running a local sqliteql database, leave all parameters set as
 #' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
+#' \code{src_memdb} is an easy way to use an in-memory SQLite database
+#' that is scoped to the current session.
 #'
 #' @template db-info
 #' @param path Path to SQLite database
@@ -102,6 +104,12 @@ src_sqlite <- function(path, create = FALSE) {
   RSQLite::initExtension(con)
 
   src_sql("sqlite", con, path = path, info = DBI::dbGetInfo(con))
+}
+
+#' @export
+#' @rdname src_sqlite
+src_memdb <- function() {
+  cache_computation("src_memdb", src_sqlite(":memory:", TRUE))
 }
 
 #' @export
