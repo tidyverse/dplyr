@@ -10,7 +10,7 @@
 \usage{
 sql(...)
 
-ident(x)
+ident(...)
 
 is.sql(x)
 

@@ -10,7 +10,7 @@ sql_build(op, ...)
 
 select_query(from, select = sql("*"), where = character(),
   group_by = character(), having = character(), order_by = character(),
-  limit = NULL, offset = NULL)
+  distinct = FALSE, limit = NULL, offset = NULL)
 
 sql_render(x, con = NULL, ...)
 }
