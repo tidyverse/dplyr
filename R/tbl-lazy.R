@@ -23,7 +23,7 @@ print.tbl_lazy <- function(x, ...) {
 
 # Single table methods ----------------------------------------------------
 
-add_op_single <- function(.data, name, dots = list(), args = list()) {
+add_op_single <- function(name, .data, dots = list(), args = list()) {
   .data$ops <- op_single(name, x = .data$ops, dots = dots, args = args)
   .data
 }
@@ -31,53 +31,52 @@ add_op_single <- function(.data, name, dots = list(), args = list()) {
 #' @export
 filter_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  add_op_single(.data, "filter", dots = dots)
+  add_op_single("filter", .data, dots = dots)
 }
 
 #' @export
 arrange_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  add_op_single(.data, "arrange", dots = dots)
+  add_op_single("arrange", .data, dots = dots)
 }
 
 #' @export
 select_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  add_op_single(.data, "select", dots = dots)
+  add_op_single("select", .data, dots = dots)
 }
 
 #' @export
 rename_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  add_op_single(.data, "rename", dots = dots)
+  add_op_single("rename", .data, dots = dots)
 }
 
 #' @export
 summarise_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-  add_op_single(.data, "summarise", dots = dots)
+  add_op_single("summarise", .data, dots = dots)
 }
 
 #' @export
 mutate_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  add_op_single(.data, "mutate", dots = dots)
+  add_op_single("mutate", .data, dots = dots)
 }
 
 #' @export
 group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  add_op_single(.data, "group_by", dots = dots, args = list(add = add))
+  add_op_single("group_by", .data, dots = dots, args = list(add = add))
 }
 
 #' @export
 ungroup.tbl_lazy <- function(x, ...) {
-  add_op_single(x, "ungroup")
+  add_op_single("ungroup", x)
 }
-
 
 #' @export
 distinct_.tbl_lazy <- function(.data, ..., .dots, .keep_all = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  add_op_single(.data, "distinct", dots = dots, args = list(.keep_all = .keep_all))
+  add_op_single("distinct", .data, dots = dots, args = list(.keep_all = .keep_all))
 }
