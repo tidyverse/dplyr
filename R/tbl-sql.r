@@ -62,7 +62,15 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 #' @export
 #' @rdname dplyr-formatting
 print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: ", src_desc(x$src), "\n", sep = "")
+  cat("Source:   query ", dim_desc(x), "\n", sep = "")
+  cat("Database: ", src_desc(x$src), "\n", sep = "")
+
+  grps <- op_grps(x$ops)
+  if (length(grps) > 0) {
+    cat("Groups: ", commas(op_grps(x$ops)), "\n", sep = "")
+  }
+
+  cat("\n")
 
   print(trunc_mat(x, n = n, width = width))
   invisible(x)
