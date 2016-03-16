@@ -72,6 +72,18 @@ sql_build.op_group_by <- function(op, ...) {
   sql_build(op$x)
 }
 
+#' @export
+sql_build.op_filter <- function(op, ...) {
+  # TODO: multistage filter if computations involved
+  where_sql <- translate_sql_(op$dots, vars = op_vars(op))
+
+  select_query(
+    sql_build(op$x, con),
+    where = where_sql
+  )
+}
+
+
 # select_query ------------------------------------------------------------
 
 #' @export

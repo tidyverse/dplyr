@@ -80,3 +80,14 @@ test_that("summarise generates group_by and select", {
   expect_equal(out$group_by, ident("x"))
   expect_equal(out$select, sql(n = 'COUNT()'))
 })
+
+
+# filter ------------------------------------------------------------------
+
+test_that("filter generates simple expressions", {
+  out <- lazy_frame(x = 1) %>%
+    filter(x > 1L) %>%
+    sql_build()
+
+  expect_equal(out$where, sql('"x" > 1'))
+})
