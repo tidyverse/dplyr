@@ -16,11 +16,11 @@ test_that("dplyr.strict_sql = TRUE prevents auto conversion", {
 })
 
 test_that("Wrong number of arguments raises error", {
-  expect_error(translate_sql(mean(1, 2)), "Invalid number of args")
+  expect_error(translate_sql(mean(1, 2), window = FALSE), "Invalid number of args")
 })
 
 test_that("Named arguments generates warning", {
-  expect_warning(translate_sql(mean(x = 1)), "Named arguments ignored")
+  expect_warning(translate_sql(mean(x = 1), window = FALSE), "Named arguments ignored")
 })
 
 test_that("Subsetting always evaluated locally", {
@@ -72,7 +72,7 @@ test_that("unary minus flips sign of number", {
 
 test_that("unary minus wraps non-numeric expressions", {
   expect_equal(translate_sql(-(1L + 2L)), sql("-(1 + 2)"))
-  expect_equal(translate_sql(-mean(x)), sql('-AVG("x")'))
+  expect_equal(translate_sql(-mean(x), window = FALSE), sql('-AVG("x")'))
 })
 
 test_that("binary minus subtracts", {
