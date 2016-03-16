@@ -52,14 +52,14 @@ case_when <- function(...) {
 
     env <- environment(f)
 
-    query[[i]] <- eval_with_expr(f[[2]], envir = env)
+    query[[i]] <- eval(f[[2]], envir = env)
     if (!is.logical(query[[i]])) {
-      stop("LHS of case ", i, " (", deparse_trunc(expr(query[[i]])),
+      stop("LHS of case ", i, " (", deparse_trunc(f_lhs(f)),
            ") is ", typeof(query[[i]]), ", not logical",
         call. = FALSE)
     }
 
-    value[[i]] <- eval_with_expr(f[[3]], envir = env)
+    value[[i]] <- eval(f[[3]], envir = env)
   }
 
   m <- max(vapply(query, length, integer(1)))
@@ -69,11 +69,11 @@ case_when <- function(...) {
   for (i in seq_len(n)) {
     check_length(
       query[[i]], out,
-      paste0("LHS of case ", i, " (", deparse_trunc(expr(query[[i]])), ")"))
+      paste0("LHS of case ", i, " (", deparse_trunc(f_lhs(formulas[[i]])), ")"))
 
     out <- replace_with(
       out, query[[i]] & !replaced, value[[i]],
-      paste0("RHS of case ", i, " (", deparse_trunc(expr(value[[i]])), ")"))
+      paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"))
     replaced <- replaced | query[[i]]
   }
 
