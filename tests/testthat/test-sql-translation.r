@@ -65,7 +65,7 @@ test_that("pmin and pmax become min and max", {
 # Minus -------------------------------------------------------------------
 
 test_that("unary minus flips sign of number", {
-  expect_equal(translate_sql(-10), sql(-10))
+  expect_equal(translate_sql(-10L), sql("-10"))
   expect_equal(translate_sql(x == -10), sql('"x" = -10.0'))
   expect_equal(translate_sql(x %in% c(-1L, 0L)), sql('"x" IN (-1, 0)'))
 })

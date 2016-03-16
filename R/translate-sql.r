@@ -154,7 +154,7 @@ translate_sql_ <- function(dots,
     if (is.atomic(x)) return(escape(x, con = con))
 
     env <- sql_env(x, variant, con, window = window)
-    eval(x, envir = env)
+    escape(eval(x, envir = env))
   })
 
   sql(unlist(pieces))

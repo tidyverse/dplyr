@@ -52,7 +52,13 @@
 #' translate_sql(round(X), variant = rounder)
 #' translate_sql(round(X, 5), variant = rounder)
 sql <- function(...) {
-  structure(as.character(c(...)), class = c("sql", "character"))
+  x <- c(...)
+  if (length(x) == 0) {
+    structure(character(), class = c("sql", "character"))
+  } else {
+    stopifnot(is.character(x))
+    structure(x, class = c("sql", "character"))
+  }
 }
 
 #' @export
@@ -73,6 +79,7 @@ c.sql <- function(..., drop_null = FALSE) {
   out <- unlist(lapply(input, escape, collapse = NULL))
   sql(out)
 }
+
 
 #' @export
 unique.sql <- function(x, ...) {
