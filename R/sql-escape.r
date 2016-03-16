@@ -95,6 +95,8 @@ is.ident <- function(x) inherits(x, "ident")
 print.sql <- function(x, ...) cat(format(x, ...), sep = "\n")
 #' @export
 format.sql <- function(x, ...) paste0("<SQL> ", x)
+#' @export
+format.ident <- function(x, ...) paste0("<VAR> ", escape(x))
 
 #' @rdname sql
 #' @export
