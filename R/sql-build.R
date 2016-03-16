@@ -16,53 +16,53 @@
 #'   rules that should be very similar to ANSI 92, and allows for testing
 #'   without an active database connection.
 #' @param ... Other arguments passed on to the methods. Not currently used.
-sql_build <- function(op, ...) {
+sql_build <- function(op, con, ...) {
   UseMethod("sql_build")
 }
 
 #' @export
-sql_build.tbl_sql <- function(op, ...) {
-  sql_build(op$ops, ...)
+sql_build.tbl_sql <- function(op, con, ...) {
+  sql_build(op$ops, op$con, ...)
 }
 
 #' @export
-sql_build.tbl_lazy <- function(op, ...) {
-  sql_build(op$ops, ...)
+sql_build.tbl_lazy <- function(op, con = NULL, ...) {
+  sql_build(op$ops, con, ...)
 }
 
 #' @export
-sql_build.op_base_remote <- function(op, ...) {
+sql_build.op_base_remote <- function(op, con, ...) {
   op$x
 }
 
 #' @export
-sql_build.op_base_local <- function(op, ...) {
+sql_build.op_base_local <- function(op, con, ...) {
   ident("df")
 }
 
 #' @export
-sql_build.op_select <- function(op, ...) {
+sql_build.op_select <- function(op, con, ...) {
   vars <- select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x))
-  select_query(sql_build(op$x), ident(vars))
+  select_query(sql_build(op$x, con), ident(vars))
 }
 
 #' @export
-sql_build.op_rename <- function(op, ...) {
+sql_build.op_rename <- function(op, con, ...) {
   vars <- rename_vars_(op_vars(op$x), op$dots)
-  select_query(sql_build(op$x), vars)
+  select_query(sql_build(op$x, con), vars)
 }
 
 #' @export
-sql_build.op_arrange <- function(op, ...) {
-  order_vars <- translate_sql_(op$dots, vars = op_vars(op))
+sql_build.op_arrange <- function(op, con, ...) {
+  order_vars <- translate_sql_(op$dots, con, op_vars(op))
   group_vars <- ident(op_grps(op$x))
 
-  select_query(sql_build(op$x), order_by = c(group_vars, order_vars))
+  select_query(sql_build(op$x, con), order_by = c(group_vars, order_vars))
 }
 
 #' @export
-sql_build.op_summarise <- function(op, ...) {
-  select_vars <- translate_sql_(op$dots, vars = op_vars(op), window = FALSE)
+sql_build.op_summarise <- function(op, con, ...) {
+  select_vars <- translate_sql_(op$dots, con, op_vars(op), window = FALSE)
   group_vars <- ident(op_grps(op$x))
 
   select_query(
@@ -73,10 +73,10 @@ sql_build.op_summarise <- function(op, ...) {
 }
 
 #' @export
-sql_build.op_mutate <- function(op, ...) {
+sql_build.op_mutate <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
-  new_vars <- translate_sql_(op$dots, vars = vars)
+  new_vars <- translate_sql_(op$dots, con, vars)
   old_vars <- ident(vars)
 
   select_query(
@@ -87,17 +87,17 @@ sql_build.op_mutate <- function(op, ...) {
 
 
 #' @export
-sql_build.op_group_by <- function(op, ...) {
-  sql_build(op$x, ...)
+sql_build.op_group_by <- function(op, con, ...) {
+  sql_build(op$x, con, ...)
 }
 
 #' @export
-sql_build.op_ungroup <- function(op, ...) {
-  sql_build(op$x, ...)
+sql_build.op_ungroup <- function(op, con, ...) {
+  sql_build(op$x, con, ...)
 }
 
 #' @export
-sql_build.op_filter <- function(op, ...) {
+sql_build.op_filter <- function(op, con, ...) {
   # TODO: multistage filter if computations involved
   where_sql <- translate_sql_(op$dots, vars = op_vars(op))
 
@@ -108,7 +108,7 @@ sql_build.op_filter <- function(op, ...) {
 }
 
 
-sql_build.op_distinct <- function(op, ...) {
+sql_build.op_distinct <- function(op, con, ...) {
   if (length(op$dots) > 0 && !op$args$.keep_all) {
     stop("Can't calculate distinct only on specified columns with SQL",
       call. = FALSE)
@@ -180,7 +180,7 @@ sql_render.op <- function(x, con = NULL, ...) {
 
 #' @export
 sql_render.tbl_sql <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x$ops, ...), con = x$src$con, ...)
+  sql_render(sql_build(x$ops, con, ...), con = x$src$con, ...)
 }
 
 #' @export
