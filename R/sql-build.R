@@ -83,7 +83,12 @@ sql_build.op_mutate <- function(op, ...) {
 
 #' @export
 sql_build.op_group_by <- function(op, ...) {
-  sql_build(op$x)
+  sql_build(op$x, ...)
+}
+
+#' @export
+sql_build.op_ungroup <- function(op, ...) {
+  sql_build(op$x, ...)
 }
 
 #' @export
@@ -165,8 +170,8 @@ sql_render.tbl_sql <- function(x, con = NULL, ...) {
 }
 
 #' @export
-sql_render.select_query <- function(x, con = NULL, ...) {
-  from <- sql_subquery(con, sql_render(x$from, con, ..., root = FALSE))
+sql_render.select_query <- function(x, con = NULL, ..., root = FALSE) {
+  from <- sql_subquery(con, sql_render(x$from, con, ..., root = root))
 
   sql_select(
     con, x$select, from, where = x$where, group_by = x$group_by,
