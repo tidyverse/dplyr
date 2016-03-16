@@ -68,6 +68,20 @@ sql_build.op_summarise <- function(op, ...) {
 }
 
 #' @export
+sql_build.op_mutate <- function(op, ...) {
+  vars <- op_vars(op$x)
+
+  new_vars <- translate_sql_(op$dots, vars = vars)
+  old_vars <- ident(vars)
+
+  select_query(
+    sql_build(op$x, con),
+    select = c(old_vars, new_vars)
+  )
+}
+
+
+#' @export
 sql_build.op_group_by <- function(op, ...) {
   sql_build(op$x)
 }

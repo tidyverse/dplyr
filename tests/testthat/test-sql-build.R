@@ -91,3 +91,13 @@ test_that("filter generates simple expressions", {
 
   expect_equal(out$where, sql('"x" > 1'))
 })
+
+# mutate ------------------------------------------------------------------
+
+test_that("mutate generates simple expressions", {
+  out <- lazy_frame(x = 1) %>%
+    mutate(y = x + 1L) %>%
+    sql_build()
+
+  expect_equal(out$select, sql('"x"', '"x" + 1 AS "y"'))
+})
