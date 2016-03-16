@@ -62,7 +62,7 @@ sql_build.op_summarise <- function(op, ...) {
 
   select_query(
     sql_build(op$x, con),
-    select = select_vars,
+    select = c(group_vars, select_vars),
     group_by = group_vars
   )
 }

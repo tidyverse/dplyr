@@ -78,7 +78,7 @@ test_that("summarise generates group_by and select", {
     sql_build()
 
   expect_equal(out$group_by, ident("x"))
-  expect_equal(out$select, sql(n = 'COUNT()'))
+  expect_equal(out$select, sql(x = "x", n = 'COUNT()'))
 })
 
 
