@@ -1,3 +1,28 @@
+uses_window_fun <- function(x, con) {
+  if (is.null(x)) return(FALSE)
+  if (is.list(x)) {
+    calls <- unlist(lapply(x, all_calls))
+  } else {
+    calls <- all_calls(x)
+  }
+
+  win_f <- ls(envir = sql_translate_env(con)$window)
+  any(calls %in% win_f)
+}
+
+
+# # window functions in WHERE need to be performed in subquery
+# where <- translate_window_where(x$where, x, con = x$src$con)
+# base_query <- update(x,
+#   group_by = NULL,
+#   where = NULL,
+#   select = c(x$select, where$comp))$query
+#
+# from_sql <- sql_subquery(x$src$con, base_query$sql, unique_name())
+# where_sql <- translate(where$expr)
+
+
+
 # batting <- tbl(lahman_postgres(), "Batting")
 # players <- group_by(batting, teamID)
 # translate_window_where(quote(1), players)

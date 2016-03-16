@@ -170,103 +170,6 @@ tail.tbl_sql <- function(x, n = 6L, ...) {
   stop("tail is not supported by sql sources", call. = FALSE)
 }
 
-# Set operations ---------------------------------------------------------------
-
-#' @export
-intersect.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "INTERSECT")
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-#' @export
-union.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "UNION")
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-#' @export
-union_all.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "UNION ALL")
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-#' @export
-setdiff.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "EXCEPT")
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-
-# SQL select generation --------------------------------------------------------
-
-build_query <- function(x, limit = NULL) {
-  assert_that(is.null(limit) || (is.numeric(limit) && length(limit) == 1))
-  translate <- function(expr, ...) {
-    translate_sql(expr, vars = names(x), ...)
-  }
-
-  if (x$summarise) {
-    # Summarising, so SELECT needs to contain grouping variables
-    select <- c(x$group_by, x$select)
-    select <- select[!duplicated(select)]
-
-    select_sql <- translate(select)
-    vars <- auto_names(select)
-
-    group_by_sql <- translate(x$group_by)
-    order_by_sql <- translate(x$order_by)
-  } else {
-    # Not in summarise, so assume functions are window functions
-    select_sql <- translate(x$select, window = uses_window_fun(x$select, x$con))
-    vars <- auto_names(x$select)
-
-    # Don't use group_by - grouping affects window functions only
-    group_by_sql <- NULL
-
-    # If the user requested ordering, ensuring group_by is included
-    # Otherwise don't, because that may make queries substantially slower
-    if (!is.null(x$order_by) && !is.null(x$group_by)) {
-      order_by_sql <- translate(c(x$group_by, x$order_by))
-    } else {
-      order_by_sql <- translate(x$order_by)
-    }
-  }
-
-  if (!uses_window_fun(x$where, x$con)) {
-    from_sql <- x$from
-    where_sql <- translate(x$where)
-  } else {
-    # window functions in WHERE need to be performed in subquery
-    where <- translate_window_where(x$where, x, con = x$src$con)
-    base_query <- update(x,
-      group_by = NULL,
-      where = NULL,
-      select = c(x$select, where$comp))$query
-
-    from_sql <- sql_subquery(x$src$con, base_query$sql, unique_name())
-    where_sql <- translate(where$expr)
-  }
-
-
-  sql <- sql_select(x$src$con, from = from_sql, select = select_sql,
-    where = where_sql, order_by = order_by_sql, group_by = group_by_sql,
-    limit = limit)
-  query(x$src$con, sql, vars)
-}
-
-uses_window_fun <- function(x, con) {
-  if (is.null(x)) return(FALSE)
-  if (is.list(x)) {
-    calls <- unlist(lapply(x, all_calls))
-  } else {
-    calls <- all_calls(x)
-  }
-
-  win_f <- ls(envir = sql_translate_env(con)$window)
-  any(calls %in% win_f)
-}
-
-
 # Verbs ------------------------------------------------------------------------
 
 #' @export
@@ -379,6 +282,205 @@ group_by_.tbl_sql <- function(.data, ..., .dots, add = FALSE) {
     x <- collapse(update(x, order_by = NULL))
   }
   update(x, group_by = groups$groups, order_by = arrange)
+}
+
+
+# Joins ------------------------------------------------------------------------
+
+#' Join sql tbls.
+#'
+#' See \code{\link{join}} for a description of the general purpose of the
+#' functions.
+#'
+#' @section Implementation notes:
+#'
+#' Semi-joins are implemented using \code{WHERE EXISTS}, and anti-joins with
+#' \code{WHERE NOT EXISTS}. Support for semi-joins is somewhat partial: you
+#' can only create semi joins where the \code{x} and \code{y} columns are
+#' compared with \code{=} not with more general operators.
+#'
+#' @inheritParams join
+#' @param copy If \code{x} and \code{y} are not from the same data source,
+#'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
+#'   temporary table in same database as \code{x}. \code{join} will automatically
+#'   run \code{ANALYZE} on the created table in the hope that this will make
+#'   you queries as efficient as possible by giving more data to the query
+#'   planner.
+#'
+#'   This allows you to join tables across srcs, but it's potentially expensive
+#'   operation so you must opt into it.
+#' @param auto_index if \code{copy} is \code{TRUE}, automatically create
+#'   indices for the variables in \code{by}. This may speed up the join if
+#'   there are matching indexes in \code{x}.
+#' @examples
+#' \dontrun{
+#' if (require("RSQLite") && has_lahman("sqlite")) {
+#'
+#' # Left joins ----------------------------------------------------------------
+#' lahman_s <- lahman_sqlite()
+#' batting <- tbl(lahman_s, "Batting")
+#' team_info <- select(tbl(lahman_s, "Teams"), yearID, lgID, teamID, G, R:H)
+#'
+#' # Combine player and whole team statistics
+#' first_stint <- select(filter(batting, stint == 1), playerID:H)
+#' both <- left_join(first_stint, team_info, type = "inner", by = c("yearID", "teamID", "lgID"))
+#' head(both)
+#' explain(both)
+#'
+#' # Join with a local data frame
+#' grid <- expand.grid(
+#'   teamID = c("WAS", "ATL", "PHI", "NYA"),
+#'   yearID = 2010:2012)
+#' top4a <- left_join(batting, grid, copy = TRUE)
+#' explain(top4a)
+#'
+#' # Indices don't really help here because there's no matching index on
+#' # batting
+#' top4b <- left_join(batting, grid, copy = TRUE, auto_index = TRUE)
+#' explain(top4b)
+#'
+#' # Semi-joins ----------------------------------------------------------------
+#'
+#' people <- tbl(lahman_s, "Master")
+#'
+#' # All people in half of fame
+#' hof <- tbl(lahman_s, "HallOfFame")
+#' semi_join(people, hof)
+#'
+#' # All people not in the hall of fame
+#' anti_join(people, hof)
+#'
+#' # Find all managers
+#' manager <- tbl(lahman_s, "Managers")
+#' semi_join(people, manager)
+#'
+#' # Find all managers in hall of fame
+#' famous_manager <- semi_join(semi_join(people, manager), hof)
+#' famous_manager
+#' explain(famous_manager)
+#'
+#' # Anti-joins ----------------------------------------------------------------
+#'
+#' # batters without person covariates
+#' anti_join(batting, people)
+#' }
+#' }
+#' @name join.tbl_sql
+NULL
+
+#' @rdname join.tbl_sql
+#' @export
+inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"),
+  auto_index = FALSE, ...) {
+  sql_mutating_join("inner",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+#' @rdname join.tbl_sql
+#' @export
+left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"),
+  auto_index = FALSE, ...) {
+  sql_mutating_join("left",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+#' @rdname join.tbl_sql
+#' @export
+right_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"),
+  auto_index = FALSE, ...) {
+  sql_mutating_join("right",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+#' @rdname join.tbl_sql
+#' @export
+full_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"),
+  auto_index = FALSE, ...) {
+
+  sql_mutating_join("full",
+    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+  )
+}
+
+sql_mutating_join <- function(type, x, y, by = NULL, copy = FALSE,
+  suffix = c(".x", ".y"),
+  auto_index = FALSE, ...) {
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+  sql <- sql_join(x$src$con, x, y, type = type, by = by, suffix = suffix)
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+
+#' @rdname join.tbl_sql
+#' @export
+semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+  auto_index = FALSE, ...) {
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+  sql <- sql_semi_join(x$src$con, x, y, anti = FALSE, by = by)
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+
+#' @rdname join.tbl_sql
+#' @export
+anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
+  auto_index = FALSE, ...) {
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+  sql <- sql_semi_join(x$src$con, x, y, anti = TRUE, by = by)
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+
+is.join <- function(x) {
+  inherits(x, "join")
+}
+
+# Set operations ---------------------------------------------------------------
+
+#' @export
+distinct_.tbl_sql <- function(.data, ..., .dots, .keep_all = FALSE) {
+  dist <- distinct_vars(.data, ..., .dots = .dots)
+
+  if (length(dist$vars) > 0 && !.keep_all) {
+    stop("Can't calculate distinct only on specified columns with SQL",
+      call. = FALSE)
+  }
+
+  from <- sql_subquery(dist$data$src$con, dist$data$query$sql)
+  sql <- build_sql("SELECT DISTINCT * FROM ", from, con = dist$data$src$con)
+  update(tbl(dist$data$src, sql, vars = dist$data$select), group_by = groups(.data))
+}
+
+#' @export
+intersect.tbl_sql <- function(x, y, copy = FALSE, ...) {
+  y <- auto_copy(x, y, copy)
+  sql <- sql_set_op(x$src$con, x, y, "INTERSECT")
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+#' @export
+union.tbl_sql <- function(x, y, copy = FALSE, ...) {
+  y <- auto_copy(x, y, copy)
+  sql <- sql_set_op(x$src$con, x, y, "UNION")
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+#' @export
+union_all.tbl_sql <- function(x, y, copy = FALSE, ...) {
+  y <- auto_copy(x, y, copy)
+  sql <- sql_set_op(x$src$con, x, y, "UNION ALL")
+  update(tbl(x$src, sql), group_by = groups(x))
+}
+#' @export
+setdiff.tbl_sql <- function(x, y, copy = FALSE, ...) {
+  y <- auto_copy(x, y, copy)
+  sql <- sql_set_op(x$src$con, x, y, "EXCEPT")
+  update(tbl(x$src, sql), group_by = groups(x))
 }
 
 
@@ -572,179 +674,5 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   } else {
     label_output_list(labels, out, groups(.data))
   }
-}
-
-
-# Joins ------------------------------------------------------------------------
-
-#' Join sql tbls.
-#'
-#' See \code{\link{join}} for a description of the general purpose of the
-#' functions.
-#'
-#' @section Implementation notes:
-#'
-#' Semi-joins are implemented using \code{WHERE EXISTS}, and anti-joins with
-#' \code{WHERE NOT EXISTS}. Support for semi-joins is somewhat partial: you
-#' can only create semi joins where the \code{x} and \code{y} columns are
-#' compared with \code{=} not with more general operators.
-#'
-#' @inheritParams join
-#' @param copy If \code{x} and \code{y} are not from the same data source,
-#'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
-#'   temporary table in same database as \code{x}. \code{join} will automatically
-#'   run \code{ANALYZE} on the created table in the hope that this will make
-#'   you queries as efficient as possible by giving more data to the query
-#'   planner.
-#'
-#'   This allows you to join tables across srcs, but it's potentially expensive
-#'   operation so you must opt into it.
-#' @param auto_index if \code{copy} is \code{TRUE}, automatically create
-#'   indices for the variables in \code{by}. This may speed up the join if
-#'   there are matching indexes in \code{x}.
-#' @examples
-#' \dontrun{
-#' if (require("RSQLite") && has_lahman("sqlite")) {
-#'
-#' # Left joins ----------------------------------------------------------------
-#' lahman_s <- lahman_sqlite()
-#' batting <- tbl(lahman_s, "Batting")
-#' team_info <- select(tbl(lahman_s, "Teams"), yearID, lgID, teamID, G, R:H)
-#'
-#' # Combine player and whole team statistics
-#' first_stint <- select(filter(batting, stint == 1), playerID:H)
-#' both <- left_join(first_stint, team_info, type = "inner", by = c("yearID", "teamID", "lgID"))
-#' head(both)
-#' explain(both)
-#'
-#' # Join with a local data frame
-#' grid <- expand.grid(
-#'   teamID = c("WAS", "ATL", "PHI", "NYA"),
-#'   yearID = 2010:2012)
-#' top4a <- left_join(batting, grid, copy = TRUE)
-#' explain(top4a)
-#'
-#' # Indices don't really help here because there's no matching index on
-#' # batting
-#' top4b <- left_join(batting, grid, copy = TRUE, auto_index = TRUE)
-#' explain(top4b)
-#'
-#' # Semi-joins ----------------------------------------------------------------
-#'
-#' people <- tbl(lahman_s, "Master")
-#'
-#' # All people in half of fame
-#' hof <- tbl(lahman_s, "HallOfFame")
-#' semi_join(people, hof)
-#'
-#' # All people not in the hall of fame
-#' anti_join(people, hof)
-#'
-#' # Find all managers
-#' manager <- tbl(lahman_s, "Managers")
-#' semi_join(people, manager)
-#'
-#' # Find all managers in hall of fame
-#' famous_manager <- semi_join(semi_join(people, manager), hof)
-#' famous_manager
-#' explain(famous_manager)
-#'
-#' # Anti-joins ----------------------------------------------------------------
-#'
-#' # batters without person covariates
-#' anti_join(batting, people)
-#' }
-#' }
-#' @name join.tbl_sql
-NULL
-
-#' @rdname join.tbl_sql
-#' @export
-inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-                               suffix = c(".x", ".y"),
-                               auto_index = FALSE, ...) {
-  sql_mutating_join("inner",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
-  )
-}
-
-#' @rdname join.tbl_sql
-#' @export
-left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"),
-                              auto_index = FALSE, ...) {
-  sql_mutating_join("left",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
-  )
-}
-
-#' @rdname join.tbl_sql
-#' @export
-right_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-                               suffix = c(".x", ".y"),
-                               auto_index = FALSE, ...) {
-  sql_mutating_join("right",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
-  )
-}
-
-#' @rdname join.tbl_sql
-#' @export
-full_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"),
-                              auto_index = FALSE, ...) {
-
-  sql_mutating_join("full",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
-  )
-}
-
-sql_mutating_join <- function(type, x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"),
-                              auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_join(x$src$con, x, y, type = type, by = by, suffix = suffix)
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-
-#' @rdname join.tbl_sql
-#' @export
-semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-                              auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_semi_join(x$src$con, x, y, anti = FALSE, by = by)
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-
-#' @rdname join.tbl_sql
-#' @export
-anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-                              auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_semi_join(x$src$con, x, y, anti = TRUE, by = by)
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-
-is.join <- function(x) {
-  inherits(x, "join")
-}
-
-# Set operations ---------------------------------------------------------------
-
-#' @export
-distinct_.tbl_sql <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., .dots = .dots)
-
-  if (length(dist$vars) > 0 && !.keep_all) {
-    stop("Can't calculate distinct only on specified columns with SQL",
-      call. = FALSE)
-  }
-
-  from <- sql_subquery(dist$data$src$con, dist$data$query$sql)
-  sql <- build_sql("SELECT DISTINCT * FROM ", from, con = dist$data$src$con)
-  update(tbl(dist$data$src, sql, vars = dist$data$select), group_by = groups(.data))
 }
 
