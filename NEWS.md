@@ -1,7 +1,9 @@
 # dplyr 0.4.3.9000
 
 * `select_query()` gains a distinct argument which is used for generating
-  queries for `distinct()`.
+  queries for `distinct()`.  It loses the `offset` and `limits` arguments
+  which are no longer used (because in general it doesn't make sense to
+  think about the order of the rows in a query).
 
 * `translate_sql()` and `partial_eval()` got a new API: now use connection + 
   variable names, rather than a `tbl`. This makes testing considerably easier. 

@@ -130,9 +130,7 @@ select_query <- function(from,
                          group_by = character(),
                          having = character(),
                          order_by = character(),
-                         distinct = FALSE,
-                         limit = NULL,
-                         offset = NULL) {
+                         distinct = FALSE) {
 
   stopifnot(is.character(select))
   stopifnot(is.character(where))
@@ -140,8 +138,6 @@ select_query <- function(from,
   stopifnot(is.character(having))
   stopifnot(is.character(order_by))
   stopifnot(is.logical(distinct), length(distinct) == 1L)
-  stopifnot(is.null(limit) || (is.integer(limit) && length(limit) == 1L))
-  stopifnot(is.null(offset) || (is.integer(offset) && length(offset) == 1L))
 
   structure(
     list(
@@ -151,9 +147,7 @@ select_query <- function(from,
       group_by = group_by,
       having = having,
       order_by = order_by,
-      distinct = distinct,
-      limit = limit,
-      offset = offset
+      distinct = distinct
     ),
     class = "select_query"
   )
@@ -200,8 +194,7 @@ sql_render.select_query <- function(x, con = NULL, ..., root = FALSE) {
 
   sql_select(
     con, x$select, from, where = x$where, group_by = x$group_by,
-    having = x$having, order_by = x$order_by, limit = x$limit,
-    offset = x$offset, distinct = x$distinct, ...
+    having = x$having, order_by = x$order_by, distinct = x$distinct, ...
   )
 }
 

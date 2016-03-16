@@ -218,20 +218,16 @@ NULL
 #' @rdname backend_sql
 #' @export
 sql_select <- function(con, select, from, where = NULL, group_by = NULL,
-                       having = NULL, order_by = NULL, limit = NULL,
-                       offset = NULL, ...) {
+                       having = NULL, order_by = NULL, distinct = FALSE, ...) {
   UseMethod("sql_select")
 }
 #' @export
 sql_select.DBIConnection <- function(con, select, from, where = NULL,
                                      group_by = NULL, having = NULL,
-                                     order_by = NULL, limit = NULL,
-                                     offset = NULL,
-                                     distinct = FALSE, ...) {
+                                     order_by = NULL, distinct = FALSE, ...) {
 
-  out <- vector("list", 8)
-  names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
-    "limit", "offset")
+  out <- vector("list", 6)
+  names(out) <- c("select", "from", "where", "group_by", "having", "order_by")
 
   assert_that(is.character(select), length(select) > 0L)
   out$select <- build_sql(
@@ -266,16 +262,6 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
     assert_that(is.character(order_by))
     out$order_by <- build_sql("ORDER BY ",
       escape(order_by, collapse = ", ", con = con))
-  }
-
-  if (!is.null(limit)) {
-    assert_that(is.integer(limit), length(limit) == 1L)
-    out$limit <- build_sql("LIMIT ", limit, con = con)
-  }
-
-  if (!is.null(offset)) {
-    assert_that(is.integer(offset), length(offset) == 1L)
-    out$offset <- build_sql("OFFSET ", offset, con = con)
   }
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)

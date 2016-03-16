@@ -6,22 +6,22 @@
 \alias{sql_render}
 \title{Build and render SQL from a sequence of lazy operations}
 \usage{
-sql_build(op, ...)
+sql_build(op, con, ...)
 
 select_query(from, select = sql("*"), where = character(),
   group_by = character(), having = character(), order_by = character(),
-  distinct = FALSE, limit = NULL, offset = NULL)
+  distinct = FALSE)
 
 sql_render(x, con = NULL, ...)
 }
 \arguments{
 \item{op}{A sequence of lazy operations}
 
-\item{...}{Other arguments passed on to the methods. Not currently used.}
-
 \item{con}{A database connection. The default \code{NULL} uses a set of
 rules that should be very similar to ANSI 92, and allows for testing
 without an active database connection.}
+
+\item{...}{Other arguments passed on to the methods. Not currently used.}
 }
 \description{
 \code{sql_build} creates a \code{select_query} S3 object, that is rendered
