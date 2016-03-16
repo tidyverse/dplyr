@@ -108,6 +108,18 @@ sql_build.op_filter <- function(op, ...) {
 }
 
 
+sql_build.op_distinct <- function(op, ...) {
+  if (length(op$dots) > 0 && !op$args$.keep_all) {
+    stop("Can't calculate distinct only on specified columns with SQL",
+      call. = FALSE)
+  }
+
+  select_query(
+    sql_build(op$x, con),
+    distinct = TRUE
+  )
+}
+
 # select_query ------------------------------------------------------------
 
 #' @export
@@ -118,6 +130,7 @@ select_query <- function(from,
                          group_by = character(),
                          having = character(),
                          order_by = character(),
+                         distinct = FALSE,
                          limit = NULL,
                          offset = NULL) {
 
@@ -126,6 +139,7 @@ select_query <- function(from,
   stopifnot(is.character(group_by))
   stopifnot(is.character(having))
   stopifnot(is.character(order_by))
+  stopifnot(is.logical(distinct), length(distinct) == 1L)
   stopifnot(is.null(limit) || (is.integer(limit) && length(limit) == 1L))
   stopifnot(is.null(offset) || (is.integer(offset) && length(offset) == 1L))
 
@@ -137,6 +151,7 @@ select_query <- function(from,
       group_by = group_by,
       having = having,
       order_by = order_by,
+      distinct = distinct,
       limit = limit,
       offset = offset
     ),
@@ -146,7 +161,7 @@ select_query <- function(from,
 
 #' @export
 print.select_query <- function(x, ...) {
-  cat("<SQL SELECT>\n")
+  cat("<SQL SELECT", if (x$distinct) " DISTINCT", ">\n", sep = "")
   cat("From:     ", x$from, "\n", sep = "")
 
   if (length(x$select))   cat("Select:   ", named_commas(x$select), "\n", sep = "")
@@ -186,7 +201,7 @@ sql_render.select_query <- function(x, con = NULL, ..., root = FALSE) {
   sql_select(
     con, x$select, from, where = x$where, group_by = x$group_by,
     having = x$having, order_by = x$order_by, limit = x$limit,
-    offset = x$offset, ...
+    offset = x$offset, distinct = x$distinct, ...
   )
 }
 

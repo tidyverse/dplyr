@@ -248,20 +248,6 @@ is.join <- function(x) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.tbl_sql <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., .dots = .dots)
-
-  if (length(dist$vars) > 0 && !.keep_all) {
-    stop("Can't calculate distinct only on specified columns with SQL",
-      call. = FALSE)
-  }
-
-  from <- sql_subquery(dist$data$src$con, sql_query(dist$data))
-  sql <- build_sql("SELECT DISTINCT * FROM ", from, con = dist$data$src$con)
-  update(tbl(dist$data$src, sql, vars = dist$data$select), group_by = groups(.data))
-}
-
-#' @export
 intersect.tbl_sql <- function(x, y, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy)
   sql <- sql_set_op(x$src$con, x, y, "INTERSECT")

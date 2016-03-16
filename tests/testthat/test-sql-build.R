@@ -101,3 +101,18 @@ test_that("mutate generates simple expressions", {
 
   expect_equal(out$select, sql('"x"', '"x" + 1 AS "y"'))
 })
+
+
+# distinct ----------------------------------------------------------------
+
+test_that("distinct sets flagged", {
+  out1 <- lazy_frame(x = 1) %>%
+    select() %>%
+    sql_build()
+  expect_false(out1$distinct)
+
+  out2 <- lazy_frame(x = 1) %>%
+    distinct() %>%
+    sql_build()
+  expect_true(out2$distinct)
+})

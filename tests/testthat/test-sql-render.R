@@ -12,3 +12,8 @@ test_that("select quotes correctly", {
 
   expect_equal(out, sql('SELECT "x" AS "x"\nFROM "df"'))
 })
+
+test_that("distinct adds DISTINCT suffix", {
+  out <- lazy_frame(x = 1) %>% distinct() %>% sql_render()
+  expect_equal(out, sql('SELECT DISTINCT *\nFROM "df"'))
+})

@@ -226,14 +226,19 @@ sql_select <- function(con, select, from, where = NULL, group_by = NULL,
 sql_select.DBIConnection <- function(con, select, from, where = NULL,
                                      group_by = NULL, having = NULL,
                                      order_by = NULL, limit = NULL,
-                                     offset = NULL, ...) {
+                                     offset = NULL,
+                                     distinct = FALSE, ...) {
 
   out <- vector("list", 8)
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
     "limit", "offset")
 
   assert_that(is.character(select), length(select) > 0L)
-  out$select <- build_sql("SELECT ", escape(select, collapse = ", ", con = con))
+  out$select <- build_sql(
+    "SELECT ",
+    if (distinct) sql("DISTINCT "),
+    escape(select, collapse = ", ", con = con)
+  )
 
   assert_that(is.character(from), length(from) == 1L)
   out$from <- build_sql("FROM ", from, con = con)

@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `select_query()` gains a distinct argument which is used for generating
+  queries for `distinct()`.
+
 * `translate_sql()` and `partial_eval()` got a new API: now use connection + 
   variable names, rather than a `tbl`. This makes testing considerably easier. 
   `translate_sql_q()` has been renamed to `translate_sql_()`.
