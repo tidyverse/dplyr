@@ -13,52 +13,7 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
-  force(vars) # to make sure default value is used
-
-  if (!is.sql(from)) { # Must be a character string
-    assert_that(length(from) == 1)
-    if (isFALSE(db_has_table(src$con, from))) {
-      stop("Table ", from, " not found in database ", src$path, call. = FALSE)
-    }
-
-    from <- ident(from)
-  } else if (!is.join(from)) { # Must be arbitrary sql
-    # Abitrary sql needs to be wrapped into a named subquery
-    from <- sql_subquery(src$con, from, unique_name())
-  }
-
-  tbl <- make_tbl(c(subclass, "sql"),
-    src = src,              # src object
-    from = from,            # table, join, or raw sql
-    select = vars,          # SELECT: list of symbols
-    summarise = FALSE,      #   interpret select as aggreagte functions?
-    mutate = FALSE,         #   do select vars include new variables?
-    where = NULL,           # WHERE: list of calls
-    group_by = NULL,        # GROUP_BY: list of names
-    order_by = NULL         # ORDER_BY: list of calls
-  )
-  update(tbl)
-}
-
-#' @export
-update.tbl_sql <- function(object, ...) {
-  args <- list(...)
-  assert_that(only_has_names(args,
-    c("select", "where", "group_by", "order_by", "summarise")))
-
-  for (nm in names(args)) {
-    object[[nm]] <- args[[nm]]
-  }
-
-  # Figure out variables
-  if (is.null(object$select)) {
-    var_names <- db_query_fields(object$src$con, object$from)
-    vars <- lapply(var_names, as.name)
-    object$select <- vars
-  }
-
-  object$query <- build_query(object)
-  object
+  make_tbl(c("sql", "lazy"), src = src, ops = op_base_remote(src, from))
 }
 
 #' @export
@@ -69,20 +24,15 @@ same_src.tbl_sql <- function(x, y) {
 
 #' @export
 tbl_vars.tbl_sql <- function(x) {
-  x$query$vars()
+  op_vars(x$ops)
 }
 
 #' @export
 groups.tbl_sql <- function(x) {
-  x$group_by
+  op_groups(x$ops)
 }
 
 # Grouping methods -------------------------------------------------------------
-
-#' @export
-ungroup.tbl_sql <- function(x, ...) {
-  update(x, group_by = NULL)
-}
 
 #' @export
 group_size.tbl_sql <- function(x) {
@@ -105,8 +55,8 @@ n_groups.tbl_sql <- function(x) {
 
 #' @export
 as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
-  ..., n = 1e5L) {
-  x$query$fetch(n)
+                                  ..., n = 1e5L) {
+  as.data.frame(collect(x, n = n))
 }
 
 #' @export
@@ -114,176 +64,29 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: ", src_desc(x$src), "\n", sep = "")
 
-  if (inherits(x$from, "ident")) {
-    cat(wrap("From: ", x$from, " ", dim_desc(x)))
-  } else {
-    cat(wrap("From: <derived table> ", dim_desc(x)))
-  }
-  cat("\n")
-  if (!is.null(x$where)) {
-    cat(wrap("Filter: ", commas(x$where)), "\n")
-  }
-  if (!is.null(x$order_by)) {
-    cat(wrap("Arrange: ", commas(x$order_by)), "\n")
-  }
-  if (!is.null(x$group_by)) {
-    cat(wrap("Grouped by: ", commas(x$group_by)), "\n")
-  }
-
-  cat("\n")
-
   print(trunc_mat(x, n = n, width = width))
   invisible(x)
 }
 
 #' @export
 dimnames.tbl_sql <- function(x) {
-  list(NULL, tbl_vars.tbl_sql(x))
+  list(NULL, op_vars(x$ops))
 }
 
 #' @export
 dim.tbl_sql <- function(x) {
-  if (!inherits(x$from, "ident")) {
-    n <- NA
-  } else {
-    n <- x$query$nrow()
-  }
-
-  p <- x$query$ncol()
-  c(n, p)
+  c(NA, length(op_vars(x$ops)))
 }
 
 #' @export
 head.tbl_sql <- function(x, n = 6L, ...) {
-  assert_that(length(n) == 1, n > 0L)
-
-  if (is.infinite(n)) {
-    limit <- NULL
-  } else {
-    limit <- as.integer(n)
-  }
-  build_query(x, limit)$fetch()
+  collect(x, n = n, warn_incomplete = FALSE)
 }
 
 #' @export
 tail.tbl_sql <- function(x, n = 6L, ...) {
-  stop("tail is not supported by sql sources", call. = FALSE)
+  stop("tail() is not supported by sql sources", call. = FALSE)
 }
-
-# Verbs ------------------------------------------------------------------------
-
-#' @export
-filter_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  input <- partial_eval(dots, .data)
-
-  update(.data, where = c(.data$where, input))
-}
-
-#' @export
-arrange_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  input <- partial_eval(dots, .data)
-
-  update(.data, order_by = c(input, .data$order_by))
-}
-
-#' @export
-select_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(tbl_vars(.data), dots,
-    include = as.character(groups(.data)))
-
-  # Index into variables so that select can be applied multiple times
-  # and after a mutate.
-  idx <- match(vars, tbl_vars(.data))
-  new_select <- .data$select[idx]
-  names(new_select) <- names(vars)
-
-  update(.data, select = new_select)
-}
-
-#' @export
-rename_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- rename_vars_(tbl_vars(.data), dots)
-
-  # Index into variables so that select can be applied multiple times
-  # and after a mutate.
-  idx <- match(vars, tbl_vars(.data))
-  new_select <- .data$select[idx]
-  names(new_select) <- names(vars)
-
-  update(.data, select = new_select)
-}
-
-#' @export
-summarise_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  input <- partial_eval(dots, .data)
-
-  # Effect of previous operations on summarise:
-  # * select: none
-  # * filter: none, just modifies WHERE (which is applied before)
-  # * mutate: need to be precomputed so new select can use
-  # * arrange: intersection with new variables preserved
-  if (.data$mutate) {
-    .data <- collapse(.data)
-  }
-
-  .data$summarise <- TRUE
-  .data <- update(.data, select = c(.data$group_by, input))
-
-  # Technically, don't always need to collapse result because summarise + filter
-  # could be expressed in SQL using HAVING, but that's the only dplyr operation
-  # that can be, so would be a lot of extra work for minimal gain
-  update(
-    collapse(.data),
-    group_by = drop_last(.data$group_by)
-  )
-}
-
-#' @export
-mutate_.tbl_sql <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  input <- partial_eval(dots, .data)
-
-  .data$mutate <- TRUE
-  new <- update(.data, select = c(.data$select, input))
-  # If we're creating a variable that uses a window function, it's
-  # safest to turn that into a subquery so that filter etc can use
-  # the new variable name
-  if (uses_window_fun(input, .data$con)) {
-    collapse(new)
-  } else {
-    new
-  }
-}
-
-#' @export
-group_by_.tbl_sql <- function(.data, ..., .dots, add = FALSE) {
-  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
-  x <- groups$data
-
-  # Effect of group_by on previous operations:
-  # * select: none
-  # * filter: changes frame of window functions
-  # * mutate: changes frame of window functions
-  # * arrange: if present, groups inserted as first ordering
-  needed <- (x$mutate && uses_window_fun(x$select, x$con)) ||
-    uses_window_fun(x$filter, x$con)
-  if (!is.null(x$order_by)) {
-    arrange <- c(x$group_by, x$order_by)
-  } else {
-    arrange <- NULL
-  }
-
-  if (needed) {
-    x <- collapse(update(x, order_by = NULL))
-  }
-  update(x, group_by = groups$groups, order_by = arrange)
-}
-
 
 # Joins ------------------------------------------------------------------------
 
@@ -588,10 +391,23 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
 }
 
 #' @export
-collect.tbl_sql <- function(x, ...) {
-  grouped_df(x$query$fetch(), groups(x))
-}
+collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
+  assert_that(length(n) == 1, n > 0L)
+  if (n == Inf) {
+    n <- -1
+  }
 
+  sql <- sql_render(x)
+  res <- dbSendQuery(x$src$con, sql)
+  on.exit(dbClearResult(res))
+
+  out <- dbFetch(res, n)
+  if (warn_incomplete) {
+    res_warn_incomplete(res)
+  }
+
+  grouped_df(out, op_grps(x$ops))
+}
 
 # Do ---------------------------------------------------------------------------
 

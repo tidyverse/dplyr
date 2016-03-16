@@ -218,7 +218,8 @@ NULL
 #' @rdname backend_sql
 #' @export
 sql_select <- function(con, select, from, where = NULL, group_by = NULL,
-  having = NULL, order_by = NULL, limit = NULL, offset = NULL, ...) {
+                       having = NULL, order_by = NULL, limit = NULL,
+                       offset = NULL, ...) {
   UseMethod("sql_select")
 }
 #' @export
@@ -231,9 +232,6 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
     "limit", "offset")
 
-  if (length(select) == 0) {
-    select <- "*"
-  }
   assert_that(is.character(select), length(select) > 0L)
   out$select <- build_sql("SELECT ", escape(select, collapse = ", ", con = con))
 
@@ -423,21 +421,12 @@ db_query_fields <- function(con, sql, ...) {
 }
 #' @export
 db_query_fields.DBIConnection <- function(con, sql, ...) {
-  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
-
-  qry <- dbSendQuery(con, fields)
+  sql <- sql_select(con, sql("*"), sql_subquery(con, sql), where = sql("0 = 1"))
+  qry <- dbSendQuery(con, sql)
   on.exit(dbClearResult(qry))
 
-  dbColumnInfo(qry)$name
-}
-#' @export
-db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
-  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
-
-  qry <- dbSendQuery(con, fields)
-  on.exit(dbClearResult(qry))
-
-  dbGetInfo(qry)$fieldDescription[[1]]$name
+  res <- dbFetch(qry, 0)
+  names(res)
 }
 
 #' @rdname backend_db

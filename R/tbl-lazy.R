@@ -2,9 +2,6 @@
 #' @examples
 #' x <- tbl_lazy(mtcars)
 #' x %>% group_by(cyl) %>% summarise(n = n()) %>% filter(n > 10)
-tbl_lazy_remote <- function(src, base) {
-  make_tbl("lazy", src = src, ops = op_base_remote(src, base))
-}
 
 tbl_lazy <- function(df) {
   make_tbl("lazy", ops = op_base_local(df, env = parent.frame()))

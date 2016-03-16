@@ -13,6 +13,11 @@
 NULL
 
 op_base_remote <- function(src, x, vars = NULL) {
+  # If not literal sql, must be a table identifier
+  if (!is.sql(x)) {
+    x <- ident(x)
+  }
+
   if (is.null(vars)) {
     vars <- db_query_fields(src$con, x)
   }
@@ -162,6 +167,10 @@ op_grps.op_group_by <- function(x) {
   } else {
     names(x$dots)
   }
+}
+#' @export
+op_grps.op_ungroup <- function(x) {
+  character()
 }
 #' @export
 op_grps.op_summarise <- function(x) {

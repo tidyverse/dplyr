@@ -38,7 +38,7 @@ sql_build.op_base_local <- function(op, ...) {
 #' @export
 sql_build.op_select <- function(op, ...) {
   vars <- select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x))
-  select_query(sql_build(op$x), vars)
+  select_query(sql_build(op$x), ident(vars))
 }
 
 #' @export
@@ -89,7 +89,7 @@ sql_build.op_filter <- function(op, ...) {
 #' @export
 #' @rdname sql_build
 select_query <- function(from,
-                         select = character(),
+                         select = sql("*"),
                          where = character(),
                          group_by = character(),
                          having = character(),
@@ -141,13 +141,18 @@ sql_render <- function(x, con = NULL, ...) {
 }
 
 #' @export
-sql_render.tbl_lazy <- function(op, con = NULL, ...) {
-  sql_render(sql_build(op$ops, ...), con = con, ...)
+sql_render.op <- function(x, con = NULL, ...) {
+  sql_render(sql_build(x, ...), con = con, ...)
+}
+
+#' @export
+sql_render.tbl_lazy <- function(x, con = NULL, ...) {
+  sql_render(sql_build(x$ops, ...), con = con, ...)
 }
 
 #' @export
 sql_render.select_query <- function(x, con = NULL, ...) {
-  from <- sql_subquery(con, sql_render(x$from, con))
+  from <- sql_subquery(con, sql_render(x$from, con, ..., root = FALSE))
 
   sql_select(
     con, x$select, from, where = x$where, group_by = x$group_by,
@@ -157,8 +162,12 @@ sql_render.select_query <- function(x, con = NULL, ...) {
 }
 
 #' @export
-sql_render.ident <- function(x, con = NULL, ...) {
-  x
+sql_render.ident <- function(x, con = NULL, ..., root = TRUE) {
+  if (root) {
+    sql_select(con, sql("*"), x)
+  } else {
+    x
+  }
 }
 
 #' @export

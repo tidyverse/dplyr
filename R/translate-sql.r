@@ -109,6 +109,7 @@ translate_sql <- function(...,
                           vars_order = NULL,
                           window = TRUE) {
   dots <- lazyeval::lazy_dots(...)
+
   translate_sql_(dots,
     con = con,
     vars = vars,
@@ -127,6 +128,9 @@ translate_sql_ <- function(dots,
                            vars_order = NULL,
                            window = TRUE) {
   expr <- lazyeval::as.lazy_dots(dots, env = parent.frame())
+  if (!any(has_names(expr))) {
+    names(expr) <- NULL
+  }
 
   if (length(vars) > 0) {
     # If variables are known, partially evaluate input

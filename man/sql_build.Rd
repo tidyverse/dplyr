@@ -8,7 +8,7 @@
 \usage{
 sql_build(op, ...)
 
-select_query(from, select = character(), where = character(),
+select_query(from, select = sql("*"), where = character(),
   group_by = character(), having = character(), order_by = character(),
   limit = NULL, offset = NULL)
 

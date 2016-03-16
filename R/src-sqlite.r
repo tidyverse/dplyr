@@ -139,14 +139,6 @@ sql_translate_env.SQLiteConnection <- function(x) {
 # DBI methods ------------------------------------------------------------------
 
 #' @export
-db_query_fields.SQLiteConnection <- function(con, sql, ...) {
-  rs <- DBI::dbSendQuery(con, build_sql("SELECT * FROM ", sql))
-  on.exit(DBI::dbClearResult(rs))
-
-  names(fetch(rs, 0L))
-}
-
-#' @export
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   DBI::dbWriteTable(con, table, values, append = TRUE, row.names = FALSE)
 }
