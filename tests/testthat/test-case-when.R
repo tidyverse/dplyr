@@ -5,12 +5,13 @@ test_that("zero inputs throws an error", {
 })
 
 test_that("error messages", {
-  expect_error(
-    case_when(
-      identity
-    ),
-    "Case 1 (identity) is not a two-sided formula",
-    fixed = TRUE
+  withr::with_options(list(width = 40),
+    expect_error(
+      case_when(
+        paste("This is a", "longish", "text to test the cutoff width")
+      ),
+      "Case 1 [(]paste[(]\"This is a.*[.][.][.][)] is not a two-sided formula"
+    )
   )
 
   expect_error(
