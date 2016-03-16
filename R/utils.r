@@ -91,6 +91,17 @@ has_names <- function(x) {
   }
 }
 
+eval_with_expr <- function(expr, envir) {
+  structure(
+    eval(expr, envir),
+    expr = expr
+  )
+}
+
+expr <- function(x) {
+  attr(x, "expr")
+}
+
 "%||%" <- function(x, y) if(is.null(x)) y else x
 
 is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
