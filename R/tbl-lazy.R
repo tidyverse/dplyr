@@ -74,6 +74,12 @@ group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
 }
 
 #' @export
+ungroup.tbl_lazy <- function(x, ...) {
+  add_op_single(x, "ungroup")
+}
+
+
+#' @export
 distinct_.tbl_lazy <- function(.data, ..., .dots, .keep_all = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   add_op_single(.data, "distinct", dots = dots, args = list(.keep_all = .keep_all))
