@@ -175,6 +175,24 @@ win_absent <- function(f) {
 # tbl and sql translator. This isn't the most amazing design, but it keeps
 # things loosely coupled and is straightforward to understand.
 partition <- new.env(parent = emptyenv())
+partition$group_by <- NULL
+partition$order_by <- NULL
+
+set_partition_group <- function(vars) {
+  stopifnot(is.null(vars) || is.character(vars))
+
+  old <- partition$group_by
+  partition$group_by <- vars
+  invisible(old)
+}
+
+set_partition_order <- function(vars) {
+  stopifnot(is.null(vars) || is.character(vars))
+
+  old <- partition$order_by
+  partition$order_by <- vars
+  invisible(old)
+}
 
 set_partition <- function(group_by, order_by) {
   old <- list(partition$group_by, partition$order_by)

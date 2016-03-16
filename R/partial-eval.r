@@ -85,3 +85,40 @@ partial_eval <- function(call, tbl = NULL, env = parent.frame()) {
   }
 }
 
+
+partial_eval2 <- function(call, vars = character(), env = parent.frame()) {
+  if (is.atomic(call)) return(call)
+
+  if (inherits(call, "lazy_dots")) {
+    lapply(call, function(l) partial_eval2(l$expr, vars, l$env))
+  } else if (is.list(call)) {
+    lapply(call, partial_eval2, vars, env = env)
+  } else if (is.symbol(call)) {
+    name <- as.character(call)
+    if (name %in% vars) {
+      call
+    } else if (exists(name, env)) {
+      eval(call, env)
+    } else {
+      call
+    }
+  } else if (is.call(call)) {
+    # Process call arguments recursively, unless user has manually called
+    # remote/local
+    name <- as.character(call[[1]])
+    if (name == "local") {
+      eval(call[[2]], env)
+    } else if (name %in% c("$", "[[", "[")) {
+      # Subsetting is always done locally
+      eval(call, env)
+    } else if (name == "remote") {
+      call[[2]]
+    } else {
+      call[-1] <- lapply(call[-1], partial_eval2, vars = vars, env = env)
+      call
+    }
+  } else {
+    stop("Unknown input type: ", class(call), call. = FALSE)
+  }
+}
+

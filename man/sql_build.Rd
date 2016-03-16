@@ -8,9 +8,9 @@
 \usage{
 sql_build(op, ...)
 
-select_query(from, select, where = character(), group_by = character(),
-  having = character(), order_by = character(), limit = NULL,
-  offset = NULL)
+select_query(from, select = character(), where = character(),
+  group_by = character(), having = character(), order_by = character(),
+  limit = NULL, offset = NULL)
 
 sql_render(x, con = NULL, ...)
 }

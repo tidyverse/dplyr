@@ -39,3 +39,14 @@ test_that("rename preserves existing vars", {
 
   expect_equal(out$select, c("x" = "x", "z" = "y"))
 })
+
+
+# arrange -----------------------------------------------------------------
+
+test_that("arrange generates order_by", {
+  out <- lazy_frame(x = 1, y = 1) %>%
+    arrange(x) %>%
+    sql_build()
+
+  expect_equal(out$select, c("x" = "x", "z" = "y"))
+})

@@ -47,12 +47,12 @@ sql_build.op_rename <- function(op, ...) {
   select_query(sql_build(op$x, con), vars)
 }
 
-
 # select_query ------------------------------------------------------------
 
 #' @export
 #' @rdname sql_build
-select_query <- function(from, select,
+select_query <- function(from,
+                         select = character(),
                          where = character(),
                          group_by = character(),
                          having = character(),

@@ -16,8 +16,17 @@ src_desc <- function(x) UseMethod("src_desc")
 
 #' @name backend_src
 #' @export
-src_translate_env <- function(x) UseMethod("src_translate_env")
+sql_translate_env <- function(con) UseMethod("sql_translate_env")
 
+#' @name backend_src
+#' @export
+sql_translate_env.NULL <- function(con) {
+  sql_variant(
+    base_scalar,
+    base_agg,
+    base_win
+  )
+}
 
 #' Database generics.
 #'
@@ -222,6 +231,9 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
     "limit", "offset")
 
+  if (length(select) == 0) {
+    select <- "*"
+  }
   assert_that(is.character(select), length(select) > 0L)
   out$select <- build_sql("SELECT ", escape(select, collapse = ", ", con = con))
 

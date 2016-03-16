@@ -202,7 +202,7 @@ setdiff.tbl_sql <- function(x, y, copy = FALSE, ...) {
 build_query <- function(x, limit = NULL) {
   assert_that(is.null(limit) || (is.numeric(limit) && length(limit) == 1))
   translate <- function(expr, ...) {
-    translate_sql_q(expr, tbl = x, env = NULL, ...)
+    translate_sql(expr, vars = names(x), ...)
   }
 
   if (x$summarise) {
@@ -217,7 +217,7 @@ build_query <- function(x, limit = NULL) {
     order_by_sql <- translate(x$order_by)
   } else {
     # Not in summarise, so assume functions are window functions
-    select_sql <- translate(x$select, window = uses_window_fun(x$select, x))
+    select_sql <- translate(x$select, window = uses_window_fun(x$select, x$con))
     vars <- auto_names(x$select)
 
     # Don't use group_by - grouping affects window functions only
@@ -232,7 +232,7 @@ build_query <- function(x, limit = NULL) {
     }
   }
 
-  if (!uses_window_fun(x$where, x)) {
+  if (!uses_window_fun(x$where, x$con)) {
     from_sql <- x$from
     where_sql <- translate(x$where)
   } else {
@@ -254,7 +254,7 @@ build_query <- function(x, limit = NULL) {
   query(x$src$con, sql, vars)
 }
 
-uses_window_fun <- function(x, tbl) {
+uses_window_fun <- function(x, con) {
   if (is.null(x)) return(FALSE)
   if (is.list(x)) {
     calls <- unlist(lapply(x, all_calls))
@@ -262,7 +262,7 @@ uses_window_fun <- function(x, tbl) {
     calls <- all_calls(x)
   }
 
-  win_f <- ls(envir = src_translate_env(tbl)$window)
+  win_f <- ls(envir = sql_translate_env(con)$window)
   any(calls %in% win_f)
 }
 
@@ -350,7 +350,7 @@ mutate_.tbl_sql <- function(.data, ..., .dots) {
   # If we're creating a variable that uses a window function, it's
   # safest to turn that into a subquery so that filter etc can use
   # the new variable name
-  if (uses_window_fun(input, .data)) {
+  if (uses_window_fun(input, .data$con)) {
     collapse(new)
   } else {
     new
@@ -367,8 +367,8 @@ group_by_.tbl_sql <- function(.data, ..., .dots, add = FALSE) {
   # * filter: changes frame of window functions
   # * mutate: changes frame of window functions
   # * arrange: if present, groups inserted as first ordering
-  needed <- (x$mutate && uses_window_fun(x$select, x)) ||
-    uses_window_fun(x$filter, x)
+  needed <- (x$mutate && uses_window_fun(x$select, x$con)) ||
+    uses_window_fun(x$filter, x$con)
   if (!is.null(x$order_by)) {
     arrange <- c(x$group_by, x$order_by)
   } else {

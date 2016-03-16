@@ -1,26 +1,10 @@
 context("SQL translation")
 
-test <- src_sqlite(tempfile(), create = TRUE)
-
-expect_same_in_sql <- function(expr) {
-  expr <- substitute(expr)
-
-  sql <- translate_sql_q(list(expr))
-  actual <- dbGetQuery(test$con, paste0("SELECT ", sql))[[1]]
-
-  exp <- eval(expr, parent.frame())
-
-  expect_equal(actual, exp, label = deparse(substitute(expr)))
-}
-
 test_that("Simple maths is correct", {
-  expect_same_in_sql(1 + 2)
-  expect_same_in_sql(2 * 4)
-  expect_same_in_sql(5 / 10)
-  expect_same_in_sql(1 - 10)
-  expect_same_in_sql(5 ^ 2)
-  expect_same_in_sql(5 ^ 1/2)
-  expect_same_in_sql(100 %% 3)
+  expect_equal(translate_sql(1 + 2), sql("1.0 + 2.0"))
+  expect_equal(translate_sql(2 * 4), sql("2.0 * 4.0"))
+  expect_equal(translate_sql(5 ^ 2), sql("POWER(5.0, 2.0)"))
+  expect_equal(translate_sql(100L %% 3L), sql("100 % 3"))
 })
 
 test_that("dplyr.strict_sql = TRUE prevents auto conversion", {
@@ -98,32 +82,30 @@ test_that("binary minus subtracts", {
 # Window functions --------------------------------------------------------
 
 test_that("window functions without group have empty over", {
-  expect_equal(translate_window_sql(n()), sql("COUNT(*) OVER ()"))
-  expect_equal(translate_window_sql(sum(x)), sql('sum("x") OVER ()'))
+  expect_equal(translate_sql(n()), sql("COUNT(*) OVER ()"))
+  expect_equal(translate_sql(sum(x)), sql('sum("x") OVER ()'))
 })
 
 test_that("aggregating window functions ignore order_by", {
   expect_equal(
-    translate_window_sql(n(), order_by = "x"),
+    translate_sql(n(), vars_order = "x"),
     sql("COUNT(*) OVER ()")
   )
   expect_equal(
-    translate_window_sql(sum(x), order_by = "x"),
+    translate_sql(sum(x), vars_order = "x"),
     sql('sum("x") OVER ()')
   )
-
 })
 
 test_that("cumulative windows warn if no order", {
-  expect_warning(translate_window_sql(cumsum(x)), "does not have explicit order")
-  expect_warning(translate_window_sql(cumsum(x), order_by = "x"), NA)
+  expect_warning(translate_sql(cumsum(x)), "does not have explicit order")
+  expect_warning(translate_sql(cumsum(x), vars_order = "x"), NA)
 })
 
 test_that("ntile always casts to integer", {
   expect_equal(
-    translate_window_sql(ntile(x, 10.5)),
+    translate_sql(ntile(x, 10.5)),
     sql('NTILE(10) OVER (ORDER BY "x")')
   )
 })
-
 

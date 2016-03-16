@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `src_translate_env()` has been replaced by `sql_translate_env()` which
+  should have methods for the connection object.
+
 * New `src_memdb()` which is a session-local in-memory SQLite db.
 
 * `distinct()` now only keeps the distinct variables. If you want to return
