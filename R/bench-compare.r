@@ -82,7 +82,7 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
 #' @rdname bench_compare
 compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
   if (length(tbls) < 2 && is.null(ref)) {
-    stop("Need at least two srcs to compare", call. = FALSE)
+    testthat::skip("Need at least two srcs to compare")
   }
   if (!requireNamespace("testthat", quietly = TRUE)) {
     stop("Please install the testthat package", call. = FALSE)

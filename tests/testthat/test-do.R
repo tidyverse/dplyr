@@ -143,12 +143,16 @@ test_that("empty data frames give consistent outputs", {
 # SQLite -----------------------------------------------------------------------
 
 test_that("named argument become list columns", {
+  skip_if_no_sqlite()
+
   out <- grp$sqlite %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
   expect_equal(out$ncol, list(3, 3, 3))
 })
 
 test_that("unnamed results bound together by row", {
+  skip_if_no_sqlite()
+
   first <- grp$sqlite %>% do(head(., 1))
 
   expect_equal(nrow(first), 3)
@@ -157,16 +161,21 @@ test_that("unnamed results bound together by row", {
 })
 
 test_that("Results respect select", {
+  skip_if_no_sqlite()
+
   smaller <- grp$sqlite %>% select(g, x) %>% do(ncol = ncol(.))
   expect_equal(smaller$ncol, list(2, 2, 2))
 })
 
 test_that("grouping column not repeated", {
+  skip_if_no_sqlite()
+
   out <- grp$sqlite %>% do(names = names(.))
   expect_equal(out$names[[1]], c("g", "x", "y"))
 })
 
 test_that("results independent of chunk_size", {
+  skip_if_no_sqlite()
   nrows <- function(group, n) {
     unlist(do(group, nrow = nrow(.), .chunk_size = n)$nrow)
   }

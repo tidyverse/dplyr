@@ -92,6 +92,8 @@ test_that("select can be before group_by (#309)",{
 # Database ---------------------------------------------------------------------
 
 test_that("select renames variables (#317)", {
+  skip_if_no_sqlite()
+
   first <- tbls$sqlite %>% select(A = a)
   expect_equal(tbl_vars(first), "A")
   expect_equal(tbl_vars(first %>% select(A)), "A")
@@ -99,6 +101,8 @@ test_that("select renames variables (#317)", {
 })
 
 test_that("select preserves grouping vars", {
+  skip_if_no_sqlite()
+
   first <- tbls$sqlite %>% group_by(b) %>% select(a)
   expect_equal(tbl_vars(first), c("b", "a"))
 })

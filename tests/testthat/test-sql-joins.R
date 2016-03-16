@@ -6,6 +6,7 @@ df2 <- copy_to(src, data.frame(a = 5:1, b = 1:5), "df2")
 fam <- copy_to(src, data.frame(id = 1:5, parent = c(NA, 1, 2, 2, 4)), "fam")
 
 test_that("named by join by different x and y vars", {
+  skip_if_no_sqlite()
 
   j1 <- collect(inner_join(df1, df2, c("x" = "a")))
   expect_equal(names(j1), c("x", "y", "a", "b"))
@@ -17,6 +18,7 @@ test_that("named by join by different x and y vars", {
 })
 
 test_that("self-joins allowed with named by", {
+  skip_if_no_sqlite()
   j1 <- collect(left_join(fam, fam, by = c("parent" = "id")))
   j2 <- collect(inner_join(fam, fam, by = c("parent" = "id")))
 
@@ -33,6 +35,7 @@ test_that("self-joins allowed with named by", {
 })
 
 test_that("suffix modifies duplicated variable names", {
+  skip_if_no_sqlite()
   j1 <- collect(inner_join(fam, fam, by = c("parent" = "id"), suffix = c("1", "2")))
   j2 <- collect(left_join(fam, fam, by = c("parent" = "id"), suffix = c("1", "2")))
 

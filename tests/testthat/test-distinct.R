@@ -12,6 +12,7 @@ test_that("distinct equivalent to local unique when keep_all is TRUE", {
 })
 
 test_that("distinct removes duplicates (sql)", {
+  skip_if_no_sqlite()
   expect_error(nrow(distinct(tbls$sqlite, x)), "specified columns")
 })
 

@@ -12,6 +12,7 @@ test_that("union all on data frames calls bind rows", {
 })
 
 test_that("union on database uses UNION ALL", {
+  skip_if_no_sqlite()
   db <- src_sqlite(":memory:", TRUE)
 
   df1 <- copy_to(db, data_frame(x = 1:2), "df1")

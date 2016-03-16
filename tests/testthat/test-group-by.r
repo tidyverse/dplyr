@@ -12,11 +12,13 @@ test_that("group_by with add = TRUE adds groups", {
   expect_equal(add_groups1(tbls$df), list(quote(x), quote(y)))
   expect_equal(add_groups2(tbls$df), list(quote(x), quote(y)))
 
+  skip_if_no_sqlite()
   expect_equal(add_groups1(tbls$sqlite), list(quote(x), quote(y)))
   expect_equal(add_groups2(tbls$sqlite), list(quote(x), quote(y)))
 })
 
 test_that("collect, collapse and compute preserve grouping", {
+  skip_if_no_sqlite()
   g <- group_by(tbls$sqlite, x, y)
 
   expect_equal(groups(compute(g)), groups(g))
