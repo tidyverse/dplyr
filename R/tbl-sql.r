@@ -29,7 +29,7 @@ tbl_vars.tbl_sql <- function(x) {
 
 #' @export
 groups.tbl_sql <- function(x) {
-  op_groups(x$ops)
+  op_grps(x$ops)
 }
 
 # Grouping methods -------------------------------------------------------------
@@ -256,7 +256,7 @@ distinct_.tbl_sql <- function(.data, ..., .dots, .keep_all = FALSE) {
       call. = FALSE)
   }
 
-  from <- sql_subquery(dist$data$src$con, dist$data$query$sql)
+  from <- sql_subquery(dist$data$src$con, sql_query(dist$data))
   sql <- build_sql("SELECT DISTINCT * FROM ", from, con = dist$data$src$con)
   update(tbl(dist$data$src, sql, vars = dist$data$select), group_by = groups(.data))
 }
@@ -361,14 +361,8 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
 
 #' @export
 collapse.tbl_sql <- function(x, vars = NULL, ...) {
-  # If you collapse a query, the names of the fields will be the output names
-  # of the previous query.
-  if (is.null(vars)) {
-    nms <- auto_names(x$select)
-    vars <- lapply(nms, as.name)
-  }
-
-  update(tbl(x$src, x$query$sql, vars = vars, ...), group_by = groups(x))
+  sql <- sql_render(x)
+  tbl(x$src, sql_render(x)) %>% group_by_(groups(x))
 }
 
 #' @export
@@ -384,7 +378,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   }
   assert_that(all(unlist(indexes) %in% x$select))
   assert_that(all(unlist(unique_indexes) %in% x$select))
-  db_save_query(x$src$con, x$query$sql, name = name, temporary = temporary)
+  db_save_query(x$src$con, sql_render(x), name = name, temporary = temporary)
   db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
   db_create_indexes(x$src$con, name, indexes, unique = FALSE)
   update(tbl(x$src, name), group_by = groups(x))

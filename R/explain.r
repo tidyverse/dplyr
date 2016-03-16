@@ -43,7 +43,7 @@ explain.tbl_sql <- function(x, ...) {
   force(x)
   show_query(x)
   message("\n")
-  message("<PLAN>\n", db_explain(x$query$con, x$query$sql))
+  message("<PLAN>\n", db_explain(x$src$con, sql_render(x)))
 
   invisible(NULL)
 }
@@ -51,5 +51,5 @@ explain.tbl_sql <- function(x, ...) {
 #' @export
 #' @rdname explain
 show_query <- function(x) {
-  message("<SQL>\n", x$query$sql)
+  message("<SQL>\n", sql_render(x))
 }
