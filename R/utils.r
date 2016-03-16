@@ -133,6 +133,10 @@ unique_name <- local({
 
 isFALSE <- function(x) identical(x, FALSE)
 
+f_lhs <- function(x) if (length(x) >= 3) x[[2]] else NULL
+f_rhs <- function(x) x[[length(x)]]
+
+
 substitute_q <- function(x, env) {
   call <- substitute(substitute(x, env), list(x = x))
   eval(call)
