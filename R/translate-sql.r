@@ -153,7 +153,7 @@ translate_sql_ <- function(dots,
     eval(x, envir = env)
   })
 
-  sql(unlist(pieces, use.names = FALSE))
+  sql(unlist(pieces))
 }
 
 sql_env <- function(expr, variant, con, window = FALSE,

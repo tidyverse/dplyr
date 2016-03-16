@@ -51,14 +51,14 @@
 #' rounder <- sql_variant(sql_translator(round = sql_round, .parent = base_agg))
 #' translate_sql(round(X), variant = rounder)
 #' translate_sql(round(X, 5), variant = rounder)
-sql <- function(x) {
-  structure(x, class = c("sql", "character"))
+sql <- function(...) {
+  structure(as.character(c(...)), class = c("sql", "character"))
 }
 
 #' @export
 #' @rdname sql
 ident <- function(x) {
-  if (is.null(x)) return()
+  if (length(x) == 0) return(sql())
   if (is.ident(x)) return(x)
 
   structure(x, class = c("ident", "sql", "character"))

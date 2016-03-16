@@ -48,5 +48,35 @@ test_that("arrange generates order_by", {
     arrange(x) %>%
     sql_build()
 
-  expect_equal(out$select, c("x" = "x", "z" = "y"))
+  expect_equal(out$order_by, sql('"x"'))
+})
+
+test_that("arrange converts desc", {
+  out <- lazy_frame(x = 1, y = 1) %>%
+    arrange(desc(x)) %>%
+    sql_build()
+
+  expect_equal(out$order_by, sql('"x" DESC'))
+})
+
+test_that("grouped arrange orders by groups", {
+  out <- lazy_frame(x = 1, y = 1) %>%
+    group_by(x) %>%
+    arrange(y) %>%
+    sql_build()
+
+  expect_equal(out$order_by, sql('"x"', '"y"'))
+})
+
+
+# summarise ---------------------------------------------------------------
+
+test_that("summarise generates group_by and select", {
+  out <- lazy_frame(g = 1) %>%
+    group_by(x) %>%
+    summarise(n = n()) %>%
+    sql_build()
+
+  expect_equal(out$group_by, ident("x"))
+  expect_equal(out$select, sql(n = 'COUNT()'))
 })

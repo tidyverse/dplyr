@@ -44,7 +44,32 @@ sql_build.op_select <- function(op, ...) {
 #' @export
 sql_build.op_rename <- function(op, ...) {
   vars <- rename_vars_(op_vars(op$x), op$dots)
-  select_query(sql_build(op$x, con), vars)
+  select_query(sql_build(op$x), vars)
+}
+
+#' @export
+sql_build.op_arrange <- function(op, ...) {
+  order_vars <- translate_sql_(op$dots, vars = op_vars(op))
+  group_vars <- ident(op_grps(op$x))
+
+  select_query(sql_build(op$x), order_by = c(group_vars, order_vars))
+}
+
+#' @export
+sql_build.op_summarise <- function(op, ...) {
+  select_vars <- translate_sql_(op$dots, vars = op_vars(op), window = FALSE)
+  group_vars <- ident(op_grps(op$x))
+
+  select_query(
+    sql_build(op$x, con),
+    select = select_vars,
+    group_by = group_vars
+  )
+}
+
+#' @export
+sql_build.op_group_by <- function(op, ...) {
+  sql_build(op$x)
 }
 
 # select_query ------------------------------------------------------------
@@ -75,6 +100,7 @@ select_query <- function(from,
       where = where,
       group_by = group_by,
       having = having,
+      order_by = order_by,
       limit = limit,
       offset = offset
     ),
@@ -90,6 +116,7 @@ print.select_query <- function(x, ...) {
   if (length(x$select))   cat("Select:   ", named_commas(x$select), "\n", sep = "")
   if (length(x$where))    cat("Where:    ", named_commas(x$where), "\n", sep = "")
   if (length(x$group_by)) cat("Group by: ", named_commas(x$group_by), "\n", sep = "")
+  if (length(x$order_by)) cat("Order by: ", named_commas(x$order_by), "\n", sep = "")
   if (length(x$having))   cat("Having:   ", named_commas(x$having), "\n", sep = "")
 }
 
