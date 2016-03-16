@@ -32,7 +32,6 @@
 #'   x %% 35 == 0 ~ "fizz buzz"
 #' )
 case_when <- function(...) {
-  formula_args <- lapply(as.list(substitute(list(...))[-1]), deparse_trunc)
   formulas <- list(...)
   n <- length(formulas)
 
@@ -46,7 +45,8 @@ case_when <- function(...) {
   for (i in seq_len(n)) {
     f <- formulas[[i]]
     if (!inherits(f, "formula") || length(f) != 3) {
-      stop("Case ", i , " (", formula_args[[i]],
+      non_formula_arg <- substitute(list(...))[[i + 1]]
+      stop("Case ", i , " (", deparse_trunc(non_formula_arg),
            ") is not a two-sided formula", call. = FALSE)
     }
 
