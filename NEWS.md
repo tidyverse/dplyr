@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `translate_sql()` and `partial_eval()` got a new API: now use connection + 
+  variable names, rather than a `tbl`. This makes testing considerably easier. 
+  `translate_sql_q()` has been renamed to `translate_sql_()`.
+
 * `src_translate_env()` has been replaced by `sql_translate_env()` which
   should have methods for the connection object.
 
