@@ -26,6 +26,11 @@ sql_build.tbl_sql <- function(op, ...) {
 }
 
 #' @export
+sql_build.tbl_lazy <- function(op, ...) {
+  sql_build(op$ops, ...)
+}
+
+#' @export
 sql_build.op_base_remote <- function(op, ...) {
   op$x
 }
@@ -167,6 +172,11 @@ sql_render.op <- function(x, con = NULL, ...) {
 #' @export
 sql_render.tbl_sql <- function(x, con = NULL, ...) {
   sql_render(sql_build(x$ops, ...), con = x$src$con, ...)
+}
+
+#' @export
+sql_render.tbl_lazy <- function(x, con = NULL, ...) {
+  sql_render(sql_build(x$ops, ...), con = NULL, ...)
 }
 
 #' @export
