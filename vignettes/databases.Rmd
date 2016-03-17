@@ -20,7 +20,7 @@ Since R almost exclusively works with in-memory data, if you do have a lot of da
 
 The motivation for supporting databases in dplyr is that you never pull down the right subset or aggregate from the database on your first try. Usually you have to iterate between R and SQL many times before you get the perfect dataset. But because switching between languages is cognitively challenging (especially because R and SQL are so perilously similar), dplyr helps you by allowing you to write R code that is automatically translated to SQL. The goal of dplyr is not to replace every SQL function with an R function; that would be difficult and error prone. Instead, dplyr only generates `SELECT` statements, the SQL you write most often as an analyst.
 
-To get the most out of this chapter, you'll need to be familiar with querying SQL databases using the `SELECT` statement. If you have some familiarity with SQL and you'd like to learn more, I found [how indexes work in SQLite](http://www.sqlite.org/queryplanner.html) and [10 easy steps to a complete understanding of SQL](http://tech.pro/tutorial/1555/10-easy-steps-to-a-complete-understanding-of-sql) to be particularly helpful.
+To get the most out of this chapter, you'll need to be familiar with querying SQL databases using the `SELECT` statement. If you have some familiarity with SQL and you'd like to learn more, I found [how indexes work in SQLite](http://www.sqlite.org/queryplanner.html) and [10 easy steps to a complete understanding of SQL](http://blog.jooq.org/2016/03/17/10-easy-steps-to-a-complete-understanding-of-sql) to be particularly helpful.
 
 ## Getting started
 
