@@ -103,7 +103,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
 
-  src_sql("sqlite", con, path = path, info = DBI::dbGetInfo(con))
+  src_sql("sqlite", con, path = path)
 }
 
 #' @export
@@ -120,7 +120,7 @@ tbl.src_sqlite <- function(src, from, ...) {
 
 #' @export
 src_desc.src_sqlite <- function(x) {
-  paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
+  paste0("sqlite ", RSQLite::rsqliteVersion()[[2]], " [", x$path, "]")
 }
 
 #' @export
