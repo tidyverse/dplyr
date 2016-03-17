@@ -124,7 +124,7 @@ src_desc.src_postgres <- function(x) {
 }
 
 #' @export
-sql_translate_env.PostgreSQLConnection <- function(x) {
+sql_translate_env.PostgreSQLConnection <- function(con) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,

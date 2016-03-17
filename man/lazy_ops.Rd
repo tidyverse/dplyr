@@ -16,13 +16,13 @@ op_single(name, x, dots = list(), args = list())
 
 op_double(name, x, y, args = list())
 
-op_vars(x)
+op_vars(op)
 
-op_grps(x)
+op_grps(op)
 
-op_vars(x)
+op_vars(op)
 
-op_sort(x)
+op_sort(op)
 }
 \description{
 This set of S3 classes describe the action of dplyr verbs. These are

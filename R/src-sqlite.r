@@ -147,7 +147,7 @@ src_desc.src_sqlite <- function(x) {
 }
 
 #' @export
-sql_translate_env.SQLiteConnection <- function(x) {
+sql_translate_env.SQLiteConnection <- function(con) {
   sql_variant(
     sql_translator(.parent = base_scalar,
       log = sql_prefix("log")

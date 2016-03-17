@@ -1,46 +1,47 @@
 #' @export
 #' @rdname sql_build
-sql_render <- function(x, con = NULL, ...) {
+sql_render <- function(query, con = NULL, ...) {
   UseMethod("sql_render")
 }
 
 #' @export
-sql_render.op <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x, ...), con = con, ...)
+sql_render.op <- function(query, con = NULL, ...) {
+  sql_render(sql_build(query, ...), con = con, ...)
 }
 
 #' @export
-sql_render.tbl_sql <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x$ops, x$src$con, ...), con = x$src$con, ...)
+sql_render.tbl_sql <- function(query, con = NULL, ...) {
+  sql_render(sql_build(query$ops, query$src$con, ...), con = query$src$con, ...)
 }
 
 #' @export
-sql_render.tbl_lazy <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x$ops, con = NULL, ...), con = NULL, ...)
+sql_render.tbl_lazy <- function(query, con = NULL, ...) {
+  sql_render(sql_build(query$ops, con = NULL, ...), con = NULL, ...)
 }
 
 #' @export
-sql_render.select_query <- function(x, con = NULL, ..., root = FALSE) {
-  from <- sql_subquery(con, sql_render(x$from, con, ..., root = root), name = NULL)
+sql_render.select_query <- function(query, con = NULL, ..., root = FALSE) {
+  from <- sql_subquery(con, sql_render(query$from, con, ..., root = root), name = NULL)
 
   sql_select(
-    con, x$select, from, where = x$where, group_by = x$group_by,
-    having = x$having, order_by = x$order_by, distinct = x$distinct, ...
+    con, query$select, from, where = query$where, group_by = query$group_by,
+    having = query$having, order_by = query$order_by, distinct = query$distinct,
+    ...
   )
 }
 
 #' @export
-sql_render.ident <- function(x, con = NULL, ..., root = TRUE) {
+sql_render.ident <- function(query, con = NULL, ..., root = TRUE) {
   if (root) {
-    sql_select(con, sql("*"), x)
+    sql_select(con, sql("*"), query)
   } else {
-    x
+    query
   }
 }
 
 #' @export
-sql_render.sql <- function(x, con = NULL, ...) {
-  x
+sql_render.sql <- function(query, con = NULL, ...) {
+  query
 }
 
 #' @export

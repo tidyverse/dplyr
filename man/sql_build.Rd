@@ -21,7 +21,7 @@ semi_join_query(x, y, anti = FALSE, by = NULL)
 
 set_op_query(x, y, type = type)
 
-sql_render(x, con = NULL, ...)
+sql_render(query, con = NULL, ...)
 }
 \arguments{
 \item{op}{A sequence of lazy operations}

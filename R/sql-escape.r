@@ -34,23 +34,6 @@
 #' escape("X")
 #' escape(escape("X"))
 #' escape(escape(escape("X")))
-#'
-#' # You can use these functions to make your own R wrappers for SQL functions.
-#' # The following is a more sophisticated version of round that have more
-#' # informative variable names and if present, checks that the second argument
-#' # is a number.
-#' sql_round <- function(x, dp = NULL) {
-#'   x <- escape(x)
-#'   if (is.null(dp)) return(sql(paste0("ROUND(", x, ")")))
-#'
-#'   stopifnot(is.numeric(dp), length(dp) == 1)
-#'   sql(paste0("ROUND(", x, ", ", dp, ")"))
-#' }
-#' sql_round(sql("X"), 5)
-#'
-#' rounder <- sql_variant(sql_translator(round = sql_round, .parent = base_agg))
-#' translate_sql(round(X), variant = rounder)
-#' translate_sql(round(X, 5), variant = rounder)
 sql <- function(...) {
   x <- c(...)
   if (length(x) == 0) {

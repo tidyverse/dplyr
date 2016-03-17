@@ -121,7 +121,7 @@ src_desc.src_mysql <- function(x) {
 }
 
 #' @export
-sql_translate_env.MySQLConnection <- function(x) {
+sql_translate_env.MySQLConnection <- function(con) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,

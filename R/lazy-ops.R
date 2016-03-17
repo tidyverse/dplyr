@@ -105,37 +105,37 @@ op_double <- function(name, x, y, args = list()) {
 
 #' @export
 #' @rdname lazy_ops
-op_vars <- function(x) UseMethod("op_vars")
+op_vars <- function(op) UseMethod("op_vars")
 
 #' @export
 op_vars.op_base <- function(x) {
-  x$vars
+  op$vars
 }
 #' @export
-op_vars.op_select <- function(x) {
-  names(select_vars_(op_vars(x$x), x$dots, include = op_grps(x$x)))
+op_vars.op_select <- function(op) {
+  names(select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x)))
 }
 #' @export
-op_vars.op_rename <- function(x) {
-  names(rename_vars_(op_vars(x$x), x$dots))
+op_vars.op_rename <- function(op) {
+  names(rename_vars_(op_vars(op$x), op$dots))
 }
 #' @export
-op_vars.op_summarise <- function(x) {
-  c(op_grps(x$x), names(x$dots))
+op_vars.op_summarise <- function(op) {
+  c(op_grps(op$x), names(op$dots))
 }
 #' @export
 op_vars.op_mutate <- function(x) {
-  c(op_vars(x$x), names(x$dots))
+  c(op_vars(op$x), names(op$dots))
 }
 #' @export
-op_vars.op_single <- function(x) {
-  op_vars(x$x)
+op_vars.op_single <- function(op) {
+  op_vars(op$x)
 }
 #' @export
-op_vars.op_join <- function(x) {
-  by <- x$args$by
-  x_vars <- op_vars(x$x)
-  y_vars <- op_vars(x$y)
+op_vars.op_join <- function(op) {
+  by <- op$args$by
+  x_vars <- op_vars(op$x)
+  y_vars <- op_vars(op$y)
 
   unique <- unique_names(x_vars, y_vars, by = by, suffix = x$args$suffix)
 
@@ -146,40 +146,40 @@ op_vars.op_join <- function(x) {
   }
 }
 #' @export
-op_vars.op_semi_join <- function(x) {
-  op_vars(x$x)
+op_vars.op_semi_join <- function(op) {
+  op_vars(op$x)
 }
 #' @export
-op_vars.op_set_op <- function(x) {
-  op_vars(x$x)
+op_vars.op_set_op <- function(op) {
+  op_vars(op$x)
 }
 #' @export
-op_vars.tbl_lazy <- function(x) {
-  op_vars(x$ops)
+op_vars.tbl_lazy <- function(op) {
+  op_vars(op$ops)
 }
 
 # op_grps -----------------------------------------------------------------
 
 #' @export
 #' @rdname lazy_ops
-op_grps <- function(x) UseMethod("op_grps")
+op_grps <- function(op) UseMethod("op_grps")
 #' @export
-op_grps.op_base <- function(x) character()
+op_grps.op_base <- function(op) character()
 #' @export
-op_grps.op_group_by <- function(x) {
-  if (isTRUE(x$args$add)) {
-    union(op_grps(x$x), names(x$dots))
+op_grps.op_group_by <- function(op) {
+  if (isTRUE(op$args$add)) {
+    union(op_grps(op$x), names(op$dots))
   } else {
-    names(x$dots)
+    names(op$dots)
   }
 }
 #' @export
-op_grps.op_ungroup <- function(x) {
+op_grps.op_ungroup <- function(op) {
   character()
 }
 #' @export
-op_grps.op_summarise <- function(x) {
-  grps <- op_grps(x$x)
+op_grps.op_summarise <- function(op) {
+  grps <- op_grps(op$x)
   if (length(grps) == 1) {
     character()
   } else {
@@ -187,17 +187,17 @@ op_grps.op_summarise <- function(x) {
   }
 }
 #' @export
-op_grps.op_single <- function(x) {
-  op_grps(x$x)
+op_grps.op_single <- function(op) {
+  op_grps(op$x)
 }
 #' @export
-op_grps.op_double <- function(x) {
-  op_grps(x$x)
+op_grps.op_double <- function(op) {
+  op_grps(op$x)
 }
 
 #' @export
-op_grps.tbl_lazy <- function(x) {
-  op_grps(x$ops)
+op_grps.tbl_lazy <- function(op) {
+  op_grps(op$ops)
 }
 
 
@@ -205,39 +205,39 @@ op_grps.tbl_lazy <- function(x) {
 
 #' @export
 #' @rdname lazy_ops
-op_vars <- function(x) UseMethod("op_vars")
+op_vars <- function(op) UseMethod("op_vars")
 
 #' @export
-op_vars.op_base <- function(x) {
-  x$vars
+op_vars.op_base <- function(op) {
+  op$vars
 }
 #' @export
-op_vars.op_select <- function(x) {
-  names(select_vars_(op_vars(x$x), x$dots, include = op_grps(x$x)))
+op_vars.op_select <- function(op) {
+  names(select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x)))
 }
 #' @export
-op_vars.op_rename <- function(x) {
-  names(rename_vars_(op_vars(x$x), x$dots))
+op_vars.op_rename <- function(op) {
+  names(rename_vars_(op_vars(op$x), op$dots))
 }
 #' @export
-op_vars.op_summarise <- function(x) {
-  c(op_grps(x$x), names(x$dots))
+op_vars.op_summarise <- function(op) {
+  c(op_grps(op$x), names(op$dots))
 }
 #' @export
-op_vars.op_mutate <- function(x) {
-  c(op_vars(x$x), names(x$dots))
+op_vars.op_mutate <- function(op) {
+  c(op_vars(op$x), names(op$dots))
 }
 #' @export
-op_vars.op_single <- function(x) {
-  op_vars(x$x)
+op_vars.op_single <- function(op) {
+  op_vars(op$x)
 }
 #' @export
-op_vars.op_join <- function(x) {
-  by <- x$args$by
-  x_vars <- op_vars(x$x)
-  y_vars <- op_vars(x$y)
+op_vars.op_join <- function(op) {
+  by <- op$args$by
+  x_vars <- op_vars(op$x)
+  y_vars <- op_vars(op$y)
 
-  unique <- unique_names(x_vars, y_vars, by = by, suffix = x$args$suffix)
+  unique <- unique_names(x_vars, y_vars, by = by, suffix = op$args$suffix)
 
   if (is.null(unique)) {
     c(by$x, setdiff(x_vars, by$x), setdiff(y_vars, by$y))
@@ -246,16 +246,16 @@ op_vars.op_join <- function(x) {
   }
 }
 #' @export
-op_vars.op_semi_join <- function(x) {
-  op_vars(x$x)
+op_vars.op_semi_join <- function(op) {
+  op_vars(op$x)
 }
 #' @export
-op_vars.op_set_op <- function(x) {
-  op_vars(x$x)
+op_vars.op_set_op <- function(op) {
+  op_vars(op$x)
 }
 #' @export
-op_vars.tbl_lazy <- function(x) {
-  op_vars(x$ops)
+op_vars.tbl_lazy <- function(op) {
+  op_vars(op$ops)
 }
 
 # op_sort -----------------------------------------------------------------
@@ -265,30 +265,30 @@ op_vars.tbl_lazy <- function(x) {
 
 #' @export
 #' @rdname lazy_ops
-op_sort <- function(x) UseMethod("op_sort")
+op_sort <- function(op) UseMethod("op_sort")
 #' @export
-op_sort.op_base <- function(x) NULL
+op_sort.op_base <- function(op) NULL
 
 #' @export
-op_sort.op_summarise <- function(x) NULL
+op_sort.op_summarise <- function(op) NULL
 
 #' @export
-op_sort.op_arrange <- function(x) {
-  order_vars <- translate_sql_(x$dots, NULL, op_vars(x))
-  c.sql(op_sort(x$x), order_vars, drop_null = TRUE)
+op_sort.op_arrange <- function(op) {
+  order_vars <- translate_sql_(op$dots, NULL, op_vars(op))
+  c.sql(op_sort(op$x), order_vars, drop_null = TRUE)
 }
 
 #' @export
-op_sort.op_single <- function(x) {
-  op_sort(x$x)
+op_sort.op_single <- function(op) {
+  op_sort(op$x)
 }
 
 #' @export
-op_sort.op_double <- function(x) {
-  op_sort(x$x)
+op_sort.op_double <- function(op) {
+  op_sort(op$x)
 }
 
 #' @export
-op_sort.tbl_lazy <- function(x) {
-  op_sort(x$ops)
+op_sort.tbl_lazy <- function(op) {
+  op_sort(op$ops)
 }

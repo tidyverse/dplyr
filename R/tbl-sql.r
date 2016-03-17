@@ -26,22 +26,22 @@ same_src.tbl_sql <- function(x, y) {
 
 #' @export
 group_size.tbl_sql <- function(x) {
-  x %>%
+  df <- x %>%
     summarise(n = n()) %>%
-    collect() %>%
-    .$n
+    collect()
+  df$n
 }
 
 #' @export
 n_groups.tbl_sql <- function(x) {
   if (length(groups(x)) == 0) return(1L)
 
-  x %>%
+  df <- x %>%
     summarise(x) %>%
     ungroup() %>%
     summarise(n = n()) %>%
-    collect() %>%
-    .$n
+    collect()
+  df$n
 }
 
 # Standard data frame methods --------------------------------------------------
