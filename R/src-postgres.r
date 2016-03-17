@@ -60,6 +60,8 @@
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
 #' best_year <- filter(players, AB == max(AB) | G == max(G))
+#' best_year
+#'
 #' progress <- mutate(players,
 #'   cyear = yearID - min(yearID) + 1,
 #'   ab_rank = rank(desc(AB)),
@@ -196,7 +198,8 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
 
 #' @export
 db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
-  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
+  fields <- build_sql("SELECT * FROM ", sql_subquery(con, sql), " WHERE 0=1",
+    con = con)
 
   qry <- dbSendQuery(con, fields)
   on.exit(dbClearResult(qry))

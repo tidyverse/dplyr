@@ -64,7 +64,7 @@ sql_build.op_rename <- function(op, con, ...) {
 
 #' @export
 sql_build.op_arrange <- function(op, con, ...) {
-  order_vars <- translate_sql_(op$dots, con, op_vars(op))
+  order_vars <- translate_sql_(op$dots, con, op_vars(op$x))
   group_vars <- ident(op_grps(op$x))
 
   select_query(sql_build(op$x, con), order_by = c(group_vars, order_vars))
@@ -72,7 +72,7 @@ sql_build.op_arrange <- function(op, con, ...) {
 
 #' @export
 sql_build.op_summarise <- function(op, con, ...) {
-  select_vars <- translate_sql_(op$dots, con, op_vars(op), window = FALSE)
+  select_vars <- translate_sql_(op$dots, con, op_vars(op$x), window = FALSE)
   group_vars <- ident(op_grps(op$x))
 
   select_query(
@@ -111,7 +111,7 @@ sql_build.op_ungroup <- function(op, con, ...) {
 
 #' @export
 sql_build.op_filter <- function(op, con, ...) {
-  vars <- op_vars(op)
+  vars <- op_vars(op$x)
 
   if (!uses_window_fun(op$dots, con)) {
     where_sql <- translate_sql_(op$dots, con, vars = vars)
