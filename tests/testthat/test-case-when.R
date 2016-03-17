@@ -5,13 +5,12 @@ test_that("zero inputs throws an error", {
 })
 
 test_that("error messages", {
-  withr::with_options(list(width = 40),
-    expect_error(
-      case_when(
-        paste("This is a", "longish", "text to test the cutoff width")
-      ),
-      "Case 1 [(]paste[(]\"This is a.*[.][.][.][)] is not a two-sided formula"
-    )
+  expect_error(
+    case_when(
+      paste(50)
+    ),
+    "Case 1 (paste(50)) is not a two-sided formula",
+    fixed = TRUE
   )
 
   expect_error(
