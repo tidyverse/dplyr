@@ -112,6 +112,10 @@ src_memdb <- function() {
   cache_computation("src_memdb", src_sqlite(":memory:", TRUE))
 }
 
+memdb_frame <- function(..., .name = random_table_name()) {
+  copy_to(src_memdb(), data_frame(...), name = .name)
+}
+
 #' @export
 #' @rdname src_sqlite
 tbl.src_sqlite <- function(src, from, ...) {

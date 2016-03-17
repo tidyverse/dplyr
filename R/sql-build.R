@@ -30,6 +30,8 @@ sql_build.tbl_lazy <- function(op, con = NULL, ...) {
   sql_build(op$ops, con, ...)
 }
 
+# Base ops --------------------------------------------------------
+
 #' @export
 sql_build.op_base_remote <- function(op, con, ...) {
   op$x
@@ -39,6 +41,8 @@ sql_build.op_base_remote <- function(op, con, ...) {
 sql_build.op_base_local <- function(op, con, ...) {
   ident("df")
 }
+
+# Single table ops --------------------------------------------------------
 
 #' @export
 sql_build.op_select <- function(op, con, ...) {
@@ -120,94 +124,35 @@ sql_build.op_distinct <- function(op, con, ...) {
   )
 }
 
-# select_query ------------------------------------------------------------
+# Dual table ops --------------------------------------------------------
 
-#' @export
-#' @rdname sql_build
-select_query <- function(from,
-                         select = sql("*"),
-                         where = character(),
-                         group_by = character(),
-                         having = character(),
-                         order_by = character(),
-                         distinct = FALSE) {
+sql_build.op_join <- function(op, con, ...) {
+  # Ensure tables have unique names
+  x_names <- op_vars(op$x)
+  y_names <- op_vars(op$y)
+  by <- op$args$by
 
-  stopifnot(is.character(select))
-  stopifnot(is.character(where))
-  stopifnot(is.character(group_by))
-  stopifnot(is.character(having))
-  stopifnot(is.character(order_by))
-  stopifnot(is.logical(distinct), length(distinct) == 1L)
-
-  structure(
-    list(
-      from = from,
-      select = select,
-      where = where,
-      group_by = group_by,
-      having = having,
-      order_by = order_by,
-      distinct = distinct
-    ),
-    class = "select_query"
+  uniques <- unique_names(
+    x_names, y_names, by = by$x[by$x == by$y], suffix = op$args$suffix
   )
-}
 
-#' @export
-print.select_query <- function(x, ...) {
-  cat("<SQL SELECT", if (x$distinct) " DISTINCT", ">\n", sep = "")
-  cat("From:     ", x$from, "\n", sep = "")
-
-  if (length(x$select))   cat("Select:   ", named_commas(x$select), "\n", sep = "")
-  if (length(x$where))    cat("Where:    ", named_commas(x$where), "\n", sep = "")
-  if (length(x$group_by)) cat("Group by: ", named_commas(x$group_by), "\n", sep = "")
-  if (length(x$order_by)) cat("Order by: ", named_commas(x$order_by), "\n", sep = "")
-  if (length(x$having))   cat("Having:   ", named_commas(x$having), "\n", sep = "")
-}
-
-# sql_render --------------------------------------------------------------
-
-#' @export
-#' @rdname sql_build
-sql_render <- function(x, con = NULL, ...) {
-  UseMethod("sql_render")
-}
-
-#' @export
-sql_render.op <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x, ...), con = con, ...)
-}
-
-#' @export
-sql_render.tbl_sql <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x$ops, con, ...), con = x$src$con, ...)
-}
-
-#' @export
-sql_render.tbl_lazy <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x$ops, ...), con = NULL, ...)
-}
-
-#' @export
-sql_render.select_query <- function(x, con = NULL, ..., root = FALSE) {
-  from <- sql_subquery(con, sql_render(x$from, con, ..., root = root))
-
-  sql_select(
-    con, x$select, from, where = x$where, group_by = x$group_by,
-    having = x$having, order_by = x$order_by, distinct = x$distinct, ...
-  )
-}
-
-#' @export
-sql_render.ident <- function(x, con = NULL, ..., root = TRUE) {
-  if (root) {
-    sql_select(con, sql("*"), x)
+  if (is.null(uniques)) {
+    x <- op$x
+    y <- op$y
   } else {
-    x
-  }
-}
+    # TODO: it would be better to construct an explicit FROM statement
+    # that used the table names to disambiguate the fields names: this
+    # would remove a layer of subqueries and would make sql_join more
+    # flexible.
+    x <- select_(op$x, setNames(x_names, uniques$x))
+    y <- select_(op$y, setNames(y_names, uniques$y))
 
-#' @export
-sql_render.sql <- function(x, con = NULL, ...) {
-  x
+    by$x <- unname(uniques$x[by$x])
+    by$y <- unname(uniques$y[by$y])
+  }
+
+  join_query(x, y,
+    type = op$args$type,
+    by = by
+  )
 }

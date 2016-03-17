@@ -22,16 +22,6 @@ same_src.tbl_sql <- function(x, y) {
   same_src(x$src, y$src)
 }
 
-#' @export
-tbl_vars.tbl_sql <- function(x) {
-  op_vars(x$ops)
-}
-
-#' @export
-groups.tbl_sql <- function(x) {
-  op_grps(x$ops)
-}
-
 # Grouping methods -------------------------------------------------------------
 
 #' @export
@@ -181,52 +171,62 @@ NULL
 
 #' @rdname join.tbl_sql
 #' @export
-inner_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"),
-  auto_index = FALSE, ...) {
-  sql_mutating_join("inner",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+inner_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
+                                suffix = c(".x", ".y"),
+                                auto_index = FALSE, ...) {
+  add_op_join(
+    "inner", x, y,
+    by = by,
+    copy = copy,
+    suffix = suffix,
+    auto_index = auto_index,
+    ...
   )
 }
 
 #' @rdname join.tbl_sql
 #' @export
-left_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"),
-  auto_index = FALSE, ...) {
-  sql_mutating_join("left",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+left_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
+                               suffix = c(".x", ".y"),
+                               auto_index = FALSE, ...) {
+  add_op_join(
+    "left", x, y,
+    by = by,
+    copy = copy,
+    suffix = suffix,
+    auto_index = auto_index,
+    ...
   )
 }
 
 #' @rdname join.tbl_sql
 #' @export
-right_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"),
-  auto_index = FALSE, ...) {
-  sql_mutating_join("right",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+right_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
+                                suffix = c(".x", ".y"),
+                                auto_index = FALSE, ...) {
+  add_op_join(
+    "right", x, y,
+    by = by,
+    copy = copy,
+    suffix = suffix,
+    auto_index = auto_index,
+    ...
   )
 }
 
 #' @rdname join.tbl_sql
 #' @export
-full_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"),
-  auto_index = FALSE, ...) {
-
-  sql_mutating_join("full",
-    x, y, by = by, copy = copy, suffix = suffix,auto_index = auto_index, ...
+full_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
+                               suffix = c(".x", ".y"),
+                               auto_index = FALSE, ...) {
+  add_op_join(
+    "full", x, y,
+    by = by,
+    copy = copy,
+    suffix = suffix,
+    auto_index = auto_index,
+    ...
   )
-}
-
-sql_mutating_join <- function(type, x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"),
-  auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_join(x$src$con, x, y, type = type, by = by, suffix = suffix)
-  update(tbl(x$src, sql), group_by = groups(x))
 }
 
 #' @rdname join.tbl_sql

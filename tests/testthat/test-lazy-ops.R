@@ -30,6 +30,15 @@ test_that("grouped summary keeps groups", {
   expect_equal(op_vars(out), c("g", "y"))
 })
 
+test_that("joins get vars from both left and right", {
+  out <- left_join(
+    lazy_frame(x = 1, y = 1),
+    lazy_frame(x = 2, z = 2),
+    by = "x"
+  )
+
+  expect_equal(op_vars(out), c("x", "y", "z"))
+})
 
 # op_grps -----------------------------------------------------------------
 

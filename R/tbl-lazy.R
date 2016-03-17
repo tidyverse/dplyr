@@ -1,14 +1,24 @@
-#' @noRd
-#' @examples
-#' x <- tbl_lazy(mtcars)
-#' x %>% group_by(cyl) %>% summarise(n = n()) %>% filter(n > 10)
-
 tbl_lazy <- function(df) {
   make_tbl("lazy", ops = op_base_local(df, env = parent.frame()))
 }
 
 lazy_frame <- function(...) {
   tbl_lazy(data_frame(...))
+}
+
+#' @export
+same_src.tbl_lazy <- function(x, y) {
+  inherits(y, "tbl_lazy")
+}
+
+#' @export
+tbl_vars.tbl_lazy <- function(x) {
+  op_vars(x$ops)
+}
+
+#' @export
+groups.tbl_lazy <- function(x) {
+  op_grps(x$ops)
 }
 
 #' @export
@@ -80,3 +90,28 @@ distinct_.tbl_lazy <- function(.data, ..., .dots, .keep_all = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   add_op_single("distinct", .data, dots = dots, args = list(.keep_all = .keep_all))
 }
+
+
+# Dual table verbs ------------------------------------------------------------
+
+add_op_single <- function(name, .data, dots = list(), args = list()) {
+  .data$ops <- op_single(name, x = .data$ops, dots = dots, args = args)
+  .data
+}
+
+add_op_join <- function(type, x, y, by = NULL, copy = FALSE,
+                        suffix = c(".x", ".y"),
+                        auto_index = FALSE, ...) {
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+
+  x$ops <- op_double("join", x, y, args = list(
+    type = type,
+    by = by,
+    suffix = suffix
+  ))
+  x
+}
+
+# Currently the dual table verbs are defined on tbl_sql, because the
+# because they definitions are bit too tightly connected to SQL.

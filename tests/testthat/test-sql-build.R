@@ -126,3 +126,17 @@ test_that("distinct sets flagged", {
     sql_build()
   expect_true(out2$distinct)
 })
+
+
+# joins -------------------------------------------------------------------
+
+test_that("join captures both tables", {
+  lf1 <- lazy_frame(x = 1, y = 2)
+  lf2 <- lazy_frame(x = 1, z = 2)
+
+  out <- inner_join(lf1, lf2) %>% sql_build()
+
+  expect_equal(op_vars(out$x), c("x", "y"))
+  expect_equal(op_vars(out$y), c("x", "z"))
+  expect_equal(out$type, "inner")
+})

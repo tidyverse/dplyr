@@ -289,8 +289,7 @@ sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
 #' @export
-sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL,
-                                   suffix = c(".x", ".y"), ...) {
+sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   join <- switch(type,
     left = sql("LEFT"),
     inner = sql("INNER"),
@@ -299,27 +298,7 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL,
     stop("Unknown join type:", type, call. = FALSE)
   )
 
-  by <- common_by(by, x, y)
   using <- all(by$x == by$y)
-
-  # Ensure tables have unique names
-  x_names <- auto_names(x$select)
-  y_names <- auto_names(y$select)
-  uniques <- unique_names(
-    x_names, y_names, by = by$x[by$x == by$y], suffix = suffix
-  )
-
-  if (is.null(uniques)) {
-    sel_vars <- c(x_names, y_names)
-  } else {
-    x <- update(x, select = setNames(x$select, uniques$x))
-    y <- update(y, select = setNames(y$select, uniques$y))
-
-    by$x <- unname(uniques$x[by$x])
-    by$y <- unname(uniques$y[by$y])
-
-    sel_vars <- unique(c(uniques$x, uniques$y))
-  }
 
   if (using) {
     cond <- build_sql("USING ", lapply(by$x, ident), con = con)
@@ -329,17 +308,17 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL,
     cond <- build_sql("ON ", on, con = con)
   }
 
-  from <- build_sql(
-    'SELECT * FROM ',
-    sql_subquery(con, x$query$sql), "\n\n",
-    join, " JOIN \n\n" ,
-    sql_subquery(con, y$query$sql), "\n\n",
-    cond, con = con
+  build_sql(
+    'SELECT * FROM ',x, "\n\n",
+    join, " JOIN\n\n" ,
+    y, "\n\n",
+    cond,
+    con = con
   )
-  attr(from, "vars") <- lapply(sel_vars, as.name)
-
-  from
 }
+
+#' @export
+sql_join.NULL <- sql_join.DBIConnection
 
 #' @rdname backend_sql
 #' @export

@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `sql_join()` has been considerably simplified - it is now only responsible
+  for generating the join query, not for generating the intermediate selects
+  that rename the variable.
+
 * `select_query()` gains a distinct argument which is used for generating
   queries for `distinct()`.  It loses the `offset` and `limits` arguments
   which are no longer used (because in general it doesn't make sense to

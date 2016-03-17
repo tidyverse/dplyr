@@ -13,7 +13,7 @@ op_base(name, src, x, vars)
 
 op_single(name, x, dots = list(), args = list())
 
-op_double(name, x, y, dots = list(), args = list())
+op_double(name, x, y, args = list())
 
 op_vars(x)
 

@@ -88,13 +88,12 @@ print.op_single <- function(x, ...) {
 
 #' @export
 #' @rdname lazy_ops
-op_double <- function(name, x, y, dots = list(), args = list()) {
+op_double <- function(name, x, y, args = list()) {
   structure(
     list(
       name = name,
       x = x,
       y = y,
-      dots = dots,
       args = args
     ),
     class = c(paste0("op_", name), "op_double", "op")
@@ -133,7 +132,9 @@ op_vars.op_single <- function(x) {
 }
 #' @export
 op_vars.op_join <- function(x) {
-  unique_names(op_vars(x$x), op_vars(x$x), by = x$args$by, suffix = x$args$suffix)
+  # Need to handle duplicated vars with suffixes
+  by <- x$args$by
+  c(by$x, setdiff(op_vars(x$x), by$x), setdiff(op_vars(x$y), by$y))
 }
 #' @export
 op_vars.op_semi_join <- function(x) {

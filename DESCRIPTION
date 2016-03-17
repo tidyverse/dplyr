@@ -97,6 +97,8 @@ Collate:
     'sets.r'
     'sql-build.R'
     'sql-escape.r'
+    'sql-query.R'
+    'sql-render.R'
     'sql-star.r'
     'src-local.r'
     'src-mysql.r'
