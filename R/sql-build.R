@@ -111,13 +111,29 @@ sql_build.op_ungroup <- function(op, con, ...) {
 
 #' @export
 sql_build.op_filter <- function(op, con, ...) {
-  # TODO: multistage filter if computations involved
-  where_sql <- translate_sql_(op$dots, vars = op_vars(op))
+  vars <- op_vars(op)
 
-  select_query(
-    sql_build(op$x, con),
-    where = where_sql
-  )
+  if (!uses_window_fun(op$dots, con)) {
+    where_sql <- translate_sql_(op$dots, vars = vars)
+
+    select_query(
+      sql_build(op$x, con),
+      where = where_sql
+    )
+  } else {
+    # Do partial evaluation, then extract out window functions
+    expr <- partial_eval2(op$dots, vars)
+    where <- translate_window_where(expr, ls(sql_translate_env(con)$window))
+
+    # Convert where$expr back to a lazy dots object, and then
+    # create mutate operation
+    mutate_dots <- lapply(where$comp, lazyeval::as.lazy)
+    mutated <- sql_build(op_single("mutate", op$x, dots = mutate_dots), con)
+    where_sql <- translate_sql_(where$expr, vars = vars)
+
+    select_query(mutated, select = ident(vars), where = where_sql)
+  }
+
 }
 
 #' @export
