@@ -5,11 +5,19 @@
 # over("avg(x)")
 over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
   if (!is.null(partition)) {
+    if (!is.sql(partition)) {
+      partition <- ident(partition)
+    }
+
     partition <- build_sql("PARTITION BY ",
-      sql_vector(partition, collapse = ", ", parens = FALSE))
+      sql_vector(escape(partition), collapse = ", ", parens = FALSE))
   }
   if (!is.null(order)) {
-    order <- build_sql("ORDER BY ", sql_vector(order, collapse = ", ", parens = FALSE))
+    if (!is.sql(order)) {
+      order <- ident(order)
+    }
+
+    order <- build_sql("ORDER BY ", sql_vector(escape(order), collapse = ", ", parens = FALSE))
   }
   if (!is.null(frame)) {
     if (is.null(order)) {

@@ -47,11 +47,11 @@ test_that("over() only requires first argument", {
 
 test_that("multiple group by or order values don't have parens", {
   expect_equal(
-    over("x", order = c("x", "y")),
-    sql("'x' OVER (ORDER BY x, y)")
+    over(ident("x"), order = c("x", "y")),
+    sql('"x" OVER (ORDER BY "x", "y")')
   )
   expect_equal(
-    over("x", partition = c("x", "y")),
-    sql("'x' OVER (PARTITION BY x, y)")
+    over(ident("x"), partition = c("x", "y")),
+    sql('"x" OVER (PARTITION BY "x", "y")')
   )
 })
