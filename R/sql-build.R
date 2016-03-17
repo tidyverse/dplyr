@@ -114,7 +114,7 @@ sql_build.op_filter <- function(op, con, ...) {
   vars <- op_vars(op)
 
   if (!uses_window_fun(op$dots, con)) {
-    where_sql <- translate_sql_(op$dots, vars = vars)
+    where_sql <- translate_sql_(op$dots, con, vars = vars)
 
     select_query(
       sql_build(op$x, con),

@@ -1,5 +1,9 @@
 # dplyr 0.4.3.9000
 
+* `src_sqlite()` now uses a stricter quoting character, the `` ` ``, instead of
+  `"`. SQLite "helpfully" will convert `"x"` into a string if there is 
+  no identifier x present in the current scope (#1426).
+  
 * The naming behaviour of `sql_subquery()` has been tweaked: the 
   result is always named (even when the input is an identifer), and
   you can use `name = NULL` to create unnamed output. The built-in
