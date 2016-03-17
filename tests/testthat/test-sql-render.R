@@ -64,3 +64,15 @@ test_that("semi join generates correct sql", {
 
   expect_equal(out, data.frame(x = 1, y = 2))
 })
+
+
+test_that("set ops generates correct sql", {
+  lf1 <- memdb_frame(x = 1)
+  lf2 <- memdb_frame(x = c(1, 2))
+
+  out <- lf1 %>%
+    union(lf2) %>%
+    collect()
+
+  expect_equal(out, data.frame(x = c(1, 2)))
+})

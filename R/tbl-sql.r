@@ -264,30 +264,21 @@ anti_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
 # Set operations ---------------------------------------------------------------
 
 #' @export
-intersect.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "INTERSECT")
-  update(tbl(x$src, sql), group_by = groups(x))
+intersect.tbl_lazy <- function(x, y, copy = FALSE, ...) {
+  add_op_set_op(x, y, "INTERSECT", copy = copy, ...)
 }
 #' @export
-union.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "UNION")
-  update(tbl(x$src, sql), group_by = groups(x))
+union.tbl_lazy <- function(x, y, copy = FALSE, ...) {
+  add_op_set_op(x, y, "UNION", copy = copy, ...)
 }
 #' @export
-union_all.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "UNION ALL")
-  update(tbl(x$src, sql), group_by = groups(x))
+union_all.tbl_lazy <- function(x, y, copy = FALSE, ...) {
+  add_op_set_op(x, y, "UNION ALL", copy = copy, ...)
 }
 #' @export
-setdiff.tbl_sql <- function(x, y, copy = FALSE, ...) {
-  y <- auto_copy(x, y, copy)
-  sql <- sql_set_op(x$src$con, x, y, "EXCEPT")
-  update(tbl(x$src, sql), group_by = groups(x))
+setdiff.tbl_lazy <- function(x, y, copy = FALSE, ...) {
+  add_op_set_op(x, y, "EXCEPT", copy = copy, ...)
 }
-
 
 # Copying ----------------------------------------------------------------------
 
@@ -364,7 +355,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
 #' @export
 collapse.tbl_sql <- function(x, vars = NULL, ...) {
   sql <- sql_render(x)
-  tbl(x$src, sql_render(x)) %>% group_by_(groups(x))
+  tbl(x$src, sql) %>% group_by(groups(x))
 }
 
 #' @export
@@ -383,7 +374,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   db_save_query(x$src$con, sql_render(x), name = name, temporary = temporary)
   db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
   db_create_indexes(x$src$con, name, indexes, unique = FALSE)
-  update(tbl(x$src, name), group_by = groups(x))
+  tbl(x$src, name) %>% group_by(groups(x))
 }
 
 #' @export

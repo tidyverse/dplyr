@@ -141,7 +141,7 @@ op_vars.op_semi_join <- function(x) {
   op_vars(x$x)
 }
 #' @export
-op_vars.op_set <- function(x) {
+op_vars.op_set_op <- function(x) {
   op_vars(x$x)
 }
 #' @export

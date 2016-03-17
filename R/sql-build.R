@@ -162,3 +162,8 @@ sql_build.op_join <- function(op, con, ...) {
 sql_build.op_semi_join <- function(op, con, ...) {
   semi_join_query(op$x, op$y, anti = op$args$anti, by = op$args$by)
 }
+
+#' @export
+sql_build.op_set_op <- function(op, con, ...) {
+  set_op_query(op$x, op$y, type = op$args$type)
+}

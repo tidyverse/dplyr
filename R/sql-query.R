@@ -92,3 +92,24 @@ print.semi_join_query <- function(x, ...) {
   cat(named_rule("Y"), "\n", sep = "")
   print(x$y$ops)
 }
+
+set_op_query <- function(x, y, type = type) {
+  structure(
+    list(
+      x = x,
+      y = y,
+      type = type
+    ),
+    class = c("set_op_query", "query")
+  )
+}
+
+#' @export
+print.set_op_query <- function(x, ...) {
+  cat("<SQL ", x$type, ">\n", sep = "")
+
+  cat(named_rule("X"), "\n", sep = "")
+  print(x$x$ops)
+  cat(named_rule("Y"), "\n", sep = "")
+  print(x$y$ops)
+}

@@ -365,14 +365,14 @@ sql_set_op <- function(con, x, y, method) {
 }
 #' @export
 sql_set_op.DBIConnection <- function(con, x, y, method) {
-  sql <- build_sql(
-    x$query$sql,
+  build_sql(
+    x,
     "\n", sql(method), "\n",
-    y$query$sql
+    y
   )
-  attr(sql, "vars") <- x$select
-  sql
 }
+#' @export
+sql_set_op.NULL <- sql_set_op.DBIConnection
 
 #' @rdname backend_sql
 #' @export

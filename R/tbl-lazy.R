@@ -18,7 +18,7 @@ tbl_vars.tbl_lazy <- function(x) {
 
 #' @export
 groups.tbl_lazy <- function(x) {
-  op_grps(x$ops)
+  lapply(op_grps(x$ops), as.name)
 }
 
 #' @export
@@ -94,11 +94,6 @@ distinct_.tbl_lazy <- function(.data, ..., .dots, .keep_all = FALSE) {
 
 # Dual table verbs ------------------------------------------------------------
 
-add_op_single <- function(name, .data, dots = list(), args = list()) {
-  .data$ops <- op_single(name, x = .data$ops, dots = dots, args = args)
-  .data
-}
-
 add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
                         suffix = c(".x", ".y"),
                         auto_index = FALSE, ...) {
@@ -122,6 +117,12 @@ add_op_semi_join <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
     anti = anti,
     by = by
   ))
+  x
+}
+
+add_op_set_op <- function(x, y, type, copy = FALSE, ...) {
+  y <- auto_copy(x, y, copy)
+  x$ops <- op_double("set_op", x, y, args = list(type = type))
   x
 }
 

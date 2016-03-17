@@ -58,3 +58,11 @@ sql_render.semi_join_query <- function(query, con = NULL, ..., root = FALSE) {
 
   sql_semi_join(con, from_x, from_y, anti = query$anti, by = query$by)
 }
+
+#' @export
+sql_render.set_op_query <- function(query, con = NULL, ..., root = FALSE) {
+  from_x <- sql_render(query$x, con, ..., root = TRUE)
+  from_y <- sql_render(query$y, con, ..., root = TRUE)
+
+  sql_set_op(con, from_x, from_y, method = query$type)
+}
