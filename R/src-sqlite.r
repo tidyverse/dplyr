@@ -5,7 +5,7 @@
 #' If you are running a local sqliteql database, leave all parameters set as
 #' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
-#' \code{src_memdb} is an easy way to use an in-memory SQLite database
+#' \code{\link{src_memdb}} is an easy way to use an in-memory SQLite database
 #' that is scoped to the current session.
 #'
 #' @template db-info
@@ -106,12 +106,31 @@ src_sqlite <- function(path, create = FALSE) {
   src_sql("sqlite", con, path = path)
 }
 
+#' Per-session in-memory SQLite databases.
+#'
+#' \code{src_memdb} lets you easily access a sessio-temporary in-memory
+#' SQLite database. \code{memdb_frame()} works like \code{\link{data_frame}},
+#' but instead of creating a new data frame in R, it creates a table in
+#' \code{src_memdb}
+#'
 #' @export
-#' @rdname src_sqlite
+#' @examples
+#' if (require("RSQLite")) {
+#' src_memdb()
+#'
+#' df <- memdb_frame(x = runif(100), y = runif(100))
+#' df %>% arrange(x)
+#' df %>% arrange(x) %>% show_query()
+#' }
 src_memdb <- function() {
   cache_computation("src_memdb", src_sqlite(":memory:", TRUE))
 }
 
+#' @inheritParams data_frame
+#' @param .name Name of table in database: defaults to a random name that's
+#'   unlikely to conflict with exist
+#' @export
+#' @rdname src_memdb
 memdb_frame <- function(..., .name = random_table_name()) {
   copy_to(src_memdb(), data_frame(...), name = .name)
 }

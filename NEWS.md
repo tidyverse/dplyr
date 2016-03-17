@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* New `src_memdb()` which is a session-local in-memory SQLite db.
+  `memdb_frame()` makes it easy to create a new table in that database.
+
 * `src_sqlite()` now uses a stricter quoting character, the `` ` ``, instead of
   `"`. SQLite "helpfully" will convert `"x"` into a string if there is 
   no identifier x present in the current scope (#1426).
@@ -25,8 +28,6 @@
 
 * `src_translate_env()` has been replaced by `sql_translate_env()` which
   should have methods for the connection object.
-
-* New `src_memdb()` which is a session-local in-memory SQLite db.
 
 * `distinct()` now only keeps the distinct variables. If you want to return
   all variables (using the first row for non-distinct values) use
