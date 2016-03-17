@@ -34,7 +34,7 @@
 #'   data source. If this is supplied, \code{translate_sql} will call
 #'   \code{\link{partial_eval}} to interpolate in the values from local
 #'   variables.
-#' @param vars_group, vars_order Grouping and ordering variables used for
+#' @param vars_group,vars_order Grouping and ordering variables used for
 #'   windowed functions.
 #' @param window Use \code{FALSE} to suppress generation of the \code{OVER}
 #'   statement used for window functions. This is necessary when generating

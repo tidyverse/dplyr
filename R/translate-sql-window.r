@@ -10,6 +10,7 @@ uses_window_fun <- function(x, con) {
   any(calls %in% win_f)
 }
 
+#' @noRd
 #' @examples
 #' translate_window_where(quote(1))
 #' translate_window_where(quote(x))
