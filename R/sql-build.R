@@ -123,7 +123,7 @@ sql_build.op_filter <- function(op, con, ...) {
   } else {
     # Do partial evaluation, then extract out window functions
     expr <- partial_eval2(op$dots, vars)
-    where <- translate_window_where(expr, ls(sql_translate_env(con)$window))
+    where <- translate_window_where_all(expr, ls(sql_translate_env(con)$window))
 
     # Convert where$expr back to a lazy dots object, and then
     # create mutate operation
