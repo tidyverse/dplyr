@@ -50,7 +50,7 @@ test_srcs <- local({
   list(
     get = function() e$srcs,
 
-    has = function(x) exists(x, envir = e, inherits = FALSE),
+    has = function(x) x %in% names(e$srcs),
 
     add = function(name, src) {
       stopifnot(is.src(src))

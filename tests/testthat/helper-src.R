@@ -1,5 +1,5 @@
 test_register_src("df", src_df(env = new.env(parent = emptyenv())))
-# test_register_src("sqlite", src_sqlite(":memory:", create = TRUE))
+test_register_src("sqlite", src_sqlite(":memory:", create = TRUE))
 #
 # if (identical(Sys.info()[["user"]], "hadley")) {
 #   test_register_src("postgres", src_postgres("test"))
