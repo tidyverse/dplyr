@@ -6,7 +6,8 @@
 #' to evolve in the future.
 #'
 #' \code{op_vars} and \code{op_grps} compute the variables and groups from
-#' a sequence of lazy operations.
+#' a sequence of lazy operations. \code{op_sort} tracks the order of the
+#' data for use in window functions.
 #'
 #' @keywords internal
 #' @name lazy_ops
@@ -197,4 +198,97 @@ op_grps.op_double <- function(x) {
 #' @export
 op_grps.tbl_lazy <- function(x) {
   op_grps(x$ops)
+}
+
+
+# op_vars -----------------------------------------------------------------
+
+#' @export
+#' @rdname lazy_ops
+op_vars <- function(x) UseMethod("op_vars")
+
+#' @export
+op_vars.op_base <- function(x) {
+  x$vars
+}
+#' @export
+op_vars.op_select <- function(x) {
+  names(select_vars_(op_vars(x$x), x$dots, include = op_grps(x$x)))
+}
+#' @export
+op_vars.op_rename <- function(x) {
+  names(rename_vars_(op_vars(x$x), x$dots))
+}
+#' @export
+op_vars.op_summarise <- function(x) {
+  c(op_grps(x$x), names(x$dots))
+}
+#' @export
+op_vars.op_mutate <- function(x) {
+  c(op_vars(x$x), names(x$dots))
+}
+#' @export
+op_vars.op_single <- function(x) {
+  op_vars(x$x)
+}
+#' @export
+op_vars.op_join <- function(x) {
+  by <- x$args$by
+  x_vars <- op_vars(x$x)
+  y_vars <- op_vars(x$y)
+
+  unique <- unique_names(x_vars, y_vars, by = by, suffix = x$args$suffix)
+
+  if (is.null(unique)) {
+    c(by$x, setdiff(x_vars, by$x), setdiff(y_vars, by$y))
+  } else {
+    union(unique$x, unique$y)
+  }
+}
+#' @export
+op_vars.op_semi_join <- function(x) {
+  op_vars(x$x)
+}
+#' @export
+op_vars.op_set_op <- function(x) {
+  op_vars(x$x)
+}
+#' @export
+op_vars.tbl_lazy <- function(x) {
+  op_vars(x$ops)
+}
+
+# op_sort -----------------------------------------------------------------
+
+# This is only used to determine the order for window functions
+# so it purposely ignores grouping.
+
+#' @export
+#' @rdname lazy_ops
+op_sort <- function(x) UseMethod("op_sort")
+#' @export
+op_sort.op_base <- function(x) NULL
+
+#' @export
+op_sort.op_summarise <- function(x) NULL
+
+#' @export
+op_sort.op_arrange <- function(x) {
+  order_vars <- translate_sql_(x$dots, NULL, op_vars(x))
+  c.sql(op_sort(x$x), order_vars, drop_null = TRUE)
+}
+
+#' @export
+op_sort.op_single <- function(x) {
+  op_sort(x$x)
+}
+
+#' @export
+op_sort.op_double <- function(x) {
+  op_sort(x$x)
+}
+
+#' @export
+op_sort.tbl_lazy <- function(x) {
+  op_sort(x$ops)
 }

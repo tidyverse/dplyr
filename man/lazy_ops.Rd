@@ -6,6 +6,7 @@
 \alias{op_double}
 \alias{op_grps}
 \alias{op_single}
+\alias{op_sort}
 \alias{op_vars}
 \title{Lazy operations}
 \usage{
@@ -18,6 +19,10 @@ op_double(name, x, y, args = list())
 op_vars(x)
 
 op_grps(x)
+
+op_vars(x)
+
+op_sort(x)
 }
 \description{
 This set of S3 classes describe the action of dplyr verbs. These are
@@ -27,7 +32,8 @@ to evolve in the future.
 }
 \details{
 \code{op_vars} and \code{op_grps} compute the variables and groups from
-a sequence of lazy operations.
+a sequence of lazy operations. \code{op_sort} tracks the order of the
+data for use in window functions.
 }
 \keyword{internal}
 

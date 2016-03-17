@@ -86,7 +86,10 @@ sql_build.op_summarise <- function(op, con, ...) {
 sql_build.op_mutate <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
-  new_vars <- translate_sql_(op$dots, con, vars)
+  new_vars <- translate_sql_(op$dots, con, vars,
+    vars_group = op_grps(op),
+    vars_order = op_sort(op)
+  )
   old_vars <- ident(vars)
 
   select_query(

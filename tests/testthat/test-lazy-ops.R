@@ -86,3 +86,25 @@ test_that("ungroup drops all groups", {
 
   expect_equal(op_grps(out), character())
 })
+
+# op_sort -----------------------------------------------------------------
+
+test_that("unsorted gives NULL", {
+  out <- lazy_frame(x = 1:3, y = 3:1)
+  expect_equal(op_sort(out), NULL)
+})
+
+test_that("arranges captures DESC", {
+  out <- lazy_frame(x = 1:3, y = 3:1) %>%
+    arrange(desc(x))
+
+  expect_equal(op_sort(out), sql('"x" DESC'))
+})
+
+test_that("multiple arranges combine", {
+  out <- lazy_frame(x = 1:3, y = 3:1) %>%
+    arrange(x) %>%
+    arrange(y)
+
+  expect_equal(op_sort(out), sql('"x"', '"y"'))
+})
