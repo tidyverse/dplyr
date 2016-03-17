@@ -2,7 +2,8 @@
 
 * `sql_join()` has been considerably simplified - it is now only responsible
   for generating the join query, not for generating the intermediate selects
-  that rename the variable.
+  that rename the variable. Similarly for `sql_semi_join()`. If you've
+  provided new methods in your backend, you'll need to rewrite.
 
 * `select_query()` gains a distinct argument which is used for generating
   queries for `distinct()`.  It loses the `offset` and `limits` arguments

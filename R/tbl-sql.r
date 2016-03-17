@@ -175,7 +175,8 @@ inner_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
                                 suffix = c(".x", ".y"),
                                 auto_index = FALSE, ...) {
   add_op_join(
-    "inner", x, y,
+    x, y,
+    "inner",
     by = by,
     copy = copy,
     suffix = suffix,
@@ -190,7 +191,8 @@ left_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
                                suffix = c(".x", ".y"),
                                auto_index = FALSE, ...) {
   add_op_join(
-    "left", x, y,
+    x, y,
+    "left",
     by = by,
     copy = copy,
     suffix = suffix,
@@ -205,7 +207,8 @@ right_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
                                 suffix = c(".x", ".y"),
                                 auto_index = FALSE, ...) {
   add_op_join(
-    "right", x, y,
+    x, y,
+    "right",
     by = by,
     copy = copy,
     suffix = suffix,
@@ -220,7 +223,8 @@ full_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
                                suffix = c(".x", ".y"),
                                auto_index = FALSE, ...) {
   add_op_join(
-    "full", x, y,
+    x, y,
+    "full",
     by = by,
     copy = copy,
     suffix = suffix,
@@ -231,26 +235,30 @@ full_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
 
 #' @rdname join.tbl_sql
 #' @export
-semi_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-  auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_semi_join(x$src$con, x, y, anti = FALSE, by = by)
-  update(tbl(x$src, sql), group_by = groups(x))
+semi_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
+                               auto_index = FALSE, ...) {
+  add_op_semi_join(
+    x, y,
+    anti = FALSE,
+    by = by,
+    copy = copy,
+    auto_index = auto_index,
+    ...
+  )
 }
 
 #' @rdname join.tbl_sql
 #' @export
-anti_join.tbl_sql <- function(x, y, by = NULL, copy = FALSE,
-  auto_index = FALSE, ...) {
-  by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
-  sql <- sql_semi_join(x$src$con, x, y, anti = TRUE, by = by)
-  update(tbl(x$src, sql), group_by = groups(x))
-}
-
-is.join <- function(x) {
-  inherits(x, "join")
+anti_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
+                               auto_index = FALSE, ...) {
+  add_op_semi_join(
+    x, y,
+    anti = FALSE,
+    by = by,
+    copy = copy,
+    auto_index = auto_index,
+    ...
+  )
 }
 
 # Set operations ---------------------------------------------------------------

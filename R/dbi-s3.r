@@ -276,9 +276,15 @@ sql_subquery <- function(con, sql, name = random_table_name(), ...) {
 }
 #' @export
 sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
-  if (is.ident(sql)) return(sql)
-
-  build_sql("(", sql, ") AS ", ident(name), con = con)
+  if (is.ident(sql)) {
+    setNames(sql, name)
+  } else {
+    if (is.null(name)) {
+      build_sql("(", sql, ")", con = con)
+    } else {
+      build_sql("(", sql, ") AS ", ident(name), con = con)
+    }
+  }
 }
 #' @export
 sql_subquery.NULL <- sql_subquery.DBIConnection
@@ -327,23 +333,30 @@ sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
 }
 #' @export
 sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...) {
-  by <- common_by(by, x, y)
-
+  # X and Y are subqueries named _LEFT and _RIGHT
   left <- escape(ident("_LEFT"), con = con)
   right <- escape(ident("_RIGHT"), con = con)
-  on <- sql_vector(paste0(
-    left, ".", sql_escape_ident(con, by$x), " = ", right, ".", sql_escape_ident(con, by$y)),
-    collapse = " AND ", parens = TRUE)
-
-  from <- build_sql(
-    'SELECT * FROM ', sql_subquery(con, x$query$sql, "_LEFT"), '\n\n',
-    'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
-    '  SELECT 1 FROM ', sql_subquery(con, y$query$sql, "_RIGHT"), '\n',
-    '  WHERE ', on, ')'
+  on <- sql_vector(
+    paste0(
+      left,  ".", sql_escape_ident(con, by$x), " = ",
+      right, ".", sql_escape_ident(con, by$y)
+    ),
+    collapse = " AND ",
+    parens = TRUE,
+    con = con
   )
-  attr(from, "vars") <- x$select
-  from
+
+  build_sql(
+    'SELECT * FROM ', x, '\n\n',
+    'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
+    '  SELECT 1 FROM ', y, '\n',
+    '  WHERE ', on, '\n',
+    ')',
+    con = con
+  )
 }
+#' @export
+sql_semi_join.NULL <- sql_semi_join.DBIConnection
 
 #' @rdname backend_sql
 #' @export

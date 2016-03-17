@@ -69,3 +69,26 @@ print.join_query <- function(x, ...) {
   cat(named_rule("Y"), "\n", sep = "")
   print(x$y$ops)
 }
+
+semi_join_query <- function(x, y, anti = FALSE, by = NULL) {
+  structure(
+    list(
+      x = x,
+      y = y,
+      anti = anti,
+      by = by
+    ),
+    class = c("semi_join_query", "query")
+  )
+}
+
+#' @export
+print.semi_join_query <- function(x, ...) {
+  cat("<SQL ", if (x$anti) "ANTI" else "SEMI", " JOIN>\n", sep = "")
+  cat("By:   ", paste0(x$by$x, "-", x$by$y, collapse = ", "), "\n", sep = "")
+
+  cat(named_rule("X"), "\n", sep = "")
+  print(x$x$ops)
+  cat(named_rule("Y"), "\n", sep = "")
+  print(x$y$ops)
+}

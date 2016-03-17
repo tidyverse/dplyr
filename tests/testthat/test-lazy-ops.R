@@ -40,6 +40,17 @@ test_that("joins get vars from both left and right", {
   expect_equal(op_vars(out), c("x", "y", "z"))
 })
 
+test_that("semi joins get vars from left", {
+  out <- semi_join(
+    lazy_frame(x = 1, y = 1),
+    lazy_frame(x = 2, z = 2),
+    by = "x"
+  )
+
+  expect_equal(op_vars(out), c("x", "y"))
+})
+
+
 # op_grps -----------------------------------------------------------------
 
 test_that("group_by overrides existing groups", {

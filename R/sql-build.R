@@ -111,7 +111,7 @@ sql_build.op_filter <- function(op, con, ...) {
   )
 }
 
-
+#' @export
 sql_build.op_distinct <- function(op, con, ...) {
   if (length(op$dots) > 0 && !op$args$.keep_all) {
     stop("Can't calculate distinct only on specified columns with SQL",
@@ -126,6 +126,7 @@ sql_build.op_distinct <- function(op, con, ...) {
 
 # Dual table ops --------------------------------------------------------
 
+#' @export
 sql_build.op_join <- function(op, con, ...) {
   # Ensure tables have unique names
   x_names <- op_vars(op$x)
@@ -155,4 +156,9 @@ sql_build.op_join <- function(op, con, ...) {
     type = op$args$type,
     by = by
   )
+}
+
+#' @export
+sql_build.op_semi_join <- function(op, con, ...) {
+  semi_join_query(op$x, op$y, anti = op$args$anti, by = op$args$by)
 }

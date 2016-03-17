@@ -141,14 +141,9 @@ op_vars.op_semi_join <- function(x) {
   op_vars(x$x)
 }
 #' @export
-op_vars.op_anti_join <- function(x) {
-  op_vars(x$x)
-}
-#' @export
 op_vars.op_set <- function(x) {
   op_vars(x$x)
 }
-
 #' @export
 op_vars.tbl_lazy <- function(x) {
   op_vars(x$ops)

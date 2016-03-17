@@ -99,7 +99,7 @@ add_op_single <- function(name, .data, dots = list(), args = list()) {
   .data
 }
 
-add_op_join <- function(type, x, y, by = NULL, copy = FALSE,
+add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
                         suffix = c(".x", ".y"),
                         auto_index = FALSE, ...) {
   by <- common_by(by, x, y)
@@ -109,6 +109,18 @@ add_op_join <- function(type, x, y, by = NULL, copy = FALSE,
     type = type,
     by = by,
     suffix = suffix
+  ))
+  x
+}
+
+add_op_semi_join <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
+                             auto_index = FALSE, ...) {
+  by <- common_by(by, x, y)
+  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+
+  x$ops <- op_double("semi_join", x, y, args = list(
+    anti = anti,
+    by = by
   ))
   x
 }
