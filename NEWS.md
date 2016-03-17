@@ -1,5 +1,10 @@
 # dplyr 0.4.3.9000
 
+* The naming behaviour of `sql_subquery()` has been tweaked: the 
+  result is always named (even when the input is an identifer), and
+  you can use `name = NULL` to create unnamed output. The built-in
+  joins and select now produce unnamed subqueries.
+
 * `sql_join()` has been considerably simplified - it is now only responsible
   for generating the join query, not for generating the intermediate selects
   that rename the variable. Similarly for `sql_semi_join()`. If you've
