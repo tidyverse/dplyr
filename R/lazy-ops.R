@@ -168,7 +168,7 @@ op_vars.op_summarise <- function(op) {
 }
 #' @export
 op_vars.op_mutate <- function(op) {
-  c(op_vars(op$x), names(op$dots))
+  unique(c(op_vars(op$x), names(op$dots)))
 }
 #' @export
 op_vars.op_single <- function(op) {

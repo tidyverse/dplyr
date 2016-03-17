@@ -90,7 +90,7 @@ sql_build.op_mutate <- function(op, con, ...) {
     vars_group = op_grps(op),
     vars_order = op_sort(op)
   )
-  old_vars <- ident(vars)
+  old_vars <- ident(setdiff(vars, names(new_vars)))
 
   select_query(
     sql_build(op$x, con),

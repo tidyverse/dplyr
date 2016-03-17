@@ -31,6 +31,16 @@ test_that("distinct adds DISTINCT suffix", {
   expect_equal(out, data_frame(x = 1))
 })
 
+test_that("mutate overwrites previous variables", {
+  df <- memdb_frame(x = 1:5) %>%
+    mutate(x = x + 1) %>%
+    mutate(x = x + 1) %>%
+    collect()
+
+  expect_equal(names(df), "x")
+  expect_equal(df$x, 1:5 + 2)
+})
+
 test_that("sequence of operations work", {
   out <- memdb_frame(x = c(1, 2, 3, 4)) %>%
     select(y = x) %>%
