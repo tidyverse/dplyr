@@ -45,5 +45,9 @@ recode(x, `2` = "b", `4` = "d")
 x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 recode(x, a = "Apple")
 recode(x, a = "Apple", .default = x)
+
+# Supply default with levels() for factors
+x <- factor(c("a", "b", "c"))
+recode(x, a = "Apple", .default = levels(x))
 }
 
