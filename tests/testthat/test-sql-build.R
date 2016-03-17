@@ -47,7 +47,7 @@ test_that("rename preserves existing vars", {
     rename(z = y) %>%
     sql_build()
 
-  expect_equal(out$select, c("x" = "x", "z" = "y"))
+  expect_equal(out$select, ident("x" = "x", "z" = "y"))
 })
 
 
