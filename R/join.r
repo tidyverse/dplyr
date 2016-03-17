@@ -132,7 +132,8 @@ common_by <- function(by = NULL, x, y) {
 
 # Returns NULL if variables don't need to be renamed
 unique_names <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
-  common <- setdiff(intersect(x_names, y_names), by)
+
+  common <- setdiff(intersect(x_names, y_names), by$x[by$x == by$y])
   if (length(common) == 0) return(NULL)
 
   suffix <- check_suffix(suffix)

@@ -139,9 +139,7 @@ sql_build.op_join <- function(op, con, ...) {
   y_names <- op_vars(op$y)
   by <- op$args$by
 
-  uniques <- unique_names(
-    x_names, y_names, by = by$x[by$x == by$y], suffix = op$args$suffix
-  )
+  uniques <- unique_names(x_names, y_names, by = by, suffix = op$args$suffix)
 
   if (is.null(uniques)) {
     x <- op$x
@@ -151,8 +149,8 @@ sql_build.op_join <- function(op, con, ...) {
     # that used the table names to disambiguate the fields names: this
     # would remove a layer of subqueries and would make sql_join more
     # flexible.
-    x <- select_(op$x, setNames(x_names, uniques$x))
-    y <- select_(op$y, setNames(y_names, uniques$y))
+    x <- select_(op$x, .dots = setNames(x_names, uniques$x))
+    y <- select_(op$y, .dots = setNames(y_names, uniques$y))
 
     by$x <- unname(uniques$x[by$x])
     by$y <- unname(uniques$y[by$y])

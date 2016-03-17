@@ -132,9 +132,17 @@ op_vars.op_single <- function(x) {
 }
 #' @export
 op_vars.op_join <- function(x) {
-  # Need to handle duplicated vars with suffixes
   by <- x$args$by
-  c(by$x, setdiff(op_vars(x$x), by$x), setdiff(op_vars(x$y), by$y))
+  x_vars <- op_vars(x$x)
+  y_vars <- op_vars(x$y)
+
+  unique <- unique_names(x_vars, y_vars, by = by, suffix = x$args$suffix)
+
+  if (is.null(unique)) {
+    c(by$x, setdiff(x_vars, by$x), setdiff(y_vars, by$y))
+  } else {
+    union(unique$x, unique$y)
+  }
 }
 #' @export
 op_vars.op_semi_join <- function(x) {

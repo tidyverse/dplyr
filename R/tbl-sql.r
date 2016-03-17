@@ -26,19 +26,22 @@ same_src.tbl_sql <- function(x, y) {
 
 #' @export
 group_size.tbl_sql <- function(x) {
-  df <- collect(summarise(x, n = n()))
-  df$n
+  x %>%
+    summarise(n = n()) %>%
+    collect() %>%
+    .$n
 }
 
 #' @export
 n_groups.tbl_sql <- function(x) {
-  if (is.null(groups(x))) return(1L)
+  if (length(groups(x)) == 0) return(1L)
 
   x %>%
-    select_(.dots = groups(x)) %>%
-    distinct_(.dots = groups(x), .keep_all = TRUE) %>%
-    compute() %>%
-    nrow()
+    summarise(x) %>%
+    ungroup() %>%
+    summarise(n = n()) %>%
+    collect() %>%
+    .$n
 }
 
 # Standard data frame methods --------------------------------------------------
@@ -253,7 +256,7 @@ anti_join.tbl_lazy <- function(x, y, by = NULL, copy = FALSE,
                                auto_index = FALSE, ...) {
   add_op_semi_join(
     x, y,
-    anti = FALSE,
+    anti = TRUE,
     by = by,
     copy = copy,
     auto_index = auto_index,
@@ -355,7 +358,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
 #' @export
 collapse.tbl_sql <- function(x, vars = NULL, ...) {
   sql <- sql_render(x)
-  tbl(x$src, sql) %>% group_by(groups(x))
+  tbl(x$src, sql) %>% group_by_(.dots = groups(x))
 }
 
 #' @export
@@ -369,12 +372,15 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   if (!is.list(unique_indexes)) {
     unique_indexes <- as.list(unique_indexes)
   }
-  assert_that(all(unlist(indexes) %in% x$select))
-  assert_that(all(unlist(unique_indexes) %in% x$select))
+
+  vars <- op_vars(x)
+  assert_that(all(unlist(indexes) %in% vars))
+  assert_that(all(unlist(unique_indexes) %in% vars))
   db_save_query(x$src$con, sql_render(x), name = name, temporary = temporary)
   db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
   db_create_indexes(x$src$con, name, indexes, unique = FALSE)
-  tbl(x$src, name) %>% group_by(groups(x))
+
+  tbl(x$src, name) %>% group_by_(.dots = groups(x))
 }
 
 #' @export
@@ -393,7 +399,7 @@ collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
     res_warn_incomplete(res)
   }
 
-  grouped_df(out, op_grps(x$ops))
+  grouped_df(out, groups(x))
 }
 
 # Do ---------------------------------------------------------------------------
@@ -405,19 +411,17 @@ collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
 do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
-  group_by <- .data$group_by
+  group_by <- groups(.data)
   if (is.null(group_by)) stop("No grouping", call. = FALSE)
 
   args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)
 
-  gvars <- seq_along(group_by)
   # Create data frame of labels
-  labels_tbl <- update(.data,
-    select = group_by,
-    order_by = NULL,
-    summarise = TRUE)
-  labels <- as.data.frame(labels_tbl)
+  labels <- .data %>%
+    select_(.dots = group_by) %>%
+    summarise() %>%
+    collect()
 
   n <- nrow(labels)
   m <- length(args)
@@ -428,11 +432,7 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   env <- new.env(parent = lazyeval::common_env(args))
 
   # Create ungrouped data frame suitable for chunked retrieval
-  chunky <- update(.data,
-    select = unique(c(group_by, .data$select)),
-    order_by = c(unname(group_by), .data$order_by),
-    group_by = NULL
-  )
+  query <- query(.data$src$con, sql_render(ungroup(.data)), op_vars(.data))
 
   # When retrieving in pages, there's no guarantee we'll get a complete group.
   # So we always assume the last group in the chunk is incomplete, and leave
@@ -441,8 +441,9 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   # be an unusual situation.
   last_group <- NULL
   i <- 0
+  gvars <- seq_along(group_by)
 
-  chunky$query$fetch_paged(.chunk_size, function(chunk) {
+  query$fetch_paged(.chunk_size, function(chunk) {
     if (!is.null(last_group)) {
       chunk <- rbind(last_group, chunk)
     }

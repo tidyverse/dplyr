@@ -19,13 +19,15 @@ test_that("named by join by different x and y vars", {
 
 test_that("self-joins allowed with named by", {
   skip_if_no_sqlite()
-  j1 <- collect(left_join(fam, fam, by = c("parent" = "id")))
-  j2 <- collect(inner_join(fam, fam, by = c("parent" = "id")))
+  fam <- memdb_frame(id = 1:5, parent = c(NA, 1, 2, 2, 4))
 
-  expect_equal(names(j1), c("id.x", "parent.x", "id.y", "parent.y"))
-  expect_equal(names(j2), c("id.x", "parent.x", "id.y", "parent.y"))
-  expect_equal(nrow(j1), 5)
-  expect_equal(nrow(j2), 4)
+  j1 <- fam %>% left_join(fam, by = c("parent" = "id"))
+  j2 <- fam %>% inner_join(fam, by = c("parent" = "id"))
+
+  expect_equal(op_vars(j1), c("id.x", "parent.x", "id.y", "parent.y"))
+  expect_equal(op_vars(j2), c("id.x", "parent.x", "id.y", "parent.y"))
+  expect_equal(nrow(collect(j1)), 5)
+  expect_equal(nrow(collect(j2)), 4)
 
   j3 <- collect(semi_join(fam, fam, by = c("parent" = "id")))
   j4 <- collect(anti_join(fam, fam, by = c("parent" = "id")))

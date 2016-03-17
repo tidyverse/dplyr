@@ -19,7 +19,7 @@ test_that("group_by with add = TRUE adds groups", {
 
 test_that("collect, collapse and compute preserve grouping", {
   skip_if_no_sqlite()
-  g <- group_by(tbls$sqlite, x, y)
+  g <- memdb_frame(x = 1:3, y = 1:3) %>% group_by(x, y)
 
   expect_equal(groups(compute(g)), groups(g))
   expect_equal(groups(collapse(g)), groups(g))
