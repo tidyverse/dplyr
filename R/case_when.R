@@ -45,14 +45,17 @@ case_when <- function(...) {
   for (i in seq_len(n)) {
     f <- formulas[[i]]
     if (!inherits(f, "formula") || length(f) != 3) {
-      stop("Case ", i , " is not a two-sided formula", call. = FALSE)
+      non_formula_arg <- substitute(list(...))[[i + 1]]
+      stop("Case ", i , " (", deparse_trunc(non_formula_arg),
+           ") is not a two-sided formula", call. = FALSE)
     }
 
     env <- environment(f)
 
     query[[i]] <- eval(f[[2]], envir = env)
     if (!is.logical(query[[i]])) {
-      stop("LHS of case ", i, " is ", typeof(query[i]), ", not logical",
+      stop("LHS of case ", i, " (", deparse_trunc(f_lhs(f)),
+           ") is ", typeof(query[[i]]), ", not logical",
         call. = FALSE)
     }
 
@@ -64,9 +67,13 @@ case_when <- function(...) {
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {
-    check_length(query[[i]], out, paste0("LHS of case ", i))
+    check_length(
+      query[[i]], out,
+      paste0("LHS of case ", i, " (", deparse_trunc(f_lhs(formulas[[i]])), ")"))
 
-    out <- replace_with(out, query[[i]] & !replaced, value[[i]], paste0("RHS of case ", i))
+    out <- replace_with(
+      out, query[[i]] & !replaced, value[[i]],
+      paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"))
     replaced <- replaced | query[[i]]
   }
 
