@@ -46,6 +46,8 @@ print.select_query <- function(x, ...) {
 }
 
 
+#' @export
+#' @rdname sql_build
 join_query <- function(x, y, type = "inner", by = NULL, suffix = c(".x", ".y")) {
   structure(
     list(
@@ -70,6 +72,8 @@ print.join_query <- function(x, ...) {
   print(x$y$ops)
 }
 
+#' @export
+#' @rdname sql_build
 semi_join_query <- function(x, y, anti = FALSE, by = NULL) {
   structure(
     list(
@@ -93,6 +97,8 @@ print.semi_join_query <- function(x, ...) {
   print(x$y$ops)
 }
 
+#' @export
+#' @rdname sql_build
 set_op_query <- function(x, y, type = type) {
   structure(
     list(
