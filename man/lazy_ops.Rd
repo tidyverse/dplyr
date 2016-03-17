@@ -16,8 +16,6 @@ op_single(name, x, dots = list(), args = list())
 
 op_double(name, x, y, args = list())
 
-op_vars(op)
-
 op_grps(op)
 
 op_vars(op)

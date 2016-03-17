@@ -101,63 +101,6 @@ op_double <- function(name, x, y, args = list()) {
   )
 }
 
-# op_vars -----------------------------------------------------------------
-
-#' @export
-#' @rdname lazy_ops
-op_vars <- function(op) UseMethod("op_vars")
-
-#' @export
-op_vars.op_base <- function(x) {
-  op$vars
-}
-#' @export
-op_vars.op_select <- function(op) {
-  names(select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x)))
-}
-#' @export
-op_vars.op_rename <- function(op) {
-  names(rename_vars_(op_vars(op$x), op$dots))
-}
-#' @export
-op_vars.op_summarise <- function(op) {
-  c(op_grps(op$x), names(op$dots))
-}
-#' @export
-op_vars.op_mutate <- function(x) {
-  c(op_vars(op$x), names(op$dots))
-}
-#' @export
-op_vars.op_single <- function(op) {
-  op_vars(op$x)
-}
-#' @export
-op_vars.op_join <- function(op) {
-  by <- op$args$by
-  x_vars <- op_vars(op$x)
-  y_vars <- op_vars(op$y)
-
-  unique <- unique_names(x_vars, y_vars, by = by, suffix = x$args$suffix)
-
-  if (is.null(unique)) {
-    c(by$x, setdiff(x_vars, by$x), setdiff(y_vars, by$y))
-  } else {
-    union(unique$x, unique$y)
-  }
-}
-#' @export
-op_vars.op_semi_join <- function(op) {
-  op_vars(op$x)
-}
-#' @export
-op_vars.op_set_op <- function(op) {
-  op_vars(op$x)
-}
-#' @export
-op_vars.tbl_lazy <- function(op) {
-  op_vars(op$ops)
-}
-
 # op_grps -----------------------------------------------------------------
 
 #' @export
