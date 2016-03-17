@@ -11,7 +11,7 @@ sql_render.op <- function(x, con = NULL, ...) {
 
 #' @export
 sql_render.tbl_sql <- function(x, con = NULL, ...) {
-  sql_render(sql_build(x$ops, con, ...), con = x$src$con, ...)
+  sql_render(sql_build(x$ops, x$src$con, ...), con = x$src$con, ...)
 }
 
 #' @export

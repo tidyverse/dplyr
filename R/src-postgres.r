@@ -141,6 +141,17 @@ sql_translate_env.PostgreSQLConnection <- function(x) {
   )
 }
 
+#' @export
+sql_subquery.PostgreSQLConnection <- function(con, sql, name = unique_name(), ...) {
+
+  if (is.ident(sql)) {
+    setNames(sql, name)
+  } else {
+    build_sql("(", sql, ") ", ident(name %||% random_table_name()), con = con)
+  }
+}
+
+
 # DBI methods ------------------------------------------------------------------
 
 # Doesn't return TRUE for temporary tables
@@ -181,4 +192,14 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
 
   sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
   dbGetQuery(con, sql)
+}
+
+#' @export
+db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
+  fields <- build_sql("SELECT * FROM ", sql, " WHERE 0=1", con = con)
+
+  qry <- dbSendQuery(con, fields)
+  on.exit(dbClearResult(qry))
+
+  dbGetInfo(qry)$fieldDescription[[1]]$name
 }

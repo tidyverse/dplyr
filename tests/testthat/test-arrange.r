@@ -1,14 +1,5 @@
 context("Arrange")
 
-local <- c("df")
-db <- c("sqlite", "postgres")
-
-df1 <- expand.grid(
-  a = sample(letters, 5),
-  b = sample(letters, 5),
-  KEEP.OUT.ATTRS = FALSE,
-  stringsAsFactors = FALSE)
-
 df2 <- data.frame(
   a = rep(c(NA, 1, 2, 3), each = 4),
   b = rep(c(0L, NA, 1L, 2L), 4),
@@ -48,11 +39,16 @@ test_that("local arrange sorts missing values to end", {
 })
 
 test_that("two arranges equivalent to one", {
-  single <- arrange(df1, a, b)
-
+  df1 <- frame_data(
+    ~x,  ~y,
+    2,  1,
+    2,  -1,
+    1,  1
+  )
   tbls <- test_load(df1)
-  compare_tbls(tbls, ref = single, compare = equal_df,
-    function(x) x %>% arrange(b) %>% arrange(a))
+
+  single <- df1 %>% arrange(x, y)
+  compare_tbls(tbls, function(x) x %>% arrange(y) %>% arrange(x), ref = single)
 })
 
 test_that("arrange handles list columns (#282)", {
