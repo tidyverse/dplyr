@@ -600,3 +600,15 @@ test_that("hybrid n_distinct falls back to R evaluation when needed (#1657)", {
   res <- dat3 %>% summarise(n_unique = n_distinct(id[id>6]))
   expect_equal(res$n_unique, 2)
 })
+
+test_that("summarise() correctly coerces factors with different levels (#1678)", {
+  res <- data_frame(x = 1:3) %>%
+    group_by(x) %>%
+    summarise(
+      y = if(x == 1) "a" else "b",
+      z = factor(y)
+    )
+  expect_is( res$z, "factor")
+  expect_equal( levels(res$z), c("a", "b") )
+  expect_equal( as.character(res$z), c("a", "b", "b") )
+})

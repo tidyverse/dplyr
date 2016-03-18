@@ -81,7 +81,6 @@ namespace dplyr{
             }
 
             Shield<SEXP> res( processor->get() ) ;
-            copy_most_attributes(res, first_result) ;
             return res ;
         }
 

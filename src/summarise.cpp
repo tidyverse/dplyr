@@ -27,7 +27,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
 
         Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
         boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) );
-        
+
         // if we could not find a direct Result
         // we can use a GroupedCallReducer which will callback to R
         if( !res ) {

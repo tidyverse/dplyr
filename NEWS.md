@@ -1,13 +1,15 @@
 # dplyr 0.4.3.9000
 
+* `summarise()` correctly coerces factors with different levels (#1678)
+
 * New `src_memdb()` which is a session-local in-memory SQLite db.
   `memdb_frame()` makes it easy to create a new table in that database.
 
 * `src_sqlite()` now uses a stricter quoting character, the `` ` ``, instead of
-  `"`. SQLite "helpfully" will convert `"x"` into a string if there is 
+  `"`. SQLite "helpfully" will convert `"x"` into a string if there is
   no identifier x present in the current scope (#1426).
-  
-* The naming behaviour of `sql_subquery()` has been tweaked: the 
+
+* The naming behaviour of `sql_subquery()` has been tweaked: the
   result is always named (even when the input is an identifer), and
   you can use `name = NULL` to create unnamed output. The built-in
   joins and select now produce unnamed subqueries.
@@ -22,8 +24,8 @@
   which are no longer used (because in general it doesn't make sense to
   think about the order of the rows in a query).
 
-* `translate_sql()` and `partial_eval()` got a new API: now use connection + 
-  variable names, rather than a `tbl`. This makes testing considerably easier. 
+* `translate_sql()` and `partial_eval()` got a new API: now use connection +
+  variable names, rather than a `tbl`. This makes testing considerably easier.
   `translate_sql_q()` has been renamed to `translate_sql_()`.
 
 * `src_translate_env()` has been replaced by `sql_translate_env()` which
@@ -42,8 +44,8 @@
 
 * `recode()` provides a vectorised equivalent to `switch()` (#1710).
 
-* `if_else()` is a vectorisd if statement: it's a stricter (type-safe), faster, 
-  and more predictable version of `ifelse()`. In SQL it is translated to a 
+* `if_else()` is a vectorisd if statement: it's a stricter (type-safe), faster,
+  and more predictable version of `ifelse()`. In SQL it is translated to a
   `CASE` statement.
 
 * `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
@@ -52,7 +54,7 @@
 * `tally()` and `count()` can now count a variable called `n` (#1633).
 
 * `bind_rows` and `bind_cols` infer classes and extra information (e.g. about
-   the groupings) from the first data frame (#1692). 
+   the groupings) from the first data frame (#1692).
 
 * `db_explain()` gains a default method for DBIConnections (#1177).
 
