@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* All sql generation generics now have a default method, instead 
+  methods for DBIConnection and NULL.
+
 * `summarise()` correctly coerces factors with different levels (#1678)
 
 * New `src_memdb()` which is a session-local in-memory SQLite db.

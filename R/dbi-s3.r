@@ -222,7 +222,7 @@ sql_select <- function(con, select, from, where = NULL, group_by = NULL,
   UseMethod("sql_select")
 }
 #' @export
-sql_select.DBIConnection <- function(con, select, from, where = NULL,
+sql_select.default <- function(con, select, from, where = NULL,
                                      group_by = NULL, having = NULL,
                                      order_by = NULL, distinct = FALSE, ...) {
 
@@ -266,8 +266,6 @@ sql_select.DBIConnection <- function(con, select, from, where = NULL,
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
 }
-#' @export
-sql_select.NULL <- sql_select.DBIConnection
 
 #' @export
 #' @rdname backend_sql
@@ -275,7 +273,7 @@ sql_subquery <- function(con, sql, name = random_table_name(), ...) {
   UseMethod("sql_subquery")
 }
 #' @export
-sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
+sql_subquery.default <- function(con, sql, name = unique_name(), ...) {
   if (is.ident(sql)) {
     setNames(sql, name)
   } else {
@@ -286,8 +284,6 @@ sql_subquery.DBIConnection <- function(con, sql, name = unique_name(), ...) {
     }
   }
 }
-#' @export
-sql_subquery.NULL <- sql_subquery.DBIConnection
 
 #' @rdname backend_sql
 #' @export
@@ -295,7 +291,7 @@ sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
 #' @export
-sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
+sql_join.default <- function(con, x, y, type = "inner", by = NULL, ...) {
   join <- switch(type,
     left = sql("LEFT"),
     inner = sql("INNER"),
@@ -323,16 +319,13 @@ sql_join.DBIConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
   )
 }
 
-#' @export
-sql_join.NULL <- sql_join.DBIConnection
-
 #' @rdname backend_sql
 #' @export
 sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
   UseMethod("sql_semi_join")
 }
 #' @export
-sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...) {
+sql_semi_join.default <- function(con, x, y, anti = FALSE, by = NULL, ...) {
   # X and Y are subqueries named _LEFT and _RIGHT
   left <- escape(ident("_LEFT"), con = con)
   right <- escape(ident("_RIGHT"), con = con)
@@ -355,8 +348,6 @@ sql_semi_join.DBIConnection <- function(con, x, y, anti = FALSE, by = NULL, ...)
     con = con
   )
 }
-#' @export
-sql_semi_join.NULL <- sql_semi_join.DBIConnection
 
 #' @rdname backend_sql
 #' @export
@@ -364,38 +355,31 @@ sql_set_op <- function(con, x, y, method) {
   UseMethod("sql_set_op")
 }
 #' @export
-sql_set_op.DBIConnection <- function(con, x, y, method) {
+sql_set_op.default <- function(con, x, y, method) {
   build_sql(
     x,
     "\n", sql(method), "\n",
     y
   )
 }
-#' @export
-sql_set_op.NULL <- sql_set_op.DBIConnection
 
 #' @rdname backend_sql
 #' @export
 sql_escape_string <- function(con, x) UseMethod("sql_escape_string")
 
 #' @export
-sql_escape_string.DBIConnection <- function(con, x) {
+sql_escape_string.default <- function(con, x) {
   sql_quote(x, "'")
 }
-#' @export
-sql_escape_string.NULL <- sql_escape_string.DBIConnection
 
 #' @rdname backend_sql
 #' @export
 sql_escape_ident <- function(con, x) UseMethod("sql_escape_ident")
 
 #' @export
-sql_escape_ident.DBIConnection <- function(con, x) {
+sql_escape_ident.default <- function(con, x) {
   sql_quote(x, '"')
 }
-#' @export
-sql_escape_ident.NULL <- sql_escape_ident.DBIConnection
-
 
 #' @rdname backend_db
 #' @export
