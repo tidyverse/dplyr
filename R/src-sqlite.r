@@ -143,7 +143,15 @@ tbl.src_sqlite <- function(src, from, ...) {
 
 #' @export
 src_desc.src_sqlite <- function(x) {
-  paste0("sqlite ", RSQLite::rsqliteVersion()[[2]], " [", x$path, "]")
+  paste0("sqlite ", sqlite_version(), " [", x$path, "]")
+}
+
+sqlite_version <- function() {
+  if (packageVersion("RSQLite") > 1) {
+    RSQLite::rsqliteVersion()[[2]]
+  } else {
+    DBI::dbGetInfo(RSQLite::SQLite())$clientVersion
+  }
 }
 
 #' @export
