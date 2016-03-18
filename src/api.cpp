@@ -2,6 +2,51 @@
 
 namespace dplyr{
 
+    DataFrameVisitors::DataFrameVisitors( const Rcpp::DataFrame& data_) :
+        data(data_),
+        visitors(),
+        visitor_names(data.names()),
+        nvisitors(visitor_names.size())
+    {
+
+        for( int i=0; i<nvisitors; i++){
+            VectorVisitor* v = visitor( data[i] ) ;
+            visitors.push_back(v) ;
+        }
+    }
+
+    DataFrameVisitors::DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) :
+        data(data_),
+        visitors(),
+        visitor_names(names),
+        nvisitors(visitor_names.size())
+    {
+
+        std::string name ;
+        int n = names.size() ;
+        for( int i=0; i<n; i++){
+            name = (String)names[i] ;
+            SEXP column ;
+
+            try{
+                column = data[name] ;
+            } catch( ... ){
+                stop( "unknown column '%s' ", name ) ;
+            }
+            visitors.push_back(visitor( column )) ;
+        }
+
+    }
+
+    void DataFrameVisitors::structure( List& x, int nrows, CharacterVector classes ) const {
+        x.attr( "class" ) = classes ;
+        set_rownames(x, nrows) ;
+        x.names() = visitor_names ;
+        SEXP vars = data.attr( "vars" ) ;
+        if( !Rf_isNull(vars) )
+            x.attr( "vars" ) = vars ;
+    }
+
     DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_ ) :
         left(left_), right(right_),
         visitor_names_left(names_left),
