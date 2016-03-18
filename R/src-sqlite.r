@@ -172,6 +172,19 @@ sql_escape_ident.SQLiteConnection <- function(con, x) {
   sql_quote(x, '`')
 }
 
+#' @export
+sql_subquery.SQLiteConnection <- function(con, from, name = unique_name(), ...) {
+  if (is.ident(from)) {
+    setNames(from, name)
+  } else {
+    if (is.null(name)) {
+      build_sql("(", from, ")", con = con)
+    } else {
+      build_sql("(", from, ") AS ", ident(name), con = con)
+    }
+  }
+}
+
 
 # DBI methods ------------------------------------------------------------------
 

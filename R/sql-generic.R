@@ -68,15 +68,11 @@ sql_subquery <- function(con, from, name = random_table_name(), ...) {
   UseMethod("sql_subquery")
 }
 #' @export
-sql_subquery.default <- function(con, from, name = unique_name(), ...) {
-  if (is.ident(from)) {
-    setNames(from, name)
+sql_subquery.default <- function(con, sql, name = unique_name(), ...) {
+  if (is.ident(sql)) {
+    setNames(sql, name)
   } else {
-    if (is.null(name)) {
-      build_sql("(", from, ")", con = con)
-    } else {
-      build_sql("(", from, ") AS ", ident(name), con = con)
-    }
+    build_sql("(", sql, ") ", ident(name %||% random_table_name()), con = con)
   }
 }
 
