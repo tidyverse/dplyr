@@ -143,7 +143,15 @@ tbl.src_sqlite <- function(src, from, ...) {
 
 #' @export
 src_desc.src_sqlite <- function(x) {
-  paste0("sqlite ", RSQLite::rsqliteVersion()[[2]], " [", x$path, "]")
+  paste0("sqlite ", sqlite_version(), " [", x$path, "]")
+}
+
+sqlite_version <- function() {
+  if (packageVersion("RSQLite") > 1) {
+    RSQLite::rsqliteVersion()[[2]]
+  } else {
+    DBI::dbGetInfo(RSQLite::SQLite())$clientVersion
+  }
 }
 
 #' @export
@@ -162,6 +170,19 @@ sql_translate_env.SQLiteConnection <- function(con) {
 #' @export
 sql_escape_ident.SQLiteConnection <- function(con, x) {
   sql_quote(x, '`')
+}
+
+#' @export
+sql_subquery.SQLiteConnection <- function(con, from, name = unique_name(), ...) {
+  if (is.ident(from)) {
+    setNames(from, name)
+  } else {
+    if (is.null(name)) {
+      build_sql("(", from, ")", con = con)
+    } else {
+      build_sql("(", from, ") AS ", ident(name), con = con)
+    }
+  }
 }
 
 

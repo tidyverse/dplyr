@@ -143,17 +143,6 @@ sql_translate_env.PostgreSQLConnection <- function(con) {
   )
 }
 
-#' @export
-sql_subquery.PostgreSQLConnection <- function(con, sql, name = unique_name(), ...) {
-
-  if (is.ident(sql)) {
-    setNames(sql, name)
-  } else {
-    build_sql("(", sql, ") ", ident(name %||% random_table_name()), con = con)
-  }
-}
-
-
 # DBI methods ------------------------------------------------------------------
 
 # Doesn't return TRUE for temporary tables
