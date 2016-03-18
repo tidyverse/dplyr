@@ -1,8 +1,5 @@
 # dplyr 0.4.3.9000
 
-* All sql generation generics now have a default method, instead 
-  methods for DBIConnection and NULL.
-
 * `summarise()` correctly coerces factors with different levels (#1678)
 
 * New `src_memdb()` which is a session-local in-memory SQLite db.
@@ -12,27 +9,6 @@
   `"`. SQLite "helpfully" will convert `"x"` into a string if there is
   no identifier x present in the current scope (#1426).
 
-* The naming behaviour of `sql_subquery()` has been tweaked: the
-  result is always named (even when the input is an identifer), and
-  you can use `name = NULL` to create unnamed output. The built-in
-  joins and select now produce unnamed subqueries.
-
-* `sql_join()` has been considerably simplified - it is now only responsible
-  for generating the join query, not for generating the intermediate selects
-  that rename the variable. Similarly for `sql_semi_join()`. If you've
-  provided new methods in your backend, you'll need to rewrite.
-
-* `select_query()` gains a distinct argument which is used for generating
-  queries for `distinct()`.  It loses the `offset` and `limits` arguments
-  which are no longer used (because in general it doesn't make sense to
-  think about the order of the rows in a query).
-
-* `translate_sql()` and `partial_eval()` got a new API: now use connection +
-  variable names, rather than a `tbl`. This makes testing considerably easier.
-  `translate_sql_q()` has been renamed to `translate_sql_()`.
-
-* `src_translate_env()` has been replaced by `sql_translate_env()` which
-  should have methods for the connection object.
 
 * `distinct()` now only keeps the distinct variables. If you want to return
   all variables (using the first row for non-distinct values) use
@@ -320,6 +296,48 @@
 * grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448).
 
 * Consistent behavior on distinct() when key is set in data.table (#990).
+
+## Database internals
+
+This version includes an almost total rewrite of how dplyr verbs are translated into SQL. Previously, I used a rather ad-hoc approach, which tried to guess when a new subquery was needed. Unfortunately this approach was fraught with bugs, so in this version I've implemented a much richer internal data model. Now there is a three step process: 
+
+1.  When applied to a `tbl_lazy`, each dplyr verb captures its inputs 
+    and stores in a `op` (short for operation) object.
+    
+2.  `sql_build()` iterates through the operations building to build up an
+    object that represents a SQL query. These objects are convenient for
+    testing as they are lists, and are backend agnostics.
+    
+3.  `sql_render()` iterates through the queries and generates the SQL, 
+    using generics (like `sql_select()`) that can vary based on the 
+    backend.
+    
+In the short-term, this increased abstraction is likely to lead to some minor performance decreases, but the chance of dplyr generating correct SQL is much much higher. In the long-term, these abstractions will make it possible to write a query optimiser/compiler in dplyr, which would make it possible to generate much more succinct queries.
+
+If you have written a dplyr backend, you'll need to make some minor changes to your package:
+
+* `sql_join()` has been considerably simplified - it is now only responsible
+  for generating the join query, not for generating the intermediate selects
+  that rename the variable. Similarly for `sql_semi_join()`. If you've
+  provided new methods in your backend, you'll need to rewrite.
+
+* `select_query()` gains a distinct argument which is used for generating
+  queries for `distinct()`. It loses the `offset` and `limits` arguments
+  which are no longer used because cross-database support is patch 
+  (because in general it doesn't make sense to think about the order of the 
+  rows in a query).
+
+* `src_translate_env()` has been replaced by `sql_translate_env()` which
+  should have methods for the connection object.
+
+There were two other tweaks to the exported API, but these are less likely to affect anyone.
+
+* `translate_sql()` and `partial_eval()` got a new API: now use connection +
+  variable names, rather than a `tbl`. This makes testing considerably easier.
+  `translate_sql_q()` has been renamed to `translate_sql_()`.
+
+* Also note that the sql generation generics now have a default method, instead 
+  methods for DBIConnection and NULL.
 
 # dplyr 0.4.3
 
