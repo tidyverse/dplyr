@@ -69,12 +69,14 @@ namespace dplyr{
         {
             std::fill( res.begin(), res.begin() + first_non_na, Vec::get_na() );
             res[first_non_na] = as<STORAGE>( first_result ) ;
+            copy_most_attributes(first_result, res ) ;            
         }
 
         DelayedProcessor( int i, const RObject& chunk, SEXP res_ ) :
             res( as<Vec>( res_ ) )
         {
-            res[i] = as<STORAGE>(chunk) ;
+          copy_most_attributes( chunk, res ) ;
+          res[i] = as<STORAGE>(chunk) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
@@ -120,6 +122,7 @@ namespace dplyr{
             res(ngroups)
         {
             res[first_non_na_] = as<String>(first_result) ;
+            copy_most_attributes(first_result, res ) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
@@ -141,12 +144,78 @@ namespace dplyr{
     } ;
 
     template <typename CLASS>
+    class FactorDelayedProcessor : public DelayedProcessor_Base<CLASS>{
+    private:
+        typedef dplyr_hash_map<SEXP,int> LevelsMap ;
+
+    public:
+
+        FactorDelayedProcessor(int first_non_na, SEXP first_result, int ngroups ) :
+          res(ngroups, NA_INTEGER)
+        {
+          copy_most_attributes( first_result, res ) ;
+          CharacterVector levels = Rf_getAttrib( first_result, Rf_install("levels") ) ;
+          int n = levels.size() ;
+          for( int i=0; i<n; i++) levels_map[ levels[i] ] = i+1 ;
+        }
+
+        virtual bool handled(int i, const RObject& chunk ) {
+            CharacterVector lev = chunk.attr("levels") ;
+            update_levels(lev) ;
+
+            int val = as<int>(chunk) ;
+            if( val == NA_INTEGER){
+              return true ;
+            }
+            SEXP s = lev[val-1] ;
+            res[i] = levels_map[s] ;
+            return true ;
+        }
+        virtual bool can_promote(const RObject& chunk ) {
+            return false ;
+        }
+        virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+            return 0 ;
+        }
+        virtual SEXP get() {
+            int n = levels_map.size() ;
+            CharacterVector levels(n) ;
+            LevelsMap::iterator it = levels_map.begin() ;
+            for(int i=0; i<n; i++, ++it){
+              levels[it->second-1] = it->first ;
+            }
+            res.attr("class") = "factor" ;
+            res.attr("levels") = levels ;
+            return res ;
+        }
+
+    private:
+
+        void update_levels( const CharacterVector& lev) {
+          int nlevels = levels_map.size() ;
+          int n = lev.size() ;
+          for(int i=0; i<n; i++) {
+            SEXP s = lev[i] ;
+            if( ! levels_map.count(s) ) {
+              levels_map.insert( std::make_pair(s, ++nlevels) ) ;
+            }
+          }
+        }
+
+        IntegerVector res ;
+        LevelsMap levels_map ;
+    } ;
+
+
+
+    template <typename CLASS>
     class DelayedProcessor<VECSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
     public:
         DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
             res(ngroups)
         {
             res[first_non_na_] = maybe_copy(VECTOR_ELT(first_result, 0)) ;
+            copy_most_attributes(first_result, res ) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
@@ -172,13 +241,13 @@ namespace dplyr{
         inline SEXP maybe_copy(SEXP x) const {
             return is_ShrinkableVector(x) ? Rf_duplicate(x) : x ;
         }
-
-
     } ;
 
     template <typename CLASS>
     DelayedProcessor_Base<CLASS>* get_delayed_processor(int i, SEXP first_result, int ngroups){
-        if( Rcpp::is<int>( first_result ) ){
+        if( Rf_inherits(first_result, "factor") ){
+            return new FactorDelayedProcessor<CLASS>(i, first_result, ngroups) ;
+        } else if( Rcpp::is<int>( first_result ) ){
             return new DelayedProcessor<INTSXP, CLASS>(i, first_result, ngroups) ;
         } else if( Rcpp::is<double>( first_result) ){
             return new DelayedProcessor<REALSXP, CLASS>(i, first_result, ngroups) ;
