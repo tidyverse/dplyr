@@ -96,10 +96,6 @@ inline void copy_attributes(SEXP out, SEXP data){
 inline void copy_most_attributes(SEXP out, SEXP data){
     copy_attributes(out,data) ;
     Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
-    SEXP klass = Rf_getAttrib(data, R_ClassSymbol) ;
-    if( !Rf_isNull(klass))
-      Rf_setAttrib(out, R_ClassSymbol, klass);
-    Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
 
 CharacterVector dfloc(List) ;

@@ -69,13 +69,13 @@ namespace dplyr{
         {
             std::fill( res.begin(), res.begin() + first_non_na, Vec::get_na() );
             res[first_non_na] = as<STORAGE>( first_result ) ;
-            copy_most_attributes(first_result, res ) ;            
+            copy_most_attributes(res, first_result ) ;
         }
 
         DelayedProcessor( int i, const RObject& chunk, SEXP res_ ) :
             res( as<Vec>( res_ ) )
         {
-          copy_most_attributes( chunk, res ) ;
+          copy_most_attributes( res, chunk ) ;
           res[i] = as<STORAGE>(chunk) ;
         }
 
@@ -122,7 +122,7 @@ namespace dplyr{
             res(ngroups)
         {
             res[first_non_na_] = as<String>(first_result) ;
-            copy_most_attributes(first_result, res ) ;
+            copy_most_attributes(res, first_result) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
@@ -153,7 +153,7 @@ namespace dplyr{
         FactorDelayedProcessor(int first_non_na, SEXP first_result, int ngroups ) :
           res(ngroups, NA_INTEGER)
         {
-          copy_most_attributes( first_result, res ) ;
+          copy_most_attributes( res, first_result ) ;
           CharacterVector levels = Rf_getAttrib( first_result, Rf_install("levels") ) ;
           int n = levels.size() ;
           for( int i=0; i<n; i++) levels_map[ levels[i] ] = i+1 ;
@@ -215,7 +215,7 @@ namespace dplyr{
             res(ngroups)
         {
             res[first_non_na_] = maybe_copy(VECTOR_ELT(first_result, 0)) ;
-            copy_most_attributes(first_result, res ) ;
+            copy_most_attributes(res, first_result) ;
         }
 
         virtual bool handled(int i, const RObject& chunk ) {
