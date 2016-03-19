@@ -368,147 +368,6 @@ bool argmatch( const std::string& target, const std::string& s){
     return target.compare( 0, s.size(), s ) == 0 ;
 }
 
-template <int RTYPE, template <int, int> class With>
-Result* first_with( Vector<RTYPE> data, SEXP order ){
-    switch( TYPEOF(order) ){
-    case INTSXP: return new With<RTYPE, INTSXP>( data, order );
-    case REALSXP: return new With<RTYPE, REALSXP>( data, order );
-    case STRSXP: return new With<RTYPE, STRSXP>( data, order );
-    default: break ;
-    }
-    return 0 ;
-}
-
-template <int RTYPE, template <int, int> class With>
-Result* first_with_default( Vector<RTYPE> data, SEXP order, Vector<RTYPE> def ){
-    switch( TYPEOF(order) ){
-    case INTSXP:  return new With<RTYPE, INTSXP>( data, order, def[0] );
-    case REALSXP: return new With<RTYPE, REALSXP>( data, order, def[0] );
-    case STRSXP:  return new With<RTYPE, STRSXP>( data, order, def[0] );
-    default: break ;
-    }
-    return 0 ;
-}
-
-template <int RTYPE, template <int> class Without >
-Result* first_noorder_default( Vector<RTYPE> data, Vector<RTYPE> def ){
-     return new Without<RTYPE>(data, def[0] );
-}
-
-template < template <int> class Without, template <int, int> class With >
-Result* first_prototype( SEXP call, const LazySubsets& subsets, int nargs){
-    // has to have one argument
-    if( nargs == 0 ) return 0 ;
-
-    SEXP tag = TAG(CDR(call)) ;
-    if( tag != R_NilValue && tag != Rf_install("x") ){
-        stop( "the first argument of 'first' should be either 'x' or unnamed" ) ;
-    }
-    SEXP data = CADR(call) ;
-    if( TYPEOF(data) == SYMSXP ) data = subsets.get_variable(data) ;
-
-    // easy case : just a single variable: first(x)
-    if( nargs == 1 ){
-        switch( TYPEOF(data) ){
-        case INTSXP:  return new Without<INTSXP>(data) ;
-        case REALSXP: return new Without<REALSXP>(data) ;
-        case STRSXP:  return new Without<STRSXP>(data) ;
-        default: break ;
-        }
-    } else {
-        SEXP order_by = R_NilValue ;
-        SEXP def      = R_NilValue ;
-
-        SEXP p = CDDR(call) ;
-        while( p != R_NilValue ){
-            SEXP tag = TAG(p) ;
-            if( tag == R_NilValue ) stop( "all arguments of 'first' after the first one should be named" ) ;
-            std::string argname = CHAR(PRINTNAME(tag));
-            if( argmatch( "order_by", argname ) ){
-                order_by = CAR(p) ;
-            } else if( argmatch( "default", argname ) ){
-                def = CAR(p) ;
-            } else {
-                stop("argument to 'first' does not match either 'default' or 'order_by' ") ;
-            }
-
-            p = CDR(p) ;
-        }
-
-        // handle cases
-        if( def == R_NilValue ){
-
-            // then we know order_by is not NULL
-            if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
-
-                // the optimized case, when order_by is a variable from the data set
-                order_by = subsets.get_variable(order_by) ;
-
-                switch( TYPEOF(data) ){
-                    case INTSXP:  return first_with<INTSXP, With>( data, order_by ) ;
-                    case REALSXP: return first_with<REALSXP, With>( data, order_by ) ;
-                    case STRSXP:  return first_with<STRSXP, With>( data, order_by ) ;
-                    default: break ;
-                }
-            }
-
-        } else {
-            if( order_by == R_NilValue ){
-                switch( TYPEOF(data) ){
-                    case INTSXP:  return first_noorder_default<INTSXP, Without>(data, def) ;
-                    case REALSXP: return first_noorder_default<REALSXP, Without>(data, def) ;
-                    case STRSXP:  return first_noorder_default<STRSXP, Without>(data, def) ;
-                    default: break ;
-                }
-            } else {
-                if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
-                    order_by = subsets.get_variable(order_by) ;
-
-                    switch( TYPEOF(data) ){
-                        case INTSXP:  return first_with_default<INTSXP, With>(data, order_by, def) ;
-                        case REALSXP: return first_with_default<REALSXP,With>(data, order_by, def) ;
-                        case STRSXP:  return first_with_default<STRSXP,With>(data, order_by, def) ;
-                        default: break ;
-                    }
-                }
-
-            }
-        }
-
-
-    }
-    return 0;
-}
-
-template <int RTYPE>
-Result* nth_noorder_default( Vector<RTYPE> data, int idx, Vector<RTYPE> def ){
-     return new Nth<RTYPE>(data, idx, def[0] );
-}
-
-template <int RTYPE>
-Result* nth_with( Vector<RTYPE> data, int idx, SEXP order ){
-    switch( TYPEOF(order) ){
-    case LGLSXP: return new NthWith<RTYPE, LGLSXP>( data, idx, order );
-    case INTSXP: return new NthWith<RTYPE, INTSXP>( data, idx, order );
-    case REALSXP: return new NthWith<RTYPE, REALSXP>( data, idx, order );
-    case STRSXP: return new NthWith<RTYPE, STRSXP>( data, idx, order );
-    default: break ;
-    }
-    return 0 ;
-}
-
-template <int RTYPE>
-Result* nth_with_default( Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> def ){
-    switch( TYPEOF(order) ){
-    case LGLSXP: return new NthWith<RTYPE, LGLSXP>( data, idx, order, def[0] );
-    case INTSXP: return new NthWith<RTYPE, INTSXP>( data, idx, order, def[0] );
-    case REALSXP: return new NthWith<RTYPE, REALSXP>( data, idx, order, def[0] );
-    case STRSXP: return new NthWith<RTYPE, STRSXP>( data, idx, order, def[0] );
-    default: break ;
-    }
-    return 0 ;
-}
-
 Result* in_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     SEXP lhs = CADR(call) ;
     SEXP rhs = CADDR(call) ;
@@ -536,116 +395,6 @@ Result* in_prototype( SEXP call, const LazySubsets& subsets, int nargs){
 
 }
 
-Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
-    // has to have at least two arguments
-    if( nargs < 2 ) return 0 ;
-
-    SEXP tag = TAG(CDR(call)) ;
-    if( tag != R_NilValue && tag != Rf_install("x") ){
-        stop( "the first argument of 'nth' should be either 'x' or unnamed" ) ;
-    }
-    SEXP data = CADR(call) ;
-    if( TYPEOF(data) == SYMSXP ) {
-        if( ! subsets.count(data) ){
-            stop( "could not find variable '%s'", CHAR(PRINTNAME(data)) );
-        }
-        data = subsets.get_variable(data) ;
-    }
-
-    tag = TAG(CDDR(call)) ;
-    if( tag != R_NilValue && tag != Rf_install("n") ){
-        stop( "the second argument of 'first' should be either 'n' or unnamed" ) ;
-    }
-    SEXP nidx = CADDR(call) ;
-    if( ( TYPEOF(nidx) != REALSXP && TYPEOF(nidx) != INTSXP ) || LENGTH(nidx) != 1 ){
-        // we only know how to handle the case where nidx is a length one
-        // integer or numeric. In any other case, e.g. an expression for R to evaluate
-        // we just fallback to R evaluation (#734)
-        return 0 ;
-    }
-    int idx = as<int>(nidx) ;
-
-    // easy case : just a single variable: first(x,n)
-    if( nargs == 2 ){
-        switch( TYPEOF(data) ){
-        case INTSXP:  return new Nth<INTSXP>(data, idx) ;
-        case REALSXP: return new Nth<REALSXP>(data, idx) ;
-        case STRSXP: return new Nth<STRSXP>(data, idx) ;
-        case LGLSXP: return new Nth<LGLSXP>(data, idx) ;
-
-        default: break ;
-        }
-    } else {
-        // now get `order_by` and default
-
-        SEXP order_by = R_NilValue ;
-        SEXP def      = R_NilValue ;
-
-        SEXP p = CDR(CDDR(call)) ;
-        while( p != R_NilValue ){
-            SEXP tag = TAG(p) ;
-            if( tag == R_NilValue ) stop( "all arguments of 'first' after the first one should be named" ) ;
-            std::string argname = CHAR(PRINTNAME(tag));
-            if( argmatch( "order_by", argname ) ){
-                order_by = CAR(p) ;
-            } else if( argmatch( "default", argname ) ){
-                def = CAR(p) ;
-            } else {
-                stop("argument to 'first' does not match either 'default' or 'order_by' ") ;
-            }
-
-            p = CDR(p) ;
-        }
-
-
-        // handle cases
-        if( def == R_NilValue ){
-
-            // then we know order_by is not NULL, we only handle the case where
-            // order_by is a symbol and that symbol is in the data
-            if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
-                order_by = subsets.get_variable(order_by) ;
-
-                switch( TYPEOF(data) ){
-                    case LGLSXP:  return nth_with<LGLSXP>( data, idx, order_by ) ;
-                    case INTSXP:  return nth_with<INTSXP>( data, idx, order_by ) ;
-                    case REALSXP: return nth_with<REALSXP>( data, idx, order_by ) ;
-                    case STRSXP:  return nth_with<STRSXP>( data, idx, order_by ) ;
-                    default: break ;
-                }
-            }
-
-
-        } else {
-            if( order_by == R_NilValue ){
-                switch( TYPEOF(data) ){
-                    case LGLSXP:  return nth_noorder_default<LGLSXP>(data, idx, def) ;
-                    case INTSXP:  return nth_noorder_default<INTSXP>(data, idx, def) ;
-                    case REALSXP: return nth_noorder_default<REALSXP>(data, idx, def) ;
-                    case STRSXP:  return nth_noorder_default<STRSXP>(data, idx, def) ;
-                    default: break ;
-                }
-            } else {
-                if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
-                    order_by = subsets.get_variable(order_by) ;
-
-                    switch( TYPEOF(data) ){
-                        case LGLSXP:  return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
-                        case INTSXP:  return nth_with_default<INTSXP>(data, idx, order_by, def) ;
-                        case REALSXP: return nth_with_default<REALSXP>(data, idx, order_by, def) ;
-                        case STRSXP: return nth_with_default<STRSXP>(data, idx, order_by, def) ;
-                        default: break ;
-                    }
-                }
-
-            }
-        }
-
-    }
-    return 0;
-}
-
-
 HybridHandlerMap& get_handlers(){
     static HybridHandlerMap handlers ;
     if( !handlers.size() ){
@@ -667,16 +416,18 @@ HybridHandlerMap& get_handlers(){
         handlers[ Rf_install( "dense_rank" )     ] = rank_impl_prototype<dplyr::internal::dense_rank_increment> ;
         handlers[ Rf_install( "cume_dist" )      ] = rank_impl_prototype<dplyr::internal::cume_dist_increment> ;
 
-        // handlers[ Rf_install( "cumsum")          ] = cumfun_prototype<CumSum> ;
-        // handlers[ Rf_install( "cummin")          ] = cumfun_prototype<CumMin> ;
-        // handlers[ Rf_install( "cummax")          ] = cumfun_prototype<CumMax> ;
+        /*
+        handlers[ Rf_install( "cumsum")          ] = cumfun_prototype<CumSum> ;
+        handlers[ Rf_install( "cummin")          ] = cumfun_prototype<CumMin> ;
+        handlers[ Rf_install( "cummax")          ] = cumfun_prototype<CumMax> ;
+        */
 
         handlers[ Rf_install( "lead" )           ] = leadlag_prototype<Lead> ;
         handlers[ Rf_install( "lag" )            ] = leadlag_prototype<Lag> ;
 
-        handlers[ Rf_install( "first" ) ] = first_prototype<dplyr::First, dplyr::FirstWith> ;
-        handlers[ Rf_install( "last" ) ]  = first_prototype<dplyr::Last, dplyr::LastWith> ;
-        handlers[ Rf_install( "nth" ) ]  = nth_prototype ;
+        handlers[ Rf_install( "first" )          ] = first_prototype ;
+        handlers[ Rf_install( "last" )           ] = last_prototype ;
+        handlers[ Rf_install( "nth" )            ] = nth_prototype ;
 
         // handlers[ Rf_install( "%in%" ) ] = in_prototype ;
 

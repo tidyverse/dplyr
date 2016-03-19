@@ -43,8 +43,4 @@
 #include <dplyr/Result/CumMax.h>
 #include <dplyr/Result/In.h>
 
-#include <dplyr/Result/First.h>
-#include <dplyr/Result/Last.h>
-#include <dplyr/Result/Nth.h>
-
 #endif

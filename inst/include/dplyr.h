@@ -59,6 +59,11 @@ namespace dplyr {
 
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
+dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
+dplyr::Result* first_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
+dplyr::Result* last_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
+bool argmatch( const std::string& target, const std::string& s) ;
+
 bool can_simplify(SEXP) ;
 
 void assert_all_white_list(const DataFrame&) ;
