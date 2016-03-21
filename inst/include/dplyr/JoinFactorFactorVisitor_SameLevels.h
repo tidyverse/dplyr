@@ -28,29 +28,16 @@ namespace dplyr{
             {}
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ){
-            Vec res = JoinVisitorImpl<INTSXP, INTSXP>::subset(set) ;
-            res.attr( "class" )  = Parent::left.attr("class" ) ;
-            res.attr( "levels" ) = levels ;
-
-            return res ;
+            return JoinVisitorImpl<INTSXP, INTSXP>::subset(set) ;
         }
 
         inline SEXP subset( const std::vector<int>& indices ){
-            Vec res = JoinVisitorImpl<INTSXP, INTSXP>::subset(indices) ;
-            res.attr( "class" )  = Parent::left.attr("class" ) ;
-            res.attr( "levels" ) = levels ;
-
-            return res ;
-        }
-
-        inline void debug(){
-            Rprintf( "visitor= JoinFactorFactorVisitor_SameLevels. levels=" ) ;
-            Rf_PrintValue(levels) ;
+            return JoinVisitorImpl<INTSXP, INTSXP>::subset(indices) ;
         }
 
     private:
         CharacterVector levels ;
-        
+
     } ;
 
 }

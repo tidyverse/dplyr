@@ -521,3 +521,32 @@ test_that("result of joining POSIXct is POSIXct (#1578)", {
   expected <- c("POSIXct", "POSIXt")
   expect_identical(res1, expected)
 })
+
+test_that("joins allows extra attributes if they are identical (#1636)", {
+
+  tbl_left <- data_frame(
+    i = rep(c(1.0, 2.0, 3.0), each = 2),
+    x1 = letters[1:6]
+  )
+  tbl_right <- data_frame(
+    i = c(1.0, 2.0, 3.0),
+    x2 = letters[1:3]
+  )
+
+  attr(tbl_left$i, 'label') <- 'iterator'
+  attr(tbl_right$i, 'label') <- 'iterator'
+
+  res <- left_join(tbl_left, tbl_right, by = 'i')
+  expect_equal( attr(res$i, "label"), "iterator" )
+
+  attr(tbl_left$i, "foo" ) <- "bar"
+  attributes(tbl_right$i) <- NULL
+  attr(tbl_right$i, "foo" ) <- "bar"
+  attr(tbl_right$i, 'label') <- 'iterator'
+
+  res <- left_join(tbl_left, tbl_right, by = 'i')
+  expect_equal( attr(res$i, "label"), "iterator" )
+  expect_equal( attr(res$i, "foo"), "bar" )
+
+
+})
