@@ -19,6 +19,8 @@ as_data_frame.grouped_df <- function(x, ...) {
 
 #' Convert row names to an explicit variable.
 #'
+#' Deprecated, use \code{\link[tibble]{rownames_to_column}} instead.
+#'
 #' @param df Input data frame with rownames.
 #' @param var Name of variable to use
 #' @export
@@ -27,6 +29,10 @@ as_data_frame.grouped_df <- function(x, ...) {
 #'
 #' mtcars %>% add_rownames()
 add_rownames <- function(df, var = "rowname") {
+  warning(
+    "Deprecated, use tibble::rownames_to_column() instead.",
+    call. = FALSE)
+
   stopifnot(is.data.frame(df))
 
   rn <- as_data_frame(setNames(list(rownames(df)), var))
