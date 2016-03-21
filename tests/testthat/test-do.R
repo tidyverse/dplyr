@@ -103,40 +103,40 @@ test_that("empty data frames give consistent outputs", {
   grp <- dat %>% group_by(g)
   emt <- grp %>% filter(FALSE)
 
-  dat %>% do(data.frame()) %>% type_sum() %>%
-    expect_equal(character())
-  dat %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+  dat %>% do(data.frame()) %>% vapply(type_sum, character(1)) %>%
+    length %>% expect_equal(0)
+  dat %>% do(data.frame(y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(y = "int"))
-  dat %>% do(data.frame(.)) %>% type_sum() %>%
+  dat %>% do(data.frame(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr"))
-  dat %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+  dat %>% do(data.frame(., y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
-  dat %>% do(y = ncol(.)) %>% type_sum() %>%
+  dat %>% do(y = ncol(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(y = "list"))
 
   # Grouped data frame should have same col types as ungrouped, with addition
   # of grouping variable
-  grp %>% do(data.frame()) %>% type_sum() %>%
+  grp %>% do(data.frame()) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr"))
-  grp %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+  grp %>% do(data.frame(y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "int"))
-  grp %>% do(data.frame(.)) %>% type_sum() %>%
+  grp %>% do(data.frame(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr"))
-  grp %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+  grp %>% do(data.frame(., y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
-  grp %>% do(y = ncol(.)) %>% type_sum() %>%
+  grp %>% do(y = ncol(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "list"))
 
   # A empty grouped dataset should have same types as grp
-  emt %>% do(data.frame()) %>% type_sum() %>%
+  emt %>% do(data.frame()) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr"))
-  emt %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+  emt %>% do(data.frame(y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "int"))
-  emt %>% do(data.frame(.)) %>% type_sum() %>%
+  emt %>% do(data.frame(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr"))
-  emt %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+  emt %>% do(data.frame(., y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
-  emt %>% do(y = ncol(.)) %>% type_sum() %>%
+  emt %>% do(y = ncol(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "list"))
 })
 
