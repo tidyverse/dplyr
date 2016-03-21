@@ -30,7 +30,10 @@ test_that("empty list() makes 0 x 0 tbl_df", {
 })
 
 test_that("add_rownames keeps the tbl classes (#882)", {
-  res <- mtcars %>% add_rownames( "Make&Model" )
+  expect_warning(
+    res <- mtcars %>% add_rownames( "Make&Model" ),
+    "Deprecated"
+  )
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
 })
 
