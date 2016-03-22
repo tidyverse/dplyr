@@ -249,7 +249,7 @@ res_warn_incomplete <- function(res) {
   if (dbHasCompleted(res)) return()
 
   rows <- big_mark(dbGetRowCount(res))
-  warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
+  warning("Only first ", rows, " results retrieved. Use n = Inf to retrieve all.",
     call. = FALSE)
 }
 
