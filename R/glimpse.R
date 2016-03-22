@@ -36,6 +36,15 @@ glimpse.tbl <- function(x, width = getOption("width"), ...) {
 
   cat("Variables: ", big_mark(ncol(x)), "\n", sep = "")
 
+  if (is.grouped_df(x) || is.grouped_dt(x)) {
+    cat("Groups: ", commas(deparse_all(groups(x))), sep = "")
+    if (is.grouped_df(x)) {
+       grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))     
+       cat(" [", big_mark(grps), "]", sep = "")
+    }
+    cat("\n")
+  }
+  
   # this is an overestimate, but shouldn't be too expensive.
   # every type needs at least three characters: "x, "
   rows <- as.integer(width / 3)
