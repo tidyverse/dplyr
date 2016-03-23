@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* The progress bar in `do()` is now updated at most 20 times per second, avoiding uneccessary redraws (#1734, @mkuhn)
+
 * joins allows extra attributes if they are identical (#1636)
 
 * `summarise()` correctly coerces factors with different levels (#1678)
