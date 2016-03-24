@@ -57,6 +57,11 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
 
   if (.keep_all) {
     keep <- names(.data)
+    # This prevents an error from being thrown on the next conditional
+    # if there are no variables selected.
+    if (length(vars) == 0){
+      vars <- keep
+    }
   } else {
     keep <- vars
   }
