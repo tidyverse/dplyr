@@ -18,7 +18,9 @@ namespace dplyr{
         typedef boost::hash<LHS_STORAGE> LHS_hasher ;
         typedef boost::hash<RHS_STORAGE> RHS_hasher ;
 
-        JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){}
+        JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){
+          check_attribute_compatibility(left, right) ;
+        }
 
         size_t hash(int i) ;
 
@@ -95,11 +97,15 @@ namespace dplyr{
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
-            return Subsetter<JoinVisitorImpl>(*this).subset(indices) ;
+            RObject res = Subsetter<JoinVisitorImpl>(*this).subset(indices ) ;
+            copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            return Subsetter<JoinVisitorImpl>(*this).subset(set) ;
+            RObject res = Subsetter<JoinVisitorImpl>(*this).subset(set) ;
+            copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline STORAGE get(int i) const {
@@ -116,7 +122,8 @@ namespace dplyr{
     public:
         typedef CharacterVector Vec ;
 
-        JoinFactorFactorVisitor( const IntegerVector& left, const IntegerVector& right ) :
+        JoinFactorFactorVisitor( const IntegerVector& left_, const IntegerVector& right ) :
+            left(left_),
             left_levels (left.attr("levels")),
             right_levels(right.attr("levels")),
             uniques( get_uniques(left_levels, right_levels) ),
@@ -133,11 +140,15 @@ namespace dplyr{
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
-            return Subsetter<JoinFactorFactorVisitor>(*this).subset(indices) ;
+            RObject res = Subsetter<JoinFactorFactorVisitor>(*this).subset(indices) ;
+            // copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            return Subsetter<JoinFactorFactorVisitor>(*this).subset(set) ;
+            RObject res = Subsetter<JoinFactorFactorVisitor>(*this).subset(set) ;
+            // copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP get(int i) const {
@@ -145,6 +156,7 @@ namespace dplyr{
         }
 
     private:
+        IntegerVector left;
         CharacterVector left_levels, right_levels ;
         CharacterVector uniques ;
         IntegerVector left_match, right_match ;
@@ -161,7 +173,8 @@ namespace dplyr{
     public:
         typedef CharacterVector Vec ;
 
-        JoinStringStringVisitor( CharacterVector left, CharacterVector right) :
+        JoinStringStringVisitor( CharacterVector left_, CharacterVector right) :
+            left(left_),
             uniques( get_uniques(left, right) ),
             i_left( match(left, uniques) ),
             i_right( match(right, uniques) ),
@@ -179,11 +192,15 @@ namespace dplyr{
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
-            return Subsetter<JoinStringStringVisitor>(*this).subset(indices) ;
+            RObject res = Subsetter<JoinStringStringVisitor>(*this).subset(indices) ;
+            copy_most_attributes( res, left) ;
+            return res ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            return Subsetter<JoinStringStringVisitor>(*this).subset(set) ;
+            RObject res = Subsetter<JoinStringStringVisitor>(*this).subset(set) ;
+            copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP get(int i) const {
@@ -195,6 +212,7 @@ namespace dplyr{
         }
 
     private:
+        CharacterVector left ;
         CharacterVector uniques ;
         IntegerVector i_left, i_right ;
         JoinVisitorImpl<INTSXP,INTSXP> int_visitor ;
@@ -231,11 +249,15 @@ namespace dplyr{
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
-            return Subsetter<JoinFactorStringVisitor>(*this).subset(indices) ;
+            RObject res = Subsetter<JoinFactorStringVisitor>(*this).subset(indices) ;
+            // copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            return Subsetter<JoinFactorStringVisitor>(*this).subset(set) ;
+            RObject res = Subsetter<JoinFactorStringVisitor>(*this).subset(set) ;
+            // copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP get(int i) const {
@@ -266,6 +288,7 @@ namespace dplyr{
         typedef CharacterVector Vec ;
 
         JoinStringFactorVisitor( const CharacterVector& left_, const IntegerVector& right_ ) :
+            left(left_),
             i_right(right_),
             uniques( get_uniques(i_right.attr("levels"), left_) ),
             p_uniques( internal::r_vector_start<STRSXP>(uniques) ),
@@ -283,11 +306,15 @@ namespace dplyr{
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
-            return Subsetter<JoinStringFactorVisitor>(*this).subset(indices) ;
+            RObject res = Subsetter<JoinStringFactorVisitor>(*this).subset(indices) ;
+            // copy_most_attributes(res, left) ;
+            return res;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            return Subsetter<JoinStringFactorVisitor>(*this).subset(set) ;
+            RObject res = Subsetter<JoinStringFactorVisitor>(*this).subset(set) ;
+            // copy_most_attributes(res, left) ;
+            return res ;
         }
 
         inline SEXP get(int i) const {
@@ -308,14 +335,13 @@ namespace dplyr{
         }
 
     private:
+        CharacterVector left ;
         IntegerVector i_right ;
         CharacterVector uniques ;
         SEXP* p_uniques ;
         IntegerVector i_left ;
 
         JoinVisitorImpl<INTSXP, INTSXP> int_visitor ;
-
-
 
     } ;
 

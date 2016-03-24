@@ -1,6 +1,11 @@
 # dplyr 0.4.3.9000
 
 ## Breaking changes
+* The progress bar in `do()` is now updated at most 20 times per second, avoiding uneccessary redraws (#1734, @mkuhn)
+
+* joins allows extra attributes if they are identical (#1636)
+
+* `summarise()` correctly coerces factors with different levels (#1678)
 
 ### Existing functions
 
@@ -170,19 +175,19 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 
 ### Internals
 
-This version includes an almost total rewrite of how dplyr verbs are translated into SQL. Previously, I used a rather ad-hoc approach, which tried to guess when a new subquery was needed. Unfortunately this approach was fraught with bugs, so in this version I've implemented a much richer internal data model. Now there is a three step process: 
+This version includes an almost total rewrite of how dplyr verbs are translated into SQL. Previously, I used a rather ad-hoc approach, which tried to guess when a new subquery was needed. Unfortunately this approach was fraught with bugs, so in this version I've implemented a much richer internal data model. Now there is a three step process:
 
-1.  When applied to a `tbl_lazy`, each dplyr verb captures its inputs 
+1.  When applied to a `tbl_lazy`, each dplyr verb captures its inputs
     and stores in a `op` (short for operation) object.
-    
+
 2.  `sql_build()` iterates through the operations building to build up an
     object that represents a SQL query. These objects are convenient for
     testing as they are lists, and are backend agnostics.
-    
-3.  `sql_render()` iterates through the queries and generates the SQL, 
-    using generics (like `sql_select()`) that can vary based on the 
+
+3.  `sql_render()` iterates through the queries and generates the SQL,
+    using generics (like `sql_select()`) that can vary based on the
     backend.
-    
+
 In the short-term, this increased abstraction is likely to lead to some minor performance decreases, but the chance of dplyr generating correct SQL is much much higher. In the long-term, these abstractions will make it possible to write a query optimiser/compiler in dplyr, which would make it possible to generate much more succinct queries.
 
 If you have written a dplyr backend, you'll need to make some minor changes to your package:
@@ -194,8 +199,8 @@ If you have written a dplyr backend, you'll need to make some minor changes to y
 
 * `select_query()` gains a distinct argument which is used for generating
   queries for `distinct()`. It loses the `offset` and `limits` arguments
-  which are no longer used because cross-database support is patch 
-  (because in general it doesn't make sense to think about the order of the 
+  which are no longer used because cross-database support is patch
+  (because in general it doesn't make sense to think about the order of the
   rows in a query).
 
 * `src_translate_env()` has been replaced by `sql_translate_env()` which
@@ -207,7 +212,7 @@ There were two other tweaks to the exported API, but these are less likely to af
   variable names, rather than a `tbl`. This makes testing considerably easier.
   `translate_sql_q()` has been renamed to `translate_sql_()`.
 
-* Also note that the sql generation generics now have a default method, instead 
+* Also note that the sql generation generics now have a default method, instead
   methods for DBIConnection and NULL.
 
 ## Minor improvements and bug fixes

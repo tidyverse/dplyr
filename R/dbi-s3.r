@@ -245,11 +245,11 @@ db_disconnector <- function(con, name, quiet = FALSE) {
   environment()
 }
 
-res_warn_incomplete <- function(res) {
+res_warn_incomplete <- function(res, hint = "n = -1") {
   if (dbHasCompleted(res)) return()
 
   rows <- big_mark(dbGetRowCount(res))
-  warning("Only first ", rows, " results retrieved. Use n = -1 to retrieve all.",
+  warning("Only first ", rows, " results retrieved. Use ", hint, " to retrieve all.",
     call. = FALSE)
 }
 

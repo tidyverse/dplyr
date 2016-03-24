@@ -56,9 +56,14 @@ namespace dplyr {
     void strip_index(DataFrame x) ;
     template <typename Index>
     DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
-
+    void check_attribute_compatibility( SEXP left, SEXP right) ;
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
+dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
+dplyr::Result* first_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
+dplyr::Result* last_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
+bool argmatch( const std::string& target, const std::string& s) ;
+
 bool can_simplify(SEXP) ;
 
 void assert_all_white_list(const DataFrame&) ;
@@ -95,10 +100,6 @@ inline void copy_attributes(SEXP out, SEXP data){
 // same as copy_attributes but without names
 inline void copy_most_attributes(SEXP out, SEXP data){
     copy_attributes(out,data) ;
-    Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
-    SEXP klass = Rf_getAttrib(data, R_ClassSymbol) ;
-    if( !Rf_isNull(klass))
-      Rf_setAttrib(out, R_ClassSymbol, klass);
     Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
 
@@ -147,7 +148,6 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 #include <dplyr/OrderVisitorImpl.h>
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/JoinVisitorImpl.h>
-#include <dplyr/JoinFactorFactorVisitor_SameLevels.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Order.h>
 #include <dplyr/SummarisedVariable.h>

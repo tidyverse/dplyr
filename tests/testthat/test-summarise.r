@@ -318,9 +318,31 @@ test_that( "nth, first, last preserves factor data (#509)", {
   expect_equal(levels(dat1$der), levels(dat$b))
 })
 
+test_that("nth handle negative value (#1584) ", {
+  df <- data.frame( a = 1:10, b = 10:1, g = rep(c(1,2), c(4,6)) ) %>% group_by(g)
+
+  res <- summarise( df,
+    x1 = nth(a,-1L),
+    x2 = nth(a,-1L, order_by=b),
+    x3 = nth(a, -5L),
+    x4 = nth(a, -5L, order_by=b),
+    x5 = nth(a, -5L, default = 99),
+    x6 = nth(a, -5L, order_by=b, default = 99)
+  )
+  expect_equal( res$x1, c(4,10) )
+  expect_equal( res$x2, c(1,5) )
+  expect_true( is.na(res$x3[1]) )
+  expect_equal( res$x3[2], 6 )
+  expect_true( is.na(res$x4[1]) )
+  expect_equal( res$x4[2], 9 )
+  expect_equal( res$x5, c(99,6) )
+  expect_equal( res$x6, c(99,9) )
+
+})
+
 test_that( "LazyGroupSubsets is robust about columns not from the data (#600)", {
   foo <- data_frame(x = 1:10, y = 1:10)
-  expect_error( foo %>% group_by(x) %>% summarise(first_y = first(z)), "not found" )
+  expect_error( foo %>% group_by(x) %>% summarise(first_y = first(z)), "could not find variable" )
 })
 
 test_that( "hybrid eval handles $ and @ (#645)", {
