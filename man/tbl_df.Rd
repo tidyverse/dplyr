@@ -10,23 +10,8 @@ tbl_df(data)
 \item{data}{a data frame}
 }
 \description{
-A data frame tbl wraps a local data frame. The main advantage to using
-a \code{tbl_df} over a regular data frame is the printing:
-tbl objects only print a few rows and all the columns that fit on one
-screen, describing the rest of it as text.
-}
-\section{Methods}{
-
-
-\code{tbl_df} implements four important base methods:
-
-\describe{
-\item{print}{Only prints the first 10 rows, and the columns that fit on
-  screen}
-\item{\code{[}}{Never simplifies (drops), so always returns data.frame}
-\item{\code{[[}, \code{$}}{Calls \code{\link{.subset2}} directly,
-  so is considerably faster. Throws error if column does not exist.}
-}
+Forwards the argument to \code{\link[tibble]{as_data_frame}}, see
+\link{tibble-package} for more details.
 }
 \examples{
 ds <- tbl_df(mtcars)

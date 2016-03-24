@@ -1,22 +1,7 @@
 #' Create a data frame tbl.
 #'
-#' A data frame tbl wraps a local data frame. The main advantage to using
-#' a \code{tbl_df} over a regular data frame is the printing:
-#' tbl objects only print a few rows and all the columns that fit on one
-#' screen, describing the rest of it as text.
-#'
-#' @section Methods:
-#'
-#' \code{tbl_df} implements four important base methods:
-#'
-#' \describe{
-#' \item{print}{Only prints the first 10 rows, and the columns that fit on
-#'   screen}
-#' \item{\code{[}}{Never simplifies (drops), so always returns data.frame}
-#' \item{\code{[[}, \code{$}}{Calls \code{\link{.subset2}} directly,
-#'   so is considerably faster. Throws error if column does not exist.}
-#' }
-#'
+#' Forwards the argument to \code{\link[tibble]{as_data_frame}}, see
+#' \link{tibble-package} for more details.
 #'
 #' @export
 #' @param data a data frame
@@ -103,77 +88,6 @@ auto_copy.tbl_df <- function(x, y, copy = FALSE, ...) {
 as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
   as_regular_df(x)
 }
-
-#' @rdname dplyr-formatting
-#' @export
-print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("\n")
-  print(trunc_mat(x, n = n, width = width))
-
-  invisible(x)
-}
-
-.check_names_df <- function(x, j){
-  if( is.character(j) && any( wrong <- ! j %in% names(x) ) ){
-    names <- j[wrong]
-    stop( sprintf( "undefined columns: %s", paste(names, collapse = ", " ) ) ) ;
-  }
-}
-
-#' @export
-`[[.tbl_df` <- function(x, i) {
-  if (is.character(i) && !(i %in% names(x)))
-    stop("Unknown name", call. = FALSE)
-
-  .subset2(x, i)
-}
-
-#' @export
-`$.tbl_df` <- function(x, i) {
-  if (is.character(i) && !(i %in% names(x)))
-    stop("Unknown column '", i, "'", call. = FALSE)
-
-  .subset2(x, i)
-}
-
-#' @export
-`[.tbl_df` <- function(x, i, j, drop = FALSE) {
-  if (missing(i) && missing(j)) return(x)
-  if (drop) warning("drop ignored", call. = FALSE)
-
-  nr <- nrow(x)
-
-  # Escape early if nargs() == 2L; ie, column subsetting
-  if (nargs() == 2L) {
-    .check_names_df(x,i)
-    result <- .subset(x, i)
-    class(result) <- c("tbl_df", "data.frame")
-    attr(result, "row.names") <- .set_row_names(nr)
-    return(result)
-  }
-
-  # First, subset columns
-  if (!missing(j)) {
-    .check_names_df(x,j)
-    x <- .subset(x, j)
-  }
-
-  # Next, subset rows
-  if (!missing(i)) {
-    if (length(x) == 0) {
-      nr <- length(attr(x, "row.names")[i])
-    } else {
-      x <- lapply(x, `[`, i)
-      nr <- length(x[[1]])
-    }
-  }
-
-  class(x) <- c("tbl_df", "data.frame")
-  attr(x, "row.names") <- .set_row_names(nr)
-  x
-}
-
 
 # Verbs ------------------------------------------------------------------------
 

@@ -18,6 +18,7 @@ Imports:
     utils,
     R6,
     Rcpp (>= 0.12.3),
+    tibble,
     magrittr,
     lazyeval (>= 0.1.10),
     DBI (>= 0.3)
@@ -36,11 +37,13 @@ Suggests:
     rmarkdown,
     covr,
     dtplyr
-Remotes: hadley/testthat
+Remotes:
+    hadley/testthat,
+    hadley/tibble
 VignetteBuilder: knitr
-LazyData: yes
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1)
+LazyData: yes
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
@@ -65,9 +68,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
-    'frame-data.R'
     'funs.R'
-    'glimpse.R'
     'group-by.r'
     'group-indices.R'
     'group-size.r'
@@ -113,12 +114,12 @@ Collate:
     'tbl-lazy.R'
     'tbl-sql.r'
     'tbl.r'
+    'tibble-reexport.r'
     'top-n.R'
     'translate-sql-helpers.r'
     'translate-sql-base.r'
     'translate-sql-window.r'
     'translate-sql.r'
-    'type-sum.r'
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'
