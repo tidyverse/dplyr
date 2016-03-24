@@ -12,7 +12,7 @@ add_rownames(df, var = "rowname")
 \item{var}{Name of variable to use}
 }
 \description{
-Convert row names to an explicit variable.
+Deprecated, use \code{\link[tibble]{rownames_to_column}} instead.
 }
 \examples{
 mtcars \%>\% tbl_df()

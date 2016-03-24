@@ -30,57 +30,11 @@ test_that("empty list() makes 0 x 0 tbl_df", {
 })
 
 test_that("add_rownames keeps the tbl classes (#882)", {
-  res <- mtcars %>% add_rownames( "Make&Model" )
+  expect_warning(
+    res <- mtcars %>% add_rownames( "Make&Model" ),
+    "Deprecated"
+  )
   expect_equal( class(res), c("tbl_df","tbl", "data.frame"))
-})
-
-# Validation --------------------------------------------------------------
-
-test_that("2d object isn't a valid column", {
-  expect_error(
-    check_data_frame(list(x = mtcars)),
-    "Each variable must be a 1d atomic vector"
-  )
-})
-
-test_that("POSIXlt isn't a valid column", {
-  expect_error(
-    check_data_frame(list(x = as.POSIXlt(Sys.time()))),
-    "Date/times must be stored as POSIXct"
-  )
-})
-
-test_that("NULL isn't a valid column", {
-  expect_error(
-    check_data_frame(list(a = NULL)),
-    "Each variable must be a 1d atomic vector"
-  )
-})
-
-test_that("columns must be named (#1101)", {
-  l <- list(1:10, 1:10)
-
-  expect_error(
-    check_data_frame(l),
-    "Each variable must be named"
-  )
-
-  expect_error(
-    check_data_frame(setNames(l, c("x", ""))),
-    "Each variable must be named"
-  )
-
-  expect_error(
-    check_data_frame(setNames(l, c("x", NA))),
-    "Each variable must be named"
-  )
-})
-
-test_that("names must be unique (#820)", {
-  expect_error(
-    check_data_frame(list(x = 1, x = 2)),
-    "Each variable must have a unique name"
-  )
 })
 
 test_that("data frame column names are automatically generated (#1606)", {
