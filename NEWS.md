@@ -1,102 +1,109 @@
 # dplyr 0.4.3.9000
 
-## New features
+## Breaking changes
 
-### Major changes
+### Existing functions
+
+* `arrange()` once again ignores grouping (#1206)
 
 * `distinct()` now only keeps the distinct variables. If you want to return
   all variables (using the first row for non-distinct values) use
   `.keep_all = TRUE` (#1110).
 
-* `arrange()` once again ignores grouping (#1206)
+### Deprecated and defunct functions
 
-### New functions
+* The long deprecated `chain()`, `chain_q()` and `%.%` have been removed.
+  Please use `%>%` instead.
 
-* new `near(x, y)` is a helper for `abs(x, y) < tol` (#1607).
-
-* `coalesce()` finds the first non-missing value from a set of vectors.
-  (#1666, thanks to @krlmlr for initial implementation).
-
-* New `union_all()` method. Maps to `UNION ALL` for SQL sources, `bind_rows()`
-  for data frames/tbl\_dfs, and `combine()` for vectors (#1045).
-
-* `case_when()` is a general vectorised if + else if (#631).
-
-* `recode()` provides a vectorised equivalent to `switch()` (#1710).
-
-* `if_else()` is a vectorisd if statement: it's a stricter (type-safe), faster,
-  and more predictable version of `ifelse()`. In SQL it is translated to a
-  `CASE` statement.
-
-* `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
-  In SQL it is translated to `NULL_IF`.
-
-### Minor changes
-
-* `bind_rows` and `bind_cols` infer classes and extra information (e.g. about
-   the groupings) from the first data frame (#1692).
-
-* `filter()` throws an error if you supply an named arguments. This is usually
-  a type: `filter(df, x = 1)` instead of `filter(df, x == 1)` (#1529).
-
-* The naming behaviour of `summarise_each()` and `mutate_each()` has been
-  tweaked so that you can force inclusion of both the function and the
-  variable name: `summarise_each(mtcars, funs(mean = mean), everything())`
-  (#442).
-
-* `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
-  `suffix` argument which allows you to control what suffix duplicated variable
-  names recieve (#1296).
-
-* `grouped_df()` methods for `rbind` and `cbind` (#1385).
-
-* `select()` now informs you that it's adding missing the grouping variables
-  (#1511).
-
-* The `select()` helpers are now exported and have their own documentation
-  (#1410).
-
-* `one_of()` gives a useful error message if variables names are not found
-  in data frame (#1407).
-
-* `nth()` now supports negative indices to select from end, e.g. `nth(x, -2)`
-  selects the 2nd value from the end of `x` (#1584).
-
-* new parameters `indexes` and `unique_indexes` to `compute()` (#1499, @krlmlr).
-
-* `top_n()` can now also select bottom `n` values by passing a negative value
-  to `n` (#1008, #1352).
-
-* `bind_rows()` is more flexible in the way it can accept data frames,
-  lists, list of data frames, and list of lists (#1389).
-
-## Deprecated and defunct functions
-
-* `chain()`, `chain_q()` and `%.%` have been removed
+* `id()` has been deprecated. Please use `group_indicies()` instead.
+  (#808)
 
 * `rbind_all()` and `rbind_list()` are formally deprecated. Please use
   `bind_rows()` instead (#803).
 
-* `id()` has been deprecated (#808).
-
 * Outdated benchmarking demos have been removed (#1487).
 
-* Cluster code moved out to [multidplyr](http://github.com/hadley/multidplyr).
+* Code related to starting and signalling clusters has been moved out to 
+  [multidplyr](http://github.com/hadley/multidplyr).
 
-## dtplyr
+## New functions
 
-* All data table related code has been separated out in to a new dtplyr package.
-  You'll get a message reminding you to load it if both data.table and dplyr are
-  loaded.
+* `coalesce()` finds the first non-missing value from a set of vectors.
+  (#1666, thanks to @krlmlr for initial implementation).
 
+* `case_when()` is a general vectorised if + else if (#631).
 
-* `do.data.table()` and `do.tbl_dt()` now work (#1081).
+* `if_else()` is a vectorised if statement: it's a stricter (type-safe), 
+  faster, and more predictable version of `ifelse()`. In SQL it is 
+  translated to a `CASE` statement.
 
-## tbl_cube
+* `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
+  In SQL it is translated to `NULL_IF`.
+
+* `near(x, y)` is a helper for `abs(x, y) < tol` (#1607).
+
+* `recode()` is vectorised equivalent to `switch()` (#1710).
+
+* `union_all()` method. Maps to `UNION ALL` for SQL sources, `bind_rows()`
+  for data frames/tbl\_dfs, and `combine()` for vectors (#1045).
+
+## Local backends
+
+### dtplyr
+
+All data table related code has been separated out in to a new dtplyr package. This decouples the development of the data.table interface from the development of the dplyr package. If both data.table and dplyr are loaded, you'll get a message reminding you to load dtplyr.
+
+### Tibble
+
+Functions to related to the creation and coercion of `tbl_df`s, now live in their own package: [tibble](http://blog.rstudio.org/2016/03/24/tibble-1-0-0/). See `vignette("tibble")` for more details.
+
+* `$` and `[[` methods that never do partial matching (#1504), and throw 
+  an error if the variable does not exist.
+
+* `all_equal()` allows to compare data frames ignoring row and column order,
+  and optionally ignoring minor differences in type (e.g. int vs. double)
+  (#821). The test handles the case where the df has 0 columns (#1506).
+  The test fails fails when convert is `FALSE` and types don't match (#1484).
+
+* `add_row()` makes it easy to add a new row to data frame (#1021)
+
+* `as_data_frame()` is now an S3 generic with methods for lists (the old
+  `as_data_frame()`), data frames (trivial), and matrices (with efficient
+  C++ implementation) (#876)
+
+* The internals of `data_frame()` and `as_data_frame()` have been aligned,
+  so `as_data_frame()` will now automatically recycle length-1 vectors.
+  Both functions give more informative error messages if you attempting to
+  create an invalid data frame. You can no longer create a data frame with
+  duplicated names (#820). Both check for `POSIXlt` columns, and tell you to 
+  use `POSIXct` instead (#813).
+
+* `frame_data()` properly constructs rectangular tables (#1377, @kevinushey),
+  and supports list-cols.
+
+* `glimpse()` is now a generic. The default method dispatches to `str()`
+  (#1325).  It now (invisibly) returns its first argument (#1570).
+
+*  `lst()` and `lst_()` which create lists in the same way that
+  `data_frame()` and `data_frame_()` create data frames (#1290).
+
+* `print.tbl_df()` is considerably faster if you have very wide data frames.
+  It will now also only list the first 100 additional variables not already
+  on screen - control this with the new `n_extra` parameter to `print()`
+  (#1161). When printing a grouped data frame the number of groups is now
+  printed with thousands separators (#1398). The type of list columns 
+  is correctly printed (#1379)
+
+* Package includes `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help 
+  with S4 dispatch (#969).
+
+* `tbl_df` automatically generates column names (#1606).
+
+### tbl_cube
 
 * new `as_data_frame.tbl_cube()` (#1563, @krlmlr).
 
-* `tbl_cube` are now constructed correctly from data frames, duplicate
+* `tbl_cube`s are now constructed correctly from data frames, duplicate
   dimension values are detected, missing dimension values are filled
   with `NA`. The construction from data frames now guesses the measure
   variables by default, and allows specification of dimension and/or
@@ -104,106 +111,54 @@
 
 * Swap order of `dim_names` and `met_name` arguments in `as.tbl_cube`
   (for `array`, `table` and `matrix`) for consistency with `tbl_cube` and
-  `as.tbl_cube.data.frame`. Also, the `met_name` argument to `as.tbl_cube.table`
-  now defaults to `"Freq"` for consistency with `as.data.frame.table`.
-  (@krlmlr, #1374).
+  `as.tbl_cube.data.frame`. Also, the `met_name` argument to 
+  `as.tbl_cube.table` now defaults to `"Freq"` for consistency with
+  `as.data.frame.table` (@krlmlr, #1374).
 
-* Dplyr uses `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help with S4
-  (#969).
+## Remote backends
 
-## Tibble
+* `compute()` gets new parameters `indexes` and `unique_indexes` that make
+  it easier to add indexes (#1499, @krlmlr).
 
-* `tbl_df` automatically generates column names (#1606).
-
-*  `glimpse` now (invisibly) returns its argument (#1570).
-
-* `all_equal()` allows to compare data frames ignoring row and column order,
-  and optionally ignoring minor differences in type (e.g. int vs. double)
-  (#821).
-
-* equality test for `data.frame` handles the case where the df has 0 columns (#1506).
-
-
-* `frame_data()` supports list-cols.
-
-* `glimpse()` is now a generic. The default method dispatches to `str()`
-  (#1325).
-
-* When printing a grouped data frame the number of groups is now printed 
-  with thousands separators. (#1398)
-
-* `ungroup()` generic gains `...` (#922).
-
-* Weighted `tally()` now ignores NAs (#1145).
-
-* `tbl_df`s gain `$` and `[[` methods that are ~5x faster than the defaults,
-  never do partial matching (#1504), and throw an error if the variable
-  does not exist.
-
-* `as_data_frame()` is now an S3 generic with methods for lists (the old
-  `as_data_frame()`), data frames (trivial), and matrices (with efficient
-  C++ implementation) (#876)
-
-* New `add_row()` makes it easy to add a new row to data frame (#1021)
-
-* New `lst()` and `lst_()` which create lists in the same way that
-  `data_frame()` and `data_frame_()` create data frames (#1290).
-
-* The internals of `data_frame()` and `as_data_frame()` have been aligned,
-  so `as_data_frame()` will now automatically recycle length-1 vectors.
-  Both functions give more informative error messages if you attempting to
-  create an invalid data frame. You can no longer create a data frame with
-  duplicated names (#820).
-
-* `vignette("data_frames")` describes the difference between tbl_dfs and
-  regular data frames (#1468).
-
-* `print.tbl_df()` is considerably faster if you have very wide data frames.
-  It will now also only list the first 100 additional variables not already
-  on screen - control this with the new `n_extra` parameter to `print()`
-  (#1161).
-
-* `data_frame()` and `as_data_frame()` now check that you don't have any
-  `POSIXlt` columns, and tell you to use `POSIXct` if you do (#813).
-
-
-## Databases
+* `db_explain()` gains a default method for DBIConnections (#1177).
 
 * The backend testing system has been improved. This lead to the removal of
   `temp_srcs()`. In the unlikely event that you were using this function,
   you can instead use `test_register_src()` and `test_load()`.
 
+* You can now use `right_join()` and `full_join()` with remote tables (#1172).
+
 ### SQLite
 
-* New `src_memdb()` which is a session-local in-memory SQLite db.
-  `memdb_frame()` makes it easy to create a new table in that database.
+* `src_memdb()` is a session-local in-memory SQLite database. 
+  `memdb_frame()` works like `data_frame()`, but creates a new table in 
+  that database.
 
-* `src_sqlite()` now uses a stricter quoting character, the `` ` ``, instead of
+* `src_sqlite()` now uses a stricter quoting character, `` ` ``, instead of
   `"`. SQLite "helpfully" will convert `"x"` into a string if there is
-  no identifier x present in the current scope (#1426).
+  no identifier called x in the current scope (#1426).
 
 * `src_sqlite()` throws errors if you try and use it with window functions
   (#907).
 
-
 ### SQL translation
-
-* `pmin()` and `pmax()` are translated to SQL `MIN()` and `MAX()` (#1711).
-
-* `db_explain()` gains a default method for DBIConnections (#1177).
-
-* Unary `-` minus is better translated in to SQL (fixes #1002).
-
-* Add tbl\_sql methods for `right_join()` and `full_join()` (#1172).
-
-* `escape.POSIXt()` method makes it easier to use date times with databases.
-  The date is rendered in ISO 8601 format in UTC, which should work in most
-  databases (#857).
 
 * `filter.tbl_sql()` now puts parens around each argument (#934).
 
+* Unary `-` is better translated (#1002).
 
-* Database window functions:
+* `escape.POSIXt()` method makes it easier to use date times. The date is
+  rendered in ISO 8601 format in UTC, which should work in most databases 
+  (#857).
+
+* `is.na()` gets a missing space (#1695). 
+
+* `if`, `is.na()`, and `is.null()` get extra parens to make precendence
+  more clear (#1695).
+
+* `pmin()` and `pmax()` are translated to `MIN()` and `MAX()` (#1711).
+
+* Window functions:
 
     * Work on ungrouped data (#1061).
 
@@ -212,10 +167,6 @@
     * Multiple partitions or ordering variables in windowed functions no
       longer generate extra parentheses, so should work for more databases
       (#1060)
-
-* The were some minor improvements to SQL translation. `is.na()` gets a missing
-  space. `if`, `is.na()`, and `is.null()` get extra parens to make precendence
-  more clear (#1695).
 
 ### Internals
 
@@ -259,107 +210,103 @@ There were two other tweaks to the exported API, but these are less likely to af
 * Also note that the sql generation generics now have a default method, instead 
   methods for DBIConnection and NULL.
 
-## Bug fixes
+## Minor improvements and bug fixes
 
-* `summarise()` correctly coerces factors with different levels (#1678)
-
-* Joins now use correct class when joining on POSIXct colums (#1582, @joel23888).
-
-* `select()` works even if the grouping variable has a non-syntactic name
-  (#1138).
-
-* In `select()`, negating a failed match (e.g. `select(mtcars, -contains("x"))`)
-  returns all columns, instead of no columns (#1176)
-
-* `bind_rows` handles 0 length named list (#1515).
-
-* hybrid `n_distinct` falls back to R evaluation when needed (#1657), this
-  revert the decision made in (#567)
-
-* join funtions take care of duplicates in argument `by` (#1192).
-
-* protect join functions from empty `by` spec (#1496).
-
-
-* `count()` now adds additional grouping variables, rather than overriding
-  existing (#1703).
-
-* `tally()` and `count()` can now count a variable called `n` (#1633).
-
-
-* `mutate` failed to deep copy data that ends up in a list column (#1643).  
-
-* `mutate` handles adding a factor that is all `NA` (#1645).
-
-* `bind_rows` handles promotion to strings (#1538).
-
-* `summarise` handles min/max of already summarised variable (#1622).
-
-* `lead` and `lag` more careful about more complicate expressions (#1588).
-
-* grouped `mutate` correctly fails on incompatible columns (#1641).
-
-* `combine` handles `NULL` (#1596).
-
-* `bind_rows` handles 0 length named list (#1515).
-
-* `group_by` supports `column` (#1012).
-
-* `mutate` on a grouped data does not drop grouping attributes (#1120).
-
-* `bind_cols` matches the behaviour of `bind_rows` and accepts `NULL` (#1148).
-
-* `summarise` supports data frames as columns (#1425).
-
-* New pronoun `column` giving a compromise between SE and NSE. (#1012)
-
-* `lead` and `lag` falls back on R evaluation when the value for default is
-  and expression (#1411).
-
-* `lead` and `lag` behave correctly on `summarise` (#1434).
-
-* hybrid evaluation leaves formulas untouched (#1447).
-
-* equality test fails when convert is FALSE and types don't match (#1484).
-
-* `bind_rows` warns on binding factor and character (#1485).
+### Single table verbs
 
 * `arrange()` fails gracefully on list columns (#1489).
 
-* `min` and `max` handle empty sets (#1481).
+* `count()` now adds additional grouping variables, rather than overriding
+  existing (#1703). `tally()` and `count()` can now count a variable 
+  called `n` (#1633). Weighted `count()`/`tally()` ignore `NA`s (#1145).
 
-* grouped and rowwise `mutate` disambiguate `NA` and `NaN` (#1448).
+* `distinct()` doesn't crash when given a 0-column data frame (#1437).
 
-* grouped `mutate` promotes up results that consists of all NA in one group (#1463).
+* `filter()` throws an error if you supply an named arguments. This is usually
+  a type: `filter(df, x = 1)` instead of `filter(df, x == 1)` (#1529).
 
-* joins avoid repetitions of column names (#1460).
+* `summarise()` correctly coerces factors with different levels (#1678), 
+  handles min/max of already summarised variable (#1622), and 
+  supports data frames as columns (#1425).
 
-* `trunc_mat()` correctly prints the type of list columns (#1379)
+* `select()` now informs you that it adds missing grouping variables
+  (#1511). It works even if the grouping variable has a non-syntactic name
+  (#1138). Negating a failed match (e.g. `select(mtcars, -contains("x"))`)
+  returns all columns, instead of no columns (#1176)
+  
+    The `select()` helpers are now exported and have their own
+    documentation (#1410). `one_of()` gives a useful error message if 
+    variables names are not found in data frame (#1407). 
 
-* set operations respect coercion rules (#799).
+* The naming behaviour of `summarise_each()` and `mutate_each()` has been
+  tweaked so that you can force inclusion of both the function and the
+  variable name: `summarise_each(mtcars, funs(mean = mean), everything())`
+  (#442).
 
-* joins on `POSIXct` consider time zones (#819).
+* `mutate()` handles factors that are all `NA` (#1645), or have different
+  levels in different groups (#1414). It disambiguates `NA` and `NaN` (#1448),
+  and silently promotes groups that only contain `NA` (#1463). It deep copies
+  data in list columns (#1643), and correctly fails on incompatible columns
+  (#1641). `mutate()` on a grouped data no longer droups grouping attributes
+  (#1120). `rowwise()` mutate gives expected results (#1381).
 
-* `n_distinct` uses multiple arguments (#1084).
+* `slice()` correctly handles grouped attributes (#1405).
 
-* `slice` correctly handles grouped attributes (#1405).
+* `ungroup()` generic gains `...` (#922).
 
-* `lead` and `lag` correctly handle default values for string columns in
-  hybrid (#1403).
+### Dual table verbs
 
-* `bind_rows` handles `POSIXct` stored as integer (#1402).
+* `bind_cols()` matches the behaviour of `bind_rows()` and ignores `NULL`
+  inputs (#1148). It also handles `POSIXct`s with integer base type (#1402).
 
-* `cummean` is more stable against floating point errors (#1387).
+* `bind_rows()` handles 0-length named lists (#1515), promotes factors to 
+  characters (#1538), and warns when binding factor and character (#1485).
+  bind_rows()` is more flexible in the way it can accept data frames,
+  lists, list of data frames, and list of lists (#1389). 
 
-* `rowwise` mutate gives expected results (#1381).
+* Both `bind_cols()` and `bind_rows()` infer classes and grouping information 
+  from the first data frame (#1692).
+  
+* `rbind()` and `cbind()` get `grouped_df()` methods that make it harder to       to create corrupt data frames (#1385). You should still prefer `bind_rows()`
+  and `bind_cols()`.
 
-* Faster joining by character column (#1386).
+* Joins now use correct class when joining on `POSIXct` columns 
+  (#1582, @joel23888), and consider time zones (#819). Joins handle a `by` 
+  that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively
+  to avoid creating repeated column names (#1460).  Joins on string columns
+  should be substantially faster (#1386).
 
-* Fixed `distinct` for zero column data frames (#1437).
+* `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
+  `suffix` argument which allows you to control what suffix duplicated variable
+  names recieve (#1296).
 
-* grouped `mutate` handles factors correctly (#1414).
+* Set operations (`intersect()`, `union()` etc) respect coercion rules 
+  (#799).
 
-* `frame_data()` properly constructs rectangular tables. (#1377, @kevinushey)
+### Vector functions
+
+* `combine()` silently drops `NULL` inputs (#1596).
+
+* Hybrid `cummean()` is more stable against floating point errors (#1387).
+
+* Hybrid `lead()` and `lag()` received a considerable overhaul. They are more 
+  careful about more complicated expressions (#1588), and falls back more
+  readily to pure R evaluation (#1411). They behave correctly in `summarise()`
+  (#1434). and handle default values for string columns.
+
+* Hybrid `min()` and `max()` handle empty sets (#1481).
+
+* `n_distinct()` uses multiple arguments (#1084), falls back to R
+  evaluation when needed (#1657), reverting decision made in (#567).
+
+* `nth()` now supports negative indices to select from end, e.g. `nth(x, -2)`
+  selects the 2nd value from the end of `x` (#1584).
+
+* `top_n()` can now also select bottom `n` values by passing a negative value
+  to `n` (#1008, #1352).
+
+* Hybrid evaluation leaves formulas untouched (#1447).
+
 
 # dplyr 0.4.3
 
