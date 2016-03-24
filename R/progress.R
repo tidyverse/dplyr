@@ -47,6 +47,7 @@ Progress <- R6::R6Class("Progress",
     stopped = FALSE,
     stop_time = NULL,
     min_time = NULL,
+    last_update = NULL,
 
     initialize = function(n, min_time = 0, ...) {
       self$n <- n
@@ -57,7 +58,7 @@ Progress <- R6::R6Class("Progress",
     begin = function() {
       "Initialise timer. Call this before beginning timing."
       self$i <- 0
-      self$init_time <- now()
+      self$last_update <- self$init_time <- now()
       self$stopped <- FALSE
       self
     },
@@ -95,9 +96,12 @@ Progress <- R6::R6Class("Progress",
          !is.null(getOption("knitr.in.progress"))) { # dplyr used within knitr document
         return(invisible(self))
       }
-      if (now() - self$init_time < self$min_time) {
+
+      now_ <- now()
+      if (now_ - self$init_time < self$min_time || now_ - self$last_update < 0.05) {
         return(invisible(self))
       }
+      self$last_update <- now_
 
       if (self$stopped) {
         overall <- show_time(self$stop_time - self$init_time)
