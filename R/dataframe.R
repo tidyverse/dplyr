@@ -9,7 +9,7 @@
 #'
 #' @inheritParams tibble::as_data_frame
 #' @seealso \code{\link[tibble]{as_data_frame}}
-#' @name as_data_frame
+#' @name grouped_df
 #' @export
 as_data_frame.grouped_df <- function(x, ...) {
   x <- ungroup(x)
