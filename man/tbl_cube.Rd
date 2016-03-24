@@ -23,6 +23,10 @@ but not always, categorical variables.}
 actually measured, and is not known in advance. The dimension of each
 array should be the same as the length of the dimensions. Measures are
 typically, but not always, continuous values.}
+
+\item{x}{A list. Each element of the list must have the same length.}
+
+\item{...}{Other arguments passed on to individual methods.}
 }
 \description{
 A cube tbl stores data in a compact array format where dimension

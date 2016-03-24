@@ -159,6 +159,7 @@ as.data.frame.tbl_cube <- function(x, ...) {
 #' @details For a cube, the data frame returned by
 #'   \code{\link[tibble]{as_data_frame}} resulting data frame contains the
 #'   dimensions as character values (and not as factors).
+#' @inheritParams tibble::as_data_frame
 as_data_frame.tbl_cube <- function(x, ...) {
   as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }
