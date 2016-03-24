@@ -1,11 +1,6 @@
 # dplyr 0.4.3.9000
 
 ## Breaking changes
-* The progress bar in `do()` is now updated at most 20 times per second, avoiding uneccessary redraws (#1734, @mkuhn)
-
-* joins allows extra attributes if they are identical (#1636)
-
-* `summarise()` correctly coerces factors with different levels (#1678)
 
 ### Existing functions
 
@@ -225,6 +220,9 @@ There were two other tweaks to the exported API, but these are less likely to af
   existing (#1703). `tally()` and `count()` can now count a variable 
   called `n` (#1633). Weighted `count()`/`tally()` ignore `NA`s (#1145).
 
+* The progress bar in `do()` is now updated at most 20 times per second,
+  avoiding uneccessary redraws (#1734, @mkuhn)
+
 * `distinct()` doesn't crash when given a 0-column data frame (#1437).
 
 * `filter()` throws an error if you supply an named arguments. This is usually
@@ -279,7 +277,8 @@ There were two other tweaks to the exported API, but these are less likely to af
   (#1582, @joel23888), and consider time zones (#819). Joins handle a `by` 
   that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively
   to avoid creating repeated column names (#1460).  Joins on string columns
-  should be substantially faster (#1386).
+  should be substantially faster (#1386). Extra attributes are ok if they are
+  identical (#1636)
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable
