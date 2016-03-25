@@ -112,6 +112,17 @@ test_that("mutate generates simple expressions", {
   expect_equal(out$select, sql('"x"', '"x" + 1 AS "y"'))
 })
 
+# ungroup by --------------------------------------------------------------
+
+test_that("ungroup drops PARTITION BY", {
+  out <- lazy_frame(x = 1) %>%
+    group_by(x) %>%
+    ungroup() %>%
+    mutate(x = rank(x)) %>%
+    sql_build()
+  expect_equal(out$select, sql('rank() OVER (ORDER BY "x") AS "x"'))
+
+})
 
 # distinct ----------------------------------------------------------------
 

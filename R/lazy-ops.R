@@ -118,13 +118,13 @@ op_grps.op_group_by <- function(op) {
 }
 #' @export
 op_grps.op_ungroup <- function(op) {
-  character()
+  NULL
 }
 #' @export
 op_grps.op_summarise <- function(op) {
   grps <- op_grps(op$x)
   if (length(grps) == 1) {
-    character()
+    NULL
   } else {
     grps[-length(grps)]
   }
