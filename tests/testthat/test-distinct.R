@@ -27,6 +27,11 @@ test_that("distinct requires some variables", {
   expect_error(distinct(df), "No variables selected")
 })
 
+test_that("unless keep_all is TRUE", {
+  df <- data.frame(x = c(1, 1), y = c(1, 1))
+  expect_equal(distinct(df, .keep_all = TRUE), df)
+})
+
 test_that("by default distinct keeps only specified cols", {
   df <- data_frame(x = c(1, 1, 1))
 

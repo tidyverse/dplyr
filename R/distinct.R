@@ -60,8 +60,7 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
   } else {
     keep <- vars
   }
-
-  if (length(vars) == 0) {
+  if (length(keep) == 0) {
     stop("No variables selected", call. = FALSE)
   }
 
