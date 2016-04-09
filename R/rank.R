@@ -51,7 +51,7 @@ row_number <- function(x) rank(x, ties.method = "first", na.last = "keep")
 #' @export
 #' @rdname ranking
 ntile <- function(x, n) {
-  floor((n * (row_number(x) - 1) / length(x)) + 1)
+  floor((n * (row_number(sort(x)) - 1) / length(sort(x))) + 1)
 }
 
 #' @export
