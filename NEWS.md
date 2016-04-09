@@ -40,7 +40,7 @@
 * `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
   In SQL it is translated to `NULL_IF`.
 
-* `near(x, y)` is a helper for `abs(x, y) < tol` (#1607).
+* `near(x, y)` is a helper for `abs(x - y) < tol` (#1607).
 
 * `recode()` is vectorised equivalent to `switch()` (#1710).
 
