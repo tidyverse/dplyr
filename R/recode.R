@@ -61,7 +61,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 
   for (i in seq_along(values)) {
     out <- replace_with(out, .x == vals[i], values[[i]], paste0("Vector ", i))
-    replaced[.x == i] <- TRUE
+    replaced[.x == vals[i]] <- TRUE
   }
 
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")

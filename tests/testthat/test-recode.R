@@ -49,3 +49,8 @@ test_that("missing and default place nicely together", {
 test_that("can give name x", {
   expect_equal(recode("x", x = "a"), "a")
 })
+
+test_that(".default works when not all values are named", {
+  x <- rep(1:3, 3)
+  expect_equal(recode(x, `3` = 10L, .default = x), rep(c(1L, 2L, 10L), 3))
+})
