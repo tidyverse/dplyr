@@ -18,7 +18,7 @@ test_that("quoting for rendering mutated grouped table", {
 
 test_that("quoting for rendering ordered grouped table", {
   out <- memdb_frame(x = 1, y = 2) %>% group_by(x) %>% arrange(y)
-  expect_match(out %>% sql_render, "^SELECT [*]\nFROM `[^`]*`\nORDER BY `x`, `y`$")
+  expect_match(out %>% sql_render, "^SELECT [*]\nFROM `[^`]*`\nORDER BY `y`$")
   expect_equal(out %>% collect, data_frame(x = 1, y = 2))
 })
 

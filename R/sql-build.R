@@ -67,7 +67,7 @@ sql_build.op_arrange <- function(op, con, ...) {
   order_vars <- translate_sql_(op$dots, con, op_vars(op$x))
   group_vars <- c.sql(ident(op_grps(op$x)), con = con)
 
-  select_query(sql_build(op$x, con), order_by = c.sql(group_vars, order_vars, con = con))
+  select_query(sql_build(op$x, con), order_by = order_vars)
 }
 
 #' @export

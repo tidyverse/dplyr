@@ -69,13 +69,13 @@ test_that("arrange converts desc", {
   expect_equal(out$order_by, sql('"x" DESC'))
 })
 
-test_that("grouped arrange orders by groups", {
+test_that("grouped arrange doesn't order by groups", {
   out <- lazy_frame(x = 1, y = 1) %>%
     group_by(x) %>%
     arrange(y) %>%
     sql_build()
 
-  expect_equal(out$order_by, sql('"x"', '"y"'))
+  expect_equal(out$order_by, sql('"y"'))
 })
 
 
