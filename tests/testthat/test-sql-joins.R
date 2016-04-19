@@ -17,6 +17,11 @@ test_that("named by join by different x and y vars", {
   expect_equal(nrow(j2), 1)
 })
 
+test_that("inner join doesn't result in duplicated columns ", {
+  skip_if_no_sqlite()
+  expect_equal(colnames(dplyr::inner_join(df1, df1)), c('x', 'y'))
+})
+
 test_that("self-joins allowed with named by", {
   skip_if_no_sqlite()
   fam <- memdb_frame(id = 1:5, parent = c(NA, 1, 2, 2, 4))
