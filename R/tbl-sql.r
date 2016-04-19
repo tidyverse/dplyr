@@ -375,7 +375,8 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   vars <- op_vars(x)
   assert_that(all(unlist(indexes) %in% vars))
   assert_that(all(unlist(unique_indexes) %in% vars))
-  db_save_query(x$src$con, sql_render(x), name = name, temporary = temporary)
+  x_aliased <- select_(x, .dots = vars) # avoids problems with SQLite quoting (#1754)
+  db_save_query(x$src$con, sql_render(x_aliased), name = name, temporary = temporary)
   db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
   db_create_indexes(x$src$con, name, indexes, unique = FALSE)
 

@@ -72,6 +72,16 @@ test_that("sequence of operations work", {
   expect_equal(out, data_frame(y = 1, z = 2))
 })
 
+test_that("compute creates correct column names", {
+  out <- memdb_frame(x = 1) %>%
+    group_by(x) %>%
+    summarize(n = n()) %>%
+    compute() %>%
+    collect()
+
+  expect_equal(out, data_frame(x = 1, n = 1L))
+})
+
 # Joins make valid sql ----------------------------------------------------
 
 test_that("join generates correct sql", {
