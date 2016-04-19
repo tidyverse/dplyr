@@ -75,7 +75,7 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 
 * `as_data_frame()` is now an S3 generic with methods for lists (the old
   `as_data_frame()`), data frames (trivial), and matrices (with efficient
-  C++ implementation) (#876)
+  C++ implementation) (#876). It no longer strips subclasses.
 
 * The internals of `data_frame()` and `as_data_frame()` have been aligned,
   so `as_data_frame()` will now automatically recycle length-1 vectors.
