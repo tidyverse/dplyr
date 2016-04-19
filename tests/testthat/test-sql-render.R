@@ -2,9 +2,30 @@ context("SQL: render")
 # These test the full SQL rendering pipeline by running very simple examples
 # against a live SQLite database.
 
+# Single table ------------------------------------------------------------
+
 test_that("rendering table wraps in SELECT *", {
-  out <- memdb_frame(x = 1) %>% collect()
-  expect_equal(out, data_frame(x = 1))
+  out <- memdb_frame(x = 1)
+  expect_match(out %>% sql_render, "^SELECT [*]\nFROM `[^`]*`$")
+  expect_equal(out %>% collect, data_frame(x = 1))
+})
+
+test_that("quoting for rendering mutated grouped table", {
+  out <- memdb_frame(x = 1, y = 2) %>% mutate(y = x)
+  expect_match(out %>% sql_render, "^SELECT `x`, `x` AS `y`\nFROM `[^`]*`$")
+  expect_equal(out %>% collect, data_frame(x = 1, y = 1))
+})
+
+test_that("quoting for rendering ordered grouped table", {
+  out <- memdb_frame(x = 1, y = 2) %>% group_by(x) %>% arrange(y)
+  expect_match(out %>% sql_render, "^SELECT [*]\nFROM `[^`]*`\nORDER BY `x`, `y`$")
+  expect_equal(out %>% collect, data_frame(x = 1, y = 2))
+})
+
+test_that("quoting for rendering summarized grouped table", {
+  out <- memdb_frame(x = 1) %>% group_by(x) %>% summarize(n = n())
+  expect_match(out %>% sql_render, "^SELECT `x`, COUNT[(][)] AS `n`\nFROM `[^`]*`\nGROUP BY `x`$")
+  expect_equal(out %>% collect, data_frame(x = 1, n = 1L))
 })
 
 # Single table verbs ------------------------------------------------------
@@ -49,6 +70,16 @@ test_that("sequence of operations work", {
     collect()
 
   expect_equal(out, data_frame(y = 1, z = 2))
+})
+
+test_that("compute creates correct column names", {
+  out <- memdb_frame(x = 1) %>%
+    group_by(x) %>%
+    summarize(n = n()) %>%
+    compute() %>%
+    collect()
+
+  expect_equal(out, data_frame(x = 1, n = 1L))
 })
 
 # Joins make valid sql ----------------------------------------------------

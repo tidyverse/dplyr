@@ -55,11 +55,11 @@ ident <- function(...) {
 }
 
 #' @export
-c.sql <- function(..., drop_null = FALSE) {
+c.sql <- function(..., drop_null = FALSE, con = NULL) {
   input <- list(...)
   if (drop_null) input <- compact(input)
 
-  out <- unlist(lapply(input, escape, collapse = NULL))
+  out <- unlist(lapply(input, escape, collapse = NULL, con = con))
   sql(out)
 }
 

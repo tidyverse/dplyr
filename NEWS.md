@@ -15,7 +15,7 @@
 * The long deprecated `chain()`, `chain_q()` and `%.%` have been removed.
   Please use `%>%` instead.
 
-* `id()` has been deprecated. Please use `group_indicies()` instead.
+* `id()` has been deprecated. Please use `group_indices()` instead.
   (#808)
 
 * `rbind_all()` and `rbind_list()` are formally deprecated. Please use
@@ -40,7 +40,7 @@
 * `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
   In SQL it is translated to `NULL_IF`.
 
-* `near(x, y)` is a helper for `abs(x, y) < tol` (#1607).
+* `near(x, y)` is a helper for `abs(x - y) < tol` (#1607).
 
 * `recode()` is vectorised equivalent to `switch()` (#1710).
 
@@ -270,7 +270,8 @@ There were two other tweaks to the exported API, but these are less likely to af
 * Both `bind_cols()` and `bind_rows()` infer classes and grouping information 
   from the first data frame (#1692).
   
-* `rbind()` and `cbind()` get `grouped_df()` methods that make it harder to       to create corrupt data frames (#1385). You should still prefer `bind_rows()`
+* `rbind()` and `cbind()` get `grouped_df()` methods that make it harder to       
+  create corrupt data frames (#1385). You should still prefer `bind_rows()`
   and `bind_cols()`.
 
 * Joins now use correct class when joining on `POSIXct` columns 
