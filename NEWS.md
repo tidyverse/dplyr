@@ -10,6 +10,12 @@
   all variables (using the first row for non-distinct values) use
   `.keep_all = TRUE` (#1110).
 
+* The select helper functions `starts_with()`, `ends_with()` etc are now
+  real exported functions. This means that you'll need to import those
+  functions if you're using from a package where dplyr is not attached.
+  i.e. `dplyr::select(mtcars, starts_with("m"))` used to work, but 
+  now you'll need `dplyr::select(mtcars, dplyr::starts_with("m"))`.
+
 ### Deprecated and defunct functions
 
 * The long deprecated `chain()`, `chain_q()` and `%.%` have been removed.
