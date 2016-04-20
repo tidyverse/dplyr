@@ -6,7 +6,7 @@
 #' @param .data a tbl
 #' @param ... Optional variables to use when determining uniqueness. If there
 #'   are multiple rows for a given combination of inputs, only the first
-#'   row will be preserved.
+#'   row will be preserved. If omitted, will use all variables.
 #' @param .keep_all If \code{TRUE}, keep all variables in \code{.data}.
 #'   If a combination of \code{...} is not distinct, this keeps the
 #'   first row of values.
@@ -18,6 +18,7 @@
 #'   y = sample(10, 100, rep = TRUE)
 #' )
 #' nrow(df)
+#' nrow(distinct(df))
 #' nrow(distinct(df, x, y))
 #'
 #' distinct(df, x)
@@ -45,6 +46,11 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
 distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
+  # If no input, keep all variables
+  if (length(dots) == 0) {
+    return(list(data = .data, vars = names(.data), keep = names(.data)))
+  }
+
   # If any calls, use mutate to add new columns, then distinct on those
   needs_mutate <- vapply(dots, function(x) !is.name(x$expr), logical(1))
   if (any(needs_mutate)) {
@@ -59,9 +65,6 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
     keep <- names(.data)
   } else {
     keep <- vars
-  }
-  if (length(keep) == 0) {
-    stop("No variables selected", call. = FALSE)
   }
 
   list(data = .data, vars = vars, keep = keep)

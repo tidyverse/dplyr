@@ -8,7 +8,9 @@
 
 * `distinct()` now only keeps the distinct variables. If you want to return
   all variables (using the first row for non-distinct values) use
-  `.keep_all = TRUE` (#1110).
+  `.keep_all = TRUE` (#1110). (The default behaviour of using all variables
+  when none are specified remains - this note only applies if you select
+  some variables).
 
 * The select helper functions `starts_with()`, `ends_with()` etc are now
   real exported functions. This means that you'll need to import those

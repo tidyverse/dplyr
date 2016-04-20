@@ -14,7 +14,7 @@ distinct_(.data, ..., .dots, .keep_all = FALSE)
 
 \item{...}{Optional variables to use when determining uniqueness. If there
 are multiple rows for a given combination of inputs, only the first
-row will be preserved.}
+row will be preserved. If omitted, will use all variables.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the
@@ -33,6 +33,7 @@ df <- data.frame(
   y = sample(10, 100, rep = TRUE)
 )
 nrow(df)
+nrow(distinct(df))
 nrow(distinct(df, x, y))
 
 distinct(df, x)
