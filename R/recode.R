@@ -11,9 +11,13 @@
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
-#' @param .default If supplied, all values not otherwise matched will be
-#'   given this value instead of \code{NA}. Must be either length 1 or the same
-#'   length as \code{x}.
+#' @param .default If supplied, all values not otherwise matched will
+#'   be given this value. If not supplied and if the replacements are
+#'   the same type as the original values in \code{.x}, unmatched
+#'   values are not changed. If not supplied and if the replacements
+#'   are not compatible, unmatched values are replaced with \code{NA}.
+#'   \code{.default} must be either length 1 or the same length as
+#'   \code{.x}.
 #' @param .missing If supplied, any missing values in \code{.x} will be
 #'   replaced by this value. Must be either length 1 or the same length as
 #'   \code{.x}.
@@ -24,10 +28,14 @@
 #' # Recode values with named arguments
 #' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 #' recode(x, a = "Apple")
-#' recode(x, a = "Apple", .default = x)
+#' recode(x, a = "Apple", .default = NA_character_)
 #'
 #' # Named arguments also work with numeric values
 #' x <- c(1:5, NA)
+#' recode(x, `2` = 20L, `4` = 40L)
+#'
+#' # Note that if the replacements are not compatible with .x,
+#' # unmatched values are replaced by NA
 #' recode(x, `2` = "b", `4` = "d")
 #'
 #' # If you don't name the arguments, recode() matches by position
@@ -66,6 +74,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == vals[i]] <- TRUE
   }
 
+  .default <- recode_default(.default, .x, out)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -88,6 +97,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == nm] <- TRUE
   }
 
+  .default <- recode_default(.default, .x, out)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -129,4 +139,14 @@ find_template <- function(...) {
   }
 
   x[[1]]
+}
+
+recode_default <- function(default, x, out) {
+  same_type <- identical(typeof(x), typeof(out))
+
+  if (is.null(default) && same_type) {
+    x
+  } else {
+    default
+  }
 }

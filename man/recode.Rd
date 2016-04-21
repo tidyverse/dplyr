@@ -15,9 +15,13 @@ recode(.x, ..., .default = NULL, .missing = NULL)
   All replacements must be the same type, and must have either
   length one or the same length as x.}
 
-\item{.default}{If supplied, all values not otherwise matched will be
-given this value instead of \code{NA}. Must be either length 1 or the same
-length as \code{x}.}
+\item{.default}{If supplied, all values not otherwise matched will
+be given this value. If not supplied and if the replacements are
+the same type as the original values in \code{.x}, unmatched
+values are not changed. If not supplied and if the replacements
+are not compatible, unmatched values are replaced with \code{NA}.
+\code{.default} must be either length 1 or the same length as
+\code{.x}.}
 
 \item{.missing}{If supplied, any missing values in \code{.x} will be
 replaced by this value. Must be either length 1 or the same length as
