@@ -70,3 +70,10 @@ test_that(".default is not aliased to .x when missing and not compatible", {
   n <- 1:3
   expect_equal(recode(n, `1` = "a"), c("a", NA, NA))
 })
+
+test_that("recode_factor() handles .missing and .default levels", {
+  x <- c(1:3, NA)
+  expect_equal(recode_factor(x, `1` = "z", `2` = "y"), factor(c("z", "y", NA, NA), levels = c("z", "y")))
+  expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D"), factor(c("z", "y", "D", NA), levels = c("z", "y", "D")))
+  expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"), factor(c("z", "y", "D", "M"), c("z", "y", "D", "M")))
+})

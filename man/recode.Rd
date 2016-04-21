@@ -2,9 +2,12 @@
 % Please edit documentation in R/recode.R
 \name{recode}
 \alias{recode}
+\alias{recode_factor}
 \title{Recode values}
 \usage{
 recode(.x, ..., .default = NULL, .missing = NULL)
+
+recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 }
 \arguments{
 \item{.x}{A vector to modify}
@@ -26,10 +29,15 @@ are not compatible, unmatched values are replaced with \code{NA}.
 \item{.missing}{If supplied, any missing values in \code{.x} will be
 replaced by this value. Must be either length 1 or the same length as
 \code{.x}.}
+
+\item{.ordered}{If \code{TRUE}, \code{recode_factor()} creates an
+ordered factor.}
 }
 \value{
 A vector the same length as \code{.x}, and the same type as
   the first of \code{...}, \code{.default}, or \code{.missing}.
+  \code{recode_factor()} returns a factor whose levels are in the
+  same order as in \code{...}.
 }
 \description{
 This is a vectorised version of \code{\link{switch}()}: you can replace
@@ -59,5 +67,13 @@ recode(x, "a", "b", "c", .default = "other", .missing = "missing")
 # Supply default with levels() for factors
 x <- factor(c("a", "b", "c"))
 recode(x, a = "Apple", .default = levels(x))
+
+# Use recode_factor() to create factors with levels ordered as they
+# appear in the recode call. The levels in .default and .missing
+# come last.
+x <- c(1:4, NA)
+recode_factor(x, `1` = "z", `2` = "y", `3` = "x")
+recode_factor(x, `1` = "z", `2` = "y", .default = "D")
+recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
 }
 
