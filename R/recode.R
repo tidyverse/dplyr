@@ -7,31 +7,33 @@
 #'
 #' @param .x A vector to modify
 #' @param ... Replacments. These should be named for character and factor
-#'   \code{x}, and can be named for numeric \code{x}.
+#'   \code{.x}, and can be named for numeric \code{.x}.
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
 #' @param .default If supplied, all values not otherwise matched will be
 #'   given this value instead of \code{NA}. Must be either length 1 or the same
 #'   length as \code{x}.
-#' @param .missing If supplied, any missing values in \code{x} will be
+#' @param .missing If supplied, any missing values in \code{.x} will be
 #'   replaced by this value. Must be either length 1 or the same length as
-#'   \code{x}.
-#' @return A vector the same length as \code{x}, and the same type as the
+#'   \code{.x}.
+#' @return A vector the same length as \code{.x}, and the same type as the
 #'   first of \code{...}, \code{.default}, or \code{.missing}.
 #' @export
 #' @examples
-#' x <- c(1:5, NA)
-#' recode(x, "a", "b", "c")
-#' recode(x, "a", "b", "c", .default = "other")
-#' recode(x, "a", "b", "c", .default = "other", .missing = "missing")
-#' # Supply explicit values with named
-#' recode(x, `2` = "b", `4` = "d")
-#'
-#' # Use named arguments with a character vector
+#' # Recode values with named arguments
 #' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 #' recode(x, a = "Apple")
 #' recode(x, a = "Apple", .default = x)
+#'
+#' # Named arguments also work with numeric values
+#' x <- c(1:5, NA)
+#' recode(x, `2` = "b", `4` = "d")
+#'
+#' # If you don't name the arguments, recode() matches by position
+#' recode(x, "a", "b", "c")
+#' recode(x, "a", "b", "c", .default = "other")
+#' recode(x, "a", "b", "c", .default = "other", .missing = "missing")
 #'
 #' # Supply default with levels() for factors
 #' x <- factor(c("a", "b", "c"))
