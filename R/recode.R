@@ -7,35 +7,57 @@
 #'
 #' @param .x A vector to modify
 #' @param ... Replacments. These should be named for character and factor
-#'   \code{x}, and can be named for numeric \code{x}.
+#'   \code{.x}, and can be named for numeric \code{.x}.
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
-#' @param .default If supplied, all values not otherwise matched will be
-#'   given this value instead of \code{NA}. Must be either length 1 or the same
-#'   length as \code{x}.
-#' @param .missing If supplied, any missing values in \code{x} will be
+#' @param .default If supplied, all values not otherwise matched will
+#'   be given this value. If not supplied and if the replacements are
+#'   the same type as the original values in \code{.x}, unmatched
+#'   values are not changed. If not supplied and if the replacements
+#'   are not compatible, unmatched values are replaced with \code{NA}.
+#'   \code{.default} must be either length 1 or the same length as
+#'   \code{.x}.
+#' @param .missing If supplied, any missing values in \code{.x} will be
 #'   replaced by this value. Must be either length 1 or the same length as
-#'   \code{x}.
-#' @return A vector the same length as \code{x}, and the same type as the
-#'   first of \code{...}, \code{.default}, or \code{.missing}.
+#'   \code{.x}.
+#' @param .ordered If \code{TRUE}, \code{recode_factor()} creates an
+#'   ordered factor.
+#' @return A vector the same length as \code{.x}, and the same type as
+#'   the first of \code{...}, \code{.default}, or \code{.missing}.
+#'   \code{recode_factor()} returns a factor whose levels are in the
+#'   same order as in \code{...}.
 #' @export
 #' @examples
+#' # Recode values with named arguments
+#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
+#' recode(x, a = "Apple")
+#' recode(x, a = "Apple", .default = NA_character_)
+#'
+#' # Named arguments also work with numeric values
 #' x <- c(1:5, NA)
+#' recode(x, `2` = 20L, `4` = 40L)
+#'
+#' # Note that if the replacements are not compatible with .x,
+#' # unmatched values are replaced by NA
+#' recode(x, `2` = "b", `4` = "d")
+#'
+#' # If you don't name the arguments, recode() matches by position
 #' recode(x, "a", "b", "c")
 #' recode(x, "a", "b", "c", .default = "other")
 #' recode(x, "a", "b", "c", .default = "other", .missing = "missing")
-#' # Supply explicit values with named
-#' recode(x, `2` = "b", `4` = "d")
-#'
-#' # Use named arguments with a character vector
-#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
-#' recode(x, a = "Apple")
-#' recode(x, a = "Apple", .default = x)
 #'
 #' # Supply default with levels() for factors
 #' x <- factor(c("a", "b", "c"))
 #' recode(x, a = "Apple", .default = levels(x))
+#'
+#' # Use recode_factor() to create factors with levels ordered as they
+#' # appear in the recode call. The levels in .default and .missing
+#' # come last.
+#' x <- c(1:4, NA)
+#' recode_factor(x, `1` = "z", `2` = "y", `3` = "x")
+#' recode_factor(x, `1` = "z", `2` = "y", .default = "D")
+#' recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
 recode <- function(.x, ..., .default = NULL, .missing = NULL) {
   UseMethod("recode")
 }
@@ -64,6 +86,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == vals[i]] <- TRUE
   }
 
+  .default <- recode_default(.default, .x, out)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -86,6 +109,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == nm] <- TRUE
   }
 
+  .default <- recode_default(.default, .x, out)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -127,4 +151,36 @@ find_template <- function(...) {
   }
 
   x[[1]]
+}
+
+recode_default <- function(default, x, out) {
+  same_type <- identical(typeof(x), typeof(out))
+
+  if (is.null(default) && same_type) {
+    x
+  } else {
+    default
+  }
+}
+
+#' @rdname recode
+#' @export
+recode_factor <- function (.x, ..., .default = NULL, .missing = NULL,
+                           .ordered = FALSE) {
+  recoded <- recode(.x, ..., .default = .default, .missing = .missing)
+
+  levels <- c(...,
+    recode_factor_default(.default),
+    recode_factor_default(.missing)
+  )
+
+  factor(recoded, levels, ordered = .ordered)
+}
+
+recode_factor_default <- function(default) {
+  if (length(default) == 1 && !is.na(default)) {
+    default
+  } else {
+    NULL
+  }
 }
