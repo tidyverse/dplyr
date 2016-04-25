@@ -26,7 +26,7 @@ sql_render.select_query <- function(query, con = NULL, ..., root = FALSE) {
   sql_select(
     con, query$select, from, where = query$where, group_by = query$group_by,
     having = query$having, order_by = query$order_by, distinct = query$distinct,
-    ...
+    limit = query$limit, ...
   )
 }
 
