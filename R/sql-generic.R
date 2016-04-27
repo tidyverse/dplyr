@@ -13,13 +13,15 @@ NULL
 #' @rdname backend_sql
 #' @export
 sql_select <- function(con, select, from, where = NULL, group_by = NULL,
-                       having = NULL, order_by = NULL, distinct = FALSE, ...) {
+                       having = NULL, order_by = NULL, distinct = FALSE,
+                       limit = NULL, ...) {
   UseMethod("sql_select")
 }
 #' @export
 sql_select.default <- function(con, select, from, where = NULL,
                                group_by = NULL, having = NULL,
-                               order_by = NULL, distinct = FALSE, ...) {
+                               order_by = NULL, distinct = FALSE,
+                               limit = NULL, ...) {
 
   out <- vector("list", 6)
   names(out) <- c("select", "from", "where", "group_by", "having", "order_by")
@@ -57,6 +59,11 @@ sql_select.default <- function(con, select, from, where = NULL,
     assert_that(is.character(order_by))
     out$order_by <- build_sql("ORDER BY ",
       escape(order_by, collapse = ", ", con = con))
+  }
+
+  if (length(limit) > 0L) {
+    assert_that(is.numeric(limit))
+    out$limit <- build_sql("LIMIT ", escape(limit, con = con))
   }
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
