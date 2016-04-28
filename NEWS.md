@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Fixed bug about joins when factor levels not equal (#1712). 
+
 ## Breaking changes
 
 ### Existing functions
@@ -15,7 +17,7 @@
 * The select helper functions `starts_with()`, `ends_with()` etc are now
   real exported functions. This means that you'll need to import those
   functions if you're using from a package where dplyr is not attached.
-  i.e. `dplyr::select(mtcars, starts_with("m"))` used to work, but 
+  i.e. `dplyr::select(mtcars, starts_with("m"))` used to work, but
   now you'll need `dplyr::select(mtcars, dplyr::starts_with("m"))`.
 
 ### Deprecated and defunct functions
@@ -31,7 +33,7 @@
 
 * Outdated benchmarking demos have been removed (#1487).
 
-* Code related to starting and signalling clusters has been moved out to 
+* Code related to starting and signalling clusters has been moved out to
   [multidplyr](http://github.com/hadley/multidplyr).
 
 ## New functions
@@ -41,8 +43,8 @@
 
 * `case_when()` is a general vectorised if + else if (#631).
 
-* `if_else()` is a vectorised if statement: it's a stricter (type-safe), 
-  faster, and more predictable version of `ifelse()`. In SQL it is 
+* `if_else()` is a vectorised if statement: it's a stricter (type-safe),
+  faster, and more predictable version of `ifelse()`. In SQL it is
   translated to a `CASE` statement.
 
 * `na_if()` makes it easy to replace a certain value with an `NA` (#1707).
@@ -65,7 +67,7 @@ All data table related code has been separated out in to a new dtplyr package. T
 
 Functions to related to the creation and coercion of `tbl_df`s, now live in their own package: [tibble](http://blog.rstudio.org/2016/03/24/tibble-1-0-0/). See `vignette("tibble")` for more details.
 
-* `$` and `[[` methods that never do partial matching (#1504), and throw 
+* `$` and `[[` methods that never do partial matching (#1504), and throw
   an error if the variable does not exist.
 
 * `all_equal()` allows to compare data frames ignoring row and column order,
@@ -83,7 +85,7 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
   so `as_data_frame()` will now automatically recycle length-1 vectors.
   Both functions give more informative error messages if you attempting to
   create an invalid data frame. You can no longer create a data frame with
-  duplicated names (#820). Both check for `POSIXlt` columns, and tell you to 
+  duplicated names (#820). Both check for `POSIXlt` columns, and tell you to
   use `POSIXct` instead (#813).
 
 * `frame_data()` properly constructs rectangular tables (#1377, @kevinushey),
@@ -99,10 +101,10 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
   It will now also only list the first 100 additional variables not already
   on screen - control this with the new `n_extra` parameter to `print()`
   (#1161). When printing a grouped data frame the number of groups is now
-  printed with thousands separators (#1398). The type of list columns 
+  printed with thousands separators (#1398). The type of list columns
   is correctly printed (#1379)
 
-* Package includes `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help 
+* Package includes `setOldClass(c("tbl_df", "tbl", "data.frame"))` to help
   with S4 dispatch (#969).
 
 * `tbl_df` automatically generates column names (#1606).
@@ -119,7 +121,7 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 
 * Swap order of `dim_names` and `met_name` arguments in `as.tbl_cube`
   (for `array`, `table` and `matrix`) for consistency with `tbl_cube` and
-  `as.tbl_cube.data.frame`. Also, the `met_name` argument to 
+  `as.tbl_cube.data.frame`. Also, the `met_name` argument to
   `as.tbl_cube.table` now defaults to `"Freq"` for consistency with
   `as.data.frame.table` (@krlmlr, #1374).
 
@@ -138,8 +140,8 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 
 ### SQLite
 
-* `src_memdb()` is a session-local in-memory SQLite database. 
-  `memdb_frame()` works like `data_frame()`, but creates a new table in 
+* `src_memdb()` is a session-local in-memory SQLite database.
+  `memdb_frame()` works like `data_frame()`, but creates a new table in
   that database.
 
 * `src_sqlite()` now uses a stricter quoting character, `` ` ``, instead of
@@ -156,10 +158,10 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 * Unary `-` is better translated (#1002).
 
 * `escape.POSIXt()` method makes it easier to use date times. The date is
-  rendered in ISO 8601 format in UTC, which should work in most databases 
+  rendered in ISO 8601 format in UTC, which should work in most databases
   (#857).
 
-* `is.na()` gets a missing space (#1695). 
+* `is.na()` gets a missing space (#1695).
 
 * `if`, `is.na()`, and `is.null()` get extra parens to make precendence
   more clear (#1695).
@@ -225,7 +227,7 @@ There were two other tweaks to the exported API, but these are less likely to af
 * `arrange()` fails gracefully on list columns (#1489).
 
 * `count()` now adds additional grouping variables, rather than overriding
-  existing (#1703). `tally()` and `count()` can now count a variable 
+  existing (#1703). `tally()` and `count()` can now count a variable
   called `n` (#1633). Weighted `count()`/`tally()` ignore `NA`s (#1145).
 
 * The progress bar in `do()` is now updated at most 20 times per second,
@@ -236,18 +238,18 @@ There were two other tweaks to the exported API, but these are less likely to af
 * `filter()` throws an error if you supply an named arguments. This is usually
   a type: `filter(df, x = 1)` instead of `filter(df, x == 1)` (#1529).
 
-* `summarise()` correctly coerces factors with different levels (#1678), 
-  handles min/max of already summarised variable (#1622), and 
+* `summarise()` correctly coerces factors with different levels (#1678),
+  handles min/max of already summarised variable (#1622), and
   supports data frames as columns (#1425).
 
 * `select()` now informs you that it adds missing grouping variables
   (#1511). It works even if the grouping variable has a non-syntactic name
   (#1138). Negating a failed match (e.g. `select(mtcars, -contains("x"))`)
   returns all columns, instead of no columns (#1176)
-  
+
     The `select()` helpers are now exported and have their own
-    documentation (#1410). `one_of()` gives a useful error message if 
-    variables names are not found in data frame (#1407). 
+    documentation (#1410). `one_of()` gives a useful error message if
+    variables names are not found in data frame (#1407).
 
 * The naming behaviour of `summarise_each()` and `mutate_each()` has been
   tweaked so that you can force inclusion of both the function and the
@@ -270,20 +272,20 @@ There were two other tweaks to the exported API, but these are less likely to af
 * `bind_cols()` matches the behaviour of `bind_rows()` and ignores `NULL`
   inputs (#1148). It also handles `POSIXct`s with integer base type (#1402).
 
-* `bind_rows()` handles 0-length named lists (#1515), promotes factors to 
+* `bind_rows()` handles 0-length named lists (#1515), promotes factors to
   characters (#1538), and warns when binding factor and character (#1485).
   bind_rows()` is more flexible in the way it can accept data frames,
-  lists, list of data frames, and list of lists (#1389). 
+  lists, list of data frames, and list of lists (#1389).
 
-* Both `bind_cols()` and `bind_rows()` infer classes and grouping information 
+* Both `bind_cols()` and `bind_rows()` infer classes and grouping information
   from the first data frame (#1692).
-  
+
 * `rbind()` and `cbind()` get `grouped_df()` methods that make it harder to       
   create corrupt data frames (#1385). You should still prefer `bind_rows()`
   and `bind_cols()`.
 
-* Joins now use correct class when joining on `POSIXct` columns 
-  (#1582, @joel23888), and consider time zones (#819). Joins handle a `by` 
+* Joins now use correct class when joining on `POSIXct` columns
+  (#1582, @joel23888), and consider time zones (#819). Joins handle a `by`
   that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively
   to avoid creating repeated column names (#1460).  Joins on string columns
   should be substantially faster (#1386). Extra attributes are ok if they are
@@ -293,7 +295,7 @@ There were two other tweaks to the exported API, but these are less likely to af
   `suffix` argument which allows you to control what suffix duplicated variable
   names recieve (#1296).
 
-* Set operations (`intersect()`, `union()` etc) respect coercion rules 
+* Set operations (`intersect()`, `union()` etc) respect coercion rules
   (#799).
 
 ### Vector functions
@@ -302,7 +304,7 @@ There were two other tweaks to the exported API, but these are less likely to af
 
 * Hybrid `cummean()` is more stable against floating point errors (#1387).
 
-* Hybrid `lead()` and `lag()` received a considerable overhaul. They are more 
+* Hybrid `lead()` and `lag()` received a considerable overhaul. They are more
   careful about more complicated expressions (#1588), and falls back more
   readily to pure R evaluation (#1411). They behave correctly in `summarise()`
   (#1434). and handle default values for string columns.

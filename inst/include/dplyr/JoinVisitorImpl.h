@@ -122,14 +122,15 @@ namespace dplyr{
     public:
         typedef CharacterVector Vec ;
 
-        JoinFactorFactorVisitor( const IntegerVector& left_, const IntegerVector& right ) :
+        JoinFactorFactorVisitor( const IntegerVector& left_, const IntegerVector& right_ ) :
             left(left_),
+            right(right_),
             left_levels (left.attr("levels")),
             right_levels(right.attr("levels")),
             uniques( get_uniques(left_levels, right_levels) ),
             left_match ( match( left_levels, uniques) ),
             right_match( match( right_levels, uniques) )
-            {}
+        {}
 
         inline size_t hash(int i){
             return hash_fun( get_pos(i) ) ;
@@ -141,13 +142,11 @@ namespace dplyr{
 
         inline SEXP subset( const std::vector<int>& indices ) {
             RObject res = Subsetter<JoinFactorFactorVisitor>(*this).subset(indices) ;
-            // copy_most_attributes(res, left) ;
             return res ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
             RObject res = Subsetter<JoinFactorFactorVisitor>(*this).subset(set) ;
-            // copy_most_attributes(res, left) ;
             return res ;
         }
 
@@ -156,7 +155,7 @@ namespace dplyr{
         }
 
     private:
-        IntegerVector left;
+        IntegerVector left, right ;
         CharacterVector left_levels, right_levels ;
         CharacterVector uniques ;
         IntegerVector left_match, right_match ;
@@ -164,7 +163,7 @@ namespace dplyr{
 
 
         inline int get_pos(int i) const {
-            return i>=0 ? ( left_match[i] -1 ) : ( right_match[-i-1] - 1 ) ;
+            return i>=0 ? ( left_match[ left[i]-1 ] - 1 ) : ( right_match[ right[-i-1] -1 ] - 1 ) ;
         }
 
     } ;

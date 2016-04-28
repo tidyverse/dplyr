@@ -547,6 +547,16 @@ test_that("joins allows extra attributes if they are identical (#1636)", {
   res <- left_join(tbl_left, tbl_right, by = 'i')
   expect_equal( attr(res$i, "label"), "iterator" )
   expect_equal( attr(res$i, "foo"), "bar" )
+})
 
+test_that("joins work with factors of different levels (#1712)", {
+  d1 <- iris[, c("Species", "Sepal.Length")]
+  d2 <- iris[, c("Species", "Sepal.Width")]
+  d2$Species <- factor(as.character(d2$Species), levels=rev(levels(d1$Species)))
+  res1 <- left_join(d1, d2, by="Species")
 
+  d1$Species <- as.character(d1$Species)
+  d2$Species <- as.character(d2$Species)
+  res2 <- left_join(d1, d2, by="Species")
+  expect_equal(res1, res2)
 })
