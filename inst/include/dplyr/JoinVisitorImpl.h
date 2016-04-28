@@ -133,25 +133,29 @@ namespace dplyr{
         {}
 
         inline size_t hash(int i){
-            return hash_fun( get_pos(i) ) ;
+            return hash_fun( get(i) ) ;
         }
 
         inline bool equal( int i, int j){
-            return get_pos(i) == get_pos(j) ;
+            return get(i) == get(j) ;
         }
 
         inline SEXP subset( const std::vector<int>& indices ) {
-            RObject res = Subsetter<JoinFactorFactorVisitor>(*this).subset(indices) ;
-            return res ;
+            return Subsetter<JoinFactorFactorVisitor>(*this).subset(indices) ;
         }
 
         inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
-            RObject res = Subsetter<JoinFactorFactorVisitor>(*this).subset(set) ;
-            return res ;
+            return Subsetter<JoinFactorFactorVisitor>(*this).subset(set) ;
         }
 
         inline SEXP get(int i) const {
-            return uniques[get_pos(i)] ;
+            if( i >= 0){
+              int pos = left[i] ;
+              return (pos == NA_INTEGER) ? NA_STRING : SEXP( uniques[left_match[pos-1] - 1] ) ;
+            } else {
+              int pos = right[-i-1] ;
+              return (pos == NA_INTEGER) ? NA_STRING : SEXP( uniques[right_match[ pos -1 ] - 1] ) ;
+            }
         }
 
     private:
@@ -159,12 +163,7 @@ namespace dplyr{
         CharacterVector left_levels, right_levels ;
         CharacterVector uniques ;
         IntegerVector left_match, right_match ;
-        boost::hash<int> hash_fun ;
-
-
-        inline int get_pos(int i) const {
-            return i>=0 ? ( left_match[ left[i]-1 ] - 1 ) : ( right_match[ right[-i-1] -1 ] - 1 ) ;
-        }
+        boost::hash<SEXP> hash_fun ;
 
     } ;
 
