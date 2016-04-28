@@ -347,15 +347,10 @@ test_that("bind_rows handles promotion to strings (#1538)", {
   df3 <- data_frame(b=factor(c("A","B")))
   df4 <- data_frame(b=c("C","D"))
 
-  df13 <- bind_rows(df1,df3)
-  df14 <- bind_rows(df1,df4)
-  df23 <- bind_rows(df2,df3)
-  df24 <- bind_rows(df2,df4)
-
-  expect_equal(df13$b, c("1", "2", "A", "B") )
-  expect_equal(df14$b, c("1", "2", "C", "D") )
-  expect_equal(df23$b, c("1", "2", "A", "B") )
-  expect_equal(df24$b, c("1", "2", "C", "D") )
+  expect_error( bind_rows(df1,df3) )
+  expect_error( bind_rows(df1,df4) )
+  expect_error( bind_rows(df2,df3) )
+  expect_error( bind_rows(df2,df4) )
 })
 
 test_that("bind_rows infers classes from first result (#1692)", {

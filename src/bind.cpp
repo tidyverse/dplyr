@@ -78,7 +78,6 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
                 columns.push_back( coll );
                 names.push_back(name) ;
             }
-
             if( coll->compatible(source) ){
                 // if the current source is compatible, collect
                 coll->collect( SlicingIndex( k, nrows), source ) ;
@@ -260,11 +259,11 @@ SEXP combine_all( List data ){
     int k = Rf_length(data[i]) ;
     coll->collect( SlicingIndex(0, k), data[i] ) ;
     i++;
-
     for(; i<nv; i++){
         SEXP current = data[i] ;
         if( Rf_isNull(current)) continue ;
         int n_current= Rf_length(current) ;
+
         if( coll->compatible(current) ){
             coll->collect( SlicingIndex(k, n_current), current ) ;
         } else if( coll->can_promote(current) ) {
