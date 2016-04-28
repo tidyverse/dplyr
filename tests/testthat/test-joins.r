@@ -551,7 +551,7 @@ test_that("joins work with factors of different levels (#1712)", {
   d1 <- iris[, c("Species", "Sepal.Length")]
   d2 <- iris[, c("Species", "Sepal.Width")]
   d2$Species <- factor(as.character(d2$Species), levels=rev(levels(d1$Species)))
-  res1 <- left_join(d1, d2, by="Species")
+  expect_warning( res1 <- left_join(d1, d2, by="Species") )
 
   d1$Species <- as.character(d1$Species)
   d2$Species <- as.character(d2$Species)
