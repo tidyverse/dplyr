@@ -1,6 +1,6 @@
 # dplyr 0.4.3.9000
 
-* Fixed bug about joins when factor levels not equal (#1712).
+* Fixed bug about joins when factor levels not equal (#1712, #1559).
 
 * anti and semi joins give correct result when by variable is a factor
   and don't warn (#1571).
