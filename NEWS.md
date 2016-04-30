@@ -2,7 +2,8 @@
 
 * Fixed bug about joins when factor levels not equal (#1712).
 
-* anti joins give correct result when by variable is a factor (#1571). 
+* anti and semi joins give correct result when by variable is a factor
+  and don't warn (#1571). 
 
 ## Breaking changes
 

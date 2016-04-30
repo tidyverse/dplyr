@@ -559,10 +559,14 @@ test_that("joins work with factors of different levels (#1712)", {
   expect_equal(res1, res2)
 })
 
-test_that("anti joins give correct result when by variable is a factor (#1571)", {
+test_that("anti and semi joins give correct result when by variable is a factor (#1571)", {
   big <- data.frame(letter = rep(c('a', 'b'), each = 2), number = 1:2)
   small <- data.frame(letter = 'b')
   expect_message( aj_result <- anti_join(big, small), 'Joining by: "letter"' )
   expect_equal( aj_result$number, 1:2)
   expect_equal( aj_result$letter, factor(c("a", "a"), levels = c("a", "b")) )
+
+  expect_message( sj_result <- semi_join(big, small), 'Joining by: "letter"' )
+  expect_equal( sj_result$number, 1:2)
+  expect_equal( sj_result$letter, factor(c("b", "b"), levels = c("a", "b")) )
 })

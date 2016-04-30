@@ -646,7 +646,7 @@ void assert_all_white_list(const DataFrame& data){
 DataFrame semi_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y ){
     if( by_x.size() == 0) stop("no variable to join by") ;
     typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
-    DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
+    DataFrameJoinVisitors visitors(x, y, by_x, by_y, false) ;
     Map map(visitors);
 
     // train the map in terms of x
