@@ -181,18 +181,6 @@ test_that("join handles type promotions #123", {
   res <- semi_join(df, match, c("V1", "V2"))
   expect_equal( res$V2, 3:4 )
   expect_equal( res$V3, c(103L, 109L) )
-
-  df1 <- data.frame( a = c("a", "b" ), b = 1:2, stringsAsFactors = TRUE )
-  df2 <- data.frame( a = c("a", "b" ), c = 4:5, stringsAsFactors = FALSE )
-
-  expect_warning(
-    semi_join( df1, df2, "a" ),
-    "joining factor and character vector"
-  )
-  expect_warning(
-    semi_join( df2, df1, "a" ),
-    "joining character vector and factor"
-  )
 })
 
 test_that("indices don't get mixed up when nrow(x) > nrow(y). #365",{
