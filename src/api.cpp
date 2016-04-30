@@ -47,6 +47,10 @@ namespace dplyr{
             x.attr( "vars" ) = vars ;
     }
 
+    inline String comma_collapse( SEXP names ){
+      return Language( "paste", names, _["collapse"] = ", " ).fast_eval() ;
+    }
+
     DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_ ) :
         left(left_), right(right_),
         visitor_names_left(names_left),
@@ -56,17 +60,23 @@ namespace dplyr{
         warn(warn_)
     {
         std::string name_left, name_right ;
+
+        IntegerVector indices_left  = Language( "match", names_left,  RCPP_GET_NAMES(left)  ).fast_eval() ;
+        IntegerVector indices_right = Language( "match", names_right, RCPP_GET_NAMES(right) ).fast_eval() ;
+
         for( int i=0; i<nvisitors; i++){
             name_left  = names_left[i] ;
             name_right = names_right[i] ;
 
-            try{
-                visitors[i] = join_visitor( left[name_left], right[name_right], name_left, name_right, warn ) ;
-            } catch( const std::exception& ex ){
-                stop( "cannot join on columns '%s' x '%s': %s ", name_left, name_right, ex.what() ) ;
-            } catch( ... ){
-                stop( "cannot join on columns '%s' x '%s'", name_left, name_right ) ;
+            if( indices_left[i] == NA_INTEGER ){
+              stop( "'%s' column not found in lhs, cannot join. (names: %s)", name_left, comma_collapse(RCPP_GET_NAMES(left)).get_cstring() ) ;
             }
+            if( indices_right[i] == NA_INTEGER ){
+              stop( "'%s' column not found in rhs, cannot join. (names: %s)", name_right, comma_collapse(RCPP_GET_NAMES(right)).get_cstring() ) ;
+            }
+            
+            visitors[i] = join_visitor( left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn ) ;
+
         }
     }
 

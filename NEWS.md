@@ -5,7 +5,10 @@
 * anti and semi joins give correct result when by variable is a factor
   and don't warn (#1571).
 
-* setdiff handles factors with NA (#1526)
+* setdiff handles factors with NA (#1526).
+
+* enabling joining of data frames that don't have the same encoding of
+  column names (#1513). 
 
 ## Breaking changes
 

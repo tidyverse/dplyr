@@ -511,7 +511,7 @@ DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes){
 }
 
 template <typename Index>
-DataFrame subset( DataFrame x, DataFrame y,
+DataFrame subset_join( DataFrame x, DataFrame y,
                   const Index& indices_x, const Index& indices_y,
                   CharacterVector by_x, CharacterVector by_y ,
                   const std::string& suffix_x, const std::string& suffix_y,
@@ -524,13 +524,13 @@ DataFrame subset( DataFrame x, DataFrame y,
     CharacterVector all_x_columns = x.names() ;
     std::vector<bool> joiner( all_x_columns.size() ) ;
     CharacterVector x_columns( all_x_columns.size() - n_join_visitors ) ;
+    IntegerVector xm = Language( "match", all_x_columns, by_x).fast_eval() ;
     for( int i=0, k=0; i<all_x_columns.size(); i++){
-        SEXP name = all_x_columns[i] ;
-        if( std::find(by_x.begin(), by_x.end(), name) == by_x.end() ) {
-            joiner[i] = false ;
-            x_columns[k++] = name ;
+        if( xm[i] == NA_INTEGER ){
+          joiner[i] = false ;
+          x_columns[k++] = all_x_columns[i] ;
         } else {
-            joiner[i] = true ;
+          joiner[i] = true ;
         }
     }
     DataFrameSubsetVisitors visitors_x(x, x_columns) ;
@@ -539,13 +539,14 @@ DataFrame subset( DataFrame x, DataFrame y,
     // then columns from y but not x
     CharacterVector all_y_columns = y.names() ;
     CharacterVector y_columns( all_y_columns.size() - n_join_visitors ) ;
+    IntegerVector ym = Language( "match", all_y_columns, by_y).fast_eval() ;
     for( int i=0, k=0; i<all_y_columns.size(); i++){
-        SEXP name = all_y_columns[i] ;
-        if( std::find(by_y.begin(), by_y.end(), name) == by_y.end() ) {
-            y_columns[k++] = name ;
+        if( ym[i] == NA_INTEGER ){
+          y_columns[k++] = all_y_columns[i] ;
         }
     }
     DataFrameSubsetVisitors visitors_y(y, y_columns) ;
+
     int nv_y = visitors_y.size() ;
 
     // construct out object
@@ -559,7 +560,7 @@ DataFrame subset( DataFrame x, DataFrame y,
     for( int i=0; i<all_x_columns.size(); i++){
         String col_name = all_x_columns[i] ;
         if( joiner[i] ){
-            JoinVisitor* v = join_visitors.get(col_name) ;
+            JoinVisitor* v = join_visitors.get(xm[i]-1) ;
             out[i] = v->subset(indices_x) ;
             index_join_visitor++ ;
         } else {
@@ -570,9 +571,8 @@ DataFrame subset( DataFrame x, DataFrame y,
           ){
             col_name += suffix_x ;
           }
-
-            out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;
-            index_x_visitor++ ;
+          out[i] = visitors_x.get(index_x_visitor)->subset(indices_x) ;
+          index_x_visitor++ ;
         }
         names[i] = col_name ;
     }
@@ -722,7 +722,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
         }
     }
 
-    return subset(
+    return subset_join(
       x, y,
       indices_x, indices_y,
       by_x, by_y,
@@ -760,7 +760,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
         }
     }
 
-    return subset(
+    return subset_join(
       x, y,
       indices_x, indices_y,
       by_x, by_y,
@@ -796,7 +796,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
             indices_y.push_back(i) ;
         }
     }
-    return subset(
+    return subset_join(
       x, y,
       indices_x, indices_y,
       by_x, by_y,
@@ -849,7 +849,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
         }
     }
 
-    return subset(x, y,
+    return subset_join(x, y,
       indices_x, indices_y,
       by_x, by_y,
       suffix_x, suffix_y,
