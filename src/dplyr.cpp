@@ -866,7 +866,8 @@ SEXP promote(SEXP x){
             int n = data.size() ;
             CharacterVector out( data.size() ) ;
             for( int i=0; i<n; i++ ){
-                out[i] = levels[data[i]-1] ;
+                int value = data[i] ;
+                out[i] = value == NA_INTEGER ? NA_STRING : (SEXP)levels[value-1] ;
             }
             return out ;
         } else {
@@ -964,6 +965,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
         x = clone(x) ;
         y = clone(y) ;
         for( int i = 0; i<n; i++){
+            if( Rf_inherits(x[i], "factor") && Rf_inherits(y[i], "factor") && same_levels(x[i], y[i]) )
+              continue ;
             x[i] = promote( x[i] ) ;
             y[i] = promote( y[i] ) ;
         }

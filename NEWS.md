@@ -3,7 +3,9 @@
 * Fixed bug about joins when factor levels not equal (#1712).
 
 * anti and semi joins give correct result when by variable is a factor
-  and don't warn (#1571). 
+  and don't warn (#1571).
+
+* setdiff handles factors with NA (#1526)
 
 ## Breaking changes
 

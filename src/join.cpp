@@ -4,7 +4,7 @@ using namespace Rcpp ;
 
 namespace dplyr{
 
-    inline bool same_levels( SEXP left, SEXP right ){
+    bool same_levels( SEXP left, SEXP right ){
         SEXP s_levels = Rf_install("levels") ;
         CharacterVector levels_left  = Rf_getAttrib(left,s_levels) ;
         CharacterVector levels_right = Rf_getAttrib(right,s_levels) ;
