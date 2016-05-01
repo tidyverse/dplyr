@@ -581,3 +581,19 @@ test_that("inner join not crashing (#1559)", {
   for( i in 2:100)
     expect_equal( res[,1], res[,i] )
 })
+
+test_that( "left_join handles mix of encodings in column names (#1571)", {
+
+  df1 <- tibble::data_frame(x = 1:6, foo = 1:6)
+  names(df1)[1] <- "l\u00f8penummer"
+
+  df2 <- tibble::data_frame(x = 1:6, baz = 1:6)
+  names(df2)[1] <- iconv(  "l\u00f8penummer", to  = "latin1" )
+
+  expect_message( res <- left_join( df1, df2 ) )
+  expect_equal( names(res), c("l\u00f8penummer", "foo", "baz") )
+  expect_equal( res$foo, 1:6)
+  expect_equal( res$baz, 1:6)
+  expect_equal( res[["l\u00f8penummer"]], 1:6)
+
+})
