@@ -1248,7 +1248,6 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
 }
 
 int get_name_pos( const CharacterVector& source, const String& s){
-  // CharacterVector st = CharacterVector::create(s) ;
   Function match( "match" ) ;
   return as<int>(match( s, source)) ;
 }
