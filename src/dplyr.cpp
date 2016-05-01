@@ -1247,32 +1247,28 @@ DataFrame grouped_df_impl( DataFrame data, ListOf<Symbol> symbols, bool drop ){
     return build_index_cpp(copy) ;
 }
 
-int get_name_pos( const CharacterVector& source, const String& s){
-  Function match( "match" ) ;
-  return as<int>(match( s, source)) ;
-}
-
 DataFrame build_index_cpp( DataFrame data ){
     ListOf<Symbol> symbols( data.attr( "vars" ) ) ;
 
     int nsymbols = symbols.size() ;
     CharacterVector vars(nsymbols) ;
     CharacterVector names = data.names() ;
+    for( int i=0; i<nsymbols; i++){
+      vars[i] = PRINTNAME(symbols[i]) ;
+    }
+    IntegerVector indx = Language( "match", vars, names ).fast_eval() ;
 
     for( int i=0; i<nsymbols; i++){
-        String s = PRINTNAME(symbols[i]) ;
-        vars[i] = s ;
-        int pos = get_name_pos(names, s) ;
+        int pos = indx[i] ;
         if( pos == NA_INTEGER){
-          stop("unknown column '%s' ", s.get_cstring() ) ;
+          stop("unknown column '%s' ", CHAR(names[i]) ) ;
         }
 
-        const char* name = vars[i] ;
         SEXP v = data[pos-1] ;
 
         if( !white_list(v) || TYPEOF(v) == VECSXP ){
-            stop( "cannot group column %s, of class '%s'",
-                name, get_single_class(v) ) ;
+            const char* name = vars[i] ;
+            stop( "cannot group column %s, of class '%s'", name, get_single_class(v) ) ;
         }
     }
 
