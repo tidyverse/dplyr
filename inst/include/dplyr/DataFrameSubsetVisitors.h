@@ -14,43 +14,9 @@ namespace dplyr {
         public:
             typedef SubsetVectorVisitor visitor_type ;
 
-            DataFrameSubsetVisitors( const Rcpp::DataFrame& data_) :
-                data(data_),
-                visitors(),
-                visitor_names(data.names()),
-                nvisitors(visitor_names.size())
-            {
+            DataFrameSubsetVisitors( const Rcpp::DataFrame& data_)  ;
 
-                for( int i=0; i<nvisitors; i++){
-                    SubsetVectorVisitor* v = subset_visitor( data[i] ) ;
-                    visitors.push_back(v) ;
-                }
-            }
-
-            DataFrameSubsetVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) :
-                data(data_),
-                visitors(),
-                visitor_names(names),
-                nvisitors(visitor_names.size())
-            {
-
-                std::string name ;
-                int n = names.size() ;
-                for( int i=0; i<n; i++){
-                    name = (String)names[i] ;
-                    SEXP column ;
-
-                    try{
-                        column = data[name] ;
-                    } catch( ... ){
-                        stop( "unknown column '%s' ", name ) ;
-                    }
-                    SubsetVectorVisitor* v = subset_visitor( column ) ;
-                    visitors.push_back(v) ;
-
-                }
-
-            }
+            DataFrameSubsetVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names )  ;
 
             template <typename Container>
             DataFrame subset_impl( const Container& index, const CharacterVector& classes, traits::false_type ) const {
