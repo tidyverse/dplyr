@@ -24,15 +24,14 @@ namespace dplyr{
 
         std::string name ;
         int n = names.size() ;
-        for( int i=0; i<n; i++){
-            name = (String)names[i] ;
-            SEXP column ;
+        IntegerVector indices  = Language( "match", names,  RCPP_GET_NAMES(data)  ).fast_eval() ;
 
-            try{
-                column = data[name] ;
-            } catch( ... ){
+        for( int i=0; i<n; i++){
+            if( indices[i] == NA_INTEGER){
+                name = (String)names[i] ;
                 stop( "unknown column '%s' ", name ) ;
             }
+            SEXP column = data[indices[i]-1];
             visitors.push_back(visitor( column )) ;
         }
 
