@@ -236,3 +236,10 @@ test_that( "group_by supports column (#1012)", {
   expect_equal( attr(g1, "vars"), attr(g3, "vars"))
   expect_equal( attr(g1, "vars"), attr(g4, "vars"))
 })
+
+test_that("group_by handles encodings (#1507)", {
+  df <- data.frame(x=1:3, Eng=2:4)
+  names(df) <- enc2utf8(c("\u00e9", "Eng"))
+  res <- group_by_(df, iconv("\u00e9", to = "latin1") )
+  expect_equal( names(res), names(df) )
+})
