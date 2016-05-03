@@ -89,6 +89,10 @@ shallow_copy <- function(data) {
     .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
 
+compatible_data_frame_nonames <- function(x, y, convert) {
+    .Call('dplyr_compatible_data_frame_nonames', PACKAGE = 'dplyr', x, y, convert)
+}
+
 compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
     .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, convert)
 }

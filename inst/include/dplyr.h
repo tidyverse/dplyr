@@ -58,6 +58,10 @@ namespace dplyr {
     DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
     void check_attribute_compatibility( SEXP left, SEXP right) ;
     bool same_levels( SEXP left, SEXP right ) ;
+
+    inline IntegerVector r_match( SEXP x, SEXP y) {
+      return Language( "match", x, y ).fast_eval() ;
+    }
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
 dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;

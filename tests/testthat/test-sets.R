@@ -65,9 +65,4 @@ test_that("setdiff handles factors with NA (#1526)", {
   expect_equal( levels(res$x), "a")
   expect_true( is.na(res$x[1]) )
 
-
-  df1 <- data_frame(x = factor(c(NA, "b")))
-  expect_warning( res <- setdiff(df1, df2) )
-  expect_is( res$x, "character")
-  expect_true( is.na(res$x[1]) )
 })

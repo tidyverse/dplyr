@@ -237,7 +237,7 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
       else return 0 ;
     }
     if( subsets.nrows() != Rf_length(data) ) return 0 ;
-     
+
     switch( TYPEOF(data) ){
         case INTSXP:  return new Ntile<INTSXP ,true>( data, number_tiles ) ;
         case REALSXP: return new Ntile<REALSXP,true>( data, number_tiles ) ;
@@ -526,7 +526,7 @@ DataFrame subset_join( DataFrame x, DataFrame y,
     CharacterVector all_x_columns = x.names() ;
     std::vector<bool> joiner( all_x_columns.size() ) ;
     CharacterVector x_columns( all_x_columns.size() - n_join_visitors ) ;
-    IntegerVector xm = Language( "match", all_x_columns, by_x).fast_eval() ;
+    IntegerVector xm = r_match( all_x_columns, by_x) ;
     for( int i=0, k=0; i<all_x_columns.size(); i++){
         if( xm[i] == NA_INTEGER ){
           joiner[i] = false ;
@@ -541,7 +541,7 @@ DataFrame subset_join( DataFrame x, DataFrame y,
     // then columns from y but not x
     CharacterVector all_y_columns = y.names() ;
     CharacterVector y_columns( all_y_columns.size() - n_join_visitors ) ;
-    IntegerVector ym = Language( "match", all_y_columns, by_y).fast_eval() ;
+    IntegerVector ym = r_match(all_y_columns, by_y) ;
     for( int i=0, k=0; i<all_y_columns.size(); i++){
         if( ym[i] == NA_INTEGER ){
           y_columns[k++] = all_y_columns[i] ;
@@ -859,26 +859,6 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
     );
 }
 
-SEXP promote(SEXP x){
-    if( TYPEOF(x) == INTSXP ){
-        IntegerVector data(x) ;
-        if( Rf_inherits( x, "factor" ) ){
-            Rf_warning( "coercing factor to character vector" ) ;
-            CharacterVector levels = data.attr( "levels" ) ;
-            int n = data.size() ;
-            CharacterVector out( data.size() ) ;
-            for( int i=0; i<n; i++ ){
-                int value = data[i] ;
-                out[i] = value == NA_INTEGER ? NA_STRING : (SEXP)levels[value-1] ;
-            }
-            return out ;
-        } else {
-            return NumericVector(x) ;
-        }
-    }
-    return x ;
-}
-
 // [[Rcpp::export]]
 SEXP shallow_copy(const List& data){
     int n = data.size() ;
@@ -891,10 +871,45 @@ SEXP shallow_copy(const List& data){
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore_col_order = true, bool convert = false ){
-    int n = x.size() ;
+dplyr::BoolResult compatible_data_frame_nonames( DataFrame x, DataFrame y, bool convert){
+  int n = x.size() ;
+  if( n != y.size() )
+    return no_because( tfm::format("different number of columns : %d x %d", n, y.size() ) ) ;
 
-    CharacterVector names_x, names_y ;
+  if( convert ){
+    for( int i=0; i<n; i++){
+      try{
+          boost::scoped_ptr<JoinVisitor> v( join_visitor( x[i], y[i], "x", "x", true ) ) ;
+      } catch(...){
+          return no_because( "incompatible" ) ;
+      }
+    }
+  } else {
+    for( int i=0; i<n; i++){
+      SEXP xi = x[i], yi=y[i] ;
+      if( TYPEOF(xi) != TYPEOF(yi))
+        return no_because( "incompatible types" ) ;
+
+      if( TYPEOF(xi) == INTSXP){
+        if( Rf_inherits(xi, "factor") && Rf_inherits(yi, "factor") ){
+          if( same_levels(xi, yi) ) continue ;
+          return no_because( "factors with different levels" ) ;
+        }
+
+        if( Rf_inherits(xi, "factor") ) return no_because( "cannot compare factor and integer" ) ;
+        if( Rf_inherits(yi, "factor") ) return no_because( "cannot compare factor and integer" ) ;
+
+      }
+    }
+  }
+
+  return yes() ;
+
+}
+
+// [[Rcpp::export]]
+dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false ){
+    int n = x.size() ;
 
     bool null_x = Rf_isNull(x.names()), null_y = Rf_isNull(y.names()) ;
     if( null_x && !null_y ){
@@ -902,53 +917,28 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
     } else if( null_y && !null_x){
         return no_because( "y does not have names, but x does") ;
     } else if( null_x && null_y){
-        names_x = CharacterVector(n) ;
-        std::string v("v") ;
-        for( int i=0; i<n; i++){
-            std::stringstream ss ;
-            ss << "v" << (i+1) ;
-            names_x[i] = ss.str() ;
-        }
-        x = shallow_copy(x) ;
-        x.names() = names_x ;
-
-        int ny = y.size() ;
-        names_y = CharacterVector(ny) ;
-        for( int i=0; i<ny; i++){
-            std::stringstream ss ;
-            ss << "v" << (i+1) ;
-            names_y[i] = ss.str()  ;
-        }
-        y = shallow_copy(y) ;
-        y.names() = names_y ;
-
-
-    } else {
-        names_x = x.names() ;
-        names_y = y.names() ;
+        return compatible_data_frame_nonames(x,y, convert) ;
     }
+
+    CharacterVector names_x = x.names() ;
+    CharacterVector names_y = y.names() ;
 
     CharacterVector names_y_not_in_x = setdiff( names_y, names_x );
     CharacterVector names_x_not_in_y = setdiff( names_x, names_y );
-    std::stringstream ss ;
-    bool ok = true ;
 
     if( !ignore_col_order ){
         if( names_y_not_in_x.size() == 0 && names_y_not_in_x.size() == 0 ){
             // so the names are the same, check if they are in the same order
             for( int i=0; i<n; i++){
                 if( names_x[i] != names_y[i] ){
-                    ok = false ;
-                    break ;
+                    return no_because("Same column names, but different order") ;
                 }
-            }
-            if( !ok ){
-                ss <<  "Same column names, but different order" ;
-                return no_because( ss.str() ) ;
             }
         }
     }
 
+    std::stringstream ss ;
+    bool ok = true ;
     if( names_y_not_in_x.size() ){
         ok = false ;
         ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
@@ -963,42 +953,36 @@ dplyr::BoolResult compatible_data_frame( DataFrame& x, DataFrame& y, bool ignore
         return no_because( ss.str() ) ;
     }
 
-    if( convert ){
-        x = clone(x) ;
-        y = clone(y) ;
-        for( int i = 0; i<n; i++){
-            if( Rf_inherits(x[i], "factor") && Rf_inherits(y[i], "factor") && same_levels(x[i], y[i]) )
-              continue ;
-            x[i] = promote( x[i] ) ;
-            y[i] = promote( y[i] ) ;
-        }
-    }
+    IntegerVector orders = r_match( names_x, names_y ) ;
 
-    DataFrameSubsetVisitors v_x( x, names_x );
-    DataFrameSubsetVisitors v_y( y, names_x );
-
-    ok = true ;
+    String name ;
     for( int i=0; i<n; i++){
-        SubsetVectorVisitor* visitor_x = v_x.get(i) ;
-        SubsetVectorVisitor* visitor_y = v_y.get(i) ;
+      name = names_x[i] ;
+      SEXP xi = x[i], yi = y[orders[i]-1] ;
+      boost::scoped_ptr<SubsetVectorVisitor> vx( subset_visitor( xi ) ) ;
+      boost::scoped_ptr<SubsetVectorVisitor> vy( subset_visitor( yi ) ) ;
+      SubsetVectorVisitor* px = vx.get() ;
+      SubsetVectorVisitor* py = vy.get() ;
 
-        String name = names_x[i];
-        if(
-          ( !convert && typeid(*visitor_x) != typeid(*visitor_y) ) ||
-          ( ! visitor_x->is_compatible( visitor_y, ss, name ) )
-        ){
-            ss << "Incompatible type for column "
-               << names_x[i]
-               << ": x "
-               << visitor_x->get_r_type()
-               << ", y "
-               << visitor_y->get_r_type() ;
-            ok = false ;
+      if( typeid(*px) != typeid(*py) ) {
+        if( convert ){
+          // Rf_warning( "type coercion for %s", name.get_cstring() ) ;
+        } else {
+          ss << "Incompatible type for column "
+             << name.get_cstring()
+             << ": x " << vx->get_r_type()
+             << ", y " << vy->get_r_type() ;
+
+          ok = false ;
+          continue ;
         }
-        if(convert && typeid(*visitor_x) != typeid(*visitor_y) ){
-          Rf_warning("type coercion") ;
-        }
+      }
+
+      if( ! vx->is_compatible( vy.get(), ss, name ) ) {
+        ok = false ;
+      }
     }
+
     if(!ok) return no_because( ss.str() ) ;
     return yes() ;
 }
@@ -1141,7 +1125,6 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
     if( !compat ){
         stop( "not compatible: %s", compat.why_not() );
     }
-
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set ;
 
     DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true ) ;
@@ -1258,7 +1241,7 @@ DataFrame build_index_cpp( DataFrame data ){
     for( int i=0; i<nsymbols; i++){
       vars[i] = PRINTNAME(symbols[i]) ;
     }
-    IntegerVector indx = Language( "match", vars, names ).fast_eval() ;
+    IntegerVector indx = r_match(vars, names ) ;
 
     for( int i=0; i<nsymbols; i++){
         int pos = indx[i] ;

@@ -248,14 +248,27 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// compatible_data_frame_nonames
+dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool convert);
+RcppExport SEXP dplyr_compatible_data_frame_nonames(SEXP xSEXP, SEXP ySEXP, SEXP convertSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
+    __result = Rcpp::wrap(compatible_data_frame_nonames(x, y, convert));
+    return __result;
+END_RCPP
+}
 // compatible_data_frame
-dplyr::BoolResult compatible_data_frame(DataFrame& x, DataFrame& y, bool ignore_col_order, bool convert);
+dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order, bool convert);
 RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP convertSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< DataFrame& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP);
     Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
     __result = Rcpp::wrap(compatible_data_frame(x, y, ignore_col_order, convert));

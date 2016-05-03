@@ -24,7 +24,7 @@ namespace dplyr{
 
         std::string name ;
         int n = names.size() ;
-        IntegerVector indices  = Language( "match", names,  RCPP_GET_NAMES(data)  ).fast_eval() ;
+        IntegerVector indices  = r_match( names,  RCPP_GET_NAMES(data)  ) ;
 
         for( int i=0; i<n; i++){
             if( indices[i] == NA_INTEGER){
@@ -60,8 +60,8 @@ namespace dplyr{
     {
         std::string name_left, name_right ;
 
-        IntegerVector indices_left  = Language( "match", names_left,  RCPP_GET_NAMES(left)  ).fast_eval() ;
-        IntegerVector indices_right = Language( "match", names_right, RCPP_GET_NAMES(right) ).fast_eval() ;
+        IntegerVector indices_left  = r_match( names_left,  RCPP_GET_NAMES(left)  ) ;
+        IntegerVector indices_right = r_match( names_right, RCPP_GET_NAMES(right) ) ;
 
         for( int i=0; i<nvisitors; i++){
             name_left  = names_left[i] ;
@@ -73,9 +73,7 @@ namespace dplyr{
             if( indices_right[i] == NA_INTEGER ){
               stop( "'%s' column not found in rhs, cannot join" ) ;
             }
-
             visitors[i] = join_visitor( left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn ) ;
-
         }
     }
 
@@ -340,7 +338,7 @@ namespace dplyr{
         CharacterVector s_uniques = Language( "sort", uniques ).fast_eval() ;
 
         // order the uniques with a callback to R
-        IntegerVector o = Language( "match", uniques, s_uniques ).fast_eval() ;
+        IntegerVector o = r_match(uniques, s_uniques ) ;
 
         // combine uniques and o into a hash map for fast retrieval
         dplyr_hash_map<SEXP,int> map ;
@@ -378,13 +376,7 @@ namespace dplyr{
         return Language( "unique", big ).fast_eval() ;
     }
 
-    IntegerVector match( const CharacterVector& s, const CharacterVector& levels){
-      return Language( "match", s, levels).fast_eval() ;
-    }
-
 }
-
-
 
 // [[Rcpp::export]]
 IntegerVector rank_strings( CharacterVector s ){
