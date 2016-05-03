@@ -570,7 +570,6 @@ test_that("Adding a Column of NA to a Grouped Table gives expected results (#164
 })
 
 test_that("Deep copies are performed when needed (#1463)", {
-
   res <- data.frame(prob = c(F,T)) %>%
     rowwise %>%
     mutate(model = list(x=prob) )
@@ -581,5 +580,9 @@ test_that("Deep copies are performed when needed (#1463)", {
     mutate(model = list(y=x) )
   expect_equal(res$model[[1]], 1:3)
   expect_equal(res$model[[4]], 4)
+})
 
+test_that( "ntile falls back to R (#1750)", {
+  res <- mutate( iris, a = ntile("Sepal.Length", 3))
+  expect_equal( res$a, rep(1, 150))
 })
