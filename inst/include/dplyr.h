@@ -116,6 +116,8 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
     SEXP get_date_classes() ;
 #endif
 
+#include <dplyr/registration.h>
+
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/white_list.h>
@@ -159,8 +161,6 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 #include <dplyr/Collecter.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/train.h>
-
-#include <dplyr/registration.h>
 
 void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) ;
 void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) ;
