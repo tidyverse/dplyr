@@ -64,5 +64,10 @@ test_that("setdiff handles factors with NA (#1526)", {
   expect_is( res$x, "factor")
   expect_equal( levels(res$x), "a")
   expect_true( is.na(res$x[1]) )
+})
 
+test_that("intersect does not unnecessarily coerce (#1722)", {
+  df <- data_frame(a = 1L)
+  res <- intersect(df,df)
+  expect_is(res$a, "integer")
 })

@@ -965,9 +965,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
       SubsetVectorVisitor* py = vy.get() ;
 
       if( typeid(*px) != typeid(*py) ) {
-        if( convert ){
-          // Rf_warning( "type coercion for %s", name.get_cstring() ) ;
-        } else {
+        if( !convert ) {
           ss << "Incompatible type for column "
              << name.get_cstring()
              << ": x " << vx->get_r_type()
