@@ -236,6 +236,8 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
       if( subsets.count(data) ) data = subsets.get_variable(data) ;
       else return 0 ;
     }
+    if( subsets.nrows() != Rf_length(data) ) return 0 ;
+     
     switch( TYPEOF(data) ){
         case INTSXP:  return new Ntile<INTSXP ,true>( data, number_tiles ) ;
         case REALSXP: return new Ntile<REALSXP,true>( data, number_tiles ) ;
