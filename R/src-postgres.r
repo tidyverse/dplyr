@@ -156,6 +156,11 @@ db_begin.PostgreSQLConnection <- function(con, ...) {
   dbGetQuery(con, "BEGIN TRANSACTION")
 }
 
+#' @export
+db_commit.PostgreSQLConnection <- function(con, ...) {
+  dbGetQuery(con, "COMMIT")
+}
+
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
 #' @export
 db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
