@@ -16,7 +16,7 @@ namespace dplyr{
 
     class SymbolMap {
         public:
-            SymbolMap(): lookup(), r_match( "match" ), names(){}
+            SymbolMap(): lookup(), names(){}
 
             SymbolMapIndex insert( SEXP name ){
                 if( TYPEOF(name) == SYMSXP ) {
@@ -117,7 +117,6 @@ namespace dplyr{
 
 
             dplyr_hash_map<SEXP, int> lookup ;
-            Function r_match ;
             CharacterVector names ;
 
     } ;
