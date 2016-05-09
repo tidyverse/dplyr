@@ -39,6 +39,7 @@ Suggests:
     dtplyr
 Remotes:
     hadley/testthat,
+    hadley/dtplyr,
     hadley/tibble
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
