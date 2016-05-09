@@ -99,7 +99,7 @@ namespace dplyr{
 
         std::string name ;
         int n = names.size() ;
-        IntegerVector indices  = Language( "match", names,  RCPP_GET_NAMES(data)  ).fast_eval() ;
+        IntegerVector indices  = r_match( names, RCPP_GET_NAMES(data) );
 
         for( int i=0; i<n; i++){
             int pos = indices[i] ;

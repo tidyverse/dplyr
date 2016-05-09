@@ -1208,8 +1208,7 @@ SEXP resolve_vars( List new_groups, CharacterVector names){
     }
     // check that s is indeed in the data
 
-    Function match( "match" ) ;
-    int pos = as<int>(match( CharacterVector::create(PRINTNAME(s)), names));
+    int pos = as<int>(r_match( CharacterVector::create(PRINTNAME(s)), names ));
     if( pos == NA_INTEGER){
       stop("unknown variable to group by : %s", CHAR(PRINTNAME(s))) ;
     }
