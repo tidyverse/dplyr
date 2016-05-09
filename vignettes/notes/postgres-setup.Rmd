@@ -29,8 +29,8 @@ pg_ctl start
 From R,
 
 ```{r, eval = FALSE}
-install.packages("RPostgreSQL")
+install.packages("RPostgres")
 library(DBI)
-con <- dbConnect(RPostgreSQL::PostgreSQL(), dbname = "hadley")
+con <- dbConnect(RPostgres::Postgres(), dbname = "hadley")
 dbListTables(con)
 ```
