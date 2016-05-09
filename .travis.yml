@@ -10,9 +10,12 @@ r:
 
 warnings_are_errors: false
 env:
-- _R_CHECK_FORCE_SUGGESTS_=false
+  global:
+    - _R_CHECK_FORCE_SUGGESTS_=false
 
 before_install:
+  - Rscript -e "install.packages('git2r')"
+  - export MAKEFLAGS="-j 2"
   - Rscript -e "install.packages('devtools')"
   - Rscript -e "devtools::install_github('hadley/devtools')"
   - Rscript -e "devtools::install_deps(dependencies = TRUE)"
