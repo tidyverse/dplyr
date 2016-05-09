@@ -129,7 +129,7 @@ sql_build.op_filter <- function(op, con, ...) {
     # create mutate operation
     mutate_dots <- lapply(where$comp, lazyeval::as.lazy)
     mutated <- sql_build(op_single("mutate", op$x, dots = mutate_dots), con)
-    where_sql <- translate_sql_(where$expr, vars = vars)
+    where_sql <- translate_sql_(where$expr, con = con, vars = vars)
 
     select_query(mutated, select = ident(vars), where = where_sql)
   }
