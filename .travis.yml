@@ -8,6 +8,8 @@ r:
   - release
   - devel
 
+r_github_packages: hadley/devtools#1181
+
 warnings_are_errors: false
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
