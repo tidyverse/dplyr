@@ -8,13 +8,13 @@ r:
   - release
   - devel
 
-r_github_packages: hadley/devtools#1181
-
 warnings_are_errors: false
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
 
 before_install:
+  - Rscript -e "install.packages('devtools')"
+  - Rscript -e "devtools::install_github('hadley/devtools#1181')"
   - Rscript -e "devtools::install_deps(dependencies = TRUE)"
 
 before_script:
