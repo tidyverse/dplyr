@@ -12,3 +12,4 @@ demo/pandas
 ^revdep$
 ^README-.*\.png$
 ^codecov\.yml$
+^appveyor\.yml$
