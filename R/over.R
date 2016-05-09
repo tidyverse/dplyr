@@ -4,6 +4,9 @@
 # over("avg(x)", order = c("x", "y"))
 # over("avg(x)")
 over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
+  if (length(partition) == 0) {
+    partition <- NULL
+  }
   if (!is.null(partition)) {
     if (!is.sql(partition)) {
       partition <- ident(partition)
