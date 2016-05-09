@@ -14,6 +14,9 @@ warnings_are_errors: false
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
 
+before_install:
+  - Rscript -e "devtools::install_deps(dependencies = TRUE)"
+
 before_script:
   - psql -c 'create database test;' -U postgres
 
