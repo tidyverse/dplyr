@@ -219,7 +219,7 @@ db_create_table.PqConnection <- function(con, table, types,
 db_data_type.PqConnection <- function(con, fields, ...) {
   char_type <- function(x) {
     n <- max(nchar(as.character(x), "bytes"))
-    if (n <= 65535) {
+    if (!is.na(n) & n <= 65535) {
       paste0("varchar(", n, ")")
     } else {
       "varchar(max)"
