@@ -13,7 +13,6 @@ namespace dplyr {
             nrows = Rf_length( args[0] );
             for( int i=0; i<n; i++){
                 OrderVisitor* v = order_visitor( args[i], ascending[i] ) ;
-                if( !v ) stop("Cannot order based on this column") ;
                 visitors[i]  = v ;
             }
         }
