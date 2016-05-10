@@ -17,8 +17,8 @@ before_install:
   - Rscript -e "install.packages('git2r')"
   - export MAKEFLAGS="-j 2"
   - Rscript -e "install.packages('devtools')"
-  - Rscript -e "devtools::install_github('hadley/devtools')"
-  - Rscript -e "devtools::install_deps()"
+  - Rscript -e "devtools::install_github('hadley/devtools#1183')"
+  - Rscript -e "devtools::install()"
   - Rscript -e "devtools::install_github('hadley/dtplyr')"
   - Rscript -e "devtools::install_deps(dependencies = TRUE)"
 
