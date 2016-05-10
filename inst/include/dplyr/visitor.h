@@ -13,9 +13,10 @@ namespace dplyr {
             case LGLSXP: return new MatrixColumnVisitor<LGLSXP>( vec ) ;
             case STRSXP: return new MatrixColumnVisitor<STRSXP>( vec ) ;
             case VECSXP: return new MatrixColumnVisitor<VECSXP>( vec ) ;
-            default:
-                return 0 ;
+            default: break ;
             }
+
+            stop( "unimplemented matrix type: %d", TYPEOF(vec) ) ;
         }
 
         switch( TYPEOF(vec) ){
@@ -42,7 +43,7 @@ namespace dplyr {
             default: break ;
         }
 
-        // should not happen
+        stop( "unimplemented vector type: %d", TYPEOF(vec) ) ;
         return 0 ;
     }
 

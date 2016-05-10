@@ -276,6 +276,8 @@ namespace dplyr {
             case VECSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
             default: break ;
         }
+
+        stop( "unimplemented vector type: %d", TYPEOF(x) ) ;
         return 0 ;
     }
 

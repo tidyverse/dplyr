@@ -382,6 +382,8 @@ namespace dplyr {
         case VECSXP: return new Collecter_Impl<VECSXP>(n) ;
         default: break ;
         }
+
+        stop( "unimplemented vector type: %d", TYPEOF(model) ) ;
         return 0 ;
     }
 
@@ -415,6 +417,8 @@ namespace dplyr {
           return new Collecter_Impl<STRSXP>(n) ;
         default: break ;
         }
+
+        stop( "unimplemented vector type: %d", TYPEOF(model) ) ;
         return 0 ;
     }
 
