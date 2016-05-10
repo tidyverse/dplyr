@@ -18,7 +18,7 @@ before_install:
   - export MAKEFLAGS="-j 2"
   - Rscript -e "install.packages('devtools')"
   - Rscript -e "devtools::install_github('hadley/devtools')"
-  - Rscript -e "devtools::install_deps(dependencies = TRUE)"
+  - Rscript -e "devtools::install(dependencies = TRUE)"
 
 before_script:
   - psql -c 'create database test;' -U postgres
