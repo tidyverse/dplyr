@@ -991,7 +991,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
         }
       }
 
-      if( ! vx->is_compatible( vy.get(), ss, name ) ) {
+      if( ! vx->is_compatible( py, ss, name ) ) {
         ok = false ;
       }
     }
