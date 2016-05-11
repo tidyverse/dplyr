@@ -3,8 +3,8 @@
 
 namespace dplyr {
 
-    typedef VisitorSetIndexMap< DataFrameVisitors, std::vector<int> > ChunkIndexMap ; 
-    
+    typedef VisitorSetIndexMap< DataFrameVisitors, std::vector<int> > ChunkIndexMap ;
+
 }
 
 #endif

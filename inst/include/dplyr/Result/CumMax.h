@@ -2,15 +2,15 @@
 #define dplyr_Result_CumMax_H
 
 namespace dplyr {
-                
+
     // version for REALSXP
     template <int RTYPE>
     class CumMax : public Mutater<RTYPE, CumMax<RTYPE> > {
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
+
         CumMax(SEXP data_) : data(data_){}
-                            
+
         void process_slice( Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index){
             int n = index.size() ;
             STORAGE value = data[index[0]] ;
@@ -19,9 +19,9 @@ namespace dplyr {
                 for( int i=1; i<n; i++){
                     out[out_index[i]] = value ;
                 }
-                return ; 
+                return ;
             }
-            
+
             for( int i=1; i<n; i++){
                 STORAGE current = data[index[i]] ;
                 if( Rcpp::traits::is_na<RTYPE>(current) ){
@@ -34,10 +34,10 @@ namespace dplyr {
                 out[out_index[i]] = value ;
             }
         }
-        
+
         Vector<RTYPE> data ;
     } ;
-    
+
 }
 
 #endif

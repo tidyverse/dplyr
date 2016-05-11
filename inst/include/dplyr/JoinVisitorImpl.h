@@ -4,7 +4,7 @@
 namespace dplyr{
 
     CharacterVector get_uniques( const CharacterVector& left, const CharacterVector& right) ;
-    
+
     template <int LHS_RTYPE, int RHS_RTYPE>
     class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE>{
     public:

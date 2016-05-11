@@ -18,7 +18,7 @@ namespace dplyr{
                     if( Rf_inherits( x, "POSIXlt") ) return false ;
                     return true ;
             }
-            
+
             default: break ;
         }
         return false ;
