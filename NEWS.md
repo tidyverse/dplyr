@@ -2,12 +2,15 @@
 
 * Avoiding segfaults in presence of `raw` columns (#1803, #1817, @krlmlr).
 
+* `all_equal()` shows better error message when comparing raw values
+  or when types are incompatible and `convert = TRUE` (#1820, @krlmlr).
+
 * Fixed bug about joins when factor levels not equal (#1712, #1559).
 
 * anti and semi joins give correct result when by variable is a factor
   and don't warn (#1571).
 
-* setdiff handles factors with NA (#1526).
+* `setdiff()` handles factors with `NA` (#1526).
 
 * enabling joining of data frames that don't have the same encoding of
   column names (#1513).
