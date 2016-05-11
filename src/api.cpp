@@ -68,11 +68,12 @@ namespace dplyr{
             name_right = names_right[i] ;
 
             if( indices_left[i] == NA_INTEGER ){
-              stop( "'%s' column not found in lhs, cannot join" ) ;
+              stop( "'%s' column not found in lhs, cannot join", name_left ) ;
             }
             if( indices_right[i] == NA_INTEGER ){
-              stop( "'%s' column not found in rhs, cannot join" ) ;
+              stop( "'%s' column not found in rhs, cannot join", name_right ) ;
             }
+
             visitors[i] = join_visitor( left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn ) ;
         }
     }
