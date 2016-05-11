@@ -972,8 +972,8 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
       if( !px || !py ) {
         ss << "Cannot handle type for column "
            << name.get_cstring()
-           << ": x " << Rf_type2char(TYPEOF(x))
-           << ", y " << Rf_type2char(TYPEOF(y)) ;
+           << ": x " << Rf_type2char(TYPEOF(xi))
+           << ", y " << Rf_type2char(TYPEOF(yi)) ;
 
         ok = false ;
         continue ;
