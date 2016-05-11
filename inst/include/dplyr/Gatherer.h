@@ -277,7 +277,7 @@ namespace dplyr {
             default: break ;
         }
 
-        stop( "unimplemented vector type: %d", TYPEOF(x) ) ;
+        stop( "unimplemented vector type: %s", Rf_type2rstr(TYPEOF(x)) ) ;
         return 0 ;
     }
 

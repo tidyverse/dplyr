@@ -46,7 +46,7 @@ namespace dplyr {
             default: break ;
         }
 
-        stop( "unimplemented type: %d", TYPEOF(v) ) ;
+        stop( "unimplemented type: %s", Rf_type2rstr(TYPEOF(v)) ) ;
         return 0 ;
     }
     

@@ -383,7 +383,7 @@ namespace dplyr {
         default: break ;
         }
 
-        stop( "unimplemented vector type: %d", TYPEOF(model) ) ;
+        stop( "unimplemented vector type: %s", Rf_type2rstr(TYPEOF(model)) ) ;
         return 0 ;
     }
 
@@ -418,7 +418,7 @@ namespace dplyr {
         default: break ;
         }
 
-        stop( "unimplemented vector type: %d", TYPEOF(model) ) ;
+        stop( "unimplemented vector type: %s", Rf_type2rstr(TYPEOF(model)) ) ;
         return 0 ;
     }
 
