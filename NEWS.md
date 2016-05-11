@@ -1,5 +1,7 @@
 # dplyr 0.4.3.9000
 
+* Avoiding segfaults in presence of `raw` columns (#1803, #1817, @krlmlr).
+
 * Fixed bug about joins when factor levels not equal (#1712, #1559).
 
 * anti and semi joins give correct result when by variable is a factor
