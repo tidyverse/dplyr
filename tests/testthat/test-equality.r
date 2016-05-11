@@ -94,3 +94,8 @@ test_that("equality handles data frames with 0 columns (#1506)", {
   df0 <- data_frame(x = numeric(0), y = character(0) )
   expect_equal(df0, df0)
 })
+
+test_that("equality fails gracefully in presence of raw columns", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_match(all.equal(df, df), "Cannot handle")
+})
