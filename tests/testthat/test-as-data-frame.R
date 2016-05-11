@@ -18,3 +18,12 @@ test_that("as_data_frame works for SQL sources", {
 
   expect_equal(out, data_frame(x = letters))
 })
+
+test_that("as.data.frame is unlimited", {
+  x <- rep(1:2, formals(collect.tbl_sql)$n)
+  lf1 <- memdb_frame(x = x)
+  out <- lf1 %>%
+    as_data_frame()
+
+  expect_equal(out, data_frame(x = x))
+})
