@@ -143,9 +143,15 @@ test_that("duplicated column name is explicit about which column (#996)", {
     expect_error( df %>% arrange, "found duplicated column name: x, y" )
 })
 
-test_that("arrange fails gracefully on list comumns (#1489)",{
+test_that("arrange fails gracefully on list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
   expect_error( arrange(df, fit), "Cannot order based on this column" )
+})
+
+test_that("arrange fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( arrange(df, a), "unsupported type" )
+  expect_error( arrange(df, b), "unsupported type" )
 })

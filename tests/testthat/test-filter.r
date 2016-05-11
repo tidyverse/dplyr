@@ -383,3 +383,9 @@ test_that("each argument gets implicit parens", {
     expect_equal(collect(one[[i]]), collect(two[[i]]))
   })
 })
+
+test_that("filter fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( filter(df, a == 1), "unsupported type" )
+  expect_error( filter(df, b == 1), "unsupported type" )
+})

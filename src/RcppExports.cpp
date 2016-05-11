@@ -145,6 +145,16 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// assert_all_white_list
+void assert_all_white_list(const DataFrame& data);
+RcppExport SEXP dplyr_assert_all_white_list(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP);
+    assert_all_white_list(data);
+    return R_NilValue;
+END_RCPP
+}
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
 RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {

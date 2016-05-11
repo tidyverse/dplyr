@@ -625,6 +625,7 @@ void push_back( Container& x, typename Container::value_type value, int n ){
         x.push_back( value ) ;
 }
 
+// [[Rcpp::export]]
 void assert_all_white_list(const DataFrame& data){
     // checking variables are on the white list
     int nc = data.size() ;

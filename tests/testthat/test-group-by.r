@@ -243,3 +243,14 @@ test_that("group_by handles encodings (#1507)", {
   res <- group_by_(df, iconv("\u00e9", to = "latin1") )
   expect_equal( names(res), names(df) )
 })
+
+test_that("group_by fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( group_by(df, a), "unsupported type" )
+  expect_error( group_by(df, b), "unsupported type" )
+})
+
+test_that("rowwise fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( rowwise(df), "unsupported type" )
+})
