@@ -980,12 +980,12 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
       }
 
       if( typeid(*px) != typeid(*py) ) {
-        if( !convert ) {
-          ss << "Incompatible type for column "
-             << name.get_cstring()
-             << ": x " << vx->get_r_type()
-             << ", y " << vy->get_r_type() ;
+        ss << "Incompatible type for column "
+           << name.get_cstring()
+           << ": x " << vx->get_r_type()
+           << ", y " << vy->get_r_type() ;
 
+        if( !convert ) {
           ok = false ;
           continue ;
         }

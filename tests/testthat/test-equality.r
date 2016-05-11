@@ -104,3 +104,17 @@ test_that("equality fails gracefully in presence of raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_match(all.equal(df, df), "Cannot handle")
 })
+
+test_that("equality returns a message for convert = TRUE", {
+  df1 <- data_frame(x = 1:3)
+  df2 <- data_frame(x = as.character(1:3))
+  expect_match(all.equal(df1, df2), "Incompatible")
+  expect_match(all.equal(df1, df2, convert = TRUE), "Incompatible")
+})
+
+test_that("numeric and integer can be compared if convert = TRUE", {
+  df1 <- data_frame(x = 1:3)
+  df2 <- data_frame(x = as.numeric(1:3))
+  expect_match(all.equal(df1, df2), "Incompatible")
+  expect_true(all.equal(df1, df2, convert = TRUE))
+})
