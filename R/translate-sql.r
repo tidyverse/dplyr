@@ -143,10 +143,10 @@ translate_sql_ <- function(dots,
   variant <- sql_translate_env(con)
 
   if (window) {
-    old_group <- set_partition_group(vars_group)
+    old_group <- set_partition_group(escape(ident(vars_group), con = con))
     on.exit(set_partition_group(old_group), add = TRUE)
 
-    old_order <- set_partition_order(vars_order)
+    old_order <- set_partition_order(escape(ident(vars_order), con = con))
     on.exit(set_partition_order(old_order), add = TRUE)
   }
 
