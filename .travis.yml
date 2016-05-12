@@ -12,10 +12,9 @@ warnings_are_errors: false
 env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_=false
+    - MAKEFLAGS="-j 2"
 
 before_install:
-  - Rscript -e "install.packages('git2r')" # remove this once git2r > 0.14.0 is on CRAN
-  - export MAKEFLAGS="-j 2"
   - Rscript -e "install.packages('devtools')"
   - Rscript -e "devtools::install_github('hadley/devtools')"
   - Rscript -e "devtools::install()"
