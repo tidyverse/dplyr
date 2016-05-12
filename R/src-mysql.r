@@ -187,11 +187,11 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Encode special characters in strings
   is_char <- vapply(values, is.character, logical(1))
-  values[is_char] <- lapply(values[is_char], encodeString)
+  values[is_char] <- lapply(values[is_char], encodeString, na.encode = FALSE)
 
   tmp <- tempfile(fileext = ".csv")
   utils::write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
-    row.names = FALSE, col.names = FALSE)
+    na = "\\N", row.names = FALSE, col.names = FALSE)
 
   sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
     ident(table), con = con)
