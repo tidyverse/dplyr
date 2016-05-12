@@ -145,7 +145,7 @@ db_has_table.MySQLConnection <- function(con, table, ...) {
 #' @export
 db_data_type.MySQLConnection <- function(con, fields, ...) {
   char_type <- function(x) {
-    n <- max(nchar(as.character(x), "bytes"))
+    n <- max(nchar(as.character(x), "bytes"), 0L, na.rm = TRUE)
     if (n <= 65535) {
       paste0("varchar(", n, ")")
     } else {
