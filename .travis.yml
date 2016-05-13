@@ -17,8 +17,6 @@ env:
 before_install:
   - Rscript -e "install.packages('devtools')"
   - Rscript -e "devtools::install_github('hadley/devtools#1184')"
-  - Rscript -e "devtools::install_deps()"
-  - Rscript -e "devtools::install_github('hadley/dtplyr')"
   - Rscript -e "devtools::install_deps(dependencies = TRUE)"
 
 before_script:
