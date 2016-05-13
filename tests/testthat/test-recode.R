@@ -71,9 +71,27 @@ test_that(".default is not aliased to .x when missing and not compatible", {
   expect_equal(recode(n, `1` = "a"), c("a", NA, NA))
 })
 
+test_that("default .default works with factors", {
+  expect_equal(recode(factor(letters[1:3]), a = "A"), factor(c("A", "b", "c")))
+})
+
 test_that("recode_factor() handles .missing and .default levels", {
   x <- c(1:3, NA)
   expect_equal(recode_factor(x, `1` = "z", `2` = "y"), factor(c("z", "y", NA, NA), levels = c("z", "y")))
   expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D"), factor(c("z", "y", "D", NA), levels = c("z", "y", "D")))
   expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"), factor(c("z", "y", "D", "M"), c("z", "y", "D", "M")))
+})
+
+test_that("recode_factor() handles vector .default", {
+  character_default <- recode_factor(factor(letters[1:3]), b = "z", c = "y", .default = letters[1:3])
+  implicit_factor_default <- recode_factor(factor(letters[1:3]), b = "z", c = "y")
+
+  expected <- factor(c("a", "z", "y"), levels = c("z", "y", "a"))
+  expect_equal(character_default, expected)
+  expect_equal(implicit_factor_default, expected)
+})
+
+test_that("can recode factor with redundant levels", {
+  expect_equal(recode(factor(letters[1:4]), d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("a", "c")))
+  expect_equal(recode_factor(letters[1:4], d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("c", "a")))
 })

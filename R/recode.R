@@ -137,6 +137,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[levels(.x) == nm] <- TRUE
   }
 
+  .default <- recode_factor_default(.default, .x)
   out <- replace_with(out, !replaced, .default, "`.default`")
   levels(.x) <- out
 
@@ -163,24 +164,23 @@ recode_default <- function(default, x, out) {
   }
 }
 
+recode_factor_default <- function(default, x) {
+  if (is.null(default) && is.factor(x)) {
+    default <- levels(x)
+  }
+
+  default
+}
+
 #' @rdname recode
 #' @export
 recode_factor <- function (.x, ..., .default = NULL, .missing = NULL,
                            .ordered = FALSE) {
   recoded <- recode(.x, ..., .default = .default, .missing = .missing)
 
-  levels <- c(...,
-    recode_factor_default(.default),
-    recode_factor_default(.missing)
-  )
+  all_levels <- unique(c(..., recode_factor_default(.default, .x), .missing))
+  recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)
+  levels <- intersect(all_levels, recoded_levels)
 
   factor(recoded, levels, ordered = .ordered)
-}
-
-recode_factor_default <- function(default) {
-  if (length(default) == 1 && !is.na(default)) {
-    default
-  } else {
-    NULL
-  }
 }
