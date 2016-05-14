@@ -35,7 +35,7 @@ test_that("missing values replaced by missing argument", {
 })
 
 test_that("unmatched value replaced by default argument", {
-  expect_equal(recode(c(1, 2), "a"), c("a", NA))
+  expect_warning(expect_equal(recode(c(1, 2), "a"), c("a", NA)))
   expect_equal(recode(c(1, 2), "a", .default = "b"), c("a", "b"))
 })
 
@@ -65,10 +65,10 @@ test_that(".default is aliased to .x when missing and compatible", {
 
 test_that(".default is not aliased to .x when missing and not compatible", {
   x <- letters[1:3]
-  expect_equal(recode(x, a = 1), c(1L, NA, NA))
+  expect_warning(expect_equal(recode(x, a = 1), c(1L, NA, NA)))
 
   n <- 1:3
-  expect_equal(recode(n, `1` = "a"), c("a", NA, NA))
+  expect_warning(expect_equal(recode(n, `1` = "a"), c("a", NA, NA)))
 })
 
 test_that("default .default works with factors", {
@@ -77,7 +77,7 @@ test_that("default .default works with factors", {
 
 test_that("recode_factor() handles .missing and .default levels", {
   x <- c(1:3, NA)
-  expect_equal(recode_factor(x, `1` = "z", `2` = "y"), factor(c("z", "y", NA, NA), levels = c("z", "y")))
+  expect_warning(expect_equal(recode_factor(x, `1` = "z", `2` = "y"), factor(c("z", "y", NA, NA), levels = c("z", "y"))))
   expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D"), factor(c("z", "y", "D", NA), levels = c("z", "y", "D")))
   expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"), factor(c("z", "y", "D", "M"), c("z", "y", "D", "M")))
 })
@@ -94,4 +94,8 @@ test_that("recode_factor() handles vector .default", {
 test_that("can recode factor with redundant levels", {
   expect_equal(recode(factor(letters[1:4]), d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("a", "c")))
   expect_equal(recode_factor(letters[1:4], d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("c", "a")))
+})
+
+test_that("conversion of unreplaced values to NA gives warning", {
+  expect_warning(recode(1:3, `1` = "a"), "treated as NA")
 })
