@@ -9,6 +9,8 @@
 
 * enabling joining of data frames that don't have the same encoding of
   column names (#1513). 
+  
+* `one_of()` tolerates unknown variables in `vars`, but warns (#1848, @jennybc).
 
 ## Breaking changes
 
