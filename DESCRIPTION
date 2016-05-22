@@ -37,8 +37,7 @@ Suggests:
     rmarkdown,
     covr,
     dtplyr
-Remotes:
-    hadley/testthat,
+Remotes: hadley/testthat,
     hadley/tibble
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
@@ -88,6 +87,7 @@ Collate:
     'over.R'
     'partial-eval.r'
     'progress.R'
+    'put.r'
     'query.r'
     'rank.R'
     'recode.R'
