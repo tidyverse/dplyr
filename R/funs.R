@@ -71,8 +71,8 @@ as.fun_list.function <- function(.x, ..., .env) {
     .env <- new.env(parent = parent.frame())
   }
 
-  .env$`__fun` <- .x
-  call <- make_call("__fun", list(...))
+  .env$`__dplyr_colwise_fun` <- .x
+  call <- make_call("__dplyr_colwise_fun", list(...))
   dots <- lazyeval::as.lazy_dots(call, .env)
 
   funs_(dots)

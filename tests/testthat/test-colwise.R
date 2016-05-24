@@ -70,6 +70,10 @@ test_that("can probe colwise", {
   expect_classes(logical, "cnccf")
 })
 
+test_that("sql sources fail with bare functions", {
+  expect_error(memdb_frame(x = 1) %>% mutate_all(mean) %>% collect())
+})
+
 
 # Deprecated ---------------------------------------------------------
 
