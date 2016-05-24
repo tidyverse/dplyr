@@ -56,6 +56,16 @@ as.fun_list.character <- function(x, env) {
   parsed <- lapply(x, function(x) parse(text = x)[[1]])
   funs_(parsed)
 }
+#' @export
+as.fun_list.function <- function(x, env) {
+  if (missing(env)) {
+    env <- new.env(parent = parent.frame())
+  }
+  env$`__fun` <- x
+
+  dots <- lazyeval::as.lazy_dots(make_call("__fun"), env)
+  funs_(dots)
+}
 
 #' @export
 print.fun_list <- function(x, ..., width = getOption("width")) {

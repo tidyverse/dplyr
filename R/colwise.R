@@ -103,6 +103,7 @@ mutate_each_q <- function(...) {
 
 
 colwise_ <- function(tbl, calls, vars) {
+  calls <- as.fun_list(calls)
   stopifnot(is.fun_list(calls))
 
   named_calls <- attr(calls, "has_names")
