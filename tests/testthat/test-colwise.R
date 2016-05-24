@@ -28,3 +28,12 @@ test_that("can use character vectors", {
   expect_equal(summarise_each(df, "mean"), summarise_each(df, funs(mean)))
   expect_equal(mutate_each(df, c(mean = "mean")), mutate_each(df, funs(mean = mean)))
 })
+
+test_that("additional arguments are merged into funs calls", {
+  multiple <- funs_(c("mean", "median"), list(na.rm = TRUE))
+  expect_true(multiple[[1]]$expr$na.rm)
+  expect_true(multiple[[2]]$expr$na.rm)
+
+  overwritten <- funs_(quote(mean(trim = 10)), list(trim = 1))
+  expect_equal(overwritten[[1]]$expr$trim, 1)
+})

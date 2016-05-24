@@ -7,7 +7,7 @@
 \usage{
 funs(...)
 
-funs_(dots)
+funs_(dots, args = list())
 }
 \arguments{
 \item{dots, ...}{A list of functions specified by:
@@ -18,6 +18,9 @@ funs_(dots)
     \item A call to the function with \code{.} as a dummy parameter,
       \code{mean(., na.rm = TRUE)}
   }}
+
+\item{args}{A named list of additional arguments to be added to all
+function calls.}
 }
 \description{
 \code{funs} provides a flexible way to generate a named list of functions for

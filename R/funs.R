@@ -11,6 +11,8 @@
 #'     \item A call to the function with \code{.} as a dummy parameter,
 #'       \code{mean(., na.rm = TRUE)}
 #'   }
+#' @param args A named list of additional arguments to be added to all
+#'   function calls.
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))
@@ -25,14 +27,14 @@ funs <- function(...) funs_(lazyeval::lazy_dots(...))
 
 #' @export
 #' @rdname funs
-funs_ <- function(dots) {
+funs_ <- function(dots, args = list()) {
   dots <- lazyeval::as.lazy_dots(dots)
   env <- lazyeval::common_env(dots)
 
   names(dots) <- names2(dots)
 
   dots[] <- lapply(dots, function(x) {
-    x$expr <- make_call(x$expr)
+    x$expr <- make_call(x$expr, args)
     x
   })
 
@@ -48,23 +50,41 @@ funs_ <- function(dots) {
 
 is.fun_list <- function(x, env) inherits(x, "fun_list")
 
-as.fun_list <- function(x, env) UseMethod("as.fun_list")
+as.fun_list <- function(.x, ..., .env) UseMethod("as.fun_list")
 #' @export
-as.fun_list.fun_list <- function(x, env) x
-#' @export
-as.fun_list.character <- function(x, env) {
-  parsed <- lapply(x, function(x) parse(text = x)[[1]])
-  funs_(parsed)
+as.fun_list.fun_list <- function(.x, ..., .env) {
+  .x[] <- lapply(.x, function(fun) {
+    fun$expr <- merge_args(fun$expr, list(...))
+    fun
+  })
+
+  .x
 }
 #' @export
-as.fun_list.function <- function(x, env) {
-  if (missing(env)) {
-    env <- new.env(parent = parent.frame())
+as.fun_list.character <- function(.x, ..., .env) {
+  parsed <- lapply(.x, function(.x) parse(text = .x)[[1]])
+  funs_(parsed, list(...))
+}
+#' @export
+as.fun_list.function <- function(.x, ..., .env) {
+  if (missing(.env)) {
+    .env <- new.env(parent = parent.frame())
   }
-  env$`__fun` <- x
 
-  dots <- lazyeval::as.lazy_dots(make_call("__fun"), env)
+  .env$`__fun` <- .x
+  call <- make_call("__fun", list(...))
+  dots <- lazyeval::as.lazy_dots(call, .env)
+
   funs_(dots)
+}
+
+#' @export
+`[.fun_list` <- function(x, i) {
+  structure(
+    NextMethod(),
+    class = c("fun_list", "lazy_dots"),
+    has_names = attr(x, "has_names")
+  )
 }
 
 #' @export
@@ -81,16 +101,18 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   invisible(x)
 }
 
-make_call <- function(x) {
+make_call <- function(x, args) {
   if (is.character(x)) {
-    substitute(f(.), list(f = as.name(x)))
+    call <- substitute(f(.), list(f = as.name(x)))
   } else if (is.name(x)) {
-    substitute(f(.), list(f = x))
+    call <- substitute(f(.), list(f = x))
   } else if (is.call(x)) {
-    x
+    call <- x
   } else {
     stop("Unknown inputs")
   }
+
+  merge_args(call, args)
 }
 make_name <- function(x) {
   if (is.character(x)) {
@@ -102,4 +124,19 @@ make_name <- function(x) {
   } else {
     stop("Unknown input:", class(x)[1])
   }
+}
+
+merge_args <- function(call, args) {
+  if (!length(args)) {
+    return(call)
+  }
+  if (is.null(names(args))) {
+    stop("Additional arguments should be named", call. = FALSE)
+  }
+
+  Map(function(arg, value) {
+    call[[arg]] <<- value
+  }, names(args), args)
+
+  call
 }
