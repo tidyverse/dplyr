@@ -78,41 +78,6 @@ namespace dplyr{
         }
     }
 
-    DataFrameSubsetVisitors::DataFrameSubsetVisitors( const Rcpp::DataFrame& data_) :
-        data(data_),
-        visitors(),
-        visitor_names(data.names()),
-        nvisitors(visitor_names.size())
-    {
-
-        for( int i=0; i<nvisitors; i++){
-            SubsetVectorVisitor* v = subset_visitor( data[i] ) ;
-            visitors.push_back(v) ;
-        }
-    }
-
-    DataFrameSubsetVisitors::DataFrameSubsetVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names ) :
-        data(data_),
-        visitors(),
-        visitor_names(names),
-        nvisitors(visitor_names.size())
-    {
-
-        std::string name ;
-        int n = names.size() ;
-        IntegerVector indices  = Language( "match", names,  RCPP_GET_NAMES(data)  ).fast_eval() ;
-
-        for( int i=0; i<n; i++){
-            int pos = indices[i] ;
-            if( pos == NA_INTEGER ){
-                name = (String)names[i] ;
-                stop( "unknown column '%s' ", name ) ;
-            }
-            visitors.push_back(subset_visitor( data[pos-1] )) ;
-        }
-    }
-
-
     Symbol extract_column( SEXP arg, const Environment& env ){
       RObject value ;
       if( TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~") ){
