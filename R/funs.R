@@ -13,6 +13,7 @@
 #'   }
 #' @param args A named list of additional arguments to be added to all
 #'   function calls.
+#' @param env The environment in which functions should be evaluated.
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))
@@ -27,8 +28,8 @@ funs <- function(...) funs_(lazyeval::lazy_dots(...))
 
 #' @export
 #' @rdname funs
-funs_ <- function(dots, args = list()) {
-  dots <- lazyeval::as.lazy_dots(dots)
+funs_ <- function(dots, args = list(), env = baseenv()) {
+  dots <- lazyeval::as.lazy_dots(dots, env)
   env <- lazyeval::common_env(dots)
 
   names(dots) <- names2(dots)
@@ -50,9 +51,11 @@ funs_ <- function(dots, args = list()) {
 
 is.fun_list <- function(x, env) inherits(x, "fun_list")
 
-as.fun_list <- function(.x, ..., .env) UseMethod("as.fun_list")
+as.fun_list <- function(.x, ..., .env = baseenv()) {
+  UseMethod("as.fun_list")
+}
 #' @export
-as.fun_list.fun_list <- function(.x, ..., .env) {
+as.fun_list.fun_list <- function(.x, ..., .env = baseenv()) {
   .x[] <- lapply(.x, function(fun) {
     fun$expr <- merge_args(fun$expr, list(...))
     fun
@@ -61,17 +64,15 @@ as.fun_list.fun_list <- function(.x, ..., .env) {
   .x
 }
 #' @export
-as.fun_list.character <- function(.x, ..., .env) {
+as.fun_list.character <- function(.x, ..., .env = baseenv()) {
   parsed <- lapply(.x, function(.x) parse(text = .x)[[1]])
-  funs_(parsed, list(...))
+  funs_(parsed, list(...), .env)
 }
 #' @export
-as.fun_list.function <- function(.x, ..., .env) {
-  if (missing(.env)) {
-    .env <- new.env(parent = parent.frame())
-  }
-
+as.fun_list.function <- function(.x, ..., .env = baseenv()) {
+  .env <- new.env(parent = .env)
   .env$`__dplyr_colwise_fun` <- .x
+
   call <- make_call("__dplyr_colwise_fun", list(...))
   dots <- lazyeval::as.lazy_dots(call, .env)
 
