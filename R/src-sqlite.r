@@ -123,7 +123,7 @@ src_sqlite <- function(path, create = FALSE) {
 #' df %>% arrange(x) %>% show_query()
 #' }
 src_memdb <- function() {
-  cache_computation("src_memdb", src_sqlite(":memory:", TRUE))
+  cache_computation("src_memdb", src_sqlite("file::memory:", TRUE))
 }
 
 #' @inheritParams tibble::data_frame

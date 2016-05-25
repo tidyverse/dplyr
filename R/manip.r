@@ -98,7 +98,7 @@ slice_ <- function(.data, ..., .dots) {
 #' by_cyl_dt <- mtcars %>% dtplyr::tbl_dt() %>% group_by(cyl)
 #' by_cyl_dt %>% summarise(a = n(), b = a + 1)
 #'
-#' by_cyl_db <- src_sqlite(":memory:", create = TRUE) %>%
+#' by_cyl_db <- src_sqlite("file::memory:", create = TRUE) %>%
 #'   copy_to(mtcars) %>% group_by(cyl)
 #' by_cyl_db %>% summarise(a = n(), b = a + 1)
 #' }
