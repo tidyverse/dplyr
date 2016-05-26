@@ -147,7 +147,7 @@ src_desc.src_sqlite <- function(x) {
 }
 
 sqlite_version <- function() {
-  if (packageVersion("RSQLite") > 1) {
+  if (utils::packageVersion("RSQLite") > 1) {
     RSQLite::rsqliteVersion()[[2]]
   } else {
     DBI::dbGetInfo(RSQLite::SQLite())$clientVersion
