@@ -6,7 +6,7 @@ warnings_are_errors: false
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
 
-github_packages:
+r_github_packages:
   - hadley/devtools
 
 before_script:
