@@ -588,7 +588,7 @@ test_that( "left_join handles mix of encodings in column names (#1571)", {
   names(df1)[1] <- "l\u00f8penummer"
 
   df2 <- tibble::data_frame(x = 1:6, baz = 1:6)
-  names(df2)[1] <- iconv(  "l\u00f8penummer", to  = "latin1" )
+  names(df2)[1] <- iconv(  "l\u00f8penummer", from = "UTF-8", to  = "latin1" )
 
   expect_message( res <- left_join( df1, df2 ) )
   expect_equal( names(res), c("l\u00f8penummer", "foo", "baz") )
