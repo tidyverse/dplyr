@@ -43,12 +43,17 @@ test_that("num_range selects numeric ranges", {
 # one_of ------------------------------------------------------------------
 
 test_that("one_of gives useful errors", {
+  expect_error(one_of(1L, vars = c("x", "y")), "must be a character vector")
+})
+
+test_that("one_of tolerates but warns for unknown variables", {
   vars <- c("x", "y")
 
-  expect_error(one_of("z", vars = vars), "Unknown variables: `z`")
-  expect_error(one_of(c("x", "z"), vars = vars), "Unknown variables: `z`")
+  expect_warning(res <- one_of("z", vars = vars), "Unknown variables: `z`")
+  expect_equal(res, -(1:2))
+  expect_warning(res <- one_of(c("x", "z"), vars = vars), "Unknown variables: `z`")
+  expect_equal(res, 1L)
 
-  expect_error(one_of(1L, vars = vars), "must be a character vector")
 })
 
 test_that("one_of converts names to positions", {

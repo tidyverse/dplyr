@@ -58,7 +58,7 @@ These functions allow you to select variables based on their names.
  \item \code{contains()}: contains a literal string
  \item \code{matches()}: matches a regular expression
  \item \code{num_range()}: a numerical range like x01, x02, x03.
- \item \code{one_of()}: varables in character vector.
+ \item \code{one_of()}: variables in character vector.
  \item \code{everything()}: all variables.
 }
 }

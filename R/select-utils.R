@@ -7,7 +7,7 @@
 #'  \item \code{contains()}: contains a literal string
 #'  \item \code{matches()}: matches a regular expression
 #'  \item \code{num_range()}: a numerical range like x01, x02, x03.
-#'  \item \code{one_of()}: varables in character vector.
+#'  \item \code{one_of()}: variables in character vector.
 #'  \item \code{everything()}: all variables.
 #' }
 #'
@@ -116,7 +116,7 @@ one_of <- function(..., vars = current_vars()) {
 
   if (!all(keep %in% vars)) {
     bad <- setdiff(keep, vars)
-    stop("Unknown variables: ", paste0("`", bad, "`", collapse = ", "))
+    warning("Unknown variables: ", paste0("`", bad, "`", collapse = ", "))
   }
 
   match_vars(keep, vars)
