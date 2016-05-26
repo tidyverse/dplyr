@@ -78,7 +78,7 @@ namespace dplyr {
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
         SummarisedSubsetTemplate( SummarisedVariable x, int max_size ) :
-            object(x), output(1), i(0) {}
+            object(x), output(1) {}
 
         virtual SEXP get( const SlicingIndex& indices ) {
             output[0] = object[indices.group()] ;
@@ -94,7 +94,26 @@ namespace dplyr {
     private:
         Rcpp::Vector<RTYPE> object ;
         Rcpp::Vector<RTYPE> output ;
-        int i ;
+    } ;
+
+    template <>
+    class SummarisedSubsetTemplate<VECSXP> : public GroupedSubset {
+    public:
+        SummarisedSubsetTemplate( SummarisedVariable x, int max_size ) : object(x){}
+
+        virtual SEXP get( const SlicingIndex& indices ) {
+            return List::create( object[indices.group()] ) ;
+        }
+
+        virtual SEXP get_variable() const {
+            return object ;
+        }
+        virtual bool is_summary() const {
+            return true;
+        }
+
+    private:
+        List object ;
     } ;
 
     inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size){
@@ -103,6 +122,8 @@ namespace dplyr {
             case INTSXP: return new SummarisedSubsetTemplate<INTSXP>(x, max_size) ;
             case REALSXP: return new SummarisedSubsetTemplate<REALSXP>(x, max_size) ;
             case STRSXP: return new SummarisedSubsetTemplate<STRSXP>(x, max_size) ;
+            case VECSXP: return new SummarisedSubsetTemplate<VECSXP>(x, max_size) ;
+            case CPLXSXP: return new SummarisedSubsetTemplate<CPLXSXP>(x, max_size) ;
         }
         return 0 ;
     }
