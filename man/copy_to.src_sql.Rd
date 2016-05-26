@@ -6,7 +6,7 @@
 \usage{
 \method{copy_to}{src_sql}(dest, df, name = deparse(substitute(df)),
   types = NULL, temporary = TRUE, unique_indexes = NULL, indexes = NULL,
-  analyze = TRUE, ...)
+  analyze = TRUE, begin = TRUE, ...)
 }
 \arguments{
 \item{dest}{remote data source}
@@ -31,6 +31,9 @@ will create a new index.}
 
 \item{analyze}{if \code{TRUE} (the default), will automatically ANALYZE the
 new table so that the query optimiser has useful information.}
+
+\item{begin}{if \code{TRUE} (the default), will automatically send BEGIN to
+start the transaction. This should be disabled for Redshift databases.}
 
 \item{...}{other parameters passed to methods.}
 }

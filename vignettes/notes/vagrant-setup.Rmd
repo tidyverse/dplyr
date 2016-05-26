@@ -31,7 +31,10 @@ sudo -u postgres createdb test
 # Ctrl + D
 
 R
-install.packages(c("RPostgreSQL", "RMySQL"))
+install.packages(c("RMySQL", "devtools"))
+devtools::install_github("RcppCore/Rcpp")
+devtools::install_github("rstats-db/DBI")
+devtools::install_github("rstats-db/RPostgres")
 # Ctrl + D
 
 library(dplyr)

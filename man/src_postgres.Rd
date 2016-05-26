@@ -6,7 +6,7 @@
 \title{Connect to postgresql.}
 \usage{
 src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
-  password = NULL, ...)
+  password = NULL, sslmode = NULL, ...)
 
 \method{tbl}{src_postgres}(src, from, ...)
 }
@@ -16,6 +16,8 @@ src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
 \item{host, port}{Host name and port number of database}
 
 \item{user, password}{User name and password (if needed)}
+
+\item{sslmode}{specifies the type of ssl connection (disable, allow, prefer, require, verify-ca, verify-full)}
 
 \item{...}{for the src, other arguments passed on to the underlying
 database connector, \code{dbConnect}. For the tbl, included for

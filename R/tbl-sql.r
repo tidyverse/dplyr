@@ -306,6 +306,8 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #'   will create a new index.
 #' @param analyze if \code{TRUE} (the default), will automatically ANALYZE the
 #'   new table so that the query optimiser has useful information.
+#' @param begin if \code{TRUE} (the default), will automatically send BEGIN to
+#'   start the transaction. This should be disabled for Redshift databases.
 #' @inheritParams copy_to
 #' @return a sqlite \code{\link{tbl}} object
 #' @examples
@@ -327,7 +329,7 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
                             types = NULL, temporary = TRUE,
                             unique_indexes = NULL, indexes = NULL,
-                            analyze = TRUE, ...) {
+                            analyze = TRUE, begin=TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
 
@@ -339,7 +341,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   names(types) <- names(df)
 
   con <- dest$con
-  db_begin(con)
+  if (begin) db_begin(con)
   on.exit(db_rollback(con))
 
   db_create_table(con, name, types, temporary = temporary)
@@ -479,4 +481,3 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
     label_output_list(labels, out, groups(.data))
   }
 }
-

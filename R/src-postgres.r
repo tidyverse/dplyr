@@ -10,6 +10,7 @@
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
+#' @param sslmode specifies the type of ssl connection (disable, allow, prefer, require, verify-ca, verify-full)
 #' @param ... for the src, other arguments passed on to the underlying
 #'   database connector, \code{dbConnect}. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
@@ -95,16 +96,17 @@
 #' batting2008
 #' }
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
-                         password = NULL, ...) {
-  if (!requireNamespace("RPostgreSQL", quietly = TRUE)) {
-    stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
+                         password = NULL, sslmode = NULL, ...) {
+  if (!requireNamespace("RPostgres", quietly = TRUE)) {
+    stop("RPostgres package required to connect to postgres db", call. = FALSE)
   }
 
   user <- user %||% if (in_travis()) "postgres" else ""
 
-  con <- dbConnect(RPostgreSQL::PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
-    user = user, password = password %||% "", port = port %||% "", ...)
+  con <- dbConnect(RPostgres::Postgres(), host = host %||% "", dbname = dbname %||% "",
+                   user = user, password = password %||% "", port = port %||% "", sslmode=sslmode %||% "", ...)
   info <- dbGetInfo(con)
+  info$user <- user
 
   src_sql("postgres", con,
     info = info, disco = db_disconnector(con, "postgres"))
@@ -121,12 +123,12 @@ src_desc.src_postgres <- function(x) {
   info <- x$info
   host <- if (info$host == "") "localhost" else info$host
 
-  paste0("postgres ", info$serverVersion, " [", info$user, "@",
+  paste0("postgres ", info$server_version, " [", info$user, "@",
     host, ":", info$port, "/", info$dbname, "]")
 }
 
 #' @export
-sql_translate_env.PostgreSQLConnection <- function(con) {
+sql_translate_env.PqConnection <- function(con) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
@@ -147,18 +149,18 @@ sql_translate_env.PostgreSQLConnection <- function(con) {
 
 # Doesn't return TRUE for temporary tables
 #' @export
-db_has_table.PostgreSQLConnection <- function(con, table, ...) {
+db_has_table.PqConnection <- function(con, table, ...) {
   table %in% db_list_tables(con)
 }
 
 #' @export
-db_begin.PostgreSQLConnection <- function(con, ...) {
-  dbGetQuery(con, "BEGIN TRANSACTION")
+db_begin.PqConnection <- function(con, ...) {
+    dbGetQuery(con, "BEGIN TRANSACTION")
 }
 
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
 #' @export
-db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
+db_explain.PqConnection <- function(con, sql, format = "text", ...) {
   format <- match.arg(format, c("text", "json", "yaml", "xml"))
 
   exsql <- build_sql("EXPLAIN ",
@@ -170,7 +172,7 @@ db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 }
 
 #' @export
-db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
+db_insert_into.PqConnection <- function(con, table, values, ...) {
 
   if (nrow(values) == 0)
     return(NULL)
@@ -186,12 +188,55 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
 }
 
 #' @export
-db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
+db_query_fields.PqConnection <- function(con, sql, ...) {
   fields <- build_sql("SELECT * FROM ", sql_subquery(con, sql), " WHERE 0=1",
     con = con)
 
   qry <- dbSendQuery(con, fields)
   on.exit(dbClearResult(qry))
+  result <- dbFetch(qry)
 
-  dbGetInfo(qry)$fieldDescription[[1]]$name
+
+  names(result)
+}
+
+#' @export
+db_create_table.PqConnection <- function(con, table, types,
+                                          temporary = FALSE, ...) {
+  assert_that(is.string(table), is.character(types))
+
+  field_names <- escape(ident(names(types)), collapse = NULL, con = con)
+  fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE,
+                       collapse = ", ", con = con)
+  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+                   "TABLE ", ident(table), " ", fields, con = con)
+
+  dbGetQuery(con, sql)
+}
+
+
+#' @export
+db_data_type.PqConnection <- function(con, fields, ...) {
+  char_type <- function(x) {
+    n <- max(nchar(as.character(x), "bytes"))
+    if (!is.na(n) & n <= 65535) {
+      paste0("varchar(", n, ")")
+    } else {
+      "varchar(max)"
+    }
+  }
+
+  data_type <- function(x) {
+    switch(class(x)[1],
+           logical = "boolean",
+           integer = "bigint",
+           numeric = "float",
+           factor =  char_type(x),
+           character = char_type(x),
+           Date =    "date",
+           POSIXct = "datetime",
+           stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
+    )
+  }
+  vapply(fields, data_type, character(1))
 }
