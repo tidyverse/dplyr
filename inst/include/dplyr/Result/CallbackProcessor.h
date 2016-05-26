@@ -47,7 +47,6 @@ namespace dplyr{
             // the group index
             int i = 0 ;
             int ngroups = gdf.ngroups() ;
-
             // evaluate the expression within each group until we find something that is not NA
             RObject first_result(R_NilValue) ;
             for( ; i<ngroups; i++, ++git ){
