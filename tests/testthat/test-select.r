@@ -158,3 +158,10 @@ test_that("invalid inputs raise error", {
   expect_error(combine_vars(names(mtcars), list(c(-1, 1))), "positive or negative")
   expect_error(combine_vars(names(mtcars), list(12)), "must be between")
 })
+
+test_that("select succeeds in presence of raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_identical(select(df, a), df["a"])
+  expect_identical(select(df, b), df["b"])
+  expect_identical(select(df, -b), df["a"])
+})

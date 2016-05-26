@@ -586,3 +586,10 @@ test_that( "ntile falls back to R (#1750)", {
   res <- mutate( iris, a = ntile("Sepal.Length", 3))
   expect_equal( res$a, rep(1, 150))
 })
+
+test_that("mutate fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( mutate(df, a = 1), "unsupported type" )
+  expect_error( mutate(df, b = 1), "unsupported type" )
+  expect_error( mutate(df, c = 1), "unsupported type" )
+})

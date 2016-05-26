@@ -61,6 +61,10 @@ distinct_impl <- function(df, vars, keep) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars, keep)
 }
 
+assert_all_white_list <- function(data) {
+    invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
+}
+
 semi_join_impl <- function(x, y, by_x, by_y) {
     .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }

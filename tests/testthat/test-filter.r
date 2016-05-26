@@ -192,7 +192,7 @@ X
   datesDF$X <- as.POSIXlt(datesDF$X)
   expect_error(
     filter(datesDF, X > as.POSIXlt("2014-03-13")),
-    "column 'X' has unsupported type"
+    "column 'X' has unsupported class"
   )
 })
 
@@ -382,4 +382,10 @@ test_that("each argument gets implicit parens", {
   lapply(seq_along(one), function(i) {
     expect_equal(collect(one[[i]]), collect(two[[i]]))
   })
+})
+
+test_that("filter fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( filter(df, a == 1), "unsupported type" )
+  expect_error( filter(df, b == 1), "unsupported type" )
 })

@@ -625,6 +625,7 @@ void push_back( Container& x, typename Container::value_type value, int n ){
         x.push_back( value ) ;
 }
 
+// [[Rcpp::export]]
 void assert_all_white_list(const DataFrame& data){
     // checking variables are on the white list
     int nc = data.size() ;
@@ -636,8 +637,12 @@ void assert_all_white_list(const DataFrame& data){
 
             SEXP klass = Rf_getAttrib(v, R_ClassSymbol) ;
             if( !Rf_isNull(klass) ){
-                stop( "column '%s' has unsupported type : %s",
+                stop( "column '%s' has unsupported class : %s",
                     name_i.get_cstring() , get_single_class(v) );
+            }
+            else {
+                stop( "column '%s' has unsupported type : %s",
+                    name_i.get_cstring() , Rf_type2char(TYPEOF(v)) );
             }
 
         }

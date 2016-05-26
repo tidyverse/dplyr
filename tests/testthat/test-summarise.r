@@ -634,3 +634,13 @@ test_that("summarise() correctly coerces factors with different levels (#1678)",
   expect_equal( levels(res$z), c("a", "b") )
   expect_equal( as.character(res$z), c("a", "b", "b") )
 })
+
+test_that("summarise works if raw columns exist but are not involved (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_equal(summarise(df, c = sum(a)), data_frame(c = 6L))
+})
+
+test_that("summarise fails gracefully on raw columns (#1803)", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error( summarise(df, c = b[[1]]), "unsupported type" )
+})
