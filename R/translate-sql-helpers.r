@@ -114,7 +114,7 @@ sql_prefix <- function(f, n = NULL) {
   f <- toupper(f)
   function(..., na.rm) {
     if (!missing(na.rm)) {
-      stop("na.rm not needed in SQL: NULL are always dropped", call. = FALSE)
+      message("na.rm not needed in SQL: NULL are always dropped", call. = FALSE)
     }
 
     args <- list(...)
