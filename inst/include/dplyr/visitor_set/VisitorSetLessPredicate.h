@@ -10,11 +10,11 @@ namespace dplyr{
         inline bool operator()(int i, int j) const {
             return visitors.less(i,j) ;
         }
-        
+
     private:
-        const VisitorSet& visitors ;  
+        const VisitorSet& visitors ;
     } ;
-    
+
 }
 
 #endif

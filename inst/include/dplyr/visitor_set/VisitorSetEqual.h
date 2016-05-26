@@ -20,7 +20,7 @@ public:
         if( i == j ) return true ;
         int n=obj.size() ;
         for( int k=0; k<n; k++)
-            if( ! obj.get(k)->equal_or_both_na(i,j) ) return false ;    
+            if( ! obj.get(k)->equal_or_both_na(i,j) ) return false ;
         return true ;
     }
 } ;

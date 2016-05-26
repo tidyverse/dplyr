@@ -6,9 +6,9 @@
 #define LATIN1_MASK (1<<2)
 #define UTF8_MASK (1<<3)
 
-// that bit seems unused by R. Just using it to mark 
+// that bit seems unused by R. Just using it to mark
 // objects as Shrinkable Vectors
-// that is useful for things like summarise(list(x)) where x is a 
+// that is useful for things like summarise(list(x)) where x is a
 // variable from the data, because the SEXP that goes into the list
 // is the shrinkable vector, we use this information to duplicate
 // it if needed. See the maybe_copy method in DelayedProcessor
@@ -47,18 +47,18 @@ struct sxpinfo_struct {
 #endif
 
 namespace dplyr{
-    
+
     enum encoding {
-       BYTES, LATIN1, UTF8, UNKNOWN     
+       BYTES, LATIN1, UTF8, UNKNOWN
     } ;
-    
+
     inline encoding get_encoding( SEXP s){
         if( IS_BYTES(s) ) return BYTES ;
         if( IS_LATIN1(s) ) return LATIN1 ;
         if( IS_UTF8(s) ) return UTF8 ;
         return UNKNOWN ;
     }
-    
+
     inline const char* human_readable_encoding( encoding e ){
         switch(e){
         case BYTES: return "bytes" ;
@@ -68,7 +68,7 @@ namespace dplyr{
         }
         return "unknown" ;
     }
-    
+
 }
 
 #endif

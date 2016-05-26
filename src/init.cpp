@@ -25,13 +25,13 @@ SEXP get_date_classes(){
     return VECTOR_ELT(get_cache(), 0) ;
 }
 SEXP get_time_classes(){
-    return VECTOR_ELT(get_cache(), 1) ;     
+    return VECTOR_ELT(get_cache(), 1) ;
 }
 
 extern "C" void R_init_dplyr( DllInfo* info ){
     DPLYR_REGISTER(build_index_cpp)
     DPLYR_REGISTER(registerHybridHandler)
-    
+
     DPLYR_REGISTER(get_time_classes)
     DPLYR_REGISTER(get_date_classes)
 }

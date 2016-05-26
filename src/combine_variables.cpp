@@ -70,7 +70,7 @@ public:
     IntegerVector out(out_indx.begin(), out_indx.end());
     CharacterVector out_names(out_name.begin(), out_name.end());
     out.names() = out_names;
-    
+
     return out;
   }
 };
@@ -89,7 +89,7 @@ SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
   } else {
     xs_names = raw_names ;
   }
-  
+
   // If first component is negative, pre-fill with existing vars
   if (vector_sign(xs[0]) == -1) {
     for (int j = 0; j < vars.size(); ++j) {
