@@ -78,6 +78,13 @@ op_single <- function(name, x, dots = list(), args = list()) {
 }
 
 #' @export
+#' @rdname lazy_ops
+add_op_single <- function(name, .data, dots = list(), args = list()) {
+  .data$ops <- op_single(name, x = .data$ops, dots = dots, args = args)
+  .data
+}
+
+#' @export
 print.op_single <- function(x, ...) {
   print(x$x)
 

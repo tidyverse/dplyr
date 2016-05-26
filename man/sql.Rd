@@ -6,6 +6,7 @@
 \alias{is.ident}
 \alias{is.sql}
 \alias{sql}
+\alias{sql_vector}
 \title{SQL escaping.}
 \usage{
 sql(...)
@@ -17,6 +18,8 @@ is.sql(x)
 is.ident(x)
 
 escape(x, parens = NA, collapse = " ", con = NULL)
+
+sql_vector(x, parens = NA, collapse = " ", con = NULL)
 }
 \arguments{
 \item{...}{Character vectors that will be combined into a single SQL
