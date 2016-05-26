@@ -27,8 +27,8 @@
 #' # proceed from the most specific to the most general. This won't work:
 #' case_when(
 #'   TRUE ~ as.character(x),
-#'   x %% 5 == 0 ~ "fizz",
-#'   x %% 7 == 0 ~ "buzz",
+#'   x %%  5 == 0 ~ "fizz",
+#'   x %%  7 == 0 ~ "buzz",
 #'   x %% 35 == 0 ~ "fizz buzz"
 #' )
 case_when <- function(...) {
