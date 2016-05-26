@@ -3,11 +3,17 @@
 
 namespace dplyr{
 
+    inline bool white_list_vector(SEXP x);
+
     inline bool white_list(SEXP x){
         if( Rf_isMatrix(x) ) {
             // might have to refine later
             return true ;
         }
+        return white_list_vector(x);
+    }
+
+    inline bool white_list_vector(SEXP x) {
         switch( TYPEOF(x) ){
             case INTSXP:   return true ;
             case REALSXP:  return true ;
@@ -18,7 +24,7 @@ namespace dplyr{
                     if( Rf_inherits( x, "POSIXlt") ) return false ;
                     return true ;
             }
-            
+
             default: break ;
         }
         return false ;

@@ -13,9 +13,11 @@ namespace dplyr {
             case LGLSXP:  return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
             case STRSXP:  return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
             case VECSXP:  return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
-            default:
-                return 0 ;
+            default: break;
             }
+
+            stop( "unimplemented matrix type: %s", Rf_type2rstr(TYPEOF(vec)) ) ;
+            return 0;
         }
 
         if( Rf_inherits(vec, "Date") ){
@@ -45,7 +47,7 @@ namespace dplyr {
             default: break ;
         }
 
-        // should not happen
+        stop( "unimplemented vector type: %s", Rf_type2rstr(TYPEOF(vec)) ) ;
         return 0 ;
     }
 

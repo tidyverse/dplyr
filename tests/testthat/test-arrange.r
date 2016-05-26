@@ -147,7 +147,7 @@ test_that("arrange fails gracefully on list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
-  expect_error( arrange(df, fit), "Cannot order based on this column" )
+  expect_error( arrange(df, fit), "unimplemented vector type" )
 })
 
 test_that("arrange fails gracefully on raw columns (#1803)", {

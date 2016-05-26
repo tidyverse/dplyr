@@ -196,7 +196,8 @@ namespace dplyr {
                     default: break ;
                 }
             }
-            stop( "unimplemented matrix type" ) ;
+
+            stop( "unimplemented matrix type: %s", Rf_type2rstr(TYPEOF(vec)) ) ;
             return 0 ;
         }
 
@@ -235,7 +236,7 @@ namespace dplyr {
             }
         }
 
-        // should not happen
+        stop( "unimplemented vector type: %s", Rf_type2rstr(TYPEOF(vec)) ) ;
         return 0 ;
     }
 }

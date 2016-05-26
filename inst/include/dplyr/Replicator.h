@@ -45,8 +45,8 @@ namespace dplyr {
             case CPLXSXP:  return new ReplicatorImpl<CPLXSXP, Data> ( v, n, gdf.ngroups() ) ;
             default: break ;
         }
-        stop( "cannot handle variable" ) ;
-        
+
+        stop( "unimplemented type: %s", Rf_type2rstr(TYPEOF(v)) ) ;
         return 0 ;
     }
     
