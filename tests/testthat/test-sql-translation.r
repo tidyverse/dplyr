@@ -109,3 +109,11 @@ test_that("ntile always casts to integer", {
   )
 })
 
+test_that("connection affects quoting character", {
+  dbiTest <- structure(list(), class = "DBITestConnection")
+  dbTest <- src_sql("test", con = dbiTest)
+  testTable <- tbl_sql("test", src = dbTest, from = "table1")
+
+  out <- select(testTable, field1)
+  expect_match(sql_render(out), "^SELECT `field1` AS `field1`\nFROM `table1`$")
+})

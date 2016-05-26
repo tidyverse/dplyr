@@ -13,7 +13,7 @@ over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
     }
 
     partition <- build_sql("PARTITION BY ",
-      sql_vector(escape(partition), collapse = ", ", parens = FALSE))
+      sql_vector(escape(partition, con = partition_con()), collapse = ", ", parens = FALSE))
   }
   if (!is.null(order)) {
     if (!is.sql(order)) {
