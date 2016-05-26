@@ -65,7 +65,7 @@ Dplyr aims to provide a function for each basic verb of data manipulation:
 * `distinct()`
 * `mutate()` (and `transmute()`)
 * `summarise()`
-* `sample_n()` and `sample_frac()`
+* `sample_n()` (and `sample_frac()`)
 
 If you've used plyr before, many of these will be familar.
 
