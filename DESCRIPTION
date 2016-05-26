@@ -38,7 +38,6 @@ Suggests:
     covr,
     dtplyr
 Remotes:
-    hadley/devtools,
     hadley/dtplyr,
     hadley/testthat,
     hadley/tibble

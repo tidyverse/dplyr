@@ -6,6 +6,9 @@ warnings_are_errors: false
 env:
 - _R_CHECK_FORCE_SUGGESTS_=false
 
+github_packages:
+  - hadley/devtools
+
 before_script:
   - psql -c 'create database test;' -U postgres
 
