@@ -1,10 +1,23 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
 language: R
 sudo: false
 cache: packages
+r:
+  - oldrel
+  - release
+  - devel
 
 warnings_are_errors: false
 env:
-- _R_CHECK_FORCE_SUGGESTS_=false
+  global:
+    - _R_CHECK_FORCE_SUGGESTS_=false
+    - MAKEFLAGS="-j 2"
+
+before_install:
+  - Rscript -e "install.packages('devtools')"
+  - Rscript -e "devtools::install_github('hadley/devtools#1184')"
+  - Rscript -e "devtools::install_deps(dependencies = TRUE)"
 
 r_github_packages:
   - hadley/devtools
