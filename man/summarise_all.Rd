@@ -47,8 +47,14 @@ A data frame. By default, the newly created columns the shortest
   even when not needed, name the input (see examples for details).
 }
 \description{
-Apply one or more functions to one or more columns. Grouping variables
-are always excluded from modification.
+\code{summarise_all()} and \code{mutate_all()} apply the functions
+to all (non-grouping) columns. \code{summarise_at()} and
+\code{mutate_at()} allow you to select columns in the same way as
+\code{\link{select}()}. \code{summarise_if}() and
+\code{mutate_if}() operate on columns for which a predicate returns
+\code{TRUE}. Finally, \code{\link{summarise_each}()} and
+\code{\link{mutate_each}()} are older variants that will be
+deprecated in the future.
 }
 \examples{
 # One function
@@ -65,9 +71,6 @@ by_species \%>\% summarise_if(is.numeric, mean)
 # You can also specify columns with column names or column positions:
 by_species \%>\% summarise_at(c("Sepal.Width", "Petal.Width"), mean)
 by_species \%>\% summarise_at(c(1, 3), mean)
-
-# Or with logical vectors:
-by_species \%>\% summarise_if(c(TRUE, TRUE, FALSE, TRUE, FALSE), mean)
 
 # You can provide additional arguments. Those are evaluated only once:
 by_species \%>\% summarise_all(mean, trim = 1)

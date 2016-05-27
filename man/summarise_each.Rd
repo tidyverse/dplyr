@@ -7,7 +7,7 @@
 \alias{summarise_each_}
 \alias{summarize_each}
 \alias{summarize_each_}
-\title{Deprecated _each() variants}
+\title{#' Summarise and mutate multiple columns.}
 \usage{
 summarise_each(tbl, funs, ...)
 
@@ -35,8 +35,12 @@ a character vector of function names.}
   be either a list of expressions or a character vector.}
 }
 \description{
-\code{mutate_each()} and \code{summarise_each()} are deprecated in
-favour of a more featureful family of functions:
+Apply one or more functions to one or more columns. Grouping variables
+are always excluded from modification.
+}
+\details{
+In the future \code{mutate_each()} and \code{summarise_each()} will
+be deprecated in favour of a more featureful family of functions:
 \code{\link{mutate_all}()}, \code{\link{mutate_at}()},
 \code{\link{mutate_if}()}, \code{\link{summarise_all}()},
 \code{\link{summarise_at}()} and \code{\link{summarise_if}()}.

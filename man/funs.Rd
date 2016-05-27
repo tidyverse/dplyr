@@ -7,7 +7,7 @@
 \usage{
 funs(...)
 
-funs_(dots, args = list())
+funs_(dots, args = list(), env = baseenv())
 }
 \arguments{
 \item{dots, ...}{A list of functions specified by:
@@ -21,6 +21,8 @@ funs_(dots, args = list())
 
 \item{args}{A named list of additional arguments to be added to all
 function calls.}
+
+\item{env}{The environment in which functions should be evaluated.}
 }
 \description{
 \code{funs} provides a flexible way to generate a named list of functions for

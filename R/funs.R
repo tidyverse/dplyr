@@ -135,9 +135,9 @@ merge_args <- function(call, args) {
     stop("Additional arguments should be named", call. = FALSE)
   }
 
-  Map(function(arg, value) {
-    call[[arg]] <<- value
-  }, names(args), args)
+  for (param in names(args)) {
+    call[[param]] <- args[[param]]
+  }
 
   call
 }

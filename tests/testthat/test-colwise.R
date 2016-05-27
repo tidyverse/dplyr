@@ -80,7 +80,7 @@ test_that("sql sources fail with bare functions", {
 test_that("summarise_each() and summarise_all() agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_warning(expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean)))
-  expect_warning(expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, columns(x:y), mean)))
-  expect_warning(expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, columns(z = y), mean)))
+  expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
+  expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
 })
