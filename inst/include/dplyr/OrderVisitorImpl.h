@@ -184,7 +184,7 @@ namespace dplyr {
                     case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , true>( vec ) ;
                     case STRSXP:   return new OrderVisitorMatrix<STRSXP  , true>( vec ) ;
                     case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , true>( vec ) ;
-                    default: break ;
+                    default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(vec))) ;
                 }
             } else {
                 switch( TYPEOF(vec) ){
@@ -193,10 +193,9 @@ namespace dplyr {
                     case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , false>( vec ) ;
                     case STRSXP:   return new OrderVisitorMatrix<STRSXP  , false>( vec ) ;
                     case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , false>( vec ) ;
-                    default: break ;
+                    default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(vec))) ;
                 }
             }
-            stop( "unimplemented matrix type" ) ;
             return 0 ;
         }
 
@@ -214,7 +213,7 @@ namespace dplyr {
                         }
                         break ;
                     }
-                default: break ;
+                default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(vec))) ;
             }
         } else {
             switch( TYPEOF(vec) ){
@@ -231,7 +230,7 @@ namespace dplyr {
                     break ;
                 }
 
-                default: break ;
+                default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(vec))) ;
             }
         }
 

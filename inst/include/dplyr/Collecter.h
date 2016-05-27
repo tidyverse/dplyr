@@ -380,7 +380,7 @@ namespace dplyr {
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
         case VECSXP: return new Collecter_Impl<VECSXP>(n) ;
-        default: break ;
+        default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(model))) ;
         }
         return 0 ;
     }
@@ -413,7 +413,7 @@ namespace dplyr {
           if( previous->is_factor_collecter() )
             Rf_warning("binding factor and character vector, coercing into character vector") ;
           return new Collecter_Impl<STRSXP>(n) ;
-        default: break ;
+        default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(model))) ;
         }
         return 0 ;
     }

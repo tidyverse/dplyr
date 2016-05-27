@@ -552,7 +552,7 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
 
 test_that("grouped mutate errors on incompatible column type (#1641)", {
   df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
-  expect_error( mutate(df, foo = mean), "unsupported type for column" )
+  expect_error( mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {
@@ -589,7 +589,7 @@ test_that( "ntile falls back to R (#1750)", {
 
 test_that("mutate fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error( mutate(df, a = 1), "unsupported type" )
-  expect_error( mutate(df, b = 1), "unsupported type" )
-  expect_error( mutate(df, c = 1), "unsupported type" )
+  expect_error( mutate(df, a = 1), 'Unsupported type RAWSXP for column "b"' )
+  expect_error( mutate(df, b = 1), 'Unsupported type RAWSXP for column "b"' )
+  expect_error( mutate(df, c = 1), 'Unsupported type RAWSXP for column "b"' )
 })

@@ -81,7 +81,7 @@ Result* nth_with( Vector<RTYPE> data, int idx, SEXP order ){
       case INTSXP: return new NthWith<RTYPE, INTSXP>( data, idx, order );
       case REALSXP: return new NthWith<RTYPE, REALSXP>( data, idx, order );
       case STRSXP: return new NthWith<RTYPE, STRSXP>( data, idx, order );
-      default: break ;
+      default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(order)));
     }
     return 0 ;
 }
@@ -93,7 +93,7 @@ Result* nth_with_default( Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE>
       case INTSXP: return new NthWith<RTYPE, INTSXP>( data, idx, order, def[0] );
       case REALSXP: return new NthWith<RTYPE, REALSXP>( data, idx, order, def[0] );
       case STRSXP: return new NthWith<RTYPE, STRSXP>( data, idx, order, def[0] );
-      default: break ;
+      default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(order)));
     }
     return 0 ;
 }
@@ -134,8 +134,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
         case REALSXP: return new Nth<REALSXP>(data, idx) ;
         case STRSXP: return new Nth<STRSXP>(data, idx) ;
         case LGLSXP: return new Nth<LGLSXP>(data, idx) ;
-
-        default: break ;
+        default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(data)));
         }
     } else {
         // now get `order_by` and default
@@ -173,7 +172,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                     case INTSXP:  return nth_with<INTSXP>( data, idx, order_by ) ;
                     case REALSXP: return nth_with<REALSXP>( data, idx, order_by ) ;
                     case STRSXP:  return nth_with<STRSXP>( data, idx, order_by ) ;
-                    default: break ;
+                    default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(data)));
                 }
             }
 
@@ -185,7 +184,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                     case INTSXP:  return nth_noorder_default<INTSXP>(data, idx, def) ;
                     case REALSXP: return nth_noorder_default<REALSXP>(data, idx, def) ;
                     case STRSXP:  return nth_noorder_default<STRSXP>(data, idx, def) ;
-                    default: break ;
+                    default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(data)));
                 }
             } else {
                 if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ){
@@ -196,7 +195,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
                         case INTSXP:  return nth_with_default<INTSXP>(data, idx, order_by, def) ;
                         case REALSXP: return nth_with_default<REALSXP>(data, idx, order_by, def) ;
                         case STRSXP: return nth_with_default<STRSXP>(data, idx, order_by, def) ;
-                        default: break ;
+                        default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(data)));
                     }
                 }
 
