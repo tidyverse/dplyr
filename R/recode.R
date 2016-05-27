@@ -91,7 +91,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == vals[i]] <- TRUE
   }
 
-  .default <- recode_default(.default, .x, out, replaced, recode_default_vector)
+  .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -114,7 +114,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == nm] <- TRUE
   }
 
-  .default <- recode_default(.default, .x, out, replaced, recode_default_vector)
+  .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -142,7 +142,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[levels(.x) == nm] <- TRUE
   }
 
-  .default <- recode_default(.default, .x, out, replaced, recode_default_factor)
+  .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced, .default, "`.default`")
   levels(.x) <- out
 
@@ -159,18 +159,23 @@ find_template <- function(...) {
   x[[1]]
 }
 
-recode_default <- function(default, x, out, replaced, default_fun) {
-  default <- default_fun(default, x, out)
+validate_recode_default <- function(default, x, out, replaced) {
+  default <- recode_default(x, default, out)
 
   if (is.null(default) && sum(replaced & !is.na(x)) < length(out[!is.na(x)])) {
-    warning("Unreplaced values treated as NA as .x is not compatible
-  Please specify replacements exhaustively or supply .default")
+    warning("Unreplaced values treated as NA as .x is not compatible. ",
+      "Please specify replacements exhaustively or supply .default",
+      call. = FALSE)
   }
 
   default
 }
 
-recode_default_vector <- function(default, x, out) {
+recode_default <- function(x, default, out) {
+  UseMethod("recode_default")
+}
+
+recode_default.default <- function(x, default, out) {
   same_type <- identical(typeof(x), typeof(out))
   if (is.null(default) && same_type) {
     x
@@ -179,7 +184,7 @@ recode_default_vector <- function(default, x, out) {
   }
 }
 
-recode_default_factor <- function(default, x, out) {
+recode_default.factor <- function(x, default, out) {
   if (is.null(default) && is.factor(x)) {
     levels(x)
   } else {
@@ -193,7 +198,7 @@ recode_factor <- function (.x, ..., .default = NULL, .missing = NULL,
                            .ordered = FALSE) {
   recoded <- recode(.x, ..., .default = .default, .missing = .missing)
 
-  all_levels <- unique(c(..., recode_default_factor(.default, .x), .missing))
+  all_levels <- unique(c(..., recode_default(.x, .default, recoded), .missing))
   recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)
   levels <- intersect(all_levels, recoded_levels)
 
