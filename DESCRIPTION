@@ -108,6 +108,7 @@ Collate:
     'src-postgres.r'
     'src-sql.r'
     'src-sqlite.r'
+    'src-test.r'
     'src.r'
     'tally.R'
     'tbl-cube.r'
