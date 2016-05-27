@@ -16,7 +16,7 @@
 \arguments{
 \item{con}{A database connection.}
 
-\item{sql}{a string containing an sql query.}
+\item{sql}{A string containing an sql query.}
 
 \item{...}{Other arguments passed on to the individual methods}
 
