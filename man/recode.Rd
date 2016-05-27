@@ -56,7 +56,7 @@ x <- c(1:5, NA)
 recode(x, `2` = 20L, `4` = 40L)
 
 # Note that if the replacements are not compatible with .x,
-# unmatched values are replaced by NA
+# unmatched values are replaced by NA and a warning is issued.
 recode(x, `2` = "b", `4` = "d")
 
 # If you don't name the arguments, recode() matches by position
@@ -75,5 +75,10 @@ x <- c(1:4, NA)
 recode_factor(x, `1` = "z", `2` = "y", `3` = "x")
 recode_factor(x, `1` = "z", `2` = "y", .default = "D")
 recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
+
+# When the input vector is a compatible vector (character vector or
+# factor), it is reused as default.
+recode_factor(letters[1:3], b = "z", c = "y")
+recode_factor(factor(letters[1:3]), b = "z", c = "y")
 }
 
