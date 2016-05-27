@@ -153,8 +153,8 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
   df2 <- data_frame(a = 1L)
   df3 <- data_frame(a = 1)
 
-  expect_error(bind_rows(df1, df2), "incompatible type")
-  expect_error(bind_rows(df1, df3), "incompatible type")
+  expect_error(bind_rows(df1, df2), "from factor to integer")
+  expect_error(bind_rows(df1, df3), "from factor to numeric")
 })
 
 

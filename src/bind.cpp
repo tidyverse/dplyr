@@ -106,9 +106,10 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
                 columns[index] = new_collecter ;
             } else {
                 std::string column_name(name) ;
-                stop( "incompatible type (data index: %d, column: '%s', was collecting: %s (%s), incompatible with data of type: %s",
-                    (i+1), column_name, coll->describe(), DEMANGLE(*coll), get_single_class(source) );
-
+                stop(
+                  "Can not automatically convert from %s to %s in column \"%s\".",
+                  coll->describe(), get_single_class(source), column_name
+                ) ;
             }
 
         }
@@ -272,8 +273,10 @@ SEXP combine_all( List data ){
             new_coll->collect( SlicingIndex(0, k), coll->get() ) ;
             coll.reset( new_coll ) ;
         } else {
-            stop( "incompatible type at index %d : %s, was collecting : %s",
-                (i+1), get_single_class(current), get_single_class(coll->get()) ) ;
+            stop(
+              "Can not automatically convert from %s to %s.",
+              get_single_class(coll->get()), get_single_class(current)
+            ) ;
         }
         k += n_current ;
     }
