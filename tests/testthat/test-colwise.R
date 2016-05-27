@@ -25,15 +25,15 @@ test_that("can use bare functions", {
 test_that("default names are smallest unique set", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_named(summarise_at(df, columns(x:y), funs(mean)), c("x", "y"))
-  expect_named(summarise_at(df, columns(x), funs(mean, sd)), c("mean", "sd"))
-  expect_named(summarise_at(df, columns(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(summarise_at(df, vars(x:y), funs(mean)), c("x", "y"))
+  expect_named(summarise_at(df, vars(x), funs(mean, sd)), c("mean", "sd"))
+  expect_named(summarise_at(df, vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
 test_that("named arguments force complete namd", {
   df <- data.frame(x = 1:3, y = 1:3)
-  expect_named(summarise_at(df, columns(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
-  expect_named(summarise_at(df, columns(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
+  expect_named(summarise_at(df, vars(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
+  expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
 })
 
 test_that("additional arguments are merged into funs calls", {
@@ -52,7 +52,7 @@ expect_classes <- function(tbl, expected) {
 }
 
 test_that("can select colwise", {
-  columns <- iris %>% mutate_at(columns(starts_with("Petal")), as.character)
+  columns <- iris %>% mutate_at(vars(starts_with("Petal")), as.character)
   expect_classes(columns, "nnccf")
 
   numeric <- iris %>% mutate_at(c(1, 3), as.character)
