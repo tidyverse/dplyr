@@ -92,8 +92,12 @@ bind_cols <- function(...) {
 #' @export
 #' @rdname bind
 combine <- function(...) {
-  x <- list_or_dots(...)
-  combine_all(x)
+  args <- list(...)
+  if (length(args) == 1 && is.list(args[[1]])) {
+    combine_all(args[[1]])
+  } else {
+    combine_all(args)
+  }
 }
 
 list_or_dots <- function(...) {
