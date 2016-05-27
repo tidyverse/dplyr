@@ -39,7 +39,7 @@
 #' recode(x, `2` = 20L, `4` = 40L)
 #'
 #' # Note that if the replacements are not compatible with .x,
-#' # unmatched values are replaced by NA
+#' # unmatched values are replaced by NA and a warning is issued.
 #' recode(x, `2` = "b", `4` = "d")
 #'
 #' # If you don't name the arguments, recode() matches by position
@@ -58,6 +58,11 @@
 #' recode_factor(x, `1` = "z", `2` = "y", `3` = "x")
 #' recode_factor(x, `1` = "z", `2` = "y", .default = "D")
 #' recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
+#'
+#' # When the input vector is a compatible vector (character vector or
+#' # factor), it is reused as default.
+#' recode_factor(letters[1:3], b = "z", c = "y")
+#' recode_factor(factor(letters[1:3]), b = "z", c = "y")
 recode <- function(.x, ..., .default = NULL, .missing = NULL) {
   UseMethod("recode")
 }
@@ -86,7 +91,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == vals[i]] <- TRUE
   }
 
-  .default <- recode_default(.default, .x, out)
+  .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -109,7 +114,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[.x == nm] <- TRUE
   }
 
-  .default <- recode_default(.default, .x, out)
+  .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced & !is.na(.x), .default, "`.default`")
   out <- replace_with(out, is.na(.x), .missing, "`.missing`")
   out
@@ -137,6 +142,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
     replaced[levels(.x) == nm] <- TRUE
   }
 
+  .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced, .default, "`.default`")
   levels(.x) <- out
 
@@ -153,11 +159,34 @@ find_template <- function(...) {
   x[[1]]
 }
 
-recode_default <- function(default, x, out) {
-  same_type <- identical(typeof(x), typeof(out))
+validate_recode_default <- function(default, x, out, replaced) {
+  default <- recode_default(x, default, out)
 
+  if (is.null(default) && sum(replaced & !is.na(x)) < length(out[!is.na(x)])) {
+    warning("Unreplaced values treated as NA as .x is not compatible. ",
+      "Please specify replacements exhaustively or supply .default",
+      call. = FALSE)
+  }
+
+  default
+}
+
+recode_default <- function(x, default, out) {
+  UseMethod("recode_default")
+}
+
+recode_default.default <- function(x, default, out) {
+  same_type <- identical(typeof(x), typeof(out))
   if (is.null(default) && same_type) {
     x
+  } else {
+    default
+  }
+}
+
+recode_default.factor <- function(x, default, out) {
+  if (is.null(default) && is.factor(x)) {
+    levels(x)
   } else {
     default
   }
@@ -169,18 +198,9 @@ recode_factor <- function (.x, ..., .default = NULL, .missing = NULL,
                            .ordered = FALSE) {
   recoded <- recode(.x, ..., .default = .default, .missing = .missing)
 
-  levels <- c(...,
-    recode_factor_default(.default),
-    recode_factor_default(.missing)
-  )
+  all_levels <- unique(c(..., recode_default(.x, .default, recoded), .missing))
+  recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)
+  levels <- intersect(all_levels, recoded_levels)
 
   factor(recoded, levels, ordered = .ordered)
-}
-
-recode_factor_default <- function(default) {
-  if (length(default) == 1 && !is.na(default)) {
-    default
-  } else {
-    NULL
-  }
 }
