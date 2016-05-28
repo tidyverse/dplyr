@@ -144,6 +144,18 @@ mutate_at <- function(.tbl, .cols, .funs, ...) {
   mutate_(.tbl, .dots = vars)
 }
 
+#' @rdname summarise_all
+#' @export
+summarize_all <- summarise_all
+
+#' @rdname summarise_all
+#' @export
+summarize_at <- summarise_at
+
+#' @rdname summarise_all
+#' @export
+summarize_if <- summarise_if
+
 #' Select columns
 #'
 #' This helper has equivalent semantics to \code{\link{select}()}. Its

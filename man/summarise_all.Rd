@@ -9,6 +9,9 @@
 \alias{summarise_at}
 \alias{summarise_each_q}
 \alias{summarise_if}
+\alias{summarize_all}
+\alias{summarize_at}
+\alias{summarize_if}
 \title{Summarise and mutate multiple columns.}
 \usage{
 summarise_all(.tbl, .funs, ...)
@@ -22,6 +25,12 @@ mutate_if(.tbl, .predicate, .funs, ...)
 summarise_at(.tbl, .cols, .funs, ...)
 
 mutate_at(.tbl, .cols, .funs, ...)
+
+summarize_all(.tbl, .funs, ...)
+
+summarize_at(.tbl, .cols, .funs, ...)
+
+summarize_if(.tbl, .predicate, .funs, ...)
 }
 \arguments{
 \item{.tbl}{a tbl}
