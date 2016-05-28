@@ -122,7 +122,7 @@ escape.Date <- function(x, parens = NA, collapse = ", ", con = NULL) {
 
 #' @export
 escape.POSIXt <- function(x, parens = NA, collapse = ", ", con = NULL) {
-  x <- strftime(x, "%Y-%m-%d %H:%M:%S", tz = "UTC")
+  x <- strftime(x, "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
   escape.character(x, parens = parens, collapse = collapse, con = con)
 }
 
