@@ -211,7 +211,7 @@ colwise_ <- function(tbl, calls, vars) {
   out
 }
 
-#' #' Summarise and mutate multiple columns.
+#' Summarise and mutate multiple columns.
 #'
 #' Apply one or more functions to one or more columns. Grouping variables
 #' are always excluded from modification.

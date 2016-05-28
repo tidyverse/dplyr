@@ -7,7 +7,7 @@
 \alias{summarise_each_}
 \alias{summarize_each}
 \alias{summarize_each_}
-\title{#' Summarise and mutate multiple columns.}
+\title{Summarise and mutate multiple columns.}
 \usage{
 summarise_each(tbl, funs, ...)
 
