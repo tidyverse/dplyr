@@ -2,7 +2,8 @@
 #'
 #' \code{summarise_all()} and \code{mutate_all()} apply the functions
 #' to all (non-grouping) columns. \code{summarise_at()} and
-#' \code{mutate_at()} allow you to select columns in the same way as
+#' \code{mutate_at()} allow you to select columns
+#' using the same name-based \code{\link{select_helpers}} as with
 #' \code{\link{select}()}. \code{summarise_if}() and
 #' \code{mutate_if}() operate on columns for which a predicate returns
 #' \code{TRUE}. Finally, \code{\link{summarise_each}()} and
@@ -21,21 +22,23 @@
 #'   or returns \code{TRUE} will be summarised or mutated.
 #' @param ... Additional arguments for the function calls. These are
 #'   evaluated only once.
-#' @return A data frame. By default, the newly created columns the shortest
+#' @return A data frame. By default, the newly created columns have the shortest
 #'   names needed to distinguish the output. To force inclusion of a name,
 #'   even when not needed, name the input (see examples for details).
-#' @seealso \code{\link{columns}()}, \code{\link{funs}()}
+#' @seealso \code{\link{vars}()}, \code{\link{funs}()}
 #' @examples
-#' # One function
 #' by_species <- iris %>% group_by(Species)
-#' by_species %>% summarise_all(length)
+#'
+#' # One function
+#' by_species %>% summarise_all(n_distinct)
 #' by_species %>% summarise_all(mean)
 #'
 #' # Use the _at and _if variants for conditional mapping.
+#' by_species %>% summarise_if(is.numeric, mean)
+#'
 #' # summarise_at() can use select() helpers with the vars() function:
 #' by_species %>% summarise_at(vars(Petal.Width), mean)
 #' by_species %>% summarise_at(vars(matches("Width")), mean)
-#' by_species %>% summarise_if(is.numeric, mean)
 #'
 #' # You can also specify columns with column names or column positions:
 #' by_species %>% summarise_at(c("Sepal.Width", "Petal.Width"), mean)
@@ -45,28 +48,23 @@
 #' by_species %>% summarise_all(mean, trim = 1)
 #' by_species %>% summarise_at(vars(Petal.Width), mean, trim = 1)
 #'
-#'
-#' # Instead of functions, you can provide expressions with the funs() helper:
-#' by_species %>% mutate_all(funs(half = . / 2))
-#' by_species %>% mutate_all(funs(min_rank))
-#'
-#' # Two functions
+#' # You can provide an expression or multiple functions with the funs() helper.
+#' by_species %>% mutate_all(funs(. * 0.4))
 #' by_species %>% summarise_all(funs(min, max))
+#' # Note that output variable name must now include function name, in order to
+#' # keep things distinct.
+#'
+#' # Function names will be included if .funs has names or whenever multiple
+#' # functions are used.
+#' by_species %>% mutate_all(funs("in" = . / 2.54))
+#' by_species %>% mutate_all(funs(rg = diff(range(.))))
+#' by_species %>% summarise_all(funs(med = median))
+#' by_species %>% summarise_all(funs(Q3 = quantile), probs = 0.75)
+#' by_species %>% summarise_all(c("min", "max"))
+#'
+#' # Two functions, continued
 #' by_species %>% summarise_at(vars(Petal.Width, Sepal.Width), funs(min, max))
 #' by_species %>% summarise_at(vars(matches("Width")), funs(min, max))
-#'
-#' # By default the names are minimal. Name the inputs to make them
-#' # explicit
-#' by_species %>% summarise_all(funs(min))
-#' by_species %>% summarise_all(funs(min = min))
-#' by_species %>% summarise_at(vars(Sepal.Length), funs(min, max))
-#' by_species %>% summarise_at(vars(Sepal.Length = Sepal.Length), funs(min, max))
-#'
-#' # Alternative function specification
-#' iris %>% summarise_all(funs(ul = length(unique(.))))
-#' by_species %>% summarise_all(funs(ul = length(unique(.))))
-#'
-#' by_species %>% summarise_all(c("min", "max"))
 #'
 #' @aliases summarise_each_q mutate_each_q
 #' @export
