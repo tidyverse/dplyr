@@ -122,7 +122,7 @@ escape.Date <- function(x, parens = NA, collapse = ", ", con = NULL) {
 
 #' @export
 escape.POSIXt <- function(x, parens = NA, collapse = ", ", con = NULL) {
-  x <- strftime(x, "%Y-%m-%d %H:%M:%S", tz = "UTC")
+  x <- strftime(x, "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
   escape.character(x, parens = parens, collapse = collapse, con = con)
 }
 
@@ -162,6 +162,8 @@ escape.list <- function(x, parens = TRUE, collapse = ", ", con = NULL) {
   sql_vector(pieces, parens, collapse)
 }
 
+#' @export
+#' @rdname sql
 sql_vector <- function(x, parens = NA, collapse = " ", con = NULL) {
   if (is.na(parens)) {
     parens <- length(x) > 1L

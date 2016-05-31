@@ -33,11 +33,6 @@ print.tbl_lazy <- function(x, ...) {
 
 # Single table methods ----------------------------------------------------
 
-add_op_single <- function(name, .data, dots = list(), args = list()) {
-  .data$ops <- op_single(name, x = .data$ops, dots = dots, args = args)
-  .data
-}
-
 #' @export
 filter_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)

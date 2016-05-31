@@ -109,6 +109,10 @@ deparse_all <- function(x) {
   vapply(x, deparse2, FUN.VALUE = character(1))
 }
 
+#' Provides comma-separated string out ot the parameters
+#' @export
+#' @keywords internal
+#' @param ... Arguments to be constructed into the string
 named_commas <- function(...) {
   x <- c(...)
   if (is.null(names(x))) {
