@@ -13,7 +13,7 @@ namespace dplyr {
             case LGLSXP:  return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
             case STRSXP:  return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
             case VECSXP:  return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
-            default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(vec)));
+            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
             }
         }
 
@@ -41,7 +41,7 @@ namespace dplyr {
                     }
                     return new SubsetVectorVisitorImpl<VECSXP>( vec ) ;
             }
-            default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(vec)));
+            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
         }
 
         // should not happen

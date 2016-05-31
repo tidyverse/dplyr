@@ -67,7 +67,7 @@ namespace dplyr {
                 if( Rf_inherits(x, "data.frame") ) return new DataFrameGroupedSubset(x) ;
                 return new GroupedSubsetTemplate<VECSXP>(x, max_size) ;
             case CPLXSXP: return new GroupedSubsetTemplate<CPLXSXP>(x, max_size) ;
-            default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(x)));
+            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
         }
         return 0 ;
     }
@@ -125,7 +125,7 @@ namespace dplyr {
             case STRSXP: return new SummarisedSubsetTemplate<STRSXP>(x, max_size) ;
             case VECSXP: return new SummarisedSubsetTemplate<VECSXP>(x, max_size) ;
             case CPLXSXP: return new SummarisedSubsetTemplate<CPLXSXP>(x, max_size) ;
-            default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(x)));
+            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
         }
         return 0 ;
     }

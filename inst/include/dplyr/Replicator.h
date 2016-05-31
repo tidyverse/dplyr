@@ -43,7 +43,7 @@ namespace dplyr {
             case STRSXP:   return new ReplicatorImpl<STRSXP , Data> ( v, n, gdf.ngroups() ) ;
             case LGLSXP:   return new ReplicatorImpl<LGLSXP , Data> ( v, n, gdf.ngroups() ) ;
             case CPLXSXP:  return new ReplicatorImpl<CPLXSXP, Data> ( v, n, gdf.ngroups() ) ;
-            default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(v))) ;
+            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(v))) ;
         }
 
         return 0 ;

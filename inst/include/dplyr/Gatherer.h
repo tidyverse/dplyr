@@ -274,7 +274,7 @@ namespace dplyr {
             case STRSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
             case CPLXSXP: return new ConstantGathererImpl<CPLXSXP>( x, n ) ;
             case VECSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
-            default: stop("Unsupported vector type %s", Rf_type2rstr(TYPEOF(x))) ;
+            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x))) ;
         }
         return 0 ;
     }
