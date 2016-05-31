@@ -30,6 +30,6 @@ test_that("missing vaues become null", {
 
 test_that("times are converted to ISO 8601", {
   x <- ISOdatetime(2000, 1, 2, 3, 4, 5, tz = "US/Central")
-  expect_equal(escape(x), sql("'2000-01-02 09:04:05'"))
+  expect_equal(escape(x), sql("'2000-01-02T09:04:05Z'"))
 })
 
