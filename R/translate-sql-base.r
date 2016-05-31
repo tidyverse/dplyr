@@ -115,7 +115,12 @@ base_scalar <- sql_translator(
   },
 
   pmin = sql_prefix("min"),
-  pmax = sql_prefix("max")
+  pmax = sql_prefix("max"),
+
+  `__dplyr_colwise_fun` = function(...) {
+    stop("colwise verbs only accept bare functions with local sources",
+      call. = FALSE)
+  }
 )
 
 base_symbols <- sql_translator(
