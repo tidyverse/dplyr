@@ -237,17 +237,6 @@ namespace dplyr {
 
         inline bool compatible(SEXP x) {
             return Rf_inherits(x, "POSIXct") ;
-            if( !Rf_inherits(x, "POSIXct" ) ) return false ;
-            SEXP xtz = Rf_getAttrib(x, Rf_install("tzone") ) ;
-
-            if( Rf_isNull(tz) ) {
-                tz = xtz ;
-                return true ;
-            }
-
-            if( Rf_isNull( xtz ) ) return false ;
-
-            return STRING_ELT(tz, 0) == STRING_ELT(xtz, 0 ) ;
         }
 
         inline bool can_promote(SEXP x) const {
