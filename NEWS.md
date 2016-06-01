@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* `as_data_frame()` on SQL sources now returns all rows (#1752, #1821,
+  @krlmlr).
+
 * Avoiding segfaults in presence of `raw` columns (#1803, #1817, @krlmlr).
 
 * Fixed bug about joins when factor levels not equal (#1712, #1559).
