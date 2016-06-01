@@ -75,8 +75,9 @@ namespace dplyr {
             case STRSXP: return new RowwiseSubsetTemplate<STRSXP>(x) ;
             case CPLXSXP: return new RowwiseSubsetTemplate<CPLXSXP>(x) ;
             case VECSXP: return new RowwiseSubsetTemplate<VECSXP>(x) ;
-            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
+            default: break ;
         }
+        stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x))) ;
         return 0 ;
     }
 
