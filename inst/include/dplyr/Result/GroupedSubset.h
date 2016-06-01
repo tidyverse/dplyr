@@ -64,7 +64,11 @@ namespace dplyr {
             case LGLSXP: return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
             case STRSXP: return new GroupedSubsetTemplate<STRSXP>(x, max_size) ;
             case VECSXP:
-                if( Rf_inherits(x, "data.frame") ) return new DataFrameGroupedSubset(x) ;
+                if( Rf_inherits( x, "data.frame" ) )
+                    return new DataFrameGroupedSubset(x) ;
+                if( Rf_inherits( x, "POSIXlt" ) ) {
+                    stop( "POSIXlt not supported" ) ;
+                }
                 return new GroupedSubsetTemplate<VECSXP>(x, max_size) ;
             case CPLXSXP: return new GroupedSubsetTemplate<CPLXSXP>(x, max_size) ;
             default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
