@@ -386,3 +386,9 @@ test_that("bind_cols infers classes from first result (#1692)", {
   expect_equal( class(bind_rows(d5,d1)), c("tbl_df", "tbl", "data.frame") )
 
 })
+
+test_that("bind_rows rejects POSIXlt columns (#1789)", {
+  df <- data_frame(x = Sys.time() + 1:12)
+  df$y <- as.POSIXlt(df$x)
+  expect_error(bind_rows(df, df), "not supported")
+})

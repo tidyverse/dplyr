@@ -379,7 +379,11 @@ namespace dplyr {
             return new Collecter_Impl<CPLXSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
-        case VECSXP: return new Collecter_Impl<VECSXP>(n) ;
+        case VECSXP:
+            if( Rf_inherits( model, "POSIXlt" )) {
+                stop( "POSIXlt not supported" ) ;
+            }
+            return new Collecter_Impl<VECSXP>(n) ;
         default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model))) ;
         }
         return 0 ;
