@@ -100,9 +100,9 @@ test_that("equality handles data frames with 0 columns (#1506)", {
   expect_equal(df0, df0)
 })
 
-test_that("equality fails gracefully in presence of raw columns", {
+test_that("equality cannot be checked in presence of raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_match(all.equal(df, df), "Cannot handle.*raw.*raw")
+  expect_error(all.equal(df, df), "Unsupported vector type raw")
 })
 
 test_that("equality returns a message for convert = TRUE", {
