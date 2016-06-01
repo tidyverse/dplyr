@@ -122,7 +122,7 @@ common_by <- function(by = NULL, x, y) {
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
   }
-  message("Joining by: ", utils::capture.output(dput(by)))
+  message("Joining, by = ", utils::capture.output(dput(by)))
 
   list(
     x = by,
