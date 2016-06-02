@@ -303,8 +303,9 @@ select_if <- function(.data, .predicate, ...) {
     stop("Selection with predicate currently require local sources",
       call. = FALSE)
   }
-  cols <- probe_colwise_names(.data, .predicate, ...)
-  select_(.data, .dots = cols)
+  vars <- probe_colwise_names(.data, .predicate, ...)
+  vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
+  select_(.data, .dots = vars)
 }
 
 #' @rdname select
