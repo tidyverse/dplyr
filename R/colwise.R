@@ -110,12 +110,12 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
   mutate_(.tbl, .dots = vars)
 }
 
-probe_colwise_names <- function(tbl, p) {
+probe_colwise_names <- function(tbl, p, ...) {
   if (is.logical(p)) {
     stopifnot(length(p) == length(tbl))
     selected <- p
   } else {
-    selected <- vapply(tbl, p, logical(1))
+    selected <- vapply(tbl, p, logical(1), ...)
   }
 
   vars <- tbl_vars(tbl)
