@@ -142,6 +142,25 @@ print.tbl_cube <- function(x, ...) {
   invisible(x)
 }
 
+# Coercion methods (from tbl_cube) ---------------------------------------------
+
+#' Coerce a \code{tbl_cube} to other data structures
+#'
+#' Supports conversion to tables, data frames, tibbles.
+#'
+#' @param x a \code{tbl_cube}
+#' @param ... Passed on to individual methods; otherwise ignored.
+#' @param measure A measure name or index, default: the first measure
+#' @name as.table.tbl_cube
+#' @export
+as.table.tbl_cube <- function(x, ..., measure = 1L) {
+  ret <- x$mets[[measure]]
+  dimnames(ret) <- x$dims
+  class(ret) <- "table"
+  ret
+}
+
+#' @rdname as.table.tbl_cube
 #' @export
 as.data.frame.tbl_cube <- function(x, ...) {
   dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE, ...)
@@ -154,12 +173,12 @@ as.data.frame.tbl_cube <- function(x, ...) {
   all
 }
 
-#' @export
-#' @rdname tbl_cube
-#' @details For a cube, the data frame returned by
+
+#' @rdname as.table.tbl_cube
+#' @description For a cube, the data frame returned by
 #'   \code{\link[tibble]{as_data_frame}} resulting data frame contains the
 #'   dimensions as character values (and not as factors).
-#' @inheritParams tibble::as_data_frame
+#' @export
 as_data_frame.tbl_cube <- function(x, ...) {
   as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }
