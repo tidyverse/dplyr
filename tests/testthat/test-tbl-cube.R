@@ -53,3 +53,11 @@ test_that("can coerce to data_frame", {
   expect_identical(tbl_df(as.data.frame(slice, stringsAsFactors = FALSE)),
                    as_data_frame(slice))
 })
+
+test_that("can coerce to table", {
+  expect_is(as.table(nasa), "table")
+  expect_equal(length(dim(as.table(nasa))), 4L)
+  expect_equal(dimnames(as.table(nasa)), lapply(nasa$dims, as.character))
+  expect_equal(as.vector(as.table(nasa)), as.vector(nasa$mets[[1]]))
+  expect_identical(as.table(nasa, measure = "ozone"), as.table(select(nasa, ozone)))
+})
