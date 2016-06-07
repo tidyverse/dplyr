@@ -1,5 +1,10 @@
 # dplyr 0.4.3.9000
 
+* `bind_rows()` rejects `POSIXlt` columns (#1875, @krlmlr).
+
+* Internal: Work around bug 16885 regarding `match()` in R 3.3.0 (#1806, #1810,
+  @krlmlr).
+
 * `as_data_frame()` on SQL sources now returns all rows (#1752, #1821,
   @krlmlr).
 
