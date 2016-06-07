@@ -237,17 +237,6 @@ namespace dplyr {
 
         inline bool compatible(SEXP x) {
             return Rf_inherits(x, "POSIXct") ;
-            if( !Rf_inherits(x, "POSIXct" ) ) return false ;
-            SEXP xtz = Rf_getAttrib(x, Rf_install("tzone") ) ;
-
-            if( Rf_isNull(tz) ) {
-                tz = xtz ;
-                return true ;
-            }
-
-            if( Rf_isNull( xtz ) ) return false ;
-
-            return STRING_ELT(tz, 0) == STRING_ELT(xtz, 0 ) ;
         }
 
         inline bool can_promote(SEXP x) const {
@@ -379,7 +368,11 @@ namespace dplyr {
             return new Collecter_Impl<CPLXSXP>(n) ;
         case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
         case STRSXP: return new Collecter_Impl<STRSXP>(n) ;
-        case VECSXP: return new Collecter_Impl<VECSXP>(n) ;
+        case VECSXP:
+            if( Rf_inherits( model, "POSIXlt" )) {
+                stop( "POSIXlt not supported" ) ;
+            }
+            return new Collecter_Impl<VECSXP>(n) ;
         default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model))) ;
         }
         return 0 ;

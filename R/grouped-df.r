@@ -93,19 +93,24 @@ cbind.grouped_df <- function(...) {
 select_.grouped_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data), dots)
+  vars <- ensure_grouped_vars(vars, .data)
 
-  # Ensure all grouping variables are present, notifying user with a message
-  group_names <- vapply(groups(.data), as.character, character(1))
+  select_impl(.data, vars)
+}
+
+ensure_grouped_vars <- function(vars, data, notify = TRUE) {
+  group_names <- vapply(groups(data), as.character, character(1))
   missing <- setdiff(group_names, vars)
 
   if (length(missing) > 0) {
-    message("Adding missing grouping variables: ",
-      paste0("`", missing, "`", collapse = ", "))
-
+    if (notify) {
+      message("Adding missing grouping variables: ",
+        paste0("`", missing, "`", collapse = ", "))
+    }
     vars <- c(stats::setNames(missing, missing), vars)
   }
 
-  select_impl(.data, vars)
+  vars
 }
 
 #' @export

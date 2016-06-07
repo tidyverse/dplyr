@@ -90,7 +90,31 @@ test_that("equality test fails when convert is FALSE and types don't match (#148
   expect_warning( all_equal(df1, df2, convert = TRUE) )
 })
 
-test_that("equality handles data frames with 0 columns (#1506)", {
+test_that("equality handles data frames with 0 rows (#1506)", {
   df0 <- data_frame(x = numeric(0), y = character(0) )
   expect_equal(df0, df0)
+})
+
+test_that("equality handles data frames with 0 columns (#1506)", {
+  df0 <- data_frame(a = 1:10)[-1]
+  expect_equal(df0, df0)
+})
+
+test_that("equality cannot be checked in presence of raw columns", {
+  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  expect_error(all.equal(df, df), "Unsupported vector type raw")
+})
+
+test_that("equality returns a message for convert = TRUE", {
+  df1 <- data_frame(x = 1:3)
+  df2 <- data_frame(x = as.character(1:3))
+  expect_match(all.equal(df1, df2), "Incompatible")
+  expect_match(all.equal(df1, df2, convert = TRUE), "Incompatible")
+})
+
+test_that("numeric and integer can be compared if convert = TRUE", {
+  df1 <- data_frame(x = 1:3)
+  df2 <- data_frame(x = as.numeric(1:3))
+  expect_match(all.equal(df1, df2), "Incompatible")
+  expect_true(all.equal(df1, df2, convert = TRUE))
 })

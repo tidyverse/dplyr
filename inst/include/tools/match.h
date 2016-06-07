@@ -20,6 +20,6 @@ inline IntegerVector r_match( SEXP x, SEXP y ) {
   return m(x, y);
 }
 
-};
+}
 
 #endif

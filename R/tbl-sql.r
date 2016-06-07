@@ -48,7 +48,7 @@ n_groups.tbl_sql <- function(x) {
 
 #' @export
 as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
-                                  ..., n = 1e5L) {
+                                  ..., n = Inf) {
   as.data.frame(collect(x, n = n))
 }
 

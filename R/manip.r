@@ -281,6 +281,33 @@ select_ <- function(.data, ..., .dots) {
   UseMethod("select_")
 }
 
+#' Select columns using a predicate
+#'
+#' This verb is analogous to \code{\link{summarise_if}()} and
+#' \code{\link{mutate_if}()} in that it lets you use a predicate on
+#' the columns of a data frame. Only those columns for which the
+#' predicate returns \code{TRUE} will be selected.
+#'
+#' Predicates can only be used with local sources like a data frame.
+#'
+#' @inheritParams summarise_all
+#' @param .data A local tbl source.
+#' @param ... Additional arguments passed to \code{.predicate}.
+#' @export
+#' @examples
+#' iris %>% select_if(is.factor)
+#' iris %>% select_if(is.numeric)
+#' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
+select_if <- function(.data, .predicate, ...) {
+  if (inherits(.data, "tbl_lazy")) {
+    stop("Selection with predicate currently require local sources",
+      call. = FALSE)
+  }
+  vars <- probe_colwise_names(.data, .predicate, ...)
+  vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
+  select_(.data, .dots = vars)
+}
+
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
