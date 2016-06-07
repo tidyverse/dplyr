@@ -29,7 +29,7 @@ print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
   cat("Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n", sep = "")
   cat("\n")
-  print(trunc_mat(x, n = n, width = width))
+  print(trunc_mat(x, n = n, width = width), ...)
   invisible(x)
 }
 

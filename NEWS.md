@@ -288,6 +288,8 @@ There were two other tweaks to the exported API, but these are less likely to af
   (#1641). `mutate()` on a grouped data no longer droups grouping attributes
   (#1120). `rowwise()` mutate gives expected results (#1381).
 
+* `print.grouped_df()` passes on `...` to `print()` (#1893).
+
 * `slice()` correctly handles grouped attributes (#1405).
 
 * `ungroup()` generic gains `...` (#922).
