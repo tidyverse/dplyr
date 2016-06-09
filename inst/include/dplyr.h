@@ -72,7 +72,6 @@ inline SEXP shared_SEXP(SEXP x){
     SET_NAMED(x, 2 );
     return x ;
 }
-void check_supported_type(SEXP) ;
 
 inline SEXP pairlist_shallow_copy(SEXP p){
     Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
