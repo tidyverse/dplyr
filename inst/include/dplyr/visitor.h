@@ -4,14 +4,14 @@
 namespace dplyr {
 
 inline VectorVisitor* visitor_matrix( SEXP vec ) ;
-inline VectorVisitor* visitor_data_frame( SEXP vec ) ;
+inline VectorVisitor* visitor_vector( SEXP vec ) ;
 
 inline VectorVisitor* visitor( SEXP vec ){
   if( Rf_isMatrix( vec ) ){
     return visitor_matrix(vec) ;
   }
   else {
-    return visitor_data_frame(vec) ;
+    return visitor_vector(vec) ;
   }
 }
 
@@ -30,7 +30,7 @@ inline VectorVisitor* visitor_matrix( SEXP vec ){
   return 0 ;
 }
 
-inline VectorVisitor* visitor_data_frame( SEXP vec ){
+inline VectorVisitor* visitor_vector( SEXP vec ){
   switch( TYPEOF(vec) ){
   case CPLXSXP:
     return new VectorVisitorImpl<CPLXSXP>( vec ) ;

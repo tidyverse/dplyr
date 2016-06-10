@@ -4,14 +4,14 @@
 namespace dplyr {
 
 inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec );
-inline SubsetVectorVisitor* subset_visitor_data_frame( SEXP vec );
+inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec );
 
 inline SubsetVectorVisitor* subset_visitor( SEXP vec ){
   if( Rf_isMatrix( vec ) ){
     return subset_visitor_matrix(vec) ;
   }
   else {
-    return subset_visitor_data_frame(vec) ;
+    return subset_visitor_vector(vec) ;
   }
 }
 
@@ -30,7 +30,7 @@ inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec ){
   return 0 ;
 }
 
-inline SubsetVectorVisitor* subset_visitor_data_frame( SEXP vec ){
+inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec ){
   if( Rf_inherits(vec, "Date") ){
     return new DateSubsetVectorVisitor(vec) ;
   }
