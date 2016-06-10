@@ -373,8 +373,10 @@ namespace dplyr {
                 stop( "POSIXlt not supported" ) ;
             }
             return new Collecter_Impl<VECSXP>(n) ;
-        default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model))) ;
+        default: break ;
         }
+
+        stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model))) ;
         return 0 ;
     }
 
@@ -406,8 +408,9 @@ namespace dplyr {
           if( previous->is_factor_collecter() )
             Rf_warning("binding factor and character vector, coercing into character vector") ;
           return new Collecter_Impl<STRSXP>(n) ;
-        default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model))) ;
+        default: break ;
         }
+        stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model))) ;
         return 0 ;
     }
 
