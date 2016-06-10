@@ -4,41 +4,42 @@
 
 |setting  |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.2.4 (2016-03-10) |
+|version  |R version 3.3.0 (2016-05-03) |
 |system   |x86_64, darwin13.4.0         |
 |ui       |X11                          |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2016-03-25                   |
+|date     |2016-06-09                   |
 
 ## Packages
 
-|package        |*  |version     |date       |source                           |
-|:--------------|:--|:-----------|:----------|:--------------------------------|
-|assertthat     |   |0.1         |2013-12-06 |CRAN (R 3.2.0)                   |
-|BH             |   |1.60.0-1    |2015-12-28 |CRAN (R 3.2.3)                   |
-|covr           |   |1.2.0       |2015-06-25 |CRAN (R 3.2.0)                   |
-|DBI            |   |0.3.1       |2014-09-24 |CRAN (R 3.2.0)                   |
-|dplyr          |   |0.4.3.9001  |2016-03-25 |local (hadley/dplyr)             |
-|ggplot2        |   |2.1.0       |2016-03-01 |CRAN (R 3.2.4)                   |
-|knitr          |   |1.12.3      |2016-01-22 |CRAN (R 3.2.3)                   |
-|Lahman         |   |4.0-1       |2015-09-15 |CRAN (R 3.2.0)                   |
-|lazyeval       |   |0.1.10      |2015-01-02 |CRAN (R 3.2.0)                   |
-|magrittr       |   |1.5         |2014-11-22 |CRAN (R 3.2.0)                   |
-|microbenchmark |   |1.4-2.1     |2015-11-25 |CRAN (R 3.2.2)                   |
-|nycflights13   |   |0.1         |2014-07-22 |CRAN (R 3.2.0)                   |
-|R6             |   |2.1.2       |2016-01-26 |CRAN (R 3.2.3)                   |
-|Rcpp           |   |0.12.3      |2016-01-10 |CRAN (R 3.2.3)                   |
-|rmarkdown      |   |0.9.5       |2016-02-22 |CRAN (R 3.2.3)                   |
-|RMySQL         |   |0.10.8      |2016-01-29 |CRAN (R 3.2.3)                   |
-|RPostgreSQL    |   |0.4         |2013-03-27 |CRAN (R 3.2.0)                   |
-|RSQLite        |   |1.0.0       |2014-10-25 |CRAN (R 3.2.0)                   |
-|testthat       |*  |0.11.0.9000 |2016-03-25 |Github (hadley/testthat@94fc45a) |
-|tibble         |   |1.0         |2016-03-25 |Github (hadley/tibble@69b9a89)   |
+|package        |*  |version    |date       |source                   |
+|:--------------|:--|:----------|:----------|:------------------------|
+|assertthat     |   |0.1        |2013-12-06 |CRAN (R 3.3.0)           |
+|BH             |   |1.60.0-2   |2016-05-07 |CRAN (R 3.3.0)           |
+|covr           |   |2.0.1      |2016-04-06 |CRAN (R 3.3.0)           |
+|DBI            |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)           |
+|dplyr          |   |0.4.3.9001 |2016-06-09 |local (hadley/dplyr@NA)  |
+|dtplyr         |   |0.0.0.9000 |2016-06-09 |github (hadley/dtplyr)   |
+|ggplot2        |   |2.1.0      |2016-03-01 |CRAN (R 3.3.0)           |
+|knitr          |   |1.13       |2016-05-09 |CRAN (R 3.3.0)           |
+|Lahman         |   |4.0-1      |2015-09-15 |CRAN (R 3.3.0)           |
+|lazyeval       |   |0.1.10     |2015-01-02 |cran (@0.1.10)           |
+|magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.3.0)           |
+|microbenchmark |   |1.4-2.1    |2015-11-25 |CRAN (R 3.3.0)           |
+|nycflights13   |   |0.2.0      |2016-04-30 |CRAN (R 3.3.0)           |
+|R6             |   |2.1.2      |2016-01-26 |CRAN (R 3.3.0)           |
+|Rcpp           |   |0.12.5     |2016-05-14 |CRAN (R 3.3.0)           |
+|rmarkdown      |   |0.9.6      |2016-05-01 |CRAN (R 3.3.0)           |
+|RMySQL         |   |0.10.9     |2016-05-08 |CRAN (R 3.3.0)           |
+|RPostgreSQL    |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)           |
+|RSQLite        |   |1.0.0      |2014-10-25 |CRAN (R 3.3.0)           |
+|testthat       |*  |1.0.2.9000 |2016-06-09 |github (hadley/testthat) |
+|tibble         |   |1.0-5      |2016-06-09 |github (hadley/tibble)   |
 
 # Check results
-60 packages with problems
+57 packages with problems
 
 ## aemo (0.1.0)
 Maintainer: Imanuel Costigan <i.costigan@me.com>
@@ -51,11 +52,29 @@ Installation failed.
 See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/aemo.Rcheck/00install.out’ for details.
 ```
 
+## alakazam (0.2.3)
+Maintainer: Jason Vander Heiden <jason.vanderheiden@yale.edu>  
+Bug reports: https://bitbucket.org/kleinstein/alakazam/issues
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Loading required package: ggplot2
+Quitting from lines 78-109 (AminoAcids-Vignette.Rmd) 
+Error: processing vignette 'AminoAcids-Vignette.Rmd' failed with diagnostics:
+could not find function "starts_with"
+Execution halted
+
+```
+
 ## assertr (1.0.0)
 Maintainer: Tony Fischetti <tony.fischetti@gmail.com>  
 Bug reports: https://github.com/tonyfischetti/assertr/issues
 
-2 errors | 0 warnings | 0 notes
+2 errors | 0 warnings | 1 note 
 
 ```
 checking examples ... ERROR
@@ -97,6 +116,20 @@ Last 13 lines of output:
   
   Error: testthat unit tests failed
   Execution halted
+
+checking R code for possible problems ... NOTE
+maha_dist: no visible global function definition for ‘cov’
+within_n_mads : <anonymous>: no visible global function definition for
+  ‘mad’
+within_n_mads : <anonymous>: no visible global function definition for
+  ‘median’
+within_n_sds : <anonymous>: no visible global function definition for
+  ‘sd’
+Undefined global functions or variables:
+  cov mad median sd
+Consider adding
+  importFrom("stats", "cov", "mad", "median", "sd")
+to your NAMESPACE file.
 ```
 
 ## bigrquery (0.2.0)
@@ -128,18 +161,41 @@ manual.
 Maintainer: David Robinson <admiral.david@gmail.com>  
 Bug reports: http://github.com/dgrtwo/broom/issues
 
-1 error  | 0 warnings | 0 notes
+2 errors | 0 warnings | 0 notes
 
 ```
+checking examples ... ERROR
+Running examples in ‘broom-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: survfit_tidiers
+> ### Title: tidy survival curve fits
+> ### Aliases: glance.survfit survfit_tidiers tidy.survfit
+> 
+> ### ** Examples
+... 48 lines ...
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Error: Unknown column 'median'
+Execution halted
+
 checking tests ... ERROR
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
-  3: as.expectation(exp, ..., srcref = srcref) at /private/tmp/Rtmp0b9LfI/devtoolscb0c76082acf/hadley-testthat-94fc45a/R/expectation.R:29
-  4: identical(as.vector(object), TRUE) at /private/tmp/Rtmp0b9LfI/devtoolscb0c76082acf/hadley-testthat-94fc45a/R/expectation.R:103
+  3: as.expectation(exp, ..., srcref = srcref) at /private/tmp/Rtmp0KDkde/devtools812db49901f/hadley-testthat-d3e20b9/R/expectation.R:33
+  4: identical(as.vector(object), TRUE) at /private/tmp/Rtmp0KDkde/devtools812db49901f/hadley-testthat-d3e20b9/R/expectation.R:112
   5: as.vector(object)
   6: augmented$disp
   7: `$.tbl_df`(augmented, disp)
-  8: stop("Unknown column '", i, "'", call. = FALSE) at /private/tmp/Rtmp0b9LfI/devtoolscb0c1fd66020/hadley-tibble-69b9a89/R/tbl-df.r:67
+  8: stop("Unknown column '", i, "'", call. = FALSE) at /private/tmp/Rtmp0KDkde/devtools812d2953cfa6/hadley-tibble-64175a8/R/tbl-df.r:47
   
   testthat results ================================================================
   OK: 490 SKIPPED: 0 FAILED: 1
@@ -149,7 +205,7 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## chunked (0.2.0)
+## chunked (0.2.1)
 Maintainer: Edwin de Jonge <edwindjonge@gmail.com>  
 Bug reports: https://github.com/edwindj/chunked/issues
 
@@ -159,50 +215,19 @@ Bug reports: https://github.com/edwindj/chunked/issues
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  > 
+  > test_check("chunked")
+  1. Error: write_chunkwise to db works (@test-write.R#29) -----------------------
+  attempt to apply non-function
+  1: write_chunkwise(iris2, tmp, row.names = FALSE) at testthat/test-write.R:29
   2: write_chunkwise.tbl_sql(iris2, tmp, row.names = FALSE)
   
   testthat results ================================================================
-  OK: 23 SKIPPED: 0 FAILED: 6
-  1. Failure: print: should print chunked info (@test-print.R#8) 
-  2. Failure: print groups: should print groups chunked info (@test-print.R#15) 
-  3. Failure: print groups: should print groups chunked info (@test-print.R#15) 
-  4. Failure: print groups: should print groups chunked info (@test-print.R#16) 
-  5. Failure: print groups: should print groups chunked info (@test-print.R#16) 
-  6. Error: write_chunkwise to db works (@test-write.R#29) 
+  OK: 26 SKIPPED: 0 FAILED: 1
+  1. Error: write_chunkwise to db works (@test-write.R#29) 
   
   Error: testthat unit tests failed
   Execution halted
-```
-
-## cofeatureR (1.0.1)
-Maintainer: Fong Chun Chan <fongchunchan@gmail.com>  
-Bug reports: https://github.com/tinyheero/cofeatureR/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘cofeatureR-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: plot_cofeature_mat
-> ### Title: Plot a Cofeature Matrix
-> ### Aliases: plot_cofeature_mat
-> 
-> ### ** Examples
-... 47 lines ...
-Detected no type.order. Specifying type.order
-Setting feature order
-Setting sample order
-> 
-> # Specify each cell can only have one "feature type"
-> plot_cofeature_mat(in.df, feature.order, sample.id.order, fill.colors = fill.colors,
-+   type.display.mode = "single")
-Detected no type.order. Specifying type.order
-Using type.display.mode single
-Error: No variables selected
-Execution halted
 ```
 
 ## condformat (0.2.0)
@@ -253,42 +278,11 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## DataCombine (0.2.19)
-Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
-Bug reports: https://github.com/christophergandrud/DataCombine/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘DataCombine-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: slide
-> ### Title: A function for creating lag and lead variables, including for
-> ###   time-series cross-sectional data.
-> ### Aliases: slide
-> 
-... 37 lines ...
-  No valid lag/lead can be created.
-  NA will be returned for these observations in the new lag/lead variable.
-  They will be returned at the bottom of the data frame.
-
-4
-
-
-Error in UseMethod("ungroup") : 
-  no applicable method for 'ungroup' applied to an object of class "c('matrix', 'list')"
-Calls: slide -> ungroup
-Execution halted
-```
-
-## ddpcr (1.1.2)
+## ddpcr (1.3)
 Maintainer: Dean Attali <daattali@gmail.com>  
 Bug reports: https://github.com/daattali/ddpcr/issues
 
-2 errors | 0 warnings | 1 note 
+2 errors | 1 warning  | 0 notes
 
 ```
 checking examples ... ERROR
@@ -328,7 +322,7 @@ Last 13 lines of output:
   OK: 0 SKIPPED: 0 FAILED: 0
   Execution halted
 
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Quitting from lines 205-213 (extend.Rmd) 
@@ -338,11 +332,41 @@ Execution halted
 
 ```
 
+## DeLorean (1.2.2)
+Maintainer: John Reid <john.reid@mrc-bsu.cam.ac.uk>
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Joining, by = c("cell", "capture")
+Have 35 cells after filtering
+Joining, by = "cell"
+Have 20 genes after filtering
+Joining, by = "gene"
+Joining, by = "gene"
+Joining, by = "gene"
+... 8 lines ...
+In file included from /Users/hadley/R-revdep/StanHeaders/include/src/stan/io/dump.hpp:11:
+In file included from /Users/hadley/R-revdep/StanHeaders/include/src/stan/io/validate_zero_buf.hpp:4:
+/Users/hadley/R-revdep/BH/include/boost/lexical_cast/bad_lexical_cast.hpp:33:54: error: redefinition of 'bad_lexical_cast'
+    class __attribute__((__visibility__("default"))) bad_lexical_cast :
+                                                     ^
+/usr/local/include/boost/lexical_cast.hpp:75:54: note: previous definition is here
+    class __attribute__((__visibility__("default"))) bad_lexical_cast :
+                                                     ^
+1 error generated.
+make: *** [fileb7ba58fab1bb.o] Error 1
+Execution halted
+```
+
 ## denovolyzeR (0.1.0)
 Maintainer: James Ware <j.ware@imperial.ac.uk>  
 Bug reports: http://github.com/jamesware/denovolyzeR/issues
 
-1 error  | 0 warnings | 1 note 
+1 error  | 1 warning  | 1 note 
 
 ```
 checking examples ... ERROR
@@ -364,7 +388,7 @@ The error most likely occurred in:
 Error: Unknown column 'obs'
 Execution halted
 
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Quitting from lines 52-55 (denovolyzeR_intro.Rmd) 
@@ -372,6 +396,14 @@ Error: processing vignette 'denovolyzeR_intro.Rmd' failed with diagnostics:
 Unknown column 'obs'
 Execution halted
 
+
+checking R code for possible problems ... NOTE
+denovolyze: no visible global function definition for ‘ppois’
+Undefined global functions or variables:
+  ppois
+Consider adding
+  importFrom("stats", "ppois")
+to your NAMESPACE file.
 ```
 
 ## describer (0.2.0)
@@ -384,37 +416,26 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  'arg' must be NULL or a character vector
-  1: lintr::expect_lint_free() at testthat/test-styling.R:4
-  2: testthat::expectation(!has_lints, paste(sep = "\n", "Not lint free", lint_output), 
-         "lint free")
-  3: match.arg(type, c("success", "failure", "error", "skip", "warning")) at /private/tmp/Rtmp0b9LfI/devtoolscb0c76082acf/hadley-testthat-94fc45a/R/expectation.R:13
-  4: stop("'arg' must be NULL or a character vector")
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(df4)) )
+                                            ~^
+  tests/testthat/utf-8.R:17:44: style: Commas should never have a space before.
+  expect_equal( strings_addresses(names(df)) ,  strings_addresses(names(gdf4)) )
+                                            ~^
+  
   
   testthat results ================================================================
   OK: 7 SKIPPED: 0 FAILED: 1
-  1. Error: Package Style (@test-styling.R#4) 
+  1. Failure: Package Style (@test-styling.R#4) 
   
   Error: testthat unit tests failed
   Execution halted
-```
-
-## DiversityOccupancy (1.0.2)
-Maintainer: Derek Corcoran <derek.corcoran.barrios@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘DiversityOccupancy’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/DiversityOccupancy.Rcheck/00install.out’ for details.
 ```
 
 ## dotwhisker (0.2.0.5)
 Maintainer: Yue Hu <yue-hu-1@uiowa.edu>  
 Bug reports: https://github.com/fsolt/dotwhisker/issues
 
-1 error  | 0 warnings | 2 notes
+1 error  | 1 warning  | 0 notes
 
 ```
 checking examples ... ERROR
@@ -440,11 +461,7 @@ The error most likely occurred in:
 Error: cannot convert object to a data frame
 Execution halted
 
-checking dependencies in R code ... NOTE
-Namespace in Imports field not imported from: ‘gridExtra’
-  All declared Imports should be used.
-
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Warning: Deprecated, use tibble::rownames_to_column() instead.
@@ -468,6 +485,122 @@ no applicable method for 'group_by_' applied to an object of class "c('matrix', 
 Execution halted
 ```
 
+## easyformatr (0.1.1)
+Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>  
+Bug reports: https://github.com/bramtayl/easyformatr/issues
+
+2 errors | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘easyformatr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: easy_format
+> ### Title: Easily build format strings
+> ### Aliases: easy_format
+> 
+> ### ** Examples
+> 
+> easy_format(year, month, day, integer, octal, double)
+Error in eval(expr, envir, enclos) : could not find function "one_of"
+Calls: easy_format ... select_vars_ -> <Anonymous> -> lapply -> FUN -> eval -> eval
+Execution halted
+
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  53: select_vars_(names(.data), dots) at /Users/hadley/Documents/dplyr/dplyr/R/dataframe.R:97
+  54: lazyeval::lazy_eval(args, names_list) at /Users/hadley/Documents/dplyr/dplyr/R/select-vars.R:69
+  55: lapply(x, lazy_eval, data = data)
+  56: FUN(X[[i]], ...)
+  57: eval(x$expr, data, x$env)
+  58: eval(expr, envir, enclos)
+  
+  testthat results ================================================================
+  OK: 7 SKIPPED: 0 FAILED: 1
+  1. Error: easy_format (@test.R#48) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 39-40 (easyformatr.Rmd) 
+Error: processing vignette 'easyformatr.Rmd' failed with diagnostics:
+object 'data_frame' not found
+Execution halted
+
+```
+
+## edeaR (0.4.1)
+Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'edeaR'
+
+The following object is masked from 'package:utils':
+
+    timestamp
+
+Quitting from lines 92-94 (descriptives.Rmd) 
+Error: processing vignette 'descriptives.Rmd' failed with diagnostics:
+Can not automatically convert from numeric to factor in column "length".
+Execution halted
+
+```
+
+## elpatron (0.0.2)
+Maintainer: Jordan Mackie <jmackie@protonmail.com>
+
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘elpatron-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: clean_bikedata
+> ### Title: Clean raw cycling device data.
+> ### Aliases: clean_bikedata
+> 
+> ### ** Examples
+> 
+> ride_file <- system.file("extdata/lufbra.fit", package = "elpatron")
+> 
+> parsed_ride <- import_ride(ride_file, make_laps = TRUE)
+Error in eval(expr, envir, enclos) : could not find function "contains"
+Calls: import_ride ... select_vars_ -> <Anonymous> -> lapply -> FUN -> eval -> eval
+Execution halted
+
+checking Rd cross-references ... WARNING
+Missing link or links in documentation object 'pipe.Rd':
+  ‘[dplyr]{chain}’
+
+See section 'Cross-references' in the 'Writing R Extensions' manual.
+
+```
+
 ## emil (2.2.3)
 Maintainer: Christofer Backlin <emil@christofer.backlin.se>  
 Bug reports: https://github.com/Molmed/emil/issues
@@ -483,43 +616,24 @@ See section 'Cross-references' in the 'Writing R Extensions' manual.
 
 ```
 
-## emuR (0.1.6)
-Maintainer: Raphael Winkelmann <raphael@phonetik.uni-muenchen.de>  
-Bug reports: https://github.com/IPS-LMU/emuR/issues
+## ezec (0.1.0)
+Maintainer: Zhian N. Kamvar <kamvarz@science.oregonstate.edu>
 
-1 error  | 0 warnings | 1 note 
+0 errors | 1 warning  | 0 notes
 
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Read 16 items
-  Read 12 records
-  Read 24 items
-  Read 20 records
-  testthat results ================================================================
-  OK: 683 SKIPPED: 2 FAILED: 4
-  1. Error: correct emuDB is created (@test_emuR-convert_TextGridCollection.R#39) 
-  2. Error: only specified tiers are converted when tierNames is set (@test_emuR-convert_TextGridCollection.R#116) 
-  3. Error: test that correct values are set for msajc003 (@test_emuR-create_DBconfigFromTextGrid.R#17) 
-  4. Error: test only correct tiers are extracted if tierNames is set (@test_emuR-create_DBconfigFromTextGrid.R#32) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-
-Attaching package: 'emuR'
-
-The following object is masked from 'package:base':
-
-    norm
-
-Quitting from lines 397-406 (emuDB.Rmd) 
-Error: processing vignette 'emuDB.Rmd' failed with diagnostics:
-$ operator is invalid for atomic vectors
+Warning in data("dummydata", library = "ezec") :
+  data set 'ezec' not found
+Quitting from lines 98-99 (getting_started.Rmd) 
+Error: processing vignette 'getting_started.Rmd' failed with diagnostics:
+Unknown column 'mod'
+In addition: Warning messages:
+1: Setting row names on a tibble is deprecated. 
+2: Setting row names on a tibble is deprecated. 
+3: Setting row names on a tibble is deprecated. 
 Execution halted
 
 ```
@@ -527,7 +641,7 @@ Execution halted
 ## GenCAT (1.0.2)
 Maintainer: Eric Reed <reeder@bu.edu>
 
-1 error  | 0 warnings | 4 notes
+1 error  | 1 warning  | 3 notes
 
 ```
 checking examples ... ERROR
@@ -553,19 +667,7 @@ The error most likely occurred in:
 Error in library(snpStats) : there is no package called ‘snpStats’
 Execution halted
 
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘snpStats’
-
-checking Rd cross-references ... NOTE
-Package unavailable to check Rd xrefs: ‘snpStats’
-
-checking data for non-ASCII characters ... NOTE
-  Error in .requirePackage(package) : 
-    unable to find required package 'snpStats'
-  Calls: <Anonymous> ... .extendsForS3 -> extends -> getClassDef -> .requirePackage
-  Execution halted
-
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Loading required package: dplyr
@@ -590,67 +692,25 @@ Error: processing vignette 'GenCAT-vignette.Rmd' failed with diagnostics:
 unable to find required package 'snpStats'
 Execution halted
 
-```
 
-## geomnet (0.0.1)
-Maintainer: Samantha Tyner <sctyner@iastate.edu>
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘snpStats’
 
-1 error  | 0 warnings | 0 notes
+checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘snpStats’
 
-```
-checking examples ... ERROR
-Running examples in ‘geomnet-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: football
-> ### Title: College football games network (undirected)
-> ### Aliases: football
-> ### Keywords: datasets
-> 
-... 40 lines ...
-
-Loading required package: sna
-sna: Tools for Social Network Analysis
-Version 2.3-2 created on 2014-01-13.
-copyright (c) 2005, Carter T. Butts, University of California-Irvine
- For citation information, type citation("sna").
- Type help(package="sna") to get started.
-
-Error in pmax(y, yend) : object 'y' not found
-Calls: <Anonymous> ... <Anonymous> -> f -> with -> with.default -> eval -> eval -> pmax
-Execution halted
-```
-
-## ggfortify (0.1.0)
-Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  1. Failure: fortify.cpt works for AirPassengers (@test-changepoint.R#24) -------
-  names(fortified) not equal to c("Index", "Data", "variance").
-  Lengths differ: 4 vs 3
-  
-  
-  Loading required package: urca
-  Loading required package: lmtest
-  testthat results ================================================================
-  OK: 586 SKIPPED: 1 FAILED: 1
-  1. Failure: fortify.cpt works for AirPassengers (@test-changepoint.R#24) 
-  
-  Error: testthat unit tests failed
+checking data for non-ASCII characters ... NOTE
+  Error in .requirePackage(package) : 
+    unable to find required package 'snpStats'
+  Calls: <Anonymous> ... .extendsForS3 -> extends -> getClassDef -> .requirePackage
   Execution halted
 ```
 
-## ggmcmc (0.8)
+## ggmcmc (1.0)
 Maintainer: Xavier Fernández i Marín <xavier.fim@gmail.com>  
 Bug reports: https://github.com/xfim/ggmcmc/issues
 
-1 error  | 0 warnings | 1 note 
+1 error  | 0 warnings | 0 notes
 
 ```
 checking examples ... ERROR
@@ -658,129 +718,246 @@ Running examples in ‘ggmcmc-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: ggmcmc
-> ### Title: Wrapper function that creates a single pdf file with all plots
-> ###   that ggmcmc can produce.
-> ### Aliases: ggmcmc ggmcmc-package
+> ### Name: ggs_caterpillar
+> ### Title: Caterpillar plot with thick and thin CI
+> ### Aliases: ggs_caterpillar
 > 
 > ### ** Examples
 > 
 > data(linear)
-> ggmcmc(ggs(s))  # Directly from a coda object
-Plotting histograms
-Error: cannot convert object to a data frame
+> ggs_caterpillar(ggs(s))
+> ggs_caterpillar(list(A=ggs(s), B=ggs(s))) # silly example duplicating the same model
+Error: Unknown column 'description'
 Execution halted
-
-checking re-building of vignette outputs ... NOTE
-Error in re-building vignettes:
-  ...
-Loading required package: dplyr
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Loading required package: tidyr
-Loading required package: ggplot2
-Registering fonts with R
-Quitting from lines 133-134 (using_ggmcmc.Rmd) 
-Error: processing vignette 'using_ggmcmc.Rmd' failed with diagnostics:
-cannot convert object to a data frame
-Execution halted
-
 ```
 
-## ggspectra (0.1.6)
-Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>  
-Bug reports: https://bitbucket.org/aphalo/ggspectra
+## ggRandomForests (1.2.1)
+Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>  
+Bug reports: https://github.com/ehrlinger/ggRandomForests/issues
 
-1 error  | 0 warnings | 0 notes
+2 errors | 0 warnings | 1 note 
 
 ```
 checking examples ... ERROR
-Running examples in ‘ggspectra-Ex.R’ failed
+Running examples in ‘ggRandomForests-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: plot.object_spct
-> ### Title: Plot an object spectrum, especialization of generic plot
-> ###   function
-> ### Aliases: plot.object_spct
-> ### Keywords: hplot
-... 42 lines ...
-  No valid 'w.length' values found
-Warning in max(runs[["lengths"]]) :
-  no non-missing arguments to max; returning -Inf
-Warning: Removed 12 rows containing non-finite values (stat_color_guide).
-Warning: Removed 12 rows containing non-finite values (stat_color_guide).
-Warning: Removed 12 rows containing non-finite values (stat_wb_mean).
-Warning: Removed 12 rows containing missing values (position_stack).
-Error in matrix(value, n, p) : 
-  'data' must be of a vector type, was 'NULL'
-Calls: <Anonymous> ... map_position -> lapply -> FUN -> [<- -> [<-.data.frame -> matrix
+> ### Name: gg_rfsrc.rfsrc
+> ### Title: Predicted response data object
+> ### Aliases: gg_rfsrc gg_rfsrc.rfsrc
+> 
+> ### ** Examples
+... 19 lines ...
+> ##D gg_dta<- gg_rfsrc(rfsrc_airq)
+> ##D 
+> ##D plot(gg_dta)
+> ## End(Not run)
+> 
+> ## -------- Boston data
+> data(rfsrc_Boston, package="ggRandomForests")
+> plot(rfsrc_Boston) 
+Error in if (x$tree.err == FALSE) { : argument is of length zero
+Calls: plot -> plot.rfsrc
 Execution halted
+
+checking tests ... ERROR
+Running the tests in ‘tests/test-all.R’ failed.
+Last 13 lines of output:
+  6: sort(randomForestSRC::vimp(object)$importance, decreasing = TRUE)
+  7: randomForestSRC::vimp(object)
+  8: generic.predict.rfsrc(object, outcome.target = outcome.target, importance = importance, 
+         importance.xvar = xvar.names, seed = seed, do.trace = do.trace, membership = FALSE, 
+         subset = subset, ...)
+  9: stop()
+  
+  testthat results ================================================================
+  OK: 412 SKIPPED: 0 FAILED: 1
+  1. Error: gg_vimp survival (@test_gg_vimp.R#139) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking installed package size ... NOTE
+  installed size is  5.9Mb
+  sub-directories of 1Mb or more:
+    data   2.6Mb
+    doc    3.0Mb
 ```
 
-## heemod (0.3.0)
-Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
-Bug reports: https://github.com/pierucci/heemod/issues
+## ggvis (0.4.2)
+Maintainer: Winston Chang <winston@rstudio.com>
 
-1 error  | 0 warnings | 0 notes
+1 error  | 0 warnings | 1 note 
 
 ```
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  > 
-  > test_check("heemod")
-  1. Failure: Parameter evaluation (@test_parameters.R#75) -----------------------
-  `output` does not match "2 evaluated parameters, 10 Markov cycles.\n\nSource: local data frame [10 x 3]\n\n   markov_cycle     a     b\n          (int) (dbl) (dbl)\n1             1     2     2\n2             2     2     4\n3             3     2     6".
-  Actual value: "2 evaluated parameters, 10 Markov cycles.\n\nSource: local data frame [10 x 3]\n\n   markov_cycle     a     b\n          <int> <dbl> <dbl>\n1             1     2     2\n2             2     2     4\n3             3     2     6\n4             4     2     8\n5             5     2    10\n6             6     2    12\n7             7     2    14\n8             8     2    16\n9             9     2    18\n10           10     2    20"
+  [8] 7 - 2 == 5
+  [9] 7 - 2 == 5
+  ...
   
   
   testthat results ================================================================
-  OK: 80 SKIPPED: 0 FAILED: 1
-  1. Failure: Parameter evaluation (@test_parameters.R#75) 
+  OK: 444 SKIPPED: 0 FAILED: 1
+  1. Failure: Automatic width (@test-compute-bin.r#143) 
+  
+  Error: testthat unit tests failed
+  In addition: Warning message:
+  In bind_rows_(x, .id) : Unequal factor levels: coercing to character
+  Execution halted
+
+checking R code for possible problems ... NOTE
+adjust_breaks: no visible global function definition for ‘median’
+bin_params.POSIXct: no visible global function definition for ‘is’
+bin_vector.POSIXct: no visible global function definition for ‘is’
+combine_data_props: no visible global function definition for
+  ‘setNames’
+combine_data_props : <anonymous>: no visible global function definition
+  for ‘setNames’
+compute_boxplot.data.frame: no visible global function definition for
+  ‘quantile’
+... 24 lines ...
+  ‘packageVersion’
+Undefined global functions or variables:
+  complete.cases formula is median na.omit packageVersion predict qt
+  quantile runif setNames terms
+Consider adding
+  importFrom("methods", "is")
+  importFrom("stats", "complete.cases", "formula", "median", "na.omit",
+             "predict", "qt", "quantile", "runif", "setNames", "terms")
+  importFrom("utils", "packageVersion")
+to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
+contains 'methods').
+```
+
+## glycanr (0.3.0)
+Maintainer: Ivo Ugrina <ivo@iugrina.com>  
+Bug reports: https://github.com/iugrina/glycanr/issues
+
+2 errors | 0 warnings | 1 note 
+
+```
+checking examples ... ERROR
+Running examples in ‘glycanr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: quantilenorm
+> ### Title: Quantile Normalization of glycan data
+> ### Aliases: quantilenorm
+> 
+> ### ** Examples
+> 
+> data(mpiu)
+> mpiun <- quantilenorm(mpiu)
+Error in quantilenorm(mpiu) : 
+  Unable to proceed since package preprocessCore from
+        BioConductor is not available on this system. This
+        package is a prerequisite to use the quantilenorm function!
+Execution halted
+
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  
+  The following objects are masked from 'package:base':
+  
+      intersect, setdiff, setequal, union
+  
+  Error in quantilenorm(mpiu, transpose = TRUE) : 
+    Unable to proceed since package preprocessCore from
+          BioConductor is not available on this system. This
+          package is a prerequisite to use the quantilenorm function!
+  Calls: test_check ... force -> source_file -> eval -> eval -> quantilenorm
+  testthat results ================================================================
+  OK: 5 SKIPPED: 0 FAILED: 0
+  Execution halted
+
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘preprocessCore’
+```
+
+## gutenbergr (0.1.1)
+Maintainer: David Robinson <admiral.david@gmail.com>  
+Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
+
+2 errors | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘gutenbergr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: gutenberg_strip
+> ### Title: Strip header and footer content from a Project Gutenberg book
+> ### Aliases: gutenberg_strip
+> 
+> ### ** Examples
+... 10 lines ...
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> book <- gutenberg_works(title == "Pride and Prejudice") %>%
++   gutenberg_download(strip = FALSE)
+Determining mirror for Project Gutenberg from http://www.gutenberg.org/robot/harvest
+Using mirror http://www.gutenberg.lib.md.us
+Error: Unknown column 'gutenberg_id'
+Execution halted
+
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  6: w_de$language
+  7: `$.tbl_df`(w_de, language)
+  8: stop("Unknown column '", i, "'", call. = FALSE) at /private/tmp/Rtmp0KDkde/devtools812d2953cfa6/hadley-tibble-64175a8/R/tbl-df.r:47
+  
+  testthat results ================================================================
+  OK: 31 SKIPPED: 0 FAILED: 4
+  1. Error: Can download books from a data frame with gutenberg_id column (@test-download.R#40) 
+  2. Error: gutenberg_works does appropriate filtering by default (@test-metadata.R#8) 
+  3. Error: gutenberg_works takes filtering conditions (@test-metadata.R#17) 
+  4. Error: gutenberg_works does appropriate filtering by language (@test-metadata.R#23) 
   
   Error: testthat unit tests failed
   Execution halted
 ```
 
-## highcharter (0.2.0)
-Maintainer: Joshua Kunst <jbkunst@gmail.com>  
-Bug reports: https://github.com/jbkunst/highcharter/issues
+## haven (0.2.0)
+Maintainer: Hadley Wickham <hadley@rstudio.com>  
+Bug reports: https://github.com/hadley/haven/issues
 
-1 error  | 0 warnings | 0 notes
+1 error  | 0 warnings | 1 note 
 
 ```
 checking examples ... ERROR
-Running examples in ‘highcharter-Ex.R’ failed
+Running examples in ‘haven-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: hc_add_series_flags
-> ### Title: Shorcut for add flags to highstock chart
-> ### Aliases: hc_add_serie_flags hc_add_series_flags
+> ### Name: read_sas
+> ### Title: Read SAS files.
+> ### Aliases: read_sas
 > 
 > ### ** Examples
-... 19 lines ...
-
- This  behavior  will be  phased out in 0.5-0  when the call  will
- default to use auto.assign=FALSE. getOption("getSymbols.env") and 
- getOptions("getSymbols.auto.assign") are now checked for alternate defaults
-
- This message is shown once per session and may be disabled by setting 
- options("getSymbols.warning4.0"=FALSE). See ?getSymbols for more details.
-Error in download.file(oanda.URL, destfile = tmp, quiet = !verbose) : 
-  cannot open URL 'http://www.oanda.com/currency/historical-rates/download?quote_currency=USD&end_date=2016-03-25&start_date=2014-11-12&period=daily&display=absolute&rate=0&data_range=y2&price=mid&view=table&base_currency_0=JPY&base_currency_1=&base_currency_2=&base_currency_3=&base_currency_4=&download=csv'
-Calls: getSymbols -> do.call -> getSymbols.oanda -> download.file
+> 
+> read_sas("http://crn.cancer.gov/resources/ctcodes-procedures.sas7bdat")
+Error in download.file(path, tmp, quiet = TRUE, mode = "wb") : 
+  cannot open URL 'http://crn.cancer.gov/resources/ctcodes-procedures.sas7bdat'
+Calls: read_sas -> df_parse_sas -> clean_path -> download.file
 Execution halted
+
+checking R code for possible problems ... NOTE
+clean_path: no visible global function definition for ‘download.file’
+Undefined global functions or variables:
+  download.file
+Consider adding
+  importFrom("utils", "download.file")
+to your NAMESPACE file.
 ```
 
 ## HydeNet (0.10.3)
@@ -806,14 +983,86 @@ Maintainer: Giulio Costantini <costantinigiulio@gmail.com>
 checking package dependencies ... ERROR
 Package required but not available: ‘nem’
 
-Package suggested but not available for checking: ‘nparcomp’
-
 See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## morse (2.1.1)
-Maintainer: Philippe Ruiz <philippe.ruiz@univ-lyon1.fr>
+## imager (0.20)
+Maintainer: Simon Barthelme <simon.barthelme@gipsa-lab.fr>
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking whether package ‘imager’ can be installed ... ERROR
+Installation failed.
+See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/imager.Rcheck/00install.out’ for details.
+```
+
+## macleish (0.3.0)
+Maintainer: Ben Baumer <ben.baumer@gmail.com>
+
+0 errors | 1 warning  | 1 note 
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+... 8 lines ...
+The following object is masked from 'package:base':
+
+    date
+
+Loading required package: clifro
+Warning in library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  there is no package called 'clifro'
+Quitting from lines 187-190 (macleish.Rmd) 
+Error: processing vignette 'macleish.Rmd' failed with diagnostics:
+could not find function "windrose"
+Execution halted
+
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘clifro’
+```
+
+## MonetDBLite (0.3.0)
+Maintainer: Hannes Muehleisen <hannes@cwi.nl>  
+Bug reports: https://github.com/hannesmuehleisen/MonetDBLite/issues
+
+1 error  | 0 warnings | 1 note 
+
+```
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  [1] "M"
+  testthat results ================================================================
+  OK: 194 SKIPPED: 0 FAILED: 7
+  1. Error: dplyr tbl( sql() ) (@test_03_dplyr.R#35) 
+  2. Error: dplyr filter() (@test_03_dplyr.R#51) 
+  3. Error: dplyr arrange() (@test_03_dplyr.R#59) 
+  4. Error: dplyr mutate() (@test_03_dplyr.R#67) 
+  5. Error: dplyr summarise() (@test_03_dplyr.R#75) 
+  6. Error: dplyr multiple objects (@test_03_dplyr.R#84) 
+  7. Failure: dplyr group_by (@test_03_dplyr.R#120) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking installed package size ... NOTE
+  installed size is  5.9Mb
+  sub-directories of 1Mb or more:
+    libs   5.7Mb
+```
+
+## morse (2.2.0)
+Maintainer: Philippe Veber <philippe.veber@univ-lyon1.fr>
 
 1 error  | 0 warnings | 0 notes
 
@@ -835,7 +1084,7 @@ Last 13 lines of output:
     |===================================================================== |  98%
     |                                                                            
     |======================================================================| 100%
-  Error: `dmtcd` not equal to lazyLoadDBfetch(c(0L, 1776L), datafile, compressed, envhook).
+  Error: `dmtcd` not equal to lazyLoadDBfetch(c(0L, 1775L), datafile, compressed, envhook).
   Attributes: < Names: 2 string mismatches >
   Attributes: < Length mismatch: comparison on first 2 components >
   Attributes: < Component 1: target is externalptr, current is character >
@@ -847,8 +1096,8 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## myTAI (0.3.0)
-Maintainer: Hajk-Georg Drost <hajk-georg.drost@informatik.uni-halle.de>  
+## myTAI (0.4.0)
+Maintainer: Hajk-Georg Drost <hgd23@cam.ac.uk>  
 Bug reports: https://github.com/HajkD/myTAI/issues
 
 1 error  | 0 warnings | 0 notes
@@ -861,102 +1110,116 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## openair (1.8-0)
-Maintainer: David Carslaw <david.carslaw@york.ac.uk>  
-Bug reports: https://github.com/davidcarslaw/openair/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘openair-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: aqStats
-> ### Title: Calculate summary statistics for air pollution data by year
-> ### Aliases: aqStats
-> ### Keywords: methods
-> 
-> ### ** Examples
-> 
-> 
-> ## Statistics for 2004. NOTE! these data are in ppb/ppm so the
-> ## example is for illustrative purposes only
-> aqStats(selectByDate(mydata, year = 2004), pollutant = "no2")
-Error: Unknown column 'ws'
-Execution halted
-```
-
-## pixiedust (0.6.1)
-Maintainer: Benjamin Nutter <nutter@battelle.org>  
-Bug reports: https://github.com/nutterb/pixiedust/issues
+## networkreporting (0.1.0)
+Maintainer: Dennis M. Feehan <feehan@berkeley.edu>
 
 1 error  | 0 warnings | 0 notes
 
 ```
 checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
+Running the tests in ‘tests/test_all.R’ failed.
 Last 13 lines of output:
-  NOT(print_dust_latex(x) did not throw an error.
-  )
+  > test_check("networkreporting")
+  Loading required package: networkreporting
+  Taking N.F value implied by weights: 0
   
-  
+  Error in UseMethod("mutate_") : 
+    no applicable method for 'mutate_' applied to an object of class "c('matrix', 'list')"
+  Calls: test_check ... withVisible -> <Anonymous> -> <Anonymous> -> mutate_
+  In addition: Warning message:
+  In cbind(x[ids$x, , drop = FALSE], y[ids$y, y.cols, drop = FALSE]) :
+    number of rows of result is not a multiple of vector length (arg 2)
   testthat results ================================================================
-  OK: 148 SKIPPED: 0 FAILED: 4
-  1. Failure: dust runs when passed a data frame with tidy_df = FALSE (@test-dust.R#41) 
-  2. Failure: dust runs when passed a data frame with tidy_df = TRUE (@test-dust.R#46) 
-  3. Error: dust with caption and non-floating environment gives warning (@test-dust.R#91) 
-  4. Failure: print_dust_latex (@test-print_dust_methods.R#160) 
-  
-  Error: testthat unit tests failed
+  OK: 0 SKIPPED: 0 FAILED: 0
   Execution halted
+```
+
+## photobiologyInOut (0.4.4)
+Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>  
+Bug reports: https://bitbucket.org/aphalo/photobiologyinout/
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Read 16 items
+Read 4 items
+Read 18 items
+Read 4 items
+Read 18 items
+Read 4 items
+Read 18 items
+... 8 lines ...
+Read 7 items
+Read 5 items
+Read 8 items
+Read 8 items
+Read 5 items
+Read 8 items
+Read 8 items
+Quitting from lines 490-492 (user-guide.Rnw) 
+Error: processing vignette 'user-guide.Rnw' failed with diagnostics:
+could not find function "starts_with"
+Execution halted
 ```
 
 ## pmc (1.0.1)
 Maintainer: Carl Boettiger <cboettig@gmail.com>  
 Bug reports: https://github.com/cboettig/pmc/issues
 
-1 error  | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
-checking package dependencies ... ERROR
-Package required but not available: ‘ouch’
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+         sQuote("tree"))
+  
+  Loading required package: ape
+  testthat results ================================================================
+  OK: 9 SKIPPED: 0 FAILED: 1
+  1. Error: we can use ouch-based functions (@test_ouch.R#6) 
+  
+  Error: testthat unit tests failed
+  In addition: Warning message:
+  In treedata(geo$phy, geo$dat) :
+    The following tips were not found in 'data' and were dropped from 'phy':
+  	olivacea
+  Execution halted
 
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+	lambda
+Warning in fitContinuous(phy = att$cache$phy, model = att$model, ..., ncores = 1) :
+  Parameter estimates appear at bounds:
+	lambda
+Warning in fitContinuous(phy = att$cache$phy, model = att$model, ..., ncores = 1) :
+  Parameter estimates appear at bounds:
+	lambda
+... 8 lines ...
+  Parameter estimates appear at bounds:
+	lambda
+Warning in fitContinuous(phy = att$cache$phy, model = att$model, ..., ncores = 1) :
+  Parameter estimates appear at bounds:
+	lambda
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+Quitting from lines 141-163 (pmc_tutorial.Rmd) 
+Error: processing vignette 'pmc_tutorial.Rmd' failed with diagnostics:
+'data' vector names (or data-frame row names) must match node names of 'tree'
+Execution halted
 ```
 
 ## poplite (0.99.16)
 Maintainer: Daniel Bottomly <bottomly@ohsu.edu>
 
-0 errors | 1 warning  | 3 notes
+0 errors | 1 warning  | 2 notes
 
 ```
-checking running R code from vignettes ... WARNING
-Errors in running code in vignettes:
-when running code in ‘poplite.Rnw’
-  ...
-8             8         8    18      0  1.6844357  0.53539884          2     F
-9             9         9    20      1  0.9113913 -0.55527835          2     F
-10           10        10    12      1  0.2374303  1.77950291          1     M
-..          ...       ...   ...    ...        ...         ...        ...   ...
-
-> library(VariantAnnotation)
-
-  When sourcing ‘poplite.R’:
-Error: there is no package called ‘VariantAnnotation’
-Execution halted
-
-
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘VariantAnnotation’
-
-checking R code for possible problems ... NOTE
-join,Database : .local: no visible binding for global variable
-  ‘new.ancil’
-
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 
@@ -978,6 +1241,27 @@ Error: processing vignette 'poplite.Rnw' failed with diagnostics:
 Error in library(VariantAnnotation) : 
   there is no package called ‘VariantAnnotation’
 Execution halted
+
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘VariantAnnotation’
+
+checking R code for possible problems ... NOTE
+filter_.Database: no visible global function definition for ‘stack’
+get.starting.point : <anonymous>: no visible global function definition
+  for ‘na.omit’
+select_.Database: no visible global function definition for ‘stack’
+tsl.to.graph: no visible global function definition for ‘stack’
+join,Database: no visible global function definition for ‘stack’
+join,Database : .get.select.cols: no visible global function definition
+  for ‘setNames’
+join,Database: no visible binding for global variable ‘new.ancil’
+join,Database: no visible global function definition for ‘setNames’
+Undefined global functions or variables:
+  na.omit new.ancil setNames stack
+Consider adding
+  importFrom("stats", "na.omit", "setNames")
+  importFrom("utils", "stack")
+to your NAMESPACE file.
 ```
 
 ## pRF (1.2)
@@ -1036,7 +1320,7 @@ Execution halted
 ## RCMIP5 (1.1)
 Maintainer: Kathe Todd-Brown <ktoddbrown@gmail.com>
 
-1 error  | 0 warnings | 2 notes
+1 error  | 0 warnings | 3 notes
 
 ```
 checking tests ... ERROR
@@ -1064,24 +1348,61 @@ checking dependencies in R code ... NOTE
   ‘ggplot2’ ‘ncdf’ ‘ncdf4’
   Please use :: or requireNamespace() instead.
   See section 'Suggested packages' in the 'Writing R Extensions' manual.
+
+checking R code for possible problems ... NOTE
+addProvenance: no visible global function definition for
+  ‘packageVersion’
+addProvenance: no visible global function definition for
+  ‘capture.output’
+cmip5data: no visible global function definition for ‘runif’
+filterDimensionTimeMonths: no visible binding for global variable
+  ‘time’
+makeGlobalStat: no visible binding for global variable ‘weighted.mean’
+makePackageData: no visible global function definition for
+... 7 lines ...
+worldPlot: no visible global function definition for ‘quantile’
+worldPlot: no visible global function definition for ‘rainbow’
+Undefined global functions or variables:
+  capture.output object.size packageVersion quantile rainbow runif time
+  weighted.mean write.csv
+Consider adding
+  importFrom("grDevices", "rainbow")
+  importFrom("stats", "quantile", "runif", "time", "weighted.mean")
+  importFrom("utils", "capture.output", "object.size", "packageVersion",
+             "write.csv")
+to your NAMESPACE file.
 ```
 
-## refund.shiny (0.2.0)
-Maintainer: Julia Wrobel <jw3134@cumc.columbia.edu>
+## resumer (0.0.1)
+Maintainer: Jared Lander <packages@jaredlander.com>  
+Bug reports: https://github.com/jaredlander/resumer/issues
 
 1 error  | 0 warnings | 0 notes
 
 ```
-checking whether package ‘refund.shiny’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/refund.shiny.Rcheck/00install.out’ for details.
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  
+  2. Failure: resumer returns an rmakdown object with the correct length and names (@test-resumerStructure.R#9) 
+  names(resBlank) not equal to c(...).
+  Lengths differ: 9 vs 7
+  
+  
+  testthat results ================================================================
+  OK: 37 SKIPPED: 0 FAILED: 2
+  1. Failure: resumer returns an rmakdown object with the correct length and names (@test-resumerStructure.R#6) 
+  2. Failure: resumer returns an rmakdown object with the correct length and names (@test-resumerStructure.R#9) 
+  
+  Error: testthat unit tests failed
+  Execution halted
 ```
 
 ## RNeXML (2.0.6)
 Maintainer: Carl Boettiger <cboettig@gmail.com>  
 Bug reports: https://github.com/ropensci/RNeXML/issues
 
-2 errors | 0 warnings | 2 notes
+2 errors | 1 warning  | 1 note 
 
 ```
 checking examples ... ERROR
@@ -1120,10 +1441,7 @@ Last 13 lines of output:
   Error: testthat unit tests failed
   Execution halted
 
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘rrdf’ ‘Sxslt’
-
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Loading required package: ape
@@ -1132,37 +1450,16 @@ Error: processing vignette 'metadata.Rmd' failed with diagnostics:
 Unknown column 'content'
 Execution halted
 
-```
 
-## rpivotTable (0.1.5.7)
-Maintainer: Enzo Martoglio  <enzo@smartinsightsfromdata.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1. Error: parameters handled correctly (@test_params.R#4) ----------------------
-  is.character(object) is not TRUE
-  1: expect_match(rpivotTable(data.frame(), rows = c("arow"))$x$params$rows, "arow") at testthat/test_params.R:4
-  2: stopifnot(is.character(object)) at /private/tmp/Rtmp0b9LfI/devtoolscb0c76082acf/hadley-testthat-94fc45a/R/expectations-matches.R:26
-  3: stop(sprintf(ngettext(length(r), "%s is not TRUE", "%s are not all TRUE"), ch), call. = FALSE, 
-         domain = NA)
-  
-  testthat results ================================================================
-  OK: 11 SKIPPED: 0 FAILED: 1
-  1. Error: parameters handled correctly (@test_params.R#4) 
-  
-  Error: testthat unit tests failed
-  Execution halted
+checking package dependencies ... NOTE
+Packages suggested but not available for checking: ‘rrdf’ ‘Sxslt’
 ```
 
 ## rplexos (1.1.4)
 Maintainer: Eduardo Ibanez <edu.ibanez@gmail.com>  
 Bug reports: https://github.com/NREL/rplexos/issues
 
-1 error  | 0 warnings | 1 note 
+1 error  | 1 warning  | 0 notes
 
 ```
 checking examples ... ERROR
@@ -1189,56 +1486,13 @@ Error in sqliteSendQuery(con, statement, bind.data) :
 Calls: process_folder ... .local -> sqliteGetQuery -> sqliteSendQuery -> .Call
 Execution halted
 
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Quitting from lines 186-187 (rplexos.Rmd) 
 Error: processing vignette 'rplexos.Rmd' failed with diagnostics:
 error in statement: no such column: comp_collection
 Execution halted
-
-```
-
-## rPref (0.7)
-Maintainer: Patrick Roocks <mail@p-roocks.de>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘rPref’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/rPref.Rcheck/00install.out’ for details.
-```
-
-## RPresto (1.2.0)
-Maintainer: Onur Ismail Filiz <onur@fb.com>  
-Bug reports: https://github.com/prestodb/RPresto/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1: dplyr::src_translate_env at testthat/test-src_translate_env.R:15
-  2: getExportedValue(pkg, name)
-  3: stop(gettextf("'%s' is not an exported object from 'namespace:%s'", name, getNamespaceName(ns)), 
-         call. = FALSE, domain = NA)
-  
-  testthat results ================================================================
-  OK: 205 SKIPPED: 23 FAILED: 3
-  1. Failure: dbFetch works with mock (@test-dbFetch.R#37) 
-  2. Failure: dbFetch works with mock (@test-dbFetch.R#37) 
-  3. Error: as() works (@test-src_translate_env.R#15) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking Rd cross-references ... WARNING
-Missing link or links in documentation object 'dplyr_function_implementations.Rd':
-  ‘[dplyr]{src_translate_env}’
-
-See section 'Cross-references' in the 'Writing R Extensions' manual.
 
 ```
 
@@ -1254,93 +1508,45 @@ Installation failed.
 See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/RSQLServer.Rcheck/00install.out’ for details.
 ```
 
-## simmer (3.1.2)
-Maintainer: Iñaki Ucar <i.ucar86@gmail.com>  
-Bug reports: https://github.com/Bart6114/simmer/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  > test_check("simmer")
-  1. Failure: the trajectory stores the right number of activities (@test-trajectory.R#76) 
-  `t0` produced no output
-  
-  
-  { Activity: Timeout(none) | delay: 1 }
-  Trajectory: anonymous, 1 activities
-  testthat results ================================================================
-  OK: 192 SKIPPED: 0 FAILED: 1
-  1. Failure: the trajectory stores the right number of activities (@test-trajectory.R#76) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## simPH (1.3.5)
-Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
-Bug reports: https://github.com/christophergandrud/simPH/issues
-
-1 error  | 0 warnings | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘simPH-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: MinMaxLines
-> ### Title: Transform the simulation object to include only the min and max
-> ###   of the constricted intervals, as well as the lower and upper bounds
-> ###   of the middle 50 percent of the constricted intervals
-> ### Aliases: MinMaxLines
-... 20 lines ...
-+                       Xj = c(1237, 1600),
-+                       Xl = c(1000, 1000),
-+                       qi = "Hazard Ratio",
-+                       spin = TRUE, ci = 0.99)
-> 
-> # Find summary statistics of the constricted interval
-> Sum <- MinMaxLines(Sim1, clean = TRUE)
-Error in .check_names_df(x, j) : 
-  undefined columns: Min, Lower50, Median, Upper50, Max
-Calls: MinMaxLines -> [ -> [.tbl_df -> .check_names_df
-Execution halted
-
-checking re-building of vignette outputs ... NOTE
-Error in re-building vignettes:
-  ...
-All Xl set to 0.
-Quitting from lines 311-321 (simPH-overview.Rnw) 
-Error: processing vignette 'simPH-overview.Rnw' failed with diagnostics:
-Aesthetics must be either length 1 or the same as the data (35): x, y
-Execution halted
-
-```
-
-## SpaDES (1.1.1)
+## SpaDES (1.1.4)
 Maintainer: Alex M Chubaty <alexander.chubaty@canada.ca>  
 Bug reports: https://github.com/PredictiveEcology/SpaDES/issues
 
-1 error  | 0 warnings | 0 notes
+0 errors | 1 warning  | 1 note 
 
 ```
-checking package dependencies ... ERROR
-Package required but not available: ‘secr’
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
 
+Loading required package: grid
+
+Attaching package: 'grid'
+
+The following object is masked from 'package:SpaDES':
+
+... 8 lines ...
+    shift
+
+The following object is masked from 'package:SpaDES':
+
+    copy
+
+Files saved. Use outputs(your simList) for details
+Quitting from lines 581-622 (ii-modules.Rmd) 
+Error: processing vignette 'ii-modules.Rmd' failed with diagnostics:
+missing value where TRUE/FALSE needed
+Execution halted
+
+checking package dependencies ... NOTE
 Package suggested but not available for checking: ‘fastshp’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
 ```
 
 ## sprintfr (0.1.0)
 Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>  
 Bug reports: https://github.com/bramtayl/sprintfr/issues
 
-1 error  | 0 warnings | 1 note 
+1 error  | 1 warning  | 0 notes
 
 ```
 checking examples ... ERROR
@@ -1362,7 +1568,7 @@ The error most likely occurred in:
 Error: object 'data_frame' not found
 Execution halted
 
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Quitting from lines 30-31 (sprintfr.Rmd) 
@@ -1372,99 +1578,7 @@ Execution halted
 
 ```
 
-## srvyr (0.1.0)
-Maintainer: Greg Freedman <greg.freedman@gmail.com>  
-Bug reports: https://github.com/gergness/srvyr/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘srvyr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: as_survey
-> ### Title: Create a tbl_svy from a data.frame
-> ### Aliases: as_survey as_survey.data.frame as_survey.survey.design2
-> ###   as_survey.svyrepdesign as_survey.twophase2 as_survey_
-> 
-... 23 lines ...
-> scd$rep2 <- 2 * c(1, 0, 0, 1, 0, 1)
-> scd$rep3 <- 2 * c(0, 1, 1, 0, 0, 1)
-> scd$rep4 <- 2 * c(0, 1, 0, 1, 1, 0)
-> 
-> scdrep <- scd %>%
-+   as_survey(type = "BRR", repweights = starts_with("rep"),
-+                     combined_weights = FALSE)
-Error in eval(expr, envir, enclos) : 
-  could not find function "starts_with"
-Calls: %>% ... <Anonymous> -> <Anonymous> -> lapply -> FUN -> eval -> eval
-Execution halted
-
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  
-  The following object is masked from 'package:stats':
-  
-      filter
-  
-  > 
-  > test_check("srvyr")
-  Error in eval(expr, envir, enclos) : 
-    could not find function "starts_with"
-  Calls: test_check ... <Anonymous> -> <Anonymous> -> lapply -> FUN -> eval -> eval
-  testthat results ================================================================
-  OK: 8 SKIPPED: 0 FAILED: 0
-  Execution halted
-
-checking S3 generic/method consistency ... WARNING
-ungroup:
-  function(x, ...)
-ungroup.grouped_svy:
-  function(x)
-
-ungroup:
-  function(x, ...)
-ungroup.tbl_svy:
-  function(x)
-
-See section ‘Generic functions and methods’ in the ‘Writing R
-Extensions’ manual.
-```
-
-## ss3sim (0.9.0)
-Maintainer: Sean Anderson <sean@seananderson.ca>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘ss3sim-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: change_em_binning
-> ### Title: Change population and observed length composition bins in an SS
-> ###   estimation model
-> ### Aliases: change_em_binning
-> 
-... 48 lines ...
-13 2001    1   1      0    0      1       8      -1     3  1  1  1
-14 2002    1   1      0    0      1       4       5     3  1  1  1
-15 2002    1   1      0    0      1       5       6     3  1  1  1
-16 2002    1   1      0    0      1       6       7     3  1  1  1
-17 2002    1   1      0    0      1       7       8     3  1  1  1
-18 2002    1   1      0    0      1       8      -1     3  1  1  1
-> newdat <- change_em_binning(olddat, dat_file_out = NULL, bin_vector = c(4, 6, 8),
-+   lbin_method = 1, write_file = FALSE)
-Error in eval(expr, envir, enclos) : could not find function "matches"
-Calls: change_em_binning ... select_vars_ -> <Anonymous> -> lapply -> FUN -> eval -> eval
-Execution halted
-```
-
-## statar (0.6.0)
+## statar (0.6.1)
 Maintainer: Matthieu Gomez <mattg@princeton.edu>  
 Bug reports: https://github.com/matthieugomez/statar/issues
 
@@ -1493,85 +1607,133 @@ checking dependencies in R code ... NOTE
 Missing or unexported object: ‘dplyr::tbl_dt’
 ```
 
-## SWMPr (2.1.4)
-Maintainer: Marcus W. Beck <mbafs2012@gmail.com>  
-Bug reports: https://github.com/fawda123/SWMPr/issues
+## texmexseq (0.2)
+Maintainer: Scott Olesen <swo@mit.edu>
 
-1 error  | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
+
+```
+checking whether package ‘texmexseq’ can be installed ... WARNING
+Found the following significant warnings:
+  Warning: replacing previous import ‘dplyr::matches’ by ‘testthat::matches’ when loading ‘texmexseq’
+See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/texmexseq.Rcheck/00install.out’ for details.
+```
+
+## tidyr (0.4.1)
+Maintainer: Hadley Wickham <hadley@rstudio.com>  
+Bug reports: https://github.com/hadley/tidyr/issues
+
+1 error  | 0 warnings | 1 note 
+
+```
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  error$message does not match "incompatible type".
+  Actual value: "Can not automatically convert from numeric to character."
+  
+  
+  testthat results ================================================================
+  OK: 131 SKIPPED: 0 FAILED: 4
+  1. Error: missings filled down for each atomic vector (@test-fill.R#42) 
+  2. Error: missings filled up for each vector (@test-fill.R#59) 
+  3. Error: preserve class of input (@test-spread.R#82) 
+  4. Failure: elements must all be of same type (@test-unnest.R#18) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking dependencies in R code ... NOTE
+Missing or unexported object: ‘dplyr::tbl_dt’
+```
+
+## tidytext (0.1.0)
+Maintainer: Julia Silge <julia.silge@gmail.com>  
+Bug reports: http://github.com/juliasilge/tidytext/issues
+
+2 errors | 1 warning  | 0 notes
 
 ```
 checking examples ... ERROR
-Running examples in ‘SWMPr-Ex.R’ failed
+Running examples in ‘tidytext-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: decomp_cj
-> ### Title: Simple trend decomposition of monthly swmpr data
-> ### Aliases: decomp_cj decomp_cj.default decomp_cj.swmpr
+> ### Name: cast_sparse
+> ### Title: Create a sparse matrix from row names, column names, and values
+> ###   in a table.
+> ### Aliases: cast_sparse
 > 
-> ### ** Examples
-... 153 lines ...
-144 2013-12-01  5.900000 1.1408163 0.7244194 1.4569683
+... 7 lines ...
 > 
-> ## decomposition of chl, ggplot
-> decomp_cj(dat, param = 'chla_n')
-Warning: Removed 6 rows containing missing values (geom_path).
+> cast_sparse(dat, a, b)
+2 x 4 sparse Matrix of class "dgCMatrix"
+     col1 col2 col3 col4
+row1    1    1    .    .
+row2    1    .    1    1
 > 
-> ## decomposition changing argumens passed to decompTs
-> decomp_cj(dat, param = 'chla_n', startyr = 2008, type = 'add')
-Error in wq::decompTs(dat_mts, ...) : unused argument (startyr = 2008)
-Calls: decomp_cj ... decomp_cj.swmpr -> decomp_cj -> decomp_cj.default -> <Anonymous>
-Execution halted
-```
-
-## textreuse (0.1.2)
-Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>  
-Bug reports: https://github.com/ropensci/textreuse/issues
-
-2 errors | 0 warnings | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘textreuse-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: lsh_candidates
-> ### Title: Candidate pairs from LSH comparisons
-> ### Aliases: lsh_candidates
-> 
-> ### ** Examples
-> 
-> dir <- system.file("extdata/legal", package = "textreuse")
-> minhash <- minhash_generator(200, seed = 234)
-> corpus <- TextReuseCorpus(dir = dir,
-+                           tokenizer = tokenize_ngrams, n = 5,
-+                           minhash_func = minhash)
-> buckets <- lsh(corpus, bands = 50)
-> lsh_candidates(buckets)
-Error: No variables selected
+> cast_sparse(dat, a, b, val)
+Error in .M.kind(x) : not yet implemented for matrix with typeof NULL
+Calls: cast_sparse -> cast_sparse_ -> <Anonymous> -> .M.kind
 Execution halted
 
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  Unknown column 'val'
+  1: cast_sparse(dat, a, b, val) at testthat/test-sparse-casters.R:20
+  2: cast_sparse_(data, col_name(substitute(row)), col_name(substitute(column)), value_col)
+  3: data[[value_col]]
+  4: `[[.tbl_df`(data, value_col)
+  5: stop("Unknown column '", colname, "'", call. = FALSE) at /private/tmp/Rtmp0KDkde/devtools812d2953cfa6/hadley-tibble-64175a8/R/tbl-df.r:35
   
-  2. Failure: prints sensibly (@test-TextReuseCorpus.R#46) -----------------------
-  `corpus_a` produced no output
-  
-  
-  Error: No variables selected
   testthat results ================================================================
-  OK: 83 SKIPPED: 2 FAILED: 2
-  1. Failure: prints sensibly (@test-TextReuseCorpus.R#45) 
-  2. Failure: prints sensibly (@test-TextReuseCorpus.R#46) 
+  OK: 41 SKIPPED: 0 FAILED: 1
+  1. Error: Can cast tables into a sparse Matrix (@test-sparse-casters.R#20) 
   
   Error: testthat unit tests failed
   Execution halted
 
-checking re-building of vignette outputs ... NOTE
+checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
+Warning: Stacking not well defined when ymin != 0
+Quitting from lines 94-114 (tidying_casting.Rmd) 
+Error: processing vignette 'tidying_casting.Rmd' failed with diagnostics:
+Unknown column 'count'
+Execution halted
+
+```
+
+## tigger (0.2.5)
+Maintainer: Daniel Gadala-Maria <daniel.gadala-maria@yale.edu>  
+Bug reports: https://bitbucket.org/kleinstein/tigger/issues
+
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘tigger-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: getPopularMutationCount
+> ### Title: Find Frequent Sequences' Mutation Counts
+> ### Aliases: getPopularMutationCount
+> 
+> ### ** Examples
+> 
+> data(sample_db, germline_ighv)
+> getPopularMutationCount(sample_db, germline_ighv)
+Error: object 'V_GENE_N' not found
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Loading required package: alakazam
+Loading required package: ggplot2
+Loading required package: shazam
 
 Attaching package: 'dplyr'
 
@@ -1583,108 +1745,43 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-Quitting from lines 75-79 (textreuse-minhash.Rmd) 
-Error: processing vignette 'textreuse-minhash.Rmd' failed with diagnostics:
-No variables selected
+Quitting from lines 110-115 (Tigger-Vignette.Rmd) 
+Error: processing vignette 'Tigger-Vignette.Rmd' failed with diagnostics:
+there is no package called 'snow'
 Execution halted
 
 ```
 
-## tidyr (0.4.1)
-Maintainer: Hadley Wickham <hadley@rstudio.com>  
-Bug reports: https://github.com/hadley/tidyr/issues
-
-2 errors | 0 warnings | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘tidyr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: complete
-> ### Title: Complete a data frame with missing combinations of data.
-> ### Aliases: complete
-> 
-> ### ** Examples
-... 13 lines ...
-
-> df <- data_frame(
-+   group = c(1:2, 1),
-+   item_id = c(1:2, 2),
-+   item_name = c("a", "b", "b"),
-+   value1 = 1:3,
-+   value2 = 4:6
-+ )
-> df %>% complete(group, nesting(item_id, item_name))
-Error: No variables selected
-Execution halted
-
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1. Error: nesting doesn't expand values (@test-expand.R#24) 
-  2. Error: expand respects groups (@test-expand.R#50) 
-  3. Error: missings filled down for each atomic vector (@test-fill.R#42) 
-  4. Error: missings filled up for each vector (@test-fill.R#59) 
-  5. Error: nest turns grouped values into one list-df (@test-nest.R#5) 
-  6. Error: can control output column name (@test-nest.R#12) 
-  7. Error: nest doesn't include grouping vars in nested data (@test-nest.R#18) 
-  8. Error: can restrict variables in grouped nest (@test-nest.R#28) 
-  9. Error: puts data into the correct row (@test-nest.R#34) 
-  1. ...
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking dependencies in R code ... NOTE
-Missing or unexported object: ‘dplyr::tbl_dt’
-```
-
-## tigris (0.2.2)
-Maintainer: Kyle Walker <kyle.walker@tcu.edu>
+## treeplyr (0.1.1)
+Maintainer: Josef Uyeda <josef.uyeda@gmail.com>
 
 0 errors | 1 warning  | 0 notes
 
 ```
-checking whether package ‘tigris’ can be installed ... WARNING
+checking examples ... WARNING
 Found the following significant warnings:
-  Warning: replacing previous import ‘maptools::nowrapSpatialLines’ by ‘sp::nowrapSpatialLines’ when loading ‘tigris’
-See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/tigris.Rcheck/00install.out’ for details.
-```
 
-## treeplyr (0.1)
-Maintainer: Josef Uyeda <josef.uyeda@gmail.com>
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘treeplyr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: filter_.treedata
-> ### Title: Function for filtering rows from an object of class 'treedata'
-> ### Aliases: filter.grouped_treedata filter.treedata
-> ###   filter_.grouped_treedata filter_.treedata
-> 
-> ### ** Examples
-> 
-> data(anolis)
-> td <- make.treedata(anolis$phy, anolis$dat, name_column=1)
-> tdfilter <- filter(td, island=="Cuba", SVL > 3.5)
-Error: filter() takes unnamed arguments. Do you need `==`?
-Execution halted
-
-checking S3 generic/method consistency ... WARNING
-ungroup:
-  function(x, ...)
-ungroup.grouped_treedata:
-  function(x)
-
-See section ‘Generic functions and methods’ in the ‘Writing R
-Extensions’ manual.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## useful (1.2.0)
@@ -1709,6 +1806,36 @@ Last 13 lines of output:
   
   Error: testthat unit tests failed
   Execution halted
+```
+
+## vcfR (1.1.0)
+Maintainer: Brian J. Knaus <briank.lists@gmail.com>
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘vcfR-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: Convert to tidy data frames
+> ### Title: Convert vcfR objects to tidy data frames
+> ### Aliases: 'Convert to tidy data frames' extract_gt_tidy
+> ###   extract_info_tidy vcfR2tidy vcf_field_names
+> 
+... 8 lines ...
+> # data frames: fix, gt, and meta. Here we don't coerce columns
+> # to integer or numeric types...
+> Z <- vcfR2tidy(vcf)
+Extracting gt element AD
+Extracting gt element DP
+Extracting gt element GQ
+Extracting gt element GT
+Extracting gt element PL
+Error in eval(expr, envir, enclos) : could not find function "everything"
+Calls: vcfR2tidy ... select_vars_ -> <Anonymous> -> lapply -> FUN -> eval -> eval
+Execution halted
 ```
 
 ## wakefield (0.2.1)
@@ -1742,50 +1869,28 @@ Problem variables: Age, Age.
 Execution halted
 ```
 
-## WHO (0.1)
-Maintainer: Eric Persson <expersso5@gmail.com>  
-Bug reports: https://www.github.com/expersso/WHO/issues
+## wordbankr (0.1)
+Maintainer: Mika Braginsky <mika.br@gmail.com>  
+Bug reports: http://github.com/langcog/wordbankr/issues
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-            than three columns (@tests.R#19) 
-  class(codes) not equal to c("tbl_df", "data.frame").
-  Lengths differ: 1 vs 2
-  
-  
-  testthat results ================================================================
-  OK: 2168 SKIPPED: 0 FAILED: 2
-  1. Failure: get_codes returns a data frame with positive length (@tests.R#12) 
-  2. Failure: get_codes(TRUE) returns a data frame with positive length and more
-            than three columns (@tests.R#19) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## Zelig (5.0-11)
-Maintainer: James Honaker <zelig-zee@iq.harvard.edu>
-
-1 error  | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking whether package ‘Zelig’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/Zelig.Rcheck/00install.out’ for details.
-```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Auto-disconnecting mysql connection (0, 1)
+Joining, by = "momed_id"
+Auto-disconnecting mysql connection (0, 0)
+Joining, by = "momed_id"
+Auto-disconnecting mysql connection (0, 2)
+Auto-disconnecting mysql connection (0, 4)
+Auto-disconnecting mysql connection (0, 3)
+Auto-disconnecting mysql connection (0, 5)
+Quitting from lines 43-47 (wordbankr.Rmd) 
+Error: processing vignette 'wordbankr.Rmd' failed with diagnostics:
+Elements 1, 2 of items %in% instrument_table$select are not true
+Execution halted
 
-## ZeligChoice (0.9-0)
-Maintainer: James Honaker <zelig-zee@iq.harvard.edu>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘ZeligChoice’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/ZeligChoice.Rcheck/00install.out’ for details.
 ```
 

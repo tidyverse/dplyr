@@ -1,6 +1,8 @@
 Hi,
 
-This is an automated email to let you know about the upcoming release of {{{ my_package }}}, which will be submitted to CRAN on {{{ date }}} (in one month). To check for potential problems, I ran `R CMD check` on your package {{{your_package}}} ({{{your_version}}}). 
+This is an automated email to let you know about the upcoming release of {{{ my_package }}}, which will be submitted to CRAN on {{{ date }}} (in about two weeks). This is my second attempt at getting dplyr 0.5.0 onto CRAN, and this time it's definitely going to succeed. Please get in touch if you need any help getting your package ready for this dplyr update!
+
+To check for potential problems, I ran `R CMD check` on your package {{{your_package}}} ({{{your_version}}}). 
 
 I found: {{{your_summary}}}.
 

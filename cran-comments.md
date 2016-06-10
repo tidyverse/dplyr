@@ -21,3 +21,5 @@ There was 1 NOTE:
 ## Downstream dependencies
 
 I ran `R CMD check` on all 123 reverse dependencies (https://github.com/hadley/dplyr/tree/master/revdep/summary.md).  As far as I can tell, there are no new problems related to dplyr.
+
+Authors were notified on June 9.
