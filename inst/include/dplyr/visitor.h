@@ -44,14 +44,14 @@ inline VectorVisitor* visitor_vector( SEXP vec ){
   case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
 
   case VECSXP:  {
-    if( Rf_inherits( vec, "data.frame" ) ){
-    return new DataFrameColumnVisitor(vec) ;
-  }
-    if( Rf_inherits( vec, "POSIXlt" )) {
-      stop( "POSIXlt not supported" ) ;
+      if( Rf_inherits( vec, "data.frame" ) ){
+        return new DataFrameColumnVisitor(vec) ;
+      }
+      if( Rf_inherits( vec, "POSIXlt" )) {
+        stop( "POSIXlt not supported" ) ;
+      }
+      return new VectorVisitorImpl<VECSXP>( vec ) ;
     }
-    return new VectorVisitorImpl<VECSXP>( vec ) ;
-  }
   default: break ;
   }
 
