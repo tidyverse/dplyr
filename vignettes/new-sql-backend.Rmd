@@ -89,9 +89,9 @@ At this point, all the basic verbs (`summarise()`, `filter()`, `arrange()`, `mut
 Next, implement the methods that power `copy_to()` work. Once you've implemented these methods, you'll be able copy datasets from R into your database, which will make testing much easier.
 
 * `db_data_type()`
-* `sql_begin()`, `sql_commit()`, `sql_rollback()`
-* `sql_create_table()`, `sql_insert_into()`, `sql_drop_table()`
-* `sql_create_index()`, `sql_analyze()`
+* `db_begin()`, `db_commit()`, `db_rollback()`
+* `db_create_table()`, `db_insert_into()`, `db_drop_table()`
+* `db_create_index()`, `db_analyze()`
 
 If the database doesn't support a function, just return `TRUE` without doing anything. If you find these methods a very poor match to your backend, you may find it easier to provide a direct `copy_to()` method.
 
