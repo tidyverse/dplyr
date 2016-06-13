@@ -122,7 +122,14 @@ db_insert_into <- function(con, table, values, ...) {
   UseMethod("db_insert_into")
 }
 
-db_create_indexes <- function(con, table, indexes = NULL, ...) {
+#' @name backend_db
+#' @export
+db_create_indexes <- function (con, table, indexes = NULL, ...) {
+  UseMethod("db_create_indexes")
+}
+
+#' @export
+db_create_indexes.DBIConnection <- function(con, table, indexes = NULL, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
