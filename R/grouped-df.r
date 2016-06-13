@@ -14,7 +14,6 @@ grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
-
   assert_that(is.data.frame(data), is.list(vars), all(sapply(vars,is.name)), is.flag(drop))
   grouped_df_impl(data, unname(vars), drop)
 }
@@ -26,9 +25,11 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @export
 print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
+
+  grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
+  cat("Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n", sep = "")
   cat("\n")
-  print(trunc_mat(x, n = n, width = width))
+  print(trunc_mat(x, n = n, width = width), ...)
   invisible(x)
 }
 
@@ -56,7 +57,7 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 }
 
 #' @export
-ungroup.grouped_df <- function(x) {
+ungroup.grouped_df <- function(x, ...) {
   ungroup_grouped_df(x)
 }
 
@@ -74,16 +75,42 @@ ungroup.grouped_df <- function(x) {
 
 }
 
+#' @method rbind grouped_df
+#' @export
+rbind.grouped_df <- function(...) {
+  bind_rows(...)
+}
+
+#' @method cbind grouped_df
+#' @export
+cbind.grouped_df <- function(...) {
+  bind_cols(...)
+}
+
 # One-table verbs --------------------------------------------------------------
 
 #' @export
 select_.grouped_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
-
-  vars <- select_vars_(names(.data), dots,
-    include = as.character(groups(.data)))
+  vars <- select_vars_(names(.data), dots)
+  vars <- ensure_grouped_vars(vars, .data)
 
   select_impl(.data, vars)
+}
+
+ensure_grouped_vars <- function(vars, data, notify = TRUE) {
+  group_names <- vapply(groups(data), as.character, character(1))
+  missing <- setdiff(group_names, vars)
+
+  if (length(missing) > 0) {
+    if (notify) {
+      message("Adding missing grouping variables: ",
+        paste0("`", missing, "`", collapse = ", "))
+    }
+    vars <- c(stats::setNames(missing, missing), vars)
+  }
+
+  vars
 }
 
 #' @export
@@ -163,11 +190,12 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.grouped_df <- function(.data, ..., .dots) {
+distinct_.grouped_df <- function(.data, ..., .dots, .keep_all = FALSE) {
   groups <- lazyeval::as.lazy_dots(groups(.data))
-  dist <- distinct_vars(.data, ..., .dots = c(.dots, groups))
+  dist <- distinct_vars(.data, ..., .dots = c(.dots, groups),
+    .keep_all = .keep_all)
 
-  grouped_df(distinct_impl(dist$data, dist$vars), groups(.data))
+  grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
 }
 
 
@@ -223,5 +251,3 @@ sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE,
 
   i[sample.int(n, size, replace = replace, prob = weight)]
 }
-
-

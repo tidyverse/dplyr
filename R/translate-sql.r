@@ -25,25 +25,36 @@
 #' The SQLite variant currently only adds one additional function: a mapping
 #' from \code{sd} to the SQL aggregation function \code{stdev}.
 #'
-#' @param ... unevaluated expression to translate
-#' @param expr list of quoted objects to translate
-#' @param tbl An optional \code{\link{tbl}}. If supplied, will be used to
-#'   automatically figure out the SQL variant to use.
-#' @param env environment in which to evaluate expression.
-#' @param variant used to override default variant provided by source
-#'   useful for testing/examples
-#' @param window If \code{variant} not supplied, used to determine whether
-#'   the variant is window based or not.
+#' @param ...,dots Expressions to translate. \code{sql_translate}
+#'   automatically quotes them for you.  \code{sql_translate_} expects
+#'   a list of already quoted objects.
+#' @param con An optional database connection to control the details of
+#'   the translation. The default, \code{NULL}, generates ANSI SQL.
+#' @param vars A character vector giving variable names in the remote
+#'   data source. If this is supplied, \code{translate_sql} will call
+#'   \code{\link{partial_eval}} to interpolate in the values from local
+#'   variables.
+#' @param vars_group,vars_order Grouping and ordering variables used for
+#'   windowed functions.
+#' @param window Use \code{FALSE} to suppress generation of the \code{OVER}
+#'   statement used for window functions. This is necessary when generating
+#'   SQL for a grouped summary.
 #' @export
 #' @examples
 #' # Regular maths is translated in a very straightforward way
 #' translate_sql(x + 1)
 #' translate_sql(sin(x) + tan(y))
 #'
+#' # Note that all variable names are escaped
+#' translate_sql(like == "x")
+#' # In ANSI SQL: "" quotes variable _names_, '' quotes strings
+#'
 #' # Logical operators are converted to their sql equivalents
 #' translate_sql(x < 5 & !(y >= 5))
+#' # xor() doesn't have a direct SQL equivalent
+#' translate_sql(xor(x, y))
 #'
-#' # If is translated into select case
+#' # If is translated into case when
 #' translate_sql(if (x > 5) "big" else "small")
 #'
 #' # Infix functions are passed onto SQL with % removed
@@ -51,112 +62,105 @@
 #' translate_sql(first %is% NULL)
 #' translate_sql(first %in% c("John", "Roger", "Robert"))
 #'
-#' # Note that variable names will be escaped if needed
-#' translate_sql(like == 7)
 #'
 #' # And be careful if you really want integers
 #' translate_sql(x == 1)
 #' translate_sql(x == 1L)
 #'
-#' # If you have an already quoted object, use translate_sql_q:
+#' # If you have an already quoted object, use translate_sql_:
 #' x <- quote(y + 1 / sin(t))
-#' translate_sql(x)
-#' translate_sql_q(list(x))
+#' translate_sql_(list(x))
 #'
-#' # Translation with data source --------------------------------------------
-#' \dontrun{
-#' flights <- tbl(nycflights13_sqlite(), "flights")
-#' # Note distinction between integers and reals
-#' translate_sql(month == 1, tbl = flights)
-#' translate_sql(month == 1L, tbl = flights)
+#' # Translation with known variables ------------------------------------------
 #'
-#' # Know how to translate most simple mathematical expressions
-#' translate_sql(month %in% 1:3, tbl = flights)
-#' translate_sql(month >= 1L & month <= 3L, tbl = flights)
-#' translate_sql((month >= 1L & month <= 3L) | carrier == "AA", tbl = flights)
+#' # If the variables in the dataset are known, translate_sql will interpolate
+#' # in literal values from the current environment
+#' x <- 10
+#' translate_sql(mpg > x)
+#' translate_sql(mpg > x, vars = names(mtcars))
 #'
-#' # Some R functions don't have equivalents in SQL: where possible they
-#' # will be translated to the equivalent
-#' translate_sql(xor(month <= 3L, carrier == "AA"), tbl = flights)
-#'
-#' # Local variables will be automatically inserted into the SQL
-#' x <- 5L
-#' translate_sql(month == x, tbl = flights)
-#'
-#' # By default all computation will happen in sql
-#' translate_sql(month < 1 + 1, source = flights)
+#' # By default all computations happens in sql
+#' translate_sql(cyl == 2 + 2, vars = names(mtcars))
 #' # Use local to force local evaluation
-#' translate_sql(month < local(1 + 1), source = flights)
+#' translate_sql(cyl == local(2 + 2), vars = names(mtcars))
 #'
 #' # This is also needed if you call a local function:
 #' inc <- function(x) x + 1
-#' translate_sql(month == inc(x), source = flights)
-#' translate_sql(month == local(inc(x)), source = flights)
+#' translate_sql(mpg > inc(x), vars = names(mtcars))
+#' translate_sql(mpg > local(inc(x)), vars = names(mtcars))
 #'
 #' # Windowed translation --------------------------------------------
-#' planes <- arrange(group_by(flights, tailnum), desc(DepTime))
+#' # Known window functions automatically get OVER()
+#' translate_sql(mpg > mean(mpg))
 #'
-#' translate_sql(dep_time > mean(dep_time), tbl = planes, window = TRUE)
-#' translate_sql(dep_time == min(dep_time), tbl = planes, window = TRUE)
+#' # Suppress this with window = FALSE
+#' translate_sql(mpg > mean(mpg), window = FALSE)
 #'
-#' translate_sql(rank(), tbl = planes, window = TRUE)
-#' translate_sql(rank(dep_time), tbl = planes, window = TRUE)
-#' translate_sql(ntile(dep_time, 2L), tbl = planes, window = TRUE)
-#' translate_sql(lead(dep_time, 2L), tbl = planes, window = TRUE)
-#' translate_sql(cumsum(dep_time), tbl = planes, window = TRUE)
-#' translate_sql(order_by(dep_time, cumsum(dep_time)), tbl = planes, window = TRUE)
-#' }
-translate_sql <- function(..., tbl = NULL, env = parent.frame(), variant = NULL,
-                          window = FALSE) {
-  translate_sql_q(dots(...), tbl = tbl, env = env, variant = variant,
-    window = window)
+#' # vars_group controls partition:
+#' translate_sql(mpg > mean(mpg), vars_group = "cyl")
+#'
+#' # and vars_order controls ordering for those functions that need it
+#' translate_sql(cumsum(mpg))
+#' translate_sql(cumsum(mpg), vars_order = "mpg")
+translate_sql <- function(...,
+                          con = NULL,
+                          vars = character(),
+                          vars_group = NULL,
+                          vars_order = NULL,
+                          window = TRUE) {
+  dots <- lazyeval::lazy_dots(...)
+
+  translate_sql_(dots,
+    con = con,
+    vars = vars,
+    vars_group = vars_group,
+    vars_order = vars_order,
+    window = window
+  )
 }
 
 #' @export
 #' @rdname translate_sql
-translate_sql_q <- function(expr, tbl = NULL, env = parent.frame(),
-                            variant = NULL, window = FALSE) {
-  stopifnot(is.null(tbl) || inherits(tbl, "tbl_sql"))
-  if (is.null(expr)) return(NULL)
+translate_sql_ <- function(dots,
+                           con = NULL,
+                           vars = character(),
+                           vars_group = NULL,
+                           vars_order = NULL,
+                           window = TRUE) {
+  expr <- lazyeval::as.lazy_dots(dots, env = parent.frame())
+  if (!any(has_names(expr))) {
+    names(expr) <- NULL
+  }
 
-  if (!is.null(tbl)) {
-    con <- tbl$src$con
+  if (length(vars) > 0) {
+    # If variables are known, partially evaluate input
+    expr <- partial_eval2(expr, vars)
   } else {
-    con <- NULL
+    # Otherwise just extract expressions, ignoring the environment
+    # from which they came
+    expr <- lapply(expr, "[[", "expr")
   }
+  variant <- sql_translate_env(con)
 
-  # If environment not null, and tbl supplied, partially evaluate input
-  if (!is.null(env) && !is.null(tbl)) {
-    expr <- partial_eval(expr, tbl, env)
-  }
-  variant <- variant %||% src_translate_env(tbl)
+  if (window) {
+    old_con <- set_partition_con(con)
+    on.exit(set_partition_con(old_con), add = TRUE)
 
-  # Translate partition ordering and grouping, and make available
-  if (window && !is.null(tbl)) {
-    group_by <- translate_sql_q(tbl$group_by, tbl, variant = variant, env = NULL)
-    order_by <- translate_sql_q(tbl$order_by, tbl, variant = variant, env = NULL)
-    old <- set_partition(group_by, order_by)
-    on.exit(set_partition(old))
+    old_group <- set_partition_group(vars_group)
+    on.exit(set_partition_group(old_group), add = TRUE)
+
+    old_order <- set_partition_order(vars_order)
+    on.exit(set_partition_order(old_order), add = TRUE)
   }
 
   pieces <- lapply(expr, function(x) {
     if (is.atomic(x)) return(escape(x, con = con))
 
     env <- sql_env(x, variant, con, window = window)
-    eval(x, envir = env)
+    escape(eval(x, envir = env))
   })
 
   sql(unlist(pieces))
-}
-
-#' @export
-src_translate_env.tbl_sql <- function(x) src_translate_env(x$src)
-#' @export
-src_translate_env.NULL <- function(x) {
-  sql_variant(
-    base_scalar,
-    base_agg,
-  )
 }
 
 sql_env <- function(expr, variant, con, window = FALSE,

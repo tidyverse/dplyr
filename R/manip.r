@@ -2,7 +2,7 @@
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
+#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
 #' @param ... Logical predicates. Multiple conditions are combined with \code{&}.
 #' @param .dots Used to work around non-standard evaluation. See
 #'   \code{vignette("nse")} for details.
@@ -14,6 +14,13 @@
 #' @examples
 #' filter(mtcars, cyl == 8)
 #' filter(mtcars, cyl < 6)
+#'
+#' # Multiple criteria
+#' filter(mtcars, cyl < 6 & vs == 1)
+#' filter(mtcars, cyl < 6 | vs == 1)
+#'
+#' # Multiple arguments are equivalent to and
+#' filter(mtcars, cyl < 6, vs == 1)
 filter <- function(.data, ...) {
   filter_(.data, .dots = lazyeval::lazy_dots(...))
 }
@@ -32,7 +39,7 @@ filter_ <- function(.data, ..., .dots) {
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.
+#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
 #' @param ... Integer row values
 #' @inheritParams filter
 #' @export
@@ -88,7 +95,7 @@ slice_ <- function(.data, ..., .dots) {
 #'
 #' \dontrun{
 #' # You can't with data tables or databases
-#' by_cyl_dt <- mtcars %>% tbl_dt() %>% group_by(cyl)
+#' by_cyl_dt <- mtcars %>% dtplyr::tbl_dt() %>% group_by(cyl)
 #' by_cyl_dt %>% summarise(a = n(), b = a + 1)
 #'
 #' by_cyl_db <- src_sqlite(":memory:", create = TRUE) %>%
@@ -167,7 +174,8 @@ transmute_.default <- function(.data, ..., .dots) {
 
 #' Arrange rows by variables.
 #'
-#' Use \code{\link{desc}} to sort a variable in descending order.
+#' Use \code{\link{desc}} to sort a variable in descending order. Generally,
+#' this will not also automatically order by grouping variables.
 #'
 #' @section Locales:
 #'
@@ -206,22 +214,7 @@ arrange_ <- function(.data, ..., .dots) {
 #' As well as using existing functions like \code{:} and \code{c}, there are
 #' a number of special functions that only work inside \code{select}
 #'
-#' \itemize{
-#'  \item \code{starts_with(x, ignore.case = TRUE)}:
-#'    names starts with \code{x}
-#'  \item \code{ends_with(x, ignore.case = TRUE)}:
-#'    names ends in \code{x}
-#'  \item \code{contains(x, ignore.case = TRUE)}:
-#'    selects all variables whose name contains \code{x}
-#'  \item \code{matches(x, ignore.case = TRUE)}:
-#'    selects all variables whose name matches the regular expression \code{x}
-#'  \item \code{num_range("x", 1:5, width = 2)}:
-#'    selects all variables (numerically) from x01 to x05.
-#'  \item \code{one_of("x", "y", "z")}:
-#'    selects variables provided in a character vector.
-#'  \item \code{everything()}:
-#'    selects all variables.
-#' }
+
 #'
 #' To drop variables, use \code{-}. You can rename variables with
 #' named arguments.
@@ -266,6 +259,9 @@ arrange_ <- function(.data, ..., .dots) {
 #' # Renaming multiple variables uses a prefix:
 #' select(iris, petal = starts_with("Petal"))
 #'
+#' # Reorder variables: keep the variable "Species" in the front
+#' select(iris, Species, everything())
+#'
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
 #'
@@ -283,6 +279,33 @@ select <- function(.data, ...) {
 #' @rdname select
 select_ <- function(.data, ..., .dots) {
   UseMethod("select_")
+}
+
+#' Select columns using a predicate
+#'
+#' This verb is analogous to \code{\link{summarise_if}()} and
+#' \code{\link{mutate_if}()} in that it lets you use a predicate on
+#' the columns of a data frame. Only those columns for which the
+#' predicate returns \code{TRUE} will be selected.
+#'
+#' Predicates can only be used with local sources like a data frame.
+#'
+#' @inheritParams summarise_all
+#' @param .data A local tbl source.
+#' @param ... Additional arguments passed to \code{.predicate}.
+#' @export
+#' @examples
+#' iris %>% select_if(is.factor)
+#' iris %>% select_if(is.numeric)
+#' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
+select_if <- function(.data, .predicate, ...) {
+  if (inherits(.data, "tbl_lazy")) {
+    stop("Selection with predicate currently require local sources",
+      call. = FALSE)
+  }
+  vars <- probe_colwise_names(.data, .predicate, ...)
+  vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
+  select_(.data, .dots = vars)
 }
 
 #' @rdname select

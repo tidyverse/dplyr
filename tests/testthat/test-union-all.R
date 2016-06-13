@@ -1,0 +1,23 @@
+context("union_all")
+
+test_that("union all on vectors concatenates", {
+  expect_equal(union_all(1:3, 4:6), 1:6)
+})
+
+test_that("union all on data frames calls bind rows", {
+  df1 <- data_frame(x = 1:2)
+  df2 <- data_frame(y = 1:2)
+
+  expect_equal(union_all(df1, df2), bind_rows(df1, df2))
+})
+
+test_that("union on database uses UNION ALL", {
+  skip_if_no_sqlite()
+  db <- src_sqlite(":memory:", TRUE)
+
+  df1 <- copy_to(db, data_frame(x = 1:2), "df1")
+  df2 <- copy_to(db, data_frame(x = 1:2), "df2")
+
+  res <- collect(union_all(df1, df2))
+  expect_equal(res$x, rep(1:2, 2))
+})

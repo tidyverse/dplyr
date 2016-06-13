@@ -59,21 +59,6 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL,
 # Grouped data frames ----------------------------------------------------------
 
 
-# Data tables ------------------------------------------------------------------
-# data.frame handles data.tables, but loses class of tbl_df
-
-#' @export
-sample_n.tbl_dt <- function(tbl, size, replace = FALSE, weight = NULL,
-                            .env = parent.frame()) {
-  tbl_dt(NextMethod())
-}
-
-#' @export
-sample_frac.tbl_dt <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                               .env = parent.frame()) {
-  tbl_dt(NextMethod())
-}
-
 # Default method ---------------------------------------------------------------
 
 #' @export

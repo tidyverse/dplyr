@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 # dplyr
 
 [![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
+[![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
@@ -55,7 +57,7 @@ If you encounter a clear bug, please file a minimal reproducible example on [git
 
 To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
 
-If you need more, help I recommend the following (paid) resources:
+If you need more help, I recommend the following (paid) resources:
 
 * [dplyr](https://www.datacamp.com/courses/dplyr) on datacamp, by Garrett
   Grolemund. Learn the basics of dplyr at your own pace in this interactive 
@@ -72,7 +74,7 @@ The key object in dplyr is a _tbl_, a representation of a tabular data structure
 Currently `dplyr` supports:
 
 * data frames
-* [data tables](http://datatable.r-forge.r-project.org/)
+* [data tables](https://github.com/Rdatatable/data.table/wiki)
 * [SQLite](http://sqlite.org/)
 * [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
 * [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
@@ -179,5 +181,5 @@ You'll need to be a little careful if you load both plyr and dplyr at the same t
 ## Related approaches
 
 * [Blaze](http://blaze.pydata.org)
-* [|Stat](http://hcibib.org/perlman/stat/introman.html)
+* [|Stat](http://oldwww.acm.org/perlman/stat/)
 * [Pig](http://dx.doi.org/10.1145/1376616.1376726)

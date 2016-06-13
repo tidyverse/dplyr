@@ -13,7 +13,7 @@
 #'
 #' \itemize{
 #'   \item data.frame: \link{grouped_df}
-#'   \item data.table: \link{grouped_dt}
+#'   \item data.table: \link[dtplyr]{grouped_dt}
 #'   \item SQLite: \code{\link{src_sqlite}}
 #'   \item PostgreSQL: \code{\link{src_postgres}}
 #'   \item MySQL: \code{\link{src_mysql}}
@@ -77,9 +77,11 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
 #' @return A list
 #'   \item{data}{Modified tbl}
 #'   \item{groups}{Modified groups}
-#' @noRd
+#' @export
+#' @keywords internal
 group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   new_groups <- lazyeval::all_dots(.dots, ...)
+  new_groups <- resolve_vars(new_groups, tbl_vars(.data))
 
   # If any calls, use mutate to add new columns, then group by those
   is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
@@ -109,6 +111,7 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 #' inline way of removing existing grouping.
 #'
 #' @param x data \code{\link{tbl}}
+#' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
@@ -126,6 +129,6 @@ regroup <- function(x, value) {
 
 #' @export
 #' @rdname groups
-ungroup <- function(x) {
+ungroup <- function(x, ...) {
   UseMethod("ungroup")
 }

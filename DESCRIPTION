@@ -1,6 +1,6 @@
 Package: dplyr
 Type: Package
-Version: 0.4.1.9000
+Version: 0.4.3.9001
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -17,7 +17,8 @@ Imports:
     assertthat,
     utils,
     R6,
-    Rcpp,
+    Rcpp (>= 0.12.3),
+    tibble,
     magrittr,
     lazyeval (>= 0.1.10),
     DBI (>= 0.3)
@@ -25,7 +26,6 @@ Suggests:
     RSQLite (>= 1.0.0),
     RMySQL,
     RPostgreSQL,
-    data.table,
     testthat,
     knitr,
     microbenchmark,
@@ -33,18 +33,24 @@ Suggests:
     mgcv,
     Lahman (>= 3.0-1),
     nycflights13,
-    methods
+    methods,
+    rmarkdown,
+    covr,
+    dtplyr
+Remotes:
+    hadley/dtplyr
 VignetteBuilder: knitr
+LinkingTo: Rcpp (>= 0.12.0),
+    BH (>= 1.58.0-1)
 LazyData: yes
-LinkingTo: Rcpp (>= 0.11.5),
-    BH (>= 1.51.0-2)
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
     'all-equal.r'
     'bench-compare.r'
-    'chain.r'
-    'cluster.R'
+    'bind.r'
+    'case_when.R'
+    'coalesce.R'
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
@@ -62,18 +68,20 @@ Collate:
     'explain.r'
     'failwith.r'
     'funs.R'
-    'glimpse.R'
     'group-by.r'
     'group-indices.R'
     'group-size.r'
     'grouped-df.r'
-    'grouped-dt.r'
     'id.r'
+    'if_else.R'
     'inline.r'
     'join.r'
+    'lazy-ops.R'
     'lead-lag.R'
     'location.R'
     'manip.r'
+    'na_if.R'
+    'near.R'
     'nth-value.R'
     'order-by.R'
     'over.R'
@@ -81,34 +89,40 @@ Collate:
     'progress.R'
     'query.r'
     'rank.R'
-    'rbind.r'
+    'recode.R'
     'rowwise.r'
     'sample.R'
     'select-utils.R'
     'select-vars.R'
     'sets.r'
+    'sql-build.R'
     'sql-escape.r'
+    'sql-generic.R'
+    'sql-query.R'
+    'sql-render.R'
     'sql-star.r'
     'src-local.r'
     'src-mysql.r'
     'src-postgres.r'
     'src-sql.r'
     'src-sqlite.r'
+    'src-test.r'
     'src.r'
     'tally.R'
     'tbl-cube.r'
     'tbl-df.r'
-    'tbl-dt.r'
+    'tbl-lazy.R'
     'tbl-sql.r'
     'tbl.r'
+    'tibble-reexport.r'
     'top-n.R'
     'translate-sql-helpers.r'
     'translate-sql-base.r'
     'translate-sql-window.r'
     'translate-sql.r'
-    'type-sum.r'
-    'utils-dt.R'
     'utils-format.r'
+    'utils-replace-with.R'
     'utils.r'
     'view.r'
     'zzz.r'
+RoxygenNote: 5.0.1

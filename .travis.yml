@@ -1,49 +1,24 @@
-language: c
-services: PostgreSQL
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-install:
-  - mkdir ~/.R
-  - ./travis-tool.sh install_github jimhester/covr
-  - ./travis-tool.sh r_binary_install ggplot2
-  - ./travis-tool.sh r_binary_install RSQLite
-  - ./travis-tool.sh r_binary_install RMySQL
-  - ./travis-tool.sh r_binary_install knitr
-  - ./travis-tool.sh install_github hadley/lazyeval
-  - if [ "$RCPP" = "release" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; cd Rcpp; git checkout tags/0.11.5; cd ..; R CMD INSTALL Rcpp; cd dplyr; fi
-  - if [ "$RCPP" = "devel" ]; then cd ..; git clone https://github.com/RcppCore/Rcpp.git; R CMD INSTALL Rcpp; cd -; fi
-  - ./travis-tool.sh install_deps
+language: R
+sudo: false
+cache: packages
+r:
+  - oldrel
+  - release
+  - devel
+
+warnings_are_errors: false
+env:
+  global:
+    - _R_CHECK_FORCE_SUGGESTS_=false
+    - MAKEFLAGS="-j 2"
+
+r_github_packages:
+  - hadley/devtools
 
 before_script:
-# - psql -c 'create database lahman;' -U postgres
-# - psql -c 'create database nycflights13;' -U postgres
-# - psql -c 'create database test;' -U postgres
-# Install dplyr package then cache sqlite and postgres version of Lahman
-- R CMD INSTALL .
-- Rscript -e "library(methods); library(dplyr); lahman_sqlite()"
-- Rscript -e "library(methods); library(dplyr); nycflights13_sqlite()"
-# lahman_postgres; #nycflights13_postgres()
-script: ./travis-tool.sh run_tests
-
-after_failure:
-  - ./travis-tool.sh dump_logs
+  - psql -c 'create database test;' -U postgres
 
 after_success:
-  - Rscript -e 'library(covr);coveralls()'
-
-branches:
-  except:
-  - /-expt$/
-  - solaris
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
-env:
-  - RCPP=release PKG_CXXFLAGS="-Wall -pedantic"
-  - RCPP=devel PKG_CXXFLAGS="-Wall -pedantic"
-
+- Rscript -e 'covr::codecov()'

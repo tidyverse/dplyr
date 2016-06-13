@@ -11,26 +11,26 @@ First install postgresql, create a data directory, and create a default database
 # brew update
 # brew unlink postgresql
 brew install postgresql
-export PGDATA=~/db/postgres
+export PGDATA=~/db/postgres-9.5 # set this globally somewhere
 initdb -E utf8
 createdb
+createdb lahman
+createdb nycflightd13
+```pos
+
+Then on reboot run
+
+```
+pg_ctl start
 ```
 
-Then each time, run:
-
-```
-export PGDATA=~/db/postgres
-postgres
-# Use pg_ctl start to run in background
-```
+## Check connection
 
 From R,
 
 ```{r, eval = FALSE}
 install.packages("RPostgreSQL")
-library(RPostgreSQL)
-
-drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, dbname = "hadley")
+library(DBI)
+con <- dbConnect(RPostgreSQL::PostgreSQL(), dbname = "hadley")
 dbListTables(con)
 ```

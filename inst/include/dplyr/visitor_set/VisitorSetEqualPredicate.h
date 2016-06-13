@@ -7,14 +7,14 @@ namespace dplyr{
     class VisitorSetEqualPredicate {
     public:
         VisitorSetEqualPredicate() : visitors(0){}
-        
+
         VisitorSetEqualPredicate( VisitorSet* visitors_ ) : visitors(visitors_) {} ;
         inline bool operator()(int i, int j) const {
             return visitors->equal(i,j) ;
         }
-        
+
     private:
-        VisitorSet* visitors ;  
+        VisitorSet* visitors ;
     } ;
 
 }

@@ -1,167 +1,38 @@
-#' Build a data frame.
+# Grouping methods ------------------------------------------------------------
+
+#' Convert to a data frame
 #'
-#' A trimmed down version of \code{\link{data.frame}} that:
-#' \enumerate{
-#' \item Never coerces inputs (i.e. strings stay as strings!).
-#' \item Never adds \code{row.names}.
-#' \item Never munges column names.
-#' \item Only recycles length 1 inputs.
-#' \item Evaluates its arguments lazily and in order.
-#' \item Adds \code{tbl_df} class to output.
-#' }
+#' Functions that convert the input to a \code{data_frame}.
 #'
-#' @param ... A set of named arguments
-#' @param columns A \code{\link[lazyeval]{lazy_dots}}.
-#' @seealso \code{\link{as_data_frame}} to turn an existing list into
-#'   a data frame.
+#' @details For a grouped data frame, the \code{\link[tibble]{as_data_frame}}
+#' S3 generic simply removes the grouping.
+#'
+#' @inheritParams tibble::as_data_frame
+#' @seealso \code{\link[tibble]{as_data_frame}}
+#' @name grouped_df
 #' @export
-#' @examples
-#' a <- 1:5
-#' data_frame(a, b = a * 2)
-#' data_frame(a, b = a * 2, c = 1)
-#' data_frame(x = runif(10), y = x * 2)
-#'
-#' # data_frame never coerces its inputs
-#' str(data_frame(letters))
-#' str(data_frame(x = list(diag(1), diag(2))))
-#'
-#' # or munges column names
-#' data_frame(`a + b` = 1:5)
-#'
-#' # With the SE version, you give it a list of formulas/expressions
-#' data_frame_(list(x = ~1:10, y = quote(x * 2)))
-data_frame <- function(...) {
-  data_frame_(lazyeval::lazy_dots(...))
-}
-
-#' @export
-#' @rdname data_frame
-data_frame_ <- function(columns) {
-  n <- length(columns)
-  if (n == 0) return(data.frame())
-
-  # If named not supplied, used deparsed expression
-  col_names <- names2(columns)
-  missing_names <- col_names == ""
-  if (any(missing_names)) {
-    deparse2 <- function(x) paste(deparse(x$expr, 500L), collapse = "")
-    defaults <- vapply(columns[missing_names], deparse2, character(1),
-      USE.NAMES = FALSE)
-
-    col_names[missing_names] <- defaults
-  }
-
-  # Construct the list output
-  output <- vector("list", n)
-  names(output) <- character(n)
-  output_nm <- names(output) # Get reference to names
-
-  # Fill the output
-  i <- 1L
-  while (i <= n) {
-
-    # Fill by reference
-    res <- lazyeval::lazy_eval(columns[[i]], output)
-    if (!is_1d(res)) {
-      stop("data_frames can only contain 1d atomic vectors and lists",
-        call. = FALSE)
-    }
-    output[[i]] <- res
-    names(output)[i] <- col_names[[i]]
-
-    # Update
-    i <- i + 1L
-  }
-
-  # Validate column lengths
-  lengths <- vapply(output, NROW, integer(1))
-  max <- max(lengths)
-
-  if (!all(lengths %in% c(1L, max))) {
-    stop("arguments imply differing number of rows: ",
-         paste(lengths, collapse = ", "))
-  }
-  short <- lengths == 1
-  if (max != 1L && any(short)) {
-    output[short] <- lapply(output[short], rep, max)
-  }
-
-  # Set attributes
-  attr(output, "row.names") <- c(NA_integer_, max)
-  attr(output, "class") <- c("tbl_df", "tbl", "data.frame")
-
-  output
-}
-
-#' Coerce a list to a data frame.
-#'
-#' \code{as.data.frame} is effectively a thin wrapper around \code{data.frame},
-#' and hence is rather slow (because it calls \code{data.frame} on each element
-#' before \code{cbind}ing together). \code{as_data_frame} just verifies that
-#' the list is structured correctly (i.e. named, and each element is same
-#' length) then sets class and row name attributes.
-#'
-#' @param x A list. Each element of the list must have the same length.
-#' @export
-#' @examples
-#' l <- list(x = 1:500, y = runif(500), z = 500:1)
-#' df <- as_data_frame(l)
-#'
-#' # Coercing to a data frame does not copy columns
-#' changes(as_data_frame(l), as_data_frame(l))
-#'
-#' # as_data_frame is considerably simpler/faster than as.data.frame
-#' # making it more suitable for use when you have things that are
-#' # lists
-#' \dontrun{
-#' l2 <- replicate(26, sample(letters), simplify = FALSE)
-#' names(l2) <- letters
-#' microbenchmark::microbenchmark(
-#'   as_data_frame(l2),
-#'   as.data.frame(l2)
-#' )
-#' }
-as_data_frame <- function(x) {
-  stopifnot(is.list(x))
-  if (length(x) == 0) {
-    x <- list()
-    class(x) <- c("tbl_df", "tbl", "data.frame")
-    attr(x, "row.names") <- .set_row_names(0)
-    return(x)
-  }
-
-  if (any(names2(x) == "")) {
-    stop("All elements must be named", call. = FALSE)
-  }
-
-  ok <- vapply(x, is_1d, logical(1))
-  if (any(!ok)) {
-    stop("data_frames can only contain 1d atomic vectors and lists",
-      call. = FALSE)
-  }
-
-  n <- unique(vapply(x, NROW, integer(1)))
-  if (length(n) != 1) {
-    stop("Columns are not all same length", call. = FALSE)
-  }
-
+as_data_frame.grouped_df <- function(x, ...) {
+  x <- ungroup(x)
   class(x) <- c("tbl_df", "tbl", "data.frame")
-  attr(x, "row.names") <- .set_row_names(n)
-
   x
 }
 
 #' Convert row names to an explicit variable.
 #'
+#' Deprecated, use \code{\link[tibble]{rownames_to_column}} instead.
+#'
 #' @param df Input data frame with rownames.
 #' @param var Name of variable to use
 #' @export
 #' @examples
-#' mtcars %>%
-#'   head() %>%
-#'   print() %>%
-#'   add_rownames()
+#' mtcars %>% tbl_df()
+#'
+#' mtcars %>% add_rownames()
 add_rownames <- function(df, var = "rowname") {
+  warning(
+    "Deprecated, use tibble::rownames_to_column() instead.",
+    call. = FALSE)
+
   stopifnot(is.data.frame(df))
 
   rn <- as_data_frame(setNames(list(rownames(df)), var))
@@ -182,7 +53,7 @@ group_by_.data.frame <- function(.data, ..., .dots, add = FALSE) {
 groups.data.frame <- function(x) NULL
 
 #' @export
-ungroup.data.frame <- function(x) x
+ungroup.data.frame <- function(x, ...) x
 
 #' @export
 group_size.data.frame <- function(x) nrow(x)
@@ -197,7 +68,7 @@ n_groups.data.frame <- function(x) 1L
 
 #' @export
 filter_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ...)
   as.data.frame(filter_(tbl_df(.data), .dots = dots))
 }
 #' @export
@@ -275,15 +146,18 @@ intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
 union.data.frame <-     function(x, y, ...) union_data_frame(x, y)
 
 #' @export
+union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
+
+#' @export
 setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
 
 #' @export
 setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
-distinct_.data.frame <- function(.data, ..., .dots) {
-  dist <- distinct_vars(.data, ..., .dots = .dots)
-  distinct_impl(dist$data, dist$vars)
+distinct_.data.frame <- function(.data, ..., .dots, .keep_all = FALSE) {
+  dist <- distinct_vars(.data, ..., .dots = .dots, .keep_all = .keep_all)
+  distinct_impl(dist$data, dist$vars, dist$keep)
 }
 
 

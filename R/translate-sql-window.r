@@ -1,54 +1,66 @@
-# batting <- tbl(lahman_postgres(), "Batting")
-# players <- group_by(batting, teamID)
-# translate_window_where(quote(1), players)
-# translate_window_where(quote(x), players)
-# translate_window_where(quote(x == 1), players)
-# translate_window_where(quote(x == 1 && y == 2), players)
-# translate_window_where(quote(n() > 10), players)
-# translate_window_where(quote(rank() > cumsum(AB)), players)
-# translate_window_where(list(quote(x == 1), quote(n() > 2)), players)
-translate_window_where <- function(expr, tbl, con = NULL) {
-  # Simplest base case: atomic vector or name ---------------------------------
-  if (is.atomic(expr) || is.name(expr)) {
-    return(list(
-      expr = expr,
-      comp = list()
-    ))
-  }
-
-  # Other base case is an aggregation function --------------------------------
-  variant <- src_translate_env(tbl)
-  agg_f <- ls(envir = variant$window)
-
-  if (is.call(expr) && as.character(expr[[1]]) %in% agg_f) {
-    name <- unique_name()
-    sql <- translate_sql_q(list(expr), tbl, env = NULL, window = TRUE)
-
-    return(list(
-      expr = as.name(name),
-      comp = setNames(list(sql), name)
-    ))
-  }
-
-  # Recursive cases: list and all other functions -----------------------------
-
-  if (is.list(expr)) {
-    args <- lapply(expr, translate_window_where, tbl = tbl, con = con)
-
-    env <- sql_env(call, variant, con = con)
-    sql <- lapply(lapply(args, "[[", "expr"), eval, env = env)
+uses_window_fun <- function(x, con) {
+  if (is.null(x)) return(FALSE)
+  if (inherits(x, "lazy_dots")) {
+    calls <- unlist(lapply(x, function(x) all_calls(x$expr)))
   } else {
-    args <- lapply(expr[-1], translate_window_where, tbl = tbl, con = con)
-
-    call <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
-    env <- sql_env(call, variant, con = con)
-    sql <- eval(call, envir = env)
+    calls <- all_calls(x)
   }
 
-  comps <- unlist(lapply(args, "[[", "comp"), recursive = FALSE)
+  win_f <- ls(envir = sql_translate_env(con)$window)
+  any(calls %in% win_f)
+}
+
+common_window_funs <- ls(sql_translate_env(NULL)$window)
+
+#' @noRd
+#' @examples
+#' translate_window_where(quote(1))
+#' translate_window_where(quote(x))
+#' translate_window_where(quote(x == 1))
+#' translate_window_where(quote(x == 1 && y == 2))
+#' translate_window_where(quote(n() > 10))
+#' translate_window_where(quote(rank() > cumsum(AB)))
+translate_window_where <- function(expr, window_funs = common_window_funs) {
+  if (is.atomic(expr) || is.name(expr)) {
+    window_where(expr, list())
+  } else if (is.call(expr)) {
+    if (as.character(expr[[1]]) %in% window_funs) {
+      name <- unique_name()
+      window_where(as.name(name), setNames(list(expr), name))
+    } else {
+      args <- lapply(expr[-1], translate_window_where, window_funs = window_funs)
+      expr <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
+
+      window_where(
+        expr = expr,
+        comp = unlist(lapply(args, "[[", "comp"), recursive = FALSE)
+      )
+    }
+  } else {
+    stop("Unknown type: ", typeof(expr))
+  }
+}
+
+
+#' @noRd
+#' @examples
+#' translate_window_where_all(list(quote(x == 1), quote(n() > 2)))
+#' translate_window_where_all(list(quote(cumsum(x) == 10), quote(n() > 2)))
+translate_window_where_all <- function(x, window_funs = common_window_funs) {
+  out <- lapply(x, translate_window_where, window_funs = window_funs)
 
   list(
-    expr = sql,
-    comp = comps
+    expr = unlist(lapply(out, "[[", "expr"), recursive = FALSE),
+    comp = unlist(lapply(out, "[[", "comp"), recursive = FALSE)
+  )
+}
+
+window_where <- function(expr, comp) {
+  stopifnot(is.call(expr) || is.name(expr) || is.atomic(expr))
+  stopifnot(is.list(comp))
+
+  list(
+    expr = expr,
+    comp = comp
   )
 }

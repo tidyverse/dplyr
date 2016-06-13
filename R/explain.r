@@ -1,4 +1,4 @@
-#' Explain details of an tbl.
+#' Explain details of a tbl.
 #'
 #' This is a generic function which gives more details about an object than
 #' \code{\link{print}}, and is more focussed on human readable output than
@@ -14,6 +14,7 @@
 #' @param x An object to explain
 #' @param ... Other parameters possibly used by generic
 #' @examples
+#' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
 #'
 #' lahman_s <- lahman_sqlite()
@@ -32,6 +33,7 @@
 #' teams <- tbl(lahman_s, "Teams")
 #' batting %>% left_join(teams, c("yearID", "teamID")) %>% explain()
 #' }
+#' }
 explain <- function(x, ...) {
   UseMethod("explain")
 }
@@ -41,7 +43,7 @@ explain.tbl_sql <- function(x, ...) {
   force(x)
   show_query(x)
   message("\n")
-  message("<PLAN>\n", db_explain(x$query$con, x$query$sql))
+  message("<PLAN>\n", db_explain(x$src$con, sql_render(x)))
 
   invisible(NULL)
 }
@@ -49,5 +51,5 @@ explain.tbl_sql <- function(x, ...) {
 #' @export
 #' @rdname explain
 show_query <- function(x) {
-  message("<SQL>\n", x$query$sql)
+  message("<SQL>\n", sql_render(x))
 }

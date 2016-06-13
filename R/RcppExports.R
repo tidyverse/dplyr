@@ -13,6 +13,10 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+rank_strings <- function(s) {
+    .Call('dplyr_rank_strings', PACKAGE = 'dplyr', s)
+}
+
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
@@ -33,9 +37,8 @@ between <- function(x, left, right) {
     .Call('dplyr_between', PACKAGE = 'dplyr', x, left, right)
 }
 
-#' @export
-rbind_all <- function(dots) {
-    .Call('dplyr_rbind_all', PACKAGE = 'dplyr', dots)
+bind_rows_ <- function(dots, id = NULL) {
+    .Call('dplyr_bind_rows_', PACKAGE = 'dplyr', dots, id)
 }
 
 rbind_list__impl <- function(dots) {
@@ -54,8 +57,12 @@ combine_vars <- function(vars, xs) {
     .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
 }
 
-distinct_impl <- function(df, vars) {
-    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars)
+distinct_impl <- function(df, vars, keep) {
+    .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars, keep)
+}
+
+assert_all_white_list <- function(data) {
+    invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
 }
 
 semi_join_impl <- function(x, y, by_x, by_y) {
@@ -66,24 +73,28 @@ anti_join_impl <- function(x, y, by_x, by_y) {
     .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
 }
 
-inner_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-left_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-right_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-outer_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_outer_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
 shallow_copy <- function(data) {
     .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
+}
+
+compatible_data_frame_nonames <- function(x, y, convert) {
+    .Call('dplyr_compatible_data_frame_nonames', PACKAGE = 'dplyr', x, y, convert)
 }
 
 compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
@@ -114,6 +125,10 @@ match_data_frame <- function(x, y) {
     .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+resolve_vars <- function(new_groups, names) {
+    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
+}
+
 grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
@@ -142,18 +157,8 @@ group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
-#' Efficiently count the number of unique values in a vector.
-#'
-#' This is a faster and more concise equivalent of \code{length(unique(x))}
-#'
-#' @param x a vector of values
-#' @export
-#' @examples
-#' x <- sample(1:10, 1e5, rep = TRUE)
-#' length(unique(x))
-#' n_distinct(x)
-n_distinct <- function(x) {
-    .Call('dplyr_n_distinct', PACKAGE = 'dplyr', x)
+n_distinct_multi <- function(variables, na_rm = FALSE) {
+    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
 as_regular_df <- function(df) {

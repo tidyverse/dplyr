@@ -1,73 +1,66 @@
-#' Connect to temporary data sources.
+#' Infrastructure for testing dplyr
 #'
-#' These functions make it easy to take a local data frame and make available
-#' as a tbl in every known src. All local srcs will work on any computer.
-#' DBMS srcs will only currently work on Hadley's computer.
+#' Register testing sources, then use \code{test_load} to load an existing
+#' data frame into each source. To create a new table in each source,
+#' use \code{test_frame}.
 #'
 #' @keywords internal
-#' @export
 #' @examples
 #' \dontrun{
-#' local <- c("df", "dt")
-#' db <- c("sqlite", "mysql", "postgres")
+#' test_register_src("df", src_df(env = new.env()))
+#' test_register_src("sqlite", src_sqlite(":memory:", create = TRUE))
 #'
-#' temp_srcs(local)
-#' temp_srcs(db)
+#' test_frame(x = 1:3, y = 3:1)
+#' test_load(mtcars)
 #' }
-temp_srcs <- function(..., quiet = NULL) {
-  load_srcs(temp_src, c(...), quiet = quiet)
-}
+#' @name testing
+NULL
 
-temp_src <- function(type, ...) {
-  cache_name <- paste("temp", type, "src", collapse = "-")
-  if (is_cached(cache_name)) return(get_cache(cache_name))
 
-  env <- new.env(parent = emptyenv())
-  src <- switch(type,
-    df =       src_df(env = env),
-    dt =       src_dt(env = env),
-    sqlite =   src_sqlite(tempfile(), create = TRUE),
-    mysql =    src_mysql("test", ...),
-    postgres = src_postgres("test", ...),
-    stop("Unknown src type ", type, call. = FALSE)
-  )
-
-  set_cache(cache_name, src)
-}
-
-reset <- function(x) UseMethod("reset")
 #' @export
-reset.default <- function(x) NULL
-#' @export
-reset.src_sql <- function(x) {
-  for (tbl in src_tbls(x)) {
-    dbRemoveTable(x$con, tbl)
-  }
-}
-#' @export
-reset.list <- function(x) {
-  for (y in x) reset(y)
+#' @rdname testing
+test_register_src <- function(name, src) {
+  message("Registering testing src: ", name)
+  test_srcs$add(name, src)
 }
 
-#' @rdname temp_srcs
-temp_load <- function(srcs, df, name = NULL) {
-  if (is.character(srcs)) {
-    srcs <- temp_srcs(srcs)
-  }
+#' @export
+#' @rdname testing
+test_load <- function(df, name = random_table_name(), srcs = test_srcs$get(),
+                      ignore = character()) {
+  stopifnot(is.data.frame(df))
+  stopifnot(is.character(ignore))
 
-  if (is.data.frame(df)) {
-    if (is.null(name)) name <- random_table_name()
-    lapply(srcs, copy_to, df, name = name)
-  } else {
-    if (is.null(name)) {
-      name <- replicate(length(df), random_table_name())
-    } else {
-      stopifnot(length(name) == length(df))
+  srcs <- srcs[setdiff(names(srcs), ignore)]
+  lapply(srcs, copy_to, df, name = name)
+}
+
+#' @export
+#' @rdname testing
+test_frame <- function(..., srcs = test_srcs$get()) {
+  df <- data_frame(...)
+  test_load(df, srcs = srcs)
+}
+
+# Manage cache of testing srcs
+test_srcs <- local({
+  e <- new.env(parent = emptyenv())
+  e$srcs <- list()
+
+  list(
+    get = function() e$srcs,
+
+    has = function(x) x %in% names(e$srcs),
+
+    add = function(name, src) {
+      stopifnot(is.src(src))
+      e$srcs[[name]] <- src
+    },
+
+    set = function(...) {
+      old <- e$srcs
+      e$srcs <- list(...)
+      invisible(old)
     }
-
-    lapply(srcs, function(x) {
-      Map(function(df, name) copy_to(x, df, name), df, name)
-    })
-  }
-}
-
+  )
+})

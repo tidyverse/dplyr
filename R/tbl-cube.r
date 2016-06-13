@@ -1,6 +1,6 @@
 #' A data cube tbl.
 #'
-#' An cube tbl stores data in a compact array format where dimension
+#' A cube tbl stores data in a compact array format where dimension
 #' names are not needlessly repeated. They are particularly appropriate for
 #' experimental data where all combinations of factors are tried (e.g.
 #' complete factorial designs), or for storing the result of aggregations.
@@ -10,7 +10,7 @@
 #' \code{tbl_cube} support is currently experimental and little performance
 #' optimisation has been done, but you may find them useful if your data
 #' already comes in this form, or you struggle with the memory overhead of the
-#' sparse/crossed of data frames.  There is no supported for hierarchical
+#' sparse/crossed of data frames.  There is no support for hierarchical
 #' indices (although I think that would be a relatively straightforward
 #' extension to storing data frames for indices rather than vectors).
 #'
@@ -112,7 +112,7 @@ tbl_vars.tbl_cube <- function(x) names(x$dims)
 
 #' @export
 dim.tbl_cube <- function(x) {
-  c(length(x$mets[[1]]), length(x$dim))
+  c(length(x$mets[[1]]), length(x$dims))
 }
 
 #' @export
@@ -124,8 +124,8 @@ same_src.tbl_cube <- function(x, y) {
 print.tbl_cube <- function(x, ...) {
   cat("Source: local array ", dim_desc(x), "\n",
     sep = "")
-  if (!is.null(x$group)) {
-    cat("Grouped by: ", paste(names(x$dims)[x$group], collapse = ", "),
+  if (!is.null(x$groups)) {
+    cat("Grouped by: ", paste(names(x$dims)[x$groups], collapse = ", "),
       "\n", sep = "")
   }
 
@@ -142,9 +142,28 @@ print.tbl_cube <- function(x, ...) {
   invisible(x)
 }
 
+# Coercion methods (from tbl_cube) ---------------------------------------------
+
+#' Coerce a \code{tbl_cube} to other data structures
+#'
+#' Supports conversion to tables, data frames, tibbles.
+#'
+#' @param x a \code{tbl_cube}
+#' @param ... Passed on to individual methods; otherwise ignored.
+#' @param measure A measure name or index, default: the first measure
+#' @name as.table.tbl_cube
+#' @export
+as.table.tbl_cube <- function(x, ..., measure = 1L) {
+  ret <- x$mets[[measure]]
+  dimnames(ret) <- x$dims
+  class(ret) <- "table"
+  ret
+}
+
+#' @rdname as.table.tbl_cube
 #' @export
 as.data.frame.tbl_cube <- function(x, ...) {
-  dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE)
+  dims <- expand.grid(x$dims, KEEP.OUT.ATTRS = FALSE, ...)
   mets <- lapply(x$mets, as.vector)
 
   all <- c(dims, mets)
@@ -152,6 +171,16 @@ as.data.frame.tbl_cube <- function(x, ...) {
   attr(all, "row.names") <- .set_row_names(nrow(dims))
 
   all
+}
+
+
+#' @rdname as.table.tbl_cube
+#' @description For a cube, the data frame returned by
+#'   \code{\link[tibble]{as_data_frame}} resulting data frame contains the
+#'   dimensions as character values (and not as factors).
+#' @export
+as_data_frame.tbl_cube <- function(x, ...) {
+  as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }
 
 # Coercion methods -------------------------------------------------------------
@@ -166,19 +195,15 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 
 #' @export
 #' @rdname as.tbl_cube
-#' @param met_name a string to use as the name for the metric
 #' @param dim_names names of the dimesions. Defaults to the names of
+#' @param met_name a string to use as the name for the measure
 #'   the \code{\link{dimnames}}.
-as.tbl_cube.array <- function(x, met_name = deparse(substitute(x)),
-                               dim_names = names(dimnames(x)), ...) {
+as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)), ...) {
   force(met_name)
 
   dims <- dimnames(x)
-  dims <- lapply(dims, type.convert, as.is = TRUE)
+  dims <- lapply(dims, utils::type.convert, as.is = TRUE)
 
-  if (is.table(x)) {
-    class(x) <- setdiff(class(x), "table")
-  }
   mets <- setNames(list(undimname(x)), met_name)
 
   tbl_cube(dims, mets)
@@ -191,29 +216,63 @@ undimname <- function(x) {
 
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.table <- as.tbl_cube.array
+as.tbl_cube.table <- function(x, dim_names = names(dimnames(x)), met_name = "Freq", ...) {
+  as.tbl_cube.array(unclass(x), dim_names = dim_names, met_name = met_name)
+}
 
 #' @export
 #' @rdname as.tbl_cube
 as.tbl_cube.matrix <- as.tbl_cube.array
 
+guess_met <- function(df) {
+  if ("Freq" %in% names(df)) {
+    met <- "Freq"
+  } else {
+    is_num <- vapply(df, is.numeric, logical(1L))
+    met <- names(df)[is_num]
+  }
+
+  message("Using ", paste(met, collapse = ", "), " as measure column(s): use met_name to override.")
+  met
+}
+
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.data.frame <- function(x, dim_names, ...) {
-  if (!is.character(dim_names)) {
-    dim_names <- names(x)[dim_names]
+as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x), ...) {
+  if (is.null(dim_names)) {
+    dim_names <- setdiff(names(x), met_name)
+  } else {
+    met_name <- NULL
+    if (!is.character(dim_names)) {
+      dim_names <- names(x)[dim_names]
+    }
   }
-  met_names <- setdiff(names(x), dim_names)
+
+  if (is.null(met_name)) {
+    met_name <- setdiff(names(x), dim_names)
+  } else if (!is.character(met_name)) {
+    met_name <- names(x)[met_name]
+  }
+
+  if (is.null(dim_names) && is.null(met_name)) {
+    stop("At least one of dim_names and met_name must be non-NULL.", call. = FALSE)
+  }
 
   dims <- lapply(x[dim_names], unique)
   n <- vapply(dims, length, integer(1))
-  # need to check for uniqueness of combinations
 
-  grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE)
-  all <- merge(grid, x, all.x = TRUE, by = dim_names)
+  grid <- expand.grid(dims, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
+  all <- left_join(grid, x, by = dim_names)
+  if (nrow(all) > nrow(grid)) {
+    dupe_row <- anyDuplicated(all[dim_names])
+    dupe <- unlist(all[dupe_row, dim_names])
 
-  mets <- lapply(met_names, function(i) array(x[[i]], n))
-  names(mets) <- met_names
+    stop("Duplicate combination of dimension variables: ",
+         paste(names(dupe), "=", dupe, collapse = ", "), call. = FALSE)
+  }
+
+  mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
+  names(mets) <- met_name
 
   tbl_cube(dims, mets)
 }
@@ -286,7 +345,7 @@ group_by_.tbl_cube <- function(.data, ..., .dots, add = FALSE) {
   nms <- names(groups$data$dims)
   nms_list <- as.list(setNames(seq_along(nms), nms))
 
-  groups$data$groups <- unlist(lapply(groups$group, eval, nms_list))
+  groups$data$groups <- unlist(lapply(groups$groups, eval, nms_list))
   groups$data
 }
 
@@ -303,7 +362,7 @@ groups.tbl_cube <- function(x) {
 summarise_.tbl_cube <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
-  out_dims <- .data$dims[.data$group]
+  out_dims <- .data$dims[.data$groups]
   n <- vapply(out_dims, length, integer(1))
 
   out_mets <- list()
@@ -316,7 +375,7 @@ summarise_.tbl_cube <- function(.data, ..., .dots) {
   # Loop over each group
   for (i in seq_len(nrow(slices))) {
     index <- as.list(slices[i, , drop = FALSE])
-    mets <- lapply(.data$mets, subs_index, i = .data$group, val = index,
+    mets <- lapply(.data$mets, subs_index, i = .data$groups, val = index,
       drop = TRUE)
 
     # Loop over each expression

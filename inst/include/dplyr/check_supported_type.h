@@ -10,13 +10,12 @@ namespace dplyr {
       case LGLSXP:
       case STRSXP:
       case VECSXP:
-      case CPLXSXP: 
+      case CPLXSXP:
         return ;
       default:
         break ;
     }
-    stop( "unsupported type for column '%s' (%s, classes = %s)", 
-        CHAR(name), type2name(x), get_single_class(x) ) ;
+    stop( "Unsupported type %s for column \"%s\"", type2name(x), CHAR(name)) ;
   }
 
 }

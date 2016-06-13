@@ -3,8 +3,16 @@
 using namespace Rcpp ;
 using namespace dplyr ;
 
+SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, CharacterVector new_names );
 // [[Rcpp::export]]
-SEXP distinct_impl( DataFrame df, CharacterVector vars){
+SEXP distinct_impl( DataFrame df, CharacterVector vars, CharacterVector keep){
+    if( df.size() == 0 )
+        return df ;
+
+    // No vars means ungrouped data with keep_all = TRUE.
+    if ( vars.size() == 0 )
+      return df;
+
     check_valid_colnames(df) ;
     if( !vars.size() ){
         vars = df.names() ;
@@ -21,7 +29,5 @@ SEXP distinct_impl( DataFrame df, CharacterVector vars){
         }
     }
 
-    DataFrameVisitors out(df, df.names()) ;
-    return out.subset(indices, df.attr("class")) ;
+    return DataFrameSubsetVisitors(df, keep).subset(indices, df.attr("class")) ;
 }
-

@@ -8,8 +8,7 @@ df <- data.frame(
   y = 6:1
 )
 
-srcs <- temp_srcs(c("df", "dt", "sqlite"))
-tbls <- temp_load(srcs, df)
+tbls <- test_load(df)
 grp <- lapply(tbls, function(x) x %>% group_by(g))
 
 test_that("can't use both named and unnamed args", {
@@ -104,87 +103,56 @@ test_that("empty data frames give consistent outputs", {
   grp <- dat %>% group_by(g)
   emt <- grp %>% filter(FALSE)
 
-  dat %>% do(data.frame()) %>% type_sum() %>%
-    expect_equal(character())
-  dat %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+  dat %>% do(data.frame()) %>% vapply(type_sum, character(1)) %>%
+    length %>% expect_equal(0)
+  dat %>% do(data.frame(y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(y = "int"))
-  dat %>% do(data.frame(.)) %>% type_sum() %>%
+  dat %>% do(data.frame(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr"))
-  dat %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+  dat %>% do(data.frame(., y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
-  dat %>% do(y = ncol(.)) %>% type_sum() %>%
+  dat %>% do(y = ncol(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(y = "list"))
 
   # Grouped data frame should have same col types as ungrouped, with addition
   # of grouping variable
-  grp %>% do(data.frame()) %>% type_sum() %>%
+  grp %>% do(data.frame()) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr"))
-  grp %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+  grp %>% do(data.frame(y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "int"))
-  grp %>% do(data.frame(.)) %>% type_sum() %>%
+  grp %>% do(data.frame(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr"))
-  grp %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+  grp %>% do(data.frame(., y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
-  grp %>% do(y = ncol(.)) %>% type_sum() %>%
+  grp %>% do(y = ncol(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "list"))
 
   # A empty grouped dataset should have same types as grp
-  emt %>% do(data.frame()) %>% type_sum() %>%
+  emt %>% do(data.frame()) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr"))
-  emt %>% do(data.frame(y = integer(0))) %>% type_sum() %>%
+  emt %>% do(data.frame(y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "int"))
-  emt %>% do(data.frame(.)) %>% type_sum() %>%
+  emt %>% do(data.frame(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr"))
-  emt %>% do(data.frame(., y = integer(0))) %>% type_sum() %>%
+  emt %>% do(data.frame(., y = integer(0))) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
-  emt %>% do(y = ncol(.)) %>% type_sum() %>%
+  emt %>% do(y = ncol(.)) %>% vapply(type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "list"))
-})
-
-# Data tables  -----------------------------------------------------------------
-
-test_that("named argument become list columns", {
-  out <- grp$dt %>% do(nrow = nrow(.), ncol = ncol(.))
-  expect_equal(out$nrow, list(1, 2, 3))
-  # doesn't including grouping columns
-  expect_equal(out$ncol, list(3, 3, 3))
-})
-
-test_that("unnamed results bound together by row", {
-  first <- grp$dt %>% do(head(., 1))
-
-  expect_equal(nrow(first), 3)
-  expect_equal(first$g, 1:3)
-  expect_equal(first$x, c(1, 2, 4))
-})
-
-test_that("grouped_dt do evaluates args in correct env", {
-  a <- 10
-  f <- function(a) {
-    grp$dt %>% do(a = a)
-  }
-  expect_equal(f(20)$a, list(20, 20, 20))
-})
-
-test_that("grouped_dt passes all columns", {
-  out <- mtcars %>%
-    tbl_dt() %>%
-    select(mpg, cyl) %>%
-    group_by(cyl) %>%
-    do(n = names(.))
-
-  expect_equal(out$n[[1]], c("mpg", "cyl"))
 })
 
 # SQLite -----------------------------------------------------------------------
 
 test_that("named argument become list columns", {
+  skip_if_no_sqlite()
+
   out <- grp$sqlite %>% do(nrow = nrow(.), ncol = ncol(.))
   expect_equal(out$nrow, list(1, 2, 3))
   expect_equal(out$ncol, list(3, 3, 3))
 })
 
 test_that("unnamed results bound together by row", {
+  skip_if_no_sqlite()
+
   first <- grp$sqlite %>% do(head(., 1))
 
   expect_equal(nrow(first), 3)
@@ -193,16 +161,21 @@ test_that("unnamed results bound together by row", {
 })
 
 test_that("Results respect select", {
+  skip_if_no_sqlite()
+
   smaller <- grp$sqlite %>% select(g, x) %>% do(ncol = ncol(.))
   expect_equal(smaller$ncol, list(2, 2, 2))
 })
 
 test_that("grouping column not repeated", {
+  skip_if_no_sqlite()
+
   out <- grp$sqlite %>% do(names = names(.))
   expect_equal(out$names[[1]], c("g", "x", "y"))
 })
 
 test_that("results independent of chunk_size", {
+  skip_if_no_sqlite()
   nrows <- function(group, n) {
     unlist(do(group, nrow = nrow(.), .chunk_size = n)$nrow)
   }
@@ -219,7 +192,7 @@ test_that("handling of empty data frames in do",{
   expect_equal(names(res), c("b", "blank"))
 })
 
-test_that("rbind_all checks for corrupt data frame. #1074", {
+test_that("bind_rows checks for corrupt data frame. #1074", {
   df <- data.frame(groups=c(1, 2, 3, 4,4,4), value=1) %>% group_by(groups)
   expect_error( do(df, { .[.$value==first(.$value)] }) , "corrupt"  )
 })

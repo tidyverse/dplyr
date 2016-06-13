@@ -7,3 +7,5 @@ src/*.o-*
 .Rhistory
 inst/doc
 .httr-oauth
+vignettes/*.R
+.DS_Store

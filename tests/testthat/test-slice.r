@@ -61,17 +61,34 @@ test_that("slice gives correct rows (#649)", {
   expect_equal( slice(a, c(2,4))$value, paste0("row", c(2,4,7,9)))
 })
 
-# Data tables ------------------------------------------------------------------
+test_that( "slice handles NA (#1235)", {
+  df <- data_frame( x = 1:3 )
+  expect_equal( nrow(slice(df, NA_integer_)), 0L )
+  expect_equal( nrow(slice(df, c(1L, NA_integer_))), 1L )
+  expect_equal( nrow(slice(df, c(-1L, NA_integer_))), 2L )
 
-test_that("slicing data.table yields same output as slicing data.frame ", {
-  tbls <- list(mtcars, mtcars %>% tbl_dt())
-  compare_tbls(tbls, function(x) x %>% group_by(cyl) %>% slice(c(1, 3)))
+  df <- data_frame( x = 1:4, g = rep(1:2, 2) ) %>% group_by(g)
+  expect_equal( nrow(slice(df, NA)), 0L )
+  expect_equal( nrow(slice(df, c(1,NA))), 2 )
+  expect_equal( nrow(slice(df, c(-1,NA))), 2 )
+
 })
 
-test_that("slicing data table preserves input class", {
-  mtcars_dt <- mtcars %>% data.table::data.table()
+test_that("slice handles empty data frames (#1219)", {
+  df <- data.frame(x=numeric())
+  res <- df %>% slice(1:3)
+  expect_equal( nrow(res), 0L)
+  expect_equal( names(res), "x" )
+})
 
-  expect_is(mtcars_dt %>% slice(1), "data.table")
-  expect_is(mtcars_dt %>% tbl_dt() %>% slice(1), "tbl_dt")
-  expect_is(mtcars_dt %>% group_by(cyl) %>% slice(1), "grouped_dt")
+test_that("slice works fine if n > nrow(df) (#1269)", {
+  slice_res <- mtcars %>% group_by(cyl) %>% slice(8)
+  filter_res <- mtcars %>% group_by(cyl) %>% filter( row_number() == 8 )
+  expect_equal( slice_res, filter_res )
+})
+
+test_that("slice strips grouped indices (#1405)", {
+  res <- mtcars %>% group_by(cyl) %>% slice(1) %>% mutate(mpgplus = mpg + 1)
+  expect_equal( nrow(res), 3L)
+  expect_equal( attr(res, "indices"), as.list(0:2) )
 })

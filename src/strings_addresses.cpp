@@ -5,7 +5,7 @@ using namespace Rcpp ;
 CharacterVector strings_addresses(CharacterVector s){
     static char buffer[20] ;
     int n = s.size() ;
-    
+
     CharacterVector res(n) ;
     for( int i=0; i<n; i++){
         SEXP x = s[i] ;
@@ -13,7 +13,7 @@ CharacterVector strings_addresses(CharacterVector s){
         res[i] = buffer ;
     }
     res.names() = s ;
-    
+
     return res ;
 }
 

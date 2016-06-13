@@ -9,10 +9,14 @@
 #' \code{do} and then flexibly extract components with either another
 #' \code{do} or \code{summarise}.
 #'
+#' For an empty data frame, the expressions will be evaluated once, even in the
+#' presence of a grouping.  This makes sure that the format of the resulting
+#' data frame is the same for both empty and non-empty input.
+#'
 #' @section Connection to plyr:
 #'
 #' If you're familiar with plyr, \code{do} with named arguments is basically
-#' eqvuivalent to \code{dlply}, and \code{do} with a single unnamed argument
+#' equivalent to \code{dlply}, and \code{do} with a single unnamed argument
 #' is basically equivalent to \code{ldply}. However, instead of storing
 #' labels in a separate attribute, the result is always a data frame. This
 #' means that \code{summarise} applied to the result of \code{do} can
@@ -101,7 +105,7 @@ label_output_dataframe <- function(labels, out, groups) {
   }
 
   rows <- vapply(out[[1]], nrow, numeric(1))
-  out <- rbind_all(out[[1]])
+  out <- bind_rows(out[[1]])
 
   if (!is.null(labels)) {
     # Remove any common columns from labels

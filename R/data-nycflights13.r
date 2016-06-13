@@ -30,15 +30,31 @@ nycflights13_postgres <- function(dbname = "nycflights13", ...) {
   })
 }
 
+#' @rdname nycflights13
+#' @export
+has_nycflights13 <- function(type = c("sqlite", "postgresql"), ...) {
+  if (!requireNamespace("nycflights13", quietly = TRUE)) return(FALSE)
+
+  type <- match.arg(type)
+
+  succeeds(switch(type,
+    sqlite = nycflights13_sqlite(...), quiet = TRUE,
+    postgres = nycflights13_postgres(...), quiet = TRUE
+  ))
+}
+
+
 #' @export
 #' @rdname nycflights13
 copy_nycflights13 <- function(src, ...) {
-  all <- data(package = "nycflights13")$results[, 3]
-  index <- list(
+  all <- utils::data(package = "nycflights13")$results[, 3]
+  unique_index <- list(
     airlines = list("carrier"),
+    planes =   list("tailnum")
+  )
+  index <- list(
     airports = list("faa"),
     flights =  list(c("year", "month", "day"), "carrier", "tailnum", "origin", "dest"),
-    planes =   list("tailnum"),
     weather =  list(c("year", "month", "day"), "origin")
   )
 
@@ -49,7 +65,8 @@ copy_nycflights13 <- function(src, ...) {
     df <- getExportedValue("nycflights13", table)
     message("Creating table: ", table)
 
-    copy_to(src, df, table, indexes = index[[table]], temporary = FALSE)
+    copy_to(src, df, table, unique_indexes = unique_index[[table]],
+            indexes = index[[table]], temporary = FALSE)
   }
   src
 }

@@ -1,19 +1,7 @@
 #' Create a data frame tbl.
 #'
-#' A data frame tbl wraps a local data frame. The main advantage to using
-#' a \code{tbl_df} over a regular data frame is the printing:
-#' tbl objects only print a few rows and all the columns that fit on one
-#' screen, describing the rest of it as text.
-#'
-#' @section Methods:
-#'
-#' \code{tbl_df} implements two important base methods:
-#'
-#' \describe{
-#' \item{print}{Only prints the first 10 rows, and the columns that fit on
-#'   screen}
-#' \item{\code{[}}{Never simplifies (drops), so always returns data.frame}
-#' }
+#' Forwards the argument to \code{\link[tibble]{as_data_frame}}, see
+#' \link{tibble-package} for more details.
 #'
 #' @export
 #' @param data a data frame
@@ -46,11 +34,13 @@
 #'  rank(desc(AB)), cumsum(AB))
 #'
 #' # When you group by multiple level, each summarise peels off one level
+#' \donttest{
 #' per_year <- group_by(batting, playerID, yearID)
 #' stints <- summarise(per_year, stints = max(stint))
-#' # filter(stints, stints > 3)
-#' # summarise(stints, max(stints))
-#' # mutate(stints, cumsum(stints))
+#' filter(stints, stints > 3)
+#' summarise(stints, max(stints))
+#' mutate(stints, cumsum(stints))
+#' }
 #'
 #' # Joins ---------------------------------------------------------------------
 #' player_info <- select(tbl_df(Master), playerID, birthYear)
@@ -67,7 +57,6 @@
 #' anti_join(player_info, hof)
 #' }
 tbl_df <- function(data) {
-  assert_that(is.data.frame(data))
   as_data_frame(data)
 }
 
@@ -100,52 +89,6 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
   as_regular_df(x)
 }
 
-#' @rdname dplyr-formatting
-#' @export
-print.tbl_df <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-  cat("\n")
-  print(trunc_mat(x, n = n, width = width))
-
-  invisible(x)
-}
-
-#' @export
-`[.tbl_df` <- function (x, i, j, drop = FALSE) {
-  if (missing(i) && missing(j)) return(x)
-  if (drop) warning("drop ignored", call. = FALSE)
-
-  nr <- nrow(x)
-
-  # Escape early if nargs() == 2L; ie, column subsetting
-  if (nargs() == 2L) {
-    result <- .subset(x, i)
-    class(result) <- c("tbl_df", "data.frame")
-    attr(result, "row.names") <- .set_row_names(nr)
-    return(result)
-  }
-
-  # First, subset columns
-  if (!missing(j)) {
-    x <- .subset(x, j)
-  }
-
-  # Next, subset rows
-  if (!missing(i)) {
-    if (length(x) == 0) {
-      nr <- length(attr(x, "row.names")[i])
-    } else {
-      x <- lapply(x, `[`, i)
-      nr <- length(x[[1]])
-    }
-  }
-
-  class(x) <- c("tbl_df", "data.frame")
-  attr(x, "row.names") <- .set_row_names(nr)
-  x
-}
-
-
 # Verbs ------------------------------------------------------------------------
 
 #' @export
@@ -156,7 +99,13 @@ arrange_.tbl_df  <- function(.data, ..., .dots) {
 
 #' @export
 filter_.tbl_df    <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ...)
+  if (any(has_names(dots))) {
+    stop("filter() takes unnamed arguments. Do you need `==`?", call. = FALSE)
+  }
+  # C++ code assumes that elements are named, so give them automatic names
+  dots <- lazyeval::auto_name(dots)
+
   filter_impl(.data, dots)
 }
 
@@ -185,14 +134,7 @@ summarise_.tbl_df <- function(.data, ..., .dots) {
 #' See \code{\link{join}} for a description of the general purpose of the
 #' functions.
 #'
-#' @param x,y tbls to join
-#' @param by a character vector of variables to join by.  If \code{NULL}, the
-#'   default, \code{join} will do a natural join, using all variables with
-#'   common names across the two tables. A message lists the variables so
-#'   that you can check they're right - to suppress the message, supply
-#'   a character vector.
-#' @param copy If \code{y} is not a data frame or \code{\link{tbl_df}} and
-#'   \code{copy} is \code{TRUE}, \code{y} will be converted into a data frame
+#' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
 #' @examples
 #' if (require("Lahman")) {
@@ -218,35 +160,48 @@ NULL
 
 #' @export
 #' @rdname join.tbl_df
-inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y)
+  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export
 #' @rdname join.tbl_df
-left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
-  left_join_impl(x, y, by$x, by$y)
+
+  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export
 #' @rdname join.tbl_df
-right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                              suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y)
+  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export
 #' @rdname join.tbl_df
-full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
+                             suffix = c(".x", ".y"), ...) {
   by <- common_by(by, x, y)
+  suffix <- check_suffix(suffix)
+
   y <- auto_copy(x, y, copy = copy)
-  outer_join_impl(x, y, by$x, by$y)
+  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
 }
 
 #' @export

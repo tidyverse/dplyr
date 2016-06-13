@@ -2,8 +2,8 @@
 #define dplyr_collapse_H
 
 namespace Rcpp {
-    
-    template <int RTYPE> 
+
+    template <int RTYPE>
     const char* toString( typename ::Rcpp::traits::storage_type<RTYPE>::type from){
         SEXP s = internal::r_coerce<RTYPE,STRSXP>( from ) ;
         return CHAR(s) ;
@@ -20,9 +20,9 @@ namespace Rcpp {
                 ss << sep << st ;
             }
         }
-        
-        return ss.str(); 
-    }   
-          
-}    
+
+        return ss.str();
+    }
+
+}
 #endif
