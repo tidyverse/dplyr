@@ -21,20 +21,26 @@ src_translate_env <- function(x) UseMethod("src_translate_env")
 
 #' Database generics.
 #'
-#' These generics execute actions on the database. All generics have a method
+#' These generics execute actions on the database. Most generics have a method
 #' for \code{DBIConnection} which typically just call the standard DBI S4
-#' method.
+#' method. However, \code{db_insert_into} and \code{db_explain} do not have
+#' such methods the latter because no underlying DBI S4 method exists and the
+#' former because calls to the corresponding DBI S4 method
+#' (\code{dbWriteTable}) need to be able to specify an appropriate combination
+#' of values for non-standard \code{append} and \code{overwrite} arguments.
 #'
-#' @section copy_to:
-#' Currently, the only user of \code{sql_begin()}, \code{sql_commit()},
-#' \code{sql_rollback()}, \code{sql_create_table()}, \code{sql_insert_into()},
-#' \code{sql_create_indexes()}, \code{sql_drop_table()} and
-#' \code{sql_analyze()}. If you find yourself overriding many of these
+#' Currently, \code{copy_to} is the only user of \code{db_begin()}, \code{db_commit()},
+#' \code{db_rollback()}, \code{db_create_table()}, \code{db_insert_into()},
+#' \code{db_create_indexes()}, \code{db_drop_table()} and
+#' \code{db_analyze()}. If you find yourself overriding many of these
 #' functions it may suggest that you should just override \code{\link{copy_to}}
 #' instead.
 #'
 #' @return A logical value indicating success. Most failures should generate
-#'  an error.
+#'  an error. However, \code{db_has_table()} should return \code{NA} if
+#'  temporary tables cannot be listed with \code{dbListTables} (due to backend
+#'  API limitations for example). As a result, you methods will rely on the
+#'  backend to throw an error if a table exists when it shouldn't.
 #' @name backend_db
 #' @param con A database connection.
 #' @keywords internal
