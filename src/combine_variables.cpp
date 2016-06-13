@@ -25,7 +25,7 @@ int vector_sign(IntegerVector x) {
 class VarList {
 
   std::vector<int> out_indx;
-  std::vector<String> out_name;
+  std::vector<std::string> out_name;
 
   int find(int i) {
     std::vector<int>::iterator pos = std::find(out_indx.begin(), out_indx.end(), i);
@@ -37,7 +37,10 @@ class VarList {
   }
 
 public:
-  VarList(int n) : out_indx(), out_name() {
+  VarList(int n) {
+    out_indx = std::vector<int>();
+    out_name = std::vector<std::string>();
+
     out_indx.reserve(n);
     out_name.reserve(n);
   }
@@ -46,7 +49,7 @@ public:
     return find(i) != -1;
   }
 
-  void add(int i, String name) {
+  void add(int i, std::string name) {
     out_indx.push_back(i);
     out_name.push_back(name);
   }
@@ -57,7 +60,7 @@ public:
     out_indx.erase(out_indx.begin() + pos);
     out_name.erase(out_name.begin() + pos);
   }
-  void update(int i, String name) {
+  void update(int i, std::string name) {
     int pos = find(i);
     if (pos == -1) {
       add(i, name);
@@ -69,25 +72,26 @@ public:
   operator SEXP() {
     IntegerVector out(out_indx.begin(), out_indx.end());
     CharacterVector out_names(out_name.begin(), out_name.end());
-    out.names() = out_names;
+    out.attr("names") = out_names;
 
     return out;
   }
 };
 
 // [[Rcpp::export]]
-SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
+SEXP combine_vars(std::vector<std::string> vars, ListOf<IntegerVector> xs) {
   VarList selected(vars.size());
+
   if (xs.size() == 0)
     return IntegerVector::create();
 
   // Workaround bug in ListOf<>; can't access attributes
   SEXP raw_names = Rf_getAttrib(xs, Rf_mkString("names"));
-  CharacterVector xs_names;
+  std::vector<std::string> xs_names;
   if (raw_names == R_NilValue) {
-    xs_names = CharacterVector(xs.size(), "" );
+    xs_names = std::vector<std::string>(xs.size(), "");
   } else {
-    xs_names = raw_names ;
+    xs_names = as< std::vector<std::string> >(raw_names);
   }
 
   // If first component is negative, pre-fill with existing vars
@@ -121,7 +125,7 @@ SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
           }
         }
       } else if (has_names) {
-        CharacterVector names = x.names() ;
+        std::vector<std::string> names = as<std::vector<std::string> >(x.attr("names"));
         for (int j = 0; j < x.size(); ++j) {
           selected.update(x[j], names[j]);
         }

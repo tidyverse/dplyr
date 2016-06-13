@@ -11,7 +11,7 @@ filter_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link{tbl_df}}, \code{\link{tbl_dt}} and \code{\link{tbl_sql}}.}
 
 \item{...}{Logical predicates. Multiple conditions are combined with \code{&}.}
 
@@ -30,13 +30,6 @@ Return rows with matching conditions.
 \examples{
 filter(mtcars, cyl == 8)
 filter(mtcars, cyl < 6)
-
-# Multiple criteria
-filter(mtcars, cyl < 6 & vs == 1)
-filter(mtcars, cyl < 6 | vs == 1)
-
-# Multiple arguments are equivalent to and
-filter(mtcars, cyl < 6, vs == 1)
 }
 \seealso{
 Other single.table.verbs: \code{\link{arrange}},

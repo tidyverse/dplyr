@@ -6,6 +6,7 @@
 \alias{db_begin}
 \alias{db_commit}
 \alias{db_create_index}
+\alias{db_create_indexes}
 \alias{db_create_table}
 \alias{db_data_type}
 \alias{db_drop_table}
@@ -36,6 +37,8 @@ db_rollback(con, ...)
 db_create_table(con, table, types, temporary = FALSE, ...)
 
 db_insert_into(con, table, values, ...)
+
+db_create_indexes(con, table, indexes = NULL, unique = FALSE, ...)
 
 db_create_index(con, table, columns, name = NULL, unique = FALSE, ...)
 

@@ -121,12 +121,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // combine_vars
-SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs);
+SEXP combine_vars(std::vector<std::string> vars, ListOf<IntegerVector> xs);
 RcppExport SEXP dplyr_combine_vars(SEXP varsSEXP, SEXP xsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::string> >::type vars(varsSEXP);
     Rcpp::traits::input_parameter< ListOf<IntegerVector> >::type xs(xsSEXP);
     __result = Rcpp::wrap(combine_vars(vars, xs));
     return __result;

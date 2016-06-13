@@ -49,7 +49,7 @@ multiple sources.
 \examples{
 \dontrun{
 if (require("microbenchmark") && has_lahman()) {
-lahman_local <- lahman_srcs("df", "sqlite")
+lahman_local <- lahman_srcs("df", "dt")
 teams <- lapply(lahman_local, function(x) x \%>\% tbl("Teams"))
 
 compare_tbls(teams, function(x) x \%>\% filter(yearID == 2010))

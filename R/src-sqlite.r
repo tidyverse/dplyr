@@ -5,15 +5,11 @@
 #' If you are running a local sqliteql database, leave all parameters set as
 #' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
-#' \code{\link{src_memdb}} is an easy way to use an in-memory SQLite database
-#' that is scoped to the current session.
 #'
 #' @template db-info
 #' @param path Path to SQLite database
 #' @param create if \code{FALSE}, \code{path} must already exist. If
-#'   \code{TRUE}, will create a new SQlite3 database at \code{path} if
-#'   \code{path} does not exist and connect to the existing database if
-#'   \code{path} does exist.
+#'   \code{TRUE}, will create a new SQlite3 database at \code{path}.
 #' @param src a sqlite src created with \code{src_sqlite}.
 #' @param from Either a string giving the name of table in database, or
 #'   \code{\link{sql}} described a derived table or compound join.
@@ -103,36 +99,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
 
-  src_sql("sqlite", con, path = path)
-}
-
-#' Per-session in-memory SQLite databases.
-#'
-#' \code{src_memdb} lets you easily access a sessio-temporary in-memory
-#' SQLite database. \code{memdb_frame()} works like \code{\link{data_frame}},
-#' but instead of creating a new data frame in R, it creates a table in
-#' \code{src_memdb}
-#'
-#' @export
-#' @examples
-#' if (require("RSQLite")) {
-#' src_memdb()
-#'
-#' df <- memdb_frame(x = runif(100), y = runif(100))
-#' df %>% arrange(x)
-#' df %>% arrange(x) %>% show_query()
-#' }
-src_memdb <- function() {
-  cache_computation("src_memdb", src_sqlite(":memory:", TRUE))
-}
-
-#' @inheritParams tibble::data_frame
-#' @param .name Name of table in database: defaults to a random name that's
-#'   unlikely to conflict with exist
-#' @export
-#' @rdname src_memdb
-memdb_frame <- function(..., .name = random_table_name()) {
-  copy_to(src_memdb(), data_frame(...), name = .name)
+  src_sql("sqlite", con, path = path, info = DBI::dbGetInfo(con))
 }
 
 #' @export
@@ -143,53 +110,41 @@ tbl.src_sqlite <- function(src, from, ...) {
 
 #' @export
 src_desc.src_sqlite <- function(x) {
-  paste0("sqlite ", sqlite_version(), " [", x$path, "]")
-}
-
-sqlite_version <- function() {
-  if (utils::packageVersion("RSQLite") > 1) {
-    RSQLite::rsqliteVersion()[[2]]
-  } else {
-    DBI::dbGetInfo(RSQLite::SQLite())$clientVersion
-  }
+  paste0("sqlite ", x$info$serverVersion, " [", x$path, "]")
 }
 
 #' @export
-sql_translate_env.SQLiteConnection <- function(con) {
+src_translate_env.src_sqlite <- function(x) {
   sql_variant(
-    sql_translator(.parent = base_scalar,
-      log = sql_prefix("log")
-    ),
+    base_scalar,
     sql_translator(.parent = base_agg,
       sd = sql_prefix("stdev")
-    ),
-    base_no_win
+    )
   )
 }
 
-#' @export
-sql_escape_ident.SQLiteConnection <- function(con, x) {
-  sql_quote(x, '`')
-}
-
-#' @export
-sql_subquery.SQLiteConnection <- function(con, from, name = unique_name(), ...) {
-  if (is.ident(from)) {
-    setNames(from, name)
-  } else {
-    if (is.null(name)) {
-      build_sql("(", from, ")", con = con)
-    } else {
-      build_sql("(", from, ") AS ", ident(name), con = con)
-    }
-  }
-}
-
-
 # DBI methods ------------------------------------------------------------------
+
+#' @export
+db_query_fields.SQLiteConnection <- function(con, sql, ...) {
+  rs <- DBI::dbSendQuery(con, paste0("SELECT * FROM ", sql))
+  on.exit(DBI::dbClearResult(rs))
+
+  names(fetch(rs, 0L))
+}
+
+# http://sqlite.org/lang_explain.html
+#' @export
+db_explain.SQLiteConnection <- function(con, sql, ...) {
+  exsql <- build_sql("EXPLAIN QUERY PLAN ", sql)
+  expl <- DBI::dbGetQuery(con, exsql)
+  rownames(expl) <- NULL
+  out <- capture.output(print(expl))
+
+  paste(out, collapse = "\n")
+}
 
 #' @export
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   DBI::dbWriteTable(con, table, values, append = TRUE, row.names = FALSE)
 }
-

@@ -1,7 +1,3 @@
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
-
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
@@ -82,15 +78,6 @@ names2 <- function(x) {
   names(x) %||% rep("", length(x))
 }
 
-has_names <- function(x) {
-  nms <- names(x)
-  if (is.null(nms)) {
-    rep(FALSE, length(x))
-  } else {
-    !is.na(nms) & nms != ""
-  }
-}
-
 "%||%" <- function(x, y) if(is.null(x)) y else x
 
 is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
@@ -107,19 +94,6 @@ as_df <- function(x) {
 deparse_all <- function(x) {
   deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
   vapply(x, deparse2, FUN.VALUE = character(1))
-}
-
-#' Provides comma-separated string out ot the parameters
-#' @export
-#' @keywords internal
-#' @param ... Arguments to be constructed into the string
-named_commas <- function(...) {
-  x <- c(...)
-  if (is.null(names(x))) {
-    paste0(x, collapse = ", ")
-  } else {
-    paste0(names(x), " = ", x, collapse = ", ")
-  }
 }
 
 commas <- function(...) paste0(..., collapse = ", ")
@@ -140,15 +114,11 @@ unique_name <- local({
 
   function() {
     i <<- i + 1
-    paste0("zzz", i)
+    paste0("_W", i)
   }
 })
 
 isFALSE <- function(x) identical(x, FALSE)
-
-f_lhs <- function(x) if (length(x) >= 3) x[[2]] else NULL
-f_rhs <- function(x) x[[length(x)]]
-
 
 substitute_q <- function(x, env) {
   call <- substitute(substitute(x, env), list(x = x))
@@ -163,12 +133,8 @@ succeeds <- function(x, quiet = FALSE) {
   })
 }
 
-# is.atomic() is TRUE for atomic vectors AND NULL!
-is_atomic <- function(x) is.atomic(x) && !is.null(x)
-
 is_1d <- function(x) {
+  # is.atomic() is TRUE for atomic vectors AND NULL!
   # dimension check is for matrices and data.frames
-  (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
+  ((is.atomic(x) && !is.null(x)) || is.list(x)) && length(dim(x)) <= 1
 }
-
-is_bare_list <- function(x) is.list(x) && !is.object(x)

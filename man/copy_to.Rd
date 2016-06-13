@@ -19,8 +19,8 @@ copy_to(dest, df, name = deparse(substitute(df)), ...)
 a \code{tbl} object in the remote source
 }
 \description{
-This function uploads a local data frame into a remote data source, creating
-the table definition as needed. Wherever possible, the new object will be
+This uploads a local data frame into a remote data source, creating the
+table definition as needed. Wherever possible, the new object will be
 temporary, limited to the current connection to the source.
 }
 

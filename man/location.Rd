@@ -10,7 +10,7 @@ location(df)
 changes(x, y)
 }
 \arguments{
-\item{df}{a data frame}
+\item{df, }{a data frame}
 
 \item{x, y}{two data frames to compare}
 }

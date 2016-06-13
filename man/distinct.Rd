@@ -5,27 +5,24 @@
 \alias{distinct_}
 \title{Select distinct/unique rows.}
 \usage{
-distinct(.data, ..., .keep_all = FALSE)
+distinct(.data, ...)
 
-distinct_(.data, ..., .dots, .keep_all = FALSE)
+distinct_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Optional variables to use when determining uniqueness. If there
+\item{...}{Variables to use when determining uniqueness. If there
 are multiple rows for a given combination of inputs, only the first
-row will be preserved. If omitted, will use all variables.}
-
-\item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
-If a combination of \code{...} is not distinct, this keeps the
-first row of values.}
+row will be preserved.}
 
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
 }
 \description{
-Retain only unique/distinct rows from an input tbl. This is similar
-to \code{\link{unique.data.frame}}, but considerably faster.
+Retain only unique/distinct rows from an input tbl. This is an
+efficient version of \code{\link{unique}}. \code{distinct()} is best-suited
+for interactive use, \code{distinct_()} for calling from a function.
 }
 \examples{
 df <- data.frame(
@@ -34,14 +31,8 @@ df <- data.frame(
 )
 nrow(df)
 nrow(distinct(df))
-nrow(distinct(df, x, y))
-
 distinct(df, x)
 distinct(df, y)
-
-# Can choose to keep all other variables as well
-distinct(df, x, .keep_all = TRUE)
-distinct(df, y, .keep_all = TRUE)
 
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))

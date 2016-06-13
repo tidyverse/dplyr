@@ -3,19 +3,15 @@
 \name{summarise_each}
 \alias{mutate_each}
 \alias{mutate_each_}
+\alias{mutate_each_q}
 \alias{summarise_each}
 \alias{summarise_each_}
-\alias{summarize_each}
-\alias{summarize_each_}
+\alias{summarise_each_q}
 \title{Summarise and mutate multiple columns.}
 \usage{
 summarise_each(tbl, funs, ...)
 
 summarise_each_(tbl, funs, vars)
-
-summarize_each(tbl, funs, ...)
-
-summarize_each_(tbl, funs, vars)
 
 mutate_each(tbl, funs, ...)
 
@@ -31,18 +27,37 @@ a character vector of function names.}
   You can use same specifications as in \code{\link{select}}. If missing,
   defaults to all non-grouping variables.
 
-  For standard evaluation versions (ending in \code{_}) these can
+  For standard evaluation versions (ending in \code{_q}) these can
   be either a list of expressions or a character vector.}
 }
 \description{
 Apply one or more functions to one or more columns. Grouping variables
 are always excluded from modification.
 }
-\details{
-In the future \code{mutate_each()} and \code{summarise_each()} will
-be deprecated in favour of a more featureful family of functions:
-\code{\link{mutate_all}()}, \code{\link{mutate_at}()},
-\code{\link{mutate_if}()}, \code{\link{summarise_all}()},
-\code{\link{summarise_at}()} and \code{\link{summarise_if}()}.
+\examples{
+# One function
+by_species <- iris \%>\% group_by(Species)
+by_species \%>\% summarise_each(funs(length))
+by_species \%>\% summarise_each(funs(mean))
+by_species \%>\% summarise_each(funs(mean), Petal.Width)
+by_species \%>\% summarise_each(funs(mean), matches("Width"))
+
+by_species \%>\% mutate_each(funs(half = . / 2))
+by_species \%>\% mutate_each(funs(min_rank))
+
+# Two functions
+by_species \%>\% summarise_each(funs(min, max))
+by_species \%>\% summarise_each(funs(min, max), Petal.Width, Sepal.Width)
+by_species \%>\% summarise_each(funs(min, max), matches("Width"))
+
+# Alternative function specification
+iris \%>\% summarise_each(funs(ul = length(unique(.))))
+by_species \%>\% summarise_each(funs(ul = length(unique(.))))
+
+by_species \%>\% summarise_each(c("min", "max"))
+
+# Alternative variable specification
+summarise_each_(iris, funs(max), names(iris)[-5])
+summarise_each_(iris, funs(max), list(quote(-Species)))
 }
 

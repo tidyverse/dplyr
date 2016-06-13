@@ -29,7 +29,7 @@
 #'
 #' # Here we'll use the Lahman database: to create your own local copy,
 #' # create a local database called "lahman", or tell lahman_postgres() how to
-#' # access a database that you can write to
+#' # a database that you can write to
 #'
 #' if (has_lahman("postgres")) {
 #' lahman_p <- lahman_postgres()
@@ -60,8 +60,6 @@
 #'
 #' summarise(players, mean_g = mean(G), best_ab = max(AB))
 #' best_year <- filter(players, AB == max(AB) | G == max(G))
-#' best_year
-#'
 #' progress <- mutate(players,
 #'   cyear = yearID - min(yearID) + 1,
 #'   ab_rank = rank(desc(AB)),
@@ -126,7 +124,7 @@ src_desc.src_postgres <- function(x) {
 }
 
 #' @export
-sql_translate_env.PostgreSQLConnection <- function(con) {
+src_translate_env.src_postgres <- function(x) {
   sql_variant(
     base_scalar,
     sql_translator(.parent = base_agg,
@@ -137,7 +135,7 @@ sql_translate_env.PostgreSQLConnection <- function(con) {
       var = sql_prefix("var_samp"),
       all = sql_prefix("bool_and"),
       any = sql_prefix("bool_or"),
-      paste = function(x, collapse) build_sql("string_agg(", x, ", ", collapse, ")")
+      paste = function(x, collapse) build_sql("string_agg(", x, collapse, ")")
     ),
     base_win
   )
@@ -171,10 +169,6 @@ db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
 
 #' @export
 db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
-
-  if (nrow(values) == 0)
-    return(NULL)
-
   cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
   col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 
@@ -183,15 +177,4 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
 
   sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
   dbGetQuery(con, sql)
-}
-
-#' @export
-db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
-  fields <- build_sql("SELECT * FROM ", sql_subquery(con, sql), " WHERE 0=1",
-    con = con)
-
-  qry <- dbSendQuery(con, fields)
-  on.exit(dbClearResult(qry))
-
-  dbGetInfo(qry)$fieldDescription[[1]]$name
 }

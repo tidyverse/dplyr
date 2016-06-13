@@ -5,8 +5,7 @@
 \title{Copy a local data frame to a sqlite src.}
 \usage{
 \method{copy_to}{src_sql}(dest, df, name = deparse(substitute(df)),
-  types = NULL, temporary = TRUE, unique_indexes = NULL, indexes = NULL,
-  analyze = TRUE, ...)
+  types = NULL, temporary = TRUE, indexes = NULL, analyze = TRUE, ...)
 }
 \arguments{
 \item{dest}{remote data source}
@@ -21,10 +20,6 @@ See \url{http://www.sqlite.org/datatype3.html} for available types.}
 \item{temporary}{if \code{TRUE}, will create a temporary table that is
 local to this connection and will be automatically deleted when the
 connection expires}
-
-\item{unique_indexes}{a list of character vectors. Each element of the list
-will create a new unique index over the specified column(s). Duplicate rows
-will result in failure.}
 
 \item{indexes}{a list of character vectors. Each element of the list
 will create a new index.}
