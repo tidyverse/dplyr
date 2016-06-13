@@ -24,7 +24,7 @@ src_translate_env <- function(x) UseMethod("src_translate_env")
 #' These generics execute actions on the database. Most generics have a method
 #' for \code{DBIConnection} which typically just call the standard DBI S4
 #' method. However, \code{db_insert_into} and \code{db_explain} do not have
-#' such methods the latter because no underlying DBI S4 method exists and the
+#' such methods: the latter because no underlying DBI S4 method exists and the
 #' former because calls to the corresponding DBI S4 method
 #' (\code{dbWriteTable}) need to be able to specify an appropriate combination
 #' of values for non-standard \code{append} and \code{overwrite} arguments.
