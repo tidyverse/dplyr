@@ -6,18 +6,21 @@
 \alias{setequal}
 \alias{setops}
 \alias{union}
+\alias{union_all}
 \title{Set operations.}
 \usage{
 intersect(x, y, ...)
 
 union(x, y, ...)
 
+union_all(x, y, ...)
+
 setdiff(x, y, ...)
 
 setequal(x, y, ...)
 }
 \arguments{
-\item{x, y}{objects to compare (ignoring order)}
+\item{x, y}{objects to perform set function on (ignoring order)}
 
 \item{...}{other arguments passed on to methods}
 }
@@ -36,6 +39,7 @@ union(first, second)
 setdiff(first, second)
 setdiff(second, first)
 
+union_all(first, second)
 setequal(mtcars, mtcars[32:1, ])
 }
 
