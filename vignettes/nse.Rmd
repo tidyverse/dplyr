@@ -1,0 +1,102 @@
+---
+title: "Non-standard evaluation"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Non-standard evaluation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(dplyr)
+```
+
+Dplyr uses non-standard evaluation (NSE) in all the important single table verbs: `filter()`, `mutate()`, `summarise()`, `arrange()`, `select()` and `group_by()`. NSE is important not only because it reduces typing; for database backends, it's what makes it possible to translate R code into SQL. However, while NSE is great for interactive use it's hard to program with. This vignette describes how you can opt out of NSE in dplyr, and instead (with a little quoting) rely only on standard evaluation (SE).
+
+Behind the scenes, NSE is powered by the [lazyeval](https://github.com/hadley/lazyeval) package. The goal is to provide an approach to NSE that you can learn once and then apply in many places (dplyr is the first of my packages to use this approach, but over time I will implement it everywhere). You may want to read the lazyeval vignettes, if you'd like to learn more about the underlying details, or if you'd like to use this approach in your own packages.
+
+## Standard evaluation basics
+
+Every function in dplyr that uses NSE also has a version that uses SE. The name of the SE version is always the NSE name with an `_` on the end. For example, the SE version of `summarise()` is `summarise_()`; the SE version of `arrange()` is `arrange_()`. These functions work very similarly to their NSE cousins, but their inputs must be "quoted":
+
+```{r}
+# NSE version:
+summarise(mtcars, mean(mpg))
+
+# SE versions:
+summarise_(mtcars, ~mean(mpg))
+summarise_(mtcars, quote(mean(mpg)))
+summarise_(mtcars, "mean(mpg)")
+```
+
+There are three ways to quote inputs that dplyr understands:
+
+* With a formula, `~ mean(mpg)`.
+* With `quote()`, `quote(mean(mpg))`.
+* As a string: `"mean(mpg)"`.
+
+It's best to use a formula because a formula captures both the expression to evaluate and the environment where the evaluation occurs. This is important if the expression is a mixture of variables in a data frame and objects in the local environment:
+
+```{r}
+constant1 <- function(n) ~n
+summarise_(mtcars, constant1(4))
+```
+
+```{r, error = TRUE, purl = FALSE}
+# Using anything other than a formula will fail because it doesn't
+# know which environment to look in
+constant2 <- function(n) quote(n)
+summarise_(mtcars, constant2(4))
+```
+
+## Setting variable names
+
+If you also want output variables to vary, you need to pass a list of quoted objects to the `.dots` argument:
+
+```{r}
+n <- 10
+dots <- list(~mean(mpg), ~n)
+summarise_(mtcars, .dots = dots)
+
+summarise_(mtcars, .dots = setNames(dots, c("mean", "count")))
+```
+
+## Mixing constants and variables
+
+What if you need to mingle constants and variables? Use the handy `lazyeval::interp()`:
+
+```{r}
+library(lazyeval)
+# Interp works with formulas, quoted calls and strings (but formulas are best)
+interp(~ x + y, x = 10)
+interp(quote(x + y), x = 10)
+interp("x + y", x = 10)
+
+# Use as.name if you have a character string that gives a variable name
+interp(~ mean(var), var = as.name("mpg"))
+# or supply the quoted name directly
+interp(~ mean(var), var = quote(mpg))
+```
+
+Because [every action in R is a function call](http://adv-r.had.co.nz/Functions.html#all-calls) you can use this same idea to modify functions:
+
+```{r}
+interp(~ f(a, b), f = quote(mean))
+interp(~ f(a, b), f = as.name("+"))
+interp(~ f(a, b), f = quote(`if`))
+```
+
+If you already have a list of values, use `.values`:
+
+```{r}
+interp(~ x + y, .values = list(x = 10))
+
+# You can also interpolate variables defined in the current
+# environment, but this is a little risky becuase it's easy
+# for this to change without you realising
+y <- 10
+interp(~ x + y, .values = environment())
+```
