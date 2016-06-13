@@ -51,7 +51,7 @@ src_desc.src_postgres <- function(x) {
 }
 ```
 
-If you read the source code for the real `src_postgres()` you'll notice that it caches the `getGetInfo()` field on creation, since this saves a little time when printing tbls.
+If you read the source code for the real `src_postgres()` you'll notice that it caches the `dbGetInfo()` field on creation, since this saves a little time when printing tbls.
 
 Before continuing, check that you can create a connection to a local database. Don't worry if the object doesn't print correctly, you'll need to add a few other methods first.
 
