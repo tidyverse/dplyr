@@ -13,7 +13,8 @@ NULL
 #' @rdname backend_sql
 #' @export
 sql_select <- function(con, select, from, where = NULL, group_by = NULL,
-                       having = NULL, order_by = NULL, distinct = FALSE, ...) {
+                       having = NULL, order_by = NULL, limit = NULL,
+                       distinct = FALSE, ...) {
   UseMethod("sql_select")
 }
 #' @export
