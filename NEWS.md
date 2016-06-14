@@ -242,10 +242,8 @@ If you have written a dplyr backend, you'll need to make some minor changes to y
   provided new methods in your backend, you'll need to rewrite.
 
 * `select_query()` gains a distinct argument which is used for generating
-  queries for `distinct()`. It loses the `offset` and `limits` arguments
-  which are no longer used because cross-database support is patch
-  (because in general it doesn't make sense to think about the order of the
-  rows in a query).
+  queries for `distinct()`. It loses the `offset` argument which was
+  never used (and hence never tested). 
 
 * `src_translate_env()` has been replaced by `sql_translate_env()` which
   should have methods for the connection object.

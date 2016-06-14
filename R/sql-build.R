@@ -98,6 +98,10 @@ sql_build.op_mutate <- function(op, con, ...) {
   )
 }
 
+#' @export
+sql_build.op_head <- function(op, con, ...) {
+  select_query(sql_build(op$x, con), limit = op$args$n)
+}
 
 #' @export
 sql_build.op_group_by <- function(op, con, ...) {

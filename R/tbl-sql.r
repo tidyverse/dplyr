@@ -79,11 +79,6 @@ dim.tbl_sql <- function(x) {
 }
 
 #' @export
-head.tbl_sql <- function(x, n = 6L, ...) {
-  collect(x, n = n, warn_incomplete = FALSE)
-}
-
-#' @export
 tail.tbl_sql <- function(x, n = 6L, ...) {
   stop("tail() is not supported by sql sources", call. = FALSE)
 }

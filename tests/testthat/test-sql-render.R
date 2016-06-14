@@ -52,6 +52,15 @@ test_that("distinct adds DISTINCT suffix", {
   expect_equal(out, data_frame(x = 1))
 })
 
+test_that("head limits rows returned", {
+  out <- memdb_frame(x = 1:100) %>%
+    head(10) %>%
+    collect()
+
+  expect_equal(nrow(out), 10)
+})
+
+
 test_that("mutate overwrites previous variables", {
   df <- memdb_frame(x = 1:5) %>%
     mutate(x = x + 1) %>%

@@ -139,6 +139,17 @@ test_that("distinct sets flagged", {
 })
 
 
+# head --------------------------------------------------------------------
+
+test_that("head limits rows", {
+  out <- lazy_frame(x = 1:100) %>%
+    head(10) %>%
+    sql_build()
+
+  expect_equal(out$limit, 10)
+})
+
+
 # joins -------------------------------------------------------------------
 
 test_that("join captures both tables", {

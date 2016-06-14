@@ -10,6 +10,7 @@ select_query <- function(from,
                          group_by = character(),
                          having = character(),
                          order_by = character(),
+                         limit = NULL,
                          distinct = FALSE) {
 
   stopifnot(is.character(select))
@@ -17,6 +18,7 @@ select_query <- function(from,
   stopifnot(is.character(group_by))
   stopifnot(is.character(having))
   stopifnot(is.character(order_by))
+  stopifnot(is.null(limit) || (is.numeric(limit) && length(limit) == 1L))
   stopifnot(is.logical(distinct), length(distinct) == 1L)
 
   structure(
@@ -27,7 +29,8 @@ select_query <- function(from,
       group_by = group_by,
       having = having,
       order_by = order_by,
-      distinct = distinct
+      distinct = distinct,
+      limit = limit
     ),
     class = c("select_query", "query")
   )
@@ -43,6 +46,7 @@ print.select_query <- function(x, ...) {
   if (length(x$group_by)) cat("Group by: ", named_commas(x$group_by), "\n", sep = "")
   if (length(x$order_by)) cat("Order by: ", named_commas(x$order_by), "\n", sep = "")
   if (length(x$having))   cat("Having:   ", named_commas(x$having), "\n", sep = "")
+  if (length(x$limit))    cat("Limit:    ", x$limit, "\n", sep = "")
 }
 
 

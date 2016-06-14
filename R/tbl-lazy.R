@@ -76,6 +76,11 @@ group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
 }
 
 #' @export
+head.tbl_lazy <- function(x, n = 6L, ...) {
+  add_op_single("head", x, args = list(n = n))
+}
+
+#' @export
 ungroup.tbl_lazy <- function(x, ...) {
   add_op_single("ungroup", x)
 }

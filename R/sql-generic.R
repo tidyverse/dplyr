@@ -19,10 +19,13 @@ sql_select <- function(con, select, from, where = NULL, group_by = NULL,
 #' @export
 sql_select.default <- function(con, select, from, where = NULL,
                                group_by = NULL, having = NULL,
-                               order_by = NULL, distinct = FALSE, ...) {
-
-  out <- vector("list", 6)
-  names(out) <- c("select", "from", "where", "group_by", "having", "order_by")
+                               order_by = NULL,
+                               limit = NULL,
+                               distinct = FALSE,
+                               ...) {
+  out <- vector("list", 7)
+  names(out) <- c("select", "from", "where", "group_by", "having", "order_by",
+    "limit")
 
   assert_that(is.character(select), length(select) > 0L)
   out$select <- build_sql(
@@ -57,6 +60,11 @@ sql_select.default <- function(con, select, from, where = NULL,
     assert_that(is.character(order_by))
     out$order_by <- build_sql("ORDER BY ",
       escape(order_by, collapse = ", ", con = con))
+  }
+
+  if (!is.null(limit)) {
+    assert_that(is.numeric(limit), length(limit) == 1L)
+    out$limit <- build_sql("LIMIT ", limit, con = con)
   }
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)

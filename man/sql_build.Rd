@@ -13,7 +13,7 @@ sql_build(op, con, ...)
 
 select_query(from, select = sql("*"), where = character(),
   group_by = character(), having = character(), order_by = character(),
-  distinct = FALSE)
+  limit = NULL, distinct = FALSE)
 
 join_query(x, y, type = "inner", by = NULL, suffix = c(".x", ".y"))
 
