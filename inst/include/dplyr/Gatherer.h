@@ -274,8 +274,9 @@ namespace dplyr {
             case STRSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
             case CPLXSXP: return new ConstantGathererImpl<CPLXSXP>( x, n ) ;
             case VECSXP:  return new ConstantGathererImpl<STRSXP>( x, n ) ;
-            default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x))) ;
+            default: break ;
         }
+        stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x))) ;
         return 0 ;
     }
 
@@ -309,9 +310,10 @@ namespace dplyr {
             case STRSXP:  return new GathererImpl<STRSXP,Data,Subsets>  ( first, indices, proxy, gdf, i ) ;
             case VECSXP:  return new ListGatherer<Data,Subsets>  ( List(first), indices, proxy, gdf, i ) ;
             case CPLXSXP: return new GathererImpl<CPLXSXP,Data,Subsets> ( first, indices, proxy, gdf, i ) ;
-            default: check_supported_type(first, name);
+            default: break ;
         }
-         ;
+
+        check_supported_type(first, name);
         return 0;
     }
 

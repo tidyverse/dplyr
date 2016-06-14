@@ -175,66 +175,69 @@ namespace dplyr {
     } ;
 
 
-    inline OrderVisitor* order_visitor( SEXP vec, bool ascending ){
-        if( Rf_isMatrix(vec) ){
-            if(ascending) {
-                switch( TYPEOF(vec) ){
-                    case INTSXP:   return new OrderVisitorMatrix<INTSXP  , true>( vec ) ;
-                    case REALSXP:  return new OrderVisitorMatrix<REALSXP , true>( vec ) ;
-                    case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , true>( vec ) ;
-                    case STRSXP:   return new OrderVisitorMatrix<STRSXP  , true>( vec ) ;
-                    case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , true>( vec ) ;
-                    default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-                }
-            } else {
-                switch( TYPEOF(vec) ){
-                    case INTSXP:   return new OrderVisitorMatrix<INTSXP  , false>( vec ) ;
-                    case REALSXP:  return new OrderVisitorMatrix<REALSXP , false>( vec ) ;
-                    case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , false>( vec ) ;
-                    case STRSXP:   return new OrderVisitorMatrix<STRSXP  , false>( vec ) ;
-                    case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , false>( vec ) ;
-                    default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-                }
-            }
-            return 0 ;
-        }
+    inline OrderVisitor* order_visitor( SEXP vec, bool ascending );
 
-        if( ascending ){
-            switch( TYPEOF(vec) ){
-                case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , true, Vector<INTSXP > >( vec ) ;
-                case REALSXP: return new OrderVectorVisitorImpl<REALSXP, true, Vector<REALSXP> >( vec ) ;
-                case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , true, Vector<LGLSXP > >( vec ) ;
-                case STRSXP:  return new OrderCharacterVectorVisitorImpl<true>( vec ) ;
-                case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , true, Vector<CPLXSXP > >( vec ) ;
-                case VECSXP:
-                    {
-                        if( Rf_inherits( vec, "data.frame" ) ){
-                            return new OrderVisitorDataFrame<true>( vec ) ;
-                        }
-                        break ;
-                    }
-                default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-            }
-        } else {
-            switch( TYPEOF(vec) ){
-                case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , false, Vector<INTSXP > >( vec ) ;
-                case REALSXP: return new OrderVectorVisitorImpl<REALSXP, false, Vector<REALSXP> >( vec ) ;
-                case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , false, Vector<LGLSXP > >( vec ) ;
-                case STRSXP:  return new OrderCharacterVectorVisitorImpl<false>( vec ) ;
-                case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , false, Vector<CPLXSXP > >( vec ) ;
-                case VECSXP:
+    template <bool ascending>
+    OrderVisitor* order_visitor_asc( SEXP vec );
+
+    template <bool ascending>
+    OrderVisitor* order_visitor_asc_matrix( SEXP vec );
+
+    template <bool ascending>
+    OrderVisitor* order_visitor_asc_vector( SEXP vec );
+
+    inline OrderVisitor* order_visitor( SEXP vec, bool ascending ){
+        if ( ascending ){
+            return order_visitor_asc<true>(vec);
+        }
+        else {
+            return order_visitor_asc<false>(vec);
+        }
+    }
+
+    template <bool ascending>
+    inline OrderVisitor* order_visitor_asc( SEXP vec ) {
+        if( Rf_isMatrix(vec) ){
+            return order_visitor_asc_matrix<ascending>(vec) ;
+        }
+        else {
+            return order_visitor_asc_vector<ascending>(vec) ;
+        }
+    }
+
+    template <bool ascending>
+    inline OrderVisitor* order_visitor_asc_matrix( SEXP vec ) {
+        switch( TYPEOF(vec) ){
+            case INTSXP:   return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
+            case REALSXP:  return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
+            case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
+            case STRSXP:   return new OrderVisitorMatrix<STRSXP  , ascending>( vec ) ;
+            case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , ascending>( vec ) ;
+            default: break ;
+        }
+        stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
+        return 0 ;
+    }
+
+    template <bool ascending>
+    inline OrderVisitor* order_visitor_asc_vector( SEXP vec ) {
+        switch( TYPEOF(vec) ){
+            case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec ) ;
+            case REALSXP: return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >( vec ) ;
+            case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , ascending, Vector<LGLSXP > >( vec ) ;
+            case STRSXP:  return new OrderCharacterVectorVisitorImpl<ascending>( vec ) ;
+            case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec ) ;
+            case VECSXP:
                 {
                     if( Rf_inherits( vec, "data.frame" ) ){
-                        return new OrderVisitorDataFrame<false>( vec ) ;
+                        return new OrderVisitorDataFrame<ascending>( vec ) ;
                     }
                     break ;
                 }
-
-                default: stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-            }
+            default: break ;
         }
 
-        // should not happen
+        stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
         return 0 ;
     }
 }
