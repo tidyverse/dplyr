@@ -13,7 +13,11 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
-  make_tbl(c(subclass, "sql", "lazy"), src = src, ops = op_base_remote(src, from))
+  make_tbl(
+    c(subclass, "sql", "lazy"),
+    src = src,
+    ops = op_base_remote(src, from, vars)
+  )
 }
 
 #' @export
