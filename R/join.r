@@ -114,28 +114,28 @@ common_by <- function(by = NULL, x, y) {
 }
 
 common_by_from_vector <- function(by, x, y) {
-    by <- by[!duplicated(by)]
-    by_x <- names(by) %||% by
-    by_y <- unname(by)
+  by <- by[!duplicated(by)]
+  by_x <- names(by) %||% by
+  by_y <- unname(by)
 
-    # If x partially named, assume unnamed are the same in both tables
-    by_x[by_x == ""] <- by_y[by_x == ""]
+  # If x partially named, assume unnamed are the same in both tables
+  by_x[by_x == ""] <- by_y[by_x == ""]
 
-    check_by(list(x = by_x, y = by_y), x, y)
+  check_by(list(x = by_x, y = by_y), x, y)
 }
 
 check_by <- function(by, x, y) {
-    x_vars <- tbl_vars(x)
-    if (!all(by$x %in% x_vars)) {
-      stop("Join column not found in lhs: ", paste(setdiff(by$x, x_vars), collapse = ", "), call. = FALSE)
-    }
+  x_vars <- tbl_vars(x)
+  if (!all(by$x %in% x_vars)) {
+    stop("Join column not found in lhs: ", paste(setdiff(by$x, x_vars), collapse = ", "), call. = FALSE)
+  }
 
-    y_vars <- tbl_vars(y)
-    if (!all(by$y %in% y_vars)) {
-      stop("Join column not found in rhs: ", paste(setdiff(by$y, y_vars), collapse = ", "), call. = FALSE)
-    }
+  y_vars <- tbl_vars(y)
+  if (!all(by$y %in% y_vars)) {
+    stop("Join column not found in rhs: ", paste(setdiff(by$y, y_vars), collapse = ", "), call. = FALSE)
+  }
 
-    by
+  by
 }
 
 common_by_auto <- function(x, y) {
