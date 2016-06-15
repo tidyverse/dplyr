@@ -105,9 +105,15 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @keywords internal
 common_by <- function(by = NULL, x, y) {
-  if (is.list(by)) return(by)
+  if (is.list(by))
+    check_by_list(by, x, y)
+  else if (!is.null(by))
+    common_by_from_vector(by, x, y)
+  else
+    common_by_auto(x, y)
+}
 
-  if (!is.null(by)) {
+common_by_from_vector <- function(by, x, y) {
     by <- by[!duplicated(by)]
     by_x <- names(by) %||% by
     by_y <- unname(by)
@@ -115,19 +121,24 @@ common_by <- function(by = NULL, x, y) {
     # If x partially named, assume unnamed are the same in both tables
     by_x[by_x == ""] <- by_y[by_x == ""]
 
+    check_by(list(x = by_x, y = by_y), x, y)
+}
+
+check_by <- function(by, x, y) {
     x_vars <- tbl_vars(x)
-    if (!all(by_x %in% x_vars)) {
-      stop("Join column not found in lhs: ", paste(setdiff(by_x, x_vars), collapse = ", "), call. = FALSE)
+    if (!all(by$x %in% x_vars)) {
+      stop("Join column not found in lhs: ", paste(setdiff(by$x, x_vars), collapse = ", "), call. = FALSE)
     }
 
     y_vars <- tbl_vars(y)
-    if (!all(by_y %in% y_vars)) {
-      stop("Join column not found in rhs: ", paste(setdiff(by_y, y_vars), collapse = ", "), call. = FALSE)
+    if (!all(by$y %in% y_vars)) {
+      stop("Join column not found in rhs: ", paste(setdiff(by$y, y_vars), collapse = ", "), call. = FALSE)
     }
 
-    return(list(x = by_x, y = by_y))
-  }
+    by
+}
 
+common_by_auto <- function(x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
