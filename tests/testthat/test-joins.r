@@ -373,11 +373,11 @@ test_that("joins between factor and character coerces to character with a warnin
 # Guessing variables in x and y ------------------------------------------------
 
 test_that("unnamed vars are the same in both tables", {
-  by1 <- common_by(c("x", "y", "z"))
+  by1 <- common_by_from_vector(c("x", "y", "z"))
   expect_equal(by1$x, c("x", "y", "z"))
   expect_equal(by1$y, c("x", "y", "z"))
 
-  by2 <- common_by(c("x" = "a", "y", "z"))
+  by2 <- common_by_from_vector(c("x" = "a", "y", "z"))
   expect_equal(by2$x, c("x", "y", "z"))
   expect_equal(by2$y, c("a", "y", "z"))
 })
