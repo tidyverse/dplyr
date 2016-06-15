@@ -195,14 +195,29 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365",{
 test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x=1:5), data.frame(y=1:5), by="x"),
-    "column not found in lhs"
-  )
-  expect_error(
-    left_join(data.frame(x=1:5), data.frame(y=1:5), by="y"),
     "column not found in rhs"
   )
   expect_error(
+    left_join(data.frame(x=1:5), data.frame(y=1:5), by="y"),
+    "column not found in lhs"
+  )
+  expect_error(
     left_join(data.frame(x=1:5), data.frame(y=1:5)),
+    "No common variables"
+  )
+})
+
+test_that("join functions error on column not found for SQL sources #1928", {
+  expect_error(
+    left_join(memdb_frame(x=1:5), memdb_frame(y=1:5), by="x"),
+    "column not found in rhs"
+  )
+  expect_error(
+    left_join(memdb_frame(x=1:5), memdb_frame(y=1:5), by="y"),
+    "column not found in lhs"
+  )
+  expect_error(
+    left_join(memdb_frame(x=1:5), memdb_frame(y=1:5)),
     "No common variables"
   )
 })
