@@ -1,5 +1,8 @@
 # dplyr 0.4.3.9000
 
+* Clear error message for joins for SQL sources where an explicit `by`
+  contains unavailable columns (#1928, #1932, @krlmlr).
+
 * `bind_rows()` rejects `POSIXlt` columns (#1875, @krlmlr).
 
 * Internal: Work around bug 16885 regarding `match()` in R 3.3.0 (#1806, #1810,
