@@ -109,13 +109,23 @@ common_by <- function(by = NULL, x, y) {
 
   if (!is.null(by)) {
     by <- by[!duplicated(by)]
-    x <- names(by) %||% by
-    y <- unname(by)
+    by_x <- names(by) %||% by
+    by_y <- unname(by)
 
     # If x partially named, assume unnamed are the same in both tables
-    x[x == ""] <- y[x == ""]
+    by_x[by_x == ""] <- by_y[by_x == ""]
 
-    return(list(x = x, y = y))
+    x_vars <- tbl_vars(x)
+    if (!all(by_x %in% x_vars)) {
+      stop("Join columns not in left-hand side: ", paste(setdiff(by_x, x_vars), collapse = ", "), call. = FALSE)
+    }
+
+    y_vars <- tbl_vars(y)
+    if (!all(by_y %in% y_vars)) {
+      stop("Join columns not in right-hand side: ", paste(setdiff(by_y, y_vars), collapse = ", "), call. = FALSE)
+    }
+
+    return(list(x = by_x, y = by_y))
   }
 
   by <- intersect(tbl_vars(x), tbl_vars(y))
