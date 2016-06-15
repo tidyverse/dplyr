@@ -60,6 +60,14 @@ test_that("head limits rows returned", {
   expect_equal(nrow(out), 10)
 })
 
+test_that("head accepts fractional input", {
+  out <- memdb_frame(x = 1:100) %>%
+    head(10.5) %>%
+    collect()
+
+  expect_equal(nrow(out), 10)
+})
+
 
 test_that("mutate overwrites previous variables", {
   df <- memdb_frame(x = 1:5) %>%
