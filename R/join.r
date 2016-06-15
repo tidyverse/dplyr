@@ -105,15 +105,17 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @export
 #' @keywords internal
 common_by <- function(by = NULL, x, y) {
-  if (is.list(by))
+  if (!is.null(by)) {
+    if (!is.list(by))
+      by <- common_by_from_vector(by)
+
     check_by_list(by, x, y)
-  else if (!is.null(by))
-    common_by_from_vector(by, x, y)
+  }
   else
     common_by_auto(x, y)
 }
 
-common_by_from_vector <- function(by, x, y) {
+common_by_from_vector <- function(by) {
   by <- by[!duplicated(by)]
   by_x <- names(by) %||% by
   by_y <- unname(by)
@@ -121,10 +123,10 @@ common_by_from_vector <- function(by, x, y) {
   # If x partially named, assume unnamed are the same in both tables
   by_x[by_x == ""] <- by_y[by_x == ""]
 
-  check_by(list(x = by_x, y = by_y), x, y)
+  list(x = by_x, y = by_y)
 }
 
-check_by <- function(by, x, y) {
+check_by_list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
     stop("Join column not found in lhs: ", paste(setdiff(by$x, x_vars), collapse = ", "), call. = FALSE)
