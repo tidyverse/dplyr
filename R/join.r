@@ -117,12 +117,12 @@ common_by <- function(by = NULL, x, y) {
 
     x_vars <- tbl_vars(x)
     if (!all(by_x %in% x_vars)) {
-      stop("Join columns not in left-hand side: ", paste(setdiff(by_x, x_vars), collapse = ", "), call. = FALSE)
+      stop("Join column not found in lhs: ", paste(setdiff(by_x, x_vars), collapse = ", "), call. = FALSE)
     }
 
     y_vars <- tbl_vars(y)
     if (!all(by_y %in% y_vars)) {
-      stop("Join columns not in right-hand side: ", paste(setdiff(by_y, y_vars), collapse = ", "), call. = FALSE)
+      stop("Join column not found in rhs: ", paste(setdiff(by_y, y_vars), collapse = ", "), call. = FALSE)
     }
 
     return(list(x = by_x, y = by_y))
