@@ -104,15 +104,12 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #'
 #' @export
 #' @keywords internal
-common_by <- function(by = NULL, x, y) {
-  if (!is.null(by)) {
-    if (!is.list(by))
-      by <- common_by_from_vector(by)
+common_by <- function(by = NULL, x, y) UseMethod("common_by", by)
 
-    check_by_list(by, x, y)
-  }
-  else
-    common_by_auto(x, y)
+#' @export
+common_by.character <- function(by, x, y) {
+  by <- common_by_from_vector(by)
+  common_by.list(by, x, y)
 }
 
 common_by_from_vector <- function(by) {
@@ -126,7 +123,8 @@ common_by_from_vector <- function(by) {
   list(x = by_x, y = by_y)
 }
 
-check_by_list <- function(by, x, y) {
+#' @export
+common_by.list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
     stop("Join column not found in lhs: ", paste(setdiff(by$x, x_vars), collapse = ", "), call. = FALSE)
@@ -140,7 +138,8 @@ check_by_list <- function(by, x, y) {
   by
 }
 
-common_by_auto <- function(x, y) {
+#' @export
+common_by.NULL <- function(by, x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)
