@@ -40,7 +40,7 @@ filter(players, G > mean(G))
 mutate(players, G_z = (G - mean(G)) / sd(G))
 ```
 
-This vignette is broken down into two sections. First you'll learn about the five families of window functions in R, and what you can use them for. If you're only working with local data sources, you can stop there. Otherwise, continue on to learn about window functions in SQL. They are relatively new, but are supported by Postgres, Amazon's Redshift and Google's bigquery. The window functions themselves are basically the same (modulo a few name conflicts), but their specification is a little different. I'll briefy review how they work, and then show how dplyr translates their R equivalents to SQL.
+This vignette is broken down into two sections. First you'll learn about the five families of window functions in R, and what you can use them for. If you're only working with local data sources, you can stop there. Otherwise, continue on to learn about window functions in SQL. They are relatively new, but are supported by Postgres, Amazon's Redshift and Google's bigquery. The window functions themselves are basically the same (modulo a few name conflicts), but their specification is a little different. I'll briefly review how they work, and then show how dplyr translates their R equivalents to SQL.
 
 Before reading this vignette, you should be familiar with `mutate()` and `filter()`. If you want to use window functions with SQL databases, you should also be familiar with the basics of dplyr's SQL translation.
 
