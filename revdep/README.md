@@ -10,36 +10,36 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2016-06-09                   |
+|date     |2016-06-17                   |
 
 ## Packages
 
-|package        |*  |version    |date       |source                   |
-|:--------------|:--|:----------|:----------|:------------------------|
-|assertthat     |   |0.1        |2013-12-06 |CRAN (R 3.3.0)           |
-|BH             |   |1.60.0-2   |2016-05-07 |CRAN (R 3.3.0)           |
-|covr           |   |2.0.1      |2016-04-06 |CRAN (R 3.3.0)           |
-|DBI            |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)           |
-|dplyr          |   |0.4.3.9001 |2016-06-09 |local (hadley/dplyr@NA)  |
-|dtplyr         |   |0.0.0.9000 |2016-06-09 |github (hadley/dtplyr)   |
-|ggplot2        |   |2.1.0      |2016-03-01 |CRAN (R 3.3.0)           |
-|knitr          |   |1.13       |2016-05-09 |CRAN (R 3.3.0)           |
-|Lahman         |   |4.0-1      |2015-09-15 |CRAN (R 3.3.0)           |
-|lazyeval       |   |0.1.10     |2015-01-02 |cran (@0.1.10)           |
-|magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.3.0)           |
-|microbenchmark |   |1.4-2.1    |2015-11-25 |CRAN (R 3.3.0)           |
-|nycflights13   |   |0.2.0      |2016-04-30 |CRAN (R 3.3.0)           |
-|R6             |   |2.1.2      |2016-01-26 |CRAN (R 3.3.0)           |
-|Rcpp           |   |0.12.5     |2016-05-14 |CRAN (R 3.3.0)           |
-|rmarkdown      |   |0.9.6      |2016-05-01 |CRAN (R 3.3.0)           |
-|RMySQL         |   |0.10.9     |2016-05-08 |CRAN (R 3.3.0)           |
-|RPostgreSQL    |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)           |
-|RSQLite        |   |1.0.0      |2014-10-25 |CRAN (R 3.3.0)           |
-|testthat       |*  |1.0.2.9000 |2016-06-09 |github (hadley/testthat) |
-|tibble         |   |1.0-5      |2016-06-09 |github (hadley/tibble)   |
+|package        |*  |version    |date       |source                           |
+|:--------------|:--|:----------|:----------|:--------------------------------|
+|assertthat     |   |0.1        |2013-12-06 |CRAN (R 3.3.0)                   |
+|BH             |   |1.60.0-2   |2016-05-07 |CRAN (R 3.3.0)                   |
+|covr           |   |2.0.1      |2016-04-06 |CRAN (R 3.3.0)                   |
+|DBI            |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)                   |
+|dplyr          |   |0.4.3.9001 |2016-06-17 |local (hadley/dplyr@NA)          |
+|dtplyr         |   |0.0.0.9000 |2016-06-17 |Github (hadley/dtplyr@ec0aaea)   |
+|ggplot2        |   |2.1.0      |2016-03-01 |CRAN (R 3.3.0)                   |
+|knitr          |   |1.13       |2016-05-09 |CRAN (R 3.3.0)                   |
+|Lahman         |   |4.0-1      |2015-09-15 |CRAN (R 3.3.0)                   |
+|lazyeval       |   |0.2.0      |2016-06-12 |cran (@0.2.0)                    |
+|magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.3.0)                   |
+|microbenchmark |   |1.4-2.1    |2015-11-25 |CRAN (R 3.3.0)                   |
+|nycflights13   |   |0.2.0      |2016-04-30 |CRAN (R 3.3.0)                   |
+|R6             |   |2.1.2      |2016-01-26 |CRAN (R 3.3.0)                   |
+|Rcpp           |   |0.12.5     |2016-05-14 |CRAN (R 3.3.0)                   |
+|rmarkdown      |   |0.9.6      |2016-05-01 |CRAN (R 3.3.0)                   |
+|RMySQL         |   |0.10.9     |2016-05-08 |CRAN (R 3.3.0)                   |
+|RPostgreSQL    |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)                   |
+|RSQLite        |   |1.0.0      |2014-10-25 |CRAN (R 3.3.0)                   |
+|testthat       |*  |1.0.2.9000 |2016-06-16 |Github (hadley/testthat@d3e20b9) |
+|tibble         |   |1.0-9      |2016-06-17 |Github (hadley/tibble@7b7a0c1)   |
 
 # Check results
-285 packages
+295 packages
 
 ## ACDm (1.0.3)
 Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
@@ -48,6 +48,12 @@ Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
 
 ## adegenet (2.0.1)
 Maintainer: Thibaut Jombart <thibautjombart@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## admixturegraph (1.0.0)
+Maintainer: Thomas Mailund <mailund@birc.au.dk>  
+Bug reports: https://github.com/mailund/admixture_graph/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -281,8 +287,7 @@ The error most likely occurred in:
 > ### Aliases: glance.survfit survfit_tidiers tidy.survfit
 > 
 > ### ** Examples
-... 48 lines ...
-
+... 49 lines ...
 The following objects are masked from ‘package:stats’:
 
     filter, lag
@@ -291,18 +296,19 @@ The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
 
-Error: Unknown column 'median'
+Error in stopc("Unknown column '", i, "'") : Unknown column 'median'
+Calls: qplot -> eval -> eval -> $ -> $.tbl_df -> stopc
 Execution halted
 
 checking tests ... ERROR
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
-  3: as.expectation(exp, ..., srcref = srcref) at /private/tmp/Rtmp0KDkde/devtools812db49901f/hadley-testthat-d3e20b9/R/expectation.R:33
-  4: identical(as.vector(object), TRUE) at /private/tmp/Rtmp0KDkde/devtools812db49901f/hadley-testthat-d3e20b9/R/expectation.R:112
+  4: identical(as.vector(object), TRUE) at /private/tmp/RtmpjWok2u/devtools5ce3473eae2e/hadley-testthat-d3e20b9/R/expectation.R:112
   5: as.vector(object)
   6: augmented$disp
   7: `$.tbl_df`(augmented, disp)
-  8: stop("Unknown column '", i, "'", call. = FALSE) at /private/tmp/Rtmp0KDkde/devtools812d2953cfa6/hadley-tibble-64175a8/R/tbl-df.r:47
+  8: stopc("Unknown column '", i, "'") at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:37
+  9: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
   
   testthat results ================================================================
   OK: 490 SKIPPED: 0 FAILED: 1
@@ -311,6 +317,11 @@ Last 13 lines of output:
   Error: testthat unit tests failed
   Execution halted
 ```
+
+## CARBayesST (2.3)
+Maintainer: Duncan Lee <Duncan.Lee@glasgow.ac.uk>
+
+0 errors | 0 warnings | 0 notes
 
 ## causaldrf (0.3)
 Maintainer: Douglas Galagate <galagated@gmail.com>
@@ -375,12 +386,12 @@ Bug reports: https://github.com/edwindj/chunked/issues
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  > 
-  > test_check("chunked")
-  1. Error: write_chunkwise to db works (@test-write.R#29) -----------------------
-  attempt to apply non-function
+  incorrect number of dimensions
   1: write_chunkwise(iris2, tmp, row.names = FALSE) at testthat/test-write.R:29
   2: write_chunkwise.tbl_sql(iris2, tmp, row.names = FALSE)
+  3: utils::write.table(h[0, ], file = file, col.names = col.names, row.names = row.names, 
+         sep = sep, dec = dec, ...)
+  4: is.data.frame(x)
   
   testthat results ================================================================
   OK: 26 SKIPPED: 0 FAILED: 1
@@ -471,6 +482,12 @@ Last 13 lines of output:
   Execution halted
 ```
 
+## countytimezones (0.1.0)
+Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>  
+Bug reports: https://github.com/geanders/countytimezones/issues
+
+0 errors | 0 warnings | 0 notes
+
 ## crawl (2.0)
 Maintainer: Devin S. Johnson <devin.johnson@noaa.gov>
 
@@ -518,7 +535,32 @@ Bug reports: https://github.com/USGS-R/dataRetrieval/issues
 ## datastepr (0.0.1)
 Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>
 
-0 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+          recursively.
+
+_E_x_a_m_p_l_e_s:
+
+     step = dataStepClass$new()
+     
+     frame = data.frame(x = 1:10)
+... 8 lines ...
+     }
+     
+     stairs()
+     
+     step$results
+     
+
+Quitting from lines 55-84 (datastepping.Rmd) 
+Error: processing vignette 'datastepping.Rmd' failed with diagnostics:
+incorrect length (2), expecting: 10
+Execution halted
+```
 
 ## ddpcr (1.3)
 Maintainer: Dean Attali <daattali@gmail.com>  
@@ -600,7 +642,7 @@ In file included from /Users/hadley/R-revdep/StanHeaders/include/src/stan/io/val
     class __attribute__((__visibility__("default"))) bad_lexical_cast :
                                                      ^
 1 error generated.
-make: *** [fileb7ba58fab1bb.o] Error 1
+make: *** [file1329a175273.o] Error 1
 Execution halted
 ```
 
@@ -627,7 +669,8 @@ The error most likely occurred in:
 > denovolyze(genes=autismDeNovos$gene,
 +            classes=autismDeNovos$class,
 +            nsamples=1078)
-Error: Unknown column 'obs'
+Error in stopc("Unknown column '", i, "'") : Unknown column 'obs'
+Calls: denovolyze -> $ -> $.tbl_df -> stopc
 Execution halted
 
 checking re-building of vignette outputs ... WARNING
@@ -906,8 +949,9 @@ The error most likely occurred in:
 > ride_file <- system.file("extdata/lufbra.fit", package = "elpatron")
 > 
 > parsed_ride <- import_ride(ride_file, make_laps = TRUE)
-Error in eval(expr, envir, enclos) : could not find function "contains"
-Calls: import_ride ... select_vars_ -> <Anonymous> -> lapply -> FUN -> eval -> eval
+Error in stopc("Length of logical index vector must be 1 or ", length(x),  : 
+  Length of logical index vector must be 1 or 18, got: 17
+Calls: import_ride ... [.tbl_df -> check_names_df -> check_names_df.logical -> stopc
 Execution halted
 
 checking Rd cross-references ... WARNING
@@ -936,6 +980,11 @@ See section 'Cross-references' in the 'Writing R Extensions' manual.
 ## emuR (0.1.8)
 Maintainer: Raphael Winkelmann <raphael@phonetik.uni-muenchen.de>  
 Bug reports: https://github.com/IPS-LMU/emuR/issues
+
+0 errors | 0 warnings | 0 notes
+
+## engsoccerdata (0.1.5)
+Maintainer: James Curley <jc3181@columbia.edu>
 
 0 errors | 0 warnings | 0 notes
 
@@ -979,27 +1028,11 @@ Bug reports: https://github.com/jwdink/eyetrackingR/issues
 
 0 errors | 0 warnings | 0 notes
 
-## ezec (0.1.0)
-Maintainer: Zhian N. Kamvar <kamvarz@science.oregonstate.edu>
+## ezec (1.0.0)
+Maintainer: Zhian N. Kamvar <kamvarz@science.oregonstate.edu>  
+Bug reports: https://github.com/grunwaldlab/ezec/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in data("dummydata", library = "ezec") :
-  data set 'ezec' not found
-Quitting from lines 98-99 (getting_started.Rmd) 
-Error: processing vignette 'getting_started.Rmd' failed with diagnostics:
-Unknown column 'mod'
-In addition: Warning messages:
-1: Setting row names on a tibble is deprecated. 
-2: Setting row names on a tibble is deprecated. 
-3: Setting row names on a tibble is deprecated. 
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## ezsummary (0.1.9)
 Maintainer: Hao Zhu <haozhu@hsl.harvard.edu>
@@ -1103,7 +1136,7 @@ Bug reports: https://github.com/jennybc/gapminder/issues
 
 0 errors | 0 warnings | 0 notes
 
-## GenCAT (1.0.2)
+## GenCAT (1.0.3)
 Maintainer: Eric Reed <reeder@bu.edu>
 
 1 error  | 1 warning  | 3 notes
@@ -1233,7 +1266,8 @@ The error most likely occurred in:
 > data(linear)
 > ggs_caterpillar(ggs(s))
 > ggs_caterpillar(list(A=ggs(s), B=ggs(s))) # silly example duplicating the same model
-Error: Unknown column 'description'
+Error in stopc("Unknown column '", i, "'") : Unknown column 'description'
+Calls: ggs_caterpillar -> $ -> $.tbl_df -> stopc
 Execution halted
 ```
 
@@ -1243,58 +1277,18 @@ Bug reports: https://bitbucket.org/aphalo/ggpmisc
 
 0 errors | 0 warnings | 0 notes
 
-## ggRandomForests (1.2.1)
+## ggRandomForests (2.0.0)
 Maintainer: John Ehrlinger <john.ehrlinger@gmail.com>  
 Bug reports: https://github.com/ehrlinger/ggRandomForests/issues
 
-2 errors | 0 warnings | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking examples ... ERROR
-Running examples in ‘ggRandomForests-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: gg_rfsrc.rfsrc
-> ### Title: Predicted response data object
-> ### Aliases: gg_rfsrc gg_rfsrc.rfsrc
-> 
-> ### ** Examples
-... 19 lines ...
-> ##D gg_dta<- gg_rfsrc(rfsrc_airq)
-> ##D 
-> ##D plot(gg_dta)
-> ## End(Not run)
-> 
-> ## -------- Boston data
-> data(rfsrc_Boston, package="ggRandomForests")
-> plot(rfsrc_Boston) 
-Error in if (x$tree.err == FALSE) { : argument is of length zero
-Calls: plot -> plot.rfsrc
-Execution halted
-
-checking tests ... ERROR
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  6: sort(randomForestSRC::vimp(object)$importance, decreasing = TRUE)
-  7: randomForestSRC::vimp(object)
-  8: generic.predict.rfsrc(object, outcome.target = outcome.target, importance = importance, 
-         importance.xvar = xvar.names, seed = seed, do.trace = do.trace, membership = FALSE, 
-         subset = subset, ...)
-  9: stop()
-  
-  testthat results ================================================================
-  OK: 412 SKIPPED: 0 FAILED: 1
-  1. Error: gg_vimp survival (@test_gg_vimp.R#139) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
 checking installed package size ... NOTE
-  installed size is  5.9Mb
+  installed size is  5.1Mb
   sub-directories of 1Mb or more:
     data   2.6Mb
-    doc    3.0Mb
+    doc    2.1Mb
 ```
 
 ## ggraptR (0.1)
@@ -1473,9 +1467,7 @@ The error most likely occurred in:
 > ### Aliases: gutenberg_strip
 > 
 > ### ** Examples
-... 10 lines ...
-
-The following objects are masked from ‘package:base’:
+... 12 lines ...
 
     intersect, setdiff, setequal, union
 
@@ -1483,15 +1475,17 @@ The following objects are masked from ‘package:base’:
 +   gutenberg_download(strip = FALSE)
 Determining mirror for Project Gutenberg from http://www.gutenberg.org/robot/harvest
 Using mirror http://www.gutenberg.lib.md.us
-Error: Unknown column 'gutenberg_id'
+Error in stopc("Unknown column '", colname, "'") : 
+  Unknown column 'gutenberg_id'
+Calls: %>% ... <Anonymous> -> gutenberg_download -> [[ -> [[.tbl_df -> stopc
 Execution halted
 
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  6: w_de$language
   7: `$.tbl_df`(w_de, language)
-  8: stop("Unknown column '", i, "'", call. = FALSE) at /private/tmp/Rtmp0KDkde/devtools812d2953cfa6/hadley-tibble-64175a8/R/tbl-df.r:47
+  8: stopc("Unknown column '", i, "'") at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:37
+  9: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
   
   testthat results ================================================================
   OK: 31 SKIPPED: 0 FAILED: 4
@@ -1543,7 +1537,7 @@ Bug reports: https://github.com/expersso/hdr
 
 0 errors | 0 warnings | 0 notes
 
-## heemod (0.3.1)
+## heemod (0.3.2)
 Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
 Bug reports: https://github.com/pierucci/heemod/issues
 
@@ -1571,6 +1565,12 @@ manual.
 
 ## hydrostats (0.2.4)
 Maintainer: Nick Bond <n.bond@griffith.edu.au>
+
+0 errors | 0 warnings | 0 notes
+
+## hypothesisr (0.1.0)
+Maintainer: Matthew Lincoln <matthew.d.lincoln@gmail.com>  
+Bug reports: https://github.com/mdlincoln/hypothesisr/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -1635,7 +1635,7 @@ Maintainer: Julia Silge <julia.silge@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## labelled (0.2.1)
+## labelled (0.2.2)
 Maintainer: Joseph Larmarange <joseph@larmarange.net>  
 Bug reports: https://github.com/larmarange/labelled/issues
 
@@ -1709,35 +1709,7 @@ to your NAMESPACE file.
 ## macleish (0.3.0)
 Maintainer: Ben Baumer <ben.baumer@gmail.com>
 
-0 errors | 1 warning  | 1 note 
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-... 8 lines ...
-The following object is masked from 'package:base':
-
-    date
-
-Loading required package: clifro
-Warning in library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
-  there is no package called 'clifro'
-Quitting from lines 187-190 (macleish.Rmd) 
-Error: processing vignette 'macleish.Rmd' failed with diagnostics:
-could not find function "windrose"
-Execution halted
-
-checking package dependencies ... NOTE
-Package suggested but not available for checking: ‘clifro’
-```
+0 errors | 0 warnings | 0 notes
 
 ## manifestoR (1.2)
 Maintainer: Jirka Lewandowski <jirka.lewandowski@wzb.eu>  
@@ -1745,7 +1717,7 @@ Bug reports: https://github.com/ManifestoProject/manifestoR/issues
 
 0 errors | 0 warnings | 0 notes
 
-## Matrix.utils (0.9.0)
+## Matrix.utils (0.9.1)
 Maintainer: Craig Varrichio <canthony427@gmail.com>
 
 0 errors | 0 warnings | 0 notes
@@ -1773,6 +1745,13 @@ Bug reports: https://github.com/eliotmiller/metricTester/issues
 
 0 errors | 0 warnings | 0 notes
 
+## mixOmics (6.0.0)
+Maintainer: Kim-Anh Le Cao <k.lecao@uq.edu.au>  
+Bug reports: mixomics@math.univ-toulouse.fr or
+        https://bitbucket.org/klecao/package-mixomics/issues
+
+0 errors | 0 warnings | 0 notes
+
 ## mlVAR (0.3.0)
 Maintainer: Sacha Epskamp <mail@sachaepskamp.com>
 
@@ -1789,30 +1768,13 @@ Bug reports: https://github.com/vbonhomme/Momocs/issues
 
 0 errors | 0 warnings | 0 notes
 
-## MonetDBLite (0.3.0)
+## MonetDBLite (0.3.1)
 Maintainer: Hannes Muehleisen <hannes@cwi.nl>  
 Bug reports: https://github.com/hannesmuehleisen/MonetDBLite/issues
 
-1 error  | 0 warnings | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  [1] "M"
-  testthat results ================================================================
-  OK: 194 SKIPPED: 0 FAILED: 7
-  1. Error: dplyr tbl( sql() ) (@test_03_dplyr.R#35) 
-  2. Error: dplyr filter() (@test_03_dplyr.R#51) 
-  3. Error: dplyr arrange() (@test_03_dplyr.R#59) 
-  4. Error: dplyr mutate() (@test_03_dplyr.R#67) 
-  5. Error: dplyr summarise() (@test_03_dplyr.R#75) 
-  6. Error: dplyr multiple objects (@test_03_dplyr.R#84) 
-  7. Failure: dplyr group_by (@test_03_dplyr.R#120) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
 checking installed package size ... NOTE
   installed size is  5.9Mb
   sub-directories of 1Mb or more:
@@ -1830,9 +1792,28 @@ Installation failed.
 See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/morse.Rcheck/00install.out’ for details.
 ```
 
-## mosaic (0.13.0)
+## mosaic (0.14)
 Maintainer: Randall Pruim <rpruim@calvin.edu>  
 Bug reports: https://github.com/ProjectMOSAIC/mosaic/issues
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking installed package size ... NOTE
+  installed size is  9.2Mb
+  sub-directories of 1Mb or more:
+    R     1.8Mb
+    doc   6.8Mb
+```
+
+## mosaicData (0.14.0)
+Maintainer: Randall Pruim <rpruim@calvin.edu>
+
+0 errors | 0 warnings | 0 notes
+
+## mscstexta4r (0.1.0)
+Maintainer: Phil Ferriere <pferriere@hotmail.com>  
+Bug reports: http://www.github.com/philferriere/mscstexta4r/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -1989,7 +1970,7 @@ checking installed package size ... NOTE
     data   6.9Mb
 ```
 
-## openair (1.8-2)
+## openair (1.8-6)
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>  
 Bug reports: https://github.com/davidcarslaw/openair/issues
 
@@ -2089,59 +2070,22 @@ Bug reports: https://github.com/nutterb/pixiedust/issues
 
 0 errors | 0 warnings | 0 notes
 
+## platetools (0.0.1)
+Maintainer: Scott Warchal <s.warchal@sms.ed.ac.uk>
+
+0 errors | 0 warnings | 0 notes
+
 ## plotly (3.6.0)
 Maintainer: Carson Sievert <cpsievert1@gmail.com>  
 Bug reports: https://github.com/ropensci/plotly/issues
 
 0 errors | 0 warnings | 0 notes
 
-## pmc (1.0.1)
+## pmc (1.0.2)
 Maintainer: Carl Boettiger <cboettig@gmail.com>  
 Bug reports: https://github.com/cboettig/pmc/issues
 
-1 error  | 1 warning  | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-         sQuote("tree"))
-  
-  Loading required package: ape
-  testthat results ================================================================
-  OK: 9 SKIPPED: 0 FAILED: 1
-  1. Error: we can use ouch-based functions (@test_ouch.R#6) 
-  
-  Error: testthat unit tests failed
-  In addition: Warning message:
-  In treedata(geo$phy, geo$dat) :
-    The following tips were not found in 'data' and were dropped from 'phy':
-  	olivacea
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-	lambda
-Warning in fitContinuous(phy = att$cache$phy, model = att$model, ..., ncores = 1) :
-  Parameter estimates appear at bounds:
-	lambda
-Warning in fitContinuous(phy = att$cache$phy, model = att$model, ..., ncores = 1) :
-  Parameter estimates appear at bounds:
-	lambda
-... 8 lines ...
-  Parameter estimates appear at bounds:
-	lambda
-Warning in fitContinuous(phy = att$cache$phy, model = att$model, ..., ncores = 1) :
-  Parameter estimates appear at bounds:
-	lambda
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-Quitting from lines 141-163 (pmc_tutorial.Rmd) 
-Error: processing vignette 'pmc_tutorial.Rmd' failed with diagnostics:
-'data' vector names (or data-frame row names) must match node names of 'tree'
-Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## PogromcyDanych (1.5)
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
@@ -2218,7 +2162,7 @@ Consider adding
 to your NAMESPACE file.
 ```
 
-## poppr (2.1.1)
+## poppr (2.2.0)
 Maintainer: Zhian N. Kamvar <kamvarz@science.oregonstate.edu>  
 Bug reports: https://github.com/grunwaldlab/poppr/issues
 
@@ -2247,52 +2191,47 @@ manual.
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/hadley/purrr/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
 
-## qdap (2.2.4)
+```
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  8: NextMethod() at /Users/hadley/Documents/dplyr/dplyr/R/grouped-df.r:66
+  9: `[.tbl_df`(df, names(env$.labels_cols))
+  10: check_names_df(i, x) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:52
+  11: check_names_df.default(i, x) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/check-names.R:1
+  12: stopc("Unsupported index type: ", class(j)[[1L]]) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/check-names.R:4
+  13: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
+  
+  testthat results ================================================================
+  OK: 211 SKIPPED: 0 FAILED: 1
+  1. Error: conditional sliced mapping recycles within groups (@test-dmap.R#28) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+```
+
+## qdap (2.2.5)
 Maintainer: Tyler Rinker <tyler.rinker@gmail.com>  
 Bug reports: http://github.com/trinker/qdap/issues
 
-0 errors | 1 warning  | 0 notes
+0 errors | 0 warnings | 0 notes
 
-```
-checking Rd cross-references ... WARNING
-Missing link or links in documentation object 'chain.Rd':
-  ‘[dplyr]{%.%}’
+## quadmesh (0.1.0)
+Maintainer: Michael D. Sumner <mdsumner@gmail.com>
 
-See section 'Cross-references' in the 'Writing R Extensions' manual.
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## qualvar (0.1.0)
 Maintainer: Joel Gombin <joel.gombin@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## quickpsy (0.1.2)
+## quickpsy (0.1.3)
 Maintainer: Linares Daniel <danilinares@gmail.com>
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘quickpsy-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: logliks
-> ### Title: Calculates the loglikelihoods
-> ### Aliases: logliks
-> 
-> ### ** Examples
-> 
-> library(MPDiR) # contains the Vernier data
-> fit <- quickpsy(Vernier, Phaseshift, NumUpward, N,
-+                 grouping = .(Direction, WaveForm, TempFreq), B = 20)
-Estimating parameters...
-Error: Unknown column 'y'
-Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## qwraps2 (0.2.1)
 Maintainer: Peter DeWitt <dewittpe@gmail.com>
@@ -2328,7 +2267,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:89356): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:47327): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## rbison (0.4.8)
@@ -2492,7 +2431,7 @@ Bug reports: https://github.com/ropensci/rfishbase/issues
 
 0 errors | 0 warnings | 0 notes
 
-## rgho (0.0.1)
+## rgho (0.1.0)
 Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
 Bug reports: https://github.com/pierucci/rgho/issues
 
@@ -2549,7 +2488,8 @@ The error most likely occurred in:
 +              creator = "Carl Boettiger <cboettig@gmail.com>",
 +              publisher = "unpublished data",
 +              pubdate = "2012-04-01")
-Error: Unknown column 'content'
+Error in stopc("Unknown column '", i, "'") : Unknown column 'content'
+Calls: add_basic_meta -> $ -> $.tbl_df -> stopc
 Execution halted
 
 checking tests ... ERROR
@@ -2777,7 +2717,7 @@ checking installed package size ... NOTE
     www   9.7Mb
 ```
 
-## SimDesign (0.9)
+## SimDesign (1.0)
 Maintainer: Phil Chalmers <rphilip.chalmers@gmail.com>
 
 0 errors | 0 warnings | 1 note 
@@ -3088,33 +3028,11 @@ Consider adding
 to your NAMESPACE file.
 ```
 
-## tidyr (0.4.1)
+## tidyr (0.5.1)
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/hadley/tidyr/issues
 
-1 error  | 0 warnings | 1 note 
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  error$message does not match "incompatible type".
-  Actual value: "Can not automatically convert from numeric to character."
-  
-  
-  testthat results ================================================================
-  OK: 131 SKIPPED: 0 FAILED: 4
-  1. Error: missings filled down for each atomic vector (@test-fill.R#42) 
-  2. Error: missings filled up for each vector (@test-fill.R#59) 
-  3. Error: preserve class of input (@test-spread.R#82) 
-  4. Failure: elements must all be of same type (@test-unnest.R#18) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking dependencies in R code ... NOTE
-Missing or unexported object: ‘dplyr::tbl_dt’
-```
+0 errors | 0 warnings | 0 notes
 
 ## tidytext (0.1.0)
 Maintainer: Julia Silge <julia.silge@gmail.com>  
@@ -3149,12 +3067,12 @@ Execution halted
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  Unknown column 'val'
   1: cast_sparse(dat, a, b, val) at testthat/test-sparse-casters.R:20
   2: cast_sparse_(data, col_name(substitute(row)), col_name(substitute(column)), value_col)
   3: data[[value_col]]
   4: `[[.tbl_df`(data, value_col)
-  5: stop("Unknown column '", colname, "'", call. = FALSE) at /private/tmp/Rtmp0KDkde/devtools812d2953cfa6/hadley-tibble-64175a8/R/tbl-df.r:35
+  5: stopc("Unknown column '", colname, "'") at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:25
+  6: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
   
   testthat results ================================================================
   OK: 41 SKIPPED: 0 FAILED: 1
@@ -3232,7 +3150,7 @@ Bug reports: https://github.com/paulhendricks/titanic/issues
 
 0 errors | 0 warnings | 0 notes
 
-## Tmisc (0.1.6)
+## Tmisc (0.1.7)
 Maintainer: Stephen Turner <vustephen@gmail.com>
 
 0 errors | 0 warnings | 0 notes
@@ -3246,34 +3164,7 @@ Bug reports: http://www.github.com/ropensci/traits/issues
 ## treeplyr (0.1.1)
 Maintainer: Josef Uyeda <josef.uyeda@gmail.com>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-  Warning: Setting row names on a tibble is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## trelliscope (0.9.4)
 Maintainer: Ryan Hafen <rhafen@gmail.com>  
@@ -3384,36 +3275,11 @@ Maintainer: Vincent Porretta <vincentporretta@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## wakefield (0.2.1)
+## wakefield (0.3.0)
 Maintainer: Tyler Rinker <tyler.rinker@gmail.com>  
 Bug reports: https://github.com/trinker/wakefield/issues
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘wakefield-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: r_insert
-> ### Title: Insert Data Frames Into 'r_data_frame'
-> ### Aliases: r_insert
-> ### Keywords: insert
-> 
-> ### ** Examples
-> 
-> dat <- dplyr::data_frame(
-+     Age = age(100), Age = age(100), Age = age(100),
-+     Smokes = smokes(n=100),
-+     Sick = ifelse(Smokes, sample(5:10, 100, TRUE), sample(0:4, 100, TRUE)),
-+     Death = ifelse(Smokes, sample(0:1, 100, TRUE, prob = c(.2, .8)),
-+         sample(0:1, 100, TRUE, prob = c(.7, .3)))
-+ )
-Error: Each variable must have a unique name.
-Problem variables: Age, Age.
-Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## WHO (0.2)
 Maintainer: Eric Persson <expersso5@gmail.com>  
@@ -3433,30 +3299,11 @@ Packages suggested but not available for checking:
   ‘AnomalyDetection’ ‘BreakoutDetection’
 ```
 
-## wordbankr (0.1)
+## wordbankr (0.2.0)
 Maintainer: Mika Braginsky <mika.br@gmail.com>  
 Bug reports: http://github.com/langcog/wordbankr/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Auto-disconnecting mysql connection (0, 1)
-Joining, by = "momed_id"
-Auto-disconnecting mysql connection (0, 0)
-Joining, by = "momed_id"
-Auto-disconnecting mysql connection (0, 2)
-Auto-disconnecting mysql connection (0, 4)
-Auto-disconnecting mysql connection (0, 3)
-Auto-disconnecting mysql connection (0, 5)
-Quitting from lines 43-47 (wordbankr.Rmd) 
-Error: processing vignette 'wordbankr.Rmd' failed with diagnostics:
-Elements 1, 2 of items %in% instrument_table$select are not true
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## wrswoR.benchmark (0.1-1)
 Maintainer: Kirill Müller <krlmlr+r@mailbox.org>  
