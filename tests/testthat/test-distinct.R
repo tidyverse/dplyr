@@ -5,7 +5,9 @@ df <- data.frame(
   y = c(1, 1, 2, 2),
   z = c(1, 1, 2, 2)
 )
-tbls <- test_load(df)
+
+# FIXME: Reenable once distinct_.data.table gets .keep_all argument
+tbls <- test_load(df, ignore = "dt")
 
 test_that("distinct equivalent to local unique when keep_all is TRUE", {
   compare_tbls(tbls, function(x) x %>% distinct(x, y, z, .keep_all = TRUE), ref = unique(df))

@@ -1,4 +1,5 @@
 test_register_src("df", src_df(env = new.env(parent = emptyenv())))
+test_register_src("dt", dtplyr::src_dt(env = new.env(parent = emptyenv())))
 test_register_src("sqlite", src_sqlite(":memory:", create = TRUE))
 
 if (identical(Sys.info()[["user"]], "hadley")) {

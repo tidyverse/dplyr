@@ -26,3 +26,6 @@
 #' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 #' @importFrom stats setNames update
 NULL
+
+# Needed for data.table tests, but don't need to export
+.datatable.aware <- TRUE
