@@ -19,7 +19,7 @@ test_that("distinct for single column works as expected (#1937)", {
 test_that("distinct throws error if column is specified and .keep_all is TRUE", {
   skip_if_no_sqlite()
   expect_error(collect(distinct(tbls$sqlite, x, .keep_all = TRUE)),
-               "specified columns")
+               "specified columns.*[.]keep_all")
 })
 
 test_that("distinct works for 0-sized columns (#1437)", {
