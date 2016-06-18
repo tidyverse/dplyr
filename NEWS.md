@@ -154,7 +154,7 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 
 * The backend testing system has been improved. This lead to the removal of
   `temp_srcs()`. In the unlikely event that you were using this function,
-  you can instead use `test_register_src()` and `test_load()`.
+  you can instead use `test_register_src()`, `test_load()`, and `test_frame()`.
 
 * You can now use `right_join()` and `full_join()` with remote tables (#1172).
 
