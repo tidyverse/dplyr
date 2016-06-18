@@ -142,15 +142,24 @@ sql_build.op_filter <- function(op, con, ...) {
 
 #' @export
 sql_build.op_distinct <- function(op, con, ...) {
-  if (length(op$dots) > 0 && !op$args$.keep_all) {
-    stop("Can't calculate distinct only on specified columns with SQL",
-      call. = FALSE)
-  }
+  if (length(op$dots) == 0) {
+    select_query(
+      sql_build(op$x, con),
+      distinct = TRUE
+    )
+  } else {
+    if (op$args$.keep_all) {
+      stop("Can't calculate distinct only on specified columns with SQL unless .keep_all is FALSE",
+           call. = FALSE)
+    }
 
-  select_query(
-    sql_build(op$x, con),
-    distinct = TRUE
-  )
+    group_vars <- c.sql(ident(names(op$dots)), con = con)
+    select_query(
+      sql_build(op$x, con),
+      select = group_vars,
+      group_by = group_vars
+    )
+  }
 }
 
 # Dual table ops --------------------------------------------------------
