@@ -20,8 +20,14 @@ NULL
 #' @export
 #' @rdname testing
 test_register_src <- function(name, src) {
-  message("Registering testing src: ", name)
-  test_srcs$add(name, src)
+  message("Registering testing src: ", name, " ", appendLF = FALSE)
+  tryCatch(
+    {
+      test_srcs$add(name, src)
+      message("OK")
+    },
+    error = function(e) message(conditionMessage(e))
+  )
 }
 
 #' @export
