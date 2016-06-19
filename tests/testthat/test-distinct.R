@@ -6,8 +6,7 @@ df <- data.frame(
   z = c(1, 1, 2, 2)
 )
 
-# FIXME: Reenable once distinct_.data.table gets .keep_all argument
-tbls <- test_load(df, ignore = "dt")
+tbls <- test_load(df)
 
 test_that("distinct equivalent to local unique when keep_all is TRUE", {
   compare_tbls(tbls, function(x) x %>% distinct(x, y, z, .keep_all = TRUE), ref = unique(df))
