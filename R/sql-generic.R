@@ -65,7 +65,9 @@ sql_select.default <- function(con, select, from, where = NULL,
 
   if (!is.null(limit)) {
     assert_that(is.numeric(limit), length(limit) == 1L)
-    out$limit <- build_sql("LIMIT ", trunc(limit), con = con)
+    out$limit <- build_sql("LIMIT ",
+                           sql(format(trunc(limit), scientific = FALSE)),
+                           con = con)
   }
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
