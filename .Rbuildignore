@@ -11,3 +11,4 @@ demo/pandas
 ^README\.Rmd$
 ^revdep$
 ^README-.*\.png$
+^codecov\.yml$
