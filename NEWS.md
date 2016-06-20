@@ -246,7 +246,8 @@ There were two other tweaks to the exported API, but these are less likely to af
 
 * Avoiding segfaults in presence of `raw` columns (#1803, #1817, @krlmlr).
 
-* `arrange()` fails gracefully on list columns (#1489).
+* `arrange()` fails gracefully on list columns (#1489) and matrices
+  (#1870, #1945, @krlmlr).
 
 * `count()` now adds additional grouping variables, rather than overriding
   existing (#1703). `tally()` and `count()` can now count a variable

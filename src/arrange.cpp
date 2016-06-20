@@ -36,11 +36,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
                 stop( "data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows() );
             }
         } else if( Rf_isMatrix(v) ) {
-            SEXP dim = Rf_getAttrib(v, Rf_install( "dim" ) ) ;
-            int nr = INTEGER(dim)[0] ;
-            if( nr != data.nrows() ){
-                stop( "matrix column with incompatible number of rows (%d), expecting : %d", nr, data.nrows() ) ;
-            }
+            stop( "can't arrange by a matrix" ) ;
         } else {
             if( Rf_length(v) != data.nrows() ){
                 stop( "incorrect size (%d), expecting : %d", Rf_length(v), data.nrows() ) ;
