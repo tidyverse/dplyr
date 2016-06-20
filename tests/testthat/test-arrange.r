@@ -155,3 +155,8 @@ test_that("arrange fails gracefully on raw columns (#1803)", {
   expect_error( arrange(df, a), "unsupported type" )
   expect_error( arrange(df, b), "unsupported type" )
 })
+
+test_that("arrange fails gracefully on matrix input (#1870)", {
+  df <- data_frame(a = 1:3, b = 4:6)
+  expect_error( arrange(df, is.na(df)), "matrix" )
+})
