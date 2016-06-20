@@ -8,7 +8,9 @@
 
 * `distinct()` now only keeps the distinct variables. If you want to return
   all variables (using the first row for non-distinct values) use
-  `.keep_all = TRUE` (#1110). (The default behaviour of using all variables
+  `.keep_all = TRUE` (#1110). For SQL sources, `.keep_all = FALSE` is
+  implemented using `GROUP BY`, and `.keep_all = TRUE` raises an error
+  (#1937, #1942, @krlmlr). (The default behaviour of using all variables
   when none are specified remains - this note only applies if you select
   some variables).
 
