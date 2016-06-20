@@ -68,6 +68,21 @@ test_that("head accepts fractional input", {
   expect_equal(nrow(out), 10)
 })
 
+test_that("head renders to integer fractional input", {
+  out <- memdb_frame(x = 1:100) %>%
+    head(10.5) %>%
+    sql_render()
+
+  expect_match(out, "LIMIT 10$")
+})
+
+test_that("head works with huge whole numbers", {
+  out <- memdb_frame(x = 1:100) %>%
+    head(1e10) %>%
+    collect()
+
+  expect_equal(out, data_frame(x = 1:100))
+})
 
 test_that("mutate overwrites previous variables", {
   df <- memdb_frame(x = 1:5) %>%
