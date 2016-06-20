@@ -45,11 +45,17 @@ test_that("select can rename", {
 })
 
 test_that("distinct adds DISTINCT suffix", {
-  out <- memdb_frame(x = c(1, 1)) %>%
-    distinct() %>%
-    collect()
+  out <- memdb_frame(x = c(1, 1)) %>% distinct()
 
-  expect_equal(out, data_frame(x = 1))
+  expect_match(out %>% sql_render(), "SELECT DISTINCT")
+  expect_equal(out %>% collect(), data_frame(x = 1))
+})
+
+test_that("distinct over columns uses GROUP BY", {
+  out <- memdb_frame(x = c(1, 2), y = c(1, 1)) %>% distinct(y)
+
+  expect_match(out %>% sql_render(), "SELECT `y`.*GROUP BY `y`")
+  expect_equal(out %>% collect(), data_frame(y = 1))
 })
 
 test_that("head limits rows returned", {
