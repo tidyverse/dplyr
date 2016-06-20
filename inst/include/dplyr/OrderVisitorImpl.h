@@ -207,15 +207,16 @@ namespace dplyr {
 
     template <bool ascending>
     inline OrderVisitor* order_visitor_asc_matrix( SEXP vec ) {
-        switch( TYPEOF(vec) ){
-            case INTSXP:   return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
-            case REALSXP:  return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
-            case LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
-            case STRSXP:   return new OrderVisitorMatrix<STRSXP  , ascending>( vec ) ;
-            case CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , ascending>( vec ) ;
-            default: break ;
+        switch( check_supported_type(vec) ){
+            case DPLYR_INTSXP:   return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
+            case DPLYR_REALSXP:  return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
+            case DPLYR_LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
+            case DPLYR_STRSXP:   return new OrderVisitorMatrix<STRSXP  , ascending>( vec ) ;
+            case DPLYR_CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , ascending>( vec ) ;
+            case DPLYR_VECSXP:   stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec))) ;
         }
-        stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
+
+        stop("Unreachable") ;
         return 0 ;
     }
 
