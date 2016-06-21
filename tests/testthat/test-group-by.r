@@ -238,6 +238,8 @@ test_that( "group_by supports column (#1012)", {
 })
 
 test_that("group_by handles encodings (#1507)", {
+  skip_on_os("windows") # 1950
+
   df <- data.frame(x=1:3, Eng=2:4)
   names(df) <- enc2utf8(c("\u00e9", "Eng"))
   res <- group_by_(df, iconv("\u00e9", from = "UTF-8", to = "latin1") )
