@@ -1,6 +1,9 @@
 context("output")
 
 test_that("ungrouped output", {
+  if (packageVersion("tibble") < "1.0-10")
+    skip("need tibble 1.0-10 or later for this test")
+
   mtcars_mem <- src_memdb() %>% copy_to(mtcars, name = random_table_name())
   iris_mem <- src_memdb() %>% copy_to(iris, name = random_table_name())
 
