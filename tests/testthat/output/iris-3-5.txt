@@ -1,5 +1,5 @@
 Source:   query [?? x 5]
-Database: sqlite 3.11.1 [:memory:]
+Database: sqlite x.y.z [:memory:]
 
   Sepal.Length
          <dbl>
