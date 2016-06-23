@@ -21,7 +21,7 @@ Imports:
     tibble,
     magrittr,
     lazyeval (>= 0.1.10),
-    DBI (>= 0.3)
+    DBI (>= 0.4.1)
 Suggests:
     RSQLite (>= 1.0.0),
     RMySQL,
