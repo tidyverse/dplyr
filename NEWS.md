@@ -346,8 +346,9 @@ There were two other tweaks to the exported API, but these are less likely to af
 
 * Hybrid `min()` and `max()` handle empty sets (#1481).
 
-* `n_distinct()` uses multiple arguments (#1084), falls back to R
+* `n_distinct()` uses multiple arguments for data frames (#1084), falls back to R
   evaluation when needed (#1657), reverting decision made in (#567).
+  Passing no arguments gives an error (#1957, #1959, @krlmlr).
 
 * `nth()` now supports negative indices to select from end, e.g. `nth(x, -2)`
   selects the 2nd value from the end of `x` (#1584).
