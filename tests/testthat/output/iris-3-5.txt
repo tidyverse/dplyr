@@ -1,0 +1,20 @@
+Source:   query [?? x 5]
+Database: sqlite x.y.z [:memory:]
+
+  Sepal.Length
+         <dbl>
+1          5.1
+2          4.9
+3          4.7
+# ...
+#   with
+#   more
+#   rows,
+#   and
+#   4
+#   more
+#   variables:
+#   Sepal.Width <dbl>,
+#   Petal.Length <dbl>,
+#   Petal.Width <dbl>,
+#   Species <chr>

@@ -192,7 +192,7 @@ X
   datesDF$X <- as.POSIXlt(datesDF$X)
   expect_error(
     filter(datesDF, X > as.POSIXlt("2014-03-13")),
-    "column 'X' has unsupported class"
+    "column 'X' has unsupported class|POSIXct, not POSIXlt.*'X'"
   )
 })
 
