@@ -4,7 +4,6 @@
 .Rprofile
 inst/db
 man-roxygen
-NEWS\.md
 demo/pandas
 ^\.httr-oauth$
 ^cran-comments\.md$

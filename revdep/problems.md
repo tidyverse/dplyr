@@ -10,7 +10,7 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2016-06-17                   |
+|date     |2016-06-23                   |
 
 ## Packages
 
@@ -18,14 +18,14 @@
 |:--------------|:--|:----------|:----------|:--------------------------------|
 |assertthat     |   |0.1        |2013-12-06 |CRAN (R 3.3.0)                   |
 |BH             |   |1.60.0-2   |2016-05-07 |CRAN (R 3.3.0)                   |
-|covr           |   |2.0.1      |2016-04-06 |CRAN (R 3.3.0)                   |
+|covr           |   |2.1.0      |2016-06-21 |cran (@2.1.0)                    |
 |DBI            |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)                   |
-|dplyr          |   |0.4.3.9001 |2016-06-17 |local (hadley/dplyr@NA)          |
-|dtplyr         |   |0.0.0.9000 |2016-06-17 |Github (hadley/dtplyr@ec0aaea)   |
+|dplyr          |   |0.4.3.9001 |2016-06-23 |local (hadley/dplyr@NA)          |
+|dtplyr         |   |0.0.0.9001 |2016-06-23 |Github (hadley/dtplyr@57bd16f)   |
 |ggplot2        |   |2.1.0      |2016-03-01 |CRAN (R 3.3.0)                   |
 |knitr          |   |1.13       |2016-05-09 |CRAN (R 3.3.0)                   |
 |Lahman         |   |4.0-1      |2015-09-15 |CRAN (R 3.3.0)                   |
-|lazyeval       |   |0.2.0      |2016-06-12 |cran (@0.2.0)                    |
+|lazyeval       |   |0.2.0.9000 |2016-06-17 |Github (hadley/lazyeval@c155c3d) |
 |magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.3.0)                   |
 |microbenchmark |   |1.4-2.1    |2015-11-25 |CRAN (R 3.3.0)                   |
 |nycflights13   |   |0.2.0      |2016-04-30 |CRAN (R 3.3.0)                   |
@@ -36,7 +36,7 @@
 |RPostgreSQL    |   |0.4-1      |2016-05-08 |CRAN (R 3.3.0)                   |
 |RSQLite        |   |1.0.0      |2014-10-25 |CRAN (R 3.3.0)                   |
 |testthat       |*  |1.0.2.9000 |2016-06-16 |Github (hadley/testthat@d3e20b9) |
-|tibble         |   |1.0-9      |2016-06-17 |Github (hadley/tibble@7b7a0c1)   |
+|tibble         |   |1.0-12     |2016-06-23 |Github (hadley/tibble@1e5b140)   |
 
 # Check results
 48 packages with problems
@@ -174,7 +174,8 @@ The error most likely occurred in:
 > ### Aliases: glance.survfit survfit_tidiers tidy.survfit
 > 
 > ### ** Examples
-... 49 lines ...
+... 48 lines ...
+
 The following objects are masked from ‘package:stats’:
 
     filter, lag
@@ -183,8 +184,7 @@ The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
 
-Error in stopc("Unknown column '", i, "'") : Unknown column 'median'
-Calls: qplot -> eval -> eval -> $ -> $.tbl_df -> stopc
+Error: Unknown column 'median'
 Execution halted
 
 checking tests ... ERROR
@@ -194,8 +194,8 @@ Last 13 lines of output:
   5: as.vector(object)
   6: augmented$disp
   7: `$.tbl_df`(augmented, disp)
-  8: stopc("Unknown column '", i, "'") at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:37
-  9: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
+  8: stopc("Unknown column '", i, "'") at /private/tmp/RtmpxqBRhg/devtools1785e2d679c7f/hadley-tibble-1e5b140/R/tbl-df.r:37
+  9: stop(..., call. = FALSE, domain = NA) at /private/tmp/RtmpxqBRhg/devtools1785e2d679c7f/hadley-tibble-1e5b140/R/utils.r:63
   
   testthat results ================================================================
   OK: 490 SKIPPED: 0 FAILED: 1
@@ -388,53 +388,8 @@ In file included from /Users/hadley/R-revdep/StanHeaders/include/src/stan/io/val
     class __attribute__((__visibility__("default"))) bad_lexical_cast :
                                                      ^
 1 error generated.
-make: *** [file1329a175273.o] Error 1
+make: *** [file6da35a13b51f.o] Error 1
 Execution halted
-```
-
-## denovolyzeR (0.1.0)
-Maintainer: James Ware <j.ware@imperial.ac.uk>  
-Bug reports: http://github.com/jamesware/denovolyzeR/issues
-
-1 error  | 1 warning  | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘denovolyzeR-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: denovolyze
-> ### Title: Evaluates burden of _de novo_ variation against expectation
-> ### Aliases: denovolyze denovolyzeByClass denovolyzeByGene
-> 
-> ### ** Examples
-> 
-> ### denovolyze
-> 
-> denovolyze(genes=autismDeNovos$gene,
-+            classes=autismDeNovos$class,
-+            nsamples=1078)
-Error in stopc("Unknown column '", i, "'") : Unknown column 'obs'
-Calls: denovolyze -> $ -> $.tbl_df -> stopc
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Quitting from lines 52-55 (denovolyzeR_intro.Rmd) 
-Error: processing vignette 'denovolyzeR_intro.Rmd' failed with diagnostics:
-Unknown column 'obs'
-Execution halted
-
-
-checking R code for possible problems ... NOTE
-denovolyze: no visible global function definition for ‘ppois’
-Undefined global functions or variables:
-  ppois
-Consider adding
-  importFrom("stats", "ppois")
-to your NAMESPACE file.
 ```
 
 ## describer (0.2.0)
@@ -544,9 +499,9 @@ Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   53: select_vars_(names(.data), dots) at /Users/hadley/Documents/dplyr/dplyr/R/dataframe.R:97
   54: lazyeval::lazy_eval(args, names_list) at /Users/hadley/Documents/dplyr/dplyr/R/select-vars.R:69
-  55: lapply(x, lazy_eval, data = data)
+  55: lapply(x, lazy_eval, data = data) at /private/tmp/RtmpBZGgmu/devtools500b57ff4370/hadley-lazyeval-c155c3d/R/lazy-eval.R:21
   56: FUN(X[[i]], ...)
-  57: eval(x$expr, data, x$env)
+  57: eval(x$expr, data, x$env) at /private/tmp/RtmpBZGgmu/devtools500b57ff4370/hadley-lazyeval-c155c3d/R/lazy-eval.R:27
   58: eval(expr, envir, enclos)
   
   testthat results ================================================================
@@ -620,29 +575,12 @@ The error most likely occurred in:
 > ride_file <- system.file("extdata/lufbra.fit", package = "elpatron")
 > 
 > parsed_ride <- import_ride(ride_file, make_laps = TRUE)
-Error in stopc("Length of logical index vector must be 1 or ", length(x),  : 
-  Length of logical index vector must be 1 or 18, got: 17
-Calls: import_ride ... [.tbl_df -> check_names_df -> check_names_df.logical -> stopc
+Error: Length of logical index vector must be 1 or 18, got: 17
 Execution halted
 
 checking Rd cross-references ... WARNING
 Missing link or links in documentation object 'pipe.Rd':
   ‘[dplyr]{chain}’
-
-See section 'Cross-references' in the 'Writing R Extensions' manual.
-
-```
-
-## emil (2.2.3)
-Maintainer: Christofer Backlin <emil@christofer.backlin.se>  
-Bug reports: https://github.com/Molmed/emil/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking Rd cross-references ... WARNING
-Missing link or links in documentation object 'pre_process.Rd':
-  ‘chain’
 
 See section 'Cross-references' in the 'Writing R Extensions' manual.
 
@@ -737,9 +675,47 @@ The error most likely occurred in:
 > data(linear)
 > ggs_caterpillar(ggs(s))
 > ggs_caterpillar(list(A=ggs(s), B=ggs(s))) # silly example duplicating the same model
-Error in stopc("Unknown column '", i, "'") : Unknown column 'description'
-Calls: ggs_caterpillar -> $ -> $.tbl_df -> stopc
+Error: Unknown column 'description'
 Execution halted
+```
+
+## ggspectra (0.1.7)
+Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>  
+Bug reports: https://bitbucket.org/aphalo/ggspectra
+
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘ggspectra-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ggspectra-package
+> ### Title: Extensions to 'ggplot2' for Radiation Spectra
+> ### Aliases: ggspectra ggspectra-package
+> 
+> ### ** Examples
+... 17 lines ...
++   stat_peaks(span = 21, geom = "point", colour = "red") +
++   stat_peaks(span = 51, geom = "text", colour = "red", vjust = -0.3,
++              label.fmt = "%3.0f nm")
+> 
+> ggplot(sun.spct, aes(w.length, s.e.irrad)) + geom_line() +
++   stat_color() + scale_color_identity()
+> 
+> plot(sun.spct)
+> plot(polyester.spct, UV_bands(), range = UV())
+Error: evaluation nested too deeply: infinite recursion / options(expressions=)?
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Error: processing vignette 'user-guide.Rmd' failed with diagnostics:
+evaluation nested too deeply: infinite recursion / options(expressions=)?
+Execution halted
+
 ```
 
 ## ggvis (0.4.2)
@@ -853,7 +829,9 @@ The error most likely occurred in:
 > ### Aliases: gutenberg_strip
 > 
 > ### ** Examples
-... 12 lines ...
+... 10 lines ...
+
+The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
 
@@ -861,17 +839,15 @@ The error most likely occurred in:
 +   gutenberg_download(strip = FALSE)
 Determining mirror for Project Gutenberg from http://www.gutenberg.org/robot/harvest
 Using mirror http://www.gutenberg.lib.md.us
-Error in stopc("Unknown column '", colname, "'") : 
-  Unknown column 'gutenberg_id'
-Calls: %>% ... <Anonymous> -> gutenberg_download -> [[ -> [[.tbl_df -> stopc
+Error: Unknown column 'gutenberg_id'
 Execution halted
 
 checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   7: `$.tbl_df`(w_de, language)
-  8: stopc("Unknown column '", i, "'") at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:37
-  9: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
+  8: stopc("Unknown column '", i, "'") at /private/tmp/RtmpxqBRhg/devtools1785e2d679c7f/hadley-tibble-1e5b140/R/tbl-df.r:37
+  9: stop(..., call. = FALSE, domain = NA) at /private/tmp/RtmpxqBRhg/devtools1785e2d679c7f/hadley-tibble-1e5b140/R/utils.r:63
   
   testthat results ================================================================
   OK: 31 SKIPPED: 0 FAILED: 4
@@ -955,6 +931,74 @@ Installation failed.
 See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/imager.Rcheck/00install.out’ for details.
 ```
 
+## modellingTools (0.1.0)
+Maintainer: Alex Stringer <alex@alexstringer.ca>
+
+2 errors | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘modellingTools-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: create_model_matrix
+> ### Title: Create a usable model matrix from a data frame containing a mix
+> ###   of continuous and categorical variables
+> ### Aliases: create_model_matrix
+> 
+... 7 lines ...
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Error: Each variable must have a unique name.
+Problem variables: 'var1', 'var1', 'var1', 'var1'
+Execution halted
+
+checking tests ... ERROR
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  Type 'demo()' for some demos, 'help()' for on-line help, or
+  'help.start()' for an HTML browser interface to help.
+  Type 'q()' to quit R.
+  
+  > library(testthat)
+  > library(modellingTools)
+  > 
+  > test_check("modellingTools")
+  Error: Each variable must have a unique name.
+  Problem variables: 'var1', 'var1', 'var1'
+  testthat results ================================================================
+  OK: 53 SKIPPED: 0 FAILED: 0
+  Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 313-319 (modellingTools.Rmd) 
+Error: processing vignette 'modellingTools.Rmd' failed with diagnostics:
+Each variable must have a unique name.
+Problem variables: 'var1', 'var1', 'var1', 'var1', 'var1', 'var1', 'var1'
+Execution halted
+
+```
+
 ## morse (2.2.0)
 Maintainer: Philippe Veber <philippe.veber@univ-lyon1.fr>
 
@@ -966,28 +1010,30 @@ Installation failed.
 See ‘/Users/hadley/Documents/dplyr/dplyr/revdep/checks/morse.Rcheck/00install.out’ for details.
 ```
 
-## mtconnectR (0.2.0)
-Maintainer: Alex Joseph <alex@systeminsights.com>
+## mtconnectR (1.0.0)
+Maintainer: Subramanyam Ravishankar <subramanyam@systeminsights.com>
 
 1 error  | 0 warnings | 0 notes
 
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-    |===================================================================== |  98%
-    |                                                                            
-    |======================================================================| 100%
-  Error: `dmtcd` not equal to lazyLoadDBfetch(c(0L, 1775L), datafile, compressed, envhook).
-  Attributes: < Names: 2 string mismatches >
-  Attributes: < Length mismatch: comparison on first 2 components >
-  Attributes: < Component 1: target is externalptr, current is character >
-  Attributes: < Component 2: Modes: character, numeric >
-  Attributes: < Component 2: Lengths: 1, 251 >
-  Attributes: < Component 2: target is character, current is numeric >
-  testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 0
-  Execution halted
+checking examples ... ERROR
+Running examples in ‘mtconnectR-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: map_gcode_mtc
+> ### Title: Create a mapping between simulated and actual data
+> ### Aliases: map_gcode_mtc
+> 
+> ### ** Examples
+> 
+> data("example_gcode_parsed") # Parsed gcode
+> data("example_mtc_device_3") # MTCDevice object of actual log data
+> simulated_gcode_data = na.omit(simulate_data_from_gcode(example_gcode_parsed, 
++ start_time = 0, data_res = 0.1, data_type = "HH"))
+Error in eval(expr, envir, enclos) : could not find function "one_of"
+Calls: na.omit ... select_vars_ -> <Anonymous> -> lapply -> FUN -> eval -> eval
+Execution halted
 ```
 
 ## myTAI (0.4.0)
@@ -1004,31 +1050,39 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## networkreporting (0.1.0)
-Maintainer: Dennis M. Feehan <feehan@berkeley.edu>
+## photobiology (0.9.8)
+Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>  
+Bug reports: https://bitbucket.org/aphalo/photobiology/issues
 
-1 error  | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
-checking tests ... ERROR
-Running the tests in ‘tests/test_all.R’ failed.
-Last 13 lines of output:
-  > test_check("networkreporting")
-  Loading required package: networkreporting
-  Taking N.F value implied by weights: 0
-  
-  Error in UseMethod("mutate_") : 
-    no applicable method for 'mutate_' applied to an object of class "c('matrix', 'list')"
-  Calls: test_check ... withVisible -> <Anonymous> -> <Anonymous> -> mutate_
-  In addition: Warning message:
-  In cbind(x[ids$x, , drop = FALSE], y[ids$y, y.cols, drop = FALSE]) :
-    number of rows of result is not a multiple of vector length (arg 2)
-  testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 0
-  Execution halted
+checking examples ... ERROR
+Running examples in ‘photobiology-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: absorbance
+> ### Title: Absorbance
+> ### Aliases: absorbance absorbance.default absorbance.filter_mspct
+> ###   absorbance.filter_spct absorbance.object_mspct absorbance.object_spct
+> 
+> ### ** Examples
+> 
+> absorbance(polyester.spct, new_waveband(400,700))
+Error: evaluation nested too deeply: infinite recursion / options(expressions=)?
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Error: processing vignette 'userguide.Rnw' failed with diagnostics:
+evaluation nested too deeply: infinite recursion / options(expressions=)?
+Execution halted
+
 ```
 
-## photobiologyInOut (0.4.4)
+## photobiologyInOut (0.4.6)
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>  
 Bug reports: https://bitbucket.org/aphalo/photobiologyinout/
 
@@ -1038,25 +1092,12 @@ Bug reports: https://bitbucket.org/aphalo/photobiologyinout/
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
+Read 3 items
 Read 16 items
-Read 4 items
-Read 18 items
-Read 4 items
-Read 18 items
-Read 4 items
-Read 18 items
-... 8 lines ...
-Read 7 items
-Read 5 items
-Read 8 items
-Read 8 items
-Read 5 items
-Read 8 items
-Read 8 items
-Quitting from lines 490-492 (user-guide.Rnw) 
 Error: processing vignette 'user-guide.Rnw' failed with diagnostics:
-could not find function "starts_with"
+evaluation nested too deeply: infinite recursion / options(expressions=)?
 Execution halted
+
 ```
 
 ## poplite (0.99.16)
@@ -1121,31 +1162,6 @@ Package required but not available: ‘multtest’
 
 See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
-```
-
-## purrr (0.2.1)
-Maintainer: Hadley Wickham <hadley@rstudio.com>  
-Bug reports: https://github.com/hadley/purrr/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  8: NextMethod() at /Users/hadley/Documents/dplyr/dplyr/R/grouped-df.r:66
-  9: `[.tbl_df`(df, names(env$.labels_cols))
-  10: check_names_df(i, x) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:52
-  11: check_names_df.default(i, x) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/check-names.R:1
-  12: stopc("Unsupported index type: ", class(j)[[1L]]) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/check-names.R:4
-  13: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
-  
-  testthat results ================================================================
-  OK: 211 SKIPPED: 0 FAILED: 1
-  1. Error: conditional sliced mapping recycles within groups (@test-dmap.R#28) 
-  
-  Error: testthat unit tests failed
-  Execution halted
 ```
 
 ## RCMIP5 (1.1)
@@ -1252,8 +1268,7 @@ The error most likely occurred in:
 +              creator = "Carl Boettiger <cboettig@gmail.com>",
 +              publisher = "unpublished data",
 +              pubdate = "2012-04-01")
-Error in stopc("Unknown column '", i, "'") : Unknown column 'content'
-Calls: add_basic_meta -> $ -> $.tbl_df -> stopc
+Error: Unknown column 'content'
 Execution halted
 
 checking tests ... ERROR
@@ -1488,8 +1503,8 @@ Last 13 lines of output:
   2: cast_sparse_(data, col_name(substitute(row)), col_name(substitute(column)), value_col)
   3: data[[value_col]]
   4: `[[.tbl_df`(data, value_col)
-  5: stopc("Unknown column '", colname, "'") at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/tbl-df.r:25
-  6: stop(..., domain = NA) at /private/tmp/RtmpDRG567/devtoolsd7eb6c600492/hadley-tibble-7b7a0c1/R/utils.r:53
+  5: stopc("Unknown column '", colname, "'") at /private/tmp/RtmpxqBRhg/devtools1785e2d679c7f/hadley-tibble-1e5b140/R/tbl-df.r:25
+  6: stop(..., call. = FALSE, domain = NA) at /private/tmp/RtmpxqBRhg/devtools1785e2d679c7f/hadley-tibble-1e5b140/R/utils.r:63
   
   testthat results ================================================================
   OK: 41 SKIPPED: 0 FAILED: 1
@@ -1554,6 +1569,38 @@ Error: processing vignette 'Tigger-Vignette.Rmd' failed with diagnostics:
 there is no package called 'snow'
 Execution halted
 
+```
+
+## treeplyr (0.1.1)
+Maintainer: Josef Uyeda <josef.uyeda@gmail.com>
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking examples ... WARNING
+Found the following significant warnings:
+
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+  Warning: Setting row names on a tibble is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## useful (1.2.0)
