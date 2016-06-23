@@ -33,6 +33,9 @@ namespace dplyr {
               return visitors[k].get() ;
             }
             inline int nrows() const {
+              if( visitors.size() == 0 ){
+                stop("need at least one column for nrows()") ;
+              }
               return visitors[0]->size() ;
             }
             inline void push_back( SEXP x) {
