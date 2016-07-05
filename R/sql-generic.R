@@ -102,15 +102,9 @@ sql_join.default <- function(con, x, y, type = "inner", by = NULL, ...) {
     stop("Unknown join type:", type, call. = FALSE)
   )
 
-  using <- all(by$x == by$y)
-
-  if (using) {
-    cond <- build_sql("USING ", lapply(by$x, ident), con = con)
-  } else {
-    on <- sql_vector(paste0(sql_escape_ident(con, by$x), " = ", sql_escape_ident(con, by$y)),
-      collapse = " AND ", parens = TRUE)
-    cond <- build_sql("ON ", on, con = con)
-  }
+  on <- sql_vector(paste0(sql_escape_ident(con, by$x), " = ", sql_escape_ident(con, by$y)),
+    collapse = " AND ", parens = TRUE)
+  cond <- build_sql("ON ", on, con = con)
 
   build_sql(
     'SELECT * FROM ',x, "\n\n",
