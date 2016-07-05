@@ -171,11 +171,17 @@ sql_build.op_join <- function(op, con, ...) {
   y_names <- op_vars(op$y)
   by <- op$args$by
 
-  uniques <- unique_names(x_names, y_names, by = by, suffix = op$args$suffix)
+  # by becomes empty to assign an alias to same-name vars
+  uniques <- unique_names(x_names, y_names, by = list(), suffix = op$args$suffix)
 
   if (is.null(uniques)) {
     x <- op$x
     y <- op$y
+
+    join_query(x, y,
+               type = op$args$type,
+               by = by
+    )
   } else {
     # TODO: it would be better to construct an explicit FROM statement
     # that used the table names to disambiguate the fields names: this
@@ -184,14 +190,28 @@ sql_build.op_join <- function(op, con, ...) {
     x <- select_(op$x, .dots = setNames(x_names, uniques$x))
     y <- select_(op$y, .dots = setNames(y_names, uniques$y))
 
+    xy_by <- by$x[by$x == by$y]
+    x_names_no_xy <- as.list(uniques$x)
+    x_names_no_xy[xy_by] <- NULL
+    y_names_no_xy <- as.list(uniques$y)
+    y_names_no_xy[xy_by] <- NULL
+    xy_names <- c(x_names_no_xy, y_names_no_xy, uniques$x[xy_by])
+
     by$x <- unname(uniques$x[by$x])
     by$y <- unname(uniques$y[by$y])
-  }
 
-  join_query(x, y,
-    type = op$args$type,
-    by = by
-  )
+    select_query(
+      join_query(x, y,
+                 type = op$args$type,
+                 by = by
+      ),
+      select = ident(unlist(c(
+        unname(x_names_no_xy),
+        unname(y_names_no_xy),
+        uniques$x[xy_by]
+      )))
+    )
+  }
 }
 
 #' @export
