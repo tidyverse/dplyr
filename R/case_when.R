@@ -53,7 +53,6 @@ case_when <- function(...) {
     env <- environment(f)
 
     query[[i]] <- eval(f[[2]], envir = env)
-    query[[i]][is.na(query[[i]])] <- FALSE
     if (!is.logical(query[[i]])) {
       stop("LHS of case ", i, " (", deparse_trunc(f_lhs(f)),
            ") is ", typeof(query[[i]]), ", not logical",
@@ -75,7 +74,7 @@ case_when <- function(...) {
     out <- replace_with(
       out, query[[i]] & !replaced, value[[i]],
       paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"))
-    replaced <- replaced | query[[i]]
+    replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 
   out
