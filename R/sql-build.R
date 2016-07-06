@@ -183,10 +183,6 @@ sql_build.op_join <- function(op, con, ...) {
                by = by
     )
   } else {
-    # TODO: it would be better to construct an explicit FROM statement
-    # that used the table names to disambiguate the fields names: this
-    # would remove a layer of subqueries and would make sql_join more
-    # flexible.
     x <- select_(op$x, .dots = setNames(x_names, uniques$x))
     y <- select_(op$y, .dots = setNames(y_names, uniques$y))
 
