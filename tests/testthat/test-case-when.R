@@ -64,3 +64,15 @@ test_that("unmatched gets missing value", {
     c(1, 2, NA)
   )
 })
+
+test_that("missing values can be replaced (#1999)", {
+  x <- c(1:3, NA)
+  expect_equal(
+    case_when(
+      x <= 1 ~ 1,
+      x <= 2 ~ 2,
+      is.na(x) ~ 0
+    ),
+    c(1, 2, NA, 0)
+  )
+})
