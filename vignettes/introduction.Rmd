@@ -240,8 +240,6 @@ Grouping affects the verbs as follows:
 * grouped `select()` is the same as ungrouped `select()`, except that 
   grouping variables are always retained. 
    
-* grouped `arrange()` orders first by the grouping variables
-
 * `mutate()` and `filter()` are most useful in conjunction with window 
   functions (like `rank()`, or `min(x) == x`). They are described in detail in 
   `vignette("window-functions")`.
