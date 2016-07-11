@@ -28,7 +28,7 @@ sql_build <- function(op, con, ...) {
 
 #' @export
 sql_build.tbl_sql <- function(op, con, ...) {
-  sql_build(op$ops, op$con, ...)
+  sql_build(op$ops, con, ...)
 }
 
 #' @export

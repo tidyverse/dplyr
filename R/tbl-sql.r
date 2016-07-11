@@ -13,10 +13,13 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
+  con <- con_acquire(src)
+  on.exit(con_release(src, con), add = TRUE)
+
   make_tbl(
     c(subclass, "sql", "lazy"),
     src = src,
-    ops = op_base_remote(src, from, vars)
+    ops = op_base_remote(src, from, con, vars)
   )
 }
 
@@ -330,32 +333,44 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
 
-  if (isTRUE(db_has_table(dest$con, name))) {
-    stop("Table ", name, " already exists.", call. = FALSE)
-  }
+  con <- con_acquire(dest)
+  tryCatch({
+    if (isTRUE(db_has_table(con, name))) {
+      stop("Table ", name, " already exists.", call. = FALSE)
+    }
 
-  types <- types %||% db_data_type(dest$con, df)
-  names(types) <- names(df)
+    types <- types %||% db_data_type(con, df)
+    names(types) <- names(df)
 
-  con <- dest$con
-  db_begin(con)
-  on.exit(db_rollback(con))
+    db_begin(con)
+    tryCatch({
+      db_create_table(con, name, types, temporary = temporary)
+      db_insert_into(con, name, df)
+      db_create_indexes(con, name, unique_indexes, unique = TRUE)
+      db_create_indexes(con, name, indexes, unique = FALSE)
+      if (analyze) db_analyze(con, name)
 
-  db_create_table(con, name, types, temporary = temporary)
-  db_insert_into(con, name, df)
-  db_create_indexes(con, name, unique_indexes, unique = TRUE)
-  db_create_indexes(con, name, indexes, unique = FALSE)
-  if (analyze) db_analyze(con, name)
-
-  db_commit(con)
-  on.exit(NULL)
+      db_commit(con)
+    }, error = function(err) {
+      db_rollback(con)
+      stop(err)
+    })
+  }, finally = {
+    con_release(dest, con)
+  })
 
   tbl(dest, name)
 }
 
 #' @export
 collapse.tbl_sql <- function(x, vars = NULL, ...) {
-  sql <- sql_render(x)
+  con <- con_acquire(x$src)
+  tryCatch({
+    sql <- sql_render(x, con)
+  }, finally = {
+    con_release(x$src, con)
+  })
+
   tbl(x$src, sql) %>% group_by_(.dots = groups(x))
 }
 
@@ -371,13 +386,18 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
     unique_indexes <- as.list(unique_indexes)
   }
 
-  vars <- op_vars(x)
-  assert_that(all(unlist(indexes) %in% vars))
-  assert_that(all(unlist(unique_indexes) %in% vars))
-  x_aliased <- select_(x, .dots = vars) # avoids problems with SQLite quoting (#1754)
-  db_save_query(x$src$con, sql_render(x_aliased), name = name, temporary = temporary)
-  db_create_indexes(x$src$con, name, unique_indexes, unique = TRUE)
-  db_create_indexes(x$src$con, name, indexes, unique = FALSE)
+  con <- con_acquire(x$src)
+  tryCatch({
+    vars <- op_vars(x)
+    assert_that(all(unlist(indexes) %in% vars))
+    assert_that(all(unlist(unique_indexes) %in% vars))
+    x_aliased <- select_(x, .dots = vars) # avoids problems with SQLite quoting (#1754)
+    db_save_query(con, sql_render(x_aliased, con), name = name, temporary = temporary)
+    db_create_indexes(con, name, unique_indexes, unique = TRUE)
+    db_create_indexes(con, name, indexes, unique = FALSE)
+  }, finally = {
+    con_release(x$src, con)
+  })
 
   tbl(x$src, name) %>% group_by_(.dots = groups(x))
 }
@@ -389,14 +409,19 @@ collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
     n <- -1
   }
 
-  sql <- sql_render(x)
-  res <- dbSendQuery(x$src$con, sql)
-  on.exit(dbClearResult(res))
+  con <- con_acquire(x$src)
+  on.exit(con_release(x$src, con), add = TRUE)
 
-  out <- dbFetch(res, n)
-  if (warn_incomplete) {
-    res_warn_incomplete(res, "n = Inf")
-  }
+  sql <- sql_render(x, con)
+  res <- dbSendQuery(con, sql)
+  tryCatch({
+    out <- dbFetch(res, n)
+    if (warn_incomplete) {
+      res_warn_incomplete(res, "n = Inf")
+    }
+  }, finally = {
+    dbClearResult(res)
+  })
 
   grouped_df(out, groups(x))
 }
@@ -422,6 +447,9 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
     summarise() %>%
     collect()
 
+  con <- con_acquire(.data$src)
+  on.exit(con_release(.data$src, con), add = TRUE)
+
   n <- nrow(labels)
   m <- length(args)
 
@@ -431,7 +459,7 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   env <- new.env(parent = lazyeval::common_env(args))
 
   # Create ungrouped data frame suitable for chunked retrieval
-  query <- query(.data$src$con, sql_render(ungroup(.data)), op_vars(.data))
+  query <- query(con, sql_render(ungroup(.data), con), op_vars(.data))
 
   # When retrieving in pages, there's no guarantee we'll get a complete group.
   # So we always assume the last group in the chunk is incomplete, and leave

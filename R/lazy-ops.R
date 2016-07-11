@@ -13,14 +13,14 @@
 #' @name lazy_ops
 NULL
 
-op_base_remote <- function(src, x, vars = NULL) {
+op_base_remote <- function(src, x, con = NULL, vars = NULL) {
   # If not literal sql, must be a table identifier
   if (!is.sql(x)) {
     x <- ident(x)
   }
 
   if (is.null(vars)) {
-    vars <- db_query_fields(src$con, x)
+    vars <- db_query_fields(con, x)
   }
   op_base("remote", src, x, vars)
 }
