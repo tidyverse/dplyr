@@ -172,3 +172,10 @@ is_1d <- function(x) {
 }
 
 is_bare_list <- function(x) is.list(x) && !is.object(x)
+
+trunc_mat_print <- function(x, n, width, ...) {
+  tibblePrint <- getOption("dplyr.tibble.print", function(x, n = n, width = width, ...) {
+    print(trunc_mat(x, n = n, width = width, ...))
+  })
+  tibblePrint(x, n = n, width = width, ...)
+}
