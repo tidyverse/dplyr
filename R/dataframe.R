@@ -46,7 +46,14 @@ add_rownames <- function(df, var = "rowname") {
 #' @export
 group_by_.data.frame <- function(.data, ..., .dots, add = FALSE) {
   groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
-  grouped_df(groups$data, groups$groups)
+  
+  names.orig <- names(groups$data)
+  names(groups$data) <- enc2native(names(groups$data))
+  
+  ret <- grouped_df(groups$data, groups$groups)
+  
+  names(ret) <- names.orig
+  ret
 }
 
 #' @export
