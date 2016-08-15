@@ -6,7 +6,7 @@
 #' and factors. For logical vectors, use \code{\link{if_else}}
 #'
 #' @param .x A vector to modify
-#' @param ... Replacments. These should be named for character and factor
+#' @param ... Replacements. These should be named for character and factor
 #'   \code{.x}, and can be named for numeric \code{.x}.
 #'
 #'   All replacements must be the same type, and must have either
