@@ -44,6 +44,7 @@ LazyData: yes
 License: MIT + file LICENSE
 Collate:
     'RcppExports.R'
+    'add-tally.r'
     'all-equal.r'
     'bench-compare.r'
     'bind.r'
