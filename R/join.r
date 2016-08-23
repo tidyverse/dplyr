@@ -138,13 +138,12 @@ unique_names <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
 
   suffix <- check_suffix(suffix)
 
-  x_match <- match(common, x_names)
+  # Force rename all to avoid ambiguity
   x_new <- x_names
-  x_new[x_match] <- paste0(x_names[x_match], suffix$x)
+  x_new<- paste0(x_names, suffix$x)
 
-  y_match <- match(common, y_names)
   y_new <- y_names
-  y_new[y_match] <- paste0(y_names[y_match], suffix$y)
+  y_new <- paste0(y_names, suffix$y)
 
   list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
 }
