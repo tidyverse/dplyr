@@ -28,7 +28,7 @@ test_that("group_size correct for grouped data", {
 
 # For following tests, add an extra level that's not present in data
 df$x = factor(df$x, levels=1:4)
-tbls <- dplyr:::temp_load(c("df", "dt", "sqlite"), df)
+tbls <- test_load(df)
 
 test_that("group_by respects zero-length groups", {
   for (tbl in tbls) {
