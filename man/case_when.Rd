@@ -21,7 +21,7 @@ A vector as long as the longest LHS, with the type (and
   generate an error.
 }
 \description{
-This function allows you to vectorise mutiple \code{if} and \code{else if}
+This function allows you to vectorise multiple \code{if} and \code{else if}
 statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
 }
 \examples{

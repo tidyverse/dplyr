@@ -12,7 +12,7 @@ recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 \arguments{
 \item{.x}{A vector to modify}
 
-\item{...}{Replacments. These should be named for character and factor
+\item{...}{Replacements. These should be named for character and factor
   \code{.x}, and can be named for numeric \code{.x}.
 
   All replacements must be the same type, and must have either
