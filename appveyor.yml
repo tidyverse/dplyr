@@ -23,7 +23,7 @@ environment:
   - R_VERSION: patched
 
 build_script:
-  - travis-tool.sh install_github hadley/devtools rstats-db/RSQLite
+  - travis-tool.sh install_github rstats-db/RSQLite
   - travis-tool.sh install_deps
 
 test_script:
