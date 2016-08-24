@@ -297,126 +297,140 @@ namespace dplyr {
     bool rhs_date = Rf_inherits( right, "Date") ;
 
     switch( lhs_date + rhs_date ){
-      case 2: return new DateJoinVisitor( left, right ) ;
-      case 1: stop( "cannot join a Date object with an object that is not a Date object" ) ;
-      case 0: break ;
-      default: break ;
+      case 2:
+        return new DateJoinVisitor( left, right ) ;
+      case 1:
+        stop( "cannot join a Date object with an object that is not a Date object" ) ;
+      case 0:
+        break ;
+      default:
+        break ;
     }
 
     bool lhs_time = Rf_inherits( left, "POSIXct" );
     bool rhs_time = Rf_inherits( right, "POSIXct" );
     switch( lhs_time + rhs_time ){
-      case 2: return new POSIXctJoinVisitor( left, right) ;
-      case 1: stop( "cannot join a POSIXct object with an object that is not a POSIXct object" ) ;
-      case 0: break;
-      default: break ;
+      case 2:
+        return new POSIXctJoinVisitor( left, right) ;
+      case 1:
+        stop( "cannot join a POSIXct object with an object that is not a POSIXct object" ) ;
+      case 0:
+        break;
+      default:
+        break ;
     }
 
     switch( TYPEOF(left) ){
       case CPLXSXP:
-        {
-          switch( TYPEOF(right) ){
-          case CPLXSXP: return new JoinVisitorImpl<CPLXSXP, CPLXSXP>( left, right ) ;
+      {
+        switch( TYPEOF(right) ){
+          case CPLXSXP:
+            return new JoinVisitorImpl<CPLXSXP, CPLXSXP>( left, right ) ;
           default:
             break ;
-          }
-          break ;
         }
+        break ;
+      }
       case INTSXP:
-        {
-          bool lhs_factor = Rf_inherits( left, "factor" ) ;
-          switch( TYPEOF(right) ){
-            case INTSXP:
-              {
-                bool rhs_factor = Rf_inherits( right, "factor" ) ;
-                if( lhs_factor && rhs_factor){
-                  if( same_levels(left, right) ){
-                    return new JoinVisitorImpl<INTSXP, INTSXP>( left, right) ;
-                  } else {
-                    if(warn_) Rf_warning( "joining factors with different levels, coercing to character vector" );
-                    return new JoinFactorFactorVisitor(left, right) ;
-                  }
-                } else if( !lhs_factor && !rhs_factor){
-                  return new JoinVisitorImpl<INTSXP, INTSXP>( left, right ) ;
-                }
-                break ;
+      {
+        bool lhs_factor = Rf_inherits( left, "factor" ) ;
+        switch( TYPEOF(right) ){
+          case INTSXP:
+          {
+            bool rhs_factor = Rf_inherits( right, "factor" ) ;
+            if( lhs_factor && rhs_factor){
+              if( same_levels(left, right) ){
+                return new JoinVisitorImpl<INTSXP, INTSXP>( left, right) ;
+              } else {
+                if(warn_) Rf_warning( "joining factors with different levels, coercing to character vector" );
+                return new JoinFactorFactorVisitor(left, right) ;
               }
-            case REALSXP:
-              {
-                if( lhs_factor ){
-                  incompatible_join_visitor(left, right, name_left, name_right) ;
-                } else if( is_bare_vector(right) ){
-                  return new JoinVisitorImpl<INTSXP, REALSXP>( left, right) ;
-                } else {
-                  incompatible_join_visitor(left, right, name_left, name_right) ;
-                }
-                break ;
-                // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
-              }
-            case LGLSXP:
-              {
-                if( lhs_factor ){
-                  incompatible_join_visitor(left, right, name_left, name_right) ;
-                } else {
-                  return new JoinVisitorImpl<INTSXP, LGLSXP>( left, right) ;
-                }
-                break ;
-              }
-            case STRSXP:
-              {
-                if( lhs_factor ){
-                  if(warn_) Rf_warning( "joining factor and character vector, coercing into character vector" ) ;
-                  return new JoinFactorStringVisitor( left, right );
-                }
-              }
-            default: break ;
+            } else if( !lhs_factor && !rhs_factor){
+              return new JoinVisitorImpl<INTSXP, INTSXP>( left, right ) ;
+            }
+            break ;
           }
-          break ;
+          case REALSXP:
+          {
+            if( lhs_factor ){
+              incompatible_join_visitor(left, right, name_left, name_right) ;
+            } else if( is_bare_vector(right) ){
+              return new JoinVisitorImpl<INTSXP, REALSXP>( left, right) ;
+            } else {
+              incompatible_join_visitor(left, right, name_left, name_right) ;
+            }
+            break ;
+            // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
+          }
+          case LGLSXP:
+          {
+            if( lhs_factor ){
+              incompatible_join_visitor(left, right, name_left, name_right) ;
+            } else {
+              return new JoinVisitorImpl<INTSXP, LGLSXP>( left, right) ;
+            }
+            break ;
+          }
+          case STRSXP:
+          {
+            if( lhs_factor ){
+              if(warn_) Rf_warning( "joining factor and character vector, coercing into character vector" ) ;
+              return new JoinFactorStringVisitor( left, right );
+            }
+          }
+          default:
+            break ;
         }
+        break ;
+      }
       case REALSXP:
-        {
-          switch( TYPEOF(right) ){
+      {
+        switch( TYPEOF(right) ){
           case REALSXP:
             return new JoinVisitorImpl<REALSXP, REALSXP>( left, right) ;
           case INTSXP:
             return new JoinVisitorImpl<REALSXP, INTSXP>( left, right) ;
-          default: break ;
-          }
-
+          default:
+            break ;
         }
+
+      }
       case LGLSXP:
-        {
-          switch( TYPEOF(right) ){
+      {
+        switch( TYPEOF(right) ){
           case LGLSXP:
             return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;
           case INTSXP:
             return new JoinVisitorImpl<LGLSXP,INTSXP>( left, right ) ;
           case REALSXP:
             return new JoinVisitorImpl<LGLSXP,REALSXP>( left, right ) ;
-          default: break ;
-          }
-          break ;
+          default:
+            break ;
         }
+        break ;
+      }
       case STRSXP:
-        {
-          switch( TYPEOF(right) ){
+      {
+        switch( TYPEOF(right) ){
           case INTSXP:
-            {
-              if( Rf_inherits(right, "factor" ) ){
-                if(warn_) Rf_warning( "joining character vector and factor, coercing into character vector" ) ;
-                return new JoinStringFactorVisitor( left, right ) ;
-              }
-              break ;
+          {
+            if( Rf_inherits(right, "factor" ) ){
+              if(warn_) Rf_warning( "joining character vector and factor, coercing into character vector" ) ;
+              return new JoinStringFactorVisitor( left, right ) ;
             }
-          case STRSXP:
-            {
-              return new JoinStringStringVisitor( left, right ) ;
-            }
-          default: break ;
+            break ;
           }
-          break ;
+          case STRSXP:
+          {
+            return new JoinStringStringVisitor( left, right ) ;
+          }
+          default:
+            break ;
         }
-      default: break ;
+        break ;
+      }
+      default:
+        break ;
     }
 
     incompatible_join_visitor(left, right, name_left, name_right) ;

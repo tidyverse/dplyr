@@ -22,9 +22,11 @@ inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, Characte
 
 SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env){
   switch(TYPEOF(x)){
-  case LGLSXP: return x;
-  case LANGSXP: return x ;
-  case SYMSXP:
+    case LGLSXP:
+      return x;
+    case LANGSXP:
+      return x ;
+    case SYMSXP:
     {
       if( set.count(x) ) return x ;
 
@@ -42,8 +44,8 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
       }
       return res ;
     }
-  default:
-    break ;
+    default:
+      break ;
   }
   stop("incompatible expression in filter") ;
   return x ; // never happens

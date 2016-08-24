@@ -22,7 +22,8 @@ bool hybridable( RObject arg ){
     case CPLXSXP:
     case RAWSXP:
       return has_no_class(arg) ;
-    default: break ;
+    default:
+      break ;
   }
   return false ;
 }
@@ -37,7 +38,8 @@ Result* simple_prototype_impl( SEXP arg, bool is_summary ){
       return new Fun<INTSXP,narm>( arg, is_summary ) ;
     case REALSXP:
       return new Fun<REALSXP,narm>( arg, is_summary ) ;
-    default: break ;
+    default:
+      break ;
   }
   return 0 ;
 }
@@ -91,7 +93,8 @@ Result* minmax_prototype_impl(SEXP arg, bool is_summary){
       return new Tmpl<INTSXP,narm>( arg, is_summary ) ;
     case REALSXP:
       return new Tmpl<REALSXP,narm>( arg, is_summary ) ;
-    default: break ;
+    default:
+      break ;
   }
   return 0 ;
 }
@@ -186,10 +189,14 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     }
     if (Rf_length(data) == subsets.nrows() ){
       switch( TYPEOF(data) ){
-        case INTSXP:  return new RowNumber<INTSXP,  false>( data ) ;
-        case REALSXP: return new RowNumber<REALSXP, false>( data ) ;
-        case STRSXP:  return new RowNumber<STRSXP,  false>( data ) ;
-        default: break;
+        case INTSXP:
+          return new RowNumber<INTSXP,  false>( data ) ;
+        case REALSXP:
+          return new RowNumber<REALSXP, false>( data ) ;
+        case STRSXP:
+          return new RowNumber<STRSXP,  false>( data ) ;
+        default:
+          break;
       }
     }
     return 0 ;
@@ -200,10 +207,14 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
   }
   if (Rf_length(data) == subsets.nrows() ){
     switch( TYPEOF(data) ){
-      case INTSXP:  return new RowNumber<INTSXP,true>( data ) ;
-      case REALSXP: return new RowNumber<REALSXP,true>( data ) ;
-      case STRSXP: return new RowNumber<STRSXP,true>( data ) ;
-      default: break;
+      case INTSXP:
+        return new RowNumber<INTSXP,true>( data ) ;
+      case REALSXP:
+        return new RowNumber<REALSXP,true>( data ) ;
+      case STRSXP:
+        return new RowNumber<STRSXP,true>( data ) ;
+      default:
+        break;
     }
   }
   // we don't know how to handle it.
@@ -231,10 +242,14 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
       else return 0 ;
     }
     switch( TYPEOF(data) ){
-      case INTSXP:  return new Ntile<INTSXP,  false>( data, number_tiles ) ;
-      case REALSXP: return new Ntile<REALSXP, false>( data, number_tiles ) ;
-      case STRSXP:  return new Ntile<STRSXP,  false>( data, number_tiles ) ;
-      default: break;
+      case INTSXP:
+        return new Ntile<INTSXP,  false>( data, number_tiles ) ;
+      case REALSXP:
+        return new Ntile<REALSXP, false>( data, number_tiles ) ;
+      case STRSXP:
+        return new Ntile<STRSXP,  false>( data, number_tiles ) ;
+      default:
+        break;
     }
   }
   if( TYPEOF(data) == SYMSXP ){
@@ -244,10 +259,14 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
   if( subsets.nrows() != Rf_length(data) ) return 0 ;
 
   switch( TYPEOF(data) ){
-    case INTSXP:  return new Ntile<INTSXP ,true>( data, number_tiles ) ;
-    case REALSXP: return new Ntile<REALSXP,true>( data, number_tiles ) ;
-    case STRSXP:  return new Ntile<STRSXP ,true>( data, number_tiles ) ;
-    default: break;
+    case INTSXP:
+      return new Ntile<INTSXP ,true>( data, number_tiles ) ;
+    case REALSXP:
+      return new Ntile<REALSXP,true>( data, number_tiles ) ;
+    case STRSXP:
+      return new Ntile<STRSXP ,true>( data, number_tiles ) ;
+    default:
+      break;
   }
   // we don't know how to handle it.
   return 0 ;
@@ -266,10 +285,14 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     }
 
     switch( TYPEOF(data) ){
-      case INTSXP:  return new Rank_Impl<INTSXP,  Increment, false>( data ) ;
-      case REALSXP: return new Rank_Impl<REALSXP, Increment, false>( data ) ;
-      case STRSXP:  return new Rank_Impl<STRSXP,  Increment, false>( data ) ;
-      default: break;
+      case INTSXP:
+        return new Rank_Impl<INTSXP,  Increment, false>( data ) ;
+      case REALSXP:
+        return new Rank_Impl<REALSXP, Increment, false>( data ) ;
+      case STRSXP:
+        return new Rank_Impl<STRSXP,  Increment, false>( data ) ;
+      default:
+        break;
     }
   }
 
@@ -278,10 +301,14 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
     else return 0 ;
   }
   switch( TYPEOF(data) ){
-    case INTSXP:  return new Rank_Impl<INTSXP,  Increment, true>( data ) ;
-    case REALSXP: return new Rank_Impl<REALSXP, Increment, true>( data ) ;
-    case STRSXP:  return new Rank_Impl<STRSXP,  Increment, true>( data ) ;
-    default: break;
+    case INTSXP:
+      return new Rank_Impl<INTSXP,  Increment, true>( data ) ;
+    case REALSXP:
+      return new Rank_Impl<REALSXP, Increment, true>( data ) ;
+    case STRSXP:
+      return new Rank_Impl<STRSXP,  Increment, true>( data ) ;
+    default:
+      break;
   }
   // we don't know how to handle it.
   return 0 ;
@@ -344,11 +371,16 @@ Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     data = subsets.get_variable(data) ;
 
     switch( TYPEOF(data) ){
-      case INTSXP:  return new Templ<INTSXP> (data, n, args.def, is_summary) ;
-      case REALSXP: return new Templ<REALSXP>(data, n, args.def, is_summary) ;
-      case STRSXP:  return new Templ<STRSXP> (data, n, args.def, is_summary) ;
-      case LGLSXP:  return new Templ<LGLSXP> (data, n, args.def, is_summary) ;
-      default: break ;
+      case INTSXP:
+        return new Templ<INTSXP> (data, n, args.def, is_summary) ;
+      case REALSXP:
+        return new Templ<REALSXP>(data, n, args.def, is_summary) ;
+      case STRSXP:
+        return new Templ<STRSXP> (data, n, args.def, is_summary) ;
+      case LGLSXP:
+        return new Templ<LGLSXP> (data, n, args.def, is_summary) ;
+      default:
+        break ;
     }
 
   }
@@ -363,9 +395,12 @@ Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
     data = subsets.get_variable(data) ;
   }
   switch( TYPEOF(data) ){
-    case INTSXP: return new Templ<INTSXP>(data) ;
-    case REALSXP: return new Templ<REALSXP>(data) ;
-    default: break ;
+    case INTSXP:
+      return new Templ<INTSXP>(data) ;
+    case REALSXP:
+      return new Templ<REALSXP>(data) ;
+    default:
+      break ;
   }
   return 0 ;
 }
@@ -393,8 +428,10 @@ Result* in_prototype( SEXP call, const LazySubsets& subsets, int nargs){
 
   // otherwise use hybrid version
   switch( TYPEOF(v) ){
-  case STRSXP: return new In<STRSXP>(v, rhs) ;
-  default: break ;
+    case STRSXP:
+      return new In<STRSXP>(v, rhs) ;
+    default:
+      break ;
   }
 
   // type not handled
@@ -444,20 +481,22 @@ HybridHandlerMap& get_handlers(){
 
 Result* constant_handler(SEXP constant){
   switch(TYPEOF(constant)){
-  case INTSXP:
+    case INTSXP:
     {
       if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<INTSXP>(constant, get_date_classes() ) ;
       return new ConstantResult<INTSXP>(constant) ;
     }
-  case REALSXP:
+    case REALSXP:
     {
       if( Rf_inherits(constant, "difftime") ) return new DifftimeConstantResult<REALSXP>(constant) ;
       if( Rf_inherits(constant, "POSIXct") ) return new TypedConstantResult<REALSXP>(constant, get_time_classes() ) ;
       if( Rf_inherits(constant, "Date") ) return new TypedConstantResult<REALSXP>(constant, get_date_classes() ) ;
       return new ConstantResult<REALSXP>(constant) ;
     }
-  case STRSXP: return new ConstantResult<STRSXP>(constant) ;
-  case LGLSXP: return new ConstantResult<LGLSXP>(constant) ;
+    case STRSXP:
+      return new ConstantResult<STRSXP>(constant) ;
+    case LGLSXP:
+      return new ConstantResult<LGLSXP>(constant) ;
   }
   return 0;
 }
