@@ -773,13 +773,12 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
     }
   }
 
-  return subset_join(
-           x, y,
-           indices_x, indices_y,
-           by_x, by_y,
-           suffix_x, suffix_y,
-           x.attr("class")
-         );
+  return subset_join(x, y,
+                     indices_x, indices_y,
+                     by_x, by_y,
+                     suffix_x, suffix_y,
+                     x.attr("class")
+                    );
 }
 
 // [[Rcpp::export]]
@@ -811,13 +810,12 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
     }
   }
 
-  return subset_join(
-           x, y,
-           indices_x, indices_y,
-           by_x, by_y,
-           suffix_x, suffix_y,
-           x.attr("class")
-         );
+  return subset_join(x, y,
+                     indices_x, indices_y,
+                     by_x, by_y,
+                     suffix_x, suffix_y,
+                     x.attr("class")
+                    );
 }
 
 // [[Rcpp::export]]
@@ -847,13 +845,12 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
       indices_y.push_back(i) ;
     }
   }
-  return subset_join(
-           x, y,
-           indices_x, indices_y,
-           by_x, by_y,
-           suffix_x, suffix_y,
-           x.attr("class")
-         );
+  return subset_join(x, y,
+                     indices_x, indices_y,
+                     by_x, by_y,
+                     suffix_x, suffix_y,
+                     x.attr("class")
+                    );
 }
 
 // [[Rcpp::export]]
