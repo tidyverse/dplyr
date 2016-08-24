@@ -176,6 +176,8 @@ List rbind_list__impl( Dots dots ){
 template <typename Dots>
 List cbind__impl( Dots dots ){
   int n = dots.size() ;
+  if ( n == 0 )
+    return DataFrame();
 
   DataFrameAbleVector chunks ;
   for( int i=0; i<n; i++) {
