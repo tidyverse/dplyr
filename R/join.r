@@ -104,20 +104,42 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #'
 #' @export
 #' @keywords internal
-common_by <- function(by = NULL, x, y) {
-  if (is.list(by)) return(by)
+common_by <- function(by = NULL, x, y) UseMethod("common_by", by)
 
-  if (!is.null(by)) {
-    by <- by[!duplicated(by)]
-    x <- names(by) %||% by
-    y <- unname(by)
+#' @export
+common_by.character <- function(by, x, y) {
+  by <- common_by_from_vector(by)
+  common_by.list(by, x, y)
+}
 
-    # If x partially named, assume unnamed are the same in both tables
-    x[x == ""] <- y[x == ""]
+common_by_from_vector <- function(by) {
+  by <- by[!duplicated(by)]
+  by_x <- names(by) %||% by
+  by_y <- unname(by)
 
-    return(list(x = x, y = y))
+  # If x partially named, assume unnamed are the same in both tables
+  by_x[by_x == ""] <- by_y[by_x == ""]
+
+  list(x = by_x, y = by_y)
+}
+
+#' @export
+common_by.list <- function(by, x, y) {
+  x_vars <- tbl_vars(x)
+  if (!all(by$x %in% x_vars)) {
+    stop("Join column not found in lhs: ", paste(setdiff(by$x, x_vars), collapse = ", "), call. = FALSE)
   }
 
+  y_vars <- tbl_vars(y)
+  if (!all(by$y %in% y_vars)) {
+    stop("Join column not found in rhs: ", paste(setdiff(by$y, y_vars), collapse = ", "), call. = FALSE)
+  }
+
+  by
+}
+
+#' @export
+common_by.NULL <- function(by, x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
     stop("No common variables. Please specify `by` param.", call. = FALSE)

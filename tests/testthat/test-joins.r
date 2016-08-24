@@ -195,14 +195,29 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365",{
 test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x=1:5), data.frame(y=1:5), by="x"),
-    "column not found in lhs"
-  )
-  expect_error(
-    left_join(data.frame(x=1:5), data.frame(y=1:5), by="y"),
     "column not found in rhs"
   )
   expect_error(
+    left_join(data.frame(x=1:5), data.frame(y=1:5), by="y"),
+    "column not found in lhs"
+  )
+  expect_error(
     left_join(data.frame(x=1:5), data.frame(y=1:5)),
+    "No common variables"
+  )
+})
+
+test_that("join functions error on column not found for SQL sources #1928", {
+  expect_error(
+    left_join(memdb_frame(x=1:5), memdb_frame(y=1:5), by="x"),
+    "column not found in rhs"
+  )
+  expect_error(
+    left_join(memdb_frame(x=1:5), memdb_frame(y=1:5), by="y"),
+    "column not found in lhs"
+  )
+  expect_error(
+    left_join(memdb_frame(x=1:5), memdb_frame(y=1:5)),
     "No common variables"
   )
 })
@@ -358,11 +373,11 @@ test_that("joins between factor and character coerces to character with a warnin
 # Guessing variables in x and y ------------------------------------------------
 
 test_that("unnamed vars are the same in both tables", {
-  by1 <- common_by(c("x", "y", "z"))
+  by1 <- common_by_from_vector(c("x", "y", "z"))
   expect_equal(by1$x, c("x", "y", "z"))
   expect_equal(by1$y, c("x", "y", "z"))
 
-  by2 <- common_by(c("x" = "a", "y", "z"))
+  by2 <- common_by_from_vector(c("x" = "a", "y", "z"))
   expect_equal(by2$x, c("x", "y", "z"))
   expect_equal(by2$y, c("a", "y", "z"))
 })

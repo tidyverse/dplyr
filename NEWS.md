@@ -322,9 +322,10 @@ There were two other tweaks to the exported API, but these are less likely to af
   that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively
   to avoid creating repeated column names (#1460).  Joins on string columns
   should be substantially faster (#1386). Extra attributes are ok if they are
-  identical (#1636). Joins work correct when factor levels not equal 
-  (#1712, #1559), and anti and semi joins give correct result when by variable is a 
-  factor (#1571).
+  identical (#1636). Joins work correct when factor levels not equal (#1712, 
+  #1559), and anti and semi joins give correct result when by variable is a 
+  factor (#1571). A clear error message is given for joins where an explicit `by`
+  contains unavailable columns (#1928, #1932, @krlmlr).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable
