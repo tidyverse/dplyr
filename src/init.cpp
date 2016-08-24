@@ -8,12 +8,12 @@ using namespace dplyr ;
 
 SEXP get_cache() {
   static SEXP cache = 0;
-  if ( !cache ) {
+  if (!cache) {
     SEXP vec = PROTECT(Rf_allocVector(VECSXP, 2)) ;
     SEXP date_classes = PROTECT(Rf_mkString("Date")) ;
-    SET_VECTOR_ELT( vec, 0, date_classes) ;
-    CharacterVector time_classes = CharacterVector::create( "POSIXct", "POSIXt" ) ;
-    SET_VECTOR_ELT( vec, 1, time_classes) ;
+    SET_VECTOR_ELT(vec, 0, date_classes) ;
+    CharacterVector time_classes = CharacterVector::create("POSIXct", "POSIXt") ;
+    SET_VECTOR_ELT(vec, 1, time_classes) ;
     UNPROTECT(2) ;
     R_PreserveObject(vec) ;
     cache = vec ;
@@ -28,7 +28,7 @@ SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1) ;
 }
 
-extern "C" void R_init_dplyr( DllInfo* info ) {
+extern "C" void R_init_dplyr(DllInfo* info) {
   DPLYR_REGISTER(build_index_cpp)
   DPLYR_REGISTER(registerHybridHandler)
 

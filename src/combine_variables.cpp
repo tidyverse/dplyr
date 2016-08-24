@@ -85,7 +85,7 @@ SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
   SEXP raw_names = Rf_getAttrib(xs, Rf_mkString("names"));
   CharacterVector xs_names;
   if (raw_names == R_NilValue) {
-    xs_names = CharacterVector(xs.size(), "" );
+    xs_names = CharacterVector(xs.size(), "");
   } else {
     xs_names = raw_names ;
   }

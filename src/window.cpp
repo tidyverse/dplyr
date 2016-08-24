@@ -16,16 +16,16 @@ LogicalVector cumall(LogicalVector x) {
   LogicalVector out(n, NA_LOGICAL);
 
   int current = out[0] = x[0];
-  if ( current == NA_LOGICAL) return out ;
-  if ( current == FALSE) {
-    std::fill( out.begin(), out.end(), FALSE ) ;
+  if (current == NA_LOGICAL) return out ;
+  if (current == FALSE) {
+    std::fill(out.begin(), out.end(), FALSE) ;
     return out ;
   }
   for (int i = 1; i < n; i++) {
     current = x[i] ;
-    if ( current == NA_LOGICAL ) break ;
-    if ( current == FALSE ) {
-      std::fill( out.begin() + i, out.end(), FALSE ) ;
+    if (current == NA_LOGICAL) break ;
+    if (current == FALSE) {
+      std::fill(out.begin() + i, out.end(), FALSE) ;
       break ;
     }
     out[i] = current && out[i - 1];
@@ -41,16 +41,16 @@ LogicalVector cumany(LogicalVector x) {
   LogicalVector out(n, NA_LOGICAL);
 
   int current = out[0] = x[0];
-  if ( current == NA_LOGICAL ) return out ;
-  if ( current == TRUE ) {
-    std::fill( out.begin(), out.end(), TRUE ) ;
+  if (current == NA_LOGICAL) return out ;
+  if (current == TRUE) {
+    std::fill(out.begin(), out.end(), TRUE) ;
     return out ;
   }
   for (int i = 1; i < n; i++) {
     current = x[i] ;
-    if ( current == NA_LOGICAL ) break ;
-    if ( current == TRUE ) {
-      std::fill( out.begin() + i, out.end(), TRUE ) ;
+    if (current == NA_LOGICAL) break ;
+    if (current == TRUE) {
+      std::fill(out.begin() + i, out.end(), TRUE) ;
       break ;
     }
     out[i] = current || out[i - 1];
@@ -67,7 +67,7 @@ NumericVector cummean(NumericVector x) {
   NumericVector out = no_init(n);
 
   double sum = out[0] = x[0];
-  for (int i = 1; i < n; i++ ) {
+  for (int i = 1; i < n; i++) {
     sum += x[i];
     out[i] = sum / (i + 1.0);
   }

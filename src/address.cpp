@@ -3,7 +3,7 @@ using namespace Rcpp;
 
 const char* address(SEXP x) {
   static char buffer[20] ;
-  snprintf( buffer, 20, "%p", reinterpret_cast<void*>(x) ) ;
+  snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x)) ;
   return (const char*)buffer ;
 }
 
@@ -18,7 +18,7 @@ CharacterVector loc(RObject data) {
 CharacterVector dfloc(List df) {
   int n = df.size() ;
   CharacterVector pointers(n);
-  for ( int i=0; i<n; i++) {
+  for (int i=0; i<n; i++) {
     pointers[i] = address(df[i]) ;
   }
   pointers.names() = df.names() ;
@@ -31,7 +31,7 @@ CharacterVector plfloc(Pairlist data) {
   CharacterVector pointers(n), names(n) ;
   SEXP p = data ;
   int i=0 ;
-  while ( ! Rf_isNull(p) ) {
+  while (! Rf_isNull(p)) {
     pointers[i] = address(CAR(p)) ;
     names[i] = PRINTNAME(TAG(p)) ;
     p = CDR(p) ;
