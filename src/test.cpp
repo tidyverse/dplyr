@@ -4,7 +4,7 @@ using namespace Rcpp ;
 using namespace dplyr ;
 
 // [[Rcpp::export]]
-LogicalVector test_comparisons(){
+LogicalVector test_comparisons() {
   dplyr::comparisons<REALSXP> comp ;
   return LogicalVector::create(
            comp.is_less( 1.0, 2.0 ),
