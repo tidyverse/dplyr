@@ -74,13 +74,21 @@ test_that("sql sources fail with bare functions", {
   expect_error(memdb_frame(x = 1) %>% mutate_all(mean) %>% collect())
 })
 
+test_that("empty selection does not select everything (#2009, #1989)", {
+  expect_equal(mtcars, mutate_if(mtcars, is.factor, as.character))
+})
+
 
 # Deprecated ---------------------------------------------------------
 
-test_that("summarise_each() and summarise_all() agree", {
+test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
   expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
   expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
+
+  expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
+  expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
 })

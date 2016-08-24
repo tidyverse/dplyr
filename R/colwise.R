@@ -70,7 +70,8 @@
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
   funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  vars <- colwise_(.tbl, funs, list())
+  cols <- lazyeval::lazy_dots(everything())
+  vars <- colwise_(.tbl, funs, cols)
   summarise_(.tbl, .dots = vars)
 }
 
@@ -78,7 +79,8 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  vars <- colwise_(.tbl, funs, list())
+  cols <- lazyeval::lazy_dots(everything())
+  vars <- colwise_(.tbl, funs, cols)
   mutate_(.tbl, .dots = vars)
 }
 
@@ -192,9 +194,6 @@ colwise_ <- function(tbl, calls, vars) {
   named_calls <- attr(calls, "has_names")
   named_vars <- any(has_names(vars))
 
-  if (length(vars) == 0) {
-    vars <- lazyeval::lazy_dots(everything())
-  }
   vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))
 
   out <- vector("list", length(vars) * length(calls))
@@ -248,6 +247,9 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
+  if (length(vars) == 0) {
+    vars <- lazyeval::lazy_dots(everything())
+  }
   if (is.character(funs)) {
     funs <- funs_(funs)
   }
@@ -277,6 +279,9 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
+  if (length(vars) == 0) {
+    vars <- lazyeval::lazy_dots(everything())
+  }
   vars <- colwise_(tbl, funs, vars)
   mutate_(tbl, .dots = vars)
 }
