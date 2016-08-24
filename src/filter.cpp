@@ -6,7 +6,7 @@ using namespace dplyr ;
 typedef dplyr_hash_set<SEXP> SymbolSet ;
 
 namespace dplyr {
-  void strip_index(DataFrame x) {
+  void strip_index(DataFrame x){
     x.attr("indices") = R_NilValue ;
     x.attr("group_sizes") = R_NilValue ;
     x.attr("biggest_group_size") = R_NilValue ;
@@ -51,7 +51,7 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
 
 SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& env ){
   int ncalls = dots.size() ;
-  if( !ncalls ) {
+  if( !ncalls ){
     stop("incompatible input") ;
   }
   Shield<SEXP> call_( dots[0].expr() ) ;
@@ -67,7 +67,7 @@ SEXP and_calls( const LazyDots& dots, const SymbolSet& set, const Environment& e
 }
 
 void check_filter_result(const LogicalVector& test, int n){
-  if( test.size() != n ) {
+  if( test.size() != n ){
     stop( "incorrect length (%d), expecting: %d", test.size(), n );
   }
 }
@@ -189,7 +189,7 @@ DataFrame filter_grouped( const Data& gdf, const LazyDots& dots){
 
 bool combine_and(LogicalVector& test, const LogicalVector& test2){
   int n = test.size() ;
-  if(n == 1) {
+  if(n == 1){
     test = test2 ;
   } else {
     int n2 = test2.size() ;
@@ -197,7 +197,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2){
       if( !test2[0] ){
         return true ;
       }
-    } else if( n2 == n) {
+    } else if( n2 == n){
       for( int i=0; i<n; i++){
         test[i] = test[i] && test2[i] ;
       }
@@ -240,7 +240,7 @@ DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
     Call call(dots[0].expr());
     CallProxy first_proxy(call, df, dots[0].env() ) ;
     LogicalVector test = check_filter_logical_result(first_proxy.eval()) ;
-    if( test.size() == 1 ) {
+    if( test.size() == 1 ){
       if( !test[0] ){
         return empty_subset(df, df.names(), classes_not_grouped() ) ;
       }
@@ -266,7 +266,7 @@ DataFrame filter_not_grouped( DataFrame df, const LazyDots& dots){
 
 // [[Rcpp::export]]
 SEXP filter_impl( DataFrame df, LazyDots dots){
-  if( df.nrows() == 0 || Rf_isNull(df) ) {
+  if( df.nrows() == 0 || Rf_isNull(df) ){
     return df ;
   }
   check_valid_colnames(df) ;

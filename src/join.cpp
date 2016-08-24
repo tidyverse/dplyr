@@ -12,7 +12,7 @@ namespace dplyr{
     int n = levels_left.size() ;
     if( n != levels_right.size() ) return false ;
 
-    for( int i=0; i<n; i++) {
+    for( int i=0; i<n; i++){
       if( levels_right[i] != levels_left[i] ) return false ;
     }
 
@@ -50,7 +50,7 @@ namespace dplyr{
   inline SEXP subset_join_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, const std::vector<int>& indices ){
     int n = indices.size() ;
     IntegerVector res = no_init(n) ;
-    for( int i=0; i<n; i++) {
+    for( int i=0; i<n; i++){
       int index = indices[i] ;
       if( index >= 0 ){
         res[i] = joiner.left[index] ;
@@ -74,7 +74,7 @@ namespace dplyr{
     int n = set.size() ;
     IntegerVector res = no_init(n) ;
     VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-    for( int i=0; i<n; i++, ++it) {
+    for( int i=0; i<n; i++, ++it){
       int index = *it ;
       if( index >= 0 ){
         res[i] = joiner.left[index] ;
@@ -118,7 +118,7 @@ namespace dplyr{
   inline SEXP subset_join_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, const std::vector<int>& indices ){
     int n = indices.size() ;
     NumericVector res = no_init(n) ;
-    for( int i=0; i<n; i++) {
+    for( int i=0; i<n; i++){
       int index = indices[i] ;
       if( index >= 0 ){
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.left[index] ) ;
@@ -143,7 +143,7 @@ namespace dplyr{
     int n = set.size() ;
     NumericVector res = no_init(n) ;
     VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-    for( int i=0; i<n; i++, ++it) {
+    for( int i=0; i<n; i++, ++it){
       int index = *it ;
       if( index >= 0){
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.left[index] ) ;
@@ -189,7 +189,7 @@ namespace dplyr{
   inline SEXP subset_join_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, const std::vector<int>& indices ){
     int n = indices.size() ;
     NumericVector res = no_init(n) ;
-    for( int i=0; i<n; i++) {
+    for( int i=0; i<n; i++){
       int index = indices[i] ;
       if( index < 0 ){
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.right[-index-1] ) ;
@@ -214,7 +214,7 @@ namespace dplyr{
     int n = set.size() ;
     NumericVector res = no_init(n) ;
     VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-    for( int i=0; i<n; i++, ++it) {
+    for( int i=0; i<n; i++, ++it){
       int index = *it ;
       if( index < 0){
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.right[-index-1] ) ;
@@ -236,13 +236,13 @@ namespace dplyr{
 
 
   // -----------------
-  inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right) {
+  inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right){
     stop( "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
       name_left, name_right, get_single_class(left), get_single_class(right)
     ) ;
   }
 
-  int count_attributes( SEXP x) {
+  int count_attributes( SEXP x){
     int n = 0 ;
 
     while( ! Rf_isNull(x) ){
@@ -336,7 +336,7 @@ namespace dplyr{
                     if(warn_) Rf_warning( "joining factors with different levels, coercing to character vector" );
                     return new JoinFactorFactorVisitor(left, right) ;
                   }
-                } else if( !lhs_factor && !rhs_factor) {
+                } else if( !lhs_factor && !rhs_factor){
                   return new JoinVisitorImpl<INTSXP, INTSXP>( left, right ) ;
                 }
                 break ;
@@ -345,7 +345,7 @@ namespace dplyr{
               {
                 if( lhs_factor ){
                   incompatible_join_visitor(left, right, name_left, name_right) ;
-                } else if( is_bare_vector(right) ) {
+                } else if( is_bare_vector(right) ){
                   return new JoinVisitorImpl<INTSXP, REALSXP>( left, right) ;
                 } else {
                   incompatible_join_visitor(left, right, name_left, name_right) ;

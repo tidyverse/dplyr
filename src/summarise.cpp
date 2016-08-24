@@ -30,7 +30,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots){
 
     // if we could not find a direct Result
     // we can use a GroupedCallReducer which will callback to R
-    if( !res ) {
+    if( !res ){
       res.reset( new GroupedCallReducer<Data, Subsets>( lazy.expr(), subsets, env) );
     }
     RObject result = res->process(gdf)  ;
@@ -83,7 +83,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots){
     Shield<SEXP> expr_(lazy.expr()) ; SEXP expr = expr_ ;
     boost::scoped_ptr<Result> res( get_handler( expr, subsets, env ) ) ;
     SEXP result ;
-    if(res) {
+    if(res){
       result = results[i] = res->process( FullDataFrame(df) ) ;
     } else {
       result = results[i] = CallProxy( lazy.expr(), subsets, env).eval() ;

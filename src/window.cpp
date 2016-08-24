@@ -11,7 +11,7 @@ using namespace Rcpp;
 //'   \code{cummean} an integer or numeric vector
 //' @export
 // [[Rcpp::export]]
-LogicalVector cumall(LogicalVector x) {
+LogicalVector cumall(LogicalVector x){
   int n = x.length();
   LogicalVector out(n, NA_LOGICAL);
 
@@ -21,7 +21,7 @@ LogicalVector cumall(LogicalVector x) {
     std::fill( out.begin(), out.end(), FALSE ) ;
     return out ;
   }
-  for (int i = 1; i < n; i++) {
+  for (int i = 1; i < n; i++){
     current = x[i] ;
     if( current == NA_LOGICAL ) break ;
     if( current == FALSE ){
@@ -36,7 +36,7 @@ LogicalVector cumall(LogicalVector x) {
 //' @export
 //' @rdname cumall
 // [[Rcpp::export]]
-LogicalVector cumany(LogicalVector x) {
+LogicalVector cumany(LogicalVector x){
   int n = x.length();
   LogicalVector out(n, NA_LOGICAL);
 
@@ -46,7 +46,7 @@ LogicalVector cumany(LogicalVector x) {
     std::fill( out.begin(), out.end(), TRUE ) ;
     return out ;
   }
-  for (int i = 1; i < n; i++) {
+  for (int i = 1; i < n; i++){
     current = x[i] ;
     if( current == NA_LOGICAL ) break ;
     if( current == TRUE ){
@@ -62,12 +62,12 @@ LogicalVector cumany(LogicalVector x) {
 //' @export
 //' @rdname cumall
 // [[Rcpp::export]]
-NumericVector cummean(NumericVector x) {
+NumericVector cummean(NumericVector x){
   int n = x.length();
   NumericVector out = no_init(n);
 
   double sum = out[0] = x[0];
-  for (int i = 1; i < n; i++ ) {
+  for (int i = 1; i < n; i++ ){
     sum += x[i];
     out[i] = sum / (i + 1.0);
   }

@@ -35,7 +35,7 @@ List arrange_impl( DataFrame data, LazyDots dots ){
       if( nr != data.nrows() ){
         stop( "data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows() );
       }
-    } else if( Rf_isMatrix(v) ) {
+    } else if( Rf_isMatrix(v) ){
       stop( "can't arrange by a matrix" ) ;
     } else {
       if( Rf_length(v) != data.nrows() ){

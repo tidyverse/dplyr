@@ -109,7 +109,7 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs){
     stop( "the first argument of 'nth' should be either 'x' or unnamed" ) ;
   }
   SEXP data = CADR(call) ;
-  if( TYPEOF(data) == SYMSXP ) {
+  if( TYPEOF(data) == SYMSXP ){
     if( ! subsets.count(data) ){
       stop( "could not find variable '%s'", CHAR(PRINTNAME(data)) );
     }

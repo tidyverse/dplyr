@@ -8,7 +8,7 @@ const char* address(SEXP x){
 }
 
 // [[Rcpp::export]]
-CharacterVector loc(RObject data) {
+CharacterVector loc(RObject data){
   CharacterVector out(1);
   out[0] = address(data);
   return out;
@@ -18,7 +18,7 @@ CharacterVector loc(RObject data) {
 CharacterVector dfloc(List df){
   int n = df.size() ;
   CharacterVector pointers(n);
-  for( int i=0; i<n; i++) {
+  for( int i=0; i<n; i++){
     pointers[i] = address(df[i]) ;
   }
   pointers.names() = df.names() ;

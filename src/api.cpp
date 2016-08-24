@@ -125,7 +125,7 @@ namespace dplyr{
         proxies[i].set( subsets[proxies[i].symbol] ) ;
       }
       return call.eval(env) ;
-    } else if( TYPEOF(call) == SYMSXP) {
+    } else if( TYPEOF(call) == SYMSXP){
       // SYMSXP
       if( subsets.count(call) ) return subsets.get_variable(call) ;
       return call.eval(env) ;
@@ -321,7 +321,7 @@ namespace dplyr{
 
     for( int i=1; i<n; i++, p_data++){
       SEXP s = *p_data;
-      if( s == previous ) {
+      if( s == previous ){
         orders[i] = o_pos ;
         continue ;
       }

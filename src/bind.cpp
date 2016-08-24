@@ -8,7 +8,7 @@ public:
 
   DataFrameAbleVector() : data(){}
 
-  inline void push_back( SEXP x) {
+  inline void push_back( SEXP x){
     data.push_back( DataFrameAble(x) ) ;
   }
 
@@ -36,7 +36,7 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
   std::vector<int> df_nrows ;
 
   int k=0 ;
-  for( int i=0; i<ndata; i++) {
+  for( int i=0; i<ndata; i++){
     SEXP obj = dots[i] ;
     if( Rf_isNull(obj) ) continue ;
     chunks.push_back( obj ) ;
@@ -82,7 +82,7 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
         // if the current source is compatible, collect
         coll->collect( SlicingIndex( k, nrows), source ) ;
 
-      } else if( coll->can_promote(source) ) {
+      } else if( coll->can_promote(source) ){
         // setup a new Collecter
         Collecter* new_collecter = promote_collecter(source, n, coll ) ;
 
@@ -96,10 +96,10 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
         delete coll ;
         columns[index] = new_collecter ;
 
-      } else if( all_na(source) ) {
+      } else if( all_na(source) ){
         // do nothing, the collecter already initialized data with the
         // right NA
-      } else if( coll->is_logical_all_na()  ) {
+      } else if( coll->is_logical_all_na()  ){
         Collecter* new_collecter = collecter( source, n ) ;
         new_collecter->collect( SlicingIndex(k, nrows), source ) ;
         delete coll ;
@@ -128,7 +128,7 @@ List rbind__impl( Dots dots, SEXP id = R_NilValue ){
   }
 
   // Add vector of identifiers if .id is supplied
-  if (!Rf_isNull(id)) {
+  if (!Rf_isNull(id)){
     CharacterVector df_names = dots.names() ;
     CharacterVector id_col = no_init(n) ;
 
@@ -267,7 +267,7 @@ SEXP combine_all( List data ){
 
     if( coll->compatible(current) ){
       coll->collect( SlicingIndex(k, n_current), current ) ;
-    } else if( coll->can_promote(current) ) {
+    } else if( coll->can_promote(current) ){
       Collecter* new_coll = promote_collecter(current, n, coll.get() ) ;
       new_coll->collect( SlicingIndex(k, n_current), current ) ;
       new_coll->collect( SlicingIndex(0, k), coll->get() ) ;

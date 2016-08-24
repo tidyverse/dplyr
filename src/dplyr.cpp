@@ -5,7 +5,7 @@ using namespace dplyr ;
 
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 
-bool has_no_class( const RObject& arg) {
+bool has_no_class( const RObject& arg){
   return RCPP_GET_CLASS(arg) == R_NilValue ;
 }
 
@@ -48,7 +48,7 @@ Result* simple_prototype(  SEXP call, const LazySubsets& subsets, int nargs ){
   SEXP arg = CADR(call) ;
   bool is_summary = false ;
   if( TYPEOF(arg) == SYMSXP ){
-    if( subsets.count(arg) ) {
+    if( subsets.count(arg) ){
       // we have a symbol from the data - great
       is_summary = subsets.is_summary(arg) ;
       arg = subsets.get_variable(arg) ;
@@ -107,7 +107,7 @@ Result* minmax_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
 
   bool is_summary = false ;
   if( TYPEOF(arg) == SYMSXP ){
-    if( subsets.count(arg) ) {
+    if( subsets.count(arg) ){
       is_summary = subsets.is_summary(arg) ;
       arg = subsets.get_variable(arg) ;
     }
@@ -153,14 +153,14 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int narg
       } else {
         stop("incompatible value for `na.rm` parameter") ;
       }
-    } else if( TYPEOF(x) == SYMSXP ) {
+    } else if( TYPEOF(x) == SYMSXP ){
       visitors.push_back( subsets.get_variable( x ) )  ;
     } else {
       return 0 ;
     }
   }
 
-  if( visitors.size() == 0 ) {
+  if( visitors.size() == 0 ){
     stop("need at least one column for n_distinct()");
   }
 
@@ -293,7 +293,7 @@ struct LeadLag{
 
     SEXP p = CDR(call) ;
     SEXP tag = TAG(p) ;
-    if( tag != R_NilValue && tag != Rf_install("x") ) {
+    if( tag != R_NilValue && tag != Rf_install("x") ){
       ok = false ;
       return ;
     }
@@ -302,7 +302,7 @@ struct LeadLag{
     p = CDR(p);
     while( p != R_NilValue ){
       tag = TAG(p) ;
-      if( tag != R_NilValue && tag != Rf_install("n") && tag != Rf_install("default") ) {
+      if( tag != R_NilValue && tag != Rf_install("n") && tag != Rf_install("default") ){
         ok = false ;
         return ;
       }
@@ -359,7 +359,7 @@ template < template <int> class Templ>
 Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs){
   if( nargs != 1 ) return 0 ;
   RObject data( CADR(call) );
-  if(TYPEOF(data) == SYMSXP) {
+  if(TYPEOF(data) == SYMSXP){
     data = subsets.get_variable(data) ;
   }
   switch( TYPEOF(data) ){
@@ -873,7 +873,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
 SEXP shallow_copy(const List& data){
   int n = data.size() ;
   List out(n) ;
-  for( int i=0; i<n; i++) {
+  for( int i=0; i<n; i++){
     out[i] = shared_SEXP(data[i]) ;
   }
   copy_attributes(out, data) ;
@@ -974,19 +974,19 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
     SubsetVectorVisitor* px = vx.get() ;
     SubsetVectorVisitor* py = vy.get() ;
 
-    if( typeid(*px) != typeid(*py) ) {
+    if( typeid(*px) != typeid(*py) ){
       ss << "Incompatible type for column "
          << name.get_cstring()
          << ": x " << vx->get_r_type()
          << ", y " << vy->get_r_type() ;
 
-      if( !convert ) {
+      if( !convert ){
         ok = false ;
         continue ;
       }
     }
 
-    if( ! vx->is_compatible( py, ss, name ) ) {
+    if( ! vx->is_compatible( py, ss, name ) ){
       ok = false ;
     }
   }
@@ -997,7 +997,7 @@ dplyr::BoolResult compatible_data_frame( DataFrame x, DataFrame y, bool ignore_c
 
 class RowTrack {
 public:
-  RowTrack( const std::string& msg, int max_count_ = 10 ) : ss(), count(0), max_count(max_count_) {
+  RowTrack( const std::string& msg, int max_count_ = 10 ) : ss(), count(0), max_count(max_count_){
     ss << msg ;
   }
 
@@ -1142,7 +1142,7 @@ DataFrame intersect_data_frame( DataFrame x, DataFrame y){
 
   std::vector<int> indices ;
   int n_y = y.nrows() ;
-  for( int i=0; i<n_y; i++) {
+  for( int i=0; i<n_y; i++){
     Set::iterator it = set.find( -i-1 ) ;
     if( it != set.end() ){
       indices.push_back(*it) ;
@@ -1169,7 +1169,7 @@ DataFrame setdiff_data_frame( DataFrame x, DataFrame y){
   std::vector<int> indices ;
 
   int n_x = x.nrows() ;
-  for( int i=0; i<n_x; i++) {
+  for( int i=0; i<n_x; i++){
     if( !set.count(-i-1) ){
       set.insert(-i-1) ;
       indices.push_back(-i-1) ;
@@ -1192,7 +1192,7 @@ IntegerVector match_data_frame( DataFrame x, DataFrame y){
 
   int n_x = x.nrows() ;
   IntegerVector res = no_init( n_x );
-  for( int i=0; i<n_x; i++) {
+  for( int i=0; i<n_x; i++){
     Set::iterator it = set.find( -i-1 );
     res[i] = ( it == set.end() ) ? NA_INTEGER : (*it+1) ;
   }
@@ -1365,7 +1365,7 @@ public:
 
     for( int j=0; j<test.size(); j++){
       int i = test[j] ;
-      if( i > 0 && i <= nr ) {
+      if( i > 0 && i <= nr ){
         n_pos++ ;
       } else if( i < 0 && i >= -nr ){
         n_neg++ ;
@@ -1611,7 +1611,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     } else if( Rf_length(call) == 1 ){
       boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, nrows ) );
       results[i] = gather->collect() ;
-    } else if( Rf_isNull(call)) {
+    } else if( Rf_isNull(call)){
       accumulator.rm(name) ;
       continue ;
     } else {
@@ -1712,7 +1712,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
       SEXP variable = variables[i] = gather->collect() ;
       proxy.input( name, variable ) ;
       accumulator.set( name, variable) ;
-    } else if(Rf_length(call) == 1) {
+    } else if(Rf_length(call) == 1){
       boost::scoped_ptr<Gatherer> gather( constant_gatherer( call, gdf.nrows() ) );
       SEXP variable = variables[i] = gather->collect() ;
       proxy.input( name, variable ) ;
@@ -1733,7 +1733,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots){
 SEXP mutate_impl( DataFrame df, LazyDots dots){
   if( dots.size() == 0 ) return df ;
   check_valid_colnames(df) ;
-  if(is<RowwiseDataFrame>(df) ) {
+  if(is<RowwiseDataFrame>(df) ){
     return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>( df, dots);
   } else if( is<GroupedDataFrame>( df ) ){
     return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>( df, dots);
@@ -1777,7 +1777,7 @@ IntegerVector group_size_grouped_cpp( GroupedDataFrame gdf ){
 
 // [[Rcpp::export]]
 SEXP n_distinct_multi( List variables, bool na_rm = false){
-  if( variables.length() == 0 ) {
+  if( variables.length() == 0 ){
     stop("need at least one column for n_distinct()");
   }
 
@@ -1809,11 +1809,11 @@ DataFrame ungroup_grouped_df( DataFrame df){
 }
 
 // [[Rcpp::export]]
-std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
+std::vector<std::vector<int> > split_indices(IntegerVector group, int groups){
   std::vector<std::vector<int> > ids(groups);
 
   int n = group.size();
-  for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < n; ++i){
     ids[group[i] - 1].push_back(i + 1);
   }
 
