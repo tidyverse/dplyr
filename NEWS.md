@@ -1,5 +1,27 @@
 # dplyr 0.5.0.9000
 
+* Refactor `common_by()` (#1928).
+
+* astyle formatting for C++ code, tested but not changed as part of the tests (#2086).
+
+* Enable AppVeyor testing (#1947).
+
+* Update RStudio project settings to install tests (#1952).
+
+* `case_when()` supports `NA` values (#2000, @tjmahr).
+
+* Typos in documentation for `coalesce()` (#1971, @dgromer).
+
+* Fix typo in window functions vignette (#2003, @harrismcgehee).
+
+* Fix colwise issue when predicate returns a `FALSE` vector (#2011, @lionel-).
+
+* `bind_cols()` handles empty argument list (#2048).
+
+* Minor typos in documentation (#2069, @nicholasjhorton).
+
+* Fix typo in NEWS (#1967, @Robinlovelace).
+
 * Fix issue with `mutate_if()` and `summarise_if()` when a predicate
   function returns a vector of `FALSE` (#1989, #2009).
 
