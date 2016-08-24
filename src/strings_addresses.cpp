@@ -7,7 +7,7 @@ CharacterVector strings_addresses(CharacterVector s) {
   int n = s.size() ;
 
   CharacterVector res(n) ;
-  for( int i=0; i<n; i++) {
+  for ( int i=0; i<n; i++) {
     SEXP x = s[i] ;
     snprintf( buffer, 20, "%p", reinterpret_cast<void*>(x) ) ;
     res[i] = buffer ;

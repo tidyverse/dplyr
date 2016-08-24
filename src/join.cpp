@@ -8,12 +8,12 @@ namespace dplyr {
     SEXP s_levels = Rf_install("levels") ;
     CharacterVector levels_left  = Rf_getAttrib(left,s_levels) ;
     CharacterVector levels_right = Rf_getAttrib(right,s_levels) ;
-    if( (SEXP)levels_left == (SEXP)levels_right ) return true ;
+    if ( (SEXP)levels_left == (SEXP)levels_right ) return true ;
     int n = levels_left.size() ;
-    if( n != levels_right.size() ) return false ;
+    if ( n != levels_right.size() ) return false ;
 
-    for( int i=0; i<n; i++) {
-      if( levels_right[i] != levels_left[i] ) return false ;
+    for ( int i=0; i<n; i++) {
+      if ( levels_right[i] != levels_left[i] ) return false ;
     }
 
     return true ;
@@ -23,9 +23,9 @@ namespace dplyr {
     SEXP att = ATTRIB(x) ;
 
     // only allow R_Names. as in R's do_isvector
-    while( att != R_NilValue ) {
+    while ( att != R_NilValue ) {
       SEXP tag = TAG(att) ;
-      if( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) return false ;
+      if ( !( tag == R_NamesSymbol || tag == Rf_install("comment") ) ) return false ;
       att = CDR(att) ;
     }
 
@@ -50,9 +50,9 @@ namespace dplyr {
   inline SEXP subset_join_int_int( JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, const std::vector<int>& indices ) {
     int n = indices.size() ;
     IntegerVector res = no_init(n) ;
-    for( int i=0; i<n; i++) {
+    for ( int i=0; i<n; i++) {
       int index = indices[i] ;
-      if( index >= 0 ) {
+      if ( index >= 0 ) {
         res[i] = joiner.left[index] ;
       } else {
         res[i] = joiner.right[-index-1] ;
@@ -74,9 +74,9 @@ namespace dplyr {
     int n = set.size() ;
     IntegerVector res = no_init(n) ;
     VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-    for( int i=0; i<n; i++, ++it) {
+    for ( int i=0; i<n; i++, ++it) {
       int index = *it ;
-      if( index >= 0 ) {
+      if ( index >= 0 ) {
         res[i] = joiner.left[index] ;
       } else {
         res[i] = joiner.right[-index-1] ;
@@ -97,9 +97,9 @@ namespace dplyr {
   // -------------- (int,double)
   template <int RTYPE>
   inline size_t hash_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, int i ) {
-    if( i>=0 ) {
+    if ( i>=0 ) {
       int val = joiner.left[i] ;
-      if( val == NA_INTEGER ) return joiner.RHS_hash_fun( NA_REAL );
+      if ( val == NA_INTEGER ) return joiner.RHS_hash_fun( NA_REAL );
       return joiner.RHS_hash_fun( (double)val );
     }
     return joiner.RHS_hash_fun( joiner.right[-i-1] ) ;
@@ -118,9 +118,9 @@ namespace dplyr {
   inline SEXP subset_join_int_double( JoinVisitorImpl<RTYPE,REALSXP>& joiner, const std::vector<int>& indices ) {
     int n = indices.size() ;
     NumericVector res = no_init(n) ;
-    for( int i=0; i<n; i++) {
+    for ( int i=0; i<n; i++) {
       int index = indices[i] ;
-      if( index >= 0 ) {
+      if ( index >= 0 ) {
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.left[index] ) ;
       } else {
         res[i] = joiner.right[-index-1] ;
@@ -143,9 +143,9 @@ namespace dplyr {
     int n = set.size() ;
     NumericVector res = no_init(n) ;
     VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-    for( int i=0; i<n; i++, ++it) {
+    for ( int i=0; i<n; i++, ++it) {
       int index = *it ;
-      if( index >= 0) {
+      if ( index >= 0) {
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.left[index] ) ;
       } else {
         res[i] = joiner.right[-index-1] ;
@@ -166,9 +166,9 @@ namespace dplyr {
   template <int RTYPE>
   inline size_t hash_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, int i ) {
     // if(i < 0) we need to take data in right
-    if( i<0 ) {
+    if ( i<0 ) {
       int val = joiner.right[-i-1] ;
-      if( val == NA_INTEGER ) return joiner.LHS_hash_fun( NA_REAL );
+      if ( val == NA_INTEGER ) return joiner.LHS_hash_fun( NA_REAL );
       return joiner.LHS_hash_fun( (double)val );
     }
     // otherwise take data in left
@@ -189,9 +189,9 @@ namespace dplyr {
   inline SEXP subset_join_double_int( JoinVisitorImpl<REALSXP,RTYPE>& joiner, const std::vector<int>& indices ) {
     int n = indices.size() ;
     NumericVector res = no_init(n) ;
-    for( int i=0; i<n; i++) {
+    for ( int i=0; i<n; i++) {
       int index = indices[i] ;
-      if( index < 0 ) {
+      if ( index < 0 ) {
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.right[-index-1] ) ;
       } else {
         res[i] = joiner.left[index] ;
@@ -214,9 +214,9 @@ namespace dplyr {
     int n = set.size() ;
     NumericVector res = no_init(n) ;
     VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin() ;
-    for( int i=0; i<n; i++, ++it) {
+    for ( int i=0; i<n; i++, ++it) {
       int index = *it ;
-      if( index < 0) {
+      if ( index < 0) {
         res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>( joiner.right[-index-1] ) ;
       } else {
         res[i] = joiner.left[index] ;
@@ -245,9 +245,9 @@ namespace dplyr {
   int count_attributes( SEXP x) {
     int n = 0 ;
 
-    while( ! Rf_isNull(x) ) {
+    while ( ! Rf_isNull(x) ) {
       SEXP name = TAG(x) ;
-      if( name != R_NamesSymbol && name != R_DimSymbol ) n++ ;
+      if ( name != R_NamesSymbol && name != R_DimSymbol ) n++ ;
       x = CDR(x) ;
     }
 
@@ -255,8 +255,8 @@ namespace dplyr {
   }
 
   SEXP grab_attribute( SEXP name, SEXP x) {
-    while( !Rf_isNull(x) ) {
-      if( TAG(x) == name ) return CAR(x) ;
+    while ( !Rf_isNull(x) ) {
+      if ( TAG(x) == name ) return CAR(x) ;
       x = CDR(x) ;
     }
     stop( "cannot find attribute '%s' ", CHAR(PRINTNAME(name)) ) ;
@@ -269,23 +269,23 @@ namespace dplyr {
     int n_left = count_attributes(att_left) ;
     int n_right = count_attributes(att_right) ;
 
-    if( n_left != n_right)
+    if ( n_left != n_right)
       stop("atributes of different sizes") ;
 
     List list_left(n_left), list_right(n_left) ;
 
     SEXP p_left = att_left ;
     int i = 0 ;
-    while( !Rf_isNull(p_left) ) {
+    while ( !Rf_isNull(p_left) ) {
       SEXP name = TAG(p_left) ;
-      if( name != R_NamesSymbol && name != R_DimSymbol) {
+      if ( name != R_NamesSymbol && name != R_DimSymbol) {
         list_left[i]  = CAR(p_left) ;
         list_right[i] = grab_attribute( name, att_right ) ;
       }
       p_left = CDR(p_left) ;
     }
     RObject test = Language( "all.equal", list_left, list_right ).fast_eval() ;
-    if( !is<bool>(test) || !as<bool>(test) ) {
+    if ( !is<bool>(test) || !as<bool>(test) ) {
       stop("attributes are different") ;
     }
 
@@ -296,7 +296,7 @@ namespace dplyr {
     bool lhs_date = Rf_inherits( left, "Date") ;
     bool rhs_date = Rf_inherits( right, "Date") ;
 
-    switch( lhs_date + rhs_date ) {
+    switch ( lhs_date + rhs_date ) {
     case 2:
       return new DateJoinVisitor( left, right ) ;
     case 1:
@@ -309,7 +309,7 @@ namespace dplyr {
 
     bool lhs_time = Rf_inherits( left, "POSIXct" );
     bool rhs_time = Rf_inherits( right, "POSIXct" );
-    switch( lhs_time + rhs_time ) {
+    switch ( lhs_time + rhs_time ) {
     case 2:
       return new POSIXctJoinVisitor( left, right) ;
     case 1:
@@ -320,10 +320,10 @@ namespace dplyr {
       break ;
     }
 
-    switch( TYPEOF(left) ) {
+    switch ( TYPEOF(left) ) {
     case CPLXSXP:
     {
-      switch( TYPEOF(right) ) {
+      switch ( TYPEOF(right) ) {
       case CPLXSXP:
         return new JoinVisitorImpl<CPLXSXP, CPLXSXP>( left, right ) ;
       default:
@@ -334,27 +334,27 @@ namespace dplyr {
     case INTSXP:
     {
       bool lhs_factor = Rf_inherits( left, "factor" ) ;
-      switch( TYPEOF(right) ) {
+      switch ( TYPEOF(right) ) {
       case INTSXP:
       {
         bool rhs_factor = Rf_inherits( right, "factor" ) ;
-        if( lhs_factor && rhs_factor) {
-          if( same_levels(left, right) ) {
+        if ( lhs_factor && rhs_factor) {
+          if ( same_levels(left, right) ) {
             return new JoinVisitorImpl<INTSXP, INTSXP>( left, right) ;
           } else {
-            if(warn_) Rf_warning( "joining factors with different levels, coercing to character vector" );
+            if (warn_) Rf_warning( "joining factors with different levels, coercing to character vector" );
             return new JoinFactorFactorVisitor(left, right) ;
           }
-        } else if( !lhs_factor && !rhs_factor) {
+        } else if ( !lhs_factor && !rhs_factor) {
           return new JoinVisitorImpl<INTSXP, INTSXP>( left, right ) ;
         }
         break ;
       }
       case REALSXP:
       {
-        if( lhs_factor ) {
+        if ( lhs_factor ) {
           incompatible_join_visitor(left, right, name_left, name_right) ;
-        } else if( is_bare_vector(right) ) {
+        } else if ( is_bare_vector(right) ) {
           return new JoinVisitorImpl<INTSXP, REALSXP>( left, right) ;
         } else {
           incompatible_join_visitor(left, right, name_left, name_right) ;
@@ -364,7 +364,7 @@ namespace dplyr {
       }
       case LGLSXP:
       {
-        if( lhs_factor ) {
+        if ( lhs_factor ) {
           incompatible_join_visitor(left, right, name_left, name_right) ;
         } else {
           return new JoinVisitorImpl<INTSXP, LGLSXP>( left, right) ;
@@ -373,8 +373,8 @@ namespace dplyr {
       }
       case STRSXP:
       {
-        if( lhs_factor ) {
-          if(warn_) Rf_warning( "joining factor and character vector, coercing into character vector" ) ;
+        if ( lhs_factor ) {
+          if (warn_) Rf_warning( "joining factor and character vector, coercing into character vector" ) ;
           return new JoinFactorStringVisitor( left, right );
         }
       }
@@ -385,7 +385,7 @@ namespace dplyr {
     }
     case REALSXP:
     {
-      switch( TYPEOF(right) ) {
+      switch ( TYPEOF(right) ) {
       case REALSXP:
         return new JoinVisitorImpl<REALSXP, REALSXP>( left, right) ;
       case INTSXP:
@@ -397,7 +397,7 @@ namespace dplyr {
     }
     case LGLSXP:
     {
-      switch( TYPEOF(right) ) {
+      switch ( TYPEOF(right) ) {
       case LGLSXP:
         return new JoinVisitorImpl<LGLSXP,LGLSXP> ( left, right ) ;
       case INTSXP:
@@ -411,11 +411,11 @@ namespace dplyr {
     }
     case STRSXP:
     {
-      switch( TYPEOF(right) ) {
+      switch ( TYPEOF(right) ) {
       case INTSXP:
       {
-        if( Rf_inherits(right, "factor" ) ) {
-          if(warn_) Rf_warning( "joining character vector and factor, coercing into character vector" ) ;
+        if ( Rf_inherits(right, "factor" ) ) {
+          if (warn_) Rf_warning( "joining character vector and factor, coercing into character vector" ) ;
           return new JoinStringFactorVisitor( left, right ) ;
         }
         break ;

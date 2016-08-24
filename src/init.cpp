@@ -8,7 +8,7 @@ using namespace dplyr ;
 
 SEXP get_cache() {
   static SEXP cache = 0;
-  if( !cache ) {
+  if ( !cache ) {
     SEXP vec = PROTECT(Rf_allocVector(VECSXP, 2)) ;
     SEXP date_classes = PROTECT(Rf_mkString("Date")) ;
     SET_VECTOR_ELT( vec, 0, date_classes) ;

@@ -16,15 +16,15 @@ LogicalVector cumall(LogicalVector x) {
   LogicalVector out(n, NA_LOGICAL);
 
   int current = out[0] = x[0];
-  if( current == NA_LOGICAL) return out ;
-  if( current == FALSE) {
+  if ( current == NA_LOGICAL) return out ;
+  if ( current == FALSE) {
     std::fill( out.begin(), out.end(), FALSE ) ;
     return out ;
   }
   for (int i = 1; i < n; i++) {
     current = x[i] ;
-    if( current == NA_LOGICAL ) break ;
-    if( current == FALSE ) {
+    if ( current == NA_LOGICAL ) break ;
+    if ( current == FALSE ) {
       std::fill( out.begin() + i, out.end(), FALSE ) ;
       break ;
     }
@@ -41,15 +41,15 @@ LogicalVector cumany(LogicalVector x) {
   LogicalVector out(n, NA_LOGICAL);
 
   int current = out[0] = x[0];
-  if( current == NA_LOGICAL ) return out ;
-  if( current == TRUE ) {
+  if ( current == NA_LOGICAL ) return out ;
+  if ( current == TRUE ) {
     std::fill( out.begin(), out.end(), TRUE ) ;
     return out ;
   }
   for (int i = 1; i < n; i++) {
     current = x[i] ;
-    if( current == NA_LOGICAL ) break ;
-    if( current == TRUE ) {
+    if ( current == NA_LOGICAL ) break ;
+    if ( current == TRUE ) {
       std::fill( out.begin() + i, out.end(), TRUE ) ;
       break ;
     }
