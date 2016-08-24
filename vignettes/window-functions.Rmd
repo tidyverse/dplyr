@@ -310,7 +310,7 @@ There are some challenges when translating window functions between R and SQL, b
   `ntile(y, 2)`. If omitted or `NULL`, will use the default ordering associated 
   with the tbl (as set by `arrange()`).
 
-* Accumulating aggegates only take a single argument (the vector to aggregate).
+* Accumulating aggregates only take a single argument (the vector to aggregate).
   To control ordering, use `order_by()`.
   
 * Aggregates implemented in dplyr (`lead`, `lag`, `nth_value`, `first_value`, 

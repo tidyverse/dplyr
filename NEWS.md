@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* Fix issue with `mutate_if()` and `summarise_if()` when a predicate
+  function returns a vector of `FALSE` (#1989, #2009).
+
 # dplyr 0.5.0
 
 ## Breaking changes

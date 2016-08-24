@@ -29,6 +29,10 @@ test_that("bind_cols handles lists (#1104)", {
   expect_equal(bind_cols(list(l1, l2)), exp)
 })
 
+test_that("bind_cols handles empty argument list (#1963)", {
+  expect_equal(bind_cols(), data.frame())
+})
+
 # rows --------------------------------------------------------------------
 
 df_var <- data_frame(
