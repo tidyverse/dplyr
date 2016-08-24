@@ -1,6 +1,6 @@
 #' A general vectorised if.
 #'
-#' This function allows you to vectorise mutiple \code{if} and \code{else if}
+#' This function allows you to vectorise multiple \code{if} and \code{else if}
 #' statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
 #'
 #' @param ... A sequence of two-sided formulas. The left hand side (LHS)

@@ -461,6 +461,10 @@ test_that("n_distinct front end supports na.rm argument (#1052)", {
   expect_equal( n_distinct(x, na.rm = TRUE), 3L )
 })
 
+test_that("n_distinct without arguments stops (#1957)", {
+  expect_error( n_distinct(), "at least one column for n_distinct" )
+})
+
 test_that("hybrid evaluation does not take place for objects with a class (#1237)", {
   mean.foo <- function(x) 42
   df <- data_frame( x = structure(1:10, class = "foo" ) )
@@ -546,6 +550,11 @@ test_that("n_distinct handles multiple columns (#1084)", {
 
   res <- group_by(df, g) %>% summarise( n = n_distinct(x, y, na.rm = TRUE) )
   expect_equal( res$n, c(2L,4L) )
+})
+
+test_that("n_distinct stops if no columns are passed (#1957)", {
+  df <- data.frame( x = rep(1:4, each = 2), y = rep(1:2, each = 4), g = rep(1:2, 4))
+  expect_error(summarise( df, nd = n_distinct(), n = n()), "at least one column for n_distinct" )
 })
 
 test_that("hybrid max works when not used on columns (#1369)", {

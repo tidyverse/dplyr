@@ -12,7 +12,7 @@ test_register_src(name, src)
 test_load(df, name = random_table_name(), srcs = test_srcs$get(),
   ignore = character())
 
-test_frame(..., srcs = test_srcs$get())
+test_frame(..., srcs = test_srcs$get(), ignore = character())
 }
 \description{
 Register testing sources, then use \code{test_load} to load an existing

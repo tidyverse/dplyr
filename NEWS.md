@@ -1,4 +1,6 @@
-# dplyr 0.4.3.9000
+# dplyr 0.5.0.9000
+
+# dplyr 0.5.0
 
 ## Breaking changes
 
@@ -8,7 +10,9 @@
 
 * `distinct()` now only keeps the distinct variables. If you want to return
   all variables (using the first row for non-distinct values) use
-  `.keep_all = TRUE` (#1110). (The default behaviour of using all variables
+  `.keep_all = TRUE` (#1110). For SQL sources, `.keep_all = FALSE` is
+  implemented using `GROUP BY`, and `.keep_all = TRUE` raises an error
+  (#1937, #1942, @krlmlr). (The default behaviour of using all variables
   when none are specified remains - this note only applies if you select
   some variables).
 
@@ -79,7 +83,7 @@ All data table related code has been separated out in to a new dtplyr package. T
 
 ### Tibble
 
-Functions to related to the creation and coercion of `tbl_df`s, now live in their own package: [tibble](http://blog.rstudio.org/2016/03/24/tibble-1-0-0/). See `vignette("tibble")` for more details.
+Functions related to the creation and coercion of `tbl_df`s, now live in their own package: [tibble](http://blog.rstudio.org/2016/03/24/tibble-1-0-0/). See `vignette("tibble")` for more details.
 
 * `$` and `[[` methods that never do partial matching (#1504), and throw
   an error if the variable does not exist.
@@ -154,7 +158,7 @@ Functions to related to the creation and coercion of `tbl_df`s, now live in thei
 
 * The backend testing system has been improved. This lead to the removal of
   `temp_srcs()`. In the unlikely event that you were using this function,
-  you can instead use `test_register_src()` and `test_load()`.
+  you can instead use `test_register_src()`, `test_load()`, and `test_frame()`.
 
 * You can now use `right_join()` and `full_join()` with remote tables (#1172).
 
@@ -244,7 +248,8 @@ There were two other tweaks to the exported API, but these are less likely to af
 
 * Avoiding segfaults in presence of `raw` columns (#1803, #1817, @krlmlr).
 
-* `arrange()` fails gracefully on list columns (#1489).
+* `arrange()` fails gracefully on list columns (#1489) and matrices
+  (#1870, #1945, @krlmlr).
 
 * `count()` now adds additional grouping variables, rather than overriding
   existing (#1703). `tally()` and `count()` can now count a variable
@@ -318,6 +323,9 @@ There were two other tweaks to the exported API, but these are less likely to af
   #1559), and anti and semi joins give correct result when by variable is a 
   factor (#1571). A clear error message is given for joins where an explicit `by`
   contains unavailable columns (#1928, #1932, @krlmlr).
+  identical (#1636). Joins work correct when factor levels not equal 
+  (#1712, #1559), and anti and semi joins give correct result when by variable is a 
+  factor (#1571).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable
@@ -344,8 +352,9 @@ There were two other tweaks to the exported API, but these are less likely to af
 
 * Hybrid `min()` and `max()` handle empty sets (#1481).
 
-* `n_distinct()` uses multiple arguments (#1084), falls back to R
+* `n_distinct()` uses multiple arguments for data frames (#1084), falls back to R
   evaluation when needed (#1657), reverting decision made in (#567).
+  Passing no arguments gives an error (#1957, #1959, @krlmlr).
 
 * `nth()` now supports negative indices to select from end, e.g. `nth(x, -2)`
   selects the 2nd value from the end of `x` (#1584).

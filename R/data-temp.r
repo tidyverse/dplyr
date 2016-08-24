@@ -20,8 +20,14 @@ NULL
 #' @export
 #' @rdname testing
 test_register_src <- function(name, src) {
-  message("Registering testing src: ", name)
-  test_srcs$add(name, src)
+  message("Registering testing src: ", name, " ", appendLF = FALSE)
+  tryCatch(
+    {
+      test_srcs$add(name, src)
+      message("OK")
+    },
+    error = function(e) message(conditionMessage(e))
+  )
 }
 
 #' @export
@@ -37,9 +43,9 @@ test_load <- function(df, name = random_table_name(), srcs = test_srcs$get(),
 
 #' @export
 #' @rdname testing
-test_frame <- function(..., srcs = test_srcs$get()) {
+test_frame <- function(..., srcs = test_srcs$get(), ignore = character()) {
   df <- data_frame(...)
-  test_load(df, srcs = srcs)
+  test_load(df, srcs = srcs, ignore = ignore)
 }
 
 # Manage cache of testing srcs

@@ -1,6 +1,6 @@
 Package: dplyr
 Type: Package
-Version: 0.4.3.9001
+Version: 0.5.0.9000
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -21,7 +21,7 @@ Imports:
     tibble,
     magrittr,
     lazyeval (>= 0.1.10),
-    DBI (>= 0.3)
+    DBI (>= 0.4.1)
 Suggests:
     RSQLite (>= 1.0.0),
     RMySQL,
@@ -37,8 +37,6 @@ Suggests:
     rmarkdown,
     covr,
     dtplyr
-Remotes:
-    hadley/dtplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1)
