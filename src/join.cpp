@@ -2,7 +2,7 @@
 using namespace dplyr ;
 using namespace Rcpp ;
 
-namespace dplyr{
+namespace dplyr {
 
   bool same_levels( SEXP left, SEXP right ){
     SEXP s_levels = Rf_install("levels") ;

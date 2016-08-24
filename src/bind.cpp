@@ -6,7 +6,7 @@ using namespace dplyr ;
 class DataFrameAbleVector {
 public:
 
-  DataFrameAbleVector() : data(){}
+  DataFrameAbleVector() : data() {}
 
   inline void push_back( SEXP x){
     data.push_back( DataFrameAble(x) ) ;

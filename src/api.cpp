@@ -1,6 +1,6 @@
 #include <dplyr.h>
 
-namespace dplyr{
+namespace dplyr {
 
   DataFrameVisitors::DataFrameVisitors( const Rcpp::DataFrame& data_) :
     data(data_),

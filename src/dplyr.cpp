@@ -216,7 +216,7 @@ Result* ntile_prototype( SEXP call, const LazySubsets& subsets, int nargs ){
   // handle 2nd arg
   SEXP ntiles = CADDR(call) ;
   double number_tiles ;
-  try{
+  try {
     number_tiles = as<int>(ntiles) ;
   } catch( ... ){
     stop("could not convert n to scalar integer") ;
@@ -287,7 +287,7 @@ Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs ){
   return 0 ;
 }
 
-struct LeadLag{
+struct LeadLag {
 
   LeadLag( SEXP call ) : data(R_NilValue), n(1), def(R_NilValue), ok(true){
 
@@ -307,7 +307,7 @@ struct LeadLag{
         return ;
       }
       if( tag == Rf_install("n") || tag == R_NilValue ){
-        try{
+        try {
           n = as<int>( CAR(p) );
         } catch( ... ){
           SEXP n_ = CADDR(call);
@@ -1555,8 +1555,8 @@ SEXP structure_mutate( const NamedListAccumulator<Data>& accumulator, const Data
   return res ;
 }
 
-void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf){}
-void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf){}
+void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) {}
+void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) {}
 
 void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf){
   int n = result_names.size() ;
@@ -1753,7 +1753,7 @@ IntegerVector order_impl( List args, Environment env ){
     if( TYPEOF(tmp) == LANGSXP && CAR(tmp) == Rf_install("desc") ){
       variables[i] = Rf_eval( CAR(CDR(tmp) ), env ) ;
       ascending[i] = false ;
-    } else{
+    } else {
       variables[i] = Rf_eval( tmp, env );
       ascending[i] = true ;
     }

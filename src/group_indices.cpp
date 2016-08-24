@@ -30,7 +30,7 @@ IntegerVector grouped_indices_impl( DataFrame data, ListOf<Symbol> symbols ){
 
     const char* name = vars[i] ;
     SEXP v  ;
-    try{
+    try {
       v = data[name] ;
     } catch(...){
       stop( "unknown column '%s'", name ) ;
