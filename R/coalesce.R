@@ -1,6 +1,6 @@
 #' Find first non-missing element
 #'
-#' Given a set of vectors, \code{coelesce} finds the first non-missing value
+#' Given a set of vectors, \code{coalesce} finds the first non-missing value
 #' at each position. This is inspired by the SQL \code{COALESCE} function
 #' which does the same thing for \code{NULL}s.
 #'
