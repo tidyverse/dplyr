@@ -238,8 +238,8 @@ namespace dplyr {
   // -----------------
   inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right){
     stop( "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
-      name_left, name_right, get_single_class(left), get_single_class(right)
-    ) ;
+          name_left, name_right, get_single_class(left), get_single_class(right)
+        ) ;
   }
 
   int count_attributes( SEXP x){

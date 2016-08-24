@@ -682,11 +682,11 @@ void assert_all_white_list(const DataFrame& data){
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol) ;
       if( !Rf_isNull(klass) ){
         stop( "column '%s' has unsupported class : %s",
-          name_i.get_cstring() , get_single_class(v) );
+              name_i.get_cstring() , get_single_class(v) );
       }
       else {
         stop( "column '%s' has unsupported type : %s",
-          name_i.get_cstring() , Rf_type2char(TYPEOF(v)) );
+              name_i.get_cstring() , Rf_type2char(TYPEOF(v)) );
       }
 
     }
@@ -774,12 +774,12 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
   }
 
   return subset_join(
-    x, y,
-    indices_x, indices_y,
-    by_x, by_y,
-    suffix_x, suffix_y,
-    x.attr( "class")
-  );
+           x, y,
+           indices_x, indices_y,
+           by_x, by_y,
+           suffix_x, suffix_y,
+           x.attr( "class")
+         );
 }
 
 // [[Rcpp::export]]
@@ -812,12 +812,12 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
   }
 
   return subset_join(
-    x, y,
-    indices_x, indices_y,
-    by_x, by_y,
-    suffix_x, suffix_y,
-    x.attr( "class" )
-  );
+           x, y,
+           indices_x, indices_y,
+           by_x, by_y,
+           suffix_x, suffix_y,
+           x.attr( "class" )
+         );
 }
 
 // [[Rcpp::export]]
@@ -848,12 +848,12 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
     }
   }
   return subset_join(
-    x, y,
-    indices_x, indices_y,
-    by_x, by_y,
-    suffix_x, suffix_y,
-    x.attr( "class" )
-  );
+           x, y,
+           indices_x, indices_y,
+           by_x, by_y,
+           suffix_x, suffix_y,
+           x.attr( "class" )
+         );
 }
 
 // [[Rcpp::export]]
@@ -901,11 +901,11 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   }
 
   return subset_join(x, y,
-    indices_x, indices_y,
-    by_x, by_y,
-    suffix_x, suffix_y,
-    x.attr( "class" )
-  );
+                     indices_x, indices_y,
+                     by_x, by_y,
+                     suffix_x, suffix_y,
+                     x.attr( "class" )
+                    );
 }
 
 // [[Rcpp::export]]
