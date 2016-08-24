@@ -193,83 +193,83 @@ namespace dplyr {
     if( ! Rf_isNull(obj) ) {
       SEXP head = CAR(obj) ;
       switch( TYPEOF( head ) ) {
-        case LANGSXP:
-          if( CAR(head) == Rf_install("global") ) {
-            SEXP symb = CADR(head) ;
-            if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
-            SEXP res  = env.find( CHAR(PRINTNAME(symb)) ) ;
+      case LANGSXP:
+        if( CAR(head) == Rf_install("global") ) {
+          SEXP symb = CADR(head) ;
+          if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" ) ;
+          SEXP res  = env.find( CHAR(PRINTNAME(symb)) ) ;
 
-            SETCAR(obj, res) ;
-            SET_TYPEOF(obj, LISTSXP) ;
+          SETCAR(obj, res) ;
+          SET_TYPEOF(obj, LISTSXP) ;
 
-            break ;
-          }
-          if( CAR(head) == Rf_install("column")) {
-            Symbol column = get_column( CADR(head), env, subsets) ;
-            SETCAR(obj, column ) ;
-            head = CAR(obj) ;
-            proxies.push_back( CallElementProxy( head, obj ) );
+          break ;
+        }
+        if( CAR(head) == Rf_install("column")) {
+          Symbol column = get_column( CADR(head), env, subsets) ;
+          SETCAR(obj, column ) ;
+          head = CAR(obj) ;
+          proxies.push_back( CallElementProxy( head, obj ) );
 
-            break ;
-          }
-          if( CAR(head) == Rf_install("~")) break ;
-          if( CAR(head) == Rf_install("order_by") ) break ;
-          if( CAR(head) == Rf_install("function") ) break ;
-          if( CAR(head) == Rf_install("local") ) return ;
-          if( CAR(head) == Rf_install("<-") ) {
-            stop( "assignments are forbidden" ) ;
-          }
-          if( Rf_length(head) == 3 ) {
-            SEXP symb = CAR(head) ;
-            if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ) {
+          break ;
+        }
+        if( CAR(head) == Rf_install("~")) break ;
+        if( CAR(head) == Rf_install("order_by") ) break ;
+        if( CAR(head) == Rf_install("function") ) break ;
+        if( CAR(head) == Rf_install("local") ) return ;
+        if( CAR(head) == Rf_install("<-") ) {
+          stop( "assignments are forbidden" ) ;
+        }
+        if( Rf_length(head) == 3 ) {
+          SEXP symb = CAR(head) ;
+          if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ) {
 
-              // Rprintf( "CADR(obj) = " ) ;
-              // Rf_PrintValue( CADR(obj) ) ;
+            // Rprintf( "CADR(obj) = " ) ;
+            // Rf_PrintValue( CADR(obj) ) ;
 
-              // for things like : foo( bar = bling )$bla
-              // so that `foo( bar = bling )` gets processed
-              if( TYPEOF(CADR(head)) == LANGSXP ) {
-                traverse_call( CDR(head) ) ;
-              }
-
-              // deal with foo$bar( bla = boom )
-              if( TYPEOF(CADDR(head)) == LANGSXP ) {
-                traverse_call( CDDR(head) ) ;
-              }
-
-              break ;
-            } else {
+            // for things like : foo( bar = bling )$bla
+            // so that `foo( bar = bling )` gets processed
+            if( TYPEOF(CADR(head)) == LANGSXP ) {
               traverse_call( CDR(head) ) ;
             }
+
+            // deal with foo$bar( bla = boom )
+            if( TYPEOF(CADDR(head)) == LANGSXP ) {
+              traverse_call( CDDR(head) ) ;
+            }
+
+            break ;
           } else {
             traverse_call( CDR(head) ) ;
           }
-
-          break ;
-        case LISTSXP:
-          traverse_call( head ) ;
+        } else {
           traverse_call( CDR(head) ) ;
-          break ;
-        case SYMSXP:
-          if( TYPEOF(obj) != LANGSXP ) {
-            if( ! subsets.count(head) ) {
-              if( head == R_MissingArg ) break ;
-              if( head == Rf_install(".") ) break ;
+        }
 
-              // in the Environment -> resolve
-              try {
-                Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
-                SETCAR( obj, x );
-              } catch( ...) {
-                // what happens when not found in environment
-              }
+        break ;
+      case LISTSXP:
+        traverse_call( head ) ;
+        traverse_call( CDR(head) ) ;
+        break ;
+      case SYMSXP:
+        if( TYPEOF(obj) != LANGSXP ) {
+          if( ! subsets.count(head) ) {
+            if( head == R_MissingArg ) break ;
+            if( head == Rf_install(".") ) break ;
 
-            } else {
-              // in the data frame
-              proxies.push_back( CallElementProxy( head, obj ) );
+            // in the Environment -> resolve
+            try {
+              Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) ) ;
+              SETCAR( obj, x );
+            } catch( ...) {
+              // what happens when not found in environment
             }
-            break ;
+
+          } else {
+            // in the data frame
+            proxies.push_back( CallElementProxy( head, obj ) );
           }
+          break ;
+        }
       }
       traverse_call( CDR(obj) ) ;
     }

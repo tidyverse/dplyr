@@ -77,16 +77,16 @@ Result* nth_noorder_default( Vector<RTYPE> data, int idx, Vector<RTYPE> def ) {
 template <int RTYPE>
 Result* nth_with( Vector<RTYPE> data, int idx, SEXP order ) {
   switch( TYPEOF(order) ) {
-    case LGLSXP:
-      return new NthWith<RTYPE, LGLSXP>( data, idx, order );
-    case INTSXP:
-      return new NthWith<RTYPE, INTSXP>( data, idx, order );
-    case REALSXP:
-      return new NthWith<RTYPE, REALSXP>( data, idx, order );
-    case STRSXP:
-      return new NthWith<RTYPE, STRSXP>( data, idx, order );
-    default:
-      break ;
+  case LGLSXP:
+    return new NthWith<RTYPE, LGLSXP>( data, idx, order );
+  case INTSXP:
+    return new NthWith<RTYPE, INTSXP>( data, idx, order );
+  case REALSXP:
+    return new NthWith<RTYPE, REALSXP>( data, idx, order );
+  case STRSXP:
+    return new NthWith<RTYPE, STRSXP>( data, idx, order );
+  default:
+    break ;
   }
   stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order))) ;
   return 0 ;
@@ -95,16 +95,16 @@ Result* nth_with( Vector<RTYPE> data, int idx, SEXP order ) {
 template <int RTYPE>
 Result* nth_with_default( Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> def ) {
   switch( TYPEOF(order) ) {
-    case LGLSXP:
-      return new NthWith<RTYPE, LGLSXP>( data, idx, order, def[0] );
-    case INTSXP:
-      return new NthWith<RTYPE, INTSXP>( data, idx, order, def[0] );
-    case REALSXP:
-      return new NthWith<RTYPE, REALSXP>( data, idx, order, def[0] );
-    case STRSXP:
-      return new NthWith<RTYPE, STRSXP>( data, idx, order, def[0] );
-    default:
-      break ;
+  case LGLSXP:
+    return new NthWith<RTYPE, LGLSXP>( data, idx, order, def[0] );
+  case INTSXP:
+    return new NthWith<RTYPE, INTSXP>( data, idx, order, def[0] );
+  case REALSXP:
+    return new NthWith<RTYPE, REALSXP>( data, idx, order, def[0] );
+  case STRSXP:
+    return new NthWith<RTYPE, STRSXP>( data, idx, order, def[0] );
+  default:
+    break ;
   }
   stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order))) ;
   return 0 ;
@@ -142,16 +142,16 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs) {
   // easy case : just a single variable: first(x,n)
   if( nargs == 2 ) {
     switch( TYPEOF(data) ) {
-      case INTSXP:
-        return new Nth<INTSXP>(data, idx) ;
-      case REALSXP:
-        return new Nth<REALSXP>(data, idx) ;
-      case STRSXP:
-        return new Nth<STRSXP>(data, idx) ;
-      case LGLSXP:
-        return new Nth<LGLSXP>(data, idx) ;
-      default:
-        break ;
+    case INTSXP:
+      return new Nth<INTSXP>(data, idx) ;
+    case REALSXP:
+      return new Nth<REALSXP>(data, idx) ;
+    case STRSXP:
+      return new Nth<STRSXP>(data, idx) ;
+    case LGLSXP:
+      return new Nth<LGLSXP>(data, idx) ;
+    default:
+      break ;
     }
   } else {
     // now get `order_by` and default
@@ -185,16 +185,16 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs) {
         order_by = subsets.get_variable(order_by) ;
 
         switch( TYPEOF(data) ) {
-          case LGLSXP:
-            return nth_with<LGLSXP>( data, idx, order_by ) ;
-          case INTSXP:
-            return nth_with<INTSXP>( data, idx, order_by ) ;
-          case REALSXP:
-            return nth_with<REALSXP>( data, idx, order_by ) ;
-          case STRSXP:
-            return nth_with<STRSXP>( data, idx, order_by ) ;
-          default:
-            break ;
+        case LGLSXP:
+          return nth_with<LGLSXP>( data, idx, order_by ) ;
+        case INTSXP:
+          return nth_with<INTSXP>( data, idx, order_by ) ;
+        case REALSXP:
+          return nth_with<REALSXP>( data, idx, order_by ) ;
+        case STRSXP:
+          return nth_with<STRSXP>( data, idx, order_by ) ;
+        default:
+          break ;
         }
       }
       else {
@@ -205,32 +205,32 @@ Result* nth_prototype( SEXP call, const LazySubsets& subsets, int nargs) {
     } else {
       if( order_by == R_NilValue ) {
         switch( TYPEOF(data) ) {
-          case LGLSXP:
-            return nth_noorder_default<LGLSXP>(data, idx, def) ;
-          case INTSXP:
-            return nth_noorder_default<INTSXP>(data, idx, def) ;
-          case REALSXP:
-            return nth_noorder_default<REALSXP>(data, idx, def) ;
-          case STRSXP:
-            return nth_noorder_default<STRSXP>(data, idx, def) ;
-          default:
-            break ;
+        case LGLSXP:
+          return nth_noorder_default<LGLSXP>(data, idx, def) ;
+        case INTSXP:
+          return nth_noorder_default<INTSXP>(data, idx, def) ;
+        case REALSXP:
+          return nth_noorder_default<REALSXP>(data, idx, def) ;
+        case STRSXP:
+          return nth_noorder_default<STRSXP>(data, idx, def) ;
+        default:
+          break ;
         }
       } else {
         if( TYPEOF(order_by) == SYMSXP && subsets.count(order_by) ) {
           order_by = subsets.get_variable(order_by) ;
 
           switch( TYPEOF(data) ) {
-            case LGLSXP:
-              return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
-            case INTSXP:
-              return nth_with_default<INTSXP>(data, idx, order_by, def) ;
-            case REALSXP:
-              return nth_with_default<REALSXP>(data, idx, order_by, def) ;
-            case STRSXP:
-              return nth_with_default<STRSXP>(data, idx, order_by, def) ;
-            default:
-              break ;
+          case LGLSXP:
+            return nth_with_default<LGLSXP>(data, idx, order_by, def) ;
+          case INTSXP:
+            return nth_with_default<INTSXP>(data, idx, order_by, def) ;
+          case REALSXP:
+            return nth_with_default<REALSXP>(data, idx, order_by, def) ;
+          case STRSXP:
+            return nth_with_default<STRSXP>(data, idx, order_by, def) ;
+          default:
+            break ;
           }
         }
         else {

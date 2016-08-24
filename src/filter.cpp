@@ -22,30 +22,30 @@ inline SEXP empty_subset( const DataFrame& df, CharacterVector columns, Characte
 
 SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environment& env) {
   switch(TYPEOF(x)) {
-    case LGLSXP:
-      return x;
-    case LANGSXP:
-      return x ;
-    case SYMSXP:
-    {
-      if( set.count(x) ) return x ;
+  case LGLSXP:
+    return x;
+  case LANGSXP:
+    return x ;
+  case SYMSXP:
+  {
+    if( set.count(x) ) return x ;
 
-      // look in the environment
-      SEXP var = PROTECT( Rf_findVar( x, env ) ) ;
-      SEXP res = Rf_duplicate(var) ;
-      UNPROTECT(1) ;
-      if( res == R_UnboundValue ) {
-        if( x == Rf_install("T") ) {
-          return Rf_ScalarLogical(TRUE) ;
-        } else if( x == Rf_install("F") ) {
-          return Rf_ScalarLogical(FALSE) ;
-        }
-        stop( "unknown column : %s", CHAR(PRINTNAME(x)) );
+    // look in the environment
+    SEXP var = PROTECT( Rf_findVar( x, env ) ) ;
+    SEXP res = Rf_duplicate(var) ;
+    UNPROTECT(1) ;
+    if( res == R_UnboundValue ) {
+      if( x == Rf_install("T") ) {
+        return Rf_ScalarLogical(TRUE) ;
+      } else if( x == Rf_install("F") ) {
+        return Rf_ScalarLogical(FALSE) ;
       }
-      return res ;
+      stop( "unknown column : %s", CHAR(PRINTNAME(x)) );
     }
-    default:
-      break ;
+    return res ;
+  }
+  default:
+    break ;
   }
   stop("incompatible expression in filter") ;
   return x ; // never happens
