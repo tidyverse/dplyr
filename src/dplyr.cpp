@@ -340,7 +340,7 @@ struct LeadLag {
           SEXP n_ = CADDR(call);
           std::stringstream s ;
           stop( "could not convert second argument to an integer. type=%s, length = %d",
-            type2name(n_), Rf_length(n_) ) ;
+                type2name(n_), Rf_length(n_) ) ;
         }
       }
       if( tag == Rf_install("default") ){
@@ -751,8 +751,8 @@ DataFrame anti_join_impl( DataFrame x, DataFrame y, CharacterVector by_x, Charac
 
 // [[Rcpp::export]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
-              CharacterVector by_x, CharacterVector by_y,
-              std::string& suffix_x, std::string& suffix_y){
+                          CharacterVector by_x, CharacterVector by_y,
+                          std::string& suffix_x, std::string& suffix_y){
   if( by_x.size() == 0) stop("no variable to join by") ;
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
   DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
@@ -784,8 +784,8 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
 
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
-             CharacterVector by_x, CharacterVector by_y,
-             std::string& suffix_x, std::string& suffix_y){
+                         CharacterVector by_x, CharacterVector by_y,
+                         std::string& suffix_x, std::string& suffix_y){
   if( by_x.size() == 0) stop("no variable to join by") ;
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
   DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
@@ -822,8 +822,8 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
 
 // [[Rcpp::export]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
-              CharacterVector by_x, CharacterVector by_y,
-              std::string& suffix_x, std::string& suffix_y){
+                          CharacterVector by_x, CharacterVector by_y,
+                          std::string& suffix_x, std::string& suffix_y){
   if( by_x.size() == 0) stop("no variable to join by") ;
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
   DataFrameJoinVisitors visitors(x, y, by_x, by_y, true) ;
@@ -858,8 +858,8 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 
 // [[Rcpp::export]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
-              CharacterVector by_x, CharacterVector by_y,
-              std::string& suffix_x, std::string& suffix_y){
+                         CharacterVector by_x, CharacterVector by_y,
+                         std::string& suffix_x, std::string& suffix_y){
   if( by_x.size() == 0) stop("no variable to join by") ;
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map ;
   DataFrameJoinVisitors visitors(y, x, by_y, by_x, true) ;
