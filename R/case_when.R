@@ -74,7 +74,7 @@ case_when <- function(...) {
     out <- replace_with(
       out, query[[i]] & !replaced, value[[i]],
       paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"))
-    replaced <- replaced | query[[i]]
+    replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 
   out
