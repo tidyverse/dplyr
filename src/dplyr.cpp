@@ -1417,9 +1417,15 @@ public:
 
   }
 
-  inline bool is_positive() const { return n_pos > 0 ; }
-  inline int get_n_positive() const { return n_pos; }
-  inline int get_n_negative() const { return n_neg; }
+  inline bool is_positive() const {
+    return n_pos > 0 ;
+  }
+  inline int get_n_positive() const {
+    return n_pos;
+  }
+  inline int get_n_negative() const {
+    return n_neg;
+  }
 
 private:
   int nr ;
@@ -1443,7 +1449,8 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots){
   // we already checked that we have only one expression
   Call call( lazy.expr() ) ;
 
-  std::vector<int> indx ; indx.reserve(1000) ;
+  std::vector<int> indx ;
+  indx.reserve(1000) ;
 
   IntegerVector g_test ;
   Proxy call_proxy( call, gdf, env ) ;
@@ -1633,7 +1640,8 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots){
     Rcpp::checkUserInterrupt() ;
     const Lazy& lazy = dots[i] ;
 
-    Shield<SEXP> call_( lazy.expr() ) ; SEXP call = call_ ;
+    Shield<SEXP> call_( lazy.expr() ) ;
+    SEXP call = call_ ;
     SEXP name = lazy.name() ;
     Environment env = lazy.env() ;
     call_proxy.set_env(env) ;
