@@ -323,9 +323,6 @@ There were two other tweaks to the exported API, but these are less likely to af
   #1559), and anti and semi joins give correct result when by variable is a 
   factor (#1571). A clear error message is given for joins where an explicit `by`
   contains unavailable columns (#1928, #1932, @krlmlr).
-  identical (#1636). Joins work correct when factor levels not equal 
-  (#1712, #1559), and anti and semi joins give correct result when by variable is a 
-  factor (#1571).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable
