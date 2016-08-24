@@ -2,7 +2,7 @@
 dplyr
 =====
 
-[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
+[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hadley/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
