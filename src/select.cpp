@@ -9,18 +9,18 @@ SEXP select_not_grouped( const DataFrame& df, const CharacterVector& keep, Chara
   int n = keep.size() ;
   List res(n) ;
   for( int i=0; i<n; i++){
-      int pos = positions[i] ;
-      if( pos < 1 || pos > df.size() ){
-          std::stringstream s ;
-          if( pos == NA_INTEGER ){
-              s << "NA" ;
-          } else {
-              s << pos ;
-          }
-          stop( "invalid column index : %d for variable: %s = %s",
-              s.str(), CHAR((SEXP)new_names[i]), CHAR((SEXP)keep[i]) );
+    int pos = positions[i] ;
+    if( pos < 1 || pos > df.size() ){
+      std::stringstream s ;
+      if( pos == NA_INTEGER ){
+        s << "NA" ;
+      } else {
+        s << pos ;
       }
-      res[i] = df[ pos-1 ] ;
+      stop( "invalid column index : %d for variable: %s = %s",
+            s.str(), CHAR((SEXP)new_names[i]), CHAR((SEXP)keep[i]) );
+    }
+    res[i] = df[ pos-1 ] ;
   }
   copy_most_attributes(res, df) ;
   res.names() = new_names ;
