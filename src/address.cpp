@@ -2,9 +2,9 @@
 using namespace Rcpp;
 
 const char* address(SEXP x) {
-  static char buffer[20] ;
-  snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x)) ;
-  return (const char*)buffer ;
+  static char buffer[20];
+  snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x));
+  return (const char*)buffer;
 }
 
 // [[Rcpp::export]]
@@ -16,27 +16,27 @@ CharacterVector loc(RObject data) {
 
 // [[Rcpp::export]]
 CharacterVector dfloc(List df) {
-  int n = df.size() ;
+  int n = df.size();
   CharacterVector pointers(n);
   for (int i=0; i<n; i++) {
-    pointers[i] = address(df[i]) ;
+    pointers[i] = address(df[i]);
   }
-  pointers.names() = df.names() ;
-  return pointers ;
+  pointers.names() = df.names();
+  return pointers;
 }
 
 // [[Rcpp::export]]
 CharacterVector plfloc(Pairlist data) {
-  int n = data.size() ;
-  CharacterVector pointers(n), names(n) ;
-  SEXP p = data ;
-  int i=0 ;
+  int n = data.size();
+  CharacterVector pointers(n), names(n);
+  SEXP p = data;
+  int i=0;
   while (! Rf_isNull(p)) {
-    pointers[i] = address(CAR(p)) ;
-    names[i] = PRINTNAME(TAG(p)) ;
-    p = CDR(p) ;
-    i++ ;
+    pointers[i] = address(CAR(p));
+    names[i] = PRINTNAME(TAG(p));
+    p = CDR(p);
+    i++;
   }
-  pointers.names() = names ;
+  pointers.names() = names;
   return pointers;
 }
