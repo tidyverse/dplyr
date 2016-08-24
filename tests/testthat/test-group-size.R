@@ -30,42 +30,18 @@ test_that("group_size correct for grouped data", {
 df$x = factor(df$x, levels=1:4)
 tbls <- test_load(df)
 
-test_that("group_by drops zero-length groups", {
+test_that("n_groups drops zero-length groups", {
   for (tbl in tbls) {
     grp <- group_by(tbl, x)
     expect_equal(n_groups(grp), 3, info=class(tbl)[1])
   }
 })
 
-test_that("summarise respects zero-length groups", {
+test_that("summarise drops zero-length groups", {
   for (tbl in tbls) {
-    res <- summarise(group_by(tbl, x, drop=FALSE), n=n(), mn=mean(y))
-#    expect_equal(nrow(res), 4, info=class(tbl)[1])
-#    expect_equal(tail(res$n, n=1), 0, info=class(tbl)[1])
-#    expect_true(is.nan(tail(res$mn, n=1)), info=class(tbl)[1])
-  }
-})
-
-test_that("filter respects zero-length groups", {
-  for (tbl in tbls) {
-#    expect_equal(nlevels(filter(tbl)$x), 4, info=class(tbl)[1])
-  }
-})
-
-test_that("select respects zero-length groups", {
-  for (tbl in tbls) {
-#    expect_equal(nlevels(select(tbl, x)$x), 4, info=class(tbl)[1])
-  }
-})
-
-test_that("arrange respects zero-length groups", {
-  for (tbl in tbls) {
-    expect_equal(nlevels(arrange(df, y)$x), 4, info=class(tbl)[1])
-  }
-})
-
-test_that("mutate respects zero-length groups", {
-  for (tbl in tbls) {
-    expect_equal(nlevels(mutate(df, y1=mean(y))$x), 4, info=class(tbl)[1])
+    res <- summarise(group_by(tbl, x), n=n(), mn=mean(y))
+    expect_equal(nrow(res), 3, info=class(tbl)[1])
+    expect_equal(tail(res$n, n=1), 0, info=class(tbl)[1])
+    expect_true(is.nan(tail(res$mn, n=1)), info=class(tbl)[1])
   }
 })
