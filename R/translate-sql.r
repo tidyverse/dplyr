@@ -58,7 +58,7 @@
 #' translate_sql(if (x > 5) "big" else "small")
 #'
 #' # Infix functions are passed onto SQL with % removed
-#' translate_sql(first %like% "Had%")
+#' translate_sql(first %like% "Had\%")
 #' translate_sql(first %is% NULL)
 #' translate_sql(first %in% c("John", "Roger", "Robert"))
 #'
