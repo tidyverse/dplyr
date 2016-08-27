@@ -182,7 +182,7 @@ Any function that dplyr doesn't know how to convert is left as is. This means th
 
 ```{r}
 translate_sql(glob(x, y))
-translate_sql(x %like% "ab*")
+translate_sql(x %like% "ab%")
 ```
 
 ## Grouping
