@@ -25,6 +25,8 @@
 * Fix issue with `mutate_if()` and `summarise_if()` when a predicate
   function returns a vector of `FALSE` (#1989, #2009).
 
+* `mutate_all()` etc now accept unnamed additional arguments.
+
 # dplyr 0.5.0
 
 ## Breaking changes

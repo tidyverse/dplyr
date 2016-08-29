@@ -131,13 +131,10 @@ merge_args <- function(call, args) {
   if (!length(args)) {
     return(call)
   }
-  if (is.null(names(args))) {
-    stop("Additional arguments should be named", call. = FALSE)
-  }
 
-  for (param in names(args)) {
-    call[[param]] <- args[[param]]
-  }
+  index <- seq(length(call) + 1, length(call) + length(args))
+  call[index] <- args
+  names(call)[index] <- names2(args)
 
   call
 }
