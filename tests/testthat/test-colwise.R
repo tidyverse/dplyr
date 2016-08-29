@@ -36,15 +36,6 @@ test_that("named arguments force complete namd", {
   expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
 })
 
-test_that("additional arguments are merged into funs calls", {
-  multiple <- funs_(c("mean", "median"), list(na.rm = TRUE))
-  expect_true(multiple[[1]]$expr$na.rm)
-  expect_true(multiple[[2]]$expr$na.rm)
-
-  overwritten <- funs_(quote(mean(trim = 10)), list(trim = 1))
-  expect_equal(overwritten[[1]]$expr$trim, 1)
-})
-
 expect_classes <- function(tbl, expected) {
   classes <- unname(vapply(tbl, class, character(1)))
   classes <- paste0(substring(classes, 0, 1), collapse = "")
@@ -76,6 +67,26 @@ test_that("sql sources fail with bare functions", {
 
 test_that("empty selection does not select everything (#2009, #1989)", {
   expect_equal(mtcars, mutate_if(mtcars, is.factor, as.character))
+})
+
+test_that("arguments are matched by names and by position", {
+  fun <- function(a = 1, b = 2, c = 3) {
+    paste0(a, b, c)
+  }
+  call <- quote(fun())
+  expect_equal(eval(merge_args(call, list(a = 1))), "123")
+  expect_equal(eval(merge_args(call, list(c = 3, 1))), "123")
+  expect_equal(eval(merge_args(call, list(c = 3, 1, b = 2))), "123")
+
+  expect_equal(
+    as.list(mutate_all(mtcars, round, 0)),
+    lapply(mtcars, round, 0)
+  )
+})
+
+test_that("error is thrown with improper additional arguments", {
+  expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "multiple actual arguments")
 })
 
 
