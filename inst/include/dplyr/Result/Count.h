@@ -8,7 +8,7 @@ namespace dplyr {
     Count() {}
     ~Count() {}
 
-    inline int process_chunk( const SlicingIndex& indices ) {
+    inline int process_chunk(const SlicingIndex& indices) {
       return indices.size();
     }
   };

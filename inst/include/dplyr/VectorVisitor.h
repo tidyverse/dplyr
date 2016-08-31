@@ -20,24 +20,24 @@ namespace dplyr {
     virtual bool equal_or_both_na(int i, int j) const = 0;
 
     /** is the i element less than the j element */
-    virtual bool less( int i, int j) const = 0;
+    virtual bool less(int i, int j) const = 0;
 
     /** is the i element less than the j element */
-    virtual bool greater( int i, int j) const = 0;
+    virtual bool greater(int i, int j) const = 0;
 
     virtual int size() const = 0;
 
     virtual std::string get_r_type() const = 0;
 
-    virtual bool is_compatible( VectorVisitor* other, std::stringstream&, const std::string& ) const {
+    virtual bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
       return true;
     }
 
-    virtual bool is_na( int i ) const = 0;
+    virtual bool is_na(int i) const = 0;
   };
 
   // defined in visitor.h
-  inline VectorVisitor* visitor( SEXP );
+  inline VectorVisitor* visitor(SEXP);
 
 } // namespace dplyr
 

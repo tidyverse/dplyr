@@ -15,7 +15,7 @@ namespace dplyr {
     Function match_fun;
   };
 
-  inline IntegerVector r_match( SEXP x, SEXP y ) {
+  inline IntegerVector r_match(SEXP x, SEXP y) {
     static RMatch m;
     return m(x, y);
   }

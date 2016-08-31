@@ -13,7 +13,7 @@ namespace dplyr {
   };
 
   inline SupportedType check_supported_type(SEXP x, SEXP name = R_NilValue) {
-    switch ( TYPEOF(x) ) {
+    switch (TYPEOF(x)) {
     case LGLSXP:
       return DPLYR_LGLSXP;
     case INTSXP:
@@ -27,11 +27,11 @@ namespace dplyr {
     case VECSXP:
       return DPLYR_VECSXP;
     default:
-      if ( name == R_NilValue ) {
-        stop( "Unsupported type %s", type2name(x));
+      if (name == R_NilValue) {
+        stop("Unsupported type %s", type2name(x));
       }
       else {
-        stop( "Unsupported type %s for column \"%s\"", type2name(x), CHAR(name));
+        stop("Unsupported type %s for column \"%s\"", type2name(x), CHAR(name));
       }
 
       // Unreachable, can be removed with Rcpp > 0.12.5.2

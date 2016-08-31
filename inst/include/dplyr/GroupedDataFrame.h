@@ -3,17 +3,17 @@
 
 namespace Rcpp {
 
-  inline void check_valid_colnames( const DataFrame& df) {
-    if ( df.size() ) {
+  inline void check_valid_colnames(const DataFrame& df) {
+    if (df.size()) {
       CharacterVector names(df.names());
       LogicalVector dup = duplicated(names);
-      if ( any(dup).is_true() ) {
+      if (any(dup).is_true()) {
         std::stringstream s;
         s << "found duplicated column name: ";
         bool first = true;
-        for ( int i=0; i<df.size(); i++) {
-          if ( dup[i] == TRUE ) {
-            if ( first ) {
+        for (int i=0; i<df.size(); i++) {
+          if (dup[i] == TRUE) {
+            if (first) {
               first = false;
             } else {
               s << ", ";
@@ -30,7 +30,7 @@ namespace Rcpp {
 
   class GroupedDataFrameIndexIterator {
   public:
-    GroupedDataFrameIndexIterator( const GroupedDataFrame& gdf_ );
+    GroupedDataFrameIndexIterator(const GroupedDataFrame& gdf_);
 
     GroupedDataFrameIndexIterator& operator++();
 
@@ -44,37 +44,37 @@ namespace Rcpp {
   class GroupedDataFrame {
   public:
     typedef GroupedDataFrameIndexIterator group_iterator;
-    GroupedDataFrame( SEXP x):
+    GroupedDataFrame(SEXP x):
       data_(x),
       group_sizes(),
       biggest_group_size(0),
-      symbols( data_.attr("vars") ),
+      symbols(data_.attr("vars")),
       labels()
     {
       // handle lazyness
-      bool is_lazy = Rf_isNull( data_.attr( "group_sizes") ) || Rf_isNull( data_.attr( "labels") );
+      bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
 
-      if ( is_lazy ) {
-        data_ = build_index_cpp( data_);
+      if (is_lazy) {
+        data_ = build_index_cpp(data_);
       }
-      group_sizes = data_.attr( "group_sizes" );
-      biggest_group_size  = data_.attr( "biggest_group_size" );
-      labels = data_.attr( "labels" );
+      group_sizes = data_.attr("group_sizes");
+      biggest_group_size  = data_.attr("biggest_group_size");
+      labels = data_.attr("labels");
 
-      if ( !is_lazy ) {
+      if (!is_lazy) {
         // check consistency of the groups
         int rows_in_groups = sum(group_sizes);
-        if ( data_.nrows() != rows_in_groups ) {
-          stop( "corrupt 'grouped_df', contains %d rows, and %s rows in groups", data_.nrows(), rows_in_groups );
+        if (data_.nrows() != rows_in_groups) {
+          stop("corrupt 'grouped_df', contains %d rows, and %s rows in groups", data_.nrows(), rows_in_groups);
         }
       }
     }
 
     group_iterator group_begin() const {
-      return GroupedDataFrameIndexIterator( *this );
+      return GroupedDataFrameIndexIterator(*this);
     }
 
-    SEXP symbol( int i) const {
+    SEXP symbol(int i) const {
       return symbols[i];
     }
 
@@ -108,8 +108,8 @@ namespace Rcpp {
     inline bool has_group(SEXP g) const {
       SEXP symb = Rf_installChar(g);
       int n = symbols.size();
-      for ( int i=0; i<n; i++) {
-        if ( symbols[i] == symb ) return true;
+      for (int i=0; i<n; i++) {
+        if (symbols[i] == symb) return true;
       }
       return false;
     }
@@ -129,11 +129,11 @@ namespace Rcpp {
   };
 
   template <>
-  inline bool is<GroupedDataFrame>( SEXP x) {
-    return Rf_inherits(x, "grouped_df" ) && Rf_getAttrib(x, Rf_install("vars") ) != R_NilValue;
+  inline bool is<GroupedDataFrame>(SEXP x) {
+    return Rf_inherits(x, "grouped_df") && Rf_getAttrib(x, Rf_install("vars")) != R_NilValue;
   }
 
-  inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator( const GroupedDataFrame& gdf_ ) :
+  inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator(const GroupedDataFrame& gdf_) :
     i(0), gdf(gdf_), indices(gdf.data().attr("indices")) {}
 
   inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator++() {
@@ -142,7 +142,7 @@ namespace Rcpp {
   }
 
   inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-    return SlicingIndex( IntegerVector(indices[i]), i );
+    return SlicingIndex(IntegerVector(indices[i]), i);
   }
 
 

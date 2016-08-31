@@ -9,15 +9,15 @@ namespace dplyr {
 
   class Reducer_Proxy {
   public:
-    Reducer_Proxy( Rcpp::Function fun_, Rcpp::String variable_ ):
+    Reducer_Proxy(Rcpp::Function fun_, Rcpp::String variable_):
       fun(fun_), variable(variable_)
     {}
     Rcpp::Function fun;
     Rcpp::String variable;
   };
 
-  inline Reducer_Proxy reduce( Rcpp::Function fun, Rcpp::String variable) {
-    return Reducer_Proxy( fun, variable );
+  inline Reducer_Proxy reduce(Rcpp::Function fun, Rcpp::String variable) {
+    return Reducer_Proxy(fun, variable);
   }
 
 #define MAKE_PROXY(PREFIX,_prefix_)                                           \

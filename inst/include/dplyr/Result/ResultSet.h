@@ -5,11 +5,11 @@ namespace dplyr {
 
   class ResultSet {
   public:
-    ResultSet( ) : results(), names(), n(0) {}
+    ResultSet() : results(), names(), n(0) {}
 
-    void add_result( const std::string& name, Result* result ) {
-      results.push_back( result );
-      names.push_back( name );
+    void add_result(const std::string& name, Result* result) {
+      results.push_back(result);
+      names.push_back(name);
       n++;
     }
 

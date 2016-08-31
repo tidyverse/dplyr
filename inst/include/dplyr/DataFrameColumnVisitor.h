@@ -5,7 +5,7 @@ namespace dplyr {
 
   class DataFrameColumnVisitor : public VectorVisitor {
   public:
-    DataFrameColumnVisitor( const DataFrame& data_ ) : data(data_), visitors(data) {}
+    DataFrameColumnVisitor(const DataFrame& data_) : data(data_), visitors(data) {}
 
     inline size_t hash(int i) const {
       return visitors.hash(i);
@@ -19,11 +19,11 @@ namespace dplyr {
       return visitors.equal_or_both_na(i,j);
     }
 
-    inline bool less( int i, int j ) const {
+    inline bool less(int i, int j) const {
       return visitors.less(i,j);
     }
 
-    inline bool greater( int i, int j ) const {
+    inline bool greater(int i, int j) const {
       return visitors.greater(i,j);
     }
 
@@ -35,11 +35,11 @@ namespace dplyr {
       return "data.frame";
     }
 
-    virtual bool is_compatible( VectorVisitor* other, std::stringstream&, const std::string& ) const {
+    virtual bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
       return true;
     }
 
-    bool is_na( int i ) const {
+    bool is_na(int i) const {
       return false;
     }
 

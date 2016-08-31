@@ -14,8 +14,8 @@ namespace dplyr {
     {}
     ~Sd() {}
 
-    inline double process_chunk( const SlicingIndex& indices ) {
-      return sqrt( var.process_chunk( indices ) );
+    inline double process_chunk(const SlicingIndex& indices) {
+      return sqrt(var.process_chunk(indices));
     }
 
   private:

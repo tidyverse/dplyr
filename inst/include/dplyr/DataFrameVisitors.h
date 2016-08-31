@@ -19,9 +19,9 @@ namespace dplyr {
   public:
     typedef VectorVisitor visitor_type;
 
-    DataFrameVisitors( const Rcpp::DataFrame& data_);
+    DataFrameVisitors(const Rcpp::DataFrame& data_);
 
-    DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names );
+    DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names);
 
     inline int size() const {
       return nvisitors;
@@ -40,7 +40,7 @@ namespace dplyr {
 
   private:
 
-    void structure( List& x, int nrows, CharacterVector classes ) const;
+    void structure(List& x, int nrows, CharacterVector classes) const;
 
   };
 

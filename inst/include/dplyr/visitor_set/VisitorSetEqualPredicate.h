@@ -8,7 +8,7 @@ namespace dplyr {
   public:
     VisitorSetEqualPredicate() : visitors(0) {}
 
-    VisitorSetEqualPredicate( VisitorSet* visitors_ ) : visitors(visitors_) {};
+    VisitorSetEqualPredicate(VisitorSet* visitors_) : visitors(visitors_) {};
     inline bool operator()(int i, int j) const {
       return visitors->equal(i,j);
     }

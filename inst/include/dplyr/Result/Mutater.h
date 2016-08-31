@@ -7,23 +7,23 @@ namespace dplyr {
   class Mutater : public Result {
   public:
 
-    virtual SEXP process(const GroupedDataFrame& gdf ) {
+    virtual SEXP process(const GroupedDataFrame& gdf) {
       int ng = gdf.ngroups();
 
       Vector<RTYPE> out = no_init(gdf.nrows());
       GroupedDataFrame::group_iterator git = gdf.group_begin();
-      for ( int i=0; i<ng; i++, ++git) {
+      for (int i=0; i<ng; i++, ++git) {
         static_cast<Derived&>(*this).process_slice(out, *git, *git);
       }
       return out;
     }
 
-    virtual SEXP process(const RowwiseDataFrame& gdf ) {
+    virtual SEXP process(const RowwiseDataFrame& gdf) {
       int ng = gdf.ngroups();
 
       Vector<RTYPE> out = no_init(gdf.nrows());
       RowwiseDataFrame::group_iterator git = gdf.group_begin();
-      for ( int i=0; i<ng; i++, ++git) {
+      for (int i=0; i<ng; i++, ++git) {
         static_cast<Derived&>(*this).process_slice(out, *git, *git);
       }
       return out;
@@ -32,7 +32,7 @@ namespace dplyr {
     virtual SEXP process(const FullDataFrame& df) {
       Vector<RTYPE> out = no_init(df.nrows());
       SlicingIndex index = df.get_index();
-      static_cast<Derived&>(*this).process_slice( out, index, index );
+      static_cast<Derived&>(*this).process_slice(out, index, index);
       return out;
     }
 
@@ -40,7 +40,7 @@ namespace dplyr {
       int nrows = index.size();
       Vector<RTYPE> out = no_init(nrows);
       SlicingIndex fake(0, nrows);
-      static_cast<Derived&>(*this).process_slice( out, index, fake );
+      static_cast<Derived&>(*this).process_slice(out, index, fake);
       return out;
     }
 

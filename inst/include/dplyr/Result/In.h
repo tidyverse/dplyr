@@ -9,15 +9,15 @@ namespace dplyr {
     typedef typename Rcpp::Vector<RTYPE> Vec;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    In( Vec data_, Vec table_ ) :
+    In(Vec data_, Vec table_) :
       data(data_),
       table(table_),
       set(table.begin(), table.end())
     {}
 
-    void process_slice( LogicalVector& out, const SlicingIndex& index, const SlicingIndex& out_index) {
+    void process_slice(LogicalVector& out, const SlicingIndex& index, const SlicingIndex& out_index) {
       int n = index.size();
-      for ( int i=0; i<n; i++) {
+      for (int i=0; i<n; i++) {
         STORAGE value = data[index[i]];
         if (Vec::is_na(value)) {
           out[ out_index[i] ] = false;

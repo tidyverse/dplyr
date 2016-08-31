@@ -5,7 +5,7 @@ namespace dplyr {
 
   inline std::string get_single_class(SEXP x) {
     SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
-    if ( !Rf_isNull(klass) ) {
+    if (!Rf_isNull(klass)) {
       CharacterVector classes(klass);
       return collapse<STRSXP>(classes);
     }
@@ -14,7 +14,7 @@ namespace dplyr {
       return "matrix";
     }
 
-    switch ( TYPEOF(x) ) {
+    switch (TYPEOF(x)) {
     case INTSXP:
       return "integer";
     case REALSXP :
@@ -32,7 +32,7 @@ namespace dplyr {
 
     // just call R to deal with other cases
     // we could call R_data_class directly but we might get a "this is not part of the api"
-    klass = Rf_eval( Rf_lang2( Rf_install( "class" ), x), R_GlobalEnv );
+    klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
     return CHAR(STRING_ELT(klass,0));
   }
 

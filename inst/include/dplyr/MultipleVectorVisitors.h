@@ -21,8 +21,8 @@ namespace dplyr {
       visitors()
     {
       int n = data.size();
-      for ( int i=0; i<n; i++) {
-        push_back( data[i] );
+      for (int i=0; i<n; i++) {
+        push_back(data[i]);
       }
     }
 
@@ -33,18 +33,18 @@ namespace dplyr {
       return visitors[k].get();
     }
     inline int nrows() const {
-      if ( visitors.size() == 0 ) {
+      if (visitors.size() == 0) {
         stop("need at least one column for nrows()");
       }
       return visitors[0]->size();
     }
-    inline void push_back( SEXP x) {
-      visitors.push_back( boost::shared_ptr<VectorVisitor>( visitor(x) ) );
+    inline void push_back(SEXP x) {
+      visitors.push_back(boost::shared_ptr<VectorVisitor>(visitor(x)));
     }
 
     inline bool is_na(int index) const {
       int n = size();
-      for ( int i=0; i<n; i++) if ( visitors[i]->is_na(index)) return true;
+      for (int i=0; i<n; i++) if (visitors[i]->is_na(index)) return true;
       return false;
     }
 

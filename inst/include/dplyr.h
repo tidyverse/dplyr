@@ -44,8 +44,8 @@ using namespace Rcpp;
 
 namespace dplyr {
   class LazySubsets;
-  Symbol extract_column( SEXP, const Environment& );
-  Symbol get_column(SEXP, const Environment&, const LazySubsets& );
+  Symbol extract_column(SEXP, const Environment&);
+  Symbol get_column(SEXP, const Environment&, const LazySubsets&);
   class Result;
   class ResultSet;
   class Reducer_Proxy;
@@ -55,31 +55,31 @@ namespace dplyr {
 
   void strip_index(DataFrame x);
   template <typename Index>
-  DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes);
-  void check_attribute_compatibility( SEXP left, SEXP right);
-  bool same_levels( SEXP left, SEXP right );
+  DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes);
+  void check_attribute_compatibility(SEXP left, SEXP right);
+  bool same_levels(SEXP left, SEXP right);
 }
-dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& );
-dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-dplyr::Result* first_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-dplyr::Result* last_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-bool argmatch( const std::string& target, const std::string& s);
+dplyr::Result* get_handler(SEXP, const dplyr::LazySubsets&, const Environment&);
+dplyr::Result* nth_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+dplyr::Result* first_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+dplyr::Result* last_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+bool argmatch(const std::string& target, const std::string& s);
 
 bool can_simplify(SEXP);
 
 void assert_all_white_list(const DataFrame&);
 inline SEXP shared_SEXP(SEXP x) {
-  SET_NAMED(x, 2 );
+  SET_NAMED(x, 2);
   return x;
 }
 
 inline SEXP pairlist_shallow_copy(SEXP p) {
-  Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) );
+  Shield<SEXP> attr(Rf_cons(CAR(p), R_NilValue));
   SEXP q = attr;
   SET_TAG(q, TAG(p));
   p = CDR(p);
-  while ( !Rf_isNull(p) ) {
-    Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) );
+  while (!Rf_isNull(p)) {
+    Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
     SETCDR(q, s);
     q = CDR(q);
     SET_TAG(q, TAG(p));
@@ -90,17 +90,17 @@ inline SEXP pairlist_shallow_copy(SEXP p) {
 
 inline void copy_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data);
-  if ( !Rf_isNull(att) ) {
-    SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) );
+  if (!Rf_isNull(att)) {
+    SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
-  SET_OBJECT( out, OBJECT(data) );
-  if ( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out);
+  SET_OBJECT(out, OBJECT(data));
+  if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
 }
 
 // same as copy_attributes but without names
 inline void copy_most_attributes(SEXP out, SEXP data) {
   copy_attributes(out,data);
-  Rf_setAttrib( out, R_NamesSymbol, R_NilValue );
+  Rf_setAttrib(out, R_NamesSymbol, R_NilValue);
 }
 
 CharacterVector dfloc(List);
@@ -109,8 +109,8 @@ SEXP shallow_copy(const List& data);
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
 
 #if defined(COMPILING_DPLYR)
-  DataFrame build_index_cpp( DataFrame data );
-  void registerHybridHandler( const char*, HybridHandler );
+  DataFrame build_index_cpp(DataFrame data);
+  void registerHybridHandler(const char*, HybridHandler);
   SEXP get_time_classes();
   SEXP get_date_classes();
 #endif
@@ -169,8 +169,8 @@ void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf);
 
 template <typename Data>
 SEXP strip_group_attributes(Data df) {
-  Shield<SEXP> attribs( Rf_cons( dplyr::classes_not_grouped(), R_NilValue ) );
-  SET_TAG(attribs, Rf_install("class") );
+  Shield<SEXP> attribs(Rf_cons(dplyr::classes_not_grouped(), R_NilValue));
+  SET_TAG(attribs, Rf_install("class"));
 
   SEXP p = ATTRIB(df);
   std::vector<SEXP> black_list(8);
@@ -184,10 +184,10 @@ SEXP strip_group_attributes(Data df) {
   black_list[7] = Rf_install("class");
 
   SEXP q = attribs;
-  while ( ! Rf_isNull(p) ) {
+  while (! Rf_isNull(p)) {
     SEXP tag = TAG(p);
-    if ( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ) {
-      Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) );
+    if (std::find(black_list.begin(), black_list.end(), tag) == black_list.end()) {
+      Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
       SETCDR(q,s);
       q = CDR(q);
       SET_TAG(q, tag);
@@ -199,9 +199,9 @@ SEXP strip_group_attributes(Data df) {
 }
 
 template <typename T>
-CharacterVector names( const T& obj ) {
+CharacterVector names(const T& obj) {
   SEXP x = obj;
-  return Rf_getAttrib(x, Rf_install("names" ) );
+  return Rf_getAttrib(x, Rf_install("names"));
 }
 
 

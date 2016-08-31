@@ -6,7 +6,7 @@ namespace dplyr {
   class CharacterVectorOrderer {
   public:
 
-    CharacterVectorOrderer( const CharacterVector& data_ );
+    CharacterVectorOrderer(const CharacterVector& data_);
 
     inline IntegerVector get() const {
       return orders;

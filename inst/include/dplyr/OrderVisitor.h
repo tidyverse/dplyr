@@ -11,7 +11,7 @@ namespace dplyr {
     virtual bool equal(int i, int j) const  = 0;
 
     /** is the i element less than the j element */
-    virtual bool before( int i, int j) const = 0;
+    virtual bool before(int i, int j) const = 0;
 
     virtual SEXP get() = 0;
 

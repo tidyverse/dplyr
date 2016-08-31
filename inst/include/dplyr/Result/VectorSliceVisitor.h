@@ -8,14 +8,14 @@ namespace dplyr {
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    VectorSliceVisitor( SEXP data_, const SlicingIndex& index_ ) :
+    VectorSliceVisitor(SEXP data_, const SlicingIndex& index_) :
       data(data_),
-      ptr( Rcpp::internal::r_vector_start<RTYPE>(data)),
+      ptr(Rcpp::internal::r_vector_start<RTYPE>(data)),
       n(index_.size()),
       index(index_)
     {}
 
-    inline STORAGE operator[]( int i) const {
+    inline STORAGE operator[](int i) const {
       return ptr[index[i]];
     }
 

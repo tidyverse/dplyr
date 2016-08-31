@@ -14,13 +14,13 @@ namespace dplyr {
   public:
     VisitorSetIndexMap() : Base(), visitors(0) {}
 
-    VisitorSetIndexMap( VisitorSet& visitors_ ) :
-      Base( 1024, Hasher(&visitors_), EqualPredicate(&visitors_) ),
+    VisitorSetIndexMap(VisitorSet& visitors_) :
+      Base(1024, Hasher(&visitors_), EqualPredicate(&visitors_)),
       visitors(&visitors_)
     {}
 
-    VisitorSetIndexMap( VisitorSet* visitors_ ) :
-      Base( 1024, Hasher(visitors_), EqualPredicate(visitors_) ),
+    VisitorSetIndexMap(VisitorSet* visitors_) :
+      Base(1024, Hasher(visitors_), EqualPredicate(visitors_)),
       visitors(visitors_)
     {}
 

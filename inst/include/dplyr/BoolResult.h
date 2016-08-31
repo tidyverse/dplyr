@@ -12,13 +12,13 @@ namespace dplyr {
       result = true;
       message.clear();
     }
-    void set_false( const char* msg ) {
+    void set_false(const char* msg) {
       result = false;
       message = msg;
     }
 
     inline operator SEXP() const {
-      LogicalVector res = LogicalVector::create( result );
+      LogicalVector res = LogicalVector::create(result);
       res.attr("comment") = message;
       res.attr("class")   = "BoolResult";
       return res;
@@ -37,8 +37,8 @@ namespace dplyr {
     std::string message;
   };
 
-  inline BoolResult no_because( const std::string& msg ) {
-    return BoolResult( false, msg );
+  inline BoolResult no_because(const std::string& msg) {
+    return BoolResult(false, msg);
   }
 
   inline BoolResult yes() {

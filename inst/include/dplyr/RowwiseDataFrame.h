@@ -15,7 +15,7 @@ namespace Rcpp {
     }
 
     SlicingIndex operator*() const {
-      return SlicingIndex( IntegerVector::create(i), i);
+      return SlicingIndex(IntegerVector::create(i), i);
     }
 
     int i;
@@ -24,7 +24,7 @@ namespace Rcpp {
   class RowwiseDataFrame {
   public:
     typedef RowwiseDataFrameIndexIterator group_iterator;
-    RowwiseDataFrame( SEXP x):
+    RowwiseDataFrame(SEXP x):
       data_(x),
       group_sizes()
     {
@@ -77,7 +77,7 @@ namespace Rcpp {
   };
 
   template <>
-  inline bool is<RowwiseDataFrame>( SEXP x) {
+  inline bool is<RowwiseDataFrame>(SEXP x) {
     return Rf_inherits(x, "rowwise_df");
   }
 

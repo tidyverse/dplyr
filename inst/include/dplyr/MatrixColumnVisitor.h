@@ -16,27 +16,27 @@ namespace dplyr {
       typedef comparisons<RTYPE> compare;
       typedef boost::hash<STORAGE> hasher;
 
-      ColumnVisitor( Matrix<RTYPE>& data, int column ) :
-        column( data.column(column) ) {}
+      ColumnVisitor(Matrix<RTYPE>& data, int column) :
+        column(data.column(column)) {}
 
       inline size_t hash(int i) const {
-        return hash_fun( const_cast<Column&>(column)[i] );
+        return hash_fun(const_cast<Column&>(column)[i]);
       }
 
-      inline bool equal( int i, int j ) const {
-        return compare::equal_or_both_na(  const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j] );
+      inline bool equal(int i, int j) const {
+        return compare::equal_or_both_na(const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j]);
       }
 
       inline bool less(int i, int j) const {
-        return compare::is_less(  const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j] );
+        return compare::is_less(const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j]);
       }
 
       inline bool equal_or_both_na(int i, int j) const {
-        return compare::equal_or_both_na(  const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j] );
+        return compare::equal_or_both_na(const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j]);
       }
 
       inline bool greater(int i, int j) const {
-        return compare::is_greater(  const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j] );
+        return compare::is_greater(const_cast<Column&>(column)[i],  const_cast<Column&>(column)[j]);
       }
 
     private:
@@ -44,52 +44,52 @@ namespace dplyr {
       hasher hash_fun;
     };
 
-    MatrixColumnVisitor( const Matrix<RTYPE>& data_ ) : data(data_), visitors() {
-      for ( int h=0; h<data.ncol(); h++) {
-        visitors.push_back( ColumnVisitor( data, h ) );
+    MatrixColumnVisitor(const Matrix<RTYPE>& data_) : data(data_), visitors() {
+      for (int h=0; h<data.ncol(); h++) {
+        visitors.push_back(ColumnVisitor(data, h));
       }
     }
 
     inline size_t hash(int i) const {
       size_t seed = visitors[0].hash(i);
-      for ( size_t h=1; h<visitors.size(); h++) {
-        boost::hash_combine( seed, visitors[h].hash(i) );
+      for (size_t h=1; h<visitors.size(); h++) {
+        boost::hash_combine(seed, visitors[h].hash(i));
       }
       return seed;
     }
 
     inline bool equal(int i, int j) const {
-      if ( i == j ) return true;
-      for ( size_t h=0; h<visitors.size(); h++) {
-        if ( !visitors[h].equal(i,j) ) return false;
+      if (i == j) return true;
+      for (size_t h=0; h<visitors.size(); h++) {
+        if (!visitors[h].equal(i,j)) return false;
       }
       return true;
     }
 
     inline bool equal_or_both_na(int i, int j) const {
-      if ( i == j ) return true;
-      for ( size_t h=0; h<visitors.size(); h++) {
-        if ( !visitors[h].equal_or_both_na(i,j) ) return false;
+      if (i == j) return true;
+      for (size_t h=0; h<visitors.size(); h++) {
+        if (!visitors[h].equal_or_both_na(i,j)) return false;
       }
       return true;
     }
 
-    inline bool less( int i, int j ) const {
-      if ( i == j ) return false;
-      for ( size_t h=0; h<visitors.size(); h++) {
+    inline bool less(int i, int j) const {
+      if (i == j) return false;
+      for (size_t h=0; h<visitors.size(); h++) {
         const ColumnVisitor& v = visitors[h];
-        if ( !v.equal(i,j) ) {
+        if (!v.equal(i,j)) {
           return v.less(i,j);
         }
       }
       return i < j;
     }
 
-    inline bool greater( int i, int j ) const {
-      if ( i == j ) return false;
-      for ( size_t h=0; h<visitors.size(); h++) {
+    inline bool greater(int i, int j) const {
+      if (i == j) return false;
+      for (size_t h=0; h<visitors.size(); h++) {
         const ColumnVisitor& v = visitors[h];
-        if ( !v.equal(i,j) ) {
+        if (!v.equal(i,j)) {
           return v.greater(i,j);
         }
       }
@@ -104,11 +104,11 @@ namespace dplyr {
       return "matrix";
     }
 
-    inline bool is_compatible( VectorVisitor* other, std::stringstream&, const std::string& ) const {
+    inline bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
       return true;
     }
 
-    bool is_na( int i ) const {
+    bool is_na(int i) const {
       return false;
     }
 

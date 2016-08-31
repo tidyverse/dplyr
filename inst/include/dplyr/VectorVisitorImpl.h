@@ -4,13 +4,13 @@
 namespace dplyr {
 
   template <typename Container>
-  inline int output_size( const Container& container) {
+  inline int output_size(const Container& container) {
     return container.size();
   }
 
   template <>
-  inline int output_size<LogicalVector>( const LogicalVector& container) {
-    return std::count( container.begin(), container.end(), TRUE );
+  inline int output_size<LogicalVector>(const LogicalVector& container) {
+    return std::count(container.begin(), container.end(), TRUE);
   }
 
   template <int RTYPE> std::string VectorVisitorType();
@@ -52,28 +52,28 @@ namespace dplyr {
      */
     typedef boost::hash<STORAGE> hasher;
 
-    VectorVisitorImpl( const VECTOR& vec_ ) : vec(vec_) {}
+    VectorVisitorImpl(const VECTOR& vec_) : vec(vec_) {}
 
     /**
      * implementations
      */
     size_t hash(int i) const {
-      return hash_fun( vec[i] );
+      return hash_fun(vec[i]);
     }
     inline bool equal(int i, int j) const {
-      return compare::equal_or_both_na( vec[i], vec[j] );
+      return compare::equal_or_both_na(vec[i], vec[j]);
     }
 
     inline bool less(int i, int j) const {
-      return compare::is_less( vec[i], vec[j] );
+      return compare::is_less(vec[i], vec[j]);
     }
 
     inline bool equal_or_both_na(int i, int j) const {
-      return compare::equal_or_both_na( vec[i], vec[j] );
+      return compare::equal_or_both_na(vec[i], vec[j]);
     }
 
     inline bool greater(int i, int j) const {
-      return compare::is_greater( vec[i], vec[j] );
+      return compare::is_greater(vec[i], vec[j]);
     }
 
     inline std::string get_r_type() const {
@@ -84,8 +84,8 @@ namespace dplyr {
       return vec.size();
     }
 
-    bool is_na( int i ) const {
-      return VECTOR::is_na( vec[i] );
+    bool is_na(int i) const {
+      return VECTOR::is_na(vec[i]);
     }
 
   protected:
@@ -98,8 +98,8 @@ namespace dplyr {
   public:
     typedef VectorVisitorImpl<INTSXP> Parent;
 
-    FactorVisitor( const IntegerVector& vec_ ) : Parent(vec_) {
-      levels = vec.attr( "levels" );
+    FactorVisitor(const IntegerVector& vec_) : Parent(vec_) {
+      levels = vec.attr("levels");
       levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
     }
 
@@ -124,19 +124,19 @@ namespace dplyr {
     }
 
     inline std::string get_r_type() const {
-      CharacterVector classes = Parent::vec.attr( "class" );
+      CharacterVector classes = Parent::vec.attr("class");
       return collapse(classes);
     }
 
-    bool is_compatible( VectorVisitor* other, std::stringstream& ss, const std::string& name ) const {
-      return compatible( dynamic_cast<FactorVisitor*>(other), ss, name );
+    bool is_compatible(VectorVisitor* other, std::stringstream& ss, const std::string& name) const {
+      return compatible(dynamic_cast<FactorVisitor*>(other), ss, name);
     }
 
   private:
 
-    inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
+    inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name) const {
       CharacterVector levels_other = other->levels;
-      if ( setdiff( levels, levels_other ).size() ) {
+      if (setdiff(levels, levels_other).size()) {
         ss << "Factor levels not equal for column " << name;
         return false;
       }
@@ -153,9 +153,9 @@ namespace dplyr {
   class VectorVisitorImpl<STRSXP> : public VectorVisitor {
   public:
 
-    VectorVisitorImpl( const CharacterVector& vec_ ) :
+    VectorVisitorImpl(const CharacterVector& vec_) :
       vec(vec_),
-      orders( CharacterVectorOrderer(vec).get() )
+      orders(CharacterVectorOrderer(vec).get())
     {}
 
     size_t hash(int i) const {
@@ -185,7 +185,7 @@ namespace dplyr {
       return vec.size();
     }
 
-    bool is_na( int i ) const {
+    bool is_na(int i) const {
       return CharacterVector::is_na(vec[i]);
     }
 

@@ -4,11 +4,11 @@
 namespace dplyr {
 
   inline bool white_list(SEXP x) {
-    if ( Rf_isMatrix(x) ) {
+    if (Rf_isMatrix(x)) {
       // might have to refine later
       return true;
     }
-    switch ( TYPEOF(x) ) {
+    switch (TYPEOF(x)) {
     case INTSXP:
       return true;
     case REALSXP:
@@ -20,7 +20,7 @@ namespace dplyr {
     case CPLXSXP:
       return true;
     case VECSXP: {
-      if ( Rf_inherits( x, "POSIXlt") ) return false;
+      if (Rf_inherits(x, "POSIXlt")) return false;
       return true;
     }
 

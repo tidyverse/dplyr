@@ -7,7 +7,7 @@ namespace dplyr {
   public:
     GroupedSubset() {};
     virtual ~GroupedSubset() {};
-    virtual SEXP get( const SlicingIndex& indices ) = 0;
+    virtual SEXP get(const SlicingIndex& indices) = 0;
     virtual SEXP get_variable() const = 0;
     virtual bool is_summary() const = 0;
   };
@@ -16,11 +16,11 @@ namespace dplyr {
   class GroupedSubsetTemplate : public GroupedSubset {
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-    GroupedSubsetTemplate( SEXP x, int max_size ) :
-      object(x), output(max_size, object), start( Rcpp::internal::r_vector_start<RTYPE>(object) ) {}
+    GroupedSubsetTemplate(SEXP x, int max_size) :
+      object(x), output(max_size, object), start(Rcpp::internal::r_vector_start<RTYPE>(object)) {}
 
-    virtual SEXP get( const SlicingIndex& indices ) {
-      output.borrow( indices, start );
+    virtual SEXP get(const SlicingIndex& indices) {
+      output.borrow(indices, start);
       return output;
     }
     virtual SEXP get_variable() const {
@@ -38,10 +38,10 @@ namespace dplyr {
 
   class DataFrameGroupedSubset : public GroupedSubset {
   public:
-    DataFrameGroupedSubset( SEXP x ) : data(x), visitors(data) {}
+    DataFrameGroupedSubset(SEXP x) : data(x), visitors(data) {}
 
-    virtual SEXP get( const SlicingIndex& indices ) {
-      return visitors.subset(indices, data.attr("class") );
+    virtual SEXP get(const SlicingIndex& indices) {
+      return visitors.subset(indices, data.attr("class"));
     }
 
     virtual SEXP get_variable() const {
@@ -58,7 +58,7 @@ namespace dplyr {
   };
 
   inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
-    switch ( TYPEOF(x) ) {
+    switch (TYPEOF(x)) {
     case INTSXP:
       return new GroupedSubsetTemplate<INTSXP>(x, max_size);
     case REALSXP:
@@ -68,10 +68,10 @@ namespace dplyr {
     case STRSXP:
       return new GroupedSubsetTemplate<STRSXP>(x, max_size);
     case VECSXP:
-      if ( Rf_inherits( x, "data.frame" ) )
+      if (Rf_inherits(x, "data.frame"))
         return new DataFrameGroupedSubset(x);
-      if ( Rf_inherits( x, "POSIXlt" ) ) {
-        stop( "POSIXlt not supported" );
+      if (Rf_inherits(x, "POSIXlt")) {
+        stop("POSIXlt not supported");
       }
       return new GroupedSubsetTemplate<VECSXP>(x, max_size);
     case CPLXSXP:
@@ -89,10 +89,10 @@ namespace dplyr {
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    SummarisedSubsetTemplate( SummarisedVariable x, int max_size ) :
+    SummarisedSubsetTemplate(SummarisedVariable x, int max_size) :
       object(x), output(1) {}
 
-    virtual SEXP get( const SlicingIndex& indices ) {
+    virtual SEXP get(const SlicingIndex& indices) {
       output[0] = object[indices.group()];
       return output;
     }
@@ -111,10 +111,10 @@ namespace dplyr {
   template <>
   class SummarisedSubsetTemplate<VECSXP> : public GroupedSubset {
   public:
-    SummarisedSubsetTemplate( SummarisedVariable x, int max_size ) : object(x) {}
+    SummarisedSubsetTemplate(SummarisedVariable x, int max_size) : object(x) {}
 
-    virtual SEXP get( const SlicingIndex& indices ) {
-      return List::create( object[indices.group()] );
+    virtual SEXP get(const SlicingIndex& indices) {
+      return List::create(object[indices.group()]);
     }
 
     virtual SEXP get_variable() const {
@@ -129,7 +129,7 @@ namespace dplyr {
   };
 
   inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size) {
-    switch ( TYPEOF(x) ) {
+    switch (TYPEOF(x)) {
     case LGLSXP:
       return new SummarisedSubsetTemplate<LGLSXP>(x, max_size);
     case INTSXP:

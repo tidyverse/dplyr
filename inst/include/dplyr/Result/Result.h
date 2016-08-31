@@ -9,13 +9,13 @@ namespace dplyr {
 
     virtual ~Result() {};
 
-    virtual SEXP process( const RowwiseDataFrame& gdf) = 0;
+    virtual SEXP process(const RowwiseDataFrame& gdf) = 0;
 
-    virtual SEXP process( const GroupedDataFrame& gdf) = 0;
+    virtual SEXP process(const GroupedDataFrame& gdf) = 0;
 
-    virtual SEXP process( const FullDataFrame& df ) = 0;
+    virtual SEXP process(const FullDataFrame& df) = 0;
 
-    virtual SEXP process( const SlicingIndex& index ) {
+    virtual SEXP process(const SlicingIndex& index) {
       return R_NilValue;
     }
 
