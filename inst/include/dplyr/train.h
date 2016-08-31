@@ -13,7 +13,7 @@ namespace dplyr {
         Rcpp::checkUserInterrupt();
       }
     }
-    for (; i<n; i++) op(i) ;
+    for (; i<n; i++) op(i);
   }
 
   template <typename Map>

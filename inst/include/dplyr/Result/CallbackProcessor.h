@@ -68,7 +68,7 @@ namespace dplyr {
       );
       if (!processor)
         stop("expecting a single value");
-      for (; i<ngroups ; i++, ++git) {
+      for (; i<ngroups; i++, ++git) {
         first_result = obj->process_chunk(*git);
         if (!processor->handled(i, first_result)) {
           if (processor->can_promote(first_result)) {

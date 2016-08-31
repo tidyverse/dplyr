@@ -181,7 +181,7 @@ namespace dplyr {
       oMap ordered;
 
       it = map.begin();
-      for (; it != map.end() ; ++it) {
+      for (; it != map.end(); ++it) {
         ordered[it->first] = &it->second;
       }
       typename oMap::const_iterator oit = ordered.begin();
