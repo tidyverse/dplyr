@@ -124,10 +124,10 @@ namespace dplyr {
       for( int i=0; i<n; i++) {
         SEXP xi = x[i] ;
         if( IS_DPLYR_SHRINKABLE_VECTOR(xi) ) {
-        x[i] = Rf_duplicate(xi) ;
+          x[i] = Rf_duplicate(xi) ;
         } else if( TYPEOF(xi) == VECSXP ) {
-        List lxi(xi) ;
-        perhaps_duplicate( lxi ) ;
+          List lxi(xi) ;
+          perhaps_duplicate( lxi ) ;
         }
       }
     }
@@ -176,7 +176,7 @@ namespace dplyr {
       levels(), data(gdf_.nrows(), NA_INTEGER), first_non_na(first_non_na_), proxy(proxy_), gdf(gdf_)
     {
       if( first_non_na <  gdf.ngroups() )
-      grab( (SEXP)first, indices ) ;
+        grab( (SEXP)first, indices ) ;
       copy_most_attributes( data, first ) ;
     }
 
@@ -227,16 +227,16 @@ namespace dplyr {
       if( n == nf ) {
         for( int i=0; i<n; i++) {
           if( f[i] != NA_INTEGER ) {
-          data[ indices[i] ] = matches[ f[i] - 1 ] ;
+            data[ indices[i] ] = matches[ f[i] - 1 ] ;
           }
         }
       } else if( nf == 1) {
         int value = NA_INTEGER  ;
         if( f[0] != NA_INTEGER ) {
-        value = matches[ f[0] - 1] ;
-        for( int i=0; i<n; i++) {
-          data[ indices[i] ] = value ;
-        }
+          value = matches[ f[0] - 1] ;
+          for( int i=0; i<n; i++) {
+            data[ indices[i] ] = value ;
+          }
         }
       } else {
         stop( "incompatible size" ) ;

@@ -105,8 +105,8 @@ namespace dplyr {
     typedef SubsetVectorVisitorImpl<INTSXP> Parent ;
 
     SubsetFactorVisitor( const IntegerVector& vec_ ) : Parent(vec_) {
-        levels = vec.attr( "levels" ) ;
-        levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
+      levels = vec.attr( "levels" ) ;
+      levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
     }
 
     inline SEXP subset( const Rcpp::IntegerVector& index) const {
@@ -175,11 +175,11 @@ namespace dplyr {
 
     DateSubsetVectorVisitor( SEXP data ) : impl(0) {
       if( TYPEOF(data) == INTSXP ) {
-      impl  = new SubsetVectorVisitorImpl<INTSXP>(data) ;
+        impl  = new SubsetVectorVisitorImpl<INTSXP>(data) ;
       } else if( TYPEOF(data) == REALSXP ) {
-      impl = new SubsetVectorVisitorImpl<REALSXP>(data) ;
+        impl = new SubsetVectorVisitorImpl<REALSXP>(data) ;
       } else {
-      stop( "" ) ;
+        stop( "" ) ;
       }
     }
 

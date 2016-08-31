@@ -30,19 +30,19 @@ namespace Rcpp {
         SEXP prom = CAR(dots) ;
 
         while(true) {
-        SEXP code = PRCODE(prom) ;
-        if( TYPEOF(code) != PROMSXP ) {
-          break ;
-        }
-        prom = code ;
+          SEXP code = PRCODE(prom) ;
+          if( TYPEOF(code) != PROMSXP ) {
+            break ;
+          }
+          prom = code ;
         }
         SEXP x = PRVALUE(prom) ;
         if( x == R_UnboundValue ) {
-        x = PROTECT(Rf_eval(PRCODE(prom), PRENV(prom))) ;
-        np++ ;
+          x = PROTECT(Rf_eval(PRCODE(prom), PRENV(prom))) ;
+          np++ ;
         }
         if( is<T>(x) ) {
-        data.push_back( as<T>(x) ) ;
+          data.push_back( as<T>(x) ) ;
         }
         dots = CDR(dots) ;
       }
@@ -81,16 +81,16 @@ namespace Rcpp {
         SEXP prom = CAR(dots) ;
 
         while(true) {
-        SEXP code = PRCODE(prom) ;
-        if( TYPEOF(code) != PROMSXP ) {
-          break ;
-        }
-        prom = code ;
+          SEXP code = PRCODE(prom) ;
+          if( TYPEOF(code) != PROMSXP ) {
+            break ;
+          }
+          prom = code ;
         }
         SEXP x = PRVALUE(prom) ;
         if( x == R_UnboundValue ) {
-        x = PROTECT(Rf_eval(PRCODE(prom), PRENV(prom))) ;
-        np++ ;
+          x = PROTECT(Rf_eval(PRCODE(prom), PRENV(prom))) ;
+          np++ ;
         }
         data.push_back(x) ;
         dots = CDR(dots) ;

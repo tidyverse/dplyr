@@ -406,7 +406,7 @@ namespace dplyr {
     case LGLSXP: return new Collecter_Impl<LGLSXP>(n) ;
     case STRSXP:
       if( previous->is_factor_collecter() )
-      Rf_warning("binding factor and character vector, coercing into character vector") ;
+        Rf_warning("binding factor and character vector, coercing into character vector") ;
       return new Collecter_Impl<STRSXP>(n) ;
     default: break ;
     }

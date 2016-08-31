@@ -87,8 +87,8 @@ namespace dplyr {
     typedef VectorVisitorImpl<INTSXP> Parent ;
 
     FactorVisitor( const IntegerVector& vec_ ) : Parent(vec_) {
-        levels = vec.attr( "levels" ) ;
-        levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
+      levels = vec.attr( "levels" ) ;
+      levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
     }
 
     inline bool equal(int i, int j) const {

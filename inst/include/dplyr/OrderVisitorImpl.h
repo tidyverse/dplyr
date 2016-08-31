@@ -60,16 +60,16 @@ namespace dplyr {
   class OrderCharacterVectorVisitorImpl : public OrderVisitor {
   public:
     OrderCharacterVectorVisitorImpl( const CharacterVector& vec_ ) :
-    vec(vec_),
-    orders( CharacterVectorOrderer(vec).get() )
+      vec(vec_),
+      orders( CharacterVectorOrderer(vec).get() )
     {}
 
     inline bool equal(int i, int j) const {
-    return orders.equal(i,j) ;
+      return orders.equal(i,j) ;
     }
 
     inline bool before( int i, int j) const {
-    return orders.before(i,j);
+      return orders.before(i,j);
     }
 
     SEXP get() { return vec; }

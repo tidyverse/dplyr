@@ -49,7 +49,7 @@ struct sxpinfo_struct {
 namespace dplyr {
 
   enum encoding {
-     BYTES, LATIN1, UTF8, UNKNOWN
+    BYTES, LATIN1, UTF8, UNKNOWN
   } ;
 
   inline encoding get_encoding( SEXP s) {

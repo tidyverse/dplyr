@@ -24,7 +24,7 @@ namespace dplyr {
       is_summary(is_summary_)
     {
       if( !Rf_isNull(def_)) {
-      def = as<STORAGE>( def_ ) ;
+        def = as<STORAGE>( def_ ) ;
       }
     }
 

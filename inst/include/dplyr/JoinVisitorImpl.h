@@ -356,18 +356,18 @@ namespace dplyr {
       if( tzone_left.isNULL() && tzone_right.isNULL() ) return ;
 
       if( tzone_left.isNULL() ) {
-      tzone = tzone_right ;
+        tzone = tzone_right ;
       } else if( tzone_right.isNULL() ) {
-      tzone = tzone_left ;
+        tzone = tzone_left ;
       } else {
-      std::string s_left  = as<std::string>( tzone_left  ) ;
-      std::string s_right = as<std::string>( tzone_right ) ;
+        std::string s_left  = as<std::string>( tzone_left  ) ;
+        std::string s_right = as<std::string>( tzone_right ) ;
 
-      if( s_left == s_right) {
-        tzone = wrap(s_left) ;
-      } else {
-        tzone = wrap("UTC") ;
-      }
+        if( s_left == s_right) {
+          tzone = wrap(s_left) ;
+        } else {
+          tzone = wrap("UTC") ;
+        }
       }
     }
 
@@ -384,7 +384,7 @@ namespace dplyr {
     inline SEXP promote( NumericVector x) {
       x.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt") ;
       if( !tzone.isNULL() ) {
-      x.attr("tzone") = tzone ;
+        x.attr("tzone") = tzone ;
       }
       return x ;
     }

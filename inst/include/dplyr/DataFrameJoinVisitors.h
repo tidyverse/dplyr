@@ -16,7 +16,7 @@ namespace dplyr {
       Rcpp::CharacterVector names_left,
       Rcpp::CharacterVector names_right,
       bool warn_
-     ) ;
+    ) ;
 
     inline JoinVisitor* get(int k) const {
       return visitors[k] ;
@@ -37,7 +37,7 @@ namespace dplyr {
       int nrows = index.size() ;
       Rcpp::List out(nvisitors);
       for( int k=0; k<nvisitors; k++) {
-         out[k] = get(k)->subset(index) ;
+        out[k] = get(k)->subset(index) ;
       }
       out.attr( "class" ) = classes ;
       set_rownames(out, nrows) ;
