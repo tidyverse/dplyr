@@ -8,8 +8,14 @@ namespace dplyr {
     BoolResult(bool result_) : result(result_) {}
     BoolResult(bool result_, const std::string& msg) : result(result_), message(msg) {}
 
-    void set_true() { result = true ; message.clear() ; }
-    void set_false( const char* msg ) { result = false; message = msg ; }
+    void set_true() {
+      result = true ;
+      message.clear() ;
+    }
+    void set_false( const char* msg ) {
+      result = false;
+      message = msg ;
+    }
 
     inline operator SEXP() const {
       LogicalVector res = LogicalVector::create( result ) ;

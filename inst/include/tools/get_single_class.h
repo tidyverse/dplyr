@@ -15,13 +15,19 @@ namespace dplyr {
     }
 
     switch( TYPEOF(x) ) {
-    case INTSXP: return "integer" ;
-    case REALSXP : return "numeric" ;
-    case LGLSXP: return "logical" ;
-    case STRSXP: return "character" ;
+    case INTSXP:
+      return "integer" ;
+    case REALSXP :
+      return "numeric" ;
+    case LGLSXP:
+      return "logical" ;
+    case STRSXP:
+      return "character" ;
 
-    case VECSXP: return "list" ;
-    default: break ;
+    case VECSXP:
+      return "list" ;
+    default:
+      break ;
     }
 
     // just call R to deal with other cases

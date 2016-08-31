@@ -83,12 +83,20 @@ namespace dplyr {
       ) ;
     }
 
-    inline int size() const { return nvisitors ; }
-    inline SubsetVectorVisitor* get(int k) const { return visitors[k] ; }
+    inline int size() const {
+      return nvisitors ;
+    }
+    inline SubsetVectorVisitor* get(int k) const {
+      return visitors[k] ;
+    }
 
-    Rcpp::String name(int k) const { return visitor_names[k] ; }
+    Rcpp::String name(int k) const {
+      return visitor_names[k] ;
+    }
 
-    inline int nrows() const { return data.nrows() ; }
+    inline int nrows() const {
+      return data.nrows() ;
+    }
 
   private:
 

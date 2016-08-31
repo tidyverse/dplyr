@@ -9,17 +9,23 @@ namespace dplyr {
       return true ;
     }
     switch( TYPEOF(x) ) {
-      case INTSXP:   return true ;
-      case REALSXP:  return true ;
-      case LGLSXP:   return true ;
-      case STRSXP:   return true ;
-      case CPLXSXP:  return true ;
-      case VECSXP: {
-          if( Rf_inherits( x, "POSIXlt") ) return false ;
-          return true ;
-      }
+    case INTSXP:
+      return true ;
+    case REALSXP:
+      return true ;
+    case LGLSXP:
+      return true ;
+    case STRSXP:
+      return true ;
+    case CPLXSXP:
+      return true ;
+    case VECSXP: {
+      if( Rf_inherits( x, "POSIXlt") ) return false ;
+      return true ;
+    }
 
-      default: break ;
+    default:
+      break ;
     }
     return false ;
   }

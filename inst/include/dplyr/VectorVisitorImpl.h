@@ -14,12 +14,24 @@ namespace dplyr {
   }
 
   template <int RTYPE> std::string VectorVisitorType() ;
-  template <> inline std::string VectorVisitorType<INTSXP>() { return "integer" ; }
-  template <> inline std::string VectorVisitorType<REALSXP>() { return "numeric" ; }
-  template <> inline std::string VectorVisitorType<LGLSXP>() { return "logical" ; }
-  template <> inline std::string VectorVisitorType<STRSXP>() { return "character" ; }
-  template <> inline std::string VectorVisitorType<CPLXSXP>() { return "complex" ; }
-  template <> inline std::string VectorVisitorType<VECSXP>() { return "list" ; }
+  template <> inline std::string VectorVisitorType<INTSXP>() {
+    return "integer" ;
+  }
+  template <> inline std::string VectorVisitorType<REALSXP>() {
+    return "numeric" ;
+  }
+  template <> inline std::string VectorVisitorType<LGLSXP>() {
+    return "logical" ;
+  }
+  template <> inline std::string VectorVisitorType<STRSXP>() {
+    return "character" ;
+  }
+  template <> inline std::string VectorVisitorType<CPLXSXP>() {
+    return "complex" ;
+  }
+  template <> inline std::string VectorVisitorType<VECSXP>() {
+    return "list" ;
+  }
 
   /**
    * Implementations

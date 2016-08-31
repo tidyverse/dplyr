@@ -3,7 +3,9 @@
 
 namespace dplyr {
 
-  inline Count* count() { return new Count ; }
+  inline Count* count() {
+    return new Count ;
+  }
 
   class Reducer_Proxy {
   public:

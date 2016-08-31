@@ -59,19 +59,25 @@ namespace dplyr {
 
   inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
     switch( TYPEOF(x) ) {
-      case INTSXP: return new GroupedSubsetTemplate<INTSXP>(x, max_size) ;
-      case REALSXP: return new GroupedSubsetTemplate<REALSXP>(x, max_size) ;
-      case LGLSXP: return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
-      case STRSXP: return new GroupedSubsetTemplate<STRSXP>(x, max_size) ;
-      case VECSXP:
-        if( Rf_inherits( x, "data.frame" ) )
-          return new DataFrameGroupedSubset(x) ;
-        if( Rf_inherits( x, "POSIXlt" ) ) {
-          stop( "POSIXlt not supported" ) ;
-        }
-        return new GroupedSubsetTemplate<VECSXP>(x, max_size) ;
-      case CPLXSXP: return new GroupedSubsetTemplate<CPLXSXP>(x, max_size) ;
-      default: break ;
+    case INTSXP:
+      return new GroupedSubsetTemplate<INTSXP>(x, max_size) ;
+    case REALSXP:
+      return new GroupedSubsetTemplate<REALSXP>(x, max_size) ;
+    case LGLSXP:
+      return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
+    case STRSXP:
+      return new GroupedSubsetTemplate<STRSXP>(x, max_size) ;
+    case VECSXP:
+      if( Rf_inherits( x, "data.frame" ) )
+        return new DataFrameGroupedSubset(x) ;
+      if( Rf_inherits( x, "POSIXlt" ) ) {
+        stop( "POSIXlt not supported" ) ;
+      }
+      return new GroupedSubsetTemplate<VECSXP>(x, max_size) ;
+    case CPLXSXP:
+      return new GroupedSubsetTemplate<CPLXSXP>(x, max_size) ;
+    default:
+      break ;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x))) ;
     return 0 ;
@@ -124,13 +130,20 @@ namespace dplyr {
 
   inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size) {
     switch( TYPEOF(x) ) {
-      case LGLSXP: return new SummarisedSubsetTemplate<LGLSXP>(x, max_size) ;
-      case INTSXP: return new SummarisedSubsetTemplate<INTSXP>(x, max_size) ;
-      case REALSXP: return new SummarisedSubsetTemplate<REALSXP>(x, max_size) ;
-      case STRSXP: return new SummarisedSubsetTemplate<STRSXP>(x, max_size) ;
-      case VECSXP: return new SummarisedSubsetTemplate<VECSXP>(x, max_size) ;
-      case CPLXSXP: return new SummarisedSubsetTemplate<CPLXSXP>(x, max_size) ;
-      default: break ;
+    case LGLSXP:
+      return new SummarisedSubsetTemplate<LGLSXP>(x, max_size) ;
+    case INTSXP:
+      return new SummarisedSubsetTemplate<INTSXP>(x, max_size) ;
+    case REALSXP:
+      return new SummarisedSubsetTemplate<REALSXP>(x, max_size) ;
+    case STRSXP:
+      return new SummarisedSubsetTemplate<STRSXP>(x, max_size) ;
+    case VECSXP:
+      return new SummarisedSubsetTemplate<VECSXP>(x, max_size) ;
+    case CPLXSXP:
+      return new SummarisedSubsetTemplate<CPLXSXP>(x, max_size) ;
+    default:
+      break ;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x))) ;
     return 0 ;

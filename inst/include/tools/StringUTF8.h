@@ -40,14 +40,26 @@ namespace dplyr {
       }
     }
 
-    inline CharacterVector::Proxy operator[](int i) { return data[i] ; }
-    inline CharacterVector::const_Proxy operator[]( int i) const { return data[i] ; }
+    inline CharacterVector::Proxy operator[](int i) {
+      return data[i] ;
+    }
+    inline CharacterVector::const_Proxy operator[]( int i) const {
+      return data[i] ;
+    }
 
-    inline CharacterVector::iterator begin() { return data.begin(); }
-    inline CharacterVector::const_iterator begin() const { return data.begin(); }
+    inline CharacterVector::iterator begin() {
+      return data.begin();
+    }
+    inline CharacterVector::const_iterator begin() const {
+      return data.begin();
+    }
 
-    inline CharacterVector::iterator end() { return data.end(); }
-    inline CharacterVector::const_iterator end() const { return data.end(); }
+    inline CharacterVector::iterator end() {
+      return data.end();
+    }
+    inline CharacterVector::const_iterator end() const {
+      return data.end();
+    }
 
   private:
     CharacterVector data ;

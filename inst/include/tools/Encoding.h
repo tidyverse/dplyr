@@ -61,10 +61,14 @@ namespace dplyr {
 
   inline const char* human_readable_encoding( encoding e ) {
     switch(e) {
-    case BYTES: return "bytes" ;
-    case LATIN1: return "latin1" ;
-    case UTF8: return "UTF-8" ;
-    default: break ;
+    case BYTES:
+      return "bytes" ;
+    case LATIN1:
+      return "latin1" ;
+    case UTF8:
+      return "UTF-8" ;
+    default:
+      break ;
     }
     return "unknown" ;
   }

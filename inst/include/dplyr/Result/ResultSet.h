@@ -13,9 +13,15 @@ namespace dplyr {
       n++ ;
     }
 
-    Result* get(int k) { return results[k] ; }
-    inline int size() const { return n ; }
-    Rcpp::String name(int k) const { return names[k] ; }
+    Result* get(int k) {
+      return results[k] ;
+    }
+    inline int size() const {
+      return n ;
+    }
+    Rcpp::String name(int k) const {
+      return names[k] ;
+    }
 
   private:
     pointer_vector<Result> results ;

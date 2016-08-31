@@ -27,7 +27,8 @@ namespace dplyr {
     case INTSXP:
     case LGLSXP:
       return true ;
-    default: break ;
+    default:
+      break ;
     }
     return false ;
   }
@@ -38,7 +39,8 @@ namespace dplyr {
     case INTSXP:
     case LGLSXP:
       return true ;
-    default: break ;
+    default:
+      break ;
     }
     return false ;
   }
@@ -95,11 +97,16 @@ namespace dplyr {
     virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
       int rtype = TYPEOF(chunk) ;
       switch( rtype ) {
-      case LGLSXP:  return new DelayedProcessor<LGLSXP , CLASS>(i, chunk, res ) ;
-      case INTSXP:  return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res ) ;
-      case REALSXP: return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res ) ;
-      case CPLXSXP: return new DelayedProcessor<CPLXSXP, CLASS>(i, chunk, res ) ;
-      default: break ;
+      case LGLSXP:
+        return new DelayedProcessor<LGLSXP , CLASS>(i, chunk, res ) ;
+      case INTSXP:
+        return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res ) ;
+      case REALSXP:
+        return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res ) ;
+      case CPLXSXP:
+        return new DelayedProcessor<CPLXSXP, CLASS>(i, chunk, res ) ;
+      default:
+        break ;
       }
       return 0 ;
     }

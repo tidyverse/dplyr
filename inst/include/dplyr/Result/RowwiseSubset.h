@@ -69,12 +69,18 @@ namespace dplyr {
 
   inline RowwiseSubset* rowwise_subset(SEXP x) {
     switch( check_supported_type(x) ) {
-      case DPLYR_INTSXP: return new RowwiseSubsetTemplate<INTSXP>(x) ;
-      case DPLYR_REALSXP: return new RowwiseSubsetTemplate<REALSXP>(x) ;
-      case DPLYR_LGLSXP: return new RowwiseSubsetTemplate<LGLSXP>(x) ;
-      case DPLYR_STRSXP: return new RowwiseSubsetTemplate<STRSXP>(x) ;
-      case DPLYR_CPLXSXP: return new RowwiseSubsetTemplate<CPLXSXP>(x) ;
-      case DPLYR_VECSXP: return new RowwiseSubsetTemplate<VECSXP>(x) ;
+    case DPLYR_INTSXP:
+      return new RowwiseSubsetTemplate<INTSXP>(x) ;
+    case DPLYR_REALSXP:
+      return new RowwiseSubsetTemplate<REALSXP>(x) ;
+    case DPLYR_LGLSXP:
+      return new RowwiseSubsetTemplate<LGLSXP>(x) ;
+    case DPLYR_STRSXP:
+      return new RowwiseSubsetTemplate<STRSXP>(x) ;
+    case DPLYR_CPLXSXP:
+      return new RowwiseSubsetTemplate<CPLXSXP>(x) ;
+    case DPLYR_VECSXP:
+      return new RowwiseSubsetTemplate<VECSXP>(x) ;
     }
 
     stop("Unreachable") ;

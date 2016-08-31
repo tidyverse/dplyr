@@ -21,7 +21,9 @@ public:
     return data[i] ;
   }
 
-  inline int group() const { return group_index ; }
+  inline int group() const {
+    return group_index ;
+  }
 
 // private:
   IntegerVector data ;

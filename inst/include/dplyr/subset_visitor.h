@@ -17,13 +17,20 @@ namespace dplyr {
 
   inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec ) {
     switch( TYPEOF(vec) ) {
-    case CPLXSXP: return new MatrixColumnSubsetVisitor<CPLXSXP>( vec ) ;
-    case INTSXP:  return new MatrixColumnSubsetVisitor<INTSXP>( vec ) ;
-    case REALSXP: return new MatrixColumnSubsetVisitor<REALSXP>( vec ) ;
-    case LGLSXP:  return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
-    case STRSXP:  return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
-    case VECSXP:  return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
-    default: break ;
+    case CPLXSXP:
+      return new MatrixColumnSubsetVisitor<CPLXSXP>( vec ) ;
+    case INTSXP:
+      return new MatrixColumnSubsetVisitor<INTSXP>( vec ) ;
+    case REALSXP:
+      return new MatrixColumnSubsetVisitor<REALSXP>( vec ) ;
+    case LGLSXP:
+      return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
+    case STRSXP:
+      return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
+    case VECSXP:
+      return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
+    default:
+      break ;
     }
 
     stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
@@ -42,9 +49,12 @@ namespace dplyr {
       if( Rf_inherits(vec, "factor" ))
         return new SubsetFactorVisitor( vec ) ;
       return new SubsetVectorVisitorImpl<INTSXP>( vec ) ;
-    case REALSXP: return new SubsetVectorVisitorImpl<REALSXP>( vec ) ;
-    case LGLSXP:  return new SubsetVectorVisitorImpl<LGLSXP>( vec ) ;
-    case STRSXP:  return new SubsetVectorVisitorImpl<STRSXP>( vec ) ;
+    case REALSXP:
+      return new SubsetVectorVisitorImpl<REALSXP>( vec ) ;
+    case LGLSXP:
+      return new SubsetVectorVisitorImpl<LGLSXP>( vec ) ;
+    case STRSXP:
+      return new SubsetVectorVisitorImpl<STRSXP>( vec ) ;
 
     case VECSXP: {
       if( Rf_inherits( vec, "data.frame" ) ) {
@@ -55,7 +65,8 @@ namespace dplyr {
       }
       return new SubsetVectorVisitorImpl<VECSXP>( vec ) ;
     }
-    default: break ;
+    default:
+      break ;
     }
 
     // should not happen, safeguard against segfaults anyway

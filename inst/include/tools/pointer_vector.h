@@ -19,7 +19,8 @@ namespace dplyr {
     inline ~pointer_vector() {
       typedef typename Vector::size_type size_type ;
       size_type n = data.size() ;
-      iterator it = data.end() ; --it ;
+      iterator it = data.end() ;
+      --it ;
       for( size_type i=0 ; i<n; --it, i++) delete *it ;
     }
 

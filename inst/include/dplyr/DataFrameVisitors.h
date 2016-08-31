@@ -23,12 +23,20 @@ namespace dplyr {
 
     DataFrameVisitors( const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names )  ;
 
-    inline int size() const { return nvisitors ; }
-    inline VectorVisitor* get(int k) const { return visitors[k] ; }
+    inline int size() const {
+      return nvisitors ;
+    }
+    inline VectorVisitor* get(int k) const {
+      return visitors[k] ;
+    }
 
-    Rcpp::String name(int k) const { return visitor_names[k] ; }
+    Rcpp::String name(int k) const {
+      return visitor_names[k] ;
+    }
 
-    inline int nrows() const { return data.nrows() ; }
+    inline int nrows() const {
+      return data.nrows() ;
+    }
 
   private:
 

@@ -3,7 +3,9 @@
 
 namespace dplyr {
   namespace internal {
-    inline double square(double x) { return x*x ; }
+    inline double square(double x) {
+      return x*x ;
+    }
   }
 
   // version for NA_RM = false

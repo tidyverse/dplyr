@@ -48,8 +48,12 @@ namespace dplyr {
       return (SEXP)out ;
     }
 
-    const CharacterVector& left_names() const { return visitor_names_left ;}
-    const CharacterVector& right_names() const { return visitor_names_right ;}
+    const CharacterVector& left_names() const {
+      return visitor_names_left ;
+    }
+    const CharacterVector& right_names() const {
+      return visitor_names_right ;
+    }
 
   private:
     const DataFrame& left ;

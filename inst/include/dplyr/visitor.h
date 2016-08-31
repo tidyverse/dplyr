@@ -17,13 +17,20 @@ namespace dplyr {
 
   inline VectorVisitor* visitor_matrix( SEXP vec ) {
     switch( TYPEOF(vec) ) {
-    case CPLXSXP: return new MatrixColumnVisitor<CPLXSXP>( vec ) ;
-    case INTSXP: return new MatrixColumnVisitor<INTSXP>( vec ) ;
-    case REALSXP: return new MatrixColumnVisitor<REALSXP>( vec ) ;
-    case LGLSXP: return new MatrixColumnVisitor<LGLSXP>( vec ) ;
-    case STRSXP: return new MatrixColumnVisitor<STRSXP>( vec ) ;
-    case VECSXP: return new MatrixColumnVisitor<VECSXP>( vec ) ;
-    default: break ;
+    case CPLXSXP:
+      return new MatrixColumnVisitor<CPLXSXP>( vec ) ;
+    case INTSXP:
+      return new MatrixColumnVisitor<INTSXP>( vec ) ;
+    case REALSXP:
+      return new MatrixColumnVisitor<REALSXP>( vec ) ;
+    case LGLSXP:
+      return new MatrixColumnVisitor<LGLSXP>( vec ) ;
+    case STRSXP:
+      return new MatrixColumnVisitor<STRSXP>( vec ) ;
+    case VECSXP:
+      return new MatrixColumnVisitor<VECSXP>( vec ) ;
+    default:
+      break ;
     }
 
     stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
@@ -40,8 +47,10 @@ namespace dplyr {
       return new VectorVisitorImpl<INTSXP>( vec ) ;
     case REALSXP:
       return new VectorVisitorImpl<REALSXP>( vec ) ;
-    case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
-    case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
+    case LGLSXP:
+      return new VectorVisitorImpl<LGLSXP>( vec ) ;
+    case STRSXP:
+      return new VectorVisitorImpl<STRSXP>( vec ) ;
 
     case VECSXP: {
       if( Rf_inherits( vec, "data.frame" ) ) {
@@ -52,7 +61,8 @@ namespace dplyr {
       }
       return new VectorVisitorImpl<VECSXP>( vec ) ;
     }
-    default: break ;
+    default:
+      break ;
     }
 
     // should not happen, safeguard against segfaults anyway

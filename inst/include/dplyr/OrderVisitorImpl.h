@@ -23,7 +23,9 @@ namespace dplyr {
       return compare::is_less( vec[i], vec[j] ) ;
     }
 
-    SEXP get() { return vec ; }
+    SEXP get() {
+      return vec ;
+    }
 
   private:
     VECTOR vec ;
@@ -50,7 +52,9 @@ namespace dplyr {
       return compare::is_greater( vec[i], vec[j] ) ;
     }
 
-    SEXP get() { return vec ; }
+    SEXP get() {
+      return vec ;
+    }
 
   private:
     VECTOR vec ;
@@ -72,7 +76,9 @@ namespace dplyr {
       return orders.before(i,j);
     }
 
-    SEXP get() { return vec; }
+    SEXP get() {
+      return vec;
+    }
 
   private:
     CharacterVector vec ;
@@ -208,12 +214,18 @@ namespace dplyr {
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_matrix( SEXP vec ) {
     switch( check_supported_type(vec) ) {
-      case DPLYR_INTSXP:   return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
-      case DPLYR_REALSXP:  return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
-      case DPLYR_LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
-      case DPLYR_STRSXP:   return new OrderVisitorMatrix<STRSXP  , ascending>( vec ) ;
-      case DPLYR_CPLXSXP:  return new OrderVisitorMatrix<CPLXSXP , ascending>( vec ) ;
-      case DPLYR_VECSXP:   stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec))) ;
+    case DPLYR_INTSXP:
+      return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
+    case DPLYR_REALSXP:
+      return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
+    case DPLYR_LGLSXP:
+      return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
+    case DPLYR_STRSXP:
+      return new OrderVisitorMatrix<STRSXP  , ascending>( vec ) ;
+    case DPLYR_CPLXSXP:
+      return new OrderVisitorMatrix<CPLXSXP , ascending>( vec ) ;
+    case DPLYR_VECSXP:
+      stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec))) ;
     }
 
     stop("Unreachable") ;
@@ -223,19 +235,25 @@ namespace dplyr {
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_vector( SEXP vec ) {
     switch( TYPEOF(vec) ) {
-      case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec ) ;
-      case REALSXP: return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >( vec ) ;
-      case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , ascending, Vector<LGLSXP > >( vec ) ;
-      case STRSXP:  return new OrderCharacterVectorVisitorImpl<ascending>( vec ) ;
-      case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec ) ;
-      case VECSXP:
-        {
-          if( Rf_inherits( vec, "data.frame" ) ) {
-            return new OrderVisitorDataFrame<ascending>( vec ) ;
-          }
-          break ;
-        }
-      default: break ;
+    case INTSXP:
+      return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec ) ;
+    case REALSXP:
+      return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >( vec ) ;
+    case LGLSXP:
+      return new OrderVectorVisitorImpl<LGLSXP , ascending, Vector<LGLSXP > >( vec ) ;
+    case STRSXP:
+      return new OrderCharacterVectorVisitorImpl<ascending>( vec ) ;
+    case CPLXSXP:
+      return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec ) ;
+    case VECSXP:
+    {
+      if( Rf_inherits( vec, "data.frame" ) ) {
+        return new OrderVisitorDataFrame<ascending>( vec ) ;
+      }
+      break ;
+    }
+    default:
+      break ;
     }
 
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;

@@ -50,8 +50,12 @@ namespace Rcpp {
       return 0 ;
     }
 
-    inline SEXP symbol(int i) { return R_NilValue ; }
-    inline SEXP label(int i) { return R_NilValue ; }
+    inline SEXP symbol(int i) {
+      return R_NilValue ;
+    }
+    inline SEXP label(int i) {
+      return R_NilValue ;
+    }
 
     inline int nrows() const {
       return data_.nrows() ;
