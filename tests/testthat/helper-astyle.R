@@ -8,6 +8,7 @@ astyle <- function(extra_args = character()) {
     "-n",
     "--indent=spaces=2",
     "--indent-namespaces",
+    "--indent-preproc-block",
     "--unpad-paren",
     "--pad-header",
     "--min-conditional-indent=0",
