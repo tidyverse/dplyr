@@ -17,7 +17,7 @@ namespace dplyr {
     inline int process_chunk( const SlicingIndex& indices ) {
       set.clear();
       int n = indices.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         set.insert( indices[i] );
       }
       return set.size();
@@ -42,9 +42,9 @@ namespace dplyr {
     inline int process_chunk( const SlicingIndex& indices ) {
       set.clear();
       int n = indices.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         int index=indices[i];
-        if( ! v.is_na(index) ) {
+        if ( ! v.is_na(index) ) {
           set.insert( index );
         }
       }

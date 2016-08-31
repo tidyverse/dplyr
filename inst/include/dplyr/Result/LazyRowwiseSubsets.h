@@ -14,7 +14,7 @@ namespace dplyr {
       const DataFrame& data = rdf.data();
       CharacterVector names = data.names();
       int n = data.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         subset_map[ Rf_installChar( names[i] ) ] = rowwise_subset( data[i] );
       }
     }
@@ -37,7 +37,7 @@ namespace dplyr {
 
     SEXP get_variable( SEXP symbol ) const {
       RowwiseSubsetMap::const_iterator it = subset_map.find( symbol );
-      if( it == subset_map.end() ) {
+      if ( it == subset_map.end() ) {
         stop( "variable '%s' not found in the dataset", CHAR(PRINTNAME(symbol)) );
       }
       return it->second->get_variable();
@@ -48,7 +48,7 @@ namespace dplyr {
     }
     SEXP get( SEXP symbol, const SlicingIndex& indices ) {
       ResolvedSubsetMap::const_iterator it = resolved_map.find( symbol );
-      if( it == resolved_map.end() ) {
+      if ( it == resolved_map.end() ) {
         SEXP res = subset_map[symbol]->get( indices );
         resolved_map[symbol] = res;
         return res;
@@ -58,11 +58,11 @@ namespace dplyr {
     }
 
     ~LazyRowwiseSubsets() {
-      if(owner) delete_all_second( subset_map );
+      if (owner) delete_all_second( subset_map );
     }
 
     void input(SEXP symbol, SEXP x) {
-      if( TYPEOF(symbol) == SYMSXP ) {
+      if ( TYPEOF(symbol) == SYMSXP ) {
         input_subset( symbol, rowwise_subset(x) );
       } else {
         input_subset( Rf_installChar(symbol), rowwise_subset(x) );
@@ -77,7 +77,7 @@ namespace dplyr {
 
     void input_subset(SEXP symbol, RowwiseSubset* sub) {
       RowwiseSubsetMap::iterator it = subset_map.find(symbol);
-      if( it == subset_map.end() ) {
+      if ( it == subset_map.end() ) {
         subset_map[symbol] = sub;
       } else {
         // found it, replacing the subset

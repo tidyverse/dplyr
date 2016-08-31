@@ -23,7 +23,7 @@ namespace dplyr {
       def(Vector<RTYPE>::get_na()),
       is_summary(is_summary_)
     {
-      if( !Rf_isNull(def_)) {
+      if ( !Rf_isNull(def_)) {
         def = as<STORAGE>( def_ );
       }
     }
@@ -33,11 +33,11 @@ namespace dplyr {
       int ng = gdf.ngroups();
 
       Vector<RTYPE> out = no_init(nrows);
-      if( is_summary ) {
-        for(int i=0; i<nrows; i++) out[i] = def;
+      if ( is_summary ) {
+        for (int i=0; i<nrows; i++) out[i] = def;
       } else {
         GroupedDataFrame::group_iterator git = gdf.group_begin();
-        for( int i=0; i<ng; i++, ++git) {
+        for ( int i=0; i<ng; i++, ++git) {
           process_slice(out, *git, *git);
         }
       }
@@ -76,10 +76,10 @@ namespace dplyr {
     void process_slice( Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index) {
       int chunk_size = index.size();
       int i=0;
-      for(; i<chunk_size-n; i++ ) {
+      for (; i<chunk_size-n; i++ ) {
         out[out_index[i]] = data[index[i+n]];
       }
-      for(; i<chunk_size; i++) {
+      for (; i<chunk_size; i++) {
         out[out_index[i]] = def;
       }
     }

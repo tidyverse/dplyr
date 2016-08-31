@@ -18,8 +18,8 @@ namespace dplyr {
       data( no_init(n_*ngroups_) ), source(v), n(n_), ngroups(ngroups_) {}
 
     SEXP collect() {
-      for( int i=0, k=0; i<ngroups; i++) {
-        for( int j=0; j<n; j++, k++) {
+      for ( int i=0, k=0; i<ngroups; i++) {
+        for ( int j=0; j<n; j++, k++) {
           data[k] = source[j];
         }
       }
@@ -37,7 +37,7 @@ namespace dplyr {
   template <typename Data>
   inline Replicator* replicator( SEXP v, const Data& gdf ) {
     int n = Rf_length(v);
-    switch( TYPEOF(v) ) {
+    switch ( TYPEOF(v) ) {
     case INTSXP:
       return new ReplicatorImpl<INTSXP , Data> ( v, n, gdf.ngroups() );
     case REALSXP:

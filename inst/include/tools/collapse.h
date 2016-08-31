@@ -13,9 +13,9 @@ namespace Rcpp {
   std::string collapse( const Vector<RTYPE>& x, const char* sep = ", " ) {
     std::stringstream ss;
     int n = x.size();
-    if( n > 0) {
+    if ( n > 0) {
       ss << toString<RTYPE>(x[0]);
-      for( int i=1; i<n; i++) {
+      for ( int i=1; i<n; i++) {
         const char* st = toString<RTYPE>(x[i]);
         ss << sep << st;
       }

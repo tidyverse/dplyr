@@ -24,11 +24,11 @@ namespace dplyr {
     size_t hash(int i);
 
     inline bool equal( int i, int j) {
-      if( i>=0 && j>=0 ) {
+      if ( i>=0 && j>=0 ) {
         return comparisons<LHS_RTYPE>().equal_or_both_na( left[i], left[j] );
-      } else if( i < 0 && j < 0 ) {
+      } else if ( i < 0 && j < 0 ) {
         return comparisons<LHS_RTYPE>().equal_or_both_na( right[-i-1], right[-j-1] );
-      } else if( i >= 0 && j < 0) {
+      } else if ( i >= 0 && j < 0) {
         return comparisons_different<LHS_RTYPE,RHS_RTYPE>().equal_or_both_na( left[i], right[-j-1] );
       } else {
         return comparisons_different<RHS_RTYPE,LHS_RTYPE>().equal_or_both_na( right[-i-1], left[j] );
@@ -55,7 +55,7 @@ namespace dplyr {
     inline SEXP subset( const std::vector<int>& indices ) {
       int n = indices.size();
       Vec res = no_init(n);
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         res[i] = v.get(indices[i]);
       }
       return res;
@@ -65,7 +65,7 @@ namespace dplyr {
       int n = set.size();
       Vec res = no_init(n);
       VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin();
-      for( int i=0; i<n; i++, ++it) {
+      for ( int i=0; i<n; i++, ++it) {
         res[i] = v.get(*it);
       }
       return res;
@@ -146,7 +146,7 @@ namespace dplyr {
     }
 
     inline SEXP get(int i) const {
-      if( i >= 0) {
+      if ( i >= 0) {
         int pos = left[i];
         return (pos == NA_INTEGER) ? NA_STRING : SEXP( uniques[left_match[pos-1] - 1] );
       } else {
@@ -199,7 +199,7 @@ namespace dplyr {
     }
 
     inline SEXP get(int i) const {
-      if( i >= 0 ) {
+      if ( i >= 0 ) {
         return ( i_left[i] == NA_INTEGER ) ? NA_STRING : p_uniques[ p_left[i] - 1];
       } else {
         return ( i_right[-i-1] == NA_INTEGER ) ? NA_STRING : p_uniques[ p_right[-i-1] - 1];
@@ -256,8 +256,8 @@ namespace dplyr {
     }
 
     inline SEXP get(int i) const {
-      if( i>=0 ) {
-        if( left_ptr[i] == NA_INTEGER ) return NA_STRING;
+      if ( i>=0 ) {
+        if ( left_ptr[i] == NA_INTEGER ) return NA_STRING;
         return p_uniques[ left_ptr[i] - 1 ];
       } else {
         return p_uniques[ i_right[ -i-1 ] - 1];
@@ -315,11 +315,11 @@ namespace dplyr {
     inline SEXP get(int i) const {
       SEXP res;
 
-      if( i>=0 ) {
+      if ( i>=0 ) {
         res = p_uniques[ i_left[i] - 1 ];
       } else {
         int index = -i-1;
-        if( i_right[index] == NA_INTEGER ) {
+        if ( i_right[index] == NA_INTEGER ) {
           res = NA_STRING;
         } else {
           res = p_uniques[ i_right[index] - 1 ];
@@ -351,17 +351,17 @@ namespace dplyr {
     {
       RObject tzone_left  = left.attr("tzone");
       RObject tzone_right = right.attr("tzone");
-      if( tzone_left.isNULL() && tzone_right.isNULL() ) return;
+      if ( tzone_left.isNULL() && tzone_right.isNULL() ) return;
 
-      if( tzone_left.isNULL() ) {
+      if ( tzone_left.isNULL() ) {
         tzone = tzone_right;
-      } else if( tzone_right.isNULL() ) {
+      } else if ( tzone_right.isNULL() ) {
         tzone = tzone_left;
       } else {
         std::string s_left  = as<std::string>( tzone_left  );
         std::string s_right = as<std::string>( tzone_right );
 
-        if( s_left == s_right) {
+        if ( s_left == s_right) {
           tzone = wrap(s_left);
         } else {
           tzone = wrap("UTC");
@@ -381,7 +381,7 @@ namespace dplyr {
 
     inline SEXP promote( NumericVector x) {
       x.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
-      if( !tzone.isNULL() ) {
+      if ( !tzone.isNULL() ) {
         x.attr("tzone") = tzone;
       }
       return x;
@@ -418,17 +418,17 @@ namespace dplyr {
 
     DateJoinVisitor( SEXP lhs, SEXP rhs)
     {
-      if( TYPEOF(lhs) == INTSXP ) {
+      if ( TYPEOF(lhs) == INTSXP ) {
         left = new DateJoinVisitorGetterImpl<INTSXP>(lhs);
-      } else if( TYPEOF(lhs) == REALSXP) {
+      } else if ( TYPEOF(lhs) == REALSXP) {
         left = new DateJoinVisitorGetterImpl<REALSXP>(lhs);
       } else {
         stop("Date objects should be represented as integer or numeric");
       }
 
-      if( TYPEOF(rhs) == INTSXP) {
+      if ( TYPEOF(rhs) == INTSXP) {
         right = new DateJoinVisitorGetterImpl<INTSXP>(rhs);
-      } else if( TYPEOF(rhs) == REALSXP) {
+      } else if ( TYPEOF(rhs) == REALSXP) {
         right = new DateJoinVisitorGetterImpl<REALSXP>(rhs);
       } else {
         stop("Date objects should be represented as integer or numeric");
@@ -461,7 +461,7 @@ namespace dplyr {
     }
 
     inline double get( int i) const {
-      if( i>= 0 ) {
+      if ( i>= 0 ) {
         return left->get(i);
       } else {
         return right->get(-i-1);

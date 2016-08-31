@@ -17,9 +17,9 @@ namespace dplyr {
   class DataFrameAble_DataFrame : public DataFrameAbleImpl {
   public:
     DataFrameAble_DataFrame( DataFrame data_) : data(data_) {
-      if( data.size() ) {
+      if ( data.size() ) {
         CharacterVector df_names = data.names();
-        if( any(is_na(df_names)).is_true() ) {
+        if ( any(is_na(df_names)).is_true() ) {
           stop( "corrupt data frame" );
         }
       }
@@ -57,10 +57,10 @@ namespace dplyr {
   public:
     DataFrameAble_List( SEXP data_) : data(data_), nr(0) {
       int n = data.size();
-      if( data.size() == 0) return;
+      if ( data.size() == 0) return;
       nr = Rf_length(data[0]);
-      for(int i=1; i<n; i++) {
-        if( Rf_length(data[i]) != nr ) {
+      for (int i=1; i<n; i++) {
+        if ( Rf_length(data[i]) != nr ) {
           stop( "incompatible sizes (%d != %s)", nr, Rf_length(data[i]) );
         }
       }
@@ -133,9 +133,9 @@ namespace dplyr {
     boost::shared_ptr<DataFrameAbleImpl> impl;
 
     inline void init( SEXP data) {
-      if( Rf_inherits( data, "data.frame")) {
+      if ( Rf_inherits( data, "data.frame")) {
         impl.reset( new DataFrameAble_DataFrame(data));
-      } else if( is<List>(data) ) {
+      } else if ( is<List>(data) ) {
         impl.reset( new DataFrameAble_List(data) );
       } else {
         stop( "cannot convert object to a data frame" );

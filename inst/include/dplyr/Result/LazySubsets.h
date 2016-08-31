@@ -11,11 +11,11 @@ namespace dplyr {
 
     LazySubsets( const DataFrame& df) : nr(df.nrows()) {
       int nvars = df.size();
-      if( nvars ) {
+      if ( nvars ) {
         CharacterVector names = df.names();
-        for( int i=0; i<nvars; i++) {
+        for ( int i=0; i<nvars; i++) {
           SEXP column = df[i];
-          if( Rf_inherits( column, "matrix" ) ) {
+          if ( Rf_inherits( column, "matrix" ) ) {
             stop( "matrix as column is not supported" );
           }
           symbol_map.insert( names[i] );
@@ -38,7 +38,7 @@ namespace dplyr {
 
     virtual void input( SEXP symbol, SEXP x) {
       SymbolMapIndex index = symbol_map.insert(symbol);
-      if( index.origin == NEW ) {
+      if ( index.origin == NEW ) {
         data.push_back(x);
       } else {
         data[index.pos] = x;

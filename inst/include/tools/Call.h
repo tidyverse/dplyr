@@ -9,22 +9,22 @@ namespace Rcpp {
     Call() : data(R_NilValue) {}
 
     Call(SEXP x) : data(x) {
-      if( data != R_NilValue ) R_PreserveObject(data);
+      if ( data != R_NilValue ) R_PreserveObject(data);
     }
 
     ~Call() {
-      if( data != R_NilValue ) R_ReleaseObject(data);
+      if ( data != R_NilValue ) R_ReleaseObject(data);
     }
 
     Call( const Call& other ) : data(other.data) {
-      if( data != R_NilValue ) R_PreserveObject(data);
+      if ( data != R_NilValue ) R_PreserveObject(data);
     }
 
     Call& operator=( SEXP other ) {
-      if( other != data ) {
-        if( data != R_NilValue ) R_ReleaseObject(data);
+      if ( other != data ) {
+        if ( data != R_NilValue ) R_ReleaseObject(data);
         data = other;
-        if( data != R_NilValue ) R_PreserveObject(data);
+        if ( data != R_NilValue ) R_PreserveObject(data);
       }
       return *this;
     }

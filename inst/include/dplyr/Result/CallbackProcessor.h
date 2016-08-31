@@ -49,13 +49,13 @@ namespace dplyr {
       int ngroups = gdf.ngroups();
       // evaluate the expression within each group until we find something that is not NA
       RObject first_result(R_NilValue);
-      for(; i<ngroups; i++, ++git ) {
+      for (; i<ngroups; i++, ++git ) {
         first_result = obj->process_chunk(*git);
-        if( ! all_na(first_result) ) break;
+        if ( ! all_na(first_result) ) break;
       }
       // all the groups evaluated to NA, so we send a logical vector NA
       // perhaps the type of the vector could depend on something, maybe later
-      if( i == ngroups ) {
+      if ( i == ngroups ) {
         return LogicalVector(ngroups, NA_LOGICAL);
       }
 
@@ -66,12 +66,12 @@ namespace dplyr {
       boost::scoped_ptr< DelayedProcessor_Base<CLASS> > processor(
         get_delayed_processor<CLASS>(i, first_result, ngroups )
       );
-      if(!processor)
+      if (!processor)
         stop( "expecting a single value" );
-      for(; i<ngroups ; i++, ++git ) {
+      for (; i<ngroups ; i++, ++git ) {
         first_result = obj->process_chunk(*git);
-        if( !processor->handled(i, first_result) ) {
-          if( processor->can_promote(first_result) ) {
+        if ( !processor->handled(i, first_result) ) {
+          if ( processor->can_promote(first_result) ) {
             processor.reset(
               processor->promote(i, first_result)
             );

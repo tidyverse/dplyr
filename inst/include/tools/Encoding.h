@@ -55,14 +55,14 @@ namespace dplyr {
   };
 
   inline encoding get_encoding( SEXP s) {
-    if( IS_BYTES(s) ) return BYTES;
-    if( IS_LATIN1(s) ) return LATIN1;
-    if( IS_UTF8(s) ) return UTF8;
+    if ( IS_BYTES(s) ) return BYTES;
+    if ( IS_LATIN1(s) ) return LATIN1;
+    if ( IS_UTF8(s) ) return UTF8;
     return UNKNOWN;
   }
 
   inline const char* human_readable_encoding( encoding e ) {
-    switch(e) {
+    switch (e) {
     case BYTES:
       return "bytes";
     case LATIN1:

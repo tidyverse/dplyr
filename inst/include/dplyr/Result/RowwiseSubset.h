@@ -68,7 +68,7 @@ namespace dplyr {
 
 
   inline RowwiseSubset* rowwise_subset(SEXP x) {
-    switch( check_supported_type(x) ) {
+    switch ( check_supported_type(x) ) {
     case DPLYR_INTSXP:
       return new RowwiseSubsetTemplate<INTSXP>(x);
     case DPLYR_REALSXP:

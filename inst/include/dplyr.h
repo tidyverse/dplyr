@@ -78,7 +78,7 @@ inline SEXP pairlist_shallow_copy(SEXP p) {
   SEXP q = attr;
   SET_TAG(q, TAG(p));
   p = CDR(p);
-  while( !Rf_isNull(p) ) {
+  while ( !Rf_isNull(p) ) {
     Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) );
     SETCDR(q, s);
     q = CDR(q);
@@ -90,11 +90,11 @@ inline SEXP pairlist_shallow_copy(SEXP p) {
 
 inline void copy_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data);
-  if( !Rf_isNull(att) ) {
+  if ( !Rf_isNull(att) ) {
     SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) );
   }
   SET_OBJECT( out, OBJECT(data) );
-  if( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out);
+  if ( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out);
 }
 
 // same as copy_attributes but without names
@@ -184,9 +184,9 @@ SEXP strip_group_attributes(Data df) {
   black_list[7] = Rf_install("class");
 
   SEXP q = attribs;
-  while( ! Rf_isNull(p) ) {
+  while ( ! Rf_isNull(p) ) {
     SEXP tag = TAG(p);
-    if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ) {
+    if ( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ) {
       Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) );
       SETCDR(q,s);
       q = CDR(q);

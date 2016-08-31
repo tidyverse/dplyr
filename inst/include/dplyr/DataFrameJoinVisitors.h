@@ -22,8 +22,8 @@ namespace dplyr {
       return visitors[k];
     }
     inline JoinVisitor* get( String name ) const {
-      for( int i=0; i<nvisitors; i++) {
-        if( name == visitor_names_left[i] ) return get(i);
+      for ( int i=0; i<nvisitors; i++) {
+        if ( name == visitor_names_left[i] ) return get(i);
       }
       stop("visitor not found for name '%s' ", name.get_cstring() );
       return 0;
@@ -36,14 +36,14 @@ namespace dplyr {
     inline DataFrame subset( const Container& index, const CharacterVector& classes ) {
       int nrows = index.size();
       Rcpp::List out(nvisitors);
-      for( int k=0; k<nvisitors; k++) {
+      for ( int k=0; k<nvisitors; k++) {
         out[k] = get(k)->subset(index);
       }
       out.attr( "class" ) = classes;
       set_rownames(out, nrows);
       out.names() = visitor_names_left;
       SEXP vars = left.attr( "vars" );
-      if( !Rf_isNull(vars) )
+      if ( !Rf_isNull(vars) )
         out.attr( "vars" ) = vars;
       return (SEXP)out;
     }

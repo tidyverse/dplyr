@@ -16,14 +16,14 @@ namespace dplyr {
   struct comparisons_int_double {
 
     inline bool is_less( int lhs, double rhs ) const {
-      if( lhs == NA_INTEGER ) {
+      if ( lhs == NA_INTEGER ) {
         return is_nan(rhs);
       }
       return !( (double)lhs >= rhs );
     }
 
     inline bool is_greater( int lhs, double rhs ) const {
-      if( lhs == NA_INTEGER ) {
+      if ( lhs == NA_INTEGER ) {
         return is_nan(rhs);
       }
       return !( (double)lhs <= rhs );
@@ -34,7 +34,7 @@ namespace dplyr {
     }
 
     inline bool equal_or_both_na( int lhs, double rhs ) const {
-      if( lhs == NA_INTEGER && ISNA(rhs) ) return true;
+      if ( lhs == NA_INTEGER && ISNA(rhs) ) return true;
       return (double)lhs == rhs;
     }
 
@@ -52,14 +52,14 @@ namespace dplyr {
   struct comparisons_double_int {
 
     inline bool is_less( double lhs, int rhs ) const {
-      if( is_nan(lhs) || ISNA(lhs) ) return false;
-      if( rhs == NA_INTEGER ) return true;
+      if ( is_nan(lhs) || ISNA(lhs) ) return false;
+      if ( rhs == NA_INTEGER ) return true;
       return lhs < (double)rhs;
     }
 
     inline bool is_greater( double lhs, int rhs ) const {
-      if( is_nan(lhs) || ISNA(lhs) ) return false;
-      if( rhs == NA_INTEGER ) return true;
+      if ( is_nan(lhs) || ISNA(lhs) ) return false;
+      if ( rhs == NA_INTEGER ) return true;
       return lhs > (double)rhs;
     }
 
@@ -68,7 +68,7 @@ namespace dplyr {
     }
 
     inline bool equal_or_both_na( double lhs, int rhs ) const {
-      if( rhs == NA_INTEGER && ISNA(lhs) ) return true;
+      if ( rhs == NA_INTEGER && ISNA(lhs) ) return true;
       return (double)rhs == lhs;
     }
 

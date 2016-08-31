@@ -9,7 +9,7 @@ namespace Rcpp {
 
     FilteredListOf(SEXP data_) : data(data_) {
       int n = data.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         indices.push_back(i);
       }
     }

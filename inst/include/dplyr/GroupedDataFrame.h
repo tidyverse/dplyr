@@ -4,16 +4,16 @@
 namespace Rcpp {
 
   inline void check_valid_colnames( const DataFrame& df) {
-    if( df.size() ) {
+    if ( df.size() ) {
       CharacterVector names(df.names());
       LogicalVector dup = duplicated(names);
-      if( any(dup).is_true() ) {
+      if ( any(dup).is_true() ) {
         std::stringstream s;
         s << "found duplicated column name: ";
         bool first = true;
-        for( int i=0; i<df.size(); i++) {
-          if( dup[i] == TRUE ) {
-            if( first ) {
+        for ( int i=0; i<df.size(); i++) {
+          if ( dup[i] == TRUE ) {
+            if ( first ) {
               first = false;
             } else {
               s << ", ";
@@ -54,17 +54,17 @@ namespace Rcpp {
       // handle lazyness
       bool is_lazy = Rf_isNull( data_.attr( "group_sizes") ) || Rf_isNull( data_.attr( "labels") );
 
-      if( is_lazy ) {
+      if ( is_lazy ) {
         data_ = build_index_cpp( data_);
       }
       group_sizes = data_.attr( "group_sizes" );
       biggest_group_size  = data_.attr( "biggest_group_size" );
       labels = data_.attr( "labels" );
 
-      if( !is_lazy ) {
+      if ( !is_lazy ) {
         // check consistency of the groups
         int rows_in_groups = sum(group_sizes);
-        if( data_.nrows() != rows_in_groups ) {
+        if ( data_.nrows() != rows_in_groups ) {
           stop( "corrupt 'grouped_df', contains %d rows, and %s rows in groups", data_.nrows(), rows_in_groups );
         }
       }
@@ -108,8 +108,8 @@ namespace Rcpp {
     inline bool has_group(SEXP g) const {
       SEXP symb = Rf_installChar(g);
       int n = symbols.size();
-      for( int i=0; i<n; i++) {
-        if( symbols[i] == symb ) return true;
+      for ( int i=0; i<n; i++) {
+        if ( symbols[i] == symb ) return true;
       }
       return false;
     }

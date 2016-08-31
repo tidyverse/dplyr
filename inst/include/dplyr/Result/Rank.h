@@ -134,10 +134,10 @@ namespace dplyr {
     virtual SEXP process( const GroupedDataFrame& gdf) {
       int ng = gdf.ngroups();
       int n  = gdf.nrows();
-      if( n == 0 ) return IntegerVector(0);
+      if ( n == 0 ) return IntegerVector(0);
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       OutputVector out = no_init(n);
-      for( int i=0; i<ng; i++, ++git) {
+      for ( int i=0; i<ng; i++, ++git) {
         process_slice( out, *git );
       }
       return out;
@@ -149,7 +149,7 @@ namespace dplyr {
 
     virtual SEXP process( const FullDataFrame& df ) {
       int n = df.nrows();
-      if( n == 0) return IntegerVector(0);
+      if ( n == 0) return IntegerVector(0);
       OutputVector out = no_init(n);
       process_slice(out, df.get_index() );
       return out;
@@ -157,7 +157,7 @@ namespace dplyr {
 
     virtual SEXP process( const SlicingIndex& index ) {
       int n = index.size();
-      if( n == 0 ) return IntegerVector(0);
+      if ( n == 0 ) return IntegerVector(0);
       OutputVector out = no_init(n);
       process_slice(out, index);
       return out;
@@ -169,36 +169,36 @@ namespace dplyr {
       map.clear();
       Slice slice(data, index);
       int m=index.size();
-      for( int j=0; j<m; j++) {
+      for ( int j=0; j<m; j++) {
         map[ slice[j] ].push_back(j);
       }
       STORAGE na = Rcpp::traits::get_na<RTYPE>();
       typename Map::const_iterator it = map.find( na );
-      if( it != map.end() ) {
+      if ( it != map.end() ) {
         m -= it->second.size();
       }
 
       oMap ordered;
 
       it = map.begin();
-      for(; it != map.end() ; ++it) {
+      for (; it != map.end() ; ++it) {
         ordered[it->first] = &it->second;
       }
       typename oMap::const_iterator oit = ordered.begin();
       typename Increment::scalar_type j = Increment::start();
-      for(; oit != ordered.end(); ++oit) {
+      for (; oit != ordered.end(); ++oit) {
         STORAGE key = oit->first;
         const std::vector<int>& chunk = *oit->second;
         int n = chunk.size();
         j += Increment::pre_increment( chunk, m );
-        if( Rcpp::traits::is_na<RTYPE>( key ) ) {
+        if ( Rcpp::traits::is_na<RTYPE>( key ) ) {
           typename Increment::scalar_type na =
             Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >();
-          for( int k=0; k<n; k++) {
+          for ( int k=0; k<n; k++) {
             out[ chunk[k] ] = na;
           }
         } else {
-          for( int k=0; k<n; k++) {
+          for ( int k=0; k<n; k++) {
             out[ chunk[k] ] = j;
           }
         }
@@ -227,29 +227,29 @@ namespace dplyr {
 
       int ng = gdf.ngroups();
       int n  = gdf.nrows();
-      if( n == 0 ) return IntegerVector(0);
+      if ( n == 0 ) return IntegerVector(0);
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       IntegerVector out(n);
-      for( int i=0; i<ng; i++, ++git) {
+      for ( int i=0; i<ng; i++, ++git) {
         SlicingIndex index = *git;
 
         // tmp <- 0:(m-1)
         int m = index.size();
-        for( int j=0; j<m; j++) tmp[j] = j;
+        for ( int j=0; j<m; j++) tmp[j] = j;
 
         Slice slice(data, index);
         // order( gdf.group(i) )
         std::sort( tmp.begin(), tmp.begin() + m, Comparer( Visitor( slice ) ) );
         int j=m-1;
-        for(; j>=0; j--) {
-          if( Rcpp::traits::is_na<RTYPE>( slice[ tmp[j] ] ) ) {
+        for (; j>=0; j--) {
+          if ( Rcpp::traits::is_na<RTYPE>( slice[ tmp[j] ] ) ) {
             m--;
             out[ index[j] ] = NA_INTEGER;
           } else {
             break;
           }
         }
-        for(; j>=0; j--) {
+        for (; j>=0; j--) {
           out[ index[j] ] = tmp[j] + 1;
         }
       }
@@ -267,20 +267,20 @@ namespace dplyr {
 
     virtual SEXP process( const SlicingIndex& index ) {
       int nrows = index.size();
-      if( nrows == 0 ) return IntegerVector(0);
+      if ( nrows == 0 ) return IntegerVector(0);
       IntegerVector x = seq(0, nrows -1 );
       Slice slice(data, index);
       std::sort( x.begin(), x.end(), Comparer( Visitor( slice ) ) );
       IntegerVector out = no_init(nrows);
       int j=nrows-1;
-      for(; j>=0; j--) {
-        if( Rcpp::traits::is_na<RTYPE>( slice[ x[j] ] ) ) {
+      for (; j>=0; j--) {
+        if ( Rcpp::traits::is_na<RTYPE>( slice[ x[j] ] ) ) {
           out[ x[j] ] = NA_INTEGER;
         } else {
           break;
         }
       }
-      for(; j>=0; j--) {
+      for (; j>=0; j--) {
         out[ x[j] ] = j + 1;
       }
       return out;
@@ -306,29 +306,29 @@ namespace dplyr {
 
       int ng = gdf.ngroups();
       int n  = gdf.nrows();
-      if( n == 0 ) return IntegerVector(0);
+      if ( n == 0 ) return IntegerVector(0);
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       IntegerVector out(n);
-      for( int i=0; i<ng; i++, ++git) {
+      for ( int i=0; i<ng; i++, ++git) {
         SlicingIndex index = *git;
 
         // tmp <- 0:(m-1)
         int m = index.size();
-        for( int j=0; j<m; j++) tmp[j] = j;
+        for ( int j=0; j<m; j++) tmp[j] = j;
         Slice slice(data, index );
 
         // order( gdf.group(i) )
         std::sort( tmp.begin(), tmp.begin() + m, Comparer( Visitor( slice ) ) );
         int j=m-1;
-        for(; j>= 0; j-- ) {
-          if( Rcpp::traits::is_na<RTYPE>(slice[tmp[j]]) ) {
+        for (; j>= 0; j-- ) {
+          if ( Rcpp::traits::is_na<RTYPE>(slice[tmp[j]]) ) {
             out[index[j]] = NA_INTEGER;
             m--;
           } else {
             break;
           }
         }
-        for(; j>=0; j--) {
+        for (; j>=0; j--) {
           out[ index[j] ] = (int)floor( (ntiles * tmp[j]) / m ) + 1;
         }
       }
@@ -346,15 +346,15 @@ namespace dplyr {
 
     virtual SEXP process( const SlicingIndex& index ) {
       int nrows = index.size();
-      if( nrows == 0 ) return IntegerVector(0);
+      if ( nrows == 0 ) return IntegerVector(0);
       IntegerVector x = seq(0, nrows -1 );
       Slice slice(data, index);
       Visitor visitor( slice );
       std::sort( x.begin(), x.end(), Comparer( visitor ) );
       IntegerVector out = no_init(nrows);
       int i=nrows-1;
-      for(; i>=0; i--) {
-        if( Rcpp::traits::is_na<RTYPE>(slice[x[i]] ) ) {
+      for (; i>=0; i--) {
+        if ( Rcpp::traits::is_na<RTYPE>(slice[x[i]] ) ) {
           nrows--;
           out[x[i]] = NA_INTEGER;
         } else {
@@ -362,7 +362,7 @@ namespace dplyr {
         }
       }
 
-      for(; i>=0; i--) {
+      for (; i>=0; i--) {
         out[ x[i] ] = (int)floor(ntiles * i / nrows ) + 1;
       }
       return out;
@@ -378,14 +378,14 @@ namespace dplyr {
 
     virtual SEXP process( const GroupedDataFrame& gdf ) {
       int n = gdf.nrows(), ng = gdf.ngroups();
-      if( n == 0 ) return IntegerVector(0);
+      if ( n == 0 ) return IntegerVector(0);
 
       IntegerVector res = no_init(n);
       GroupedDataFrame::group_iterator git = gdf.group_begin();
-      for( int i=0; i<ng; i++, ++git) {
+      for ( int i=0; i<ng; i++, ++git) {
         SlicingIndex index = *git;
         int m = index.size();
-        for( int j=0; j<m; j++) res[index[j]] = j + 1;
+        for ( int j=0; j<m; j++) res[index[j]] = j + 1;
       }
       return res;
     }
@@ -395,13 +395,13 @@ namespace dplyr {
     }
 
     virtual SEXP process( const FullDataFrame& df ) {
-      if( df.nrows() == 0 ) return IntegerVector(0);
+      if ( df.nrows() == 0 ) return IntegerVector(0);
       IntegerVector res = seq(1, df.nrows() );
       return res;
     }
 
     virtual SEXP process( const SlicingIndex& index ) {
-      if( index.size() == 0 ) return IntegerVector(0);
+      if ( index.size() == 0 ) return IntegerVector(0);
       IntegerVector res = seq(1, index.size() );
       return res;
     }

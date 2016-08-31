@@ -8,7 +8,7 @@ public:
   SlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
 
   SlicingIndex(int start, int n) : data(0), group_index(-1) {
-    if(n>0) {
+    if (n>0) {
       data = seq(start, start + n - 1 );
     }
   }

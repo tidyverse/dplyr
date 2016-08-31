@@ -29,7 +29,7 @@ namespace Rcpp {
 
     inline void borrow(const SlicingIndex& indices, STORAGE* begin) {
       int n = indices.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         start[i] = begin[indices[i]];
       }
       SETLENGTH(data, n);

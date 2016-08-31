@@ -6,14 +6,14 @@ namespace dplyr {
   template <typename Op>
   inline void iterate_with_interupts( Op op, int n ) {
     int i=0;
-    if( n > DPLYR_MIN_INTERUPT_SIZE ) {
+    if ( n > DPLYR_MIN_INTERUPT_SIZE ) {
       int m = n / DPLYR_INTERUPT_TIMES;
-      for( int k=0; k<DPLYR_INTERUPT_TIMES; k++) {
-        for( int j=0; j<m; j++, i++) op(i);
+      for ( int k=0; k<DPLYR_INTERUPT_TIMES; k++) {
+        for ( int j=0; j<m; j++, i++) op(i);
         Rcpp::checkUserInterrupt();
       }
     }
-    for(; i<n; i++) op(i) ;
+    for (; i<n; i++) op(i) ;
   }
 
   template <typename Map>
@@ -47,11 +47,11 @@ namespace dplyr {
 
   template <typename Set>
   inline void train_insert( Set& set, int n) {
-    for( int i=0; i<n; i++) set.insert(i);
+    for ( int i=0; i<n; i++) set.insert(i);
   }
   template <typename Set>
   inline void train_insert_right( Set& set, int n) {
-    for( int i=0; i<n; i++) set.insert(-i-1);
+    for ( int i=0; i<n; i++) set.insert(-i-1);
   }
 
 }

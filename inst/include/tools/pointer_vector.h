@@ -21,7 +21,7 @@ namespace dplyr {
       size_type n = data.size();
       iterator it = data.end();
       --it;
-      for( size_type i=0; i<n; --it, i++) delete *it ;
+      for ( size_type i=0; i<n; --it, i++) delete *it ;
     }
 
     inline reference operator[](size_type i) {

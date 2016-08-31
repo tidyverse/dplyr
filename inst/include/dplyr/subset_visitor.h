@@ -7,7 +7,7 @@ namespace dplyr {
   inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec );
 
   inline SubsetVectorVisitor* subset_visitor( SEXP vec ) {
-    if( Rf_isMatrix( vec ) ) {
+    if ( Rf_isMatrix( vec ) ) {
       return subset_visitor_matrix(vec);
     }
     else {
@@ -16,7 +16,7 @@ namespace dplyr {
   }
 
   inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec ) {
-    switch( TYPEOF(vec) ) {
+    switch ( TYPEOF(vec) ) {
     case CPLXSXP:
       return new MatrixColumnSubsetVisitor<CPLXSXP>( vec );
     case INTSXP:
@@ -38,15 +38,15 @@ namespace dplyr {
   }
 
   inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec ) {
-    if( Rf_inherits(vec, "Date") ) {
+    if ( Rf_inherits(vec, "Date") ) {
       return new DateSubsetVectorVisitor(vec);
     }
 
-    switch( TYPEOF(vec) ) {
+    switch ( TYPEOF(vec) ) {
     case CPLXSXP:
       return new SubsetVectorVisitorImpl<CPLXSXP>( vec );
     case INTSXP:
-      if( Rf_inherits(vec, "factor" ))
+      if ( Rf_inherits(vec, "factor" ))
         return new SubsetFactorVisitor( vec );
       return new SubsetVectorVisitorImpl<INTSXP>( vec );
     case REALSXP:
@@ -57,10 +57,10 @@ namespace dplyr {
       return new SubsetVectorVisitorImpl<STRSXP>( vec );
 
     case VECSXP: {
-      if( Rf_inherits( vec, "data.frame" ) ) {
+      if ( Rf_inherits( vec, "data.frame" ) ) {
         return new DataFrameColumnSubsetVisitor(vec);
       }
-      if( Rf_inherits( vec, "POSIXlt" )) {
+      if ( Rf_inherits( vec, "POSIXlt" )) {
         stop( "POSIXlt not supported" );
       }
       return new SubsetVectorVisitorImpl<VECSXP>( vec );

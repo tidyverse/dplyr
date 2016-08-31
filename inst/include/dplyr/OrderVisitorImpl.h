@@ -203,7 +203,7 @@ namespace dplyr {
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc( SEXP vec ) {
-    if( Rf_isMatrix(vec) ) {
+    if ( Rf_isMatrix(vec) ) {
       return order_visitor_asc_matrix<ascending>(vec);
     }
     else {
@@ -213,7 +213,7 @@ namespace dplyr {
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_matrix( SEXP vec ) {
-    switch( check_supported_type(vec) ) {
+    switch ( check_supported_type(vec) ) {
     case DPLYR_INTSXP:
       return new OrderVisitorMatrix<INTSXP  , ascending>( vec );
     case DPLYR_REALSXP:
@@ -234,7 +234,7 @@ namespace dplyr {
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_vector( SEXP vec ) {
-    switch( TYPEOF(vec) ) {
+    switch ( TYPEOF(vec) ) {
     case INTSXP:
       return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec );
     case REALSXP:
@@ -247,7 +247,7 @@ namespace dplyr {
       return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec );
     case VECSXP:
     {
-      if( Rf_inherits( vec, "data.frame" ) ) {
+      if ( Rf_inherits( vec, "data.frame" ) ) {
         return new OrderVisitorDataFrame<ascending>( vec );
       }
       break;

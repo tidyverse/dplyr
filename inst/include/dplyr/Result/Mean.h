@@ -12,21 +12,21 @@ namespace dplyr {
         long double res = 0.0;
         int n = indices.size();
         int m = 0;
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           STORAGE value = ptr[ indices[i] ];
-          if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
+          if ( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
             res += value;
             m++;
           }
         }
-        if( m == 0 ) return R_NaN;
+        if ( m == 0 ) return R_NaN;
         res /= m;
 
-        if(R_FINITE(res)) {
+        if (R_FINITE(res)) {
           long double t = 0.0;
           for (int i = 0; i<n; i++) {
             STORAGE value = ptr[indices[i]];
-            if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
+            if ( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
               t += value - res;
             }
           }
@@ -43,17 +43,17 @@ namespace dplyr {
       static double process( int* ptr, const Index& indices ) {
         long double res = 0.0;
         int n = indices.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           int value = ptr[ indices[i] ];
           // need to handle missing value specifically
-          if( value == NA_INTEGER ) {
+          if ( value == NA_INTEGER ) {
             return NA_REAL;
           }
           res += value;
         }
         res /= n;
 
-        if(R_FINITE((double)res)) {
+        if (R_FINITE((double)res)) {
           long double t = 0.0;
           for (int i = 0; i<n; i++) {
             t += ptr[indices[i]] - res;
@@ -69,12 +69,12 @@ namespace dplyr {
       static double process( double* ptr, const Index& indices ) {
         long double res = 0.0;
         int n = indices.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           res += ptr[ indices[i] ];
         }
         res /= n;
 
-        if(R_FINITE((double)res)) {
+        if (R_FINITE((double)res)) {
           long double t = 0.0;
           for (int i = 0; i<n; i++) {
             t += ptr[indices[i]] - res;
@@ -101,7 +101,7 @@ namespace dplyr {
     ~Mean() {}
 
     inline double process_chunk( const SlicingIndex& indices ) {
-      if( is_summary ) return data_ptr[indices.group()];
+      if ( is_summary ) return data_ptr[indices.group()];
       return internal::Mean_internal<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices);
     }
 

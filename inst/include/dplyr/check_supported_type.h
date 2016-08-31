@@ -13,7 +13,7 @@ namespace dplyr {
   };
 
   inline SupportedType check_supported_type(SEXP x, SEXP name = R_NilValue) {
-    switch( TYPEOF(x) ) {
+    switch ( TYPEOF(x) ) {
     case LGLSXP:
       return DPLYR_LGLSXP;
     case INTSXP:

@@ -17,9 +17,9 @@ namespace dplyr {
 
     void process_slice( LogicalVector& out, const SlicingIndex& index, const SlicingIndex& out_index) {
       int n = index.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         STORAGE value = data[index[i]];
-        if(Vec::is_na(value)) {
+        if (Vec::is_na(value)) {
           out[ out_index[i] ] = false;
         } else {
           out[ out_index[i] ] = set.count(value);

@@ -58,7 +58,7 @@ namespace dplyr {
   };
 
   inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
-    switch( TYPEOF(x) ) {
+    switch ( TYPEOF(x) ) {
     case INTSXP:
       return new GroupedSubsetTemplate<INTSXP>(x, max_size);
     case REALSXP:
@@ -68,9 +68,9 @@ namespace dplyr {
     case STRSXP:
       return new GroupedSubsetTemplate<STRSXP>(x, max_size);
     case VECSXP:
-      if( Rf_inherits( x, "data.frame" ) )
+      if ( Rf_inherits( x, "data.frame" ) )
         return new DataFrameGroupedSubset(x);
-      if( Rf_inherits( x, "POSIXlt" ) ) {
+      if ( Rf_inherits( x, "POSIXlt" ) ) {
         stop( "POSIXlt not supported" );
       }
       return new GroupedSubsetTemplate<VECSXP>(x, max_size);
@@ -129,7 +129,7 @@ namespace dplyr {
   };
 
   inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size) {
-    switch( TYPEOF(x) ) {
+    switch ( TYPEOF(x) ) {
     case LGLSXP:
       return new SummarisedSubsetTemplate<LGLSXP>(x, max_size);
     case INTSXP:

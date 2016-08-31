@@ -34,7 +34,7 @@ namespace dplyr {
       int n = output_size(map);
       VECTOR out = Rcpp::no_init(n);
       ChunkIndexMap::const_iterator it = map.begin();
-      for( int i=0; i<n; i++, ++it)
+      for ( int i=0; i<n; i++, ++it)
         out[i] = vec[ it->first ];
       copy_most_attributes(out, vec);
       return out;
@@ -43,8 +43,8 @@ namespace dplyr {
     inline SEXP subset( const Rcpp::LogicalVector& index ) const {
       int n = output_size(index);
       VECTOR out = Rcpp::no_init(n);
-      for( int i=0, k=0; k<n; k++, i++ ) {
-        while( index[i] != TRUE ) i++;
+      for ( int i=0, k=0; k<n; k++, i++ ) {
+        while ( index[i] != TRUE ) i++;
         out[k] = vec[i];
       }
       copy_most_attributes(out, vec);
@@ -76,8 +76,8 @@ namespace dplyr {
     inline SEXP subset_int_index( const Container& index ) const {
       int n = output_size(index);
       VECTOR out = Rcpp::no_init(n);
-      for( int i=0; i<n; i++) {
-        if( index[i] < 0 ) {
+      for ( int i=0; i<n; i++) {
+        if ( index[i] < 0 ) {
           out[i] = VECTOR::get_na();
         } else {
           out[i] = vec[ index[i] ];
@@ -94,7 +94,7 @@ namespace dplyr {
   SEXP SubsetVectorVisitorImpl<VECSXP>::subset_int_index( const Container& index ) const {
     int n = output_size(index);
     List out(n);
-    for( int i=0; i<n; i++)
+    for ( int i=0; i<n; i++)
       out[i] = (index[i] < 0) ? R_NilValue : vec[ index[i] ];
     copy_most_attributes(out, vec);
     return out;
@@ -139,10 +139,10 @@ namespace dplyr {
     }
 
     inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name ) const {
-      if( typeid(*other) == typeid(*this) )
+      if ( typeid(*other) == typeid(*this) )
         return compatible( dynamic_cast<SubsetFactorVisitor*>(other), ss, name );
 
-      if( typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>) )
+      if ( typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>) )
         return true;
 
       return false;
@@ -152,7 +152,7 @@ namespace dplyr {
 
     inline bool compatible(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
       CharacterVector levels_other = other->levels;
-      if( setdiff( levels, levels_other ).size() ) {
+      if ( setdiff( levels, levels_other ).size() ) {
         ss << "Factor levels not equal for column " << name;
         return false;
       }
@@ -174,9 +174,9 @@ namespace dplyr {
   public:
 
     DateSubsetVectorVisitor( SEXP data ) : impl(0) {
-      if( TYPEOF(data) == INTSXP ) {
+      if ( TYPEOF(data) == INTSXP ) {
         impl  = new SubsetVectorVisitorImpl<INTSXP>(data);
-      } else if( TYPEOF(data) == REALSXP ) {
+      } else if ( TYPEOF(data) == REALSXP ) {
         impl = new SubsetVectorVisitorImpl<REALSXP>(data);
       } else {
         stop( "" );

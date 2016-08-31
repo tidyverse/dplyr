@@ -5,16 +5,16 @@ namespace dplyr {
 
   inline std::string get_single_class(SEXP x) {
     SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
-    if( !Rf_isNull(klass) ) {
+    if ( !Rf_isNull(klass) ) {
       CharacterVector classes(klass);
       return collapse<STRSXP>(classes);
     }
 
-    if(Rf_isMatrix(x)) {
+    if (Rf_isMatrix(x)) {
       return "matrix";
     }
 
-    switch( TYPEOF(x) ) {
+    switch ( TYPEOF(x) ) {
     case INTSXP:
       return "integer";
     case REALSXP :

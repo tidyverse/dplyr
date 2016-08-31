@@ -7,7 +7,7 @@ namespace dplyr {
   inline VectorVisitor* visitor_vector( SEXP vec );
 
   inline VectorVisitor* visitor( SEXP vec ) {
-    if( Rf_isMatrix( vec ) ) {
+    if ( Rf_isMatrix( vec ) ) {
       return visitor_matrix(vec);
     }
     else {
@@ -16,7 +16,7 @@ namespace dplyr {
   }
 
   inline VectorVisitor* visitor_matrix( SEXP vec ) {
-    switch( TYPEOF(vec) ) {
+    switch ( TYPEOF(vec) ) {
     case CPLXSXP:
       return new MatrixColumnVisitor<CPLXSXP>( vec );
     case INTSXP:
@@ -38,11 +38,11 @@ namespace dplyr {
   }
 
   inline VectorVisitor* visitor_vector( SEXP vec ) {
-    switch( TYPEOF(vec) ) {
+    switch ( TYPEOF(vec) ) {
     case CPLXSXP:
       return new VectorVisitorImpl<CPLXSXP>( vec );
     case INTSXP:
-      if( Rf_inherits(vec, "factor" ))
+      if ( Rf_inherits(vec, "factor" ))
         return new FactorVisitor( vec );
       return new VectorVisitorImpl<INTSXP>( vec );
     case REALSXP:
@@ -53,10 +53,10 @@ namespace dplyr {
       return new VectorVisitorImpl<STRSXP>( vec );
 
     case VECSXP: {
-      if( Rf_inherits( vec, "data.frame" ) ) {
+      if ( Rf_inherits( vec, "data.frame" ) ) {
         return new DataFrameColumnVisitor(vec);
       }
-      if( Rf_inherits( vec, "POSIXlt" )) {
+      if ( Rf_inherits( vec, "POSIXlt" )) {
         stop( "POSIXlt not supported" );
       }
       return new VectorVisitorImpl<VECSXP>( vec );

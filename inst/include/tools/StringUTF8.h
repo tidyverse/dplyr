@@ -23,16 +23,16 @@ namespace dplyr {
       // move on to the first non UTF-8 string, if any
 
       int i = 0;
-      for(; i<n; i++) {
+      for (; i<n; i++) {
         cetype_t enc = Rf_getCharCE(data[i]);
-        if( enc != CE_UTF8 ) break;
+        if ( enc != CE_UTF8 ) break;
       }
-      if( i < n ) {
+      if ( i < n ) {
         CharacterVector newdata(n);
-        for( int j=0; j<i; j++) {
+        for ( int j=0; j<i; j++) {
           newdata[j] = data[i];
         }
-        for( int j=i; j<n; j++) {
+        for ( int j=i; j<n; j++) {
           newdata[j] = StringUtf8(data[j]);
 
         }

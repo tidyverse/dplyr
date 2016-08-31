@@ -34,19 +34,19 @@ namespace dplyr {
     SEXP get(const Container& indices) {
       subsets.clear();
 
-      if( TYPEOF(call) == LANGSXP) {
-        if( can_simplify(call) ) {
+      if ( TYPEOF(call) == LANGSXP) {
+        if ( can_simplify(call) ) {
           HybridCall hybrid_eval( call, indices, subsets, env );
           return hybrid_eval.eval();
         }
         int n = proxies.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           proxies[i].set( subsets.get(proxies[i].symbol, indices ) );
         }
 
         return call.eval(env);
-      } else if( TYPEOF(call) == SYMSXP ) {
-        if(subsets.count(call)) {
+      } else if ( TYPEOF(call) == SYMSXP ) {
+        if (subsets.count(call)) {
           return subsets.get(call, indices);
         }
         return env.find( CHAR(PRINTNAME(call)) );
@@ -59,7 +59,7 @@ namespace dplyr {
     void set_call( SEXP call_ ) {
       proxies.clear();
       call = call_;
-      if( TYPEOF(call) == LANGSXP ) traverse_call(call);
+      if ( TYPEOF(call) == LANGSXP ) traverse_call(call);
     }
 
     void input( Rcpp::String name, SEXP x ) {
@@ -93,29 +93,29 @@ namespace dplyr {
   private:
 
     void traverse_call( SEXP obj ) {
-      if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return;
+      if ( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local") ) return;
 
-      if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("global") ) {
+      if ( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("global") ) {
         SEXP symb = CADR(obj);
-        if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" );
+        if ( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" );
         SEXP res = env.find(CHAR(PRINTNAME(symb)));
         call = res;
         return;
       }
 
-      if( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("column") ) {
+      if ( TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("column") ) {
         call = get_column(CADR(obj), env, subsets);
         return;
       }
 
-      if( ! Rf_isNull(obj) ) {
+      if ( ! Rf_isNull(obj) ) {
         SEXP head = CAR(obj);
 
-        switch( TYPEOF( head ) ) {
+        switch ( TYPEOF( head ) ) {
         case LANGSXP:
-          if( CAR(head) == Rf_install("global") ) {
+          if ( CAR(head) == Rf_install("global") ) {
             SEXP symb = CADR(head);
-            if( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" );
+            if ( TYPEOF(symb) != SYMSXP ) stop( "global only handles symbols" );
 
             SEXP res  = env.find( CHAR(PRINTNAME(symb)) );
 
@@ -123,7 +123,7 @@ namespace dplyr {
             SET_TYPEOF(obj, LISTSXP);
             break;
           }
-          if( CAR(head) == Rf_install("column")) {
+          if ( CAR(head) == Rf_install("column")) {
             Symbol column = get_column( CADR(head), env, subsets);
             SETCAR(obj, column );
             head = CAR(obj);
@@ -131,26 +131,26 @@ namespace dplyr {
             break;
           }
 
-          if( CAR(head) == Rf_install("~") ) break;
-          if( CAR(head) == Rf_install("order_by") ) break;
-          if( CAR(head) == Rf_install("function") ) break;
-          if( CAR(head) == Rf_install("local") ) return;
-          if( CAR(head) == Rf_install("<-") ) {
+          if ( CAR(head) == Rf_install("~") ) break;
+          if ( CAR(head) == Rf_install("order_by") ) break;
+          if ( CAR(head) == Rf_install("function") ) break;
+          if ( CAR(head) == Rf_install("local") ) return;
+          if ( CAR(head) == Rf_install("<-") ) {
             stop( "assignments are forbidden" );
           }
 
-          if( Rf_length(head) == 3 ) {
+          if ( Rf_length(head) == 3 ) {
             SEXP symb = CAR(head);
-            if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ) {
+            if ( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ) {
 
               // for things like : foo( bar = bling )$bla
               // so that `foo( bar = bling )` gets processed
-              if( TYPEOF(CADR(head)) == LANGSXP ) {
+              if ( TYPEOF(CADR(head)) == LANGSXP ) {
                 traverse_call( CDR(head) );
               }
 
               // deal with foo$bar( bla = boom )
-              if( TYPEOF(CADDR(head)) == LANGSXP ) {
+              if ( TYPEOF(CADDR(head)) == LANGSXP ) {
                 traverse_call( CDDR(head) );
               }
 
@@ -165,17 +165,17 @@ namespace dplyr {
           break;
 
         case SYMSXP:
-          if( TYPEOF(obj) != LANGSXP ) {
-            if( ! subsets.count(head) ) {
+          if ( TYPEOF(obj) != LANGSXP ) {
+            if ( ! subsets.count(head) ) {
 
               // in the Environment -> resolve
               try {
-                if( head == R_MissingArg ) break;
-                if( head == Rf_install(".") ) break;
+                if ( head == R_MissingArg ) break;
+                if ( head == Rf_install(".") ) break;
 
                 Shield<SEXP> x( env.find( CHAR(PRINTNAME(head)) ) );
                 SETCAR( obj, x );
-              } catch(...) {
+              } catch (...) {
                 // when the binding is not found in the environment
                 // e.g. summary(mod)$r.squared
                 // the "r.squared" is not in the env

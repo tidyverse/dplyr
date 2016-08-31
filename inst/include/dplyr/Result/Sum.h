@@ -12,9 +12,9 @@ namespace dplyr {
       static STORAGE process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
         long double res = 0;
         int n = indices.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           double value = ptr[indices[i]];
-          if( ! Rcpp::traits::is_na<RTYPE>( value ) ) res += value;
+          if ( ! Rcpp::traits::is_na<RTYPE>( value ) ) res += value;
         }
         return (double)res;
       }
@@ -25,11 +25,11 @@ namespace dplyr {
       static int process( int* ptr, const Index& indices) {
         long double res = 0;
         int n = indices.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           int value = ptr[indices[i]];
-          if( ! Rcpp::traits::is_na<INTSXP>( value ) ) res += value;
+          if ( ! Rcpp::traits::is_na<INTSXP>( value ) ) res += value;
         }
-        if(res > INT_MAX || res <= INT_MIN) {
+        if (res > INT_MAX || res <= INT_MIN) {
           warning( "integer overflow - use sum(as.numeric(.))" );
           return IntegerVector::get_na();
         }
@@ -42,14 +42,14 @@ namespace dplyr {
       static int process( int* ptr, const Index& indices ) {
         long double res = 0;
         int n = indices.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           int value = ptr[indices[i]];
-          if( Rcpp::traits::is_na<INTSXP>( value ) ) {
+          if ( Rcpp::traits::is_na<INTSXP>( value ) ) {
             return NA_INTEGER;
           }
           res += value;
         }
-        if(res > INT_MAX || res <= INT_MIN) {
+        if (res > INT_MAX || res <= INT_MIN) {
           warning( "integer overflow - use sum(as.numeric(.))" );
           return IntegerVector::get_na();
         }
@@ -62,7 +62,7 @@ namespace dplyr {
       static double process( double* ptr, const Index& indices ) {
         long double res = 0.0;
         int n = indices.size();
-        for( int i=0; i<n; i++) {
+        for ( int i=0; i<n; i++) {
           // we don't test for NA here because += NA will give NA
           // this is faster in the most common case where there are no NA
           // if there are NA, we could return quicker as in the version for
@@ -90,7 +90,7 @@ namespace dplyr {
     ~Sum() {}
 
     inline STORAGE process_chunk( const SlicingIndex& indices ) {
-      if( is_summary ) return data_ptr[indices.group()];
+      if ( is_summary ) return data_ptr[indices.group()];
       return internal::Sum<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices);
     }
 

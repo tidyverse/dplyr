@@ -23,16 +23,16 @@ namespace dplyr {
     ~Var() {}
 
     inline double process_chunk( const SlicingIndex& indices ) {
-      if( is_summary ) return NA_REAL;
+      if ( is_summary ) return NA_REAL;
 
       int n=indices.size();
-      if( n == 1 ) return NA_REAL;
+      if ( n == 1 ) return NA_REAL;
       double m = internal::Mean_internal<RTYPE,NA_RM, SlicingIndex>::process( data_ptr, indices );
 
-      if( !R_FINITE(m) ) return m;
+      if ( !R_FINITE(m) ) return m;
 
       double sum = 0.0;
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         sum += internal::square( data_ptr[indices[i]] - m );
       }
       return sum / ( n - 1 );
@@ -59,23 +59,23 @@ namespace dplyr {
     ~Var() {}
 
     inline double process_chunk( const SlicingIndex& indices ) {
-      if( is_summary ) return NA_REAL;
+      if ( is_summary ) return NA_REAL;
 
       int n=indices.size();
-      if( n == 1 ) return NA_REAL;
+      if ( n == 1 ) return NA_REAL;
       double m = internal::Mean_internal<RTYPE,true,SlicingIndex>::process( data_ptr, indices );
 
-      if( !R_FINITE(m) ) return m;
+      if ( !R_FINITE(m) ) return m;
 
       double sum = 0.0;
       int count = 0;
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         STORAGE current = data_ptr[indices[i]];
-        if( Rcpp::Vector<RTYPE>::is_na(current) ) continue;
+        if ( Rcpp::Vector<RTYPE>::is_na(current) ) continue;
         sum += internal::square( current - m );
         count++;
       }
-      if( count == 1 ) return NA_REAL;
+      if ( count == 1 ) return NA_REAL;
       return sum / ( count - 1 );
     }
 

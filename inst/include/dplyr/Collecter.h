@@ -29,7 +29,7 @@ namespace dplyr {
     void collect( const SlicingIndex& index, SEXP v ) {
       Vector<RTYPE> source(v);
       STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
-      for( int i=0; i<index.size(); i++) {
+      for ( int i=0; i<index.size(); i++) {
         data[index[i]] = source_ptr[i];
       }
     }
@@ -66,7 +66,7 @@ namespace dplyr {
     void collect( const SlicingIndex& index, SEXP v ) {
       NumericVector source(v);
       double* source_ptr = source.begin();
-      for( int i=0; i<index.size(); i++) {
+      for ( int i=0; i<index.size(); i++) {
         data[index[i]] = source_ptr[i];
       }
     }
@@ -99,9 +99,9 @@ namespace dplyr {
     Collecter_Impl( int n_ ): data( n_, NA_STRING ) {}
 
     void collect( const SlicingIndex& index, SEXP v ) {
-      if( TYPEOF(v) == STRSXP ) {
+      if ( TYPEOF(v) == STRSXP ) {
         collect_strings(index, v);
-      } else if( Rf_inherits( v, "factor" ) ) {
+      } else if ( Rf_inherits( v, "factor" ) ) {
         collect_factor(index, v);
       } else {
         CharacterVector vec(v);
@@ -134,15 +134,15 @@ namespace dplyr {
       SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source);
       SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
       int n = index.size();
-      for( int i=0; i<n; i++) {
+      for ( int i=0; i<n; i++) {
         p_data[index[i]] = p_source[i];
       }
     }
 
     void collect_factor( const SlicingIndex& index, IntegerVector source ) {
       CharacterVector levels = source.attr("levels");
-      for( int i=0; i<index.size(); i++) {
-        if( source[i] == NA_INTEGER ) {
+      for ( int i=0; i<index.size(); i++) {
+        if ( source[i] == NA_INTEGER ) {
           data[index[i]] = NA_STRING;
         } else {
           data[index[i]] = levels[source[i]-1];
@@ -160,7 +160,7 @@ namespace dplyr {
     void collect( const SlicingIndex& index, SEXP v ) {
       IntegerVector source(v);
       int* source_ptr = source.begin();
-      for( int i=0; i<index.size(); i++) {
+      for ( int i=0; i<index.size(); i++) {
         data[index[i]] = source_ptr[i];
       }
     }
@@ -229,7 +229,7 @@ namespace dplyr {
 
     inline SEXP get() {
       Parent::data.attr("class") = get_time_classes();
-      if( !tz.isNULL() ) {
+      if ( !tz.isNULL() ) {
         Parent::data.attr("tzone") = tz;
       }
       return Parent::data;
@@ -253,15 +253,15 @@ namespace dplyr {
     void update_tz(SEXP v) {
       RObject v_tz( Rf_getAttrib(v, Rf_install("tzone")) );
       // if the new tz is NULL, keep previous value
-      if( v_tz.isNULL() ) return;
+      if ( v_tz.isNULL() ) return;
 
-      if( tz.isNULL() ) {
+      if ( tz.isNULL() ) {
         // if current tz is NULL, grab the new one
         tz = v_tz;
       } else {
         // none are NULL, so compare them
         // if they are equal, fine
-        if( STRING_ELT(tz, 0) == STRING_ELT(v_tz,0) ) return;
+        if ( STRING_ELT(tz, 0) == STRING_ELT(v_tz,0) ) return;
 
         // otherwise, settle to UTC
         tz = wrap( "UTC");
@@ -281,7 +281,7 @@ namespace dplyr {
       levels_map()
     {
       int nlevels = levels.size();
-      for( int i=0; i<nlevels; i++) levels_map[ levels[i] ] = i + 1;
+      for ( int i=0; i<nlevels; i++) levels_map[ levels[i] ] = i + 1;
     }
 
     bool is_factor_collecter() const {
@@ -296,8 +296,8 @@ namespace dplyr {
 
       SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
       int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
-      for( int i=0; i<index.size(); i++) {
-        if( source_ptr[i] == NA_INTEGER ) {
+      for ( int i=0; i<index.size(); i++) {
+        if ( source_ptr[i] == NA_INTEGER ) {
           data[ index[i] ] = NA_INTEGER;
         } else {
           SEXP x = levels_ptr[ source_ptr[i] - 1 ];
@@ -324,10 +324,10 @@ namespace dplyr {
       CharacterVector levels_other = Rf_getAttrib( x, Rf_install( "levels" ) );
 
       int nlevels = levels_other.size();
-      if( nlevels != (int)levels_map.size() ) return false;
+      if ( nlevels != (int)levels_map.size() ) return false;
 
-      for( int i=0; i<nlevels; i++)
-        if( ! levels_map.count(levels_other[i]) )
+      for ( int i=0; i<nlevels; i++)
+        if ( ! levels_map.count(levels_other[i]) )
           return false;
       return true;
     }
@@ -349,19 +349,19 @@ namespace dplyr {
   }
 
   inline Collecter* collecter(SEXP model, int n) {
-    switch( TYPEOF(model) ) {
+    switch ( TYPEOF(model) ) {
     case INTSXP:
-      if( Rf_inherits( model, "POSIXct" ) )
+      if ( Rf_inherits( model, "POSIXct" ) )
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) );
-      if( Rf_inherits(model, "factor") )
+      if ( Rf_inherits(model, "factor") )
         return new FactorCollecter(n, model );
-      if( Rf_inherits(model, "Date") )
+      if ( Rf_inherits(model, "Date") )
         return new TypedCollecter<INTSXP>(n, get_date_classes());
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
-      if( Rf_inherits( model, "POSIXct" ) )
+      if ( Rf_inherits( model, "POSIXct" ) )
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) );
-      if( Rf_inherits( model, "Date" ) )
+      if ( Rf_inherits( model, "Date" ) )
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       return new Collecter_Impl<REALSXP>(n);
     case CPLXSXP:
@@ -371,7 +371,7 @@ namespace dplyr {
     case STRSXP:
       return new Collecter_Impl<STRSXP>(n);
     case VECSXP:
-      if( Rf_inherits( model, "POSIXlt" )) {
+      if ( Rf_inherits( model, "POSIXlt" )) {
         stop( "POSIXlt not supported" );
       }
       return new Collecter_Impl<VECSXP>(n);
@@ -388,28 +388,28 @@ namespace dplyr {
     // Factor collecter and model is a factor. when this occurs, we need to
     // return a Collecter_Impl<STRSXP> because the factors don't have the
     // same levels
-    if( Rf_inherits( model, "factor" ) && previous->is_factor_collecter() ) {
+    if ( Rf_inherits( model, "factor" ) && previous->is_factor_collecter() ) {
       Rf_warning( "Unequal factor levels: coercing to character" );
       return new Collecter_Impl<STRSXP>(n);
     }
 
-    switch( TYPEOF(model) ) {
+    switch ( TYPEOF(model) ) {
     case INTSXP:
-      if( Rf_inherits( model, "Date" ) )
+      if ( Rf_inherits( model, "Date" ) )
         return new TypedCollecter<INTSXP>(n, get_date_classes() );
-      if( Rf_inherits(model, "factor") )
+      if ( Rf_inherits(model, "factor") )
         return new Collecter_Impl<STRSXP>(n);
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
-      if( Rf_inherits( model, "POSIXct" ) )
+      if ( Rf_inherits( model, "POSIXct" ) )
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) );
-      if( Rf_inherits( model, "Date" ) )
+      if ( Rf_inherits( model, "Date" ) )
         return new TypedCollecter<REALSXP>(n, get_date_classes() );
       return new Collecter_Impl<REALSXP>(n);
     case LGLSXP:
       return new Collecter_Impl<LGLSXP>(n);
     case STRSXP:
-      if( previous->is_factor_collecter() )
+      if ( previous->is_factor_collecter() )
         Rf_warning("binding factor and character vector, coercing into character vector");
       return new Collecter_Impl<STRSXP>(n);
     default:
