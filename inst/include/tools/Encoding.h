@@ -15,10 +15,12 @@
 #define DPLYR_SHRINKABLE_MASK (1<<8)
 
 struct sxpinfo_struct {
+  // *INDENT-OFF*
   SEXPTYPE type    :  TYPE_BITS;/* ==> (FUNSXP == 99) %% 2^5 == 3 == CLOSXP
-			     * -> warning: `type' is narrower than values
-			     *              of its type
-			     * when SEXPTYPE was an enum */
+                                 * -> warning: `type' is narrower than values
+                                 *              of its type
+                                 * when SEXPTYPE was an enum */
+  // *INDENT-ON*
   unsigned int obj   :  1;
   unsigned int named :  2;
   unsigned int gp    : 16;
