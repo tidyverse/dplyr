@@ -2,9 +2,9 @@
 #define dplyr_Result_Var_H
 
 namespace dplyr {
-namespace internal {
-  inline double square(double x) { return x*x ; }
-}
+  namespace internal {
+    inline double square(double x) { return x*x ; }
+  }
 
   // version for NA_RM = false
   template <int RTYPE, bool NA_RM>

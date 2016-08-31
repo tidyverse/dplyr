@@ -36,30 +36,30 @@ namespace dplyr {
           break ;
 
         case LANGSXP:
-          {
-            SEXP symb = CAR(head) ;
-            if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ) {
+        {
+          SEXP symb = CAR(head) ;
+          if( symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::") ) {
 
-              if( TYPEOF(CADR(head)) == LANGSXP ) {
-                substitute( CDR(head) ) ;
-              }
-
-              // deal with foo$bar( bla = boom )
-              if( TYPEOF(CADDR(head)) == LANGSXP ) {
-                substitute( CDDR(head) ) ;
-              }
-
-              break ;
+            if( TYPEOF(CADR(head)) == LANGSXP ) {
+              substitute( CDR(head) ) ;
             }
 
-            substitute( CDR(head) ) ;
+            // deal with foo$bar( bla = boom )
+            if( TYPEOF(CADDR(head)) == LANGSXP ) {
+              substitute( CDDR(head) ) ;
+            }
+
             break ;
           }
+
+          substitute( CDR(head) ) ;
+          break ;
+        }
         case SYMSXP:
           if( TYPEOF(obj) != LANGSXP ) {
-             if( subsets.count(head) ) {
-               SETCAR(obj, subsets.get(head, indices) ) ;
-             }
+            if( subsets.count(head) ) {
+              SETCAR(obj, subsets.get(head, indices) ) ;
+            }
           }
           break ;
         }

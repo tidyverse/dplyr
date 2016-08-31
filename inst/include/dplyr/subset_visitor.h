@@ -3,50 +3,50 @@
 
 namespace dplyr {
 
-inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec );
-inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec );
+  inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec );
+  inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec );
 
-inline SubsetVectorVisitor* subset_visitor( SEXP vec ) {
-  if( Rf_isMatrix( vec ) ) {
-    return subset_visitor_matrix(vec) ;
-  }
-  else {
-    return subset_visitor_vector(vec) ;
-  }
-}
-
-inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec ) {
-  switch( TYPEOF(vec) ) {
-  case CPLXSXP: return new MatrixColumnSubsetVisitor<CPLXSXP>( vec ) ;
-  case INTSXP:  return new MatrixColumnSubsetVisitor<INTSXP>( vec ) ;
-  case REALSXP: return new MatrixColumnSubsetVisitor<REALSXP>( vec ) ;
-  case LGLSXP:  return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
-  case STRSXP:  return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
-  case VECSXP:  return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
-  default: break ;
+  inline SubsetVectorVisitor* subset_visitor( SEXP vec ) {
+    if( Rf_isMatrix( vec ) ) {
+      return subset_visitor_matrix(vec) ;
+    }
+    else {
+      return subset_visitor_vector(vec) ;
+    }
   }
 
-  stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
-  return 0 ;
-}
+  inline SubsetVectorVisitor* subset_visitor_matrix( SEXP vec ) {
+    switch( TYPEOF(vec) ) {
+    case CPLXSXP: return new MatrixColumnSubsetVisitor<CPLXSXP>( vec ) ;
+    case INTSXP:  return new MatrixColumnSubsetVisitor<INTSXP>( vec ) ;
+    case REALSXP: return new MatrixColumnSubsetVisitor<REALSXP>( vec ) ;
+    case LGLSXP:  return new MatrixColumnSubsetVisitor<LGLSXP>( vec ) ;
+    case STRSXP:  return new MatrixColumnSubsetVisitor<STRSXP>( vec ) ;
+    case VECSXP:  return new MatrixColumnSubsetVisitor<VECSXP>( vec ) ;
+    default: break ;
+    }
 
-inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec ) {
-  if( Rf_inherits(vec, "Date") ) {
-    return new DateSubsetVectorVisitor(vec) ;
+    stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
+    return 0 ;
   }
 
-  switch( TYPEOF(vec) ) {
-  case CPLXSXP:
-    return new SubsetVectorVisitorImpl<CPLXSXP>( vec ) ;
-  case INTSXP:
-    if( Rf_inherits(vec, "factor" ))
-      return new SubsetFactorVisitor( vec ) ;
-    return new SubsetVectorVisitorImpl<INTSXP>( vec ) ;
-  case REALSXP: return new SubsetVectorVisitorImpl<REALSXP>( vec ) ;
-  case LGLSXP:  return new SubsetVectorVisitorImpl<LGLSXP>( vec ) ;
-  case STRSXP:  return new SubsetVectorVisitorImpl<STRSXP>( vec ) ;
+  inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec ) {
+    if( Rf_inherits(vec, "Date") ) {
+      return new DateSubsetVectorVisitor(vec) ;
+    }
 
-  case VECSXP: {
+    switch( TYPEOF(vec) ) {
+    case CPLXSXP:
+      return new SubsetVectorVisitorImpl<CPLXSXP>( vec ) ;
+    case INTSXP:
+      if( Rf_inherits(vec, "factor" ))
+        return new SubsetFactorVisitor( vec ) ;
+      return new SubsetVectorVisitorImpl<INTSXP>( vec ) ;
+    case REALSXP: return new SubsetVectorVisitorImpl<REALSXP>( vec ) ;
+    case LGLSXP:  return new SubsetVectorVisitorImpl<LGLSXP>( vec ) ;
+    case STRSXP:  return new SubsetVectorVisitorImpl<STRSXP>( vec ) ;
+
+    case VECSXP: {
       if( Rf_inherits( vec, "data.frame" ) ) {
         return new DataFrameColumnSubsetVisitor(vec) ;
       }
@@ -55,13 +55,13 @@ inline SubsetVectorVisitor* subset_visitor_vector( SEXP vec ) {
       }
       return new SubsetVectorVisitorImpl<VECSXP>( vec ) ;
     }
-  default: break ;
-  }
+    default: break ;
+    }
 
-  // should not happen, safeguard against segfaults anyway
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-  return 0 ;
-}
+    // should not happen, safeguard against segfaults anyway
+    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
+    return 0 ;
+  }
 
 }
 

@@ -5,14 +5,14 @@ namespace dplyr {
 
   template <typename CLASS>
   class DelayedProcessor_Base {
-     public:
-       DelayedProcessor_Base() {}
-       virtual ~DelayedProcessor_Base() {}
+  public:
+    DelayedProcessor_Base() {}
+    virtual ~DelayedProcessor_Base() {}
 
-       virtual bool handled(int i, const RObject& chunk ) = 0 ;
-       virtual bool can_promote(const RObject& chunk ) = 0 ;
-       virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) = 0 ;
-       virtual SEXP get() = 0;
+    virtual bool handled(int i, const RObject& chunk ) = 0 ;
+    virtual bool can_promote(const RObject& chunk ) = 0 ;
+    virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) = 0 ;
+    virtual SEXP get() = 0;
   } ;
 
   template <int RTYPE>

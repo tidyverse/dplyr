@@ -2,90 +2,90 @@
 #define dplyr_Result_Mean_H
 
 namespace dplyr {
-namespace internal {
+  namespace internal {
 
-  // version for NA_RM == true
-  template <int RTYPE, bool NA_RM, typename Index>
-  struct Mean_internal {
-    static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
-      typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-      long double res = 0.0 ;
-      int n = indices.size() ;
-      int m = 0;
-      for( int i=0; i<n; i++) {
-        STORAGE value = ptr[ indices[i] ] ;
-        if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
-          res += value ;
-          m++ ;
-        }
-      }
-      if( m == 0 ) return R_NaN ;
-      res /= m  ;
-
-      if(R_FINITE(res)) {
-        long double t = 0.0 ;
-        for (int i = 0; i<n; i++) {
-          STORAGE value = ptr[indices[i]] ;
+    // version for NA_RM == true
+    template <int RTYPE, bool NA_RM, typename Index>
+    struct Mean_internal {
+      static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+        long double res = 0.0 ;
+        int n = indices.size() ;
+        int m = 0;
+        for( int i=0; i<n; i++) {
+          STORAGE value = ptr[ indices[i] ] ;
           if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
-            t += value - res;
+            res += value ;
+            m++ ;
           }
         }
-        res += t/m;
-      }
+        if( m == 0 ) return R_NaN ;
+        res /= m  ;
 
-      return (double)res ;
-    }
-  } ;
-
-  // special cases for NA_RM == false
-  template <typename Index>
-  struct Mean_internal<INTSXP,false,Index> {
-    static double process( int* ptr, const Index& indices ) {
-      long double res = 0.0 ;
-      int n = indices.size() ;
-      for( int i=0; i<n; i++) {
-        int value = ptr[ indices[i] ] ;
-        // need to handle missing value specifically
-        if( value == NA_INTEGER ) {
-          return NA_REAL ;
+        if(R_FINITE(res)) {
+          long double t = 0.0 ;
+          for (int i = 0; i<n; i++) {
+            STORAGE value = ptr[indices[i]] ;
+            if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
+              t += value - res;
+            }
+          }
+          res += t/m;
         }
-        res += value ;
+
+        return (double)res ;
       }
-      res /= n ;
+    } ;
 
-      if(R_FINITE((double)res)) {
-        long double t = 0.0 ;
-        for (int i = 0; i<n; i++) {
-          t += ptr[indices[i]] - res;
+    // special cases for NA_RM == false
+    template <typename Index>
+    struct Mean_internal<INTSXP,false,Index> {
+      static double process( int* ptr, const Index& indices ) {
+        long double res = 0.0 ;
+        int n = indices.size() ;
+        for( int i=0; i<n; i++) {
+          int value = ptr[ indices[i] ] ;
+          // need to handle missing value specifically
+          if( value == NA_INTEGER ) {
+            return NA_REAL ;
+          }
+          res += value ;
         }
-        res += t/n;
-	    }
-	    return (double)res ;
-    }
-  } ;
+        res /= n ;
 
-  template <typename Index>
-  struct Mean_internal<REALSXP,false,Index> {
-    static double process( double* ptr, const Index& indices ) {
-      long double res = 0.0 ;
-      int n = indices.size() ;
-      for( int i=0; i<n; i++) {
-        res += ptr[ indices[i] ] ;
+        if(R_FINITE((double)res)) {
+          long double t = 0.0 ;
+          for (int i = 0; i<n; i++) {
+            t += ptr[indices[i]] - res;
+          }
+          res += t/n;
+        }
+        return (double)res ;
       }
-      res /= n ;
+    } ;
 
-      if(R_FINITE((double)res)) {
-        long double t = 0.0 ;
-        for (int i = 0; i<n; i++) {
-          t += ptr[indices[i]] - res;
+    template <typename Index>
+    struct Mean_internal<REALSXP,false,Index> {
+      static double process( double* ptr, const Index& indices ) {
+        long double res = 0.0 ;
+        int n = indices.size() ;
+        for( int i=0; i<n; i++) {
+          res += ptr[ indices[i] ] ;
         }
-        res += t/n;
-	    }
-	    return (double)res ;
-    }
-  } ;
+        res /= n ;
 
-} // namespace internal
+        if(R_FINITE((double)res)) {
+          long double t = 0.0 ;
+          for (int i = 0; i<n; i++) {
+            t += ptr[indices[i]] - res;
+          }
+          res += t/n;
+        }
+        return (double)res ;
+      }
+    } ;
+
+  } // namespace internal
 
   template <int RTYPE, bool NA_RM>
   class Mean : public Processor< REALSXP, Mean<RTYPE,NA_RM> > {
