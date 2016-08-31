@@ -121,6 +121,7 @@ Collate:
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'
+    'vapply.R'
     'view.r'
     'zzz.r'
 RoxygenNote: 5.0.1
