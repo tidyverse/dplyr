@@ -20,7 +20,7 @@ namespace dplyr {
     return Reducer_Proxy( fun, variable ) ;
   }
 
-  #define MAKE_PROXY(PREFIX,_prefix_)                                         \
+#define MAKE_PROXY(PREFIX,_prefix_)                                           \
   class PREFIX##_Proxy {                                                      \
   public:                                                                     \
       PREFIX##_Proxy( Rcpp::String variable_, bool na_rm_ ) :                 \
@@ -39,7 +39,7 @@ namespace dplyr {
   MAKE_PROXY(Var,var)
   MAKE_PROXY(Sd,sd)
 
-  #undef MAKE_PROXY
+#undef MAKE_PROXY
 }
 
 #endif
