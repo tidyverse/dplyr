@@ -108,17 +108,19 @@ namespace dplyr {
     }
 
     inline bool less(int i, int j) const {
-      return string_compare.is_less(
-        vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
-        vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
-      ) ;
+      return
+        string_compare.is_less(
+          vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
+          vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
+        ) ;
     }
 
     inline bool greater(int i, int j) const {
-      return string_compare.is_greater(
-        vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
-        vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
-      ) ;
+      return
+        string_compare.is_greater(
+          vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
+          vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
+        ) ;
     }
 
     inline std::string get_r_type() const {

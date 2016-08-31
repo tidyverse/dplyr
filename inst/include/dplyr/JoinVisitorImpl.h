@@ -90,9 +90,7 @@ namespace dplyr {
     }
 
     inline bool equal( int i, int j) {
-      return Compare::equal_or_both_na(
-        get(i), get(j)
-      ) ;
+      return Compare::equal_or_both_na(get(i), get(j)) ;
     }
 
     inline SEXP subset( const std::vector<int>& indices ) {
@@ -447,9 +445,7 @@ namespace dplyr {
       return hash_fun( get(i) ) ;
     }
     inline bool equal(int i, int j) {
-      return Compare::equal_or_both_na(
-        get(i), get(j)
-      ) ;
+      return Compare::equal_or_both_na(get(i), get(j)) ;
     }
 
     inline SEXP subset( const std::vector<int>& indices ) {

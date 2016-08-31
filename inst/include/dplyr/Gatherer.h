@@ -52,8 +52,9 @@ namespace dplyr {
         } else if( n == 1) {
           grab_rep( Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices ) ;
         } else {
-          stop ( "incompatible size (%d), expecting %d (the group size) or 1",
-              n, indices.size()) ;
+          stop (
+            "incompatible size (%d), expecting %d (the group size) or 1",
+            n, indices.size()) ;
         }
       }
     }
@@ -142,8 +143,9 @@ namespace dplyr {
       } else if( n == 1) {
         grab_rep( subset[0], indices ) ;
       } else {
-        stop ( "incompatible size (%d), expecting %d (the group size) or 1",
-            n, indices.size()) ;
+        stop (
+          "incompatible size (%d), expecting %d (the group size) or 1",
+          n, indices.size()) ;
       }
     }
 

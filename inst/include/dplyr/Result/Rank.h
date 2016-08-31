@@ -239,9 +239,7 @@ namespace dplyr {
 
         Slice slice(data, index) ;
         // order( gdf.group(i) )
-        std::sort( tmp.begin(), tmp.begin() + m,
-          Comparer( Visitor( slice ) )
-        ) ;
+        std::sort( tmp.begin(), tmp.begin() + m, Comparer( Visitor( slice ) ) ) ;
         int j=m-1;
         for( ; j>=0; j--) {
           if( Rcpp::traits::is_na<RTYPE>( slice[ tmp[j] ] ) ) {
@@ -272,9 +270,7 @@ namespace dplyr {
       if( nrows == 0 ) return IntegerVector(0) ;
       IntegerVector x = seq(0, nrows -1 ) ;
       Slice slice(data, index) ;
-      std::sort( x.begin(), x.end(),
-        Comparer( Visitor( slice ) )
-        ) ;
+      std::sort( x.begin(), x.end(), Comparer( Visitor( slice ) ) ) ;
       IntegerVector out = no_init(nrows);
       int j=nrows-1 ;
       for( ; j>=0; j--) {
@@ -322,9 +318,7 @@ namespace dplyr {
         Slice slice(data, index ) ;
 
         // order( gdf.group(i) )
-        std::sort( tmp.begin(), tmp.begin() + m,
-          Comparer( Visitor( slice ) )
-        ) ;
+        std::sort( tmp.begin(), tmp.begin() + m, Comparer( Visitor( slice ) ) ) ;
         int j=m-1 ;
         for( ; j>= 0; j-- ) {
           if( Rcpp::traits::is_na<RTYPE>(slice[tmp[j]]) ) {

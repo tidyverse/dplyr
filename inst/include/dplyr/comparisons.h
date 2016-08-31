@@ -82,7 +82,8 @@ namespace dplyr {
     }
 
     inline bool equal_or_both_na( double lhs, double rhs ) const {
-      return lhs == rhs ||
+      return
+        lhs == rhs ||
         ( is_nan(lhs) && is_nan(rhs) ) ||
         ( is_na(lhs) && is_na(rhs) );
     }

@@ -78,9 +78,11 @@ namespace dplyr {
 
     template <typename Container>
     inline DataFrame subset( const Container& index, const CharacterVector& classes ) const {
-      return subset_impl( index, classes,
-        typename traits::same_type<Container, LogicalVector>::type()
-      ) ;
+      return
+        subset_impl(
+          index, classes,
+          typename traits::same_type<Container, LogicalVector>::type()
+        ) ;
     }
 
     inline int size() const {

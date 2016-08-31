@@ -33,11 +33,12 @@ namespace Rcpp {
 
   template <>
   inline bool is<Lazy>(SEXP x) {
-    return TYPEOF(x) == VECSXP &&
-         Rf_length(x) == 2 &&
-         Rf_inherits(x, "lazy") &&
-         TYPEOF(VECTOR_ELT(x,1)) == ENVSXP
-         ;
+    return
+      TYPEOF(x) == VECSXP &&
+      Rf_length(x) == 2 &&
+      Rf_inherits(x, "lazy") &&
+      TYPEOF(VECTOR_ELT(x,1)) == ENVSXP
+      ;
   }
 
   class LazyDots {
