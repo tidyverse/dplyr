@@ -28,7 +28,7 @@ namespace dplyr {
       }
 
       // we enter this loop if we did not scan the full vector
-      if( i < n ) for( ; i<n; i++) {
+      for( ; i < n; i++) {
         STORAGE current = data_ptr[indices[i]] ;
         if( !Rcpp::Vector<RTYPE>::is_na(current) && internal::is_smaller<RTYPE>( res, current ) ) res = current ;
       }
