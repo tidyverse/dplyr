@@ -8,7 +8,7 @@ namespace dplyr {
    */
   class SubsetVectorVisitor {
   public:
-    virtual ~SubsetVectorVisitor(){}
+    virtual ~SubsetVectorVisitor() {}
 
     /** creates a new vector, of the same type as the visited vector, by
      *  copying elements at the given indices

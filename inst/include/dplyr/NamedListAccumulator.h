@@ -9,14 +9,14 @@ namespace dplyr {
     SymbolMap symbol_map ;
     std::vector<SEXP> data ;
 
-    NamedListAccumulator(){}
+    NamedListAccumulator() {}
 
-    inline void set(SEXP name, SEXP x){
+    inline void set(SEXP name, SEXP x) {
       if( ! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value )
         check_supported_type(x, name);
 
       SymbolMapIndex index = symbol_map.insert(name) ;
-      if( index.origin == NEW ){
+      if( index.origin == NEW ) {
         data.push_back(x);
       } else {
         data[ index.pos ] = x ;
@@ -24,9 +24,9 @@ namespace dplyr {
 
     }
 
-    inline void rm(SEXP name){
+    inline void rm(SEXP name) {
       SymbolMapIndex index = symbol_map.rm(name) ;
-      if( index.origin != NEW ){
+      if( index.origin != NEW ) {
         data.erase( data.begin() + index.pos ) ;
       }
     }

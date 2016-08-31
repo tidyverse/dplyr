@@ -17,7 +17,7 @@ namespace dplyr {
       const DataFrame& data = gdf.data() ;
       CharacterVector names = data.names() ;
       int n = data.size() ;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         input_subset( names[i], grouped_subset( data[i], max_size ) ) ;
       }
     }
@@ -31,8 +31,8 @@ namespace dplyr {
       owner(false)
     {}
 
-    void clear(){
-      for( size_t i=0; i<resolved.size(); i++){
+    void clear() {
+      for( size_t i=0; i<resolved.size(); i++) {
         resolved[i] = R_NilValue ;
       }
     }
@@ -52,29 +52,29 @@ namespace dplyr {
     bool is_summary( SEXP symbol ) const {
       return subsets[symbol_map.get(symbol)]->is_summary() ;
     }
-    SEXP get( SEXP symbol, const SlicingIndex& indices ){
+    SEXP get( SEXP symbol, const SlicingIndex& indices ) {
       int idx = symbol_map.get(symbol) ;
 
       SEXP value = resolved[idx] ;
-      if( value == R_NilValue ){
+      if( value == R_NilValue ) {
         resolved[idx] = value = subsets[idx]->get(indices) ;
       }
       return value ;
     }
 
-    ~LazyGroupedSubsets(){
+    ~LazyGroupedSubsets() {
       if(owner) {
-        for( size_t i=0; i<subsets.size(); i++){
+        for( size_t i=0; i<subsets.size(); i++) {
           delete subsets[i] ;
         }
       }
     }
 
-    void input(SEXP symbol, SEXP x){
+    void input(SEXP symbol, SEXP x) {
       input_subset( symbol, grouped_subset(x, gdf.max_group_size() ) );
     }
 
-    void input(SEXP symbol, SummarisedVariable x){
+    void input(SEXP symbol, SummarisedVariable x) {
       input_subset( symbol, summarised_grouped_subset(x, gdf.max_group_size() ) ) ;
     }
 
@@ -86,9 +86,9 @@ namespace dplyr {
 
     bool owner ;
 
-    void input_subset(SEXP symbol, GroupedSubset* sub){
+    void input_subset(SEXP symbol, GroupedSubset* sub) {
       SymbolMapIndex index = symbol_map.insert(symbol) ;
-      if( index.origin == NEW ){
+      if( index.origin == NEW ) {
         subsets.push_back(sub) ;
         resolved.push_back(R_NilValue) ;
       } else {

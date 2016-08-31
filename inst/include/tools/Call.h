@@ -6,22 +6,22 @@ namespace Rcpp {
   class Call {
   public:
 
-    Call() : data(R_NilValue){}
+    Call() : data(R_NilValue) {}
 
-    Call(SEXP x) : data(x){
+    Call(SEXP x) : data(x) {
       if( data != R_NilValue ) R_PreserveObject(data) ;
     }
 
-    ~Call(){
+    ~Call() {
       if( data != R_NilValue ) R_ReleaseObject(data) ;
     }
 
-    Call( const Call& other ) : data(other.data){
+    Call( const Call& other ) : data(other.data) {
       if( data != R_NilValue ) R_PreserveObject(data) ;
     }
 
-    Call& operator=( SEXP other ){
-      if( other != data ){
+    Call& operator=( SEXP other ) {
+      if( other != data ) {
         if( data != R_NilValue ) R_ReleaseObject(data) ;
         data = other ;
         if( data != R_NilValue ) R_PreserveObject(data) ;
@@ -33,7 +33,7 @@ namespace Rcpp {
       return Rcpp_eval(data, env) ;
     }
 
-    inline operator SEXP() const{
+    inline operator SEXP() const {
       return data ;
     }
 

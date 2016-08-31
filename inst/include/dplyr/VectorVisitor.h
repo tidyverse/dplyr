@@ -8,7 +8,7 @@ namespace dplyr {
    */
   class VectorVisitor {
   public:
-    virtual ~VectorVisitor(){}
+    virtual ~VectorVisitor() {}
 
     /** hash the element of the visited vector at index i */
     virtual size_t hash(int i) const = 0 ;

@@ -60,7 +60,7 @@ namespace dplyr {
     inline bool is_less(double lhs, double rhs) const {
       if( is_nan(lhs) ) {
         return false ;
-      } else if( is_na(lhs) ){
+      } else if( is_na(lhs) ) {
         return is_nan(rhs) ;
       } else {
         // lhs >= rhs is false if rhs is NA or NaN
@@ -72,7 +72,7 @@ namespace dplyr {
     inline bool is_greater(double lhs, double rhs) const {
       if( is_nan(lhs) ) {
         return false ;
-      } else if( is_na(lhs) ){
+      } else if( is_na(lhs) ) {
         return is_nan(rhs) ;
       } else {
         // lhs <= rhs is false if rhs is NA or NaN

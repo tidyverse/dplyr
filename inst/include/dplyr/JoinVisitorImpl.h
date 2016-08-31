@@ -1,12 +1,12 @@
 #ifndef dplyr_JoinVisitorImpl_H
 #define dplyr_JoinVisitorImpl_H
 
-namespace dplyr{
+namespace dplyr {
 
   CharacterVector get_uniques( const CharacterVector& left, const CharacterVector& right) ;
 
   template <int LHS_RTYPE, int RHS_RTYPE>
-  class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE>{
+  class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE> {
   public:
     typedef Vector<LHS_RTYPE> LHS_Vec ;
     typedef Vector<RHS_RTYPE> RHS_Vec ;
@@ -17,7 +17,7 @@ namespace dplyr{
     typedef boost::hash<LHS_STORAGE> LHS_hasher ;
     typedef boost::hash<RHS_STORAGE> RHS_hasher ;
 
-    JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_){
+    JoinVisitorImpl( LHS_Vec left_, RHS_Vec right_ ) : left(left_), right(right_) {
       check_attribute_compatibility(left, right) ;
     }
 
@@ -50,7 +50,7 @@ namespace dplyr{
   public:
     typedef typename Visitor::Vec Vec ;
 
-    Subsetter( const Visitor& v_) : v(v_){} ;
+    Subsetter( const Visitor& v_) : v(v_) {} ;
 
     inline SEXP subset( const std::vector<int>& indices ) {
       int n = indices.size() ;
@@ -75,7 +75,7 @@ namespace dplyr{
   } ;
 
   template <int RTYPE>
-  class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE>{
+  class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE> {
   public:
     typedef comparisons<RTYPE> Compare ;
 
@@ -83,9 +83,9 @@ namespace dplyr{
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
     typedef boost::hash<STORAGE> hasher ;
 
-    JoinVisitorImpl( Vec left_, Vec right_ ) : left(left_), right(right_){}
+    JoinVisitorImpl( Vec left_, Vec right_ ) : left(left_), right(right_) {}
 
-    inline size_t hash(int i){
+    inline size_t hash(int i) {
       return hash_fun( get(i) ) ;
     }
 
@@ -131,11 +131,11 @@ namespace dplyr{
       right_match( match( right_levels, uniques) )
     {}
 
-    inline size_t hash(int i){
+    inline size_t hash(int i) {
       return hash_fun( get(i) ) ;
     }
 
-    inline bool equal( int i, int j){
+    inline bool equal( int i, int j) {
       return get(i) == get(j) ;
     }
 
@@ -148,7 +148,7 @@ namespace dplyr{
     }
 
     inline SEXP get(int i) const {
-      if( i >= 0){
+      if( i >= 0) {
         int pos = left[i] ;
         return (pos == NA_INTEGER) ? NA_STRING : SEXP( uniques[left_match[pos-1] - 1] ) ;
       } else {
@@ -201,7 +201,7 @@ namespace dplyr{
     }
 
     inline SEXP get(int i) const {
-      if( i >= 0 ){
+      if( i >= 0 ) {
         return ( i_left[i] == NA_INTEGER ) ? NA_STRING : p_uniques[ p_left[i] - 1] ;
       } else {
         return ( i_right[-i-1] == NA_INTEGER ) ? NA_STRING : p_uniques[ p_right[-i-1] - 1] ;
@@ -237,11 +237,11 @@ namespace dplyr{
 
     {}
 
-    inline size_t hash(int i){
+    inline size_t hash(int i) {
       return int_visitor.hash(i) ;
     }
 
-    inline bool equal( int i, int j){
+    inline bool equal( int i, int j) {
       return int_visitor.equal(i,j) ;
     }
 
@@ -258,7 +258,7 @@ namespace dplyr{
     }
 
     inline SEXP get(int i) const {
-      if( i>=0 ){
+      if( i>=0 ) {
         if( left_ptr[i] == NA_INTEGER ) return NA_STRING ;
         return p_uniques[ left_ptr[i] - 1 ] ;
       } else {
@@ -294,11 +294,11 @@ namespace dplyr{
       int_visitor(i_left, i_right)
     {}
 
-    inline size_t hash(int i){
+    inline size_t hash(int i) {
       return int_visitor.hash(i) ;
     }
 
-    inline bool equal( int i, int j){
+    inline bool equal( int i, int j) {
       return int_visitor.equal(i,j) ;
     }
 
@@ -317,7 +317,7 @@ namespace dplyr{
     inline SEXP get(int i) const {
       SEXP res ;
 
-      if( i>=0 ){
+      if( i>=0 ) {
         res = p_uniques[ i_left[i] - 1 ] ;
       } else {
         int index = -i-1 ;
@@ -363,7 +363,7 @@ namespace dplyr{
       std::string s_left  = as<std::string>( tzone_left  ) ;
       std::string s_right = as<std::string>( tzone_right ) ;
 
-      if( s_left == s_right){
+      if( s_left == s_right) {
         tzone = wrap(s_left) ;
       } else {
         tzone = wrap("UTC") ;
@@ -371,7 +371,7 @@ namespace dplyr{
       }
     }
 
-    inline SEXP subset( const std::vector<int>& indices ){
+    inline SEXP subset( const std::vector<int>& indices ) {
       return promote( Parent::subset( indices ) ) ;
     }
     inline SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) {
@@ -381,9 +381,9 @@ namespace dplyr{
   private:
     RObject tzone ;
 
-    inline SEXP promote( NumericVector x){
+    inline SEXP promote( NumericVector x) {
       x.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt") ;
-      if( !tzone.isNULL() ){
+      if( !tzone.isNULL() ) {
       x.attr("tzone") = tzone ;
       }
       return x ;
@@ -395,16 +395,16 @@ namespace dplyr{
 
   class DateJoinVisitorGetter {
   public:
-    virtual ~DateJoinVisitorGetter(){} ;
+    virtual ~DateJoinVisitorGetter() {} ;
     virtual double get(int i) = 0 ;
   } ;
 
   template <int RTYPE>
   class DateJoinVisitorGetterImpl : public DateJoinVisitorGetter {
   public:
-    DateJoinVisitorGetterImpl( SEXP x) : data(x){}
+    DateJoinVisitorGetterImpl( SEXP x) : data(x) {}
 
-    inline double get(int i){
+    inline double get(int i) {
       return (double) data[i] ;
     }
 
@@ -412,7 +412,7 @@ namespace dplyr{
     Vector<RTYPE> data ;
   } ;
 
-  class DateJoinVisitor : public JoinVisitor, public comparisons<REALSXP>{
+  class DateJoinVisitor : public JoinVisitor, public comparisons<REALSXP> {
   public:
     typedef NumericVector Vec ;
     typedef comparisons<REALSXP> Compare ;
@@ -438,7 +438,7 @@ namespace dplyr{
 
     }
 
-    ~DateJoinVisitor(){
+    ~DateJoinVisitor() {
       delete left ;
       delete right;
     }
@@ -465,7 +465,7 @@ namespace dplyr{
     }
 
     inline double get( int i) const {
-      if( i>= 0 ){
+      if( i>= 0 ) {
         return left->get(i) ;
       } else {
         return right->get(-i-1) ;

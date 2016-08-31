@@ -1,7 +1,7 @@
 #ifndef dplyr_VisitorSetIndexMap_H
 #define dplyr_VisitorSetIndexMap_H
 
-namespace dplyr{
+namespace dplyr {
 
   template <typename VisitorSet, typename VALUE>
   class VisitorSetIndexMap :

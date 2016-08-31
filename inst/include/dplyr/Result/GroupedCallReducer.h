@@ -11,9 +11,9 @@ namespace dplyr {
     {
     }
 
-    virtual ~GroupedCallReducer(){} ;
+    virtual ~GroupedCallReducer() {} ;
 
-    inline SEXP process_chunk( const SlicingIndex& indices ){
+    inline SEXP process_chunk( const SlicingIndex& indices ) {
       return proxy.get(indices) ;
     }
 

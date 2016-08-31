@@ -5,7 +5,7 @@ namespace dplyr {
 
 class OrderVisitor {
 public:
-  virtual ~OrderVisitor(){}
+  virtual ~OrderVisitor() {}
 
   /** are the elements at indices i and j equal */
   virtual bool equal(int i, int j) const  = 0 ;

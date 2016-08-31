@@ -6,15 +6,15 @@ namespace internal {
 
   // version for NA_RM == true
   template <int RTYPE, bool NA_RM, typename Index>
-  struct Mean_internal{
-    static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices){
+  struct Mean_internal {
+    static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
       typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
       long double res = 0.0 ;
       int n = indices.size() ;
       int m = 0;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         STORAGE value = ptr[ indices[i] ] ;
-        if( ! Rcpp::traits::is_na<RTYPE>( value ) ){
+        if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
           res += value ;
           m++ ;
         }
@@ -26,7 +26,7 @@ namespace internal {
         long double t = 0.0 ;
         for (int i = 0; i<n; i++) {
           STORAGE value = ptr[indices[i]] ;
-          if( ! Rcpp::traits::is_na<RTYPE>( value ) ){
+          if( ! Rcpp::traits::is_na<RTYPE>( value ) ) {
             t += value - res;
           }
         }
@@ -39,14 +39,14 @@ namespace internal {
 
   // special cases for NA_RM == false
   template <typename Index>
-  struct Mean_internal<INTSXP,false,Index>{
-    static double process( int* ptr, const Index& indices ){
+  struct Mean_internal<INTSXP,false,Index> {
+    static double process( int* ptr, const Index& indices ) {
       long double res = 0.0 ;
       int n = indices.size() ;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         int value = ptr[ indices[i] ] ;
         // need to handle missing value specifically
-        if( value == NA_INTEGER ){
+        if( value == NA_INTEGER ) {
           return NA_REAL ;
         }
         res += value ;
@@ -65,11 +65,11 @@ namespace internal {
   } ;
 
   template <typename Index>
-  struct Mean_internal<REALSXP,false,Index>{
-    static double process( double* ptr, const Index& indices ){
+  struct Mean_internal<REALSXP,false,Index> {
+    static double process( double* ptr, const Index& indices ) {
       long double res = 0.0 ;
       int n = indices.size() ;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         res += ptr[ indices[i] ] ;
       }
       res /= n ;
@@ -98,9 +98,9 @@ namespace internal {
       data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x)),
       is_summary(is_summary_)
     {}
-    ~Mean(){}
+    ~Mean() {}
 
-    inline double process_chunk( const SlicingIndex& indices ){
+    inline double process_chunk( const SlicingIndex& indices ) {
       if( is_summary ) return data_ptr[indices.group()] ;
       return internal::Mean_internal<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices) ;
     }

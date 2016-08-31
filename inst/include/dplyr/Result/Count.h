@@ -6,9 +6,9 @@ namespace dplyr {
   class Count : public Processor<INTSXP,Count> {
   public:
     Count() {}
-    ~Count(){}
+    ~Count() {}
 
-    inline int process_chunk( const SlicingIndex& indices ){
+    inline int process_chunk( const SlicingIndex& indices ) {
       return indices.size() ;
     }
   } ;

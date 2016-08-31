@@ -5,8 +5,8 @@ namespace dplyr {
 
   class RowwiseSubset {
   public:
-    RowwiseSubset(){} ;
-    virtual ~RowwiseSubset(){} ;
+    RowwiseSubset() {} ;
+    virtual ~RowwiseSubset() {} ;
     virtual SEXP get( const SlicingIndex& indices ) = 0 ;
     virtual SEXP get_variable() const = 0 ;
     virtual bool is_summary() const = 0;
@@ -23,7 +23,7 @@ namespace dplyr {
       SET_DPLYR_SHRINKABLE_VECTOR( (SEXP)output) ;
     }
 
-    ~RowwiseSubsetTemplate(){
+    ~RowwiseSubsetTemplate() {
       UNSET_DPLYR_SHRINKABLE_VECTOR( (SEXP)output) ;
     }
 
@@ -67,8 +67,8 @@ namespace dplyr {
   } ;
 
 
-  inline RowwiseSubset* rowwise_subset(SEXP x){
-    switch( check_supported_type(x) ){
+  inline RowwiseSubset* rowwise_subset(SEXP x) {
+    switch( check_supported_type(x) ) {
       case DPLYR_INTSXP: return new RowwiseSubsetTemplate<INTSXP>(x) ;
       case DPLYR_REALSXP: return new RowwiseSubsetTemplate<REALSXP>(x) ;
       case DPLYR_LGLSXP: return new RowwiseSubsetTemplate<LGLSXP>(x) ;

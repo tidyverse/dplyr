@@ -32,7 +32,7 @@ namespace Rcpp {
   } ;
 
   template <>
-  inline bool is<Lazy>(SEXP x){
+  inline bool is<Lazy>(SEXP x) {
     return TYPEOF(x) == VECSXP &&
          Rf_length(x) == 2 &&
          Rf_inherits(x, "lazy") &&
@@ -42,14 +42,14 @@ namespace Rcpp {
 
   class LazyDots {
   public:
-    LazyDots( List data_ ) : data(){
+    LazyDots( List data_ ) : data() {
       int n = data_.size() ;
       if (n == 0) return;
 
       CharacterVector names = data_.names() ;
-      for(int i=0; i<n; i++){
+      for(int i=0; i<n; i++) {
         List x = data_[i] ;
-        if( !is<Lazy>(x) ){
+        if( !is<Lazy>(x) ) {
           stop( "corrupt lazy object" );
         }
         data.push_back(Lazy(x, names[i])) ;
@@ -67,7 +67,7 @@ namespace Rcpp {
     inline bool single_env() const {
       if( data.size() <= 1 ) return true ;
       SEXP env = data[0].env() ;
-      for( size_t i=1; i<data.size(); i++){
+      for( size_t i=1; i<data.size(); i++) {
         if( data[i].env() != env ) return false ;
       }
       return true ;

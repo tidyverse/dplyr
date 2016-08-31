@@ -1,7 +1,7 @@
 #ifndef dplyr_VisitorSetLessPredicate_H
 #define dplyr_VisitorSetLessPredicate_H
 
-namespace dplyr{
+namespace dplyr {
 
   template <typename VisitorSet>
   class VisitorSetLessPredicate {

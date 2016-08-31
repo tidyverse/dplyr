@@ -1,7 +1,7 @@
 #ifndef dplyr_VisitorSetGreaterPredicate_H
 #define dplyr_VisitorSetGreaterPredicate_H
 
-namespace dplyr{
+namespace dplyr {
 
   template <typename VisitorSet>
   class VisitorSetGreaterPredicate {

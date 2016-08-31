@@ -1,7 +1,7 @@
 #ifndef dplyr_DataFrameJoinVisitors_H
 #define dplyr_DataFrameJoinVisitors_H
 
-namespace dplyr{
+namespace dplyr {
 
   class DataFrameJoinVisitors :
     public VisitorSetEqual<DataFrameJoinVisitors>,
@@ -22,21 +22,21 @@ namespace dplyr{
       return visitors[k] ;
     }
     inline JoinVisitor* get( String name ) const {
-      for( int i=0; i<nvisitors; i++){
+      for( int i=0; i<nvisitors; i++) {
         if( name == visitor_names_left[i] ) return get(i) ;
       }
       stop("visitor not found for name '%s' ", name.get_cstring() ) ;
       return 0 ;
     }
-    inline int size() const{
+    inline int size() const {
       return nvisitors ;
     }
 
     template <typename Container>
-    inline DataFrame subset( const Container& index, const CharacterVector& classes ){
+    inline DataFrame subset( const Container& index, const CharacterVector& classes ) {
       int nrows = index.size() ;
       Rcpp::List out(nvisitors);
-      for( int k=0; k<nvisitors; k++){
+      for( int k=0; k<nvisitors; k++) {
          out[k] = get(k)->subset(index) ;
       }
       out.attr( "class" ) = classes ;

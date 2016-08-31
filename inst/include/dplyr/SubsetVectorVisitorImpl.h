@@ -65,7 +65,7 @@ namespace dplyr {
       return vec.size() ;
     }
 
-    inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+    inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
       return true ;
     }
 
@@ -76,8 +76,8 @@ namespace dplyr {
     inline SEXP subset_int_index( const Container& index ) const {
       int n = output_size(index) ;
       VECTOR out = Rcpp::no_init(n) ;
-      for( int i=0; i<n; i++){
-        if( index[i] < 0 ){
+      for( int i=0; i<n; i++) {
+        if( index[i] < 0 ) {
           out[i] = VECTOR::get_na() ;
         } else {
           out[i] = vec[ index[i] ] ;
@@ -104,7 +104,7 @@ namespace dplyr {
   public:
     typedef SubsetVectorVisitorImpl<INTSXP> Parent ;
 
-    SubsetFactorVisitor( const IntegerVector& vec_ ) : Parent(vec_){
+    SubsetFactorVisitor( const IntegerVector& vec_ ) : Parent(vec_) {
         levels = vec.attr( "levels" ) ;
         levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
     }
@@ -152,7 +152,7 @@ namespace dplyr {
 
     inline bool compatible(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
       CharacterVector levels_other = other->levels ;
-      if( setdiff( levels, levels_other ).size() ){
+      if( setdiff( levels, levels_other ).size() ) {
         ss << "Factor levels not equal for column " << name ;
         return false ;
       }
@@ -173,7 +173,7 @@ namespace dplyr {
   class DateSubsetVectorVisitor : public SubsetVectorVisitor {
   public:
 
-    DateSubsetVectorVisitor( SEXP data ) : impl(0){
+    DateSubsetVectorVisitor( SEXP data ) : impl(0) {
       if( TYPEOF(data) == INTSXP ) {
       impl  = new SubsetVectorVisitorImpl<INTSXP>(data) ;
       } else if( TYPEOF(data) == REALSXP ) {
@@ -183,7 +183,7 @@ namespace dplyr {
       }
     }
 
-    ~DateSubsetVectorVisitor( ){
+    ~DateSubsetVectorVisitor( ) {
       delete impl ;
     }
 
@@ -219,7 +219,7 @@ namespace dplyr {
       return impl->get_r_type() ;
     }
 
-    bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+    bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
       return typeid(*other) == typeid(*this) ;
     }
 
@@ -230,17 +230,17 @@ namespace dplyr {
   } ;
 
   template <>
-  inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+  inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
     return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetVectorVisitorImpl<REALSXP>) ;
   }
 
   template <>
-  inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+  inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
     return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetVectorVisitorImpl<INTSXP>) ;
   }
 
   template <>
-  inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const  {
+  inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
     return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetFactorVisitor) ;
   }
 

@@ -9,7 +9,7 @@ namespace dplyr {
       symbol(symbol_), object(object_)
     {}
 
-    inline void set(SEXP value){
+    inline void set(SEXP value) {
       SETCAR(object, value) ;
     }
 

@@ -46,21 +46,21 @@ struct sxpinfo_struct {
 # define IS_UTF8(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp & UTF8_MASK)
 #endif
 
-namespace dplyr{
+namespace dplyr {
 
   enum encoding {
      BYTES, LATIN1, UTF8, UNKNOWN
   } ;
 
-  inline encoding get_encoding( SEXP s){
+  inline encoding get_encoding( SEXP s) {
     if( IS_BYTES(s) ) return BYTES ;
     if( IS_LATIN1(s) ) return LATIN1 ;
     if( IS_UTF8(s) ) return UTF8 ;
     return UNKNOWN ;
   }
 
-  inline const char* human_readable_encoding( encoding e ){
-    switch(e){
+  inline const char* human_readable_encoding( encoding e ) {
+    switch(e) {
     case BYTES: return "bytes" ;
     case LATIN1: return "latin1" ;
     case UTF8: return "UTF-8" ;

@@ -5,7 +5,7 @@ namespace dplyr {
 
   class DataFrameAbleImpl {
   public:
-    virtual ~DataFrameAbleImpl(){} ;
+    virtual ~DataFrameAbleImpl() {} ;
     virtual int nrows() const = 0 ;
     virtual SEXP get( int i ) const = 0 ;
     virtual int size() const = 0 ;
@@ -16,10 +16,10 @@ namespace dplyr {
 
   class DataFrameAble_DataFrame : public DataFrameAbleImpl {
   public:
-    DataFrameAble_DataFrame( DataFrame data_) : data(data_){
-      if( data.size() ){
+    DataFrameAble_DataFrame( DataFrame data_) : data(data_) {
+      if( data.size() ) {
         CharacterVector df_names = data.names() ;
-        if( any(is_na(df_names)).is_true() ){
+        if( any(is_na(df_names)).is_true() ) {
           stop( "corrupt data frame" ) ;
         }
       }
@@ -55,11 +55,11 @@ namespace dplyr {
 
   class DataFrameAble_List : public DataFrameAbleImpl {
   public:
-    DataFrameAble_List( SEXP data_) : data(data_), nr(0){
+    DataFrameAble_List( SEXP data_) : data(data_), nr(0) {
       int n = data.size() ;
       if( data.size() == 0) return ;
       nr = Rf_length(data[0]) ;
-      for(int i=1; i<n; i++){
+      for(int i=1; i<n; i++) {
         if( Rf_length(data[i]) != nr ) {
           stop( "incompatible sizes (%d != %s)", nr, Rf_length(data[i]) ) ;
         }
@@ -95,12 +95,12 @@ namespace dplyr {
     int nr ;
   } ;
 
-  class DataFrameAble{
+  class DataFrameAble {
   public:
     DataFrameAble( SEXP data ) {
       init(data) ;
     }
-    DataFrameAble( List::Proxy data){
+    DataFrameAble( List::Proxy data) {
       init( (SEXP)data) ;
     }
 
@@ -132,10 +132,10 @@ namespace dplyr {
   private:
     boost::shared_ptr<DataFrameAbleImpl> impl ;
 
-    inline void init( SEXP data){
-      if( Rf_inherits( data, "data.frame")){
+    inline void init( SEXP data) {
+      if( Rf_inherits( data, "data.frame")) {
         impl.reset( new DataFrameAble_DataFrame(data)) ;
-      } else if( is<List>(data) ){
+      } else if( is<List>(data) ) {
         impl.reset( new DataFrameAble_List(data) ) ;
       } else {
         stop( "cannot convert object to a data frame" ) ;

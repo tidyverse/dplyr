@@ -2,8 +2,8 @@
 #define dplyr_Result_Var_H
 
 namespace dplyr {
-namespace internal{
-  inline double square(double x){ return x*x ; }
+namespace internal {
+  inline double square(double x) { return x*x ; }
 }
 
   // version for NA_RM = false
@@ -18,9 +18,9 @@ namespace internal{
       data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ),
       is_summary(is_summary_)
     {}
-    ~Var(){}
+    ~Var() {}
 
-    inline double process_chunk( const SlicingIndex& indices ){
+    inline double process_chunk( const SlicingIndex& indices ) {
       if( is_summary ) return NA_REAL ;
 
       int n=indices.size() ;
@@ -30,7 +30,7 @@ namespace internal{
       if( !R_FINITE(m) ) return m ;
 
       double sum = 0.0 ;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         sum += internal::square( data_ptr[indices[i]] - m ) ;
       }
       return sum / ( n - 1 );
@@ -54,9 +54,9 @@ namespace internal{
       data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ),
       is_summary(is_summary_)
     {}
-    ~Var(){}
+    ~Var() {}
 
-    inline double process_chunk( const SlicingIndex& indices ){
+    inline double process_chunk( const SlicingIndex& indices ) {
       if( is_summary ) return NA_REAL ;
 
       int n=indices.size() ;
@@ -67,7 +67,7 @@ namespace internal{
 
       double sum = 0.0 ;
       int count = 0 ;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         STORAGE current = data_ptr[indices[i]] ;
         if( Rcpp::Vector<RTYPE>::is_na(current) ) continue ;
         sum += internal::square( current - m ) ;

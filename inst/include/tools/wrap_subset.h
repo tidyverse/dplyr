@@ -4,7 +4,7 @@
 namespace dplyr {
 
   template <int RTYPE, typename Container>
-  SEXP wrap_subset( SEXP input, const Container& indices ){
+  SEXP wrap_subset( SEXP input, const Container& indices ) {
     int n = indices.size() ;
     Rcpp::Vector<RTYPE> res = Rcpp::no_init(n) ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
@@ -15,7 +15,7 @@ namespace dplyr {
   }
 
   template <int RTYPE, typename Container>
-  SEXP wrap_subset_1_based( SEXP input, const Container& indices ){
+  SEXP wrap_subset_1_based( SEXP input, const Container& indices ) {
     int n = indices.size() ;
     Rcpp::Vector<RTYPE> res = Rcpp::no_init(n) ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;

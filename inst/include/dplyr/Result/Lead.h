@@ -23,21 +23,21 @@ namespace dplyr {
       def(Vector<RTYPE>::get_na()),
       is_summary(is_summary_)
     {
-      if( !Rf_isNull(def_)){
+      if( !Rf_isNull(def_)) {
       def = as<STORAGE>( def_ ) ;
       }
     }
 
-    virtual SEXP process(const GroupedDataFrame& gdf ){
+    virtual SEXP process(const GroupedDataFrame& gdf ) {
       int nrows = gdf.nrows() ;
       int ng = gdf.ngroups() ;
 
       Vector<RTYPE> out = no_init(nrows) ;
-      if( is_summary ){
+      if( is_summary ) {
         for(int i=0; i<nrows; i++) out[i] = def ;
       } else {
         GroupedDataFrame::group_iterator git = gdf.group_begin();
-        for( int i=0; i<ng; i++, ++git){
+        for( int i=0; i<ng; i++, ++git) {
           process_slice(out, *git, *git) ;
         }
       }
@@ -45,7 +45,7 @@ namespace dplyr {
       return out ;
     }
 
-    virtual SEXP process(const RowwiseDataFrame& gdf ){
+    virtual SEXP process(const RowwiseDataFrame& gdf ) {
       int nrows = gdf.nrows() ;
 
       Vector<RTYPE> out(nrows, def ) ;
@@ -53,7 +53,7 @@ namespace dplyr {
       return out ;
     }
 
-    virtual SEXP process(const FullDataFrame& df){
+    virtual SEXP process(const FullDataFrame& df) {
       int nrows = df.nrows() ;
       Vector<RTYPE> out = no_init(nrows) ;
       SlicingIndex index = df.get_index() ;
@@ -62,7 +62,7 @@ namespace dplyr {
       return out ;
     }
 
-    virtual SEXP process(const SlicingIndex& index){
+    virtual SEXP process(const SlicingIndex& index) {
       int nrows = index.size() ;
       Vector<RTYPE> out = no_init(nrows) ;
       SlicingIndex fake(0, nrows) ;
@@ -73,13 +73,13 @@ namespace dplyr {
 
   private:
 
-    void process_slice( Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index){
+    void process_slice( Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index) {
       int chunk_size = index.size() ;
       int i=0 ;
-      for( ; i<chunk_size-n; i++ ){
+      for( ; i<chunk_size-n; i++ ) {
         out[out_index[i]] = data[index[i+n]] ;
       }
-      for(; i<chunk_size; i++){
+      for(; i<chunk_size; i++) {
         out[out_index[i]] = def ;
       }
     }

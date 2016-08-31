@@ -22,7 +22,7 @@ namespace dplyr {
       return Vector<RTYPE>::create( value ) ;
     }
 
-    virtual SEXP process( const SlicingIndex& index ){
+    virtual SEXP process( const SlicingIndex& index ) {
       return Vector<RTYPE>::create( value ) ;
     }
 
@@ -49,7 +49,7 @@ namespace dplyr {
       return get(1);
     }
 
-    virtual SEXP process( const SlicingIndex& index ){
+    virtual SEXP process( const SlicingIndex& index ) {
       return get(1);
     }
 
@@ -87,7 +87,7 @@ namespace dplyr {
       return get(1);
     }
 
-    virtual SEXP process( const SlicingIndex& index ){
+    virtual SEXP process( const SlicingIndex& index ) {
       return get(1);
     }
 

@@ -5,9 +5,9 @@ namespace dplyr {
 
   class SummarisedVariable {
   public:
-    SummarisedVariable(SEXP x) : data(x){}
+    SummarisedVariable(SEXP x) : data(x) {}
 
-    inline operator SEXP() const{
+    inline operator SEXP() const {
       return data;
     }
   private:

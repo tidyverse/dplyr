@@ -1,7 +1,7 @@
 #ifndef dplyr_tools_SymbolMap_h
 #define dplyr_tools_SymbolMap_h
 
-namespace dplyr{
+namespace dplyr {
 
   enum Origin { HASH, RMATCH, NEW } ;
 
@@ -16,15 +16,15 @@ namespace dplyr{
 
   class SymbolMap {
     public:
-      SymbolMap(): lookup(), names(){}
+      SymbolMap(): lookup(), names() {}
 
-      SymbolMapIndex insert( SEXP name ){
+      SymbolMapIndex insert( SEXP name ) {
         if( TYPEOF(name) == SYMSXP ) {
           name = PRINTNAME(name) ;
         }
         SymbolMapIndex index = get_index(name) ;
         int idx = index.pos ;
-        switch( index.origin ){
+        switch( index.origin ) {
         case HASH:
           break;
         case RMATCH:
@@ -57,13 +57,13 @@ namespace dplyr{
 
         // first, lookup the map
         dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name) ;
-        if( it != lookup.end() ){
+        if( it != lookup.end() ) {
           return SymbolMapIndex( it->second, HASH ) ;
         }
 
         CharacterVector v = CharacterVector::create(name) ;
         int idx = as<int>( r_match( v, names ) );
-        if( idx != NA_INTEGER ){
+        if( idx != NA_INTEGER ) {
           // we have a match
           return SymbolMapIndex( idx-1, RMATCH ) ;
         }
@@ -77,29 +77,29 @@ namespace dplyr{
           name = PRINTNAME(name) ;
         }
         SymbolMapIndex index = get_index(name) ;
-        if( index.origin == NEW ){
+        if( index.origin == NEW ) {
           stop( "variable '%s' not found", CHAR(name) ) ;
         }
         return index.pos ;
       }
 
-      SymbolMapIndex rm( SEXP name ){
+      SymbolMapIndex rm( SEXP name ) {
         if( TYPEOF(name) == SYMSXP ) {
           name = PRINTNAME(name) ;
         }
         SymbolMapIndex index = get_index(name) ;
-        if( index.origin != NEW ){
+        if( index.origin != NEW ) {
           int idx = index.pos ;
           names.erase( names.begin() + idx ) ;
 
-          for( dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end(); ){
+          for( dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end(); ) {
             int k = it->second ;
 
             if( k < idx ) {
               // nothing to do in that case
               ++it ;
               continue ;
-            } else if( k == idx ){
+            } else if( k == idx ) {
               // need to remove the data from the hash table
               it = lookup.erase(it) ;
               continue ;

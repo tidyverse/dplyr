@@ -1,15 +1,15 @@
 #ifndef dplyr_tools_BoolResult_H
 #define dplyr_tools_BoolResult_H
 
-namespace dplyr{
+namespace dplyr {
 
   class BoolResult {
   public:
-    BoolResult(bool result_) : result(result_){}
-    BoolResult(bool result_, const std::string& msg) : result(result_), message(msg){}
+    BoolResult(bool result_) : result(result_) {}
+    BoolResult(bool result_, const std::string& msg) : result(result_), message(msg) {}
 
-    void set_true(){ result = true ; message.clear() ; }
-    void set_false( const char* msg ){ result = false; message = msg ; }
+    void set_true() { result = true ; message.clear() ; }
+    void set_false( const char* msg ) { result = false; message = msg ; }
 
     inline operator SEXP() const {
       LogicalVector res = LogicalVector::create( result ) ;
@@ -31,11 +31,11 @@ namespace dplyr{
     std::string message ;
   } ;
 
-  inline BoolResult no_because( const std::string& msg ){
+  inline BoolResult no_because( const std::string& msg ) {
     return BoolResult( false, msg );
   }
 
-  inline BoolResult yes(){
+  inline BoolResult yes() {
     return true ;
   }
 

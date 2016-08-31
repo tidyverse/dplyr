@@ -1,13 +1,13 @@
 #ifndef dplyr_Result_DelayedProcessor_H
 #define dplyr_Result_DelayedProcessor_H
 
-namespace dplyr{
+namespace dplyr {
 
   template <typename CLASS>
   class DelayedProcessor_Base {
      public:
-       DelayedProcessor_Base(){}
-       virtual ~DelayedProcessor_Base(){}
+       DelayedProcessor_Base() {}
+       virtual ~DelayedProcessor_Base() {}
 
        virtual bool handled(int i, const RObject& chunk ) = 0 ;
        virtual bool can_promote(const RObject& chunk ) = 0 ;
@@ -16,13 +16,13 @@ namespace dplyr{
   } ;
 
   template <int RTYPE>
-  bool valid_conversion(int rtype){
+  bool valid_conversion(int rtype) {
     return rtype == RTYPE ;
   }
 
   template <>
-  inline bool valid_conversion<REALSXP>( int rtype ){
-    switch( rtype ){
+  inline bool valid_conversion<REALSXP>( int rtype ) {
+    switch( rtype ) {
     case REALSXP:
     case INTSXP:
     case LGLSXP:
@@ -33,8 +33,8 @@ namespace dplyr{
   }
 
   template <>
-  inline bool valid_conversion<INTSXP>( int rtype ){
-    switch( rtype ){
+  inline bool valid_conversion<INTSXP>( int rtype ) {
+    switch( rtype ) {
     case INTSXP:
     case LGLSXP:
       return true ;
@@ -49,12 +49,12 @@ namespace dplyr{
   }
 
   template <>
-  inline bool valid_promotion<INTSXP>( int rtype ){
+  inline bool valid_promotion<INTSXP>( int rtype ) {
     return rtype == REALSXP ;
   }
 
   template <>
-  inline bool valid_promotion<LGLSXP>( int rtype ){
+  inline bool valid_promotion<LGLSXP>( int rtype ) {
     return rtype == REALSXP || rtype == INTSXP ;
   }
 
@@ -81,7 +81,7 @@ namespace dplyr{
 
     virtual bool handled(int i, const RObject& chunk ) {
       int rtype = TYPEOF(chunk) ;
-      if( valid_conversion<RTYPE>(rtype) ){
+      if( valid_conversion<RTYPE>(rtype) ) {
         res[i] = as<STORAGE>( chunk ) ;
         return true ;
       } else {
@@ -92,9 +92,9 @@ namespace dplyr{
     virtual bool can_promote(const RObject& chunk ) {
       return valid_promotion<RTYPE>( TYPEOF(chunk) ) ;
     }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk){
+    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
       int rtype = TYPEOF(chunk) ;
-      switch( rtype ){
+      switch( rtype ) {
       case LGLSXP:  return new DelayedProcessor<LGLSXP , CLASS>(i, chunk, res ) ;
       case INTSXP:  return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res ) ;
       case REALSXP: return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res ) ;
@@ -144,7 +144,7 @@ namespace dplyr{
   } ;
 
   template <typename CLASS>
-  class FactorDelayedProcessor : public DelayedProcessor_Base<CLASS>{
+  class FactorDelayedProcessor : public DelayedProcessor_Base<CLASS> {
   private:
     typedef dplyr_hash_map<SEXP,int> LevelsMap ;
 
@@ -164,7 +164,7 @@ namespace dplyr{
       update_levels(lev) ;
 
       int val = as<int>(chunk) ;
-      if( val == NA_INTEGER){
+      if( val == NA_INTEGER) {
         return true ;
       }
       SEXP s = lev[val-1] ;
@@ -181,7 +181,7 @@ namespace dplyr{
       int n = levels_map.size() ;
       CharacterVector levels(n) ;
       LevelsMap::iterator it = levels_map.begin() ;
-      for(int i=0; i<n; i++, ++it){
+      for(int i=0; i<n; i++, ++it) {
         levels[it->second-1] = it->first ;
       }
       res.attr("class") = "factor" ;
@@ -219,7 +219,7 @@ namespace dplyr{
     }
 
     virtual bool handled(int i, const RObject& chunk ) {
-      if( is<List>(chunk) && Rf_length(chunk) == 1){
+      if( is<List>(chunk) && Rf_length(chunk) == 1) {
         res[i] = maybe_copy(VECTOR_ELT(chunk, 0)) ;
         return true ;
       }
@@ -244,21 +244,21 @@ namespace dplyr{
   } ;
 
   template <typename CLASS>
-  DelayedProcessor_Base<CLASS>* get_delayed_processor(int i, SEXP first_result, int ngroups){
-    if( Rf_inherits(first_result, "factor") ){
+  DelayedProcessor_Base<CLASS>* get_delayed_processor(int i, SEXP first_result, int ngroups) {
+    if( Rf_inherits(first_result, "factor") ) {
       return new FactorDelayedProcessor<CLASS>(i, first_result, ngroups) ;
-    } else if( Rcpp::is<int>( first_result ) ){
+    } else if( Rcpp::is<int>( first_result ) ) {
       return new DelayedProcessor<INTSXP, CLASS>(i, first_result, ngroups) ;
-    } else if( Rcpp::is<double>( first_result) ){
+    } else if( Rcpp::is<double>( first_result) ) {
       return new DelayedProcessor<REALSXP, CLASS>(i, first_result, ngroups) ;
-    } else if( Rcpp::is<Rcpp::String>( first_result) ){
+    } else if( Rcpp::is<Rcpp::String>( first_result) ) {
       return new DelayedProcessor<STRSXP, CLASS>(i, first_result, ngroups) ;
-    } else if( Rcpp::is<bool>( first_result) ){
+    } else if( Rcpp::is<bool>( first_result) ) {
       return new DelayedProcessor<LGLSXP, CLASS>(i, first_result, ngroups) ;
-    } else if( Rcpp::is<Rcpp::List>( first_result ) ){
+    } else if( Rcpp::is<Rcpp::List>( first_result ) ) {
       if( Rf_length(first_result) != 1 ) return 0 ;
       return new DelayedProcessor<VECSXP, CLASS>(i, first_result, ngroups) ;
-    } else if( Rf_length(first_result) == 1 && TYPEOF(first_result) == CPLXSXP ){
+    } else if( Rf_length(first_result) == 1 && TYPEOF(first_result) == CPLXSXP ) {
       return new DelayedProcessor<CPLXSXP, CLASS>(i, first_result, ngroups) ;
     }
     return 0 ;

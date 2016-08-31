@@ -20,24 +20,24 @@ namespace dplyr {
     }
 
     CallProxy( const Rcpp::DataFrame& data_, const Environment& env_ ) :
-      subsets(data_), proxies(), env(env_){
+      subsets(data_), proxies(), env(env_) {
     }
 
     CallProxy( const Rcpp::DataFrame& data_) :
       subsets(data_), proxies() {
     }
 
-    ~CallProxy(){}
+    ~CallProxy() {}
 
     SEXP eval() ;
 
     void set_call( SEXP call_ ) ;
 
-    void input( Rcpp::String name, SEXP x ){
+    void input( Rcpp::String name, SEXP x ) {
       subsets.input( name.get_sexp(), x ) ;
     }
 
-    inline int nsubsets(){
+    inline int nsubsets() {
       return subsets.size() ;
     }
 
@@ -45,11 +45,11 @@ namespace dplyr {
       return subsets.get_variable( Symbol(name) );
     }
 
-    inline bool has_variable(SEXP symbol){
+    inline bool has_variable(SEXP symbol) {
       return subsets.count(symbol) ;
     }
 
-    inline void set_env(SEXP env_){
+    inline void set_env(SEXP env_) {
       env = env_ ;
     }
 

@@ -6,8 +6,8 @@ namespace dplyr {
 inline VectorVisitor* visitor_matrix( SEXP vec ) ;
 inline VectorVisitor* visitor_vector( SEXP vec ) ;
 
-inline VectorVisitor* visitor( SEXP vec ){
-  if( Rf_isMatrix( vec ) ){
+inline VectorVisitor* visitor( SEXP vec ) {
+  if( Rf_isMatrix( vec ) ) {
     return visitor_matrix(vec) ;
   }
   else {
@@ -15,8 +15,8 @@ inline VectorVisitor* visitor( SEXP vec ){
   }
 }
 
-inline VectorVisitor* visitor_matrix( SEXP vec ){
-  switch( TYPEOF(vec) ){
+inline VectorVisitor* visitor_matrix( SEXP vec ) {
+  switch( TYPEOF(vec) ) {
   case CPLXSXP: return new MatrixColumnVisitor<CPLXSXP>( vec ) ;
   case INTSXP: return new MatrixColumnVisitor<INTSXP>( vec ) ;
   case REALSXP: return new MatrixColumnVisitor<REALSXP>( vec ) ;
@@ -30,8 +30,8 @@ inline VectorVisitor* visitor_matrix( SEXP vec ){
   return 0 ;
 }
 
-inline VectorVisitor* visitor_vector( SEXP vec ){
-  switch( TYPEOF(vec) ){
+inline VectorVisitor* visitor_vector( SEXP vec ) {
+  switch( TYPEOF(vec) ) {
   case CPLXSXP:
     return new VectorVisitorImpl<CPLXSXP>( vec ) ;
   case INTSXP:
@@ -43,8 +43,8 @@ inline VectorVisitor* visitor_vector( SEXP vec ){
   case LGLSXP:  return new VectorVisitorImpl<LGLSXP>( vec ) ;
   case STRSXP:  return new VectorVisitorImpl<STRSXP>( vec ) ;
 
-  case VECSXP:  {
-      if( Rf_inherits( vec, "data.frame" ) ){
+  case VECSXP: {
+      if( Rf_inherits( vec, "data.frame" ) ) {
         return new DataFrameColumnVisitor(vec) ;
       }
       if( Rf_inherits( vec, "POSIXlt" )) {

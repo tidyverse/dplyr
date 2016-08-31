@@ -68,17 +68,17 @@ bool argmatch( const std::string& target, const std::string& s) ;
 bool can_simplify(SEXP) ;
 
 void assert_all_white_list(const DataFrame&) ;
-inline SEXP shared_SEXP(SEXP x){
+inline SEXP shared_SEXP(SEXP x) {
   SET_NAMED(x, 2 );
   return x ;
 }
 
-inline SEXP pairlist_shallow_copy(SEXP p){
+inline SEXP pairlist_shallow_copy(SEXP p) {
   Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
   SEXP q = attr ;
   SET_TAG(q, TAG(p)) ;
   p = CDR(p) ;
-  while( !Rf_isNull(p) ){
+  while( !Rf_isNull(p) ) {
     Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
     SETCDR(q, s) ;
     q = CDR(q) ;
@@ -88,9 +88,9 @@ inline SEXP pairlist_shallow_copy(SEXP p){
   return attr ;
 }
 
-inline void copy_attributes(SEXP out, SEXP data){
+inline void copy_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data) ;
-  if( !Rf_isNull(att) ){
+  if( !Rf_isNull(att) ) {
     SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
   }
   SET_OBJECT( out, OBJECT(data) );
@@ -98,7 +98,7 @@ inline void copy_attributes(SEXP out, SEXP data){
 }
 
 // same as copy_attributes but without names
-inline void copy_most_attributes(SEXP out, SEXP data){
+inline void copy_most_attributes(SEXP out, SEXP data) {
   copy_attributes(out,data) ;
   Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
@@ -168,7 +168,7 @@ void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) ;
 void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) ;
 
 template <typename Data>
-SEXP strip_group_attributes(Data df){
+SEXP strip_group_attributes(Data df) {
   Shield<SEXP> attribs( Rf_cons( dplyr::classes_not_grouped(), R_NilValue ) ) ;
   SET_TAG(attribs, Rf_install("class") ) ;
 
@@ -184,7 +184,7 @@ SEXP strip_group_attributes(Data df){
   black_list[7] = Rf_install("class") ;
 
   SEXP q = attribs ;
-  while( ! Rf_isNull(p) ){
+  while( ! Rf_isNull(p) ) {
     SEXP tag = TAG(p) ;
     if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ) {
       Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) ) ;
@@ -199,7 +199,7 @@ SEXP strip_group_attributes(Data df){
 }
 
 template <typename T>
-CharacterVector names( const T& obj ){
+CharacterVector names( const T& obj ) {
   SEXP x = obj ;
   return Rf_getAttrib(x, Rf_install("names" ) ) ;
 }

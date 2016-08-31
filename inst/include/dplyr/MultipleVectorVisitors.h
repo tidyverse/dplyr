@@ -15,13 +15,13 @@ namespace dplyr {
     public:
       typedef VectorVisitor visitor_type ;
 
-      MultipleVectorVisitors() : visitors(){}
+      MultipleVectorVisitors() : visitors() {}
 
       MultipleVectorVisitors(List data) :
         visitors()
       {
         int n = data.size() ;
-        for( int i=0; i<n; i++){
+        for( int i=0; i<n; i++) {
           push_back( data[i] )  ;
         }
       }
@@ -33,7 +33,7 @@ namespace dplyr {
         return visitors[k].get() ;
       }
       inline int nrows() const {
-        if( visitors.size() == 0 ){
+        if( visitors.size() == 0 ) {
         stop("need at least one column for nrows()") ;
         }
         return visitors[0]->size() ;

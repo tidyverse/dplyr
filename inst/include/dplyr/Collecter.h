@@ -5,12 +5,12 @@ namespace dplyr {
 
   class Collecter {
   public:
-    virtual ~Collecter(){} ;
+    virtual ~Collecter() {} ;
     virtual void collect( const SlicingIndex& index, SEXP v ) = 0 ;
     virtual SEXP get() = 0 ;
     virtual bool compatible(SEXP) = 0 ;
     virtual bool can_promote(SEXP) const = 0 ;
-    virtual bool is_factor_collecter() const{
+    virtual bool is_factor_collecter() const {
       return false ;
     }
     virtual bool is_logical_all_na() const {
@@ -24,17 +24,17 @@ namespace dplyr {
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
-    Collecter_Impl( int n_ ): data( n_, Rcpp::traits::get_na<RTYPE>() ){}
+    Collecter_Impl( int n_ ): data( n_, Rcpp::traits::get_na<RTYPE>() ) {}
 
-    void collect( const SlicingIndex& index, SEXP v ){
+    void collect( const SlicingIndex& index, SEXP v ) {
       Vector<RTYPE> source(v) ;
       STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source) ;
-      for( int i=0; i<index.size(); i++){
+      for( int i=0; i<index.size(); i++) {
         data[index[i]] = source_ptr[i] ;
       }
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -61,17 +61,17 @@ namespace dplyr {
   template <>
   class Collecter_Impl<REALSXP> : public Collecter {
   public:
-    Collecter_Impl( int n_ ): data( n_, NA_REAL ){}
+    Collecter_Impl( int n_ ): data( n_, NA_REAL ) {}
 
-    void collect( const SlicingIndex& index, SEXP v ){
+    void collect( const SlicingIndex& index, SEXP v ) {
       NumericVector source(v) ;
       double* source_ptr = source.begin() ;
-      for( int i=0; i<index.size(); i++){
+      for( int i=0; i<index.size(); i++) {
         data[index[i]] = source_ptr[i] ;
       }
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -96,12 +96,12 @@ namespace dplyr {
   template <>
   class Collecter_Impl<STRSXP> : public Collecter {
   public:
-    Collecter_Impl( int n_ ): data( n_, NA_STRING ){}
+    Collecter_Impl( int n_ ): data( n_, NA_STRING ) {}
 
-    void collect( const SlicingIndex& index, SEXP v ){
-      if( TYPEOF(v) == STRSXP ){
+    void collect( const SlicingIndex& index, SEXP v ) {
+      if( TYPEOF(v) == STRSXP ) {
         collect_strings(index, v) ;
-      } else if( Rf_inherits( v, "factor" ) ){
+      } else if( Rf_inherits( v, "factor" ) ) {
         collect_factor(index, v) ;
       } else {
         CharacterVector vec(v) ;
@@ -109,7 +109,7 @@ namespace dplyr {
       }
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -130,21 +130,21 @@ namespace dplyr {
 
   private:
 
-    void collect_strings( const SlicingIndex& index, CharacterVector source){
+    void collect_strings( const SlicingIndex& index, CharacterVector source) {
       SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source) ;
       SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data) ;
       int n = index.size() ;
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         p_data[index[i]] = p_source[i] ;
       }
     }
 
-    void collect_factor( const SlicingIndex& index, IntegerVector source ){
+    void collect_factor( const SlicingIndex& index, IntegerVector source ) {
       CharacterVector levels = source.attr("levels") ;
-      for( int i=0; i<index.size(); i++){
+      for( int i=0; i<index.size(); i++) {
         if( source[i] == NA_INTEGER ) {
           data[index[i]] = NA_STRING ;
-        } else{
+        } else {
           data[index[i]] = levels[source[i]-1] ;
         }
       }
@@ -155,17 +155,17 @@ namespace dplyr {
   template <>
   class Collecter_Impl<INTSXP> : public Collecter {
   public:
-    Collecter_Impl( int n_ ): data( n_, NA_INTEGER ){}
+    Collecter_Impl( int n_ ): data( n_, NA_INTEGER ) {}
 
-    void collect( const SlicingIndex& index, SEXP v ){
+    void collect( const SlicingIndex& index, SEXP v ) {
       IntegerVector source(v) ;
       int* source_ptr = source.begin() ;
-      for( int i=0; i<index.size(); i++){
+      for( int i=0; i<index.size(); i++) {
         data[index[i]] = source_ptr[i] ;
       }
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -188,12 +188,12 @@ namespace dplyr {
   } ;
 
   template <int RTYPE>
-  class TypedCollecter : public Collecter_Impl<RTYPE>{
+  class TypedCollecter : public Collecter_Impl<RTYPE> {
   public:
     TypedCollecter( int n, SEXP types_) :
-      Collecter_Impl<RTYPE>(n), types(types_){}
+      Collecter_Impl<RTYPE>(n), types(types_) {}
 
-    inline SEXP get(){
+    inline SEXP get() {
       Collecter_Impl<RTYPE>::data.attr("class") = types ;
       return Collecter_Impl<RTYPE>::data ;
     }
@@ -215,21 +215,21 @@ namespace dplyr {
     SEXP types ;
   } ;
 
-  class POSIXctCollecter : public Collecter_Impl<REALSXP>{
+  class POSIXctCollecter : public Collecter_Impl<REALSXP> {
   public:
     typedef Collecter_Impl<REALSXP> Parent ;
 
     POSIXctCollecter( int n, SEXP tz_) :
-      Parent(n), tz(tz_){}
+      Parent(n), tz(tz_) {}
 
-    void collect( const SlicingIndex& index, SEXP v ){
+    void collect( const SlicingIndex& index, SEXP v ) {
       Parent::collect(index, v) ;
       update_tz(v) ;
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       Parent::data.attr("class") = get_time_classes() ;
-      if( !tz.isNULL() ){
+      if( !tz.isNULL() ) {
         Parent::data.attr("tzone") = tz ;
       }
       return Parent::data ;
@@ -250,12 +250,12 @@ namespace dplyr {
   private:
     RObject tz ;
 
-    void update_tz(SEXP v){
+    void update_tz(SEXP v) {
       RObject v_tz( Rf_getAttrib(v, Rf_install("tzone")) );
       // if the new tz is NULL, keep previous value
       if( v_tz.isNULL() ) return ;
 
-      if( tz.isNULL() ){
+      if( tz.isNULL() ) {
         // if current tz is NULL, grab the new one
         tz = v_tz ;
       } else {
@@ -284,11 +284,11 @@ namespace dplyr {
       for( int i=0; i<nlevels; i++) levels_map[ levels[i] ] = i + 1;
     }
 
-    bool is_factor_collecter() const{
+    bool is_factor_collecter() const {
       return true ;
     }
 
-    void collect( const SlicingIndex& index, SEXP v ){
+    void collect( const SlicingIndex& index, SEXP v ) {
       // here we can assume that v is a factor with the right levels
       // we however do not assume that they are in the same order
       IntegerVector source(v) ;
@@ -296,8 +296,8 @@ namespace dplyr {
 
       SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
       int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source) ;
-      for( int i=0; i<index.size(); i++){
-        if( source_ptr[i] == NA_INTEGER ){
+      for( int i=0; i<index.size(); i++) {
+        if( source_ptr[i] == NA_INTEGER ) {
           data[ index[i] ] = NA_INTEGER ;
         } else {
           SEXP x = levels_ptr[ source_ptr[i] - 1 ] ;
@@ -348,8 +348,8 @@ namespace dplyr {
     return ( TYPEOF(x) == INTSXP && ! Rf_inherits(x, "factor" ) ) || TYPEOF(x) == REALSXP ;
   }
 
-  inline Collecter* collecter(SEXP model, int n){
-    switch( TYPEOF(model) ){
+  inline Collecter* collecter(SEXP model, int n) {
+    switch( TYPEOF(model) ) {
     case INTSXP:
       if( Rf_inherits( model, "POSIXct" ) )
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone") ) ) ;
@@ -380,17 +380,17 @@ namespace dplyr {
     return 0 ;
   }
 
-  inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous){
+  inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
     // handle the case where the previous collecter was a
     // Factor collecter and model is a factor. when this occurs, we need to
     // return a Collecter_Impl<STRSXP> because the factors don't have the
     // same levels
-    if( Rf_inherits( model, "factor" ) && previous->is_factor_collecter() ){
+    if( Rf_inherits( model, "factor" ) && previous->is_factor_collecter() ) {
       Rf_warning( "Unequal factor levels: coercing to character" ) ;
       return new Collecter_Impl<STRSXP>(n) ;
     }
 
-    switch( TYPEOF(model) ){
+    switch( TYPEOF(model) ) {
     case INTSXP:
       if( Rf_inherits( model, "Date" ) )
         return new TypedCollecter<INTSXP>(n, get_date_classes() ) ;

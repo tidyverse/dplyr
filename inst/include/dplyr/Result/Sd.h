@@ -12,9 +12,9 @@ namespace dplyr {
       Base(x),
       var(x, is_summary)
     {}
-    ~Sd(){}
+    ~Sd() {}
 
-    inline double process_chunk( const SlicingIndex& indices ){
+    inline double process_chunk( const SlicingIndex& indices ) {
       return sqrt( var.process_chunk( indices ) );
     }
 

@@ -1,7 +1,7 @@
 #ifndef dplyr_VisitorSetIndexSet_H
 #define dplyr_VisitorSetIndexSet_H
 
-namespace dplyr{
+namespace dplyr {
 
   template <typename VisitorSet>
   class VisitorSetIndexSet : public dplyr_hash_set<int, VisitorSetHasher<VisitorSet>, VisitorSetEqualPredicate<VisitorSet> > {
@@ -11,7 +11,7 @@ namespace dplyr{
     typedef dplyr_hash_set<int, Hasher, EqualPredicate> Base ;
 
   public:
-    VisitorSetIndexSet() : Base(){}
+    VisitorSetIndexSet() : Base() {}
 
     VisitorSetIndexSet( VisitorSet& visitors_ ) :
       Base( 1024, Hasher(&visitors_), EqualPredicate(&visitors_) )

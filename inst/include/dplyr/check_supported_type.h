@@ -12,8 +12,8 @@ namespace dplyr {
   DPLYR_VECSXP = VECSXP
   };
 
-  inline SupportedType check_supported_type(SEXP x, SEXP name = R_NilValue){
-  switch( TYPEOF(x) ){
+  inline SupportedType check_supported_type(SEXP x, SEXP name = R_NilValue) {
+  switch( TYPEOF(x) ) {
   case LGLSXP: return DPLYR_LGLSXP ;
   case INTSXP: return DPLYR_INTSXP ;
   case REALSXP: return DPLYR_REALSXP ;

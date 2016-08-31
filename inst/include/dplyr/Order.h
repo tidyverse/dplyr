@@ -9,7 +9,7 @@ namespace dplyr {
   public:
 
     OrderVisitors( List args, LogicalVector ascending, int n_ ) :
-      visitors(n_), n(n_), nrows(0){
+      visitors(n_), n(n_), nrows(0) {
       nrows = Rf_length( args[0] );
       for( int i=0; i<n; i++)
         visitors[i]  = order_visitor( args[i], ascending[i] );
@@ -24,7 +24,7 @@ namespace dplyr {
     OrderVisitors( DataFrame data, CharacterVector names ) :
       visitors(data.size()), n(names.size()), nrows( data.nrows() )
     {
-      for( int i=0; i<n; i++){
+      for( int i=0; i<n; i++) {
         String name = names[i] ;
         visitors[i]  = order_visitor( data[name], true );
       }
@@ -39,7 +39,7 @@ namespace dplyr {
 
   class OrderVisitors_Compare {
   public:
-    OrderVisitors_Compare( const OrderVisitors& obj_ ) :  obj(obj_), n(obj.n){}
+    OrderVisitors_Compare( const OrderVisitors& obj_ ) :  obj(obj_), n(obj.n) {}
 
     inline bool operator()(int i, int j) const {
       if( i == j ) return false ;
@@ -56,9 +56,9 @@ namespace dplyr {
   } ;
 
   template <typename OrderVisitorClass>
-  class Compare_Single_OrderVisitor{
+  class Compare_Single_OrderVisitor {
   public:
-    Compare_Single_OrderVisitor( const OrderVisitorClass& obj_) : obj(obj_){}
+    Compare_Single_OrderVisitor( const OrderVisitorClass& obj_) : obj(obj_) {}
 
     inline bool operator()(int i, int j) const {
       if( i == j ) return false ;

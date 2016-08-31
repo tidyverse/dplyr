@@ -13,9 +13,9 @@ namespace dplyr {
       Base(x),
       data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ),
       is_summary(is_summary_) {}
-    ~Max(){}
+    ~Max() {}
 
-    STORAGE process_chunk( const SlicingIndex& indices ){
+    STORAGE process_chunk( const SlicingIndex& indices ) {
       if( indices.size() == 0) return R_NegInf ;
       if( is_summary ) return data_ptr[indices.group()] ;
       int n = indices.size() ;
@@ -23,12 +23,12 @@ namespace dplyr {
       // find the first non NA value
       STORAGE res = data_ptr[ indices[0] ] ;
       int i=1 ;
-      while( i<n && Rcpp::Vector<RTYPE>::is_na(res) ){
+      while( i<n && Rcpp::Vector<RTYPE>::is_na(res) ) {
         res = data_ptr[ indices[i++] ] ;
       }
 
       // we enter this loop if we did not scan the full vector
-      if( i < n ) for( ; i<n; i++){
+      if( i < n ) for( ; i<n; i++) {
         STORAGE current = data_ptr[indices[i]] ;
         if( !Rcpp::Vector<RTYPE>::is_na(current) && internal::is_smaller<RTYPE>( res, current ) ) res = current ;
       }
@@ -50,10 +50,10 @@ namespace dplyr {
     Max(SEXP x, bool is_summary_ = false) :
       Base(x),
       data_ptr( Rcpp::internal::r_vector_start<RTYPE>(x) ),
-      is_summary(is_summary_)  {}
-    ~Max(){}
+      is_summary(is_summary_) {}
+    ~Max() {}
 
-    STORAGE process_chunk( const SlicingIndex& indices ){
+    STORAGE process_chunk( const SlicingIndex& indices ) {
       if( indices.size() == 0) return R_NegInf ;
       if( is_summary ) return data_ptr[indices.group()] ;
 
@@ -63,7 +63,7 @@ namespace dplyr {
       STORAGE res = data_ptr[ indices[0] ] ;
       if( Rcpp::Vector<RTYPE>::is_na(res) ) return res;
 
-      for( int i=1; i<n; i++){
+      for( int i=1; i<n; i++) {
         STORAGE current = data_ptr[indices[i]] ;
         if( Rcpp::Vector<RTYPE>::is_na(current) ) return current ;
         if( internal::is_smaller<RTYPE>( res, current ) ) res = current ;

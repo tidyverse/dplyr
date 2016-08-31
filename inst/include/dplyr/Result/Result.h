@@ -5,9 +5,9 @@ namespace dplyr {
 
   class Result {
   public:
-    Result(){}
+    Result() {}
 
-    virtual ~Result(){} ;
+    virtual ~Result() {} ;
 
     virtual SEXP process( const RowwiseDataFrame& gdf) = 0 ;
 
@@ -15,7 +15,7 @@ namespace dplyr {
 
     virtual SEXP process( const FullDataFrame& df ) = 0 ;
 
-    virtual SEXP process( const SlicingIndex& index ){
+    virtual SEXP process( const SlicingIndex& index ) {
       return R_NilValue ;
     }
 

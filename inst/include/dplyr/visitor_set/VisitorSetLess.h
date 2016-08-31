@@ -1,7 +1,7 @@
 #ifndef dplyr_VisitorSetLess_H
 #define dplyr_VisitorSetLess_H
 
-namespace dplyr{
+namespace dplyr {
 
 template <typename Class>
 class VisitorSetLess {
@@ -10,9 +10,9 @@ public:
     if( i == j ) return false ;
     const Class& obj = static_cast<const Class&>(*this) ;
     int n=obj.size();
-    for( int k=0; k<n; k++){
+    for( int k=0; k<n; k++) {
       typename Class::visitor_type* visitor = obj.get(k) ;
-      if( ! visitor->equal(i,j) ){
+      if( ! visitor->equal(i,j) ) {
         return visitor->less(i,j) ;
       }
     }

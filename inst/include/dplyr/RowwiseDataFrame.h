@@ -7,7 +7,7 @@ namespace Rcpp {
 
   class RowwiseDataFrameIndexIterator {
   public:
-    RowwiseDataFrameIndexIterator() : i(0){}
+    RowwiseDataFrameIndexIterator() : i(0) {}
 
     RowwiseDataFrameIndexIterator& operator++() {
       ++i ;
@@ -50,14 +50,14 @@ namespace Rcpp {
       return 0 ;
     }
 
-    inline SEXP symbol(int i){ return R_NilValue ; }
-    inline SEXP label(int i){ return R_NilValue ; }
+    inline SEXP symbol(int i) { return R_NilValue ; }
+    inline SEXP label(int i) { return R_NilValue ; }
 
     inline int nrows() const {
       return data_.nrows() ;
     }
 
-    inline int max_group_size() const{
+    inline int max_group_size() const {
       return 1 ;
     }
 
@@ -73,7 +73,7 @@ namespace Rcpp {
   } ;
 
   template <>
-  inline bool is<RowwiseDataFrame>( SEXP x){
+  inline bool is<RowwiseDataFrame>( SEXP x) {
     return Rf_inherits(x, "rowwise_df") ;
   }
 

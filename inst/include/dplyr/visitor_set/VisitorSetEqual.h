@@ -1,7 +1,7 @@
 #ifndef dplyr_VisitorSetEqual_H
 #define dplyr_VisitorSetEqual_H
 
-namespace dplyr{
+namespace dplyr {
 
 template <typename Class>
 class VisitorSetEqual {

@@ -7,13 +7,13 @@ namespace dplyr {
   public:
     ResultSet( ) : results(), names(), n(0) {}
 
-    void add_result( const std::string& name, Result* result ){
+    void add_result( const std::string& name, Result* result ) {
       results.push_back( result ) ;
       names.push_back( name ) ;
       n++ ;
     }
 
-    Result* get(int k){ return results[k] ; }
+    Result* get(int k) { return results[k] ; }
     inline int size() const { return n ; }
     Rcpp::String name(int k) const { return names[k] ; }
 

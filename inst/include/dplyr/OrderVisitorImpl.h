@@ -23,7 +23,7 @@ namespace dplyr {
       return compare::is_less( vec[i], vec[j] ) ;
     }
 
-    SEXP get(){ return vec ; }
+    SEXP get() { return vec ; }
 
   private:
     VECTOR vec ;
@@ -50,7 +50,7 @@ namespace dplyr {
       return compare::is_greater( vec[i], vec[j] ) ;
     }
 
-    SEXP get(){ return vec ; }
+    SEXP get() { return vec ; }
 
   private:
     VECTOR vec ;
@@ -68,11 +68,11 @@ namespace dplyr {
     return orders.equal(i,j) ;
     }
 
-    inline bool before( int i, int j) const{
+    inline bool before( int i, int j) const {
     return orders.before(i,j);
     }
 
-    SEXP get(){ return vec; }
+    SEXP get() { return vec; }
 
   private:
     CharacterVector vec ;
@@ -95,7 +95,7 @@ namespace dplyr {
       return visitors.less(i,j) ;
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -105,7 +105,7 @@ namespace dplyr {
   } ;
 
   template <>
-  class OrderVisitorDataFrame<false> : public OrderVisitor{
+  class OrderVisitorDataFrame<false> : public OrderVisitor {
   public:
     OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
 
@@ -117,7 +117,7 @@ namespace dplyr {
       return visitors.greater(i,j) ;
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -142,7 +142,7 @@ namespace dplyr {
       return visitors.less(i,j) ;
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -165,7 +165,7 @@ namespace dplyr {
       return visitors.greater(i,j) ;
     }
 
-    inline SEXP get(){
+    inline SEXP get() {
       return data ;
     }
 
@@ -186,8 +186,8 @@ namespace dplyr {
   template <bool ascending>
   OrderVisitor* order_visitor_asc_vector( SEXP vec );
 
-  inline OrderVisitor* order_visitor( SEXP vec, bool ascending ){
-    if ( ascending ){
+  inline OrderVisitor* order_visitor( SEXP vec, bool ascending ) {
+    if ( ascending ) {
       return order_visitor_asc<true>(vec);
     }
     else {
@@ -197,7 +197,7 @@ namespace dplyr {
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc( SEXP vec ) {
-    if( Rf_isMatrix(vec) ){
+    if( Rf_isMatrix(vec) ) {
       return order_visitor_asc_matrix<ascending>(vec) ;
     }
     else {
@@ -207,7 +207,7 @@ namespace dplyr {
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_matrix( SEXP vec ) {
-    switch( check_supported_type(vec) ){
+    switch( check_supported_type(vec) ) {
       case DPLYR_INTSXP:   return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
       case DPLYR_REALSXP:  return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
       case DPLYR_LGLSXP:   return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
@@ -222,7 +222,7 @@ namespace dplyr {
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_vector( SEXP vec ) {
-    switch( TYPEOF(vec) ){
+    switch( TYPEOF(vec) ) {
       case INTSXP:  return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec ) ;
       case REALSXP: return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >( vec ) ;
       case LGLSXP:  return new OrderVectorVisitorImpl<LGLSXP , ascending, Vector<LGLSXP > >( vec ) ;
@@ -230,7 +230,7 @@ namespace dplyr {
       case CPLXSXP:  return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec ) ;
       case VECSXP:
         {
-          if( Rf_inherits( vec, "data.frame" ) ){
+          if( Rf_inherits( vec, "data.frame" ) ) {
             return new OrderVisitorDataFrame<ascending>( vec ) ;
           }
           break ;

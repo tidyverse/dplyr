@@ -4,22 +4,22 @@
 namespace dplyr {
 
   template <typename Container>
-  inline int output_size( const Container& container){
+  inline int output_size( const Container& container) {
     return container.size() ;
   }
 
   template <>
-  inline int output_size<LogicalVector>( const LogicalVector& container){
+  inline int output_size<LogicalVector>( const LogicalVector& container) {
     return std::count( container.begin(), container.end(), TRUE ) ;
   }
 
   template <int RTYPE> std::string VectorVisitorType() ;
-  template <> inline std::string VectorVisitorType<INTSXP>()  { return "integer" ; }
+  template <> inline std::string VectorVisitorType<INTSXP>() { return "integer" ; }
   template <> inline std::string VectorVisitorType<REALSXP>() { return "numeric" ; }
-  template <> inline std::string VectorVisitorType<LGLSXP>()  { return "logical" ; }
-  template <> inline std::string VectorVisitorType<STRSXP>()  { return "character" ; }
+  template <> inline std::string VectorVisitorType<LGLSXP>() { return "logical" ; }
+  template <> inline std::string VectorVisitorType<STRSXP>() { return "character" ; }
   template <> inline std::string VectorVisitorType<CPLXSXP>() { return "complex" ; }
-  template <> inline std::string VectorVisitorType<VECSXP>()  { return "list" ; }
+  template <> inline std::string VectorVisitorType<VECSXP>() { return "list" ; }
 
   /**
    * Implementations
@@ -86,7 +86,7 @@ namespace dplyr {
   public:
     typedef VectorVisitorImpl<INTSXP> Parent ;
 
-    FactorVisitor( const IntegerVector& vec_ ) : Parent(vec_){
+    FactorVisitor( const IntegerVector& vec_ ) : Parent(vec_) {
         levels = vec.attr( "levels" ) ;
         levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels) ;
     }
@@ -122,7 +122,7 @@ namespace dplyr {
 
     inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name ) const {
       CharacterVector levels_other = other->levels ;
-      if( setdiff( levels, levels_other ).size() ){
+      if( setdiff( levels, levels_other ).size() ) {
         ss << "Factor levels not equal for column " << name ;
         return false ;
       }

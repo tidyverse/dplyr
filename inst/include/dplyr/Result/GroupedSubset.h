@@ -5,8 +5,8 @@ namespace dplyr {
 
   class GroupedSubset {
   public:
-    GroupedSubset(){} ;
-    virtual ~GroupedSubset(){} ;
+    GroupedSubset() {} ;
+    virtual ~GroupedSubset() {} ;
     virtual SEXP get( const SlicingIndex& indices ) = 0 ;
     virtual SEXP get_variable() const = 0 ;
     virtual bool is_summary() const = 0;
@@ -38,7 +38,7 @@ namespace dplyr {
 
   class DataFrameGroupedSubset : public GroupedSubset {
   public:
-    DataFrameGroupedSubset( SEXP x ) : data(x), visitors(data){}
+    DataFrameGroupedSubset( SEXP x ) : data(x), visitors(data) {}
 
     virtual SEXP get( const SlicingIndex& indices ) {
       return visitors.subset(indices, data.attr("class") ) ;
@@ -57,8 +57,8 @@ namespace dplyr {
     DataFrameSubsetVisitors visitors ;
   } ;
 
-  inline GroupedSubset* grouped_subset(SEXP x, int max_size){
-    switch( TYPEOF(x) ){
+  inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
+    switch( TYPEOF(x) ) {
       case INTSXP: return new GroupedSubsetTemplate<INTSXP>(x, max_size) ;
       case REALSXP: return new GroupedSubsetTemplate<REALSXP>(x, max_size) ;
       case LGLSXP: return new GroupedSubsetTemplate<LGLSXP>(x, max_size) ;
@@ -105,7 +105,7 @@ namespace dplyr {
   template <>
   class SummarisedSubsetTemplate<VECSXP> : public GroupedSubset {
   public:
-    SummarisedSubsetTemplate( SummarisedVariable x, int max_size ) : object(x){}
+    SummarisedSubsetTemplate( SummarisedVariable x, int max_size ) : object(x) {}
 
     virtual SEXP get( const SlicingIndex& indices ) {
       return List::create( object[indices.group()] ) ;
@@ -122,8 +122,8 @@ namespace dplyr {
     List object ;
   } ;
 
-  inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size){
-    switch( TYPEOF(x) ){
+  inline GroupedSubset* summarised_grouped_subset(SummarisedVariable x, int max_size) {
+    switch( TYPEOF(x) ) {
       case LGLSXP: return new SummarisedSubsetTemplate<LGLSXP>(x, max_size) ;
       case INTSXP: return new SummarisedSubsetTemplate<INTSXP>(x, max_size) ;
       case REALSXP: return new SummarisedSubsetTemplate<REALSXP>(x, max_size) ;
