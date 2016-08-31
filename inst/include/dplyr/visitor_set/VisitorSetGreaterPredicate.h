@@ -3,17 +3,17 @@
 
 namespace dplyr{
 
-    template <typename VisitorSet>
-    class VisitorSetGreaterPredicate {
-    public:
-        VisitorSetGreaterPredicate( const VisitorSet& visitors_ ) : visitors(visitors_) {} ;
-        inline bool operator()(int i, int j) const {
-            return visitors.greater(i,j) ;
-        }
+  template <typename VisitorSet>
+  class VisitorSetGreaterPredicate {
+  public:
+    VisitorSetGreaterPredicate( const VisitorSet& visitors_ ) : visitors(visitors_) {} ;
+    inline bool operator()(int i, int j) const {
+      return visitors.greater(i,j) ;
+    }
 
-    private:
-        const VisitorSet& visitors ;
-    } ;
+  private:
+    const VisitorSet& visitors ;
+  } ;
 
 }
 

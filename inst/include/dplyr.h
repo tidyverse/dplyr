@@ -11,11 +11,11 @@ using namespace Rcpp ;
 #include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
-    #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;
+  #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;
 #endif
 
 #ifndef RCPP_INSPECT_OBJECT
-    #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
+  #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
 #endif
 
 #include <boost/scoped_ptr.hpp>
@@ -23,41 +23,41 @@ using namespace Rcpp ;
 #include <boost/functional/hash.hpp>
 
 #ifndef dplyr_hash_map
-    #if defined(_WIN32)
-        #define dplyr_hash_map RCPP_UNORDERED_MAP
-    #else
-        #include <boost/unordered_map.hpp>
-        #define dplyr_hash_map boost::unordered_map
-    #endif
+  #if defined(_WIN32)
+    #define dplyr_hash_map RCPP_UNORDERED_MAP
+  #else
+    #include <boost/unordered_map.hpp>
+    #define dplyr_hash_map boost::unordered_map
+  #endif
 #endif
 
 #ifndef dplyr_hash_set
-    #if defined(_WIN32)
-        #define dplyr_hash_set RCPP_UNORDERED_SET
-    #else
-        #include <boost/unordered_set.hpp>
-        #define dplyr_hash_set boost::unordered_set
-    #endif
+  #if defined(_WIN32)
+    #define dplyr_hash_set RCPP_UNORDERED_SET
+  #else
+    #include <boost/unordered_set.hpp>
+    #define dplyr_hash_set boost::unordered_set
+  #endif
 #endif
 
 #include <tools/tools.h>
 
 namespace dplyr {
-    class LazySubsets ;
-    Symbol extract_column( SEXP, const Environment& ) ;
-    Symbol get_column(SEXP, const Environment&, const LazySubsets& ) ;
-    class Result ;
-    class ResultSet ;
-    class Reducer_Proxy ;
-    class DataFrameVisitors ;
-    class DataFrameJoinVisitors ;
-    std::string get_single_class(SEXP x) ;
+  class LazySubsets ;
+  Symbol extract_column( SEXP, const Environment& ) ;
+  Symbol get_column(SEXP, const Environment&, const LazySubsets& ) ;
+  class Result ;
+  class ResultSet ;
+  class Reducer_Proxy ;
+  class DataFrameVisitors ;
+  class DataFrameJoinVisitors ;
+  std::string get_single_class(SEXP x) ;
 
-    void strip_index(DataFrame x) ;
-    template <typename Index>
-    DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
-    void check_attribute_compatibility( SEXP left, SEXP right) ;
-    bool same_levels( SEXP left, SEXP right ) ;
+  void strip_index(DataFrame x) ;
+  template <typename Index>
+  DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
+  void check_attribute_compatibility( SEXP left, SEXP right) ;
+  bool same_levels( SEXP left, SEXP right ) ;
 }
 dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
 dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
@@ -69,38 +69,38 @@ bool can_simplify(SEXP) ;
 
 void assert_all_white_list(const DataFrame&) ;
 inline SEXP shared_SEXP(SEXP x){
-    SET_NAMED(x, 2 );
-    return x ;
+  SET_NAMED(x, 2 );
+  return x ;
 }
 
 inline SEXP pairlist_shallow_copy(SEXP p){
-    Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
-    SEXP q = attr ;
+  Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
+  SEXP q = attr ;
+  SET_TAG(q, TAG(p)) ;
+  p = CDR(p) ;
+  while( !Rf_isNull(p) ){
+    Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
+    SETCDR(q, s) ;
+    q = CDR(q) ;
     SET_TAG(q, TAG(p)) ;
     p = CDR(p) ;
-    while( !Rf_isNull(p) ){
-        Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
-        SETCDR(q, s) ;
-        q = CDR(q) ;
-        SET_TAG(q, TAG(p)) ;
-        p = CDR(p) ;
-    }
-    return attr ;
+  }
+  return attr ;
 }
 
 inline void copy_attributes(SEXP out, SEXP data){
-    SEXP att = ATTRIB(data) ;
-    if( !Rf_isNull(att) ){
-        SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
-    }
-    SET_OBJECT( out, OBJECT(data) );
-    if( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out) ;
+  SEXP att = ATTRIB(data) ;
+  if( !Rf_isNull(att) ){
+    SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
+  }
+  SET_OBJECT( out, OBJECT(data) );
+  if( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out) ;
 }
 
 // same as copy_attributes but without names
 inline void copy_most_attributes(SEXP out, SEXP data){
-    copy_attributes(out,data) ;
-    Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
+  copy_attributes(out,data) ;
+  Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
 }
 
 CharacterVector dfloc(List) ;
@@ -109,10 +109,10 @@ SEXP shallow_copy(const List& data) ;
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 
 #if defined(COMPILING_DPLYR)
-    DataFrame build_index_cpp( DataFrame data ) ;
-    void registerHybridHandler( const char* , HybridHandler ) ;
-    SEXP get_time_classes() ;
-    SEXP get_date_classes() ;
+  DataFrame build_index_cpp( DataFrame data ) ;
+  void registerHybridHandler( const char* , HybridHandler ) ;
+  SEXP get_time_classes() ;
+  SEXP get_date_classes() ;
 #endif
 
 #include <dplyr/registration.h>
@@ -186,7 +186,7 @@ SEXP strip_group_attributes(Data df){
   SEXP q = attribs ;
   while( ! Rf_isNull(p) ){
     SEXP tag = TAG(p) ;
-    if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ){
+    if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ) {
       Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) ) ;
       SETCDR(q,s) ;
       q = CDR(q) ;
@@ -200,8 +200,8 @@ SEXP strip_group_attributes(Data df){
 
 template <typename T>
 CharacterVector names( const T& obj ){
-    SEXP x = obj ;
-    return Rf_getAttrib(x, Rf_install("names" ) ) ;
+  SEXP x = obj ;
+  return Rf_getAttrib(x, Rf_install("names" ) ) ;
 }
 
 

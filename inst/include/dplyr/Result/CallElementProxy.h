@@ -3,19 +3,19 @@
 
 namespace dplyr {
 
-    class CallElementProxy {
-    public:
-        CallElementProxy(SEXP symbol_, SEXP object_) :
-            symbol(symbol_), object(object_)
-        {}
+  class CallElementProxy {
+  public:
+    CallElementProxy(SEXP symbol_, SEXP object_) :
+      symbol(symbol_), object(object_)
+    {}
 
-        inline void set(SEXP value){
-            SETCAR(object, value) ;
-        }
+    inline void set(SEXP value){
+      SETCAR(object, value) ;
+    }
 
-        SEXP symbol;
-        SEXP object;
-    } ;
+    SEXP symbol;
+    SEXP object;
+  } ;
 
 }
 

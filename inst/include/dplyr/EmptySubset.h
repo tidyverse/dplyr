@@ -2,6 +2,6 @@
 #define dplyr_EmptySubset_H
 
 namespace dplyr {
-    class EmptySubset{} ;
+  class EmptySubset{} ;
 }
 #endif

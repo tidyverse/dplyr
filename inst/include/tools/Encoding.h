@@ -15,20 +15,20 @@
 #define DPLYR_SHRINKABLE_MASK (1<<8)
 
 struct sxpinfo_struct {
-    SEXPTYPE type      :  TYPE_BITS;/* ==> (FUNSXP == 99) %% 2^5 == 3 == CLOSXP
+  SEXPTYPE type    :  TYPE_BITS;/* ==> (FUNSXP == 99) %% 2^5 == 3 == CLOSXP
 			     * -> warning: `type' is narrower than values
 			     *              of its type
 			     * when SEXPTYPE was an enum */
-    unsigned int obj   :  1;
-    unsigned int named :  2;
-    unsigned int gp    : 16;
-    unsigned int mark  :  1;
-    unsigned int debug :  1;
-    unsigned int trace :  1;  /* functions and memory tracing */
-    unsigned int spare :  1;  /* currently unused */
-    unsigned int gcgen :  1;  /* old generation number */
-    unsigned int gccls :  3;  /* node class */
-}; /*		    Tot: 32 */
+  unsigned int obj   :  1;
+  unsigned int named :  2;
+  unsigned int gp    : 16;
+  unsigned int mark  :  1;
+  unsigned int debug :  1;
+  unsigned int trace :  1;  /* functions and memory tracing */
+  unsigned int spare :  1;  /* currently unused */
+  unsigned int gcgen :  1;  /* old generation number */
+  unsigned int gccls :  3;  /* node class */
+}; /*		  Tot: 32 */
 
 #ifndef IS_BYTES
 # define IS_BYTES(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp & BYTES_MASK)
@@ -48,26 +48,26 @@ struct sxpinfo_struct {
 
 namespace dplyr{
 
-    enum encoding {
-       BYTES, LATIN1, UTF8, UNKNOWN
-    } ;
+  enum encoding {
+     BYTES, LATIN1, UTF8, UNKNOWN
+  } ;
 
-    inline encoding get_encoding( SEXP s){
-        if( IS_BYTES(s) ) return BYTES ;
-        if( IS_LATIN1(s) ) return LATIN1 ;
-        if( IS_UTF8(s) ) return UTF8 ;
-        return UNKNOWN ;
-    }
+  inline encoding get_encoding( SEXP s){
+    if( IS_BYTES(s) ) return BYTES ;
+    if( IS_LATIN1(s) ) return LATIN1 ;
+    if( IS_UTF8(s) ) return UTF8 ;
+    return UNKNOWN ;
+  }
 
-    inline const char* human_readable_encoding( encoding e ){
-        switch(e){
-        case BYTES: return "bytes" ;
-        case LATIN1: return "latin1" ;
-        case UTF8: return "UTF-8" ;
-        default: break ;
-        }
-        return "unknown" ;
+  inline const char* human_readable_encoding( encoding e ){
+    switch(e){
+    case BYTES: return "bytes" ;
+    case LATIN1: return "latin1" ;
+    case UTF8: return "UTF-8" ;
+    default: break ;
     }
+    return "unknown" ;
+  }
 
 }
 

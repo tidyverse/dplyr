@@ -2,6 +2,6 @@
 #define dplyr_Result_Everything_H
 
 namespace dplyr{
-    struct Everything{} ;
+  struct Everything{} ;
 }
 #endif
