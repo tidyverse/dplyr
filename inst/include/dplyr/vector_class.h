@@ -4,31 +4,31 @@
 namespace dplyr {
 
   template <int RTYPE>
-  inline std::string vector_class() ;
+  inline std::string vector_class();
 
   template <>
   inline std::string vector_class<INTSXP>() {
-    return "integer" ;
+    return "integer";
   }
   template <>
   inline std::string vector_class<REALSXP>() {
-    return "numeric" ;
+    return "numeric";
   }
   template <>
   inline std::string vector_class<STRSXP>() {
-    return "character" ;
+    return "character";
   }
   template <>
   inline std::string vector_class<LGLSXP>() {
-    return "logical" ;
+    return "logical";
   }
   template <>
   inline std::string vector_class<VECSXP>() {
-    return "list" ;
+    return "list";
   }
   template <>
   inline std::string vector_class<CPLXSXP>() {
-    return "complex" ;
+    return "complex";
   }
 
 

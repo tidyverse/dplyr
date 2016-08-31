@@ -29,16 +29,16 @@ namespace dplyr {
 
     ~CallProxy() {}
 
-    SEXP eval() ;
+    SEXP eval();
 
-    void set_call( SEXP call_ ) ;
+    void set_call( SEXP call_ );
 
     void input( Rcpp::String name, SEXP x ) {
-      subsets.input( name.get_sexp(), x ) ;
+      subsets.input( name.get_sexp(), x );
     }
 
     inline int nsubsets() {
-      return subsets.size() ;
+      return subsets.size();
     }
 
     inline SEXP get_variable( Rcpp::String name ) const {
@@ -46,25 +46,25 @@ namespace dplyr {
     }
 
     inline bool has_variable(SEXP symbol) {
-      return subsets.count(symbol) ;
+      return subsets.count(symbol);
     }
 
     inline void set_env(SEXP env_) {
-      env = env_ ;
+      env = env_;
     }
 
   private:
 
-    bool simplified(const SlicingIndex& indices) ;
-    bool replace( SEXP p, const SlicingIndex& indices ) ;
-    void traverse_call( SEXP obj ) ;
+    bool simplified(const SlicingIndex& indices);
+    bool replace( SEXP p, const SlicingIndex& indices );
+    void traverse_call( SEXP obj );
 
-    Rcpp::Call call ;
-    LazySubsets subsets ;
-    std::vector<CallElementProxy> proxies ;
+    Rcpp::Call call;
+    LazySubsets subsets;
+    std::vector<CallElementProxy> proxies;
     Environment env;
 
-  } ;
+  };
 
 }
 

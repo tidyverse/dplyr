@@ -6,28 +6,28 @@ namespace dplyr {
   inline bool white_list(SEXP x) {
     if( Rf_isMatrix(x) ) {
       // might have to refine later
-      return true ;
+      return true;
     }
     switch( TYPEOF(x) ) {
     case INTSXP:
-      return true ;
+      return true;
     case REALSXP:
-      return true ;
+      return true;
     case LGLSXP:
-      return true ;
+      return true;
     case STRSXP:
-      return true ;
+      return true;
     case CPLXSXP:
-      return true ;
+      return true;
     case VECSXP: {
-      if( Rf_inherits( x, "POSIXlt") ) return false ;
-      return true ;
+      if( Rf_inherits( x, "POSIXlt") ) return false;
+      return true;
     }
 
     default:
-      break ;
+      break;
     }
-    return false ;
+    return false;
   }
 
 }

@@ -9,11 +9,11 @@ namespace dplyr {
     VisitorHash( const Visitor& v_ ) : v(v_) {}
 
     inline size_t operator()(int i) const {
-      return v.hash(i) ;
+      return v.hash(i);
     }
 
   private:
-    const Visitor& v ;
+    const Visitor& v;
   };
 }
 

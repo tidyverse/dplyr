@@ -9,9 +9,9 @@ namespace dplyr {
     ~Count() {}
 
     inline int process_chunk( const SlicingIndex& indices ) {
-      return indices.size() ;
+      return indices.size();
     }
-  } ;
+  };
 
 }
 

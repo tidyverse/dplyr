@@ -9,25 +9,25 @@ public:
 
   SlicingIndex(int start, int n) : data(0), group_index(-1) {
     if(n>0) {
-      data = seq(start, start + n - 1 ) ;
+      data = seq(start, start + n - 1 );
     }
   }
 
   inline int size() const {
-    return data.size() ;
+    return data.size();
   }
 
   inline int operator[](int i) const {
-    return data[i] ;
+    return data[i];
   }
 
   inline int group() const {
-    return group_index ;
+    return group_index;
   }
 
 // private:
-  IntegerVector data ;
-  int group_index ;
-} ;
+  IntegerVector data;
+  int group_index;
+};
 
 #endif

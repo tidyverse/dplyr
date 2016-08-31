@@ -6,8 +6,8 @@ namespace dplyr {
   template <typename Data>
   class NamedListAccumulator {
   public:
-    SymbolMap symbol_map ;
-    std::vector<SEXP> data ;
+    SymbolMap symbol_map;
+    std::vector<SEXP> data;
 
     NamedListAccumulator() {}
 
@@ -15,37 +15,37 @@ namespace dplyr {
       if( ! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value )
         check_supported_type(x, name);
 
-      SymbolMapIndex index = symbol_map.insert(name) ;
+      SymbolMapIndex index = symbol_map.insert(name);
       if( index.origin == NEW ) {
         data.push_back(x);
       } else {
-        data[ index.pos ] = x ;
+        data[ index.pos ] = x;
       }
 
     }
 
     inline void rm(SEXP name) {
-      SymbolMapIndex index = symbol_map.rm(name) ;
+      SymbolMapIndex index = symbol_map.rm(name);
       if( index.origin != NEW ) {
-        data.erase( data.begin() + index.pos ) ;
+        data.erase( data.begin() + index.pos );
       }
     }
 
     inline operator List() const {
-      List out = wrap(data) ;
-      out.names() = symbol_map.names ;
-      return out ;
+      List out = wrap(data);
+      out.names() = symbol_map.names;
+      return out;
     }
 
     inline size_t size() const {
-      return data.size() ;
+      return data.size();
     }
 
     inline CharacterVector names() const {
-      return symbol_map.names ;
+      return symbol_map.names;
     }
 
-  } ;
+  };
 
 }
 #endif

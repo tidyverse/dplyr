@@ -16,20 +16,20 @@ namespace Rcpp {
     {}
 
     inline SEXP expr() const {
-      return Rf_duplicate(data[0]) ;
+      return Rf_duplicate(data[0]);
     }
     inline SEXP env() const {
       return data[1];
     }
     inline SEXP name() const {
-      return name_ ;
+      return name_;
     }
 
   private:
 
-    List data ;
-    SEXP name_ ;
-  } ;
+    List data;
+    SEXP name_;
+  };
 
   template <>
   inline bool is<Lazy>(SEXP x) {
@@ -44,39 +44,39 @@ namespace Rcpp {
   class LazyDots {
   public:
     LazyDots( List data_ ) : data() {
-      int n = data_.size() ;
+      int n = data_.size();
       if (n == 0) return;
 
-      CharacterVector names = data_.names() ;
+      CharacterVector names = data_.names();
       for(int i=0; i<n; i++) {
-        List x = data_[i] ;
+        List x = data_[i];
         if( !is<Lazy>(x) ) {
           stop( "corrupt lazy object" );
         }
-        data.push_back(Lazy(x, names[i])) ;
+        data.push_back(Lazy(x, names[i]));
       }
     }
 
     inline const Lazy& operator[](int i) const {
-      return data[i] ;
+      return data[i];
     }
 
     inline int size() const {
-      return data.size() ;
+      return data.size();
     }
 
     inline bool single_env() const {
-      if( data.size() <= 1 ) return true ;
-      SEXP env = data[0].env() ;
+      if( data.size() <= 1 ) return true;
+      SEXP env = data[0].env();
       for( size_t i=1; i<data.size(); i++) {
-        if( data[i].env() != env ) return false ;
+        if( data[i].env() != env ) return false;
       }
-      return true ;
+      return true;
     }
 
   private:
-    std::vector<Lazy> data ;
-  } ;
+    std::vector<Lazy> data;
+  };
 
 }
 #endif

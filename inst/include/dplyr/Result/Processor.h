@@ -10,58 +10,58 @@ namespace dplyr {
   template <int OUTPUT, typename CLASS>
   class Processor : public Result {
   public:
-    typedef typename Rcpp::traits::storage_type<OUTPUT>::type STORAGE ;
+    typedef typename Rcpp::traits::storage_type<OUTPUT>::type STORAGE;
 
     Processor() : data(R_NilValue) {}
 
     Processor(SEXP data_) : data(data_) {}
 
     virtual SEXP process(const Rcpp::GroupedDataFrame& gdf ) {
-      return process_grouped<GroupedDataFrame>( gdf ) ;
+      return process_grouped<GroupedDataFrame>( gdf );
     }
 
     virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf ) {
-      return process_grouped<RowwiseDataFrame>( gdf ) ;
+      return process_grouped<RowwiseDataFrame>( gdf );
     }
 
     virtual SEXP process( const Rcpp::FullDataFrame& df) {
-      return promote(process( df.get_index() )) ;
+      return promote(process( df.get_index() ));
     }
 
     virtual SEXP process( const SlicingIndex& index) {
-      CLASS* obj = static_cast<CLASS*>(this) ;
+      CLASS* obj = static_cast<CLASS*>(this);
       Rcpp::Vector<OUTPUT> res = Rcpp::Vector<OUTPUT>::create( obj->process_chunk(index) );
-      copy_attributes(res, data) ;
-      return res ;
+      copy_attributes(res, data);
+      return res;
     }
 
   private:
 
     template <typename Data>
     SEXP process_grouped(const Data& gdf ) {
-      int n = gdf.ngroups() ;
+      int n = gdf.ngroups();
       Rcpp::Shield<SEXP> res( Rf_allocVector( OUTPUT, n) );
-      STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res) ;
-      CLASS* obj = static_cast<CLASS*>(this) ;
+      STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res);
+      CLASS* obj = static_cast<CLASS*>(this);
       typename Data::group_iterator git = gdf.group_begin();
       for( int i=0; i<n; i++, ++git)
-        ptr[i] = obj->process_chunk(*git) ;
-      copy_attributes(res, data) ;
-      return res ;
+        ptr[i] = obj->process_chunk(*git);
+      copy_attributes(res, data);
+      return res;
     }
 
     inline SEXP promote(SEXP obj) {
-      RObject res(obj) ;
-      copy_attributes(res, data) ;
-      return res ;
+      RObject res(obj);
+      copy_attributes(res, data);
+      return res;
     }
 
 
-    SEXP data ;
+    SEXP data;
 
 
 
-  } ;
+  };
 
   template <typename CLASS>
   class Processor<STRSXP, CLASS> : public Result {
@@ -69,10 +69,10 @@ namespace dplyr {
     Processor(SEXP data_): data(data_) {}
 
     virtual SEXP process(const Rcpp::GroupedDataFrame& gdf) {
-      return process_grouped<GroupedDataFrame>(gdf) ;
+      return process_grouped<GroupedDataFrame>(gdf);
     }
     virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf) {
-      return process_grouped<RowwiseDataFrame>(gdf) ;
+      return process_grouped<RowwiseDataFrame>(gdf);
     }
 
     virtual SEXP process( const Rcpp::FullDataFrame& df) {
@@ -80,7 +80,7 @@ namespace dplyr {
     }
 
     virtual SEXP process( const SlicingIndex& index) {
-      CLASS* obj = static_cast<CLASS*>(this) ;
+      CLASS* obj = static_cast<CLASS*>(this);
       return CharacterVector::create( obj->process_chunk(index) );
     }
 
@@ -88,17 +88,17 @@ namespace dplyr {
 
     template <typename Data>
     SEXP process_grouped(const Data& gdf) {
-      int n = gdf.ngroups() ;
-      Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) ) ;
-      CLASS* obj = static_cast<CLASS*>(this) ;
-      typename Data::group_iterator git = gdf.group_begin() ;
+      int n = gdf.ngroups();
+      Rcpp::Shield<SEXP> res( Rf_allocVector( STRSXP, n) );
+      CLASS* obj = static_cast<CLASS*>(this);
+      typename Data::group_iterator git = gdf.group_begin();
       for( int i=0; i<n; i++, ++git)
         SET_STRING_ELT( res, i, obj->process_chunk(*git) );
-      return res ;
+      return res;
     }
 
-    SEXP data ;
-  } ;
+    SEXP data;
+  };
 
 }
 #endif

@@ -6,14 +6,14 @@ namespace dplyr {
   template <typename VisitorSet>
   class VisitorSetLessPredicate {
   public:
-    VisitorSetLessPredicate( const VisitorSet& visitors_ ) : visitors(visitors_) {} ;
+    VisitorSetLessPredicate( const VisitorSet& visitors_ ) : visitors(visitors_) {};
     inline bool operator()(int i, int j) const {
-      return visitors.less(i,j) ;
+      return visitors.less(i,j);
     }
 
   private:
-    const VisitorSet& visitors ;
-  } ;
+    const VisitorSet& visitors;
+  };
 
 }
 

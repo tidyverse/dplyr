@@ -21,42 +21,42 @@ namespace dplyr {
     CallbackProcessor() {}
 
     virtual SEXP process( const GroupedDataFrame& gdf) {
-      return process_data<GroupedDataFrame>( gdf ) ;
+      return process_data<GroupedDataFrame>( gdf );
     }
 
     virtual SEXP process( const RowwiseDataFrame& gdf) {
-      return process_data<RowwiseDataFrame>( gdf ) ;
+      return process_data<RowwiseDataFrame>( gdf );
     }
 
     virtual SEXP process( const Rcpp::FullDataFrame& df) {
-      CLASS* obj = static_cast<CLASS*>(this) ;
-      return obj->process_chunk(df.get_index()) ;
+      CLASS* obj = static_cast<CLASS*>(this);
+      return obj->process_chunk(df.get_index());
     }
 
     virtual SEXP process( const SlicingIndex& index ) {
-      return R_NilValue ;
+      return R_NilValue;
     }
 
   private:
 
     template <typename Data>
     SEXP process_data( const Data& gdf ) {
-      CLASS* obj = static_cast<CLASS*>( this ) ;
-      typename Data::group_iterator git = gdf.group_begin() ;
+      CLASS* obj = static_cast<CLASS*>( this );
+      typename Data::group_iterator git = gdf.group_begin();
 
       // the group index
-      int i = 0 ;
-      int ngroups = gdf.ngroups() ;
+      int i = 0;
+      int ngroups = gdf.ngroups();
       // evaluate the expression within each group until we find something that is not NA
-      RObject first_result(R_NilValue) ;
-      for( ; i<ngroups; i++, ++git ) {
-        first_result = obj->process_chunk(*git) ;
-        if( ! all_na(first_result) ) break ;
+      RObject first_result(R_NilValue);
+      for(; i<ngroups; i++, ++git ) {
+        first_result = obj->process_chunk(*git);
+        if( ! all_na(first_result) ) break;
       }
       // all the groups evaluated to NA, so we send a logical vector NA
       // perhaps the type of the vector could depend on something, maybe later
       if( i == ngroups ) {
-        return LogicalVector(ngroups, NA_LOGICAL) ;
+        return LogicalVector(ngroups, NA_LOGICAL);
       }
 
       // otherwise, instantiate a DelayedProcessor based on the first non NA
@@ -65,25 +65,25 @@ namespace dplyr {
       // get the appropriate Delayed Processor to handle it
       boost::scoped_ptr< DelayedProcessor_Base<CLASS> > processor(
         get_delayed_processor<CLASS>(i, first_result, ngroups )
-      ) ;
+      );
       if(!processor)
         stop( "expecting a single value" );
-      for( ; i<ngroups ; i++, ++git ) {
-        first_result = obj->process_chunk(*git) ;
+      for(; i<ngroups ; i++, ++git ) {
+        first_result = obj->process_chunk(*git);
         if( !processor->handled(i, first_result) ) {
           if( processor->can_promote(first_result) ) {
             processor.reset(
               processor->promote(i, first_result)
-            ) ;
+            );
           }
         }
       }
 
-      Shield<SEXP> res( processor->get() ) ;
-      return res ;
+      Shield<SEXP> res( processor->get() );
+      return res;
     }
 
-  } ;
+  };
 
 }
 #endif

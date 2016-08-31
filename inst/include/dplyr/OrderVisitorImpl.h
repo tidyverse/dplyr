@@ -6,59 +6,59 @@ namespace dplyr {
   // version used for ascending = true
   template <int RTYPE, bool ascending, typename VECTOR>
   class OrderVectorVisitorImpl : public OrderVisitor, public comparisons<RTYPE> {
-    typedef comparisons<RTYPE> compare ;
+    typedef comparisons<RTYPE> compare;
   public:
     /**
      * The type of data : int, double, SEXP, Rcomplex
      */
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     OrderVectorVisitorImpl( const VECTOR& vec_ ) : vec(vec_) {}
 
     inline bool equal(int i, int j) const {
-      return compare::equal_or_both_na( vec[i], vec[j] ) ;
+      return compare::equal_or_both_na( vec[i], vec[j] );
     }
 
     inline bool before(int i, int j) const {
-      return compare::is_less( vec[i], vec[j] ) ;
+      return compare::is_less( vec[i], vec[j] );
     }
 
     SEXP get() {
-      return vec ;
+      return vec;
     }
 
   private:
-    VECTOR vec ;
-  } ;
+    VECTOR vec;
+  };
 
   // version used for ascending = false
   template <int RTYPE, typename VECTOR>
   class OrderVectorVisitorImpl<RTYPE,false, VECTOR> : public OrderVisitor, public comparisons<RTYPE> {
-    typedef comparisons<RTYPE> compare ;
+    typedef comparisons<RTYPE> compare;
   public:
 
     /**
      * The type of data : int, double, SEXP, Rcomplex
      */
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     OrderVectorVisitorImpl( const VECTOR& vec_ ) : vec(vec_) {}
 
     inline bool equal(int i, int j) const {
-      return compare::equal_or_both_na(vec[i], vec[j]) ;
+      return compare::equal_or_both_na(vec[i], vec[j]);
     }
 
     inline bool before(int i, int j) const {
-      return compare::is_greater( vec[i], vec[j] ) ;
+      return compare::is_greater( vec[i], vec[j] );
     }
 
     SEXP get() {
-      return vec ;
+      return vec;
     }
 
   private:
-    VECTOR vec ;
-  } ;
+    VECTOR vec;
+  };
 
   template <bool ascending>
   class OrderCharacterVectorVisitorImpl : public OrderVisitor {
@@ -69,7 +69,7 @@ namespace dplyr {
     {}
 
     inline bool equal(int i, int j) const {
-      return orders.equal(i,j) ;
+      return orders.equal(i,j);
     }
 
     inline bool before( int i, int j) const {
@@ -81,9 +81,9 @@ namespace dplyr {
     }
 
   private:
-    CharacterVector vec ;
-    OrderVectorVisitorImpl<INTSXP, ascending, IntegerVector> orders ;
-  } ;
+    CharacterVector vec;
+    OrderVectorVisitorImpl<INTSXP, ascending, IntegerVector> orders;
+  };
 
   // ---------- data frame columns
 
@@ -94,21 +94,21 @@ namespace dplyr {
     OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
 
     inline bool equal( int i, int j) const {
-      return visitors.equal(i,j) ;
+      return visitors.equal(i,j);
     }
 
     inline bool before( int i, int j) const {
-      return visitors.less(i,j) ;
+      return visitors.less(i,j);
     }
 
     inline SEXP get() {
-      return data ;
+      return data;
     }
 
   private:
-    DataFrame data ;
-    DataFrameVisitors visitors ;
-  } ;
+    DataFrame data;
+    DataFrameVisitors visitors;
+  };
 
   template <>
   class OrderVisitorDataFrame<false> : public OrderVisitor {
@@ -116,21 +116,21 @@ namespace dplyr {
     OrderVisitorDataFrame( const DataFrame& data_ ) : data(data_), visitors(data) {}
 
     inline bool equal( int i, int j) const {
-      return visitors.equal(i,j) ;
+      return visitors.equal(i,j);
     }
 
     inline bool before( int i, int j) const {
-      return visitors.greater(i,j) ;
+      return visitors.greater(i,j);
     }
 
     inline SEXP get() {
-      return data ;
+      return data;
     }
 
   private:
-    DataFrame data ;
-    DataFrameVisitors visitors ;
-  } ;
+    DataFrame data;
+    DataFrameVisitors visitors;
+  };
 
   // ---------- matrix columns
 
@@ -141,21 +141,21 @@ namespace dplyr {
     OrderVisitorMatrix( const Matrix<RTYPE>& data_ ) : data(data_), visitors(data) {}
 
     inline bool equal( int i, int j) const {
-      return visitors.equal(i,j) ;
+      return visitors.equal(i,j);
     }
 
     inline bool before( int i, int j) const {
-      return visitors.less(i,j) ;
+      return visitors.less(i,j);
     }
 
     inline SEXP get() {
-      return data ;
+      return data;
     }
 
   private:
-    Matrix<RTYPE> data ;
-    MatrixColumnVisitor<RTYPE> visitors ;
-  } ;
+    Matrix<RTYPE> data;
+    MatrixColumnVisitor<RTYPE> visitors;
+  };
 
   // ascending = false
   template <int RTYPE>
@@ -164,21 +164,21 @@ namespace dplyr {
     OrderVisitorMatrix( const Matrix<RTYPE>& data_ ) : data(data_), visitors(data) {}
 
     inline bool equal( int i, int j) const {
-      return visitors.equal(i,j) ;
+      return visitors.equal(i,j);
     }
 
     inline bool before( int i, int j) const {
-      return visitors.greater(i,j) ;
+      return visitors.greater(i,j);
     }
 
     inline SEXP get() {
-      return data ;
+      return data;
     }
 
   private:
-    Matrix<RTYPE> data ;
-    MatrixColumnVisitor<RTYPE> visitors ;
-  } ;
+    Matrix<RTYPE> data;
+    MatrixColumnVisitor<RTYPE> visitors;
+  };
 
 
   inline OrderVisitor* order_visitor( SEXP vec, bool ascending );
@@ -204,10 +204,10 @@ namespace dplyr {
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc( SEXP vec ) {
     if( Rf_isMatrix(vec) ) {
-      return order_visitor_asc_matrix<ascending>(vec) ;
+      return order_visitor_asc_matrix<ascending>(vec);
     }
     else {
-      return order_visitor_asc_vector<ascending>(vec) ;
+      return order_visitor_asc_vector<ascending>(vec);
     }
   }
 
@@ -215,49 +215,49 @@ namespace dplyr {
   inline OrderVisitor* order_visitor_asc_matrix( SEXP vec ) {
     switch( check_supported_type(vec) ) {
     case DPLYR_INTSXP:
-      return new OrderVisitorMatrix<INTSXP  , ascending>( vec ) ;
+      return new OrderVisitorMatrix<INTSXP  , ascending>( vec );
     case DPLYR_REALSXP:
-      return new OrderVisitorMatrix<REALSXP , ascending>( vec ) ;
+      return new OrderVisitorMatrix<REALSXP , ascending>( vec );
     case DPLYR_LGLSXP:
-      return new OrderVisitorMatrix<LGLSXP  , ascending>( vec ) ;
+      return new OrderVisitorMatrix<LGLSXP  , ascending>( vec );
     case DPLYR_STRSXP:
-      return new OrderVisitorMatrix<STRSXP  , ascending>( vec ) ;
+      return new OrderVisitorMatrix<STRSXP  , ascending>( vec );
     case DPLYR_CPLXSXP:
-      return new OrderVisitorMatrix<CPLXSXP , ascending>( vec ) ;
+      return new OrderVisitorMatrix<CPLXSXP , ascending>( vec );
     case DPLYR_VECSXP:
-      stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec))) ;
+      stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec)));
     }
 
-    stop("Unreachable") ;
-    return 0 ;
+    stop("Unreachable");
+    return 0;
   }
 
   template <bool ascending>
   inline OrderVisitor* order_visitor_asc_vector( SEXP vec ) {
     switch( TYPEOF(vec) ) {
     case INTSXP:
-      return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec ) ;
+      return new OrderVectorVisitorImpl<INTSXP , ascending, Vector<INTSXP > >( vec );
     case REALSXP:
-      return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >( vec ) ;
+      return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >( vec );
     case LGLSXP:
-      return new OrderVectorVisitorImpl<LGLSXP , ascending, Vector<LGLSXP > >( vec ) ;
+      return new OrderVectorVisitorImpl<LGLSXP , ascending, Vector<LGLSXP > >( vec );
     case STRSXP:
-      return new OrderCharacterVectorVisitorImpl<ascending>( vec ) ;
+      return new OrderCharacterVectorVisitorImpl<ascending>( vec );
     case CPLXSXP:
-      return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec ) ;
+      return new OrderVectorVisitorImpl<CPLXSXP , ascending, Vector<CPLXSXP > >( vec );
     case VECSXP:
     {
       if( Rf_inherits( vec, "data.frame" ) ) {
-        return new OrderVisitorDataFrame<ascending>( vec ) ;
+        return new OrderVisitorDataFrame<ascending>( vec );
       }
-      break ;
+      break;
     }
     default:
-      break ;
+      break;
     }
 
-    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-    return 0 ;
+    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+    return 0;
   }
 }
 

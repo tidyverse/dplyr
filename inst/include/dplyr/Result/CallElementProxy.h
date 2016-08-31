@@ -10,12 +10,12 @@ namespace dplyr {
     {}
 
     inline void set(SEXP value) {
-      SETCAR(object, value) ;
+      SETCAR(object, value);
     }
 
     SEXP symbol;
     SEXP object;
-  } ;
+  };
 
 }
 

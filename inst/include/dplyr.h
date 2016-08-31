@@ -7,15 +7,15 @@
 #include <dplyr/config.h>
 #include <dplyr/workarounds.h>
 
-using namespace Rcpp ;
+using namespace Rcpp;
 #include <tools/all_na.h>
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
-  #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;
+  #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) );
 #endif
 
 #ifndef RCPP_INSPECT_OBJECT
-  #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
+  #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) );
 #endif
 
 #include <boost/scoped_ptr.hpp>
@@ -43,76 +43,76 @@ using namespace Rcpp ;
 #include <tools/tools.h>
 
 namespace dplyr {
-  class LazySubsets ;
-  Symbol extract_column( SEXP, const Environment& ) ;
-  Symbol get_column(SEXP, const Environment&, const LazySubsets& ) ;
-  class Result ;
-  class ResultSet ;
-  class Reducer_Proxy ;
-  class DataFrameVisitors ;
-  class DataFrameJoinVisitors ;
-  std::string get_single_class(SEXP x) ;
+  class LazySubsets;
+  Symbol extract_column( SEXP, const Environment& );
+  Symbol get_column(SEXP, const Environment&, const LazySubsets& );
+  class Result;
+  class ResultSet;
+  class Reducer_Proxy;
+  class DataFrameVisitors;
+  class DataFrameJoinVisitors;
+  std::string get_single_class(SEXP x);
 
-  void strip_index(DataFrame x) ;
+  void strip_index(DataFrame x);
   template <typename Index>
-  DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes) ;
-  void check_attribute_compatibility( SEXP left, SEXP right) ;
-  bool same_levels( SEXP left, SEXP right ) ;
+  DataFrame subset( DataFrame df, const Index& indices, CharacterVector classes);
+  void check_attribute_compatibility( SEXP left, SEXP right);
+  bool same_levels( SEXP left, SEXP right );
 }
-dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& ) ;
-dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
-dplyr::Result* first_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
-dplyr::Result* last_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs) ;
-bool argmatch( const std::string& target, const std::string& s) ;
+dplyr::Result* get_handler( SEXP, const dplyr::LazySubsets&, const Environment& );
+dplyr::Result* nth_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+dplyr::Result* first_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+dplyr::Result* last_prototype( SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+bool argmatch( const std::string& target, const std::string& s);
 
-bool can_simplify(SEXP) ;
+bool can_simplify(SEXP);
 
-void assert_all_white_list(const DataFrame&) ;
+void assert_all_white_list(const DataFrame&);
 inline SEXP shared_SEXP(SEXP x) {
   SET_NAMED(x, 2 );
-  return x ;
+  return x;
 }
 
 inline SEXP pairlist_shallow_copy(SEXP p) {
-  Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) ) ;
-  SEXP q = attr ;
-  SET_TAG(q, TAG(p)) ;
-  p = CDR(p) ;
+  Shield<SEXP> attr( Rf_cons(CAR(p), R_NilValue) );
+  SEXP q = attr;
+  SET_TAG(q, TAG(p));
+  p = CDR(p);
   while( !Rf_isNull(p) ) {
-    Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) ) ;
-    SETCDR(q, s) ;
-    q = CDR(q) ;
-    SET_TAG(q, TAG(p)) ;
-    p = CDR(p) ;
+    Shield<SEXP> s( Rf_cons(CAR(p), R_NilValue) );
+    SETCDR(q, s);
+    q = CDR(q);
+    SET_TAG(q, TAG(p));
+    p = CDR(p);
   }
-  return attr ;
+  return attr;
 }
 
 inline void copy_attributes(SEXP out, SEXP data) {
-  SEXP att = ATTRIB(data) ;
+  SEXP att = ATTRIB(data);
   if( !Rf_isNull(att) ) {
-    SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) ) ;
+    SET_ATTRIB( out, pairlist_shallow_copy(ATTRIB(data)) );
   }
   SET_OBJECT( out, OBJECT(data) );
-  if( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out) ;
+  if( IS_S4_OBJECT(data) ) SET_S4_OBJECT(out);
 }
 
 // same as copy_attributes but without names
 inline void copy_most_attributes(SEXP out, SEXP data) {
-  copy_attributes(out,data) ;
-  Rf_setAttrib( out, R_NamesSymbol, R_NilValue ) ;
+  copy_attributes(out,data);
+  Rf_setAttrib( out, R_NamesSymbol, R_NilValue );
 }
 
-CharacterVector dfloc(List) ;
-SEXP shallow_copy(const List& data) ;
+CharacterVector dfloc(List);
+SEXP shallow_copy(const List& data);
 
-typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
+typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
 
 #if defined(COMPILING_DPLYR)
-  DataFrame build_index_cpp( DataFrame data ) ;
-  void registerHybridHandler( const char*, HybridHandler ) ;
-  SEXP get_time_classes() ;
-  SEXP get_date_classes() ;
+  DataFrame build_index_cpp( DataFrame data );
+  void registerHybridHandler( const char*, HybridHandler );
+  SEXP get_time_classes();
+  SEXP get_date_classes();
 #endif
 
 #include <dplyr/registration.h>
@@ -161,47 +161,47 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/train.h>
 
-void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) ;
-void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) ;
+void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf);
+void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf);
 
-void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) ;
-void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) ;
+void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf);
+void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf);
 
 template <typename Data>
 SEXP strip_group_attributes(Data df) {
-  Shield<SEXP> attribs( Rf_cons( dplyr::classes_not_grouped(), R_NilValue ) ) ;
-  SET_TAG(attribs, Rf_install("class") ) ;
+  Shield<SEXP> attribs( Rf_cons( dplyr::classes_not_grouped(), R_NilValue ) );
+  SET_TAG(attribs, Rf_install("class") );
 
-  SEXP p = ATTRIB(df) ;
-  std::vector<SEXP> black_list(8) ;
-  black_list[0] = Rf_install("indices") ;
-  black_list[1] = Rf_install("vars") ;
-  black_list[2] = Rf_install("index") ;
-  black_list[3] = Rf_install("labels") ;
-  black_list[4] = Rf_install("drop") ;
-  black_list[5] = Rf_install("group_sizes") ;
-  black_list[6] = Rf_install("biggest_group_size") ;
-  black_list[7] = Rf_install("class") ;
+  SEXP p = ATTRIB(df);
+  std::vector<SEXP> black_list(8);
+  black_list[0] = Rf_install("indices");
+  black_list[1] = Rf_install("vars");
+  black_list[2] = Rf_install("index");
+  black_list[3] = Rf_install("labels");
+  black_list[4] = Rf_install("drop");
+  black_list[5] = Rf_install("group_sizes");
+  black_list[6] = Rf_install("biggest_group_size");
+  black_list[7] = Rf_install("class");
 
-  SEXP q = attribs ;
+  SEXP q = attribs;
   while( ! Rf_isNull(p) ) {
-    SEXP tag = TAG(p) ;
+    SEXP tag = TAG(p);
     if( std::find( black_list.begin(), black_list.end(), tag ) == black_list.end() ) {
-      Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) ) ;
-      SETCDR(q,s) ;
-      q = CDR(q) ;
-      SET_TAG(q, tag) ;
+      Shield<SEXP> s( Rf_cons( CAR(p), R_NilValue) );
+      SETCDR(q,s);
+      q = CDR(q);
+      SET_TAG(q, tag);
     }
 
-    p = CDR(p) ;
+    p = CDR(p);
   }
-  return attribs ;
+  return attribs;
 }
 
 template <typename T>
 CharacterVector names( const T& obj ) {
-  SEXP x = obj ;
-  return Rf_getAttrib(x, Rf_install("names" ) ) ;
+  SEXP x = obj;
+  return Rf_getAttrib(x, Rf_install("names" ) );
 }
 
 

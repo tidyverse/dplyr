@@ -3,71 +3,71 @@
 
 namespace dplyr {
 
-  inline VectorVisitor* visitor_matrix( SEXP vec ) ;
-  inline VectorVisitor* visitor_vector( SEXP vec ) ;
+  inline VectorVisitor* visitor_matrix( SEXP vec );
+  inline VectorVisitor* visitor_vector( SEXP vec );
 
   inline VectorVisitor* visitor( SEXP vec ) {
     if( Rf_isMatrix( vec ) ) {
-      return visitor_matrix(vec) ;
+      return visitor_matrix(vec);
     }
     else {
-      return visitor_vector(vec) ;
+      return visitor_vector(vec);
     }
   }
 
   inline VectorVisitor* visitor_matrix( SEXP vec ) {
     switch( TYPEOF(vec) ) {
     case CPLXSXP:
-      return new MatrixColumnVisitor<CPLXSXP>( vec ) ;
+      return new MatrixColumnVisitor<CPLXSXP>( vec );
     case INTSXP:
-      return new MatrixColumnVisitor<INTSXP>( vec ) ;
+      return new MatrixColumnVisitor<INTSXP>( vec );
     case REALSXP:
-      return new MatrixColumnVisitor<REALSXP>( vec ) ;
+      return new MatrixColumnVisitor<REALSXP>( vec );
     case LGLSXP:
-      return new MatrixColumnVisitor<LGLSXP>( vec ) ;
+      return new MatrixColumnVisitor<LGLSXP>( vec );
     case STRSXP:
-      return new MatrixColumnVisitor<STRSXP>( vec ) ;
+      return new MatrixColumnVisitor<STRSXP>( vec );
     case VECSXP:
-      return new MatrixColumnVisitor<VECSXP>( vec ) ;
+      return new MatrixColumnVisitor<VECSXP>( vec );
     default:
-      break ;
+      break;
     }
 
-    stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec))) ;
-    return 0 ;
+    stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
+    return 0;
   }
 
   inline VectorVisitor* visitor_vector( SEXP vec ) {
     switch( TYPEOF(vec) ) {
     case CPLXSXP:
-      return new VectorVisitorImpl<CPLXSXP>( vec ) ;
+      return new VectorVisitorImpl<CPLXSXP>( vec );
     case INTSXP:
       if( Rf_inherits(vec, "factor" ))
-        return new FactorVisitor( vec ) ;
-      return new VectorVisitorImpl<INTSXP>( vec ) ;
+        return new FactorVisitor( vec );
+      return new VectorVisitorImpl<INTSXP>( vec );
     case REALSXP:
-      return new VectorVisitorImpl<REALSXP>( vec ) ;
+      return new VectorVisitorImpl<REALSXP>( vec );
     case LGLSXP:
-      return new VectorVisitorImpl<LGLSXP>( vec ) ;
+      return new VectorVisitorImpl<LGLSXP>( vec );
     case STRSXP:
-      return new VectorVisitorImpl<STRSXP>( vec ) ;
+      return new VectorVisitorImpl<STRSXP>( vec );
 
     case VECSXP: {
       if( Rf_inherits( vec, "data.frame" ) ) {
-        return new DataFrameColumnVisitor(vec) ;
+        return new DataFrameColumnVisitor(vec);
       }
       if( Rf_inherits( vec, "POSIXlt" )) {
-        stop( "POSIXlt not supported" ) ;
+        stop( "POSIXlt not supported" );
       }
-      return new VectorVisitorImpl<VECSXP>( vec ) ;
+      return new VectorVisitorImpl<VECSXP>( vec );
     }
     default:
-      break ;
+      break;
     }
 
     // should not happen, safeguard against segfaults anyway
-    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec))) ;
-    return 0 ;
+    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+    return 0;
   }
 
 }

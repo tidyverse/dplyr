@@ -8,16 +8,16 @@ namespace Rcpp {
     FullDataFrame( const DataFrame& data_ ) : index(0, data_.nrows() ) {}
 
     const SlicingIndex& get_index() const {
-      return index ;
+      return index;
     }
 
     inline int nrows() const {
-      return index.size() ;
+      return index.size();
     }
 
   private:
-    SlicingIndex index ;
-  } ;
+    SlicingIndex index;
+  };
 
 }
 #endif

@@ -6,7 +6,7 @@ namespace dplyr {
   template <int RTYPE>
   class VectorSliceVisitor {
   public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     VectorSliceVisitor( SEXP data_, const SlicingIndex& index_ ) :
       data(data_),
@@ -20,19 +20,19 @@ namespace dplyr {
     }
 
     inline int size() const {
-      return n ;
+      return n;
     }
 
     inline operator SEXP() const {
-      return wrap_subset<RTYPE>(data, index) ;
+      return wrap_subset<RTYPE>(data, index);
     }
 
   private:
-    SEXP data ;
-    STORAGE* ptr ;
-    int n ;
+    SEXP data;
+    STORAGE* ptr;
+    int n;
     const SlicingIndex& index;
-  } ;
+  };
 
 }
 

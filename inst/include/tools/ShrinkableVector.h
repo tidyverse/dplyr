@@ -10,29 +10,29 @@ namespace Rcpp {
   template <int RTYPE>
   class ShrinkableVector {
   public:
-    typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+    typedef typename traits::storage_type<RTYPE>::type STORAGE;
 
     ShrinkableVector( int n, SEXP origin ) :
       data( no_init(n) ), max_size(n), start( internal::r_vector_start<RTYPE>(data) ), gp(LEVELS(data))
     {
-      copy_most_attributes(data, origin) ;
-      SET_DPLYR_SHRINKABLE_VECTOR( (SEXP)data ) ;
+      copy_most_attributes(data, origin);
+      SET_DPLYR_SHRINKABLE_VECTOR( (SEXP)data );
     }
 
     inline void resize( int n) {
-      SETLENGTH( data, n ) ;
+      SETLENGTH( data, n );
     }
 
     inline operator SEXP() const {
-      return data ;
+      return data;
     }
 
     inline void borrow(const SlicingIndex& indices, STORAGE* begin) {
-      int n = indices.size() ;
-      for( int i=0; i<n ; i++) {
-        start[i] = begin[indices[i]] ;
+      int n = indices.size();
+      for( int i=0; i<n; i++) {
+        start[i] = begin[indices[i]];
       }
-      SETLENGTH(data, n) ;
+      SETLENGTH(data, n);
     }
 
     ~ShrinkableVector() {
@@ -42,15 +42,15 @@ namespace Rcpp {
     }
 
   private:
-    Rcpp::Vector<RTYPE> data ;
-    int max_size ;
-    STORAGE* start ;
-    unsigned short gp ;
+    Rcpp::Vector<RTYPE> data;
+    int max_size;
+    STORAGE* start;
+    unsigned short gp;
 
-  } ;
+  };
 
   inline bool is_ShrinkableVector( SEXP x) {
-    return IS_DPLYR_SHRINKABLE_VECTOR(x) ;
+    return IS_DPLYR_SHRINKABLE_VECTOR(x);
   }
 
 }

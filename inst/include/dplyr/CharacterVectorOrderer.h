@@ -6,17 +6,17 @@ namespace dplyr {
   class CharacterVectorOrderer {
   public:
 
-    CharacterVectorOrderer( const CharacterVector& data_ ) ;
+    CharacterVectorOrderer( const CharacterVector& data_ );
 
     inline IntegerVector get() const {
-      return orders ;
+      return orders;
     }
 
   private:
-    CharacterVector data ;
-    dplyr_hash_set<SEXP> set ;
-    IntegerVector orders ;
-  } ;
+    CharacterVector data;
+    dplyr_hash_set<SEXP> set;
+    IntegerVector orders;
+  };
 
 }
 

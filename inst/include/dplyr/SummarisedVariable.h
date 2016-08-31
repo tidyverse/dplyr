@@ -11,8 +11,8 @@ namespace dplyr {
       return data;
     }
   private:
-    SEXP data ;
-  } ;
+    SEXP data;
+  };
 
 }
 

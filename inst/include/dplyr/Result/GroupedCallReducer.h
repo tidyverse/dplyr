@@ -11,15 +11,15 @@ namespace dplyr {
     {
     }
 
-    virtual ~GroupedCallReducer() {} ;
+    virtual ~GroupedCallReducer() {};
 
     inline SEXP process_chunk( const SlicingIndex& indices ) {
-      return proxy.get(indices) ;
+      return proxy.get(indices);
     }
 
   private:
-    GroupedCallProxy<Data, Subsets> proxy ;
-  } ;
+    GroupedCallProxy<Data, Subsets> proxy;
+  };
 
 } // namespace dplyr
 

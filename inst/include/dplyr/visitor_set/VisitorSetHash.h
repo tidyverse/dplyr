@@ -7,18 +7,18 @@ namespace dplyr {
   class VisitorSetHash {
   public:
     size_t hash( int j) const {
-      const Class& obj = static_cast<const Class&>(*this) ;
-      int n = obj.size() ;
+      const Class& obj = static_cast<const Class&>(*this);
+      int n = obj.size();
       if( n == 0 ) {
-        stop("need at least one column for hash()") ;
+        stop("need at least one column for hash()");
       }
-      size_t seed = obj.get(0)->hash(j) ;
+      size_t seed = obj.get(0)->hash(j);
       for( int k=1; k<n; k++) {
-        boost::hash_combine( seed, obj.get(k)->hash(j) ) ;
+        boost::hash_combine( seed, obj.get(k)->hash(j) );
       }
-      return seed ;
+      return seed;
     }
-  } ;
+  };
 
 }
 

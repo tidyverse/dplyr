@@ -8,24 +8,24 @@ namespace Rcpp {
   public:
 
     FilteredListOf(SEXP data_) : data(data_) {
-      int n = data.size() ;
+      int n = data.size();
       for( int i=0; i<n; i++) {
-        indices.push_back(i) ;
+        indices.push_back(i);
       }
     }
 
     T operator[](int i) const {
-      return as<T>( data[indices[i]]) ;
+      return as<T>( data[indices[i]]);
     }
 
     int size() const {
-      return indices.size() ;
+      return indices.size();
     }
 
   private:
-    List data ;
-    std::vector<int> indices ;
-  } ;
+    List data;
+    std::vector<int> indices;
+  };
 }
 
 #endif

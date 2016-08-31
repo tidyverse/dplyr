@@ -8,23 +8,23 @@ namespace dplyr {
     DataFrameColumnSubsetVisitor( const DataFrame& data_ ) : data(data_), visitors(data) {}
 
     inline SEXP subset( const Rcpp::IntegerVector& index ) const {
-      return visitors.subset( index, data.attr("class") ) ;
+      return visitors.subset( index, data.attr("class") );
     }
 
     inline SEXP subset( const std::vector<int>& index ) const {
-      return visitors.subset( index, data.attr("class")  ) ;
+      return visitors.subset( index, data.attr("class")  );
     }
 
     inline SEXP subset( const SlicingIndex& index ) const {
-      return visitors.subset( index, data.attr("class")  ) ;
+      return visitors.subset( index, data.attr("class")  );
     }
 
     inline SEXP subset( const ChunkIndexMap& index ) const {
-      return visitors.subset( index, data.attr("class")  ) ;
+      return visitors.subset( index, data.attr("class")  );
     }
 
     inline SEXP subset( const Rcpp::LogicalVector& index ) const {
-      return visitors.subset( index, data.attr("class") ) ;
+      return visitors.subset( index, data.attr("class") );
     }
 
     inline SEXP subset( EmptySubset index ) const {
@@ -32,21 +32,21 @@ namespace dplyr {
     }
 
     inline int size() const {
-      return visitors.nrows() ;
+      return visitors.nrows();
     }
 
     inline std::string get_r_type() const {
-      return "data.frame"  ;
+      return "data.frame";
     }
 
     inline bool is_compatible( SubsetVectorVisitor* other, std::stringstream&, const std::string& ) const {
-      return true ;
+      return true;
     }
 
   private:
-    DataFrame data ;
-    DataFrameSubsetVisitors visitors ;
-  } ;
+    DataFrame data;
+    DataFrameSubsetVisitors visitors;
+  };
 
 }
 

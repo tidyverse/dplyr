@@ -6,7 +6,7 @@ namespace dplyr {
   template <int RTYPE, bool NA_RM>
   class Sd : public Processor<REALSXP, Sd<RTYPE,NA_RM> > {
   public:
-    typedef Processor<REALSXP, Sd<RTYPE,NA_RM> > Base ;
+    typedef Processor<REALSXP, Sd<RTYPE,NA_RM> > Base;
 
     Sd(SEXP x, bool is_summary = false) :
       Base(x),
@@ -19,8 +19,8 @@ namespace dplyr {
     }
 
   private:
-    Var<RTYPE,NA_RM> var ;
-  } ;
+    Var<RTYPE,NA_RM> var;
+  };
 
 }
 

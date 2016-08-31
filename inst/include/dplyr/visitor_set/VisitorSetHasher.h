@@ -8,14 +8,14 @@ namespace dplyr {
   public:
     VisitorSetHasher() : visitors(0) {}
 
-    VisitorSetHasher( VisitorSet* visitors_ ) : visitors(visitors_) {} ;
+    VisitorSetHasher( VisitorSet* visitors_ ) : visitors(visitors_) {};
     inline size_t operator()(int i) const {
-      return visitors->hash(i) ;
+      return visitors->hash(i);
     }
 
   private:
-    VisitorSet* visitors ;
-  } ;
+    VisitorSet* visitors;
+  };
 
 }
 

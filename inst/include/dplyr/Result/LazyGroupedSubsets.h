@@ -13,12 +13,12 @@ namespace dplyr {
       resolved(),
       owner(true)
     {
-      int max_size = gdf.max_group_size() ;
-      const DataFrame& data = gdf.data() ;
-      CharacterVector names = data.names() ;
-      int n = data.size() ;
+      int max_size = gdf.max_group_size();
+      const DataFrame& data = gdf.data();
+      CharacterVector names = data.names();
+      int n = data.size();
       for( int i=0; i<n; i++) {
-        input_subset( names[i], grouped_subset( data[i], max_size ) ) ;
+        input_subset( names[i], grouped_subset( data[i], max_size ) );
       }
     }
 
@@ -33,13 +33,13 @@ namespace dplyr {
 
     void clear() {
       for( size_t i=0; i<resolved.size(); i++) {
-        resolved[i] = R_NilValue ;
+        resolved[i] = R_NilValue;
       }
     }
 
     int count(SEXP head) const {
       int res = symbol_map.has(head);
-      return res ;
+      return res;
     }
 
     virtual int size() const {
@@ -47,25 +47,25 @@ namespace dplyr {
     }
 
     SEXP get_variable( SEXP symbol ) const {
-      return subsets[symbol_map.get(symbol)]->get_variable() ;
+      return subsets[symbol_map.get(symbol)]->get_variable();
     }
     bool is_summary( SEXP symbol ) const {
-      return subsets[symbol_map.get(symbol)]->is_summary() ;
+      return subsets[symbol_map.get(symbol)]->is_summary();
     }
     SEXP get( SEXP symbol, const SlicingIndex& indices ) {
-      int idx = symbol_map.get(symbol) ;
+      int idx = symbol_map.get(symbol);
 
-      SEXP value = resolved[idx] ;
+      SEXP value = resolved[idx];
       if( value == R_NilValue ) {
-        resolved[idx] = value = subsets[idx]->get(indices) ;
+        resolved[idx] = value = subsets[idx]->get(indices);
       }
-      return value ;
+      return value;
     }
 
     ~LazyGroupedSubsets() {
       if(owner) {
         for( size_t i=0; i<subsets.size(); i++) {
-          delete subsets[i] ;
+          delete subsets[i];
         }
       }
     }
@@ -75,30 +75,30 @@ namespace dplyr {
     }
 
     void input(SEXP symbol, SummarisedVariable x) {
-      input_subset( symbol, summarised_grouped_subset(x, gdf.max_group_size() ) ) ;
+      input_subset( symbol, summarised_grouped_subset(x, gdf.max_group_size() ) );
     }
 
   private:
-    const GroupedDataFrame& gdf ;
-    SymbolMap symbol_map ;
-    std::vector<GroupedSubset*> subsets ;
-    std::vector<SEXP> resolved ;
+    const GroupedDataFrame& gdf;
+    SymbolMap symbol_map;
+    std::vector<GroupedSubset*> subsets;
+    std::vector<SEXP> resolved;
 
-    bool owner ;
+    bool owner;
 
     void input_subset(SEXP symbol, GroupedSubset* sub) {
-      SymbolMapIndex index = symbol_map.insert(symbol) ;
+      SymbolMapIndex index = symbol_map.insert(symbol);
       if( index.origin == NEW ) {
-        subsets.push_back(sub) ;
-        resolved.push_back(R_NilValue) ;
+        subsets.push_back(sub);
+        resolved.push_back(R_NilValue);
       } else {
-        int idx = index.pos ;
-        delete subsets[idx] ;
-        subsets[idx] = sub ;
-        resolved[idx] = R_NilValue ;
+        int idx = index.pos;
+        delete subsets[idx];
+        subsets[idx] = sub;
+        resolved[idx] = R_NilValue;
       }
     }
-  } ;
+  };
 
 }
 #endif

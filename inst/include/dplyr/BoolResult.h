@@ -9,40 +9,40 @@ namespace dplyr {
     BoolResult(bool result_, const std::string& msg) : result(result_), message(msg) {}
 
     void set_true() {
-      result = true ;
-      message.clear() ;
+      result = true;
+      message.clear();
     }
     void set_false( const char* msg ) {
       result = false;
-      message = msg ;
+      message = msg;
     }
 
     inline operator SEXP() const {
-      LogicalVector res = LogicalVector::create( result ) ;
-      res.attr("comment") = message ;
-      res.attr("class")   = "BoolResult" ;
+      LogicalVector res = LogicalVector::create( result );
+      res.attr("comment") = message;
+      res.attr("class")   = "BoolResult";
       return res;
     }
 
     inline operator bool() const {
-      return result ;
+      return result;
     }
 
     inline const std::string& why_not() const {
-      return message ;
+      return message;
     }
 
   private:
-    bool result ;
-    std::string message ;
-  } ;
+    bool result;
+    std::string message;
+  };
 
   inline BoolResult no_because( const std::string& msg ) {
     return BoolResult( false, msg );
   }
 
   inline BoolResult yes() {
-    return true ;
+    return true;
   }
 
 }
