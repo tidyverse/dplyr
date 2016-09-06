@@ -21,6 +21,9 @@
 #' @param .missing If supplied, any missing values in \code{.x} will be
 #'   replaced by this value. Must be either length 1 or the same length as
 #'   \code{.x}.
+#' @param .dots A named list of replacements. If supplied, \code{...} will
+#'   be ignored. The list must satisfy the same conditions as replacements
+#'   supplied by \code{...}.
 #' @param .ordered If \code{TRUE}, \code{recode_factor()} creates an
 #'   ordered factor.
 #' @return A vector the same length as \code{.x}, and the same type as
@@ -63,14 +66,17 @@
 #' # factor), it is reused as default.
 #' recode_factor(letters[1:3], b = "z", c = "y")
 #' recode_factor(factor(letters[1:3]), b = "z", c = "y")
-recode <- function(.x, ..., .default = NULL, .missing = NULL) {
+recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   UseMethod("recode")
 }
 
 #' @export
-recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
+recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- list(...)
-
+  if (!is.null(.dots)) {
+    values <- .dots
+  }
+  
   nms <- has_names(values)
   if (all(nms)) {
     vals <- as.double(names(values))
@@ -82,7 +88,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
   }
 
   n <- length(.x)
-  template <- find_template(..., .default, .missing)
+  template <- find_template(..., .default, .missing, .dots)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -98,14 +104,17 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 }
 
 #' @export
-recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
+recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- list(...)
+  if (!is.null(.dots)) {
+    values <- .dots
+  }
   if (!all(has_names(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
 
   n <- length(.x)
-  template <- find_template(..., .default, .missing)
+  template <- find_template(..., .default, .missing, .dots)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -121,8 +130,11 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
 }
 
 #' @export
-recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
+recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- list(...)
+  if (!is.null(.dots)) {
+    values <- .dots
+  }
   if (length(values) == 0) {
     stop("No replacements provided", call. = FALSE)
   }
@@ -149,8 +161,11 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   .x
 }
 
-find_template <- function(...) {
+find_template <- function(..., .dots = NULL) {
   x <- compact(list(...))
+  if (!is.null(.dots)) {
+    values <- compact(.dots)
+  }
 
   if (length(x) == 0) {
     stop("No replacements provided", call. = FALSE)
@@ -195,8 +210,8 @@ recode_default.factor <- function(x, default, out) {
 #' @rdname recode
 #' @export
 recode_factor <- function (.x, ..., .default = NULL, .missing = NULL,
-                           .ordered = FALSE) {
-  recoded <- recode(.x, ..., .default = .default, .missing = .missing)
+                           .ordered = FALSE, .dots = NULL) {
+  recoded <- recode(.x, ..., .default = .default, .missing = .missing, .dots = .dots)
 
   all_levels <- unique(c(..., recode_default(.x, .default, recoded), .missing))
   recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)
