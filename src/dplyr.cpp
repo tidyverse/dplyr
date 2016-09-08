@@ -148,7 +148,7 @@ Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int narg
   MultipleVectorVisitors visitors;
   bool na_rm = false;
 
-  for (SEXP p = CDR(call); !Rf_isNull(p) ; p = CDR(p)) {
+  for (SEXP p = CDR(call); !Rf_isNull(p); p = CDR(p)) {
     SEXP x = CAR(p);
     if (!Rf_isNull(TAG(p)) && TAG(p) == Rf_install("na.rm")) {
       if (TYPEOF(x) == LGLSXP && Rf_length(x) == 1) {
@@ -1351,7 +1351,8 @@ DataFrame build_index_adj(DataFrame df, ListOf<Symbol> symbols) {
   int i=0;
   while (i<n) {
     int start = i++;
-    for (; i<n && visitors.equal(i, start); i++) ;
+    for (; i<n && visitors.equal(i, start); i++)
+      ;
     sizes.push_back(i-start);
   }
 

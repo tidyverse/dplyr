@@ -3,21 +3,21 @@
 
 namespace Rcpp {
 
-    class FullDataFrame {
-    public:
-        FullDataFrame( const DataFrame& data_ ) : index(0, data_.nrows() ) {}
+  class FullDataFrame {
+  public:
+    FullDataFrame(const DataFrame& data_) : index(0, data_.nrows()) {}
 
-        const SlicingIndex& get_index() const {
-            return index ;
-        }
+    const SlicingIndex& get_index() const {
+      return index;
+    }
 
-        inline int nrows() const {
-            return index.size() ;
-        }
+    inline int nrows() const {
+      return index.size();
+    }
 
-    private:
-        SlicingIndex index ;
-    } ;
+  private:
+    SlicingIndex index;
+  };
 
 }
 #endif

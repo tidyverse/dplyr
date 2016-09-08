@@ -3,20 +3,20 @@
 
 namespace dplyr {
 
-    class CharacterVectorOrderer {
-    public:
+  class CharacterVectorOrderer {
+  public:
 
-        CharacterVectorOrderer( const CharacterVector& data_ ) ;
+    CharacterVectorOrderer(const CharacterVector& data_);
 
-        inline IntegerVector get() const {
-          return orders ;
-        }
+    inline IntegerVector get() const {
+      return orders;
+    }
 
-    private:
-        CharacterVector data ;
-        dplyr_hash_set<SEXP> set ;
-        IntegerVector orders ;
-    } ;
+  private:
+    CharacterVector data;
+    dplyr_hash_set<SEXP> set;
+    IntegerVector orders;
+  };
 
 }
 

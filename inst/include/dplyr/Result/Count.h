@@ -3,15 +3,15 @@
 
 namespace dplyr {
 
-    class Count : public Processor<INTSXP,Count> {
-    public:
-        Count() {}
-        ~Count(){}
+  class Count : public Processor<INTSXP,Count> {
+  public:
+    Count() {}
+    ~Count() {}
 
-        inline int process_chunk( const SlicingIndex& indices ){
-            return indices.size() ;
-        }
-    } ;
+    inline int process_chunk(const SlicingIndex& indices) {
+      return indices.size();
+    }
+  };
 
 }
 

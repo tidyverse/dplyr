@@ -3,7 +3,7 @@
 
 namespace dplyr {
 
-    typedef VisitorSetIndexSet<DataFrameVisitors> DataFrameVisitorsIndexSet ;
+  typedef VisitorSetIndexSet<DataFrameVisitors> DataFrameVisitorsIndexSet;
 
 }
 
