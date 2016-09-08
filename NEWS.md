@@ -1,8 +1,10 @@
 # dplyr 0.5.0.9000
 
+* Add tests for grouping behaviour (#833, #2085, @bpbond).
+
 * Refactor `common_by()` (#1928).
 
-* astyle formatting for C++ code, tested but not changed as part of the tests (#2086).
+* astyle formatting for C++ code, tested but not changed as part of the tests (#2086, #2103).
 
 * Enable AppVeyor testing (#1947).
 
