@@ -12,3 +12,5 @@ demo/pandas
 ^README-.*\.png$
 ^codecov\.yml$
 ^appveyor\.yml$
+^\.idea$
+^CMakeLists\.txt$
