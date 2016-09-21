@@ -20,5 +20,6 @@
 #include <tools/wrap_subset.h>
 #include <tools/get_all_second.h>
 #include <tools/LazyDots.h>
+#include <tools/utils.h>
 
 #endif
