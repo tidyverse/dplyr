@@ -18,12 +18,7 @@ using namespace Rcpp;
 #include <dplyr/ForwardDeclarations.h>
 
 void assert_all_white_list(const DataFrame&);
-
-inline SEXP shared_SEXP(SEXP x) {
-  SET_NAMED(x, 2);
-  return x;
-}
-
+SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
