@@ -144,6 +144,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// strings_addresses
+CharacterVector strings_addresses(CharacterVector s);
+RcppExport SEXP dplyr_strings_addresses(SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(strings_addresses(s));
+    return rcpp_result_gen;
+END_RCPP
+}
+// gp
+unsigned short gp(SEXP x);
+RcppExport SEXP dplyr_gp(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(gp(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // distinct_impl
 SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep);
 RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP) {
@@ -339,17 +361,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// gp
-unsigned short gp(SEXP x);
-RcppExport SEXP dplyr_gp(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(gp(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // filter_impl
 SEXP filter_impl(DataFrame df, LazyDots dots);
 RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {
@@ -509,17 +520,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
     rcpp_result_gen = Rcpp::wrap(select_impl(df, vars));
-    return rcpp_result_gen;
-END_RCPP
-}
-// strings_addresses
-CharacterVector strings_addresses(CharacterVector s);
-RcppExport SEXP dplyr_strings_addresses(SEXP sSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type s(sSEXP);
-    rcpp_result_gen = Rcpp::wrap(strings_addresses(s));
     return rcpp_result_gen;
 END_RCPP
 }

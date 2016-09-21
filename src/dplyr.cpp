@@ -658,11 +658,3 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   SET_ATTRIB(copy, strip_group_attributes(df));
   return copy;
 }
-
-// simple internal debugging function to access the gp part of the SEXP
-// only meant for internal use in dplyr debugging
-
-// [[Rcpp::export]]
-unsigned short gp(SEXP x) {
-  return reinterpret_cast<sxpinfo_struct*>(x)->gp;
-}

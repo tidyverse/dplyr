@@ -61,6 +61,14 @@ combine_vars <- function(vars, xs) {
     .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
 }
 
+strings_addresses <- function(s) {
+    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
+}
+
+gp <- function(x) {
+    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
+}
+
 distinct_impl <- function(df, vars, keep) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars, keep)
 }
@@ -125,10 +133,6 @@ ungroup_grouped_df <- function(df) {
     .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
 }
 
-gp <- function(x) {
-    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
-}
-
 filter_impl <- function(df, dots) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
 }
@@ -175,10 +179,6 @@ slice_impl <- function(df, dots) {
 
 select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
-}
-
-strings_addresses <- function(s) {
-    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
 }
 
 summarise_impl <- function(df, dots) {
