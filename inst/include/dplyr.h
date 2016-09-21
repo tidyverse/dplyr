@@ -10,15 +10,7 @@
 using namespace Rcpp;
 
 #include <tools/all_na.h>
-
-// borrowed from Rcpp11
-#ifndef RCPP_DEBUG_OBJECT
-  #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) );
-#endif
-
-#ifndef RCPP_INSPECT_OBJECT
-  #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) );
-#endif
+#include <tools/debug.h>
 
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
