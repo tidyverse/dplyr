@@ -212,96 +212,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// compatible_data_frame_nonames
-dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool convert);
-RcppExport SEXP dplyr_compatible_data_frame_nonames(SEXP xSEXP, SEXP ySEXP, SEXP convertSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
-    rcpp_result_gen = Rcpp::wrap(compatible_data_frame_nonames(x, y, convert));
-    return rcpp_result_gen;
-END_RCPP
-}
-// compatible_data_frame
-dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order, bool convert);
-RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP convertSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP);
-    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
-    rcpp_result_gen = Rcpp::wrap(compatible_data_frame(x, y, ignore_col_order, convert));
-    return rcpp_result_gen;
-END_RCPP
-}
-// equal_data_frame
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order, bool ignore_row_order, bool convert);
-RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP, SEXP convertSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_row_order(ignore_row_orderSEXP);
-    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
-    rcpp_result_gen = Rcpp::wrap(equal_data_frame(x, y, ignore_col_order, ignore_row_order, convert));
-    return rcpp_result_gen;
-END_RCPP
-}
-// all_equal_data_frame
-dplyr::BoolResult all_equal_data_frame(List args, Environment env);
-RcppExport SEXP dplyr_all_equal_data_frame(SEXP argsSEXP, SEXP envSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type args(argsSEXP);
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    rcpp_result_gen = Rcpp::wrap(all_equal_data_frame(args, env));
-    return rcpp_result_gen;
-END_RCPP
-}
-// union_data_frame
-DataFrame union_data_frame(DataFrame x, DataFrame y);
-RcppExport SEXP dplyr_union_data_frame(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(union_data_frame(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// intersect_data_frame
-DataFrame intersect_data_frame(DataFrame x, DataFrame y);
-RcppExport SEXP dplyr_intersect_data_frame(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(intersect_data_frame(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// setdiff_data_frame
-DataFrame setdiff_data_frame(DataFrame x, DataFrame y);
-RcppExport SEXP dplyr_setdiff_data_frame(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(setdiff_data_frame(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 // resolve_vars
 SEXP resolve_vars(List new_groups, CharacterVector names);
 RcppExport SEXP dplyr_resolve_vars(SEXP new_groupsSEXP, SEXP namesSEXP) {
@@ -520,6 +430,96 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
     rcpp_result_gen = Rcpp::wrap(select_impl(df, vars));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compatible_data_frame_nonames
+dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool convert);
+RcppExport SEXP dplyr_compatible_data_frame_nonames(SEXP xSEXP, SEXP ySEXP, SEXP convertSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
+    rcpp_result_gen = Rcpp::wrap(compatible_data_frame_nonames(x, y, convert));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compatible_data_frame
+dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order, bool convert);
+RcppExport SEXP dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP convertSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP);
+    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
+    rcpp_result_gen = Rcpp::wrap(compatible_data_frame(x, y, ignore_col_order, convert));
+    return rcpp_result_gen;
+END_RCPP
+}
+// equal_data_frame
+dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order, bool ignore_row_order, bool convert);
+RcppExport SEXP dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP, SEXP convertSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP);
+    Rcpp::traits::input_parameter< bool >::type ignore_row_order(ignore_row_orderSEXP);
+    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
+    rcpp_result_gen = Rcpp::wrap(equal_data_frame(x, y, ignore_col_order, ignore_row_order, convert));
+    return rcpp_result_gen;
+END_RCPP
+}
+// all_equal_data_frame
+dplyr::BoolResult all_equal_data_frame(List args, Environment env);
+RcppExport SEXP dplyr_all_equal_data_frame(SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type args(argsSEXP);
+    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(all_equal_data_frame(args, env));
+    return rcpp_result_gen;
+END_RCPP
+}
+// union_data_frame
+DataFrame union_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_union_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(union_data_frame(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// intersect_data_frame
+DataFrame intersect_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_intersect_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(intersect_data_frame(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// setdiff_data_frame
+DataFrame setdiff_data_frame(DataFrame x, DataFrame y);
+RcppExport SEXP dplyr_setdiff_data_frame(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(setdiff_data_frame(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
