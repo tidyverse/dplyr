@@ -77,3 +77,65 @@ IntegerVector grouped_indices_impl(DataFrame data, ListOf<Symbol> symbols) {
 IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
+
+DataFrame build_index_cpp(DataFrame data) {
+  ListOf<Symbol> symbols(data.attr("vars"));
+
+  int nsymbols = symbols.size();
+  CharacterVector vars(nsymbols);
+  CharacterVector names = data.names();
+  for (int i=0; i<nsymbols; i++) {
+    vars[i] = PRINTNAME(symbols[i]);
+  }
+  IntegerVector indx = r_match(vars, names);
+
+  for (int i=0; i<nsymbols; i++) {
+    int pos = indx[i];
+    if (pos == NA_INTEGER) {
+      stop("unknown column '%s' ", CHAR(names[i]));
+    }
+
+    SEXP v = data[pos-1];
+
+    if (!white_list(v) || TYPEOF(v) == VECSXP) {
+      const char* name = vars[i];
+      stop("cannot group column %s, of class '%s'", name, get_single_class(v));
+    }
+  }
+
+  DataFrameVisitors visitors(data, vars);
+  ChunkIndexMap map(visitors);
+
+  train_push_back(map, data.nrows());
+
+  DataFrame labels = DataFrameSubsetVisitors(data, vars).subset(map, "data.frame");
+  int ngroups = labels.nrows();
+  IntegerVector labels_order = OrderVisitors(labels).apply();
+
+  labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame");
+
+  List indices(ngroups);
+  IntegerVector group_sizes = no_init(ngroups);
+  int biggest_group = 0;
+
+  ChunkIndexMap::const_iterator it = map.begin();
+  std::vector<const std::vector<int>* > chunks(ngroups);
+  for (int i=0; i<ngroups; i++, ++it) {
+    chunks[i] = &it->second;
+  }
+
+  for (int i=0; i<ngroups; i++) {
+    int idx = labels_order[i];
+    const std::vector<int>& chunk = *chunks[idx];
+    indices[i] = chunk;
+    group_sizes[i] = chunk.size();
+    biggest_group = std::max(biggest_group, (int)chunk.size());
+  }
+
+  data.attr("indices") = indices;
+  data.attr("group_sizes") = group_sizes;
+  data.attr("biggest_group_size") = biggest_group;
+  data.attr("labels") = labels;
+  data.attr("class") = CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+  return data;
+}
