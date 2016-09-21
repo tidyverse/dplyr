@@ -1,6 +1,8 @@
 #ifndef dplyr_Gatherer_H
 #define dplyr_Gatherer_H
 
+#include <dplyr/Result/GroupedCallProxy.h>
+
 #include <dplyr/vector_class.h>
 
 namespace dplyr {

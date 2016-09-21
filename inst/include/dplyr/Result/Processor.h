@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Processor_H
 #define dplyr_Result_Processor_H
 
+#include <dplyr/Result/Result.h>
+
 namespace dplyr {
 
   // if we derive from this instead of deriving from Result, all we have to

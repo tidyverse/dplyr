@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Count_Distinct_H
 #define dplyr_Result_Count_Distinct_H
 
+#include <dplyr/Result/Processor.h>
+
 namespace dplyr {
 
   template <typename Visitor>

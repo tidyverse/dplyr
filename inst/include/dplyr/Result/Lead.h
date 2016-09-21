@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Lead_H
 #define dplyr_Result_Lead_H
 
+#include <dplyr/Result/Result.h>
+
 namespace dplyr {
 
   template <int RTYPE>

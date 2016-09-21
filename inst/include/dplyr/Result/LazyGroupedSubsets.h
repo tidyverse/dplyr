@@ -1,6 +1,9 @@
 #ifndef dplyr_LazyGroupedSubsets_H
 #define dplyr_LazyGroupedSubsets_H
 
+#include <dplyr/Result/GroupedSubset.h>
+#include <dplyr/Result/LazySubsets.h>
+
 namespace dplyr {
 
   class LazyGroupedSubsets : public LazySubsets {
