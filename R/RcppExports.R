@@ -121,10 +121,6 @@ grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
-mutate_impl <- function(df, dots) {
-    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
-}
-
 as_regular_df <- function(df) {
     .Call('dplyr_as_regular_df', PACKAGE = 'dplyr', df)
 }
@@ -175,6 +171,10 @@ full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
 
 slice_impl <- function(df, dots) {
     .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
+}
+
+mutate_impl <- function(df, dots) {
+    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 select_impl <- function(df, vars) {
