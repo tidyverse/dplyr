@@ -27,6 +27,11 @@ void assert_all_white_list(const DataFrame& data) {
   }
 }
 
+SEXP shared_SEXP(SEXP x) {
+  SET_NAMED(x, 2);
+  return x;
+}
+
 // [[Rcpp::export]]
 SEXP shallow_copy(const List& data) {
   int n = data.size();
