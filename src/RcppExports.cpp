@@ -191,27 +191,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// assert_all_white_list
-void assert_all_white_list(const DataFrame& data);
-RcppExport SEXP dplyr_assert_all_white_list(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP);
-    assert_all_white_list(data);
-    return R_NilValue;
-END_RCPP
-}
-// shallow_copy
-SEXP shallow_copy(const List& data);
-RcppExport SEXP dplyr_shallow_copy(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List& >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(shallow_copy(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // filter_impl
 SEXP filter_impl(DataFrame df, LazyDots dots);
 RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {
@@ -542,6 +521,27 @@ BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     rcpp_result_gen = Rcpp::wrap(test_comparisons());
+    return rcpp_result_gen;
+END_RCPP
+}
+// assert_all_white_list
+void assert_all_white_list(const DataFrame& data);
+RcppExport SEXP dplyr_assert_all_white_list(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP);
+    assert_all_white_list(data);
+    return R_NilValue;
+END_RCPP
+}
+// shallow_copy
+SEXP shallow_copy(const List& data);
+RcppExport SEXP dplyr_shallow_copy(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(shallow_copy(data));
     return rcpp_result_gen;
 END_RCPP
 }

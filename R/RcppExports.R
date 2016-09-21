@@ -77,14 +77,6 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
-assert_all_white_list <- function(data) {
-    invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
-}
-
-shallow_copy <- function(data) {
-    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
-}
-
 filter_impl <- function(df, dots) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
 }
@@ -187,6 +179,14 @@ summarise_impl <- function(df, dots) {
 
 test_comparisons <- function() {
     .Call('dplyr_test_comparisons', PACKAGE = 'dplyr')
+}
+
+assert_all_white_list <- function(data) {
+    invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
+}
+
+shallow_copy <- function(data) {
+    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
 
 #' Cumulativate versions of any, all, and mean
