@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
 using namespace Rcpp;

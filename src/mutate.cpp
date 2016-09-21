@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/NamedListAccumulator.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
