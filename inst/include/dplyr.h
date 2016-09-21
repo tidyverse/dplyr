@@ -8,7 +8,9 @@
 #include <dplyr/workarounds.h>
 
 using namespace Rcpp;
+
 #include <tools/all_na.h>
+
 // borrowed from Rcpp11
 #ifndef RCPP_DEBUG_OBJECT
   #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) );
@@ -42,23 +44,8 @@ using namespace Rcpp;
 
 #include <tools/tools.h>
 
-namespace dplyr {
-  class LazySubsets;
-  Symbol extract_column(SEXP, const Environment&);
-  Symbol get_column(SEXP, const Environment&, const LazySubsets&);
-  class Result;
-  class ResultSet;
-  class Reducer_Proxy;
-  class DataFrameVisitors;
-  class DataFrameJoinVisitors;
-  std::string get_single_class(SEXP x);
+#include <dplyr/ForwardDeclarations.h>
 
-  void strip_index(DataFrame x);
-  template <typename Index>
-  DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes);
-  void check_attribute_compatibility(SEXP left, SEXP right);
-  bool same_levels(SEXP left, SEXP right);
-}
 dplyr::Result* get_handler(SEXP, const dplyr::LazySubsets&, const Environment&);
 dplyr::Result* nth_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
 dplyr::Result* first_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
