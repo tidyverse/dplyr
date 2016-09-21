@@ -129,10 +129,6 @@ mutate_impl <- function(df, dots) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
 }
 
-group_size_grouped_cpp <- function(gdf) {
-    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
-}
-
 as_regular_df <- function(df) {
     .Call('dplyr_as_regular_df', PACKAGE = 'dplyr', df)
 }
@@ -159,6 +155,10 @@ grouped_indices_grouped_df_impl <- function(gdf) {
 
 grouped_indices_impl <- function(data, symbols) {
     .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
+}
+
+group_size_grouped_cpp <- function(gdf) {
+    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y) {

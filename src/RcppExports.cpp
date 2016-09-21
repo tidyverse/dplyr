@@ -353,17 +353,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// group_size_grouped_cpp
-IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
-RcppExport SEXP dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
 // as_regular_df
 DataFrame as_regular_df(DataFrame df);
 RcppExport SEXP dplyr_as_regular_df(SEXP dfSEXP) {
@@ -441,6 +430,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
     Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_indices_impl(data, symbols));
+    return rcpp_result_gen;
+END_RCPP
+}
+// group_size_grouped_cpp
+IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
+RcppExport SEXP dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
+    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
     return rcpp_result_gen;
 END_RCPP
 }

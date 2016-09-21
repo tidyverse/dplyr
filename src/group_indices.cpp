@@ -72,3 +72,8 @@ IntegerVector grouped_indices_impl(DataFrame data, ListOf<Symbol> symbols) {
 
   return res;
 }
+
+// [[Rcpp::export]]
+IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
+  return Count().process(gdf);
+}
