@@ -327,18 +327,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// mutate_impl
-SEXP mutate_impl(DataFrame df, LazyDots dots);
-RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
-    return rcpp_result_gen;
-END_RCPP
-}
 // as_regular_df
 DataFrame as_regular_df(DataFrame df);
 RcppExport SEXP dplyr_as_regular_df(SEXP dfSEXP) {
@@ -508,6 +496,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mutate_impl
+SEXP mutate_impl(DataFrame df, LazyDots dots);
+RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
 }
