@@ -57,3 +57,33 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   SET_ATTRIB(copy, strip_group_attributes(df));
   return copy;
 }
+
+SEXP strip_group_attributes(SEXP df) {
+  Shield<SEXP> attribs(Rf_cons(dplyr::classes_not_grouped(), R_NilValue));
+  SET_TAG(attribs, Rf_install("class"));
+
+  SEXP p = ATTRIB(df);
+  std::vector<SEXP> black_list(8);
+  black_list[0] = Rf_install("indices");
+  black_list[1] = Rf_install("vars");
+  black_list[2] = Rf_install("index");
+  black_list[3] = Rf_install("labels");
+  black_list[4] = Rf_install("drop");
+  black_list[5] = Rf_install("group_sizes");
+  black_list[6] = Rf_install("biggest_group_size");
+  black_list[7] = Rf_install("class");
+
+  SEXP q = attribs;
+  while (! Rf_isNull(p)) {
+    SEXP tag = TAG(p);
+    if (std::find(black_list.begin(), black_list.end(), tag) == black_list.end()) {
+      Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
+      SETCDR(q,s);
+      q = CDR(q);
+      SET_TAG(q, tag);
+    }
+
+    p = CDR(p);
+  }
+  return attribs;
+}
