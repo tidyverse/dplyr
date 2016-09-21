@@ -28,9 +28,6 @@
 #include <dplyr/Result/GroupedCallReducer.h>
 #include <dplyr/Result/CallProxy.h>
 
-#include <dplyr/Result/ResultSet.h>
-#include <dplyr/Result/factories.h>
-
 #include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
