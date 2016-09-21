@@ -9,9 +9,6 @@
 
 using namespace Rcpp;
 
-#include <tools/all_na.h>
-#include <tools/debug.h>
-
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/functional/hash.hpp>
