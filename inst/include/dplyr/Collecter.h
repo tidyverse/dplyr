@@ -1,6 +1,8 @@
 #ifndef dplyr_Collecter_H
 #define dplyr_Collecter_H
 
+#include <dplyr/vector_class.h>
+
 namespace dplyr {
 
   class Collecter {
