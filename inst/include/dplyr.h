@@ -24,12 +24,10 @@ inline SEXP shared_SEXP(SEXP x) {
   return x;
 }
 
+SEXP shallow_copy(const List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
 void copy_most_attributes(SEXP out, SEXP data);
-
-CharacterVector dfloc(List);
-SEXP shallow_copy(const List& data);
 
 #if defined(COMPILING_DPLYR)
   DataFrame build_index_cpp(DataFrame data);
