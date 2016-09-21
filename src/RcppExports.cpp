@@ -39,17 +39,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rank_strings
-IntegerVector rank_strings(CharacterVector s);
-RcppExport SEXP dplyr_rank_strings(SEXP sSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type s(sSEXP);
-    rcpp_result_gen = Rcpp::wrap(rank_strings(s));
-    return rcpp_result_gen;
-END_RCPP
-}
 // arrange_impl
 List arrange_impl(DataFrame data, LazyDots dots);
 RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP dotsSEXP) {
@@ -291,18 +280,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// match_data_frame
-IntegerVector match_data_frame(DataFrame x, DataFrame y);
-RcppExport SEXP dplyr_match_data_frame(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(match_data_frame(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 // resolve_vars
 SEXP resolve_vars(List new_groups, CharacterVector names);
 RcppExport SEXP dplyr_resolve_vars(SEXP new_groupsSEXP, SEXP namesSEXP) {
@@ -325,19 +302,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
-    return rcpp_result_gen;
-END_RCPP
-}
-// grouped_df_adj_impl
-DataFrame grouped_df_adj_impl(DataFrame data, ListOf<Symbol> symbols, bool drop);
-RcppExport SEXP dplyr_grouped_df_adj_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP);
-    Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_df_adj_impl(data, symbols, drop));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -372,18 +336,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     rcpp_result_gen = Rcpp::wrap(ungroup_grouped_df(df));
-    return rcpp_result_gen;
-END_RCPP
-}
-// split_indices
-std::vector<std::vector<int> > split_indices(IntegerVector group, int groups);
-RcppExport SEXP dplyr_split_indices(SEXP groupSEXP, SEXP groupsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    Rcpp::traits::input_parameter< int >::type groups(groupsSEXP);
-    rcpp_result_gen = Rcpp::wrap(split_indices(group, groups));
     return rcpp_result_gen;
 END_RCPP
 }

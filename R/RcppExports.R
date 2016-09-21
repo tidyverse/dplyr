@@ -13,10 +13,6 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
-rank_strings <- function(s) {
-    .Call('dplyr_rank_strings', PACKAGE = 'dplyr', s)
-}
-
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
@@ -109,20 +105,12 @@ setdiff_data_frame <- function(x, y) {
     .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
-match_data_frame <- function(x, y) {
-    .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
-}
-
 resolve_vars <- function(new_groups, names) {
     .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
 }
 
 grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
-}
-
-grouped_df_adj_impl <- function(data, symbols, drop) {
-    .Call('dplyr_grouped_df_adj_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
 mutate_impl <- function(df, dots) {
@@ -135,10 +123,6 @@ as_regular_df <- function(df) {
 
 ungroup_grouped_df <- function(df) {
     .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
-}
-
-split_indices <- function(group, groups) {
-    .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
 }
 
 gp <- function(x) {

@@ -343,8 +343,3 @@ namespace dplyr {
   }
 
 }
-
-// [[Rcpp::export]]
-IntegerVector rank_strings(CharacterVector s) {
-  return dplyr::CharacterVectorOrderer(s).get();
-}

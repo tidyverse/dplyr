@@ -338,27 +338,6 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
 }
 
 // [[Rcpp::export]]
-IntegerVector match_data_frame(DataFrame x, DataFrame y) {
-  if (!compatible_data_frame(x,y,true,true))
-    stop("not compatible");
-
-  typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  DataFrameJoinVisitors visitors(y, x, x.names(), x.names(), true);
-  Set set(visitors);
-
-  train_insert(set, y.nrows());
-
-  int n_x = x.nrows();
-  IntegerVector res = no_init(n_x);
-  for (int i=0; i<n_x; i++) {
-    Set::iterator it = set.find(-i-1);
-    res[i] = (it == set.end()) ? NA_INTEGER : (*it+1);
-  }
-
-  return res;
-}
-
-// [[Rcpp::export]]
 SEXP resolve_vars(List new_groups, CharacterVector names) {
   int n = new_groups.size();
   for (int i=0; i<n; i++) {
@@ -459,56 +438,6 @@ DataFrame build_index_cpp(DataFrame data) {
   return data;
 }
 
-DataFrame build_index_adj(DataFrame df, ListOf<Symbol> symbols) {
-  int nsymbols = symbols.size();
-  CharacterVector vars(nsymbols);
-  for (int i=0; i<nsymbols; i++) {
-    vars[i] = PRINTNAME(symbols[i]);
-  }
-
-  DataFrameVisitors visitors(df, vars);
-  std::vector<int> sizes;
-  int n = df.nrows();
-
-  int i=0;
-  while (i<n) {
-    int start = i++;
-    for (; i<n && visitors.equal(i, start); i++)
-      ;
-    sizes.push_back(i-start);
-  }
-
-  n = sizes.size();
-  List indices(n);
-  IntegerVector first = no_init(n);
-  int start = 0;
-  int biggest_group = 0;
-  for (int i=0; i<n; i++) {
-    first[i] = start;
-    int end = start + sizes[i] - 1;
-    indices[i] = seq(start, end);
-    start = end + 1;
-    biggest_group = std::max(biggest_group, sizes[i]);
-  }
-
-  df.attr("indices") = indices;
-  df.attr("labels")  = DataFrameSubsetVisitors(df, vars).subset(first, "data.frame");
-  df.attr("group_sizes") = sizes;
-  df.attr("biggest_group_size") = biggest_group;
-  df.attr("class") = CharacterVector::create("adj_grouped_df", "grouped_df", "tbl_df", "tbl", "data.frame");
-  df.attr("vars") = symbols;
-
-  return df;
-}
-
-// [[Rcpp::export]]
-DataFrame grouped_df_adj_impl(DataFrame data, ListOf<Symbol> symbols, bool drop) {
-  DataFrame copy(shallow_copy(data));
-  copy.attr("vars") = symbols;
-  copy.attr("drop") = drop;
-  return build_index_adj(data, symbols);
-}
-
 template <typename Data>
 SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataFrame& df, CharacterVector classes) {
   List res = accumulator;
@@ -535,6 +464,7 @@ void check_not_groups(const CharacterVector& result_names, const GroupedDataFram
       stop("cannot modify grouping variable");
   }
 }
+
 void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
   int n = dots.size();
   for (int i=0; i<n; i++) {
@@ -728,19 +658,6 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   SET_ATTRIB(copy, strip_group_attributes(df));
   return copy;
 }
-
-// [[Rcpp::export]]
-std::vector<std::vector<int> > split_indices(IntegerVector group, int groups) {
-  std::vector<std::vector<int> > ids(groups);
-
-  int n = group.size();
-  for (int i = 0; i < n; ++i) {
-    ids[group[i] - 1].push_back(i + 1);
-  }
-
-  return ids;
-}
-
 
 // simple internal debugging function to access the gp part of the SEXP
 // only meant for internal use in dplyr debugging
