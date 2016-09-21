@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_tools_H
 #define dplyr_tools_tools_H
 
+#include <tools/all_na.h>
+#include <tools/debug.h>
 #include <tools/hash.h>
 #include <tools/Encoding.h>
 #include <tools/match.h>
