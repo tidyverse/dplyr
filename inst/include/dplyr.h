@@ -16,13 +16,6 @@ using namespace Rcpp;
 #include <tools/tools.h>
 
 #include <dplyr/ForwardDeclarations.h>
-
-#if defined(COMPILING_DPLYR)
-  DataFrame build_index_cpp(DataFrame data);
-  SEXP get_time_classes();
-  SEXP get_date_classes();
-#endif
-
 #include <dplyr/registration.h>
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
