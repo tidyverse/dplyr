@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/Replicator.h>
 #include <dplyr/NamedListAccumulator.h>
 
 using namespace Rcpp;
