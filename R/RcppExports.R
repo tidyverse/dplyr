@@ -13,6 +13,14 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
+strings_addresses <- function(s) {
+    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
+}
+
+gp <- function(x) {
+    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
+}
+
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
@@ -51,14 +59,6 @@ combine_all <- function(data) {
 
 combine_vars <- function(vars, xs) {
     .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
-}
-
-strings_addresses <- function(s) {
-    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
-}
-
-gp <- function(x) {
-    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
 }
 
 distinct_impl <- function(df, vars, keep) {
