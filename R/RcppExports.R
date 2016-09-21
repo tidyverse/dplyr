@@ -65,30 +65,6 @@ assert_all_white_list <- function(data) {
     invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
 }
 
-semi_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
-}
-
-anti_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
-}
-
-inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
-}
-
-left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
-}
-
-right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
-}
-
-full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
-}
-
 shallow_copy <- function(data) {
     .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
@@ -137,10 +113,6 @@ grouped_df_adj_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_adj_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
 
-slice_impl <- function(df, dots) {
-    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
-}
-
 mutate_impl <- function(df, dots) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
 }
@@ -187,6 +159,34 @@ grouped_indices_grouped_df_impl <- function(gdf) {
 
 grouped_indices_impl <- function(data, symbols) {
     .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
+}
+
+semi_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+}
+
+anti_join_impl <- function(x, y, by_x, by_y) {
+    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+}
+
+inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+}
+
+left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+}
+
+right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+}
+
+full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
+    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+}
+
+slice_impl <- function(df, dots) {
+    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 select_impl <- function(df, vars) {
