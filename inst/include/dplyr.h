@@ -53,35 +53,9 @@ inline SEXP shared_SEXP(SEXP x) {
   return x;
 }
 
-inline SEXP pairlist_shallow_copy(SEXP p) {
-  Shield<SEXP> attr(Rf_cons(CAR(p), R_NilValue));
-  SEXP q = attr;
-  SET_TAG(q, TAG(p));
-  p = CDR(p);
-  while (!Rf_isNull(p)) {
-    Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
-    SETCDR(q, s);
-    q = CDR(q);
-    SET_TAG(q, TAG(p));
-    p = CDR(p);
-  }
-  return attr;
-}
-
-inline void copy_attributes(SEXP out, SEXP data) {
-  SEXP att = ATTRIB(data);
-  if (!Rf_isNull(att)) {
-    SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
-  }
-  SET_OBJECT(out, OBJECT(data));
-  if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
-}
-
-// same as copy_attributes but without names
-inline void copy_most_attributes(SEXP out, SEXP data) {
-  copy_attributes(out,data);
-  Rf_setAttrib(out, R_NamesSymbol, R_NilValue);
-}
+SEXP pairlist_shallow_copy(SEXP p);
+void copy_attributes(SEXP out, SEXP data);
+void copy_most_attributes(SEXP out, SEXP data);
 
 CharacterVector dfloc(List);
 SEXP shallow_copy(const List& data);
@@ -105,7 +79,6 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
 #include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/BoolResult.h>
-
 #include <dplyr/EmptySubset.h>
 #include <dplyr/FullDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
