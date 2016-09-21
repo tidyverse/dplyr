@@ -85,34 +85,6 @@ shallow_copy <- function(data) {
     .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
 
-compatible_data_frame_nonames <- function(x, y, convert) {
-    .Call('dplyr_compatible_data_frame_nonames', PACKAGE = 'dplyr', x, y, convert)
-}
-
-compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
-    .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, convert)
-}
-
-equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
-    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order, convert)
-}
-
-all_equal_data_frame <- function(args, env) {
-    .Call('dplyr_all_equal_data_frame', PACKAGE = 'dplyr', args, env)
-}
-
-union_data_frame <- function(x, y) {
-    .Call('dplyr_union_data_frame', PACKAGE = 'dplyr', x, y)
-}
-
-intersect_data_frame <- function(x, y) {
-    .Call('dplyr_intersect_data_frame', PACKAGE = 'dplyr', x, y)
-}
-
-setdiff_data_frame <- function(x, y) {
-    .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
-}
-
 resolve_vars <- function(new_groups, names) {
     .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
 }
@@ -179,6 +151,34 @@ mutate_impl <- function(df, dots) {
 
 select_impl <- function(df, vars) {
     .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
+}
+
+compatible_data_frame_nonames <- function(x, y, convert) {
+    .Call('dplyr_compatible_data_frame_nonames', PACKAGE = 'dplyr', x, y, convert)
+}
+
+compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
+    .Call('dplyr_compatible_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, convert)
+}
+
+equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
+    .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order, convert)
+}
+
+all_equal_data_frame <- function(args, env) {
+    .Call('dplyr_all_equal_data_frame', PACKAGE = 'dplyr', args, env)
+}
+
+union_data_frame <- function(x, y) {
+    .Call('dplyr_union_data_frame', PACKAGE = 'dplyr', x, y)
+}
+
+intersect_data_frame <- function(x, y) {
+    .Call('dplyr_intersect_data_frame', PACKAGE = 'dplyr', x, y)
+}
+
+setdiff_data_frame <- function(x, y) {
+    .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
 summarise_impl <- function(df, dots) {
