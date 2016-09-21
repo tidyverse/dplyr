@@ -61,6 +61,10 @@ distinct_impl <- function(df, vars, keep) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars, keep)
 }
 
+n_distinct_multi <- function(variables, na_rm = FALSE) {
+    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
+}
+
 assert_all_white_list <- function(data) {
     invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
 }
@@ -127,10 +131,6 @@ sort_impl <- function(data) {
 
 group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
-}
-
-n_distinct_multi <- function(variables, na_rm = FALSE) {
-    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
 as_regular_df <- function(df) {

@@ -145,6 +145,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// n_distinct_multi
+SEXP n_distinct_multi(List variables, bool na_rm);
+RcppExport SEXP dplyr_n_distinct_multi(SEXP variablesSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type variables(variablesSEXP);
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(n_distinct_multi(variables, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
 // assert_all_white_list
 void assert_all_white_list(const DataFrame& data);
 RcppExport SEXP dplyr_assert_all_white_list(SEXP dataSEXP) {
@@ -349,18 +361,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
     rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
-// n_distinct_multi
-SEXP n_distinct_multi(List variables, bool na_rm);
-RcppExport SEXP dplyr_n_distinct_multi(SEXP variablesSEXP, SEXP na_rmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type variables(variablesSEXP);
-    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
-    rcpp_result_gen = Rcpp::wrap(n_distinct_multi(variables, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
