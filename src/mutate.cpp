@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/Gatherer.h>
 #include <dplyr/Replicator.h>
 #include <dplyr/NamedListAccumulator.h>
 
