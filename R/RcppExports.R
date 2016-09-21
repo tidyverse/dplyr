@@ -21,6 +21,14 @@ arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
 
+order_impl <- function(args, env) {
+    .Call('dplyr_order_impl', PACKAGE = 'dplyr', args, env)
+}
+
+sort_impl <- function(data) {
+    .Call('dplyr_sort_impl', PACKAGE = 'dplyr', data)
+}
+
 #' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for \code{x >= left & x <= right}, implemented
@@ -119,14 +127,6 @@ grouped_df_adj_impl <- function(data, symbols, drop) {
 
 mutate_impl <- function(df, dots) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
-}
-
-order_impl <- function(args, env) {
-    .Call('dplyr_order_impl', PACKAGE = 'dplyr', args, env)
-}
-
-sort_impl <- function(data) {
-    .Call('dplyr_sort_impl', PACKAGE = 'dplyr', data)
 }
 
 group_size_grouped_cpp <- function(gdf) {

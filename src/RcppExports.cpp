@@ -62,6 +62,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// order_impl
+IntegerVector order_impl(List args, Environment env);
+RcppExport SEXP dplyr_order_impl(SEXP argsSEXP, SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type args(argsSEXP);
+    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(order_impl(args, env));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sort_impl
+DataFrame sort_impl(DataFrame data);
+RcppExport SEXP dplyr_sort_impl(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(sort_impl(data));
+    return rcpp_result_gen;
+END_RCPP
+}
 // between
 LogicalVector between(NumericVector x, double left, double right);
 RcppExport SEXP dplyr_between(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
@@ -327,29 +350,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
-    return rcpp_result_gen;
-END_RCPP
-}
-// order_impl
-IntegerVector order_impl(List args, Environment env);
-RcppExport SEXP dplyr_order_impl(SEXP argsSEXP, SEXP envSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type args(argsSEXP);
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    rcpp_result_gen = Rcpp::wrap(order_impl(args, env));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sort_impl
-DataFrame sort_impl(DataFrame data);
-RcppExport SEXP dplyr_sort_impl(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(sort_impl(data));
     return rcpp_result_gen;
 END_RCPP
 }
