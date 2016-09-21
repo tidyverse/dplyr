@@ -1,6 +1,8 @@
 #ifndef dplyr_GroupedHybridCall_H
 #define dplyr_GroupedHybridCall_H
 
+#include <dplyr/Result/Result.h>
+
 namespace dplyr {
 
   template <typename Subsets>

@@ -1,6 +1,9 @@
 #ifndef dplyr_GroupedCallReducer_H
 #define dplyr_GroupedCallReducer_H
 
+#include <dplyr/Result/CallbackProcessor.h>
+#include <dplyr/Result/GroupedCallProxy.h>
+
 namespace dplyr {
 
   template <typename Data, typename Subsets>

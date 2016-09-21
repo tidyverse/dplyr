@@ -1,5 +1,8 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/LazyRowwiseSubsets.h>
+#include <dplyr/Result/CallProxy.h>
+
 #include <dplyr/Gatherer.h>
 #include <dplyr/Replicator.h>
 #include <dplyr/NamedListAccumulator.h>

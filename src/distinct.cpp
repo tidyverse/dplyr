@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/Count_Distinct.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 

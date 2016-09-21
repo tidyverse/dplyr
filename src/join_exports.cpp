@@ -1,5 +1,8 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/GroupedCallProxy.h>
+#include <dplyr/Result/CallProxy.h>
+
 #include <dplyr/train.h>
 
 using namespace Rcpp;

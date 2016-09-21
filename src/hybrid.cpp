@@ -1,8 +1,19 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/is_smaller.h>
+
+#include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
+#include <dplyr/Result/Count.h>
+#include <dplyr/Result/Count_Distinct.h>
+#include <dplyr/Result/Mean.h>
+#include <dplyr/Result/Sum.h>
+#include <dplyr/Result/Var.h>
+#include <dplyr/Result/Sd.h>
+#include <dplyr/Result/min.h>
+#include <dplyr/Result/max.h>
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>
 #include <dplyr/Result/CumSum.h>

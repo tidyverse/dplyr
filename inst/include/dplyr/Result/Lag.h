@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Lag_H
 #define dplyr_Result_Lag_H
 
+#include <dplyr/Result/Result.h>
+
 namespace dplyr {
 
   template <int RTYPE>

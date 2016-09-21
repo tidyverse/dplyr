@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/Count.h>
+
 #include <dplyr/train.h>
 
 using namespace Rcpp;

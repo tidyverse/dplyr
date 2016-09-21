@@ -1,5 +1,8 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/Result.h>
+#include <dplyr/Result/CallProxy.h>
+
 namespace dplyr {
 
   DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :

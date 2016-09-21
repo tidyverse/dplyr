@@ -1,5 +1,9 @@
 #include <dplyr.h>
 
+#include <dplyr/Result/LazyRowwiseSubsets.h>
+#include <dplyr/Result/GroupedCallReducer.h>
+#include <dplyr/Result/CallProxy.h>
+
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
