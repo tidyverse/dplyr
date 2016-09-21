@@ -85,6 +85,10 @@ shallow_copy <- function(data) {
     .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
 
+filter_impl <- function(df, dots) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
+}
+
 resolve_vars <- function(new_groups, names) {
     .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
 }
@@ -99,10 +103,6 @@ as_regular_df <- function(df) {
 
 ungroup_grouped_df <- function(df) {
     .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
-}
-
-filter_impl <- function(df, dots) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 grouped_indices_grouped_df_impl <- function(gdf) {

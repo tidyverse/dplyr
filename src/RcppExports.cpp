@@ -212,6 +212,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// filter_impl
+SEXP filter_impl(DataFrame df, LazyDots dots);
+RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(filter_impl(df, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
 // resolve_vars
 SEXP resolve_vars(List new_groups, CharacterVector names);
 RcppExport SEXP dplyr_resolve_vars(SEXP new_groupsSEXP, SEXP namesSEXP) {
@@ -256,18 +268,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     rcpp_result_gen = Rcpp::wrap(ungroup_grouped_df(df));
-    return rcpp_result_gen;
-END_RCPP
-}
-// filter_impl
-SEXP filter_impl(DataFrame df, LazyDots dots);
-RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
 }
