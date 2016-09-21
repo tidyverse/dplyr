@@ -17,14 +17,6 @@ arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
 
-order_impl <- function(args, env) {
-    .Call('dplyr_order_impl', PACKAGE = 'dplyr', args, env)
-}
-
-sort_impl <- function(data) {
-    .Call('dplyr_sort_impl', PACKAGE = 'dplyr', data)
-}
-
 #' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for \code{x >= left & x <= right}, implemented
@@ -155,10 +147,6 @@ compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE
 
 equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
     .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order, convert)
-}
-
-all_equal_data_frame <- function(args, env) {
-    .Call('dplyr_all_equal_data_frame', PACKAGE = 'dplyr', args, env)
 }
 
 union_data_frame <- function(x, y) {
