@@ -19,4 +19,6 @@ namespace dplyr {
   bool same_levels(SEXP left, SEXP right);
 }
 
+typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
+
 #endif // #ifndef dplyr_dplyr_ForwardDeclarations_H

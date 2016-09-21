@@ -10,10 +10,4 @@ bool argmatch(const std::string& target, const std::string& s);
 
 bool can_simplify(SEXP);
 
-typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
-
-#if defined(COMPILING_DPLYR)
-void registerHybridHandler(const char*, HybridHandler);
-#endif
-
 #endif // dplyr_dplyr_hybrid_H
