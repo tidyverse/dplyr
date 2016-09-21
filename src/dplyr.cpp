@@ -714,34 +714,6 @@ SEXP mutate_impl(DataFrame df, LazyDots dots) {
 }
 
 // [[Rcpp::export]]
-IntegerVector order_impl(List args, Environment env) {
-  int nargs = args.size();
-  SEXP tmp;
-  List variables(nargs);
-  LogicalVector ascending(nargs);
-  for (int i=0; i<nargs; i++) {
-    tmp = args[i];
-    if (TYPEOF(tmp) == LANGSXP && CAR(tmp) == Rf_install("desc")) {
-      variables[i] = Rf_eval(CAR(CDR(tmp)), env);
-      ascending[i] = false;
-    } else {
-      variables[i] = Rf_eval(tmp, env);
-      ascending[i] = true;
-    }
-  }
-  OrderVisitors o(variables,ascending, nargs);
-  IntegerVector res = o.apply();
-  res = res + 1;
-  return res;
-}
-
-// [[Rcpp::export]]
-DataFrame sort_impl(DataFrame data) {
-  IntegerVector index = OrderVisitors(data).apply();
-  return DataFrameSubsetVisitors(data, data.names()).subset(index, "data.frame");
-}
-
-// [[Rcpp::export]]
 IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
