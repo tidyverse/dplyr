@@ -46,15 +46,8 @@ using namespace Rcpp;
 
 #include <dplyr/ForwardDeclarations.h>
 
-dplyr::Result* get_handler(SEXP, const dplyr::LazySubsets&, const Environment&);
-dplyr::Result* nth_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-dplyr::Result* first_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-dplyr::Result* last_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-bool argmatch(const std::string& target, const std::string& s);
-
-bool can_simplify(SEXP);
-
 void assert_all_white_list(const DataFrame&);
+
 inline SEXP shared_SEXP(SEXP x) {
   SET_NAMED(x, 2);
   return x;
@@ -140,6 +133,7 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Order.h>
 #include <dplyr/SummarisedVariable.h>
+#include <dplyr/Hybrid.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/vector_class.h>
 #include <dplyr/Gatherer.h>
