@@ -747,23 +747,6 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
 }
 
 // [[Rcpp::export]]
-SEXP n_distinct_multi(List variables, bool na_rm = false) {
-  if (variables.length() == 0) {
-    stop("need at least one column for n_distinct()");
-  }
-
-  MultipleVectorVisitors visitors(variables);
-  SlicingIndex everything(0, visitors.nrows());
-  if (na_rm) {
-    Count_Distinct_Narm<MultipleVectorVisitors> counter(visitors);
-    return counter.process(everything);
-  } else {
-    Count_Distinct<MultipleVectorVisitors> counter(visitors);
-    return counter.process(everything);
-  }
-}
-
-// [[Rcpp::export]]
 DataFrame as_regular_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
   SET_ATTRIB(copy, strip_group_attributes(df));
