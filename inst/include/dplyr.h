@@ -60,17 +60,13 @@ void copy_most_attributes(SEXP out, SEXP data);
 CharacterVector dfloc(List);
 SEXP shallow_copy(const List& data);
 
-typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
-
 #if defined(COMPILING_DPLYR)
   DataFrame build_index_cpp(DataFrame data);
-  void registerHybridHandler(const char*, HybridHandler);
   SEXP get_time_classes();
   SEXP get_date_classes();
 #endif
 
 #include <dplyr/registration.h>
-
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/white_list.h>
@@ -115,6 +111,10 @@ typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/train.h>
 #include <dplyr/Groups.h>
+
+#if defined(COMPILING_DPLYR)
+  void registerHybridHandler(const char*, HybridHandler);
+#endif
 
 
 #endif
