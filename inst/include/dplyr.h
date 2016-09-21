@@ -83,9 +83,5 @@ SEXP shallow_copy(const List& data);
 #include <dplyr/train.h>
 #include <dplyr/Groups.h>
 
-#if defined(COMPILING_DPLYR)
-  void registerHybridHandler(const char*, HybridHandler);
-#endif
-
 
 #endif
