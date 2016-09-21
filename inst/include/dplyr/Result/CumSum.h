@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_CumSum_H
 #define dplyr_Result_CumSum_H
 
+#include <dplyr/Result/Mutater.h>
+
 namespace dplyr {
 
   // REALSXP version
