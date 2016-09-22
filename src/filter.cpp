@@ -1,17 +1,26 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/hash.h>
+#include <tools/LazyDots.h>
+#include <tools/utils.h>
+
+#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/RowwiseDataFrame.h>
+
+#include <dplyr/Result/LazyRowwiseSubsets.h>
+#include <dplyr/Result/GroupedCallProxy.h>
+#include <dplyr/Result/CallProxy.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
 typedef dplyr_hash_set<SEXP> SymbolSet;
 
-namespace dplyr {
-  void strip_index(DataFrame x) {
-    x.attr("indices") = R_NilValue;
-    x.attr("group_sizes") = R_NilValue;
-    x.attr("biggest_group_size") = R_NilValue;
-    x.attr("labels") = R_NilValue;
-  }
+void strip_index(DataFrame x) {
+  x.attr("indices") = R_NilValue;
+  x.attr("group_sizes") = R_NilValue;
+  x.attr("biggest_group_size") = R_NilValue;
+  x.attr("labels") = R_NilValue;
 }
 
 inline SEXP empty_subset(const DataFrame& df, CharacterVector columns, CharacterVector classes) {

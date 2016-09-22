@@ -1,6 +1,12 @@
 #ifndef dplyr_DataFrameSubsetVisitors_H
 #define dplyr_DataFrameSubsetVisitors_H
 
+#include <tools/pointer_vector.h>
+#include <tools/utils.h>
+
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/subset_visitor.h>
+
 namespace dplyr {
 
   class DataFrameSubsetVisitors {
@@ -113,19 +119,18 @@ namespace dplyr {
 
   };
 
-  inline DataFrame subset(DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes) {
-    DataFrameSubsetVisitors visitors(data, select);
-    return visitors.subset(test, classes);
+  template <typename Index>
+  DataFrame subset(DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes) {
+    return DataFrameSubsetVisitors(df, columns).subset(indices, classes);
   }
 
-  inline DataFrame subset(DataFrame data, LogicalVector test, CharacterVector classes) {
-    DataFrameSubsetVisitors visitors(data);
-    DataFrame res = visitors.subset(test, classes);
-    return res;
+  template <typename Index>
+  DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes) {
+    return DataFrameSubsetVisitors(df).subset(indices, classes);
   }
-
 
 } // namespace dplyr
 
+#include <dplyr/subset_visitor_impl.h>
 
 #endif

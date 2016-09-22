@@ -1,5 +1,6 @@
-#include <Rcpp.h>
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <dplyr/registration.h>
 
 using namespace Rcpp;
 using namespace dplyr;

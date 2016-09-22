@@ -1,6 +1,12 @@
 #ifndef dplyr_Result_Count_Distinct_H
 #define dplyr_Result_Count_Distinct_H
 
+#include <tools/hash.h>
+
+#include <dplyr/visitor_set/VisitorEqualPredicate.h>
+#include <dplyr/visitor_set/VisitorHash.h>
+#include <dplyr/Result/Processor.h>
+
 namespace dplyr {
 
   template <typename Visitor>

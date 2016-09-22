@@ -1,6 +1,14 @@
 #ifndef dplyr_GroupedCallProxy_H
 #define dplyr_GroupedCallProxy_H
 
+#include <dplyr/get_column.h>
+
+#include <dplyr/Hybrid.h>
+
+#include <dplyr/Result/CallElementProxy.h>
+#include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/Result/GroupedHybridCall.h>
+
 namespace dplyr {
 
   template <typename Data = GroupedDataFrame, typename Subsets = LazyGroupedSubsets>

@@ -1,4 +1,18 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <boost/scoped_ptr.hpp>
+
+#include <tools/all_na.h>
+#include <tools/collapse.h>
+#include <tools/DotsOf.h>
+#include <tools/pointer_vector.h>
+#include <tools/utils.h>
+
+#include <dplyr/DataFrameAble.h>
+#include <dplyr/GroupedDataFrame.h>
+
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/Collecter.h>
 
 using namespace Rcpp;
 using namespace dplyr;

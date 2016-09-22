@@ -1,6 +1,18 @@
 #ifndef dplyr_Result_Rank_H
 #define dplyr_Result_Rank_H
 
+#include <tools/hash.h>
+
+#include <dplyr/GroupedDataFrame.h>
+
+#include <dplyr/comparisons.h>
+#include <dplyr/visitor.h>
+
+#include <dplyr/Order.h>
+
+#include <dplyr/Result/Result.h>
+#include <dplyr/Result/VectorSliceVisitor.h>
+
 namespace dplyr {
   namespace internal {
 
@@ -409,5 +421,7 @@ namespace dplyr {
   };
 
 }
+
+#include <dplyr/visitor_impl.h>
 
 #endif

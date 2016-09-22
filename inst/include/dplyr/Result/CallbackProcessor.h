@@ -1,6 +1,13 @@
 #ifndef dplyr_Result_CallbackProcessor_H
 #define dplyr_Result_CallbackProcessor_H
 
+#include <boost/scoped_ptr.hpp>
+
+#include <tools/all_na.h>
+
+#include <dplyr/Result/Result.h>
+#include <dplyr/Result/DelayedProcessor.h>
+
 namespace dplyr {
 
   // classes inherit from this template when they have a method with this signature
