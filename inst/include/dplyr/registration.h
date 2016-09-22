@@ -1,12 +1,7 @@
 #ifndef dplyr_registration_H
 #define dplyr_registration_H
 
-namespace dplyr {
-  class LazySubsets;
-  class Result;
-}
-
-typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
+#include <dplyr/HybridHandler.h>
 
 #if defined(COMPILING_DPLYR)
 
