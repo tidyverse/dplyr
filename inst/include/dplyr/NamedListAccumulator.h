@@ -1,6 +1,8 @@
 #ifndef dplyr_NamedListAccumulator_H
 #define dplyr_NamedListAccumulator_H
 
+#include <dplyr/check_supported_type.h>
+
 namespace dplyr {
 
   template <typename Data>

@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/CharacterVectorOrderer.h>
+
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/visitor_impl.h>
 

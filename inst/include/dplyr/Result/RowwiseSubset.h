@@ -1,6 +1,8 @@
 #ifndef dplyr_RowwiseSubset_H
 #define dplyr_RowwiseSubset_H
 
+#include <dplyr/check_supported_type.h>
+
 namespace dplyr {
 
   class RowwiseSubset {

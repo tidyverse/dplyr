@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/check_supported_type.h>
+
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
 #include <dplyr/tbl_cpp.h>

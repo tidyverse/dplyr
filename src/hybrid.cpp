@@ -528,6 +528,8 @@ Result* constant_handler(SEXP constant) {
   return 0;
 }
 
+namespace dplyr {
+
 Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
   if (TYPEOF(call) == LANGSXP) {
     int depth = Rf_length(call);
@@ -553,6 +555,8 @@ Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& en
 
 void registerHybridHandler(const char* name, HybridHandler proto) {
   get_handlers()[ Rf_install(name) ] = proto;
+}
+
 }
 
 bool can_simplify(SEXP call) {
