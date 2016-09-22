@@ -1,6 +1,7 @@
 #ifndef dplyr_DataFrameSubsetVisitors_H
 #define dplyr_DataFrameSubsetVisitors_H
 
+#include <dplyr/tbl_cpp.h>
 #include <dplyr/subset_visitor.h>
 
 namespace dplyr {

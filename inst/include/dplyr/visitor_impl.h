@@ -1,7 +1,7 @@
 #ifndef dplyr_visitor_impl_H
 #define dplyr_visitor_impl_H
 
-#include <dplyr/VectorVisitor.h>
+#include <dplyr/VectorVisitorImpl.h>
 #include <dplyr/DataFrameColumnVisitor.h>
 #include <dplyr/MatrixColumnVisitor.h>
 

@@ -1,6 +1,8 @@
 #ifndef dplyr_LazyGroupedSubsets_H
 #define dplyr_LazyGroupedSubsets_H
 
+#include <dplyr/DataFrameSubsetVisitors.h>
+
 #include <dplyr/Result/GroupedSubset.h>
 #include <dplyr/Result/LazySubsets.h>
 

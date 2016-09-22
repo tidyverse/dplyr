@@ -1,5 +1,8 @@
 #include <dplyr.h>
 
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/visitor_impl.h>
+
 #include <dplyr/JoinVisitorImpl.h>
 
 #include <dplyr/Hybrid.h>

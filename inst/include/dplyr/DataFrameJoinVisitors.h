@@ -1,6 +1,7 @@
 #ifndef dplyr_DataFrameJoinVisitors_H
 #define dplyr_DataFrameJoinVisitors_H
 
+#include <dplyr/tbl_cpp.h>
 #include <dplyr/JoinVisitor.h>
 
 namespace dplyr {

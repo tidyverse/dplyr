@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/comparisons.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 

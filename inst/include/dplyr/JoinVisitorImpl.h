@@ -1,6 +1,8 @@
 #ifndef dplyr_JoinVisitorImpl_H
 #define dplyr_JoinVisitorImpl_H
 
+#include <dplyr/comparisons.h>
+#include <dplyr/comparisons_different.h>
 #include <dplyr/JoinVisitor.h>
 
 namespace dplyr {
