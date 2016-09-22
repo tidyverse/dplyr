@@ -2,6 +2,7 @@
 
 #include <boost/scoped_ptr.hpp>
 
+#include <tools/all_na.h>
 #include <tools/DotsOf.h>
 #include <tools/pointer_vector.h>
 

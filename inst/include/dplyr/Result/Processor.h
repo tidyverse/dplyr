@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Processor_H
 #define dplyr_Result_Processor_H
 
+#include <tools/utils.h>
+
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
 

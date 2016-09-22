@@ -3,6 +3,8 @@
 
 #include <boost/scoped_ptr.hpp>
 
+#include <tools/Call.h>
+
 #include <dplyr/Result/Result.h>
 
 namespace dplyr {

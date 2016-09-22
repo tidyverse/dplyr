@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_RowwiseDataFrame_H
 #define dplyr_tools_RowwiseDataFrame_H
 
+#include <tools/SlicingIndex.h>
+
 namespace dplyr {
 
   class RowwiseDataFrame;

@@ -1,6 +1,7 @@
 #include <dplyr.h>
 
 #include <tools/match.h>
+#include <tools/utils.h>
 
 #include <dplyr/extract_column.h>
 
