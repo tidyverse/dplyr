@@ -1,6 +1,8 @@
 #ifndef dplyr_GroupedCallProxy_H
 #define dplyr_GroupedCallProxy_H
 
+#include <dplyr/get_column.h>
+
 #include <dplyr/Hybrid.h>
 
 #include <dplyr/Result/CallElementProxy.h>

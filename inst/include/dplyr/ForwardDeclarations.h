@@ -3,8 +3,6 @@
 
 namespace dplyr {
   class LazySubsets;
-  Symbol extract_column(SEXP, const Environment&);
-  Symbol get_column(SEXP, const Environment&, const LazySubsets&);
   class Result;
   class ResultSet;
   class Reducer_Proxy;
