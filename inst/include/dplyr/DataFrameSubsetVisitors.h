@@ -1,6 +1,7 @@
 #ifndef dplyr_DataFrameSubsetVisitors_H
 #define dplyr_DataFrameSubsetVisitors_H
 
+#include <tools/pointer_vector.h>
 #include <tools/utils.h>
 
 #include <dplyr/tbl_cpp.h>

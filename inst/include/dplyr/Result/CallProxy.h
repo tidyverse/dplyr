@@ -1,6 +1,8 @@
 #ifndef dplyr_CallProxy_H
 #define dplyr_CallProxy_H
 
+#include <tools/Call.h>
+
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/CallElementProxy.h>
 
