@@ -12,8 +12,8 @@
 #include <dplyr/Result/Sum.h>
 #include <dplyr/Result/Var.h>
 #include <dplyr/Result/Sd.h>
-#include <dplyr/Result/min.h>
-#include <dplyr/Result/max.h>
+#include <dplyr/Result/Min.h>
+#include <dplyr/Result/Max.h>
 
 #include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/DelayedProcessor.h>
