@@ -1,6 +1,7 @@
 #ifndef dplyr_Result_Max_H
 #define dplyr_Result_Max_H
 
+#include <dplyr/Result/is_smaller.h>
 #include <dplyr/Result/Processor.h>
 
 namespace dplyr {

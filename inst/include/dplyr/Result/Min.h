@@ -1,6 +1,7 @@
 #ifndef dplyr_Result_Min_H
 #define dplyr_Result_Min_H
 
+#include <dplyr/Result/is_smaller.h>
 #include <dplyr/Result/Processor.h>
 
 namespace dplyr {

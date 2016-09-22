@@ -9,16 +9,12 @@
 #include <dplyr/Hybrid.h>
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/is_smaller.h>
-
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
 #include <dplyr/Result/Count.h>
 #include <dplyr/Result/Count_Distinct.h>
-#include <dplyr/Result/min.h>
-#include <dplyr/Result/max.h>
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>
 #include <dplyr/Result/CumSum.h>
@@ -50,60 +46,6 @@ bool hybridable(RObject arg) {
     break;
   }
   return false;
-}
-
-template< template <int, bool> class Tmpl, bool narm>
-Result* minmax_prototype_impl(SEXP arg, bool is_summary) {
-  if (!hybridable(arg)) return 0;
-
-  switch (TYPEOF(arg)) {
-  case INTSXP:
-    return new Tmpl<INTSXP,narm>(arg, is_summary);
-  case REALSXP:
-    return new Tmpl<REALSXP,narm>(arg, is_summary);
-  default:
-    break;
-  }
-  return 0;
-}
-
-template< template <int, bool> class Tmpl>
-Result* minmax_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
-  using namespace dplyr;
-  // we only can handle 1 or two arguments
-  if (nargs == 0 || nargs > 2) return 0;
-
-  // the first argument is the data to operate on
-  SEXP arg = CADR(call);
-
-  bool is_summary = false;
-  if (TYPEOF(arg) == SYMSXP) {
-    if (subsets.count(arg)) {
-      is_summary = subsets.is_summary(arg);
-      arg = subsets.get_variable(arg);
-    }
-    else return 0;
-  } else {
-    return 0;
-  }
-
-  if (nargs == 1) {
-    return minmax_prototype_impl<Tmpl,false>(arg, is_summary);
-  } else if (nargs == 2) {
-    SEXP arg2 = CDDR(call);
-    // we know how to handle fun( ., na.rm = TRUE/FALSE )
-    if (TAG(arg2) == R_NaRmSymbol) {
-      SEXP narm = CAR(arg2);
-      if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
-        if (LOGICAL(narm)[0] == TRUE) {
-          return minmax_prototype_impl<Tmpl,true>(arg, is_summary);
-        } else {
-          return minmax_prototype_impl<Tmpl,false>(arg, is_summary);
-        }
-      }
-    }
-  }
-  return 0;
 }
 
 Result* count_prototype(SEXP args, const LazySubsets&, int) {
@@ -415,9 +357,6 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install("row_number")   ] = row_number_prototype;
     handlers[ Rf_install("ntile")      ] = ntile_prototype;
 
-    handlers[ Rf_install("min")      ] = minmax_prototype<dplyr::Min>;
-    handlers[ Rf_install("max")      ] = minmax_prototype<dplyr::Max>;
-
     handlers[ Rf_install("min_rank")     ] = rank_impl_prototype<dplyr::internal::min_rank_increment>;
     handlers[ Rf_install("percent_rank")   ] = rank_impl_prototype<dplyr::internal::percent_rank_increment>;
     handlers[ Rf_install("dense_rank")   ] = rank_impl_prototype<dplyr::internal::dense_rank_increment>;
@@ -439,6 +378,7 @@ HybridHandlerMap& get_handlers() {
     // handlers[ Rf_install( "%in%" ) ] = in_prototype;
 
     install_simple_handlers(handlers);
+    install_minmax_handlers(handlers);
   }
   return handlers;
 }

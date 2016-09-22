@@ -6,7 +6,8 @@
 
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap;
 
-void install_simple_handlers(HybridHandlerMap& handler);
+void install_simple_handlers(HybridHandlerMap& handlers);
+void install_minmax_handlers(HybridHandlerMap& handlers);
 
 bool hybridable(RObject arg);
 
