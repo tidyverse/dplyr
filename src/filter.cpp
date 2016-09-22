@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <tools/LazyDots.h>
 #include <tools/utils.h>
 
 #include <dplyr/GroupedDataFrame.h>

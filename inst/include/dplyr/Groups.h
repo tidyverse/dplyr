@@ -1,6 +1,8 @@
 #ifndef dplyr_dplyr_Groups_H
 #define dplyr_dplyr_Groups_H
 
+#include <tools/LazyDots.h>
+
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
 
