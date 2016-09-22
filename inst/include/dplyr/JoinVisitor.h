@@ -5,6 +5,8 @@
 
 namespace dplyr {
 
+  class DataFrameJoinVisitors;
+
   class JoinVisitor {
   public:
     virtual ~JoinVisitor() {}
