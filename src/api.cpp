@@ -5,6 +5,8 @@
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/CallProxy.h>
 
+#include <dplyr/DataFrameJoinVisitors.h>
+
 namespace dplyr {
 
   DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
