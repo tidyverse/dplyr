@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+
 #include <dplyr/RowwiseDataFrame.h>
 #include <dplyr/MultipleVectorVisitors.h>
 #include <dplyr/DataFrameSubsetVisitors.h>

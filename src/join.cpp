@@ -2,6 +2,8 @@
 using namespace dplyr;
 using namespace Rcpp;
 
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+
 #include <dplyr/JoinVisitorImpl.h>
 
 namespace dplyr {
