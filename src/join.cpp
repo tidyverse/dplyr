@@ -2,6 +2,8 @@
 using namespace dplyr;
 using namespace Rcpp;
 
+#include <dplyr/JoinVisitorImpl.h>
+
 namespace dplyr {
 
   bool same_levels(SEXP left, SEXP right) {
