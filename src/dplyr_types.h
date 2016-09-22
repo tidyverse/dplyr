@@ -1,5 +1,4 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include <dplyr/main.h>
 
 #include <tools/DotsOf.h>
 #include <tools/LazyDots.h>
