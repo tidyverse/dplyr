@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <tools/LazyDots.h>
+
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
 #include <dplyr/GroupedDataFrame.h>

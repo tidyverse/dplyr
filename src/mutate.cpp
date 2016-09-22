@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <tools/LazyDots.h>
+
 #include <dplyr/check_supported_type.h>
 
 #include <dplyr/GroupedDataFrame.h>
