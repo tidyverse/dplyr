@@ -14,16 +14,13 @@
 #include <dplyr/Result/Sd.h>
 #include <dplyr/Result/min.h>
 #include <dplyr/Result/max.h>
-#include <dplyr/Result/CallElementProxy.h>
 
+#include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/CallbackProcessor.h>
-#include <dplyr/Result/DelayedReducer.h>
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>
-#include <dplyr/Result/GroupedHybridCall.h>
-#include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/GroupedCallReducer.h>
 #include <dplyr/Result/CallProxy.h>
 
@@ -31,7 +28,6 @@
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
-#include <dplyr/Result/Mutater.h>
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>
 #include <dplyr/Result/CumSum.h>
