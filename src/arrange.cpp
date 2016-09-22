@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/Order.h>
+
 #include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/Groups.h>

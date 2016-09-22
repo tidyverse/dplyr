@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/Order.h>
 #include <dplyr/Hybrid.h>
 
 #include <dplyr/Result/Processor.h>

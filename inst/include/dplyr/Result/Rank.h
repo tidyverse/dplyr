@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Rank_H
 #define dplyr_Result_Rank_H
 
+#include <dplyr/Order.h>
+
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/VectorSliceVisitor.h>
 
