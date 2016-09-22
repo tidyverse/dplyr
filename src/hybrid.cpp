@@ -134,28 +134,28 @@ Result* constant_handler(SEXP constant) {
 
 namespace dplyr {
 
-Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
-  if (TYPEOF(call) == LANGSXP) {
-    int depth = Rf_length(call);
-    HybridHandlerMap& handlers = get_handlers();
-    SEXP fun_symbol = CAR(call);
-    if (TYPEOF(fun_symbol) != SYMSXP) return 0;
+  Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
+    if (TYPEOF(call) == LANGSXP) {
+      int depth = Rf_length(call);
+      HybridHandlerMap& handlers = get_handlers();
+      SEXP fun_symbol = CAR(call);
+      if (TYPEOF(fun_symbol) != SYMSXP) return 0;
 
-    HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
-    if (it == handlers.end()) return 0;
+      HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
+      if (it == handlers.end()) return 0;
 
-    return it->second(call, subsets, depth - 1);
-  } else if (TYPEOF(call) == SYMSXP) {
-    if (!subsets.count(call)) {
-      SEXP data = env.find(CHAR(PRINTNAME(call)));
-      if (Rf_length(data) == 1) return constant_handler(data);
+      return it->second(call, subsets, depth - 1);
+    } else if (TYPEOF(call) == SYMSXP) {
+      if (!subsets.count(call)) {
+        SEXP data = env.find(CHAR(PRINTNAME(call)));
+        if (Rf_length(data) == 1) return constant_handler(data);
+      }
+    } else {
+      // TODO: perhaps deal with SYMSXP separately
+      if (Rf_length(call) == 1) return constant_handler(call);
     }
-  } else {
-    // TODO: perhaps deal with SYMSXP separately
-    if (Rf_length(call) == 1) return constant_handler(call);
+    return 0;
   }
-  return 0;
-}
 
 }
 
