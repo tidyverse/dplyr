@@ -42,79 +42,6 @@ bool hybridable(RObject arg) {
   return false;
 }
 
-struct LeadLag {
-
-  LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(true) {
-
-    SEXP p = CDR(call);
-    SEXP tag = TAG(p);
-    if (tag != R_NilValue && tag != Rf_install("x")) {
-      ok = false;
-      return;
-    }
-    data = CAR(p);
-
-    p = CDR(p);
-    while (p != R_NilValue) {
-      tag = TAG(p);
-      if (tag != R_NilValue && tag != Rf_install("n") && tag != Rf_install("default")) {
-        ok = false;
-        return;
-      }
-      if (tag == Rf_install("n") || tag == R_NilValue) {
-        try {
-          n = as<int>(CAR(p));
-        } catch (...) {
-          SEXP n_ = CADDR(call);
-          std::stringstream s;
-          stop("could not convert second argument to an integer. type=%s, length = %d",
-               type2name(n_), Rf_length(n_));
-        }
-      }
-      if (tag == Rf_install("default")) {
-        def = CAR(p);
-        if (TYPEOF(def) == LANGSXP) ok = false;
-      }
-      p = CDR(p);
-    }
-  }
-
-  RObject data;
-  int n;
-  RObject def;
-
-  bool ok;
-
-};
-
-template < template<int> class Templ>
-Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
-  LeadLag args(call);
-  if (!args.ok) return 0;
-  RObject& data = args.data;
-
-  if (TYPEOF(data) == SYMSXP && subsets.count(data)) {
-    bool is_summary = subsets.is_summary(data);
-    int n = args.n;
-    data = subsets.get_variable(data);
-
-    switch (TYPEOF(data)) {
-    case INTSXP:
-      return new Templ<INTSXP> (data, n, args.def, is_summary);
-    case REALSXP:
-      return new Templ<REALSXP>(data, n, args.def, is_summary);
-    case STRSXP:
-      return new Templ<STRSXP> (data, n, args.def, is_summary);
-    case LGLSXP:
-      return new Templ<LGLSXP> (data, n, args.def, is_summary);
-    default:
-      break;
-    }
-
-  }
-  return 0;
-}
-
 template < template <int> class Templ>
 Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
@@ -171,9 +98,6 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install( "cummax")      ] = cumfun_prototype<CumMax>;
     */
 
-    handlers[ Rf_install("lead")       ] = leadlag_prototype<Lead>;
-    handlers[ Rf_install("lag")      ] = leadlag_prototype<Lag>;
-
     // handlers[ Rf_install( "%in%" ) ] = in_prototype;
 
     install_simple_handlers(handlers);
@@ -181,6 +105,7 @@ HybridHandlerMap& get_handlers() {
     install_count_handlers(handlers);
     install_nth_handlers(handlers);
     install_window_handlers(handlers);
+    install_offset_handlers(handlers);
   }
   return handlers;
 }
