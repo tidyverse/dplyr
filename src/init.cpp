@@ -1,5 +1,4 @@
-#include <Rcpp.h>
-#include <dplyr.h>
+#include <dplyr/main.h>
 
 #include <dplyr/registration.h>
 
