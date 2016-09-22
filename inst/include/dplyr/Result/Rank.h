@@ -1,6 +1,7 @@
 #ifndef dplyr_Result_Rank_H
 #define dplyr_Result_Rank_H
 
+#include <dplyr/comparisons.h>
 #include <dplyr/visitor.h>
 
 #include <dplyr/Order.h>

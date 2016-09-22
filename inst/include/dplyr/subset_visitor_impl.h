@@ -1,7 +1,7 @@
 #ifndef dplyr_subset_visitor_impl_H
 #define dplyr_subset_visitor_impl_H
 
-#include <dplyr/SubsetVectorVisitor.h>
+#include <dplyr/SubsetVectorVisitorImpl.h>
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/DataFrameColumnSubsetVisitor.h>
 #include <dplyr/MatrixColumnSubsetVectorVisitor.h>

@@ -1,6 +1,11 @@
 #ifndef dplyr_OrderVectorVisitor_Impl_H
 #define dplyr_OrderVectorVisitor_Impl_H
 
+#include <dplyr/comparisons.h>
+#include <dplyr/OrderVisitor.h>
+#include <dplyr/DataFrameVisitors.h>
+#include <dplyr/MatrixColumnVisitor.h>
+
 namespace dplyr {
 
   // version used for ascending = true

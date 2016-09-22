@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/JoinVisitorImpl.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 

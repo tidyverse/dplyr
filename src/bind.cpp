@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/tbl_cpp.h>
 #include <dplyr/Collecter.h>
 
 using namespace Rcpp;

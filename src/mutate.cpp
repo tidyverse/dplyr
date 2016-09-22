@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/tbl_cpp.h>
+
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/CallProxy.h>
 
