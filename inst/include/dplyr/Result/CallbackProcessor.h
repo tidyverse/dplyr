@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_CallbackProcessor_H
 #define dplyr_Result_CallbackProcessor_H
 
+#include <boost/scoped_ptr.hpp>
+
 #include <tools/all_na.h>
 
 #include <dplyr/Result/Result.h>

@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <boost/scoped_ptr.hpp>
+
 #include <tools/LazyDots.h>
 
 #include <dplyr/check_supported_type.h>

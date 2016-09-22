@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <boost/scoped_ptr.hpp>
+
 #include <tools/DotsOf.h>
 #include <tools/pointer_vector.h>
 

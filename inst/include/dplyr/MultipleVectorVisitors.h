@@ -1,6 +1,8 @@
 #ifndef dplyr_MultipleVectorVisitors_H
 #define dplyr_MultipleVectorVisitors_H
 
+#include <boost/shared_ptr.hpp>
+
 #include <dplyr/visitor_set/VisitorSetMixin.h>
 
 #include <dplyr/visitor.h>

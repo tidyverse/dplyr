@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <boost/scoped_ptr.hpp>
+
 #include <tools/LazyDots.h>
 
 #include <dplyr/GroupedDataFrame.h>
