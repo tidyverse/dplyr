@@ -2,26 +2,28 @@
 using namespace dplyr;
 using namespace Rcpp;
 
+#include <tools/utils.h>
+
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
 
 #include <dplyr/JoinVisitorImpl.h>
 
-namespace dplyr {
+bool same_levels(SEXP left, SEXP right) {
+  SEXP s_levels = Rf_install("levels");
+  CharacterVector levels_left  = Rf_getAttrib(left,s_levels);
+  CharacterVector levels_right = Rf_getAttrib(right,s_levels);
+  if ((SEXP)levels_left == (SEXP)levels_right) return true;
+  int n = levels_left.size();
+  if (n != levels_right.size()) return false;
 
-  bool same_levels(SEXP left, SEXP right) {
-    SEXP s_levels = Rf_install("levels");
-    CharacterVector levels_left  = Rf_getAttrib(left,s_levels);
-    CharacterVector levels_right = Rf_getAttrib(right,s_levels);
-    if ((SEXP)levels_left == (SEXP)levels_right) return true;
-    int n = levels_left.size();
-    if (n != levels_right.size()) return false;
-
-    for (int i=0; i<n; i++) {
-      if (levels_right[i] != levels_left[i]) return false;
-    }
-
-    return true;
+  for (int i=0; i<n; i++) {
+    if (levels_right[i] != levels_left[i]) return false;
   }
+
+  return true;
+}
+
+namespace dplyr {
 
   inline bool is_bare_vector(SEXP x) {
     SEXP att = ATTRIB(x);

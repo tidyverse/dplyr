@@ -1,7 +1,6 @@
 #ifndef dplyr_dplyr_dplyr_H
 #define dplyr_dplyr_dplyr_H
 
-#include <dplyr/ForwardDeclarations.h>
 #include <dplyr/registration.h>
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
