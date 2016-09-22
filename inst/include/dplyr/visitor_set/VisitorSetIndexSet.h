@@ -1,6 +1,9 @@
 #ifndef dplyr_VisitorSetIndexSet_H
 #define dplyr_VisitorSetIndexSet_H
 
+#include <dplyr/visitor_set/VisitorSetHasher.h>
+#include <dplyr/visitor_set/VisitorSetEqualPredicate.h>
+
 namespace dplyr {
 
   template <typename VisitorSet>
