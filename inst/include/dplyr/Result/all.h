@@ -1,7 +1,6 @@
 #ifndef dplyr_Result_all_H
 #define dplyr_Result_all_H
 
-#include <dplyr/Result/Everything.h>
 #include <dplyr/Result/is_smaller.h>
 #include <dplyr/Result/GroupedSubset.h>
 #include <dplyr/Result/RowwiseSubset.h>
