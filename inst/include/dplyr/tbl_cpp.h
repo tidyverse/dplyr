@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_tbl_cpp_H
 #define dplyr_tools_tbl_cpp_H
 
+#include <dplyr/RowwiseDataFrame.h>
+
 namespace dplyr {
 
   template <typename Df>

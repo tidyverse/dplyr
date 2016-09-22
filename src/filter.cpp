@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/RowwiseDataFrame.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>

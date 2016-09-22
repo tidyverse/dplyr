@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Processor_H
 #define dplyr_Result_Processor_H
 
+#include <dplyr/RowwiseDataFrame.h>
+
 #include <dplyr/Result/Result.h>
 
 namespace dplyr {

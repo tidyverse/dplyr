@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/RowwiseDataFrame.h>
+
 #include <dplyr/MultipleVectorVisitors.h>
 
 #include <dplyr/Hybrid.h>
