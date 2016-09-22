@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_GroupedDataFrame_H
 #define dplyr_tools_GroupedDataFrame_H
 
+#include <tools/SlicingIndex.h>
+
 namespace dplyr {
 
   inline void check_valid_colnames(const DataFrame& df) {
