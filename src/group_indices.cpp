@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/Order.h>
+
 #include <dplyr/Result/Count.h>
 
 #include <dplyr/train.h>
