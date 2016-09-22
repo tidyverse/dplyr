@@ -115,17 +115,15 @@ namespace dplyr {
 
   };
 
-  inline DataFrame subset(DataFrame data, LogicalVector test, CharacterVector select, CharacterVector classes) {
-    DataFrameSubsetVisitors visitors(data, select);
-    return visitors.subset(test, classes);
+  template <typename Index>
+  DataFrame subset(DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes) {
+    return DataFrameSubsetVisitors(df, columns).subset(indices, classes);
   }
 
-  inline DataFrame subset(DataFrame data, LogicalVector test, CharacterVector classes) {
-    DataFrameSubsetVisitors visitors(data);
-    DataFrame res = visitors.subset(test, classes);
-    return res;
+  template <typename Index>
+  DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes) {
+    return DataFrameSubsetVisitors(df).subset(indices, classes);
   }
-
 
 } // namespace dplyr
 

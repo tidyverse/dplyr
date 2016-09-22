@@ -11,16 +11,6 @@ using namespace Rcpp;
 using namespace dplyr;
 
 template <typename Index>
-DataFrame subset(DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes) {
-  return DataFrameSubsetVisitors(df, columns).subset(indices, classes);
-}
-
-template <typename Index>
-DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes) {
-  return DataFrameSubsetVisitors(df).subset(indices, classes);
-}
-
-template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,
                       const Index& indices_x, const Index& indices_y,
                       CharacterVector by_x, CharacterVector by_y ,
