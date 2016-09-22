@@ -1,6 +1,8 @@
 #ifndef dplyr_DelayedReducer_H
 #define dplyr_DelayedReducer_H
 
+#include <tools/wrap_subset.h>
+
 namespace dplyr {
 
   template <int INPUT_RTYPE>

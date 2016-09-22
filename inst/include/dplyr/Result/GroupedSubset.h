@@ -1,6 +1,8 @@
 #ifndef dplyr_GroupedSubset_H
 #define dplyr_GroupedSubset_H
 
+#include <tools/ShrinkableVector.h>
+
 #include <dplyr/SummarisedVariable.h>
 
 namespace dplyr {
