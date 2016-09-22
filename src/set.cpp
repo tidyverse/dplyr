@@ -1,5 +1,8 @@
 #include <dplyr.h>
 
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+#include <dplyr/visitor_set/VisitorSetIndexMap.h>
+
 #include <dplyr/BoolResult.h>
 
 #include <dplyr/DataFrameSubsetVisitors.h>

@@ -1,6 +1,8 @@
 #ifndef dplyr_JoinVisitor_H
 #define dplyr_JoinVisitor_H
 
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+
 namespace dplyr {
 
   class JoinVisitor {
