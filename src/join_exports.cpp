@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/DataFrameJoinVisitors.h>
+
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
 
