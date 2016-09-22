@@ -7,6 +7,7 @@
 #include <dplyr/MultipleVectorVisitors.h>
 
 #include <dplyr/Hybrid.h>
+#include <dplyr/HybridHandlerMap.h>
 
 #include <dplyr/Result/is_smaller.h>
 
@@ -16,10 +17,6 @@
 
 #include <dplyr/Result/Count.h>
 #include <dplyr/Result/Count_Distinct.h>
-#include <dplyr/Result/Mean.h>
-#include <dplyr/Result/Sum.h>
-#include <dplyr/Result/Var.h>
-#include <dplyr/Result/Sd.h>
 #include <dplyr/Result/min.h>
 #include <dplyr/Result/max.h>
 #include <dplyr/Result/Lead.h>
@@ -31,8 +28,6 @@
 
 using namespace Rcpp;
 using namespace dplyr;
-
-typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap;
 
 bool has_no_class(const RObject& arg) {
   return RCPP_GET_CLASS(arg) == R_NilValue;
@@ -55,62 +50,6 @@ bool hybridable(RObject arg) {
     break;
   }
   return false;
-}
-
-template <template <int,bool> class Fun, bool narm>
-Result* simple_prototype_impl(SEXP arg, bool is_summary) {
-  // if not hybridable, just let R handle it
-  if (!hybridable(arg)) return 0;
-
-  switch (TYPEOF(arg)) {
-  case INTSXP:
-    return new Fun<INTSXP,narm>(arg, is_summary);
-  case REALSXP:
-    return new Fun<REALSXP,narm>(arg, is_summary);
-  default:
-    break;
-  }
-  return 0;
-}
-
-template <template <int,bool> class Fun>
-Result* simple_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
-  if (nargs == 0) return 0;
-  SEXP arg = CADR(call);
-  bool is_summary = false;
-  if (TYPEOF(arg) == SYMSXP) {
-    if (subsets.count(arg)) {
-      // we have a symbol from the data - great
-      is_summary = subsets.is_summary(arg);
-      arg = subsets.get_variable(arg);
-    } else {
-      // we have a symbol but we don't know about it, so we give up and let R evaluation handle it
-      return 0;
-    }
-  } else {
-    // anything else: expressions, constants ...
-    // workaround for now : we just let R deal with it
-    // of course this needs some specializations, i.e. sum(1) does not need R to get involved
-    return 0;
-  }
-
-  if (nargs == 1) {
-    return simple_prototype_impl<Fun, false>(arg, is_summary);
-  } else if (nargs == 2) {
-    SEXP arg2 = CDDR(call);
-    // we know how to handle fun( ., na.rm = TRUE/FALSE )
-    if (TAG(arg2) == R_NaRmSymbol) {
-      SEXP narm = CAR(arg2);
-      if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
-        if (LOGICAL(narm)[0] == TRUE) {
-          return simple_prototype_impl<Fun, true>(arg, is_summary);
-        } else {
-          return simple_prototype_impl<Fun, false>(arg, is_summary);
-        }
-      }
-    }
-  }
-  return 0;
 }
 
 template< template <int, bool> class Tmpl, bool narm>
@@ -479,11 +418,6 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install("min")      ] = minmax_prototype<dplyr::Min>;
     handlers[ Rf_install("max")      ] = minmax_prototype<dplyr::Max>;
 
-    handlers[ Rf_install("mean")       ] = simple_prototype<dplyr::Mean>;
-    handlers[ Rf_install("var")      ] = simple_prototype<dplyr::Var>;
-    handlers[ Rf_install("sd")        ] = simple_prototype<dplyr::Sd>;
-    handlers[ Rf_install("sum")      ] = simple_prototype<dplyr::Sum>;
-
     handlers[ Rf_install("min_rank")     ] = rank_impl_prototype<dplyr::internal::min_rank_increment>;
     handlers[ Rf_install("percent_rank")   ] = rank_impl_prototype<dplyr::internal::percent_rank_increment>;
     handlers[ Rf_install("dense_rank")   ] = rank_impl_prototype<dplyr::internal::dense_rank_increment>;
@@ -504,6 +438,7 @@ HybridHandlerMap& get_handlers() {
 
     // handlers[ Rf_install( "%in%" ) ] = in_prototype;
 
+    install_simple_handlers(handlers);
   }
   return handlers;
 }
