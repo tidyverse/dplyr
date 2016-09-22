@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Rank_H
 #define dplyr_Result_Rank_H
 
+#include <dplyr/GroupedDataFrame.h>
+
 #include <dplyr/comparisons.h>
 #include <dplyr/visitor.h>
 
