@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/JoinVisitorImpl.h>
+
 #include <dplyr/Hybrid.h>
 
 #include <dplyr/Result/Result.h>

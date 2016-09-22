@@ -1,6 +1,8 @@
 #ifndef dplyr_JoinVisitorImpl_H
 #define dplyr_JoinVisitorImpl_H
 
+#include <dplyr/JoinVisitor.h>
+
 namespace dplyr {
 
   CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& right);
