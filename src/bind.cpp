@@ -1,5 +1,8 @@
 #include <dplyr.h>
 
+#include <tools/DotsOf.h>
+#include <tools/pointer_vector.h>
+
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/GroupedDataFrame.h>
 
