@@ -7,7 +7,6 @@
 #include <tools/Encoding.h>
 #include <tools/match.h>
 #include <tools/SymbolMap.h>
-#include <tools/StringUTF8.h>
 #include <tools/DotsOf.h>
 #include <tools/Call.h>
 #include <tools/delete_all.h>
