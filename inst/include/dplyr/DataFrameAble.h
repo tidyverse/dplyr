@@ -1,6 +1,8 @@
 #ifndef dplyr_DataFrameAble_H
 #define dplyr_DataFrameAble_H
 
+#include <boost/shared_ptr.hpp>
+
 namespace dplyr {
 
   class DataFrameAbleImpl {
