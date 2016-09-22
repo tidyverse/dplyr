@@ -9,4 +9,4 @@ include_directories(/home/muelleki/git/R/r-svn/R-3-3-1/include)
 include_directories(inst/include)
 
 file(GLOB SOURCE_FILES src/*.cpp src/*.c)
-add_library(RSQLite ${SOURCE_FILES})
+add_library(dplyr ${SOURCE_FILES})
