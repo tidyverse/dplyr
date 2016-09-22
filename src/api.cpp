@@ -60,10 +60,6 @@ namespace dplyr {
       x.attr("vars") = vars;
   }
 
-  inline String comma_collapse(SEXP names) {
-    return Language("paste", names, _["collapse"] = ", ").fast_eval();
-  }
-
   DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :
     left(left_), right(right_),
     visitor_names_left(names_left),
