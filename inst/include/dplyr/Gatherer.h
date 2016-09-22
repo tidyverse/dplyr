@@ -1,6 +1,7 @@
 #ifndef dplyr_Gatherer_H
 #define dplyr_Gatherer_H
 
+#include <tools/hash.h>
 #include <tools/utils.h>
 
 #include <dplyr/check_supported_type.h>

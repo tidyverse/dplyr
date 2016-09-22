@@ -1,6 +1,8 @@
 #ifndef dplyr_Collecter_H
 #define dplyr_Collecter_H
 
+#include <tools/hash.h>
+
 #include <dplyr/registration.h>
 #include <dplyr/vector_class.h>
 

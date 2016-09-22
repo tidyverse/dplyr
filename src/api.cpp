@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <tools/hash.h>
 #include <tools/match.h>
 
 #include <dplyr/CharacterVectorOrderer.h>
