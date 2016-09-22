@@ -11,7 +11,6 @@ using namespace Rcpp;
 
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/functional/hash.hpp>
 
 #include <tools/tools.h>
 
