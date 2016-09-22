@@ -4,10 +4,7 @@
 #include <dplyr/visitor_set/VisitorEqualPredicate.h>
 #include <dplyr/visitor_set/VisitorHash.h>
 
-#include <dplyr/visitor_set/VisitorSetEqual.h>
-#include <dplyr/visitor_set/VisitorSetHash.h>
-#include <dplyr/visitor_set/VisitorSetLess.h>
-#include <dplyr/visitor_set/VisitorSetGreater.h>
+#include <dplyr/visitor_set/VisitorSetMixin.h>
 
 #include <dplyr/visitor_set/VisitorSetHasher.h>
 
