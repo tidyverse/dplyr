@@ -1,6 +1,10 @@
 #ifndef dplyr_SubsetVectorVisitor_H
 #define dplyr_SubsetVectorVisitor_H
 
+#include <tools/SlicingIndex.h>
+#include <dplyr/DataFrameVisitorsIndexMap.h>
+#include <dplyr/EmptySubset.h>
+
 namespace dplyr {
 
   /**
