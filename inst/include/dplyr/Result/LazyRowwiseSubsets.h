@@ -1,6 +1,14 @@
 #ifndef dplyr_LazyRowwiseSubsets_H
 #define dplyr_LazyRowwiseSubsets_H
 
+#include <tools/hash.h>
+#include <tools/delete_all.h>
+
+#include <dplyr/RowwiseDataFrame.h>
+
+#include <dplyr/Result/RowwiseSubset.h>
+#include <dplyr/Result/LazySubsets.h>
+
 namespace dplyr {
 
   class LazyRowwiseSubsets : public LazySubsets {

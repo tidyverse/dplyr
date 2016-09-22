@@ -1,7 +1,9 @@
 #ifndef dplyr_tools_RowwiseDataFrame_H
 #define dplyr_tools_RowwiseDataFrame_H
 
-namespace Rcpp {
+#include <tools/SlicingIndex.h>
+
+namespace dplyr {
 
   class RowwiseDataFrame;
 
@@ -75,6 +77,11 @@ namespace Rcpp {
     IntegerVector group_sizes;
 
   };
+
+}
+
+namespace Rcpp {
+  using namespace dplyr;
 
   template <>
   inline bool is<RowwiseDataFrame>(SEXP x) {

@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Min_H
 #define dplyr_Result_Min_H
 
+#include <dplyr/Result/Processor.h>
+
 namespace dplyr {
 
   template <int RTYPE, bool NA_RM>

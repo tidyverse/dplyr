@@ -1,4 +1,11 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <dplyr/Order.h>
+#include <dplyr/Hybrid.h>
+
+#include <dplyr/Result/Processor.h>
+#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/VectorSliceVisitor.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -109,6 +116,8 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
   stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
   return 0;
 }
+
+namespace dplyr {
 
 Result* nth_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   // has to have at least two arguments
@@ -267,4 +276,6 @@ Result* first_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
 
 Result* last_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return firstlast_prototype(call, subsets, nargs, -1);
+}
+
 }

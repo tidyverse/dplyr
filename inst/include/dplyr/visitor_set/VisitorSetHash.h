@@ -1,6 +1,8 @@
 #ifndef dplyr_VisitorSetHash_H
 #define dplyr_VisitorSetHash_H
 
+#include <tools/hash.h>
+
 namespace dplyr {
 
   template <typename Class>

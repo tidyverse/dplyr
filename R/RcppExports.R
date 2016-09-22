@@ -13,8 +13,12 @@ plfloc <- function(data) {
     .Call('dplyr_plfloc', PACKAGE = 'dplyr', data)
 }
 
-rank_strings <- function(s) {
-    .Call('dplyr_rank_strings', PACKAGE = 'dplyr', s)
+strings_addresses <- function(s) {
+    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
+}
+
+gp <- function(x) {
+    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
 }
 
 arrange_impl <- function(data, dots) {
@@ -61,8 +65,40 @@ distinct_impl <- function(df, vars, keep) {
     .Call('dplyr_distinct_impl', PACKAGE = 'dplyr', df, vars, keep)
 }
 
-assert_all_white_list <- function(data) {
-    invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
+n_distinct_multi <- function(variables, na_rm = FALSE) {
+    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
+}
+
+filter_impl <- function(df, dots) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
+}
+
+resolve_vars <- function(new_groups, names) {
+    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
+}
+
+grouped_df_impl <- function(data, symbols, drop) {
+    .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
+}
+
+as_regular_df <- function(df) {
+    .Call('dplyr_as_regular_df', PACKAGE = 'dplyr', df)
+}
+
+ungroup_grouped_df <- function(df) {
+    .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
+}
+
+grouped_indices_grouped_df_impl <- function(gdf) {
+    .Call('dplyr_grouped_indices_grouped_df_impl', PACKAGE = 'dplyr', gdf)
+}
+
+grouped_indices_impl <- function(data, symbols) {
+    .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
+}
+
+group_size_grouped_cpp <- function(gdf) {
+    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y) {
@@ -89,8 +125,16 @@ full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
     .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-shallow_copy <- function(data) {
-    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
+slice_impl <- function(df, dots) {
+    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
+}
+
+mutate_impl <- function(df, dots) {
+    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
+}
+
+select_impl <- function(df, vars) {
+    .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
 }
 
 compatible_data_frame_nonames <- function(x, y, convert) {
@@ -105,10 +149,6 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
     .Call('dplyr_equal_data_frame', PACKAGE = 'dplyr', x, y, ignore_col_order, ignore_row_order, convert)
 }
 
-all_equal_data_frame <- function(args, env) {
-    .Call('dplyr_all_equal_data_frame', PACKAGE = 'dplyr', args, env)
-}
-
 union_data_frame <- function(x, y) {
     .Call('dplyr_union_data_frame', PACKAGE = 'dplyr', x, y)
 }
@@ -121,88 +161,20 @@ setdiff_data_frame <- function(x, y) {
     .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
-match_data_frame <- function(x, y) {
-    .Call('dplyr_match_data_frame', PACKAGE = 'dplyr', x, y)
-}
-
-resolve_vars <- function(new_groups, names) {
-    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
-}
-
-grouped_df_impl <- function(data, symbols, drop) {
-    .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
-}
-
-grouped_df_adj_impl <- function(data, symbols, drop) {
-    .Call('dplyr_grouped_df_adj_impl', PACKAGE = 'dplyr', data, symbols, drop)
-}
-
-slice_impl <- function(df, dots) {
-    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
-}
-
-mutate_impl <- function(df, dots) {
-    .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
-}
-
-order_impl <- function(args, env) {
-    .Call('dplyr_order_impl', PACKAGE = 'dplyr', args, env)
-}
-
-sort_impl <- function(data) {
-    .Call('dplyr_sort_impl', PACKAGE = 'dplyr', data)
-}
-
-group_size_grouped_cpp <- function(gdf) {
-    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
-}
-
-n_distinct_multi <- function(variables, na_rm = FALSE) {
-    .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
-}
-
-as_regular_df <- function(df) {
-    .Call('dplyr_as_regular_df', PACKAGE = 'dplyr', df)
-}
-
-ungroup_grouped_df <- function(df) {
-    .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
-}
-
-split_indices <- function(group, groups) {
-    .Call('dplyr_split_indices', PACKAGE = 'dplyr', group, groups)
-}
-
-gp <- function(x) {
-    .Call('dplyr_gp', PACKAGE = 'dplyr', x)
-}
-
-filter_impl <- function(df, dots) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
-}
-
-grouped_indices_grouped_df_impl <- function(gdf) {
-    .Call('dplyr_grouped_indices_grouped_df_impl', PACKAGE = 'dplyr', gdf)
-}
-
-grouped_indices_impl <- function(data, symbols) {
-    .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
-}
-
-select_impl <- function(df, vars) {
-    .Call('dplyr_select_impl', PACKAGE = 'dplyr', df, vars)
-}
-
-strings_addresses <- function(s) {
-    .Call('dplyr_strings_addresses', PACKAGE = 'dplyr', s)
-}
-
 summarise_impl <- function(df, dots) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 test_comparisons <- function() {
     .Call('dplyr_test_comparisons', PACKAGE = 'dplyr')
+}
+
+assert_all_white_list <- function(data) {
+    invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
+}
+
+shallow_copy <- function(data) {
+    .Call('dplyr_shallow_copy', PACKAGE = 'dplyr', data)
 }
 
 #' Cumulativate versions of any, all, and mean

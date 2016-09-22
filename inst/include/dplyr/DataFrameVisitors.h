@@ -1,6 +1,12 @@
 #ifndef dplyr_DataFrameVisitors_H
 #define dplyr_DataFrameVisitors_H
 
+#include <tools/pointer_vector.h>
+
+#include <dplyr/visitor_set/VisitorSetMixin.h>
+
+#include <dplyr/VectorVisitor.h>
+
 namespace dplyr {
 
   class DataFrameVisitors :

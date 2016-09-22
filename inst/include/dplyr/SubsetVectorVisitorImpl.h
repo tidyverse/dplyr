@@ -1,6 +1,12 @@
 #ifndef dplyr_SubsetVectorVisitor_Impl_H
 #define dplyr_SubsetVectorVisitor_Impl_H
 
+#include <tools/collapse.h>
+#include <tools/utils.h>
+
+#include <dplyr/VectorVisitorImpl.h>
+#include <dplyr/SubsetVectorVisitor.h>
+
 namespace dplyr {
 
   /**

@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_ConstantResult_H
 #define dplyr_Result_ConstantResult_H
 
+#include <dplyr/Result/Result.h>
+
 namespace dplyr {
 
   template <int RTYPE>

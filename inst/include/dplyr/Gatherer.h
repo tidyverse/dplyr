@@ -1,6 +1,16 @@
 #ifndef dplyr_Gatherer_H
 #define dplyr_Gatherer_H
 
+#include <tools/all_na.h>
+#include <tools/hash.h>
+#include <tools/utils.h>
+
+#include <dplyr/check_supported_type.h>
+
+#include <dplyr/Result/GroupedCallProxy.h>
+
+#include <dplyr/vector_class.h>
+
 namespace dplyr {
 
   class Gatherer {

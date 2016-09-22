@@ -1,6 +1,12 @@
 #ifndef dplyr_MultipleVectorVisitors_H
 #define dplyr_MultipleVectorVisitors_H
 
+#include <boost/shared_ptr.hpp>
+
+#include <dplyr/visitor_set/VisitorSetMixin.h>
+
+#include <dplyr/visitor.h>
+
 namespace dplyr {
 
   class MultipleVectorVisitors :
@@ -52,5 +58,6 @@ namespace dplyr {
 
 } // namespace dplyr
 
+#include <dplyr/visitor_impl.h>
 
 #endif

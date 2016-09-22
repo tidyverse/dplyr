@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Var_H
 #define dplyr_Result_Var_H
 
+#include <dplyr/Result/Processor.h>
+
 namespace dplyr {
   namespace internal {
     inline double square(double x) {

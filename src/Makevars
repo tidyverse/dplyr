@@ -2,3 +2,14 @@ PKG_CPPFLAGS = -I../inst/include -DCOMPILING_DPLYR
 
 # Disable long types from C99 or CPP11 extensions
 PKG_CXXFLAGS = -DBOOST_NO_INT64_T -DBOOST_NO_INTEGRAL_INT64_T -DBOOST_NO_LONG_LONG
+
+all: $(SHLIB)
+
+# This file exists only for R CMD INSTALL, is created as empty file
+# for building from source archive
+Makevars.local:
+	touch "$@"
+include Makevars.local
+
+clean:
+	rm -f *.d

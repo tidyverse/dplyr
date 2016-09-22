@@ -1,4 +1,20 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <boost/scoped_ptr.hpp>
+
+#include <tools/LazyDots.h>
+
+#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/RowwiseDataFrame.h>
+
+#include <dplyr/tbl_cpp.h>
+
+#include <dplyr/Result/LazyRowwiseSubsets.h>
+#include <dplyr/Result/GroupedCallReducer.h>
+#include <dplyr/Result/CallProxy.h>
+
+#include <dplyr/NamedListAccumulator.h>
+#include <dplyr/Groups.h>
 
 using namespace Rcpp;
 using namespace dplyr;
