@@ -1,6 +1,8 @@
 #ifndef dplyr_MultipleVectorVisitors_H
 #define dplyr_MultipleVectorVisitors_H
 
+#include <dplyr/visitor_set/VisitorSetMixin.h>
+
 #include <dplyr/visitor.h>
 
 namespace dplyr {
