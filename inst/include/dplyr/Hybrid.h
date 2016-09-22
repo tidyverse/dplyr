@@ -1,10 +1,15 @@
 #ifndef dplyr_dplyr_hybrid_H
 #define dplyr_dplyr_hybrid_H
 
-dplyr::Result* get_handler(SEXP, const dplyr::LazySubsets&, const Environment&);
-dplyr::Result* nth_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-dplyr::Result* first_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
-dplyr::Result* last_prototype(SEXP call, const dplyr::LazySubsets& subsets, int nargs);
+namespace dplyr {
+  class Result;
+
+  Result* get_handler(SEXP, const LazySubsets&, const Environment&);
+  Result* nth_prototype(SEXP call, const LazySubsets& subsets, int nargs);
+  Result* first_prototype(SEXP call, const LazySubsets& subsets, int nargs);
+  Result* last_prototype(SEXP call, const LazySubsets& subsets, int nargs);
+
+}
 
 bool argmatch(const std::string& target, const std::string& s);
 

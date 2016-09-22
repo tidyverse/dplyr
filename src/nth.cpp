@@ -117,6 +117,8 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
   return 0;
 }
 
+namespace dplyr {
+
 Result* nth_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   // has to have at least two arguments
   if (nargs < 2) return 0;
@@ -274,4 +276,6 @@ Result* first_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
 
 Result* last_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return firstlast_prototype(call, subsets, nargs, -1);
+}
+
 }
