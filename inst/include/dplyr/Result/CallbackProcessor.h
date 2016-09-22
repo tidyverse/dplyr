@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_CallbackProcessor_H
 #define dplyr_Result_CallbackProcessor_H
 
+#include <tools/all_na.h>
+
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/DelayedProcessor.h>
 
