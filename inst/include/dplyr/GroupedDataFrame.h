@@ -1,7 +1,7 @@
 #ifndef dplyr_tools_GroupedDataFrame_H
 #define dplyr_tools_GroupedDataFrame_H
 
-namespace Rcpp {
+namespace dplyr {
 
   inline void check_valid_colnames(const DataFrame& df) {
     if (df.size()) {
@@ -128,11 +128,6 @@ namespace Rcpp {
 
   };
 
-  template <>
-  inline bool is<GroupedDataFrame>(SEXP x) {
-    return Rf_inherits(x, "grouped_df") && Rf_getAttrib(x, Rf_install("vars")) != R_NilValue;
-  }
-
   inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator(const GroupedDataFrame& gdf_) :
     i(0), gdf(gdf_), indices(gdf.data().attr("indices")) {}
 
@@ -145,6 +140,15 @@ namespace Rcpp {
     return SlicingIndex(IntegerVector(indices[i]), i);
   }
 
+}
+
+namespace Rcpp {
+  using namespace dplyr;
+
+  template <>
+  inline bool is<GroupedDataFrame>(SEXP x) {
+    return Rf_inherits(x, "grouped_df") && Rf_getAttrib(x, Rf_install("vars")) != R_NilValue;
+  }
 
 }
 
