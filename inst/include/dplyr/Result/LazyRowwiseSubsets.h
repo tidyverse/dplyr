@@ -1,6 +1,8 @@
 #ifndef dplyr_LazyRowwiseSubsets_H
 #define dplyr_LazyRowwiseSubsets_H
 
+#include <dplyr/RowwiseDataFrame.h>
+
 #include <dplyr/Result/RowwiseSubset.h>
 #include <dplyr/Result/LazySubsets.h>
 

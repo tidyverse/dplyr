@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/RowwiseDataFrame.h>
 #include <dplyr/tbl_cpp.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
