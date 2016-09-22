@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <tools/utils.h>
+
 #include <dplyr/white_list.h>
 
 using namespace Rcpp;

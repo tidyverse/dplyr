@@ -1,6 +1,7 @@
 #ifndef dplyr_Gatherer_H
 #define dplyr_Gatherer_H
 
+#include <tools/all_na.h>
 #include <tools/hash.h>
 #include <tools/utils.h>
 
