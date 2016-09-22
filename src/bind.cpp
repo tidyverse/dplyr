@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <dplyr/DataFrameAble.h>
 #include <dplyr/GroupedDataFrame.h>
 
 #include <dplyr/tbl_cpp.h>

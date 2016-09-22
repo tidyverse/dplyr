@@ -1,6 +1,7 @@
 #ifndef dplyr_tools_GroupedDataFrame_H
 #define dplyr_tools_GroupedDataFrame_H
 
+#include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
 namespace dplyr {

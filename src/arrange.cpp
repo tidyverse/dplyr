@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/white_list.h>
+
 #include <dplyr/GroupedDataFrame.h>
 
 #include <dplyr/DataFrameSubsetVisitors.h>
