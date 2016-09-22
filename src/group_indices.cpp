@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <tools/match.h>
+
 #include <dplyr/white_list.h>
 
 #include <dplyr/GroupedDataFrame.h>

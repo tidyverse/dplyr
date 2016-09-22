@@ -1,5 +1,6 @@
 #include <dplyr.h>
 
+#include <tools/match.h>
 #include <tools/collapse.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
