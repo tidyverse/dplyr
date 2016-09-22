@@ -1,11 +1,8 @@
 #ifndef dplyr_ShrinkableVector_H
 #define dplyr_ShrinkableVector_H
 
+#include <tools/Encoding.h>
 #include <tools/utils.h>
-
-#define IS_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp & DPLYR_SHRINKABLE_MASK)
-#define SET_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp |= DPLYR_SHRINKABLE_MASK)
-#define UNSET_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp &= (~DPLYR_SHRINKABLE_MASK) )
 
 namespace Rcpp {
 
