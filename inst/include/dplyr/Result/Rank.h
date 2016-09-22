@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Rank_H
 #define dplyr_Result_Rank_H
 
+#include <dplyr/visitor.h>
+
 #include <dplyr/Order.h>
 
 #include <dplyr/Result/Result.h>
@@ -414,5 +416,7 @@ namespace dplyr {
   };
 
 }
+
+#include <dplyr/visitor_impl.h>
 
 #endif

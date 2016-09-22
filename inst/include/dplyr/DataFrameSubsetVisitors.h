@@ -1,6 +1,8 @@
 #ifndef dplyr_DataFrameSubsetVisitors_H
 #define dplyr_DataFrameSubsetVisitors_H
 
+#include <dplyr/subset_visitor.h>
+
 namespace dplyr {
 
   class DataFrameSubsetVisitors {
@@ -127,5 +129,6 @@ namespace dplyr {
 
 } // namespace dplyr
 
+#include <dplyr/subset_visitor_impl.h>
 
 #endif

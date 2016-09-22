@@ -1,6 +1,8 @@
 #ifndef dplyr_MultipleVectorVisitors_H
 #define dplyr_MultipleVectorVisitors_H
 
+#include <dplyr/visitor.h>
+
 namespace dplyr {
 
   class MultipleVectorVisitors :
@@ -52,5 +54,6 @@ namespace dplyr {
 
 } // namespace dplyr
 
+#include <dplyr/visitor_impl.h>
 
 #endif
