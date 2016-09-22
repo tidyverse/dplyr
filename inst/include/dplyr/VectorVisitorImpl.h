@@ -1,6 +1,8 @@
 #ifndef dplyr_VectorVisitor_Impl_H
 #define dplyr_VectorVisitor_Impl_H
 
+#include <tools/collapse.h>
+
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
