@@ -1,5 +1,5 @@
-#ifndef dplyr_dplyr_hybrid_H
-#define dplyr_dplyr_hybrid_H
+#ifndef dplyr_dplyr_Hybrid_H
+#define dplyr_dplyr_Hybrid_H
 
 namespace dplyr {
   class LazySubsets;
@@ -13,7 +13,6 @@ namespace dplyr {
 }
 
 bool argmatch(const std::string& target, const std::string& s);
-
 bool can_simplify(SEXP);
 
-#endif // dplyr_dplyr_hybrid_H
+#endif // dplyr_dplyr_Hybrid_H
