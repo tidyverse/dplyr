@@ -8,7 +8,6 @@
 #include <dplyr/white_list.h>
 #include <dplyr/check_supported_type.h>
 #include <dplyr/visitor_set/visitor_set.h>
-#include <dplyr/DataFrameVisitorsIndexSet.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/BoolResult.h>
 #include <dplyr/EmptySubset.h>
