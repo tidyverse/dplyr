@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/extract_column.h>
+
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/Groups.h>
 
