@@ -1,7 +1,7 @@
 #include <dplyr/main.h>
 
 #include <dplyr/Order.h>
-#include <dplyr/Hybrid.h>
+#include <dplyr/HybridHandlerMap.h>
 
 #include <dplyr/Result/Processor.h>
 #include <dplyr/Result/LazySubsets.h>
@@ -11,6 +11,11 @@ using namespace Rcpp;
 using namespace dplyr;
 
 namespace dplyr {
+
+  bool argmatch(const std::string& target, const std::string& s) {
+    if (s.size() > target.size()) return false;
+    return target.compare(0, s.size(), s) == 0;
+  }
 
   template <int RTYPE>
   class Nth : public Processor< RTYPE, Nth<RTYPE> > {
@@ -278,4 +283,10 @@ Result* last_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return firstlast_prototype(call, subsets, nargs, -1);
 }
 
+}
+
+void install_nth_handlers(HybridHandlerMap& handlers) {
+  handlers[ Rf_install("first") ] = first_prototype;
+  handlers[ Rf_install("last") ] = last_prototype;
+  handlers[ Rf_install("nth") ] = nth_prototype;
 }
