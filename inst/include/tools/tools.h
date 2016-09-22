@@ -12,7 +12,6 @@
 #include <tools/Call.h>
 #include <tools/delete_all.h>
 #include <tools/pointer_vector.h>
-#include <tools/FilteredListOf.h>
 #include <tools/collapse.h>
 #include <tools/SlicingIndex.h>
 #include <tools/ShrinkableVector.h>
