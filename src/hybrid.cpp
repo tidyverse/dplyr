@@ -553,10 +553,10 @@ Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& en
   return 0;
 }
 
-void registerHybridHandler(const char* name, HybridHandler proto) {
-  get_handlers()[ Rf_install(name) ] = proto;
 }
 
+void registerHybridHandler(const char* name, HybridHandler proto) {
+  get_handlers()[ Rf_install(name) ] = proto;
 }
 
 bool can_simplify(SEXP call) {
