@@ -14,7 +14,6 @@
 #include <tools/pointer_vector.h>
 #include <tools/FilteredListOf.h>
 #include <tools/collapse.h>
-#include <tools/get_single_class.h>
 #include <tools/SlicingIndex.h>
 #include <tools/ShrinkableVector.h>
 #include <tools/wrap_subset.h>
