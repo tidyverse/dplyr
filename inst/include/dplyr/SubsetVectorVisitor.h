@@ -36,9 +36,6 @@ namespace dplyr {
 
   };
 
-  // defined in visitor.h
-  inline SubsetVectorVisitor* subset_visitor(SEXP);
-
 } // namespace dplyr
 
 

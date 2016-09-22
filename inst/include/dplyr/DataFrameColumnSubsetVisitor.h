@@ -1,6 +1,8 @@
 #ifndef dplyr_DataFrameColumnSubsetVisitors_H
 #define dplyr_DataFrameColumnSubsetVisitors_H
 
+#include <dplyr/SubsetVectorVisitor.h>
+
 namespace dplyr {
 
   class DataFrameColumnSubsetVisitor : public SubsetVectorVisitor {
