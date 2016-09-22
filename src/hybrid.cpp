@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/Hybrid.h>
+
 #include <dplyr/Result/is_smaller.h>
 
 #include <dplyr/Result/LazySubsets.h>

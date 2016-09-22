@@ -1,6 +1,8 @@
 #ifndef dplyr_GroupedCallProxy_H
 #define dplyr_GroupedCallProxy_H
 
+#include <dplyr/Hybrid.h>
+
 #include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/GroupedHybridCall.h>

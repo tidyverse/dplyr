@@ -1,5 +1,7 @@
 #include <dplyr.h>
 
+#include <dplyr/Hybrid.h>
+
 #include <dplyr/Result/Processor.h>
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/VectorSliceVisitor.h>
