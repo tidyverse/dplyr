@@ -16,3 +16,4 @@ demo/pandas
 ^CMakeLists\.txt$
 ^src/.*\.d$
 ^src/Makevars\.local$
+^Doxyfile$
