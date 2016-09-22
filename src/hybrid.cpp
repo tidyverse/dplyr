@@ -275,11 +275,6 @@ Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return 0;
 }
 
-bool argmatch(const std::string& target, const std::string& s) {
-  if (s.size() > target.size()) return false;
-  return target.compare(0, s.size(), s) == 0;
-}
-
 Result* in_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   SEXP lhs = CADR(call);
   SEXP rhs = CADDR(call);
@@ -329,15 +324,12 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install("lead")       ] = leadlag_prototype<Lead>;
     handlers[ Rf_install("lag")      ] = leadlag_prototype<Lag>;
 
-    handlers[ Rf_install("first")      ] = first_prototype;
-    handlers[ Rf_install("last")       ] = last_prototype;
-    handlers[ Rf_install("nth")      ] = nth_prototype;
-
     // handlers[ Rf_install( "%in%" ) ] = in_prototype;
 
     install_simple_handlers(handlers);
     install_minmax_handlers(handlers);
     install_count_handlers(handlers);
+    install_nth_handlers(handlers);
   }
   return handlers;
 }
