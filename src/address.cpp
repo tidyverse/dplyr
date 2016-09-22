@@ -1,4 +1,5 @@
-#include <Rcpp.h>
+#include <dplyr/main.h>
+
 #include <tools/Encoding.h>
 
 using namespace Rcpp;

@@ -1,4 +1,4 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
 
 #include <tools/hash.h>
 #include <tools/LazyDots.h>

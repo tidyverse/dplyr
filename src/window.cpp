@@ -1,5 +1,4 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include <dplyr/main.h>
 
 //' Cumulativate versions of any, all, and mean
 //'

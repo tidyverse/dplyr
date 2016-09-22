@@ -1,4 +1,4 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
 
 #include <dplyr/Order.h>
 #include <dplyr/Hybrid.h>
