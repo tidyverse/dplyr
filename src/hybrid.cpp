@@ -105,6 +105,8 @@ Result* constant_handler(SEXP constant) {
 namespace dplyr {
 
   Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
+    LOG_INFO << "Looking up hybrid handler for call of type " << TYPEOF(call);
+
     if (TYPEOF(call) == LANGSXP) {
       int depth = Rf_length(call);
       HybridHandlerMap& handlers = get_handlers();
@@ -113,6 +115,8 @@ namespace dplyr {
 
       HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
       if (it == handlers.end()) return 0;
+
+      LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
       return it->second(call, subsets, depth - 1);
     } else if (TYPEOF(call) == SYMSXP) {
