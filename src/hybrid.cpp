@@ -60,41 +60,6 @@ Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return 0;
 }
 
-Result* in_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
-  SEXP lhs = CADR(call);
-  SEXP rhs = CADDR(call);
-
-  // if lhs is not a symbol, let R handle it
-  if (TYPEOF(lhs) != SYMSXP) return 0;
-
-  // if the lhs is not in the data, let R handle it
-  if (!subsets.count(lhs)) return 0;
-
-  SEXP v = subsets.get_variable(lhs);
-
-  // if the type of the data is not the same as the type of rhs,
-  // including if it needs evaluation, let R handle it
-  if (TYPEOF(v) != TYPEOF(rhs)) return 0;
-
-  // otherwise use hybrid version
-  switch (TYPEOF(v)) {
-  case LGLSXP:
-    return new In<LGLSXP>(v, rhs);
-  case INTSXP:
-    return new In<INTSXP>(v, rhs);
-  case REALSXP:
-    return new In<REALSXP>(v, rhs);
-  case STRSXP:
-    return new In<STRSXP>(v, rhs);
-  default:
-    break;
-  }
-
-  // type not handled
-  return 0;
-
-}
-
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
@@ -104,14 +69,13 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install( "cummax")      ] = cumfun_prototype<CumMax>;
     */
 
-    handlers[ Rf_install( "%in%" ) ] = in_prototype;
-
     install_simple_handlers(handlers);
     install_minmax_handlers(handlers);
     install_count_handlers(handlers);
     install_nth_handlers(handlers);
     install_window_handlers(handlers);
     install_offset_handlers(handlers);
+    install_in_handlers(handlers);
   }
   return handlers;
 }
