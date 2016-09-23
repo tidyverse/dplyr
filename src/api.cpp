@@ -131,7 +131,8 @@ namespace dplyr {
 
       if (can_simplify(call)) {
         SlicingIndex indices(0,subsets.nrows());
-        while (simplified(indices));
+        while (simplified(indices))
+          ;
         set_call(call);
       }
 
