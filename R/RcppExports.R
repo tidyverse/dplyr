@@ -21,6 +21,19 @@ gp <- function(x) {
     .Call('dplyr_gp', PACKAGE = 'dplyr', x)
 }
 
+#' Enable internal logging
+#'
+#' Log entries, depending on the log level, will be printed to the standard
+#' error stream.
+#'
+#' @param log_level A character value, one of "WARN", "INFO", "DEBUG", "VERB",
+#'   or "NONE".
+#'
+#' @keywords internal
+init_logging <- function(log_level) {
+    invisible(.Call('dplyr_init_logging', PACKAGE = 'dplyr', log_level))
+}
+
 arrange_impl <- function(data, dots) {
     .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
 }
