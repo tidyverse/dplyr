@@ -78,6 +78,12 @@ Result* in_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
 
   // otherwise use hybrid version
   switch (TYPEOF(v)) {
+  case LGLSXP:
+    return new In<LGLSXP>(v, rhs);
+  case INTSXP:
+    return new In<INTSXP>(v, rhs);
+  case REALSXP:
+    return new In<REALSXP>(v, rhs);
   case STRSXP:
     return new In<STRSXP>(v, rhs);
   default:
@@ -98,7 +104,7 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install( "cummax")      ] = cumfun_prototype<CumMax>;
     */
 
-    // handlers[ Rf_install( "%in%" ) ] = in_prototype;
+    handlers[ Rf_install( "%in%" ) ] = in_prototype;
 
     install_simple_handlers(handlers);
     install_minmax_handlers(handlers);
