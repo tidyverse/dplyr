@@ -1,26 +1,28 @@
-#ifndef dplyr_Result_Min_H
-#define dplyr_Result_Min_H
+#ifndef dplyr_Result_Max_H
+#define dplyr_Result_Max_H
+
+#include <dplyr/Result/is_smaller.h>
+#include <dplyr/Result/Processor.h>
 
 namespace dplyr {
 
   template <int RTYPE, bool NA_RM>
-  class Min : public Processor<RTYPE, Min<RTYPE,NA_RM> > {
+  class Max : public Processor<RTYPE, Max<RTYPE,NA_RM> > {
   public:
-    typedef Processor<RTYPE, Min<RTYPE,NA_RM> > Base;
+    typedef Processor<RTYPE, Max<RTYPE,NA_RM> > Base;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    Min(SEXP x, bool is_summary_ = false) :
+    Max(SEXP x, bool is_summary_ = false) :
       Base(x),
       data_ptr(Rcpp::internal::r_vector_start<RTYPE>(x)),
-      is_summary(is_summary_)
-    {}
-    ~Min() {}
+      is_summary(is_summary_) {}
+    ~Max() {}
 
     STORAGE process_chunk(const SlicingIndex& indices) {
-      if (indices.size() == 0) return R_PosInf;
-      if (is_summary) return data_ptr[ indices.group() ];
-
+      if (indices.size() == 0) return R_NegInf;
+      if (is_summary) return data_ptr[indices.group()];
       int n = indices.size();
+
       // find the first non NA value
       STORAGE res = data_ptr[ indices[0] ];
       int i=1;
@@ -31,9 +33,8 @@ namespace dplyr {
       // we enter this loop if we did not scan the full vector
       for (; i < n; i++) {
         STORAGE current = data_ptr[indices[i]];
-        if (!Rcpp::Vector<RTYPE>::is_na(current) && internal::is_smaller<RTYPE>(current, res)) res = current;
+        if (!Rcpp::Vector<RTYPE>::is_na(current) && internal::is_smaller<RTYPE>(res, current)) res = current;
       }
-
       return res;
     }
 
@@ -44,21 +45,20 @@ namespace dplyr {
 
   // quit early version for NA_RM = false
   template <int RTYPE>
-  class Min<RTYPE,false> : public Processor<RTYPE, Min<RTYPE,false> > {
+  class Max<RTYPE,false> : public Processor<RTYPE, Max<RTYPE,false> > {
   public:
-    typedef Processor<RTYPE, Min<RTYPE,false> > Base;
+    typedef Processor<RTYPE, Max<RTYPE,false> > Base;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    Min(SEXP x, bool is_summary_ = false) :
+    Max(SEXP x, bool is_summary_ = false) :
       Base(x),
       data_ptr(Rcpp::internal::r_vector_start<RTYPE>(x)),
-      is_summary(is_summary_)
-    {}
-    ~Min() {}
+      is_summary(is_summary_) {}
+    ~Max() {}
 
     STORAGE process_chunk(const SlicingIndex& indices) {
-      if (indices.size() == 0) return R_PosInf;
-      if (is_summary) return data_ptr[ indices.group() ];
+      if (indices.size() == 0) return R_NegInf;
+      if (is_summary) return data_ptr[indices.group()];
 
       int n = indices.size();
 
@@ -69,7 +69,7 @@ namespace dplyr {
       for (int i=1; i<n; i++) {
         STORAGE current = data_ptr[indices[i]];
         if (Rcpp::Vector<RTYPE>::is_na(current)) return current;
-        if (internal::is_smaller<RTYPE>(current, res)) res = current;
+        if (internal::is_smaller<RTYPE>(res, current)) res = current;
       }
       return res;
     }

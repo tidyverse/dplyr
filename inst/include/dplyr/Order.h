@@ -1,6 +1,10 @@
 #ifndef dplyr_Order_H
 #define dplyr_Order_H
 
+#include <tools/pointer_vector.h>
+
+#include <dplyr/OrderVisitorImpl.h>
+
 namespace dplyr {
 
   class OrderVisitors_Compare;

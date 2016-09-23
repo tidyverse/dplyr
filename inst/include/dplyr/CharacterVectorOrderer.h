@@ -1,6 +1,8 @@
 #ifndef dplyr_CharacterVectorOrderer_H
 #define dplyr_CharacterVectorOrderer_H
 
+#include <tools/hash.h>
+
 namespace dplyr {
 
   class CharacterVectorOrderer {

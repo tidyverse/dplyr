@@ -1,6 +1,10 @@
 #ifndef dplyr_Result_In_H
 #define dplyr_Result_In_H
 
+#include <tools/hash.h>
+
+#include <dplyr/Result/Mutater.h>
+
 namespace dplyr {
 
   template <int RTYPE>

@@ -1,7 +1,7 @@
 #ifndef dplyr_tools_FullDataFrame_H
 #define dplyr_tools_FullDataFrame_H
 
-namespace Rcpp {
+namespace dplyr {
 
   class FullDataFrame {
   public:

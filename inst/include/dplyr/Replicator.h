@@ -1,6 +1,8 @@
 #ifndef dplyr_Replicator_H
 #define dplyr_Replicator_H
 
+#include <tools/utils.h>
+
 namespace dplyr {
 
   class Replicator {

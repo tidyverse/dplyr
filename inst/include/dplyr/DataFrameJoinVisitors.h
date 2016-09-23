@@ -1,6 +1,13 @@
 #ifndef dplyr_DataFrameJoinVisitors_H
 #define dplyr_DataFrameJoinVisitors_H
 
+#include <tools/pointer_vector.h>
+
+#include <dplyr/visitor_set/VisitorSetMixin.h>
+
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/JoinVisitor.h>
+
 namespace dplyr {
 
   class DataFrameJoinVisitors :

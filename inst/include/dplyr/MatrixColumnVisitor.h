@@ -1,6 +1,8 @@
 #ifndef dplyr_MatrixColumnVisitor_H
 #define dplyr_MatrixColumnVisitor_H
 
+#include <dplyr/comparisons.h>
+
 namespace dplyr {
 
   template <int RTYPE>

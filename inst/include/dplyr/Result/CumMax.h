@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_CumMax_H
 #define dplyr_Result_CumMax_H
 
+#include <dplyr/Result/Mutater.h>
+
 namespace dplyr {
 
   // version for REALSXP

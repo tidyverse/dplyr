@@ -1,6 +1,15 @@
 #ifndef dplyr_LazyGroupedSubsets_H
 #define dplyr_LazyGroupedSubsets_H
 
+#include <tools/SymbolMap.h>
+
+#include <dplyr/GroupedDataFrame.h>
+
+#include <dplyr/DataFrameSubsetVisitors.h>
+
+#include <dplyr/Result/GroupedSubset.h>
+#include <dplyr/Result/LazySubsets.h>
+
 namespace dplyr {
 
   class LazyGroupedSubsets : public LazySubsets {

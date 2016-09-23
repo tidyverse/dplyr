@@ -1,6 +1,10 @@
 #ifndef dplyr_Result_DelayedProcessor_H
 #define dplyr_Result_DelayedProcessor_H
 
+#include <tools/hash.h>
+#include <tools/ShrinkableVector.h>
+#include <tools/utils.h>
+
 namespace dplyr {
 
   template <typename CLASS>

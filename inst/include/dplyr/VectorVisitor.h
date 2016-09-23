@@ -36,9 +36,6 @@ namespace dplyr {
     virtual bool is_na(int i) const = 0;
   };
 
-  // defined in visitor.h
-  inline VectorVisitor* visitor(SEXP);
-
 } // namespace dplyr
 
 

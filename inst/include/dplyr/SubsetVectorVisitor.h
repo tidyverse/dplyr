@@ -1,6 +1,10 @@
 #ifndef dplyr_SubsetVectorVisitor_H
 #define dplyr_SubsetVectorVisitor_H
 
+#include <tools/SlicingIndex.h>
+#include <dplyr/DataFrameVisitorsIndexMap.h>
+#include <dplyr/EmptySubset.h>
+
 namespace dplyr {
 
   /**
@@ -35,9 +39,6 @@ namespace dplyr {
     virtual bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const  = 0;
 
   };
-
-  // defined in visitor.h
-  inline SubsetVectorVisitor* subset_visitor(SEXP);
 
 } // namespace dplyr
 

@@ -1,6 +1,8 @@
 #ifndef dplyr_LazySubsets_H
 #define dplyr_LazySubsets_H
 
+#include <tools/SymbolMap.h>
+
 namespace dplyr {
 
   class LazySubsets {

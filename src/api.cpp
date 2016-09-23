@@ -1,4 +1,23 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <boost/scoped_ptr.hpp>
+
+#include <tools/hash.h>
+#include <tools/match.h>
+
+#include <dplyr/CharacterVectorOrderer.h>
+
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/visitor_impl.h>
+
+#include <dplyr/JoinVisitorImpl.h>
+
+#include <dplyr/Hybrid.h>
+
+#include <dplyr/Result/Result.h>
+#include <dplyr/Result/CallProxy.h>
+
+#include <dplyr/DataFrameJoinVisitors.h>
 
 namespace dplyr {
 
@@ -44,10 +63,6 @@ namespace dplyr {
     SEXP vars = data.attr("vars");
     if (!Rf_isNull(vars))
       x.attr("vars") = vars;
-  }
-
-  inline String comma_collapse(SEXP names) {
-    return Language("paste", names, _["collapse"] = ", ").fast_eval();
   }
 
   DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :
@@ -342,9 +357,4 @@ namespace dplyr {
     return Language("unique", big).fast_eval();
   }
 
-}
-
-// [[Rcpp::export]]
-IntegerVector rank_strings(CharacterVector s) {
-  return dplyr::CharacterVectorOrderer(s).get();
 }

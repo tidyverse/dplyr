@@ -1,4 +1,8 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/utils.h>
+
+#include <dplyr/GroupedDataFrame.h>
 
 using namespace Rcpp;
 using namespace dplyr;
