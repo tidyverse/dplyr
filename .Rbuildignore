@@ -17,3 +17,4 @@ demo/pandas
 ^src/.*\.d$
 ^src/Makevars\.local$
 ^Doxyfile$
+^clion-test\.R$
