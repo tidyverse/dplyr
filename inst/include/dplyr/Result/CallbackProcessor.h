@@ -69,13 +69,9 @@ namespace dplyr {
 
       void process_first() {
         const RObject& first_result = fetch_chunk();
-
         LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
         processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
-        if (!processor)
-          stop("expecting a single value");
-
         LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
       }
 

@@ -256,6 +256,9 @@ namespace dplyr {
 
   template <typename CLASS>
   IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups) {
+    if (Rf_length(first_result) != 1)
+      stop("expecting a single value, got %d", Rf_length(first_result));
+
     if (Rf_inherits(first_result, "factor")) {
       return new FactorDelayedProcessor<CLASS>(first_result, ngroups);
     } else if (Rcpp::is<int>(first_result)) {
@@ -267,12 +270,12 @@ namespace dplyr {
     } else if (Rcpp::is<bool>(first_result)) {
       return new DelayedProcessor<LGLSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<Rcpp::List>(first_result)) {
-      if (Rf_length(first_result) != 1) return 0;
       return new DelayedProcessor<VECSXP, CLASS>(first_result, ngroups);
-    } else if (Rf_length(first_result) == 1 && TYPEOF(first_result) == CPLXSXP) {
+    } else if (TYPEOF(first_result) == CPLXSXP) {
       return new DelayedProcessor<CPLXSXP, CLASS>(first_result, ngroups);
     }
-    return 0;
+
+    stop("unknown result of type %d", TYPEOF(first_result));
   }
 
 }
