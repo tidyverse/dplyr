@@ -73,7 +73,7 @@ namespace dplyr {
     typedef Vector<RTYPE> Vec;
 
     DelayedProcessor(const RObject& first_result, int ngroups_) :
-      res(no_init(ngroups_)), pos(0)
+      res(no_init(ngroups_)), pos(0), seen_na_only(true)
     {
       if (!try_handle(first_result))
         stop("cannot handle result of type %i", first_result.sexp_type());
@@ -81,7 +81,7 @@ namespace dplyr {
     }
 
     DelayedProcessor(int pos_, const RObject& chunk, SEXP res_) :
-      res(as<Vec>(res_)), pos(pos_)
+      res(as<Vec>(res_)), pos(pos_), seen_na_only(false)
     {
       copy_most_attributes(res, chunk);
       if (!try_handle(chunk))
@@ -91,7 +91,10 @@ namespace dplyr {
     virtual bool try_handle(const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
-        res[pos++] = as<STORAGE>(chunk);
+        // copy, and memoize the copied value
+        const typename Vec::stored_type& converted_chunk = (res[pos++] = as<STORAGE>(chunk));
+        if (!Vec::is_na(converted_chunk))
+          seen_na_only = false;
         return true;
       } else {
         return false;
@@ -99,7 +102,7 @@ namespace dplyr {
     }
 
     virtual bool can_promote(const RObject& chunk) {
-      return valid_promotion<RTYPE>(TYPEOF(chunk));
+      return seen_na_only || valid_promotion<RTYPE>(TYPEOF(chunk));
     }
 
     virtual IDelayedProcessor* promote(const RObject& chunk) {
@@ -113,6 +116,8 @@ namespace dplyr {
         return new DelayedProcessor<REALSXP, CLASS>(pos, chunk, res);
       case CPLXSXP:
         return new DelayedProcessor<CPLXSXP, CLASS>(pos, chunk, res);
+      case STRSXP:
+        return new DelayedProcessor<STRSXP, CLASS>(pos, chunk, res);
       default:
         break;
       }
@@ -131,7 +136,7 @@ namespace dplyr {
   private:
     Vec res;
     int pos;
-
+    bool seen_na_only;
 
   };
 
