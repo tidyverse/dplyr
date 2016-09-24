@@ -673,18 +673,29 @@ test_that("typing and NAs for grouped summarise (#1839)", {
       summarise(a = a[[1]]) %>%
       .$a,
     NA_character_)
+
   expect_identical(
     data_frame(id = 1:2, a = c(NA, "a")) %>%
       group_by(id) %>%
       summarise(a = a[[1]]) %>%
       .$a,
     c(NA, "a"))
+
+  # Properly upgrade NA (logical) to character
+  expect_identical(
+    data_frame(id = 1:2, a = 1:2) %>%
+      group_by(id) %>%
+      summarise(a = ifelse(all(a < 2), NA, "yes")) %>%
+      .$a,
+    c(NA, "yes"))
+
   expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
       summarise(a = a[[1]]) %>%
       .$a,
     "can't promote")
+
   expect_identical(
     data_frame(id = 1:2, a = list(1, "2")) %>%
       group_by(id) %>%
@@ -700,12 +711,22 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       summarise(a = a[[1]]) %>%
       .$a,
     NA_character_)
+
   expect_identical(
     data_frame(id = 1:2, a = c(NA, "a")) %>%
       rowwise %>%
       summarise(a = a[[1]]) %>%
       .$a,
     c(NA, "a"))
+
+  # Properly promote NA (logical) to character
+  expect_identical(
+    data_frame(id = 1:2, a = 1:2) %>%
+      group_by(id) %>%
+      summarise(a = ifelse(all(a < 2), NA, "yes")) %>%
+      .$a,
+    c(NA, "yes"))
+
   expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
       rowwise %>%
