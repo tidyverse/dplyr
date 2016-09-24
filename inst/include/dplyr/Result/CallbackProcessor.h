@@ -62,7 +62,7 @@ namespace dplyr {
       LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
       boost::scoped_ptr<IDelayedProcessor> processor(
-        get_delayed_processor<CLASS>(0, first_result, ngroups)
+        get_delayed_processor<CLASS>(first_result, ngroups)
       );
       if (!processor)
         stop("expecting a single value");

@@ -270,7 +270,7 @@ namespace dplyr {
   };
 
   template <typename CLASS>
-  IDelayedProcessor* get_delayed_processor(int i, SEXP first_result, int ngroups) {
+  IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups) {
     if (Rf_inherits(first_result, "factor")) {
       return new FactorDelayedProcessor<CLASS>(first_result, ngroups);
     } else if (Rcpp::is<int>(first_result)) {
