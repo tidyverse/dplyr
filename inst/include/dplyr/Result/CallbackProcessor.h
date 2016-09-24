@@ -88,6 +88,9 @@ namespace dplyr {
               processor.reset(
                 processor->promote(chunk)
               );
+
+              if (!processor)
+                stop("processor said it could promote but didn't");
             } else {
               stop("can't promote group %d to %s", i, processor->describe());
             }
