@@ -87,7 +87,7 @@ select_(iris, quote(-Petal.Length), quote(-Petal.Width))
 select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
 }
 \seealso{
-Other single.table.verbs: \code{\link{arrange}},
+Other single table verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{mutate}},
   \code{\link{slice}}, \code{\link{summarise}}
 }

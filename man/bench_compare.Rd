@@ -19,6 +19,11 @@ eval_tbls(tbls, op)
 \item{op}{A function with a single argument, called often with each
 element of \code{tbls}.}
 
+\item{\dots}{For \code{compare_tbls}: additional parameters passed on the
+     \code{compare} function
+
+   For \code{bench_tbls}: additional benchmarks to run.}
+
 \item{times}{For benchmarking, the number of times each operation is
 repeated.}
 
@@ -27,11 +32,6 @@ supplied, defaults to the results from the first \code{src}.}
 
 \item{compare}{A function used to compare the results. Defaults to
 \code{equal_data_frame} which ignores the order of rows and columns.}
-
-\item{\dots}{For \code{compare_tbls}: additional parameters passed on the
-     \code{compare} function
-
-   For \code{bench_tbls}: additional benchmarks to run.}
 }
 \value{
 \code{eval_tbls}: a list of data frames.

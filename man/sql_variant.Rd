@@ -24,13 +24,13 @@ sql_prefix(f, n = NULL)
 
 sql_not_supported(f)
 
-'base_scalar'
+base_scalar
 
-'base_agg'
+base_agg
 
-'base_win'
+base_win
 
-'base_no_win'
+base_no_win
 }
 \arguments{
 \item{scalar, aggregate, window}{The three families of functions than an

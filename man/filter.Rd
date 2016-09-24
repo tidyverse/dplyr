@@ -39,7 +39,7 @@ filter(mtcars, cyl < 6 | vs == 1)
 filter(mtcars, cyl < 6, vs == 1)
 }
 \seealso{
-Other single.table.verbs: \code{\link{arrange}},
+Other single table verbs: \code{\link{arrange}},
   \code{\link{mutate}}, \code{\link{select}},
   \code{\link{slice}}, \code{\link{summarise}}
 }

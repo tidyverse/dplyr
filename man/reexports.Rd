@@ -16,6 +16,7 @@
 \alias{trunc_mat}
 \alias{type_sum}
 \title{Objects exported from other packages}
+\keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
@@ -25,5 +26,4 @@ below to see their documentation.
 
   \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{trunc_mat}}}
 }}
-\keyword{internal}
 
