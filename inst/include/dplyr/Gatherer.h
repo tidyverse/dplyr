@@ -22,7 +22,7 @@ namespace dplyr {
   template <int RTYPE, typename Data, typename Subsets>
   class GathererImpl : public Gatherer {
   public:
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef GroupedCallProxy<Data,Subsets> Proxy;
 
     GathererImpl(RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_) :

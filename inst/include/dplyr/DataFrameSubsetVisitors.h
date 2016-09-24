@@ -59,7 +59,7 @@ namespace dplyr {
     }
 
     template <typename Container>
-    DataFrame subset_impl(const Container& index, const CharacterVector& classes, traits::false_type) const {
+    DataFrame subset_impl(const Container& index, const CharacterVector& classes, Rcpp::traits::false_type) const {
       List out(nvisitors);
       for (int k=0; k<nvisitors; k++) {
         out[k] = get(k)->subset(index);
@@ -70,7 +70,7 @@ namespace dplyr {
     }
 
     template <typename Container>
-    DataFrame subset_impl(const Container& index, const CharacterVector& classes, traits::true_type) const {
+    DataFrame subset_impl(const Container& index, const CharacterVector& classes, Rcpp::traits::true_type) const {
       int n = index.size();
       int n_out = std::count(index.begin(), index.end(), TRUE);
       IntegerVector idx = no_init(n_out);
@@ -79,7 +79,7 @@ namespace dplyr {
           idx[k++] = i;
         }
       }
-      return subset_impl(idx, classes, traits::false_type());
+      return subset_impl(idx, classes, Rcpp::traits::false_type());
     }
 
     template <typename Container>
@@ -87,7 +87,7 @@ namespace dplyr {
       return
         subset_impl(
           index, classes,
-          typename traits::same_type<Container, LogicalVector>::type()
+          typename Rcpp::traits::same_type<Container, LogicalVector>::type()
         );
     }
 

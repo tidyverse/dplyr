@@ -9,7 +9,7 @@ namespace Rcpp {
   template <int RTYPE>
   class ShrinkableVector {
   public:
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     ShrinkableVector(int n, SEXP origin) :
       data(no_init(n)), max_size(n), start(internal::r_vector_start<RTYPE>(data)), gp(LEVELS(data))
