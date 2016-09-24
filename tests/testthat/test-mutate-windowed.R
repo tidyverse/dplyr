@@ -230,3 +230,15 @@ test_that("lag handles default argument in mutate (#915)", {
 #   expect_error(df_sqlite %>% mutate(x > mean(x)), "does not support")
 #   expect_error(df_sqlite %>% mutate(r = row_number()), "does not support")
 # })
+
+test_that("dim attribute is stripped from grouped mutate (#1918)", {
+  df <- data.frame(a = 1:3, b = 1:3)
+
+  df_regular <- mutate(df, b = scale(b))
+  df_grouped <- mutate(group_by(df, a), b = scale(b))
+  df_rowwise <- mutate(rowwise(df), b = scale(b))
+
+  expect_null(dim(df$b))
+  expect_null(dim(df_grouped$b))
+  expect_null(dim(df_rowwise$b))
+})
