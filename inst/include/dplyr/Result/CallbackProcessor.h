@@ -48,46 +48,28 @@ namespace dplyr {
 
     template <typename Data>
     SEXP process_data(const Data& gdf) {
-      CLASS* obj = static_cast<CLASS*>(this);
-      typename Data::group_iterator git = gdf.group_begin();
-
-      // the group index
-      int i = 0;
       int ngroups = gdf.ngroups();
 
-      LOG_VERBOSE << "processing " << ngroups << " groups";
-
-      // evaluate the expression within each group until we find something that is not NA
-      RObject first_result(R_NilValue);
-      for (; i<ngroups; i++, ++git) {
-        first_result = obj->process_chunk(*git);
-        if (! all_na(first_result)) {
-          LOG_VERBOSE << "found non-NA in group " << i;
-          break;
-        }
+      if (ngroups == 0) {
+        LOG_VERBOSE << "no groups to process";
+        return LogicalVector(0, NA_LOGICAL);
       }
 
-      // all the groups evaluated to NA, so we send a logical vector NA
-      // perhaps the type of the vector could depend on something, maybe later
-      if (i == ngroups) {
-        LOG_VERBOSE << "NA in all groups, returning logical NA vector";
+      CLASS* obj = static_cast<CLASS*>(this);
+      typename Data::group_iterator git = gdf.group_begin();
+      RObject first_result = obj->process_chunk(*git);
 
-        return LogicalVector(ngroups, NA_LOGICAL);
-      }
+      LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
-      // otherwise, instantiate a DelayedProcessor based on the first non NA
-      // result we get
-
-      // get the appropriate Delayed Processor to handle it
       boost::scoped_ptr< DelayedProcessor_Base<CLASS> > processor(
-        get_delayed_processor<CLASS>(i, first_result, ngroups)
+        get_delayed_processor<CLASS>(0, first_result, ngroups)
       );
       if (!processor)
         stop("expecting a single value");
 
-      LOG_VERBOSE << "processing remaining " << (ngroups - i) << " groups";
+      LOG_VERBOSE << "processing " << ngroups << " groups";
 
-      for (; i<ngroups; i++, ++git) {
+      for (int i = 0; i < ngroups; ++i, ++git) {
         first_result = obj->process_chunk(*git);
         if (!processor->handled(i, first_result)) {
           LOG_VERBOSE << "not handled group " << i;
