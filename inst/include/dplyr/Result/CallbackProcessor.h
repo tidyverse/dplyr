@@ -57,7 +57,9 @@ namespace dplyr {
 
       CLASS* obj = static_cast<CLASS*>(this);
       typename Data::group_iterator git = gdf.group_begin();
+
       RObject first_result = obj->process_chunk(*git);
+      ++git;
 
       LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
@@ -69,16 +71,16 @@ namespace dplyr {
 
       LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
 
-      for (int i = 0; i < ngroups; ++i, ++git) {
-        first_result = obj->process_chunk(*git);
-        if (!processor->try_handle(i, first_result)) {
+      for (int i = 1; i < ngroups; ++git, ++i) {
+        RObject chunk = obj->process_chunk(*git);
+        if (!processor->try_handle(chunk)) {
           LOG_VERBOSE << "not handled group " << i;
 
-          if (processor->can_promote(first_result)) {
+          if (processor->can_promote(chunk)) {
             LOG_VERBOSE << "promoting after group " << i;
 
             processor.reset(
-              processor->promote(i, first_result)
+              processor->promote(chunk)
             );
           } else {
             stop("can't promote group %d to %s", i, processor->describe());

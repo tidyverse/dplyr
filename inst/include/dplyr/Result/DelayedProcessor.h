@@ -14,9 +14,9 @@ namespace dplyr {
     IDelayedProcessor() {}
     virtual ~IDelayedProcessor() {}
 
-    virtual bool try_handle(int pos, const RObject& chunk) = 0;
+    virtual bool try_handle(const RObject& chunk) = 0;
     virtual bool can_promote(const RObject& chunk) = 0;
-    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) = 0;
+    virtual IDelayedProcessor* promote(const RObject& chunk) = 0;
     virtual SEXP get() = 0;
     virtual std::string describe() = 0;
   };
@@ -72,24 +72,26 @@ namespace dplyr {
     typedef typename traits::scalar_type<RTYPE>::type STORAGE;
     typedef Vector<RTYPE> Vec;
 
-    DelayedProcessor(SEXP first_result, int ngroups_) :
-      res(no_init(ngroups_))
+    DelayedProcessor(const RObject& first_result, int ngroups_) :
+      res(no_init(ngroups_)), pos(0)
     {
-      res[0] = as<STORAGE>(first_result);
+      if (!try_handle(first_result))
+        stop("cannot handle result of type %i", first_result.sexp_type());
       copy_most_attributes(res, first_result);
     }
 
-    DelayedProcessor(int pos, const RObject& chunk, SEXP res_) :
-      res(as<Vec>(res_))
+    DelayedProcessor(int pos_, const RObject& chunk, SEXP res_) :
+      res(as<Vec>(res_)), pos(pos_)
     {
       copy_most_attributes(res, chunk);
-      res[pos] = as<STORAGE>(chunk);
+      if (!try_handle(chunk))
+        stop("cannot handle result of type %i in promotion", chunk.sexp_type());
     }
 
-    virtual bool try_handle(int pos, const RObject& chunk) {
+    virtual bool try_handle(const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
-        res[pos] = as<STORAGE>(chunk);
+        res[pos++] = as<STORAGE>(chunk);
         return true;
       } else {
         return false;
@@ -100,7 +102,7 @@ namespace dplyr {
       return valid_promotion<RTYPE>(TYPEOF(chunk));
     }
 
-    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) {
+    virtual IDelayedProcessor* promote(const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       switch (rtype) {
       case LGLSXP:
@@ -128,6 +130,7 @@ namespace dplyr {
 
   private:
     Vec res;
+    int pos;
 
 
   };
@@ -140,16 +143,17 @@ namespace dplyr {
   public:
 
     FactorDelayedProcessor(SEXP first_result, int ngroups) :
-      res(ngroups, NA_INTEGER)
+      res(ngroups, NA_INTEGER), pos(0)
     {
       copy_most_attributes(res, first_result);
       CharacterVector levels = Rf_getAttrib(first_result, Rf_install("levels"));
       int n = levels.size();
       for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
-      try_handle(0, first_result);
+      if (!try_handle(first_result))
+        stop("cannot handle factor result");
     }
 
-    virtual bool try_handle(int pos, const RObject& chunk) {
+    virtual bool try_handle(const RObject& chunk) {
       CharacterVector lev = chunk.attr("levels");
       update_levels(lev);
 
@@ -158,7 +162,7 @@ namespace dplyr {
         return true;
       }
       SEXP s = lev[val-1];
-      res[pos] = levels_map[s];
+      res[pos++] = levels_map[s];
       return true;
     }
 
@@ -166,7 +170,7 @@ namespace dplyr {
       return false;
     }
 
-    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) {
+    virtual IDelayedProcessor* promote(const RObject& chunk) {
       return 0;
     }
 
@@ -200,6 +204,7 @@ namespace dplyr {
     }
 
     IntegerVector res;
+    int pos;
     LevelsMap levels_map;
   };
 
@@ -209,15 +214,16 @@ namespace dplyr {
   class DelayedProcessor<VECSXP, CLASS> : public IDelayedProcessor {
   public:
     DelayedProcessor(SEXP first_result, int ngroups) :
-      res(ngroups)
+      res(ngroups), pos(0)
     {
-      res[0] = maybe_copy(VECTOR_ELT(first_result, 0));
       copy_most_attributes(res, first_result);
+      if (!try_handle(first_result))
+        stop("cannot handle list result");
     }
 
-    virtual bool try_handle(int pos, const RObject& chunk) {
+    virtual bool try_handle(const RObject& chunk) {
       if (is<List>(chunk) && Rf_length(chunk) == 1) {
-        res[pos] = maybe_copy(VECTOR_ELT(chunk, 0));
+        res[pos++] = maybe_copy(VECTOR_ELT(chunk, 0));
         return true;
       }
       return false;
@@ -227,7 +233,7 @@ namespace dplyr {
       return false;
     }
 
-    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) {
+    virtual IDelayedProcessor* promote(const RObject& chunk) {
       return 0;
     }
 
@@ -241,6 +247,7 @@ namespace dplyr {
 
   private:
     List res;
+    int pos;
 
     inline SEXP maybe_copy(SEXP x) const {
       return is_ShrinkableVector(x) ? Rf_duplicate(x) : x;
