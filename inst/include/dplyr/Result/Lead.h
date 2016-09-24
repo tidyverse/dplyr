@@ -1,20 +1,12 @@
 #ifndef dplyr_Result_Lead_H
 #define dplyr_Result_Lead_H
 
+#include <tools/scalar_type.h>
 #include <tools/utils.h>
 
 #include <dplyr/Result/Result.h>
 
 namespace dplyr {
-
-  template <int RTYPE>
-  struct scalar_type {
-    typedef typename traits::storage_type<RTYPE>::type type;
-  };
-  template <>
-  struct scalar_type<STRSXP> {
-    typedef String type;
-  };
 
   template <int RTYPE>
   class Lead : public Result {

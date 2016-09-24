@@ -1,6 +1,7 @@
 #ifndef dplyr_Result_Lag_H
 #define dplyr_Result_Lag_H
 
+#include <tools/scalar_type.h>
 #include <tools/utils.h>
 
 #include <dplyr/Result/Result.h>
