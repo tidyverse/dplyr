@@ -30,7 +30,7 @@ namespace dplyr {
     {
       if (first_non_na < gdf.ngroups())
         grab(first, indices);
-      copy_most_attributes(data, first);
+      copy_column_attributes(data, first);
     }
 
     SEXP collect() {
