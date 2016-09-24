@@ -98,6 +98,8 @@ namespace dplyr {
             processor.reset(
               processor->promote(i, first_result)
             );
+          } else {
+            stop("can't promote group %d", i);
           }
         }
       }
