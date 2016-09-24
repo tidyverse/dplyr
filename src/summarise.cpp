@@ -26,8 +26,10 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   int nexpr = dots.size();
   int nvars = gdf.nvars();
   check_not_groups(dots, gdf);
-  NamedListAccumulator<Data> accumulator;
 
+  LOG_VERBOSE << "copying data to accumulator";
+
+  NamedListAccumulator<Data> accumulator;
   int i=0;
   List results(nvars + nexpr);
   for (; i<nvars; i++) {
@@ -35,11 +37,15 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     accumulator.set(PRINTNAME(gdf.symbol(i)), results[i]);
   }
 
+  LOG_VERBOSE <<  "processing " << nexpr << " variables";
+
   Subsets subsets(gdf);
   for (int k=0; k<nexpr; k++, i++) {
     Rcpp::checkUserInterrupt();
     const Lazy& lazy = dots[k];
     const Environment& env = lazy.env();
+
+    LOG_VERBOSE << "processing variable " << CHAR(lazy.name());
 
     Shield<SEXP> expr_(lazy.expr());
     SEXP expr = expr_;

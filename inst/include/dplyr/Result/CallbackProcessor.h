@@ -54,15 +54,24 @@ namespace dplyr {
       // the group index
       int i = 0;
       int ngroups = gdf.ngroups();
+
+      LOG_VERBOSE << "processing " << ngroups << " groups";
+
       // evaluate the expression within each group until we find something that is not NA
       RObject first_result(R_NilValue);
       for (; i<ngroups; i++, ++git) {
         first_result = obj->process_chunk(*git);
-        if (! all_na(first_result)) break;
+        if (! all_na(first_result)) {
+          LOG_VERBOSE << "found non-NA in group " << i;
+          break;
+        }
       }
+
       // all the groups evaluated to NA, so we send a logical vector NA
       // perhaps the type of the vector could depend on something, maybe later
       if (i == ngroups) {
+        LOG_VERBOSE << "NA in all groups, returning logical NA vector";
+
         return LogicalVector(ngroups, NA_LOGICAL);
       }
 
@@ -75,10 +84,17 @@ namespace dplyr {
       );
       if (!processor)
         stop("expecting a single value");
+
+      LOG_VERBOSE << "processing remaining " << (ngroups - i) << " groups";
+
       for (; i<ngroups; i++, ++git) {
         first_result = obj->process_chunk(*git);
         if (!processor->handled(i, first_result)) {
+          LOG_VERBOSE << "not handled group " << i;
+
           if (processor->can_promote(first_result)) {
+            LOG_VERBOSE << "promoting after group " << i;
+
             processor.reset(
               processor->promote(i, first_result)
             );
