@@ -55,24 +55,30 @@ namespace dplyr {
         return LogicalVector(0, NA_LOGICAL);
       }
 
-      CLASS* obj = static_cast<CLASS*>(this);
       typename Data::group_iterator git = gdf.group_begin();
 
-      RObject first_result = obj->process_chunk(*git);
-      ++git;
+      boost::scoped_ptr<IDelayedProcessor> processor(process_first<Data>(git, ngroups));
+      return process_rest<Data>(processor, git, ngroups);
+    }
+
+    template <typename Data>
+    IDelayedProcessor* process_first(typename Data::group_iterator& git, int ngroups) {
+      const RObject& first_result = fetch_chunk<Data>(git);
 
       LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
-      boost::scoped_ptr<IDelayedProcessor> processor(
-        get_delayed_processor<CLASS>(first_result, ngroups)
-      );
+      IDelayedProcessor* processor = get_delayed_processor<CLASS>(first_result, ngroups);
       if (!processor)
         stop("expecting a single value");
 
       LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
+      return processor;
+    }
 
-      for (int i = 1; i < ngroups; ++git, ++i) {
-        RObject chunk = obj->process_chunk(*git);
+    template <typename Data>
+    SEXP process_rest(boost::scoped_ptr<IDelayedProcessor>& processor, typename Data::group_iterator& git, int ngroups) {
+      for (int i = 1; i < ngroups; ++i) {
+        const RObject& chunk = fetch_chunk<Data>(git);
         if (!processor->try_handle(chunk)) {
           LOG_VERBOSE << "not handled group " << i;
 
@@ -92,6 +98,12 @@ namespace dplyr {
       return res;
     }
 
+    template <typename Data>
+    RObject fetch_chunk(typename Data::group_iterator& git) {
+      const RObject& chunk = static_cast<CLASS*>(this)->process_chunk(*git);
+      ++git;
+      return chunk;
+    }
   };
 
 }
