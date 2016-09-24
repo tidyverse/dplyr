@@ -734,11 +734,10 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       .$a,
     "can't promote")
 
-  skip("#2145")
-  expect_identical(
+  expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
       rowwise %>%
       summarise(a = a[1]) %>%
       .$a,
-    list(1, "2"))
+    "can't promote")
 })
