@@ -14,9 +14,9 @@ namespace dplyr {
     IDelayedProcessor() {}
     virtual ~IDelayedProcessor() {}
 
-    virtual bool try_handle(int i, const RObject& chunk) = 0;
+    virtual bool try_handle(int pos, const RObject& chunk) = 0;
     virtual bool can_promote(const RObject& chunk) = 0;
-    virtual IDelayedProcessor* promote(int i, const RObject& chunk) = 0;
+    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) = 0;
     virtual SEXP get() = 0;
     virtual std::string describe() = 0;
   };
@@ -79,17 +79,17 @@ namespace dplyr {
       copy_most_attributes(res, first_result);
     }
 
-    DelayedProcessor(int i, const RObject& chunk, SEXP res_) :
+    DelayedProcessor(int pos, const RObject& chunk, SEXP res_) :
       res(as<Vec>(res_))
     {
       copy_most_attributes(res, chunk);
-      res[i] = as<STORAGE>(chunk);
+      res[pos] = as<STORAGE>(chunk);
     }
 
-    virtual bool try_handle(int i, const RObject& chunk) {
+    virtual bool try_handle(int pos, const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
-        res[i] = as<STORAGE>(chunk);
+        res[pos] = as<STORAGE>(chunk);
         return true;
       } else {
         return false;
@@ -99,17 +99,18 @@ namespace dplyr {
     virtual bool can_promote(const RObject& chunk) {
       return valid_promotion<RTYPE>(TYPEOF(chunk));
     }
-    virtual IDelayedProcessor* promote(int i, const RObject& chunk) {
+
+    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       switch (rtype) {
       case LGLSXP:
-        return new DelayedProcessor<LGLSXP , CLASS>(i, chunk, res);
+        return new DelayedProcessor<LGLSXP , CLASS>(pos, chunk, res);
       case INTSXP:
-        return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res);
+        return new DelayedProcessor<INTSXP , CLASS>(pos, chunk, res);
       case REALSXP:
-        return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res);
+        return new DelayedProcessor<REALSXP, CLASS>(pos, chunk, res);
       case CPLXSXP:
-        return new DelayedProcessor<CPLXSXP, CLASS>(i, chunk, res);
+        return new DelayedProcessor<CPLXSXP, CLASS>(pos, chunk, res);
       default:
         break;
       }
@@ -148,7 +149,7 @@ namespace dplyr {
       try_handle(0, first_result);
     }
 
-    virtual bool try_handle(int i, const RObject& chunk) {
+    virtual bool try_handle(int pos, const RObject& chunk) {
       CharacterVector lev = chunk.attr("levels");
       update_levels(lev);
 
@@ -157,15 +158,18 @@ namespace dplyr {
         return true;
       }
       SEXP s = lev[val-1];
-      res[i] = levels_map[s];
+      res[pos] = levels_map[s];
       return true;
     }
+
     virtual bool can_promote(const RObject& chunk) {
       return false;
     }
-    virtual IDelayedProcessor* promote(int i, const RObject& chunk) {
+
+    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) {
       return 0;
     }
+
     virtual SEXP get() {
       int n = levels_map.size();
       CharacterVector levels(n);
@@ -211,22 +215,26 @@ namespace dplyr {
       copy_most_attributes(res, first_result);
     }
 
-    virtual bool try_handle(int i, const RObject& chunk) {
+    virtual bool try_handle(int pos, const RObject& chunk) {
       if (is<List>(chunk) && Rf_length(chunk) == 1) {
-        res[i] = maybe_copy(VECTOR_ELT(chunk, 0));
+        res[pos] = maybe_copy(VECTOR_ELT(chunk, 0));
         return true;
       }
       return false;
     }
+
     virtual bool can_promote(const RObject& chunk) {
       return false;
     }
-    virtual IDelayedProcessor* promote(int i, const RObject& chunk) {
+
+    virtual IDelayedProcessor* promote(int pos, const RObject& chunk) {
       return 0;
     }
+
     virtual SEXP get() {
       return res;
     }
+
     virtual std::string describe() {
       return "list";
     }
