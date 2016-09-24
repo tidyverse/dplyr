@@ -27,19 +27,20 @@ namespace dplyr {
   public:
     CallbackProcessor() {}
 
+    CLASS* obj() {
+      return static_cast<CLASS*>(this);
+    }
+
     virtual SEXP process(const GroupedDataFrame& gdf) {
-      CLASS* obj = static_cast<CLASS*>(this);
-      return process_data<GroupedDataFrame>(gdf, obj).run();
+      return process_data<GroupedDataFrame>(gdf, obj()).run();
     }
 
     virtual SEXP process(const RowwiseDataFrame& gdf) {
-      CLASS* obj = static_cast<CLASS*>(this);
-      return process_data<RowwiseDataFrame>(gdf, obj).run();
+      return process_data<RowwiseDataFrame>(gdf, obj()).run();
     }
 
     virtual SEXP process(const Rcpp::FullDataFrame& df) {
-      CLASS* obj = static_cast<CLASS*>(this);
-      return obj->process_chunk(df.get_index());
+      return obj()->process_chunk(df.get_index());
     }
 
     virtual SEXP process(const SlicingIndex& index) {
