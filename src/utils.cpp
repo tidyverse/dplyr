@@ -88,6 +88,16 @@ bool copy_most_attributes(SEXP out, SEXP data) {
   return true;
 }
 
+bool copy_column_attributes(SEXP out, SEXP data) {
+  if (!copy_most_attributes(out, data))
+    return false;
+
+  LOG_VERBOSE << "dropping dim and dimnames attributes";
+  Rf_setAttrib(out, R_DimSymbol, R_NilValue);
+  Rf_setAttrib(out, R_DimNamesSymbol, R_NilValue);
+  return true;
+}
+
 std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
