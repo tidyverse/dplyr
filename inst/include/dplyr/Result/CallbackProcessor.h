@@ -28,11 +28,13 @@ namespace dplyr {
     CallbackProcessor() {}
 
     virtual SEXP process(const GroupedDataFrame& gdf) {
-      return process_data<GroupedDataFrame>(gdf);
+      CLASS* obj = static_cast<CLASS*>(this);
+      return process_data<GroupedDataFrame>(gdf, obj).run();
     }
 
     virtual SEXP process(const RowwiseDataFrame& gdf) {
-      return process_data<RowwiseDataFrame>(gdf);
+      CLASS* obj = static_cast<CLASS*>(this);
+      return process_data<RowwiseDataFrame>(gdf, obj).run();
     }
 
     virtual SEXP process(const Rcpp::FullDataFrame& df) {
@@ -46,39 +48,40 @@ namespace dplyr {
 
   private:
 
-    template <typename Data>
-    SEXP process_data(const Data& gdf) {
-      int ngroups = gdf.ngroups();
+  template <typename Data>
+  class process_data {
+  public:
+    process_data(const Data& gdf, CLASS* chunk_source_) : git(gdf.group_begin()), ngroups(gdf.ngroups()), chunk_source(chunk_source_) {}
 
-      if (ngroups == 0) {
-        LOG_VERBOSE << "no groups to process";
-        return LogicalVector(0, NA_LOGICAL);
-      }
+    SEXP run() {
+      if (ngroups == 0)
+        return process_empty();
 
-      typename Data::group_iterator git = gdf.group_begin();
-
-      boost::scoped_ptr<IDelayedProcessor> processor(process_first<Data>(git, ngroups));
-      return process_rest<Data>(processor, git, ngroups);
+      process_first();
+      return process_rest();
     }
 
-    template <typename Data>
-    IDelayedProcessor* process_first(typename Data::group_iterator& git, int ngroups) {
-      const RObject& first_result = fetch_chunk<Data>(git);
+  private:
+    SEXP process_empty() {
+      LOG_VERBOSE << "no groups to process";
+      return LogicalVector(0, NA_LOGICAL);
+    }
+
+    void process_first() {
+      const RObject& first_result = fetch_chunk();
 
       LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
-      IDelayedProcessor* processor = get_delayed_processor<CLASS>(first_result, ngroups);
+      processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
       if (!processor)
         stop("expecting a single value");
 
       LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
-      return processor;
     }
 
-    template <typename Data>
-    SEXP process_rest(boost::scoped_ptr<IDelayedProcessor>& processor, typename Data::group_iterator& git, int ngroups) {
+    SEXP process_rest() {
       for (int i = 1; i < ngroups; ++i) {
-        const RObject& chunk = fetch_chunk<Data>(git);
+        const RObject& chunk = fetch_chunk();
         if (!processor->try_handle(chunk)) {
           LOG_VERBOSE << "not handled group " << i;
 
@@ -98,13 +101,19 @@ namespace dplyr {
       return res;
     }
 
-    template <typename Data>
-    RObject fetch_chunk(typename Data::group_iterator& git) {
-      const RObject& chunk = static_cast<CLASS*>(this)->process_chunk(*git);
+    RObject fetch_chunk() {
+      const RObject& chunk = chunk_source->process_chunk(*git);
       ++git;
       return chunk;
     }
+
+  private:
+    typename Data::group_iterator git;
+    const int ngroups;
+    boost::scoped_ptr<IDelayedProcessor> processor;
+    CLASS* chunk_source;
   };
 
+  };
 }
 #endif
