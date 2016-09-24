@@ -4,6 +4,7 @@
 #include <tools/hash.h>
 #include <tools/ShrinkableVector.h>
 #include <tools/utils.h>
+#include <dplyr/vector_class.h>
 
 namespace dplyr {
 
@@ -16,6 +17,7 @@ namespace dplyr {
     virtual bool can_promote(const RObject& chunk) = 0;
     virtual IDelayedProcessor* promote(int i, const RObject& chunk) = 0;
     virtual SEXP get() = 0;
+    virtual std::string describe() = 0;
   };
 
   template <int RTYPE>
@@ -118,6 +120,10 @@ namespace dplyr {
       return res;
     }
 
+    virtual std::string describe() {
+      return vector_class<RTYPE>();
+    }
+
 
   private:
     Vec res;
@@ -147,6 +153,9 @@ namespace dplyr {
     }
     virtual SEXP get() {
       return res;
+    }
+    virtual std::string describe() {
+      return "character";
     }
 
   private:
@@ -199,6 +208,10 @@ namespace dplyr {
       return res;
     }
 
+    virtual std::string describe() {
+      return "factor";
+    }
+
   private:
 
     void update_levels(const CharacterVector& lev) {
@@ -243,6 +256,9 @@ namespace dplyr {
     }
     virtual SEXP get() {
       return res;
+    }
+    virtual std::string describe() {
+      return "list";
     }
 
   private:
