@@ -48,71 +48,71 @@ namespace dplyr {
 
   private:
 
-  template <typename Data>
-  class process_data {
-  public:
-    process_data(const Data& gdf, CLASS* chunk_source_) : git(gdf.group_begin()), ngroups(gdf.ngroups()), chunk_source(chunk_source_) {}
+    template <typename Data>
+    class process_data {
+    public:
+      process_data(const Data& gdf, CLASS* chunk_source_) : git(gdf.group_begin()), ngroups(gdf.ngroups()), chunk_source(chunk_source_) {}
 
-    SEXP run() {
-      if (ngroups == 0)
-        return process_empty();
+      SEXP run() {
+        if (ngroups == 0)
+          return process_empty();
 
-      process_first();
-      return process_rest();
-    }
-
-  private:
-    SEXP process_empty() {
-      LOG_VERBOSE << "no groups to process";
-      return LogicalVector(0, NA_LOGICAL);
-    }
-
-    void process_first() {
-      const RObject& first_result = fetch_chunk();
-
-      LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
-
-      processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
-      if (!processor)
-        stop("expecting a single value");
-
-      LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
-    }
-
-    SEXP process_rest() {
-      for (int i = 1; i < ngroups; ++i) {
-        const RObject& chunk = fetch_chunk();
-        if (!processor->try_handle(chunk)) {
-          LOG_VERBOSE << "not handled group " << i;
-
-          if (processor->can_promote(chunk)) {
-            LOG_VERBOSE << "promoting after group " << i;
-
-            processor.reset(
-              processor->promote(chunk)
-            );
-          } else {
-            stop("can't promote group %d to %s", i, processor->describe());
-          }
-        }
+        process_first();
+        return process_rest();
       }
 
-      Shield<SEXP> res(processor->get());
-      return res;
-    }
+    private:
+      SEXP process_empty() {
+        LOG_VERBOSE << "no groups to process";
+        return LogicalVector(0, NA_LOGICAL);
+      }
 
-    RObject fetch_chunk() {
-      const RObject& chunk = chunk_source->process_chunk(*git);
-      ++git;
-      return chunk;
-    }
+      void process_first() {
+        const RObject& first_result = fetch_chunk();
 
-  private:
-    typename Data::group_iterator git;
-    const int ngroups;
-    boost::scoped_ptr<IDelayedProcessor> processor;
-    CLASS* chunk_source;
-  };
+        LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
+
+        processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
+        if (!processor)
+          stop("expecting a single value");
+
+        LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
+      }
+
+      SEXP process_rest() {
+        for (int i = 1; i < ngroups; ++i) {
+          const RObject& chunk = fetch_chunk();
+          if (!processor->try_handle(chunk)) {
+            LOG_VERBOSE << "not handled group " << i;
+
+            if (processor->can_promote(chunk)) {
+              LOG_VERBOSE << "promoting after group " << i;
+
+              processor.reset(
+                processor->promote(chunk)
+              );
+            } else {
+              stop("can't promote group %d to %s", i, processor->describe());
+            }
+          }
+        }
+
+        Shield<SEXP> res(processor->get());
+        return res;
+      }
+
+      RObject fetch_chunk() {
+        const RObject& chunk = chunk_source->process_chunk(*git);
+        ++git;
+        return chunk;
+      }
+
+    private:
+      typename Data::group_iterator git;
+      const int ngroups;
+      boost::scoped_ptr<IDelayedProcessor> processor;
+      CLASS* chunk_source;
+    };
 
   };
 }
