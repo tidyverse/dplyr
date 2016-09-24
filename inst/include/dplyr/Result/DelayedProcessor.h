@@ -3,6 +3,7 @@
 
 #include <tools/hash.h>
 #include <tools/ShrinkableVector.h>
+#include <tools/scalar_type.h>
 #include <tools/utils.h>
 #include <dplyr/vector_class.h>
 
@@ -68,7 +69,7 @@ namespace dplyr {
   template <int RTYPE, typename CLASS>
   class DelayedProcessor : public IDelayedProcessor {
   public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
+    typedef typename traits::scalar_type<RTYPE>::type STORAGE;
     typedef Vector<RTYPE> Vec;
 
     DelayedProcessor(SEXP first_result, int ngroups_) :
@@ -128,37 +129,6 @@ namespace dplyr {
     Vec res;
 
 
-  };
-
-  template <typename CLASS>
-  class DelayedProcessor<STRSXP, CLASS> : public IDelayedProcessor {
-  public:
-    DelayedProcessor(SEXP first_result, int ngroups) :
-      res(ngroups)
-    {
-      res[0] = as<String>(first_result);
-      copy_most_attributes(res, first_result);
-    }
-
-    virtual bool handled(int i, const RObject& chunk) {
-      res[i] = as<String>(chunk);
-      return true;
-    }
-    virtual bool can_promote(const RObject& chunk) {
-      return false;
-    }
-    virtual IDelayedProcessor* promote(int i, const RObject& chunk) {
-      return 0;
-    }
-    virtual SEXP get() {
-      return res;
-    }
-    virtual std::string describe() {
-      return "character";
-    }
-
-  private:
-    CharacterVector res;
   };
 
   template <typename CLASS>
