@@ -14,7 +14,7 @@ namespace dplyr {
     IDelayedProcessor() {}
     virtual ~IDelayedProcessor() {}
 
-    virtual bool handled(int i, const RObject& chunk) = 0;
+    virtual bool try_handle(int i, const RObject& chunk) = 0;
     virtual bool can_promote(const RObject& chunk) = 0;
     virtual IDelayedProcessor* promote(int i, const RObject& chunk) = 0;
     virtual SEXP get() = 0;
@@ -86,7 +86,7 @@ namespace dplyr {
       res[i] = as<STORAGE>(chunk);
     }
 
-    virtual bool handled(int i, const RObject& chunk) {
+    virtual bool try_handle(int i, const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
         res[i] = as<STORAGE>(chunk);
@@ -145,10 +145,10 @@ namespace dplyr {
       CharacterVector levels = Rf_getAttrib(first_result, Rf_install("levels"));
       int n = levels.size();
       for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
-      handled(0, first_result);
+      try_handle(0, first_result);
     }
 
-    virtual bool handled(int i, const RObject& chunk) {
+    virtual bool try_handle(int i, const RObject& chunk) {
       CharacterVector lev = chunk.attr("levels");
       update_levels(lev);
 
@@ -211,7 +211,7 @@ namespace dplyr {
       copy_most_attributes(res, first_result);
     }
 
-    virtual bool handled(int i, const RObject& chunk) {
+    virtual bool try_handle(int i, const RObject& chunk) {
       if (is<List>(chunk) && Rf_length(chunk) == 1) {
         res[i] = maybe_copy(VECTOR_ELT(chunk, 0));
         return true;

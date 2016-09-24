@@ -71,7 +71,7 @@ namespace dplyr {
 
       for (int i = 0; i < ngroups; ++i, ++git) {
         first_result = obj->process_chunk(*git);
-        if (!processor->handled(i, first_result)) {
+        if (!processor->try_handle(i, first_result)) {
           LOG_VERBOSE << "not handled group " << i;
 
           if (processor->can_promote(first_result)) {
