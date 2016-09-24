@@ -1,1 +1,0 @@
-init_logging("DEBUG")
