@@ -71,11 +71,10 @@ namespace dplyr {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef Vector<RTYPE> Vec;
 
-    DelayedProcessor(int first_non_na, SEXP first_result, int ngroups_) :
+    DelayedProcessor(SEXP first_result, int ngroups_) :
       res(no_init(ngroups_))
     {
-      std::fill(res.begin(), res.begin() + first_non_na, Vec::get_na());
-      res[first_non_na] = as<STORAGE>(first_result);
+      res[0] = as<STORAGE>(first_result);
       copy_most_attributes(res, first_result);
     }
 
@@ -134,10 +133,10 @@ namespace dplyr {
   template <typename CLASS>
   class DelayedProcessor<STRSXP, CLASS> : public IDelayedProcessor {
   public:
-    DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
+    DelayedProcessor(SEXP first_result, int ngroups) :
       res(ngroups)
     {
-      res[first_non_na_] = as<String>(first_result);
+      res[0] = as<String>(first_result);
       copy_most_attributes(res, first_result);
     }
 
@@ -169,13 +168,14 @@ namespace dplyr {
 
   public:
 
-    FactorDelayedProcessor(int first_non_na, SEXP first_result, int ngroups) :
+    FactorDelayedProcessor(SEXP first_result, int ngroups) :
       res(ngroups, NA_INTEGER)
     {
       copy_most_attributes(res, first_result);
       CharacterVector levels = Rf_getAttrib(first_result, Rf_install("levels"));
       int n = levels.size();
       for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
+      handled(0, first_result);
     }
 
     virtual bool handled(int i, const RObject& chunk) {
@@ -234,10 +234,10 @@ namespace dplyr {
   template <typename CLASS>
   class DelayedProcessor<VECSXP, CLASS> : public IDelayedProcessor {
   public:
-    DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
+    DelayedProcessor(SEXP first_result, int ngroups) :
       res(ngroups)
     {
-      res[first_non_na_] = maybe_copy(VECTOR_ELT(first_result, 0));
+      res[0] = maybe_copy(VECTOR_ELT(first_result, 0));
       copy_most_attributes(res, first_result);
     }
 
@@ -272,20 +272,20 @@ namespace dplyr {
   template <typename CLASS>
   IDelayedProcessor* get_delayed_processor(int i, SEXP first_result, int ngroups) {
     if (Rf_inherits(first_result, "factor")) {
-      return new FactorDelayedProcessor<CLASS>(i, first_result, ngroups);
+      return new FactorDelayedProcessor<CLASS>(first_result, ngroups);
     } else if (Rcpp::is<int>(first_result)) {
-      return new DelayedProcessor<INTSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<INTSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<double>(first_result)) {
-      return new DelayedProcessor<REALSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<REALSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<Rcpp::String>(first_result)) {
-      return new DelayedProcessor<STRSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<STRSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<bool>(first_result)) {
-      return new DelayedProcessor<LGLSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<LGLSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<Rcpp::List>(first_result)) {
       if (Rf_length(first_result) != 1) return 0;
-      return new DelayedProcessor<VECSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<VECSXP, CLASS>(first_result, ngroups);
     } else if (Rf_length(first_result) == 1 && TYPEOF(first_result) == CPLXSXP) {
-      return new DelayedProcessor<CPLXSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<CPLXSXP, CLASS>(first_result, ngroups);
     }
     return 0;
   }
