@@ -61,7 +61,7 @@ namespace dplyr {
 
       LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
 
-      boost::scoped_ptr< DelayedProcessor_Base<CLASS> > processor(
+      boost::scoped_ptr<DelayedProcessor_Base> processor(
         get_delayed_processor<CLASS>(0, first_result, ngroups)
       );
       if (!processor)

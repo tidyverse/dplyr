@@ -7,7 +7,6 @@
 
 namespace dplyr {
 
-  template <typename CLASS>
   class DelayedProcessor_Base {
   public:
     DelayedProcessor_Base() {}
@@ -65,7 +64,7 @@ namespace dplyr {
   }
 
   template <int RTYPE, typename CLASS>
-  class DelayedProcessor : public DelayedProcessor_Base<CLASS> {
+  class DelayedProcessor : public DelayedProcessor_Base {
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef Vector<RTYPE> Vec;
@@ -98,7 +97,7 @@ namespace dplyr {
     virtual bool can_promote(const RObject& chunk) {
       return valid_promotion<RTYPE>(TYPEOF(chunk));
     }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+    virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       switch (rtype) {
       case LGLSXP:
@@ -127,7 +126,7 @@ namespace dplyr {
   };
 
   template <typename CLASS>
-  class DelayedProcessor<STRSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
+  class DelayedProcessor<STRSXP, CLASS> : public DelayedProcessor_Base {
   public:
     DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
       res(ngroups)
@@ -143,7 +142,7 @@ namespace dplyr {
     virtual bool can_promote(const RObject& chunk) {
       return false;
     }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+    virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) {
       return 0;
     }
     virtual SEXP get() {
@@ -155,7 +154,7 @@ namespace dplyr {
   };
 
   template <typename CLASS>
-  class FactorDelayedProcessor : public DelayedProcessor_Base<CLASS> {
+  class FactorDelayedProcessor : public DelayedProcessor_Base {
   private:
     typedef dplyr_hash_map<SEXP,int> LevelsMap;
 
@@ -185,7 +184,7 @@ namespace dplyr {
     virtual bool can_promote(const RObject& chunk) {
       return false;
     }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+    virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) {
       return 0;
     }
     virtual SEXP get() {
@@ -220,7 +219,7 @@ namespace dplyr {
 
 
   template <typename CLASS>
-  class DelayedProcessor<VECSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
+  class DelayedProcessor<VECSXP, CLASS> : public DelayedProcessor_Base {
   public:
     DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
       res(ngroups)
@@ -239,7 +238,7 @@ namespace dplyr {
     virtual bool can_promote(const RObject& chunk) {
       return false;
     }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+    virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) {
       return 0;
     }
     virtual SEXP get() {
@@ -255,7 +254,7 @@ namespace dplyr {
   };
 
   template <typename CLASS>
-  DelayedProcessor_Base<CLASS>* get_delayed_processor(int i, SEXP first_result, int ngroups) {
+  DelayedProcessor_Base* get_delayed_processor(int i, SEXP first_result, int ngroups) {
     if (Rf_inherits(first_result, "factor")) {
       return new FactorDelayedProcessor<CLASS>(i, first_result, ngroups);
     } else if (Rcpp::is<int>(first_result)) {
