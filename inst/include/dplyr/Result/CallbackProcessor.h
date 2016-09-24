@@ -67,7 +67,7 @@ namespace dplyr {
       if (!processor)
         stop("expecting a single value");
 
-      LOG_VERBOSE << "processing " << ngroups << " groups";
+      LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
 
       for (int i = 0; i < ngroups; ++i, ++git) {
         first_result = obj->process_chunk(*git);
@@ -81,7 +81,7 @@ namespace dplyr {
               processor->promote(i, first_result)
             );
           } else {
-            stop("can't promote group %d", i);
+            stop("can't promote group %d to %s", i, processor->describe());
           }
         }
       }
