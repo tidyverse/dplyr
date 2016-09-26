@@ -9,6 +9,19 @@
 
 namespace dplyr {
 
+  namespace detail {
+    template <class Subsets>
+    inline SEXP get_proxy_subset(Subsets& subsets, SEXP call, const SlicingIndex& indices) {
+      return subsets.get(call, indices);
+    }
+
+    // Only for ungrouped CallProxy, always use full slicing index; see GroupedCallProxy::eval()
+    template <>
+    inline SEXP get_proxy_subset(LazySubsets& subsets, SEXP call, const SlicingIndex&) {
+      return subsets[call];
+    }
+  }
+
   template <typename Subsets>
   class GroupedHybridCall {
   public:
@@ -24,7 +37,7 @@ namespace dplyr {
         return Rcpp_eval(call, env);
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
-          return subsets.get(call, indices);
+          return detail::get_proxy_subset(subsets, call, indices);
         }
         return env.find(CHAR(PRINTNAME(call)));
       }
@@ -64,7 +77,7 @@ namespace dplyr {
         case SYMSXP:
           if (TYPEOF(obj) != LANGSXP) {
             if (subsets.count(head)) {
-              SETCAR(obj, subsets.get(head, indices));
+              SETCAR(obj, detail::get_proxy_subset(subsets, head, indices));
             }
           }
           break;
