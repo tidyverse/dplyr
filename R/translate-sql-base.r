@@ -141,9 +141,7 @@ base_agg <- sql_translator(
   sum        = sql_prefix("sum", 1),
   min        = sql_prefix("min", 1),
   max        = sql_prefix("max", 1),
-  n_distinct = function(x) {
-    build_sql("COUNT(DISTINCT ", x, ")")
-  }
+  n_distinct = function(...) build_sql("COUNT(DISTINCT", list(...), ")")
 )
 
 #' @export
