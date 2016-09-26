@@ -8,7 +8,7 @@ test_df <- data_frame(
   d = c(TRUE, FALSE, NA)
 )
 
-test_that("%in% works", {
+test_that("%in% works (#192)", {
   # Hybrid evaluation currently requires constants (#2143)
   test_df_mutated <-
     mutate(test_df,
