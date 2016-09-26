@@ -39,26 +39,8 @@ namespace dplyr {
     ~GroupedCallProxy() {}
 
     SEXP eval() {
-      if (TYPEOF(call) == LANGSXP) {
-
-        if (can_simplify(call)) {
-          SlicingIndex indices(0,subsets.nrows());
-          while (simplified(indices))
-            ;
-          set_call(call);
-        }
-
-        int n = proxies.size();
-        for (int i=0; i<n; i++) {
-          proxies[i].set(subsets[proxies[i].symbol]);
-        }
-        return call.eval(env);
-      } else if (TYPEOF(call) == SYMSXP) {
-        // SYMSXP
-        if (subsets.count(call)) return subsets.get_variable(call);
-        return call.eval(env);
-      }
-      return call;
+      SlicingIndex indices(0, subsets.nrows());
+      return get(indices);
     }
 
     template <typename Container>

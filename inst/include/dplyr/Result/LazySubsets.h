@@ -27,6 +27,8 @@ namespace dplyr {
     }
     virtual ~LazySubsets() {}
 
+    void clear() {}
+
     virtual SEXP get_variable(SEXP symbol) const {
       return data[ symbol_map.get(symbol) ];
     }
