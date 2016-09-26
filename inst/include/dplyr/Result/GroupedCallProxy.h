@@ -77,19 +77,24 @@ namespace dplyr {
         LOG_VERBOSE << "setting " << n << " proxies";
         for (int i=0; i<n; i++) {
           LOG_VERBOSE << "setting proxy " << CHAR(PRINTNAME(proxies[i].symbol));
-          proxies[i].set(subsets.get(proxies[i].symbol, indices));
+          proxies[i].set(get_subset(subsets, proxies[i].symbol, indices));
         }
 
         return call.eval(env);
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
-          return subsets.get(call, indices);
+          return get_subset(subsets, call, indices);
         }
         return env.find(CHAR(PRINTNAME(call)));
       } else {
         // all other types that evaluate to themselves
         return call;
       }
+    }
+
+    template <class Subsets_>
+    static SEXP get_subset(Subsets_& subsets, SEXP call, const SlicingIndex& indices) {
+      subsets.get(call, indices);
     }
 
     void set_call(SEXP call_) {
