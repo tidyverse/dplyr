@@ -76,6 +76,7 @@ namespace dplyr {
 
         LOG_VERBOSE << "setting " << n << " proxies";
         for (int i=0; i<n; i++) {
+          LOG_VERBOSE << "setting proxy " << CHAR(PRINTNAME(proxies[i].symbol));
           proxies[i].set(subsets.get(proxies[i].symbol, indices));
         }
 
