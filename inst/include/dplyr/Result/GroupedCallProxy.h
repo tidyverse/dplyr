@@ -215,7 +215,7 @@ namespace dplyr {
 
           if (Rf_length(head) == 3) {
             SEXP symb = CAR(head);
-            if (symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::")) {
+            if (symb == R_DollarSymbol /* "$" */ || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::")) {
 
               // for things like : foo( bar = bling )$bla
               // so that `foo( bar = bling )` gets processed
@@ -233,6 +233,7 @@ namespace dplyr {
           }
           traverse_call(CDR(head));
           break;
+
         case LISTSXP:
           traverse_call(head);
           traverse_call(CDR(head));
