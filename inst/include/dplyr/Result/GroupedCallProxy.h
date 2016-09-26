@@ -22,7 +22,7 @@ namespace dplyr {
       set_call(call);
     }
 
-    GroupedCallProxy(Call call_, const Data& data_, const Environment& env_) :
+    GroupedCallProxy(const Rcpp::Call& call_, const Data& data_, const Environment& env_) :
       call(call_), subsets(data_), proxies(), env(env_)
     {
       set_call(call);
