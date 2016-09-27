@@ -15,5 +15,5 @@ add_library(dplyr ${SOURCE_FILES})
 add_custom_target(
     Rinstall
     # Using MAKEFLAGS=-j$(nproc) didn't work
-    COMMAND MAKEFLAGS=-j4 nice R CMD INSTALL --libs-only ${dplyr_SOURCE_DIR}
+    COMMAND MAKEFLAGS=-j4 nice R CMD INSTALL --libs-only --no-test-load ${dplyr_SOURCE_DIR}
 )
