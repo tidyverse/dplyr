@@ -14,12 +14,6 @@ namespace dplyr {
     inline SEXP get_proxy_subset(Subsets& subsets, SEXP call, const SlicingIndex& indices) {
       return subsets.get(call, indices);
     }
-
-    // Only for ungrouped CallProxy, always use full slicing index; see GroupedCallProxy::eval()
-    template <>
-    inline SEXP get_proxy_subset(LazySubsets& subsets, SEXP call, const SlicingIndex&) {
-      return subsets[call];
-    }
   }
 
   template <typename Subsets>

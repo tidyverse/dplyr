@@ -42,7 +42,7 @@ namespace dplyr {
       ++git;
       i++;
       for (; i<ngroups; i++, ++git) {
-        SlicingIndex indices = *git;
+        const SlicingIndex& indices = *git;
         Shield<SEXP> subset(proxy.get(indices));
         grab(subset, indices);
       }
@@ -122,7 +122,7 @@ namespace dplyr {
       ++git;
       i++;
       for (; i<ngroups; i++, ++git) {
-        SlicingIndex indices = *git;
+        const SlicingIndex& indices = *git;
         List subset(proxy.get(indices));
         perhaps_duplicate(subset);
         grab(subset, indices);
@@ -200,7 +200,7 @@ namespace dplyr {
       int i = 0;
       for (; i<first_non_na; i++) ++git;
       for (; i<ngroups; i++, ++git) {
-        SlicingIndex indices = *git;
+        const SlicingIndex& indices = *git;
         Factor subset(proxy.get(indices));
         grab(subset, indices);
       }
@@ -304,7 +304,7 @@ namespace dplyr {
   template <typename Data, typename Subsets>
   inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, SEXP name) {
     typename Data::group_iterator git = gdf.group_begin();
-    SlicingIndex indices = *git;
+    FullSlicingIndex indices = *git;
     RObject first(proxy.get(indices));
 
     if (Rf_inherits(first, "POSIXlt")) {

@@ -3,31 +3,79 @@
 
 class SlicingIndex {
 public:
+  virtual int size() const = 0;
+  virtual int operator[](int i) const = 0;
+  virtual int group() const = 0;
+  virtual bool is_identity(SEXP x) const {
+    return FALSE;
+  };
+};
 
-  SlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
-  SlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
+class FullSlicingIndex : public SlicingIndex {
+public:
+  FullSlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
+  FullSlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
 
-  SlicingIndex(int start, int n) : data(0), group_index(-1) {
-    if (n>0) {
-      data = seq(start, start + n - 1);
-    }
-  }
-
-  inline int size() const {
+  virtual int size() const {
     return data.size();
   }
 
-  inline int operator[](int i) const {
+  virtual int operator[](int i) const {
     return data[i];
   }
 
-  inline int group() const {
+  virtual int group() const {
     return group_index;
   }
 
 private:
   IntegerVector data;
   int group_index;
+};
+
+class NaturalSlicingIndex : public SlicingIndex {
+public:
+  NaturalSlicingIndex(const int n_) : n(n_) {}
+
+  virtual int size() const {
+    return n;
+  }
+
+  virtual int operator[](int i) const {
+    return i;
+  }
+
+  virtual int group() const {
+    return -1;
+  }
+
+  virtual bool is_identity(SEXP x) const {
+    const R_len_t length = Rf_length(x);
+    return length == n;
+  }
+
+private:
+  int n;
+};
+
+class OffsetSlicingIndex : public SlicingIndex {
+public:
+  OffsetSlicingIndex(const int start_, const int n_) : start(start_), n(n_) {}
+
+  inline int size() const {
+    return n;
+  }
+
+  inline int operator[](int i) const {
+    return i + start;
+  }
+
+  inline int group() const {
+    return -1;
+  }
+
+private:
+  int start, n;
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define dplyr_LazySubsets_H
 
 #include <tools/SymbolMap.h>
+#include <tools/SlicingIndex.h>
 
 namespace dplyr {
 
@@ -59,6 +60,15 @@ namespace dplyr {
 
     inline SEXP& operator[](SEXP symbol) {
       return data[symbol_map.get(symbol)];
+    }
+
+    inline SEXP get(SEXP symbol, const SlicingIndex& indices) {
+      const int pos = symbol_map.get(symbol);
+      SEXP col = data[pos];
+      if (!indices.is_identity(col) && Rf_length(col) != 1)
+        stop("Attempt to query lazy column with non-natural slicing index");
+
+      return col;
     }
   };
 

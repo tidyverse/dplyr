@@ -50,7 +50,7 @@ namespace dplyr {
     virtual SEXP process(const FullDataFrame& df) {
       int nrows = df.nrows();
       Vector<RTYPE> out = no_init(nrows);
-      SlicingIndex index = df.get_index();
+      const SlicingIndex& index = df.get_index();
       process_slice(out, index, index);
       copy_most_attributes(out, data);
       return out;
@@ -59,7 +59,7 @@ namespace dplyr {
     virtual SEXP process(const SlicingIndex& index) {
       int nrows = index.size();
       Vector<RTYPE> out = no_init(nrows);
-      SlicingIndex fake(0, nrows);
+      NaturalSlicingIndex fake(nrows);
       process_slice(out, index, fake);
       copy_most_attributes(out, data);
       return out;

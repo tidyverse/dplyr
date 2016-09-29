@@ -243,7 +243,7 @@ namespace dplyr {
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       IntegerVector out(n);
       for (int i=0; i<ng; i++, ++git) {
-        SlicingIndex index = *git;
+        const SlicingIndex& index = *git;
 
         // tmp <- 0:(m-1)
         int m = index.size();
@@ -322,7 +322,7 @@ namespace dplyr {
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       IntegerVector out(n);
       for (int i=0; i<ng; i++, ++git) {
-        SlicingIndex index = *git;
+        const SlicingIndex& index = *git;
 
         // tmp <- 0:(m-1)
         int m = index.size();
@@ -395,7 +395,7 @@ namespace dplyr {
       IntegerVector res = no_init(n);
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       for (int i=0; i<ng; i++, ++git) {
-        SlicingIndex index = *git;
+        const SlicingIndex& index = *git;
         int m = index.size();
         for (int j=0; j<m; j++) res[index[j]] = j + 1;
       }
