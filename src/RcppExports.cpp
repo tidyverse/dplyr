@@ -62,6 +62,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// init_logging
+void init_logging(const std::string& log_level);
+RcppExport SEXP dplyr_init_logging(SEXP log_levelSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type log_level(log_levelSEXP);
+    init_logging(log_level);
+    return R_NilValue;
+END_RCPP
+}
 // arrange_impl
 List arrange_impl(DataFrame data, LazyDots dots);
 RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP dotsSEXP) {
