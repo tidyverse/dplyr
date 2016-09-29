@@ -79,20 +79,23 @@ namespace dplyr {
           const RObject& chunk = fetch_chunk();
           if (!try_handle_chunk(chunk)) {
             LOG_VERBOSE << "not handled group " << i;
-
-            processor.reset(processor->promote(chunk));
-
-            if (!processor) {
-              stop("can't promote group %d to %s", i, processor->describe());
-            }
-
-            LOG_VERBOSE << "promoted group " << i;
+            handle_chunk_with_promotion(chunk, i);
           }
         }
       }
 
       bool try_handle_chunk(const RObject& chunk) const {
         return processor->try_handle(chunk);
+      }
+
+      void handle_chunk_with_promotion(const RObject& chunk, const int i) {
+        IDelayedProcessor* new_processor = processor->promote(chunk);
+        if (!new_processor) {
+          stop("can't promote group %d to %s", i, processor->describe());
+        }
+
+        LOG_VERBOSE << "promoted group " << i;
+        processor.reset(new_processor);
       }
 
       RObject fetch_chunk() {
