@@ -81,8 +81,6 @@ namespace dplyr {
             LOG_VERBOSE << "not handled group " << i;
 
             if (processor->can_promote(chunk)) {
-              LOG_VERBOSE << "promoting after group " << i;
-
               processor.reset(
                 processor->promote(chunk)
               );
@@ -92,6 +90,8 @@ namespace dplyr {
             } else {
               stop("can't promote group %d to %s", i, processor->describe());
             }
+
+            LOG_VERBOSE << "promoted group " << i;
           }
         }
       }
