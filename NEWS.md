@@ -1,5 +1,27 @@
 # dplyr 0.5.0.9000
 
+* Using larger hash tables gives slightly better performance for `n_distinct()` and ordering of character vectors (#977).
+
+* Fix typo in C++ registration code (which is most likely unused at the moment).
+
+* New hybrid handler for `%in%` (#126).
+
+* Support logging in C++ code via the new plogr package.
+
+* Makeflags uses PKG_CPPFLAGS for defining preprocessor macros.
+
+* Each C++ module and header includes only the header files it needs, and dplyr.h includes only other header files.
+
+* Split dplyr.cpp into smaller modules.
+
+* Remove various instances of dead code (both C++ and R).
+
+* Add Doxygen configuration.
+
+* Add/ignore CLion configuration files.
+
+* Enable tracking of header dependencies.
+
 * Add tests for grouping behaviour (#833, #2085, @bpbond).
 
 * Refactor `common_by()` (#1928).
