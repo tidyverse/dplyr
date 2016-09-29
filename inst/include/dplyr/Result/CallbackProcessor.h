@@ -77,7 +77,7 @@ namespace dplyr {
       void process_rest() {
         for (int i = 1; i < ngroups; ++i) {
           const RObject& chunk = fetch_chunk();
-          if (!processor->try_handle(chunk)) {
+          if (!try_handle_chunk(chunk)) {
             LOG_VERBOSE << "not handled group " << i;
 
             if (processor->can_promote(chunk)) {
@@ -94,6 +94,10 @@ namespace dplyr {
             }
           }
         }
+      }
+
+      bool try_handle_chunk(const RObject& chunk) const {
+        return processor->try_handle(chunk);
       }
 
       RObject fetch_chunk() {
