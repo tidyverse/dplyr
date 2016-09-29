@@ -61,19 +61,26 @@ SEXP pairlist_shallow_copy(SEXP p) {
   return attr;
 }
 
-void copy_attributes(SEXP out, SEXP data) {
-  SEXP att = ATTRIB(data);
-  if (!Rf_isNull(att)) {
+void copy_only_attributes(SEXP out, SEXP data) {
+  List att = ATTRIB(data);
+  const bool has_attributes = (att.length() > 0);
+  if (has_attributes) {
+    LOG_VERBOSE << "copying attributes: " << CharacterVector(att.names());
+
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
+}
+
+void copy_attributes(SEXP out, SEXP data) {
+  copy_only_attributes(out, data);
   SET_OBJECT(out, OBJECT(data));
   if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
 }
 
-// same as copy_attributes but without names
+// effectively the same as copy_attributes but without names and dims
 void copy_most_attributes(SEXP out, SEXP data) {
-  copy_attributes(out,data);
-  Rf_setAttrib(out, R_NamesSymbol, R_NilValue);
+  LOG_VERBOSE << "copying attributes (except names and dim): " << CharacterVector(List(ATTRIB(data)).names());
+  Rf_copyMostAttrib(data, out);
 }
 
 std::string get_single_class(SEXP x) {

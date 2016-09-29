@@ -653,3 +653,15 @@ test_that("summarise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error( summarise(df, c = b[[1]]), 'Unsupported type RAWSXP for column "c"' )
 })
+
+test_that("dim attribute is stripped from grouped summarise (#1918)", {
+  df <- data.frame(a = 1:3, b = 1:3)
+
+  df_regular <- summarise(df, b = scale(b)[1,1])
+  df_grouped <- summarise(group_by(df, a), b = scale(b))
+  df_rowwise <- summarise(rowwise(df), b = scale(b))
+
+  expect_null(dim(df$b))
+  expect_null(dim(df_grouped$b))
+  expect_null(dim(df_rowwise$b))
+})

@@ -127,6 +127,8 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 
 template <typename Data, typename Subsets>
 SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
+  LOG_VERBOSE << "checking zero rows";
+
   // special 0 rows case
   if (df.nrows() == 0) {
     DataFrame res = mutate_not_grouped(df, dots);
@@ -135,6 +137,8 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
     return Data(res).data();
   }
 
+  LOG_VERBOSE << "initializing proxy";
+
   typedef GroupedCallProxy<Data, Subsets> Proxy;
   Data gdf(df);
   int nexpr = dots.size();
@@ -142,12 +146,16 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
 
   Proxy proxy(gdf);
 
+  LOG_VERBOSE << "copying data to accumulator";
+
   NamedListAccumulator<Data> accumulator;
   int ncolumns = df.size();
   CharacterVector column_names = df.names();
   for (int i=0; i<ncolumns; i++) {
     accumulator.set(column_names[i], df[i]);
   }
+
+  LOG_VERBOSE << "processing " << nexpr << " variables";
 
   List variables(nexpr);
   for (int i=0; i<nexpr; i++) {
@@ -159,6 +167,8 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
     SEXP call = call_;
     SEXP name = lazy.name();
     proxy.set_env(env);
+
+    LOG_VERBOSE << "processing " << CharacterVector(name);
 
     if (TYPEOF(call) == SYMSXP) {
       if (proxy.has_variable(call)) {
