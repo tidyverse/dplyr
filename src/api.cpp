@@ -293,7 +293,7 @@ namespace dplyr {
 
   CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
     data(data_),
-    set(),
+    set(data.size()),
     orders(no_init(data.size()))
   {
     int n = data.size();

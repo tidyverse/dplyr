@@ -17,11 +17,12 @@ namespace dplyr {
     typedef dplyr_hash_set<int, Hash, Pred > Set;
 
     Count_Distinct(Visitor v_):
-      v(v_), set(1024, Hash(v), Pred(v))
+      v(v_), set(0, Hash(v), Pred(v))
     {}
 
     inline int process_chunk(const SlicingIndex& indices) {
       set.clear();
+      set.rehash(indices.size());
       int n = indices.size();
       for (int i=0; i<n; i++) {
         set.insert(indices[i]);
@@ -42,11 +43,12 @@ namespace dplyr {
     typedef dplyr_hash_set<int, Hash, Pred > Set;
 
     Count_Distinct_Narm(Visitor v_):
-      v(v_), set(1024, Hash(v), Pred(v))
+      v(v_), set(0, Hash(v), Pred(v))
     {}
 
     inline int process_chunk(const SlicingIndex& indices) {
       set.clear();
+      set.rehash(indices.size());
       int n = indices.size();
       for (int i=0; i<n; i++) {
         int index=indices[i];

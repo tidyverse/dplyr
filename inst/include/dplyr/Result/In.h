@@ -13,10 +13,9 @@ namespace dplyr {
     typedef typename Rcpp::Vector<RTYPE> Vec;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    In(Vec data_, Vec table_) :
+    In(Vec data_, const Vec& table_) :
       data(data_),
-      table(table_),
-      set(table.begin(), table.end())
+      set(table_.begin(), table_.end())
     {}
 
     void process_slice(LogicalVector& out, const SlicingIndex& index, const SlicingIndex& out_index) {
@@ -32,7 +31,7 @@ namespace dplyr {
     }
 
   private:
-    Vec data, table;
+    Vec data;
     dplyr_hash_set<STORAGE> set;
 
   };
