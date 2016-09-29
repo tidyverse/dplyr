@@ -1,0 +1,3 @@
+CXX_SOURCES = $(wildcard *.cpp)
+DEPFILES = ${CXX_SOURCES:.cpp=.d}
+include ${DEPFILES}
