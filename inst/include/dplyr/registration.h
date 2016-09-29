@@ -34,7 +34,7 @@ inline SEXP get_time_classes() {
 
 inline SEXP get_date_classes() {
   typedef SEXP(*Fun)(void);
-  GRAB_CALLABLE(get_time_classes)
+  GRAB_CALLABLE(get_date_classes)
   return fun();
 }
 
