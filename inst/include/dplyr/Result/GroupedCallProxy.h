@@ -44,21 +44,9 @@ namespace dplyr {
       subsets.clear();
 
       if (TYPEOF(call) == LANGSXP) {
-        if (can_simplify(call)) {
-          LOG_VERBOSE << "performing hybrid evaluation";
-          HybridCall hybrid_eval(call, indices, subsets, env);
-          return hybrid_eval.eval();
-        }
-
-        int n = proxies.size();
-
-        LOG_VERBOSE << "setting " << n << " proxies";
-        for (int i=0; i<n; i++) {
-          LOG_VERBOSE << "setting proxy " << CHAR(PRINTNAME(proxies[i].symbol));
-          proxies[i].set(detail::get_proxy_subset(subsets, proxies[i].symbol, indices));
-        }
-
-        return call.eval(env);
+        LOG_VERBOSE << "performing hybrid evaluation";
+        HybridCall hybrid_eval(call, indices, subsets, env);
+        return hybrid_eval.eval();
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
           return detail::get_proxy_subset(subsets, call, indices);
