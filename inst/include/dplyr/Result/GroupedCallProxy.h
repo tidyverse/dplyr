@@ -49,7 +49,7 @@ namespace dplyr {
         return hybrid_eval.eval();
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
-          return detail::get_proxy_subset(subsets, call, indices);
+          return subsets.get(call, indices);
         }
         return env.find(CHAR(PRINTNAME(call)));
       } else {

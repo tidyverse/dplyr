@@ -9,13 +9,6 @@
 
 namespace dplyr {
 
-  namespace detail {
-    template <class Subsets>
-    inline SEXP get_proxy_subset(Subsets& subsets, SEXP call, const SlicingIndex& indices) {
-      return subsets.get(call, indices);
-    }
-  }
-
   template <typename Subsets>
   class GroupedHybridCall {
   public:
@@ -31,7 +24,7 @@ namespace dplyr {
         return Rcpp_eval(call, env);
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
-          return detail::get_proxy_subset(subsets, call, indices);
+          return subsets.get(call, indices);
         }
         return env.find(CHAR(PRINTNAME(call)));
       }
@@ -71,7 +64,7 @@ namespace dplyr {
         case SYMSXP:
           if (TYPEOF(obj) != LANGSXP) {
             if (subsets.count(head)) {
-              SETCAR(obj, detail::get_proxy_subset(subsets, head, indices));
+              SETCAR(obj, subsets.get(head, indices));
             }
           }
           break;
