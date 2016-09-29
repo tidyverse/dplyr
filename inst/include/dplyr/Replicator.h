@@ -14,7 +14,7 @@ namespace dplyr {
   template <int RTYPE, typename Data>
   class ReplicatorImpl : public Replicator {
   public:
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     ReplicatorImpl(SEXP v, int n_, int ngroups_) :
       data(no_init(n_*ngroups_)), source(v), n(n_), ngroups(ngroups_) {}

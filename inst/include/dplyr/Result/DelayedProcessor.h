@@ -3,20 +3,21 @@
 
 #include <tools/hash.h>
 #include <tools/ShrinkableVector.h>
+#include <tools/scalar_type.h>
 #include <tools/utils.h>
+#include <dplyr/vector_class.h>
 
 namespace dplyr {
 
-  template <typename CLASS>
-  class DelayedProcessor_Base {
+  class IDelayedProcessor {
   public:
-    DelayedProcessor_Base() {}
-    virtual ~DelayedProcessor_Base() {}
+    IDelayedProcessor() {}
+    virtual ~IDelayedProcessor() {}
 
-    virtual bool handled(int i, const RObject& chunk) = 0;
-    virtual bool can_promote(const RObject& chunk) = 0;
-    virtual DelayedProcessor_Base* promote(int i, const RObject& chunk) = 0;
+    virtual bool try_handle(const RObject& chunk) = 0;
+    virtual IDelayedProcessor* promote(const RObject& chunk) = 0;
     virtual SEXP get() = 0;
+    virtual std::string describe() = 0;
   };
 
   template <int RTYPE>
@@ -65,50 +66,58 @@ namespace dplyr {
   }
 
   template <int RTYPE, typename CLASS>
-  class DelayedProcessor : public DelayedProcessor_Base<CLASS> {
+  class DelayedProcessor : public IDelayedProcessor {
   public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
+    typedef typename traits::scalar_type<RTYPE>::type STORAGE;
     typedef Vector<RTYPE> Vec;
 
-    DelayedProcessor(int first_non_na, SEXP first_result, int ngroups_) :
-      res(no_init(ngroups_))
+    DelayedProcessor(const RObject& first_result, int ngroups_) :
+      res(no_init(ngroups_)), pos(0), seen_na_only(true)
     {
-      std::fill(res.begin(), res.begin() + first_non_na, Vec::get_na());
-      res[first_non_na] = as<STORAGE>(first_result);
+      if (!try_handle(first_result))
+        stop("cannot handle result of type %i", first_result.sexp_type());
       copy_most_attributes(res, first_result);
     }
 
-    DelayedProcessor(int i, const RObject& chunk, SEXP res_) :
-      res(as<Vec>(res_))
+    DelayedProcessor(int pos_, const RObject& chunk, SEXP res_) :
+      res(as<Vec>(res_)), pos(pos_), seen_na_only(false)
     {
       copy_most_attributes(res, chunk);
-      res[i] = as<STORAGE>(chunk);
+      if (!try_handle(chunk))
+        stop("cannot handle result of type %i in promotion", chunk.sexp_type());
     }
 
-    virtual bool handled(int i, const RObject& chunk) {
+    virtual bool try_handle(const RObject& chunk) {
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
-        res[i] = as<STORAGE>(chunk);
+        // copy, and memoize the copied value
+        const typename Vec::stored_type& converted_chunk = (res[pos++] = as<STORAGE>(chunk));
+        if (!Vec::is_na(converted_chunk))
+          seen_na_only = false;
         return true;
       } else {
         return false;
       }
     }
 
-    virtual bool can_promote(const RObject& chunk) {
-      return valid_promotion<RTYPE>(TYPEOF(chunk));
-    }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+    virtual IDelayedProcessor* promote(const RObject& chunk) {
+      if (!can_promote(chunk)) {
+        LOG_VERBOSE << "can't promote";
+        return 0;
+      }
+
       int rtype = TYPEOF(chunk);
       switch (rtype) {
       case LGLSXP:
-        return new DelayedProcessor<LGLSXP , CLASS>(i, chunk, res);
+        return new DelayedProcessor<LGLSXP , CLASS>(pos, chunk, res);
       case INTSXP:
-        return new DelayedProcessor<INTSXP , CLASS>(i, chunk, res);
+        return new DelayedProcessor<INTSXP , CLASS>(pos, chunk, res);
       case REALSXP:
-        return new DelayedProcessor<REALSXP, CLASS>(i, chunk, res);
+        return new DelayedProcessor<REALSXP, CLASS>(pos, chunk, res);
       case CPLXSXP:
-        return new DelayedProcessor<CPLXSXP, CLASS>(i, chunk, res);
+        return new DelayedProcessor<CPLXSXP, CLASS>(pos, chunk, res);
+      case STRSXP:
+        return new DelayedProcessor<STRSXP, CLASS>(pos, chunk, res);
       default:
         break;
       }
@@ -119,58 +128,43 @@ namespace dplyr {
       return res;
     }
 
+    virtual std::string describe() {
+      return vector_class<RTYPE>();
+    }
+
+
+  private:
+    bool can_promote(const RObject& chunk) {
+      return seen_na_only || valid_promotion<RTYPE>(TYPEOF(chunk));
+    }
+
 
   private:
     Vec res;
-
+    int pos;
+    bool seen_na_only;
 
   };
 
   template <typename CLASS>
-  class DelayedProcessor<STRSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
-  public:
-    DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
-      res(ngroups)
-    {
-      res[first_non_na_] = as<String>(first_result);
-      copy_most_attributes(res, first_result);
-    }
-
-    virtual bool handled(int i, const RObject& chunk) {
-      res[i] = as<String>(chunk);
-      return true;
-    }
-    virtual bool can_promote(const RObject& chunk) {
-      return false;
-    }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
-      return 0;
-    }
-    virtual SEXP get() {
-      return res;
-    }
-
-  private:
-    CharacterVector res;
-  };
-
-  template <typename CLASS>
-  class FactorDelayedProcessor : public DelayedProcessor_Base<CLASS> {
+  class FactorDelayedProcessor : public IDelayedProcessor {
   private:
     typedef dplyr_hash_map<SEXP,int> LevelsMap;
 
   public:
 
-    FactorDelayedProcessor(int first_non_na, SEXP first_result, int ngroups) :
-      res(ngroups, NA_INTEGER)
+    FactorDelayedProcessor(SEXP first_result, int ngroups) :
+      res(ngroups, NA_INTEGER), pos(0)
     {
       copy_most_attributes(res, first_result);
       CharacterVector levels = Rf_getAttrib(first_result, Rf_install("levels"));
       int n = levels.size();
       for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
+      if (!try_handle(first_result))
+        stop("cannot handle factor result");
     }
 
-    virtual bool handled(int i, const RObject& chunk) {
+    virtual bool try_handle(const RObject& chunk) {
       CharacterVector lev = chunk.attr("levels");
       update_levels(lev);
 
@@ -179,15 +173,14 @@ namespace dplyr {
         return true;
       }
       SEXP s = lev[val-1];
-      res[i] = levels_map[s];
+      res[pos++] = levels_map[s];
       return true;
     }
-    virtual bool can_promote(const RObject& chunk) {
-      return false;
-    }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+
+    virtual IDelayedProcessor* promote(const RObject& chunk) {
       return 0;
     }
+
     virtual SEXP get() {
       int n = levels_map.size();
       CharacterVector levels(n);
@@ -198,6 +191,10 @@ namespace dplyr {
       res.attr("class") = "factor";
       res.attr("levels") = levels;
       return res;
+    }
+
+    virtual std::string describe() {
+      return "factor";
     }
 
   private:
@@ -214,40 +211,46 @@ namespace dplyr {
     }
 
     IntegerVector res;
+    int pos;
     LevelsMap levels_map;
   };
 
 
 
   template <typename CLASS>
-  class DelayedProcessor<VECSXP, CLASS> : public DelayedProcessor_Base<CLASS> {
+  class DelayedProcessor<VECSXP, CLASS> : public IDelayedProcessor {
   public:
-    DelayedProcessor(int first_non_na_, SEXP first_result, int ngroups) :
-      res(ngroups)
+    DelayedProcessor(SEXP first_result, int ngroups) :
+      res(ngroups), pos(0)
     {
-      res[first_non_na_] = maybe_copy(VECTOR_ELT(first_result, 0));
       copy_most_attributes(res, first_result);
+      if (!try_handle(first_result))
+        stop("cannot handle list result");
     }
 
-    virtual bool handled(int i, const RObject& chunk) {
+    virtual bool try_handle(const RObject& chunk) {
       if (is<List>(chunk) && Rf_length(chunk) == 1) {
-        res[i] = maybe_copy(VECTOR_ELT(chunk, 0));
+        res[pos++] = maybe_copy(VECTOR_ELT(chunk, 0));
         return true;
       }
       return false;
     }
-    virtual bool can_promote(const RObject& chunk) {
-      return false;
-    }
-    virtual DelayedProcessor_Base<CLASS>* promote(int i, const RObject& chunk) {
+
+    virtual IDelayedProcessor* promote(const RObject& chunk) {
       return 0;
     }
+
     virtual SEXP get() {
       return res;
     }
 
+    virtual std::string describe() {
+      return "list";
+    }
+
   private:
     List res;
+    int pos;
 
     inline SEXP maybe_copy(SEXP x) const {
       return is_ShrinkableVector(x) ? Rf_duplicate(x) : x;
@@ -255,24 +258,27 @@ namespace dplyr {
   };
 
   template <typename CLASS>
-  DelayedProcessor_Base<CLASS>* get_delayed_processor(int i, SEXP first_result, int ngroups) {
+  IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups) {
+    if (Rf_length(first_result) != 1)
+      stop("expecting a single value, got %d", Rf_length(first_result));
+
     if (Rf_inherits(first_result, "factor")) {
-      return new FactorDelayedProcessor<CLASS>(i, first_result, ngroups);
+      return new FactorDelayedProcessor<CLASS>(first_result, ngroups);
     } else if (Rcpp::is<int>(first_result)) {
-      return new DelayedProcessor<INTSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<INTSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<double>(first_result)) {
-      return new DelayedProcessor<REALSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<REALSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<Rcpp::String>(first_result)) {
-      return new DelayedProcessor<STRSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<STRSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<bool>(first_result)) {
-      return new DelayedProcessor<LGLSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<LGLSXP, CLASS>(first_result, ngroups);
     } else if (Rcpp::is<Rcpp::List>(first_result)) {
-      if (Rf_length(first_result) != 1) return 0;
-      return new DelayedProcessor<VECSXP, CLASS>(i, first_result, ngroups);
-    } else if (Rf_length(first_result) == 1 && TYPEOF(first_result) == CPLXSXP) {
-      return new DelayedProcessor<CPLXSXP, CLASS>(i, first_result, ngroups);
+      return new DelayedProcessor<VECSXP, CLASS>(first_result, ngroups);
+    } else if (TYPEOF(first_result) == CPLXSXP) {
+      return new DelayedProcessor<CPLXSXP, CLASS>(first_result, ngroups);
     }
-    return 0;
+
+    stop("unknown result of type %d", TYPEOF(first_result));
   }
 
 }

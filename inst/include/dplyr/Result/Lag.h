@@ -1,6 +1,7 @@
 #ifndef dplyr_Result_Lag_H
 #define dplyr_Result_Lag_H
 
+#include <tools/scalar_type.h>
 #include <tools/utils.h>
 
 #include <dplyr/Result/Result.h>
@@ -10,7 +11,7 @@ namespace dplyr {
   template <int RTYPE>
   class Lag : public Result {
   public:
-    typedef typename scalar_type<RTYPE>::type STORAGE;
+    typedef typename traits::scalar_type<RTYPE>::type STORAGE;
 
     Lag(SEXP data_, int n_, const RObject& def_, bool is_summary_) :
       data(data_),

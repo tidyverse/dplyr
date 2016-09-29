@@ -44,10 +44,14 @@ namespace dplyr {
 
       if (TYPEOF(call) == LANGSXP) {
         if (can_simplify(call)) {
+          LOG_VERBOSE << "performing hybrid evaluation";
           HybridCall hybrid_eval(call, indices, subsets, env);
           return hybrid_eval.eval();
         }
+
         int n = proxies.size();
+
+        LOG_VERBOSE << "setting " << n << " proxies";
         for (int i=0; i<n; i++) {
           proxies[i].set(subsets.get(proxies[i].symbol, indices));
         }
