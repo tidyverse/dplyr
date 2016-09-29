@@ -3,10 +3,13 @@ project(dplyr)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-include_directories(/home/muelleki/R/x86_64-pc-linux-gnu-library/current/BH/include)
-include_directories(/home/muelleki/R/x86_64-pc-linux-gnu-library/current/Rcpp/include)
-include_directories(/home/muelleki/R/x86_64-pc-linux-gnu-library/current/plogr/include)
-include_directories(/home/muelleki/git/R/r-svn/R-3-3-1/include)
+set(R_LIBRARY "~/R-library")
+set(R_INCLUDE "/usr/share/R/include")
+
+include_directories(${R_LIBRARY}/BH/include)
+include_directories(${R_LIBRARY}/Rcpp/include)
+include_directories(${R_LIBRARY}/plogr/include)
+include_directories(${R_INCLUDE})
 include_directories(inst/include)
 
 file(GLOB SOURCE_FILES src/*.cpp src/*.c)
