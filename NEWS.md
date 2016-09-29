@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* The SQL aggregate function `n_distinct()` now accepts `...`.
+
 * Add tests for grouping behaviour (#833, #2085, @bpbond).
 
 * Refactor `common_by()` (#1928).
