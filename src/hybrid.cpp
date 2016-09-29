@@ -136,21 +136,3 @@ namespace dplyr {
 void registerHybridHandler(const char* name, HybridHandler proto) {
   get_handlers()[Rf_install(name)] = proto;
 }
-
-bool can_simplify(SEXP call) {
-  if (TYPEOF(call) == LISTSXP) {
-    bool res = can_simplify(CAR(call));
-    if (res) return true;
-    return can_simplify(CDR(call));
-  }
-
-  if (TYPEOF(call) == LANGSXP) {
-    SEXP fun_symbol = CAR(call);
-    if (TYPEOF(fun_symbol) != SYMSXP) return false;
-
-    if (get_handlers().count(fun_symbol)) return true;
-
-    return can_simplify(CDR(call));
-  }
-  return false;
-}
