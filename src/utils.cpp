@@ -79,7 +79,6 @@ void copy_attributes(SEXP out, SEXP data) {
 
 // effectively the same as copy_attributes but without names and dims
 void copy_most_attributes(SEXP out, SEXP data) {
-  LOG_VERBOSE << "copying attributes (except names and dim): " << CharacterVector(List(ATTRIB(data)).names());
   Rf_copyMostAttrib(data, out);
 }
 
