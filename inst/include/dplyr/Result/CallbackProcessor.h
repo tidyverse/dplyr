@@ -55,19 +55,17 @@ namespace dplyr {
       process_data(const Data& gdf, CLASS* chunk_source_) : git(gdf.group_begin()), ngroups(gdf.ngroups()), chunk_source(chunk_source_) {}
 
       SEXP run() {
-        if (ngroups == 0)
-          return process_empty();
+        if (ngroups == 0) {
+          LOG_VERBOSE << "no groups to process";
+          return get_processed_empty();
+        }
 
         process_first();
-        return process_rest();
+        process_rest();
+        return get_processed();
       }
 
     private:
-      SEXP process_empty() {
-        LOG_VERBOSE << "no groups to process";
-        return LogicalVector(0, NA_LOGICAL);
-      }
-
       void process_first() {
         const RObject& first_result = fetch_chunk();
         LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
@@ -76,7 +74,7 @@ namespace dplyr {
         LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
       }
 
-      SEXP process_rest() {
+      void process_rest() {
         for (int i = 1; i < ngroups; ++i) {
           const RObject& chunk = fetch_chunk();
           if (!processor->try_handle(chunk)) {
@@ -96,15 +94,20 @@ namespace dplyr {
             }
           }
         }
-
-        Shield<SEXP> res(processor->get());
-        return res;
       }
 
       RObject fetch_chunk() {
         const RObject& chunk = chunk_source->process_chunk(*git);
         ++git;
         return chunk;
+      }
+
+      SEXP get_processed() const {
+        return processor->get();
+      }
+
+      static SEXP get_processed_empty() {
+        return LogicalVector(0, NA_LOGICAL);
       }
 
     private:
