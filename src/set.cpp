@@ -223,17 +223,6 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 }
 
 // [[Rcpp::export]]
-dplyr::BoolResult all_equal_data_frame(List args, Environment env) {
-  int n = args.size();
-  DataFrame x0 = Rf_eval(args[0], env);
-  for (int i=1; i<n; i++) {
-    BoolResult test = equal_data_frame(x0, Rf_eval(args[i], env));
-    if (!test) return test;
-  }
-  return yes();
-}
-
-// [[Rcpp::export]]
 DataFrame union_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x,y,true,true);
   if (!compat) {
