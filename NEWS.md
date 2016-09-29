@@ -1,5 +1,13 @@
 # dplyr 0.5.0.9000
 
+* CallProxy is now a specialization of GroupedCallProxy.
+
+* Fix conversion of character `NA` to empty strings in a grouped `summarise()` (#1839).
+
+* Refactor CallbackProcessor and DelayedProcessor.
+
+* The "dim" and "dimnames" attributes are always stripped when copying a vector (#1918, #2049).
+
 * Now calling `dbFetch()` instead of the deprecated `fetch()` (#2134).
 
 * Using larger hash tables gives slightly better performance for `n_distinct()` and ordering of character vectors (#977).
