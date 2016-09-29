@@ -1,4 +1,12 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/match.h>
+#include <tools/utils.h>
+
+#include <dplyr/extract_column.h>
+
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/Groups.h>
 
 using namespace Rcpp;
 using namespace dplyr;

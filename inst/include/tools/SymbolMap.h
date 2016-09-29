@@ -1,6 +1,9 @@
 #ifndef dplyr_tools_SymbolMap_h
 #define dplyr_tools_SymbolMap_h
 
+#include <tools/hash.h>
+#include <tools/match.h>
+
 namespace dplyr {
 
   enum Origin { HASH, RMATCH, NEW };

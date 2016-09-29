@@ -1,4 +1,33 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/hash.h>
+
+#include <dplyr/RowwiseDataFrame.h>
+
+#include <dplyr/MultipleVectorVisitors.h>
+
+#include <dplyr/Hybrid.h>
+
+#include <dplyr/Result/is_smaller.h>
+
+#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/Rank.h>
+#include <dplyr/Result/ConstantResult.h>
+
+#include <dplyr/Result/Count.h>
+#include <dplyr/Result/Count_Distinct.h>
+#include <dplyr/Result/Mean.h>
+#include <dplyr/Result/Sum.h>
+#include <dplyr/Result/Var.h>
+#include <dplyr/Result/Sd.h>
+#include <dplyr/Result/min.h>
+#include <dplyr/Result/max.h>
+#include <dplyr/Result/Lead.h>
+#include <dplyr/Result/Lag.h>
+#include <dplyr/Result/CumSum.h>
+#include <dplyr/Result/CumMin.h>
+#include <dplyr/Result/CumMax.h>
+#include <dplyr/Result/In.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -501,6 +530,8 @@ Result* constant_handler(SEXP constant) {
   return 0;
 }
 
+namespace dplyr {
+
 Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
   if (TYPEOF(call) == LANGSXP) {
     int depth = Rf_length(call);
@@ -522,6 +553,8 @@ Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& en
     if (Rf_length(call) == 1) return constant_handler(call);
   }
   return 0;
+}
+
 }
 
 void registerHybridHandler(const char* name, HybridHandler proto) {

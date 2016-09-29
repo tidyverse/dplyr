@@ -1,6 +1,8 @@
 #ifndef dplyr_HASH_H
 #define dplyr_HASH_H
 
+#include <boost/functional/hash.hpp>
+
 #ifndef dplyr_hash_map
   #if defined(_WIN32)
     #define dplyr_hash_map RCPP_UNORDERED_MAP

@@ -1,6 +1,8 @@
 #ifndef dplyr_DataFrameColumnVisitors_H
 #define dplyr_DataFrameColumnVisitors_H
 
+#include <dplyr/DataFrameVisitors.h>
+
 namespace dplyr {
 
   class DataFrameColumnVisitor : public VectorVisitor {

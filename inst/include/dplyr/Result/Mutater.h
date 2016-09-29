@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Mutater_H
 #define dplyr_Result_Mutater_H
 
+#include <dplyr/Result/Result.h>
+
 namespace dplyr {
 
   template <int RTYPE, typename Derived>

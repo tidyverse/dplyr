@@ -1,4 +1,11 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+
+#include <dplyr/RowwiseDataFrame.h>
+#include <dplyr/MultipleVectorVisitors.h>
+#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/Result/Count_Distinct.h>
 
 using namespace Rcpp;
 using namespace dplyr;

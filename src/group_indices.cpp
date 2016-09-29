@@ -1,4 +1,17 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/match.h>
+
+#include <dplyr/white_list.h>
+
+#include <dplyr/GroupedDataFrame.h>
+
+#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/Order.h>
+
+#include <dplyr/Result/Count.h>
+
+#include <dplyr/train.h>
 
 using namespace Rcpp;
 using namespace dplyr;

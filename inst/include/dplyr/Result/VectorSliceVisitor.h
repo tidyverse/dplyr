@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_VectorSliceVisitor_H
 #define dplyr_Result_VectorSliceVisitor_H
 
+#include <tools/wrap_subset.h>
+
 namespace dplyr {
 
   template <int RTYPE>

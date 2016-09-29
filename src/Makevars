@@ -10,3 +10,6 @@ all: $(SHLIB)
 Makevars.local:
 	touch "$@"
 include Makevars.local
+
+clean:
+	rm -f *.d

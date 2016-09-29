@@ -1,17 +1,24 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/hash.h>
+#include <tools/match.h>
+
+#include <tools/LazyDots.h>
+
+#include <dplyr/visitor_set/VisitorSetIndexMap.h>
+
+#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/tbl_cpp.h>
+
+#include <dplyr/DataFrameJoinVisitors.h>
+
+#include <dplyr/Result/GroupedCallProxy.h>
+#include <dplyr/Result/CallProxy.h>
+
+#include <dplyr/train.h>
 
 using namespace Rcpp;
 using namespace dplyr;
-
-template <typename Index>
-DataFrame subset(DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes) {
-  return DataFrameSubsetVisitors(df, columns).subset(indices, classes);
-}
-
-template <typename Index>
-DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes) {
-  return DataFrameSubsetVisitors(df).subset(indices, classes);
-}
 
 template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,

@@ -1,6 +1,11 @@
 #ifndef dplyr_Result_H
 #define dplyr_Result_H
 
+#include <dplyr/RowwiseDataFrame.h>
+#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/FullDataFrame.h>
+#include <tools/SlicingIndex.h>
+
 namespace dplyr {
 
   class Result {

@@ -1,6 +1,8 @@
 #ifndef dplyr_Result_Mean_H
 #define dplyr_Result_Mean_H
 
+#include <dplyr/Result/Processor.h>
+
 namespace dplyr {
   namespace internal {
 

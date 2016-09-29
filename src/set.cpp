@@ -1,4 +1,20 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <boost/scoped_ptr.hpp>
+
+#include <tools/match.h>
+#include <tools/collapse.h>
+
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+#include <dplyr/visitor_set/VisitorSetIndexMap.h>
+
+#include <dplyr/BoolResult.h>
+
+#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/DataFrameJoinVisitors.h>
+
+#include <dplyr/train.h>
 
 using namespace Rcpp;
 using namespace dplyr;

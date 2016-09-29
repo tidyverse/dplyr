@@ -1,6 +1,13 @@
 #ifndef dplyr_registration_H
 #define dplyr_registration_H
 
+namespace dplyr {
+  class LazySubsets;
+  class Result;
+}
+
+typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int);
+
 #if defined(COMPILING_DPLYR)
 
 DataFrame build_index_cpp(DataFrame data);

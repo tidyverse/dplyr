@@ -6,14 +6,6 @@
 #define LATIN1_MASK (1<<2)
 #define UTF8_MASK (1<<3)
 
-// that bit seems unused by R. Just using it to mark
-// objects as Shrinkable Vectors
-// that is useful for things like summarise(list(x)) where x is a
-// variable from the data, because the SEXP that goes into the list
-// is the shrinkable vector, we use this information to duplicate
-// it if needed. See the maybe_copy method in DelayedProcessor
-#define DPLYR_SHRINKABLE_MASK (1<<8)
-
 struct sxpinfo_struct {
   // *INDENT-OFF*
   SEXPTYPE type    :  TYPE_BITS;/* ==> (FUNSXP == 99) %% 2^5 == 3 == CLOSXP
@@ -48,33 +40,17 @@ struct sxpinfo_struct {
   #define IS_UTF8(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp & UTF8_MASK)
 #endif
 
-namespace dplyr {
+// that bit seems unused by R. Just using it to mark
+// objects as Shrinkable Vectors
+// that is useful for things like summarise(list(x)) where x is a
+// variable from the data, because the SEXP that goes into the list
+// is the shrinkable vector, we use this information to duplicate
+// it if needed. See the maybe_copy method in DelayedProcessor
+#define DPLYR_SHRINKABLE_MASK (1<<8)
 
-  enum encoding {
-    BYTES, LATIN1, UTF8, UNKNOWN
-  };
+#define IS_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp & DPLYR_SHRINKABLE_MASK)
+#define SET_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp |= DPLYR_SHRINKABLE_MASK)
+#define UNSET_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp &= (~DPLYR_SHRINKABLE_MASK) )
 
-  inline encoding get_encoding(SEXP s) {
-    if (IS_BYTES(s)) return BYTES;
-    if (IS_LATIN1(s)) return LATIN1;
-    if (IS_UTF8(s)) return UTF8;
-    return UNKNOWN;
-  }
-
-  inline const char* human_readable_encoding(encoding e) {
-    switch (e) {
-    case BYTES:
-      return "bytes";
-    case LATIN1:
-      return "latin1";
-    case UTF8:
-      return "UTF-8";
-    default:
-      break;
-    }
-    return "unknown";
-  }
-
-}
 
 #endif
