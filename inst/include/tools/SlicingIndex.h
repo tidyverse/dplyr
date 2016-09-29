@@ -25,7 +25,7 @@ public:
     return group_index;
   }
 
-// private:
+private:
   IntegerVector data;
   int group_index;
 };
