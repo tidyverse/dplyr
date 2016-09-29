@@ -61,7 +61,7 @@ SEXP pairlist_shallow_copy(SEXP p) {
   return attr;
 }
 
-bool copy_only_attributes(SEXP out, SEXP data) {
+void copy_only_attributes(SEXP out, SEXP data) {
   List att = ATTRIB(data);
   const bool has_attributes = (att.length() > 0);
   if (has_attributes) {
@@ -69,33 +69,18 @@ bool copy_only_attributes(SEXP out, SEXP data) {
 
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
-  return has_attributes;
 }
 
-bool copy_attributes(SEXP out, SEXP data) {
+void copy_attributes(SEXP out, SEXP data) {
+  copy_only_attributes(out, data);
   SET_OBJECT(out, OBJECT(data));
   if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
-  return copy_only_attributes(out, data);
 }
 
-// same as copy_attributes but without names
-bool copy_most_attributes(SEXP out, SEXP data) {
-  if (!copy_attributes(out, data))
-    return false;
-
-  LOG_VERBOSE << "dropping name attribute";
-  Rf_setAttrib(out, R_NamesSymbol, R_NilValue);
-  return true;
-}
-
-bool copy_column_attributes(SEXP out, SEXP data) {
-  if (!copy_most_attributes(out, data))
-    return false;
-
-  LOG_VERBOSE << "dropping dim and dimnames attributes";
-  Rf_setAttrib(out, R_DimSymbol, R_NilValue);
-  Rf_setAttrib(out, R_DimNamesSymbol, R_NilValue);
-  return true;
+// effectively the same as copy_attributes but without names and dims
+void copy_most_attributes(SEXP out, SEXP data) {
+  LOG_VERBOSE << "copying attributes (except names and dim): " << CharacterVector(List(ATTRIB(data)).names());
+  Rf_copyMostAttrib(data, out);
 }
 
 std::string get_single_class(SEXP x) {

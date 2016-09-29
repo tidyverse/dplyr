@@ -75,7 +75,7 @@ namespace dplyr {
     {
       std::fill(res.begin(), res.begin() + first_non_na, Vec::get_na());
       res[first_non_na] = as<STORAGE>(first_result);
-      copy_column_attributes(res, first_result);
+      copy_most_attributes(res, first_result);
     }
 
     DelayedProcessor(int i, const RObject& chunk, SEXP res_) :
