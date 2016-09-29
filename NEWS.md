@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Now calling `dbFetch()` instead of the deprecated `fetch()` (#2134).
+
 * Using larger hash tables gives slightly better performance for `n_distinct()` and ordering of character vectors (#977).
 
 * Fix typo in C++ registration code (which is most likely unused at the moment).

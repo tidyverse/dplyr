@@ -41,7 +41,7 @@ Query <- R6::R6Class("Query",
       res <- dbSendQuery(self$con, self$sql)
       on.exit(dbClearResult(res))
 
-      out <- fetch(res, n)
+      out <- dbFetch(res, n)
       res_warn_incomplete(res)
       out
     },
@@ -51,7 +51,7 @@ Query <- R6::R6Class("Query",
       on.exit(dbClearResult(qry))
 
       while (!dbHasCompleted(qry)) {
-        chunk <- fetch(qry, chunk_size)
+        chunk <- dbFetch(qry, chunk_size)
         callback(chunk)
       }
 
