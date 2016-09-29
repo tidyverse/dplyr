@@ -80,14 +80,9 @@ namespace dplyr {
           if (!try_handle_chunk(chunk)) {
             LOG_VERBOSE << "not handled group " << i;
 
-            if (processor->can_promote(chunk)) {
-              processor.reset(
-                processor->promote(chunk)
-              );
+            processor.reset(processor->promote(chunk));
 
-              if (!processor)
-                stop("processor said it could promote but didn't");
-            } else {
+            if (!processor) {
               stop("can't promote group %d to %s", i, processor->describe());
             }
 

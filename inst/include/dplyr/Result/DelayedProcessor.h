@@ -15,7 +15,6 @@ namespace dplyr {
     virtual ~IDelayedProcessor() {}
 
     virtual bool try_handle(const RObject& chunk) = 0;
-    virtual bool can_promote(const RObject& chunk) = 0;
     virtual IDelayedProcessor* promote(const RObject& chunk) = 0;
     virtual SEXP get() = 0;
     virtual std::string describe() = 0;
@@ -101,11 +100,12 @@ namespace dplyr {
       }
     }
 
-    virtual bool can_promote(const RObject& chunk) {
-      return seen_na_only || valid_promotion<RTYPE>(TYPEOF(chunk));
-    }
-
     virtual IDelayedProcessor* promote(const RObject& chunk) {
+      if (!can_promote(chunk)) {
+        LOG_VERBOSE << "can't promote";
+        return 0;
+      }
+
       int rtype = TYPEOF(chunk);
       switch (rtype) {
       case LGLSXP:
@@ -130,6 +130,12 @@ namespace dplyr {
 
     virtual std::string describe() {
       return vector_class<RTYPE>();
+    }
+
+
+  private:
+    bool can_promote(const RObject& chunk) {
+      return seen_na_only || valid_promotion<RTYPE>(TYPEOF(chunk));
     }
 
 
@@ -169,10 +175,6 @@ namespace dplyr {
       SEXP s = lev[val-1];
       res[pos++] = levels_map[s];
       return true;
-    }
-
-    virtual bool can_promote(const RObject& chunk) {
-      return false;
     }
 
     virtual IDelayedProcessor* promote(const RObject& chunk) {
@@ -231,10 +233,6 @@ namespace dplyr {
         res[pos++] = maybe_copy(VECTOR_ELT(chunk, 0));
         return true;
       }
-      return false;
-    }
-
-    virtual bool can_promote(const RObject& chunk) {
       return false;
     }
 
