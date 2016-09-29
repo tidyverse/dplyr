@@ -60,35 +60,6 @@ Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return 0;
 }
 
-Result* in_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
-  SEXP lhs = CADR(call);
-  SEXP rhs = CADDR(call);
-
-  // if lhs is not a symbol, let R handle it
-  if (TYPEOF(lhs) != SYMSXP) return 0;
-
-  // if the lhs is not in the data, let R handle it
-  if (!subsets.count(lhs)) return 0;
-
-  SEXP v = subsets.get_variable(lhs);
-
-  // if the type of the data is not the same as the type of rhs,
-  // including if it needs evaluation, let R handle it
-  if (TYPEOF(v) != TYPEOF(rhs)) return 0;
-
-  // otherwise use hybrid version
-  switch (TYPEOF(v)) {
-  case STRSXP:
-    return new In<STRSXP>(v, rhs);
-  default:
-    break;
-  }
-
-  // type not handled
-  return 0;
-
-}
-
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
@@ -98,14 +69,13 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install( "cummax")      ] = cumfun_prototype<CumMax>;
     */
 
-    // handlers[ Rf_install( "%in%" ) ] = in_prototype;
-
     install_simple_handlers(handlers);
     install_minmax_handlers(handlers);
     install_count_handlers(handlers);
     install_nth_handlers(handlers);
     install_window_handlers(handlers);
     install_offset_handlers(handlers);
+    install_in_handlers(handlers);
   }
   return handlers;
 }
@@ -135,6 +105,8 @@ Result* constant_handler(SEXP constant) {
 namespace dplyr {
 
   Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
+    LOG_INFO << "Looking up hybrid handler for call of type " << TYPEOF(call);
+
     if (TYPEOF(call) == LANGSXP) {
       int depth = Rf_length(call);
       HybridHandlerMap& handlers = get_handlers();
@@ -143,6 +115,8 @@ namespace dplyr {
 
       HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
       if (it == handlers.end()) return 0;
+
+      LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
       return it->second(call, subsets, depth - 1);
     } else if (TYPEOF(call) == SYMSXP) {

@@ -12,6 +12,7 @@ void install_count_handlers(HybridHandlerMap& handlers);
 void install_nth_handlers(HybridHandlerMap& handlers);
 void install_window_handlers(HybridHandlerMap& handlers);
 void install_offset_handlers(HybridHandlerMap& handlers);
+void install_in_handlers(HybridHandlerMap& handlers);
 
 bool hybridable(RObject arg);
 
