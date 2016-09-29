@@ -69,8 +69,8 @@ Result* simple_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
 }
 
 void install_simple_handlers(HybridHandlerMap& handlers) {
-  handlers[ Rf_install("mean")       ] = simple_prototype<dplyr::Mean>;
-  handlers[ Rf_install("var")      ] = simple_prototype<dplyr::Var>;
-  handlers[ Rf_install("sd")        ] = simple_prototype<dplyr::Sd>;
-  handlers[ Rf_install("sum")      ] = simple_prototype<dplyr::Sum>;
+  handlers[ Rf_install("mean") ] = simple_prototype<dplyr::Mean>;
+  handlers[ Rf_install("var") ] = simple_prototype<dplyr::Var>;
+  handlers[ Rf_install("sd") ] = simple_prototype<dplyr::Sd>;
+  handlers[ Rf_install("sum") ] = simple_prototype<dplyr::Sum>;
 }

@@ -42,7 +42,7 @@ bool hybridable(RObject arg) {
   return false;
 }
 
-template < template <int> class Templ>
+template <template <int> class Templ>
 Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
   RObject data(CADR(call));
@@ -160,7 +160,7 @@ namespace dplyr {
 }
 
 void registerHybridHandler(const char* name, HybridHandler proto) {
-  get_handlers()[ Rf_install(name) ] = proto;
+  get_handlers()[Rf_install(name)] = proto;
 }
 
 bool can_simplify(SEXP call) {
