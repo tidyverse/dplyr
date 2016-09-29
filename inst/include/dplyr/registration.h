@@ -1,7 +1,14 @@
 #ifndef dplyr_registration_H
 #define dplyr_registration_H
 
-#if !defined(COMPILING_DPLYR)
+#if defined(COMPILING_DPLYR)
+
+DataFrame build_index_cpp(DataFrame data);
+void registerHybridHandler(const char*, HybridHandler);
+SEXP get_time_classes();
+SEXP get_date_classes();
+
+#else
 
 #define GRAB_CALLABLE(__FUN__) static Fun fun = (Fun)R_GetCCallable( "dplyr", #__FUN__ );
 
