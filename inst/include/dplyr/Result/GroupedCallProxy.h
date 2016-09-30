@@ -57,7 +57,6 @@ namespace dplyr {
       }
     }
 
-    // Only for ungrouped CallProxy, always use full slicing index; see detail::get_proxy_subset()
     SEXP eval() {
       return get(NaturalSlicingIndex(subsets.nrows()));
     }
