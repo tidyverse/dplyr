@@ -26,7 +26,7 @@ namespace dplyr {
   class RowwiseDataFrame {
   public:
     typedef RowwiseDataFrameIndexIterator group_iterator;
-    typedef RowwiseSlicingIndex SlicingIndex;
+    typedef RowwiseSlicingIndex slicing_index;
 
     RowwiseDataFrame(SEXP x):
       data_(x),
