@@ -33,6 +33,26 @@ private:
   int group_index;
 };
 
+class RowwiseSlicingIndex : public SlicingIndex {
+public:
+  RowwiseSlicingIndex(const int start_) : start(start_) {}
+
+  inline int size() const {
+    return 1;
+  }
+
+  inline int operator[](int i) const {
+    return i + start;
+  }
+
+  inline int group() const {
+    return start;
+  }
+
+private:
+  int start;
+};
+
 class NaturalSlicingIndex : public SlicingIndex {
 public:
   NaturalSlicingIndex(const int n_) : n(n_) {}

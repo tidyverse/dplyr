@@ -47,6 +47,8 @@ namespace dplyr {
   class GroupedDataFrame {
   public:
     typedef GroupedDataFrameIndexIterator group_iterator;
+    typedef GroupedSlicingIndex SlicingIndex;
+
     GroupedDataFrame(SEXP x):
       data_(x),
       group_sizes(),
