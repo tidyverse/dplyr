@@ -42,7 +42,9 @@ public:
   }
 
   inline int operator[](int i) const {
-    return i + start;
+    if (i != 0)
+      stop("Can only use 0 for RowwiseSlicingIndex, queried %d", i);
+    return start;
   }
 
   inline int group() const {
@@ -62,6 +64,8 @@ public:
   }
 
   virtual int operator[](int i) const {
+    if (i < 0 || i >= n)
+      stop("Out of bounds index %d queried for NaturalSlicingIndex", i);
     return i;
   }
 
@@ -87,6 +91,8 @@ public:
   }
 
   inline int operator[](int i) const {
+    if (i < 0 || i >= n)
+      stop("Out of bounds index %d queried for OffsetSlicingIndex", i);
     return i + start;
   }
 
