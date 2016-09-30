@@ -39,8 +39,7 @@ namespace dplyr {
 
     ~GroupedCallProxy() {}
 
-    template <typename Container>
-    SEXP get(const Container& indices) {
+    SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
       if (TYPEOF(call) == LANGSXP) {
