@@ -304,7 +304,7 @@ namespace dplyr {
   template <typename Data, typename Subsets>
   inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, SEXP name) {
     typename Data::group_iterator git = gdf.group_begin();
-    FullSlicingIndex indices = *git;
+    GroupedSlicingIndex indices = *git;
     RObject first(proxy.get(indices));
 
     if (Rf_inherits(first, "POSIXlt")) {

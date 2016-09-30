@@ -16,8 +16,8 @@ namespace dplyr {
       return *this;
     }
 
-    FullSlicingIndex operator*() const {
-      return FullSlicingIndex(IntegerVector::create(i), i);
+    GroupedSlicingIndex operator*() const {
+      return GroupedSlicingIndex(IntegerVector::create(i), i);
     }
 
     int i;

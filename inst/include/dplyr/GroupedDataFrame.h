@@ -37,7 +37,7 @@ namespace dplyr {
 
     GroupedDataFrameIndexIterator& operator++();
 
-    FullSlicingIndex operator*() const;
+    GroupedSlicingIndex operator*() const;
 
     int i;
     const GroupedDataFrame& gdf;
@@ -139,8 +139,8 @@ namespace dplyr {
     return *this;
   }
 
-  inline FullSlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-    return FullSlicingIndex(IntegerVector(indices[i]), i);
+  inline GroupedSlicingIndex GroupedDataFrameIndexIterator::operator*() const {
+    return GroupedSlicingIndex(IntegerVector(indices[i]), i);
   }
 
 }

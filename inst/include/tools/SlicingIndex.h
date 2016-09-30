@@ -11,10 +11,10 @@ public:
   };
 };
 
-class FullSlicingIndex : public SlicingIndex {
+class GroupedSlicingIndex : public SlicingIndex {
 public:
-  FullSlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
-  FullSlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
+  GroupedSlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
+  GroupedSlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
 
   virtual int size() const {
     return data.size();
