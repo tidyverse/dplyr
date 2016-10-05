@@ -203,7 +203,7 @@ base_win <- sql_translator(
   },
   lag = function(x, n = 1L, default = NA, order = NULL) {
     over(
-      build_sql("LAG", list(x, n, default)),
+      build_sql("LAG", list(x, as.integer(n), default)),
       partition_group(),
       order %||% partition_order()
     )
