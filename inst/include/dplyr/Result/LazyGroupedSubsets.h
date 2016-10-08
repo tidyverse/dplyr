@@ -26,6 +26,7 @@ namespace dplyr {
       const DataFrame& data = gdf.data();
       CharacterVector names = data.names();
       int n = data.size();
+      LOG_VERBOSE << "processing " << n << " vars: " << names;
       for (int i=0; i<n; i++) {
         input_subset(names[i], grouped_subset(data[i], max_size));
       }

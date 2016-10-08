@@ -123,7 +123,7 @@ DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
   int ngroups = gdf.ngroups();
   typename Data::group_iterator git = gdf.group_begin();
   for (int i=0; i<ngroups; i++, ++git) {
-    SlicingIndex indices = *git;
+    const SlicingIndex& indices = *git;
     int chunk_size = indices.size();
 
     g_test = check_filter_logical_result(call_proxy.get(indices));
@@ -166,7 +166,7 @@ DataFrame filter_grouped_multiple_env(const Data& gdf, const LazyDots& dots) {
     int ngroups = gdf.ngroups();
     typename Data::group_iterator git = gdf.group_begin();
     for (int i=0; i<ngroups; i++, ++git) {
-      SlicingIndex indices = *git;
+      const SlicingIndex& indices = *git;
       int chunk_size = indices.size();
 
       g_test  = check_filter_logical_result(call_proxy.get(indices));

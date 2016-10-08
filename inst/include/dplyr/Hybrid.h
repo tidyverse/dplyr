@@ -9,6 +9,4 @@ namespace dplyr {
 
 }
 
-bool can_simplify(SEXP);
-
 #endif // dplyr_dplyr_Hybrid_H

@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2187).
+
 * CallProxy is now a specialization of GroupedCallProxy.
 
 * Fix conversion of character `NA` to empty strings in a grouped `summarise()` (#1839).

@@ -7,6 +7,7 @@
 
 #include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/GroupedHybridCall.h>
 
 namespace dplyr {
@@ -38,49 +39,13 @@ namespace dplyr {
 
     ~GroupedCallProxy() {}
 
-    SEXP eval() {
-      if (TYPEOF(call) == LANGSXP) {
-
-        if (can_simplify(call)) {
-          SlicingIndex indices(0,subsets.nrows());
-          while (simplified(indices))
-            ;
-          set_call(call);
-        }
-
-        int n = proxies.size();
-        for (int i=0; i<n; i++) {
-          proxies[i].set(subsets[proxies[i].symbol]);
-        }
-        return call.eval(env);
-      } else if (TYPEOF(call) == SYMSXP) {
-        // SYMSXP
-        if (subsets.count(call)) return subsets.get_variable(call);
-        return call.eval(env);
-      }
-      return call;
-    }
-
-    template <typename Container>
-    SEXP get(const Container& indices) {
+    SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
       if (TYPEOF(call) == LANGSXP) {
-        if (can_simplify(call)) {
-          LOG_VERBOSE << "performing hybrid evaluation";
-          HybridCall hybrid_eval(call, indices, subsets, env);
-          return hybrid_eval.eval();
-        }
-
-        int n = proxies.size();
-
-        LOG_VERBOSE << "setting " << n << " proxies";
-        for (int i=0; i<n; i++) {
-          LOG_VERBOSE << "setting proxy " << CHAR(PRINTNAME(proxies[i].symbol));
-          proxies[i].set(subsets.get(proxies[i].symbol, indices));
-        }
-
-        return call.eval(env);
+        LOG_VERBOSE << "performing hybrid evaluation";
+        HybridCall hybrid_eval(call, indices, subsets, env);
+        return hybrid_eval.eval();
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
           return subsets.get(call, indices);
@@ -90,6 +55,10 @@ namespace dplyr {
         // all other types that evaluate to themselves
         return call;
       }
+    }
+
+    SEXP eval() {
+      return get(NaturalSlicingIndex(subsets.nrows()));
     }
 
     void set_call(SEXP call_) {
@@ -127,45 +96,6 @@ namespace dplyr {
     }
 
   private:
-    bool simplified(const SlicingIndex& indices) {
-      // initial
-      if (TYPEOF(call) == LANGSXP) {
-        boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
-
-        if (res) {
-          // replace the call by the result of process
-          call = res->process(indices);
-
-          // no need to go any further, we simplified the top level
-          return true;
-        }
-
-        return replace(CDR(call), indices);
-
-      }
-      return false;
-    }
-
-    bool replace(SEXP p, const SlicingIndex& indices) {
-      SEXP obj = CAR(p);
-
-      if (TYPEOF(obj) == LANGSXP) {
-        boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
-        if (res) {
-          SETCAR(p, res->process(indices));
-          return true;
-        }
-
-        if (replace(CDR(obj), indices)) return true;
-      }
-
-      if (TYPEOF(p) == LISTSXP) {
-        return replace(CDR(p), indices);
-      }
-
-      return false;
-    }
-
     void traverse_call(SEXP obj) {
       if (TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local")) return;
 

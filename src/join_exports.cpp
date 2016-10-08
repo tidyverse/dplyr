@@ -414,7 +414,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
   int ngroups = gdf.ngroups();
   GroupedDataFrame::group_iterator git = gdf.group_begin();
   for (int i=0; i<ngroups; i++, ++git) {
-    SlicingIndex indices = *git;
+    const SlicingIndex& indices = *git;
     int nr = indices.size();
     g_test = check_filter_integer_result(call_proxy.get(indices));
     CountIndices counter(indices.size(), g_test);

@@ -37,7 +37,7 @@ namespace dplyr {
 
     GroupedDataFrameIndexIterator& operator++();
 
-    SlicingIndex operator*() const;
+    GroupedSlicingIndex operator*() const;
 
     int i;
     const GroupedDataFrame& gdf;
@@ -47,6 +47,8 @@ namespace dplyr {
   class GroupedDataFrame {
   public:
     typedef GroupedDataFrameIndexIterator group_iterator;
+    typedef GroupedSlicingIndex slicing_index;
+
     GroupedDataFrame(SEXP x):
       data_(x),
       group_sizes(),
@@ -139,8 +141,8 @@ namespace dplyr {
     return *this;
   }
 
-  inline SlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-    return SlicingIndex(IntegerVector(indices[i]), i);
+  inline GroupedSlicingIndex GroupedDataFrameIndexIterator::operator*() const {
+    return GroupedSlicingIndex(IntegerVector(indices[i]), i);
   }
 
 }

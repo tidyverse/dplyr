@@ -16,8 +16,8 @@ namespace dplyr {
       return *this;
     }
 
-    SlicingIndex operator*() const {
-      return SlicingIndex(IntegerVector::create(i), i);
+    RowwiseSlicingIndex operator*() const {
+      return RowwiseSlicingIndex(i);
     }
 
     int i;
@@ -26,6 +26,8 @@ namespace dplyr {
   class RowwiseDataFrame {
   public:
     typedef RowwiseDataFrameIndexIterator group_iterator;
+    typedef RowwiseSlicingIndex slicing_index;
+
     RowwiseDataFrame(SEXP x):
       data_(x),
       group_sizes()

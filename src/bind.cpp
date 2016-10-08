@@ -94,17 +94,17 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
       }
       if (coll->compatible(source)) {
         // if the current source is compatible, collect
-        coll->collect(SlicingIndex(k, nrows), source);
+        coll->collect(OffsetSlicingIndex(k, nrows), source);
 
       } else if (coll->can_promote(source)) {
         // setup a new Collecter
         Collecter* new_collecter = promote_collecter(source, n, coll);
 
         // import data from this chunk
-        new_collecter->collect(SlicingIndex(k, nrows), source);
+        new_collecter->collect(OffsetSlicingIndex(k, nrows), source);
 
         // import data from previous collecter
-        new_collecter->collect(SlicingIndex(0, k), coll->get());
+        new_collecter->collect(NaturalSlicingIndex(k), coll->get());
 
         // dispose the previous collecter and keep the new one.
         delete coll;
@@ -115,7 +115,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
         // right NA
       } else if (coll->is_logical_all_na()) {
         Collecter* new_collecter = collecter(source, n);
-        new_collecter->collect(SlicingIndex(k, nrows), source);
+        new_collecter->collect(OffsetSlicingIndex(k, nrows), source);
         delete coll;
         columns[index] = new_collecter;
       } else {
@@ -274,7 +274,7 @@ SEXP combine_all(List data) {
   // collect
   boost::scoped_ptr<Collecter> coll(collecter(data[i], n));
   int k = Rf_length(data[i]);
-  coll->collect(SlicingIndex(0, k), data[i]);
+  coll->collect(NaturalSlicingIndex(k), data[i]);
   i++;
   for (; i<nv; i++) {
     SEXP current = data[i];
@@ -282,11 +282,11 @@ SEXP combine_all(List data) {
     int n_current= Rf_length(current);
 
     if (coll->compatible(current)) {
-      coll->collect(SlicingIndex(k, n_current), current);
+      coll->collect(OffsetSlicingIndex(k, n_current), current);
     } else if (coll->can_promote(current)) {
       Collecter* new_coll = promote_collecter(current, n, coll.get());
-      new_coll->collect(SlicingIndex(k, n_current), current);
-      new_coll->collect(SlicingIndex(0, k), coll->get());
+      new_coll->collect(OffsetSlicingIndex(k, n_current), current);
+      new_coll->collect(NaturalSlicingIndex(k), coll->get());
       coll.reset(new_coll);
     } else {
       stop(

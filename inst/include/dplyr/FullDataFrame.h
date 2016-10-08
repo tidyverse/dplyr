@@ -5,7 +5,9 @@ namespace dplyr {
 
   class FullDataFrame {
   public:
-    FullDataFrame(const DataFrame& data_) : index(0, data_.nrows()) {}
+    typedef NaturalSlicingIndex slicing_index;
+
+    FullDataFrame(const DataFrame& data_) : index(data_.nrows()) {}
 
     const SlicingIndex& get_index() const {
       return index;
@@ -16,7 +18,7 @@ namespace dplyr {
     }
 
   private:
-    SlicingIndex index;
+    NaturalSlicingIndex index;
   };
 
 }
