@@ -27,7 +27,7 @@ To get the most out of this chapter, you'll need to be familiar with querying SQ
 The easiest way to experiement with databases using dplyr is to use SQLite. This is because everything you need is already included in the R package. You won't need to install anything, and you won't need to deal with the hassle of setting up a database server. Doing so is really easy: just give the path and the ok to create a table.
 
 ```{r, eval = FALSE}
-my_db <- src_sqlite("my_db.sqlite3", create = T)
+my_db <- src_sqlite("my_db.sqlite3", create = TRUE)
 ```
 
 The main new concept here is the `src`, which is a collection of types of database tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the specific types supported by dplyr.
