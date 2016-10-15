@@ -48,15 +48,21 @@ namespace dplyr {
     }
 
   public:
-    void clear() {
-      for (size_t i=0; i<resolved.size(); i++) {
-        resolved[i] = R_NilValue;
-      }
+    virtual SEXP get_variable(SEXP symbol) const {
+      return subsets[symbol_map.get(symbol)]->get_variable();
     }
 
-    int count(SEXP head) const {
+    virtual bool is_summary(SEXP symbol) const {
+      return subsets[symbol_map.get(symbol)]->is_summary();
+    }
+
+    virtual int count(SEXP head) const {
       int res = symbol_map.has(head);
       return res;
+    }
+
+    virtual void input(SEXP symbol, SEXP x) {
+      input_subset(symbol, grouped_subset(x, gdf.max_group_size()));
     }
 
     virtual int size() const {
@@ -67,12 +73,13 @@ namespace dplyr {
       return gdf.nrows();
     }
 
-    SEXP get_variable(SEXP symbol) const {
-      return subsets[symbol_map.get(symbol)]->get_variable();
+  public:
+    void clear() {
+      for (size_t i=0; i<resolved.size(); i++) {
+        resolved[i] = R_NilValue;
+      }
     }
-    bool is_summary(SEXP symbol) const {
-      return subsets[symbol_map.get(symbol)]->is_summary();
-    }
+
     SEXP get(SEXP symbol, const SlicingIndex& indices) {
       int idx = symbol_map.get(symbol);
 
@@ -81,10 +88,6 @@ namespace dplyr {
         resolved[idx] = value = subsets[idx]->get(indices);
       }
       return value;
-    }
-
-    void input(SEXP symbol, SEXP x) {
-      input_subset(symbol, grouped_subset(x, gdf.max_group_size()));
     }
 
     void input(SEXP symbol, SummarisedVariable x) {

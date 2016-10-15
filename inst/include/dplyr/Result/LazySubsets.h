@@ -30,14 +30,14 @@ namespace dplyr {
     virtual ~LazySubsets() {}
 
   public:
-    void clear() {}
-
     virtual SEXP get_variable(SEXP symbol) const {
       return data[ symbol_map.get(symbol) ];
     }
+
     virtual bool is_summary(SEXP symbol) const {
       return false;
     }
+
     virtual int count(SEXP symbol) const {
       int res = symbol_map.has(symbol);
       return res;
@@ -56,9 +56,12 @@ namespace dplyr {
       return data.size();
     }
 
-    inline int nrows() const {
+    virtual int nrows() const {
       return nr;
     }
+
+  public:
+    void clear() {}
 
     inline SEXP& operator[](SEXP symbol) {
       return data[symbol_map.get(symbol)];
