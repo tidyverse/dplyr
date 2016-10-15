@@ -13,10 +13,14 @@ namespace dplyr {
   class GroupedHybridCall {
   public:
     GroupedHybridCall(const Call& call_, const SlicingIndex& indices_, Subsets& subsets_, const Environment& env_) :
-      call(clone(call_)), indices(indices_), subsets(subsets_), env(env_)
+      call(clone(call_)), indices(indices_), subsets(subsets_), env(create_subset_env(subsets_, env_))
     {
       LOG_VERBOSE;
       while (simplified()) {}
+    }
+
+    static Environment create_subset_env(const Subsets& subsets, Environment parent) {
+      return parent;
     }
 
     SEXP eval() {
@@ -119,7 +123,7 @@ namespace dplyr {
     Call call;
     const SlicingIndex& indices;
     Subsets& subsets;
-    const Environment& env;
+    const Environment env;
   };
 
 }
