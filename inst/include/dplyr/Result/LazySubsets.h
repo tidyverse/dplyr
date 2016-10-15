@@ -30,6 +30,10 @@ namespace dplyr {
     virtual ~LazySubsets() {}
 
   public:
+    virtual CharacterVector get_variable_names() const {
+      return symbol_map.get_names();
+    }
+
     virtual SEXP get_variable(SEXP symbol) const {
       return data[ symbol_map.get(symbol) ];
     }

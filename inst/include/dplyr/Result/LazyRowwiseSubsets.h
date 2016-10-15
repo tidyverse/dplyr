@@ -42,6 +42,10 @@ namespace dplyr {
     }
 
   public:
+    virtual CharacterVector get_variable_names() const {
+      return rdf.data().names();
+    }
+
     virtual SEXP get_variable(SEXP symbol) const {
       RowwiseSubsetMap::const_iterator it = subset_map.find(symbol);
       if (it == subset_map.end()) {
