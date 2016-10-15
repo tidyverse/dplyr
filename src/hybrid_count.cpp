@@ -4,7 +4,7 @@
 
 #include <dplyr/MultipleVectorVisitors.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/Result/Count.h>
 #include <dplyr/Result/Count_Distinct.h>
@@ -12,13 +12,13 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-Result* count_prototype(SEXP args, const LazySubsets&, int) {
+Result* count_prototype(SEXP args, const ILazySubsets&, int) {
   if (Rf_length(args) != 1)
     stop("n does not take arguments");
   return new Count;
 }
 
-Result* count_distinct_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   MultipleVectorVisitors visitors;
   bool na_rm = false;
 

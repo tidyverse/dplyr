@@ -7,17 +7,20 @@
 #include <dplyr/RowwiseDataFrame.h>
 
 #include <dplyr/Result/RowwiseSubset.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {
 
-  class LazyRowwiseSubsets : public LazySubsets {
+  class LazyRowwiseSubsets : public ILazySubsets {
   public:
     typedef dplyr_hash_map<SEXP, RowwiseSubset*> RowwiseSubsetMap;
     typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap;
 
     LazyRowwiseSubsets(const RowwiseDataFrame& rdf_):
-      LazySubsets(rdf_.data()), rdf(rdf_), subset_map(), resolved_map(), owner(true)
+      rdf(rdf_),
+      subset_map(),
+      resolved_map(),
+      owner(true)
     {
       const DataFrame& data = rdf.data();
       CharacterVector names = data.names();
@@ -28,7 +31,10 @@ namespace dplyr {
     }
 
     LazyRowwiseSubsets(const LazyRowwiseSubsets& other) :
-      LazySubsets(other.rdf.data()), rdf(other.rdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+      rdf(other.rdf),
+      subset_map(other.subset_map),
+      resolved_map(other.resolved_map),
+      owner(false)
     {}
 
     void clear() {
@@ -41,6 +47,10 @@ namespace dplyr {
 
     virtual int size() const {
       return subset_map.size();
+    }
+
+    virtual int nrows() const {
+      return rdf.nrows();
     }
 
     SEXP get_variable(SEXP symbol) const {
@@ -65,7 +75,7 @@ namespace dplyr {
       }
     }
 
-    ~LazyRowwiseSubsets() {
+    virtual ~LazyRowwiseSubsets() {
       if (owner) delete_all_second(subset_map);
     }
 

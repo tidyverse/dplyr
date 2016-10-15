@@ -2,7 +2,7 @@
 
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>
@@ -56,7 +56,7 @@ struct LeadLag {
 };
 
 template < template<int> class Templ>
-Result* leadlag_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   LeadLag args(call);
   if (!args.ok) return 0;
   RObject& data = args.data;

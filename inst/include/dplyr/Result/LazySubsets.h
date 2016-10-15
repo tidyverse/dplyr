@@ -3,10 +3,11 @@
 
 #include <tools/SymbolMap.h>
 #include <tools/SlicingIndex.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {
 
-  class LazySubsets {
+  class LazySubsets : public ILazySubsets {
   public:
     SymbolMap symbol_map;
     std::vector<SEXP> data;

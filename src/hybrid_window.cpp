@@ -2,13 +2,13 @@
 
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
-Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs >  1 || subsets.size() == 0) return 0;
 
   if (nargs == 0) return new RowNumber_0();
@@ -55,7 +55,7 @@ Result* row_number_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
   return 0;
 }
 
-Result* ntile_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 2) return 0;
 
   // handle 2nd arg
@@ -107,7 +107,7 @@ Result* ntile_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
 }
 
 template <typename Increment>
-Result* rank_impl_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
   RObject data(CADR(call));
 

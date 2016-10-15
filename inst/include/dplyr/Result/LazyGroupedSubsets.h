@@ -8,14 +8,13 @@
 #include <dplyr/DataFrameSubsetVisitors.h>
 
 #include <dplyr/Result/GroupedSubset.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {
 
-  class LazyGroupedSubsets : public LazySubsets {
+  class LazyGroupedSubsets : public ILazySubsets {
   public:
     LazyGroupedSubsets(const GroupedDataFrame& gdf_) :
-      LazySubsets(gdf_.data()),
       gdf(gdf_),
       symbol_map(),
       subsets(),
@@ -33,7 +32,6 @@ namespace dplyr {
     }
 
     LazyGroupedSubsets(const LazyGroupedSubsets& other) :
-      LazySubsets(other.gdf.data()),
       gdf(other.gdf),
       symbol_map(other.symbol_map),
       subsets(other.subsets),
@@ -56,6 +54,10 @@ namespace dplyr {
       return subsets.size();
     }
 
+    virtual int nrows() const {
+      return gdf.nrows();
+    }
+
     SEXP get_variable(SEXP symbol) const {
       return subsets[symbol_map.get(symbol)]->get_variable();
     }
@@ -72,7 +74,7 @@ namespace dplyr {
       return value;
     }
 
-    ~LazyGroupedSubsets() {
+    virtual ~LazyGroupedSubsets() {
       if (owner) {
         for (size_t i=0; i<subsets.size(); i++) {
           delete subsets[i];

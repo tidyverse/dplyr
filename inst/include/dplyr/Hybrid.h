@@ -2,10 +2,10 @@
 #define dplyr_dplyr_Hybrid_H
 
 namespace dplyr {
-  class LazySubsets;
+  class ILazySubsets;
   class Result;
 
-  Result* get_handler(SEXP, const LazySubsets&, const Environment&);
+  Result* get_handler(SEXP, const ILazySubsets&, const Environment&);
 
 }
 

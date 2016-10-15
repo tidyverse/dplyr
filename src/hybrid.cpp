@@ -5,7 +5,7 @@
 #include <dplyr/Hybrid.h>
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
@@ -43,7 +43,7 @@ bool hybridable(RObject arg) {
 }
 
 template <template <int> class Templ>
-Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* cumfun_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
   RObject data(CADR(call));
   if (TYPEOF(data) == SYMSXP) {
@@ -104,7 +104,7 @@ Result* constant_handler(SEXP constant) {
 
 namespace dplyr {
 
-  Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
+  Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
     LOG_INFO << "Looking up hybrid handler for call of type " << type2name(call);
 
     if (TYPEOF(call) == LANGSXP) {
