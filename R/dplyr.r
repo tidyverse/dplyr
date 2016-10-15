@@ -25,4 +25,5 @@
 #' @importFrom utils head tail
 #' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 #' @importFrom stats setNames update
+#' @importFrom bindrcpp create_env populate_env
 NULL

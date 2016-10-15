@@ -15,6 +15,7 @@ Depends:
     R (>= 3.1.2)
 Imports: 
     assertthat,
+    bindrcpp,
     utils,
     R6,
     Rcpp (>= 0.12.3),
@@ -40,6 +41,7 @@ Suggests:
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1),
+    bindrcpp,
     plogr
 LazyData: yes
 License: MIT + file LICENSE
@@ -126,3 +128,4 @@ Collate:
     'view.r'
     'zzz.r'
 RoxygenNote: 5.0.1.9000
+Remotes: krlmlr/bindrcpp

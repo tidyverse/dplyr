@@ -9,6 +9,7 @@ set(R_INCLUDE "/usr/share/R/include")
 include_directories(${R_LIBRARY}/BH/include)
 include_directories(${R_LIBRARY}/Rcpp/include)
 include_directories(${R_LIBRARY}/plogr/include)
+include_directories(${R_LIBRARY}/bindrcpp/include)
 include_directories(${R_INCLUDE})
 include_directories(inst/include)
 
