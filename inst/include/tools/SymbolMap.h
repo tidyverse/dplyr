@@ -18,6 +18,10 @@ namespace dplyr {
   };
 
   class SymbolMap {
+  private:
+    dplyr_hash_map<SEXP, int> lookup;
+    CharacterVector names;
+
   public:
     SymbolMap(): lookup(), names() {}
 
@@ -39,6 +43,10 @@ namespace dplyr {
         break;
       };
       return index;
+    }
+
+    CharacterVector get_names() const {
+      return names;
     }
 
     int size() const {
@@ -117,10 +125,6 @@ namespace dplyr {
 
       return index;
     }
-
-
-    dplyr_hash_map<SEXP, int> lookup;
-    CharacterVector names;
 
   };
 

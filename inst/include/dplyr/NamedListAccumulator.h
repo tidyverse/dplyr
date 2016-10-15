@@ -37,7 +37,7 @@ namespace dplyr {
 
     inline operator List() const {
       List out = wrap(data);
-      out.names() = symbol_map.names;
+      out.names() = symbol_map.get_names();
       return out;
     }
 
@@ -46,7 +46,7 @@ namespace dplyr {
     }
 
     inline CharacterVector names() const {
-      return symbol_map.names;
+      return symbol_map.get_names();
     }
 
   };
