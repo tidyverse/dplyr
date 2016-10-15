@@ -39,6 +39,15 @@ namespace dplyr {
       owner(false)
     {}
 
+    virtual ~LazyGroupedSubsets() {
+      if (owner) {
+        for (size_t i=0; i<subsets.size(); i++) {
+          delete subsets[i];
+        }
+      }
+    }
+
+  public:
     void clear() {
       for (size_t i=0; i<resolved.size(); i++) {
         resolved[i] = R_NilValue;
@@ -72,14 +81,6 @@ namespace dplyr {
         resolved[idx] = value = subsets[idx]->get(indices);
       }
       return value;
-    }
-
-    virtual ~LazyGroupedSubsets() {
-      if (owner) {
-        for (size_t i=0; i<subsets.size(); i++) {
-          delete subsets[i];
-        }
-      }
     }
 
     void input(SEXP symbol, SEXP x) {

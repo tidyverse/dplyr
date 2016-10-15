@@ -37,6 +37,11 @@ namespace dplyr {
       owner(false)
     {}
 
+    virtual ~LazyRowwiseSubsets() {
+      if (owner) delete_all_second(subset_map);
+    }
+
+  public:
     void clear() {
       resolved_map.clear();
     }
@@ -73,10 +78,6 @@ namespace dplyr {
       } else {
         return it->second;
       }
-    }
-
-    virtual ~LazyRowwiseSubsets() {
-      if (owner) delete_all_second(subset_map);
     }
 
     void input(SEXP symbol, SEXP x) {
