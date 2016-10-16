@@ -7,6 +7,8 @@
 
 #include <dplyr/Result/Result.h>
 
+#include <bindrcpp.h>
+
 namespace dplyr {
 
   template <typename Subsets>
@@ -27,14 +29,28 @@ namespace dplyr {
 
   private:
     void populate_subset_env(const Subsets& subsets) {
+      using namespace bindrcpp;
+
       LOG_VERBOSE;
+      CharacterVector names = subsets.get_variable_names();
+      populate_env_symbol(env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
+    }
+
+    static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
+      LOG_VERBOSE;
+      GroupedHybridCall* this_ = reinterpret_cast<GroupedHybridCall*>(payload.p);
+      return this_->get_subset(name);
+    }
+
+    SEXP get_subset(Symbol name) {
+      LOG_VERBOSE;
+      return subsets.get(name, indices);
     }
 
   public:
     SEXP eval() {
       LOG_INFO << type2name(call);
       if (TYPEOF(call) == LANGSXP) {
-        substitute(call);
         return Rcpp_eval(call, env);
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
@@ -46,50 +62,6 @@ namespace dplyr {
     }
 
   private:
-
-    void substitute(SEXP obj) {
-      LOG_VERBOSE << "obj: " << type2name(obj);
-      if (! Rf_isNull(obj)) {
-        SEXP head = CAR(obj);
-        LOG_VERBOSE << "head: " << type2name(head);
-
-        switch (TYPEOF(head)) {
-        case LISTSXP:
-          substitute(CDR(head));
-          break;
-
-        case LANGSXP:
-        {
-          SEXP symb = CAR(head);
-          LOG_VERBOSE << "symb: " << CHAR(PRINTNAME(symb));
-          if (symb == R_DollarSymbol /* "$" */ || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::")) {
-
-            if (TYPEOF(CADR(head)) == LANGSXP) {
-              substitute(CDR(head));
-            }
-
-            // deal with foo$bar( bla = boom )
-            if (TYPEOF(CADDR(head)) == LANGSXP) {
-              substitute(CDDR(head));
-            }
-
-            break;
-          }
-
-          substitute(CDR(head));
-          break;
-        }
-        case SYMSXP:
-          if (TYPEOF(obj) != LANGSXP) {
-            if (subsets.count(head)) {
-              SETCAR(obj, subsets.get(head, indices));
-            }
-          }
-          break;
-        }
-        substitute(CDR(obj));
-      }
-    }
 
     bool simplified() {
       LOG_VERBOSE;
