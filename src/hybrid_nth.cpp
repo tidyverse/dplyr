@@ -4,7 +4,7 @@
 #include <dplyr/HybridHandlerMap.h>
 
 #include <dplyr/Result/Processor.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/VectorSliceVisitor.h>
 
 using namespace Rcpp;
@@ -124,7 +124,7 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
 
 namespace dplyr {
 
-  Result* nth_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+  Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     // has to have at least two arguments
     if (nargs < 2) return 0;
 
@@ -259,7 +259,7 @@ namespace dplyr {
     return 0;
   }
 
-  Result* firstlast_prototype(SEXP call, const LazySubsets& subsets, int nargs, int pos) {
+  Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {
     SEXP tail = CDDR(call);
 
     SETCAR(call, Rf_install("nth"));
@@ -275,11 +275,11 @@ namespace dplyr {
     return res;
   }
 
-  Result* first_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+  Result* first_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return firstlast_prototype(call, subsets, nargs, 1);
   }
 
-  Result* last_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+  Result* last_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return firstlast_prototype(call, subsets, nargs, -1);
   }
 

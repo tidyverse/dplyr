@@ -3,10 +3,11 @@
 
 #include <tools/SymbolMap.h>
 #include <tools/SlicingIndex.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {
 
-  class LazySubsets {
+  class LazySubsets : public ILazySubsets {
   public:
     SymbolMap symbol_map;
     std::vector<SEXP> data;
@@ -28,14 +29,15 @@ namespace dplyr {
     }
     virtual ~LazySubsets() {}
 
-    void clear() {}
-
+  public:
     virtual SEXP get_variable(SEXP symbol) const {
       return data[ symbol_map.get(symbol) ];
     }
+
     virtual bool is_summary(SEXP symbol) const {
       return false;
     }
+
     virtual int count(SEXP symbol) const {
       int res = symbol_map.has(symbol);
       return res;
@@ -54,9 +56,12 @@ namespace dplyr {
       return data.size();
     }
 
-    inline int nrows() const {
+    virtual int nrows() const {
       return nr;
     }
+
+  public:
+    void clear() {}
 
     inline SEXP& operator[](SEXP symbol) {
       return data[symbol_map.get(symbol)];

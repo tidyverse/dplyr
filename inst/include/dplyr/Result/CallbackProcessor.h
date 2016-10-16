@@ -56,10 +56,11 @@ namespace dplyr {
 
       SEXP run() {
         if (ngroups == 0) {
-          LOG_VERBOSE << "no groups to process";
+          LOG_INFO << "no groups to process";
           return get_processed_empty();
         }
 
+        LOG_INFO << "processing groups";
         process_first();
         process_rest();
         return get_processed();
@@ -68,7 +69,7 @@ namespace dplyr {
     private:
       void process_first() {
         const RObject& first_result = fetch_chunk();
-        LOG_VERBOSE << "instantiating delayed processor for type " << first_result.sexp_type();
+        LOG_INFO << "instantiating delayed processor for type " << type2name(first_result);
 
         processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
         LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";

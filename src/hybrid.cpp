@@ -5,7 +5,7 @@
 #include <dplyr/Hybrid.h>
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
@@ -43,7 +43,7 @@ bool hybridable(RObject arg) {
 }
 
 template <template <int> class Templ>
-Result* cumfun_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* cumfun_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
   RObject data(CADR(call));
   if (TYPEOF(data) == SYMSXP) {
@@ -104,22 +104,32 @@ Result* constant_handler(SEXP constant) {
 
 namespace dplyr {
 
-  Result* get_handler(SEXP call, const LazySubsets& subsets, const Environment& env) {
-    LOG_INFO << "Looking up hybrid handler for call of type " << TYPEOF(call);
+  Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
+    LOG_INFO << "Looking up hybrid handler for call of type " << type2name(call);
 
     if (TYPEOF(call) == LANGSXP) {
       int depth = Rf_length(call);
       HybridHandlerMap& handlers = get_handlers();
       SEXP fun_symbol = CAR(call);
-      if (TYPEOF(fun_symbol) != SYMSXP) return 0;
+      if (TYPEOF(fun_symbol) != SYMSXP) {
+        LOG_VERBOSE << "Not a function: " << type2name(fun_symbol);
+        return 0;
+      }
+
+      LOG_VERBOSE << "Searching hybrid handler for function " << CHAR(PRINTNAME(fun_symbol));
 
       HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
-      if (it == handlers.end()) return 0;
+      if (it == handlers.end()) {
+        LOG_VERBOSE << "Not found";
+        return 0;
+      }
 
       LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
       return it->second(call, subsets, depth - 1);
     } else if (TYPEOF(call) == SYMSXP) {
+      LOG_VERBOSE << "Searching hybrid handler for symbol " << CHAR(PRINTNAME(call));
+
       if (!subsets.count(call)) {
         SEXP data = env.find(CHAR(PRINTNAME(call)));
         if (Rf_length(data) == 1) return constant_handler(data);

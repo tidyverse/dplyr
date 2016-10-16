@@ -7,17 +7,20 @@
 #include <dplyr/RowwiseDataFrame.h>
 
 #include <dplyr/Result/RowwiseSubset.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {
 
-  class LazyRowwiseSubsets : public LazySubsets {
+  class LazyRowwiseSubsets : public ILazySubsets {
   public:
     typedef dplyr_hash_map<SEXP, RowwiseSubset*> RowwiseSubsetMap;
     typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap;
 
     LazyRowwiseSubsets(const RowwiseDataFrame& rdf_):
-      LazySubsets(rdf_.data()), rdf(rdf_), subset_map(), resolved_map(), owner(true)
+      rdf(rdf_),
+      subset_map(),
+      resolved_map(),
+      owner(true)
     {
       const DataFrame& data = rdf.data();
       CharacterVector names = data.names();
@@ -28,32 +31,55 @@ namespace dplyr {
     }
 
     LazyRowwiseSubsets(const LazyRowwiseSubsets& other) :
-      LazySubsets(other.rdf.data()), rdf(other.rdf), subset_map(other.subset_map), resolved_map(other.resolved_map), owner(false)
+      rdf(other.rdf),
+      subset_map(other.subset_map),
+      resolved_map(other.resolved_map),
+      owner(false)
     {}
 
-    void clear() {
-      resolved_map.clear();
+    virtual ~LazyRowwiseSubsets() {
+      if (owner) delete_all_second(subset_map);
     }
 
-    int count(SEXP head) const {
-      return subset_map.count(head);
-    }
-
-    virtual int size() const {
-      return subset_map.size();
-    }
-
-    SEXP get_variable(SEXP symbol) const {
+  public:
+    virtual SEXP get_variable(SEXP symbol) const {
       RowwiseSubsetMap::const_iterator it = subset_map.find(symbol);
       if (it == subset_map.end()) {
         stop("variable '%s' not found in the dataset", CHAR(PRINTNAME(symbol)));
       }
       return it->second->get_variable();
     }
-    bool is_summary(SEXP symbol) const {
+
+    virtual bool is_summary(SEXP symbol) const {
       RowwiseSubsetMap::const_iterator it = subset_map.find(symbol);
       return it->second->is_summary();
     }
+
+    virtual int count(SEXP head) const {
+      return subset_map.count(head);
+    }
+
+    void input(SEXP symbol, SEXP x) {
+      if (TYPEOF(symbol) == SYMSXP) {
+        input_subset(symbol, rowwise_subset(x));
+      } else {
+        input_subset(Rf_installChar(symbol), rowwise_subset(x));
+      }
+    }
+
+    virtual int size() const {
+      return subset_map.size();
+    }
+
+    virtual int nrows() const {
+      return rdf.nrows();
+    }
+
+  public:
+    void clear() {
+      resolved_map.clear();
+    }
+
     SEXP get(SEXP symbol, const SlicingIndex& indices) {
       ResolvedSubsetMap::const_iterator it = resolved_map.find(symbol);
       if (it == resolved_map.end()) {
@@ -62,18 +88,6 @@ namespace dplyr {
         return res;
       } else {
         return it->second;
-      }
-    }
-
-    ~LazyRowwiseSubsets() {
-      if (owner) delete_all_second(subset_map);
-    }
-
-    void input(SEXP symbol, SEXP x) {
-      if (TYPEOF(symbol) == SYMSXP) {
-        input_subset(symbol, rowwise_subset(x));
-      } else {
-        input_subset(Rf_installChar(symbol), rowwise_subset(x));
       }
     }
 

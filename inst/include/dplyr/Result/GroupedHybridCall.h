@@ -15,10 +15,12 @@ namespace dplyr {
     GroupedHybridCall(const Call& call_, const SlicingIndex& indices_, Subsets& subsets_, const Environment& env_) :
       call(clone(call_)), indices(indices_), subsets(subsets_), env(env_)
     {
+      LOG_VERBOSE;
       while (simplified()) {}
     }
 
     SEXP eval() {
+      LOG_INFO << type2name(call);
       if (TYPEOF(call) == LANGSXP) {
         substitute(call);
         return Rcpp_eval(call, env);
@@ -34,8 +36,11 @@ namespace dplyr {
   private:
 
     void substitute(SEXP obj) {
+      LOG_VERBOSE << "obj: " << type2name(obj);
       if (! Rf_isNull(obj)) {
         SEXP head = CAR(obj);
+        LOG_VERBOSE << "head: " << type2name(head);
+
         switch (TYPEOF(head)) {
         case LISTSXP:
           substitute(CDR(head));
@@ -44,7 +49,8 @@ namespace dplyr {
         case LANGSXP:
         {
           SEXP symb = CAR(head);
-          if (symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::")) {
+          LOG_VERBOSE << "symb: " << CHAR(PRINTNAME(symb));
+          if (symb == R_DollarSymbol /* "$" */ || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::")) {
 
             if (TYPEOF(CADR(head)) == LANGSXP) {
               substitute(CDR(head));
@@ -74,6 +80,7 @@ namespace dplyr {
     }
 
     bool simplified() {
+      LOG_VERBOSE;
       // initial
       if (TYPEOF(call) == LANGSXP) {
         boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
@@ -90,6 +97,7 @@ namespace dplyr {
     }
 
     bool replace(SEXP p) {
+      LOG_VERBOSE;
       SEXP obj = CAR(p);
       if (TYPEOF(obj) == LANGSXP) {
         boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
