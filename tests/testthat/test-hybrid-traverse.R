@@ -10,23 +10,25 @@ test_df <- data_frame(
 )
 
 test_that("$ is parsed correctly (#1400)", {
-  skip("#1400")
   expect_equal(
     test_df %>%
       rowwise %>%
-      mutate(f = e$x),
+      mutate(f = e$x) %>%
+      select(-e),
     test_df %>%
       mutate(f = as.numeric(2:4)) %>%
-      group_by(id))
+      group_by(id) %>%
+      select(-e))
 })
 
 test_that("$ is parsed correctly if column by the same name exists (#1400)", {
-  skip("#1400")
   expect_equal(
     test_df %>%
       rowwise %>%
-      mutate(f = e$a),
+      mutate(f = e$a) %>%
+      select(-e),
     test_df %>%
       mutate(f = as.numeric(1:3)) %>%
-      group_by(id))
+      group_by(id) %>%
+      select(-e))
 })
