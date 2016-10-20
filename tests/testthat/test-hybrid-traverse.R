@@ -56,3 +56,15 @@ test_that("case_when() works for RHS (#1719)", {
       group_by(id) %>%
       select(-e))
 })
+
+test_that("assignments work (#1452)", {
+  expect_equal(
+    test_df %>%
+      rowwise %>%
+      mutate(f = { a <- 5; a }) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = 5) %>%
+      group_by(id) %>%
+      select(-e))
+})
