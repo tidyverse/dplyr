@@ -43,7 +43,13 @@ namespace dplyr {
 
   public:
     virtual CharacterVector get_variable_names() const {
-      return rdf.data().names();
+      CharacterVector ret(subset_map.size());
+      {
+        int i = 0;
+        for (RowwiseSubsetMap::const_iterator it = subset_map.begin(); it != subset_map.end(); ++it, ++i)
+          ret[i] = Symbol(it->first).c_str();
+      }
+      return ret;
     }
 
     virtual SEXP get_variable(SEXP symbol) const {
