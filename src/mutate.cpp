@@ -36,16 +36,7 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   return res;
 }
 
-void check_not_groups(const CharacterVector& result_names, const RowwiseDataFrame& gdf) {}
 void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) {}
-
-void check_not_groups(const CharacterVector& result_names, const GroupedDataFrame& gdf) {
-  int n = result_names.size();
-  for (int i=0; i<n; i++) {
-    if (gdf.has_group(result_names[i]))
-      stop("cannot modify grouping variable");
-  }
-}
 
 void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
   int n = dots.size();
