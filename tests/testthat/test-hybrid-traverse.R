@@ -51,7 +51,7 @@ test_that("case_when() works for RHS (#1719)", {
   expect_equal(
     test_df %>%
       rowwise %>%
-      mutate(f = case_when(a == 1 ~ a, a == 2 ~ b, TRUE ~ 3)) %>%
+      mutate(f = case_when(a == 1 ~ as.numeric(a), a == 2 ~ b, TRUE ~ 3)) %>%
       select(-e),
     test_df %>%
       mutate(f = b) %>%
@@ -85,5 +85,6 @@ test_that("[ works (#912)", {
 
 }
 
+test_hybrid(identity)
 test_hybrid(rowwise)
 test_hybrid(. %>% group_by_(~id))
