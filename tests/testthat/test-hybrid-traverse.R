@@ -83,6 +83,22 @@ test_that("[ works (#912)", {
       select(-e))
 })
 
+test_that("interpolation works (#1012)", {
+  df_mean <- function(df, variable) {
+    lazyeval::f_eval(~ mean(lazyeval::uq(variable)), data = df)
+  }
+
+  expect_equal(
+    test_df %>%
+      rowwise %>%
+      mutate(f = df_mean(test_df, ~b)) %>%
+      select(-e),
+    test_df %>%
+      rowwise %>%
+      mutate(f = mean(b)) %>%
+      select(-e))
+})
+
 }
 
 test_hybrid(identity)
