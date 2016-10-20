@@ -2,7 +2,7 @@
 
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/Result/Min.h>
 #include <dplyr/Result/Max.h>
@@ -26,7 +26,7 @@ Result* minmax_prototype_impl(SEXP arg, bool is_summary) {
 }
 
 template< template <int, bool> class Tmpl>
-Result* minmax_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   using namespace dplyr;
   // we only can handle 1 or two arguments
   if (nargs == 0 || nargs > 2) return 0;

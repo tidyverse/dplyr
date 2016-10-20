@@ -7,7 +7,7 @@
 
 #include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/GroupedHybridCall.h>
 
 namespace dplyr {

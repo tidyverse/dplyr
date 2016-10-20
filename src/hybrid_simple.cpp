@@ -2,7 +2,7 @@
 
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/Result/Mean.h>
 #include <dplyr/Result/Sum.h>
@@ -29,7 +29,7 @@ Result* simple_prototype_impl(SEXP arg, bool is_summary) {
 }
 
 template <template <int,bool> class Fun>
-Result* simple_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 0) return 0;
   SEXP arg = CADR(call);
   bool is_summary = false;

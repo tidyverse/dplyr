@@ -3,7 +3,7 @@
 
 namespace dplyr {
 
-  Symbol get_column(SEXP, const Environment&, const LazySubsets&);
+  Symbol get_column(SEXP, const Environment&, const ILazySubsets&);
 
 }
 

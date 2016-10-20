@@ -2,14 +2,14 @@
 
 #include <dplyr/HybridHandlerMap.h>
 
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/Result/In.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
-Result* in_prototype(SEXP call, const LazySubsets& subsets, int nargs) {
+Result* in_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   SEXP lhs = CADR(call);
   SEXP rhs = CADDR(call);
 

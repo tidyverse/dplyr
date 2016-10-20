@@ -15,7 +15,7 @@
 #include <dplyr/Hybrid.h>
 
 #include <dplyr/Result/Result.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
 
@@ -112,7 +112,7 @@ namespace dplyr {
     return res;
   }
 
-  Symbol get_column(SEXP arg, const Environment& env, const LazySubsets& subsets) {
+  Symbol get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
     Symbol res = extract_column(arg, env);
     if (!subsets.count(res)) {
       stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)));

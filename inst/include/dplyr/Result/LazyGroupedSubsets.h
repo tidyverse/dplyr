@@ -8,14 +8,13 @@
 #include <dplyr/DataFrameSubsetVisitors.h>
 
 #include <dplyr/Result/GroupedSubset.h>
-#include <dplyr/Result/LazySubsets.h>
+#include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {
 
-  class LazyGroupedSubsets : public LazySubsets {
+  class LazyGroupedSubsets : public ILazySubsets {
   public:
     LazyGroupedSubsets(const GroupedDataFrame& gdf_) :
-      LazySubsets(gdf_.data()),
       gdf(gdf_),
       symbol_map(),
       subsets(),
@@ -26,14 +25,13 @@ namespace dplyr {
       const DataFrame& data = gdf.data();
       CharacterVector names = data.names();
       int n = data.size();
-      LOG_VERBOSE << "processing " << n << " vars: " << names;
+      LOG_INFO << "processing " << n << " vars: " << names;
       for (int i=0; i<n; i++) {
         input_subset(names[i], grouped_subset(data[i], max_size));
       }
     }
 
     LazyGroupedSubsets(const LazyGroupedSubsets& other) :
-      LazySubsets(other.gdf.data()),
       gdf(other.gdf),
       symbol_map(other.symbol_map),
       subsets(other.subsets),
@@ -41,27 +39,47 @@ namespace dplyr {
       owner(false)
     {}
 
-    void clear() {
-      for (size_t i=0; i<resolved.size(); i++) {
-        resolved[i] = R_NilValue;
+    virtual ~LazyGroupedSubsets() {
+      if (owner) {
+        for (size_t i=0; i<subsets.size(); i++) {
+          delete subsets[i];
+        }
       }
     }
 
-    int count(SEXP head) const {
+  public:
+    virtual SEXP get_variable(SEXP symbol) const {
+      return subsets[symbol_map.get(symbol)]->get_variable();
+    }
+
+    virtual bool is_summary(SEXP symbol) const {
+      return subsets[symbol_map.get(symbol)]->is_summary();
+    }
+
+    virtual int count(SEXP head) const {
       int res = symbol_map.has(head);
       return res;
+    }
+
+    virtual void input(SEXP symbol, SEXP x) {
+      input_subset(symbol, grouped_subset(x, gdf.max_group_size()));
     }
 
     virtual int size() const {
       return subsets.size();
     }
 
-    SEXP get_variable(SEXP symbol) const {
-      return subsets[symbol_map.get(symbol)]->get_variable();
+    virtual int nrows() const {
+      return gdf.nrows();
     }
-    bool is_summary(SEXP symbol) const {
-      return subsets[symbol_map.get(symbol)]->is_summary();
+
+  public:
+    void clear() {
+      for (size_t i=0; i<resolved.size(); i++) {
+        resolved[i] = R_NilValue;
+      }
     }
+
     SEXP get(SEXP symbol, const SlicingIndex& indices) {
       int idx = symbol_map.get(symbol);
 
@@ -70,18 +88,6 @@ namespace dplyr {
         resolved[idx] = value = subsets[idx]->get(indices);
       }
       return value;
-    }
-
-    ~LazyGroupedSubsets() {
-      if (owner) {
-        for (size_t i=0; i<subsets.size(); i++) {
-          delete subsets[i];
-        }
-      }
-    }
-
-    void input(SEXP symbol, SEXP x) {
-      input_subset(symbol, grouped_subset(x, gdf.max_group_size()));
     }
 
     void input(SEXP symbol, SummarisedVariable x) {

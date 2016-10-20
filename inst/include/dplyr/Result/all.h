@@ -18,6 +18,7 @@
 #include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/CallbackProcessor.h>
+#include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>
