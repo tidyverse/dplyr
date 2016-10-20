@@ -79,6 +79,23 @@ test_that("assignments work (#1452)", {
       select(-e))
 })
 
+test_that("assignments don't carry over (#1452)", {
+  expect_error(
+    test_df %>%
+      grouping %>%
+      mutate(f = { xx <- 5; xx }, g = xx),
+    "xx")
+})
+
+test_that("assignments don't leak (#1452)", {
+  expect_false(exists("xx"))
+  test <-
+    test_df %>%
+    grouping %>%
+    mutate(f = { xx <- 5; xx })
+  expect_false(exists("xx"))
+})
+
 test_that("assignments still throws error if variable is affected (#315)", {
   expect_error(
     test_df %>%
