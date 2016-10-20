@@ -12,6 +12,10 @@ test_df <- data_frame(
 test_hybrid <- function(grouping) {
 
 test_that("$ is parsed correctly (#1400)", {
+  if (!identical(grouping, rowwise)) {
+    skip("mutate() with NULL function (#2187)")
+  }
+
   expect_equal(
     test_df %>%
       grouping %>%
@@ -24,6 +28,10 @@ test_that("$ is parsed correctly (#1400)", {
 })
 
 test_that("$ is parsed correctly if column by the same name exists (#1400)", {
+  if (!identical(grouping, rowwise)) {
+    skip("mutate() with NULL function (#2187)")
+  }
+
   expect_equal(
     test_df %>%
       grouping %>%
@@ -63,7 +71,7 @@ test_that("assignments work (#1452)", {
   expect_equal(
     test_df %>%
       grouping %>%
-      mutate(f = { a <- 5; a }) %>%
+      mutate(f = { xx <- 5; xx }) %>%
       select(-e),
     test_df %>%
       mutate(f = 5) %>%
@@ -71,11 +79,39 @@ test_that("assignments work (#1452)", {
       select(-e))
 })
 
+test_that("assignments still throws error if variable is affected (#315)", {
+  expect_error(
+    test_df %>%
+      grouping %>%
+      mutate(f = { a <- 5; a }),
+    "read-only")
+})
+
 test_that("[ works (#912)", {
+  if (!identical(grouping, identity)) {
+    skip("Need to override column accessor functions for this to work.")
+  }
+
   expect_equal(
     test_df %>%
       grouping %>%
-      mutate(f = test_df["a"]) %>%
+      mutate(f = test_df["a"][[1]]) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = a) %>%
+      grouping %>%
+      select(-e))
+})
+
+test_that("[[ works (#912)", {
+  if (!identical(grouping, identity)) {
+    skip("Need to override column accessor functions for this to work.")
+  }
+
+  expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = test_df[["a"]]) %>%
       select(-e),
     test_df %>%
       mutate(f = a) %>%
@@ -84,6 +120,8 @@ test_that("[ works (#912)", {
 })
 
 test_that("interpolation works (#1012)", {
+  skip("lazyeval#78")
+
   df_mean <- function(df, variable) {
     lazyeval::f_eval(~ mean(lazyeval::uq(variable)), data = df)
   }
