@@ -32,3 +32,27 @@ test_that("$ is parsed correctly if column by the same name exists (#1400)", {
       group_by(id) %>%
       select(-e))
 })
+
+test_that("case_when() works for LHS (#1719)", {
+  expect_equal(
+    test_df %>%
+      rowwise %>%
+      mutate(f = case_when(a == 1 ~ 1, a == 2 ~ 2, TRUE ~ 3)) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = b) %>%
+      group_by(id) %>%
+      select(-e))
+})
+
+test_that("case_when() works for RHS (#1719)", {
+  expect_equal(
+    test_df %>%
+      rowwise %>%
+      mutate(f = case_when(a == 1 ~ a, a == 2 ~ b, TRUE ~ 3)) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = b) %>%
+      group_by(id) %>%
+      select(-e))
+})
