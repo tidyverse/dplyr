@@ -68,3 +68,15 @@ test_that("assignments work (#1452)", {
       group_by(id) %>%
       select(-e))
 })
+
+test_that("[ works (#912)", {
+  expect_equal(
+    test_df %>%
+      rowwise %>%
+      mutate(f = test_df["a"]) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = a) %>%
+      rowwise %>%
+      select(-e))
+})
