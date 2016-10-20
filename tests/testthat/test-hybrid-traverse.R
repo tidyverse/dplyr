@@ -88,17 +88,15 @@ test_that("assignments still throws error if variable is affected (#315)", {
 })
 
 test_that("[ works (#912)", {
-  if (!identical(grouping, identity)) {
-    skip("Need to override column accessor functions for this to work.")
-  }
+  grouped_df <- test_df %>%
+    grouping
 
   expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = test_df["a"][[1]]) %>%
+    grouped_df %>%
+      mutate(f = mean(grouped_df["a"][[1]])) %>%
       select(-e),
     test_df %>%
-      mutate(f = a) %>%
+      mutate(f = mean(a)) %>%
       grouping %>%
       select(-e))
 })
@@ -111,10 +109,10 @@ test_that("[[ works (#912)", {
   expect_equal(
     test_df %>%
       grouping %>%
-      mutate(f = test_df[["a"]]) %>%
+      mutate(f = mean(test_df[["a"]])) %>%
       select(-e),
     test_df %>%
-      mutate(f = a) %>%
+      mutate(f = mean(a)) %>%
       grouping %>%
       select(-e))
 })
