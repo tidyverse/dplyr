@@ -49,7 +49,7 @@ namespace dplyr {
 
   public:
     virtual CharacterVector get_variable_names() const {
-      return gdf.data().names();
+      return symbol_map.get_names();
     }
 
     virtual SEXP get_variable(SEXP symbol) const {
