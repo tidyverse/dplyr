@@ -67,8 +67,8 @@ namespace dplyr {
       if (TYPEOF(call) == LANGSXP) traverse_call(call);
     }
 
-    void input(Rcpp::String name, SEXP x) {
-      subsets.input(Rf_installChar(name.get_sexp()) , x);
+    void input(Symbol name, SEXP x) {
+      subsets.input(name, x);
     }
 
     inline int nsubsets() {

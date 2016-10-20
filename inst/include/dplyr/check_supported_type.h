@@ -12,7 +12,7 @@ namespace dplyr {
     DPLYR_VECSXP = VECSXP
   };
 
-  inline SupportedType check_supported_type(SEXP x, SEXP name = R_NilValue) {
+  inline SupportedType check_supported_type(SEXP x, std::string name = "") {
     switch (TYPEOF(x)) {
     case LGLSXP:
       return DPLYR_LGLSXP;
@@ -27,11 +27,11 @@ namespace dplyr {
     case VECSXP:
       return DPLYR_VECSXP;
     default:
-      if (name == R_NilValue) {
+      if (name == "") {
         stop("Unsupported type %s", type2name(x));
       }
       else {
-        stop("Unsupported type %s for column \"%s\"", type2name(x), CHAR(name));
+        stop("Unsupported type %s for column \"%s\"", type2name(x), name);
       }
 
       // Unreachable, can be removed with Rcpp > 0.12.5.2
