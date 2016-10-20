@@ -15,9 +15,9 @@ namespace dplyr {
 
     NamedListAccumulator() {}
 
-    inline void set(SEXP name, SEXP x) {
+    inline void set(Symbol name, SEXP x) {
       if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
-        check_supported_type(x, name);
+        check_supported_type(x, name.c_str());
 
       SymbolMapIndex index = symbol_map.insert(name);
       if (index.origin == NEW) {

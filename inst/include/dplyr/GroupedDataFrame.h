@@ -110,11 +110,10 @@ namespace dplyr {
       return biggest_group_size;
     }
 
-    inline bool has_group(SEXP g) const {
-      SEXP symb = Rf_installChar(g);
+    inline bool has_group(Symbol g) const {
       int n = symbols.size();
       for (int i=0; i<n; i++) {
-        if (symbols[i] == symb) return true;
+        if (symbols[i] == g) return true;
       }
       return false;
     }

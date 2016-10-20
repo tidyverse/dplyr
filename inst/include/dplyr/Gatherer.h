@@ -302,7 +302,7 @@ namespace dplyr {
   }
 
   template <typename Data, typename Subsets>
-  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, SEXP name) {
+  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, Symbol name) {
     typename Data::group_iterator git = gdf.group_begin();
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
@@ -341,7 +341,7 @@ namespace dplyr {
       break;
     }
 
-    check_supported_type(first, name);
+    check_supported_type(first, name.c_str());
     return 0;
   }
 
