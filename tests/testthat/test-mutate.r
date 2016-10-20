@@ -194,8 +194,8 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
   expect_error(mutate(group_by(d,x),val = ifelse(x < 3, "foo", 2)))
 })
 
-test_that("assignments are forbidden (#315)", {
-   expect_error(mutate(mtcars, cyl2 = { x <- cyl^2; -x } ))
+test_that("assignments are forbidden if overwriting variables (#315)", {
+   expect_error(mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg } ))
 })
 
 test_that("hybrid evaluator uses correct environment (#403)", {
@@ -435,7 +435,9 @@ test_that("mutate handles factors (#1414)", {
   expect_equal( as.character(res$f2), res$f)
 })
 
-test_that("mutate recognizes global #1469", {
+test_that("mutate recognizes global() (#1469)", {
+  skip("need to install global()")
+
   vs <- 4
   res <- mtcars %>% mutate(a = global(vs))
   expect_true( all(res$a == 4) )
@@ -527,7 +529,9 @@ test_that( "lead/lag inside mutate handles expressions as value for default (#14
   expect_equal( res$lagn, lag(df$x, default = 1) )
 })
 
-test_that("mutate understands column. #1012", {
+test_that("mutate understands column() (#1012)", {
+  skip("need to install column()")
+
   ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
   ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
   expect_equal(ir1, ir2)
