@@ -160,26 +160,29 @@ namespace dplyr {
   public:
 
     VectorVisitorImpl(const CharacterVector& vec_) :
-      vec(vec_),
-      orders(CharacterVectorOrderer(vec).get())
+      vec(vec_), has_orders(false)
     {}
 
     size_t hash(int i) const {
       return reinterpret_cast<size_t>(static_cast<SEXP>(vec[i]));
     }
     inline bool equal(int i, int j) const {
+      provide_orders();
       return orders[i] == orders[j];
     }
 
     inline bool less(int i, int j) const {
+      provide_orders();
       return orders[i] < orders[j];
     }
 
     inline bool equal_or_both_na(int i, int j) const {
+      provide_orders();
       return orders[i] == orders[j];
     }
 
     inline bool greater(int i, int j) const {
+      provide_orders();
       return orders[i] > orders[j];
     }
 
@@ -195,9 +198,19 @@ namespace dplyr {
       return CharacterVector::is_na(vec[i]);
     }
 
-  protected:
+  private:
+    void provide_orders() const {
+      if (has_orders)
+        return;
+
+      orders = CharacterVectorOrderer(vec).get();
+      has_orders = true;
+    }
+
+  private:
     CharacterVector vec;
-    IntegerVector orders;
+    mutable IntegerVector orders;
+    mutable bool has_orders;
 
   };
 
