@@ -165,7 +165,7 @@ namespace dplyr {
     {}
 
     size_t hash(int i) const {
-      return orders[i];
+      return reinterpret_cast<size_t>(static_cast<SEXP>(vec[i]));
     }
     inline bool equal(int i, int j) const {
       return orders[i] == orders[j];
