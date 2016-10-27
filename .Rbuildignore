@@ -18,3 +18,5 @@ demo/pandas
 ^src/Makevars\.local$
 ^Doxyfile$
 ^clion-test\.R$
+^scripts/deploy-pages\.sh$
+^_pkgdown\.yml$
