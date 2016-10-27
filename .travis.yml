@@ -1,24 +1,71 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+# Header
+language: r
 sudo: false
 cache: packages
-r:
-  - oldrel
-  - release
-  - devel
+warnings_are_errors: true
 
-warnings_are_errors: false
 env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_=false
     - MAKEFLAGS="-j 2"
 
-r_github_packages:
-  - hadley/devtools
+# Linux
+addons:
+  apt:
+    packages:
+      - libmagick++-dev
+      - libssh2-1-dev
 
+# Matrix: 3x Linux, 1x OS X
+matrix:
+  include:
+    - r: oldrel
+    - r: release
+      env:
+        - DEPLOY_PAGES=true
+      r_github_packages:
+        - hadley/pkgdown
+        - krlmlr/travis@develop
+      r_packages:
+        - covr
+        - roxygen2
+    - r: devel
+    - os: osx
+      osx_image: xcode7.2
+      r: release
+      latex: false
+
+#r_packages
+r_packages:
+  - covr
+
+#notifications
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+#after_success (deploy to gh-pages and run covr)
+after_success:
+  - scripts/deploy-pages.sh
+  - R -e 'covr::codecov()'; fi
+
+# Custom parts:
+
+warnings_are_errors: false
+
+#r_github_packages (also need to add to the matrix definition above)
+
+#r_packages (need to copy packages included above, and add to the matrix definition)
+
+#env (need to copy settings from above)
+
+# services
+
+#before_install
+
+# before_script
 before_script:
   - psql -c 'create database test;' -U postgres
-
-after_success:
-- Rscript -e 'covr::codecov()'
