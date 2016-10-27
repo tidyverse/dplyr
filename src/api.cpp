@@ -120,13 +120,13 @@ namespace dplyr {
     return res;
   }
 
-  CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
-    data(data_),
-    set(data.size()),
+  CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
     orders(no_init(data.size()))
   {
     int n = data.size();
     if (n == 0) return;
+
+    dplyr_hash_set<SEXP> set(n);
 
     // 1 - gather unique SEXP pointers from data
     SEXP* p_data = Rcpp::internal::r_vector_start<STRSXP>(data);
