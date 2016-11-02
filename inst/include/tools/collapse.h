@@ -10,7 +10,7 @@ namespace Rcpp {
   }
 
   template <int RTYPE>
-  std::string collapse(const Vector<RTYPE>& x, const char* sep = ", ") {
+  std::string collapse_string(const Vector<RTYPE>& x, const char* sep = ", ") {
     std::stringstream ss;
     int n = x.size();
     if (n > 0) {

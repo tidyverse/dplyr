@@ -119,12 +119,12 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   bool ok = true;
   if (names_y_not_in_x.size()) {
     ok = false;
-    ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
+    ss << "Cols in y but not x: " << collapse_string(names_y_not_in_x) << ". ";
   }
 
   if (names_x_not_in_y.size()) {
     ok = false;
-    ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
+    ss << "Cols in x but not y: " << collapse_string(names_x_not_in_y) << ". ";
   }
 
   if (!ok) {
