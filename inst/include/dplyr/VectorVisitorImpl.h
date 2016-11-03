@@ -7,6 +7,8 @@
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
 
+#include <boost/functional/hash.hpp>
+
 namespace dplyr {
 
   template <typename Container>

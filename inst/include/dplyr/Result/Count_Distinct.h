@@ -1,8 +1,6 @@
 #ifndef dplyr_Result_Count_Distinct_H
 #define dplyr_Result_Count_Distinct_H
 
-#include <tools/hash.h>
-
 #include <dplyr/visitor_set/VisitorEqualPredicate.h>
 #include <dplyr/visitor_set/VisitorHash.h>
 #include <dplyr/Result/Processor.h>
@@ -14,7 +12,7 @@ namespace dplyr {
   public:
     typedef VisitorHash<Visitor> Hash;
     typedef VisitorEqualPredicate<Visitor> Pred;
-    typedef dplyr_hash_set<int, Hash, Pred > Set;
+    typedef std::unordered_set<int, Hash, Pred > Set;
 
     Count_Distinct(Visitor v_):
       v(v_), set(0, Hash(v), Pred(v))
@@ -40,7 +38,7 @@ namespace dplyr {
   public:
     typedef VisitorHash<Visitor> Hash;
     typedef VisitorEqualPredicate<Visitor> Pred;
-    typedef dplyr_hash_set<int, Hash, Pred > Set;
+    typedef std::unordered_set<int, Hash, Pred > Set;
 
     Count_Distinct_Narm(Visitor v_):
       v(v_), set(0, Hash(v), Pred(v))

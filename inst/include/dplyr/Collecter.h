@@ -2,7 +2,6 @@
 #define dplyr_Collecter_H
 
 #include <tools/all_na.h>
-#include <tools/hash.h>
 
 #include <dplyr/registration.h>
 #include <dplyr/vector_class.h>
@@ -278,7 +277,7 @@ namespace dplyr {
 
   class FactorCollecter : public Collecter {
   public:
-    typedef dplyr_hash_map<SEXP,int> LevelsMap;
+    typedef std::unordered_map<SEXP,int> LevelsMap;
 
     FactorCollecter(int n, SEXP model_):
       data(n, IntegerVector::get_na()),

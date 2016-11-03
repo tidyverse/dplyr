@@ -10,11 +10,11 @@ namespace dplyr {
 
   template <typename VisitorSet, typename VALUE>
   class VisitorSetIndexMap :
-    public dplyr_hash_map<int, VALUE, VisitorSetHasher<VisitorSet> , VisitorSetEqualPredicate<VisitorSet> > {
+    public std::unordered_map<int, VALUE, VisitorSetHasher<VisitorSet> , VisitorSetEqualPredicate<VisitorSet> > {
   private:
     typedef VisitorSetHasher<VisitorSet> Hasher;
     typedef VisitorSetEqualPredicate<VisitorSet> EqualPredicate;
-    typedef typename dplyr_hash_map<int, VALUE, Hasher, EqualPredicate> Base;
+    typedef typename std::unordered_map<int, VALUE, Hasher, EqualPredicate> Base;
 
   public:
     VisitorSetIndexMap() : Base(), visitors(0) {}

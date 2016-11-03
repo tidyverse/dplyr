@@ -1,7 +1,5 @@
 #include <dplyr/main.h>
 
-#include <tools/hash.h>
-
 #include <dplyr/Hybrid.h>
 #include <dplyr/HybridHandlerMap.h>
 

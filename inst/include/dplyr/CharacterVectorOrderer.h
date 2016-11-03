@@ -1,8 +1,6 @@
 #ifndef dplyr_CharacterVectorOrderer_H
 #define dplyr_CharacterVectorOrderer_H
 
-#include <tools/hash.h>
-
 namespace dplyr {
 
   class CharacterVectorOrderer {
@@ -16,7 +14,7 @@ namespace dplyr {
 
   private:
     CharacterVector data;
-    dplyr_hash_set<SEXP> set;
+    std::unordered_set<SEXP> set;
     IntegerVector orders;
   };
 

@@ -1,6 +1,5 @@
 #include <dplyr/main.h>
 
-#include <tools/hash.h>
 #include <tools/LazyDots.h>
 #include <tools/utils.h>
 
@@ -14,7 +13,7 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-typedef dplyr_hash_set<SEXP> SymbolSet;
+typedef std::unordered_set<SEXP> SymbolSet;
 
 void strip_index(DataFrame x) {
   x.attr("indices") = R_NilValue;

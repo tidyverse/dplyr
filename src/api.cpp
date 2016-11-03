@@ -1,6 +1,5 @@
 #include <dplyr/main.h>
 
-#include <tools/hash.h>
 #include <tools/match.h>
 
 #include <dplyr/CharacterVectorOrderer.h>
@@ -150,7 +149,7 @@ namespace dplyr {
     IntegerVector o = r_match(uniques, s_uniques);
 
     // combine uniques and o into a hash map for fast retrieval
-    dplyr_hash_map<SEXP,int> map;
+    std::unordered_map<SEXP,int> map;
     for (int i=0; i<n_uniques; i++) {
       map.insert(std::make_pair(uniques[i], o[i]));
     }

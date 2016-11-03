@@ -1,7 +1,6 @@
 #ifndef dplyr_LazyRowwiseSubsets_H
 #define dplyr_LazyRowwiseSubsets_H
 
-#include <tools/hash.h>
 #include <tools/delete_all.h>
 
 #include <dplyr/RowwiseDataFrame.h>
@@ -13,8 +12,8 @@ namespace dplyr {
 
   class LazyRowwiseSubsets : public ILazySubsets {
   public:
-    typedef dplyr_hash_map<SEXP, RowwiseSubset*> RowwiseSubsetMap;
-    typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap;
+    typedef std::unordered_map<SEXP, RowwiseSubset*> RowwiseSubsetMap;
+    typedef std::unordered_map<SEXP, SEXP> ResolvedSubsetMap;
 
     LazyRowwiseSubsets(const RowwiseDataFrame& rdf_):
       rdf(rdf_),
