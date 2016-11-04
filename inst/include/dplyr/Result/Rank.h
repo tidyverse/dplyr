@@ -136,7 +136,7 @@ namespace dplyr {
     typedef RankComparer<RTYPE,ascending> Comparer;
     typedef RankEqual<RTYPE> Equal;
 
-    typedef std::unordered_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map;
+    typedef std::unordered_map<STORAGE, std::vector<int>, std::hash<STORAGE>, Equal > Map;
     typedef std::map<STORAGE,const std::vector<int>*, Comparer> oMap;
 
     Rank_Impl(SEXP data_) : data(data_), map() {}

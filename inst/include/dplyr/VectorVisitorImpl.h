@@ -7,8 +7,6 @@
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
 
-#include <boost/functional/hash.hpp>
-
 namespace dplyr {
 
   template <typename Container>
@@ -58,7 +56,7 @@ namespace dplyr {
     /**
      * Hasher for that type of data
      */
-    typedef boost::hash<STORAGE> hasher;
+    typedef std::hash<STORAGE> hasher;
 
     VectorVisitorImpl(const VECTOR& vec_) : vec(vec_) {}
 

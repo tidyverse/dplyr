@@ -16,7 +16,7 @@ namespace dplyr {
       }
       size_t seed = obj.get(0)->hash(j);
       for (int k=1; k<n; k++) {
-        boost::hash_combine(seed, obj.get(k)->hash(j));
+       hash_combine(seed, obj.get(k)->hash(j));
       }
       return seed;
     }

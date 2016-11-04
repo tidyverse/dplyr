@@ -7,6 +7,8 @@
 #include <dplyr/config.h>
 #include <dplyr/workarounds.h>
 
+#include <functional>
+
 #include <plogr.h>
 
 using namespace Rcpp;

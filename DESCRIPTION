@@ -40,7 +40,6 @@ Suggests:
     dtplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
-    BH (>= 1.58.0-1),
     plogr
 LazyData: yes
 License: MIT + file LICENSE
