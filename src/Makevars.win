@@ -1,1 +1,3 @@
 PKG_CPPFLAGS = -I../inst/include -DCOMPILING_DPLYR
+CXX_STD = CXX11
+CXX11FLAGS += -std=c++11
