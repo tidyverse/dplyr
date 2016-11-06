@@ -86,7 +86,10 @@ bind_rows <- function(..., .id = NULL) {
 #' @rdname bind
 bind_cols <- function(...) {
   x <- list_or_dots(...)
-  cbind_all(x)
+  ret <- cbind_all(x)
+  if (anyDuplicated(names(ret)) != 0)
+    names(ret) <- make.unique(names(ret))
+  ret
 }
 
 #' @export
