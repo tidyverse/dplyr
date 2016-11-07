@@ -76,10 +76,25 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
 #'
 #' @param \dots vectors of values
 #' @param na.rm id \code{TRUE} missing values don't count
+#'
+#' @note Because \code{n_distinct} compares values in list columns by reference,
+#'   there are cases where \code{n_distinct(x)} will not return the same value
+#'   as \code{length(unique(x))}. See the \strong{Examples} section below for a
+#'   demonstration of this behavior.
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
 #' length(unique(x))
 #' n_distinct(x)
+#'
+#' # different behavior from length(unique(x))
+#' length(unique(list(1,1))) # returns 1
+#' n_distinct(list(1,1))     # returns 2
+#'
+#' # if we tweak the previous example so that both items in the list point
+#' # to the same object then n_distinct will also return 1
+#' a <- 1
+#' n_distinct(list(a,a))
+#'
 #' @export
 n_distinct <- function(..., na.rm = FALSE){
   n_distinct_multi(list(...), na.rm)
