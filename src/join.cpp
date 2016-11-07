@@ -274,7 +274,7 @@ namespace dplyr {
     int n_right = count_attributes(att_right);
 
     if (n_left != n_right)
-      stop("atributes of different sizes");
+      stop("attributes of different sizes");
 
     List list_left(n_left), list_right(n_left);
 
