@@ -4,7 +4,7 @@
 #' described in SQL2003. They are currently implemented using the built in
 #' \code{rank} function, and are provided mainly as a convenience when
 #' converting between R and SQL. All ranking functions map smallest inputs
-#' to smallest outputs. Use \code{\link{desc}} to reverse the direction..
+#' to smallest outputs. Use \code{\link{desc}} to reverse the direction.
 #'
 #' \itemize{
 #' \item \code{row_number}: equivalent to \code{rank(ties.method = "first")}
