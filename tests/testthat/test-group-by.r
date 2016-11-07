@@ -256,3 +256,15 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error( rowwise(df), "unsupported type" )
 })
+
+    
+test_that("group_by will not execute column names as code #2224", {
+  df <- mtcars
+  colnames(df) <- paste(colnames(df), 1:ncol(df))
+  
+  # This line will throw an error if column names are executed
+  prepared <- group_by_prepare(df, .dots = names(df))
+  template <- list(data = df, groups = lapply(names(df), as.name))
+  expect_identical(prepared, template)
+)
+})
