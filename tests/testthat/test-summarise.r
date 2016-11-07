@@ -742,7 +742,7 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
     "can't promote")
 })
 
-test_that("calculating an ordered factor inside summarize on grouped df preserves order (#2200)", {
+test_that("calculating an ordered factor preserves order (#2200)", {
   test_df <- data_frame(id = rep(letters[24:26], 2),
                  val = runif(6, 0, 4))
 
