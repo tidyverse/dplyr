@@ -743,30 +743,25 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
 })
 
 test_that("calculating an ordered factor preserves order (#2200)", {
-  test_df <- data_frame(id = rep(letters[24:26], 2),
-                 val = runif(6, 0, 4))
-
-  make_levels <- function(x) {
-    cut(x, breaks = 0:4, labels = LETTERS[1:4], ordered_result = TRUE)
-  }
+  test_df <- tibble(id = c("a", "b"), val = 1:2)
 
   ret <- group_by(test_df, id) %>%
-    summarize(mean_val = mean(val),
-              level = make_levels(mean_val))
-  expect_is(ret$level, "ordered")
-  expect_equal(levels(ret$level), levels(make_levels(1)))
+    summarize(level = ordered(val))
+
+  expect_s3_class(ret$level, "ordered")
+  expect_equal(levels(ret$level), c("1","2"))
 })
 
 test_that("min, max preserves ordered factor data  (#2200)", {
-  test_df <- data_frame(id = rep(letters[24:26], 2),
-                        ord = as.ordered(
-                          sample(LETTERS[1:3], 6, replace = TRUE)))
+  test_df <- tibble(id = rep(c("a","b"), 2),
+                    ord = ordered(c("A", "B", "B", "A"), levels = c("A", "B")))
 
   ret <- group_by(test_df, id) %>%
     summarize(min_ord = min(ord),
               max_ord = max(ord))
-  expect_is(ret$min_ord, "ordered")
-  expect_is(ret$max_ord, "ordered")
+
+  expect_s3_class(ret$min_ord, "ordered")
+  expect_s3_class(ret$max_ord, "ordered")
   expect_equal(levels(ret$min_ord), levels(test_df$ord))
   expect_equal(levels(ret$max_ord), levels(test_df$ord))
 })
