@@ -2,19 +2,30 @@
 % Please edit documentation in R/tibble-reexport.r, R/utils.r
 \docType{import}
 \name{reexports}
-\alias{\%>\%}
-\alias{add_row}
-\alias{as_data_frame}
+\alias{reexports}
 \alias{data_frame}
+\alias{reexports}
 \alias{data_frame_}
-\alias{frame_data}
-\alias{glimpse}
+\alias{reexports}
+\alias{as_data_frame}
+\alias{reexports}
 \alias{lst}
+\alias{reexports}
 \alias{lst_}
 \alias{reexports}
-\alias{tibble}
-\alias{trunc_mat}
+\alias{add_row}
+\alias{reexports}
 \alias{type_sum}
+\alias{reexports}
+\alias{glimpse}
+\alias{reexports}
+\alias{frame_data}
+\alias{reexports}
+\alias{tibble}
+\alias{reexports}
+\alias{trunc_mat}
+\alias{reexports}
+\alias{\%>\%}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
