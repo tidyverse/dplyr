@@ -2,15 +2,15 @@
 % Please edit documentation in R/translate-sql-helpers.r, R/translate-sql-base.r
 \docType{data}
 \name{sql_variant}
-\alias{base_agg}
-\alias{base_no_win}
-\alias{base_scalar}
-\alias{base_win}
-\alias{sql_infix}
-\alias{sql_not_supported}
-\alias{sql_prefix}
-\alias{sql_translator}
 \alias{sql_variant}
+\alias{sql_translator}
+\alias{sql_infix}
+\alias{sql_prefix}
+\alias{sql_not_supported}
+\alias{base_scalar}
+\alias{base_agg}
+\alias{base_win}
+\alias{base_no_win}
 \title{Create an sql translator}
 \usage{
 sql_variant(scalar = sql_translator(), aggregate = sql_translator(),
