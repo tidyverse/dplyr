@@ -42,6 +42,13 @@ test_that("works with lists", {
   )
 })
 
+test_that("gives proper error messages for factor class", {
+  x <- factor(1:3, labels = letters[1:3])
+
+  expect_error(if_else(x == 'a', x, 'b'), "`false` has class factor not integer")
+  expect_error(if_else(x == 'a', 1L, x), "`false` has class factor not integer")
+})
+
 test_that("all forms of if translated to case statement", {
   expected <- sql('CASE WHEN ("x") THEN (1) ELSE (2) END')
 
