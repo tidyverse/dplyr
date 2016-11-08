@@ -4,7 +4,7 @@
 #' if you want to convert an annoying value to \code{NA}.
 #'
 #' @param x Vector to modify
-#' @param y If th
+#' @param y Value to replace with NA
 #' @return A modified version of \code{x} that replaces any values that
 #'   are equal to \code{y} with NA.
 #' @seealso \code{\link{coalesce}()} to replace missing values with a specified
