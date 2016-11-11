@@ -39,6 +39,7 @@ namespace dplyr {
 
     ~GroupedCallProxy() {}
 
+  public:
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
