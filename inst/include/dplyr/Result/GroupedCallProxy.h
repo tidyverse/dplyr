@@ -43,19 +43,8 @@ namespace dplyr {
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
-      if (TYPEOF(call) == LANGSXP) {
-        LOG_VERBOSE << "performing hybrid evaluation";
-        HybridCall hybrid_eval(call, indices, subsets, env);
-        return hybrid_eval.eval();
-      } else if (TYPEOF(call) == SYMSXP) {
-        if (subsets.count(call)) {
-          return subsets.get(call, indices);
-        }
-        return env.find(CHAR(PRINTNAME(call)));
-      } else {
-        // all other types that evaluate to themselves
-        return call;
-      }
+      HybridCall hybrid_eval(call, indices, subsets, env);
+      return hybrid_eval.eval();
     }
 
     SEXP eval() {
