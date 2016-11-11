@@ -266,7 +266,7 @@ test_that("group_by coerces integer + double -> double (#1892)", {
   ) %>%
     group_by(group) %>%
     mutate(value = ifelse(is.na(value), as.double(0), value))
-  expect_equal(class(df$value), "double")
+  expect_equal(typeof(df$value), "double")
 })
 
 test_that("group_by coerces factor + character -> character (WARN)", {
@@ -280,5 +280,5 @@ test_that("group_by coerces factor + character -> character (WARN)", {
     group_by(group) %>%
     mutate(value = ifelse(id > 3, as.character("foo"), value))
   )
-  expect_equal(class(df$value), "character")
+  expect_equal(typeof(df$value), "character")
 })
