@@ -55,6 +55,7 @@ namespace dplyr {
     SEXP eval() {
       LOG_INFO << type2name(call);
       if (TYPEOF(call) == LANGSXP) {
+        LOG_VERBOSE << "performing hybrid evaluation";
         return Rcpp_eval(call, env);
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
