@@ -265,5 +265,6 @@ test_that("group_by coerces integer + double -> double (#1892)", {
     group = c("A", "A", "A", "B", "B", "B")
   ) %>%
   group_by(group) %>%
-  mutate(value = ifelse(is.na(value),double(0),value))
+  mutate(value = ifelse(is.na(value), as.double(0), value))
+})
 })
