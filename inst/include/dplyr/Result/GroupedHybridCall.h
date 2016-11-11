@@ -15,7 +15,7 @@ namespace dplyr {
   class GroupedHybridCall {
   public:
     GroupedHybridCall(const Call& call_, const SlicingIndex& indices_, Subsets& subsets_, const Environment& env_) :
-      call(clone(call_)), indices(indices_), subsets(subsets_), env(create_subset_env(env_))
+      call(clone(call_)), indices(&indices_), subsets(subsets_), env(create_subset_env(env_))
     {
       LOG_VERBOSE;
       populate_subset_env(subsets);
@@ -49,7 +49,7 @@ namespace dplyr {
 
   public:
     const SlicingIndex& get_indices() const {
-      return indices;
+      return *indices;
     }
 
     SEXP eval() {
@@ -106,7 +106,7 @@ namespace dplyr {
 
   private:
     Call call;
-    const SlicingIndex& indices;
+    const SlicingIndex* indices;
     Subsets& subsets;
     const Environment env;
   };
