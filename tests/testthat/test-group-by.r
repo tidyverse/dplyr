@@ -257,7 +257,7 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
   expect_error( rowwise(df), "unsupported type" )
 })
 
-test_that("group_by coherses types to most general common data type (#1892)", {
+test_that("group_by coherses integer + double -> double (#1892)", {
   data_frame(
     id = c(1,2,3,4,5,6),
     value = c(1L,2L,3L,NA,NA,NA),
