@@ -44,17 +44,21 @@ namespace dplyr {
 
     SEXP get_subset(Symbol name) {
       LOG_VERBOSE;
-      return subsets.get(name, indices);
+      return subsets.get(name, get_indices());
     }
 
   public:
+    const SlicingIndex& get_indices() const {
+      return indices;
+    }
+
     SEXP eval() {
       LOG_INFO << type2name(call);
       if (TYPEOF(call) == LANGSXP) {
         return Rcpp_eval(call, env);
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
-          return subsets.get(call, indices);
+          return subsets.get(call, get_indices());
         }
         return env.find(CHAR(PRINTNAME(call)));
       }
@@ -70,7 +74,7 @@ namespace dplyr {
         boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
         if (res) {
           // replace the call by the result of process
-          call = res->process(indices);
+          call = res->process(get_indices());
 
           // no need to go any further, we simplified the top level
           return true;
@@ -86,7 +90,7 @@ namespace dplyr {
       if (TYPEOF(obj) == LANGSXP) {
         boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
         if (res) {
-          SETCAR(p, res->process(indices));
+          SETCAR(p, res->process(get_indices()));
           return true;
         }
 
@@ -100,6 +104,7 @@ namespace dplyr {
       return false;
     }
 
+  private:
     Call call;
     const SlicingIndex& indices;
     Subsets& subsets;
