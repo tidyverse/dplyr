@@ -42,7 +42,7 @@ test_that("works with lists", {
   )
 })
 
-test_that("gives proper error messages for factor class", {
+test_that("gives proper error messages for factor class (#2197)", {
   skip("Currently failing")
 
   x <- factor(1:3, labels = letters[1:3])
@@ -60,7 +60,7 @@ test_that("gives proper error messages for factor class", {
   expect_error(if_else(x == "a", x, Sys.Date()), "`false` has class Date not factor")
 })
 
-test_that("works with factors as both `true` and `false`", {
+test_that("works with factors as both `true` and `false` (#2197)", {
   skip("Currently failing")
 
   x <- factor(1:3, labels = letters[1:3])
