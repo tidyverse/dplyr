@@ -2,11 +2,13 @@
 % Please edit documentation in R/bind.r
 \name{bind}
 \alias{bind}
-\alias{bind_cols}
-\alias{bind_rows}
-\alias{combine}
 \alias{rbind_all}
 \alias{rbind_list}
+\alias{bind_rows}
+\alias{bind_cols}
+\alias{combine}
+\alias{rbind_list}
+\alias{rbind_all}
 \title{Efficiently bind multiple data frames by row and column.}
 \usage{
 bind_rows(..., .id = NULL)

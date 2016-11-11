@@ -612,3 +612,31 @@ test_that( "left_join handles mix of encodings in column names (#1571)", {
   expect_equal( res[["l\u00f8penummer"]], 1:6)
 
 })
+
+test_that("can handle empty string in suffix argument, left side (#2228, #2182, #2007)", {
+   skip( "not yet resolved, would cause stack overflow" )
+   
+   j1 <- inner_join(e, f, "x", suffix = c("", "2"))
+   j2 <- left_join(e, f, "x", suffix = c("", "2"))
+   j3 <- right_join(e, f, "x", suffix = c("", "2"))
+   j4 <- full_join(e, f, "x", suffix = c("", "2"))
+   
+   expect_named(j1, c("x", "z", "z2"))
+   expect_named(j2, c("x", "z", "z2"))
+   expect_named(j3, c("x", "z", "z2"))
+   expect_named(j4, c("x", "z", "z2"))
+})
+
+test_that("can handle empty string in suffix argument, right side (#2228, #2182, #2007)", {
+   skip( "not yet resolved, would cause stack overflow" )
+
+   j1 <- inner_join(e, f, "x", suffix = c("1", ""))
+   j2 <- left_join(e, f, "x", suffix = c("1", ""))
+   j3 <- right_join(e, f, "x", suffix = c("1", ""))
+   j4 <- full_join(e, f, "x", suffix = c("1", ""))
+   
+   expect_named(j1, c("x", "z1", "z"))
+   expect_named(j2, c("x", "z1", "z"))
+   expect_named(j3, c("x", "z1", "z"))
+   expect_named(j4, c("x", "z1", "z"))
+})

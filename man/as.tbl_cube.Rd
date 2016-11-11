@@ -3,9 +3,9 @@
 \name{as.tbl_cube}
 \alias{as.tbl_cube}
 \alias{as.tbl_cube.array}
-\alias{as.tbl_cube.data.frame}
-\alias{as.tbl_cube.matrix}
 \alias{as.tbl_cube.table}
+\alias{as.tbl_cube.matrix}
+\alias{as.tbl_cube.data.frame}
 \title{Coerce an existing data structure into a \code{tbl_cube}}
 \usage{
 as.tbl_cube(x, ...)

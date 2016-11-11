@@ -9,7 +9,7 @@ na_if(x, y)
 \arguments{
 \item{x}{Vector to modify}
 
-\item{y}{If th}
+\item{y}{Value to replace with NA}
 }
 \value{
 A modified version of \code{x} that replaces any values that

@@ -2,8 +2,8 @@
 % Please edit documentation in R/group-by.r
 \name{group_by}
 \alias{group_by}
-\alias{group_by_}
 \alias{regroup}
+\alias{group_by_}
 \title{Group a tbl by one or more variables.}
 \usage{
 group_by(.data, ..., add = FALSE)
