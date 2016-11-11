@@ -14,25 +14,29 @@ namespace dplyr {
   template <typename Subsets>
   class GroupedHybridCall {
   public:
-    GroupedHybridCall(const Call& call_, const SlicingIndex& indices_, Subsets& subsets_, const Environment& env_) :
-      call(clone(call_)), indices(&indices_), subsets(subsets_)
+    GroupedHybridCall(const Call& call_, Subsets& subsets_, const Environment& env_) :
+      call(clone(call_)), indices(NULL), subsets(subsets_), env(env_), has_active_env(false)
     {
       LOG_VERBOSE;
-      env = create_subset_env(subsets, env_);
-      while (simplified()) {}
     }
 
   private:
-    Environment create_subset_env(const Subsets& subsets, const Environment& parent) {
-      if (TYPEOF(call) == LANGSXP) {
-        using namespace bindrcpp;
+    void provide_active_env() {
+      // TODO: Use a flag to detect if any new names have been added since the last call
+      CharacterVector names = subsets.get_variable_names();
+      CharacterVector new_names = Rcpp::setdiff(names, active_names);
 
-        LOG_VERBOSE;
-        CharacterVector names = subsets.get_variable_names();
-        return create_env_symbol(names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)), parent);
-      } else {
-        return parent;
+      if (new_names.length() == 0)
+        return;
+
+      if (!has_active_env) {
+        active_env = env.new_child(true);
+        has_active_env = true;
       }
+
+      populate_env_symbol(active_env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
+
+      active_names = active_env.ls(true);
     }
 
     static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
@@ -51,23 +55,32 @@ namespace dplyr {
       return *indices;
     }
 
+    void set_indices(const SlicingIndex& indices_) {
+      indices = &indices_;
+    }
+
     SEXP eval() {
       LOG_INFO << type2name(call);
-      if (TYPEOF(call) == LANGSXP) {
+      Call simplified_call = Rf_duplicate(call);
+      while (simplified(simplified_call)) {}
+
+      LOG_INFO << type2name(simplified_call);
+      if (TYPEOF(simplified_call) == LANGSXP) {
         LOG_VERBOSE << "performing hybrid evaluation";
-        return Rcpp_eval(call, env);
-      } else if (TYPEOF(call) == SYMSXP) {
-        if (subsets.count(call)) {
-          return subsets.get(call, get_indices());
+        provide_active_env();
+        return Rcpp_eval(simplified_call, active_env);
+      } else if (TYPEOF(simplified_call) == SYMSXP) {
+        if (subsets.count(simplified_call)) {
+          return subsets.get(simplified_call, get_indices());
         }
-        return env.find(CHAR(PRINTNAME(call)));
+        return env.find(CHAR(PRINTNAME(simplified_call)));
       }
-      return call;
+      return simplified_call;
     }
 
   private:
 
-    bool simplified() {
+    bool simplified(Call& call) {
       LOG_VERBOSE;
       // initial
       if (TYPEOF(call) == LANGSXP) {
@@ -105,10 +118,12 @@ namespace dplyr {
     }
 
   private:
-    Call call;
+    const Call call;
     const SlicingIndex* indices;
     Subsets& subsets;
-    Environment env;
+    Environment env, active_env;
+    CharacterVector active_names;
+    bool has_active_env;
   };
 
 }

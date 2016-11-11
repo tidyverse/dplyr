@@ -43,7 +43,8 @@ namespace dplyr {
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
-      HybridCall hybrid_eval(call, indices, subsets, env);
+      HybridCall hybrid_eval(call, subsets, env);
+      hybrid_eval.set_indices(indices);
       return hybrid_eval.eval();
     }
 
