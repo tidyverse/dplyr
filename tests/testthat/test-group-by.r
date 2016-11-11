@@ -260,9 +260,9 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
 test_that("group_by coerces integer + double -> double (#1892)", {
   skip("Currently failing")
   data_frame(
-    id = c(1,2,3,4,5,6),
-    value = c(1L,2L,3L,NA,NA,NA),
-    group = c("A","A","A","B","B","B")
+    id = c(1, 2, 3, 4, 5, 6),
+    value = c(1L, 2L, 3L, NA, NA, NA),
+    group = c("A", "A", "A", "B", "B", "B")
   ) %>%
   group_by(group) %>%
   mutate(value = ifelse(is.na(value),double(0),value))
