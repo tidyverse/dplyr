@@ -15,25 +15,24 @@ namespace dplyr {
   class GroupedHybridCall {
   public:
     GroupedHybridCall(const Call& call_, const SlicingIndex& indices_, Subsets& subsets_, const Environment& env_) :
-      call(clone(call_)), indices(&indices_), subsets(subsets_), env(create_subset_env(env_))
+      call(clone(call_)), indices(&indices_), subsets(subsets_)
     {
       LOG_VERBOSE;
-      populate_subset_env(subsets);
+      env = create_subset_env(subsets, env_);
       while (simplified()) {}
     }
 
-    static Environment create_subset_env(Environment parent) {
-      LOG_VERBOSE;
-      return parent.new_child(true);
-    }
-
   private:
-    void populate_subset_env(const Subsets& subsets) {
-      using namespace bindrcpp;
+    Environment create_subset_env(const Subsets& subsets, const Environment& parent) {
+      if (TYPEOF(call) == LANGSXP) {
+        using namespace bindrcpp;
 
-      LOG_VERBOSE;
-      CharacterVector names = subsets.get_variable_names();
-      populate_env_symbol(env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
+        LOG_VERBOSE;
+        CharacterVector names = subsets.get_variable_names();
+        return create_env_symbol(names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)), parent);
+      } else {
+        return parent;
+      }
     }
 
     static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
@@ -109,7 +108,7 @@ namespace dplyr {
     Call call;
     const SlicingIndex* indices;
     Subsets& subsets;
-    const Environment env;
+    Environment env;
   };
 
 }
