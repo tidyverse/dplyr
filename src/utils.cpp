@@ -62,10 +62,10 @@ SEXP pairlist_shallow_copy(SEXP p) {
 }
 
 void copy_only_attributes(SEXP out, SEXP data) {
-  List att = ATTRIB(data);
-  const bool has_attributes = (att.length() > 0);
+  SEXP att = ATTRIB(data);
+  const bool has_attributes = !Rf_isNull(att);
   if (has_attributes) {
-    LOG_VERBOSE << "copying attributes: " << CharacterVector(att.names());
+    LOG_VERBOSE << "copying attributes: " << CharacterVector(List(att).names());
 
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
