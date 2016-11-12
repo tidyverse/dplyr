@@ -30,21 +30,17 @@ namespace dplyr {
 
   private:
     void provide_active_env() {
-      // TODO: Use a flag to detect if any new names have been added since the last call
-      CharacterVector names = subsets.get_variable_names();
-      CharacterVector new_names = Rcpp::setdiff(names, active_names);
-
-      if (new_names.length() == 0)
+      if (has_active_env)
         return;
 
-      if (!has_active_env) {
-        active_env = env.new_child(true);
-        has_active_env = true;
-      }
+      CharacterVector names = subsets.get_variable_names();
+      if (names.length() == 0)
+        return;
 
+      // bindr::populate_env() does less work in R, I'm assuming that creating the environment from C++ will be faster
+      active_env = env.new_child(true);
+      has_active_env = true;
       populate_env_symbol(active_env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
-
-      active_names = active_env.ls(true);
     }
 
     static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
