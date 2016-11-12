@@ -14,16 +14,16 @@ namespace dplyr {
   template <typename Subsets>
   class GroupedHybridCall {
   public:
-    GroupedHybridCall(const Call& call_, Subsets& subsets_, const Environment& env_) :
-      call(clone(call_)), indices(NULL), subsets(subsets_), env(env_), has_active_env(false)
+    GroupedHybridCall(Subsets& subsets_, const Environment& env_) :
+      indices(NULL), subsets(subsets_), env(env_), has_active_env(false)
     {
       LOG_VERBOSE;
     }
 
   public:
-    SEXP eval(const SlicingIndex& indices_) {
+    SEXP eval(const Call& call, const SlicingIndex& indices_) {
       set_indices(indices_);
-      SEXP ret = eval_with_indices();
+      SEXP ret = eval_with_indices(call);
       clear_indices();
       return ret;
     }
@@ -70,23 +70,23 @@ namespace dplyr {
       indices = NULL;
     }
 
-    SEXP eval_with_indices() {
-      LOG_INFO << type2name(call);
-      Call simplified_call = Rf_duplicate(call);
-      while (simplified(simplified_call)) {}
+    SEXP eval_with_indices(const Call& call_) {
+      LOG_INFO << type2name(call_);
+      Call call = clone(call_);
+      while (simplified(call)) {}
 
-      LOG_INFO << type2name(simplified_call);
-      if (TYPEOF(simplified_call) == LANGSXP) {
+      LOG_INFO << type2name(call);
+      if (TYPEOF(call) == LANGSXP) {
         LOG_VERBOSE << "performing hybrid evaluation";
         provide_active_env();
-        return Rcpp_eval(simplified_call, active_env);
-      } else if (TYPEOF(simplified_call) == SYMSXP) {
-        if (subsets.count(simplified_call)) {
-          return subsets.get(simplified_call, get_indices());
+        return Rcpp_eval(call, active_env);
+      } else if (TYPEOF(call) == SYMSXP) {
+        if (subsets.count(call)) {
+          return subsets.get(call, get_indices());
         }
-        return env.find(CHAR(PRINTNAME(simplified_call)));
+        return env.find(CHAR(PRINTNAME(call)));
       }
-      return simplified_call;
+      return call;
     }
 
     bool simplified(Call& call) {
@@ -127,7 +127,6 @@ namespace dplyr {
     }
 
   private:
-    const Call call;
     const SlicingIndex* indices;
     Subsets& subsets;
     Environment env, active_env;
