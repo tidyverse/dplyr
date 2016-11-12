@@ -44,8 +44,7 @@ namespace dplyr {
       subsets.clear();
 
       HybridCall hybrid_eval(call, subsets, env);
-      hybrid_eval.set_indices(indices);
-      return hybrid_eval.eval();
+      return hybrid_eval.eval(indices);
     }
 
     SEXP eval() {

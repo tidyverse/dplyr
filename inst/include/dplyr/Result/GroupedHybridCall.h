@@ -20,6 +20,14 @@ namespace dplyr {
       LOG_VERBOSE;
     }
 
+  public:
+    SEXP eval(const SlicingIndex& indices_) {
+      set_indices(indices_);
+      SEXP ret = eval_with_indices();
+      clear_indices();
+      return ret;
+    }
+
   private:
     void provide_active_env() {
       // TODO: Use a flag to detect if any new names have been added since the last call
@@ -50,7 +58,6 @@ namespace dplyr {
       return subsets.get(name, get_indices());
     }
 
-  public:
     const SlicingIndex& get_indices() const {
       return *indices;
     }
@@ -59,7 +66,11 @@ namespace dplyr {
       indices = &indices_;
     }
 
-    SEXP eval() {
+    void clear_indices() {
+      indices = NULL;
+    }
+
+    SEXP eval_with_indices() {
       LOG_INFO << type2name(call);
       Call simplified_call = Rf_duplicate(call);
       while (simplified(simplified_call)) {}
@@ -77,8 +88,6 @@ namespace dplyr {
       }
       return simplified_call;
     }
-
-  private:
 
     bool simplified(Call& call) {
       LOG_VERBOSE;
