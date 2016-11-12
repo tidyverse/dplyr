@@ -555,6 +555,33 @@ test_that("grouped mutate errors on incompatible column type (#1641)", {
   expect_error( mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
 })
 
+test_that("grouped mutate coerces integer + double -> double (#1892)", {
+  skip("Currently failing")
+  df <- data_frame(
+    id = c(1, 4),
+    value = c(1L, NA),
+    group = c("A", "B")
+  ) %>%
+    group_by(group) %>%
+    mutate(value = ifelse(is.na(value), as.double(0), value))
+  expect_type(df$value, "double")
+})
+
+test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
+  skip("Currently failing")
+  df <- data_frame(
+    id = c(1, 4),
+    value = factor(c("blue", NA)),
+    group = c("A", "B")
+  ) %>%
+    group_by(group)
+  expect_warning(
+    df <- df %>%
+      mutate(value = ifelse(id > 3, as.character("foo"), value))
+  )
+  expect_type(df$value, "character")
+})
+
 test_that("lead/lag works on more complex expressions (#1588)", {
   df <- data_frame(x = rep(1:5,2), g = rep(1:2, each = 5) ) %>% group_by(g)
   res <- df %>% mutate( y = lead(x > 3) )

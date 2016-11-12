@@ -256,33 +256,3 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error( rowwise(df), "unsupported type" )
 })
-
-test_that("grouped mutate coerces integer + double -> double (#1892)", {
-  skip("Currently failing")
-  df <- data_frame(
-    id = c(1, 4),
-    value = c(1L, NA),
-    group = c("A", "B")
-  ) %>%
-    group_by(group) %>%
-    mutate(value = ifelse(is.na(value), as.double(0), value))
-  expect_type(df$value, "double")
-})
-
-test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
-  skip("Currently failing")
-
-  df <- data_frame(
-    id = c(1, 4),
-    value = factor(c("blue", NA)),
-    group = c("A", "B")
-  ) %>%
-    group_by(group)
-
-  expect_warning(
-    df <- df %>%
-      mutate(value = ifelse(id > 3, as.character("foo"), value))
-  )
-
-  expect_type(df$value, "character")
-})
