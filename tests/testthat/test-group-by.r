@@ -269,7 +269,7 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
   expect_type(df$value, "double")
 })
 
-test_that("grouped mutate coerces factor + character -> character (WARN)", {
+test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
   skip("Currently failing")
 
   df <- data_frame(
