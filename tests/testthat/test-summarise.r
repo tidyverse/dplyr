@@ -756,7 +756,8 @@ test_that("calculating an ordered factor preserves order (#2200)", {
 test_that("min, max preserves ordered factor data  (#2200)", {
   skip("Currently failing")
   test_df <- tibble(id = rep(c("a","b"), 2),
-                    ord = ordered(c("A", "B", "B", "A"), levels = c("A", "B")))
+                    ord = ordered(c("A", "B", "B", "A"),
+                                  levels = c("A", "B")))
 
   ret <- group_by(test_df, id) %>%
     summarize(min_ord = min(ord),
