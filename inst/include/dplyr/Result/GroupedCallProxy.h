@@ -17,21 +17,25 @@ namespace dplyr {
   public:
     typedef GroupedHybridCall<Subsets> HybridCall;
 
-    GroupedCallProxy(Call call_, const Subsets& subsets_, const Environment& env_) :
-      call(call_), subsets(subsets_), proxies(), env(env_)
+    GroupedCallProxy(const Rcpp::Call& call_, const Subsets& subsets_, const Environment& env_) :
+      subsets(subsets_), proxies()
     {
-      set_call(call);
+      set_call(call_);
+      set_env(env_);
     }
 
     GroupedCallProxy(const Rcpp::Call& call_, const Data& data_, const Environment& env_) :
-      call(call_), subsets(data_), proxies(), env(env_)
+      subsets(data_), proxies()
     {
-      set_call(call);
+      set_call(call_);
+      set_env(env_);
     }
 
     GroupedCallProxy(const Data& data_, const Environment& env_) :
-      subsets(data_), proxies(), env(env_)
-    {}
+      subsets(data_), proxies()
+    {
+      set_env(env_);
+    }
 
     GroupedCallProxy(const Data& data_) :
       subsets(data_), proxies()
@@ -40,6 +44,10 @@ namespace dplyr {
     ~GroupedCallProxy() {}
 
   public:
+    SEXP eval() {
+      return get(NaturalSlicingIndex(subsets.nrows()));
+    }
+
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
@@ -47,21 +55,25 @@ namespace dplyr {
       return hybrid_eval.eval(indices);
     }
 
-    SEXP eval() {
-      return get(NaturalSlicingIndex(subsets.nrows()));
-    }
-
     void set_call(SEXP call_) {
       proxies.clear();
       call = call_;
+    }
+
+    inline void set_env(SEXP env_) {
+      env = env_;
     }
 
     void input(Symbol name, SEXP x) {
       subsets.input(name, x);
     }
 
-    inline int nsubsets() {
+    inline int nsubsets() const {
       return subsets.size();
+    }
+
+    inline bool has_variable(SEXP symbol) const {
+      return subsets.count(symbol);
     }
 
     inline SEXP get_variable(Rcpp::String name) const {
@@ -72,18 +84,7 @@ namespace dplyr {
       return TYPEOF(call) != LANGSXP && Rf_length(call) == 1;
     }
 
-    inline SEXP get_call() const {
-      return call;
-    }
-
-    inline bool has_variable(SEXP symbol) const {
-      return subsets.count(symbol);
-    }
-
-    inline void set_env(SEXP env_) {
-      env = env_;
-    }
-
+  private:
     Rcpp::Call call;
     Subsets subsets;
     std::vector<CallElementProxy> proxies;
