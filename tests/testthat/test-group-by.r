@@ -257,28 +257,28 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
   expect_error( rowwise(df), "unsupported type" )
 })
 
-test_that("group_by coerces integer + double -> double (#1892)", {
+test_that("grouped mutate coerces integer + double -> double (#1892)", {
   skip("Currently failing")
   df <- data_frame(
-    id = c(1, 2, 3, 4, 5, 6),
-    value = c(1L, 2L, 3L, NA, NA, NA),
-    group = c("A", "A", "A", "B", "B", "B")
+    id = c(1, 4),
+    value = c(1L, NA),
+    group = c("A", "B")
   ) %>%
     group_by(group) %>%
     mutate(value = ifelse(is.na(value), as.double(0), value))
-  expect_equal(typeof(df$value), "double")
+  expect_type(df$value, "double")
 })
 
-test_that("group_by coerces factor + character -> character (WARN)", {
+test_that("grouped mutate coerces factor + character -> character (WARN)", {
   skip("Currently failing")
   expect_warning(
     df <- data_frame(
-      id = c(1, 2, 3, 4, 5, 6),
-      value = factor(c("blue", "blue", "red", NA, NA, NA)),
-      group = c("A", "A", "A", "B", "B", "B")
+      id = c(1, 4),
+      value = factor(c("blue", NA)),
+      group = c("A", "B")
     ) %>%
     group_by(group) %>%
     mutate(value = ifelse(id > 3, as.character("foo"), value))
   )
-  expect_equal(typeof(df$value), "character")
+  expect_type(df$value, "character")
 })
