@@ -51,8 +51,15 @@ namespace dplyr {
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
-      HybridCall hybrid_eval(subsets, env);
-      return hybrid_eval.eval(call, indices);
+      provide_hybrid_eval();
+      return hybrid_eval->eval(call, indices);
+    }
+
+    void provide_hybrid_eval() {
+      if (hybrid_eval)
+        return;
+
+      hybrid_eval.reset(new HybridCall(subsets, env));
     }
 
     void set_call(SEXP call_) {
@@ -62,10 +69,12 @@ namespace dplyr {
 
     inline void set_env(SEXP env_) {
       env = env_;
+      hybrid_eval.reset();
     }
 
     void input(Symbol name, SEXP x) {
       subsets.input(name, x);
+      hybrid_eval.reset();
     }
 
     inline int nsubsets() const {
@@ -89,6 +98,7 @@ namespace dplyr {
     Subsets subsets;
     std::vector<CallElementProxy> proxies;
     Environment env;
+    boost::scoped_ptr<HybridCall> hybrid_eval;
 
   };
 
