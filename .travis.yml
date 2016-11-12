@@ -1,24 +1,68 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+# Header
+language: r
 sudo: false
 cache: packages
-r:
-  - oldrel
-  - release
-  - devel
+warnings_are_errors: true
 
-warnings_are_errors: false
+#env
 env:
   global:
-    - _R_CHECK_FORCE_SUGGESTS_=false
-    - MAKEFLAGS="-j 2"
+  - _R_CHECK_FORCE_SUGGESTS_=false
+  - MAKEFLAGS="-j 2"
 
-r_github_packages:
-  - hadley/devtools
+#addons
+addons:
+  apt:
+    packages:
+    - libmagick++-dev
+    - libssh2-1-dev
 
+#matrix: 3x Linux, 1x OS X
+matrix:
+  include:
+  - r: release
+    env:
+    - BUILD_PKGDOWN=true
+  - r: oldrel
+  - r: devel
+  - os: osx
+    osx_image: xcode7.2
+    r: release
+    latex: false
+
+#notifications
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+#before_script
 before_script:
-  - psql -c 'create database test;' -U postgres
+- R -q -e 'devtools::install_github("ropenscilabs/tic"); tic::before_script()'
 
+#after_success (deploy to gh-pages)
 after_success:
-- Rscript -e 'covr::codecov()'
+- R -q -e 'tic::after_success()'
+
+#deploy // https://github.com/travis-ci/travis-build/blob/85ef7108/lib/travis/build/addons/deploy/script.rb#L100-L107
+deploy:
+  provider: script
+  script: R -q -e 'tic::deploy()'
+  on:
+    all_branches: true
+
+# Custom parts:
+
+#r_github_packages
+r_github_packages:
+
+#r_packages
+r_packages:
+
+#services
+services:
+
+#before_install
+before_install:
