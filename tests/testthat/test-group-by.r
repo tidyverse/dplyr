@@ -271,14 +271,18 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
 
 test_that("grouped mutate coerces factor + character -> character (WARN)", {
   skip("Currently failing")
-  expect_warning(
-    df <- data_frame(
-      id = c(1, 4),
-      value = factor(c("blue", NA)),
-      group = c("A", "B")
-    ) %>%
-    group_by(group) %>%
-    mutate(value = ifelse(id > 3, as.character("foo"), value))
+
+  df <- data_frame(
+    id = c(1, 4),
+    value = factor(c("blue", NA)),
+    group = c("A", "B")
   )
+
+  expect_warning(
+    df <- df %>%
+      group_by(group) %>%
+      mutate(value = ifelse(id > 3, as.character("foo"), value))
+  )
+
   expect_type(df$value, "character")
 })
