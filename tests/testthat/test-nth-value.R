@@ -29,23 +29,48 @@ test_that("first and last use default value for 0 length inputs", {
 })
 
 
-test_that("first and last as part of compound expressions work within mutate", {
+test_that("first and last as part of compound expressions work within mutate (#2090)", {
 
   skip("Currently failing")
 
-  df <-  data_frame(c(NA, 1L, 2L, NA, 3L, 4L, NA))
+  df <-  data_frame(x = c(NA, 1L, 2L, NA, 3L, 4L, NA))
 
-  expect_equal(mutate(df, y = first(na.omit(x)))$y,           rep(1L, nrow(df)))
-  expect_equal(mutate(df, y = first(x[!is.na(x)]))$y,         rep(1L, nrow(df)))
-  expect_equal(mutate(df, y = x %>% na.omit() %>% first())$y, rep(1L, nrow(df)))
-  expect_equal(mutate(df, y = x %>% na.omit %>% first)$y,     rep(1L, nrow(df)))
+  expected <- rep(1L, nrow(df))
+  expect_equal(mutate(df, y = first(na.omit(x)))$y,           expected)
+  expect_equal(mutate(df, y = first(x[!is.na(x)]))$y,         expected)
+  expect_equal(mutate(df, y = x %>% na.omit() %>% first())$y, expected)
+  expect_equal(mutate(df, y = x %>% na.omit %>% first)$y,     expected)
 
-  expect_equal(mutate(df, y = last(na.omit(x)))$y,            rep(4L, nrow(df)))
-  expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,          rep(4L, nrow(df)))
-  expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y,  rep(4L, nrow(df)))
-  expect_equal(mutate(df, y = x %>% na.omit %>% last)$y,      rep(4L, nrow(df)))
+  expected <- rep(4L, nrow(df))
+  expect_equal(mutate(df, y = last(na.omit(x)))$y,            expected)
+  expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,          expected)
+  expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y,  expected)
+  expect_equal(mutate(df, y = x %>% na.omit %>% last)$y,      expected)
 
 })
+
+
+test_that("last as part of compound expressions work within mutate (#2090)", {
+
+  skip("Currently failing")
+
+  df <-  data_frame(x = c(NA, 1L, 2L, NA, 3L, 4L, NA))
+  expected_first <- rep(1L, nrow(df))
+  expected_last  <- rep(4L, nrow(df))
+
+  expect_equal(mutate(df, y = first(na.omit(x)))$y,           expected_first)
+  expect_equal(mutate(df, y = first(x[!is.na(x)]))$y,         expected_first)
+  expect_equal(mutate(df, y = x %>% na.omit() %>% first())$y, expected_first)
+  expect_equal(mutate(df, y = x %>% na.omit %>% first)$y,     expected_first)
+
+  expect_equal(mutate(df, y = last(na.omit(x)))$y,            expected_last)
+  expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,          expected_last)
+  expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y,  expected_last)
+  expect_equal(mutate(df, y = x %>% na.omit %>% last)$y,      expected_last)
+
+})
+
+
 
 test_that("default value returns appropriate missing for basic vectors", {
   expect_equal(default_missing(TRUE), NA)
