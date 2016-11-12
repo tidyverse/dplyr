@@ -1,8 +1,6 @@
 #ifndef dplyr_Result_Rank_H
 #define dplyr_Result_Rank_H
 
-#include <tools/hash.h>
-
 #include <dplyr/GroupedDataFrame.h>
 
 #include <dplyr/comparisons.h>
@@ -138,7 +136,7 @@ namespace dplyr {
     typedef RankComparer<RTYPE,ascending> Comparer;
     typedef RankEqual<RTYPE> Equal;
 
-    typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map;
+    typedef std::unordered_map<STORAGE, std::vector<int>, std::hash<STORAGE>, Equal > Map;
     typedef std::map<STORAGE,const std::vector<int>*, Comparer> oMap;
 
     Rank_Impl(SEXP data_) : data(data_), map() {}

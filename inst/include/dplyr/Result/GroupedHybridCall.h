@@ -1,8 +1,6 @@
 #ifndef dplyr_GroupedHybridCall_H
 #define dplyr_GroupedHybridCall_H
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/Call.h>
 
 #include <dplyr/Result/Result.h>
@@ -83,7 +81,7 @@ namespace dplyr {
       LOG_VERBOSE;
       // initial
       if (TYPEOF(call) == LANGSXP) {
-        boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
+        std::unique_ptr<Result> res(get_handler(call, subsets, env));
         if (res) {
           // replace the call by the result of process
           call = res->process(indices);
@@ -100,7 +98,7 @@ namespace dplyr {
       LOG_VERBOSE;
       SEXP obj = CAR(p);
       if (TYPEOF(obj) == LANGSXP) {
-        boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
+        std::unique_ptr<Result> res(get_handler(obj, subsets, env));
         if (res) {
           SETCAR(p, res->process(indices));
           return true;

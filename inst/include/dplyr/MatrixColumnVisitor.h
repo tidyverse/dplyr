@@ -16,7 +16,7 @@ namespace dplyr {
     public:
       typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
       typedef comparisons<RTYPE> compare;
-      typedef boost::hash<STORAGE> hasher;
+      typedef std::hash<STORAGE> hasher;
 
       ColumnVisitor(Matrix<RTYPE>& data, int column) :
         column(data.column(column)) {}
@@ -55,7 +55,7 @@ namespace dplyr {
     inline size_t hash(int i) const {
       size_t seed = visitors[0].hash(i);
       for (size_t h=1; h<visitors.size(); h++) {
-        boost::hash_combine(seed, visitors[h].hash(i));
+        hash_combine(seed, visitors[h].hash(i));
       }
       return seed;
     }

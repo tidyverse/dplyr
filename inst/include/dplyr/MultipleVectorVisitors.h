@@ -1,8 +1,6 @@
 #ifndef dplyr_MultipleVectorVisitors_H
 #define dplyr_MultipleVectorVisitors_H
 
-#include <boost/shared_ptr.hpp>
-
 #include <dplyr/visitor_set/VisitorSetMixin.h>
 
 #include <dplyr/visitor.h>
@@ -16,7 +14,7 @@ namespace dplyr {
     public VisitorSetGreater<MultipleVectorVisitors> {
 
   private:
-    std::vector< boost::shared_ptr<VectorVisitor> > visitors;
+    std::vector< std::shared_ptr<VectorVisitor> > visitors;
 
   public:
     typedef VectorVisitor visitor_type;
@@ -45,7 +43,7 @@ namespace dplyr {
       return visitors[0]->size();
     }
     inline void push_back(SEXP x) {
-      visitors.push_back(boost::shared_ptr<VectorVisitor>(visitor(x)));
+      visitors.push_back(std::shared_ptr<VectorVisitor>(visitor(x)));
     }
 
     inline bool is_na(int index) const {

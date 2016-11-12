@@ -1,8 +1,6 @@
 #ifndef dplyr_DataFrameAble_H
 #define dplyr_DataFrameAble_H
 
-#include <boost/shared_ptr.hpp>
-
 namespace dplyr {
 
   class DataFrameAbleImpl {
@@ -132,7 +130,7 @@ namespace dplyr {
     }
 
   private:
-    boost::shared_ptr<DataFrameAbleImpl> impl;
+    std::shared_ptr<DataFrameAbleImpl> impl;
 
     inline void init(SEXP data) {
       if (Rf_inherits(data, "data.frame")) {

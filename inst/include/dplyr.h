@@ -7,4 +7,6 @@
 
   #include <dplyr/dplyr.h>
 
+  // [[Rcpp::plugins(cpp11)]]
+
 #endif

@@ -1,7 +1,5 @@
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/all_na.h>
 #include <tools/collapse.h>
 #include <tools/DotsOf.h>
@@ -272,7 +270,7 @@ SEXP combine_all(List data) {
   if (i == nv) stop("no data to combine, all elements are NULL");
 
   // collect
-  boost::scoped_ptr<Collecter> coll(collecter(data[i], n));
+  std::unique_ptr<Collecter> coll(collecter(data[i], n));
   int k = Rf_length(data[i]);
   coll->collect(NaturalSlicingIndex(k), data[i]);
   i++;

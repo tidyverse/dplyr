@@ -1,31 +1,30 @@
 #ifndef dplyr_HASH_H
 #define dplyr_HASH_H
 
-#include <boost/functional/hash.hpp>
-
-#ifndef dplyr_hash_map
-  #if defined(_WIN32)
-    #define dplyr_hash_map RCPP_UNORDERED_MAP
-  #else
-    #include <boost/unordered_map.hpp>
-    #define dplyr_hash_map boost::unordered_map
-  #endif
-#endif
-
-#ifndef dplyr_hash_set
-  #if defined(_WIN32)
-    #define dplyr_hash_set RCPP_UNORDERED_SET
-  #else
-    #include <boost/unordered_set.hpp>
-    #define dplyr_hash_set boost::unordered_set
-  #endif
-#endif
+// http://stackoverflow.com/questions/2590677/how-do-i-combine-hash-values-in-c0x
+template <class T>
+inline void hash_combine(std::size_t& seed, const T& v)
+{
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+}
 
 inline std::size_t hash_value(const Rcomplex& cx) {
-  boost::hash<double> hasher;
+  std::hash<double> hasher;
   size_t seed = hasher(cx.r);
-  boost::hash_combine(seed, hasher(cx.i));
+  hash_combine(seed, hasher(cx.i));
   return seed;
+}
+
+namespace std {
+  template <>
+  struct hash<Rcomplex>
+  {
+    size_t operator()(const Rcomplex & x) const
+    {
+		return hash_value(x) ;
+    }
+  };
 }
 
 #endif

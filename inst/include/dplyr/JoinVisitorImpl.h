@@ -22,8 +22,8 @@ namespace dplyr {
     typedef typename Rcpp::traits::storage_type<LHS_RTYPE>::type LHS_STORAGE;
     typedef typename Rcpp::traits::storage_type<RHS_RTYPE>::type RHS_STORAGE;
 
-    typedef boost::hash<LHS_STORAGE> LHS_hasher;
-    typedef boost::hash<RHS_STORAGE> RHS_hasher;
+    typedef std::hash<LHS_STORAGE> LHS_hasher;
+    typedef std::hash<RHS_STORAGE> RHS_hasher;
 
     JoinVisitorImpl(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {
       check_attribute_compatibility(left, right);
@@ -89,7 +89,7 @@ namespace dplyr {
 
     typedef Vector<RTYPE> Vec;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-    typedef boost::hash<STORAGE> hasher;
+    typedef std::hash<STORAGE> hasher;
 
     JoinVisitorImpl(Vec left_, Vec right_) : left(left_), right(right_) {}
 
@@ -168,7 +168,7 @@ namespace dplyr {
     CharacterVector left_levels, right_levels;
     CharacterVector uniques;
     IntegerVector left_match, right_match;
-    boost::hash<SEXP> hash_fun;
+    std::hash<SEXP> hash_fun;
 
   };
 
@@ -422,7 +422,7 @@ namespace dplyr {
   public:
     typedef NumericVector Vec;
     typedef comparisons<REALSXP> Compare;
-    typedef boost::hash<double> hasher;
+    typedef std::hash<double> hasher;
 
     DateJoinVisitor(SEXP lhs, SEXP rhs)
     {

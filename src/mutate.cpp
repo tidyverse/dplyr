@@ -1,7 +1,5 @@
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/LazyDots.h>
 
 #include <dplyr/check_supported_type.h>
@@ -83,7 +81,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
       call_proxy.set_call(call);
       results[i] = call_proxy.eval();
     } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows));
+      std::unique_ptr<Gatherer> gather(constant_gatherer(call, nrows));
       results[i] = gather->collect();
     } else if (Rf_isNull(call)) {
       accumulator.rm(name);
@@ -102,7 +100,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
       // ok
     } else if (n_res == 1) {
       // recycle
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i] , df.nrows()));
+      std::unique_ptr<Gatherer> gather(constant_gatherer(results[i] , df.nrows()));
       results[i] = gather->collect();
     } else {
       stop("wrong result size (%d), expected %d or 1", n_res, nrows);
@@ -172,7 +170,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
         if (Rf_isNull(v)) {
           stop("unknown variable: %s", CHAR(PRINTNAME(call)));
         } else if (Rf_length(v) == 1) {
-          boost::scoped_ptr<Gatherer> rep(constant_gatherer(v, gdf.nrows()));
+          std::unique_ptr<Gatherer> rep(constant_gatherer(v, gdf.nrows()));
           SEXP variable = variables[i] = rep->collect();
           proxy.input(name, variable);
           accumulator.set(name, variable);
@@ -183,7 +181,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
             stop("impossible to replicate vector of size %d", n);
           }
 
-          boost::scoped_ptr<Replicator> rep(replicator<Data>(v, gdf));
+          std::unique_ptr<Replicator> rep(replicator<Data>(v, gdf));
           SEXP variable = variables[i] = rep->collect();
           proxy.input(name, variable);
           accumulator.set(name, variable);
@@ -192,12 +190,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
 
     } else if (TYPEOF(call) == LANGSXP) {
       proxy.set_call(call);
-      boost::scoped_ptr<Gatherer> gather(gatherer<Data, Subsets>(proxy, gdf, name));
+      std::unique_ptr<Gatherer> gather(gatherer<Data, Subsets>(proxy, gdf, name));
       SEXP variable = variables[i] = gather->collect();
       proxy.input(name, variable);
       accumulator.set(name, variable);
     } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows()));
+      std::unique_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows()));
       SEXP variable = variables[i] = gather->collect();
       proxy.input(name, variable);
       accumulator.set(name, variable);

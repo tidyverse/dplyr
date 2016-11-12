@@ -19,7 +19,7 @@ namespace dplyr {
 
   class SymbolMap {
   private:
-    dplyr_hash_map<SEXP, int> lookup;
+    std::unordered_map<SEXP, int> lookup;
     CharacterVector names;
 
   public:
@@ -67,7 +67,7 @@ namespace dplyr {
       }
 
       // first, lookup the map
-      dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name);
+      std::unordered_map<SEXP, int>::const_iterator it = lookup.find(name);
       if (it != lookup.end()) {
         return SymbolMapIndex(it->second, HASH);
       }
@@ -103,7 +103,7 @@ namespace dplyr {
         int idx = index.pos;
         names.erase(names.begin() + idx);
 
-        for (dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end();) {
+        for (std::unordered_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end();) {
           int k = it->second;
 
           if (k < idx) {

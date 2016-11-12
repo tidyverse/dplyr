@@ -1,8 +1,6 @@
 #ifndef dplyr_Result_In_H
 #define dplyr_Result_In_H
 
-#include <tools/hash.h>
-
 #include <dplyr/Result/Mutater.h>
 
 namespace dplyr {
@@ -32,7 +30,7 @@ namespace dplyr {
 
   private:
     Vec data;
-    dplyr_hash_set<STORAGE> set;
+    std::unordered_set<STORAGE> set;
 
   };
 

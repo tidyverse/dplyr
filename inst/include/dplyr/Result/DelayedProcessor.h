@@ -1,7 +1,6 @@
 #ifndef dplyr_Result_DelayedProcessor_H
 #define dplyr_Result_DelayedProcessor_H
 
-#include <tools/hash.h>
 #include <tools/ShrinkableVector.h>
 #include <tools/scalar_type.h>
 #include <tools/utils.h>
@@ -149,7 +148,7 @@ namespace dplyr {
   template <typename CLASS>
   class FactorDelayedProcessor : public IDelayedProcessor {
   private:
-    typedef dplyr_hash_map<SEXP,int> LevelsMap;
+    typedef std::unordered_map<SEXP,int> LevelsMap;
 
   public:
 

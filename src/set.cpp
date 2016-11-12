@@ -1,7 +1,5 @@
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/match.h>
 #include <tools/collapse.h>
 
@@ -57,7 +55,7 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
   if (convert) {
     for (int i=0; i<n; i++) {
       try {
-        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], "x", "x", true));
+        std::unique_ptr<JoinVisitor> v(join_visitor(x[i], y[i], "x", "x", true));
       } catch (...) {
         return no_because("incompatible");
       }
@@ -119,12 +117,12 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   bool ok = true;
   if (names_y_not_in_x.size()) {
     ok = false;
-    ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
+    ss << "Cols in y but not x: " << collapse_string(names_y_not_in_x) << ". ";
   }
 
   if (names_x_not_in_y.size()) {
     ok = false;
-    ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
+    ss << "Cols in x but not y: " << collapse_string(names_x_not_in_y) << ". ";
   }
 
   if (!ok) {
@@ -137,8 +135,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   for (int i=0; i<n; i++) {
     name = names_x[i];
     SEXP xi = x[i], yi = y[orders[i]-1];
-    boost::scoped_ptr<SubsetVectorVisitor> vx(subset_visitor(xi));
-    boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi));
+    std::unique_ptr<SubsetVectorVisitor> vx(subset_visitor(xi));
+    std::unique_ptr<SubsetVectorVisitor> vy(subset_visitor(yi));
     SubsetVectorVisitor* px = vx.get();
     SubsetVectorVisitor* py = vy.get();
 

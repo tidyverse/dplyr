@@ -56,7 +56,7 @@ namespace dplyr {
     /**
      * Hasher for that type of data
      */
-    typedef boost::hash<STORAGE> hasher;
+    typedef std::hash<STORAGE> hasher;
 
     VectorVisitorImpl(const VECTOR& vec_) : vec(vec_) {}
 

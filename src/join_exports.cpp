@@ -1,6 +1,5 @@
 #include <dplyr/main.h>
 
-#include <tools/hash.h>
 #include <tools/match.h>
 
 #include <tools/LazyDots.h>
@@ -345,7 +344,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-typedef dplyr_hash_set<SEXP> SymbolSet;
+typedef std::unordered_set<SEXP> SymbolSet;
 
 inline SEXP check_filter_integer_result(SEXP tmp) {
   if (TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {

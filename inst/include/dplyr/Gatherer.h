@@ -2,7 +2,6 @@
 #define dplyr_Gatherer_H
 
 #include <tools/all_na.h>
-#include <tools/hash.h>
 #include <tools/utils.h>
 
 #include <dplyr/check_supported_type.h>
@@ -210,7 +209,7 @@ namespace dplyr {
     }
 
   private:
-    dplyr_hash_map<SEXP, int> levels;
+    std::unordered_map<SEXP, int> levels;
     Factor data;
     int first_non_na;
     Proxy& proxy;

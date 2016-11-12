@@ -1,5 +1,5 @@
-# Disable long types from C99 or CPP11 extensions
-PKG_CPPFLAGS = -I../inst/include -DCOMPILING_DPLYR -DBOOST_NO_INT64_T -DBOOST_NO_INTEGRAL_INT64_T -DBOOST_NO_LONG_LONG
+CXX_STD = CXX11
+PKG_CPPFLAGS = -I../inst/include -DCOMPILING_DPLYR
 
 all: $(SHLIB)
 

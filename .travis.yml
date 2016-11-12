@@ -1,12 +1,73 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
-sudo: false
+dist: trusty
+language: r
+sudo: required
 cache: packages
-r:
-  - oldrel
-  - release
-  - devel
+#r:
+#  - oldrel
+#  - release
+#  - devel
+
+matrix:
+  allow_failures:
+    - os: osx
+  include:
+    - os: linux
+      compiler: gcc-4.8
+      addons:
+        apt:
+          sources:
+          - 'ubuntu-toolchain-r-test'
+          packages:
+          - 'g++-4.8'
+      before_install: |
+        mkdir ~/.R
+        cat <<EOF > ~/.R/Makevars
+        CXX1X=g++-4.8
+        CXX1XSTD=-std=c++11
+    - os: linux
+      compiler: gcc-5
+      addons:
+       apt:
+        sources:
+        - 'ubuntu-toolchain-r-test'
+        packages:
+        - 'g++-5'
+      before_install: |
+       mkdir ~/.R
+       cat <<EOF > ~/.R/Makevars
+       CXX1X=g++-5
+       CXX1XSTD=-std=c++11
+    - os: linux
+      compiler: gcc-6
+      addons:
+        apt:
+          sources:
+           - 'ubuntu-toolchain-r-test'
+          packages:
+           - 'g++-6'
+      before_install: |
+        mkdir ~/.R
+        cat <<EOF > ~/.R/Makevars
+        CXX1X=g++-6
+        CXX1XSTD=-std=c++11
+    - os: linux
+      compiler: clang-3.7
+      addons:
+        apt:
+          sources:
+            - 'ubuntu-toolchain-r-test'
+            - 'llvm-toolchain-precise-3.7'
+          packages:
+            - 'clang-3.7'
+      before_install: |
+        mkdir ~/.R
+        cat <<EOF > ~/.R/Makevars
+        CXX1X=clang++-3.7
+        CXX1XSTD=-std=c++11
+    - os: osx
+      compiler: clang
 
 warnings_are_errors: false
 env:

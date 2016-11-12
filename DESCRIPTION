@@ -11,6 +11,7 @@ Authors@R: c(
     )
 URL: https://github.com/hadley/dplyr
 BugReports: https://github.com/hadley/dplyr/issues
+SystemRequirements: C++11
 Depends: 
     R (>= 3.1.2)
 Imports: 
@@ -39,7 +40,6 @@ Suggests:
     dtplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
-    BH (>= 1.58.0-1),
     plogr
 LazyData: yes
 License: MIT + file LICENSE
@@ -125,4 +125,4 @@ Collate:
     'vapply.R'
     'view.r'
     'zzz.r'
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1

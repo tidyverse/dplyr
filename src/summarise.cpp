@@ -1,7 +1,5 @@
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/LazyDots.h>
 
 #include <dplyr/GroupedDataFrame.h>
@@ -51,7 +49,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 
     Shield<SEXP> expr_(lazy.expr());
     SEXP expr = expr_;
-    boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+    std::unique_ptr<Result> res(get_handler(expr, subsets, env));
 
     // if we could not find a direct Result
     // we can use a GroupedCallReducer which will callback to R
@@ -107,7 +105,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
     Environment env = lazy.env();
     Shield<SEXP> expr_(lazy.expr());
     SEXP expr = expr_;
-    boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+    std::unique_ptr<Result> res(get_handler(expr, subsets, env));
     SEXP result;
     if (res) {
       result = results[i] = res->process(FullDataFrame(df));
