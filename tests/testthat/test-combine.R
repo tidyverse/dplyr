@@ -164,16 +164,20 @@ combine_pair_test <- function(item_pair, var1, var2, result,
                               can_combine = TRUE, warning = FALSE)  {
   if (can_combine) {
     if (warning) {
-      expect_warning(combine(item_pair),
+      expect_warning(res <- combine(item_pair),
                      label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"))
+      expect_equal(object = res,
+                   expected = result,
+                   label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"),
+                   expected.label = deparse(result))
+    } else {
+      expect_equal(object = combine(item_pair),
+                   expected = result,
+                   label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"),
+                   expected.label = deparse(result))
     }
-    expect_equal(object = combine(item_pair),
-                 expected = result,
-                 label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"),
-                 expected.label = deparse(result))
-
   } else {
-    expect_error(combine(item_pair),
+    expect_error(suppressWarnings(combine(item_pair)),
                  label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"))
   }
 }
@@ -195,6 +199,12 @@ prepare_table_with_coercion_rules <- function(items) {
 
   ####### NA combines with anything, and anything combines with NA
   pairs$can_combine[pairs$Var1 == "logicalNA" | pairs$Var2 == "logicalNA"] <- TRUE
+  # Except custom classes: We do not know what attributes should be attached if
+  # the result has a NA, so we must warn.
+  pairs$warning[pairs$Var1 == "int_with_class" & pairs$Var2 == "logicalNA"] <- TRUE
+  pairs$warning[pairs$Var1 == "logicalNA" & pairs$Var2 == "int_with_class"] <- TRUE
+  pairs$warning[pairs$Var1 == "logicalNA" & pairs$Var2 == "num_with_class"] <- TRUE
+  pairs$warning[pairs$Var1 == "num_with_class" & pairs$Var2 == "logicalNA"] <- TRUE
 
   ####### Coerce doubles and integers:
   pairs$can_combine[pairs$Var1 == "integer" & pairs$Var2 == "double"] <- TRUE
@@ -217,6 +227,7 @@ prepare_table_with_coercion_rules <- function(items) {
 
   # factor and character are converted to character
   pairs$result[pairs$Var1 == "factor" & pairs$Var2 == "character"] <- list(c("a", "b"))
+  pairs$warning[pairs$Var1 == "factor" & pairs$Var2 == "character"] <- TRUE
   pairs$result[pairs$Var1 == "character" & pairs$Var2 == "factor"] <- list(c("b", "a"))
 
   # logical-POSIXct: unlist does not preserve class and tzone attributes

@@ -488,7 +488,7 @@ namespace dplyr {
         return new Collecter_Impl<STRSXP>(n);
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Coercing class %s into an integer vector, with possible loss of information",
+        Rf_warning("Coercing class %s, with possible loss of information",
                    CHAR(STRING_ELT(classes, 0)));
         return new TypedCollecter<INTSXP>(n, classes);
       }
@@ -500,7 +500,7 @@ namespace dplyr {
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Coercing class %s into a numeric vector, with possible loss of information",
+        Rf_warning("Coercing class %s, with possible loss of information",
                    CHAR(STRING_ELT(classes, 0)));
         return new TypedCollecter<REALSXP>(n, classes);
       }
