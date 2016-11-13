@@ -166,16 +166,14 @@ combine_pair_test <- function(item_pair, var1, var2, result,
     if (warning) {
       expect_warning(res <- combine(item_pair),
                      label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"))
-      expect_equal(object = res,
-                   expected = result,
-                   label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"),
-                   expected.label = deparse(result))
     } else {
-      expect_equal(object = combine(item_pair),
-                   expected = result,
-                   label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"),
-                   expected.label = deparse(result))
+      expect_silent(res <- combine(item_pair))#,
+                   #label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"))
     }
+    expect_equal(object = res,
+                 expected = result,
+                 label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"),
+                 expected.label = deparse(result))
   } else {
     expect_error(suppressWarnings(combine(item_pair)),
                  label = paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])"))
