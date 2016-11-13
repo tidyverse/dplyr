@@ -9,6 +9,24 @@
 
 namespace dplyr {
 
+  static inline bool has_classes(SEXP x) {
+    SEXP classes;
+    int i, num_classes;
+    if (OBJECT(x)) {
+      classes = Rf_getAttrib(x, R_ClassSymbol);
+      num_classes = Rf_length(classes);
+      if (num_classes > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+  static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
+    return LGLSXP == xtype && all_na(x);
+  };
+
   class Collecter {
   public:
     virtual ~Collecter() {};
@@ -33,10 +51,10 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, Rcpp::traits::get_na<RTYPE>()) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
-      Vector<RTYPE> source(v);
-      STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
-      for (int i=0; i<index.size(); i++) {
-        data[index[i]] = source_ptr[i];
+      if (all_logical_na(v, TYPEOF(v))) {
+        collect_logicalNA(index);
+      } else {
+        collect_sexp(index, v);
       }
     }
 
@@ -45,7 +63,7 @@ namespace dplyr {
     }
 
     inline bool compatible(SEXP x) {
-      return RTYPE == TYPEOF(x);
+      return RTYPE == TYPEOF(x) || all_logical_na(x, TYPEOF(x));
     }
 
     bool can_promote(SEXP x) const {
@@ -57,11 +75,27 @@ namespace dplyr {
     }
 
     bool is_logical_all_na() const {
-      return RTYPE == LGLSXP && all(is_na(data)).is_true();
+      return all_logical_na(data, RTYPE);
     }
 
   protected:
     Vector<RTYPE> data;
+
+  private:
+    void collect_logicalNA(const SlicingIndex& index) {
+      for (int i=0; i<index.size(); i++) {
+        data[index[i]] = Rcpp::traits::get_na<RTYPE>();
+      }
+    }
+
+    void collect_sexp(const SlicingIndex& index, SEXP v) {
+      Vector<RTYPE> source(v);
+      STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
+      for (int i=0; i<index.size(); i++) {
+        data[index[i]] = source_ptr[i];
+      }
+    }
+
   };
 
   template <>
@@ -83,7 +117,9 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       int RTYPE = TYPEOF(x);
-      return RTYPE == REALSXP || (RTYPE == INTSXP && !Rf_inherits(x, "factor")) || RTYPE == LGLSXP;
+      return (RTYPE == REALSXP && !has_classes(x)) ||
+             (RTYPE == INTSXP && !has_classes(x)) ||
+             all_logical_na(x, RTYPE);
     }
 
     bool can_promote(SEXP x) const {
@@ -109,6 +145,8 @@ namespace dplyr {
         collect_strings(index, v);
       } else if (Rf_inherits(v, "factor")) {
         collect_factor(index, v);
+      } else if (all_logical_na(v, TYPEOF(v))) {
+        collect_logicalNA(index, v);
       } else {
         CharacterVector vec(v);
         collect_strings(index, vec);
@@ -120,7 +158,7 @@ namespace dplyr {
     }
 
     inline bool compatible(SEXP x) {
-      return (STRSXP == TYPEOF(x)) || Rf_inherits(x, "factor");
+      return (STRSXP == TYPEOF(x)) || Rf_inherits(x, "factor") || all_logical_na(x, TYPEOF(x));
     }
 
     bool can_promote(SEXP x) const {
@@ -135,6 +173,14 @@ namespace dplyr {
     CharacterVector data;
 
   private:
+
+    void collect_logicalNA(const SlicingIndex& index, LogicalVector source) {
+      SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
+      int n = index.size();
+      for (int i=0; i<n; i++) {
+        p_data[index[i]] = NA_STRING;
+      }
+    }
 
     void collect_strings(const SlicingIndex& index, CharacterVector source) {
       SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source);
@@ -177,11 +223,11 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       int RTYPE = TYPEOF(x);
-      return (INTSXP == RTYPE || RTYPE == LGLSXP) && !Rf_inherits(x, "factor");
+      return (INTSXP == RTYPE && !has_classes(x)) || all_logical_na(x, RTYPE);
     }
 
     bool can_promote(SEXP x) const {
-      return TYPEOF(x) == REALSXP;
+      return TYPEOF(x) == REALSXP && !has_classes(x);
     }
 
     std::string describe() const {
@@ -206,7 +252,7 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       String type = STRING_ELT(types,0);
-      return Rf_inherits(x, type.get_cstring());
+      return Rf_inherits(x, type.get_cstring()) || all_logical_na(x, TYPEOF(x));
     }
 
     inline bool can_promote(SEXP x) const {
@@ -229,8 +275,12 @@ namespace dplyr {
       Parent(n), tz(tz_) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
-      Parent::collect(index, v);
-      update_tz(v);
+      if (Rf_inherits(v, "POSIXct")) {
+        Parent::collect(index, v);
+        update_tz(v);
+      } else if (all_logical_na(v, TYPEOF(v))) {
+        Parent::collect(index, v);
+      }
     }
 
     inline SEXP get() {
@@ -242,7 +292,7 @@ namespace dplyr {
     }
 
     inline bool compatible(SEXP x) {
-      return Rf_inherits(x, "POSIXct");
+      return Rf_inherits(x, "POSIXct") || all_logical_na(x, TYPEOF(x));
     }
 
     inline bool can_promote(SEXP x) const {
@@ -295,20 +345,10 @@ namespace dplyr {
     }
 
     void collect(const SlicingIndex& index, SEXP v) {
-      // here we can assume that v is a factor with the right levels
-      // we however do not assume that they are in the same order
-      IntegerVector source(v);
-      CharacterVector levels = source.attr("levels");
-
-      SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
-      int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
-      for (int i=0; i<index.size(); i++) {
-        if (source_ptr[i] == NA_INTEGER) {
-          data[ index[i] ] = NA_INTEGER;
-        } else {
-          SEXP x = levels_ptr[ source_ptr[i] - 1 ];
-          data[ index[i] ] = levels_map.find(x)->second;
-        }
+      if (Rf_inherits(v, "factor") && has_same_levels_as(v)) {
+        collect_factor(index, v);
+      } else if (all_logical_na(v, TYPEOF(v))) {
+        collect_logicalNA(index);
       }
     }
 
@@ -319,7 +359,8 @@ namespace dplyr {
     }
 
     inline bool compatible(SEXP x) {
-      return Rf_inherits(x, "factor") && has_same_levels_as(x);
+      return ((Rf_inherits(x, "factor") && has_same_levels_as(x)) ||
+              all_logical_na(x, TYPEOF(x)));
     }
 
     inline bool can_promote(SEXP x) const {
@@ -347,11 +388,34 @@ namespace dplyr {
     RObject model;
     CharacterVector levels;
     LevelsMap levels_map;
+
+    void collect_factor(const SlicingIndex& index, SEXP v) {
+      // here we can assume that v is a factor with the right levels
+      // we however do not assume that they are in the same order
+      IntegerVector source(v);
+      CharacterVector levels = source.attr("levels");
+
+      SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
+      int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
+      for (int i=0; i<index.size(); i++) {
+        if (source_ptr[i] == NA_INTEGER) {
+          data[ index[i] ] = NA_INTEGER;
+        } else {
+          SEXP x = levels_ptr[ source_ptr[i] - 1 ];
+          data[ index[i] ] = levels_map.find(x)->second;
+        }
+      }
+    }
+    void collect_logicalNA(const SlicingIndex& index) {
+      for (int i=0; i<index.size();i++) {
+        data[ index[i] ] = NA_INTEGER;
+      }
+    }
   };
 
   template <>
   inline bool Collecter_Impl<LGLSXP>::can_promote(SEXP x) const {
-    return (TYPEOF(x) == INTSXP && ! Rf_inherits(x, "factor")) || TYPEOF(x) == REALSXP;
+    return is_logical_all_na();
   }
 
   inline Collecter* collecter(SEXP model, int n) {
@@ -363,12 +427,24 @@ namespace dplyr {
         return new FactorCollecter(n, model);
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<INTSXP>(n, get_date_classes());
+      if (has_classes(model)) {
+        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
+        Rf_warning("Coercing class %s into an integer vector, with possible loss of information",
+                   CHAR(STRING_ELT(classes, 0)));
+        return new TypedCollecter<INTSXP>(n, classes);
+      }
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
+      if (has_classes(model)) {
+        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
+        Rf_warning("Coercing class %s into a numeric vector, with possible loss of information",
+                   CHAR(STRING_ELT(classes, 0)));
+        return new TypedCollecter<REALSXP>(n, classes);
+      }
       return new Collecter_Impl<REALSXP>(n);
     case CPLXSXP:
       return new Collecter_Impl<CPLXSXP>(n);
@@ -399,18 +475,35 @@ namespace dplyr {
       return new Collecter_Impl<STRSXP>(n);
     }
 
+    // logical NA can be promoted to whatever type comes next
+    if (previous->is_logical_all_na()) {
+      return collecter(model, n);
+    }
+
     switch (TYPEOF(model)) {
     case INTSXP:
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<INTSXP>(n, get_date_classes());
       if (Rf_inherits(model, "factor"))
         return new Collecter_Impl<STRSXP>(n);
+      if (has_classes(model)) {
+        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
+        Rf_warning("Coercing class %s into an integer vector, with possible loss of information",
+                   CHAR(STRING_ELT(classes, 0)));
+        return new TypedCollecter<INTSXP>(n, classes);
+      }
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
+      if (has_classes(model)) {
+        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
+        Rf_warning("Coercing class %s into a numeric vector, with possible loss of information",
+                   CHAR(STRING_ELT(classes, 0)));
+        return new TypedCollecter<REALSXP>(n, classes);
+      }
       return new Collecter_Impl<REALSXP>(n);
     case LGLSXP:
       return new Collecter_Impl<LGLSXP>(n);
