@@ -107,10 +107,10 @@ test_that("bind_rows handles data frames with no columns (#1346)", {
 
 test_that("bind_rows handles lists with NULL values (#2056)", {
   skip("Currently failing")
-  df1 <- data_frame(x=1, y=1)
-  df2 <- data_frame(x=2, y=2)
-  lst1 <- list(a=df1, NULL, b=df2)
-  lst2 <- list(a=df1, b=df2)
+  df1 <- data_frame(x = 1, y = 1)
+  df2 <- data_frame(x = 2, y = 2)
+  lst1 <- list(a = df1, NULL, b = df2)
+  lst2 <- list(a = df1, b = df2)
 
   expect_equal(bind_rows(lst1, .id="bind_rows_id"), bind_rows(lst2, .id="bind_rows_id"))
 })
