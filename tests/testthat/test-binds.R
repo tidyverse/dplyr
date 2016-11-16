@@ -112,7 +112,7 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
   lst1 <- list(a = df1, NULL, b = df2)
   lst2 <- list(a = df1, b = df2)
 
-  df3 = data_frame(
+  df3 <- data_frame(
         names=c("a", "b"),
         x=1:2,
         y=1:2
