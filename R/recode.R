@@ -21,9 +21,8 @@
 #' @param .missing If supplied, any missing values in \code{.x} will be
 #'   replaced by this value. Must be either length 1 or the same length as
 #'   \code{.x}.
-#' @param .dots A named list of replacements. If supplied, \code{...} will
-#'   be ignored. The list must satisfy the same conditions as replacements
-#'   supplied by \code{...}.
+#' @param .dots A named list of replacements. The list must satisfy the
+#'   same conditions as replacements supplied by \code{...}.
 #' @param .ordered If \code{TRUE}, \code{recode_factor()} creates an
 #'   ordered factor.
 #' @return A vector the same length as \code{.x}, and the same type as
@@ -70,10 +69,6 @@ recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
   UseMethod("recode")
 }
 
-#' @export
-recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
-  values <- list(...)
-  if (!missing(.dots)) {
 #' @export
 recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
   values <- list(...)
