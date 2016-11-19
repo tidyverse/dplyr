@@ -66,15 +66,19 @@
 #' # factor), it is reused as default.
 #' recode_factor(letters[1:3], b = "z", c = "y")
 #' recode_factor(factor(letters[1:3]), b = "z", c = "y")
-recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
   UseMethod("recode")
 }
 
 #' @export
-recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
   values <- list(...)
-  if (!is.null(.dots)) {
-    values <- .dots
+  if (!missing(.dots)) {
+#' @export
+recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
+  values <- list(...)
+  if (!missing(.dots)) {
+    values <- c(values, .dots)
   }
   
   nms <- has_names(values)
@@ -88,7 +92,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
   }
 
   n <- length(.x)
-  template <- find_template(..., .default, .missing, .dots)
+  template <- find_template(values)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -104,17 +108,17 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
 }
 
 #' @export
-recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
   values <- list(...)
-  if (!is.null(.dots)) {
-    values <- .dots
+  if (!missing(.dots)) {
+    values <- c(values, .dots)
   }
   if (!all(has_names(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
 
   n <- length(.x)
-  template <- find_template(..., .default, .missing, .dots)
+  template <- find_template(values)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -130,10 +134,10 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = 
 }
 
 #' @export
-recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
   values <- list(...)
-  if (!is.null(.dots)) {
-    values <- .dots
+  if (!missing(.dots)) {
+    values <- c(values, .dots)
   }
   if (length(values) == 0) {
     stop("No replacements provided", call. = FALSE)
@@ -161,11 +165,8 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
   .x
 }
 
-find_template <- function(..., .dots = NULL) {
-  x <- compact(list(...))
-  if (!is.null(.dots)) {
-    values <- compact(.dots)
-  }
+find_template <- function(dots) {
+  x <- compact(dots)
 
   if (length(x) == 0) {
     stop("No replacements provided", call. = FALSE)
