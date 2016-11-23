@@ -9,3 +9,12 @@ test_that("can generate sql tbls with raw sql", {
     expect_equal(collect(tbl), collect(clone))
   }
 })
+
+test_that("NAs in character fields handled by db sources", {
+  df <- data.frame(x = c("a", "aa", NA), y = c(NA, "b", "bb"),
+                   z = c("cc", NA, "c"), stringsAsFactors = FALSE)
+  tbls <- test_load(df, ignore = "df")
+  for (tbl in tbls) {
+    expect_equal(collect(tbl), as.tbl(df))
+  }
+})
