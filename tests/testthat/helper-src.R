@@ -15,10 +15,3 @@ skip_if_no_sqlite <- function() {
   if (!test_srcs$has("sqlite"))
     skip("No SQLite")
 }
-
-skip_if_no_mysql <- function() {
-  if (!test_srcs$has("mysql"))
-    skip("No MySQL")
-}
-
-print(test_srcs)
