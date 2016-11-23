@@ -145,9 +145,7 @@ db_has_table.MySQLConnection <- function(con, table, ...) {
 #' @export
 db_data_type.MySQLConnection <- function(con, fields, ...) {
   char_type <- function(x) {
-    x <- as.character(x)
-    x <- vapply(x, encodeString, character(1))
-    n <- max(nchar(x), "bytes")
+    n <- max(na.omit(nchar(x, "bytes")))
     if (n <= 65535) {
       paste0("varchar(", n, ")")
     } else {
@@ -183,23 +181,17 @@ db_commit.MySQLConnection <- function(con, ...) {
 #' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
-  # Convert factors to strings
-  is_factor <- vapply(values, is.factor, logical(1))
-  values[is_factor] <- lapply(values[is_factor], as.character)
+  if (nrow(values) == 0)
+    return(NULL)
 
-  # Encode special characters in strings
-  is_char <- vapply(values, is.character, logical(1))
-  values[is_char] <- lapply(values[is_char], encodeString)
+  cols <- lapply(values, escape, collapse = NULL, parens = FALSE, con = con)
+  col_mat <- matrix(unlist(cols, use.names = FALSE), nrow = nrow(values))
 
-  tmp <- tempfile(fileext = ".csv")
-  utils::write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
-    row.names = FALSE, col.names = FALSE)
+  rows <- apply(col_mat, 1, paste0, collapse = ", ")
+  values <- paste0("(", rows, ")", collapse = "\n, ")
 
-  sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
-    ident(table), con = con)
+  sql <- build_sql("INSERT INTO ", sql(table), " VALUES ", sql(values))
   dbGetQuery(con, sql)
-
-  invisible()
 }
 
 #' @export

@@ -395,9 +395,6 @@ collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
 
   out <- dbFetch(res, n)
 
-  # Re-write encoded "<NA>" values to NA
-  out[out=="<NA>"] <- NA
-
   if (warn_incomplete) {
     res_warn_incomplete(res, "n = Inf")
   }
