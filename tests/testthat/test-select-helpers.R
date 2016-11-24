@@ -59,3 +59,17 @@ test_that("one_of tolerates but warns for unknown variables", {
 test_that("one_of converts names to positions", {
   expect_equal(one_of("a", "z", vars = letters), c(1L, 26L))
 })
+
+test_that("one_of works when passed variable name matches the column name", {
+  vars <- c("x", "y")
+  expected_result <- "x"
+  names(expected_result) <- "x"
+  var <- "x"
+  expect_equal(select_vars(vars, one_of(var)), expected_result)
+  expect_error(select_vars(vars, one_of(x)))
+  expect_error(select_vars(vars, one_of(y)))
+  x <- "x"
+  y <- "x"
+  expect_equal(select_vars(vars, one_of(x)), expected_result)
+  expect_equal(select_vars(vars, one_of(y)), expected_result)
+})
