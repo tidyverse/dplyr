@@ -18,10 +18,6 @@ matrix:
   - r: release
   - r: oldrel
   - r: devel
-  - os: osx
-    osx_image: xcode7.3
-    r: release
-    latex: false
 
 #notifications
 notifications:
