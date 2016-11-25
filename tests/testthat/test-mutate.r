@@ -565,6 +565,7 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
     group_by(group) %>%
     mutate(value = ifelse(is.na(value), as.double(0), value))
   expect_type(df$value, "double")
+  expect_identical(df$value, c(as.double(0), as.double(1)))
 })
 
 test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
@@ -580,6 +581,7 @@ test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)
       mutate(value = ifelse(id > 3, as.character("foo"), value))
   )
   expect_type(df$value, "character")
+  expect_identical(df$value, c("blue", "foo"))
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {
