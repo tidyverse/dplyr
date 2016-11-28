@@ -86,6 +86,18 @@ filter_impl <- function(df, dots) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
 }
 
+grouped_indices_grouped_df_impl <- function(gdf) {
+    .Call('dplyr_grouped_indices_grouped_df_impl', PACKAGE = 'dplyr', gdf)
+}
+
+grouped_indices_impl <- function(data, symbols) {
+    .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
+}
+
+group_size_grouped_cpp <- function(gdf) {
+    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
+}
+
 resolve_vars <- function(new_groups, names) {
     .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
 }
@@ -100,18 +112,6 @@ as_regular_df <- function(df) {
 
 ungroup_grouped_df <- function(df) {
     .Call('dplyr_ungroup_grouped_df', PACKAGE = 'dplyr', df)
-}
-
-grouped_indices_grouped_df_impl <- function(gdf) {
-    .Call('dplyr_grouped_indices_grouped_df_impl', PACKAGE = 'dplyr', gdf)
-}
-
-grouped_indices_impl <- function(data, symbols) {
-    .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
-}
-
-group_size_grouped_cpp <- function(gdf) {
-    .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y) {
