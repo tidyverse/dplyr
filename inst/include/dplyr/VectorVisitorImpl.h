@@ -164,11 +164,10 @@ namespace dplyr {
     {}
 
     size_t hash(int i) const {
-      return reinterpret_cast<size_t>(static_cast<SEXP>(vec[i]));
+      return reinterpret_cast<size_t>(get_item(i));
     }
     inline bool equal(int i, int j) const {
-      provide_orders();
-      return orders[i] == orders[j];
+      return equal_or_both_na(i, j);
     }
 
     inline bool less(int i, int j) const {
@@ -177,8 +176,7 @@ namespace dplyr {
     }
 
     inline bool equal_or_both_na(int i, int j) const {
-      provide_orders();
-      return orders[i] == orders[j];
+      return get_item(i) == get_item(j);
     }
 
     inline bool greater(int i, int j) const {
@@ -199,6 +197,10 @@ namespace dplyr {
     }
 
   private:
+    SEXP get_item(const int i) const {
+      return static_cast<SEXP>(vec[i]);
+    }
+
     void provide_orders() const {
       if (has_orders)
         return;
