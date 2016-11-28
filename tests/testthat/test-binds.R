@@ -113,12 +113,12 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
   lst2 <- list(a = df1, b = df2)
 
   df3 <- data_frame(
-        names=c("a", "b"),
-        x=1:2,
-        y=1:2
+    names = c("a", "b"),
+    x = 1:2,
+    y = 1:2
   )
 
-  expect_equal(bind_rows(lst1, .id="names"), df3)
+  expect_equal(bind_rows(lst1, .id = "names"), df3)
 })
 
 # Column coercion --------------------------------------------------------------
