@@ -131,16 +131,14 @@ test_that("[[ works (#912)", {
 })
 
 test_that("interpolation works (#1012)", {
-  skip("lazyeval#78")
+  uq <- lazyeval::uq # hadley/lazyeval#78
 
-  df_mean <- function(df, variable) {
-    lazyeval::f_eval(~ mean(lazyeval::uq(variable)), data = df)
-  }
+  var <- ~b
 
-  expect_equal(
+  testthat::expect_equal(
     test_df %>%
       grouping %>%
-      mutate(f = df_mean(test_df, ~b)) %>%
+      mutate(., f = lazyeval::f_eval(~mean(uq(var)))) %>%
       select(-e),
     test_df %>%
       grouping %>%
