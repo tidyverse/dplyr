@@ -9,12 +9,8 @@ test_df <- data_frame(
   e = list(list(a = 1, x = 2), list(a = 2, x = 3), list(a = 3, x = 4))
 )
 
-test_hybrid <- function(grouping) {
-
 test_that("$ is parsed correctly (#1400)", {
-  if (!identical(grouping, rowwise)) {
-    skip("mutate() with NULL function (#2187)")
-  }
+  grouping <- rowwise
 
   expect_equal(
     test_df %>%
@@ -28,9 +24,7 @@ test_that("$ is parsed correctly (#1400)", {
 })
 
 test_that("$ is parsed correctly if column by the same name exists (#1400)", {
-  if (!identical(grouping, rowwise)) {
-    skip("mutate() with NULL function (#2187)")
-  }
+  grouping <- rowwise
 
   expect_equal(
     test_df %>%
@@ -42,6 +36,8 @@ test_that("$ is parsed correctly if column by the same name exists (#1400)", {
       grouping %>%
       select(-e))
 })
+
+test_hybrid <- function(grouping) {
 
 test_that("case_when() works for LHS (#1719)", {
   expect_equal(
