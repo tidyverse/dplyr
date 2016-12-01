@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Added `setOldClass(c("grouped_df", "tbl_df", "data.frame"))` so that grouped data frames will work more smoothly with S4 interfaces, e.g. `RSQLite::dbWriteTable()` (#2276, @joranE)
+
 * `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2187).
 
 * CallProxy is now a specialization of GroupedCallProxy.
