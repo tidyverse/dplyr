@@ -104,7 +104,8 @@ setdiff2 <- function(x, y) {
 
 # workaround for the problem that `c` converts names to UTF-8
 combine_named_vector <- function(x, y) {
-  setNames(c(x, y), c(names(x), names(y)))
+  setNames(c(x, y),
+           nm = c(names(x) %||% rep("", length(x)), names(y) %||% rep("", length(y))))
 }
 
 #' @export
