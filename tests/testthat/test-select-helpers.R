@@ -60,7 +60,7 @@ test_that("one_of converts names to positions", {
   expect_equal(one_of("a", "z", vars = letters), c(1L, 26L))
 })
 
-test_that("one_of works when passed variable name matches the column name", {
+test_that("one_of works when passed variable name matches the column name (issue #2184)", {
   skip("Currently failing")
   vars <- c("x", "y")
   expected_result <- c(x = "x")
