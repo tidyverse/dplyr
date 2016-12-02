@@ -563,9 +563,9 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
     group = c("A", "B")
   ) %>%
     group_by(group) %>%
-    mutate(value = ifelse(is.na(value), as.double(0), value))
+    mutate(value = ifelse(is.na(value), 0, value))
   expect_type(df$value, "double")
-  expect_identical(df$value, c(as.double(0), as.double(1)))
+  expect_identical(df$value, c(0, 1))
 })
 
 test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
@@ -578,7 +578,7 @@ test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)
     group_by(group)
   expect_warning(
     df <- df %>%
-      mutate(value = ifelse(id > 3, as.character("foo"), value))
+      mutate(value = ifelse(id > 3, "foo", value))
   )
   expect_type(df$value, "character")
   expect_identical(df$value, c("blue", "foo"))
