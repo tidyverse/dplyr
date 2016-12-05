@@ -62,35 +62,81 @@ test_that("one_of converts names to positions", {
 
 # first-selector ----------------------------------------------------------
 
-test_that("mid-selector fails don't clear previous selectors (issue #2264)", {
-  expect_equal(
-    select_vars(colnames(mtcars), contains("am"), contains("FOO"), contains("vs")),
-    c(am = "am", vs = "vs")
-  )
+test_that("initial (single) selector defaults correctly (issue #2275)", {
+  cn <- setNames(colnames(mtcars), nm = colnames(mtcars))
+
+  ### Single Column Selected
+  # single columns (present), explicit
+  expect_equal(select_vars(cn, mpg), cn["mpg"])
+  expect_equal(select_vars(cn, -mpg), cn[ cn != "mpg" ])
+  # single columns (present), matched
+  expect_equal(select_vars(cn, contains("mpg")), cn["mpg"])
+  expect_equal(select_vars(cn, -contains("mpg")), cn[ cn != "mpg" ])
+  # single columns (not present), explicit
+  expect_error(select_vars(cn, foo), "object 'foo' not found")
+  expect_error(select_vars(cn, -foo), "object 'foo' not found")
+  # single columns (not present), matched
+  expect_named(res <- select_vars(cn, contains("foo")))
+  expect_length(res, 0)
+  expect_equal(select_vars(cn, -contains("foo")), cn)
 })
 
-test_that("initial selectors default correctly (issue #2264)", {
-  # negative selector (exclusive)
-  cn <- colnames(mtcars)
-  expect_equal(
-    select_vars(colnames(mtcars), -contains("FOO")),
-    setNames(cn, nm = cn)
-  )
+test_that("initial (of multiple) selectors default correctly (issue #2275)", {
+  cn <- setNames(colnames(mtcars), nm = colnames(mtcars))
 
-  # positive selector (inclusive)
-  expect_named(res <- select_vars(colnames(mtcars), contains("foo")))
+  ### Multiple Columns Selected
+  # explicit(present) + matched(present)
+  expect_equal(select_vars(cn, mpg, contains("vs")), cn[c("mpg", "vs")])
+  expect_equal(select_vars(cn, mpg, -contains("vs")), cn["mpg"])
+  expect_equal(select_vars(cn, -mpg, contains("vs")), cn[ cn != "mpg" ])
+  expect_equal(select_vars(cn, -mpg, -contains("vs")), cn[ ! cn %in% c("mpg", "vs") ])
+  # explicit(present) + matched(not present)
+  expect_equal(select_vars(cn, mpg, contains("foo")), cn["mpg"])
+  expect_equal(select_vars(cn, mpg, -contains("foo")), cn["mpg"])
+  expect_equal(select_vars(cn, -mpg, contains("foo")), cn[ cn != "mpg" ])
+  expect_equal(select_vars(cn, -mpg, -contains("foo")), cn[ cn != "mpg" ])
+  # matched(present) + explicit(present)
+  expect_equal(select_vars(cn, contains("vs"), mpg), cn[c("vs", "mpg")])
+  expect_equal(select_vars(cn, contains("vs"), -mpg), cn["vs"])
+  expect_equal(select_vars(cn, -contains("vs"), mpg), cn[cn != "vs"])
+  expect_equal(select_vars(cn, -contains("vs"), -mpg), cn[ ! cn %in% c("mpg", "vs") ])
+  # matched(not present) + explicit(not present)
+  expect_error(select_vars(cn, contains("foo"), bar), "object 'bar' not found")
+  expect_error(select_vars(cn, contains("foo"), -bar), "object 'bar' not found")
+  expect_error(select_vars(cn, -contains("foo"), bar), "object 'bar' not found")
+  expect_error(select_vars(cn, -contains("foo"), -bar), "object 'bar' not found")
+  # matched(present) + matched(present)
+  expect_equal(select_vars(cn, contains("vs"), contains("mpg")), cn[c("vs", "mpg")])
+  expect_equal(select_vars(cn, contains("vs"), -contains("mpg")), cn["vs"])
+  expect_equal(select_vars(cn, -contains("vs"), contains("mpg")), cn[cn != "vs"])
+  expect_equal(select_vars(cn, -contains("vs"), -contains("mpg")), cn[! cn %in% c("vs", "mpg")])
+  # matched(present) + matched(not present)
+  expect_equal(select_vars(cn, contains("vs"), contains("foo")), cn["vs"])
+  expect_equal(select_vars(cn, contains("vs"), -contains("foo")), cn["vs"])
+  expect_equal(select_vars(cn, -contains("vs"), contains("foo")), cn[cn != "vs"])
+  expect_equal(select_vars(cn, -contains("vs"), -contains("foo")), cn[cn != "vs"])
+  # matched(not present) + matched(present)
+  expect_equal(select_vars(cn, contains("foo"), contains("mpg")), cn["mpg"])
+  expect_named(res <- select_vars(cn, contains("foo"), -contains("mpg")))
   expect_length(res, 0)
+  expect_equal(select_vars(cn, -contains("foo"), contains("mpg")), cn)
+  expect_equal(select_vars(cn, -contains("foo"), -contains("mpg")), cn[cn != "mpg"])
+  # matched(not present) + matched(not present)
+  expect_named(res <- select_vars(cn, contains("foo"), contains("bar")))
+  expect_length(res, 0)
+  expect_named(res <- select_vars(cn, contains("foo"), -contains("bar")))
+  expect_length(res, 0)
+  expect_equal(select_vars(cn, -contains("foo"), contains("bar")), cn)
+  expect_equal(select_vars(cn, -contains("foo"), -contains("bar")), cn)
+})
 
-  # ---------------------------------
-  df <- data.frame(aa = 1, bb = 2, cc = 3)
-
-  # ensure no errant reinclusion
+test_that("middle (no-match) selector should not clear previous selectors (issue #2275)", {
   expect_equal(
-    select(df, -contains("aa"), -contains("foo")),
-    select(df, bb, cc)
+    select_vars(colnames(mtcars), contains("am"), contains("foo"), contains("vs")),
+    c(am = "am", vs = "vs")
   )
-
-  # ensure no columns remain
-  expect_is(res <- select(df, -(1:3), -contains("foo")), "data.frame")
-  expect_equal(length(res), 0)
+  expect_equal(
+    select_vars(colnames(mtcars), contains("am"), -contains("foo"), contains("vs")),
+    c(am = "am", vs = "vs")
+  )
 })
