@@ -67,7 +67,7 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
   names_list <- setNames(as.list(seq_along(vars)), vars)
 
   # if the first selector is exclusive (negative), start with all columns
-  initial_case <- if (as.character(args[[1]]$expr)[1] == "-") list(seq_along(vars)) else integer(0)
+  initial_case <- if (is_negated(args[[1]]$expr)) list(seq_along(vars)) else integer(0)
 
   ind_list <- c(initial_case, lazyeval::lazy_eval(args, names_list))
   names(ind_list) <- c(names2(initial_case), names2(args))
