@@ -10,6 +10,7 @@ namespace dplyr {
   public:
     virtual ~ILazySubsets() {}
 
+    virtual CharacterVector get_variable_names() const = 0;
     virtual SEXP get_variable(SEXP symbol) const = 0;
     virtual bool is_summary(SEXP symbol) const = 0;
     virtual int count(SEXP symbol) const = 0;
