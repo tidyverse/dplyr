@@ -179,6 +179,6 @@ constfold <- function(x) {
       compiled <- compiler::compile(x, options = list(optimize = 3, suppressAll = TRUE))
       eval(compiled, new.env(parent = emptyenv()))
     },
-    error = function(e) x
+    error = function(e) NULL
   )
 }

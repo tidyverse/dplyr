@@ -17,7 +17,11 @@ namespace dplyr {
 
   inline SEXP r_constfold(SEXP x) {
     static RConstFold constfold;
-    return constfold(x);
+    SEXP ret = constfold(x);
+    if (Rf_isNull(ret))
+      return x;
+
+    return ret;
   }
 
 }
