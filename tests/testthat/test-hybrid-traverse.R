@@ -37,6 +37,33 @@ test_that("$ is parsed correctly if column by the same name exists (#1400)", {
       select(-e))
 })
 
+test_that("[[ works for ungrouped access (#912)", {
+  grouping <- identity
+
+  expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = mean(test_df[["a"]])) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = mean(a)) %>%
+      grouping %>%
+      select(-e))
+})
+
+test_that("[[ works for rowwise access of list columns (#912)", {
+  grouping <- rowwise
+
+  df <- tibble(
+    x = c("a", "b"),
+    y = list(list(a = 1, b = 2), list(a = 3, b = 4))
+  )
+
+  expect_equal(
+    df %>% rowwise() %>% transmute(z = y[[x]]),
+    data_frame(z = c(1, 4)))
+})
+
 test_hybrid <- function(grouping) {
 
 test_that("case_when() works for LHS (#1719)", {
@@ -64,6 +91,7 @@ test_that("case_when() works for RHS (#1719)", {
 })
 
 test_that("assignments work (#1452)", {
+  expect_false(exists("xx"))
   expect_equal(
     test_df %>%
       grouping %>%
@@ -73,6 +101,7 @@ test_that("assignments work (#1452)", {
       mutate(f = 5) %>%
       grouping %>%
       select(-e))
+  expect_false(exists("xx"))
 })
 
 test_that("assignments don't carry over (#1452)", {
@@ -107,22 +136,6 @@ test_that("[ works (#912)", {
   expect_equal(
     grouped_df %>%
       mutate(f = mean(grouped_df["a"][[1]])) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = mean(a)) %>%
-      grouping %>%
-      select(-e))
-})
-
-test_that("[[ works (#912)", {
-  if (!identical(grouping, identity)) {
-    skip("Need to override column accessor functions for this to work.")
-  }
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = mean(test_df[["a"]])) %>%
       select(-e),
     test_df %>%
       mutate(f = mean(a)) %>%
