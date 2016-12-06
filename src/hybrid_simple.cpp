@@ -9,6 +9,8 @@
 #include <dplyr/Result/Var.h>
 #include <dplyr/Result/Sd.h>
 
+#include <tools/constfold.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -55,7 +57,8 @@ Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     SEXP arg2 = CDDR(call);
     // we know how to handle fun( ., na.rm = TRUE/FALSE )
     if (TAG(arg2) == R_NaRmSymbol) {
-      SEXP narm = CAR(arg2);
+      SEXP narme = CAR(arg2);
+      SEXP narm = r_constfold(narme);
       if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
         if (LOGICAL(narm)[0] == TRUE) {
           return simple_prototype_impl<Fun, true>(arg, is_summary);

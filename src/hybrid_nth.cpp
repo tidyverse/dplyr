@@ -7,6 +7,8 @@
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/VectorSliceVisitor.h>
 
+#include <tools/constfold.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -144,7 +146,8 @@ namespace dplyr {
     if (tag != R_NilValue && tag != Rf_install("n")) {
       stop("the second argument of 'first' should be either 'n' or unnamed");
     }
-    SEXP nidx = CADDR(call);
+    SEXP nidxe = CADDR(call);
+    SEXP nidx = r_constfold(nidxe);
     if ((TYPEOF(nidx) != REALSXP && TYPEOF(nidx) != INTSXP) || LENGTH(nidx) != 1) {
       // we only know how to handle the case where nidx is a length one
       // integer or numeric. In any other case, e.g. an expression for R to evaluate

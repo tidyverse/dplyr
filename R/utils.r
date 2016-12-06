@@ -172,3 +172,13 @@ is_1d <- function(x) {
 }
 
 is_bare_list <- function(x) is.list(x) && !is.object(x)
+
+constfold <- function(x) {
+  tryCatch(
+    {
+      compiled <- compiler::compile(x, options = list(optimize = 3, suppressAll = TRUE))
+      eval(compiled, new.env(parent = emptyenv()))
+    },
+    error = function(e) x
+  )
+}

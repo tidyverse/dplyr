@@ -9,6 +9,8 @@
 #include <dplyr/Result/Count.h>
 #include <dplyr/Result/Count_Distinct.h>
 
+#include <tools/constfold.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -23,15 +25,16 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nar
   bool na_rm = false;
 
   for (SEXP p = CDR(call); !Rf_isNull(p); p = CDR(p)) {
-    SEXP x = CAR(p);
-    if (!Rf_isNull(TAG(p)) && TAG(p) == Rf_install("na.rm")) {
+    SEXP xe = CAR(p);
+    if (!Rf_isNull(TAG(p)) && TAG(p) == R_NaRmSymbol) {
+      SEXP x = r_constfold(xe);
       if (TYPEOF(x) == LGLSXP && Rf_length(x) == 1) {
         na_rm = LOGICAL(x)[0];
       } else {
         stop("incompatible value for `na.rm` parameter");
       }
-    } else if (TYPEOF(x) == SYMSXP) {
-      visitors.push_back(subsets.get_variable(x));
+    } else if (TYPEOF(xe) == SYMSXP) {
+      visitors.push_back(subsets.get_variable(xe));
     } else {
       return 0;
     }
