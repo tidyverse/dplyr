@@ -435,32 +435,6 @@ test_that("mutate handles factors (#1414)", {
   expect_equal( as.character(res$f2), res$f)
 })
 
-test_that("mutate recognizes global() (#1469)", {
-  skip("need to install global()")
-
-  vs <- 4
-  res <- mtcars %>% mutate(a = global(vs))
-  expect_true( all(res$a == 4) )
-  expect_error( mtcars %>% mutate(global("vs")), "global only handles symbols" )
-  res <- mtcars %>% mutate(a = global(vs) + 1)
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% mutate(global("vs") + 1), "global only handles symbols" )
-  res <- mtcars %>% mutate(a = 1+global(vs) )
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% mutate(1 + global("vs")), "global only handles symbols" )
-
-  res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs))
-  expect_true( all(res$a == 4) )
-  expect_error( mtcars %>% group_by(cyl) %>% mutate(a = global("vs")), "global only handles symbols" )
-  res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs)+1)
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% group_by(cyl) %>% mutate(a = global("vs") + 1), "global only handles symbols" )
-
-  res <- mtcars %>% group_by(cyl) %>% mutate(a = 1+global(vs))
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% group_by(cyl) %>% mutate(a = 1 + global("vs")), "global only handles symbols" )
-})
-
 test_that("mutate handles results from one group with all NA values (#1463) ", {
   df <- data_frame( x = c(1, 2), y = c(1, NA))
   res <- df %>% group_by(x) %>% mutate( z = ifelse(y>1, 1, 2) )
@@ -527,24 +501,6 @@ test_that( "lead/lag inside mutate handles expressions as value for default (#14
   res <- mutate(df, leadn = lead(x, default = c(1)), lagn = lag(x, default = c(1)))
   expect_equal( res$leadn, lead(df$x, default = 1) )
   expect_equal( res$lagn, lag(df$x, default = 1) )
-})
-
-test_that("mutate understands column() (#1012)", {
-  skip("need to install column()")
-
-  ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
-  ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
-  expect_equal(ir1, ir2)
-
-  ir1 <- mutate( group_by(iris, Species), Sepal = Sepal.Length * Sepal.Width )
-  ir2 <- mutate( group_by(iris, Species), Sepal = column("Sepal.Length") * column("Sepal.Width") )
-  expect_equal(ir1, ir2)
-
-  ir <- iris %>% mutate( a = column("Species") )
-  expect_equal( ir$a, ir$Species)
-
-  ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
-  expect_equal( ir$a, ir$Species)
 })
 
 test_that("grouped mutate does not drop grouping attributes (#1020)", {
