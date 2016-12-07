@@ -17,7 +17,10 @@ namespace dplyr {
     ~Sd() {}
 
     inline double process_chunk(const SlicingIndex& indices) {
-      return sqrt(var.process_chunk(indices));
+      double var_result = var.process_chunk(indices);
+      if (NumericVector::is_na(var_result))
+        return var_result;
+      return ::sqrt(var_result);
     }
 
   private:
