@@ -46,3 +46,39 @@ test_that("%in% works (#192)", {
   expect_hybrid(list(a %in% NA), a = c(TRUE, FALSE, NA),
                 expected = list(c(FALSE, FALSE, TRUE)))
 })
+
+test_that("min() and max() work", {
+  expect_hybrid(min(a), a = 1:5,
+                expected = 1L)
+  expect_hybrid(max(a), a = 1:5,
+                expected = 5L)
+  expect_hybrid(min(a), a = as.numeric(1:5),
+                expected = 1)
+  expect_hybrid(max(a), a = as.numeric(1:5),
+                expected = 5)
+  expect_hybrid(min(a), a = c(1:5, NA),
+                expected = NA_integer_)
+  expect_hybrid(max(a), a = c(1:5, NA),
+                expected = NA_integer_)
+  expect_hybrid(min(a, na.rm = (1 == 0)), a = c(1:5, NA),
+                expected = NA_integer_)
+  expect_hybrid(max(a, na.rm = (1 == 0)), a = c(1:5, NA),
+                expected = NA_integer_)
+  expect_hybrid(min(a, na.rm = (1 == 1)), a = c(1:5, NA),
+                expected = 1L)
+  expect_hybrid(max(a, na.rm = (1 == 1)), a = c(1:5, NA),
+                expected = 5L)
+
+  expect_not_hybrid(min(a), a = letters,
+                    expected = "a")
+  expect_not_hybrid(max(a), a = letters,
+                    expected = "z")
+  expect_not_hybrid(min(a), a = c(letters, NA),
+                    expected = NA_character_)
+  expect_not_hybrid(max(a), a = c(letters, NA),
+                    expected = NA_character_)
+  expect_not_hybrid(min(a, na.rm = TRUE), a = c(letters, NA),
+                    expected = "a")
+  expect_not_hybrid(max(a, na.rm = TRUE), a = c(letters, NA),
+                    expected = "z")
+})
