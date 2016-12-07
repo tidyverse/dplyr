@@ -346,7 +346,7 @@ test_that("nth handle negative value (#1584) ", {
 
 test_that( "LazyGroupSubsets is robust about columns not from the data (#600)", {
   foo <- data_frame(x = 1:10, y = 1:10)
-  expect_error( foo %>% group_by(x) %>% summarise(first_y = first(z)), "could not find variable" )
+  expect_error( foo %>% group_by(x) %>% summarise(first_y = first(z)), "object 'z' not found" )
 })
 
 test_that( "hybrid eval handles $ and @ (#645)", {

@@ -8,15 +8,24 @@
 #include <dplyr/Result/VectorSliceVisitor.h>
 
 #include <tools/constfold.h>
+#include <tools/match.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
 namespace dplyr {
 
-  bool argmatch(const std::string& target, const std::string& s) {
-    if (s.size() > target.size()) return false;
-    return target.compare(0, s.size(), s) == 0;
+  template <int RTYPE>
+  inline typename Rcpp::traits::storage_type<RTYPE>::type init_def(SEXP def) {
+    if (Rf_isNull(def))
+      return Vector<RTYPE>::get_na();
+
+    Vector<RTYPE> def_ = def;
+
+    if (def_.length() != 1)
+      stop("length 1 expected");
+
+    return def_[0];
   }
 
   template <int RTYPE>
@@ -25,11 +34,11 @@ namespace dplyr {
     typedef Processor< RTYPE, Nth<RTYPE> >  Base;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    Nth(Vector<RTYPE> data_, int idx_, STORAGE def_ = Vector<RTYPE>::get_na()) :
+    Nth(const Vector<RTYPE>& data_, int idx_, SEXP def_) :
       Base(data_),
       data(data_),
       idx(idx_),
-      def(def_) {}
+      def(init_def<RTYPE>(def_)) {}
 
     inline STORAGE process_chunk(const SlicingIndex& indices) {
       int n = indices.size();
@@ -50,12 +59,12 @@ namespace dplyr {
     typedef Processor< RTYPE, NthWith<RTYPE, ORDER_RTYPE> > Base;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    NthWith(Vector<RTYPE> data_, int idx_, Vector<ORDER_RTYPE> order_, STORAGE def_ = Vector<RTYPE>::get_na()) :
+    NthWith(const Vector<RTYPE>& data_, int idx_, Vector<ORDER_RTYPE> order_, SEXP def_) :
       Base(data_),
       data(data_),
       idx(idx_),
       order(order_),
-      def(def_) {}
+      def(init_def<RTYPE>(def_)) {}
 
     inline STORAGE process_chunk(const SlicingIndex& indices) {
       int n = indices.size();
@@ -81,185 +90,158 @@ namespace dplyr {
     STORAGE def;
   };
 
-}
-
-template <int RTYPE>
-Result* nth_noorder_default(Vector<RTYPE> data, int idx, Vector<RTYPE> def) {
-  return new Nth<RTYPE>(data, idx, def[0]);
-}
-
-template <int RTYPE>
-Result* nth_with(Vector<RTYPE> data, int idx, SEXP order) {
-  switch (TYPEOF(order)) {
-  case LGLSXP:
-    return new NthWith<RTYPE, LGLSXP>(data, idx, order);
-  case INTSXP:
-    return new NthWith<RTYPE, INTSXP>(data, idx, order);
-  case REALSXP:
-    return new NthWith<RTYPE, REALSXP>(data, idx, order);
-  case STRSXP:
-    return new NthWith<RTYPE, STRSXP>(data, idx, order);
-  default:
-    break;
+  template <int RTYPE>
+  Result* nth_natural_(Vector<RTYPE> data, int idx, SEXP def) {
+    try {
+      return new Nth<RTYPE>(data, idx, def);
+    }
+    catch (...) {
+      return 0;
+    }
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
-  return 0;
-}
 
-template <int RTYPE>
-Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> def) {
-  switch (TYPEOF(order)) {
-  case LGLSXP:
-    return new NthWith<RTYPE, LGLSXP>(data, idx, order, def[0]);
-  case INTSXP:
-    return new NthWith<RTYPE, INTSXP>(data, idx, order, def[0]);
-  case REALSXP:
-    return new NthWith<RTYPE, REALSXP>(data, idx, order, def[0]);
-  case STRSXP:
-    return new NthWith<RTYPE, STRSXP>(data, idx, order, def[0]);
-  default:
-    break;
+  Result* nth_natural(SEXP data, int idx, SEXP def) {
+    switch (TYPEOF(data)) {
+    case LGLSXP:
+      return nth_natural_<LGLSXP>(data, idx, def);
+    case INTSXP:
+      return nth_natural_<INTSXP>(data, idx, def);
+    case REALSXP:
+      return nth_natural_<REALSXP>(data, idx, def);
+    case STRSXP:
+      return nth_natural_<STRSXP>(data, idx, def);
+    default:
+      break;
+    }
+    return 0;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
-  return 0;
-}
 
-namespace dplyr {
+  template <int RTYPE, int ORDER_RTYPE>
+  Result* nth_ordered__(const Vector<RTYPE>& data, int idx, Vector<ORDER_RTYPE> order, SEXP def) {
+    try {
+      return new NthWith<RTYPE, ORDER_RTYPE>(data, idx, order, def);
+    }
+    catch (...) {
+      return 0;
+    }
+  }
+
+  template <int RTYPE>
+  Result* nth_ordered_(Vector<RTYPE> data, int idx, SEXP order, SEXP def) {
+    switch (TYPEOF(order)) {
+    case LGLSXP:
+      return nth_ordered__<RTYPE, LGLSXP>(data, idx, order, def);
+    case INTSXP:
+      return nth_ordered__<RTYPE, INTSXP>(data, idx, order, def);
+    case REALSXP:
+      return nth_ordered__<RTYPE, REALSXP>(data, idx, order, def);
+    case STRSXP:
+      return nth_ordered__<RTYPE, STRSXP>(data, idx, order, def);
+    default:
+      break;
+    }
+    return 0;
+  }
+
+  Result* nth_ordered(SEXP data, int idx, SEXP order, SEXP def) {
+    switch (TYPEOF(data)) {
+    case LGLSXP:
+      return nth_ordered_<LGLSXP>(data, idx, order, def);
+    case INTSXP:
+      return nth_ordered_<INTSXP>(data, idx, order, def);
+    case REALSXP:
+      return nth_ordered_<REALSXP>(data, idx, order, def);
+    case STRSXP:
+      return nth_ordered_<STRSXP>(data, idx, order, def);
+    default:
+      break;
+    }
+    return 0;
+  }
+
+  SEXP get_nth() {
+    static Function nth("nth", Environment::namespace_env("dplyr"));
+    return nth;
+  }
 
   Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     // has to have at least two arguments
-    if (nargs < 2) return 0;
-
-    SEXP tag = TAG(CDR(call));
-    if (tag != R_NilValue && tag != Rf_install("x")) {
-      stop("the first argument of 'nth' should be either 'x' or unnamed");
+    if (nargs < 2) {
+      LOG_VERBOSE;
+      return 0;
     }
-    SEXP data = CADR(call);
+
+    call = r_match_call(get_nth(), call);
+
+    SEXP p = CDR(call);
+    SEXP tag = TAG(p);
+    if (tag != Rf_install("x")) {
+      LOG_VERBOSE;
+      return 0;
+    }
+    SEXP data = CAR(p);
     if (TYPEOF(data) == SYMSXP) {
       if (! subsets.count(data)) {
-        stop("could not find variable '%s'", CHAR(PRINTNAME(data)));
+        LOG_VERBOSE;
+        return 0;
       }
       data = subsets.get_variable(data);
     }
 
-    tag = TAG(CDDR(call));
-    if (tag != R_NilValue && tag != Rf_install("n")) {
-      stop("the second argument of 'first' should be either 'n' or unnamed");
-    }
-    SEXP nidxe = CADDR(call);
-    SEXP nidx = r_constfold(nidxe);
-    if ((TYPEOF(nidx) != REALSXP && TYPEOF(nidx) != INTSXP) || LENGTH(nidx) != 1) {
-      // we only know how to handle the case where nidx is a length one
-      // integer or numeric. In any other case, e.g. an expression for R to evaluate
-      // we just fallback to R evaluation (#734)
+    p = CDR(p);
+    tag = TAG(p);
+
+    if (tag != Rf_install("n")) {
+      LOG_VERBOSE;
       return 0;
     }
-    int idx = as<int>(nidx);
 
-    // easy case : just a single variable: first(x,n)
-    if (nargs == 2) {
-      switch (TYPEOF(data)) {
-      case INTSXP:
-        return new Nth<INTSXP>(data, idx);
-      case REALSXP:
-        return new Nth<REALSXP>(data, idx);
-      case STRSXP:
-        return new Nth<STRSXP>(data, idx);
-      case LGLSXP:
-        return new Nth<LGLSXP>(data, idx);
-      default:
-        break;
-      }
-    } else {
-      // now get `order_by` and default
-
-      SEXP order_by = R_NilValue;
-      SEXP def    = R_NilValue;
-
-      SEXP p = CDR(CDDR(call));
-      while (p != R_NilValue) {
-        SEXP tag = TAG(p);
-        if (tag == R_NilValue) stop("all arguments of 'first' after the first one should be named");
-        std::string argname = CHAR(PRINTNAME(tag));
-        if (argmatch("order_by", argname)) {
-          order_by = CAR(p);
-        } else if (argmatch("default", argname)) {
-          def = CAR(p);
-        } else {
-          stop("argument to 'first' does not match either 'default' or 'order_by' ");
-        }
-
-        p = CDR(p);
-      }
-
-
-      // handle cases
-      if (def == R_NilValue) {
-
-        // then we know order_by is not NULL, we only handle the case where
-        // order_by is a symbol and that symbol is in the data
-        if (TYPEOF(order_by) == SYMSXP && subsets.count(order_by)) {
-          order_by = subsets.get_variable(order_by);
-
-          switch (TYPEOF(data)) {
-          case LGLSXP:
-            return nth_with<LGLSXP>(data, idx, order_by);
-          case INTSXP:
-            return nth_with<INTSXP>(data, idx, order_by);
-          case REALSXP:
-            return nth_with<REALSXP>(data, idx, order_by);
-          case STRSXP:
-            return nth_with<STRSXP>(data, idx, order_by);
-          default:
-            break;
-          }
-        }
-        else {
-          return 0;
-        }
-
-
-      } else {
-        if (order_by == R_NilValue) {
-          switch (TYPEOF(data)) {
-          case LGLSXP:
-            return nth_noorder_default<LGLSXP>(data, idx, def);
-          case INTSXP:
-            return nth_noorder_default<INTSXP>(data, idx, def);
-          case REALSXP:
-            return nth_noorder_default<REALSXP>(data, idx, def);
-          case STRSXP:
-            return nth_noorder_default<STRSXP>(data, idx, def);
-          default:
-            break;
-          }
-        } else {
-          if (TYPEOF(order_by) == SYMSXP && subsets.count(order_by)) {
-            order_by = subsets.get_variable(order_by);
-
-            switch (TYPEOF(data)) {
-            case LGLSXP:
-              return nth_with_default<LGLSXP>(data, idx, order_by, def);
-            case INTSXP:
-              return nth_with_default<INTSXP>(data, idx, order_by, def);
-            case REALSXP:
-              return nth_with_default<REALSXP>(data, idx, order_by, def);
-            case STRSXP:
-              return nth_with_default<STRSXP>(data, idx, order_by, def);
-            default:
-              break;
-            }
-          }
-          else {
-            return 0;
-          }
-
-        }
-      }
-
+    SEXP nidxe = CAR(p);
+    SEXP nidx = r_constfold(nidxe);
+    // we only know how to handle the case where nidx is a length one
+    // integer or numeric. In any other case, e.g. an expression for R to evaluate
+    // we just fallback to R evaluation (#734)
+    int idx;
+    try {
+      idx = as<int>(nidx);
     }
-    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(data)));
-    return 0;
+    catch (...) {
+      return 0;
+    }
+
+    p = CDR(p);
+    tag = TAG(p);
+
+    SEXP order_by = R_NilValue;
+    SEXP def    = R_NilValue;
+
+    // now get `order_by` and default
+    if (tag == Rf_install("order_by")) {
+      order_by = CAR(p);
+
+      p = CDR(p);
+      tag = TAG(p);
+    }
+
+    if (tag == Rf_install("default")) {
+      SEXP defe = CAR(p);
+      def = r_constfold(defe);
+
+      p = CDR(p);
+      tag = TAG(p);
+    }
+
+    if (!Rf_isNull(p)) {
+      LOG_VERBOSE;
+      return 0;
+    }
+
+    if (Rf_isNull(order_by)) {
+      return nth_natural(data, idx, def);
+    }
+    else {
+      return nth_ordered(data, idx, order_by, def);
+    }
   }
 
   Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {

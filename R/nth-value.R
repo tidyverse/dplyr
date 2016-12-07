@@ -35,18 +35,22 @@ nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
   n <- trunc(n)
 
   if (n == 0 || n > length(x) || n < -length(x)) {
-    return(default)
+    if (is.list(x)) {
+      return(default)
+    } else {
+      return(as.vector(default, class(x)))
+    }
   }
 
   # Negative values index from RHS
   if (n < 0) {
-    n <- length(x) + n + 1
+    n <- length(x) + n + 1L
   }
 
   if (is.null(order_by)) {
     x[[n]]
   } else {
-    x[[order(order_by)[n]]]
+    x[[ order(order_by)[[n]] ]]
   }
 }
 

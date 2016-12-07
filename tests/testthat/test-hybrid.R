@@ -90,13 +90,23 @@ test_that("first(), last(), and nth() work", {
                 expected = 5)
   expect_hybrid(nth(a, 1 + 2), a = letters[1:5],
                 expected = "c")
-  expect_hybrid(nth(a, 6), a = as.numeric(1:5),
-                expected = NA_real_)
+  expect_hybrid(nth(a, 6, default = 3L), a = as.numeric(1:5),
+                expected = 3)
   expect_hybrid(nth(a, 6.5), a = 1:5,
                 expected = NA_integer_)
+  expect_hybrid(nth(a, -4), a = 1:5,
+                expected = 2L)
 
   expect_not_hybrid(nth(a, b[[2]]), a = letters[1:5], b = 5:1,
                     expected = "d")
+  expect_not_hybrid(nth(a, 2), a = as.list(1:5),
+                    expected = 2L)
+
+  skip("Currently failing")
+  expect_hybrid(nth(a, order_by = 5:1, 2), a = 1:5,
+                expected = 4L)
+  expect_hybrid(first(a, order_by = b), a = 1:5, b = 5:1,
+                expected = 5L)
 })
 
 test_that("lead() and lag() work", {
