@@ -98,3 +98,55 @@ test_that("first(), last(), and nth() work", {
   expect_not_hybrid(nth(a, b[[2]]), a = letters[1:5], b = 5:1,
                     expected = "d")
 })
+
+test_that("lead() and lag() work", {
+  expect_hybrid(list(lead(a)), a = 1:5,
+                expected = list(c(2:5, NA)))
+  expect_hybrid(list(lag(a)), a = 1:5,
+                expected = list(c(NA, 1:4)))
+
+  expect_hybrid(list(lead(a)), a = as.numeric(1:5),
+                expected = list(c(as.numeric(2:5), NA)))
+  expect_hybrid(list(lag(a)), a = as.numeric(1:5),
+                expected = list(c(NA, as.numeric(1:4))))
+
+  expect_hybrid(list(lead(a)), a = 1:5 * 1i,
+                expected = list(c(2:5, NA) * 1i))
+  expect_hybrid(list(lag(a)), a = 1:5 * 1i,
+                expected = list(c(NA, 1:4) * 1i))
+
+  expect_hybrid(list(lead(a)), a = letters[1:5],
+                expected = list(c(letters[2:5], NA)))
+  expect_hybrid(list(lag(a)), a = letters[1:5],
+                expected = list(c(NA, letters[1:4])))
+
+  expect_hybrid(list(lead(a)), a = c(TRUE, FALSE),
+                expected = list(c(FALSE, NA)))
+  expect_hybrid(list(lag(a)), a = c(TRUE, FALSE),
+                expected = list(c(NA, TRUE)))
+
+  expect_hybrid(list(lead(a, 1 + 2)), a = 1:5,
+                expected = list(c(4:5, NA, NA, NA)))
+  expect_hybrid(list(lag(a, 4 - 2)), a = as.numeric(1:5),
+                expected = list(c(NA, NA, as.numeric(1:3))))
+
+  expect_hybrid(list(lead(a, default = 2L + 4L)), a = 1:5,
+                expected = list(2:6))
+  expect_hybrid(list(lag(a, default = 3L - 3L)), a = 1:5,
+                expected = list(0:4))
+
+  expect_hybrid(list(lead(a, 2, 2L + 4L)), a = 1:5,
+                expected = list(c(3:6, 6L)))
+  expect_hybrid(list(lag(a, 3, 3L - 3L)), a = 1:5,
+                expected = list(c(0L, 0L, 0:2)))
+
+  expect_not_hybrid(list(lead(a, default = 2 + 4)), a = 1:5,
+                    expected = list(as.numeric(2:6)))
+  expect_not_hybrid(list(lag(a, default = 3L - 3L)), a = as.numeric(1:5),
+                    expected = list(as.numeric(0:4)))
+
+  expect_not_hybrid(list(lead(a, order_by = b)), a = 1:5, b = 5:1,
+                    expected = list(c(NA, 1:4)))
+  expect_not_hybrid(list(lag(a, order_by = b)), a = 1:5, b = 5:1,
+                    expected = list(c(2:5, NA)))
+})

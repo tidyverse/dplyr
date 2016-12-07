@@ -7,44 +7,59 @@
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>
 
+#include <tools/match.h>
+#include <tools/constfold.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
 struct LeadLag {
 
-  LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(true) {
+  LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(false) {
+
+    call = r_match_call(get_lead(), call);
 
     SEXP p = CDR(call);
     SEXP tag = TAG(p);
-    if (tag != R_NilValue && tag != Rf_install("x")) {
-      ok = false;
+    if (tag != Rf_install("x")) {
+      LOG_VERBOSE;
       return;
     }
     data = CAR(p);
 
     p = CDR(p);
-    while (p != R_NilValue) {
-      tag = TAG(p);
-      if (tag != R_NilValue && tag != Rf_install("n") && tag != Rf_install("default")) {
-        ok = false;
+    tag = TAG(p);
+    if (tag == Rf_install("n")) {
+      SEXP n_e = CAR(p);
+      SEXP n_ = r_constfold(n_e);
+      try {
+        n = as<int>(n_);
+      } catch (...) {
+        LOG_VERBOSE;
         return;
       }
-      if (tag == Rf_install("n") || tag == R_NilValue) {
-        try {
-          n = as<int>(CAR(p));
-        } catch (...) {
-          SEXP n_ = CADDR(call);
-          std::stringstream s;
-          stop("could not convert second argument to an integer. type=%s, length = %d",
-               type2name(n_), Rf_length(n_));
-        }
-      }
-      if (tag == Rf_install("default")) {
-        def = CAR(p);
-        if (TYPEOF(def) == LANGSXP) ok = false;
-      }
+
       p = CDR(p);
+      tag = TAG(p);
     }
+    if (tag == Rf_install("default")) {
+      SEXP defe = CAR(p);
+      def = r_constfold(defe);
+      p = CDR(p);
+      tag = TAG(p);
+    }
+    if (tag == Rf_install("order_by")) {
+      LOG_VERBOSE;
+      return;
+    }
+
+    LOG_VERBOSE;
+    ok = true;
+  }
+
+  static SEXP get_lead() {
+    static Function lead = Function("lead", Environment::namespace_env("dplyr"));
+    return lead;
   }
 
   RObject data;
@@ -66,11 +81,18 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     int n = args.n;
     data = subsets.get_variable(data);
 
+    if (!Rf_isNull(args.def) && TYPEOF(data) != TYPEOF(args.def)) {
+      LOG_VERBOSE;
+      return 0;
+    }
+
     switch (TYPEOF(data)) {
     case INTSXP:
       return new Templ<INTSXP> (data, n, args.def, is_summary);
     case REALSXP:
       return new Templ<REALSXP>(data, n, args.def, is_summary);
+    case CPLXSXP:
+      return new Templ<CPLXSXP>(data, n, args.def, is_summary);
     case STRSXP:
       return new Templ<STRSXP> (data, n, args.def, is_summary);
     case LGLSXP:
