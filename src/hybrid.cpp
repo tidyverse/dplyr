@@ -136,7 +136,6 @@ namespace dplyr {
         if (Rf_length(data) == 1) return constant_handler(data);
       }
     } else {
-      // TODO: perhaps deal with SYMSXP separately
       if (Rf_length(call) == 1) return constant_handler(call);
     }
     return 0;
