@@ -199,3 +199,21 @@ test_that("mean(), var(), sd() and sum() work", {
   expect_not_hybrid(sd(a, TRUE), a = c(1:3, NA),
                 expected = 1)
 })
+
+test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and cume_dist() work", {
+  expect_hybrid(list(row_number()), a = 1:5,
+                expected = list(1:5),
+                test_eval = FALSE)
+  expect_hybrid(list(row_number(a)), a = 5:1,
+                expected = list(5:1))
+  expect_hybrid(list(min_rank(a)), a = c(1, 3, 2, 3, 1),
+                expected = list(c(1L, 4L, 3L, 4L, 1L)))
+  expect_hybrid(list(percent_rank(a)), a = c(1, 3, 2, 3, 1),
+                expected = list((c(1L, 4L, 3L, 4L, 1L) - 1) / 4))
+  expect_hybrid(list(cume_dist(a)), a = c(1, 3, 2, 3),
+                expected = list(c(0.25, 1.0, 0.5, 1.0)))
+  expect_hybrid(list(dense_rank(a)), a = c(1, 3, 2, 3, 1),
+                expected = list(c(1L, 3L, 2L, 3L, 1L)))
+  expect_hybrid(list(ntile(a, 1 + 2)), a = c(1, 3, 2, 3, 1),
+                expected = list(c(1L, 2L, 2L, 3L, 1L)))
+})

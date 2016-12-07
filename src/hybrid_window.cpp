@@ -4,6 +4,7 @@
 
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
+#include <tools/constfold.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -59,12 +60,14 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 2) return 0;
 
   // handle 2nd arg
-  SEXP ntiles = CADDR(call);
+  SEXP ntilese = CADDR(call);
+  SEXP ntiles = r_constfold(ntilese);
   double number_tiles;
   try {
     number_tiles = as<int>(ntiles);
   } catch (...) {
-    stop("could not convert n to scalar integer");
+    LOG_VERBOSE;
+    return 0;
   }
 
   RObject data(CADR(call));
