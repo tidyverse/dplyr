@@ -1,5 +1,5 @@
 expect_hybrid <- function(expr, ..., expected, test_eval = TRUE) {
-  expect_hybrid_(substitute(expr), ..., expected = expected, test_eval = test_eval)
+  expect_hybrid_(lazyeval::f_capture(expr), ..., expected = expected, test_eval = test_eval)
 }
 
 expect_hybrid_ <- function(expr, ..., expected, test_eval) {
@@ -10,7 +10,7 @@ expect_hybrid_ <- function(expr, ..., expected, test_eval) {
 }
 
 expect_not_hybrid <- function(expr, ..., expected, test_eval = TRUE) {
-  expect_not_hybrid_(substitute(expr), ..., expected = expected, test_eval = test_eval)
+  expect_not_hybrid_(lazyeval::f_capture(expr), ..., expected = expected, test_eval = test_eval)
 }
 
 expect_not_hybrid_ <- function(expr, ..., expected, test_eval) {
@@ -21,7 +21,7 @@ expect_not_hybrid_ <- function(expr, ..., expected, test_eval) {
 }
 
 expect_hybrid_error <- function(expr, ..., error) {
-  expect_hybrid_error_(substitute(expr), ..., error = error)
+  expect_hybrid_error_(lazyeval::f_capture(expr), ..., error = error)
 }
 
 expect_hybrid_error_ <- function(expr, ..., error) {
@@ -31,7 +31,7 @@ expect_hybrid_error_ <- function(expr, ..., error) {
 }
 
 expect_not_hybrid_error <- function(expr, ..., error) {
-  expect_not_hybrid_error_(substitute(expr), ..., error = error)
+  expect_not_hybrid_error_(lazyeval::f_capture(expr), ..., error = error)
 }
 
 expect_not_hybrid_error_ <- function(expr, ..., error) {
