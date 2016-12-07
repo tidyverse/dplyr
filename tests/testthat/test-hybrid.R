@@ -150,3 +150,52 @@ test_that("lead() and lag() work", {
   expect_not_hybrid(list(lag(a, order_by = b)), a = 1:5, b = 5:1,
                     expected = list(c(2:5, NA)))
 })
+
+test_that("mean(), var(), sd() and sum() work", {
+  expect_hybrid(mean(a), a = 1:5,
+                expected = 3)
+  expect_hybrid(var(a), a = 1:3,
+                expected = 1)
+  expect_hybrid(sd(a), a = 1:3,
+                expected = 1)
+  expect_hybrid(sum(a), a = 1:5,
+                expected = 15L)
+  expect_hybrid(sum(a), a = as.numeric(1:5),
+                expected = 15)
+
+  expect_hybrid(mean(a), a = c(1:5, NA),
+                expected = NA_real_)
+  expect_hybrid(var(a), a = c(1:3, NA),
+                expected = NA_real_)
+  expect_hybrid(sd(a), a = c(1:3, NA),
+                expected = NA_real_)
+  expect_hybrid(sum(a), a = c(1:5, NA),
+                expected = NA_integer_)
+  expect_hybrid(sum(a), a = c(as.numeric(1:5), NA),
+                expected = NA_real_)
+
+  expect_hybrid(mean(a, na.rm = (1 == 0)), a = c(1:5, NA),
+                expected = NA_real_)
+  expect_hybrid(var(a, na.rm = (1 == 0)), a = c(1:3, NA),
+                expected = NA_real_)
+  expect_hybrid(sd(a, na.rm = (1 == 0)), a = c(1:3, NA),
+                expected = NA_real_)
+  expect_hybrid(sum(a, na.rm = (1 == 0)), a = c(1:5, NA),
+                expected = NA_integer_)
+  expect_hybrid(sum(a, na.rm = (1 == 0)), a = c(as.numeric(1:5), NA),
+                expected = NA_real_)
+
+  expect_hybrid(mean(a, na.rm = (1 == 1)), a = c(1:5, NA),
+                expected = 3)
+  expect_hybrid(var(a, na.rm = (1 == 1)), a = c(1:3, NA),
+                expected = 1)
+  expect_hybrid(sd(a, na.rm = (1 == 1)), a = c(1:3, NA),
+                expected = 1)
+  expect_hybrid(sum(a, na.rm = (1 == 1)), a = c(1:5, NA),
+                expected = 15L)
+  expect_hybrid(sum(a, na.rm = (1 == 1)), a = c(as.numeric(1:5), NA),
+                expected = 15)
+
+  expect_not_hybrid(sd(a, TRUE), a = c(1:3, NA),
+                expected = 1)
+})
