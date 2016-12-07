@@ -1,13 +1,5 @@
 context("hybrid")
 
-test_df <- data_frame(
-  id = c(1L, 2L, 2L),
-  a = 1:3,
-  b = as.numeric(1:3),
-  c = letters[1:3],
-  d = c(TRUE, FALSE, NA)
-)
-
 test_that("n() and n_distinct() work", {
   expect_hybrid(n(), a = 1:5, expected = 5L, test_eval = FALSE)
 
@@ -30,18 +22,27 @@ test_that("n() and n_distinct() work", {
 })
 
 test_that("%in% works (#192)", {
-  # Hybrid evaluation currently requires constants (#2143)
-  test_df_mutated <-
-    mutate(test_df,
-           a1 = a %in% 1L,
-           b1 = b %in% 1,
-           c1 = c %in% "a",
-           d1 = d %in% TRUE
-    )
+  expect_hybrid(list(a %in% 1:3), a = 2:4,
+                expected = list(c(TRUE, TRUE, FALSE)))
+  expect_hybrid(list(a %in% as.numeric(1:3)), a = as.numeric(2:4),
+                expected = list(c(TRUE, TRUE, FALSE)))
+  expect_hybrid(list(a %in% letters[1:3]), a = letters[2:4],
+                expected = list(c(TRUE, TRUE, FALSE)))
+  expect_hybrid(list(a %in% c(TRUE, FALSE)), a = c(TRUE, FALSE, NA),
+                expected = list(c(TRUE, TRUE, FALSE)))
 
-  expected <- c(TRUE, FALSE, FALSE)
-  expect_equal(test_df_mutated$a1, expected)
-  expect_equal(test_df_mutated$b1, expected)
-  expect_equal(test_df_mutated$c1, expected)
-  expect_equal(test_df_mutated$d1, expected)
+  expect_not_hybrid(list(a %in% 1:3), a = as.numeric(2:4),
+                    expected = list(c(TRUE, TRUE, FALSE)))
+  expect_not_hybrid(list(a %in% as.numeric(1:3)), a = 2:4,
+                expected = list(c(TRUE, TRUE, FALSE)))
+
+  skip("Currently failing")
+  expect_hybrid(list(a %in% NA_integer_), a = c(2:4, NA),
+                expected = list(c(FALSE, FALSE, FALSE, TRUE)))
+  expect_hybrid(list(a %in% NA_real_), a = as.numeric(c(2:4, NA)),
+                expected = list(c(FALSE, FALSE, FALSE, TRUE)))
+  expect_hybrid(list(a %in% NA_character_), a = c(letters[2:4], NA),
+                expected = list(c(FALSE, FALSE, FALSE, TRUE)))
+  expect_hybrid(list(a %in% NA), a = c(TRUE, FALSE, NA),
+                expected = list(c(FALSE, FALSE, TRUE)))
 })
