@@ -82,3 +82,19 @@ test_that("min() and max() work", {
   expect_not_hybrid(max(a, na.rm = TRUE), a = c(letters, NA),
                     expected = "z")
 })
+
+test_that("first(), last(), and nth() work", {
+  expect_hybrid(first(a), a = 1:5,
+                expected = 1L)
+  expect_hybrid(last(a), a = as.numeric(1:5),
+                expected = 5)
+  expect_hybrid(nth(a, 1 + 2), a = letters[1:5],
+                expected = "c")
+  expect_hybrid(nth(a, 6), a = as.numeric(1:5),
+                expected = NA_real_)
+  expect_hybrid(nth(a, 6.5), a = 1:5,
+                expected = NA_integer_)
+
+  expect_not_hybrid(nth(a, b[[2]]), a = letters[1:5], b = 5:1,
+                    expected = "d")
+})
