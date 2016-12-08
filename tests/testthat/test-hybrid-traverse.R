@@ -64,9 +64,23 @@ test_that("[[ works for rowwise access of list columns (#912)", {
     data_frame(z = c(1, 4)))
 })
 
+test_that("$ works for rle result (#2125)", {
+  grouping <- identity
+
+  expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = rle(b)$lengths) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = rep(1L, 3L)) %>%
+      grouping %>%
+      select(-e))
+})
+
 test_hybrid <- function(grouping) {
 
-test_that("case_when() works for LHS (#1719)", {
+test_that("case_when() works for LHS (#1719, #2244)", {
   expect_equal(
     test_df %>%
       grouping %>%
@@ -78,7 +92,7 @@ test_that("case_when() works for LHS (#1719)", {
       select(-e))
 })
 
-test_that("case_when() works for RHS (#1719)", {
+test_that("case_when() works for RHS (#1719, #2244)", {
   expect_equal(
     test_df %>%
       grouping %>%
@@ -148,7 +162,7 @@ test_that("interpolation works (#1012)", {
 
   var <- ~b
 
-  testthat::expect_equal(
+  expect_equal(
     test_df %>%
       grouping %>%
       mutate(., f = lazyeval::f_eval(~mean(uq(var)))) %>%
@@ -156,6 +170,20 @@ test_that("interpolation works (#1012)", {
     test_df %>%
       grouping %>%
       mutate(f = mean(b)) %>%
+      select(-e))
+})
+
+test_that("can compute 1 - ecdf(y)(y) (#2018)", {
+  surv <- function(x) 1 - ecdf(x)(x)
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(., f = 1 - ecdf(b)(b)) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(., f = surv(b)) %>%
       select(-e))
 })
 

@@ -158,6 +158,10 @@ test_that("summarise fails on missing variables", {
   expect_error(summarise(mtcars, a = mean(notthear)) )
 })
 
+test_that("summarise fails on missing variables when grouping (#2223)", {
+  expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)) )
+})
+
 test_that("n() does not accept arguments",{
   expect_error(summarise(group_by(mtcars, cyl), n(hp)), "does not take arguments")
 })
