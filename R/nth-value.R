@@ -44,7 +44,7 @@ nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
 
   # Negative values index from RHS
   if (n < 0) {
-    n <- length(x) + n + 1L
+    n <- length(x) + n + 1
   }
 
   if (is.null(order_by)) {
