@@ -23,6 +23,10 @@ test_that("n() and n_distinct() work", {
                     expected = 3L, test_eval = FALSE)
   expect_not_hybrid(n_distinct(a, c), a = 1:3,
                     expected = 3L, test_eval = FALSE)
+  expect_not_hybrid(n_distinct(a, b, na.rm = 1), a = rep(1L, 3), b = c(1, 1, NA),
+                    expected = 1L)
+  expect_not_hybrid_error(n_distinct(), a = 1:5,
+                          error = "need at least one column")
 })
 
 test_that("%in% works (#192)", {
@@ -38,7 +42,7 @@ test_that("%in% works (#192)", {
   expect_not_hybrid(list(a %in% 1:3), a = as.numeric(2:4),
                     expected = list(c(TRUE, TRUE, FALSE)))
   expect_not_hybrid(list(a %in% as.numeric(1:3)), a = 2:4,
-                expected = list(c(TRUE, TRUE, FALSE)))
+                    expected = list(c(TRUE, TRUE, FALSE)))
 
   skip("Currently failing")
   expect_hybrid(list(a %in% NA_integer_), a = c(2:4, NA),
@@ -72,6 +76,12 @@ test_that("min() and max() work", {
                 expected = 1L)
   expect_hybrid(max(a, na.rm = (1 == 1)), a = c(1:5, NA),
                 expected = 5L)
+
+  c <- 1:3
+  expect_not_hybrid(min(c), a = 1:5,
+                    expected = 1L)
+  expect_not_hybrid(max(c), a = 1:5,
+                    expected = 3L)
 
   expect_not_hybrid(min(a), a = letters,
                     expected = "a")
@@ -108,11 +118,17 @@ test_that("first(), last(), and nth() work", {
   expect_not_hybrid(nth(a, 2), a = as.list(1:5),
                     expected = 2L)
 
-  skip("Currently failing")
-  expect_hybrid(nth(a, order_by = 5:1, 2), a = 1:5,
-                expected = 4L)
-  expect_hybrid(first(a, order_by = b), a = 1:5, b = 5:1,
-                expected = 5L)
+  expect_not_hybrid(nth(a, order_by = 5:1, 2), a = 1:5,
+                    expected = 4L)
+  expect_not_hybrid(first(a, order_by = b), a = 1:5, b = 5:1,
+                    expected = 5L)
+
+  expect_not_hybrid_error(first(a, bogus = 3), a = 1:5,
+                          error = "unused argument")
+  expect_not_hybrid_error(last(a, bogus = 3), a = 1:5,
+                          error = "unused argument")
+  expect_not_hybrid_error(nth(a, 3, bogus = 3), a = 1:5,
+                          error = "unused argument")
 })
 
 test_that("lead() and lag() work", {
@@ -257,4 +273,17 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
                 expected = list(c(1L, 2L, 2L, 3L, 1L)))
   expect_hybrid(list(ntile(n = 1 + 2, a)), a = c(1, 3, 2, 3, 1),
                 expected = list(c(1L, 2L, 2L, 3L, 1L)))
+
+  expect_not_hybrid_error(row_number(a, 1), a = 5:1,
+                          error = "unused argument")
+  expect_not_hybrid_error(min_rank(a, 1), a = 5:1,
+                          error = "unused argument")
+  expect_not_hybrid_error(percent_rank(a, 1), a = 5:1,
+                          error = "unused argument")
+  expect_not_hybrid_error(cume_dist(a, 1), a = 5:1,
+                          error = "unused argument")
+  expect_not_hybrid_error(dense_rank(a, 1), a = 5:1,
+                          error = "unused argument")
+  expect_not_hybrid_error(ntile(a, 2, 1), a = 5:1,
+                          error = "unused argument")
 })

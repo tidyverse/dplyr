@@ -39,9 +39,14 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nar
       if (is<bool>(x)) {
         na_rm = as<bool>(x);
       } else {
-        stop("incompatible value for `na.rm` parameter");
+        LOG_VERBOSE;
+        return 0;
       }
     } else if (TYPEOF(xe) == SYMSXP) {
+      if (!subsets.count(xe)) {
+        LOG_VERBOSE;
+        return 0;
+      }
       visitors.push_back(subsets.get_variable(xe));
     } else {
       return 0;
@@ -49,7 +54,8 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nar
   }
 
   if (visitors.size() == 0) {
-    stop("need at least one column for n_distinct()");
+    LOG_VERBOSE;
+    return 0;
   }
 
   if (na_rm) {
