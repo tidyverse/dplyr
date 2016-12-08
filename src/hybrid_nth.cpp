@@ -108,6 +108,8 @@ namespace dplyr {
       return nth_natural_<INTSXP>(data, idx, def);
     case REALSXP:
       return nth_natural_<REALSXP>(data, idx, def);
+    case CPLXSXP:
+      return nth_natural_<CPLXSXP>(data, idx, def);
     case STRSXP:
       return nth_natural_<STRSXP>(data, idx, def);
     default:
@@ -151,6 +153,8 @@ namespace dplyr {
       return nth_ordered_<INTSXP>(data, idx, order, def);
     case REALSXP:
       return nth_ordered_<REALSXP>(data, idx, order, def);
+    case CPLXSXP:
+      return nth_ordered_<CPLXSXP>(data, idx, order, def);
     case STRSXP:
       return nth_ordered_<STRSXP>(data, idx, order, def);
     default:

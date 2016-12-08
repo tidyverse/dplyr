@@ -34,6 +34,8 @@ test_that("%in% works (#192)", {
                 expected = list(c(TRUE, TRUE, FALSE)))
   expect_hybrid(list(a %in% as.numeric(1:3)), a = as.numeric(2:4),
                 expected = list(c(TRUE, TRUE, FALSE)))
+  expect_hybrid(list(a %in% (1:3 * 1i)), a = 2:4 * 1i,
+                expected = list(c(TRUE, TRUE, FALSE)))
   expect_hybrid(list(a %in% letters[1:3]), a = letters[2:4],
                 expected = list(c(TRUE, TRUE, FALSE)))
   expect_hybrid(list(a %in% c(TRUE, FALSE)), a = c(TRUE, FALSE, NA),
@@ -106,6 +108,8 @@ test_that("first(), last(), and nth() work", {
                 expected = 1L)
   expect_hybrid(last(a), a = as.numeric(1:5),
                 expected = 5)
+  expect_hybrid(nth(a, 3), a = as.numeric(1:5) * 1i,
+                expected = 3i)
   expect_hybrid(nth(a, 1 + 2), a = letters[1:5],
                 expected = "c")
   expect_hybrid(nth(a, 6, default = 3L), a = as.numeric(1:5),
