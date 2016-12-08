@@ -34,12 +34,15 @@ test_that("%in% works (#192)", {
                 expected = list(c(TRUE, TRUE, FALSE)))
   expect_hybrid(list(a %in% as.numeric(1:3)), a = as.numeric(2:4),
                 expected = list(c(TRUE, TRUE, FALSE)))
-  expect_hybrid(list(a %in% (1:3 * 1i)), a = 2:4 * 1i,
-                expected = list(c(TRUE, TRUE, FALSE)))
   expect_hybrid(list(a %in% letters[1:3]), a = letters[2:4],
                 expected = list(c(TRUE, TRUE, FALSE)))
   expect_hybrid(list(a %in% c(TRUE, FALSE)), a = c(TRUE, FALSE, NA),
                 expected = list(c(TRUE, TRUE, FALSE)))
+
+  # compilation errors on Windows
+  # https://ci.appveyor.com/project/hadley/dplyr/build/1.0.230
+  expect_not_hybrid(list(a %in% (1:3 * 1i)), a = 2:4 * 1i,
+                    expected = list(c(TRUE, TRUE, FALSE)))
 
   expect_not_hybrid(list(a %in% 1:3), a = as.numeric(2:4),
                     expected = list(c(TRUE, TRUE, FALSE)))

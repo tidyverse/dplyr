@@ -37,8 +37,6 @@ Result* in_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return new In<INTSXP>(v, rhs);
   case REALSXP:
     return new In<REALSXP>(v, rhs);
-  case CPLXSXP:
-    return new In<CPLXSXP>(v, rhs);
   case STRSXP:
     return new In<STRSXP>(v, rhs);
   default:
