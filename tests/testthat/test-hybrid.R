@@ -44,6 +44,10 @@ test_that("%in% works (#192)", {
   expect_not_hybrid(list(a %in% as.numeric(1:3)), a = 2:4,
                     expected = list(c(TRUE, TRUE, FALSE)))
 
+  c <- 2:4
+  expect_not_hybrid(list(c %in% 1:3), a = as.numeric(2:4),
+                    expected = list(c(TRUE, TRUE, FALSE)))
+
   skip("Currently failing")
   expect_hybrid(list(a %in% NA_integer_), a = c(2:4, NA),
                 expected = list(c(FALSE, FALSE, FALSE, TRUE)))
@@ -122,6 +126,14 @@ test_that("first(), last(), and nth() work", {
                     expected = 4L)
   expect_not_hybrid(first(a, order_by = b), a = 1:5, b = 5:1,
                     expected = 5L)
+
+  c <- 1:3
+  expect_not_hybrid(first(c), a = 2:4,
+                    expected = 1L)
+  expect_not_hybrid(last(c), a = 2:4,
+                    expected = 3L)
+  expect_not_hybrid(nth(c, 2), a = 2:4,
+                    expected = 2L)
 
   expect_not_hybrid_error(first(a, bogus = 3), a = 1:5,
                           error = "unused argument")

@@ -187,6 +187,10 @@ namespace dplyr {
       }
       data = subsets.get_variable(data);
     }
+    else {
+      LOG_VERBOSE;
+      return 0;
+    }
 
     p = CDR(p);
     tag = TAG(p);
