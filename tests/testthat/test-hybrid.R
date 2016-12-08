@@ -15,9 +15,13 @@ test_that("n() and n_distinct() work", {
                 expected = 2L)
   expect_hybrid(n_distinct(a, b, na.rm = TRUE), a = rep(1L, 3), b = c(1, 1, NA),
                 expected = 1L)
+  expect_hybrid(n_distinct(a = a, b = b, na.rm = TRUE), a = rep(1L, 3), b = c(1, 1, NA),
+                expected = 1L)
 
   c <- 1:3
   expect_not_hybrid(n_distinct(c), a = 1:5,
+                    expected = 3L, test_eval = FALSE)
+  expect_not_hybrid(n_distinct(a, c), a = 1:3,
                     expected = 3L, test_eval = FALSE)
 })
 
@@ -137,6 +141,11 @@ test_that("lead() and lag() work", {
   expect_hybrid(list(lag(a)), a = c(TRUE, FALSE),
                 expected = list(c(NA, TRUE)))
 
+  expect_hybrid(list(lead(a, 1L + 2L)), a = 1:5,
+                expected = list(c(4:5, NA, NA, NA)))
+  expect_hybrid(list(lag(a, 4L - 2L)), a = as.numeric(1:5),
+                expected = list(c(NA, NA, as.numeric(1:3))))
+
   expect_hybrid(list(lead(a, 1 + 2)), a = 1:5,
                 expected = list(c(4:5, NA, NA, NA)))
   expect_hybrid(list(lag(a, 4 - 2)), a = as.numeric(1:5),
@@ -243,6 +252,8 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   expect_hybrid(list(dense_rank(a)), a = c(1, 3, 2, 3, 1),
                 expected = list(c(1L, 3L, 2L, 3L, 1L)))
   expect_hybrid(list(ntile(a, 1 + 2)), a = c(1, 3, 2, 3, 1),
+                expected = list(c(1L, 2L, 2L, 3L, 1L)))
+  expect_hybrid(list(ntile(a, 1L + 2L)), a = c(1, 3, 2, 3, 1),
                 expected = list(c(1L, 2L, 2L, 3L, 1L)))
   expect_hybrid(list(ntile(n = 1 + 2, a)), a = c(1, 3, 2, 3, 1),
                 expected = list(c(1L, 2L, 2L, 3L, 1L)))

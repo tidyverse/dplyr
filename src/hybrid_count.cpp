@@ -36,8 +36,8 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nar
     SEXP xe = CAR(p);
     if (!Rf_isNull(TAG(p)) && TAG(p) == R_NaRmSymbol) {
       SEXP x = r_constfold(xe);
-      if (TYPEOF(x) == LGLSXP && Rf_length(x) == 1) {
-        na_rm = LOGICAL(x)[0];
+      if (is<bool>(x)) {
+        na_rm = as<bool>(x);
       } else {
         stop("incompatible value for `na.rm` parameter");
       }

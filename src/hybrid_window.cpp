@@ -71,12 +71,11 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   SEXP ntilese = CADDR(call);
   SEXP ntiles = r_constfold(ntilese);
   double number_tiles;
-  try {
-    number_tiles = as<int>(ntiles);
-  } catch (...) {
+  if (!is<int>(ntiles) && !is<double>(ntiles)) {
     LOG_VERBOSE;
     return 0;
   }
+  number_tiles = as<double>(ntiles);
 
   RObject data(CADR(call));
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {

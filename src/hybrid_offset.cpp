@@ -32,12 +32,12 @@ struct LeadLag {
     if (tag == Rf_install("n")) {
       SEXP n_e = CAR(p);
       SEXP n_ = r_constfold(n_e);
-      try {
-        n = as<int>(n_);
-      } catch (...) {
+
+      if (!is<int>(n_) && !is<double>(n_)) {
         LOG_VERBOSE;
         return;
       }
+      n = as<int>(n_);
 
       p = CDR(p);
       tag = TAG(p);

@@ -202,12 +202,11 @@ namespace dplyr {
     // integer or numeric. In any other case, e.g. an expression for R to evaluate
     // we just fallback to R evaluation (#734)
     int idx;
-    try {
-      idx = as<int>(nidx);
-    }
-    catch (...) {
+    if (!is<int>(nidx) && !is<double>(nidx)) {
+      LOG_VERBOSE;
       return 0;
     }
+    idx = as<int>(nidx);
 
     p = CDR(p);
     tag = TAG(p);
