@@ -38,7 +38,7 @@ nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
     if (is.list(x)) {
       return(default)
     } else {
-      return(as.vector(default, class(x)))
+      return(as.vector(default, typeof(x)))
     }
   }
 
