@@ -92,6 +92,8 @@ test_that("first(), last(), and nth() work", {
                 expected = "c")
   expect_hybrid(nth(a, 6, default = 3L), a = as.numeric(1:5),
                 expected = 3)
+  expect_hybrid(nth(a, 6, def = 3L), a = as.numeric(1:5),
+                expected = 3)
   expect_hybrid(nth(a, 6.5), a = 1:5,
                 expected = NA_integer_)
   expect_hybrid(nth(a, -4), a = 1:5,
@@ -143,6 +145,11 @@ test_that("lead() and lag() work", {
   expect_hybrid(list(lead(a, default = 2L + 4L)), a = 1:5,
                 expected = list(2:6))
   expect_hybrid(list(lag(a, default = 3L - 3L)), a = 1:5,
+                expected = list(0:4))
+
+  expect_hybrid(list(lead(a, def = 2L + 4L)), a = 1:5,
+                expected = list(2:6))
+  expect_hybrid(list(lag(a, def = 3L - 3L)), a = 1:5,
                 expected = list(0:4))
 
   expect_hybrid(list(lead(a, 2, 2L + 4L)), a = 1:5,
@@ -206,8 +213,19 @@ test_that("mean(), var(), sd() and sum() work", {
   expect_hybrid(sum(a, na.rm = (1 == 1)), a = c(as.numeric(1:5), NA),
                 expected = 15)
 
-  expect_not_hybrid(sd(a, TRUE), a = c(1:3, NA),
+  expect_hybrid(mean(na.rm = (1 == 1), a), a = c(1:5, NA),
+                expected = 3)
+  expect_hybrid(var(na.rm = (1 == 1), a), a = c(1:3, NA),
                 expected = 1)
+  expect_hybrid(sd(na.rm = (1 == 1), a), a = c(1:3, NA),
+                expected = 1)
+  expect_hybrid(sum(na.rm = (1 == 1), a), a = c(1:5, NA),
+                expected = 15L)
+  expect_hybrid(sum(na.rm = (1 == 1), a), a = c(as.numeric(1:5), NA),
+                expected = 15)
+
+  expect_not_hybrid(sd(a, TRUE), a = c(1:3, NA),
+                    expected = 1)
 })
 
 test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and cume_dist() work", {
@@ -225,5 +243,7 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   expect_hybrid(list(dense_rank(a)), a = c(1, 3, 2, 3, 1),
                 expected = list(c(1L, 3L, 2L, 3L, 1L)))
   expect_hybrid(list(ntile(a, 1 + 2)), a = c(1, 3, 2, 3, 1),
+                expected = list(c(1L, 2L, 2L, 3L, 1L)))
+  expect_hybrid(list(ntile(n = 1 + 2, a)), a = c(1, 3, 2, 3, 1),
                 expected = list(c(1L, 2L, 2L, 3L, 1L)))
 })

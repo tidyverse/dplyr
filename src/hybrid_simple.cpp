@@ -10,6 +10,7 @@
 #include <dplyr/Result/Sd.h>
 
 #include <tools/constfold.h>
+#include <tools/match.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -30,9 +31,21 @@ Result* simple_prototype_impl(SEXP arg, bool is_summary) {
   return 0;
 }
 
+SEXP get_simple_fun() {
+  // pmin() has a suitable interface
+  static Function pmin("pmin", R_BaseEnv);
+  return pmin;
+}
+
 template <template <int,bool> class Fun>
 Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  if (nargs == 0) return 0;
+  if (nargs == 0 || nargs > 2) {
+    LOG_VERBOSE;
+    return 0;
+  }
+
+  call = r_match_call(get_simple_fun(), call);
+
   SEXP arg = CADR(call);
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {

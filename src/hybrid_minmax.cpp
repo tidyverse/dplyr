@@ -8,6 +8,7 @@
 #include <dplyr/Result/Max.h>
 
 #include <tools/constfold.h>
+#include <tools/match.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -27,11 +28,18 @@ Result* minmax_prototype_impl(SEXP arg, bool is_summary) {
   return 0;
 }
 
+SEXP get_min() {
+  // min() is a primitive, but pmin() effectively has the same interface
+  static Function min_("pmin", R_BaseEnv);
+  return min_;
+}
+
 template< template <int, bool> class Tmpl>
 Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  using namespace dplyr;
   // we only can handle 1 or two arguments
   if (nargs == 0 || nargs > 2) return 0;
+
+  call = r_match_call(get_min(), call);
 
   // the first argument is the data to operate on
   SEXP arg = CADR(call);

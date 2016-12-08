@@ -5,6 +5,7 @@
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
 #include <tools/constfold.h>
+#include <tools/match.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -56,8 +57,15 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
   return 0;
 }
 
+SEXP get_ntile() {
+  static Function ntile("ntile", Environment::namespace_env("dplyr"));
+  return ntile;
+}
+
 Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 2) return 0;
+
+  call = r_match_call(get_ntile(), call);
 
   // handle 2nd arg
   SEXP ntilese = CADDR(call);
