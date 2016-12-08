@@ -63,7 +63,7 @@ test_that("one_of converts names to positions", {
 # first-selector ----------------------------------------------------------
 
 test_that("initial (single) selector defaults correctly (issue #2275)", {
-  cn <- setNames(colnames(mtcars), nm = colnames(mtcars))
+  cn <- setNames(nm = colnames(mtcars))
 
   ### Single Column Selected
   # single columns (present), explicit
@@ -76,13 +76,13 @@ test_that("initial (single) selector defaults correctly (issue #2275)", {
   expect_error(select_vars(cn, foo), "object 'foo' not found")
   expect_error(select_vars(cn, -foo), "object 'foo' not found")
   # single columns (not present), matched
-  expect_named(res <- select_vars(cn, contains("foo")))
+  res <- expect_named(select_vars(cn, contains("foo")))
   expect_length(res, 0)
   expect_equal(select_vars(cn, -contains("foo")), cn)
 })
 
 test_that("initial (of multiple) selectors default correctly (issue #2275)", {
-  cn <- setNames(colnames(mtcars), nm = colnames(mtcars))
+  cn <- setNames(nm = colnames(mtcars))
 
   ### Multiple Columns Selected
   # explicit(present) + matched(present)
@@ -117,14 +117,14 @@ test_that("initial (of multiple) selectors default correctly (issue #2275)", {
   expect_equal(select_vars(cn, -contains("vs"), -contains("foo")), cn[cn != "vs"])
   # matched(not present) + matched(present)
   expect_equal(select_vars(cn, contains("foo"), contains("mpg")), cn["mpg"])
-  expect_named(res <- select_vars(cn, contains("foo"), -contains("mpg")))
+  res <- expect_named(select_vars(cn, contains("foo"), -contains("mpg")))
   expect_length(res, 0)
   expect_equal(select_vars(cn, -contains("foo"), contains("mpg")), cn)
   expect_equal(select_vars(cn, -contains("foo"), -contains("mpg")), cn[cn != "mpg"])
   # matched(not present) + matched(not present)
-  expect_named(res <- select_vars(cn, contains("foo"), contains("bar")))
+  res <- expect_named(select_vars(cn, contains("foo"), contains("bar")))
   expect_length(res, 0)
-  expect_named(res <- select_vars(cn, contains("foo"), -contains("bar")))
+  res <- expect_named(select_vars(cn, contains("foo"), -contains("bar")))
   expect_length(res, 0)
   expect_equal(select_vars(cn, -contains("foo"), contains("bar")), cn)
   expect_equal(select_vars(cn, -contains("foo"), -contains("bar")), cn)
