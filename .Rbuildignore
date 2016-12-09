@@ -18,3 +18,4 @@ demo/pandas
 ^src/Makevars\.local$
 ^Doxyfile$
 ^clion-test\.R$
+^issues$
