@@ -20,7 +20,8 @@ test_that("$ is parsed correctly (#1400)", {
     test_df %>%
       mutate(f = as.numeric(2:4)) %>%
       grouping %>%
-      select(-e))
+      select(-e)
+  )
 })
 
 test_that("$ is parsed correctly if column by the same name exists (#1400)", {
@@ -34,7 +35,8 @@ test_that("$ is parsed correctly if column by the same name exists (#1400)", {
     test_df %>%
       mutate(f = as.numeric(1:3)) %>%
       grouping %>%
-      select(-e))
+      select(-e)
+  )
 })
 
 test_that("[[ works for ungrouped access (#912)", {
@@ -48,7 +50,8 @@ test_that("[[ works for ungrouped access (#912)", {
     test_df %>%
       mutate(f = mean(a)) %>%
       grouping %>%
-      select(-e))
+      select(-e)
+  )
 })
 
 test_that("[[ works for rowwise access of list columns (#912)", {
@@ -61,7 +64,8 @@ test_that("[[ works for rowwise access of list columns (#912)", {
 
   expect_equal(
     df %>% rowwise() %>% transmute(z = y[[x]]),
-    data_frame(z = c(1, 4)))
+    data_frame(z = c(1, 4))
+  )
 })
 
 test_that("$ works for rle result (#2125)", {
@@ -75,11 +79,11 @@ test_that("$ works for rle result (#2125)", {
     test_df %>%
       mutate(f = rep(1L, 3L)) %>%
       grouping %>%
-      select(-e))
+      select(-e)
+  )
 })
 
 test_hybrid <- function(grouping) {
-
   test_that("case_when() works for LHS (#1719, #2244)", {
     expect_equal(
       test_df %>%
@@ -89,7 +93,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         mutate(f = b) %>%
         grouping %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("case_when() works for RHS (#1719, #2244)", {
@@ -101,7 +106,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         mutate(f = b) %>%
         grouping %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("assignments work (#1452)", {
@@ -109,12 +115,16 @@ test_hybrid <- function(grouping) {
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(f = { xx <- 5; xx }) %>%
+        mutate(f = {
+          xx <- 5
+          xx
+        }) %>%
         select(-e),
       test_df %>%
         mutate(f = 5) %>%
         grouping %>%
-        select(-e))
+        select(-e)
+    )
     expect_false(exists("xx"))
   })
 
@@ -145,7 +155,10 @@ test_hybrid <- function(grouping) {
     test <-
       test_df %>%
       grouping %>%
-      mutate(f = { xx <- 5; xx })
+      mutate(f = {
+        xx <- 5
+        xx
+      })
     expect_false(exists("xx"))
   })
 
@@ -160,27 +173,32 @@ test_hybrid <- function(grouping) {
       test_df %>%
         mutate(f = mean(a)) %>%
         grouping %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("interpolation works (#1012)", {
     uq <- lazyeval::uq # hadley/lazyeval#78
 
-    var <- ~b
+    var <- ~ b
 
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(., f = lazyeval::f_eval(~mean(uq(var)))) %>%
+        mutate(., f = lazyeval::f_eval( ~ mean(uq(
+          var
+        )))) %>%
         select(-e),
       test_df %>%
         grouping %>%
         mutate(f = mean(b)) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("can compute 1 - ecdf(y)(y) (#2018)", {
-    surv <- function(x) 1 - ecdf(x)(x)
+    surv <- function(x)
+      1 - ecdf(x)(x)
 
     testthat::expect_equal(
       test_df %>%
@@ -190,19 +208,24 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         mutate(., f = surv(b)) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("filter understands .data (#1012)", {
     testthat::expect_equal(
       test_df %>%
         grouping %>%
-        filter({ b <- 5; .data$b < 2}) %>%
+        filter({
+          b <- 5
+          .data$b < 2
+        }) %>%
         select(-e),
       test_df %>%
         grouping %>%
         filter(b < 2) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("filter understands .data (#1012)", {
@@ -214,7 +237,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         filter(b < 2) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("filter understands .data (#1012)", {
@@ -223,12 +247,13 @@ test_hybrid <- function(grouping) {
     testthat::expect_equal(
       test_df %>%
         grouping %>%
-        filter(.data[[ letters[[idx]] ]] < 2) %>%
+        filter(.data[[letters[[idx]]]] < 2) %>%
         select(-e),
       test_df %>%
         grouping %>%
         filter(b < 2) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("filter understands .env (#1469)", {
@@ -243,7 +268,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         filter(b < 2) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("filter understands .env in a pipe (#1469)", {
@@ -259,7 +285,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         filter(b < 2) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("filter understands get(..., .env) in a pipe (#1469)", {
@@ -273,19 +300,24 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         filter(b < 2) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("mutate understands .data (#1012)", {
     testthat::expect_equal(
       test_df %>%
         grouping %>%
-        mutate(f = { b <- 5; .data$b }) %>%
+        mutate(f = {
+          b <- 5
+          .data$b
+        }) %>%
         select(-e),
       test_df %>%
         grouping %>%
         mutate(f = b) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("mutate understands .data (#1012)", {
@@ -297,7 +329,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         mutate(f = b) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("mutate understands .data (#1012)", {
@@ -306,12 +339,13 @@ test_hybrid <- function(grouping) {
     testthat::expect_equal(
       test_df %>%
         grouping %>%
-        mutate(f = .data[[ letters[[idx]] ]]) %>%
+        mutate(f = .data[[letters[[idx]]]]) %>%
         select(-e),
       test_df %>%
         grouping %>%
         mutate(f = b) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("mutate understands .env (#1469)", {
@@ -326,7 +360,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         mutate(f = 2L) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("mutate understands .env in a pipe (#1469)", {
@@ -342,7 +377,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         mutate(f = 2L) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("mutate understands get(..., .env) in a pipe (#1469)", {
@@ -356,7 +392,8 @@ test_hybrid <- function(grouping) {
       test_df %>%
         grouping %>%
         mutate(f = 2L) %>%
-        select(-e))
+        select(-e)
+    )
   })
 
   test_that("summarise understands .data (#1012)", {
@@ -376,7 +413,8 @@ test_hybrid <- function(grouping) {
         summarise(f = sum(.data[["b"]])),
       test_df %>%
         grouping %>%
-        summarise(f = sum(b)))
+        summarise(f = sum(b))
+    )
   })
 
   test_that("summarise understands .data (#1012)", {
@@ -385,10 +423,11 @@ test_hybrid <- function(grouping) {
     testthat::expect_equal(
       test_df %>%
         grouping %>%
-        summarise(f = sum(.data[[ letters[[idx]] ]])),
+        summarise(f = sum(.data[[letters[[idx]]]])),
       test_df %>%
         grouping %>%
-        summarise(f = sum(b)))
+        summarise(f = sum(b))
+    )
   })
 
   test_that("summarise understands .env (#1469)", {
@@ -401,7 +440,8 @@ test_hybrid <- function(grouping) {
         f = .env$b),
       test_df %>%
         grouping %>%
-        summarise(f = 2L))
+        summarise(f = 2L)
+    )
   })
 
   test_that("summarise understands .env in a pipe (#1469)", {
@@ -415,7 +455,8 @@ test_hybrid <- function(grouping) {
         summarise(f = .env$b),
       test_df %>%
         grouping %>%
-        summarise(f = 2L))
+        summarise(f = 2L)
+    )
   })
 
   test_that("summarise understands get(..., .env) in a pipe (#1469)", {
@@ -427,7 +468,8 @@ test_hybrid <- function(grouping) {
         summarise(f = get("b", .env)),
       test_df %>%
         grouping %>%
-        summarise(f = 2L))
+        summarise(f = 2L)
+    )
   })
 
   test_that("columns named .data and .env are overridden", {
@@ -438,8 +480,10 @@ test_hybrid <- function(grouping) {
         grouping %>%
         summarise(env = list(.env), data = list(.data)) %>%
         ungroup() %>%
-        summarise(is_env_env = all(vapply(env, is.environment, logical(1))),
-                  is_data_env = all(vapply(env, is.environment, logical(1)))),
+        summarise(
+          is_env_env = all(vapply(env, is.environment, logical(1))),
+          is_data_env = all(vapply(env, is.environment, logical(1)))
+        ),
       data_frame(is_env_env = TRUE, is_data_env = TRUE)
     )
   })
@@ -450,7 +494,10 @@ test_hybrid <- function(grouping) {
     testthat::expect_equal(
       conflict_data %>%
         grouping %>%
-        summarise(env = mean(.data$.env), data = mean(.data$.data)),
+        summarise(
+          env = mean(.data$.env),
+          data = mean(.data$.data)
+        ),
       conflict_data %>%
         rename(env = .env, data = .data) %>%
         grouping %>%
@@ -462,4 +509,4 @@ test_hybrid <- function(grouping) {
 
 test_hybrid(identity)
 test_hybrid(rowwise)
-test_hybrid(. %>% group_by_(~id))
+test_hybrid(. %>% group_by_( ~ id))
