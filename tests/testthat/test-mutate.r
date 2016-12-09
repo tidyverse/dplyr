@@ -194,8 +194,11 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
   expect_error(mutate(group_by(d,x),val = ifelse(x < 3, "foo", 2)))
 })
 
-test_that("assignments are forbidden if overwriting variables (#315)", {
-   expect_error(mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg } ))
+test_that("assignments don't overwrite variables (#315)", {
+   expect_equal(
+     mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg } ),
+     mutate(mtcars, cyl2 = -cyl^2 )
+   )
 })
 
 test_that("hybrid evaluator uses correct environment (#403)", {
