@@ -158,6 +158,10 @@ test_that("summarise fails on missing variables", {
   expect_error(summarise(mtcars, a = mean(notthear)) )
 })
 
+test_that("summarise fails on missing variables when grouping (#2223)", {
+  expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)) )
+})
+
 test_that("n() does not accept arguments",{
   expect_error(summarise(group_by(mtcars, cyl), n(hp)), "does not take arguments")
 })
@@ -590,15 +594,7 @@ test_that("lead and lag behave correctly in summarise (#1434)", {
 
 })
 
-test_that("summarise understands column. #1012", {
-    ir1 <- summarise( iris, Sepal = sum(Sepal.Length * Sepal.Width) )
-    ir2 <- summarise( iris, Sepal = sum(column("Sepal.Length") * column("Sepal.Width")) )
-    expect_equal(ir1, ir2)
-
-    ir1 <- summarise( group_by(iris, Species), Sepal = sum(Sepal.Length * Sepal.Width) )
-    ir2 <- summarise( group_by(iris, Species), Sepal = sum(column("Sepal.Length") * column("Sepal.Width")) )
-    expect_equal(ir1, ir2)
-})
+# .data and .env tests now in test-hybrid-traverse.R
 
 test_that("data.frame columns are supported in summarise (#1425)" , {
   df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
