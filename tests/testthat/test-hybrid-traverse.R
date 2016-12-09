@@ -430,6 +430,34 @@ test_that("summarise understands get(..., .env) in a pipe (#1469)", {
       summarise(f = 2L))
 })
 
+test_that("columns named .data and .env are overridden", {
+  conflict_data <- data_frame(id = test_df$id, .data = 1:3, .env = 3:1)
+
+  testthat::expect_equal(
+    conflict_data %>%
+      grouping %>%
+      summarise(env = list(.env), data = list(.data)) %>%
+      ungroup() %>%
+      summarise(is_env_env = all(vapply(env, is.environment, logical(1))),
+                is_data_env = all(vapply(env, is.environment, logical(1)))),
+    data_frame(is_env_env = TRUE, is_data_env = TRUE)
+  )
+})
+
+test_that("contents of columns named .data and .env can be accessed", {
+  conflict_data <- data_frame(id = test_df$id, .data = 1:3, .env = 3:1)
+
+  testthat::expect_equal(
+    conflict_data %>%
+      grouping %>%
+      summarise(env = mean(.data$.env), data = mean(.data$.data)),
+    conflict_data %>%
+      rename(env = .env, data = .data) %>%
+      grouping %>%
+      summarise_each(funs(mean), env, data)
+  )
+})
+
 }
 
 test_hybrid(identity)
