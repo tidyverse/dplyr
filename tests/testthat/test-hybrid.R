@@ -156,6 +156,40 @@ test_that("min() and max() work", {
     expected = 5L
   )
 
+  check_hybrid_result(
+    min(a, na.rm = pi != pi), a = c(1:5, NA),
+    expected = NA_integer_
+  )
+  check_hybrid_result(
+    max(a, na.rm = pi != pi), a = c(1:5, NA),
+    expected = NA_integer_
+  )
+  check_hybrid_result(
+    min(a, na.rm = pi == pi), a = c(1:5, NA),
+    expected = 1L
+  )
+  check_hybrid_result(
+    max(a, na.rm = pi == pi), a = c(1:5, NA),
+    expected = 5L
+  )
+
+  check_hybrid_result(
+    min(a, na.rm = F), a = c(1:5, NA),
+    expected = NA_integer_
+  )
+  check_hybrid_result(
+    max(a, na.rm = F), a = c(1:5, NA),
+    expected = NA_integer_
+  )
+  check_hybrid_result(
+    min(a, na.rm = T), a = c(1:5, NA),
+    expected = 1L
+  )
+  check_hybrid_result(
+    max(a, na.rm = T), a = c(1:5, NA),
+    expected = 5L
+  )
+
   c <- 1:3
   check_not_hybrid_result(
     min(c), a = 1:5,
