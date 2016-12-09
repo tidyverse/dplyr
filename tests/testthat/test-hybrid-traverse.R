@@ -128,17 +128,21 @@ test_hybrid <- function(grouping) {
     expect_false(exists("xx"))
   })
 
-  test_that("assignments override variable but don't change it (#315, #1452)", {
+  test_that("assignments don't change variable (#315, #1452)", {
     expect_false(exists("a"))
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(f = { a <- 5; a }) %>%
+        mutate(f = {
+          a <- 5
+          a
+        }) %>%
         select(-e),
       test_df %>%
         mutate(f = 5) %>%
         grouping %>%
-        select(-e))
+        select(-e)
+    )
     expect_false(exists("a"))
   })
 
@@ -200,7 +204,7 @@ test_hybrid <- function(grouping) {
     surv <- function(x)
       1 - ecdf(x)(x)
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         mutate(., f = 1 - ecdf(b)(b)) %>%
@@ -213,7 +217,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("filter understands .data (#1012)", {
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         filter({
@@ -229,7 +233,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("filter understands .data (#1012)", {
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         filter(.data[["b"]] < 2) %>%
@@ -244,7 +248,7 @@ test_hybrid <- function(grouping) {
   test_that("filter understands .data (#1012)", {
     idx <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         filter(.data[[letters[[idx]]]] < 2) %>%
@@ -259,7 +263,7 @@ test_hybrid <- function(grouping) {
   test_that("filter understands .env (#1469)", {
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       filter(
         test_df %>%
           grouping,
@@ -277,7 +281,7 @@ test_hybrid <- function(grouping) {
 
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         filter(b < .env$b) %>%
@@ -292,7 +296,7 @@ test_hybrid <- function(grouping) {
   test_that("filter understands get(..., .env) in a pipe (#1469)", {
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         filter(b < get("b", .env)) %>%
@@ -305,7 +309,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("mutate understands .data (#1012)", {
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         mutate(f = {
@@ -321,7 +325,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("mutate understands .data (#1012)", {
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         mutate(f = .data[["b"]]) %>%
@@ -336,7 +340,7 @@ test_hybrid <- function(grouping) {
   test_that("mutate understands .data (#1012)", {
     idx <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         mutate(f = .data[[letters[[idx]]]]) %>%
@@ -351,7 +355,7 @@ test_hybrid <- function(grouping) {
   test_that("mutate understands .env (#1469)", {
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       mutate(
         test_df %>%
           grouping,
@@ -369,7 +373,7 @@ test_hybrid <- function(grouping) {
 
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         mutate(f = .env$b) %>%
@@ -384,7 +388,7 @@ test_hybrid <- function(grouping) {
   test_that("mutate understands get(..., .env) in a pipe (#1469)", {
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         mutate(f = get("b", .env)) %>%
@@ -397,7 +401,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("summarise understands .data (#1012)", {
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         summarise(f = { b <- 5; sum(.data$b) }),
@@ -407,7 +411,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("summarise understands .data (#1012)", {
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         summarise(f = sum(.data[["b"]])),
@@ -420,7 +424,7 @@ test_hybrid <- function(grouping) {
   test_that("summarise understands .data (#1012)", {
     idx <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         summarise(f = sum(.data[[letters[[idx]]]])),
@@ -433,7 +437,7 @@ test_hybrid <- function(grouping) {
   test_that("summarise understands .env (#1469)", {
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       summarise(
         test_df %>%
           grouping,
@@ -449,7 +453,7 @@ test_hybrid <- function(grouping) {
 
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         summarise(f = .env$b),
@@ -462,7 +466,7 @@ test_hybrid <- function(grouping) {
   test_that("summarise understands get(..., .env) in a pipe (#1469)", {
     b <- 2L
 
-    testthat::expect_equal(
+    expect_equal(
       test_df %>%
         grouping %>%
         summarise(f = get("b", .env)),
@@ -475,7 +479,7 @@ test_hybrid <- function(grouping) {
   test_that("columns named .data and .env are overridden", {
     conflict_data <- data_frame(id = test_df$id, .data = 1:3, .env = 3:1)
 
-    testthat::expect_equal(
+    expect_equal(
       conflict_data %>%
         grouping %>%
         summarise(env = list(.env), data = list(.data)) %>%
@@ -491,7 +495,7 @@ test_hybrid <- function(grouping) {
   test_that("contents of columns named .data and .env can be accessed", {
     conflict_data <- data_frame(id = test_df$id, .data = 1:3, .env = 3:1)
 
-    testthat::expect_equal(
+    expect_equal(
       conflict_data %>%
         grouping %>%
         summarise(
