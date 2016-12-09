@@ -207,7 +207,7 @@ namespace dplyr {
     SEXP nidxe = CAR(p);
     SEXP nidx = r_constfold(nidxe);
     // we only know how to handle the case where nidx is a length one
-    // integer or numeric. In any other case, e.g. an expression for R to evaluate
+    // integer or numeric (after constant folding). In any other case
     // we just fallback to R evaluation (#734)
     int idx;
     if (!is<int>(nidx) && !is<double>(nidx)) {
