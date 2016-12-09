@@ -597,3 +597,19 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
     error = "unused argument"
   )
 })
+
+test_that("hybrid handlers don't nest", {
+  check_not_hybrid_result(
+    mean(lag(a)), a = 1:5,
+    expected = NA_real_
+  )
+  check_not_hybrid_result(
+    mean(row_number()), a = 1:5,
+    expected = 3,
+    test_eval = FALSE
+  )
+  check_not_hybrid_result(
+    list(lag(cume_dist(a))), a = 1:4,
+    expected = list(c(NA, 0.25, 0.5, 0.75))
+  )
+})
