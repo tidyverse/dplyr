@@ -118,6 +118,20 @@ test_that("assignments work (#1452)", {
   expect_false(exists("xx"))
 })
 
+test_that("assignments override variable but don't change it (#315, #1452)", {
+  expect_false(exists("a"))
+  expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = { a <- 5; a }) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = 5) %>%
+      grouping %>%
+      select(-e))
+  expect_false(exists("a"))
+})
+
 test_that("assignments don't carry over (#1452)", {
   expect_error(
     test_df %>%
@@ -133,14 +147,6 @@ test_that("assignments don't leak (#1452)", {
     grouping %>%
     mutate(f = { xx <- 5; xx })
   expect_false(exists("xx"))
-})
-
-test_that("assignments still throws error if variable is affected (#315)", {
-  expect_error(
-    test_df %>%
-      grouping %>%
-      mutate(f = { a <- 5; a }),
-    "read-only")
 })
 
 test_that("[ works (#912)", {
@@ -185,6 +191,243 @@ test_that("can compute 1 - ecdf(y)(y) (#2018)", {
       grouping %>%
       mutate(., f = surv(b)) %>%
       select(-e))
+})
+
+test_that("filter understands .data (#1012)", {
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      filter({ b <- 5; .data$b < 2}) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      filter(b < 2) %>%
+      select(-e))
+})
+
+test_that("filter understands .data (#1012)", {
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      filter(.data[["b"]] < 2) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      filter(b < 2) %>%
+      select(-e))
+})
+
+test_that("filter understands .data (#1012)", {
+  idx <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      filter(.data[[ letters[[idx]] ]] < 2) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      filter(b < 2) %>%
+      select(-e))
+})
+
+test_that("filter understands .env (#1469)", {
+  b <- 2L
+
+  testthat::expect_equal(
+    filter(
+      test_df %>%
+        grouping,
+      b < .env$b) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      filter(b < 2) %>%
+      select(-e))
+})
+
+test_that("filter understands .env in a pipe (#1469)", {
+  skip("Currently failing")
+
+  b <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      filter(b < .env$b) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      filter(b < 2) %>%
+      select(-e))
+})
+
+test_that("filter understands get(..., .env) in a pipe (#1469)", {
+  b <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      filter(b < get("b", .env)) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      filter(b < 2) %>%
+      select(-e))
+})
+
+test_that("mutate understands .data (#1012)", {
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = { b <- 5; .data$b }) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(f = b) %>%
+      select(-e))
+})
+
+test_that("mutate understands .data (#1012)", {
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = .data[["b"]]) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(f = b) %>%
+      select(-e))
+})
+
+test_that("mutate understands .data (#1012)", {
+  idx <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = .data[[ letters[[idx]] ]]) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(f = b) %>%
+      select(-e))
+})
+
+test_that("mutate understands .env (#1469)", {
+  b <- 2L
+
+  testthat::expect_equal(
+    mutate(
+      test_df %>%
+        grouping,
+      f = .env$b) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(f = 2L) %>%
+      select(-e))
+})
+
+test_that("mutate understands .env in a pipe (#1469)", {
+  skip("Currently failing")
+
+  b <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = .env$b) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(f = 2L) %>%
+      select(-e))
+})
+
+test_that("mutate understands get(..., .env) in a pipe (#1469)", {
+  b <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = get("b", .env)) %>%
+      select(-e),
+    test_df %>%
+      grouping %>%
+      mutate(f = 2L) %>%
+      select(-e))
+})
+
+test_that("summarise understands .data (#1012)", {
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      summarise(f = { b <- 5; sum(.data$b) }),
+    test_df %>%
+      grouping %>%
+      summarise(f = sum(b)))
+})
+
+test_that("summarise understands .data (#1012)", {
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      summarise(f = sum(.data[["b"]])),
+    test_df %>%
+      grouping %>%
+      summarise(f = sum(b)))
+})
+
+test_that("summarise understands .data (#1012)", {
+  idx <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      summarise(f = sum(.data[[ letters[[idx]] ]])),
+    test_df %>%
+      grouping %>%
+      summarise(f = sum(b)))
+})
+
+test_that("summarise understands .env (#1469)", {
+  b <- 2L
+
+  testthat::expect_equal(
+    summarise(
+      test_df %>%
+        grouping,
+      f = .env$b),
+    test_df %>%
+      grouping %>%
+      summarise(f = 2L))
+})
+
+test_that("summarise understands .env in a pipe (#1469)", {
+  skip("Currently failing")
+
+  b <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      summarise(f = .env$b),
+    test_df %>%
+      grouping %>%
+      summarise(f = 2L))
+})
+
+test_that("summarise understands get(..., .env) in a pipe (#1469)", {
+  b <- 2L
+
+  testthat::expect_equal(
+    test_df %>%
+      grouping %>%
+      summarise(f = get("b", .env)),
+    test_df %>%
+      grouping %>%
+      summarise(f = 2L))
 })
 
 }

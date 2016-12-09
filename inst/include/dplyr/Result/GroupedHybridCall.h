@@ -15,7 +15,7 @@ namespace dplyr {
   class GroupedHybridCall {
   public:
     GroupedHybridCall(Subsets& subsets_, const Environment& env_) :
-      indices(NULL), subsets(subsets_), env(env_), has_active_env(false)
+      indices(NULL), subsets(subsets_), env(env_), has_eval_env(false)
     {
       LOG_VERBOSE;
     }
@@ -29,18 +29,28 @@ namespace dplyr {
     }
 
   private:
-    void provide_active_env() {
-      if (has_active_env)
-        return;
+    const Environment& get_eval_env() {
+      provide_eval_env();
+      return eval_env;
+    }
 
-      CharacterVector names = subsets.get_variable_names();
-      if (names.length() == 0)
+    void provide_eval_env() {
+      if (has_eval_env)
         return;
 
       // bindr::populate_env() does less work in R, I'm assuming that creating the environment from C++ will be faster
-      active_env = env.new_child(true);
-      has_active_env = true;
-      populate_env_symbol(active_env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
+      Environment active_env = env.new_child(true);
+
+      CharacterVector names = subsets.get_variable_names();
+      if (names.length() > 0) {
+        populate_env_symbol(active_env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
+      }
+
+      eval_env = active_env.new_child(true);
+      eval_env[".data"] = active_env;
+      eval_env[".env"] = env;
+
+      has_eval_env = true;
     }
 
     static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
@@ -73,9 +83,8 @@ namespace dplyr {
 
       LOG_INFO << type2name(call);
       if (TYPEOF(call) == LANGSXP) {
-        LOG_VERBOSE << "performing hybrid evaluation";
-        provide_active_env();
-        return Rcpp_eval(call, active_env);
+        LOG_VERBOSE << "performing evaluation in eval_env";
+        return Rcpp_eval(call, get_eval_env());
       } else if (TYPEOF(call) == SYMSXP) {
         if (subsets.count(call)) {
           return subsets.get(call, get_indices());
@@ -125,9 +134,9 @@ namespace dplyr {
   private:
     const SlicingIndex* indices;
     Subsets& subsets;
-    Environment env, active_env;
+    Environment env, eval_env;
     CharacterVector active_names;
-    bool has_active_env;
+    bool has_eval_env;
   };
 
 }

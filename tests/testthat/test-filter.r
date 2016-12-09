@@ -322,6 +322,8 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
   expect_equal( xx[ok], res$xx )
 })
 
+# .data and .env tests now in test-hybrid-traverse.R
+
 test_that("each argument gets implicit parens", {
   df <- data_frame(
     v1 = c("a", "b", "a", "b"),

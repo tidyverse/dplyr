@@ -435,6 +435,8 @@ test_that("mutate handles factors (#1414)", {
   expect_equal( as.character(res$f2), res$f)
 })
 
+# .data and .env tests now in test-hybrid-traverse.R
+
 test_that("mutate handles results from one group with all NA values (#1463) ", {
   df <- data_frame( x = c(1, 2), y = c(1, NA))
   res <- df %>% group_by(x) %>% mutate( z = ifelse(y>1, 1, 2) )
