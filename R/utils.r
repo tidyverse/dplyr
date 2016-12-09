@@ -172,19 +172,3 @@ is_1d <- function(x) {
 }
 
 is_bare_list <- function(x) is.list(x) && !is.object(x)
-
-# Returns the value of x if it is a constant, otherwise returns NULL
-# The compile() call with the optimize = 3 option performs constant folding
-# (among other things), it also processes calls like c(), list(), :, and [[.
-# It returns byte code, which then needs to be evaluated.  If evaluation in
-# a new empty environment succeeds, the result is a constant and can be returned.
-# Simply calling eval(x, emptyenv()) won't find c() et al.
-constfold <- function(x) {
-  tryCatch(
-    {
-      compiled <- compiler::compile(x, options = list(optimize = 3, suppressAll = TRUE))
-      eval(compiled, new.env(parent = emptyenv()))
-    },
-    error = function(e) NULL
-  )
-}

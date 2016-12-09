@@ -270,6 +270,9 @@ test_that("mean(), var(), sd() and sum() work", {
 
   expect_not_hybrid(sd(a, TRUE), a = c(1:3, NA),
                     expected = 1)
+
+  expect_not_hybrid(sd(a, na.rm = b[[1]]), a = c(1:3, NA), b = TRUE,
+                    expected = 1)
 })
 
 test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and cume_dist() work", {

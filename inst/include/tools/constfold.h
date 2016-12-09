@@ -5,12 +5,17 @@
 namespace dplyr {
 
   inline SEXP r_constfold(SEXP x) {
-    static Function constfold("constfold", "dplyr");
-    SEXP ret = constfold(x);
-    if (Rf_isNull(ret))
+    if (!Rf_isLanguage(x)) {
       return x;
+    }
 
-    return ret;
+    static Function force("force", R_BaseEnv);
+    try {
+      return force(x);
+    }
+    catch (...) {
+      return x;
+    }
   }
 
 }
