@@ -11,6 +11,7 @@
 
 #include <tools/constfold.h>
 #include <tools/match.h>
+#include <tools/na_rm.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -33,21 +34,28 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nar
   call = r_match_call(get_n_distinct(), call);
 
   for (SEXP p = CDR(call); !Rf_isNull(p); p = CDR(p)) {
-    SEXP xe = CAR(p);
-    if (!Rf_isNull(TAG(p)) && TAG(p) == R_NaRmSymbol) {
-      SEXP x = r_constfold(xe);
-      if (is<bool>(x)) {
-        na_rm = as<bool>(x);
-      } else {
+    SEXP x = CAR(p);
+    NaRmResult na_rm_check = eval_na_rm(p);
+    if (na_rm_check != WRONG_TAG) {
+      switch (na_rm_check) {
+      case NA_RM_TRUE:
+        na_rm = true;
+        break;
+
+      case NA_RM_FALSE:
+        na_rm = false;
+        break;
+
+      default:
         LOG_VERBOSE;
         return 0;
       }
-    } else if (TYPEOF(xe) == SYMSXP) {
-      if (!subsets.count(xe)) {
+    } else if (TYPEOF(x) == SYMSXP) {
+      if (!subsets.count(x)) {
         LOG_VERBOSE;
         return 0;
       }
-      visitors.push_back(subsets.get_variable(xe));
+      visitors.push_back(subsets.get_variable(x));
     } else {
       return 0;
     }

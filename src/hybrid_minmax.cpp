@@ -9,6 +9,7 @@
 
 #include <tools/constfold.h>
 #include <tools/match.h>
+#include <tools/na_rm.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -58,18 +59,18 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 1) {
     return minmax_prototype_impl<Tmpl,false>(arg, is_summary);
   } else if (nargs == 2) {
-    SEXP arg2 = CDDR(call);
     // we know how to handle fun( ., na.rm = TRUE/FALSE )
-    if (TAG(arg2) == R_NaRmSymbol) {
-      SEXP narme = CAR(arg2);
-      SEXP narm = r_constfold(narme);
-      if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
-        if (LOGICAL(narm)[0] == TRUE) {
-          return minmax_prototype_impl<Tmpl, true>(arg, is_summary);
-        } else {
-          return minmax_prototype_impl<Tmpl, false>(arg, is_summary);
-        }
-      }
+    NaRmResult na_rm = eval_na_rm(CDDR(call));
+    switch (na_rm) {
+    case NA_RM_TRUE:
+      return minmax_prototype_impl<Tmpl, true>(arg, is_summary);
+
+    case NA_RM_FALSE:
+      return minmax_prototype_impl<Tmpl, false>(arg, is_summary);
+
+    default:
+      LOG_VERBOSE;
+      break;
     }
   }
   return 0;
