@@ -47,7 +47,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     const Lazy& lazy = dots[k];
     const Environment& env = lazy.env();
 
-    LOG_VERBOSE << "processing variable " << CHAR(lazy.name());
+    LOG_VERBOSE << "processing variable " << lazy.name().c_str();
 
     Shield<SEXP> expr_(lazy.expr());
     SEXP expr = expr_;

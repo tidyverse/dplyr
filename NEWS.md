@@ -1,5 +1,11 @@
 # dplyr 0.5.0.9000
 
+* Breaking change: The new `.data` and `.env` environments can be used inside all verbs that operate on data: `.data$column_name` accesses the column `column_name`, whereas `.env$var` accesses the external variable `var`. Columns or external variables named `.data` or `.env` are shadowed, use `.data$...` and/or `.env$...` to access them.
+
+* Breaking change: The `column()` and `global()` functions have been removed. They were never documented officially. Use the new `.data` and `.env` environments instead.
+
+* Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the `bindrcpp` package (#2190). This temporary environment poses restrictions on assignments using `<-` inside verbs.
+
 * New `add_count()` and `add_tally()` for adding an `n` column within groups (#2078, @dgrtwo).
 
 * Enforce integer `n` for `lag()` (#2162, @kevinushey).

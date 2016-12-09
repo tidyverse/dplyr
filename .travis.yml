@@ -30,5 +30,21 @@ before_script:
 - psql -c 'create database test;' -U postgres
 - R -q -e 'install.packages("http://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.7.tar.gz", repos = NULL)'
 
+#after_success
 after_success:
 - Rscript -e 'covr::codecov()'
+
+# Custom parts:
+
+#r_github_packages
+r_github_packages:
+- jimhester/covr
+
+#r_packages
+r_packages:
+
+#services
+services:
+
+#before_install
+before_install:

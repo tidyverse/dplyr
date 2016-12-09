@@ -48,6 +48,10 @@ namespace dplyr {
     }
 
   public:
+    virtual CharacterVector get_variable_names() const {
+      return symbol_map.get_names();
+    }
+
     virtual SEXP get_variable(SEXP symbol) const {
       return subsets[symbol_map.get(symbol)]->get_variable();
     }
