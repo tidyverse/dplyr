@@ -43,7 +43,9 @@ namespace dplyr {
 
       CharacterVector names = subsets.get_variable_names();
       if (names.length() > 0) {
-        populate_env_symbol(active_env, names, &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
+        populate_env_symbol(
+          active_env, names,
+          &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
       }
 
       eval_env = active_env.new_child(true);
