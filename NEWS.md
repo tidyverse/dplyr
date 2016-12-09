@@ -1,6 +1,34 @@
 # dplyr 0.5.0.9000
 
-* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2187).
+* New `add_count()` and `add_tally()` for adding an `n` column within groups (#2078, @dgrtwo).
+
+* Enforce integer `n` for `lag()` (#2162, @kevinushey).
+
+* Add failing tests for summarize preserving ordered factors (#2200, #2238, @ateucher).
+
+* Add failing tests (#1892, #2249, @drknexus).
+
+* Tests for factor handling in `if_else()` (#2242, @LCHansson).
+
+* Replace faulty `c4$query` suggestion with `sql_render(c4)` in vignette (#2246, @itcarroll).
+
+* Update documentation for `na_if()` (#2229, @pkq)
+
+* Added a test case for join that hang on empty suffix argument (#2228, #2239, @simon-anders).
+
+* Fix typo in `stop()` message (#2234, @PedramNavid).
+
+* Fixed typo in `introduction.Rmd` (#2112, @Shurakai).
+
+* Fix spelling typo (#2173, @mdlincoln).
+
+* Fix typo (#2215, @smsaladi).
+
+* Prefer `Symbol` to `String` for handling column names in C++ code (#2185).
+
+* C++ refactorings (#2178).
+
+* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2157).
 
 * CallProxy is now a specialization of GroupedCallProxy.
 
@@ -382,10 +410,10 @@ There were two other tweaks to the exported API, but these are less likely to af
   that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively
   to avoid creating repeated column names (#1460).  Joins on string columns
   should be substantially faster (#1386). Extra attributes are ok if they are
-  identical (#1636). Joins work correct when factor levels not equal (#1712, 
-  #1559), and anti and semi joins give correct result when by variable is a 
-  factor (#1571). A clear error message is given for joins where an explicit `by`
-  contains unavailable columns (#1928, #1932, @krlmlr).
+  identical (#1636). Joins work correct when factor levels not equal
+  (#1712, #1559), and anti and semi joins give correct result when by variable
+  is a  factor (#1571). A clear error message is given for joins where an
+  explicit `by` contains unavailable columns (#1928, #1932, @krlmlr).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable

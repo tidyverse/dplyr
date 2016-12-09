@@ -1,24 +1,34 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+# Header
+language: r
 sudo: false
 cache: packages
-r:
-  - oldrel
-  - release
-  - devel
-
 warnings_are_errors: false
+
+#env
 env:
   global:
-    - _R_CHECK_FORCE_SUGGESTS_=false
-    - MAKEFLAGS="-j 2"
+  - _R_CHECK_FORCE_SUGGESTS_=false
+  - MAKEFLAGS="-j 2"
 
-r_github_packages:
-  - hadley/devtools
+#matrix: 3x Linux, 1x OS X
+matrix:
+  include:
+  - r: release
+  - r: oldrel
+  - r: devel
 
+#notifications
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+#before_script
 before_script:
-  - psql -c 'create database test;' -U postgres
+- psql -c 'create database test;' -U postgres
+- R -q -e 'install.packages("http://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.7.tar.gz", repos = NULL)'
 
 after_success:
 - Rscript -e 'covr::codecov()'

@@ -741,3 +741,38 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       .$a,
     "can't promote")
 })
+
+test_that("calculating an ordered factor preserves order (#2200)", {
+  skip("Currently failing")
+  test_df <- tibble(
+    id = c("a", "b"),
+    val = 1:2
+  )
+
+  ret <- group_by(test_df, id) %>%
+    summarize(
+      level = ordered(val)
+    )
+
+  expect_s3_class(ret$level, "ordered")
+  expect_equal(levels(ret$level), c("1","2"))
+})
+
+test_that("min, max preserves ordered factor data  (#2200)", {
+  skip("Currently failing")
+  test_df <- tibble(
+    id = rep(c("a","b"), 2),
+    ord = ordered(c("A", "B", "B", "A"), levels = c("A", "B"))
+  )
+
+  ret <- group_by(test_df, id) %>%
+    summarize(
+      min_ord = min(ord),
+      max_ord = max(ord)
+    )
+
+  expect_s3_class(ret$min_ord, "ordered")
+  expect_s3_class(ret$max_ord, "ordered")
+  expect_equal(levels(ret$min_ord), levels(test_df$ord))
+  expect_equal(levels(ret$max_ord), levels(test_df$ord))
+})
