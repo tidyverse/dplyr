@@ -140,7 +140,6 @@ namespace dplyr {
     const SlicingIndex* indices;
     Subsets& subsets;
     Environment env, eval_env;
-    CharacterVector active_names;
     bool has_eval_env;
   };
 
