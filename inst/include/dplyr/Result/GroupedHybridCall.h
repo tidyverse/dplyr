@@ -14,16 +14,16 @@ namespace dplyr {
   template <typename Subsets>
   class GroupedHybridCall {
   public:
-    GroupedHybridCall(Subsets& subsets_, const Environment& env_) :
-      indices(NULL), subsets(subsets_), env(env_), has_eval_env(false)
+    GroupedHybridCall(const Call& call_, Subsets& subsets_, const Environment& env_) :
+      call(call_), indices(NULL), subsets(subsets_), env(env_), has_eval_env(false)
     {
       LOG_VERBOSE;
     }
 
   public:
-    SEXP eval(const Call& call, const SlicingIndex& indices_) {
+    SEXP eval(const SlicingIndex& indices_) {
       set_indices(indices_);
-      SEXP ret = eval_with_indices(call);
+      SEXP ret = eval_with_indices();
       clear_indices();
       return ret;
     }
@@ -78,11 +78,13 @@ namespace dplyr {
       indices = NULL;
     }
 
-    SEXP eval_with_indices(const Call& call_) {
-      LOG_INFO << type2name(call_);
-      Call call = clone(call_);
-      while (simplified(call)) {}
+    SEXP eval_with_indices() {
+      Call call_ = clone(call);
+      while (simplified(call_)) {}
+      return eval_with_indices_simplified(call_);
+    }
 
+    SEXP eval_with_indices_simplified(const Call& call) {
       LOG_INFO << type2name(call);
       if (TYPEOF(call) == LANGSXP) {
         LOG_VERBOSE << "performing evaluation in eval_env";
@@ -134,6 +136,7 @@ namespace dplyr {
     }
 
   private:
+    const Call& call;
     const SlicingIndex* indices;
     Subsets& subsets;
     Environment env, eval_env;

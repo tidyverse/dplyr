@@ -51,12 +51,12 @@ namespace dplyr {
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
-      return get_hybrid_call()->eval(call, indices);
+      return get_hybrid_call()->eval(indices);
     }
 
     HybridCall* get_hybrid_call() {
       if (!hybrid_call) {
-        hybrid_call.reset(new HybridCall(subsets, env));
+        hybrid_call.reset(new HybridCall(call, subsets, env));
       }
 
       return hybrid_call.get();
@@ -64,6 +64,7 @@ namespace dplyr {
 
     void set_call(SEXP call_) {
       proxies.clear();
+      hybrid_call.reset();
       call = call_;
     }
 
