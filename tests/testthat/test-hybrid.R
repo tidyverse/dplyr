@@ -5,6 +5,10 @@ test_that("n() and n_distinct() work", {
     n(), a = 1:5,
     expected = 5L, test_eval = FALSE
   )
+  check_not_hybrid_result(
+    list(1:n()), a = 1:5,
+    expected = list(1:5), test_eval = FALSE
+  )
 
   check_hybrid_result(
     n_distinct(a), a = 1:5,
