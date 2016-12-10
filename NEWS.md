@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Regular implementations of `nth()` and `ntile()` are more careful about proper data types of their return values (#2306).
+
 * Breaking change: The new `.data` and `.env` environments can be used inside all verbs that operate on data: `.data$column_name` accesses the column `column_name`, whereas `.env$var` accesses the external variable `var`. Columns or external variables named `.data` or `.env` are shadowed, use `.data$...` and/or `.env$...` to access them.
 
 * Breaking change: The `column()` and `global()` functions have been removed. They were never documented officially. Use the new `.data` and `.env` environments instead.
