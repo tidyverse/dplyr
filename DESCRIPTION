@@ -74,6 +74,7 @@ Collate:
     'group-indices.R'
     'group-size.r'
     'grouped-df.r'
+    'hybrid.R'
     'id.r'
     'if_else.R'
     'inline.r'
