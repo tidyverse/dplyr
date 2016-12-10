@@ -15,12 +15,12 @@ test_that("is_na on databases as non-confusing IS NULL clause", {
 
   dfn1 <- copy_to(db, d , "dfn1")
 
-  dfn1 %>% mutate(nna = 0) %>%
+  dres <- dfn1 %>% mutate(nna = 0) %>%
     mutate(nna = nna + is.na(x)) %>%
     mutate(nna = nna + is.na(y)) %>%
     mutate(nna = nna + is.na(z)) %>%
     arrange(rowNum) %>%
-    collect() -> dres
+    collect()
 
   expect_equal(dres$nna, c(1, 0, 1))
 })
