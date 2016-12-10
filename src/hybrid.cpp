@@ -76,6 +76,7 @@ HybridHandlerMap& get_handlers() {
     install_window_handlers(handlers);
     install_offset_handlers(handlers);
     install_in_handlers(handlers);
+    install_debug_handlers(handlers);
   }
   return handlers;
 }
@@ -135,7 +136,6 @@ namespace dplyr {
         if (Rf_length(data) == 1) return constant_handler(data);
       }
     } else {
-      // TODO: perhaps deal with SYMSXP separately
       if (Rf_length(call) == 1) return constant_handler(call);
     }
     return 0;

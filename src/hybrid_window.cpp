@@ -4,6 +4,8 @@
 
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
+#include <tools/constfold.h>
+#include <tools/match.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -55,17 +57,25 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
   return 0;
 }
 
+SEXP get_ntile() {
+  static Function ntile("ntile", Environment::namespace_env("dplyr"));
+  return ntile;
+}
+
 Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 2) return 0;
 
+  call = r_match_call(get_ntile(), call);
+
   // handle 2nd arg
-  SEXP ntiles = CADDR(call);
+  SEXP ntilese = CADDR(call);
+  SEXP ntiles = r_constfold(ntilese);
   double number_tiles;
-  try {
-    number_tiles = as<int>(ntiles);
-  } catch (...) {
-    stop("could not convert n to scalar integer");
+  if (!is<int>(ntiles) && !is<double>(ntiles)) {
+    LOG_VERBOSE;
+    return 0;
   }
+  number_tiles = as<double>(ntiles);
 
   RObject data(CADR(call));
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {

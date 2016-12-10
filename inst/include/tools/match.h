@@ -4,20 +4,14 @@
 
 namespace dplyr {
 
-  class RMatch {
-  public:
-    RMatch() : match_fun("match", R_BaseEnv) {}
-    IntegerVector operator()(SEXP x, SEXP y) {
-      return match_fun(x, y, NA_INTEGER, CharacterVector());
-    }
-
-  private:
-    Function match_fun;
-  };
-
   inline IntegerVector r_match(SEXP x, SEXP y) {
-    static RMatch m;
-    return m(x, y);
+    static Function match("match", R_BaseEnv);
+    return match(x, y, NA_INTEGER, CharacterVector());
+  }
+
+  inline SEXP r_match_call(SEXP definition, SEXP call) {
+    static Function match_call("match.call", R_BaseEnv);
+    return match_call(definition, Rf_lang2(R_QuoteSymbol, call));
   }
 
 }

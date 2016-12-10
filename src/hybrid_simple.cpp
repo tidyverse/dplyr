@@ -9,6 +9,10 @@
 #include <dplyr/Result/Var.h>
 #include <dplyr/Result/Sd.h>
 
+#include <tools/constfold.h>
+#include <tools/match.h>
+#include <tools/na_rm.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -28,9 +32,21 @@ Result* simple_prototype_impl(SEXP arg, bool is_summary) {
   return 0;
 }
 
+SEXP get_simple_fun() {
+  // pmin() has a suitable interface
+  static Function pmin("pmin", R_BaseEnv);
+  return pmin;
+}
+
 template <template <int,bool> class Fun>
 Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  if (nargs == 0) return 0;
+  if (nargs == 0 || nargs > 2) {
+    LOG_VERBOSE;
+    return 0;
+  }
+
+  call = r_match_call(get_simple_fun(), call);
+
   SEXP arg = CADR(call);
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {
@@ -52,19 +68,21 @@ Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 1) {
     return simple_prototype_impl<Fun, false>(arg, is_summary);
   } else if (nargs == 2) {
-    SEXP arg2 = CDDR(call);
     // we know how to handle fun( ., na.rm = TRUE/FALSE )
-    if (TAG(arg2) == R_NaRmSymbol) {
-      SEXP narm = CAR(arg2);
-      if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
-        if (LOGICAL(narm)[0] == TRUE) {
-          return simple_prototype_impl<Fun, true>(arg, is_summary);
-        } else {
-          return simple_prototype_impl<Fun, false>(arg, is_summary);
-        }
-      }
+    NaRmResult na_rm = eval_na_rm(CDDR(call));
+    switch (na_rm) {
+    case NA_RM_TRUE:
+      return simple_prototype_impl<Fun, true>(arg, is_summary);
+
+    case NA_RM_FALSE:
+      return simple_prototype_impl<Fun, false>(arg, is_summary);
+
+    default:
+      LOG_VERBOSE;
+      break;
     }
   }
+
   return 0;
 }
 

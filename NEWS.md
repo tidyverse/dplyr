@@ -6,6 +6,8 @@
 
 * Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the `bindrcpp` package (#2190). This temporary environment poses restrictions on assignments using `<-` inside verbs.
 
+* Hybrid evaluation is used in more cases now, in particular thanks to constant folding of arguments (#2143) and better support for complex values. Added internal functions for testing the hybrid evaluator (#1691).
+
 * New `add_count()` and `add_tally()` for adding an `n` column within groups (#2078, @dgrtwo).
 
 * Enforce integer `n` for `lag()` (#2162, @kevinushey).
