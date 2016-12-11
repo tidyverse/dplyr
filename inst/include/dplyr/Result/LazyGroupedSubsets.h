@@ -11,9 +11,12 @@
 
 namespace dplyr {
 
-  class LazyGroupedSubsets : public ILazySubsets {
+  template <class Data>
+  class LazySplitSubsets : public ILazySubsets {
+    typedef typename Data::subset subset;
+
   public:
-    LazyGroupedSubsets(const GroupedDataFrame& gdf_) :
+    LazySplitSubsets(const Data& gdf_) :
       gdf(gdf_),
       subsets(),
       symbol_map(),
@@ -29,7 +32,7 @@ namespace dplyr {
       }
     }
 
-    LazyGroupedSubsets(const LazyGroupedSubsets& other) :
+    LazySplitSubsets(const LazySplitSubsets& other) :
       gdf(other.gdf),
       subsets(other.subsets),
       symbol_map(other.symbol_map),
@@ -37,7 +40,7 @@ namespace dplyr {
       owner(false)
     {}
 
-    virtual ~LazyGroupedSubsets() {
+    virtual ~LazySplitSubsets() {
       if (owner) {
         for (size_t i=0; i<subsets.size(); i++) {
           delete subsets[i];
@@ -97,14 +100,14 @@ namespace dplyr {
     }
 
   private:
-    const GroupedDataFrame& gdf;
-    std::vector<GroupedSubset*> subsets;
+    const Data& gdf;
+    std::vector<subset*> subsets;
     SymbolMap symbol_map;
     mutable std::vector<SEXP> resolved;
 
     bool owner;
 
-    void input_subset(const Symbol& symbol, GroupedSubset* sub) {
+    void input_subset(const Symbol& symbol, subset* sub) {
       SymbolMapIndex index = symbol_map.insert(symbol);
       if (index.origin == NEW) {
         subsets.push_back(sub);
@@ -117,6 +120,8 @@ namespace dplyr {
       }
     }
   };
+
+  typedef LazySplitSubsets<GroupedDataFrame> LazyGroupedSubsets;
 
 }
 #endif
