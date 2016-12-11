@@ -15,7 +15,7 @@ namespace dplyr {
   template <typename Data = GroupedDataFrame, typename Subsets = LazyGroupedSubsets>
   class GroupedCallProxy {
   public:
-    typedef GroupedHybridEval<Subsets> HybridCall;
+    typedef GroupedHybridEval HybridCall;
 
     GroupedCallProxy(const Rcpp::Call& call_, const Subsets& subsets_, const Environment& env_) :
       subsets(subsets_), proxies()
