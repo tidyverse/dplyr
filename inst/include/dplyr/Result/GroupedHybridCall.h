@@ -151,7 +151,7 @@ namespace dplyr {
   template <typename Subsets>
   class GroupedHybridEval : public IHybridCallback {
   public:
-    GroupedHybridEval(const Call& call_, Subsets& subsets_, const Environment& env_) :
+    GroupedHybridEval(const Call& call_, const Subsets& subsets_, const Environment& env_) :
       indices(NULL), subsets(subsets_), env(env_),
       hybrid_env(subsets_.get_variable_names(), env_, this),
       hybrid_call(call_, subsets_, env_)
@@ -204,7 +204,7 @@ namespace dplyr {
 
   private:
     const SlicingIndex* indices;
-    Subsets& subsets;
+    const Subsets& subsets;
     Environment env;
     const GroupedHybridEnv hybrid_env;
     const GroupedHybridCall<Subsets> hybrid_call;
