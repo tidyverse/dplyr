@@ -90,7 +90,7 @@ namespace dplyr {
     bool simplified(Call& call) const {
       LOG_VERBOSE;
       // initial
-      if (TYPEOF(call) == LANGSXP) {
+      if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
         boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
         if (res) {
           // replace the call by the result of process
@@ -99,7 +99,8 @@ namespace dplyr {
           // no need to go any further, we simplified the top level
           return true;
         }
-        return replace(CDR(call));
+        if (TYPEOF(call) == LANGSXP)
+          return replace(CDR(call));
       }
       return false;
     }
@@ -188,14 +189,9 @@ namespace dplyr {
       Call call = hybrid_call.simplify(get_indices());
       LOG_INFO << type2name(call);
 
-      if (TYPEOF(call) == LANGSXP) {
+      if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
         LOG_VERBOSE << "performing evaluation in eval_env";
         return Rcpp_eval(call, hybrid_env.get_eval_env());
-      } else if (TYPEOF(call) == SYMSXP) {
-        if (subsets.count(call)) {
-          return subsets.get(call, get_indices());
-        }
-        return env.find(CHAR(PRINTNAME(call)));
       }
       return call;
     }
