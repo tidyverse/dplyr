@@ -54,6 +54,16 @@ namespace dplyr {
       return subsets[symbol_map.get(symbol)]->get_variable();
     }
 
+    virtual SEXP get(SEXP symbol, const SlicingIndex& indices) const {
+      int idx = symbol_map.get(symbol);
+
+      SEXP value = resolved[idx];
+      if (value == R_NilValue) {
+        resolved[idx] = value = subsets[idx]->get(indices);
+      }
+      return value;
+    }
+
     virtual bool is_summary(SEXP symbol) const {
       return subsets[symbol_map.get(symbol)]->is_summary();
     }
@@ -80,16 +90,6 @@ namespace dplyr {
       for (size_t i=0; i<resolved.size(); i++) {
         resolved[i] = R_NilValue;
       }
-    }
-
-    SEXP get(SEXP symbol, const SlicingIndex& indices) const {
-      int idx = symbol_map.get(symbol);
-
-      SEXP value = resolved[idx];
-      if (value == R_NilValue) {
-        resolved[idx] = value = subsets[idx]->get(indices);
-      }
-      return value;
     }
 
     void input_summarised(SEXP symbol, SummarisedVariable x) {

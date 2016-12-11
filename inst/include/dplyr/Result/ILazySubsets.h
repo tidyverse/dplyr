@@ -1,6 +1,8 @@
 #ifndef dplyr_ILazySubsets_H
 #define dplyr_ILazySubsets_H
 
+#include <tools/SlicingIndex.h>
+
 namespace dplyr {
 
   class ILazySubsets {
@@ -12,6 +14,7 @@ namespace dplyr {
 
     virtual CharacterVector get_variable_names() const = 0;
     virtual SEXP get_variable(SEXP symbol) const = 0;
+    virtual SEXP get(SEXP symbol, const SlicingIndex& indices) const = 0;
     virtual bool is_summary(SEXP symbol) const = 0;
     virtual int count(SEXP symbol) const = 0;
     virtual void input(SEXP symbol, SEXP x) = 0;

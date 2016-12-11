@@ -38,6 +38,15 @@ namespace dplyr {
       return data[ symbol_map.get(symbol) ];
     }
 
+    virtual SEXP get(SEXP symbol, const SlicingIndex& indices) const {
+      const int pos = symbol_map.get(symbol);
+      SEXP col = data[pos];
+      if (!indices.is_identity(col) && Rf_length(col) != 1)
+        stop("Attempt to query lazy column with non-natural slicing index");
+
+      return col;
+    }
+
     virtual bool is_summary(SEXP symbol) const {
       return false;
     }
@@ -69,15 +78,6 @@ namespace dplyr {
 
     inline SEXP& operator[](SEXP symbol) {
       return data[symbol_map.get(symbol)];
-    }
-
-    SEXP get(SEXP symbol, const SlicingIndex& indices) const {
-      const int pos = symbol_map.get(symbol);
-      SEXP col = data[pos];
-      if (!indices.is_identity(col) && Rf_length(col) != 1)
-        stop("Attempt to query lazy column with non-natural slicing index");
-
-      return col;
     }
   };
 
