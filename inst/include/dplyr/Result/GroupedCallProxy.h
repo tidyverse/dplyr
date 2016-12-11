@@ -55,27 +55,27 @@ namespace dplyr {
     }
 
     HybridCall* get_hybrid_call() {
-      if (!hybrid_call) {
-        hybrid_call.reset(new HybridCall(call, subsets, env));
+      if (!hybrid_eval) {
+        hybrid_eval.reset(new HybridCall(call, subsets, env));
       }
 
-      return hybrid_call.get();
+      return hybrid_eval.get();
     }
 
     void set_call(SEXP call_) {
       proxies.clear();
-      hybrid_call.reset();
+      hybrid_eval.reset();
       call = call_;
     }
 
     inline void set_env(SEXP env_) {
       env = env_;
-      hybrid_call.reset();
+      hybrid_eval.reset();
     }
 
     void input(Symbol name, SEXP x) {
       subsets.input(name, x);
-      hybrid_call.reset();
+      hybrid_eval.reset();
     }
 
     inline int nsubsets() const {
@@ -99,7 +99,7 @@ namespace dplyr {
     Subsets subsets;
     std::vector<CallElementProxy> proxies;
     Environment env;
-    boost::scoped_ptr<HybridCall> hybrid_call;
+    boost::scoped_ptr<HybridCall> hybrid_eval;
 
   };
 
