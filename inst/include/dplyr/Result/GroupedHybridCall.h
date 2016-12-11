@@ -70,11 +70,91 @@ namespace dplyr {
   };
 
   template <typename Subsets>
+  class GroupedHybridCall {
+  public:
+    GroupedHybridCall(const Call& call_, Subsets& subsets_, const Environment& env_) :
+      original_call(call_), subsets(subsets_), env(env_)
+    {
+      LOG_VERBOSE;
+    }
+
+  public:
+    Call simplify(const SlicingIndex& indices) const {
+      set_indices(indices);
+      Call call = clone(original_call);
+      while (simplified(call)) {}
+      clear_indices();
+      return call;
+    }
+
+  private:
+    bool simplified(Call& call) const {
+      LOG_VERBOSE;
+      // initial
+      if (TYPEOF(call) == LANGSXP) {
+        boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
+        if (res) {
+          // replace the call by the result of process
+          call = res->process(get_indices());
+
+          // no need to go any further, we simplified the top level
+          return true;
+        }
+        return replace(CDR(call));
+      }
+      return false;
+    }
+
+    bool replace(SEXP p) const {
+      LOG_VERBOSE;
+      SEXP obj = CAR(p);
+      if (TYPEOF(obj) == LANGSXP) {
+        boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
+        if (res) {
+          SETCAR(p, res->process(get_indices()));
+          return true;
+        }
+
+        if (replace(CDR(obj))) return true;
+      }
+
+      if (TYPEOF(p) == LISTSXP) {
+        return replace(CDR(p));
+      }
+
+      return false;
+    }
+
+    const SlicingIndex& get_indices() const {
+      return *indices;
+    }
+
+    void set_indices(const SlicingIndex& indices_) const {
+      indices = &indices_;
+    }
+
+    void clear_indices() const {
+      indices = NULL;
+    }
+
+  private:
+    // Initialization
+    const Call original_call;
+    Subsets& subsets;
+    const Environment env;
+
+  private:
+    // State
+    mutable const SlicingIndex* indices;
+  };
+
+  template <typename Subsets>
   class GroupedHybridEval : public IHybridCallback {
   public:
     GroupedHybridEval(const Call& call_, Subsets& subsets_, const Environment& env_) :
-      call(call_), indices(NULL), subsets(subsets_), env(env_),
-      hybrid_env(subsets_.get_variable_names(), env_, this)
+      indices(NULL), subsets(subsets_), env(env_),
+      hybrid_env(subsets_.get_variable_names(), env_, this),
+      hybrid_call(call_, subsets_, env_)
     {
       LOG_VERBOSE;
     }
@@ -107,13 +187,9 @@ namespace dplyr {
     }
 
     SEXP eval_with_indices() {
-      Call call_ = clone(call);
-      while (simplified(call_)) {}
-      return eval_with_indices_simplified(call_);
-    }
-
-    SEXP eval_with_indices_simplified(const Call& call) {
+      Call call = hybrid_call.simplify(get_indices());
       LOG_INFO << type2name(call);
+
       if (TYPEOF(call) == LANGSXP) {
         LOG_VERBOSE << "performing evaluation in eval_env";
         return Rcpp_eval(call, hybrid_env.get_eval_env());
@@ -126,49 +202,12 @@ namespace dplyr {
       return call;
     }
 
-    bool simplified(Call& call) {
-      LOG_VERBOSE;
-      // initial
-      if (TYPEOF(call) == LANGSXP) {
-        boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
-        if (res) {
-          // replace the call by the result of process
-          call = res->process(get_indices());
-
-          // no need to go any further, we simplified the top level
-          return true;
-        }
-        return replace(CDR(call));
-      }
-      return false;
-    }
-
-    bool replace(SEXP p) {
-      LOG_VERBOSE;
-      SEXP obj = CAR(p);
-      if (TYPEOF(obj) == LANGSXP) {
-        boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
-        if (res) {
-          SETCAR(p, res->process(get_indices()));
-          return true;
-        }
-
-        if (replace(CDR(obj))) return true;
-      }
-
-      if (TYPEOF(p) == LISTSXP) {
-        return replace(CDR(p));
-      }
-
-      return false;
-    }
-
   private:
-    const Call& call;
     const SlicingIndex* indices;
     Subsets& subsets;
     Environment env;
     const GroupedHybridEnv hybrid_env;
+    const GroupedHybridCall<Subsets> hybrid_call;
   };
 
 }
