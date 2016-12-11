@@ -95,7 +95,7 @@ namespace dplyr {
     }
 
     void input(SEXP symbol, SummarisedVariable x) {
-      input_subset(symbol, summarised_grouped_subset(x, gdf.max_group_size()));
+      input_subset(symbol, summarised_subset(x));
     }
 
   private:
