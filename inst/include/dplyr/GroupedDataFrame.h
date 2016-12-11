@@ -4,6 +4,8 @@
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
+#include <dplyr/Result/GroupedSubset.h>
+
 namespace dplyr {
 
   inline void check_valid_colnames(const DataFrame& df) {
@@ -120,6 +122,10 @@ namespace dplyr {
 
     inline const IntegerVector& get_group_sizes() const {
       return group_sizes;
+    }
+
+    inline GroupedSubset* create_subset(SEXP x) const {
+      return grouped_subset(x, max_group_size());
     }
 
   private:

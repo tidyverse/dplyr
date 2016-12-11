@@ -74,7 +74,7 @@ namespace dplyr {
     }
 
     virtual void input(SEXP symbol, SEXP x) {
-      input_subset(symbol, grouped_subset(x, gdf.max_group_size()));
+      input_subset(symbol, gdf.create_subset(x));
     }
 
     virtual int size() const {

@@ -75,7 +75,7 @@ namespace dplyr {
     }
 
     void input(SEXP symbol, SEXP x) {
-      input_subset(symbol, rowwise_subset(x));
+      input_subset(symbol, rdf.create_subset(x));
     }
 
     virtual int size() const {
