@@ -70,9 +70,9 @@ namespace dplyr {
   };
 
   template <typename Subsets>
-  class GroupedHybridCall : public IHybridCallback {
+  class GroupedHybridEval : public IHybridCallback {
   public:
-    GroupedHybridCall(const Call& call_, Subsets& subsets_, const Environment& env_) :
+    GroupedHybridEval(const Call& call_, Subsets& subsets_, const Environment& env_) :
       call(call_), indices(NULL), subsets(subsets_), env(env_),
       hybrid_env(subsets_.get_variable_names(), env_, this)
     {
