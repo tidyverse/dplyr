@@ -7,6 +7,7 @@
 #include <dplyr/SummarisedVariable.h>
 
 #include <dplyr/Result/RowwiseSubset.h>
+#include <dplyr/Result/GroupedSubset.h>
 #include <dplyr/Result/ILazySubsets.h>
 
 namespace dplyr {

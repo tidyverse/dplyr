@@ -6,11 +6,9 @@
 
 #include <dplyr/check_supported_type.h>
 
-#include <dplyr/Result/GroupedSubset.h>
+#include <dplyr/Result/GroupedSubsetBase.h>
 
 namespace dplyr {
-
-  typedef GroupedSubset RowwiseSubset;
 
   template <int RTYPE>
   class RowwiseSubsetTemplate : public RowwiseSubset {

@@ -5,17 +5,9 @@
 
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
+#include <dplyr/Result/GroupedSubsetBase.h>
 
 namespace dplyr {
-
-  class GroupedSubset {
-  public:
-    GroupedSubset() {};
-    virtual ~GroupedSubset() {};
-    virtual SEXP get(const SlicingIndex& indices) = 0;
-    virtual SEXP get_variable() const = 0;
-    virtual bool is_summary() const = 0;
-  };
 
   template <int RTYPE>
   class GroupedSubsetTemplate : public GroupedSubset {
