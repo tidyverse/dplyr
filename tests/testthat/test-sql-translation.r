@@ -45,6 +45,29 @@ test_that("is.na and is.null are equivalent",{
   expect_equal(translate_sql(!is.null(x)), sql('NOT((("x") IS NULL))'))
 })
 
+test_that("is.na binds to term and not across expression (#2302)", {
+  skip_if_no_sqlite()
+  db <- src_sqlite(":memory:", TRUE)
+
+  d <- data.frame(
+    y = c(3, 5, NA),
+    z = c(NA, 'a', 'b'),
+    rowNum = 1:3,
+    stringsAsFactors = FALSE
+  )
+
+  dfn1 <- copy_to(db, d , "dfn1")
+
+  dres <- dfn1 %>% mutate(nna = 0) %>%
+    mutate(nna = nna + is.na(y)) %>%
+    mutate(nna = nna + is.na(z)) %>%
+    arrange(rowNum) %>%
+    collect()
+
+  expect_equal(dres$nna, c(1, 0, 1))
+})
+
+
 test_that("if translation adds parens", {
   expect_equal(
     translate_sql(if (x) y),
