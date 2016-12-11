@@ -3,6 +3,7 @@
 
 #include <tools/ShrinkableVector.h>
 
+#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
 
 namespace dplyr {

@@ -4,8 +4,7 @@
 #include <tools/SymbolMap.h>
 
 #include <dplyr/GroupedDataFrame.h>
-
-#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/SummarisedVariable.h>
 
 #include <dplyr/Result/GroupedSubset.h>
 #include <dplyr/Result/ILazySubsets.h>
@@ -16,25 +15,24 @@ namespace dplyr {
   public:
     LazyGroupedSubsets(const GroupedDataFrame& gdf_) :
       gdf(gdf_),
-      symbol_map(),
       subsets(),
+      symbol_map(),
       resolved(),
       owner(true)
     {
-      int max_size = gdf.max_group_size();
       const DataFrame& data = gdf.data();
       CharacterVector names = data.names();
       int n = data.size();
       LOG_INFO << "processing " << n << " vars: " << names;
       for (int i=0; i<n; i++) {
-        input_subset(names[i], grouped_subset(data[i], max_size));
+        input(names[i], data[i]);
       }
     }
 
     LazyGroupedSubsets(const LazyGroupedSubsets& other) :
       gdf(other.gdf),
-      symbol_map(other.symbol_map),
       subsets(other.subsets),
+      symbol_map(other.symbol_map),
       resolved(other.resolved),
       owner(false)
     {}
@@ -94,19 +92,19 @@ namespace dplyr {
       return value;
     }
 
-    void input(SEXP symbol, SummarisedVariable x) {
+    void input_summarised(SEXP symbol, SummarisedVariable x) {
       input_subset(symbol, summarised_subset(x));
     }
 
   private:
     const GroupedDataFrame& gdf;
-    SymbolMap symbol_map;
     std::vector<GroupedSubset*> subsets;
+    SymbolMap symbol_map;
     std::vector<SEXP> resolved;
 
     bool owner;
 
-    void input_subset(SEXP symbol, GroupedSubset* sub) {
+    void input_subset(const Symbol& symbol, GroupedSubset* sub) {
       SymbolMapIndex index = symbol_map.insert(symbol);
       if (index.origin == NEW) {
         subsets.push_back(sub);

@@ -1,10 +1,10 @@
 #ifndef dplyr_LazyRowwiseSubsets_H
 #define dplyr_LazyRowwiseSubsets_H
 
-#include <tools/hash.h>
-#include <tools/delete_all.h>
+#include <tools/SymbolMap.h>
 
 #include <dplyr/RowwiseDataFrame.h>
+#include <dplyr/SummarisedVariable.h>
 
 #include <dplyr/Result/RowwiseSubset.h>
 #include <dplyr/Result/ILazySubsets.h>
@@ -13,72 +13,62 @@ namespace dplyr {
 
   class LazyRowwiseSubsets : public ILazySubsets {
   public:
-    typedef dplyr_hash_map<SEXP, RowwiseSubset*> RowwiseSubsetMap;
-    typedef dplyr_hash_map<SEXP, SEXP> ResolvedSubsetMap;
-
     LazyRowwiseSubsets(const RowwiseDataFrame& rdf_):
       rdf(rdf_),
-      subset_map(),
-      resolved_map(),
+      subsets(),
+      symbol_map(),
+      resolved(),
       owner(true)
     {
       const DataFrame& data = rdf.data();
       CharacterVector names = data.names();
       int n = data.size();
+      LOG_INFO << "processing " << n << " vars: " << names;
       for (int i=0; i<n; i++) {
-        subset_map[ Rf_installChar(names[i]) ] = rowwise_subset(data[i]);
+        input(names[i], data[i]);
       }
     }
 
     LazyRowwiseSubsets(const LazyRowwiseSubsets& other) :
       rdf(other.rdf),
-      subset_map(other.subset_map),
-      resolved_map(other.resolved_map),
+      subsets(other.subsets),
+      symbol_map(other.symbol_map),
+      resolved(other.resolved),
       owner(false)
     {}
 
     virtual ~LazyRowwiseSubsets() {
-      if (owner) delete_all_second(subset_map);
+      if (owner) {
+        for (size_t i=0; i<subsets.size(); i++) {
+          delete subsets[i];
+        }
+      }
     }
 
   public:
     virtual CharacterVector get_variable_names() const {
-      CharacterVector ret(subset_map.size());
-      {
-        int i = 0;
-        for (RowwiseSubsetMap::const_iterator it = subset_map.begin(); it != subset_map.end(); ++it, ++i)
-          ret[i] = Symbol(it->first).c_str();
-      }
-      return ret;
+      return symbol_map.get_names();
     }
 
     virtual SEXP get_variable(SEXP symbol) const {
-      RowwiseSubsetMap::const_iterator it = subset_map.find(symbol);
-      if (it == subset_map.end()) {
-        stop("variable '%s' not found in the dataset", CHAR(PRINTNAME(symbol)));
-      }
-      return it->second->get_variable();
+      return subsets[symbol_map.get(symbol)]->get_variable();
     }
 
     virtual bool is_summary(SEXP symbol) const {
-      RowwiseSubsetMap::const_iterator it = subset_map.find(symbol);
-      return it->second->is_summary();
+      return subsets[symbol_map.get(symbol)]->is_summary();
     }
 
     virtual int count(SEXP head) const {
-      return subset_map.count(head);
+      int res = symbol_map.has(head);
+      return res;
     }
 
     void input(SEXP symbol, SEXP x) {
-      if (TYPEOF(symbol) == SYMSXP) {
-        input_subset(symbol, rowwise_subset(x));
-      } else {
-        input_subset(Rf_installChar(symbol), rowwise_subset(x));
-      }
+      input_subset(symbol, rowwise_subset(x));
     }
 
     virtual int size() const {
-      return subset_map.size();
+      return subsets.size();
     }
 
     virtual int nrows() const {
@@ -87,38 +77,46 @@ namespace dplyr {
 
   public:
     void clear() {
-      resolved_map.clear();
+      for (size_t i=0; i<resolved.size(); i++) {
+        resolved[i] = R_NilValue;
+      }
     }
 
     SEXP get(SEXP symbol, const SlicingIndex& indices) {
-      ResolvedSubsetMap::const_iterator it = resolved_map.find(symbol);
-      if (it == resolved_map.end()) {
-        SEXP res = subset_map[symbol]->get(indices);
-        resolved_map[symbol] = res;
-        return res;
-      } else {
-        return it->second;
+      int idx = symbol_map.get(symbol);
+
+      SEXP value = resolved[idx];
+      if (value == R_NilValue) {
+        resolved[idx] = value = subsets[idx]->get(indices);
       }
+      return value;
+    }
+
+    void input_summarised(SEXP symbol, SummarisedVariable x) {
+      input_subset(symbol, summarised_subset(x));
     }
 
   private:
     const RowwiseDataFrame& rdf;
-    RowwiseSubsetMap subset_map;
-    ResolvedSubsetMap resolved_map;
+    std::vector<RowwiseSubset*> subsets;
+    SymbolMap symbol_map;
+    std::vector<SEXP> resolved;
+
     bool owner;
 
-    void input_subset(SEXP symbol, RowwiseSubset* sub) {
-      RowwiseSubsetMap::iterator it = subset_map.find(symbol);
-      if (it == subset_map.end()) {
-        subset_map[symbol] = sub;
+    void input_subset(const Symbol& symbol, RowwiseSubset* sub) {
+      SymbolMapIndex index = symbol_map.insert(symbol);
+      if (index.origin == NEW) {
+        subsets.push_back(sub);
+        resolved.push_back(R_NilValue);
       } else {
-        // found it, replacing the subset
-        delete it->second;
-        it->second = sub;
+        int idx = index.pos;
+        delete subsets[idx];
+        subsets[idx] = sub;
+        resolved[idx] = R_NilValue;
       }
     }
   };
-
 
 }
 #endif

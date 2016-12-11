@@ -61,7 +61,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     RObject result = res->process(gdf);
     results[i] = result;
     accumulator.set(lazy.name(), result);
-    subsets.input(lazy.name(), SummarisedVariable(result));
+    subsets.input_summarised(lazy.name(), SummarisedVariable(result));
 
   }
 
