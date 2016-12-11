@@ -50,6 +50,7 @@ namespace dplyr {
   public:
     typedef GroupedDataFrameIndexIterator group_iterator;
     typedef GroupedSlicingIndex slicing_index;
+    typedef GroupedSubset subset;
 
     GroupedDataFrame(SEXP x):
       data_(x),
@@ -124,7 +125,7 @@ namespace dplyr {
       return group_sizes;
     }
 
-    inline GroupedSubset* create_subset(SEXP x) const {
+    inline subset* create_subset(SEXP x) const {
       return grouped_subset(x, max_group_size());
     }
 

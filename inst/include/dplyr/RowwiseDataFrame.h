@@ -29,6 +29,7 @@ namespace dplyr {
   public:
     typedef RowwiseDataFrameIndexIterator group_iterator;
     typedef RowwiseSlicingIndex slicing_index;
+    typedef RowwiseSubset subset;
 
     RowwiseDataFrame(SEXP x):
       data_(x),
@@ -75,7 +76,7 @@ namespace dplyr {
       return group_sizes;
     }
 
-    inline RowwiseSubset* create_subset(SEXP x) const {
+    inline subset* create_subset(SEXP x) const {
       return rowwise_subset(x);
     }
 
