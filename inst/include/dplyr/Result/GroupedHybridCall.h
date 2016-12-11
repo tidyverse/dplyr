@@ -72,7 +72,7 @@ namespace dplyr {
   template <typename Subsets>
   class GroupedHybridCall {
   public:
-    GroupedHybridCall(const Call& call_, Subsets& subsets_, const Environment& env_) :
+    GroupedHybridCall(const Call& call_, const Subsets& subsets_, const Environment& env_) :
       original_call(call_), subsets(subsets_), env(env_)
     {
       LOG_VERBOSE;
@@ -140,7 +140,7 @@ namespace dplyr {
   private:
     // Initialization
     const Call original_call;
-    Subsets& subsets;
+    const Subsets& subsets;
     const Environment env;
 
   private:
