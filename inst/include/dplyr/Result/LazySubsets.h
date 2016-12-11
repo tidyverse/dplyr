@@ -9,10 +9,6 @@ namespace dplyr {
 
   class LazySubsets : public ILazySubsets {
   public:
-    SymbolMap symbol_map;
-    std::vector<SEXP> data;
-    int nr;
-
     LazySubsets(const DataFrame& df) : nr(df.nrows()) {
       int nvars = df.size();
       if (nvars) {
@@ -79,6 +75,11 @@ namespace dplyr {
     inline SEXP& operator[](SEXP symbol) {
       return data[symbol_map.get(symbol)];
     }
+
+  private:
+    SymbolMap symbol_map;
+    std::vector<SEXP> data;
+    int nr;
   };
 
 }
