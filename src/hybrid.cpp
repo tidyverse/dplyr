@@ -103,6 +103,35 @@ Result* constant_handler(SEXP constant) {
   return 0;
 }
 
+class VariableResult : public Result {
+public:
+  VariableResult(const ILazySubsets& subsets_, const Symbol& name_) : subsets(subsets_), name(name_)  {}
+
+  SEXP process(const GroupedDataFrame& gdf) {
+    return subsets.get_variable(name);
+  }
+
+  SEXP process(const RowwiseDataFrame&) {
+    return subsets.get_variable(name);
+  }
+
+  virtual SEXP process(const FullDataFrame&) {
+    return subsets.get_variable(name);
+  }
+
+  virtual SEXP process(const SlicingIndex& index) {
+    return subsets.get(name, index);
+  }
+
+private:
+  const ILazySubsets& subsets;
+  Symbol name;
+};
+
+Result* variable_handler(const ILazySubsets& subsets, Symbol variable) {
+  return new VariableResult(subsets, variable);
+}
+
 namespace dplyr {
 
   Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
@@ -131,9 +160,17 @@ namespace dplyr {
     } else if (TYPEOF(call) == SYMSXP) {
       LOG_VERBOSE << "Searching hybrid handler for symbol " << CHAR(PRINTNAME(call));
 
-      if (!subsets.count(call)) {
+      if (subsets.count(call)) {
+        LOG_VERBOSE << "Using hybrid variable handler";
+        return variable_handler(subsets, call);
+      }
+      else {
         SEXP data = env.find(CHAR(PRINTNAME(call)));
-        if (Rf_length(data) == 1) return constant_handler(data);
+        // Constants of length != 1 are handled via regular evaluation
+        if (Rf_length(data) == 1) {
+          LOG_VERBOSE << "Using hybrid constant handler";
+          return constant_handler(data);
+        }
       }
     } else {
       // TODO: perhaps deal with SYMSXP separately
