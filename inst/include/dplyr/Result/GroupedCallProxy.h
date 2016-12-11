@@ -15,8 +15,6 @@ namespace dplyr {
   template <typename Data = GroupedDataFrame, typename Subsets = LazyGroupedSubsets>
   class GroupedCallProxy {
   public:
-    typedef GroupedHybridEval HybridCall;
-
     GroupedCallProxy(const Rcpp::Call& call_, const Subsets& subsets_, const Environment& env_) :
       subsets(subsets_), proxies()
     {
@@ -54,9 +52,9 @@ namespace dplyr {
       return get_hybrid_call()->eval(indices);
     }
 
-    HybridCall* get_hybrid_call() {
+    GroupedHybridEval* get_hybrid_call() {
       if (!hybrid_eval) {
-        hybrid_eval.reset(new HybridCall(call, subsets, env));
+        hybrid_eval.reset(new GroupedHybridEval(call, subsets, env));
       }
 
       return hybrid_eval.get();
@@ -99,7 +97,7 @@ namespace dplyr {
     Subsets subsets;
     std::vector<CallElementProxy> proxies;
     Environment env;
-    boost::scoped_ptr<HybridCall> hybrid_eval;
+    boost::scoped_ptr<GroupedHybridEval> hybrid_eval;
 
   };
 
