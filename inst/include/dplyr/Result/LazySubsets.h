@@ -71,7 +71,7 @@ namespace dplyr {
       return data[symbol_map.get(symbol)];
     }
 
-    inline SEXP get(SEXP symbol, const SlicingIndex& indices) {
+    SEXP get(SEXP symbol, const SlicingIndex& indices) const {
       const int pos = symbol_map.get(symbol);
       SEXP col = data[pos];
       if (!indices.is_identity(col) && Rf_length(col) != 1)

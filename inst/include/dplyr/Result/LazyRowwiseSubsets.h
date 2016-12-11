@@ -82,7 +82,7 @@ namespace dplyr {
       }
     }
 
-    SEXP get(SEXP symbol, const SlicingIndex& indices) {
+    SEXP get(SEXP symbol, const SlicingIndex& indices) const {
       int idx = symbol_map.get(symbol);
 
       SEXP value = resolved[idx];
@@ -100,7 +100,7 @@ namespace dplyr {
     const RowwiseDataFrame& rdf;
     std::vector<RowwiseSubset*> subsets;
     SymbolMap symbol_map;
-    std::vector<SEXP> resolved;
+    mutable std::vector<SEXP> resolved;
 
     bool owner;
 
