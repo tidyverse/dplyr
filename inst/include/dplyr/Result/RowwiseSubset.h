@@ -6,16 +6,9 @@
 
 #include <dplyr/check_supported_type.h>
 
-namespace dplyr {
+#include <dplyr/Result/GroupedSubsetBase.h>
 
-  class RowwiseSubset {
-  public:
-    RowwiseSubset() {};
-    virtual ~RowwiseSubset() {};
-    virtual SEXP get(const SlicingIndex& indices) = 0;
-    virtual SEXP get_variable() const = 0;
-    virtual bool is_summary() const = 0;
-  };
+namespace dplyr {
 
   template <int RTYPE>
   class RowwiseSubsetTemplate : public RowwiseSubset {

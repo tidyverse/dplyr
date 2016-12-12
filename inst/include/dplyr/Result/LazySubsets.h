@@ -9,10 +9,6 @@ namespace dplyr {
 
   class LazySubsets : public ILazySubsets {
   public:
-    SymbolMap symbol_map;
-    std::vector<SEXP> data;
-    int nr;
-
     LazySubsets(const DataFrame& df) : nr(df.nrows()) {
       int nvars = df.size();
       if (nvars) {
@@ -36,6 +32,15 @@ namespace dplyr {
 
     virtual SEXP get_variable(SEXP symbol) const {
       return data[ symbol_map.get(symbol) ];
+    }
+
+    virtual SEXP get(SEXP symbol, const SlicingIndex& indices) const {
+      const int pos = symbol_map.get(symbol);
+      SEXP col = data[pos];
+      if (!indices.is_identity(col) && Rf_length(col) != 1)
+        stop("Attempt to query lazy column with non-natural slicing index");
+
+      return col;
     }
 
     virtual bool is_summary(SEXP symbol) const {
@@ -71,14 +76,10 @@ namespace dplyr {
       return data[symbol_map.get(symbol)];
     }
 
-    inline SEXP get(SEXP symbol, const SlicingIndex& indices) {
-      const int pos = symbol_map.get(symbol);
-      SEXP col = data[pos];
-      if (!indices.is_identity(col) && Rf_length(col) != 1)
-        stop("Attempt to query lazy column with non-natural slicing index");
-
-      return col;
-    }
+  private:
+    SymbolMap symbol_map;
+    std::vector<SEXP> data;
+    int nr;
   };
 
 }
