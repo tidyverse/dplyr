@@ -29,6 +29,18 @@ test_that("throws with empty pattern is provided", {
   expect_error(matches(""))
 })
 
+test_that("works though passed variable's name matches one of the var names (issue #2184)", {
+  skip("Currently failing")
+  vars <- "x"
+  names(vars) <- vars
+
+  expect_equal(select_vars(vars, starts_with(x)), c(x = "x"))
+  expect_equal(select_vars(vars, ends_with(x)), c(x = "x"))
+  expect_equal(select_vars(vars, contains(x)), c(x = "x"))
+  expect_equal(select_vars(vars, matches(x)), c(x = "x"))
+
+})
+
 test_that("num_range selects numeric ranges", {
   vars <- c("x1", "x2", "x01", "x02", "x10", "x11")
   names(vars) <- vars
