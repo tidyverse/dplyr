@@ -49,10 +49,10 @@ namespace dplyr {
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
-      return get_hybrid_call()->eval(indices);
+      return get_hybrid_eval()->eval(indices);
     }
 
-    GroupedHybridEval* get_hybrid_call() {
+    GroupedHybridEval* get_hybrid_eval() {
       if (!hybrid_eval) {
         hybrid_eval.reset(new GroupedHybridEval(call, subsets, env));
       }
