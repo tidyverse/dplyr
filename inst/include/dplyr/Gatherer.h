@@ -307,9 +307,12 @@ namespace dplyr {
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
 
+    check_supported_type(first, name.c_str());
+
     if (Rf_inherits(first, "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
     }
+
     int ng = gdf.ngroups();
     int i = 0;
     while (all_na(first)) {
@@ -341,7 +344,6 @@ namespace dplyr {
       break;
     }
 
-    check_supported_type(first, name.c_str());
     return 0;
   }
 

@@ -517,7 +517,7 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
 
 test_that("grouped mutate errors on incompatible column type (#1641)", {
   df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
-  expect_error( mutate(df, foo = mean), 'Not a vector')
+  expect_error( mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
 })
 
 test_that("grouped mutate coerces integer + double -> double (#1892)", {
