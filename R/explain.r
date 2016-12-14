@@ -42,8 +42,12 @@ explain <- function(x, ...) {
 explain.tbl_sql <- function(x, ...) {
   force(x)
   show_query(x)
+
+  con <- con_acquire(x$src)
+  on.exit(con_release(x$src, con), add = TRUE)
+
   message("\n")
-  message("<PLAN>\n", db_explain(x$src$con, sql_render(x)))
+  message("<PLAN>\n", db_explain(con, sql_render(x, con = con)))
 
   invisible(NULL)
 }
@@ -51,5 +55,8 @@ explain.tbl_sql <- function(x, ...) {
 #' @export
 #' @rdname explain
 show_query <- function(x) {
-  message("<SQL>\n", sql_render(x))
+  con <- con_acquire(x$src)
+  on.exit(con_release(x$src, con), add = TRUE)
+
+  message("<SQL>\n", sql_render(x, con = con))
 }
