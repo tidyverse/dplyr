@@ -20,13 +20,15 @@ NULL
 #' @export
 #' @rdname testing
 test_register_src <- function(name, src) {
-  message("Registering testing src: ", name, " ", appendLF = FALSE)
+  message("Registering testing src: ", name)
   tryCatch(
     {
       test_srcs$add(name, src)
-      message("OK")
+      message("OK: ", name, " registered")
     },
-    error = function(e) message(conditionMessage(e))
+    error = function(e) {
+      message("Failed: ", name, " not registered")
+    }
   )
 }
 

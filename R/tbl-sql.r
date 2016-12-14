@@ -394,6 +394,7 @@ collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
   on.exit(dbClearResult(res))
 
   out <- dbFetch(res, n)
+
   if (warn_incomplete) {
     res_warn_incomplete(res, "n = Inf")
   }
