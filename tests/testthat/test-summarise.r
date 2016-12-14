@@ -158,6 +158,10 @@ test_that("summarise fails on missing variables", {
   expect_error(summarise(mtcars, a = mean(notthear)) )
 })
 
+test_that("summarise fails on missing variables when grouping (#2223)", {
+  expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)) )
+})
+
 test_that("n() does not accept arguments",{
   expect_error(summarise(group_by(mtcars, cyl), n(hp)), "does not take arguments")
 })
@@ -566,7 +570,7 @@ test_that("hybrid max works when not used on columns (#1369)", {
 
 test_that( "min and max handle empty sets in summarise (#1481)", {
   df <- data_frame(A=numeric())
-  res <- df %>% summarise(Min=min(A, na.rm=T), Max = max(A, na.rm=TRUE))
+  res <- df %>% summarise(Min=min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
   expect_equal( res$Min, Inf )
   expect_equal( res$Max, -Inf )
 })
@@ -590,15 +594,7 @@ test_that("lead and lag behave correctly in summarise (#1434)", {
 
 })
 
-test_that("summarise understands column. #1012", {
-    ir1 <- summarise( iris, Sepal = sum(Sepal.Length * Sepal.Width) )
-    ir2 <- summarise( iris, Sepal = sum(column("Sepal.Length") * column("Sepal.Width")) )
-    expect_equal(ir1, ir2)
-
-    ir1 <- summarise( group_by(iris, Species), Sepal = sum(Sepal.Length * Sepal.Width) )
-    ir2 <- summarise( group_by(iris, Species), Sepal = sum(column("Sepal.Length") * column("Sepal.Width")) )
-    expect_equal(ir1, ir2)
-})
+# .data and .env tests now in test-hybrid-traverse.R
 
 test_that("data.frame columns are supported in summarise (#1425)" , {
   df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
@@ -740,4 +736,39 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       summarise(a = a[1]) %>%
       .$a,
     "can't promote")
+})
+
+test_that("calculating an ordered factor preserves order (#2200)", {
+  skip("Currently failing")
+  test_df <- tibble(
+    id = c("a", "b"),
+    val = 1:2
+  )
+
+  ret <- group_by(test_df, id) %>%
+    summarize(
+      level = ordered(val)
+    )
+
+  expect_s3_class(ret$level, "ordered")
+  expect_equal(levels(ret$level), c("1","2"))
+})
+
+test_that("min, max preserves ordered factor data  (#2200)", {
+  skip("Currently failing")
+  test_df <- tibble(
+    id = rep(c("a","b"), 2),
+    ord = ordered(c("A", "B", "B", "A"), levels = c("A", "B"))
+  )
+
+  ret <- group_by(test_df, id) %>%
+    summarize(
+      min_ord = min(ord),
+      max_ord = max(ord)
+    )
+
+  expect_s3_class(ret$min_ord, "ordered")
+  expect_s3_class(ret$max_ord, "ordered")
+  expect_equal(levels(ret$min_ord), levels(test_df$ord))
+  expect_equal(levels(ret$max_ord), levels(test_df$ord))
 })

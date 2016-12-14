@@ -16,6 +16,7 @@ Depends:
 Imports: 
     methods,
     assertthat,
+    bindrcpp,
     utils,
     R6,
     Rcpp (>= 0.12.3),
@@ -40,11 +41,13 @@ Suggests:
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1),
+    bindrcpp,
     plogr
 LazyData: yes
 License: MIT + file LICENSE
 Collate: 
     'RcppExports.R'
+    'add-tally.r'
     'all-equal.r'
     'bench-compare.r'
     'bind.r'
@@ -71,6 +74,7 @@ Collate:
     'group-indices.R'
     'group-size.r'
     'grouped-df.r'
+    'hybrid.R'
     'id.r'
     'if_else.R'
     'inline.r'
@@ -126,3 +130,4 @@ Collate:
     'view.r'
     'zzz.r'
 RoxygenNote: 5.0.1.9000
+Remotes: krlmlr/bindrcpp

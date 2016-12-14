@@ -194,8 +194,11 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
   expect_error(mutate(group_by(d,x),val = ifelse(x < 3, "foo", 2)))
 })
 
-test_that("assignments are forbidden (#315)", {
-   expect_error(mutate(mtcars, cyl2 = { x <- cyl^2; -x } ))
+test_that("assignments don't overwrite variables (#315)", {
+   expect_equal(
+     mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg } ),
+     mutate(mtcars, cyl2 = -cyl^2 )
+   )
 })
 
 test_that("hybrid evaluator uses correct environment (#403)", {
@@ -435,29 +438,7 @@ test_that("mutate handles factors (#1414)", {
   expect_equal( as.character(res$f2), res$f)
 })
 
-test_that("mutate recognizes global #1469", {
-  vs <- 4
-  res <- mtcars %>% mutate(a = global(vs))
-  expect_true( all(res$a == 4) )
-  expect_error( mtcars %>% mutate(global("vs")), "global only handles symbols" )
-  res <- mtcars %>% mutate(a = global(vs) + 1)
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% mutate(global("vs") + 1), "global only handles symbols" )
-  res <- mtcars %>% mutate(a = 1+global(vs) )
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% mutate(1 + global("vs")), "global only handles symbols" )
-
-  res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs))
-  expect_true( all(res$a == 4) )
-  expect_error( mtcars %>% group_by(cyl) %>% mutate(a = global("vs")), "global only handles symbols" )
-  res <- mtcars %>% group_by(cyl) %>% mutate(a = global(vs)+1)
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% group_by(cyl) %>% mutate(a = global("vs") + 1), "global only handles symbols" )
-
-  res <- mtcars %>% group_by(cyl) %>% mutate(a = 1+global(vs))
-  expect_true( all(res$a == 5) )
-  expect_error( mtcars %>% group_by(cyl) %>% mutate(a = 1 + global("vs")), "global only handles symbols" )
-})
+# .data and .env tests now in test-hybrid-traverse.R
 
 test_that("mutate handles results from one group with all NA values (#1463) ", {
   df <- data_frame( x = c(1, 2), y = c(1, NA))
@@ -527,22 +508,6 @@ test_that( "lead/lag inside mutate handles expressions as value for default (#14
   expect_equal( res$lagn, lag(df$x, default = 1) )
 })
 
-test_that("mutate understands column. #1012", {
-  ir1 <- mutate( iris, Sepal = Sepal.Length * Sepal.Width )
-  ir2 <- mutate( iris, Sepal = column("Sepal.Length") * column("Sepal.Width") )
-  expect_equal(ir1, ir2)
-
-  ir1 <- mutate( group_by(iris, Species), Sepal = Sepal.Length * Sepal.Width )
-  ir2 <- mutate( group_by(iris, Species), Sepal = column("Sepal.Length") * column("Sepal.Width") )
-  expect_equal(ir1, ir2)
-
-  ir <- iris %>% mutate( a = column("Species") )
-  expect_equal( ir$a, ir$Species)
-
-  ir <- iris %>% group_by(Species) %>% mutate( a = column("Species") )
-  expect_equal( ir$a, ir$Species)
-})
-
 test_that("grouped mutate does not drop grouping attributes (#1020)", {
   d <- data.frame(subject=c('Jack','Jill'),id=c(2,1)) %>% group_by(subject)
   a1 <- names(attributes(d))
@@ -553,6 +518,35 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
 test_that("grouped mutate errors on incompatible column type (#1641)", {
   df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
   expect_error( mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
+})
+
+test_that("grouped mutate coerces integer + double -> double (#1892)", {
+  skip("Currently failing")
+  df <- data_frame(
+    id = c(1, 4),
+    value = c(1L, NA),
+    group = c("A", "B")
+  ) %>%
+    group_by(group) %>%
+    mutate(value = ifelse(is.na(value), 0, value))
+  expect_type(df$value, "double")
+  expect_identical(df$value, c(0, 1))
+})
+
+test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
+  skip("Currently failing")
+  df <- data_frame(
+    id = c(1, 4),
+    value = factor(c("blue", NA)),
+    group = c("A", "B")
+  ) %>%
+    group_by(group)
+  expect_warning(
+    df <- df %>%
+      mutate(value = ifelse(id > 3, "foo", value))
+  )
+  expect_type(df$value, "character")
+  expect_identical(df$value, c("blue", "foo"))
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {

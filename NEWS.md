@@ -2,7 +2,43 @@
 
 * Added `setOldClass(c("grouped_df", "tbl_df", "data.frame"))` so that grouped data frames will work more smoothly with S4 interfaces, e.g. `RSQLite::dbWriteTable()` (#2276, @joranE)
 
-* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2187).
+* Regular implementations of `nth()` and `ntile()` are more careful about proper data types of their return values (#2306).
+
+* Breaking change: The new `.data` and `.env` environments can be used inside all verbs that operate on data: `.data$column_name` accesses the column `column_name`, whereas `.env$var` accesses the external variable `var`. Columns or external variables named `.data` or `.env` are shadowed, use `.data$...` and/or `.env$...` to access them.
+
+* Breaking change: The `column()` and `global()` functions have been removed. They were never documented officially. Use the new `.data` and `.env` environments instead.
+
+* Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the `bindrcpp` package (#2190). This temporary environment poses restrictions on assignments using `<-` inside verbs.
+
+* New `add_count()` and `add_tally()` for adding an `n` column within groups (#2078, @dgrtwo).
+
+* Enforce integer `n` for `lag()` (#2162, @kevinushey).
+
+* Add failing tests for summarize preserving ordered factors (#2200, #2238, @ateucher).
+
+* Add failing tests (#1892, #2249, @drknexus).
+
+* Tests for factor handling in `if_else()` (#2242, @LCHansson).
+
+* Replace faulty `c4$query` suggestion with `sql_render(c4)` in vignette (#2246, @itcarroll).
+
+* Update documentation for `na_if()` (#2229, @pkq)
+
+* Added a test case for join that hang on empty suffix argument (#2228, #2239, @simon-anders).
+
+* Fix typo in `stop()` message (#2234, @PedramNavid).
+
+* Fixed typo in `introduction.Rmd` (#2112, @Shurakai).
+
+* Fix spelling typo (#2173, @mdlincoln).
+
+* Fix typo (#2215, @smsaladi).
+
+* Prefer `Symbol` to `String` for handling column names in C++ code (#2185).
+
+* C++ refactorings (#2178).
+
+* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2157).
 
 * CallProxy is now a specialization of GroupedCallProxy.
 

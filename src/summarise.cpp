@@ -47,7 +47,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     const Lazy& lazy = dots[k];
     const Environment& env = lazy.env();
 
-    LOG_VERBOSE << "processing variable " << CHAR(lazy.name());
+    LOG_VERBOSE << "processing variable " << lazy.name().c_str();
 
     Shield<SEXP> expr_(lazy.expr());
     SEXP expr = expr_;
@@ -61,7 +61,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     RObject result = res->process(gdf);
     results[i] = result;
     accumulator.set(lazy.name(), result);
-    subsets.input(lazy.name(), SummarisedVariable(result));
+    subsets.input_summarised(lazy.name(), SummarisedVariable(result));
 
   }
 
