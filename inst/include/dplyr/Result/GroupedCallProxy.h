@@ -15,8 +15,6 @@ namespace dplyr {
   template <typename Data = GroupedDataFrame, typename Subsets = LazyGroupedSubsets>
   class GroupedCallProxy {
   public:
-    typedef GroupedHybridCall<Subsets> HybridCall;
-
     GroupedCallProxy(const Rcpp::Call& call_, const Subsets& subsets_, const Environment& env_) :
       subsets(subsets_), proxies()
     {
@@ -51,30 +49,31 @@ namespace dplyr {
     SEXP get(const SlicingIndex& indices) {
       subsets.clear();
 
-      return get_hybrid_call()->eval(call, indices);
+      return get_hybrid_eval()->eval(indices);
     }
 
-    HybridCall* get_hybrid_call() {
-      if (!hybrid_call) {
-        hybrid_call.reset(new HybridCall(subsets, env));
+    GroupedHybridEval* get_hybrid_eval() {
+      if (!hybrid_eval) {
+        hybrid_eval.reset(new GroupedHybridEval(call, subsets, env));
       }
 
-      return hybrid_call.get();
+      return hybrid_eval.get();
     }
 
     void set_call(SEXP call_) {
       proxies.clear();
+      hybrid_eval.reset();
       call = call_;
     }
 
     inline void set_env(SEXP env_) {
       env = env_;
-      hybrid_call.reset();
+      hybrid_eval.reset();
     }
 
     void input(Symbol name, SEXP x) {
       subsets.input(name, x);
-      hybrid_call.reset();
+      hybrid_eval.reset();
     }
 
     inline int nsubsets() const {
@@ -98,7 +97,7 @@ namespace dplyr {
     Subsets subsets;
     std::vector<CallElementProxy> proxies;
     Environment env;
-    boost::scoped_ptr<HybridCall> hybrid_call;
+    boost::scoped_ptr<GroupedHybridEval> hybrid_eval;
 
   };
 

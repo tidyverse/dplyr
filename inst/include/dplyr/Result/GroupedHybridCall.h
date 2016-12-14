@@ -11,43 +11,42 @@
 
 namespace dplyr {
 
-  template <typename Subsets>
-  class GroupedHybridCall {
+  class IHybridCallback {
+  protected:
+    virtual ~IHybridCallback() {}
+
   public:
-    GroupedHybridCall(Subsets& subsets_, const Environment& env_) :
-      indices(NULL), subsets(subsets_), env(env_), has_eval_env(false)
+    virtual SEXP get_subset(const Symbol& name) const = 0;
+  };
+
+  class GroupedHybridEnv {
+  public:
+    GroupedHybridEnv(const CharacterVector& names_, const Environment& env_, const IHybridCallback* callback_) :
+      names(names_), env(env_), callback(callback_), has_eval_env(false)
     {
       LOG_VERBOSE;
     }
 
   public:
-    SEXP eval(const Call& call, const SlicingIndex& indices_) {
-      set_indices(indices_);
-      SEXP ret = eval_with_indices(call);
-      clear_indices();
-      return ret;
-    }
-
-  private:
-    const Environment& get_eval_env() {
+    const Environment& get_eval_env() const {
       provide_eval_env();
       return eval_env;
     }
 
-    void provide_eval_env() {
+  private:
+    void provide_eval_env() const {
       if (has_eval_env)
         return;
 
-      // bindr::populate_env() does less work in R, I'm assuming that creating the environment from C++ will be faster
-      Environment active_env = env.new_child(true);
+      // Environment::new_child() performs an R callback, creating the environment
+      // in R should be slightly faster
+      Environment active_env =
+        create_env_symbol(
+          names, &GroupedHybridEnv::hybrid_get_callback,
+          PAYLOAD(const_cast<void*>(reinterpret_cast<const void*>(callback))), env);
 
-      CharacterVector names = subsets.get_variable_names();
-      if (names.length() > 0) {
-        populate_env_symbol(
-          active_env, names,
-          &GroupedHybridCall::hybrid_get_callback, PAYLOAD(reinterpret_cast<void*>(this)));
-      }
-
+      // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
+      // call to Rcpp_eval() triggered by active_env.new_child()
       eval_env = active_env.new_child(true);
       eval_env[".data"] = active_env;
       eval_env[".env"] = env;
@@ -57,49 +56,41 @@ namespace dplyr {
 
     static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
       LOG_VERBOSE;
-      GroupedHybridCall* this_ = reinterpret_cast<GroupedHybridCall*>(payload.p);
-      return this_->get_subset(name);
+      IHybridCallback* callback_ = reinterpret_cast<IHybridCallback*>(payload.p);
+      return callback_->get_subset(name);
     }
 
-    SEXP get_subset(Symbol name) {
+  private:
+    const CharacterVector names;
+    const Environment env;
+    const IHybridCallback* callback;
+
+    mutable Environment eval_env;
+    mutable bool has_eval_env;
+  };
+
+  class GroupedHybridCall {
+  public:
+    GroupedHybridCall(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
+      original_call(call_), subsets(subsets_), env(env_)
+    {
       LOG_VERBOSE;
-      return subsets.get(name, get_indices());
     }
 
-    const SlicingIndex& get_indices() const {
-      return *indices;
-    }
-
-    void set_indices(const SlicingIndex& indices_) {
-      indices = &indices_;
-    }
-
-    void clear_indices() {
-      indices = NULL;
-    }
-
-    SEXP eval_with_indices(const Call& call_) {
-      LOG_INFO << type2name(call_);
-      Call call = clone(call_);
+  public:
+    Call simplify(const SlicingIndex& indices) const {
+      set_indices(indices);
+      Call call = clone(original_call);
       while (simplified(call)) {}
-
-      LOG_INFO << type2name(call);
-      if (TYPEOF(call) == LANGSXP) {
-        LOG_VERBOSE << "performing evaluation in eval_env";
-        return Rcpp_eval(call, get_eval_env());
-      } else if (TYPEOF(call) == SYMSXP) {
-        if (subsets.count(call)) {
-          return subsets.get(call, get_indices());
-        }
-        return env.find(CHAR(PRINTNAME(call)));
-      }
+      clear_indices();
       return call;
     }
 
-    bool simplified(Call& call) {
+  private:
+    bool simplified(Call& call) const {
       LOG_VERBOSE;
       // initial
-      if (TYPEOF(call) == LANGSXP) {
+      if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
         boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
         if (res) {
           // replace the call by the result of process
@@ -108,12 +99,13 @@ namespace dplyr {
           // no need to go any further, we simplified the top level
           return true;
         }
-        return replace(CDR(call));
+        if (TYPEOF(call) == LANGSXP)
+          return replace(CDR(call));
       }
       return false;
     }
 
-    bool replace(SEXP p) {
+    bool replace(SEXP p) const {
       LOG_VERBOSE;
       SEXP obj = CAR(p);
       if (TYPEOF(obj) == LANGSXP) {
@@ -133,12 +125,83 @@ namespace dplyr {
       return false;
     }
 
+    const SlicingIndex& get_indices() const {
+      return *indices;
+    }
+
+    void set_indices(const SlicingIndex& indices_) const {
+      indices = &indices_;
+    }
+
+    void clear_indices() const {
+      indices = NULL;
+    }
+
+  private:
+    // Initialization
+    const Call original_call;
+    const ILazySubsets& subsets;
+    const Environment env;
+
+  private:
+    // State
+    mutable const SlicingIndex* indices;
+  };
+
+  class GroupedHybridEval : public IHybridCallback {
+  public:
+    GroupedHybridEval(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
+      indices(NULL), subsets(subsets_), env(env_),
+      hybrid_env(subsets_.get_variable_names(), env_, this),
+      hybrid_call(call_, subsets_, env_)
+    {
+      LOG_VERBOSE;
+    }
+
+    const SlicingIndex& get_indices() const {
+      return *indices;
+    }
+
+  public: // IHybridCallback
+    SEXP get_subset(const Symbol& name) const {
+      LOG_VERBOSE;
+      return subsets.get(name, get_indices());
+    }
+
+  public:
+    SEXP eval(const SlicingIndex& indices_) {
+      set_indices(indices_);
+      SEXP ret = eval_with_indices();
+      clear_indices();
+      return ret;
+    }
+
+  private:
+    void set_indices(const SlicingIndex& indices_) {
+      indices = &indices_;
+    }
+
+    void clear_indices() {
+      indices = NULL;
+    }
+
+    SEXP eval_with_indices() {
+      Call call = hybrid_call.simplify(get_indices());
+      LOG_INFO << type2name(call);
+
+      if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
+        LOG_VERBOSE << "performing evaluation in eval_env";
+        return Rcpp_eval(call, hybrid_env.get_eval_env());
+      }
+      return call;
+    }
+
   private:
     const SlicingIndex* indices;
-    Subsets& subsets;
-    Environment env, eval_env;
-    CharacterVector active_names;
-    bool has_eval_env;
+    const ILazySubsets& subsets;
+    Environment env;
+    const GroupedHybridEnv hybrid_env;
+    const GroupedHybridCall hybrid_call;
   };
 
 }
