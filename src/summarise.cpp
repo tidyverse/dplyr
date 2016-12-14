@@ -53,8 +53,11 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
 
-    // if we could not find a direct Result
-    // we can use a GroupedCallReducer which will callback to R
+    // If we could not find a direct Result,
+    // we can use a GroupedCallReducer which will callback to R.
+    // Note that the GroupedCallReducer currently doesn't apply
+    // special treatment to summary variables, for which hybrid
+    // evaluation should be turned off completely (#2312)
     if (!res) {
       res.reset(new GroupedCallReducer<Data, Subsets>(lazy.expr(), subsets, env));
     }
