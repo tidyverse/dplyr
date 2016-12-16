@@ -191,7 +191,7 @@ sql_build.op_join <- function(op, con, ...) {
     x_names_no_xy[xy_by] <- NULL
     y_names_no_xy <- as.list(uniques$y)
     y_names_no_xy[xy_by] <- NULL
-    xy_names <- c(x_names_no_xy, y_names_no_xy, uniques$x[xy_by])
+    xy_names <- c(unname(x_names_no_xy), unname(y_names_no_xy), uniques$x[xy_by])
 
     by$x <- unname(uniques$x[by$x])
     by$y <- unname(uniques$y[by$y])
@@ -201,11 +201,7 @@ sql_build.op_join <- function(op, con, ...) {
                  type = op$args$type,
                  by = by
       ),
-      select = ident(unlist(c(
-        unname(x_names_no_xy),
-        unname(y_names_no_xy),
-        uniques$x[xy_by]
-      )))
+      select = ident(unlist(xy_names))
     )
   }
 }
