@@ -26,6 +26,13 @@ test_that("named by join by same z vars", {
   expect_equal(nrow(j1), 5)
 })
 
+test_that("join with both same and different vars", {
+  skip_if_no_sqlite()
+
+  j1 <- collect(left_join(df1, df3, by = c("y" = "z", "x")))
+  expect_equal(j1, data_frame(y = 1:5, z = 1:5, x = 1:5))
+})
+
 test_that("inner join doesn't result in duplicated columns ", {
   skip_if_no_sqlite()
   expect_equal(colnames(dplyr::inner_join(df1, df1)), c('x', 'y'))
