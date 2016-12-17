@@ -3,6 +3,8 @@ context("SQL: joins")
 src <- src_sqlite(tempfile(), create = TRUE)
 df1 <- copy_to(src, data.frame(x = 1:5, y = 1:5), "df1")
 df2 <- copy_to(src, data.frame(a = 5:1, b = 1:5), "df2")
+df3 <- copy_to(src, data.frame(x = 1:5, z = 1:5), "df3")
+df4 <- copy_to(src, data.frame(a = 5:1, z = 5:1), "df4")
 fam <- copy_to(src, data.frame(id = 1:5, parent = c(NA, 1, 2, 2, 4)), "fam")
 
 test_that("named by join by different x and y vars", {
@@ -15,6 +17,13 @@ test_that("named by join by different x and y vars", {
   j2 <- collect(inner_join(df1, df2, c("x" = "a", "y" = "b")))
   expect_equal(names(j2), c("x", "y", "a", "b"))
   expect_equal(nrow(j2), 1)
+})
+
+test_that("named by join by same z vars", {
+  skip_if_no_sqlite()
+
+  j1 <- collect(inner_join(df3, df4, c("z" = "z")))
+  expect_equal(nrow(j1), 5)
 })
 
 test_that("inner join doesn't result in duplicated columns ", {
