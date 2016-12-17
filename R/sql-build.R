@@ -166,7 +166,7 @@ sql_build.op_distinct <- function(op, con, ...) {
 
 #' @export
 sql_build.op_join <- function(op, con, ...) {
-  # Ensure tables have unique names
+  # Ensure tables have unique column names
   x_names <- op_vars(op$x)
   y_names <- op_vars(op$y)
   by <- op$args$by
@@ -186,24 +186,30 @@ sql_build.op_join <- function(op, con, ...) {
     x <- select_(op$x, .dots = setNames(x_names, uniques$x))
     y <- select_(op$y, .dots = setNames(y_names, uniques$y))
 
-    xy_by <- by$x[by$x == by$y]
-    x_names_no_xy <- as.list(uniques$x)
-    x_names_no_xy[xy_by] <- NULL
-    y_names_no_xy <- as.list(uniques$y)
-    y_names_no_xy[xy_by] <- NULL
-    xy_names <- c(unname(x_names_no_xy), unname(y_names_no_xy), uniques$x[xy_by])
-
-    by$x <- unname(uniques$x[by$x])
-    by$y <- unname(uniques$y[by$y])
+    xy_names <- get_join_xy_names(by, uniques)
 
     select_query(
-      join_query(x, y,
-                 type = op$args$type,
-                 by = by
+      join_query(
+        x, y,
+        type = op$args$type,
+        by = list(x = unname(uniques$x[by$x]), y = unname(uniques$y[by$y]))
       ),
-      select = ident(unlist(xy_names))
+      select = ident(xy_names)
     )
   }
+}
+
+get_join_xy_names <- function(by, uniques) {
+  xy_by <- by$x[by$x == by$y]
+  x_names <- uniques$x
+  x_rename <- names(x_names) %in% xy_by
+  names(x_names)[!x_rename] <- ""
+
+  y_names <- uniques$y
+  y_remove <- names(y_names) %in% xy_by
+  y_names <- unname(y_names[!y_remove])
+
+  c(x_names, y_names)
 }
 
 #' @export
