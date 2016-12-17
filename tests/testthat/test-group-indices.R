@@ -22,3 +22,12 @@ test_that("group_indices can be used in mutate (#2160)", {
   res2 <- mtcars %>% mutate(group_idx = as.integer(factor(cyl)))
   expect_equal(res1, res2)
 })
+
+test_that("group indices are updated correctly for joined grouped data frames (#2330)", {
+  d1 <- data.frame(x = 1:2, y = 1:2) %>% group_by(x, y)
+  expect_equal(group_indices(d1), d1$x)
+
+  d2 <- expand.grid(x = 1:2, y = 1:2)
+  res <- inner_join(d1, d2, by = "x")
+  expect_equal(group_indices(res), res$x)
+})

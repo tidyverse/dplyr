@@ -107,9 +107,25 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   set_rownames(out, nrows);
   out.names() = names;
 
-  SEXP vars = x.attr("vars");
-  if (!Rf_isNull(vars))
-    out.attr("vars") = vars;
+  // out group columns
+  const ListOf<Symbol> group_cols_x(x.attr("vars"));
+  int n_group_cols = group_cols_x.size();
+
+  if (n_group_cols > 0) {
+    List group_cols(n_group_cols);
+    IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);
+    // get updated column names
+    for (int i=0; i<n_group_cols; i++) {
+      int group_col_index = group_col_indices[i];
+      if (group_col_index != NA_INTEGER) {
+        String group_col_name = names[group_col_index-1];
+        group_cols[i] = Symbol(group_col_name);
+      } else {
+        stop("unknown group column '%s'", CHAR(PRINTNAME(group_cols_x[i])));
+      }
+    }
+    out.attr("vars") = group_cols;
+  }
 
   return (SEXP)out;
 }
