@@ -21,6 +21,8 @@
 \alias{reexports}
 \alias{frame_data}
 \alias{reexports}
+\alias{tribble}
+\alias{reexports}
 \alias{tibble}
 \alias{reexports}
 \alias{trunc_mat}
@@ -35,6 +37,6 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 
-  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{trunc_mat}}}
+  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{trunc_mat}}}
 }}
 
