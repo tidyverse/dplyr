@@ -130,4 +130,3 @@ Collate:
     'view.r'
     'zzz.r'
 RoxygenNote: 5.0.1.9000
-Remotes: krlmlr/bindrcpp
