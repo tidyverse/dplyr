@@ -75,4 +75,3 @@ anti_join(batting_df, person_df)
 anti_join(person_df, batting_df)
 }
 }
-

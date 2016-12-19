@@ -19,4 +19,3 @@ class name}
 \code{src_sql} is the standard constructor for all SQL based srcs.
 }
 \keyword{internal}
-

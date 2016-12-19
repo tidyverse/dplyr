@@ -33,4 +33,3 @@ na_if(y, "")
 \code{\link{coalesce}()} to replace missing values with a specified
   value.
 }
-

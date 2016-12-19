@@ -24,4 +24,3 @@ and \code{is.tbl} tests.
 as.tbl(mtcars)
 }
 \keyword{internal}
-

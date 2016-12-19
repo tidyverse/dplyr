@@ -31,4 +31,3 @@ df \%>\% arrange(x)
 df \%>\% arrange(x) \%>\% show_query()
 }
 }
-

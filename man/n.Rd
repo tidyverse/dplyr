@@ -19,4 +19,3 @@ mutate(carriers, n = n())
 filter(carriers, n() < 100)
 }
 }
-

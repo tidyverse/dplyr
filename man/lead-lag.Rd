@@ -46,4 +46,3 @@ arrange(wrong, year)
 right <- mutate(scrambled, prev = lag(value, order_by = year))
 arrange(right, year)
 }
-

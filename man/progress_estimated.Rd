@@ -46,4 +46,3 @@ for (i in 1:10) p$pause(0.5)$tick()$print()
 }
 }
 \keyword{internal}
-

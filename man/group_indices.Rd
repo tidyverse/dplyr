@@ -28,4 +28,3 @@ group_indices(mtcars, cyl)
 \seealso{
 \code{\link{group_by}}
 }
-

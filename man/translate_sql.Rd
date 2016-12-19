@@ -62,6 +62,7 @@ You can also use \code{sql} to insert a raw sql string.
 The SQLite variant currently only adds one additional function: a mapping
 from \code{sd} to the SQL aggregation function \code{stdev}.
 }
+
 \examples{
 # Regular maths is translated in a very straightforward way
 translate_sql(x + 1)
@@ -125,4 +126,3 @@ translate_sql(mpg > mean(mpg), vars_group = "cyl")
 translate_sql(cumsum(mpg))
 translate_sql(cumsum(mpg), vars_order = "mpg")
 }
-

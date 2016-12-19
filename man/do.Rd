@@ -66,6 +66,7 @@ labels in a separate attribute, the result is always a data frame. This
 means that \code{summarise} applied to the result of \code{do} can
 act like \code{ldply}.
 }
+
 \examples{
 by_cyl <- group_by(mtcars, cyl)
 do(by_cyl, head(., 2))
@@ -106,4 +107,3 @@ by_dest \%>\% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))
 }
 }
 }
-

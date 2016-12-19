@@ -36,4 +36,3 @@ the \code{\link{dimnames}}.}
 \description{
 Coerce an existing data structure into a \code{tbl_cube}
 }
-

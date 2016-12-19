@@ -40,4 +40,3 @@ ifelse(x \%in\% c("a", "b", "c"), x, factor(NA))
 if_else(x \%in\% c("a", "b", "c"), x, factor(NA))
 # Attributes are taken from the `true` vector,
 }
-

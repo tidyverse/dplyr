@@ -22,4 +22,3 @@ class name}
 \code{src} is the standard constructor for srcs and \code{is.src} tests.
 }
 \keyword{internal}
-

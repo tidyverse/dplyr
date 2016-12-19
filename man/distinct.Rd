@@ -46,4 +46,3 @@ distinct(df, y, .keep_all = TRUE)
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
 }
-

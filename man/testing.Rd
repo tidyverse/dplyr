@@ -29,4 +29,3 @@ test_load(mtcars)
 }
 }
 \keyword{internal}
-

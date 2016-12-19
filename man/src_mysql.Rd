@@ -95,6 +95,7 @@ regardless of where the data is stored.
    one level of grouping peeled off.
 }
 }
+
 \examples{
 \dontrun{
 # Connection basics ---------------------------------------------------------
@@ -168,4 +169,3 @@ batting2008 <- tbl(lahman_m,
 batting2008
 }
 }
-

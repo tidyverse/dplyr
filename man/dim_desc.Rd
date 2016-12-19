@@ -17,4 +17,3 @@ substituting \code{NA} with ?? (for SQL queries).
 dim_desc(mtcars)
 }
 \keyword{internal}
-

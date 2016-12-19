@@ -105,6 +105,8 @@
 
 * `mutate_all()` etc now accept unnamed additional arguments.
 
+* `tribble()` is now imported from tibble (#2336, @chrMongeau).
+
 # dplyr 0.5.0
 
 ## Breaking changes

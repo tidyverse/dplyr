@@ -64,4 +64,3 @@ if (has_lahman("postgres")) {
 }
 }
 \keyword{internal}
-
