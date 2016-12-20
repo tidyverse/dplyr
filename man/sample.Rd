@@ -56,4 +56,3 @@ sample_frac(mtcars, 0.1, weight = 1 / mpg)
 sample_frac(by_cyl, 0.2)
 sample_frac(by_cyl, 1, replace = TRUE)
 }
-

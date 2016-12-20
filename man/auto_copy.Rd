@@ -19,4 +19,3 @@ it is a potentially expensive operation so you must opt into it.}
 \description{
 Copy tables to same source, if necessary.
 }
-

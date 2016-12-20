@@ -32,4 +32,3 @@ coalesce(y, z)
 \seealso{
 \code{\link{na_if}()} to replace specified values with a \code{NA}.
 }
-

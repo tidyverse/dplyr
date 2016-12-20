@@ -45,4 +45,3 @@ tbl_df(Batting) \%>\%
 tbl_df(Batting) \%>\% group_by(playerID) \%>\% top_n(1, G)
 }
 }
-

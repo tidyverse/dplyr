@@ -45,4 +45,3 @@ be deprecated in favour of a more featureful family of functions:
 \code{\link{mutate_if}()}, \code{\link{summarise_all}()},
 \code{\link{summarise_at}()} and \code{\link{summarise_if}()}.
 }
-

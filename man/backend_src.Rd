@@ -20,4 +20,3 @@ sql_translate_env(con)
 These generics retrieve metadata for a given src.
 }
 \keyword{internal}
-

@@ -81,4 +81,3 @@ recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
 recode_factor(letters[1:3], b = "z", c = "y")
 recode_factor(factor(letters[1:3]), b = "z", c = "y")
 }
-

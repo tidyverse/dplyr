@@ -57,4 +57,3 @@ db2 <- src_sqlite(db$path)
 src_tbls(db2)
 }
 }
-

@@ -52,6 +52,7 @@ data frames into one. \code{combine()} acts like \code{\link{c}()} or
 \code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
 \code{bind_rows()}.
 }
+
 \examples{
 one <- mtcars[1:4, ]
 two <- mtcars[11:14, ]
@@ -87,4 +88,3 @@ unlist(list(f1, f2))
 combine(f1, f2)
 combine(list(f1, f2))
 }
-

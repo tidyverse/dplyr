@@ -22,4 +22,3 @@ as.tbl(x, ...)
 \description{
 This is a generic method that dispatches based on the first argument.
 }
-

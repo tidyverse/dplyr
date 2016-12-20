@@ -20,4 +20,3 @@ a built in tolerance
 sqrt(2) ^ 2 == 2
 near(sqrt(2) ^ 2, 2)
 }
-

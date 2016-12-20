@@ -34,4 +34,3 @@ build_sql("SELECT * FROM ", sql(x))
 name <- "Robert'); DROP TABLE Students;--"
 build_sql("INSERT INTO Students (Name) VALUES (", name, ")")
 }
-

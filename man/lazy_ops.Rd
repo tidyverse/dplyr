@@ -37,4 +37,3 @@ a sequence of lazy operations. \code{op_sort} tracks the order of the
 data for use in window functions.
 }
 \keyword{internal}
-

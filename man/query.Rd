@@ -17,4 +17,3 @@ expensive operations, and insulates the rest of dplyr from the vagaries of
 DBI and the individual database implementation.
 }
 \keyword{internal}
-

@@ -27,4 +27,3 @@ a local database, for use in examples and vignettes. Indexes are created
 to making joining tables on natural keys efficient.
 }
 \keyword{internal}
-

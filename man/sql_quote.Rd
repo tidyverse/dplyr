@@ -21,4 +21,3 @@ sql_quote("I've had a good day", "'")
 sql_quote(c("abc", NA), "'")
 }
 \keyword{internal}
-

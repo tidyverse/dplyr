@@ -29,4 +29,3 @@ overridden for src objects that are not themselves DB connections, but know
 how to get them (e.g. a connection pool).
 }
 \keyword{internal}
-

@@ -36,4 +36,3 @@ arrange(wrong, year)
 right <- mutate(scrambled, running = order_by(year, cumsum(value)))
 arrange(right, year)
 }
-

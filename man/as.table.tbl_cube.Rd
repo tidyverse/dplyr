@@ -26,4 +26,3 @@ For a cube, the data frame returned by
   \code{\link[tibble]{as_data_frame}} resulting data frame contains the
   dimensions as character values (and not as factors).
 }
-

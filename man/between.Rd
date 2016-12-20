@@ -20,4 +20,3 @@ appropriate SQL for remote tables.
 x <- rnorm(1e2)
 x[between(x, -1, 1)]
 }
-

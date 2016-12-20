@@ -49,4 +49,3 @@ all_equal(df1, df2)
 # But you can request dplyr convert similar types
 all_equal(df1, df2, convert = TRUE)
 }
-

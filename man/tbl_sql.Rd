@@ -22,4 +22,3 @@ backend implementors who are creating backends that extend the basic
 sql behaviour.
 }
 \keyword{internal}
-
