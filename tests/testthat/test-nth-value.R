@@ -40,3 +40,10 @@ test_that("default value errors for complicated structures", {
   expect_error(default_missing(factor("a")), "generate default for object")
   expect_error(default_missing(mtcars), "generate default for object")
 })
+
+test_that("nth and order_by doesn't crash", {
+    # Bug from issue #2166
+    data_frame(SBP = rnorm(2)) %>%
+    mutate(visit=1) %>%
+    summarise(FIRST_SBP_DPLYR=first(SBP, order_by=visit))
+})
