@@ -40,10 +40,12 @@ con_release <- function(src, con) {
   UseMethod("con_release", src)
 }
 
+#' @export
 con_acquire.src_sql <- function(src) {
   src$obj
 }
 
+#' @export
 con_release.src_sql <- function(src, con) {
 }
 
