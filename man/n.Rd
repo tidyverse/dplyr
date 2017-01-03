@@ -7,9 +7,9 @@
 n()
 }
 \description{
-This function is implemented special for each data source and can only
+This function is implemented specifically for each data source and can only
 be used from within \code{\link{summarise}}, \code{\link{mutate}} and
-\code{\link{filter}}
+\code{\link{filter}}.
 }
 \examples{
 if (require("nycflights13")) {
