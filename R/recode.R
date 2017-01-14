@@ -65,16 +65,13 @@
 #' # factor), it is reused as default.
 #' recode_factor(letters[1:3], b = "z", c = "y")
 #' recode_factor(factor(letters[1:3]), b = "z", c = "y")
-recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
+recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   UseMethod("recode")
 }
 
 #' @export
-recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
-  values <- list(...)
-  if (!missing(.dots)) {
-    values <- c(values, .dots)
-  }
+recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+  values = c(list(...), .dots)
   
   nms <- has_names(values)
   if (all(nms)) {
@@ -103,11 +100,8 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
 }
 
 #' @export
-recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
-  values <- list(...)
-  if (!missing(.dots)) {
-    values <- c(values, .dots)
-  }
+recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+  values = c(list(...), .dots)
   if (!all(has_names(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
@@ -129,11 +123,8 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
 }
 
 #' @export
-recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots) {
-  values <- list(...)
-  if (!missing(.dots)) {
-    values <- c(values, .dots)
-  }
+recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+  values = c(list(...), .dots)
   if (length(values) == 0) {
     stop("No replacements provided", call. = FALSE)
   }
