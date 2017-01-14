@@ -25,4 +25,3 @@ It has three main goals:
 To learn more about dplyr, start with the vignettes:
 \code{browseVignettes(package = "dplyr")}
 }
-

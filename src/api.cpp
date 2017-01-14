@@ -1,4 +1,23 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <boost/scoped_ptr.hpp>
+
+#include <tools/hash.h>
+#include <tools/match.h>
+
+#include <dplyr/CharacterVectorOrderer.h>
+
+#include <dplyr/tbl_cpp.h>
+#include <dplyr/visitor_impl.h>
+
+#include <dplyr/JoinVisitorImpl.h>
+
+#include <dplyr/Hybrid.h>
+
+#include <dplyr/Result/Result.h>
+#include <dplyr/Result/ILazySubsets.h>
+
+#include <dplyr/DataFrameJoinVisitors.h>
 
 namespace dplyr {
 
@@ -44,10 +63,6 @@ namespace dplyr {
     SEXP vars = data.attr("vars");
     if (!Rf_isNull(vars))
       x.attr("vars") = vars;
-  }
-
-  inline String comma_collapse(SEXP names) {
-    return Language("paste", names, _["collapse"] = ", ").fast_eval();
   }
 
   DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :
@@ -97,7 +112,7 @@ namespace dplyr {
     return res;
   }
 
-  Symbol get_column(SEXP arg, const Environment& env, const LazySubsets& subsets) {
+  Symbol get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
     Symbol res = extract_column(arg, env);
     if (!subsets.count(res)) {
       stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)));
@@ -105,179 +120,9 @@ namespace dplyr {
     return res;
   }
 
-  void CallProxy::set_call(SEXP call_) {
-    proxies.clear();
-    call = call_;
-    if (TYPEOF(call) == LANGSXP) traverse_call(call);
-  }
-
-  SEXP CallProxy::eval() {
-    if (TYPEOF(call) == LANGSXP) {
-
-      if (can_simplify(call)) {
-        SlicingIndex indices(0,subsets.nrows());
-        while (simplified(indices));
-        set_call(call);
-      }
-
-      int n = proxies.size();
-      for (int i=0; i<n; i++) {
-        proxies[i].set(subsets[proxies[i].symbol]);
-      }
-      return call.eval(env);
-    } else if (TYPEOF(call) == SYMSXP) {
-      // SYMSXP
-      if (subsets.count(call)) return subsets.get_variable(call);
-      return call.eval(env);
-    }
-    return call;
-  }
-
-  bool CallProxy::simplified(const SlicingIndex& indices) {
-    // initial
-    if (TYPEOF(call) == LANGSXP) {
-      boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
-
-      if (res) {
-        // replace the call by the result of process
-        call = res->process(indices);
-
-        // no need to go any further, we simplified the top level
-        return true;
-      }
-
-      return replace(CDR(call), indices);
-
-    }
-    return false;
-  }
-
-  bool CallProxy::replace(SEXP p, const SlicingIndex& indices) {
-
-    SEXP obj = CAR(p);
-
-    if (TYPEOF(obj) == LANGSXP) {
-      boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
-      if (res) {
-        SETCAR(p, res->process(indices));
-        return true;
-      }
-
-      if (replace(CDR(obj), indices)) return true;
-    }
-
-    if (TYPEOF(p) == LISTSXP) {
-      return replace(CDR(p), indices);
-    }
-
-    return false;
-  }
-
-  void CallProxy::traverse_call(SEXP obj) {
-
-    if (TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("local")) return;
-
-    if (TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("global")) {
-      SEXP symb = CADR(obj);
-      if (TYPEOF(symb) != SYMSXP) stop("global only handles symbols");
-      SEXP res = env.find(CHAR(PRINTNAME(symb)));
-      call = res;
-      return;
-    }
-
-    if (TYPEOF(obj) == LANGSXP && CAR(obj) == Rf_install("column")) {
-      call = get_column(CADR(obj), env, subsets);
-      return;
-    }
-
-    if (! Rf_isNull(obj)) {
-      SEXP head = CAR(obj);
-      switch (TYPEOF(head)) {
-      case LANGSXP:
-        if (CAR(head) == Rf_install("global")) {
-          SEXP symb = CADR(head);
-          if (TYPEOF(symb) != SYMSXP) stop("global only handles symbols");
-          SEXP res  = env.find(CHAR(PRINTNAME(symb)));
-
-          SETCAR(obj, res);
-          SET_TYPEOF(obj, LISTSXP);
-
-          break;
-        }
-        if (CAR(head) == Rf_install("column")) {
-          Symbol column = get_column(CADR(head), env, subsets);
-          SETCAR(obj, column);
-          head = CAR(obj);
-          proxies.push_back(CallElementProxy(head, obj));
-
-          break;
-        }
-        if (CAR(head) == Rf_install("~")) break;
-        if (CAR(head) == Rf_install("order_by")) break;
-        if (CAR(head) == Rf_install("function")) break;
-        if (CAR(head) == Rf_install("local")) return;
-        if (CAR(head) == Rf_install("<-")) {
-          stop("assignments are forbidden");
-        }
-        if (Rf_length(head) == 3) {
-          SEXP symb = CAR(head);
-          if (symb == R_DollarSymbol || symb == Rf_install("@") || symb == Rf_install("::") || symb == Rf_install(":::")) {
-
-            // Rprintf( "CADR(obj) = " );
-            // Rf_PrintValue( CADR(obj) );
-
-            // for things like : foo( bar = bling )$bla
-            // so that `foo( bar = bling )` gets processed
-            if (TYPEOF(CADR(head)) == LANGSXP) {
-              traverse_call(CDR(head));
-            }
-
-            // deal with foo$bar( bla = boom )
-            if (TYPEOF(CADDR(head)) == LANGSXP) {
-              traverse_call(CDDR(head));
-            }
-
-            break;
-          } else {
-            traverse_call(CDR(head));
-          }
-        } else {
-          traverse_call(CDR(head));
-        }
-
-        break;
-      case LISTSXP:
-        traverse_call(head);
-        traverse_call(CDR(head));
-        break;
-      case SYMSXP:
-        if (TYPEOF(obj) != LANGSXP) {
-          if (! subsets.count(head)) {
-            if (head == R_MissingArg) break;
-            if (head == Rf_install(".")) break;
-
-            // in the Environment -> resolve
-            try {
-              Shield<SEXP> x(env.find(CHAR(PRINTNAME(head))));
-              SETCAR(obj, x);
-            } catch (...) {
-              // what happens when not found in environment
-            }
-
-          } else {
-            // in the data frame
-            proxies.push_back(CallElementProxy(head, obj));
-          }
-          break;
-        }
-      }
-      traverse_call(CDR(obj));
-    }
-  }
-
   CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
     data(data_),
-    set(),
+    set(data.size()),
     orders(no_init(data.size()))
   {
     int n = data.size();
@@ -342,9 +187,4 @@ namespace dplyr {
     return Language("unique", big).fast_eval();
   }
 
-}
-
-// [[Rcpp::export]]
-IntegerVector rank_strings(CharacterVector s) {
-  return dplyr::CharacterVectorOrderer(s).get();
 }

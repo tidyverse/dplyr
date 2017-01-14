@@ -158,9 +158,9 @@ test_that("join captures both tables", {
 
   out <- inner_join(lf1, lf2) %>% sql_build()
 
-  expect_equal(op_vars(out$x), c("x", "y"))
-  expect_equal(op_vars(out$y), c("x", "z"))
-  expect_equal(out$type, "inner")
+  expect_equal(op_vars(out$from$x), c("x.x", "y"))
+  expect_equal(op_vars(out$from$y), c("x.y", "z"))
+  expect_equal(out$from$type, "inner")
 })
 
 test_that("semi join captures both tables", {

@@ -24,4 +24,3 @@ grouped <- group_by(mtcars, cyl)
 groups(grouped)
 groups(ungroup(grouped))
 }
-

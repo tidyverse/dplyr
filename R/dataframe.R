@@ -1,3 +1,5 @@
+methods::setOldClass(c("grouped_df", "tbl_df", "data.frame"))
+
 # Grouping methods ------------------------------------------------------------
 
 #' Convert to a data frame

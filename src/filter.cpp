@@ -1,17 +1,26 @@
-#include <dplyr.h>
+#include <dplyr/main.h>
+
+#include <tools/hash.h>
+#include <tools/LazyDots.h>
+#include <tools/utils.h>
+
+#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/RowwiseDataFrame.h>
+
+#include <dplyr/Result/LazyRowwiseSubsets.h>
+#include <dplyr/Result/GroupedCallProxy.h>
+#include <dplyr/Result/CallProxy.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
 typedef dplyr_hash_set<SEXP> SymbolSet;
 
-namespace dplyr {
-  void strip_index(DataFrame x) {
-    x.attr("indices") = R_NilValue;
-    x.attr("group_sizes") = R_NilValue;
-    x.attr("biggest_group_size") = R_NilValue;
-    x.attr("labels") = R_NilValue;
-  }
+void strip_index(DataFrame x) {
+  x.attr("indices") = R_NilValue;
+  x.attr("group_sizes") = R_NilValue;
+  x.attr("biggest_group_size") = R_NilValue;
+  x.attr("labels") = R_NilValue;
 }
 
 inline SEXP empty_subset(const DataFrame& df, CharacterVector columns, CharacterVector classes) {
@@ -114,7 +123,7 @@ DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
   int ngroups = gdf.ngroups();
   typename Data::group_iterator git = gdf.group_begin();
   for (int i=0; i<ngroups; i++, ++git) {
-    SlicingIndex indices = *git;
+    const SlicingIndex& indices = *git;
     int chunk_size = indices.size();
 
     g_test = check_filter_logical_result(call_proxy.get(indices));
@@ -157,7 +166,7 @@ DataFrame filter_grouped_multiple_env(const Data& gdf, const LazyDots& dots) {
     int ngroups = gdf.ngroups();
     typename Data::group_iterator git = gdf.group_begin();
     for (int i=0; i<ngroups; i++, ++git) {
-      SlicingIndex indices = *git;
+      const SlicingIndex& indices = *git;
       int chunk_size = indices.size();
 
       g_test  = check_filter_logical_result(call_proxy.get(indices));

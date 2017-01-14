@@ -17,4 +17,3 @@ with_order(order_by, fun, x, ...)
 This is used to power the ordering parameters of dplyr's window functions
 }
 \keyword{internal}
-

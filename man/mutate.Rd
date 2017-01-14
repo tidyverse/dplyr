@@ -42,8 +42,7 @@ transmute(mtcars, displ_l = disp / 61.0237)
 mutate(mtcars, cyl = NULL)
 }
 \seealso{
-Other single.table.verbs: \code{\link{arrange}},
+Other single table verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{select}},
   \code{\link{slice}}, \code{\link{summarise}}
 }
-

@@ -170,7 +170,7 @@ internal implementation in `dplyr`.
 particular expressions. 
 
 ```cpp
-Result* get_handler( SEXP call, const LazySubsets& subsets ){
+Result* get_handler( SEXP call, const ILazySubsets& subsets ){
     int depth = Rf_length(call) ;
     HybridHandlerMap& handlers = get_handlers() ;
     SEXP fun_symbol = CAR(call) ;
@@ -186,7 +186,7 @@ Result* get_handler( SEXP call, const LazySubsets& subsets ){
 The `get_handler` performs a lookup in a hash table of type `HybridHandlerMap`. 
 
 ```cpp
-typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::LazySubsets&, int) ;
+typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::ILazySubsets&, int) ;
 typedef dplyr_hash_map<SEXP,HybridHandler> HybridHandlerMap ;
 ```
 
@@ -196,7 +196,7 @@ function and the map value type is a function pointer defined by `HybridHandler`
 The parameters of the `HybridHandler` function pointer type are: 
 
  - The call we want to hybridify, e.g. something like `sum(flights)`
- - a `LazySubsets` reference. The only thing that is relevant about 
+ - a `ILazySubsets` reference. The only thing that is relevant about
    this class here is that it defines a `get_variable` method that takes a 
    symbol `SEXP` and returns the corresponding variable from the data frame.
  - The number of arguments of the call. For example for `sum(flights)`, the number
@@ -209,7 +209,7 @@ with our previous `Sum` template class, we could define a hybrid handler functio
 like this: 
 
 ```cpp
-Result* sum_handler(SEXP call, const LazySubsets& subsets, int nargs ){
+Result* sum_handler(SEXP call, const ILazySubsets& subsets, int nargs ){
   // we only know how to deal with argument
   if( nargs != 1 ) return 0 ;
   
@@ -272,7 +272,7 @@ public:
 
 // we actually don't need the arguments
 // we can just let this handler return a new Hitchhiker pointer
-Result* hitchhiker_handler( SEXP, const LazySubsets&, int ){
+Result* hitchhiker_handler( SEXP, const ILazySubsets&, int ){
     return new Hitchhiker ;        
 }
 

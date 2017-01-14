@@ -2,8 +2,8 @@
 % Please edit documentation in R/sample.R
 \name{sample}
 \alias{sample}
-\alias{sample_frac}
 \alias{sample_n}
+\alias{sample_frac}
 \title{Sample n rows from a table.}
 \usage{
 sample_n(tbl, size, replace = FALSE, weight = NULL, .env = parent.frame())
@@ -56,4 +56,3 @@ sample_frac(mtcars, 0.1, weight = 1 / mpg)
 sample_frac(by_cyl, 0.2)
 sample_frac(by_cyl, 1, replace = TRUE)
 }
-

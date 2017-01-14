@@ -2,11 +2,13 @@
 % Please edit documentation in R/bind.r
 \name{bind}
 \alias{bind}
-\alias{bind_cols}
-\alias{bind_rows}
-\alias{combine}
 \alias{rbind_all}
 \alias{rbind_list}
+\alias{bind_rows}
+\alias{bind_cols}
+\alias{combine}
+\alias{rbind_list}
+\alias{rbind_all}
 \title{Efficiently bind multiple data frames by row and column.}
 \usage{
 bind_rows(..., .id = NULL)
@@ -50,6 +52,7 @@ data frames into one. \code{combine()} acts like \code{\link{c}()} or
 \code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
 \code{bind_rows()}.
 }
+
 \examples{
 one <- mtcars[1:4, ]
 two <- mtcars[11:14, ]
@@ -85,4 +88,3 @@ unlist(list(f1, f2))
 combine(f1, f2)
 combine(list(f1, f2))
 }
-

@@ -31,11 +31,10 @@ input to other functions like \code{summarise_each}.
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))
 
-# Overide default names
+# Override default names
 funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
 
 # If you have function names in a vector, use funs_
 fs <- c("min", "max")
 funs_(fs)
 }
-

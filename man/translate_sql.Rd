@@ -62,6 +62,7 @@ You can also use \code{sql} to insert a raw sql string.
 The SQLite variant currently only adds one additional function: a mapping
 from \code{sd} to the SQL aggregation function \code{stdev}.
 }
+
 \examples{
 # Regular maths is translated in a very straightforward way
 translate_sql(x + 1)
@@ -80,7 +81,7 @@ translate_sql(xor(x, y))
 translate_sql(if (x > 5) "big" else "small")
 
 # Infix functions are passed onto SQL with \% removed
-translate_sql(first \%like\% "Had*")
+translate_sql(first \%like\% "Had\%")
 translate_sql(first \%is\% NULL)
 translate_sql(first \%in\% c("John", "Roger", "Robert"))
 
@@ -125,4 +126,3 @@ translate_sql(mpg > mean(mpg), vars_group = "cyl")
 translate_sql(cumsum(mpg))
 translate_sql(cumsum(mpg), vars_order = "mpg")
 }
-

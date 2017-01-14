@@ -2,20 +2,34 @@
 % Please edit documentation in R/tibble-reexport.r, R/utils.r
 \docType{import}
 \name{reexports}
-\alias{\%>\%}
-\alias{add_row}
-\alias{as_data_frame}
+\alias{reexports}
 \alias{data_frame}
+\alias{reexports}
 \alias{data_frame_}
-\alias{frame_data}
-\alias{glimpse}
+\alias{reexports}
+\alias{as_data_frame}
+\alias{reexports}
 \alias{lst}
+\alias{reexports}
 \alias{lst_}
 \alias{reexports}
-\alias{tibble}
-\alias{trunc_mat}
+\alias{add_row}
+\alias{reexports}
 \alias{type_sum}
+\alias{reexports}
+\alias{glimpse}
+\alias{reexports}
+\alias{frame_data}
+\alias{reexports}
+\alias{tribble}
+\alias{reexports}
+\alias{tibble}
+\alias{reexports}
+\alias{trunc_mat}
+\alias{reexports}
+\alias{\%>\%}
 \title{Objects exported from other packages}
+\keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
@@ -23,7 +37,6 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 
-  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{trunc_mat}}}
+  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{trunc_mat}}}
 }}
-\keyword{internal}
 

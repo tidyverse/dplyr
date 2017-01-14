@@ -1,19 +1,23 @@
 #ifndef dplyr_JoinVisitor_H
 #define dplyr_JoinVisitor_H
 
-namespace dplyr{
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
 
-    class JoinVisitor{
-    public:
-        virtual ~JoinVisitor(){}
+namespace dplyr {
 
-        virtual size_t hash(int i) = 0 ;
-        virtual bool equal(int i, int j) = 0 ;
+  class DataFrameJoinVisitors;
 
-        virtual SEXP subset( const std::vector<int>& indices ) = 0;
-        virtual SEXP subset( const VisitorSetIndexSet<DataFrameJoinVisitors>& set ) = 0;
+  class JoinVisitor {
+  public:
+    virtual ~JoinVisitor() {}
 
-    } ;
+    virtual size_t hash(int i) = 0;
+    virtual bool equal(int i, int j) = 0;
+
+    virtual SEXP subset(const std::vector<int>& indices) = 0;
+    virtual SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) = 0;
+
+  };
 
 }
 

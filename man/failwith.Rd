@@ -35,4 +35,3 @@ safef(2)
 \code{\link[plyr]{try_default}}
 }
 \keyword{debugging}
-

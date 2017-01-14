@@ -1,23 +1,25 @@
 #ifndef dplyr_tools_FullDataFrame_H
 #define dplyr_tools_FullDataFrame_H
 
-namespace Rcpp {
+namespace dplyr {
 
-    class FullDataFrame {
-    public:
-        FullDataFrame( const DataFrame& data_ ) : index(0, data_.nrows() ) {}
+  class FullDataFrame {
+  public:
+    typedef NaturalSlicingIndex slicing_index;
 
-        const SlicingIndex& get_index() const {
-            return index ;
-        }
+    FullDataFrame(const DataFrame& data_) : index(data_.nrows()) {}
 
-        inline int nrows() const {
-            return index.size() ;
-        }
+    const SlicingIndex& get_index() const {
+      return index;
+    }
 
-    private:
-        SlicingIndex index ;
-    } ;
+    inline int nrows() const {
+      return index.size();
+    }
+
+  private:
+    NaturalSlicingIndex index;
+  };
 
 }
 #endif

@@ -1,8 +1,86 @@
 # dplyr 0.5.0.9000
 
+* Breaking change: Using `$con` to retrieve a database source's DBI connection does not work anymore. Use the new function `con_acquire()` instead, but don't forget to call `con_release()` when you're done with the connection (#2013, @jcheng5).
+
+* `con_acquire()` and `con_release()` are S3 generics that will be called internally by dplyr on `src` objects to get and return connections. (Previously, dplyr called `src$con` to obtain connections from sources.) Overriding these methods allows more flexibility in the types of `src` objects that can be created, such as database connection pools (#2013, @jcheng5).
+
+* Added `setOldClass(c("grouped_df", "tbl_df", "data.frame"))` so that grouped data frames will work more smoothly with S4 interfaces, e.g. `RSQLite::dbWriteTable()` (#2276, @joranE).
+
+* Regular implementations of `nth()` and `ntile()` are more careful about proper data types of their return values (#2306).
+
+* Breaking change: The new `.data` and `.env` environments can be used inside all verbs that operate on data: `.data$column_name` accesses the column `column_name`, whereas `.env$var` accesses the external variable `var`. Columns or external variables named `.data` or `.env` are shadowed, use `.data$...` and/or `.env$...` to access them.
+
+* Breaking change: The `column()` and `global()` functions have been removed. They were never documented officially. Use the new `.data` and `.env` environments instead.
+
+* Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the `bindrcpp` package (#2190). This temporary environment poses restrictions on assignments using `<-` inside verbs.
+
+* New `add_count()` and `add_tally()` for adding an `n` column within groups (#2078, @dgrtwo).
+
+* Enforce integer `n` for `lag()` (#2162, @kevinushey).
+
+* Add failing tests for summarize preserving ordered factors (#2200, #2238, @ateucher).
+
+* Add failing tests (#1892, #2249, @drknexus).
+
+* Tests for factor handling in `if_else()` (#2242, @LCHansson).
+
+* Replace faulty `c4$query` suggestion with `sql_render(c4)` in vignette (#2246, @itcarroll).
+
+* Update documentation for `na_if()` (#2229, @pkq)
+
+* Added a test case for join that hang on empty suffix argument (#2228, #2239, @simon-anders).
+
+* Fix typo in `stop()` message (#2234, @PedramNavid).
+
+* Fixed typo in `introduction.Rmd` (#2112, @Shurakai).
+
+* Fix spelling typo (#2173, @mdlincoln).
+
+* Fix typo (#2215, @smsaladi).
+
+* Prefer `Symbol` to `String` for handling column names in C++ code (#2185).
+
+* C++ refactorings (#2178).
+
+* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2157).
+
+* CallProxy is now a specialization of GroupedCallProxy.
+
+* Fix conversion of character `NA` to empty strings in a grouped `summarise()` (#1839).
+
+* Refactor CallbackProcessor and DelayedProcessor.
+
+* The "dim" and "dimnames" attributes are always stripped when copying a vector (#1918, #2049).
+
+* Now calling `dbFetch()` instead of the deprecated `fetch()` (#2134).
+
+* Using larger hash tables gives slightly better performance for `n_distinct()` and ordering of character vectors (#977).
+
+* Fix typo in C++ registration code (which is most likely unused at the moment).
+
+* New hybrid handler for `%in%` (#126).
+
+* Support logging in C++ code via the new plogr package.
+
+* Makeflags uses PKG_CPPFLAGS for defining preprocessor macros.
+
+* Each C++ module and header includes only the header files it needs, and dplyr.h includes only other header files.
+
+* Split dplyr.cpp into smaller modules.
+
+* Remove various instances of dead code (both C++ and R).
+
+* Add Doxygen configuration.
+
+* Add/ignore CLion configuration files.
+
+* Enable tracking of header dependencies.
+
+* Add tests for grouping behaviour (#833, #2085, @bpbond).
+
 * Refactor `common_by()` (#1928).
 
-* astyle formatting for C++ code, tested but not changed as part of the tests (#2086).
+* astyle formatting for C++ code, tested but not changed as part of the tests (#2086, #2103).
 
 * Enable AppVeyor testing (#1947).
 
@@ -26,6 +104,8 @@
   function returns a vector of `FALSE` (#1989, #2009).
 
 * `mutate_all()` etc now accept unnamed additional arguments.
+
+* `tribble()` is now imported from tibble (#2336, @chrMongeau).
 
 # dplyr 0.5.0
 
@@ -346,10 +426,10 @@ There were two other tweaks to the exported API, but these are less likely to af
   that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively
   to avoid creating repeated column names (#1460).  Joins on string columns
   should be substantially faster (#1386). Extra attributes are ok if they are
-  identical (#1636). Joins work correct when factor levels not equal (#1712, 
-  #1559), and anti and semi joins give correct result when by variable is a 
-  factor (#1571). A clear error message is given for joins where an explicit `by`
-  contains unavailable columns (#1928, #1932, @krlmlr).
+  identical (#1636). Joins work correct when factor levels not equal
+  (#1712, #1559), and anti and semi joins give correct result when by variable
+  is a  factor (#1571). A clear error message is given for joins where an
+  explicit `by` contains unavailable columns (#1928, #1932, @krlmlr).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable

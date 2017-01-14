@@ -11,18 +11,20 @@ Authors@R: c(
     )
 URL: https://github.com/hadley/dplyr
 BugReports: https://github.com/hadley/dplyr/issues
-Depends:
+Depends: 
     R (>= 3.1.2)
-Imports:
+Imports: 
+    methods,
     assertthat,
+    bindrcpp,
     utils,
     R6,
     Rcpp (>= 0.12.3),
     tibble,
     magrittr,
     lazyeval (>= 0.1.10),
-    DBI (>= 0.4.1)
-Suggests:
+    DBI (>= 0.5)
+Suggests: 
     RSQLite (>= 1.0.0),
     RMySQL,
     RPostgreSQL,
@@ -33,17 +35,19 @@ Suggests:
     mgcv,
     Lahman (>= 3.0-1),
     nycflights13,
-    methods,
     rmarkdown,
     covr,
     dtplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
-    BH (>= 1.58.0-1)
+    BH (>= 1.58.0-1),
+    bindrcpp,
+    plogr
 LazyData: yes
 License: MIT + file LICENSE
-Collate:
+Collate: 
     'RcppExports.R'
+    'add-tally.r'
     'all-equal.r'
     'bench-compare.r'
     'bind.r'
@@ -70,6 +74,7 @@ Collate:
     'group-indices.R'
     'group-size.r'
     'grouped-df.r'
+    'hybrid.R'
     'id.r'
     'if_else.R'
     'inline.r'
@@ -121,6 +126,7 @@ Collate:
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'
+    'vapply.R'
     'view.r'
     'zzz.r'
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000

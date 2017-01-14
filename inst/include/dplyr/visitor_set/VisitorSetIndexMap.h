@@ -1,32 +1,37 @@
 #ifndef dplyr_VisitorSetIndexMap_H
 #define dplyr_VisitorSetIndexMap_H
 
-namespace dplyr{
+#include <tools/hash.h>
 
-    template <typename VisitorSet, typename VALUE>
-    class VisitorSetIndexMap :
-        public dplyr_hash_map<int, VALUE, VisitorSetHasher<VisitorSet> , VisitorSetEqualPredicate<VisitorSet> > {
-    private:
-        typedef VisitorSetHasher<VisitorSet> Hasher ;
-        typedef VisitorSetEqualPredicate<VisitorSet> EqualPredicate ;
-        typedef typename dplyr_hash_map<int, VALUE, Hasher, EqualPredicate> Base ;
+#include <dplyr/visitor_set/VisitorSetHasher.h>
+#include <dplyr/visitor_set/VisitorSetEqualPredicate.h>
 
-    public:
-        VisitorSetIndexMap() : Base(), visitors(0) {}
+namespace dplyr {
 
-        VisitorSetIndexMap( VisitorSet& visitors_ ) :
-            Base( 1024, Hasher(&visitors_), EqualPredicate(&visitors_) ),
-            visitors(&visitors_)
-        {}
+  template <typename VisitorSet, typename VALUE>
+  class VisitorSetIndexMap :
+    public dplyr_hash_map<int, VALUE, VisitorSetHasher<VisitorSet> , VisitorSetEqualPredicate<VisitorSet> > {
+  private:
+    typedef VisitorSetHasher<VisitorSet> Hasher;
+    typedef VisitorSetEqualPredicate<VisitorSet> EqualPredicate;
+    typedef typename dplyr_hash_map<int, VALUE, Hasher, EqualPredicate> Base;
 
-        VisitorSetIndexMap( VisitorSet* visitors_ ) :
-            Base( 1024, Hasher(visitors_), EqualPredicate(visitors_) ),
-            visitors(visitors_)
-        {}
+  public:
+    VisitorSetIndexMap() : Base(), visitors(0) {}
 
-        VisitorSet* visitors ;
+    VisitorSetIndexMap(VisitorSet& visitors_) :
+      Base(1024, Hasher(&visitors_), EqualPredicate(&visitors_)),
+      visitors(&visitors_)
+    {}
 
-    } ;
+    VisitorSetIndexMap(VisitorSet* visitors_) :
+      Base(1024, Hasher(visitors_), EqualPredicate(visitors_)),
+      visitors(visitors_)
+    {}
+
+    VisitorSet* visitors;
+
+  };
 
 }
 

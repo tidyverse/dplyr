@@ -2,15 +2,15 @@
 % Please edit documentation in R/translate-sql-helpers.r, R/translate-sql-base.r
 \docType{data}
 \name{sql_variant}
-\alias{base_agg}
-\alias{base_no_win}
-\alias{base_scalar}
-\alias{base_win}
-\alias{sql_infix}
-\alias{sql_not_supported}
-\alias{sql_prefix}
-\alias{sql_translator}
 \alias{sql_variant}
+\alias{sql_translator}
+\alias{sql_infix}
+\alias{sql_prefix}
+\alias{sql_not_supported}
+\alias{base_scalar}
+\alias{base_agg}
+\alias{base_win}
+\alias{base_no_win}
 \title{Create an sql translator}
 \usage{
 sql_variant(scalar = sql_translator(), aggregate = sql_translator(),
@@ -24,13 +24,13 @@ sql_prefix(f, n = NULL)
 
 sql_not_supported(f)
 
-'base_scalar'
+base_scalar
 
-'base_agg'
+base_agg
 
-'base_win'
+base_win
 
-'base_no_win'
+base_no_win
 }
 \arguments{
 \item{scalar, aggregate, window}{The three families of functions than an
@@ -63,6 +63,7 @@ functions given the name of the SQL function. They don't perform any input
 checking, but do correctly escape their input, and are useful for
 quickly providing default wrappers for a new SQL variant.
 }
+
 \examples{
 # An example of adding some mappings for the statistical functions that
 # postgresql provides: http://bit.ly/K5EdTn
@@ -91,4 +92,3 @@ translate_sql(regr_intercept(y, x), variant = postgres_var)
 }
 \keyword{datasets}
 \keyword{internal}
-

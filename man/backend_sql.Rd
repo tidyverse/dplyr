@@ -2,13 +2,13 @@
 % Please edit documentation in R/sql-generic.R
 \name{backend_sql}
 \alias{backend_sql}
-\alias{sql_escape_ident}
-\alias{sql_escape_string}
-\alias{sql_join}
 \alias{sql_select}
+\alias{sql_subquery}
+\alias{sql_join}
 \alias{sql_semi_join}
 \alias{sql_set_op}
-\alias{sql_subquery}
+\alias{sql_escape_string}
+\alias{sql_escape_ident}
 \title{SQL generation.}
 \usage{
 sql_select(con, select, from, where = NULL, group_by = NULL,
@@ -38,4 +38,3 @@ generates ANSI 92 compliant SQL, but variations in SQL across databases means
 that it's likely that a backend will require at least a few methods.
 }
 \keyword{internal}
-

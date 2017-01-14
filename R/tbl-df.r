@@ -227,30 +227,3 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 distinct_.tbl_df <- function(.data, ..., .dots) {
   tbl_df(NextMethod())
 }
-
-
-# Other methods that currently don't have a better home -----------------------
-
-order_ <- function(..., data){
-  parent_frame <- parent.frame()
-  if(missing(data)) {
-    env <- parent_frame
-  } else {
-    env <- as.environment(data)
-    parent.env(env) <- parent_frame
-  }
-  order_impl(dots(...) , env)
-}
-
-equal_ <- function(x, y){
-  equal_data_frame(x, y)
-}
-
-all_equal_ <- function(...){
-  env <- parent.frame()
-  all_equal_data_frame(dots(...), env)
-}
-
-sort_ <- function(data){
-  sort_impl(data)
-}
