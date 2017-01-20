@@ -177,12 +177,6 @@ transmute_.default <- function(.data, ..., .dots) {
 #' Use \code{\link{desc}} to sort a variable in descending order. Generally,
 #' this will not also automatically order by grouping variables.
 #'
-#' @section Locales:
-#'
-#' Note that for local data frames, the ordering is done in C++ code which
-#' does not have access to the local specific ordering usually done in R.
-#' This means that strings are ordered as if in the C locale.
-#'
 #' @export
 #' @inheritParams filter
 #' @param ... Comma separated list of unquoted variable names. Use

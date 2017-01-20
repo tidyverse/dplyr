@@ -39,6 +39,12 @@
 #'
 #' ntile(x, 2)
 #' ntile(runif(100), 10)
+#' 
+#' # row_number can be used with single table verbs without
+#' # an explicit x (as long as the db supports windowing)
+#' mutate(mtcars, row_number() == 1L)
+#' mtcars %>% filter(between(row_number(), 1, 10))
+#'
 NULL
 
 #' @export
