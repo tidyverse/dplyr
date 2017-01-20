@@ -39,14 +39,12 @@
 #'
 #' ntile(x, 2)
 #' ntile(runif(100), 10)
-#'
-#' @note
-#' row_number can be used with single.table.verbs (eg: mutate, filter, select,
-#' slice) without an explicit variable x as long as the database supports
-#' windowing:
-#'
+#' 
+#' # row_number can be used with single table verbs without
+#' # an explicit x (as long as the db supports windowing)
 #' mutate(mtcars, row_number() == 1L)
-#' filter(mtcars, between(row_number(), 1, 5))
+#' mtcars %>% filter(between(row_number(), 1, 10))
+#'
 NULL
 
 #' @export
