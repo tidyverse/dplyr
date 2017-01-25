@@ -130,3 +130,4 @@ Collate:
     'view.r'
     'zzz.r'
 RoxygenNote: 5.0.1.9000
+Roxygen: list(roclets = c("rd", "namespace", "collate", "functionmap2::api_roclet"))
