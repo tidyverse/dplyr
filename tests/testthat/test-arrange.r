@@ -135,17 +135,16 @@ test_that("arrange respects locale (#1280)", {
 
 test_that("arrange respects locale (#1175)", {
   vector <- c("B","a","A","b")
-  df  <- data.frame(x = vector, stringsAsFactors = F)
-  tbl <- data_frame(x = vector)
-
   master.asc <- sort(vector)
   master.dsc <- sort(vector, decreasing = T)
 
-  expect_equivalent(master.asc, arrange(df, x)$x)
-  expect_equivalent(master.asc, arrange(tbl, x)$x)
+  df  <- data.frame(x = vector, stringsAsFactors = F)
+  expect_equivalent(arrange(df, x)$x, master.asc)
+  expect_equivalent(arrange(df, desc(x))$x, master.dsc)
 
-  expect_equivalent(master.dsc, arrange(df, desc(x))$x)
-  expect_equivalent(master.dsc, arrange(tbl, desc(x))$x)
+  tbl <- data_frame(x = vector)
+  expect_equivalent(arrange(tbl, x)$x, master.asc)
+  expect_equivalent(arrange(tbl, desc(x))$x, master.dsc)
 })
 
 test_that("duplicated column name is explicit about which column (#996)", {

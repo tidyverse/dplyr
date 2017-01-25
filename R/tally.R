@@ -33,10 +33,10 @@
 #' }
 #'
 #' @note
-#' The column name in the returned data is 'n', however if the data already
-#' has a column named 'n' a lower-case n will be appended and the column name
-#' returned will be 'nn'.  Likewise, if the table already has columns named 'n'
-#' and 'nn' then the column returned will be 'nnn', etc.
+#' The column name in the returned data is \code{n}, however if the data already
+#' has a column named \code{n} a lower-case n will be appended and the column name
+#' returned will be \code{nn}.  Likewise, if the table already has columns named \code{n}
+#' and \code{nn} then the column returned will be \code{nnn}, etc.
 tally <- function(x, wt, sort = FALSE) {
   if (missing(wt)) {
     if ("n" %in% names(x)) {
