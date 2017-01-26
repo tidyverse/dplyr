@@ -179,6 +179,11 @@ db_commit.MySQLConnection <- function(con, ...) {
 }
 
 #' @export
+db_rollback.MySQLConnection <- function(con, ...) {
+  dbGetQuery(con, "ROLLBACK")
+}
+
+#' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Convert factors to strings
