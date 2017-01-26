@@ -47,6 +47,7 @@ restrictions can be placed on.
 \code{compute} and \code{collect} preserve grouping, \code{collapse} drops
 it.
 }
+
 \examples{
 \donttest{
 if (require("RSQLite") && has_lahman("sqlite")) {
@@ -62,4 +63,3 @@ if (require("RSQLite") && has_lahman("sqlite")) {
 \code{\link{copy_to}} which is the conceptual opposite: it
   takes a local data frame and makes it available to the remote source.
 }
-

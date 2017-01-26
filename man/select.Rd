@@ -45,6 +45,7 @@ a number of special functions that only work inside \code{select}
 To drop variables, use \code{-}. You can rename variables with
 named arguments.
 }
+
 \examples{
 iris <- tbl_df(iris) # so it prints a little nicer
 select(iris, starts_with("Petal"))
@@ -91,4 +92,3 @@ Other single table verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{mutate}},
   \code{\link{slice}}, \code{\link{summarise}}
 }
-

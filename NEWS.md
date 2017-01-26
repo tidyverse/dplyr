@@ -1,5 +1,17 @@
 # dplyr 0.5.0.9000
 
+* For selecting variables, the first selector decides if it's an inclusive selection (i.e., the initial column list is empty), or an exclusive selection (i.e., the initial column list contains all columns). This means that `select(mtcars, contains("am"), contains("FOO"), contains("vs"))` now returns again both `am` and `vs` columns like in dplyr 0.4.3 (#2275, #2289, @r2evans).
+
+* Fix groups when joining grouped data frames with duplicate columns (#2330, #2334, @davidkretch).
+
+* Documentation and vignette fixes (#2366, #2371, @austenhead).
+
+* SQL joins always use the `ON ...` syntax, avoiding `USING ...` even for natural joins. Improved handling of tables with columns of the same name (#1997, @javierluraschi).
+
+* Breaking change: Using `$con` to retrieve a database source's DBI connection does not work anymore. Use the new function `con_acquire()` instead, but don't forget to call `con_release()` when you're done with the connection (#2013, @jcheng5).
+
+* `con_acquire()` and `con_release()` are S3 generics that will be called internally by dplyr on `src` objects to get and return connections. (Previously, dplyr called `src$con` to obtain connections from sources.) Overriding these methods allows more flexibility in the types of `src` objects that can be created, such as database connection pools (#2013, @jcheng5).
+
 * Added `setOldClass(c("grouped_df", "tbl_df", "data.frame"))` so that grouped data frames will work more smoothly with S4 interfaces, e.g. `RSQLite::dbWriteTable()` (#2276, @joranE).
 
 * Regular implementations of `nth()` and `ntile()` are more careful about proper data types of their return values (#2306).
@@ -100,6 +112,8 @@
   function returns a vector of `FALSE` (#1989, #2009).
 
 * `mutate_all()` etc now accept unnamed additional arguments.
+
+* `tribble()` is now imported from tibble (#2336, @chrMongeau).
 
 # dplyr 0.5.0
 

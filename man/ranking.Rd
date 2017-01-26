@@ -67,4 +67,3 @@ cume_dist(x)
 ntile(x, 2)
 ntile(runif(100), 10)
 }
-

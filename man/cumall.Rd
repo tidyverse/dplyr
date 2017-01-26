@@ -21,4 +21,3 @@ dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete
 R's set of cumulate functions to match the aggregation functions available
 in most databases
 }
-

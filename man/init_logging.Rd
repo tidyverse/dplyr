@@ -15,4 +15,3 @@ Log entries, depending on the log level, will be printed to the standard
 error stream.
 }
 \keyword{internal}
-

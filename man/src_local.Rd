@@ -29,4 +29,3 @@ batting_df <- tbl(src_df("Lahman"), "Batting")
 }
 }
 \keyword{internal}
-

@@ -28,7 +28,7 @@ sql_build <- function(op, con, ...) {
 
 #' @export
 sql_build.tbl_sql <- function(op, con, ...) {
-  sql_build(op$ops, op$con, ...)
+  sql_build(op$ops, con, ...)
 }
 
 #' @export
@@ -166,32 +166,52 @@ sql_build.op_distinct <- function(op, con, ...) {
 
 #' @export
 sql_build.op_join <- function(op, con, ...) {
-  # Ensure tables have unique names
+  # Ensure tables have unique column names
   x_names <- op_vars(op$x)
   y_names <- op_vars(op$y)
   by <- op$args$by
 
-  uniques <- unique_names(x_names, y_names, by = by, suffix = op$args$suffix)
+  # by becomes empty to assign an alias to same-name vars
+  uniques <- unique_names(x_names, y_names, by = list(), suffix = op$args$suffix)
 
   if (is.null(uniques)) {
     x <- op$x
     y <- op$y
+
+    join_query(x, y,
+               type = op$args$type,
+               by = by
+    )
   } else {
-    # TODO: it would be better to construct an explicit FROM statement
-    # that used the table names to disambiguate the fields names: this
-    # would remove a layer of subqueries and would make sql_join more
-    # flexible.
     x <- select_(op$x, .dots = setNames(x_names, uniques$x))
     y <- select_(op$y, .dots = setNames(y_names, uniques$y))
 
-    by$x <- unname(uniques$x[by$x])
-    by$y <- unname(uniques$y[by$y])
-  }
+    new_by <- list(x = unname(uniques$x[by$x]), y = unname(uniques$y[by$y]))
 
-  join_query(x, y,
-    type = op$args$type,
-    by = by
-  )
+    xy_names <- get_join_xy_names(by, uniques)
+
+    select_query(
+      join_query(
+        x, y,
+        type = op$args$type,
+        by = new_by
+      ),
+      select = ident(xy_names)
+    )
+  }
+}
+
+get_join_xy_names <- function(by, uniques) {
+  xy_by <- by$x[by$x == by$y]
+  x_names <- uniques$x
+  x_rename <- names(x_names) %in% xy_by
+  names(x_names)[!x_rename] <- ""
+
+  y_names <- uniques$y
+  y_remove <- names(y_names) %in% xy_by
+  y_names <- unname(y_names[!y_remove])
+
+  c(x_names, y_names)
 }
 
 #' @export

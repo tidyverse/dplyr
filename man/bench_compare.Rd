@@ -81,4 +81,3 @@ bench_tbls(two_tables, op, times = 2)
 \seealso{
 \code{\link{src_local}} for working with local data
 }
-

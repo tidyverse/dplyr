@@ -17,4 +17,3 @@ process the data. This includes mutating the tbl to add new grouping columns
 and updating the groups (based on add)
 }
 \keyword{internal}
-

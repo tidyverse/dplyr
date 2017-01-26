@@ -49,4 +49,3 @@ batting_tbl \%>\% count(playerID, wt = G)
 batting_tbl \%>\% count(playerID, wt = G, sort = TRUE)
 }
 }
-

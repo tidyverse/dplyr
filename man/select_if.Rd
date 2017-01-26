@@ -29,4 +29,3 @@ iris \%>\% select_if(is.factor)
 iris \%>\% select_if(is.numeric)
 iris \%>\% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
 }
-

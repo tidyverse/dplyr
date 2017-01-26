@@ -74,6 +74,7 @@ Semi-joins are implemented using \code{WHERE EXISTS}, and anti-joins with
 can only create semi joins where the \code{x} and \code{y} columns are
 compared with \code{=} not with more general operators.
 }
+
 \examples{
 \dontrun{
 if (require("RSQLite") && has_lahman("sqlite")) {
@@ -128,4 +129,3 @@ anti_join(batting, people)
 }
 }
 }
-

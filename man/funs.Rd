@@ -38,4 +38,3 @@ funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
 fs <- c("min", "max")
 funs_(fs)
 }
-

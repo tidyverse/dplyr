@@ -42,6 +42,10 @@ tibble::glimpse
 #' @export
 tibble::frame_data
 
+#' @importFrom tibble tribble
+#' @export
+tibble::tribble
+
 #' @importFrom tibble tibble
 #' @export
 tibble::tibble

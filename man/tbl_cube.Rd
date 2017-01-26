@@ -61,6 +61,7 @@ Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
 Probably straightforward if you get the indexes right, and that's probably
 some straightforward array/tensor operation.
 }
+
 \examples{
 # The built in nasa dataset records meterological data (temperature,
 # cloud cover, ozone etc) for a 4d spatio-temporal dataset (lat, long,
@@ -97,4 +98,3 @@ summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 \code{\link{as.tbl_cube}} for ways of coercing existing data
   structures into a \code{tbl_cube}.
 }
-

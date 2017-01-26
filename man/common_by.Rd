@@ -10,4 +10,3 @@ common_by(by = NULL, x, y)
 Extract out common by variables
 }
 \keyword{internal}
-

@@ -19,4 +19,3 @@ summarising and mutating verbs.
 \seealso{
 \code{\link{summarise_all}()}
 }
-

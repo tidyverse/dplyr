@@ -66,4 +66,3 @@ select_vars_(names(iris), list(quote(Petal.Length)))
 select_vars_(names(iris), "Petal.Length")
 }
 \keyword{internal}
-

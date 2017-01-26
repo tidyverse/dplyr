@@ -110,4 +110,3 @@ by_species \%>\% summarise_at(vars(matches("Width")), funs(min, max))
 \seealso{
 \code{\link{vars}()}, \code{\link{funs}()}
 }
-

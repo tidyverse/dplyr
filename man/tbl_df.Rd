@@ -65,4 +65,3 @@ semi_join(player_info, hof)
 anti_join(player_info, hof)
 }
 }
-

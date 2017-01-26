@@ -34,6 +34,7 @@ do this 100% perfectly. \code{partial_eval} uses the following heuristic:
   \item Otherwise, remote.
 }
 }
+
 \examples{
 if (require("Lahman")) {
 bdf <- tbl_df(Batting)
@@ -61,4 +62,3 @@ partial_eval(quote(x ^ y))
 }
 }
 \keyword{internal}
-

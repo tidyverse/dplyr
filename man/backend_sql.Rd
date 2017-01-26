@@ -38,4 +38,3 @@ generates ANSI 92 compliant SQL, but variations in SQL across databases means
 that it's likely that a backend will require at least a few methods.
 }
 \keyword{internal}
-

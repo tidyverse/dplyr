@@ -172,3 +172,5 @@ is_1d <- function(x) {
 }
 
 is_bare_list <- function(x) is.list(x) && !is.object(x)
+
+is_negated <- function(x) is.call(x) && (length(x) == 2) && identical(x[[1]], quote(`-`))

@@ -42,4 +42,3 @@ case_when(
   x \%\% 35 == 0 ~ "fizz buzz"
 )
 }
-

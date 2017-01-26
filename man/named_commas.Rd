@@ -13,4 +13,3 @@ named_commas(...)
 Provides comma-separated string out ot the parameters
 }
 \keyword{internal}
-

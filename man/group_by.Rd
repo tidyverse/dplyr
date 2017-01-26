@@ -45,6 +45,7 @@ methods for more details:
   \item MySQL: \code{\link{src_mysql}}
 }
 }
+
 \examples{
 by_cyl <- group_by(mtcars, cyl)
 summarise(by_cyl, mean(disp), mean(hp))
@@ -77,4 +78,3 @@ groups(group_by(by_cyl, cyl, cyl))
 \code{\link{ungroup}} for the inverse operation,
   \code{\link{groups}} for accessors that don't do special evaluation.
 }
-

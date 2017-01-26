@@ -40,4 +40,3 @@ S3 generic simply removes the grouping.
 \code{\link[tibble]{as_data_frame}}
 }
 \keyword{internal}
-

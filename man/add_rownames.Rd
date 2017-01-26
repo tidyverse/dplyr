@@ -19,4 +19,3 @@ mtcars \%>\% tbl_df()
 
 mtcars \%>\% add_rownames()
 }
-

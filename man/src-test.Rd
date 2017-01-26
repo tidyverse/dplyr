@@ -25,4 +25,3 @@
 \description{
 A set of DBI methods to ease unit testing dplyr with DBI
 }
-

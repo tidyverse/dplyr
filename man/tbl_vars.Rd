@@ -12,4 +12,3 @@ tbl_vars(x)
 \description{
 List variables provided by a tbl.
 }
-

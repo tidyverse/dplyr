@@ -105,7 +105,7 @@ DataFrame build_index_cpp(DataFrame data) {
   for (int i=0; i<nsymbols; i++) {
     int pos = indx[i];
     if (pos == NA_INTEGER) {
-      stop("unknown column '%s' ", CHAR(names[i]));
+      stop("unknown column '%s' ", CHAR(vars[i]));
     }
 
     SEXP v = data[pos-1];

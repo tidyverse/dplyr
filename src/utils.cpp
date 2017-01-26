@@ -77,11 +77,6 @@ void copy_attributes(SEXP out, SEXP data) {
   if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
 }
 
-// effectively the same as copy_attributes but without names and dims
-void copy_most_attributes(SEXP out, SEXP data) {
-  Rf_copyMostAttrib(data, out);
-}
-
 std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
