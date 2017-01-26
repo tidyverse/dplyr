@@ -1,0 +1,12 @@
+```{r setup, include=FALSE}
+unlink("bindr-2_cache", recursive = TRUE)
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+```{r}
+devtools::load_all()
+obj <- data_frame(x = 1) %>%
+  mutate(f = list(some ~ formula + here))
+
+obj
+```
