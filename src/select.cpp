@@ -9,7 +9,7 @@ using namespace dplyr;
 
 SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, CharacterVector new_names) {
   CharacterVector names = df.names();
-  IntegerVector positions = match(keep, names);
+  IntegerVector positions = r_match(keep, names);
   int n = keep.size();
   List res(n);
   for (int i=0; i<n; i++) {
@@ -52,7 +52,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
 
   copy.attr("vars") = vars;
 
-  // hangle labels attribute
+  // handle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
   if (!Rf_isNull(copy.attr("labels"))) {
 
@@ -61,7 +61,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
     DataFrame labels(shallow_copy(original_labels));
     CharacterVector label_names = clone<CharacterVector>(labels.names());
 
-    IntegerVector positions = match(label_names, keep);
+    IntegerVector positions = r_match(label_names, keep);
     int nl = label_names.size();
     for (int i=0; i<nl; i++) {
       label_names[i] = new_names[ positions[i]-1 ];
