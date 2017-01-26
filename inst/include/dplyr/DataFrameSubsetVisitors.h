@@ -2,6 +2,7 @@
 #define dplyr_DataFrameSubsetVisitors_H
 
 #include <tools/pointer_vector.h>
+#include <tools/match.h>
 #include <tools/utils.h>
 
 #include <dplyr/tbl_cpp.h>
@@ -40,18 +41,17 @@ namespace dplyr {
       nvisitors(visitor_names.size())
     {
 
-      std::string name;
-      int n = names.size();
-      for (int i=0; i<n; i++) {
-        name = (String)names[i];
-        SEXP column;
+      IntegerVector indx = r_match(names, data.names());
 
-        try {
-          column = data[name];
-        } catch (...) {
+      int n = indx.size();
+      for (int i=0; i<n; i++) {
+
+        int pos = indx[i];
+        if (pos == NA_INTEGER) {
           stop("unknown column '%s' ", name);
         }
-        SubsetVectorVisitor* v = subset_visitor(column);
+
+        SubsetVectorVisitor* v = subset_visitor(data[pos - 1]);
         visitors.push_back(v);
 
       }
