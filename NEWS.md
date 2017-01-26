@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* Fix `copy_to()` for MySQL if a character column contains `NA` (#1975, #2256, #2263, #2381, @demorenoc, @eduardgrebe).
+
+* Fix `group_size()` and `n_groups()` for MySQL (#2381).
+
 * For selecting variables, the first selector decides if it's an inclusive selection (i.e., the initial column list is empty), or an exclusive selection (i.e., the initial column list contains all columns). This means that `select(mtcars, contains("am"), contains("FOO"), contains("vs"))` now returns again both `am` and `vs` columns like in dplyr 0.4.3 (#2275, #2289, @r2evans).
 
 * Fix groups when joining grouped data frames with duplicate columns (#2330, #2334, @davidkretch).
