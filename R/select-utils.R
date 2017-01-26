@@ -130,20 +130,13 @@ everything <- function(vars = current_vars()) {
 
 match_vars <- function(needle, haystack) {
   x <- match(needle, haystack)
-  x <- x[!is.na(x)]
-
-  fill_out(x, haystack)
+  x[!is.na(x)]
 }
 
 grep_vars <- function(needle, haystack, ...) {
-  fill_out(grep(needle, haystack, ...), haystack)
+  grep(needle, haystack, ...)
 }
 
 which_vars <- function(needle, haystack) {
-  fill_out(which(needle == haystack), haystack)
-}
-
-fill_out <- function(x, haystack) {
-  if (length(x) > 0) return(x)
-  -seq_along(haystack)
+  which(needle == haystack)
 }
