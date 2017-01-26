@@ -1,5 +1,11 @@
 # dplyr 0.5.0.9000
 
+* For selecting variables, the first selector decides if it's an inclusive selection (i.e., the initial column list is empty), or an exclusive selection (i.e., the initial column list contains all columns). This means that `select(mtcars, contains("am"), contains("FOO"), contains("vs"))` now returns again both `am` and `vs` columns like in dplyr 0.4.3 (#2275, #2289, @r2evans).
+
+* Fix groups when joining grouped data frames with duplicate columns (#2330, #2334, @davidkretch).
+
+* Documentation and vignette fixes (#2366, #2371, @austenhead).
+
 * SQL joins always use the `ON ...` syntax, avoiding `USING ...` even for natural joins. Improved handling of tables with columns of the same name (#1997, @javierluraschi).
 
 * Breaking change: Using `$con` to retrieve a database source's DBI connection does not work anymore. Use the new function `con_acquire()` instead, but don't forget to call `con_release()` when you're done with the connection (#2013, @jcheng5).
