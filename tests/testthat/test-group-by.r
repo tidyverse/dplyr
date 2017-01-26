@@ -242,14 +242,23 @@ test_that( "group_by supports column (#1012)", {
   expect_equal( attr(g1, "vars"), attr(g4, "vars"))
 })
 
-test_that("group_by handles encodings (#1507)", {
-  skip_on_os("windows") # 1950
+for (special in c("Gl\u00fcck", "\u5e78\u798f", "\u0441\u0447\u0430\u0441\u0442\u044c\u0435", "\ud589\ubcf5")) {
+  if (enc2native(special) == special) {
+    test_that(paste0("group_by handles encodings for ", special, " (#1507)"), {
 
-  df <- data.frame(x=1:3, Eng=2:4)
-  names(df) <- enc2utf8(c("\u00e9", "Eng"))
-  res <- group_by_(df, iconv("\u00e9", from = "UTF-8", to = "latin1") )
-  expect_equal( names(res), names(df) )
-})
+      df <- data.frame(x = 1:3, Eng = 2:4)
+
+      for (names_converter in c(enc2utf8, enc2native)) {
+        for (dots_converter in c(enc2native, enc2utf8)) {
+          names(df) <- names_converter(c(special, "Eng"))
+          res <- group_by_(df, .dots = dots_converter(special))
+          expect_equal( names(res), names(df) )
+          expect_equal( groups(res), list(as.name(enc2native(special))) )
+        }
+      }
+    })
+  }
+}
 
 test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
