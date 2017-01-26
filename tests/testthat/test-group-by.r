@@ -129,6 +129,11 @@ test_that("grouped_df errors on empty vars (#398)",{
   expect_error( m %>% do(mpg = mean(.$mpg)) )
 })
 
+test_that("grouped_df errors on non-existent var (#2330)", {
+  df <- data.frame(x = 1:5)
+  expect_error(grouped_df(df, list(quote(y))), "unknown column 'y'")
+})
+
 test_that("group_by only creates one group for NA (#401)", {
   x <- as.numeric(c(NA,NA,NA,10:1,10:1))
   w <- c(20,30,40,1:10,1:10)*10
