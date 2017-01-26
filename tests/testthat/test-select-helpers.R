@@ -66,19 +66,21 @@ test_that("initial (single) selector defaults correctly (issue #2275)", {
   cn <- setNames(nm = c("x", "y", "z"))
 
   ### Single Column Selected
+
   # single columns (present), explicit
   expect_equal(select_vars(cn, x), cn["x"])
   expect_equal(select_vars(cn, -x), cn[c("y", "z")])
+
   # single columns (present), matched
   expect_equal(select_vars(cn, contains("x")), cn["x"])
   expect_equal(select_vars(cn, -contains("x")), cn[c("y", "z")])
+
   # single columns (not present), explicit
   expect_error(select_vars(cn, foo), "object 'foo' not found")
   expect_error(select_vars(cn, -foo), "object 'foo' not found")
+
   # single columns (not present), matched
-  res <- select_vars(cn, contains("foo"))
-  expect_named(res)
-  expect_length(res, 0)
+  expect_equal(select_vars(cn, contains("foo")), cn[integer()])
   expect_equal(select_vars(cn, -contains("foo")), cn)
 })
 
@@ -86,50 +88,52 @@ test_that("initial (of multiple) selectors default correctly (issue #2275)", {
   cn <- setNames(nm = c("x", "y", "z"))
 
   ### Multiple Columns Selected
+
   # explicit(present) + matched(present)
   expect_equal(select_vars(cn, x, contains("y")), cn[c("x", "y")])
   expect_equal(select_vars(cn, x, -contains("y")), cn["x"])
   expect_equal(select_vars(cn, -x, contains("y")), cn[c("y", "z")])
   expect_equal(select_vars(cn, -x, -contains("y")), cn["z"])
+
   # explicit(present) + matched(not present)
   expect_equal(select_vars(cn, x, contains("foo")), cn["x"])
   expect_equal(select_vars(cn, x, -contains("foo")), cn["x"])
   expect_equal(select_vars(cn, -x, contains("foo")), cn[c("y", "z")])
   expect_equal(select_vars(cn, -x, -contains("foo")), cn[c("y", "z")])
+
   # matched(present) + explicit(present)
   expect_equal(select_vars(cn, contains("x"), y), cn[c("x", "y")])
   expect_equal(select_vars(cn, contains("x"), -y), cn["x"])
   expect_equal(select_vars(cn, -contains("x"), y), cn[c("y", "z")])
   expect_equal(select_vars(cn, -contains("x"), -y), cn["z"])
+
   # matched(not present) + explicit(not present)
   expect_error(select_vars(cn, contains("foo"), bar), "object 'bar' not found")
   expect_error(select_vars(cn, contains("foo"), -bar), "object 'bar' not found")
   expect_error(select_vars(cn, -contains("foo"), bar), "object 'bar' not found")
   expect_error(select_vars(cn, -contains("foo"), -bar), "object 'bar' not found")
+
   # matched(present) + matched(present)
   expect_equal(select_vars(cn, contains("x"), contains("y")), cn[c("x", "y")])
   expect_equal(select_vars(cn, contains("x"), -contains("y")), cn["x"])
   expect_equal(select_vars(cn, -contains("x"), contains("y")), cn[c("y", "z")])
   expect_equal(select_vars(cn, -contains("x"), -contains("y")), cn["z"])
+
   # matched(present) + matched(not present)
   expect_equal(select_vars(cn, contains("x"), contains("foo")), cn["x"])
   expect_equal(select_vars(cn, contains("x"), -contains("foo")), cn["x"])
   expect_equal(select_vars(cn, -contains("x"), contains("foo")), cn[c("y", "z")])
   expect_equal(select_vars(cn, -contains("x"), -contains("foo")), cn[c("y", "z")])
+
   # matched(not present) + matched(present)
   expect_equal(select_vars(cn, contains("foo"), contains("x")), cn["x"])
-  res <-select_vars(cn, contains("foo"), -contains("x"))
-  expect_named(res)
-  expect_length(res, 0)
+  expect_equal(select_vars(cn, contains("foo"), -contains("x")), cn[integer()])
   expect_equal(select_vars(cn, -contains("foo"), contains("x")), cn)
   expect_equal(select_vars(cn, -contains("foo"), -contains("x")), cn[c("y", "z")])
+
   # matched(not present) + matched(not present)
-  res <- select_vars(cn, contains("foo"), contains("bar"))
-  expect_named(res)
-  expect_length(res, 0)
-  res <- select_vars(cn, contains("foo"), -contains("bar"))
-  expect_named(res)
-  expect_length(res, 0)
+  expect_equal(select_vars(cn, contains("foo"), contains("bar")), cn[integer()])
+  expect_equal(select_vars(cn, contains("foo"), -contains("bar")), cn[integer()])
   expect_equal(select_vars(cn, -contains("foo"), contains("bar")), cn)
   expect_equal(select_vars(cn, -contains("foo"), -contains("bar")), cn)
 })
