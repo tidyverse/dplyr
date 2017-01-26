@@ -1,6 +1,6 @@
 context("Set ops")
 
-tbls <- test_load(mtcars)
+tbls <- test_load(mtcars, ignore = "mysql")
 
 test_that("results are the same across sources", {
   compare_tbls(tbls,
