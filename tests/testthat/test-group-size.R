@@ -39,9 +39,12 @@ test_that("n_groups drops zero-length groups", {
 
 test_that("summarise drops zero-length groups", {
   for (tbl in tbls) {
-    res <- as_data_frame(summarise(group_by(tbl, x), n=n(), mn=mean(y)))
-    expect_equal(nrow(res), 3, info=class(tbl)[1])
-    expect_equal(tail(res$n, n=1), 10, info=class(tbl)[1])
-    expect_false(is.nan(tail(res$mn, n=1)), info=class(tbl)[1])
+    res <- tbl %>%
+      group_by(x) %>%
+      summarise(n = n(), mn = mean(y)) %>%
+      collect
+    expect_equal(nrow(res), 3, info = class(tbl)[1])
+    expect_equal(tail(res$n, n = 1), 10, info = class(tbl)[1])
+    expect_false(is.nan(tail(res$mn, n = 1)), info = class(tbl)[1])
   }
 })

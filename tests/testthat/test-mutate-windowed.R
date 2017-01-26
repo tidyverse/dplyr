@@ -10,7 +10,8 @@ test_that("mutate calls windowed versions of sql functions", {
   }
 
   df <- data_frame(x = 1:4, g = rep(c(1, 2), each = 2))
-  tbls <- test_load(df, ignore = "sqlite") # SQLite doesn't support window functions
+  # SQLite and MySQL don't support window functions
+  tbls <- test_load(df, ignore = c("sqlite", "mysql"))
   tbls %>% lapply(test_f)
 })
 
@@ -24,7 +25,8 @@ test_that("recycled aggregates generate window function", {
   }
 
   df <- data_frame(x = 1:4, g = rep(c(1, 2), each = 2))
-  tbls <- test_load(df, ignore = "sqlite") # SQLite doesn't support window functions
+  # SQLite and MySQL don't support window functions
+  tbls <- test_load(df, ignore = c("sqlite", "mysql"))
   tbls %>% lapply(test_f)
 })
 
@@ -39,7 +41,8 @@ test_that("cumulative aggregates generate window function", {
   }
 
   df <- data_frame(x = 1:4, g = rep(c(1, 2), each = 2))
-  tbls <- test_load(df, ignore = "sqlite") # SQLite doesn't support window functions
+  # SQLite and MySQL don't support window functions
+  tbls <- test_load(df, ignore = c("sqlite", "mysql"))
   tbls %>% lapply(test_f)
 })
 

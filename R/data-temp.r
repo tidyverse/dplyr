@@ -26,7 +26,7 @@ test_register_src <- function(name, src) {
       test_srcs$add(name, src)
       message("OK")
     },
-    error = function(e) message(conditionMessage(e))
+    error = function(e) message("\n* ", conditionMessage(e))
   )
 }
 
