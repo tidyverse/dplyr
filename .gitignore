@@ -12,4 +12,3 @@ vignettes/*.R
 .DS_Store
 /.idea
 /clion-test.R
-issues
