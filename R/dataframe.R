@@ -48,7 +48,7 @@ add_rownames <- function(df, var = "rowname") {
 #' @export
 group_by_.data.frame <- function(.data, ..., .dots, add = FALSE) {
   groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
-  grouped_df(groups$data, groups$groups)
+  grouped_df(groups$data, groups$group_names)
 }
 
 #' @export

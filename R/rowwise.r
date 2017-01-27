@@ -59,7 +59,7 @@ group_by_.rowwise_df <- function(.data, ..., .dots, add = FALSE) {
   .data <- ungroup(.data)
 
   groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
-  grouped_df(groups$data, groups$groups)
+  grouped_df(groups$data, groups$group_names)
 }
 
 

@@ -95,13 +95,13 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use symbols
   new_groups <- lazyeval::auto_name(new_groups)
-  groups <- lapply(names(new_groups), as.name)
+  group_names <- names(new_groups)
   if (add) {
-    groups <- c(groups(.data), groups)
+    group_names <- c(group_vars(.data), group_names)
   }
-  groups <- groups[!duplicated(groups)]
+  group_names <- unique(group_names)
 
-  list(data = .data, groups = groups)
+  list(data = .data, groups = lapply(group_names, as.name), group_names = group_names)
 }
 
 #' @rdname group_by
