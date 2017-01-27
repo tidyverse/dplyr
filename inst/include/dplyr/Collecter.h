@@ -23,6 +23,7 @@ namespace dplyr {
     }
     return false;
   }
+
   static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
     return LGLSXP == xtype && all_na(x);
   };
@@ -406,6 +407,7 @@ namespace dplyr {
         }
       }
     }
+
     void collect_logicalNA(const SlicingIndex& index) {
       for (int i=0; i<index.size();i++) {
         data[ index[i] ] = NA_INTEGER;
@@ -429,7 +431,7 @@ namespace dplyr {
         return new TypedCollecter<INTSXP>(n, get_date_classes());
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Coercing class %s into an integer vector, with possible loss of information",
+        Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
                    CHAR(STRING_ELT(classes, 0)));
         return new TypedCollecter<INTSXP>(n, classes);
       }
@@ -441,7 +443,7 @@ namespace dplyr {
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Coercing class %s into a numeric vector, with possible loss of information",
+        Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
                    CHAR(STRING_ELT(classes, 0)));
         return new TypedCollecter<REALSXP>(n, classes);
       }
@@ -488,8 +490,9 @@ namespace dplyr {
         return new Collecter_Impl<STRSXP>(n);
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Coercing class %s, with possible loss of information",
-                   CHAR(STRING_ELT(classes, 0)));
+        Rf_warning("Promoting class %s into %s may lose attributes",
+                   previous->describe(),
+                   get_single_class(model));
         return new TypedCollecter<INTSXP>(n, classes);
       }
       return new Collecter_Impl<INTSXP>(n);
@@ -500,8 +503,9 @@ namespace dplyr {
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Coercing class %s, with possible loss of information",
-                   CHAR(STRING_ELT(classes, 0)));
+        Rf_warning("Promoting class %s into %s may lose attributes",
+                   previous->describe(),
+                   get_single_class(model));
         return new TypedCollecter<REALSXP>(n, classes);
       }
       return new Collecter_Impl<REALSXP>(n);
@@ -517,7 +521,6 @@ namespace dplyr {
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model)));
     return 0;
   }
-
 
 }
 
