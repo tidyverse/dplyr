@@ -94,7 +94,7 @@ arrange_.data.frame <- function(.data, ..., .dots) {
   as.data.frame(arrange_(tbl_df(.data), .dots = dots))
 }
 #' @export
-select_.data.frame <- function(.data, ..., .dots) {
+select_.data.frame <- function(.data, ..., .dots = NULL) {
   vars <- as.qspec_select(.dots, ..., .data = .data)
   select_impl(.data, vars)
 }

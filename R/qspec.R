@@ -33,7 +33,7 @@ as.qspec_select.character <- function(x, ..., .data) {
 #' @export
 as.qspec_select.integer <- function(x, ..., .data) {
   if (length(list(...)) > 0L) {
-    stop("Cannot use both .dots as numeric and ... in select_()",
+    stop("Cannot use both .dots as integer/numeric and ... in select_()",
          call. = FALSE)
   }
 

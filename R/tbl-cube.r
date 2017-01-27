@@ -281,7 +281,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 # Verbs -------------------------------------------------------------------
 
 #' @export
-select_.tbl_cube <- function(.data, ..., .dots) {
+select_.tbl_cube <- function(.data, ..., .dots = NULL) {
   vars <- as.qspec_select(.dots, ..., .data = .data)
 
   .data$mets <- .data$mets[vars]
