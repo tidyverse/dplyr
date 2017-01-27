@@ -106,10 +106,6 @@ grouped_indices_grouped_df_impl <- function(gdf) {
     .Call('dplyr_grouped_indices_grouped_df_impl', PACKAGE = 'dplyr', gdf)
 }
 
-grouped_indices_impl <- function(data, symbols) {
-    .Call('dplyr_grouped_indices_impl', PACKAGE = 'dplyr', data, symbols)
-}
-
 group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }

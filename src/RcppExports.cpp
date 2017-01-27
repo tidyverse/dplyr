@@ -249,18 +249,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// grouped_indices_impl
-IntegerVector grouped_indices_impl(DataFrame data, ListOf<Symbol> symbols);
-RcppExport SEXP dplyr_grouped_indices_impl(SEXP dataSEXP, SEXP symbolsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_indices_impl(data, symbols));
-    return rcpp_result_gen;
-END_RCPP
-}
 // group_size_grouped_cpp
 IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
 RcppExport SEXP dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
