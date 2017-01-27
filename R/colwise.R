@@ -201,7 +201,7 @@ colwise_ <- function(tbl, calls, vars) {
   named_calls <- attr(calls, "has_names")
   named_vars <- any(has_names(vars))
 
-  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = group_vars(tbl))
 
   out <- vector("list", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))

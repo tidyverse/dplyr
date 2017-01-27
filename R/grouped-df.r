@@ -76,12 +76,12 @@ ungroup.grouped_df <- function(x, ...) {
 `[.grouped_df` <- function(x, i, j, ...) {
   y <- NextMethod()
 
-  group_vars <- vapply(groups(x), as.character, character(1))
+  group_names <- group_vars(x)
 
-  if (!all(group_vars %in% names(y))) {
+  if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {
-    grouped_df(y, groups(x))
+    grouped_df(y, group_names)
   }
 
 }
@@ -110,7 +110,7 @@ select_.grouped_df <- function(.data, ..., .dots) {
 }
 
 ensure_grouped_vars <- function(vars, data, notify = TRUE) {
-  group_names <- vapply(groups(data), as.character, character(1))
+  group_names <- group_vars(data)
   missing <- setdiff(group_names, vars)
 
   if (length(missing) > 0) {
