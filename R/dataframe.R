@@ -95,8 +95,7 @@ arrange_.data.frame <- function(.data, ..., .dots) {
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(names(.data), dots)
+  vars <- as.qspec_select(.dots, ..., .data = .data)
   select_impl(.data, vars)
 }
 #' @export

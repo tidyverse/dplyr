@@ -90,6 +90,7 @@ Collate:
     'over.R'
     'partial-eval.r'
     'progress.R'
+    'qspec.R'
     'query.r'
     'rank.R'
     'recode.R'

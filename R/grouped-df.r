@@ -89,15 +89,6 @@ cbind.grouped_df <- function(...) {
 
 # One-table verbs --------------------------------------------------------------
 
-#' @export
-select_.grouped_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(names(.data), dots)
-  vars <- ensure_grouped_vars(vars, .data)
-
-  select_impl(.data, vars)
-}
-
 ensure_grouped_vars <- function(vars, data, notify = TRUE) {
   group_names <- vapply(groups(data), as.character, character(1))
   missing <- setdiff(group_names, vars)
