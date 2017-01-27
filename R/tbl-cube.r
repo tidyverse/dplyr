@@ -363,7 +363,12 @@ group_by_.tbl_cube <- function(.data, ..., .dots, add = FALSE) {
 
 #' @export
 groups.tbl_cube <- function(x) {
-  lapply(x$dims, as.name)[x$group]
+  lapply(group_vars(x), as.name)
+}
+
+#' @export
+group_vars.tbl_cube <- function(x) {
+  x$dims[x$group]
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special

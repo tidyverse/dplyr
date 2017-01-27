@@ -18,7 +18,12 @@ tbl_vars.tbl_lazy <- function(x) {
 
 #' @export
 groups.tbl_lazy <- function(x) {
-  lapply(op_grps(x$ops), as.name)
+  lapply(group_vars(x), as.name)
+}
+
+#' @export
+group_vars.tbl_lazy <- function(x) {
+  op_grps(x$ops)
 }
 
 #' @export

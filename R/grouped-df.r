@@ -53,6 +53,8 @@ n_groups.grouped_df <- function(x) {
 
 #' @export
 groups.grouped_df <- function(x) {
+  # Implement group_vars.grouped_df() instead if this assertion fails
+  stopifnot(is.list(attr(x, "vars")))
   attr(x, "vars")
 }
 

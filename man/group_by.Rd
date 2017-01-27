@@ -4,11 +4,20 @@
 \alias{group_by}
 \alias{regroup}
 \alias{group_by_}
+\alias{groups}
+\alias{group_vars}
+\alias{ungroup}
 \title{Group a tbl by one or more variables.}
 \usage{
 group_by(.data, ..., add = FALSE)
 
 group_by_(.data, ..., .dots, add = FALSE)
+
+groups(x)
+
+group_vars(x)
+
+ungroup(x, ...)
 }
 \arguments{
 \item{.data}{a tbl}
@@ -23,12 +32,24 @@ use \code{add = TRUE}}
 
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
+
+\item{x}{data \code{\link{tbl}}}
+
+\item{...}{Additional arguments that maybe used by methods.}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the
 the dataset. The \code{group_by()} function takes an existing tbl
 and converts it into a grouped tbl where operations are performed
 "by group".
+
+\code{groups()} returns the current grouping
+as a list of \code{\link{name}}.
+
+\code{group_vars()} returns the current grouping
+as a character vector.
+
+\code{ungroup()} removes an existing grouping.
 }
 \section{Tbl types}{
 
@@ -73,6 +94,9 @@ groups(group_by(by_cyl, vs, am, add = TRUE))
 
 # Duplicate groups are silently dropped
 groups(group_by(by_cyl, cyl, cyl))
+grouped <- group_by(mtcars, cyl)
+groups(grouped)
+groups(ungroup(grouped))
 }
 \seealso{
 \code{\link[=ungroup]{ungroup()}} for the inverse operation,

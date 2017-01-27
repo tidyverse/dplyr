@@ -104,13 +104,10 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   list(data = .data, groups = groups)
 }
 
-#' Get/set the grouping variables for tbl.
-#'
-#' These functions do not perform non-standard evaluation, and so are useful
-#' when programming against `tbl` objects. `ungroup()` is a convenient
-#' inline way of removing existing grouping.
-#'
-#' @param x data [tbl()]
+#' @rdname group_by
+#' @description \code{groups()} returns the current grouping
+#'   as a list of \code{\link{name}}.
+#' @param x data \code{\link{tbl}}
 #' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples
@@ -121,14 +118,27 @@ groups <- function(x) {
   UseMethod("groups")
 }
 
+#' @rdname group_by
+#' @description \code{group_vars()} returns the current grouping
+#'   as a character vector.
+group_vars <- function(x) {
+  UseMethod("group_vars")
+}
+
+#' @export
+group_vars.default <- function(x) {
+  deparse_names(groups(x))
+}
+
 #' @export
 regroup <- function(x, value) {
   .Deprecated("group_by_")
   group_by_(x, .dots = value)
 }
 
+#' @rdname group_by
+#' @description \code{ungroup()} removes an existing grouping.
 #' @export
-#' @rdname groups
 ungroup <- function(x, ...) {
   UseMethod("ungroup")
 }
