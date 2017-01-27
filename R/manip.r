@@ -177,6 +177,10 @@ transmute_.default <- function(.data, ..., .dots) {
 #' Use \code{\link{desc}} to sort a variable in descending order. Generally,
 #' this will not also automatically order by grouping variables.
 #'
+#' @section Locales:
+#' The sort order for character vectors will depend on the collating sequence
+#' of the locale in use: see \code{\link{locales}}.
+#'
 #' @export
 #' @inheritParams filter
 #' @param ... Comma separated list of unquoted variable names. Use
