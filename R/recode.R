@@ -72,7 +72,7 @@ recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
 #' @export
 recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- c(list(...), .dots)
-  
+
   nms <- has_names(values)
   if (all(nms)) {
     vals <- as.double(names(values))

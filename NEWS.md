@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `recode()` gains `.dots` argument to support passing replacements as list (#2110, @jlegewie).
+
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
 
 * Fix `copy_to()` for MySQL if a character column contains `NA` (#1975, #2256, #2263, #2381, @demorenoc, @eduardgrebe).
