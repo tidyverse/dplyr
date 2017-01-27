@@ -248,7 +248,7 @@ for (special in lang_strings) {
 
       df <- data.frame(x = 1:3, Eng = 2:4)
 
-      for (names_converter in c(enc2utf8, enc2native)) {
+      for (names_converter in c(enc2native, enc2utf8)) {
         for (dots_converter in c(enc2native, enc2utf8)) {
           names(df) <- names_converter(c(special, "Eng"))
           res <- group_by_(df, .dots = dots_converter(special))
