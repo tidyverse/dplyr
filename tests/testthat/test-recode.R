@@ -32,11 +32,13 @@ test_that("named substitution works", {
 test_that("missing values replaced by missing argument", {
   expect_equal(recode(c(1, NA), "a"), c("a", NA))
   expect_equal(recode(c(1, NA), "a", .missing = "b"), c("a", "b"))
+  expect_equal(recode(c(letters[1:3], NA), .missing = "A"), c("a", "b", "c", "A"))
 })
 
 test_that("unmatched value replaced by default argument", {
   expect_warning(expect_equal(recode(c(1, 2), "a"), c("a", NA)))
   expect_equal(recode(c(1, 2), "a", .default = "b"), c("a", "b"))
+  expect_equal(recode(letters[1:3], .default = "A"), c("A", "A", "A"))
 })
 
 test_that("missing and default place nicely together", {
@@ -101,4 +103,26 @@ test_that("can recode factor with redundant levels", {
 test_that("conversion of unreplaced values to NA gives warning", {
   expect_warning(recode(1:3, `1` = "a"), "treated as NA")
   expect_warning(recode_factor(letters[1:3], b = 1, c = 2))
+})
+
+test_that(".dot argument works correctly (PR #2110)", {
+  x1 <- letters[1:3]
+  x2 <- 1:3
+
+  expect_equal(
+    recode(x1, a = "apple", b = "banana", .default = NA_character_), 
+    recode(x1, .default = NA_character_, .dots = list(a = "apple", b = "banana"))
+  )
+  expect_equal(
+    recode(x1, a = "apple", b = "banana", .default = NA_character_),
+    recode(x1, a = "apple", .default = NA_character_, .dots = list(b = "banana"))
+  )
+  expect_equal(
+    recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
+    recode(x2, .default = NA_real_, .dots = list("1" = 4, "2" = 5))
+  )
+  expect_equal(
+    recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
+    recode(x2, "1" = 4, .default = NA_real_, .dots = list("2" = 5))
+  )
 })
