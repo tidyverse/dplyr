@@ -145,7 +145,7 @@ db_has_table.MySQLConnection <- function(con, table, ...) {
 #' @export
 db_data_type.MySQLConnection <- function(con, fields, ...) {
   char_type <- function(x) {
-    n <- max(nchar(as.character(x), "bytes"))
+    n <- max(nchar(as.character(x), "bytes"), 0L, na.rm = TRUE)
     if (n <= 65535) {
       paste0("varchar(", n, ")")
     } else {
@@ -179,6 +179,11 @@ db_commit.MySQLConnection <- function(con, ...) {
 }
 
 #' @export
+db_rollback.MySQLConnection <- function(con, ...) {
+  dbGetQuery(con, "ROLLBACK")
+}
+
+#' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Convert factors to strings
@@ -187,11 +192,11 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   # Encode special characters in strings
   is_char <- vapply(values, is.character, logical(1))
-  values[is_char] <- lapply(values[is_char], encodeString)
+  values[is_char] <- lapply(values[is_char], encodeString, na.encode = FALSE)
 
   tmp <- tempfile(fileext = ".csv")
   utils::write.table(values, tmp, sep = "\t", quote = FALSE, qmethod = "escape",
-    row.names = FALSE, col.names = FALSE)
+    na = "\\N", row.names = FALSE, col.names = FALSE)
 
   sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
     ident(table), con = con)
