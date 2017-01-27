@@ -242,7 +242,7 @@ test_that( "group_by supports column (#1012)", {
   expect_equal( attr(g1, "vars"), attr(g4, "vars"))
 })
 
-for (special in c("Gl\u00fcck", "\u5e78\u798f", "\u0441\u0447\u0430\u0441\u0442\u044c\u0435", "\ud589\ubcf5")) {
+for (special in lang_strings) {
   if (enc2native(special) == special) {
     test_that(paste0("group_by handles encodings for ", special, " (#1507)"), {
 
