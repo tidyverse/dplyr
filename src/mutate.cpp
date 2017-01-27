@@ -56,7 +56,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
   if (nvars) {
     CharacterVector df_names = df.names();
     for (int i=0; i<nvars; i++) {
-      accumulator.set(Symbol(df_names[i]), df[i]);
+      accumulator.set(df_names[i], df[i]);
     }
   }
 
@@ -69,7 +69,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 
     Shield<SEXP> call_(lazy.expr());
     SEXP call = call_;
-    Symbol name = lazy.name();
+    String name = lazy.name();
     Environment env = lazy.env();
     call_proxy.set_env(env);
 
@@ -92,7 +92,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
       stop("cannot handle");
     }
 
-    check_supported_type(results[i], name.c_str());
+    check_supported_type(results[i], name);
 
     if (Rf_inherits(results[i], "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
@@ -143,7 +143,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   int ncolumns = df.size();
   CharacterVector column_names = df.names();
   for (int i=0; i<ncolumns; i++) {
-    accumulator.set(Symbol(column_names[i]), df[i]);
+    accumulator.set(column_names[i], df[i]);
   }
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
@@ -156,7 +156,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
     Environment env = lazy.env();
     Shield<SEXP> call_(lazy.expr());
     SEXP call = call_;
-    Symbol name = lazy.name();
+    String name = lazy.name();
     proxy.set_env(env);
 
     LOG_VERBOSE << "processing " << CharacterVector(name);

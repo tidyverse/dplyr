@@ -37,11 +37,11 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
 
   // handle vars  attribute : make a shallow copy of the list and alter
   //   its names attribute
-  List vars = shallow_copy(copy.attr("vars"));
+  CharacterVector vars = shallow_copy(copy.attr("vars"));
 
   int nv = vars.size();
   for (int i=0; i<nv; i++) {
-    SEXP s = PRINTNAME(vars[i]);
+    String s = vars[i];
     int j = 0;
     for (; j < n; j++) {
       if (s == keep[j]) {

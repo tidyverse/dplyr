@@ -5,7 +5,7 @@ namespace Rcpp {
 
   class Lazy {
   public:
-    Lazy(List data_, Symbol name__) :
+    Lazy(List data_, String name__) :
       data(data_),
       name_(name__)
     {}
@@ -21,13 +21,13 @@ namespace Rcpp {
     inline SEXP env() const {
       return data[1];
     }
-    inline Symbol name() const {
+    inline String name() const {
       return name_;
     }
 
   private:
     List data;
-    Symbol name_;
+    String name_;
   };
 
   template <>
@@ -53,8 +53,7 @@ namespace Rcpp {
           stop("corrupt lazy object");
         }
 
-        Symbol name(names[i]);
-        data.push_back(Lazy(x, name));
+        data.push_back(Lazy(x, names[i]));
       }
     }
 

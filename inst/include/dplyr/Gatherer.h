@@ -302,12 +302,12 @@ namespace dplyr {
   }
 
   template <typename Data, typename Subsets>
-  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, Symbol name) {
+  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, String name) {
     typename Data::group_iterator git = gdf.group_begin();
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
 
-    check_supported_type(first, name.c_str());
+    check_supported_type(first, name);
 
     if (Rf_inherits(first, "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");

@@ -113,7 +113,7 @@ namespace dplyr {
       return biggest_group_size;
     }
 
-    inline bool has_group(Symbol g) const {
+    inline bool has_group(String g) const {
       int n = symbols.size();
       for (int i=0; i<n; i++) {
         if (symbols[i] == g) return true;
@@ -130,7 +130,7 @@ namespace dplyr {
     DataFrame data_;
     IntegerVector group_sizes;
     int biggest_group_size;
-    ListOf<Symbol> symbols;
+    CharacterVector symbols;
     DataFrame labels;
 
   };

@@ -38,17 +38,13 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
 }
 
 DataFrame build_index_cpp(DataFrame data) {
-  ListOf<Symbol> symbols(data.attr("vars"));
+  CharacterVector vars(data.attr("vars"));
+  const int nvars = vars.length();
 
-  int nsymbols = symbols.size();
-  CharacterVector vars(nsymbols);
   CharacterVector names = data.names();
-  for (int i=0; i<nsymbols; i++) {
-    vars[i] = PRINTNAME(symbols[i]);
-  }
   IntegerVector indx = r_match(vars, names);
 
-  for (int i=0; i<nsymbols; i++) {
+  for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
     if (pos == NA_INTEGER) {
       stop("unknown column '%s' ", CHAR(vars[i]));

@@ -25,21 +25,18 @@ namespace dplyr {
   public:
     SymbolMap(): lookup(), names() {}
 
-    SymbolMapIndex insert(SEXP name) {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    SymbolMapIndex insert(String name) {
       SymbolMapIndex index = get_index(name);
       int idx = index.pos;
       switch (index.origin) {
       case HASH:
         break;
       case RMATCH:
-        lookup.insert(std::make_pair(name, idx));
+        lookup.insert(std::make_pair(name.get_sexp(), idx));
         break;
       case NEW:
         names.push_back(name);
-        lookup.insert(std::make_pair(name, idx));
+        lookup.insert(std::make_pair(name.get_sexp(), idx));
         break;
       };
       return index;
@@ -61,13 +58,9 @@ namespace dplyr {
       return index.origin != NEW;
     }
 
-    SymbolMapIndex get_index(SEXP name) const {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
-
+    SymbolMapIndex get_index(String name) const {
       // first, lookup the map
-      dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name);
+      dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
       if (it != lookup.end()) {
         return SymbolMapIndex(it->second, HASH);
       }
@@ -94,10 +87,7 @@ namespace dplyr {
       return index.pos;
     }
 
-    SymbolMapIndex rm(SEXP name) {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    SymbolMapIndex rm(String name) {
       SymbolMapIndex index = get_index(name);
       if (index.origin != NEW) {
         int idx = index.pos;

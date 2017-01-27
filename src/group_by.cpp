@@ -40,7 +40,7 @@ SEXP resolve_vars(List new_groups, CharacterVector names) {
 }
 
 // [[Rcpp::export]]
-DataFrame grouped_df_impl(DataFrame data, ListOf<Symbol> symbols, bool drop) {
+DataFrame grouped_df_impl(DataFrame data, CharacterVector symbols, bool drop) {
   assert_all_white_list(data);
   DataFrame copy(shallow_copy(data));
   copy.attr("vars") = symbols;

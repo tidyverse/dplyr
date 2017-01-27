@@ -108,23 +108,25 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   out.names() = names;
 
   // out group columns
-  const ListOf<Symbol> group_cols_x(x.attr("vars"));
-  int n_group_cols = group_cols_x.size();
+  RObject group_cols_x_(x.attr("vars"));
+  if (!group_cols_x_.isNULL()) {
+    CharacterVector group_cols_x(group_cols_x_);
+    int n_group_cols = group_cols_x.size();
 
-  if (n_group_cols > 0) {
-    List group_cols(n_group_cols);
-    IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);
-    // get updated column names
-    for (int i=0; i<n_group_cols; i++) {
-      int group_col_index = group_col_indices[i];
-      if (group_col_index != NA_INTEGER) {
-        String group_col_name = names[group_col_index-1];
-        group_cols[i] = Symbol(group_col_name);
-      } else {
-        stop("unknown group column '%s'", CHAR(PRINTNAME(group_cols_x[i])));
+    if (n_group_cols > 0) {
+      CharacterVector group_cols(n_group_cols);
+      IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);
+      // get updated column names
+      for (int i=0; i<n_group_cols; i++) {
+        int group_col_index = group_col_indices[i];
+        if (group_col_index != NA_INTEGER) {
+          group_cols[i] = names[group_col_index-1];
+        } else {
+          stop("unknown group column '%s'", std::string(group_cols_x[i]));
+        }
       }
+      out.attr("vars") = group_cols;
     }
-    out.attr("vars") = group_cols;
   }
 
   return (SEXP)out;

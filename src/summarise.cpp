@@ -33,9 +33,9 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   int i=0;
   List results(nvars + nexpr);
   for (; i<nvars; i++) {
-    LOG_VERBOSE << "copying " << CHAR(PRINTNAME(gdf.symbol(i)));
+    LOG_VERBOSE << "copying " << gdf.symbol(i);
     results[i] = shared_SEXP(gdf.label(i));
-    accumulator.set(PRINTNAME(gdf.symbol(i)), results[i]);
+    accumulator.set(gdf.symbol(i), results[i]);
   }
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
@@ -47,7 +47,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     const Lazy& lazy = dots[k];
     const Environment& env = lazy.env();
 
-    LOG_VERBOSE << "processing variable " << lazy.name().c_str();
+    LOG_VERBOSE << "processing variable " << lazy.name().get_cstring();
 
     Shield<SEXP> expr_(lazy.expr());
     SEXP expr = expr_;
@@ -64,7 +64,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     RObject result = res->process(gdf);
     results[i] = result;
     accumulator.set(lazy.name(), result);
-    subsets.input_summarised(lazy.name(), SummarisedVariable(result));
+    subsets.input_summarised(lazy.name().get_sexp(), SummarisedVariable(result));
 
   }
 
@@ -77,7 +77,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 
   if (gdf.nvars() > 1) {
     set_class(out, classes_grouped<Data>());
-    List vars = gdf.data().attr("vars");
+    CharacterVector vars = gdf.data().attr("vars");
     vars.erase(gdf.nvars() - 1);
     out.attr("vars") = vars;
     out.attr("labels") = R_NilValue;
@@ -119,7 +119,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
     }
     check_length_one(result);
     accumulator.set(lazy.name(), result);
-    subsets.input(lazy.name(), result);
+    subsets.input(lazy.name().get_sexp(), result);
   }
   List data = accumulator;
   copy_most_attributes(data, df);
