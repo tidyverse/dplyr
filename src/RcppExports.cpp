@@ -191,28 +191,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// grouped_indices_grouped_df_impl
-IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf);
-RcppExport SEXP dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_indices_grouped_df_impl(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
-// group_size_grouped_cpp
-IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
-RcppExport SEXP dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
 // resolve_vars
 SEXP resolve_vars(List new_groups, CharacterVector names);
 RcppExport SEXP dplyr_resolve_vars(SEXP new_groupsSEXP, SEXP namesSEXP) {
@@ -257,6 +235,28 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     rcpp_result_gen = Rcpp::wrap(ungroup_grouped_df(df));
+    return rcpp_result_gen;
+END_RCPP
+}
+// grouped_indices_grouped_df_impl
+IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf);
+RcppExport SEXP dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
+    rcpp_result_gen = Rcpp::wrap(grouped_indices_grouped_df_impl(gdf));
+    return rcpp_result_gen;
+END_RCPP
+}
+// group_size_grouped_cpp
+IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
+RcppExport SEXP dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
+    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
     return rcpp_result_gen;
 END_RCPP
 }
