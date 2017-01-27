@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Documentation fixes for `arrange()`, `add_count()` and `row_number()` (#2152, #2205, #2218, #2369, @cb4ds).
+
 * `recode()` gains `.dots` argument to support passing replacements as list (#2110, @jlegewie).
 
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
