@@ -491,8 +491,8 @@ namespace dplyr {
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
         Rf_warning("Promoting class %s into %s may lose attributes",
-                   previous->describe(),
-                   get_single_class(model));
+                   previous->describe().c_str(),
+                   get_single_class(model).c_str());
         return new TypedCollecter<INTSXP>(n, classes);
       }
       return new Collecter_Impl<INTSXP>(n);
@@ -504,8 +504,8 @@ namespace dplyr {
       if (has_classes(model)) {
         SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
         Rf_warning("Promoting class %s into %s may lose attributes",
-                   previous->describe(),
-                   get_single_class(model));
+                   previous->describe().c_str(),
+                   get_single_class(model).c_str());
         return new TypedCollecter<REALSXP>(n, classes);
       }
       return new Collecter_Impl<REALSXP>(n);
