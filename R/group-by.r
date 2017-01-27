@@ -121,6 +121,7 @@ groups <- function(x) {
 #' @rdname group_by
 #' @description \code{group_vars()} returns the current grouping
 #'   as a character vector.
+#' @export
 group_vars <- function(x) {
   UseMethod("group_vars")
 }
