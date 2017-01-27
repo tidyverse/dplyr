@@ -1,8 +1,8 @@
 # dplyr 0.5.0.9000
 
-* Fix `copy_to()` for MySQL if a character column contains `NA` (#1975, #2256, #2263, #2381, @demorenoc, @eduardgrebe).
+* Documentation fixes for `arrange()`, `add_count()` and `row_number()` (#2152, #2205, #2218, #2369, @cb4ds).
 
-* Fix `group_size()` and `n_groups()` for MySQL (#2381).
+* `recode()` gains `.dots` argument to support passing replacements as list (#2110, @jlegewie).
 
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
 
@@ -15,8 +15,6 @@
 * Fix groups when joining grouped data frames with duplicate columns (#2330, #2334, @davidkretch).
 
 * Documentation and vignette fixes (#2366, #2371, @austenhead).
-
-* SQL joins always use the `ON ...` syntax, avoiding `USING ...` even for natural joins. Improved handling of tables with columns of the same name (#1997, @javierluraschi).
 
 * SQL joins always use the `ON ...` syntax, avoiding `USING ...` even for natural joins. Improved handling of tables with columns of the same name (#1997, @javierluraschi).
 

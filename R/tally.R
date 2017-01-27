@@ -31,6 +31,12 @@
 #' batting_tbl %>% count(playerID, wt = G)
 #' batting_tbl %>% count(playerID, wt = G, sort = TRUE)
 #' }
+#'
+#' @note
+#' The column name in the returned data is \code{n}, however if the data already
+#' has a column named \code{n} a lower-case n will be appended and the column name
+#' returned will be \code{nn}.  Likewise, if the table already has columns named \code{n}
+#' and \code{nn} then the column returned will be \code{nnn}, etc.
 tally <- function(x, wt, sort = FALSE) {
   if (missing(wt)) {
     if ("n" %in% names(x)) {

@@ -44,8 +44,7 @@ restrictions can be placed on.
 \section{Grouping}{
 
 
-\code{compute} and \code{collect} preserve grouping, \code{collapse} drops
-it.
+\code{compute}, \code{collect}, and \code{collapse} preserve grouping.
 }
 
 \examples{

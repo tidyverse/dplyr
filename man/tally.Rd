@@ -29,6 +29,12 @@ variable \code{wt}.}
 for the first time, or re-tallying. \code{count()} is similar, but also
 does the \code{\link{group_by}} for you.
 }
+\note{
+The column name in the returned data is \code{n}, however if the data already
+has a column named \code{n} a lower-case n will be appended and the column name
+returned will be \code{nn}.  Likewise, if the table already has columns named \code{n}
+and \code{nn} then the column returned will be \code{nnn}, etc.
+}
 \examples{
 if (require("Lahman")) {
 batting_tbl <- tbl_df(Batting)
@@ -48,4 +54,5 @@ batting_tbl \%>\% count(playerID)
 batting_tbl \%>\% count(playerID, wt = G)
 batting_tbl \%>\% count(playerID, wt = G, sort = TRUE)
 }
+
 }
