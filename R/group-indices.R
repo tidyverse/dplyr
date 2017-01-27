@@ -21,8 +21,11 @@ group_indices_ <- function(.data, ..., .dots) {
 
 #' @export
 group_indices_.data.frame <- function(.data, ..., .dots ){
-  groups <- group_by_prepare(.data, .dots = .dots )
-  grouped_indices_impl(groups$data, groups$groups)
+  .dots <- lazyeval::all_dots(..., .dots)
+  if (length(.dots) == 0L) {
+    return(rep(1L, nrow(.data)))
+  }
+  grouped_indices_grouped_df_impl(group_by_(.data, .dots = .dots))
 }
 
 #' @export
