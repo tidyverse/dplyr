@@ -32,11 +32,13 @@ test_that("named substitution works", {
 test_that("missing values replaced by missing argument", {
   expect_equal(recode(c(1, NA), "a"), c("a", NA))
   expect_equal(recode(c(1, NA), "a", .missing = "b"), c("a", "b"))
+  expect_equal(recode(c(letters[1:3], NA), .missing = "A"), c("a", "b", "c", "A"))
 })
 
 test_that("unmatched value replaced by default argument", {
   expect_warning(expect_equal(recode(c(1, 2), "a"), c("a", NA)))
   expect_equal(recode(c(1, 2), "a", .default = "b"), c("a", "b"))
+  expect_equal(recode(letters[1:3], .default = "A"), c("A", "A", "A"))
 })
 
 test_that("missing and default place nicely together", {
@@ -103,7 +105,7 @@ test_that("conversion of unreplaced values to NA gives warning", {
   expect_warning(recode_factor(letters[1:3], b = 1, c = 2))
 })
 
-test_that(".dot argument works correctly", {
+test_that(".dot argument works correctly (PR #2110)", {
   x1 <- letters[1:3]
   x2 <- 1:3
 

@@ -71,7 +71,7 @@ recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
 
 #' @export
 recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
-  values = c(list(...), .dots)
+  values <- c(list(...), .dots)
   
   nms <- has_names(values)
   if (all(nms)) {
@@ -84,7 +84,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
   }
 
   n <- length(.x)
-  template <- find_template(values)
+  template <- find_template(values, .default, .missing)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -101,13 +101,13 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
 
 #' @export
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
-  values = c(list(...), .dots)
+  values <- c(list(...), .dots)
   if (!all(has_names(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
 
   n <- length(.x)
-  template <- find_template(values)
+  template <- find_template(values, .default, .missing)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -124,7 +124,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = 
 
 #' @export
 recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
-  values = c(list(...), .dots)
+  values <- c(list(...), .dots)
   if (length(values) == 0) {
     stop("No replacements provided", call. = FALSE)
   }
@@ -151,8 +151,8 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
   .x
 }
 
-find_template <- function(dots) {
-  x <- compact(dots)
+find_template <- function(values, .default = NULL, .missing = NULL) {
+  x <- compact(c(values, .default, .missing))
 
   if (length(x) == 0) {
     stop("No replacements provided", call. = FALSE)
