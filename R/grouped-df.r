@@ -6,20 +6,21 @@
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
-#' @param vars a list of quoted variables.
-#' @param drop if `TRUE` preserve all factor levels, even those without
+#' @param vars a character vector or a list of \code{\link{name}}
+#' @param drop if \code{TRUE} preserve all factor levels, even those without
 #'   data.
 #' @export
 grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
-  assert_that(
-    is.data.frame(data),
-    is.list(vars),
-    all(sapply(vars, is.name)),
-    is.flag(drop)
-  )
+  assert_that(is.data.frame(data),
+              (is.list(vars) && all(sapply(vars,is.name))) ||
+              is.character(vars),
+              is.flag(drop))
+  if (is.list(vars)) {
+    vars <- deparse_names(vars)
+  }
   grouped_df_impl(data, unname(vars), drop)
 }
 

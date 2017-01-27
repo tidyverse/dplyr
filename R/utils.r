@@ -68,7 +68,11 @@ is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
 
 deparse_all <- function(x) {
   deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
-  vapply(x, deparse2, FUN.VALUE = character(1))
+  vapply(x, deparse2, FUN.VALUE = character(1L))
+}
+
+deparse_names <- function(x) {
+  vapply(x, deparse, FUN.VALUE = character(1L))
 }
 
 #' Provides comma-separated string out ot the parameters
