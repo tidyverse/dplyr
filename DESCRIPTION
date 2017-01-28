@@ -33,6 +33,7 @@ Suggests:
     microbenchmark,
     ggplot2,
     mgcv,
+    pkgapi,
     Lahman (>= 3.0-1),
     nycflights13,
     rmarkdown,
@@ -130,4 +131,4 @@ Collate:
     'view.r'
     'zzz.r'
 RoxygenNote: 5.0.1.9000
-Roxygen: list(roclets = c("rd", "namespace", "collate", "functionmap2::api_roclet"))
+Roxygen: list(roclets = c("rd", "namespace", "collate", "pkgapi::api_roclet"))
