@@ -18,114 +18,130 @@ combine_pair_test <- function(item_pair, var1, var2, result,
   }
 }
 
-prepare_table_with_coercion_rules <- function(items) {
-  special_non_vector_classes <- c("factor", "POSIXct", "Date")
+can_be_combined <- function(item1, item2,
+                            class1, class2,
+                            all_na1, all_na2,
+                            known_to_dplyr1, known_to_dplyr2) {
 
-  can_be_combined <- function(item1, item2,
-                              class1, class2,
-                              all_na1, all_na2,
-                              known_to_dplyr1, known_to_dplyr2) {
+  # Two elements of the same class can be combined
+  # NA values are also combinable
+  if (identical(class1, class2) || all_na1 || all_na2) {
+    return(TRUE)
+  }
 
-    # Two elements of the same class can be combined
-    # NA values are also combinable
-    if (identical(class1, class2) || all_na1 || all_na2) {
+  # doubles and integers:
+  if (all(c(class1, class2) %in% c("numeric", "integer"))) {
+    return(TRUE)
+  }
+
+  # coerce factor with character
+  if ((class1 == "factor" && class2 == "character") ||
+      (class2 == "factor" && class1 == "character")) {
+    return(TRUE)
+  }
+  # All the other cases can't be combined
+  return(FALSE)
+}
+
+give_a_warning <- function(item1, item2,
+                           class1, class2,
+                           all_na1, all_na2,
+                           known_to_dplyr1, known_to_dplyr2) {
+
+  # Unknown classes give a warning, because attributes may be wrong
+  if (!known_to_dplyr1) {
+    return(TRUE)
+  }
+  # If only the second element is of an unknown type to dplyr
+  # Then a warning is only emmitted in case we are merging with NA
+  if (!known_to_dplyr2 && all_na1) {
+    return(TRUE)
+  }
+
+  # factor and character give a warning when combined (coercion to character)
+  if (class1 == "factor" && class2 == "character") {
+    return(TRUE)
+  }
+
+  # Two factors give a warning if they don't have identical levels (coercion to character)
+  if (class1 == "factor" && class2 == "factor") {
+    if (!identical(levels(item1), levels(item2))) {
       return(TRUE)
     }
+  }
+  # All other cases do not raise a warning
+  return(FALSE)
+}
 
-    # doubles and integers:
-    if (all(c(class1, class2) %in% c("numeric", "integer"))) {
-      return(TRUE)
-    }
-
-    # coerce factor with character
+combine_result <- function(item1, item2,
+                           class1, class2,
+                           all_na1, all_na2,
+                           can_combine, give_warning) {
+  result <- list(NULL)
+  if (can_combine) {
+    # Custom coercions:
+    # - Factor with character coerced to character
+    # - Factor with Factor without same levels -> character
+    # - Factor with NA is Factor
+    # Otherwise use the default approach with unlist and add classes
+    # if needed.
     if ((class1 == "factor" && class2 == "character") ||
         (class2 == "factor" && class1 == "character")) {
-      return(TRUE)
-    }
-    # All the other cases can't be combined
-    return(FALSE)
-  }
+      result <- c(as.character(item1), as.character(item2))
+    } else if ((class1 == "factor" && class2 == "factor") &&
+               !identical(levels(item1), levels(item2))) {
+      result <- c(as.character(item1), as.character(item2))
+    } else if ((is.factor(item1) && all(is.na(item2))) ||
+               (is.factor(item2) && all(is.na(item1)))) {
+      result <- factor(c(as.character(item1), as.character(item2)))
+    } else {
+      # Default combination result
+      result <- unlist(list(item1,item2), recursive = FALSE, use.names = FALSE)
 
-  give_a_warning <- function(item1, item2,
-                             class1, class2,
-                             all_na1, all_na2,
-                             known_to_dplyr1, known_to_dplyr2) {
-
-    # Unknown classes give a warning, because attributes may be wrong
-    if (!known_to_dplyr1) {
-      return(TRUE)
-    }
-    # If only the second element is of an unknown type to dplyr
-    # Then a warning is only emmitted in case we are merging with NA
-    if (!known_to_dplyr2 && all_na1) {
-      return(TRUE)
-    }
-
-    # factor and character give a warning when combined (coercion to character)
-    if (class1 == "factor" && class2 == "character") {
-      return(TRUE)
-    }
-
-    # Two factors give a warning if they don't have identical levels (coercion to character)
-    if (class1 == "factor" && class2 == "factor") {
-      if (!identical(levels(item1), levels(item2))) {
-        return(TRUE)
+      # Add classes and attributes in some cases to the default
+      if ((all(is.na(item1)) && "POSIXct" %in% class2) ||
+          (all(is.na(item2)) && "POSIXct" %in% class1)) {
+        class(result) <- c("POSIXct", "POSIXt")
+        attr(result, "tzone") <- ""
+      } else if ((all_na1 && "POSIXct" %in% class2) ||
+                 (all_na2 && "POSIXct" %in% class1) ||
+                 ("POSIXct" %in% class1 && "POSIXct" %in% class2)) {
+        class(result) <- c("POSIXct", "POSIXt")
+        attr(result, "tzone") <- ""
+      } else if (all_na1) {
+        class(result) <- class2
+      } else if (all_na2) {
+        class(result) <- class1
+      } else if (identical(class1, class2)) {
+        class(result) <- class1
       }
     }
-    # All other cases do not raise a warning
-    return(FALSE)
   }
+  list(result)
+}
 
-  combine_result <- function(item1, item2,
-                             class1, class2,
-                             all_na1, all_na2,
-                             can_combine, give_warning) {
-    result <- list(NULL)
-    if (can_combine) {
-      # Custom coercions:
-      # - Factor with character coerced to character
-      # - Factor with Factor without same levels -> character
-      # - Factor with NA is Factor
-      # Otherwise use the default approach with unlist and add classes
-      # if needed.
-      if ((class1 == "factor" && class2 == "character") ||
-          (class2 == "factor" && class1 == "character")) {
-        result <- c(as.character(item1), as.character(item2))
-      } else if ((class1 == "factor" && class2 == "factor") &&
-                 !identical(levels(item1), levels(item2))) {
-        result <- c(as.character(item1), as.character(item2))
-      } else if ((is.factor(item1) && all(is.na(item2))) ||
-                 (is.factor(item2) && all(is.na(item1)))) {
-        result <- factor(c(as.character(item1), as.character(item2)))
-      } else {
-        # Default combination result
-        result <- unlist(list(item1,item2), recursive = FALSE, use.names = FALSE)
 
-        # Add classes and attributes in some cases to the default
-        if ((all(is.na(item1)) && "POSIXct" %in% class2) ||
-            (all(is.na(item2)) && "POSIXct" %in% class1)) {
-          class(result) <- c("POSIXct", "POSIXt")
-          attr(result, "tzone") <- ""
-        } else if ((all_na1 && "POSIXct" %in% class2) ||
-                   (all_na2 && "POSIXct" %in% class1) ||
-                   ("POSIXct" %in% class1 && "POSIXct" %in% class2)) {
-          class(result) <- c("POSIXct", "POSIXt")
-          attr(result, "tzone") <- ""
-        } else if (all_na1) {
-          class(result) <- class2
-        } else if (all_na2) {
-          class(result) <- class1
-        } else if (identical(class1, class2)) {
-          class(result) <- class1
-        }
-      }
-    }
-    list(result)
-  }
 
+prepare_table_with_coercion_rules <- function() {
+  items <- list(logicalvalue = TRUE,
+                logicalNA = NA,
+                anotherNA = c(NA, NA),
+                integer = 4L,
+                factor = factor("a"),
+                another_factor = factor("b"),
+                double = 4.5,
+                character = "c",
+                POSIXct = as.POSIXct("2010-01-01"),
+                Date = as.Date("2016-01-01"),
+                complex = 1 + 2i,
+                int_with_class = structure(4L, class = "int_with_class"),
+                num_with_class = structure(4.5, class = "num_with_class"))
+
+  special_non_vector_classes <- c("factor", "POSIXct", "Date")
   pairs <- expand.grid(names(items), names(items))
   pairs$can_combine <- FALSE
   pairs$warning <- FALSE
+  pairs$item_pair <- vector("list", nrow(pairs))
   pairs$result <- vector("list", nrow(pairs))
 
   for (i in seq_len(nrow(pairs))) {
@@ -148,6 +164,7 @@ prepare_table_with_coercion_rules <- function(items) {
                                        all_na1, all_na2,
                                        known_to_dplyr1, known_to_dplyr2)
 
+    pairs$item_pair[[i]] <- list(item1, item2)
     pairs$result[i] <- combine_result(item1, item2,
                                       class1, class2,
                                       all_na1, all_na2,
@@ -174,23 +191,14 @@ print_pairs <- function(pairs) {
 }
 
 combine_coercion_types <- function() {
-  items <- list(logicalvalue = TRUE, logicalNA = NA,
-                anotherNA = c(NA, NA),
-                integer = 4L,
-                factor = factor("a"),
-                another_factor = factor("b"),
-                double = 4.5,
-                character = "c", POSIXct = as.POSIXct("2010-01-01"),
-                Date = as.Date("2016-01-01"), complex = 1 + 2i,
-                int_with_class = structure(4L, class = "int_with_class"),
-                num_with_class = structure(4.5, class = "num_with_class"))
 
-  pairs <- prepare_table_with_coercion_rules(items)
+  pairs <- prepare_table_with_coercion_rules()
   # knitr::kable(print_pairs(pairs))
   for (i in seq_len(nrow(pairs))) {
     test_that(paste("Coercion from", pairs$Var1[i], " to ", pairs$Var2[i]), {
-      combine_pair_test(item_pair = items[c(pairs$Var1[i], pairs$Var2[i])],
-                        var1 = pairs$Var1[i], var2 = pairs$Var2[i],
+      combine_pair_test(item_pair = pairs$item_pair[[i]],
+                        var1 = pairs$Var1[i],
+                        var2 = pairs$Var2[i],
                         result = pairs$result[[i]],
                         can_combine = pairs$can_combine[i],
                         warning = pairs$warning[i])
