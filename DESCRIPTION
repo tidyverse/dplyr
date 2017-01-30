@@ -33,7 +33,6 @@ Suggests:
     microbenchmark,
     ggplot2,
     mgcv,
-    pkgapi,
     Lahman (>= 3.0-1),
     nycflights13,
     rmarkdown,
