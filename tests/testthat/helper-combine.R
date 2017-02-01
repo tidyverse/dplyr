@@ -2,10 +2,11 @@ combine_pair_test <- function(item_pair, var1, var2, result,
                               can_combine = TRUE, warning = FALSE)  {
   label_if_fail <-
     paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])")
-  warning_regexp <- if (warning)
-    ".*"
-  else
-    NA
+  if (warning) {
+    warning_regexp <- ".*"
+  } else {
+    warning_regexp <- NA
+  }
   if (can_combine) {
     expect_warning(res <- combine(item_pair),
                    regexp = warning_regexp,
