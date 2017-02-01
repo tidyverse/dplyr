@@ -87,7 +87,7 @@ combine_result <- function(item1, item2,
                            class1, class2,
                            all_na1, all_na2,
                            can_combine, give_warning) {
-  result <- list(NULL)
+  result <- NULL
   if (can_combine) {
     # Custom coercions:
     # - Factor with character coerced to character
