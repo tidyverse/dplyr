@@ -11,7 +11,7 @@ namespace dplyr {
 
   static inline bool has_classes(SEXP x) {
     SEXP classes;
-    int i, num_classes;
+    int num_classes;
     if (OBJECT(x)) {
       classes = Rf_getAttrib(x, R_ClassSymbol);
       num_classes = Rf_length(classes);
@@ -26,7 +26,7 @@ namespace dplyr {
 
   static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
     return LGLSXP == xtype && all_na(x);
-  };
+  }
 
   class Collecter {
   public:
