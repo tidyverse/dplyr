@@ -32,7 +32,7 @@ filter_na_ <- function(.data, ..., .dots, .all = FALSE) {
     # !is.na(var1) | !is.na(var2) | ...
     if (length(args) > 1) {
       args <- Reduce(function(x, y) call("|", x, y),
-                     args[2:length(args)], args[[1]])
+                     args[-1], args[[1]])
     }
   }
   args <- unname(args)
