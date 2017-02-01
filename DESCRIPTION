@@ -11,9 +11,9 @@ Authors@R: c(
     )
 URL: https://github.com/hadley/dplyr
 BugReports: https://github.com/hadley/dplyr/issues
-Depends:
+Depends: 
     R (>= 3.1.2)
-Imports:
+Imports: 
     methods,
     assertthat,
     bindrcpp,
@@ -24,7 +24,7 @@ Imports:
     magrittr,
     lazyeval (>= 0.1.10),
     DBI (>= 0.5)
-Suggests:
+Suggests: 
     RSQLite (>= 1.0.0),
     RMySQL,
     RPostgreSQL,
@@ -45,7 +45,7 @@ LinkingTo: Rcpp (>= 0.12.0),
     plogr
 LazyData: yes
 License: MIT + file LICENSE
-Collate:
+Collate: 
     'RcppExports.R'
     'add-tally.r'
     'all-equal.r'
@@ -130,6 +130,5 @@ Collate:
     'vapply.R'
     'view.r'
     'zzz.r'
-RoxygenNote: 5.0.1
-Roxygen: list(roclets = c("rd", "namespace", "collate",
-    "functionmap2::api_roclet"))
+RoxygenNote: 5.0.1.9000
+Roxygen: list(roclets = c("rd", "namespace", "collate", "functionmap2::api_roclet"))
