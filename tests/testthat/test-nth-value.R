@@ -52,3 +52,10 @@ test_that("default value errors for complicated structures", {
   expect_error(default_missing(factor("a")), "generate default for object")
   expect_error(default_missing(mtcars), "generate default for object")
 })
+
+test_that("nth and order_by doesn't crash (#2166)", {
+  skip("Currently failing")
+  data_frame(x = c(1, 1)) %>%
+    mutate(y = 1) %>%
+    summarise(z = first(x, order_by = y))
+})
