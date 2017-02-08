@@ -20,7 +20,7 @@ view <- function(data, index, parent = parent.frame()) {
   add_function <- function(name, fun) {
     fun_env[[name]] <- fun
   }
-  
+
   # Tools to manage active bindings
   grp_env <- new.env(parent = fun_env, size = nrow(data))
   add_binding <- function(name, fun) {
@@ -42,6 +42,10 @@ view <- function(data, index, parent = parent.frame()) {
     eval(expr, grp_env)
   }
 
-  list(set_group = set_group, eval = local_eval, add_function = add_function, 
-    add_binding = add_binding)
+  list(
+    set_group = set_group,
+    eval = local_eval,
+    add_function = add_function,
+    add_binding = add_binding
+  )
 }

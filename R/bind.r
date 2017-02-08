@@ -121,7 +121,7 @@ is_data_list <- function(x) {
     return(FALSE)
 
   # 0 length named list (#1515)
-  if( !is.null(names(x)) && length(x) == 0)
+  if (!is.null(names(x)) && length(x) == 0)
     return(TRUE)
 
   # With names
@@ -147,9 +147,11 @@ is_data_list <- function(x) {
 #' @export
 #' @rdname bind
 #' @usage NULL
-rbind_list <- function(...){
-  warning("`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE)
+rbind_list <- function(...) {
+  warning(
+    "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
+    call. = FALSE
+  )
   rbind_list__impl(environment())
 }
 
@@ -157,7 +159,9 @@ rbind_list <- function(...){
 #' @rdname bind
 #' @usage NULL
 rbind_all <- function(x, id = NULL) {
-  warning("`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE)
+  warning(
+    "`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
+    call. = FALSE
+  )
   bind_rows_(x, id = id)
 }

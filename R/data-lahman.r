@@ -69,7 +69,7 @@ lahman_dt <- function() {
 copy_lahman <- function(src, ...) {
   # Create missing tables
   tables <- setdiff(lahman_tables(), src_tbls(src))
-  for(table in tables) {
+  for (table in tables) {
     df <- getExportedValue("Lahman", table)
     message("Creating table: ", table)
 

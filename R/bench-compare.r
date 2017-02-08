@@ -73,8 +73,10 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
   })
   names(calls) <- names(tbls)
 
-  mb <- as.call(c(quote(microbenchmark::microbenchmark), calls, dots(...),
-    list(times = times)))
+  mb <- as.call(c(
+    quote(microbenchmark::microbenchmark), calls, dots(...),
+    list(times = times)
+  ))
   eval(mb)
 }
 
@@ -99,11 +101,13 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
     ref_name <- "supplied comparison"
   }
 
-  for(i in seq_along(rest)) {
+  for (i in seq_along(rest)) {
     ok <- compare(ref, rest[[i]], ...)
     # if (!ok) browser()
-    msg <- paste0(names(rest)[[i]], " not equal to ", ref_name, "\n",
-      attr(ok, "comment"))
+    msg <- paste0(
+      names(rest)[[i]], " not equal to ", ref_name, "\n",
+      attr(ok, "comment")
+    )
     testthat::expect_true(ok, info = msg)
   }
 
@@ -116,4 +120,3 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
 eval_tbls <- function(tbls, op) {
   lapply(tbls, function(x) as.data.frame(op(x)))
 }
-

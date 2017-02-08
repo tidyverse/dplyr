@@ -50,6 +50,9 @@ check_class <- function(x, template, name = deparse(substitute(x))) {
     return()
   }
 
-  stop(name, " has class ", paste(class(x), collapse = "/"), " not ",
-    paste(class(template), collapse = "/"), call. = FALSE)
+  stop(
+    name, " has class ", paste(class(x), collapse = "/"),
+    " not ", paste(class(template), collapse = "/"),
+    call. = FALSE
+  )
 }

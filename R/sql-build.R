@@ -86,7 +86,8 @@ sql_build.op_summarise <- function(op, con, ...) {
 sql_build.op_mutate <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
-  new_vars <- translate_sql_(op$dots, con, vars,
+  new_vars <- translate_sql_(
+    op$dots, con, vars,
     vars_group = op_grps(op),
     vars_order = op_sort(op)
   )
@@ -149,8 +150,10 @@ sql_build.op_distinct <- function(op, con, ...) {
     )
   } else {
     if (op$args$.keep_all) {
-      stop("Can't calculate distinct only on specified columns with SQL unless .keep_all is FALSE",
-           call. = FALSE)
+      stop(
+        "Can't calculate distinct only on specified columns with SQL unless .keep_all is FALSE",
+        call. = FALSE
+      )
     }
 
     group_vars <- c.sql(ident(names(op$dots)), con = con)
@@ -178,10 +181,7 @@ sql_build.op_join <- function(op, con, ...) {
     x <- op$x
     y <- op$y
 
-    join_query(x, y,
-               type = op$args$type,
-               by = by
-    )
+    join_query(x, y, type = op$args$type, by = by)
   } else {
     x <- select_(op$x, .dots = setNames(x_names, uniques$x))
     y <- select_(op$y, .dots = setNames(y_names, uniques$y))

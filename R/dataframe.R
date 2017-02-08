@@ -84,7 +84,7 @@ summarise_.data.frame <- function(.data, ..., .dots) {
   as.data.frame(summarise_(tbl_df(.data), .dots = dots))
 }
 #' @export
-mutate_.data.frame <-  function(.data, ..., .dots) {
+mutate_.data.frame <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(mutate_(tbl_df(.data), .dots = dots))
 }
@@ -198,7 +198,7 @@ do_.data.frame <- function(.data, ..., .dots) {
 
 #' @export
 sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
+                                .env = parent.frame()) {
   if (!missing(weight)) {
     weight <- eval(substitute(weight), tbl, .env)
   }

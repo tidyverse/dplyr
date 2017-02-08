@@ -10,7 +10,7 @@
 #' @examples
 #' group_indices(mtcars, cyl)
 group_indices <- function(.data, ...) {
-  group_indices_(.data, .dots = lazyeval::lazy_dots(...) )
+  group_indices_(.data, .dots = lazyeval::lazy_dots(...))
 }
 
 #' @export
@@ -20,7 +20,7 @@ group_indices_ <- function(.data, ..., .dots) {
 }
 
 #' @export
-group_indices_.data.frame <- function(.data, ..., .dots ){
+group_indices_.data.frame <- function(.data, ..., .dots) {
   .dots <- lazyeval::all_dots(..., .dots)
   if (length(.dots) == 0L) {
     return(rep(1L, nrow(.data)))
@@ -29,10 +29,9 @@ group_indices_.data.frame <- function(.data, ..., .dots ){
 }
 
 #' @export
-group_indices_.grouped_df <- function(.data, ..., .dots ){
-  if( length(list(...)) || ( ! missing(.dots) && length(.dots) ) ){
-    warning( "group_indices_.grouped_df ignores extra arguments" )
+group_indices_.grouped_df <- function(.data, ..., .dots) {
+  if (length(list(...)) || (!missing(.dots) && length(.dots))) {
+    warning("group_indices_.grouped_df ignores extra arguments")
   }
   grouped_indices_grouped_df_impl(.data)
 }
-

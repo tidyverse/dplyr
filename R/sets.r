@@ -47,4 +47,3 @@ union_all.default <- function(x, y, ...) combine(x, y, ...)
 setdiff.default <-   function(x, y, ...) base::setdiff(x, y, ...)
 #' @export
 setequal.default <-  function(x, y, ...) base::setequal(x, y, ...)
-
