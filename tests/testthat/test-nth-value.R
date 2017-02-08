@@ -28,6 +28,18 @@ test_that("first and last use default value for 0 length inputs", {
   expect_equal(last(numeric()), NA_real_)
 })
 
+test_that("last as part of a compound expression works within mutate (#2090)", {
+  skip("Currently failing")
+
+  df <-  data_frame(x = c(NA, 1L, 2L, NA, 3L, 4L, NA))
+  expected  <- rep(4L, nrow(df))
+
+  expect_equal(mutate(df, y = last(na.omit(x)))$y,            expected)
+  expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,          expected)
+  expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y,  expected)
+  expect_equal(mutate(df, y = x %>% na.omit %>% last)$y,      expected)
+})
+
 test_that("default value returns appropriate missing for basic vectors", {
   expect_equal(default_missing(TRUE), NA)
   expect_equal(default_missing(1), NA_real_)
@@ -39,4 +51,11 @@ test_that("default value returns appropriate missing for basic vectors", {
 test_that("default value errors for complicated structures", {
   expect_error(default_missing(factor("a")), "generate default for object")
   expect_error(default_missing(mtcars), "generate default for object")
+})
+
+test_that("nth and order_by doesn't crash (#2166)", {
+  skip("Currently failing")
+  data_frame(x = c(1, 1)) %>%
+    mutate(y = 1) %>%
+    summarise(z = first(x, order_by = y))
 })
