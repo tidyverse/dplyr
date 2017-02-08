@@ -68,6 +68,6 @@ src_tbls.src_sql <- function(x, ...) {
 format.src_sql <- function(x, ...) {
   paste0(
     "src:  ", src_desc(x), "\n",
-    wrap("tbls: ", paste0(sort(src_tbls(x)),
-    collapse = ", ")))
+    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", "))
+  )
 }

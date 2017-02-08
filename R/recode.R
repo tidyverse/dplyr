@@ -81,7 +81,8 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
   } else {
     stop(
       "Either all values must be named, or none must be named.",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   n <- length(.x)
@@ -142,7 +143,11 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
 
   for (nm in names(values)) {
     out <- replace_with(
-      out, levels(.x) == nm, values[[nm]], paste0("`", nm, "`"))
+      out,
+      levels(.x) == nm,
+      values[[nm]],
+      paste0("`", nm, "`")
+    )
     replaced[levels(.x) == nm] <- TRUE
   }
 
@@ -170,7 +175,8 @@ validate_recode_default <- function(default, x, out, replaced) {
     warning(
       "Unreplaced values treated as NA as .x is not compatible. ",
       "Please specify replacements exhaustively or supply .default",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   default

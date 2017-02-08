@@ -71,7 +71,9 @@ default_missing <- function(x) {
   if (!is.vector(x)) {
     stop(
       "Don't know how to generate default for object of class ",
-      paste0(class(x), collapse = "/"), call. = FALSE)
+      paste0(class(x), collapse = "/"),
+      call. = FALSE
+    )
   }
 
   if (is.list(x)) {

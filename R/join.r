@@ -130,7 +130,8 @@ common_by.list <- function(by, x, y) {
     stop(
       "Join column not found in lhs: ",
       paste(setdiff(by$x, x_vars), collapse = ", "),
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   y_vars <- tbl_vars(y)
@@ -138,7 +139,8 @@ common_by.list <- function(by, x, y) {
     stop(
       "Join column not found in rhs: ",
       paste(setdiff(by$y, y_vars), collapse = ", "),
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   by

@@ -79,7 +79,9 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
 
     stop(
       "All select() inputs must resolve to integer column positions.\n", "The following do not:\n",
-      paste("* ", labels, collapse = "\n"), call. = FALSE)
+      paste("* ", labels, collapse = "\n"),
+      call. = FALSE
+    )
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -138,7 +140,8 @@ rename_vars_ <- function(vars, args) {
   if (length(unknown_vars) > 0) {
     stop(
       "Unknown variables: ", paste0(unknown_vars, collapse = ", "), ".",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   select <- setNames(vars, vars)

@@ -70,7 +70,8 @@ copy_nycflights13 <- function(src, ...) {
       src, df, table,
       unique_indexes = unique_index[[table]],
       indexes = index[[table]],
-      temporary = FALSE)
+      temporary = FALSE
+    )
   }
   src
 }

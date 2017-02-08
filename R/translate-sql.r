@@ -189,7 +189,8 @@ sql_env <- function(expr, variant, con, window = FALSE,
   names <- all_names(expr)
   name_env <- ceply(
     names, function(x) escape(ident(x), con = con),
-    parent = special_calls2)
+    parent = special_calls2
+  )
 
   # Known sql expressions
   symbol_env <- copy_env(base_symbols, parent = name_env)

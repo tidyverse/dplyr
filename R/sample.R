@@ -67,7 +67,8 @@ sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
 
   stop(
     "Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE)
+    call. = FALSE
+  )
 }
 
 #' @export
@@ -76,7 +77,8 @@ sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
 
   stop(
     "Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE)
+    call. = FALSE
+  )
 }
 
 # Helper functions -------------------------------------------------------------
@@ -102,5 +104,7 @@ check_size <- function(size, n, replace = FALSE) {
 
   stop(
     "Sample size (", size, ") greater than population size (", n, ").",
-    " Do you want replace = TRUE?", call. = FALSE)
+    " Do you want replace = TRUE?",
+    call. = FALSE
+  )
 }

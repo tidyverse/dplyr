@@ -43,6 +43,9 @@ view <- function(data, index, parent = parent.frame()) {
   }
 
   list(
-    set_group = set_group, eval = local_eval, add_function = add_function, 
-    add_binding = add_binding)
+    set_group = set_group,
+    eval = local_eval,
+    add_function = add_function,
+    add_binding = add_binding
+  )
 }

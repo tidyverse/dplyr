@@ -57,7 +57,8 @@ sql_variant <- function(scalar = sql_translator(),
 
   structure(
     list(scalar = scalar, aggregate = aggregate, window = window),
-    class = "sql_variant")
+    class = "sql_variant"
+  )
 }
 
 is.sql_variant <- function(x) inherits(x, "sql_variant")
@@ -74,13 +75,16 @@ print.sql_variant <- function(x, ...) {
   cat("<sql_variant>\n")
   cat(wrap_ls(
     x$scalar,
-    prefix = "scalar:    "))
+    prefix = "scalar:    "
+  ))
   cat(wrap_ls(
     x$aggregate,
-    prefix = "aggregate: "))
+    prefix = "aggregate: "
+  ))
   cat(wrap_ls(
     x$window,
-    prefix = "window:    "))
+    prefix = "window:    "
+  ))
 }
 
 #' @export
@@ -128,7 +132,8 @@ sql_prefix <- function(f, n = NULL) {
     if (!is.null(n) && length(args) != n) {
       stop(
         "Invalid number of args to SQL ", f, ". Expecting ", n,
-        call. = FALSE)
+        call. = FALSE
+      )
     }
     if (any(names2(args) != "")) {
       warning("Named arguments ignored for SQL ", f, call. = FALSE)
@@ -167,7 +172,8 @@ win_cumulative <- function(f) {
       build_sql(sql(f), list(x)),
       partition_group(),
       partition_order(),
-      frame = c(-Inf, 0))
+      frame = c(-Inf, 0)
+    )
   }
 }
 
@@ -177,7 +183,8 @@ win_absent <- function(f) {
   function(...) {
     stop(
       "Window function `", f, "()` is not supported by this database",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 }
 

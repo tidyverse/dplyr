@@ -112,14 +112,17 @@ f_lhs <- function(x) if (length(x) >= 3) x[[2]] else NULL
 f_rhs <- function(x) x[[length(x)]]
 
 succeeds <- function(x, quiet = FALSE) {
-  tryCatch({
-    x
-    TRUE
-  }, error = function(e) {
-    if (!quiet)
-      message("Error: ", e$message)
-    FALSE
-  })
+  tryCatch(
+    {
+      x
+      TRUE
+    },
+    error = function(e) {
+      if (!quiet)
+        message("Error: ", e$message)
+      FALSE
+    }
+  )
 }
 
 # is.atomic() is TRUE for atomic vectors AND NULL!

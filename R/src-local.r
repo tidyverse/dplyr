@@ -59,5 +59,6 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)), ...) {
 format.src_local <- function(x, ...) {
   paste0(
     "src:  ", x$name, "\n",
-    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", ")))
+    wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", "))
+  )
 }

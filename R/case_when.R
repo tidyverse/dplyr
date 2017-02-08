@@ -49,7 +49,8 @@ case_when <- function(...) {
       stop(
         "Case ", i, " (", deparse_trunc(non_formula_arg),
         ") is not a two-sided formula",
-        call. = FALSE)
+        call. = FALSE
+      )
     }
 
     env <- environment(f)
@@ -58,7 +59,9 @@ case_when <- function(...) {
     if (!is.logical(query[[i]])) {
       stop(
         "LHS of case ", i, " (", deparse_trunc(f_lhs(f)), ") is ",
-        typeof(query[[i]]), ", not logical", call. = FALSE)
+        typeof(query[[i]]), ", not logical",
+        call. = FALSE
+      )
     }
 
     value[[i]] <- eval(f[[3]], envir = env)

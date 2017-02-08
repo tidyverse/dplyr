@@ -90,7 +90,8 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
     stop(
       "Conditional colwise operations currently require local sources",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
   cols <- probe_colwise_names(.tbl, .predicate)
   funs <- as.fun_list(.funs, .env = parent.frame(), ...)
@@ -105,7 +106,8 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
     stop(
       "Conditional colwise operations currently require local sources",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
   cols <- probe_colwise_names(.tbl, .predicate)
   funs <- as.fun_list(.funs, .env = parent.frame(), ...)
@@ -186,7 +188,8 @@ select_colwise_names <- function(tbl, cols) {
   } else {
     stop(
       ".cols should be a character/numeric vector or a columns object",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   selected
@@ -208,7 +211,8 @@ colwise_ <- function(tbl, calls, vars) {
     for (j in seq_along(calls)) {
       out[[i, j]] <- lazyeval::interp(
         calls[[j]],
-        .values = list(. = as.name(vars[i])))
+        .values = list(. = as.name(vars[i]))
+      )
     }
   }
   dim(out) <- NULL

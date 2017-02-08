@@ -98,12 +98,15 @@ tbl_cube <- function(dimensions, measures) {
   dims <- vapply(dimensions, length, integer(1), USE.NAMES = FALSE)
   dims_ok <- vapply(
     measures, function(x) identical(unname(dim(x)), dims),
-    logical(1))
+    logical(1)
+  )
   if (any(!dims_ok)) {
     bad <- names(measures)[!dims_ok]
     stop(
       "Measures ", paste0(bad, collapse = ", "), " don't have correct ", "dimensions (",
-      paste0(dims, collapse = " x "), ")", call. = FALSE)
+      paste0(dims, collapse = " x "), ")",
+      call. = FALSE
+    )
   }
 
   structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
@@ -128,7 +131,8 @@ print.tbl_cube <- function(x, ...) {
   if (!is.null(x$groups)) {
     cat(
       "Grouped by: ", paste(names(x$dims)[x$groups], collapse = ", "), "\n",
-      sep = "")
+      sep = ""
+    )
   }
 
   # Dimensions
@@ -274,7 +278,9 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 
     stop(
       "Duplicate combination of dimension variables: ",
-      paste(names(dupe), "=", dupe, collapse = ", "), call. = FALSE)
+      paste(names(dupe), "=", dupe, collapse = ", "),
+      call. = FALSE
+    )
   }
 
   mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
@@ -383,7 +389,8 @@ summarise_.tbl_cube <- function(.data, ..., .dots) {
     index <- as.list(slices[i, , drop = FALSE])
     mets <- lapply(
       .data$mets, subs_index, i = .data$groups, val = index,
-      drop = TRUE)
+      drop = TRUE
+    )
 
     # Loop over each expression
     for (j in seq_along(dots)) {
@@ -405,7 +412,8 @@ subs_index <- function(x, i, val, drop = FALSE) {
   } else if (length(i) >= 1 && is.list(val)) {
     exprs <- lapply(
       seq_along(i),
-      function(i) as.call(c(quote(`[[`), quote(val), i)))
+      function(i) as.call(c(quote(`[[`), quote(val), i))
+    )
     args[i] <- exprs
   } else {
     stop("Invalid input", call. = FALSE)

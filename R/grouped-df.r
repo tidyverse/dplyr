@@ -18,7 +18,8 @@ grouped_df <- function(data, vars, drop = TRUE) {
     is.data.frame(data),
     is.list(vars),
     all(sapply(vars, is.name)),
-    is.flag(drop))
+    is.flag(drop)
+  )
   grouped_df_impl(data, unname(vars), drop)
 }
 
@@ -33,7 +34,8 @@ print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
   cat(
     "Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n",
-    sep = "")
+    sep = ""
+  )
   cat("\n")
   print(trunc_mat(x, n = n, width = width), ...)
   invisible(x)
@@ -138,7 +140,8 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
   if (is.null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(
       .data, attr(.data, "vars"),
-      attr(.data, "drop") %||% TRUE)
+      attr(.data, "drop") %||% TRUE
+    )
   }
 
   # Create ungroup version of data frame suitable for subsetting
@@ -201,7 +204,9 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
 distinct_.grouped_df <- function(.data, ..., .dots, .keep_all = FALSE) {
   groups <- lazyeval::as.lazy_dots(groups(.data))
   dist <- distinct_vars(
-    .data, ..., .dots = c(.dots, groups), .keep_all = .keep_all)
+    .data, ..., .dots = c(.dots, groups),
+    .keep_all = .keep_all
+  )
 
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
 }
@@ -219,8 +224,15 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
 
   index <- attr(tbl, "indices")
   sampled <- lapply(
-    index, sample_group, frac = FALSE,
-    tbl = tbl, size = size, replace = replace, weight = weight, .env = .env)
+    index,
+    sample_group,
+    frac = FALSE,
+    tbl = tbl,
+    size = size,
+    replace = replace,
+    weight = weight,
+    .env = .env
+  )
   idx <- unlist(sampled) + 1
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
@@ -239,8 +251,15 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL
 
   index <- attr(tbl, "indices")
   sampled <- lapply(
-    index, sample_group, frac = TRUE,
-    tbl = tbl, size = size, replace = replace, weight = weight, .env = .env)
+    index,
+    sample_group,
+    frac = TRUE,
+    tbl = tbl,
+    size = size,
+    replace = replace,
+    weight = weight,
+    .env = .env
+  )
   idx <- unlist(sampled) + 1
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))

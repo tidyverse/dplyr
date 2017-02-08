@@ -49,28 +49,32 @@ sql_select.default <- function(con, select, from, where = NULL,
     assert_that(is.character(group_by))
     out$group_by <- build_sql(
       "GROUP BY ",
-      escape(group_by, collapse = ", ", con = con))
+      escape(group_by, collapse = ", ", con = con)
+    )
   }
 
   if (length(having) > 0L) {
     assert_that(is.character(having))
     out$having <- build_sql(
       "HAVING ",
-      escape(having, collapse = ", ", con = con))
+      escape(having, collapse = ", ", con = con)
+    )
   }
 
   if (length(order_by) > 0L) {
     assert_that(is.character(order_by))
     out$order_by <- build_sql(
-      "ORDER BY ", escape(order_by, collapse = ", ",
-      con = con))
+      "ORDER BY ",
+      escape(order_by, collapse = ", ", con = con)
+    )
   }
 
   if (!is.null(limit)) {
     assert_that(is.numeric(limit), length(limit) == 1L)
     out$limit <- build_sql(
       "LIMIT ", sql(format(trunc(limit), scientific = FALSE)),
-      con = con)
+      con = con
+    )
   }
 
   escape(unname(compact(out)), collapse = "\n", parens = FALSE, con = con)
@@ -108,7 +112,9 @@ sql_join.default <- function(con, x, y, type = "inner", by = NULL, ...) {
 
   on <- sql_vector(
     paste0(sql_escape_ident(con, by$x), " = ", sql_escape_ident(con, by$y)),
-    collapse = " AND ", parens = TRUE)
+    collapse = " AND ",
+    parens = TRUE
+  )
   cond <- build_sql("ON ", on, con = con)
 
   # Wrap with SELECT since callers assume a valid query is returned

@@ -41,7 +41,9 @@ funs_ <- function(dots, args = list(), env = baseenv()) {
 
   missing_names <- names(dots) == ""
   default_names <- vapply(
-    dots[missing_names], function(x) make_name(x$expr), character(1))
+    dots[missing_names], function(x) make_name(x$expr),
+    character(1)
+  )
   names(dots)[missing_names] <- default_names
 
   class(dots) <- c("fun_list", "lazy_dots")

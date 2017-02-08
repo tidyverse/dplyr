@@ -300,7 +300,8 @@ select_if <- function(.data, .predicate, ...) {
   if (inherits(.data, "tbl_lazy")) {
     stop(
       "Selection with predicate currently require local sources",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
   vars <- probe_colwise_names(.data, .predicate, ...)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)

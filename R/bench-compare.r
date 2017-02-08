@@ -106,7 +106,8 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
     # if (!ok) browser()
     msg <- paste0(
       names(rest)[[i]], " not equal to ", ref_name, "\n",
-      attr(ok, "comment"))
+      attr(ok, "comment")
+    )
     testthat::expect_true(ok, info = msg)
   }
 

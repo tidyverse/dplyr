@@ -107,7 +107,9 @@ db_save_query.DBIConnection <- function(con, sql, name, temporary = TRUE,
                                         ...) {
   tt_sql <- build_sql(
     "CREATE ", if (temporary) sql("TEMPORARY "),
-    "TABLE ", ident(name), " AS ", sql, con = con)
+    "TABLE ", ident(name), " AS ", sql,
+    con = con
+  )
   dbGetQuery(con, tt_sql)
   name
 }
@@ -144,11 +146,16 @@ db_create_table.DBIConnection <- function(con, table, types,
 
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(
-    paste0(field_names, " ", types), parens = TRUE,
-    collapse = ", ", con = con)
+    paste0(field_names, " ", types),
+    parens = TRUE,
+    collapse = ", ",
+    con = con
+  )
   sql <- build_sql(
     "CREATE ", if (temporary) sql("TEMPORARY "),
-    "TABLE ", ident(table), " ", fields, con = con)
+    "TABLE ", ident(table), " ", fields,
+    con = con
+  )
 
   dbGetQuery(con, sql)
 }
@@ -207,7 +214,8 @@ db_drop_table <- function(con, table, force = FALSE, ...) {
 db_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
   sql <- build_sql(
     "DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
-    con = con)
+    con = con
+  )
   dbGetQuery(con, sql)
 }
 
@@ -276,7 +284,8 @@ db_disconnector <- function(con, name, quiet = FALSE) {
     if (!quiet) {
       message(
         "Auto-disconnecting ", name, " connection ",
-        "(", paste(con@Id, collapse = ", "), ")")
+        "(", paste(con@Id, collapse = ", "), ")"
+      )
     }
     dbDisconnect(con)
   })
