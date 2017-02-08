@@ -2,6 +2,7 @@
 
 #include <tools/utils.h>
 #include <dplyr/white_list.h>
+#include <tools/collapse.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -81,7 +82,7 @@ std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
     CharacterVector classes(klass);
-    return collapse<STRSXP>(classes);
+    return collapse(classes);
   }
 
   if (Rf_isMatrix(x)) {

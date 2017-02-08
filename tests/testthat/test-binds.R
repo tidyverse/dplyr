@@ -116,12 +116,12 @@ test_that("bind_rows promotes integer to numeric", {
   expect_equal(typeof(res$b), "integer")
 })
 
-test_that("bind_rows promotes logical to integer", {
+test_that("bind_rows does not coerce logical to integer", {
   df1 <- data_frame(a = FALSE)
   df2 <- data_frame(a = 1L)
 
-  res <- bind_rows(df1, df2)
-  expect_equal(res$a, c(0L, 1L))
+  expect_error(bind_rows(df1, df2),
+               "Can not automatically convert from logical to integer in column \"a\"")
 })
 
 test_that("bind_rows promotes factor to character with warning", {

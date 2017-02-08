@@ -125,6 +125,13 @@
 
 * `tribble()` is now imported from tibble (#2336, @chrMongeau).
 
+* Breaking change: `bind_rows()` and `combine()` are more strict when coercing. Logical values are
+  no longer coerced to integer and numeric. Date, POSIXct and other integer or
+  double-based classes are no longer coerced to integer or double as there is
+  chance of attributes or information being lost (#2209, @zeehio).
+
+* `combine()` accepts `NA` values (#2203, @zeehio)
+
 # dplyr 0.5.0
 
 ## Breaking changes
