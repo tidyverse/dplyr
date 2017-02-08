@@ -105,6 +105,22 @@ test_that("bind_rows handles data frames with no columns (#1346)", {
   expect_equal(res$x, c(1, NA))
 })
 
+test_that("bind_rows handles lists with NULL values (#2056)", {
+  skip("Currently failing")
+  df1 <- data_frame(x = 1, y = 1)
+  df2 <- data_frame(x = 2, y = 2)
+  lst1 <- list(a = df1, NULL, b = df2)
+  lst2 <- list(a = df1, b = df2)
+
+  df3 <- data_frame(
+    names = c("a", "b"),
+    x = 1:2,
+    y = 1:2
+  )
+
+  expect_equal(bind_rows(lst1, .id = "names"), df3)
+})
+
 # Column coercion --------------------------------------------------------------
 
 test_that("bind_rows promotes integer to numeric", {
