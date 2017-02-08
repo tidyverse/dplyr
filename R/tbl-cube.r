@@ -305,7 +305,7 @@ filter_.tbl_cube <- function(.data, ..., .dots) {
 
   idx <- vapply(dots, function(d) find_index_check(d$expr, names(.data$dims)),
     integer(1))
-  for(i in seq_along(dots)) {
+  for (i in seq_along(dots)) {
     sel <- eval(dots[[i]]$expr, .data$dims, dots[[i]]$env)
     sel <- sel & !is.na(sel)
 

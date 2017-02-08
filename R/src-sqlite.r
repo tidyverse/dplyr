@@ -169,7 +169,7 @@ sql_translate_env.SQLiteConnection <- function(con) {
 
 #' @export
 sql_escape_ident.SQLiteConnection <- function(con, x) {
-  sql_quote(x, '`')
+  sql_quote(x, "`")
 }
 
 #' @export
@@ -192,4 +192,3 @@ sql_subquery.SQLiteConnection <- function(con, from, name = unique_name(), ...) 
 db_insert_into.SQLiteConnection <- function(con, table, values, ...) {
   DBI::dbWriteTable(con, table, values, append = TRUE, row.names = FALSE)
 }
-

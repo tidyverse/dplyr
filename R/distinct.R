@@ -81,6 +81,6 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
 #' length(unique(x))
 #' n_distinct(x)
 #' @export
-n_distinct <- function(..., na.rm = FALSE){
+n_distinct <- function(..., na.rm = FALSE) {
   n_distinct_multi(list(...), na.rm)
 }

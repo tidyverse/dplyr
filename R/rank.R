@@ -82,4 +82,3 @@ percent_rank <- function(x) {
 cume_dist <- function(x) {
   rank(x, ties.method = "max", na.last = "keep") / sum(!is.na(x))
 }
-

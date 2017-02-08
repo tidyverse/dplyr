@@ -168,7 +168,7 @@ db_create_indexes.DBIConnection <- function(con, table, indexes = NULL,
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
-  for(index in indexes) {
+  for (index in indexes) {
     db_create_index(con, table, index, unique = unique, ...)
   }
 }
@@ -285,4 +285,3 @@ res_warn_incomplete <- function(res, hint = "n = -1") {
   warning("Only first ", rows, " results retrieved. Use ", hint, " to retrieve all.",
     call. = FALSE)
 }
-

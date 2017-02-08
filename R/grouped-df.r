@@ -14,7 +14,7 @@ grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
-  assert_that(is.data.frame(data), is.list(vars), all(sapply(vars,is.name)), is.flag(drop))
+  assert_that(is.data.frame(data), is.list(vars), all(sapply(vars, is.name)), is.flag(drop))
   grouped_df_impl(data, unname(vars), drop)
 }
 

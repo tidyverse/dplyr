@@ -61,7 +61,7 @@ copy_nycflights13 <- function(src, ...) {
   tables <- setdiff(all, src_tbls(src))
 
   # Create missing tables
-  for(table in tables) {
+  for (table in tables) {
     df <- getExportedValue("nycflights13", table)
     message("Creating table: ", table)
 

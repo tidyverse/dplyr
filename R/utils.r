@@ -60,7 +60,7 @@ has_names <- function(x) {
   }
 }
 
-"%||%" <- function(x, y) if(is.null(x)) y else x
+"%||%" <- function(x, y) if (is.null(x)) y else x
 
 is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
   abs(x - round(x)) < tol

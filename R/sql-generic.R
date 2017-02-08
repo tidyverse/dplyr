@@ -108,7 +108,7 @@ sql_join.default <- function(con, x, y, type = "inner", by = NULL, ...) {
 
   # Wrap with SELECT since callers assume a valid query is returned
   build_sql(
-    'SELECT * FROM ',x, "\n\n",
+    "SELECT * FROM ", x, "\n\n",
     join, " JOIN\n\n" ,
     y, "\n\n",
     cond,
@@ -137,11 +137,11 @@ sql_semi_join.default <- function(con, x, y, anti = FALSE, by = NULL, ...) {
   )
 
   build_sql(
-    'SELECT * FROM ', x, '\n\n',
-    'WHERE ', if (anti) sql('NOT '), 'EXISTS (\n',
-    '  SELECT 1 FROM ', y, '\n',
-    '  WHERE ', on, '\n',
-    ')',
+    "SELECT * FROM ", x, "\n\n",
+    "WHERE ", if (anti) sql("NOT "), "EXISTS (\n",
+    "  SELECT 1 FROM ", y, "\n",
+    "  WHERE ", on, "\n",
+    ")",
     con = con
   )
 }
