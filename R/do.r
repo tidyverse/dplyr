@@ -100,7 +100,8 @@ do_.NULL <- function(.data, ..., .dots) {
 label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
-    stop("Results are not data frames at positions: ",
+    stop(
+      "Results are not data frames at positions: ",
       paste(which(!data_frame), collapse = ", "), call. = FALSE)
   }
 
@@ -136,7 +137,8 @@ named_args <- function(args) {
   # Arguments must either be all named or all unnamed.
   named <- sum(names2(args) != "")
   if (!(named == 0 || named == length(args))) {
-    stop("Arguments to do() must either be all named or all unnamed",
+    stop(
+      "Arguments to do() must either be all named or all unnamed",
       call. = FALSE)
   }
   if (named == 0 && length(args) > 1) {

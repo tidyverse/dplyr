@@ -79,7 +79,8 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
   } else if (all(!nms)) {
     vals <- seq_along(values)
   } else {
-    stop("Either all values must be named, or none must be named.",
+    stop(
+      "Either all values must be named, or none must be named.",
       call. = FALSE)
   }
 
@@ -140,7 +141,8 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
   replaced <- rep(FALSE, length(levels(.x)))
 
   for (nm in names(values)) {
-    out <- replace_with(out, levels(.x) == nm, values[[nm]], paste0("`", nm, "`"))
+    out <- replace_with(
+      out, levels(.x) == nm, values[[nm]], paste0("`", nm, "`"))
     replaced[levels(.x) == nm] <- TRUE
   }
 
@@ -165,7 +167,8 @@ validate_recode_default <- function(default, x, out, replaced) {
   default <- recode_default(x, default, out)
 
   if (is.null(default) && sum(replaced & !is.na(x)) < length(out[!is.na(x)])) {
-    warning("Unreplaced values treated as NA as .x is not compatible. ",
+    warning(
+      "Unreplaced values treated as NA as .x is not compatible. ",
       "Please specify replacements exhaustively or supply .default",
       call. = FALSE)
   }
@@ -196,8 +199,8 @@ recode_default.factor <- function(x, default, out) {
 
 #' @rdname recode
 #' @export
-recode_factor <- function (.x, ..., .default = NULL, .missing = NULL,
-                           .ordered = FALSE, .dots = NULL) {
+recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
+                          .ordered = FALSE, .dots = NULL) {
   recoded <- recode(.x, ..., .default = .default, .missing = .missing, .dots = .dots)
 
   all_levels <- unique(c(..., recode_default(.x, .default, recoded), .missing))

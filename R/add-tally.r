@@ -49,12 +49,10 @@ add_tally <- function(x, wt, sort = FALSE) {
     if ("n" %in% names(x)) {
       message("Using n as weighting variable")
       wt <- quote(n)
-    }
-    else {
+    } else {
       wt <- NULL
     }
-  }
-  else {
+  } else {
     wt <- substitute(wt)
   }
   add_tally_(x, wt, sort = sort)
@@ -67,8 +65,7 @@ add_tally_ <- function(x, wt = NULL, sort = FALSE) {
   g <- groups(x)
   if (is.null(wt)) {
     n <- quote(n())
-  }
-  else {
+  } else {
     n <- lazyeval::interp(quote(sum(wt, na.rm = TRUE)), wt = wt)
   }
   n_name <- n_name(tbl_vars(x))

@@ -55,7 +55,8 @@ sql_variant <- function(scalar = sql_translator(),
   stopifnot(is.environment(aggregate))
   stopifnot(is.environment(window))
 
-  structure(list(scalar = scalar, aggregate = aggregate, window = window),
+  structure(
+    list(scalar = scalar, aggregate = aggregate, window = window),
     class = "sql_variant")
 }
 
@@ -71,9 +72,15 @@ print.sql_variant <- function(x, ...) {
   }
 
   cat("<sql_variant>\n")
-  cat(wrap_ls(x$scalar,    prefix = "scalar:    "))
-  cat(wrap_ls(x$aggregate, prefix = "aggregate: "))
-  cat(wrap_ls(x$window,    prefix = "window:    "))
+  cat(wrap_ls(
+    x$scalar,
+    prefix = "scalar:    "))
+  cat(wrap_ls(
+    x$aggregate,
+    prefix = "aggregate: "))
+  cat(wrap_ls(
+    x$window,
+    prefix = "window:    "))
 }
 
 #' @export
@@ -84,7 +91,7 @@ names.sql_variant <- function(x) {
 #' @export
 #' @rdname sql_variant
 sql_translator <- function(..., .funs = list(),
-                        .parent = new.env(parent = emptyenv())) {
+                           .parent = new.env(parent = emptyenv())) {
   funs <- c(list(...), .funs)
   if (length(funs) == 0) return(.parent)
 
@@ -119,7 +126,8 @@ sql_prefix <- function(f, n = NULL) {
 
     args <- list(...)
     if (!is.null(n) && length(args) != n) {
-      stop("Invalid number of args to SQL ", f, ". Expecting ", n,
+      stop(
+        "Invalid number of args to SQL ", f, ". Expecting ", n,
         call. = FALSE)
     }
     if (any(names2(args) != "")) {
@@ -155,7 +163,11 @@ win_recycled <- function(f) {
 win_cumulative <- function(f) {
   force(f)
   function(x) {
-    over(build_sql(sql(f), list(x)), partition_group(), partition_order(), frame = c(-Inf, 0))
+    over(
+      build_sql(sql(f), list(x)),
+      partition_group(),
+      partition_order(),
+      frame = c(-Inf, 0))
   }
 }
 
@@ -165,8 +177,7 @@ win_absent <- function(f) {
   function(...) {
     stop(
       "Window function `", f, "()` is not supported by this database",
-      call. = FALSE
-    )
+      call. = FALSE)
   }
 }
 

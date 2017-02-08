@@ -45,10 +45,12 @@ top_n <- function(x, n, wt) {
 
   stopifnot(is.numeric(n), length(n) == 1)
   if (n > 0) {
-    call <- substitute(filter(x, min_rank(desc(wt)) <= n),
+    call <- substitute(
+      filter(x, min_rank(desc(wt)) <= n),
       list(n = n, wt = wt))
   } else {
-    call <- substitute(filter(x, min_rank(wt) <= n),
+    call <- substitute(
+      filter(x, min_rank(wt) <= n),
       list(n = abs(n), wt = wt))
   }
 

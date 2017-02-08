@@ -30,7 +30,7 @@ group_indices_.data.frame <- function(.data, ..., .dots) {
 
 #' @export
 group_indices_.grouped_df <- function(.data, ..., .dots) {
-  if (length(list(...)) || (! missing(.dots) && length(.dots))) {
+  if (length(list(...)) || (!missing(.dots) && length(.dots))) {
     warning("group_indices_.grouped_df ignores extra arguments")
   }
   grouped_indices_grouped_df_impl(.data)

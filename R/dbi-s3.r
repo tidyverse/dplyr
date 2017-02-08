@@ -105,7 +105,8 @@ db_save_query <- function(con, sql, name, temporary = TRUE, ...) {
 #' @export
 db_save_query.DBIConnection <- function(con, sql, name, temporary = TRUE,
                                         ...) {
-  tt_sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+  tt_sql <- build_sql(
+    "CREATE ", if (temporary) sql("TEMPORARY "),
     "TABLE ", ident(name), " AS ", sql, con = con)
   dbGetQuery(con, tt_sql)
   name
@@ -138,13 +139,15 @@ db_create_table <- function(con, table, types, temporary = FALSE, ...) {
 }
 #' @export
 db_create_table.DBIConnection <- function(con, table, types,
-                                           temporary = FALSE, ...) {
+                                          temporary = FALSE, ...) {
   assert_that(is.string(table), is.character(types))
 
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
-  fields <- sql_vector(paste0(field_names, " ", types), parens = TRUE,
+  fields <- sql_vector(
+    paste0(field_names, " ", types), parens = TRUE,
     collapse = ", ", con = con)
-  sql <- build_sql("CREATE ", if (temporary) sql("TEMPORARY "),
+  sql <- build_sql(
+    "CREATE ", if (temporary) sql("TEMPORARY "),
     "TABLE ", ident(table), " ", fields, con = con)
 
   dbGetQuery(con, sql)
@@ -164,7 +167,7 @@ db_create_indexes <- function(con, table, indexes = NULL, unique = FALSE, ...) {
 
 #' @export
 db_create_indexes.DBIConnection <- function(con, table, indexes = NULL,
-  unique = FALSE, ...) {
+                                            unique = FALSE, ...) {
   if (is.null(indexes)) return()
   assert_that(is.list(indexes))
 
@@ -202,7 +205,8 @@ db_drop_table <- function(con, table, force = FALSE, ...) {
 }
 #' @export
 db_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
-  sql <- build_sql("DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
+  sql <- build_sql(
+    "DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con)
   dbGetQuery(con, sql)
 }
@@ -270,7 +274,8 @@ random_table_name <- function(n = 10) {
 db_disconnector <- function(con, name, quiet = FALSE) {
   reg.finalizer(environment(), function(...) {
     if (!quiet) {
-      message("Auto-disconnecting ", name, " connection ",
+      message(
+        "Auto-disconnecting ", name, " connection ",
         "(", paste(con@Id, collapse = ", "), ")")
     }
     dbDisconnect(con)

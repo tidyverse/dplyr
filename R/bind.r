@@ -148,7 +148,8 @@ is_data_list <- function(x) {
 #' @rdname bind
 #' @usage NULL
 rbind_list <- function(...) {
-  warning("`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
+  warning(
+    "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
     call. = FALSE)
   rbind_list__impl(environment())
 }
@@ -157,7 +158,8 @@ rbind_list <- function(...) {
 #' @rdname bind
 #' @usage NULL
 rbind_all <- function(x, id = NULL) {
-  warning("`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
+  warning(
+    "`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
     call. = FALSE)
   bind_rows_(x, id = id)
 }

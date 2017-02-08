@@ -69,7 +69,8 @@ last <- function(x, order_by = NULL, default = default_missing(x)) {
 default_missing <- function(x) {
   # The user needs to supply a default for anything with attributes
   if (!is.vector(x)) {
-    stop("Don't know how to generate default for object of class ",
+    stop(
+      "Don't know how to generate default for object of class ",
       paste0(class(x), collapse = "/"), call. = FALSE)
   }
 

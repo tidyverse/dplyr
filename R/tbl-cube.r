@@ -96,12 +96,14 @@ tbl_cube <- function(dimensions, measures) {
 
   # Check measures have correct dimensions
   dims <- vapply(dimensions, length, integer(1), USE.NAMES = FALSE)
-  dims_ok <- vapply(measures, function(x) identical(unname(dim(x)), dims),
+  dims_ok <- vapply(
+    measures, function(x) identical(unname(dim(x)), dims),
     logical(1))
   if (any(!dims_ok)) {
     bad <- names(measures)[!dims_ok]
-    stop("Measures ", paste0(bad, collapse = ", "), " don't have correct ",
-      "dimensions (", paste0(dims, collapse = " x "), ")", call. = FALSE)
+    stop(
+      "Measures ", paste0(bad, collapse = ", "), " don't have correct ", "dimensions (",
+      paste0(dims, collapse = " x "), ")", call. = FALSE)
   }
 
   structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
@@ -122,11 +124,11 @@ same_src.tbl_cube <- function(x, y) {
 
 #' @export
 print.tbl_cube <- function(x, ...) {
-  cat("Source: local array ", dim_desc(x), "\n",
-    sep = "")
+  cat("Source: local array ", dim_desc(x), "\n", sep = "")
   if (!is.null(x$groups)) {
-    cat("Grouped by: ", paste(names(x$dims)[x$groups], collapse = ", "),
-      "\n", sep = "")
+    cat(
+      "Grouped by: ", paste(names(x$dims)[x$groups], collapse = ", "), "\n",
+      sep = "")
   }
 
   # Dimensions
@@ -198,7 +200,8 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 #' @param dim_names names of the dimesions. Defaults to the names of
 #' @param met_name a string to use as the name for the measure
 #'   the \code{\link{dimnames}}.
-as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)), ...) {
+as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)),
+                              ...) {
   force(met_name)
 
   dims <- dimnames(x)
@@ -216,7 +219,8 @@ undimname <- function(x) {
 
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.table <- function(x, dim_names = names(dimnames(x)), met_name = "Freq", ...) {
+as.tbl_cube.table <- function(x, dim_names = names(dimnames(x)), met_name = "Freq",
+                              ...) {
   as.tbl_cube.array(unclass(x), dim_names = dim_names, met_name = met_name)
 }
 
@@ -238,7 +242,8 @@ guess_met <- function(df) {
 
 #' @export
 #' @rdname as.tbl_cube
-as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x), ...) {
+as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
+                                   ...) {
   if (is.null(dim_names)) {
     dim_names <- setdiff(names(x), met_name)
   } else {
@@ -267,8 +272,9 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe_row <- anyDuplicated(all[dim_names])
     dupe <- unlist(all[dupe_row, dim_names])
 
-    stop("Duplicate combination of dimension variables: ",
-         paste(names(dupe), "=", dupe, collapse = ", "), call. = FALSE)
+    stop(
+      "Duplicate combination of dimension variables: ",
+      paste(names(dupe), "=", dupe, collapse = ", "), call. = FALSE)
   }
 
   mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
@@ -375,7 +381,8 @@ summarise_.tbl_cube <- function(.data, ..., .dots) {
   # Loop over each group
   for (i in seq_len(nrow(slices))) {
     index <- as.list(slices[i, , drop = FALSE])
-    mets <- lapply(.data$mets, subs_index, i = .data$groups, val = index,
+    mets <- lapply(
+      .data$mets, subs_index, i = .data$groups, val = index,
       drop = TRUE)
 
     # Loop over each expression
@@ -396,7 +403,9 @@ subs_index <- function(x, i, val, drop = FALSE) {
   if (length(i) == 1 && is.atomic(val)) {
     args[[i]] <- quote(val)
   } else if (length(i) >= 1 && is.list(val)) {
-    exprs <- lapply(seq_along(i), function(i) as.call(c(quote(`[[`), quote(val), i)))
+    exprs <- lapply(
+      seq_along(i),
+      function(i) as.call(c(quote(`[[`), quote(val), i)))
     args[i] <- exprs
   } else {
     stop("Invalid input", call. = FALSE)

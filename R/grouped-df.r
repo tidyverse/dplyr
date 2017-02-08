@@ -14,7 +14,11 @@ grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
-  assert_that(is.data.frame(data), is.list(vars), all(sapply(vars, is.name)), is.flag(drop))
+  assert_that(
+    is.data.frame(data),
+    is.list(vars),
+    all(sapply(vars, is.name)),
+    is.flag(drop))
   grouped_df_impl(data, unname(vars), drop)
 }
 
@@ -27,7 +31,9 @@ print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
 
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
-  cat("Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n", sep = "")
+  cat(
+    "Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n",
+    sep = "")
   cat("\n")
   print(trunc_mat(x, n = n, width = width), ...)
   invisible(x)
@@ -104,7 +110,8 @@ ensure_grouped_vars <- function(vars, data, notify = TRUE) {
 
   if (length(missing) > 0) {
     if (notify) {
-      message("Adding missing grouping variables: ",
+      message(
+        "Adding missing grouping variables: ",
         paste0("`", missing, "`", collapse = ", "))
     }
     vars <- c(stats::setNames(missing, missing), vars)
@@ -129,7 +136,8 @@ rename_.grouped_df <- function(.data, ..., .dots) {
 do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
   # Force computation of indices
   if (is.null(attr(.data, "indices"))) {
-    .data <- grouped_df_impl(.data, attr(.data, "vars"),
+    .data <- grouped_df_impl(
+      .data, attr(.data, "vars"),
       attr(.data, "drop") %||% TRUE)
   }
 
@@ -192,8 +200,8 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots, .keep_all = FALSE) {
   groups <- lazyeval::as.lazy_dots(groups(.data))
-  dist <- distinct_vars(.data, ..., .dots = c(.dots, groups),
-    .keep_all = .keep_all)
+  dist <- distinct_vars(
+    .data, ..., .dots = c(.dots, groups), .keep_all = .keep_all)
 
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
 }
@@ -204,13 +212,14 @@ distinct_.grouped_df <- function(.data, ..., .dots, .keep_all = FALSE) {
 
 #' @export
 sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
+                                .env = parent.frame()) {
 
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
   weight <- substitute(weight)
 
   index <- attr(tbl, "indices")
-  sampled <- lapply(index, sample_group, frac = FALSE,
+  sampled <- lapply(
+    index, sample_group, frac = FALSE,
     tbl = tbl, size = size, replace = replace, weight = weight, .env = .env)
   idx <- unlist(sampled) + 1
 
@@ -229,15 +238,16 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL
   weight <- substitute(weight)
 
   index <- attr(tbl, "indices")
-  sampled <- lapply(index, sample_group, frac = TRUE,
+  sampled <- lapply(
+    index, sample_group, frac = TRUE,
     tbl = tbl, size = size, replace = replace, weight = weight, .env = .env)
   idx <- unlist(sampled) + 1
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
 
-sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE,
-  weight = NULL, .env = parent.frame()) {
+sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE, weight = NULL,
+                         .env = parent.frame()) {
   n <- length(i)
   if (frac) size <- round(size * n)
 

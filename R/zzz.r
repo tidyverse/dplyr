@@ -16,8 +16,7 @@
       packageStartupMessage(rule())
       packageStartupMessage(
         "data.table + dplyr code now lives in dtplyr.\n",
-        "Please library(dtplyr)!"
-      )
+        "Please library(dtplyr)!")
       packageStartupMessage(rule())
     }
   })

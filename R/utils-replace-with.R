@@ -37,8 +37,7 @@ check_type <- function(x, template, name = deparse(substitute(x))) {
 
   stop(
     name, " has type '", typeof(x), "' not '", typeof(template), "'",
-    call. = FALSE
-  )
+    call. = FALSE)
 }
 
 check_class <- function(x, template, name = deparse(substitute(x))) {
@@ -50,6 +49,7 @@ check_class <- function(x, template, name = deparse(substitute(x))) {
     return()
   }
 
-  stop(name, " has class ", paste(class(x), collapse = "/"), " not ",
+  stop(
+    name, " has class ", paste(class(x), collapse = "/"), " not ",
     paste(class(template), collapse = "/"), call. = FALSE)
 }

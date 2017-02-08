@@ -18,7 +18,8 @@ dim_desc <- function(x) {
 
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
-  wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
+  wrapped <- strwrap(
+    x, indent = indent, exdent = indent + 2,
     width = getOption("width"))
 
   paste0(wrapped, collapse = "\n")

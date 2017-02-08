@@ -110,7 +110,8 @@ translate_sql <- function(...,
                           window = TRUE) {
   dots <- lazyeval::lazy_dots(...)
 
-  translate_sql_(dots,
+  translate_sql_(
+    dots,
     con = con,
     vars = vars,
     vars_group = vars_group,
@@ -186,7 +187,8 @@ sql_env <- function(expr, variant, con, window = FALSE,
 
   # Existing symbols in expression
   names <- all_names(expr)
-  name_env <- ceply(names, function(x) escape(ident(x), con = con),
+  name_env <- ceply(
+    names, function(x) escape(ident(x), con = con),
     parent = special_calls2)
 
   # Known sql expressions

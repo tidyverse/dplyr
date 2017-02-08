@@ -298,7 +298,8 @@ select_ <- function(.data, ..., .dots) {
 #' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
 select_if <- function(.data, .predicate, ...) {
   if (inherits(.data, "tbl_lazy")) {
-    stop("Selection with predicate currently require local sources",
+    stop(
+      "Selection with predicate currently require local sources",
       call. = FALSE)
   }
   vars <- probe_colwise_names(.data, .predicate, ...)
