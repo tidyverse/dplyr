@@ -8,9 +8,9 @@
 #'
 #' @section Symbol substitution:
 #'
-#' \code{partial_eval} needs to guess if you're referring to a variable on the
+#' `partial_eval()` needs to guess if you're referring to a variable on the
 #' server (remote), or in the current environment (local). It's not possible to
-#' do this 100% perfectly. \code{partial_eval} uses the following heuristic:
+#' do this 100% perfectly. `partial_eval()` uses the following heuristic:
 #'
 #' \itemize{
 #'   \item If the tbl variables are known, and the symbol matches a tbl
@@ -19,7 +19,7 @@
 #'   \item Otherwise, remote.
 #' }
 #'
-#' @param call an unevaluated expression, as produced by \code{\link{quote}}
+#' @param call an unevaluated expression, as produced by [quote()]
 #' @param tbl a tbl object
 #' @param env environment in which to search for local values
 #' @export

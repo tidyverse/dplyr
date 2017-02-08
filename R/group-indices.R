@@ -2,7 +2,7 @@
 #'
 #' Generate a unique id for each group
 #'
-#' @seealso \code{\link{group_by}}
+#' @seealso [group_by()]
 #' @param .data a tbl
 #' @inheritParams group_by
 #' @inheritParams filter

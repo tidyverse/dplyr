@@ -1,34 +1,34 @@
 #' Recode values
 #'
-#' This is a vectorised version of \code{\link{switch}()}: you can replace
+#' This is a vectorised version of [switch()]: you can replace
 #' numeric values based on their position, and character values by their
 #' name. This is an S3 generic: dplyr provides methods for numeric, character,
-#' and factors. For logical vectors, use \code{\link{if_else}}
+#' and factors. For logical vectors, use [if_else()]
 #'
 #' @param .x A vector to modify
 #' @param ... Replacements. These should be named for character and factor
-#'   \code{.x}, and can be named for numeric \code{.x}.
+#'   `.x`, and can be named for numeric `.x`.
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
 #' @param .default If supplied, all values not otherwise matched will
 #'   be given this value. If not supplied and if the replacements are
-#'   the same type as the original values in \code{.x}, unmatched
+#'   the same type as the original values in `.x`, unmatched
 #'   values are not changed. If not supplied and if the replacements
-#'   are not compatible, unmatched values are replaced with \code{NA}.
-#'   \code{.default} must be either length 1 or the same length as
-#'   \code{.x}.
-#' @param .missing If supplied, any missing values in \code{.x} will be
+#'   are not compatible, unmatched values are replaced with `NA`.
+#'   `.default` must be either length 1 or the same length as
+#'   `.x`.
+#' @param .missing If supplied, any missing values in `.x` will be
 #'   replaced by this value. Must be either length 1 or the same length as
-#'   \code{.x}.
+#'   `.x`.
 #' @param .dots A named list of replacements. The list must satisfy the
-#'   same conditions as replacements supplied by \code{...}.
-#' @param .ordered If \code{TRUE}, \code{recode_factor()} creates an
+#'   same conditions as replacements supplied by `...`.
+#' @param .ordered If `TRUE`, `recode_factor()` creates an
 #'   ordered factor.
-#' @return A vector the same length as \code{.x}, and the same type as
-#'   the first of \code{...}, \code{.default}, or \code{.missing}.
-#'   \code{recode_factor()} returns a factor whose levels are in the
-#'   same order as in \code{...}.
+#' @return A vector the same length as `.x`, and the same type as
+#'   the first of `...`, `.default`, or `.missing`.
+#'   `recode_factor()` returns a factor whose levels are in the
+#'   same order as in `...`.
 #' @export
 #' @examples
 #' # Recode values with named arguments

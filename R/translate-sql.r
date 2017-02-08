@@ -1,42 +1,42 @@
 #' Translate an expression to sql.
 #'
 #' @section Base translation:
-#' The base translator, \code{base_sql},
-#' provides custom mappings for \code{!} (to NOT), \code{&&} and \code{&} to
-#' \code{AND}, \code{||} and \code{|} to \code{OR}, \code{^} to \code{POWER},
-#' \code{\%>\%} to \code{\%}, \code{ceiling} to \code{CEIL}, \code{mean} to
-#' \code{AVG}, \code{var} to \code{VARIANCE}, \code{tolower} to \code{LOWER},
-#' \code{toupper} to \code{UPPER} and \code{nchar} to \code{length}.
+#' The base translator, `base_sql`,
+#' provides custom mappings for `!` (to NOT), `&&` and `&` to
+#' `AND`, `||` and `|` to `OR`, `^` to `POWER`,
+#' \code{\%>\%} to \code{\%}, `ceiling` to `CEIL`, `mean` to
+#' `AVG`, `var` to `VARIANCE`, `tolower` to `LOWER`,
+#' `toupper` to `UPPER` and `nchar` to `LENGTH`.
 #'
-#' \code{c} and \code{:} keep their usual R behaviour so you can easily create
+#' `c()` and `:` keep their usual R behaviour so you can easily create
 #' vectors that are passed to sql.
 #'
 #' All other functions will be preserved as is. R's infix functions
-#' (e.g. \code{\%like\%}) will be converted to their sql equivalents
-#' (e.g. \code{LIKE}). You can use this to access SQL string concatenation:
-#' \code{||} is mapped to \code{OR}, but \code{\%||\%} is mapped to \code{||}.
+#' (e.g. \code{\%like\%}) will be converted to their SQL equivalents
+#' (e.g. `LIKE`). You can use this to access SQL string concatenation:
+#' `||` is mapped to `OR`, but \code{\%||\%} is mapped to `||`.
 #' To suppress this behaviour, and force errors immediately when dplyr doesn't
 #' know how to translate a function it encounters, using set the
-#' \code{dplyr.strict_sql} option to \code{TRUE}.
+#' `dplyr.strict_sql` option to `TRUE`.
 #'
-#' You can also use \code{sql} to insert a raw sql string.
+#' You can also use [sql()] to insert a raw sql string.
 #'
 #' @section SQLite translation:
 #' The SQLite variant currently only adds one additional function: a mapping
-#' from \code{sd} to the SQL aggregation function \code{stdev}.
+#' from `sd()` to the SQL aggregation function `STDEV`.
 #'
-#' @param ...,dots Expressions to translate. \code{sql_translate}
-#'   automatically quotes them for you.  \code{sql_translate_} expects
+#' @param ...,dots Expressions to translate. `sql_translate()`
+#'   automatically quotes them for you.  `sql_translate_()` expects
 #'   a list of already quoted objects.
 #' @param con An optional database connection to control the details of
-#'   the translation. The default, \code{NULL}, generates ANSI SQL.
+#'   the translation. The default, `NULL`, generates ANSI SQL.
 #' @param vars A character vector giving variable names in the remote
-#'   data source. If this is supplied, \code{translate_sql} will call
-#'   \code{\link{partial_eval}} to interpolate in the values from local
+#'   data source. If this is supplied, `translate_sql()` will call
+#'   [partial_eval()] to interpolate in the values from local
 #'   variables.
 #' @param vars_group,vars_order Grouping and ordering variables used for
 #'   windowed functions.
-#' @param window Use \code{FALSE} to suppress generation of the \code{OVER}
+#' @param window Use `FALSE` to suppress generation of the `OVER`
 #'   statement used for window functions. This is necessary when generating
 #'   SQL for a grouped summary.
 #' @export

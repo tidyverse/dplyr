@@ -1,11 +1,11 @@
 #' Create a "src" object
 #'
-#' \code{src} is the standard constructor for srcs and \code{is.src} tests.
+#' `src()` is the standard constructor for srcs and `is.src()` tests.
 #'
 #' @keywords internal
 #' @export
 #' @param subclass name of subclass. "src" is an abstract base class, so you
-#'   must supply this value. \code{src_} is automatically prepended to the
+#'   must supply this value. `src_` is automatically prepended to the
 #'   class name
 #' @param ... fields used by object
 #' @param x object to test for "src"-ness.

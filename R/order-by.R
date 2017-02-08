@@ -4,8 +4,8 @@
 #' R that don't have a specific ordering parameter. When translated to SQL
 #' it will modify the order clause of the OVER function.
 #'
-#' This function works by changing the \code{call} to instead call
-#' \code{\link{with_order}} with the appropriate arguments.
+#' This function works by changing the `call` to instead call
+#' [with_order()] with the appropriate arguments.
 #'
 #' @param order_by a vector to order_by
 #' @param call a function call to a window function, where the first argument
@@ -43,7 +43,7 @@ order_by <- function(order_by, call) {
 #'
 #' @param order_by vector to order by
 #' @param fun window function
-#' @param x,... arguments to \code{f}
+#' @param x,... arguments to `f`
 #' @keywords internal
 #' @export
 with_order <- function(order_by, fun, x, ...) {

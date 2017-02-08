@@ -1,13 +1,13 @@
 #' Efficiently bind multiple data frames by row and column.
 #'
 #' This is an efficient implementation of the common pattern of
-#' \code{do.call(rbind, dfs)} or \code{do.call(cbind, dfs)} for binding many
-#' data frames into one. \code{combine()} acts like \code{\link{c}()} or
-#' \code{\link{unlist}()} but uses consistent dplyr coercion rules.
+#' `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
+#' data frames into one. `combine()` acts like [c()] or
+#' [unlist()] but uses consistent dplyr coercion rules.
 #'
 #' @section Deprecated functions:
-#' \code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
-#' \code{bind_rows()}.
+#' `rbind_list()` and `rbind_all()` have been deprecated. Instead use
+#' `bind_rows()`.
 #'
 #' @param ... Data frames to combine.
 #'
@@ -16,18 +16,18 @@
 #'
 #'   When column-binding, rows are matched by position, not value so all data
 #'   frames must have the same number of rows. To match by value, not
-#'   position, see \code{left_join} etc. When row-binding, columns are
+#'   position, see [left_join()] etc. When row-binding, columns are
 #'   matched by name, and any values that don't match will be filled with NA.
 #' @param .id Data frames identifier.
 #'
-#'   When \code{.id} is supplied, a new column of identifiers is
+#'   When `.id` is supplied, a new column of identifiers is
 #'   created to link each row to its original data frame. The labels
-#'   are taken from the named arguments to \code{bind_rows()}. When a
+#'   are taken from the named arguments to `bind_rows()`. When a
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @return \code{bind_rows} and \code{bind_cols} return the same type as
-#'   the first input, either a data frame, \code{tbl_df}, or \code{grouped_df}.
+#' @return `bind_rows()` and `bind_cols()` return the same type as
+#'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @aliases rbind_all rbind_list
 #' @examples
 #' one <- mtcars[1:4, ]

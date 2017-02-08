@@ -1,14 +1,14 @@
 #' Find first non-missing element
 #'
-#' Given a set of vectors, \code{coalesce} finds the first non-missing value
-#' at each position. This is inspired by the SQL \code{COALESCE} function
-#' which does the same thing for \code{NULL}s.
+#' Given a set of vectors, `coalesce()` finds the first non-missing value
+#' at each position. This is inspired by the SQL `COALESCE` function
+#' which does the same thing for `NULL`s.
 #'
 #' @param x,... Vectors. All inputs should either be length 1, or the
-#'   same length as \code{x}
-#' @return A vector the same length as \code{x} with missing values replaced
+#'   same length as `x`
+#' @return A vector the same length as `x` with missing values replaced
 #'   by the first non-missing value.
-#' @seealso \code{\link{na_if}()} to replace specified values with a \code{NA}.
+#' @seealso [na_if()] to replace specified values with a `NA`.
 #' @export
 #' @examples
 #' # Use a single value to replace all missing values

@@ -1,13 +1,13 @@
 #' Convert values to NA.
 #'
-#' This is a translation of the SQL command \code{NULL_IF}. It is useful
-#' if you want to convert an annoying value to \code{NA}.
+#' This is a translation of the SQL command `NULL_IF`. It is useful
+#' if you want to convert an annoying value to `NA`.
 #'
 #' @param x Vector to modify
 #' @param y Value to replace with NA
-#' @return A modified version of \code{x} that replaces any values that
-#'   are equal to \code{y} with NA.
-#' @seealso \code{\link{coalesce}()} to replace missing values with a specified
+#' @return A modified version of `x` that replaces any values that
+#'   are equal to `y` with NA.
+#' @seealso [coalesce()] to replace missing values with a specified
 #'   value.
 #' @export
 #' @examples

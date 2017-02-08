@@ -1,7 +1,7 @@
 #' Compare two numeric vectors.
 #'
 #' This is a safe way of comparing if two vectors of floating point numbers
-#' are (pairwise) equal.  This is safer than using \code{==}, because it has
+#' are (pairwise) equal.  This is safer than using `==`, because it has
 #' a built in tolerance
 #'
 #' @param x,y Numeric vectors to compare

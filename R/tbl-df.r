@@ -1,6 +1,6 @@
 #' Create a data frame tbl.
 #'
-#' Forwards the argument to \code{\link[tibble]{as_data_frame}}, see
+#' Forwards the argument to [tibble::as_data_frame()], see
 #' \link{tibble-package} for more details.
 #'
 #' @export
@@ -131,7 +131,7 @@ summarise_.tbl_df <- function(.data, ..., .dots) {
 
 #' Join data frame tbls.
 #'
-#' See \code{\link{join}} for a description of the general purpose of the
+#' See [join] for a description of the general purpose of the
 #' functions.
 #'
 #' @inheritParams inner_join

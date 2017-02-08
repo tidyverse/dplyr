@@ -5,8 +5,8 @@
 #' in R from their computation in SQL. This API is very new so is likely
 #' to evolve in the future.
 #'
-#' \code{op_vars} and \code{op_grps} compute the variables and groups from
-#' a sequence of lazy operations. \code{op_sort} tracks the order of the
+#' `op_vars()` and `op_grps()` compute the variables and groups from
+#' a sequence of lazy operations. `op_sort()` tracks the order of the
 #' data for use in window functions.
 #'
 #' @keywords internal

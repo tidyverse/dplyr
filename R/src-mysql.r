@@ -1,7 +1,7 @@
 #' Connect to mysql/mariadb.
 #'
-#' Use \code{src_mysql} to connect to an existing mysql or mariadb database,
-#' and \code{tbl} to connect to tables within that database.
+#' Use `src_mysql()` to connect to an existing mysql or mariadb database,
+#' and `tbl()` to connect to tables within that database.
 #' If you are running a local mysqlql database, leave all parameters set as
 #' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
@@ -10,15 +10,15 @@
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password. Rather than supplying a
-#'   username and password here, it's better to save them in \code{my.cnf},
-#'   as described in \code{\link[RMySQL]{MySQL}}. In that case, supply
-#'   \code{NULL} to both \code{user} and \code{password}.
+#'   username and password here, it's better to save them in `my.cnf`,
+#'   as described in [RMySQL::MySQL()]. In that case, supply
+#'   `NULL` to both `user` and `password`.
 #' @param ... for the src, other arguments passed on to the underlying
-#'   database connector, \code{dbConnect}. For the tbl, included for
+#'   database connector, [DBI::dbConnect()]. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
-#' @param src a mysql src created with \code{src_mysql}.
+#' @param src a mysql src created with `src_mysql()`.
 #' @param from Either a string giving the name of table in database, or
-#'   \code{\link{sql}} described a derived table or compound join.
+#'   [sql()] described a derived table or compound join.
 #' @export
 #' @examples
 #' \dontrun{

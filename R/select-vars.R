@@ -1,10 +1,9 @@
 #' Select variables.
 #'
-#' These functions power \code{\link{select}()} and \code{\link{rename}()}.
+#' These functions power [select()] and [rename()].
 #'
 #' @param vars A character vector of existing column names.
-#' @param ...,args Expressions to compute. \code{select_vars} and
-#'   \code{rename_vars}
+#' @param ...,args Expressions to compute
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export

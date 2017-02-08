@@ -1,18 +1,18 @@
 #' Add a column counting or tallying observations within groups
 #'
-#' \code{add_tally} adds a column "n" to a table based on the number
-#' of items within each existing group, while \code{add_count} is a shortcut that
-#' does the grouping as well. These functions are to \code{\link{tally}}
-#' and \code{\link{count}} as \code{\link{mutate}} is to \code{\link{summarise}}:
+#' `add_tally()` adds a column "n" to a table based on the number
+#' of items within each existing group, while `add_count()` is a shortcut that
+#' does the grouping as well. These functions are to [tally()]
+#' and [count()] as [mutate()] is to [summarise()]:
 #' they add an additional column rather than collapsing each group.
 #'
-#' @param x a \code{tbl}.
+#' @param x a `tbl`.
 #' @param wt (Optional) If omitted, will count the number of rows. Otherwise,
 #' performs a weighted tally by summing the (non-missing) values of variable wt
 #' @param sort Whether to sort the result in descending order of n
 #' @param ...,vars Variables to group by.
 #'
-#' @details \code{add_count} counts within the current groups of the data when present,
+#' @details `add_count()` counts within the current groups of the data when present,
 #' and preserves those groups (it does not add the new ones).
 #'
 #' @examples

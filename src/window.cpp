@@ -2,12 +2,12 @@
 
 //' Cumulativate versions of any, all, and mean
 //'
-//' dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete
+//' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
 //' R's set of cumulate functions to match the aggregation functions available
 //' in most databases
 //'
-//' @param x For \code{cumall} & \code{cumany}, a logical vector; for
-//'   \code{cummean} an integer or numeric vector
+//' @param x For `cumall()` and `cumany()`, a logical vector; for
+//'   `cummean()` an integer or numeric vector
 //' @export
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
