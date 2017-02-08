@@ -98,7 +98,10 @@ add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
                         suffix = c(".x", ".y"),
                         auto_index = FALSE, ...) {
   by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+  y <- auto_copy(
+    x, y, copy,
+    indexes = if (auto_index) list(by$y)
+  )
 
   x$ops <- op_double("join", x, y, args = list(
     type = type,
@@ -111,7 +114,10 @@ add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
 add_op_semi_join <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
                              auto_index = FALSE, ...) {
   by <- common_by(by, x, y)
-  y <- auto_copy(x, y, copy, indexes = if (auto_index) list(by$y))
+  y <- auto_copy(
+    x, y, copy,
+    indexes = if (auto_index) list(by$y)
+  )
 
   x$ops <- op_double("semi_join", x, y, args = list(
     anti = anti,

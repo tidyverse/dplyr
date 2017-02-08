@@ -121,4 +121,3 @@ partial_eval2 <- function(call, vars = character(), env = parent.frame()) {
     stop("Unknown input type: ", class(call), call. = FALSE)
   }
 }
-

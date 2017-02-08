@@ -37,7 +37,8 @@ has_nycflights13 <- function(type = c("sqlite", "postgresql"), ...) {
 
   type <- match.arg(type)
 
-  succeeds(switch(type,
+  succeeds(switch(
+    type,
     sqlite = nycflights13_sqlite(...), quiet = TRUE,
     postgres = nycflights13_postgres(...), quiet = TRUE
   ))
@@ -61,12 +62,16 @@ copy_nycflights13 <- function(src, ...) {
   tables <- setdiff(all, src_tbls(src))
 
   # Create missing tables
-  for(table in tables) {
+  for (table in tables) {
     df <- getExportedValue("nycflights13", table)
     message("Creating table: ", table)
 
-    copy_to(src, df, table, unique_indexes = unique_index[[table]],
-            indexes = index[[table]], temporary = FALSE)
+    copy_to(
+      src, df, table,
+      unique_indexes = unique_index[[table]],
+      indexes = index[[table]],
+      temporary = FALSE
+    )
   }
   src
 }

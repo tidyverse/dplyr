@@ -38,7 +38,11 @@ select_query <- function(from,
 
 #' @export
 print.select_query <- function(x, ...) {
-  cat("<SQL SELECT", if (x$distinct) " DISTINCT", ">\n", sep = "")
+  cat(
+    "<SQL SELECT",
+    if (x$distinct) " DISTINCT", ">\n",
+    sep = ""
+  )
   cat("From:     ", x$from, "\n", sep = "")
 
   if (length(x$select))   cat("Select:   ", named_commas(x$select), "\n", sep = "")
@@ -92,7 +96,11 @@ semi_join_query <- function(x, y, anti = FALSE, by = NULL) {
 
 #' @export
 print.semi_join_query <- function(x, ...) {
-  cat("<SQL ", if (x$anti) "ANTI" else "SEMI", " JOIN>\n", sep = "")
+  cat(
+    "<SQL ",
+    if (x$anti) "ANTI" else "SEMI", " JOIN>\n",
+    sep = ""
+  )
   cat("By:   ", paste0(x$by$x, "-", x$by$y, collapse = ", "), "\n", sep = "")
 
   cat(named_rule("X"), "\n", sep = "")

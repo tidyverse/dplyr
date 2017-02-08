@@ -98,12 +98,23 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
   }
 
-  con <- dbConnect(RMySQL::MySQL(), dbname = dbname , host = host, port = port,
-    username = user, password = password, ...)
+  con <- dbConnect(
+    RMySQL::MySQL(),
+    dbname = dbname,
+    host = host,
+    port = port,
+    username = user,
+    password = password,
+    ...
+  )
   info <- dbGetInfo(con)
 
-  src_sql("mysql", con,
-    info = info, disco = db_disconnector(con, "mysql"))
+  src_sql(
+    "mysql",
+    con,
+    info = info,
+    disco = db_disconnector(con, "mysql")
+  )
 }
 
 #' @export
@@ -116,8 +127,11 @@ tbl.src_mysql <- function(src, from, ...) {
 src_desc.src_mysql <- function(x) {
   info <- x$info
 
-  paste0("mysql ", info$serverVersion, " [", info$user, "@",
-    info$host, ":", info$port, "/", info$dbname, "]")
+  paste0(
+    "mysql ", info$serverVersion, " [",
+    info$user, "@", info$host, ":", info$port, "/", info$dbname,
+    "]"
+  )
 }
 
 #' @export
@@ -154,7 +168,8 @@ db_data_type.MySQLConnection <- function(con, fields, ...) {
   }
 
   data_type <- function(x) {
-    switch(class(x)[1],
+    switch(
+      class(x)[1],
       logical = "boolean",
       integer = "integer",
       numeric = "double",
@@ -211,8 +226,11 @@ db_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)
   index <- build_sql(
-    "ADD ", if (unique) sql("UNIQUE "), "INDEX ", ident(name), " ", fields,
-    con = con)
+    "ADD ",
+    if (unique) sql("UNIQUE "),
+    "INDEX ", ident(name), " ", fields,
+    con = con
+  )
 
   sql <- build_sql("ALTER TABLE ", ident(table), "\n", index, con = con)
   dbGetQuery(con, sql)

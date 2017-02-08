@@ -12,15 +12,24 @@ over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
       partition <- ident(partition)
     }
 
-    partition <- build_sql("PARTITION BY ",
-      sql_vector(escape(partition, con = partition_con()), collapse = ", ", parens = FALSE))
+    partition <- build_sql(
+      "PARTITION BY ",
+      sql_vector(
+        escape(partition, con = partition_con()),
+        collapse = ", ",
+        parens = FALSE
+      )
+    )
   }
   if (!is.null(order)) {
     if (!is.sql(order)) {
       order <- ident(order)
     }
 
-    order <- build_sql("ORDER BY ", sql_vector(escape(order), collapse = ", ", parens = FALSE))
+    order <- build_sql(
+      "ORDER BY ",
+      sql_vector(escape(order), collapse = ", ", parens = FALSE)
+    )
   }
   if (!is.null(frame)) {
     if (is.null(order)) {
@@ -28,7 +37,7 @@ over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
         "Windowed expression '", expr, "' does not have explicit order.\n",
         "Please use arrange() to make determinstic.",
         call. = FALSE
-        )
+      )
     }
 
     if (is.numeric(frame)) frame <- rows(frame[1], frame[2])

@@ -102,12 +102,23 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
   user <- user %||% if (in_travis()) "postgres" else ""
 
-  con <- dbConnect(RPostgreSQL::PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
-    user = user, password = password %||% "", port = port %||% "", ...)
+  con <- dbConnect(
+    RPostgreSQL::PostgreSQL(),
+    host = host %||% "",
+    dbname = dbname %||% "",
+    user = user,
+    password = password %||% "",
+    port = port %||% "",
+    ...
+  )
   info <- dbGetInfo(con)
 
-  src_sql("postgres", con,
-    info = info, disco = db_disconnector(con, "postgres"))
+  src_sql(
+    "postgres",
+    con,
+    info = info,
+    disco = db_disconnector(con, "postgres")
+  )
 }
 
 #' @export
@@ -161,9 +172,11 @@ db_begin.PostgreSQLConnection <- function(con, ...) {
 db_explain.PostgreSQLConnection <- function(con, sql, format = "text", ...) {
   format <- match.arg(format, c("text", "json", "yaml", "xml"))
 
-  exsql <- build_sql("EXPLAIN ",
+  exsql <- build_sql(
+    "EXPLAIN ",
     if (!is.null(format)) build_sql("(FORMAT ", sql(format), ") "),
-    sql)
+    sql
+  )
   expl <- dbGetQuery(con, exsql)
 
   paste(expl[[1]], collapse = "\n")
@@ -187,8 +200,10 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
 
 #' @export
 db_query_fields.PostgreSQLConnection <- function(con, sql, ...) {
-  fields <- build_sql("SELECT * FROM ", sql_subquery(con, sql), " WHERE 0=1",
-    con = con)
+  fields <- build_sql(
+    "SELECT * FROM ", sql_subquery(con, sql), " WHERE 0=1",
+    con = con
+  )
 
   qry <- dbSendQuery(con, fields)
   on.exit(dbClearResult(qry))

@@ -5,7 +5,7 @@
     dplyr.show_progress = TRUE
   )
   toset <- !(names(op.dplyr) %in% names(op))
-  if(any(toset)) options(op.dplyr[toset])
+  if (any(toset)) options(op.dplyr[toset])
 
   invisible()
 }

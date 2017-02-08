@@ -46,17 +46,22 @@ case_when <- function(...) {
     f <- formulas[[i]]
     if (!inherits(f, "formula") || length(f) != 3) {
       non_formula_arg <- substitute(list(...))[[i + 1]]
-      stop("Case ", i , " (", deparse_trunc(non_formula_arg),
-           ") is not a two-sided formula", call. = FALSE)
+      stop(
+        "Case ", i, " (", deparse_trunc(non_formula_arg),
+        ") is not a two-sided formula",
+        call. = FALSE
+      )
     }
 
     env <- environment(f)
 
     query[[i]] <- eval(f[[2]], envir = env)
     if (!is.logical(query[[i]])) {
-      stop("LHS of case ", i, " (", deparse_trunc(f_lhs(f)),
-           ") is ", typeof(query[[i]]), ", not logical",
-        call. = FALSE)
+      stop(
+        "LHS of case ", i, " (", deparse_trunc(f_lhs(f)), ") is ",
+        typeof(query[[i]]), ", not logical",
+        call. = FALSE
+      )
     }
 
     value[[i]] <- eval(f[[3]], envir = env)

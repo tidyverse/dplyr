@@ -92,13 +92,13 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 # Verbs ------------------------------------------------------------------------
 
 #' @export
-arrange_.tbl_df  <- function(.data, ..., .dots) {
+arrange_.tbl_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   arrange_impl(.data, dots)
 }
 
 #' @export
-filter_.tbl_df    <- function(.data, ..., .dots) {
+filter_.tbl_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   if (any(has_names(dots))) {
     stop("filter() takes unnamed arguments. Do you need `==`?", call. = FALSE)
@@ -110,13 +110,13 @@ filter_.tbl_df    <- function(.data, ..., .dots) {
 }
 
 #' @export
-slice_.tbl_df  <- function(.data, ..., .dots) {
+slice_.tbl_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   slice_impl(.data, dots)
 }
 
 #' @export
-mutate_.tbl_df  <- function(.data, ..., .dots) {
+mutate_.tbl_df <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   mutate_impl(.data, dots)
 }

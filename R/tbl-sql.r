@@ -506,4 +506,3 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
     label_output_list(labels, out, groups(.data))
   }
 }
-

@@ -35,8 +35,7 @@ id <- function(.variables, drop = FALSE) {
   p <- length(ids)
 
   # Calculate dimensions
-  ndistinct <- vapply(ids, attr, "n", FUN.VALUE = numeric(1),
-    USE.NAMES = FALSE)
+  ndistinct <- vapply(ids, attr, "n", FUN.VALUE = numeric(1), USE.NAMES = FALSE)
   n <- prod(ndistinct)
   if (n > 2 ^ 31) {
     # Too big for integers, have to use strings, which will be much slower :(

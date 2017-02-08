@@ -65,16 +65,20 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL,
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
 
-  stop("Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE)
+  stop(
+    "Don't know how to sample from objects of class ", class(tbl)[1],
+    call. = FALSE
+  )
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
+                                .env = parent.frame()) {
 
-  stop("Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE)
+  stop(
+    "Don't know how to sample from objects of class ", class(tbl)[1],
+    call. = FALSE
+  )
 }
 
 # Helper functions -------------------------------------------------------------
@@ -98,6 +102,9 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  stop("Sample size (", size, ") greater than population size (", n, ").",
-    " Do you want replace = TRUE?", call. = FALSE)
+  stop(
+    "Sample size (", size, ") greater than population size (", n, ").",
+    " Do you want replace = TRUE?",
+    call. = FALSE
+  )
 }
