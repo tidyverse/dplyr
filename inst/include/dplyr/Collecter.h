@@ -409,7 +409,7 @@ namespace dplyr {
     }
 
     void collect_logicalNA(const SlicingIndex& index) {
-      for (int i=0; i<index.size();i++) {
+      for (int i=0; i<index.size(); i++) {
         data[ index[i] ] = NA_INTEGER;
       }
     }
