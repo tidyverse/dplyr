@@ -43,7 +43,7 @@ test_that("default value errors for complicated structures", {
 
 test_that("nth and order_by doesn't crash (#2166)", {
   skip("Currently failing")
-  data_frame(SBP = c(1, 1)) %>%
-    mutate(visit = 1) %>%
-    summarise(FIRST_SBP_DPLYR = first(SBP, order_by = visit))
+  data_frame(x = c(1, 1)) %>%
+    mutate(y = 1) %>%
+    summarise(z = first(x, order_by = y))
 })
