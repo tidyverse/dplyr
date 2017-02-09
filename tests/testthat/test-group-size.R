@@ -27,13 +27,13 @@ test_that("group_size correct for grouped data", {
 
 
 # For following tests, add an extra level that's not present in data
-df$x = factor(df$x, levels=1:4)
+df$x = factor(df$x, levels = 1:4)
 tbls <- test_load(df)
 
 test_that("n_groups drops zero-length groups", {
   for (tbl in tbls) {
     grp <- group_by(tbl, x)
-    expect_equal(n_groups(grp), 3, info=class(tbl)[1])
+    expect_equal(n_groups(grp), 3, info = class(tbl)[1])
   }
 })
 

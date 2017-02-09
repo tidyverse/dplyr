@@ -12,8 +12,8 @@ test_that("distinct equivalent to local unique when keep_all is TRUE", {
 })
 
 test_that("distinct for single column works as expected (#1937)", {
-  compare_tbls(tbls, function(x) x %>% distinct(x, .keep_all = FALSE), ref = df[1, "x", drop= FALSE])
-  compare_tbls(tbls, function(x) x %>% distinct(y, .keep_all = FALSE), ref = df[c(1, 3), "y", drop= FALSE])
+  compare_tbls(tbls, function(x) x %>% distinct(x, .keep_all = FALSE), ref = df[1, "x", drop = FALSE])
+  compare_tbls(tbls, function(x) x %>% distinct(y, .keep_all = FALSE), ref = df[c(1, 3), "y", drop = FALSE])
 })
 
 test_that("distinct throws error if column is specified and .keep_all is TRUE", {
@@ -25,7 +25,7 @@ test_that("distinct throws error if column is specified and .keep_all is TRUE", 
 test_that("distinct works for 0-sized columns (#1437)", {
   df <- data_frame(x = 1:10) %>% select(-x)
   ddf <- distinct(df, x)
-  expect_equal( ncol(ddf), 0L )
+  expect_equal(ncol(ddf), 0L)
 })
 
 test_that("if no variables specified, uses all", {

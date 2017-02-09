@@ -71,13 +71,13 @@ test_that("local group_by preserves variable types", {
   }
 })
 
-test_that("mutate does not loose variables (#144)",{
+test_that("mutate does not loose variables (#144)", {
   df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
   by_ab <- group_by(df, a, b)
-  by_a  <- summarise( by_ab, x = sum(x))
+  by_a  <- summarise(by_ab, x = sum(x))
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))
 
-  expect_equal(names(by_a_quartile), c("a", "b", "x", "quartile" ))
+  expect_equal(names(by_a_quartile), c("a", "b", "x", "quartile"))
 })
 
 test_that("group_by uses shallow copy", {
@@ -94,10 +94,10 @@ test_that("FactorVisitor handles NA. #183", {
 
 test_that("group_by orders by groups. #242", {
   df <- data.frame(a = sample(1:10, 100, replace = TRUE)) %>% group_by(a)
-  expect_equal( attr(df, "labels")$a, 1:10 )
+  expect_equal(attr(df, "labels")$a, 1:10)
 
   df <- data.frame(a = sample(letters[1:10], 100, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, letters[1:10] )
+  expect_equal(attr(df, "labels")$a, letters[1:10])
 
   df <- data.frame(a = sample(sqrt(1:10), 100, replace = TRUE)) %>% group_by(a)
   expect_equal(attr(df, "labels")$a, sqrt(1:10))
@@ -105,15 +105,15 @@ test_that("group_by orders by groups. #242", {
 })
 
 test_that("group_by uses the white list", {
-  df <- data.frame( times = 1:5 )
-  df$times <- as.POSIXlt( seq.Date( Sys.Date(), length.out = 5, by = "day" ) )
+  df <- data.frame(times = 1:5)
+  df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   expect_error(group_by(df, times))
 })
 
-test_that("group_by fails when lists are used as grouping variables (#276)",{
+test_that("group_by fails when lists are used as grouping variables (#276)", {
   df <- data.frame(x = 1:3)
   df$y <- list(1:2, 1:3, 1:4)
-  expect_error(group_by(df,y))
+  expect_error(group_by(df, y))
 })
 
 
@@ -122,11 +122,11 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   expect_equal(names(res), c("vs", "mpg"))
 })
 
-test_that("grouped_df errors on empty vars (#398)",{
+test_that("grouped_df errors on empty vars (#398)", {
   m <- mtcars %>% group_by(cyl)
   attr(m, "vars") <- NULL
   attr(m, "indices") <- NULL
-  expect_error( m %>% do(mpg = mean(.$mpg)) )
+  expect_error(m %>% do(mpg = mean(.$mpg)))
 })
 
 test_that("grouped_df errors on non-existent var (#2330)", {
@@ -135,11 +135,11 @@ test_that("grouped_df errors on non-existent var (#2330)", {
 })
 
 test_that("group_by only creates one group for NA (#401)", {
-  x <- as.numeric(c(NA,NA,NA,10:1,10:1))
-  w <- c(20,30,40,1:10,1:10)*10
+  x <- as.numeric(c(NA, NA, NA, 10:1, 10:1))
+  w <- c(20, 30, 40, 1:10, 1:10) * 10
 
   n_distinct(x) # 11 OK
-  res <- data.frame(x=x,w=w) %>% group_by(x) %>% summarise(n=n())
+  res <- data.frame(x = x, w = w) %>% group_by(x) %>% summarise(n = n())
   expect_equal(nrow(res), 11L)
 })
 
@@ -183,11 +183,11 @@ test_that("group_by works with zero-row data frames (#486)", {
 
 test_that("grouped_df requires a list of symbols (#665)", {
   features <- list("feat1", "feat2", "feat3")
-  expect_error( grouped_df(data.frame(feat1=1, feat2=2, feat3=3), features) )
+  expect_error(grouped_df(data.frame(feat1 = 1, feat2 = 2, feat3 = 3), features))
 })
 
-test_that("group_by gives meaningful message with unknow column (#716)",{
-  expect_error( group_by(iris, wrong_name_of_variable), "unknown variable to group by" )
+test_that("group_by gives meaningful message with unknow column (#716)", {
+  expect_error(group_by(iris, wrong_name_of_variable), "unknown variable to group by")
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -209,37 +209,37 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   expect_is(no_cyl, "tbl_df")
 })
 
-test_that("group_by works after arrange (#959)",{
-  df  <- data_frame(Log= c(1,2,1,2,1,2), Time = c(10,1,3,0,15,11))
+test_that("group_by works after arrange (#959)", {
+  df  <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
   res <- df %>%
     arrange(Time) %>%
     group_by(Log) %>%
     mutate(Diff = Time - lag(Time))
-  expect_true( all(is.na( res$Diff[ c(1,3) ] )))
-  expect_equal( res$Diff[ c(2,4,5,6) ], c(1,7,10,5) )
+  expect_true(all(is.na(res$Diff[c(1, 3)])))
+  expect_equal(res$Diff[c(2, 4, 5, 6)], c(1, 7, 10, 5))
 })
 
 test_that("group_by keeps attributes", {
-  d <- data.frame( x = structure( 1:10, foo = "bar" ) )
+  d <- data.frame(x = structure(1:10, foo = "bar"))
   gd <- group_by(d)
-  expect_equal( attr(gd$x, "foo"), "bar")
+  expect_equal(attr(gd$x, "foo"), "bar")
 })
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
   res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
-  expect_equal( res, c("tbl_df", "data.frame"))
+  expect_equal(res, c("tbl_df", "data.frame"))
 })
 
-test_that( "group_by supports column (#1012)", {
+test_that("group_by supports column (#1012)", {
   g1 <- mtcars %>% group_by(cyl)
   g2 <- mtcars %>% group_by(column(~cyl))
   g3 <- mtcars %>% group_by(column("cyl"))
   a <- "cyl"
   g4 <- mtcars %>% group_by(column(a))
 
-  expect_equal( attr(g1, "vars"), attr(g2, "vars"))
-  expect_equal( attr(g1, "vars"), attr(g3, "vars"))
-  expect_equal( attr(g1, "vars"), attr(g4, "vars"))
+  expect_equal(attr(g1, "vars"), attr(g2, "vars"))
+  expect_equal(attr(g1, "vars"), attr(g3, "vars"))
+  expect_equal(attr(g1, "vars"), attr(g4, "vars"))
 })
 
 for (special in lang_strings) {
@@ -252,8 +252,8 @@ for (special in lang_strings) {
         for (dots_converter in c(enc2native, enc2utf8)) {
           names(df) <- names_converter(c(special, "Eng"))
           res <- group_by_(df, .dots = dots_converter(special))
-          expect_equal( names(res), names(df) )
-          expect_equal( groups(res), list(as.name(enc2native(special))) )
+          expect_equal(names(res), names(df))
+          expect_equal(groups(res), list(as.name(enc2native(special))))
         }
       }
     })
@@ -262,11 +262,11 @@ for (special in lang_strings) {
 
 test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error( group_by(df, a), "unsupported type" )
-  expect_error( group_by(df, b), "unsupported type" )
+  expect_error(group_by(df, a), "unsupported type")
+  expect_error(group_by(df, b), "unsupported type")
 })
 
 test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error( rowwise(df), "unsupported type" )
+  expect_error(rowwise(df), "unsupported type")
 })

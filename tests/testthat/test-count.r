@@ -46,6 +46,5 @@ test_that("count_distinct gives correct results for key types", {
 })
 
 test_that("n_distinct treats NA correctly in the REALSXP case (#384)", {
-  expect_equal( n_distinct( c(1.0,NA,NA) ), 2 )
+  expect_equal(n_distinct(c(1.0, NA, NA)), 2)
 })
-
