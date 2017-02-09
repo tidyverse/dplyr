@@ -30,7 +30,7 @@ test_that("summarise peels off a single layer of grouping", {
     grouped <- group_by(tbls[[i]], x, y)
     summed <- summarise(grouped, n())
 
-    expect_equal(unname(groups(summed)), list(quote(x)), info = names(tbls)[i])
+    expect_groups(summed, "x", info = names(tbls)[i])
   }
 })
 

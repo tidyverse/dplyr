@@ -34,7 +34,7 @@ test_that("sample gives informative error for unknown type", {
 test_that("sampling grouped tbl samples each group", {
   sampled <- mtcars %>% group_by(cyl) %>% sample_n(2)
   expect_is(sampled, "grouped_df")
-  expect_equal(groups(sampled), list(quote(cyl)))
+  expect_groups(sampled, "cyl")
   expect_equal(nrow(sampled), 6)
   expect_equal(sampled$cyl, rep(c(4, 6, 8), each = 2))
 })

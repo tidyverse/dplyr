@@ -5,41 +5,40 @@ df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 tbls <- test_load(df)
 
 test_that("group_by with add = TRUE adds groups", {
-  add_groups1 <- function(tbl) groups(group_by(tbl, x, y, add = TRUE))
-  add_groups2 <- function(tbl) groups(group_by(group_by(tbl, x, add = TRUE), y,
-    add = TRUE))
+  add_groups1 <- function(tbl) group_by(tbl, x, y, add = TRUE)
+  add_groups2 <- function(tbl) group_by(group_by(tbl, x, add = TRUE), y, add = TRUE)
 
-  expect_equal(add_groups1(tbls$df), list(quote(x), quote(y)))
-  expect_equal(add_groups2(tbls$df), list(quote(x), quote(y)))
+  expect_groups(add_groups1(tbls$df), c("x", "y"))
+  expect_groups(add_groups2(tbls$df), c("x", "y"))
 
   skip_if_no_sqlite()
-  expect_equal(add_groups1(tbls$sqlite), list(quote(x), quote(y)))
-  expect_equal(add_groups2(tbls$sqlite), list(quote(x), quote(y)))
+  expect_groups(add_groups1(tbls$sqlite), c("x", "y"))
+  expect_groups(add_groups2(tbls$sqlite), c("x", "y"))
 })
 
 test_that("collect, collapse and compute preserve grouping", {
   skip_if_no_sqlite()
   g <- memdb_frame(x = 1:3, y = 1:3) %>% group_by(x, y)
 
-  expect_equal(groups(compute(g)), groups(g))
-  expect_equal(groups(collapse(g)), groups(g))
-  expect_equal(groups(collect(g)), groups(g))
+  expect_groups(compute(g), c("x", "y"))
+  expect_groups(collapse(g), c("x", "y"))
+  expect_groups(collect(g), c("x", "y"))
 })
 
 test_that("joins preserve grouping", {
   for (tbl in tbls) {
     g <- group_by(tbl, x)
 
-    expect_equal(groups(inner_join(g, g, by = c("x", "y"))), groups(g))
-    expect_equal(groups(left_join(g, g, by = c("x", "y"))), groups(g))
-    expect_equal(groups(semi_join(g, g, by = c("x", "y"))), groups(g))
-    expect_equal(groups(anti_join(g, g, by = c("x", "y"))), groups(g))
+    expect_groups(inner_join(g, g, by = c("x", "y")), "x")
+    expect_groups(left_join (g, g, by = c("x", "y")), "x")
+    expect_groups(semi_join (g, g, by = c("x", "y")), "x")
+    expect_groups(anti_join (g, g, by = c("x", "y")), "x")
   }
 })
 
 test_that("constructors drops groups", {
   df <- data.frame(x = 1:3) %>% group_by(x)
-  expect_equal(groups(tbl_df(df)), NULL)
+  expect_no_groups(tbl_df(df))
 })
 
 test_that("grouping by constant adds column (#410)", {
@@ -82,7 +81,7 @@ test_that("mutate does not loose variables (#144)", {
 
 test_that("group_by uses shallow copy", {
   m1 <- group_by(mtcars, cyl)
-  expect_true(is.null(groups(mtcars)))
+  expect_no_groups(mtcars)
 
   expect_equal(dfloc(mtcars), dfloc(m1))
 })
@@ -153,31 +152,31 @@ test_that("there can be 0 groups (#486)", {
 test_that("group_by works with zero-row data frames (#486)", {
   dfg <- group_by(data.frame(a = numeric(0), b = numeric(0), g = character(0)), g)
   expect_equal(dim(dfg), c(0, 3))
-  expect_equal(groups(dfg), list(quote(g)))
+  expect_groups(dfg, "g")
   expect_equal(group_size(dfg), integer(0))
 
   x <- summarise(dfg, n = n())
   expect_equal(dim(x), c(0, 2))
-  expect_equal(groups(x), NULL)
+  expect_no_groups(x)
 
   x <- mutate(dfg, c = b + 1)
   expect_equal(dim(x), c(0, 4))
-  expect_equal(groups(x), list(quote(g)))
+  expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
 
   x <- filter(dfg, a == 100)
   expect_equal(dim(x), c(0, 3))
-  expect_equal(groups(x), list(quote(g)))
+  expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
 
   x <- arrange(dfg, a, g)
   expect_equal(dim(x), c(0, 3))
-  expect_equal(groups(x), list(quote(g)))
+  expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
 
   x <- select(dfg, a)  # Only select 'a' column; should result in 'g' and 'a'
   expect_equal(dim(x), c(0, 2))
-  expect_equal(groups(x), list(quote(g)))
+  expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
 })
 
@@ -205,7 +204,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
   by_cyl <- mtcars %>% group_by(cyl)
   no_cyl <- by_cyl %>% `[`(c(1, 3))
 
-  expect_equal(groups(no_cyl), NULL)
+  expect_no_groups(no_cyl)
   expect_is(no_cyl, "tbl_df")
 })
 
@@ -253,7 +252,7 @@ for (special in lang_strings) {
           names(df) <- names_converter(c(special, "Eng"))
           res <- group_by_(df, .dots = dots_converter(special))
           expect_equal(names(res), names(df))
-          expect_equal(groups(res), list(as.name(enc2native(special))))
+          expect_groups(res, special)
         }
       }
     })
