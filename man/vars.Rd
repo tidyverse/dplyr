@@ -8,14 +8,14 @@ vars(...)
 }
 \arguments{
 \item{...}{Variables to include/exclude in mutate/summarise. You
-can use same specifications as in \code{\link{select}}. If
+can use same specifications as in \code{\link[=select]{select()}}. If
 missing, defaults to all non-grouping variables.}
 }
 \description{
-This helper has equivalent semantics to \code{\link{select}()}. Its
+This helper has equivalent semantics to \code{\link[=select]{select()}}. Its
 purpose is to provide \code{select()} semantics to the colwise
 summarising and mutating verbs.
 }
 \seealso{
-\code{\link{summarise_all}()}
+\code{\link[=summarise_all]{summarise_all()}}
 }

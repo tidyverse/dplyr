@@ -1,22 +1,22 @@
 #' Connect to a sqlite database.
 #'
-#' Use \code{src_sqlite} to connect to an existing sqlite database,
-#' and \code{tbl} to connect to tables within that database.
+#' Use `src_sqlite()` to connect to an existing sqlite database,
+#' and `tbl()` to connect to tables within that database.
 #' If you are running a local sqliteql database, leave all parameters set as
 #' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
-#' \code{\link{src_memdb}} is an easy way to use an in-memory SQLite database
+#' [src_memdb()] is an easy way to use an in-memory SQLite database
 #' that is scoped to the current session.
 #'
 #' @template db-info
 #' @param path Path to SQLite database
-#' @param create if \code{FALSE}, \code{path} must already exist. If
-#'   \code{TRUE}, will create a new SQlite3 database at \code{path} if
-#'   \code{path} does not exist and connect to the existing database if
-#'   \code{path} does exist.
-#' @param src a sqlite src created with \code{src_sqlite}.
+#' @param create if `FALSE`, `path` must already exist. If
+#'   `TRUE`, will create a new SQlite3 database at `path` if
+#'   `path` does not exist and connect to the existing database if
+#'   `path` does exist.
+#' @param src a sqlite src created with `src_sqlite()`.
 #' @param from Either a string giving the name of table in database, or
-#'   \code{\link{sql}} described a derived table or compound join.
+#'   [sql()] described a derived table or compound join.
 #' @param ... Included for compatibility with the generic, but otherwise
 #'   ignored.
 #' @export
@@ -108,10 +108,10 @@ src_sqlite <- function(path, create = FALSE) {
 
 #' Per-session in-memory SQLite databases.
 #'
-#' \code{src_memdb} lets you easily access a sessio-temporary in-memory
-#' SQLite database. \code{memdb_frame()} works like \code{\link{data_frame}},
+#' `src_memdb()` lets you easily access a session-temporary in-memory
+#' SQLite database. `memdb_frame()` works like [data_frame()],
 #' but instead of creating a new data frame in R, it creates a table in
-#' \code{src_memdb}
+#' `src_memdb()`
 #'
 #' @export
 #' @examples

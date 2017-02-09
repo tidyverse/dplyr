@@ -14,15 +14,15 @@ compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
 eval_tbls(tbls, op)
 }
 \arguments{
-\item{tbls}{A list of \code{\link{tbl}}s.}
+\item{tbls}{A list of \code{\link[=tbl]{tbl()}}s.}
 
 \item{op}{A function with a single argument, called often with each
 element of \code{tbls}.}
 
-\item{\dots}{For \code{compare_tbls}: additional parameters passed on the
-     \code{compare} function
+\item{\dots}{For \code{compare_tbls()}: additional parameters passed on the
+\code{compare()} function
 
-   For \code{bench_tbls}: additional benchmarks to run.}
+For \code{bench_tbls()}: additional benchmarks to run.}
 
 \item{times}{For benchmarking, the number of times each operation is
 repeated.}
@@ -34,13 +34,13 @@ supplied, defaults to the results from the first \code{src}.}
 \code{equal_data_frame} which ignores the order of rows and columns.}
 }
 \value{
-\code{eval_tbls}: a list of data frames.
+\code{eval_tbls()}: a list of data frames.
 
-  \code{compare_tbls}: an invisible \code{TRUE} on success, otherwise
-  an error is thrown.
+\code{compare_tbls()}: an invisible \code{TRUE} on success, otherwise
+an error is thrown.
 
-  \code{bench_tbls}: an object of class
-  \code{\link[microbenchmark]{microbenchmark}}
+\code{bench_tbls()}: an object of class
+\code{\link[microbenchmark:microbenchmark]{microbenchmark::microbenchmark()}}
 }
 \description{
 These functions support the comparison of results and timings across
@@ -79,5 +79,5 @@ bench_tbls(two_tables, op, times = 2)
 }
 }
 \seealso{
-\code{\link{src_local}} for working with local data
+\code{\link[=src_local]{src_local()}} for working with local data
 }

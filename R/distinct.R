@@ -1,14 +1,14 @@
 #' Select distinct/unique rows.
 #'
 #' Retain only unique/distinct rows from an input tbl. This is similar
-#' to \code{\link{unique.data.frame}}, but considerably faster.
+#' to [unique.data.frame()], but considerably faster.
 #'
 #' @param .data a tbl
 #' @param ... Optional variables to use when determining uniqueness. If there
 #'   are multiple rows for a given combination of inputs, only the first
 #'   row will be preserved. If omitted, will use all variables.
-#' @param .keep_all If \code{TRUE}, keep all variables in \code{.data}.
-#'   If a combination of \code{...} is not distinct, this keeps the
+#' @param .keep_all If `TRUE`, keep all variables in `.data`.
+#'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
 #' @inheritParams filter
 #' @export
@@ -72,10 +72,10 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
 
 #' Efficiently count the number of unique values in a set of vector
 #'
-#' This is a faster and more concise equivalent of \code{length(unique(x))}
+#' This is a faster and more concise equivalent of `length(unique(x))`
 #'
 #' @param \dots vectors of values
-#' @param na.rm id \code{TRUE} missing values don't count
+#' @param na.rm id `TRUE` missing values don't count
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
 #' length(unique(x))

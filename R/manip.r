@@ -2,11 +2,11 @@
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
-#' @param ... Logical predicates. Multiple conditions are combined with \code{&}.
+#'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
+#' @param ... Logical predicates. Multiple conditions are combined with `&`.
 #' @param .dots Used to work around non-standard evaluation. See
-#'   \code{vignette("nse")} for details.
-#' @return An object of the same class as \code{.data}.
+#'   `vignette("nse")` for details.
+#' @return An object of the same class as `.data`.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an
 #'   explicit variable.
@@ -35,11 +35,11 @@ filter_ <- function(.data, ..., .dots) {
 #'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
-#' operation, use \code{\link{filter}()} and \code{\link{row_number}()}.
+#' operation, use [filter()] and [row_number()].
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
+#'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
 #' @param ... Integer row values
 #' @inheritParams filter
 #' @export
@@ -76,10 +76,10 @@ slice_ <- function(.data, ..., .dots) {
 #'
 #' @export
 #' @inheritParams filter
-#' @param ... Name-value pairs of summary functions like \code{\link{min}()},
-#'   \code{\link{mean}()}, \code{\link{max}()} etc.
+#' @param ... Name-value pairs of summary functions like [min()],
+#'   [mean()], [max()] etc.
 #' @family single table verbs
-#' @return An object of the same class as \code{.data}. One grouping level will
+#' @return An object of the same class as `.data`. One grouping level will
 #'   be dropped.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an
@@ -128,10 +128,10 @@ summarize_ <- summarise_
 #'
 #' @export
 #' @inheritParams filter
-#' @param ... Name-value pairs of expressions. Use \code{NULL} to drop
+#' @param ... Name-value pairs of expressions. Use `NULL` to drop
 #'   a variable.
 #' @family single table verbs
-#' @return An object of the same class as \code{.data}.
+#' @return An object of the same class as `.data`.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an
 #'   explicit variable.
@@ -174,19 +174,19 @@ transmute_.default <- function(.data, ..., .dots) {
 
 #' Arrange rows by variables.
 #'
-#' Use \code{\link{desc}} to sort a variable in descending order. Generally,
+#' Use [desc()] to sort a variable in descending order. Generally,
 #' this will not also automatically order by grouping variables.
 #'
 #' @section Locales:
 #' The sort order for character vectors will depend on the collating sequence
-#' of the locale in use: see \code{\link{locales}}.
+#' of the locale in use: see [locales()].
 #'
 #' @export
 #' @inheritParams filter
 #' @param ... Comma separated list of unquoted variable names. Use
-#'   \code{\link{desc}} to sort a variable in descending order.
+#'   [desc()] to sort a variable in descending order.
 #' @family single table verbs
-#' @return An object of the same class as \code{.data}.
+#' @return An object of the same class as `.data`.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an
 #'   explicit variable.
@@ -205,25 +205,25 @@ arrange_ <- function(.data, ..., .dots) {
 
 #' Select/rename variables by name.
 #'
-#' \code{select()} keeps only the variables you mention; \code{rename()}
+#' `select()` keeps only the variables you mention; `rename()`
 #' keeps all variables.
 #'
 #' @section Special functions:
-#' As well as using existing functions like \code{:} and \code{c}, there are
-#' a number of special functions that only work inside \code{select}
+#' As well as using existing functions like `:` and `c()`, there are
+#' a number of special functions that only work inside `select`
 #'
 
 #'
-#' To drop variables, use \code{-}. You can rename variables with
+#' To drop variables, use `-`. You can rename variables with
 #' named arguments.
 #'
 #' @inheritParams filter
 #' @param ... Comma separated list of unquoted expressions. You can treat
 #'   variable names like they are positions. Use positive values to select
 #'   variables; use negative values to drop variables.
-#' @param .dots Use \code{select_()} to do standard evaluation. See
-#'   \code{vignette("nse")} for details
-#' @return An object of the same class as \code{.data}.
+#' @param .dots Use `select_()` to do standard evaluation. See
+#'   `vignette("nse")` for details
+#' @return An object of the same class as `.data`.
 #'
 #'   Data frame row names are silently dropped. To preserve, convert to an
 #'   explicit variable.
@@ -281,16 +281,16 @@ select_ <- function(.data, ..., .dots) {
 
 #' Select columns using a predicate
 #'
-#' This verb is analogous to \code{\link{summarise_if}()} and
-#' \code{\link{mutate_if}()} in that it lets you use a predicate on
+#' This verb is analogous to [summarise_if()] and
+#' [mutate_if()] in that it lets you use a predicate on
 #' the columns of a data frame. Only those columns for which the
-#' predicate returns \code{TRUE} will be selected.
+#' predicate returns `TRUE` will be selected.
 #'
 #' Predicates can only be used with local sources like a data frame.
 #'
 #' @inheritParams summarise_all
 #' @param .data A local tbl source.
-#' @param ... Additional arguments passed to \code{.predicate}.
+#' @param ... Additional arguments passed to `.predicate`.
 #' @export
 #' @examples
 #' iris %>% select_if(is.factor)
@@ -323,8 +323,8 @@ rename_ <- function(.data, ..., .dots) {
 #' The number of observations in the current group.
 #'
 #' This function is implemented specifically for each data source and can only
-#' be used from within \code{\link{summarise}}, \code{\link{mutate}} and
-#' \code{\link{filter}}.
+#' be used from within [summarise()], [mutate()] and
+#' [filter()].
 #'
 #' @export
 #' @examples

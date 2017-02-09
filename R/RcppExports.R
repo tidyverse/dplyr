@@ -40,7 +40,7 @@ arrange_impl <- function(data, dots) {
 
 #' Do values in a numeric vector fall in specified range?
 #'
-#' This is a shortcut for \code{x >= left & x <= right}, implemented
+#' This is a shortcut for `x >= left & x <= right`, implemented
 #' efficiently in C++ for local values, and translated to the
 #' appropriate SQL for remote tables.
 #'
@@ -188,12 +188,12 @@ shallow_copy <- function(data) {
 
 #' Cumulativate versions of any, all, and mean
 #'
-#' dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete
+#' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
 #' R's set of cumulate functions to match the aggregation functions available
 #' in most databases
 #'
-#' @param x For \code{cumall} & \code{cumany}, a logical vector; for
-#'   \code{cummean} an integer or numeric vector
+#' @param x For `cumall()` and `cumany()`, a logical vector; for
+#'   `cummean()` an integer or numeric vector
 #' @export
 cumall <- function(x) {
     .Call('dplyr_cumall', PACKAGE = 'dplyr', x)

@@ -3,7 +3,7 @@ using namespace Rcpp;
 
 //' Do values in a numeric vector fall in specified range?
 //'
-//' This is a shortcut for \code{x >= left & x <= right}, implemented
+//' This is a shortcut for `x >= left & x <= right`, implemented
 //' efficiently in C++ for local values, and translated to the
 //' appropriate SQL for remote tables.
 //'

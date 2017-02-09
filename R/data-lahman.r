@@ -1,4 +1,4 @@
-#' Cache and retrieve an \code{src_sqlite} of the Lahman baseball database.
+#' Cache and retrieve an `src_sqlite` of the Lahman baseball database.
 #'
 #' This creates an interesting database using data from the Lahman baseball
 #' data source, provided by Sean Lahman at
@@ -7,11 +7,11 @@
 #' Michael Friendly, Dennis Murphy and Martin Monkman. See the documentation
 #' for that package for documentation of the inidividual tables.
 #'
-#' @param ... Other arguments passed to \code{src} on first
+#' @param ... Other arguments passed to `src` on first
 #'   load. For mysql and postgresql, the defaults assume you have a local
-#'   server with \code{lahman} database already created.
-#'   For \code{lahman_srcs}, character vector of names giving srcs to generate.
-#' @param quiet if \code{TRUE}, suppress messages about databases failing to
+#'   server with `lahman` database already created.
+#'   For `lahman_srcs()`, character vector of names giving srcs to generate.
+#' @param quiet if `TRUE`, suppress messages about databases failing to
 #'   connect.
 #' @param type src type.
 #' @keywords internal

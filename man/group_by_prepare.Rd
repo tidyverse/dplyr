@@ -8,8 +8,8 @@ group_by_prepare(.data, ..., .dots, add = FALSE)
 }
 \value{
 A list
-  \item{data}{Modified tbl}
-  \item{groups}{Modified groups}
+\item{data}{Modified tbl}
+\item{groups}{Modified groups}
 }
 \description{
 Performs standard operations that should happen before individual methods

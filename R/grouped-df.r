@@ -1,13 +1,13 @@
 #' A grouped data frame.
 #'
-#' The easiest way to create a grouped data frame is to call the \code{group_by}
+#' The easiest way to create a grouped data frame is to call the `group_by()`
 #' method on a data frame or tbl: this will take care of capturing
 #' the unevalated expressions for you.
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars a list of quoted variables.
-#' @param drop if \code{TRUE} preserve all factor levels, even those without
+#' @param drop if `TRUE` preserve all factor levels, even those without
 #'   data.
 #' @export
 grouped_df <- function(data, vars, drop = TRUE) {

@@ -7,7 +7,7 @@
 #' Compared to data frames, they will occupy much less memory when variables
 #' are crossed, not nested.
 #'
-#' \code{tbl_cube} support is currently experimental and little performance
+#' `tbl_cube` support is currently experimental and little performance
 #' optimisation has been done, but you may find them useful if your data
 #' already comes in this form, or you struggle with the memory overhead of the
 #' sparse/crossed of data frames.  There is no support for hierarchical
@@ -19,21 +19,21 @@
 #' Manipulation functions:
 #'
 #' \itemize{
-#'   \item \code{select} (M)
+#'   \item `select()` (M)
 #'
-#'   \item \code{summarise} (M), corresponds to roll-up, but rather more
+#'   \item `summarise()` (M), corresponds to roll-up, but rather more
 #'     limited since there are no hierarchies.
 #'
-#'   \item \code{filter} (D), corresponds to slice/dice.
+#'   \item `filter()` (D), corresponds to slice/dice.
 #'
-#'   \item \code{mutate} (M) is not implemented, but should be relatively
-#'   straightforward given the implementation of \code{summarise}.
+#'   \item `mutate()` (M) is not implemented, but should be relatively
+#'   straightforward given the implementation of `summarise`.
 #'
-#'   \item \code{arrange} (D?) Not implemented: not obvious how much sense
+#'   \item `arrange()` (D?) Not implemented: not obvious how much sense
 #'     it would make
 #' }
 #'
-#' Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
+#' Joins: not implemented. See `vignettes/joins.graffle` for ideas.
 #' Probably straightforward if you get the indexes right, and that's probably
 #' some straightforward array/tensor operation.
 #'
@@ -41,7 +41,7 @@
 #' @param dimensions A named list of vectors. A dimension is a variable
 #'   whose values are known before the experiement is conducted; they are
 #'   fixed by design (in \pkg{reshape2} they are known as id variables).
-#'   \code{tbl_cubes} are dense which means that almost every combination of
+#'   `tbl_cubes` are dense which means that almost every combination of
 #'   the dimensions should have associated measurements: missing values require
 #'   an explicit NA, so if the variables are nested, not crossed, the
 #'   majority of the data structure will be empty. Dimensions are typically,
@@ -50,8 +50,8 @@
 #'   actually measured, and is not known in advance. The dimension of each
 #'   array should be the same as the length of the dimensions. Measures are
 #'   typically, but not always, continuous values.
-#' @seealso \code{\link{as.tbl_cube}} for ways of coercing existing data
-#'   structures into a \code{tbl_cube}.
+#' @seealso [as.tbl_cube()] for ways of coercing existing data
+#'   structures into a `tbl_cube`.
 #' @examples
 #' # The built in nasa dataset records meterological data (temperature,
 #' # cloud cover, ozone etc) for a 4d spatio-temporal dataset (lat, long,
@@ -150,11 +150,11 @@ print.tbl_cube <- function(x, ...) {
 
 # Coercion methods (from tbl_cube) ---------------------------------------------
 
-#' Coerce a \code{tbl_cube} to other data structures
+#' Coerce a `tbl_cube` to other data structures
 #'
 #' Supports conversion to tables, data frames, tibbles.
 #'
-#' @param x a \code{tbl_cube}
+#' @param x a `tbl_cube`
 #' @param ... Passed on to individual methods; otherwise ignored.
 #' @param measure A measure name or index, default: the first measure
 #' @name as.table.tbl_cube
@@ -182,7 +182,7 @@ as.data.frame.tbl_cube <- function(x, ...) {
 
 #' @rdname as.table.tbl_cube
 #' @description For a cube, the data frame returned by
-#'   \code{\link[tibble]{as_data_frame}} resulting data frame contains the
+#'   [tibble::as_data_frame()] resulting data frame contains the
 #'   dimensions as character values (and not as factors).
 #' @export
 as_data_frame.tbl_cube <- function(x, ...) {
@@ -191,7 +191,7 @@ as_data_frame.tbl_cube <- function(x, ...) {
 
 # Coercion methods -------------------------------------------------------------
 
-#' Coerce an existing data structure into a \code{tbl_cube}
+#' Coerce an existing data structure into a `tbl_cube`
 #'
 #' @param x an object to convert. Built in methods will convert arrays,
 #'   tables and data frames.
@@ -203,7 +203,7 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 #' @rdname as.tbl_cube
 #' @param dim_names names of the dimesions. Defaults to the names of
 #' @param met_name a string to use as the name for the measure
-#'   the \code{\link{dimnames}}.
+#'   the [dimnames()].
 as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)),
                               ...) {
   force(met_name)

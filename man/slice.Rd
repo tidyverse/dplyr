@@ -11,7 +11,7 @@ slice_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
 \item{...}{Integer row values}
 
@@ -21,7 +21,7 @@ for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}
 \description{
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
-operation, use \code{\link{filter}()} and \code{\link{row_number}()}.
+operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
 \examples{
 slice(mtcars, 1L)

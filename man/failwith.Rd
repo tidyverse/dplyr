@@ -32,6 +32,6 @@ safef(1)
 safef(2)
 }
 \seealso{
-\code{\link[plyr]{try_default}}
+\code{\link[plyr:try_default]{plyr::try_default()}}
 }
 \keyword{debugging}

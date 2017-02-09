@@ -17,7 +17,7 @@ transmute_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
 \item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
 a variable.}
@@ -28,8 +28,8 @@ a variable.}
 \value{
 An object of the same class as \code{.data}.
 
-  Data frame row names are silently dropped. To preserve, convert to an
-  explicit variable.
+Data frame row names are silently dropped. To preserve, convert to an
+explicit variable.
 }
 \description{
 Mutate adds new variables and preserves existing; transmute drops existing

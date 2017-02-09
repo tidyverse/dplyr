@@ -34,24 +34,24 @@
 \item{y}{tbls to join}
 
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
-  default, \code{join} will do a natural join, using all variables with
-  common names across the two tables. A message lists the variables so
-  that you can check they're right (to suppress the message, simply
-  explicitly list the variables that you want to join).
+default, \code{*_join()} will do a natural join, using all variables with
+common names across the two tables. A message lists the variables so
+that you can check they're right (to suppress the message, simply
+explicitly list the variables that you want to join).
 
-  To join by different variables on x and y use a named vector.
-  For example, \code{by = c("a" = "b")} will match \code{x.a} to
-  \code{y.b}.}
+To join by different variables on x and y use a named vector.
+For example, \code{by = c("a" = "b")} will match \code{x.a} to
+\code{y.b}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
-  and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
-  temporary table in same database as \code{x}. \code{join} will automatically
-  run \code{ANALYZE} on the created table in the hope that this will make
-  you queries as efficient as possible by giving more data to the query
-  planner.
+and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
+temporary table in same database as \code{x}. \code{*_join()} will automatically
+run \code{ANALYZE} on the created table in the hope that this will make
+you queries as efficient as possible by giving more data to the query
+planner.
 
-  This allows you to join tables across srcs, but it's potentially expensive
-  operation so you must opt into it.}
+This allows you to join tables across srcs, but it's potentially expensive
+operation so you must opt into it.}
 
 \item{suffix}{If there are non-joined duplicate variables in \code{x} and
 \code{y}, these suffixes will be added to the output to diambiguate them.}
@@ -63,7 +63,7 @@ there are matching indexes in \code{x}.}
 \item{...}{other parameters passed onto methods}
 }
 \description{
-See \code{\link{join}} for a description of the general purpose of the
+See \link{join} for a description of the general purpose of the
 functions.
 }
 \section{Implementation notes}{

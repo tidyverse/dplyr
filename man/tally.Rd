@@ -13,7 +13,7 @@ count(x, ..., wt = NULL, sort = FALSE)
 count_(x, vars, wt = NULL, sort = FALSE)
 }
 \arguments{
-\item{x}{a \code{\link{tbl}} to tally/count.}
+\item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
 
 \item{wt}{(Optional) If omitted, will count the number of rows. If specified,
 will perform a "weighted" tally by summing the (non-missing) values of
@@ -24,10 +24,10 @@ variable \code{wt}.}
 \item{..., vars}{Variables to group by.}
 }
 \description{
-\code{tally} is a convenient wrapper for summarise that will either call
-\code{\link{n}} or \code{\link{sum}(n)} depending on whether you're tallying
+\code{tally()} is a convenient wrapper for summarise that will either call
+\code{\link[=n]{n()}} or \code{\link{sum}(n)} depending on whether you're tallying
 for the first time, or re-tallying. \code{count()} is similar, but also
-does the \code{\link{group_by}} for you.
+does the \code{\link[=group_by]{group_by()}} for you.
 }
 \note{
 The column name in the returned data is \code{n}, however if the data already

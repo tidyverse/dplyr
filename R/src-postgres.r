@@ -1,7 +1,7 @@
 #' Connect to postgresql.
 #'
-#' Use \code{src_postgres} to connect to an existing postgresql database,
-#' and \code{tbl} to connect to tables within that database.
+#' Use `src_postgres()` to connect to an existing postgresql database,
+#' and `tbl()` to connect to tables within that database.
 #' If you are running a local postgresql database, leave all parameters set as
 #' their defaults to connect. If you're connecting to a remote database,
 #' ask your database administrator for the values of these variables.
@@ -11,11 +11,11 @@
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
 #' @param ... for the src, other arguments passed on to the underlying
-#'   database connector, \code{dbConnect}. For the tbl, included for
+#'   database connector, [DBI::dbConnect()]. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
-#' @param src a postgres src created with \code{src_postgres}.
+#' @param src a postgres src created with `src_postgres()`.
 #' @param from Either a string giving the name of table in database, or
-#'   \code{\link{sql}} described a derived table or compound join.
+#'   [sql()] described a derived table or compound join.
 #' @export
 #' @examples
 #' \dontrun{

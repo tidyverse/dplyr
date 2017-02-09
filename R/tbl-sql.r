@@ -94,29 +94,29 @@ tail.tbl_sql <- function(x, n = 6L, ...) {
 
 #' Join sql tbls.
 #'
-#' See \code{\link{join}} for a description of the general purpose of the
+#' See [join] for a description of the general purpose of the
 #' functions.
 #'
 #' @section Implementation notes:
 #'
-#' Semi-joins are implemented using \code{WHERE EXISTS}, and anti-joins with
-#' \code{WHERE NOT EXISTS}. Support for semi-joins is somewhat partial: you
-#' can only create semi joins where the \code{x} and \code{y} columns are
-#' compared with \code{=} not with more general operators.
+#' Semi-joins are implemented using `WHERE EXISTS`, and anti-joins with
+#' `WHERE NOT EXISTS`. Support for semi-joins is somewhat partial: you
+#' can only create semi joins where the `x` and `y` columns are
+#' compared with `=` not with more general operators.
 #'
 #' @inheritParams join
-#' @param copy If \code{x} and \code{y} are not from the same data source,
-#'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into a
-#'   temporary table in same database as \code{x}. \code{join} will automatically
-#'   run \code{ANALYZE} on the created table in the hope that this will make
+#' @param copy If `x` and `y` are not from the same data source,
+#'   and `copy` is `TRUE`, then `y` will be copied into a
+#'   temporary table in same database as `x`. `*_join()` will automatically
+#'   run `ANALYZE` on the created table in the hope that this will make
 #'   you queries as efficient as possible by giving more data to the query
 #'   planner.
 #'
 #'   This allows you to join tables across srcs, but it's potentially expensive
 #'   operation so you must opt into it.
-#' @param auto_index if \code{copy} is \code{TRUE}, automatically create
-#'   indices for the variables in \code{by}. This may speed up the join if
-#'   there are matching indexes in \code{x}.
+#' @param auto_index if `copy` is `TRUE`, automatically create
+#'   indices for the variables in `by`. This may speed up the join if
+#'   there are matching indexes in `x`.
 #' @examples
 #' \dontrun{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
@@ -298,7 +298,7 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' @export
 #' @param types a character vector giving variable types to use for the columns.
 #'    See \url{http://www.sqlite.org/datatype3.html} for available types.
-#' @param temporary if \code{TRUE}, will create a temporary table that is
+#' @param temporary if `TRUE`, will create a temporary table that is
 #'   local to this connection and will be automatically deleted when the
 #'   connection expires
 #' @param unique_indexes a list of character vectors. Each element of the list
@@ -306,10 +306,10 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #'   will result in failure.
 #' @param indexes a list of character vectors. Each element of the list
 #'   will create a new index.
-#' @param analyze if \code{TRUE} (the default), will automatically ANALYZE the
+#' @param analyze if `TRUE` (the default), will automatically ANALYZE the
 #'   new table so that the query optimiser has useful information.
 #' @inheritParams copy_to
-#' @return a sqlite \code{\link{tbl}} object
+#' @return a sqlite [tbl()] object
 #' @examples
 #' if (requireNamespace("RSQLite")) {
 #' db <- src_sqlite(tempfile(), create = TRUE)

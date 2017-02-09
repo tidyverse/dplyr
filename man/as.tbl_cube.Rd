@@ -31,7 +31,7 @@ tables and data frames.}
 \item{dim_names}{names of the dimesions. Defaults to the names of}
 
 \item{met_name}{a string to use as the name for the measure
-the \code{\link{dimnames}}.}
+the \code{\link[=dimnames]{dimnames()}}.}
 }
 \description{
 Coerce an existing data structure into a \code{tbl_cube}

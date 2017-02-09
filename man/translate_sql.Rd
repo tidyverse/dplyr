@@ -12,16 +12,16 @@ translate_sql_(dots, con = NULL, vars = character(), vars_group = NULL,
   vars_order = NULL, window = TRUE)
 }
 \arguments{
-\item{..., dots}{Expressions to translate. \code{sql_translate}
-automatically quotes them for you.  \code{sql_translate_} expects
+\item{..., dots}{Expressions to translate. \code{sql_translate()}
+automatically quotes them for you.  \code{sql_translate_()} expects
 a list of already quoted objects.}
 
 \item{con}{An optional database connection to control the details of
 the translation. The default, \code{NULL}, generates ANSI SQL.}
 
 \item{vars}{A character vector giving variable names in the remote
-data source. If this is supplied, \code{translate_sql} will call
-\code{\link{partial_eval}} to interpolate in the values from local
+data source. If this is supplied, \code{translate_sql()} will call
+\code{\link[=partial_eval]{partial_eval()}} to interpolate in the values from local
 variables.}
 
 \item{vars_group, vars_order}{Grouping and ordering variables used for
@@ -41,26 +41,26 @@ provides custom mappings for \code{!} (to NOT), \code{&&} and \code{&} to
 \code{AND}, \code{||} and \code{|} to \code{OR}, \code{^} to \code{POWER},
 \code{\%>\%} to \code{\%}, \code{ceiling} to \code{CEIL}, \code{mean} to
 \code{AVG}, \code{var} to \code{VARIANCE}, \code{tolower} to \code{LOWER},
-\code{toupper} to \code{UPPER} and \code{nchar} to \code{length}.
+\code{toupper} to \code{UPPER} and \code{nchar} to \code{LENGTH}.
 
-\code{c} and \code{:} keep their usual R behaviour so you can easily create
+\code{c()} and \code{:} keep their usual R behaviour so you can easily create
 vectors that are passed to sql.
 
 All other functions will be preserved as is. R's infix functions
-(e.g. \code{\%like\%}) will be converted to their sql equivalents
+(e.g. \code{\%like\%}) will be converted to their SQL equivalents
 (e.g. \code{LIKE}). You can use this to access SQL string concatenation:
 \code{||} is mapped to \code{OR}, but \code{\%||\%} is mapped to \code{||}.
 To suppress this behaviour, and force errors immediately when dplyr doesn't
 know how to translate a function it encounters, using set the
 \code{dplyr.strict_sql} option to \code{TRUE}.
 
-You can also use \code{sql} to insert a raw sql string.
+You can also use \code{\link[=sql]{sql()}} to insert a raw sql string.
 }
 
 \section{SQLite translation}{
 
 The SQLite variant currently only adds one additional function: a mapping
-from \code{sd} to the SQL aggregation function \code{stdev}.
+from \code{sd()} to the SQL aggregation function \code{STDEV}.
 }
 
 \examples{

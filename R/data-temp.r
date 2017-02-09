@@ -1,8 +1,8 @@
 #' Infrastructure for testing dplyr
 #'
-#' Register testing sources, then use \code{test_load} to load an existing
+#' Register testing sources, then use `test_load()` to load an existing
 #' data frame into each source. To create a new table in each source,
-#' use \code{test_frame}.
+#' use `test_frame()`.
 #'
 #' @keywords internal
 #' @examples

@@ -11,10 +11,10 @@ arrange_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
 \item{...}{Comma separated list of unquoted variable names. Use
-\code{\link{desc}} to sort a variable in descending order.}
+\code{\link[=desc]{desc()}} to sort a variable in descending order.}
 
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
@@ -22,17 +22,17 @@ for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}
 \value{
 An object of the same class as \code{.data}.
 
-  Data frame row names are silently dropped. To preserve, convert to an
-  explicit variable.
+Data frame row names are silently dropped. To preserve, convert to an
+explicit variable.
 }
 \description{
-Use \code{\link{desc}} to sort a variable in descending order. Generally,
+Use \code{\link[=desc]{desc()}} to sort a variable in descending order. Generally,
 this will not also automatically order by grouping variables.
 }
 \section{Locales}{
 
 The sort order for character vectors will depend on the collating sequence
-of the locale in use: see \code{\link{locales}}.
+of the locale in use: see \code{\link[=locales]{locales()}}.
 }
 
 \examples{

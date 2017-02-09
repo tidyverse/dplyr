@@ -1,7 +1,7 @@
 #' Describing dimensions
 #'
 #' Prints the dimensions of an array-like object in a user-friendly manner,
-#' substituting \code{NA} with ?? (for SQL queries).
+#' substituting `NA` with ?? (for SQL queries).
 #'
 #' @param x Object to show dimensions for.
 #' @export

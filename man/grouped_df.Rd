@@ -28,15 +28,15 @@ data.}
 \description{
 Functions that convert the input to a \code{data_frame}.
 
-The easiest way to create a grouped data frame is to call the \code{group_by}
+The easiest way to create a grouped data frame is to call the \code{group_by()}
 method on a data frame or tbl: this will take care of capturing
 the unevalated expressions for you.
 }
 \details{
-For a grouped data frame, the \code{\link[tibble]{as_data_frame}}
+For a grouped data frame, the \code{\link[tibble:as_data_frame]{tibble::as_data_frame()}}
 S3 generic simply removes the grouping.
 }
 \seealso{
-\code{\link[tibble]{as_data_frame}}
+\code{\link[tibble:as_data_frame]{tibble::as_data_frame()}}
 }
 \keyword{internal}

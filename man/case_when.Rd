@@ -8,17 +8,17 @@ case_when(...)
 }
 \arguments{
 \item{...}{A sequence of two-sided formulas. The left hand side (LHS)
-  determines which values match this case. The right hand side (RHS)
-  provides the replacement value.
+determines which values match this case. The right hand side (RHS)
+provides the replacement value.
 
-  The LHS must evaluate to a logical vector. Each logical vector can
-  either have length 1 or a common length. All RHSs must evaluate to
-  the same type of vector.}
+The LHS must evaluate to a logical vector. Each logical vector can
+either have length 1 or a common length. All RHSs must evaluate to
+the same type of vector.}
 }
 \value{
 A vector as long as the longest LHS, with the type (and
-  attributes) of the first RHS.  Inconsistent lengths of types will
-  generate an error.
+attributes) of the first RHS.  Inconsistent lengths of types will
+generate an error.
 }
 \description{
 This function allows you to vectorise multiple \code{if} and \code{else if}

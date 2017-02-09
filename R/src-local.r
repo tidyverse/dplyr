@@ -3,10 +3,10 @@
 #' This is mainly useful for testing, since makes it possible to refer to
 #' local and remote tables using exactly the same syntax.
 #'
-#' Generally, \code{src_local} should not be called directly, but instead
+#' Generally, `src_local()` should not be called directly, but instead
 #' one of the constructors should be used.
 #'
-#' @param tbl name of the function used to generate \code{tbl} objects
+#' @param tbl name of the function used to generate `tbl` objects
 #' @param pkg,env Either the name of a package or an environment object in
 #'   which to look for objects.
 #' @keywords internal

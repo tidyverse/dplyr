@@ -17,7 +17,7 @@ rename_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
 \item{...}{Comma separated list of unquoted expressions. You can treat
 variable names like they are positions. Use positive values to select
@@ -29,8 +29,8 @@ variables; use negative values to drop variables.}
 \value{
 An object of the same class as \code{.data}.
 
-  Data frame row names are silently dropped. To preserve, convert to an
-  explicit variable.
+Data frame row names are silently dropped. To preserve, convert to an
+explicit variable.
 }
 \description{
 \code{select()} keeps only the variables you mention; \code{rename()}
@@ -38,9 +38,8 @@ keeps all variables.
 }
 \section{Special functions}{
 
-As well as using existing functions like \code{:} and \code{c}, there are
+As well as using existing functions like \code{:} and \code{c()}, there are
 a number of special functions that only work inside \code{select}
-
 
 To drop variables, use \code{-}. You can rename variables with
 named arguments.

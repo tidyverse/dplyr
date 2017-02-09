@@ -10,16 +10,16 @@ con_acquire(src)
 con_release(src, con)
 }
 \arguments{
-\item{src}{A src object (most commonly, from \code{src_sql})}
+\item{src}{A src object (most commonly, from \code{src_sql()})}
 
 \item{con}{A connection}
 }
 \value{
-For \code{con_acquire}, a connection object; for \code{con_release},
-  nothing.
+For \code{con_acquire()}, a connection object; for \code{con_release()},
+nothing.
 }
 \description{
-\code{con_acquire} gets a connection from a src object; \code{con_release}
+\code{con_acquire()} gets a connection from a src object; \code{con_release()}
 returns a previously acquired connection back to its src object. Intended for
 internal use.
 }

@@ -1,15 +1,15 @@
 #' Create a list of functions calls.
 #'
-#' \code{funs} provides a flexible way to generate a named list of functions for
-#' input to other functions like \code{summarise_each}.
+#' `funs()` provides a flexible way to generate a named list of functions for
+#' input to other functions like [summarise_each()].
 #'
 #' @param dots,... A list of functions specified by:
 #'
 #'   \itemize{
-#'     \item Their name, \code{"mean"}
-#'     \item The function itself, \code{mean}
-#'     \item A call to the function with \code{.} as a dummy parameter,
-#'       \code{mean(., na.rm = TRUE)}
+#'     \item Their name, `"mean"`
+#'     \item The function itself, `mean`
+#'     \item A call to the function with `.` as a dummy argument,
+#'       `mean(., na.rm = TRUE)`
 #'   }
 #' @param args A named list of additional arguments to be added to all
 #'   function calls.

@@ -1,6 +1,6 @@
 #' Database versions of the nycflights13 data
 #'
-#' These functions cache the data from the \code{nycflights13} database in
+#' These functions cache the data from the `nycflights13` database in
 #' a local database, for use in examples and vignettes. Indexes are created
 #' to making joining tables on natural keys efficient.
 #'
@@ -22,7 +22,7 @@ nycflights13_sqlite <- function(path = NULL) {
 
 #' @export
 #' @rdname nycflights13
-#' @param dbname,... Arguments passed on to \code{\link{src_postgres}}
+#' @param dbname,... Arguments passed on to [src_postgres()]
 nycflights13_postgres <- function(dbname = "nycflights13", ...) {
   cache_computation("nycflights_postgres", {
     message("Caching nycflights db in postgresql db ", dbname)

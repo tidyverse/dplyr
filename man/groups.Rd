@@ -10,13 +10,13 @@ groups(x)
 ungroup(x, ...)
 }
 \arguments{
-\item{x}{data \code{\link{tbl}}}
+\item{x}{data \code{\link[=tbl]{tbl()}}}
 
 \item{...}{Additional arguments that maybe used by methods.}
 }
 \description{
 These functions do not perform non-standard evaluation, and so are useful
-when programming against \code{tbl} objects. \code{ungroup} is a convenient
+when programming against \code{tbl} objects. \code{ungroup()} is a convenient
 inline way of removing existing grouping.
 }
 \examples{
