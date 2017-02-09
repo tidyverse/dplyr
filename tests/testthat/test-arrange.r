@@ -96,7 +96,7 @@ test_that("arrange handles complex vectors", {
   expect_equal(res$y, d$y)
   expect_equal(res$x, d$x)
 
-  d$y[ c(3, 6) ] <- NA
+  d$y[c(3, 6)] <- NA
   res <- arrange(d, y)
   expect_true(all(is.na(res$y[9:10])))
 
@@ -134,13 +134,13 @@ test_that("arrange respects locale (#1280)", {
 })
 
 test_that("duplicated column name is explicit about which column (#996)", {
-    df <- data.frame(x = 1:10, x = 1:10)
-    names(df) <- c("x", "x")
-    expect_error(df %>% arrange, "found duplicated column name: x|unique name.*'x'")
+  df <- data.frame(x = 1:10, x = 1:10)
+  names(df) <- c("x", "x")
+  expect_error(df %>% arrange, "found duplicated column name: x|unique name.*'x'")
 
-    df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
-    names(df) <- c("x", "x", "y", "y")
-    expect_error(df %>% arrange, "found duplicated column name: x, y|unique name.*'x', 'y'")
+  df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
+  names(df) <- c("x", "x", "y", "y")
+  expect_error(df %>% arrange, "found duplicated column name: x, y|unique name.*'x', 'y'")
 })
 
 test_that("arrange fails gracefully on list columns (#1489)", {

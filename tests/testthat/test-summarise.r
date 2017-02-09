@@ -70,9 +70,9 @@ test_that("summarise handles constants (#153)", {
 
   res <- summarise(tbl_df(df), int = 1L, num = 1.0,
     str = "foo", bool = TRUE, date = today, time = now)
-  expect_equal(res$int, 1L)
-  expect_equal(res$num, 1.0)
-  expect_equal(res$str, "foo")
+  expect_equal(res$int,  1L)
+  expect_equal(res$num,  1.0)
+  expect_equal(res$str,  "foo")
   expect_equal(res$bool, TRUE)
   expect_equal(res$date, today)
   expect_equal(res$time, now)
@@ -200,7 +200,7 @@ test_that("summarise creates an empty data frame when no parameters are used", {
 
 test_that("integer overflow (#304)", {
   groups <- rep(c("A", "B"), each = 3)
-  values <- rep(1e9,  6)
+  values <- rep(1e9, 6)
   dat <- data.frame(groups,
                 X1 = as.integer(values),
                 X2 = values)
@@ -264,7 +264,7 @@ test_that("na.rm is supported (#168)", {
     summarise(
       mean_x = mean(x, na.rm = TRUE), mean_z = mean(z, na.rm = TRUE),
       min_x = min(x, na.rm = TRUE), min_z = min(z, na.rm = TRUE)
-      )
+    )
   expect_equal(res$mean_x[1], 3)
   expect_equal(res$mean_x[2], 8.5)
   expect_equal(res$mean_z[1], mean(df$z[1:5]))
@@ -314,7 +314,7 @@ test_that("nth, first, last promote dates and times (#509)", {
 })
 
 test_that("nth, first, last preserves factor data (#509)", {
-  dat  <- data_frame(a = rep(seq(1, 20, 2), 3), b = as.ordered(a))
+  dat <- data_frame(a = rep(seq(1, 20, 2), 3), b = as.ordered(a))
   dat1 <- dat %>% group_by(a) %>% summarise(der = nth(b, 2), first = first(b), last = last(b))
   expect_is(dat1$der, "ordered")
   expect_is(dat1$first, "ordered")
@@ -476,7 +476,7 @@ test_that("hybrid evaluation does not take place for objects with a class (#1237
 
   env <- environment()
   Foo <- suppressWarnings(setClass("Foo", contains = "numeric", where = env))
-  suppressMessages(setMethod("mean", "Foo", function(x, ...) 42 , where = env))
+  suppressMessages(setMethod("mean", "Foo", function(x, ...) 42, where = env))
   on.exit(removeClass("Foo", where = env))
 
   df <- data.frame(x = Foo(c(1, 2, 3)))
@@ -596,7 +596,7 @@ test_that("lead and lag behave correctly in summarise (#1434)", {
 
 # .data and .env tests now in test-hybrid-traverse.R
 
-test_that("data.frame columns are supported in summarise (#1425)" , {
+test_that("data.frame columns are supported in summarise (#1425)", {
   df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
   df$x3 <- df %>% mutate(x3 = x2)
   res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))

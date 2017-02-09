@@ -215,8 +215,8 @@ test_that("group_by works after arrange (#959)", {
     arrange(Time) %>%
     group_by(Log) %>%
     mutate(Diff = Time - lag(Time))
-  expect_true(all(is.na(res$Diff[ c(1, 3) ])))
-  expect_equal(res$Diff[ c(2, 4, 5, 6) ], c(1, 7, 10, 5))
+  expect_true(all(is.na(res$Diff[c(1, 3)])))
+  expect_equal(res$Diff[c(2, 4, 5, 6)], c(1, 7, 10, 5))
 })
 
 test_that("group_by keeps attributes", {

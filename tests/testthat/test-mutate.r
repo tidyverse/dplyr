@@ -48,7 +48,7 @@ test_that("mutate can rename variables (#137)", {
   res <- mutate(tbl_df(mtcars), cyl2 = cyl)
   expect_equal(res$cyl2, mtcars$cyl)
 
-  res <- mutate(group_by(tbl_df(mtcars), am) , cyl2 = cyl)
+  res <- mutate(group_by(tbl_df(mtcars), am), cyl2 = cyl)
   expect_equal(res$cyl2, res$cyl)
 })
 
@@ -115,8 +115,8 @@ test_that("mutate handles out of data variables", {
   expect_equal(res$str , rep(str , 2))
   expect_equal(res$num , rep(num , 2))
   expect_equal(res$bool, rep(bool, 2))
-  expect_equal(res$dat, rep(dat, 2))
-  expect_equal(res$tim, rep(tim, 2))
+  expect_equal(res$dat , rep(dat , 2))
+  expect_equal(res$tim , rep(tim , 2))
 
   int <- 1:6
   expect_error(mutate(gdf, int = int))
@@ -196,7 +196,7 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
 
 test_that("assignments don't overwrite variables (#315)", {
    expect_equal(
-     mutate(mtcars, cyl2 = { mpg <- cyl ^ 2; - mpg }),
+     mutate(mtcars, cyl2 = { mpg <- cyl ^ 2; -mpg }),
      mutate(mtcars, cyl2 = -cyl ^ 2)
    )
 })
@@ -302,7 +302,7 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  df  <- data_frame(a = "1", b = "2")
+  df <- data_frame(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
   res <- df %>% mutate_each(funs(as.numeric)) %>% names
@@ -402,12 +402,12 @@ test_that("mutate.rowwise handles factors (#886)", {
 })
 
 test_that("setting first column to NULL with mutate works (#1329)", {
-    df <- data.frame(x = 1:10, y = 1:10)
-    expect_equal(mutate(df, x = NULL), select(df, -x))
-    expect_equal(mutate(df, y = NULL), select(df, -y))
+  df <- data.frame(x = 1:10, y = 1:10)
+  expect_equal(mutate(df, x = NULL), select(df, -x))
+  expect_equal(mutate(df, y = NULL), select(df, -y))
 
-    gdf <- group_by(df, y)
-    expect_equal(select(gdf, -x), mutate(gdf, x = NULL))
+  gdf <- group_by(df, y)
+  expect_equal(select(gdf, -x), mutate(gdf, x = NULL))
 })
 
 test_that("mutate handles the all NA case (#958)", {
@@ -453,7 +453,7 @@ test_that("rowwise mutate handles the NA special case (#1448)", {
     mutate(l = ifelse(k > 0, 1, NA))
   expect_is(res$l, "numeric")
   expect_true(is.na(res$l[1]))
-  expect_true(!anyNA(res$l[ - 1]))
+  expect_true(!anyNA(res$l[-1]))
 
   res <- data.frame(k = rnorm(10)) %>%
     rowwise() %>%

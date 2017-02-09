@@ -83,7 +83,7 @@ test_that("cum(sum,min,max) works", {
   expect_equal(res$cmaxx, cummax(df$x))
   expect_equal(res$cmaxy, cummax(df$y))
 
-  res <- mutate(group_by(df, g) ,
+  res <- mutate(group_by(df, g),
     csumx = cumsum(x), csumy = cumsum(y),
     cminx = cummin(x), cminy = cummin(y),
     cmaxx = cummax(x), cmaxy = cummax(y)
@@ -117,13 +117,13 @@ test_that("lead and lag simple hybrid version gives correct results (#133)", {
   res <- group_by(mtcars, cyl) %>%
     mutate(disp_lag_2 = lag(disp, 2), disp_lead_2 = lead(disp, 2)) %>%
     summarise(
-        lag1  = all(is.na(head(disp_lag_2, 2))),
-        lag2  = all(!is.na(tail(disp_lag_2, -2))),
+      lag1 = all(is.na(head(disp_lag_2, 2))),
+      lag2 = all(!is.na(tail(disp_lag_2, -2))),
 
-        lead1 = all(is.na(tail(disp_lead_2, 2))),
-        lead2 = all(!is.na(head(disp_lead_2, -2)))
-
+      lead1 = all(is.na(tail(disp_lead_2, 2))),
+      lead2 = all(!is.na(head(disp_lead_2, -2)))
     )
+
   expect_true(all(res$lag1))
   expect_true(all(res$lag2))
 

@@ -260,7 +260,7 @@ test_that("left_join by different variable names (#617)", {
   expect_equal(res$y2, c("foo", "bar", "foo"))
 })
 
-test_that("joins support comple vectors" , {
+test_that("joins support comple vectors", {
   a <- data.frame(x = c(1, 1, 2, 3) * 1i, y = 1:4)
   b <- data.frame(x = c(1, 2, 2, 4) * 1i, z = 1:4)
   j <- inner_join(a, b, "x")
@@ -270,7 +270,7 @@ test_that("joins support comple vectors" , {
   expect_equal(j$z, c(1, 1, 2, 3))
 })
 
-test_that("joins suffix variable names (#655)" , {
+test_that("joins suffix variable names (#655)", {
   a <- data.frame(x = 1:10, y = 2:11)
   b <- data.frame(z = 5:14, x = 3:12) # x from this gets suffixed by .y
   res <- left_join(a, b, by = c("x" = "z"))
@@ -618,7 +618,7 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
   names(df1)[1] <- "l\u00f8penummer"
 
   df2 <- tibble::data_frame(x = 1:6, baz = 1:6)
-  names(df2)[1] <- iconv("l\u00f8penummer", from = "UTF-8", to  = "latin1")
+  names(df2)[1] <- iconv("l\u00f8penummer", from = "UTF-8", to = "latin1")
 
   expect_message(res <- left_join(df1, df2))
   expect_equal(names(res), c("l\u00f8penummer", "foo", "baz"))
@@ -629,29 +629,29 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
 })
 
 test_that("can handle empty string in suffix argument, left side (#2228, #2182, #2007)", {
-   skip("not yet resolved, would cause stack overflow")
+  skip("not yet resolved, would cause stack overflow")
 
-   j1 <- inner_join(e, f, "x", suffix = c("", "2"))
-   j2 <- left_join(e, f, "x", suffix = c("", "2"))
-   j3 <- right_join(e, f, "x", suffix = c("", "2"))
-   j4 <- full_join(e, f, "x", suffix = c("", "2"))
+  j1 <- inner_join(e, f, "x", suffix = c("", "2"))
+  j2 <- left_join(e, f, "x", suffix = c("", "2"))
+  j3 <- right_join(e, f, "x", suffix = c("", "2"))
+  j4 <- full_join(e, f, "x", suffix = c("", "2"))
 
-   expect_named(j1, c("x", "z", "z2"))
-   expect_named(j2, c("x", "z", "z2"))
-   expect_named(j3, c("x", "z", "z2"))
-   expect_named(j4, c("x", "z", "z2"))
+  expect_named(j1, c("x", "z", "z2"))
+  expect_named(j2, c("x", "z", "z2"))
+  expect_named(j3, c("x", "z", "z2"))
+  expect_named(j4, c("x", "z", "z2"))
 })
 
 test_that("can handle empty string in suffix argument, right side (#2228, #2182, #2007)", {
-   skip("not yet resolved, would cause stack overflow")
+  skip("not yet resolved, would cause stack overflow")
 
-   j1 <- inner_join(e, f, "x", suffix = c("1", ""))
-   j2 <- left_join(e, f, "x", suffix = c("1", ""))
-   j3 <- right_join(e, f, "x", suffix = c("1", ""))
-   j4 <- full_join(e, f, "x", suffix = c("1", ""))
+  j1 <- inner_join(e, f, "x", suffix = c("1", ""))
+  j2 <- left_join(e, f, "x", suffix = c("1", ""))
+  j3 <- right_join(e, f, "x", suffix = c("1", ""))
+  j4 <- full_join(e, f, "x", suffix = c("1", ""))
 
-   expect_named(j1, c("x", "z1", "z"))
-   expect_named(j2, c("x", "z1", "z"))
-   expect_named(j3, c("x", "z1", "z"))
-   expect_named(j4, c("x", "z1", "z"))
+  expect_named(j1, c("x", "z1", "z"))
+  expect_named(j2, c("x", "z1", "z"))
+  expect_named(j3, c("x", "z1", "z"))
+  expect_named(j4, c("x", "z1", "z"))
 })

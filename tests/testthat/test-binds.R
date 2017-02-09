@@ -141,8 +141,8 @@ test_that("bind_rows does not coerce logical to integer", {
 })
 
 test_that("bind_rows promotes factor to character with warning", {
-  df1  <- data_frame(a = factor("a"))
-  df2  <- data_frame(a = "b")
+  df1 <- data_frame(a = factor("a"))
+  df2 <- data_frame(a = "b")
 
   expect_warning(res <- bind_rows(df1, df2),
     "binding factor and character vector, coercing into character vector")
@@ -355,10 +355,10 @@ test_that("bind_cols accepts NULL (#1148)", {
 })
 
 test_that("bind_rows handles 0-length named list (#1515)", {
-    res <- bind_rows(list(a = 1)[-1])
-    expect_equal(nrow(res), 0L)
-    expect_is(res, "data.frame")
-    expect_equal(ncol(res), 0L)
+  res <- bind_rows(list(a = 1)[-1])
+  expect_equal(nrow(res), 0L)
+  expect_is(res, "data.frame")
+  expect_equal(ncol(res), 0L)
 })
 
 test_that("bind_rows handles promotion to strings (#1538)", {
