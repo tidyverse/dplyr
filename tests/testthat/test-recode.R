@@ -79,9 +79,20 @@ test_that("default .default works with factors", {
 
 test_that("recode_factor() handles .missing and .default levels", {
   x <- c(1:3, NA)
-  expect_warning(expect_equal(recode_factor(x, `1` = "z", `2` = "y"), factor(c("z", "y", NA, NA), levels = c("z", "y"))))
-  expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D"), factor(c("z", "y", "D", NA), levels = c("z", "y", "D")))
-  expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"), factor(c("z", "y", "D", "M"), c("z", "y", "D", "M")))
+  expect_warning(
+    expect_equal(
+      recode_factor(x, `1` = "z", `2` = "y"),
+      factor(c("z", "y", NA, NA), levels = c("z", "y"))
+    )
+  )
+  expect_equal(
+    recode_factor(x, `1` = "z", `2` = "y", .default = "D"),
+    factor(c("z", "y", "D", NA), levels = c("z", "y", "D"))
+  )
+  expect_equal(
+    recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"),
+    factor(c("z", "y", "D", "M"), c("z", "y", "D", "M"))
+  )
 })
 
 test_that("recode_factor() handles vector .default", {
@@ -96,8 +107,14 @@ test_that("recode_factor() handles vector .default", {
 })
 
 test_that("can recode factor with redundant levels", {
-  expect_equal(recode(factor(letters[1:4]), d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("a", "c")))
-  expect_equal(recode_factor(letters[1:4], d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("c", "a")))
+  expect_equal(
+    recode(factor(letters[1:4]), d = "c", b = "a"),
+    factor(c("a", "a", "c", "c"), levels = c("a", "c"))
+  )
+  expect_equal(
+    recode_factor(letters[1:4], d = "c", b = "a"),
+    factor(c("a", "a", "c", "c"), levels = c("c", "a"))
+  )
 })
 
 test_that("conversion of unreplaced values to NA gives warning", {
@@ -110,7 +127,7 @@ test_that(".dot argument works correctly (PR #2110)", {
   x2 <- 1:3
 
   expect_equal(
-    recode(x1, a = "apple", b = "banana", .default = NA_character_), 
+    recode(x1, a = "apple", b = "banana", .default = NA_character_),
     recode(x1, .default = NA_character_, .dots = list(a = "apple", b = "banana"))
   )
   expect_equal(

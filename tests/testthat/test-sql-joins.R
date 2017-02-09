@@ -37,7 +37,7 @@ test_that("join with both same and different vars", {
 
 test_that("inner join doesn't result in duplicated columns ", {
   skip_if_no_sqlite()
-  expect_equal(colnames(dplyr::inner_join(df1, df1)), c('x', 'y'))
+  expect_equal(colnames(dplyr::inner_join(df1, df1)), c("x", "y"))
 })
 
 test_that("self-joins allowed with named by", {

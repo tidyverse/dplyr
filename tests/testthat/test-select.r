@@ -4,8 +4,15 @@ df <- as.data.frame(as.list(setNames(1:26, letters)))
 tbls <- test_load(df)
 
 test_that("two selects equivalent to one", {
-  compare_tbls(tbls, function(tbl) tbl %>% select(l:s) %>% select(n:o),
-    ref = select(df, n:o))
+  compare_tbls(
+    tbls,
+    function(tbl) {
+      tbl %>%
+        select(l:s) %>%
+        select(n:o)
+    },
+    ref = select(df, n:o)
+  )
 })
 
 test_that("select does not lose grouping (#147)", {
@@ -72,20 +79,24 @@ test_that("last rename wins", {
 test_that("negative index removes values", {
   vars <- letters[1:3]
 
-  expect_equal(select_vars(vars, -c), c("a" = "a", "b" = "b"))
-  expect_equal(select_vars(vars, a:c, -c), c("a" = "a", "b" = "b"))
-  expect_equal(select_vars(vars, a, b, c, -c), c("a" = "a", "b" = "b"))
-  expect_equal(select_vars(vars, -c, a, b), c("a" = "a", "b" = "b"))
+  expect_equal(select_vars(vars, -c), c(a = "a", b = "b"))
+  expect_equal(select_vars(vars, a:c, -c), c(a = "a", b = "b"))
+  expect_equal(select_vars(vars, a, b, c, -c), c(a = "a", b = "b"))
+  expect_equal(select_vars(vars, -c, a, b), c(a = "a", b = "b"))
 })
 
-test_that("select can be before group_by (#309)",{
-  df <- data.frame(id=c(1,1,2,2,2,3,3,4,4,5), year=c(2013,2013,2012,2013,2013,2013,2012,2012,2013,2013), var1=rnorm(10))
+test_that("select can be before group_by (#309)", {
+  df <- data.frame(
+    id = c(1, 1, 2, 2, 2, 3, 3, 4, 4, 5),
+    year = c(2013, 2013, 2012, 2013, 2013, 2013, 2012, 2012, 2013, 2013),
+    var1 = rnorm(10)
+  )
   dfagg <- df %>%
     group_by(id, year) %>%
     select(id, year, var1) %>%
-    summarise(var1=mean(var1))
+    summarise(var1 = mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
-  expect_equal(attr(dfagg, "vars" ), list(quote(id)))
+  expect_equal(attr(dfagg, "vars"), list(quote(id)))
 
 })
 

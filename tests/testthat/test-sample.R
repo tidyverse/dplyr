@@ -10,7 +10,7 @@ test_that("sample preserves class", {
   expect_is(sample_frac(tbl_df(mtcars), 1), "tbl_df")
 })
 
-# Ungrouped  -------------------------------------------------------------------
+# Ungrouped --------------------------------------------------------------------
 
 df <- data.frame(
   x = 1:2,
