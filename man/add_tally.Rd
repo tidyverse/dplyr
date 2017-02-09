@@ -26,14 +26,14 @@ performs a weighted tally by summing the (non-missing) values of variable wt}
 \item{..., vars}{Variables to group by.}
 }
 \description{
-\code{add_tally} adds a column "n" to a table based on the number
-of items within each existing group, while \code{add_count} is a shortcut that
-does the grouping as well. These functions are to \code{\link{tally}}
-and \code{\link{count}} as \code{\link{mutate}} is to \code{\link{summarise}}:
+\code{add_tally()} adds a column "n" to a table based on the number
+of items within each existing group, while \code{add_count()} is a shortcut that
+does the grouping as well. These functions are to \code{\link[=tally]{tally()}}
+and \code{\link[=count]{count()}} as \code{\link[=mutate]{mutate()}} is to \code{\link[=summarise]{summarise()}}:
 they add an additional column rather than collapsing each group.
 }
 \details{
-\code{add_count} counts within the current groups of the data when present,
+\code{add_count()} counts within the current groups of the data when present,
 and preserves those groups (it does not add the new ones).
 }
 \examples{

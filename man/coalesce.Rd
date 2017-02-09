@@ -12,10 +12,10 @@ same length as \code{x}}
 }
 \value{
 A vector the same length as \code{x} with missing values replaced
-  by the first non-missing value.
+by the first non-missing value.
 }
 \description{
-Given a set of vectors, \code{coalesce} finds the first non-missing value
+Given a set of vectors, \code{coalesce()} finds the first non-missing value
 at each position. This is inspired by the SQL \code{COALESCE} function
 which does the same thing for \code{NULL}s.
 }
@@ -30,5 +30,5 @@ z <- c(NA, NA, 3, 4, 5)
 coalesce(y, z)
 }
 \seealso{
-\code{\link{na_if}()} to replace specified values with a \code{NA}.
+\code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
 }

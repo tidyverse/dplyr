@@ -4,7 +4,7 @@
 \name{nasa}
 \alias{nasa}
 \title{NASA spatio-temporal data}
-\format{A \code{\link{tbl_cube}} with 41,472 observations.}
+\format{A \link{tbl_cube} with 41,472 observations.}
 \usage{
 nasa
 }
@@ -22,8 +22,8 @@ Data Center (with permission; see important copyright terms below).
 
 
 \itemize{
-  \item \code{lat}, \code{long}: latitude and longitude
-  \item \code{year}, \code{month}: month and year
+\item \code{lat}, \code{long}: latitude and longitude
+\item \code{year}, \code{month}: month and year
 }
 }
 
@@ -31,11 +31,11 @@ Data Center (with permission; see important copyright terms below).
 
 
 \itemize{
-  \item \code{cloudlow}, \code{cloudmed}, \code{cloudhigh}: cloud cover
-    at three heights
-  \item \code{ozone}
-  \item \code{surftemp} and \code{temperature}
-  \item \code{pressure}
+\item \code{cloudlow}, \code{cloudmed}, \code{cloudhigh}: cloud cover
+at three heights
+\item \code{ozone}
+\item \code{surftemp} and \code{temperature}
+\item \code{pressure}
 }
 }
 

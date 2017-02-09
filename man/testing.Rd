@@ -15,9 +15,9 @@ test_load(df, name = random_table_name(), srcs = test_srcs$get(),
 test_frame(..., srcs = test_srcs$get(), ignore = character())
 }
 \description{
-Register testing sources, then use \code{test_load} to load an existing
+Register testing sources, then use \code{test_load()} to load an existing
 data frame into each source. To create a new table in each source,
-use \code{test_frame}.
+use \code{test_frame()}.
 }
 \examples{
 \dontrun{

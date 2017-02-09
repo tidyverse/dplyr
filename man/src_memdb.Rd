@@ -17,10 +17,10 @@ so you can refer to previously created variables.}
 unlikely to conflict with exist}
 }
 \description{
-\code{src_memdb} lets you easily access a sessio-temporary in-memory
-SQLite database. \code{memdb_frame()} works like \code{\link{data_frame}},
+\code{src_memdb()} lets you easily access a sessio-temporary in-memory
+SQLite database. \code{memdb_frame()} works like \code{\link[=data_frame]{data_frame()}},
 but instead of creating a new data frame in R, it creates a table in
-\code{src_memdb}
+\code{src_memdb()}
 }
 \examples{
 if (require("RSQLite")) {

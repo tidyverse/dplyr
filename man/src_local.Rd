@@ -20,7 +20,7 @@ This is mainly useful for testing, since makes it possible to refer to
 local and remote tables using exactly the same syntax.
 }
 \details{
-Generally, \code{src_local} should not be called directly, but instead
+Generally, \code{src_local()} should not be called directly, but instead
 one of the constructors should be used.
 }
 \examples{

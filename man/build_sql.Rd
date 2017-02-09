@@ -7,8 +7,8 @@
 build_sql(..., .env = parent.frame(), con = NULL)
 }
 \arguments{
-\item{...}{input to convert to SQL. Use \code{\link{sql}} to preserve
-user input as is (dangerous), and \code{\link{ident}} to label user
+\item{...}{input to convert to SQL. Use \code{\link[=sql]{sql()}} to preserve
+user input as is (dangerous), and \code{\link[=ident]{ident()}} to label user
 input as sql identifiers (safe)}
 
 \item{.env}{the environment in which to evalute the arguments. Should not

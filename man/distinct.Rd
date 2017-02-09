@@ -25,7 +25,7 @@ first row of values.}
 }
 \description{
 Retain only unique/distinct rows from an input tbl. This is similar
-to \code{\link{unique.data.frame}}, but considerably faster.
+to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
 }
 \examples{
 df <- data.frame(

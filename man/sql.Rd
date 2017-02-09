@@ -32,12 +32,12 @@ trailing \code{.0} added if they're whole numbers, identifiers are
 escaped with double quotes.}
 
 \item{parens, collapse}{Controls behaviour when multiple values are supplied.
-  \code{parens} should be a logical flag, or if \code{NA}, will wrap in
-  parens if length > 1.
+\code{parens} should be a logical flag, or if \code{NA}, will wrap in
+parens if length > 1.
 
-  Default behaviour: lists are always wrapped in parens and separated by
-  commas, identifiers are separated by commas and never wrapped,
-  atomic vectors are separated by spaces and wrapped in parens if needed.}
+Default behaviour: lists are always wrapped in parens and separated by
+commas, identifiers are separated by commas and never wrapped,
+atomic vectors are separated by spaces and wrapped in parens if needed.}
 }
 \description{
 These functions are critical when writing functions that translate R

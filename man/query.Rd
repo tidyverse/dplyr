@@ -7,12 +7,12 @@
 query(con, sql, .vars)
 }
 \arguments{
-\item{con}{a \code{DBOConnection}}
+\item{con}{a \link[DBI:DBIConnection-class]{DBI::DBIConnection} object}
 
 \item{sql}{a string containing an sql query.}
 }
 \description{
-A query object is mutable wrapper around a \code{DBIResult} that caches
+A query object is mutable wrapper around a \linkS4class{DBIResult} object that caches
 expensive operations, and insulates the rest of dplyr from the vagaries of
 DBI and the individual database implementation.
 }

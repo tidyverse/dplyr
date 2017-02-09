@@ -43,18 +43,18 @@ extension to storing data frames for indices rather than vectors).
 Manipulation functions:
 
 \itemize{
-  \item \code{select} (M)
+\item \code{select()} (M)
 
-  \item \code{summarise} (M), corresponds to roll-up, but rather more
-    limited since there are no hierarchies.
+\item \code{summarise()} (M), corresponds to roll-up, but rather more
+limited since there are no hierarchies.
 
-  \item \code{filter} (D), corresponds to slice/dice.
+\item \code{filter()} (D), corresponds to slice/dice.
 
-  \item \code{mutate} (M) is not implemented, but should be relatively
-  straightforward given the implementation of \code{summarise}.
+\item \code{mutate()} (M) is not implemented, but should be relatively
+straightforward given the implementation of \code{summarise}.
 
-  \item \code{arrange} (D?) Not implemented: not obvious how much sense
-    it would make
+\item \code{arrange()} (D?) Not implemented: not obvious how much sense
+it would make
 }
 
 Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
@@ -95,6 +95,6 @@ by_loc <- group_by(nasa, lat, long)
 summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 }
 \seealso{
-\code{\link{as.tbl_cube}} for ways of coercing existing data
-  structures into a \code{tbl_cube}.
+\code{\link[=as.tbl_cube]{as.tbl_cube()}} for ways of coercing existing data
+structures into a \code{tbl_cube}.
 }

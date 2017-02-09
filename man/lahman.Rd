@@ -32,7 +32,7 @@ lahman_srcs(..., quiet = NULL)
 \item{...}{Other arguments passed to \code{src} on first
 load. For mysql and postgresql, the defaults assume you have a local
 server with \code{lahman} database already created.
-For \code{lahman_srcs}, character vector of names giving srcs to generate.}
+For \code{lahman_srcs()}, character vector of names giving srcs to generate.}
 
 \item{type}{src type.}
 

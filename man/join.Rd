@@ -26,14 +26,14 @@ anti_join(x, y, by = NULL, copy = FALSE, ...)
 \item{x, y}{tbls to join}
 
 \item{by}{a character vector of variables to join by.  If \code{NULL}, the
-  default, \code{join} will do a natural join, using all variables with
-  common names across the two tables. A message lists the variables so
-  that you can check they're right (to suppress the message, simply
-  explicitly list the variables that you want to join).
+default, \code{*_join()} will do a natural join, using all variables with
+common names across the two tables. A message lists the variables so
+that you can check they're right (to suppress the message, simply
+explicitly list the variables that you want to join).
 
-  To join by different variables on x and y use a named vector.
-  For example, \code{by = c("a" = "b")} will match \code{x.a} to
-  \code{y.b}.}
+To join by different variables on x and y use a named vector.
+For example, \code{by = c("a" = "b")} will match \code{x.a} to
+\code{y.b}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -58,32 +58,32 @@ method documentation for details of individual data sources. \code{x} and
 Currently dplyr supports four join types:
 
 \describe{
-   \item{\code{inner_join}}{return all rows from \code{x} where there are matching
-   values in \code{y}, and all columns from \code{x} and \code{y}. If there are multiple matches
-   between \code{x} and \code{y}, all combination of the matches are returned.}
+\item{\code{inner_join()}}{return all rows from \code{x} where there are matching
+values in \code{y}, and all columns from \code{x} and \code{y}. If there are multiple matches
+between \code{x} and \code{y}, all combination of the matches are returned.}
 
-   \item{\code{left_join}}{return all rows from \code{x}, and all columns from \code{x}
-   and \code{y}. Rows in \code{x} with no match in \code{y} will have \code{NA} values in the new
-   columns. If there are multiple matches between \code{x} and \code{y}, all combinations
-   of the matches are returned.}
+\item{\code{left_join()}}{return all rows from \code{x}, and all columns from \code{x}
+and \code{y}. Rows in \code{x} with no match in \code{y} will have \code{NA} values in the new
+columns. If there are multiple matches between \code{x} and \code{y}, all combinations
+of the matches are returned.}
 
-  \item{\code{right_join}}{return all rows from \code{y}, and all columns from \code{x}
-   and y. Rows in \code{y} with no match in \code{x} will have \code{NA} values in the new
-   columns. If there are multiple matches between \code{x} and \code{y}, all combinations
-   of the matches are returned.}
+\item{\code{right_join()}}{return all rows from \code{y}, and all columns from \code{x}
+and y. Rows in \code{y} with no match in \code{x} will have \code{NA} values in the new
+columns. If there are multiple matches between \code{x} and \code{y}, all combinations
+of the matches are returned.}
 
-   \item{\code{semi_join}}{return all rows from \code{x} where there are matching
-   values in \code{y}, keeping just columns from \code{x}.
+\item{\code{semi_join()}}{return all rows from \code{x} where there are matching
+values in \code{y}, keeping just columns from \code{x}.
 
-   A semi join differs from an inner join because an inner join will return
-   one row of \code{x} for each matching row  of \code{y}, where a semi
-   join will never duplicate rows of \code{x}.}
+A semi join differs from an inner join because an inner join will return
+one row of \code{x} for each matching row  of \code{y}, where a semi
+join will never duplicate rows of \code{x}.}
 
-   \item{\code{anti_join}}{return all rows from \code{x} where there are not
-   matching values in \code{y}, keeping just columns from \code{x}.}
+\item{\code{anti_join()}}{return all rows from \code{x} where there are not
+matching values in \code{y}, keeping just columns from \code{x}.}
 
-   \item{\code{full_join}}{return all rows and all columns from both \code{x} and \code{y}.
-   Where there are not matching values, returns \code{NA} for the one missing.}
+\item{\code{full_join()}}{return all rows and all columns from both \code{x} and \code{y}.
+Where there are not matching values, returns \code{NA} for the one missing.}
 }
 }
 

@@ -8,8 +8,8 @@ n()
 }
 \description{
 This function is implemented specifically for each data source and can only
-be used from within \code{\link{summarise}}, \code{\link{mutate}} and
-\code{\link{filter}}.
+be used from within \code{\link[=summarise]{summarise()}}, \code{\link[=mutate]{mutate()}} and
+\code{\link[=filter]{filter()}}.
 }
 \examples{
 if (require("nycflights13")) {

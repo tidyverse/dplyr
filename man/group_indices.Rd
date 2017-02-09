@@ -26,5 +26,5 @@ Generate a unique id for each group
 group_indices(mtcars, cyl)
 }
 \seealso{
-\code{\link{group_by}}
+\code{\link[=group_by]{group_by()}}
 }

@@ -35,7 +35,7 @@ new table so that the query optimiser has useful information.}
 \item{...}{other parameters passed to methods.}
 }
 \value{
-a sqlite \code{\link{tbl}} object
+a sqlite \code{\link[=tbl]{tbl()}} object
 }
 \description{
 This standard method works for all sql sources.

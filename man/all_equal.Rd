@@ -21,16 +21,16 @@ all_equal(target, current, ignore_col_order = TRUE, ignore_row_order = TRUE,
 \item{convert}{Should similar classes be converted? Currently this will
 convert factor to character and integer to double.}
 
-\item{...}{Ignored. Needed for compatibility with \code{all.equal}.}
+\item{...}{Ignored. Needed for compatibility with \code{all.equal()}.}
 }
 \value{
 \code{TRUE} if equal, otherwise a character vector describing
-  the reasons why they're not equal. Use \code{\link{isTRUE}} if using the
-  result in an \code{if} expression.
+the reasons why they're not equal. Use \code{\link[=isTRUE]{isTRUE()}} if using the
+result in an \code{if} expression.
 }
 \description{
-You can use \code{all_equal} with any data frame, and dplyr also provides
-\code{tbl_df} methods for \code{\link{all.equal}}.
+You can use \code{all_equal()} with any data frame, and dplyr also provides
+\code{tbl_df} methods for \code{\link[=all.equal]{all.equal()}}.
 }
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]

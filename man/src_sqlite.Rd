@@ -17,39 +17,39 @@ src_sqlite(path, create = FALSE)
 \code{path} does not exist and connect to the existing database if
 \code{path} does exist.}
 
-\item{src}{a sqlite src created with \code{src_sqlite}.}
+\item{src}{a sqlite src created with \code{src_sqlite()}.}
 
 \item{from}{Either a string giving the name of table in database, or
-\code{\link{sql}} described a derived table or compound join.}
+\code{\link[=sql]{sql()}} described a derived table or compound join.}
 
 \item{...}{Included for compatibility with the generic, but otherwise
 ignored.}
 }
 \description{
-Use \code{src_sqlite} to connect to an existing sqlite database,
-and \code{tbl} to connect to tables within that database.
+Use \code{src_sqlite()} to connect to an existing sqlite database,
+and \code{tbl()} to connect to tables within that database.
 If you are running a local sqliteql database, leave all parameters set as
 their defaults to connect. If you're connecting to a remote database,
 ask your database administrator for the values of these variables.
-\code{\link{src_memdb}} is an easy way to use an in-memory SQLite database
+\code{\link[=src_memdb]{src_memdb()}} is an easy way to use an in-memory SQLite database
 that is scoped to the current session.
 }
 \section{Debugging}{
 
 
 To see exactly what SQL is being sent to the database, you see
-\code{\link{show_query}} and \code{\link{explain}}.
+[show_query()] and [explain()].
 }
 
 \section{Grouping}{
 
 
-Typically you will create a grouped data table is to call the \code{group_by}
-method on a mysql tbl: this will take care of capturing
+Typically you will create a grouped data table is to call the [group_by()]
+method on a database tbl: this will take care of capturing
 the unevalated expressions for you.
 
 For best performance, the database should have an index on the variables
-that you are grouping by. Use \code{\link{explain}} to check that
+that you are grouping by. Use [explain()] to check that
 the database is using the indexes that you expect.
 }
 
@@ -58,14 +58,14 @@ the database is using the indexes that you expect.
 
 All data manipulation on SQL tbls are lazy: they will not actually
 run the query or retrieve the data unless you ask for it: they all return
-a new \code{\link{tbl_sql}} object. Use \code{\link{compute}} to run the
+a new [tbl_sql()] object. Use [compute()] to run the
 query and save the results in a temporary in the database, or use
-\code{\link{collect}} to retrieve the results to R.
+[collect()] to retrieve the results to R.
 
-Note that \code{do} is not lazy since it must pull the data into R.
-It returns a \code{\link{tbl_df}} or \code{\link{grouped_df}}, with one
+Note that `do()` is not lazy since it must pull the data into R.
+It returns a [tbl_df()] or [grouped_df()], with one
 column for each grouping variable, and one list column that contains the
-results of the operation. \code{do} never simplifies its output.
+results of the operation. `do()` never simplifies its output.
 }
 
 \section{Query principles}{
@@ -77,19 +77,19 @@ a sequence of operations should return the same value (modulo class)
 regardless of where the data is stored.
 
 \itemize{
- \item \code{arrange(arrange(df, x), y)} should be equivalent to
-   \code{arrange(df, y, x)}
+ \item `arrange(arrange(df, x), y)` should be equivalent to
+   `arrange(df, y, x)`
 
- \item \code{select(select(df, a:x), n:o)} should be equivalent to
-   \code{select(df, n:o)}
+ \item `select(select(df, a:x), n:o)` should be equivalent to
+   `select(df, n:o)`
 
- \item \code{mutate(mutate(df, x2 = x * 2), y2 = y * 2)} should be
-    equivalent to \code{mutate(df, x2 = x * 2, y2 = y * 2)}
+ \item `mutate(mutate(df, x2 = x * 2), y2 = y * 2)` should be
+    equivalent to `mutate(df, x2 = x * 2, y2 = y * 2)`
 
- \item \code{filter(filter(df, x == 1), y == 2)} should be
-    equivalent to \code{filter(df, x == 1, y == 2)}
+ \item `filter(filter(df, x == 1), y == 2)` should be
+    equivalent to `filter(df, x == 1, y == 2)`
 
- \item \code{summarise} should return the summarised output with
+ \item `summarise()` should return the summarised output with
    one level of grouping peeled off.
 }
 }
