@@ -42,7 +42,7 @@ to smallest outputs. Use \code{\link[=desc]{desc()}} to reverse the direction.
 
 \item \code{min_rank()}: equivalent to \code{rank(ties.method = "min")}
 
-\item \code{dense_rank()}: like \code{min_rank}, but with no gaps between
+\item \code{dense_rank()}: like \code{min_rank()}, but with no gaps between
 ranks
 
 \item \code{percent_rank()}: a number between 0 and 1 computed by

@@ -1,6 +1,6 @@
 #' Create a mutable query object.
 #'
-#' A query object is mutable wrapper around a [DBIResult-class] object that caches
+#' A query object is mutable wrapper around a [DBI::DBIResult-class] object that caches
 #' expensive operations, and insulates the rest of dplyr from the vagaries of
 #' DBI and the individual database implementation.
 #'

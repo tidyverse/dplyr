@@ -12,7 +12,7 @@ query(con, sql, .vars)
 \item{sql}{a string containing an sql query.}
 }
 \description{
-A query object is mutable wrapper around a \linkS4class{DBIResult} object that caches
+A query object is mutable wrapper around a \link[DBI:DBIResult-class]{DBI::DBIResult} object that caches
 expensive operations, and insulates the rest of dplyr from the vagaries of
 DBI and the individual database implementation.
 }

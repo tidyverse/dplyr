@@ -2,7 +2,7 @@
 #'
 #' This is a general purpose complement to the specialised manipulation
 #' functions [filter()], [select()], [mutate()],
-#' [summarise()] and [arrange()]. You can use `do`
+#' [summarise()] and [arrange()]. You can use `do()`
 #' to perform arbitrary computation, returning either a data frame or
 #' arbitrary objects which will be stored in a list. This is particularly
 #' useful when working with models: you can fit models per group with
@@ -29,7 +29,7 @@
 #'   use `.` to refer to the current group. You can not mix named and
 #'   unnamed arguments.
 #' @return
-#' `do` always returns a data frame. The first columns in the data frame
+#' `do()` always returns a data frame. The first columns in the data frame
 #' will be the labels, the others will be computed from `...`. Named
 #' arguments become list-columns, with one element for each group; unnamed
 #' elements must be data frames and labels will be duplicated accordingly.

@@ -29,7 +29,7 @@ of memory. If it's too small, it will be slow, because of the overhead of
 talking to the database.}
 }
 \value{
-\code{do} always returns a data frame. The first columns in the data frame
+\code{do()} always returns a data frame. The first columns in the data frame
 will be the labels, the others will be computed from \code{...}. Named
 arguments become list-columns, with one element for each group; unnamed
 elements must be data frames and labels will be duplicated accordingly.
@@ -44,7 +44,7 @@ way.
 \description{
 This is a general purpose complement to the specialised manipulation
 functions \code{\link[=filter]{filter()}}, \code{\link[=select]{select()}}, \code{\link[=mutate]{mutate()}},
-\code{\link[=summarise]{summarise()}} and \code{\link[=arrange]{arrange()}}. You can use \code{do}
+\code{\link[=summarise]{summarise()}} and \code{\link[=arrange]{arrange()}}. You can use \code{do()}
 to perform arbitrary computation, returning either a data frame or
 arbitrary objects which will be stored in a list. This is particularly
 useful when working with models: you can fit models per group with

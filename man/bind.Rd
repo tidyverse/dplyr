@@ -25,7 +25,7 @@ frame, or a list of data frames.
 
 When column-binding, rows are matched by position, not value so all data
 frames must have the same number of rows. To match by value, not
-position, see \code{\link[=left_join]{left_join()}} etc. When row-binding, columns are
+position, see \link{join}. When row-binding, columns are
 matched by name, and any values that don't match will be filled with NA.}
 
 \item{.id}{Data frames identifier.

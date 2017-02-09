@@ -39,7 +39,7 @@ sql_translate_env.NULL <- function(con) {
 #' \item `db_data_type()`: Calls [DBI::dbDataType()] for every field
 #' (e.g. data frame column) and returns a vector of corresponding SQL data
 #' types
-#' \item `db_save_query()`: Builds and executes a 
+#' \item `db_save_query()`: Builds and executes a
 #' `CREATE [TEMPORARY] TABLE <table> ...` SQL command.
 #' \item `db_create_table()`: Builds and executes a
 #' `CREATE [TEMPORARY] TABLE <table> ...` SQL command.

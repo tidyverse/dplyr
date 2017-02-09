@@ -20,7 +20,7 @@ tbl <- function(src, ...) {
 #'   must supply this value. `tbl_` is automatically prepended to the
 #'   class name
 #' @param object to test/coerce.
-#' @param ... For `tbl`, other fields used by class. For `as.tbl`,
+#' @param ... For `tbl()`, other fields used by class. For `as.tbl()`,
 #'   other arguments passed to methods.
 #' @examples
 #' as.tbl(mtcars)

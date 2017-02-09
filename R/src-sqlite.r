@@ -108,7 +108,7 @@ src_sqlite <- function(path, create = FALSE) {
 
 #' Per-session in-memory SQLite databases.
 #'
-#' `src_memdb()` lets you easily access a sessio-temporary in-memory
+#' `src_memdb()` lets you easily access a session-temporary in-memory
 #' SQLite database. `memdb_frame()` works like [data_frame()],
 #' but instead of creating a new data frame in R, it creates a table in
 #' `src_memdb()`

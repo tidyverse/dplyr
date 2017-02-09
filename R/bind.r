@@ -16,7 +16,7 @@
 #'
 #'   When column-binding, rows are matched by position, not value so all data
 #'   frames must have the same number of rows. To match by value, not
-#'   position, see [left_join()] etc. When row-binding, columns are
+#'   position, see [join]. When row-binding, columns are
 #'   matched by name, and any values that don't match will be filled with NA.
 #' @param .id Data frames identifier.
 #'

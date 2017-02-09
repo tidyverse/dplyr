@@ -11,7 +11,7 @@
 #'
 #' \item `min_rank()`: equivalent to `rank(ties.method = "min")`
 #'
-#' \item `dense_rank()`: like `min_rank`, but with no gaps between
+#' \item `dense_rank()`: like `min_rank()`, but with no gaps between
 #'   ranks
 #'
 #' \item `percent_rank()`: a number between 0 and 1 computed by
