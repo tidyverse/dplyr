@@ -310,8 +310,11 @@ test_that("full_join #96", {
 
 test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", {
   x <- data.frame(Greek = c("Alpha", "Beta", NA), numbers = 1:3)
-  y <- data.frame(Greek = c("Alpha", "Beta", "Gamma"),
-                        Letters = c("C", "B", "C"), stringsAsFactors = F)
+  y <- data.frame(
+    Greek = c("Alpha", "Beta", "Gamma"),
+    Letters = c("C", "B", "C"),
+    stringsAsFactors = F
+  )
 
   expect_warning(res <- left_join(x, y, by = "Greek"), "joining character vector")
   expect_true(is.na(res$Greek[3]))
@@ -348,13 +351,13 @@ test_that("inner_join does not reorder (#684)", {
 test_that("joins coerce factors with different levels to character (#684)", {
   d1 <- data_frame(a = factor(c("a", "b", "c")))
   d2 <- data_frame(a = factor(c("a", "e")))
-  expect_warning({ res <- inner_join(d1, d2) })
+  expect_warning(res <- inner_join(d1, d2))
   expect_is(res$a, "character")
 
   # different orders
   d2 <- d1
   attr(d2$a, "levels") <- c("c", "b", "a")
-  expect_warning({ res <- inner_join(d1, d2) })
+  expect_warning(res <- inner_join(d1, d2))
   expect_is(res$a, "character")
 
 })
@@ -362,10 +365,10 @@ test_that("joins coerce factors with different levels to character (#684)", {
 test_that("joins between factor and character coerces to character with a warning (#684)", {
   d1 <- data_frame(a = factor(c("a", "b", "c")))
   d2 <- data_frame(a = c("a", "e"))
-  expect_warning({ res <- inner_join(d1, d2) })
+  expect_warning(res <- inner_join(d1, d2))
   expect_is(res$a, "character")
 
-  expect_warning({ res <- inner_join(d2, d1) })
+  expect_warning(res <- inner_join(d2, d1))
   expect_is(res$a, "character")
 
 })
@@ -485,12 +488,16 @@ test_that("joins handle tzone differences (#819)", {
 })
 
 test_that("joins matches NA in character vector (#892)", {
-  x <- data.frame(id = c(NA_character_, NA_character_),
-                   stringsAsFactors = F)
+  x <- data.frame(
+    id = c(NA_character_, NA_character_),
+    stringsAsFactors = F
+  )
 
-  y <- expand.grid(id = c(NA_character_, NA_character_),
-                    LETTER = LETTERS[1:2],
-                    stringsAsFactors = F)
+  y <- expand.grid(
+    id = c(NA_character_, NA_character_),
+    LETTER = LETTERS[1:2],
+    stringsAsFactors = F
+  )
 
   res <- left_join(x, y, by = "id")
   expect_true(all(is.na(res$id)))
@@ -530,8 +537,10 @@ test_that("joins takes care of duplicates in by (#1192)", {
 # Joined columns result in correct type ----------------------------------------
 
 test_that("result of joining POSIXct is POSIXct (#1578)", {
-  data1 <- data_frame(t = seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2,
-                            by = "days"), x = 1:2)
+  data1 <- data_frame(
+    t = seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"),
+    x = 1:2
+  )
   data2 <- inner_join(data1, data1, by = "t")
   res1 <- class(data2$t)
   expected <- c("POSIXct", "POSIXt")
@@ -541,11 +550,11 @@ test_that("result of joining POSIXct is POSIXct (#1578)", {
 test_that("joins allows extra attributes if they are identical (#1636)", {
 
   tbl_left <- data_frame(
-    i = rep(c(1.0, 2.0, 3.0), each = 2),
+    i = rep(c(1, 2, 3), each = 2),
     x1 = letters[1:6]
   )
   tbl_right <- data_frame(
-    i = c(1.0, 2.0, 3.0),
+    i = c(1, 2, 3),
     x2 = letters[1:3]
   )
 
@@ -608,8 +617,7 @@ test_that("inner join not crashing (#1559)", {
   )
   # all we want here is to test that this does not crash
   expect_message(res <- replicate(100, df3 %>% inner_join(df4)))
-  for (i in 2:100)
-    expect_equal(res[, 1], res[, i])
+  for (i in 2:100) expect_equal(res[, 1], res[, i])
 })
 
 test_that("left_join handles mix of encodings in column names (#1571)", {

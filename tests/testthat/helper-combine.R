@@ -1,20 +1,33 @@
 combine_pair_test <- function(item_pair, var1, var2, result,
                               can_combine = TRUE, warning = FALSE)  {
-  label_if_fail <- paste0("combine(items[c(\"", var1, "\", \"", var2, "\")])")
-  warning_regexp <- if (warning) ".*" else NA
-  if (can_combine) {
-    expect_warning(res <- combine(item_pair),
-                   regexp = warning_regexp,
-                   label = label_if_fail)
-    expect_equal(object = res,
-                 expected = result,
-                 label = label_if_fail,
-                 expected.label = deparse(result))
+  label_if_fail <- paste0(
+    "combine(items[c(\"", var1, "\", \"", var2, "\")])"
+  )
+
+  if (warning) {
+    warning_regexp <- ".*"
   } else {
-    expect_warning(expect_error(combine(item_pair),
-                                label = label_if_fail),
-                   regexp = warning_regexp,
-                   label = label_if_fail)
+    warning_regexp <- NA
+  }
+
+  if (can_combine) {
+    expect_warning(
+      res <- combine(item_pair),
+      regexp = warning_regexp,
+      label = label_if_fail
+    )
+    expect_equal(
+      object = res,
+      expected = result,
+      label = label_if_fail,
+      expected.label = deparse(result)
+    )
+  } else {
+    expect_warning(
+      expect_error(combine(item_pair), label = label_if_fail),
+      regexp = warning_regexp,
+      label = label_if_fail
+    )
   }
 }
 
@@ -77,7 +90,7 @@ combine_result <- function(item1, item2,
                            class1, class2,
                            all_na1, all_na2,
                            can_combine, give_warning) {
-  result <- list(NULL)
+  result <- NULL
   if (can_combine) {
     # Custom coercions:
     # - Factor with character coerced to character
@@ -96,7 +109,11 @@ combine_result <- function(item1, item2,
       result <- factor(c(as.character(item1), as.character(item2)))
     } else {
       # Default combination result
-      result <- unlist(list(item1, item2), recursive = FALSE, use.names = FALSE)
+      result <- unlist(
+        list(item1, item2),
+        recursive = FALSE,
+        use.names = FALSE
+      )
 
       # Add classes and attributes in some cases to the default
       if ((all(is.na(item1)) && "POSIXct" %in% class2) ||
@@ -123,19 +140,21 @@ combine_result <- function(item1, item2,
 
 
 prepare_table_with_coercion_rules <- function() {
-  items <- list(logicalvalue = TRUE,
-                logicalNA = NA,
-                anotherNA = c(NA, NA),
-                integer = 4L,
-                factor = factor("a"),
-                another_factor = factor("b"),
-                double = 4.5,
-                character = "c",
-                POSIXct = as.POSIXct("2010-01-01"),
-                Date = as.Date("2016-01-01"),
-                complex = 1 + 2i,
-                int_with_class = structure(4L, class = "int_with_class"),
-                num_with_class = structure(4.5, class = "num_with_class"))
+  items <- list(
+    logicalvalue = TRUE,
+    logicalNA = NA,
+    anotherNA = c(NA, NA),
+    integer = 4L,
+    factor = factor("a"),
+    another_factor = factor("b"),
+    double = 4.5,
+    character = "c",
+    POSIXct = as.POSIXct("2010-01-01"),
+    Date = as.Date("2016-01-01"),
+    complex = 1 + 2i,
+    int_with_class = structure(4L, class = "int_with_class"),
+    num_with_class = structure(4.5, class = "num_with_class")
+  )
 
   special_non_vector_classes <- c("factor", "POSIXct", "Date")
   pairs <- expand.grid(names(items), names(items))
@@ -151,57 +170,74 @@ prepare_table_with_coercion_rules <- function() {
     class2 <- class(item2)
     all_na1 <- all(is.na(item1))
     all_na2 <- all(is.na(item2))
-    known_to_dplyr1 <- is.vector(item1) || any(class1 %in% special_non_vector_classes)
-    known_to_dplyr2 <- is.vector(item2) || any(class2 %in% special_non_vector_classes)
+    known_to_dplyr1 <-
+      is.vector(item1) ||
+      any(class1 %in% special_non_vector_classes)
+    known_to_dplyr2 <-
+      is.vector(item2) ||
+      any(class2 %in% special_non_vector_classes)
 
-    pairs$can_combine[i] <- can_be_combined(item1, item2,
-                                            class1, class2,
-                                            all_na1, all_na2,
-                                            known_to_dplyr1, known_to_dplyr2)
+    pairs$can_combine[i] <- can_be_combined(
+      item1, item2, class1, class2,
+      all_na1, all_na2, known_to_dplyr1, known_to_dplyr2
+    )
 
-    pairs$warning[i] <- give_a_warning(item1, item2,
-                                       class1, class2,
-                                       all_na1, all_na2,
-                                       known_to_dplyr1, known_to_dplyr2)
+    pairs$warning[i] <- give_a_warning(
+      item1, item2, class1, class2,
+      all_na1, all_na2, known_to_dplyr1, known_to_dplyr2
+    )
 
     pairs$item_pair[[i]] <- list(item1, item2)
-    pairs$result[i] <- combine_result(item1, item2,
-                                      class1, class2,
-                                      all_na1, all_na2,
-                                      pairs$can_combine[i],
-                                      pairs$warning[i])
-
+    pairs$result[i] <- combine_result(
+      item1, item2, class1, class2,
+      all_na1, all_na2, pairs$can_combine[i], pairs$warning[i]
+    )
   }
+
   return(pairs)
 }
 
 print_pairs <- function(pairs) {
   pairs_printable <- pairs
-  pairs_printable$result <- sapply(pairs$result,
-                                   function(x) if (is.null(x)) {""} else {as.character(x)})
-  pairs_printable$result_class <- lapply(seq_len(nrow(pairs)), function(i) {
-    if (is.null(pairs$result[[i]])) {
-      ""
-    } else {
-      class(pairs$result[[i]])
+  pairs_printable$result <- sapply(
+    pairs$result,
+    function(x) {
+      if (is.null(x)) {
+        ""
+      } else {
+        as.character(x)
+      }
     }
-  })
-  pairs_printable <- arrange(pairs_printable, desc(can_combine), warning, Var1, Var2)
+  )
+  pairs_printable$result_class <- lapply(
+    pairs$result,
+    function(x) {
+      if (is.null(x)) {
+        ""
+      } else {
+        class(x)
+      }
+    }
+  )
+  pairs_printable <- arrange(
+    pairs_printable, desc(can_combine), warning, Var1, Var2
+  )
   pairs_printable
 }
 
 combine_coercion_types <- function() {
-
   pairs <- prepare_table_with_coercion_rules()
   # knitr::kable(print_pairs(pairs))
   for (i in seq_len(nrow(pairs))) {
     test_that(paste("Coercion from", pairs$Var1[i], " to ", pairs$Var2[i]), {
-      combine_pair_test(item_pair = pairs$item_pair[[i]],
-                        var1 = pairs$Var1[i],
-                        var2 = pairs$Var2[i],
-                        result = pairs$result[[i]],
-                        can_combine = pairs$can_combine[i],
-                        warning = pairs$warning[i])
+      combine_pair_test(
+        item_pair = pairs$item_pair[[i]],
+        var1 = pairs$Var1[i],
+        var2 = pairs$Var2[i],
+        result = pairs$result[[i]],
+        can_combine = pairs$can_combine[i],
+        warning = pairs$warning[i]
+      )
     })
   }
 }

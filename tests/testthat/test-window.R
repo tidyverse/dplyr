@@ -64,7 +64,7 @@ test_that("connection affects quoting window function fields", {
   out <- filter(group_by(testTable, field1), min_rank(desc(field1)) < 2)
   sqlText <- sql_render(out)
 
-  testthat::expect_equal(
+  expect_equal(
     grep(paste(
       "^SELECT `field1`",
       "FROM \\(SELECT `field1`, rank\\(\\) OVER \\(PARTITION BY `field1` ORDER BY `field1` DESC\\) AS `[a-zA-Z0-9]+`",

@@ -201,8 +201,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("can compute 1 - ecdf(y)(y) (#2018)", {
-    surv <- function(x)
-      1 - ecdf(x)(x)
+    surv <- function(x) 1 - ecdf(x)(x)
 
     expect_equal(
       test_df %>%

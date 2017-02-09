@@ -53,8 +53,10 @@ test_that("mutate can rename variables (#137)", {
 })
 
 test_that("mutate refuses to modify grouping vars (#143)", {
-  expect_error(mutate(group_by(tbl_df(mtcars), am) , am = am + 2),
-    "cannot modify grouping variable")
+  expect_error(
+    mutate(group_by(tbl_df(mtcars), am), am = am + 2),
+    "cannot modify grouping variable"
+  )
 })
 
 test_that("mutate handles constants (#152)", {
@@ -87,8 +89,7 @@ test_that("mutate recycles results of length 1", {
   num  <- 1
   bool <- TRUE
 
-  res <- mutate(group_by(df, x),
-    int = int, str = str, num = num, bool = bool)
+  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool)
   expect_equal(res$int , rep(int , 4))
   expect_equal(res$str , rep(str , 4))
   expect_equal(res$num , rep(num , 4))
@@ -109,8 +110,10 @@ test_that("mutate handles out of data variables", {
   dat  <- rep(today, 2)
   tim  <- rep(now, 2)
 
-  res <- mutate(gdf, int = int, str = str, num = num, bool = bool,
-    dat = dat, tim = tim)
+  res <- mutate(
+    gdf,
+    int = int, str = str, num = num, bool = bool, dat = dat, tim = tim
+  )
   expect_equal(res$int , rep(int , 2))
   expect_equal(res$str , rep(str , 2))
   expect_equal(res$num , rep(num , 2))
@@ -129,7 +132,10 @@ test_that("mutate handles out of data variables", {
   dat  <- rep(today, 4)
   tim  <- rep(now, 4)
 
-  res <- mutate(tbl_df(df), int = int, str = str, num = num, bool = bool, tim = tim, dat = dat)
+  res <- mutate(
+    tbl_df(df),
+    int = int, str = str, num = num, bool = bool, tim = tim, dat = dat
+  )
   expect_equal(res$int , int)
   expect_equal(res$str , str)
   expect_equal(res$num , num)
@@ -180,7 +186,10 @@ test_that("mutate fails on unsupported column type", {
   df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"))
   expect_error(mutate(df, date = strptime(created, "%Y/%m/%d")))
 
-  df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"), g = c(1, 1, 2))
+  df <- data.frame(
+    created = c("2014/1/1", "2014/1/2", "2014/1/2"),
+    g = c(1, 1, 2)
+  )
   expect_error(mutate(group_by(df, g), date = strptime(created, "%Y/%m/%d")))
 })
 
@@ -279,7 +288,8 @@ test_that("mutate supports difftime objects (#390)", {
     diffdate = difftime(date2, date1, unit = "days")
   )
 
-  res <- df %>% group_by(grp) %>%
+  res <- df %>%
+    group_by(grp) %>%
     mutate(mean_val = mean(val), mean_diffdate = mean(diffdate))
   expect_is(res$mean_diffdate, "difftime")
   expect_equal(as.numeric(res$mean_diffdate), c(11.5, 11.5, 21.5, 21.5))
@@ -326,12 +336,15 @@ test_that("mutate handles using and gathering complex data (#436)", {
 
 test_that("mutate forbids POSIXlt results (#670)", {
   expect_error(
-    data.frame(time = "2014/01/01 10:10:10") %>% mutate(time = as.POSIXlt(time)),
+    data.frame(time = "2014/01/01 10:10:10") %>%
+      mutate(time = as.POSIXlt(time)),
     "does not support"
   )
 
   expect_error(
-    data.frame(time = "2014/01/01 10:10:10", a = 2) %>% group_by(a) %>% mutate(time = as.POSIXlt(time)),
+    data.frame(time = "2014/01/01 10:10:10", a = 2) %>%
+      group_by(a) %>%
+      mutate(time = as.POSIXlt(time)),
     "does not support"
   )
 
@@ -346,11 +359,18 @@ test_that("constant factor can be handled by mutate (#715)", {
 test_that("row_number handles empty data frames (#762)", {
   df <- data.frame(a = numeric(0))
   res <- df %>% mutate(
-    row_number_0 = row_number(), row_number_a =  row_number(a), ntile = ntile(a, 2),
-    min_rank = min_rank(a), percent_rank = percent_rank(a),
-    dense_rank = dense_rank(a), cume_dist = cume_dist(a)
+    row_number_0 = row_number(),
+    row_number_a = row_number(a),
+    ntile = ntile(a, 2),
+    min_rank = min_rank(a),
+    percent_rank = percent_rank(a),
+    dense_rank = dense_rank(a),
+    cume_dist = cume_dist(a)
   )
-  expect_equal(names(res), c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist"))
+  expect_equal(
+    names(res),
+     c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist")
+   )
   expect_equal(nrow(res), 0L)
 })
 
@@ -376,8 +396,12 @@ test_that("mutate handles 0 rows rowwise #1300", {
   a <- data.frame(x = 1)
   b <- data.frame(y = character(), stringsAsFactors = F)
 
-  g <- function(y) {1}
-  f <- function() { b %>% rowwise() %>% mutate(z = g(y))}
+  g <- function(y) {
+    1
+  }
+  f <- function() {
+    b %>% rowwise() %>% mutate(z = g(y))
+  }
 
   res <- f()
   expect_equal(nrow(res), 0L)
@@ -433,7 +457,10 @@ test_that("rowwie mutate gives expected results (#1381)", {
 })
 
 test_that("mutate handles factors (#1414)", {
-  d <- data_frame(g = c(1, 1, 1, 2, 2, 3, 3), f = c("a", "b", "a", "a", "a", "b", "b"))
+  d <- data_frame(
+    g = c(1, 1, 1, 2, 2, 3, 3),
+    f = c("a", "b", "a", "a", "a", "b", "b")
+  )
   res <- d %>% group_by(g) %>% mutate(f2 = factor(f))
   expect_equal(as.character(res$f2), res$f)
 })
@@ -464,10 +491,14 @@ test_that("rowwise mutate handles the NA special case (#1448)", {
 
 test_that("mutate disambiguates NA and NaN (#1448)", {
   Pass <- data.frame(P2 = c(0, 3, 2), F2 = c(0, 2, 0), id = 1:3)
-  res <- Pass %>% group_by(id) %>% mutate(pass2 = P2 / (P2 + F2))
+  res <- Pass %>%
+    group_by(id) %>%
+    mutate(pass2 = P2 / (P2 + F2))
   expect_true(is.nan(res$pass2[1]))
 
-  res <- Pass %>% rowwise %>% mutate(pass2 = P2 / (P2 + F2))
+  res <- Pass %>%
+    rowwise %>%
+    mutate(pass2 = P2 / (P2 + F2))
   expect_true(is.nan(res$pass2[1]))
 
   Pass <- data_frame(
@@ -479,10 +510,12 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
   )
 
   res <- Pass %>%
-     group_by(id) %>%
-       dplyr::mutate(pass_rate = (P1 + P2) / (P1 + P2 + F1 + F2) * 100,
-              pass_rate1 = P1 / (P1 + F1) * 100,
-              pass_rate2 = P2 / (P2 + F2) * 100)
+    group_by(id) %>%
+    mutate(
+      pass_rate = (P1 + P2) / (P1 + P2 + F1 + F2) * 100,
+      pass_rate1 = P1 / (P1 + F1) * 100,
+      pass_rate2 = P2 / (P2 + F2) * 100
+    )
   expect_true(is.nan(res$pass_rate2[1]))
 })
 

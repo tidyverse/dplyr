@@ -144,8 +144,10 @@ test_that("bind_rows promotes factor to character with warning", {
   df1 <- data_frame(a = factor("a"))
   df2 <- data_frame(a = "b")
 
-  expect_warning(res <- bind_rows(df1, df2),
-    "binding factor and character vector, coercing into character vector")
+  expect_warning(
+    res <- bind_rows(df1, df2),
+    "binding factor and character vector, coercing into character vector"
+  )
   expect_equal(typeof(res$a), "character")
 })
 
@@ -223,8 +225,10 @@ test_that("bind_rows handles complex. #933", {
 })
 
 test_that("bind_rows is careful about column names encoding #1265", {
-  one <- data.frame(foo = 1:3, bar = 1:3);  names(one) <- c("f\u00fc", "bar")
-  two <- data.frame(foo = 1:3, bar = 1:3);  names(two) <- c("f\u00fc", "bar")
+  one <- data.frame(foo = 1:3, bar = 1:3)
+  names(one) <- c("f\u00fc", "bar")
+  two <- data.frame(foo = 1:3, bar = 1:3)
+  names(two) <- c("f\u00fc", "bar")
   Encoding(names(one)[1]) <- "UTF-8"
   expect_equal(names(one), names(two))
   res <- bind_rows(one, two)

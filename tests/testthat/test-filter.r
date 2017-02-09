@@ -152,7 +152,7 @@ test_that("filter returns the input data if no parameters are given", {
 
 test_that("$ does not end call traversing. #502", {
   # Suppose some analysis options are set much earlier in the script
-  analysis_opts <- list(min_outcome = .25)
+  analysis_opts <- list(min_outcome = 0.25)
 
   # Generate some dummy data
   d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>% tbl_df %>%
@@ -221,7 +221,7 @@ test_that("row_number does not segfault with example from #781", {
 })
 
 test_that("filter does not alter expression (#971)", {
-  my_filter <- ~ am == 1;
+  my_filter <- ~ am == 1
   expect_error(mtcars %>% filter(my_filter))
   expect_equal(my_filter[[2]][[2]], as.name("am"))
 })
@@ -296,7 +296,9 @@ test_that("filter(FALSE) drops indices", {
 
 test_that("filter handles S4 objects (#1366)", {
   env <- environment()
-  Numbers <- suppressWarnings(setClass("Numbers", slots = c(foo = "numeric"), contains = "integer", where = env))
+  Numbers <- suppressWarnings(setClass(
+    "Numbers", slots = c(foo = "numeric"), contains = "integer", where = env
+  ))
   on.exit(removeClass("Numbers", where = env))
 
   df <- data.frame(x = Numbers(1:10, foo = 10))
