@@ -170,13 +170,13 @@ db_data_type.MySQLConnection <- function(con, fields, ...) {
   data_type <- function(x) {
     switch(
       class(x)[1],
-      logical = "boolean",
-      integer = "integer",
-      numeric = "double",
-      factor =  char_type(x),
+      logical =   "boolean",
+      integer =   "integer",
+      numeric =   "double",
+      factor =    char_type(x),
       character = char_type(x),
-      Date =    "date",
-      POSIXct = "datetime",
+      Date =      "date",
+      POSIXct =   "datetime",
       stop("Unknown class ", paste(class(x), collapse = "/"), call. = FALSE)
     )
   }
