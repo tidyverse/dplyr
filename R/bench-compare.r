@@ -3,29 +3,29 @@
 #' These functions support the comparison of results and timings across
 #' multiple sources.
 #'
-#' @param tbls A list of \code{\link{tbl}}s.
+#' @param tbls A list of [tbl()]s.
 #' @param op A function with a single argument, called often with each
-#'   element of \code{tbls}.
+#'   element of `tbls`.
 #' @param ref For checking, an data frame to test results against. If not
-#'   supplied, defaults to the results from the first \code{src}.
+#'   supplied, defaults to the results from the first `src`.
 #' @param compare A function used to compare the results. Defaults to
-#'   \code{equal_data_frame} which ignores the order of rows and columns.
+#'   `equal_data_frame` which ignores the order of rows and columns.
 #' @param times For benchmarking, the number of times each operation is
 #'   repeated.
 #' @param \dots
-#'    For \code{compare_tbls}: additional parameters passed on the
-#'      \code{compare} function
+#'    For `compare_tbls()`: additional parameters passed on the
+#'      `compare()` function
 #'
-#'    For \code{bench_tbls}: additional benchmarks to run.
+#'    For `bench_tbls()`: additional benchmarks to run.
 #' @return
-#'   \code{eval_tbls}: a list of data frames.
+#'   `eval_tbls()`: a list of data frames.
 #'
-#'   \code{compare_tbls}: an invisible \code{TRUE} on success, otherwise
+#'   `compare_tbls()`: an invisible `TRUE` on success, otherwise
 #'   an error is thrown.
 #'
-#'   \code{bench_tbls}: an object of class
-#'   \code{\link[microbenchmark]{microbenchmark}}
-#' @seealso \code{\link{src_local}} for working with local data
+#'   `bench_tbls()`: an object of class
+#'   [microbenchmark::microbenchmark()]
+#' @seealso [src_local()] for working with local data
 #' @examples
 #' \dontrun{
 #' if (require("microbenchmark") && has_lahman()) {

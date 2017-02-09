@@ -17,7 +17,7 @@ group_by_(.data, ..., .dots, add = FALSE)
 some will also accept functions of variables. Duplicated groups
 will be silently dropped.}
 
-\item{add}{By default, when \code{add = FALSE}, \code{group_by} will
+\item{add}{By default, when \code{add = FALSE}, \code{group_by()} will
 override existing groups. To instead add to the existing groups,
 use \code{add = TRUE}}
 
@@ -26,23 +26,23 @@ use \code{add = TRUE}}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the
-the dataset. The \code{group_by} function takes an existing tbl
+the dataset. The \code{group_by()} function takes an existing tbl
 and converts it into a grouped tbl where operations are performed
 "by group".
 }
 \section{Tbl types}{
 
 
-\code{group_by} is an S3 generic with methods for the three built-in
+\code{group_by()} is an S3 generic with methods for the three built-in
 tbls. See the help for the corresponding classes and their manip
 methods for more details:
 
 \itemize{
-  \item data.frame: \link{grouped_df}
-  \item data.table: \link[dtplyr]{grouped_dt}
-  \item SQLite: \code{\link{src_sqlite}}
-  \item PostgreSQL: \code{\link{src_postgres}}
-  \item MySQL: \code{\link{src_mysql}}
+\item data.frame: \link{grouped_df}
+\item data.table: \link[dtplyr:grouped_dt]{dtplyr::grouped_dt}
+\item SQLite: \code{\link[=src_sqlite]{src_sqlite()}}
+\item PostgreSQL: \code{\link[=src_postgres]{src_postgres()}}
+\item MySQL: \code{\link[=src_mysql]{src_mysql()}}
 }
 }
 
@@ -75,6 +75,6 @@ groups(group_by(by_cyl, vs, am, add = TRUE))
 groups(group_by(by_cyl, cyl, cyl))
 }
 \seealso{
-\code{\link{ungroup}} for the inverse operation,
-  \code{\link{groups}} for accessors that don't do special evaluation.
+\code{\link[=ungroup]{ungroup()}} for the inverse operation,
+\code{\link[=groups]{groups()}} for accessors that don't do special evaluation.
 }

@@ -1,11 +1,11 @@
 #' Create a "sql src" object
 #'
-#' \code{src_sql} is the standard constructor for all SQL based srcs.
+#' `src_sql()` is the standard constructor for all SQL based srcs.
 #'
 #' @keywords internal
 #' @export
 #' @param subclass name of subclass. "src_sql" is an abstract base class, so you
-#'   must supply this value. \code{src_} is automatically prepended to the
+#'   must supply this value. `src_` is automatically prepended to the
 #'   class name
 #' @param con the connection object
 #' @param ... fields used by object
@@ -16,19 +16,19 @@ src_sql <- function(subclass, con, ...) {
 
 #' Acquire/release connections from a src object
 #'
-#' \code{con_acquire} gets a connection from a src object; \code{con_release}
+#' `con_acquire()` gets a connection from a src object; `con_release()`
 #' returns a previously acquired connection back to its src object. Intended for
 #' internal use.
 #'
-#' These methods have default implementations for \code{src_sql} and can be
+#' These methods have default implementations for `src_sql` and can be
 #' overridden for src objects that are not themselves DB connections, but know
 #' how to get them (e.g. a connection pool).
 #'
 #' @keywords internal
 #' @export
-#' @param src A src object (most commonly, from \code{src_sql})
+#' @param src A src object (most commonly, from `src_sql()`)
 #' @param con A connection
-#' @return For \code{con_acquire}, a connection object; for \code{con_release},
+#' @return For `con_acquire()`, a connection object; for `con_release()`,
 #'   nothing.
 con_acquire <- function(src) {
   UseMethod("con_acquire", src)

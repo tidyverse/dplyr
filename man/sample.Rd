@@ -14,8 +14,8 @@ sample_frac(tbl, size = 1, replace = FALSE, weight = NULL,
 \arguments{
 \item{tbl}{tbl of data.}
 
-\item{size}{For \code{sample_n}, the number of rows to select.
-For \code{sample_frac}, the fraction of rows to select.
+\item{size}{For \code{sample_n()}, the number of rows to select.
+For \code{sample_frac()}, the fraction of rows to select.
 If \code{tbl} is grouped, \code{size} applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
@@ -29,7 +29,7 @@ standardised to sum to 1.}
 \code{weight}. Non-default settings for experts only.}
 }
 \description{
-This is a wrapper around \code{\link{sample.int}} to make it easy to
+This is a wrapper around \code{\link[=sample.int]{sample.int()}} to make it easy to
 select random rows from a table. It currently only works for local
 tbls.
 }

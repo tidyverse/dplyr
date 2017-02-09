@@ -1,20 +1,20 @@
 #' Sample n rows from a table.
 #'
-#' This is a wrapper around \code{\link{sample.int}} to make it easy to
+#' This is a wrapper around [sample.int()] to make it easy to
 #' select random rows from a table. It currently only works for local
 #' tbls.
 #'
 #' @param tbl tbl of data.
-#' @param size For \code{sample_n}, the number of rows to select.
-#'   For \code{sample_frac}, the fraction of rows to select.
-#'   If \code{tbl} is grouped, \code{size} applies to each group.
+#' @param size For `sample_n()`, the number of rows to select.
+#'   For `sample_frac()`, the fraction of rows to select.
+#'   If `tbl` is grouped, `size` applies to each group.
 #' @param replace Sample with or without replacement?
 #' @param weight Sampling weights. This expression is evaluated in the
 #'   context of the data frame. It must return a vector of non-negative
 #'   numbers the same length as the input. Weights are automatically
 #'   standardised to sum to 1.
 #' @param .env Environment in which to look for non-data names used in
-#'   \code{weight}. Non-default settings for experts only.
+#'   `weight`. Non-default settings for experts only.
 #' @name sample
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)

@@ -6,7 +6,7 @@
 #' @param x a vector of values
 #' @param n a postive integer of length 1, giving the number of positions to
 #'   lead or lag by
-#' @param default value used for non-existant rows. Defaults to \code{NA}.
+#' @param default value used for non-existant rows. Defaults to `NA`.
 #' @param order_by override the default ordering to use another vector
 #' @param ... Needed for compatibility with lag generic.
 #' @importFrom stats lag

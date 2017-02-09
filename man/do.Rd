@@ -29,27 +29,27 @@ of memory. If it's too small, it will be slow, because of the overhead of
 talking to the database.}
 }
 \value{
-\code{do} always returns a data frame. The first columns in the data frame
+\code{do()} always returns a data frame. The first columns in the data frame
 will be the labels, the others will be computed from \code{...}. Named
 arguments become list-columns, with one element for each group; unnamed
 elements must be data frames and labels will be duplicated accordingly.
 
 Groups are preserved for a single unnamed input. This is different to
-\code{\link{summarise}} because \code{do} generally does not reduce the
+\code{\link[=summarise]{summarise()}} because \code{do()} generally does not reduce the
 complexity of the data, it just expresses it in a special way. For
 multiple named inputs, the output is grouped by row with
-\code{\link{rowwise}}. This allows other verbs to work in an intuitive
+\code{\link[=rowwise]{rowwise()}}. This allows other verbs to work in an intuitive
 way.
 }
 \description{
 This is a general purpose complement to the specialised manipulation
-functions \code{\link{filter}}, \code{\link{select}}, \code{\link{mutate}},
-\code{\link{summarise}} and \code{\link{arrange}}. You can use \code{do}
+functions \code{\link[=filter]{filter()}}, \code{\link[=select]{select()}}, \code{\link[=mutate]{mutate()}},
+\code{\link[=summarise]{summarise()}} and \code{\link[=arrange]{arrange()}}. You can use \code{do()}
 to perform arbitrary computation, returning either a data frame or
 arbitrary objects which will be stored in a list. This is particularly
 useful when working with models: you can fit models per group with
-\code{do} and then flexibly extract components with either another
-\code{do} or \code{summarise}.
+\code{do()} and then flexibly extract components with either another
+\code{do()} or \code{summarise()}.
 }
 \details{
 For an empty data frame, the expressions will be evaluated once, even in the
@@ -59,12 +59,12 @@ data frame is the same for both empty and non-empty input.
 \section{Connection to plyr}{
 
 
-If you're familiar with plyr, \code{do} with named arguments is basically
-equivalent to \code{dlply}, and \code{do} with a single unnamed argument
-is basically equivalent to \code{ldply}. However, instead of storing
+If you're familiar with plyr, \code{do()} with named arguments is basically
+equivalent to \code{\link[plyr:dlply]{plyr::dlply()}}, and \code{do()} with a single unnamed argument
+is basically equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}. However, instead of storing
 labels in a separate attribute, the result is always a data frame. This
-means that \code{summarise} applied to the result of \code{do} can
-act like \code{ldply}.
+means that \code{summarise()} applied to the result of \code{do()} can
+act like \code{ldply()}.
 }
 
 \examples{

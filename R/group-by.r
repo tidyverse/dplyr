@@ -1,33 +1,33 @@
 #' Group a tbl by one or more variables.
 #'
 #' Most data operations are useful done on groups defined by variables in the
-#' the dataset. The \code{group_by} function takes an existing tbl
+#' the dataset. The `group_by()` function takes an existing tbl
 #' and converts it into a grouped tbl where operations are performed
 #' "by group".
 #'
 #' @section Tbl types:
 #'
-#' \code{group_by} is an S3 generic with methods for the three built-in
+#' `group_by()` is an S3 generic with methods for the three built-in
 #' tbls. See the help for the corresponding classes and their manip
 #' methods for more details:
 #'
 #' \itemize{
-#'   \item data.frame: \link{grouped_df}
-#'   \item data.table: \link[dtplyr]{grouped_dt}
-#'   \item SQLite: \code{\link{src_sqlite}}
-#'   \item PostgreSQL: \code{\link{src_postgres}}
-#'   \item MySQL: \code{\link{src_mysql}}
+#'   \item data.frame: [grouped_df]
+#'   \item data.table: [dtplyr::grouped_dt]
+#'   \item SQLite: [src_sqlite()]
+#'   \item PostgreSQL: [src_postgres()]
+#'   \item MySQL: [src_mysql()]
 #' }
 #'
-#' @seealso \code{\link{ungroup}} for the inverse operation,
-#'   \code{\link{groups}} for accessors that don't do special evaluation.
+#' @seealso [ungroup()] for the inverse operation,
+#'   [groups()] for accessors that don't do special evaluation.
 #' @param .data a tbl
 #' @param ... variables to group by. All tbls accept variable names,
 #'   some will also accept functions of variables. Duplicated groups
 #'   will be silently dropped.
-#' @param add By default, when \code{add = FALSE}, \code{group_by} will
+#' @param add By default, when `add = FALSE`, `group_by()` will
 #'   override existing groups. To instead add to the existing groups,
-#'   use \code{add = TRUE}
+#'   use `add = TRUE`
 #' @inheritParams filter
 #' @export
 #' @examples
@@ -107,10 +107,10 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 #' Get/set the grouping variables for tbl.
 #'
 #' These functions do not perform non-standard evaluation, and so are useful
-#' when programming against \code{tbl} objects. \code{ungroup} is a convenient
+#' when programming against `tbl` objects. `ungroup()` is a convenient
 #' inline way of removing existing grouping.
 #'
-#' @param x data \code{\link{tbl}}
+#' @param x data [tbl()]
 #' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples

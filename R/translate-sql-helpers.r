@@ -7,7 +7,7 @@
 #'
 #' @section Helper functions:
 #'
-#' \code{sql_infix} and \code{sql_prefix} create default SQL infix and prefix
+#' `sql_infix()` and `sql_prefix()` create default SQL infix and prefix
 #' functions given the name of the SQL function. They don't perform any input
 #' checking, but do correctly escape their input, and are useful for
 #' quickly providing default wrappers for a new SQL variant.
@@ -16,15 +16,15 @@
 #' @param scalar,aggregate,window The three families of functions than an
 #'   SQL variant can supply.
 #' @param ...,.funs named functions, used to add custom converters from standard
-#'  R functions to sql functions. Specify individually in \code{...}, or
-#'  provide a list of \code{.funs}
+#'  R functions to sql functions. Specify individually in `...`, or
+#'  provide a list of `.funs`
 #' @param .parent the sql variant that this variant should inherit from.
-#'   Defaults to \code{base_sql} which provides a standard set of
+#'   Defaults to `base_agg` which provides a standard set of
 #'   mappings for the most common operators and functions.
 #' @param f the name of the sql function as a string
-#' @param n for \code{sql_infix}, an optional number of arguments to expect.
+#' @param n for `sql_infix()`, an optional number of arguments to expect.
 #'   Will signal error if not correct.
-#' @seealso \code{\link{sql}} for an example of a more customised sql
+#' @seealso [sql()] for an example of a more customised sql
 #'   conversion function.
 #' @export
 #' @examples

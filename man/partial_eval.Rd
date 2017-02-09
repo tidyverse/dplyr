@@ -7,7 +7,7 @@
 partial_eval(call, tbl = NULL, env = parent.frame())
 }
 \arguments{
-\item{call}{an unevaluated expression, as produced by \code{\link{quote}}}
+\item{call}{an unevaluated expression, as produced by \code{\link[=quote]{quote()}}}
 
 \item{tbl}{a tbl object}
 
@@ -23,15 +23,15 @@ is incorporated into the expression.
 \section{Symbol substitution}{
 
 
-\code{partial_eval} needs to guess if you're referring to a variable on the
+\code{partial_eval()} needs to guess if you're referring to a variable on the
 server (remote), or in the current environment (local). It's not possible to
-do this 100% perfectly. \code{partial_eval} uses the following heuristic:
+do this 100% perfectly. \code{partial_eval()} uses the following heuristic:
 
 \itemize{
-  \item If the tbl variables are known, and the symbol matches a tbl
-    variable, then remote.
-  \item If the symbol is defined locally, local.
-  \item Otherwise, remote.
+\item If the tbl variables are known, and the symbol matches a tbl
+variable, then remote.
+\item If the symbol is defined locally, local.
+\item Otherwise, remote.
 }
 }
 

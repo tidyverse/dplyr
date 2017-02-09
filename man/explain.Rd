@@ -16,8 +16,8 @@ show_query(x)
 }
 \description{
 This is a generic function which gives more details about an object than
-\code{\link{print}}, and is more focussed on human readable output than
-\code{\link{str}}.
+\code{\link[=print]{print()}}, and is more focussed on human readable output than
+\code{\link[=str]{str()}}.
 }
 \section{Databases}{
 

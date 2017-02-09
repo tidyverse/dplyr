@@ -1,16 +1,16 @@
 #' Counts/tally observations by group.
 #'
-#' \code{tally} is a convenient wrapper for summarise that will either call
-#' \code{\link{n}} or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying. \code{count()} is similar, but also
-#' does the \code{\link{group_by}} for you.
+#' `tally()` is a convenient wrapper for summarise that will either call
+#' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
+#' for the first time, or re-tallying. `count()` is similar, but also
+#' does the [group_by()] for you.
 #'
-#' @param x a \code{\link{tbl}} to tally/count.
+#' @param x a [tbl()] to tally/count.
 #' @param ...,vars Variables to group by.
 #' @param wt (Optional) If omitted, will count the number of rows. If specified,
 #'   will perform a "weighted" tally by summing the (non-missing) values of
-#'   variable \code{wt}.
-#' @param sort if \code{TRUE} will sort output in descending order of \code{n}
+#'   variable `wt`.
+#' @param sort if `TRUE` will sort output in descending order of `n`
 #' @export
 #' @examples
 #' if (require("Lahman")) {
@@ -33,10 +33,10 @@
 #' }
 #'
 #' @note
-#' The column name in the returned data is \code{n}, however if the data already
-#' has a column named \code{n} a lower-case n will be appended and the column name
-#' returned will be \code{nn}.  Likewise, if the table already has columns named \code{n}
-#' and \code{nn} then the column returned will be \code{nnn}, etc.
+#' The column name in the returned data is `n`, however if the data already
+#' has a column named `n` a lower-case n will be appended and the column name
+#' returned will be `nn`.  Likewise, if the table already has columns named `n`
+#' and `nn` then the column returned will be `nnn`, etc.
 tally <- function(x, wt, sort = FALSE) {
   if (missing(wt)) {
     if ("n" %in% names(x)) {

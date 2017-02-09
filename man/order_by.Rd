@@ -13,13 +13,13 @@ order_by(order_by, call)
 is the vector being operated on}
 }
 \description{
-This is a useful function to control the order of window functions in 
+This is a useful function to control the order of window functions in
 R that don't have a specific ordering parameter. When translated to SQL
 it will modify the order clause of the OVER function.
 }
 \details{
 This function works by changing the \code{call} to instead call
-\code{\link{with_order}} with the appropriate arguments.
+\code{\link[=with_order]{with_order()}} with the appropriate arguments.
 }
 \examples{
 order_by(10:1, cumsum(1:10))

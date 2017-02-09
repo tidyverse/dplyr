@@ -18,18 +18,17 @@ rename_vars_(vars, args)
 \arguments{
 \item{vars}{A character vector of existing column names.}
 
-\item{..., args}{Expressions to compute. \code{select_vars} and
-\code{rename_vars}}
+\item{..., args}{Expressions to compute}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}
 }
 \value{
 A named character vector. Values are existing column names,
-  names are new names.
+names are new names.
 }
 \description{
-These functions power \code{\link{select}()} and \code{\link{rename}()}.
+These functions power \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}}.
 }
 \examples{
 # Keep variables

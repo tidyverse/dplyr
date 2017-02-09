@@ -12,23 +12,23 @@
 #' @section Dimensions:
 #'
 #' \itemize{
-#'   \item \code{lat}, \code{long}: latitude and longitude
-#'   \item \code{year}, \code{month}: month and year
+#'   \item `lat`, `long`: latitude and longitude
+#'   \item `year`, `month`: month and year
 #' }
 #'
 #' @section Measures:
 #'
 #' \itemize{
-#'   \item \code{cloudlow}, \code{cloudmed}, \code{cloudhigh}: cloud cover
+#'   \item `cloudlow`, `cloudmed`, `cloudhigh`: cloud cover
 #'     at three heights
-#'   \item \code{ozone}
-#'   \item \code{surftemp} and \code{temperature}
-#'   \item \code{pressure}
+#'   \item `ozone`
+#'   \item `surftemp` and `temperature`
+#'   \item `pressure`
 #' }
 #' @docType data
 #' @name nasa
 #' @usage nasa
-#' @format A \code{\link{tbl_cube}} with 41,472 observations.
+#' @format A [tbl_cube] with 41,472 observations.
 #' @examples
 #' nasa
 NULL

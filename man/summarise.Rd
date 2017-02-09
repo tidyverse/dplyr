@@ -17,20 +17,20 @@ summarize_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
-\item{...}{Name-value pairs of summary functions like \code{\link{min}()},
-\code{\link{mean}()}, \code{\link{max}()} etc.}
+\item{...}{Name-value pairs of summary functions like \code{\link[=min]{min()}},
+\code{\link[=mean]{mean()}}, \code{\link[=max]{max()}} etc.}
 
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will
-  be dropped.
+be dropped.
 
-  Data frame row names are silently dropped. To preserve, convert to an
-  explicit variable.
+Data frame row names are silently dropped. To preserve, convert to an
+explicit variable.
 }
 \description{
 Summarise multiple values to a single value.

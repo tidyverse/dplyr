@@ -1,13 +1,13 @@
 #' Do arbitrary operations on a tbl.
 #'
 #' This is a general purpose complement to the specialised manipulation
-#' functions \code{\link{filter}}, \code{\link{select}}, \code{\link{mutate}},
-#' \code{\link{summarise}} and \code{\link{arrange}}. You can use \code{do}
+#' functions [filter()], [select()], [mutate()],
+#' [summarise()] and [arrange()]. You can use `do()`
 #' to perform arbitrary computation, returning either a data frame or
 #' arbitrary objects which will be stored in a list. This is particularly
 #' useful when working with models: you can fit models per group with
-#' \code{do} and then flexibly extract components with either another
-#' \code{do} or \code{summarise}.
+#' `do()` and then flexibly extract components with either another
+#' `do()` or `summarise()`.
 #'
 #' For an empty data frame, the expressions will be evaluated once, even in the
 #' presence of a grouping.  This makes sure that the format of the resulting
@@ -15,30 +15,30 @@
 #'
 #' @section Connection to plyr:
 #'
-#' If you're familiar with plyr, \code{do} with named arguments is basically
-#' equivalent to \code{dlply}, and \code{do} with a single unnamed argument
-#' is basically equivalent to \code{ldply}. However, instead of storing
+#' If you're familiar with plyr, `do()` with named arguments is basically
+#' equivalent to [plyr::dlply()], and `do()` with a single unnamed argument
+#' is basically equivalent to [plyr::ldply()]. However, instead of storing
 #' labels in a separate attribute, the result is always a data frame. This
-#' means that \code{summarise} applied to the result of \code{do} can
-#' act like \code{ldply}.
+#' means that `summarise()` applied to the result of `do()` can
+#' act like `ldply()`.
 #'
 #' @inheritParams filter
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
 #'   stored in a new column. If unnamed, should return a data frame. You can
-#'   use \code{.} to refer to the current group. You can not mix named and
+#'   use `.` to refer to the current group. You can not mix named and
 #'   unnamed arguments.
 #' @return
-#' \code{do} always returns a data frame. The first columns in the data frame
-#' will be the labels, the others will be computed from \code{...}. Named
+#' `do()` always returns a data frame. The first columns in the data frame
+#' will be the labels, the others will be computed from `...`. Named
 #' arguments become list-columns, with one element for each group; unnamed
 #' elements must be data frames and labels will be duplicated accordingly.
 #'
 #' Groups are preserved for a single unnamed input. This is different to
-#' \code{\link{summarise}} because \code{do} generally does not reduce the
+#' [summarise()] because `do()` generally does not reduce the
 #' complexity of the data, it just expresses it in a special way. For
 #' multiple named inputs, the output is grouped by row with
-#' \code{\link{rowwise}}. This allows other verbs to work in an intuitive
+#' [rowwise()]. This allows other verbs to work in an intuitive
 #' way.
 #' @export
 #' @examples

@@ -2,9 +2,9 @@
 #'
 #' Properties:
 #' \itemize{
-#'   \item \code{order(id)} is equivalent to \code{do.call(order, df)}
+#'   \item `order(id)` is equivalent to `do.call(order, df)`
 #'   \item rows containing the same data have the same value
-#'   \item if \code{drop = FALSE} then room for all possibilites
+#'   \item if `drop = FALSE` then room for all possibilites
 #' }
 #'
 #' @param .variables list of variables

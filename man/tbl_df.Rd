@@ -10,7 +10,7 @@ tbl_df(data)
 \item{data}{a data frame}
 }
 \description{
-Forwards the argument to \code{\link[tibble]{as_data_frame}}, see
+Forwards the argument to \code{\link[tibble:as_data_frame]{tibble::as_data_frame()}}, see
 \link{tibble-package} for more details.
 }
 \examples{

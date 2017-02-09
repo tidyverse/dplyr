@@ -1,21 +1,21 @@
 #' Vectorised if.
 #'
-#' Compared to the base \code{\link{ifelse}()}, this function is more strict.
-#' It checks that \code{true} and \code{false} are the same type. This
+#' Compared to the base [ifelse()], this function is more strict.
+#' It checks that `true` and `false` are the same type. This
 #' strictness makes the output type more predictable, and makes it somewhat
 #' faster.
 #'
 #' @param condition Logical vector
-#' @param true,false Values to use for \code{TRUE} and \code{FALSE} values of
-#'   \code{condition}. They must be either the same length as \code{condition},
-#'   or length 1. They must also be the same type: \code{if_else} checks that
+#' @param true,false Values to use for `TRUE` and `FALSE` values of
+#'   `condition`. They must be either the same length as `condition`,
+#'   or length 1. They must also be the same type: `if_else()` checks that
 #'   they have the same type and same class. All other attributes are
-#'   taken from \code{true}.
-#' @param missing If not \code{NULL}, will be used to replace missing
+#'   taken from `true`.
+#' @param missing If not `NULL`, will be used to replace missing
 #'   values.
-#' @return Where \code{condition} is \code{TRUE}, the matching value from
-#'   \code{true}, where it's \code{FALSE}, the matching value from \code{false},
-#'   otherwise \code{NA}.
+#' @return Where `condition` is `TRUE`, the matching value from
+#'   `true`, where it's `FALSE`, the matching value from `false`,
+#'   otherwise `NA`.
 #' @export
 #' @examples
 #' x <- c(-5:5, NA)

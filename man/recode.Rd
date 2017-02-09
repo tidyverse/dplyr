@@ -14,10 +14,10 @@ recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE,
 \item{.x}{A vector to modify}
 
 \item{...}{Replacements. These should be named for character and factor
-  \code{.x}, and can be named for numeric \code{.x}.
+\code{.x}, and can be named for numeric \code{.x}.
 
-  All replacements must be the same type, and must have either
-  length one or the same length as x.}
+All replacements must be the same type, and must have either
+length one or the same length as x.}
 
 \item{.default}{If supplied, all values not otherwise matched will
 be given this value. If not supplied and if the replacements are
@@ -39,15 +39,15 @@ ordered factor.}
 }
 \value{
 A vector the same length as \code{.x}, and the same type as
-  the first of \code{...}, \code{.default}, or \code{.missing}.
-  \code{recode_factor()} returns a factor whose levels are in the
-  same order as in \code{...}.
+the first of \code{...}, \code{.default}, or \code{.missing}.
+\code{recode_factor()} returns a factor whose levels are in the
+same order as in \code{...}.
 }
 \description{
-This is a vectorised version of \code{\link{switch}()}: you can replace
+This is a vectorised version of \code{\link[=switch]{switch()}}: you can replace
 numeric values based on their position, and character values by their
 name. This is an S3 generic: dplyr provides methods for numeric, character,
-and factors. For logical vectors, use \code{\link{if_else}}
+and factors. For logical vectors, use \code{\link[=if_else]{if_else()}}
 }
 \examples{
 # Recode values with named arguments

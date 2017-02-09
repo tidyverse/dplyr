@@ -12,12 +12,12 @@ funs_(dots, args = list(), env = baseenv())
 \arguments{
 \item{dots, ...}{A list of functions specified by:
 
-  \itemize{
-    \item Their name, \code{"mean"}
-    \item The function itself, \code{mean}
-    \item A call to the function with \code{.} as a dummy parameter,
-      \code{mean(., na.rm = TRUE)}
-  }}
+\itemize{
+\item Their name, \code{"mean"}
+\item The function itself, \code{mean}
+\item A call to the function with \code{.} as a dummy argument,
+\code{mean(., na.rm = TRUE)}
+}}
 
 \item{args}{A named list of additional arguments to be added to all
 function calls.}
@@ -25,8 +25,8 @@ function calls.}
 \item{env}{The environment in which functions should be evaluated.}
 }
 \description{
-\code{funs} provides a flexible way to generate a named list of functions for
-input to other functions like \code{summarise_each}.
+\code{funs()} provides a flexible way to generate a named list of functions for
+input to other functions like \code{\link[=summarise_each]{summarise_each()}}.
 }
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))

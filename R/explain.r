@@ -1,13 +1,13 @@
 #' Explain details of a tbl.
 #'
 #' This is a generic function which gives more details about an object than
-#' \code{\link{print}}, and is more focussed on human readable output than
-#' \code{\link{str}}.
+#' [print()], and is more focussed on human readable output than
+#' [str()].
 #'
 #' @section Databases:
-#' Explaining a \code{tbl_sql} will run the SQL \code{EXPLAIN} command which
+#' Explaining a `tbl_sql` will run the SQL `EXPLAIN` command which
 #' will describe the query plan. This requires a little bit of knowledge about
-#' how \code{EXPLAIN} works for your database, but is very useful for
+#' how `EXPLAIN` works for your database, but is very useful for
 #' diagnosing performance problems.
 #'
 #' @export

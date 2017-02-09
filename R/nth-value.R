@@ -6,8 +6,8 @@
 #' than expected.
 #'
 #' @param x A vector
-#' @param n For \code{nth_value}, a single integer specifying the position.
-#'   Negative integers index from the end (i.e. \code{-1L} will return the
+#' @param n For `nth_value()`, a single integer specifying the position.
+#'   Negative integers index from the end (i.e. `-1L` will return the
 #'   last value in the vector).
 #'
 #'   If a double is supplied, it will be silently truncated.
@@ -15,9 +15,9 @@
 #' @param default A default value to use if the position does not exist in
 #'   the input. This is guessed by default for atomic vectors, where a
 #'   missing value of the appropriate type is return, and for lists, where
-#'   a \code{NULL} is return. For more complicated objects, you'll need to
+#'   a `NULL` is return. For more complicated objects, you'll need to
 #'   supply this value.
-#' @return A single value. \code{[[} is used to do the subsetting.
+#' @return A single value. `[[` is used to do the subsetting.
 #' @export
 #' @examples
 #' x <- 1:10

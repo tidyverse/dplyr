@@ -2,20 +2,20 @@
 #'
 #' These functions allow you to select variables based on their names.
 #' \itemize{
-#'  \item \code{starts_with()}: starts with a prefix
-#'  \item \code{ends_with()}: ends with a prefix
-#'  \item \code{contains()}: contains a literal string
-#'  \item \code{matches()}: matches a regular expression
-#'  \item \code{num_range()}: a numerical range like x01, x02, x03.
-#'  \item \code{one_of()}: variables in character vector.
-#'  \item \code{everything()}: all variables.
+#'  \item `starts_with()`: starts with a prefix
+#'  \item `ends_with()`: ends with a prefix
+#'  \item `contains()`: contains a literal string
+#'  \item `matches()`: matches a regular expression
+#'  \item `num_range()`: a numerical range like x01, x02, x03.
+#'  \item `one_of()`: variables in character vector.
+#'  \item `everything()`: all variables.
 #' }
 #'
 #' @param match A string.
-#' @param ignore.case If \code{TRUE}, the default, ignores case when matching
+#' @param ignore.case If `TRUE`, the default, ignores case when matching
 #'   names.
 #' @param vars A character vector of variable names. When called from inside
-#'   \code{\link{select}()} these are automatically set to the names of the
+#'   [select()] these are automatically set to the names of the
 #'   table.
 #' @name select_helpers
 #' @return An integer vector given the position of the matched variables.
@@ -94,7 +94,7 @@ matches <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 #' @param prefix A prefix that starts the numeric range.
-#' @param range A sequence of integers, like \code{1:5}
+#' @param range A sequence of integers, like `1:5`
 #' @param width Optionally, the "width" of the numeric range. For example,
 #'   a range of 2 gives "01", a range of three "001", etc.
 num_range <- function(prefix, range, width = NULL, vars = current_vars()) {

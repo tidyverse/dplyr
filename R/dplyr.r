@@ -16,7 +16,7 @@
 #' }
 #'
 #' To learn more about dplyr, start with the vignettes:
-#' \code{browseVignettes(package = "dplyr")}
+#' `browseVignettes(package = "dplyr")`
 #'
 #' @docType package
 #' @name dplyr

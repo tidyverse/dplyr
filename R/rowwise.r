@@ -1,14 +1,14 @@
 #' Group input by rows
 #'
-#' \code{rowwise} is used for the results of \code{\link{do}} when you
+#' `rowwise()` is used for the results of [do()] when you
 #' create list-variables. It is also useful to support arbitrary
 #' complex operations that need to be applied to each row.
 #'
-#' Currently \code{rowwise} grouping only works with data frames. Its
+#' Currently, rowwise grouping only works with data frames. Its
 #' main impact is to allow you to work with list-variables in
-#' \code{\link{summarise}} and \code{\link{mutate}} without having to
-#' use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
-#' effectively equivalent to plyr's \code{ldply}.
+#' [summarise()] and [mutate()] without having to
+#' use `[[1]]`. This makes `summarise()` on a rowwise tbl
+#' effectively equivalent to [plyr::ldply()].
 #'
 #' @param data Input data frame.
 #' @export

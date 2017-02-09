@@ -35,16 +35,16 @@ will result in failure.}
 will create a new index.}
 }
 \description{
-\code{compute} forces computation of lazy tbls, leaving data in the remote
-source. \code{collect} also forces computation, but will bring data back into
-an R data.frame (stored in a \code{\link{tbl_df}}). \code{collapse} doesn't
+\code{compute()} forces computation of lazy tbls, leaving data in the remote
+source. \code{collect()} also forces computation, but will bring data back into
+an R data.frame (stored in a \code{\link[=tbl_df]{tbl_df()}}). \code{collapse()} doesn't
 force computation, but collapses a complex tbl into a form that additional
 restrictions can be placed on.
 }
 \section{Grouping}{
 
 
-\code{compute}, \code{collect}, and \code{collapse} preserve grouping.
+\code{compute()}, \code{collect()}, and \code{collapse()} preserve grouping.
 }
 
 \examples{
@@ -59,6 +59,6 @@ if (require("RSQLite") && has_lahman("sqlite")) {
 }
 }
 \seealso{
-\code{\link{copy_to}} which is the conceptual opposite: it
-  takes a local data frame and makes it available to the remote source.
+\code{\link[=copy_to]{copy_to()}} which is the conceptual opposite: it
+takes a local data frame and makes it available to the remote source.
 }

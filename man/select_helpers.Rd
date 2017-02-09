@@ -35,7 +35,7 @@ everything(vars = current_vars())
 names.}
 
 \item{vars}{A character vector of variable names. When called from inside
-\code{\link{select}()} these are automatically set to the names of the
+\code{\link[=select]{select()}} these are automatically set to the names of the
 table.}
 
 \item{prefix}{A prefix that starts the numeric range.}
@@ -53,13 +53,13 @@ An integer vector given the position of the matched variables.
 \description{
 These functions allow you to select variables based on their names.
 \itemize{
- \item \code{starts_with()}: starts with a prefix
- \item \code{ends_with()}: ends with a prefix
- \item \code{contains()}: contains a literal string
- \item \code{matches()}: matches a regular expression
- \item \code{num_range()}: a numerical range like x01, x02, x03.
- \item \code{one_of()}: variables in character vector.
- \item \code{everything()}: all variables.
+\item \code{starts_with()}: starts with a prefix
+\item \code{ends_with()}: ends with a prefix
+\item \code{contains()}: contains a literal string
+\item \code{matches()}: matches a regular expression
+\item \code{num_range()}: a numerical range like x01, x02, x03.
+\item \code{one_of()}: variables in character vector.
+\item \code{everything()}: all variables.
 }
 }
 \examples{

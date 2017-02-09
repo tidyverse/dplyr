@@ -16,8 +16,8 @@ or returns \code{TRUE} will be summarised or mutated.}
 \item{...}{Additional arguments passed to \code{.predicate}.}
 }
 \description{
-This verb is analogous to \code{\link{summarise_if}()} and
-\code{\link{mutate_if}()} in that it lets you use a predicate on
+This verb is analogous to \code{\link[=summarise_if]{summarise_if()}} and
+\code{\link[=mutate_if]{mutate_if()}} in that it lets you use a predicate on
 the columns of a data frame. Only those columns for which the
 predicate returns \code{TRUE} will be selected.
 }

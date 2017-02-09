@@ -1,7 +1,7 @@
 #' A general vectorised if.
 #'
-#' This function allows you to vectorise multiple \code{if} and \code{else if}
-#' statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
+#' This function allows you to vectorise multiple `if` and `else if`
+#' statements. It is an R equivalent of the SQL `CASE WHEN` statement.
 #'
 #' @param ... A sequence of two-sided formulas. The left hand side (LHS)
 #'   determines which values match this case. The right hand side (RHS)

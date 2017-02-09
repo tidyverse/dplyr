@@ -15,11 +15,11 @@ last(x, order_by = NULL, default = default_missing(x))
 \arguments{
 \item{x}{A vector}
 
-\item{n}{For \code{nth_value}, a single integer specifying the position.
-  Negative integers index from the end (i.e. \code{-1L} will return the
-  last value in the vector).
+\item{n}{For \code{nth_value()}, a single integer specifying the position.
+Negative integers index from the end (i.e. \code{-1L} will return the
+last value in the vector).
 
-  If a double is supplied, it will be silently truncated.}
+If a double is supplied, it will be silently truncated.}
 
 \item{order_by}{An optional vector used to determine the order}
 

@@ -5,14 +5,14 @@
 #' all it's inputs and return an sql object.
 #'
 #' @param ... Character vectors that will be combined into a single SQL
-#'   expression. \code{ident} flags its input as a identifier, to ensure that
+#'   expression. `ident` flags its input as a identifier, to ensure that
 #'   it gets the correct quoting.
 #' @param x An object to escape. Existing sql vectors will be left as is,
 #'   character vectors are escaped with single quotes, numeric vectors have
-#'   trailing \code{.0} added if they're whole numbers, identifiers are
+#'   trailing `.0` added if they're whole numbers, identifiers are
 #'   escaped with double quotes.
 #' @param parens,collapse Controls behaviour when multiple values are supplied.
-#'   \code{parens} should be a logical flag, or if \code{NA}, will wrap in
+#'   `parens` should be a logical flag, or if `NA`, will wrap in
 #'   parens if length > 1.
 #'
 #'   Default behaviour: lists are always wrapped in parens and separated by
@@ -191,8 +191,8 @@ names_to_as <- function(x, con = NULL) {
 #' treating bare strings as sql. This is unlikely to prevent any serious
 #' attack, but should make it unlikely that you produce invalid sql.
 #'
-#' @param ... input to convert to SQL. Use \code{\link{sql}} to preserve
-#'   user input as is (dangerous), and \code{\link{ident}} to label user
+#' @param ... input to convert to SQL. Use [sql()] to preserve
+#'   user input as is (dangerous), and [ident()] to label user
 #'   input as sql identifiers (safe)
 #' @param .env the environment in which to evalute the arguments. Should not
 #'   be needed in typical use.
@@ -227,7 +227,7 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
 #' Helper function for quoting sql elements.
 #'
 #' If the quote character is present in the string, it will be doubled.
-#' \code{NA}s will be replaced with NULL.
+#' `NA`s will be replaced with NULL.
 #'
 #' @export
 #' @param x Character vector to escape.
