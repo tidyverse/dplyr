@@ -96,7 +96,7 @@ combine_result <- function(item1, item2,
       result <- factor(c(as.character(item1), as.character(item2)))
     } else {
       # Default combination result
-      result <- unlist(list(item1,item2), recursive = FALSE, use.names = FALSE)
+      result <- unlist(list(item1, item2), recursive = FALSE, use.names = FALSE)
 
       # Add classes and attributes in some cases to the default
       if ((all(is.na(item1)) && "POSIXct" %in% class2) ||
@@ -205,4 +205,3 @@ combine_coercion_types <- function() {
     })
   }
 }
-

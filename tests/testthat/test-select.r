@@ -78,14 +78,14 @@ test_that("negative index removes values", {
   expect_equal(select_vars(vars, -c, a, b), c("a" = "a", "b" = "b"))
 })
 
-test_that("select can be before group_by (#309)",{
-  df <- data.frame(id=c(1,1,2,2,2,3,3,4,4,5), year=c(2013,2013,2012,2013,2013,2013,2012,2012,2013,2013), var1=rnorm(10))
+test_that("select can be before group_by (#309)", {
+  df <- data.frame(id = c(1, 1, 2, 2, 2, 3, 3, 4, 4, 5), year = c(2013, 2013, 2012, 2013, 2013, 2013, 2012, 2012, 2013, 2013), var1 = rnorm(10))
   dfagg <- df %>%
     group_by(id, year) %>%
     select(id, year, var1) %>%
-    summarise(var1=mean(var1))
+    summarise(var1 = mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
-  expect_equal(attr(dfagg, "vars" ), list(quote(id)))
+  expect_equal(attr(dfagg, "vars"), list(quote(id)))
 
 })
 

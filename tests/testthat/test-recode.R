@@ -110,7 +110,7 @@ test_that(".dot argument works correctly (PR #2110)", {
   x2 <- 1:3
 
   expect_equal(
-    recode(x1, a = "apple", b = "banana", .default = NA_character_), 
+    recode(x1, a = "apple", b = "banana", .default = NA_character_),
     recode(x1, .default = NA_character_, .dots = list(a = "apple", b = "banana"))
   )
   expect_equal(

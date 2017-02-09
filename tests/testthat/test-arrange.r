@@ -4,7 +4,7 @@ df2 <- data.frame(
   a = rep(c(NA, 1, 2, 3), each = 4),
   b = rep(c(0L, NA, 1L, 2L), 4),
   c = c(NA, NA, NA, NA, letters[10:21]),
-  d = rep( c(T, NA, F, T), each = 4),
+  d = rep(c(T, NA, F, T), each = 4),
   id = 1:16,
   stringsAsFactors = FALSE
 )
@@ -52,13 +52,13 @@ test_that("two arranges equivalent to one", {
 })
 
 test_that("arrange handles list columns (#282)", {
-  df <- data.frame( a = 2:1 )
-  df$b <- list( "foo", "bar" )
+  df <- data.frame(a = 2:1)
+  df$b <- list("foo", "bar")
   res <- arrange(df, a)
-  expect_equal(res$b, list( "bar", "foo" ) )
+  expect_equal(res$b, list("bar", "foo"))
 })
 
-test_that("arrange handles the case where ... is missing (#338)",{
+test_that("arrange handles the case where ... is missing (#338)", {
   expect_equivalent(arrange(mtcars), mtcars)
 })
 
@@ -77,40 +77,40 @@ test_that("grouped arrange ignores group (#491 -> #1206)", {
 test_that("arrange keeps the grouping structure (#605)", {
   dat <- data_frame(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
   res <- dat %>% group_by(g) %>% arrange()
-  expect_is(res, "grouped_df" )
+  expect_is(res, "grouped_df")
   expect_equal(res$x, dat$x)
 
   res <- dat %>% group_by(g) %>% arrange(x)
   expect_is(res, "grouped_df")
   expect_equal(res$x, 1:4)
-  expect_equal(attr(res,"indices"), list( c(1,3), c(0, 2)) )
+  expect_equal(attr(res, "indices"), list(c(1, 3), c(0, 2)))
 })
 
 test_that("arrange handles complex vectors", {
-  d <- data.frame(x=1:10,y=10:1+2i)
-  res <- arrange(d,y)
-  expect_equal( res$y, rev(d$y) )
-  expect_equal( res$x, rev(d$x) )
+  d <- data.frame(x = 1:10, y = 10:1 + 2i)
+  res <- arrange(d, y)
+  expect_equal(res$y, rev(d$y))
+  expect_equal(res$x, rev(d$x))
 
   res <- arrange(res, desc(y))
-  expect_equal( res$y, d$y )
-  expect_equal( res$x, d$x )
+  expect_equal(res$y, d$y)
+  expect_equal(res$x, d$x)
 
-  d$y[ c(3,6) ] <- NA
-  res <- arrange(d,y)
-  expect_true( all(is.na(res$y[9:10])) )
+  d$y[ c(3, 6) ] <- NA
+  res <- arrange(d, y)
+  expect_true(all(is.na(res$y[9:10])))
 
-  res <- arrange(d,desc(y))
-  expect_true( all(is.na(res$y[9:10])) )
+  res <- arrange(d, desc(y))
+  expect_true(all(is.na(res$y[9:10])))
 
 })
 
 test_that("arrange respects attributes #1105", {
   env <- environment()
-  Period <- suppressWarnings( setClass("Period", contains = "numeric", where = env) )
+  Period <- suppressWarnings(setClass("Period", contains = "numeric", where = env))
   on.exit(removeClass("Period", where = env))
 
-  df <- data.frame( p = Period(c(1, 2, 3)), x = 1:3 )
+  df <- data.frame(p = Period(c(1, 2, 3)), x = 1:3)
   res <- arrange(df, p)
   expect_is(res$p, "Period")
 })
@@ -118,45 +118,45 @@ test_that("arrange respects attributes #1105", {
 test_that("arrange works with empty data frame (#1142)", {
   df <- data.frame()
   res <- df %>% arrange
-  expect_equal( nrow(res), 0L )
-  expect_equal( length(res), 0L )
+  expect_equal(nrow(res), 0L)
+  expect_equal(length(res), 0L)
 })
 
 test_that("arrange respects locale (#1280)", {
-  df2 <- data_frame( words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano") )
+  df2 <- data_frame(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
 
-  res <- df2 %>% arrange( words )
-  expect_equal( res$words, sort(df2$words) )
+  res <- df2 %>% arrange(words)
+  expect_equal(res$words, sort(df2$words))
 
-  res <- df2 %>% arrange( desc(words) )
-  expect_equal( res$words, sort(df2$words, decreasing = TRUE) )
+  res <- df2 %>% arrange(desc(words))
+  expect_equal(res$words, sort(df2$words, decreasing = TRUE))
 
 })
 
 test_that("duplicated column name is explicit about which column (#996)", {
-    df <- data.frame( x = 1:10, x = 1:10 )
+    df <- data.frame(x = 1:10, x = 1:10)
     names(df) <- c("x", "x")
-    expect_error( df %>% arrange, "found duplicated column name: x|unique name.*'x'" )
+    expect_error(df %>% arrange, "found duplicated column name: x|unique name.*'x'")
 
-    df <- data.frame( x = 1:10, x = 1:10, y = 1:10, y = 1:10 )
+    df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
     names(df) <- c("x", "x", "y", "y")
-    expect_error( df %>% arrange, "found duplicated column name: x, y|unique name.*'x', 'y'" )
+    expect_error(df %>% arrange, "found duplicated column name: x, y|unique name.*'x', 'y'")
 })
 
 test_that("arrange fails gracefully on list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
-  expect_error( arrange(df, fit), "Unsupported vector type list" )
+  expect_error(arrange(df, fit), "Unsupported vector type list")
 })
 
 test_that("arrange fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error( arrange(df, a), "unsupported type" )
-  expect_error( arrange(df, b), "unsupported type" )
+  expect_error(arrange(df, a), "unsupported type")
+  expect_error(arrange(df, b), "unsupported type")
 })
 
 test_that("arrange fails gracefully on matrix input (#1870)", {
   df <- data_frame(a = 1:3, b = 4:6)
-  expect_error( arrange(df, is.na(df)), "matrix" )
+  expect_error(arrange(df, is.na(df)), "matrix")
 })

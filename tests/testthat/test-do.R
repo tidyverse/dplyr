@@ -185,7 +185,7 @@ test_that("results independent of chunk_size", {
   expect_equal(nrows(grp$sqlite, 10), c(1, 2, 3))
 })
 
-test_that("handling of empty data frames in do",{
+test_that("handling of empty data frames in do", {
   blankdf <- function(x) data.frame(blank = numeric(0))
   dat <- data.frame(a = 1:2, b = factor(1:2))
   res <- dat %>% group_by(b) %>% do(blankdf(.))

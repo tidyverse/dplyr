@@ -189,7 +189,7 @@ test_hybrid <- function(grouping) {
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(., f = lazyeval::f_eval( ~ mean(uq(
+        mutate(., f = lazyeval::f_eval(~ mean(uq(
           var
         )))) %>%
         select(-e),
@@ -513,4 +513,4 @@ test_hybrid <- function(grouping) {
 
 test_hybrid(identity)
 test_hybrid(rowwise)
-test_hybrid(. %>% group_by_( ~ id))
+test_hybrid(. %>% group_by_(~ id))

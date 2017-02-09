@@ -1,10 +1,10 @@
 context("combine")
 
 test_that("combine handles NULL (1596)", {
-    expect_equal( combine(list(NULL, 1,2)), c(1,2) )
-    expect_equal( combine(list(1,NULL,2)), c(1,2) )
-    expect_equal( combine(list(1,2,NULL)), c(1,2) )
-    expect_error( combine(list(NULL,NULL)))
+    expect_equal(combine(list(NULL, 1, 2)), c(1, 2))
+    expect_equal(combine(list(1, NULL, 2)), c(1, 2))
+    expect_equal(combine(list(1, 2, NULL)), c(1, 2))
+    expect_error(combine(list(NULL, NULL)))
 })
 
 test_that("combine complains about incompatibilites", {
@@ -60,7 +60,7 @@ test_that("combine works with NA and factors (#2203)", {
   # NA length > 1
   expected_result <- fac[c(1, 2, 3, 3, 4)]
 
-  works3 <- combine(list(fac[1], fac[2], fac[c(3,3)], fac[4]))
+  works3 <- combine(list(fac[1], fac[2], fac[c(3, 3)], fac[4]))
   expect_equal(works3, expected_result)
 
   works4 <- combine(list(fac[1], fac[2], c(NA, NA), fac[4]))
@@ -127,7 +127,7 @@ test_that("combine works with NA and Date (#2203)", {
 
   # NA length > 1
   expected_result <- as.Date("2010-01-01") + c(0, 1, NA, NA, 3)
-  works1 <- combine(split(expected_result, c(1,2,3,3,4)))
+  works1 <- combine(split(expected_result, c(1, 2, 3, 3, 4)))
   expect_equal(works1, expected_result)
 
   works2 <- combine(list(as.Date("2010-01-01"), as.Date("2010-01-02"),
