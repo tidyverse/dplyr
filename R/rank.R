@@ -15,7 +15,7 @@
 #'   ranks
 #'
 #' \item `percent_rank()`: a number between 0 and 1 computed by
-#'   rescaling `min_rank` to [0, 1]
+#'   rescaling `min_rank` to `[0, 1]`
 #'
 #' \item `cume_dist()`: a cumulative distribution function. Proportion
 #'   of all values less than or equal to the current rank.
