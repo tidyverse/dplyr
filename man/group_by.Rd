@@ -34,8 +34,6 @@ use \code{add = TRUE}}
 \code{vignette("nse")} for details.}
 
 \item{x}{data \code{\link[=tbl]{tbl()}}}
-
-\item{...}{Additional arguments that maybe used by methods.}
 }
 \description{
 Most data operations are useful done on groups defined by variables in the

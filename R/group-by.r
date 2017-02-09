@@ -108,7 +108,6 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 #' @description `groups()` returns the current grouping
 #'   as a list of [name()].
 #' @param x data [tbl()]
-#' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
