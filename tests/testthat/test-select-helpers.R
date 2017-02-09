@@ -39,7 +39,7 @@ test_that("can use a variable", {
   expect_equal(select_vars(vars, matches(vars)), c(x = "x"))
 })
 
-test_that("can use a variable even if it exists in the data (#2184)", {
+test_that("can use a variable even if it exists in the data (#2266)", {
   skip("Currently failing")
   vars <- c("x", "y")
   names(vars) <- vars
@@ -93,7 +93,7 @@ test_that("one_of works with variables", {
   expect_error(select_vars(vars, one_of(y)), "must be a character vector")
 })
 
-test_that("one_of works when passed variable name matches the column name (#2184)", {
+test_that("one_of works when passed variable name matches the column name (#2266)", {
   skip("Currently failing")
   vars <- c("x", "y")
   expected_result <- c(x = "x")
