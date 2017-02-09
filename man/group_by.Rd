@@ -33,7 +33,7 @@ use \code{add = TRUE}}
 \item{.dots}{Used to work around non-standard evaluation. See
 \code{vignette("nse")} for details.}
 
-\item{x}{data \code{\link{tbl}}}
+\item{x}{data \code{\link[=tbl]{tbl()}}}
 
 \item{...}{Additional arguments that maybe used by methods.}
 }
@@ -44,7 +44,7 @@ and converts it into a grouped tbl where operations are performed
 "by group".
 
 \code{groups()} returns the current grouping
-as a list of \code{\link{name}}.
+as a list of \code{\link[=name]{name()}}.
 
 \code{group_vars()} returns the current grouping
 as a character vector.

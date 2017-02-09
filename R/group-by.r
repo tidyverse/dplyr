@@ -105,9 +105,9 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
 }
 
 #' @rdname group_by
-#' @description \code{groups()} returns the current grouping
-#'   as a list of \code{\link{name}}.
-#' @param x data \code{\link{tbl}}
+#' @description `groups()` returns the current grouping
+#'   as a list of [name()].
+#' @param x data [tbl()]
 #' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples
@@ -119,7 +119,7 @@ groups <- function(x) {
 }
 
 #' @rdname group_by
-#' @description \code{group_vars()} returns the current grouping
+#' @description `group_vars()` returns the current grouping
 #'   as a character vector.
 #' @export
 group_vars <- function(x) {
@@ -138,7 +138,7 @@ regroup <- function(x, value) {
 }
 
 #' @rdname group_by
-#' @description \code{ungroup()} removes an existing grouping.
+#' @description `ungroup()` removes an existing grouping.
 #' @export
 ungroup <- function(x, ...) {
   UseMethod("ungroup")

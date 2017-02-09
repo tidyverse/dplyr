@@ -6,8 +6,8 @@
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
-#' @param vars a character vector or a list of \code{\link{name}}
-#' @param drop if \code{TRUE} preserve all factor levels, even those without
+#' @param vars a character vector or a list of [name()]
+#' @param drop if `TRUE` preserve all factor levels, even those without
 #'   data.
 #' @export
 grouped_df <- function(data, vars, drop = TRUE) {

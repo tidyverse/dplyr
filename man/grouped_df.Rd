@@ -20,7 +20,7 @@ is.grouped_df(x)
 
 \item{data}{a tbl or data frame.}
 
-\item{vars}{a character vector or a list of \code{\link{name}}}
+\item{vars}{a character vector or a list of \code{\link[=name]{name()}}}
 
 \item{drop}{if \code{TRUE} preserve all factor levels, even those without
 data.}
