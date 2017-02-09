@@ -29,16 +29,29 @@ test_that("throws with empty pattern is provided", {
   expect_error(matches(""))
 })
 
-test_that("works though passed variable's name matches one of the var names (issue #2184)", {
-  skip("Currently failing")
+test_that("can use a variable", {
   vars <- "x"
   names(vars) <- vars
 
-  expect_equal(select_vars(vars, starts_with(x)), c(x = "x"))
-  expect_equal(select_vars(vars, ends_with(x)), c(x = "x"))
-  expect_equal(select_vars(vars, contains(x)), c(x = "x"))
-  expect_equal(select_vars(vars, matches(x)), c(x = "x"))
+  expect_equal(select_vars(vars, starts_with(vars)), c(x = "x"))
+  expect_equal(select_vars(vars, ends_with(vars)), c(x = "x"))
+  expect_equal(select_vars(vars, contains(vars)), c(x = "x"))
+  expect_equal(select_vars(vars, matches(vars)), c(x = "x"))
 
+})
+
+test_that("can use a variable even if it exists in the data (#2184)", {
+  skip("Currently failing")
+  vars <- c("x", "y")
+  names(vars) <- vars
+
+  y <- "x"
+  expected_result <- c(x = "x")
+
+  expect_equal(select_vars(vars, starts_with(y)), expected_result)
+  expect_equal(select_vars(vars, ends_with(y)), expected_result)
+  expect_equal(select_vars(vars, contains(y)), expected_result)
+  expect_equal(select_vars(vars, matches(y)), expected_result)
 })
 
 test_that("num_range selects numeric ranges", {
