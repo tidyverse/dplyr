@@ -451,7 +451,7 @@ test_that("mutate handles the all NA case (#958)", {
 })
 
 test_that("rowwie mutate gives expected results (#1381)", {
-  f  <- function(x) ifelse(x < 2, NA_real_, x)
+  f <- function(x) ifelse(x < 2, NA_real_, x)
   res <- data_frame(x = 1:3) %>% rowwise() %>% mutate(y = f(x))
   expect_equal(res$y, c(NA, 2, 3))
 })
