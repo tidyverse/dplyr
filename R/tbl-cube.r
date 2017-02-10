@@ -354,16 +354,18 @@ group_by_.tbl_cube <- function(.data, ..., .dots, add = FALSE) {
   groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
 
   # Convert symbols to indices
-  nms <- names(groups$data$dims)
-  nms_list <- as.list(setNames(seq_along(nms), nms))
-
-  groups$data$groups <- unlist(lapply(groups$groups, eval, nms_list))
+  groups$data$groups <- match(groups$group_names, names(groups$data$dims))
   groups$data
 }
 
 #' @export
 groups.tbl_cube <- function(x) {
-  lapply(x$dims, as.name)[x$group]
+  lapply(group_vars(x), as.name)
+}
+
+#' @export
+group_vars.tbl_cube <- function(x) {
+  x$dims[x$group]
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special

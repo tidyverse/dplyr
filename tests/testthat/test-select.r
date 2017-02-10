@@ -19,7 +19,7 @@ test_that("select does not lose grouping (#147)", {
   df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
   grouped <- df %>% group_by(a) %>% select(a, b, x)
 
-  expect_equal(groups(grouped), list(quote(a)))
+  expect_groups(grouped, "a")
 })
 
 test_that("grouping variables preserved with a message (#1511)", {

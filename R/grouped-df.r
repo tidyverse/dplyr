@@ -6,7 +6,7 @@
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
-#' @param vars a list of quoted variables.
+#' @param vars a character vector or a list of [name()]
 #' @param drop if `TRUE` preserve all factor levels, even those without
 #'   data.
 #' @export
@@ -16,10 +16,12 @@ grouped_df <- function(data, vars, drop = TRUE) {
   }
   assert_that(
     is.data.frame(data),
-    is.list(vars),
-    all(sapply(vars, is.name)),
+    (is.list(vars) && all(sapply(vars,is.name))) || is.character(vars),
     is.flag(drop)
   )
+  if (is.list(vars)) {
+    vars <- deparse_names(vars)
+  }
   grouped_df_impl(data, unname(vars), drop)
 }
 
@@ -53,6 +55,8 @@ n_groups.grouped_df <- function(x) {
 
 #' @export
 groups.grouped_df <- function(x) {
+  # Implement group_vars.grouped_df() instead if this assertion fails
+  stopifnot(is.list(attr(x, "vars")))
   attr(x, "vars")
 }
 
@@ -73,12 +77,12 @@ ungroup.grouped_df <- function(x, ...) {
 `[.grouped_df` <- function(x, i, j, ...) {
   y <- NextMethod()
 
-  group_vars <- vapply(groups(x), as.character, character(1))
+  group_names <- group_vars(x)
 
-  if (!all(group_vars %in% names(y))) {
+  if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {
-    grouped_df(y, groups(x))
+    grouped_df(y, group_names)
   }
 
 }
@@ -107,7 +111,7 @@ select_.grouped_df <- function(.data, ..., .dots) {
 }
 
 ensure_grouped_vars <- function(vars, data, notify = TRUE) {
-  group_names <- vapply(groups(data), as.character, character(1))
+  group_names <- group_vars(data)
   missing <- setdiff(group_names, vars)
 
   if (length(missing) > 0) {

@@ -377,15 +377,15 @@ test_that("group column names reflect renamed duplicate columns (#2330)", {
   d1 <- data_frame(x = 1:5, y = 1:5) %>% group_by(x, y)
   d2 <- data_frame(x = 1:5, y = 1:5)
   res <- inner_join(d1, d2, by = "x")
-  expect_equal(groups(d1), list(quote(x), quote(y)))
-  expect_equal(groups(res), list(quote(x), quote(y.x)))
+  expect_groups(d1, c("x", "y"))
+  expect_groups(res, c("x", "y.x"))
 })
 
 test_that("group column names are null when joined data frames are not grouped (#2330)", {
   d1 <- data_frame(x = 1:5, y = 1:5)
   d2 <- data_frame(x = 1:5, y = 1:5)
   res <- inner_join(d1, d2, by = "x")
-  expect_null(groups(res))
+  expect_no_groups(res)
 })
 
 # Guessing variables in x and y ------------------------------------------------
