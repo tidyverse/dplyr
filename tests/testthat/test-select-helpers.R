@@ -29,6 +29,30 @@ test_that("throws with empty pattern is provided", {
   expect_error(matches(""))
 })
 
+test_that("can use a variable", {
+  vars <- "x"
+  names(vars) <- vars
+
+  expect_equal(select_vars(vars, starts_with(vars)), c(x = "x"))
+  expect_equal(select_vars(vars, ends_with(vars)), c(x = "x"))
+  expect_equal(select_vars(vars, contains(vars)), c(x = "x"))
+  expect_equal(select_vars(vars, matches(vars)), c(x = "x"))
+})
+
+test_that("can use a variable even if it exists in the data (#2266)", {
+  skip("Currently failing")
+  vars <- c("x", "y")
+  names(vars) <- vars
+
+  y <- "x"
+  expected_result <- c(x = "x")
+
+  expect_equal(select_vars(vars, starts_with(y)), expected_result)
+  expect_equal(select_vars(vars, ends_with(y)), expected_result)
+  expect_equal(select_vars(vars, contains(y)), expected_result)
+  expect_equal(select_vars(vars, matches(y)), expected_result)
+})
+
 test_that("num_range selects numeric ranges", {
   vars <- c("x1", "x2", "x01", "x02", "x10", "x11")
   names(vars) <- vars
@@ -58,6 +82,25 @@ test_that("one_of tolerates but warns for unknown variables", {
 
 test_that("one_of converts names to positions", {
   expect_equal(one_of("a", "z", vars = letters), c(1L, 26L))
+})
+
+test_that("one_of works with variables", {
+  vars <- c("x", "y")
+  expected_result <- c(x = "x")
+  var <- "x"
+  expect_equal(select_vars(vars, one_of(var)), expected_result)
+  expect_error(select_vars(vars, one_of(x)), "must be a character vector")
+  expect_error(select_vars(vars, one_of(y)), "must be a character vector")
+})
+
+test_that("one_of works when passed variable name matches the column name (#2266)", {
+  skip("Currently failing")
+  vars <- c("x", "y")
+  expected_result <- c(x = "x")
+  x <- "x"
+  y <- "x"
+  expect_equal(select_vars(vars, one_of(x)), expected_result)
+  expect_equal(select_vars(vars, one_of(y)), expected_result)
 })
 
 # first-selector ----------------------------------------------------------
