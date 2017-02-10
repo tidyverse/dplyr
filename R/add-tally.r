@@ -62,7 +62,7 @@ add_tally <- function(x, wt, sort = FALSE) {
 #' @rdname add_tally
 #' @export
 add_tally_ <- function(x, wt = NULL, sort = FALSE) {
-  g <- groups(x)
+  g <- group_vars(x)
   if (is.null(wt)) {
     n <- quote(n())
   } else {
@@ -75,7 +75,7 @@ add_tally_ <- function(x, wt = NULL, sort = FALSE) {
     desc_n <- lazyeval::interp(quote(desc(n)), n = as.name(n_name))
     out <- arrange_(out, desc_n)
   }
-  group_by_(out, .dots = g)
+  grouped_df(out, g)
 }
 
 
@@ -91,9 +91,9 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname add_tally
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  g <- groups(x)
+  g <- group_vars(x)
   grouped <- group_by_(x, .dots = vars, add = TRUE)
 
-  ret <- add_tally_(grouped, wt = wt, sort = sort)
-  group_by_(ret, .dots = g)
+  out <- add_tally_(grouped, wt = wt, sort = sort)
+  grouped_df(out, g)
 }

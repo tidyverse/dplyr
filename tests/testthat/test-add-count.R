@@ -16,9 +16,9 @@ test_that("add_count respects and preserves existing groups", {
   df <- data.frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   res <- df %>% add_count(val)
   expect_equal(res$n, c(3, 3, 3, 1))
-  expect_null(groups(res))
+  expect_no_groups(res)
 
   res <- df %>% group_by(g) %>% add_count(val)
   expect_equal(res$n, c(1, 2, 2, 1))
-  expect_equal(as.character(groups(res)), "g")
+  expect_groups(res, "g")
 })

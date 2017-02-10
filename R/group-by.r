@@ -95,23 +95,19 @@ group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use symbols
   new_groups <- lazyeval::auto_name(new_groups)
-  groups <- lapply(names(new_groups), as.name)
+  group_names <- names(new_groups)
   if (add) {
-    groups <- c(groups(.data), groups)
+    group_names <- c(group_vars(.data), group_names)
   }
-  groups <- groups[!duplicated(groups)]
+  group_names <- unique(group_names)
 
-  list(data = .data, groups = groups)
+  list(data = .data, groups = lapply(group_names, as.name), group_names = group_names)
 }
 
-#' Get/set the grouping variables for tbl.
-#'
-#' These functions do not perform non-standard evaluation, and so are useful
-#' when programming against `tbl` objects. `ungroup()` is a convenient
-#' inline way of removing existing grouping.
-#'
+#' @rdname group_by
+#' @description `groups()` returns the current grouping
+#'   as a list of [name()].
 #' @param x data [tbl()]
-#' @param ... Additional arguments that maybe used by methods.
 #' @export
 #' @examples
 #' grouped <- group_by(mtcars, cyl)
@@ -121,14 +117,28 @@ groups <- function(x) {
   UseMethod("groups")
 }
 
+#' @rdname group_by
+#' @description `group_vars()` returns the current grouping
+#'   as a character vector.
+#' @export
+group_vars <- function(x) {
+  UseMethod("group_vars")
+}
+
+#' @export
+group_vars.default <- function(x) {
+  deparse_names(groups(x))
+}
+
 #' @export
 regroup <- function(x, value) {
   .Deprecated("group_by_")
   group_by_(x, .dots = value)
 }
 
+#' @rdname group_by
+#' @description `ungroup()` removes an existing grouping.
 #' @export
-#' @rdname groups
 ungroup <- function(x, ...) {
   UseMethod("ungroup")
 }
