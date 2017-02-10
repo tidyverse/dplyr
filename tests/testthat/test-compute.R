@@ -22,8 +22,10 @@ test_that("compute can create indexes", {
                compare = equal_data_frame, convert = TRUE)
   # FIXME: Reenable Postgres when it starts throwing errors on execution
   # failures
+  # FIXME: Reenable dt after implementing indexes and unique_indexes args
+  # to compute()
   compare_tbls(
-    tbls[!(names(tbls) %in% c("df", "postgres"))],
+    tbls[!(names(tbls) %in% c("df", "dt", "postgres"))],
     function(tbl) {
       expect_error(compute(tbl, unique_indexes = "z"), ".")
       expect_error(compute(tbl, indexes = "x", unique_indexes = "z"))

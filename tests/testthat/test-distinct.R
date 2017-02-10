@@ -5,6 +5,7 @@ df <- data.frame(
   y = c(1, 1, 2, 2),
   z = c(1, 2, 1, 2)
 )
+
 tbls <- test_load(df)
 
 test_that("distinct equivalent to local unique when keep_all is TRUE", {
