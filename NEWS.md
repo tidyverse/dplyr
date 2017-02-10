@@ -1,5 +1,13 @@
 # dplyr 0.5.0.9000
 
+* Add failing tests (#2415, @ngr-t).
+
+* Add failing tests (#2245, @mgperry).
+
+* Add failing tests (#2251, @t-kalinowski).
+
+* Add failing tests (#2342, @karldw).
+
 * Documentation fixes for `arrange()`, `add_count()` and `row_number()` (#2152, #2205, #2218, #2369, @cb4ds).
 
 * `recode()` gains `.dots` argument to support passing replacements as list (#2110, @jlegewie).
