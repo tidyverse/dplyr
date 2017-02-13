@@ -115,7 +115,7 @@ namespace dplyr {
       return biggest_group_size;
     }
 
-    inline bool has_group(SymbolString g) const {
+    inline bool has_group(const SymbolString& g) const {
       int n = symbols.size();
       for (int i=0; i<n; i++) {
         if (symbols[i] == g) return true;

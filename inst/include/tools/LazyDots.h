@@ -7,7 +7,7 @@ namespace Rcpp {
 
   class Lazy {
   public:
-    Lazy(List data_, SymbolString name__) :
+    Lazy(List data_, const SymbolString& name__) :
       data(data_),
       name_(name__)
     {}

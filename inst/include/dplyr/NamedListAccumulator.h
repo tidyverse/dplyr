@@ -28,7 +28,7 @@ namespace dplyr {
 
     }
 
-    inline void rm(SymbolString name) {
+    inline void rm(const SymbolString& name) {
       SymbolMapIndex index = symbol_map.rm(name);
       if (index.origin != NEW) {
         data.erase(data.begin() + index.pos);
