@@ -1,11 +1,13 @@
 #ifndef dplyr__Lazy_h
 #define dplyr__Lazy_h
 
+#include <tools/SymbolString.h>
+
 namespace Rcpp {
 
   class Lazy {
   public:
-    Lazy(List data_, String name__) :
+    Lazy(List data_, SymbolString name__) :
       data(data_),
       name_(name__)
     {}
@@ -21,13 +23,13 @@ namespace Rcpp {
     inline SEXP env() const {
       return data[1];
     }
-    inline String name() const {
+    inline SymbolString name() const {
       return name_;
     }
 
   private:
     List data;
-    String name_;
+    SymbolString name_;
   };
 
   template <>

@@ -25,7 +25,7 @@ namespace dplyr {
   public:
     SymbolMap(): lookup(), names() {}
 
-    SymbolMapIndex insert(String name) {
+    SymbolMapIndex insert(SymbolString name) {
       SymbolMapIndex index = get_index(name);
       int idx = index.pos;
       switch (index.origin) {
@@ -58,7 +58,7 @@ namespace dplyr {
       return index.origin != NEW;
     }
 
-    SymbolMapIndex get_index(String name) const {
+    SymbolMapIndex get_index(SymbolString name) const {
       // first, lookup the map
       dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
       if (it != lookup.end()) {
@@ -87,7 +87,7 @@ namespace dplyr {
       return index.pos;
     }
 
-    SymbolMapIndex rm(String name) {
+    SymbolMapIndex rm(SymbolString name) {
       SymbolMapIndex index = get_index(name);
       if (index.origin != NEW) {
         int idx = index.pos;

@@ -107,7 +107,7 @@ namespace dplyr {
 
     bool owner;
 
-    void input_subset(const String& symbol, subset* sub) {
+    void input_subset(const SymbolString& symbol, subset* sub) {
       SymbolMapIndex index = symbol_map.insert(symbol);
       if (index.origin == NEW) {
         subsets.push_back(sub);

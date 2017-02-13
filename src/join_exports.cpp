@@ -110,11 +110,11 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   // out group columns
   RObject group_cols_x_(x.attr("vars"));
   if (!group_cols_x_.isNULL()) {
-    CharacterVector group_cols_x(group_cols_x_);
+    SymbolVector group_cols_x(group_cols_x_);
     int n_group_cols = group_cols_x.size();
 
     if (n_group_cols > 0) {
-      CharacterVector group_cols(n_group_cols);
+      SymbolVector group_cols(n_group_cols);
       IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);
       // get updated column names
       for (int i=0; i<n_group_cols; i++) {

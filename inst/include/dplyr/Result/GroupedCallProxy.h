@@ -71,7 +71,7 @@ namespace dplyr {
       hybrid_eval.reset();
     }
 
-    void input(String name, SEXP x) {
+    void input(SymbolString name, SEXP x) {
       subsets.input(name.get_sexp(), x);
       hybrid_eval.reset();
     }

@@ -6,6 +6,8 @@
 
 #include <dplyr/Result/GroupedSubset.h>
 
+#include <tools/SymbolVector.h>
+
 namespace dplyr {
 
   inline void check_valid_colnames(const DataFrame& df) {
@@ -113,7 +115,7 @@ namespace dplyr {
       return biggest_group_size;
     }
 
-    inline bool has_group(String g) const {
+    inline bool has_group(SymbolString g) const {
       int n = symbols.size();
       for (int i=0; i<n; i++) {
         if (symbols[i] == g) return true;
@@ -130,7 +132,7 @@ namespace dplyr {
     DataFrame data_;
     IntegerVector group_sizes;
     int biggest_group_size;
-    CharacterVector symbols;
+    SymbolVector symbols;
     DataFrame labels;
 
   };

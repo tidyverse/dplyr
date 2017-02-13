@@ -69,7 +69,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 
     Shield<SEXP> call_(lazy.expr());
     SEXP call = call_;
-    String name = lazy.name();
+    SymbolString name = lazy.name();
     Environment env = lazy.env();
     call_proxy.set_env(env);
 
@@ -156,7 +156,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
     Environment env = lazy.env();
     Shield<SEXP> call_(lazy.expr());
     SEXP call = call_;
-    String name = lazy.name();
+    SymbolString name = lazy.name();
     proxy.set_env(env);
 
     LOG_VERBOSE << "processing " << CharacterVector(name);
