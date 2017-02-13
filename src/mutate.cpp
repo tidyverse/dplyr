@@ -74,10 +74,11 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
     call_proxy.set_env(env);
 
     if (TYPEOF(call) == SYMSXP) {
-      if (call_proxy.has_variable(call)) {
-        results[i] = call_proxy.get_variable(PRINTNAME(call));
+      SymbolString name = SymbolString(Symbol(call));
+      if (call_proxy.has_variable(name)) {
+        results[i] = call_proxy.get_variable(name);
       } else {
-        results[i] = shared_SEXP(env.find(CHAR(PRINTNAME(call))));
+        results[i] = shared_SEXP(env.find(name));
       }
     } else if (TYPEOF(call) == LANGSXP) {
       call_proxy.set_call(call);

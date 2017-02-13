@@ -93,7 +93,7 @@ namespace dplyr {
     }
   }
 
-  Symbol extract_column(SEXP arg, const Environment& env) {
+  SymbolString extract_column(SEXP arg, const Environment& env) {
     RObject value;
     if (TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~")) {
       if (Rf_length(arg) != 2 || TYPEOF(CADR(arg)) != SYMSXP)
@@ -103,19 +103,20 @@ namespace dplyr {
       value = Rcpp_eval(arg, env);
     }
     if (is<Symbol>(value)) {
-      value = CharacterVector::create(PRINTNAME(value));
+      return SymbolString(Symbol(value));
     }
-    if (!is<String>(value)) {
+    else if (is<String>(value)) {
+      return SymbolString(String(value));
+    }
+    else {
       stop("column must return a single string");
     }
-    Symbol res(STRING_ELT(value,0));
-    return res;
   }
 
-  Symbol get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
-    Symbol res = extract_column(arg, env);
+  SymbolString get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
+    SymbolString res = extract_column(arg, env);
     if (!subsets.count(res)) {
-      stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)));
+      stop("result of column() expands to a symbol that is not a variable from the data: %s", res.get_cstring());
     }
     return res;
   }

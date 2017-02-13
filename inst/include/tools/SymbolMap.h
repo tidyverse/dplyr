@@ -50,10 +50,7 @@ namespace dplyr {
       return names.size();
     }
 
-    bool has(SEXP name) const {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    bool has(const SymbolString& name) const {
       SymbolMapIndex index = get_index(name);
       return index.origin != NEW;
     }
@@ -76,13 +73,10 @@ namespace dplyr {
       return SymbolMapIndex(names.size(), NEW);
     }
 
-    int get(SEXP name) const {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    int get(const SymbolString& name) const {
       SymbolMapIndex index = get_index(name);
       if (index.origin == NEW) {
-        stop("variable '%s' not found", CHAR(name));
+        stop("variable '%s' not found", name.get_cstring());
       }
       return index.pos;
     }

@@ -55,7 +55,7 @@ namespace Rcpp {
           stop("corrupt lazy object");
         }
 
-        data.push_back(Lazy(x, names[i]));
+        data.push_back(Lazy(x, SymbolString(names[i])));
       }
     }
 

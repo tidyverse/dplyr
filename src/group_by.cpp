@@ -19,21 +19,23 @@ SEXP resolve_vars(List new_groups, CharacterVector names) {
     Environment env = lazy[1];
     SEXP s = lazy[0];
 
+    SymbolString name;
+
     // expand column
     if (TYPEOF(s) == SYMSXP) {
-
+      name = SymbolString(Symbol(s));
     } else if (TYPEOF(s) == LANGSXP && CAR(s) == Rf_install("column") && Rf_length(s) == 2) {
-      s = extract_column(CADR(s), env);
+      name = extract_column(CADR(s), env);
     } else {
       continue;
     }
     // check that s is indeed in the data
 
-    int pos = as<int>(r_match(CharacterVector::create(PRINTNAME(s)), names));
+    int pos = as<int>(r_match(CharacterVector::create(name), names));
     if (pos == NA_INTEGER) {
-      stop("unknown variable to group by : %s", CHAR(PRINTNAME(s)));
+      stop("unknown variable to group by : %s", name.get_cstring());
     }
-    lazy[0] = s;
+    lazy[0] = Symbol(name);
   }
 
   return new_groups;

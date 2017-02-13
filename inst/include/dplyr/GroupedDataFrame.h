@@ -84,7 +84,7 @@ namespace dplyr {
       return GroupedDataFrameIndexIterator(*this);
     }
 
-    SEXP symbol(int i) const {
+    SymbolString symbol(int i) const {
       return symbols[i];
     }
 

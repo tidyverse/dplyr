@@ -33,7 +33,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   int i=0;
   List results(nvars + nexpr);
   for (; i<nvars; i++) {
-    LOG_VERBOSE << "copying " << gdf.symbol(i);
+    LOG_VERBOSE << "copying " << gdf.symbol(i).get_cstring();
     results[i] = shared_SEXP(gdf.label(i));
     accumulator.set(gdf.symbol(i), results[i]);
   }
@@ -64,7 +64,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     RObject result = res->process(gdf);
     results[i] = result;
     accumulator.set(lazy.name(), result);
-    subsets.input_summarised(lazy.name().get_sexp(), SummarisedVariable(result));
+    subsets.input_summarised(lazy.name(), SummarisedVariable(result));
 
   }
 
@@ -119,7 +119,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
     }
     check_length_one(result);
     accumulator.set(lazy.name(), result);
-    subsets.input(lazy.name().get_sexp(), result);
+    subsets.input(lazy.name(), result);
   }
   List data = accumulator;
   copy_most_attributes(data, df);

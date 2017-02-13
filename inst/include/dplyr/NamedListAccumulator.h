@@ -15,7 +15,7 @@ namespace dplyr {
 
     NamedListAccumulator() {}
 
-    inline void set(SymbolString name, SEXP x) {
+    inline void set(const SymbolString& name, SEXP x) {
       if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
         check_supported_type(x, name);
 

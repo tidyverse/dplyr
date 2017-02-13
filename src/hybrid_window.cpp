@@ -18,7 +18,8 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
     data = CADR(data);
 
     if (TYPEOF(data) == SYMSXP) {
-      if (subsets.count(data)) data = subsets.get_variable(data);
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name)) data = subsets.get_variable(name);
       else return 0;
     }
     if (Rf_length(data) == subsets.nrows()) {
@@ -36,7 +37,8 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
     return 0;
   }
   if (TYPEOF(data) == SYMSXP) {
-    if (subsets.count(data)) data = subsets.get_variable(data);
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name)) data = subsets.get_variable(name);
     else return 0;
   }
   if (subsets.nrows() != Rf_length(data)) return 0;
@@ -72,7 +74,8 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     data = CADR(data);
 
     if (TYPEOF(data) == SYMSXP) {
-      if (subsets.count(data)) data = subsets.get_variable(data);
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name)) data = subsets.get_variable(name);
       else return 0;
     }
     switch (TYPEOF(data)) {
@@ -87,7 +90,8 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     }
   }
   if (TYPEOF(data) == SYMSXP) {
-    if (subsets.count(data)) data = subsets.get_variable(data);
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name)) data = subsets.get_variable(name);
     else return 0;
   }
   if (subsets.nrows() != Rf_length(data)) return 0;
@@ -114,7 +118,8 @@ Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
     data = CADR(data);
     if (TYPEOF(data) == SYMSXP) {
-      if (subsets.count(data)) data = subsets.get_variable(data);
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name)) data = subsets.get_variable(name);
       else return 0;
     }
 
@@ -131,7 +136,8 @@ Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   }
 
   if (TYPEOF(data) == SYMSXP) {
-    if (subsets.count(data)) data = subsets.get_variable(data);
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name)) data = subsets.get_variable(name);
     else return 0;
   }
   if (subsets.nrows() != Rf_length(data)) return 0;
