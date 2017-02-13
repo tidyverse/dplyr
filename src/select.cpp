@@ -37,15 +37,15 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
 
   // handle vars  attribute : make a shallow copy of the list and alter
   //   its names attribute
-  SymbolVector vars = shallow_copy(copy.attr("vars"));
+  SymbolVector vars = copy.attr("vars");
 
   int nv = vars.size();
-  for (int i=0; i<nv; i++) {
+  for (int i = 0; i < nv; i++) {
     SymbolString s = vars[i];
     int j = 0;
     for (; j < n; j++) {
       if (s == keep[j]) {
-        vars[i] = Rf_installChar(new_names[j]);
+        vars[i] = new_names[j];
       }
     }
   }

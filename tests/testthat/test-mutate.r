@@ -306,7 +306,7 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_is(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
   expect_equal(attr(res, "indices"), list())
-  expect_equal(attr(res, "vars"), list(quote(b)))
+  expect_equal(attr(res, "vars"), "b")
   expect_equal(attr(res, "group_sizes"), integer(0))
   expect_equal(attr(res, "biggest_group_size"), 0L)
 })
