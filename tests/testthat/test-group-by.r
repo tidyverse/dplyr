@@ -261,8 +261,8 @@ for (special in lang_strings) {
 
         get_call <- bquote(get(.(special)))
         res <- group_by_(df, .dots = list(lazyeval::f_new(get_call)))
-        expect_equal( names(res), c(names(df), deparse(get_call)) )
-        expect_equal( groups(res), list(as.name(enc2native(deparse(get_call)))) )
+        expect_equal(names(res), c(names(df), deparse(get_call)))
+        expect_equal(groups(res), list(as.name(enc2native(deparse(get_call)))))
       }
     })
   }
