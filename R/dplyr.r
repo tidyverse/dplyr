@@ -23,6 +23,7 @@
 #' @useDynLib dplyr
 #' @import rlang
 #' @importFrom assertthat assert_that is.flag on_failure<-
+#' @importFrom glue glue
 #' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 #' @importFrom stats setNames update
 #' @importFrom utils head tail

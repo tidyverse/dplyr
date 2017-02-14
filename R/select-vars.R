@@ -52,9 +52,9 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 #' @export
 select_vars_ <- function(vars, args, include = character(), exclude = character()) {
 
-  if (length(args) == 0) {
+  if (is_empty(args)) {
     vars <- setdiff(include, exclude)
-    return(setNames(vars, vars))
+    return(set_names(vars, vars))
   }
 
   # Set current_vars so avaialble to select_helpers
@@ -63,7 +63,7 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
 
   # Map variable names to their positions: this keeps integer semantics
   args <- lazyeval::as.lazy_dots(args)
-  names_list <- setNames(as.list(seq_along(vars)), vars)
+  names_list <- set_names(as.list(seq_along(vars)), vars)
 
   # if the first selector is exclusive (negative), start with all columns
   initial_case <- if (is_negated(args[[1]]$expr)) list(seq_along(vars)) else integer(0)
@@ -71,27 +71,28 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
   ind_list <- c(initial_case, lazyeval::lazy_eval(args, names_list))
   names(ind_list) <- c(names2(initial_case), names2(args))
 
-  is_numeric <- vapply(ind_list, is.numeric, logical(1))
+  is_numeric <- map_lgl(ind_list, is.numeric)
   if (any(!is_numeric)) {
-    bad_inputs <- lapply(args[!is_numeric], `[[`, "expr")
-    labels <- vapply(bad_inputs, deparse_trunc, character(1))
+    bad_inputs <- pluck(args[!is_numeric], "expr")
+    labels <- map_chr(bad_inputs, deparse_trunc)
 
-    stop(
-      "All select() inputs must resolve to integer column positions.\n", "The following do not:\n",
-      paste("* ", labels, collapse = "\n"),
-      call. = FALSE
-    )
+    abort(glue(
+      "All select() inputs must resolve to integer column positions. \\
+       The following do not:
+       {labels}",
+      labels = paste("* ", labels, collapse = "\n")
+    ))
   }
 
   incl <- combine_vars(vars, ind_list)
 
   # Include/exclude specified variables
-  sel <- setNames(vars[incl], names(incl))
+  sel <- set_names(vars[incl], names(incl))
   sel <- c(setdiff2(include, sel), sel)
   sel <- setdiff2(sel, exclude)
 
   # Ensure all output vars named
-  if (length(sel) == 0) {
+  if (is_empty(sel)) {
     names(sel) <- sel
   } else {
     unnamed <- names2(sel) == ""
