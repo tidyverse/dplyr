@@ -2,7 +2,7 @@
 dplyr
 =====
 
-[![Build Status](https://travis-ci.org/hadley/dplyr.png?branch=master)](https://travis-ci.org/hadley/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hadley/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
+[![Build Status](https://travis-ci.org/hadley/dplyr.svg?branch=master)](https://travis-ci.org/hadley/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hadley/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
@@ -39,7 +39,7 @@ Learning dplyr
 
 To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
 
-If you need more, help I recommend the following (paid) resources:
+If you need more help, I recommend the following (paid) resources:
 
 -   [dplyr](https://www.datacamp.com/courses/dplyr) on datacamp, by Garrett Grolemund. Learn the basics of dplyr at your own pace in this interactive online course.
 
@@ -65,29 +65,29 @@ You can create them as follows:
 library(dplyr) # for functions
 library(nycflights13) # for data
 flights
-#> Source: local data frame [336,776 x 16]
-#> 
-#>     year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
-#>    (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
-#> 1   2013     1     1      517         2      830        11      UA  N14228
-#> 2   2013     1     1      533         4      850        20      UA  N24211
-#> 3   2013     1     1      542         2      923        33      AA  N619AA
-#> 4   2013     1     1      544        -1     1004       -18      B6  N804JB
-#> 5   2013     1     1      554        -6      812       -25      DL  N668DN
-#> 6   2013     1     1      554        -4      740        12      UA  N39463
-#> 7   2013     1     1      555        -5      913        19      B6  N516JB
-#> 8   2013     1     1      557        -3      709       -14      EV  N829AS
-#> 9   2013     1     1      557        -3      838        -8      B6  N593JB
-#> 10  2013     1     1      558        -2      753         8      AA  N3ALAA
-#> ..   ...   ...   ...      ...       ...      ...       ...     ...     ...
-#> Variables not shown: flight (int), origin (chr), dest (chr), air_time
-#>   (dbl), distance (dbl), hour (dbl), minute (dbl).
+#> # A tibble: 336,776 × 19
+#>     year month   day dep_time sched_dep_time dep_delay arr_time
+#>    <int> <int> <int>    <int>          <int>     <dbl>    <int>
+#> 1   2013     1     1      517            515         2      830
+#> 2   2013     1     1      533            529         4      850
+#> 3   2013     1     1      542            540         2      923
+#> 4   2013     1     1      544            545        -1     1004
+#> 5   2013     1     1      554            600        -6      812
+#> 6   2013     1     1      554            558        -4      740
+#> 7   2013     1     1      555            600        -5      913
+#> 8   2013     1     1      557            600        -3      709
+#> 9   2013     1     1      557            600        -3      838
+#> 10  2013     1     1      558            600        -2      753
+#> # ... with 336,766 more rows, and 12 more variables: sched_arr_time <int>,
+#> #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
+#> #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
+#> #   minute <dbl>, time_hour <dttm>
 
 # Caches data in local SQLite db
 flights_db1 <- tbl(nycflights13_sqlite(), "flights")
 
 # Caches data in local postgres db
-flights_db2 <- tbl(nycflights13_postgres(), "flights")
+flights_db2 <- tbl(nycflights13_postgres(host = "localhost"), "flights")
 ```
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
@@ -114,13 +114,13 @@ They all work as similarly as possible across the range of data sources. The mai
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.040   0.001   0.043
+#>   0.048   0.001   0.051
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.348   0.302   1.280
+#>   0.231   0.201   0.750
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.015   0.000   0.142
+#>   0.005   0.001   0.133
 ```
 
 Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
@@ -129,7 +129,7 @@ Data frame methods are much much faster than the plyr equivalent. The database m
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.104   0.029   0.134
+#>   0.119   0.041   0.163
 ```
 
 ### `do()`
@@ -144,22 +144,23 @@ by_year <- lahman_df() %>%
   group_by(yearID)
 by_year %>% 
   do(mod = lm(R ~ AB, data = .))
-#> Source: local data frame [144 x 2]
+#> Source: local data frame [145 x 2]
 #> Groups: <by row>
 #> 
-#>    yearID     mod
-#>     (int)  (list)
-#> 1    1871 <S3:lm>
-#> 2    1872 <S3:lm>
-#> 3    1873 <S3:lm>
-#> 4    1874 <S3:lm>
-#> 5    1875 <S3:lm>
-#> 6    1876 <S3:lm>
-#> 7    1877 <S3:lm>
-#> 8    1878 <S3:lm>
-#> 9    1879 <S3:lm>
-#> 10   1880 <S3:lm>
-#> ..    ...     ...
+#> # A tibble: 145 × 2
+#>    yearID      mod
+#> *   <int>   <list>
+#> 1    1871 <S3: lm>
+#> 2    1872 <S3: lm>
+#> 3    1873 <S3: lm>
+#> 4    1874 <S3: lm>
+#> 5    1875 <S3: lm>
+#> 6    1876 <S3: lm>
+#> 7    1877 <S3: lm>
+#> 8    1878 <S3: lm>
+#> 9    1879 <S3: lm>
+#> 10   1880 <S3: lm>
+#> # ... with 135 more rows
 ```
 
 Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
@@ -169,7 +170,7 @@ by_year %>%
   do(mod = lm(R ~ AB, data = .)) %>%
   object.size() %>%
   print(unit = "MB")
-#> 22.7 Mb
+#> 23.1 Mb
 
 by_year %>% 
   do(mod = biglm::biglm(R ~ AB, data = .)) %>%
