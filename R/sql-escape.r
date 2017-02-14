@@ -103,7 +103,7 @@ escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL) {
 
 #' @export
 escape.logical <- function(x, parens = NA, collapse = ", ", con = NULL) {
-  x <- as.character(x)
+  x <- as.character(as.integer(x))
   x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }

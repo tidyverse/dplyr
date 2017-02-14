@@ -11,6 +11,12 @@ test_that("small numbers aren't converted to 0", {
   expect_equal(translate_sql(1e-9), sql("1e-09"))
 })
 
+test_that("logical values are converted to 0/1/NULL", {
+  expect_equal(translate_sql(FALSE), sql("0"))
+  expect_equal(translate_sql(TRUE), sql("1"))
+  expect_equal(translate_sql(NA), sql("NULL"))
+})
+
 test_that("dplyr.strict_sql = TRUE prevents auto conversion", {
   old <- options(dplyr.strict_sql = TRUE)
   on.exit(options(old))

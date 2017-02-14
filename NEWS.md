@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* Logical values are now translated to 0 and 1 rather than TRUE and FALSE
+  this should work on a wider range of backends (#2052).
+
 * Partial evaluation occurs immediately when you execute a `filter()`, 
   `mutate()` etc, rather than happening when the query is executed (#2370).
   
