@@ -9,7 +9,7 @@
 #' @template db-info
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
-#' @param user,password User name and password. Rather than supplying a
+#' @param username,password User name and password. Rather than supplying a
 #'   username and password here, it's better to save them in `my.cnf`,
 #'   as described in [RMySQL::MySQL()]. In that case, supply
 #'   `NULL` to both `user` and `password`.
@@ -92,7 +92,7 @@
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }
-src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
+src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
                       password = "", ...) {
   if (!requireNamespace("RMySQL", quietly = TRUE)) {
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
@@ -103,7 +103,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     dbname = dbname,
     host = host,
     port = port,
-    username = user,
+    username = username,
     password = password,
     ...
   )

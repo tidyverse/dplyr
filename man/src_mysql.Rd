@@ -5,8 +5,8 @@
 \alias{tbl.src_mysql}
 \title{Connect to mysql/mariadb.}
 \usage{
-src_mysql(dbname, host = NULL, port = 0L, user = "root", password = "",
-  ...)
+src_mysql(dbname, host = NULL, port = 0L, username = "root",
+  password = "", ...)
 
 \method{tbl}{src_mysql}(src, from, ...)
 }
@@ -15,7 +15,7 @@ src_mysql(dbname, host = NULL, port = 0L, user = "root", password = "",
 
 \item{host, port}{Host name and port number of database}
 
-\item{user, password}{User name and password. Rather than supplying a
+\item{username, password}{User name and password. Rather than supplying a
 username and password here, it's better to save them in \code{my.cnf},
 as described in \code{\link[RMySQL:MySQL]{RMySQL::MySQL()}}. In that case, supply
 \code{NULL} to both \code{user} and \code{password}.}
