@@ -81,8 +81,8 @@ base_scalar <- sql_translator(
   nchar   = sql_prefix("length", 1),
 
   `if` = sql_if,
-  if_else = sql_if,
-  ifelse = sql_if,
+  if_else = function(condition, true, false) sql_if(condition, true, false),
+  ifelse = function(test, yes, no) sql_if(test, yes, no),
 
   sql = function(...) sql(...),
   `(` = function(x) {

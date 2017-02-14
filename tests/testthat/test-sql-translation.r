@@ -58,7 +58,13 @@ test_that("if translation adds parens", {
     translate_sql(if (x) y else z),
     sql('CASE WHEN ("x") THEN ("y") ELSE ("z") END')
   )
+})
 
+test_that("if and ifelse use correctly named arguments",{
+  exp <- translate_sql(if (x) 1 else 2)
+
+  expect_equal(translate_sql(ifelse(test = x, yes = 1, no = 2)), exp)
+  expect_equal(translate_sql(if_else(condition = x, true = 1, false = 2)), exp)
 })
 
 test_that("pmin and pmax become min and max", {

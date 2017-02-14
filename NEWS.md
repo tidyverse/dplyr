@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `ifelse()` and `if_else()` use correct argument names in SQL translation 
+  (#2225).
+
 * [API] `log(x, b)` is now correctly translated to the SQL `log(b, x)` (#2288).
   SQLite does not support the 2-argument log function so it is translated
   to `log(x) / log(b)`.
