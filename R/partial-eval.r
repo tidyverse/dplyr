@@ -64,6 +64,12 @@ partial_eval <- function(call, vars = character(), env = parent.frame()) {
       call
     }
   } else if (is.call(call)) {
+    # If the function "name" is a call to another function, evaluate
+    # the whole thing local
+    if (is.call(call[[1]])) {
+      return(eval(call, env))
+    }
+
     # Process call arguments recursively, unless user has manually called
     # remote/local
     name <- as.character(call[[1]])
