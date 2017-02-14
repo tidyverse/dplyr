@@ -12,6 +12,9 @@
 #' checking, but do correctly escape their input, and are useful for
 #' quickly providing default wrappers for a new SQL variant.
 #'
+#' `win_rank()`, `win_recycled()`, and `win_cumulative()` provide helpers
+#' for constructing common types of window functions.
+#'
 #' @keywords internal
 #' @param scalar,aggregate,window The three families of functions than an
 #'   SQL variant can supply.
@@ -153,18 +156,26 @@ sql_not_supported <- function(f) {
   }
 }
 
+#' @rdname sql_variant
+#' @export
 win_rank <- function(f) {
   force(f)
   function(order = NULL) {
     over(build_sql(sql(f), list()), partition_group(), order %||% partition_order())
   }
 }
+
+#' @rdname sql_variant
+#' @export
 win_recycled <- function(f) {
   force(f)
   function(x) {
     over(build_sql(sql(f), list(x)), partition_group())
   }
 }
+
+#' @rdname sql_variant
+#' @export
 win_cumulative <- function(f) {
   force(f)
   function(x) {

@@ -7,6 +7,9 @@
 \alias{sql_infix}
 \alias{sql_prefix}
 \alias{sql_not_supported}
+\alias{win_rank}
+\alias{win_recycled}
+\alias{win_cumulative}
 \alias{base_scalar}
 \alias{base_agg}
 \alias{base_win}
@@ -23,6 +26,12 @@ sql_infix(f)
 sql_prefix(f, n = NULL)
 
 sql_not_supported(f)
+
+win_rank(f)
+
+win_recycled(f)
+
+win_cumulative(f)
 
 base_scalar
 
@@ -62,6 +71,9 @@ easy.
 functions given the name of the SQL function. They don't perform any input
 checking, but do correctly escape their input, and are useful for
 quickly providing default wrappers for a new SQL variant.
+
+\code{win_rank()}, \code{win_recycled()}, and \code{win_cumulative()} provide helpers
+for constructing common types of window functions.
 }
 
 \examples{

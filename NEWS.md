@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Export `win_rank()`, `win_recycled()`, and `win_cumulative()` (#2051)
+
 * `partial_eval()` now handles `::` and `:::` correct (#2321)
 
 * Behind the scenes dplyr now uses `DBI::dbExecute()` for non-query
