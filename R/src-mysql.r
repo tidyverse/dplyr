@@ -185,17 +185,17 @@ db_data_type.MySQLConnection <- function(con, fields, ...) {
 
 #' @export
 db_begin.MySQLConnection <- function(con, ...) {
-  dbGetQuery(con, "START TRANSACTION")
+  dbExecute(con, "START TRANSACTION")
 }
 
 #' @export
 db_commit.MySQLConnection <- function(con, ...) {
-  dbGetQuery(con, "COMMIT")
+  dbExecute(con, "COMMIT")
 }
 
 #' @export
 db_rollback.MySQLConnection <- function(con, ...) {
-  dbGetQuery(con, "ROLLBACK")
+  dbExecute(con, "ROLLBACK")
 }
 
 #' @export
@@ -215,7 +215,7 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
     ident(table), con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 
   invisible()
 }
@@ -233,13 +233,13 @@ db_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
   )
 
   sql <- build_sql("ALTER TABLE ", ident(table), "\n", index, con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export
 db_analyze.MySQLConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export

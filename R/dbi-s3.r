@@ -157,7 +157,7 @@ db_create_table.DBIConnection <- function(con, table, types,
     con = con
   )
 
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @name backend_db
@@ -202,7 +202,7 @@ db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
     " ON ", ident(table), " ", fields,
     con = con)
 
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @name backend_db
@@ -216,7 +216,7 @@ db_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
     "DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con
   )
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @name backend_db
@@ -225,7 +225,7 @@ db_analyze <- function(con, table, ...) UseMethod("db_analyze")
 #' @export
 db_analyze.DBIConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export

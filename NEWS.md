@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* Behind the scenes dplyr now uses `DBI::dbExecute()` for non-query
+  SQL commands (#1912)
+
 * Logical values are now translated to 0 and 1 rather than TRUE and FALSE
   this should work on a wider range of backends (#2052).
 
