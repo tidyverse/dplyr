@@ -1,5 +1,22 @@
 # dplyr 0.5.0.9000
 
+* Partial evaluation occurs immediately when you execute a `filter()`, 
+  `mutate()` etc, rather than happening when the query is executed (#2370).
+  
+* [API] `translate_sql()` and `partial_eval()` have been refined:
+
+    * `translate_sql()` no longer takes a vars argument; instead call
+      `partial_eval()` yourself. 
+    
+    * Because it no longer needs the environment `translate_sql()_` now
+      works with a list of dots, rather than a `lazy_dots`.
+      
+    * `partial_eval()` now takes a character vector of variable names
+      rather than a tbl.
+      
+    * This leads to a simplification of the `op` data structure: 
+      dots is now a list of expressions rather than a `lazy_dots`.
+    
 * SQL translation contains a better test for whether or not a double
   is similar to an integer and hence needs a trailing 0.0 added (#2004).
 

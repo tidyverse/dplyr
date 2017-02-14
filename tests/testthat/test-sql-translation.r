@@ -27,17 +27,6 @@ test_that("Named arguments generates warning", {
   expect_warning(translate_sql(mean(x = 1), window = FALSE), "Named arguments ignored")
 })
 
-test_that("Subsetting always evaluated locally", {
-  x <- list(a = 1, b = 1)
-  y <- c(2, 1)
-
-  correct <- quote(`_var` == 1)
-
-  expect_equal(partial_eval(quote(`_var` == x$a)), correct)
-  expect_equal(partial_eval(quote(`_var` == x[[2]])), correct)
-  expect_equal(partial_eval(quote(`_var` == y[2])), correct)
-})
-
 test_that("between translated to special form (#503)", {
 
   out <- translate_sql(between(x, 1, 2))
@@ -146,4 +135,16 @@ test_that("sqlite mimics two argument log", {
 
   expect_equal(translate_sqlite(log(x)), sql('log(`x`)'))
   expect_equal(translate_sqlite(log(x, 10)), sql('log(`x`) / log(10.0)'))
+})
+
+# partial_eval() ----------------------------------------------------------
+
+test_that("Subsetting always evaluated locally", {
+  x <- list(a = 1, b = 1)
+  y <- c(2, 1)
+  correct <- quote(`_var` == 1)
+
+  expect_equal(partial_eval(quote(`_var` == x$a)), correct)
+  expect_equal(partial_eval(quote(`_var` == x[[2]])), correct)
+  expect_equal(partial_eval(quote(`_var` == y[2])), correct)
 })

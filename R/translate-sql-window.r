@@ -1,7 +1,7 @@
 uses_window_fun <- function(x, con) {
   if (is.null(x)) return(FALSE)
-  if (inherits(x, "lazy_dots")) {
-    calls <- unlist(lapply(x, function(x) all_calls(x$expr)))
+  if (is.list(x)) {
+    calls <- unlist(lapply(x, all_calls))
   } else {
     calls <- all_calls(x)
   }

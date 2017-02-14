@@ -8,8 +8,8 @@
 translate_sql(..., con = NULL, vars = character(), vars_group = NULL,
   vars_order = NULL, window = TRUE)
 
-translate_sql_(dots, con = NULL, vars = character(), vars_group = NULL,
-  vars_order = NULL, window = TRUE)
+translate_sql_(dots, con = NULL, vars_group = NULL, vars_order = NULL,
+  window = TRUE)
 }
 \arguments{
 \item{..., dots}{Expressions to translate. \code{sql_translate()}
@@ -19,10 +19,7 @@ a list of already quoted objects.}
 \item{con}{An optional database connection to control the details of
 the translation. The default, \code{NULL}, generates ANSI SQL.}
 
-\item{vars}{A character vector giving variable names in the remote
-data source. If this is supplied, \code{translate_sql()} will call
-\code{\link[=partial_eval]{partial_eval()}} to interpolate in the values from local
-variables.}
+\item{vars}{Deprecated. Now call \code{\link[=partial_eval]{partial_eval()}} directly.}
 
 \item{vars_group, vars_order}{Grouping and ordering variables used for
 windowed functions.}
@@ -85,7 +82,6 @@ translate_sql(first \%like\% "Had\%")
 translate_sql(first \%is\% NULL)
 translate_sql(first \%in\% c("John", "Roger", "Robert"))
 
-
 # And be careful if you really want integers
 translate_sql(x == 1)
 translate_sql(x == 1L)
@@ -93,24 +89,6 @@ translate_sql(x == 1L)
 # If you have an already quoted object, use translate_sql_:
 x <- quote(y + 1 / sin(t))
 translate_sql_(list(x))
-
-# Translation with known variables ------------------------------------------
-
-# If the variables in the dataset are known, translate_sql will interpolate
-# in literal values from the current environment
-x <- 10
-translate_sql(mpg > x)
-translate_sql(mpg > x, vars = names(mtcars))
-
-# By default all computations happens in sql
-translate_sql(cyl == 2 + 2, vars = names(mtcars))
-# Use local to force local evaluation
-translate_sql(cyl == local(2 + 2), vars = names(mtcars))
-
-# This is also needed if you call a local function:
-inc <- function(x) x + 1
-translate_sql(mpg > inc(x), vars = names(mtcars))
-translate_sql(mpg > local(inc(x)), vars = names(mtcars))
 
 # Windowed translation --------------------------------------------
 # Known window functions automatically get OVER()
