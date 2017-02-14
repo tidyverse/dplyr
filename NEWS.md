@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `collect()` once again defaults to return all rows in the data (#1968).
+  This makes it behave the same as `as.data.frame()` and `as_tibble()`.
+
 * Add failing tests (#2415, @ngr-t).
 
 * Add failing tests (#2245, @mgperry).
