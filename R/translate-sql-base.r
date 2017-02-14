@@ -41,6 +41,14 @@ base_scalar <- sql_translator(
   `>`     = sql_infix(">"),
   `>=`    = sql_infix(">="),
 
+  `%in%` = function(x, table) {
+    if (is.sql(table) || length(table) > 1) {
+      build_sql(x, " IN ", table)
+    } else {
+      build_sql(x, " IN (", table, ")")
+    }
+  },
+
   `!`     = sql_prefix("not"),
   `&`     = sql_infix("and"),
   `&&`    = sql_infix("and"),

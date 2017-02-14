@@ -71,6 +71,12 @@ test_that("pmin and pmax become min and max", {
   expect_equal(translate_sql(pmax(x, y)), sql('MAX("x", "y")'))
 })
 
+test_that("%in% translation parenthesises when needed", {
+  expect_equal(translate_sql(x %in% 1L), sql('"x" IN (1)'))
+  expect_equal(translate_sql(x %in% 1:2), sql('"x" IN (1, 2)'))
+  expect_equal(translate_sql(x %in% y), sql('"x" IN "y"'))
+})
+
 # Minus -------------------------------------------------------------------
 
 test_that("unary minus flips sign of number", {

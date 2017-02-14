@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `x %in% 1` is now correctly translated to `x IN (1)` (#511).
+
 * Export `win_over()`, `win_rank()`, `win_recycled()`, and `win_cumulative()`.
   Export `win_current_group()` and `win_current_order()` (#2051, #2126)
 
