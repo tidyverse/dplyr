@@ -121,3 +121,19 @@ test_that("connection affects quoting character", {
   out <- select(testTable, field1)
   expect_match(sql_render(out), "^SELECT `field1` AS `field1`\nFROM `table1`$")
 })
+
+
+# log ---------------------------------------------------------------------
+
+test_that("log base comes first", {
+  expect_equal(translate_sql(log(x, 10)), sql('log(10.0, "x")'))
+})
+
+test_that("sqlite mimics two argument log", {
+  translate_sqlite <- function(...) {
+    translate_sql(..., con = src_memdb()$obj)
+  }
+
+  expect_equal(translate_sqlite(log(x)), sql('log(`x`)'))
+  expect_equal(translate_sqlite(log(x, 10)), sql('log(`x`) / log(10.0)'))
+})

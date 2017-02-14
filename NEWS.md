@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* [API] `log(x, b)` is now correctly translated to the SQL `log(b, x)` (#2288).
+  SQLite does not support the 2-argument log function so it is translated
+  to `log(x) / log(b)`.
+
 * `is.na()` and `is.null()` gain extra parens in SQL translation to preserve
   correct precedence (#2302).
 
