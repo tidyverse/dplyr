@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* SQL translation contains a better test for whether or not a double
+  is similar to an integer and hence needs a trailing 0.0 added (#2004).
+
 * `ifelse()` and `if_else()` use correct argument names in SQL translation 
   (#2225).
 
