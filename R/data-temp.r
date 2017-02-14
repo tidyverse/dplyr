@@ -67,6 +67,10 @@ test_srcs <- local({
       old <- e$srcs
       e$srcs <- list(...)
       invisible(old)
+    },
+
+    length = function() {
+      length(e$srcs)
     }
   )
 })
