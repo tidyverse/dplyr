@@ -110,7 +110,7 @@ copy_env <- function(from, to = NULL, parent = parent.env(from)) {
 #' @rdname sql_variant
 #' @export
 sql_infix <- function(f) {
-  assert_that(is.string(f))
+  assert_that(is_scalar_character(f))
 
   f <- toupper(f)
   function(x, y) {
@@ -121,7 +121,7 @@ sql_infix <- function(f) {
 #' @rdname sql_variant
 #' @export
 sql_prefix <- function(f, n = NULL) {
-  assert_that(is.string(f))
+  assert_that(is_scalar_character(f))
 
   f <- toupper(f)
   function(..., na.rm) {
@@ -146,7 +146,7 @@ sql_prefix <- function(f, n = NULL) {
 #' @rdname sql_variant
 #' @export
 sql_not_supported <- function(f) {
-  assert_that(is.string(f))
+  assert_that(is_scalar_character(f))
 
   f <- toupper(f)
   function(...) {

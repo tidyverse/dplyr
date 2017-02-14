@@ -142,7 +142,7 @@ db_create_table <- function(con, table, types, temporary = FALSE, ...) {
 #' @export
 db_create_table.DBIConnection <- function(con, table, types,
                                           temporary = FALSE, ...) {
-  assert_that(is.string(table), is.character(types))
+  assert_that(is_scalar_character(table), is.character(types))
 
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(
@@ -193,7 +193,7 @@ db_create_index <- function(con, table, columns, name = NULL, unique = FALSE,
 #' @export
 db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
                                           unique = FALSE, ...) {
-  assert_that(is.string(table), is.character(columns))
+  assert_that(is_scalar_character(table), is.character(columns))
 
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)

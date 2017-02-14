@@ -340,7 +340,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
                             overwrite = FALSE, types = NULL, temporary = TRUE,
                             unique_indexes = NULL, indexes = NULL,
                             analyze = TRUE, ...) {
-  assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
+  assert_that(is.data.frame(df), is_scalar_character(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
 
   con <- con_acquire(dest)

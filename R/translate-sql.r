@@ -176,7 +176,7 @@ sql_env <- function(expr, variant, con, window = FALSE,
 }
 
 default_op <- function(x) {
-  assert_that(is.string(x))
+  assert_that(is_scalar_character(x))
   infix <- c("::", "$", "@", "^", "*", "/", "+", "-", ">", ">=", "<", "<=",
     "==", "!=", "!", "&", "&&", "|", "||", "~", "<-", "<<-")
 

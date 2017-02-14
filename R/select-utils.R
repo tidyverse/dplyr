@@ -49,7 +49,7 @@ current_vars <- function() {
 #' @export
 #' @rdname select_helpers
 starts_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
+  stopifnot(is_scalar_character(match), !is.na(match), nchar(match) > 0)
 
   if (ignore.case) match <- tolower(match)
   n <- nchar(match)
@@ -61,7 +61,7 @@ starts_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 ends_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is.string(match), !is.na(match), nchar(match) > 0)
+  stopifnot(is_scalar_character(match), !is.na(match), nchar(match) > 0)
 
   if (ignore.case) match <- tolower(match)
   n <- nchar(match)
@@ -75,7 +75,7 @@ ends_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is.string(match), nchar(match) > 0)
+  stopifnot(is_scalar_character(match), nchar(match) > 0)
 
   if (ignore.case) {
     vars <- tolower(vars)
@@ -87,7 +87,7 @@ contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 matches <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is.string(match), nchar(match) > 0)
+  stopifnot(is_scalar_character(match), nchar(match) > 0)
 
   grep_vars(match, vars, ignore.case = ignore.case)
 }
