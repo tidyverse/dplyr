@@ -140,3 +140,19 @@ is_1d <- function(x) {
 is_bare_list <- function(x) is.list(x) && !is.object(x)
 
 is_negated <- function(x) is.call(x) && (length(x) == 2) && identical(x[[1]], quote(`-`))
+
+warn_underscored <- function() {
+  warn(glue(
+    "The underscored versions are deprecated in favour of \\
+     tidy evaluation idioms. Please see unquoting documentation \\
+     in rlang."
+  ))
+}
+dots_compat <- function(dots, env) {
+  if (some(dots, is_scalar_character)) {
+    warn("Text parsing is deprecated, please supply an expression or formula")
+    dots <- map_if(dots, is_scalar_character, parse_f, env = env)
+  }
+
+  dots
+}

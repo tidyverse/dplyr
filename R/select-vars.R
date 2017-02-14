@@ -44,31 +44,24 @@
 #' select_vars_(names(iris), list(quote(Petal.Length)))
 #' select_vars_(names(iris), "Petal.Length")
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- lazyeval::lazy_dots(...)
-  select_vars_(vars, args, include = include, exclude = exclude)
-}
-
-#' @rdname select_vars
-#' @export
-select_vars_ <- function(vars, args, include = character(), exclude = character()) {
+  args <- rlang::tidy_dots(...)
 
   if (is_empty(args)) {
     vars <- setdiff(include, exclude)
     return(set_names(vars, vars))
   }
 
-  # Set current_vars so avaialble to select_helpers
+  # Set current_vars so available to select_helpers
   old <- set_current_vars(vars)
   on.exit(set_current_vars(old), add = TRUE)
 
   # Map variable names to their positions: this keeps integer semantics
-  args <- lazyeval::as.lazy_dots(args)
   names_list <- set_names(as.list(seq_along(vars)), vars)
 
   # if the first selector is exclusive (negative), start with all columns
   initial_case <- if (is_negated(args[[1]]$expr)) list(seq_along(vars)) else integer(0)
 
-  ind_list <- c(initial_case, lazyeval::lazy_eval(args, names_list))
+  ind_list <- c(initial_case, tidy_eval(args, names_list))
   names(ind_list) <- c(names2(initial_case), names2(args))
 
   is_numeric <- map_lgl(ind_list, is.numeric)
@@ -102,6 +95,12 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
   sel
 }
 
+#' @rdname select_vars
+#' @export
+select_vars_ <- function(vars, args, include = character(), exclude = character()) {
+  warn_underscored()
+  select_vars(vars, !!! args, include = include, exclude = exclude)
+}
 
 setdiff2 <- function(x, y) {
   x[match(x, y, 0L) == 0L]
