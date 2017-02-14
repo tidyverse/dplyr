@@ -14,10 +14,14 @@ BugReports: https://github.com/hadley/dplyr/issues
 Depends: 
     R (>= 3.1.2)
 Imports: 
-    methods,
     assertthat,
     bindrcpp,
+    DBI (>= 0.5),
+    lazyeval (>= 0.1.10),
+    magrittr,
+    methods,
     utils,
+    rlang,
     R6,
     Rcpp (>= 0.12.3),
     tibble (>= 1.2),
@@ -136,3 +140,4 @@ Collate:
     'zzz.r'
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+Remotes: hadley/rlang
