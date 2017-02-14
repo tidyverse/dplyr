@@ -160,5 +160,14 @@ test_that("combine works with NA and complex (#2203)", {
   expect_equal(works3, expected_result)
 })
 
+test_that("combine works with integer64", {
+  if (!test_srcs$has("bit64"))
+    skip("No bit64")
+  expect_equal(combine(bit64::as.integer64(2^34),
+                       bit64::as.integer64(2^35)),
+               c(bit64::as.integer64(2^34),
+                 bit64::as.integer64(2^35)))
+})
+
 # Uses helper-combine.R
 combine_coercion_types()

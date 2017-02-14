@@ -9,19 +9,33 @@
 
 namespace dplyr {
 
-  static inline bool has_classes(SEXP x) {
-    SEXP classes;
-    int num_classes;
+  static inline bool is_class_known(SEXP x) {
+    Rcpp::CharacterVector known = Rcpp::CharacterVector::create(
+      "POSIXct", "factor", "Date", "AsIs", "integer64", "table");
+    int num_known = known.length();
     if (OBJECT(x)) {
-      classes = Rf_getAttrib(x, R_ClassSymbol);
-      num_classes = Rf_length(classes);
-      if (num_classes > 0) {
-        return true;
-      } else {
-        return false;
+      Rcpp::CharacterVector classes(Rf_getAttrib(x, R_ClassSymbol));
+      int num_classes = classes.length();
+      for (int i=0;i<num_classes;i++) {
+        for (int j=0;j<num_known;j++) {
+          if (classes[i] == known[j]) {
+            return true;
+          }
+        }
       }
+    } else {
+      return true;
     }
     return false;
+  }
+
+  static inline void warn_loss_attr(SEXP x) {
+    /* Attributes are lost with unknown classes */
+    if (!is_class_known(x)) {
+      SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
+      Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
+                 CHAR(STRING_ELT(classes, 0)));
+    }
   }
 
   static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
@@ -90,6 +104,7 @@ namespace dplyr {
     }
 
     void collect_sexp(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       Vector<RTYPE> source(v);
       STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
       for (int i=0; i<index.size(); i++) {
@@ -105,6 +120,7 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, NA_REAL) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       NumericVector source(v);
       double* source_ptr = source.begin();
       for (int i=0; i<index.size(); i++) {
@@ -118,8 +134,8 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       int RTYPE = TYPEOF(x);
-      return (RTYPE == REALSXP && !has_classes(x)) ||
-             (RTYPE == INTSXP && !has_classes(x)) ||
+      return (RTYPE == REALSXP && !Rf_inherits(x, "POSIXct") && !Rf_inherits(x, "Date")) ||
+             (RTYPE == INTSXP && !Rf_inherits(x, "factor")) ||
              all_logical_na(x, RTYPE);
     }
 
@@ -142,6 +158,7 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, NA_STRING) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       if (TYPEOF(v) == STRSXP) {
         collect_strings(index, v);
       } else if (Rf_inherits(v, "factor")) {
@@ -211,6 +228,7 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, NA_INTEGER) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       IntegerVector source(v);
       int* source_ptr = source.begin();
       for (int i=0; i<index.size(); i++) {
@@ -224,11 +242,11 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       int RTYPE = TYPEOF(x);
-      return (INTSXP == RTYPE && !has_classes(x)) || all_logical_na(x, RTYPE);
+      return ((INTSXP == RTYPE) && !Rf_inherits(x, "factor")) || all_logical_na(x, RTYPE);
     }
 
     bool can_promote(SEXP x) const {
-      return TYPEOF(x) == REALSXP && !has_classes(x);
+      return TYPEOF(x) == REALSXP && !Rf_inherits(x, "POSIXct") && !Rf_inherits(x, "Date");
     }
 
     std::string describe() const {
@@ -429,24 +447,14 @@ namespace dplyr {
         return new FactorCollecter(n, model);
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<INTSXP>(n, get_date_classes());
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-                   CHAR(STRING_ELT(classes, 0)));
-        return new TypedCollecter<INTSXP>(n, classes);
-      }
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-                   CHAR(STRING_ELT(classes, 0)));
-        return new TypedCollecter<REALSXP>(n, classes);
-      }
+      if (Rf_inherits(model, "integer64"))
+        return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
       return new Collecter_Impl<REALSXP>(n);
     case CPLXSXP:
       return new Collecter_Impl<CPLXSXP>(n);
@@ -488,26 +496,14 @@ namespace dplyr {
         return new TypedCollecter<INTSXP>(n, get_date_classes());
       if (Rf_inherits(model, "factor"))
         return new Collecter_Impl<STRSXP>(n);
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Promoting class %s into %s may lose attributes",
-                   previous->describe().c_str(),
-                   get_single_class(model).c_str());
-        return new TypedCollecter<INTSXP>(n, classes);
-      }
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Promoting class %s into %s may lose attributes",
-                   previous->describe().c_str(),
-                   get_single_class(model).c_str());
-        return new TypedCollecter<REALSXP>(n, classes);
-      }
+      if (Rf_inherits(model, "integer64"))
+        return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
       return new Collecter_Impl<REALSXP>(n);
     case LGLSXP:
       return new Collecter_Impl<LGLSXP>(n);

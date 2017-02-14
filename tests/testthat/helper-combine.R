@@ -36,6 +36,14 @@ can_be_combined <- function(item1, item2,
                             all_na1, all_na2,
                             known_to_dplyr1, known_to_dplyr2) {
 
+  # Unknown classes will be stripped and ignored (#2406)
+  if (!known_to_dplyr1) {
+    class1 <- class(as.vector(item1))
+  }
+  if (!known_to_dplyr2) {
+    class2 <- class(as.vector(item2))
+  }
+
   # Two elements of the same class can be combined
   # NA values are also combinable
   if (identical(class1, class2) || all_na1 || all_na2) {
@@ -52,22 +60,24 @@ can_be_combined <- function(item1, item2,
       (class2 == "factor" && class1 == "character")) {
     return(TRUE)
   }
+
   # All the other cases can't be combined
   return(FALSE)
 }
 
 give_a_warning <- function(item1, item2,
                            class1, class2,
-                           all_na1, all_na2,
-                           known_to_dplyr1, known_to_dplyr2) {
-
+                           known_to_dplyr1, known_to_dplyr2,
+                           can_be_combined) {
   # Unknown classes give a warning, because attributes may be wrong
   if (!known_to_dplyr1) {
     return(TRUE)
   }
+
   # If only the second element is of an unknown type to dplyr
-  # Then a warning is only emmitted in case we are merging with NA
-  if (!known_to_dplyr2 && all_na1) {
+  # Then the warning is only emmitted in case we can combine (otherwise the
+  # error appears before)
+  if (!known_to_dplyr2 && can_be_combined) {
     return(TRUE)
   }
 
@@ -89,8 +99,18 @@ give_a_warning <- function(item1, item2,
 combine_result <- function(item1, item2,
                            class1, class2,
                            all_na1, all_na2,
+                           known_to_dplyr1, known_to_dplyr2,
                            can_combine, give_warning) {
   result <- NULL
+
+  # Unknown classes will be stripped and ignored (#2406)
+  if (!known_to_dplyr1) {
+    class1 <- class(as.vector(item1))
+  }
+  if (!known_to_dplyr2) {
+    class2 <- class(as.vector(item2))
+  }
+
   if (can_combine) {
     # Custom coercions:
     # - Factor with character coerced to character
@@ -117,19 +137,15 @@ combine_result <- function(item1, item2,
 
       # Add classes and attributes in some cases to the default
       if ((all(is.na(item1)) && "POSIXct" %in% class2) ||
-          (all(is.na(item2)) && "POSIXct" %in% class1)) {
+          (all(is.na(item2)) && "POSIXct" %in% class1) ||
+          ("POSIXct" %in% class1 && "POSIXct" %in% class2)) {
         class(result) <- c("POSIXct", "POSIXt")
         attr(result, "tzone") <- ""
-      } else if ((all_na1 && "POSIXct" %in% class2) ||
-                 (all_na2 && "POSIXct" %in% class1) ||
-                 ("POSIXct" %in% class1 && "POSIXct" %in% class2)) {
-        class(result) <- c("POSIXct", "POSIXt")
-        attr(result, "tzone") <- ""
-      } else if (all_na1) {
+      } else if (all_na1 && known_to_dplyr2) {
         class(result) <- class2
-      } else if (all_na2) {
+      } else if (all_na2 && known_to_dplyr1) {
         class(result) <- class1
-      } else if (identical(class1, class2)) {
+      } else if (identical(class1, class2) && known_to_dplyr1) {
         class(result) <- class1
       }
     }
@@ -156,7 +172,7 @@ prepare_table_with_coercion_rules <- function() {
     num_with_class = structure(4.5, class = "num_with_class")
   )
 
-  special_non_vector_classes <- c("factor", "POSIXct", "Date")
+  special_non_vector_classes <- c("factor", "POSIXct", "Date", "table", "AsIs", "integer64")
   pairs <- expand.grid(names(items), names(items))
   pairs$can_combine <- FALSE
   pairs$warning <- FALSE
@@ -183,14 +199,17 @@ prepare_table_with_coercion_rules <- function() {
     )
 
     pairs$warning[i] <- give_a_warning(
-      item1, item2, class1, class2,
-      all_na1, all_na2, known_to_dplyr1, known_to_dplyr2
-    )
+      item1, item2,
+      class1, class2,
+      known_to_dplyr1, known_to_dplyr2,
+      can_be_combined = pairs$can_combine[i])
 
     pairs$item_pair[[i]] <- list(item1, item2)
     pairs$result[i] <- combine_result(
       item1, item2, class1, class2,
-      all_na1, all_na2, pairs$can_combine[i], pairs$warning[i]
+      all_na1, all_na2,
+      known_to_dplyr1, known_to_dplyr2,
+      pairs$can_combine[i], pairs$warning[i]
     )
   }
 
