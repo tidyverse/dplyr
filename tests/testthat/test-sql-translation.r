@@ -41,8 +41,12 @@ test_that("between translated to special form (#503)", {
 })
 
 test_that("is.na and is.null are equivalent", {
-  expect_equal(translate_sql(!is.na(x)), sql('NOT(("x") IS NULL)'))
-  expect_equal(translate_sql(!is.null(x)), sql('NOT(("x") IS NULL)'))
+  # Needs to be wrapped in parens to ensure correct precedence
+  expect_equal(translate_sql(is.na(x)), sql('(("x") IS NULL)'))
+  expect_equal(translate_sql(is.null(x)), sql('(("x") IS NULL)'))
+
+  expect_equal(translate_sql(x + is.na(x)), sql('"x" + (("x") IS NULL)'))
+  expect_equal(translate_sql(!is.na(x)), sql('NOT((("x") IS NULL))'))
 })
 
 test_that("if translation adds parens", {

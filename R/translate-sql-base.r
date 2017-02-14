@@ -96,10 +96,10 @@ base_scalar <- sql_translator(
   },
 
   is.null = function(x) {
-    build_sql("(", x, ") IS NULL")
+    build_sql("((", x, ") IS NULL)")
   },
   is.na = function(x) {
-    build_sql("(", x, ") IS NULL")
+    build_sql("((", x, ") IS NULL)")
   },
   na_if = sql_prefix("NULL_IF", 2),
 

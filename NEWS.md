@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `is.na()` and `is.null()` gain extra parens in SQL translation to preserve
+  correct precedence (#2302).
+
 * `collect()` once again defaults to return all rows in the data (#1968).
   This makes it behave the same as `as.data.frame()` and `as_tibble()`.
 
