@@ -12,10 +12,8 @@
 #' checking, but do correctly escape their input, and are useful for
 #' quickly providing default wrappers for a new SQL variant.
 #'
-#' `win_rank()`, `win_recycled()`, and `win_cumulative()` provide helpers
-#' for constructing common types of window functions.
-#'
 #' @keywords internal
+#' @seealso [win_over()] for helper functions for window functions.
 #' @param scalar,aggregate,window The three families of functions than an
 #'   SQL variant can supply.
 #' @param ...,.funs named functions, used to add custom converters from standard
@@ -155,95 +153,3 @@ sql_not_supported <- function(f) {
     stop(f, " is not available in this SQL variant", call. = FALSE)
   }
 }
-
-#' @rdname sql_variant
-#' @export
-win_rank <- function(f) {
-  force(f)
-  function(order = NULL) {
-    over(build_sql(sql(f), list()), partition_group(), order %||% partition_order())
-  }
-}
-
-#' @rdname sql_variant
-#' @export
-win_recycled <- function(f) {
-  force(f)
-  function(x) {
-    over(build_sql(sql(f), list(x)), partition_group())
-  }
-}
-
-#' @rdname sql_variant
-#' @export
-win_cumulative <- function(f) {
-  force(f)
-  function(x) {
-    over(
-      build_sql(sql(f), list(x)),
-      partition_group(),
-      partition_order(),
-      frame = c(-Inf, 0)
-    )
-  }
-}
-
-win_absent <- function(f) {
-  force(f)
-
-  function(...) {
-    stop(
-      "Window function `", f, "()` is not supported by this database",
-      call. = FALSE
-    )
-  }
-}
-
-
-# Use a global variable to communicate state of partitioning between
-# tbl and sql translator. This isn't the most amazing design, but it keeps
-# things loosely coupled and is straightforward to understand.
-partition <- new.env(parent = emptyenv())
-partition$group_by <- NULL
-partition$order_by <- NULL
-partition$con <- NULL
-
-set_partition_con <- function(con) {
-  old <- partition$con
-  partition$con <- con
-  invisible(old)
-}
-
-set_partition_group <- function(vars) {
-  stopifnot(is.null(vars) || is.character(vars))
-
-  old <- partition$group_by
-  partition$group_by <- vars
-  invisible(old)
-}
-
-set_partition_order <- function(vars) {
-  stopifnot(is.null(vars) || is.character(vars))
-
-  old <- partition$order_by
-  partition$order_by <- vars
-  invisible(old)
-}
-
-set_partition <- function(group_by, order_by, con = NULL) {
-  old <- list(partition$group_by, partition$order_by)
-  if (is.list(group_by)) {
-    order_by <- group_by[[2]]
-    group_by <- group_by[[1]]
-  }
-
-  partition$group_by <- group_by
-  partition$order_by <- order_by
-  partition$con <- con
-
-  invisible(old)
-}
-
-partition_group <- function() partition$group_by
-partition_order <- function() partition$order_by
-partition_con <- function() partition$con

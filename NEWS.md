@@ -1,6 +1,7 @@
 # dplyr 0.5.0.9000
 
-* Export `win_rank()`, `win_recycled()`, and `win_cumulative()` (#2051)
+* Export `win_over()`, `win_rank()`, `win_recycled()`, and `win_cumulative()`.
+  Export `win_current_group()` and `win_current_order()` (#2051, #2126)
 
 * `partial_eval()` now handles `::` and `:::` correct (#2321)
 
@@ -10,7 +11,7 @@
 * Logical values are now translated to 0 and 1 rather than TRUE and FALSE
   this should work on a wider range of backends (#2052).
 
-* Partial evaluation occurs immediately when you execute a `filter()`, 
+* Partial evaluation occurs immediately when you execute a `filter()`,
   `mutate()` etc, rather than happening when the query is executed (#2370).
   
 * [API] `translate_sql()` and `partial_eval()` have been refined:

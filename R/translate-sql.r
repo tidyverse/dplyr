@@ -117,14 +117,14 @@ translate_sql_ <- function(dots,
   }
 
   if (window) {
-    old_con <- set_partition_con(con)
-    on.exit(set_partition_con(old_con), add = TRUE)
+    old_con <- set_win_current_con(con)
+    on.exit(set_win_current_con(old_con), add = TRUE)
 
-    old_group <- set_partition_group(vars_group)
-    on.exit(set_partition_group(old_group), add = TRUE)
+    old_group <- set_win_current_group(vars_group)
+    on.exit(set_win_current_group(old_group), add = TRUE)
 
-    old_order <- set_partition_order(vars_order)
-    on.exit(set_partition_order(old_order), add = TRUE)
+    old_order <- set_win_current_order(vars_order)
+    on.exit(set_win_current_order(old_order), add = TRUE)
   }
 
   variant <- sql_translate_env(con)

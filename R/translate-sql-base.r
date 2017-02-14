@@ -1,3 +1,4 @@
+#' @include translate-sql-window.r
 #' @include translate-sql-helpers.r
 #' @include sql-escape.r
 NULL
@@ -158,10 +159,10 @@ base_win <- sql_translator(
   percent_rank = win_rank("percent_rank"),
   cume_dist    = win_rank("cume_dist"),
   ntile        = function(order_by, n) {
-    over(
+    win_over(
       build_sql("NTILE", list(as.integer(n))),
-      partition_group(),
-      order_by %||% partition_order()
+      win_current_group(),
+      order_by %||% win_current_order()
     )
   },
 
@@ -172,7 +173,7 @@ base_win <- sql_translator(
   min   = win_recycled("min"),
   max   = win_recycled("max"),
   n     = function() {
-    over(sql("COUNT(*)"), partition_group())
+    win_over(sql("COUNT(*)"), win_current_group())
   },
 
   # Cumulative function are like recycled aggregates except that R names
@@ -185,32 +186,32 @@ base_win <- sql_translator(
   # Finally there are a few miscellaenous functions that don't follow any
   # particular pattern
   nth = function(x, order = NULL) {
-    over(build_sql("NTH_VALUE", list(x)), partition_group(), order %||% partition$order())
+    win_over(build_sql("NTH_VALUE", list(x)), win_current_group(), order %||% win_current_order())
   },
   first = function(x, order = NULL) {
-    over(build_sql("FIRST_VALUE", list(x)), partition_group(), order %||% partition_order())
+    win_over(build_sql("FIRST_VALUE", list(x)), win_current_group(), order %||% win_current_order())
   },
   last = function(x, order = NULL) {
-    over(build_sql("LAST_VALUE", list(x)), partition_group(), order %||% partition_order())
+    win_over(build_sql("LAST_VALUE", list(x)), win_current_group(), order %||% win_current_order())
   },
 
   lead = function(x, n = 1L, default = NA, order = NULL) {
-    over(
+    win_over(
       build_sql("LEAD", list(x, n, default)),
-      partition_group(),
-      order %||% partition_order()
+      win_current_group(),
+      order %||% win_current_order()
     )
   },
   lag = function(x, n = 1L, default = NA, order = NULL) {
     over(
       build_sql("LAG", list(x, as.integer(n), default)),
-      partition_group(),
-      order %||% partition_order()
+      win_current_group(),
+      order %||% win_current_order()
     )
   },
 
   order_by = function(order_by, expr) {
-    old <- set_partition(partition_group(), order_by)
+    old <- set_partition(win_current_group(), order_by)
     on.exit(set_partition(old))
 
     expr
