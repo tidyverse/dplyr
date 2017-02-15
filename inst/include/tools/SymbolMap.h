@@ -35,7 +35,7 @@ namespace dplyr {
         lookup.insert(std::make_pair(name.get_sexp(), idx));
         break;
       case NEW:
-        names.push_back(name);
+        names.push_back(name.get_string());
         lookup.insert(std::make_pair(name.get_sexp(), idx));
         break;
       };
@@ -62,7 +62,7 @@ namespace dplyr {
         return SymbolMapIndex(it->second, HASH);
       }
 
-      CharacterVector v = CharacterVector::create(name);
+      CharacterVector v = CharacterVector::create(name.get_string());
       int idx = as<int>(r_match(v, names));
       if (idx != NA_INTEGER) {
         // we have a match

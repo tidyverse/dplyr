@@ -167,7 +167,7 @@ namespace dplyr {
         return variable_handler(subsets, name);
       }
       else {
-        SEXP data = env.find(name);
+        SEXP data = env.find(name.get_string());
         // Constants of length != 1 are handled via regular evaluation
         if (Rf_length(data) == 1) {
           LOG_VERBOSE << "Using hybrid constant handler";

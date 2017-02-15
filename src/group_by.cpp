@@ -31,11 +31,11 @@ SEXP resolve_vars(List new_groups, CharacterVector names) {
     }
     // check that s is indeed in the data
 
-    int pos = as<int>(r_match(CharacterVector::create(name), names));
+    int pos = as<int>(r_match(CharacterVector::create(name.get_string()), names));
     if (pos == NA_INTEGER) {
       stop("unknown variable to group by : %s", name.get_cstring());
     }
-    lazy[0] = Symbol(name);
+    lazy[0] = Symbol(name.get_string());
   }
 
   return new_groups;

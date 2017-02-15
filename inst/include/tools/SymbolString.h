@@ -15,6 +15,14 @@ namespace Rcpp {
 
     // Symbols are always encoded in the native encoding (#1950)
     explicit SymbolString(const Symbol& s) : String(CHAR(PRINTNAME(s)), CE_NATIVE) {}
+
+  public:
+    const String& get_string() const { return *this; }
+
+  private:
+    operator std::string() const {
+      stop("Not implemented");
+    };
   };
 
 }
