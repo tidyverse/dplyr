@@ -56,6 +56,7 @@ Collate:
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
+    'data-bands.R'
     'data-lahman.r'
     'data-nasa.r'
     'data-nycflights13.r'
