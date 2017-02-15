@@ -211,7 +211,7 @@ base_win <- sql_translator(
     )
   },
   lag = function(x, n = 1L, default = NA, order = NULL) {
-    over(
+    win_over(
       build_sql("LAG", list(x, as.integer(n), default)),
       win_current_group(),
       order %||% win_current_order()
