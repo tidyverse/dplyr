@@ -31,9 +31,10 @@ SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, Charac
   return res;
 }
 
-DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, CharacterVector new_names) {
-  int n = keep.size();
+DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, const CharacterVector& new_names) {
   DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
+
+  SymbolMap keep_map(keep);
 
   // handle vars  attribute : make a shallow copy of the list and alter
   //   its names attribute
@@ -42,11 +43,9 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
   int nv = vars.size();
   for (int i = 0; i < nv; i++) {
     SymbolString s = vars[i];
-    int j = 0;
-    for (; j < n; j++) {
-      if (s == keep[j]) {
-        vars[i] = new_names[j];
-      }
+    SymbolMapIndex j = keep_map.get_index(s);
+    if (j.origin != NEW) {
+      vars[i] = new_names[j.pos];
     }
   }
 

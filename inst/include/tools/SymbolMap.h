@@ -20,10 +20,12 @@ namespace dplyr {
   class SymbolMap {
   private:
     dplyr_hash_map<SEXP, int> lookup;
-    CharacterVector names;
+    SymbolVector names;
 
   public:
     SymbolMap(): lookup(), names() {}
+
+    SymbolMap(const SymbolVector& names_): lookup(), names(names_) {}
 
     SymbolMapIndex insert(const SymbolString& name) {
       SymbolMapIndex index = get_index(name);
@@ -42,8 +44,12 @@ namespace dplyr {
       return index;
     }
 
-    CharacterVector get_names() const {
+    SymbolVector get_names() const {
       return names;
+    }
+
+    SymbolString get_name(const int i) const {
+      return names[i];
     }
 
     int size() const {

@@ -7,6 +7,7 @@
 #include <dplyr/Result/GroupedSubset.h>
 
 #include <tools/SymbolVector.h>
+#include <tools/SymbolMap.h>
 
 namespace dplyr {
 
@@ -58,7 +59,7 @@ namespace dplyr {
       data_(x),
       group_sizes(),
       biggest_group_size(0),
-      symbols(data_.attr("vars")),
+      symbols(SymbolVector(data_.attr("vars"))),
       labels()
     {
       // handle lazyness
@@ -85,7 +86,7 @@ namespace dplyr {
     }
 
     SymbolString symbol(int i) const {
-      return symbols[i];
+      return symbols.get_name(i);
     }
 
     DataFrame& data() {
@@ -116,11 +117,7 @@ namespace dplyr {
     }
 
     inline bool has_group(const SymbolString& g) const {
-      int n = symbols.size();
-      for (int i=0; i<n; i++) {
-        if (symbols[i] == g) return true;
-      }
-      return false;
+      return symbols.has(g);
     }
 
     inline subset* create_subset(SEXP x) const {
@@ -132,7 +129,7 @@ namespace dplyr {
     DataFrame data_;
     IntegerVector group_sizes;
     int biggest_group_size;
-    SymbolVector symbols;
+    SymbolMap symbols;
     DataFrame labels;
 
   };

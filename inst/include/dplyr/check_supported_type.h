@@ -29,7 +29,7 @@ namespace dplyr {
     case VECSXP:
       return DPLYR_VECSXP;
     default:
-      if (name == String()) {
+      if (name.get_string() == String()) {
         stop("Unsupported type %s", type2name(x));
       }
       else {
