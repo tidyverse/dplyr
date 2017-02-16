@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `grouped_df` is registered officially as an S3 class. This makes it 
+  easier to use with S4 (#2276).
+
 * Five new datasets provide some interesting built-in datasets to demonstrate
   dplyr verbs (#2094):
   

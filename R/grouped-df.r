@@ -25,6 +25,8 @@ grouped_df <- function(data, vars, drop = TRUE) {
   grouped_df_impl(data, unname(vars), drop)
 }
 
+setOldClass(c("grouped_df", "tbl_df", "data.frame"))
+
 #' @rdname grouped_df
 #' @export
 is.grouped_df <- function(x) inherits(x, "grouped_df")
