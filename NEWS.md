@@ -1,7 +1,12 @@
 # dplyr 0.5.0.9000
 
-* New `starwars` dataset giving information about starwars characters
-  and containing some list columns (#2094).
+* Five new datasets provide some interesting built-in datasets to demonstrate
+  dplyr verbs (#2094):
+  
+  * `starwars` dataset about starwars characters; has list columns
+  * `storms` has the trajectories of ~200 tropical storms
+  * `band_members`, `band_instruments` and `band_instruments2` 
+    has some simple data to demonstrate joins.
 
 * `x %in% 1` is now correctly translated to `x IN (1)` (#511).
 
