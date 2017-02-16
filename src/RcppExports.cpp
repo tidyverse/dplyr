@@ -377,13 +377,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_impl
-DataFrame select_impl(DataFrame df, CharacterVector vars);
+DataFrame select_impl(DataFrame df, SymbolVector vars);
 RcppExport SEXP dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
+    Rcpp::traits::input_parameter< SymbolVector >::type vars(varsSEXP);
     rcpp_result_gen = Rcpp::wrap(select_impl(df, vars));
     return rcpp_result_gen;
 END_RCPP

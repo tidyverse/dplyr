@@ -5,7 +5,15 @@
 
 namespace Rcpp {
 
-  typedef CharacterVector SymbolVector;
+  class SymbolVector : public CharacterVector {
+  public:
+    SymbolVector() {}
+
+    SymbolVector(const SymbolVector& s) : CharacterVector(s) {}
+
+    template <class T>
+    explicit SymbolVector(T s) : CharacterVector(s) {}
+  };
 
 }
 

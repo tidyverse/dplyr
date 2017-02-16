@@ -108,9 +108,9 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   out.names() = names;
 
   // out group columns
-  Nullable<SymbolVector> group_cols_x_(x.attr("vars"));
-  if (!group_cols_x_.isNull()) {
-    SymbolVector group_cols_x(group_cols_x_.as());
+  SEXP group_cols_x_ = x.attr("vars");
+  if (!Rf_isNull(group_cols_x_)) {
+    SymbolVector group_cols_x(group_cols_x_);
     int n_group_cols = group_cols_x.size();
     SymbolVector group_cols(n_group_cols);
     IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);

@@ -7,7 +7,7 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, CharacterVector new_names) {
+SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, CharacterVector new_names) {
   CharacterVector names = df.names();
   IntegerVector positions = r_match(keep, names);
   int n = keep.size();
@@ -31,7 +31,7 @@ SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, Charac
   return res;
 }
 
-DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, const CharacterVector& new_names) {
+DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const CharacterVector& new_names) {
   DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
 
   SymbolMap keep_map(keep);
@@ -73,7 +73,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, cons
 }
 
 // [[Rcpp::export]]
-DataFrame select_impl(DataFrame df, CharacterVector vars) {
+DataFrame select_impl(DataFrame df, SymbolVector vars) {
   check_valid_colnames(df);
   if (is<GroupedDataFrame>(df)) {
     return select_grouped(GroupedDataFrame(df), vars, vars.names());
