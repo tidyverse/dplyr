@@ -4,7 +4,7 @@
 #' data, \url{http://www.nhc.noaa.gov/data/#hurdat}. The data includes the
 #' positions and attributes of 198 tropical storms, measured every six hours
 #' during the lifetime of a storm.
-
+#'
 #' @format A tibble with 10,010 observations and 13 variables:
 #' \describe{
 #' \item{name}{Storm Name}
