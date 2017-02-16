@@ -13,7 +13,7 @@
 #' \item{lat,long}{Location of storm center}
 #' \item{status}{Storm classification (Tropical Depression, Tropical Storm,
 #'   or Hurricane)}
-#' \item{category}{Saffir–Simpson storm category (estimated from windspeed.
+#' \item{category}{Saffir-Simpson storm category (estimated from wind speed.
 #' -1 = Tropical Depression, 0 = Tropical Storm)}
 #' \item{wind}{storm's maximum sustained wind speed (in knots)}
 #' \item{pressure}{Air pressure at the storm's center (in millibars)}
