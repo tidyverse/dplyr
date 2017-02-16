@@ -93,5 +93,5 @@ storms <- storms %>%
          name %in% completeish) %>%
   mutate(name = if_else(str_sub(name, 1, 3) %in% c("AL0", "AL1"), name, str_to_title(name)))
 
-
+devtools::use_data(storms)
 
