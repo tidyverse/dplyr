@@ -9,11 +9,21 @@
 \format{Each is a tibble with two variables and three observations}
 \usage{
 band_members
+
+band_instruments
+
+band_instruments2
 }
 \description{
 These data sets describe band members of the Beatles and Rolling Stones. They
 are toy data sets that can be displayed in their entirety on a slide (e.g. to
 demonstrate a join).
+}
+\details{
+\code{band_instruments} and \code{band_instruments2} contain the same data but use
+different column names for the first column of the data set.
+\code{band_instruments} uses \code{name}, which matches the name of the key column of
+\code{band_members}; \code{band_instruments2} uses \code{artist}, which does not.
 }
 \examples{
 band_members
