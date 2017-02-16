@@ -61,25 +61,26 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (!args.ok) return 0;
   RObject& data = args.data;
 
-  if (TYPEOF(data) == SYMSXP) {
-    SymbolString name = SymbolString(Symbol(data));
-    if (subsets.count(name)) {
-      bool is_summary = subsets.is_summary(name);
-      int n = args.n;
-      data = subsets.get_variable(name);
+  if (TYPEOF(data) != SYMSXP)
+    return 0;
 
-      switch (TYPEOF(data)) {
-      case INTSXP:
-        return new Templ<INTSXP>(data, n, args.def, is_summary);
-      case REALSXP:
-        return new Templ<REALSXP>(data, n, args.def, is_summary);
-      case STRSXP:
-        return new Templ<STRSXP>(data, n, args.def, is_summary);
-      case LGLSXP:
-        return new Templ<LGLSXP>(data, n, args.def, is_summary);
-      default:
-        break;
-      }
+  SymbolString name = SymbolString(Symbol(data));
+  if (subsets.count(name)) {
+    bool is_summary = subsets.is_summary(name);
+    int n = args.n;
+    data = subsets.get_variable(name);
+
+    switch (TYPEOF(data)) {
+    case INTSXP:
+      return new Templ<INTSXP>(data, n, args.def, is_summary);
+    case REALSXP:
+      return new Templ<REALSXP>(data, n, args.def, is_summary);
+    case STRSXP:
+      return new Templ<STRSXP>(data, n, args.def, is_summary);
+    case LGLSXP:
+      return new Templ<LGLSXP>(data, n, args.def, is_summary);
+    default:
+      break;
     }
   }
   return 0;
