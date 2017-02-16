@@ -20,3 +20,4 @@ demo/pandas
 ^clion-test\.R$
 ^API$
 ^ISSUE_TEMPLATE\.md$
+^data-raw$
