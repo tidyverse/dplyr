@@ -1,20 +1,13 @@
 #' Band membership
 #'
-#' These toy data sets describe band members of the Beatles and Rolling Stones.
-#' They are designed to provide concise examples of dplyr joins that use data
-#' that can be included in its entirety on a lecture slide.
+#' These data sets describe band members of the Beatles and Rolling Stones. They
+#' are toy data sets that can be displayed in their entirety on a slide (e.g. to
+#' demonstrate a join).
 #'
-#' @format A tibble
-#' @docType data
-#' @name band
-#' @usage band
-#' @aliases band instrument instrument2
+#' @format Each is a tibble with two variables and three observations
+#' @aliases band_members band_instruments band_instruments2
 #' @examples
-#' left_join(band, instrument, by = "name")
-#' right_join(band, instrument, by = "name")
-#' full_join(band, instrument, by = "name")
-#' inner_join(band, instrument, by = "name")
-#' semi_join(band, instrument, by = "name")
-#' anti_join(band, instrument, by = "name")
-#' left_join(band, instrument2, by = c("name" = "artist"))
-NULL
+#' band_members
+#' band_instruments
+#' band_instruments2
+"band_members"

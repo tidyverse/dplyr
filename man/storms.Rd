@@ -31,3 +31,4 @@ during the lifetime of a storm.
 \examples{
 storms
 }
+\keyword{datasets}

@@ -20,9 +20,6 @@
 #' \item{ts_diameter}{Diameter of the area experiencing tropical storm strength winds (34 knots or above)}
 #' \item{hu_diameter}{Diameter of the area experiencing hurricane strength winds (64 knots or above)}
 #' }
-#' @docType data
-#' @name storms
-#' @usage storms
 #' @examples
 #' storms
-NULL
+"storms"
