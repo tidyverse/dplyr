@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* New `starwars` dataset giving information about starwars characters
+  and containing some list columns (#2094).
+
 * `x %in% 1` is now correctly translated to `x IN (1)` (#511).
 
 * Export `win_over()`, `win_rank()`, `win_recycled()`, and `win_cumulative()`.

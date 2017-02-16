@@ -59,6 +59,7 @@ Collate:
     'data-lahman.r'
     'data-nasa.r'
     'data-nycflights13.r'
+    'data-starwars.R'
     'data-temp.r'
     'data.r'
     'dataframe.R'
