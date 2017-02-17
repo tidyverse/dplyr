@@ -139,6 +139,7 @@ Collate:
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'
+    'view.r'
     'zzz.r'
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
