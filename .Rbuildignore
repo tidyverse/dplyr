@@ -21,3 +21,4 @@ demo/pandas
 ^API$
 ^ISSUE_TEMPLATE\.md$
 ^data-raw$
+^LICENSE\.md$
