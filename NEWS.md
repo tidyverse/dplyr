@@ -206,6 +206,8 @@
 
 * `collect()` once again defaults to return all rows in the data (#1968).
   This makes it behave the same as `as.data.frame()` and `as_tibble()`.
+* Helper functions in select() (and related verbs) are now evaluated
+  in a context where column names do not exist (#2184)
 
 * Add failing tests (#2415, @ngr-t).
 

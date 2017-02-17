@@ -61,7 +61,13 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   # if the first selector is exclusive (negative), start with all columns
   initial_case <- if (is_negated(f_rhs(args[[1]]))) list(seq_along(vars)) else integer(0)
 
-  ind_list <- c(initial_case, tidy_eval(args, names_list))
+  # Evaluate symbols in an environment where columns are bound, but
+  # not calls (select helpers are scoped in the calling environment)
+  is_helper <- map_lgl(args, function(x) is_call(x) && !is_call(x, c("-", ":")))
+  ind_list <- map_if(args, is_helper, tidy_eval)
+  ind_list <- map_if(ind_list, !is_helper, tidy_eval, names_list)
+
+  ind_list <- c(initial_case, ind_list)
   names(ind_list) <- c(names2(initial_case), names2(args))
 
   is_numeric <- map_lgl(ind_list, is.numeric)
