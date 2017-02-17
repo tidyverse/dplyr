@@ -59,7 +59,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   names_list <- set_names(as.list(seq_along(vars)), vars)
 
   # if the first selector is exclusive (negative), start with all columns
-  initial_case <- if (is_negated(f_rhs(args[[1]]))) list(seq_along(vars)) else integer(0)
+  initial_case <- if (is_negated(args[[1]])) list(seq_along(vars)) else integer(0)
 
   # Evaluate symbols in an environment where columns are bound, but
   # not calls (select helpers are scoped in the calling environment)
