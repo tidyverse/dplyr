@@ -69,7 +69,7 @@
 #' @aliases summarise_each_q mutate_each_q
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   cols <- lazyeval::lazy_dots(everything())
   vars <- colwise_(.tbl, funs, cols)
   summarise_(.tbl, .dots = vars)
@@ -78,7 +78,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
+  funs <- as_fun_list(.funs, .env = parent.frame(), ...)
   cols <- lazyeval::lazy_dots(everything())
   vars <- colwise_(.tbl, funs, cols)
   mutate_(.tbl, .dots = vars)
@@ -94,7 +94,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
     )
   }
   cols <- probe_colwise_names(.tbl, .predicate)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
+  funs <- as_fun_list(.funs, .env = parent.frame(), ...)
   vars <- colwise_(.tbl, funs, cols)
 
   summarise_(.tbl, .dots = vars)
@@ -110,7 +110,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
     )
   }
   cols <- probe_colwise_names(.tbl, .predicate)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
+  funs <- as_fun_list(.funs, .env = parent.frame(), ...)
   vars <- colwise_(.tbl, funs, cols)
 
   mutate_(.tbl, .dots = vars)
@@ -132,7 +132,7 @@ probe_colwise_names <- function(tbl, p, ...) {
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
   cols <- select_colwise_names(.tbl, .cols)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
+  funs <- as_fun_list(.funs, .env = parent.frame(), ...)
   vars <- colwise_(.tbl, funs, cols)
 
   summarise_(.tbl, .dots = vars)
@@ -142,7 +142,7 @@ summarise_at <- function(.tbl, .cols, .funs, ...) {
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
   cols <- select_colwise_names(.tbl, .cols)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
+  funs <- as_fun_list(.funs, .env = parent.frame(), ...)
   vars <- colwise_(.tbl, funs, cols)
 
   mutate_(.tbl, .dots = vars)
@@ -196,7 +196,7 @@ select_colwise_names <- function(tbl, cols) {
 }
 
 colwise_ <- function(tbl, calls, vars) {
-  stopifnot(is.fun_list(calls))
+  stopifnot(is_fun_list(calls))
 
   named_calls <- attr(calls, "has_names")
   named_vars <- any(has_names(vars))

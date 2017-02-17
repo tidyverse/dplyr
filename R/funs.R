@@ -28,22 +28,19 @@ funs <- function(...) funs_(lazyeval::lazy_dots(...))
 
 #' @export
 #' @rdname funs
-funs_ <- function(dots, args = list(), env = baseenv()) {
+funs_ <- function(dots, args = list(), env = base_env()) {
   dots <- lazyeval::as.lazy_dots(dots, env)
   env <- lazyeval::common_env(dots)
 
   names(dots) <- names2(dots)
 
-  dots[] <- lapply(dots, function(x) {
+  dots[] <- map(dots, function(x) {
     x$expr <- make_call(x$expr, args)
     x
   })
 
   missing_names <- names(dots) == ""
-  default_names <- vapply(
-    dots[missing_names], function(x) make_name(x$expr),
-    character(1)
-  )
+  default_names <- map_chr(dots[missing_names], function(x) make_name(x$expr))
   names(dots)[missing_names] <- default_names
 
   class(dots) <- c("fun_list", "lazy_dots")
@@ -51,14 +48,14 @@ funs_ <- function(dots, args = list(), env = baseenv()) {
   dots
 }
 
-is.fun_list <- function(x, env) inherits(x, "fun_list")
+is_fun_list <- function(x, env) inherits(x, "fun_list")
 
-as.fun_list <- function(.x, ..., .env = baseenv()) {
-  UseMethod("as.fun_list")
+as_fun_list <- function(.x, ..., .env = base_env()) {
+  UseMethod("as_fun_list")
 }
 #' @export
-as.fun_list.fun_list <- function(.x, ..., .env = baseenv()) {
-  .x[] <- lapply(.x, function(fun) {
+as_fun_list.fun_list <- function(.x, ..., .env = base_env()) {
+  .x[] <- map(.x, function(fun) {
     fun$expr <- merge_args(fun$expr, list(...))
     fun
   })
@@ -66,13 +63,13 @@ as.fun_list.fun_list <- function(.x, ..., .env = baseenv()) {
   .x
 }
 #' @export
-as.fun_list.character <- function(.x, ..., .env = baseenv()) {
-  parsed <- lapply(.x, function(.x) parse(text = .x)[[1]])
+as_fun_list.character <- function(.x, ..., .env = base_env()) {
+  parsed <- map(.x, parse_expr)
   funs_(parsed, list(...), .env)
 }
 #' @export
-as.fun_list.function <- function(.x, ..., .env = baseenv()) {
-  .env <- new.env(parent = .env)
+as_fun_list.function <- function(.x, ..., .env = base_env()) {
+  .env <- new_env(.env)
   .env$`__dplyr_colwise_fun` <- .x
 
   call <- make_call("__dplyr_colwise_fun", list(...))
@@ -95,9 +92,7 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("<fun_calls>\n")
   names <- format(names(x))
 
-  code <- vapply(x, function(x) {
-    deparse_trunc(x$expr, width - 2 - nchar(names[1]))
-  }, character(1))
+  code <- map_chr(x, function(x) deparse_trunc(x$expr, width - 2 - nchar(names[1])))
 
   cat(paste0("$ ", names, ": ", code, collapse = "\n"))
   cat("\n")
@@ -105,27 +100,27 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
 }
 
 make_call <- function(x, args) {
-  if (is.character(x)) {
-    call <- substitute(f(.), list(f = as.name(x)))
-  } else if (is.name(x)) {
+  if (is_string(x)) {
+    call <- substitute(f(.), list(f = symbol(x)))
+  } else if (is_name(x)) {
     call <- substitute(f(.), list(f = x))
-  } else if (is.call(x)) {
+  } else if (is_call(x)) {
     call <- x
   } else {
-    stop("Unknown inputs")
+    abort("Unknown inputs")
   }
 
   merge_args(call, args)
 }
 make_name <- function(x) {
-  if (is.character(x)) {
+  if (is_character(x)) {
     x
-  } else if (is.name(x)) {
-    as.character(x)
-  } else if (is.call(x)) {
-    as.character(x[[1]])
+  } else if (is_name(x)) {
+    as_character(x)
+  } else if (is_call(x)) {
+    as_character(x[[1]])
   } else {
-    stop("Unknown input:", class(x)[1])
+    abort("Unknown input:", class(x)[1])
   }
 }
 

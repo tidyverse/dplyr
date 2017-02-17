@@ -7,7 +7,7 @@
 \usage{
 funs(...)
 
-funs_(dots, args = list(), env = baseenv())
+funs_(dots, args = list(), env = base_env())
 }
 \arguments{
 \item{dots, ...}{A list of functions specified by:
