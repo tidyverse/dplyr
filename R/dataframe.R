@@ -77,12 +77,18 @@ arrange_.data.frame <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(arrange_(tbl_df(.data), .dots = dots))
 }
+
 #' @export
-select_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(names(.data), dots)
+select.data.frame <- function(.data, ...) {
+  vars <- select_vars(names(.data), ...)
   select_impl(.data, vars)
 }
+#' @export
+select_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- dots_compat(splice(.dots, ...), caller_env())
+  select(.data, !!! symbols(dots))
+}
+
 #' @export
 rename_.data.frame <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)

@@ -29,10 +29,10 @@
 #' select(iris, one_of(vars))
 NULL
 
-cur_vars_env <- new.env()
+cur_vars_env <- new_env()
 
 set_current_vars <- function(x) {
-  stopifnot(is.character(x) || is.null(x))
+  stopifnot(is_character(x) || is_null(x))
 
   old <- cur_vars_env$selected
   cur_vars_env$selected <- x
@@ -49,7 +49,7 @@ current_vars <- function() {
 #' @export
 #' @rdname select_helpers
 starts_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is_scalar_character(match), !is.na(match), nchar(match) > 0)
+  stopifnot(is_string(match), !is.na(match), nchar(match) > 0)
 
   if (ignore.case) match <- tolower(match)
   n <- nchar(match)
@@ -61,7 +61,7 @@ starts_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 ends_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is_scalar_character(match), !is.na(match), nchar(match) > 0)
+  stopifnot(is_string(match), !is.na(match), nchar(match) > 0)
 
   if (ignore.case) match <- tolower(match)
   n <- nchar(match)
@@ -75,7 +75,7 @@ ends_with <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is_scalar_character(match), nchar(match) > 0)
+  stopifnot(is_string(match), nchar(match) > 0)
 
   if (ignore.case) {
     vars <- tolower(vars)
@@ -87,7 +87,7 @@ contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @export
 #' @rdname select_helpers
 matches <- function(match, ignore.case = TRUE, vars = current_vars()) {
-  stopifnot(is_scalar_character(match), nchar(match) > 0)
+  stopifnot(is_string(match), nchar(match) > 0)
 
   grep_vars(match, vars, ignore.case = ignore.case)
 }
@@ -99,7 +99,7 @@ matches <- function(match, ignore.case = TRUE, vars = current_vars()) {
 #' @param width Optionally, the "width" of the numeric range. For example,
 #'   a range of 2 gives "01", a range of three "001", etc.
 num_range <- function(prefix, range, width = NULL, vars = current_vars()) {
-  if (!is.null(width)) {
+  if (!is_null(width)) {
     range <- sprintf(paste0("%0", width, "d"), range)
   }
   match_vars(paste0(prefix, range), vars)
@@ -111,13 +111,13 @@ num_range <- function(prefix, range, width = NULL, vars = current_vars()) {
 one_of <- function(..., vars = current_vars()) {
   keep <- c(...)
 
-  if (!is.character(keep)) {
-    stop("`c(...)` must be a character vector", call. = FALSE)
+  if (!is_character(keep)) {
+    abort("`c(...)` must be a character vector")
   }
 
   if (!all(keep %in% vars)) {
     bad <- setdiff(keep, vars)
-    warning("Unknown variables: ", paste0("`", bad, "`", collapse = ", "))
+    warn(glue("Unknown variables: ", paste0("`", bad, "`", collapse = ", ")))
   }
 
   match_vars(keep, vars)

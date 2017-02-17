@@ -318,7 +318,7 @@ arrange_ <- function(.data, ..., .dots) {
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
 select <- function(.data, ...) {
-  select_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("select")
 }
 
 #' @export
@@ -346,14 +346,11 @@ select_ <- function(.data, ..., .dots) {
 #' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
 select_if <- function(.data, .predicate, ...) {
   if (inherits(.data, "tbl_lazy")) {
-    stop(
-      "Selection with predicate currently require local sources",
-      call. = FALSE
-    )
+    abort("Selection with predicate currently require local sources")
   }
   vars <- probe_colwise_names(.data, .predicate, ...)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
-  select_(.data, .dots = vars)
+  select(.data, !!! symbols(vars))
 }
 
 #' @rdname select

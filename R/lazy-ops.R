@@ -162,7 +162,7 @@ op_vars.op_base <- function(op) {
 }
 #' @export
 op_vars.op_select <- function(op) {
-  names(select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x)))
+  names(select_vars(op_vars(op$x), !!! op$dots, include = op_grps(op$x)))
 }
 #' @export
 op_vars.op_rename <- function(op) {

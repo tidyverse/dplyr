@@ -148,10 +148,19 @@ warn_underscored <- function() {
      in rlang."
   ))
 }
-dots_compat <- function(dots, env) {
-  if (some(dots, is_scalar_character)) {
+warn_text_se <- function(warned = FALSE) {
+  if (!warned) {
     warn("Text parsing is deprecated, please supply an expression or formula")
-    dots <- map_if(dots, is_scalar_character, parse_f, env = env)
+  }
+}
+dots_compat <- function(dots, env) {
+  dots <- as.list(dots)
+
+  warned <- FALSE
+  if (some(dots, is_scalar_character)) {
+    warn_text_se(warned)
+    warned <- TRUE
+    dots <- map_if(dots, is_string, parse_f, env = env)
   }
 
   dots

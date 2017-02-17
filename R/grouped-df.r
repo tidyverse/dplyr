@@ -114,12 +114,16 @@ cbind.grouped_df <- function(...) {
 # One-table verbs --------------------------------------------------------------
 
 #' @export
-select_.grouped_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(names(.data), dots)
+select.grouped_df <- function(.data, ...) {
+  vars <- select_vars(names(.data), ...)
   vars <- ensure_grouped_vars(vars, .data)
-
   select_impl(.data, vars)
+}
+
+#' @export
+select_.grouped_df <- function(.data, ..., .dots) {
+  dots <- dots_compat(splice(.dots, ...), caller_env())
+  select.grouped_df(.data, !!! dots)
 }
 
 ensure_grouped_vars <- function(vars, data, notify = TRUE) {
@@ -128,11 +132,12 @@ ensure_grouped_vars <- function(vars, data, notify = TRUE) {
 
   if (length(missing) > 0) {
     if (notify) {
-      message(
+      inform(glue(
         "Adding missing grouping variables: ",
-        paste0("`", missing, "`", collapse = ", "))
+        paste0("`", missing, "`", collapse = ", ")
+      ))
     }
-    vars <- c(stats::setNames(missing, missing), vars)
+    vars <- c(set_names(missing, missing), vars)
   }
 
   vars
