@@ -135,7 +135,7 @@ namespace dplyr {
     SEXP data = CADR(call);
     if (TYPEOF(data) == SYMSXP) {
       SymbolString name = SymbolString(Symbol(data));
-      if (! subsets.count(name)) {
+      if (subsets.count(name) == 0) {
         stop("could not find variable '%s'", name.get_cstring());
       }
       data = subsets.get_variable(name);

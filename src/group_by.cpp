@@ -35,7 +35,7 @@ SEXP resolve_vars(List new_groups, CharacterVector names) {
     if (pos == NA_INTEGER) {
       stop("unknown variable to group by : %s", name.get_cstring());
     }
-    lazy[0] = Symbol(name.get_string());
+    lazy[0] = name.get_symbol();
   }
 
   return new_groups;
