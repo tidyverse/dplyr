@@ -58,6 +58,7 @@ namespace dplyr {
 }
 
 namespace Rcpp {
+  using namespace dplyr;
 
   template <> inline SEXP wrap(const SymbolVector& x) {
     return x.get_vector();
