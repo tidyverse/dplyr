@@ -3,7 +3,7 @@
 
 #include <tools/SymbolString.h>
 
-namespace Rcpp {
+namespace dplyr {
 
   class Lazy {
   public:
@@ -20,9 +20,11 @@ namespace Rcpp {
     inline SEXP expr() const {
       return Rf_duplicate(data[0]);
     }
+
     inline SEXP env() const {
       return data[1];
     }
+
     inline SymbolString name() const {
       return name_;
     }
@@ -31,6 +33,11 @@ namespace Rcpp {
     List data;
     SymbolString name_;
   };
+
+}
+
+namespace Rcpp {
+  using namespace dplyr;
 
   template <>
   inline bool is<Lazy>(SEXP x) {
@@ -41,6 +48,10 @@ namespace Rcpp {
       TYPEOF(VECTOR_ELT(x,1)) == ENVSXP
       ;
   }
+
+}
+
+namespace dplyr {
 
   class LazyDots {
   public:
@@ -81,4 +92,5 @@ namespace Rcpp {
   };
 
 }
+
 #endif

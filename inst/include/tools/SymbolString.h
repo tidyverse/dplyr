@@ -3,7 +3,7 @@
 
 #include <tools/Encoding.h>
 
-namespace Rcpp {
+namespace dplyr {
 
   class SymbolString  {
   public:

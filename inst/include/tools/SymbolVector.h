@@ -4,8 +4,7 @@
 #include <tools/SymbolString.h>
 #include <tools/match.h>
 
-namespace Rcpp {
-  using namespace dplyr;
+namespace dplyr {
 
   class SymbolVector {
   public:
@@ -62,9 +61,6 @@ namespace Rcpp {
 
   template <> inline SEXP wrap(const SymbolVector& x) {
     return x.get_vector();
-  }
-  template <> inline SymbolVector as(SEXP x) {
-    return SymbolVector(x);
   }
 
 }
