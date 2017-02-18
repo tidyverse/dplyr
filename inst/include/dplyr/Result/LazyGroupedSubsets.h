@@ -49,7 +49,7 @@ namespace dplyr {
     }
 
   public:
-    virtual CharacterVector get_variable_names() const {
+    virtual const SymbolVector get_variable_names() const {
       return symbol_map.get_names();
     }
 

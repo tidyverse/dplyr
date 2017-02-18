@@ -3,6 +3,7 @@
 
 #include <tools/SlicingIndex.h>
 #include <tools/SymbolString.h>
+#include <tools/SymbolVector.h>
 
 namespace dplyr {
 
@@ -13,7 +14,7 @@ namespace dplyr {
   public:
     virtual ~ILazySubsets() {}
 
-    virtual CharacterVector get_variable_names() const = 0;
+    virtual const SymbolVector get_variable_names() const = 0;
     virtual SEXP get_variable(const SymbolString& symbol) const = 0;
     virtual SEXP get(const SymbolString& symbol, const SlicingIndex& indices) const = 0;
     virtual bool is_summary(const SymbolString& symbol) const = 0;

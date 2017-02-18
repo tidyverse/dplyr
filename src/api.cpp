@@ -34,7 +34,7 @@ namespace dplyr {
     }
   }
 
-  DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names) :
+  DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector& names) :
     data(data_),
     visitors(),
     visitor_names(names),
@@ -43,12 +43,11 @@ namespace dplyr {
 
     std::string name;
     int n = names.size();
-    IntegerVector indices  = r_match(names,  RCPP_GET_NAMES(data));
+    IntegerVector indices  = names.match_in_table(data.names());
 
     for (int i=0; i<n; i++) {
       if (indices[i] == NA_INTEGER) {
-        name = (String)names[i];
-        stop("unknown column '%s' ", name);
+        stop("unknown column '%s' ", names[i].get_cstring());
       }
       SEXP column = data[indices[i]-1];
       visitors.push_back(visitor(column));

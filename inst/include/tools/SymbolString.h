@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_SymbolString_h
 #define dplyr_tools_SymbolString_h
 
+#include <tools/Encoding.h>
+
 namespace Rcpp {
 
   class SymbolString  {
@@ -21,7 +23,11 @@ namespace Rcpp {
       return s;
     }
 
-    std::string get_cstring() const {
+    const Symbol get_symbol() const {
+      return Symbol(Rf_translateChar(s.get_sexp()));
+    }
+
+    const std::string get_cstring() const {
       return s.get_cstring();
     }
 

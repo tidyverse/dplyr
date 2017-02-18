@@ -152,7 +152,7 @@ namespace dplyr {
   public:
     GroupedHybridEval(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
       indices(NULL), subsets(subsets_), env(env_),
-      hybrid_env(subsets_.get_variable_names(), env_, this),
+      hybrid_env(subsets_.get_variable_names().get_vector(), env_, this),
       hybrid_call(call_, subsets_, env_)
     {
       LOG_VERBOSE;

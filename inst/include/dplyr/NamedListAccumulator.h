@@ -45,7 +45,7 @@ namespace dplyr {
       return data.size();
     }
 
-    inline CharacterVector names() const {
+    inline const SymbolVector names() const {
       return symbol_map.get_names();
     }
 

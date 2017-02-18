@@ -43,7 +43,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       joiner[i] = true;
     }
   }
-  DataFrameSubsetVisitors visitors_x(x, x_columns);
+  DataFrameSubsetVisitors visitors_x(x, SymbolVector(x_columns));
   int nv_x = visitors_x.size();
 
   // then columns from y but not x
@@ -55,7 +55,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       y_columns[k++] = all_y_columns[i];
     }
   }
-  DataFrameSubsetVisitors visitors_y(y, y_columns);
+  DataFrameSubsetVisitors visitors_y(y, SymbolVector(y_columns));
 
   int nv_y = visitors_y.size();
 
@@ -113,14 +113,14 @@ DataFrame subset_join(DataFrame x, DataFrame y,
     SymbolVector group_cols_x(group_cols_x_);
     int n_group_cols = group_cols_x.size();
     SymbolVector group_cols(n_group_cols);
-    IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);
+    IntegerVector group_col_indices = group_cols_x.match_in_table(all_x_columns);
     // get updated column names
     for (int i=0; i<n_group_cols; i++) {
       int group_col_index = group_col_indices[i];
       if (group_col_index != NA_INTEGER) {
-        group_cols[i] = names[group_col_index-1];
+        group_cols.set(i, names[group_col_index-1]);
       } else {
-        stop("unknown group column '%s'", std::string(group_cols_x[i]));
+        stop("unknown group column '%s'", group_cols_x[i].get_cstring());
       }
     }
     out.attr("vars") = group_cols;
@@ -411,10 +411,10 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
   const DataFrame& data = gdf.data();
   const Lazy& lazy = dots[0];
   Environment env = lazy.env();
-  CharacterVector names = data.names();
+  SymbolVector names = data.names();
   SymbolSet set;
   for (int i=0; i<names.size(); i++) {
-    set.insert(Rf_installChar(names[i]));
+    set.insert(names[i].get_symbol());
   }
 
   // we already checked that we have only one expression

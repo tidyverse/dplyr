@@ -39,22 +39,24 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
 
 DataFrame build_index_cpp(DataFrame data) {
   SymbolVector vars(data.attr("vars"));
-  const int nvars = vars.length();
+  const int nvars = vars.size();
 
   CharacterVector names = data.names();
-  IntegerVector indx = r_match(vars, names);
+  IntegerVector indx = vars.match_in_table(names);
 
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
     if (pos == NA_INTEGER) {
-      stop("unknown column '%s' ", CHAR(vars[i]));
+      stop("unknown column '%s' ", vars[i].get_cstring());
     }
 
     SEXP v = data[pos-1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
-      const char* name = vars[i];
-      stop("cannot group column %s, of class '%s'", name, get_single_class(v));
+      stop(
+        "cannot group column %s, of class '%s'",
+        vars[i].get_cstring(),
+        get_single_class(v));
     }
   }
 

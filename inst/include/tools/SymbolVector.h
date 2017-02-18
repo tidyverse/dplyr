@@ -2,18 +2,70 @@
 #define dplyr_tools_SymbolVector_h
 
 #include <tools/SymbolString.h>
+#include <tools/match.h>
 
 namespace Rcpp {
+  using namespace dplyr;
 
-  class SymbolVector : public CharacterVector {
+  class SymbolVector {
   public:
     SymbolVector() {}
 
-    SymbolVector(const SymbolVector& s) : CharacterVector(s) {}
-
     template <class T>
-    explicit SymbolVector(T s) : CharacterVector(s) {}
+    explicit SymbolVector(T v_) : v(v_) {}
+
+  public:
+    void push_back(const SymbolString& s) {
+      v.push_back(s.get_string());
+    }
+
+    void remove(const R_xlen_t idx) {
+      v.erase(v.begin() + idx);
+    }
+
+    const SymbolString operator[](const R_xlen_t i) const {
+      return SymbolString(v[i]);
+    }
+
+    void set(int i, const SymbolString& x) {
+      v[i] = x.get_string();
+    }
+
+    R_xlen_t size() const {
+      return v.size();
+    }
+
+    int match(const SymbolString& s) const {
+      CharacterVector vs = CharacterVector::create(s.get_string());
+      return as<int>(match(vs));
+    }
+
+    const IntegerVector match(const CharacterVector& m) const {
+      return r_match(m, v);
+    }
+
+    const IntegerVector match_in_table(const CharacterVector& t) const {
+      return r_match(v, t);
+    }
+
+    const CharacterVector get_vector() const {
+      return v;
+    }
+
+  private:
+    CharacterVector v;
   };
+
+}
+
+namespace Rcpp {
+
+  template <> inline SEXP wrap(const SymbolVector& x) {
+    return x.get_vector();
+  }
+  template <> inline SymbolVector as(SEXP x) {
+    return SymbolVector(x);
+  }
 
 }
 

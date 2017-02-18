@@ -15,7 +15,7 @@ namespace dplyr {
 
     const Rcpp::DataFrame& data;
     pointer_vector<SubsetVectorVisitor> visitors;
-    Rcpp::CharacterVector visitor_names;
+    SymbolVector visitor_names;
     int nvisitors;
 
   public:
@@ -34,21 +34,21 @@ namespace dplyr {
       }
     }
 
-    DataFrameSubsetVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names) :
+    DataFrameSubsetVisitors(const DataFrame& data_, const SymbolVector& names) :
       data(data_),
       visitors(),
       visitor_names(names),
       nvisitors(visitor_names.size())
     {
 
-      IntegerVector indx = r_match(names, data.names());
+      IntegerVector indx = names.match_in_table(data.names());
 
       int n = indx.size();
       for (int i=0; i<n; i++) {
 
         int pos = indx[i];
         if (pos == NA_INTEGER) {
-          stop("unknown column '%s' ", CHAR(names[i]));
+          stop("unknown column '%s' ", names[i].get_cstring());
         }
 
         SubsetVectorVisitor* v = subset_visitor(data[pos - 1]);
@@ -98,7 +98,7 @@ namespace dplyr {
       return visitors[k];
     }
 
-    Rcpp::String name(int k) const {
+    const SymbolString name(int k) const {
       return visitor_names[k];
     }
 
@@ -120,7 +120,7 @@ namespace dplyr {
   };
 
   template <typename Index>
-  DataFrame subset(DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes) {
+  DataFrame subset(DataFrame df, const Index& indices, const SymbolVector& columns, const CharacterVector& classes) {
     return DataFrameSubsetVisitors(df, columns).subset(indices, classes);
   }
 

@@ -68,8 +68,7 @@ namespace dplyr {
         return SymbolMapIndex(it->second, HASH);
       }
 
-      CharacterVector v = CharacterVector::create(name.get_string());
-      int idx = as<int>(r_match(v, names));
+      int idx = names.match(name);
       if (idx != NA_INTEGER) {
         // we have a match
         return SymbolMapIndex(idx-1, RMATCH);
@@ -91,7 +90,7 @@ namespace dplyr {
       SymbolMapIndex index = get_index(name);
       if (index.origin != NEW) {
         int idx = index.pos;
-        names.erase(names.begin() + idx);
+        names.remove(idx);
 
         for (dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end();) {
           int k = it->second;

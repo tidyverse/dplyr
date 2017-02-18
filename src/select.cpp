@@ -7,9 +7,9 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, CharacterVector new_names) {
+SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
   CharacterVector names = df.names();
-  IntegerVector positions = r_match(keep, names);
+  IntegerVector positions = keep.match_in_table(names);
   int n = keep.size();
   List res(n);
   for (int i=0; i<n; i++) {
@@ -22,7 +22,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, Character
         s << pos;
       }
       stop("invalid column index : %d for variable: %s = %s",
-           s.str(), CHAR((SEXP)new_names[i]), CHAR((SEXP)keep[i]));
+           s.str(), new_names[i].get_cstring(), keep[i].get_cstring());
     }
     res[i] = df[ pos-1 ];
   }
@@ -31,7 +31,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, Character
   return res;
 }
 
-DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const CharacterVector& new_names) {
+DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const SymbolVector& new_names) {
   DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
 
   SymbolMap keep_map(keep);
@@ -45,7 +45,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const C
     SymbolString s = vars[i];
     SymbolMapIndex j = keep_map.get_index(s);
     if (j.origin != NEW) {
-      vars[i] = new_names[j.pos];
+      vars.set(i, new_names[j.pos]);
     }
   }
 
@@ -60,10 +60,10 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const C
     DataFrame labels(shallow_copy(original_labels));
     CharacterVector label_names = clone<CharacterVector>(labels.names());
 
-    IntegerVector positions = r_match(label_names, keep);
+    IntegerVector positions = keep.match(label_names);
     int nl = label_names.size();
     for (int i=0; i<nl; i++) {
-      label_names[i] = new_names[ positions[i]-1 ];
+      label_names[i] = new_names[ positions[i]-1 ].get_string();
     }
     labels.names() = label_names;
     labels.attr("vars") = vars;
@@ -73,11 +73,11 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const C
 }
 
 // [[Rcpp::export]]
-DataFrame select_impl(DataFrame df, SymbolVector vars) {
+DataFrame select_impl(DataFrame df, CharacterVector vars) {
   check_valid_colnames(df);
   if (is<GroupedDataFrame>(df)) {
-    return select_grouped(GroupedDataFrame(df), vars, vars.names());
+    return select_grouped(GroupedDataFrame(df), SymbolVector(vars), SymbolVector(vars.names()));
   } else {
-    return select_not_grouped(df, vars, vars.names());
+    return select_not_grouped(df, SymbolVector(vars), SymbolVector(vars.names()));
   }
 }
