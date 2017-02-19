@@ -54,16 +54,43 @@ test_that("summarise refuses to modify grouping variable (#143)", {
 })
 
 test_that("summarise gives proper errors (#153)", {
-  df <- data.frame(
-    x = as.numeric(sample(1000, 10000, TRUE)),
-    y = sample(10000, 10000, TRUE),
-    z = runif(10000)
+  df <- data_frame(
+    x = 1,
+    y = c(1, 2, 2),
+    z = runif(3)
   )
-  df <- tbl_df(df)
-  df <- group_by(df, x, y)
-  expect_error(summarise(df, diff(z)), "expecting a single value")
-  expect_error(summarise(df, log(z)), "expecting a single value")
-  expect_error(summarise(df, y[1:2]), "expecting a single value")
+  expect_error(
+    summarise(df, identity(NULL)),
+    "expecting result of length one, got length 0",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(df, log(z)),
+    "expecting result of length one, got length 3",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(df, y[1:2]),
+    "expecting result of length one, got length 2",
+    fixed = TRUE
+  )
+
+  gdf <- group_by(df, x, y)
+  expect_error(
+    summarise(gdf, identity(NULL)),
+    "expecting result of length one, got length 0",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(gdf, log(z)),
+    "expecting result of length one, got length 2",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(gdf, y[1:2]),
+    "expecting result of length one, got length 2",
+    fixed = TRUE
+  )
 })
 
 test_that("summarise handles constants (#153)", {
