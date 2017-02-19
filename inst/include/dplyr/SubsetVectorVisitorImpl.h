@@ -72,7 +72,7 @@ namespace dplyr {
     }
 
     inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
+      return is_same_typeid(other);
     }
 
   protected:
@@ -226,7 +226,7 @@ namespace dplyr {
     }
 
     bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-      return typeid(*other) == typeid(*this);
+      return is_same_typeid(other);
     }
 
   private:
@@ -237,17 +237,17 @@ namespace dplyr {
 
   template <>
   inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-    return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetVectorVisitorImpl<REALSXP>);
+    return is_same_typeid(other) || typeid(*other) == typeid(SubsetVectorVisitorImpl<REALSXP>);
   }
 
   template <>
   inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-    return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetVectorVisitorImpl<INTSXP>);
+    return is_same_typeid(other) || typeid(*other) == typeid(SubsetVectorVisitorImpl<INTSXP>);
   }
 
   template <>
   inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-    return typeid(*other) == typeid(*this) || typeid(*other) == typeid(SubsetFactorVisitor);
+    return is_same_typeid(other) || typeid(*other) == typeid(SubsetFactorVisitor);
   }
 
 }
