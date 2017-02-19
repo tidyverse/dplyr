@@ -16,6 +16,7 @@
 #include <dplyr/Gatherer.h>
 #include <dplyr/Replicator.h>
 #include <dplyr/NamedListAccumulator.h>
+#include <dplyr/check_length.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -105,7 +106,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
       boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i] , df.nrows()));
       results[i] = gather->collect();
     } else {
-      stop("wrong result size (%d), expected %d or 1", n_res, nrows);
+      check_length(n_res, nrows, "the number of rows");
     }
 
     call_proxy.input(name, results[i]);

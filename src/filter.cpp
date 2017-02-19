@@ -10,6 +10,7 @@
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
+#include <dplyr/check_length.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -213,7 +214,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2) {
         test[i] = test[i] && test2[i];
       }
     } else {
-      stop("incompatible sizes");
+      check_length(n2, n, "the number of rows");
     }
   }
   return false;

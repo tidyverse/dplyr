@@ -10,6 +10,7 @@
 #include <dplyr/Result/GroupedCallProxy.h>
 
 #include <dplyr/vector_class.h>
+#include "check_length.h"
 
 namespace dplyr {
 
@@ -62,9 +63,7 @@ namespace dplyr {
         } else if (n == 1) {
           grab_rep(Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices);
         } else {
-          stop(
-            "incompatible size (%d), expecting %d (the group size) or 1",
-            n, indices.size());
+          check_length(n, indices.size(), "the group size");
         }
       }
     }
@@ -153,9 +152,7 @@ namespace dplyr {
       } else if (n == 1) {
         grab_rep(subset[0], indices);
       } else {
-        stop(
-          "incompatible size (%d), expecting %d (the group size) or 1",
-          n, indices.size());
+        check_length(n, indices.size(), "the group size");
       }
     }
 
@@ -253,10 +250,9 @@ namespace dplyr {
           }
         }
       } else {
-        stop("incompatible size");
+        check_length(nf, n, "the group size");
       }
     }
-
 
   };
 

@@ -67,7 +67,11 @@ test_that("mutate handles constants (#152)", {
 test_that("mutate fails with wrong result size (#152)", {
   df <- group_by(data.frame(x = c(2, 2, 3, 3)), x)
   expect_equal(mutate(df, y = 1:2)$y, rep(1:2, 2))
-  expect_error(mutate(mtcars, zz = 1:2), "wrong result size")
+  expect_error(
+    mutate(mtcars, zz = 1:2),
+    "incompatible size (2), expecting 32 (the number of rows) or one",
+    fixed = TRUE
+  )
 
   df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
   expect_error(mutate(df, y = 1:2))
@@ -392,9 +396,9 @@ test_that("mutate works on empty data frames (#1142)", {
   expect_equal(length(res), 1L)
 })
 
-test_that("mutate handles 0 rows rowwise #1300", {
-  a <- data.frame(x = 1)
-  b <- data.frame(y = character(), stringsAsFactors = F)
+test_that("mutate handles 0 rows rowwise (#1300)", {
+  a <- data_frame(x = 1)
+  b <- data_frame(y = character())
 
   g <- function(y) {
     1
@@ -406,7 +410,7 @@ test_that("mutate handles 0 rows rowwise #1300", {
   res <- f()
   expect_equal(nrow(res), 0L)
 
-  expect_error(a %>% mutate(b = f()), "wrong result size")
+  expect_error(a %>% mutate(b = f()), "incompatible size")
   expect_error(a %>% rowwise() %>% mutate(b = f()), "incompatible size")
 })
 
