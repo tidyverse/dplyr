@@ -121,10 +121,6 @@ namespace dplyr {
       return false;
     }
 
-    inline const IntegerVector& get_group_sizes() const {
-      return group_sizes;
-    }
-
     inline subset* create_subset(SEXP x) const {
       return grouped_subset(x, max_group_size());
     }
