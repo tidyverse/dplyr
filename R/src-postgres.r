@@ -164,7 +164,7 @@ db_has_table.PostgreSQLConnection <- function(con, table, ...) {
 
 #' @export
 db_begin.PostgreSQLConnection <- function(con, ...) {
-  dbGetQuery(con, "BEGIN TRANSACTION")
+  dbExecute(con, "BEGIN TRANSACTION")
 }
 
 # http://www.postgresql.org/docs/9.3/static/sql-explain.html
@@ -195,7 +195,7 @@ db_insert_into.PostgreSQLConnection <- function(con, table, values, ...) {
   values <- paste0("(", rows, ")", collapse = "\n, ")
 
   sql <- build_sql("INSERT INTO ", ident(table), " VALUES ", sql(values))
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export

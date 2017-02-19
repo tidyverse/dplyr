@@ -87,6 +87,8 @@ translate_sql(sd(income / years), variant = postgres_var)
 translate_sql(regr_intercept(y, x), variant = postgres_var)
 }
 \seealso{
+\code{\link[=win_over]{win_over()}} for helper functions for window functions.
+
 \code{\link[=sql]{sql()}} for an example of a more customised sql
 conversion function.
 }

@@ -1,5 +1,62 @@
 # dplyr 0.5.0.9000
 
+* `grouped_df` is registered officially as an S3 class. This makes it 
+  easier to use with S4 (#2276).
+
+* Five new datasets provide some interesting built-in datasets to demonstrate
+  dplyr verbs (#2094):
+  
+  * `starwars` dataset about starwars characters; has list columns
+  * `storms` has the trajectories of ~200 tropical storms
+  * `band_members`, `band_instruments` and `band_instruments2` 
+    has some simple data to demonstrate joins.
+
+* `x %in% 1` is now correctly translated to `x IN (1)` (#511).
+
+* Export `win_over()`, `win_rank()`, `win_recycled()`, and `win_cumulative()`.
+  Export `win_current_group()` and `win_current_order()` (#2051, #2126)
+
+* `partial_eval()` now handles `::` and `:::` correct (#2321)
+
+* Behind the scenes dplyr now uses `DBI::dbExecute()` for non-query
+  SQL commands (#1912)
+
+* Logical values are now translated to 0 and 1 rather than TRUE and FALSE
+  this should work on a wider range of backends (#2052).
+
+* Partial evaluation occurs immediately when you execute a `filter()`,
+  `mutate()` etc, rather than happening when the query is executed (#2370).
+  
+* [API] `translate_sql()` and `partial_eval()` have been refined:
+
+    * `translate_sql()` no longer takes a vars argument; instead call
+      `partial_eval()` yourself. 
+    
+    * Because it no longer needs the environment `translate_sql()_` now
+      works with a list of dots, rather than a `lazy_dots`.
+      
+    * `partial_eval()` now takes a character vector of variable names
+      rather than a tbl.
+      
+    * This leads to a simplification of the `op` data structure: 
+      dots is now a list of expressions rather than a `lazy_dots`.
+    
+* SQL translation contains a better test for whether or not a double
+  is similar to an integer and hence needs a trailing 0.0 added (#2004).
+
+* `ifelse()` and `if_else()` use correct argument names in SQL translation 
+  (#2225).
+
+* [API] `log(x, b)` is now correctly translated to the SQL `log(b, x)` (#2288).
+  SQLite does not support the 2-argument log function so it is translated
+  to `log(x) / log(b)`.
+
+* `is.na()` and `is.null()` gain extra parens in SQL translation to preserve
+  correct precedence (#2302).
+
+* `collect()` once again defaults to return all rows in the data (#1968).
+  This makes it behave the same as `as.data.frame()` and `as_tibble()`.
+
 * Add failing tests (#2415, @ngr-t).
 
 * Add failing tests (#2245, @mgperry).

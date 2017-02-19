@@ -158,7 +158,13 @@ sqlite_version <- function() {
 sql_translate_env.SQLiteConnection <- function(con) {
   sql_variant(
     sql_translator(.parent = base_scalar,
-      log = sql_prefix("log")
+      log     = function(x, base = exp(1)) {
+        if (base != exp(1)) {
+          build_sql("log(", x, ") / log(", base, ")")
+        } else {
+          build_sql("log(", x, ")")
+        }
+      }
     ),
     sql_translator(.parent = base_agg,
       sd = sql_prefix("stdev")

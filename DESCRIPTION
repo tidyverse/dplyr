@@ -20,7 +20,7 @@ Imports:
     utils,
     R6,
     Rcpp (>= 0.12.3),
-    tibble,
+    tibble (>= 1.2),
     magrittr,
     lazyeval (>= 0.1.10),
     DBI (>= 0.5)
@@ -56,9 +56,12 @@ Collate:
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
+    'data-bands.R'
     'data-lahman.r'
     'data-nasa.r'
     'data-nycflights13.r'
+    'data-starwars.R'
+    'data-storms.R'
     'data-temp.r'
     'data.r'
     'dataframe.R'
@@ -87,7 +90,6 @@ Collate:
     'near.R'
     'nth-value.R'
     'order-by.R'
-    'over.R'
     'partial-eval.r'
     'progress.R'
     'query.r'
@@ -120,8 +122,8 @@ Collate:
     'tibble-reexport.r'
     'top-n.R'
     'translate-sql-helpers.r'
-    'translate-sql-base.r'
     'translate-sql-window.r'
+    'translate-sql-base.r'
     'translate-sql.r'
     'utils-format.r'
     'utils-replace-with.R'
@@ -130,4 +132,4 @@ Collate:
     'view.r'
     'zzz.r'
 RoxygenNote: 6.0.1
-Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate", "pkgapi::api_roclet"))
+Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))

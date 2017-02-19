@@ -224,7 +224,7 @@ op_sort.op_summarise <- function(op) NULL
 
 #' @export
 op_sort.op_arrange <- function(op) {
-  order_vars <- translate_sql_(op$dots, NULL, op_vars(op))
+  order_vars <- translate_sql_(op$dots, NULL)
   c.sql(op_sort(op$x), order_vars, drop_null = TRUE)
 }
 

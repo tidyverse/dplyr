@@ -231,13 +231,13 @@ daily <- group_by(flights_postgres, year, month, day)
 bestworst <- daily %>% 
   select(flight, arr_delay) %>% 
   filter(arr_delay == min(arr_delay) || arr_delay == max(arr_delay))
-bestworst$query
+bestworst %>% show_query()
 
 # Rank each flight within a daily
 ranked <- daily %>% 
   select(arr_delay) %>% 
   mutate(rank = rank(desc(arr_delay)))
-ranked$query
+ranked %>% show_query()
 ```
 
 ### MySQL and MariaDB

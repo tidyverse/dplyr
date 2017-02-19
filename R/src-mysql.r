@@ -9,7 +9,7 @@
 #' @template db-info
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
-#' @param user,password User name and password. Rather than supplying a
+#' @param username,password User name and password. Rather than supplying a
 #'   username and password here, it's better to save them in `my.cnf`,
 #'   as described in [RMySQL::MySQL()]. In that case, supply
 #'   `NULL` to both `user` and `password`.
@@ -92,7 +92,7 @@
 #'   sql("SELECT * FROM Batting WHERE YearID = 2008"))
 #' batting2008
 #' }
-src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
+src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
                       password = "", ...) {
   if (!requireNamespace("RMySQL", quietly = TRUE)) {
     stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
@@ -103,7 +103,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, user = "root",
     dbname = dbname,
     host = host,
     port = port,
-    username = user,
+    username = username,
     password = password,
     ...
   )
@@ -185,17 +185,17 @@ db_data_type.MySQLConnection <- function(con, fields, ...) {
 
 #' @export
 db_begin.MySQLConnection <- function(con, ...) {
-  dbGetQuery(con, "START TRANSACTION")
+  dbExecute(con, "START TRANSACTION")
 }
 
 #' @export
 db_commit.MySQLConnection <- function(con, ...) {
-  dbGetQuery(con, "COMMIT")
+  dbExecute(con, "COMMIT")
 }
 
 #' @export
 db_rollback.MySQLConnection <- function(con, ...) {
-  dbGetQuery(con, "ROLLBACK")
+  dbExecute(con, "ROLLBACK")
 }
 
 #' @export
@@ -215,7 +215,7 @@ db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
   sql <- build_sql("LOAD DATA LOCAL INFILE ", encodeString(tmp), " INTO TABLE ",
     ident(table), con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 
   invisible()
 }
@@ -233,13 +233,13 @@ db_create_index.MySQLConnection <- function(con, table, columns, name = NULL,
   )
 
   sql <- build_sql("ALTER TABLE ", ident(table), "\n", index, con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export
 db_analyze.MySQLConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE TABLE", ident(table), con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export

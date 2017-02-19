@@ -403,7 +403,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
 }
 
 #' @export
-collect.tbl_sql <- function(x, ..., n = 1e5, warn_incomplete = TRUE) {
+collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
   assert_that(length(n) == 1, n > 0L)
   if (n == Inf) {
     n <- -1

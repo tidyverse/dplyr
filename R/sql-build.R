@@ -64,7 +64,7 @@ sql_build.op_rename <- function(op, con, ...) {
 
 #' @export
 sql_build.op_arrange <- function(op, con, ...) {
-  order_vars <- translate_sql_(op$dots, con, op_vars(op$x))
+  order_vars <- translate_sql_(op$dots, con)
   group_vars <- c.sql(ident(op_grps(op$x)), con = con)
 
   select_query(sql_build(op$x, con), order_by = order_vars)
@@ -72,7 +72,7 @@ sql_build.op_arrange <- function(op, con, ...) {
 
 #' @export
 sql_build.op_summarise <- function(op, con, ...) {
-  select_vars <- translate_sql_(op$dots, con, op_vars(op$x), window = FALSE)
+  select_vars <- translate_sql_(op$dots, con, window = FALSE)
   group_vars <- c.sql(ident(op_grps(op$x)), con = con)
 
   select_query(
@@ -87,7 +87,7 @@ sql_build.op_mutate <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
   new_vars <- translate_sql_(
-    op$dots, con, vars,
+    op$dots, con,
     vars_group = op_grps(op),
     vars_order = op_sort(op)
   )
@@ -119,7 +119,7 @@ sql_build.op_filter <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
   if (!uses_window_fun(op$dots, con)) {
-    where_sql <- translate_sql_(op$dots, con, vars = vars)
+    where_sql <- translate_sql_(op$dots, con)
 
     select_query(
       sql_build(op$x, con),
@@ -127,18 +127,15 @@ sql_build.op_filter <- function(op, con, ...) {
     )
   } else {
     # Do partial evaluation, then extract out window functions
-    expr <- partial_eval2(op$dots, vars)
-    where <- translate_window_where_all(expr, ls(sql_translate_env(con)$window))
+    where <- translate_window_where_all(op$dots, ls(sql_translate_env(con)$window))
 
     # Convert where$expr back to a lazy dots object, and then
     # create mutate operation
-    mutate_dots <- lapply(where$comp, lazyeval::as.lazy)
-    mutated <- sql_build(op_single("mutate", op$x, dots = mutate_dots), con)
-    where_sql <- translate_sql_(where$expr, con = con, vars = vars)
+    mutated <- sql_build(op_single("mutate", op$x, dots = where$comp), con)
+    where_sql <- translate_sql_(where$expr, con = con)
 
     select_query(mutated, select = ident(vars), where = where_sql)
   }
-
 }
 
 #' @export
