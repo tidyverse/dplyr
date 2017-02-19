@@ -181,6 +181,17 @@ test_that("min() and max() work", {
     expected = "z"
   )
 
+  check_hybrid_result(
+    min(a, na.rm = TRUE), a = NA_real_,
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a, na.rm = TRUE), a = NA_integer_,
+    expected = -Inf,
+    test_eval = FALSE
+  )
+
   skip("Currently failing (constfold)")
   check_hybrid_result(
     min(a, na.rm = (1 == 0)), a = c(1:5, NA),
@@ -232,16 +243,6 @@ test_that("min() and max() work", {
   check_hybrid_result(
     max(a, na.rm = T), a = c(1:5, NA),
     expected = 5L
-  )
-
-  skip("Currently failing (#2305)")
-  check_hybrid_result(
-    min(a, na.rm = TRUE), a = NA_real_,
-    expected = Inf
-  )
-  check_hybrid_result(
-    max(a, na.rm = TRUE), a = NA_integer_,
-    expected = -Inf
   )
 })
 
