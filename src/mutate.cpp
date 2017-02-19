@@ -36,6 +36,8 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   return res;
 }
 
+void check_not_groups(const LazyDots& dots, const FullDataFrame& gdf) {}
+
 void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) {}
 
 void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
@@ -193,6 +195,6 @@ SEXP mutate_impl(DataFrame df, LazyDots dots) {
   } else if (is<GroupedDataFrame>(df)) {
     return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
   } else {
-    return mutate_not_grouped(df, dots);
+    return mutate_grouped<FullDataFrame, LazySubsets>(df, dots);
   }
 }
