@@ -231,6 +231,28 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
   expect_false("cyl" %in% names(data))
 })
 
+test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
+  expect_error(
+    data_frame(a = 1) %>% mutate(b = identity(NULL)),
+    "incompatible size (0), expecting one (the number of rows)",
+    fixed = TRUE
+  )
+  expect_error(
+    data_frame(a = 1:3) %>%
+      group_by(a) %>%
+      mutate(b = identity(NULL)),
+    "incompatible size (0), expecting one (the group size)",
+    fixed = TRUE
+  )
+  expect_error(
+    data_frame(a = 1:3) %>%
+      rowwise %>%
+      mutate(b = if (a < 2) a else NULL),
+    "incompatible types",
+    fixed = TRUE
+  )
+})
+
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
   one_mod <- data.frame(grp = "a", x = runif(5, 0, 1)) %>%
     tbl_df %>%
