@@ -145,6 +145,14 @@ test_that("min() and max() work", {
     max(a), a = c(1:5, NA),
     expected = NA_integer_
   )
+  check_hybrid_result(
+    min(a), a = c(NA, 1:5),
+    expected = NA_integer_
+  )
+  check_hybrid_result(
+    max(a), a = c(NA, 1:5),
+    expected = NA_integer_
+  )
 
   c <- 1:3
   check_not_hybrid_result(
@@ -187,8 +195,39 @@ test_that("min() and max() work", {
     test_eval = FALSE
   )
   check_hybrid_result(
-    max(a, na.rm = TRUE), a = NA_integer_,
+    max(a, na.rm = TRUE), a = NA_real_,
     expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = numeric(),
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = numeric(),
+    expected = -Inf,
+    test_eval = FALSE
+  )
+
+  check_hybrid_result(
+    max(a, na.rm = TRUE), a = NA_integer_,
+    expected = NA_integer_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a, na.rm = TRUE), a = NA_integer_,
+    expected = NA_integer_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = integer(),
+    expected = NA_integer_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = integer(),
+    expected = NA_integer_,
     test_eval = FALSE
   )
 
