@@ -30,7 +30,7 @@ namespace dplyr {
       std::stringstream ss;
       ss << "\n";
       for (int i = 0; i < n; ++i) {
-        ss << "- " << std::string(message[i]);
+        ss << "- " << std::string(message[i]) << "\n";
       }
 
       return ss.str();

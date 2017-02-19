@@ -150,3 +150,17 @@ test_that("returns vector for more than one difference (#1819)", {
     )
   )
 })
+
+test_that("proper message formatting for set operations", {
+  expect_error(
+    union(data_frame(a = 1), data_frame(a = "1")),
+    "not compatible: Incompatible type for column 'a': x numeric, y character",
+    fixed = TRUE
+  )
+
+  expect_error(
+    union(data_frame(a = 1, b = 2), data_frame(a = "1", b = "2")),
+    "not compatible: \n- Incompatible type for column 'a': x numeric, y character\n- Incompatible type for column 'b': x numeric, y character",
+    fixed = TRUE
+  )
+})
