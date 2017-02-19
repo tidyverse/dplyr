@@ -6,7 +6,7 @@
 
 namespace dplyr {
 
-  typedef GroupedCallProxy<Rcpp::DataFrame, LazySubsets> CallProxy;
+  typedef GroupedCallProxy<FullDataFrame, LazySubsets> CallProxy;
 
 }
 

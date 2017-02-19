@@ -221,6 +221,7 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2) {
 }
 
 DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
+  FullDataFrame fdf(df);
   CharacterVector names = df.names();
   SymbolSet set;
   for (int i=0; i<names.size(); i++) {
@@ -233,7 +234,7 @@ DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
 
     // replace the symbols that are in the data frame by vectors from the data frame
     // and evaluate the expression
-    CallProxy proxy((SEXP)call, df, env);
+    CallProxy proxy((SEXP)call, fdf, env);
     LogicalVector test = check_filter_logical_result(proxy.eval());
 
     if (test.size() == 1) {
@@ -250,7 +251,7 @@ DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
     int nargs = dots.size();
 
     Call call(dots[0].expr());
-    CallProxy first_proxy(call, df, dots[0].env());
+    CallProxy first_proxy(call, fdf, dots[0].env());
     LogicalVector test = check_filter_logical_result(first_proxy.eval());
     if (test.size() == 1) {
       if (!test[0]) {
@@ -264,7 +265,7 @@ DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
       Rcpp::checkUserInterrupt();
 
       Call call(dots[i].expr());
-      CallProxy proxy(call, df, dots[i].env());
+      CallProxy proxy(call, fdf, dots[i].env());
       LogicalVector test2 = check_filter_logical_result(proxy.eval());
       if (combine_and(test, test2)) {
         return empty_subset(df, df.names(), classes_not_grouped());

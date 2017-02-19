@@ -48,8 +48,9 @@ void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
 
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
-  const int nexpr = dots.size();
-  const int nrows = df.nrows();
+  const FullDataFrame fdf(df);
+  int nexpr = dots.size();
+  int nrows = df.nrows();
 
   NamedListAccumulator<DataFrame> accumulator;
   const int nvars = df.size();
@@ -60,7 +61,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
     }
   }
 
-  CallProxy call_proxy(df);
+  CallProxy call_proxy(fdf);
   List results(nexpr);
 
   for (int i=0; i<nexpr; i++) {

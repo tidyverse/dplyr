@@ -24,9 +24,8 @@ namespace dplyr {
   public:
     typedef FullDataFrameIndexIterator group_iterator;
     typedef NaturalSlicingIndex slicing_index;
-    //typedef FullSubset subset;
 
-    FullDataFrame(const DataFrame& data) : data_(data), index(data.nrows()) {}
+    explicit FullDataFrame(const DataFrame& data) : data_(data), index(data.nrows()) {}
 
     const SlicingIndex& get_index() const {
       return index;

@@ -24,6 +24,8 @@ List arrange_impl(DataFrame data, LazyDots dots) {
 
   if (dots.size() == 0 || data.nrows() == 0) return data;
 
+  FullDataFrame fdf(data);
+
   int nargs = dots.size();
   List variables(nargs);
   LogicalVector ascending(nargs);
@@ -35,7 +37,7 @@ List arrange_impl(DataFrame data, LazyDots dots) {
     SEXP call = call_;
     bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call);
 
-    CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env());
+    CallProxy call_proxy(is_desc ? CADR(call) : call, fdf, lazy.env());
 
     Shield<SEXP> v(call_proxy.eval());
     if (!white_list(v)) {
