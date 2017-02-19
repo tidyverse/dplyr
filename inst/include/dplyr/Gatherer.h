@@ -303,13 +303,15 @@ namespace dplyr {
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
 
-    check_supported_type(first, name.c_str());
-
     if (Rf_inherits(first, "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
     }
 
-    int ng = gdf.ngroups();
+    check_length(Rf_length(first), indices.size(), "the group size");
+
+    check_supported_type(first, name.c_str());
+
+    const int ng = gdf.ngroups();
     int i = 0;
     while (all_na(first)) {
       i++;

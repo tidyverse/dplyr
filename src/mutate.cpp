@@ -49,11 +49,11 @@ void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
 
 
 SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
-  int nexpr = dots.size();
-  int nrows = df.nrows();
+  const int nexpr = dots.size();
+  const int nrows = df.nrows();
 
   NamedListAccumulator<DataFrame> accumulator;
-  int nvars = df.size();
+  const int nvars = df.size();
   if (nvars) {
     CharacterVector df_names = df.names();
     for (int i=0; i<nvars; i++) {
@@ -93,20 +93,19 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
       stop("cannot handle");
     }
 
-    check_supported_type(results[i], name.c_str());
-
     if (Rf_inherits(results[i], "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
     }
-    int n_res = Rf_length(results[i]);
-    if (n_res == nrows) {
-      // ok
-    } else if (n_res == 1) {
+
+    const int n_res = Rf_length(results[i]);
+    check_length(n_res, nrows, "the number of rows");
+
+    check_supported_type(results[i], name.c_str());
+
+    if (n_res == 1 && nrows != 1) {
       // recycle
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i] , df.nrows()));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i], nrows));
       results[i] = gather->collect();
-    } else {
-      check_length(n_res, nrows, "the number of rows");
     }
 
     call_proxy.input(name, results[i]);
