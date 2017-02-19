@@ -41,12 +41,31 @@ test_that("data frames not equal if missing col", {
 })
 
 test_that("factors equal only if levels equal", {
-  df1 <- data.frame(x = factor(c("a", "b")))
-  df2 <- data.frame(x = factor(c("a", "d")))
+  df1 <- data_frame(x = factor(c("a", "b")))
+  df2 <- data_frame(x = factor(c("a", "d")))
   expect_equal(
-    all.equal(tbl_df(df1), tbl_df(df2)),
+    all.equal(df1, df2),
     "Factor levels not equal for column 'x'"
   )
+  expect_equal(
+    all.equal(df2, df1),
+    "Factor levels not equal for column 'x'"
+  )
+})
+
+test_that("factor comparison requires strict equality of levels (#2440)", {
+  df1 <- data_frame(x = factor("a"))
+  df2 <- data_frame(x = factor("a", levels = c("a", "b")))
+  expect_equal(
+    all.equal(df1, df2),
+    "Factor levels not equal for column 'x'"
+  )
+  expect_equal(
+    all.equal(df2, df1),
+    "Factor levels not equal for column 'x'"
+  )
+  expect_warning(expect_true(all.equal(df1, df2, convert = TRUE)), "joining factors")
+  expect_warning(expect_true(all.equal(df2, df1, convert = TRUE)), "joining factors")
 })
 
 test_that("BoolResult does not overwrite singleton R_TrueValue", {
@@ -120,4 +139,14 @@ test_that("numeric and integer can be compared if convert = TRUE", {
   df2 <- data_frame(x = as.numeric(1:3))
   expect_match(all.equal(df1, df2), "Incompatible")
   expect_true(all.equal(df1, df2, convert = TRUE))
+})
+
+test_that("returns vector for more than one difference (#1819)", {
+  expect_equal(
+    all.equal(data_frame(a = 1, b = 2), data_frame(a = 1L, b = 2L)),
+    c(
+      "Incompatible type for column 'a': x numeric, y integer",
+      "Incompatible type for column 'b': x numeric, y integer"
+    )
+  )
 })
