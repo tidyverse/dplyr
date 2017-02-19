@@ -172,7 +172,8 @@ prepare_table_with_coercion_rules <- function() {
     num_with_class = structure(4.5, class = "num_with_class")
   )
 
-  special_non_vector_classes <- c("factor", "POSIXct", "Date", "table", "AsIs", "integer64")
+  special_non_vector_classes <- c("factor", "POSIXct", "Date",
+                                  "table", "AsIs", "integer64")
   pairs <- expand.grid(names(items), names(items))
   pairs$can_combine <- FALSE
   pairs$warning <- FALSE
@@ -202,7 +203,8 @@ prepare_table_with_coercion_rules <- function() {
       item1, item2,
       class1, class2,
       known_to_dplyr1, known_to_dplyr2,
-      can_be_combined = pairs$can_combine[i])
+      can_be_combined = pairs$can_combine[i]
+    )
 
     pairs$item_pair[[i]] <- list(item1, item2)
     pairs$result[i] <- combine_result(
