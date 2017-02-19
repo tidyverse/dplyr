@@ -172,8 +172,9 @@ prepare_table_with_coercion_rules <- function() {
     num_with_class = structure(4.5, class = "num_with_class")
   )
 
-  special_non_vector_classes <- c("factor", "POSIXct", "Date",
-                                  "table", "AsIs", "integer64")
+  special_non_vector_classes <- c(
+    "factor", "POSIXct", "Date", "table", "AsIs", "integer64"
+  )
   pairs <- expand.grid(names(items), names(items))
   pairs$can_combine <- FALSE
   pairs$warning <- FALSE

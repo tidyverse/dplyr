@@ -10,11 +10,11 @@
 namespace dplyr {
 
   static inline bool is_class_known(SEXP x) {
-    Rcpp::CharacterVector known = Rcpp::CharacterVector::create(
+    CharacterVector known = CharacterVector::create(
       "POSIXct", "factor", "Date", "AsIs", "integer64", "table");
     int num_known = known.length();
     if (OBJECT(x)) {
-      Rcpp::CharacterVector classes(Rf_getAttrib(x, R_ClassSymbol));
+      CharacterVector classes(Rf_getAttrib(x, R_ClassSymbol));
       int num_classes = classes.length();
       for (int i=0;i<num_classes;i++) {
         for (int j=0;j<num_known;j++) {
@@ -454,7 +454,7 @@ namespace dplyr {
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (Rf_inherits(model, "integer64"))
-        return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
+        return new TypedCollecter<REALSXP>(n, CharacterVector::create("integer64"));
       return new Collecter_Impl<REALSXP>(n);
     case CPLXSXP:
       return new Collecter_Impl<CPLXSXP>(n);
@@ -503,7 +503,7 @@ namespace dplyr {
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (Rf_inherits(model, "integer64"))
-        return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
+        return new TypedCollecter<REALSXP>(n, CharacterVector::create("integer64"));
       return new Collecter_Impl<REALSXP>(n);
     case LGLSXP:
       return new Collecter_Impl<LGLSXP>(n);
