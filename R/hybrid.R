@@ -18,8 +18,7 @@ with_hybrid_ <- function(expr, ...) {
 }
 
 without_hybrid <- function(expr, ...) {
-  .dots <- lazyeval::lazy_dots(out = expr)[[1]]
-  without_hybrid_(lazyeval::f_new(.dots$expr, env = .dots$env), ...)
+  without_hybrid_(lazyeval::f_capture(expr), ...)
 }
 
 without_hybrid_ <- function(expr, ...) {
