@@ -10,7 +10,7 @@
 #include <dplyr/Result/GroupedCallProxy.h>
 
 #include <dplyr/vector_class.h>
-#include "check_length.h"
+#include <dplyr/check_length.h>
 
 namespace dplyr {
 
