@@ -117,7 +117,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
     } else {
       result = results[i] = CallProxy(lazy.expr(), subsets, env).eval();
     }
-    check_length_one(result);
+    check_length(Rf_length(result), 1, "a summary value");
     accumulator.set(lazy.name(), result);
     subsets.input(lazy.name(), result);
   }
