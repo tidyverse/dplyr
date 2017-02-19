@@ -26,6 +26,10 @@ DataFrame subset_join(DataFrame x, DataFrame y,
                       CharacterVector by_x, CharacterVector by_y ,
                       const std::string& suffix_x, const std::string& suffix_y,
                       CharacterVector classes) {
+  if (suffix_x.length() == 0 && suffix_y.length() == 0) {
+    stop("Cannot use empty string for both x and y suffixes");
+  }
+
   // first the joined columns
   DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false);
   int n_join_visitors = join_visitors.size();
@@ -75,12 +79,16 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       index_join_visitor++;
     } else {
 
-      while (
-        (std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end()) ||
-        (std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
-      ) {
-        col_name += suffix_x;
+      // we suffix by .x if this column is in y_columns (and if the suffix is not empty)
+      if (suffix_x.length() > 0) {
+        while (
+          (std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end()) ||
+          (std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
+        ) {
+          col_name += suffix_x;
+        }
       }
+
       out[i] = visitors_x.get(index_x_visitor)->subset(indices_x);
       index_x_visitor++;
     }
@@ -91,13 +99,14 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   for (int i=0; i<nv_y; i++, k++) {
     String col_name = y_columns[i];
 
-    // we suffix by .y if this column is in x_columns
-
-    while (
-      (std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end()) ||
-      (std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k)
-    ) {
-      col_name += suffix_y;
+    // we suffix by .y if this column is in x_columns (and if the suffix is not empty)
+    if (suffix_y.length() > 0) {
+      while (
+        (std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end()) ||
+        (std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k)
+      ) {
+        col_name += suffix_y;
+      }
     }
 
     out[k] = visitors_y.get(i)->subset(indices_y);
