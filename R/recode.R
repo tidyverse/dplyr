@@ -7,7 +7,9 @@
 #'
 #' @param .x A vector to modify
 #' @param ... Replacements. These should be named for character and factor
-#'   `.x`, and can be named for numeric `.x`.
+#'   `.x`, and can be named for numeric `.x`. The argument names should be the
+#'   current values to be replaced, and the argument values should be the new
+#'   (replacement) values.
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
