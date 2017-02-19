@@ -40,10 +40,13 @@ expect_not_hybrid_error_ <- function(expr, ..., error) {
     error)
 }
 
-expect_environments_empty <- function(x) {
+expect_environments_clean <- function(x, stop_env = parent.frame()) {
   if (!is.environment(x)) x <- environment(x)
-  if (isNamespace(x)) return()
+  if (identical(x, stop_env)) return()
 
-  expect_equal(ls(x, all.names = TRUE), character())
-  expect_environments_empty(parent.env(x))
+  obj_names <- ls(x, all.names = TRUE)
+  objs <- mget(obj_names, x)
+  lapply(objs, expect_is, "environment")
+
+  expect_environments_clean(parent.env(x), stop_env = stop_env)
 }
