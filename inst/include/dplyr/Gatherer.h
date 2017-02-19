@@ -297,11 +297,42 @@ namespace dplyr {
     return 0;
   }
 
+  class CopyGathererImpl : public Gatherer {
+  public:
+    CopyGathererImpl(SEXP x) : value(x)
+    {
+    }
+
+    inline SEXP collect() {
+      return value;
+    }
+
+  private:
+    SEXP value;
+  };
+
   template <typename Data, typename Subsets>
-  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, Symbol name) {
+  Gatherer* copy_gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, Symbol name) {
+    SEXP x = proxy.eval();
+    if (Rf_length(x) == gdf.nrows())
+      return new CopyGathererImpl(x);
+    else
+      return constant_gatherer(x, gdf.nrows());
+  }
+
+  template <typename Data, typename Subsets>
+  Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, Symbol name) {
+    if (gdf.ngroups() == 0) {
+      return copy_gatherer(proxy, gdf, name);
+    }
+
     typename Data::group_iterator git = gdf.group_begin();
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
+
+    if (Rf_isNull(first)) {
+      stop("`mutate` does not support NULL results (in column '%s')", name.c_str());
+    }
 
     if (Rf_inherits(first, "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
@@ -343,6 +374,11 @@ namespace dplyr {
     }
 
     return 0;
+  }
+
+  template <>
+  Gatherer* gatherer(CallProxy& proxy, const FullDataFrame& gdf, Symbol name) {
+    return copy_gatherer(proxy, gdf, name);
   }
 
 } // namespace dplyr
