@@ -13,7 +13,7 @@ namespace dplyr {
       }
     }
     else {
-      if (actual != expected) {
+      if (actual != expected && actual != 1) {
         stop(
           "incompatible size (%d), expecting %d (%s) or one",
           actual, expected, comment
