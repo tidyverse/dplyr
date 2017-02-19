@@ -115,21 +115,20 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     }
   }
 
-  std::stringstream ss;
-  bool ok = true;
+  CharacterVector why;
   if (names_y_not_in_x.size()) {
-    ok = false;
+    std::stringstream ss;
     ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
+    why.push_back(ss.str());
   }
 
   if (names_x_not_in_y.size()) {
-    ok = false;
+    std::stringstream ss;
     ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
+    why.push_back(ss.str());
   }
 
-  if (!ok) {
-    return no_because(ss.str());
-  }
+  if (why.length() > 0) return no_because(why);
 
   IntegerVector orders = r_match(names_x, names_y);
 
@@ -139,27 +138,26 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     SEXP xi = x[i], yi = y[orders[i]-1];
     boost::scoped_ptr<SubsetVectorVisitor> vx(subset_visitor(xi));
     boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi));
-    SubsetVectorVisitor* px = vx.get();
-    SubsetVectorVisitor* py = vy.get();
 
-    if (typeid(*px) != typeid(*py)) {
-      ss << "Incompatible type for column "
-         << name.get_cstring()
-         << ": x " << vx->get_r_type()
-         << ", y " << vy->get_r_type();
+    std::stringstream ss;
+    bool compatible = convert ?
+      vx->is_compatible(vy.get(), ss, name) :
+      vx->is_same_type(vy.get(), ss, name);
 
-      if (!convert) {
-        ok = false;
-        continue;
+    if (!compatible) {
+      if (ss.str() == "") {
+        ss << "Incompatible type for column '"
+           << name.get_cstring()
+           << "': x " << vx->get_r_type()
+           << ", y " << vy->get_r_type();
       }
+
+      why.push_back(ss.str());
     }
 
-    if (! vx->is_compatible(py, ss, name)) {
-      ok = false;
-    }
   }
 
-  if (!ok) return no_because(ss.str());
+  if (why.length() > 0) return no_because(why);
   return yes();
 }
 

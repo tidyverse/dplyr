@@ -40,7 +40,7 @@ namespace dplyr {
       return typeid(*other) == typeid(*this);
     }
 
-    virtual bool is_same_type(SubsetVectorVisitor* other) const {
+    virtual bool is_same_type(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
       return is_same_typeid(other);
     }
 

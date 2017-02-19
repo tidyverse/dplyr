@@ -144,22 +144,20 @@ namespace dplyr {
       return collapse(classes);
     }
 
+    inline bool is_same_type(SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name) const {
+      return is_same_typeid(other) && same_levels(dynamic_cast<SubsetFactorVisitor*>(other), ss, name);
+    }
+
     inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name) const {
-      if (typeid(*other) == typeid(*this))
-        return compatible(dynamic_cast<SubsetFactorVisitor*>(other), ss, name);
-
-      if (typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>))
-        return true;
-
-      return false;
+      return is_same_typeid(other) || (typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>));
     }
 
   private:
 
-    inline bool compatible(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name) const {
+    inline bool same_levels(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name) const {
       CharacterVector levels_other = other->levels;
-      if (setdiff(levels, levels_other).size()) {
-        ss << "Factor levels not equal for column " << name;
+      if (levels.length() != levels_other.length() || !all(levels == levels_other).is_true()) {
+        ss << "Factor levels not equal for column '" << name << "'";
         return false;
       }
       return true;

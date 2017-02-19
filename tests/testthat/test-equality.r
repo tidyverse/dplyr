@@ -43,7 +43,10 @@ test_that("data frames not equal if missing col", {
 test_that("factors equal only if levels equal", {
   df1 <- data.frame(x = factor(c("a", "b")))
   df2 <- data.frame(x = factor(c("a", "d")))
-  expect_match(all.equal(tbl_df(df1), tbl_df(df2)), "Factor levels not equal for column x")
+  expect_equal(
+    all.equal(tbl_df(df1), tbl_df(df2)),
+    "Factor levels not equal for column 'x'"
+  )
 })
 
 test_that("BoolResult does not overwrite singleton R_TrueValue", {
@@ -86,7 +89,7 @@ test_that("equality test fails when convert is FALSE and types don't match (#148
   df1 <- data_frame(x = "a")
   df2 <- data_frame(x = factor("a"))
 
-  expect_equal(all_equal(df1, df2, convert = FALSE), "Incompatible type for column x: x character, y factor")
+  expect_equal(all_equal(df1, df2, convert = FALSE), "Incompatible type for column 'x': x character, y factor")
   expect_warning(all_equal(df1, df2, convert = TRUE))
 })
 
