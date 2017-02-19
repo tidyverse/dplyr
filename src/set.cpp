@@ -95,7 +95,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   } else if (null_y && !null_x) {
     return no_because("y does not have names, but x does");
   } else if (null_x && null_y) {
-    return compatible_data_frame_nonames(x,y, convert);
+    return compatible_data_frame_nonames(x, y, convert);
   }
 
   CharacterVector names_x = x.names();
