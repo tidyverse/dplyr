@@ -235,14 +235,14 @@ test_that("mutate gives a nice error message if an expression evaluates to NULL 
   skip("Currently failing")
   expect_error(
     data_frame(a = 1) %>% mutate(b = identity(NULL)),
-    "incompatible size (0), expecting one (the number of rows)",
+    "`mutate` does not support NULL results",
     fixed = TRUE
   )
   expect_error(
     data_frame(a = 1:3) %>%
       group_by(a) %>%
       mutate(b = identity(NULL)),
-    "incompatible size (0), expecting one (the group size)",
+    "`mutate` does not support NULL results",
     fixed = TRUE
   )
   expect_error(
