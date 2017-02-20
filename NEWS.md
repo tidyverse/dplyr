@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
+
 * `first()`, `last()`, and `nth()` have better default values for factor,
   Dates, POSIXct, and data frame inputs (#2029).
 
