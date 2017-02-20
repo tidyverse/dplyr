@@ -141,8 +141,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
     std::stringstream ss;
     bool compatible = convert ?
-      vx->is_compatible(vy.get(), ss, name) :
-      vx->is_same_type(vy.get(), ss, name);
+                      vx->is_compatible(vy.get(), ss, name) :
+                      vx->is_same_type(vy.get(), ss, name);
 
     if (!compatible) {
       if (ss.str() == "") {
