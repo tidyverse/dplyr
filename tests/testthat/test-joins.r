@@ -689,7 +689,7 @@ test_that("join handles mix of encodings in data (#1885, #2118)", {
         expect_warning_msg(
           expect_equal(
             anti_join(df1, df2, by = "x"),
-            data_frame(x = character(), y = numeric())
+            data.frame(x = character(), y = numeric(), stringsAsFactors = factor1)
           )
         )
       }
