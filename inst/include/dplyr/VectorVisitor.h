@@ -29,10 +29,6 @@ namespace dplyr {
 
     virtual std::string get_r_type() const = 0;
 
-    virtual bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
-    }
-
     virtual bool is_na(int i) const = 0;
   };
 

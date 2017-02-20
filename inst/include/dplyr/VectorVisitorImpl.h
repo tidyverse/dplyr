@@ -135,21 +135,7 @@ namespace dplyr {
       return collapse(classes);
     }
 
-    bool is_compatible(VectorVisitor* other, std::stringstream& ss, const std::string& name) const {
-      return compatible(dynamic_cast<FactorVisitor*>(other), ss, name);
-    }
-
   private:
-
-    inline bool compatible(FactorVisitor* other, std::stringstream& ss, const std::string& name) const {
-      CharacterVector levels_other = other->levels;
-      if (setdiff(levels, levels_other).size()) {
-        ss << "Factor levels not equal for column " << name;
-        return false;
-      }
-      return true;
-    }
-
     CharacterVector levels;
     SEXP* levels_ptr;
     comparisons<STRSXP> string_compare;
