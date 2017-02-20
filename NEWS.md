@@ -2,6 +2,8 @@
 
 * Fixed problems when joining factor or character encodings with a mix of native and UTF-8 encoded values (#1885, #2118, #2271, #2451).
 
+* `count()` now preserves the grouping of its input (#2021).
+
 * Select helpers now throw an error if called when no variables have been 
   set (#2452)
 
