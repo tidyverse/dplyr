@@ -673,24 +673,45 @@ test_that("join handles mix of encodings in data (#1885, #2118)", {
         df1 <- tbl_df(df1)
         df2 <- data.frame(x = enc2native(special), z = 2, stringsAsFactors = factor2)
         df2 <- tbl_df(df2)
-        df <- data_frame(x = special, y = 1, z = 2)
+        df <- data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2)
+        df <- tbl_df(df)
 
         if (factor1 != factor2) warning_msg <- "coercing"
         else warning_msg <- NA
 
-        expect_warning_msg <- function(code) {
-          expect_warning(code, warning_msg, info = paste(factor1, factor2))
+        expect_warning_msg <- function(code, msg = warning_msg) {
+          expect_warning(
+            code, msg,
+            info = paste(deparse(substitute(code)[[2]][[1]]), factor1, factor2))
         }
 
-        expect_warning_msg(expect_equal(inner_join(df1, df2, by = "x"), df))
-        expect_warning_msg(expect_equal(left_join(df1, df2, by = "x"), df))
-        expect_warning_msg(expect_equal(right_join(df1, df2, by = "x"), df))
-        expect_warning_msg(expect_equal(full_join(df1, df2, by = "x"), df))
+        expect_equal_df <- function(code, df_ = df) {
+          code <- substitute(code)
+          eval(bquote(
+            expect_equal(
+              .(code), df_,
+              info = paste(deparse(code[[1]]), factor1, factor2)
+            )
+          ))
+        }
+
+        expect_warning_msg(expect_equal_df(inner_join(df1, df2, by = "x")))
+        expect_warning_msg(expect_equal_df(left_join(df1, df2, by = "x")))
+        expect_warning_msg(expect_equal_df(right_join(df1, df2, by = "x")))
+        expect_warning_msg(expect_equal_df(full_join(df1, df2, by = "x")))
         expect_warning_msg(
-          expect_equal(
+          expect_equal_df(
+            semi_join(df1, df2, by = "x"),
+            data.frame(x = special, y = 1, stringsAsFactors = factor1)
+          ),
+          msg = NA
+        )
+        expect_warning_msg(
+          expect_equal_df(
             anti_join(df1, df2, by = "x"),
-            data.frame(x = character(), y = numeric(), stringsAsFactors = factor1)
-          )
+            data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
+          ),
+          msg = NA
         )
       }
     }
