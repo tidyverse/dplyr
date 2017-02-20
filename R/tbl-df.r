@@ -71,8 +71,13 @@ mutate_.tbl_df <- function(.data, ..., .dots) {
 }
 
 #' @export
-summarise_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+summarise.tbl_df <- function(.data, ...) {
+  dots <- tidy_dots(..., .named = TRUE)
+  summarise_impl(.data, dots)
+}
+#' @export
+summarise_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- dots_compat(splice(.dots, ...), caller_env())
   summarise_impl(.data, dots)
 }
 

@@ -79,10 +79,14 @@ rename_.tbl_lazy <- function(.data, ..., .dots) {
 }
 
 #' @export
+summarise.tbl_lazy <- function(.data, ...) {
+  dots <- tidy_dots(..., .named = TRUE)
+  add_op_single("summarise", .data, dots = dots)
+}
+#' @export
 summarise_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+  dots <- dots_compat(splice(.dots, ...), caller_env())
   dots <- partial_eval(dots, vars = op_vars(.data))
-
   add_op_single("summarise", .data, dots = dots)
 }
 

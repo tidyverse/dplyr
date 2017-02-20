@@ -3,6 +3,7 @@
 #include <boost/scoped_ptr.hpp>
 
 #include <tools/LazyDots.h>
+#include <tools/TidyQuote.h>
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
@@ -20,7 +21,7 @@ using namespace Rcpp;
 using namespace dplyr;
 
 template <typename Data, typename Subsets>
-SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
+SEXP summarise_grouped(const DataFrame& df, const TidyQuotes& dots) {
   Data gdf(df);
 
   int nexpr = dots.size();
@@ -44,12 +45,12 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   for (int k=0; k<nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[k];
-    const Environment& env = lazy.env();
+    const TidyQuote& quote = dots[k];
+    const Environment& env = quote.env();
 
-    LOG_VERBOSE << "processing variable " << lazy.name().get_cstring();
+    LOG_VERBOSE << "processing variable " << quote.name().get_cstring();
 
-    Shield<SEXP> expr_(lazy.expr());
+    Shield<SEXP> expr_(quote.expr());
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
 
@@ -59,12 +60,12 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     // special treatment to summary variables, for which hybrid
     // evaluation should be turned off completely (#2312)
     if (!res) {
-      res.reset(new GroupedCallReducer<Data, Subsets>(lazy.expr(), subsets, env));
+      res.reset(new GroupedCallReducer<Data, Subsets>(quote.expr(), subsets, env));
     }
     RObject result = res->process(gdf);
     results[i] = result;
-    accumulator.set(lazy.name(), result);
-    subsets.input_summarised(lazy.name(), SummarisedVariable(result));
+    accumulator.set(quote.name(), result);
+    subsets.input_summarised(quote.name(), SummarisedVariable(result));
 
   }
 
@@ -95,7 +96,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 }
 
 
-SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
+SEXP summarise_not_grouped(DataFrame df, const TidyQuotes& dots) {
   int nexpr = dots.size();
   if (nexpr == 0) return DataFrame();
 
@@ -106,20 +107,20 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
 
-    const Lazy& lazy = dots[i];
-    Environment env = lazy.env();
-    Shield<SEXP> expr_(lazy.expr());
+    const TidyQuote& quote = dots[i];
+    Environment env = quote.env();
+    Shield<SEXP> expr_(quote.expr());
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
     SEXP result;
     if (res) {
       result = results[i] = res->process(FullDataFrame(df));
     } else {
-      result = results[i] = CallProxy(lazy.expr(), subsets, env).eval();
+      result = results[i] = CallProxy(quote.expr(), subsets, env).eval();
     }
     check_length(Rf_length(result), 1, "a summary value");
-    accumulator.set(lazy.name(), result);
-    subsets.input(lazy.name(), result);
+    accumulator.set(quote.name(), result);
+    subsets.input(quote.name(), result);
   }
   List data = accumulator;
   copy_most_attributes(data, df);
@@ -129,7 +130,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, LazyDots dots) {
+SEXP summarise_impl(DataFrame df, TidyQuotes dots) {
   if (df.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {

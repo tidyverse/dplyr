@@ -136,9 +136,8 @@ slice_ <- function(.data, ..., .dots) {
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))
 summarise <- function(.data, ...) {
-  summarise_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("summarise")
 }
-
 #' @export
 #' @rdname summarise
 summarise_ <- function(.data, ..., .dots) {
@@ -148,7 +147,6 @@ summarise_ <- function(.data, ..., .dots) {
 #' @rdname summarise
 #' @export
 summarize <- summarise
-
 #' @rdname summarise
 #' @export
 summarize_ <- summarise_
@@ -380,5 +378,5 @@ rename_ <- function(.data, ..., .dots) {
 #' filter(carriers, n() < 100)
 #' }
 n <- function() {
-  stop("This function should not be called directly")
+  abort("This function should not be called directly")
 }

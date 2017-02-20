@@ -467,13 +467,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // summarise_impl
-SEXP summarise_impl(DataFrame df, LazyDots dots);
+SEXP summarise_impl(DataFrame df, TidyQuotes dots);
 RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< TidyQuotes >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
