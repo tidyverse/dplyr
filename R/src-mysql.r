@@ -16,9 +16,6 @@
 #' @param ... for the src, other arguments passed on to the underlying
 #'   database connector, [DBI::dbConnect()]. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
-#' @param src a mysql src created with `src_mysql()`.
-#' @param from Either a string giving the name of table in database, or
-#'   [sql()] described a derived table or compound join.
 #' @export
 #' @examples
 #' \dontrun{
@@ -107,25 +104,12 @@ src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
     password = password,
     ...
   )
-  info <- dbGetInfo(con)
-
-  src_sql(
-    "mysql",
-    con,
-    info = info,
-    disco = db_disconnector(con, "mysql")
-  )
+  src_dbi(con, auto_disconnect = TRUE)
 }
 
 #' @export
-#' @rdname src_mysql
-tbl.src_mysql <- function(src, from, ...) {
-  tbl_sql("mysql", src = src, from = from, ...)
-}
-
-#' @export
-src_desc.src_mysql <- function(x) {
-  info <- x$info
+src_desc.MySQLConnection <- function(x) {
+  info <- dbGetInfo(x)
 
   paste0(
     "mysql ", info$serverVersion, " [",

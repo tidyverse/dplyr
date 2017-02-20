@@ -2,13 +2,10 @@
 % Please edit documentation in R/src-postgres.r
 \name{src_postgres}
 \alias{src_postgres}
-\alias{tbl.src_postgres}
 \title{Connect to postgresql.}
 \usage{
 src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
   password = NULL, ...)
-
-\method{tbl}{src_postgres}(src, from, ...)
 }
 \arguments{
 \item{dbname}{Database name}
@@ -18,13 +15,7 @@ src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
 \item{user, password}{User name and password (if needed)}
 
 \item{...}{for the src, other arguments passed on to the underlying
-database connector, \code{\link[DBI:dbConnect]{DBI::dbConnect()}}. For the tbl, included for
-compatibility with the generic, but otherwise ignored.}
-
-\item{src}{a postgres src created with \code{src_postgres()}.}
-
-\item{from}{Either a string giving the name of table in database, or
-\code{\link[=sql]{sql()}} described a derived table or compound join.}
+database connector, \code{\link[DBI:dbConnect]{DBI::dbConnect()}}.}
 }
 \description{
 Use \code{src_postgres()} to connect to an existing postgresql database,

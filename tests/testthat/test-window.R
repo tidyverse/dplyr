@@ -59,7 +59,7 @@ test_that("multiple group by or order values don't have parens", {
 test_that("connection affects quoting window function fields", {
   dbiTest <- structure(list(), class = "DBITestConnection")
   dbTest <- src_sql("test", con = dbiTest)
-  testTable <- tbl_sql("test", src = dbTest, from = "table1")
+  testTable <- tbl_sql("test", src = dbTest, from = ident("table1"))
 
   out <- filter(group_by(testTable, field1), min_rank(desc(field1)) < 2)
   sqlText <- sql_render(out)

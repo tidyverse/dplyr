@@ -11,7 +11,7 @@
 \alias{op_sort}
 \title{Lazy operations}
 \usage{
-op_base(name, src, x, vars)
+op_base(x, vars, class = character())
 
 op_single(name, x, dots = list(), args = list())
 

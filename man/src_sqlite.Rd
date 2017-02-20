@@ -2,12 +2,9 @@
 % Please edit documentation in R/src-sqlite.r
 \name{src_sqlite}
 \alias{src_sqlite}
-\alias{tbl.src_sqlite}
 \title{Connect to a sqlite database.}
 \usage{
 src_sqlite(path, create = FALSE)
-
-\method{tbl}{src_sqlite}(src, from, ...)
 }
 \arguments{
 \item{path}{Path to SQLite database}
@@ -16,14 +13,6 @@ src_sqlite(path, create = FALSE)
 \code{TRUE}, will create a new SQlite3 database at \code{path} if
 \code{path} does not exist and connect to the existing database if
 \code{path} does exist.}
-
-\item{src}{a sqlite src created with \code{src_sqlite()}.}
-
-\item{from}{Either a string giving the name of table in database, or
-\code{\link[=sql]{sql()}} described a derived table or compound join.}
-
-\item{...}{Included for compatibility with the generic, but otherwise
-ignored.}
 }
 \description{
 Use \code{src_sqlite()} to connect to an existing sqlite database,

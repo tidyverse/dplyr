@@ -1,5 +1,5 @@
 ---
-title: "Adding a new SQL backend"
+title: "Adding a new DBI backend"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -37,17 +37,17 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
   con <- dbConnect(PostgreSQL(), host = host %||% "", dbname = dbname %||% "",
     user = user, password = password %||% "", port = port %||% "", ...)
 
-  src_sql("postgres", con)
+  src_dbi(con)
 }
 ```
 
-Use `src_sql()` to create a new S3 object with the correct structure. It must have a DBI connection, but it can store anything else that might be useful.
+Use `src_dbi()` to create a new S3 object with the correct structure. 
 
-Next, implement a method for `src_desc()` that briefly describes the source:
+Next, implement a method for `src_desc()` that briefly describes the connection:
 
 ```{r}
 #' @export
-src_desc.src_postgres <- function(con) {
+src_desc.PostgreSQLConnection <- function(con) {
   info <- dbGetInfo(con)
   host <- if (info$host == "") "localhost" else info$host
 
@@ -56,21 +56,7 @@ src_desc.src_postgres <- function(con) {
 }
 ```
 
-If you read the source code for the real `src_postgres()` you'll notice that it caches the `getGetInfo()` field on creation, since this saves a little time when printing tbls.
-
-Before continuing, check that you can create a connection to a local database, and that you get a listing of the existing tables. If you have a problem at this point, you may need to check the DBI backend. 
-
-## tbl
-
-Next implement the `tbl()` method for your data source. This will probably just be:
-
-```{r, eval = FALSE}
-tbl.src_mssql <- function(src, from, ...) {
-  tbl_sql("mssql", src = src, from = from, ...)
-}
-```
-
-Before continuing, make sure you can connect to an existing table, and that the results are printed reasonably. If not, that may indicate your database uses a non-standard DBI interface, and you'll need to fix that before continuing.
+Before continuing, check that you can create a connection to a local database, and that you get a listing of the existing tables. If you have a problem at this point, you may need to check the DBI backend.  Next make sure you can connect to an existing table, and that the results are printed reasonably. If not, that may indicate your database uses a non-standard DBI interface, and you'll need to fix that before continuing.
 
 This is also a good time implement `explain()`, by adding a method for `db_explain()`.
 
