@@ -8,6 +8,7 @@
 #include <tools/pointer_vector.h>
 #include <tools/collapse.h>
 #include <tools/LazyDots.h>
+#include <tools/TidyQuote.h>
 #include <tools/utils.h>
 
 #endif
