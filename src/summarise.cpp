@@ -77,9 +77,9 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 
   if (gdf.nvars() > 1) {
     set_class(out, classes_grouped<Data>());
-    SymbolVector vars = gdf.data().attr("vars");
+    SymbolVector vars = get_vars(gdf.data());
     vars.remove(gdf.nvars() - 1);
-    out.attr("vars") = vars;
+    set_vars(out, vars);
     out.attr("labels") = R_NilValue;
     out.attr("indices") = R_NilValue;
     out.attr("group_sizes") = R_NilValue;

@@ -38,7 +38,7 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
 }
 
 DataFrame build_index_cpp(DataFrame data) {
-  SymbolVector vars(data.attr("vars"));
+  SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 
   CharacterVector names = data.names();

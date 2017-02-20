@@ -25,7 +25,7 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   List res = accumulator;
   set_class(res, classes);
   set_rownames(res, df.nrows());
-  res.attr("vars")   = df.attr("vars");
+  copy_vars(res, df);
   res.attr("labels")  = df.attr("labels");
   res.attr("index")  = df.attr("index");
   res.attr("indices") = df.attr("indices");
@@ -124,7 +124,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   // special 0 rows case
   if (df.nrows() == 0) {
     DataFrame res = mutate_not_grouped(df, dots);
-    res.attr("vars") = df.attr("vars");
+    copy_vars(res, df);
     set_class(res, get_class(df));
     return Data(res).data();
   }

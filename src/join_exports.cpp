@@ -108,23 +108,20 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   out.names() = names;
 
   // out group columns
-  SEXP group_cols_x_ = x.attr("vars");
-  if (!Rf_isNull(group_cols_x_)) {
-    SymbolVector group_cols_x(group_cols_x_);
-    int n_group_cols = group_cols_x.size();
-    SymbolVector group_cols(n_group_cols);
-    IntegerVector group_col_indices = group_cols_x.match_in_table(all_x_columns);
-    // get updated column names
-    for (int i=0; i<n_group_cols; i++) {
-      int group_col_index = group_col_indices[i];
-      if (group_col_index != NA_INTEGER) {
-        group_cols.set(i, names[group_col_index-1]);
-      } else {
-        stop("unknown group column '%s'", group_cols_x[i].get_cstring());
-      }
+  SymbolVector group_cols_x = get_vars(x);
+  int n_group_cols = group_cols_x.size();
+  SymbolVector group_cols(n_group_cols);
+  IntegerVector group_col_indices = group_cols_x.match_in_table(all_x_columns);
+  // get updated column names
+  for (int i=0; i<n_group_cols; i++) {
+    int group_col_index = group_col_indices[i];
+    if (group_col_index != NA_INTEGER) {
+      group_cols.set(i, names[group_col_index-1]);
+    } else {
+      stop("unknown group column '%s'", group_cols_x[i].get_cstring());
     }
-    out.attr("vars") = group_cols;
   }
+  set_vars(out, group_cols);
 
   return (SEXP)out;
 }
@@ -471,7 +468,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
     }
   }
   DataFrame res = subset(data, indx, names, classes_grouped<GroupedDataFrame>());
-  res.attr("vars")   = data.attr("vars");
+  set_vars(res, get_vars(data));
   strip_index(res);
 
   return GroupedDataFrame(res).data();

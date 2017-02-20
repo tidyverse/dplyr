@@ -59,7 +59,7 @@ namespace dplyr {
       data_(x),
       group_sizes(),
       biggest_group_size(0),
-      symbols(SymbolVector(data_.attr("vars"))),
+      symbols(get_vars(data_)),
       labels()
     {
       // handle lazyness

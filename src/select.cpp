@@ -38,7 +38,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
 
   // handle vars  attribute : make a shallow copy of the list and alter
   //   its names attribute
-  SymbolVector vars = copy.attr("vars");
+  SymbolVector vars(get_vars(copy));
 
   int nv = vars.size();
   for (int i = 0; i < nv; i++) {
@@ -49,7 +49,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
     }
   }
 
-  copy.attr("vars") = vars;
+  set_vars(copy, vars);
 
   // handle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
@@ -66,7 +66,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
       label_names[i] = new_names[ positions[i]-1 ].get_string();
     }
     labels.names() = label_names;
-    labels.attr("vars") = vars;
+    set_vars(labels, vars);
     copy.attr("labels") = labels;
   }
   return copy;

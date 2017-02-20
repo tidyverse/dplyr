@@ -59,9 +59,7 @@ namespace dplyr {
     set_class(x, classes);
     set_rownames(x, nrows);
     x.names() = visitor_names;
-    SEXP vars = data.attr("vars");
-    if (!Rf_isNull(vars))
-      x.attr("vars") = vars;
+    copy_vars(x, data);
   }
 
   DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :

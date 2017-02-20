@@ -164,7 +164,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
       DataFrame df = first.get();
       set_class(out, get_class(df));
       if (df.inherits("grouped_df")) {
-        out.attr("vars") = df.attr("vars");
+        copy_vars(out, df);
         out = GroupedDataFrame(out).data();
       }
     } else {

@@ -13,6 +13,11 @@ namespace dplyr {
     template <class T>
     explicit SymbolVector(T v_) : v(v_) {}
 
+    explicit SymbolVector(SEXP x) {
+      if (!Rf_isNull(x))
+        v = x;
+    }
+
   public:
     void push_back(const SymbolString& s) {
       v.push_back(s.get_string());

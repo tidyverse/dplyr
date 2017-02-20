@@ -45,7 +45,7 @@ SEXP resolve_vars(List new_groups, CharacterVector names) {
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
   assert_all_white_list(data);
   DataFrame copy(shallow_copy(data));
-  copy.attr("vars") = symbols;
+  set_vars(copy, symbols);
   copy.attr("drop") = drop;
   if (!symbols.size())
     stop("no variables to group by");

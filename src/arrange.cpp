@@ -70,7 +70,7 @@ List arrange_impl(DataFrame data, LazyDots dots) {
     // if we don't do that, we get the values of the un-arranged data
     // set for free from subset (#1064)
     res.attr("labels") = R_NilValue;
-    res.attr("vars")  = data.attr("vars");
+    copy_vars(res, data);
     return GroupedDataFrame(res).data();
   }
   SET_ATTRIB(res, strip_group_attributes(res));

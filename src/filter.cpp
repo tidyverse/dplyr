@@ -94,7 +94,7 @@ template <typename Data>
 inline DataFrame grouped_subset(const Data& gdf, const LogicalVector& test, const SymbolVector& names, CharacterVector classes) {
   DataFrame data = gdf.data();
   DataFrame res = subset(data, test, names, classes);
-  res.attr("vars")   = data.attr("vars");
+  copy_vars(res, data);
   strip_index(res);
   return Data(res).data();
 }

@@ -5,7 +5,6 @@
 #include <tools/collapse.h>
 
 using namespace Rcpp;
-using namespace dplyr;
 
 // [[Rcpp::export]]
 void assert_all_white_list(const DataFrame& data) {
@@ -78,6 +77,8 @@ void copy_attributes(SEXP out, SEXP data) {
   if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
 }
 
+namespace dplyr {
+
 std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
@@ -139,4 +140,20 @@ bool same_levels(SEXP left, SEXP right) {
   }
 
   return true;
+}
+
+SymbolVector get_vars(SEXP x) {
+  static SEXP vars_symbol = Rf_install("vars");
+  return SymbolVector(Rf_getAttrib(x, vars_symbol));
+}
+
+SEXP set_vars(SEXP x, const SymbolVector& vars) {
+  static SEXP vars_symbol = Rf_install("vars");
+  return Rf_setAttrib(x, vars_symbol, vars.get_vector());
+}
+
+SEXP copy_vars(SEXP target, SEXP source) {
+  return set_vars(target, get_vars(source));
+}
+
 }

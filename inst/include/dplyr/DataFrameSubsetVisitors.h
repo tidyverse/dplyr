@@ -112,9 +112,7 @@ namespace dplyr {
       set_class(x, classes);
       set_rownames(x, nrows);
       x.names() = visitor_names;
-      SEXP vars = data.attr("vars");
-      if (!Rf_isNull(vars))
-        x.attr("vars") = vars;
+      copy_vars(x, data);
     }
 
   };
