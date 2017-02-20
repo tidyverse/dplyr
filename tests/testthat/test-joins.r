@@ -671,9 +671,9 @@ test_that("join handles mix of encodings in data (#1885, #2118)", {
       for (factor2 in c(FALSE, TRUE)) {
         df1 <- data.frame(x = special, y = 1, stringsAsFactors = factor1)
         df1 <- tbl_df(df1)
-        df2 <- data.frame(x = enc2native(special), z = 1, stringsAsFactors = factor2)
+        df2 <- data.frame(x = enc2native(special), z = 2, stringsAsFactors = factor2)
         df2 <- tbl_df(df2)
-        df <- data_frame(x = special, y = 1, z = 1)
+        df <- data_frame(x = special, y = 1, z = 2)
 
         expect_equal(inner_join(df1, df2, by = "x"), df)
         expect_equal(left_join(df1, df2, by = "x"), df)
