@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `common_by()` gets a better error message for unexpected inputs (#2091)
+
 * Fixed problems when joining factor or character encodings with a mix of native and UTF-8 encoded values (#1885, #2118, #2271, #2451).
 
 * `count()` now preserves the grouping of its input (#2021).
