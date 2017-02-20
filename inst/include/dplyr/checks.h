@@ -1,5 +1,5 @@
-#ifndef dplyr_check_supported_type_H
-#define dplyr_check_supported_type_H
+#ifndef dplyr_checks_H
+#define dplyr_checks_H
 
 namespace dplyr {
 
@@ -36,6 +36,25 @@ namespace dplyr {
 
       // Unreachable, can be removed with Rcpp > 0.12.5.2
       return DPLYR_LGLSXP;
+    }
+  }
+
+  inline void check_length(const int actual, const int expected, const char* comment) {
+    if (expected == 1) {
+      if (actual != expected) {
+        stop(
+          "incompatible size (%d), expecting one (%s)",
+          actual, comment
+        );
+      }
+    }
+    else {
+      if (actual != expected && actual != 1) {
+        stop(
+          "incompatible size (%d), expecting %d (%s) or one",
+          actual, expected, comment
+        );
+      }
     }
   }
 
