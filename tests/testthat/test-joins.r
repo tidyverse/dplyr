@@ -663,7 +663,7 @@ test_that("inner join not crashing (#1559)", {
   for (i in 2:100) expect_equal(res[, 1], res[, i])
 })
 
-test_that("join handles mix of encodings in data (#1885, #2118)", {
+test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
   with_non_utf8_encoding({
     special <- get_native_lang_string()
 
