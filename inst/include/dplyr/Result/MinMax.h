@@ -7,14 +7,14 @@
 namespace dplyr {
 
   template <int RTYPE, bool MINIMUM, bool NA_RM>
-  class MinMax : public Processor<RTYPE, MinMax<RTYPE, MINIMUM, NA_RM> > {
+  class MinMax : public Processor<REALSXP, MinMax<RTYPE, MINIMUM, NA_RM> > {
 
   public:
-    typedef Processor<RTYPE, MinMax<RTYPE, MINIMUM, NA_RM> > Base;
+    typedef Processor<REALSXP, MinMax<RTYPE, MINIMUM, NA_RM> > Base;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   private:
-    static const STORAGE Inf;
+    static const double Inf;
 
   public:
     MinMax(SEXP x, bool is_summary_ = false) :
@@ -24,13 +24,12 @@ namespace dplyr {
     {}
     ~MinMax() {}
 
-    STORAGE process_chunk(const SlicingIndex& indices) {
+    double process_chunk(const SlicingIndex& indices) {
       if (is_summary) return data_ptr[ indices.group() ];
 
       const int n = indices.size();
-      STORAGE res = Inf;
+      double res = Inf;
 
-      bool first = true;
       for (int i = 0; i < n; ++i) {
         STORAGE current = data_ptr[indices[i]];
 
@@ -38,31 +37,23 @@ namespace dplyr {
           if (NA_RM)
             continue;
           else
-            return current;
+            return NA_REAL;
         }
         else {
-          // Need a flag here, because is_better() cannot compare with Inf for RTYPE == INTSXP.
-          // Hoping that compiler is able to split this in two loops, or that branch prediction
-          // will make this check cheap.
-          if (first) {
-            res = current;
-            first = false;
-          }
-          else {
-            if (is_better(current, res))
-              res = current;
-          }
+          double current_res = current;
+          if (is_better(current_res, res))
+            res = current_res;
         }
       }
 
       return res;
     }
 
-    inline static bool is_better(const STORAGE current, const STORAGE res) {
+    inline static bool is_better(const double current, const double res) {
       if (MINIMUM)
-        return internal::is_smaller<RTYPE>(current, res);
+        return internal::is_smaller<REALSXP>(current, res);
       else
-        return internal::is_smaller<RTYPE>(res, current);
+        return internal::is_smaller<REALSXP>(res, current);
     }
 
   private:
@@ -71,10 +62,7 @@ namespace dplyr {
   };
 
   template <int RTYPE, bool MINIMUM, bool NA_RM>
-  const typename MinMax<RTYPE, MINIMUM, NA_RM>::STORAGE MinMax<RTYPE, MINIMUM, NA_RM>::Inf =
-    (RTYPE == REALSXP) ?
-    (MINIMUM ? R_PosInf : R_NegInf) :
-    NA_INTEGER;
+  const double MinMax<RTYPE, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_NegInf);
 
 }
 
