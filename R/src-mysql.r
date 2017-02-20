@@ -201,10 +201,12 @@ db_rollback.MySQLConnection <- function(con, ...) {
 #' @export
 db_insert_into.MySQLConnection <- function(con, table, values, ...) {
 
+  class(values) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
+  
   # Convert factors to strings
   is_factor <- vapply(values, is.factor, logical(1))
   values[is_factor] <- lapply(values[is_factor], as.character)
-
+  
   # Encode special characters in strings
   is_char <- vapply(values, is.character, logical(1))
   values[is_char] <- lapply(values[is_char], encodeString, na.encode = FALSE)
