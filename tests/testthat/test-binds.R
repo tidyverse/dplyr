@@ -420,3 +420,18 @@ test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df$y <- as.POSIXlt(df$x)
   expect_error(bind_rows(df, df), "not supported")
 })
+
+test_that("bind_rows rejects data frame columns (#2015)", {
+  df <- list(
+    x = 1:10,
+    y = data.frame(a = 1:10, y = 1:10)
+  )
+  class(df) <- "data.frame"
+  attr(df, "row.names") <- .set_row_names(10)
+
+  expect_error(
+    dplyr::bind_rows(df, df),
+    "Columns of class data.frame not supported",
+    fixed = TRUE
+  )
+})

@@ -106,10 +106,6 @@ namespace dplyr {
       return "matrix";
     }
 
-    inline bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
-    }
-
     bool is_na(int i) const {
       return false;
     }

@@ -5,11 +5,12 @@
 #include <tools/hash.h>
 #include <tools/utils.h>
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 #include <dplyr/Result/GroupedCallProxy.h>
 
 #include <dplyr/vector_class.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 
@@ -62,9 +63,7 @@ namespace dplyr {
         } else if (n == 1) {
           grab_rep(Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices);
         } else {
-          stop(
-            "incompatible size (%d), expecting %d (the group size) or 1",
-            n, indices.size());
+          check_length(n, indices.size(), "the group size");
         }
       }
     }
@@ -153,9 +152,7 @@ namespace dplyr {
       } else if (n == 1) {
         grab_rep(subset[0], indices);
       } else {
-        stop(
-          "incompatible size (%d), expecting %d (the group size) or 1",
-          n, indices.size());
+        check_length(n, indices.size(), "the group size");
       }
     }
 
@@ -253,10 +250,9 @@ namespace dplyr {
           }
         }
       } else {
-        stop("incompatible size");
+        check_length(nf, n, "the group size");
       }
     }
-
 
   };
 
@@ -307,13 +303,15 @@ namespace dplyr {
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
 
-    check_supported_type(first, name);
-
     if (Rf_inherits(first, "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
     }
 
-    int ng = gdf.ngroups();
+    check_length(Rf_length(first), indices.size(), "the group size");
+
+    check_supported_type(first, name);
+
+    const int ng = gdf.ngroups();
     int i = 0;
     while (all_na(first)) {
       i++;

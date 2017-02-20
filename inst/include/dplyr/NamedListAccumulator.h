@@ -3,7 +3,7 @@
 
 #include <tools/SymbolMap.h>
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 

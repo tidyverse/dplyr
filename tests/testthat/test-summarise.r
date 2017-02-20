@@ -61,34 +61,34 @@ test_that("summarise gives proper errors (#153)", {
   )
   expect_error(
     summarise(df, identity(NULL)),
-    "expecting result of length one, got length 0",
+    "incompatible size (0), expecting one (a summary value)",
     fixed = TRUE
   )
   expect_error(
     summarise(df, log(z)),
-    "expecting result of length one, got length 3",
+    "incompatible size (3), expecting one (a summary value)",
     fixed = TRUE
   )
   expect_error(
     summarise(df, y[1:2]),
-    "expecting result of length one, got length 2",
+    "incompatible size (2), expecting one (a summary value)",
     fixed = TRUE
   )
 
   gdf <- group_by(df, x, y)
   expect_error(
     summarise(gdf, identity(NULL)),
-    "expecting result of length one, got length 0",
+    "incompatible size (0), expecting one (a summary value)",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, log(z)),
-    "expecting result of length one, got length 2",
+    "incompatible size (2), expecting one (a summary value)",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, y[1:2]),
-    "expecting result of length one, got length 2",
+    "incompatible size (2), expecting one (a summary value)",
     fixed = TRUE
   )
 })
