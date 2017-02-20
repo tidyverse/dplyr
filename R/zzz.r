@@ -1,4 +1,15 @@
+Rcpp_version <- packageVersion("Rcpp")
+
 .onLoad <- function(libname, pkgname) {
+  if (Rcpp_version != packageVersion("Rcpp")) {
+    warning(
+      "Installed Rcpp (", packageVersion("Rcpp"), ") different from ",
+      "Rcpp used to build dplyr (", Rcpp_version, ").\n",
+      "Please reinstall dplyr to avoid random crashes.",
+      call. = FALSE
+    )
+  }
+
   op <- options()
   op.dplyr <- list(
     dplyr.strict_sql = FALSE,
