@@ -33,6 +33,10 @@ test_that("bind_cols handles empty argument list (#1963)", {
   expect_equal(bind_cols(), data.frame())
 })
 
+test_that("bind_cols handles all-NULL values (#2303)", {
+  expect_equal(bind_cols(list(a = NULL, b = NULL)), data.frame())
+})
+
 # rows --------------------------------------------------------------------
 
 df_var <- data_frame(

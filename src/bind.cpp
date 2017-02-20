@@ -189,22 +189,22 @@ List rbind_list__impl(Dots dots) {
 
 template <typename Dots>
 List cbind__impl(Dots dots) {
-  int n = dots.size();
+  DataFrameAbleVector chunks;
+  for (int i = 0; i < dots.size(); ++i) {
+    SEXP obj = dots[i];
+    if (!Rf_isNull(obj))
+      chunks.push_back(obj);
+  }
+
+  const int n = chunks.size();
+
   if (n == 0)
     return DataFrame();
 
-  DataFrameAbleVector chunks;
-  for (int i=0; i<n; i++) {
-    SEXP obj = dots[i];
-    if (!Rf_isNull(obj))
-      chunks.push_back(dots[i]);
-  }
-  n = chunks.size();
-
   // first check that the number of rows is the same
-  const DataFrameAble& df = chunks[0];
-  int nrows = df.nrows();
-  int nv = df.size();
+  const DataFrameAble& first = chunks[0];
+  const int nrows = first.nrows();
+  int nv = first.size();
   for (int i=1; i<n; i++) {
     const DataFrameAble& current = chunks[i];
     if (current.nrows() != nrows) {
@@ -231,17 +231,13 @@ List cbind__impl(Dots dots) {
   }
 
   // infer the classes and extra info (groups, etc ) from the first (#1692)
-  if (n) {
-    const DataFrameAble& first = chunks[0];
-    if (first.is_dataframe()) {
-      DataFrame df = first.get();
-      copy_most_attributes(out, df);
-    } else {
-      set_class(out, classes_not_grouped());
-    }
+  if (first.is_dataframe()) {
+    DataFrame df = first.get();
+    copy_most_attributes(out, df);
   } else {
     set_class(out, classes_not_grouped());
   }
+
   out.names() = out_names;
   set_rownames(out, nrows);
 

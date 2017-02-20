@@ -568,7 +568,7 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   check_hybrid_result(
     list(row_number()), a = 1:5,
     expected = list(1:5),
-                test_eval = FALSE
+    test_eval = FALSE
   )
   check_hybrid_result(
     list(row_number(a)), a = 5:1,
@@ -614,6 +614,31 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   expect_not_hybrid_error(
     ntile(a, 2, 1), a = 5:1,
     error = "unused argument"
+  )
+
+  check_not_hybrid_result(
+    row_number("a"), a = 5:1,
+    expected = 1L
+  )
+  check_not_hybrid_result(
+    min_rank("a"), a = 5:1,
+    expected = 1L
+  )
+  check_not_hybrid_result(
+    percent_rank("a"), a = 5:1,
+    expected = is.nan
+  )
+  check_not_hybrid_result(
+    cume_dist("a"), a = 5:1,
+    expected = 1
+  )
+  check_not_hybrid_result(
+    dense_rank("a"), a = 5:1,
+    expected = 1L
+  )
+  check_not_hybrid_result(
+    ntile("a", 2), a = 5:1,
+    expected = 1L
   )
 
   skip("Currently failing (constfold)")
