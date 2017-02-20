@@ -1,5 +1,19 @@
 # dplyr 0.5.0.9000
 
+* Improved error messages for `mutate()` expressions that return `NULL` (#2187, #2439).
+
+* `all_equal()` now reports multiple problems as a character vector (#1819, #2442).
+
+* Factor levels must be equal for `all_equal()` (#2440, #2442).
+
+* One of the two join suffixes can now be an empty string, dplyr no longer hangs (#2228, #2445).
+
+* Data frame columns are rejected explicitly in `bind_rows()` (#2015, #2446).
+
+* Fix segfault if all arguments to `bind_cols()` are `NULL` (#2303, #2443).
+
+* Fix segfault when using `min_rank("string")` in hybrid evaluation (#2279, #2444).
+
 * `grouped_df` is registered officially as an S3 class. This makes it 
   easier to use with S4 (#2276).
 
@@ -97,7 +111,7 @@
 
 * Breaking change: The `column()` and `global()` functions have been removed. They were never documented officially. Use the new `.data` and `.env` environments instead.
 
-* Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the `bindrcpp` package (#2190). This temporary environment poses restrictions on assignments using `<-` inside verbs.
+* Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the `bindrcpp` package (#2190). This temporary environment poses restrictions on assignments using `<-` inside verbs. To prevent leaking of broken bindings, the temporary environment is cleared after the evaluation (#2435).
 
 * New `add_count()` and `add_tally()` for adding an `n` column within groups (#2078, @dgrtwo).
 
