@@ -9,34 +9,41 @@
 
 namespace dplyr {
 
-  static inline bool is_class_known(SEXP x) {
+  static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
+    std::vector<std::string> x_classes, inherited_classes;
+    if (!OBJECT(x)) {
+      return false;
+    }
+    x_classes = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
+    std::sort(x_classes.begin(), x_classes.end());
+    std::set_intersection(x_classes.begin(), x_classes.end(),
+                          classes.begin(), classes.end(),
+                          std::back_inserter(inherited_classes));
+    return !inherited_classes.empty();
+  }
+
+  static bool is_class_known(SEXP x) {
     /* C++11 (need initializer lists)
-    static std::set<std::string> known {
+    static std::set<std::string> known_classes {
       "POSIXct", "factor", "Date", "AsIs", "integer64", "table"
     };
     */
     /* Begin C++98 workaround */
-    static std::vector<std::string> known;
-    if (known.empty()) {
-      known.push_back("POSIXct");
-      known.push_back("factor");
-      known.push_back("Date");
-      known.push_back("AsIs");
-      known.push_back("integer64");
-      known.push_back("table");
-      std::sort(known.begin(), known.end());
+    static std::set<std::string> known_classes;
+    if (known_classes.empty()) {
+      known_classes.insert("POSIXct");
+      known_classes.insert("factor");
+      known_classes.insert("Date");
+      known_classes.insert("AsIs");
+      known_classes.insert("integer64");
+      known_classes.insert("table");
     }
     /* End of C++98 workaround */
-    std::vector<std::string> classes_in_x, known_in_x;
-    if (!OBJECT(x)) {
+    if (OBJECT(x)) {
+      return inherits_from(x, known_classes);
+    } else {
       return true;
     }
-    classes_in_x = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
-    std::sort(classes_in_x.begin(), classes_in_x.end());
-    std::set_intersection(classes_in_x.begin(), classes_in_x.end(),
-                          known.begin(), known.end(),
-                          std::back_inserter(known_in_x));
-    return not known_in_x.empty();
   }
 
   static inline void warn_loss_attr(SEXP x) {
