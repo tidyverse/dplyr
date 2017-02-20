@@ -27,6 +27,10 @@ namespace dplyr {
       LOG_VERBOSE;
     }
 
+    ~GroupedHybridEnv() {
+      cleanup_eval_env();
+    }
+
   public:
     const Environment& get_eval_env() const {
       provide_eval_env();
@@ -58,6 +62,30 @@ namespace dplyr {
       LOG_VERBOSE;
       IHybridCallback* callback_ = reinterpret_cast<IHybridCallback*>(payload.p);
       return callback_->get_subset(name);
+    }
+
+    void cleanup_eval_env() const {
+      if (!has_eval_env)
+        return;
+
+      Environment active_env = eval_env.parent();
+      remove_all_from_env(names, active_env);
+    }
+
+    // Environment::remove() would have to call Rcpp_eval() for each name,
+    // and works only for C++ strings (i.e., loses encoding information)
+    static void remove_all_from_env(const CharacterVector& names, const Environment& active_env) {
+      static SEXP internalSym = Rf_install(".Internal");
+      static SEXP removeSym = Rf_install("remove");
+
+      // .Internal(remove(names, active_env, FALSE))
+      Call call(
+        Rf_lang2(
+          internalSym,
+          Rf_lang4(removeSym, names, active_env, Rf_ScalarLogical(FALSE))
+        )
+      );
+      Rcpp_eval(call, R_BaseEnv);
     }
 
   private:
