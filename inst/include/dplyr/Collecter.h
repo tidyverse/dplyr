@@ -10,23 +10,33 @@
 namespace dplyr {
 
   static inline bool is_class_known(SEXP x) {
-    CharacterVector known = CharacterVector::create(
-      "POSIXct", "factor", "Date", "AsIs", "integer64", "table");
-    int num_known = known.length();
-    if (OBJECT(x)) {
-      CharacterVector classes(Rf_getAttrib(x, R_ClassSymbol));
-      int num_classes = classes.length();
-      for (int i=0;i<num_classes;i++) {
-        for (int j=0;j<num_known;j++) {
-          if (classes[i] == known[j]) {
-            return true;
-          }
-        }
-      }
-    } else {
+    /* C++11 (need initializer lists)
+    static std::set<std::string> known {
+      "POSIXct", "factor", "Date", "AsIs", "integer64", "table"
+    };
+    */
+    /* Begin C++98 workaround */
+    static std::vector<std::string> known;
+    if (known.empty()) {
+      known.push_back("POSIXct");
+      known.push_back("factor");
+      known.push_back("Date");
+      known.push_back("AsIs");
+      known.push_back("integer64");
+      known.push_back("table");
+      std::sort(known.begin(), known.end());
+    }
+    /* End of C++98 workaround */
+    std::vector<std::string> classes_in_x, known_in_x;
+    if (!OBJECT(x)) {
       return true;
     }
-    return false;
+    classes_in_x = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
+    std::sort(classes_in_x.begin(), classes_in_x.end());
+    std::set_intersection(classes_in_x.begin(), classes_in_x.end(),
+                          known.begin(), known.end(),
+                          std::back_inserter(known_in_x));
+    return not known_in_x.empty();
   }
 
   static inline void warn_loss_attr(SEXP x) {
