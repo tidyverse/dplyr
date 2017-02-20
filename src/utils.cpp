@@ -127,6 +127,27 @@ SEXP set_levels(SEXP x, const CharacterVector& levels) {
   return Rf_setAttrib(x, R_LevelsSymbol, levels);
 }
 
+bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
+  if ((SEXP)x == (SEXP)y) return true;
+
+  if (x.length() != y.length())
+    return false;
+
+  for (R_xlen_t i = 0; i < x.length(); ++i) {
+    SEXP xi = x[i];
+    SEXP yi = y[i];
+
+    // Ideally we'd use Rf_Seql(), but this is not exported.
+    if (Rf_NonNullStringMatch(xi, yi)) continue;
+    if (xi == NA_STRING && yi == NA_STRING) continue;
+    if (xi == NA_STRING || yi == NA_STRING) return false;
+    if (CHAR(xi)[0] == 0 && CHAR(yi)[0] == 0) continue;
+    return false;
+  }
+
+  return true;
+}
+
 bool same_levels(SEXP left, SEXP right) {
   CharacterVector levels_left  = get_levels(left);
   CharacterVector levels_right = get_levels(right);

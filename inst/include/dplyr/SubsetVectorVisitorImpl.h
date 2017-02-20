@@ -153,16 +153,15 @@ namespace dplyr {
     }
 
   private:
-
     inline bool same_levels(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name) const {
       CharacterVector levels_other = other->levels;
-      if (levels.length() != levels_other.length() || !all(levels == levels_other).is_true()) {
+
+      if (!character_vector_equal(levels, levels_other)) {
         ss << "Factor levels not equal for column '" << name << "'";
         return false;
       }
       return true;
     }
-
 
     inline SEXP promote(IntegerVector x) const {
       copy_most_attributes(x, vec);
