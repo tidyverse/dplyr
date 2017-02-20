@@ -24,10 +24,12 @@ If a double is supplied, it will be silently truncated.}
 \item{order_by}{An optional vector used to determine the order}
 
 \item{default}{A default value to use if the position does not exist in
-the input. This is guessed by default for atomic vectors, where a
-missing value of the appropriate type is return, and for lists, where
-a \code{NULL} is return. For more complicated objects, you'll need to
-supply this value.}
+the input. This is guessed by default for base vectors, where a
+missing value of the appropriate type is returned, and for lists, where
+a \code{NULL} is return.
+
+For more complicated objects, you'll need to supply this value.
+Make sure it is the same type as \code{x}.}
 }
 \value{
 A single value. \code{[[} is used to do the subsetting.

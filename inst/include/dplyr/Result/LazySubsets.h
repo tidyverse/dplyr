@@ -44,7 +44,7 @@ namespace dplyr {
     }
 
     virtual bool is_summary(const SymbolString& symbol) const {
-      return false;
+      return summary_map.has(symbol);
     }
 
     virtual int count(const SymbolString& symbol) const {
@@ -59,6 +59,7 @@ namespace dplyr {
       } else {
         data[index.pos] = x;
       }
+      summary_map.insert(symbol);
     }
 
     virtual int size() const {
@@ -77,7 +78,7 @@ namespace dplyr {
     }
 
   private:
-    SymbolMap symbol_map;
+    SymbolMap symbol_map, summary_map;
     std::vector<SEXP> data;
     int nr;
   };

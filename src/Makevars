@@ -9,5 +9,7 @@ Makevars.local:
 	touch "$@"
 include Makevars.local
 
-clean:
+shlib-clean: remove-dep-files
+
+remove-dep-files:
 	rm -f *.d

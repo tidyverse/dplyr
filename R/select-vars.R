@@ -58,8 +58,8 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
   }
 
   # Set current_vars so avaialble to select_helpers
-  set_current_vars(vars)
-  on.exit(reset_current_vars(), add = TRUE)
+  old <- set_current_vars(vars)
+  on.exit(set_current_vars(old), add = TRUE)
 
   # Map variable names to their positions: this keeps integer semantics
   args <- lazyeval::as.lazy_dots(args)
