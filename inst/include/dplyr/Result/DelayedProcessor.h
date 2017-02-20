@@ -6,7 +6,7 @@
 #include <tools/scalar_type.h>
 #include <tools/utils.h>
 #include <dplyr/vector_class.h>
-#include <dplyr/check_length_one.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 
@@ -89,7 +89,7 @@ namespace dplyr {
     }
 
     virtual bool try_handle(const RObject& chunk) {
-      check_length_one(chunk);
+      check_length(Rf_length(chunk), 1, "a summary value");
 
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
@@ -262,7 +262,7 @@ namespace dplyr {
 
   template <typename CLASS>
   IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups) {
-    check_length_one(first_result);
+    check_length(Rf_length(first_result), 1, "a summary value");
 
     if (Rf_inherits(first_result, "factor")) {
       return new FactorDelayedProcessor<CLASS>(first_result, ngroups);

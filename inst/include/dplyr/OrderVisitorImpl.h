@@ -1,7 +1,7 @@
 #ifndef dplyr_OrderVectorVisitor_Impl_H
 #define dplyr_OrderVectorVisitor_Impl_H
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 #include <dplyr/comparisons.h>
 

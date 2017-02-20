@@ -67,7 +67,11 @@ test_that("mutate handles constants (#152)", {
 test_that("mutate fails with wrong result size (#152)", {
   df <- group_by(data.frame(x = c(2, 2, 3, 3)), x)
   expect_equal(mutate(df, y = 1:2)$y, rep(1:2, 2))
-  expect_error(mutate(mtcars, zz = 1:2), "wrong result size")
+  expect_error(
+    mutate(mtcars, zz = 1:2),
+    "incompatible size (2), expecting 32 (the number of rows) or one",
+    fixed = TRUE
+  )
 
   df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
   expect_error(mutate(df, y = 1:2))
@@ -225,6 +229,28 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
 
   data <- mtcars %>% group_by(disp) %>% mutate(cyl = NULL)
   expect_false("cyl" %in% names(data))
+})
+
+test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
+  expect_error(
+    data_frame(a = 1) %>% mutate(b = identity(NULL)),
+    "incompatible size (0), expecting one (the number of rows)",
+    fixed = TRUE
+  )
+  expect_error(
+    data_frame(a = 1:3) %>%
+      group_by(a) %>%
+      mutate(b = identity(NULL)),
+    "incompatible size (0), expecting one (the group size)",
+    fixed = TRUE
+  )
+  expect_error(
+    data_frame(a = 1:3) %>%
+      rowwise %>%
+      mutate(b = if (a < 2) a else NULL),
+    "incompatible types",
+    fixed = TRUE
+  )
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
@@ -392,9 +418,9 @@ test_that("mutate works on empty data frames (#1142)", {
   expect_equal(length(res), 1L)
 })
 
-test_that("mutate handles 0 rows rowwise #1300", {
-  a <- data.frame(x = 1)
-  b <- data.frame(y = character(), stringsAsFactors = F)
+test_that("mutate handles 0 rows rowwise (#1300)", {
+  a <- data_frame(x = 1)
+  b <- data_frame(y = character())
 
   g <- function(y) {
     1
@@ -406,7 +432,7 @@ test_that("mutate handles 0 rows rowwise #1300", {
   res <- f()
   expect_equal(nrow(res), 0L)
 
-  expect_error(a %>% mutate(b = f()), "wrong result size")
+  expect_error(a %>% mutate(b = f()), "incompatible size")
   expect_error(a %>% rowwise() %>% mutate(b = f()), "incompatible size")
 })
 
