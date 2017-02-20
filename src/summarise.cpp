@@ -76,7 +76,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   set_rownames(out, nr);
 
   if (gdf.nvars() > 1) {
-    out.attr("class") = classes_grouped<Data>();
+    set_class(out, classes_grouped<Data>());
     List vars = gdf.data().attr("vars");
     vars.erase(gdf.nvars() - 1);
     out.attr("vars") = vars;
@@ -87,7 +87,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 
     out.attr("drop") = true;
   } else {
-    out.attr("class") = classes_not_grouped();
+    set_class(out, classes_not_grouped());
     SET_ATTRIB(out, strip_group_attributes(out));
   }
 

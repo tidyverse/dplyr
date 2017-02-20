@@ -10,27 +10,27 @@ namespace dplyr {
     DataFrameColumnSubsetVisitor(const DataFrame& data_) : data(data_), visitors(data) {}
 
     inline SEXP subset(const Rcpp::IntegerVector& index) const {
-      return visitors.subset(index, data.attr("class"));
+      return visitors.subset(index, get_class(data));
     }
 
     inline SEXP subset(const std::vector<int>& index) const {
-      return visitors.subset(index, data.attr("class"));
+      return visitors.subset(index, get_class(data));
     }
 
     inline SEXP subset(const SlicingIndex& index) const {
-      return visitors.subset(index, data.attr("class"));
+      return visitors.subset(index, get_class(data));
     }
 
     inline SEXP subset(const ChunkIndexMap& index) const {
-      return visitors.subset(index, data.attr("class"));
+      return visitors.subset(index, get_class(data));
     }
 
     inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      return visitors.subset(index, data.attr("class"));
+      return visitors.subset(index, get_class(data));
     }
 
     inline SEXP subset(EmptySubset index) const {
-      return visitors.subset(index, data.attr("class"));
+      return visitors.subset(index, get_class(data));
     }
 
     inline int size() const {

@@ -110,3 +110,33 @@ std::string get_single_class(SEXP x) {
   klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
   return CHAR(STRING_ELT(klass,0));
 }
+
+CharacterVector get_class(SEXP x) {
+  return Rf_getAttrib(x, R_ClassSymbol);
+}
+
+SEXP set_class(SEXP x, const CharacterVector& class_) {
+  return Rf_setAttrib(x, R_ClassSymbol, class_);
+}
+
+CharacterVector get_levels(SEXP x) {
+  return Rf_getAttrib(x, R_LevelsSymbol);
+}
+
+SEXP set_levels(SEXP x, const CharacterVector& levels) {
+  return Rf_setAttrib(x, R_LevelsSymbol, levels);
+}
+
+bool same_levels(SEXP left, SEXP right) {
+  CharacterVector levels_left  = get_levels(left);
+  CharacterVector levels_right = get_levels(right);
+  if ((SEXP)levels_left == (SEXP)levels_right) return true;
+  int n = levels_left.size();
+  if (n != levels_right.size()) return false;
+
+  for (int i=0; i<n; i++) {
+    if (levels_right[i] != levels_left[i]) return false;
+  }
+
+  return true;
+}

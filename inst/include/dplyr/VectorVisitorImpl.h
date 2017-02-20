@@ -2,6 +2,7 @@
 #define dplyr_VectorVisitor_Impl_H
 
 #include <tools/collapse.h>
+#include <tools/utils.h>
 
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/comparisons.h>
@@ -105,7 +106,7 @@ namespace dplyr {
     typedef VectorVisitorImpl<INTSXP> Parent;
 
     FactorVisitor(const IntegerVector& vec_) : Parent(vec_) {
-      levels = vec.attr("levels");
+      levels = get_levels(vec);
       levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
     }
 
@@ -130,7 +131,7 @@ namespace dplyr {
     }
 
     inline std::string get_r_type() const {
-      CharacterVector classes = Parent::vec.attr("class");
+      CharacterVector classes = get_class(Parent::vec);
       return collapse(classes);
     }
 

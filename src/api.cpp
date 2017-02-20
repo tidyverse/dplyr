@@ -57,7 +57,7 @@ namespace dplyr {
   }
 
   void DataFrameVisitors::structure(List& x, int nrows, CharacterVector classes) const {
-    x.attr("class") = classes;
+    set_class(x, classes);
     set_rownames(x, nrows);
     x.names() = visitor_names;
     SEXP vars = data.attr("vars");

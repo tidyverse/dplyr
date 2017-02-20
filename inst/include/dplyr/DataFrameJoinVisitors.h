@@ -46,7 +46,7 @@ namespace dplyr {
       for (int k=0; k<nvisitors; k++) {
         out[k] = get(k)->subset(index);
       }
-      out.attr("class") = classes;
+      set_class(out, classes);
       set_rownames(out, nrows);
       out.names() = visitor_names_left;
       SEXP vars = left.attr("vars");
