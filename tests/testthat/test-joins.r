@@ -663,6 +663,25 @@ test_that("inner join not crashing (#1559)", {
   for (i in 2:100) expect_equal(res[, 1], res[, i])
 })
 
+test_that("left_join handles mix of encodings in data (#1885)", {
+  with_non_utf8_encoding({
+    special <- get_native_lang_string()
+
+    df1 <- data_frame(x = special, y = 1)
+    df2 <- data_frame(x = enc2native(special), z = 1)
+    df <- data_frame(x = special, y = 1, z = 1)
+
+    expect_equal(inner_join(df1, df2, by = "x"), df)
+    expect_equal(left_join(df1, df2, by = "x"), df)
+    expect_equal(right_join(df1, df2, by = "x"), df)
+    expect_equal(full_join(df1, df2, by = "x"), df)
+    expect_equal(
+      anti_join(df1, df2, by = "x"),
+      data_frame(x = character(), y = numeric())
+    )
+  })
+})
+
 test_that("left_join handles mix of encodings in column names (#1571)", {
   with_non_utf8_encoding({
     special <- get_native_lang_string()
