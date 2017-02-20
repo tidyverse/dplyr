@@ -36,7 +36,15 @@ namespace dplyr {
 
     virtual std::string get_r_type() const = 0;
 
-    virtual bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const  = 0;
+    bool is_same_typeid(SubsetVectorVisitor* other) const {
+      return typeid(*other) == typeid(*this);
+    }
+
+    virtual bool is_same_type(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+      return is_same_typeid(other);
+    }
+
+    virtual bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const = 0;
 
   };
 

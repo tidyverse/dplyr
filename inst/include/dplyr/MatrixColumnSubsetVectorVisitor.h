@@ -69,7 +69,7 @@ namespace dplyr {
     }
 
     inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
+      return is_same_typeid(other);
     }
 
   private:
