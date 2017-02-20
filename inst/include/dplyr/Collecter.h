@@ -459,6 +459,9 @@ namespace dplyr {
       if (Rf_inherits(model, "POSIXlt")) {
         stop("POSIXlt not supported");
       }
+      if (Rf_inherits(model, "data.frame")) {
+        stop("Columns of class data.frame not supported");
+      }
       return new Collecter_Impl<VECSXP>(n);
     default:
       break;
