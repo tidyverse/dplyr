@@ -23,6 +23,9 @@ variable \code{wt}.}
 
 \item{..., vars}{Variables to group by.}
 }
+\value{
+A tbl, grouped the same way as \code{x}.
+}
 \description{
 \code{tally()} is a convenient wrapper for summarise that will either call
 \code{\link[=n]{n()}} or \code{\link{sum}(n)} depending on whether you're tallying

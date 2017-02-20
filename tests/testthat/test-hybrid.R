@@ -133,11 +133,13 @@ test_that("%in% works (#192)", {
 test_that("min() and max() work", {
   check_hybrid_result(
     min(a), a = 1:5,
-    expected = 1L
+    expected = 1,
+    test_eval = FALSE
   )
   check_hybrid_result(
     max(a), a = 1:5,
-    expected = 5L
+    expected = 5,
+    test_eval = FALSE
   )
   check_hybrid_result(
     min(a), a = as.numeric(1:5),
@@ -149,11 +151,23 @@ test_that("min() and max() work", {
   )
   check_hybrid_result(
     min(a), a = c(1:5, NA),
-    expected = NA_integer_
+    expected = NA_real_,
+    test_eval = FALSE
   )
   check_hybrid_result(
     max(a), a = c(1:5, NA),
-    expected = NA_integer_
+    expected = NA_real_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = c(NA, 1:5),
+    expected = NA_real_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = c(NA, 1:5),
+    expected = NA_real_,
+    test_eval = FALSE
   )
 
   c <- 1:3
@@ -189,6 +203,48 @@ test_that("min() and max() work", {
   check_not_hybrid_result(
     max(a, na.rm = TRUE), a = c(letters, NA),
     expected = "z"
+  )
+
+  check_hybrid_result(
+    min(a, na.rm = TRUE), a = NA_real_,
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a, na.rm = TRUE), a = NA_real_,
+    expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = numeric(),
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = numeric(),
+    expected = -Inf,
+    test_eval = FALSE
+  )
+
+  check_hybrid_result(
+    max(a, na.rm = TRUE), a = NA_integer_,
+    expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a, na.rm = TRUE), a = NA_integer_,
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = integer(),
+    expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = integer(),
+    expected = Inf,
+    test_eval = FALSE
   )
 
   skip("Currently failing (constfold)")
@@ -243,16 +299,6 @@ test_that("min() and max() work", {
     max(a, na.rm = T), a = c(1:5, NA),
     expected = 5L
   )
-
-  skip("Currently failing (#2305)")
-  check_hybrid_result(
-    min(a, na.rm = TRUE), a = NA_real_,
-    expected = Inf
-  )
-  check_hybrid_result(
-    max(a, na.rm = TRUE), a = NA_integer_,
-    expected = -Inf
-  )
 })
 
 test_that("first(), last(), and nth() work", {
@@ -265,11 +311,11 @@ test_that("first(), last(), and nth() work", {
     expected = 5
   )
   check_hybrid_result(
-    nth(a, 6, default = 3L), a = as.numeric(1:5),
+    nth(a, 6, default = 3), a = as.numeric(1:5),
     expected = 3
   )
   check_hybrid_result(
-    nth(a, 6, def = 3L), a = as.numeric(1:5),
+    nth(a, 6, def = 3), a = as.numeric(1:5),
     expected = 3
   )
   check_hybrid_result(
