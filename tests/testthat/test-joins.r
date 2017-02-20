@@ -664,17 +664,19 @@ test_that("inner join not crashing (#1559)", {
 })
 
 test_that("left_join handles mix of encodings in column names (#1571)", {
+  with_non_utf8_encoding({
+    special <- get_native_lang_string()
 
-  df1 <- tibble::data_frame(x = 1:6, foo = 1:6)
-  names(df1)[1] <- "l\u00f8penummer"
+    df1 <- data_frame(x = 1:6, foo = 1:6)
+    names(df1)[1] <- special
 
-  df2 <- tibble::data_frame(x = 1:6, baz = 1:6)
-  names(df2)[1] <- iconv("l\u00f8penummer", from = "UTF-8", to = "latin1")
+    df2 <- data_frame(x = 1:6, baz = 1:6)
+    names(df2)[1] <- enc2native(special)
 
-  expect_message(res <- left_join(df1, df2))
-  expect_equal(names(res), c("l\u00f8penummer", "foo", "baz"))
-  expect_equal(res$foo, 1:6)
-  expect_equal(res$baz, 1:6)
-  expect_equal(res[["l\u00f8penummer"]], 1:6)
-
+    expect_message(res <- left_join(df1, df2), special, fixed = TRUE)
+    expect_equal(names(res), c(special, "foo", "baz"))
+    expect_equal(res$foo, 1:6)
+    expect_equal(res$baz, 1:6)
+    expect_equal(res[[special]], 1:6)
+  })
 })
