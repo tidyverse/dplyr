@@ -130,8 +130,8 @@ namespace dplyr {
     JoinFactorFactorVisitor(const IntegerVector& left_, const IntegerVector& right_) :
       left(left_),
       right(right_),
-      left_levels(left.attr("levels")),
-      right_levels(right.attr("levels")),
+      left_levels(get_levels(left)),
+      right_levels(get_levels(right)),
       uniques(get_uniques(left_levels, right_levels)),
       left_match(match(left_levels, uniques)),
       right_match(match(right_levels, uniques))
@@ -235,7 +235,7 @@ namespace dplyr {
       left_ptr(left.begin()),
 
       right(right_),
-      uniques(get_uniques(left.attr("levels"), right)) ,
+      uniques(get_uniques(get_levels(left), right)),
       p_uniques(internal::r_vector_start<STRSXP>(uniques)),
 
       i_right(match(right, uniques)),
@@ -293,7 +293,7 @@ namespace dplyr {
     JoinStringFactorVisitor(const CharacterVector& left_, const IntegerVector& right_) :
       left(left_),
       i_right(right_),
-      uniques(get_uniques(i_right.attr("levels"), left_)),
+      uniques(get_uniques(get_levels(i_right), left_)),
       p_uniques(internal::r_vector_start<STRSXP>(uniques)),
       i_left(match(left_, uniques)),
 
@@ -388,7 +388,7 @@ namespace dplyr {
     RObject tzone;
 
     inline SEXP promote(NumericVector x) {
-      x.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+      set_class(x, Rcpp::CharacterVector::create("POSIXct", "POSIXt"));
       if (!tzone.isNULL()) {
         x.attr("tzone") = tzone;
       }
@@ -458,13 +458,13 @@ namespace dplyr {
 
     inline SEXP subset(const std::vector<int>& indices) {
       NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(indices);
-      res.attr("class") = "Date";
+      set_class(res, "Date");
       return res;
     }
 
     inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
       NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(set);
-      res.attr("class") = "Date";
+      set_class(res, "Date");
       return res;
     }
 

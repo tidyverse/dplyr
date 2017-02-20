@@ -162,16 +162,16 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     const DataFrameAble& first = chunks[0];
     if (first.is_dataframe()) {
       DataFrame df = first.get();
-      out.attr("class") = df.attr("class");
+      set_class(out, get_class(df));
       if (df.inherits("grouped_df")) {
         out.attr("vars") = df.attr("vars");
         out = GroupedDataFrame(out).data();
       }
     } else {
-      out.attr("class") = classes_not_grouped();
+      set_class(out, classes_not_grouped());
     }
   } else {
-    out.attr("class") = classes_not_grouped();
+    set_class(out, classes_not_grouped());
   }
 
   return out;
@@ -237,10 +237,10 @@ List cbind__impl(Dots dots) {
       DataFrame df = first.get();
       copy_most_attributes(out, df);
     } else {
-      out.attr("class") = classes_not_grouped();
+      set_class(out, classes_not_grouped());
     }
   } else {
-    out.attr("class") = classes_not_grouped();
+    set_class(out, classes_not_grouped());
   }
   out.names() = out_names;
   set_rownames(out, nrows);

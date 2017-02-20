@@ -205,7 +205,7 @@ namespace dplyr {
         grab(subset, indices);
       }
       CharacterVector levels_(levels_vector.begin(), levels_vector.end());
-      data.attr("levels") = levels_;
+      set_levels(data, levels_);
       return data;
     }
 
@@ -219,7 +219,7 @@ namespace dplyr {
 
     void grab(Factor f, const SlicingIndex& indices) {
       // update levels if needed
-      CharacterVector lev = f.attr("levels");
+      CharacterVector lev = get_levels(f);
       std::vector<int> matches(lev.size());
       int nlevels = levels.size();
       for (int i=0; i<lev.size(); i++) {

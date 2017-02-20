@@ -160,7 +160,7 @@ namespace dplyr {
       res(ngroups, NA_INTEGER), pos(0)
     {
       copy_most_attributes(res, first_result);
-      CharacterVector levels = Rf_getAttrib(first_result, Rf_install("levels"));
+      CharacterVector levels = get_levels(first_result);
       int n = levels.size();
       for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
       if (!try_handle(first_result))
@@ -168,7 +168,7 @@ namespace dplyr {
     }
 
     virtual bool try_handle(const RObject& chunk) {
-      CharacterVector lev = chunk.attr("levels");
+      CharacterVector lev = get_levels(chunk);
       update_levels(lev);
 
       int val = as<int>(chunk);
@@ -191,8 +191,8 @@ namespace dplyr {
       for (int i=0; i<n; i++, ++it) {
         levels[it->second-1] = it->first;
       }
-      res.attr("class") = "factor";
-      res.attr("levels") = levels;
+      set_levels(res, levels);
+      set_class(res, "factor");
       return res;
     }
 

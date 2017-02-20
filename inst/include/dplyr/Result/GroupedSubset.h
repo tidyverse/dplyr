@@ -38,7 +38,7 @@ namespace dplyr {
     DataFrameGroupedSubset(SEXP x) : data(x), visitors(data) {}
 
     virtual SEXP get(const SlicingIndex& indices) {
-      return visitors.subset(indices, data.attr("class"));
+      return visitors.subset(indices, get_class(data));
     }
 
     virtual SEXP get_variable() const {

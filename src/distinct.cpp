@@ -37,7 +37,7 @@ SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep) {
     }
   }
 
-  return DataFrameSubsetVisitors(df, keep).subset(indices, df.attr("class"));
+  return DataFrameSubsetVisitors(df, keep).subset(indices, get_class(df));
 }
 
 // [[Rcpp::export]]

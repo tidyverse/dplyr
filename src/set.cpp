@@ -252,7 +252,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   train_insert(set, x.nrows());
   train_insert_right(set, y.nrows());
 
-  return visitors.subset(set, x.attr("class"));
+  return visitors.subset(set, get_class(x));
 }
 
 // [[Rcpp::export]]
@@ -278,7 +278,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return visitors.subset(indices, x.attr("class"));
+  return visitors.subset(indices, get_class(x));
 }
 
 // [[Rcpp::export]]
@@ -304,5 +304,5 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return visitors.subset(indices, x.attr("class"));
+  return visitors.subset(indices, get_class(x));
 }

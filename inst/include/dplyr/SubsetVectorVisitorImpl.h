@@ -111,7 +111,7 @@ namespace dplyr {
     typedef SubsetVectorVisitorImpl<INTSXP> Parent;
 
     SubsetFactorVisitor(const IntegerVector& vec_) : Parent(vec_) {
-      levels = vec.attr("levels");
+      levels = get_levels(vec);
       levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
     }
 
@@ -140,7 +140,7 @@ namespace dplyr {
     }
 
     inline std::string get_r_type() const {
-      CharacterVector classes = Parent::vec.attr("class");
+      CharacterVector classes = get_class(Parent::vec);
       return collapse(classes);
     }
 
