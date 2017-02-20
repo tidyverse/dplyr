@@ -2,6 +2,9 @@
 
 * Fixed problems when joining factor or character encodings with a mix of native and UTF-8 encoded values (#1885, #2118, #2271, #2451).
 
+* Select helpers now throw an error if called when no variables have been 
+  set (#2452)
+
 * `copy_to()` no longer checks that the table doesn't exist before creation,
   intead preferring to fall back on the database for error messages. This
   should reduce both false positives and false negative (#1470)

@@ -34,16 +34,19 @@ NULL
 cur_vars_env <- new.env()
 
 set_current_vars <- function(x) {
-  stopifnot(is.character(x))
+  stopifnot(is.character(x) || is.null(x))
+
+  old <- cur_vars_env$selected
   cur_vars_env$selected <- x
-}
-reset_current_vars <- function() {
-  set_current_vars(character())
+
+  invisible(old)
 }
 
 #' @export
 #' @rdname select_helpers
-current_vars <- function() cur_vars_env$selected
+current_vars <- function() {
+  cur_vars_env$selected %||% stop("Variable context not set", call. = FALSE)
+}
 
 #' @export
 #' @rdname select_helpers
