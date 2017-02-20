@@ -2,6 +2,7 @@
 #define dplyr_JoinVisitorImpl_H
 
 #include <tools/utils.h>
+#include <tools/match.h>
 
 #include <dplyr/comparisons.h>
 #include <dplyr/comparisons_different.h>
@@ -133,8 +134,8 @@ namespace dplyr {
       left_levels(get_levels(left)),
       right_levels(get_levels(right)),
       uniques(get_uniques(left_levels, right_levels)),
-      left_match(match(left_levels, uniques)),
-      right_match(match(right_levels, uniques))
+      left_match(r_match(left_levels, uniques)),
+      right_match(r_match(right_levels, uniques))
     {}
 
     inline size_t hash(int i) {
@@ -179,8 +180,8 @@ namespace dplyr {
     JoinStringStringVisitor(CharacterVector left_, CharacterVector right) :
       left(left_),
       uniques(get_uniques(left, right)),
-      i_left(match(left, uniques)),
-      i_right(match(right, uniques)),
+      i_left(r_match(left, uniques)),
+      i_right(r_match(right, uniques)),
       int_visitor(i_left, i_right),
       p_uniques(internal::r_vector_start<STRSXP>(uniques)),
       p_left(i_left.begin()),
@@ -238,7 +239,7 @@ namespace dplyr {
       uniques(get_uniques(get_levels(left), right)),
       p_uniques(internal::r_vector_start<STRSXP>(uniques)),
 
-      i_right(match(right, uniques)),
+      i_right(r_match(right, uniques)),
       int_visitor(left, i_right)
 
     {}
@@ -295,7 +296,7 @@ namespace dplyr {
       i_right(right_),
       uniques(get_uniques(get_levels(i_right), left_)),
       p_uniques(internal::r_vector_start<STRSXP>(uniques)),
-      i_left(match(left_, uniques)),
+      i_left(r_match(left_, uniques)),
 
       int_visitor(i_left, i_right)
     {}
