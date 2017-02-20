@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `first()`, `last()`, and `nth()` have better default values for factor,
+  Dates, POSIXct, and data frame inputs (#2029).
+
 * `common_by()` gets a better error message for unexpected inputs (#2091)
 
 * Hybrid `min()` and `max()` now always return a `numeric` and work correctly in edge cases (empty input, all `NA`, ...) (#2305, #2436).

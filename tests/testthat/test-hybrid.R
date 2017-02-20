@@ -311,11 +311,11 @@ test_that("first(), last(), and nth() work", {
     expected = 5
   )
   check_hybrid_result(
-    nth(a, 6, default = 3L), a = as.numeric(1:5),
+    nth(a, 6, default = 3), a = as.numeric(1:5),
     expected = 3
   )
   check_hybrid_result(
-    nth(a, 6, def = 3L), a = as.numeric(1:5),
+    nth(a, 6, def = 3), a = as.numeric(1:5),
     expected = 3
   )
   check_hybrid_result(
