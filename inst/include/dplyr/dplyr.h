@@ -5,7 +5,7 @@
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/white_list.h>
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/BoolResult.h>
 #include <dplyr/GroupedDataFrame.h>

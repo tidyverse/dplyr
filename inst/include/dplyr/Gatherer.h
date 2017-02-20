@@ -5,12 +5,12 @@
 #include <tools/hash.h>
 #include <tools/utils.h>
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 #include <dplyr/Result/GroupedCallProxy.h>
 
 #include <dplyr/vector_class.h>
-#include <dplyr/check_length.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 

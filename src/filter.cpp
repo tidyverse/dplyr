@@ -10,7 +10,7 @@
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
-#include <dplyr/check_length.h>
+#include <dplyr/checks.h>
 
 using namespace Rcpp;
 using namespace dplyr;

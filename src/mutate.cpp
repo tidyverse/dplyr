@@ -4,7 +4,7 @@
 
 #include <tools/LazyDots.h>
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
@@ -16,7 +16,6 @@
 #include <dplyr/Gatherer.h>
 #include <dplyr/Replicator.h>
 #include <dplyr/NamedListAccumulator.h>
-#include <dplyr/check_length.h>
 
 using namespace Rcpp;
 using namespace dplyr;

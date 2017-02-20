@@ -6,7 +6,7 @@
 #include <tools/scalar_type.h>
 #include <tools/utils.h>
 #include <dplyr/vector_class.h>
-#include <dplyr/check_length.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 
