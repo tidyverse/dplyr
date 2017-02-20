@@ -113,15 +113,20 @@ namespace dplyr {
   }
 
   CharacterVector get_class(SEXP x) {
-    return Rf_getAttrib(x, R_ClassSymbol);
+    SEXP class_attr = Rf_getAttrib(x, R_ClassSymbol);
+    if (Rf_isNull(class_attr)) return CharacterVector();
+    return class_attr;
   }
 
   SEXP set_class(SEXP x, const CharacterVector& class_) {
-    return Rf_setAttrib(x, R_ClassSymbol, class_);
+    SEXP class_attr = class_.length() == 0 ? R_NilValue : (SEXP)class_;
+    return Rf_setAttrib(x, R_ClassSymbol, class_attr);
   }
 
   CharacterVector get_levels(SEXP x) {
-    return Rf_getAttrib(x, R_LevelsSymbol);
+    SEXP levels_attr = Rf_getAttrib(x, R_LevelsSymbol);
+    if (Rf_isNull(levels_attr)) return CharacterVector();
+    return levels_attr;
   }
 
   SEXP set_levels(SEXP x, const CharacterVector& levels) {
