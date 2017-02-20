@@ -669,50 +669,61 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
 
     for (factor1 in c(FALSE, TRUE)) {
       for (factor2 in c(FALSE, TRUE)) {
-        df1 <- data.frame(x = special, y = 1, stringsAsFactors = factor1)
-        df1 <- tbl_df(df1)
-        df2 <- data.frame(x = enc2native(special), z = 2, stringsAsFactors = factor2)
-        df2 <- tbl_df(df2)
-        df <- data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2)
-        df <- tbl_df(df)
+        for (encoder1 in c(enc2native, enc2utf8)) {
+          for (encoder2 in c(enc2native, enc2utf8)) {
+            df1 <- data.frame(x = encoder1(special), y = 1, stringsAsFactors = factor1)
+            df1 <- tbl_df(df1)
+            df2 <- data.frame(x = encoder2(special), z = 2, stringsAsFactors = factor2)
+            df2 <- tbl_df(df2)
+            df <- data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2)
+            df <- tbl_df(df)
 
-        if (factor1 != factor2) warning_msg <- "coercing"
-        else warning_msg <- NA
-
-        expect_warning_msg <- function(code, msg = warning_msg) {
-          expect_warning(
-            code, msg,
-            info = paste(deparse(substitute(code)[[2]][[1]]), factor1, factor2))
-        }
-
-        expect_equal_df <- function(code, df_ = df) {
-          code <- substitute(code)
-          eval(bquote(
-            expect_equal(
-              .(code), df_,
-              info = paste(deparse(code[[1]]), factor1, factor2)
+            info <- paste(
+              factor1,
+              factor2,
+              Encoding(as.character(df1$x)),
+              Encoding(as.character(df2$x))
             )
-          ))
-        }
 
-        expect_warning_msg(expect_equal_df(inner_join(df1, df2, by = "x")))
-        expect_warning_msg(expect_equal_df(left_join(df1, df2, by = "x")))
-        expect_warning_msg(expect_equal_df(right_join(df1, df2, by = "x")))
-        expect_warning_msg(expect_equal_df(full_join(df1, df2, by = "x")))
-        expect_warning_msg(
-          expect_equal_df(
-            semi_join(df1, df2, by = "x"),
-            data.frame(x = special, y = 1, stringsAsFactors = factor1)
-          ),
-          msg = NA
-        )
-        expect_warning_msg(
-          expect_equal_df(
-            anti_join(df1, df2, by = "x"),
-            data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
-          ),
-          msg = NA
-        )
+            if (factor1 != factor2) warning_msg <- "coercing"
+            else warning_msg <- NA
+
+            expect_warning_msg <- function(code, msg = warning_msg) {
+              expect_warning(
+                code, msg,
+                info = paste(deparse(substitute(code)[[2]][[1]]), info))
+            }
+
+            expect_equal_df <- function(code, df_ = df) {
+              code <- substitute(code)
+              eval(bquote(
+                expect_equal(
+                  .(code), df_,
+                  info = paste(deparse(code[[1]]), info)
+                )
+              ))
+            }
+
+            expect_warning_msg(expect_equal_df(inner_join(df1, df2, by = "x")))
+            expect_warning_msg(expect_equal_df(left_join(df1, df2, by = "x")))
+            expect_warning_msg(expect_equal_df(right_join(df1, df2, by = "x")))
+            expect_warning_msg(expect_equal_df(full_join(df1, df2, by = "x")))
+            expect_warning_msg(
+              expect_equal_df(
+                semi_join(df1, df2, by = "x"),
+                data.frame(x = special, y = 1, stringsAsFactors = factor1)
+              ),
+              msg = NA
+            )
+            expect_warning_msg(
+              expect_equal_df(
+                anti_join(df1, df2, by = "x"),
+                data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
+              ),
+              msg = NA
+            )
+          }
+        }
       }
     }
   })
