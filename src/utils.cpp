@@ -140,7 +140,8 @@ bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) 
     // Ideally we'd use Rf_Seql(), but this is not exported.
     if (Rf_NonNullStringMatch(xi, yi)) continue;
     if (xi == NA_STRING && yi == NA_STRING) continue;
-    if (xi == NA_STRING || yi == NA_STRING) return false;
+    if (xi == NA_STRING || yi == NA_STRING)
+      return false;
     if (CHAR(xi)[0] == 0 && CHAR(yi)[0] == 0) continue;
     return false;
   }
@@ -149,15 +150,5 @@ bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) 
 }
 
 bool same_levels(SEXP left, SEXP right) {
-  CharacterVector levels_left  = get_levels(left);
-  CharacterVector levels_right = get_levels(right);
-  if ((SEXP)levels_left == (SEXP)levels_right) return true;
-  int n = levels_left.size();
-  if (n != levels_right.size()) return false;
-
-  for (int i=0; i<n; i++) {
-    if (levels_right[i] != levels_left[i]) return false;
-  }
-
-  return true;
+  return character_vector_equal(get_levels(left), get_levels(right));
 }
