@@ -79,81 +79,81 @@ void copy_attributes(SEXP out, SEXP data) {
 
 namespace dplyr {
 
-std::string get_single_class(SEXP x) {
-  SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
-  if (!Rf_isNull(klass)) {
-    CharacterVector classes(klass);
-    return collapse(classes);
+  std::string get_single_class(SEXP x) {
+    SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
+    if (!Rf_isNull(klass)) {
+      CharacterVector classes(klass);
+      return collapse(classes);
+    }
+
+    if (Rf_isMatrix(x)) {
+      return "matrix";
+    }
+
+    switch (TYPEOF(x)) {
+    case INTSXP:
+      return "integer";
+    case REALSXP :
+      return "numeric";
+    case LGLSXP:
+      return "logical";
+    case STRSXP:
+      return "character";
+
+    case VECSXP:
+      return "list";
+    default:
+      break;
+    }
+
+    // just call R to deal with other cases
+    // we could call R_data_class directly but we might get a "this is not part of the api"
+    klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
+    return CHAR(STRING_ELT(klass,0));
   }
 
-  if (Rf_isMatrix(x)) {
-    return "matrix";
+  CharacterVector get_class(SEXP x) {
+    return Rf_getAttrib(x, R_ClassSymbol);
   }
 
-  switch (TYPEOF(x)) {
-  case INTSXP:
-    return "integer";
-  case REALSXP :
-    return "numeric";
-  case LGLSXP:
-    return "logical";
-  case STRSXP:
-    return "character";
-
-  case VECSXP:
-    return "list";
-  default:
-    break;
+  SEXP set_class(SEXP x, const CharacterVector& class_) {
+    return Rf_setAttrib(x, R_ClassSymbol, class_);
   }
 
-  // just call R to deal with other cases
-  // we could call R_data_class directly but we might get a "this is not part of the api"
-  klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
-  return CHAR(STRING_ELT(klass,0));
-}
-
-CharacterVector get_class(SEXP x) {
-  return Rf_getAttrib(x, R_ClassSymbol);
-}
-
-SEXP set_class(SEXP x, const CharacterVector& class_) {
-  return Rf_setAttrib(x, R_ClassSymbol, class_);
-}
-
-CharacterVector get_levels(SEXP x) {
-  return Rf_getAttrib(x, R_LevelsSymbol);
-}
-
-SEXP set_levels(SEXP x, const CharacterVector& levels) {
-  return Rf_setAttrib(x, R_LevelsSymbol, levels);
-}
-
-bool same_levels(SEXP left, SEXP right) {
-  CharacterVector levels_left  = get_levels(left);
-  CharacterVector levels_right = get_levels(right);
-  if ((SEXP)levels_left == (SEXP)levels_right) return true;
-  int n = levels_left.size();
-  if (n != levels_right.size()) return false;
-
-  for (int i=0; i<n; i++) {
-    if (levels_right[i] != levels_left[i]) return false;
+  CharacterVector get_levels(SEXP x) {
+    return Rf_getAttrib(x, R_LevelsSymbol);
   }
 
-  return true;
-}
+  SEXP set_levels(SEXP x, const CharacterVector& levels) {
+    return Rf_setAttrib(x, R_LevelsSymbol, levels);
+  }
 
-SymbolVector get_vars(SEXP x) {
-  static SEXP vars_symbol = Rf_install("vars");
-  return SymbolVector(Rf_getAttrib(x, vars_symbol));
-}
+  bool same_levels(SEXP left, SEXP right) {
+    CharacterVector levels_left  = get_levels(left);
+    CharacterVector levels_right = get_levels(right);
+    if ((SEXP)levels_left == (SEXP)levels_right) return true;
+    int n = levels_left.size();
+    if (n != levels_right.size()) return false;
 
-SEXP set_vars(SEXP x, const SymbolVector& vars) {
-  static SEXP vars_symbol = Rf_install("vars");
-  return Rf_setAttrib(x, vars_symbol, vars.get_vector());
-}
+    for (int i=0; i<n; i++) {
+      if (levels_right[i] != levels_left[i]) return false;
+    }
 
-SEXP copy_vars(SEXP target, SEXP source) {
-  return set_vars(target, get_vars(source));
-}
+    return true;
+  }
+
+  SymbolVector get_vars(SEXP x) {
+    static SEXP vars_symbol = Rf_install("vars");
+    return SymbolVector(Rf_getAttrib(x, vars_symbol));
+  }
+
+  SEXP set_vars(SEXP x, const SymbolVector& vars) {
+    static SEXP vars_symbol = Rf_install("vars");
+    return Rf_setAttrib(x, vars_symbol, vars.get_vector());
+  }
+
+  SEXP copy_vars(SEXP target, SEXP source) {
+    return set_vars(target, get_vars(source));
+  }
 
 }
