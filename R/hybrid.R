@@ -14,18 +14,29 @@ with_hybrid_ <- function(expr, ...) {
   stopifnot(any(class(expr) == "formula"))
   expr[[2]] <- prepend_call(expr[[2]], "verify_hybrid")
   data <- data_frame(...)
+
+  # Make verify_hybrid() available to the evaluated expression
+  eval_env <- new.env(parent = environment(expr))
+  eval_env$verify_hybrid <- verify_hybrid
+  environment(expr) <- eval_env
+
   summarise_(data, out = expr)["out"][[1]]
 }
 
 without_hybrid <- function(expr, ...) {
-  .dots <- lazyeval::lazy_dots(out = expr)[[1]]
-  without_hybrid_(lazyeval::f_new(.dots$expr, env = .dots$env), ...)
+  without_hybrid_(lazyeval::f_capture(expr), ...)
 }
 
 without_hybrid_ <- function(expr, ...) {
   stopifnot(any(class(expr) == "formula"))
   expr[[2]] <- prepend_call(expr[[2]], "verify_not_hybrid")
   data <- data_frame(...)
+
+  # Make verify_not_hybrid() available to the evaluated expression
+  eval_env <- new.env(parent = environment(expr))
+  eval_env$verify_not_hybrid <- verify_not_hybrid
+  environment(expr) <- eval_env
+
   summarise_(data, out = expr)["out"][[1]]
 }
 

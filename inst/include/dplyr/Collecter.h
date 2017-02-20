@@ -193,7 +193,7 @@ namespace dplyr {
     }
 
     void collect_factor(const SlicingIndex& index, IntegerVector source) {
-      CharacterVector levels = source.attr("levels");
+      CharacterVector levels = get_levels(source);
       for (int i=0; i<index.size(); i++) {
         if (source[i] == NA_INTEGER) {
           data[index[i]] = NA_STRING;
@@ -247,8 +247,9 @@ namespace dplyr {
       Collecter_Impl<RTYPE>(n), types(types_) {}
 
     inline SEXP get() {
-      Collecter_Impl<RTYPE>::data.attr("class") = types;
-      return Collecter_Impl<RTYPE>::data;
+      Vector<RTYPE> data = Collecter_Impl<RTYPE>::data;
+      set_class(data, types);
+      return data;
     }
 
     inline bool compatible(SEXP x) {
@@ -285,7 +286,7 @@ namespace dplyr {
     }
 
     inline SEXP get() {
-      Parent::data.attr("class") = get_time_classes();
+      set_class(data, get_time_classes());
       if (!tz.isNULL()) {
         Parent::data.attr("tzone") = tz;
       }
@@ -334,7 +335,7 @@ namespace dplyr {
     FactorCollecter(int n, SEXP model_):
       data(n, IntegerVector::get_na()),
       model(model_),
-      levels(Rf_getAttrib(model, Rf_install("levels"))),
+      levels(get_levels(model_)),
       levels_map()
     {
       int nlevels = levels.size();
@@ -354,8 +355,8 @@ namespace dplyr {
     }
 
     inline SEXP get() {
-      data.attr("levels") = levels;
-      data.attr("class") = model.attr("class");
+      set_levels(data, levels);
+      set_class(data, get_class(model));
       return data;
     }
 
@@ -369,7 +370,7 @@ namespace dplyr {
     }
 
     inline bool has_same_levels_as(SEXP x) const {
-      CharacterVector levels_other = Rf_getAttrib(x, Rf_install("levels"));
+      CharacterVector levels_other = get_levels(x);
 
       int nlevels = levels_other.size();
       if (nlevels != (int)levels_map.size()) return false;
@@ -394,7 +395,7 @@ namespace dplyr {
       // here we can assume that v is a factor with the right levels
       // we however do not assume that they are in the same order
       IntegerVector source(v);
-      CharacterVector levels = source.attr("levels");
+      CharacterVector levels = get_levels(source);
 
       SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
       int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);

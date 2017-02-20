@@ -23,7 +23,7 @@ using namespace dplyr;
 template <typename Data>
 SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataFrame& df, CharacterVector classes) {
   List res = accumulator;
-  res.attr("class") = classes;
+  set_class(res, classes);
   set_rownames(res, df.nrows());
   res.attr("vars")   = df.attr("vars");
   res.attr("labels")  = df.attr("labels");
@@ -124,7 +124,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   if (df.nrows() == 0) {
     DataFrame res = mutate_not_grouped(df, dots);
     res.attr("vars") = df.attr("vars");
-    res.attr("class") = df.attr("class");
+    set_class(res, get_class(df));
     return Data(res).data();
   }
 
@@ -180,7 +180,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
     }
   }
 
-  return structure_mutate(accumulator, df, df.attr("class"));
+  return structure_mutate(accumulator, df, get_class(df));
 }
 
 

@@ -103,7 +103,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
     out[k] = visitors_y.get(i)->subset(indices_y);
     names[k] = col_name;
   }
-  out.attr("class") = classes;
+  set_class(out, classes);
   set_rownames(out, nrows);
   out.names() = names;
 
@@ -176,7 +176,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
     }
   }
 
-  return subset(x, indices, x.names(), x.attr("class"));
+  return subset(x, indices, x.names(), get_class(x));
 }
 
 // [[Rcpp::export]]
@@ -202,7 +202,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   for (Map::iterator it = map.begin(); it != map.end(); ++it)
     push_back(indices, it->second);
 
-  return subset(x, indices, x.names(), x.attr("class"));
+  return subset(x, indices, x.names(), get_class(x));
 }
 
 // [[Rcpp::export]]
@@ -233,7 +233,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 
@@ -270,7 +270,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 
@@ -305,7 +305,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 
@@ -357,7 +357,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 

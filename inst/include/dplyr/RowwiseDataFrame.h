@@ -60,6 +60,7 @@ namespace dplyr {
     inline SEXP symbol(int i) {
       return R_NilValue;
     }
+
     inline SEXP label(int i) {
       return R_NilValue;
     }
@@ -70,10 +71,6 @@ namespace dplyr {
 
     inline int max_group_size() const {
       return 1;
-    }
-
-    inline const IntegerVector& get_group_sizes() const {
-      return group_sizes;
     }
 
     inline subset* create_subset(SEXP x) const {

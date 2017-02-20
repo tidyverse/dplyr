@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_BoolResult_H
 #define dplyr_tools_BoolResult_H
 
+#include <tools/utils.h>
+
 namespace dplyr {
 
   class BoolResult {
@@ -20,7 +22,7 @@ namespace dplyr {
     inline operator SEXP() const {
       LogicalVector res = LogicalVector::create(result);
       res.attr("comment") = message;
-      res.attr("class")   = "BoolResult";
+      set_class(res, "BoolResult");
       return res;
     }
 

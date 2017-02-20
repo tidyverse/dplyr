@@ -95,6 +95,6 @@ DataFrame build_index_cpp(DataFrame data) {
   data.attr("group_sizes") = group_sizes;
   data.attr("biggest_group_size") = biggest_group;
   data.attr("labels") = labels;
-  data.attr("class") = CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+  set_class(data, CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame"));
   return data;
 }
