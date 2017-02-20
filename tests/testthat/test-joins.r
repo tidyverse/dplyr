@@ -675,13 +675,22 @@ test_that("join handles mix of encodings in data (#1885, #2118)", {
         df2 <- tbl_df(df2)
         df <- data_frame(x = special, y = 1, z = 2)
 
-        expect_equal(inner_join(df1, df2, by = "x"), df)
-        expect_equal(left_join(df1, df2, by = "x"), df)
-        expect_equal(right_join(df1, df2, by = "x"), df)
-        expect_equal(full_join(df1, df2, by = "x"), df)
-        expect_equal(
-          anti_join(df1, df2, by = "x"),
-          data_frame(x = character(), y = numeric())
+        if (factor1 != factor2) warning_msg <- "coercing"
+        else warning_msg <- NA
+
+        expect_warning_msg <- function(code) {
+          expect_warning(code, warning_msg, info = paste(factor1, factor2))
+        }
+
+        expect_warning_msg(expect_equal(inner_join(df1, df2, by = "x"), df))
+        expect_warning_msg(expect_equal(left_join(df1, df2, by = "x"), df))
+        expect_warning_msg(expect_equal(right_join(df1, df2, by = "x"), df))
+        expect_warning_msg(expect_equal(full_join(df1, df2, by = "x"), df))
+        expect_warning_msg(
+          expect_equal(
+            anti_join(df1, df2, by = "x"),
+            data_frame(x = character(), y = numeric())
+          )
         )
       }
     }
