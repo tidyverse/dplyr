@@ -55,6 +55,11 @@ namespace dplyr {
       eval_env[".data"] = active_env;
       eval_env[".env"] = env;
 
+      // Install definitions for formula self-evaluation and unguarding
+      Environment rlang = Rcpp::Environment::namespace_env("rlang");
+      Function make_eval_env = rlang["tidy_eval_env_install"];
+      eval_env = make_eval_env(env, eval_env, active_env);
+
       has_eval_env = true;
     }
 
