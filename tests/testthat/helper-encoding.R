@@ -27,3 +27,26 @@ get_alien_lang_string <- function() {
   if (length(lang_strings$different) == 0) testthat::skip("No alien language string available")
   lang_strings$different[[1L]]
 }
+
+with_non_utf8_encoding <- function(code) {
+  old_encoding <- set_non_utf8_encoding()
+  on.exit(set_encoding(old_encoding), add = TRUE)
+  code
+}
+
+set_non_utf8_encoding <- function() {
+  if (.Platform$OS.type == "windows") return(NULL)
+  tryCatch(
+    locale <- set_encoding("en_US.ISO88591"),
+    warning = function(e) {
+      testthat::skip("Cannot set latin-1 encoding")
+    }
+  )
+  locale
+}
+
+set_encoding <- function(encoding) {
+  locale <- Sys.getlocale("LC_CTYPE")
+  Sys.setlocale("LC_CTYPE", encoding)
+  locale
+}
