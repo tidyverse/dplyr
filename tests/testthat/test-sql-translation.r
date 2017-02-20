@@ -127,7 +127,7 @@ test_that("ntile always casts to integer", {
 test_that("connection affects quoting character", {
   dbiTest <- structure(list(), class = "DBITestConnection")
   dbTest <- src_sql("test", con = dbiTest)
-  testTable <- tbl_sql("test", src = dbTest, from = "table1")
+  testTable <- tbl_sql("test", src = dbTest, from = ident("table1"))
 
   out <- select(testTable, field1)
   expect_match(sql_render(out), "^SELECT `field1` AS `field1`\nFROM `table1`$")
@@ -142,7 +142,7 @@ test_that("log base comes first", {
 
 test_that("sqlite mimics two argument log", {
   translate_sqlite <- function(...) {
-    translate_sql(..., con = src_memdb()$obj)
+    translate_sql(..., con = src_memdb()$con)
   }
 
   expect_equal(translate_sqlite(log(x)), sql('log(`x`)'))

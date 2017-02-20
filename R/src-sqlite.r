@@ -14,11 +14,6 @@
 #'   `TRUE`, will create a new SQlite3 database at `path` if
 #'   `path` does not exist and connect to the existing database if
 #'   `path` does exist.
-#' @param src a sqlite src created with `src_sqlite()`.
-#' @param from Either a string giving the name of table in database, or
-#'   [sql()] described a derived table or compound join.
-#' @param ... Included for compatibility with the generic, but otherwise
-#'   ignored.
 #' @export
 #' @examples
 #' \dontrun{
@@ -103,7 +98,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
 
-  src_sql("sqlite", con, path = path)
+  src_dbi(con)
 }
 
 #' Per-session in-memory SQLite databases.
@@ -136,14 +131,8 @@ memdb_frame <- function(..., .name = random_table_name()) {
 }
 
 #' @export
-#' @rdname src_sqlite
-tbl.src_sqlite <- function(src, from, ...) {
-  tbl_sql("sqlite", src = src, from = from, ...)
-}
-
-#' @export
-src_desc.src_sqlite <- function(x) {
-  paste0("sqlite ", sqlite_version(), " [", x$path, "]")
+src_desc.SQLiteConnection <- function(x) {
+  paste0("sqlite ", sqlite_version(), " [", x@dbname, "]")
 }
 
 sqlite_version <- function() {
@@ -153,6 +142,8 @@ sqlite_version <- function() {
     DBI::dbGetInfo(RSQLite::SQLite())$clientVersion
   }
 }
+
+# SQL methods -------------------------------------------------------------
 
 #' @export
 sql_translate_env.SQLiteConnection <- function(con) {
