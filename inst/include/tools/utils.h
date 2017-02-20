@@ -21,6 +21,7 @@ namespace dplyr {
   SymbolVector get_vars(SEXP x);
   SEXP set_vars(SEXP x, const SymbolVector& vars);
   SEXP copy_vars(SEXP target, SEXP source);
+  bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
 
 // effectively the same as copy_attributes but without names and dims
   inline void copy_most_attributes(SEXP out, SEXP data) {

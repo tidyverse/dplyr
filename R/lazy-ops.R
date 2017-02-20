@@ -13,22 +13,30 @@
 #' @name lazy_ops
 NULL
 
-op_base_remote <- function(src, x, con = NULL, vars = NULL) {
-  # If not literal sql, must be a table identifier
-  if (!is.sql(x)) {
-    x <- ident(x)
-  }
+# Base constructors -------------------------------------------------------
 
-  if (is.null(vars)) {
-    vars <- db_query_fields(con, x)
-  }
-  op_base("remote", src, x, vars)
+#' @export
+#' @rdname lazy_ops
+op_base <- function(x, vars, class = character()) {
+  stopifnot(is.character(vars))
+
+  structure(
+    list(
+      x = x,
+      vars = vars
+    ),
+    class = c(paste0("op_base_", class), "op_base", "op")
+  )
+
+}
+
+op_base_remote <- function(x, vars) {
+  stopifnot(is.sql(x))
+  op_base(x, vars, class = "remote")
 }
 
 #' @export
 print.op_base_remote <- function(x, ...) {
-  cat("Source: ", src_desc(x$src), "\n", sep = "")
-
   if (inherits(x$x, "ident")) {
     cat("From: ", x$x, "\n", sep = "")
   } else {
@@ -38,8 +46,8 @@ print.op_base_remote <- function(x, ...) {
   cat("<Table: ", x$x, ">\n", sep = "")
 }
 
-op_base_local <- function(df, env = parent.frame()) {
-  op_base("local", src_df(env = env), df, names(df))
+op_base_local <- function(df) {
+  op_base(df, names(df), class = "local")
 }
 
 #' @export
@@ -47,21 +55,7 @@ print.op_base_local <- function(x, ...) {
   cat("<Local data frame> ", dim_desc(x$x), "\n", sep = "")
 }
 
-#' @export
-#' @rdname lazy_ops
-op_base <- function(name, src, x, vars) {
-  stopifnot(is.character(vars))
-
-  structure(
-    list(
-      src = src,
-      x = x,
-      vars = vars
-    ),
-    class = c(paste0("op_base_", name), "op_base", "op")
-  )
-
-}
+# Operators ---------------------------------------------------------------
 
 #' @export
 #' @rdname lazy_ops

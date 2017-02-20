@@ -241,32 +241,31 @@ test_that("group_by supports column (#1012)", {
   expect_equal(attr(g1, "vars"), attr(g4, "vars"))
 })
 
-for (special in lang_strings) {
-  if (enc2native(special) == special) {
-    test_that(paste0("group_by handles encodings for ", special, " (#1507)"), {
+test_that(paste0("group_by handles encodings for native strings (#1507)"), {
+  with_non_utf8_encoding({
+    special <- get_native_lang_string()
 
-      df <- data.frame(x = 1:3, Eng = 2:4)
+    df <- data.frame(x = 1:3, Eng = 2:4)
 
-      for (names_converter in c(enc2native, enc2utf8)) {
-        for (dots_converter in c(enc2native, enc2utf8)) {
-          names(df) <- names_converter(c(special, "Eng"))
-          res <- group_by_(df, .dots = dots_converter(special))
-          expect_equal(names(res), names(df))
-          expect_groups(res, special)
-        }
-      }
-
-      for (names_converter in c(enc2native, enc2utf8)) {
+    for (names_converter in c(enc2native, enc2utf8)) {
+      for (dots_converter in c(enc2native, enc2utf8)) {
         names(df) <- names_converter(c(special, "Eng"))
-
-        get_call <- bquote(get(.(special)))
-        res <- group_by_(df, .dots = list(lazyeval::f_new(get_call)))
-        expect_equal(names(res), c(names(df), deparse(get_call)))
-        expect_equal(groups(res), list(as.name(enc2native(deparse(get_call)))))
+        res <- group_by_(df, .dots = dots_converter(special))
+        expect_equal(names(res), names(df))
+        expect_groups(res, special)
       }
-    })
-  }
-}
+    }
+
+    for (names_converter in c(enc2native, enc2utf8)) {
+      names(df) <- names_converter(c(special, "Eng"))
+
+      get_call <- bquote(get(.(special)))
+      res <- group_by_(df, .dots = list(lazyeval::f_new(get_call)))
+      expect_equal(names(res), c(names(df), deparse(get_call)))
+      expect_equal(groups(res), list(as.name(enc2native(deparse(get_call)))))
+    }
+  })
+})
 
 test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))

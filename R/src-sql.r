@@ -1,6 +1,6 @@
 #' Create a "sql src" object
 #'
-#' `src_sql()` is the standard constructor for all SQL based srcs.
+#' Deprecated: please use [src_dbi] instead.
 #'
 #' @keywords internal
 #' @export
@@ -11,7 +11,7 @@
 #' @param ... fields used by object
 src_sql <- function(subclass, con, ...) {
   subclass <- paste0("src_", subclass)
-  structure(list(obj = con, ...), class = c(subclass, "src_sql", "src"))
+  structure(list(con = con, ...), class = c(subclass, "src_sql", "src"))
 }
 
 #' Acquire/release connections from a src object
@@ -42,7 +42,12 @@ con_release <- function(src, con) {
 
 #' @export
 con_acquire.src_sql <- function(src) {
-  src$obj
+  con <- src$con
+  if (is.null(con)) {
+    stop("No connection found", call. = FALSE)
+  }
+
+  con
 }
 
 #' @export

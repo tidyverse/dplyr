@@ -1,5 +1,5 @@
 tbl_lazy <- function(df) {
-  make_tbl("lazy", ops = op_base_local(df, env = parent.frame()))
+  make_tbl("lazy", ops = op_base_local(df))
 }
 
 lazy_frame <- function(...) {

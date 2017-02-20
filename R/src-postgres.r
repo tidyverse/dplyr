@@ -11,11 +11,7 @@
 #' @param host,port Host name and port number of database
 #' @param user,password User name and password (if needed)
 #' @param ... for the src, other arguments passed on to the underlying
-#'   database connector, [DBI::dbConnect()]. For the tbl, included for
-#'   compatibility with the generic, but otherwise ignored.
-#' @param src a postgres src created with `src_postgres()`.
-#' @param from Either a string giving the name of table in database, or
-#'   [sql()] described a derived table or compound join.
+#'   database connector, [DBI::dbConnect()].
 #' @export
 #' @examples
 #' \dontrun{
@@ -111,25 +107,13 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
     port = port %||% "",
     ...
   )
-  info <- dbGetInfo(con)
 
-  src_sql(
-    "postgres",
-    con,
-    info = info,
-    disco = db_disconnector(con, "postgres")
-  )
+  src_dbi(con, auto_disconnect = TRUE)
 }
 
 #' @export
-#' @rdname src_postgres
-tbl.src_postgres <- function(src, from, ...) {
-  tbl_sql("postgres", src = src, from = from, ...)
-}
-
-#' @export
-src_desc.src_postgres <- function(x) {
-  info <- x$info
+src_desc.PostgreSQLConnection <- function(x) {
+  info <- dbGetInfo(x$con)
   host <- if (info$host == "") "localhost" else info$host
 
   paste0("postgres ", info$serverVersion, " [", info$user, "@",

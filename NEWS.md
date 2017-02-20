@@ -14,6 +14,16 @@
 
 * Fix segfault when using `min_rank("string")` in hybrid evaluation (#2279, #2444).
 
+* New `src_dbi()` is the new offiicial way to construct dplyr sources with
+  a remote backend. `src_dbi()` is very similar to the existing `src_sql()`
+  (which remains for backward compatibility), but it recognises that dplyr
+  only works with database backends that support the DBI protocol (#2423).
+  `src_desc.src_dbi()` dispatches on the connection, eliminating the
+  last method that required a dispatch on the class of the src, rather
+  than the underlying connection.
+
+* [API] The signature of `op_base` has changed to `op_base(x, vars, class)`
+
 * `grouped_df` is registered officially as an S3 class. This makes it 
   easier to use with S4 (#2276).
 

@@ -12,14 +12,13 @@
 #'   relatively expensive to determine automatically, so is cached throughout
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
-tbl_sql <- function(subclass, src, from, ..., vars = attr(from, "vars")) {
-  con <- con_acquire(src)
-  on.exit(con_release(src, con), add = TRUE)
+tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
+  vars <- db_vars(src, from)
 
   make_tbl(
     c(subclass, "sql", "lazy"),
     src = src,
-    ops = op_base_remote(src, from, con, vars)
+    ops = op_base_remote(from, vars)
   )
 }
 
@@ -312,18 +311,20 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' @return a sqlite [tbl()] object
 #' @examples
 #' if (requireNamespace("RSQLite")) {
-#' db <- src_sqlite(tempfile(), create = TRUE)
+#' path <- tempfile()
+#' db <- src_sqlite(path, create = TRUE)
 #'
 #' iris2 <- copy_to(db, iris)
 #' mtcars$model <- rownames(mtcars)
-#' mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
 #'
-#' explain(filter(mtcars2, model == "Hornet 4 Drive"))
+#' mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
+#' mtcars2 %>%
+#'   filter(model == "Hornet 4 Drive")
 #'
 #' # Note that tables are temporary by default, so they're not
 #' # visible from other connections to the same database.
 #' src_tbls(db)
-#' db2 <- src_sqlite(db$path)
+#' db2 <- src_sqlite(path)
 #' src_tbls(db2)
 #' }
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),

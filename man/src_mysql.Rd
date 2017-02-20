@@ -2,13 +2,10 @@
 % Please edit documentation in R/src-mysql.r
 \name{src_mysql}
 \alias{src_mysql}
-\alias{tbl.src_mysql}
 \title{Connect to mysql/mariadb.}
 \usage{
 src_mysql(dbname, host = NULL, port = 0L, username = "root",
   password = "", ...)
-
-\method{tbl}{src_mysql}(src, from, ...)
 }
 \arguments{
 \item{dbname}{Database name}
@@ -23,11 +20,6 @@ as described in \code{\link[RMySQL:MySQL]{RMySQL::MySQL()}}. In that case, suppl
 \item{...}{for the src, other arguments passed on to the underlying
 database connector, \code{\link[DBI:dbConnect]{DBI::dbConnect()}}. For the tbl, included for
 compatibility with the generic, but otherwise ignored.}
-
-\item{src}{a mysql src created with \code{src_mysql()}.}
-
-\item{from}{Either a string giving the name of table in database, or
-\code{\link[=sql]{sql()}} described a derived table or compound join.}
 }
 \description{
 Use \code{src_mysql()} to connect to an existing mysql or mariadb database,
