@@ -420,7 +420,8 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
     dbClearResult(res)
   })
 
-  grouped_df(out, groups(x))
+
+  grouped_df(out, intersect(op_grps(x), names(out)))
 }
 
 # Do ---------------------------------------------------------------------------

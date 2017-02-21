@@ -1,5 +1,10 @@
 # dplyr 0.5.0.9000
 
+* Database backends now understand how grouping is affected by renames
+  (#1962)
+  
+* Database backends only regroup by variables present in the data (#2156)
+
 * SQL joins have been improved:
 
   * They now generate SQL more similar to what you'd write by hand,

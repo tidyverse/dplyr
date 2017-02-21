@@ -70,6 +70,11 @@ test_that("group_by increases grouping if add = TRUE", {
   expect_equal(op_grps(out), c("g1", "g2"))
 })
 
+test_that("rename renames grouping vars", {
+  df <- lazy_frame(a = 1, b = 2) %>% group_by(a) %>% rename(c = a)
+  expect_equal(op_grps(df), "c")
+})
+
 test_that("summarise drops one grouping level", {
   df <- data_frame(g1 = 1, g2 = 2, x = 3) %>% tbl_lazy() %>% group_by(g1, g2)
   out1 <- df %>% summarise(y = 1)

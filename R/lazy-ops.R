@@ -130,6 +130,12 @@ op_grps.op_summarise <- function(op) {
     grps[-length(grps)]
   }
 }
+
+#' @export
+op_grps.op_rename <- function(op) {
+  names(rename_vars_(op_grps(op$x), op$dots))
+}
+
 #' @export
 op_grps.op_single <- function(op) {
   op_grps(op$x)
@@ -143,7 +149,6 @@ op_grps.op_double <- function(op) {
 op_grps.tbl_lazy <- function(op) {
   op_grps(op$ops)
 }
-
 
 # op_vars -----------------------------------------------------------------
 
