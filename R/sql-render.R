@@ -51,10 +51,10 @@ sql_render.sql <- function(query, con = NULL, ...) {
 
 #' @export
 sql_render.join_query <- function(query, con = NULL, ..., root = FALSE) {
-  from_x <- sql_subquery(con, sql_render(query$x, con, ..., root = root), name = NULL)
-  from_y <- sql_subquery(con, sql_render(query$y, con, ..., root = root), name = NULL)
+  from_x <- sql_subquery(con, sql_render(query$x, con, ..., root = root), name = "_LEFT")
+  from_y <- sql_subquery(con, sql_render(query$y, con, ..., root = root), name = "_RIGHT")
 
-  sql_join(con, from_x, from_y, type = query$type, by = query$by)
+  sql_join(con, from_x, from_y, vars = query$vars, type = query$type, by = query$by)
 }
 
 #' @export

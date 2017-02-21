@@ -50,6 +50,7 @@ filter_.tbl_lazy <- function(.data, ..., .dots) {
 arrange_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
+  names(dots) <- NULL
 
   add_op_single("arrange", .data, dots = dots)
 }
@@ -86,10 +87,17 @@ mutate_.tbl_lazy <- function(.data, ..., .dots) {
 
 #' @export
 group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = FALSE)
   dots <- partial_eval(dots, vars = op_vars(.data))
 
-  add_op_single("group_by", .data, dots = dots, args = list(add = add))
+  groups <- group_by_prepare(.data, .dots = dots, add = add)
+  names <- vapply(groups$groups, as.character, character(1))
+
+  add_op_single("group_by",
+    groups$data,
+    dots = stats::setNames(groups$groups, names),
+    args = list(add = FALSE)
+  )
 }
 
 #' @export
@@ -122,7 +130,10 @@ add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
     indexes = if (auto_index) list(by$y)
   )
 
+  vars <- join_vars(op_vars(x), op_vars(y), by = by, suffix = suffix)
+
   x$ops <- op_double("join", x, y, args = list(
+    vars = vars,
     type = type,
     by = by,
     suffix = suffix
@@ -147,6 +158,18 @@ add_op_semi_join <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 
 add_op_set_op <- function(x, y, type, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy)
+
+  if (inherits(x$src$con, "SQLiteConnection")) {
+    # LIMIT only part the compound-select-statement not the select-core.
+    #
+    # https://www.sqlite.org/syntax/compound-select-stmt.html
+    # https://www.sqlite.org/syntax/select-core.html
+
+    if (inherits(x$ops, "op_head") || inherits(y$ops, "op_head")) {
+      stop("SQLite does not support set operations on LIMITs", call. = FALSE)
+    }
+  }
+
   x$ops <- op_double("set_op", x, y, args = list(type = type))
   x
 }

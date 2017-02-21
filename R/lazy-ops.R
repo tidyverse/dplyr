@@ -84,7 +84,7 @@ print.op_single <- function(x, ...) {
 
   cat("-> ", x$name, "()\n", sep = "")
   for (dot in x$dots) {
-    cat("   - ", deparse_trunc(dot$expr), "\n", sep = "")
+    cat("   - ", deparse_trunc(dot), "\n", sep = "")
   }
 }
 
@@ -130,6 +130,12 @@ op_grps.op_summarise <- function(op) {
     grps[-length(grps)]
   }
 }
+
+#' @export
+op_grps.op_rename <- function(op) {
+  names(rename_vars_(op_grps(op$x), op$dots))
+}
+
 #' @export
 op_grps.op_single <- function(op) {
   op_grps(op$x)
@@ -143,7 +149,6 @@ op_grps.op_double <- function(op) {
 op_grps.tbl_lazy <- function(op) {
   op_grps(op$ops)
 }
-
 
 # op_vars -----------------------------------------------------------------
 
@@ -168,6 +173,14 @@ op_vars.op_summarise <- function(op) {
   c(op_grps(op$x), names(op$dots))
 }
 #' @export
+op_vars.op_distinct <- function(op) {
+  if (length(op$dots) == 0 || op$args$.keep_all) {
+    op_vars(op$x)
+  } else  {
+    c(op_grps(op$x), names(op$dots))
+  }
+}
+#' @export
 op_vars.op_mutate <- function(op) {
   unique(c(op_vars(op$x), names(op$dots)))
 }
@@ -177,17 +190,7 @@ op_vars.op_single <- function(op) {
 }
 #' @export
 op_vars.op_join <- function(op) {
-  by <- op$args$by
-  x_vars <- op_vars(op$x)
-  y_vars <- op_vars(op$y)
-
-  unique <- unique_names(x_vars, y_vars, by = by, suffix = op$args$suffix)
-
-  if (is.null(unique)) {
-    c(by$x, setdiff(x_vars, by$x), setdiff(y_vars, by$y))
-  } else {
-    union(unique$x, unique$y)
-  }
+  unlist(op$args$vars, use.names = FALSE)
 }
 #' @export
 op_vars.op_semi_join <- function(op) {
@@ -205,7 +208,7 @@ op_vars.tbl_lazy <- function(op) {
 # op_sort -----------------------------------------------------------------
 
 # This is only used to determine the order for window functions
-# so it purposely ignores grouping.
+# so it purposely ignores grouping. Returns a list of expressions.
 
 #' @export
 #' @rdname lazy_ops
@@ -218,8 +221,7 @@ op_sort.op_summarise <- function(op) NULL
 
 #' @export
 op_sort.op_arrange <- function(op) {
-  order_vars <- translate_sql_(op$dots, NULL)
-  c.sql(op_sort(op$x), order_vars, drop_null = TRUE)
+  c(op_sort(op$x), op$dots)
 }
 
 #' @export
@@ -236,3 +238,21 @@ op_sort.op_double <- function(op) {
 op_sort.tbl_lazy <- function(op) {
   op_sort(op$ops)
 }
+
+# We want to preserve this ordering (for window functions) without
+# imposing an additional arrange, so we have a special op_order
+
+add_op_order <- function(.data, dots = list()) {
+  .data$ops <- op_single("order", x = .data$ops, dots = dots)
+  .data
+}
+#' @export
+op_sort.op_order <- function(op) {
+  c(op_sort(op$x), op$dots)
+}
+
+#' @export
+sql_build.op_order <- function(op, con, ...) {
+  sql_build(op$x, con, ...)
+}
+

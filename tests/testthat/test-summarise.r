@@ -885,8 +885,8 @@ test_that("min, max preserves ordered factor data  (#2200)", {
 
 test_that("ungrouped summarise() uses summary variables correctly (#2404)", {
   df <- tibble::as_tibble(seq(1:10))
-  expect_equal(
-    df %>% summarise(value = mean(value), sd = sd(value)),
-    data_frame(value = 5.5, sd = NA_real_)
-  )
+
+  out <- df %>% summarise(value = mean(value), sd = sd(value))
+  expect_equal(out$value, 5.5)
+  expect_equal(out$sd, NA_real_)
 })

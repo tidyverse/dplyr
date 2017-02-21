@@ -4,6 +4,7 @@
 #include <tools/SlicingIndex.h>
 
 #include <dplyr/Result/RowwiseSubset.h>
+#include <tools/SymbolString.h>
 
 namespace dplyr {
 
@@ -57,8 +58,8 @@ namespace dplyr {
       return 0;
     }
 
-    inline SEXP symbol(int i) {
-      return R_NilValue;
+    inline SymbolString symbol(int i) {
+      stop("Rowwise data frames don't have grouping variables");
     }
 
     inline SEXP label(int i) {

@@ -134,10 +134,11 @@ namespace dplyr {
     }
     SEXP data = CADR(call);
     if (TYPEOF(data) == SYMSXP) {
-      if (! subsets.count(data)) {
-        stop("could not find variable '%s'", CHAR(PRINTNAME(data)));
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name) == 0) {
+        stop("could not find variable '%s'", name.get_cstring());
       }
-      data = subsets.get_variable(data);
+      data = subsets.get_variable(name);
     }
 
     tag = TAG(CDDR(call));
@@ -195,26 +196,31 @@ namespace dplyr {
 
         // then we know order_by is not NULL, we only handle the case where
         // order_by is a symbol and that symbol is in the data
-        if (TYPEOF(order_by) == SYMSXP && subsets.count(order_by)) {
-          order_by = subsets.get_variable(order_by);
+        if (TYPEOF(order_by) == SYMSXP) {
+          SymbolString order_by_name = SymbolString(Symbol(order_by));
+          if (subsets.count(order_by_name)) {
+            order_by = subsets.get_variable(order_by_name);
 
-          switch (TYPEOF(data)) {
-          case LGLSXP:
-            return nth_with<LGLSXP>(data, idx, order_by);
-          case INTSXP:
-            return nth_with<INTSXP>(data, idx, order_by);
-          case REALSXP:
-            return nth_with<REALSXP>(data, idx, order_by);
-          case STRSXP:
-            return nth_with<STRSXP>(data, idx, order_by);
-          default:
-            break;
+            switch (TYPEOF(data)) {
+            case LGLSXP:
+              return nth_with<LGLSXP>(data, idx, order_by);
+            case INTSXP:
+              return nth_with<INTSXP>(data, idx, order_by);
+            case REALSXP:
+              return nth_with<REALSXP>(data, idx, order_by);
+            case STRSXP:
+              return nth_with<STRSXP>(data, idx, order_by);
+            default:
+              break;
+            }
+          }
+          else {
+            return 0;
           }
         }
         else {
           return 0;
         }
-
 
       } else {
         if (order_by == R_NilValue) {
@@ -231,26 +237,31 @@ namespace dplyr {
             break;
           }
         } else {
-          if (TYPEOF(order_by) == SYMSXP && subsets.count(order_by)) {
-            order_by = subsets.get_variable(order_by);
+          if (TYPEOF(order_by) == SYMSXP) {
+            SymbolString order_by_name = SymbolString(Symbol(order_by));
+            if (subsets.count(order_by_name)) {
+              order_by = subsets.get_variable(order_by_name);
 
-            switch (TYPEOF(data)) {
-            case LGLSXP:
-              return nth_with_default<LGLSXP>(data, idx, order_by, def);
-            case INTSXP:
-              return nth_with_default<INTSXP>(data, idx, order_by, def);
-            case REALSXP:
-              return nth_with_default<REALSXP>(data, idx, order_by, def);
-            case STRSXP:
-              return nth_with_default<STRSXP>(data, idx, order_by, def);
-            default:
-              break;
+              switch (TYPEOF(data)) {
+              case LGLSXP:
+                return nth_with_default<LGLSXP>(data, idx, order_by, def);
+              case INTSXP:
+                return nth_with_default<INTSXP>(data, idx, order_by, def);
+              case REALSXP:
+                return nth_with_default<REALSXP>(data, idx, order_by, def);
+              case STRSXP:
+                return nth_with_default<STRSXP>(data, idx, order_by, def);
+              default:
+                break;
+              }
+            }
+            else {
+              return 0;
             }
           }
           else {
             return 0;
           }
-
         }
       }
 

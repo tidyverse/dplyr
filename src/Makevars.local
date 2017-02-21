@@ -6,3 +6,8 @@ all: ${DEPFILES}
 include ${DEPFILES}
 
 PKG_CPPFLAGS := ${PKG_CPPFLAGS} -DPLOGR_ENABLE
+
+shlib-clean: remove-dep-files
+
+remove-dep-files:
+	rm -f *.d

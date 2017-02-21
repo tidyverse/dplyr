@@ -24,7 +24,7 @@ void strip_index(DataFrame x) {
   x.attr("labels") = R_NilValue;
 }
 
-inline SEXP empty_subset(const DataFrame& df, CharacterVector columns, CharacterVector classes) {
+inline SEXP empty_subset(const DataFrame& df, const SymbolVector& columns, const CharacterVector& classes) {
   DataFrame res = DataFrameSubsetVisitors(df, columns).subset(EmptySubset(), classes);
   strip_index(res);
   return res;
@@ -92,10 +92,10 @@ inline SEXP check_filter_logical_result(SEXP tmp) {
 }
 
 template <typename Data>
-inline DataFrame grouped_subset(const Data& gdf, const LogicalVector& test, const CharacterVector& names, CharacterVector classes) {
+inline DataFrame grouped_subset(const Data& gdf, const LogicalVector& test, const SymbolVector& names, CharacterVector classes) {
   DataFrame data = gdf.data();
   DataFrame res = subset(data, test, names, classes);
-  res.attr("vars")   = data.attr("vars");
+  copy_vars(res, data);
   strip_index(res);
   return Data(res).data();
 }
@@ -106,10 +106,10 @@ DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
   Environment env = dots[0].env();
 
   const DataFrame& data = gdf.data();
-  CharacterVector names = data.names();
+  SymbolVector names(data.names());
   SymbolSet set;
   for (int i=0; i<names.size(); i++) {
-    set.insert(Rf_installChar(names[i]));
+    set.insert(names[i].get_symbol());
   }
 
   // a, b, c ->  a & b & c
@@ -147,10 +147,10 @@ DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
 template <typename Data, typename Subsets>
 DataFrame filter_grouped_multiple_env(const Data& gdf, const LazyDots& dots) {
   const DataFrame& data = gdf.data();
-  CharacterVector names = data.names();
+  SymbolVector names = data.names();
   SymbolSet set;
   for (int i=0; i<names.size(); i++) {
-    set.insert(Rf_installChar(names[i]));
+    set.insert(names[i].get_symbol());
   }
 
   int nrows = data.nrows();

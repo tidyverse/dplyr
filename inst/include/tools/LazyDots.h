@@ -1,11 +1,13 @@
 #ifndef dplyr__Lazy_h
 #define dplyr__Lazy_h
 
-namespace Rcpp {
+#include <tools/SymbolString.h>
+
+namespace dplyr {
 
   class Lazy {
   public:
-    Lazy(List data_, Symbol name__) :
+    Lazy(List data_, const SymbolString& name__) :
       data(data_),
       name_(name__)
     {}
@@ -18,17 +20,24 @@ namespace Rcpp {
     inline SEXP expr() const {
       return Rf_duplicate(data[0]);
     }
+
     inline SEXP env() const {
       return data[1];
     }
-    inline Symbol name() const {
+
+    inline SymbolString name() const {
       return name_;
     }
 
   private:
     List data;
-    Symbol name_;
+    SymbolString name_;
   };
+
+}
+
+namespace Rcpp {
+  using namespace dplyr;
 
   template <>
   inline bool is<Lazy>(SEXP x) {
@@ -39,6 +48,10 @@ namespace Rcpp {
       TYPEOF(VECTOR_ELT(x,1)) == ENVSXP
       ;
   }
+
+}
+
+namespace dplyr {
 
   class LazyDots {
   public:
@@ -53,8 +66,7 @@ namespace Rcpp {
           stop("corrupt lazy object");
         }
 
-        Symbol name(names[i]);
-        data.push_back(Lazy(x, name));
+        data.push_back(Lazy(x, SymbolString(names[i])));
       }
     }
 
@@ -80,4 +92,5 @@ namespace Rcpp {
   };
 
 }
+
 #endif

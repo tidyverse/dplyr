@@ -25,7 +25,7 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   List res = accumulator;
   set_class(res, classes);
   set_rownames(res, df.nrows());
-  res.attr("vars")   = df.attr("vars");
+  copy_vars(res, df);
   res.attr("labels")  = df.attr("labels");
   res.attr("index")  = df.attr("index");
   res.attr("indices") = df.attr("indices");
@@ -56,7 +56,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
   if (nvars) {
     CharacterVector df_names = df.names();
     for (int i=0; i<nvars; i++) {
-      accumulator.set(Symbol(df_names[i]), df[i]);
+      accumulator.set(df_names[i], df[i]);
     }
   }
 
@@ -69,15 +69,16 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 
     Shield<SEXP> call_(lazy.expr());
     SEXP call = call_;
-    Symbol name = lazy.name();
+    SymbolString name = lazy.name();
     Environment env = lazy.env();
     call_proxy.set_env(env);
 
     if (TYPEOF(call) == SYMSXP) {
-      if (call_proxy.has_variable(call)) {
-        results[i] = call_proxy.get_variable(PRINTNAME(call));
+      SymbolString call_name = SymbolString(Symbol(call));
+      if (call_proxy.has_variable(call_name)) {
+        results[i] = call_proxy.get_variable(call_name);
       } else {
-        results[i] = shared_SEXP(env.find(CHAR(PRINTNAME(call))));
+        results[i] = shared_SEXP(env.find(call_name.get_string()));
       }
     } else if (TYPEOF(call) == LANGSXP) {
       call_proxy.set_call(call);
@@ -99,7 +100,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
     const int n_res = Rf_length(results[i]);
     check_length(n_res, nrows, "the number of rows");
 
-    check_supported_type(results[i], name.c_str());
+    check_supported_type(results[i], name);
 
     if (n_res == 1 && nrows != 1) {
       // recycle
@@ -122,7 +123,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   // special 0 rows case
   if (df.nrows() == 0) {
     DataFrame res = mutate_not_grouped(df, dots);
-    res.attr("vars") = df.attr("vars");
+    copy_vars(res, df);
     set_class(res, get_class(df));
     return Data(res).data();
   }
@@ -142,7 +143,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   int ncolumns = df.size();
   CharacterVector column_names = df.names();
   for (int i=0; i<ncolumns; i++) {
-    accumulator.set(Symbol(column_names[i]), df[i]);
+    accumulator.set(column_names[i], df[i]);
   }
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
@@ -155,10 +156,10 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
     Environment env = lazy.env();
     Shield<SEXP> call_(lazy.expr());
     SEXP call = call_;
-    Symbol name = lazy.name();
+    SymbolString name = lazy.name();
     proxy.set_env(env);
 
-    LOG_VERBOSE << "processing " << CharacterVector(name);
+    LOG_VERBOSE << "processing " << name.get_cstring();
 
     if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
       proxy.set_call(call);

@@ -26,15 +26,15 @@ namespace dplyr {
     virtual ~LazySubsets() {}
 
   public:
-    virtual CharacterVector get_variable_names() const {
+    virtual const SymbolVector get_variable_names() const {
       return symbol_map.get_names();
     }
 
-    virtual SEXP get_variable(SEXP symbol) const {
+    virtual SEXP get_variable(const SymbolString& symbol) const {
       return data[ symbol_map.get(symbol) ];
     }
 
-    virtual SEXP get(SEXP symbol, const SlicingIndex& indices) const {
+    virtual SEXP get(const SymbolString& symbol, const SlicingIndex& indices) const {
       const int pos = symbol_map.get(symbol);
       SEXP col = data[pos];
       if (!indices.is_identity(col) && Rf_length(col) != 1)
@@ -43,16 +43,16 @@ namespace dplyr {
       return col;
     }
 
-    virtual bool is_summary(SEXP symbol) const {
+    virtual bool is_summary(const SymbolString& symbol) const {
       return summary_map.has(symbol);
     }
 
-    virtual int count(SEXP symbol) const {
+    virtual int count(const SymbolString& symbol) const {
       int res = symbol_map.has(symbol);
       return res;
     }
 
-    virtual void input(SEXP symbol, SEXP x) {
+    virtual void input(const SymbolString& symbol, SEXP x) {
       SymbolMapIndex index = symbol_map.insert(symbol);
       if (index.origin == NEW) {
         data.push_back(x);
@@ -73,7 +73,7 @@ namespace dplyr {
   public:
     void clear() {}
 
-    inline SEXP& operator[](SEXP symbol) {
+    inline SEXP& operator[](const SymbolString& symbol) {
       return data[symbol_map.get(symbol)];
     }
 

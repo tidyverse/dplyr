@@ -49,15 +49,15 @@ namespace dplyr {
     }
 
   public:
-    virtual CharacterVector get_variable_names() const {
+    virtual const SymbolVector get_variable_names() const {
       return symbol_map.get_names();
     }
 
-    virtual SEXP get_variable(SEXP symbol) const {
+    virtual SEXP get_variable(const SymbolString& symbol) const {
       return subsets[symbol_map.get(symbol)]->get_variable();
     }
 
-    virtual SEXP get(SEXP symbol, const SlicingIndex& indices) const {
+    virtual SEXP get(const SymbolString& symbol, const SlicingIndex& indices) const {
       int idx = symbol_map.get(symbol);
 
       SEXP value = resolved[idx];
@@ -67,16 +67,16 @@ namespace dplyr {
       return value;
     }
 
-    virtual bool is_summary(SEXP symbol) const {
+    virtual bool is_summary(const SymbolString& symbol) const {
       return subsets[symbol_map.get(symbol)]->is_summary();
     }
 
-    virtual int count(SEXP head) const {
+    virtual int count(const SymbolString& head) const {
       int res = symbol_map.has(head);
       return res;
     }
 
-    virtual void input(SEXP symbol, SEXP x) {
+    virtual void input(const SymbolString& symbol, SEXP x) {
       input_subset(symbol, gdf.create_subset(x));
     }
 
@@ -95,7 +95,7 @@ namespace dplyr {
       }
     }
 
-    void input_summarised(SEXP symbol, SummarisedVariable x) {
+    void input_summarised(const SymbolString& symbol, SummarisedVariable x) {
       input_subset(symbol, summarised_subset(x));
     }
 
@@ -107,7 +107,7 @@ namespace dplyr {
 
     bool owner;
 
-    void input_subset(const Symbol& symbol, subset* sub) {
+    void input_subset(const SymbolString& symbol, subset* sub) {
       SymbolMapIndex index = symbol_map.insert(symbol);
       if (index.origin == NEW) {
         subsets.push_back(sub);

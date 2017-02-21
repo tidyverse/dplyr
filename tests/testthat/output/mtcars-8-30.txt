@@ -1,5 +1,5 @@
-Source:   query [?? x 11]
-Database: sqlite x.y.z [:memory:]
+Source:     query [?? x 11]
+Database:   sqlite x.y.z [:memory:]
 
     mpg   cyl  disp    hp
   <dbl> <dbl> <dbl> <dbl>

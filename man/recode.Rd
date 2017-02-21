@@ -14,7 +14,9 @@ recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE,
 \item{.x}{A vector to modify}
 
 \item{...}{Replacements. These should be named for character and factor
-\code{.x}, and can be named for numeric \code{.x}.
+\code{.x}, and can be named for numeric \code{.x}. The argument names should be the
+current values to be replaced, and the argument values should be the new
+(replacement) values.
 
 All replacements must be the same type, and must have either
 length one or the same length as x.}

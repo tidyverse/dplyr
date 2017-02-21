@@ -16,7 +16,7 @@ namespace dplyr {
     virtual ~IHybridCallback() {}
 
   public:
-    virtual SEXP get_subset(const Symbol& name) const = 0;
+    virtual SEXP get_subset(const SymbolString& name) const = 0;
   };
 
   class GroupedHybridEnv {
@@ -45,7 +45,7 @@ namespace dplyr {
       // Environment::new_child() performs an R callback, creating the environment
       // in R should be slightly faster
       Environment active_env =
-        create_env_symbol(
+        create_env_string(
           names, &GroupedHybridEnv::hybrid_get_callback,
           PAYLOAD(const_cast<void*>(reinterpret_cast<const void*>(callback))), env);
 
@@ -58,10 +58,10 @@ namespace dplyr {
       has_eval_env = true;
     }
 
-    static SEXP hybrid_get_callback(const Symbol& name, bindrcpp::PAYLOAD payload) {
+    static SEXP hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
       LOG_VERBOSE;
       IHybridCallback* callback_ = reinterpret_cast<IHybridCallback*>(payload.p);
-      return callback_->get_subset(name);
+      return callback_->get_subset(SymbolString(name));
     }
 
     void cleanup_eval_env() const {
@@ -180,7 +180,7 @@ namespace dplyr {
   public:
     GroupedHybridEval(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
       indices(NULL), subsets(subsets_), env(env_),
-      hybrid_env(subsets_.get_variable_names(), env_, this),
+      hybrid_env(subsets_.get_variable_names().get_vector(), env_, this),
       hybrid_call(call_, subsets_, env_)
     {
       LOG_VERBOSE;
@@ -191,7 +191,7 @@ namespace dplyr {
     }
 
   public: // IHybridCallback
-    SEXP get_subset(const Symbol& name) const {
+    SEXP get_subset(const SymbolString& name) const {
       LOG_VERBOSE;
       return subsets.get(name, get_indices());
     }

@@ -137,10 +137,10 @@ test_that("semi join generates correct sql", {
   lf1 <- memdb_frame(x = c(1, 2), y = c(2, 3))
   lf2 <- memdb_frame(x = 1)
 
-  out <- lf1 %>%
-    inner_join(lf2, by = "x") %>%
-    collect()
+  lf3 <- inner_join(lf1, lf2, by = "x")
+  expect_equal(op_vars(lf3), c("x", "y"))
 
+  out <- collect(lf3)
   expect_equal(out, data.frame(x = 1, y = 2))
 })
 

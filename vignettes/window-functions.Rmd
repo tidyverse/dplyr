@@ -96,11 +96,7 @@ percent_rank(x)
 
 These are useful if you want to select (for example) the top 10% of records within each group. For example:
 
-```{r, results = 'hide'}
-# Selects best two years
-filter(players, min_rank(desc(G)) < 2)
-
-# Selects best 10% of years
+```{r}
 filter(players, cume_dist(desc(G)) < 0.1)
 ```
 
