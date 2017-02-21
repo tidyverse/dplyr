@@ -15,12 +15,14 @@ sql_render.tbl_sql <- function(query, con = NULL, ...) {
     con <- con_acquire(query$src)
     on.exit(con_release(query$src, con), add = TRUE)
   }
-  sql_render(sql_build(query$ops, con, ...), con = con, ...)
+
+  NextMethod(con = con)
 }
 
 #' @export
 sql_render.tbl_lazy <- function(query, con = NULL, ...) {
-  sql_render(sql_build(query$ops, con = NULL, ...), con = NULL, ...)
+  qry <- sql_build(query, con = con, ...)
+  sql_render(qry, con = con, ...)
 }
 
 #' @export

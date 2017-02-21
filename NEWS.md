@@ -4,6 +4,12 @@
   and not as language symbols, to avoid encoding problems on Windows
   (#1950, #2387, #2388).
 
+* dplyr has gained a basic SQL optimiser, which collapses certain nested
+  SELECT queries into a single query (#1979). This will improve query
+  execution performance for databases with less sophisticated query optimisers,
+  and fixes certain problems with ordering and limits in subqueries (#1979).
+  A big thanks goes to @hhoeflin for figuring out this optimisation.
+
 * `explain()` and `show_query()` now invisibly return the first argument,
   making them easier to use inside a pipeline.
 
