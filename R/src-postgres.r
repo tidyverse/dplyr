@@ -113,7 +113,7 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL, user = NULL,
 
 #' @export
 src_desc.PostgreSQLConnection <- function(x) {
-  info <- dbGetInfo(x$con)
+  info <- dbGetInfo(x)
   host <- if (info$host == "") "localhost" else info$host
 
   paste0("postgres ", info$serverVersion, " [", info$user, "@",
