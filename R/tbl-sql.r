@@ -433,7 +433,11 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
 #'   talking to the database.
 do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   group_by <- groups(.data)
-  if (is.null(group_by)) stop("No grouping", call. = FALSE)
+
+  if (length(group_by) == 0) {
+    .data <- collect(.data)
+    return(do_(.data, ..., .dots = .dots))
+  }
 
   args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)

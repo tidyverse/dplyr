@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* Ungrouped `do()` on database backends now collects all data locally first
+  (#2392).
+
 * Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
 
 * `first()`, `last()`, and `nth()` have better default values for factor,
