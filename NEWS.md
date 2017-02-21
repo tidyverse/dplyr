@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* `collect()` will automatically LIMIT the result to the `n`, the number of 
+  rows requested. This will provide the query planner with more information
+  that it may be able to use to improve execution time (#2083).
+
 * `distinct()` reports improved variable information for SQL backends. This
   means that it is more likely to work in the middle of a pipeline (#2359).
 

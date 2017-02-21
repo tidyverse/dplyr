@@ -412,6 +412,10 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
   assert_that(length(n) == 1, n > 0L)
   if (n == Inf) {
     n <- -1
+  } else {
+    # Gives the query planner information that it might be able to take
+    # advantage of
+    x <- head(x, n)
   }
 
   con <- con_acquire(x$src)
