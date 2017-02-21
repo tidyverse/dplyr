@@ -489,6 +489,8 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
 }
 
 SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
+  FullDataFrame fdf(df);
+
   CharacterVector names = df.names();
   SymbolSet set;
   for (int i=0; i<names.size(); i++) {
@@ -496,7 +498,7 @@ SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
   }
   const Lazy& lazy = dots[0];
   Call call(lazy.expr());
-  CallProxy proxy(call, df, lazy.env());
+  CallProxy proxy(call, fdf, lazy.env());
   int nr = df.nrows();
 
   IntegerVector test = check_filter_integer_result(proxy.eval());

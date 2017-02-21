@@ -9,7 +9,8 @@ namespace dplyr {
 
   class LazySubsets : public ILazySubsets {
   public:
-    LazySubsets(const DataFrame& df) : nr(df.nrows()) {
+    LazySubsets(const FullDataFrame& fdf) : nr(fdf.nrows()) {
+      const DataFrame& df = fdf.data();
       int nvars = df.size();
       if (nvars) {
         CharacterVector names = df.names();

@@ -99,7 +99,9 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
   int nexpr = dots.size();
   if (nexpr == 0) return DataFrame();
 
-  LazySubsets subsets(df);
+  FullDataFrame fdf(df);
+
+  LazySubsets subsets(fdf);
   NamedListAccumulator<DataFrame> accumulator;
   List results(nexpr);
 
