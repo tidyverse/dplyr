@@ -23,6 +23,7 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
     env <- getNamespaceInfo(pkg, "lazydata")
     name <- paste0("<package: ", pkg, ">")
   } else {
+    stopifnot(is.environment(env))
     name <- utils::capture.output(print(env))
   }
 
@@ -50,7 +51,17 @@ tbl.src_local <- function(src, from, ...) {
 }
 
 #' @export
-copy_to.src_local <- function(dest, df, name = deparse(substitute(df)), ...) {
+copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
+                              overwrite = FALSE, ...) {
+
+  if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
+    stop(
+      "Object with name `", name, "` already exists.\n",
+      "Set overwrite = TRUE to overwrite",
+      call. = FALSE
+    )
+  }
+
   assign(name, envir = dest$env, df)
   tbl(dest, name)
 }

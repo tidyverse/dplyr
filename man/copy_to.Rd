@@ -4,7 +4,7 @@
 \alias{copy_to}
 \title{Copy a local data frame to a remote src.}
 \usage{
-copy_to(dest, df, name = deparse(substitute(df)), ...)
+copy_to(dest, df, name = deparse(substitute(df)), overwrite = FALSE, ...)
 }
 \arguments{
 \item{dest}{remote data source}
@@ -12,6 +12,10 @@ copy_to(dest, df, name = deparse(substitute(df)), ...)
 \item{df}{local data frame}
 
 \item{name}{name for new remote table.}
+
+\item{overwrite}{If \code{TRUE}, will overwrite an existing table with
+name \code{name}. If \code{FALSE}, will throw an error if \code{name} already
+exists.}
 
 \item{...}{other parameters passed to methods.}
 }

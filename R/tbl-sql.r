@@ -294,9 +294,12 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
   copy_to(x$src, as.data.frame(y), random_table_name(), ...)
 }
 
-#' Copy a local data frame to a sqlite src.
+#' Copy a local data frame to a DBI backend.
 #'
-#' This standard method works for all sql sources.
+#' This [copy_to()] method works for all DBI sources. It is useful for
+#' copying small amounts of data to a database for examples, experiments,
+#' and joins. By default, it creates temporary tables which are typically
+#' only visible to the current connection to the database.
 #'
 #' @export
 #' @param types a character vector giving variable types to use for the columns.
@@ -315,24 +318,17 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' @return a sqlite [tbl()] object
 #' @examples
 #' if (requireNamespace("RSQLite")) {
-#' path <- tempfile()
-#' db <- src_sqlite(path, create = TRUE)
-#'
-#' iris2 <- copy_to(db, iris)
 #' mtcars$model <- rownames(mtcars)
+#' mtcars2 <- src_memdb() %>% copy_to(mtcars, indexes = list("model"))
+#' mtcars2 %>% filter(model == "Hornet 4 Drive")
 #'
-#' mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
-#' mtcars2 %>%
-#'   filter(model == "Hornet 4 Drive")
-#'
-#' # Note that tables are temporary by default, so they're not
-#' # visible from other connections to the same database.
-#' src_tbls(db)
-#' db2 <- src_sqlite(path)
-#' src_tbls(db2)
+#' # copy_to is called automatically if you set copy = TRUE
+#' # in the join functions
+#' df <- tibble(cyl = c(6, 8))
+#' mtcars2 %>% semi_join(df, copy = TRUE)
 #' }
 copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
-                            types = NULL, temporary = TRUE,
+                            overwrite = FALSE, types = NULL, temporary = TRUE,
                             unique_indexes = NULL, indexes = NULL,
                             analyze = TRUE, ...) {
   assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
@@ -345,6 +341,10 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
 
     db_begin(con)
     tryCatch({
+      if (overwrite) {
+        db_drop_table(con, name, force = TRUE)
+      }
+
       db_create_table(con, name, types, temporary = temporary)
       db_insert_into(con, name, df)
       db_create_indexes(con, name, unique_indexes, unique = TRUE)

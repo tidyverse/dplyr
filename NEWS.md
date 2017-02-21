@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `copy_to()` gains an `overwrite` argument which allows you to overwrite
+  an existing table. Use with care! (#2296)
+
 * Internally, column names are always represented as character vectors,
   and not as language symbols, to avoid encoding problems on Windows
   (#1950, #2387, #2388).
