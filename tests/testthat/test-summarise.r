@@ -882,3 +882,11 @@ test_that("min, max preserves ordered factor data  (#2200)", {
   expect_equal(levels(ret$min_ord), levels(test_df$ord))
   expect_equal(levels(ret$max_ord), levels(test_df$ord))
 })
+
+test_that("ungrouped summarise() uses summary variables correctly (#2404)", {
+  df <- tibble::as_tibble(seq(1:10))
+  expect_equal(
+    df %>% summarise(value = mean(value), sd = sd(value)),
+    data_frame(value = 5.5, sd = NA_real_)
+  )
+})

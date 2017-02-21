@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
+
 * Improved error messages for `mutate()` expressions that return `NULL` (#2187, #2439).
 
 * `all_equal()` now reports multiple problems as a character vector (#1819, #2442).
