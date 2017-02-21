@@ -336,10 +336,6 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
 
   con <- con_acquire(dest)
   tryCatch({
-    if (isTRUE(db_has_table(con, name))) {
-      stop("Table ", name, " already exists.", call. = FALSE)
-    }
-
     types <- types %||% db_data_type(con, df)
     names(types) <- names(df)
 

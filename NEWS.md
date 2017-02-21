@@ -2,6 +2,26 @@
 
 * Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
 
+* Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
+
+* `first()`, `last()`, and `nth()` have better default values for factor,
+  Dates, POSIXct, and data frame inputs (#2029).
+
+* `common_by()` gets a better error message for unexpected inputs (#2091)
+
+* Hybrid `min()` and `max()` now always return a `numeric` and work correctly in edge cases (empty input, all `NA`, ...) (#2305, #2436).
+
+* Fixed problems when joining factor or character encodings with a mix of native and UTF-8 encoded values (#1885, #2118, #2271, #2451).
+
+* `count()` now preserves the grouping of its input (#2021).
+
+* Select helpers now throw an error if called when no variables have been 
+  set (#2452)
+
+* `copy_to()` no longer checks that the table doesn't exist before creation,
+  intead preferring to fall back on the database for error messages. This
+  should reduce both false positives and false negative (#1470)
+
 * Improved error messages for `mutate()` expressions that return `NULL` (#2187, #2439).
 
 * `all_equal()` now reports multiple problems as a character vector (#1819, #2442).

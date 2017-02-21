@@ -46,6 +46,7 @@ set_non_utf8_encoding <- function() {
 }
 
 set_encoding <- function(encoding) {
+  if (is.null(encoding)) return(NULL)
   locale <- Sys.getlocale("LC_CTYPE")
   Sys.setlocale("LC_CTYPE", encoding)
   locale

@@ -11,6 +11,7 @@
 #'   will perform a "weighted" tally by summing the (non-missing) values of
 #'   variable `wt`.
 #' @param sort if `TRUE` will sort output in descending order of `n`
+#' @return A tbl, grouped the same way as `x`.
 #' @export
 #' @examples
 #' if (require("Lahman")) {
@@ -92,6 +93,10 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 #' @rdname tally
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  grouped <- group_by_(x, .dots = vars, add = TRUE)
-  tally_(grouped, wt = wt, sort = sort)
+  groups <- group_vars(x)
+
+  x <- group_by_(x, .dots = vars, add = TRUE)
+  x <- tally_(x, wt = wt, sort = sort)
+  x <- group_by_(x, .dots = groups, add = TRUE)
+  x
 }

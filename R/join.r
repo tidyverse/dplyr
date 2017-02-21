@@ -160,6 +160,15 @@ common_by.NULL <- function(by, x, y) {
   )
 }
 
+#' @export
+common_by.default <- function(by, x, y) {
+  stop(
+    "`by` must be a (named) character vector, a list, or NULL for ",
+    "natural joins (not recommended in production code)",
+    call. = FALSE
+  )
+}
+
 # Returns NULL if variables don't need to be renamed
 unique_names <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
 

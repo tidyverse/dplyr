@@ -1,5 +1,8 @@
 CXX_SOURCES = $(wildcard *.cpp)
 DEPFILES = ${CXX_SOURCES:.cpp=.d}
+
+all: ${DEPFILES}
+
 include ${DEPFILES}
 
 PKG_CPPFLAGS := ${PKG_CPPFLAGS} -DPLOGR_ENABLE
