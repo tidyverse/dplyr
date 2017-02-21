@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `group_by()` can now perform an inline mutate for database backends (#2422).
+
 * `full_join()` throws a clear error when you attempt to use it with a
   MySQL backend (#2045)
 

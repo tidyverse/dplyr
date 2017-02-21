@@ -86,10 +86,17 @@ mutate_.tbl_lazy <- function(.data, ..., .dots) {
 
 #' @export
 group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = FALSE)
   dots <- partial_eval(dots, vars = op_vars(.data))
 
-  add_op_single("group_by", .data, dots = dots, args = list(add = add))
+  groups <- group_by_prepare(.data, .dots = dots, add = add)
+  names <- vapply(groups$groups, as.character, character(1))
+
+  add_op_single("group_by",
+    groups$data,
+    dots = stats::setNames(groups$groups, names),
+    args = list(add = FALSE)
+  )
 }
 
 #' @export
