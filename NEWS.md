@@ -115,7 +115,7 @@
 
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
 
-* New `group_vars()` generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by `group_by_prepare()` now has a new `group_names` component (#1950).
+* New `group_vars()` generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by `group_by_prepare()` now has a new `group_names` component (#1950, #2384).
 
 * Fix `copy_to()` for MySQL if a character column contains `NA` (#1975, #2256, #2263, #2381, @demorenoc, @eduardgrebe).
 
