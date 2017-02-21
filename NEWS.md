@@ -1,5 +1,11 @@
 # dplyr 0.5.0.9000
 
+* The SQL generation set operations (`intersect()`, `setdiff()`, `union()`, and
+  `union_all()`) on databases has been considerably improved. By default,
+  the component SELECT are surrounded with parentheses, except on SQLite.
+  The SQLite backend will now throw an error if you attempt a set operation
+  on a query that contains a LIMIT, as that is not supported in SQLite (#2270).
+
 * Ungrouped `do()` on database backends now collects all data locally first
   (#2392).
 

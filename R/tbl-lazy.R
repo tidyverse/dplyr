@@ -147,6 +147,18 @@ add_op_semi_join <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 
 add_op_set_op <- function(x, y, type, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy)
+
+  if (inherits(x$src$con, "SQLiteConnection")) {
+    # LIMIT only part the compound-select-statement not the select-core.
+    #
+    # https://www.sqlite.org/syntax/compound-select-stmt.html
+    # https://www.sqlite.org/syntax/select-core.html
+
+    if (inherits(x$ops, "op_head") || inherits(y$ops, "op_head")) {
+      stop("SQLite does not support set operations on LIMITs", call. = FALSE)
+    }
+  }
+
   x$ops <- op_double("set_op", x, y, args = list(type = type))
   x
 }

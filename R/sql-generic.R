@@ -165,11 +165,22 @@ sql_set_op <- function(con, x, y, method) {
 #' @export
 sql_set_op.default <- function(con, x, y, method) {
   build_sql(
+    "(", x, ")",
+    "\n", sql(method), "\n",
+    "(", y, ")"
+  )
+}
+
+#' @export
+sql_set_op.SQLiteConnection <- function(con, x, y, method) {
+  # SQLite does not allow parentheses
+  build_sql(
     x,
     "\n", sql(method), "\n",
     y
   )
 }
+
 
 #' @rdname backend_sql
 #' @export

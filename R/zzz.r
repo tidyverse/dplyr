@@ -3,7 +3,7 @@ Rcpp_version <- utils::packageVersion("Rcpp")
 .onLoad <- function(libname, pkgname) {
   if (Rcpp_version != utils::packageVersion("Rcpp")) {
     warning(
-      "Installed Rcpp (", packageVersion("Rcpp"), ") different from ",
+      "Installed Rcpp (", utils::packageVersion("Rcpp"), ") different from ",
       "Rcpp used to build dplyr (", Rcpp_version, ").\n",
       "Please reinstall dplyr to avoid random crashes.",
       call. = FALSE
