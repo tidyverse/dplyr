@@ -98,7 +98,7 @@ These are useful if you want to select (for example) the top 10% of records with
 
 ```{r, results = 'hide'}
 # Selects best two years
-filter(players, min_rank(desc(G)) < 2)
+filter(players, min_rank(desc(G)) <= 2)
 
 # Selects best 10% of years
 filter(players, cume_dist(desc(G)) < 0.1)
