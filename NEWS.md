@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `full_join()` throws a clear error when you attempt to use it with a
+  MySQL backend (#2045)
+
 * The SQL generation set operations (`intersect()`, `setdiff()`, `union()`, and
   `union_all()`) on databases has been considerably improved. By default,
   the component SELECT are surrounded with parentheses, except on SQLite.

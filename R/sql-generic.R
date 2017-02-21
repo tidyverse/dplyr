@@ -127,6 +127,14 @@ sql_join.default <- function(con, x, y, type = "inner", by = NULL, ...) {
   )
 }
 
+#' @export
+sql_join.MySQLConnection <- function(con, x, y, type = "inner", by = NULL, ...) {
+  if (identical(type, "full")) {
+    stop("MySQL does not support full joins", call. = FALSE)
+  }
+  NextMethod()
+}
+
 #' @rdname backend_sql
 #' @export
 sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
