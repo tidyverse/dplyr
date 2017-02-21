@@ -230,3 +230,21 @@ op_sort.op_double <- function(op) {
 op_sort.tbl_lazy <- function(op) {
   op_sort(op$ops)
 }
+
+# We want to preserve this ordering (for window functions) without
+# imposing an additional arrange, so we have a special op_order
+
+add_op_order <- function(.data, dots = list()) {
+  .data$ops <- op_single("order", x = .data$ops, dots = dots)
+  .data
+}
+#' @export
+op_sort.op_order <- function(op) {
+  c(op_sort(op$x), op$dots)
+}
+
+#' @export
+sql_build.op_order <- function(op, con, ...) {
+  sql_build(op$x, con, ...)
+}
+

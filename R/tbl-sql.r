@@ -60,16 +60,16 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 
 #' @export
 print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source:      query ", dim_desc(x), "\n", sep = "")
-  cat("Database:    ", src_desc(x$src), "\n", sep = "")
+  cat("Source:     query ", dim_desc(x), "\n", sep = "")
+  cat("Database:   ", src_desc(x$src), "\n", sep = "")
 
   grps <- op_grps(x$ops)
   if (length(grps) > 0) {
-    cat("Grouped by:  ", commas(grps), "\n", sep = "")
+    cat("Grouped by: ", commas(grps), "\n", sep = "")
   }
   sort <- op_sort(x$ops)
   if (length(sort) > 0) {
-    cat("Arranged by: ", commas(deparse_all(sort)), "\n", sep = "")
+    cat("Ordered by: ", commas(deparse_all(sort)), "\n", sep = "")
   }
 
   cat("\n")
@@ -372,7 +372,9 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
     con_release(x$src, con)
   })
 
-  tbl(x$src, sql) %>% group_by_(.dots = groups(x))
+  tbl(x$src, sql) %>%
+    group_by_(.dots = op_grps(x)) %>%
+    add_op_order(op_sort(x))
 }
 
 #' @export
@@ -400,7 +402,9 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
     con_release(x$src, con)
   })
 
-  tbl(x$src, name) %>% group_by_(.dots = groups(x))
+  tbl(x$src, name) %>%
+    group_by_(.dots = op_grps(x)) %>%
+    add_op_order(op_sort(x))
 }
 
 #' @export

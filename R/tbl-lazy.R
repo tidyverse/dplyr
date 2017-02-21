@@ -50,6 +50,7 @@ filter_.tbl_lazy <- function(.data, ..., .dots) {
 arrange_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
+  names(dots) <- NULL
 
   add_op_single("arrange", .data, dots = dots)
 }

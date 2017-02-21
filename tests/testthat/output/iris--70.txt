@@ -1,7 +1,7 @@
-Source:      query [?? x 5]
-Database:    sqlite x.y.z [:memory:]
-Grouped by:  Species
-Arranged by: Sepal.Length
+Source:     query [?? x 5]
+Database:   sqlite x.y.z [:memory:]
+Grouped by: Species
+Ordered by: Sepal.Length
 
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
           <dbl>       <dbl>        <dbl>       <dbl>   <chr>
