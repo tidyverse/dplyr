@@ -84,7 +84,7 @@ print.op_single <- function(x, ...) {
 
   cat("-> ", x$name, "()\n", sep = "")
   for (dot in x$dots) {
-    cat("   - ", deparse_trunc(dot$expr), "\n", sep = "")
+    cat("   - ", deparse_trunc(dot), "\n", sep = "")
   }
 }
 
@@ -171,6 +171,14 @@ op_vars.op_rename <- function(op) {
 #' @export
 op_vars.op_summarise <- function(op) {
   c(op_grps(op$x), names(op$dots))
+}
+#' @export
+op_vars.op_distinct <- function(op) {
+  if (length(op$dots) == 0 || op$args$.keep_all) {
+    op_vars(op$x)
+  } else  {
+    c(op_grps(op$x), names(op$dots))
+  }
 }
 #' @export
 op_vars.op_mutate <- function(op) {

@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `distinct()` reports improved variable information for SQL backends. This
+  means that it is more likely to work in the middle of a pipeline (#2359).
+
 * `compute()` and `collapse()` now preserve the "ordering" of rows.
   This only affects the computation of window functions, as the rest
   of SQL does not care about row order (#2281).

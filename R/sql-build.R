@@ -153,7 +153,7 @@ sql_build.op_distinct <- function(op, con, ...) {
       )
     }
 
-    group_vars <- c.sql(ident(names(op$dots)), con = con)
+    group_vars <- c.sql(ident(op_vars(op)), con = con)
     select_query(
       sql_build(op$x, con),
       select = group_vars,

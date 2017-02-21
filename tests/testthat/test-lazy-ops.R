@@ -22,6 +22,20 @@ test_that("summarise replaces existing", {
   expect_equal(op_vars(out), "z")
 })
 
+test_that("distinct has complicated rules", {
+  out <- lazy_frame(x = 1, y = 2) %>% distinct()
+  expect_equal(op_vars(out), c("x", "y"))
+
+  out <- lazy_frame(x = 1, y = 2) %>% distinct(x, .keep_all = TRUE)
+  expect_equal(op_vars(out), c("x", "y"))
+
+  out <- lazy_frame(x = 1, y = 2, z = 3) %>% distinct(x, y)
+  expect_equal(op_vars(out), c("x", "y"))
+
+  out <- lazy_frame(x = 1, y = 2, z = 3) %>% group_by(x) %>% distinct(y)
+  expect_equal(op_vars(out), c("x", "y"))
+})
+
 test_that("grouped summary keeps groups", {
   out <- data_frame(g = 1, x = 1) %>%
     tbl_lazy() %>%
