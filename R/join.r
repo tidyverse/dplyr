@@ -169,25 +169,6 @@ common_by.default <- function(by, x, y) {
   )
 }
 
-# Returns NULL if variables don't need to be renamed
-unique_names <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
-
-  common <- setdiff(intersect(x_names, y_names), by$x[by$x == by$y])
-  if (length(common) == 0) return(NULL)
-
-  suffix <- check_suffix(suffix)
-
-  x_match <- match(common, x_names)
-  x_new <- x_names
-  x_new[x_match] <- paste0(x_names[x_match], suffix$x)
-
-  y_match <- match(common, y_names)
-  y_new <- y_names
-  y_new[y_match] <- paste0(y_names[y_match], suffix$y)
-
-  list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
-}
-
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
     stop("`suffix` must be a character vector of length 2.", call. = FALSE)

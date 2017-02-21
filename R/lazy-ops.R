@@ -177,17 +177,7 @@ op_vars.op_single <- function(op) {
 }
 #' @export
 op_vars.op_join <- function(op) {
-  by <- op$args$by
-  x_vars <- op_vars(op$x)
-  y_vars <- op_vars(op$y)
-
-  unique <- unique_names(x_vars, y_vars, by = by, suffix = op$args$suffix)
-
-  if (is.null(unique)) {
-    c(by$x, setdiff(x_vars, by$x), setdiff(y_vars, by$y))
-  } else {
-    union(unique$x, unique$y)
-  }
+  unlist(op$args$vars, use.names = FALSE)
 }
 #' @export
 op_vars.op_semi_join <- function(op) {

@@ -1,5 +1,19 @@
 # dplyr 0.5.0.9000
 
+* SQL joins have been improved:
+
+  * They now generate SQL more similar to what you'd write by hand,
+    eliminating a layer or two of subqueries (#2333)
+    
+  * [API] They now follow the same rules for including duplicated key variables
+    that the data frame methods do, namely that key variables are only
+    kept from `x`, and never from `y` (#2410)
+    
+  * [API] The `sql_join()` generic now gains a `vars` argument which lists
+    the variables taken from the left and right sides of the join. If you
+    have a custom `sql_join()` method, you'll need to update how your
+    code generates joins, following the template in `sql_join.generic()`.
+
 * `group_by()` can now perform an inline mutate for database backends (#2422).
 
 * `full_join()` throws a clear error when you attempt to use it with a
