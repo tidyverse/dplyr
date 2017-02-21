@@ -14,6 +14,9 @@ show_query(x)
 
 \item{...}{Other parameters possibly used by generic}
 }
+\value{
+The first argument, invisibly.
+}
 \description{
 This is a generic function which gives more details about an object than
 \code{\link[=print]{print()}}, and is more focussed on human readable output than

@@ -4,6 +4,9 @@
   and not as language symbols, to avoid encoding problems on Windows
   (#1950, #2387, #2388).
 
+* `explain()` and `show_query()` now invisibly return the first argument,
+  making them easier to use inside a pipeline.
+
 * `collect()` will automatically LIMIT the result to the `n`, the number of 
   rows requested. This will provide the query planner with more information
   that it may be able to use to improve execution time (#2083).
