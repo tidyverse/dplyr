@@ -35,9 +35,10 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {
-    if (subsets.count(arg)) {
-      is_summary = subsets.is_summary(arg);
-      arg = subsets.get_variable(arg);
+    SymbolString name = SymbolString(Symbol(arg));
+    if (subsets.count(name)) {
+      is_summary = subsets.is_summary(name);
+      arg = subsets.get_variable(name);
     }
     else return 0;
   } else {

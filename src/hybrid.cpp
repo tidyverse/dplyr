@@ -47,7 +47,7 @@ Result* cumfun_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
   RObject data(CADR(call));
   if (TYPEOF(data) == SYMSXP) {
-    data = subsets.get_variable(data);
+    data = subsets.get_variable(SymbolString(Symbol(data)));
   }
   switch (TYPEOF(data)) {
   case INTSXP:
@@ -105,7 +105,7 @@ Result* constant_handler(SEXP constant) {
 
 class VariableResult : public Result {
 public:
-  VariableResult(const ILazySubsets& subsets_, const Symbol& name_) : subsets(subsets_), name(name_)  {}
+  VariableResult(const ILazySubsets& subsets_, const SymbolString& name_) : subsets(subsets_), name(name_)  {}
 
   SEXP process(const GroupedDataFrame& gdf) {
     return subsets.get_variable(name);
@@ -125,10 +125,10 @@ public:
 
 private:
   const ILazySubsets& subsets;
-  Symbol name;
+  SymbolString name;
 };
 
-Result* variable_handler(const ILazySubsets& subsets, Symbol variable) {
+Result* variable_handler(const ILazySubsets& subsets, const SymbolString& variable) {
   return new VariableResult(subsets, variable);
 }
 
@@ -158,14 +158,16 @@ namespace dplyr {
 
       return it->second(call, subsets, depth - 1);
     } else if (TYPEOF(call) == SYMSXP) {
-      LOG_VERBOSE << "Searching hybrid handler for symbol " << CHAR(PRINTNAME(call));
+      SymbolString name = SymbolString(Symbol(call));
 
-      if (subsets.count(call)) {
+      LOG_VERBOSE << "Searching hybrid handler for symbol " << name.get_cstring();
+
+      if (subsets.count(name)) {
         LOG_VERBOSE << "Using hybrid variable handler";
-        return variable_handler(subsets, call);
+        return variable_handler(subsets, name);
       }
       else {
-        SEXP data = env.find(CHAR(PRINTNAME(call)));
+        SEXP data = env.find(name.get_string());
         // Constants of length != 1 are handled via regular evaluation
         if (Rf_length(data) == 1) {
           LOG_VERBOSE << "Using hybrid constant handler";

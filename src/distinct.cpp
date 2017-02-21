@@ -10,10 +10,10 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, CharacterVector new_names);
+SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names);
 
 // [[Rcpp::export]]
-SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep) {
+SEXP distinct_impl(DataFrame df, const SymbolVector& vars, const SymbolVector& keep) {
   if (df.size() == 0)
     return df;
 
@@ -22,9 +22,6 @@ SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep) {
     return df;
 
   check_valid_colnames(df);
-  if (!vars.size()) {
-    vars = df.names();
-  }
   DataFrameVisitors visitors(df, vars);
 
   std::vector<int> indices;

@@ -155,14 +155,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // distinct_impl
-SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep);
+SEXP distinct_impl(DataFrame df, const SymbolVector& vars, const SymbolVector& keep);
 RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keep(keepSEXP);
+    Rcpp::traits::input_parameter< const SymbolVector& >::type vars(varsSEXP);
+    Rcpp::traits::input_parameter< const SymbolVector& >::type keep(keepSEXP);
     rcpp_result_gen = Rcpp::wrap(distinct_impl(df, vars, keep));
     return rcpp_result_gen;
 END_RCPP
@@ -204,13 +204,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, ListOf<Symbol> symbols, bool drop);
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop);
 RcppExport SEXP dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP);
+    Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
     return rcpp_result_gen;

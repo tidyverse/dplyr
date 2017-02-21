@@ -49,9 +49,7 @@ namespace dplyr {
       set_class(out, classes);
       set_rownames(out, nrows);
       out.names() = visitor_names_left;
-      SEXP vars = left.attr("vars");
-      if (!Rf_isNull(vars))
-        out.attr("vars") = vars;
+      copy_vars(out, left);
       return (SEXP)out;
     }
 

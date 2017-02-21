@@ -34,7 +34,7 @@ namespace dplyr {
     }
   }
 
-  DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names) :
+  DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector& names) :
     data(data_),
     visitors(),
     visitor_names(names),
@@ -43,12 +43,11 @@ namespace dplyr {
 
     std::string name;
     int n = names.size();
-    IntegerVector indices  = r_match(names,  RCPP_GET_NAMES(data));
+    IntegerVector indices  = names.match_in_table(data.names());
 
     for (int i=0; i<n; i++) {
       if (indices[i] == NA_INTEGER) {
-        name = (String)names[i];
-        stop("unknown column '%s' ", name);
+        stop("unknown column '%s' ", names[i].get_cstring());
       }
       SEXP column = data[indices[i]-1];
       visitors.push_back(visitor(column));
@@ -60,9 +59,7 @@ namespace dplyr {
     set_class(x, classes);
     set_rownames(x, nrows);
     x.names() = visitor_names;
-    SEXP vars = data.attr("vars");
-    if (!Rf_isNull(vars))
-      x.attr("vars") = vars;
+    copy_vars(x, data);
   }
 
   DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :
@@ -93,7 +90,7 @@ namespace dplyr {
     }
   }
 
-  Symbol extract_column(SEXP arg, const Environment& env) {
+  SymbolString extract_column(SEXP arg, const Environment& env) {
     RObject value;
     if (TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~")) {
       if (Rf_length(arg) != 2 || TYPEOF(CADR(arg)) != SYMSXP)
@@ -103,19 +100,20 @@ namespace dplyr {
       value = Rcpp_eval(arg, env);
     }
     if (is<Symbol>(value)) {
-      value = CharacterVector::create(PRINTNAME(value));
+      return SymbolString(Symbol(value));
     }
-    if (!is<String>(value)) {
+    else if (is<String>(value)) {
+      return SymbolString(String(value));
+    }
+    else {
       stop("column must return a single string");
     }
-    Symbol res(STRING_ELT(value,0));
-    return res;
   }
 
-  Symbol get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
-    Symbol res = extract_column(arg, env);
+  SymbolString get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
+    SymbolString res = extract_column(arg, env);
     if (!subsets.count(res)) {
-      stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)));
+      stop("result of column() expands to a symbol that is not a variable from the data: %s", res.get_cstring());
     }
     return res;
   }

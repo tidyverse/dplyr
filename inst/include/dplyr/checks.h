@@ -1,6 +1,8 @@
 #ifndef dplyr_checks_H
 #define dplyr_checks_H
 
+#include <tools/SymbolString.h>
+
 namespace dplyr {
 
   enum SupportedType {
@@ -12,7 +14,7 @@ namespace dplyr {
     DPLYR_VECSXP = VECSXP
   };
 
-  inline SupportedType check_supported_type(SEXP x, std::string name = "") {
+  inline SupportedType check_supported_type(SEXP x, const SymbolString& name = String()) {
     switch (TYPEOF(x)) {
     case LGLSXP:
       return DPLYR_LGLSXP;
@@ -27,11 +29,11 @@ namespace dplyr {
     case VECSXP:
       return DPLYR_VECSXP;
     default:
-      if (name == "") {
+      if (name.get_string() == String()) {
         stop("Unsupported type %s", type2name(x));
       }
       else {
-        stop("Unsupported type %s for column \"%s\"", type2name(x), name);
+        stop("Unsupported type %s for column \"%s\"", type2name(x), name.get_cstring());
       }
 
       // Unreachable, can be removed with Rcpp > 0.12.5.2
