@@ -1,5 +1,11 @@
 # dplyr 0.5.0.9000
 
+* Database tables now display how they are sorted (#2287)
+
+* [API] `op_vars()` now returns a list of quoted expressions. This
+  enables escaping to happen at the correct time (i.e. when the connection
+  is known).
+
 * Database backends now understand how grouping is affected by renames
   (#1962)
   

@@ -1,11 +1,13 @@
-Source:   query [?? x 5]
-Database: sqlite x.y.z [:memory:]
+Source:      query [?? x 5]
+Database:    sqlite x.y.z [:memory:]
+Grouped by:  Species
+Arranged by: Sepal.Length
 
   Sepal.Length
          <dbl>
-1          5.1
-2          4.9
-3          4.7
+1          4.3
+2          4.4
+3          4.4
 # ...
 #   with
 #   more

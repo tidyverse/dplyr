@@ -89,7 +89,7 @@ sql_build.op_mutate <- function(op, con, ...) {
   new_vars <- translate_sql_(
     op$dots, con,
     vars_group = op_grps(op),
-    vars_order = op_sort(op)
+    vars_order = translate_sql_(op_sort(op), con)
   )
   old_vars <- ident(setdiff(vars, names(new_vars)))
 

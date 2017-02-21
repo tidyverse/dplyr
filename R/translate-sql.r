@@ -110,6 +110,10 @@ translate_sql_ <- function(dots,
                            vars_order = NULL,
                            window = TRUE) {
 
+  if (length(dots) == 0) {
+    return(sql())
+  }
+
   stopifnot(is.list(dots))
 
   if (!any(has_names(dots))) {

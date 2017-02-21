@@ -5,7 +5,10 @@ test_that("ungrouped output", {
     skip("need tibble 1.0-10 or later for this test")
 
   mtcars_mem <- src_memdb() %>% copy_to(mtcars, name = random_table_name())
-  iris_mem <- src_memdb() %>% copy_to(iris, name = random_table_name())
+  iris_mem <- src_memdb() %>%
+    copy_to(iris, name = random_table_name()) %>%
+    group_by(Species) %>%
+    arrange(Sepal.Length)
 
   with_mock(
     `dplyr::sqlite_version` = function() "x.y.z",

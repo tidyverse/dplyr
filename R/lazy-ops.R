@@ -200,7 +200,7 @@ op_vars.tbl_lazy <- function(op) {
 # op_sort -----------------------------------------------------------------
 
 # This is only used to determine the order for window functions
-# so it purposely ignores grouping.
+# so it purposely ignores grouping. Returns a list of expressions.
 
 #' @export
 #' @rdname lazy_ops
@@ -213,8 +213,7 @@ op_sort.op_summarise <- function(op) NULL
 
 #' @export
 op_sort.op_arrange <- function(op) {
-  order_vars <- translate_sql_(op$dots, NULL)
-  c.sql(op_sort(op$x), order_vars, drop_null = TRUE)
+  c(op_sort(op$x), op$dots)
 }
 
 #' @export

@@ -60,12 +60,16 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 
 #' @export
 print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source:   query ", dim_desc(x), "\n", sep = "")
-  cat("Database: ", src_desc(x$src), "\n", sep = "")
+  cat("Source:      query ", dim_desc(x), "\n", sep = "")
+  cat("Database:    ", src_desc(x$src), "\n", sep = "")
 
   grps <- op_grps(x$ops)
   if (length(grps) > 0) {
-    cat("Groups: ", commas(op_grps(x$ops)), "\n", sep = "")
+    cat("Grouped by:  ", commas(grps), "\n", sep = "")
+  }
+  sort <- op_sort(x$ops)
+  if (length(sort) > 0) {
+    cat("Arranged by: ", commas(deparse_all(sort)), "\n", sep = "")
   }
 
   cat("\n")

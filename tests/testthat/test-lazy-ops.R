@@ -103,7 +103,7 @@ test_that("arranges captures DESC", {
   out <- lazy_frame(x = 1:3, y = 3:1) %>%
     arrange(desc(x))
 
-  expect_equal(op_sort(out), sql('"x" DESC'))
+  expect_equal(op_sort(out)[[1]], quote(desc(x)))
 })
 
 test_that("multiple arranges combine", {
@@ -111,5 +111,8 @@ test_that("multiple arranges combine", {
     arrange(x) %>%
     arrange(y)
 
-  expect_equal(op_sort(out), sql('"x"', '"y"'))
+  vars <- op_sort(out)
+  expect_length(vars, 2)
+  expect_equal(vars[[1]], quote(x))
+  expect_equal(vars[[2]], quote(y))
 })
