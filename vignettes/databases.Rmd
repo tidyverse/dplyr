@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
@@ -27,7 +27,7 @@ To get the most out of this chapter, you'll need to be familiar with querying SQ
 The easiest way to experiement with databases using dplyr is to use SQLite. This is because everything you need is already included in the R package. You won't need to install anything, and you won't need to deal with the hassle of setting up a database server. Doing so is really easy: just give the path and the ok to create a table.
 
 ```{r, eval = FALSE}
-my_db <- src_sqlite("my_db.sqlite3", create = T)
+my_db <- src_sqlite("my_db.sqlite3", create = TRUE)
 ```
 
 The main new concept here is the `src`, which is a collection of types of database tables. Use `src_sqlite()`, `src_mysql()`, `src_postgres()` and `src_bigquery()` to connect to the specific types supported by dplyr.
@@ -174,7 +174,7 @@ The basic techniques that underlie the implementation of `translate_sql()` are d
 Perfect translation is not possible because databases don't have all the functions that R does. The goal of dplyr is to provide a semantic rather than a literal translation: what you mean rather than what is done. In fact, even for functions that exist both in databases and R, you shouldn't expect results to be identical; database programmers have different priorities than R core programmers. For example, in R in order to get a higher level of numerical accuracy, `mean()` loops through the data twice. R's `mean()` also provides a `trim` option for computing trimmed means; this is something that databases do not provide. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. This means the essence of simple calls like `mean(x)` will be translated accurately, but more complicated calls like `mean(x, trim = 0.5, na.rm = TRUE)` will raise an error:
 
 ```{r, eval = FALSE}
-translate_sql(mean(x, trim = T))
+translate_sql(mean(x, trim = 0.1))
 # Error: Invalid number of args to SQL AVG. Expecting 1
 ```
 
