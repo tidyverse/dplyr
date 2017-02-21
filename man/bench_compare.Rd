@@ -4,17 +4,24 @@
 \alias{bench_compare}
 \alias{bench_tbls}
 \alias{compare_tbls}
+\alias{compare_tbls2}
 \alias{eval_tbls}
+\alias{eval_tbls2}
 \title{Evaluate, compare, benchmark operations of a set of srcs.}
 \usage{
 bench_tbls(tbls, op, ..., times = 10)
 
 compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
 
+compare_tbls2(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame,
+  ...)
+
 eval_tbls(tbls, op)
+
+eval_tbls2(tbls_x, tbls_y, op)
 }
 \arguments{
-\item{tbls}{A list of \code{\link[=tbl]{tbl()}}s.}
+\item{tbls, tbls_x, tbls_y}{A list of \code{\link[=tbl]{tbl()}}s.}
 
 \item{op}{A function with a single argument, called often with each
 element of \code{tbls}.}

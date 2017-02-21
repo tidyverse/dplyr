@@ -16,7 +16,7 @@ sql_select(con, select, from, where = NULL, group_by = NULL,
 
 sql_subquery(con, from, name = random_table_name(), ...)
 
-sql_join(con, x, y, type = "inner", by = NULL, ...)
+sql_join(con, x, y, vars, type = "inner", by = NULL, ...)
 
 sql_semi_join(con, x, y, anti = FALSE, by = NULL, ...)
 

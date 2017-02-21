@@ -1,30 +1,5 @@
 context("Set ops")
 
-tbls <- test_load(mtcars, ignore = "mysql")
-
-test_that("results are the same across sources", {
-  compare_tbls(
-    tbls,
-    function(x) setdiff(x, filter(x, cyl == 4)),
-    filter(mtcars, cyl != 4)
-  )
-  compare_tbls(
-    tbls,
-    function(x) intersect(x, filter(x, cyl == 4)),
-    filter(mtcars, cyl == 4)
-  )
-  compare_tbls(
-    tbls,
-    function(x) union(x, filter(x, cyl == 4)),
-    mtcars
-  )
-  compare_tbls(
-    tbls,
-    function(x) union(filter(x, cyl == 6), filter(x, cyl == 4)),
-    filter(mtcars, cyl %in% c(4, 6))
-  )
-})
-
 test_that("set operation give useful error message. #903", {
   alfa <- data_frame(
     land = c("Sverige", "Norway", "Danmark", "Island", "GB"),
@@ -81,3 +56,47 @@ test_that("intersect does not unnecessarily coerce (#1722)", {
   res <- intersect(df, df)
   expect_is(res$a, "integer")
 })
+
+
+# Databases ---------------------------------------------------------------
+
+test_that("union and union all work for all backends", {
+  df <- tibble(x = 1:10, y = x %% 2)
+
+  tbls_full <- test_load(df)
+  tbls_filter <- test_load(filter(df, y == 0))
+
+  compare_tbls2(tbls_full, tbls_filter, union)
+  compare_tbls2(tbls_full, tbls_filter, union_all)
+})
+
+test_that("intersect and setdiff work for supported backends", {
+  df <- tibble(x = 1:10, y = x %% 2)
+
+  # MySQL doesn't support EXCEPT or INTERSECT
+  tbls_full <- test_load(df, ignore = "mysql")
+  tbls_filter <- test_load(filter(df, y == 0), ignore = "mysql")
+
+  compare_tbls2(tbls_full, tbls_filter, union)
+  compare_tbls2(tbls_full, tbls_filter, union_all)
+})
+
+test_that("SQLite warns if set op attempted when tbl has LIMIT", {
+  mf <- memdb_frame(x = 1:2)
+  m1 <- head(mf, 1)
+
+  expect_error(union(mf, m1), "does not support")
+  expect_error(union(m1, mf), "does not support")
+})
+
+test_that("other backends can combine with a limit", {
+  df <- tibble(x = 1:2)
+
+  # sqlite only allows limit at top level
+  tbls_full <- test_load(df, ignore = "sqlite")
+  tbls_head <- lapply(test_load(df, ignore = "sqlite"), head, n = 1)
+
+  compare_tbls2(tbls_full, tbls_head, union)
+  compare_tbls2(tbls_full, tbls_head, union_all)
+})
+

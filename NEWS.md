@@ -1,5 +1,55 @@
 # dplyr 0.5.0.9000
 
+* `collect()` will automatically LIMIT the result to the `n`, the number of 
+  rows requested. This will provide the query planner with more information
+  that it may be able to use to improve execution time (#2083).
+
+* `distinct()` reports improved variable information for SQL backends. This
+  means that it is more likely to work in the middle of a pipeline (#2359).
+
+* `compute()` and `collapse()` now preserve the "ordering" of rows.
+  This only affects the computation of window functions, as the rest
+  of SQL does not care about row order (#2281).
+
+* Database tables now display how they are ordered (#2287)
+
+* [API] `op_vars()` now returns a list of quoted expressions. This
+  enables escaping to happen at the correct time (i.e. when the connection
+  is known).
+
+* Database backends now understand how grouping is affected by renames
+  (#1962)
+  
+* Database backends only regroup by variables present in the data (#2156)
+
+* SQL joins have been improved:
+
+  * They now generate SQL more similar to what you'd write by hand,
+    eliminating a layer or two of subqueries (#2333)
+    
+  * [API] They now follow the same rules for including duplicated key variables
+    that the data frame methods do, namely that key variables are only
+    kept from `x`, and never from `y` (#2410)
+    
+  * [API] The `sql_join()` generic now gains a `vars` argument which lists
+    the variables taken from the left and right sides of the join. If you
+    have a custom `sql_join()` method, you'll need to update how your
+    code generates joins, following the template in `sql_join.generic()`.
+
+* `group_by()` can now perform an inline mutate for database backends (#2422).
+
+* `full_join()` throws a clear error when you attempt to use it with a
+  MySQL backend (#2045)
+
+* The SQL generation set operations (`intersect()`, `setdiff()`, `union()`, and
+  `union_all()`) on databases has been considerably improved. By default,
+  the component SELECT are surrounded with parentheses, except on SQLite.
+  The SQLite backend will now throw an error if you attempt a set operation
+  on a query that contains a LIMIT, as that is not supported in SQLite (#2270).
+
+* Ungrouped `do()` on database backends now collects all data locally first
+  (#2392).
+
 * Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
 
 * `first()`, `last()`, and `nth()` have better default values for factor,
@@ -115,7 +165,7 @@
 
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
 
-* New `group_vars()` generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by `group_by_prepare()` now has a new `group_names` component (#1950).
+* New `group_vars()` generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by `group_by_prepare()` now has a new `group_names` component (#1950, #2384).
 
 * Fix `copy_to()` for MySQL if a character column contains `NA` (#1975, #2256, #2263, #2381, @demorenoc, @eduardgrebe).
 

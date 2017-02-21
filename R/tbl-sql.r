@@ -60,12 +60,16 @@ as.data.frame.tbl_sql <- function(x, row.names = NULL, optional = NULL,
 
 #' @export
 print.tbl_sql <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source:   query ", dim_desc(x), "\n", sep = "")
-  cat("Database: ", src_desc(x$src), "\n", sep = "")
+  cat("Source:     query ", dim_desc(x), "\n", sep = "")
+  cat("Database:   ", src_desc(x$src), "\n", sep = "")
 
   grps <- op_grps(x$ops)
   if (length(grps) > 0) {
-    cat("Groups: ", commas(op_grps(x$ops)), "\n", sep = "")
+    cat("Grouped by: ", commas(grps), "\n", sep = "")
+  }
+  sort <- op_sort(x$ops)
+  if (length(sort) > 0) {
+    cat("Ordered by: ", commas(deparse_all(sort)), "\n", sep = "")
   }
 
   cat("\n")
@@ -368,7 +372,9 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
     con_release(x$src, con)
   })
 
-  tbl(x$src, sql) %>% group_by_(.dots = groups(x))
+  tbl(x$src, sql) %>%
+    group_by_(.dots = op_grps(x)) %>%
+    add_op_order(op_sort(x))
 }
 
 #' @export
@@ -396,7 +402,9 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
     con_release(x$src, con)
   })
 
-  tbl(x$src, name) %>% group_by_(.dots = groups(x))
+  tbl(x$src, name) %>%
+    group_by_(.dots = op_grps(x)) %>%
+    add_op_order(op_sort(x))
 }
 
 #' @export
@@ -404,6 +412,10 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
   assert_that(length(n) == 1, n > 0L)
   if (n == Inf) {
     n <- -1
+  } else {
+    # Gives the query planner information that it might be able to take
+    # advantage of
+    x <- head(x, n)
   }
 
   con <- con_acquire(x$src)
@@ -420,7 +432,8 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
     dbClearResult(res)
   })
 
-  grouped_df(out, groups(x))
+
+  grouped_df(out, intersect(op_grps(x), names(out)))
 }
 
 # Do ---------------------------------------------------------------------------
@@ -433,7 +446,11 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
 #'   talking to the database.
 do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   group_by <- groups(.data)
-  if (is.null(group_by)) stop("No grouping", call. = FALSE)
+
+  if (length(group_by) == 0) {
+    .data <- collect(.data)
+    return(do_(.data, ..., .dots = .dots))
+  }
 
   args <- lazyeval::all_dots(.dots, ...)
   named <- named_args(args)

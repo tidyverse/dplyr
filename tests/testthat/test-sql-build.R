@@ -83,12 +83,12 @@ test_that("grouped arrange doesn't order by groups", {
 
 test_that("summarise generates group_by and select", {
   out <- lazy_frame(g = 1) %>%
-    group_by(x) %>%
+    group_by(g) %>%
     summarise(n = n()) %>%
     sql_build()
 
-  expect_equal(out$group_by, sql('"x"'))
-  expect_equal(out$select, sql('"x"', 'COUNT() AS "n"'))
+  expect_equal(out$group_by, sql('"g"'))
+  expect_equal(out$select, sql('"g"', 'COUNT() AS "n"'))
 })
 
 
@@ -158,9 +158,10 @@ test_that("join captures both tables", {
 
   out <- inner_join(lf1, lf2) %>% sql_build()
 
-  expect_equal(op_vars(out$from$x), c("x.x", "y"))
-  expect_equal(op_vars(out$from$y), c("x.y", "z"))
-  expect_equal(out$from$type, "inner")
+  expect_s3_class(out, "join_query")
+  expect_equal(op_vars(out$x), c("x", "y"))
+  expect_equal(op_vars(out$y), c("x", "z"))
+  expect_equal(out$type, "inner")
 })
 
 test_that("semi join captures both tables", {

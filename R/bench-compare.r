@@ -3,7 +3,7 @@
 #' These functions support the comparison of results and timings across
 #' multiple sources.
 #'
-#' @param tbls A list of [tbl()]s.
+#' @param tbls,tbls_x,tbls_y A list of [tbl()]s.
 #' @param op A function with a single argument, called often with each
 #'   element of `tbls`.
 #' @param ref For checking, an data frame to test results against. If not
@@ -83,14 +83,26 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
 #' @export
 #' @rdname bench_compare
 compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
-  if (length(tbls) < 2 && is.null(ref)) {
-    testthat::skip("Need at least two srcs to compare")
-  }
+  results <- eval_tbls(tbls, op)
+  expect_equal_tbls(results, compare = compare, ...)
+}
+
+#' @export
+#' @rdname bench_compare
+compare_tbls2 <- function(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...) {
+  results <- eval_tbls2(tbls_x, tbls_y, op)
+  expect_equal_tbls(results, compare = compare, ...)
+}
+
+expect_equal_tbls <- function(results, ref = NULL, compare = equal_data_frame, ...) {
   if (!requireNamespace("testthat", quietly = TRUE)) {
     stop("Please install the testthat package", call. = FALSE)
   }
 
-  results <- eval_tbls(tbls, op)
+  if (length(results) < 2 && is.null(ref)) {
+    testthat::skip("Need at least two srcs to compare")
+  }
+
 
   if (is.null(ref)) {
     ref <- results[[1]]
@@ -114,9 +126,14 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
   invisible(TRUE)
 }
 
-
 #' @export
 #' @rdname bench_compare
 eval_tbls <- function(tbls, op) {
   lapply(tbls, function(x) as.data.frame(op(x)))
+}
+
+#' @export
+#' @rdname bench_compare
+eval_tbls2 <- function(tbls_x, tbls_y, op) {
+  Map(function(x, y) as.data.frame(op(x, y)), tbls_x, tbls_y)
 }

@@ -277,3 +277,13 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(rowwise(df), "unsupported type")
 })
+
+test_that("group_by can perform mutate (on database)", {
+  mf <- memdb_frame(x = c(3:1), y = c(1:3))
+  out <- mf %>%
+    group_by(z = x + y) %>%
+    summarise(n = n()) %>%
+    collect()
+
+  expect_equal(out, tibble(z = 4L, n = 3L))
+})
