@@ -2,29 +2,13 @@ methods::setOldClass(c("grouped_df", "tbl_df", "data.frame"))
 
 # Grouping methods ------------------------------------------------------------
 
-#' Convert to a data frame
-#'
-#' Functions that convert the input to a `data_frame`.
-#'
-#' @details For a grouped data frame, the [tibble::as_data_frame()]
-#' S3 generic simply removes the grouping.
-#'
-#' @inheritParams tibble::as_data_frame
-#' @seealso [tibble::as_data_frame()]
-#' @name grouped_df
-#' @export
-as_data_frame.grouped_df <- function(x, ...) {
-  x <- ungroup(x)
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
-}
-
 #' Convert row names to an explicit variable.
 #'
 #' Deprecated, use [tibble::rownames_to_column()] instead.
 #'
 #' @param df Input data frame with rownames.
 #' @param var Name of variable to use
+#' @keywords internal
 #' @export
 #' @examples
 #' mtcars %>% tbl_df()

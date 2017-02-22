@@ -74,6 +74,13 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 }
 
 #' @export
+as_data_frame.grouped_df <- function(x, ...) {
+  x <- ungroup(x)
+  class(x) <- c("tbl_df", "tbl", "data.frame")
+  x
+}
+
+#' @export
 ungroup.grouped_df <- function(x, ...) {
   ungroup_grouped_df(x)
 }
