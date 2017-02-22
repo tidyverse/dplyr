@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `as_tibble()` is re-exported from tibble. This is the recommend way to create
+  tibbles from existing data frames.
+
 * `filter()` and `lag()` throw informative error if used with ts objects (#2219)
 
 * `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
