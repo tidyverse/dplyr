@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `Inf` and `-Inf` are now correctled escaped for databases.
+
 * Long deprecated `regroup()` has been removed.
 
 * [API] Deprecated `failwith()`. I'm not even sure why it was here.
