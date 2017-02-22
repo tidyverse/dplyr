@@ -81,12 +81,21 @@ bind_rows <- function(..., .id = NULL) {
   bind_rows_(x, .id)
 }
 
+#' @export
+rbind.tbl_df <- function(..., deparse.level = 1) {
+  bind_rows(...)
+}
 
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
   x <- list_or_dots(...)
   cbind_all(x)
+}
+
+#' @export
+cbind.tbl_df <- function(..., deparse.level = 1) {
+  bind_cols(...)
 }
 
 #' @export

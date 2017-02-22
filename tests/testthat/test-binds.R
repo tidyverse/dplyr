@@ -1,5 +1,16 @@
 context("binds")
 
+
+# base --------------------------------------------------------------------
+
+test_that("cbind and rbind methods work for tbl_df", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(y = 2)
+
+  expect_equal(cbind(df1, df2), tibble(x = 1, y = 2))
+  expect_equal(rbind(df1, df2), tibble(x = c(1, NA), y = c(NA, 2)))
+})
+
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {

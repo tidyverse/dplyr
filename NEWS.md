@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
+  `bind_cols()` respectively (#2138)
+
 * `copy_to()` gains an `overwrite` argument which allows you to overwrite
   an existing table. Use with care! (#2296)
 
