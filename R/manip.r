@@ -168,6 +168,8 @@ summarize_ <- summarise_
 #'
 #' * [cumsum()], [cummean()], [cummin()], [cummax()], [cumany()], [cumall()]
 #'
+#' * [na_if()], [coalesce()]
+#'
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data

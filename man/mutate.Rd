@@ -41,6 +41,7 @@ An object of the same class as \code{.data}.
 \item \code{\link[=dense_rank]{dense_rank()}}, \code{\link[=min_rank]{min_rank()}}, \code{\link[=percent_rank]{percent_rank()}}, \code{\link[=row_number]{row_number()}},
 \code{\link[=cume_dist]{cume_dist()}}, \code{\link[=ntile]{ntile()}}
 \item \code{\link[=cumsum]{cumsum()}}, \code{\link[=cummean]{cummean()}}, \code{\link[=cummin]{cummin()}}, \code{\link[=cummax]{cummax()}}, \code{\link[=cumany]{cumany()}}, \code{\link[=cumall]{cumall()}}
+\item \code{\link[=na_if]{na_if()}}, \code{\link[=coalesce]{coalesce()}}
 }
 }
 
