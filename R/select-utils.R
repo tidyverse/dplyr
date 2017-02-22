@@ -1,15 +1,13 @@
 #' Select helpers
 #'
 #' These functions allow you to select variables based on their names.
-#' \itemize{
-#'  \item `starts_with()`: starts with a prefix
-#'  \item `ends_with()`: ends with a prefix
-#'  \item `contains()`: contains a literal string
-#'  \item `matches()`: matches a regular expression
-#'  \item `num_range()`: a numerical range like x01, x02, x03.
-#'  \item `one_of()`: variables in character vector.
-#'  \item `everything()`: all variables.
-#' }
+#' * `starts_with()`: starts with a prefix
+#' * `ends_with()`: ends with a prefix
+#' * `contains()`: contains a literal string
+#' * `matches()`: matches a regular expression
+#' * `num_range()`: a numerical range like x01, x02, x03.
+#' * `one_of()`: variables in character vector.
+#' * `everything()`: all variables.
 #'
 #' @param match A string.
 #' @param ignore.case If `TRUE`, the default, ignores case when matching
@@ -18,7 +16,7 @@
 #'   [select()] these are automatically set to the names of the
 #'   table.
 #' @name select_helpers
-#' @return An integer vector given the position of the matched variables.
+#' @return An integer vector giving the position of the matched variables.
 #' @examples
 #' iris <- tbl_df(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))

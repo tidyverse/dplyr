@@ -1,7 +1,7 @@
-#' A helper function for ordering window function output.
+#' A helper function for ordering window function output
 #'
-#' This is a useful function to control the order of window functions in
-#' R that don't have a specific ordering parameter. When translated to SQL
+#' This function makes it possible to control the ordering of window functions
+#' in R that don't have a specific ordering parameter. When translated to SQL
 #' it will modify the order clause of the OVER function.
 #'
 #' This function works by changing the `call` to instead call

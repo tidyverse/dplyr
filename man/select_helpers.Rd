@@ -48,7 +48,7 @@ a range of 2 gives "01", a range of three "001", etc.}
 \item{...}{One or more character vectors.}
 }
 \value{
-An integer vector given the position of the matched variables.
+An integer vector giving the position of the matched variables.
 }
 \description{
 These functions allow you to select variables based on their names.

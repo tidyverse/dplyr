@@ -42,6 +42,7 @@ An object of the same class as \code{.data}.
 \code{\link[=cume_dist]{cume_dist()}}, \code{\link[=ntile]{ntile()}}
 \item \code{\link[=cumsum]{cumsum()}}, \code{\link[=cummean]{cummean()}}, \code{\link[=cummin]{cummin()}}, \code{\link[=cummax]{cummax()}}, \code{\link[=cumany]{cumany()}}, \code{\link[=cumall]{cumall()}}
 \item \code{\link[=na_if]{na_if()}}, \code{\link[=coalesce]{coalesce()}}
+\item \code{\link[=if_else]{if_else()}}, \code{\link[=recode]{recode()}}, \code{\link[=case_when]{case_when()}}
 }
 }
 

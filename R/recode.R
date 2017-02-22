@@ -3,7 +3,8 @@
 #' This is a vectorised version of [switch()]: you can replace
 #' numeric values based on their position, and character values by their
 #' name. This is an S3 generic: dplyr provides methods for numeric, character,
-#' and factors. For logical vectors, use [if_else()]
+#' and factors. For logical vectors, use [if_else()]. For more complicated
+#' criteria, use [case_when()].
 #'
 #' @param .x A vector to modify
 #' @param ... Replacements. These should be named for character and factor

@@ -170,6 +170,8 @@ summarize_ <- summarise_
 #'
 #' * [na_if()], [coalesce()]
 #'
+#' * [if_else()], [recode()], [case_when()]
+#'
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
