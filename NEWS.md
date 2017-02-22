@@ -7,7 +7,7 @@
 * DBI tables print the table name if known.
 
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
-  tibbles from existing data frames.
+  tibbles from existing data frames. `tbl_df()` has been softly deprecated.
 
 * `filter()` and `lag()` throw informative error if used with ts objects (#2219)
 
