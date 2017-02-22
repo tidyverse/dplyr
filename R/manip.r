@@ -1,26 +1,31 @@
-#' Return rows with matching conditions.
+#' Return rows with matching conditions
+#'
+#' Use `filter()` find rows/cases where conditions are true. Unlike
+#' base subsetting, rows where the condition evaluates to `NA` are dropped.
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
-#' @param ... Logical predicates. Multiple conditions are combined with `&`.
+#' @param ... Logical predicates defined in terms of the variables in `.data`.
+#'   Multiple conditions are combined with `&`. Only rows where the
+#'   conditon evalutes to `TRUE` are kept.
 #' @param .dots Used to work around non-standard evaluation. See
 #'   `vignette("nse")` for details.
 #' @return An object of the same class as `.data`.
 #'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
+#'   When applied to a data frame, row names are silently dropped. To preserve,
+#'   convert to an explicit variable with [tibble::rownames_to_column()].
 #' @export
 #' @examples
-#' filter(mtcars, cyl == 8)
-#' filter(mtcars, cyl < 6)
+#' filter(starwars, species == "Human")
+#' filter(starwars, mass > 1000)
 #'
 #' # Multiple criteria
-#' filter(mtcars, cyl < 6 & vs == 1)
-#' filter(mtcars, cyl < 6 | vs == 1)
+#' filter(starwars, hair_color == "none" & eye_color == "black")
+#' filter(starwars, hair_color == "none" | eye_color == "black")
 #'
 #' # Multiple arguments are equivalent to and
-#' filter(mtcars, cyl < 6, vs == 1)
+#' filter(starwars, hair_color == "none", eye_color == "black")
 filter <- function(.data, ...) {
   filter_(.data, .dots = lazyeval::lazy_dots(...))
 }
