@@ -320,8 +320,11 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' @return a sqlite [tbl()] object
 #' @examples
 #' if (requireNamespace("RSQLite")) {
+#' set.seed(1014)
+#'
 #' mtcars$model <- rownames(mtcars)
-#' mtcars2 <- src_memdb() %>% copy_to(mtcars, indexes = list("model"))
+#' mtcars2 <- src_memdb() %>%
+#'   copy_to(mtcars, indexes = list("model"), overwrite = TRUE)
 #' mtcars2 %>% filter(model == "Hornet 4 Drive")
 #'
 #' # copy_to is called automatically if you set copy = TRUE

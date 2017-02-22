@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' iris2 <- src_memdb() %>% copy_to(iris)
+#' iris2 <- src_memdb() %>% copy_to(iris, overwrite = TRUE)
 #' iris2
 #' }
 copy_to <- function(dest, df, name = deparse(substitute(df)),

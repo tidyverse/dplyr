@@ -22,14 +22,27 @@ conditon evalutes to \code{TRUE} are kept.}
 }
 \value{
 An object of the same class as \code{.data}.
-
-When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 \description{
 Use \code{filter()} find rows/cases where conditions are true. Unlike
 base subsetting, rows where the condition evaluates to \code{NA} are dropped.
 }
+\section{Useful filter functions}{
+
+\itemize{
+\item \code{\link{==}}, \code{\link{>}}, \code{\link{>=}} etc
+\item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link[=xor]{xor()}}
+\item \code{\link[=is.na]{is.na()}}
+\item \code{\link[=between]{between()}}, \code{\link[=near]{near()}}
+}
+}
+
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+}
+
 \examples{
 filter(starwars, species == "Human")
 filter(starwars, mass > 1000)

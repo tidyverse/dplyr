@@ -29,7 +29,7 @@ temporary, limited to the current connection to the source.
 }
 \examples{
 \dontrun{
-iris2 <- src_memdb() \%>\% copy_to(iris)
+iris2 <- src_memdb() \%>\% copy_to(iris, overwrite = TRUE)
 iris2
 }
 }
