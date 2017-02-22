@@ -1,6 +1,8 @@
 # dplyr 0.5.0.9000
 
-* Deprecated `failwith()`. I'm not even sure why it was here.
+* Long deprecated `regroup()` has been removed.
+
+* [API] Deprecated `failwith()`. I'm not even sure why it was here.
 
 * DBI tables print the table name if known.
 
