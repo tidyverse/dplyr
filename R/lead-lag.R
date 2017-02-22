@@ -1,7 +1,7 @@
 #' Lead and lag.
 #'
-#' Lead and lag are useful for comparing values offset by a constant (e.g. the
-#' previous or next value)
+#' Find the "next" or "previous" values in a vector. Useful for comparing values
+#' ahead of or behind the current values.
 #'
 #' @param x a vector of values
 #' @param n a postive integer of length 1, giving the number of positions to
