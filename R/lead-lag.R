@@ -57,6 +57,13 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lag, x, n = n, default = default))
   }
 
+  if (inherits(x, "ts")) {
+    stop(
+      "dplyr::lag() called with ts object. Do you want stats::lag()?",
+      call. = FALSE
+    )
+  }
+
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 

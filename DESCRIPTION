@@ -127,6 +127,7 @@ Collate:
     'translate-sql-window.r'
     'translate-sql-base.r'
     'translate-sql.r'
+    'ts.R'
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'

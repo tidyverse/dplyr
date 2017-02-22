@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `filter()` and `lag()` throw informative error if used with ts objects (#2219)
+
 * `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
   `bind_cols()` respectively (#2138)
 
