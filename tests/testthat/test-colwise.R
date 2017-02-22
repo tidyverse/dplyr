@@ -69,6 +69,23 @@ test_that("empty selection does not select everything (#2009, #1989)", {
   expect_equal(mtcars, mutate_if(mtcars, is.factor, as.character))
 })
 
+test_that("mutate_if w/ single column (#2114, #2462)", {
+  ds_1a <- data.frame(id = 1L:5L, stringsAsFactors = FALSE)
+
+  # Original scenario of #2114 (w/ and w/o qualifying the package).
+  ds_1b <- dplyr::mutate_if(ds_1a, is.character, function(x) dplyr::coalesce(x, "-"))
+  ds_1c <-        mutate_if(ds_1a, is.character, function(x)        coalesce(x, "-"))
+
+  # Alternative suggested by @hadley in https://github.com/hadley/dplyr/issues/2114#issuecomment-281652615
+  ds_1d <- dplyr::mutate_if(ds_1a, is.character, dplyr::coalesce, "-")
+  ds_1e <-        mutate_if(ds_1a, is.character,        coalesce, "-")
+
+  expect_equal(ds_1b$id, 1L:5L)
+  expect_equal(ds_1c$id, 1L:5L)
+  expect_equal(ds_1d$id, 1L:5L)
+  expect_equal(ds_1e$id, 1L:5L)
+})
+
 test_that("arguments are matched by names and by position", {
   fun <- function(a = 1, b = 2, c = 3) {
     paste0(a, b, c)
