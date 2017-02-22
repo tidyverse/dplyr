@@ -1,10 +1,9 @@
-#' Join two tbls together.
+#' Join two tbls together
 #'
 #' These are generic functions that dispatch to individual tbl methods - see the
 #' method documentation for details of individual data sources. `x` and
 #' `y` should usually be from the same data source, but if `copy` is
-#' `TRUE`, `y` will automatically be copied to the same source as
-#' `x` - this may be an expensive operation.
+#' `TRUE`, `y` will automatically be copied to the same source as `x`.
 #'
 #' @section Join types:
 #'
@@ -60,8 +59,27 @@
 #'   it is a potentially expensive operation so you must opt into it.
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to diambiguate them.
+#'   Should be a character vector of length 2.
 #' @param ... other parameters passed onto methods
 #' @name join
+#' @examples
+#' # "Mutating" joins add variables to the LHS
+#' band_members %>% inner_join(band_instruments)
+#' band_members %>% left_join(band_instruments)
+#' band_members %>% right_join(band_instruments)
+#' band_members %>% full_join(band_instruments)
+#'
+#' # "Filtering" joins keep cases from the LHS
+#' band_members %>% semi_join(band_instruments)
+#' band_members %>% anti_join(band_instruments)
+#'
+#' # To suppress the message, supply by
+#' band_members %>% inner_join(band_instruments, by = "name")
+#' # This is good practice in production code
+#'
+#' # Use a named `by` if the join variables have different names
+#' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
+#' # Note that only the key from the LHS is kept
 NULL
 
 #' @rdname join
