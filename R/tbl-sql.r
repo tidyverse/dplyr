@@ -315,7 +315,7 @@ auto_copy.tbl_sql <- function(x, y, copy = FALSE, ...) {
 #' @param analyze if `TRUE` (the default), will automatically ANALYZE the
 #'   new table so that the query optimiser has useful information.
 #' @inheritParams copy_to
-#' @return a sqlite [tbl()] object
+#' @return A [tbl()] object (invisibly).
 #' @examples
 #' if (requireNamespace("RSQLite")) {
 #' set.seed(1014)
@@ -363,7 +363,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
     con_release(dest, con)
   })
 
-  tbl(dest, name)
+  invisible(tbl(dest, name))
 }
 
 #' @export

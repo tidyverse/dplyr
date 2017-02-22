@@ -39,7 +39,7 @@ new table so that the query optimiser has useful information.}
 \item{...}{other parameters passed to methods.}
 }
 \value{
-a sqlite \code{\link[=tbl]{tbl()}} object
+A \code{\link[=tbl]{tbl()}} object (invisibly).
 }
 \description{
 This \code{\link[=copy_to]{copy_to()}} method works for all DBI sources. It is useful for

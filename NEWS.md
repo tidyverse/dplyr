@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `copy_to()` now returns it's output invisibly (since you're often just
+   calling for the side-effect).
+
 * `Inf` and `-Inf` are now correctled escaped for databases.
 
 * Long deprecated `regroup()` has been removed.
