@@ -11,8 +11,15 @@
 #'   name `name`. If `FALSE`, will throw an error if `name` already
 #'   exists.
 #' @param ... other parameters passed to methods.
+#' @seealso [collect()] for the opposite action; downloading remote data into
+#'   a local dbl.
 #' @return a `tbl` object in the remote source
 #' @export
+#' @examples
+#' \dontrun{
+#' iris2 <- src_memdb() %>% copy_to(iris)
+#' iris2
+#' }
 copy_to <- function(dest, df, name = deparse(substitute(df)),
                     overwrite = FALSE, ...) {
   UseMethod("copy_to")
