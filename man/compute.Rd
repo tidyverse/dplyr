@@ -5,7 +5,7 @@
 \alias{collect}
 \alias{collapse}
 \alias{compute.tbl_sql}
-\title{Compute a lazy tbl.}
+\title{Force computation of a database query}
 \usage{
 compute(x, name = random_table_name(), ...)
 
@@ -17,11 +17,11 @@ collapse(x, ...)
   unique_indexes = list(), indexes = list(), ...)
 }
 \arguments{
-\item{x}{a data tbl}
+\item{x}{A tbl}
 
-\item{name}{name of temporary table on database.}
+\item{name}{Name of temporary table on database.}
 
-\item{...}{other arguments passed on to methods}
+\item{...}{Other arguments passed on to methods}
 
 \item{temporary}{if \code{TRUE}, will create a temporary table that is
 local to this connection and will be automatically deleted when the
@@ -35,30 +35,35 @@ will result in failure.}
 will create a new index.}
 }
 \description{
-\code{compute()} forces computation of lazy tbls, leaving data in the remote
-source. \code{collect()} also forces computation, but will bring data back into
-an R data.frame (stored in a \code{\link[=tbl_df]{tbl_df()}}). \code{collapse()} doesn't
-force computation, but collapses a complex tbl into a form that additional
-restrictions can be placed on.
+\code{compute()} stores results in a remote temporary table.
+\code{collect()} retrieves data into a local tibble.
+\code{collapse()} is slightly different: it doesn't force computation, but
+instead forces generation of the SQL query. This is sometimes needed to work
+around bugs in dplyr's SQL generation.
 }
-\section{Grouping}{
-
-
-\code{compute()}, \code{collect()}, and \code{collapse()} preserve grouping.
+\details{
+All functions preserve grouping and ordering.
 }
-
 \examples{
-\donttest{
-if (require("RSQLite") && has_lahman("sqlite")) {
-  batting <- tbl(lahman_sqlite(), "Batting")
-  remote <- select(filter(batting, yearID > 2010 && stint == 1), playerID:H)
-  remote2 <- collapse(remote)
-  cached <- compute(remote)
-  local  <- collect(remote)
-}
+if (require("RSQLite")) {
+  mtcars2 <- src_memdb() \%>\%
+    copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
+
+  remote <- mtcars2 \%>\%
+    filter(cyl == 8) \%>\%
+    select(mpg:drat)
+
+  # Compute query and save in remote table
+  compute(remote)
+
+  # Compute query bring back to this session
+  collect(remote)
+
+  # Creates a fresh query based on the generated SQL
+  collapse(remote)
 }
 }
 \seealso{
-\code{\link[=copy_to]{copy_to()}} which is the conceptual opposite: it
-takes a local data frame and makes it available to the remote source.
+\code{\link[=copy_to]{copy_to()}}, the opposite of \code{collect()}: it takes a local data
+frame and uploads it to the remote source.
 }
