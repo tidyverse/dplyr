@@ -90,6 +90,10 @@ group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = FALSE)
   dots <- partial_eval(dots, vars = op_vars(.data))
 
+  if (length(dots) == 0) {
+    return(.data)
+  }
+
   groups <- group_by_prepare(.data, .dots = dots, add = add)
   names <- vapply(groups$groups, as.character, character(1))
 

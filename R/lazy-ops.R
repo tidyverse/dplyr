@@ -243,6 +243,10 @@ op_sort.tbl_lazy <- function(op) {
 # imposing an additional arrange, so we have a special op_order
 
 add_op_order <- function(.data, dots = list()) {
+  if (length(dots) == 0) {
+    return(.data)
+  }
+
   .data$ops <- op_single("order", x = .data$ops, dots = dots)
   .data
 }
