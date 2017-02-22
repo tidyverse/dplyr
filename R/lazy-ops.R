@@ -260,3 +260,44 @@ sql_build.op_order <- function(op, con, ...) {
   sql_build(op$x, con, ...)
 }
 
+
+# Description -------------------------------------------------------------
+
+tbl_desc <- function(x) {
+  paste0(
+    op_desc(x$ops),
+    " [",
+    op_rows(x$ops),
+    " x ",
+    big_mark(op_cols(x$ops)),
+    "]"
+  )
+}
+
+op_rows <- function(op) "??"
+op_cols <- function(op) length(op_vars(op))
+
+op_desc <- function(op) UseMethod("op_desc")
+
+op_desc.op_base_remote <- function(op) {
+  if (is.ident(op$x)) {
+    paste0("table<", op$x, ">")
+  } else {
+    "SQL"
+  }
+}
+
+#' @export
+op_desc.op_group_by <- function(x, ...) {
+  op_desc(x$x, ...)
+}
+
+#' @export
+op_desc.op_arrange <- function(x, ...) {
+  op_desc(x$x, ...)
+}
+
+#' @export
+op_desc.op <- function(x, ..., con = con) {
+  "lazy query"
+}

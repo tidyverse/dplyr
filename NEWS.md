@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* DBI tables print the table name if known.
+
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
   tibbles from existing data frames.
 

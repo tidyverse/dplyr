@@ -1,4 +1,4 @@
-Source:     query [?? x 5]
+Source:     lazy query [?? x 5]
 Database:   sqlite x.y.z [:memory:]
 Grouped by: Species
 Ordered by: Sepal.Length
