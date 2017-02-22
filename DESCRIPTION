@@ -47,7 +47,6 @@ LazyData: yes
 License: MIT + file LICENSE
 Collate: 
     'RcppExports.R'
-    'add-tally.r'
     'all-equal.r'
     'bench-compare.r'
     'bind.r'
@@ -56,6 +55,7 @@ Collate:
     'colwise.R'
     'compute-collect.r'
     'copy-to.r'
+    'count-tally.R'
     'data-bands.R'
     'data-lahman.r'
     'data-nasa.r'
@@ -115,7 +115,6 @@ Collate:
     'src-test.r'
     'src.r'
     'src_dbi.R'
-    'tally.R'
     'tbl-cube.r'
     'tbl-df.r'
     'tbl-lazy.R'
