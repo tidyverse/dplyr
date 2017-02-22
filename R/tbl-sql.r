@@ -1,8 +1,6 @@
 #' Create an SQL tbl (abstract)
 #'
-#' This method shouldn't be called by users - it should only be used by
-#' backend implementors who are creating backends that extend the basic
-#' sql behaviour.
+#' Deprecated: please use [tbl_dbi()] instead.
 #'
 #' @keywords internal
 #' @export
