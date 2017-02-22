@@ -25,13 +25,20 @@
 #' x <- 1:10
 #' y <- 10:1
 #'
+#' first(x)
+#' last(y)
+#'
 #' nth(x, 1)
 #' nth(x, 5)
 #' nth(x, -2)
 #' nth(x, 11)
 #'
 #' last(x)
+#' # Second argument provides optional ordering
 #' last(x, y)
+#'
+#' # These functions always return a single value
+#' first(integer())
 nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
   stopifnot(length(n) == 1, is.numeric(n))
   n <- trunc(n)
