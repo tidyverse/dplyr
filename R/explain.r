@@ -1,4 +1,4 @@
-#' Explain details of a tbl.
+#' Explain details of a tbl
 #'
 #' This is a generic function which gives more details about an object than
 #' [print()], and is more focussed on human readable output than
@@ -63,3 +63,4 @@ show_query <- function(x) {
 
   invisible(x)
 }
+
