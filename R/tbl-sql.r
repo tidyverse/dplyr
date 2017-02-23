@@ -12,6 +12,7 @@
 #'   dplyr. However, you should usually be able to leave this blank and it
 #'   will be determined from the context.
 tbl_sql <- function(subclass, src, from, ..., vars = NULL) {
+  from <- ident(from)
   vars <- db_vars(src, from)
 
   make_tbl(

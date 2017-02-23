@@ -22,3 +22,10 @@ test_that("NAs in character fields handled by db sources (#2256)", {
     expect_equal(collect(tbl), as.tbl(df))
   }
 })
+
+test_that("tbl_sql() works with string argument", {
+  name <- unclass(random_table_name())
+  df <- memdb_frame(a = 1, .name = name)
+
+  expect_equal(collect(tbl_sql("sqlite", df$src, name)), collect(df))
+})
