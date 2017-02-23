@@ -16,7 +16,7 @@ test_that("identifier names become AS", {
   expect_equal(ei(x = "y"), '"y" AS "x"')
 })
 
-# Missing values ----------------------------------------------------------------
+# Special values ----------------------------------------------------------------
 
 test_that("missing vaues become null", {
   expect_equal(escape(NA), sql("NULL"))
@@ -25,6 +25,10 @@ test_that("missing vaues become null", {
   expect_equal(escape(NA_character_), sql("NULL"))
 })
 
+test_that("-Inf and Inf are expanded and quoted", {
+  expect_equal(escape(Inf), sql("'Infinity'"))
+  expect_equal(escape(-Inf), sql("'-Infinity'"))
+})
 
 # Times -------------------------------------------------------------------
 
