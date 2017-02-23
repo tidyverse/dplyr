@@ -136,6 +136,7 @@ Collate:
     'translate-sql-base.r'
     'translate-sql.r'
     'ts.R'
+    'utils-expr.R'
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'

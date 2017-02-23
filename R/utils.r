@@ -129,12 +129,3 @@ dots_compat <- function(dots, env) {
 
   dots
 }
-
-substitute_ <- function(x, env) {
-  if (identical(env, global_env())) {
-    env <- as.list(env)
-  }
-
-  call <- substitute(substitute(x, env), list(x = x))
-  expr_eval(call)
-}

@@ -183,30 +183,31 @@ select_colwise_names <- function(tbl, cols) {
   selected
 }
 
-colwise_ <- function(tbl, calls, vars) {
-  stopifnot(is_fun_list(calls))
 
-  named_calls <- attr(calls, "have_names")
+colwise_ <- function(tbl, tquotes, vars) {
+  stopifnot(is_fun_list(tquotes))
+
+  named_calls <- attr(tquotes, "have_names")
   named_vars <- any(have_names(vars))
   vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
-  out <- vector("list", length(vars) * length(calls))
-  dim(out) <- c(length(vars), length(calls))
+  out <- vector("list", length(vars) * length(tquotes))
+  dim(out) <- c(length(vars), length(tquotes))
 
   for (i in seq_along(vars)) {
-    dot <- child_env(data = list(. = as_symbol(vars[[i]])))
-    for (j in seq_along(calls)) {
-      out[[i, j]] <- substitute_(calls[[j]], dot)
+    for (j in seq_along(tquotes)) {
+      var_sym <- symbol(vars[[i]])
+      out[[i, j]] <- expr_substitute(tquotes[[j]], quote(.), var_sym)
     }
   }
   dim(out) <- NULL
 
-  if (length(calls) == 1 && !named_calls) {
+  if (length(tquotes) == 1 && !named_calls) {
     names(out) <- names(vars)
   } else if (length(vars) == 1 && !named_vars) {
-    names(out) <- names(calls)
+    names(out) <- names(tquotes)
   } else {
-    grid <- expand.grid(var = names(vars), call = names(calls))
+    grid <- expand.grid(var = names(vars), call = names(tquotes))
     names(out) <- paste(grid$var, grid$call, sep = "_")
   }
 
