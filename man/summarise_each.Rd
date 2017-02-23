@@ -39,9 +39,8 @@ Apply one or more functions to one or more columns. Grouping variables
 are always excluded from modification.
 }
 \details{
-In the future \code{mutate_each()} and \code{summarise_each()} will
-be deprecated in favour of a more featureful family of functions:
-\code{\link[=mutate_all]{mutate_all()}}, \code{\link[=mutate_at]{mutate_at()}},
-\code{\link[=mutate_if]{mutate_if()}}, \code{\link[=summarise_all]{summarise_all()}},
-\code{\link[=summarise_at]{summarise_at()}} and \code{\link[=summarise_if]{summarise_if()}}.
+\code{mutate_each()} and \code{summarise_each()} are deprecated in favour of
+a more featureful family of functions: \code{\link[=mutate_all]{mutate_all()}},
+\code{\link[=mutate_at]{mutate_at()}}, \code{\link[=mutate_if]{mutate_if()}}, \code{\link[=summarise_all]{summarise_all()}}, \code{\link[=summarise_at]{summarise_at()}}
+and \code{\link[=summarise_if]{summarise_if()}}.
 }

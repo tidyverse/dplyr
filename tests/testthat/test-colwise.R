@@ -37,7 +37,7 @@ test_that("named arguments force complete namd", {
 })
 
 expect_classes <- function(tbl, expected) {
-  classes <- unname(vapply(tbl, class, character(1)))
+  classes <- unname(map_chr(tbl, class))
   classes <- paste0(substring(classes, 0, 1), collapse = "")
   expect_equal(classes, expected)
 }
@@ -95,11 +95,11 @@ test_that("error is thrown with improper additional arguments", {
 test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
-  expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
-  expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
+  expect_warning(expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean)), "deprecated")
+  expect_warning(expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean)), "deprecated")
+  expect_warning(expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean)), "deprecated")
 
-  expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
-  expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
-  expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
+  expect_warning(expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean)), "deprecated")
+  expect_warning(expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean)), "deprecated")
+  expect_warning(expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean)), "deprecated")
 })
