@@ -24,31 +24,30 @@
 #' # If you have function names in a vector, use funs_
 #' fs <- c("min", "max")
 #' funs_(fs)
-funs <- function(...) funs_(lazyeval::lazy_dots(...))
+funs <- function(..., .args = list()) {
+  dots <- tidy_dots(...)
+  dots <- map(dots, funs_make_call, args = .args)
+
+  names(dots) <- names2(dots)
+  missing_names <- names(dots) == ""
+  default_names <- map_chr(dots[missing_names], as_name)
+  names(dots)[missing_names] <- default_names
+
+  class(dots) <- "fun_list"
+  attr(dots, "have_names") <- any(!missing_names)
+  dots
+}
 
 #' @export
 #' @rdname funs
 funs_ <- function(dots, args = list(), env = base_env()) {
-  dots <- lazyeval::as.lazy_dots(dots, env)
-  env <- lazyeval::common_env(dots)
-
-  names(dots) <- names2(dots)
-
-  dots[] <- map(dots, function(x) {
-    x$expr <- make_call(x$expr, args)
-    x
-  })
-
-  missing_names <- names(dots) == ""
-  default_names <- map_chr(dots[missing_names], function(x) make_name(x$expr))
-  names(dots)[missing_names] <- default_names
-
-  class(dots) <- c("fun_list", "lazy_dots")
-  attr(dots, "has_names") <- any(!missing_names)
-  dots
+  dots <- dots_compat(splice(.dots, ...), caller_env())
+  funs(!!! dots, .args = args)
 }
 
-is_fun_list <- function(x, env) inherits(x, "fun_list")
+is_fun_list <- function(x, env) {
+  inherits(x, "fun_list")
+}
 
 as_fun_list <- function(.x, ..., .env = base_env()) {
   UseMethod("as_fun_list")
@@ -64,25 +63,22 @@ as_fun_list.fun_list <- function(.x, ..., .env = base_env()) {
 }
 #' @export
 as_fun_list.character <- function(.x, ..., .env = base_env()) {
-  parsed <- map(.x, parse_expr)
-  funs_(parsed, list(...), .env)
+  funs <- map(.x, funs_make_call, list(...), env = .env)
+  funs(!!! funs, .args = list(...))
 }
 #' @export
 as_fun_list.function <- function(.x, ..., .env = base_env()) {
-  .env <- new_env(.env)
+  .env <- child_env(.env)
   .env$`__dplyr_colwise_fun` <- .x
 
-  call <- make_call("__dplyr_colwise_fun", list(...))
-  dots <- lazyeval::as.lazy_dots(call, .env)
-
-  funs_(dots)
+  call <- funs_make_call("__dplyr_colwise_fun", list(...), env = .env)
+  funs(!! call)
 }
 
 #' @export
 `[.fun_list` <- function(x, i) {
-  structure(
-    NextMethod(),
-    class = c("fun_list", "lazy_dots"),
+  structure(NextMethod(),
+    class = "fun_list",
     has_names = attr(x, "has_names")
   )
 }
@@ -92,36 +88,26 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("<fun_calls>\n")
   names <- format(names(x))
 
-  code <- map_chr(x, function(x) deparse_trunc(x$expr, width - 2 - nchar(names[1])))
+  code <- map_chr(x, function(x) deparse_trunc(f_rhs(x), width - 2 - nchar(names[1])))
 
   cat(paste0("$ ", names, ": ", code, collapse = "\n"))
   cat("\n")
   invisible(x)
 }
 
-make_call <- function(x, args) {
-  if (is_string(x)) {
-    call <- substitute(f(.), list(f = symbol(x)))
-  } else if (is_name(x)) {
-    call <- substitute(f(.), list(f = x))
-  } else if (is_call(x)) {
-    call <- x
-  } else {
-    abort("Unknown inputs")
-  }
+funs_make_call <- function(x, args, env = base_env()) {
+  f <- as_tidy_quote(x, env)
+  expr <- get_expr(x)
 
-  merge_args(call, args)
-}
-make_name <- function(x) {
-  if (is_character(x)) {
-    x
-  } else if (is_name(x)) {
-    as_character(x)
-  } else if (is_call(x)) {
-    as_character(x[[1]])
-  } else {
-    abort("Unknown input:", class(x)[1])
-  }
+  expr <- switchpatch(expr, .to = "funs",
+    quote = ,
+    language = expr,
+    symbol = substitute(f(.), list(f = expr)),
+    string = substitute(f(.), list(f = symbol(expr)))
+  )
+
+  expr <- lang_modify(expr, .args = args)
+  set_expr(f, expr)
 }
 
 merge_args <- function(call, args) {

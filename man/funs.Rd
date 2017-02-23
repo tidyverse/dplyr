@@ -5,7 +5,7 @@
 \alias{funs_}
 \title{Create a list of functions calls.}
 \usage{
-funs(...)
+funs(..., .args = list())
 
 funs_(dots, args = list(), env = base_env())
 }
