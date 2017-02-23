@@ -29,3 +29,7 @@ test_that("tbl_sql() works with string argument", {
 
   expect_equal(collect(tbl_sql("sqlite", df$src, name)), collect(df))
 })
+
+test_that("memdb_frame() returns visible output", {
+  expect_true(withVisible(memdb_frame(a = 1))$visible)
+})
