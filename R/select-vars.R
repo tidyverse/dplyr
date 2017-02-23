@@ -63,7 +63,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 
   # Evaluate symbols in an environment where columns are bound, but
   # not calls (select helpers are scoped in the calling environment)
-  is_helper <- map_lgl(args, function(x) is_call(x) && !is_call(x, c("-", ":")))
+  is_helper <- map_lgl(args, function(x) is_lang(x) && !is_lang(x, c("-", ":")))
   ind_list <- map_if(args, is_helper, tidy_eval)
   ind_list <- map_if(ind_list, !is_helper, tidy_eval, names_list)
 

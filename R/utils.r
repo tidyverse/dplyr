@@ -102,7 +102,7 @@ is_1d <- function(x) {
 }
 
 is_negated <- function(x) {
-  is_call(x, "-", n = 1)
+  is_lang(x, "-", n = 1)
 }
 
 warn_underscored <- function() {
