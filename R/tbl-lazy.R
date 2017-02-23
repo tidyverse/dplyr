@@ -56,8 +56,8 @@ arrange_.tbl_lazy <- function(.data, ..., .dots) {
 }
 
 #' @export
-select_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+select_.tbl_lazy <- function(.data, ..., .dots = NULL) {
+  dots <- as.qspec_select(.dots, ..., .data = .data)
   add_op_single("select", .data, dots = dots)
 }
 
