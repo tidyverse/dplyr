@@ -1,6 +1,7 @@
 #' Create an SQL tbl (abstract)
 #'
-#' Deprecated: please use [tbl_dbi()] instead.
+#' Deprecated: you should no longer need to provide a custom `tbl()`
+#' method. Instead, you can rely on the default `tbl_dbi` method.
 #'
 #' @keywords internal
 #' @export

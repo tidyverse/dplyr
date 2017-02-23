@@ -58,7 +58,7 @@ partial_eval <- function(call, vars = character(), env = parent.frame()) {
     name <- as.character(call)
     if (name %in% vars) {
       call
-    } else if (exists(name, env)) {
+    } else if (exists(name, envir = env)) {
       eval(call, env)
     } else {
       call
