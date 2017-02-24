@@ -20,6 +20,6 @@ data.}
 \description{
 The easiest way to create a grouped data frame is to call the \code{group_by()}
 method on a data frame or tbl: this will take care of capturing
-the unevalated expressions for you.
+the unevaluated expressions for you.
 }
 \keyword{internal}
