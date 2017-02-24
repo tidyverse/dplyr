@@ -70,8 +70,8 @@
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
   funs <- as_fun_list(.funs, .env = caller_env(), ...)
-  cols <- list(~everything())
-  vars <- colwise_(.tbl, funs, cols)
+  vars <- list(~everything())
+  vars <- apply_vars(vars, funs, .tbl)
   summarise(.tbl, !!! vars)
 }
 
@@ -79,8 +79,8 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   funs <- as_fun_list(.funs, .env = caller_env(), ...)
-  cols <- list(~everything())
-  vars <- colwise_(.tbl, funs, cols)
+  vars <- list(~everything())
+  vars <- apply_vars(vars, funs, .tbl)
   mutate(.tbl, !!! vars)
 }
 
@@ -90,9 +90,9 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
     abort("Conditional colwise operations currently require local sources")
   }
-  cols <- probe_colwise_names(.tbl, .predicate)
   funs <- as_fun_list(.funs, .env = caller_env(), ...)
-  vars <- colwise_(.tbl, funs, cols)
+  vars <- probe_colwise_names(.tbl, .predicate)
+  vars <- apply_vars(vars, funs, .tbl)
 
   summarise(.tbl, !!! vars)
 }
@@ -103,9 +103,9 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
     abort("Conditional colwise operations currently require local sources")
   }
-  cols <- probe_colwise_names(.tbl, .predicate)
   funs <- as_fun_list(.funs, .env = caller_env(), ...)
-  vars <- colwise_(.tbl, funs, cols)
+  vars <- probe_colwise_names(.tbl, .predicate)
+  vars <- apply_vars(vars, funs, .tbl)
 
   mutate(.tbl, !!! vars)
 }
@@ -125,9 +125,9 @@ probe_colwise_names <- function(tbl, p, ...) {
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
-  cols <- select_colwise_names(.tbl, .cols)
   funs <- as_fun_list(.funs, .env = caller_env(), ...)
-  vars <- colwise_(.tbl, funs, cols)
+  vars <- select_colwise_names(.tbl, .cols)
+  vars <- apply_vars(vars, funs, .tbl)
 
   summarise(.tbl, !!! vars)
 }
@@ -135,9 +135,9 @@ summarise_at <- function(.tbl, .cols, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
-  cols <- select_colwise_names(.tbl, .cols)
   funs <- as_fun_list(.funs, .env = caller_env(), ...)
-  vars <- colwise_(.tbl, funs, cols)
+  vars <- select_colwise_names(.tbl, .cols)
+  vars <- apply_vars(vars, funs, .tbl)
 
   mutate(.tbl, !!! vars)
 }
@@ -184,7 +184,7 @@ select_colwise_names <- function(tbl, cols) {
 }
 
 
-colwise_ <- function(tbl, tquotes, vars) {
+apply_vars <- function(vars, tquotes, tbl) {
   stopifnot(is_fun_list(tquotes))
 
   named_calls <- attr(tquotes, "have_names")
@@ -248,7 +248,7 @@ summarise_each_ <- function(tbl, funs, vars) {
     funs <- funs_(funs)
   }
 
-  vars <- colwise_(tbl, funs, vars)
+  vars <- apply_vars(vars, funs, tbl)
   summarise(tbl, !!! vars)
 }
 
@@ -277,7 +277,7 @@ mutate_each_ <- function(tbl, funs, vars) {
   if (is_empty(vars)) {
     vars <- list(~everything())
   }
-  vars <- colwise_(tbl, funs, vars)
+  vars <- apply_vars(vars, funs, tbl)
   mutate(tbl, !!! vars)
 }
 
