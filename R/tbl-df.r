@@ -65,8 +65,13 @@ slice_.tbl_df <- function(.data, ..., .dots) {
 }
 
 #' @export
-mutate_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+mutate.tbl_df <- function(.data, ...) {
+  dots <- tidy_dots(..., .named = TRUE)
+  mutate_impl(.data, dots)
+}
+#' @export
+mutate_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- dots_compat(splice(.dots, ...), caller_env())
   mutate_impl(.data, dots)
 }
 

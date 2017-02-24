@@ -91,10 +91,15 @@ summarise_.tbl_lazy <- function(.data, ..., .dots) {
 }
 
 #' @export
-mutate_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+mutate.tbl_lazy <- function(.data, ..., .dots) {
+  dots <- tidy_dots(..., .named = TRUE)
   dots <- partial_eval(dots, vars = op_vars(.data))
-
+  add_op_single("mutate", .data, dots = dots)
+}
+#' @export
+mutate_.tbl_lazy <- function(.data, ..., .dots) {
+  dots <- dots_compat(splice(.dots, ...), caller_env())
+  dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("mutate", .data, dots = dots)
 }
 

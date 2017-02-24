@@ -2,7 +2,7 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <tools/LazyDots.h>
+#include <tools/TidyQuote.h>
 
 #include <dplyr/checks.h>
 
@@ -36,18 +36,18 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   return res;
 }
 
-void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) {}
+void check_not_groups(const TidyQuotes& quotes, const RowwiseDataFrame& gdf) {}
 
-void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
-  int n = dots.size();
+void check_not_groups(const TidyQuotes& quotes, const GroupedDataFrame& gdf) {
+  int n = quotes.size();
   for (int i=0; i<n; i++) {
-    if (gdf.has_group(dots[i].name()))
+    if (gdf.has_group(quotes[i].name()))
       stop("cannot modify grouping variable");
   }
 }
 
 
-SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
+SEXP mutate_not_grouped(DataFrame df, const TidyQuotes& dots) {
   const int nexpr = dots.size();
   const int nrows = df.nrows();
 
@@ -65,12 +65,12 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[i];
+    const TidyQuote& tquote = dots[i];
 
-    Shield<SEXP> call_(lazy.expr());
+    Shield<SEXP> call_(tquote.expr());
     SEXP call = call_;
-    SymbolString name = lazy.name();
-    Environment env = lazy.env();
+    SymbolString name = tquote.name();
+    Environment env = tquote.env();
     call_proxy.set_env(env);
 
     if (TYPEOF(call) == SYMSXP) {
@@ -117,7 +117,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 }
 
 template <typename Data, typename Subsets>
-SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
+SEXP mutate_grouped(const DataFrame& df, const TidyQuotes& dots) {
   LOG_VERBOSE << "checking zero rows";
 
   // special 0 rows case
@@ -151,12 +151,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   List variables(nexpr);
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[i];
+    const TidyQuote& tquote = dots[i];
 
-    Environment env = lazy.env();
-    Shield<SEXP> call_(lazy.expr());
+    Environment env = tquote.env();
+    Shield<SEXP> call_(tquote.expr());
     SEXP call = call_;
-    SymbolString name = lazy.name();
+    SymbolString name = tquote.name();
     proxy.set_env(env);
 
     LOG_VERBOSE << "processing " << name.get_cstring();
@@ -185,7 +185,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl(DataFrame df, LazyDots dots) {
+SEXP mutate_impl(DataFrame df, TidyQuotes dots) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {

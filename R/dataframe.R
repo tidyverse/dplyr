@@ -71,11 +71,16 @@ summarise.data.frame <- function(.data, ...) {
 summarise_.data.frame <- function(.data, ..., .dots = list()) {
   as.data.frame(summarise_(tbl_df(.data), ..., .dots = .dots))
 }
+
 #' @export
-mutate_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  as.data.frame(mutate_(tbl_df(.data), .dots = dots))
+mutate.data.frame <- function(.data, ...) {
+  as.data.frame(mutate(tbl_df(.data), ...))
 }
+#' @export
+mutate_.data.frame <- function(.data, ..., .dots = list()) {
+  as.data.frame(mutate_(tbl_df(.data), ..., .dots = dots))
+}
+
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)

@@ -23,7 +23,6 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 
 df <- data.frame(x = 1:10, y = 6:15)
 tbls <- test_load(df)
-
 test_that("two mutates equivalent to one", {
   compare_tbls(tbls, function(tbl) tbl %>% mutate(x2 = x * 2, y4 = y * 4))
 })
@@ -341,7 +340,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   df <- data_frame(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_each(funs(as.numeric)) %>% names
+  res <- df %>% mutate_all(funs(as.numeric)) %>% names
   expect_equal(res, names(df))
 })
 

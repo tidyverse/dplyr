@@ -207,9 +207,8 @@ summarize_ <- summarise_
 #'   transmute(displ_l = disp / 61.0237)
 #'
 mutate <- function(.data, ...) {
-  mutate_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("mutate")
 }
-
 #' @export
 #' @rdname mutate
 mutate_ <- function(.data, ..., .dots) {
@@ -318,7 +317,6 @@ arrange_ <- function(.data, ..., .dots) {
 select <- function(.data, ...) {
   UseMethod("select")
 }
-
 #' @export
 #' @rdname select
 select_ <- function(.data, ..., .dots) {
