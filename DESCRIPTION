@@ -95,6 +95,7 @@ Collate:
     'order-by.R'
     'partial-eval.r'
     'progress.R'
+    'pull.R'
     'query.r'
     'rank.R'
     'recode.R'
