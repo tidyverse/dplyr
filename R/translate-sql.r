@@ -87,14 +87,11 @@ translate_sql <- function(...,
                           vars_order = NULL,
                           window = TRUE) {
   if (!missing(vars)) {
-    stop(
-      "`vars` is deprecated. Please use partial_eval() directly.",
-      call. = FALSE
-    )
+    abort("`vars` is deprecated. Please use partial_eval() directly.")
   }
 
   translate_sql_(
-    dots(...),
+    tidy_dots(...),
     con = con,
     vars_group = vars_group,
     vars_order = vars_order,
@@ -116,7 +113,7 @@ translate_sql_ <- function(dots,
 
   stopifnot(is.list(dots))
 
-  if (!any(has_names(dots))) {
+  if (!any(have_names(dots))) {
     names(dots) <- NULL
   }
 
@@ -132,11 +129,13 @@ translate_sql_ <- function(dots,
   }
 
   variant <- sql_translate_env(con)
-  pieces <- lapply(dots, function(x) {
-    if (is.atomic(x)) return(escape(x, con = con))
-
-    env <- sql_env(x, variant, con, window = window)
-    escape(eval(x, envir = env))
+  pieces <- map(dots, function(x) {
+    if (is_atomic(x)) {
+      escape(x, con = con)
+    } else {
+      env <- sql_env(x, variant, con, window = window) 
+      escape(expr_eval(x, env))
+    }
   })
 
   sql(unlist(pieces))
@@ -171,7 +170,11 @@ sql_env <- function(expr, variant, con, window = FALSE,
   )
 
   # Known sql expressions
-  symbol_env <- copy_env(base_symbols, parent = name_env)
+  symbol_env <- env_clone(base_symbols, parent = name_env)
+
+  # Make tidy quotes self-evaluating
+  symbol_env <- tidy_eval_env_install(default_env, symbol_env, default_env)
+
   symbol_env
 }
 
