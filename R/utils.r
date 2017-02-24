@@ -104,28 +104,3 @@ is_1d <- function(x) {
 is_negated <- function(x) {
   is_lang(x, "-", n = 1)
 }
-
-warn_underscored <- function() {
-  warn(glue(
-    "The underscored versions are deprecated in favour of \\
-     tidy evaluation idioms. Please see unquoting documentation \\
-     in rlang."
-  ))
-}
-warn_text_se <- function(warned = FALSE) {
-  if (!warned) {
-    warn("Text parsing is deprecated, please supply an expression or formula")
-  }
-}
-dots_compat <- function(dots, env) {
-  dots <- as.list(dots)
-
-  warned <- FALSE
-  if (some(dots, is_scalar_character)) {
-    warn_text_se(warned)
-    warned <- TRUE
-    dots <- map_if(dots, is_string, parse_f, env = env)
-  }
-
-  dots
-}

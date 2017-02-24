@@ -71,7 +71,7 @@ mutate.tbl_df <- function(.data, ...) {
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- dots_compat(splice(.dots, ...), caller_env())
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   mutate_impl(.data, dots)
 }
 
@@ -82,7 +82,7 @@ summarise.tbl_df <- function(.data, ...) {
 }
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- dots_compat(splice(.dots, ...), caller_env())
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   summarise_impl(.data, dots)
 }
 

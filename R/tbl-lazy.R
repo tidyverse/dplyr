@@ -66,7 +66,7 @@ select.tbl_lazy <- function(.data, ...) {
 }
 #' @export
 select_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- dots_compat(splice(.dots, ...), caller_env())
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   add_op_single("select", .data, dots = dots)
 }
 
@@ -85,7 +85,7 @@ summarise.tbl_lazy <- function(.data, ...) {
 }
 #' @export
 summarise_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- dots_compat(splice(.dots, ...), caller_env())
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("summarise", .data, dots = dots)
 }
@@ -98,7 +98,7 @@ mutate.tbl_lazy <- function(.data, ..., .dots) {
 }
 #' @export
 mutate_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- dots_compat(splice(.dots, ...), caller_env())
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("mutate", .data, dots = dots)
 }
