@@ -39,21 +39,15 @@ to smallest outputs. Use \code{\link[=desc]{desc()}} to reverse the direction.
 \details{
 \itemize{
 \item \code{row_number()}: equivalent to \code{rank(ties.method = "first")}
-
 \item \code{min_rank()}: equivalent to \code{rank(ties.method = "min")}
-
 \item \code{dense_rank()}: like \code{min_rank()}, but with no gaps between
 ranks
-
 \item \code{percent_rank()}: a number between 0 and 1 computed by
 rescaling \code{min_rank} to \code{[0, 1]}
-
 \item \code{cume_dist()}: a cumulative distribution function. Proportion
 of all values less than or equal to the current rank.
-
 \item \code{ntile()}: a rough rank, which breaks the input vector into
 \code{n} buckets.
-
 }
 }
 \examples{
@@ -71,5 +65,4 @@ ntile(runif(100), 10)
 # (for data frames and databases that support windowing)
 mutate(mtcars, row_number() == 1L)
 mtcars \%>\% filter(between(row_number(), 1, 10))
-
 }

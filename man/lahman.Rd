@@ -14,7 +14,7 @@
 \usage{
 lahman_sqlite(path = NULL)
 
-lahman_postgres(dbname = "lahman", ...)
+lahman_postgres(dbname = "lahman", host = "localhost", ...)
 
 lahman_mysql(dbname = "lahman", ...)
 

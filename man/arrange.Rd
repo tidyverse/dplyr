@@ -3,7 +3,7 @@
 \name{arrange}
 \alias{arrange}
 \alias{arrange_}
-\title{Arrange rows by variables.}
+\title{Arrange rows by variables}
 \usage{
 arrange(.data, ...)
 
@@ -21,18 +21,20 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 }
 \value{
 An object of the same class as \code{.data}.
-
-Data frame row names are silently dropped. To preserve, convert to an
-explicit variable.
 }
 \description{
-Use \code{\link[=desc]{desc()}} to sort a variable in descending order. Generally,
-this will not also automatically order by grouping variables.
+Use \code{\link[=desc]{desc()}} to sort a variable in descending order.
 }
 \section{Locales}{
 
 The sort order for character vectors will depend on the collating sequence
 of the locale in use: see \code{\link[=locales]{locales()}}.
+}
+
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 
 \examples{

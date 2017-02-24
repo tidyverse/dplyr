@@ -17,8 +17,7 @@ dplyr. However, you should usually be able to leave this blank and it
 will be determined from the context.}
 }
 \description{
-This method shouldn't be called by users - it should only be used by
-backend implementors who are creating backends that extend the basic
-sql behaviour.
+Deprecated: you should no longer need to provide a custom \code{tbl()}
+method. Instead, you can rely on the default \code{tbl_dbi} method.
 }
 \keyword{internal}

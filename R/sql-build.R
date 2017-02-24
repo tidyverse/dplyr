@@ -22,18 +22,14 @@
 #'   rules that should be very similar to ANSI 92, and allows for testing
 #'   without an active database connection.
 #' @param ... Other arguments passed on to the methods. Not currently used.
-sql_build <- function(op, con, ...) {
+sql_build <- function(op, con = NULL, ...) {
   UseMethod("sql_build")
 }
 
 #' @export
-sql_build.tbl_sql <- function(op, con, ...) {
-  sql_build(op$ops, con, ...)
-}
-
-#' @export
 sql_build.tbl_lazy <- function(op, con = NULL, ...) {
-  sql_build(op$ops, con, ...)
+  qry <- sql_build(op$ops, con, ...)
+  sql_optimise(qry, con = con, ...)
 }
 
 # Base ops --------------------------------------------------------

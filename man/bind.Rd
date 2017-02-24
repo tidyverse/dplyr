@@ -23,12 +23,14 @@ combine(...)
 Each argument can either be a data frame, a list that could be a data
 frame, or a list of data frames.
 
-When column-binding, rows are matched by position, not value so all data
-frames must have the same number of rows. To match by value, not
-position, see \link{join}. When row-binding, columns are
-matched by name, and any values that don't match will be filled with NA.}
+When row-binding, columns are matched by name, and any missing
+columns with be filled with NA.
 
-\item{.id}{Data frames identifier.
+When column-binding, rows are matched by position, so all data
+frames must have the same number of rows. To match by value, not
+position, see \link{join}.}
+
+\item{.id}{Data frame identifier.
 
 When \code{.id} is supplied, a new column of identifiers is
 created to link each row to its original data frame. The labels
@@ -46,6 +48,10 @@ This is an efficient implementation of the common pattern of
 \code{do.call(rbind, dfs)} or \code{do.call(cbind, dfs)} for binding many
 data frames into one. \code{combine()} acts like \code{\link[=c]{c()}} or
 \code{\link[=unlist]{unlist()}} but uses consistent dplyr coercion rules.
+}
+\details{
+The output of \code{bind_rows()} will contain a column if that column
+appears in any of the inputs.
 }
 \section{Deprecated functions}{
 

@@ -1,4 +1,4 @@
-Source:     query [?? x 11]
+Source:     table<mtcars-output-test> [?? x 11]
 Database:   sqlite x.y.z [:memory:]
 
     mpg   cyl  disp    hp

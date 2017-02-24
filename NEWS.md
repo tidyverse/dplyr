@@ -1,8 +1,39 @@
 # dplyr 0.5.0.9000
 
+* `copy_to()` now returns it's output invisibly (since you're often just
+   calling for the side-effect).
+
+* `Inf` and `-Inf` are now correctled escaped for databases.
+
+* Long deprecated `regroup()` has been removed.
+
+* [API] Deprecated `failwith()`. I'm not even sure why it was here.
+
+* DBI tables print the table name if known.
+
+* `as_tibble()` is re-exported from tibble. This is the recommend way to create
+  tibbles from existing data frames. `tbl_df()` has been softly deprecated.
+
+* `filter()` and `lag()` throw informative error if used with ts objects (#2219)
+
+* `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
+  `bind_cols()` respectively (#2138)
+
+* `copy_to()` gains an `overwrite` argument which allows you to overwrite
+  an existing table. Use with care! (#2296)
+
 * Internally, column names are always represented as character vectors,
   and not as language symbols, to avoid encoding problems on Windows
   (#1950, #2387, #2388).
+
+* dplyr has gained a basic SQL optimiser, which collapses certain nested
+  SELECT queries into a single query (#1979). This will improve query
+  execution performance for databases with less sophisticated query optimisers,
+  and fixes certain problems with ordering and limits in subqueries (#1979).
+  A big thanks goes to @hhoeflin for figuring out this optimisation.
+
+* `explain()` and `show_query()` now invisibly return the first argument,
+  making them easier to use inside a pipeline.
 
 * `collect()` will automatically LIMIT the result to the `n`, the number of 
   rows requested. This will provide the query planner with more information

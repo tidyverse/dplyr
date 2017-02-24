@@ -49,7 +49,8 @@ same order as in \code{...}.
 This is a vectorised version of \code{\link[=switch]{switch()}}: you can replace
 numeric values based on their position, and character values by their
 name. This is an S3 generic: dplyr provides methods for numeric, character,
-and factors. For logical vectors, use \code{\link[=if_else]{if_else()}}
+and factors. For logical vectors, use \code{\link[=if_else]{if_else()}}. For more complicated
+criteria, use \code{\link[=case_when]{case_when()}}.
 }
 \examples{
 # Recode values with named arguments

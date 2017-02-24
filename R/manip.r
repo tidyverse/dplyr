@@ -1,26 +1,39 @@
-#' Return rows with matching conditions.
+#' Return rows with matching conditions
+#'
+#' Use `filter()` find rows/cases where conditions are true. Unlike
+#' base subsetting, rows where the condition evaluates to `NA` are dropped.
+#'
+#' @section Useful filter functions:
+#'
+#' * [`==`], [`>`], [`>=`] etc
+#' * [`&`], [`|`], [`!`], [xor()]
+#' * [is.na()]
+#' * [between()], [near()]
+#'
+#' @section Tidy data:
+#' When applied to a data frame, row names are silently dropped. To preserve,
+#' convert to an explicit variable with [tibble::rownames_to_column()].
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
-#' @param ... Logical predicates. Multiple conditions are combined with `&`.
+#' @param ... Logical predicates defined in terms of the variables in `.data`.
+#'   Multiple conditions are combined with `&`. Only rows where the
+#'   conditon evalutes to `TRUE` are kept.
 #' @param .dots Used to work around non-standard evaluation. See
 #'   `vignette("nse")` for details.
 #' @return An object of the same class as `.data`.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
 #' @export
 #' @examples
-#' filter(mtcars, cyl == 8)
-#' filter(mtcars, cyl < 6)
+#' filter(starwars, species == "Human")
+#' filter(starwars, mass > 1000)
 #'
 #' # Multiple criteria
-#' filter(mtcars, cyl < 6 & vs == 1)
-#' filter(mtcars, cyl < 6 | vs == 1)
+#' filter(starwars, hair_color == "none" & eye_color == "black")
+#' filter(starwars, hair_color == "none" | eye_color == "black")
 #'
 #' # Multiple arguments are equivalent to and
-#' filter(mtcars, cyl < 6, vs == 1)
+#' filter(starwars, hair_color == "none", eye_color == "black")
 filter <- function(.data, ...) {
   filter_(.data, .dots = lazyeval::lazy_dots(...))
 }
@@ -31,7 +44,7 @@ filter_ <- function(.data, ..., .dots) {
   UseMethod("filter_")
 }
 
-#' Select rows by position.
+#' Select rows by position
 #'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
@@ -42,6 +55,7 @@ filter_ <- function(.data, ..., .dots) {
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
 #' @param ... Integer row values
 #' @inheritParams filter
+#' @inheritSection filter Tidy data
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
@@ -67,7 +81,19 @@ slice_ <- function(.data, ..., .dots) {
   UseMethod("slice_")
 }
 
-#' Summarise multiple values to a single value.
+#' Summarise multiple values to a single value
+#'
+#' `summarise()` is typically used on grouped data created by [group_by()].
+#' The output will have one row for each group.
+#'
+#' @section Useful functions:
+#'
+#' * Center: [mean()], [median()]
+#' * Spread: [sd()], [IQR()], [mad()]
+#' * Range: [min()], [max()], [quantile()]
+#' * Position: [first()], [last()], [nth()],
+#' * Count: [n()], [n_distinct()]
+#' * Logical: [any()], [all()]
 #'
 #' @section Backend variations:
 #'
@@ -76,32 +102,35 @@ slice_ <- function(.data, ..., .dots) {
 #'
 #' @export
 #' @inheritParams filter
-#' @param ... Name-value pairs of summary functions like [min()],
-#'   [mean()], [max()] etc.
+#' @inheritSection filter Tidy data
+#' @param ... Name-value pairs of summary functions. The name will be the
+#'   name of the variable in the result. The value should be an expression
+#'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
 #' @family single table verbs
 #' @return An object of the same class as `.data`. One grouping level will
 #'   be dropped.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
 #' @examples
-#' summarise(mtcars, mean(disp))
-#' summarise(group_by(mtcars, cyl), mean(disp))
-#' summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
+#' # A summary applied to ungrouped tbl returns a single row
+#' mtcars %>%
+#'   summarise(mean = mean(disp), n = n())
 #'
-#' # With data frames, you can create and immediately use summaries
-#' by_cyl <- mtcars %>% group_by(cyl)
-#' by_cyl %>% summarise(a = n(), b = a + 1)
+#' # Usually, you'll want to group first
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(mean = mean(disp), n = n())
 #'
-#' \dontrun{
-#' # You can't with data tables or databases
-#' by_cyl_dt <- mtcars %>% dtplyr::tbl_dt() %>% group_by(cyl)
-#' by_cyl_dt %>% summarise(a = n(), b = a + 1)
+#' # Each summary call removes one grouping level (since that group
+#' # is now just a single row)
+#' mtcars %>%
+#'   group_by(cyl, vs) %>%
+#'   summarise(cyl_n = n()) %>%
+#'   group_vars()
 #'
-#' by_cyl_db <- src_sqlite(":memory:", create = TRUE) %>%
-#'   copy_to(mtcars) %>% group_by(cyl)
-#' by_cyl_db %>% summarise(a = n(), b = a + 1)
-#' }
+#' # Note that with data frames, newly created summaries immediately
+#' # overwrite existing variables
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(disp = mean(disp), sd = sd(disp))
 summarise <- function(.data, ...) {
   summarise_(.data, .dots = lazyeval::lazy_dots(...))
 }
@@ -121,25 +150,60 @@ summarize <- summarise
 summarize_ <- summarise_
 
 
-#' Add new variables.
+#' Add new variables
 #'
-#' Mutate adds new variables and preserves existing; transmute drops existing
-#' variables.
+#' `mutate()` adds new variables and preserves existing;
+#' `transmute()` drops existing variables.
+#'
+#' @section Useful functions:
+#'
+#' * [`+`], [`-`] etc
+#'
+#' * [log()]
+#'
+#' * [lead()], [lag()]
+#'
+#' * [dense_rank()], [min_rank()], [percent_rank()], [row_number()],
+#'   [cume_dist()], [ntile()]
+#'
+#' * [cumsum()], [cummean()], [cummin()], [cummax()], [cumany()], [cumall()]
+#'
+#' * [na_if()], [coalesce()]
+#'
+#' * [if_else()], [recode()], [case_when()]
 #'
 #' @export
 #' @inheritParams filter
+#' @inheritSection filter Tidy data
 #' @param ... Name-value pairs of expressions. Use `NULL` to drop
 #'   a variable.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
 #' @examples
-#' mutate(mtcars, displ_l = disp / 61.0237)
-#' transmute(mtcars, displ_l = disp / 61.0237)
+#' # Newly created variables are available immediately
+#' mtcars %>% mutate(
+#'   cyl2 = cyl * 2,
+#'   cyl4 = cyl2 * 2
+#' )
 #'
-#' mutate(mtcars, cyl = NULL)
+#' # window functions are useful for grouped mutates
+#' mtcars %>%
+#'  group_by(cyl) %>%
+#'  mutate(rank = min_rank(desc(mpg)))
+#' # see `vignette("window-functions")` for more details
+#'
+#' # You can drop variables by setting them to NULL
+#' mtcars %>% mutate(cyl = NULL)
+#'
+#' # mutate() vs transmute --------------------------
+#' # mutate() keeps all existing variables
+#' mtcars %>%
+#'   mutate(displ_l = disp / 61.0237)
+#'
+#' # transmute keeps only the variables you create
+#' mtcars %>%
+#'   transmute(displ_l = disp / 61.0237)
+#'
 mutate <- function(.data, ...) {
   mutate_(.data, .dots = lazyeval::lazy_dots(...))
 }
@@ -162,7 +226,6 @@ transmute_ <- function(.data, ..., .dots) {
   UseMethod("transmute_")
 }
 
-
 #' @export
 transmute_.default <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
@@ -172,10 +235,9 @@ transmute_.default <- function(.data, ..., .dots) {
   select(out, one_of(keep))
 }
 
-#' Arrange rows by variables.
+#' Arrange rows by variables
 #'
-#' Use [desc()] to sort a variable in descending order. Generally,
-#' this will not also automatically order by grouping variables.
+#' Use [desc()] to sort a variable in descending order.
 #'
 #' @section Locales:
 #' The sort order for character vectors will depend on the collating sequence
@@ -183,13 +245,11 @@ transmute_.default <- function(.data, ..., .dots) {
 #'
 #' @export
 #' @inheritParams filter
+#' @inheritSection filter Tidy data
 #' @param ... Comma separated list of unquoted variable names. Use
 #'   [desc()] to sort a variable in descending order.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
@@ -203,72 +263,56 @@ arrange_ <- function(.data, ..., .dots) {
   UseMethod("arrange_")
 }
 
-#' Select/rename variables by name.
+#' Select/rename variables by name
 #'
 #' `select()` keeps only the variables you mention; `rename()`
 #' keeps all variables.
 #'
-#' @section Special functions:
+#' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
 #' a number of special functions that only work inside `select`
 #'
-
+#' * [starts_with()], [ends_with()], [contains()]
+#' * [matches()]
+#' * [num_range()]
 #'
-#' To drop variables, use `-`. You can rename variables with
-#' named arguments.
+#' To drop variables, use `-`.
 #'
 #' @inheritParams filter
+#' @inheritSection filter Tidy data
 #' @param ... Comma separated list of unquoted expressions. You can treat
-#'   variable names like they are positions. Use positive values to select
-#'   variables; use negative values to drop variables.
+#'   variable names like they are positions.
+#'
+#'   Positive values select variables; negative values to drop variables.
+#'
+#'   Use named arguments to rename selected variables.
 #' @param .dots Use `select_()` to do standard evaluation. See
 #'   `vignette("nse")` for details
 #' @return An object of the same class as `.data`.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
 #' @family single table verbs
 #' @export
 #' @examples
-#' iris <- tbl_df(iris) # so it prints a little nicer
+#' iris <- as_tibble(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))
 #' select(iris, ends_with("Width"))
-#' select(iris, contains("etal"))
-#' select(iris, matches(".t."))
-#' select(iris, Petal.Length, Petal.Width)
-#' vars <- c("Petal.Length", "Petal.Width")
-#' select(iris, one_of(vars))
+#'
+#' # Move Species variable to the front
+#' select(iris, Species, everything())
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 #' select(df, V4:V6)
 #' select(df, num_range("V", 4:6))
 #'
-#' # Drop variables
+#' # Drop variables with -
 #' select(iris, -starts_with("Petal"))
-#' select(iris, -ends_with("Width"))
-#' select(iris, -contains("etal"))
-#' select(iris, -matches(".t."))
-#' select(iris, -Petal.Length, -Petal.Width)
 #'
-#' # Rename variables:
+#' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
 #' select(iris, petal_length = Petal.Length)
-#' # Renaming multiple variables uses a prefix:
-#' select(iris, petal = starts_with("Petal"))
-#'
-#' # Reorder variables: keep the variable "Species" in the front
-#' select(iris, Species, everything())
 #'
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
-#'
-#' # Programming with select ---------------------------------------------------
-#' select_(iris, ~Petal.Length)
-#' select_(iris, "Petal.Length")
-#' select_(iris, lazyeval::interp(~matches(x), x = ".t."))
-#' select_(iris, quote(-Petal.Length), quote(-Petal.Width))
-#' select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
 select <- function(.data, ...) {
   select_(.data, .dots = lazyeval::lazy_dots(...))
 }

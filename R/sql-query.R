@@ -36,6 +36,22 @@ select_query <- function(from,
   )
 }
 
+# List clauses used by a query, in the order they are executed in
+select_query_clauses <- function(x) {
+  present <- c(
+    where =    length(x$where) > 0,
+    group_by = length(x$group_by) > 0,
+    having =   length(x$having) > 0,
+    select =   !identical(x$select, sql("*")),
+    distinct = x$distinct,
+    order_by = length(x$order_by) > 0,
+    limit    = !is.null(x$limit)
+  )
+
+  ordered(names(present)[present], levels = names(present))
+}
+
+
 #' @export
 print.select_query <- function(x, ...) {
   cat(
@@ -43,7 +59,7 @@ print.select_query <- function(x, ...) {
     if (x$distinct) " DISTINCT", ">\n",
     sep = ""
   )
-  cat("From:     ", x$from, "\n", sep = "")
+  cat("From:     ", gsub("\n", " ", sql_render(x$from, root = FALSE)), "\n", sep = "")
 
   if (length(x$select))   cat("Select:   ", named_commas(x$select), "\n", sep = "")
   if (length(x$where))    cat("Where:    ", named_commas(x$where), "\n", sep = "")

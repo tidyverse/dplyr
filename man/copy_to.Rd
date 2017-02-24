@@ -4,7 +4,7 @@
 \alias{copy_to}
 \title{Copy a local data frame to a remote src.}
 \usage{
-copy_to(dest, df, name = deparse(substitute(df)), ...)
+copy_to(dest, df, name = deparse(substitute(df)), overwrite = FALSE, ...)
 }
 \arguments{
 \item{dest}{remote data source}
@@ -12,6 +12,10 @@ copy_to(dest, df, name = deparse(substitute(df)), ...)
 \item{df}{local data frame}
 
 \item{name}{name for new remote table.}
+
+\item{overwrite}{If \code{TRUE}, will overwrite an existing table with
+name \code{name}. If \code{FALSE}, will throw an error if \code{name} already
+exists.}
 
 \item{...}{other parameters passed to methods.}
 }
@@ -22,4 +26,14 @@ a \code{tbl} object in the remote source
 This function uploads a local data frame into a remote data source, creating
 the table definition as needed. Wherever possible, the new object will be
 temporary, limited to the current connection to the source.
+}
+\examples{
+\dontrun{
+iris2 <- src_memdb() \%>\% copy_to(iris, overwrite = TRUE)
+iris2
+}
+}
+\seealso{
+\code{\link[=collect]{collect()}} for the opposite action; downloading remote data into
+a local dbl.
 }

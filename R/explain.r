@@ -1,4 +1,4 @@
-#' Explain details of a tbl.
+#' Explain details of a tbl
 #'
 #' This is a generic function which gives more details about an object than
 #' [print()], and is more focussed on human readable output than
@@ -13,6 +13,7 @@
 #' @export
 #' @param x An object to explain
 #' @param ... Other parameters possibly used by generic
+#' @return The first argument, invisibly.
 #' @examples
 #' \donttest{
 #' if (require("RSQLite") && has_lahman("sqlite")) {
@@ -49,7 +50,7 @@ explain.tbl_sql <- function(x, ...) {
   message("\n")
   message("<PLAN>\n", db_explain(con, sql_render(x, con = con)))
 
-  invisible(NULL)
+  invisible(x)
 }
 
 #' @export
@@ -59,4 +60,7 @@ show_query <- function(x) {
   on.exit(con_release(x$src, con), add = TRUE)
 
   message("<SQL>\n", sql_render(x, con = con))
+
+  invisible(x)
 }
+

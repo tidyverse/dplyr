@@ -6,24 +6,21 @@
 #' converting between R and SQL. All ranking functions map smallest inputs
 #' to smallest outputs. Use [desc()] to reverse the direction.
 #'
-#' \itemize{
-#' \item `row_number()`: equivalent to `rank(ties.method = "first")`
+#' * `row_number()`: equivalent to `rank(ties.method = "first")`
 #'
-#' \item `min_rank()`: equivalent to `rank(ties.method = "min")`
+#' * `min_rank()`: equivalent to `rank(ties.method = "min")`
 #'
-#' \item `dense_rank()`: like `min_rank()`, but with no gaps between
+#' * `dense_rank()`: like `min_rank()`, but with no gaps between
 #'   ranks
 #'
-#' \item `percent_rank()`: a number between 0 and 1 computed by
+#' * `percent_rank()`: a number between 0 and 1 computed by
 #'   rescaling `min_rank` to `[0, 1]`
 #'
-#' \item `cume_dist()`: a cumulative distribution function. Proportion
+#' * `cume_dist()`: a cumulative distribution function. Proportion
 #'   of all values less than or equal to the current rank.
 #'
-#' \item `ntile()`: a rough rank, which breaks the input vector into
+#' * `ntile()`: a rough rank, which breaks the input vector into
 #'   `n` buckets.
-#'
-#' }
 #'
 #' @name ranking
 #' @param x a vector of values to rank. Missing values are left as is.
@@ -44,7 +41,6 @@
 #' # (for data frames and databases that support windowing)
 #' mutate(mtcars, row_number() == 1L)
 #' mtcars %>% filter(between(row_number(), 1, 10))
-#'
 NULL
 
 #' @export
