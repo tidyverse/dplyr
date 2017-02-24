@@ -119,7 +119,8 @@ probe_colwise_names <- function(tbl, p, ...) {
   }
 
   vars <- tbl_vars(tbl)
-  vars[selected]
+  vars <- vars[selected]
+  symbols(vars)
 }
 
 #' @rdname summarise_all
@@ -172,10 +173,12 @@ is_col_list <- function(cols) inherits(cols, "col_list")
 select_colwise_names <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
-  if (is_character(cols) || is_col_list(cols)) {
+  if (is_character(cols)) {
+    selected <- symbols(cols)
+  } else if (is_col_list(cols)) {
     selected <- cols
   } else if (is.numeric(cols)) {
-    selected <- vars[cols]
+    selected <- symbols(vars[cols])
   } else {
     abort(".cols should be a character/numeric vector or a columns object")
   }

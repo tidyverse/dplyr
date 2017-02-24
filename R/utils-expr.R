@@ -15,8 +15,7 @@ expr_walk_replace <- function(lsp, old, new) {
   while(!is_null(lsp)) {
     switch_expr(car(lsp),
       language = expr_walk_replace(cdar(lsp), old, new),
-      symbol = if (identical(car(lsp), old)) set_car(lsp, new),
-      abort("expr_substitute: internal error")
+      symbol = if (identical(car(lsp), old)) set_car(lsp, new)
     )
     lsp <- cdr(lsp)
   }

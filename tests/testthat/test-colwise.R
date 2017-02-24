@@ -86,7 +86,7 @@ test_that("arguments are matched by names and by position", {
 
 test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "multiple actual arguments")
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "Duplicate arguments")
 })
 
 
