@@ -27,6 +27,11 @@ An object of the same class as \code{.data}.
 Use \code{filter()} find rows/cases where conditions are true. Unlike
 base subsetting, rows where the condition evaluates to \code{NA} are dropped.
 }
+\details{
+Note that dplyr is not yet smart enough to optimise filtering optimisation
+on grouped datasets that don't need grouped calculations. For this reason,
+filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
+}
 \section{Useful filter functions}{
 
 \itemize{

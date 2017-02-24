@@ -3,6 +3,10 @@
 #' Use `filter()` find rows/cases where conditions are true. Unlike
 #' base subsetting, rows where the condition evaluates to `NA` are dropped.
 #'
+#' Note that dplyr is not yet smart enough to optimise filtering optimisation
+#' on grouped datasets that don't need grouped calculations. For this reason,
+#' filtering is often considerably faster on [ungroup()]ed data.
+#'
 #' @section Useful filter functions:
 #'
 #' * [`==`], [`>`], [`>=`] etc
