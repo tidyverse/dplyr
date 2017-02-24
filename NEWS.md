@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* The SQL translation of `n_distinct()` now accepts multiple variables
+  (#2148).
+
 * `copy_to()` now returns it's output invisibly (since you're often just
    calling for the side-effect).
 
