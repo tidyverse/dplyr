@@ -16,7 +16,8 @@
 #'   unlikely to conflict with an existing table.
 #' @export
 memdb_frame <- function(..., .name = random_table_name()) {
-  copy_to(src_memdb(), data_frame(...), name = .name)
+  x <- copy_to(src_memdb(), data_frame(...), name = .name)
+  x
 }
 
 #' @export
