@@ -47,44 +47,59 @@
 #' partial_eval(quote(1 + 2 * 3))
 #' x <- 1
 #' partial_eval(quote(x ^ y))
-partial_eval <- function(call, vars = character(), env = parent.frame()) {
-  if (is.atomic(call)) return(call)
+partial_eval <- function(call, vars = character(), env = caller_env()) {
+  switch_type(call,
+    symbol = sym_partial_eval(call, vars, env),
+    language = lang_partial_eval(call, vars, env),
+    logical = ,
+    integer = ,
+    double = ,
+    complex = ,
+    string = ,
+    character = call,
+    quote = set_expr(call, partial_eval(f_rhs(call), vars, f_env(call))),
+    list = {
+      if (inherits(call, "lazy_dots")) {
+        call <- compat_lazy_dots(call, env)
+      }
+      map(call, partial_eval, vars = vars, env = env)
+    },
+    abort(glue("Unknown input type: ", class(call)))
+  )
+}
 
-  if (inherits(call, "lazy_dots")) {
-    lapply(call, function(l) partial_eval(l$expr, vars, l$env))
-  } else if (is.list(call)) {
-    lapply(call, partial_eval, vars, env = env)
-  } else if (is.symbol(call)) {
-    name <- as.character(call)
-    if (name %in% vars) {
-      call
-    } else if (exists(name, envir = env)) {
-      eval(call, env)
-    } else {
-      call
-    }
-  } else if (is.call(call)) {
-    # If the function "name" is a call to another function, evaluate
-    # the whole thing local
-    if (is.call(call[[1]])) {
-      return(eval(call, env))
-    }
-
-    # Process call arguments recursively, unless user has manually called
-    # remote/local
-    name <- as.character(call[[1]])
-    if (name == "local") {
-      eval(call[[2]], env)
-    } else if (name %in% c("$", "[[", "[")) {
-      # Subsetting is always done locally
-      eval(call, env)
-    } else if (name == "remote") {
-      call[[2]]
-    } else {
-      call[-1] <- lapply(call[-1], partial_eval, vars = vars, env = env)
-      call
-    }
+sym_partial_eval <- function(call, vars, env) {
+  name <- as_character(call)
+  if (name %in% vars) {
+    call
+  } else if (env_has(env, name)) {
+    expr_eval(call, env)
   } else {
-    stop("Unknown input type: ", class(call), call. = FALSE)
+    call
   }
+}
+
+lang_partial_eval <- function(call, vars, env) {
+  switch_lang(call,
+    # Evaluate locally if complex CAR
+    inlined = ,
+    namespaced = ,
+    recursive = expr_eval(call, env),
+    named = {
+      # Process call arguments recursively, unless user has manually called
+      # remote/local
+      name <- as_character(car(call))
+      if (name == "local") {
+        expr_eval(call[[2]], env)
+      } else if (name %in% c("$", "[[", "[")) {
+        # Subsetting is always done locally
+        expr_eval(call, env)
+      } else if (name == "remote") {
+        call[[2]]
+      } else {
+        call[-1] <- lapply(call[-1], partial_eval, vars = vars, env = env)
+        call
+      }
+    }
+  )
 }
