@@ -77,6 +77,17 @@ test_that("%in% translation parenthesises when needed", {
   expect_equal(translate_sql(x %in% y), sql('"x" IN "y"'))
 })
 
+test_that("n_distinct can take multiple values", {
+  expect_equal(
+    translate_sql(n_distinct(x), window = FALSE),
+    sql('COUNT(DISTINCT "x")')
+  )
+  expect_equal(
+    translate_sql(n_distinct(x, y), window = FALSE),
+    sql('COUNT(DISTINCT "x", "y")')
+  )
+})
+
 # Minus -------------------------------------------------------------------
 
 test_that("unary minus flips sign of number", {

@@ -1,7 +1,7 @@
 #' Create a list of functions calls.
 #'
 #' `funs()` provides a flexible way to generate a named list of functions for
-#' input to other functions like [summarise_each()].
+#' input to other functions like [summarise_at()].
 #'
 #' @param dots,... A list of functions specified by:
 #'

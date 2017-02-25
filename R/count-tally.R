@@ -13,10 +13,16 @@
 #' they add an additional column rather than collapsing each group.
 #'
 #' @note
-#' The column name in the returned data is usually `n`. If the data already
-#' already has a column named `n` a lower-case n will be appended and the
-#' column name returned will be `nn`.  Likewise, if the table already has
-#' columns named `n` and `nn` then the column returned will be `nnn`, etc.
+#' The column name in the returned data is usually `n`, even if you
+#' have supplied a weight.
+#'
+#' If the data already already has a column named `n`, the output column
+#' will be called `nn`. If the table already has columns called `n` and `nn`
+#' then the column returned will be `nnn`, and so on.
+#'
+#' There is currently no way to control the output variable name - if you
+#' need to change the default, you'll have to write the [summarise()]
+#' yourself.
 #'
 #' @param x a [tbl()] to tally/count.
 #' @param ...,vars Variables to group by.

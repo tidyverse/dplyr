@@ -1,5 +1,12 @@
 # dplyr 0.5.0.9000
 
+* New `pull()` generic for extracting a single column either by name
+  (as a string) or a position (either from the left or the right). Thanks to
+  @paulponcet for the idea (#2054).
+
+* The SQL translation of `n_distinct()` now accepts multiple variables
+  (#2148).
+
 * `copy_to()` now returns it's output invisibly (since you're often just
    calling for the side-effect).
 
