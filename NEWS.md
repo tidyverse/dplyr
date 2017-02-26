@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `mutate()` gives better error message when attempting to add a non-vector
+  column (#2319)
+
 * New `pull()` generic for extracting a single column either by name
   (as a string) or a position (either from the left or the right). Thanks to
   @paulponcet for the idea (#2054).

@@ -574,11 +574,6 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
   expect_equal(setdiff(a1, a2), character(0))
 })
 
-test_that("grouped mutate errors on incompatible column type (#1641)", {
-  df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
-  expect_error(mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
-})
-
 test_that("grouped mutate coerces integer + double -> double (#1892)", {
   skip("Currently failing")
   df <- data_frame(
@@ -640,9 +635,18 @@ test_that("ntile falls back to R (#1750)", {
   expect_equal(res$a, rep(1, 150))
 })
 
-test_that("mutate fails gracefully on raw columns (#1803)", {
+
+# Error messages ----------------------------------------------------------
+
+test_that("mutate fails gracefully on non-vector columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(mutate(df, a = 1), 'Unsupported type RAWSXP for column "b"')
-  expect_error(mutate(df, b = 1), 'Unsupported type RAWSXP for column "b"')
-  expect_error(mutate(df, c = 1), 'Unsupported type RAWSXP for column "b"')
+  expect_error(mutate(df, a = 1), 'Column `b` must be a vector, not a raw vector')
+  expect_error(mutate(df, b = 1), 'Column `b` must be a vector, not a raw vector')
+  expect_error(mutate(df, c = 1), 'Column `b` must be a vector, not a raw vector')
 })
+
+test_that("grouped mutate errors on incompatible column type (#1641)", {
+  expect_error(tibble(x = 1) %>% mutate(y = mean), "Column `y` must be a vector, not a function")
+  expect_error(tibble(x = 1) %>% mutate(y = quote(a)), "Column `y` must be a vector, not a symbol")
+})
+
