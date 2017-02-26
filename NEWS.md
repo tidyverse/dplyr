@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `distinct_` no longer errors (#1981)
+
 * `mutate()` gives better error message when attempting to add a non-vector
   column (#2319)
 
