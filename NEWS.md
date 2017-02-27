@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* You can now recode a factor to other types (#2268)
+
 * `distinct()` no longer duplicates variables (#2001)
 
 * `distinct_` no longer errors (#1981)

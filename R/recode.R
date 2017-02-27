@@ -141,8 +141,10 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
     stop("`missing` is not supported for factors", call. = FALSE)
   }
 
-  out <- rep(NA_character_, length(levels(.x)))
-  replaced <- rep(FALSE, length(levels(.x)))
+  n <- length(levels(.x))
+  template <- find_template(values, .default, .missing)
+  out <- template[rep(NA_integer_, n)]
+  replaced <- rep(FALSE, n)
 
   for (nm in names(values)) {
     out <- replace_with(
@@ -153,12 +155,16 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
     )
     replaced[levels(.x) == nm] <- TRUE
   }
-
   .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced, .default, "`.default`")
-  levels(.x) <- out
 
-  .x
+  if (is.character(out)) {
+    levels(.x) <- out
+    .x
+  } else {
+    out[as.integer(.x)]
+  }
+
 }
 
 find_template <- function(values, .default = NULL, .missing = NULL) {
@@ -199,8 +205,12 @@ recode_default.default <- function(x, default, out) {
 }
 
 recode_default.factor <- function(x, default, out) {
-  if (is.null(default) && is.factor(x)) {
-    levels(x)
+  if (is.null(default)) {
+    if ((is.character(out) || is.factor(out)) && is.factor(x)) {
+      levels(x)
+    } else {
+      out[NA_integer_]
+    }
   } else {
     default
   }
