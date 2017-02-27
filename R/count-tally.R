@@ -126,56 +126,54 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
 
 #' @rdname tally
 #' @export
-add_tally <- function(x, wt, sort = FALSE) {
-  if (missing(wt)) {
-    if ("n" %in% names(x)) {
-      message("Using n as weighting variable")
-      wt <- quote(n)
+add_tally <- function(x, wt = NULL, sort = FALSE) {
+  if (is_null(substitute(wt)) && "n" %in% names(x)) {
+    inform("Using `n` as weighting variable")
+    wt <- ~n
+  } else {
+    wt <- tidy_capture(wt)
+  }
+
+  # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
+  # add_tally() is called from another function (e.g. add_count())
+  n <- tidy_quote(
+    if (is_null(!! wt)) {
+      n()
     } else {
-      wt <- NULL
+      sum(!! wt, na.rm = TRUE)
     }
-  } else {
-    wt <- substitute(wt)
-  }
-  add_tally_(x, wt, sort = sort)
-}
+  )
 
-
-#' @rdname tally
-#' @export
-add_tally_ <- function(x, wt = NULL, sort = FALSE) {
-  g <- group_vars(x)
-  if (is.null(wt)) {
-    n <- quote(n())
-  } else {
-    n <- lazyeval::interp(quote(sum(wt, na.rm = TRUE)), wt = wt)
-  }
   n_name <- n_name(tbl_vars(x))
-  out <- mutate_(x, .dots = setNames(list(n), n_name))
+  out <- mutate(x, !! n_name := !! n)
 
   if (sort) {
-    desc_n <- lazyeval::interp(quote(desc(n)), n = as.name(n_name))
-    out <- arrange_(out, desc_n)
+    desc_n <- tidy_quote(desc(!! symbol(n_name)))
+    out <- arrange(out, !! desc_n)
   }
-  grouped_df(out, g)
+
+  grouped_df(out, group_vars(x))
+}
+#' @rdname add_tally
+#' @export
+add_tally_ <- function(x, wt = NULL, sort = FALSE) {
+  wt <- compat_lazy(wt, caller_env())
+  add_tally(x, !! wt, sort = sort)
 }
 
 
-#' @rdname tally
+#' @rdname add_tally
 #' @export
 add_count <- function(x, ..., wt = NULL, sort = FALSE) {
-  vars <- lazyeval::lazy_dots(...)
-  wt <- substitute(wt)
-  add_count_(x, vars, wt, sort = sort)
+  g <- group_vars(x)
+  grouped <- group_by(x, ..., add = TRUE)
+
+  out <- add_tally(grouped, wt = !! tidy_capture(wt), sort = sort)
+  grouped_df(out, g)
 }
-
-
-#' @rdname tally
+#' @rdname add_tally
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  g <- group_vars(x)
-  grouped <- group_by_(x, .dots = vars, add = TRUE)
-
-  out <- add_tally_(grouped, wt = wt, sort = sort)
-  grouped_df(out, g)
+  vars <- compat_lazy_dots(vars, caller_env())
+  add_count(x, !!! vars, wt = wt, sort = sort)
 }
