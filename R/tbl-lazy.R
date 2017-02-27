@@ -38,10 +38,6 @@ print.tbl_lazy <- function(x, ...) {
 
 # Single table methods ----------------------------------------------------
 
-select.tbl_lazy <- function(.data, ...) {
-  add_op_single("select", .data, dots = tidy_quotes(...))
-}
-
 #' @export
 filter_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
@@ -50,13 +46,19 @@ filter_.tbl_lazy <- function(.data, ..., .dots) {
   add_op_single("filter", .data, dots = dots)
 
 }
+
 #' @export
-arrange_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+arrange.tbl_lazy <- function(.data, ...) {
+  dots <- tidy_quotes(...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   names(dots) <- NULL
 
   add_op_single("arrange", .data, dots = dots)
+}
+#' @export
+arrange_.tbl_lazy <- function(.data, ..., .dots) {
+  dots <- compat_lazy_dots(dots, caller_env(), ..., .named = FALSE)
+  arrange(.data, !!! dots)
 }
 
 #' @export

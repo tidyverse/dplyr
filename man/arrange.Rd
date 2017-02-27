@@ -7,7 +7,7 @@
 \usage{
 arrange(.data, ...)
 
-arrange_(.data, ..., .dots)
+arrange_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

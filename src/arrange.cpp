@@ -1,6 +1,6 @@
 #include <dplyr/main.h>
 
-#include <tools/LazyDots.h>
+#include <tools/TidyQuote.h>
 
 #include <dplyr/white_list.h>
 
@@ -17,25 +17,25 @@ using namespace Rcpp;
 using namespace dplyr;
 
 // [[Rcpp::export]]
-List arrange_impl(DataFrame data, LazyDots dots) {
+List arrange_impl(DataFrame data, TidyQuotes tquotes) {
   if (data.size() == 0) return data;
   check_valid_colnames(data);
   assert_all_white_list(data);
 
-  if (dots.size() == 0 || data.nrows() == 0) return data;
+  if (tquotes.size() == 0 || data.nrows() == 0) return data;
 
-  int nargs = dots.size();
+  int nargs = tquotes.size();
   List variables(nargs);
   LogicalVector ascending(nargs);
 
   for (int i=0; i<nargs; i++) {
-    const Lazy& lazy = dots[i];
+    const TidyQuote& tquote = tquotes[i];
 
-    Shield<SEXP> call_(lazy.expr());
+    Shield<SEXP> call_(tquote.expr());
     SEXP call = call_;
     bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call);
 
-    CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env());
+    CallProxy call_proxy(is_desc ? CADR(call) : call, data, tquote.env());
 
     Shield<SEXP> v(call_proxy.eval());
     if (!white_list(v)) {

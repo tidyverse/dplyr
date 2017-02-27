@@ -34,8 +34,8 @@ init_logging <- function(log_level) {
     invisible(.Call('dplyr_init_logging', PACKAGE = 'dplyr', log_level))
 }
 
-arrange_impl <- function(data, dots) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
+arrange_impl <- function(data, tquotes) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, tquotes)
 }
 
 #' Do values in a numeric vector fall in specified range?

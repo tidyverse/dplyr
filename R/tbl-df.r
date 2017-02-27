@@ -41,8 +41,13 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 # Verbs ------------------------------------------------------------------------
 
 #' @export
-arrange_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+arrange.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(...)
+  arrange_impl(.data, dots)
+}
+#' @export
+arrange_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   arrange_impl(.data, dots)
 }
 

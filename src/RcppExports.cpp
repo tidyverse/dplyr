@@ -73,14 +73,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-List arrange_impl(DataFrame data, LazyDots dots);
-RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP dotsSEXP) {
+List arrange_impl(DataFrame data, TidyQuotes tquotes);
+RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP tquotesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, dots));
+    Rcpp::traits::input_parameter< TidyQuotes >::type tquotes(tquotesSEXP);
+    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, tquotes));
     return rcpp_result_gen;
 END_RCPP
 }
