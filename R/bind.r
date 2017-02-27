@@ -95,7 +95,9 @@ rbind.tbl_df <- function(..., deparse.level = 1) {
 #' @rdname bind
 bind_cols <- function(...) {
   x <- list_or_dots(...)
-  cbind_all(x)
+
+  out <- cbind_all(x)
+  tibble::repair_names(out)
 }
 
 #' @export

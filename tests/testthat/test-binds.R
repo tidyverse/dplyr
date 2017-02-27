@@ -48,6 +48,17 @@ test_that("bind_cols handles all-NULL values (#2303)", {
   expect_equal(bind_cols(list(a = NULL, b = NULL)), data.frame())
 })
 
+test_that("bind_cols repairs names", {
+  df <- tibble(a = 1, b = 2)
+  bound <- bind_cols(df, df)
+
+  repaired <- as_tibble(tibble::repair_names(
+    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE)
+  ))
+
+  expect_equal(bound, repaired)
+})
+
 # rows --------------------------------------------------------------------
 
 df_var <- data_frame(
