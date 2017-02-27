@@ -22,7 +22,7 @@ expr_walk_replace <- function(lsp, old, new) {
 }
 expr_substitute <- function(expr, old, new) {
   expr <- duplicate(expr)
-  switchpatch(expr,
+  switch_type(expr,
     quote = ,
     language = expr_walk_replace(cdr(expr), old, new),
     symbol = if (identical(expr, old)) return(new)

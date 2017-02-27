@@ -53,12 +53,11 @@ namespace dplyr {
       // call to Rcpp_eval() triggered by active_env.new_child()
       eval_env = active_env.new_child(true);
       eval_env[".data"] = active_env;
-      eval_env[".env"] = env;
 
       // Install definitions for formula self-evaluation and unguarding
       Environment rlang = Rcpp::Environment::namespace_env("rlang");
-      Function make_eval_env = rlang["tidy_eval_env_install"];
-      eval_env = make_eval_env(env, eval_env, active_env);
+      Function dyn_scope_install = rlang["dyn_scope_install"];
+      eval_env = dyn_scope_install(eval_env, active_env, env);
 
       has_eval_env = true;
     }
@@ -74,6 +73,10 @@ namespace dplyr {
         return;
 
       Environment active_env = eval_env.parent();
+
+      // That's unreliable, but cleanup should move to rlang anyway
+      active_env = active_env.parent();
+
       remove_all_from_env(names, active_env);
     }
 

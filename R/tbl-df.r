@@ -66,7 +66,7 @@ slice_.tbl_df <- function(.data, ..., .dots) {
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- tidy_dots(..., .named = TRUE)
+  dots <- tidy_quotes(..., .named = TRUE)
   mutate_impl(.data, dots)
 }
 #' @export
@@ -77,7 +77,7 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 summarise.tbl_df <- function(.data, ...) {
-  dots <- tidy_dots(..., .named = TRUE)
+  dots <- tidy_quotes(..., .named = TRUE)
   summarise_impl(.data, dots)
 }
 #' @export

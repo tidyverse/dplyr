@@ -60,6 +60,7 @@ Collate:
     'case_when.R'
     'coalesce.R'
     'colwise.R'
+    'compat-lazyeval.R'
     'compat-purrr.R'
     'compute-collect.r'
     'copy-to.r'

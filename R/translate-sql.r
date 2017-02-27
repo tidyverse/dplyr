@@ -91,7 +91,7 @@ translate_sql <- function(...,
   }
 
   translate_sql_(
-    tidy_dots(...),
+    tidy_quotes(...),
     con = con,
     vars_group = vars_group,
     vars_order = vars_order,
@@ -173,7 +173,7 @@ sql_env <- function(expr, variant, con, window = FALSE,
   symbol_env <- env_clone(base_symbols, parent = name_env)
 
   # Make tidy quotes self-evaluating
-  symbol_env <- tidy_eval_env_install(default_env, symbol_env, default_env)
+  symbol_env <- dyn_scope_install(symbol_env, default_env, default_env)
 
   symbol_env
 }

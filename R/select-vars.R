@@ -44,7 +44,7 @@
 #' select_vars_(names(iris), list(quote(Petal.Length)))
 #' select_vars_(names(iris), "Petal.Length")
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- tidy_dots(...)
+  args <- tidy_quotes(...)
 
   if (is_empty(args)) {
     vars <- setdiff(include, exclude)

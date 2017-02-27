@@ -166,7 +166,7 @@ summarize_if <- summarise_if
 #' @seealso [summarise_all()]
 #' @export
 vars <- function(...) {
-  structure(tidy_dots(...), class = "col_list")
+  structure(tidy_quotes(...), class = "col_list")
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
@@ -237,7 +237,7 @@ apply_vars <- function(vars, tquotes, tbl) {
 #'   be either a list of expressions or a character vector.
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, tidy_dots(...))
+  summarise_each_(tbl, funs, tidy_quotes(...))
 }
 
 #' @export
@@ -270,7 +270,7 @@ mutate_each <- function(tbl, funs, ...) {
     funs <- funs_(funs)
   }
 
-  mutate_each_(tbl, funs, tidy_dots(...))
+  mutate_each_(tbl, funs, tidy_quotes(...))
 }
 
 #' @export

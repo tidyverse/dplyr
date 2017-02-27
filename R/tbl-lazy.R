@@ -39,7 +39,7 @@ print.tbl_lazy <- function(x, ...) {
 # Single table methods ----------------------------------------------------
 
 select.tbl_lazy <- function(.data, ...) {
-  add_op_single("select", .data, dots = tidy_dots(...))
+  add_op_single("select", .data, dots = tidy_quotes(...))
 }
 
 #' @export
@@ -61,7 +61,7 @@ arrange_.tbl_lazy <- function(.data, ..., .dots) {
 
 #' @export
 select.tbl_lazy <- function(.data, ...) {
-  dots <- tidy_dots(..., .named = TRUE)
+  dots <- tidy_quotes(..., .named = TRUE)
   add_op_single("select", .data, dots = dots)
 }
 #' @export
@@ -80,7 +80,7 @@ rename_.tbl_lazy <- function(.data, ..., .dots) {
 
 #' @export
 summarise.tbl_lazy <- function(.data, ...) {
-  dots <- tidy_dots(..., .named = TRUE)
+  dots <- tidy_quotes(..., .named = TRUE)
   add_op_single("summarise", .data, dots = dots)
 }
 #' @export
@@ -92,7 +92,7 @@ summarise_.tbl_lazy <- function(.data, ..., .dots) {
 
 #' @export
 mutate.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- tidy_dots(..., .named = TRUE)
+  dots <- tidy_quotes(..., .named = TRUE)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("mutate", .data, dots = dots)
 }

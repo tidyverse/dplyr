@@ -25,7 +25,7 @@
 #' fs <- c("min", "max")
 #' funs_(fs)
 funs <- function(..., .args = list()) {
-  dots <- tidy_dots(...)
+  dots <- tidy_quotes(...)
   dots <- map(dots, funs_make_call, args = .args)
 
   names(dots) <- names2(dots)
@@ -99,7 +99,7 @@ funs_make_call <- function(x, args, env = base_env()) {
   f <- as_tidy_quote(x, env)
   expr <- get_expr(x)
 
-  expr <- switchpatch(expr, .to = "funs",
+  expr <- switch_type(expr, "funs",
     quote = ,
     language = expr,
     symbol = substitute(f(.), list(f = expr)),

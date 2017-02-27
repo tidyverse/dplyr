@@ -18,7 +18,7 @@ warn_text_se <- function() {
 compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   if (warn) warn_underscored()
 
-  coerce_type(lazy, "tidy_quote",
+  switch_type(lazy, "tidy_quote",
     quote = lazy,
     symbol = ,
     language = new_tidy_quote(lazy, env),
@@ -27,7 +27,7 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
       parse_f(lazy, env)
     },
     list =
-      switch_class(lazy, .to = "tidy_quote",
+      coerce_class(lazy, "tidy_quote",
         lazy = new_tidy_quote(lazy$expr, lazy$env)
       )
   )

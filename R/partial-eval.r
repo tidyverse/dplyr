@@ -69,7 +69,7 @@ partial_eval <- function(call, vars = character(), env = caller_env()) {
 }
 
 sym_partial_eval <- function(call, vars, env) {
-  name <- as_character(call)
+  name <- as_name(call)
   if (name %in% vars) {
     call
   } else if (env_has(env, name)) {
@@ -88,7 +88,7 @@ lang_partial_eval <- function(call, vars, env) {
     named = {
       # Process call arguments recursively, unless user has manually called
       # remote/local
-      name <- as_character(car(call))
+      name <- as_name(car(call))
       if (name == "local") {
         expr_eval(call[[2]], env)
       } else if (name %in% c("$", "[[", "[")) {
