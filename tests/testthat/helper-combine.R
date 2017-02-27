@@ -82,7 +82,8 @@ give_a_warning <- function(item1, item2,
   }
 
   # factor and character give a warning when combined (coercion to character)
-  if (class1 == "factor" && class2 == "character") {
+  if ((class1 == "factor" && class2 == "character") ||
+      (class1 == "character" && class2 == "factor")) {
     return(TRUE)
   }
 

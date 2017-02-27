@@ -347,6 +347,9 @@
 
 * `combine()` accepts `NA` values (#2203, @zeehio)
 
+* `combine()` and `bind_rows()` with character and factor types now always warn
+  about the coercion to character (#2317, @zeehio)
+
 # dplyr 0.5.0
 
 ## Breaking changes
