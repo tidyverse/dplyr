@@ -6,6 +6,12 @@
 #' and factors. For logical vectors, use [if_else()]. For more complicated
 #' criteria, use [case_when()].
 #'
+#' You can use `recode()` directly with factors; it will preserve the existing
+#' order of levels while changing the values. Alternatively, you can
+#' use `recode_factor()`, which will change the order of levels to match
+#' the order of replacements. See the [forcats](http://forcats.tidyverse.org/)
+#' package for more tools for working with factors and their levels.
+#'
 #' @param .x A vector to modify
 #' @param ... Replacements. These should be named for character and factor
 #'   `.x`, and can be named for numeric `.x`. The argument names should be the
@@ -19,6 +25,7 @@
 #'   the same type as the original values in `.x`, unmatched
 #'   values are not changed. If not supplied and if the replacements
 #'   are not compatible, unmatched values are replaced with `NA`.
+#'
 #'   `.default` must be either length 1 or the same length as
 #'   `.x`.
 #' @param .missing If supplied, any missing values in `.x` will be
