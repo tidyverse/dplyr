@@ -228,6 +228,7 @@ namespace dplyr {
 
     void collect_factor(const SlicingIndex& index, IntegerVector source) {
       CharacterVector levels = get_levels(source);
+      Rf_warning("binding character and factor vector, coercing into character vector");
       for (int i=0; i<index.size(); i++) {
         if (source[i] == NA_INTEGER) {
           data[index[i]] = NA_STRING;
@@ -431,7 +432,6 @@ namespace dplyr {
       // we however do not assume that they are in the same order
       IntegerVector source(v);
       CharacterVector levels = get_levels(source);
-
       SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
       int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
       for (int i=0; i<index.size(); i++) {
