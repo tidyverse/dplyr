@@ -81,6 +81,13 @@ summarise_.tbl_lazy <- function(.data, ..., .dots) {
 mutate_.tbl_lazy <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   dots <- partial_eval(dots, vars = op_vars(.data))
+  flat <- unlist(lapply(dots, function(e) as.list(e)))
+
+  while(length(dots) > 1 && any(flat %in% names(dots))) {
+    i <- first(which(!is.na(match(names(dots), flat))))
+    .data <- dplyr::add_op_single("mutate", .data, dots = dots[i])
+    dots[[i]] <- NULL
+  }
 
   add_op_single("mutate", .data, dots = dots)
 }
