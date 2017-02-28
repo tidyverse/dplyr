@@ -352,6 +352,7 @@ select_if <- function(.data, .predicate, ...) {
     )
   }
   vars <- probe_colwise_names(.data, .predicate, ...)
+  vars <- sprintf('`%s`', vars)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
   select_(.data, .dots = vars)
 }

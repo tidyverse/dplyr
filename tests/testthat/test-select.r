@@ -189,3 +189,13 @@ test_that("select_if keeps grouping cols", {
   expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
   expect_equal(df, tbl_df(iris[c(5, 1:4)]))
 })
+
+test_that("select_if handles non standard names", {
+  expect_identical(tibble(`1foo` = 1L) %>% select_if(is.integer),
+                   tibble(`1foo` = 1L) %>% select(`1foo`))
+})
+
+test_that("select_if fails for non standard names with ticks", {
+  expect_error(tibble(`\`foo` = 1L) %>% select_if(is.integer))
+  expect_identical(tibble(`\`foo` = 1L) %>% select(`\`foo`), tibble(`\`foo` = 1L))
+})
