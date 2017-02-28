@@ -3,6 +3,7 @@
 \name{do}
 \alias{do}
 \alias{do_}
+\alias{do.tbl_sql}
 \alias{do_.tbl_sql}
 \title{Do arbitrary operations on a tbl.}
 \usage{
@@ -10,7 +11,9 @@ do(.data, ...)
 
 do_(.data, ..., .dots)
 
-\method{do_}{tbl_sql}(.data, ..., .dots, .chunk_size = 10000L)
+\method{do}{tbl_sql}(.data, ..., .chunk_size = 10000L)
+
+\method{do_}{tbl_sql}(.data, ..., .dots = list(), .chunk_size = 10000L)
 }
 \arguments{
 \item{.data}{a tbl}

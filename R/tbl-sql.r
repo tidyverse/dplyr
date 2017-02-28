@@ -453,20 +453,20 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
-do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
-  group_by <- groups(.data)
+do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
+  groups_sym <- groups(.data)
 
-  if (length(group_by) == 0) {
+  if (length(groups_sym) == 0) {
     .data <- collect(.data)
-    return(do_(.data, ..., .dots = .dots))
+    return(do(.data, ...))
   }
 
-  args <- lazyeval::all_dots(.dots, ...)
+  args <- tidy_quotes(...)
   named <- named_args(args)
 
   # Create data frame of labels
   labels <- .data %>%
-    select_(.dots = group_by) %>%
+    select(!!! groups_sym) %>%
     summarise() %>%
     collect()
 
@@ -479,7 +479,6 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
   p <- progress_estimated(n * m, min_time = 2)
-  env <- new.env(parent = lazyeval::common_env(args))
 
   # Create ungrouped data frame suitable for chunked retrieval
   query <- query(con, sql_render(ungroup(.data), con), op_vars(.data))
@@ -491,23 +490,30 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   # be an unusual situation.
   last_group <- NULL
   i <- 0
-  gvars <- seq_along(group_by)
+
+  # Assumes `chunk` to be ordered with group columns first
+  gvars <- seq_along(groups_sym)
+
+  # Create the dynamic scope for tidy evaluation
+  dyn_scope <- child_env(NULL)
 
   query$fetch_paged(.chunk_size, function(chunk) {
-    if (!is.null(last_group)) {
+    if (!is_null(last_group)) {
       chunk <- rbind(last_group, chunk)
     }
 
     # Create an id for each group
     grouped <- chunk %>% group_by_(.dots = names(chunk)[gvars])
     index <- attr(grouped, "indices") # zero indexed
+    n <- length(index)
 
     last_group <<- chunk[index[[length(index)]] + 1L, , drop = FALSE]
 
     for (j in seq_len(n - 1)) {
-      env$. <- chunk[index[[j]] + 1L, , drop = FALSE]
+      cur_chunk <- chunk[index[[j]] + 1L, , drop = FALSE]
+      dyn_scope$. <- dyn_scope$.data <- cur_chunk
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(eval(args[[k]]$expr, envir = env))
+        out[[k]][i + j] <<- list(tidy_dyn_eval(args[[k]], dyn_scope))
         p$tick()$print()
       }
     }
@@ -515,10 +521,10 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   })
 
   # Process last group
-  if (!is.null(last_group)) {
-    env$. <- last_group
+  if (!is_null(last_group)) {
+    dyn_scope$. <- dyn_scope$.data <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(eval(args[[k]]$expr, envir = env))
+      out[[k]][i + 1] <- list(tidy_dyn_eval(args[[k]], dyn_scope))
       p$tick()$print()
     }
   }
@@ -528,4 +534,10 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   } else {
     label_output_list(labels, out, groups(.data))
   }
+}
+#' @export
+#' @rdname do
+do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  do(.data, !!! dots, .chunk_size = .chunk_size)
 }

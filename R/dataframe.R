@@ -168,31 +168,30 @@ distinct_.data.frame <- function(.data, ..., .dots, .keep_all = FALSE) {
 # Do ---------------------------------------------------------------------------
 
 #' @export
-do_.data.frame <- function(.data, ..., .dots) {
-  args <- lazyeval::all_dots(.dots, ...)
+do.data.frame <- function(.data, ...) {
+  args <- tidy_quotes(...)
   named <- named_args(args)
 
-  data <- list(. = .data)
+  # Create custom dynamic scope with `.` pronoun
+  env <- child_env(data = list(. = .data, .data = .data))
 
   if (!named) {
-    env <- new.env(parent = args[[1]]$env)
-    env$. <- .data
-
-    out <- lazyeval::lazy_eval(args[[1]], data)
-    if (!is.data.frame(out)) {
-      stop("Result must be a data frame", call. = FALSE)
+    out <- tidy_dyn_eval(args[[1]], env)
+    if (!inherits(out, "data.frame")) {
+      abort("Result must be a data frame")
     }
   } else {
-    out <- lapply(args, function(arg) {
-      list(lazyeval::lazy_eval(arg, data))
-    })
+    out <- map(args, function(arg) list(tidy_dyn_eval(arg, env)))
     names(out) <- names(args)
-    attr(out, "row.names") <- .set_row_names(1L)
-    # Use tbl_df to ensure safe printing of list columns
-    class(out) <- c("tbl_df", "data.frame")
+    out <- tibble::as_tibble(out, validate = FALSE)
   }
 
   out
+}
+#' @export
+do_.data.frame <- function(.data, ..., .dots) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  do(.data, !!! dots)
 }
 
 # Random samples ---------------------------------------------------------------

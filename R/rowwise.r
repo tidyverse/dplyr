@@ -66,21 +66,21 @@ group_by_.rowwise_df <- function(.data, ..., .dots, add = FALSE) {
 # Do ---------------------------------------------------------------------------
 
 #' @export
-do_.rowwise_df <- function(.data, ..., .dots) {
+do.rowwise_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
-
-  args <- lazyeval::all_dots(.dots, ...)
-  named <- named_args(args)
-  env <- new.env(parent = lazyeval::common_env(args))
   index <- attr(.data, "indices")
+
+  args <- tidy_quotes(.dots, ...)
+  named <- named_args(args)
 
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
-  makeActiveBinding(".", function() {
-    lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
-  }, env)
+  dyn_scope <- child_env(NULL)
+  current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
+  env_assign_active(dyn_scope, ".", current_row)
+  env_assign_active(dyn_scope, ".data", current_row)
 
   n <- nrow(.data)
   m <- length(args)
@@ -91,7 +91,7 @@ do_.rowwise_df <- function(.data, ..., .dots) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval(args[[j]]$expr, envir = env))
+      out[[j]][`_i`] <- list(tidy_dyn_eval(args[[j]], dyn_scope))
       p$tick()$print()
     }
   }
@@ -101,4 +101,9 @@ do_.rowwise_df <- function(.data, ..., .dots) {
   } else {
     label_output_list(NULL, out, groups(.data))
   }
+}
+#' @export
+do_.rowwise_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  do(.data, !!! dots)
 }
