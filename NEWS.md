@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* The SQL translation of `mutate()` now accepts references to new
+  expressions (#2481).
+
 * `bind_cols()` now calls `tibble::repair_names()` to ensure that all
   names are unique (#2248).
 
