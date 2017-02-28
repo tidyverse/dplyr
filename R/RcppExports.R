@@ -82,8 +82,8 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
-filter_impl <- function(df, dots) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
+filter_impl <- function(df, tquotes) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, tquotes)
 }
 
 resolve_vars <- function(new_groups, names) {

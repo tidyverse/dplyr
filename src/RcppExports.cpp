@@ -180,14 +180,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, LazyDots dots);
-RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+SEXP filter_impl(DataFrame df, TidyQuotes tquotes);
+RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP tquotesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, dots));
+    Rcpp::traits::input_parameter< TidyQuotes >::type tquotes(tquotesSEXP);
+    rcpp_result_gen = Rcpp::wrap(filter_impl(df, tquotes));
     return rcpp_result_gen;
 END_RCPP
 }
