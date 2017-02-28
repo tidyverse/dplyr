@@ -87,7 +87,7 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
 
   # Include/exclude specified variables
   sel <- setNames(vars[incl], names(incl))
-  sel <- c(setdiff2(include, sel), sel)
+  sel <- combine_named_vector(setdiff2(include, sel), sel)
   sel <- setdiff2(sel, exclude)
 
   # Ensure all output vars named
@@ -104,6 +104,12 @@ select_vars_ <- function(vars, args, include = character(), exclude = character(
 
 setdiff2 <- function(x, y) {
   x[match(x, y, 0L) == 0L]
+}
+
+# workaround for the problem that `c` converts names to UTF-8
+combine_named_vector <- function(x, y) {
+  setNames(c(x, y),
+           nm = c(names(x) %||% rep("", length(x)), names(y) %||% rep("", length(y))))
 }
 
 #' @export
