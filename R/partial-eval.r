@@ -72,7 +72,7 @@ sym_partial_eval <- function(call, vars, env) {
   name <- as_name(call)
   if (name %in% vars) {
     call
-  } else if (env_has(env, name)) {
+  } else if (env_has(env, name, inherit = TRUE)) {
     expr_eval(call, env)
   } else {
     call
