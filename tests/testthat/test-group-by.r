@@ -186,7 +186,7 @@ test_that("grouped_df requires a list of symbols (#665)", {
 })
 
 test_that("group_by gives meaningful message with unknow column (#716)", {
-  expect_error(group_by(iris, wrong_name_of_variable), "unknown variable to group by")
+  expect_error(group_by(iris, wrong_name_of_variable), "unknown column")
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -227,18 +227,6 @@ test_that("group_by keeps attributes", {
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
   res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
   expect_equal(res, c("tbl_df", "data.frame"))
-})
-
-test_that("group_by supports column (#1012)", {
-  g1 <- mtcars %>% group_by(cyl)
-  g2 <- mtcars %>% group_by(column(~cyl))
-  g3 <- mtcars %>% group_by(column("cyl"))
-  a <- "cyl"
-  g4 <- mtcars %>% group_by(column(a))
-
-  expect_equal(attr(g1, "vars"), attr(g2, "vars"))
-  expect_equal(attr(g1, "vars"), attr(g3, "vars"))
-  expect_equal(attr(g1, "vars"), attr(g4, "vars"))
 })
 
 test_that(paste0("group_by handles encodings for native strings (#1507)"), {

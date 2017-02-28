@@ -191,18 +191,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// resolve_vars
-SEXP resolve_vars(List new_groups, CharacterVector names);
-RcppExport SEXP dplyr_resolve_vars(SEXP new_groupsSEXP, SEXP namesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type new_groups(new_groupsSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type names(namesSEXP);
-    rcpp_result_gen = Rcpp::wrap(resolve_vars(new_groups, names));
-    return rcpp_result_gen;
-END_RCPP
-}
 // grouped_df_impl
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop);
 RcppExport SEXP dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {

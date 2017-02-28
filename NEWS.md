@@ -39,6 +39,8 @@
 
 * `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
   `bind_cols()` respectively (#2138)
+* `column()` has been removed without deprecation (it was never
+  documented explicitly).
 
 * `copy_to()` gains an `overwrite` argument which allows you to overwrite
   an existing table. Use with care! (#2296)

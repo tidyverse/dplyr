@@ -90,34 +90,6 @@ namespace dplyr {
     }
   }
 
-  SymbolString extract_column(SEXP arg, const Environment& env) {
-    RObject value;
-    if (TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~")) {
-      if (Rf_length(arg) != 2 || TYPEOF(CADR(arg)) != SYMSXP)
-        stop("unhandled formula in column");
-      value = CharacterVector::create(PRINTNAME(CADR(arg)));
-    } else {
-      value = Rcpp_eval(arg, env);
-    }
-    if (is<Symbol>(value)) {
-      return SymbolString(Symbol(value));
-    }
-    else if (is<String>(value)) {
-      return SymbolString(String(value));
-    }
-    else {
-      stop("column must return a single string");
-    }
-  }
-
-  SymbolString get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
-    SymbolString res = extract_column(arg, env);
-    if (!subsets.count(res)) {
-      stop("result of column() expands to a symbol that is not a variable from the data: %s", res.get_cstring());
-    }
-    return res;
-  }
-
   CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
     data(data_),
     set(data.size()),

@@ -86,10 +86,6 @@ filter_impl <- function(df, tquotes) {
     .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, tquotes)
 }
 
-resolve_vars <- function(new_groups, names) {
-    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
-}
-
 grouped_df_impl <- function(data, symbols, drop) {
     .Call('dplyr_grouped_df_impl', PACKAGE = 'dplyr', data, symbols, drop)
 }
