@@ -33,7 +33,7 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   )
 }
 
-compat_lazy_dots <- function(dots, env, ..., .named = TRUE) {
+compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
   dots <- c(unclass(dots), list(...))
   dots <- as_list(dots)
 

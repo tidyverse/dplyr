@@ -174,6 +174,6 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname add_tally
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  vars <- compat_lazy_dots(vars, caller_env())
+  vars <- compat_lazy_dots(vars, caller_env(), .named = TRUE)
   add_count(x, !!! vars, wt = wt, sort = sort)
 }

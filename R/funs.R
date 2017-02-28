@@ -41,7 +41,7 @@ funs <- function(..., .args = list()) {
 #' @export
 #' @rdname funs
 funs_ <- function(dots, args = list(), env = base_env()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   funs(!!! dots, .args = args)
 }
 

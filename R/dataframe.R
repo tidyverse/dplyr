@@ -97,7 +97,7 @@ select.data.frame <- function(.data, ...) {
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   select(.data, !!! symbols(dots))
 }
 
