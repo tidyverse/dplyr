@@ -57,7 +57,7 @@ filter.tbl_df <- function(.data, ...) {
   if (any(has_names(dots))) {
     abort("filter() takes unnamed arguments. Do you need `==`?")
   }
-  dots <- exprs_ensure_names(dots)
+  dots <- exprs_auto_name(dots)
   filter_impl(.data, dots)
 }
 #' @export

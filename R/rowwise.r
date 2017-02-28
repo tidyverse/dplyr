@@ -54,12 +54,17 @@ n_groups.rowwise_df <- function(x) {
 }
 
 #' @export
-group_by_.rowwise_df <- function(.data, ..., .dots, add = FALSE) {
-  warning("Grouping rowwise data frame strips rowwise nature", call. = FALSE)
+group_by.rowwise_df <- function(.data, ..., add = FALSE) {
+  warn("Grouping rowwise data frame strips rowwise nature")
   .data <- ungroup(.data)
 
-  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+  groups <- group_by_prepare(.data, ..., add = add)
   grouped_df(groups$data, groups$group_names)
+}
+#' @export
+group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_by(.data, !!! dots, add = add)
 }
 
 

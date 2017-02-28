@@ -110,8 +110,8 @@ mutate_.tbl_lazy <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-group_by_.tbl_lazy <- function(.data, ..., .dots = list(), add = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+group_by.tbl_lazy <- function(.data, ..., add = FALSE) {
+  dots <- tidy_quotes(...)
   dots <- partial_eval(dots, vars = op_vars(.data))
 
   if (length(dots) == 0) {
@@ -126,6 +126,11 @@ group_by_.tbl_lazy <- function(.data, ..., .dots = list(), add = FALSE) {
     dots = set_names(groups$groups, names),
     args = list(add = FALSE)
   )
+}
+#' @export
+group_by_.tbl_lazy <- function(.data, ..., .dots = list(), add = TRUE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_by(.data, !!! dots, add = add)
 }
 
 #' @export
