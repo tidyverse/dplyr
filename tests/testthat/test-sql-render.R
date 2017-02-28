@@ -100,6 +100,16 @@ test_that("mutate overwrites previous variables", {
   expect_equal(df$x, 1:5 + 2)
 })
 
+test_that("mutate supports referencing new left-side columns", {
+  df <- memdb_frame(x = 1:5) %>%
+    mutate(y = x + 1, z = y + 1) %>%
+    collect()
+
+  expect_equal(names(df), c("x", "y", "z"))
+  expect_equal(df$y, 1:5 + 1)
+  expect_equal(df$z, 1:5 + 2)
+})
+
 test_that("sequence of operations work", {
   out <- memdb_frame(x = c(1, 2, 3, 4)) %>%
     select(y = x) %>%
