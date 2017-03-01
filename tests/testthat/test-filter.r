@@ -10,9 +10,9 @@ test_that("filter results independent of data tbl (simple)", {
   skip_if_no_sqlite()
 
   expected <- df[df$a > 6, , drop = FALSE]
-  compare_tbls(tbls[c("df", "sqlite")], function(x) {
+  expect_warning(compare_tbls(tbls[c("df", "sqlite")], function(x) {
     filter_(x, ~ a > 6)
-  }, expected)
+  }, expected), "underscored versions are deprecated")
 })
 
 test_that("filter captures local variables", {
