@@ -118,9 +118,9 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   groups <- group_vars(x)
 
-  x <- group_by_(x, .dots = vars, add = TRUE)
+  x <- group_by(x, !!! symbols(vars), add = TRUE)
   x <- tally_(x, wt = wt, sort = sort)
-  x <- group_by_(x, .dots = groups, add = FALSE)
+  x <- group_by(x, !!! symbols(groups), add = TRUE)
   x
 }
 

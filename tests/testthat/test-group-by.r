@@ -65,7 +65,7 @@ test_that("local group_by preserves variable types", {
     expected <- data_frame(unique(df_var[[var]]), n = 1L)
     names(expected)[1] <- var
 
-    summarised <- df_var %>% group_by_(var) %>% summarise(n = n())
+    summarised <- df_var %>% group_by(!! symbol(var)) %>% summarise(n = n())
     expect_equal(summarised, expected, info = var)
   }
 })
@@ -238,7 +238,7 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
     for (names_converter in c(enc2native, enc2utf8)) {
       for (dots_converter in c(enc2native, enc2utf8)) {
         names(df) <- names_converter(c(special, "Eng"))
-        res <- group_by_(df, .dots = dots_converter(special))
+        res <- group_by(df, !!! symbols(dots_converter(special)))
         expect_equal(names(res), names(df))
         expect_groups(res, special)
       }
@@ -248,7 +248,7 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
       names(df) <- names_converter(c(special, "Eng"))
 
       get_call <- bquote(get(.(special)))
-      res <- group_by_(df, .dots = list(lazyeval::f_new(get_call)))
+      res <- group_by(df, !! list(new_formula(get_call)))
       expect_equal(names(res), c(names(df), deparse(get_call)))
       expect_equal(groups(res), list(as.name(enc2native(deparse(get_call)))))
     }

@@ -508,4 +508,4 @@ test_hybrid <- function(grouping) {
 
 test_hybrid(identity)
 test_hybrid(rowwise)
-test_hybrid(. %>% group_by_(~ id))
+test_hybrid(. %>% group_by(~ id))
