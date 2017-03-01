@@ -7,7 +7,7 @@
 \usage{
 filter(.data, ...)
 
-filter_(.data, ..., .dots)
+filter_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
