@@ -88,7 +88,7 @@ lang_partial_eval <- function(call, vars, env) {
     named = {
       # Process call arguments recursively, unless user has manually called
       # remote/local
-      name <- as_name(car(call))
+      name <- as_name(node_car(call))
       if (name == "local") {
         expr_eval(call[[2]], env)
       } else if (name %in% c("$", "[[", "[")) {
