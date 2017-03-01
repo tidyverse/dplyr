@@ -59,39 +59,39 @@
 #'   add_count(playerID, wt = AB) %>%
 #'   filter(n >= 1000)
 #' }
-tally <- function(x, wt, sort = FALSE) {
-  if (missing(wt)) {
-    if ("n" %in% names(x)) {
-      message("Using n as weighting variable")
-      wt <- quote(n)
+tally <- function(x, wt = NULL, sort = FALSE) {
+  if (is_null(substitute(wt)) && "n" %in% names(x)) {
+    inform("Using `n` as weighting variable")
+    wt <- ~n
+  } else {
+    wt <- tidy_capture(wt)
+  }
+
+  # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
+  # add_tally() is called from another function (e.g. add_count())
+  n <- tidy_quote(
+    if (is_null(!! wt)) {
+      n()
     } else {
-      wt <- NULL
+      sum(!! wt, na.rm = TRUE)
     }
-  } else {
-    wt <- substitute(wt)
-  }
-
-  tally_(x, wt, sort = sort)
-}
-
-#' @export
-#' @rdname tally
-tally_ <- function(x, wt, sort = FALSE) {
-  if (is.null(wt)) {
-    n <- quote(n())
-  } else {
-    n <- lazyeval::interp(quote(sum(wt, na.rm = TRUE)), wt = wt)
-  }
+  )
 
   n_name <- n_name(tbl_vars(x))
-  out <- summarise_(x, .dots = setNames(list(n), n_name))
+  out <- summarise(x, !! n_name := !! n)
 
-  if (!sort) {
-    out
+  if (sort) {
+    desc_n <- tidy_quote(desc(!! symbol(n_name)))
+    arrange(out, !! desc_n)
   } else {
-    desc_n <- lazyeval::interp(quote(desc(n)), n = as.name(n_name))
-    arrange_(out, desc_n)
+    out
   }
+}
+#' @rdname tally
+#' @export
+tally_ <- function(x, wt = NULL, sort = FALSE) {
+  wt <- compat_lazy(wt, caller_env())
+  tally(x, !! wt, sort = sort)
 }
 
 n_name <- function(x) {
@@ -107,21 +107,18 @@ n_name <- function(x) {
 #' @export
 #' @rdname tally
 count <- function(x, ..., wt = NULL, sort = FALSE) {
-  vars <- lazyeval::lazy_dots(...)
-  wt <- substitute(wt)
+  groups <- group_vars(x)
 
-  count_(x, vars, wt, sort = sort)
+  x <- group_by(x, ..., add = TRUE)
+  x <- tally(x, wt = !! wt, sort = sort)
+  x <- group_by(x, !!! symbols(groups), add = FALSE)
+  x
 }
-
 #' @export
 #' @rdname tally
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  groups <- group_vars(x)
-
-  x <- group_by(x, !!! symbols(vars), add = TRUE)
-  x <- tally_(x, wt = wt, sort = sort)
-  x <- group_by(x, !!! symbols(groups), add = TRUE)
-  x
+  vars <- compat_lazy_dots(vars, caller_env(), .named = TRUE)
+  count(x, !!! vars, wt = wt, sort = sort)
 }
 
 #' @rdname tally
@@ -154,7 +151,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
 
   grouped_df(out, group_vars(x))
 }
-#' @rdname add_tally
+#' @rdname tally
 #' @export
 add_tally_ <- function(x, wt = NULL, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
@@ -162,7 +159,7 @@ add_tally_ <- function(x, wt = NULL, sort = FALSE) {
 }
 
 
-#' @rdname add_tally
+#' @rdname tally
 #' @export
 add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   g <- group_vars(x)
@@ -171,7 +168,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   out <- add_tally(grouped, wt = !! tidy_capture(wt), sort = sort)
   grouped_df(out, g)
 }
-#' @rdname add_tally
+#' @rdname tally
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env(), .named = TRUE)

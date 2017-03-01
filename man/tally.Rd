@@ -11,15 +11,15 @@
 \alias{add_count_}
 \title{Counts/tally observations by group.}
 \usage{
-tally(x, wt, sort = FALSE)
+tally(x, wt = NULL, sort = FALSE)
 
-tally_(x, wt, sort = FALSE)
+tally_(x, wt = NULL, sort = FALSE)
 
 count(x, ..., wt = NULL, sort = FALSE)
 
 count_(x, vars, wt = NULL, sort = FALSE)
 
-add_tally(x, wt, sort = FALSE)
+add_tally(x, wt = NULL, sort = FALSE)
 
 add_tally_(x, wt = NULL, sort = FALSE)
 
