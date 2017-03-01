@@ -350,6 +350,8 @@
 * `combine()` and `bind_rows()` with character and factor types now always warn
   about the coercion to character (#2317, @zeehio)
 
+* `combine()` and `bind_rows()` accept `difftime` objects.
+
 # dplyr 0.5.0
 
 ## Breaking changes

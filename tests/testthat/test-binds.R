@@ -457,3 +457,11 @@ test_that("bind_rows rejects data frame columns (#2015)", {
     fixed = TRUE
   )
 })
+
+test_that("bind_rows accepts difftime objects", {
+  df1 <- data.frame(x = as.difftime(1, units = "hours"))
+  df2 <- data.frame(x = as.difftime(1, units = "mins"))
+  res <- bind_rows(df1, df2)
+  expect_equal(res$x,
+               c(df1$x, df2$x))
+})
