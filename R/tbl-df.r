@@ -191,6 +191,10 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
+distinct.tbl_df <- function(.data, ...) {
+  tbl_df(NextMethod())
+}
+#' @export
 distinct_.tbl_df <- function(.data, ..., .dots = list()) {
   tbl_df(NextMethod())
 }

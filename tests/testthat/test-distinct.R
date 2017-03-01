@@ -24,7 +24,7 @@ test_that("distinct throws error if column is specified and .keep_all is TRUE", 
 
 test_that("distinct works for 0-sized columns (#1437)", {
   df <- data_frame(x = 1:10) %>% select(-x)
-  ddf <- distinct(df, x)
+  ddf <- distinct(df)
   expect_equal(ncol(ddf), 0L)
 })
 

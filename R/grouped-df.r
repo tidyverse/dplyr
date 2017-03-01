@@ -228,14 +228,14 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  groups <- lazyeval::as.lazy_dots(groups(.data))
-  dist <- distinct_vars(
-    .data, ..., .dots = c(.dots, groups),
-    .keep_all = .keep_all
-  )
-
+distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_vars(.data, ..., !!! groups(.data), .keep_all = .keep_all)
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
+}
+#' @export
+distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
 

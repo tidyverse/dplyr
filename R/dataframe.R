@@ -167,9 +167,14 @@ setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
 setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
-distinct_.data.frame <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., .dots = .dots, .keep_all = .keep_all)
+distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_vars(.data, ..., .keep_all = .keep_all)
   distinct_impl(dist$data, dist$vars, dist$keep)
+}
+#' @export
+distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
 

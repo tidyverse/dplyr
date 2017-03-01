@@ -144,11 +144,15 @@ ungroup.tbl_lazy <- function(x, ...) {
 }
 
 #' @export
+distinct.tbl_lazy <- function(.data, ..., .keep_all = FALSE) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+  add_op_single("distinct", .data, dots = dots, args = list(.keep_all = .keep_all))
+}
+#' @export
 distinct_.tbl_lazy <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  dots <- partial_eval(dots, vars = op_vars(.data))
-
-  add_op_single("distinct", .data, dots = dots, args = list(.keep_all = .keep_all))
+  distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
 
