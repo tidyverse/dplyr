@@ -130,8 +130,8 @@ translate_sql_ <- function(dots,
 
   variant <- sql_translate_env(con)
   pieces <- map(dots, function(x) {
-    if (is_atomic(x)) {
-      escape(x, con = con)
+    if (is_atomic(get_expr(x))) {
+      escape(get_expr(x), con = con)
     } else {
       dyn_scope <- sql_dyn_scope(x, variant, con, window = window)
       escape(tidy_dyn_eval(x, dyn_scope$bottom, dyn_scope$top))
