@@ -22,7 +22,8 @@ namespace dplyr {
   class GroupedHybridEnv {
   public:
     GroupedHybridEnv(const CharacterVector& names_, const Environment& env_, const IHybridCallback* callback_) :
-      names(names_), env(env_), callback(callback_), has_eval_env(false)
+      names(names_), env(env_), callback(callback_), has_eval_env(false),
+      rlang(Rcpp::Environment::namespace_env("rlang"))
     {
       LOG_VERBOSE;
     }
@@ -55,7 +56,6 @@ namespace dplyr {
       eval_env[".data"] = active_env;
 
       // Install definitions for formula self-evaluation and unguarding
-      Environment rlang = Rcpp::Environment::namespace_env("rlang");
       Function dyn_scope_install = rlang["dyn_scope_install"];
       eval_env = dyn_scope_install(eval_env, active_env, env);
 
@@ -78,6 +78,10 @@ namespace dplyr {
       active_env = active_env.parent();
 
       remove_all_from_env(names, active_env);
+
+      // Call rlang's cleaning function
+      Function dyn_scope_clean = rlang["dyn_scope_clean"];
+      dyn_scope_clean(eval_env);
     }
 
     // Environment::remove() would have to call Rcpp_eval() for each name,
@@ -103,6 +107,8 @@ namespace dplyr {
 
     mutable Environment eval_env;
     mutable bool has_eval_env;
+
+    const Environment rlang;
   };
 
   class GroupedHybridCall {
