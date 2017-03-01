@@ -217,9 +217,8 @@ mutate_ <- function(.data, ..., .dots = list()) {
 #' @rdname mutate
 #' @export
 transmute <- function(.data, ...) {
-  transmute_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("transmute")
 }
-
 #' @rdname mutate
 #' @export
 transmute_ <- function(.data, ..., .dots = list()) {
@@ -227,12 +226,17 @@ transmute_ <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-transmute_.default <- function(.data, ..., .dots = list()) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  out <- mutate_(.data, .dots = dots)
+transmute.default <- function(.data, ..., .dots = list()) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  out <- mutate(.data, !!! dots)
 
   keep <- names(dots)
   select(out, one_of(keep))
+}
+#' @export
+transmute_.default <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  transmute(.data, !!! dots)
 }
 
 #' Arrange rows by variables
