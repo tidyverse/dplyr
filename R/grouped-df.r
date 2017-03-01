@@ -120,7 +120,7 @@ select.grouped_df <- function(.data, ...) {
   select_impl(.data, vars)
 }
 #' @export
-select_.grouped_df <- function(.data, ..., .dots) {
+select_.grouped_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   select.grouped_df(.data, !!! dots)
 }
@@ -143,7 +143,7 @@ ensure_grouped_vars <- function(vars, data, notify = TRUE) {
 }
 
 #' @export
-rename_.grouped_df <- function(.data, ..., .dots) {
+rename_.grouped_df <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data), dots)
 

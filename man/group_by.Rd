@@ -10,7 +10,7 @@
 \usage{
 group_by(.data, ..., add = FALSE)
 
-group_by_(.data, ..., .dots, add = FALSE)
+group_by_(.data, ..., .dots = list(), add = FALSE)
 
 groups(x)
 

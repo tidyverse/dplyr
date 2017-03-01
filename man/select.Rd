@@ -9,11 +9,11 @@
 \usage{
 select(.data, ...)
 
-select_(.data, ..., .dots)
+select_(.data, ..., .dots = list())
 
 rename(.data, ...)
 
-rename_(.data, ..., .dots)
+rename_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

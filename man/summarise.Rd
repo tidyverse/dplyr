@@ -9,11 +9,11 @@
 \usage{
 summarise(.data, ...)
 
-summarise_(.data, ..., .dots)
+summarise_(.data, ..., .dots = list())
 
 summarize(.data, ...)
 
-summarize_(.data, ..., .dots)
+summarize_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

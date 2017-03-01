@@ -7,7 +7,7 @@
 \usage{
 slice(.data, ...)
 
-slice_(.data, ..., .dots)
+slice_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

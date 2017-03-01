@@ -293,7 +293,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 # Verbs -------------------------------------------------------------------
 
 #' @export
-select_.tbl_cube <- function(.data, ..., .dots) {
+select_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- select_vars_(names(.data$mets), dots)
 
@@ -302,7 +302,7 @@ select_.tbl_cube <- function(.data, ..., .dots) {
 }
 
 #' @export
-rename_.tbl_cube <- function(.data, ..., .dots) {
+rename_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data$mets), dots)
 
@@ -312,7 +312,7 @@ rename_.tbl_cube <- function(.data, ..., .dots) {
 
 
 #' @export
-filter_.tbl_cube <- function(.data, ..., .dots) {
+filter_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ...)
 
   idx <- vapply(dots, function(d) find_index_check(d$expr, names(.data$dims)),
@@ -378,7 +378,7 @@ group_vars.tbl_cube <- function(x) {
 # for better performance
 
 #' @export
-summarise_.tbl_cube <- function(.data, ..., .dots) {
+summarise_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
 
   out_dims <- .data$dims[.data$groups]

@@ -537,7 +537,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
 }
 #' @export
 #' @rdname do
-do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
+do_.tbl_sql <- function(.data, ..., .dots = list(), .chunk_size = 1e4L) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   do(.data, !!! dots, .chunk_size = .chunk_size)
 }

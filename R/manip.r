@@ -43,7 +43,7 @@ filter <- function(.data, ...) {
 }
 #' @export
 #' @rdname filter
-filter_ <- function(.data, ..., .dots) {
+filter_ <- function(.data, ..., .dots = list()) {
   UseMethod("filter_")
 }
 
@@ -80,7 +80,7 @@ slice <- function(.data, ...) {
 
 #' @export
 #' @rdname slice
-slice_ <- function(.data, ..., .dots) {
+slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
@@ -139,7 +139,7 @@ summarise <- function(.data, ...) {
 }
 #' @export
 #' @rdname summarise
-summarise_ <- function(.data, ..., .dots) {
+summarise_ <- function(.data, ..., .dots = list()) {
   UseMethod("summarise_")
 }
 
@@ -210,7 +210,7 @@ mutate <- function(.data, ...) {
 }
 #' @export
 #' @rdname mutate
-mutate_ <- function(.data, ..., .dots) {
+mutate_ <- function(.data, ..., .dots = list()) {
   UseMethod("mutate_")
 }
 
@@ -222,12 +222,12 @@ transmute <- function(.data, ...) {
 
 #' @rdname mutate
 #' @export
-transmute_ <- function(.data, ..., .dots) {
+transmute_ <- function(.data, ..., .dots = list()) {
   UseMethod("transmute_")
 }
 
 #' @export
-transmute_.default <- function(.data, ..., .dots) {
+transmute_.default <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   out <- mutate_(.data, .dots = dots)
 
@@ -258,7 +258,7 @@ arrange <- function(.data, ...) {
 }
 #' @export
 #' @rdname arrange
-arrange_ <- function(.data, ..., .dots) {
+arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
 }
 
@@ -317,7 +317,7 @@ select <- function(.data, ...) {
 }
 #' @export
 #' @rdname select
-select_ <- function(.data, ..., .dots) {
+select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
 }
 
@@ -355,7 +355,7 @@ rename <- function(.data, ...) {
 
 #' @rdname select
 #' @export
-rename_ <- function(.data, ..., .dots) {
+rename_ <- function(.data, ..., .dots = list()) {
   UseMethod("rename_")
 }
 

@@ -67,7 +67,7 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-slice_.tbl_df <- function(.data, ..., .dots) {
+slice_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   slice_impl(.data, dots)
 }
@@ -191,6 +191,6 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.tbl_df <- function(.data, ..., .dots) {
+distinct_.tbl_df <- function(.data, ..., .dots = list()) {
   tbl_df(NextMethod())
 }

@@ -66,7 +66,7 @@ filter_.data.frame <- function(.data, ..., .dots = list()) {
   as.data.frame(filter_(tbl_df(.data), ..., .dots = .dots))
 }
 #' @export
-slice_.data.frame <- function(.data, ..., .dots) {
+slice_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   as.data.frame(slice_(tbl_df(.data), .dots = dots))
 }
@@ -110,7 +110,7 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-rename_.data.frame <- function(.data, ..., .dots) {
+rename_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- rename_vars_(names(.data), dots)
   select_impl(.data, vars)
@@ -197,7 +197,7 @@ do.data.frame <- function(.data, ...) {
   out
 }
 #' @export
-do_.data.frame <- function(.data, ..., .dots) {
+do_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   do(.data, !!! dots)
 }
