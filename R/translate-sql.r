@@ -133,29 +133,29 @@ translate_sql_ <- function(dots,
     if (is_atomic(x)) {
       escape(x, con = con)
     } else {
-      env <- sql_env(x, variant, con, window = window) 
-      escape(expr_eval(x, env))
+      dyn_scope <- sql_dyn_scope(x, variant, con, window = window)
+      escape(tidy_dyn_eval(x, dyn_scope$bottom, dyn_scope$top))
     }
   })
 
   sql(unlist(pieces))
 }
 
-sql_env <- function(expr, variant, con, window = FALSE,
-                    strict = getOption("dplyr.strict_sql")) {
+sql_dyn_scope <- function(expr, variant, con, window = FALSE,
+                          strict = getOption("dplyr.strict_sql")) {
   stopifnot(is.sql_variant(variant))
 
   # Default for unknown functions
   if (!strict) {
     unknown <- setdiff(all_calls(expr), names(variant))
-    default_env <- ceply(unknown, default_op, parent = emptyenv())
+    top_env <- ceply(unknown, default_op, parent = empty_env())
   } else {
-    default_env <- new.env(parent = emptyenv())
+    top_env <- child_env(NULL)
   }
 
 
   # Known R -> SQL functions
-  special_calls <- copy_env(variant$scalar, parent = default_env)
+  special_calls <- copy_env(variant$scalar, parent = top_env)
   if (!window) {
     special_calls2 <- copy_env(variant$aggregate, parent = special_calls)
   } else {
@@ -172,10 +172,7 @@ sql_env <- function(expr, variant, con, window = FALSE,
   # Known sql expressions
   symbol_env <- env_clone(base_symbols, parent = name_env)
 
-  # Make tidy quotes self-evaluating
-  symbol_env <- dyn_scope_install(symbol_env, default_env, default_env)
-
-  symbol_env
+  list(bottom = symbol_env, top = top_env)
 }
 
 default_op <- function(x) {
