@@ -7,7 +7,7 @@
 \usage{
 group_indices(.data, ...)
 
-group_indices_(.data, ..., .dots)
+group_indices_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{a tbl}
