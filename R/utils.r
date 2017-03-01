@@ -37,11 +37,12 @@ is.wholenumber <- function(x) {
 }
 
 deparse_all <- function(x) {
-  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
-  map_chr(x, deparse2)
+  x <- map_if(x, is_formula, f_rhs)
+  map_chr(x, expr_text, width = 500L)
 }
 
 deparse_names <- function(x) {
+  x <- map_if(x, is_formula, f_rhs)
   map_chr(x, deparse)
 }
 
