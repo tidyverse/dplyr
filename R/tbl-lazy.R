@@ -67,12 +67,12 @@ arrange_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 select.tbl_lazy <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- tidy_quotes(...)
   add_op_single("select", .data, dots = dots)
 }
 #' @export
 select_.tbl_lazy <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   add_op_single("select", .data, dots = dots)
 }
 
@@ -86,12 +86,12 @@ rename_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 summarise.tbl_lazy <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- tidy_quotes(...)
   add_op_single("summarise", .data, dots = dots)
 }
 #' @export
 summarise_.tbl_lazy <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("summarise", .data, dots = dots)
 }
@@ -119,7 +119,7 @@ group_by.tbl_lazy <- function(.data, ..., add = FALSE) {
   }
 
   groups <- group_by_prepare(.data, .dots = dots, add = add)
-  names <- map_chr(groups$groups, as.character)
+  names <- map_chr(groups$groups, as_string)
 
   add_op_single("group_by",
     groups$data,
@@ -128,7 +128,7 @@ group_by.tbl_lazy <- function(.data, ..., add = FALSE) {
   )
 }
 #' @export
-group_by_.tbl_lazy <- function(.data, ..., .dots = list(), add = TRUE) {
+group_by_.tbl_lazy <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   group_by(.data, !!! dots, add = add)
 }
