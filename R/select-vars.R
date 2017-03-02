@@ -38,11 +38,9 @@
 #' # Rename variables preserving all existing
 #' rename_vars(names(iris), petal_length = Petal.Length)
 #'
-#' # Standard evaluation -------------------------------------------------------
-#' # You can use names, calls, formulas (or lists of), or a character vector
-#' select_vars_(names(iris), list(~Petal.Length))
-#' select_vars_(names(iris), list(quote(Petal.Length)))
-#' select_vars_(names(iris), "Petal.Length")
+#' # You can unquote names or formulas (or lists of)
+#' select_vars(names(iris), !!! list(~Petal.Length))
+#' select_vars(names(iris), !! quote(Petal.Length))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
   args <- tidy_quotes(...)
 
