@@ -1,4 +1,4 @@
-# nocov
+# nocov - compat-lazyeval (rlang 0.0.0.9000)
 
 # This file serves as a reference for compatibility functions for lazyeval.
 # Please find the most recent version in rlang's repository.
@@ -18,7 +18,7 @@ warn_text_se <- function() {
 compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   if (warn) warn_underscored()
 
-  switch_type(lazy, "tidy_quote",
+  coerce_type(lazy, "tidy_quote",
     quote = lazy,
     symbol = ,
     language = new_tidy_quote(lazy, env),
@@ -34,6 +34,9 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
 }
 
 compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
+  if (missing(dots)) {
+    dots <- list()
+  }
   dots <- c(unclass(dots), list(...))
   dots <- as_list(dots)
 
