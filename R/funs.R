@@ -54,11 +54,7 @@ as_fun_list <- function(.x, ..., .env = base_env()) {
 }
 #' @export
 as_fun_list.fun_list <- function(.x, ..., .env = base_env()) {
-  .x[] <- map(.x, function(fun) {
-    fun$expr <- merge_args(fun$expr, list(...))
-    fun
-  })
-
+  .x[] <- map(.x, lang_modify, .args = list(...))
   .x
 }
 #' @export
