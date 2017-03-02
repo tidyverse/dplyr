@@ -1,7 +1,6 @@
 #include <dplyr/main.h>
 
 #include <tools/DotsOf.h>
-#include <tools/LazyDots.h>
 #include <tools/TidyQuote.h>
 #include <dplyr/registration.h>
 #include <dplyr/BoolResult.h>

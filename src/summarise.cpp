@@ -2,7 +2,6 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <tools/LazyDots.h>
 #include <tools/TidyQuote.h>
 
 #include <dplyr/GroupedDataFrame.h>
