@@ -110,10 +110,14 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-rename_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- rename_vars_(names(.data), dots)
+rename.data.frame <- function(.data, ...) {
+  vars <- rename_vars(names(.data), ...)
   select_impl(.data, vars)
+}
+#' @export
+rename_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  rename(.data, !!! dots)
 }
 
 

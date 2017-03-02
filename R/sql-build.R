@@ -54,7 +54,7 @@ sql_build.op_select <- function(op, con, ...) {
 
 #' @export
 sql_build.op_rename <- function(op, con, ...) {
-  vars <- rename_vars_(op_vars(op$x), op$dots)
+  vars <- rename_vars(op_vars(op$x), !!! op$dots)
   select_query(sql_build(op$x, con), ident(vars))
 }
 

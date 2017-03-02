@@ -77,10 +77,15 @@ select_.tbl_lazy <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
+rename.tbl_lazy <- function(.data, ...) {
+  dots <- tidy_quotes(...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+  add_op_single("rename", .data, dots = dots)
+}
+#' @export
 rename_.tbl_lazy <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
-
   add_op_single("rename", .data, dots = dots)
 }
 

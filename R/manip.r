@@ -354,9 +354,8 @@ select_if <- function(.data, .predicate, ...) {
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
-  rename_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("rename")
 }
-
 #' @rdname select
 #' @export
 rename_ <- function(.data, ..., .dots = list()) {

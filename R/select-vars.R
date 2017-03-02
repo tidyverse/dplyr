@@ -115,42 +115,39 @@ setdiff2 <- function(x, y) {
 #' @export
 #' @rdname select_vars
 rename_vars <- function(vars, ...) {
-  rename_vars_(vars, lazyeval::lazy_dots(...))
+  args <- tidy_quotes(...)
+  if (any(names2(args) == "")) {
+    abort("All arguments to `rename()` must be named.")
+  }
+
+  is_name <- map_lgl(args, is_symbol)
+  if (!all(is_name)) {
+    n <- sum(!is_name)
+    bad <- paste0("`", names(args)[!is_name], "`", collapse = ", ")
+
+    abort(glue(
+      "Arguments to `rename()` must be unquoted variable names.\n",
+      sprintf(ngettext(n, "Argument %s is not.", "Arguments %s are not."), bad)
+    ))
+  }
+
+  old_vars <- map_chr(args, as_name)
+  new_vars <- names(args)
+
+  unknown_vars <- setdiff(old_vars, vars)
+  if (length(unknown_vars) > 0) {
+    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), ".",))
+  }
+
+  select <- set_names(vars, vars)
+  names(select)[match(old_vars, vars)] <- new_vars
+
+  select
 }
 
 #' @export
 #' @rdname select_vars
 rename_vars_ <- function(vars, args) {
-  if (any(names2(args) == "")) {
-    stop("All arguments to `rename()` must be named.", call. = FALSE)
-  }
-
-  args <- lazyeval::as.lazy_dots(args)
-  is_name <- vapply(args, function(x) is.name(x$expr), logical(1))
-  if (!all(is_name)) {
-    n <- sum(!is_name)
-    bad <- paste0("`", names(args)[!is_name], "`", collapse = ", ")
-
-    stop(
-      "Arguments to `rename()` must be unquoted variable names.\n",
-      sprintf(ngettext(n, "Argument %s is not.", "Arguments %s are not."), bad),
-      call. = FALSE
-    )
-  }
-
-  old_vars <- vapply(args, function(x) as.character(x$expr), character(1))
-  new_vars <- names(args)
-
-  unknown_vars <- setdiff(old_vars, vars)
-  if (length(unknown_vars) > 0) {
-    stop(
-      "Unknown variables: ", paste0(unknown_vars, collapse = ", "), ".",
-      call. = FALSE
-    )
-  }
-
-  select <- setNames(vars, vars)
-  names(select)[match(old_vars, vars)] <- new_vars
-
-  select
+  args <- compat_lazy_dots(args, caller_env())
+  rename_vars(vars, !!! args)
 }
