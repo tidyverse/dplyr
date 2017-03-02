@@ -87,6 +87,9 @@ do.rowwise_df <- function(.data, ...) {
   env_assign_active(dyn_scope, ".", current_row)
   env_assign_active(dyn_scope, ".data", current_row)
 
+  dyn_scope <- dyn_scope_install(dyn_scope)
+  on.exit(dyn_scope_clean(dyn_scope))
+
   n <- nrow(.data)
   m <- length(args)
 
@@ -96,7 +99,7 @@ do.rowwise_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(dyn_scope_eval(args[[j]], dyn_scope))
+      out[[j]][`_i`] <- list(dyn_scope_next(args[[j]], dyn_scope))
       p$tick()$print()
     }
   }
