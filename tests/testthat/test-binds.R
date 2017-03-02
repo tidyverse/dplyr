@@ -462,6 +462,5 @@ test_that("bind_rows accepts difftime objects", {
   df1 <- data.frame(x = as.difftime(1, units = "hours"))
   df2 <- data.frame(x = as.difftime(1, units = "mins"))
   res <- bind_rows(df1, df2)
-  expect_equal(res$x,
-               c(df1$x, df2$x))
+  expect_equal(res$x, as.difftime(c(3600, 60), units = "secs"))
 })
