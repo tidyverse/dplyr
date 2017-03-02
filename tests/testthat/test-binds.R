@@ -464,3 +464,10 @@ test_that("bind_rows accepts difftime objects", {
   res <- bind_rows(df1, df2)
   expect_equal(res$x, as.difftime(c(3600, 60), units = "secs"))
 })
+
+test_that("bind_rows accepts hms objects", {
+  df1 <- data.frame(x = hms::hms(hours = 1))
+  df2 <- data.frame(x = as.difftime(1, units = "mins"))
+  res <- bind_rows(df1, df2)
+  expect_equal(res$x, hms::hms(hours = c(1, 0), minutes = c(0, 1)))
+})

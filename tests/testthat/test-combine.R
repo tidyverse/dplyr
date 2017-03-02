@@ -191,5 +191,17 @@ test_that("combine works with difftime", {
 
 })
 
+test_that("combine works with hms and difftime", {
+  expect_equal(
+    combine(as.difftime(2, units = "weeks"), hms::hms(hours = 1)),
+    as.difftime(c(2*7*24*60*60, 3600), units = "secs")
+  )
+  expect_equal(
+    combine(hms::hms(hours = 1), as.difftime(2, units = "weeks")),
+    hms::hms(seconds = c(3600, 2*7*24*60*60))
+  )
+
+})
+
 # Uses helper-combine.R
 combine_coercion_types()
