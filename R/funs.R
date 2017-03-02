@@ -105,15 +105,3 @@ funs_make_call <- function(x, args, env = base_env()) {
   expr <- lang_modify(expr, .args = args)
   set_expr(f, expr)
 }
-
-merge_args <- function(call, args) {
-  if (!length(args)) {
-    return(call)
-  }
-
-  index <- seq(length(call) + 1, length(call) + length(args))
-  call[index] <- args
-  names(call)[index] <- names2(args)
-
-  call
-}

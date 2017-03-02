@@ -69,21 +69,6 @@ test_that("empty selection does not select everything (#2009, #1989)", {
   expect_equal(mtcars, mutate_if(mtcars, is.factor, as.character))
 })
 
-test_that("arguments are matched by names and by position", {
-  fun <- function(a = 1, b = 2, c = 3) {
-    paste0(a, b, c)
-  }
-  call <- quote(fun())
-  expect_equal(eval(merge_args(call, list(a = 1))), "123")
-  expect_equal(eval(merge_args(call, list(c = 3, 1))), "123")
-  expect_equal(eval(merge_args(call, list(c = 3, 1, b = 2))), "123")
-
-  expect_equal(
-    as.list(mutate_all(mtcars, round, 0)),
-    lapply(mtcars, round, 0)
-  )
-})
-
 test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
   expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "Duplicate arguments")
