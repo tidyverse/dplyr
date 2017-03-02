@@ -10,6 +10,9 @@ funs(..., .args = list())
 funs_(dots, args = list(), env = base_env())
 }
 \arguments{
+\item{.args, args}{A named list of additional arguments to be added
+to all function calls.}
+
 \item{dots, ...}{A list of functions specified by:
 
 \itemize{
@@ -18,9 +21,6 @@ funs_(dots, args = list(), env = base_env())
 \item A call to the function with \code{.} as a dummy argument,
 \code{mean(., na.rm = TRUE)}
 }}
-
-\item{args}{A named list of additional arguments to be added to all
-function calls.}
 
 \item{env}{The environment in which functions should be evaluated.}
 }

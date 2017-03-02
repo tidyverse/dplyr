@@ -156,6 +156,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 
 # Do ---------------------------------------------------------------------------
 
+#' @export
 do.grouped_df <- function(.data, ...) {
   # Force computation of indices
   if (is_null(attr(.data, "indices"))) {
@@ -221,7 +222,6 @@ do.grouped_df <- function(.data, ...) {
     label_output_list(labels, out, groups(.data))
   }
 }
-
 #' @export
 do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
   dots <- compat_lazy_dots(.dots, env, ...)

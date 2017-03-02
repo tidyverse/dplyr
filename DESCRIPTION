@@ -25,10 +25,7 @@ Imports:
     rlang,
     R6,
     Rcpp (>= 0.12.3),
-    tibble (>= 1.2),
-    magrittr,
-    lazyeval (>= 0.1.10),
-    DBI (>= 0.5)
+    tibble (>= 1.2)
 Suggests: 
     RSQLite (>= 1.0.0),
     RMySQL,

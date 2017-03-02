@@ -76,7 +76,7 @@ do.rowwise_df <- function(.data, ...) {
   group_data <- ungroup(.data)
   index <- attr(.data, "indices")
 
-  args <- tidy_quotes(.dots, ...)
+  args <- tidy_quotes(...)
   named <- named_args(args)
 
   # Create new environment, inheriting from parent, with an active binding
