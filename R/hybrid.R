@@ -7,7 +7,7 @@ verify_not_hybrid <- function(x) {
 }
 
 with_hybrid <- function(expr, ...) {
-  with_hybrid_(lazyeval::f_capture(expr), ...)
+  with_hybrid_(tidy_capture(expr), ...)
 }
 
 with_hybrid_ <- function(expr, ...) {
@@ -20,11 +20,11 @@ with_hybrid_ <- function(expr, ...) {
   eval_env$verify_hybrid <- verify_hybrid
   environment(expr) <- eval_env
 
-  summarise_(data, out = expr)["out"][[1]]
+  summarise(data, out = !! expr)["out"][[1]]
 }
 
 without_hybrid <- function(expr, ...) {
-  without_hybrid_(lazyeval::f_capture(expr), ...)
+  without_hybrid_(tidy_capture(expr), ...)
 }
 
 without_hybrid_ <- function(expr, ...) {
@@ -37,11 +37,11 @@ without_hybrid_ <- function(expr, ...) {
   eval_env$verify_not_hybrid <- verify_not_hybrid
   environment(expr) <- eval_env
 
-  summarise_(data, out = expr)["out"][[1]]
+  summarise(data, out = !! expr)["out"][[1]]
 }
 
 eval_dots <- function(expr, ...) {
-  eval_dots_(lazyeval::f_capture(expr), ...)
+  eval_dots_(tidy_capture(expr), ...)
 }
 
 eval_dots_ <- function(expr, ...) {
