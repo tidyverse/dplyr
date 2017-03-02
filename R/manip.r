@@ -75,7 +75,7 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ...) {
-  slice_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("slice")
 }
 
 #' @export

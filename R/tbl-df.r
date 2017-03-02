@@ -67,8 +67,13 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
+slice.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  slice_impl(.data, dots)
+}
+#' @export
 slice_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   slice_impl(.data, dots)
 }
 

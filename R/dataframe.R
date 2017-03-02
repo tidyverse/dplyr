@@ -65,10 +65,16 @@ filter.data.frame <- function(.data, ...) {
 filter_.data.frame <- function(.data, ..., .dots = list()) {
   as.data.frame(filter_(tbl_df(.data), ..., .dots = .dots))
 }
+
+#' @export
+slice.data.frame <- function(.data, ...) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  slice_impl(.data, dots)
+}
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  as.data.frame(slice_(tbl_df(.data), .dots = dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  slice_impl(.data, dots)
 }
 
 #' @export

@@ -3,7 +3,7 @@
 #include <tools/hash.h>
 #include <tools/match.h>
 
-#include <tools/LazyDots.h>
+#include <tools/TidyQuote.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
@@ -409,11 +409,11 @@ private:
   int n_neg;
 };
 
-SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
+SEXP slice_grouped(GroupedDataFrame gdf, const TidyQuotes& dots) {
   typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
 
   const DataFrame& data = gdf.data();
-  const Lazy& lazy = dots[0];
+  const TidyQuote& lazy = dots[0];
   Environment env = lazy.env();
   SymbolVector names = data.names();
 
@@ -478,10 +478,10 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
 
 }
 
-SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
+SEXP slice_not_grouped(const DataFrame& df, const TidyQuotes& dots) {
   CharacterVector names = df.names();
 
-  const Lazy& lazy = dots[0];
+  const TidyQuote& lazy = dots[0];
   Call call(lazy.expr());
   CallProxy proxy(call, df, lazy.env());
   int nr = df.nrows();
@@ -542,7 +542,7 @@ SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP slice_impl(DataFrame df, LazyDots dots) {
+SEXP slice_impl(DataFrame df, TidyQuotes dots) {
   if (dots.size() == 0) return df;
   if (dots.size() != 1)
     stop("slice only accepts one expression");
