@@ -487,7 +487,7 @@ test_that("mutate handles factors (#1414)", {
     g = c(1, 1, 1, 2, 2, 3, 3),
     f = c("a", "b", "a", "a", "a", "b", "b")
   )
-  res <- d %>% group_by(g) %>% mutate(f2 = factor(f))
+  res <- d %>% group_by(g) %>% mutate(f2 = factor(f, levels = c("a", "b")))
   expect_equal(as.character(res$f2), res$f)
 })
 
@@ -575,7 +575,6 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
 })
 
 test_that("grouped mutate coerces integer + double -> double (#1892)", {
-  skip("Currently failing")
   df <- data_frame(
     id = c(1, 4),
     value = c(1L, NA),
@@ -584,23 +583,29 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
     group_by(group) %>%
     mutate(value = ifelse(is.na(value), 0, value))
   expect_type(df$value, "double")
-  expect_identical(df$value, c(0, 1))
+  expect_identical(df$value, c(1, 0))
 })
 
 test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
-  skip("Currently failing")
+  factor_or_character <- function(x)  {
+    if (x > 3) {
+      return(factor("hello"))
+    } else {
+      return("world")
+    }
+  }
+
   df <- data_frame(
     id = c(1, 4),
-    value = factor(c("blue", NA)),
     group = c("A", "B")
   ) %>%
     group_by(group)
   expect_warning(
     df <- df %>%
-      mutate(value = ifelse(id > 3, "foo", value))
+      mutate(value = factor_or_character(id))
   )
   expect_type(df$value, "character")
-  expect_identical(df$value, c("blue", "foo"))
+  expect_identical(df$value, c("world", "hello"))
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {

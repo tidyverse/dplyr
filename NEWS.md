@@ -352,6 +352,9 @@
 
 * `combine()` and `bind_rows()` accept `difftime` objects.
 
+* `mutate` coerces results from grouped dataframes accepting combinable data
+  types (such as `integer` and `numeric`). (#1892, @zeehio)
+
 # dplyr 0.5.0
 
 ## Breaking changes
