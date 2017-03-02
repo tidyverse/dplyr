@@ -513,7 +513,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
       cur_chunk <- chunk[index[[j]] + 1L, , drop = FALSE]
       dyn_scope$. <- dyn_scope$.data <- cur_chunk
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(tidy_dyn_eval(args[[k]], dyn_scope))
+        out[[k]][i + j] <<- list(dyn_scope_eval(args[[k]], dyn_scope))
         p$tick()$print()
       }
     }
@@ -524,7 +524,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   if (!is_null(last_group)) {
     dyn_scope$. <- dyn_scope$.data <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(tidy_dyn_eval(args[[k]], dyn_scope))
+      out[[k]][i + 1] <- list(dyn_scope_eval(args[[k]], dyn_scope))
       p$tick()$print()
     }
   }

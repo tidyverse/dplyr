@@ -193,12 +193,12 @@ do.data.frame <- function(.data, ...) {
   env <- child_env(data = list(. = .data, .data = .data))
 
   if (!named) {
-    out <- tidy_dyn_eval(args[[1]], env)
+    out <- dyn_scope_eval(args[[1]], env)
     if (!inherits(out, "data.frame")) {
       abort("Result must be a data frame")
     }
   } else {
-    out <- map(args, function(arg) list(tidy_dyn_eval(arg, env)))
+    out <- map(args, function(arg) list(dyn_scope_eval(arg, env)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }

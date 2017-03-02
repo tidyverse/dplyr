@@ -185,7 +185,7 @@ do.grouped_df <- function(.data, ...) {
       out <- label_output_list(labels, out, groups(.data))
     } else {
       env_bind(dyn_scope, list(. = group_data, .data = group_data))
-      out <- tidy_dyn_eval(args[[1]], dyn_scope)[0, , drop = FALSE]
+      out <- dyn_scope_eval(args[[1]], dyn_scope)[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
     return(out)
@@ -210,7 +210,7 @@ do.grouped_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(tidy_dyn_eval(args[[j]], dyn_scope))
+      out[[j]][`_i`] <- list(dyn_scope_eval(args[[j]], dyn_scope))
       p$tick()$print()
     }
   }

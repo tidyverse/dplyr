@@ -96,7 +96,7 @@ do.rowwise_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(tidy_dyn_eval(args[[j]], dyn_scope))
+      out[[j]][`_i`] <- list(dyn_scope_eval(args[[j]], dyn_scope))
       p$tick()$print()
     }
   }

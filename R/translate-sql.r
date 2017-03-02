@@ -134,7 +134,7 @@ translate_sql_ <- function(dots,
       escape(get_expr(x), con = con)
     } else {
       dyn_scope <- sql_dyn_scope(x, variant, con, window = window)
-      escape(tidy_dyn_eval(x, dyn_scope$bottom, dyn_scope$top))
+      escape(dyn_scope_eval(x, dyn_scope$bottom, dyn_scope$top))
     }
   })
 
