@@ -1,6 +1,15 @@
 # dplyr 0.5.0.9000
 
 * dplyr no longer messages that you need dtplyr to work with data.table (#2489).
+* All underscored functions are now deprecated. You can now use the
+  main verbs and unquote-splice values and expressions (see the
+  vignette on programming with dplyr).
+
+* `column()` has been removed without deprecation (it was never
+  documented explicitly).
+
+* Helper functions in select() (and related verbs) are now evaluated
+  in a context where column names do not exist (#2184).
 
 * `bind_cols()` now calls `tibble::repair_names()` to ensure that all
   names are unique (#2248).
@@ -39,8 +48,6 @@
 
 * `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
   `bind_cols()` respectively (#2138)
-* `column()` has been removed without deprecation (it was never
-  documented explicitly).
 
 * `copy_to()` gains an `overwrite` argument which allows you to overwrite
   an existing table. Use with care! (#2296)
@@ -208,8 +215,6 @@
 
 * `collect()` once again defaults to return all rows in the data (#1968).
   This makes it behave the same as `as.data.frame()` and `as_tibble()`.
-* Helper functions in select() (and related verbs) are now evaluated
-  in a context where column names do not exist (#2184)
 
 * Add failing tests (#2415, @ngr-t).
 
