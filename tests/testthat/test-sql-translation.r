@@ -151,6 +151,11 @@ test_that("log base comes first", {
   expect_equal(translate_sql(log(x, 10)), sql('log(10.0, "x")'))
 })
 
+test_that("log becomes ln", {
+  expect_equal(translate_sql(log(x)), sql('ln("x")'))
+  expect_equal(translate_sql(log(x, exp(1))), sql('ln("x")'))
+})
+
 test_that("sqlite mimics two argument log", {
   translate_sqlite <- function(...) {
     translate_sql(..., con = src_memdb()$con)
@@ -158,6 +163,16 @@ test_that("sqlite mimics two argument log", {
 
   expect_equal(translate_sqlite(log(x)), sql('log(`x`)'))
   expect_equal(translate_sqlite(log(x, 10)), sql('log(`x`) / log(10.0)'))
+})
+
+test_that("postgres mimics two argument log", {
+  translate_postgres <- function(...) {
+    translate_sql(..., con = src_postgres()$con)
+  }
+
+  expect_equal(translate_postgres(log(x)), sql('ln("x")'))
+  expect_equal(translate_postgres(log(x, 10)), sql('log("x") / log(10.0)'))
+  expect_equal(translate_postgres(log(x, 10L)), sql('log("x") / log(10)'))
 })
 
 # partial_eval() ----------------------------------------------------------
