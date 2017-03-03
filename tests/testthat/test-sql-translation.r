@@ -153,7 +153,6 @@ test_that("log base comes first", {
 
 test_that("log becomes ln", {
   expect_equal(translate_sql(log(x)), sql('ln("x")'))
-  expect_equal(translate_sql(log(x, exp(1))), sql('ln("x")'))
 })
 
 test_that("sqlite mimics two argument log", {
