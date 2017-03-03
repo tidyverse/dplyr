@@ -14,7 +14,7 @@ group_indices <- function(.data, ...) {
 }
 
 #' @export
-#' @rdname group_indices
+#' @rdname se-deprecated
 group_indices_ <- function(.data, ..., .dots = list()) {
   UseMethod("group_indices_")
 }

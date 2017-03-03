@@ -99,7 +99,8 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
-#' @rdname select_vars
+#' @rdname se-deprecated
+#' @inheritParams select_vars
 #' @export
 select_vars_ <- function(vars, args, include = character(), exclude = character()) {
   warn_underscored()
@@ -144,7 +145,7 @@ rename_vars <- function(vars, ...) {
 }
 
 #' @export
-#' @rdname select_vars
+#' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
   args <- compat_lazy_dots(args, caller_env())
   rename_vars(vars, !!! args)

@@ -2,18 +2,12 @@
 % Please edit documentation in R/do.r, R/tbl-sql.r
 \name{do}
 \alias{do}
-\alias{do_}
 \alias{do.tbl_sql}
-\alias{do_.tbl_sql}
 \title{Do arbitrary operations on a tbl.}
 \usage{
 do(.data, ...)
 
-do_(.data, ..., .dots)
-
 \method{do}{tbl_sql}(.data, ..., .chunk_size = 10000L)
-
-\method{do_}{tbl_sql}(.data, ..., .dots = list(), .chunk_size = 10000L)
 }
 \arguments{
 \item{.data}{a tbl}
@@ -22,9 +16,6 @@ do_(.data, ..., .dots)
 stored in a new column. If unnamed, should return a data frame. You can
 use \code{.} to refer to the current group. You can not mix named and
 unnamed arguments.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 
 \item{.chunk_size}{The size of each chunk to pull into R. If this number is
 too big, the process will be slow because R has to allocate and free a lot

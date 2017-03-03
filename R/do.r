@@ -84,13 +84,13 @@ do <- function(.data, ...) {
   UseMethod("do")
 }
 #' @export
-#' @rdname do
+#' @rdname se-deprecated
 do_ <- function(.data, ..., .dots) {
   UseMethod("do_")
 }
 
 #' @export
-do.NULL <- function(.data, ..., .dots) {
+do.NULL <- function(.data, ...) {
   NULL
 }
 #' @export

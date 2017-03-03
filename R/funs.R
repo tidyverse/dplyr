@@ -3,17 +3,14 @@
 #' `funs()` provides a flexible way to generate a named list of functions for
 #' input to other functions like [summarise_at()].
 #'
-#' @param dots,... A list of functions specified by:
+#' @param ... A list of functions specified by:
 #'
-#'   \itemize{
-#'     \item Their name, `"mean"`
-#'     \item The function itself, `mean`
-#'     \item A call to the function with `.` as a dummy argument,
-#'       `mean(., na.rm = TRUE)`
-#'   }
+#'  - Their name, `"mean"`
+#'  - The function itself, `mean`
+#'  - A call to the function with `.` as a dummy argument,
+#'    `mean(., na.rm = TRUE)`
 #' @param .args,args A named list of additional arguments to be added
 #'   to all function calls.
-#' @param env The environment in which functions should be evaluated.
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))
@@ -39,7 +36,9 @@ funs <- function(..., .args = list()) {
 }
 
 #' @export
-#' @rdname funs
+#' @rdname se-deprecated
+#' @inheritParams funs
+#' @param env The environment in which functions should be evaluated.
 funs_ <- function(dots, args = list(), env = base_env()) {
   dots <- compat_lazy_dots(dots, caller_env(), .named = TRUE)
   funs(!!! dots, .args = args)

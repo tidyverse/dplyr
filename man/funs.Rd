@@ -2,19 +2,12 @@
 % Please edit documentation in R/funs.R
 \name{funs}
 \alias{funs}
-\alias{funs_}
 \title{Create a list of functions calls.}
 \usage{
 funs(..., .args = list())
-
-funs_(dots, args = list(), env = base_env())
 }
 \arguments{
-\item{.args, args}{A named list of additional arguments to be added
-to all function calls.}
-
-\item{dots, ...}{A list of functions specified by:
-
+\item{...}{A list of functions specified by:
 \itemize{
 \item Their name, \code{"mean"}
 \item The function itself, \code{mean}
@@ -22,7 +15,8 @@ to all function calls.}
 \code{mean(., na.rm = TRUE)}
 }}
 
-\item{env}{The environment in which functions should be evaluated.}
+\item{.args, args}{A named list of additional arguments to be added
+to all function calls.}
 }
 \description{
 \code{funs()} provides a flexible way to generate a named list of functions for

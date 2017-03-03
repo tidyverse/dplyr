@@ -2,18 +2,12 @@
 % Please edit documentation in R/select-vars.R
 \name{select_vars}
 \alias{select_vars}
-\alias{select_vars_}
 \alias{rename_vars}
-\alias{rename_vars_}
 \title{Select variables.}
 \usage{
 select_vars(vars, ..., include = character(), exclude = character())
 
-select_vars_(vars, args, include = character(), exclude = character())
-
 rename_vars(vars, ...)
-
-rename_vars_(vars, args)
 }
 \arguments{
 \item{vars}{A character vector of existing column names.}

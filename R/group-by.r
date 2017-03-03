@@ -73,7 +73,8 @@ group_by <- function(.data, ..., add = FALSE) {
   UseMethod("group_by")
 }
 #' @export
-#' @rdname group_by
+#' @rdname se-deprecated
+#' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
   UseMethod("group_by_")
 }

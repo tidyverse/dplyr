@@ -447,12 +447,12 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
 
 # Do ---------------------------------------------------------------------------
 
-#' @export
 #' @rdname do
 #' @param .chunk_size The size of each chunk to pull into R. If this number is
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
+#' @export
 do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   groups_sym <- groups(.data)
 
@@ -535,8 +535,9 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
     label_output_list(labels, out, groups(.data))
   }
 }
+#' @rdname se-deprecated
+#' @inheritParams do
 #' @export
-#' @rdname do
 do_.tbl_sql <- function(.data, ..., .dots = list(), .chunk_size = 1e4L) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   do(.data, !!! dots, .chunk_size = .chunk_size)

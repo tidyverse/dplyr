@@ -34,7 +34,8 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
 #' @export
-#' @rdname distinct
+#' @rdname se-deprecated
+#' @inheritParams distinct
 distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
   UseMethod("distinct_")
 }

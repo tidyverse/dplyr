@@ -24,8 +24,6 @@
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   conditon evalutes to `TRUE` are kept.
-#' @param .dots Used to work around non-standard evaluation. See
-#'   `vignette("nse")` for details.
 #' @return An object of the same class as `.data`.
 #' @export
 #' @examples
@@ -42,7 +40,7 @@ filter <- function(.data, ...) {
   UseMethod("filter")
 }
 #' @export
-#' @rdname filter
+#' @rdname se-deprecated
 filter_ <- function(.data, ..., .dots = list()) {
   UseMethod("filter_")
 }
@@ -77,9 +75,8 @@ filter_ <- function(.data, ..., .dots = list()) {
 slice <- function(.data, ...) {
   UseMethod("slice")
 }
-
 #' @export
-#' @rdname slice
+#' @rdname se-deprecated
 slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
@@ -138,7 +135,7 @@ summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
 #' @export
-#' @rdname summarise
+#' @rdname se-deprecated
 summarise_ <- function(.data, ..., .dots = list()) {
   UseMethod("summarise_")
 }
@@ -146,7 +143,7 @@ summarise_ <- function(.data, ..., .dots = list()) {
 #' @rdname summarise
 #' @export
 summarize <- summarise
-#' @rdname summarise
+#' @rdname se-deprecated
 #' @export
 summarize_ <- summarise_
 
@@ -209,7 +206,7 @@ mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
 #' @export
-#' @rdname mutate
+#' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
   UseMethod("mutate_")
 }
@@ -219,7 +216,7 @@ mutate_ <- function(.data, ..., .dots = list()) {
 transmute <- function(.data, ...) {
   UseMethod("transmute")
 }
-#' @rdname mutate
+#' @rdname se-deprecated
 #' @export
 transmute_ <- function(.data, ..., .dots = list()) {
   UseMethod("transmute_")
@@ -261,7 +258,7 @@ arrange <- function(.data, ...) {
   UseMethod("arrange")
 }
 #' @export
-#' @rdname arrange
+#' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
 }
@@ -289,8 +286,6 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'   Positive values select variables; negative values to drop variables.
 #'
 #'   Use named arguments to rename selected variables.
-#' @param .dots Use `select_()` to do standard evaluation. See
-#'   `vignette("nse")` for details
 #' @return An object of the same class as `.data`.
 #' @family single table verbs
 #' @export
@@ -320,7 +315,7 @@ select <- function(.data, ...) {
   UseMethod("select")
 }
 #' @export
-#' @rdname select
+#' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
 }
@@ -356,7 +351,7 @@ select_if <- function(.data, .predicate, ...) {
 rename <- function(.data, ...) {
   UseMethod("rename")
 }
-#' @rdname select
+#' @rdname se-deprecated
 #' @export
 rename_ <- function(.data, ..., .dots = list()) {
   UseMethod("rename_")
@@ -379,3 +374,27 @@ rename_ <- function(.data, ..., .dots = list()) {
 n <- function() {
   abort("This function should not be called directly")
 }
+
+
+#' Deprecated SE versions of main verbs.
+#'
+#' dplyr used to offer twin versions of each verb suffixed with an
+#' underscore. These versions had standard evaluation (SE) semantics:
+#' rather than taking arguments by code, like NSE verbs, they took
+#' arguments by value. Their purpose was to make it possible to
+#' program with dplyr. However, dplyr now uses tidy evaluation
+#' semantics. NSE verbs still capture their arguments, but you can now
+#' unquote parts of these arguments. This offers full programmability
+#' with NSE verbs. Thus, the underscored versions are now superfluous.
+#'
+#' Unquoting triggers immediate evaluation of its operand and inlines
+#' the result within the captured expression. This result can be a
+#' value or an expression to be evaluated later with the rest of the
+#' argument. See `vignette("programming")` for more information.
+#'
+#' @name se-deprecated
+#' @param .data A data frame.
+#' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
+#' @param vars Various meanings depending on the verb.
+#' @param args Various meanings depending on the verb.
+NULL

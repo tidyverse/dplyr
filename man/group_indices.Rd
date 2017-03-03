@@ -2,12 +2,9 @@
 % Please edit documentation in R/group-indices.R
 \name{group_indices}
 \alias{group_indices}
-\alias{group_indices_}
 \title{Group id.}
 \usage{
 group_indices(.data, ...)
-
-group_indices_(.data, ..., .dots = list())
 }
 \arguments{
 \item{.data}{a tbl}
@@ -15,9 +12,6 @@ group_indices_(.data, ..., .dots = list())
 \item{...}{Variables to group by. All tbls accept variable names,
 some will also accept functions of variables. Duplicated groups
 will be silently dropped.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \description{
 Generate a unique id for each group

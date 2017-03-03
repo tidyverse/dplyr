@@ -25,7 +25,7 @@
 #' yourself.
 #'
 #' @param x a [tbl()] to tally/count.
-#' @param ...,vars Variables to group by.
+#' @param ... Variables to group by.
 #' @param wt (Optional) If omitted, will count the number of rows. If specified,
 #'   will perform a "weighted" tally by summing the (non-missing) values of
 #'   variable `wt`.
@@ -86,7 +86,8 @@ tally <- function(x, wt = NULL, sort = FALSE) {
     out
   }
 }
-#' @rdname tally
+#' @rdname se-deprecated
+#' @inheritParams tally
 #' @export
 tally_ <- function(x, wt = NULL, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
@@ -114,7 +115,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
   x
 }
 #' @export
-#' @rdname tally
+#' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env(), .named = TRUE)
   count(x, !!! vars, wt = wt, sort = sort)
@@ -149,7 +150,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
 
   grouped_df(out, group_vars(x))
 }
-#' @rdname tally
+#' @rdname se-deprecated
 #' @export
 add_tally_ <- function(x, wt = NULL, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
@@ -166,7 +167,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   out <- add_tally(grouped, wt = !! tidy_capture(wt), sort = sort)
   grouped_df(out, g)
 }
-#' @rdname tally
+#' @rdname se-deprecated
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env(), .named = TRUE)
