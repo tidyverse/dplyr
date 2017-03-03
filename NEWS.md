@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* dplyr no longer messages that you need dtplyr to work with data.table (#2489).
+
 * `bind_cols()` now calls `tibble::repair_names()` to ensure that all
   names are unique (#2248).
 
