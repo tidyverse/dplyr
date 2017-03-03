@@ -69,19 +69,19 @@
 #' @aliases summarise_each_q mutate_each_q
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   vars <- list(~everything())
-  vars <- apply_vars(vars, funs, .tbl)
-  summarise(.tbl, !!! vars)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   vars <- list(~everything())
-  vars <- apply_vars(vars, funs, .tbl)
-  mutate(.tbl, !!! vars)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  mutate(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
@@ -90,11 +90,10 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
     abort("Conditional colwise operations currently require local sources")
   }
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   vars <- probe_colwise_names(.tbl, .predicate)
-  vars <- apply_vars(vars, funs, .tbl)
-
-  summarise(.tbl, !!! vars)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
@@ -103,11 +102,10 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
     abort("Conditional colwise operations currently require local sources")
   }
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   vars <- probe_colwise_names(.tbl, .predicate)
-  vars <- apply_vars(vars, funs, .tbl)
-
-  mutate(.tbl, !!! vars)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  mutate(.tbl, !!! funs)
 }
 
 probe_colwise_names <- function(tbl, p, ...) {
@@ -126,21 +124,19 @@ probe_colwise_names <- function(tbl, p, ...) {
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   vars <- select_colwise_names(.tbl, .cols)
-  vars <- apply_vars(vars, funs, .tbl)
-
-  summarise(.tbl, !!! vars)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
   vars <- select_colwise_names(.tbl, .cols)
-  vars <- apply_vars(vars, funs, .tbl)
-
-  mutate(.tbl, !!! vars)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  mutate(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
@@ -187,30 +183,30 @@ select_colwise_names <- function(tbl, cols) {
 }
 
 
-apply_vars <- function(vars, tquotes, tbl) {
-  stopifnot(is_fun_list(tquotes))
+apply_vars <- function(funs, vars, tbl) {
+  stopifnot(is_fun_list(funs))
 
-  named_calls <- attr(tquotes, "have_names")
+  named_calls <- attr(funs, "have_names")
   named_vars <- any(have_names(vars))
   vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
-  out <- vector("list", length(vars) * length(tquotes))
-  dim(out) <- c(length(vars), length(tquotes))
+  out <- vector("list", length(vars) * length(funs))
+  dim(out) <- c(length(vars), length(funs))
 
   for (i in seq_along(vars)) {
-    for (j in seq_along(tquotes)) {
+    for (j in seq_along(funs)) {
       var_sym <- symbol(vars[[i]])
-      out[[i, j]] <- expr_substitute(tquotes[[j]], quote(.), var_sym)
+      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }
   dim(out) <- NULL
 
-  if (length(tquotes) == 1 && !named_calls) {
+  if (length(funs) == 1 && !named_calls) {
     names(out) <- names(vars)
   } else if (length(vars) == 1 && !named_vars) {
-    names(out) <- names(tquotes)
+    names(out) <- names(funs)
   } else {
-    grid <- expand.grid(var = names(vars), call = names(tquotes))
+    grid <- expand.grid(var = names(vars), call = names(funs))
     names(out) <- paste(grid$var, grid$call, sep = "_")
   }
 
@@ -251,8 +247,8 @@ summarise_each_ <- function(tbl, funs, vars) {
     funs <- funs_(funs)
   }
 
-  vars <- apply_vars(vars, funs, tbl)
-  summarise(tbl, !!! vars)
+  funs <- apply_vars(funs, vars, tbl)
+  summarise(tbl, !!! funs)
 }
 
 #' @rdname summarise_each
@@ -280,8 +276,8 @@ mutate_each_ <- function(tbl, funs, vars) {
   if (is_empty(vars)) {
     vars <- list(~everything())
   }
-  vars <- apply_vars(vars, funs, tbl)
-  mutate(tbl, !!! vars)
+  funs <- apply_vars(funs, vars, tbl)
+  mutate(tbl, !!! funs)
 }
 
 
