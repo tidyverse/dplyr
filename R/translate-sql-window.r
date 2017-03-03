@@ -216,7 +216,6 @@ common_window_funs <- function() {
 #' translate_window_where(quote(n() > 10))
 #' translate_window_where(quote(rank() > cumsum(AB)))
 translate_window_where <- function(expr, window_funs = common_window_funs()) {
-  # FIXME: Should this return a quosure?
   switch_type(expr,
     quote = translate_window_where(f_rhs(expr), window_funs),
     logical = ,

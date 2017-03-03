@@ -60,7 +60,7 @@ partial_eval <- function(call, vars = character(), env = caller_env()) {
     quote = set_expr(call, partial_eval(f_rhs(call), vars, f_env(call))),
     list = {
       if (inherits(call, "lazy_dots")) {
-        call <- compat_lazy_dots(call, env, .named = TRUE)
+        call <- compat_lazy_dots(call, env)
       }
       map(call, partial_eval, vars = vars, env = env)
     },

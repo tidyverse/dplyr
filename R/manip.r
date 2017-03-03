@@ -226,7 +226,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-transmute.default <- function(.data, ..., .dots = list()) {
+transmute.default <- function(.data, ...) {
   dots <- tidy_quotes(..., .named = TRUE)
   out <- mutate(.data, !!! dots)
 

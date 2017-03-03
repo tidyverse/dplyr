@@ -8,7 +8,7 @@
 * `column()` has been removed without deprecation (it was never
   documented explicitly).
 
-* Helper functions in select() (and related verbs) are now evaluated
+* Helper functions in `select()` (and related verbs) are now evaluated
   in a context where column names do not exist (#2184).
 
 * `bind_cols()` now calls `tibble::repair_names()` to ensure that all

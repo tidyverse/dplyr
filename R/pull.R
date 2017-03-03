@@ -55,7 +55,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      abort(glue("`var` must take a value between -{n} and {n}", n = n))
+      abort(glue("`var` must take a value between -{n} and {n}"))
     }
 
     if (var < 0) {

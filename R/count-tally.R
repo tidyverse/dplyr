@@ -81,8 +81,7 @@ tally <- function(x, wt = NULL, sort = FALSE) {
   out <- summarise(x, !! n_name := !! n)
 
   if (sort) {
-    desc_n <- tidy_quote(desc(!! symbol(n_name)))
-    arrange(out, !! desc_n)
+    arrange(out, desc(!! symbol(n_name)))
   } else {
     out
   }
@@ -145,8 +144,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
   out <- mutate(x, !! n_name := !! n)
 
   if (sort) {
-    desc_n <- tidy_quote(desc(!! symbol(n_name)))
-    out <- arrange(out, !! desc_n)
+    out <- arrange(out, desc(!! symbol(n_name)))
   }
 
   grouped_df(out, group_vars(x))

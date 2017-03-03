@@ -112,7 +112,7 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
 
   list(
     data = .data,
-    groups = map(group_names, as_symbol),
+    groups = symbols(group_names),
     group_names = group_names
   )
 }
