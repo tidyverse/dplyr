@@ -12,7 +12,7 @@ query <- function(con, sql, .vars) UseMethod("query")
 
 #' @export
 query.DBIConnection <- function(con, sql, .vars) {
-  assert_that(is_scalar_character(sql))
+  assert_that(is_string(sql))
 
   Query$new(con, sql(sql), .vars)
 }

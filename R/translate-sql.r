@@ -176,7 +176,7 @@ sql_dyn_scope <- function(expr, variant, con, window = FALSE,
 }
 
 default_op <- function(x) {
-  assert_that(is_scalar_character(x))
+  assert_that(is_string(x))
   infix <- c("::", "$", "@", "^", "*", "/", "+", "-", ">", ">=", "<", "<=",
     "==", "!=", "!", "&", "&&", "|", "||", "~", "<-", "<<-")
 
