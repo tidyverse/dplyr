@@ -337,8 +337,6 @@ namespace dplyr {
     }
 
   private:
-    RObject tz;
-
     void update_tz(SEXP v) {
       RObject v_tz(Rf_getAttrib(v, Rf_install("tzone")));
       // if the new tz is NULL, keep previous value
@@ -357,6 +355,7 @@ namespace dplyr {
       }
     }
 
+    RObject tz;
   };
 
   class DifftimeCollecter : public Collecter_Impl<REALSXP> {
@@ -396,19 +395,23 @@ namespace dplyr {
     }
 
   private:
-    RObject units;
-    SEXP types;
-
     bool has_valid_time_unit(SEXP x) {
-      SEXP x_units(Rf_getAttrib(x, Rf_install("units")));
-
-      if (Rf_isNull(x_units)) {
-        return false;
+      static std::set<std::string> valid_units;
+      if (valid_units.empty()) {
+        valid_units.insert("secs");
+        valid_units.insert("mins");
+        valid_units.insert("hours");
+        valid_units.insert("days");
+        valid_units.insert("weeks");
       }
 
+      SEXP x_units(Rf_getAttrib(x, Rf_install("units")));
+      if (TYPEOF(x_units) != STRSXP) {
+        return false;
+      }
       std::string x_units_c = CHAR(STRING_ELT(x_units, 0));
-      if (x_units_c == "secs" || x_units_c == "mins" || x_units_c == "hours" ||
-          x_units_c == "days" || x_units_c == "weeks") {
+
+      if (valid_units.find(x_units_c) != valid_units.end()) {
         return true;
       } else {
         return false;
@@ -460,25 +463,27 @@ namespace dplyr {
       }
     }
 
-    double time_conversion_factor(RObject v_units) {
+    double time_conversion_factor(SEXP v_units) {
       // Acceptable units based on r-source/src/library/base/R/datetime.R
-      double factor = 1;
-      std::string v_units_c = Rcpp::as<std::string>(v_units);
-      if (v_units_c == "secs") {
-        factor = 1;
-      } else if (v_units_c == "mins") {
-        factor = 60;
-      } else if (v_units_c == "hours") {
-        factor = 60*60;
-      } else if (v_units_c == "days") {
-        factor = 60*60*24;
-      } else if (v_units_c == "weeks") {
-        factor = 60*60*24*7;
-      } else {
-        stop("Cannot convert %s to seconds", v_units_c.c_str());
+      static std::map<std::string, double> unit_factor_map;
+      if (unit_factor_map.empty()) {
+        unit_factor_map["secs"] = 1;
+        unit_factor_map["mins"] = 60;
+        unit_factor_map["hours"] = 60*60;
+        unit_factor_map["days"] = 60*60*24;
+        unit_factor_map["weeks"] = 60*60*24*7;
       }
-      return factor;
+      std::map<std::string, double>::iterator unit_factor =
+        unit_factor_map.find(CHAR(STRING_ELT(v_units,0)));
+      if (unit_factor != unit_factor_map.end()) {
+        return unit_factor->second;
+      } else {
+        stop("Cannot convert %s to seconds", CHAR(STRING_ELT(v_units, 0)));
+      }
     }
+
+    RObject units;
+    SEXP types;
 
   };
 
