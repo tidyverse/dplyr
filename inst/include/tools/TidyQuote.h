@@ -8,7 +8,7 @@ namespace dplyr {
 
 class TidyQuote {
  public:
-  TidyQuote(Formula data_, SymbolString name__) :
+  TidyQuote(const Formula& data_, SymbolString name__) :
       data(data_),
       name_(name__)
   {}
@@ -60,7 +60,7 @@ namespace dplyr {
 
 class TidyQuotes {
  public:
-  TidyQuotes(List data_) : data() {
+  TidyQuotes(const List& data_) : data() {
     int n = data_.size();
     if (n == 0) return;
 
