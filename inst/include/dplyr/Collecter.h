@@ -362,7 +362,7 @@ namespace dplyr {
   public:
     typedef Collecter_Impl<REALSXP> Parent;
 
-    DifftimeCollecter(int n, SEXP units_, SEXP types_) :
+    DifftimeCollecter(int n, std::string units_, SEXP types_) :
       Parent(n), units(units_), types(types_) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
@@ -375,15 +375,12 @@ namespace dplyr {
 
     inline SEXP get() {
       set_class(Parent::data, types);
-      if (!units.isNULL()) {
-        Parent::data.attr("units") = units;
-      }
+      Parent::data.attr("units") = wrap(units);
       return Parent::data;
     }
 
     inline bool compatible(SEXP x) {
-      return (Rf_inherits(x, "difftime") && has_valid_time_unit(x)) ||
-        all_logical_na(x, TYPEOF(x));
+      return Rf_inherits(x, "difftime") || all_logical_na(x, TYPEOF(x));
     }
 
     inline bool can_promote(SEXP x) const {
@@ -395,7 +392,7 @@ namespace dplyr {
     }
 
   private:
-    bool has_valid_time_unit(SEXP x) {
+    bool is_valid_difftime_unit(std::string x_units) {
       static std::set<std::string> valid_units;
       if (valid_units.empty()) {
         valid_units.insert("secs");
@@ -404,26 +401,26 @@ namespace dplyr {
         valid_units.insert("days");
         valid_units.insert("weeks");
       }
-
-      SEXP x_units(Rf_getAttrib(x, Rf_install("units")));
-      if (TYPEOF(x_units) != STRSXP) {
-        return false;
-      }
-      std::string x_units_c = CHAR(STRING_ELT(x_units, 0));
-
-      if (valid_units.find(x_units_c) != valid_units.end()) {
+      if (valid_units.find(x_units) != valid_units.end()) {
         return true;
       } else {
         return false;
       }
     }
 
-    void collect_difftime(const SlicingIndex& index, SEXP v) {
-      RObject v_units(Rf_getAttrib(v, Rf_install("units")));
-      if (v_units.isNULL()) {
-        stop("Can't collect difftime without units");
+    bool is_valid_difftime(RObject x) {
+      return x.inherits("difftime") &&
+        x.sexp_type() == REALSXP &&
+        is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
+    }
+
+
+    void collect_difftime(const SlicingIndex& index, RObject v) {
+      if (!is_valid_difftime(v)) {
+        stop("Invalid difftime object");
       }
-      if (units.isNULL()) {
+      std::string v_units = Rcpp::as<std::string>(v.attr("units"));
+      if (!is_valid_difftime_unit(units)) {
         // if current unit is NULL, grab the new one
         units = v_units;
         // then collect the data:
@@ -431,7 +428,7 @@ namespace dplyr {
       } else {
         // We had already defined the units.
         // Does the new vector have the same units?
-        if (STRING_ELT(units, 0) == STRING_ELT(v_units,0)) {
+        if (units == v_units) {
           Parent::collect(index, v);
         } else {
           // If units are different convert the existing data and the new vector
@@ -443,46 +440,38 @@ namespace dplyr {
               Parent::data[i] = factor_data*Parent::data[i];
             }
           }
-          units = wrap("secs");
+          units = "secs";
           double factor_v = time_conversion_factor(v_units);
           if (Rf_length(v) < index.size()) {
             stop("Wrong size of vector to collect");
           }
-          if (TYPEOF(v) == REALSXP) {
-            for (int i=0; i<index.size(); i++) {
-              Parent::data[index[i]] = factor_v * REAL(v)[i];
-            }
-          } else if (TYPEOF(v) == INTSXP) {
-            for (int i=0; i<index.size(); i++) {
-              Parent::data[index[i]] = factor_v * INTEGER(v)[i];
-            }
-          } else {
-            stop("difftime must be integer or numeric");
+          for (int i=0; i<index.size(); i++) {
+            Parent::data[index[i]] = factor_v * REAL(v)[i];
           }
         }
       }
     }
 
-    double time_conversion_factor(SEXP v_units) {
+    double time_conversion_factor(std::string v_units) {
       // Acceptable units based on r-source/src/library/base/R/datetime.R
-      static std::map<std::string, double> unit_factor_map;
-      if (unit_factor_map.empty()) {
-        unit_factor_map["secs"] = 1;
-        unit_factor_map["mins"] = 60;
-        unit_factor_map["hours"] = 60*60;
-        unit_factor_map["days"] = 60*60*24;
-        unit_factor_map["weeks"] = 60*60*24*7;
-      }
-      std::map<std::string, double>::iterator unit_factor =
-        unit_factor_map.find(CHAR(STRING_ELT(v_units,0)));
-      if (unit_factor != unit_factor_map.end()) {
-        return unit_factor->second;
+      double factor = 1;
+      if (v_units == "secs") {
+        factor = 1;
+      } else if (v_units == "mins") {
+        factor = 60;
+      } else if (v_units == "hours") {
+        factor = 60*60;
+      } else if (v_units == "days") {
+        factor = 60*60*24;
+      } else if (v_units == "weeks") {
+        factor = 60*60*24*7;
       } else {
-        stop("Cannot convert %s to seconds", CHAR(STRING_ELT(v_units, 0)));
+        stop("Invalid difftime units (%s).", v_units.c_str());
       }
+      return factor;
     }
 
-    RObject units;
+    std::string units;
     SEXP types;
 
   };
@@ -585,9 +574,6 @@ namespace dplyr {
     case INTSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
-      if (Rf_inherits(model, "difftime"))
-        return new DifftimeCollecter(n, Rf_getAttrib(model, Rf_install("units")),
-                                     Rf_getAttrib(model, R_ClassSymbol));
       if (Rf_inherits(model, "factor"))
         return new FactorCollecter(n, model);
       if (Rf_inherits(model, "Date"))
@@ -597,8 +583,10 @@ namespace dplyr {
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "difftime"))
-        return new DifftimeCollecter(n, Rf_getAttrib(model, Rf_install("units")),
-                                     Rf_getAttrib(model, R_ClassSymbol));
+        return new DifftimeCollecter(
+            n,
+            Rcpp::as<std::string>(Rf_getAttrib(model, Rf_install("units"))),
+            Rf_getAttrib(model, R_ClassSymbol));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (Rf_inherits(model, "integer64"))
