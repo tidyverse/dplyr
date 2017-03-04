@@ -18,13 +18,13 @@ class TidyQuote {
       name_(other.name_)
   {}
 
-  inline SEXP expr() const {
+  SEXP expr() const {
     return Rf_duplicate(CADR(data));
   }
-  inline SEXP env() const {
+  SEXP env() const {
     return Rf_getAttrib(data, Rf_install(".Environment"));
   }
-  inline SymbolString name() const {
+  SymbolString name() const {
     return name_;
   }
 
@@ -76,15 +76,15 @@ class TidyQuotes {
     }
   }
 
-  inline const TidyQuote& operator[](int i) const {
+  const TidyQuote& operator[](int i) const {
     return data[i];
   }
 
-  inline int size() const {
+  int size() const {
     return data.size();
   }
 
-  inline bool single_env() const {
+  bool single_env() const {
     if (data.size() <= 1) return true;
     SEXP env = data[0].env();
     for (size_t i=1; i<data.size(); i++) {
