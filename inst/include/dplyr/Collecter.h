@@ -23,14 +23,10 @@ namespace dplyr {
   }
 
   static bool is_class_known(SEXP x) {
-    /* C++11 (need initializer lists)
-    static std::set<std::string> known_classes {
-      "POSIXct", "factor", "Date", "AsIs", "integer64", "table"
-    };
-    */
-    /* Begin C++98 workaround */
     static std::set<std::string> known_classes;
     if (known_classes.empty()) {
+      known_classes.insert("hms");
+      known_classes.insert("difftime");
       known_classes.insert("POSIXct");
       known_classes.insert("factor");
       known_classes.insert("Date");
@@ -38,7 +34,6 @@ namespace dplyr {
       known_classes.insert("integer64");
       known_classes.insert("table");
     }
-    /* End of C++98 workaround */
     if (OBJECT(x)) {
       return inherits_from(x, known_classes);
     } else {
@@ -342,8 +337,6 @@ namespace dplyr {
     }
 
   private:
-    RObject tz;
-
     void update_tz(SEXP v) {
       RObject v_tz(Rf_getAttrib(v, Rf_install("tzone")));
       // if the new tz is NULL, keep previous value
@@ -362,7 +355,127 @@ namespace dplyr {
       }
     }
 
+    RObject tz;
   };
+
+  class DifftimeCollecter : public Collecter_Impl<REALSXP> {
+  public:
+    typedef Collecter_Impl<REALSXP> Parent;
+
+    DifftimeCollecter(int n, std::string units_, SEXP types_) :
+      Parent(n), units(units_), types(types_) {}
+
+    void collect(const SlicingIndex& index, SEXP v) {
+      if (Rf_inherits(v, "difftime")) {
+        collect_difftime(index, v);
+      } else if (all_logical_na(v, TYPEOF(v))) {
+        Parent::collect(index, v);
+      }
+    }
+
+    inline SEXP get() {
+      set_class(Parent::data, types);
+      Parent::data.attr("units") = wrap(units);
+      return Parent::data;
+    }
+
+    inline bool compatible(SEXP x) {
+      return Rf_inherits(x, "difftime") || all_logical_na(x, TYPEOF(x));
+    }
+
+    inline bool can_promote(SEXP x) const {
+      return false;
+    }
+
+    std::string describe() const {
+      return collapse<STRSXP>(types);
+    }
+
+  private:
+    bool is_valid_difftime_unit(std::string x_units) {
+      static std::set<std::string> valid_units;
+      if (valid_units.empty()) {
+        valid_units.insert("secs");
+        valid_units.insert("mins");
+        valid_units.insert("hours");
+        valid_units.insert("days");
+        valid_units.insert("weeks");
+      }
+      if (valid_units.find(x_units) != valid_units.end()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    bool is_valid_difftime(RObject x) {
+      return x.inherits("difftime") &&
+        x.sexp_type() == REALSXP &&
+        is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
+    }
+
+
+    void collect_difftime(const SlicingIndex& index, RObject v) {
+      if (!is_valid_difftime(v)) {
+        stop("Invalid difftime object");
+      }
+      std::string v_units = Rcpp::as<std::string>(v.attr("units"));
+      if (!is_valid_difftime_unit(units)) {
+        // if current unit is NULL, grab the new one
+        units = v_units;
+        // then collect the data:
+        Parent::collect(index, v);
+      } else {
+        // We had already defined the units.
+        // Does the new vector have the same units?
+        if (units == v_units) {
+          Parent::collect(index, v);
+        } else {
+          // If units are different convert the existing data and the new vector
+          // to seconds (following the convention on
+          // r-source/src/library/base/R/datetime.R)
+          double factor_data = time_conversion_factor(units);
+          if (factor_data != 1.0) {
+            for (int i=0; i<Parent::data.size(); i++) {
+              Parent::data[i] = factor_data*Parent::data[i];
+            }
+          }
+          units = "secs";
+          double factor_v = time_conversion_factor(v_units);
+          if (Rf_length(v) < index.size()) {
+            stop("Wrong size of vector to collect");
+          }
+          for (int i=0; i<index.size(); i++) {
+            Parent::data[index[i]] = factor_v * REAL(v)[i];
+          }
+        }
+      }
+    }
+
+    double time_conversion_factor(std::string v_units) {
+      // Acceptable units based on r-source/src/library/base/R/datetime.R
+      double factor = 1;
+      if (v_units == "secs") {
+        factor = 1;
+      } else if (v_units == "mins") {
+        factor = 60;
+      } else if (v_units == "hours") {
+        factor = 60*60;
+      } else if (v_units == "days") {
+        factor = 60*60*24;
+      } else if (v_units == "weeks") {
+        factor = 60*60*24*7;
+      } else {
+        stop("Invalid difftime units (%s).", v_units.c_str());
+      }
+      return factor;
+    }
+
+    std::string units;
+    SEXP types;
+
+  };
+
 
   class FactorCollecter : public Collecter {
   public:
@@ -469,6 +582,11 @@ namespace dplyr {
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
+      if (Rf_inherits(model, "difftime"))
+        return new DifftimeCollecter(
+            n,
+            Rcpp::as<std::string>(Rf_getAttrib(model, Rf_install("units"))),
+            Rf_getAttrib(model, R_ClassSymbol));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
       if (Rf_inherits(model, "integer64"))
