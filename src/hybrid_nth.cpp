@@ -130,20 +130,21 @@ namespace dplyr {
 
     SEXP tag = TAG(CDR(call));
     if (tag != R_NilValue && tag != Rf_install("x")) {
-      stop("the first argument of 'nth' should be either 'x' or unnamed");
+      return 0;
     }
     SEXP data = CADR(call);
-    if (TYPEOF(data) == SYMSXP) {
-      SymbolString name = SymbolString(Symbol(data));
-      if (subsets.count(name) == 0) {
-        stop("could not find variable '%s'", name.get_cstring());
-      }
-      data = subsets.get_variable(name);
+    if (TYPEOF(data) != SYMSXP)
+      return 0;
+
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name) == 0) {
+      return 0;
     }
+    data = subsets.get_variable(name);
 
     tag = TAG(CDDR(call));
     if (tag != R_NilValue && tag != Rf_install("n")) {
-      stop("the second argument of 'first' should be either 'n' or unnamed");
+      return 0;
     }
     SEXP nidx = CADDR(call);
     if ((TYPEOF(nidx) != REALSXP && TYPEOF(nidx) != INTSXP) || LENGTH(nidx) != 1) {
@@ -157,117 +158,112 @@ namespace dplyr {
     // easy case : just a single variable: first(x,n)
     if (nargs == 2) {
       switch (TYPEOF(data)) {
+      case LGLSXP:
+        return new Nth<LGLSXP>(data, idx);
       case INTSXP:
         return new Nth<INTSXP>(data, idx);
       case REALSXP:
         return new Nth<REALSXP>(data, idx);
+      case CPLXSXP:
+        return new Nth<CPLXSXP>(data, idx);
       case STRSXP:
         return new Nth<STRSXP>(data, idx);
-      case LGLSXP:
-        return new Nth<LGLSXP>(data, idx);
       default:
-        break;
+        return 0;
       }
-    } else {
-      // now get `order_by` and default
-
-      SEXP order_by = R_NilValue;
-      SEXP def    = R_NilValue;
-
-      SEXP p = CDR(CDDR(call));
-      while (p != R_NilValue) {
-        SEXP tag = TAG(p);
-        if (tag == R_NilValue) stop("all arguments of 'first' after the first one should be named");
-        std::string argname = CHAR(PRINTNAME(tag));
-        if (argmatch("order_by", argname)) {
-          order_by = CAR(p);
-        } else if (argmatch("default", argname)) {
-          def = CAR(p);
-        } else {
-          stop("argument to 'first' does not match either 'default' or 'order_by' ");
-        }
-
-        p = CDR(p);
-      }
-
-
-      // handle cases
-      if (def == R_NilValue) {
-
-        // then we know order_by is not NULL, we only handle the case where
-        // order_by is a symbol and that symbol is in the data
-        if (TYPEOF(order_by) == SYMSXP) {
-          SymbolString order_by_name = SymbolString(Symbol(order_by));
-          if (subsets.count(order_by_name)) {
-            order_by = subsets.get_variable(order_by_name);
-
-            switch (TYPEOF(data)) {
-            case LGLSXP:
-              return nth_with<LGLSXP>(data, idx, order_by);
-            case INTSXP:
-              return nth_with<INTSXP>(data, idx, order_by);
-            case REALSXP:
-              return nth_with<REALSXP>(data, idx, order_by);
-            case STRSXP:
-              return nth_with<STRSXP>(data, idx, order_by);
-            default:
-              break;
-            }
-          }
-          else {
-            return 0;
-          }
-        }
-        else {
-          return 0;
-        }
-
-      } else {
-        if (order_by == R_NilValue) {
-          switch (TYPEOF(data)) {
-          case LGLSXP:
-            return nth_noorder_default<LGLSXP>(data, idx, def);
-          case INTSXP:
-            return nth_noorder_default<INTSXP>(data, idx, def);
-          case REALSXP:
-            return nth_noorder_default<REALSXP>(data, idx, def);
-          case STRSXP:
-            return nth_noorder_default<STRSXP>(data, idx, def);
-          default:
-            break;
-          }
-        } else {
-          if (TYPEOF(order_by) == SYMSXP) {
-            SymbolString order_by_name = SymbolString(Symbol(order_by));
-            if (subsets.count(order_by_name)) {
-              order_by = subsets.get_variable(order_by_name);
-
-              switch (TYPEOF(data)) {
-              case LGLSXP:
-                return nth_with_default<LGLSXP>(data, idx, order_by, def);
-              case INTSXP:
-                return nth_with_default<INTSXP>(data, idx, order_by, def);
-              case REALSXP:
-                return nth_with_default<REALSXP>(data, idx, order_by, def);
-              case STRSXP:
-                return nth_with_default<STRSXP>(data, idx, order_by, def);
-              default:
-                break;
-              }
-            }
-            else {
-              return 0;
-            }
-          }
-          else {
-            return 0;
-          }
-        }
-      }
-
     }
-    stop("Unsupported vector type %s", Rf_type2char(TYPEOF(data)));
-    return 0;
+
+    // now get `order_by` and default
+    SEXP order_by = R_NilValue;
+    SEXP def    = R_NilValue;
+
+    SEXP p = CDR(CDDR(call));
+    while (p != R_NilValue) {
+      SEXP tag = TAG(p);
+      if (tag == R_NilValue) return 0;
+      std::string argname = CHAR(PRINTNAME(tag));
+      if (argmatch("order_by", argname)) {
+        order_by = CAR(p);
+      }
+      else if (argmatch("default", argname)) {
+        def = CAR(p);
+      }
+      else {
+        return 0;
+      }
+
+      p = CDR(p);
+    }
+
+    // handle cases
+    if (Rf_isNull(def)) {
+      // then we know order_by is not NULL, we only handle the case where
+      // order_by is a symbol and that symbol is in the data
+      if (TYPEOF(order_by) != SYMSXP)
+        return 0;
+
+      SymbolString order_by_name = SymbolString(Symbol(order_by));
+      if (subsets.count(order_by_name) == 0)
+        return 0;
+
+      order_by = subsets.get_variable(order_by_name);
+
+      switch (TYPEOF(data)) {
+      case LGLSXP:
+        return nth_with<LGLSXP>(data, idx, order_by);
+      case INTSXP:
+        return nth_with<INTSXP>(data, idx, order_by);
+      case REALSXP:
+        return nth_with<REALSXP>(data, idx, order_by);
+      case CPLXSXP:
+        return nth_with<CPLXSXP>(data, idx, order_by);
+      case STRSXP:
+        return nth_with<STRSXP>(data, idx, order_by);
+      default:
+        return 0;
+      }
+    }
+
+    if (Rf_isNull(order_by)) {
+      switch (TYPEOF(data)) {
+      case LGLSXP:
+        return nth_noorder_default<LGLSXP>(data, idx, def);
+      case INTSXP:
+        return nth_noorder_default<INTSXP>(data, idx, def);
+      case REALSXP:
+        return nth_noorder_default<REALSXP>(data, idx, def);
+      case CPLXSXP:
+        return nth_noorder_default<CPLXSXP>(data, idx, def);
+      case STRSXP:
+        return nth_noorder_default<STRSXP>(data, idx, def);
+      default:
+        return 0;
+      }
+    }
+
+    if (TYPEOF(order_by) != SYMSXP)
+      return 0;
+
+    SymbolString order_by_name = SymbolString(Symbol(order_by));
+    if (subsets.count(order_by_name) == 0)
+      return 0;
+
+    order_by = subsets.get_variable(order_by_name);
+
+    switch (TYPEOF(data)) {
+    case LGLSXP:
+      return nth_with_default<LGLSXP>(data, idx, order_by, def);
+    case INTSXP:
+      return nth_with_default<INTSXP>(data, idx, order_by, def);
+    case REALSXP:
+      return nth_with_default<REALSXP>(data, idx, order_by, def);
+    case CPLXSXP:
+      return nth_with_default<CPLXSXP>(data, idx, order_by, def);
+    case STRSXP:
+      return nth_with_default<STRSXP>(data, idx, order_by, def);
+    default:
+      return 0;
+    }
   }
 
   Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {
