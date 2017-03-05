@@ -15,30 +15,44 @@ namespace dplyr {
   };
 
   inline std::string type_name(SEXP x) {
-    switch(TYPEOF(x)) {
-      case NILSXP:      return "NULL";
-      case SYMSXP:      return "symbol";
-      case S4SXP:       return "S4";
-      case LGLSXP:      return "logical vector";
-      case INTSXP:      return "integer vector";
-      case REALSXP:     return "double vector";
-      case STRSXP:      return "character vector";
-      case CPLXSXP:     return "complex vector";
-      case RAWSXP:      return "raw vector";
-      case VECSXP:      return "list";
-      case LANGSXP:     return "quoted call";
-      case EXPRSXP:     return "expression";
-      case ENVSXP:      return "environment";
+    switch (TYPEOF(x)) {
+    case NILSXP:
+      return "NULL";
+    case SYMSXP:
+      return "symbol";
+    case S4SXP:
+      return "S4";
+    case LGLSXP:
+      return "logical vector";
+    case INTSXP:
+      return "integer vector";
+    case REALSXP:
+      return "double vector";
+    case STRSXP:
+      return "character vector";
+    case CPLXSXP:
+      return "complex vector";
+    case RAWSXP:
+      return "raw vector";
+    case VECSXP:
+      return "list";
+    case LANGSXP:
+      return "quoted call";
+    case EXPRSXP:
+      return "expression";
+    case ENVSXP:
+      return "environment";
 
-      case SPECIALSXP:
-      case BUILTINSXP:
-      case CLOSXP:      return "function";
+    case SPECIALSXP:
+    case BUILTINSXP:
+    case CLOSXP:
+      return "function";
 
-      // Everything else can fall back to R's default
-      default:
-        return std::string(Rf_type2char(TYPEOF(x)));
-        break;
-      }
+    // Everything else can fall back to R's default
+    default:
+      return std::string(Rf_type2char(TYPEOF(x)));
+      break;
+    }
   }
 
   inline SupportedType check_supported_type(SEXP x, const SymbolString& name = String()) {

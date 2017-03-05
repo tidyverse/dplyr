@@ -114,7 +114,7 @@ namespace dplyr {
 
     const Data& gdf;
     Proxy& proxy;
-    Collecter *coll;
+    Collecter* coll;
     int first_non_na;
     const SymbolString& name;
 

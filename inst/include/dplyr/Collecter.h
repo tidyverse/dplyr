@@ -392,26 +392,11 @@ namespace dplyr {
     }
 
   private:
-    bool is_valid_difftime_unit(std::string x_units) {
-      static std::set<std::string> valid_units;
-      if (valid_units.empty()) {
-        valid_units.insert("secs");
-        valid_units.insert("mins");
-        valid_units.insert("hours");
-        valid_units.insert("days");
-        valid_units.insert("weeks");
-      }
-      if (valid_units.find(x_units) != valid_units.end()) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
     bool is_valid_difftime(RObject x) {
-      return x.inherits("difftime") &&
+      return
+        x.inherits("difftime") &&
         x.sexp_type() == REALSXP &&
-        is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
+        get_units_map().is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
     }
 
 
@@ -420,7 +405,7 @@ namespace dplyr {
         stop("Invalid difftime object");
       }
       std::string v_units = Rcpp::as<std::string>(v.attr("units"));
-      if (!is_valid_difftime_unit(units)) {
+      if (!get_units_map().is_valid_difftime_unit(units)) {
         // if current unit is NULL, grab the new one
         units = v_units;
         // then collect the data:
@@ -434,14 +419,14 @@ namespace dplyr {
           // If units are different convert the existing data and the new vector
           // to seconds (following the convention on
           // r-source/src/library/base/R/datetime.R)
-          double factor_data = time_conversion_factor(units);
+          double factor_data = get_units_map().time_conversion_factor(units);
           if (factor_data != 1.0) {
             for (int i=0; i<Parent::data.size(); i++) {
-              Parent::data[i] = factor_data*Parent::data[i];
+              Parent::data[i] = factor_data * Parent::data[i];
             }
           }
           units = "secs";
-          double factor_v = time_conversion_factor(v_units);
+          double factor_v = get_units_map().time_conversion_factor(v_units);
           if (Rf_length(v) < index.size()) {
             stop("Wrong size of vector to collect");
           }
@@ -452,25 +437,50 @@ namespace dplyr {
       }
     }
 
-    double time_conversion_factor(std::string v_units) {
-      // Acceptable units based on r-source/src/library/base/R/datetime.R
-      double factor = 1;
-      if (v_units == "secs") {
-        factor = 1;
-      } else if (v_units == "mins") {
-        factor = 60;
-      } else if (v_units == "hours") {
-        factor = 60*60;
-      } else if (v_units == "days") {
-        factor = 60*60*24;
-      } else if (v_units == "weeks") {
-        factor = 60*60*24*7;
-      } else {
-        stop("Invalid difftime units (%s).", v_units.c_str());
+    class UnitsMap {
+      typedef std::map<std::string, double> units_map;
+      const units_map valid_units;
+
+      static units_map create_valid_units() {
+        units_map valid_units;
+        double factor = 1;
+
+        // Acceptable units based on r-source/src/library/base/R/datetime.R
+        valid_units.insert(std::make_pair("secs", factor));
+        factor *= 60;
+        valid_units.insert(std::make_pair("mins", factor));
+        factor *= 60;
+        valid_units.insert(std::make_pair("hours", factor));
+        factor *= 24;
+        valid_units.insert(std::make_pair("days", factor));
+        factor *= 7;
+        valid_units.insert(std::make_pair("weeks", factor));
+        return valid_units;
       }
-      return factor;
+
+    public:
+      UnitsMap() : valid_units(create_valid_units()) {}
+
+      bool is_valid_difftime_unit(const std::string& x_units) const {
+        return (valid_units.find(x_units) != valid_units.end());
+      }
+
+      double time_conversion_factor(const std::string& v_units) const {
+        units_map::const_iterator it = valid_units.find(v_units);
+        if (it == valid_units.end()) {
+          stop("Invalid difftime units (%s).", v_units.c_str());
+        }
+
+        return it->second;
+      }
+    };
+
+    static const UnitsMap& get_units_map() {
+      static UnitsMap map;
+      return map;
     }
 
+  private:
     std::string units;
     SEXP types;
 
@@ -583,7 +593,8 @@ namespace dplyr {
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "difftime"))
-        return new DifftimeCollecter(
+        return
+          new DifftimeCollecter(
             n,
             Rcpp::as<std::string>(Rf_getAttrib(model, Rf_install("units"))),
             Rf_getAttrib(model, R_ClassSymbol));
