@@ -30,7 +30,8 @@ class NamedQuosure {
     return Rf_duplicate(CADR(data));
   }
   SEXP env() const {
-    return Rf_getAttrib(data, Rf_install(".Environment"));
+    static SEXP sym_dotenv = Rf_install(".Environment");
+    return Rf_getAttrib(data, sym_dotenv);
   }
   SymbolString name() const {
     return name_;
