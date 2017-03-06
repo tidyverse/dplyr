@@ -59,14 +59,19 @@ namespace dplyr {
       int n = indices.size();
       if (n == 0 || idx > n || idx < -n) return def;
 
-      int i = idx > 0 ? (idx -1) : (n+idx);
+      int i = idx > 0 ? (idx - 1) : (n + idx);
 
       typedef VectorSliceVisitor<ORDER_RTYPE> Slice;
       typedef OrderVectorVisitorImpl<ORDER_RTYPE,true,Slice> Visitor;
       typedef Compare_Single_OrderVisitor<Visitor> Comparer;
 
-      Comparer comparer(Visitor(Slice(order, indices)));
-      IntegerVector sequence = seq(0,n-1);
+      // Need explicit variables because constructors take const&, and this does not work
+      // with unnamed temporaries.
+      Slice slice(order, indices);
+      Visitor visitor(slice);
+      Comparer comparer(visitor);
+
+      IntegerVector sequence = seq(0, n - 1);
       std::nth_element(sequence.begin(), sequence.begin() + i, sequence.end(), comparer);
 
       return data[ indices[ sequence[i] ] ];
