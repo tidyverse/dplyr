@@ -166,7 +166,10 @@ test_that("sqlite mimics two argument log", {
 
 test_that("postgres mimics two argument log", {
   translate_postgres <- function(...) {
-    translate_sql(..., con = src_postgres()$con)
+    # Slightly hacky, but fake the postgres connection rather than hassling
+    # with a system- or CI-dependent call to src_postgres().
+    con <- structure(list(), class = "PostgreSQLConnection")
+    translate_sql(..., con = con)
   }
 
   expect_equal(translate_postgres(log(x)), sql('ln("x")'))
