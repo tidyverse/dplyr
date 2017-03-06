@@ -73,14 +73,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-List arrange_impl(DataFrame data, TidyQuotes tquotes);
-RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP tquotesSEXP) {
+List arrange_impl(DataFrame data, QuosureList quosures);
+RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP quosuresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< TidyQuotes >::type tquotes(tquotesSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, tquotes));
+    Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
+    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, quosures));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -180,14 +180,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, TidyQuotes tquotes);
-RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP tquotesSEXP) {
+SEXP filter_impl(DataFrame df, QuosureList quosures);
+RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP quosuresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< TidyQuotes >::type tquotes(tquotesSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, tquotes));
+    Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
+    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quosures));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -341,25 +341,25 @@ BEGIN_RCPP
 END_RCPP
 }
 // slice_impl
-SEXP slice_impl(DataFrame df, TidyQuotes dots);
+SEXP slice_impl(DataFrame df, QuosureList dots);
 RcppExport SEXP dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< TidyQuotes >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
 }
 // mutate_impl
-SEXP mutate_impl(DataFrame df, TidyQuotes dots);
+SEXP mutate_impl(DataFrame df, QuosureList dots);
 RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< TidyQuotes >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
@@ -455,13 +455,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // summarise_impl
-SEXP summarise_impl(DataFrame df, TidyQuotes dots);
+SEXP summarise_impl(DataFrame df, QuosureList dots);
 RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< TidyQuotes >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP

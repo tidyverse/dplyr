@@ -1,5 +1,5 @@
-#ifndef dplyr__TidyQuote_h
-#define dplyr__TidyQuote_h
+#ifndef dplyr__Quosure_h
+#define dplyr__Quosure_h
 
 #include <tools/SymbolString.h>
 
@@ -14,13 +14,14 @@ SEXP quosure(SEXP expr, SEXP env) {
   return quo;
 }
 
-class TidyQuote {
+
+class NamedQuosure {
  public:
-  TidyQuote(const Formula& data_, SymbolString name__) :
+  NamedQuosure(const Formula& data_, SymbolString name__) :
       data(data_),
       name_(name__)
   {}
-  TidyQuote(const TidyQuote& other) :
+  NamedQuosure(const NamedQuosure& other) :
       data(other.data),
       name_(other.name_)
   {}
@@ -48,7 +49,7 @@ namespace Rcpp {
 using namespace dplyr;
 
 template <>
-inline bool is<TidyQuote>(SEXP x) {
+inline bool is<NamedQuosure>(SEXP x) {
   bool is_tilde =
     TYPEOF(x) == LANGSXP &&
     Rf_length(x) == 2 &&
@@ -65,9 +66,9 @@ inline bool is<TidyQuote>(SEXP x) {
 
 namespace dplyr {
 
-class TidyQuotes {
+class QuosureList {
  public:
-  TidyQuotes(const List& data_) : data() {
+  QuosureList(const List& data_) : data() {
     int n = data_.size();
     if (n == 0) return;
 
@@ -75,15 +76,15 @@ class TidyQuotes {
     for (int i=0; i<n; i++) {
       SEXP x = data_[i];
 
-      if (!is<TidyQuote>(x)) {
+      if (!is<NamedQuosure>(x)) {
         stop("corrupt tidy quote");
       }
 
-      data.push_back(TidyQuote(x, SymbolString(names[i])));
+      data.push_back(NamedQuosure(x, SymbolString(names[i])));
     }
   }
 
-  const TidyQuote& operator[](int i) const {
+  const NamedQuosure& operator[](int i) const {
     return data[i];
   }
 
@@ -101,7 +102,7 @@ class TidyQuotes {
   }
 
  private:
-  std::vector<TidyQuote> data;
+  std::vector<NamedQuosure> data;
 };
 
 } // namespace dplyr

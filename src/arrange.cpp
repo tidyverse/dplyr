@@ -1,6 +1,6 @@
 #include <dplyr/main.h>
 
-#include <tools/TidyQuote.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/white_list.h>
 
@@ -17,25 +17,25 @@ using namespace Rcpp;
 using namespace dplyr;
 
 // [[Rcpp::export]]
-List arrange_impl(DataFrame data, TidyQuotes tquotes) {
+List arrange_impl(DataFrame data, QuosureList quosures) {
   if (data.size() == 0) return data;
   check_valid_colnames(data);
   assert_all_white_list(data);
 
-  if (tquotes.size() == 0 || data.nrows() == 0) return data;
+  if (quosures.size() == 0 || data.nrows() == 0) return data;
 
-  int nargs = tquotes.size();
+  int nargs = quosures.size();
   List variables(nargs);
   LogicalVector ascending(nargs);
 
   for (int i=0; i<nargs; i++) {
-    const TidyQuote& tquote = tquotes[i];
+    const NamedQuosure& quosure = quosures[i];
 
-    Shield<SEXP> call_(tquote.expr());
+    Shield<SEXP> call_(quosure.expr());
     SEXP call = call_;
     bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call);
 
-    CallProxy call_proxy(is_desc ? CADR(call) : call, data, tquote.env());
+    CallProxy call_proxy(is_desc ? CADR(call) : call, data, quosure.env());
 
     Shield<SEXP> v(call_proxy.eval());
     if (!white_list(v)) {

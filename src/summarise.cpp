@@ -2,7 +2,7 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <tools/TidyQuote.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
@@ -20,7 +20,7 @@ using namespace Rcpp;
 using namespace dplyr;
 
 template <typename Data, typename Subsets>
-SEXP summarise_grouped(const DataFrame& df, const TidyQuotes& dots) {
+SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   Data gdf(df);
 
   int nexpr = dots.size();
@@ -44,12 +44,12 @@ SEXP summarise_grouped(const DataFrame& df, const TidyQuotes& dots) {
   for (int k=0; k<nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
-    const TidyQuote& quote = dots[k];
-    const Environment& env = quote.env();
+    const NamedQuosure& quosure = dots[k];
+    const Environment& env = quosure.env();
 
-    LOG_VERBOSE << "processing variable " << quote.name().get_cstring();
+    LOG_VERBOSE << "processing variable " << quosure.name().get_cstring();
 
-    Shield<SEXP> expr_(quote.expr());
+    Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
 
@@ -59,12 +59,12 @@ SEXP summarise_grouped(const DataFrame& df, const TidyQuotes& dots) {
     // special treatment to summary variables, for which hybrid
     // evaluation should be turned off completely (#2312)
     if (!res) {
-      res.reset(new GroupedCallReducer<Data, Subsets>(quote.expr(), subsets, env));
+      res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env));
     }
     RObject result = res->process(gdf);
     results[i] = result;
-    accumulator.set(quote.name(), result);
-    subsets.input_summarised(quote.name(), SummarisedVariable(result));
+    accumulator.set(quosure.name(), result);
+    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
 
   }
 
@@ -95,7 +95,7 @@ SEXP summarise_grouped(const DataFrame& df, const TidyQuotes& dots) {
 }
 
 
-SEXP summarise_not_grouped(DataFrame df, const TidyQuotes& dots) {
+SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
   int nexpr = dots.size();
   if (nexpr == 0) return DataFrame();
 
@@ -106,20 +106,20 @@ SEXP summarise_not_grouped(DataFrame df, const TidyQuotes& dots) {
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
 
-    const TidyQuote& quote = dots[i];
-    Environment env = quote.env();
-    Shield<SEXP> expr_(quote.expr());
+    const NamedQuosure& quosure = dots[i];
+    Environment env = quosure.env();
+    Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
     SEXP result;
     if (res) {
       result = results[i] = res->process(FullDataFrame(df));
     } else {
-      result = results[i] = CallProxy(quote.expr(), subsets, env).eval();
+      result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
     }
     check_length(Rf_length(result), 1, "a summary value");
-    accumulator.set(quote.name(), result);
-    subsets.input(quote.name(), result);
+    accumulator.set(quosure.name(), result);
+    subsets.input(quosure.name(), result);
   }
   List data = accumulator;
   copy_most_attributes(data, df);
@@ -129,7 +129,7 @@ SEXP summarise_not_grouped(DataFrame df, const TidyQuotes& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, TidyQuotes dots) {
+SEXP summarise_impl(DataFrame df, QuosureList dots) {
   if (df.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {

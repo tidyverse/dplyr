@@ -2,7 +2,7 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <tools/TidyQuote.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/checks.h>
 
@@ -36,18 +36,18 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   return res;
 }
 
-void check_not_groups(const TidyQuotes& quotes, const RowwiseDataFrame& gdf) {}
+void check_not_groups(const QuosureList& quosures, const RowwiseDataFrame& gdf) {}
 
-void check_not_groups(const TidyQuotes& quotes, const GroupedDataFrame& gdf) {
-  int n = quotes.size();
+void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
+  int n = quosures.size();
   for (int i=0; i<n; i++) {
-    if (gdf.has_group(quotes[i].name()))
+    if (gdf.has_group(quosures[i].name()))
       stop("cannot modify grouping variable");
   }
 }
 
 
-SEXP mutate_not_grouped(DataFrame df, const TidyQuotes& dots) {
+SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
   const int nexpr = dots.size();
   const int nrows = df.nrows();
 
@@ -65,12 +65,12 @@ SEXP mutate_not_grouped(DataFrame df, const TidyQuotes& dots) {
 
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
-    const TidyQuote& tquote = dots[i];
+    const NamedQuosure& quosure = dots[i];
 
-    Shield<SEXP> call_(tquote.expr());
+    Shield<SEXP> call_(quosure.expr());
     SEXP call = call_;
-    SymbolString name = tquote.name();
-    Environment env = tquote.env();
+    SymbolString name = quosure.name();
+    Environment env = quosure.env();
     call_proxy.set_env(env);
 
     if (TYPEOF(call) == SYMSXP) {
@@ -117,7 +117,7 @@ SEXP mutate_not_grouped(DataFrame df, const TidyQuotes& dots) {
 }
 
 template <typename Data, typename Subsets>
-SEXP mutate_grouped(const DataFrame& df, const TidyQuotes& dots) {
+SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "checking zero rows";
 
   // special 0 rows case
@@ -151,12 +151,12 @@ SEXP mutate_grouped(const DataFrame& df, const TidyQuotes& dots) {
   List variables(nexpr);
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
-    const TidyQuote& tquote = dots[i];
+    const NamedQuosure& quosure = dots[i];
 
-    Environment env = tquote.env();
-    Shield<SEXP> call_(tquote.expr());
+    Environment env = quosure.env();
+    Shield<SEXP> call_(quosure.expr());
     SEXP call = call_;
-    SymbolString name = tquote.name();
+    SymbolString name = quosure.name();
     proxy.set_env(env);
 
     LOG_VERBOSE << "processing " << name.get_cstring();
@@ -185,7 +185,7 @@ SEXP mutate_grouped(const DataFrame& df, const TidyQuotes& dots) {
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl(DataFrame df, TidyQuotes dots) {
+SEXP mutate_impl(DataFrame df, QuosureList dots) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
