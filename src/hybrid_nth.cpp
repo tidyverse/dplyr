@@ -185,17 +185,19 @@ namespace dplyr {
     // now get `order_by` and default
     SEXP order_by = R_NilValue;
     SEXP def    = R_NilValue;
+    bool has_order_by = false;
+    bool has_default = false;
 
     SEXP p = CDR(CDDR(call));
     while (p != R_NilValue) {
       SEXP tag = TAG(p);
-      if (tag == R_NilValue) return 0;
-      std::string argname = CHAR(PRINTNAME(tag));
-      if (argmatch("order_by", argname)) {
+      if (!has_order_by && (Rf_isNull(tag) || argmatch("order_by", CHAR(PRINTNAME(tag))))) {
         order_by = CAR(p);
+        has_order_by = true;
       }
-      else if (argmatch("default", argname)) {
+      else if (!has_default && (Rf_isNull(tag) || argmatch("default", CHAR(PRINTNAME(tag))))) {
         def = CAR(p);
+        has_default = true;
       }
       else {
         return 0;
