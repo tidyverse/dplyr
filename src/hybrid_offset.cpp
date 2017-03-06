@@ -38,8 +38,8 @@ struct LeadLag {
         got_n = true;
       }
       else if (!got_default && (Rf_isNull(tag) || tag == tag_default)) {
-        if (TYPEOF(def) == LANGSXP) return;
         def = CAR(p);
+        if (TYPEOF(def) == LANGSXP) return;
         got_default = true;
       }
       else
