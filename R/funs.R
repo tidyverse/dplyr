@@ -91,7 +91,7 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
 }
 
 funs_make_call <- function(x, args, env = base_env()) {
-  f <- as_tidy_quote(x, env)
+  f <- as_quosureish(x, env)
   expr <- get_expr(x)
 
   expr <- switch_type(expr, "funs",

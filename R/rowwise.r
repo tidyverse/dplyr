@@ -82,13 +82,13 @@ do.rowwise_df <- function(.data, ...) {
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
   # of this function because of usual scoping rules.
-  dyn_scope <- child_env(NULL)
+  env <- child_env(NULL)
   current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
-  env_assign_active(dyn_scope, ".", current_row)
-  env_assign_active(dyn_scope, ".data", current_row)
+  env_assign_active(env, ".", current_row)
+  env_assign_active(env, ".data", current_row)
 
-  dyn_scope <- dyn_scope_install(dyn_scope)
-  on.exit(dyn_scope_clean(dyn_scope))
+  overscope <- new_overscope(env)
+  on.exit(overscope_clean(overscope))
 
   n <- nrow(.data)
   m <- length(args)
@@ -99,7 +99,7 @@ do.rowwise_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(dyn_scope_next(args[[j]], dyn_scope))
+      out[[j]][`_i`] <- list(overscope_eval(overscope, args[[j]]))
       p$tick()$print()
     }
   }

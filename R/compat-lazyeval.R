@@ -21,14 +21,14 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   coerce_type(lazy, "tidy_quote",
     quote = lazy,
     symbol = ,
-    language = new_tidy_quote(lazy, env),
+    language = quosure(lazy, env),
     string = {
       if (warn) warn_text_se()
       parse_f(lazy, env)
     },
     list =
       coerce_class(lazy, "tidy_quote",
-        lazy = new_tidy_quote(lazy$expr, lazy$env)
+        lazy = quosure(lazy$expr, lazy$env)
       )
   )
 }

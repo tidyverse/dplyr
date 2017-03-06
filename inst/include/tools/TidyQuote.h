@@ -6,13 +6,20 @@
 
 namespace dplyr {
 
+inline
+SEXP quosure(SEXP expr, SEXP env) {
+  Language quo("~", expr);
+  quo.attr(".Environment") = env;
+  quo.attr("class") = CharacterVector("formula");
+  return quo;
+}
+
 class TidyQuote {
  public:
   TidyQuote(const Formula& data_, SymbolString name__) :
       data(data_),
       name_(name__)
   {}
-
   TidyQuote(const TidyQuote& other) :
       data(other.data),
       name_(other.name_)

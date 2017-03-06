@@ -17,6 +17,7 @@ namespace dplyr {
     return rlang[name];
   }
 
+
   class IHybridCallback {
   protected:
     virtual ~IHybridCallback() {}
@@ -25,30 +26,31 @@ namespace dplyr {
     virtual SEXP get_subset(const SymbolString& name) const = 0;
   };
 
+
   class GroupedHybridEnv {
   public:
     GroupedHybridEnv(const CharacterVector& names_, const Environment& env_, const IHybridCallback* callback_) :
-      names(names_), env(env_), callback(callback_), has_eval_env(false)
+      names(names_), env(env_), callback(callback_), has_overscope(false)
     {
       LOG_VERBOSE;
     }
 
     ~GroupedHybridEnv() {
-      if (has_eval_env) {
-        static Function dyn_scope_clean = rlang_object("dyn_scope_clean");
-        dyn_scope_clean(eval_env);
+      if (has_overscope) {
+        static Function overscope_clean = rlang_object("overscope_clean");
+        overscope_clean(overscope);
       }
     }
 
   public:
-    const Environment& get_eval_env() const {
-      provide_eval_env();
-      return eval_env;
+    const Environment& get_overscope() const {
+      provide_overscope();
+      return overscope;
     }
 
   private:
-    void provide_eval_env() const {
-      if (has_eval_env)
+    void provide_overscope() const {
+      if (has_overscope)
         return;
 
       // Environment::new_child() performs an R callback, creating the environment
@@ -60,14 +62,14 @@ namespace dplyr {
 
       // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
       // call to Rcpp_eval() triggered by active_env.new_child()
-      eval_env = active_env.new_child(true);
-      eval_env[".data"] = active_env;
+      Environment bottom = active_env.new_child(true);
+      bottom[".data"] = active_env;
 
       // Install definitions for formula self-evaluation and unguarding
-      static Function dyn_scope_install = rlang_object("dyn_scope_install");
-      eval_env = dyn_scope_install(eval_env, active_env, env);
+      Function new_overscope = rlang_object("new_overscope");
+      overscope = new_overscope(bottom, active_env);
 
-      has_eval_env = true;
+      has_overscope = true;
     }
 
     static SEXP hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
@@ -81,9 +83,10 @@ namespace dplyr {
     const Environment env;
     const IHybridCallback* callback;
 
-    mutable Environment eval_env;
-    mutable bool has_eval_env;
+    mutable Environment overscope;
+    mutable bool has_overscope;
   };
+
 
   class GroupedHybridCall {
   public:
@@ -94,6 +97,7 @@ namespace dplyr {
     }
 
   public:
+    // FIXME: replace the search & replace logic with overscoping
     Call simplify(const SlicingIndex& indices) const {
       set_indices(indices);
       Call call = clone(original_call);
@@ -164,6 +168,7 @@ namespace dplyr {
     mutable const SlicingIndex* indices;
   };
 
+
   class GroupedHybridEval : public IHybridCallback {
   public:
     GroupedHybridEval(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
@@ -206,8 +211,14 @@ namespace dplyr {
       LOG_INFO << type2name(call);
 
       if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
-        LOG_VERBOSE << "performing evaluation in eval_env";
-        return Rcpp_eval(call, hybrid_env.get_eval_env());
+        LOG_VERBOSE << "performing evaluation in overscope";
+        static Function overscope_eval = rlang_object("overscope_eval");
+
+        // FIXME: The class should be constructed around a quosure
+        //        rather than call + env
+        Shield<SEXP> quo(quosure(call, env));
+
+        return overscope_eval(hybrid_env.get_overscope(), (SEXP) quo);
       }
       return call;
     }
@@ -220,5 +231,7 @@ namespace dplyr {
     const GroupedHybridCall hybrid_call;
   };
 
-}
+
+} // namespace dplyr
+
 #endif

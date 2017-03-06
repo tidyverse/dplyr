@@ -173,7 +173,7 @@ do.grouped_df <- function(.data, ...) {
 
   args <- tidy_quotes(...)
   named <- named_args(args)
-  dyn_scope <- child_env(NULL)
+  env <- child_env(NULL)
 
   n <- length(index)
   m <- length(args)
@@ -185,8 +185,8 @@ do.grouped_df <- function(.data, ...) {
       out <- set_names(out, names(args))
       out <- label_output_list(labels, out, groups(.data))
     } else {
-      env_bind(dyn_scope, list(. = group_data, .data = group_data))
-      out <- dyn_scope_eval(args[[1]], dyn_scope)[0, , drop = FALSE]
+      env_bind(env, list(. = group_data, .data = group_data))
+      out <- tidy_eval_(args[[1]], env)[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
     return(out)
@@ -202,11 +202,11 @@ do.grouped_df <- function(.data, ...) {
       group_data[index[[`_i`]] + 1L, ] <<- value
     }
   }
-  env_assign_active(dyn_scope, ".", group_slice)
-  env_assign_active(dyn_scope, ".data", group_slice)
+  env_assign_active(env, ".", group_slice)
+  env_assign_active(env, ".data", group_slice)
 
-  dyn_scope <- dyn_scope_install(dyn_scope)
-  on.exit(dyn_scope_clean(dyn_scope))
+  overscope <- new_overscope(env)
+  on.exit(overscope_clean(overscope))
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
@@ -214,7 +214,7 @@ do.grouped_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(dyn_scope_next(args[[j]], dyn_scope))
+      out[[j]][`_i`] <- list(overscope_eval(overscope, args[[j]]))
       p$tick()$print()
     }
   }

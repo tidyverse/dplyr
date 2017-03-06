@@ -196,15 +196,15 @@ do.data.frame <- function(.data, ...) {
   named <- named_args(args)
 
   # Create custom dynamic scope with `.` pronoun
-  env <- child_env(data = list(. = .data, .data = .data))
+  overscope <- child_env(data = list(. = .data, .data = .data))
 
   if (!named) {
-    out <- dyn_scope_eval(args[[1]], env)
+    out <- tidy_eval_(args[[1]], overscope)
     if (!inherits(out, "data.frame")) {
       abort("Result must be a data frame")
     }
   } else {
-    out <- map(args, function(arg) list(dyn_scope_eval(arg, env)))
+    out <- map(args, function(arg) list(tidy_eval_(arg, overscope)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }

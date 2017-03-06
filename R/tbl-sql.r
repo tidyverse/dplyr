@@ -495,7 +495,9 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   gvars <- seq_along(groups_sym)
 
   # Create the dynamic scope for tidy evaluation
-  dyn_scope <- child_env(NULL)
+  env <- child_env(NULL)
+  overscope <- new_overscope(env)
+  on.exit(overscope_clean(overscope))
 
   query$fetch_paged(.chunk_size, function(chunk) {
     if (!is_null(last_group)) {
@@ -511,9 +513,10 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
 
     for (j in seq_len(n - 1)) {
       cur_chunk <- chunk[index[[j]] + 1L, , drop = FALSE]
-      dyn_scope$. <- dyn_scope$.data <- cur_chunk
+      # Update pronouns within the overscope
+      env$. <- env$.data <- cur_chunk
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(dyn_scope_eval(args[[k]], dyn_scope))
+        out[[k]][i + j] <<- list(overscope_eval(overscope, args[[k]]))
         p$tick()$print()
       }
     }
@@ -522,9 +525,9 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
 
   # Process last group
   if (!is_null(last_group)) {
-    dyn_scope$. <- dyn_scope$.data <- last_group
+    env$. <- env$.data <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(dyn_scope_eval(args[[k]], dyn_scope))
+      out[[k]][i + 1] <- list(overscope_eval(overscope, args[[k]]))
       p$tick()$print()
     }
   }

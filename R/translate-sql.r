@@ -133,15 +133,16 @@ translate_sql_ <- function(dots,
     if (is_atomic(get_expr(x))) {
       escape(get_expr(x), con = con)
     } else {
-      dyn_scope <- sql_dyn_scope(x, variant, con, window = window)
-      escape(dyn_scope_eval(x, dyn_scope$bottom, dyn_scope$top))
+      overscope <- sql_overscope(x, variant, con, window = window)
+      on.exit(overscope_clean(overscope))
+      escape(overscope_eval(overscope, x))
     }
   })
 
   sql(unlist(pieces))
 }
 
-sql_dyn_scope <- function(expr, variant, con, window = FALSE,
+sql_overscope <- function(expr, variant, con, window = FALSE,
                           strict = getOption("dplyr.strict_sql")) {
   stopifnot(is.sql_variant(variant))
 
@@ -172,7 +173,7 @@ sql_dyn_scope <- function(expr, variant, con, window = FALSE,
   # Known sql expressions
   symbol_env <- env_clone(base_symbols, parent = name_env)
 
-  list(bottom = symbol_env, top = top_env)
+  new_overscope(symbol_env, top_env)
 }
 
 default_op <- function(x) {
