@@ -182,16 +182,12 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("interpolation works (#1012)", {
-    uq <- lazyeval::uq # hadley/lazyeval#78
-
     var <- ~ b
 
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(., f = lazyeval::f_eval(~ mean(uq(
-          var
-        )))) %>%
+        mutate(., f = ~ mean(UQ(var))) %>%
         select(-e),
       test_df %>%
         grouping %>%
@@ -298,7 +294,7 @@ test_hybrid <- function(grouping) {
     expect_equal(
       test_df %>%
         grouping %>%
-        filter(b < get("b", .env)) %>%
+        filter(b < get("b", envir = .env)) %>%
         select(-e),
       test_df %>%
         grouping %>%
@@ -504,7 +500,7 @@ test_hybrid <- function(grouping) {
       conflict_data %>%
         rename(env = .env, data = .data) %>%
         grouping %>%
-        summarise_each(funs(mean), env, data)
+        summarise_at(vars(env, data), funs(mean))
     )
   })
 
@@ -512,4 +508,4 @@ test_hybrid <- function(grouping) {
 
 test_hybrid(identity)
 test_hybrid(rowwise)
-test_hybrid(. %>% group_by_(~ id))
+test_hybrid(. %>% group_by(~ id))

@@ -2,12 +2,9 @@
 % Please edit documentation in R/distinct.R
 \name{distinct}
 \alias{distinct}
-\alias{distinct_}
 \title{Select distinct/unique rows.}
 \usage{
 distinct(.data, ..., .keep_all = FALSE)
-
-distinct_(.data, ..., .dots, .keep_all = FALSE)
 }
 \arguments{
 \item{.data}{a tbl}
@@ -19,9 +16,6 @@ row will be preserved. If omitted, will use all variables.}
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \description{
 Retain only unique/distinct rows from an input tbl. This is similar

@@ -11,7 +11,7 @@ test_that("ungrouped output", {
     group_by(Species) %>%
     arrange(Sepal.Length)
 
-  with_mock(
+  withr::with_options(list(digits = 4, width = 80), with_mock(
     `dplyr::sqlite_version` = function() "x.y.z",
     {
       expect_output_file_rel(
@@ -39,5 +39,5 @@ test_that("ungrouped output", {
         "iris-head-30-80.txt"
       )
     }
-  )
+  ))
 })

@@ -37,7 +37,7 @@ same_src.tbl_sql <- function(x, y) {
 #' @export
 group_size.tbl_sql <- function(x) {
   df <- x %>%
-    summarise_(n = ~n()) %>%
+    summarise(n = n()) %>%
     collect()
   df$n
 }
@@ -47,9 +47,9 @@ n_groups.tbl_sql <- function(x) {
   if (length(groups(x)) == 0) return(1L)
 
   df <- x %>%
-    summarise_() %>%
+    summarise() %>%
     ungroup() %>%
-    summarise_(n = ~n()) %>%
+    summarise(n = n()) %>%
     collect()
   df$n
 }
@@ -340,7 +340,7 @@ copy_to.src_sql <- function(dest, df, name = deparse(substitute(df)),
                             overwrite = FALSE, types = NULL, temporary = TRUE,
                             unique_indexes = NULL, indexes = NULL,
                             analyze = TRUE, ...) {
-  assert_that(is.data.frame(df), is.string(name), is.flag(temporary))
+  assert_that(is.data.frame(df), is_string(name), is.flag(temporary))
   class(df) <- "data.frame" # avoid S4 dispatch problem in dbSendPreparedQuery
 
   con <- con_acquire(dest)
@@ -382,7 +382,7 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
   })
 
   tbl(x$src, sql) %>%
-    group_by_(.dots = op_grps(x)) %>%
+    group_by(!!! symbols(op_grps(x))) %>%
     add_op_order(op_sort(x))
 }
 
@@ -403,7 +403,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
     vars <- op_vars(x)
     assert_that(all(unlist(indexes) %in% vars))
     assert_that(all(unlist(unique_indexes) %in% vars))
-    x_aliased <- select_(x, .dots = vars) # avoids problems with SQLite quoting (#1754)
+    x_aliased <- select(x, !!! symbols(vars)) # avoids problems with SQLite quoting (#1754)
     db_save_query(con, sql_render(x_aliased, con), name = name, temporary = temporary)
     db_create_indexes(con, name, unique_indexes, unique = TRUE)
     db_create_indexes(con, name, indexes, unique = FALSE)
@@ -412,7 +412,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   })
 
   tbl(x$src, name) %>%
-    group_by_(.dots = op_grps(x)) %>%
+    group_by(!!! symbols(op_grps(x))) %>%
     add_op_order(op_sort(x))
 }
 
@@ -447,26 +447,26 @@ collect.tbl_sql <- function(x, ..., n = Inf, warn_incomplete = TRUE) {
 
 # Do ---------------------------------------------------------------------------
 
-#' @export
 #' @rdname do
 #' @param .chunk_size The size of each chunk to pull into R. If this number is
 #'   too big, the process will be slow because R has to allocate and free a lot
 #'   of memory. If it's too small, it will be slow, because of the overhead of
 #'   talking to the database.
-do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
-  group_by <- groups(.data)
+#' @export
+do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
+  groups_sym <- groups(.data)
 
-  if (length(group_by) == 0) {
+  if (length(groups_sym) == 0) {
     .data <- collect(.data)
-    return(do_(.data, ..., .dots = .dots))
+    return(do(.data, ...))
   }
 
-  args <- lazyeval::all_dots(.dots, ...)
+  args <- tidy_quotes(...)
   named <- named_args(args)
 
   # Create data frame of labels
   labels <- .data %>%
-    select_(.dots = group_by) %>%
+    select(!!! groups_sym) %>%
     summarise() %>%
     collect()
 
@@ -479,7 +479,6 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
   p <- progress_estimated(n * m, min_time = 2)
-  env <- new.env(parent = lazyeval::common_env(args))
 
   # Create ungrouped data frame suitable for chunked retrieval
   query <- query(con, sql_render(ungroup(.data), con), op_vars(.data))
@@ -491,23 +490,33 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   # be an unusual situation.
   last_group <- NULL
   i <- 0
-  gvars <- seq_along(group_by)
+
+  # Assumes `chunk` to be ordered with group columns first
+  gvars <- seq_along(groups_sym)
+
+  # Create the dynamic scope for tidy evaluation
+  env <- child_env(NULL)
+  overscope <- new_overscope(env)
+  on.exit(overscope_clean(overscope))
 
   query$fetch_paged(.chunk_size, function(chunk) {
-    if (!is.null(last_group)) {
+    if (!is_null(last_group)) {
       chunk <- rbind(last_group, chunk)
     }
 
     # Create an id for each group
-    grouped <- chunk %>% group_by_(.dots = names(chunk)[gvars])
+    grouped <- chunk %>% group_by(!!! symbols(names(chunk)[gvars]))
     index <- attr(grouped, "indices") # zero indexed
+    n <- length(index)
 
     last_group <<- chunk[index[[length(index)]] + 1L, , drop = FALSE]
 
     for (j in seq_len(n - 1)) {
-      env$. <- chunk[index[[j]] + 1L, , drop = FALSE]
+      cur_chunk <- chunk[index[[j]] + 1L, , drop = FALSE]
+      # Update pronouns within the overscope
+      env$. <- env$.data <- cur_chunk
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(eval(args[[k]]$expr, envir = env))
+        out[[k]][i + j] <<- list(overscope_eval(overscope, args[[k]]))
         p$tick()$print()
       }
     }
@@ -515,10 +524,10 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   })
 
   # Process last group
-  if (!is.null(last_group)) {
-    env$. <- last_group
+  if (!is_null(last_group)) {
+    env$. <- env$.data <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(eval(args[[k]]$expr, envir = env))
+      out[[k]][i + 1] <- list(overscope_eval(overscope, args[[k]]))
       p$tick()$print()
     }
   }
@@ -528,4 +537,11 @@ do_.tbl_sql <- function(.data, ..., .dots, .chunk_size = 1e4L) {
   } else {
     label_output_list(labels, out, groups(.data))
   }
+}
+#' @rdname se-deprecated
+#' @inheritParams do
+#' @export
+do_.tbl_sql <- function(.data, ..., .dots = list(), .chunk_size = 1e4L) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  do(.data, !!! dots, .chunk_size = .chunk_size)
 }

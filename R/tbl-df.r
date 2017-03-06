@@ -41,38 +41,61 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 # Verbs ------------------------------------------------------------------------
 
 #' @export
-arrange_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+arrange.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(...)
+  arrange_impl(.data, dots)
+}
+#' @export
+arrange_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   arrange_impl(.data, dots)
 }
 
 #' @export
-filter_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+filter.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(...)
   if (any(has_names(dots))) {
-    stop("filter() takes unnamed arguments. Do you need `==`?", call. = FALSE)
+    abort("filter() takes unnamed arguments. Do you need `==`?")
   }
-  # C++ code assumes that elements are named, so give them automatic names
-  dots <- lazyeval::auto_name(dots)
-
+  dots <- exprs_auto_name(dots)
   filter_impl(.data, dots)
+}
+#' @export
+filter_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!! dots)
 }
 
 #' @export
-slice_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+slice.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  slice_impl(.data, dots)
+}
+#' @export
+slice_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   slice_impl(.data, dots)
 }
 
 #' @export
-mutate_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+mutate.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  mutate_impl(.data, dots)
+}
+#' @export
+mutate_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   mutate_impl(.data, dots)
 }
 
 #' @export
-summarise_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+summarise.tbl_df <- function(.data, ...) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  summarise_impl(.data, dots)
+}
+#' @export
+summarise_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   summarise_impl(.data, dots)
 }
 
@@ -173,6 +196,10 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.tbl_df <- function(.data, ..., .dots) {
+distinct.tbl_df <- function(.data, ...) {
+  tbl_df(NextMethod())
+}
+#' @export
+distinct_.tbl_df <- function(.data, ..., .dots = list()) {
   tbl_df(NextMethod())
 }

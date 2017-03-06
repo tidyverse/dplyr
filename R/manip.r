@@ -24,8 +24,6 @@
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   conditon evalutes to `TRUE` are kept.
-#' @param .dots Used to work around non-standard evaluation. See
-#'   `vignette("nse")` for details.
 #' @return An object of the same class as `.data`.
 #' @export
 #' @examples
@@ -39,12 +37,11 @@
 #' # Multiple arguments are equivalent to and
 #' filter(starwars, hair_color == "none", eye_color == "black")
 filter <- function(.data, ...) {
-  filter_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("filter")
 }
-
 #' @export
-#' @rdname filter
-filter_ <- function(.data, ..., .dots) {
+#' @rdname se-deprecated
+filter_ <- function(.data, ..., .dots = list()) {
   UseMethod("filter_")
 }
 
@@ -76,12 +73,11 @@ filter_ <- function(.data, ..., .dots) {
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ...) {
-  slice_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("slice")
 }
-
 #' @export
-#' @rdname slice
-slice_ <- function(.data, ..., .dots) {
+#' @rdname se-deprecated
+slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
@@ -136,20 +132,18 @@ slice_ <- function(.data, ..., .dots) {
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))
 summarise <- function(.data, ...) {
-  summarise_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("summarise")
 }
-
 #' @export
-#' @rdname summarise
-summarise_ <- function(.data, ..., .dots) {
+#' @rdname se-deprecated
+summarise_ <- function(.data, ..., .dots = list()) {
   UseMethod("summarise_")
 }
 
 #' @rdname summarise
 #' @export
 summarize <- summarise
-
-#' @rdname summarise
+#' @rdname se-deprecated
 #' @export
 summarize_ <- summarise_
 
@@ -209,34 +203,37 @@ summarize_ <- summarise_
 #'   transmute(displ_l = disp / 61.0237)
 #'
 mutate <- function(.data, ...) {
-  mutate_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("mutate")
 }
-
 #' @export
-#' @rdname mutate
-mutate_ <- function(.data, ..., .dots) {
+#' @rdname se-deprecated
+mutate_ <- function(.data, ..., .dots = list()) {
   UseMethod("mutate_")
 }
 
 #' @rdname mutate
 #' @export
 transmute <- function(.data, ...) {
-  transmute_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("transmute")
 }
-
-#' @rdname mutate
+#' @rdname se-deprecated
 #' @export
-transmute_ <- function(.data, ..., .dots) {
+transmute_ <- function(.data, ..., .dots = list()) {
   UseMethod("transmute_")
 }
 
 #' @export
-transmute_.default <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  out <- mutate_(.data, .dots = dots)
+transmute.default <- function(.data, ...) {
+  dots <- tidy_quotes(..., .named = TRUE)
+  out <- mutate(.data, !!! dots)
 
   keep <- names(dots)
   select(out, one_of(keep))
+}
+#' @export
+transmute_.default <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  transmute(.data, !!! dots)
 }
 
 #' Arrange rows by variables
@@ -258,12 +255,11 @@ transmute_.default <- function(.data, ..., .dots) {
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
 arrange <- function(.data, ...) {
-  arrange_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("arrange")
 }
-
 #' @export
-#' @rdname arrange
-arrange_ <- function(.data, ..., .dots) {
+#' @rdname se-deprecated
+arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
 }
 
@@ -290,8 +286,6 @@ arrange_ <- function(.data, ..., .dots) {
 #'   Positive values select variables; negative values to drop variables.
 #'
 #'   Use named arguments to rename selected variables.
-#' @param .dots Use `select_()` to do standard evaluation. See
-#'   `vignette("nse")` for details
 #' @return An object of the same class as `.data`.
 #' @family single table verbs
 #' @export
@@ -318,12 +312,11 @@ arrange_ <- function(.data, ..., .dots) {
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
 select <- function(.data, ...) {
-  select_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("select")
 }
-
 #' @export
-#' @rdname select
-select_ <- function(.data, ..., .dots) {
+#' @rdname se-deprecated
+select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
 }
 
@@ -346,25 +339,21 @@ select_ <- function(.data, ..., .dots) {
 #' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
 select_if <- function(.data, .predicate, ...) {
   if (inherits(.data, "tbl_lazy")) {
-    stop(
-      "Selection with predicate currently require local sources",
-      call. = FALSE
-    )
+    abort("Selection with predicate currently require local sources")
   }
   vars <- probe_colwise_names(.data, .predicate, ...)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
-  select_(.data, .dots = vars)
+  select(.data, !!! symbols(vars))
 }
 
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
-  rename_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("rename")
 }
-
-#' @rdname select
+#' @rdname se-deprecated
 #' @export
-rename_ <- function(.data, ..., .dots) {
+rename_ <- function(.data, ..., .dots = list()) {
   UseMethod("rename_")
 }
 
@@ -383,5 +372,29 @@ rename_ <- function(.data, ..., .dots) {
 #' filter(carriers, n() < 100)
 #' }
 n <- function() {
-  stop("This function should not be called directly")
+  abort("This function should not be called directly")
 }
+
+
+#' Deprecated SE versions of main verbs.
+#'
+#' dplyr used to offer twin versions of each verb suffixed with an
+#' underscore. These versions had standard evaluation (SE) semantics:
+#' rather than taking arguments by code, like NSE verbs, they took
+#' arguments by value. Their purpose was to make it possible to
+#' program with dplyr. However, dplyr now uses tidy evaluation
+#' semantics. NSE verbs still capture their arguments, but you can now
+#' unquote parts of these arguments. This offers full programmability
+#' with NSE verbs. Thus, the underscored versions are now superfluous.
+#'
+#' Unquoting triggers immediate evaluation of its operand and inlines
+#' the result within the captured expression. This result can be a
+#' value or an expression to be evaluated later with the rest of the
+#' argument. See `vignette("programming")` for more information.
+#'
+#' @name se-deprecated
+#' @param .data A data frame.
+#' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
+#' @param vars Various meanings depending on the verb.
+#' @param args Various meanings depending on the verb.
+NULL

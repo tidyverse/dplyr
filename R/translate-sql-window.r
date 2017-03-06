@@ -216,24 +216,32 @@ common_window_funs <- function() {
 #' translate_window_where(quote(n() > 10))
 #' translate_window_where(quote(rank() > cumsum(AB)))
 translate_window_where <- function(expr, window_funs = common_window_funs()) {
-  if (is.atomic(expr) || is.name(expr)) {
-    window_where(expr, list())
-  } else if (is.call(expr)) {
-    if (as.character(expr[[1]]) %in% window_funs) {
-      name <- unique_name()
-      window_where(as.name(name), setNames(list(expr), name))
-    } else {
-      args <- lapply(expr[-1], translate_window_where, window_funs = window_funs)
-      expr <- as.call(c(expr[[1]], lapply(args, "[[", "expr")))
+  switch_type(expr,
+    quote = translate_window_where(f_rhs(expr), window_funs),
+    logical = ,
+    integer = ,
+    double = ,
+    complex = ,
+    character = ,
+    string = ,
+    symbol = window_where(expr, list()),
+    language = {
+      if (as_name(expr) %in% window_funs) {
+        name <- unique_name()
+        window_where(as_symbol(name), set_names(list(expr), name))
+      } else {
+        args <- map(expr[-1], translate_window_where, window_funs = window_funs)
+        expr <- lang(node_car(expr), .args = map(args, "[[", "expr"))
 
-      window_where(
-        expr = expr,
-        comp = unlist(lapply(args, "[[", "comp"), recursive = FALSE)
-      )
-    }
-  } else {
-    stop("Unknown type: ", typeof(expr))
-  }
+        window_where(
+          expr = expr,
+          comp = unlist(map(args, "[[", "comp"), recursive = FALSE)
+        )
+
+      }
+    },
+    abort(glue("Unknown type: ", typeof(expr)))
+  )
 }
 
 

@@ -20,6 +20,8 @@ test_that("errors for bad inputs", {
 
   expect_error(find_var(0, letters), "must take a value")
   expect_error(find_var(100, letters), "must take a value")
-  expect_error(find_var(-Inf, letters), "must take a value")
+  expect_warning(regexp = "NAs introduced by coercion",
+    expect_error(find_var(-Inf, letters), "must take a value")
+  )
   expect_error(find_var(NA_integer_, letters), "must take a value")
 })

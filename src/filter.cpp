@@ -1,7 +1,7 @@
 #include <dplyr/main.h>
 
 #include <tools/hash.h>
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 #include <tools/utils.h>
 
 #include <dplyr/GroupedDataFrame.h>
@@ -61,18 +61,18 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
   return x; // never happens
 }
 
-SEXP and_calls(const LazyDots& dots, const SymbolSet& set, const Environment& env) {
-  int ncalls = dots.size();
+SEXP and_calls(const QuosureList& quosures, const SymbolSet& set, const Environment& env) {
+  int ncalls = quosures.size();
   if (!ncalls) {
     stop("incompatible input");
   }
-  Shield<SEXP> call_(dots[0].expr());
+  Shield<SEXP> call_(quosures[0].expr());
 
   RObject res(assert_correct_filter_subcall(call_, set, env));
 
   SEXP and_symbol = Rf_install("&");
   for (int i=1; i<ncalls; i++) {
-    Shield<SEXP> call(dots[i].expr());
+    Shield<SEXP> call(quosures[i].expr());
     res = Rcpp_lang3(and_symbol, res, assert_correct_filter_subcall(call, set, env));
   }
   return res;
@@ -101,9 +101,9 @@ inline DataFrame grouped_subset(const Data& gdf, const LogicalVector& test, cons
 }
 
 template <typename Data, typename Subsets>
-DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
+DataFrame filter_grouped_single_env(const Data& gdf, const QuosureList& quosures) {
   typedef GroupedCallProxy<Data, Subsets> Proxy;
-  Environment env = dots[0].env();
+  Environment env = quosures[0].env();
 
   const DataFrame& data = gdf.data();
   SymbolVector names(data.names());
@@ -113,7 +113,7 @@ DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
   }
 
   // a, b, c ->  a & b & c
-  Call call(and_calls(dots, set, env));
+  Call call(and_calls(quosures, set, env));
 
   int nrows = data.nrows();
   LogicalVector test(nrows, TRUE);
@@ -145,7 +145,7 @@ DataFrame filter_grouped_single_env(const Data& gdf, const LazyDots& dots) {
 
 // version of grouped filter when contributions to ... come from several environment
 template <typename Data, typename Subsets>
-DataFrame filter_grouped_multiple_env(const Data& gdf, const LazyDots& dots) {
+DataFrame filter_grouped_multiple_env(const Data& gdf, const QuosureList& quosures) {
   const DataFrame& data = gdf.data();
   SymbolVector names = data.names();
   SymbolSet set;
@@ -158,12 +158,12 @@ DataFrame filter_grouped_multiple_env(const Data& gdf, const LazyDots& dots) {
 
   LogicalVector g_test;
 
-  for (int k=0; k<dots.size(); k++) {
+  for (int k=0; k<quosures.size(); k++) {
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[k];
+    const NamedQuosure& quosure = quosures[k];
 
-    Call call(lazy.expr());
-    GroupedCallProxy<Data, Subsets> call_proxy(call, gdf, lazy.env());
+    Call call(quosure.expr());
+    GroupedCallProxy<Data, Subsets> call_proxy(call, gdf, quosure.env());
     int ngroups = gdf.ngroups();
     typename Data::group_iterator git = gdf.group_begin();
     for (int i=0; i<ngroups; i++, ++git) {
@@ -191,11 +191,11 @@ DataFrame filter_grouped_multiple_env(const Data& gdf, const LazyDots& dots) {
 }
 
 template <typename Data, typename Subsets>
-DataFrame filter_grouped(const Data& gdf, const LazyDots& dots) {
-  if (dots.single_env()) {
-    return filter_grouped_single_env<Data, Subsets>(gdf, dots);
+DataFrame filter_grouped(const Data& gdf, const QuosureList& quosures) {
+  if (quosures.single_env()) {
+    return filter_grouped_single_env<Data, Subsets>(gdf, quosures);
   } else {
-    return filter_grouped_multiple_env<Data, Subsets>(gdf, dots);
+    return filter_grouped_multiple_env<Data, Subsets>(gdf, quosures);
   }
 }
 
@@ -220,16 +220,16 @@ bool combine_and(LogicalVector& test, const LogicalVector& test2) {
   return false;
 }
 
-DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
+DataFrame filter_not_grouped(DataFrame df, const QuosureList& quosures) {
   CharacterVector names = df.names();
   SymbolSet set;
   for (int i=0; i<names.size(); i++) {
     set.insert(Rf_installChar(names[i]));
   }
-  if (dots.single_env()) {
-    Environment env = dots[0].env();
+  if (quosures.single_env()) {
+    Environment env = quosures[0].env();
     // a, b, c ->  a & b & c
-    Shield<SEXP> call(and_calls(dots, set, env));
+    Shield<SEXP> call(and_calls(quosures, set, env));
 
     // replace the symbols that are in the data frame by vectors from the data frame
     // and evaluate the expression
@@ -247,10 +247,10 @@ DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
       return subset(df, test, classes_not_grouped());
     }
   } else {
-    int nargs = dots.size();
+    int nargs = quosures.size();
 
-    Call call(dots[0].expr());
-    CallProxy first_proxy(call, df, dots[0].env());
+    Call call(quosures[0].expr());
+    CallProxy first_proxy(call, df, quosures[0].env());
     LogicalVector test = check_filter_logical_result(first_proxy.eval());
     if (test.size() == 1) {
       if (!test[0]) {
@@ -263,8 +263,8 @@ DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
     for (int i=1; i<nargs; i++) {
       Rcpp::checkUserInterrupt();
 
-      Call call(dots[i].expr());
-      CallProxy proxy(call, df, dots[i].env());
+      Call call(quosures[i].expr());
+      CallProxy proxy(call, df, quosures[i].env());
       LogicalVector test2 = check_filter_logical_result(proxy.eval());
       if (combine_and(test, test2)) {
         return empty_subset(df, df.names(), classes_not_grouped());
@@ -277,18 +277,18 @@ DataFrame filter_not_grouped(DataFrame df, const LazyDots& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP filter_impl(DataFrame df, LazyDots dots) {
+SEXP filter_impl(DataFrame df, QuosureList quosures) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
   }
   check_valid_colnames(df);
   assert_all_white_list(df);
 
-  if (dots.size() == 0) return df;
+  if (quosures.size() == 0) return df;
 
   // special case
-  if (dots.size() == 1 && TYPEOF(dots[0].expr()) == LGLSXP) {
-    LogicalVector what = dots[0].expr();
+  if (quosures.size() == 1 && TYPEOF(quosures[0].expr()) == LGLSXP) {
+    LogicalVector what = quosures[0].expr();
     if (what.size() == 1) {
       if (what[0] == TRUE) {
         return df;
@@ -298,10 +298,10 @@ SEXP filter_impl(DataFrame df, LazyDots dots) {
     }
   }
   if (is<GroupedDataFrame>(df)) {
-    return filter_grouped<GroupedDataFrame, LazyGroupedSubsets>(GroupedDataFrame(df), dots);
+    return filter_grouped<GroupedDataFrame, LazyGroupedSubsets>(GroupedDataFrame(df), quosures);
   } else if (is<RowwiseDataFrame>(df)) {
-    return filter_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(RowwiseDataFrame(df), dots);
+    return filter_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(RowwiseDataFrame(df), quosures);
   } else {
-    return filter_not_grouped(df, dots);
+    return filter_not_grouped(df, quosures);
   }
 }

@@ -2,18 +2,12 @@
 % Please edit documentation in R/manip.r
 \name{summarise}
 \alias{summarise}
-\alias{summarise_}
 \alias{summarize}
-\alias{summarize_}
 \title{Summarise multiple values to a single value}
 \usage{
 summarise(.data, ...)
 
-summarise_(.data, ..., .dots)
-
 summarize(.data, ...)
-
-summarize_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -22,9 +16,6 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 \item{...}{Name-value pairs of summary functions. The name will be the
 name of the variable in the result. The value should be an expression
 that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will

@@ -70,12 +70,12 @@
 #'   group_by(vs, am, add = TRUE) %>%
 #'   group_vars()
 group_by <- function(.data, ..., add = FALSE) {
-  group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add)
+  UseMethod("group_by")
 }
-
 #' @export
-#' @rdname group_by
-group_by_ <- function(.data, ..., .dots, add = FALSE) {
+#' @rdname se-deprecated
+#' @inheritParams group_by
+group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
   UseMethod("group_by_")
 }
 
@@ -90,29 +90,32 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
-  new_groups <- lazyeval::all_dots(.dots, ...)
-  new_groups <- resolve_vars(new_groups, tbl_vars(.data))
+group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
+  new_groups <- c(tidy_quotes(...), .dots)
 
   # If any calls, use mutate to add new columns, then group by those
-  is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
-  has_name <- names2(new_groups) != ""
+  is_symbol <- map_lgl(new_groups, is_symbol)
+  named <- have_names(new_groups)
 
-  needs_mutate <- has_name | !is_name
+  needs_mutate <- named | !is_symbol
   if (any(needs_mutate)) {
-    .data <- mutate_(.data, .dots = new_groups[needs_mutate])
+    .data <- mutate(.data, !!! new_groups[needs_mutate])
   }
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use symbols
-  new_groups <- lazyeval::auto_name(new_groups)
+  new_groups <- exprs_auto_name(new_groups)
   group_names <- names(new_groups)
   if (add) {
     group_names <- c(group_vars(.data), group_names)
   }
   group_names <- unique(group_names)
 
-  list(data = .data, groups = lapply(group_names, as.name), group_names = group_names)
+  list(
+    data = .data,
+    groups = symbols(group_names),
+    group_names = group_names
+  )
 }
 
 #' @rdname group_by

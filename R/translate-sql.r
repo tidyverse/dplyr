@@ -87,14 +87,11 @@ translate_sql <- function(...,
                           vars_order = NULL,
                           window = TRUE) {
   if (!missing(vars)) {
-    stop(
-      "`vars` is deprecated. Please use partial_eval() directly.",
-      call. = FALSE
-    )
+    abort("`vars` is deprecated. Please use partial_eval() directly.")
   }
 
   translate_sql_(
-    dots(...),
+    tidy_quotes(...),
     con = con,
     vars_group = vars_group,
     vars_order = vars_order,
@@ -116,7 +113,7 @@ translate_sql_ <- function(dots,
 
   stopifnot(is.list(dots))
 
-  if (!any(has_names(dots))) {
+  if (!any(have_names(dots))) {
     names(dots) <- NULL
   }
 
@@ -132,31 +129,34 @@ translate_sql_ <- function(dots,
   }
 
   variant <- sql_translate_env(con)
-  pieces <- lapply(dots, function(x) {
-    if (is.atomic(x)) return(escape(x, con = con))
-
-    env <- sql_env(x, variant, con, window = window)
-    escape(eval(x, envir = env))
+  pieces <- map(dots, function(x) {
+    if (is_atomic(get_expr(x))) {
+      escape(get_expr(x), con = con)
+    } else {
+      overscope <- sql_overscope(x, variant, con, window = window)
+      on.exit(overscope_clean(overscope))
+      escape(overscope_eval(overscope, x))
+    }
   })
 
   sql(unlist(pieces))
 }
 
-sql_env <- function(expr, variant, con, window = FALSE,
-                    strict = getOption("dplyr.strict_sql")) {
+sql_overscope <- function(expr, variant, con, window = FALSE,
+                          strict = getOption("dplyr.strict_sql")) {
   stopifnot(is.sql_variant(variant))
 
   # Default for unknown functions
   if (!strict) {
     unknown <- setdiff(all_calls(expr), names(variant))
-    default_env <- ceply(unknown, default_op, parent = emptyenv())
+    top_env <- ceply(unknown, default_op, parent = empty_env())
   } else {
-    default_env <- new.env(parent = emptyenv())
+    top_env <- child_env(NULL)
   }
 
 
   # Known R -> SQL functions
-  special_calls <- copy_env(variant$scalar, parent = default_env)
+  special_calls <- copy_env(variant$scalar, parent = top_env)
   if (!window) {
     special_calls2 <- copy_env(variant$aggregate, parent = special_calls)
   } else {
@@ -171,12 +171,13 @@ sql_env <- function(expr, variant, con, window = FALSE,
   )
 
   # Known sql expressions
-  symbol_env <- copy_env(base_symbols, parent = name_env)
-  symbol_env
+  symbol_env <- env_clone(base_symbols, parent = name_env)
+
+  new_overscope(symbol_env, top_env)
 }
 
 default_op <- function(x) {
-  assert_that(is.string(x))
+  assert_that(is_string(x))
   infix <- c("::", "$", "@", "^", "*", "/", "+", "-", ">", ">=", "<", "<=",
     "==", "!=", "!", "&", "&&", "|", "||", "~", "<-", "<<-")
 

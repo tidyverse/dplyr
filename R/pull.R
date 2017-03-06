@@ -39,15 +39,15 @@ pull.data.frame <- function(.data, var = -1) {
 pull.tbl_sql <- function(.data, var = -1) {
   var <- find_var(var, tbl_vars(.data))
 
-  .data <- select_(.data, var)
+  .data <- select(.data, !! symbol(var))
   .data <- collect(.data)
   .data[[1]]
 }
 
 find_var <- function(var, vars) {
-  if (is.character(var) && length(var) == 1) {
+  if (is_string(var)) {
     if (!var %in% vars) {
-      stop("Unknown variable '", var, "'", call. = FALSE)
+      abort(glue("Unknown variable '{var}'", var = var))
     }
     var
   } else if (is.numeric(var) && length(var) == 1) {
@@ -55,7 +55,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      stop("`var` must take a value between -", n, " and ", n, call. = FALSE)
+      abort(glue("`var` must take a value between -{n} and {n}"))
     }
 
     if (var < 0) {
@@ -65,9 +65,6 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    stop(
-      "`var` must be a numeric or character vector of length 1",
-      call. = FALSE
-    )
+    abort("`var` must be a numeric or character vector of length 1")
   }
 }

@@ -69,83 +69,74 @@
 #' @aliases summarise_each_q mutate_each_q
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  cols <- lazyeval::lazy_dots(everything())
-  vars <- colwise_(.tbl, funs, cols)
-  summarise_(.tbl, .dots = vars)
+  vars <- list(~everything())
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  cols <- lazyeval::lazy_dots(everything())
-  vars <- colwise_(.tbl, funs, cols)
-  mutate_(.tbl, .dots = vars)
+  vars <- list(~everything())
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  mutate(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
-    stop(
-      "Conditional colwise operations currently require local sources",
-      call. = FALSE
-    )
+    abort("Conditional colwise operations currently require local sources")
   }
-  cols <- probe_colwise_names(.tbl, .predicate)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  vars <- colwise_(.tbl, funs, cols)
-
-  summarise_(.tbl, .dots = vars)
+  vars <- probe_colwise_names(.tbl, .predicate)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   if (inherits(.tbl, "tbl_lazy")) {
-    stop(
-      "Conditional colwise operations currently require local sources",
-      call. = FALSE
-    )
+    abort("Conditional colwise operations currently require local sources")
   }
-  cols <- probe_colwise_names(.tbl, .predicate)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  vars <- colwise_(.tbl, funs, cols)
-
-  mutate_(.tbl, .dots = vars)
+  vars <- probe_colwise_names(.tbl, .predicate)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  mutate(.tbl, !!! funs)
 }
 
 probe_colwise_names <- function(tbl, p, ...) {
-  if (is.logical(p)) {
+  if (is_logical(p)) {
     stopifnot(length(p) == length(tbl))
     selected <- p
   } else {
-    selected <- vapply(tbl, p, logical(1), ...)
+    selected <- map_lgl(tbl, p, ...)
   }
 
   vars <- tbl_vars(tbl)
-  vars[selected]
+  vars <- vars[selected]
+  symbols(vars)
 }
 
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
-  cols <- select_colwise_names(.tbl, .cols)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  vars <- colwise_(.tbl, funs, cols)
-
-  summarise_(.tbl, .dots = vars)
+  vars <- select_colwise_names(.tbl, .cols)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
-  cols <- select_colwise_names(.tbl, .cols)
-  funs <- as.fun_list(.funs, .env = parent.frame(), ...)
-  vars <- colwise_(.tbl, funs, cols)
-
-  mutate_(.tbl, .dots = vars)
+  vars <- select_colwise_names(.tbl, .cols)
+  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- apply_vars(funs, vars, .tbl)
+  mutate(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
@@ -171,58 +162,51 @@ summarize_if <- summarise_if
 #' @seealso [summarise_all()]
 #' @export
 vars <- function(...) {
-  structure(
-    lazyeval::lazy_dots(...),
-    class = c("col_list", "lazy_dots")
-  )
+  structure(tidy_quotes(...), class = "col_list")
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
 select_colwise_names <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
-  if (is.character(cols) || is_col_list(cols)) {
+  if (is_character(cols)) {
+    selected <- symbols(cols)
+  } else if (is_col_list(cols)) {
     selected <- cols
   } else if (is.numeric(cols)) {
-    selected <- vars[cols]
+    selected <- symbols(vars[cols])
   } else {
-    stop(
-      ".cols should be a character/numeric vector or a columns object",
-      call. = FALSE
-    )
+    abort(".cols should be a character/numeric vector or a columns object")
   }
 
   selected
 }
 
-colwise_ <- function(tbl, calls, vars) {
-  stopifnot(is.fun_list(calls))
 
-  named_calls <- attr(calls, "has_names")
-  named_vars <- any(has_names(vars))
+apply_vars <- function(funs, vars, tbl) {
+  stopifnot(is_fun_list(funs))
 
-  vars <- select_vars_(tbl_vars(tbl), vars, exclude = group_vars(tbl))
+  named_calls <- attr(funs, "have_names")
+  named_vars <- any(have_names(vars))
+  vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
-  out <- vector("list", length(vars) * length(calls))
-  dim(out) <- c(length(vars), length(calls))
+  out <- vector("list", length(vars) * length(funs))
+  dim(out) <- c(length(vars), length(funs))
 
-  vars <- enc2native(vars)
   for (i in seq_along(vars)) {
-    for (j in seq_along(calls)) {
-      out[[i, j]] <- lazyeval::interp(
-        calls[[j]],
-        .values = list(. = as.name(vars[i]))
-      )
+    for (j in seq_along(funs)) {
+      var_sym <- symbol(vars[[i]])
+      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }
   dim(out) <- NULL
 
-  if (length(calls) == 1 && !named_calls) {
+  if (length(funs) == 1 && !named_calls) {
     names(out) <- names(vars)
   } else if (length(vars) == 1 && !named_vars) {
-    names(out) <- names(calls)
+    names(out) <- names(funs)
   } else {
-    grid <- expand.grid(var = names(vars), call = names(calls))
+    grid <- expand.grid(var = names(vars), call = names(funs))
     names(out) <- paste(grid$var, grid$call, sep = "_")
   }
 
@@ -234,15 +218,14 @@ colwise_ <- function(tbl, calls, vars) {
 #' Apply one or more functions to one or more columns. Grouping variables
 #' are always excluded from modification.
 #'
-#' In the future `mutate_each()` and `summarise_each()` will
-#' be deprecated in favour of a more featureful family of functions:
-#' [mutate_all()], [mutate_at()],
-#' [mutate_if()], [summarise_all()],
-#' [summarise_at()] and [summarise_if()].
+#' `mutate_each()` and `summarise_each()` are deprecated in favour of
+#' a more featureful family of functions: [mutate_all()],
+#' [mutate_at()], [mutate_if()], [summarise_all()], [summarise_at()]
+#' and [summarise_if()].
 #' @param tbl a tbl
 #' @param funs List of function calls, generated by [funs()], or
 #'   a character vector of function names.
-#' @param vars,... Variables to include/exclude in mutate/summarise.
+#' @param ... Variables to include/exclude in mutate/summarise.
 #'   You can use same specifications as in [select()]. If missing,
 #'   defaults to all non-grouping variables.
 #'
@@ -250,49 +233,52 @@ colwise_ <- function(tbl, calls, vars) {
 #'   be either a list of expressions or a character vector.
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, lazyeval::lazy_dots(...))
+  summarise_each_(tbl, funs, tidy_quotes(...))
 }
 
 #' @export
-#' @rdname summarise_each
+#' @rdname se-deprecated
+#' @inheritParams summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  if (length(vars) == 0) {
-    vars <- lazyeval::lazy_dots(everything())
+  .Deprecated("summarise_all")
+  if (is_empty(vars)) {
+    vars <- list(~everything())
   }
-  if (is.character(funs)) {
+  if (is_character(funs)) {
     funs <- funs_(funs)
   }
 
-  vars <- colwise_(tbl, funs, vars)
-  summarise_(tbl, .dots = vars)
+  funs <- apply_vars(funs, vars, tbl)
+  summarise(tbl, !!! funs)
 }
 
 #' @rdname summarise_each
 #' @export
 summarize_each <- summarise_each
 
-#' @rdname summarise_each
+#' @rdname se-deprecated
 #' @export
 summarize_each_ <- summarise_each_
 
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ...) {
-  if (is.character(funs)) {
+  if (is_character(funs)) {
     funs <- funs_(funs)
   }
 
-  mutate_each_(tbl, funs, lazyeval::lazy_dots(...))
+  mutate_each_(tbl, funs, tidy_quotes(...))
 }
 
 #' @export
-#' @rdname summarise_each
+#' @rdname se-deprecated
 mutate_each_ <- function(tbl, funs, vars) {
-  if (length(vars) == 0) {
-    vars <- lazyeval::lazy_dots(everything())
+  .Deprecated("mutate_all")
+  if (is_empty(vars)) {
+    vars <- list(~everything())
   }
-  vars <- colwise_(tbl, funs, vars)
-  mutate_(tbl, .dots = vars)
+  funs <- apply_vars(funs, vars, tbl)
+  mutate(tbl, !!! funs)
 }
 
 

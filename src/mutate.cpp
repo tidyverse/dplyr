@@ -2,7 +2,7 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/checks.h>
 
@@ -36,18 +36,18 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataF
   return res;
 }
 
-void check_not_groups(const LazyDots& dots, const RowwiseDataFrame& gdf) {}
+void check_not_groups(const QuosureList& quosures, const RowwiseDataFrame& gdf) {}
 
-void check_not_groups(const LazyDots& dots, const GroupedDataFrame& gdf) {
-  int n = dots.size();
+void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
+  int n = quosures.size();
   for (int i=0; i<n; i++) {
-    if (gdf.has_group(dots[i].name()))
+    if (gdf.has_group(quosures[i].name()))
       stop("cannot modify grouping variable");
   }
 }
 
 
-SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
+SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
   const int nexpr = dots.size();
   const int nrows = df.nrows();
 
@@ -65,12 +65,12 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[i];
+    const NamedQuosure& quosure = dots[i];
 
-    Shield<SEXP> call_(lazy.expr());
+    Shield<SEXP> call_(quosure.expr());
     SEXP call = call_;
-    SymbolString name = lazy.name();
-    Environment env = lazy.env();
+    SymbolString name = quosure.name();
+    Environment env = quosure.env();
     call_proxy.set_env(env);
 
     if (TYPEOF(call) == SYMSXP) {
@@ -117,7 +117,7 @@ SEXP mutate_not_grouped(DataFrame df, const LazyDots& dots) {
 }
 
 template <typename Data, typename Subsets>
-SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
+SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "checking zero rows";
 
   // special 0 rows case
@@ -151,12 +151,12 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
   List variables(nexpr);
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[i];
+    const NamedQuosure& quosure = dots[i];
 
-    Environment env = lazy.env();
-    Shield<SEXP> call_(lazy.expr());
+    Environment env = quosure.env();
+    Shield<SEXP> call_(quosure.expr());
     SEXP call = call_;
-    SymbolString name = lazy.name();
+    SymbolString name = quosure.name();
     proxy.set_env(env);
 
     LOG_VERBOSE << "processing " << name.get_cstring();
@@ -185,7 +185,7 @@ SEXP mutate_grouped(const DataFrame& df, const LazyDots& dots) {
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl(DataFrame df, LazyDots dots) {
+SEXP mutate_impl(DataFrame df, QuosureList dots) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
