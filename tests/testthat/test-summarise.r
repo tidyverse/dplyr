@@ -426,7 +426,7 @@ test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
   )
 })
 
-test_that("can summsarise first(x[-1]) (#1980)", {
+test_that("can summarise first(x[-1]) (#1980)", {
   expect_equal(
     tibble(x = 1:3) %>% summarise(f = first(x[-1])),
     tibble(f = 2L)
