@@ -95,6 +95,8 @@ Result* nth_with(Vector<RTYPE> data, int idx, SEXP order) {
     return new NthWith<RTYPE, INTSXP>(data, idx, order);
   case REALSXP:
     return new NthWith<RTYPE, REALSXP>(data, idx, order);
+  case CPLXSXP:
+    return new NthWith<RTYPE, CPLXSXP>(data, idx, order);
   case STRSXP:
     return new NthWith<RTYPE, STRSXP>(data, idx, order);
   default:
@@ -113,6 +115,8 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
     return new NthWith<RTYPE, INTSXP>(data, idx, order, def[0]);
   case REALSXP:
     return new NthWith<RTYPE, REALSXP>(data, idx, order, def[0]);
+  case CPLXSXP:
+    return new NthWith<RTYPE, CPLXSXP>(data, idx, order, def[0]);
   case STRSXP:
     return new NthWith<RTYPE, STRSXP>(data, idx, order, def[0]);
   default:
