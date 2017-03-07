@@ -26,6 +26,6 @@ astyle <- function(extra_args = character()) {
   output <- system2(astyle_cmd, c(astyle_args, astyle_files, extra_args), stdout = TRUE, stderr = TRUE)
   unchanged <- grepl("^Unchanged", output)
   if (any(!unchanged)) {
-    warn(paste(output[!unchanged], collapse = "\n"))
+    rlang::warn(paste(output[!unchanged], collapse = "\n"))
   }
 }
