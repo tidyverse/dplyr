@@ -8,7 +8,6 @@
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/tbl_cpp.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
 

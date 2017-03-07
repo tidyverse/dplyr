@@ -33,7 +33,6 @@ namespace dplyr {
         if (name == visitor_names_left[i]) return get(i);
       }
       stop("visitor not found for name '%s' ", name.get_cstring());
-      return 0;
     }
     inline int size() const {
       return nvisitors;

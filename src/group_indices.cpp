@@ -6,7 +6,6 @@
 
 #include <dplyr/GroupedDataFrame.h>
 
-#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/Order.h>
 
 #include <dplyr/Result/Count.h>

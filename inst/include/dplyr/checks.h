@@ -51,7 +51,6 @@ namespace dplyr {
     // Everything else can fall back to R's default
     default:
       return std::string(Rf_type2char(TYPEOF(x)));
-      break;
     }
   }
 
@@ -75,9 +74,6 @@ namespace dplyr {
       } else {
         Rcpp::stop("Column `%s` must be a vector, not a %s", name.get_cstring(), type_name(x));
       }
-
-      // Unreachable, can be removed with Rcpp > 0.12.5.2
-      return DPLYR_LGLSXP;
     }
   }
 

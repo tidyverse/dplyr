@@ -11,7 +11,6 @@
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/GroupedDataFrame.h>
 
-#include <dplyr/tbl_cpp.h>
 #include <dplyr/Collecter.h>
 
 using namespace Rcpp;

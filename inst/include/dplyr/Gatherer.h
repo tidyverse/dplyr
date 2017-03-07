@@ -240,7 +240,6 @@ namespace dplyr {
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
-    return 0;
   }
 
   template <typename Data, typename Subsets>

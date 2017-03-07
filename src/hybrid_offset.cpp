@@ -12,7 +12,7 @@ using namespace dplyr;
 
 struct LeadLag {
 
-  LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(false) {
+  explicit LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(false) {
 
     SEXP p = CDR(call);
     SEXP tag = TAG(p);
@@ -59,7 +59,7 @@ struct LeadLag {
 };
 
 template < template<int> class Templ>
-Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
+Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
   LeadLag args(call);
   if (!args.ok) return 0;
   RObject& data = args.data;

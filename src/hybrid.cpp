@@ -9,13 +9,6 @@
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
-#include <dplyr/Result/Lead.h>
-#include <dplyr/Result/Lag.h>
-#include <dplyr/Result/CumSum.h>
-#include <dplyr/Result/CumMin.h>
-#include <dplyr/Result/CumMax.h>
-#include <dplyr/Result/In.h>
-
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -99,8 +92,9 @@ Result* constant_handler(SEXP constant) {
     return new ConstantResult<STRSXP>(constant);
   case LGLSXP:
     return new ConstantResult<LGLSXP>(constant);
+  default:
+    return 0;
   }
-  return 0;
 }
 
 class VariableResult : public Result {

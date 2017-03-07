@@ -204,10 +204,10 @@ namespace dplyr {
         int n = chunk.size();
         j += Increment::pre_increment(chunk, m);
         if (Rcpp::traits::is_na<RTYPE>(key)) {
-          typename Increment::scalar_type na =
+          typename Increment::scalar_type inc_na =
             Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >();
           for (int k=0; k<n; k++) {
-            out[ chunk[k] ] = na;
+            out[ chunk[k] ] = inc_na;
           }
         } else {
           for (int k=0; k<n; k++) {
