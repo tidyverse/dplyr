@@ -62,12 +62,9 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   // handle 2nd arg
   SEXP ntiles = CADDR(call);
-  double number_tiles;
-  try {
-    number_tiles = as<int>(ntiles);
-  } catch (...) {
-    stop("could not convert n to scalar integer");
-  }
+  if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
+  int number_tiles = as<int>(ntiles);
+  if (number_tiles == NA_INTEGER) return 0;
 
   RObject data(CADR(call));
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
