@@ -575,7 +575,7 @@ namespace dplyr {
   };
 
   template <>
-  inline bool Collecter_Impl<LGLSXP>::can_promote(SEXP x) const {
+  inline bool Collecter_Impl<LGLSXP>::can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return is_logical_all_na();
   }
 

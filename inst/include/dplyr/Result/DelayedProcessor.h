@@ -52,7 +52,7 @@ namespace dplyr {
   }
 
   template <int RTYPE>
-  inline bool valid_promotion(int rtype) {
+  inline bool valid_promotion(BOOST_ATTRIBUTE_UNUSED int rtype) {
     return false;
   }
 

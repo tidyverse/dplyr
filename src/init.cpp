@@ -29,7 +29,7 @@ SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1);
 }
 
-extern "C" void R_init_dplyr(DllInfo* info) {
+extern "C" void R_init_dplyr(BOOST_ATTRIBUTE_UNUSED DllInfo* info) {
   DPLYR_REGISTER(build_index_cpp)
   DPLYR_REGISTER(registerHybridHandler)
 
