@@ -13,6 +13,8 @@ include_directories(${R_LIBRARY}/bindrcpp/include)
 include_directories(${R_INCLUDE})
 include_directories(inst/include)
 
+add_definitions(-DCOMPILING_DPLYR -DBOOST_NO_INT64_T -DBOOST_NO_INTEGRAL_INT64_T -DBOOST_NO_LONG_LONG)
+
 file(GLOB SOURCE_FILES src/*.cpp src/*.c)
 add_library(dplyr ${SOURCE_FILES})
 

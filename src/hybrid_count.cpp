@@ -18,7 +18,7 @@ Result* count_prototype(SEXP args, const ILazySubsets&, int) {
   return new Count;
 }
 
-Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
+Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
   MultipleVectorVisitors visitors;
   bool na_rm = false;
 

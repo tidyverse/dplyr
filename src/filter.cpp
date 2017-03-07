@@ -5,12 +5,10 @@
 #include <tools/utils.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
-#include <dplyr/checks.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -249,8 +247,8 @@ DataFrame filter_not_grouped(DataFrame df, const QuosureList& quosures) {
   } else {
     int nargs = quosures.size();
 
-    Call call(quosures[0].expr());
-    CallProxy first_proxy(call, df, quosures[0].env());
+    Call first_call(quosures[0].expr());
+    CallProxy first_proxy(first_call, df, quosures[0].env());
     LogicalVector test = check_filter_logical_result(first_proxy.eval());
     if (test.size() == 1) {
       if (!test[0]) {

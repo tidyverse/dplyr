@@ -77,7 +77,6 @@ namespace dplyr {
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
-    return 0;
   }
 
 
@@ -143,7 +142,6 @@ namespace dplyr {
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
-    return 0;
   }
 }
 

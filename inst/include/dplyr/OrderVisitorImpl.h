@@ -266,7 +266,6 @@ namespace dplyr {
     }
 
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
-    return 0;
   }
 }
 

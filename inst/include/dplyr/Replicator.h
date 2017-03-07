@@ -55,7 +55,6 @@ namespace dplyr {
     }
 
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(v)));
-    return 0;
   }
 
 } // namespace dplyr

@@ -23,7 +23,7 @@ Imports:
     utils,
     rlang,
     R6,
-    Rcpp (>= 0.12.3),
+    Rcpp (>= 0.12.6),
     tibble (>= 1.2)
 Suggests: 
     RSQLite (>= 1.0.0),
