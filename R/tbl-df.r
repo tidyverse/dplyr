@@ -54,7 +54,7 @@ arrange_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 filter.tbl_df <- function(.data, ...) {
   dots <- tidy_quotes(...)
-  if (any(has_names(dots))) {
+  if (any(have_names(dots))) {
     abort("filter() takes unnamed arguments. Do you need `==`?")
   }
   dots <- exprs_auto_name(dots)

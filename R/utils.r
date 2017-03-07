@@ -63,8 +63,6 @@ commas <- function(...) paste0(..., collapse = ", ")
 
 in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
 
-has_names <- rlang::have_names
-
 named <- function(...) {
   x <- c(...)
 

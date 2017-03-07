@@ -83,7 +83,7 @@ recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
 recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- c(list(...), .dots)
 
-  nms <- has_names(values)
+  nms <- have_names(values)
   if (all(nms)) {
     vals <- as.double(names(values))
   } else if (all(!nms)) {
@@ -114,7 +114,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
 #' @export
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- c(list(...), .dots)
-  if (!all(has_names(values))) {
+  if (!all(have_names(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
 
@@ -141,7 +141,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
     stop("No replacements provided", call. = FALSE)
   }
 
-  if (!all(has_names(values))) {
+  if (!all(have_names(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
   if (!is.null(.missing)) {
