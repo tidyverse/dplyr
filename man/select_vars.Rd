@@ -2,18 +2,12 @@
 % Please edit documentation in R/select-vars.R
 \name{select_vars}
 \alias{select_vars}
-\alias{select_vars_}
 \alias{rename_vars}
-\alias{rename_vars_}
 \title{Select variables.}
 \usage{
 select_vars(vars, ..., include = character(), exclude = character())
 
-select_vars_(vars, args, include = character(), exclude = character())
-
 rename_vars(vars, ...)
-
-rename_vars_(vars, args)
 }
 \arguments{
 \item{vars}{A character vector of existing column names.}
@@ -58,10 +52,8 @@ select_vars(names(iris), petal = starts_with("Petal"))
 # Rename variables preserving all existing
 rename_vars(names(iris), petal_length = Petal.Length)
 
-# Standard evaluation -------------------------------------------------------
-# You can use names, calls, formulas (or lists of), or a character vector
-select_vars_(names(iris), list(~Petal.Length))
-select_vars_(names(iris), list(quote(Petal.Length)))
-select_vars_(names(iris), "Petal.Length")
+# You can unquote names or formulas (or lists of)
+select_vars(names(iris), !!! list(~Petal.Length))
+select_vars(names(iris), !! quote(Petal.Length))
 }
 \keyword{internal}

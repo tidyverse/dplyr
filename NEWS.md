@@ -1,6 +1,15 @@
 # dplyr 0.5.0.9000
 
 * dplyr no longer messages that you need dtplyr to work with data.table (#2489).
+* All underscored functions are now deprecated. You can now use the
+  main verbs and unquote-splice values and expressions (see the
+  vignette on programming with dplyr).
+
+* `column()` has been removed without deprecation (it was never
+  documented explicitly).
+
+* Helper functions in `select()` (and related verbs) are now evaluated
+  in a context where column names do not exist (#2184).
 
 * `bind_cols()` now calls `tibble::repair_names()` to ensure that all
   names are unique (#2248).

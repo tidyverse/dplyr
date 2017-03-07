@@ -3,7 +3,7 @@
 #include <tools/hash.h>
 #include <tools/match.h>
 
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
@@ -409,16 +409,16 @@ private:
   int n_neg;
 };
 
-SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
+SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
 
   const DataFrame& data = gdf.data();
-  const Lazy& lazy = dots[0];
-  Environment env = lazy.env();
+  const NamedQuosure& quosure = dots[0];
+  Environment env = quosure.env();
   SymbolVector names = data.names();
 
   // we already checked that we have only one expression
-  Call call(lazy.expr());
+  Call call(quosure.expr());
 
   std::vector<int> indx;
   indx.reserve(1000);
@@ -478,12 +478,12 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
 
 }
 
-SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
+SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   CharacterVector names = df.names();
 
-  const Lazy& lazy = dots[0];
-  Call call(lazy.expr());
-  CallProxy proxy(call, df, lazy.env());
+  const NamedQuosure& quosure = dots[0];
+  Call call(quosure.expr());
+  CallProxy proxy(call, df, quosure.env());
   int nr = df.nrows();
 
   IntegerVector test = check_filter_integer_result(proxy.eval());
@@ -542,7 +542,7 @@ SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP slice_impl(DataFrame df, LazyDots dots) {
+SEXP slice_impl(DataFrame df, QuosureList dots) {
   if (dots.size() == 0) return df;
   if (dots.size() != 1)
     stop("slice only accepts one expression");

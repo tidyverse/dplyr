@@ -34,8 +34,8 @@ init_logging <- function(log_level) {
     invisible(.Call('dplyr_init_logging', PACKAGE = 'dplyr', log_level))
 }
 
-arrange_impl <- function(data, dots) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
+arrange_impl <- function(data, quosures) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, quosures)
 }
 
 #' Do values in a numeric vector fall in specified range?
@@ -82,12 +82,8 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
-filter_impl <- function(df, dots) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
-}
-
-resolve_vars <- function(new_groups, names) {
-    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
+filter_impl <- function(df, quosures) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, quosures)
 }
 
 grouped_df_impl <- function(data, symbols, drop) {

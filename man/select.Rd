@@ -2,18 +2,12 @@
 % Please edit documentation in R/manip.r
 \name{select}
 \alias{select}
-\alias{select_}
 \alias{rename}
-\alias{rename_}
 \title{Select/rename variables by name}
 \usage{
 select(.data, ...)
 
-select_(.data, ..., .dots)
-
 rename(.data, ...)
-
-rename_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -25,9 +19,6 @@ variable names like they are positions.
 Positive values select variables; negative values to drop variables.
 
 Use named arguments to rename selected variables.}
-
-\item{.dots}{Use \code{select_()} to do standard evaluation. See
-\code{vignette("nse")} for details}
 }
 \value{
 An object of the same class as \code{.data}.

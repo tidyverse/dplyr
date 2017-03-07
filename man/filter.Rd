@@ -2,12 +2,9 @@
 % Please edit documentation in R/manip.r
 \name{filter}
 \alias{filter}
-\alias{filter_}
 \title{Return rows with matching conditions}
 \usage{
 filter(.data, ...)
-
-filter_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -16,9 +13,6 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 \item{...}{Logical predicates defined in terms of the variables in \code{.data}.
 Multiple conditions are combined with \code{&}. Only rows where the
 conditon evalutes to \code{TRUE} are kept.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.

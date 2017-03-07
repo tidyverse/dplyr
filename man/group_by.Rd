@@ -2,15 +2,12 @@
 % Please edit documentation in R/group-by.r
 \name{group_by}
 \alias{group_by}
-\alias{group_by_}
 \alias{groups}
 \alias{group_vars}
 \alias{ungroup}
 \title{Group a tbl by one or more variables.}
 \usage{
 group_by(.data, ..., add = FALSE)
-
-group_by_(.data, ..., .dots, add = FALSE)
 
 groups(x)
 
@@ -28,9 +25,6 @@ will be silently dropped.}
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To instead add to the existing groups,
 use \code{add = TRUE}}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 
 \item{x}{data \code{\link[=tbl]{tbl()}}}
 }

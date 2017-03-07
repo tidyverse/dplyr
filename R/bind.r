@@ -141,7 +141,7 @@ is_data_list <- function(x) {
     return(TRUE)
 
   # With names
-  if (any(!has_names(x)))
+  if (any(!have_names(x)))
     return(FALSE)
 
   # Where each element is an 1d vector or list

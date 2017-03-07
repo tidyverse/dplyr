@@ -1,7 +1,7 @@
 #include <dplyr/main.h>
 
 #include <tools/DotsOf.h>
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 #include <dplyr/registration.h>
 #include <dplyr/BoolResult.h>
 #include <dplyr/GroupedDataFrame.h>

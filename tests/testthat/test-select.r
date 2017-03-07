@@ -44,6 +44,7 @@ test_that("select doesn't fail if some names missing", {
   # expect_equal(select(df3, x), data.frame(x = 1:10))
 })
 
+
 # Empty selects -------------------------------------------------
 
 test_that("select with no args returns nothing", {

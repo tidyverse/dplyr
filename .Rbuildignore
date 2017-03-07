@@ -22,3 +22,9 @@ demo/pandas
 ^ISSUE_TEMPLATE\.md$
 ^data-raw$
 ^LICENSE\.md$
+^BROWSE$
+^GPATH$
+^GRTAGS$
+^GTAGS$
+^TAGS$
+^\.dir-locals\.el$

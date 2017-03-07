@@ -4,7 +4,7 @@
 \alias{group_by_prepare}
 \title{Prepare for grouping.}
 \usage{
-group_by_prepare(.data, ..., .dots, add = FALSE)
+group_by_prepare(.data, ..., .dots = list(), add = FALSE)
 }
 \value{
 A list

@@ -2,30 +2,18 @@
 % Please edit documentation in R/count-tally.R
 \name{tally}
 \alias{tally}
-\alias{tally_}
 \alias{count}
-\alias{count_}
 \alias{add_tally}
-\alias{add_tally_}
 \alias{add_count}
-\alias{add_count_}
 \title{Counts/tally observations by group.}
 \usage{
-tally(x, wt, sort = FALSE)
-
-tally_(x, wt, sort = FALSE)
+tally(x, wt = NULL, sort = FALSE)
 
 count(x, ..., wt = NULL, sort = FALSE)
 
-count_(x, vars, wt = NULL, sort = FALSE)
-
-add_tally(x, wt, sort = FALSE)
-
-add_tally_(x, wt = NULL, sort = FALSE)
+add_tally(x, wt = NULL, sort = FALSE)
 
 add_count(x, ..., wt = NULL, sort = FALSE)
-
-add_count_(x, vars, wt = NULL, sort = FALSE)
 }
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
@@ -36,7 +24,7 @@ variable \code{wt}.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 
-\item{..., vars}{Variables to group by.}
+\item{...}{Variables to group by.}
 }
 \value{
 A tbl, grouped the same way as \code{x}.

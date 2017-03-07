@@ -3,43 +3,11 @@
 #include <tools/match.h>
 #include <tools/utils.h>
 
-#include <dplyr/extract_column.h>
-
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/Groups.h>
 
 using namespace Rcpp;
 using namespace dplyr;
-
-// [[Rcpp::export]]
-SEXP resolve_vars(List new_groups, CharacterVector names) {
-  int n = new_groups.size();
-  for (int i=0; i<n; i++) {
-    List lazy = new_groups[i];
-    Environment env = lazy[1];
-    SEXP s = lazy[0];
-
-    SymbolString name;
-
-    // expand column
-    if (TYPEOF(s) == SYMSXP) {
-      name = SymbolString(Symbol(s));
-    } else if (TYPEOF(s) == LANGSXP && CAR(s) == Rf_install("column") && Rf_length(s) == 2) {
-      name = extract_column(CADR(s), env);
-    } else {
-      continue;
-    }
-    // check that s is indeed in the data
-
-    int pos = as<int>(r_match(CharacterVector::create(name.get_string()), names));
-    if (pos == NA_INTEGER) {
-      stop("unknown variable to group by : %s", name.get_cstring());
-    }
-    lazy[0] = name.get_symbol();
-  }
-
-  return new_groups;
-}
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {

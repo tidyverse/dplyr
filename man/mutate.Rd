@@ -2,18 +2,12 @@
 % Please edit documentation in R/manip.r
 \name{mutate}
 \alias{mutate}
-\alias{mutate_}
 \alias{transmute}
-\alias{transmute_}
 \title{Add new variables}
 \usage{
 mutate(.data, ...)
 
-mutate_(.data, ..., .dots)
-
 transmute(.data, ...)
-
-transmute_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -21,9 +15,6 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 
 \item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
 a variable.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.

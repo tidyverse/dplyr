@@ -13,19 +13,6 @@ deparse_trunc <- function(x, width = getOption("width")) {
   paste0(substr(text[1], 1, width - 3), "...")
 }
 
-is.lang <- function(x) {
-  is.name(x) || is.atomic(x) || is.call(x)
-}
-
-is.lang.list <- function(x) {
-  if (is.null(x)) return(TRUE)
-
-  is.list(x) && all_apply(x, is.lang)
-}
-on_failure(is.lang.list) <- function(call, env) {
-  paste0(call$x, " is not a list containing only names, calls and atomic vectors")
-}
-
 all_apply <- function(xs, f) {
   for (x in xs) {
     if (!f(x)) return(FALSE)
@@ -45,34 +32,18 @@ drop_last <- function(x) {
   x[-length(x)]
 }
 
-compact <- function(x) Filter(Negate(is.null), x)
-
-names2 <- function(x) {
-  names(x) %||% rep("", length(x))
-}
-
-has_names <- function(x) {
-  nms <- names(x)
-  if (is.null(nms)) {
-    rep(FALSE, length(x))
-  } else {
-    !is.na(nms) & nms != ""
-  }
-}
-
-"%||%" <- function(x, y) if (is.null(x)) y else x
-
 is.wholenumber <- function(x) {
   trunc(x) == x
 }
 
 deparse_all <- function(x) {
-  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
-  vapply(x, deparse2, FUN.VALUE = character(1L))
+  x <- map_if(x, is_formula, f_rhs)
+  map_chr(x, expr_text, width = 500L)
 }
 
 deparse_names <- function(x) {
-  vapply(x, deparse, FUN.VALUE = character(1L))
+  x <- map_if(x, is_formula, f_rhs)
+  map_chr(x, deparse)
 }
 
 #' Provides comma-separated string out ot the parameters
@@ -81,7 +52,7 @@ deparse_names <- function(x) {
 #' @param ... Arguments to be constructed into the string
 named_commas <- function(...) {
   x <- c(...)
-  if (is.null(names(x))) {
+  if (is_null(names(x))) {
     paste0(x, collapse = ", ")
   } else {
     paste0(names(x), " = ", x, collapse = ", ")
@@ -110,11 +81,6 @@ unique_name <- local({
   }
 })
 
-isFALSE <- function(x) identical(x, FALSE)
-
-f_lhs <- function(x) if (length(x) >= 3) x[[2]] else NULL
-f_rhs <- function(x) x[[length(x)]]
-
 succeeds <- function(x, quiet = FALSE) {
   tryCatch(
     {
@@ -129,14 +95,11 @@ succeeds <- function(x, quiet = FALSE) {
   )
 }
 
-# is.atomic() is TRUE for atomic vectors AND NULL!
-is_atomic <- function(x) is.atomic(x) && !is.null(x)
-
 is_1d <- function(x) {
   # dimension check is for matrices and data.frames
   (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
 }
 
-is_bare_list <- function(x) is.list(x) && !is.object(x)
-
-is_negated <- function(x) is.call(x) && (length(x) == 2) && identical(x[[1]], quote(`-`))
+is_negated <- function(x) {
+  is_lang(x, "-", n = 1)
+}

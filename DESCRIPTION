@@ -14,16 +14,17 @@ BugReports: https://github.com/hadley/dplyr/issues
 Depends: 
     R (>= 3.1.2)
 Imports: 
-    methods,
     assertthat,
     bindrcpp,
+    DBI (>= 0.5),
+    glue,
+    magrittr,
+    methods,
     utils,
+    rlang,
     R6,
     Rcpp (>= 0.12.3),
-    tibble (>= 1.2),
-    magrittr,
-    lazyeval (>= 0.1.10),
-    DBI (>= 0.5)
+    tibble (>= 1.2)
 Suggests: 
     RSQLite (>= 1.0.0),
     RMySQL,
@@ -55,6 +56,8 @@ Collate:
     'case_when.R'
     'coalesce.R'
     'colwise.R'
+    'compat-lazyeval.R'
+    'compat-purrr.R'
     'compute-collect.r'
     'copy-to.r'
     'count-tally.R'
@@ -130,9 +133,13 @@ Collate:
     'translate-sql-base.r'
     'translate-sql.r'
     'ts.R'
+    'utils-expr.R'
     'utils-format.r'
     'utils-replace-with.R'
     'utils.r'
     'zzz.r'
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+Remotes:
+    hadley/rlang#49,
+    tidyverse/glue

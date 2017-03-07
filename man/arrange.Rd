@@ -2,12 +2,9 @@
 % Please edit documentation in R/manip.r
 \name{arrange}
 \alias{arrange}
-\alias{arrange_}
 \title{Arrange rows by variables}
 \usage{
 arrange(.data, ...)
-
-arrange_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -15,9 +12,6 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 
 \item{...}{Comma separated list of unquoted variable names. Use
 \code{\link[=desc]{desc()}} to sort a variable in descending order.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \value{
 An object of the same class as \code{.data}.

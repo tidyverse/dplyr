@@ -10,9 +10,9 @@ test_that("filter results independent of data tbl (simple)", {
   skip_if_no_sqlite()
 
   expected <- df[df$a > 6, , drop = FALSE]
-  compare_tbls(tbls[c("df", "sqlite")], function(x) {
+  expect_warning(compare_tbls(tbls[c("df", "sqlite")], function(x) {
     filter_(x, ~ a > 6)
-  }, expected)
+  }, expected), "underscored versions are deprecated")
 })
 
 test_that("filter captures local variables", {
@@ -222,7 +222,6 @@ test_that("row_number does not segfault with example from #781", {
 
 test_that("filter does not alter expression (#971)", {
   my_filter <- ~ am == 1
-  expect_error(mtcars %>% filter(my_filter))
   expect_equal(my_filter[[2]][[2]], as.name("am"))
 })
 
