@@ -12,7 +12,7 @@ using namespace dplyr;
 
 struct LeadLag {
 
-  LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(false) {
+  explicit LeadLag(SEXP call) : data(R_NilValue), n(1), def(R_NilValue), ok(false) {
 
     SEXP p = CDR(call);
     SEXP tag = TAG(p);
