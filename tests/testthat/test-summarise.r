@@ -421,7 +421,15 @@ test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
   foo <- data_frame(x = 1:10, y = 1:10)
   expect_error(
     foo %>% group_by(x) %>% summarise(first_y = first(z)),
-    "could not find variable"
+    "object 'z' not found",
+    fixed = TRUE
+  )
+})
+
+test_that("can summarise first(x[-1]) (#1980)", {
+  expect_equal(
+    tibble(x = 1:3) %>% summarise(f = first(x[-1])),
+    tibble(f = 2L)
   )
 })
 

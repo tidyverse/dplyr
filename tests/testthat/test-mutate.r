@@ -282,7 +282,11 @@ test_that("hybrid evaluation goes deep enough (#554)", {
 })
 
 test_that("hybrid does not segfault when given non existing variable (#569)", {
-  expect_error(mtcars %>% summarise(first(mp)), "could not find variable")
+  expect_error(
+    mtcars %>% summarise(first(mp)),
+    "object 'mp' not found",
+    fixed = TRUE
+  )
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
