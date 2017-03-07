@@ -1,6 +1,15 @@
 # dplyr 0.5.0.9000
 
+* Fixed segmentation faults in hybrid evaluation of `first()`, `last()`,
+  `nth()`,  `lead()`, and `lag()`. These functions now always fall back to the R
+  implementation if called with arguments that the hybrid evaluator cannot
+  handle (#948, #1980).
+
+* Fixed rare error that could lead to a segmentation fault in
+  `all_equal(ignore_col_order = FALSE)` (#2502).
+
 * dplyr no longer messages that you need dtplyr to work with data.table (#2489).
+
 * All underscored functions are now deprecated. You can now use the
   main verbs and unquote-splice values and expressions (see the
   vignette on programming with dplyr).
