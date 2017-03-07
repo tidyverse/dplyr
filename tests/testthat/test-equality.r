@@ -164,3 +164,15 @@ test_that("proper message formatting for set operations", {
     fixed = TRUE
   )
 })
+
+test_that("ignore column order", {
+  expect_equal(
+    all.equal(data_frame(a = 1, b = 2), data_frame(b = 2, a = 1), ignore_col_order = FALSE),
+    "Same column names, but different order"
+  )
+
+  expect_equal(
+    all.equal(data_frame(a = 1, b = 2), data_frame(a = 1), ignore_col_order = FALSE),
+    "Cols in x but not y: b. "
+  )
+})
