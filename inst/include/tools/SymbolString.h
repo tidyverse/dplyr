@@ -31,6 +31,10 @@ namespace dplyr {
       return s.get_cstring();
     }
 
+    const bool is_empty() const {
+      return s == "";
+    }
+
     SEXP get_sexp() const {
       return s.get_sexp();
     }

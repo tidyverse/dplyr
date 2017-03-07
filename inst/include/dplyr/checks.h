@@ -14,6 +14,47 @@ namespace dplyr {
     DPLYR_VECSXP = VECSXP
   };
 
+  inline std::string type_name(SEXP x) {
+    switch (TYPEOF(x)) {
+    case NILSXP:
+      return "NULL";
+    case SYMSXP:
+      return "symbol";
+    case S4SXP:
+      return "S4";
+    case LGLSXP:
+      return "logical vector";
+    case INTSXP:
+      return "integer vector";
+    case REALSXP:
+      return "double vector";
+    case STRSXP:
+      return "character vector";
+    case CPLXSXP:
+      return "complex vector";
+    case RAWSXP:
+      return "raw vector";
+    case VECSXP:
+      return "list";
+    case LANGSXP:
+      return "quoted call";
+    case EXPRSXP:
+      return "expression";
+    case ENVSXP:
+      return "environment";
+
+    case SPECIALSXP:
+    case BUILTINSXP:
+    case CLOSXP:
+      return "function";
+
+    // Everything else can fall back to R's default
+    default:
+      return std::string(Rf_type2char(TYPEOF(x)));
+      break;
+    }
+  }
+
   inline SupportedType check_supported_type(SEXP x, const SymbolString& name = String()) {
     switch (TYPEOF(x)) {
     case LGLSXP:
@@ -29,11 +70,10 @@ namespace dplyr {
     case VECSXP:
       return DPLYR_VECSXP;
     default:
-      if (name.get_string() == String()) {
-        stop("Unsupported type %s", type2name(x));
-      }
-      else {
-        stop("Unsupported type %s for column \"%s\"", type2name(x), name.get_cstring());
+      if (name.is_empty()) {
+        Rcpp::stop("Unsupported type %s", type_name(x));
+      } else {
+        Rcpp::stop("Column `%s` must be a vector, not a %s", name.get_cstring(), type_name(x));
       }
 
       // Unreachable, can be removed with Rcpp > 0.12.5.2

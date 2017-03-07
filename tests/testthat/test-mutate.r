@@ -283,7 +283,11 @@ test_that("hybrid evaluation goes deep enough (#554)", {
 })
 
 test_that("hybrid does not segfault when given non existing variable (#569)", {
-  expect_error(mtcars %>% summarise(first(mp)), "could not find variable")
+  expect_error(
+    mtcars %>% summarise(first(mp)),
+    "object 'mp' not found",
+    fixed = TRUE
+  )
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
@@ -487,7 +491,7 @@ test_that("mutate handles factors (#1414)", {
     g = c(1, 1, 1, 2, 2, 3, 3),
     f = c("a", "b", "a", "a", "a", "b", "b")
   )
-  res <- d %>% group_by(g) %>% mutate(f2 = factor(f))
+  res <- d %>% group_by(g) %>% mutate(f2 = factor(f, levels = c("a", "b")))
   expect_equal(as.character(res$f2), res$f)
 })
 
@@ -574,13 +578,7 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
   expect_equal(setdiff(a1, a2), character(0))
 })
 
-test_that("grouped mutate errors on incompatible column type (#1641)", {
-  df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
-  expect_error(mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
-})
-
 test_that("grouped mutate coerces integer + double -> double (#1892)", {
-  skip("Currently failing")
   df <- data_frame(
     id = c(1, 4),
     value = c(1L, NA),
@@ -589,23 +587,29 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
     group_by(group) %>%
     mutate(value = ifelse(is.na(value), 0, value))
   expect_type(df$value, "double")
-  expect_identical(df$value, c(0, 1))
+  expect_identical(df$value, c(1, 0))
 })
 
 test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
-  skip("Currently failing")
+  factor_or_character <- function(x)  {
+    if (x > 3) {
+      return(factor("hello"))
+    } else {
+      return("world")
+    }
+  }
+
   df <- data_frame(
     id = c(1, 4),
-    value = factor(c("blue", NA)),
     group = c("A", "B")
   ) %>%
     group_by(group)
   expect_warning(
     df <- df %>%
-      mutate(value = ifelse(id > 3, "foo", value))
+      mutate(value = factor_or_character(id))
   )
   expect_type(df$value, "character")
-  expect_identical(df$value, c("blue", "foo"))
+  expect_identical(df$value, c("world", "hello"))
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {
@@ -640,9 +644,18 @@ test_that("ntile falls back to R (#1750)", {
   expect_equal(res$a, rep(1, 150))
 })
 
-test_that("mutate fails gracefully on raw columns (#1803)", {
+
+# Error messages ----------------------------------------------------------
+
+test_that("mutate fails gracefully on non-vector columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(mutate(df, a = 1), 'Unsupported type RAWSXP for column "b"')
-  expect_error(mutate(df, b = 1), 'Unsupported type RAWSXP for column "b"')
-  expect_error(mutate(df, c = 1), 'Unsupported type RAWSXP for column "b"')
+  expect_error(mutate(df, a = 1), 'Column `b` must be a vector, not a raw vector')
+  expect_error(mutate(df, b = 1), 'Column `b` must be a vector, not a raw vector')
+  expect_error(mutate(df, c = 1), 'Column `b` must be a vector, not a raw vector')
 })
+
+test_that("grouped mutate errors on incompatible column type (#1641)", {
+  expect_error(tibble(x = 1) %>% mutate(y = mean), "Column `y` must be a vector, not a function")
+  expect_error(tibble(x = 1) %>% mutate(y = quote(a)), "Column `y` must be a vector, not a symbol")
+})
+

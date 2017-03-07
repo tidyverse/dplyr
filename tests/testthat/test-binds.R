@@ -48,6 +48,17 @@ test_that("bind_cols handles all-NULL values (#2303)", {
   expect_equal(bind_cols(list(a = NULL, b = NULL)), data.frame())
 })
 
+test_that("bind_cols repairs names", {
+  df <- tibble(a = 1, b = 2)
+  bound <- bind_cols(df, df)
+
+  repaired <- as_tibble(tibble::repair_names(
+    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE)
+  ))
+
+  expect_equal(bound, repaired)
+})
+
 # rows --------------------------------------------------------------------
 
 df_var <- data_frame(
@@ -445,4 +456,18 @@ test_that("bind_rows rejects data frame columns (#2015)", {
     "Columns of class data.frame not supported",
     fixed = TRUE
   )
+})
+
+test_that("bind_rows accepts difftime objects", {
+  df1 <- data.frame(x = as.difftime(1, units = "hours"))
+  df2 <- data.frame(x = as.difftime(1, units = "mins"))
+  res <- bind_rows(df1, df2)
+  expect_equal(res$x, as.difftime(c(3600, 60), units = "secs"))
+})
+
+test_that("bind_rows accepts hms objects", {
+  df1 <- data.frame(x = hms::hms(hours = 1))
+  df2 <- data.frame(x = as.difftime(1, units = "mins"))
+  res <- bind_rows(df1, df2)
+  expect_equal(res$x, hms::hms(hours = c(1, 0), minutes = c(0, 1)))
 })

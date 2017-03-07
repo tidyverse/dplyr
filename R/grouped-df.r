@@ -217,7 +217,7 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.grouped_df <- function(.data, ..., .dots, .keep_all = FALSE) {
+distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   groups <- lazyeval::as.lazy_dots(groups(.data))
   dist <- distinct_vars(
     .data, ..., .dots = c(.dots, groups),

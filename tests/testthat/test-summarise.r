@@ -421,7 +421,15 @@ test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
   foo <- data_frame(x = 1:10, y = 1:10)
   expect_error(
     foo %>% group_by(x) %>% summarise(first_y = first(z)),
-    "could not find variable"
+    "object 'z' not found",
+    fixed = TRUE
+  )
+})
+
+test_that("can summarise first(x[-1]) (#1980)", {
+  expect_equal(
+    tibble(x = 1:3) %>% summarise(f = first(x[-1])),
+    tibble(f = 2L)
   )
 })
 
@@ -758,7 +766,7 @@ test_that("summarise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     summarise(df, c = b[[1]]),
-    'Unsupported type RAWSXP for column "c"'
+    "Column `c` must be a vector, not a raw vector"
   )
 })
 

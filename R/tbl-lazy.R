@@ -86,7 +86,7 @@ mutate_.tbl_lazy <- function(.data, ..., .dots) {
 }
 
 #' @export
-group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
+group_by_.tbl_lazy <- function(.data, ..., .dots, add = FALSE) {
   dots <- lazyeval::all_dots(.dots, ..., all_named = FALSE)
   dots <- partial_eval(dots, vars = op_vars(.data))
 

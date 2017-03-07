@@ -22,17 +22,6 @@ Rcpp_version <- utils::packageVersion("Rcpp")
 }
 
 .onAttach <- function(libname, pkgname) {
-  when_attached("data.table", {
-    if (!is_attached("dtplyr")) {
-      packageStartupMessage(rule())
-      packageStartupMessage(
-        "data.table + dplyr code now lives in dtplyr.\n",
-        "Please library(dtplyr)!"
-      )
-      packageStartupMessage(rule())
-    }
-  })
-
   setHook(packageEvent("plyr", "attach"), function(...) {
     packageStartupMessage(rule())
     packageStartupMessage("You have loaded plyr after dplyr - this is likely ",

@@ -26,6 +26,7 @@ be given this value. If not supplied and if the replacements are
 the same type as the original values in \code{.x}, unmatched
 values are not changed. If not supplied and if the replacements
 are not compatible, unmatched values are replaced with \code{NA}.
+
 \code{.default} must be either length 1 or the same length as
 \code{.x}.}
 
@@ -51,6 +52,13 @@ numeric values based on their position, and character values by their
 name. This is an S3 generic: dplyr provides methods for numeric, character,
 and factors. For logical vectors, use \code{\link[=if_else]{if_else()}}. For more complicated
 criteria, use \code{\link[=case_when]{case_when()}}.
+}
+\details{
+You can use \code{recode()} directly with factors; it will preserve the existing
+order of levels while changing the values. Alternatively, you can
+use \code{recode_factor()}, which will change the order of levels to match
+the order of replacements. See the \href{http://forcats.tidyverse.org/}{forcats}
+package for more tools for working with factors and their levels.
 }
 \examples{
 # Recode values with named arguments

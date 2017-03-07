@@ -328,27 +328,15 @@ test_that("first(), last(), and nth() work", {
     expected = "d"
   )
 
-  skip("Currently failing (data types)")
   check_hybrid_result(
     nth(a, 3), a = as.numeric(1:5) * 1i,
     expected = 3i
-  )
-  check_hybrid_result(
-    nth(a, 1 + 2), a = letters[1:5],
-    expected = "c"
   )
   check_not_hybrid_result(
     nth(a, 2), a = as.list(1:5),
     expected = 2L
   )
 
-  skip("Currently failing (negative value)")
-  check_hybrid_result(
-    nth(a, -4), a = 1:5,
-    expected = 2L
-  )
-
-  skip("Currently failing (match call)")
   check_not_hybrid_result(
     nth(a, order_by = 5:1, 2), a = 1:5,
     expected = 4L
@@ -366,7 +354,6 @@ test_that("first(), last(), and nth() work", {
     error = "unused argument"
   )
 
-  skip("Currently failing (external variable)")
   c <- 1:3
   check_not_hybrid_result(
     first(c), a = 2:4,
@@ -381,10 +368,20 @@ test_that("first(), last(), and nth() work", {
     expected = 2L
   )
 
-  skip("Currently failing (segfault)")
-  check_not_hybrid_result(
+  check_hybrid_result(
     first(a, order_by = b), a = 1:5, b = 5:1,
     expected = 5L
+  )
+
+  skip("Currently failing (constfold)")
+  check_hybrid_result(
+    nth(a, 1 + 2), a = letters[1:5],
+    expected = "c"
+  )
+
+  check_hybrid_result(
+    nth(a, -4), a = 1:5,
+    expected = 2L
   )
 })
 

@@ -160,5 +160,48 @@ test_that("combine works with NA and complex (#2203)", {
   expect_equal(works3, expected_result)
 })
 
+test_that("combine works with integer64 (#1092)", {
+  expect_equal(
+    combine(bit64::as.integer64(2^34), bit64::as.integer64(2^35)),
+    bit64::as.integer64(c(2^34, 2^35))
+  )
+})
+
+test_that("combine works with difftime", {
+  expect_equal(
+    combine(as.difftime(1, units = "mins"), as.difftime(1, units = "hours")),
+    as.difftime(c(60, 3600), units = "secs")
+  )
+  expect_equal(
+    combine(as.difftime(1, units = "secs"), as.difftime(1, units = "secs")),
+    as.difftime(c(1, 1), units = "secs")
+  )
+  expect_equal(
+    combine(as.difftime(1, units = "days"), as.difftime(1, units = "secs")),
+    as.difftime(c(24*60*60, 1), units = "secs")
+  )
+  expect_equal(
+    combine(as.difftime(2, units = "weeks"), as.difftime(1, units = "secs")),
+    as.difftime(c(2*7*24*60*60, 1), units = "secs")
+  )
+  expect_equal(
+    combine(as.difftime(2, units = "weeks"), as.difftime(3, units = "weeks")),
+    as.difftime(c(2,3), units = "weeks")
+  )
+
+})
+
+test_that("combine works with hms and difftime", {
+  expect_equal(
+    combine(as.difftime(2, units = "weeks"), hms::hms(hours = 1)),
+    as.difftime(c(2*7*24*60*60, 3600), units = "secs")
+  )
+  expect_equal(
+    combine(hms::hms(hours = 1), as.difftime(2, units = "weeks")),
+    hms::hms(seconds = c(3600, 2*7*24*60*60))
+  )
+
+})
+
 # Uses helper-combine.R
 combine_coercion_types()

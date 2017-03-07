@@ -37,7 +37,9 @@ Suggests:
     nycflights13,
     rmarkdown,
     covr,
-    dtplyr
+    dtplyr,
+    bit64,
+    hms
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1),

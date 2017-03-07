@@ -64,7 +64,7 @@ distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
   if (.keep_all) {
     keep <- names(.data)
   } else {
-    keep <- vars
+    keep <- unique(vars)
   }
 
   list(data = .data, vars = vars, keep = keep)

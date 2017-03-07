@@ -366,8 +366,6 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-typedef dplyr_hash_set<SEXP> SymbolSet;
-
 inline SEXP check_filter_integer_result(SEXP tmp) {
   if (TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
     stop("slice condition does not evaluate to an integer or numeric vector. ");
@@ -418,10 +416,6 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
   const Lazy& lazy = dots[0];
   Environment env = lazy.env();
   SymbolVector names = data.names();
-  SymbolSet set;
-  for (int i=0; i<names.size(); i++) {
-    set.insert(names[i].get_symbol());
-  }
 
   // we already checked that we have only one expression
   Call call(lazy.expr());
@@ -486,10 +480,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
 
 SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
   CharacterVector names = df.names();
-  SymbolSet set;
-  for (int i=0; i<names.size(); i++) {
-    set.insert(Rf_installChar(names[i]));
-  }
+
   const Lazy& lazy = dots[0];
   Call call(lazy.expr());
   CallProxy proxy(call, df, lazy.env());

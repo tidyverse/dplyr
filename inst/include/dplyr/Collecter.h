@@ -9,19 +9,45 @@
 
 namespace dplyr {
 
-  static inline bool has_classes(SEXP x) {
-    SEXP classes;
-    int num_classes;
-    if (OBJECT(x)) {
-      classes = Rf_getAttrib(x, R_ClassSymbol);
-      num_classes = Rf_length(classes);
-      if (num_classes > 0) {
-        return true;
-      } else {
-        return false;
-      }
+  static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
+    std::vector<std::string> x_classes, inherited_classes;
+    if (!OBJECT(x)) {
+      return false;
     }
-    return false;
+    x_classes = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
+    std::sort(x_classes.begin(), x_classes.end());
+    std::set_intersection(x_classes.begin(), x_classes.end(),
+                          classes.begin(), classes.end(),
+                          std::back_inserter(inherited_classes));
+    return !inherited_classes.empty();
+  }
+
+  static bool is_class_known(SEXP x) {
+    static std::set<std::string> known_classes;
+    if (known_classes.empty()) {
+      known_classes.insert("hms");
+      known_classes.insert("difftime");
+      known_classes.insert("POSIXct");
+      known_classes.insert("factor");
+      known_classes.insert("Date");
+      known_classes.insert("AsIs");
+      known_classes.insert("integer64");
+      known_classes.insert("table");
+    }
+    if (OBJECT(x)) {
+      return inherits_from(x, known_classes);
+    } else {
+      return true;
+    }
+  }
+
+  static inline void warn_loss_attr(SEXP x) {
+    /* Attributes are lost with unknown classes */
+    if (!is_class_known(x)) {
+      SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
+      Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
+                 CHAR(STRING_ELT(classes, 0)));
+    }
   }
 
   static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
@@ -90,6 +116,7 @@ namespace dplyr {
     }
 
     void collect_sexp(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       Vector<RTYPE> source(v);
       STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
       for (int i=0; i<index.size(); i++) {
@@ -105,6 +132,7 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, NA_REAL) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       NumericVector source(v);
       double* source_ptr = source.begin();
       for (int i=0; i<index.size(); i++) {
@@ -118,8 +146,8 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       int RTYPE = TYPEOF(x);
-      return (RTYPE == REALSXP && !has_classes(x)) ||
-             (RTYPE == INTSXP && !has_classes(x)) ||
+      return (RTYPE == REALSXP && !Rf_inherits(x, "POSIXct") && !Rf_inherits(x, "Date")) ||
+             (RTYPE == INTSXP && !Rf_inherits(x, "factor")) ||
              all_logical_na(x, RTYPE);
     }
 
@@ -142,6 +170,7 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, NA_STRING) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       if (TYPEOF(v) == STRSXP) {
         collect_strings(index, v);
       } else if (Rf_inherits(v, "factor")) {
@@ -194,6 +223,7 @@ namespace dplyr {
 
     void collect_factor(const SlicingIndex& index, IntegerVector source) {
       CharacterVector levels = get_levels(source);
+      Rf_warning("binding character and factor vector, coercing into character vector");
       for (int i=0; i<index.size(); i++) {
         if (source[i] == NA_INTEGER) {
           data[index[i]] = NA_STRING;
@@ -211,6 +241,7 @@ namespace dplyr {
     Collecter_Impl(int n_): data(n_, NA_INTEGER) {}
 
     void collect(const SlicingIndex& index, SEXP v) {
+      warn_loss_attr(v);
       IntegerVector source(v);
       int* source_ptr = source.begin();
       for (int i=0; i<index.size(); i++) {
@@ -224,11 +255,11 @@ namespace dplyr {
 
     inline bool compatible(SEXP x) {
       int RTYPE = TYPEOF(x);
-      return (INTSXP == RTYPE && !has_classes(x)) || all_logical_na(x, RTYPE);
+      return ((INTSXP == RTYPE) && !Rf_inherits(x, "factor")) || all_logical_na(x, RTYPE);
     }
 
     bool can_promote(SEXP x) const {
-      return TYPEOF(x) == REALSXP && !has_classes(x);
+      return TYPEOF(x) == REALSXP && !Rf_inherits(x, "POSIXct") && !Rf_inherits(x, "Date");
     }
 
     std::string describe() const {
@@ -306,8 +337,6 @@ namespace dplyr {
     }
 
   private:
-    RObject tz;
-
     void update_tz(SEXP v) {
       RObject v_tz(Rf_getAttrib(v, Rf_install("tzone")));
       // if the new tz is NULL, keep previous value
@@ -326,7 +355,137 @@ namespace dplyr {
       }
     }
 
+    RObject tz;
   };
+
+  class DifftimeCollecter : public Collecter_Impl<REALSXP> {
+  public:
+    typedef Collecter_Impl<REALSXP> Parent;
+
+    DifftimeCollecter(int n, std::string units_, SEXP types_) :
+      Parent(n), units(units_), types(types_) {}
+
+    void collect(const SlicingIndex& index, SEXP v) {
+      if (Rf_inherits(v, "difftime")) {
+        collect_difftime(index, v);
+      } else if (all_logical_na(v, TYPEOF(v))) {
+        Parent::collect(index, v);
+      }
+    }
+
+    inline SEXP get() {
+      set_class(Parent::data, types);
+      Parent::data.attr("units") = wrap(units);
+      return Parent::data;
+    }
+
+    inline bool compatible(SEXP x) {
+      return Rf_inherits(x, "difftime") || all_logical_na(x, TYPEOF(x));
+    }
+
+    inline bool can_promote(SEXP x) const {
+      return false;
+    }
+
+    std::string describe() const {
+      return collapse<STRSXP>(types);
+    }
+
+  private:
+    bool is_valid_difftime(RObject x) {
+      return
+        x.inherits("difftime") &&
+        x.sexp_type() == REALSXP &&
+        get_units_map().is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
+    }
+
+
+    void collect_difftime(const SlicingIndex& index, RObject v) {
+      if (!is_valid_difftime(v)) {
+        stop("Invalid difftime object");
+      }
+      std::string v_units = Rcpp::as<std::string>(v.attr("units"));
+      if (!get_units_map().is_valid_difftime_unit(units)) {
+        // if current unit is NULL, grab the new one
+        units = v_units;
+        // then collect the data:
+        Parent::collect(index, v);
+      } else {
+        // We had already defined the units.
+        // Does the new vector have the same units?
+        if (units == v_units) {
+          Parent::collect(index, v);
+        } else {
+          // If units are different convert the existing data and the new vector
+          // to seconds (following the convention on
+          // r-source/src/library/base/R/datetime.R)
+          double factor_data = get_units_map().time_conversion_factor(units);
+          if (factor_data != 1.0) {
+            for (int i=0; i<Parent::data.size(); i++) {
+              Parent::data[i] = factor_data * Parent::data[i];
+            }
+          }
+          units = "secs";
+          double factor_v = get_units_map().time_conversion_factor(v_units);
+          if (Rf_length(v) < index.size()) {
+            stop("Wrong size of vector to collect");
+          }
+          for (int i=0; i<index.size(); i++) {
+            Parent::data[index[i]] = factor_v * REAL(v)[i];
+          }
+        }
+      }
+    }
+
+    class UnitsMap {
+      typedef std::map<std::string, double> units_map;
+      const units_map valid_units;
+
+      static units_map create_valid_units() {
+        units_map valid_units;
+        double factor = 1;
+
+        // Acceptable units based on r-source/src/library/base/R/datetime.R
+        valid_units.insert(std::make_pair("secs", factor));
+        factor *= 60;
+        valid_units.insert(std::make_pair("mins", factor));
+        factor *= 60;
+        valid_units.insert(std::make_pair("hours", factor));
+        factor *= 24;
+        valid_units.insert(std::make_pair("days", factor));
+        factor *= 7;
+        valid_units.insert(std::make_pair("weeks", factor));
+        return valid_units;
+      }
+
+    public:
+      UnitsMap() : valid_units(create_valid_units()) {}
+
+      bool is_valid_difftime_unit(const std::string& x_units) const {
+        return (valid_units.find(x_units) != valid_units.end());
+      }
+
+      double time_conversion_factor(const std::string& v_units) const {
+        units_map::const_iterator it = valid_units.find(v_units);
+        if (it == valid_units.end()) {
+          stop("Invalid difftime units (%s).", v_units.c_str());
+        }
+
+        return it->second;
+      }
+    };
+
+    static const UnitsMap& get_units_map() {
+      static UnitsMap map;
+      return map;
+    }
+
+  private:
+    std::string units;
+    SEXP types;
+
+  };
+
 
   class FactorCollecter : public Collecter {
   public:
@@ -396,7 +555,6 @@ namespace dplyr {
       // we however do not assume that they are in the same order
       IntegerVector source(v);
       CharacterVector levels = get_levels(source);
-
       SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
       int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
       for (int i=0; i<index.size(); i++) {
@@ -430,24 +588,20 @@ namespace dplyr {
         return new FactorCollecter(n, model);
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<INTSXP>(n, get_date_classes());
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-                   CHAR(STRING_ELT(classes, 0)));
-        return new TypedCollecter<INTSXP>(n, classes);
-      }
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
+      if (Rf_inherits(model, "difftime"))
+        return
+          new DifftimeCollecter(
+            n,
+            Rcpp::as<std::string>(Rf_getAttrib(model, Rf_install("units"))),
+            Rf_getAttrib(model, R_ClassSymbol));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-                   CHAR(STRING_ELT(classes, 0)));
-        return new TypedCollecter<REALSXP>(n, classes);
-      }
+      if (Rf_inherits(model, "integer64"))
+        return new TypedCollecter<REALSXP>(n, CharacterVector::create("integer64"));
       return new Collecter_Impl<REALSXP>(n);
     case CPLXSXP:
       return new Collecter_Impl<CPLXSXP>(n);
@@ -492,26 +646,14 @@ namespace dplyr {
         return new TypedCollecter<INTSXP>(n, get_date_classes());
       if (Rf_inherits(model, "factor"))
         return new Collecter_Impl<STRSXP>(n);
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Promoting class %s into %s may lose attributes",
-                   previous->describe().c_str(),
-                   get_single_class(model).c_str());
-        return new TypedCollecter<INTSXP>(n, classes);
-      }
       return new Collecter_Impl<INTSXP>(n);
     case REALSXP:
       if (Rf_inherits(model, "POSIXct"))
         return new POSIXctCollecter(n, Rf_getAttrib(model, Rf_install("tzone")));
       if (Rf_inherits(model, "Date"))
         return new TypedCollecter<REALSXP>(n, get_date_classes());
-      if (has_classes(model)) {
-        SEXP classes = Rf_getAttrib(model, R_ClassSymbol);
-        Rf_warning("Promoting class %s into %s may lose attributes",
-                   previous->describe().c_str(),
-                   get_single_class(model).c_str());
-        return new TypedCollecter<REALSXP>(n, classes);
-      }
+      if (Rf_inherits(model, "integer64"))
+        return new TypedCollecter<REALSXP>(n, CharacterVector::create("integer64"));
       return new Collecter_Impl<REALSXP>(n);
     case LGLSXP:
       return new Collecter_Impl<LGLSXP>(n);

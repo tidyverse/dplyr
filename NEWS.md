@@ -1,5 +1,19 @@
 # dplyr 0.5.0.9000
 
+* dplyr no longer messages that you need dtplyr to work with data.table (#2489).
+
+* `bind_cols()` now calls `tibble::repair_names()` to ensure that all
+  names are unique (#2248).
+
+* You can now recode a factor to other types (#2268)
+
+* `distinct()` no longer duplicates variables (#2001)
+
+* `distinct_` no longer errors (#1981)
+
+* `mutate()` gives better error message when attempting to add a non-vector
+  column (#2319)
+
 * New `pull()` generic for extracting a single column either by name
   (as a string) or a position (either from the left or the right). Thanks to
   @paulponcet for the idea (#2054).
@@ -336,6 +350,14 @@
   chance of attributes or information being lost (#2209, @zeehio).
 
 * `combine()` accepts `NA` values (#2203, @zeehio)
+
+* `combine()` and `bind_rows()` with character and factor types now always warn
+  about the coercion to character (#2317, @zeehio)
+
+* `combine()` and `bind_rows()` accept `difftime` objects.
+
+* `mutate` coerces results from grouped dataframes accepting combinable data
+  types (such as `integer` and `numeric`). (#1892, @zeehio)
 
 # dplyr 0.5.0
 
