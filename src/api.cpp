@@ -38,7 +38,6 @@ namespace dplyr {
     nvisitors(visitor_names.size())
   {
 
-    std::string name;
     int n = names.size();
     IntegerVector indices  = names.match_in_table(data.names());
 
