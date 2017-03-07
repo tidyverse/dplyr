@@ -99,8 +99,9 @@ Result* constant_handler(SEXP constant) {
     return new ConstantResult<STRSXP>(constant);
   case LGLSXP:
     return new ConstantResult<LGLSXP>(constant);
+  default:
+    return 0;
   }
-  return 0;
 }
 
 class VariableResult : public Result {

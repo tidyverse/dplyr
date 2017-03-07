@@ -249,7 +249,6 @@ namespace dplyr {
       x = CDR(x);
     }
     stop("cannot find attribute '%s' ", CHAR(PRINTNAME(name)));
-    return x;
   }
 
   void check_attribute_compatibility(SEXP left, SEXP right) {

@@ -622,7 +622,6 @@ namespace dplyr {
     }
 
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model)));
-    return 0;
   }
 
   inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
@@ -665,7 +664,6 @@ namespace dplyr {
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(model)));
-    return 0;
   }
 
 }

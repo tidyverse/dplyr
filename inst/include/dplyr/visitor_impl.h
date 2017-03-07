@@ -38,7 +38,6 @@ namespace dplyr {
     }
 
     stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
-    return 0;
   }
 
   inline VectorVisitor* visitor_vector(SEXP vec) {
@@ -71,7 +70,6 @@ namespace dplyr {
 
     // should not happen, safeguard against segfaults anyway
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
-    return 0;
   }
 
 }
