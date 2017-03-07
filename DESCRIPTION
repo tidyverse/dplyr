@@ -141,5 +141,5 @@ Collate:
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang#49,
+    hadley/rlang,
     tidyverse/glue
