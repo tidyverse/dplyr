@@ -69,19 +69,14 @@ namespace dplyr {
 
     void process_slice(Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index) {
       int chunk_size = index.size();
-      int i=0;
+      int n_def = std::min(chunk_size, n);
 
-      if (n > chunk_size) {
-        for (int i=0; i<chunk_size; i++) {
-          out[out_index[i]] = def;
-        }
-      } else {
-        for (; i<n; i++) {
-          out[out_index[i]] = def;
-        }
-        for (; i<chunk_size; i++) {
-          out[out_index[i]] = data[index[i-n]];
-        }
+      int i = 0;
+      for (; i < n_def; ++i) {
+        out[out_index[i]] = def;
+      }
+      for (; i < chunk_size; ++i) {
+        out[out_index[i]] = data[index[i - n]];
       }
     }
 
