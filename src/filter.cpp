@@ -5,12 +5,10 @@
 #include <tools/utils.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
-#include <dplyr/checks.h>
 
 using namespace Rcpp;
 using namespace dplyr;

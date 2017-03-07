@@ -7,14 +7,11 @@
 #include <dplyr/checks.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
-#include <dplyr/tbl_cpp.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/Gatherer.h>
-#include <dplyr/Replicator.h>
 #include <dplyr/NamedListAccumulator.h>
 
 using namespace Rcpp;
