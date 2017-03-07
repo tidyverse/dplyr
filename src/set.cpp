@@ -105,7 +105,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
 
   if (!ignore_col_order) {
-    if (names_y_not_in_x.size() == 0 && names_y_not_in_x.size() == 0) {
+    if (names_y_not_in_x.size() == 0 && names_x_not_in_y.size() == 0) {
       // so the names are the same, check if they are in the same order
       for (int i=0; i<n; i++) {
         if (names_x[i] != names_y[i]) {
