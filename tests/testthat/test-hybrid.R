@@ -423,15 +423,6 @@ test_that("lead() and lag() work", {
   )
 
   check_not_hybrid_result(
-    list(lead(a, default = 2 + 4)), a = 1:5,
-    expected = list(as.numeric(2:6))
-  )
-  check_not_hybrid_result(
-    list(lag(a, default = 3L - 3L)), a = as.numeric(1:5),
-    expected = list(as.numeric(0:4))
-  )
-
-  check_not_hybrid_result(
     list(lead(a, order_by = b)), a = 1:5, b = 5:1,
     expected = list(c(NA, 1:4))
   )
@@ -440,7 +431,6 @@ test_that("lead() and lag() work", {
     expected = list(c(2:5, NA))
   )
 
-  skip("Currently failing (complex)")
   check_hybrid_result(
     list(lead(a)), a = 1:5 * 1i,
     expected = list(c(2:5, NA) * 1i)
@@ -450,7 +440,17 @@ test_that("lead() and lag() work", {
     expected = list(c(NA, 1:4) * 1i)
   )
 
-  skip("Currently failing")
+  v <- 1:2
+  check_not_hybrid_result(
+    list(lead(a, v[1])), a = 1:5,
+    expected = list(c(2:5, NA))
+  )
+  check_not_hybrid_result(
+    list(lag(a, v[1])), a = 1:5,
+    expected = list(c(NA, 1:4))
+  )
+
+  skip("Currently failing (constfold)")
   check_hybrid_result(
     list(lead(a, 1L + 2L)), a = 1:5,
     expected = list(c(4:5, NA, NA, NA))
@@ -458,6 +458,15 @@ test_that("lead() and lag() work", {
   check_hybrid_result(
     list(lag(a, 4L - 2L)), a = as.numeric(1:5),
     expected = list(c(NA, NA, as.numeric(1:3)))
+  )
+
+  check_not_hybrid_result(
+    list(lead(a, default = 2 + 4)), a = 1:5,
+    expected = list(as.numeric(2:6))
+  )
+  check_not_hybrid_result(
+    list(lag(a, default = 3L - 3L)), a = as.numeric(1:5),
+    expected = list(as.numeric(0:4))
   )
 
   check_hybrid_result(
