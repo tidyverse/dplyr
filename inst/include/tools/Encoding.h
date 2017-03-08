@@ -5,6 +5,7 @@
 #define BYTES_MASK (1<<1)
 #define LATIN1_MASK (1<<2)
 #define UTF8_MASK (1<<3)
+#define ASCII_MASK (1<<6)
 
 struct sxpinfo_struct {
   // *INDENT-OFF*
