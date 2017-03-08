@@ -22,6 +22,10 @@ namespace dplyr {
       return lhs == rhs;
     }
 
+    inline bool equal_and_none_na(STORAGE lhs, STORAGE rhs) const {
+      return equal_or_both_na(lhs, rhs) && !is_na(lhs);
+    }
+
     inline bool is_na(STORAGE x) const {
       return Rcpp::traits::is_na<RTYPE>(x);
     }
@@ -45,6 +49,10 @@ namespace dplyr {
 
     inline bool equal_or_both_na(SEXP lhs, SEXP rhs) const {
       return lhs == rhs;
+    }
+
+    inline bool equal_and_none_na(SEXP lhs, SEXP rhs) const {
+      return equal_or_both_na(lhs, rhs) && !is_na(lhs);
     }
 
     inline bool is_na(SEXP x) const {
@@ -88,6 +96,10 @@ namespace dplyr {
         (is_na(lhs) && is_na(rhs));
     }
 
+    inline bool equal_and_none_na(double lhs, double rhs) const {
+      return lhs == rhs && !is_na(lhs);
+    }
+
     inline bool is_na(double x) const {
       return ISNA(x);
     }
@@ -117,6 +129,10 @@ namespace dplyr {
 
     inline bool equal_or_both_na(Rcomplex lhs, Rcomplex rhs) const {
       return lhs.r == rhs.r && lhs.i == rhs.i;
+    }
+
+    inline bool equal_and_none_na(Rcomplex lhs, Rcomplex rhs) const {
+      return equal_or_both_na(lhs, rhs) && !is_na(lhs);
     }
 
     inline bool is_na(Rcomplex x) const {

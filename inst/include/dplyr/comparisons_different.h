@@ -38,6 +38,10 @@ namespace dplyr {
       return (double)lhs == rhs;
     }
 
+    inline bool equal_and_none_na(int lhs, double rhs) const {
+      return (double)lhs == rhs && lhs != NA_INTEGER && !ISNA(rhs);
+    }
+
   };
 
   template <>
@@ -69,6 +73,10 @@ namespace dplyr {
 
     inline bool equal_or_both_na(double lhs, int rhs) const {
       return rev.equal_or_both_na(rhs, lhs);
+    }
+
+    inline bool equal_and_none_na(double lhs, int rhs) const {
+      return rev.equal_and_none_na(rhs, lhs);
     }
 
     comparisons_int_double<LHS_RTYPE> rev;
