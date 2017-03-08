@@ -25,8 +25,8 @@
 #' The SQLite variant currently only adds one additional function: a mapping
 #' from `sd()` to the SQL aggregation function `STDEV`.
 #'
-#' @param ...,dots Expressions to translate. `sql_translate()`
-#'   automatically quotes them for you.  `sql_translate_()` expects
+#' @param ...,dots Expressions to translate. `translate_sql()`
+#'   automatically quotes them for you.  `translate_sql_()` expects
 #'   a list of already quoted objects.
 #' @param con An optional database connection to control the details of
 #'   the translation. The default, `NULL`, generates ANSI SQL.
