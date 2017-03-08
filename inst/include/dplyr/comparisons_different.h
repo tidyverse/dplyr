@@ -64,13 +64,14 @@ namespace dplyr {
     }
 
     inline bool is_nan(double x) const {
-      return Rcpp::traits::is_nan<REALSXP>(x);
+      return rev.is_nan(x);
     }
 
     inline bool equal_or_both_na(double lhs, int rhs) const {
-      if (rhs == NA_INTEGER && ISNA(lhs)) return true;
-      return (double)rhs == lhs;
+      return rev.equal_or_both_na(rhs, lhs);
     }
+
+    comparisons_int_double<LHS_RTYPE> rev;
 
   };
 
