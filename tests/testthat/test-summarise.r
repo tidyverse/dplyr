@@ -898,3 +898,11 @@ test_that("ungrouped summarise() uses summary variables correctly (#2404)", {
   expect_equal(out$value, 5.5)
   expect_equal(out$sd, NA_real_)
 })
+
+test_that("proper handling of names in summarised list columns (#2231)", {
+  d <- data_frame(x = rep(1:3, 1:3), y = 1:6, names = letters[1:6])
+  res <- d %>% group_by(x) %>% summarise(y = list(setNames(y, names)))
+  expect_equal(names(res$y[[1]]), letters[[1]])
+  expect_equal(names(res$y[[2]]), letters[2:3])
+  expect_equal(names(res$y[[3]]), letters[4:6])
+})
