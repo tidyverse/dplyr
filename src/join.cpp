@@ -223,14 +223,6 @@ namespace dplyr {
   }
 
 
-
-  // -----------------
-  inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right) {
-    stop("Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
-         name_left, name_right, get_single_class(left), get_single_class(right)
-        );
-  }
-
   int count_attributes(SEXP x) {
     int n = 0;
 
@@ -340,21 +332,15 @@ namespace dplyr {
       }
       case REALSXP:
       {
-        if (lhs_factor) {
-          incompatible_join_visitor(left, right, name_left, name_right);
-        } else if (is_bare_vector(right)) {
+        if (!lhs_factor && is_bare_vector(right)) {
           return new JoinVisitorImpl<INTSXP, REALSXP>(left, right);
-        } else {
-          incompatible_join_visitor(left, right, name_left, name_right);
         }
         break;
         // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
       }
       case LGLSXP:
       {
-        if (lhs_factor) {
-          incompatible_join_visitor(left, right, name_left, name_right);
-        } else {
+        if (!lhs_factor) {
           return new JoinVisitorImpl<INTSXP, LGLSXP>(left, right);
         }
         break;
@@ -421,7 +407,10 @@ namespace dplyr {
       break;
     }
 
-    incompatible_join_visitor(left, right, name_left, name_right);
+    stop(
+      "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
+      name_left, name_right, get_single_class(left), get_single_class(right)
+    );
     return 0;
   }
 
