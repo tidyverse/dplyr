@@ -15,7 +15,7 @@ namespace dplyr {
   void check_attribute_compatibility(SEXP left, SEXP right);
 
   template <int LHS_RTYPE, int RHS_RTYPE>
-  class JoinVisitorImpl : public JoinVisitor, public comparisons_different<LHS_RTYPE, RHS_RTYPE> {
+  class JoinVisitorImpl : public JoinVisitor {
   public:
     typedef Vector<LHS_RTYPE> LHS_Vec;
     typedef Vector<RHS_RTYPE> RHS_Vec;
@@ -84,10 +84,8 @@ namespace dplyr {
   };
 
   template <int RTYPE>
-  class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor, public comparisons<RTYPE> {
+  class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor {
   public:
-    typedef comparisons<RTYPE> Compare;
-
     typedef Vector<RTYPE> Vec;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef boost::hash<STORAGE> hasher;
@@ -99,7 +97,7 @@ namespace dplyr {
     }
 
     inline bool equal(int i, int j) {
-      return Compare::equal_or_both_na(get(i), get(j));
+      return comparisons<RTYPE>().equal_or_both_na(get(i), get(j));
     }
 
     inline SEXP subset(const std::vector<int>& indices) {
@@ -419,7 +417,7 @@ namespace dplyr {
     Vector<RTYPE> data;
   };
 
-  class DateJoinVisitor : public JoinVisitor, public comparisons<REALSXP> {
+  class DateJoinVisitor : public JoinVisitor {
   public:
     typedef NumericVector Vec;
     typedef comparisons<REALSXP> Compare;
@@ -454,7 +452,7 @@ namespace dplyr {
       return hash_fun(get(i));
     }
     inline bool equal(int i, int j) {
-      return Compare::equal_or_both_na(get(i), get(j));
+      return comparisons<REALSXP>().equal_or_both_na(get(i), get(j));
     }
 
     inline SEXP subset(const std::vector<int>& indices) {
