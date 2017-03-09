@@ -13,59 +13,95 @@ namespace dplyr {
 
   void check_attribute_compatibility(SEXP left, SEXP right);
 
-  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
-  class JoinVisitorImpl : public JoinVisitor {
-  public:
+  template <int LHS_RTYPE, int RHS_RTYPE>
+  class DualVector {
     typedef Vector<LHS_RTYPE> LHS_Vec;
     typedef Vector<RHS_RTYPE> RHS_Vec;
-
     typedef typename Rcpp::traits::storage_type<LHS_RTYPE>::type LHS_STORAGE;
     typedef typename Rcpp::traits::storage_type<RHS_RTYPE>::type RHS_STORAGE;
 
-    typedef boost::hash<LHS_STORAGE> LHS_hasher;
-    typedef boost::hash<RHS_STORAGE> RHS_hasher;
-
-    JoinVisitorImpl(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {
+  public:
+    DualVector(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {
       check_attribute_compatibility(left, right);
     }
+
+    LHS_STORAGE get_value_as_left(const int i) const {
+      if (i >= 0) return get_left_value(i);
+      else return Rcpp::internal::r_coerce<RHS_RTYPE, LHS_RTYPE>(get_right_value(i));
+    }
+
+    RHS_STORAGE get_value_as_right(const int i) const {
+      if (i >= 0) return Rcpp::internal::r_coerce<LHS_RTYPE, RHS_RTYPE>(get_left_value(i));
+      else return get_right_value(i);
+    }
+
+    LHS_STORAGE get_left_value(const int i) const {
+      if (i < 0) stop("get_left_value() called with negative argument");
+      return left[i];
+    }
+
+    RHS_STORAGE get_right_value(const int i) const {
+      if (i >= 0) stop("get_right_value() called with nonnegative argument");
+      return right[-i - 1];
+    }
+
+    template <class iterator>
+    SEXP subset(iterator it, const int n);
+
+    SEXP get_left() {
+      return left;
+    }
+
+  private:
+    LHS_Vec left;
+    RHS_Vec right;
+  };
+
+  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
+  class JoinVisitorImpl : public JoinVisitor {
+  protected:
+    typedef Vector<LHS_RTYPE> LHS_Vec;
+    typedef Vector<RHS_RTYPE> RHS_Vec;
+    typedef boost::hash<int> hasher;
+
+  public:
+    JoinVisitorImpl(LHS_Vec left, RHS_Vec right) : dual(left, right) {}
 
     size_t hash(int i);
 
     inline bool equal(int i, int j) {
-      if (i>=0 && j>=0) {
-        return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(left[i], left[j]);
+      if (i >= 0 && j >= 0) {
+        return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_left_value(i), dual.get_left_value(j));
       } else if (i < 0 && j < 0) {
-        return join_match<RHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(right[-i-1], right[-j-1]);
+        return join_match<RHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(dual.get_right_value(i), dual.get_right_value(j));
       } else if (i >= 0 && j < 0) {
-        return join_match<LHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(left[i], right[-j-1]);
+        return join_match<LHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(dual.get_left_value(i), dual.get_right_value(j));
       } else {
-        return join_match<RHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(right[-i-1], left[j]);
+        return join_match<RHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_right_value(i), dual.get_left_value(j));
       }
     }
 
-    template<class iterator>
-    SEXP subset(iterator it, const int n);
-
     SEXP subset(const std::vector<int>& indices) {
-      return subset(indices.begin(), indices.size());
+      return dual.subset(indices.begin(), indices.size());
     }
 
     SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-      return subset(set.begin(), set.size());
+      return dual.subset(set.begin(), set.size());
     }
 
-    LHS_Vec left;
-    RHS_Vec right;
-    LHS_hasher LHS_hash_fun;
-    RHS_hasher RHS_hash_fun;
+  public:
+    hasher LHS_hash_fun;
+    hasher RHS_hash_fun;
 
+  private:
+    DualVector<LHS_RTYPE, RHS_RTYPE> dual;
   };
 
   template <typename Visitor>
   class Subsetter {
-  public:
     typedef typename Visitor::Vec Vec;
 
+  public:
     Subsetter(const Visitor& v_) : v(v_) {};
 
     template<class iterator>
@@ -88,10 +124,16 @@ namespace dplyr {
 
   public:
     typedef Vector<RTYPE> Vec;
+
+  protected:
+    typedef Vec LHS_Vec;
+    typedef Vec RHS_Vec;
+
+  public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef boost::hash<STORAGE> hasher;
 
-    JoinVisitorImpl(Vec left_, Vec right_) : left(left_), right(right_) {}
+    JoinVisitorImpl(Vec left, Vec right) : dual(left, right) {}
 
     inline size_t hash(int i) {
       STORAGE x = get(i);
@@ -110,7 +152,7 @@ namespace dplyr {
     template<class iterator>
     inline SEXP subset(iterator it, const int n) {
       RObject res = Subsetter<JoinVisitorImpl>(*this).subset(it, n);
-      copy_most_attributes(res, left);
+      copy_most_attributes(res, dual.get_left());
       return res;
     }
 
@@ -123,19 +165,19 @@ namespace dplyr {
     }
 
     inline STORAGE get(int i) const {
-      return i >= 0 ? left[i] : right[-i-1];
+      return i >= 0 ? dual.get_left_value(i) : dual.get_right_value(i);
     }
 
   protected:
-    Vec left, right;
+    DualVector<RTYPE, RTYPE> dual;
     hasher hash_fun;
-
   };
 
   template <bool NA_MATCH = true>
   class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> {
-  public:
     typedef JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> Parent;
+
+  public:
     POSIXctJoinVisitor(NumericVector left, NumericVector right) :
       Parent(left, right),
       tzone(R_NilValue)
@@ -168,8 +210,6 @@ namespace dplyr {
     }
 
   private:
-    RObject tzone;
-
     inline SEXP promote(NumericVector x) {
       set_class(x, Rcpp::CharacterVector::create("POSIXct", "POSIXt"));
       if (!tzone.isNULL()) {
@@ -178,6 +218,8 @@ namespace dplyr {
       return x;
     }
 
+  private:
+    RObject tzone;
   };
 
   class DateJoinVisitorGetter {
@@ -187,104 +229,29 @@ namespace dplyr {
     virtual bool is_na(int i) const = 0;
   };
 
-  template <int RTYPE>
-  class DateJoinVisitorGetterImpl : public DateJoinVisitorGetter {
-  public:
-    DateJoinVisitorGetterImpl(SEXP x) : data(x) {}
-
-    inline double get(int i) {
-      return static_cast<double>(data[i]);
-    }
-
-    inline bool is_na(int i) const {
-      return data.is_na(data[i]);
-    }
-
-  private:
-    Vector<RTYPE> data;
-  };
-
-  template <bool NA_MATCH = true>
-  class DateJoinVisitor : public JoinVisitor {
-    typedef join_match<REALSXP, REALSXP, NA_MATCH> match;
+  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
+  class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, NA_MATCH> {
+    typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, NA_MATCH> Parent;
 
   public:
-    typedef NumericVector Vec;
-    typedef boost::hash<double> hasher;
-
-    DateJoinVisitor(SEXP lhs, SEXP rhs)
-    {
-      if (TYPEOF(lhs) == INTSXP) {
-        left = new DateJoinVisitorGetterImpl<INTSXP>(lhs);
-      } else if (TYPEOF(lhs) == REALSXP) {
-        left = new DateJoinVisitorGetterImpl<REALSXP>(lhs);
-      } else {
-        stop("Date objects should be represented as integer or numeric");
-      }
-
-      if (TYPEOF(rhs) == INTSXP) {
-        right = new DateJoinVisitorGetterImpl<INTSXP>(rhs);
-      } else if (TYPEOF(rhs) == REALSXP) {
-        right = new DateJoinVisitorGetterImpl<REALSXP>(rhs);
-      } else {
-        stop("Date objects should be represented as integer or numeric");
-      }
-
-    }
-
-    ~DateJoinVisitor() {
-      delete left;
-      delete right;
-    }
-
-    inline size_t hash(int i) {
-      // If NAs don't match, we want to distribute their hashes as evenly as possible
-      if (!NA_MATCH && is_na(i))
-        return static_cast<size_t>(i);
-      else
-        return hash_fun(get(i));
-    }
-    inline bool equal(int i, int j) {
-      return match::is_match(get(i), get(j));
-    }
-
-    template<class iterator>
-    inline SEXP subset(iterator it, const int n) {
-      NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(it, n);
-      set_class(res, "Date");
-      return res;
-    }
+    DateJoinVisitor(typename Parent::LHS_Vec left, typename Parent::RHS_Vec right) : Parent(left, right) {}
 
     inline SEXP subset(const std::vector<int>& indices) {
-      return subset(indices.begin(), indices.size());
+      return promote(Parent::subset(indices));
     }
 
     inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-      return subset(set.begin(), set.size());
-    }
-
-    inline double get(int i) const {
-      if (i >= 0) {
-        return left->get(i);
-      } else {
-        return right->get(-i-1);
-      }
-    }
-
-    inline bool is_na(int i) const {
-      if (i >= 0) {
-        return left->is_na(i);
-      } else {
-        return right->is_na(-i-1);
-      }
+      return promote(Parent::subset(set));
     }
 
   private:
-    DateJoinVisitorGetter* left;
-    DateJoinVisitorGetter* right;
-    hasher hash_fun;
+    static SEXP promote(SEXP x) {
+      set_class(x, "Date");
+      return x;
+    }
 
-    DateJoinVisitor(const DateJoinVisitor&);
+  private:
+    typename Parent::hasher hash_fun;
   };
 
   JoinVisitor* join_visitor(SEXP, SEXP, const std::string&, const std::string&, bool warn);

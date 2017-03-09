@@ -23,132 +23,92 @@ namespace dplyr {
 
 
   // -------------- (int,lgl)
-  template <int LHS_RTYPE, int RHS_RTYPE>
-  inline size_t hash_int_int(JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, int i) {
-    return joiner.RHS_hash_fun(i>=0 ? joiner.left[i] : joiner.right[-i-1]);
-  }
   template <>
-  inline size_t JoinVisitorImpl<INTSXP,LGLSXP>::hash(int i) {
-    return hash_int_int<INTSXP,LGLSXP>(*this, i);
+  inline size_t JoinVisitorImpl<INTSXP, LGLSXP>::hash(int i) {
+    return RHS_hash_fun(dual.get_value_as_left(i));
   }
   template <>
   inline size_t JoinVisitorImpl<LGLSXP,INTSXP>::hash(int i) {
-    return hash_int_int<LGLSXP,INTSXP>(*this, i);
+    return RHS_hash_fun(dual.get_value_as_left(i));
   }
 
   template <int LHS_RTYPE, int RHS_RTYPE, class iterator>
-  inline SEXP subset_join_int_int(JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE>& joiner, iterator it, const int n) {
+  inline SEXP subset_join_int_int(const DualVector<LHS_RTYPE, RHS_RTYPE>& dual, iterator it, const int n) {
     IntegerVector res = no_init(n);
     for (int i=0; i<n; i++, ++it) {
-      int index = *it;
-      if (index >= 0) {
-        res[i] = joiner.left[index];
-      } else {
-        res[i] = joiner.right[-index-1];
-      }
+      res[i] = dual.get_value_as_left(*it);
     }
     return res;
   }
   template <>
   template <class iterator>
-  inline SEXP JoinVisitorImpl<INTSXP, LGLSXP>::subset(iterator it, const int n) {
+  inline SEXP DualVector<INTSXP, LGLSXP>::subset(iterator it, const int n) {
     return subset_join_int_int<INTSXP, LGLSXP>(*this, it, n);
   }
   template <>
   template <class iterator>
-  inline SEXP JoinVisitorImpl<LGLSXP, INTSXP>::subset(iterator it, const int n) {
+  inline SEXP DualVector<LGLSXP, INTSXP>::subset(iterator it, const int n) {
     return subset_join_int_int<LGLSXP, INTSXP>(*this, it, n);
   }
 
 
   // -------------- (int,double)
-  template <int RTYPE>
-  inline size_t hash_int_double(JoinVisitorImpl<RTYPE,REALSXP>& joiner, int i) {
-    if (i>=0) {
-      int val = joiner.left[i];
-      if (val == NA_INTEGER) return joiner.RHS_hash_fun(NA_REAL);
-      return joiner.RHS_hash_fun((double)val);
-    }
-    return joiner.RHS_hash_fun(joiner.right[-i-1]);
+  template <>
+  inline size_t JoinVisitorImpl<INTSXP, REALSXP>::hash(int i) {
+    return RHS_hash_fun(dual.get_value_as_right(i));
   }
   template <>
-  inline size_t JoinVisitorImpl<INTSXP,REALSXP>::hash(int i) {
-    return  hash_int_double<INTSXP>(*this, i);
-  }
-  template <>
-  inline size_t JoinVisitorImpl<LGLSXP,REALSXP>::hash(int i) {
-    return  hash_int_double<LGLSXP>(*this, i);
+  inline size_t JoinVisitorImpl<LGLSXP, REALSXP>::hash(int i) {
+    return RHS_hash_fun(dual.get_value_as_right(i));
   }
 
 
   template <int RTYPE, class iterator>
-  inline SEXP subset_join_int_double(JoinVisitorImpl<RTYPE, REALSXP>& joiner, iterator it, const int n) {
+  inline SEXP subset_join_int_double(const DualVector<RTYPE, REALSXP>& dual, iterator it, const int n) {
     NumericVector res = no_init(n);
     for (int i=0; i<n; i++, ++it) {
-      int index = *it;
-      if (index >= 0) {
-        res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>(joiner.left[index]);
-      } else {
-        res[i] = joiner.right[-index-1];
-      }
+      res[i] = dual.get_value_as_right(*it);
     }
     return res;
   }
   template <>
   template <class iterator>
-  inline SEXP JoinVisitorImpl<INTSXP, REALSXP>::subset(iterator begin, const int n) {
+  inline SEXP DualVector<INTSXP, REALSXP>::subset(iterator begin, const int n) {
     return subset_join_int_double<INTSXP, iterator>(*this, begin, n);
   }
   template <>
   template <class iterator>
-  inline SEXP JoinVisitorImpl<LGLSXP, REALSXP>::subset(iterator begin, const int n) {
+  inline SEXP DualVector<LGLSXP, REALSXP>::subset(iterator begin, const int n) {
     return subset_join_int_double<LGLSXP, iterator>(*this, begin, n);
   }
 
   // -------------- (double,int)
-  template <int RTYPE>
-  inline size_t hash_double_int(JoinVisitorImpl<REALSXP,RTYPE>& joiner, int i) {
-    // if(i < 0) we need to take data in right
-    if (i<0) {
-      int val = joiner.right[-i-1];
-      if (val == NA_INTEGER) return joiner.LHS_hash_fun(NA_REAL);
-      return joiner.LHS_hash_fun((double)val);
-    }
-    // otherwise take data in left
-    return joiner.LHS_hash_fun(joiner.left[i]);
+  template <>
+  inline size_t JoinVisitorImpl<REALSXP, INTSXP>::hash(int i) {
+    return LHS_hash_fun(dual.get_value_as_left(i));
   }
   template <>
-  inline size_t JoinVisitorImpl<REALSXP,INTSXP>::hash(int i) {
-    size_t res = hash_double_int<INTSXP>(*this, i);
-    return res;
-  }
-  template <>
-  inline size_t JoinVisitorImpl<REALSXP,LGLSXP>::hash(int i) {
-    return  hash_double_int<LGLSXP>(*this, i);
+  inline size_t JoinVisitorImpl<REALSXP, LGLSXP>::hash(int i) {
+    return LHS_hash_fun(dual.get_value_as_left(i));
   }
 
 
   template <int RTYPE, class iterator>
-  inline SEXP subset_join_double_int(JoinVisitorImpl<REALSXP, RTYPE>& joiner, iterator it, const int n) {
+  inline SEXP subset_join_double_int(const DualVector<REALSXP, RTYPE>& dual, iterator it, const int n) {
     NumericVector res = no_init(n);
     for (int i=0; i<n; i++, ++it) {
-      int index = *it;
-      if (index < 0) {
-        res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>(joiner.right[-index-1]);
-      } else {
-        res[i] = joiner.left[index];
-      }
+      res[i] = dual.get_value_as_left(*it);
     }
     return res;
   }
   template <>
   template <class iterator>
-  inline SEXP JoinVisitorImpl<REALSXP, INTSXP>::subset(iterator begin, const int n) {
+  inline SEXP DualVector<REALSXP, INTSXP>::subset(iterator begin, const int n) {
     return subset_join_double_int<INTSXP, iterator>(*this, begin, n);
   }
   template <>
   template <class iterator>
-  inline SEXP JoinVisitorImpl<REALSXP, LGLSXP>::subset(iterator begin, const int n) {
+  inline SEXP DualVector<REALSXP, LGLSXP>::subset(iterator begin, const int n) {
     return subset_join_double_int<LGLSXP, iterator>(*this, begin, n);
   }
 
@@ -252,6 +212,29 @@ namespace dplyr {
     return ret;
   }
 
+  template <int LHS_RTYPE>
+  JoinVisitor* date_join_visitor_right(SEXP left, SEXP right) {
+    switch (TYPEOF(right)) {
+    case INTSXP:
+      return new DateJoinVisitor<LHS_RTYPE, INTSXP>(left, right);
+    case REALSXP:
+      return new DateJoinVisitor<LHS_RTYPE, REALSXP>(left, right);
+    default:
+      stop("Date objects should be represented as integer or numeric");
+    }
+  }
+
+  JoinVisitor* date_join_visitor(SEXP left, SEXP right) {
+    switch (TYPEOF(left)) {
+    case INTSXP:
+      return date_join_visitor_right<INTSXP>(left, right);
+    case REALSXP:
+      return date_join_visitor_right<REALSXP>(left, right);
+    default:
+      stop("Date objects should be represented as integer or numeric");
+    }
+  }
+
   JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right, bool warn_) {
     // handle Date separately
     bool lhs_date = Rf_inherits(left, "Date");
@@ -259,7 +242,7 @@ namespace dplyr {
 
     switch (lhs_date + rhs_date) {
     case 2:
-      return new DateJoinVisitor<>(left, right);
+      return date_join_visitor(left, right);
     case 1:
       stop("cannot join a Date object with an object that is not a Date object");
     case 0:
