@@ -1,5 +1,21 @@
 # dplyr 0.5.0.9000
 
+* Fixed very rare case of false match during join (#2515).
+
+* Restricted workaround for `match()` to R 3.3.0. (#1858).
+
+* dplyr now warns on load when the version of R or Rcpp during installation is
+  different to the currently installed version (#2514).
+
+* Joins now always reencode character columns to UTF-8 if necessary.This relies
+  on a proper encoding tag for all strings (#2514).
+
+* Fixed improper reuse of attributes when creating a list column in `summarise()`
+  and perhaps `mutate()` (#2231).
+
+* `mutate()` and `summarise()` always strip the `names` attribute from new
+  or updated columns, even for ungrouped operations (#1689).
+
 * Fixed segmentation faults in hybrid evaluation of `first()`, `last()`,
   `nth()`,  `lead()`, and `lag()`. These functions now always fall back to the R
   implementation if called with arguments that the hybrid evaluator cannot
