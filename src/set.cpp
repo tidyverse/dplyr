@@ -11,7 +11,7 @@
 #include <dplyr/BoolResult.h>
 
 #include <dplyr/DataFrameSubsetVisitors.h>
-#include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/JoinVisitor.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 
 #include <dplyr/train.h>

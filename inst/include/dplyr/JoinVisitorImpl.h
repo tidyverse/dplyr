@@ -124,7 +124,7 @@ namespace dplyr {
     RHS_Vec right;
   };
 
-  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
+  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH>
   class JoinVisitorImpl : public JoinVisitor {
   protected:
     typedef DualVector<LHS_RTYPE, RHS_RTYPE> Storage;
@@ -175,7 +175,7 @@ namespace dplyr {
     Storage dual;
   };
 
-  template <bool NA_MATCH = true>
+  template <bool NA_MATCH>
   class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> {
     typedef JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> Parent;
 
@@ -231,7 +231,7 @@ namespace dplyr {
     virtual bool is_na(int i) const = 0;
   };
 
-  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
+  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH>
   class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, NA_MATCH> {
     typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, NA_MATCH> Parent;
 
@@ -255,8 +255,6 @@ namespace dplyr {
   private:
     typename Parent::hasher hash_fun;
   };
-
-  JoinVisitor* join_visitor(SEXP, SEXP, const std::string&, const std::string&, bool warn);
 
 }
 

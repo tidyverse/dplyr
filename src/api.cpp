@@ -10,7 +10,7 @@
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/visitor_impl.h>
 
-#include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/JoinVisitor.h>
 
 #include <dplyr/Result/Result.h>
 

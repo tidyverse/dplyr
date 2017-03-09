@@ -120,29 +120,31 @@ namespace dplyr {
     return ret;
   }
 
-  template <int LHS_RTYPE>
+  template <int LHS_RTYPE, bool NA_MATCH>
   JoinVisitor* date_join_visitor_right(SEXP left, SEXP right) {
     switch (TYPEOF(right)) {
     case INTSXP:
-      return new DateJoinVisitor<LHS_RTYPE, INTSXP>(left, right);
+      return new DateJoinVisitor<LHS_RTYPE, INTSXP, NA_MATCH>(left, right);
     case REALSXP:
-      return new DateJoinVisitor<LHS_RTYPE, REALSXP>(left, right);
+      return new DateJoinVisitor<LHS_RTYPE, REALSXP, NA_MATCH>(left, right);
     default:
       stop("Date objects should be represented as integer or numeric");
     }
   }
 
+  template <bool NA_MATCH>
   JoinVisitor* date_join_visitor(SEXP left, SEXP right) {
     switch (TYPEOF(left)) {
     case INTSXP:
-      return date_join_visitor_right<INTSXP>(left, right);
+      return date_join_visitor_right<INTSXP, NA_MATCH>(left, right);
     case REALSXP:
-      return date_join_visitor_right<REALSXP>(left, right);
+      return date_join_visitor_right<REALSXP, NA_MATCH>(left, right);
     default:
       stop("Date objects should be represented as integer or numeric");
     }
   }
 
+  template <bool NA_MATCH>
   JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right, bool warn_) {
     // handle Date separately
     bool lhs_date = Rf_inherits(left, "Date");
@@ -150,7 +152,7 @@ namespace dplyr {
 
     switch (lhs_date + rhs_date) {
     case 2:
-      return date_join_visitor(left, right);
+      return date_join_visitor<NA_MATCH>(left, right);
     case 1:
       stop("cannot join a Date object with an object that is not a Date object");
     case 0:
@@ -163,7 +165,7 @@ namespace dplyr {
     bool rhs_time = Rf_inherits(right, "POSIXct");
     switch (lhs_time + rhs_time) {
     case 2:
-      return new POSIXctJoinVisitor<>(left, right);
+      return new POSIXctJoinVisitor<NA_MATCH>(left, right);
     case 1:
       stop("cannot join a POSIXct object with an object that is not a POSIXct object");
     case 0:
@@ -177,7 +179,7 @@ namespace dplyr {
     {
       switch (TYPEOF(right)) {
       case CPLXSXP:
-        return new JoinVisitorImpl<CPLXSXP, CPLXSXP>(left, right);
+        return new JoinVisitorImpl<CPLXSXP, CPLXSXP, NA_MATCH>(left, right);
       default:
         break;
       }
@@ -192,20 +194,20 @@ namespace dplyr {
         bool rhs_factor = Rf_inherits(right, "factor");
         if (lhs_factor && rhs_factor) {
           if (same_levels(left, right)) {
-            return new JoinVisitorImpl<INTSXP, INTSXP>(left, right);
+            return new JoinVisitorImpl<INTSXP, INTSXP, NA_MATCH>(left, right);
           } else {
             if (warn_) Rf_warning("joining factors with different levels, coercing to character vector");
-            return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
+            return new JoinVisitorImpl<STRSXP, STRSXP, NA_MATCH>(reencode_char(left), reencode_char(right));
           }
         } else if (!lhs_factor && !rhs_factor) {
-          return new JoinVisitorImpl<INTSXP, INTSXP>(left, right);
+          return new JoinVisitorImpl<INTSXP, INTSXP, NA_MATCH>(left, right);
         }
         break;
       }
       case REALSXP:
       {
         if (!lhs_factor && is_bare_vector(right)) {
-          return new JoinVisitorImpl<INTSXP, REALSXP>(left, right);
+          return new JoinVisitorImpl<INTSXP, REALSXP, NA_MATCH>(left, right);
         }
         break;
         // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
@@ -213,7 +215,7 @@ namespace dplyr {
       case LGLSXP:
       {
         if (!lhs_factor) {
-          return new JoinVisitorImpl<INTSXP, LGLSXP>(left, right);
+          return new JoinVisitorImpl<INTSXP, LGLSXP, NA_MATCH>(left, right);
         }
         break;
       }
@@ -221,7 +223,7 @@ namespace dplyr {
       {
         if (lhs_factor) {
           if (warn_) Rf_warning("joining factor and character vector, coercing into character vector");
-          return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
+          return new JoinVisitorImpl<STRSXP, STRSXP, NA_MATCH>(reencode_char(left), reencode_char(right));
         }
       }
       default:
@@ -233,9 +235,9 @@ namespace dplyr {
     {
       switch (TYPEOF(right)) {
       case REALSXP:
-        return new JoinVisitorImpl<REALSXP, REALSXP>(left, right);
+        return new JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH>(left, right);
       case INTSXP:
-        return new JoinVisitorImpl<REALSXP, INTSXP>(left, right);
+        return new JoinVisitorImpl<REALSXP, INTSXP, NA_MATCH>(left, right);
       default:
         break;
       }
@@ -245,11 +247,11 @@ namespace dplyr {
     {
       switch (TYPEOF(right)) {
       case LGLSXP:
-        return new JoinVisitorImpl<LGLSXP,LGLSXP> (left, right);
+        return new JoinVisitorImpl<LGLSXP,LGLSXP, NA_MATCH> (left, right);
       case INTSXP:
-        return new JoinVisitorImpl<LGLSXP,INTSXP>(left, right);
+        return new JoinVisitorImpl<LGLSXP,INTSXP, NA_MATCH>(left, right);
       case REALSXP:
-        return new JoinVisitorImpl<LGLSXP,REALSXP>(left, right);
+        return new JoinVisitorImpl<LGLSXP,REALSXP, NA_MATCH>(left, right);
       default:
         break;
       }
@@ -262,13 +264,13 @@ namespace dplyr {
       {
         if (Rf_inherits(right, "factor")) {
           if (warn_) Rf_warning("joining character vector and factor, coercing into character vector");
-          return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
+          return new JoinVisitorImpl<STRSXP, STRSXP, NA_MATCH>(reencode_char(left), reencode_char(right));
         }
         break;
       }
       case STRSXP:
       {
-        return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
+        return new JoinVisitorImpl<STRSXP, STRSXP, NA_MATCH>(reencode_char(left), reencode_char(right));
       }
       default:
         break;
@@ -284,6 +286,13 @@ namespace dplyr {
       name_left, name_right, get_single_class(left), get_single_class(right)
     );
     return 0;
+  }
+
+  JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& left_name, const std::string& right_name, bool warn, bool na_match) {
+    if (na_match)
+      return join_visitor<true>(left, right, left_name, right_name, warn);
+    else
+      return join_visitor<false>(left, right, left_name, right_name, warn);
   }
 
 }
