@@ -452,26 +452,28 @@ test_that("join columns are not moved to the left (#802)", {
 })
 
 test_that("join can handle multiple encodings (#769)", {
-  x <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), score = c(5, 7, 6))
-  y <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), attendance = c(8, 10, 9))
+  text <- c("\xC9lise", "Pierre", "Fran\xE7ois")
+  Encoding(text) <- "latin1"
+  x <- data_frame(name = text, score = c(5, 7, 6))
+  y <- data_frame(name = text, attendance = c(8, 10, 9))
   res <- left_join(x, y, by = "name")
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 
-  x <- data_frame(name = factor(c("\xC9lise", "Pierre", "Fran\xE7ois")), score = c(5, 7, 6))
-  y <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), attendance = c(8, 10, 9))
+  x <- data_frame(name = factor(text), score = c(5, 7, 6))
+  y <- data_frame(name = text, attendance = c(8, 10, 9))
   res <- suppressWarnings(left_join(x, y, by = "name"))
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, y$name)
 
-  x <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), score = c(5, 7, 6))
-  y <- data_frame(name = factor(c("\xC9lise", "Pierre", "Fran\xE7ois")), attendance = c(8, 10, 9))
+  x <- data_frame(name = text, score = c(5, 7, 6))
+  y <- data_frame(name = factor(text), attendance = c(8, 10, 9))
   res <- suppressWarnings(left_join(x, y, by = "name"))
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 
-  x <- data_frame(name = factor(c("\xC9lise", "Fran\xE7ois", "Pierre")), score = c(5, 7, 6))
-  y <- data_frame(name = factor(c("\xC9lise", "Pierre", "Fran\xE7ois")), attendance = c(8, 10, 9))
+  x <- data_frame(name = factor(text), score = c(5, 7, 6))
+  y <- data_frame(name = factor(text), attendance = c(8, 10, 9))
   res <- suppressWarnings(left_join(x, y, by = "name"))
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)

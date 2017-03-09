@@ -223,14 +223,6 @@ namespace dplyr {
   }
 
 
-
-  // -----------------
-  inline void incompatible_join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right) {
-    stop("Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
-         name_left, name_right, get_single_class(left), get_single_class(right)
-        );
-  }
-
   int count_attributes(SEXP x) {
     int n = 0;
 
@@ -276,7 +268,58 @@ namespace dplyr {
     if (!is<bool>(test) || !as<bool>(test)) {
       stop("attributes are different");
     }
+  }
 
+  CharacterVector reencode_factor(IntegerVector x);
+
+  R_xlen_t get_first_reencode_pos(const CharacterVector& xc) {
+    R_xlen_t len = xc.length();
+    for (R_xlen_t i = 0; i < len; ++i) {
+      SEXP xci = xc[i];
+      if (xci != NA_STRING && !IS_ASCII(xci) && !IS_UTF8(xci)) {
+        return i;
+      }
+    }
+
+    return len;
+  }
+
+  CharacterVector reencode_char(SEXP x) {
+    if (Rf_isFactor(x)) return reencode_factor(x);
+
+    CharacterVector xc(x);
+    R_xlen_t first = get_first_reencode_pos(xc);
+    if (first >= xc.length()) return x;
+
+    CharacterVector ret(Rf_duplicate(xc));
+
+    R_xlen_t len = ret.length();
+    for (R_xlen_t i = first; i < len; ++i) {
+      SEXP reti = ret[i];
+      if (reti != NA_STRING && !IS_ASCII(reti) && !IS_UTF8(reti)) {
+        ret[i] = String(Rf_translateCharUTF8(reti), CE_UTF8);
+      }
+    }
+
+    return ret;
+  }
+
+  CharacterVector reencode_factor(IntegerVector x) {
+    CharacterVector levels(reencode_char(get_levels(x)));
+    CharacterVector ret(x.length());
+
+    R_xlen_t nlevels = levels.length();
+
+    R_xlen_t len = x.length();
+    for (R_xlen_t i = 0; i < len; ++i) {
+      int xi = x[i];
+      if (xi <= 0 || xi > nlevels)
+        ret[i] = NA_STRING;
+      else
+        ret[i] = levels[xi - 1];
+    }
+
+    return ret;
   }
 
   JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right, bool warn_) {
@@ -331,7 +374,7 @@ namespace dplyr {
             return new JoinVisitorImpl<INTSXP, INTSXP>(left, right);
           } else {
             if (warn_) Rf_warning("joining factors with different levels, coercing to character vector");
-            return new JoinFactorFactorVisitor(left, right);
+            return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
           }
         } else if (!lhs_factor && !rhs_factor) {
           return new JoinVisitorImpl<INTSXP, INTSXP>(left, right);
@@ -340,21 +383,15 @@ namespace dplyr {
       }
       case REALSXP:
       {
-        if (lhs_factor) {
-          incompatible_join_visitor(left, right, name_left, name_right);
-        } else if (is_bare_vector(right)) {
+        if (!lhs_factor && is_bare_vector(right)) {
           return new JoinVisitorImpl<INTSXP, REALSXP>(left, right);
-        } else {
-          incompatible_join_visitor(left, right, name_left, name_right);
         }
         break;
         // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
       }
       case LGLSXP:
       {
-        if (lhs_factor) {
-          incompatible_join_visitor(left, right, name_left, name_right);
-        } else {
+        if (!lhs_factor) {
           return new JoinVisitorImpl<INTSXP, LGLSXP>(left, right);
         }
         break;
@@ -363,7 +400,7 @@ namespace dplyr {
       {
         if (lhs_factor) {
           if (warn_) Rf_warning("joining factor and character vector, coercing into character vector");
-          return new JoinFactorStringVisitor(left, right);
+          return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
         }
       }
       default:
@@ -404,13 +441,13 @@ namespace dplyr {
       {
         if (Rf_inherits(right, "factor")) {
           if (warn_) Rf_warning("joining character vector and factor, coercing into character vector");
-          return new JoinStringFactorVisitor(left, right);
+          return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
         }
         break;
       }
       case STRSXP:
       {
-        return new JoinStringStringVisitor(left, right);
+        return new JoinVisitorImpl<STRSXP, STRSXP>(reencode_char(left), reencode_char(right));
       }
       default:
         break;
@@ -421,7 +458,10 @@ namespace dplyr {
       break;
     }
 
-    incompatible_join_visitor(left, right, name_left, name_right);
+    stop(
+      "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
+      name_left, name_right, get_single_class(left), get_single_class(right)
+    );
     return 0;
   }
 
