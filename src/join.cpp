@@ -272,7 +272,7 @@ namespace dplyr {
 
   CharacterVector reencode_factor(IntegerVector x);
 
-  R_xlen_t reencode_first(const CharacterVector& xc) {
+  R_xlen_t get_first_reencode_pos(const CharacterVector& xc) {
     R_xlen_t len = xc.length();
     for (R_xlen_t i = 0; i < len; ++i) {
       SEXP xci = xc[i];
@@ -288,7 +288,7 @@ namespace dplyr {
     if (Rf_isFactor(x)) return reencode_factor(x);
 
     CharacterVector xc(x);
-    R_xlen_t first = reencode_first(xc);
+    R_xlen_t first = get_first_reencode_pos(xc);
     if (first >= xc.length()) return x;
 
     CharacterVector ret(Rf_duplicate(xc));
