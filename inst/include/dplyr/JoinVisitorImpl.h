@@ -34,13 +34,13 @@ namespace dplyr {
 
     inline bool equal(int i, int j) {
       if (i>=0 && j>=0) {
-        return comparisons<LHS_RTYPE>().equal_or_both_na(left[i], left[j]);
+        return comparisons<LHS_RTYPE>::equal_or_both_na(left[i], left[j]);
       } else if (i < 0 && j < 0) {
-        return comparisons<RHS_RTYPE>().equal_or_both_na(right[-i-1], right[-j-1]);
+        return comparisons<RHS_RTYPE>::equal_or_both_na(right[-i-1], right[-j-1]);
       } else if (i >= 0 && j < 0) {
-        return comparisons_different<LHS_RTYPE,RHS_RTYPE>().equal_or_both_na(left[i], right[-j-1]);
+        return comparisons_different<LHS_RTYPE, RHS_RTYPE>::equal_or_both_na(left[i], right[-j-1]);
       } else {
-        return comparisons_different<RHS_RTYPE,LHS_RTYPE>().equal_or_both_na(right[-i-1], left[j]);
+        return comparisons_different<RHS_RTYPE, LHS_RTYPE>::equal_or_both_na(right[-i-1], left[j]);
       }
     }
 
@@ -85,6 +85,8 @@ namespace dplyr {
 
   template <int RTYPE>
   class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor {
+    typedef comparisons<RTYPE> compare;
+
   public:
     typedef Vector<RTYPE> Vec;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
@@ -97,7 +99,7 @@ namespace dplyr {
     }
 
     inline bool equal(int i, int j) {
-      return comparisons<RTYPE>().equal_or_both_na(get(i), get(j));
+      return compare::equal_or_both_na(get(i), get(j));
     }
 
     inline SEXP subset(const std::vector<int>& indices) {
@@ -189,9 +191,10 @@ namespace dplyr {
   };
 
   class DateJoinVisitor : public JoinVisitor {
+    typedef comparisons<REALSXP> compare;
+
   public:
     typedef NumericVector Vec;
-    typedef comparisons<REALSXP> Compare;
     typedef boost::hash<double> hasher;
 
     DateJoinVisitor(SEXP lhs, SEXP rhs)
@@ -223,7 +226,7 @@ namespace dplyr {
       return hash_fun(get(i));
     }
     inline bool equal(int i, int j) {
-      return comparisons<REALSXP>().equal_or_both_na(get(i), get(j));
+      return compare::equal_or_both_na(get(i), get(j));
     }
 
     inline SEXP subset(const std::vector<int>& indices) {
