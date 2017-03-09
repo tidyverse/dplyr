@@ -97,7 +97,7 @@ namespace dplyr {
     }
 
     inline bool equal_and_none_na(double lhs, double rhs) const {
-      return lhs == rhs && !is_na(lhs);
+      return lhs == rhs && !is_na(lhs) && !is_nan(lhs);
     }
 
     inline bool is_na(double x) const {

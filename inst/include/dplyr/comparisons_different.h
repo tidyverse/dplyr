@@ -39,7 +39,7 @@ namespace dplyr {
     }
 
     inline bool equal_and_none_na(int lhs, double rhs) const {
-      return (double)lhs == rhs && lhs != NA_INTEGER && !ISNA(rhs);
+      return (double)lhs == rhs && lhs != NA_INTEGER;
     }
 
   };
