@@ -94,7 +94,13 @@ namespace dplyr {
     JoinVisitorImpl(Vec left_, Vec right_) : left(left_), right(right_) {}
 
     inline size_t hash(int i) {
-      return hash_fun(get(i));
+      STORAGE x = get(i);
+
+      // If NAs don't match, we want to distribute their hashes as evenly as possible
+      if (!NA_MATCH && Vec::is_na(x))
+        return static_cast<size_t>(i);
+      else
+        return hash_fun(x);
     }
 
     inline bool equal(int i, int j) {
@@ -178,6 +184,7 @@ namespace dplyr {
   public:
     virtual ~DateJoinVisitorGetter() {};
     virtual double get(int i) = 0;
+    virtual bool is_na(int i) const = 0;
   };
 
   template <int RTYPE>
@@ -187,6 +194,10 @@ namespace dplyr {
 
     inline double get(int i) {
       return static_cast<double>(data[i]);
+    }
+
+    inline bool is_na(int i) const {
+      return data.is_na(data[i]);
     }
 
   private:
@@ -227,7 +238,11 @@ namespace dplyr {
     }
 
     inline size_t hash(int i) {
-      return hash_fun(get(i));
+      // If NAs don't match, we want to distribute their hashes as evenly as possible
+      if (!NA_MATCH && is_na(i))
+        return static_cast<size_t>(i);
+      else
+        return hash_fun(get(i));
     }
     inline bool equal(int i, int j) {
       return match::is_match(get(i), get(j));
@@ -249,10 +264,18 @@ namespace dplyr {
     }
 
     inline double get(int i) const {
-      if (i>= 0) {
+      if (i >= 0) {
         return left->get(i);
       } else {
         return right->get(-i-1);
+      }
+    }
+
+    inline bool is_na(int i) const {
+      if (i >= 0) {
+        return left->is_na(i);
+      } else {
+        return right->is_na(-i-1);
       }
     }
 
