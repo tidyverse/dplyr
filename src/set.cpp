@@ -57,7 +57,7 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
   if (convert) {
     for (int i=0; i<n; i++) {
       try {
-        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], "x", "x", true));
+        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], "x", "x", true, true));
       } catch (...) {
         return no_because("incompatible");
       }
@@ -167,7 +167,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   if (!compat) return compat;
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true);
+  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true, true);
   Map map(visitors);
 
   // train the map in both x and y
@@ -244,7 +244,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true);
+  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true, true);
   Set set(visitors);
 
   train_insert(set, x.nrows());
@@ -261,7 +261,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   }
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
 
-  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true);
+  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true, true);
   Set set(visitors);
 
   train_insert(set, x.nrows());
@@ -287,7 +287,7 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true);
+  DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true, true);
   Set set(visitors);
 
   train_insert(set, y.nrows());

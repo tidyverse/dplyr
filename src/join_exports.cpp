@@ -30,7 +30,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   // first the joined columns
-  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false, false);
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
@@ -157,7 +157,7 @@ void push_back(Container& x, typename Container::value_type value, int n) {
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, false);
   Map map(visitors);
 
   // train the map in terms of x
@@ -187,7 +187,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, false);
   Map map(visitors);
 
   // train the map in terms of x
@@ -215,7 +215,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           std::string& suffix_x, std::string& suffix_y) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true, false);
   Map map(visitors);
 
   int n_x = x.nrows(), n_y = y.nrows();
@@ -247,7 +247,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                          std::string& suffix_x, std::string& suffix_y) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true);
+  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true, false);
 
   Map map(visitors);
 
@@ -284,7 +284,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                           std::string& suffix_x, std::string& suffix_y) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true, false);
   Map map(visitors);
 
   // train the map in terms of x
@@ -319,7 +319,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                          std::string& suffix_x, std::string& suffix_y) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true);
+  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true, false);
   Map map(visitors);
 
   // train the map in terms of y
@@ -344,7 +344,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   }
 
   // train a new map in terms of x this time
-  DataFrameJoinVisitors visitors2(x,y,by_x,by_y, false);
+  DataFrameJoinVisitors visitors2(x,y,by_x,by_y, false, false);
   Map map2(visitors2);
   train_push_back(map2, x.nrows());
 

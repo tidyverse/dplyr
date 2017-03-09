@@ -58,7 +58,7 @@ namespace dplyr {
     copy_vars(x, data);
   }
 
-  DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :
+  DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_, bool na_match) :
     left(left_), right(right_),
     visitor_names_left(names_left),
     visitor_names_right(names_right),
@@ -82,7 +82,7 @@ namespace dplyr {
         stop("'%s' column not found in rhs, cannot join", name_right);
       }
 
-      visitors[i] = join_visitor(left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn);
+      visitors[i] = join_visitor(left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn, na_match);
     }
   }
 
