@@ -12,8 +12,8 @@ translate_sql_(dots, con = NULL, vars_group = NULL, vars_order = NULL,
   window = TRUE)
 }
 \arguments{
-\item{..., dots}{Expressions to translate. \code{sql_translate()}
-automatically quotes them for you.  \code{sql_translate_()} expects
+\item{..., dots}{Expressions to translate. \code{translate_sql()}
+automatically quotes them for you.  \code{translate_sql_()} expects
 a list of already quoted objects.}
 
 \item{con}{An optional database connection to control the details of

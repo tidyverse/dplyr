@@ -44,7 +44,11 @@ win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
 
     order <- build_sql(
       "ORDER BY ",
-      sql_vector(escape(order), collapse = ", ", parens = FALSE)
+      sql_vector(
+        escape(order, con = win_current_con()),
+        collapse = ", ",
+        parens = FALSE
+      )
     )
   }
   if (!is.null(frame)) {
