@@ -329,7 +329,7 @@ namespace dplyr {
 
     switch (lhs_date + rhs_date) {
     case 2:
-      return new DateJoinVisitor(left, right);
+      return new DateJoinVisitor<>(left, right);
     case 1:
       stop("cannot join a Date object with an object that is not a Date object");
     case 0:
@@ -342,7 +342,7 @@ namespace dplyr {
     bool rhs_time = Rf_inherits(right, "POSIXct");
     switch (lhs_time + rhs_time) {
     case 2:
-      return new POSIXctJoinVisitor(left, right);
+      return new POSIXctJoinVisitor<>(left, right);
     case 1:
       stop("cannot join a POSIXct object with an object that is not a POSIXct object");
     case 0:

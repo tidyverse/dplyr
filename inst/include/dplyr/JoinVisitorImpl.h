@@ -4,8 +4,7 @@
 #include <tools/utils.h>
 #include <tools/match.h>
 
-#include <dplyr/comparisons.h>
-#include <dplyr/comparisons_different.h>
+#include <dplyr/join_match.h>
 #include <dplyr/JoinVisitor.h>
 
 namespace dplyr {
@@ -14,7 +13,7 @@ namespace dplyr {
 
   void check_attribute_compatibility(SEXP left, SEXP right);
 
-  template <int LHS_RTYPE, int RHS_RTYPE>
+  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
   class JoinVisitorImpl : public JoinVisitor {
   public:
     typedef Vector<LHS_RTYPE> LHS_Vec;
@@ -34,13 +33,13 @@ namespace dplyr {
 
     inline bool equal(int i, int j) {
       if (i>=0 && j>=0) {
-        return comparisons<LHS_RTYPE>::equal_or_both_na(left[i], left[j]);
+        return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(left[i], left[j]);
       } else if (i < 0 && j < 0) {
-        return comparisons<RHS_RTYPE>::equal_or_both_na(right[-i-1], right[-j-1]);
+        return join_match<RHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(right[-i-1], right[-j-1]);
       } else if (i >= 0 && j < 0) {
-        return comparisons_different<LHS_RTYPE, RHS_RTYPE>::equal_or_both_na(left[i], right[-j-1]);
+        return join_match<LHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(left[i], right[-j-1]);
       } else {
-        return comparisons_different<RHS_RTYPE, LHS_RTYPE>::equal_or_both_na(right[-i-1], left[j]);
+        return join_match<RHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(right[-i-1], left[j]);
       }
     }
 
@@ -83,9 +82,9 @@ namespace dplyr {
     const Visitor& v;
   };
 
-  template <int RTYPE>
-  class JoinVisitorImpl<RTYPE,RTYPE> : public JoinVisitor {
-    typedef comparisons<RTYPE> compare;
+  template <int RTYPE, bool NA_MATCH>
+  class JoinVisitorImpl<RTYPE, RTYPE, NA_MATCH> : public JoinVisitor {
+    typedef join_match<RTYPE, RTYPE, NA_MATCH> match;
 
   public:
     typedef Vector<RTYPE> Vec;
@@ -99,7 +98,7 @@ namespace dplyr {
     }
 
     inline bool equal(int i, int j) {
-      return compare::equal_or_both_na(get(i), get(j));
+      return match::is_match(get(i), get(j));
     }
 
     inline SEXP subset(const std::vector<int>& indices) {
@@ -124,9 +123,10 @@ namespace dplyr {
 
   };
 
-  class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP,REALSXP> {
+  template <bool NA_MATCH = true>
+  class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> {
   public:
-    typedef JoinVisitorImpl<REALSXP,REALSXP> Parent;
+    typedef JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> Parent;
     POSIXctJoinVisitor(NumericVector left, NumericVector right) :
       Parent(left, right),
       tzone(R_NilValue)
@@ -190,8 +190,9 @@ namespace dplyr {
     Vector<RTYPE> data;
   };
 
+  template <bool NA_MATCH = true>
   class DateJoinVisitor : public JoinVisitor {
-    typedef comparisons<REALSXP> compare;
+    typedef join_match<REALSXP, REALSXP, NA_MATCH> match;
 
   public:
     typedef NumericVector Vec;
@@ -226,7 +227,7 @@ namespace dplyr {
       return hash_fun(get(i));
     }
     inline bool equal(int i, int j) {
-      return compare::equal_or_both_na(get(i), get(j));
+      return match::is_match(get(i), get(j));
     }
 
     inline SEXP subset(const std::vector<int>& indices) {
