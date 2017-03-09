@@ -22,7 +22,7 @@ namespace dplyr {
       return lhs == rhs;
     }
 
-    static inline bool equal_and_none_na(STORAGE lhs, STORAGE rhs) {
+    static inline bool is_match(STORAGE lhs, STORAGE rhs) {
       return equal_or_both_na(lhs, rhs) && !is_na(lhs);
     }
 
@@ -51,7 +51,7 @@ namespace dplyr {
       return lhs == rhs;
     }
 
-    static inline bool equal_and_none_na(SEXP lhs, SEXP rhs) {
+    static inline bool is_match(SEXP lhs, SEXP rhs) {
       return equal_or_both_na(lhs, rhs) && !is_na(lhs);
     }
 
@@ -96,7 +96,7 @@ namespace dplyr {
         (is_na(lhs) && is_na(rhs));
     }
 
-    static inline bool equal_and_none_na(double lhs, double rhs) {
+    static inline bool is_match(double lhs, double rhs) {
       return lhs == rhs && !is_na(lhs) && !is_nan(lhs);
     }
 
@@ -131,7 +131,7 @@ namespace dplyr {
       return lhs.r == rhs.r && lhs.i == rhs.i;
     }
 
-    static inline bool equal_and_none_na(Rcomplex lhs, Rcomplex rhs) {
+    static inline bool is_match(Rcomplex lhs, Rcomplex rhs) {
       return equal_or_both_na(lhs, rhs) && !is_na(lhs);
     }
 

@@ -38,7 +38,7 @@ namespace dplyr {
       return (double)lhs == rhs;
     }
 
-    static inline bool equal_and_none_na(int lhs, double rhs) {
+    static inline bool is_match(int lhs, double rhs) {
       return (double)lhs == rhs && lhs != NA_INTEGER;
     }
 
@@ -75,8 +75,8 @@ namespace dplyr {
       return rev::equal_or_both_na(rhs, lhs);
     }
 
-    static inline bool equal_and_none_na(double lhs, int rhs) {
-      return rev::equal_and_none_na(rhs, lhs);
+    static inline bool is_match(double lhs, int rhs) {
+      return rev::is_match(rhs, lhs);
     }
 
     typedef comparisons_int_double<LHS_RTYPE> rev;
