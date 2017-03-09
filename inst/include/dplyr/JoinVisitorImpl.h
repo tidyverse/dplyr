@@ -15,24 +15,20 @@ namespace dplyr {
 
   template <int LHS_RTYPE, int RHS_RTYPE>
   class DualVector {
+  public:
+    enum { RTYPE = (LHS_RTYPE > RHS_RTYPE ? LHS_RTYPE : RHS_RTYPE) };
+
     typedef Vector<LHS_RTYPE> LHS_Vec;
     typedef Vector<RHS_RTYPE> RHS_Vec;
+    typedef Vector<RTYPE> Vec;
+
     typedef typename Rcpp::traits::storage_type<LHS_RTYPE>::type LHS_STORAGE;
     typedef typename Rcpp::traits::storage_type<RHS_RTYPE>::type RHS_STORAGE;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   public:
     DualVector(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {
       check_attribute_compatibility(left, right);
-    }
-
-    LHS_STORAGE get_value_as_left(const int i) const {
-      if (i >= 0) return get_left_value(i);
-      else return Rcpp::internal::r_coerce<RHS_RTYPE, LHS_RTYPE>(get_right_value(i));
-    }
-
-    RHS_STORAGE get_value_as_right(const int i) const {
-      if (i >= 0) return Rcpp::internal::r_coerce<LHS_RTYPE, RHS_RTYPE>(get_left_value(i));
-      else return get_right_value(i);
     }
 
     LHS_STORAGE get_left_value(const int i) const {
@@ -45,20 +41,64 @@ namespace dplyr {
       return right[-i - 1];
     }
 
+    bool is_left_na(const int i) const {
+      return left.is_na(get_left_value(i));
+    }
+
+    bool is_right_na(const int i) const {
+      return right.is_na(get_right_value(i));
+    }
+
+    bool is_na(const int i) const {
+      if (i >= 0) return is_left_na(i);
+      else return is_right_na(i);
+    }
+
+    LHS_STORAGE get_value_as_left(const int i) const {
+      if (i >= 0) return get_left_value(i);
+      else {
+        RHS_STORAGE x = get_right_value(i);
+        if (LHS_RTYPE == RHS_RTYPE) return x;
+        else return Rcpp::internal::r_coerce<RHS_RTYPE, LHS_RTYPE>(x);
+      }
+    }
+
+    RHS_STORAGE get_value_as_right(const int i) const {
+      if (i >= 0) {
+        LHS_STORAGE x = get_left_value(i);
+        if (LHS_RTYPE == RHS_RTYPE) return x;
+        else return Rcpp::internal::r_coerce<LHS_RTYPE, RHS_RTYPE>(x);
+      }
+      else return get_right_value(i);
+    }
+
+    STORAGE get_value(const int i) const {
+      if (RTYPE == LHS_RTYPE) return get_value_as_left(i);
+      else return get_value_as_right(i);
+    }
+
     template <class iterator>
     SEXP subset(iterator it, const int n) {
       // We use the fact that LGLSXP < INTSXP < REALSXP, this defines our coercion precedence
+      RObject ret;
       if (LHS_RTYPE == RHS_RTYPE)
-        return subset_same(it, n);
+        ret = subset_same(it, n);
       else if (LHS_RTYPE > RHS_RTYPE)
-        return subset_left(it, n);
+        ret = subset_left(it, n);
       else
-        return subset_right(it, n);
+        ret = subset_right(it, n);
+
+      copy_most_attributes(ret, left);
+      return ret;
     }
 
     template <class iterator>
     SEXP subset_same(iterator it, const int n) {
-      stop("NYI");
+      Vec res = no_init(n);
+      for (int i=0; i<n; i++, ++it) {
+        res[i] = get_value(*it);
+      }
+      return res;
     }
 
     template <class iterator>
@@ -79,10 +119,6 @@ namespace dplyr {
       return res;
     }
 
-    SEXP get_left() {
-      return left;
-    }
-
   private:
     LHS_Vec left;
     RHS_Vec right;
@@ -91,17 +127,29 @@ namespace dplyr {
   template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH = true>
   class JoinVisitorImpl : public JoinVisitor {
   protected:
-    typedef Vector<LHS_RTYPE> LHS_Vec;
-    typedef Vector<RHS_RTYPE> RHS_Vec;
-    typedef boost::hash<int> hasher;
+    typedef DualVector<LHS_RTYPE, RHS_RTYPE> Storage;
+    typedef boost::hash<typename Storage::STORAGE> hasher;
+    typedef typename Storage::LHS_Vec LHS_Vec;
+    typedef typename Storage::RHS_Vec RHS_Vec;
+    typedef typename Storage::Vec Vec;
 
   public:
-    JoinVisitorImpl(LHS_Vec left, RHS_Vec right) : dual(left, right) {}
+    JoinVisitorImpl(typename Storage::LHS_Vec left, typename Storage::RHS_Vec right) : dual(left, right) {}
 
-    size_t hash(int i);
+    inline size_t hash(int i) {
+      // If NAs don't match, we want to distribute their hashes as evenly as possible
+      if (!NA_MATCH && dual.is_na(i)) return static_cast<size_t>(i);
+
+      typename Storage::STORAGE x = dual.get_value(i);
+      return hash_fun(x);
+    }
 
     inline bool equal(int i, int j) {
-      if (i >= 0 && j >= 0) {
+      if (LHS_RTYPE == RHS_RTYPE) {
+        // Shortcut for same data type
+        return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_value(i), dual.get_value(j));
+      }
+      else if (i >= 0 && j >= 0) {
         return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_left_value(i), dual.get_left_value(j));
       } else if (i < 0 && j < 0) {
         return join_match<RHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(dual.get_right_value(i), dual.get_right_value(j));
@@ -121,87 +169,10 @@ namespace dplyr {
     }
 
   public:
-    hasher LHS_hash_fun;
-    hasher RHS_hash_fun;
-
-  private:
-    DualVector<LHS_RTYPE, RHS_RTYPE> dual;
-  };
-
-  template <typename Visitor>
-  class Subsetter {
-    typedef typename Visitor::Vec Vec;
-
-  public:
-    Subsetter(const Visitor& v_) : v(v_) {};
-
-    template<class iterator>
-    inline SEXP subset(iterator begin, const int n) {
-      Vec res = no_init(n);
-      iterator it = begin;
-      for (int i=0; i<n; i++, ++it) {
-        res[i] = v.get(*it);
-      }
-      return res;
-    }
-
-  private:
-    const Visitor& v;
-  };
-
-  template <int RTYPE, bool NA_MATCH>
-  class JoinVisitorImpl<RTYPE, RTYPE, NA_MATCH> : public JoinVisitor {
-    typedef join_match<RTYPE, RTYPE, NA_MATCH> match;
-
-  public:
-    typedef Vector<RTYPE> Vec;
-
-  protected:
-    typedef Vec LHS_Vec;
-    typedef Vec RHS_Vec;
-
-  public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-    typedef boost::hash<STORAGE> hasher;
-
-    JoinVisitorImpl(Vec left, Vec right) : dual(left, right) {}
-
-    inline size_t hash(int i) {
-      STORAGE x = get(i);
-
-      // If NAs don't match, we want to distribute their hashes as evenly as possible
-      if (!NA_MATCH && Vec::is_na(x))
-        return static_cast<size_t>(i);
-      else
-        return hash_fun(x);
-    }
-
-    inline bool equal(int i, int j) {
-      return match::is_match(get(i), get(j));
-    }
-
-    template<class iterator>
-    inline SEXP subset(iterator it, const int n) {
-      RObject res = Subsetter<JoinVisitorImpl>(*this).subset(it, n);
-      copy_most_attributes(res, dual.get_left());
-      return res;
-    }
-
-    inline SEXP subset(const std::vector<int>& indices) {
-      return subset(indices.begin(), indices.size());
-    }
-
-    inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-      return subset(set.begin(), set.size());
-    }
-
-    inline STORAGE get(int i) const {
-      return i >= 0 ? dual.get_left_value(i) : dual.get_right_value(i);
-    }
-
-  protected:
-    DualVector<RTYPE, RTYPE> dual;
     hasher hash_fun;
+
+  private:
+    Storage dual;
   };
 
   template <bool NA_MATCH = true>

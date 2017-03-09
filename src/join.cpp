@@ -21,40 +21,6 @@ namespace dplyr {
     return true;
   }
 
-
-  // -------------- (int,lgl)
-  template <>
-  inline size_t JoinVisitorImpl<INTSXP, LGLSXP>::hash(int i) {
-    return RHS_hash_fun(dual.get_value_as_left(i));
-  }
-  template <>
-  inline size_t JoinVisitorImpl<LGLSXP,INTSXP>::hash(int i) {
-    return RHS_hash_fun(dual.get_value_as_left(i));
-  }
-
-
-  // -------------- (int,double)
-  template <>
-  inline size_t JoinVisitorImpl<INTSXP, REALSXP>::hash(int i) {
-    return RHS_hash_fun(dual.get_value_as_right(i));
-  }
-  template <>
-  inline size_t JoinVisitorImpl<LGLSXP, REALSXP>::hash(int i) {
-    return RHS_hash_fun(dual.get_value_as_right(i));
-  }
-
-
-  // -------------- (double,int)
-  template <>
-  inline size_t JoinVisitorImpl<REALSXP, INTSXP>::hash(int i) {
-    return LHS_hash_fun(dual.get_value_as_left(i));
-  }
-  template <>
-  inline size_t JoinVisitorImpl<REALSXP, LGLSXP>::hash(int i) {
-    return LHS_hash_fun(dual.get_value_as_left(i));
-  }
-
-
   int count_attributes(SEXP x) {
     int n = 0;
 
