@@ -106,28 +106,28 @@ group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
-semi_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+semi_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, na_match)
 }
 
-anti_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+anti_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, na_match)
 }
 
-inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
-left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
-right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
-full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
 mutate_impl <- function(df, dots) {

@@ -1,10 +1,10 @@
 # dplyr 0.5.0.9000
 
-* `NA` values never match when joining. This mimics the behavior of relational
+* `xxx_join.tbl_df()` gains a new argument `na_match = TRUE`; setting it to
+  `FALSE` treats all `NA` values as different, so that they never match.
+  This mimics the behavior of relational
   databases, but differs from the default behavior of `merge()` --
-  the new behavior is closer to `merge(incomparables = NA)`. This is a breaking
-  change without compatibility mode, use `coalesce()` to substitute `NA` with
-  proper values if you require a match (#2033).
+  the new behavior is closer to `merge(incomparables = NA)` (#2033).
 
 * Fixed very rare case of false match during join (#2515).
 

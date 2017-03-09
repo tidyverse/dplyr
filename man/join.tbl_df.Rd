@@ -11,20 +11,22 @@
 \title{Join data frame tbls.}
 \usage{
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...)
+  suffix = c(".x", ".y"), ..., na_match = TRUE)
 
 \method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
-  ".y"), ...)
+  ".y"), ..., na_match = TRUE)
 
 \method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...)
+  suffix = c(".x", ".y"), ..., na_match = TRUE)
 
 \method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
-  ".y"), ...)
+  ".y"), ..., na_match = TRUE)
 
-\method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+\method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
+  na_match = TRUE)
 
-\method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...)
+\method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
+  na_match = TRUE)
 }
 \arguments{
 \item{x}{tbls to join}
@@ -51,6 +53,11 @@ it is a potentially expensive operation so you must opt into it.}
 Should be a character vector of length 2.}
 
 \item{...}{included for compatibility with the generic; otherwise ignored.}
+
+\item{na_match}{Use \code{FALSE} to always treat two \code{NA} or \code{NaN} values as
+different, similarly to joins in relational databases or to
+\code{merge(incomparables = FALSE)}. The default \code{TRUE} treats two \code{NA} or \code{NaN}
+values as equal, like \code{\link[=merge]{merge()}}.}
 }
 \description{
 See \link{join} for a description of the general purpose of the

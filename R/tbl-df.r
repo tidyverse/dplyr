@@ -108,6 +108,10 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #'
 #' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
+#' @param na_match Use `FALSE` to always treat two `NA` or `NaN` values as
+#'   different, similarly to joins in relational databases or to
+#'   `merge(incomparables = FALSE)`. The default `TRUE` treats two `NA` or `NaN`
+#'   values as equal, like [merge()].
 #' @examples
 #' if (require("Lahman")) {
 #' batting_df <- tbl_df(Batting)
@@ -133,63 +137,63 @@ NULL
 #' @export
 #' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...) {
+                              suffix = c(".x", ".y"), ..., na_match = TRUE) {
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...) {
+                             suffix = c(".x", ".y"), ..., na_match = TRUE) {
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
 
-  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...) {
+                              suffix = c(".x", ".y"), ..., na_match = TRUE) {
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...) {
+                             suffix = c(".x", ".y"), ..., na_match = TRUE) {
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
-semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ..., na_match = TRUE) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  semi_join_impl(x, y, by$x, by$y)
+  semi_join_impl(x, y, by$x, by$y, na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
-anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ..., na_match = TRUE) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  anti_join_impl(x, y, by$x, by$y)
+  anti_join_impl(x, y, by$x, by$y, na_match)
 }
 
 
