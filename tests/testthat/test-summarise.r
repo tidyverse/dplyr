@@ -189,6 +189,17 @@ test_that("summarise propagate attributes (#194)", {
 
 })
 
+test_that("summarise strips names (#2231)", {
+  data <- data_frame(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = 1:3) %>% rowwise %>% summarise(b = setNames(nm = a))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
+  expect_null(names(data$b))
+})
+
 test_that("summarise fails on missing variables", {
   expect_error(summarise(mtcars, a = mean(notthear)))
 })

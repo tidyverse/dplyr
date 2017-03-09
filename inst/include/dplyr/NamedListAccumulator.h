@@ -19,6 +19,8 @@ namespace dplyr {
       if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
         check_supported_type(x, name);
 
+      Rf_setAttrib(x, R_NamesSymbol, R_NilValue);
+
       SymbolMapIndex index = symbol_map.insert(name);
       if (index.origin == NEW) {
         data.push_back(x);
