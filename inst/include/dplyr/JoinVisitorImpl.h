@@ -36,7 +36,7 @@ namespace dplyr {
       if (i>=0 && j>=0) {
         return comparisons<LHS_RTYPE>().equal_or_both_na(left[i], left[j]);
       } else if (i < 0 && j < 0) {
-        return comparisons<LHS_RTYPE>().equal_or_both_na(right[-i-1], right[-j-1]);
+        return comparisons<RHS_RTYPE>().equal_or_both_na(right[-i-1], right[-j-1]);
       } else if (i >= 0 && j < 0) {
         return comparisons_different<LHS_RTYPE,RHS_RTYPE>().equal_or_both_na(left[i], right[-j-1]);
       } else {
