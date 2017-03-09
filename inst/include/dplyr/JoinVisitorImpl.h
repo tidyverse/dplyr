@@ -43,8 +43,16 @@ namespace dplyr {
       }
     }
 
-    inline SEXP subset(const std::vector<int>& indices);
-    inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set);
+    template<class iterator>
+    SEXP subset(iterator it, const int n);
+
+    SEXP subset(const std::vector<int>& indices) {
+      return subset(indices.begin(), indices.size());
+    }
+
+    SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
+      return subset(set.begin(), set.size());
+    }
 
     LHS_Vec left;
     RHS_Vec right;
@@ -60,24 +68,16 @@ namespace dplyr {
 
     Subsetter(const Visitor& v_) : v(v_) {};
 
-    inline SEXP subset(const std::vector<int>& indices) {
-      int n = indices.size();
+    template<class iterator>
+    inline SEXP subset(iterator begin, const int n) {
       Vec res = no_init(n);
-      for (int i=0; i<n; i++) {
-        res[i] = v.get(indices[i]);
-      }
-      return res;
-    }
-
-    inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-      int n = set.size();
-      Vec res = no_init(n);
-      VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin();
+      iterator it = begin;
       for (int i=0; i<n; i++, ++it) {
         res[i] = v.get(*it);
       }
       return res;
     }
+
   private:
     const Visitor& v;
   };
@@ -101,16 +101,19 @@ namespace dplyr {
       return match::is_match(get(i), get(j));
     }
 
-    inline SEXP subset(const std::vector<int>& indices) {
-      RObject res = Subsetter<JoinVisitorImpl>(*this).subset(indices);
+    template<class iterator>
+    inline SEXP subset(iterator it, const int n) {
+      RObject res = Subsetter<JoinVisitorImpl>(*this).subset(it, n);
       copy_most_attributes(res, left);
       return res;
     }
 
+    inline SEXP subset(const std::vector<int>& indices) {
+      return subset(indices.begin(), indices.size());
+    }
+
     inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-      RObject res = Subsetter<JoinVisitorImpl>(*this).subset(set);
-      copy_most_attributes(res, left);
-      return res;
+      return subset(set.begin(), set.size());
     }
 
     inline STORAGE get(int i) const {
@@ -183,7 +186,7 @@ namespace dplyr {
     DateJoinVisitorGetterImpl(SEXP x) : data(x) {}
 
     inline double get(int i) {
-      return (double) data[i];
+      return static_cast<double>(data[i]);
     }
 
   private:
@@ -230,16 +233,19 @@ namespace dplyr {
       return match::is_match(get(i), get(j));
     }
 
-    inline SEXP subset(const std::vector<int>& indices) {
-      NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(indices);
+    template<class iterator>
+    inline SEXP subset(iterator it, const int n) {
+      NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(it, n);
       set_class(res, "Date");
       return res;
     }
 
+    inline SEXP subset(const std::vector<int>& indices) {
+      return subset(indices.begin(), indices.size());
+    }
+
     inline SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-      NumericVector res = Subsetter<DateJoinVisitor>(*this).subset(set);
-      set_class(res, "Date");
-      return res;
+      return subset(set.begin(), set.size());
     }
 
     inline double get(int i) const {

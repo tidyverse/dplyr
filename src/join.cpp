@@ -35,34 +35,10 @@ namespace dplyr {
   inline size_t JoinVisitorImpl<LGLSXP,INTSXP>::hash(int i) {
     return hash_int_int<LGLSXP,INTSXP>(*this, i);
   }
-  template <int LHS_RTYPE, int RHS_RTYPE>
-  inline SEXP subset_join_int_int(JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, const std::vector<int>& indices) {
-    int n = indices.size();
-    IntegerVector res = no_init(n);
-    for (int i=0; i<n; i++) {
-      int index = indices[i];
-      if (index >= 0) {
-        res[i] = joiner.left[index];
-      } else {
-        res[i] = joiner.right[-index-1];
-      }
-    }
-    return res;
-  }
-  template <>
-  inline SEXP JoinVisitorImpl<INTSXP,LGLSXP>::subset(const std::vector<int>& indices) {
-    return subset_join_int_int<INTSXP,LGLSXP>(*this, indices);
-  }
-  template <>
-  inline SEXP JoinVisitorImpl<LGLSXP,INTSXP>::subset(const std::vector<int>& indices) {
-    return subset_join_int_int<LGLSXP,INTSXP>(*this, indices);
-  }
 
-  template <int LHS_RTYPE, int RHS_RTYPE>
-  inline SEXP subset_join_int_int(JoinVisitorImpl<LHS_RTYPE,RHS_RTYPE>& joiner, const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    int n = set.size();
+  template <int LHS_RTYPE, int RHS_RTYPE, class iterator>
+  inline SEXP subset_join_int_int(JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE>& joiner, iterator it, const int n) {
     IntegerVector res = no_init(n);
-    VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin();
     for (int i=0; i<n; i++, ++it) {
       int index = *it;
       if (index >= 0) {
@@ -74,12 +50,14 @@ namespace dplyr {
     return res;
   }
   template <>
-  inline SEXP JoinVisitorImpl<INTSXP,LGLSXP>::subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    return subset_join_int_int<INTSXP,LGLSXP>(*this, set);
+  template <class iterator>
+  inline SEXP JoinVisitorImpl<INTSXP, LGLSXP>::subset(iterator it, const int n) {
+    return subset_join_int_int<INTSXP, LGLSXP>(*this, it, n);
   }
   template <>
-  inline SEXP JoinVisitorImpl<LGLSXP,INTSXP>::subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    return subset_join_int_int<LGLSXP,INTSXP>(*this, set);
+  template <class iterator>
+  inline SEXP JoinVisitorImpl<LGLSXP, INTSXP>::subset(iterator it, const int n) {
+    return subset_join_int_int<LGLSXP, INTSXP>(*this, it, n);
   }
 
 
@@ -103,35 +81,9 @@ namespace dplyr {
   }
 
 
-  template <int RTYPE>
-  inline SEXP subset_join_int_double(JoinVisitorImpl<RTYPE,REALSXP>& joiner, const std::vector<int>& indices) {
-    int n = indices.size();
+  template <int RTYPE, class iterator>
+  inline SEXP subset_join_int_double(JoinVisitorImpl<RTYPE, REALSXP>& joiner, iterator it, const int n) {
     NumericVector res = no_init(n);
-    for (int i=0; i<n; i++) {
-      int index = indices[i];
-      if (index >= 0) {
-        res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>(joiner.left[index]);
-      } else {
-        res[i] = joiner.right[-index-1];
-      }
-    }
-    return res;
-  }
-  template <>
-  inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset(const std::vector<int>& indices) {
-    return subset_join_int_double<INTSXP>(*this, indices);
-  }
-  template <>
-  inline SEXP JoinVisitorImpl<LGLSXP,REALSXP>::subset(const std::vector<int>& indices) {
-    return subset_join_int_double<LGLSXP>(*this, indices);
-  }
-
-
-  template <int RTYPE>
-  inline SEXP subset_join_int_double(JoinVisitorImpl<RTYPE,REALSXP>& joiner, const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    int n = set.size();
-    NumericVector res = no_init(n);
-    VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin();
     for (int i=0; i<n; i++, ++it) {
       int index = *it;
       if (index >= 0) {
@@ -143,12 +95,14 @@ namespace dplyr {
     return res;
   }
   template <>
-  inline SEXP JoinVisitorImpl<INTSXP,REALSXP>::subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    return  subset_join_int_double<INTSXP>(*this, set);
+  template <class iterator>
+  inline SEXP JoinVisitorImpl<INTSXP, REALSXP>::subset(iterator begin, const int n) {
+    return subset_join_int_double<INTSXP, iterator>(*this, begin, n);
   }
   template <>
-  inline SEXP JoinVisitorImpl<LGLSXP,REALSXP>::subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    return  subset_join_int_double<LGLSXP>(*this, set);
+  template <class iterator>
+  inline SEXP JoinVisitorImpl<LGLSXP, REALSXP>::subset(iterator begin, const int n) {
+    return subset_join_int_double<LGLSXP, iterator>(*this, begin, n);
   }
 
   // -------------- (double,int)
@@ -174,35 +128,9 @@ namespace dplyr {
   }
 
 
-  template <int RTYPE>
-  inline SEXP subset_join_double_int(JoinVisitorImpl<REALSXP,RTYPE>& joiner, const std::vector<int>& indices) {
-    int n = indices.size();
+  template <int RTYPE, class iterator>
+  inline SEXP subset_join_double_int(JoinVisitorImpl<REALSXP, RTYPE>& joiner, iterator it, const int n) {
     NumericVector res = no_init(n);
-    for (int i=0; i<n; i++) {
-      int index = indices[i];
-      if (index < 0) {
-        res[i] = Rcpp::internal::r_coerce<INTSXP,REALSXP>(joiner.right[-index-1]);
-      } else {
-        res[i] = joiner.left[index];
-      }
-    }
-    return res;
-  }
-  template <>
-  inline SEXP JoinVisitorImpl<REALSXP,INTSXP>::subset(const std::vector<int>& indices) {
-    return subset_join_double_int<INTSXP>(*this, indices);
-  }
-  template <>
-  inline SEXP JoinVisitorImpl<REALSXP,LGLSXP>::subset(const std::vector<int>& indices) {
-    return subset_join_double_int<LGLSXP>(*this, indices);
-  }
-
-
-  template <int RTYPE>
-  inline SEXP subset_join_double_int(JoinVisitorImpl<REALSXP,RTYPE>& joiner, const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    int n = set.size();
-    NumericVector res = no_init(n);
-    VisitorSetIndexSet<DataFrameJoinVisitors>::const_iterator it=set.begin();
     for (int i=0; i<n; i++, ++it) {
       int index = *it;
       if (index < 0) {
@@ -214,12 +142,14 @@ namespace dplyr {
     return res;
   }
   template <>
-  inline SEXP JoinVisitorImpl<REALSXP,INTSXP>::subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    return  subset_join_double_int<INTSXP>(*this, set);
+  template <class iterator>
+  inline SEXP JoinVisitorImpl<REALSXP, INTSXP>::subset(iterator begin, const int n) {
+    return subset_join_double_int<INTSXP, iterator>(*this, begin, n);
   }
   template <>
-  inline SEXP JoinVisitorImpl<REALSXP,LGLSXP>::subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) {
-    return  subset_join_double_int<LGLSXP>(*this, set);
+  template <class iterator>
+  inline SEXP JoinVisitorImpl<REALSXP, LGLSXP>::subset(iterator begin, const int n) {
+    return subset_join_double_int<LGLSXP, iterator>(*this, begin, n);
   }
 
 
