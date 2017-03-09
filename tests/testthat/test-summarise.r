@@ -193,10 +193,10 @@ test_that("summarise strips names (#2231)", {
   data <- data_frame(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
   expect_null(names(data$b))
 
-  data <- data_frame(a = 1:3) %>% rowwise %>% mutate(b = setNames(nm = a))
+  data <- data_frame(a = 1:3) %>% rowwise %>% summarise(b = setNames(nm = a))
   expect_null(names(data$b))
 
-  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a[[1]]))
+  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
   expect_null(names(data$b))
 })
 
