@@ -28,7 +28,6 @@ notifications:
 #before_script
 before_script:
 - psql -c 'create database test;' -U postgres
-- R -q -e 'install.packages("http://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.7.tar.gz", repos = NULL)'
 
 #after_success
 after_success:
