@@ -130,10 +130,6 @@ full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
     .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
 }
 
-slice_impl <- function(df, dots) {
-    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
-}
-
 mutate_impl <- function(df, dots) {
     .Call('dplyr_mutate_impl', PACKAGE = 'dplyr', df, dots)
 }
@@ -164,6 +160,10 @@ intersect_data_frame <- function(x, y) {
 
 setdiff_data_frame <- function(x, y) {
     .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
+}
+
+slice_impl <- function(df, dots) {
+    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 summarise_impl <- function(df, dots) {
