@@ -32,25 +32,6 @@ namespace dplyr {
     return RHS_hash_fun(dual.get_value_as_left(i));
   }
 
-  template <int LHS_RTYPE, int RHS_RTYPE, class iterator>
-  inline SEXP subset_join_int_int(const DualVector<LHS_RTYPE, RHS_RTYPE>& dual, iterator it, const int n) {
-    IntegerVector res = no_init(n);
-    for (int i=0; i<n; i++, ++it) {
-      res[i] = dual.get_value_as_left(*it);
-    }
-    return res;
-  }
-  template <>
-  template <class iterator>
-  inline SEXP DualVector<INTSXP, LGLSXP>::subset(iterator it, const int n) {
-    return subset_join_int_int<INTSXP, LGLSXP>(*this, it, n);
-  }
-  template <>
-  template <class iterator>
-  inline SEXP DualVector<LGLSXP, INTSXP>::subset(iterator it, const int n) {
-    return subset_join_int_int<LGLSXP, INTSXP>(*this, it, n);
-  }
-
 
   // -------------- (int,double)
   template <>
@@ -63,25 +44,6 @@ namespace dplyr {
   }
 
 
-  template <int RTYPE, class iterator>
-  inline SEXP subset_join_int_double(const DualVector<RTYPE, REALSXP>& dual, iterator it, const int n) {
-    NumericVector res = no_init(n);
-    for (int i=0; i<n; i++, ++it) {
-      res[i] = dual.get_value_as_right(*it);
-    }
-    return res;
-  }
-  template <>
-  template <class iterator>
-  inline SEXP DualVector<INTSXP, REALSXP>::subset(iterator begin, const int n) {
-    return subset_join_int_double<INTSXP, iterator>(*this, begin, n);
-  }
-  template <>
-  template <class iterator>
-  inline SEXP DualVector<LGLSXP, REALSXP>::subset(iterator begin, const int n) {
-    return subset_join_int_double<LGLSXP, iterator>(*this, begin, n);
-  }
-
   // -------------- (double,int)
   template <>
   inline size_t JoinVisitorImpl<REALSXP, INTSXP>::hash(int i) {
@@ -90,26 +52,6 @@ namespace dplyr {
   template <>
   inline size_t JoinVisitorImpl<REALSXP, LGLSXP>::hash(int i) {
     return LHS_hash_fun(dual.get_value_as_left(i));
-  }
-
-
-  template <int RTYPE, class iterator>
-  inline SEXP subset_join_double_int(const DualVector<REALSXP, RTYPE>& dual, iterator it, const int n) {
-    NumericVector res = no_init(n);
-    for (int i=0; i<n; i++, ++it) {
-      res[i] = dual.get_value_as_left(*it);
-    }
-    return res;
-  }
-  template <>
-  template <class iterator>
-  inline SEXP DualVector<REALSXP, INTSXP>::subset(iterator begin, const int n) {
-    return subset_join_double_int<INTSXP, iterator>(*this, begin, n);
-  }
-  template <>
-  template <class iterator>
-  inline SEXP DualVector<REALSXP, LGLSXP>::subset(iterator begin, const int n) {
-    return subset_join_double_int<LGLSXP, iterator>(*this, begin, n);
   }
 
 

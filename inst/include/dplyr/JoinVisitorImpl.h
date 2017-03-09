@@ -46,7 +46,38 @@ namespace dplyr {
     }
 
     template <class iterator>
-    SEXP subset(iterator it, const int n);
+    SEXP subset(iterator it, const int n) {
+      // We use the fact that LGLSXP < INTSXP < REALSXP, this defines our coercion precedence
+      if (LHS_RTYPE == RHS_RTYPE)
+        return subset_same(it, n);
+      else if (LHS_RTYPE > RHS_RTYPE)
+        return subset_left(it, n);
+      else
+        return subset_right(it, n);
+    }
+
+    template <class iterator>
+    SEXP subset_same(iterator it, const int n) {
+      stop("NYI");
+    }
+
+    template <class iterator>
+    SEXP subset_left(iterator it, const int n) {
+      LHS_Vec res = no_init(n);
+      for (int i=0; i<n; i++, ++it) {
+        res[i] = get_value_as_left(*it);
+      }
+      return res;
+    }
+
+    template <class iterator>
+    SEXP subset_right(iterator it, const int n) {
+      RHS_Vec res = no_init(n);
+      for (int i=0; i<n; i++, ++it) {
+        res[i] = get_value_as_right(*it);
+      }
+      return res;
+    }
 
     SEXP get_left() {
       return left;
