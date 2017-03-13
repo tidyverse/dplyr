@@ -5,6 +5,7 @@
 
 
 warn_underscored <- function() {
+  return(NULL)
   warn(paste(
     "The underscored versions are deprecated in favour of",
     "tidy evaluation idioms. Please see the documentation",
@@ -12,6 +13,7 @@ warn_underscored <- function() {
   ))
 }
 warn_text_se <- function() {
+  return(NULL)
   warn("Text parsing is deprecated, please supply an expression or formula")
 }
 
