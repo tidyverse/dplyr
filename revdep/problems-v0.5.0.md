@@ -40,66 +40,52 @@
 
 # Check results
 
-56 packages with problems
+42 packages with problems
 
-|package            |version   | errors| warnings| notes|
-|:------------------|:---------|------:|--------:|-----:|
-|ameco              |0.2.6     |      1|        0|     1|
-|anametrix          |2.0.0     |      1|        0|     0|
-|backtestGraphics   |0.1.6     |      1|        0|     0|
-|bayesplot          |1.1.0     |      0|        1|     0|
-|bioOED             |0.1.1     |      1|        0|     0|
-|blscrapeR          |2.1.2     |      1|        0|     0|
-|bossMaps           |0.1.0     |      2|        1|     0|
-|codingMatrices     |0.2.2     |      0|        1|     0|
-|crawl              |2.0.1     |      0|        1|     1|
-|d3r                |0.6.2     |      1|        0|     1|
-|dat                |0.1.0     |      1|        0|     0|
-|decoder            |1.1.12    |      0|        1|     0|
-|describer          |0.2.0     |      1|        0|     0|
-|dggridR            |0.1.11    |      1|        0|     0|
-|fitcoach           |1.0       |      1|        0|     0|
-|futureheatwaves    |1.0.3     |      0|        1|     0|
-|GADMTools          |2.0-1     |      1|        0|     0|
-|geoknife           |1.5.2     |      0|        1|     0|
-|ggCompNet          |0.1.0     |      0|        1|     1|
-|goldi              |1.0.0     |      1|        0|     0|
-|groupdata2         |0.1.0     |      0|        1|     0|
-|gutenbergr         |0.1.2     |      1|        0|     0|
-|harrietr           |0.2.2     |      1|        0|     0|
-|highcharter        |0.5.0     |      0|        1|     1|
-|HTSSIP             |1.0.3     |      1|        0|     0|
-|huxtable           |0.1.0     |      1|        1|     0|
-|IATscores          |0.1-2     |      1|        0|     0|
-|inlmisc            |0.2.4     |      1|        0|     0|
-|jpmesh             |0.3.0     |      1|        0|     0|
-|kokudosuuchi       |0.2.0     |      1|        0|     0|
-|MazamaSpatialUtils |0.4.8     |      1|        0|     0|
-|mtconnectR         |1.0.1     |      1|        0|     0|
-|NFP                |0.99.2    |      1|        0|     0|
-|officer            |0.1.1     |      2|        1|     0|
-|padr               |0.2.1     |      1|        0|     0|
-|photobiologyInOut  |0.4.12    |      1|        0|     0|
-|plotly             |4.5.6     |      1|        0|     0|
-|poplite            |0.99.17.3 |      0|        1|     0|
-|PWFSLSmoke         |0.99.9    |      1|        0|     0|
-|qualvar            |0.1.0     |      0|        1|     0|
-|radiant.model      |0.6.0     |      1|        0|     0|
-|raptr              |0.0.3     |      1|        0|     0|
-|rattle             |4.1.0     |      0|        1|     3|
-|rbgm               |0.0.4     |      0|        1|     0|
-|recexcavAAR        |0.3.0     |      0|        1|     1|
-|rwunderground      |0.1.0     |      1|        0|     0|
-|sf                 |0.3-4     |      1|        0|     0|
-|SpaDES             |1.3.1     |      0|        2|     2|
-|sparseHessianFD    |0.3.2     |      0|        1|     0|
-|ss3sim             |0.9.3     |      0|        1|     0|
-|stormwindmodel     |0.1.0     |      0|        1|     0|
-|stplanr            |0.1.7-3   |      1|        0|     1|
-|textmining         |0.0.1     |      0|        1|     0|
-|tigris             |0.3.3     |      1|        0|     0|
-|tmap               |1.8-1     |      1|        0|     0|
-|wrswoR             |1.0-1     |      0|        1|     0|
+|package           |version   | errors| warnings| notes|
+|:-----------------|:---------|------:|--------:|-----:|
+|ameco             |0.2.6     |      1|        0|     1|
+|anametrix         |2.0.0     |      1|        0|     0|
+|backtestGraphics  |0.1.6     |      1|        0|     0|
+|bayesplot         |1.1.0     |      0|        1|     0|
+|bioOED            |0.1.1     |      1|        0|     0|
+|blscrapeR         |2.1.2     |      1|        0|     0|
+|codingMatrices    |0.2.2     |      0|        1|     0|
+|d3r               |0.6.2     |      1|        0|     1|
+|dat               |0.1.0     |      1|        0|     0|
+|decoder           |1.1.12    |      0|        1|     0|
+|describer         |0.2.0     |      1|        0|     0|
+|fitcoach          |1.0       |      1|        0|     0|
+|FSelectorRcpp     |0.1.2     |      1|        0|     2|
+|futureheatwaves   |1.0.3     |      0|        1|     0|
+|geoknife          |1.5.2     |      0|        1|     0|
+|ggCompNet         |0.1.0     |      0|        1|     1|
+|goldi             |1.0.0     |      1|        0|     0|
+|groupdata2        |0.1.0     |      0|        1|     0|
+|gutenbergr        |0.1.2     |      1|        0|     0|
+|harrietr          |0.2.2     |      1|        0|     0|
+|highcharter       |0.5.0     |      0|        1|     1|
+|HTSSIP            |1.0.3     |      1|        0|     0|
+|huxtable          |0.1.0     |      1|        1|     0|
+|IATscores         |0.1-2     |      1|        0|     0|
+|mtconnectR        |1.0.1     |      1|        0|     0|
+|NFP               |0.99.2    |      1|        0|     0|
+|officer           |0.1.1     |      2|        1|     0|
+|padr              |0.2.1     |      1|        0|     0|
+|photobiologyInOut |0.4.12    |      1|        0|     0|
+|plotly            |4.5.6     |      1|        0|     0|
+|poplite           |0.99.17.3 |      0|        1|     0|
+|qualvar           |0.1.0     |      0|        1|     0|
+|radiant.model     |0.6.0     |      1|        0|     0|
+|rattle            |4.1.0     |      0|        1|     3|
+|recexcavAAR       |0.3.0     |      0|        1|     1|
+|rwunderground     |0.1.0     |      1|        0|     0|
+|SpaDES            |1.3.1     |      0|        2|     2|
+|sparseHessianFD   |0.3.2     |      0|        1|     0|
+|ss3sim            |0.9.3     |      0|        1|     0|
+|stormwindmodel    |0.1.0     |      0|        1|     0|
+|textmining        |0.0.1     |      0|        1|     0|
+|wrswoR            |1.0-1     |      0|        1|     0|
 
 ## ameco (0.2.6)
 Maintainer: Eric Persson <expersso5@gmail.com>  
@@ -249,82 +235,6 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## bossMaps (0.1.0)
-Maintainer: Adam M. Wilson <adamw@buffalo.edu>
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘bossMaps-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: checkRates
-> ### Title: Evaluate whether potential curve parameters are feasible given
-> ###   the range and domain geometry.
-> ### Aliases: checkRates
-> 
-> ### ** Examples
-> 
-> data(Beamys_hindei_range)
-> # Generate domain
->  domain=raster::raster(xmn=-180, xmx=180, ymn=-90, ymx=90,
-+  crs="+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs",
-+  resolution=.1, vals=NULL)
->  # registerDoParallel(2) #optionally use to speed up calculation
->  # Calculate distance to range
->  rdist=rangeDist(range=Beamys_hindei_range,domain=domain,
-+                  domainkm=1000,mask=FALSE,fact=2,verbose=FALSE)
-Error in spTransform(x, CRS(CRSobj), ...) : 
-  package rgdal is required for spTransform methods
-Calls: rangeDist ... spTransform -> spTransform -> spTransform -> spTransform
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1: rangeDist(Tinamus_solitarius_range, domain = domain, domainkm = 1000, mask = F, fact = 2, 
-         verbose = F) at testthat/test_Tinamou.R:16
-  2: spTransform(urange, bproj)
-  3: spTransform(urange, bproj) at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:93
-  4: spTransform(x, CRS(CRSobj), ...) at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:93
-  5: spTransform(x, CRS(CRSobj), ...) at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:93
-  6: stop("package rgdal is required for spTransform methods") at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:97
-  
-  testthat results ================================================================
-  OK: 2 SKIPPED: 0 FAILED: 2
-  1. Error: (unknown) (@test_Beamys_hindei.R#16) 
-  2. Error: (unknown) (@test_Tinamou.R#16) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-... 8 lines ...
-
-    extract
-
-The following object is masked from 'package:dplyr':
-
-    select
-
-Quitting from lines 53-72 (bossMaps.Rmd) 
-Error: processing vignette 'bossMaps.Rmd' failed with diagnostics:
-package rgdal is required for spTransform methods
-Execution halted
-```
-
 ## codingMatrices (0.2.2)
 Maintainer: Bill Venables <Bill.Venables@gmail.com>
 
@@ -354,39 +264,6 @@ I found no style file---while reading file codingMatrices.aux
 Calls: buildVignettes -> texi2pdf -> texi2dvi
 Execution halted
 
-```
-
-## crawl (2.0.1)
-Maintainer: Devin S. Johnson <devin.johnson@noaa.gov>
-
-0 errors | 1 warning  | 1 note 
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-crawl 2.0.1 (2016-07-22) 
- Type 'vignette('crawl_intro')' to see examples of package use, and
- 'demo(package='crawl')' will provide a list of demos.
- The raw code for the demos can be found by typing:
- 'system.file('demo', package='crawl')'
-
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
-  libgdal.so.1: cannot open shared object file: No such file or directory
-Quitting from lines 80-83 (crawl_intro.Rmd) 
-Error: processing vignette 'crawl_intro.Rmd' failed with diagnostics:
-package or namespace load failed for 'rgdal'
-Execution halted
-
-
-checking installed package size ... NOTE
-  installed size is  9.3Mb
-  sub-directories of 1Mb or more:
-    doc    2.2Mb
-    libs   6.3Mb
 ```
 
 ## d3r (0.6.2)
@@ -428,7 +305,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [38s/40s]
+  Running ‘testthat.R’ [43s/45s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -482,7 +359,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [101s/104s]
+  Running ‘testthat.R’ [110s/117s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -500,18 +377,6 @@ Last 13 lines of output:
   
   Error: testthat unit tests failed
   Execution halted
-```
-
-## dggridR (0.1.11)
-Maintainer: Richard Barnes <rbarnes@umn.edu>  
-Bug reports: https://github.com/r-barnes/dggridR/
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘dggridR’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/dggridR.Rcheck/00install.out’ for details.
 ```
 
 ## fitcoach (1.0)
@@ -541,6 +406,47 @@ Last 13 lines of output:
   Execution halted
 ```
 
+## FSelectorRcpp (0.1.2)
+Maintainer: Zygmunt Zawadzki <zygmunt@zstat.pl>  
+Bug reports: https://github.com/mi2-warsaw/FSelectorRcpp/issues
+
+1 error  | 0 warnings | 2 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘FSelectorRcpp-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: feature_search
+> ### Title: General Feature Searching Engine
+> ### Aliases: feature_search
+> 
+> ### ** Examples
+> 
+> 
+> # Enable parallelization in examples
+>  library(doSNOW) # doSNOW has an option for progress bar
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: snow
+>  cl <- makeCluster(2)
+Loading required namespace: Rmpi
+Error in Rmpi::mpi.comm.spawn(slave = mpitask, slavearg = args, nslaves = count,  : 
+  MPI_Comm_spawn is not supported.
+Calls: makeCluster -> makeMPIcluster -> <Anonymous>
+Execution halted
+
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘RTCGA.rnaseq’
+
+checking installed package size ... NOTE
+  installed size is  9.7Mb
+  sub-directories of 1Mb or more:
+    doc    2.2Mb
+    libs   7.3Mb
+```
+
 ## futureheatwaves (1.0.3)
 Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>
 
@@ -557,17 +463,6 @@ Error: processing vignette 'futureheatwaves.Rmd' failed with diagnostics:
 cannot open the connection
 Execution halted
 
-```
-
-## GADMTools (2.0-1)
-Maintainer: Jean Pierre Decorps <jp.decorps@epiconcept.fr>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘GADMTools’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/GADMTools.Rcheck/00install.out’ for details.
 ```
 
 ## geoknife (1.5.2)
@@ -820,69 +715,6 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## inlmisc (0.2.4)
-Maintainer: Jason C. Fisher <jfisher@usgs.gov>  
-Bug reports: https://github.com/USGS-R/inlmisc/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘inlmisc’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/inlmisc.Rcheck/00install.out’ for details.
-```
-
-## jpmesh (0.3.0)
-Maintainer: Shinya Uryu <suika1127@gmail.com>  
-Bug reports: https://github.com/uribo/jpmesh/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘jpmesh’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/jpmesh.Rcheck/00install.out’ for details.
-```
-
-## kokudosuuchi (0.2.0)
-Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>  
-Bug reports: https://github.com/yutannihilation/kokudosuuchi/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  2: rgdal::ogrListLayers
-  3: getExportedValue(pkg, name)
-  4: asNamespace(ns)
-  5: getNamespace(ns)
-  6: tryCatch(loadNamespace(name), error = function(e) stop(e))
-  7: tryCatchList(expr, classes, parentenv, handlers)
-  8: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-  9: value[[3L]](cond)
-  
-  testthat results ================================================================
-  OK: 1 SKIPPED: 0 FAILED: 1
-  1. Error: getKSJData works (@test-getData.R#4) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## MazamaSpatialUtils (0.4.8)
-Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘MazamaSpatialUtils’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/MazamaSpatialUtils.Rcheck/00install.out’ for details.
-```
-
 ## mtconnectR (1.0.1)
 Maintainer: Subramanyam Ravishankar <subramanyam@systeminsights.com>
 
@@ -890,7 +722,7 @@ Maintainer: Subramanyam Ravishankar <subramanyam@systeminsights.com>
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [13s/13s]
+  Running ‘testthat.R’ [15s/15s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Component "layers": Component 2: Component 3: Component 2: Modes of target, current: function, environment
@@ -953,7 +785,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [20s/21s]
+  Running ‘testthat.R’ [24s/24s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   9: ph_with_img(., type = "body", src = img.file, height = 1.06, width = 1.39)
@@ -992,7 +824,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [105s/108s]
+  Running ‘testthat.R’ [126s/128s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -1048,7 +880,7 @@ Bug reports: https://github.com/ropensci/plotly/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [44s/46s]
+  Running ‘testthat.R’ [51s/52s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   [1] "Running test: plotly-group-within-trace"
@@ -1096,19 +928,6 @@ Error: processing vignette 'poplite.Rnw' failed with diagnostics:
 Error in c(DataFrameList(META = meta), tbls[unique(tags)]) : 
   could not find symbol "recursive" in environment of the generic function
 Execution halted
-```
-
-## PWFSLSmoke (0.99.9)
-Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking package dependencies ... ERROR
-Package required but not available: ‘MazamaSpatialUtils’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
 ```
 
 ## qualvar (0.1.0)
@@ -1159,22 +978,6 @@ Calls: %>% ... <Anonymous> -> plot -> plot.model.predict -> ifelse
 Execution halted
 ```
 
-## raptr (0.0.3)
-Maintainer: Jeffrey O Hanson <jeffrey.hanson@uqconnect.edu.au>  
-Bug reports: https://github.com/jeffreyhanson/raptr/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking package dependencies ... ERROR
-Package required but not available: ‘gdalUtils’
-
-Packages suggested but not available for checking: ‘gurobi’ ‘rgurobi’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-```
-
 ## rattle (4.1.0)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 
@@ -1203,7 +1006,7 @@ Execution halted
 
 
 checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘rggobi’ ‘pkgDepTools’
+Package suggested but not available for checking: ‘pkgDepTools’
 
 checking installed package size ... NOTE
   installed size is  6.9Mb
@@ -1214,38 +1017,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:58260): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
-```
-
-## rbgm (0.0.4)
-Maintainer: Michael D. Sumner <mdsumner@gmail.com>  
-Bug reports: https://github.com/AustralianAntarcticDivision/rbgm/issues/
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: sp
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:raster':
-... 8 lines ...
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
-  libgdal.so.1: cannot open shared object file: No such file or directory
-Quitting from lines 16-24 (BGM_Spatial.Rmd) 
-Error: processing vignette 'BGM_Spatial.Rmd' failed with diagnostics:
-package or namespace load failed for 'rgdal'
-Execution halted
+(R:33745): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## recexcavAAR (0.3.0)
@@ -1309,18 +1081,6 @@ Error in `[.data.frame`(countrycode::countrycode_data, , c("country.name",  :
   undefined columns selected
 Calls: set_location ... is_valid_territory -> list_countries -> [ -> [.data.frame
 Execution halted
-```
-
-## sf (0.3-4)
-Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>  
-Bug reports: https://github.com/edzer/sfr/issues/
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘sf’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/sf.Rcheck/00install.out’ for details.
 ```
 
 ## SpaDES (1.3.1)
@@ -1439,22 +1199,6 @@ Please reinstall the package that provides this extension.
 Execution halted
 ```
 
-## stplanr (0.1.7-3)
-Maintainer: Robin Lovelace <rob00x@gmail.com>  
-Bug reports: https://github.com/ropensci/stplanr/issues
-
-1 error  | 0 warnings | 1 note 
-
-```
-checking whether package ‘stplanr’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/stplanr.Rcheck/00install.out’ for details.
-
-checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘tmap’ ‘tmaptools’ ‘OpenStreetMap’
-```
-
 ## textmining (0.0.1)
 Maintainer: Jan Idziak <JanIdziak@gmail.com>
 
@@ -1465,31 +1209,6 @@ checking whether package ‘textmining’ can be installed ... WARNING
 Found the following significant warnings:
   Warning: no DISPLAY variable so Tk is not available
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/textmining.Rcheck/00install.out’ for details.
-```
-
-## tigris (0.3.3)
-Maintainer: Kyle Walker <kyle.walker@tcu.edu>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘tigris’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/tigris.Rcheck/00install.out’ for details.
-```
-
-## tmap (1.8-1)
-Maintainer: Martijn Tennekes <mtennekes@gmail.com>  
-Bug reports: https://github.com/mtennekes/tmap/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking package dependencies ... ERROR
-Packages required but not available: ‘tmaptools’ ‘mapview’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
 ```
 
 ## wrswoR (1.0-1)
