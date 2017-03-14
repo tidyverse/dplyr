@@ -1,2 +1,0 @@
-ERROR: dependency ‘Rmpi’ is not available for package ‘doMPI’
-* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/doMPI’
