@@ -45,7 +45,7 @@
 
 # Check results
 
-160 packages with problems
+151 packages with problems
 
 |package              |version   | errors| warnings| notes|
 |:--------------------|:---------|------:|--------:|-----:|
@@ -59,7 +59,7 @@
 |bioinactivation      |1.1.5     |      2|        1|     0|
 |bioOED               |0.1.1     |      1|        0|     0|
 |blscrapeR            |2.1.2     |      1|        0|     0|
-|bossMaps             |0.1.0     |      2|        1|     0|
+|bossMaps             |0.1.0     |      0|        1|     0|
 |broom                |0.4.2     |      1|        1|     0|
 |carpenter            |0.2.0     |      2|        1|     0|
 |chunked              |0.3       |      2|        0|     0|
@@ -77,7 +77,6 @@
 |decoder              |1.1.12    |      0|        1|     0|
 |DeLorean             |1.2.4     |      0|        1|     1|
 |describer            |0.2.0     |      1|        0|     0|
-|dggridR              |0.1.11    |      1|        0|     0|
 |DiagrammeR           |0.9.0     |      2|        0|     1|
 |doctr                |0.2.0     |      1|        1|     0|
 |dotwhisker           |0.2.3     |      1|        1|     0|
@@ -90,13 +89,13 @@
 |eyelinker            |0.1       |      0|        1|     0|
 |eyetrackingR         |0.1.6     |      2|        0|     0|
 |ezsummary            |0.2.1     |      2|        1|     0|
-|fbar                 |0.1.23    |      1|        0|     1|
+|fbar                 |0.1.23    |      1|        0|     0|
 |fitcoach             |1.0       |      1|        0|     0|
 |forestmodel          |0.4.0     |      1|        0|     0|
 |FRK                  |0.1.1     |      1|        2|     2|
+|FSelectorRcpp        |0.1.2     |      1|        0|     2|
 |funModeling          |1.6.1     |      1|        0|     0|
 |futureheatwaves      |1.0.3     |      1|        1|     0|
-|GADMTools            |2.0-1     |      1|        0|     0|
 |GenCAT               |1.0.3     |      1|        1|     0|
 |geoknife             |1.5.2     |      0|        1|     0|
 |ggCompNet            |0.1.0     |      0|        1|     1|
@@ -118,14 +117,10 @@
 |IATscores            |0.1-2     |      1|        0|     0|
 |incadata             |0.5.3     |      1|        0|     0|
 |inferr               |0.1.0     |      0|        1|     0|
-|inlmisc              |0.2.4     |      1|        0|     0|
 |ipft                 |0.2.8     |      0|        1|     0|
-|jpmesh               |0.3.0     |      1|        0|     0|
-|kokudosuuchi         |0.2.0     |      1|        0|     0|
 |Lahman               |5.0-0     |      0|        1|     1|
 |lplyr                |0.1.6     |      1|        1|     0|
 |mason                |0.2.5     |      1|        0|     0|
-|MazamaSpatialUtils   |0.4.8     |      1|        0|     0|
 |mdsr                 |0.1.3     |      1|        0|     1|
 |medicare             |0.2.0     |      0|        1|     0|
 |merTools             |0.3.0     |      1|        0|     0|
@@ -149,7 +144,6 @@
 |poplite              |0.99.17.3 |      2|        1|     0|
 |prophet              |0.1       |      1|        1|     1|
 |purrr                |0.2.2     |      1|        0|     0|
-|PWFSLSmoke           |0.99.9    |      1|        0|     0|
 |qualvar              |0.1.0     |      0|        1|     0|
 |qwraps2              |0.2.4     |      1|        0|     0|
 |R6Frame              |0.1.0     |      1|        0|     0|
@@ -158,12 +152,11 @@
 |radiant.design       |0.6.0     |      0|        1|     0|
 |radiant.model        |0.6.0     |      2|        0|     0|
 |radiant.multivariate |0.6.0     |      2|        0|     0|
-|raptr                |0.0.3     |      1|        0|     0|
 |rattle               |4.1.0     |      0|        1|     3|
-|rbgm                 |0.0.4     |      0|        1|     0|
 |recexcavAAR          |0.3.0     |      0|        1|     1|
-|replyr               |0.2.3     |      2|        1|     0|
+|replyr               |0.2.4     |      2|        1|     0|
 |rfishbase            |2.1.1     |      1|        1|     0|
+|rgho                 |1.0.1     |      1|        0|     0|
 |rmcfs                |1.2.4     |      0|        1|     2|
 |RNeXML               |2.0.7     |      2|        1|     1|
 |rprev                |0.2.3     |      0|        1|     0|
@@ -177,7 +170,7 @@
 |sjmisc               |2.3.1     |      1|        1|     0|
 |sjPlot               |2.3.1     |      1|        1|     0|
 |sjstats              |0.9.0     |      1|        0|     1|
-|SpaDES               |1.3.1     |      1|        2|     2|
+|SpaDES               |1.3.1     |      0|        2|     2|
 |sparklyr             |0.5.3     |      0|        1|     0|
 |sparseHessianFD      |0.3.2     |      0|        1|     0|
 |spbabel              |0.4.5     |      1|        0|     0|
@@ -186,7 +179,7 @@
 |ss3sim               |0.9.3     |      1|        1|     0|
 |statar               |0.6.2     |      2|        0|     0|
 |stormwindmodel       |0.1.0     |      0|        1|     0|
-|stplanr              |0.1.7-3   |      1|        0|     1|
+|stplanr              |0.1.7-3   |      0|        1|     0|
 |tadaatoolbox         |0.10.0    |      1|        1|     0|
 |texmexseq            |0.3       |      1|        0|     0|
 |textmining           |0.0.1     |      0|        1|     0|
@@ -196,8 +189,6 @@
 |tidyr                |0.6.1     |      1|        0|     0|
 |tidytext             |0.1.2     |      1|        1|     0|
 |tigger               |0.2.8     |      1|        1|     0|
-|tigris               |0.3.3     |      1|        0|     0|
-|tmap                 |1.8-1     |      1|        0|     0|
 |treeplyr             |0.1.2     |      1|        0|     0|
 |turfR                |0.8-7     |      1|        0|     1|
 |unpivotr             |0.1.0     |      2|        1|     0|
@@ -205,7 +196,7 @@
 |valr                 |0.1.1     |      1|        0|     0|
 |vcfR                 |1.4.0     |      1|        0|     1|
 |VWPre                |0.9.5     |      0|        1|     0|
-|WHO                  |0.2       |      1|        0|     0|
+|WHO                  |0.2       |      2|        1|     0|
 |wordbankr            |0.2.0     |      0|        1|     0|
 |wrswoR               |1.0-1     |      0|        1|     0|
 |Zelig                |5.0-17    |      1|        0|     1|
@@ -517,55 +508,9 @@ Last 13 lines of output:
 ## bossMaps (0.1.0)
 Maintainer: Adam M. Wilson <adamw@buffalo.edu>
 
-2 errors | 1 warning  | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘bossMaps-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: checkRates
-> ### Title: Evaluate whether potential curve parameters are feasible given
-> ###   the range and domain geometry.
-> ### Aliases: checkRates
-> 
-> ### ** Examples
-> 
-> data(Beamys_hindei_range)
-> # Generate domain
->  domain=raster::raster(xmn=-180, xmx=180, ymn=-90, ymx=90,
-+  crs="+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs",
-+  resolution=.1, vals=NULL)
->  # registerDoParallel(2) #optionally use to speed up calculation
->  # Calculate distance to range
->  rdist=rangeDist(range=Beamys_hindei_range,domain=domain,
-+                  domainkm=1000,mask=FALSE,fact=2,verbose=FALSE)
-Error in spTransform(x, CRS(CRSobj), ...) : 
-  package rgdal is required for spTransform methods
-Calls: rangeDist ... spTransform -> spTransform -> spTransform -> spTransform
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1: rangeDist(Tinamus_solitarius_range, domain = domain, domainkm = 1000, mask = F, fact = 2, 
-         verbose = F) at testthat/test_Tinamou.R:16
-  2: spTransform(urange, bproj)
-  3: spTransform(urange, bproj) at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:93
-  4: spTransform(x, CRS(CRSobj), ...) at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:93
-  5: spTransform(x, CRS(CRSobj), ...) at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:93
-  6: stop("package rgdal is required for spTransform methods") at /tmp/RtmpvuUUir/devtools345049746f77/sp/R/Spatial-methods.R:97
-  
-  testthat results ================================================================
-  OK: 2 SKIPPED: 0 FAILED: 2
-  1. Error: (unknown) (@test_Beamys_hindei.R#16) 
-  2. Error: (unknown) (@test_Tinamou.R#16) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
@@ -584,9 +529,9 @@ The following object is masked from 'package:dplyr':
 
     select
 
-Quitting from lines 53-72 (bossMaps.Rmd) 
+Quitting from lines 82-83 (bossMaps.Rmd) 
 Error: processing vignette 'bossMaps.Rmd' failed with diagnostics:
-package rgdal is required for spTransform methods
+replacement has 2 rows, data has 1
 Execution halted
 ```
 
@@ -1074,22 +1019,25 @@ Maintainer: Devin S. Johnson <devin.johnson@noaa.gov>
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-crawl 2.0.1 (2016-07-22) 
- Type 'vignette('crawl_intro')' to see examples of package use, and
- 'demo(package='crawl')' will provide a list of demos.
- The raw code for the demos can be found by typing:
- 'system.file('demo', package='crawl')'
+Attaching package: 'lubridate'
 
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
-  libgdal.so.1: cannot open shared object file: No such file or directory
-Quitting from lines 80-83 (crawl_intro.Rmd) 
+The following object is masked from 'package:base':
+
+    date
+
+Loading required package: zoo
+... 8 lines ...
+
+Attaching package: 'xts'
+
+The following objects are masked from 'package:dplyr':
+
+    first, last
+
+Quitting from lines 403-414 (crawl_intro.Rmd) 
 Error: processing vignette 'crawl_intro.Rmd' failed with diagnostics:
-package or namespace load failed for 'rgdal'
+incompatible size (9701), expecting one (the group size)
 Execution halted
-
 
 checking installed package size ... NOTE
   installed size is  9.3Mb
@@ -1106,7 +1054,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [47s/48s]
+  Running ‘testthat.R’ [56s/56s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
          parse_f(lazy, env)
@@ -1210,7 +1158,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [124s/128s]
+  Running ‘testthat.R’ [145s/146s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1228,18 +1176,6 @@ Last 13 lines of output:
   
   Error: testthat unit tests failed
   Execution halted
-```
-
-## dggridR (0.1.11)
-Maintainer: Richard Barnes <rbarnes@umn.edu>  
-Bug reports: https://github.com/r-barnes/dggridR/
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘dggridR’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/dggridR.Rcheck/00install.out’ for details.
 ```
 
 ## DiagrammeR (0.9.0)
@@ -1271,7 +1207,7 @@ Error: Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [169s/174s]
+  Running ‘testthat.R’ [188s/188s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   20: as.data.frame(arrange(tbl_df(.data), ...)) at /home/muelleki/git/R/dplyr/R/dataframe.R:104
@@ -1455,7 +1391,7 @@ The following object is masked from 'package:purrr':
 
 Quitting from lines 154-171 (exploring-election-data.Rmd) 
 Error: processing vignette 'exploring-election-data.Rmd' failed with diagnostics:
-Value of SET_STRING_ELT() must be a 'CHARSXP' not a 'logical'
+Value of SET_STRING_ELT() must be a 'CHARSXP' not a 'integer'
 Execution halted
 ```
 
@@ -1492,12 +1428,12 @@ The error most likely occurred in:
 > 
 > ### ** Examples
 ... 31 lines ...
-14 Mär 00:38    Repeat 2, fold 2
-14 Mär 00:38      Extracting fitting and testing datasets.
-14 Mär 00:38      Fitting pamr
-14 Mär 00:38    Repeat 2, fold 3
-14 Mär 00:38      Extracting fitting and testing datasets.
-14 Mär 00:38      Fitting pamr
+14 Mär 09:47    Repeat 2, fold 2
+14 Mär 09:47      Extracting fitting and testing datasets.
+14 Mär 09:47      Fitting pamr
+14 Mär 09:47    Repeat 2, fold 3
+14 Mär 09:47      Extracting fitting and testing datasets.
+14 Mär 09:47      Fitting pamr
 > get_importance(result)
 Error in UseMethod("select") : 
   no applicable method for 'select' applied to an object of class "modeling_result"
@@ -1505,7 +1441,7 @@ Calls: get_importance -> get_importance.modeling_result -> select
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [7s/10s]
+  Running ‘testthat.R’ [8s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   3: eval(quote(`_fseq`(`_lhs`)), env, env)
@@ -1555,9 +1491,9 @@ Last 13 lines of output:
   downloaded 10 KB
   
   trying URL 'http://www.nytimes.com'
-  Content type 'text/html; charset=utf-8' length 218062 bytes (212 KB)
+  Content type 'text/html; charset=utf-8' length 223800 bytes (218 KB)
   ==================================================
-  downloaded 212 KB
+  downloaded 218 KB
   
   testthat results ================================================================
   OK: 18 SKIPPED: 0 FAILED: 3
@@ -1661,14 +1597,14 @@ Calls: make_time_cluster_data ... make_time_cluster_data.time_sequence_data -> d
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [82s/85s]
+  Running ‘testthat.R’ [97s/98s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Predictor:	 Target 
   Formula:	 Prop ~ Target 
   Runs of Significant Time Bins: 
   Positive Run 1  ===== 
-  	Time:		 15800 - 21000 1. Error: (unknown) (@test_cluster_analysis.R#143) -----------------------------
+  	Time:		 15900 - 21000 1. Error: (unknown) (@test_cluster_analysis.R#143) -----------------------------
   no applicable method for 'make_time_cluster_data' applied to an object of class "data.frame"
   1: make_time_cluster_data(response_time_by_ppt, predictor_column = "Sex", test = "boot_splines", 
          within_subj = FALSE, smoother = "smooth.spline", alpha = 0.05) at testthat/test_cluster_analysis.R:143
@@ -1757,11 +1693,11 @@ Execution halted
 ## fbar (0.1.23)
 Maintainer: Max Conway <conway.max1@gmail.com>
 
-1 error  | 0 warnings | 1 note 
+1 error  | 0 warnings | 0 notes
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’ [14s/14s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   16: coerce_type(lazy, "tidy_quote", quote = lazy, symbol = , language = quosure(lazy, 
@@ -1774,15 +1710,11 @@ Last 13 lines of output:
   18: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
   
   testthat results ================================================================
-  OK: 40 SKIPPED: 10 FAILED: 1
+  OK: 44 SKIPPED: 8 FAILED: 1
   1. Error: find_fluxes_df works in grouped context (@test-full-size.R#11) 
   
   Error: testthat unit tests failed
   Execution halted
-
-checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘Rglpk’ ‘ROI.plugin.glpk’
 ```
 
 ## fitcoach (1.0)
@@ -1850,7 +1782,7 @@ Bug reports: http://github.com/andrewzm/FRK/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [58s/59s]
+  Running ‘testthat.R’ [66s/77s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
     |                                                                            
@@ -1907,6 +1839,47 @@ checking installed package size ... NOTE
   sub-directories of 1Mb or more:
     data   4.8Mb
     doc    1.6Mb
+```
+
+## FSelectorRcpp (0.1.2)
+Maintainer: Zygmunt Zawadzki <zygmunt@zstat.pl>  
+Bug reports: https://github.com/mi2-warsaw/FSelectorRcpp/issues
+
+1 error  | 0 warnings | 2 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘FSelectorRcpp-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: feature_search
+> ### Title: General Feature Searching Engine
+> ### Aliases: feature_search
+> 
+> ### ** Examples
+> 
+> 
+> # Enable parallelization in examples
+>  library(doSNOW) # doSNOW has an option for progress bar
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: snow
+>  cl <- makeCluster(2)
+Loading required namespace: Rmpi
+Error in Rmpi::mpi.comm.spawn(slave = mpitask, slavearg = args, nslaves = count,  : 
+  MPI_Comm_spawn is not supported.
+Calls: makeCluster -> makeMPIcluster -> <Anonymous>
+Execution halted
+
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘RTCGA.rnaseq’
+
+checking installed package size ... NOTE
+  installed size is  9.7Mb
+  sub-directories of 1Mb or more:
+    doc    2.2Mb
+    libs   7.3Mb
 ```
 
 ## funModeling (1.6.1)
@@ -1968,17 +1941,6 @@ Error: processing vignette 'futureheatwaves.Rmd' failed with diagnostics:
 Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
-```
-
-## GADMTools (2.0-1)
-Maintainer: Jean Pierre Decorps <jp.decorps@epiconcept.fr>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘GADMTools’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/GADMTools.Rcheck/00install.out’ for details.
 ```
 
 ## GenCAT (1.0.3)
@@ -2146,7 +2108,7 @@ Error: Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [31s/32s]
+  Running ‘test-all.R’ [36s/36s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -2316,7 +2278,7 @@ Error: Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [44s/44s]
+  Running ‘testthat.R’ [44s/50s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   14: filter(., fy_year == "2016-17")
@@ -2453,7 +2415,7 @@ Error: Cannot convert objects of type `double` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [9s/11s]
+  Running ‘testthat.R’ [11s/22s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -2617,7 +2579,7 @@ Error: Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’ [13s/13s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -2713,7 +2675,7 @@ Last 13 lines of output:
   dplyr::filter(testdata, persnr == 198505043334) inherits from `tbl_df/tbl/data.frame` not `incadata`.
   
   
-  [1] "ex_databbfd2a8db8bb.csv2"
+  [1] "ex_data708f41769cc8.csv2"
   testthat results ================================================================
   OK: 40 SKIPPED: 0 FAILED: 1
   1. Failure: filter (@test-dplyr_methods.R#13) 
@@ -2753,18 +2715,6 @@ R.
 See ?Deprecated.
 ```
 
-## inlmisc (0.2.4)
-Maintainer: Jason C. Fisher <jfisher@usgs.gov>  
-Bug reports: https://github.com/USGS-R/inlmisc/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘inlmisc’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/inlmisc.Rcheck/00install.out’ for details.
-```
-
 ## ipft (0.2.8)
 Maintainer: Emilio Sansano <esansano@uji.es>
 
@@ -2790,49 +2740,9 @@ Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
-             user system elapsed
-ipfProb     9.936  2.800  13.064
-ipfEstimate 7.156  1.668   9.141
-```
-
-## jpmesh (0.3.0)
-Maintainer: Shinya Uryu <suika1127@gmail.com>  
-Bug reports: https://github.com/uribo/jpmesh/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘jpmesh’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/jpmesh.Rcheck/00install.out’ for details.
-```
-
-## kokudosuuchi (0.2.0)
-Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>  
-Bug reports: https://github.com/yutannihilation/kokudosuuchi/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’ [2s/424s]
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  2: rgdal::ogrListLayers
-  3: getExportedValue(pkg, name)
-  4: asNamespace(ns)
-  5: getNamespace(ns)
-  6: tryCatch(loadNamespace(name), error = function(e) stop(e))
-  7: tryCatchList(expr, classes, parentenv, handlers)
-  8: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-  9: value[[3L]](cond)
-  
-  testthat results ================================================================
-  OK: 1 SKIPPED: 0 FAILED: 1
-  1. Error: getKSJData works (@test-getData.R#4) 
-  
-  Error: testthat unit tests failed
-  Execution halted
+              user system elapsed
+ipfProb     14.444  0.088  14.549
+ipfEstimate 10.848  0.096  10.951
 ```
 
 ## Lahman (5.0-0)
@@ -2849,8 +2759,9 @@ Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
-        user system elapsed
-Teams 11.112  2.624  14.195
+               user system elapsed
+Teams        15.524  0.088  15.690
+PitchingPost  5.540  0.012   5.565
 
 checking installed package size ... NOTE
   installed size is  7.6Mb
@@ -2941,17 +2852,6 @@ Warning: 'dplyr::mutate_each_' is deprecated.
 Use 'mutate_all' instead.
 See help("Deprecated")
 Error: All select() inputs must resolve to integer column positions. The following do not:
-```
-
-## MazamaSpatialUtils (0.4.8)
-Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘MazamaSpatialUtils’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/MazamaSpatialUtils.Rcheck/00install.out’ for details.
 ```
 
 ## mdsr (0.1.3)
@@ -3180,7 +3080,7 @@ Error: Cannot convert objects of type `environment` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [18s/22s]
+  Running ‘testthat.R’ [21s/25s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   5: as.vector(object)
@@ -3235,7 +3135,7 @@ Calls: create_mtc_device_from_dmtcd ... as.data.frame -> arrange -> arrange.tbl_
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [16s/17s]
+  Running ‘testthat.R’ [20s/21s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   argument is of length zero
@@ -3274,7 +3174,7 @@ Bug reports: https://github.com/paleolimbot/mudata/issues
 
 ```
 checking tests ... ERROR
-  Running ‘test-all.R’ [15s/16s]
+  Running ‘test-all.R’ [17s/17s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
              return(TRUE)
@@ -3417,7 +3317,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [23s/25s]
+  Running ‘testthat.R’ [29s/29s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   9: ph_with_img(., type = "body", src = img.file, height = 1.06, width = 1.39)
@@ -3462,6 +3362,9 @@ Found the following significant warnings:
 Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
+Examples with CPU or elapsed time > 5s
+           user system elapsed
+polarPlot 5.256  0.016   5.337
 ```
 
 ## padr (0.2.1)
@@ -3472,7 +3375,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [132s/136s]
+  Running ‘testthat.R’ [155s/157s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3735,7 +3638,7 @@ Calls: %>% ... eval -> eval -> _fseq -> freduce -> <Anonymous> -> slice
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [50s/52s]
+  Running ‘testthat.R’ [58s/59s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   4: eval(expr, envir, enclos)
@@ -3835,7 +3738,7 @@ Maintainer: Sean Taylor <sjt@fb.com>
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [10s/12s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Optimization terminated normally: 
@@ -3880,7 +3783,7 @@ Execution halted
 checking installed package size ... NOTE
   installed size is 18.8Mb
   sub-directories of 1Mb or more:
-    libs  18.5Mb
+    libs  18.6Mb
 ```
 
 ## purrr (0.2.2)
@@ -3893,19 +3796,6 @@ Bug reports: https://github.com/hadley/purrr/issues
 checking whether package ‘purrr’ can be installed ... ERROR
 Installation failed.
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/purrr.Rcheck/00install.out’ for details.
-```
-
-## PWFSLSmoke (0.99.9)
-Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking package dependencies ... ERROR
-Package required but not available: ‘MazamaSpatialUtils’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
 ```
 
 ## qualvar (0.1.0)
@@ -4166,22 +4056,6 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## raptr (0.0.3)
-Maintainer: Jeffrey O Hanson <jeffrey.hanson@uqconnect.edu.au>  
-Bug reports: https://github.com/jeffreyhanson/raptr/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking package dependencies ... ERROR
-Package required but not available: ‘gdalUtils’
-
-Packages suggested but not available for checking: ‘gurobi’ ‘rgurobi’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-```
-
 ## rattle (4.1.0)
 Maintainer: Graham Williams <Graham.Williams@togaware.com>
 
@@ -4210,7 +4084,7 @@ Execution halted
 
 
 checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘rggobi’ ‘pkgDepTools’
+Package suggested but not available for checking: ‘pkgDepTools’
 
 checking installed package size ... NOTE
   installed size is  6.9Mb
@@ -4221,38 +4095,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:36636): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
-```
-
-## rbgm (0.0.4)
-Maintainer: Michael D. Sumner <mdsumner@gmail.com>  
-Bug reports: https://github.com/AustralianAntarcticDivision/rbgm/issues/
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: sp
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:raster':
-... 8 lines ...
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Error in dyn.load(file, DLLpath = DLLpath, ...) : 
-  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
-  libgdal.so.1: cannot open shared object file: No such file or directory
-Quitting from lines 16-24 (BGM_Spatial.Rmd) 
-Error: processing vignette 'BGM_Spatial.Rmd' failed with diagnostics:
-package or namespace load failed for 'rgdal'
-Execution halted
+(R:14498): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## recexcavAAR (0.3.0)
@@ -4291,7 +4134,7 @@ checking installed package size ... NOTE
     libs   3.3Mb
 ```
 
-## replyr (0.2.3)
+## replyr (0.2.4)
 Maintainer: John Mount <jmount@win-vector.com>  
 Bug reports: https://github.com/WinVector/replyr/issues
 
@@ -4350,7 +4193,7 @@ Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
 Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 103-108 (ParametricExample.Rmd) 
+Quitting from lines 103-109 (ParametricExample.Rmd) 
 Error: processing vignette 'ParametricExample.Rmd' failed with diagnostics:
 Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
@@ -4397,6 +4240,37 @@ Error: processing vignette 'tutorial.Rmd' failed with diagnostics:
 cannot convert object to a data frame
 Execution halted
 
+```
+
+## rgho (1.0.1)
+Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
+Bug reports: https://github.com/pierucci/rgho/issues
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘rgho-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: search_gho
+> ### Title: Search Codes or Dimensions Labels
+> ### Aliases: search_codes search_dimensions search_gho
+> 
+> ### ** Examples
+... 23 lines ...
+
+Attributes:
+
+CATEGORY
+DEFINITION_XML
+DISPLAY_ES
+DISPLAY_FR
+IMR_ID
+RENDERER_ID
+> 
+> result <- get_gho_codes(dimension = "REGION")
 ```
 
 ## rmcfs (1.2.4)
@@ -4459,7 +4333,7 @@ Error: Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [38s/71s]
+  Running ‘test-all.R’ [46s/79s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -4946,29 +4820,9 @@ Package unavailable to check Rd xrefs: ‘piecewiseSEM’
 Maintainer: Alex M Chubaty <alexander.chubaty@canada.ca>  
 Bug reports: https://github.com/PredictiveEcology/SpaDES/issues
 
-1 error  | 2 warnings | 2 notes
+0 errors | 2 warnings | 2 notes
 
 ```
-checking tests ... ERROR
-  Running ‘test-all.R’ [69s/154s]
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  [35m## RMarkdown[0m
-  
-  RMarkdown syntax allows R code, outputs, and figures to be rendered in the documm[19;1Hentation.
-  
-  For help writing in RMarkdown, see http://rmarkdown.rstudio.com/.
-  
-  [35m# Usage[0m[24;63H1,1[11CTop[1;1H[34h[?25h[24;1H[?1l>[?1049lVim: Error reading input, exiting...
-  
-  Vim: Finished.
-  [24;1Htestthat results ================================================================
-  OK: 882 SKIPPED: 23 FAILED: 1
-  1. Failure: spades calls with different signatures don't work (@test-simulation.R#195) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
 checking whether package ‘SpaDES’ can be installed ... WARNING
 Found the following significant warnings:
   Warning: no DISPLAY variable so Tk is not available
@@ -5060,7 +4914,7 @@ Bug reports: https://github.com/mdsumner/spbabel/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [32s/33s]
+  Running ‘testthat.R’ [35s/35s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
              where = .classEnv(ClassDef)))
@@ -5351,16 +5205,25 @@ Execution halted
 Maintainer: Robin Lovelace <rob00x@gmail.com>  
 Bug reports: https://github.com/ropensci/stplanr/issues
 
-1 error  | 0 warnings | 1 note 
+0 errors | 1 warning  | 0 notes
 
 ```
-checking whether package ‘stplanr’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/stplanr.Rcheck/00install.out’ for details.
+checking examples ... WARNING
+Found the following significant warnings:
 
-checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘tmap’ ‘tmaptools’ ‘OpenStreetMap’
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'dplyr::summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'dplyr::summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'dplyr::summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'dplyr::summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'dplyr::summarise_each_' is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## tadaatoolbox (0.10.0)
@@ -5582,7 +5445,7 @@ Calls: %>% ... <Anonymous> -> mutate.tbl_df -> mutate_impl -> .Call
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [9s/28s]
+  Running ‘testthat.R’ [10s/27s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
          from = "2015-01-01", to = "2016-01-01"))) at /home/muelleki/git/R/dplyr/R/manip.r:206
@@ -5661,7 +5524,7 @@ Bug reports: http://github.com/juliasilge/tidytext/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [11s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   7: withVisible(function_list[[k]](value)) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
@@ -5749,31 +5612,6 @@ Error: processing vignette 'Tigger-Vignette.Rmd' failed with diagnostics:
 Cannot convert objects of type `closure` to `tidy_quote`
 Execution halted
 
-```
-
-## tigris (0.3.3)
-Maintainer: Kyle Walker <kyle.walker@tcu.edu>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘tigris’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/tigris.Rcheck/00install.out’ for details.
-```
-
-## tmap (1.8-1)
-Maintainer: Martijn Tennekes <mtennekes@gmail.com>  
-Bug reports: https://github.com/mtennekes/tmap/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking package dependencies ... ERROR
-Packages required but not available: ‘tmaptools’ ‘mapview’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
 ```
 
 ## treeplyr (0.1.2)
@@ -6036,28 +5874,66 @@ Execution halted
 Maintainer: Eric Persson <expersso5@gmail.com>  
 Bug reports: https://www.github.com/expersso/WHO/issues
 
-1 error  | 0 warnings | 0 notes
+2 errors | 1 warning  | 0 notes
 
 ```
+checking examples ... ERROR
+Running examples in ‘WHO-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: get_codes
+> ### Title: Get all codes and metadata for WHO series
+> ### Aliases: get_codes
+> 
+> ### ** Examples
+> 
+> codes <- get_codes()
+Error in get_result(url) : Bad Gateway (HTTP 502).
+Calls: get_codes -> get_result -> <Anonymous>
+Execution halted
+
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  > test_check("WHO")
-  1. Error: get_codes(TRUE) returns a data frame with positive length and more
             than three columns (@tests.R#18) 
-  not compatible with STRSXP
+  Service Unavailable (HTTP 503).
   1: get_codes(TRUE) at testthat/tests.R:18
-  2: dplyr::bind_rows(df_list)
-  3: bind_rows_(x, .id) at /home/muelleki/git/R/dplyr/R/bind.r:86
+  2: get_result(url)
+  3: httr::stop_for_status(response)
   
   testthat results ================================================================
-  OK: 1485 SKIPPED: 0 FAILED: 1
-  1. Error: get_codes(TRUE) returns a data frame with positive length and more
+  OK: 0 SKIPPED: 0 FAILED: 3
+  1. Error: get_data returns a data frame with positive length (@tests.R#4) 
+  2. Error: get_codes returns a data frame with positive length (@tests.R#11) 
+  3. Error: get_codes(TRUE) returns a data frame with positive length and more
             than three columns (@tests.R#18) 
   
   Error: testthat unit tests failed
   Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 44-48 (who_vignette.Rmd) 
+Error: processing vignette 'who_vignette.Rmd' failed with diagnostics:
+Service Unavailable (HTTP 503).
+Execution halted
+
 ```
 
 ## wordbankr (0.2.0)
@@ -6119,7 +5995,7 @@ Bug reports: https://github.com/IQSS/Zelig/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [58s/60s]
+  Running ‘testthat.R’ [64s/64s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
             mean         sd       50%      2.5%     97.5%
