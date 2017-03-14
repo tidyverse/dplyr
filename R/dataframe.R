@@ -92,7 +92,7 @@ mutate.data.frame <- function(.data, ...) {
 }
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(mutate_(tbl_df(.data), ..., .dots = dots))
+  as.data.frame(mutate_(tbl_df(.data), ..., .dots = .dots))
 }
 
 #' @export
