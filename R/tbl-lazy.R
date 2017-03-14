@@ -109,7 +109,7 @@ mutate.tbl_lazy <- function(.data, ..., .dots = list()) {
 }
 #' @export
 mutate_.tbl_lazy <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("mutate", .data, dots = dots)
 }
@@ -156,7 +156,7 @@ distinct.tbl_lazy <- function(.data, ..., .keep_all = FALSE) {
 }
 #' @export
 distinct_.tbl_lazy <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 

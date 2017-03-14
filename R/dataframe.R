@@ -73,7 +73,7 @@ slice.data.frame <- function(.data, ...) {
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   slice_impl(.data, dots)
 }
 
@@ -183,7 +183,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 }
 #' @export
 distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 

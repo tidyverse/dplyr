@@ -232,7 +232,7 @@ transmute.default <- function(.data, ...) {
 }
 #' @export
 transmute_.default <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   transmute(.data, !!! dots)
 }
 
