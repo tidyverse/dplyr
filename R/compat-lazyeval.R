@@ -54,6 +54,7 @@ compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
     names(dots)[!named] <- nms
   }
 
+  names(dots) <- names2(dots)
   dots
 }
 

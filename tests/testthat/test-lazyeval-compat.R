@@ -7,3 +7,9 @@ test_that("can select negatively (#2519)", {
 test_that("select yields proper names", {
   expect_identical(names(select_(mtcars, ~cyl:hp)), c("cyl", "disp", "hp"))
 })
+
+test_that("lazydots are named and arrange() doesn't fail (it assumes empty names)", {
+  dots <- compat_lazy_dots(list(), env(), "cyl")
+  expect_identical(names(dots), "")
+  expect_identical(arrange_(mtcars, "cyl"), arrange(mtcars, cyl))
+})
