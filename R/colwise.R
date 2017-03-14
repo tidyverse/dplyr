@@ -243,6 +243,8 @@ summarise_each_ <- function(tbl, funs, vars) {
   .Deprecated("summarise_all")
   if (is_empty(vars)) {
     vars <- list(~everything())
+  } else {
+    vars <- compat_lazy_dots(vars, caller_env())
   }
   if (is_character(funs)) {
     funs <- funs_(funs)
@@ -276,6 +278,8 @@ mutate_each_ <- function(tbl, funs, vars) {
   .Deprecated("mutate_all")
   if (is_empty(vars)) {
     vars <- list(~everything())
+  } else {
+    vars <- compat_lazy_dots(vars, caller_env())
   }
   funs <- apply_vars(funs, vars, tbl)
   mutate(tbl, !!! funs)
