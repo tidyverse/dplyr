@@ -1,0 +1,25 @@
+* installing *source* package ‘stplanr’ ...
+** package ‘stplanr’ successfully unpacked and MD5 sums checked
+** libs
+g++ -I/usr/share/R/include -DNDEBUG   -I"/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/RcppArmadillo/include" -I"/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include"   -fdiagnostics-color=always -time -pipe  -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c RcppExports.cpp -o RcppExports.o
+g++ -I/usr/share/R/include -DNDEBUG   -I"/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/RcppArmadillo/include" -I"/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/Rcpp/include"   -fdiagnostics-color=always -time -pipe  -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c spatialnetworks.cpp -o spatialnetworks.o
+# cc1plus 0.24 0.17
+# cc1plus 2.78 0.71
+# as 0.04 0.01
+# cc1plus 0.10 0.24
+# cc1plus 3.63 1.42
+# as 0.14 0.06
+g++ -shared -L/usr/lib/R/lib -fuse-ld=gold -o stplanr.so RcppExports.o spatialnetworks.o -L/usr/lib/R/lib -lR
+installing to /home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/stplanr/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** demo
+** inst
+** tests
+** preparing package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
+  libgdal.so.1: cannot open shared object file: No such file or directory
+ERROR: lazy loading failed for package ‘stplanr’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/stplanr’
