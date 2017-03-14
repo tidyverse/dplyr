@@ -1,0 +1,12 @@
+* installing *source* package ‘plotKML’ ...
+** package ‘plotKML’ successfully unpacked and MD5 sums checked
+** R
+** data
+** demo
+** inst
+** preparing package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
+  libgdal.so.1: cannot open shared object file: No such file or directory
+ERROR: lazy loading failed for package ‘plotKML’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/plotKML’

@@ -1,0 +1,17 @@
+* installing *source* package ‘rggobi’ ...
+** package ‘rggobi’ successfully unpacked and MD5 sums checked
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for GGOBI... no
+configure: error: Package requirements (ggobi >= 2.1.6) were not met:
+
+No package 'ggobi' found
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GGOBI_CFLAGS
+and GGOBI_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+ERROR: configuration failed for package ‘rggobi’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rggobi’

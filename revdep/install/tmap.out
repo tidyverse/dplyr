@@ -1,0 +1,2 @@
+ERROR: dependencies ‘tmaptools’, ‘mapview’ are not available for package ‘tmap’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/tmap’

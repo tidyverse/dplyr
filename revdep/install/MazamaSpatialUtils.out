@@ -1,0 +1,13 @@
+* installing *source* package ‘MazamaSpatialUtils’ ...
+** package ‘MazamaSpatialUtils’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** demo
+** tests
+** preparing package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/rgdal/libs/rgdal.so':
+  libgdal.so.1: cannot open shared object file: No such file or directory
+ERROR: lazy loading failed for package ‘MazamaSpatialUtils’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/MazamaSpatialUtils’

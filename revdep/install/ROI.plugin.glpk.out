@@ -1,0 +1,2 @@
+ERROR: dependency ‘Rglpk’ is not available for package ‘ROI.plugin.glpk’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.3/ROI.plugin.glpk’
