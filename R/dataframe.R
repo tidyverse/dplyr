@@ -101,7 +101,7 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+  as.data.frame(arrange_(tbl_df(.data), ...), .dots = .dots)
 }
 
 #' @export
