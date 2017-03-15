@@ -221,7 +221,7 @@ common_window_funs <- function() {
 #' translate_window_where(quote(rank() > cumsum(AB)))
 translate_window_where <- function(expr, window_funs = common_window_funs()) {
   switch_type(expr,
-    quote = translate_window_where(f_rhs(expr), window_funs),
+    quosure = translate_window_where(f_rhs(expr), window_funs),
     logical = ,
     integer = ,
     double = ,
@@ -235,7 +235,7 @@ translate_window_where <- function(expr, window_funs = common_window_funs()) {
         window_where(as_symbol(name), set_names(list(expr), name))
       } else {
         args <- map(expr[-1], translate_window_where, window_funs = window_funs)
-        expr <- lang(node_car(expr), .args = map(args, "[[", "expr"))
+        expr <- new_language(node_car(expr), .args = map(args, "[[", "expr"))
 
         window_where(
           expr = expr,

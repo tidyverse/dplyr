@@ -91,7 +91,7 @@ translate_sql <- function(...,
   }
 
   translate_sql_(
-    tidy_quotes(...),
+    dots_quosures(...),
     con = con,
     vars_group = vars_group,
     vars_order = vars_order,
@@ -113,7 +113,7 @@ translate_sql_ <- function(dots,
 
   stopifnot(is.list(dots))
 
-  if (!any(have_names(dots))) {
+  if (!any(have_name(dots))) {
     names(dots) <- NULL
   }
 

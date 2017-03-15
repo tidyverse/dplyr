@@ -162,7 +162,7 @@ summarize_if <- summarise_if
 #' @seealso [summarise_all()]
 #' @export
 vars <- function(...) {
-  structure(tidy_quotes(...), class = "col_list")
+  structure(dots_quosures(...), class = "col_list")
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
@@ -186,8 +186,8 @@ select_colwise_names <- function(tbl, cols) {
 apply_vars <- function(funs, vars, tbl) {
   stopifnot(is_fun_list(funs))
 
-  named_calls <- attr(funs, "have_names")
-  named_vars <- any(have_names(vars))
+  named_calls <- attr(funs, "have_name")
+  named_vars <- any(have_name(vars))
   vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
   out <- vector("list", length(vars) * length(funs))
@@ -233,7 +233,7 @@ apply_vars <- function(funs, vars, tbl) {
 #'   be either a list of expressions or a character vector.
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, tidy_quotes(...))
+  summarise_each_(tbl, funs, dots_quosures(...))
 }
 
 #' @export
@@ -269,7 +269,7 @@ mutate_each <- function(tbl, funs, ...) {
     funs <- funs_(funs)
   }
 
-  mutate_each_(tbl, funs, tidy_quotes(...))
+  mutate_each_(tbl, funs, dots_quosures(...))
 }
 
 #' @export

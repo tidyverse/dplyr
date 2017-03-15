@@ -42,7 +42,7 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 
 #' @export
 arrange.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(...)
+  dots <- dots_quosures(...)
   arrange_impl(.data, dots)
 }
 #' @export
@@ -53,8 +53,8 @@ arrange_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 filter.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(...)
-  if (any(have_names(dots))) {
+  dots <- dots_quosures(...)
+  if (any(have_name(dots))) {
     abort("filter() takes unnamed arguments. Do you need `==`?")
   }
   dots <- exprs_auto_name(dots)
@@ -68,7 +68,7 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   slice_impl(.data, dots)
 }
 #' @export
@@ -79,7 +79,7 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   mutate_impl(.data, dots)
 }
 #' @export
@@ -90,7 +90,7 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 summarise.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   summarise_impl(.data, dots)
 }
 #' @export

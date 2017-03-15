@@ -239,7 +239,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   out <- mutate(.data, !!! dots)
 
   keep <- names(dots)

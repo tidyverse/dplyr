@@ -22,7 +22,7 @@
 #' fs <- c("min", "max")
 #' funs_(fs)
 funs <- function(..., .args = list()) {
-  dots <- tidy_quotes(...)
+  dots <- dots_quosures(...)
   dots <- map(dots, funs_make_call, args = .args)
 
   names(dots) <- names2(dots)
@@ -31,7 +31,7 @@ funs <- function(..., .args = list()) {
   names(dots)[missing_names] <- default_names
 
   class(dots) <- "fun_list"
-  attr(dots, "have_names") <- any(!missing_names)
+  attr(dots, "have_name") <- any(!missing_names)
   dots
 }
 
@@ -95,7 +95,7 @@ funs_make_call <- function(x, args, env = base_env()) {
   expr <- get_expr(x)
 
   expr <- switch_type(expr, "funs",
-    quote = ,
+    quosure = ,
     language = expr,
     symbol = substitute(f(.), list(f = expr)),
     string = substitute(f(.), list(f = symbol(expr)))

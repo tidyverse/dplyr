@@ -95,11 +95,11 @@ group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
 #' @export
 #' @keywords internal
 group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
-  new_groups <- c(tidy_quotes(...), .dots)
+  new_groups <- c(dots_quosures(...), .dots)
 
   # If any calls, use mutate to add new columns, then group by those
   is_symbol <- map_lgl(new_groups, is_symbol)
-  named <- have_names(new_groups)
+  named <- have_name(new_groups)
 
   needs_mutate <- named | !is_symbol
   if (any(needs_mutate)) {
