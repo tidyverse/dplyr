@@ -40,6 +40,10 @@ filter <- function(.data, ...) {
   UseMethod("filter")
 }
 #' @export
+filter.default <- function(.data, ...) {
+  filter_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
 #' @rdname se-deprecated
 filter_ <- function(.data, ..., .dots = list()) {
   UseMethod("filter_")
@@ -74,6 +78,10 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ...) {
   UseMethod("slice")
+}
+#' @export
+slice.default <- function(.data, ...) {
+  slice_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
@@ -133,6 +141,10 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   summarise(disp = mean(disp), sd = sd(disp))
 summarise <- function(.data, ...) {
   UseMethod("summarise")
+}
+#' @export
+summarise.default <- function(.data, ...) {
+  summarise_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
@@ -205,6 +217,9 @@ summarize_ <- summarise_
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
+mutate.default <- function(.data, ...) {
+  mutate_(.data, .dots = compat_as_lazy_dots(...))
+}
 #' @export
 #' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
@@ -232,7 +247,7 @@ transmute.default <- function(.data, ...) {
 }
 #' @export
 transmute_.default <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   transmute(.data, !!! dots)
 }
 
@@ -256,6 +271,10 @@ transmute_.default <- function(.data, ..., .dots = list()) {
 #' arrange(mtcars, desc(disp))
 arrange <- function(.data, ...) {
   UseMethod("arrange")
+}
+#' @export
+arrange.default <- function(.data, ...) {
+  arrange_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
@@ -315,6 +334,10 @@ select <- function(.data, ...) {
   UseMethod("select")
 }
 #' @export
+select.default <- function(.data, ...) {
+  select_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
@@ -350,6 +373,10 @@ select_if <- function(.data, .predicate, ...) {
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")
+}
+#' @export
+rename.default <- function(.data, ...) {
+  rename_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @rdname se-deprecated
 #' @export

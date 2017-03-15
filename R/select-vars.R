@@ -103,7 +103,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 #' @inheritParams select_vars
 #' @export
 select_vars_ <- function(vars, args, include = character(), exclude = character()) {
-  warn_underscored()
+  args <- compat_lazy_dots(args, caller_env())
   select_vars(vars, !!! args, include = include, exclude = exclude)
 }
 

@@ -54,7 +54,18 @@ compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
     names(dots)[!named] <- nms
   }
 
+  names(dots) <- names2(dots)
   dots
+}
+
+compat_as_lazy <- function(quo) {
+  structure(class = "lazy", list(
+    expr = f_rhs(quo),
+    env = f_env(quo)
+  ))
+}
+compat_as_lazy_dots <- function(...) {
+  structure(class = "lazy_dots", map(tidy_quotes(...), compat_as_lazy))
 }
 
 
