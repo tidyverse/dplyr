@@ -10,7 +10,7 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-03-14                   |
+|date     |2017-03-15                   |
 
 ## Packages
 
@@ -35,7 +35,7 @@
 |plogr          |   |0.1-1      |2016-09-24 |cran (@0.1-1)                    |
 |R6             |   |2.2.0      |2016-10-05 |cran (@2.2.0)                    |
 |Rcpp           |   |0.12.9.4   |2017-03-08 |Github (RcppCore/Rcpp@0566d7c)   |
-|rlang          |   |0.0.0.9000 |2017-03-14 |Github (hadley/rlang@2376dd6)    |
+|rlang          |   |0.0.0.9000 |2017-03-15 |Github (hadley/rlang@7c42c80)    |
 |rmarkdown      |   |1.3        |2016-12-21 |cran (@1.3)                      |
 |RMySQL         |   |0.10.9     |2016-05-08 |cran (@0.10.9)                   |
 |RPostgreSQL    |   |0.4-1      |2016-05-08 |cran (@0.4-1)                    |
@@ -45,18 +45,15 @@
 
 # Check results
 
-151 packages with problems
+129 packages with problems
 
 |package              |version   | errors| warnings| notes|
 |:--------------------|:---------|------:|--------:|-----:|
-|alakazam             |0.2.5     |      1|        1|     0|
 |ameco                |0.2.6     |      1|        0|     1|
 |anametrix            |2.0.0     |      1|        0|     0|
-|assertr              |1.0.2     |      1|        0|     0|
 |backtestGraphics     |0.1.6     |      1|        0|     0|
 |bayesplot            |1.1.0     |      0|        1|     0|
-|bibliometrix         |1.4       |      0|        1|     0|
-|bioinactivation      |1.1.5     |      2|        1|     0|
+|bibliometrix         |1.5       |      0|        1|     0|
 |bioOED               |0.1.1     |      1|        0|     0|
 |blscrapeR            |2.1.2     |      1|        0|     0|
 |bossMaps             |0.1.0     |      0|        1|     0|
@@ -66,107 +63,90 @@
 |clustrd              |1.1.0     |      1|        0|     0|
 |codingMatrices       |0.2.2     |      0|        1|     0|
 |cometExactTest       |0.1.3     |      0|        1|     0|
-|compareDF            |1.1.0     |      2|        0|     0|
-|condformat           |0.5.0     |      2|        1|     0|
-|corrr                |0.2.1     |      1|        1|     0|
-|countytimezones      |1.0.0     |      1|        1|     0|
-|cpr                  |0.2.3     |      1|        1|     0|
 |crawl                |2.0.1     |      0|        1|     1|
 |dat                  |0.1.0     |      1|        0|     0|
 |ddpcr                |1.6       |      1|        0|     0|
 |decoder              |1.1.12    |      0|        1|     0|
 |DeLorean             |1.2.4     |      0|        1|     1|
 |describer            |0.2.0     |      1|        0|     0|
-|DiagrammeR           |0.9.0     |      2|        0|     1|
+|DiagrammeR           |0.9.0     |      1|        0|     1|
 |doctr                |0.2.0     |      1|        1|     0|
 |dotwhisker           |0.2.3     |      1|        1|     0|
 |dtplyr               |0.0.1     |      1|        0|     0|
 |eechidna             |0.1       |      0|        1|     0|
 |efreadr              |0.1.1     |      0|        1|     0|
-|emil                 |2.2.6     |      2|        0|     0|
-|etl                  |0.3.5     |      2|        0|     0|
+|emil                 |2.2.6     |      1|        0|     0|
+|etl                  |0.3.5     |      1|        0|     0|
 |extdplyr             |0.1.4     |      1|        0|     0|
 |eyelinker            |0.1       |      0|        1|     0|
 |eyetrackingR         |0.1.6     |      2|        0|     0|
 |ezsummary            |0.2.1     |      2|        1|     0|
-|fbar                 |0.1.23    |      1|        0|     0|
 |fitcoach             |1.0       |      1|        0|     0|
 |forestmodel          |0.4.0     |      1|        0|     0|
 |FRK                  |0.1.1     |      1|        2|     2|
 |FSelectorRcpp        |0.1.2     |      1|        0|     2|
-|funModeling          |1.6.1     |      1|        0|     0|
-|futureheatwaves      |1.0.3     |      1|        1|     0|
-|GenCAT               |1.0.3     |      1|        1|     0|
-|geoknife             |1.5.2     |      0|        1|     0|
+|funModeling          |1.6.1     |      0|        1|     0|
+|futureheatwaves      |1.0.3     |      0|        1|     0|
+|geoknife             |1.5.4     |      0|        1|     0|
 |ggCompNet            |0.1.0     |      0|        1|     1|
 |ggforce              |0.1.1     |      1|        0|     0|
-|ggfortify            |0.4.1     |      2|        1|     1|
+|ggfortify            |0.4.1     |      2|        0|     1|
 |ggraph               |1.0.0     |      1|        0|     1|
 |ggvis                |0.4.3     |      2|        0|     0|
 |goldi                |1.0.0     |      1|        0|     0|
-|grattan              |1.4.1.2   |      2|        1|     1|
+|grattan              |1.4.1.2   |      1|        1|     1|
 |groupdata2           |0.1.0     |      0|        1|     0|
 |gutenbergr           |0.1.2     |      1|        0|     0|
 |harrietr             |0.2.2     |      1|        0|     0|
 |heemod               |0.8.0     |      2|        1|     0|
 |highcharter          |0.5.0     |      1|        1|     1|
 |HTSSIP               |1.0.3     |      1|        0|     0|
-|huxtable             |0.1.0     |      1|        1|     0|
+|huxtable             |0.1.1     |      1|        1|     0|
 |HydeNet              |0.10.5    |      2|        1|     0|
-|IAT                  |0.3       |      1|        0|     0|
 |IATscores            |0.1-2     |      1|        0|     0|
 |incadata             |0.5.3     |      1|        0|     0|
 |inferr               |0.1.0     |      0|        1|     0|
 |ipft                 |0.2.8     |      0|        1|     0|
 |Lahman               |5.0-0     |      0|        1|     1|
 |lplyr                |0.1.6     |      1|        1|     0|
-|mason                |0.2.5     |      1|        0|     0|
-|mdsr                 |0.1.3     |      1|        0|     1|
+|mason                |0.2.5     |      0|        1|     0|
 |medicare             |0.2.0     |      0|        1|     0|
 |merTools             |0.3.0     |      1|        0|     0|
-|metacoder            |0.1.2     |      1|        1|     0|
+|metacoder            |0.1.2     |      1|        0|     0|
 |metricTester         |1.3.2     |      0|        1|     0|
 |Momocs               |1.1.0     |      1|        1|     0|
 |mrgsolve             |0.8.2     |      2|        0|     1|
 |mtconnectR           |1.0.1     |      2|        1|     0|
 |mudata               |0.1       |      1|        0|     0|
-|myTAI                |0.4.0     |      0|        1|     1|
+|myTAI                |0.5.0     |      1|        1|     1|
 |NFP                  |0.99.2    |      1|        0|     0|
-|nlstimedist          |1.0.4     |      2|        1|     0|
 |officer              |0.1.1     |      2|        1|     0|
 |openair              |2.0-0     |      0|        1|     0|
 |padr                 |0.2.1     |      1|        0|     0|
 |parsemsf             |0.1.0     |      2|        1|     0|
-|photobiologyInOut    |0.4.12    |      1|        1|     0|
+|photobiologyInOut    |0.4.12    |      1|        0|     0|
 |pixiedust            |0.7.4     |      2|        1|     0|
-|plater               |1.0.0     |      1|        0|     0|
 |plotly               |4.5.6     |      2|        0|     0|
-|poplite              |0.99.17.3 |      2|        1|     0|
+|poplite              |0.99.17.3 |      0|        1|     0|
 |prophet              |0.1       |      1|        1|     1|
 |purrr                |0.2.2     |      1|        0|     0|
 |qualvar              |0.1.0     |      0|        1|     0|
 |qwraps2              |0.2.4     |      1|        0|     0|
 |R6Frame              |0.1.0     |      1|        0|     0|
 |radiant.basics       |0.6.0     |      0|        1|     0|
-|radiant.data         |0.6.0     |      2|        0|     0|
+|radiant.data         |0.6.0     |      1|        0|     0|
 |radiant.design       |0.6.0     |      0|        1|     0|
-|radiant.model        |0.6.0     |      2|        0|     0|
-|radiant.multivariate |0.6.0     |      2|        0|     0|
+|radiant.model        |0.6.0     |      1|        0|     0|
+|radiant.multivariate |0.6.0     |      0|        1|     0|
 |rattle               |4.1.0     |      0|        1|     3|
 |recexcavAAR          |0.3.0     |      0|        1|     1|
-|replyr               |0.2.4     |      2|        1|     0|
 |rfishbase            |2.1.1     |      1|        1|     0|
-|rgho                 |1.0.1     |      1|        0|     0|
 |rmcfs                |1.2.4     |      0|        1|     2|
-|RNeXML               |2.0.7     |      2|        1|     1|
-|rprev                |0.2.3     |      0|        1|     0|
-|rtide                |0.0.3     |      1|        0|     0|
 |rwunderground        |0.1.0     |      1|        0|     0|
-|saeSim               |0.8.0     |      2|        1|     0|
+|saeSim               |0.8.0     |      2|        0|     0|
 |sfc                  |0.1.0     |      0|        1|     0|
 |sf                   |0.3-4     |      2|        0|     1|
-|shazam               |0.1.4     |      1|        1|     0|
-|simmer.plot          |0.1.8     |      2|        1|     0|
+|shazam               |0.1.4     |      0|        1|     0|
 |sjmisc               |2.3.1     |      1|        1|     0|
 |sjPlot               |2.3.1     |      1|        1|     0|
 |sjstats              |0.9.0     |      1|        0|     1|
@@ -177,9 +157,8 @@
 |spdplyr              |0.1.2     |      2|        1|     0|
 |srvyr                |0.2.0     |      2|        1|     0|
 |ss3sim               |0.9.3     |      1|        1|     0|
-|statar               |0.6.2     |      2|        0|     0|
 |stormwindmodel       |0.1.0     |      0|        1|     0|
-|stplanr              |0.1.7-3   |      0|        1|     0|
+|stplanr              |0.1.7-3   |      1|        0|     0|
 |tadaatoolbox         |0.10.0    |      1|        1|     0|
 |texmexseq            |0.3       |      1|        0|     0|
 |textmining           |0.0.1     |      0|        1|     0|
@@ -188,70 +167,17 @@
 |tidyquant            |0.4.0     |      2|        1|     0|
 |tidyr                |0.6.1     |      1|        0|     0|
 |tidytext             |0.1.2     |      1|        1|     0|
-|tigger               |0.2.8     |      1|        1|     0|
 |treeplyr             |0.1.2     |      1|        0|     0|
 |turfR                |0.8-7     |      1|        0|     1|
-|unpivotr             |0.1.0     |      2|        1|     0|
-|useful               |1.2.1     |      2|        0|     0|
+|unpivotr             |0.1.0     |      1|        1|     0|
+|useful               |1.2.1     |      1|        1|     0|
 |valr                 |0.1.1     |      1|        0|     0|
 |vcfR                 |1.4.0     |      1|        0|     1|
 |VWPre                |0.9.5     |      0|        1|     0|
-|WHO                  |0.2       |      2|        1|     0|
+|WHO                  |0.2       |      1|        0|     0|
 |wordbankr            |0.2.0     |      0|        1|     0|
 |wrswoR               |1.0-1     |      0|        1|     0|
 |Zelig                |5.0-17    |      1|        0|     1|
-
-## alakazam (0.2.5)
-Maintainer: Jason Vander Heiden <jason.vanderheiden@yale.edu>  
-Bug reports: https://bitbucket.org/kleinstein/alakazam/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘alakazam-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: plotSubtrees
-> ### Title: Plots subtree statistics for multiple trees
-> ### Aliases: plotSubtrees
-> 
-> ### ** Examples
-> 
-> # Define example tree set
-> graphs <- ExampleTrees[1-10]
-> 
-> # Plot violins of outdegree by sample
-> plotSubtrees(graphs, "SAMPLE", "out", main_title="Node outdegree", 
-+              style="v")
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-** found \donttest examples: check also with --run-donttest
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-
-Attaching package: 'igraph'
-
-... 8 lines ...
-
-The following object is masked from 'package:base':
-
-    union
-
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 171-176 (Topology-Vignette.Rmd) 
-Error: processing vignette 'Topology-Vignette.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-```
 
 ## ameco (0.2.6)
 Maintainer: Eric Persson <expersso5@gmail.com>  
@@ -313,34 +239,6 @@ Calls: authenticate -> xmlTreeParse
 Execution halted
 ```
 
-## assertr (1.0.2)
-Maintainer: Tony Fischetti <tony.fischetti@gmail.com>  
-Bug reports: https://github.com/ropenscilabs/assertr/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  
-  
-  testthat results ================================================================
-  OK: 284 SKIPPED: 0 FAILED: 8
-  1. Failure: insist raises error if verification fails (@test-assertions.R#302) 
-  2. Failure: insist raises error if verification fails (@test-assertions.R#304) 
-  3. Failure: insist raises error if verification fails (using se) (@test-assertions.R#313) 
-  4. Failure: insist raises error if verification fails (using se) (@test-assertions.R#315) 
-  5. Failure: insist raises *custom error* if verification fails (@test-assertions.R#324) 
-  6. Failure: insist raises *custom error* if verification fails (@test-assertions.R#326) 
-  7. Failure: insist raises *custom error* if verification fails (using se) (@test-assertions.R#339) 
-  8. Failure: insist raises *custom error* if verification fails (using se) (@test-assertions.R#341) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
 ## backtestGraphics (0.1.6)
 Maintainer: Miller Zijie Zhu <zijie.miller.zhu@gmail.com>
 
@@ -388,7 +286,7 @@ Execution halted
 
 ```
 
-## bibliometrix (1.4)
+## bibliometrix (1.5)
 Maintainer: Massimo Aria <aria@unina.it>
 
 0 errors | 1 warning  | 0 notes
@@ -401,67 +299,6 @@ Found the following significant warnings:
 Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
-```
-
-## bioinactivation (1.1.5)
-Maintainer: Alberto Garre <garre.alberto@gmail.com>
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘bioinactivation-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: fit_dynamic_inactivation
-> ### Title: Fitting of Dynamic Inactivation Models
-> ### Aliases: fit_dynamic_inactivation
-> 
-> ### ** Examples
-... 21 lines ...
-> 
-> starting_points <- c(n = 1, k_b = 0.25, N0 = 1e+05)
-> upper_bounds <- c(n = 2, k_b = 1, N0 = Inf)
-> lower_bounds <- c(n = 0, k_b = 0, N0 = 1e4)
-> 
-> dynamic_fit <- fit_dynamic_inactivation(dynamic_inactivation, simulation_model,
-+                                         dummy_temp, starting_points,
-+                                         upper_bounds, lower_bounds,
-+                                         known_params)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Error: Test failed: 'Prediction Bigelow'
-  * Cannot convert objects of type `closure` to `tidy_quote`
-  1: predict_inactivation(simulation_model, times, parms, temp_profile)
-  2: mutate_(out, logN = interp(~log10(N), N = as.name("N")), S = interp(~N/parms[["N0"]], 
-         N = as.name("N")))
-  3: mutate_.data.frame(out, logN = interp(~log10(N), N = as.name("N")), S = interp(~N/parms[["N0"]], 
-         N = as.name("N"))) at /home/muelleki/git/R/dplyr/R/manip.r:211
-  4: as.data.frame(mutate_(tbl_df(.data), ..., .dots = dots)) at /home/muelleki/git/R/dplyr/R/dataframe.R:95
-  5: mutate_(tbl_df(.data), ..., .dots = dots)
-  6: mutate_.tbl_df(tbl_df(.data), ..., .dots = dots) at /home/muelleki/git/R/dplyr/R/manip.r:211
-  7: compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE) at /home/muelleki/git/R/dplyr/R/tbl-df.r:87
-  8: compat_lazy(dots[[i]], env, warn) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:47
-  9: coerce_type(lazy, "tidy_quote", quote = lazy, symbol = , language = quosure(lazy, 
-         env), 
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 360-361 (inactivation.Rmd) 
-Error: processing vignette 'inactivation.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 ```
 
 ## bioOED (0.1.1)
@@ -622,11 +459,11 @@ Last 13 lines of output:
   12: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
   13: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
   14: dplyr::mutate_each_(., dplyr::funs(as.character), dplyr::everything())
-  15: is_empty(vars) at /home/muelleki/git/R/dplyr/R/colwise.R:277
-  16: dplyr::everything() at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:240
+  15: is_empty(vars) at /home/muelleki/git/R/dplyr/R/colwise.R:279
+  16: dplyr::everything() at /tmp/RtmpBT2s6A/devtoolse8e15260319/hadley-rlang-7c42c80/R/types.R:240
   17: current_vars() at /home/muelleki/git/R/dplyr/R/select-utils.R:129
   18: cur_vars_env$selected %||% stop("Variable context not set", call. = FALSE) at /home/muelleki/git/R/dplyr/R/select-utils.R:46
-  19: stop("Variable context not set", call. = FALSE) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/operators.R:14
+  19: stop("Variable context not set", call. = FALSE) at /tmp/RtmpBT2s6A/devtoolse8e15260319/hadley-rlang-7c42c80/R/operators.R:14
   
   testthat results ================================================================
   OK: 20 SKIPPED: 0 FAILED: 1
@@ -681,18 +518,18 @@ checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  44: unique(c(fname, unlist(lapply(x[-1], all_calls), use.names = FALSE))) at /home/muelleki/git/R/dplyr/R/translate-sql.r:199
+  45: unlist(lapply(x[-1], all_calls), use.names = FALSE)
+  46: lapply(x[-1], all_calls)
+  47: x[-1]
+  48: `[.formula`(x, -1)
   
   testthat results ================================================================
-  OK: 16 SKIPPED: 0 FAILED: 9
+  OK: 38 SKIPPED: 0 FAILED: 4
   1. Error: insert_chunkwise_into: can insert modified table into a db (@test-insert-into.R#15) 
-  2. Error: print groups: should print groups chunked info (@test-print.R#14) 
-  3. Error: mutate(): can add a new column (@test-verbs.R#9) 
-  4. Error: mutate(): can add a new column (@test-verbs.R#14) 
-  5. Error: select(): select a column (@test-verbs.R#21) 
-  6. Error: filter(): can filter rows (@test-verbs.R#28) 
-  7. Error: rename(): can rename columns (@test-verbs.R#35) 
-  8. Error: (unknown) (@test-verbs.R#40) 
-  9. Error: write_chunkwise to db works (@test-write.R#29) 
+  2. Error: mutate(): can add a new column (@test-verbs.R#9) 
+  3. Error: mutate(): can add a new column (@test-verbs.R#14) 
+  4. Error: write_chunkwise to db works (@test-write.R#29) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -772,244 +609,6 @@ R.
 See ?Deprecated.
 ```
 
-## compareDF (1.1.0)
-Maintainer: Alex Joseph <alexsanjoseph@gmail.com>
-
-2 errors | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘compareDF-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: compare_df
-> ### Title: Compare Two dataframes
-> ### Aliases: compare_df
-> 
-> ### ** Examples
-> 
-> old_df = data.frame(var1 = c("A", "B", "C"),
-+                     val1 = c(1, 2, 3))
-> new_df = data.frame(var1 = c("A", "B", "C"),
-+                     val1 = c(1, 2, 4))
-> ctable = compare_df(new_df, old_df, c("var1"))
-Creating comparison table...
-Error in arrange_impl(.data, dots) : incorrect size (1), expecting : 2
-Calls: compare_df ... as.data.frame -> arrange -> arrange.tbl_df -> arrange_impl -> .Call
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  8: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
-  9: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
-  10: arrange_(., group_col)
-  11: arrange_.data.frame(., group_col) at /home/muelleki/git/R/dplyr/R/manip.r:263
-  12: as.data.frame(arrange(tbl_df(.data), ...)) at /home/muelleki/git/R/dplyr/R/dataframe.R:104
-  13: arrange(tbl_df(.data), ...)
-  14: arrange.tbl_df(tbl_df(.data), ...) at /home/muelleki/git/R/dplyr/R/manip.r:258
-  15: arrange_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:46
-  
-  testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 1
-  1. Error: (unknown) (@test-fnsComparison.R#14) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## condformat (0.5.0)
-Maintainer: Sergio Oller Moreno <sergioller@gmail.com>  
-Bug reports: http://github.com/zeehio/condformat/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘condformat-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: condformat
-> ### Title: Converts a data frame or matrix to a condformat_tbl class.
-> ### Aliases: condformat
-> 
-> ### ** Examples
-... 50 lines ...
-<td style='border-bottom: 2px solid grey; text-align: center;'>5.0</td>
-<td style='border-bottom: 2px solid grey; text-align: center;'>3.6</td>
-<td style='border-bottom: 2px solid grey; text-align: center;'>1.4</td>
-<td style='border-bottom: 2px solid grey; text-align: center;'>0.2</td>
-<td style='border-bottom: 2px solid grey; text-align: center;'>setosa</td>
-</tr>
-</tbody>
-</table>
-> 
-> condformat(iris[1:5,]) + rule_fill_gradient(Sepal.Length)
-Error: All select() inputs must resolve to integer column positions. The following do not:
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  testthat results ================================================================
-  OK: 20 SKIPPED: 0 FAILED: 10
-  1.  Error: rule_fill_discrete works (@test_rule_fill_discrete.R#10) 
-  2.  Error: rule_fill_discrete lock cells (@test_rule_fill_discrete.R#35) 
-  3.  Error: rule_fill_discrete_ works (@test_rule_fill_discrete.R#64) 
-  4.  Error: rule_fill_discrete_ works with formula (@test_rule_fill_discrete.R#86) 
-  5.  Error: rule_fill_gradient works in the limits (@test_rule_fill_gradient.R#8) 
-  6.  Error: rule_fill_gradient_ works in the limits (@test_rule_fill_gradient.R#24) 
-  7.  Error: rule_fill_gradient2 works (@test_rule_fill_gradient.R#41) 
-  8.  Error: show_column works (@test_show.R#8) 
-  9.  Error: show_column_ works (@test_show.R#20) 
-  10. Error: show_column works with custom names (@test_show.R#32) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 31-39 (introduction.Rmd) 
-Error: processing vignette 'introduction.Rmd' failed with diagnostics:
-All select() inputs must resolve to integer column positions. The following do not:
-```
-
-## corrr (0.2.1)
-Maintainer: Simon Jackson <drsimonjackson@gmail.com>  
-Bug reports: https://github.com/drsimonj/corrr/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  2/3 mismatches
-  x[2]: "dplyr::contains(\"Length\")1"
-  y[2]: "Sepal.Length"
-  
-  x[3]: "dplyr::contains(\"Length\")2"
-  y[3]: "Petal.Length"
-  
-  
-  testthat results ================================================================
-  OK: 52 SKIPPED: 0 FAILED: 2
-  1. Failure: Column select works as dplyr::select (@test-focus.R#12) 
-  2. Failure: Column select works as dplyr::select (@test-focus.R#16) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: dplyr
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-... 8 lines ...
-Attaching package: 'purrr'
-
-The following objects are masked from 'package:dplyr':
-
-    contains, order_by
-
-Warning: Unknown column 'PANEL'
-Quitting from lines 111-116 (using-corrr.Rmd) 
-Error: processing vignette 'using-corrr.Rmd' failed with diagnostics:
-a dimension is zero
-Execution halted
-```
-
-## countytimezones (1.0.0)
-Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>  
-Bug reports: https://github.com/geanders/countytimezones/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘countytimezones-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: add_local_time
-> ### Title: Add local time to dataset
-> ### Aliases: add_local_time
-> 
-> ### ** Examples
-> 
-> ex_df <- data.frame(datetime = c("1999-01-01 08:00", "1999-01-01 09:00",
-+                                  "1999-01-01 10:00"),
-+                     fips = c("36061", "17031", "06037"))
-> add_local_time(df = ex_df, fips = ex_df$fips,
-+                datetime_colname = "datetime")
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 61-62 (countytimezones.Rmd) 
-Error: processing vignette 'countytimezones.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-```
-
-## cpr (0.2.3)
-Maintainer: Peter DeWitt <dewittpe@gmail.com>
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘cpr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: cp
-> ### Title: Control Polygons
-> ### Aliases: cp cp.cpr_bs cp.formula print.cpr_cp summary.cpr_cp
-> ###   plot.cpr_cp
-> 
-... 12 lines ...
-> theta1 <- c(1, 0, 3.5, 4.2, 3.7, -0.5, -0.7, 2, 1.5)
-> theta2 <- c(1, 3.4, -2, 1.7)
-> 
-> # build the two control polygons
-> cp1 <- cp(bmat1, theta1)
-> cp2 <- cp(bmat2, theta2)
-> 
-> # black and white plot
-> plot(cp1)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 93-95 (cpr-pkg.Rmd) 
-Error: processing vignette 'cpr-pkg.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-```
-
 ## crawl (2.0.1)
 Maintainer: Devin S. Johnson <devin.johnson@noaa.gov>
 
@@ -1054,21 +653,21 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [56s/56s]
+  Running ‘testthat.R’ [53s/54s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-         parse_f(lazy, env)
-     }, list = coerce_class(lazy, "tidy_quote", lazy = quosure(lazy$expr, lazy$env))) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:23
-  31: abort_coercion(.x, .to) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:422
-  32: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
+  
+  
+  2. Failure: make formulas (@test-makeFormulas.R#45) ----------------------------
+  `dat3` not identical to mutar(dat, ~1:2, FL(x ~ mean(x))).
+  Attributes: < Length mismatch: comparison on first 2 components >
+  Attributes: < Component "class": Lengths (1, 3) differ (string compare on first 1) >
+  
   
   testthat results ================================================================
-  OK: 82 SKIPPED: 0 FAILED: 5
-  1. Failure: Basic syntax of a DataFrame (@test-DataFrame.R#66) 
-  2. Error: Parameterized formulas (@test-DataFrame.R#169) 
-  3. Failure: Package Style (@test-lintr.R#5) 
-  4. Error: make formulas (@test-makeFormulas.R#40) 
-  5. Error: map (@test-map.R#13) 
+  OK: 106 SKIPPED: 0 FAILED: 2
+  1. Failure: Package Style (@test-lintr.R#5) 
+  2. Failure: make formulas (@test-makeFormulas.R#45) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -1158,7 +757,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [145s/146s]
+  Running ‘testthat.R’ [141s/142s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1182,46 +781,25 @@ Last 13 lines of output:
 Maintainer: Richard Iannone <riannone@me.com>  
 Bug reports: https://github.com/rich-iannone/DiagrammeR/issues
 
-2 errors | 0 warnings | 1 note 
+1 error  | 0 warnings | 1 note 
 
 ```
-checking examples ... ERROR
-Running examples in ‘DiagrammeR-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: drop_edge_attrs
-> ### Title: Drop an edge attribute column
-> ### Aliases: drop_edge_attrs
-> 
-> ### ** Examples
-> 
-> # Create a random graph
-> graph <-
-+   create_random_graph(
-+     5, 6, set_seed = 23) %>%
-+     set_edge_attrs("value", 3) %>%
-+     mutate_edge_attrs(
-+       "value", "2 * ~", "penwidth")
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 checking tests ... ERROR
-  Running ‘testthat.R’ [188s/188s]
+  Running ‘testthat.R’ [187s/187s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  20: as.data.frame(arrange(tbl_df(.data), ...)) at /home/muelleki/git/R/dplyr/R/dataframe.R:104
-  21: arrange(tbl_df(.data), ...)
-  22: arrange.tbl_df(tbl_df(.data), ...) at /home/muelleki/git/R/dplyr/R/manip.r:258
-  23: arrange_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:46
+  > library(testthat)
+  > library(DiagrammeR)
+  > 
+  > test_check("DiagrammeR")
+  1. Error: importing a .graphml file is possible (@test-import_graph.R#5) -------
+  subscript out of bounds
+  1: import_graph(system.file("extdata", "power_grid.graphml", package = "DiagrammeR")) at testthat/test-import_graph.R:5
+  2: create_graph(nodes_df = all_nodes, edges_df = all_edges)
   
   testthat results ================================================================
-  OK: 1453 SKIPPED: 0 FAILED: 5
-  1. Error: adding nodes from a table to a graph is possible (@test-add_nodes_edges_from_table.R#256) 
-  2. Error: Mutating node attributes is possible (@test-copy_drop_mutate_recode_attrs.R#302) 
-  3. Error: Mutating edge attributes is possible (@test-copy_drop_mutate_recode_attrs.R#363) 
-  4. Error: importing a .graphml file is possible (@test-import_graph.R#5) 
-  5. Error: setting positions with a text string is possible (@test-set_node_positions.R#171) 
+  OK: 1468 SKIPPED: 0 FAILED: 1
+  1. Error: importing a .graphml file is possible (@test-import_graph.R#5) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -1249,7 +827,7 @@ Last 13 lines of output:
   15: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
   16: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
   17: dplyr::mutate(., data = purrr::map(exams[[1]], ~X[[.x]]))
-  18: mutate.tbl_df(., data = purrr::map(exams[[1]], ~X[[.x]])) at /home/muelleki/git/R/dplyr/R/manip.r:206
+  18: mutate.tbl_df(., data = purrr::map(exams[[1]], ~X[[.x]])) at /home/muelleki/git/R/dplyr/R/manip.r:218
   19: mutate_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:83
   
   testthat results ================================================================
@@ -1414,7 +992,7 @@ See ?Deprecated.
 Maintainer: Christofer Backlin <emil@christofer.backlin.se>  
 Bug reports: https://github.com/Molmed/emil/issues
 
-2 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
 checking examples ... ERROR
@@ -1422,84 +1000,48 @@ Running examples in ‘emil-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_importance
-> ### Title: Feature (variable) importance of a fitted model
-> ### Aliases: get_importance
+> ### Name: learning_curve
+> ### Title: Learning curve analysis
+> ### Aliases: learning_curve
 > 
 > ### ** Examples
-... 31 lines ...
-14 Mär 09:47    Repeat 2, fold 2
-14 Mär 09:47      Extracting fitting and testing datasets.
-14 Mär 09:47      Fitting pamr
-14 Mär 09:47    Repeat 2, fold 3
-14 Mär 09:47      Extracting fitting and testing datasets.
-14 Mär 09:47      Fitting pamr
-> get_importance(result)
-Error in UseMethod("select") : 
-  no applicable method for 'select' applied to an object of class "modeling_result"
-Calls: get_importance -> get_importance.modeling_result -> select
+... 6 lines ...
+15 Mär 19:41    Test set test_fraction 1 of 3 (0.7)
+15 Mär 19:41      Evaluating modeling performance...
+15 Mär 19:41    Test set test_fraction 2 of 3 (0.5)
+15 Mär 19:41      Evaluating modeling performance...
+15 Mär 19:41    Test set test_fraction 3 of 3 (0.3)
+15 Mär 19:41      Evaluating modeling performance...
+> plot(lc)
+Error in select.list(., test_fraction = TRUE, fold = TRUE, method = TRUE,  : 
+  unused arguments (test_fraction = TRUE, fold = TRUE, method = TRUE, performance = "error")
+Calls: plot ... withVisible -> <Anonymous> -> select -> select.list
 Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’ [8s/11s]
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  3: eval(quote(`_fseq`(`_lhs`)), env, env)
-  4: eval(expr, envir, enclos)
-  5: `_fseq`(`_lhs`)
-  6: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
-  7: withVisible(function_list[[k]](value)) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
-  8: function_list[[k]](value)
-  9: select(., fold = TRUE, method = TRUE, error = "error")
-  
-  testthat results ================================================================
-  OK: 172 SKIPPED: 1 FAILED: 2
-  1. Error: Parameter tuning (@test-extractors.r#14) 
-  2. Error: dplyr integration (@test-helpers.r#52) 
-  
-  Error: testthat unit tests failed
-  Execution halted
 ```
 
 ## etl (0.3.5)
 Maintainer: Ben Baumer <ben.baumer@gmail.com>  
 Bug reports: https://github.com/beanumber/etl/issues
 
-2 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘etl-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: valid_year_month
-> ### Title: Ensure that years and months are within a certain time span
-> ### Aliases: valid_year_month
-> 
-> ### ** Examples
-> 
-> 
-> valid_year_month(years = 1999:2001, months = c(1:3, 7))
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  trying URL 'http://www.google.com'
   downloaded 10 KB
   
   trying URL 'http://www.nytimes.com'
-  Content type 'text/html; charset=utf-8' length 223800 bytes (218 KB)
+  Content type 'text/html; charset=utf-8' length 223193 bytes (217 KB)
   ==================================================
-  downloaded 218 KB
+  downloaded 217 KB
   
   testthat results ================================================================
-  OK: 18 SKIPPED: 0 FAILED: 3
+  OK: 19 SKIPPED: 0 FAILED: 2
   1. Error: sqlite works (@test-etl.R#9) 
   2. Failure: dplyr works (@test-etl.R#25) 
-  3. Error: valid_year_month works (@test-etl.R#69) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -1516,22 +1058,22 @@ Running examples in ‘extdplyr-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: grp_routine
-> ### Title: Mutate a character/factor based on conditions.
-> ### Aliases: grp_routine grp_routine_
+> ### Name: pct_routine
+> ### Title: Calculate percentage by group.
+> ### Aliases: pct_routine pct_routine_ tally_pct tally_pct_
 > 
 > ### ** Examples
-... 7 lines ...
-3  c  3
-4  d  4
-5  e  5
-> 
-> # By default, it creates new groups
-> grp_routine(df, "group",
-+                first = v1 %in% c("a", "b"),
-+                second = v2 == 3,
-+                third = v2 >= 4)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+... 85 lines ...
+81   75+     40-79 0-9g/day      2         5
+82   75+     40-79    10-19      1         3
+83   75+     40-79    20-29      0         3
+84   75+     40-79      30+      1         1
+85   75+    80-119 0-9g/day      1         1
+86   75+    80-119    10-19      1         1
+87   75+      120+ 0-9g/day      2         2
+88   75+      120+    10-19      1         1
+> pct_routine(esoph, agegp, alcgp)
+Error: Cannot convert objects of type `logical` to `tidy_quote`
 Execution halted
 ```
 
@@ -1597,7 +1139,7 @@ Calls: make_time_cluster_data ... make_time_cluster_data.time_sequence_data -> d
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [97s/98s]
+  Running ‘testthat.R’ [92s/92s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Predictor:	 Target 
@@ -1651,18 +1193,18 @@ checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+         if (warn) 
              warn_text_se()
          parse_f(lazy, env)
      }, list = coerce_class(lazy, "tidy_quote", lazy = quosure(lazy$expr, lazy$env))) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:23
-  26: abort_coercion(.x, .to) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:422
-  27: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
+  26: abort_coercion(.x, .to) at /tmp/RtmpBT2s6A/devtoolse8e15260319/hadley-rlang-7c42c80/R/types.R:422
+  27: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpBT2s6A/devtoolse8e15260319/hadley-rlang-7c42c80/R/types.R:435
   
   testthat results ================================================================
-  OK: 23 SKIPPED: 0 FAILED: 4
+  OK: 30 SKIPPED: 0 FAILED: 3
   1. Error: ezsummary_quantitative can evaluate grouping info correctly with 1 variable (@test-ezsummary_quantitative.R#19) 
-  2. Error: ezsummary_quantitative can work with 2 variables (@test-ezsummary_quantitative.R#26) 
-  3. Error: ezsummary_quantitative can work with 2 variables with grouping info (@test-ezsummary_quantitative.R#33) 
-  4. Error: ezsummary_quantitative can handle NAs when running with quantile=TRUE (@test-ezsummary_quantitative.R#40) 
+  2. Error: ezsummary_quantitative can work with 2 variables with grouping info (@test-ezsummary_quantitative.R#33) 
+  3. Error: ezsummary_quantitative can handle NAs when running with quantile=TRUE (@test-ezsummary_quantitative.R#40) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -1683,38 +1225,11 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-Quitting from lines 89-90 (intro_to_ezsummary_0.2.0.Rmd) 
+Quitting from lines 110-114 (intro_to_ezsummary_0.2.0.Rmd) 
 Error: processing vignette 'intro_to_ezsummary_0.2.0.Rmd' failed with diagnostics:
-incorrect size (1), expecting : 11
+Cannot convert objects of type `character` to `tidy_quote`
 Execution halted
 
-```
-
-## fbar (0.1.23)
-Maintainer: Max Conway <conway.max1@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’ [14s/14s]
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  16: coerce_type(lazy, "tidy_quote", quote = lazy, symbol = , language = quosure(lazy, 
-         env), string = {
-         if (warn) 
-             warn_text_se()
-         parse_f(lazy, env)
-     }, list = coerce_class(lazy, "tidy_quote", lazy = quosure(lazy$expr, lazy$env))) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:23
-  17: abort_coercion(.x, .to) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:422
-  18: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
-  
-  testthat results ================================================================
-  OK: 44 SKIPPED: 8 FAILED: 1
-  1. Error: find_fluxes_df works in grouped context (@test-full-size.R#11) 
-  
-  Error: testthat unit tests failed
-  Execution halted
 ```
 
 ## fitcoach (1.0)
@@ -1782,7 +1297,7 @@ Bug reports: http://github.com/andrewzm/FRK/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [66s/77s]
+  Running ‘testthat.R’ [65s/66s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
     |                                                                            
@@ -1886,117 +1401,52 @@ checking installed package size ... NOTE
 Maintainer: Pablo Casas <pcasas.biz@gmail.com>  
 Bug reports: https://github.com/pablo14/funModeling/issues
 
-1 error  | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘funModeling-Ex.R’ failed
-The error most likely occurred in:
+checking examples ... WARNING
+Found the following significant warnings:
 
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: auto_grouping
-> ### Title: Reduce cardinality in categorical variable by automatic grouping
-> ### Aliases: auto_grouping
-> 
-> ### ** Examples
-> 
-> # Reducing quantity of countries based on has_flu variable
-> auto_grouping(data=data_country, input='country', target="has_flu", n_groups=8)
-Error in arrange_impl(.data, dots) : incorrect size (1), expecting : 70
-Calls: auto_grouping ... as.data.frame -> arrange -> arrange.tbl_df -> arrange_impl -> .Call
-Execution halted
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+... 6 lines ...
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## futureheatwaves (1.0.3)
 Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>
 
-1 error  | 1 warning  | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘futureheatwaves-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: apply_all_models
-> ### Title: Apply a function across heat waves from all projections
-> ### Aliases: apply_all_models
-> 
-> ### ** Examples
-> 
-> ex_results <- system.file("extdata/example_results",
-+                           package = "futureheatwaves")
-> apply_all_models(ex_results, FUN = average_mean_temp)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-** found \donttest examples: check also with --run-donttest
-
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 326-328 (futureheatwaves.Rmd) 
+Quitting from lines 604-605 (futureheatwaves.Rmd) 
 Error: processing vignette 'futureheatwaves.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
+cannot open the connection
 Execution halted
 
 ```
 
-## GenCAT (1.0.3)
-Maintainer: Eric Reed <reeder@bu.edu>
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘GenCAT-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: GenCAT
-> ### Title: Running GenCAT
-> ### Aliases: GenCAT
-> ### Keywords: ~kwd1 ~kwd2
-> 
-... 42 lines ...
-rs624673   13  rs624673       NA 19743996  G  A
-rs9511877  13 rs9511877       NA 19744070  A  G
-rs638773   13  rs638773       NA 19744848  A  G
-rs9511880  13 rs9511880       NA 19745096  G  T
-rs482278   13  rs482278       NA 19745251  A  G
-rs9507552  13 rs9507552       NA 19745903  G  A
-> 
-> GenCATtest <- GenCAT(CardioMappedSub, genoData=genoData, snpInfo = snpInfo)
-Error in `[.data.frame`(SNPdata, , i) : undefined columns selected
-Calls: GenCAT -> [ -> [.data.frame
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: dplyr
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-... 6 lines ...
-    intersect, setdiff, setequal, union
-
-Loading required package: doParallel
-Loading required package: foreach
-Loading required package: iterators
-Loading required package: parallel
-Loading required package: ggplot2
-Quitting from lines 62-69 (GenCAT-vignette.Rmd) 
-Error: processing vignette 'GenCAT-vignette.Rmd' failed with diagnostics:
-undefined columns selected
-Execution halted
-```
-
-## geoknife (1.5.2)
+## geoknife (1.5.4)
 Maintainer: Jordan Read <jread@usgs.gov>  
 Bug reports: https://github.com/USGS-R/geoknife/issues
 
@@ -2088,7 +1538,7 @@ Execution halted
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>  
 Bug reports: https://github.com/sinhrks/ggfortify/issues
 
-2 errors | 1 warning  | 1 note 
+2 errors | 0 warnings | 1 note 
 
 ```
 checking examples ... ERROR
@@ -2096,46 +1546,35 @@ Running examples in ‘ggfortify-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: autoplot.acf
-> ### Title: Autoplot 'stats::acf'. Note to pass 'plot = FALSE' to original
-> ###   function to suppress standard plot output
-> ### Aliases: autoplot.acf
+> ### Name: gglagplot
+> ### Title: Plot time series against lagged versions of themselves
+> ### Aliases: gglagplot
 > 
 > ### ** Examples
 > 
-> autoplot(stats::acf(AirPassengers, plot = FALSE))
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+> gglagplot(AirPassengers)
+Error: dplyr::lag() called with ts object. Do you want stats::lag()?
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [36s/36s]
+  Running ‘test-all.R’ [48s/51s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
+  2: dplyr::bind_rows(lapply(seq(1:lags), .lag))
+  3: list_or_dots(...) at /home/muelleki/git/R/dplyr/R/bind.r:77
+  4: lapply(seq(1:lags), .lag) at /home/muelleki/git/R/dplyr/R/bind.r:120
+  5: FUN(X[[i]], ...)
+  6: as.vector(lag(ts, k))
+  7: lag(ts, k)
+  8: stop("dplyr::lag() called with ts object. Do you want stats::lag()?", call. = FALSE) at /home/muelleki/git/R/dplyr/R/lead-lag.R:61
+  
   testthat results ================================================================
-  OK: 995 SKIPPED: 9 FAILED: 13
-  1. Error: Check ggmultiplot arithmetics (@test-plotlib.R#4) 
-  2. Error: Check ggmultiplot extraction (@test-plotlib.R#24) 
-  3. Error: Check ggmultiplot multiple instances (@test-plotlib.R#112) 
-  4. Error: Check autoplot works for list of ggplot (@test-plotlib.R#209) 
-  5. Error: Check autoplot works for list of ggpmultilot (@test-plotlib.R#217) 
-  6. Error: autoplot.lm can accept + operator (@test-stats-lm.R#22) 
-  7. Error: autoplot.lm works for USArrests (@test-stats-lm.R#34) 
-  8. Error: autoplot.lm works for binomial (@test-stats-lm.R#196) 
-  9. Error: autoplot.lm works for polynomial fit (@test-stats-lm.R#353) 
-  1. ...
+  OK: 1441 SKIPPED: 9 FAILED: 2
+  1. Error: Check autoplot works for list of ggplot (@test-plotlib.R#209) 
+  2. Error: gglagplot (@test-tslib.R#103) 
   
   Error: testthat unit tests failed
   Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Loading required package: ggplot2
-Quitting from lines 82-85 (basics.Rmd) 
-Error: processing vignette 'basics.Rmd' failed with diagnostics:
-incorrect size (1), expecting : 31
-Execution halted
-
 
 checking installed package size ... NOTE
   installed size is  5.7Mb
@@ -2190,20 +1629,22 @@ Running examples in ‘ggvis-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: auto_group
-> ### Title: Automatically group data by grouping variables
-> ### Aliases: auto_group
+> ### Name: dplyr-ggvis
+> ### Title: Dplyr verbs for ggvis.
+> ### Aliases: arrange_.ggvis arrange_.reactive distinct_.ggvis
+> ###   distinct_.reactive dplyr-ggvis filter_.ggvis filter_.reactive
+> ###   group_by_.ggvis group_by_.reactive groups.ggvis groups.reactive
+... 21 lines ...
+> base <- mtcars %>% ggvis(~mpg, ~cyl) %>% layer_points()
+> base %>% group_by(cyl) %>% summarise(mpg = mean(mpg)) %>%
++   layer_points(fill := "red", size := 100)
 > 
-> ### ** Examples
+> base %>% filter(mpg > 25) %>% layer_points(fill := "red")
 > 
-> # One line
-> mtcars %>% ggvis(~disp, ~mpg, stroke = ~factor(cyl)) %>% layer_paths()
-> # One line for each level of cyl
-> mtcars %>% ggvis(~disp, ~mpg, stroke = ~factor(cyl)) %>% group_by(cyl) %>%
-+   layer_paths()
-Error in UseMethod("group_by") : 
-  no applicable method for 'group_by' applied to an object of class "ggvis"
-Calls: %>% ... eval -> _fseq -> freduce -> <Anonymous> -> group_by
+> base %>% mutate(cyl = jitter(cyl)) %>% layer_points(fill := "red")
+Error in UseMethod("mutate") : 
+  no applicable method for 'mutate' applied to an object of class "ggvis"
+Calls: %>% ... eval -> eval -> _fseq -> freduce -> <Anonymous> -> mutate
 Execution halted
 
 checking tests ... ERROR
@@ -2259,28 +1700,15 @@ Last 13 lines of output:
 Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>  
 Bug reports: https://github.com/HughParsonage/grattan/issues
 
-2 errors | 1 warning  | 1 note 
+1 error  | 1 warning  | 1 note 
 
 ```
-checking examples ... ERROR
-Running examples in ‘grattan-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: cpi_inflator
-> ### Title: CPI inflator
-> ### Aliases: cpi_inflator
-> 
-> ### ** Examples
-> 
-> cpi_inflator(100, from_fy = "2005-06", to_fy = "2014-15")
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 checking tests ... ERROR
-  Running ‘testthat.R’ [44s/50s]
+  Running ‘testthat.R’ [46s/46s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  12: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
+  13: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
   14: filter(., fy_year == "2016-17")
   15: filter.data.frame(., fy_year == "2016-17") at /home/muelleki/git/R/dplyr/R/manip.r:40
   16: as.data.frame(filter(tbl_df(.data), ...)) at /home/muelleki/git/R/dplyr/R/dataframe.R:62
@@ -2289,10 +1717,8 @@ Last 13 lines of output:
   19: filter_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:61
   
   testthat results ================================================================
-  OK: 197 SKIPPED: 35 FAILED: 3
-  1. Error: generic inflator doesn't fail! (@test_generic_inflator.R#5) 
-  2. Error: generic inflator gives higher/lower for upper/lower (@test_generic_inflator.R#9) 
-  3. Error: New SAPTO matches old SAPTO for SAPTO (@test_sapto.R#83) 
+  OK: 205 SKIPPED: 35 FAILED: 1
+  1. Error: New SAPTO matches old SAPTO for SAPTO (@test_sapto.R#83) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -2300,13 +1726,6 @@ Last 13 lines of output:
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Installing package into '/home/muelleki/git/R/dplyr/revdep/checks/grattan.Rcheck'
-(as 'lib' is unspecified)
-trying URL 'https://hughparsonage.github.io/drat/src/contrib/taxstats_0.0.4.1314.tar.gz'
-Content type 'application/octet-stream' length 52654612 bytes (50.2 MB)
-==================================================
-downloaded 50.2 MB
-
 
 checking package dependencies ... NOTE
 Package suggested but not available for checking: ‘taxstats’
@@ -2350,7 +1769,7 @@ Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [5s/13s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   
@@ -2415,7 +1834,7 @@ Error: Cannot convert objects of type `double` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/22s]
+  Running ‘testthat.R’ [30s/47s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -2458,22 +1877,16 @@ Running examples in ‘highcharter-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: hc_add_series_map
-> ### Title: Add a map series
-> ### Aliases: hc_add_series_map
+> ### Name: hcboxplot
+> ### Title: Shortcut to make a boxplot
+> ### Aliases: hcboxplot
 > 
 > ### ** Examples
-... 22 lines ...
-+   hc_title(text = "Violent Crime Rates by US State") %>% 
-+   hc_subtitle(text = "Source: USArrests data") %>% 
-+   hc_add_series_map(usgeojson, USArrests, name = "Murder arrests (per 100,000)",
-+                     value = "Murder", joinBy = c("woename", "state"),
-+                     dataLabels = list(enabled = TRUE,
-+                                       format = '{point.properties.postalcode}')) %>% 
-+   hc_colorAxis(stops = color_stops()) %>% 
-+   hc_legend(valueDecimals = 0, valueSuffix = "%") %>%
-+   hc_mapNavigation(enabled = TRUE) 
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+> 
+> hcboxplot(x = iris$Sepal.Length, var = iris$Species, color = "red")
+Error in mutate_impl(.data, dots) : 
+  incompatible size (5), expecting one (the group size)
+Calls: hcboxplot ... transmute.default -> mutate -> mutate.tbl_df -> mutate_impl -> .Call
 Execution halted
 
 checking re-building of vignette outputs ... WARNING
@@ -2509,7 +1922,7 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## huxtable (0.1.0)
+## huxtable (0.1.1)
 Maintainer: David Hugh-Jones <davidhughjones@gmail.com>  
 Bug reports: https://github.com/hughjonesd/huxtable/issues
 
@@ -2530,8 +1943,8 @@ Last 13 lines of output:
   9: stop("pandoc document conversion failed with error ", result, call. = FALSE) at /tmp/RtmpvuUUir/devtools34505bf56457/rmarkdown/R/pandoc.R:100
   
   testthat results ================================================================
-  OK: 9 SKIPPED: 9 FAILED: 1
-  1. Error: Row heights do not screw up latex multicol (@test-output.R#42) 
+  OK: 9 SKIPPED: 10 FAILED: 1
+  1. Error: Row heights do not screw up latex multicol (@test-output.R#44) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -2541,7 +1954,7 @@ Error in re-building vignettes:
   ...
 Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 52-103 (design-principles.Rmd) 
+Quitting from lines 51-102 (design-principles.Rmd) 
 Error: processing vignette 'design-principles.Rmd' failed with diagnostics:
 argument is of length zero
 Execution halted
@@ -2560,39 +1973,42 @@ Running examples in ‘HydeNet-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: HydeNetwork
-> ### Title: Define a Probablistic Graphical Network
-> ### Aliases: HydeNetwork HydeNetwork.formula HydeNetwork.list
+> ### Name: HydePosterior
+> ### Title: Posterior Distributions of a Decision Network
+> ### Aliases: HydePosterior
 > 
 > ### ** Examples
-... 44 lines ...
-> g3 <- lm(d.dimer ~ pe + pregnant, data=PE)
-> g4 <- xtabs(~ pregnant, data=PE)
-> g5 <- glm(angio ~ pe, data=PE, family="binomial")
-> g6 <- glm(treat ~ d.dimer + angio, data=PE, family="binomial")
-> g7 <- glm(death ~ pe + treat, data=PE, family="binomial")
 > 
-> bagOfModels <- list(g1,g2,g3,g4,g5,g6,g7)
-> 
-> bagNet <- HydeNetwork(bagOfModels)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+> data(PE, package="HydeNet")
+> Net <- HydeNetwork(~ wells + 
++                      pe | wells + 
++                      d.dimer | pregnant*pe + 
++                      angio | pe + 
++                      treat | d.dimer*angio + 
++                      death | pe*treat,
++                      data = PE) 
+>   
+>                  
+> compiledNet <- compileJagsModel(Net, n.chains=5)
+Error in cbind_all(x) : cannot convert object to a data frame
+Calls: compileJagsModel ... cpt_workhorse -> cbind -> cbind -> bind_cols -> cbind_all -> .Call
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [13s/13s]
+  Running ‘testthat.R’ [15s/15s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
-  OK: 45 SKIPPED: 0 FAILED: 18
+  OK: 55 SKIPPED: 0 FAILED: 12
   1. Error: HydeNetwork.list returns expected attributes (@test-HydeNetwork.R#41) 
   2. Error: (unknown) (@test-HydePosterior.R#11) 
   3. Error: (unknown) (@test-bindPosterior.R#12) 
   4. Error: compileJagsModel returns an object of class 'compiledHydeNetwork' (@test-compileJagsModel.R#14) 
   5. Error: cpt.list (@test-cpt.R#12) 
   6. Error: cpt with weights (@test-cpt.R#20) 
-  7. Error: modelToNode: multinom (@test-modelToNode.R#17) 
-  8. Error: (unknown) (@test-print.HydePosterior.R#11) 
-  9. Error: fit the model for dbern (@test-setNode.R#28) 
+  7. Error: (unknown) (@test-print.HydePosterior.R#11) 
+  8. Failure: fit the model for dnorm (@test-setNode.R#40) 
+  9. Error: (unknown) (@test-setNodeModels.R#14) 
   1. ...
   
   Error: testthat unit tests failed
@@ -2609,38 +2025,6 @@ Error: processing vignette 'DecisionNetworks.Rmd' failed with diagnostics:
 cannot convert object to a data frame
 Execution halted
 
-```
-
-## IAT (0.3)
-Maintainer: Dan Martin <dpmartin42@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘IAT-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: cleanIAT
-> ### Title: Clean IAT data using the updated D-Scoring algorithm
-> ### Aliases: cleanIAT
-> 
-> ### ** Examples
-> 
-> # Get Ps who recieve Math-Male sorting task in first blocks
-> 
-> cong_first <- IATData[IATData$isCongruentFirst == 1, ]
-> 
-> dscore_first <- cleanIAT(my_data = cong_first,
-+                          block_name = "BLOCK_NAME_S",
-+                          trial_blocks = c("BLOCK2", "BLOCK3", "BLOCK5", "BLOCK6"),
-+                          session_id = "SESSION_ID",
-+                          trial_latency = "TRIAL_LATENCY",
-+                          trial_error = "TRIAL_ERROR",
-+                          v_error = 1, v_extreme = 2, v_std = 1)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
 ```
 
 ## IATscores (0.1-2)
@@ -2675,7 +2059,7 @@ Last 13 lines of output:
   dplyr::filter(testdata, persnr == 198505043334) inherits from `tbl_df/tbl/data.frame` not `incadata`.
   
   
-  [1] "ex_data708f41769cc8.csv2"
+  [1] "ex_data24ee2137bf76.csv2"
   testthat results ================================================================
   OK: 40 SKIPPED: 0 FAILED: 1
   1. Failure: filter (@test-dplyr_methods.R#13) 
@@ -2741,8 +2125,9 @@ R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
               user system elapsed
-ipfProb     14.444  0.088  14.549
-ipfEstimate 10.848  0.096  10.951
+ipfProb     13.996  0.032  14.047
+ipfEstimate 10.704  0.080  10.793
+ipfDist      3.236  0.024   8.752
 ```
 
 ## Lahman (5.0-0)
@@ -2760,8 +2145,8 @@ R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
                user system elapsed
-Teams        15.524  0.088  15.690
-PitchingPost  5.540  0.012   5.565
+Teams        14.044  0.080  14.169
+PitchingPost  5.072  0.004   5.077
 
 checking installed package size ... NOTE
   installed size is  7.6Mb
@@ -2827,60 +2212,17 @@ Execution halted
 Maintainer: Luke Johnston <lwjohnst@gmail.com>  
 Bug reports: https://github.com/lwjohnst86/mason/issues
 
-1 error  | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘mason-Ex.R’ failed
-The error most likely occurred in:
+checking examples ... WARNING
+Found the following significant warnings:
 
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: polish
-> ### Title: Do some final polishing of the scrubbed mason analysis data.
-> ### Aliases: polish polish_adjust_pvalue polish_filter polish_renaming
-> ###   polish_transform_estimates
-> 
-... 6 lines ...
-+  add_settings() %>%
-+  add_variables('yvar', c('Fertility', 'Education')) %>%
-+  add_variables('xvar', c('Agriculture', 'Catholic')) %>%
-+  add_variables('covariates', 'Examination') %>%
-+  construct() %>%
-+  scrub()
-> polish_renaming(ds, function(x) gsub('Education', 'Schooling', x))
-Warning: 'dplyr::mutate_each_' is deprecated.
-Use 'mutate_all' instead.
-See help("Deprecated")
-Error: All select() inputs must resolve to integer column positions. The following do not:
-```
-
-## mdsr (0.1.3)
-Maintainer: Ben Baumer <ben.baumer@gmail.com>  
-Bug reports: https://github.com/beanumber/mdsr/issues
-
-1 error  | 0 warnings | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘mdsr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: make_babynames_dist
-> ### Title: Wrangle babynames data
-> ### Aliases: make_babynames_dist
-> 
-> ### ** Examples
-> 
-> 
-> BabynameDist <- make_babynames_dist()
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking installed package size ... NOTE
-  installed size is  5.4Mb
-  sub-directories of 1Mb or more:
-    data   5.3Mb
+  Warning: 'dplyr::mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## medicare (0.2.0)
@@ -2947,7 +2289,7 @@ Execution halted
 ## metacoder (0.1.2)
 Maintainer: Zachary Foster <zacharyfoster1989@gmail.com>
 
-1 error  | 1 warning  | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
 checking tests ... ERROR
@@ -2969,18 +2311,6 @@ Last 13 lines of output:
   
   Error: testthat unit tests failed
   Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-1000 inputs used to classify 1000 observations by 955 taxa.
-Quitting from lines 72-73 (introduction.Rmd) 
-Error: processing vignette 'introduction.Rmd' failed with diagnostics:
-cannot convert object to a data frame
-Execution halted
-
 ```
 
 ## metricTester (1.3.2)
@@ -3012,30 +2342,28 @@ Running examples in ‘Momocs-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: PCcontrib
-> ### Title: Shape variation along PC axes
-> ### Aliases: PCcontrib PCcontrib.PCA
+> ### Name: transmute
+> ### Title: Transmutes (ala dplyr) on Momocs objects
+> ### Aliases: transmute
 > 
 > ### ** Examples
 > 
-> data(bot)
-> bot.p <- PCA(efourier(bot, 12))
-> PCcontrib(bot.p)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+> olea
+An Opn object with: 
+--------------------
+ - $coo: 210 open outlines (99 +/- 4 coordinates)
+ - $fac: 4 classifiers:
+     'var' (factor 4): Aglan, Cypre, MouBo1, PicMa.
+     'domes' (factor 2): cult, wild.
+     'view' (factor 2): VD, VL.
+     'ind' (factor 30): O1, O10, O11, O12, O13, O14, O15, O16, O17, O18, O19 ... + 19 more.
+> transmute(olea, id=factor(1:length(olea)))
+Error: evaluation nested too deeply: infinite recursion / options(expressions=)?
 Execution halted
 
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-This is Momocs 1.1.0
-
-Attaching package: 'Momocs'
-
-The following object is masked from 'package:stats':
-
-    filter
 
 The following object is masked from 'package:base':
 
@@ -3043,12 +2371,18 @@ The following object is masked from 'package:base':
 
 method not provided. efourier is used
 method not provided. efourier is used
-method not provided. efourier is used
-Quitting from lines 227-229 (Momocs_speed_dating.Rmd) 
+... 8 lines ...
+'nb.pts' missing and set to 91
+'degree' missing and set to 5
+'nb.h' not provided and set to 10 (99% harmonic power)
+PC axes 1 to 7 were retained
+PC axes 1 to 7 were retained
+'nb.h' not provided and set to 10 (99% harmonic power)
+PC axes 1 to 7 were retained
+no 'fac' provided, returns meanshape
 Error: processing vignette 'Momocs_speed_dating.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
+evaluation nested too deeply: infinite recursion / options(expressions=)?
 Execution halted
-
 ```
 
 ## mrgsolve (0.8.2)
@@ -3080,22 +2414,22 @@ Error: Cannot convert objects of type `environment` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [21s/25s]
+  Running ‘testthat.R’ [21s/28s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  5: as.vector(object)
-  6: lim(out10, CENT > 0)
-  7: x %>% dplyr::filter(...) %>% as.data.frame at testthat/test-z-alag-f.R:24
-  8: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env)) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:6
-  9: eval(quote(`_fseq`(`_lhs`)), env, env)
-  10: eval(expr, envir, enclos)
-  11: `_fseq`(`_lhs`)
-  12: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
-  13: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
-  14: dplyr::filter(., ...)  ... and 1 more
-  
+  no applicable method for 'mutate' applied to an object of class "mrgsims"
+  1: out %>% mutate(test = 2) at testthat/test-dplyr-generics.R:37
+  2: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env)) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:6
+  3: eval(quote(`_fseq`(`_lhs`)), env, env)
+  4: eval(expr, envir, enclos)
+  5: `_fseq`(`_lhs`)
+  6: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
+  7: withVisible(function_list[[k]](value)) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
+  8: function_list[[k]](value)
+  9: mutate(., test = 2)
   
   DONE ===========================================================================
+  Don't worry, you'll get it.
   Error: Test failures
   Execution halted
 
@@ -3116,28 +2450,26 @@ Running examples in ‘mtconnectR-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: create_mtc_device_from_dmtcd
-> ### Title: Create MTCDevice class from Delimited MTC Data and log file
-> ### Aliases: create_mtc_device_from_dmtcd
+> ### Name: map_gcode_mtc
+> ### Title: Create a mapping between simulated and actual data
+> ### Aliases: map_gcode_mtc
 > 
 > ### ** Examples
-... 105 lines ...
-  |                                                                            
-  |==================================================================    |  94%
-  |                                                                            
-  |===================================================================   |  96%
-  |                                                                            
-  |===================================================================== |  98%
-  |                                                                            
-  |======================================================================| 100%
-Error in arrange_impl(.data, dots) : incorrect size (1), expecting : 251
-Calls: create_mtc_device_from_dmtcd ... as.data.frame -> arrange -> arrange.tbl_df -> arrange_impl -> .Call
+> 
+> data("example_gcode_parsed") # Parsed gcode
+> data("example_mtc_device_3") # MTCDevice object of actual log data
+> simulated_gcode_data = na.omit(simulate_data_from_gcode(example_gcode_parsed, 
++ start_time = 0, data_res = 0.1, data_type = "HH"))
+Error in if (str_detect(current_values$state_motion, "ARC_")) distance_moved = arc_position_change(current_values,  : 
+  argument is of length zero
+Calls: na.omit ... simulate_data_from_gcode -> update_timestamps -> pfr_time
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [20s/21s]
+  Running ‘testthat.R’ [20s/20s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  2. Error: (unknown) (@test-simulate_gcode.R#6) ---------------------------------
   argument is of length zero
   1: na.omit(simulate_data_from_gcode(example_gcode_parsed, start_time = 0, data_res = 0.1, 
          data_type = "HH")) at testthat/test-simulate_gcode.R:6
@@ -3146,10 +2478,9 @@ Last 13 lines of output:
   4: pfr_time(current_values, previous_values, current_values$pfr, current_values$state_motion)
   
   testthat results ================================================================
-  OK: 24 SKIPPED: 0 FAILED: 3
-  1. Error: (unknown) (@test-dataExtraction_mtc.R#12) 
-  2. Failure: (unknown) (@test-map_gcode_mtc.R#16) 
-  3. Error: (unknown) (@test-simulate_gcode.R#6) 
+  OK: 37 SKIPPED: 0 FAILED: 2
+  1. Failure: (unknown) (@test-map_gcode_mtc.R#16) 
+  2. Error: (unknown) (@test-simulate_gcode.R#6) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -3159,9 +2490,11 @@ Error in re-building vignettes:
   ...
 Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 21-30 (create_mtc_device.Rmd) 
-Error: processing vignette 'create_mtc_device.Rmd' failed with diagnostics:
-incorrect size (1), expecting : 251
+Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+Quitting from lines 66-74 (simulate_map_gcode.Rmd) 
+Error: processing vignette 'simulate_map_gcode.Rmd' failed with diagnostics:
+argument is of length zero
 Execution halted
 
 ```
@@ -3194,13 +2527,33 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## myTAI (0.4.0)
+## myTAI (0.5.0)
 Maintainer: Hajk-Georg Drost <hgd23@cam.ac.uk>  
 Bug reports: https://github.com/HajkD/myTAI/issues
 
-0 errors | 1 warning  | 1 note 
+1 error  | 1 warning  | 1 note 
 
 ```
+checking tests ... ERROR
+  Running ‘testthat.R’ [56s/56s]
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  1. Failure: PlotContribution() works properly with PhyloExpressionSet input... (@test-PlotContribution.R#11) 
+  PlotContribution(PhyloExpressionSetExample, legendName = "PS") produced warnings.
+  
+  
+  2. Failure: PlotContribution() works properly with DivergenceExpressionSet input... (@test-PlotContribution.R#16) 
+  PlotContribution(DivergenceExpressionSetExample, legendName = "DS") produced warnings.
+  
+  
+  testthat results ================================================================
+  OK: 197 SKIPPED: 1 FAILED: 2
+  1. Failure: PlotContribution() works properly with PhyloExpressionSet input... (@test-PlotContribution.R#11) 
+  2. Failure: PlotContribution() works properly with DivergenceExpressionSet input... (@test-PlotContribution.R#16) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
 checking examples ... WARNING
 Found the following significant warnings:
 
@@ -3217,7 +2570,7 @@ checking installed package size ... NOTE
   installed size is  5.3Mb
   sub-directories of 1Mb or more:
     data   2.0Mb
-    doc    2.4Mb
+    doc    2.3Mb
 ```
 
 ## NFP (0.99.2)
@@ -3234,60 +2587,6 @@ Packages suggested but not available for checking: ‘graphite’ ‘NFPdata’
 
 See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
-```
-
-## nlstimedist (1.0.4)
-Maintainer: Nathan Eastwood <nathan.eastwood@icloud.com>  
-Bug reports: https://github.com/nathaneastwood/nlstimedist/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘nlstimedist-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: tdCdfPlot
-> ### Title: Plot the timedist PDF or CDF
-> ### Aliases: tdCdfPlot tdPdfPlot
-> 
-> ### ** Examples
-> 
-> tdTilia <- tdData(tilia, x = "Day", y = "Trees")
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  17: coerce_type(lazy, "tidy_quote", quote = lazy, symbol = , language = quosure(lazy, 
-         env), string = {
-         if (warn) 
-             warn_text_se()
-         parse_f(lazy, env)
-     }, list = coerce_class(lazy, "tidy_quote", lazy = quosure(lazy$expr, lazy$env))) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:23
-  18: abort_coercion(.x, .to) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:422
-  19: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
-  
-  testthat results ================================================================
-  OK: 6 SKIPPED: 0 FAILED: 1
-  1. Error: tdData output is as expected (@test-tdData.R#5) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 28-30 (nlstimedist.Rmd) 
-Error: processing vignette 'nlstimedist.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 ```
 
 ## officer (0.1.1)
@@ -3317,7 +2616,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [29s/29s]
+  Running ‘testthat.R’ [27s/27s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   9: ph_with_img(., type = "body", src = img.file, height = 1.06, width = 1.39)
@@ -3363,8 +2662,8 @@ Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
-           user system elapsed
-polarPlot 5.256  0.016   5.337
+          user system elapsed
+polarPlot  5.5  0.016   5.522
 ```
 
 ## padr (0.2.1)
@@ -3375,7 +2674,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [155s/157s]
+  Running ‘testthat.R’ [151s/151s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3473,14 +2772,15 @@ Segmentation fault (core dumped)
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>  
 Bug reports: https://bitbucket.org/aphalo/photobiologyinout/
 
-1 error  | 1 warning  | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  3. Failure: SpectraSuite (@test-oo.R#158) --------------------------------------
+  Read 16 items
+  2. Failure: SpectraSuite (@test-oo.R#158) --------------------------------------
   as.numeric(getWhenMeasured(ss.spct), tz = "CET") not equal to as.numeric(ymd_hms("2013-05-06 15:13:40", tz = "CET"), tz = "CET").
   1/1 mismatches
   [1] 1.37e+09 - 1.37e+09 == 3450400
@@ -3488,38 +2788,12 @@ Last 13 lines of output:
   
   Read 4 items
   testthat results ================================================================
-  OK: 188 SKIPPED: 0 FAILED: 3
-  1. Error: single spectrum (quantum) (@test-licor.R#9) 
-  2. Failure: SpectraSuite (@test-oo.R#76) 
-  3. Failure: SpectraSuite (@test-oo.R#158) 
+  OK: 214 SKIPPED: 0 FAILED: 2
+  1. Failure: SpectraSuite (@test-oo.R#76) 
+  2. Failure: SpectraSuite (@test-oo.R#158) 
   
   Error: testthat unit tests failed
   Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Read 3 items
-Read 16 items
-Read 4 items
-Read 18 items
-Read 4 items
-Read 18 items
-Read 4 items
-Read 18 items
-Read 4 items
-Read 18 items
-Read 3 items
-Read 16 items
-Read 12 items
-Read 4 items
-Read 151 records
-Read 7 items
-Quitting from lines 390-391 (user-guide.Rnw) 
-Error: processing vignette 'user-guide.Rnw' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 ```
 
 ## pixiedust (0.7.4)
@@ -3546,24 +2820,24 @@ The error most likely occurred in:
 +   sprinkle(cols = 5, fn = quote(pvalString(value))) %>%
 +   sprinkle(cols = 3, font_color = "#DA70D6") %>%
 +   sprinkle_print_method("html")
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+Error: Cannot convert objects of type `character` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [16s/16s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
-  OK: 18 SKIPPED: 0 FAILED: 125
+  OK: 80 SKIPPED: 0 FAILED: 77
   1. Error: as.data.frame.dust (@test-as.data.frame.R#6) 
   2. Error: as.data.frame.dust unsprinkled (@test-as.data.frame.R#17) 
-  3. Error: (unknown) (@test-colors.R#3) 
-  4. Error: Create a dust object (@test-dust.R#7) 
-  5. Error: dust object has expected names (@test-dust.R#14) 
-  6. Error: dust object body component has correct dimensions (@test-dust.R#26) 
-  7. Error: dust runs when passed a data frame with tidy_df = FALSE (@test-dust.R#42) 
-  8. Error: dust runs when passed a data frame with tidy_df = TRUE (@test-dust.R#47) 
-  9. Error: dust with keep_rownames = TRUE adds rownames to object (@test-dust.R#52) 
+  3. Error: lowercase color (@test-colors.R#8) 
+  4. Error: uppercase color (@test-colors.R#15) 
+  5. Error: mixed-case color (@test-colors.R#22) 
+  6. Error: rgb color (@test-colors.R#29) 
+  7. Error: rgba color (@test-colors.R#36) 
+  8. Error: rgba color decimal alpha (@test-colors.R#43) 
+  9. Error: rgba color decimal alpha preceded by 0 (@test-colors.R#50) 
   1. ...
   
   Error: testthat unit tests failed
@@ -3576,37 +2850,9 @@ Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
 Quitting from lines 84-91 (advancedMagic.Rmd) 
 Error: processing vignette 'advancedMagic.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
+Cannot convert objects of type `character` to `tidy_quote`
 Execution halted
 
-```
-
-## plater (1.0.0)
-Maintainer: Sean Hughes <smhughes@uw.edu>  
-Bug reports: https://github.com/ropenscilabs/plater/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  testthat results ================================================================
-  OK: 751 SKIPPED: 10 FAILED: 20
-  1. Failure: read_plates should contain all columns present in *any* of the input data frames (@test-read_plates.R#30) 
-  2. Failure: Plate should be first column in result of read_plates (@test-read_plates.R#35) 
-  3. Failure: read_plates without plate_names arg should be named by files (@test-read_plates.R#40) 
-  4. Failure: read_plates with plate_names arg should be correctly named (@test-read_plates.R#45) 
-  5. Failure: read_plates should contain all columns present in *any* of the input data frames (@test-read_plates.R#30) 
-  6. Failure: Plate should be first column in result of read_plates (@test-read_plates.R#35) 
-  7. Failure: read_plates without plate_names arg should be named by files (@test-read_plates.R#40) 
-  8. Failure: read_plates with plate_names arg should be correctly named (@test-read_plates.R#45) 
-  9. Failure: read_plates should contain all columns present in *any* of the input data frames (@test-read_plates.R#30) 
-  1. ...
-  
-  Error: testthat unit tests failed
-  Execution halted
 ```
 
 ## plotly (4.5.6)
@@ -3621,38 +2867,40 @@ Running examples in ‘plotly-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: add_annotations
-> ### Title: Add an annotation(s) to a plot
-> ### Aliases: add_annotations
+> ### Name: add_trace
+> ### Title: Add trace(s) to a plotly visualization
+> ### Aliases: add_area add_bars add_boxplot add_choropleth add_contour
+> ###   add_heatmap add_histogram add_histogram2d add_histogram2dcontour
+> ###   add_lines add_markers add_mesh add_paths add_pie add_polygons
+... 33 lines ...
++   plot_ly(x = ~long, y = ~lat) %>%
++   add_polygons(hoverinfo = "none") %>%
++   add_markers(text = ~paste(name, "<br />", pop), hoverinfo = "text",
++     data = maps::canada.cities) %>%
++   layout(showlegend = FALSE)
 > 
-> ### ** Examples
-> 
-> 
-> # single annotation
-> plot_ly(mtcars, x = ~wt, y = ~mpg) %>%
-+   slice(which.max(mpg)) %>%
-+   add_annotations(text = "Good mileage")
-Error in UseMethod("slice") : 
-  no applicable method for 'slice' applied to an object of class "c('plotly', 'htmlwidget')"
-Calls: %>% ... eval -> eval -> _fseq -> freduce -> <Anonymous> -> slice
+> plot_ly(economics, x = ~date) %>% 
++   add_ribbons(ymin = ~pce - 1e3, ymax = ~pce + 1e3)
+Error in cbind_all(x) : cannot convert object to a data frame
+Calls: <Anonymous> ... ribbon_dat -> cbind -> cbind -> bind_cols -> cbind_all -> .Call
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [58s/59s]
+  Running ‘testthat.R’ [54s/55s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  4: eval(expr, envir, enclos)
-  5: `_fseq`(`_lhs`)
-  6: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
-  7: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
-  8: group_by(., city)
+     })(dots[[1L]][[3L]], dots[[2L]][[3L]])
+  8: train_data(builtData, trace)
+  9: ribbon_dat(data)
+  10: cbind(x = tmp[["x"]], y = tmp[["ymin"]], others)
+  11: cbind(deparse.level, ...)
+  12: bind_cols(...) at /home/muelleki/git/R/dplyr/R/bind.r:105
+  13: cbind_all(x) at /home/muelleki/git/R/dplyr/R/bind.r:99
   
   testthat results ================================================================
-  OK: 806 SKIPPED: 17 FAILED: 4
+  OK: 812 SKIPPED: 17 FAILED: 2
   1. Error: datetimes are converted to e.g. 2013-01-02 05:00:00 (@test-ggplot-date.R#11) 
-  2. Error: can filter data returned by ggplotly (@test-ggplot-ggplotly.R#13) 
-  3. Error: add_fun can apply two different chunks of data to a plot (@test-plotly-data.R#23) 
-  4. Error: Complex example works (@test-plotly.R#177) 
+  2. Error: Complex example works (@test-plotly.R#190) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -3661,73 +2909,30 @@ Last 13 lines of output:
 ## poplite (0.99.17.3)
 Maintainer: Daniel Bottomly <bottomly@ohsu.edu>
 
-2 errors | 1 warning  | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘poplite-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: External methods
-> ### Title: Specific methods for generics defined in external packages.
-> ### Aliases: filter select
-> ### Keywords: utilities
-> 
-... 20 lines ...
-+       filter(baseball.db, active == "Y")
-+       
-+       select(filter(baseball.db, active == "Y" & W > 50 & teamID == "CAL"), active, W, teamID)
-+   }
-Loading required package: Lahman
-Starting team_franch
-Starting teams
-Error in UseMethod("filter") : 
-  no applicable method for 'filter' applied to an object of class "Database"
-Calls: filter
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  [1] "normal"
-  [1] "merge"
-  [1] "clinical"
-  [1] "dna"
-  [1] "samples"
-  1. Error: Querying with Database objects (@test-poplite.R#711) -----------------
-  no applicable method for 'filter' applied to an object of class "Database"
-  1: filter(sample.tracking.db, samples.sample_id == 1) at testthat/test-poplite.R:711
-  
-  testthat results ================================================================
-  OK: 149 SKIPPED: 0 FAILED: 1
-  1. Error: Querying with Database objects (@test-poplite.R#711) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
+Loading required package: GenomicRanges
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
 
-Loading required package: DBI
-
-Attaching package: ‘poplite’
-
-The following object is masked from ‘package:dplyr’:
-
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
 ... 8 lines ...
-  ERROR: The names of the supplied data.frame need to be modified for the database see correct.df.names
-Starting clinical
-Warning: RSQLite::dbGetPreparedQuery() is deprecated, please switch to DBI::dbGetQuery(params = bind.data).
-Starting samples
-Starting dna
+
+The following object is masked from ‘package:base’:
+
+    tabulate
+
 
 Error: processing vignette 'poplite.Rnw' failed with diagnostics:
- chunk 10 
-Error in UseMethod("filter") : 
-  no applicable method for 'filter' applied to an object of class "Database"
+ chunk 15 
+Error in c(DataFrameList(META = meta), tbls[unique(tags)]) : 
+  could not find symbol "recursive" in environment of the generic function
 Execution halted
 ```
 
@@ -3738,7 +2943,7 @@ Maintainer: Sean Taylor <sjt@fb.com>
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [10s/12s]
+  Running ‘testthat.R’ [9s/10s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Optimization terminated normally: 
@@ -3783,7 +2988,7 @@ Execution halted
 checking installed package size ... NOTE
   installed size is 18.8Mb
   sub-directories of 1Mb or more:
-    libs  18.6Mb
+    libs  18.5Mb
 ```
 
 ## purrr (0.2.2)
@@ -3854,7 +3059,7 @@ checking tests ... ERROR
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
-  OK: 105 SKIPPED: 1 FAILED: 26
+  OK: 128 SKIPPED: 1 FAILED: 16
   1. Error: bind_rows work with R6 data.frame (@test-dplyr_merges.R#10) 
   2. Error: bind_rows work with R6 data.table (@test-dplyr_merges.R#22) 
   3. Error: bind_rows work with R6 tbl_df (@test-dplyr_merges.R#34) 
@@ -3905,7 +3110,7 @@ See ?Deprecated.
 Maintainer: Vincent Nijs <radiant@rady.ucsd.edu>  
 Bug reports: https://github.com/radiant-rstats/radiant.data/issues
 
-2 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
 checking examples ... ERROR
@@ -3913,36 +3118,23 @@ Running examples in ‘radiant.data-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: dtab.explore
-> ### Title: Make a tabel of summary statistics in DT
-> ### Aliases: dtab.explore
+> ### Name: summary.pivotr
+> ### Title: Summary method for pivotr
+> ### Aliases: summary.pivotr
 > 
 > ### ** Examples
-> 
-> tab <- explore("diamonds", "price:x") %>% dtab
-Error in overscope_eval(overscope, f) : object 'price' not found
-Calls: %>% ... map_if -> map -> lapply -> FUN -> overscope_eval -> .Call
-Execution halted
+... 20 lines ...
+       cut    n
+      Fair  101
+      Good  275
+ Very Good  677
+   Premium  771
+     Ideal 1176
+     Total 3000
 
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  The following object is masked from 'package:testthat':
-  
-      describe
-  
-  1. Failure: getdata (@test_funs.R#31) ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  `_lhs` not equal to `%>%`(...).
-  Names: 3 string mismatches
-  
-  
-  testthat results ========================================================================================================================================================================================
-  OK: 17 SKIPPED: 0 FAILED: 1
-  1. Failure: getdata (@test_funs.R#31) 
-  
-  Error: testthat unit tests failed
-  Execution halted
+Error in filter_impl(.data, dots) : incorrect length (6), expecting: 1
+Calls: %>% ... <Anonymous> -> filter -> filter.tbl_df -> filter_impl -> .Call
+Execution halted
 ```
 
 ## radiant.design (0.6.0)
@@ -3965,7 +3157,7 @@ See ?Deprecated.
 Maintainer: Vincent Nijs <radiant@rady.ucsd.edu>  
 Bug reports: https://github.com/radiant-rstats/radiant.model/issues
 
-2 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
 checking examples ... ERROR
@@ -3973,87 +3165,54 @@ Running examples in ‘radiant.model-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: ann
-> ### Title: Artificial Neural Networks
-> ### Aliases: ann
+> ### Name: plot.model.predict
+> ### Title: Plot method for model.predict functions
+> ### Aliases: plot.model.predict
 > 
 > ### ** Examples
-... 7 lines ...
-Warning: 'summarise_each_' is deprecated.
-Use 'summarise_all' instead.
-See help("Deprecated")
-> result <- ann("diamonds", "price", c("carat","clarity"), type = "regression")
-Warning: 'summarise_each_' is deprecated.
-Use 'summarise_all' instead.
+... 25 lines ...
 See help("Deprecated")
 Warning: 'summarise_each_' is deprecated.
 Use 'summarise_all' instead.
 See help("Deprecated")
-Error: All select() inputs must resolve to integer column positions. The following do not:
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  2: scaledf(dat, wts = wts)
-  3: summarise_each_(dat, funs(mean(., na.rm = TRUE)), vars = cn)
-  4: apply_vars(funs, vars, tbl) at /home/muelleki/git/R/dplyr/R/colwise.R:251
-  5: select_vars(tbl_vars(tbl), !(!(!vars)), exclude = group_vars(tbl)) at /home/muelleki/git/R/dplyr/R/colwise.R:191
-  6: abort(glue("All select() inputs must resolve to integer column positions. \\\n       The following do not:\n       {labels}", labels = paste("* ", labels, collapse = "\n"))) at /home/muelleki/git/R/dplyr/R/select-vars.R:76
-  
-  testthat results ========================================================================================================================================================================================
-  OK: 19 SKIPPED: 0 FAILED: 4
-  1. Error: regress - predict (@test_stats.R#22) 
-  2. Error: logistic - predict (@test_stats.R#38) 
-  3. Error: ann - predict for classification (@test_stats.R#51) 
-  4. Error: ann - predict for regression (@test_stats.R#63) 
-  
-  Error: testthat unit tests failed
-  Execution halted
+Warning: 'summarise_each_' is deprecated.
+Use 'summarise_all' instead.
+See help("Deprecated")
+Error in rep(yes, length.out = length(ans)) : 
+  attempt to replicate an object of type 'closure'
+Calls: %>% ... <Anonymous> -> plot -> plot.model.predict -> ifelse
+Execution halted
 ```
 
 ## radiant.multivariate (0.6.0)
 Maintainer: Vincent Nijs <radiant@rady.ucsd.edu>  
 Bug reports: https://github.com/radiant-rstats/radiant.multivariate/issues
 
-2 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘radiant.multivariate-Ex.R’ failed
-The error most likely occurred in:
+checking examples ... WARNING
+Found the following significant warnings:
 
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: conjoint
-> ### Title: Conjoint analysis
-> ### Aliases: conjoint
-> 
-> ### ** Examples
-> 
-> result <- conjoint("mp3", rvar = "Rating", evar = "Memory:Shape")
-Error in eval(expr, envir, enclos) : object 'Memory' not found
-Calls: conjoint ... eval -> <Anonymous> -> model.frame.default -> eval -> eval
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  2: lm(formula, data = dat)
-  3: eval(mf, parent.frame())
-  4: eval(expr, envir, enclos)
-  5: stats::model.frame(formula = formula, data = dat, drop.unused.levels = TRUE)
-  6: model.frame.default(formula = formula, data = dat, drop.unused.levels = TRUE)
-  7: eval(predvars, data, env)
-  8: eval(expr, envir, enclos)
-  
-  testthat results ========================================================================================================================================================================================
-  OK: 5 SKIPPED: 0 FAILED: 2
-  1. Error: Kmeans cluster analysis (@test_stats.R#77) 
-  2. Error: Conjoint on mp3 data (@test_stats.R#91) 
-  
-  Error: testthat unit tests failed
-  Execution halted
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+... 30 lines ...
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'summarise_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## rattle (4.1.0)
@@ -4095,7 +3254,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:14498): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:61185): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## recexcavAAR (0.3.0)
@@ -4132,72 +3291,6 @@ checking installed package size ... NOTE
   sub-directories of 1Mb or more:
     doc    2.5Mb
     libs   3.3Mb
-```
-
-## replyr (0.2.4)
-Maintainer: John Mount <jmount@win-vector.com>  
-Bug reports: https://github.com/WinVector/replyr/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘replyr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: gapply
-> ### Title: grouped ordered apply
-> ### Aliases: gapply
-> 
-> ### ** Examples
-... 59 lines ...
-  <dbl> <dbl>  <dbl> <dbl>
-1     2   0.5      8     1
-2     2   0.4      4     2
-3     2   0.3      2     3
-4     1   0.2     20     1
-5     1   0.1     10     2
-[1] "split"
-[1] "cumulative sum example"
-Error in arrange_impl(.data, dots) : incorrect size (1), expecting : 2
-Calls: print ... as.data.frame -> arrange -> arrange.tbl_df -> arrange_impl -> .Call
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  14: arrange_.data.frame(df, columnName) at /home/muelleki/git/R/dplyr/R/manip.r:263
-  15: as.data.frame(arrange(tbl_df(.data), ...)) at /home/muelleki/git/R/dplyr/R/dataframe.R:104
-  16: arrange(tbl_df(.data), ...)
-  17: arrange.tbl_df(tbl_df(.data), ...) at /home/muelleki/git/R/dplyr/R/manip.r:258
-  18: arrange_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:46
-  
-  nrows: 2
-  Observations: 2
-  Variables: 1
-  $ x <dbl> 1, 2testthat results ================================================================
-  OK: 1 SKIPPED: 20 FAILED: 1
-  1. Error: test_gapply.R (@test_gapply.R#23) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 103-109 (ParametricExample.Rmd) 
-Error: processing vignette 'ParametricExample.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 ```
 
 ## rfishbase (2.1.1)
@@ -4242,37 +3335,6 @@ Execution halted
 
 ```
 
-## rgho (1.0.1)
-Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
-Bug reports: https://github.com/pierucci/rgho/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘rgho-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: search_gho
-> ### Title: Search Codes or Dimensions Labels
-> ### Aliases: search_codes search_dimensions search_gho
-> 
-> ### ** Examples
-... 23 lines ...
-
-Attributes:
-
-CATEGORY
-DEFINITION_XML
-DISPLAY_ES
-DISPLAY_FR
-IMR_ID
-RENDERER_ID
-> 
-> result <- get_gho_codes(dimension = "REGION")
-```
-
 ## rmcfs (1.2.4)
 Maintainer: Michal Draminski <michal.draminski@ipipan.waw.pl>
 
@@ -4308,113 +3370,6 @@ See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
 ```
 
-## RNeXML (2.0.7)
-Maintainer: Carl Boettiger <cboettig@gmail.com>  
-Bug reports: https://github.com/ropensci/RNeXML/issues
-
-2 errors | 1 warning  | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘RNeXML-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_taxa
-> ### Title: get_taxa
-> ### Aliases: get_otu get_taxa
-> 
-> ### ** Examples
-> 
-> comp_analysis <- system.file("examples", "comp_analysis.xml", package="RNeXML")
-> nex <- nexml_read(comp_analysis)
-> get_taxa(nex)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking tests ... ERROR
-  Running ‘test-all.R’ [46s/79s]
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  testthat results ================================================================
-  OK: 164 SKIPPED: 1 FAILED: 19
-  1. Error: we can extract character matrix with get_characters (@test_characters.R#44) 
-  2. Error: add_otu can append only unmatched taxa to an existing otus block (@test_characters.R#63) 
-  3. Error: we can add characters to a nexml file using a data.frame (@test_characters.R#88) 
-  4. Error: We can extract tree and trait data to run fitContinuous and fitDiscrete (@test_comp_analysis.R#9) 
-  5. Error: we can read in a file with existing meta and append without overwriting (@test_concatenate.R#99) 
-  6. Error: Getting characters (@test_get_characters.R#7) 
-  7. Error: get_characters throws appropriate warnings (@test_get_characters.R#15) 
-  8. Error: (unknown) (@test_get_level.R#5) 
-  9. Error: We can add additional metadata (@test_meta.R#14) 
-  1. ...
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: ape
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 73-74 (metadata.Rmd) 
-Error: processing vignette 'metadata.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-
-checking package dependencies ... NOTE
-Packages suggested but not available for checking: ‘rrdf’ ‘Sxslt’
-```
-
-## rprev (0.2.3)
-Maintainer: Stuart Lacy <stuart.lacy@york.ac.uk>
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: survival
-Quitting from lines 269-270 (user_guide.Rmd) 
-Error: processing vignette 'user_guide.Rmd' failed with diagnostics:
-All select() inputs must resolve to integer column positions. The following do not:
-```
-
-## rtide (0.0.3)
-Maintainer: Joe Thorley <joe@poissonconsulting.ca>  
-Bug reports: https://github.com/poissonconsulting/rtide/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-         parse_f(lazy, env)
-     }, list = coerce_class(lazy, "tidy_quote", lazy = quosure(lazy$expr, lazy$env))) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:23
-  40: abort_coercion(.x, .to) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:422
-  41: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
-  
-  testthat results ================================================================
-  OK: 23 SKIPPED: 0 FAILED: 5
-  1. Error: tide_height_data works (@test-tide-height-data.R#10) 
-  2. Error: tide_height_data predictions (@test-tide-height-data.R#17) 
-  3. Failure: tide_height_data checks (@test-tide-height-data.R#36) 
-  4. Error: tide_height_data tz (@test-tide-height-data.R#49) 
-  5. Error: tide_height works (@test-tide-height.R#6) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
 ## rwunderground (0.1.0)
 Maintainer: Alex Shum <alex@ALShum.com>  
 Bug reports: https://github.com/alshum/rwunderground/issues
@@ -4446,7 +3401,7 @@ Execution halted
 Maintainer: Sebastian Warnholz <Sebastian.Warnholz@fu-berlin.de>  
 Bug reports: https://github.com/wahani/saeSim/issues
 
-2 errors | 1 warning  | 0 notes
+2 errors | 0 warnings | 0 notes
 
 ```
 checking examples ... ERROR
@@ -4454,46 +3409,36 @@ Running examples in ‘saeSim-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: comp_var
-> ### Title: Compute variables in data
-> ### Aliases: comp_var
+> ### Name: sim_comp_pop
+> ### Title: Calculation component
+> ### Aliases: sim_comp_agg sim_comp_pop sim_comp_sample
 > 
 > ### ** Examples
 > 
-> sim_base_lm() %>% sim_comp_pop(comp_var(yExp = exp(y)))
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+> # Standard behavior
+> sim_base() %>% sim_gen_x() %>% sim_comp_N()
+Error: Cannot convert objects of type `integer` to `tidy_quote`
 Execution halted
 
 checking tests ... ERROR
   Running ‘test-all.R’
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
+  
+  
+  [[1]]
+  [1] 1
+  
+  
   testthat results ================================================================
-  OK: 120 SKIPPED: 0 FAILED: 10
-  1.  Error: Attributes are preserved (@test-preserve_attributes.R#9) 
-  2.  Error: Save incremental files (@test-sim.R#45) 
-  3.  Error: Basic functionality (@test-sim_agg.R#11) 
-  4.  Error: base_add_id (@test-sim_base.R#6) 
-  5.  Error: sim_comp and comp_var (@test-sim_comp.R#12) 
-  6.  Error: gen_generic (@test-sim_generate.R#31) 
-  7.  Error: sim_gen_generic (@test-sim_generate.R#52) 
-  8.  Error: Construction of response works correctly (@test-sim_resp.R#6) 
-  9.  Error: as.data.frame (@test-sim_setup.R#28) 
-  10. Error: autoplot (@test-sim_setup.R#35) 
+  OK: 144 SKIPPED: 0 FAILED: 4
+  1. Error: Attributes are preserved (@test-preserve_attributes.R#9) 
+  2. Error: Basic functionality (@test-sim_agg.R#11) 
+  3. Error: base_add_id (@test-sim_base.R#6) 
+  4. Error: sim_comp and comp_var (@test-sim_comp.R#12) 
   
   Error: testthat unit tests failed
   Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 121-126 (Introduction.Rmd) 
-Error: processing vignette 'Introduction.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
 ```
 
 ## sfc (0.1.0)
@@ -4580,107 +3525,31 @@ checking installed package size ... NOTE
 Maintainer: Jason Vander Heiden <jason.vanderheiden@yale.edu>  
 Bug reports: https://bitbucket.org/kleinstein/shazam/issues
 
-1 error  | 1 warning  | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘shazam-Ex.R’ failed
-The error most likely occurred in:
+checking examples ... WARNING
+Found the following significant warnings:
 
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: calcBaseline
-> ### Title: Calculate the BASELINe PDFs
-> ### Aliases: calcBaseline
-> 
-> ### ** Examples
-... 7 lines ...
-> baseline <- calcBaseline(db, 
-+                          sequenceColumn="SEQUENCE_IMGT",
-+                          germlineColumn="GERMLINE_IMGT_D_MASK", 
-+                          testStatistic="focused",
-+                          regionDefinition=IMGT_V_NO_CDR3,
-+                          targetingModel = HS5FModel,
-+                          nproc=1)
-Warning: 'mutate_each_' is deprecated.
-Use 'mutate_all' instead.
-See help("Deprecated")
-Error: All select() inputs must resolve to integer column positions. The following do not:
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: ggplot2
-Warning: 'mutate_each_' is deprecated.
-Use 'mutate_all' instead.
-See help("Deprecated")
-Quitting from lines 72-74 (Baseline-Vignette.Rmd) 
-Error: processing vignette 'Baseline-Vignette.Rmd' failed with diagnostics:
-All select() inputs must resolve to integer column positions. The following do not:
-```
-
-## simmer.plot (0.1.8)
-Maintainer: Iñaki Ucar <i.ucar86@gmail.com>  
-Bug reports: https://github.com/r-simmer/simmer.plot/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘simmer.plot-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: plot.simmer
-> ### Title: Plot method for simmer objects
-> ### Aliases: plot.simmer
-> 
-> ### ** Examples
-... 21 lines ...
-> 
-> env %>% run(until=80)
-simmer environment: SuperDuperSim | now: 80 | next: 82.9893723637843
-{ Resource: nurse | monitored: 1 | server status: 1(1) | queue status: 2(Inf) }
-{ Resource: doctor | monitored: 1 | server status: 1(2) | queue status: 0(Inf) }
-{ Resource: administration | monitored: 1 | server status: 0(1) | queue status: 0(Inf) }
-{ Generator: patient | monitored: 1 | n_generated: 8 }
-> 
-> plot(env, what="resources", metric="usage", "doctor", items = "server", steps = TRUE)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  6: arrange.tbl_df(tbl_df(.data), ...) at /home/muelleki/git/R/dplyr/R/manip.r:258
-  7: arrange_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:46
-  
-  testthat results ================================================================
-  OK: 40 SKIPPED: 0 FAILED: 7
-  1. Error: single replication plots (@test-plot-arrivals.R#22) 
-  2. Error: multiple replication plots (@test-plot-arrivals.R#37) 
-  3. Error: single replication plots (@test-plot-resources.R#22) 
-  4. Error: multiple replication plots (@test-plot-resources.R#40) 
-  5. Error: a simple trajectory is correctly converted to graph (@test-plot-trajectory.R#31) 
-  6. Error: a rollback with variable amount is correctly converted to graph (@test-plot-trajectory.R#37) 
-  7. Error: a complex trajectory is correctly converted to graph (@test-plot-trajectory.R#68) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: ggplot2
-Quitting from lines 72-75 (plot.simmer.Rmd) 
-Error: processing vignette 'plot.simmer.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+... 39 lines ...
+                        user system elapsed
+createTargetingModel   6.668  0.012   6.675
+createTargetingMatrix  6.628  0.048   6.695
+plotBaselineSummary    6.120  0.132   6.241
+extendMutabilityMatrix 6.008  0.040   6.046
+testBaseline           5.756  0.168   5.899
+summarizeBaseline      5.560  0.160   5.731
+createMutabilityMatrix 5.504  0.012   5.518
+observedMutations      5.424  0.040   5.465
+getBaselineStats       5.196  0.148   5.351
+** found \donttest examples: check also with --run-donttest
 ```
 
 ## sjmisc (2.3.1)
@@ -4914,7 +3783,7 @@ Bug reports: https://github.com/mdsumner/spbabel/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [35s/35s]
+  Running ‘testthat.R’ [34s/35s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
              where = .classEnv(ClassDef)))
@@ -4968,18 +3837,18 @@ checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  
-  5. Error: (unknown) (@test-basic-dplyr.R#127) ----------------------------------
-  no applicable method for 'filter' applied to an object of class "c('SpatialPolygonsDataFrame', 'SpatialPolygons', 'Spatial')"
-  1: filter(wrld_simpl, NAME %in% c("Portugal", "France", "Spain")) at testthat/test-basic-dplyr.R:127
+  1: expect_silent(mutate(poly1, NAME = "all same", AREA = row_number())) at testthat/test-basic-dplyr.R:98
+  2: evaluate_promise(object) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/expect-output.R:249
+  3: with_sink(temp, withCallingHandlers(withVisible(code), warning = handle_warning, 
+         message = handle_message)) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/evaluate-promise.R:42
+  4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/evaluate-promise.R:130
+  5: withVisible(code)
+  6: mutate(poly1, NAME = "all same", AREA = row_number())
   
   testthat results ================================================================
-  OK: 2 SKIPPED: 3 FAILED: 5
-  1. Error: filter works for all geometric types (@test-basic-dplyr.R#20) 
-  2. Error: arrange works (@test-basic-dplyr.R#46) 
-  3. Error: distinct works (@test-basic-dplyr.R#92) 
-  4. Error: mutate works (@test-basic-dplyr.R#98) 
-  5. Error: (unknown) (@test-basic-dplyr.R#127) 
+  OK: 25 SKIPPED: 3 FAILED: 2
+  1. Error: distinct works (@test-basic-dplyr.R#92) 
+  2. Error: mutate works (@test-basic-dplyr.R#98) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -5003,9 +3872,9 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-Quitting from lines 31-37 (spdplyr.Rmd) 
+Quitting from lines 42-58 (spdplyr.Rmd) 
 Error: processing vignette 'spdplyr.Rmd' failed with diagnostics:
-no applicable method for 'filter' applied to an object of class "c('SpatialPointsDataFrame', 'SpatialPoints', 'Spatial')"
+no applicable method for 'mutate' applied to an object of class "c('SpatialPolygonsDataFrame', 'SpatialPolygons', 'Spatial')"
 Execution halted
 
 ```
@@ -5027,8 +3896,7 @@ The error most likely occurred in:
 > ### Aliases: as_survey as_survey.data.frame as_survey.survey.design2
 > ###   as_survey.svyrepdesign as_survey.tbl_sql as_survey.twophase2
 > ###   as_survey_
-... 23 lines ...
-
+... 24 lines ...
 The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
@@ -5038,7 +3906,8 @@ The following objects are masked from ‘package:base’:
 > # stratified sample
 > dstrata <- apistrat %>%
 +   as_survey(strata = stype, weights = pw)
-Error: All select() inputs must resolve to integer column positions. The following do not:
+Error: Cannot convert objects of type `environment` to `tidy_quote`
+Execution halted
 
 checking tests ... ERROR
   Running ‘testthat.R’
@@ -5063,15 +3932,14 @@ Last 13 lines of output:
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
+
     dotchart
 
 
 Attaching package: 'dplyr'
 
 The following objects are masked from 'package:stats':
-
-... 6 lines ...
-
+... 8 lines ...
 
 Attaching package: 'srvyr'
 
@@ -5081,7 +3949,8 @@ The following object is masked from 'package:stats':
 
 Quitting from lines 63-69 (srvyr-vs-survey.Rmd) 
 Error: processing vignette 'srvyr-vs-survey.Rmd' failed with diagnostics:
-All select() inputs must resolve to integer column positions. The following do not:
+Cannot convert objects of type `environment` to `tidy_quote`
+Execution halted
 ```
 
 ## ss3sim (0.9.3)
@@ -5100,74 +3969,23 @@ The error most likely occurred in:
 > ###   estimation model
 > ### Aliases: change_em_binning
 > 
-... 49 lines ...
-14 2002    1   1      0    0      1       4       5     3  1  1  1
-15 2002    1   1      0    0      1       5       6     3  1  1  1
-16 2002    1   1      0    0      1       6       7     3  1  1  1
-17 2002    1   1      0    0      1       7       8     3  1  1  1
-18 2002    1   1      0    0      1       8      -1     3  1  1  1
-> newdat <- change_em_binning(olddat, dat_file_out = NULL, bin_vector = c(4, 6, 8),
-+   lbin_method = 1, write_file = FALSE)
-Warning: 'summarise_each_' is deprecated.
-Use 'summarise_all' instead.
-See help("Deprecated")
-Error: All select() inputs must resolve to integer column positions. The following do not:
+... 69 lines ...
+ 6: rename_(., Lbin_lo = ~lbin_new_low, Lbin_hi = ~lbin_new_high)
+ 7: function_list[[i]](value)
+ 8: freduce(value, `_function_list`)
+ 9: `_fseq`(`_lhs`)
+10: eval(expr, envir, enclos)
+11: eval(quote(`_fseq`(`_lhs`)), env, env)
+12: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+13: summarise_each_(new_cal, funs_(~sum), vars = dat_cols) %>% rename_(Lbin_lo = ~lbin_new_low,     Lbin_hi = ~lbin_new_high) %>% as.data.frame
+14: change_em_binning(olddat, dat_file_out = NULL, bin_vector = c(4,     6, 8), lbin_method = 1, write_file = FALSE)
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
 
 checking whether package ‘ss3sim’ can be installed ... WARNING
 Found the following significant warnings:
   Warning: no DISPLAY variable so Tk is not available
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/ss3sim.Rcheck/00install.out’ for details.
-```
-
-## statar (0.6.2)
-Maintainer: Matthieu Gomez <mattg@princeton.edu>  
-Bug reports: https://github.com/matthieugomez/statar/issues
-
-2 errors | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘statar-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: fill_gap
-> ### Title: Add rows corresponding to gaps in some variable
-> ### Aliases: fill_gap fill_gap_
-> 
-> ### ** Examples
-... 22 lines ...
-The following object is masked from ‘package:base’:
-
-    date
-
-> df <- data_frame(
-+     id    = c(1, 1, 1, 2),
-+     datem  = as.monthly(mdy(c("04/03/1992", "01/04/1992", "03/15/1992", "05/11/1992"))),
-+     value = c(4.1, 4.5, 3.3, 3.2)
-+ )
-> df %>% group_by(id) %>% fill_gap(datem)
-Error: All select() inputs must resolve to integer column positions. The following do not:
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1: expect_equal(fill_gap(groupeddf, datem)$value, c(4.5, NA, 3.3, 4.1, 3.2)) at testthat/test_fill.R:11
-  2: compare(object, expected, ...) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/expect-equality.R:52
-  3: fill_gap(groupeddf, datem) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/compare.R:12
-  4: fill_gap_(x, .dots = lazy_dots(...), full = full, roll = roll, rollends = rollends)
-  5: select_vars_(names(x), dots, exclude = byvars)
-  6: select_vars(vars, !(!(!args)), include = include, exclude = exclude) at /home/muelleki/git/R/dplyr/R/select-vars.R:107
-  7: abort(glue("All select() inputs must resolve to integer column positions. \\\n       The following do not:\n       {labels}", 
-         labels = paste("* ", labels, collapse = "\n"))) at /home/muelleki/git/R/dplyr/R/select-vars.R:76
-  
-  testthat results ================================================================
-  OK: 39 SKIPPED: 0 FAILED: 1
-  1. Error: (unknown) (@test_fill.R#11) 
-  
-  Error: testthat unit tests failed
-  Execution halted
 ```
 
 ## stormwindmodel (0.1.0)
@@ -5205,25 +4023,30 @@ Execution halted
 Maintainer: Robin Lovelace <rob00x@gmail.com>  
 Bug reports: https://github.com/ropensci/stplanr/issues
 
-0 errors | 1 warning  | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
-checking examples ... WARNING
-Found the following significant warnings:
+checking examples ... ERROR
+Running examples in ‘stplanr-Ex.R’ failed
+The error most likely occurred in:
 
-  Warning: 'mutate_each_' is deprecated.
-  Warning: 'dplyr::summarise_each_' is deprecated.
-  Warning: 'mutate_each_' is deprecated.
-  Warning: 'dplyr::summarise_each_' is deprecated.
-  Warning: 'mutate_each_' is deprecated.
-  Warning: 'dplyr::summarise_each_' is deprecated.
-  Warning: 'mutate_each_' is deprecated.
-  Warning: 'dplyr::summarise_each_' is deprecated.
-  Warning: 'mutate_each_' is deprecated.
-  Warning: 'dplyr::summarise_each_' is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: onewayid
+> ### Title: Aggregate ods so they become non-directional
+> ### Aliases: onewayid onewayid.SpatialLines onewayid.data.frame
+> 
+> ### ** Examples
+> 
+> data(flow)
+> flow_oneway = onewayid(flow, attrib = 3)
+Warning: 'mutate_each_' is deprecated.
+Use 'mutate_all' instead.
+See help("Deprecated")
+Warning: 'dplyr::summarise_each_' is deprecated.
+Use 'summarise_all' instead.
+See help("Deprecated")
+Error: Cannot convert objects of type `double` to `tidy_quote`
+Execution halted
 ```
 
 ## tadaatoolbox (0.10.0)
@@ -5238,14 +4061,16 @@ Running examples in ‘tadaatoolbox-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: tadaa_nom
-> ### Title: Get all the nominal stats
-> ### Aliases: tadaa_nom
+> ### Name: tadaa_t.test
+> ### Title: Tadaa, t-Test!
+> ### Aliases: tadaa_t.test
 > 
 > ### ** Examples
 > 
-> tadaa_nom(ngo$abschalt, ngo$geschl)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
+> df <- data.frame(x = runif(100), y = sample(c("A", "B"), 100, TRUE))
+> tadaa_t.test(df, x, y)
+Warning: attributes are not identical across measure variables; they will be dropped
+Error: Cannot convert objects of type `character` to `tidy_quote`
 Execution halted
 
 checking re-building of vignette outputs ... WARNING
@@ -5253,9 +4078,10 @@ Error in re-building vignettes:
   ...
 Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+Warning: attributes are not identical across measure variables; they will be dropped
 Quitting from lines 37-38 (overview.Rmd) 
 Error: processing vignette 'overview.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
+Cannot convert objects of type `character` to `tidy_quote`
 Execution halted
 
 ```
@@ -5340,8 +4166,8 @@ Last 13 lines of output:
              warn_text_se()
          parse_f(lazy, env)
      }, list = coerce_class(lazy, "tidy_quote", lazy = quosure(lazy$expr, lazy$env))) at /home/muelleki/git/R/dplyr/R/compat-lazyeval.R:23
-  15: abort_coercion(.x, .to) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:422
-  16: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpTRHGp3/devtoolsa70b5bb6f77f/hadley-rlang-2376dd6/R/types.R:435
+  15: abort_coercion(.x, .to) at /tmp/RtmpBT2s6A/devtoolse8e15260319/hadley-rlang-7c42c80/R/types.R:422
+  16: abort(paste0("Cannot convert objects of type `", type_of(x), "` to `", to, "`")) at /tmp/RtmpBT2s6A/devtoolse8e15260319/hadley-rlang-7c42c80/R/types.R:435
   
   testthat results ================================================================
   OK: 129 SKIPPED: 2 FAILED: 1
@@ -5445,10 +4271,10 @@ Calls: %>% ... <Anonymous> -> mutate.tbl_df -> mutate_impl -> .Call
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [10s/27s]
+  Running ‘testthat.R’ [9s/28s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-         from = "2015-01-01", to = "2016-01-01"))) at /home/muelleki/git/R/dplyr/R/manip.r:206
+         from = "2015-01-01", to = "2016-01-01"))) at /home/muelleki/git/R/dplyr/R/manip.r:218
   10: mutate_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:83
   
   testthat results ================================================================
@@ -5524,7 +4350,7 @@ Bug reports: http://github.com/juliasilge/tidytext/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’ [10s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   7: withVisible(function_list[[k]](value)) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
@@ -5532,7 +4358,7 @@ Last 13 lines of output:
   9: count(., document, wt = gamma)
   10: tally(x, wt = !(!wt), sort = sort) at /home/muelleki/git/R/dplyr/R/count-tally.R:113
   11: summarise(x, `:=`(!(!n_name), !(!n))) at /home/muelleki/git/R/dplyr/R/count-tally.R:81
-  12: summarise.tbl_df(x, `:=`(!(!n_name), !(!n))) at /home/muelleki/git/R/dplyr/R/manip.r:135
+  12: summarise.tbl_df(x, `:=`(!(!n_name), !(!n))) at /home/muelleki/git/R/dplyr/R/manip.r:143
   13: summarise_impl(.data, dots) at /home/muelleki/git/R/dplyr/R/tbl-df.r:94
   
   testthat results ================================================================
@@ -5567,53 +4393,6 @@ invalid 'type' (closure) of argument
 Execution halted
 ```
 
-## tigger (0.2.8)
-Maintainer: Daniel Gadala-Maria <daniel.gadala-maria@yale.edu>  
-Bug reports: https://bitbucket.org/kleinstein/tigger/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘tigger-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: getPopularMutationCount
-> ### Title: Find Frequent Sequences' Mutation Counts
-> ### Aliases: getPopularMutationCount
-> 
-> ### ** Examples
-> 
-> data(sample_db, germline_ighv)
-> getPopularMutationCount(sample_db, germline_ighv)
-Error: Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: ggplot2
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Quitting from lines 111-116 (Tigger-Vignette.Rmd) 
-Error: processing vignette 'Tigger-Vignette.Rmd' failed with diagnostics:
-Cannot convert objects of type `closure` to `tidy_quote`
-Execution halted
-
-```
-
 ## treeplyr (0.1.2)
 Maintainer: Josef Uyeda <josef.uyeda@gmail.com>  
 Bug reports: https://github.com/uyedaj/treeplyr/issues
@@ -5636,9 +4415,9 @@ The error most likely occurred in:
 > data(anolis)
 > td <- make.treedata(anolis$phy, anolis$dat, name_column=1)
 > tdfilter <- filter(td, island=="Cuba", SVL > 3.5)
-Error in UseMethod("filter") : 
-  no applicable method for 'filter' applied to an object of class "c('treedata', 'list')"
-Calls: filter
+Error in mutate_impl(.data, dots) : 
+  incompatible size (0), expecting 100 (the number of rows) or one
+Calls: filter ... filter_.treedata -> mutate -> mutate.tbl_df -> mutate_impl -> .Call
 Execution halted
 ```
 
@@ -5682,32 +4461,9 @@ to your NAMESPACE file.
 Maintainer: Duncan Garmonsway <nacnudus@gmail.com>  
 Bug reports: https://github.com/nacnudus/unpivotr/issues
 
-2 errors | 1 warning  | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘unpivotr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: join_header
-> ### Title: Join a bag of data cells to some header, by proximity in a given
-> ###   direction, e.g. NNW searches up and up-left from a data cell to find
-> ###   a header cell.
-> ### Aliases: join_header N E S W NNW NNE ENE ESE SSE SSW WSW WNW ABOVE LEFT
-... 119 lines ...
-5   2   5  0 - 6
-6   2   6 7 - 10
-
-> # From each data cell, search for the nearest one of each of the headers
-> datacells %>%
-+   NNW(col_headers$`1`) %>%
-+   N(col_headers$`2`) %>%
-+   WNW(row_headers$`1`) %>%
-+   W(row_headers$`2`)
-Error: Join column not found in lhs: col
-Execution halted
-
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
@@ -5743,51 +4499,45 @@ Execution halted
 ## useful (1.2.1)
 Maintainer: Jared P. Lander <packages@jaredlander.com>
 
-2 errors | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘useful-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: constant
-> ### Title: constant
-> ### Aliases: constant
-> 
-> ### ** Examples
-> 
-> constant(4)(1:10)
-[1] 4
-> 
-> theDF <- data.frame(A=1:10, B=1:10, C=1:10)
-> theDF[c(1, 4, 6), c(1)] <- NA
-> theDF[c(3, 4, 8), c(3)] <- NA
-> simple.impute(theDF, constant(4))
-Warning: 'mutate_each_' is deprecated.
-Use 'mutate_all' instead.
-See help("Deprecated")
-Error: All select() inputs must resolve to integer column positions. The following do not:
-
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  12: function_list[[k]](value)
-  13: mutate_each_(., funs(simple.impute(., fun = fun)), vars = names(x))
-  14: apply_vars(funs, vars, tbl) at /home/muelleki/git/R/dplyr/R/colwise.R:280
-  15: select_vars(tbl_vars(tbl), !(!(!vars)), exclude = group_vars(tbl)) at /home/muelleki/git/R/dplyr/R/colwise.R:191
-  16: abort(glue("All select() inputs must resolve to integer column positions. \\\n       The following do not:\n       {labels}", 
-         labels = paste("* ", labels, collapse = "\n"))) at /home/muelleki/git/R/dplyr/R/select-vars.R:76
+  Objects equal but not identical
+  
+  
+  2. Failure: cart2pol maps cartesian to polar correctly and returns degrees (@test-coordinates.R#150) 
+  cart2pol(dAll$x, dAll$y, degrees = TRUE) not identical to bind_rows(...).
+  Objects equal but not identical
+  
   
   testthat results ================================================================
-  OK: 330 SKIPPED: 0 FAILED: 3
+  OK: 337 SKIPPED: 0 FAILED: 2
   1. Failure: cart2pol maps cartesian to polar correctly (@test-coordinates.R#131) 
   2. Failure: cart2pol maps cartesian to polar correctly and returns degrees (@test-coordinates.R#150) 
-  3. Error: simple.impute.data.frame works as expected (@test-simple-impute.r#68) 
   
   Error: testthat unit tests failed
   Execution halted
+
+checking examples ... WARNING
+Found the following significant warnings:
+
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+  Warning: 'mutate_each_' is deprecated.
+Deprecated functions may be defunct as soon as of the next release of
+R.
+See ?Deprecated.
 ```
 
 ## valr (0.1.1)
@@ -5874,66 +4624,28 @@ Execution halted
 Maintainer: Eric Persson <expersso5@gmail.com>  
 Bug reports: https://www.github.com/expersso/WHO/issues
 
-2 errors | 1 warning  | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘WHO-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_codes
-> ### Title: Get all codes and metadata for WHO series
-> ### Aliases: get_codes
-> 
-> ### ** Examples
-> 
-> codes <- get_codes()
-Error in get_result(url) : Bad Gateway (HTTP 502).
-Calls: get_codes -> get_result -> <Anonymous>
-Execution halted
-
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  > test_check("WHO")
+  1. Error: get_codes(TRUE) returns a data frame with positive length and more
             than three columns (@tests.R#18) 
-  Service Unavailable (HTTP 503).
+  not compatible with STRSXP
   1: get_codes(TRUE) at testthat/tests.R:18
-  2: get_result(url)
-  3: httr::stop_for_status(response)
+  2: dplyr::bind_rows(df_list)
+  3: bind_rows_(x, .id) at /home/muelleki/git/R/dplyr/R/bind.r:86
   
   testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 3
-  1. Error: get_data returns a data frame with positive length (@tests.R#4) 
-  2. Error: get_codes returns a data frame with positive length (@tests.R#11) 
-  3. Error: get_codes(TRUE) returns a data frame with positive length and more
+  OK: 1485 SKIPPED: 0 FAILED: 1
+  1. Error: get_codes(TRUE) returns a data frame with positive length and more
             than three columns (@tests.R#18) 
   
   Error: testthat unit tests failed
   Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Quitting from lines 44-48 (who_vignette.Rmd) 
-Error: processing vignette 'who_vignette.Rmd' failed with diagnostics:
-Service Unavailable (HTTP 503).
-Execution halted
-
 ```
 
 ## wordbankr (0.2.0)
@@ -5995,7 +4707,7 @@ Bug reports: https://github.com/IQSS/Zelig/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [64s/64s]
+  Running ‘testthat.R’ [69s/70s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
             mean         sd       50%      2.5%     97.5%
