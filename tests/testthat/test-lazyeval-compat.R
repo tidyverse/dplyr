@@ -21,3 +21,7 @@ test_that("mutate_each_() and summarise_each_() handle lazydots", {
   expect_warning(cyl_mean <- summarise_each_(mtcars, funs(mean), "cyl")$cyl, "deprecated")
   expect_equal(cyl_mean, mean(mtcars$cyl))
 })
+
+test_that("select_vars_() handles lazydots", {
+  expect_identical(select_vars_(letters, c("a", "b")), set_names(c("a", "b")))
+})
