@@ -12,7 +12,10 @@
 group_indices <- function(.data, ...) {
   UseMethod("group_indices")
 }
-
+#' @export
+group_indices.default <- function(.data, ...) {
+  group_indices_(.data, .dots = compat_as_lazy_dots(...))
+}
 #' @export
 #' @rdname se-deprecated
 group_indices_ <- function(.data, ..., .dots = list()) {

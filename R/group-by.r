@@ -73,6 +73,10 @@ group_by <- function(.data, ..., add = FALSE) {
   UseMethod("group_by")
 }
 #' @export
+group_by.default <- function(.data, ..., add = FALSE) {
+  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
+}
+#' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
