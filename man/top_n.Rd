@@ -16,8 +16,10 @@ there are ties.
 If \code{n} is positive, selects the top \code{n} rows. If negative,
 selects the bottom \code{n} rows.}
 
-\item{wt}{(Optional). The variable to use for ordering. If not specified,
-defaults to the last variable in the tbl.}
+\item{wt}{(Optional). The variable to use for ordering. If not
+specified, defaults to the last variable in the tbl. This
+variable is passed by expression and evaluated in the context of
+the data frame. It supports \link[rlang:quasiquotation]{unquoting}.}
 }
 \description{
 This is a convenient wrapper that uses \code{\link[=filter]{filter()}} and
