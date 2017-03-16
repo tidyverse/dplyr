@@ -26,15 +26,15 @@
 #' right <- mutate(scrambled, running = order_by(year, cumsum(value)))
 #' arrange(right, year)
 order_by <- function(order_by, call) {
-  call <- substitute(call)
-  stopifnot(is.call(call))
+  quo <- catch_quosure(call)
+  stopifnot(is_lang(quo))
 
-  new_call <- as.call(c(
-    quote(with_order),
-    list(substitute(order_by)),
-    as.list(call)
-  ))
-  eval_bare(new_call, parent.frame())
+  fn <- set_expr(quo, node_car(f_rhs(quo)))
+  args <- node_cdr(f_rhs(quo))
+  args <- map(args, new_quosure, f_env(quo))
+
+  quo <- quosure(with_order(!! order_by, !! fn, !!! args))
+  eval_tidy(quo)
 }
 
 #' Run a function with one order, translating result back to original order
