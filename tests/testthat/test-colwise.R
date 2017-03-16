@@ -61,6 +61,14 @@ test_that("can probe colwise", {
   expect_classes(logical, "cnccf")
 })
 
+test_that("non syntactic colnames work", {
+  df <- data_frame(`x 1` = 1:3)
+  expect_identical(summarise_at(df, "x 1", sum)[[1]], 6L)
+  expect_identical(summarise_if(df, is.numeric, sum)[[1]], 6L)
+  expect_identical(summarise_all(df, sum)[[1]], 6L)
+  expect_identical(mutate_all(df, `*`, 2)[[1]], (1:3) * 2)
+})
+
 test_that("sql sources fail with bare functions", {
   expect_error(memdb_frame(x = 1) %>% mutate_all(mean) %>% collect())
 })
