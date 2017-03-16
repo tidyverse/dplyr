@@ -221,24 +221,25 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 
 
 #' @export
-sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
+sample_n.data.frame <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL) {
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
   }
 
+  weight <- eval_tidy(catch_quosure(weight), tbl)
   sample_n_basic(tbl, size, replace = replace, weight = weight)
 }
 
 
 #' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL) {
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
   }
 
+  weight <- eval_tidy(catch_quosure(weight), tbl)
   sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
 }
 
