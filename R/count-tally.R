@@ -26,9 +26,11 @@
 #'
 #' @param x a [tbl()] to tally/count.
 #' @param ... Variables to group by.
-#' @param wt (Optional) If omitted, will count the number of rows. If specified,
-#'   will perform a "weighted" tally by summing the (non-missing) values of
-#'   variable `wt`.
+#' @param wt (Optional) If omitted, will count the number of rows. If
+#'   specified, will perform a "weighted" tally by summing the
+#'   (non-missing) values of variable `wt`. This variable is passed by
+#'   expression and evaluated in the context of the data frame. It
+#'   supports [unquoting][rlang::quasiquotation].
 #' @param sort if `TRUE` will sort output in descending order of `n`
 #' @return A tbl, grouped the same way as `x`.
 #' @export
@@ -59,18 +61,19 @@
 #'   add_count(playerID, wt = AB) %>%
 #'   filter(n >= 1000)
 #' }
-tally <- function(x, wt = NULL, sort = FALSE) {
-  if (is_null(substitute(wt)) && "n" %in% names(x)) {
+tally <- function(x, wt, sort = FALSE) {
+  wt <- catch_quosure(wt)
+
+  if (is_empty_quosure(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
     wt <- ~n
-  } else {
-    wt <- enquo(wt)
   }
-
   # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
-  # add_tally() is called from another function (e.g. add_count())
+  # add_tally() is called from another function (e.g. add_count()).
+  # In that case, we don't want to weight by a column `n`, so the
+  # branch above does not help us (might be nice to find a better way).
   n <- quo(
-    if (is_null(!! wt)) {
+    if (is_missing(!! wt) || is_null(!! wt)) {
       n()
     } else {
       sum(!! wt, na.rm = TRUE)
@@ -89,9 +92,9 @@ tally <- function(x, wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 #' @inheritParams tally
 #' @export
-tally_ <- function(x, wt = NULL, sort = FALSE) {
+tally_ <- function(x, wt, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
-  tally(x, !! wt, sort = sort)
+  tally(x, wt = !! wt, sort = sort)
 }
 
 n_name <- function(x) {
@@ -110,7 +113,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
   groups <- group_vars(x)
 
   x <- group_by(x, ..., add = TRUE)
-  x <- tally(x, wt = !! wt, sort = sort)
+  x <- tally(x, wt = !! catch_quosure(wt), sort = sort)
   x <- group_by(x, !!! syms(groups), add = FALSE)
   x
 }
@@ -118,23 +121,25 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
-  count(x, !!! vars, wt = wt, sort = sort)
+  wt <- compat_lazy(wt, caller_env())
+  count(x, !!! vars, wt = !! wt, sort = sort)
 }
 
 #' @rdname tally
 #' @export
-add_tally <- function(x, wt = NULL, sort = FALSE) {
-  if (is_null(substitute(wt)) && "n" %in% names(x)) {
+add_tally <- function(x, wt, sort = FALSE) {
+  wt <- catch_quosure(wt)
+
+  if (is_empty_quosure(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
     wt <- ~n
-  } else {
-    wt <- enquo(wt)
   }
-
   # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
-  # add_tally() is called from another function (e.g. add_count())
+  # add_tally() is called from another function (e.g. add_count()).
+  # In that case, we don't want to weight by a column `n`, so the
+  # branch above does not help us (might be nice to find a better way).
   n <- quo(
-    if (is_null(!! wt)) {
+    if (is_missing(!! wt) || is_null(!! wt)) {
       n()
     } else {
       sum(!! wt, na.rm = TRUE)
@@ -152,7 +157,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
 }
 #' @rdname se-deprecated
 #' @export
-add_tally_ <- function(x, wt = NULL, sort = FALSE) {
+add_tally_ <- function(x, wt, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
   add_tally(x, !! wt, sort = sort)
 }
