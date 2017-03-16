@@ -28,6 +28,7 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x:y), funs(mean)), c("x", "y"))
   expect_named(summarise_at(df, vars(x), funs(mean, sd)), c("mean", "sd"))
   expect_named(summarise_at(df, vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 
 test_that("named arguments force complete namd", {
@@ -79,13 +80,18 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 
 test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "Duplicate arguments")
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
 })
 
 test_that("fun_list is merged with new args", {
   funs <- funs(fn = bar)
   funs <- as_fun_list(funs, baz = "baz")
   expect_identical(funs$fn, ~bar(., baz = "baz"))
+})
+
+test_that("funs() works with namespaced calls", {
+  expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
+  expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
 })
 
 

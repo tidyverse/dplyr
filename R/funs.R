@@ -24,15 +24,20 @@
 funs <- function(..., .args = list()) {
   dots <- quos(...)
   dots <- map(dots, funs_make_call, args = .args)
+  new_funs(dots)
+}
 
-  names(dots) <- names2(dots)
-  missing_names <- names(dots) == ""
-  default_names <- map_chr(dots[missing_names], as_name)
-  names(dots)[missing_names] <- default_names
+new_funs <- function(funs) {
+  names(funs) <- names2(funs)
+  missing_names <- names(funs) == ""
+  default_names <- map_chr(funs[missing_names], function(dot) {
+    quo_text(node_car(f_rhs(dot)))
+  })
+  names(funs)[missing_names] <- default_names
 
-  class(dots) <- "fun_list"
-  attr(dots, "have_name") <- any(!missing_names)
-  dots
+  class(funs) <- "fun_list"
+  attr(funs, "have_name") <- any(!missing_names)
+  funs
 }
 
 #' @export
@@ -59,15 +64,15 @@ as_fun_list.fun_list <- function(.x, ..., .env = base_env()) {
 #' @export
 as_fun_list.character <- function(.x, ..., .env = base_env()) {
   funs <- map(.x, funs_make_call, list(...), env = .env)
-  funs(!!! funs, .args = list(...))
+  new_funs(funs)
 }
 #' @export
 as_fun_list.function <- function(.x, ..., .env = base_env()) {
   .env <- child_env(.env)
   .env$`__dplyr_colwise_fun` <- .x
 
-  call <- funs_make_call("__dplyr_colwise_fun", list(...), env = .env)
-  funs(!! call)
+  call <- new_language("__dplyr_colwise_fun", quote(.), .args = list(...))
+  new_funs(list(new_quosure(call, .env)))
 }
 
 #' @export
@@ -94,13 +99,13 @@ funs_make_call <- function(x, args, env = base_env()) {
   f <- as_quosureish(x, env)
   expr <- get_expr(x)
 
-  expr <- switch_type(expr, "funs",
-    quosure = ,
-    language = expr,
-    symbol = substitute(f(.), list(f = expr)),
-    string = substitute(f(.), list(f = sym(expr)))
-  )
+  if (is_symbol(expr) || is_lang(expr, c("::", ":::"))) {
+    f <- set_expr(f, new_language(expr, quote(.), .args = args))
+  } else if (is_string(expr)) {
+    f <- set_expr(f, new_language(sym(expr), quote(.), .args = args))
+  } else {
+    f <- lang_modify(f, .args = args)
+  }
 
-  expr <- lang_modify(expr, .args = args)
-  set_expr(f, expr)
+  f
 }
