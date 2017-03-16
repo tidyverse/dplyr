@@ -80,6 +80,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'filter-na.r'
     'funs.R'
     'group-by.r'
     'group-indices.R'
