@@ -53,26 +53,22 @@ is_fun_list <- function(x, env) {
   inherits(x, "fun_list")
 }
 
-as_fun_list <- function(.x, ..., .env = base_env()) {
-  UseMethod("as_fun_list")
-}
-#' @export
-as_fun_list.fun_list <- function(.x, ..., .env = base_env()) {
-  .x[] <- map(.x, lang_modify, .args = list(...))
-  .x
-}
-#' @export
-as_fun_list.character <- function(.x, ..., .env = base_env()) {
-  funs <- map(.x, funs_make_call, list(...), env = .env)
-  new_funs(funs)
-}
-#' @export
-as_fun_list.function <- function(.x, ..., .env = base_env()) {
-  .env <- child_env(.env)
-  .env$`__dplyr_colwise_fun` <- .x
+as_fun_list <- function(.x, .quo, ...) {
+  # Capture quosure before evaluating .x
+  force(.quo)
 
-  call <- new_language("__dplyr_colwise_fun", quote(.), .args = list(...))
-  new_funs(list(new_quosure(call, .env)))
+  if (is_fun_list(.x)) {
+    .x[] <- map(.x, lang_modify, .args = list(...))
+    return(.x)
+  }
+
+  funs <- coerce_type(.x, "funs",
+    string = ,
+    character = map(.x, funs_make_call, list(...), env = f_env(.quo)),
+    primitive = ,
+    closure = list(funs_make_call(.quo, list(...)))
+  )
+  new_funs(funs)
 }
 
 #' @export

@@ -70,7 +70,7 @@
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
   vars <- list(~everything())
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, arg_quosure(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -79,7 +79,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   vars <- list(~everything())
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, arg_quosure(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
@@ -91,7 +91,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
     abort("Conditional colwise operations currently require local sources")
   }
   vars <- probe_colwise_names(.tbl, .predicate)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, arg_quosure(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -103,7 +103,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
     abort("Conditional colwise operations currently require local sources")
   }
   vars <- probe_colwise_names(.tbl, .predicate)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, arg_quosure(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
@@ -125,7 +125,7 @@ probe_colwise_names <- function(tbl, p, ...) {
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
   vars <- select_colwise_names(.tbl, .cols)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, arg_quosure(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -134,7 +134,7 @@ summarise_at <- function(.tbl, .cols, .funs, ...) {
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
   vars <- select_colwise_names(.tbl, .cols)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, arg_quosure(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }

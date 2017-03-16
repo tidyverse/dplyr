@@ -85,7 +85,7 @@ test_that("error is thrown with improper additional arguments", {
 
 test_that("fun_list is merged with new args", {
   funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, baz = "baz")
+  funs <- as_fun_list(funs, ~bar, baz = "baz")
   expect_identical(funs$fn, ~bar(., baz = "baz"))
 })
 
