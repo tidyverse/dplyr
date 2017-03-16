@@ -444,7 +444,7 @@ subs_index <- function(x, i, val, drop = FALSE) {
   args$drop <- drop
 
   call <- as.call(c(quote(`[`), quote(x), args))
-  eval(call)
+  eval_bare(call)
 }
 
 

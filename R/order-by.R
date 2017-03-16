@@ -34,7 +34,7 @@ order_by <- function(order_by, call) {
     list(substitute(order_by)),
     as.list(call)
   ))
-  eval(new_call, parent.frame())
+  eval_bare(new_call, parent.frame())
 }
 
 #' Run a function with one order, translating result back to original order

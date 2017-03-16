@@ -56,5 +56,5 @@ top_n <- function(x, n, wt) {
     )
   }
 
-  eval(call)
+  eval_bare(call)
 }
