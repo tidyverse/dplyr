@@ -81,7 +81,7 @@ tally <- function(x, wt = NULL, sort = FALSE) {
   out <- summarise(x, !! n_name := !! n)
 
   if (sort) {
-    arrange(out, desc(!! symbol(n_name)))
+    arrange(out, desc(!! sym(n_name)))
   } else {
     out
   }
@@ -111,7 +111,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 
   x <- group_by(x, ..., add = TRUE)
   x <- tally(x, wt = !! wt, sort = sort)
-  x <- group_by(x, !!! symbols(groups), add = FALSE)
+  x <- group_by(x, !!! syms(groups), add = FALSE)
   x
 }
 #' @export
@@ -145,7 +145,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
   out <- mutate(x, !! n_name := !! n)
 
   if (sort) {
-    out <- arrange(out, desc(!! symbol(n_name)))
+    out <- arrange(out, desc(!! sym(n_name)))
   }
 
   grouped_df(out, group_vars(x))

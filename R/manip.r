@@ -366,7 +366,7 @@ select_if <- function(.data, .predicate, ...) {
   }
   vars <- probe_colwise_names(.data, .predicate, ...)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
-  select(.data, !!! symbols(vars))
+  select(.data, !!! syms(vars))
 }
 
 #' @rdname select

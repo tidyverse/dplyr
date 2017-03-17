@@ -118,7 +118,7 @@ probe_colwise_names <- function(tbl, p, ...) {
 
   vars <- tbl_vars(tbl)
   vars <- vars[selected]
-  symbols(vars)
+  syms(vars)
 }
 
 #' @rdname summarise_all
@@ -170,11 +170,11 @@ select_colwise_names <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
   if (is_character(cols)) {
-    selected <- symbols(cols)
+    selected <- syms(cols)
   } else if (is_col_list(cols)) {
     selected <- cols
   } else if (is.numeric(cols)) {
-    selected <- symbols(vars[cols])
+    selected <- syms(vars[cols])
   } else {
     abort(".cols should be a character/numeric vector or a columns object")
   }
@@ -195,7 +195,7 @@ apply_vars <- function(funs, vars, tbl) {
 
   for (i in seq_along(vars)) {
     for (j in seq_along(funs)) {
-      var_sym <- symbol(vars[[i]])
+      var_sym <- sym(vars[[i]])
       out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }

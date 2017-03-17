@@ -98,7 +98,7 @@ funs_make_call <- function(x, args, env = base_env()) {
     quosure = ,
     language = expr,
     symbol = substitute(f(.), list(f = expr)),
-    string = substitute(f(.), list(f = symbol(expr)))
+    string = substitute(f(.), list(f = sym(expr)))
   )
 
   expr <- lang_modify(expr, .args = args)

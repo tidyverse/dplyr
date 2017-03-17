@@ -382,7 +382,7 @@ collapse.tbl_sql <- function(x, vars = NULL, ...) {
   })
 
   tbl(x$src, sql) %>%
-    group_by(!!! symbols(op_grps(x))) %>%
+    group_by(!!! syms(op_grps(x))) %>%
     add_op_order(op_sort(x))
 }
 
@@ -403,7 +403,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
     vars <- op_vars(x)
     assert_that(all(unlist(indexes) %in% vars))
     assert_that(all(unlist(unique_indexes) %in% vars))
-    x_aliased <- select(x, !!! symbols(vars)) # avoids problems with SQLite quoting (#1754)
+    x_aliased <- select(x, !!! syms(vars)) # avoids problems with SQLite quoting (#1754)
     db_save_query(con, sql_render(x_aliased, con), name = name, temporary = temporary)
     db_create_indexes(con, name, unique_indexes, unique = TRUE)
     db_create_indexes(con, name, indexes, unique = FALSE)
@@ -412,7 +412,7 @@ compute.tbl_sql <- function(x, name = random_table_name(), temporary = TRUE,
   })
 
   tbl(x$src, name) %>%
-    group_by(!!! symbols(op_grps(x))) %>%
+    group_by(!!! syms(op_grps(x))) %>%
     add_op_order(op_sort(x))
 }
 
@@ -505,7 +505,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
     }
 
     # Create an id for each group
-    grouped <- chunk %>% group_by(!!! symbols(names(chunk)[gvars]))
+    grouped <- chunk %>% group_by(!!! syms(names(chunk)[gvars]))
     index <- attr(grouped, "indices") # zero indexed
     n <- length(index)
 
