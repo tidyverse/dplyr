@@ -71,7 +71,7 @@
 summarise_all <- function(.tbl, .funs, ...) {
   vars <- list(~everything())
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, .tbl)
+  funs <- apply_vars(funs, vars, FALSE, .tbl)
   summarise(.tbl, !!! funs)
 }
 
@@ -80,7 +80,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 mutate_all <- function(.tbl, .funs, ...) {
   vars <- list(~everything())
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, .tbl)
+  funs <- apply_vars(funs, vars, FALSE, .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -89,7 +89,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, .tbl)
+  funs <- apply_vars(funs, vars, FALSE, .tbl)
   summarise(.tbl, !!! funs)
 }
 
@@ -98,7 +98,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, .tbl)
+  funs <- apply_vars(funs, vars, FALSE, .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -107,7 +107,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 summarise_at <- function(.tbl, .cols, .funs, ...) {
   vars <- tbl_at_syms(.tbl, .cols)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, .tbl)
+  funs <- apply_vars(funs, vars, any(have_name(.cols)), .tbl)
   summarise(.tbl, !!! funs)
 }
 
@@ -116,7 +116,7 @@ summarise_at <- function(.tbl, .cols, .funs, ...) {
 mutate_at <- function(.tbl, .cols, .funs, ...) {
   vars <- tbl_at_syms(.tbl, .cols)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, .tbl)
+  funs <- apply_vars(funs, vars, any(have_name(.cols)), .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -148,20 +148,18 @@ vars <- function(...) {
 is_col_list <- function(cols) inherits(cols, "col_list")
 
 # Requires tbl_vars() method
-tbl_at_syms <- function(tbl, cols) {
+tbl_at_syms <- function(tbl, cols, exclude = group_vars(tbl)) {
   vars <- tbl_vars(tbl)
 
   if (is_character(cols)) {
-    selected <- syms(cols)
-  } else if (is_col_list(cols)) {
-    selected <- cols
+    syms(cols)
   } else if (is.numeric(cols)) {
-    selected <- syms(vars[cols])
+    syms(vars[cols])
+  } else if (is_col_list(cols)) {
+    syms(select_vars(vars, !!! cols, exclude = exclude))
   } else {
     abort("`.cols` should be a character/numeric vector or a columns object")
   }
-
-  selected
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
@@ -190,11 +188,10 @@ tbl_if_syms <- function(tbl, p, ...) {
   syms(vars)
 }
 
-apply_vars <- function(funs, vars, tbl) {
+apply_vars <- function(funs, vars, named_vars, tbl) {
   stopifnot(is_fun_list(funs))
 
   named_calls <- attr(funs, "have_name")
-  named_vars <- any(have_name(vars))
   vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
   out <- vector("list", length(vars) * length(funs))
@@ -257,7 +254,7 @@ summarise_each_ <- function(tbl, funs, vars) {
     funs <- funs_(funs)
   }
 
-  funs <- apply_vars(funs, vars, tbl)
+  funs <- apply_vars(funs, vars, any(have_name(vars)), tbl)
   summarise(tbl, !!! funs)
 }
 
@@ -288,7 +285,7 @@ mutate_each_ <- function(tbl, funs, vars) {
   } else {
     vars <- compat_lazy_dots(vars, caller_env())
   }
-  funs <- apply_vars(funs, vars, tbl)
+  funs <- apply_vars(funs, vars, any(have_name(vars)), tbl)
   mutate(tbl, !!! funs)
 }
 
