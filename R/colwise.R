@@ -170,25 +170,24 @@ tbl_if_syms <- function(tbl, p, ...) {
 
   if (is_logical(p)) {
     stopifnot(length(p) == length(vars))
-    selected <- p
-  } else {
-    if (inherits(tbl, "tbl_lazy")) {
-      tibble <- collect(tbl, n = 1e4L)
-    } else {
-      tibble <- tbl
-    }
+    return(syms(vars[p]))
+  }
 
-    n <- length(tibble)
-    selected <- lgl_len(n)
-    for (i in seq_len(n)) {
-      selected[[i]] <- p(tibble[[i]], ...)
-    }
+  if (inherits(tbl, "tbl_lazy")) {
+    tibble <- collect(tbl, n = 1e4L)
+  } else {
+    tibble <- tbl
+  }
+
+  n <- length(tibble)
+  selected <- lgl_len(n)
+  for (i in seq_len(n)) {
+    selected[[i]] <- p(tibble[[i]], ...)
   }
 
   vars <- vars[selected]
   syms(vars)
 }
-
 
 apply_vars <- function(funs, vars, tbl) {
   stopifnot(is_fun_list(funs))
