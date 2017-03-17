@@ -87,9 +87,6 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
-  if (inherits(.tbl, "tbl_lazy")) {
-    abort("Conditional colwise operations currently require local sources")
-  }
   vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
@@ -99,9 +96,6 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
-  if (inherits(.tbl, "tbl_lazy")) {
-    abort("Conditional colwise operations currently require local sources")
-  }
   vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
@@ -172,8 +166,10 @@ tbl_at_syms <- function(tbl, cols) {
 
 # Requires tbl_vars(), `[[`() and length() methods
 tbl_if_syms <- function(tbl, p, ...) {
+  vars <- tbl_vars(tbl)
+
   if (is_logical(p)) {
-    stopifnot(length(p) == length(tbl))
+    stopifnot(length(p) == length(vars))
     selected <- p
   } else {
     if (inherits(tbl, "tbl_lazy")) {
@@ -189,7 +185,6 @@ tbl_if_syms <- function(tbl, p, ...) {
     }
   }
 
-  vars <- tbl_vars(tbl)
   vars <- vars[selected]
   syms(vars)
 }
