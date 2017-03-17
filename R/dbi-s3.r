@@ -83,7 +83,7 @@ db_list_tables.DBIConnection <- function(con) dbListTables(con)
 #' @name backend_db
 #' @export
 #' @param table A string, the table name.
-db_has_table <- function(con, table) UseMethod("db_has_table")
+db_has_table <- function(con, table) UseMethod("db_has_table",con)
 #' @export
 db_has_table.DBIConnection <- function(con, table) dbExistsTable(con, table)
 
