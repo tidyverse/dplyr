@@ -153,6 +153,7 @@ vars <- function(...) {
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
+# Requires tbl_vars() method
 tbl_at_syms <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
@@ -169,12 +170,23 @@ tbl_at_syms <- function(tbl, cols) {
   selected
 }
 
+# Requires tbl_vars(), `[[`() and length() methods
 tbl_if_syms <- function(tbl, p, ...) {
   if (is_logical(p)) {
     stopifnot(length(p) == length(tbl))
     selected <- p
   } else {
-    selected <- map_lgl(tbl, p, ...)
+    if (inherits(tbl, "tbl_lazy")) {
+      tibble <- collect(tbl, n = 1e4L)
+    } else {
+      tibble <- tbl
+    }
+
+    n <- length(tibble)
+    selected <- lgl_len(n)
+    for (i in seq_len(n)) {
+      selected[[i]] <- p(tibble[[i]], ...)
+    }
   }
 
   vars <- tbl_vars(tbl)

@@ -48,6 +48,12 @@
   (#2056), and also for zero-column data frames (#2175).
 
 * `mutate()` recycles list columns of length 1 (#2171).
+* Databases and lazy tables are now compatible with `_if()` variants
+  such as `mutate_if()`. The predicates are applied on the first 10000
+  rows.
+
+* The `_if()` variants such as `mutate_if()` are now compatible with
+  objects implementing `length()` and `[[` methods.
 
 * Fixed very rare case of false match during join (#2515).
 
