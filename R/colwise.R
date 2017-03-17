@@ -174,6 +174,7 @@ tbl_if_syms <- function(tbl, p, ...) {
   }
 
   if (inherits(tbl, "tbl_lazy")) {
+    inform("Applying predicate on the first 10 000 rows")
     tibble <- collect(tbl, n = 1e4L)
   } else {
     tibble <- tbl

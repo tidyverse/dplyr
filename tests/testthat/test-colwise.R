@@ -100,7 +100,7 @@ test_that("lazy tables support colwise variants", {
   expected <- as.character(iris$Species[1:10])
   for (tbl in tbls) {
     if (inherits(tbl, "tbl_lazy")) {
-      tbl <- mutate_if(tbl, is.factor, as.character)
+      expect_message(tbl <- mutate_if(tbl, is.factor, as.character), "10 000")
       expect_identical(collect(tbl)$Species, expected)
     }
   }
