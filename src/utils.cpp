@@ -112,10 +112,14 @@ namespace dplyr {
     return CHAR(STRING_ELT(klass,0));
   }
 
+  CharacterVector default_chars(SEXP x, R_xlen_t len) {
+    if (Rf_isNull(x)) return CharacterVector(len);
+    return x;
+  }
+
   CharacterVector get_class(SEXP x) {
     SEXP class_attr = Rf_getAttrib(x, R_ClassSymbol);
-    if (Rf_isNull(class_attr)) return CharacterVector();
-    return class_attr;
+    return default_chars(class_attr, 0);
   }
 
   SEXP set_class(SEXP x, const CharacterVector& class_) {
@@ -125,8 +129,7 @@ namespace dplyr {
 
   CharacterVector get_levels(SEXP x) {
     SEXP levels_attr = Rf_getAttrib(x, R_LevelsSymbol);
-    if (Rf_isNull(levels_attr)) return CharacterVector();
-    return levels_attr;
+    return default_chars(levels_attr, 0);
   }
 
   SEXP set_levels(SEXP x, const CharacterVector& levels) {
