@@ -124,7 +124,7 @@ namespace dplyr {
     RHS_Vec right;
   };
 
-  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH>
+  template <int LHS_RTYPE, int RHS_RTYPE, bool ACCEPT_NA_MATCH>
   class JoinVisitorImpl : public JoinVisitor {
   protected:
     typedef DualVector<LHS_RTYPE, RHS_RTYPE> Storage;
@@ -138,7 +138,7 @@ namespace dplyr {
 
     inline size_t hash(int i) {
       // If NAs don't match, we want to distribute their hashes as evenly as possible
-      if (!NA_MATCH && dual.is_na(i)) return static_cast<size_t>(i);
+      if (!ACCEPT_NA_MATCH && dual.is_na(i)) return static_cast<size_t>(i);
 
       typename Storage::STORAGE x = dual.get_value(i);
       return hash_fun(x);
@@ -147,16 +147,16 @@ namespace dplyr {
     inline bool equal(int i, int j) {
       if (LHS_RTYPE == RHS_RTYPE) {
         // Shortcut for same data type
-        return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_value(i), dual.get_value(j));
+        return join_match<LHS_RTYPE, LHS_RTYPE, ACCEPT_NA_MATCH>::is_match(dual.get_value(i), dual.get_value(j));
       }
       else if (i >= 0 && j >= 0) {
-        return join_match<LHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_left_value(i), dual.get_left_value(j));
+        return join_match<LHS_RTYPE, LHS_RTYPE, ACCEPT_NA_MATCH>::is_match(dual.get_left_value(i), dual.get_left_value(j));
       } else if (i < 0 && j < 0) {
-        return join_match<RHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(dual.get_right_value(i), dual.get_right_value(j));
+        return join_match<RHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH>::is_match(dual.get_right_value(i), dual.get_right_value(j));
       } else if (i >= 0 && j < 0) {
-        return join_match<LHS_RTYPE, RHS_RTYPE, NA_MATCH>::is_match(dual.get_left_value(i), dual.get_right_value(j));
+        return join_match<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH>::is_match(dual.get_left_value(i), dual.get_right_value(j));
       } else {
-        return join_match<RHS_RTYPE, LHS_RTYPE, NA_MATCH>::is_match(dual.get_right_value(i), dual.get_left_value(j));
+        return join_match<RHS_RTYPE, LHS_RTYPE, ACCEPT_NA_MATCH>::is_match(dual.get_right_value(i), dual.get_left_value(j));
       }
     }
 
@@ -175,9 +175,9 @@ namespace dplyr {
     Storage dual;
   };
 
-  template <bool NA_MATCH>
-  class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> {
-    typedef JoinVisitorImpl<REALSXP, REALSXP, NA_MATCH> Parent;
+  template <bool ACCEPT_NA_MATCH>
+  class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH> {
+    typedef JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH> Parent;
 
   public:
     POSIXctJoinVisitor(NumericVector left, NumericVector right) :
@@ -231,9 +231,9 @@ namespace dplyr {
     virtual bool is_na(int i) const = 0;
   };
 
-  template <int LHS_RTYPE, int RHS_RTYPE, bool NA_MATCH>
-  class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, NA_MATCH> {
-    typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, NA_MATCH> Parent;
+  template <int LHS_RTYPE, int RHS_RTYPE, bool ACCEPT_NA_MATCH>
+  class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH> {
+    typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH> Parent;
 
   public:
     DateJoinVisitor(typename Parent::LHS_Vec left, typename Parent::RHS_Vec right) : Parent(left, right) {}

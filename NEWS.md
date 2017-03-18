@@ -1,10 +1,11 @@
 # dplyr 0.5.0.9000
 
-* `xxx_join.tbl_df()` gains a new argument `na_match = TRUE`; setting it to
-  `FALSE` treats all `NA` values as different, so that they never match.
-  This mimics the behavior of relational
-  databases, but differs from the default behavior of `merge()` --
-  the new behavior is closer to `merge(incomparables = NA)` (#2033).
+* `xxx_join.tbl_df()` gains a new argument `na_matches = c("na", "never")`.
+  Setting it to `"never"` treats all `NA` values as different from each other
+  (and from any other value), so that they never match.  This mimics the
+  behaviour of relational databases, but differs from the default behaviuor of
+  `merge()` -- the new behavior is closer to `merge(incomparables = NA)`
+  (#2033).
 
 * Fixed very rare case of false match during join (#2515).
 

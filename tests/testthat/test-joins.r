@@ -749,15 +749,16 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
   })
 })
 
-test_that("NAs match in joins only with na_match = TRUE (#2033)", {
+test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
   df1 <- data_frame(a = NA)
   df2 <- data_frame(a = NA, b = 1:3)
-  for (na_match in c(TRUE, FALSE)) {
-    expect_equal(inner_join(df1, df2, na_match = na_match) %>% nrow, 0 + 3 * na_match)
-    expect_equal(left_join(df1, df2, na_match = na_match) %>% nrow, 1 + 2 * na_match)
-    expect_equal(right_join(df2, df1, na_match = na_match) %>% nrow, 1 + 2 * na_match)
-    expect_equal(full_join(df1, df2, na_match = na_match) %>% nrow, 4 - na_match)
-    expect_equal(anti_join(df1, df2, na_match = na_match) %>% nrow, 1 - na_match)
-    expect_equal(semi_join(df1, df2, na_match = na_match) %>% nrow, 0 + na_match)
+  for (na_matches in c("na", "never")) {
+    accept_na_match <- (na_matches == "na")
+    expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + 3 * accept_na_match)
+    expect_equal(left_join(df1, df2, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
+    expect_equal(right_join(df2, df1, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
+    expect_equal(full_join(df1, df2, na_matches = na_matches) %>% nrow, 4 - accept_na_match)
+    expect_equal(anti_join(df1, df2, na_matches = na_matches) %>% nrow, 1 - accept_na_match)
+    expect_equal(semi_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + accept_na_match)
   }
 })
