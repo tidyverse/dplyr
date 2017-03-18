@@ -11,6 +11,24 @@ test_that("cbind and rbind methods work for tbl_df", {
   expect_equal(rbind(df1, df2), tibble(x = c(1, NA), y = c(NA, 2)))
 })
 
+
+# error -------------------------------------------------------------------
+
+test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
+  df1 <- memdb_frame(x = 1)
+  df2 <- memdb_frame(y = 2)
+
+  expect_error(
+    bind_cols(df1, df2),
+    "Data-frame-like objects must inherit from class data.frame or be plain lists"
+  )
+  expect_error(
+    bind_rows(df1, df2),
+    "Data-frame-like objects must inherit from class data.frame or be plain lists"
+  )
+})
+
+
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
