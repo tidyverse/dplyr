@@ -58,6 +58,10 @@ namespace dplyr {
   class DataFrameAble_List : public DataFrameAbleImpl {
   public:
     DataFrameAble_List(SEXP data_) : data(data_), nr(0) {
+      if (Rf_isObject(data)) {
+        stop("Data-frame-like objects must inherit from class data.frame or be plain lists");
+      }
+
       int n = data.size();
       if (data.size() == 0) return;
       nr = Rf_length(data[0]);
