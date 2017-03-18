@@ -80,7 +80,6 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     Rcpp::checkUserInterrupt();
 
     const DataFrameAble& df = chunks[i];
-    if (!df.size()) continue;
 
     int nrows = df.nrows();
 
