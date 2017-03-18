@@ -141,9 +141,11 @@ namespace dplyr {
     inline void init(SEXP data) {
       if (Rf_inherits(data, "data.frame")) {
         impl.reset(new DataFrameAble_DataFrame(data));
-      } else if (is<List>(data)) {
+      }
+      else if (is<List>(data)) {
         impl.reset(new DataFrameAble_List(data));
-      } else {
+      }
+      else {
         stop("cannot convert object to a data frame");
       }
     }
