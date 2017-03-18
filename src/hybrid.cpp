@@ -92,6 +92,8 @@ Result* constant_handler(SEXP constant) {
     return new ConstantResult<STRSXP>(constant);
   case LGLSXP:
     return new ConstantResult<LGLSXP>(constant);
+  case CPLXSXP:
+    return new ConstantResult<CPLXSXP>(constant);
   default:
     return 0;
   }
