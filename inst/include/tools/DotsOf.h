@@ -67,7 +67,7 @@ namespace Rcpp {
       return data.size();
     }
 
-    inline int names() const {
+    inline const CharacterVector& names() const {
       return data.names();
     }
 
