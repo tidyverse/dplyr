@@ -146,7 +146,7 @@ test_that("bind_rows handles data frames with no columns (#1346)", {
   expect_equal(dim(bind_rows(df0, df0)), c(2, 0))
 
   res <- bind_rows(df0, df1)
-  expect_equal(res$x, c(1, NA))
+  expect_equal(res$x, c(NA, 1))
 })
 
 test_that("bind_rows handles lists with NULL values (#2056)", {
@@ -161,6 +161,16 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
   )
 
   expect_equal(bind_rows(lst1, .id = "names"), df3)
+})
+
+test_that("bind_rows puts data frames in order received even if no columns (#2175)", {
+  df2 <- data_frame(x = 2, y = "b")
+  df1 <- df2[, 0]
+
+  res <- bind_rows(df1, df2)
+
+  expect_equal(res$x, c(NA, 2))
+  expect_equal(res$y, c(NA, "b"))
 })
 
 # Column coercion --------------------------------------------------------------
