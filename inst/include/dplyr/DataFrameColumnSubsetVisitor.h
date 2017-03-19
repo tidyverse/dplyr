@@ -41,7 +41,7 @@ namespace dplyr {
       return "data.frame";
     }
 
-    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
       return is_same_typeid(other);
     }
 
