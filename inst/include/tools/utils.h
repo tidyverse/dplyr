@@ -13,6 +13,7 @@ void strip_index(DataFrame x);
 namespace dplyr {
 
   std::string get_single_class(SEXP x);
+  CharacterVector default_chars(SEXP x, R_xlen_t len);
   CharacterVector get_class(SEXP x);
   SEXP set_class(SEXP x, const CharacterVector& class_);
   CharacterVector get_levels(SEXP x);
