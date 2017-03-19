@@ -58,6 +58,10 @@ namespace dplyr {
   class DataFrameAble_List : public DataFrameAbleImpl {
   public:
     DataFrameAble_List(SEXP data_) : data(data_), nr(0) {
+      if (Rf_isObject(data)) {
+        stop("Data-frame-like objects must inherit from class data.frame or be plain lists");
+      }
+
       int n = data.size();
       if (data.size() == 0) return;
       nr = Rf_length(data[0]);
@@ -137,9 +141,11 @@ namespace dplyr {
     inline void init(SEXP data) {
       if (Rf_inherits(data, "data.frame")) {
         impl.reset(new DataFrameAble_DataFrame(data));
-      } else if (is<List>(data)) {
+      }
+      else if (is<List>(data)) {
         impl.reset(new DataFrameAble_List(data));
-      } else {
+      }
+      else {
         stop("cannot convert object to a data frame");
       }
     }

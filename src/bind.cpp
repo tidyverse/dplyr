@@ -42,11 +42,19 @@ private:
 };
 
 template <typename Dots>
+String get_dot_name(const Dots& dots, int i) {
+  RObject names = dots.names();
+  if (Rf_isNull(names)) return "";
+  return STRING_ELT(names, i);
+}
+
+template <typename Dots>
 List rbind__impl(Dots dots, SEXP id = R_NilValue) {
   int ndata = dots.size();
   int n = 0;
   DataFrameAbleVector chunks;
   std::vector<int> df_nrows;
+  std::vector<String> dots_names;
 
   int k=0;
   for (int i=0; i<ndata; i++) {
@@ -56,6 +64,9 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     int nrows = chunks[k].nrows();
     df_nrows.push_back(nrows);
     n += nrows;
+    if (!Rf_isNull(id)) {
+      dots_names.push_back(get_dot_name(dots, i));
+    }
     k++;
   }
   ndata = chunks.size();
@@ -69,7 +80,6 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     Rcpp::checkUserInterrupt();
 
     const DataFrameAble& df = chunks[i];
-    if (!df.size()) continue;
 
     int nrows = df.nrows();
 
@@ -142,12 +152,11 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
 
   // Add vector of identifiers if .id is supplied
   if (!Rf_isNull(id)) {
-    CharacterVector df_names = dots.names();
     CharacterVector id_col = no_init(n);
 
     CharacterVector::iterator it = id_col.begin();
     for (int i=0; i<ndata; ++i) {
-      std::fill(it, it + df_nrows[i], df_names[i]);
+      std::fill(it, it + df_nrows[i], dots_names[i]);
       it += df_nrows[i];
     }
     out[0] = id_col;

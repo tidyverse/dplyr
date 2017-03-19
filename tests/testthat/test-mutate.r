@@ -91,12 +91,14 @@ test_that("mutate recycles results of length 1", {
   str  <- "foo"
   num  <- 1
   bool <- TRUE
+  list <- list(NULL)
 
-  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool)
+  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool, list = list)
   expect_equal(res$int , rep(int , 4))
   expect_equal(res$str , rep(str , 4))
   expect_equal(res$num , rep(num , 4))
   expect_equal(res$bool, rep(bool, 4))
+  expect_equal(res$list, rep(list, 4))
 })
 
 

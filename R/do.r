@@ -84,8 +84,12 @@ do <- function(.data, ...) {
   UseMethod("do")
 }
 #' @export
+do.default <- function(.data, ...) {
+  do_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
 #' @rdname se-deprecated
-do_ <- function(.data, ..., .dots) {
+do_ <- function(.data, ..., .dots = list()) {
   UseMethod("do_")
 }
 
@@ -94,7 +98,7 @@ do.NULL <- function(.data, ...) {
   NULL
 }
 #' @export
-do_.NULL <- function(.data, ..., .dots) {
+do_.NULL <- function(.data, ..., .dots = list()) {
   NULL
 }
 

@@ -92,6 +92,8 @@ Result* constant_handler(SEXP constant) {
     return new ConstantResult<STRSXP>(constant);
   case LGLSXP:
     return new ConstantResult<LGLSXP>(constant);
+  case CPLXSXP:
+    return new ConstantResult<CPLXSXP>(constant);
   default:
     return 0;
   }
@@ -102,7 +104,8 @@ public:
   VariableResult(const ILazySubsets& subsets_, const SymbolString& name_) : subsets(subsets_), name(name_)  {}
 
   SEXP process(const GroupedDataFrame& gdf) {
-    return subsets.get_variable(name);
+    check_length(gdf.max_group_size(), 1, "a summary value");
+    return process(*gdf.group_begin());
   }
 
   SEXP process(const RowwiseDataFrame&) {

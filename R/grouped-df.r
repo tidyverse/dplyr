@@ -121,7 +121,7 @@ select.grouped_df <- function(.data, ...) {
 }
 #' @export
 select_.grouped_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   select.grouped_df(.data, !!! dots)
 }
 
@@ -240,7 +240,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 

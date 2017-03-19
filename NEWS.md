@@ -7,6 +7,13 @@
   `merge()` -- the new behavior is closer to `merge(incomparables = NA)`
   (#2033).
 
+* `bind_rows()` and `bind_cols()` give an error for database tables (#2373).
+
+* `bind_rows()` works correctly with `NULL` arguments and an `.id` argument
+  (#2056), and also for zero-column data frames (#2175).
+
+* `mutate()` recycles list columns of length 1 (#2171).
+
 * Fixed very rare case of false match during join (#2515).
 
 * Restricted workaround for `match()` to R 3.3.0. (#1858).
