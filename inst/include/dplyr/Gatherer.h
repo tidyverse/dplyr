@@ -235,7 +235,7 @@ namespace dplyr {
     case CPLXSXP:
       return new ConstantGathererImpl<CPLXSXP>(x, n);
     case VECSXP:
-      return new ConstantGathererImpl<STRSXP>(x, n);
+      return new ConstantGathererImpl<VECSXP>(x, n);
     default:
       break;
     }
