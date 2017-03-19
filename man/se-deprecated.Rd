@@ -46,7 +46,7 @@ add_count_(x, vars, wt = NULL, sort = FALSE)
 
 distinct_(.data, ..., .dots, .keep_all = FALSE)
 
-do_(.data, ..., .dots)
+do_(.data, ..., .dots = list())
 
 funs_(dots, args = list(), env = base_env())
 

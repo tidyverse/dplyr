@@ -73,7 +73,7 @@ slice.data.frame <- function(.data, ...) {
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   slice_impl(.data, dots)
 }
 
@@ -92,7 +92,7 @@ mutate.data.frame <- function(.data, ...) {
 }
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(mutate_(tbl_df(.data), ..., .dots = dots))
+  as.data.frame(mutate_(tbl_df(.data), ..., .dots = .dots))
 }
 
 #' @export
@@ -101,7 +101,7 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+  as.data.frame(arrange_(tbl_df(.data), ...), .dots = .dots)
 }
 
 #' @export
@@ -111,8 +111,8 @@ select.data.frame <- function(.data, ...) {
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  select(.data, !!! symbols(dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  select(.data, !!! dots)
 }
 
 #' @export
@@ -183,7 +183,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 }
 #' @export
 distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 

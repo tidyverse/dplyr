@@ -14,8 +14,9 @@ namespace dplyr {
 
   // version used for ascending = true
   template <int RTYPE, bool ascending, typename VECTOR>
-  class OrderVectorVisitorImpl : public OrderVisitor, public comparisons<RTYPE> {
+  class OrderVectorVisitorImpl : public OrderVisitor {
     typedef comparisons<RTYPE> compare;
+
   public:
     /**
      * The type of data : int, double, SEXP, Rcomplex
@@ -42,8 +43,9 @@ namespace dplyr {
 
   // version used for ascending = false
   template <int RTYPE, typename VECTOR>
-  class OrderVectorVisitorImpl<RTYPE,false, VECTOR> : public OrderVisitor, public comparisons<RTYPE> {
+  class OrderVectorVisitorImpl<RTYPE,false, VECTOR> : public OrderVisitor {
     typedef comparisons<RTYPE> compare;
+
   public:
 
     /**

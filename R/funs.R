@@ -40,7 +40,7 @@ funs <- function(..., .args = list()) {
 #' @inheritParams funs
 #' @param env The environment in which functions should be evaluated.
 funs_ <- function(dots, args = list(), env = base_env()) {
-  dots <- compat_lazy_dots(dots, caller_env(), .named = TRUE)
+  dots <- compat_lazy_dots(dots, caller_env())
   funs(!!! dots, .args = args)
 }
 
