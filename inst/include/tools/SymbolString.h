@@ -39,6 +39,10 @@ namespace dplyr {
       return s.get_sexp();
     }
 
+    bool operator==(const SymbolString& other) const {
+      return Rf_NonNullStringMatch(get_sexp(), other.get_sexp());
+    }
+
   private:
     String s;
   };
