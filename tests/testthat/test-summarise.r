@@ -82,6 +82,11 @@ test_that("summarise gives proper errors (#153)", {
     fixed = TRUE
   )
   expect_error(
+    summarise(gdf, z),
+    "incompatible size (2), expecting one (a summary value)",
+    fixed = TRUE
+  )
+  expect_error(
     summarise(gdf, log(z)),
     "incompatible size (2), expecting one (a summary value)",
     fixed = TRUE

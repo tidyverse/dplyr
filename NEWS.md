@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `mutate()` recycles list columns of length 1 (#2171).
+
 * Fixed very rare case of false match during join (#2515).
 
 * Restricted workaround for `match()` to R 3.3.0. (#1858).
