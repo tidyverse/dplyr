@@ -8,8 +8,7 @@ using namespace Rcpp;
 using namespace dplyr;
 
 SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
-  CharacterVector names = df.names();
-  IntegerVector positions = keep.match_in_table(names);
+  IntegerVector positions = keep.match_in_table(df.names());
   int n = keep.size();
   List res(n);
   for (int i=0; i<n; i++) {
