@@ -28,7 +28,7 @@ namespace dplyr {
     }
 
     const std::string get_cstring() const {
-      return s.get_cstring();
+      return Rf_translateCharUTF8(s.get_sexp());
     }
 
     const bool is_empty() const {
