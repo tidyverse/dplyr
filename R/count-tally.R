@@ -64,7 +64,7 @@ tally <- function(x, wt = NULL, sort = FALSE) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   } else {
-    wt <- arg_quosure(wt)
+    wt <- catch_quosure(wt)
   }
 
   # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
@@ -128,7 +128,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   } else {
-    wt <- arg_quosure(wt)
+    wt <- catch_quosure(wt)
   }
 
   # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
@@ -164,7 +164,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   g <- group_vars(x)
   grouped <- group_by(x, ..., add = TRUE)
 
-  out <- add_tally(grouped, wt = !! arg_quosure(wt), sort = sort)
+  out <- add_tally(grouped, wt = !! catch_quosure(wt), sort = sort)
   grouped_df(out, g)
 }
 #' @rdname se-deprecated
