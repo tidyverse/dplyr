@@ -1,11 +1,12 @@
 # dplyr 0.5.0.9000
 
-* `xxx_join.tbl_df()` gains a new argument `na_matches = c("na", "never")`.
-  Setting it to `"never"` treats all `NA` values as different from each other
-  (and from any other value), so that they never match.  This mimics the
-  behaviour of relational databases, but differs from the default behaviuor of
-  `merge()` -- the new behavior is closer to `merge(incomparables = NA)`
-  (#2033).
+* Breaking change: `xxx_join.tbl_df()` by default treats all `NA` values as
+  different from each other (and from any other value), so that they never
+  match.  This corresponds to the behavior of joins for database sources,
+  and of database joins in general.  To match `NA` values, pass
+  `na_matches = "na"` to the join verbs; this is only supported for data frames.
+  The default can also be tweaked by calling
+  `pkgconfig::set_config("dplyr::na_matches", "na")` (#2033).
 
 * `bind_rows()` and `bind_cols()` give an error for database tables (#2373).
 
