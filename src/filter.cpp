@@ -3,6 +3,7 @@
 #include <tools/hash.h>
 #include <tools/Quosure.h>
 #include <tools/utils.h>
+#include <tools/SymbolString.h>
 
 #include <dplyr/GroupedDataFrame.h>
 
@@ -48,7 +49,7 @@ SEXP assert_correct_filter_subcall(SEXP x, const SymbolSet& set, const Environme
       } else if (x == Rf_install("F")) {
         return Rf_ScalarLogical(FALSE);
       }
-      stop("unknown column : %s", CHAR(PRINTNAME(x)));
+      stop("unknown column : %s", SymbolString(Symbol(x)).get_utf8_cstring());
     }
     return res;
   }

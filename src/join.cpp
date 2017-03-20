@@ -37,7 +37,7 @@ namespace dplyr {
       if (TAG(x) == name) return CAR(x);
       x = CDR(x);
     }
-    stop("cannot find attribute '%s' ", CHAR(PRINTNAME(name)));
+    stop("cannot find attribute '%s' ", SymbolString(Symbol(name)).get_utf8_cstring());
   }
 
   void check_attribute_compatibility(SEXP left, SEXP right) {

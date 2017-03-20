@@ -132,9 +132,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
   IntegerVector orders = r_match(names_x, names_y);
 
-  String name;
   for (int i=0; i<n; i++) {
-    name = names_x[i];
+    SymbolString name = names_x[i];
     SEXP xi = x[i], yi = y[orders[i]-1];
     boost::scoped_ptr<SubsetVectorVisitor> vx(subset_visitor(xi));
     boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi));
@@ -147,7 +146,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     if (!compatible) {
       if (ss.str() == "") {
         ss << "Incompatible type for column '"
-           << name.get_cstring()
+           << name.get_utf8_cstring()
            << "': x " << vx->get_r_type()
            << ", y " << vy->get_r_type();
       }
