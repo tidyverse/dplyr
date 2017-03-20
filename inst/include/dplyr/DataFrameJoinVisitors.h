@@ -18,10 +18,10 @@ namespace dplyr {
     typedef JoinVisitor visitor_type;
 
     DataFrameJoinVisitors(
-      const Rcpp::DataFrame& left_,
-      const Rcpp::DataFrame& right_,
-      Rcpp::CharacterVector names_left,
-      Rcpp::CharacterVector names_right,
+      const DataFrame& left_,
+      const DataFrame& right_,
+      const SymbolVector& names_left,
+      const SymbolVector& names_right,
       bool warn_,
       bool na_match
     );
@@ -29,11 +29,11 @@ namespace dplyr {
     inline JoinVisitor* get(int k) const {
       return visitors[k];
     }
-    inline JoinVisitor* get(String name) const {
+    inline JoinVisitor* get(const SymbolString& name) const {
       for (int i=0; i<nvisitors; i++) {
         if (name == visitor_names_left[i]) return get(i);
       }
-      stop("visitor not found for name '%s' ", name.get_cstring());
+      stop("visitor not found for name '%s' ", name.get_utf8_cstring());
     }
     inline int size() const {
       return nvisitors;
@@ -53,18 +53,18 @@ namespace dplyr {
       return (SEXP)out;
     }
 
-    const CharacterVector& left_names() const {
+    const SymbolVector& left_names() const {
       return visitor_names_left;
     }
-    const CharacterVector& right_names() const {
+    const SymbolVector& right_names() const {
       return visitor_names_right;
     }
 
   private:
     const DataFrame& left;
     const DataFrame& right;
-    CharacterVector visitor_names_left;
-    CharacterVector visitor_names_right;
+    SymbolVector visitor_names_left;
+    SymbolVector visitor_names_right;
 
     int nvisitors;
     pointer_vector<JoinVisitor> visitors;
