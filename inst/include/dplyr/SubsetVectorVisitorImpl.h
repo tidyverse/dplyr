@@ -141,7 +141,7 @@ namespace dplyr {
 
     inline std::string get_r_type() const {
       CharacterVector classes = get_class(Parent::vec);
-      return collapse(classes);
+      return collapse_utf8(classes);
     }
 
     inline bool is_same_type(SubsetVectorVisitor* other, std::stringstream& ss, const SymbolString& name) const {

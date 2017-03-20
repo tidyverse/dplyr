@@ -82,7 +82,7 @@ namespace dplyr {
     SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
     if (!Rf_isNull(klass)) {
       CharacterVector classes(klass);
-      return collapse(classes);
+      return collapse_utf8(classes);
     }
 
     if (Rf_isMatrix(x)) {
