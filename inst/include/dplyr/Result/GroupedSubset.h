@@ -105,24 +105,9 @@ namespace dplyr {
   };
 
   template <>
-  class SummarisedSubsetTemplate<VECSXP> : public GroupedSubset {
-  public:
-    SummarisedSubsetTemplate(SummarisedVariable x) : object(x) {}
-
-    virtual SEXP get(const SlicingIndex& indices) {
-      return List::create(object[indices.group()]);
-    }
-
-    virtual SEXP get_variable() const {
-      return object;
-    }
-    virtual bool is_summary() const {
-      return true;
-    }
-
-  private:
-    List object;
-  };
+  inline SEXP SummarisedSubsetTemplate<VECSXP>::get(const SlicingIndex& indices) {
+    return List::create(object[indices.group()]);
+  }
 
   inline GroupedSubset* summarised_subset(SummarisedVariable x) {
     switch (TYPEOF(x)) {
