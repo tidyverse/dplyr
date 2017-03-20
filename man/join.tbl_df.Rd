@@ -11,22 +11,24 @@
 \title{Join data frame tbls.}
 \usage{
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ..., na_match = TRUE)
+  suffix = c(".x", ".y"), ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
-  ".y"), ..., na_match = TRUE)
+  ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ..., na_match = TRUE)
+  suffix = c(".x", ".y"), ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
-  ".y"), ..., na_match = TRUE)
+  ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
-  na_match = TRUE)
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{anti_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
-  na_match = TRUE)
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 }
 \arguments{
 \item{x}{tbls to join}
@@ -54,10 +56,12 @@ Should be a character vector of length 2.}
 
 \item{...}{included for compatibility with the generic; otherwise ignored.}
 
-\item{na_match}{Use \code{FALSE} to always treat two \code{NA} or \code{NaN} values as
-different, similarly to joins in relational databases or to
-\code{merge(incomparables = FALSE)}. The default \code{TRUE} treats two \code{NA} or \code{NaN}
-values as equal, like \code{\link[=merge]{merge()}}.}
+\item{na_matches}{Use \code{"na"} to treat two \code{NA} or \code{NaN} values as equal, like \code{\link[=merge]{merge()}}.
+The default, \code{"never"}, always treats two \code{NA} or \code{NaN} values as
+different, like joins for database sources, similarly to
+\code{merge(incomparables = FALSE)}.
+Users and package authors can change the default behavior by calling
+\code{pkgconfig::set_config("dplyr::na_matches" = "na")}.}
 }
 \description{
 See \link{join} for a description of the general purpose of the

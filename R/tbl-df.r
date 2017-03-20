@@ -108,10 +108,13 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #'
 #' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
-#' @param na_match Use `FALSE` to always treat two `NA` or `NaN` values as
-#'   different, similarly to joins in relational databases or to
-#'   `merge(incomparables = FALSE)`. The default `TRUE` treats two `NA` or `NaN`
-#'   values as equal, like [merge()].
+#' @param na_matches
+#'   Use `"na"` to treat two `NA` or `NaN` values as equal, like [merge()].
+#'   The default, `"never"`, always treats two `NA` or `NaN` values as
+#'   different, like joins for database sources, similarly to
+#'   `merge(incomparables = FALSE)`.
+#'   Users and package authors can change the default behavior by calling
+#'   `pkgconfig::set_config("dplyr::na_matches" = "na")`.
 #' @examples
 #' if (require("Lahman")) {
 #' batting_df <- tbl_df(Batting)
@@ -138,8 +141,8 @@ NULL
 #' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
-                              na_matches = c("na", "never")) {
-  na_matches <- match.arg(na_matches)
+                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
@@ -154,8 +157,8 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
-                             na_matches = c("na", "never")) {
-  na_matches <- match.arg(na_matches)
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
@@ -170,8 +173,8 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
-                              na_matches = c("na", "never")) {
-  na_matches <- match.arg(na_matches)
+                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
@@ -185,8 +188,8 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
-                             na_matches = c("na", "never")) {
-  na_matches <- match.arg(na_matches)
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
@@ -199,8 +202,8 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @export
 #' @rdname join.tbl_df
 semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = c("na", "never")) {
-  na_matches <- match.arg(na_matches)
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
@@ -211,8 +214,8 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @export
 #' @rdname join.tbl_df
 anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = c("na", "never")) {
-  na_matches <- match.arg(na_matches)
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
