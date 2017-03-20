@@ -57,7 +57,7 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
   if (convert) {
     for (int i=0; i<n; i++) {
       try {
-        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], "x", "x", true, true));
+        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], SymbolString("x"), SymbolString("x"), true, true));
       } catch (...) {
         return no_because("incompatible");
       }

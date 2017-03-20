@@ -1,8 +1,7 @@
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
-
-#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+#include <tools/SymbolString.h>
 
 #include <dplyr/JoinVisitorImpl.h>
 
@@ -145,7 +144,7 @@ namespace dplyr {
   }
 
   template <bool ACCEPT_NA_MATCH>
-  JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& name_left, const std::string& name_right, bool warn_) {
+  JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, const SymbolString& name_right, bool warn_) {
     // handle Date separately
     bool lhs_date = Rf_inherits(left, "Date");
     bool rhs_date = Rf_inherits(right, "Date");
@@ -283,12 +282,12 @@ namespace dplyr {
 
     stop(
       "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
-      name_left, name_right, get_single_class(left), get_single_class(right)
+      name_left.get_utf8_cstring(), name_right.get_utf8_cstring(), get_single_class(left), get_single_class(right)
     );
     return 0;
   }
 
-  JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& left_name, const std::string& right_name, bool warn, bool accept_na_match) {
+  JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& left_name, const SymbolString& right_name, bool warn, bool accept_na_match) {
     if (accept_na_match)
       return join_visitor<true>(left, right, left_name, right_name, warn);
     else
