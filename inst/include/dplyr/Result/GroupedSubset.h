@@ -86,7 +86,10 @@ namespace dplyr {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     SummarisedSubsetTemplate(SummarisedVariable x) :
-      object(x), output(1) {}
+      object(x), output(1)
+    {
+      copy_most_attributes(output, object);
+    }
 
     virtual SEXP get(const SlicingIndex& indices) {
       output[0] = object[indices.group()];
