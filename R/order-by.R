@@ -26,14 +26,14 @@
 #' right <- mutate(scrambled, running = order_by(year, cumsum(value)))
 #' arrange(right, year)
 order_by <- function(order_by, call) {
-  quo <- catch_quosure(call)
+  quo <- enquo(call)
   stopifnot(is_lang(quo))
 
   fn <- set_expr(quo, node_car(f_rhs(quo)))
   args <- node_cdr(f_rhs(quo))
   args <- map(args, new_quosure, f_env(quo))
 
-  quo <- quosure(with_order(!! order_by, !! fn, !!! args))
+  quo <- quo(with_order(!! order_by, !! fn, !!! args))
   eval_tidy(quo)
 }
 

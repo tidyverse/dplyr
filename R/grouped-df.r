@@ -256,7 +256,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
   if (!is_null(.env)) {
     warn("`.env` is deprecated and no longer has any effect")
   }
-  weight <- catch_quosure(weight)
+  weight <- enquo(weight)
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
@@ -281,7 +281,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
   if (size > 1 && !replace) {
     abort("Sampled fraction can't be greater than one unless replace = TRUE")
   }
-  weight <- catch_quosure(weight)
+  weight <- enquo(weight)
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,

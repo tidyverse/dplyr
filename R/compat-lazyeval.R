@@ -21,7 +21,7 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   if (warn) warn_underscored()
 
   if (missing(lazy)) {
-    return(quosure())
+    return(quo())
   }
 
   coerce_type(lazy, "quosure",

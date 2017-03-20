@@ -62,7 +62,7 @@
 #'   filter(n >= 1000)
 #' }
 tally <- function(x, wt, sort = FALSE) {
-  wt <- catch_quosure(wt)
+  wt <- enquo(wt)
 
   if (is_empty_quosure(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
@@ -113,7 +113,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
   groups <- group_vars(x)
 
   x <- group_by(x, ..., add = TRUE)
-  x <- tally(x, wt = !! catch_quosure(wt), sort = sort)
+  x <- tally(x, wt = !! enquo(wt), sort = sort)
   x <- group_by(x, !!! syms(groups), add = FALSE)
   x
 }
@@ -128,7 +128,7 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
 #' @rdname tally
 #' @export
 add_tally <- function(x, wt, sort = FALSE) {
-  wt <- catch_quosure(wt)
+  wt <- enquo(wt)
 
   if (is_empty_quosure(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")

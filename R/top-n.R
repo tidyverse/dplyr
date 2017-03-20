@@ -37,7 +37,7 @@
 #' tbl_df(Batting) %>% group_by(playerID) %>% top_n(1, G)
 #' }
 top_n <- function(x, n, wt) {
-  wt <- catch_quosure(wt)
+  wt <- enquo(wt)
 
   if (is_empty_quosure(wt)) {
     vars <- tbl_vars(x)
@@ -47,9 +47,9 @@ top_n <- function(x, n, wt) {
 
   stopifnot(is_scalar_integerish(n), is_symbol(wt))
   if (n > 0) {
-    quo <- quosure(filter(x, min_rank(desc(!!wt)) <= !!n))
+    quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
   } else {
-    quo <- quosure(filter(x, min_rank(!!wt) <= !!abs(n)))
+    quo <- quo(filter(x, min_rank(!!wt) <= !!abs(n)))
   }
 
   eval_tidy(quo)

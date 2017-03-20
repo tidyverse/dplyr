@@ -227,7 +227,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
     warn("`.env` is deprecated and no longer has any effect")
   }
 
-  weight <- eval_tidy(catch_quosure(weight), tbl)
+  weight <- eval_tidy(enquo(weight), tbl)
   sample_n_basic(tbl, size, replace = replace, weight = weight)
 }
 
@@ -239,7 +239,7 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
     warn("`.env` is deprecated and no longer has any effect")
   }
 
-  weight <- eval_tidy(catch_quosure(weight), tbl)
+  weight <- eval_tidy(enquo(weight), tbl)
   sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
 }
 
