@@ -27,7 +27,7 @@ namespace dplyr {
       return Symbol(Rf_translateChar(s.get_sexp()));
     }
 
-    const std::string get_cstring() const {
+    const std::string get_utf8_cstring() const {
       return Rf_translateCharUTF8(s.get_sexp());
     }
 

@@ -43,7 +43,7 @@ namespace dplyr {
 
     for (int i=0; i<n; i++) {
       if (indices[i] == NA_INTEGER) {
-        stop("unknown column '%s' ", names[i].get_cstring());
+        stop("unknown column '%s' ", names[i].get_utf8_cstring());
       }
       SEXP column = data[indices[i]-1];
       visitors.push_back(visitor(column));

@@ -123,7 +123,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
     if (group_col_index != NA_INTEGER) {
       group_cols.set(i, names[group_col_index-1]);
     } else {
-      stop("unknown group column '%s'", group_cols_x[i].get_cstring());
+      stop("unknown group column '%s'", group_cols_x[i].get_utf8_cstring());
     }
   }
   set_vars(out, group_cols);
