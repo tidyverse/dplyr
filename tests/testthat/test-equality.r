@@ -151,6 +151,20 @@ test_that("returns vector for more than one difference (#1819)", {
   )
 })
 
+test_that("returns UTF-8 column names (#2441)", {
+  df1 <- data_frame(a = 1) %>% rename("\u5e78" := a)
+  df2 <- data_frame(a = 1) %>% rename("\u798f" := a)
+
+  expect_equal(
+    all.equal(df1, df2),
+    c(
+      "Cols in y but not x: \u798f. ",
+      "Cols in x but not y: \u5e78. "
+    ),
+    fixed = TRUE
+  )
+})
+
 test_that("proper message formatting for set operations", {
   expect_error(
     union(data_frame(a = 1), data_frame(a = "1")),
