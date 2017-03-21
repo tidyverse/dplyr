@@ -21,7 +21,7 @@ Imports:
     magrittr,
     methods,
     utils,
-    rlang,
+    rlang (>= 0.0.0.9001),
     R6,
     Rcpp (>= 0.12.6),
     tibble (>= 1.2)

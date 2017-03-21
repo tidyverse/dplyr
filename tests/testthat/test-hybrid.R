@@ -4,10 +4,12 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   # Can't use pipe here, f and g should have top-level parent.env()
   df <- data_frame(x = 1)
   df <- mutate(df, f = list(function(){}))
-  df <- mutate(df, g = list(UQF(~.)))
+  df <- mutate(df, g = list(~.))
+  df <- mutate(df, h = list(UQF(~.)))
 
   expect_environments_clean(df$f[[1]])
   expect_environments_clean(df$g[[1]])
+  expect_environments_clean(df$h[[1]])
 })
 
 test_that("n() and n_distinct() work", {
