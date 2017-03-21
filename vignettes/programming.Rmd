@@ -1,0 +1,270 @@
+---
+title: "Programming with dplyr"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Non-standard evaluation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(dplyr)
+```
+
+The important verbs in dplyr take their arguments by expression rather
+than by value. Instead of evaluating the arguments and getting their
+_value_, these functions capture the _expression_ typed by the user.
+This is why dplyr is able to compute expressions containing symbols
+that refer to the columns of a data frame rather than to regular
+variables assigned by the user with `<-`. This is also why it is able
+to record expressions lazily (without evaluation) and translate the R
+code into SQL. Dplyr's interface is a domain-specific language (DSL)
+tailored to the task at hand: operating on a data frame or a remote
+table.
+
+Bypassing evaluation is a crucial technique to create smart interfaces
+that let the user express their thoughts more succintly and
+directly. However, this mechanism makes it hard to program with
+expression-based functions. This is because programming is all about
+varying values: storing data within variables and changing the
+contents of these data with functions. If dplyr takes arguments by
+expression rather than by value, how can it be programmed with? Say,
+how can you change an expression and make it refer to a particular
+data frame column for which you don't know the name in advance? The
+purpose of this vignette is to present a general solution to this
+problem, which we call the tidy evaluation framework.
+
+There are two importants aspects to this framework: quoting and
+unquoting. In addition, the notion of pronouns is also helpful. We go
+over these three aspects in this vignette.
+
+
+## Quoting
+
+Quoting is the action of capturing an expression instead of evaluating
+it. All expression-based functions quote their arguments and get the R
+code as an expression rather than the result of evaluating that
+code. If you are an R user, you probably quote expressions on a
+regular basis. One of the most important quoting operators in R is the
+_formula_. It is famously used for the specification of statistical
+models:
+
+```{r}
+disp ~ cyl + drat
+```
+
+The other quoting operator in base R is `quote()`. It returns a raw
+expression rather than a formula:
+
+```{r}
+# Computing the value of the expression:
+toupper(letters[1:5])
+
+# Capturing the expression:
+quote(toupper(letters[1:5]))
+```
+
+In practice, the formula is the most important way of quoting an
+expression because it knows about the variables defined in the current
+context. For example, if you create a formula in the global workspace,
+it knows it was created there and that symbols may refer to variables
+defined in that context rather than in the context of a function. For
+instance, the variable `letters` refers to a standard R object that is
+accessible from the global workspace. Typing `~letters` from that
+workspace records both the symbol `letters` and the context where it
+can be found.
+
+In R and other programming languages, these contexts are called
+_environments_. A formula bundles both an expression and an
+environment. When an object keep tracks of an environment, it is said
+to have an enclosure (functions are another example of such
+objects). For this reason we use a special name to refer to one-sided
+formulas. We call them _quosures_: one-sided formulas are quotes (they
+carry an expression) that bundle an enclosure. Note that unlike
+quosures, two-sided formulas bundle not one but two expressions, and
+are thus slightly more complex objects. Here is our first quosure:
+
+```{r}
+~toupper(letters[1:5])
+```
+
+It can be stored in a variable and inspected:
+
+```{r}
+var <- ~toupper(letters[1:5])
+var
+
+# You can extract its expression:
+rlang::f_rhs(var)
+
+# Or inspect its enclosure:
+rlang::f_env(var)
+```
+
+In the tidyeval framework, when a function takes an argument by
+expression, it gets it in the form of a quosure. This way, it keeps
+track of the context where the user typed the expression and knows
+where to find user-defined variables mentioned in the quoted
+expression. This is how dplyr is able to compute expressions that
+refer to a mixture of data frame columns and user-defined variables:
+
+```{r}
+user_var <- 1000
+mtcars %>% summarise(cyl = mean(cyl) * user_var)
+```
+
+However, things get more complicated if you want to store the name of
+a column in a variable. While dplyr is able to understand variables
+referring to _values_, it cannot understand variables referring to
+_symbols_. It will just look up the content of the variable and get an
+expression. In the following example, the function `mean()` gets the
+quoted symbol `disp` as argument. Of course, `mean()` doesn't know
+what to do with it since it expects a numeric vector:
+
+```{r}
+user_var <- ~disp
+mtcars %>% summarise(user_var = mean(user_var) * 1000)
+```
+
+The solution to this problem is quasiquotation. This term refers to
+the ability of unquoting part of an expression being captured.
+
+
+## Unquoting
+
+All expression-based functions in the tidyeval framework support
+unquoting. Unquoting cancels quotation of parts of an expression. The
+tidyverse provides unquoting operators in the functional form, `UQ()`,
+and in syntactic form with the double bang operator `!!`. The base R
+functions for quoting an expression do not understand unquoting, so we
+are going to use the function `quosure()` to illustrate
+quasiquotation. `quosure()` takes its argument by expression,
+processes the unquoting operators, and returns a quosure.
+
+```{r}
+library("rlang")
+
+# Here we capture `letters` as a symbol:
+quosure(toupper(letters))
+
+# Here we evaluate `letters` and embed its value in the captured expression:
+quosure(toupper(!! letters))
+```
+
+In that example we have unquoted a value within `toupper()`. It is
+also possible to unquote other quoted expressions. Unquoting such
+symbolic objects provides a powerful a way of manipulating expressions
+at capture time. From the point of view of the capturing function,
+there is no difference between a symbol typed manually or a symbol
+unquoted programmatically:
+
+```{r}
+var1 <- quote(letters[1:5])
+var2 <- quote(letters[11:15])
+
+quosure(toupper(!! var1))
+
+quosure(toupper(!! var2))
+```
+
+The final touch is that you can safely unquote quosures instead of raw
+expressions because tidyeval functions know how to evaluate
+quosures. This lets you refer to variables in the current context:
+
+```{r}
+my_mutate <- function(x) {
+  mtcars %>%
+    select(cyl) %>%
+    slice(1:5) %>%
+    mutate(cyl2 = cyl + (!! x))
+}
+
+var <- 100
+expr1 <- ~var * 2
+expr2 <- ~var / 2
+
+my_mutate(expr1)
+my_mutate(expr2)
+```
+
+In a way, `quosure()` is tidyeval's most fundamental expression-based
+function. It captures its expression and returns it without any
+modification, post-processing, or evaluation. But all tidyeval
+functions like `mutate()` behave like `quosure()` when passed an
+expression, which ensures their full programmability.
+
+
+## Unquote-splicing
+
+The second important operation is unquote-splicing. Its functional
+form is `UQS()` and the syntactic shortcut is `!!!`. Like unquoting,
+it evaluates part of a captured expression, but if the unquoted object
+is a vector, each element of the vector becomes an argument in the
+surrounding function call:
+
+```{r}
+quosure(list(!!! letters[1:5]))
+```
+
+A very useful feature of unquote-splicing is that the vector names
+become argument names:
+
+```{r}
+quosure(list(!!! list(foo = 1L, bar = quote(baz))))
+```
+
+This is of course handy to program with dplyr verbs taking named dots:
+
+```{r}
+args <- list(mean = ~mean(cyl * 20), count = ~n())
+mtcars %>%
+  group_by(am) %>%
+  summarise(!!! args)
+```
+
+
+## Setting variable names
+
+There are two main ways of programmatically setting the names of
+arguments passed through dots. First you can splice a named vector as
+mentioned above: You can also use the definition operator `:=` instead
+of `=`. The former supports unquoting on its LHS. The unquoted operand
+should evaluate to a string or a symbol:
+
+```{r}
+n <- 10
+nms <- c("mean", "count")
+
+summarise(mtcars,
+  !! nms[[1]] := mean(mpg),
+  !! nms[[2]] := n
+)
+```
+
+Or equivalently with splicing:
+
+```{r}
+dots <- list(~mean(mpg), ~n)
+named_dots <- rlang::set_names(dots, nms)
+
+summarise(mtcars, !!! dots)
+
+summarise(mtcars, !!! named_dots)
+```
+
+
+## Using pronouns
+
+A different approach to solve scoping problems is to use
+pronouns. Most tidyverse functions provide two pronouns that you can
+refer to without unquoting: `.data` refers to the data structure that
+is put in scope, and `.env` refers to the calling context. These two
+symbols are always defined:
+
+```{r}
+var <- 10
+summarise(mtcars, mean = mean(.data$cyl / .env$var))
+```
