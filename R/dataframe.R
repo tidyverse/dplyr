@@ -68,7 +68,7 @@ filter_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   slice_impl(.data, dots)
 }
 #' @export
@@ -192,19 +192,19 @@ distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 #' @export
 do.data.frame <- function(.data, ...) {
-  args <- tidy_quotes(...)
+  args <- dots_quosures(...)
   named <- named_args(args)
 
   # Create custom dynamic scope with `.` pronoun
   overscope <- child_env(data = list(. = .data, .data = .data))
 
   if (!named) {
-    out <- tidy_eval_(args[[1]], overscope)
+    out <- eval_tidy_(args[[1]], overscope)
     if (!inherits(out, "data.frame")) {
       abort("Result must be a data frame")
     }
   } else {
-    out <- map(args, function(arg) list(tidy_eval_(arg, overscope)))
+    out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }

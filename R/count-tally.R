@@ -64,12 +64,12 @@ tally <- function(x, wt = NULL, sort = FALSE) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   } else {
-    wt <- tidy_capture(wt)
+    wt <- catch_quosure(wt)
   }
 
   # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
   # add_tally() is called from another function (e.g. add_count())
-  n <- tidy_quote(
+  n <- quosure(
     if (is_null(!! wt)) {
       n()
     } else {
@@ -81,7 +81,7 @@ tally <- function(x, wt = NULL, sort = FALSE) {
   out <- summarise(x, !! n_name := !! n)
 
   if (sort) {
-    arrange(out, desc(!! symbol(n_name)))
+    arrange(out, desc(!! sym(n_name)))
   } else {
     out
   }
@@ -111,7 +111,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 
   x <- group_by(x, ..., add = TRUE)
   x <- tally(x, wt = !! wt, sort = sort)
-  x <- group_by(x, !!! symbols(groups), add = FALSE)
+  x <- group_by(x, !!! syms(groups), add = FALSE)
   x
 }
 #' @export
@@ -128,12 +128,12 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   } else {
-    wt <- tidy_capture(wt)
+    wt <- catch_quosure(wt)
   }
 
   # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
   # add_tally() is called from another function (e.g. add_count())
-  n <- tidy_quote(
+  n <- quosure(
     if (is_null(!! wt)) {
       n()
     } else {
@@ -145,7 +145,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE) {
   out <- mutate(x, !! n_name := !! n)
 
   if (sort) {
-    out <- arrange(out, desc(!! symbol(n_name)))
+    out <- arrange(out, desc(!! sym(n_name)))
   }
 
   grouped_df(out, group_vars(x))
@@ -164,7 +164,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   g <- group_vars(x)
   grouped <- group_by(x, ..., add = TRUE)
 
-  out <- add_tally(grouped, wt = !! tidy_capture(wt), sort = sort)
+  out <- add_tally(grouped, wt = !! catch_quosure(wt), sort = sort)
   grouped_df(out, g)
 }
 #' @rdname se-deprecated
