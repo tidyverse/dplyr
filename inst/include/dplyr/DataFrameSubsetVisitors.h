@@ -48,7 +48,7 @@ namespace dplyr {
 
         int pos = indx[i];
         if (pos == NA_INTEGER) {
-          stop("unknown column '%s' ", names[i].get_cstring());
+          stop("unknown column '%s' ", names[i].get_utf8_cstring());
         }
 
         SubsetVectorVisitor* v = subset_visitor(data[pos - 1]);

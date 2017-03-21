@@ -19,7 +19,7 @@ namespace dplyr {
 
   };
 
-  JoinVisitor* join_visitor(SEXP left, SEXP right, const std::string& left_name, const std::string& right_name, bool warn, bool accept_na_match = true);
+  JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& left_name, const SymbolString& right_name, bool warn, bool accept_na_match = true);
 
 }
 

@@ -156,7 +156,7 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     SymbolString name = quosure.name();
     proxy.set_env(env);
 
-    LOG_VERBOSE << "processing " << name.get_cstring();
+    LOG_VERBOSE << "processing " << name.get_utf8_cstring();
 
     if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
       proxy.set_call(call);

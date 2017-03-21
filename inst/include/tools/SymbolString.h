@@ -27,8 +27,11 @@ namespace dplyr {
       return Symbol(Rf_translateChar(s.get_sexp()));
     }
 
-    const std::string get_cstring() const {
-      return s.get_cstring();
+    const std::string get_utf8_cstring() const {
+      static Environment rlang = Environment::namespace_env("rlang");
+      static Function as_string = Function("as_string", rlang);
+      SEXP utf8_string = as_string(Rf_lang2(R_QuoteSymbol, get_symbol()));
+      return CHAR(STRING_ELT(utf8_string, 0));
     }
 
     const bool is_empty() const {
@@ -37,6 +40,10 @@ namespace dplyr {
 
     SEXP get_sexp() const {
       return s.get_sexp();
+    }
+
+    bool operator==(const SymbolString& other) const {
+      return Rf_NonNullStringMatch(get_sexp(), other.get_sexp());
     }
 
   private:

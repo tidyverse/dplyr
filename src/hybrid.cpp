@@ -157,7 +157,7 @@ namespace dplyr {
     } else if (TYPEOF(call) == SYMSXP) {
       SymbolString name = SymbolString(Symbol(call));
 
-      LOG_VERBOSE << "Searching hybrid handler for symbol " << name.get_cstring();
+      LOG_VERBOSE << "Searching hybrid handler for symbol " << name.get_utf8_cstring();
 
       if (subsets.count(name)) {
         LOG_VERBOSE << "Using hybrid variable handler";

@@ -30,7 +30,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   int i=0;
   List results(nvars + nexpr);
   for (; i<nvars; i++) {
-    LOG_VERBOSE << "copying " << gdf.symbol(i).get_cstring();
+    LOG_VERBOSE << "copying " << gdf.symbol(i).get_utf8_cstring();
     results[i] = shared_SEXP(gdf.label(i));
     accumulator.set(gdf.symbol(i), results[i]);
   }
@@ -44,7 +44,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     const NamedQuosure& quosure = dots[k];
     const Environment& env = quosure.env();
 
-    LOG_VERBOSE << "processing variable " << quosure.name().get_cstring();
+    LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
     Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;

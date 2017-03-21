@@ -97,7 +97,7 @@ namespace dplyr {
       } else {
         stop(
           "Can not automatically convert from %s to %s in column \"%s\".",
-          coll->describe(), get_single_class(subset), name.get_cstring()
+          coll->describe(), get_single_class(subset), name.get_utf8_cstring()
         );
       }
     }
