@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `summarise()` now correctly evaluates newly created factors (#2217).
+
 * `summarise()` now can create ordered factors (#2200).
 
 * `bind_rows()` and `bind_cols()` give an error for database tables (#2373).
