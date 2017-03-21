@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* Fixed segmentation fault after calling `rename()` on an invalid grouped
+  data frame (#2031).
+
 * Breaking change: `xxx_join.tbl_df()` by default treats all `NA` values as
   different from each other (and from any other value), so that they never
   match.  This corresponds to the behavior of joins for database sources,
