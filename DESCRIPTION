@@ -20,11 +20,12 @@ Imports:
     glue,
     magrittr,
     methods,
-    utils,
-    rlang,
+    pkgconfig,
+    rlang (>= 0.0.0.9001),
     R6,
     Rcpp (>= 0.12.6),
-    tibble (>= 1.2)
+    tibble (>= 1.2),
+    utils
 Suggests: 
     RSQLite (>= 1.0.0),
     RMySQL,

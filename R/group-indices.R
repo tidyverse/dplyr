@@ -24,7 +24,7 @@ group_indices_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 group_indices.data.frame <- function(.data, ...) {
-  dots <- tidy_quotes(...)
+  dots <- dots_quosures(...)
   if (length(dots) == 0L) {
     return(rep(1L, nrow(.data)))
   }

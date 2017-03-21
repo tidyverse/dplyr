@@ -22,7 +22,8 @@ namespace dplyr {
       const Rcpp::DataFrame& right_,
       Rcpp::CharacterVector names_left,
       Rcpp::CharacterVector names_right,
-      bool warn_
+      bool warn_,
+      bool na_match
     );
 
     inline JoinVisitor* get(int k) const {

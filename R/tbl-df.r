@@ -42,7 +42,7 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 
 #' @export
 arrange.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(...)
+  dots <- dots_quosures(...)
   arrange_impl(.data, dots)
 }
 #' @export
@@ -53,8 +53,8 @@ arrange_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 filter.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(...)
-  if (any(have_names(dots))) {
+  dots <- dots_quosures(...)
+  if (any(have_name(dots))) {
     abort("filter() takes unnamed arguments. Do you need `==`?")
   }
   dots <- exprs_auto_name(dots)
@@ -68,7 +68,7 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   slice_impl(.data, dots)
 }
 #' @export
@@ -79,7 +79,7 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   mutate_impl(.data, dots)
 }
 #' @export
@@ -90,7 +90,7 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 summarise.tbl_df <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- dots_quosures(..., .named = TRUE)
   summarise_impl(.data, dots)
 }
 #' @export
@@ -108,6 +108,13 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #'
 #' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
+#' @param na_matches
+#'   Use `"na"` to treat two `NA` or `NaN` values as equal, like [merge()].
+#'   The default, `"never"`, always treats two `NA` or `NaN` values as
+#'   different, like joins for database sources, similarly to
+#'   `merge(incomparables = FALSE)`.
+#'   Users and package authors can change the default behavior by calling
+#'   `pkgconfig::set_config("dplyr::na_matches" = "na")`.
 #' @examples
 #' if (require("Lahman")) {
 #' batting_df <- tbl_df(Batting)
@@ -133,63 +140,87 @@ NULL
 #' @export
 #' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...) {
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...) {
+                             suffix = c(".x", ".y"), ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
 
-  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...) {
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...) {
+                             suffix = c(".x", ".y"), ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
-semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  semi_join_impl(x, y, by$x, by$y)
+  semi_join_impl(x, y, by$x, by$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
-anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  anti_join_impl(x, y, by$x, by$y)
+  anti_join_impl(x, y, by$x, by$y, accept_na_match)
 }
 
 
