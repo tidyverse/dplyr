@@ -30,7 +30,7 @@ namespace dplyr {
     const std::string get_utf8_cstring() const {
       static Environment rlang = Environment::namespace_env("rlang");
       static Function as_string = Function("as_string", rlang);
-      SEXP utf8_string = as_string(get_symbol());
+      SEXP utf8_string = as_string(Rf_lang2(R_QuoteSymbol, get_symbol()));
       return CHAR(STRING_ELT(utf8_string, 0));
     }
 
