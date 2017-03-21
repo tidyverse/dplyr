@@ -25,6 +25,12 @@
 * Fixed segmentation fault after calling `rename()` on an invalid grouped
   data frame (#2031).
 
+* Fixed segmentation fault after calling `rename()` on an invalid grouped
+  data frame (#2031).
+
+* Error messages and explanations of data frame inequality are now encoded in
+  UTF-8, also on Windows (#2441).
+
 * Breaking change: `xxx_join.tbl_df()` by default treats all `NA` values as
   different from each other (and from any other value), so that they never
   match.  This corresponds to the behavior of joins for database sources,
