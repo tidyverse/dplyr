@@ -35,11 +35,9 @@ expression rather than by value, how can it be programmed with? Say,
 how can you change an expression and make it refer to a particular
 data frame column for which you don't know the name in advance? The
 purpose of this vignette is to present a general solution to this
-problem, which we call the tidy evaluation framework.
-
-There are two importants aspects to this framework: quoting and
-unquoting. In addition, the notion of pronouns is also helpful. We go
-over these three aspects in this vignette.
+problem, which we call the tidy evaluation framework. This framework
+has two importants aspects that we will present in turn: quoting and
+unquoting.
 
 
 ## Quoting
@@ -197,7 +195,7 @@ functions like `mutate()` behave like `quosure()` when passed an
 expression, which ensures their full programmability.
 
 
-## Unquote-splicing
+### Unquote-splicing
 
 The second important operation is unquote-splicing. Its functional
 form is `UQS()` and the syntactic shortcut is `!!!`. Like unquoting,
@@ -226,7 +224,7 @@ mtcars %>%
 ```
 
 
-## Setting variable names
+### Setting variable names
 
 There are two main ways of programmatically setting the names of
 arguments passed through dots. First you can splice a named vector as
@@ -253,18 +251,4 @@ named_dots <- rlang::set_names(dots, nms)
 summarise(mtcars, !!! dots)
 
 summarise(mtcars, !!! named_dots)
-```
-
-
-## Using pronouns
-
-A different approach to solve scoping problems is to use
-pronouns. Most tidyverse functions provide two pronouns that you can
-refer to without unquoting: `.data` refers to the data structure that
-is put in scope, and `.env` refers to the calling context. These two
-symbols are always defined:
-
-```{r}
-var <- 10
-summarise(mtcars, mean = mean(.data$cyl / .env$var))
 ```
