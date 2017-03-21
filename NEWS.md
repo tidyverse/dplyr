@@ -1,30 +1,5 @@
 # dplyr 0.5.0.9000
 
-* Error messages and explanations of data frame inequality are now encoded in
-  UTF-8, also on Windows (#2441).
-
-* Breaking change: `xxx_join.tbl_df()` by default treats all `NA` values as
-  different from each other (and from any other value), so that they never
-  match.  This corresponds to the behavior of joins for database sources,
-  and of database joins in general.  To match `NA` values, pass
-  `na_matches = "na"` to the join verbs; this is only supported for data frames.
-  The default can also be tweaked by calling
-  `pkgconfig::set_config("dplyr::na_matches", "na")` (#2033).
-
-* `summarise()` now correctly evaluates newly created factors (#2217).
-
-* `bind_rows()` and `bind_cols()` give an error for database tables (#2373).
-
-* `bind_rows()` works correctly with `NULL` arguments and an `.id` argument
-  (#2056), and also for zero-column data frames (#2175).
-
-* `mutate()` recycles list columns of length 1 (#2171).
-
-* `summarise()` now can create ordered factors (#2200).
-
-* Fixed segmentation fault after calling `rename()` on an invalid grouped
-  data frame (#2031).
-
 * Fixed segmentation fault after calling `rename()` on an invalid grouped
   data frame (#2031).
 
@@ -189,8 +164,6 @@
 
 * Ungrouped `do()` on database backends now collects all data locally first
   (#2392).
-
-* Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
 
 * Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
 
