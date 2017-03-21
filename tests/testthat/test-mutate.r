@@ -243,6 +243,14 @@ test_that("mutate strips names (#1689)", {
   expect_null(names(data$b))
 })
 
+test_that("mutate strips names of list-columns, but keeps names in original data (#2523)", {
+  vec <- list(a = 1, b = 2)
+  data <- data_frame(x = vec)
+  data <- mutate(data, x)
+  expect_identical(names(vec), c("a", "b"))
+  expect_null(names(data$x))
+})
+
 test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
   expect_error(
     data_frame(a = 1) %>% mutate(b = identity(NULL)),
