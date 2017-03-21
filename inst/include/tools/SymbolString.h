@@ -28,7 +28,10 @@ namespace dplyr {
     }
 
     const std::string get_utf8_cstring() const {
-      return Rf_translateCharUTF8(s.get_sexp());
+      static Environment rlang = Environment::namespace_env("rlang");
+      static Function as_string = Function("as_string", rlang);
+      SEXP utf8_string = as_string(Rf_ScalarString(s.get_sexp()));
+      return CHAR(STRING_ELT(utf8_string, 0));
     }
 
     const bool is_empty() const {
