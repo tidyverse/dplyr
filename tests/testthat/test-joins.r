@@ -488,7 +488,7 @@ test_that("join creates correctly named results (#855)", {
   expect_equal(res$r, x$r)
 })
 
-test_that("inner join gives same result as merge (#1281)", {
+test_that("inner join gives same result as merge if na_matches = 'na' (#1281)", {
   set.seed(75)
   x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
@@ -496,7 +496,7 @@ test_that("inner join gives same result as merge (#1281)", {
   y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
     stringsAsFactors = FALSE)
-  ij <- inner_join(x, y, by = c("cat1", "cat2"))
+  ij <- inner_join(x, y, by = c("cat1", "cat2"), na_matches = "na")
   me <- merge(x, y, by = c("cat1", "cat2"))
   expect_true(equal_data_frame(ij, me))
 })
@@ -532,7 +532,7 @@ test_that("joins handle tzone differences (#819)", {
   expect_equal(attr(left_join(df1, df1)$date, "tzone"), "America/Chicago")
 })
 
-test_that("joins matches NA in character vector by default (#892, #2033)", {
+test_that("joins matches NA in character vector if na_matches = 'na' (#892, #2033)", {
   x <- data.frame(
     id = c(NA_character_, NA_character_),
     stringsAsFactors = F
@@ -544,7 +544,7 @@ test_that("joins matches NA in character vector by default (#892, #2033)", {
     stringsAsFactors = F
   )
 
-  res <- left_join(x, y, by = "id")
+  res <- left_join(x, y, by = "id", na_matches = "na")
   expect_true(all(is.na(res$id)))
   expect_equal(res$LETTER, rep(rep(c("A", "B"), each = 2), 2))
 })
