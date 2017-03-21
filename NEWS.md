@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `summarise()` now can create ordered factors (#2200).
+
 * `bind_rows()` and `bind_cols()` give an error for database tables (#2373).
 
 * `bind_rows()` works correctly with `NULL` arguments and an `.id` argument
