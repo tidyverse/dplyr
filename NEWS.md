@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* Fixed segmentation fault after calling `rename()` on an invalid grouped
+  data frame (#2031).
+
 * Error messages and explanations of data frame inequality are now encoded in
   UTF-8, also on Windows (#2441).
 

@@ -62,7 +62,10 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
     IntegerVector positions = keep.match(label_names);
     int nl = label_names.size();
     for (int i=0; i<nl; i++) {
-      label_names[i] = new_names[ positions[i]-1 ].get_string();
+      int pos = positions[i];
+      if (pos != NA_INTEGER) {
+        label_names[i] = new_names[pos - 1].get_string();
+      }
     }
     labels.names() = label_names;
     set_vars(labels, vars);
