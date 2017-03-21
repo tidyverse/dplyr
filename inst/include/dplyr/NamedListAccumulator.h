@@ -19,8 +19,10 @@ namespace dplyr {
       if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
         check_supported_type(x, name);
 
-      if (TYPEOF(x) != VECSXP)
+      if (!Rf_isNull(Rf_getAttrib(x, R_NamesSymbol))) {
+        x = Rf_shallow_duplicate(x);
         Rf_setAttrib(x, R_NamesSymbol, R_NilValue);
+      }
 
       SymbolMapIndex index = symbol_map.insert(name);
       if (index.origin == NEW) {
