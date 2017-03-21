@@ -488,7 +488,7 @@ test_that("join creates correctly named results (#855)", {
   expect_equal(res$r, x$r)
 })
 
-test_that("inner join gives same result as merge. #1281", {
+test_that("inner join gives same result as merge (#1281)", {
   set.seed(75)
   x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
@@ -532,7 +532,7 @@ test_that("joins handle tzone differences (#819)", {
   expect_equal(attr(left_join(df1, df1)$date, "tzone"), "America/Chicago")
 })
 
-test_that("joins matches NA in character vector (#892)", {
+test_that("joins matches NA in character vector by default (#892, #2033)", {
   x <- data.frame(
     id = c(NA_character_, NA_character_),
     stringsAsFactors = F
@@ -747,4 +747,18 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
     expect_equal(res$baz, 1:6)
     expect_equal(res[[special]], 1:6)
   })
+})
+
+test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
+  df1 <- data_frame(a = NA)
+  df2 <- data_frame(a = NA, b = 1:3)
+  for (na_matches in c("na", "never")) {
+    accept_na_match <- (na_matches == "na")
+    expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + 3 * accept_na_match)
+    expect_equal(left_join(df1, df2, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
+    expect_equal(right_join(df2, df1, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
+    expect_equal(full_join(df1, df2, na_matches = na_matches) %>% nrow, 4 - accept_na_match)
+    expect_equal(anti_join(df1, df2, na_matches = na_matches) %>% nrow, 1 - accept_na_match)
+    expect_equal(semi_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + accept_na_match)
+  }
 })

@@ -1,5 +1,13 @@
 # dplyr 0.5.0.9000
 
+* Breaking change: `xxx_join.tbl_df()` by default treats all `NA` values as
+  different from each other (and from any other value), so that they never
+  match.  This corresponds to the behavior of joins for database sources,
+  and of database joins in general.  To match `NA` values, pass
+  `na_matches = "na"` to the join verbs; this is only supported for data frames.
+  The default can also be tweaked by calling
+  `pkgconfig::set_config("dplyr::na_matches", "na")` (#2033).
+
 * `summarise()` now correctly evaluates newly created factors (#2217).
 
 * `summarise()` now can create ordered factors (#2200).
