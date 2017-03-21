@@ -192,7 +192,6 @@ namespace dplyr {
         levels[it->second-1] = it->first;
       }
       set_levels(res, levels);
-      set_class(res, "factor");
       return res;
     }
 

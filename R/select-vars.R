@@ -42,7 +42,7 @@
 #' select_vars(names(iris), !!! list(~Petal.Length))
 #' select_vars(names(iris), !! quote(Petal.Length))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- tidy_quotes(...)
+  args <- dots_quosures(...)
 
   if (is_empty(args)) {
     vars <- setdiff(include, exclude)
@@ -62,8 +62,8 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   # Evaluate symbols in an environment where columns are bound, but
   # not calls (select helpers are scoped in the calling environment)
   is_helper <- map_lgl(args, function(x) is_lang(x) && !is_lang(x, c("-", ":")))
-  ind_list <- map_if(args, is_helper, tidy_eval)
-  ind_list <- map_if(ind_list, !is_helper, tidy_eval, names_list)
+  ind_list <- map_if(args, is_helper, eval_tidy)
+  ind_list <- map_if(ind_list, !is_helper, eval_tidy, names_list)
 
   ind_list <- c(initial_case, ind_list)
   names(ind_list) <- c(names2(initial_case), names2(args))
@@ -114,7 +114,7 @@ setdiff2 <- function(x, y) {
 #' @export
 #' @rdname select_vars
 rename_vars <- function(vars, ...) {
-  args <- tidy_quotes(...)
+  args <- dots_quosures(...)
   if (any(names2(args) == "")) {
     abort("All arguments to `rename()` must be named.")
   }

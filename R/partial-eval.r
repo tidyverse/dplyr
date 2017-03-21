@@ -57,7 +57,7 @@ partial_eval <- function(call, vars = character(), env = caller_env()) {
     complex = ,
     string = ,
     character = call,
-    quote = set_expr(call, partial_eval(f_rhs(call), vars, f_env(call))),
+    quosure = set_expr(call, partial_eval(f_rhs(call), vars, f_env(call))),
     list = {
       if (inherits(call, "lazy_dots")) {
         call <- compat_lazy_dots(call, env)
@@ -73,7 +73,7 @@ sym_partial_eval <- function(call, vars, env) {
   if (name %in% vars) {
     call
   } else if (env_has(env, name, inherit = TRUE)) {
-    expr_eval(call, env)
+    eval_bare(call, env)
   } else {
     call
   }
@@ -84,16 +84,16 @@ lang_partial_eval <- function(call, vars, env) {
     # Evaluate locally if complex CAR
     inlined = ,
     namespaced = ,
-    recursive = expr_eval(call, env),
+    recursive = eval_bare(call, env),
     named = {
       # Process call arguments recursively, unless user has manually called
       # remote/local
       name <- as_name(node_car(call))
       if (name == "local") {
-        expr_eval(call[[2]], env)
+        eval_bare(call[[2]], env)
       } else if (name %in% c("$", "[[", "[")) {
         # Subsetting is always done locally
-        expr_eval(call, env)
+        eval_bare(call, env)
       } else if (name == "remote") {
         call[[2]]
       } else {

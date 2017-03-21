@@ -171,7 +171,7 @@ do.grouped_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- tidy_quotes(...)
+  args <- dots_quosures(...)
   named <- named_args(args)
   env <- child_env(NULL)
 
@@ -186,7 +186,7 @@ do.grouped_df <- function(.data, ...) {
       out <- label_output_list(labels, out, groups(.data))
     } else {
       env_bind(env, list(. = group_data, .data = group_data))
-      out <- tidy_eval_(args[[1]], env)[0, , drop = FALSE]
+      out <- eval_tidy_(args[[1]], env)[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
     return(out)

@@ -118,7 +118,7 @@ probe_colwise_names <- function(tbl, p, ...) {
 
   vars <- tbl_vars(tbl)
   vars <- vars[selected]
-  symbols(vars)
+  syms(vars)
 }
 
 #' @rdname summarise_all
@@ -162,7 +162,7 @@ summarize_if <- summarise_if
 #' @seealso [summarise_all()]
 #' @export
 vars <- function(...) {
-  structure(tidy_quotes(...), class = "col_list")
+  structure(dots_quosures(...), class = "col_list")
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
@@ -170,11 +170,11 @@ select_colwise_names <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
   if (is_character(cols)) {
-    selected <- symbols(cols)
+    selected <- syms(cols)
   } else if (is_col_list(cols)) {
     selected <- cols
   } else if (is.numeric(cols)) {
-    selected <- symbols(vars[cols])
+    selected <- syms(vars[cols])
   } else {
     abort(".cols should be a character/numeric vector or a columns object")
   }
@@ -186,8 +186,8 @@ select_colwise_names <- function(tbl, cols) {
 apply_vars <- function(funs, vars, tbl) {
   stopifnot(is_fun_list(funs))
 
-  named_calls <- attr(funs, "have_names")
-  named_vars <- any(have_names(vars))
+  named_calls <- attr(funs, "have_name")
+  named_vars <- any(have_name(vars))
   vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
   out <- vector("list", length(vars) * length(funs))
@@ -195,7 +195,7 @@ apply_vars <- function(funs, vars, tbl) {
 
   for (i in seq_along(vars)) {
     for (j in seq_along(funs)) {
-      var_sym <- symbol(vars[[i]])
+      var_sym <- sym(vars[[i]])
       out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }
@@ -233,7 +233,7 @@ apply_vars <- function(funs, vars, tbl) {
 #'   be either a list of expressions or a character vector.
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, tidy_quotes(...))
+  summarise_each_(tbl, funs, dots_quosures(...))
 }
 
 #' @export
@@ -269,7 +269,7 @@ mutate_each <- function(tbl, funs, ...) {
     funs <- funs_(funs)
   }
 
-  mutate_each_(tbl, funs, tidy_quotes(...))
+  mutate_each_(tbl, funs, dots_quosures(...))
 }
 
 #' @export

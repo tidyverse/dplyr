@@ -44,6 +44,17 @@ test_that("summarise can refer to variables that were just created (#138)", {
   expect_equal(res$cyl2, res_direct$cyl2)
 })
 
+test_that("summarise can refer to factor variables that were just created (#2217)", {
+  df <- data_frame(a = 1:3) %>%
+    group_by(a)
+  res <- df %>%
+    summarise(f = factor(if_else(a <= 1, "a", "b")), g = (f == "a"))
+  expect_equal(
+    res,
+    data_frame(a = 1:3, f = factor(c("a", "b", "b")), g = c(TRUE, FALSE, FALSE))
+  )
+})
+
 test_that("summarise refuses to modify grouping variable (#143)", {
   df <- data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4)
   ds <- group_by(tbl_df(df), a, b)
@@ -875,7 +886,6 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
 })
 
 test_that("calculating an ordered factor preserves order (#2200)", {
-  skip("Currently failing")
   test_df <- tibble(
     id = c("a", "b"),
     val = 1:2
@@ -889,7 +899,6 @@ test_that("calculating an ordered factor preserves order (#2200)", {
 })
 
 test_that("min, max preserves ordered factor data  (#2200)", {
-  skip("Currently failing")
   test_df <- tibble(
     id = rep(c("a", "b"), 2),
     ord = ordered(c("A", "B", "B", "A"), levels = c("A", "B"))

@@ -102,6 +102,9 @@ template <typename Data, typename Subsets>
 DataFrame filter_grouped_single_env(const Data& gdf, const QuosureList& quosures) {
   typedef GroupedCallProxy<Data, Subsets> Proxy;
   Environment env = quosures[0].env();
+  // FIXME: hacky fix until we switch to tidyeval
+  if (((SEXP) env) == R_EmptyEnv)
+    env = R_BaseEnv;
 
   const DataFrame& data = gdf.data();
   SymbolVector names(data.names());
@@ -226,6 +229,11 @@ DataFrame filter_not_grouped(DataFrame df, const QuosureList& quosures) {
   }
   if (quosures.single_env()) {
     Environment env = quosures[0].env();
+
+    // FIXME: hacky fix until we switch to tidyeval
+    if (((SEXP) env) == R_EmptyEnv)
+      env = R_BaseEnv;
+
     // a, b, c ->  a & b & c
     Shield<SEXP> call(and_calls(quosures, set, env));
 
