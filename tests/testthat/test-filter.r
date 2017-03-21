@@ -38,6 +38,11 @@ test_that("filter gives useful error message when given incorrect input", {
   expect_error(filter(tbl_df(mtcars), x), "unknown column")
 })
 
+test_that("filter gives UTF-8 encoded column names (#2441)", {
+  df <- data_frame(a = factor(1:3)) %>% rename("\u5e78" := a)
+  expect_error(filter(df, `<U+798F>`), "unknown column : \u798f")
+})
+
 test_that("filter complains in inputs are named", {
   expect_error(filter(mtcars, x = 1), "takes unnamed arguments")
   expect_error(filter(mtcars, x = 1 & y > 2), "takes unnamed arguments")

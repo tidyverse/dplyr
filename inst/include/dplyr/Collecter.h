@@ -293,7 +293,7 @@ namespace dplyr {
     }
 
     std::string describe() const {
-      return collapse<STRSXP>(types);
+      return collapse_utf8<STRSXP>(types);
     }
 
   private:
@@ -333,7 +333,7 @@ namespace dplyr {
     }
 
     std::string describe() const {
-      return collapse<STRSXP>(get_time_classes());
+      return collapse_utf8<STRSXP>(get_time_classes());
     }
 
   private:
@@ -388,7 +388,7 @@ namespace dplyr {
     }
 
     std::string describe() const {
-      return collapse<STRSXP>(types);
+      return collapse_utf8<STRSXP>(types);
     }
 
   private:
