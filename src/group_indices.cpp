@@ -46,7 +46,7 @@ DataFrame build_index_cpp(DataFrame data) {
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
     if (pos == NA_INTEGER) {
-      stop("unknown column '%s' ", vars[i].get_cstring());
+      stop("unknown column '%s' ", vars[i].get_utf8_cstring());
     }
 
     SEXP v = data[pos-1];
@@ -54,7 +54,7 @@ DataFrame build_index_cpp(DataFrame data) {
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
       stop(
         "cannot group column %s, of class '%s'",
-        vars[i].get_cstring(),
+        vars[i].get_utf8_cstring(),
         get_single_class(v));
     }
   }

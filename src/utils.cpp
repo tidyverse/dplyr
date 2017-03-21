@@ -12,20 +12,19 @@ void assert_all_white_list(const DataFrame& data) {
   int nc = data.size();
   for (int i=0; i<nc; i++) {
     if (!white_list(data[i])) {
-      CharacterVector names = data.names();
-      String name_i = names[i];
+      SymbolVector names = data.names();
+      const SymbolString& name_i = names[i];
       SEXP v = data[i];
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
         stop("column '%s' has unsupported class : %s",
-             name_i.get_cstring() , get_single_class(v));
+             name_i.get_utf8_cstring() , get_single_class(v));
       }
       else {
         stop("column '%s' has unsupported type : %s",
-             name_i.get_cstring() , Rf_type2char(TYPEOF(v)));
+             name_i.get_utf8_cstring() , Rf_type2char(TYPEOF(v)));
       }
-
     }
   }
 }
@@ -83,7 +82,7 @@ namespace dplyr {
     SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
     if (!Rf_isNull(klass)) {
       CharacterVector classes(klass);
-      return collapse(classes);
+      return collapse_utf8(classes);
     }
 
     if (Rf_isMatrix(x)) {

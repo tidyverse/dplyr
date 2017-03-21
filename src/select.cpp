@@ -8,8 +8,7 @@ using namespace Rcpp;
 using namespace dplyr;
 
 SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
-  CharacterVector names = df.names();
-  IntegerVector positions = keep.match_in_table(names);
+  IntegerVector positions = keep.match_in_table(df.names());
   int n = keep.size();
   List res(n);
   for (int i=0; i<n; i++) {
@@ -22,7 +21,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
         s << pos;
       }
       stop("invalid column index : %d for variable: %s = %s",
-           s.str(), new_names[i].get_cstring(), keep[i].get_cstring());
+           s.str(), new_names[i].get_utf8_cstring(), keep[i].get_utf8_cstring());
     }
     res[i] = df[ pos-1 ];
   }

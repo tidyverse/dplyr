@@ -14,7 +14,7 @@ using namespace dplyr;
 
 Result* count_prototype(SEXP args, const ILazySubsets&, int) {
   if (Rf_length(args) != 1)
-    stop("n does not take arguments");
+    stop("n() does not take arguments");
   return new Count;
 }
 
