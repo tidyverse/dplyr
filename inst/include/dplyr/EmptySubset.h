@@ -2,6 +2,11 @@
 #define dplyr_EmptySubset_H
 
 namespace dplyr {
-  class EmptySubset {};
+  class EmptySubset {
+  public:
+    int size() const {
+      return 0;
+    }
+  };
 }
 #endif

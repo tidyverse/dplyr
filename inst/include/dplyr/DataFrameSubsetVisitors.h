@@ -65,7 +65,7 @@ namespace dplyr {
         out[k] = get(k)->subset(index);
       }
       copy_most_attributes(out, data);
-      structure(out, Rf_length(out[0]) , classes);
+      structure(out, output_size(index), classes);
       return out;
     }
 

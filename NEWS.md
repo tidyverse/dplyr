@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* Fixed undefined behavior for `slice()` on a zero-column data frame (#2490).
+
 * Fixed segmentation fault after calling `rename()` on an invalid grouped
   data frame (#2031).
 
