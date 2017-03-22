@@ -7,6 +7,11 @@
 
 namespace dplyr {
 
+  template <typename Container>
+  inline int output_size(const Container& container) {
+    return container.size();
+  }
+
   /**
    * Subset Vector visitor base class, defines the interface
    */
@@ -27,8 +32,6 @@ namespace dplyr {
      *  copying elements at the given indices
      */
     virtual SEXP subset(const ChunkIndexMap& index) const = 0;
-
-    virtual SEXP subset(const Rcpp::LogicalVector& index) const = 0;
 
     virtual SEXP subset(EmptySubset) const = 0;
 
