@@ -59,36 +59,14 @@ namespace dplyr {
     }
 
     template <typename Container>
-    DataFrame subset_impl(const Container& index, const CharacterVector& classes, Rcpp::traits::false_type) const {
+    DataFrame subset(const Container& index, const CharacterVector& classes) const {
       List out(nvisitors);
       for (int k=0; k<nvisitors; k++) {
         out[k] = get(k)->subset(index);
       }
       copy_most_attributes(out, data);
-      structure(out, Rf_length(out[0]) , classes);
+      structure(out, output_size(index), classes);
       return out;
-    }
-
-    template <typename Container>
-    DataFrame subset_impl(const Container& index, const CharacterVector& classes, Rcpp::traits::true_type) const {
-      int n = index.size();
-      int n_out = std::count(index.begin(), index.end(), TRUE);
-      IntegerVector idx = no_init(n_out);
-      for (int i=0, k=0; i<n; i++) {
-        if (index[i] == TRUE) {
-          idx[k++] = i;
-        }
-      }
-      return subset_impl(idx, classes, Rcpp::traits::false_type());
-    }
-
-    template <typename Container>
-    inline DataFrame subset(const Container& index, const CharacterVector& classes) const {
-      return
-        subset_impl(
-          index, classes,
-          typename Rcpp::traits::same_type<Container, LogicalVector>::type()
-        );
     }
 
     inline int size() const {
@@ -116,6 +94,19 @@ namespace dplyr {
     }
 
   };
+
+  template <>
+  inline DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, const CharacterVector& classes) const {
+    const int n = index.size();
+    std::vector<int> idx;
+    idx.reserve(n);
+    for (int i=0; i<n; i++) {
+      if (index[i] == TRUE) {
+        idx.push_back(i);
+      }
+    }
+    return subset(idx, classes);
+  }
 
   template <typename Index>
   DataFrame subset(DataFrame df, const Index& indices, const SymbolVector& columns, const CharacterVector& classes) {
