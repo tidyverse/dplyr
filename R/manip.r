@@ -299,8 +299,8 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Comma separated list of unquoted expressions. You can treat
-#'   variable names like they are positions.
+#' @param ... One or more unquoted expressions separated by commas.
+#'   You can treat variable names like they are positions.
 #'
 #'   Positive values select variables; negative values to drop variables.
 #'
