@@ -8,37 +8,132 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-```{r, echo = FALSE, message = FALSE}
+```{r setup, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
 
-The important verbs in dplyr take their arguments by expression rather
-than by value. Instead of evaluating the arguments and getting their
-_value_, these functions capture the _expression_ typed by the user.
-This is why dplyr is able to compute expressions containing symbols
-that refer to the columns of a data frame rather than to regular
-variables assigned by the user with `<-`. This is also why it is able
-to record expressions lazily (without evaluation) and translate the R
-code into SQL. Dplyr's interface is a domain-specific language (DSL)
-tailored to the task at hand: operating on a data frame or a remote
-table.
+The key dplyr verbs take their arguments by expression rather
+than by value. This means that instead of evaluating the arguments working with their values, they capture the expression, you typed. This has two main benefits:
 
-Bypassing evaluation is a crucial technique to create smart interfaces
-that let the user express their thoughts more succintly and
-directly. However, this mechanism makes it hard to program with
-expression-based functions. This is because programming is all about
-varying values: storing data within variables and changing the
-contents of these data with functions. If dplyr takes arguments by
-expression rather than by value, how can it be programmed with? Say,
-how can you change an expression and make it refer to a particular
-data frame column for which you don't know the name in advance? The
-purpose of this vignette is to present a general solution to this
-problem, which we call the tidy evaluation framework. This framework
-has two importants aspects that we will present in turn: quoting and
-unquoting.
+*   Operations on data frames can be expressed more succinctly because
+    in expressions like `filter(df, x == 1, y == 2, z == 3)` dplyr
+    assumes that `x`, `y`, and `z` are variables in df.
+    
+*   dplyr doesn't need to compute the results as same way as base R.
+    For example, for remote tables, dplyr doesn't do any computation
+    but instead generates SQL that causes the remote database to do 
+    the computation.
 
+Unfortunately these benefits do not come for free. There are two main costs:
+
+*   dplyr code is not referentially transparent. That means that you
+    can not replace a variable with it's value. In other words,
+    this code:
+    
+    ```{r, eval = FALSE}
+    filter(df, my_var == 1)
+    ```
+    
+    Is not equivalent to this code:
+    
+    ```{r, eval = FALSE}
+    var <- my_var
+    filter(df, var == 1)
+    ```
+    
+    This makes it harder to create functions that replace 
+    copied-and-pasted code.
+    
+*   dplyr code is ambiguous. Depending on what variables are
+    defined where, `filter(df, x == y)` could be equivalent
+    to any of:
+
+    ```{r, eval = FALSE}
+    df[df$x == df$y, ]
+    df[df$x == y, ]
+    df[x == df$y, ]
+    df[x == y, ]
+    ```
+    
+    This ambiguity makes functions that use dplyr more unpredictable
+    than you might desire.
+    
+The goal of this vignette is to show you how to use dplyr's __quasiquotation__ and __pronouns__ to resolve both these issues, allowing to you write functions to reduce copy-and-paste. Rather than diving into the theory behind these ideas (called tidyeval), we'll start with a few recipes showing you how to reduce duplication in common copy and paste scenarios.
+
+## Programming recipes
+
+### Different data sets
+
+```{r, eval = FALSE}
+mutate(df1, y = a + x)
+mutate(df2, y = a + x)
+mutate(df3, y = a + x)
+mutate(df4, y = a + x)
+
+# OK, but if `a` or `x` is not in `df`, will look
+# in environment
+mutate_y <- function(df) {
+  mutate(df, y = a + x)
+}
+
+# Use .data "pronoun" to ensure that mutate() only looks
+# in data, not environment. IF `a` and `x` are not present 
+# in `df`, then this will throw an error. Additionally, if
+# this code is in a package, it avoids an R CMD CHECK note
+# (you will need to import rlang::.data)
+mutate_y <- function(df) {
+  mutate(df, y = .data$a + .data$x)
+}
+```
+
+### Different input variable
+
+```{r, eval = FALSE}
+summarise(df, mean(a))
+summarise(df, mean(b))
+summarise(df, mean(c))
+summarise(df, mean(e ^ 2))
+
+# Use !! to "unquote" expr, inserting it's value into
+# the expression
+summarise_mean <- function(df, expr) {
+  summarise(df, mean(!!expr))
+}
+```
+
+### Different input and output variable
+
+```{r, eval = FALSE}
+summarise(df, mean_a = mean(a))
+summarise(df, mean_b = mean(b))
+summarise(df, mean_c = mean(c))
+
+# Use := to change the name of a function argument
+# (necessary because !!x == y is not valid R code)
+summarise_mean <- function(df, expr) {
+  new_name <- paste0("mean_", expr_text(expr))
+  summarise(df, !!new_name := mean(!!expr))
+}
+
+# Note that this will generate non-syntactic names
+# if expr contains a space or other special character
+```
+
+### Different arguments
+
+```{r, eval = FALSE}
+summarise_mean(df, mean(a, na.rm = TRUE))
+summarise_mean(df, mean(b))
+summarise_mean(df, mean(c, trim = 0.2))
+
+summarise_mean <- function(df, var, ...) {
+  # Capture unevaluated dots
+  dots <- rlang::quosures(...)
+  summarise(df, mean(!!var, !!!dots))
+}
+```
 
 ## Quoting
 
