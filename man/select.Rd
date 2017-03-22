@@ -13,8 +13,8 @@ rename(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
-\item{...}{Comma separated list of unquoted expressions. You can treat
-variable names like they are positions.
+\item{...}{One or more unquoted expressions separated by commas.
+You can treat variable names like they are positions.
 
 Positive values select variables; negative values to drop variables.
 
