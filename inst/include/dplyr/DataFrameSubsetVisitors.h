@@ -98,11 +98,11 @@ namespace dplyr {
   template <>
   inline DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, const CharacterVector& classes) const {
     int n = index.size();
-    int n_out = std::count(index.begin(), index.end(), TRUE);
-    IntegerVector idx = no_init(n_out);
-    for (int i=0, k=0; i<n; i++) {
+    std::vector<int> idx;
+    idx.reserve(index.length());
+    for (int i=0; i<n; i++) {
       if (index[i] == TRUE) {
-        idx[k++] = i;
+        idx.push_back(i);
       }
     }
     return subset(idx, classes);
