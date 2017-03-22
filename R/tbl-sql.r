@@ -516,7 +516,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
       # Update pronouns within the overscope
       env$. <- env$.data <- cur_chunk
       for (k in seq_len(m)) {
-        out[[k]][i + j] <<- list(overscope_eval(overscope, args[[k]]))
+        out[[k]][i + j] <<- list(overscope_eval_next(overscope, args[[k]]))
         p$tick()$print()
       }
     }
@@ -527,7 +527,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
   if (!is_null(last_group)) {
     env$. <- env$.data <- last_group
     for (k in seq_len(m)) {
-      out[[k]][i + 1] <- list(overscope_eval(overscope, args[[k]]))
+      out[[k]][i + 1] <- list(overscope_eval_next(overscope, args[[k]]))
       p$tick()$print()
     }
   }

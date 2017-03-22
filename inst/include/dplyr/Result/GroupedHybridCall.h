@@ -67,7 +67,7 @@ namespace dplyr {
 
       // Install definitions for formula self-evaluation and unguarding
       Function new_overscope = rlang_object("new_overscope");
-      overscope = new_overscope(bottom, active_env);
+      overscope = new_overscope(bottom, active_env, env);
 
       has_overscope = true;
     }
@@ -212,13 +212,7 @@ namespace dplyr {
 
       if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
         LOG_VERBOSE << "performing evaluation in overscope";
-        static Function overscope_eval = rlang_object("overscope_eval");
-
-        // FIXME: The class should be constructed around a quosure
-        //        rather than call + env
-        Shield<SEXP> quo(quosure(call, env));
-
-        return overscope_eval(hybrid_env.get_overscope(), (SEXP) quo);
+        return Rcpp_eval(call, hybrid_env.get_overscope());
       }
       return call;
     }

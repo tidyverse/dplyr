@@ -21,7 +21,7 @@ Imports:
     magrittr,
     methods,
     pkgconfig,
-    rlang (>= 0.0.0.9001),
+    rlang (>= 0.0.0.9002),
     R6,
     Rcpp (>= 0.12.6),
     tibble (>= 1.2),
@@ -142,5 +142,5 @@ Collate:
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang@1eeb44d57c3,
+    hadley/rlang@27d7953,
     tidyverse/glue

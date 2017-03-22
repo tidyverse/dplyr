@@ -135,7 +135,7 @@ translate_sql_ <- function(dots,
     } else {
       overscope <- sql_overscope(x, variant, con, window = window)
       on.exit(overscope_clean(overscope))
-      escape(overscope_eval(overscope, x))
+      escape(overscope_eval_next(overscope, x))
     }
   })
 
