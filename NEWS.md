@@ -32,8 +32,9 @@
 * dplyr now warns on load when the version of R or Rcpp during installation is
   different to the currently installed version (#2514).
 
-* Joins now always reencode character columns to UTF-8 if necessary.This relies
-  on a proper encoding tag for all strings (#2514).
+* Joins now always reencode character columns to UTF-8 if necessary. This gives
+  a nice speedup, because now pointer comparison can be used instead of string
+  comparison, but relies on a proper encoding tag for all strings (#2514).
 
 * Fixed improper reuse of attributes when creating a list column in `summarise()`
   and perhaps `mutate()` (#2231).

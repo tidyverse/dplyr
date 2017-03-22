@@ -10,16 +10,6 @@
 
 namespace dplyr {
 
-  template <typename Container>
-  inline int output_size(const Container& container) {
-    return container.size();
-  }
-
-  template <>
-  inline int output_size<LogicalVector>(const LogicalVector& container) {
-    return std::count(container.begin(), container.end(), TRUE);
-  }
-
   template <int RTYPE> std::string VectorVisitorType();
   template <> inline std::string VectorVisitorType<INTSXP>() {
     return "integer";

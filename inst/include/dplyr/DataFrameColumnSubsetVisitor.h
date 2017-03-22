@@ -25,10 +25,6 @@ namespace dplyr {
       return visitors.subset(index, get_class(data));
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      return visitors.subset(index, get_class(data));
-    }
-
     inline SEXP subset(EmptySubset index) const {
       return visitors.subset(index, get_class(data));
     }

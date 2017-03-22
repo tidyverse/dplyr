@@ -46,17 +46,6 @@ namespace dplyr {
       return out;
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      int n = output_size(index);
-      VECTOR out = Rcpp::no_init(n);
-      for (int i=0, k=0; k<n; k++, i++) {
-        while (index[i] != TRUE) i++;
-        out[k] = vec[i];
-      }
-      copy_most_attributes(out, vec);
-      return out;
-    }
-
     inline SEXP subset(EmptySubset) const {
       VECTOR out(0);
       copy_most_attributes(out, vec);
@@ -131,10 +120,6 @@ namespace dplyr {
       return promote(Parent::subset(map));
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      return promote(Parent::subset(index));
-    }
-
     inline SEXP subset(EmptySubset empty) const {
       return promote(Parent::subset(empty));
     }
@@ -203,10 +188,6 @@ namespace dplyr {
     }
 
     virtual SEXP subset(const ChunkIndexMap& index) const {
-      return impl->subset(index);
-    }
-
-    virtual SEXP subset(const Rcpp::LogicalVector& index) const {
       return impl->subset(index);
     }
 
