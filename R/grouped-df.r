@@ -214,7 +214,7 @@ do.grouped_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(overscope_eval(overscope, args[[j]]))
+      out[[j]][`_i`] <- list(overscope_eval_next(overscope, args[[j]]))
       p$tick()$print()
     }
   }
