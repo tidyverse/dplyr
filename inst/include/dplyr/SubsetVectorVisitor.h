@@ -7,6 +7,11 @@
 
 namespace dplyr {
 
+  template <typename Container>
+  inline int output_size(const Container& container) {
+    return container.size();
+  }
+
   /**
    * Subset Vector visitor base class, defines the interface
    */
