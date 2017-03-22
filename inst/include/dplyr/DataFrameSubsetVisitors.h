@@ -97,9 +97,9 @@ namespace dplyr {
 
   template <>
   inline DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, const CharacterVector& classes) const {
-    int n = index.size();
+    const int n = index.size();
     std::vector<int> idx;
-    idx.reserve(index.length());
+    idx.reserve(n);
     for (int i=0; i<n; i++) {
       if (index[i] == TRUE) {
         idx.push_back(i);
