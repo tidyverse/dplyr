@@ -28,8 +28,6 @@ namespace dplyr {
      */
     virtual SEXP subset(const ChunkIndexMap& index) const = 0;
 
-    virtual SEXP subset(const Rcpp::LogicalVector& index) const = 0;
-
     virtual SEXP subset(EmptySubset) const = 0;
 
     virtual int size() const = 0;
