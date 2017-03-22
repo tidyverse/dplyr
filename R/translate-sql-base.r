@@ -75,7 +75,11 @@ base_scalar <- sql_translator(
   exp     = sql_prefix("exp", 1),
   floor   = sql_prefix("floor", 1),
   log     = function(x, base = exp(1)) {
-    build_sql(sql("log"), list(base, x))
+    if (isTRUE(all.equal(base, exp(1)))) {
+      build_sql(sql("ln"), list(x))
+    } else {
+      build_sql(sql("log"), list(base, x))
+    }
   },
   log10   = sql_prefix("log10", 1),
   round   = sql_prefix("round", 2),
