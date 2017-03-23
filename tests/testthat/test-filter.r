@@ -40,7 +40,7 @@ test_that("filter gives useful error message when given incorrect input", {
 
 test_that("filter gives UTF-8 encoded column names (#2441)", {
   df <- data_frame(a = factor(1:3)) %>% rename("\u5e78" := a)
-  expect_error(filter(df, `<U+798F>`), "object '\u798f' not found")
+  expect_error(filter(df, `<U+798F>`), "object '<U\\+798F>' not found")
 })
 
 test_that("filter complains in inputs are named", {

@@ -168,7 +168,7 @@ namespace dplyr {
         try {
           data = env.find(sym.get_string());
         } catch (Rcpp::binding_not_found) {
-          stop("object '%s' not found\n", sym.get_utf8_cstring());
+          return NULL;
         }
 
         // Constants of length != 1 are handled via regular evaluation
