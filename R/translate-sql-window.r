@@ -20,10 +20,7 @@
 #' win_over("avg(x)", order = c("x", "y"))
 #' win_over("avg(x)", frame = c(-Inf, 0), order = "y")
 win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
-  if (length(partition) == 0) {
-    partition <- NULL
-  }
-  if (!is.null(partition)) {
+  if (length(partition) > 0) {
     if (!is.sql(partition)) {
       partition <- ident(partition)
     }
@@ -37,7 +34,8 @@ win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
       )
     )
   }
-  if (!is.null(order)) {
+
+  if (length(order) > 0) {
     if (!is.sql(order)) {
       order <- ident(order)
     }
@@ -51,8 +49,8 @@ win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
       )
     )
   }
-  if (!is.null(frame)) {
-    if (is.null(order)) {
+  if (length(frame) > 0) {
+    if (length(order) == 0) {
       warning(
         "Windowed expression '", expr, "' does not have explicit order.\n",
         "Please use arrange() to make determinstic.",
