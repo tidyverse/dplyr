@@ -82,8 +82,8 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
-filter_impl <- function(df, quosures) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, quosures)
+filter_impl <- function(df, quo) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, quo)
 }
 
 grouped_df_impl <- function(data, symbols, drop) {

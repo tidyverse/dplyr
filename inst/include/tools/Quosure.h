@@ -16,7 +16,11 @@ namespace dplyr {
 
   class NamedQuosure {
   public:
-    NamedQuosure(const Formula& data_, SymbolString name__) :
+    NamedQuosure(SEXP data_, SymbolString name__ = "") :
+      data(data_),
+      name_(name__)
+    {}
+    NamedQuosure(const Formula& data_, SymbolString name__ = "") :
       data(data_),
       name_(name__)
     {}
