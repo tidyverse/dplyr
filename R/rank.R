@@ -53,7 +53,13 @@ row_number <- function(x) rank(x, ties.method = "first", na.last = "keep")
 #' @export
 #' @rdname ranking
 ntile <- function(x, n) {
-  as.integer(floor((n * (row_number(x) - 1) / length(x)) + 1))
+  len <- sum(!is.na(x))
+
+  if (len == 0L) {
+    rep(NA_integer_, length(x))
+  } else {
+    as.integer(floor(n * (row_number(x) - 1)/len + 1))
+  }
 }
 
 #' @export

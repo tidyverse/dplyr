@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* `ntile()` ignores `NA` when computing group membership (#2564).
+
 * `between()` returns NA if `left` or `right` is `NA` (fixes #2562).
 
 * `substr()` is now translated to SQL, correcting for the difference
