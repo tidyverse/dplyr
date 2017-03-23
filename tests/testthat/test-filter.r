@@ -297,7 +297,7 @@ test_that("filter(FALSE) drops indices", {
     group_by(cyl) %>%
     filter(FALSE) %>%
     attr("indices")
-  expect_equal(out, NULL)
+  expect_identical(out, list())
 })
 
 test_that("filter handles S4 objects (#1366)", {
