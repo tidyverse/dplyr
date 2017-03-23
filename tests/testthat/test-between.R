@@ -10,3 +10,7 @@ test_that("compatible with base R", {
   x <- runif(1e3)
   expect_equal(between(x, 0.25, 0.5), x >= 0.25 & x <= 0.5)
 })
+
+test_that("warns when called on S3 object", {
+  expect_warning(between(factor(1:5), 1, 3), "numeric vector with S3 class")
+})

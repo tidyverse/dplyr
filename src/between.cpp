@@ -18,6 +18,10 @@ LogicalVector between(NumericVector x, double left, double right) {
   int n = x.size();
   LogicalVector out = no_init(n);
 
+  if (x.attr("class") != R_NilValue) {
+    warningcall(R_NilValue, "between() called on numeric vector with S3 class");
+  }
+
   if (NumericVector::is_na(left) || NumericVector::is_na(right)) {
     for (int i = 0; i < n; ++i)
       out[i] = NA_REAL;
