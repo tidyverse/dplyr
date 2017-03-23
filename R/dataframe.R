@@ -68,7 +68,7 @@ filter_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   slice_impl(.data, dots)
 }
 #' @export
@@ -192,7 +192,7 @@ distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 #' @export
 do.data.frame <- function(.data, ...) {
-  args <- dots_quosures(...)
+  args <- quos(...)
   named <- named_args(args)
 
   # Create custom dynamic scope with `.` pronoun

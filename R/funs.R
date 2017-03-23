@@ -22,7 +22,7 @@
 #' fs <- c("min", "max")
 #' funs_(fs)
 funs <- function(..., .args = list()) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   dots <- map(dots, funs_make_call, args = .args)
 
   names(dots) <- names2(dots)

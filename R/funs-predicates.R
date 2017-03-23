@@ -15,7 +15,7 @@ any_of <- function(..., .vectorised = TRUE) {
 quo_reduce <- function(..., .op) {
   stopifnot(is_symbol(.op) || is_function(.op))
 
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   if (length(dots) == 0) {
     abort("There should be at least one expression")
   } else if (length(dots) == 1) {

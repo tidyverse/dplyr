@@ -42,7 +42,7 @@
 #' select_vars(names(iris), !!! list(~Petal.Length))
 #' select_vars(names(iris), !! quote(Petal.Length))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- dots_quosures(...)
+  args <- quos(...)
 
   if (is_empty(args)) {
     vars <- setdiff(include, exclude)
@@ -114,7 +114,7 @@ setdiff2 <- function(x, y) {
 #' @export
 #' @rdname select_vars
 rename_vars <- function(vars, ...) {
-  args <- dots_quosures(...)
+  args <- quos(...)
   if (any(names2(args) == "")) {
     abort("All arguments to `rename()` must be named.")
   }

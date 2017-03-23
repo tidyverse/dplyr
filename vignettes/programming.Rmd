@@ -12,10 +12,10 @@ knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 
-quo <- rlang::quosure
-quos <- rlang::dots_quosures
-enquo <- rlang::catch_quosure
-quo_name <- rlang::quo_text
+quo <- rlang::quo
+quos <- rlang::quos
+enquo <- rlang::enquo
+quo_name <- rlang::quo_name
 ```
 
 Most dplyr functions use non-standard evaluation (NSE). This is a catch-all term that means they don't follow the usual R rules of evaluation. Instead, they capture the expression that you typed and evaluate in a custom way. This has two main benefits for dplyr code:
@@ -449,7 +449,7 @@ my_mutate(expr2)
 In a way, `quo()` is tidyeval's most fundamental expression-based
 function. It captures its expression and returns it without any
 modification, post-processing, or evaluation. But all tidyeval
-functions like `mutate()` behave like `quosure()` when passed an
+functions like `mutate()` behave like `quo()` when passed an
 expression, which ensures their full programmability.
 
 ### Unquote-splicing
@@ -461,14 +461,14 @@ is a vector, each element of the vector becomes an argument in the
 surrounding function call:
 
 ```{r}
-quosure(list(!!! letters[1:5]))
+quo(list(!!! letters[1:5]))
 ```
 
 A very useful feature of unquote-splicing is that the vector names
 become argument names:
 
 ```{r}
-quosure(list(!!! list(foo = 1L, bar = quote(baz))))
+quo(list(!!! list(foo = 1L, bar = quote(baz))))
 ```
 
 This is of course handy to program with dplyr verbs taking named dots:

@@ -9,7 +9,7 @@ warn_underscored <- function() {
   warn(paste(
     "The underscored versions are deprecated in favour of",
     "tidy evaluation idioms. Please see the documentation",
-    "for `quosure()` in rlang"
+    "for `quo()` in rlang"
   ))
 }
 warn_text_se <- function() {
@@ -65,7 +65,7 @@ compat_as_lazy <- function(quo) {
   ))
 }
 compat_as_lazy_dots <- function(...) {
-  structure(class = "lazy_dots", map(dots_quosures(...), compat_as_lazy))
+  structure(class = "lazy_dots", map(quos(...), compat_as_lazy))
 }
 
 

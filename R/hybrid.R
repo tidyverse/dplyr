@@ -7,7 +7,7 @@ verify_not_hybrid <- function(x) {
 }
 
 with_hybrid <- function(expr, ...) {
-  with_hybrid_(catch_quosure(expr), ...)
+  with_hybrid_(enquo(expr), ...)
 }
 
 with_hybrid_ <- function(expr, ...) {
@@ -24,7 +24,7 @@ with_hybrid_ <- function(expr, ...) {
 }
 
 without_hybrid <- function(expr, ...) {
-  without_hybrid_(catch_quosure(expr), ...)
+  without_hybrid_(enquo(expr), ...)
 }
 
 without_hybrid_ <- function(expr, ...) {
@@ -41,7 +41,7 @@ without_hybrid_ <- function(expr, ...) {
 }
 
 eval_dots <- function(expr, ...) {
-  eval_dots_(catch_quosure(expr), ...)
+  eval_dots_(enquo(expr), ...)
 }
 
 eval_dots_ <- function(expr, ...) {

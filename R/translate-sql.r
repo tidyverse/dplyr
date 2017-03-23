@@ -91,7 +91,7 @@ translate_sql <- function(...,
   }
 
   translate_sql_(
-    dots_quosures(...),
+    quos(...),
     con = con,
     vars_group = vars_group,
     vars_order = vars_order,
