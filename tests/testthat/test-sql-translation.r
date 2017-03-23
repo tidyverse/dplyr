@@ -177,6 +177,15 @@ test_that("postgres mimics two argument log", {
   expect_equal(translate_postgres(log(x, 10L)), sql('log("x") / log(10)'))
 })
 
+# string functions --------------------------------------------------------
+
+test_that("different arguments of substr are corrected", {
+  expect_equal(translate_sql(substr(x, 3, 4)), sql('substr("x", 3, 2)'))
+  expect_equal(translate_sql(substr(x, 3, 3)), sql('substr("x", 3, 1)'))
+  expect_equal(translate_sql(substr(x, 3, 2)), sql('substr("x", 3, 0)'))
+  expect_equal(translate_sql(substr(x, 3, 1)), sql('substr("x", 3, 0)'))
+})
+
 # partial_eval() ----------------------------------------------------------
 
 test_that("subsetting always evaluated locally", {

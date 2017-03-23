@@ -91,7 +91,14 @@ base_scalar <- sql_translator(
 
   tolower = sql_prefix("lower", 1),
   toupper = sql_prefix("upper", 1),
+  trimws = sql_prefix("trim", 1),
   nchar   = sql_prefix("length", 1),
+  substr = function(x, start, stop) {
+    start <- as.integer(start)
+    length <- pmax(as.integer(stop) - start + 1L, 0L)
+
+    build_sql(sql("substr"), list(x, start, length))
+  },
 
   `if` = sql_if,
   if_else = function(condition, true, false) sql_if(condition, true, false),

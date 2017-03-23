@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* `substr()` is now translated to SQL, correcting for the difference
+  in the third argument. In R, it's the position of the last character,
+  in SQL it's the length of the string (#2536).
+
 * Fixed undefined behavior for `slice()` on a zero-column data frame (#2490).
 
 * Fixed segmentation fault after calling `rename()` on an invalid grouped
