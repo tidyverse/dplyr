@@ -239,7 +239,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   out <- mutate(.data, !!! dots)
 
   keep <- names(dots)

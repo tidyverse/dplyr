@@ -40,7 +40,7 @@ print.tbl_lazy <- function(x, ...) {
 
 #' @export
 filter.tbl_lazy <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("filter", .data, dots = dots)
 }
@@ -53,7 +53,7 @@ filter_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 arrange.tbl_lazy <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   names(dots) <- NULL
 
@@ -67,7 +67,7 @@ arrange_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 select.tbl_lazy <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   add_op_single("select", .data, dots = dots)
 }
 #' @export
@@ -78,7 +78,7 @@ select_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.tbl_lazy <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("rename", .data, dots = dots)
 }
@@ -91,7 +91,7 @@ rename_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 summarise.tbl_lazy <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   add_op_single("summarise", .data, dots = dots)
 }
 #' @export
@@ -103,7 +103,7 @@ summarise_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.tbl_lazy <- function(.data, ..., .dots = list()) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("mutate", .data, dots = dots)
 }
@@ -116,7 +116,7 @@ mutate_.tbl_lazy <- function(.data, ..., .dots = list()) {
 
 #' @export
 group_by.tbl_lazy <- function(.data, ..., add = FALSE) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   dots <- partial_eval(dots, vars = op_vars(.data))
 
   if (length(dots) == 0) {
@@ -150,7 +150,7 @@ ungroup.tbl_lazy <- function(x, ...) {
 
 #' @export
 distinct.tbl_lazy <- function(.data, ..., .keep_all = FALSE) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("distinct", .data, dots = dots, args = list(.keep_all = .keep_all))
 }

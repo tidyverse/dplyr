@@ -461,7 +461,7 @@ do.tbl_sql <- function(.data, ..., .chunk_size = 1e4L) {
     return(do(.data, ...))
   }
 
-  args <- dots_quosures(...)
+  args <- quos(...)
   named <- named_args(args)
 
   # Create data frame of labels

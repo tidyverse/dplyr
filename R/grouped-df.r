@@ -171,7 +171,7 @@ do.grouped_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- dots_quosures(...)
+  args <- quos(...)
   named <- named_args(args)
   env <- child_env(NULL)
 

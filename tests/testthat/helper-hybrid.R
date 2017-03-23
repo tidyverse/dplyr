@@ -7,7 +7,7 @@ expect_predicate <- function(actual, expected) {
 }
 
 check_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
-  check_hybrid_result_(rlang::catch_quosure(expr), ..., expected = expected, test_eval = test_eval)
+  check_hybrid_result_(rlang::enquo(expr), ..., expected = expected, test_eval = test_eval)
 }
 
 check_hybrid_result_ <- function(expr, ..., expected, test_eval) {
@@ -18,7 +18,7 @@ check_hybrid_result_ <- function(expr, ..., expected, test_eval) {
 }
 
 check_not_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
-  check_not_hybrid_result_(rlang::catch_quosure(expr), ..., expected = expected, test_eval = test_eval)
+  check_not_hybrid_result_(rlang::enquo(expr), ..., expected = expected, test_eval = test_eval)
 }
 
 check_not_hybrid_result_ <- function(expr, ..., expected, test_eval) {
@@ -29,7 +29,7 @@ check_not_hybrid_result_ <- function(expr, ..., expected, test_eval) {
 }
 
 expect_hybrid_error <- function(expr, ..., error) {
-  expect_hybrid_error_(rlang::catch_quosure(expr), ..., error = error)
+  expect_hybrid_error_(rlang::enquo(expr), ..., error = error)
 }
 
 expect_hybrid_error_ <- function(expr, ..., error) {
@@ -40,7 +40,7 @@ expect_hybrid_error_ <- function(expr, ..., error) {
 }
 
 expect_not_hybrid_error <- function(expr, ..., error) {
-  expect_not_hybrid_error_(rlang::catch_quosure(expr), ..., error = error)
+  expect_not_hybrid_error_(rlang::enquo(expr), ..., error = error)
 }
 
 expect_not_hybrid_error_ <- function(expr, ..., error) {
