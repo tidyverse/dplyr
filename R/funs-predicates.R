@@ -1,9 +1,9 @@
 
-all_of <- function(..., .vectorised = FALSE) {
+all_of <- function(..., .vectorised = TRUE) {
   op <- if (.vectorised) quote(`&`) else quote(`&&`)
   quo_reduce(..., .op = op)
 }
-any_of <- function(..., .vectorised = FALSE) {
+any_of <- function(..., .vectorised = TRUE) {
   op <- if (.vectorised) quote(`|`) else quote(`||`)
   quo_reduce(..., .op = op)
 }
