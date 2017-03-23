@@ -56,9 +56,12 @@ filter.tbl_df <- function(.data, ...) {
   dots <- dots_quosures(...)
   if (any(have_name(dots))) {
     abort("filter() takes unnamed arguments. Do you need `==`?")
+  } else if (is_empty(dots)) {
+    return(.data)
   }
-  dots <- exprs_auto_name(dots)
-  filter_impl(.data, dots)
+
+  quo <- all_of(!!! dots, .vectorised = TRUE)
+  filter_impl(.data, quo)
 }
 #' @export
 filter_.tbl_df <- function(.data, ..., .dots = list()) {

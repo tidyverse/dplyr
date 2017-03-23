@@ -155,16 +155,22 @@ namespace dplyr {
 
       return it->second(call, subsets, depth - 1);
     } else if (TYPEOF(call) == SYMSXP) {
-      SymbolString name = SymbolString(Symbol(call));
+      SymbolString sym = SymbolString(Symbol(call));
 
-      LOG_VERBOSE << "Searching hybrid handler for symbol " << name.get_utf8_cstring();
+      LOG_VERBOSE << "Searching hybrid handler for symbol " << sym.get_utf8_cstring();
 
-      if (subsets.count(name)) {
+      if (subsets.count(sym)) {
         LOG_VERBOSE << "Using hybrid variable handler";
-        return variable_handler(subsets, name);
+        return variable_handler(subsets, sym);
       }
       else {
-        SEXP data = env.find(name.get_string());
+        SEXP data;
+        try {
+          data = env.find(sym.get_string());
+        } catch (Rcpp::binding_not_found) {
+          return NULL;
+        }
+
         // Constants of length != 1 are handled via regular evaluation
         if (Rf_length(data) == 1) {
           LOG_VERBOSE << "Using hybrid constant handler";

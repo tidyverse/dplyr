@@ -81,6 +81,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'funs-predicates.R'
     'funs.R'
     'group-by.r'
     'group-indices.R'
