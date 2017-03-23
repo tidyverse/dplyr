@@ -16,7 +16,7 @@ sql_render.tbl_sql <- function(query, con = NULL, ...) {
     on.exit(con_release(query$src, con), add = TRUE)
   }
 
-  NextMethod(con = con)
+  sql_render.tbl_lazy(query, con, ...)
 }
 
 #' @export
