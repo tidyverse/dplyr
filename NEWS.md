@@ -4,6 +4,22 @@
   error is thrown when you try and rename a variable that doesn't 
   exist.
 
+* You can create a `tbl` directly from a DBI connection (#2576).
+
+* `mutate.tbl_sql()` will now generate as many subqueries as necessary so 
+  that you can refer to variables that you just created (like in mutate
+  with regular dataframes) (#2481, #2483).
+
+* `print(df, n = Inf)` and `head(df, n = Inf)` now work when `df` is a
+  SQL database (#2580).
+
+* SQL set operations (`intersect()`, `union()`, and `setdiff())
+  now match column names across inputs, filling in non-matching variables
+  with NULL (#2556).
+* `all_of()` and `any_of()` are two new helpers for joining multiple
+  expressions into a single predicate. This is notably useful for
+  verbs suffixed with `_if()` like `mutate_if()`.
+
 * The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
   etc) now support S3 objects and lazy tables. S3 objects should
   implement methods for `length()`, `[[` and `tbl_vars()`. For lazy
