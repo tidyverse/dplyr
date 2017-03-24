@@ -1,5 +1,12 @@
 # dplyr 0.5.0.9000
 
+* The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
+  etc) now support S3 objects and lazy tables. S3 objects should
+  implement methods for `length()`, `[[` and `tbl_vars()`. For lazy
+  tables, the first 100 rows are collected and the predicate is
+  applied on this subset of the data. This is robust for the common
+  case of checking the type of a column (#2129).
+
 * The performance of colwise verbs like `mutate_all()` is now back to
   where it was in `mutate_each()`.
 
