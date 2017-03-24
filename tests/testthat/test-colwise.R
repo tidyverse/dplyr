@@ -94,6 +94,26 @@ test_that("funs() works with namespaced calls", {
   expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
 })
 
+test_that("lazy tables support colwise variants", {
+  tbls <- test_load(iris[1:10, ])
+
+  expected <- as.character(iris$Species[1:10])
+  for (tbl in tbls) {
+    if (inherits(tbl, "tbl_lazy")) {
+      expect_message(tbl <- mutate_if(tbl, is.factor, as.character), "on the first 100 rows")
+      expect_identical(collect(tbl)$Species, expected)
+    }
+  }
+
+  expected <- mean(iris$Sepal.Length[1:10])
+  for (tbl in tbls) {
+    if (inherits(tbl, "tbl_lazy")) {
+      tbl <- summarise_at(tbl, "Sepal.Length", mean)
+      expect_equal(collect(tbl)$Sepal.Length, expected)
+    }
+  }
+})
+
 
 # Deprecated ---------------------------------------------------------
 

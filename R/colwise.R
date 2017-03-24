@@ -87,10 +87,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
-  if (inherits(.tbl, "tbl_lazy")) {
-    abort("Conditional colwise operations currently require local sources")
-  }
-  vars <- probe_colwise_names(.tbl, .predicate)
+  vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
@@ -99,32 +96,16 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
-  if (inherits(.tbl, "tbl_lazy")) {
-    abort("Conditional colwise operations currently require local sources")
-  }
-  vars <- probe_colwise_names(.tbl, .predicate)
+  vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
 
-probe_colwise_names <- function(tbl, p, ...) {
-  if (is_logical(p)) {
-    stopifnot(length(p) == length(tbl))
-    selected <- p
-  } else {
-    selected <- map_lgl(tbl, p, ...)
-  }
-
-  vars <- tbl_vars(tbl)
-  vars <- vars[selected]
-  syms(vars)
-}
-
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
-  vars <- select_colwise_names(.tbl, .cols)
+  vars <- tbl_at_syms(.tbl, .cols)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
@@ -133,7 +114,7 @@ summarise_at <- function(.tbl, .cols, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
-  vars <- select_colwise_names(.tbl, .cols)
+  vars <- tbl_at_syms(.tbl, .cols)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
@@ -166,7 +147,8 @@ vars <- function(...) {
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
-select_colwise_names <- function(tbl, cols) {
+# Requires tbl_vars() method
+tbl_at_syms <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
   if (is_character(cols)) {
@@ -176,12 +158,37 @@ select_colwise_names <- function(tbl, cols) {
   } else if (is.numeric(cols)) {
     selected <- syms(vars[cols])
   } else {
-    abort(".cols should be a character/numeric vector or a columns object")
+    abort("`.cols` should be a character/numeric vector or a columns object")
   }
 
   selected
 }
 
+# Requires tbl_vars(), `[[`() and length() methods
+tbl_if_syms <- function(tbl, p, ...) {
+  vars <- tbl_vars(tbl)
+
+  if (is_logical(p)) {
+    stopifnot(length(p) == length(vars))
+    return(syms(vars[p]))
+  }
+
+  if (inherits(tbl, "tbl_lazy")) {
+    inform("Applying predicate on the first 100 rows")
+    tibble <- collect(tbl, n = 100)
+  } else {
+    tibble <- tbl
+  }
+
+  n <- length(tibble)
+  selected <- lgl_len(n)
+  for (i in seq_len(n)) {
+    selected[[i]] <- p(tibble[[i]], ...)
+  }
+
+  vars <- vars[selected]
+  syms(vars)
+}
 
 apply_vars <- function(funs, vars, tbl) {
   stopifnot(is_fun_list(funs))
