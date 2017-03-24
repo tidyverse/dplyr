@@ -11,8 +11,10 @@
 #'
 #'   If `n` is positive, selects the top `n` rows. If negative,
 #'   selects the bottom `n` rows.
-#' @param wt (Optional). The variable to use for ordering. If not specified,
-#'   defaults to the last variable in the tbl.
+#' @param wt (Optional). The variable to use for ordering. If not
+#'   specified, defaults to the last variable in the tbl. This
+#'   variable is passed by expression and evaluated in the context of
+#'   the data frame. It supports [unquoting][rlang::quasiquotation].
 #' @export
 #' @examples
 #' df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
@@ -35,26 +37,20 @@
 #' tbl_df(Batting) %>% group_by(playerID) %>% top_n(1, G)
 #' }
 top_n <- function(x, n, wt) {
-  if (missing(wt)) {
+  wt <- enquo(wt)
+
+  if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
-    message("Selecting by ", vars[length(vars)])
-    wt <- as.name(vars[length(vars)])
-  } else {
-    wt <- substitute(wt)
+    inform(glue("Selecting by ", vars[length(vars)]))
+    wt <- new_quosure(sym(vars[length(vars)]))
   }
 
-  stopifnot(is.numeric(n), length(n) == 1, is.name(wt))
+  stopifnot(is_scalar_integerish(n), is_symbol(wt))
   if (n > 0) {
-    call <- substitute(
-      filter(x, min_rank(desc(wt)) <= n),
-      list(n = n, wt = wt)
-    )
+    quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
   } else {
-    call <- substitute(
-      filter(x, min_rank(wt) <= n),
-      list(n = abs(n), wt = wt)
-    )
+    quo <- quo(filter(x, min_rank(!!wt) <= !!abs(n)))
   }
 
-  eval(call)
+  eval_tidy(quo)
 }

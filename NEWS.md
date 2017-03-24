@@ -1,5 +1,19 @@
 # dplyr 0.5.0.9000
 
+* The performance of colwise verbs like `mutate_all()` is now back to
+  where it was in `mutate_each()`.
+
+* `funs()` has better handling of namespaced functions (#2089).
+
+* `order_by()`, `top_n()`, `sample_n()` and `sample_frac()` now use
+  tidyeval to capture their arguments by expression. This makes it
+  possible to use unquoting idioms (see `vignette("programming")`) and
+  fixes scoping issues (#2297).
+
+* Most verbs taking dots now ignore the last argument if empty. This
+  makes it easier to copy lines of code without having to worry about
+  deleting trailing commas (#1039).
+
 * `ntile()` ignores `NA` when computing group membership (#2564).
 
 * `between()` returns NA if `left` or `right` is `NA` (fixes #2562).

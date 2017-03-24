@@ -92,8 +92,8 @@ test_that("one_of works with variables", {
   expected_result <- c(x = "x")
   var <- "x"
   expect_equal(select_vars(vars, one_of(var)), expected_result)
-  expect_error(select_vars(vars, one_of(x)), "not found")
-  expect_error(select_vars(vars, one_of(y)), "not found")
+  expect_error(select_vars(vars, one_of(`_x`)), "not found")
+  expect_error(select_vars(vars, one_of(`_y`)), "not found")
 })
 
 test_that("one_of works when passed variable name matches the column name (#2266)", {

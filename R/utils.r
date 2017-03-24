@@ -3,7 +3,7 @@
 magrittr::`%>%`
 
 dots <- function(...) {
-  eval(substitute(alist(...)))
+  eval_bare(substitute(alist(...)))
 }
 
 deparse_trunc <- function(x, width = getOption("width")) {

@@ -68,7 +68,7 @@ case_when <- function(...) {
 
     env <- environment(f)
 
-    query[[i]] <- eval(f[[2]], envir = env)
+    query[[i]] <- eval_bare(f[[2]], env)
     if (!is.logical(query[[i]])) {
       stop(
         "LHS of case ", i, " (", deparse_trunc(f_lhs(f)), ") is ",
@@ -77,7 +77,7 @@ case_when <- function(...) {
       )
     }
 
-    value[[i]] <- eval(f[[3]], envir = env)
+    value[[i]] <- eval_bare(f[[3]], env)
   }
 
   m <- max(vapply(query, length, integer(1)))

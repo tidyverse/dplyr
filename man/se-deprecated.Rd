@@ -36,11 +36,11 @@ summarize_each_(tbl, funs, vars)
 
 mutate_each_(tbl, funs, vars)
 
-tally_(x, wt = NULL, sort = FALSE)
+tally_(x, wt, sort = FALSE)
 
 count_(x, vars, wt = NULL, sort = FALSE)
 
-add_tally_(x, wt = NULL, sort = FALSE)
+add_tally_(x, wt, sort = FALSE)
 
 add_count_(x, vars, wt = NULL, sort = FALSE)
 
@@ -88,9 +88,11 @@ a character vector of function names.}
 
 \item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
 
-\item{wt}{(Optional) If omitted, will count the number of rows. If specified,
-will perform a "weighted" tally by summing the (non-missing) values of
-variable \code{wt}.}
+\item{wt}{(Optional) If omitted, will count the number of rows. If
+specified, will perform a "weighted" tally by summing the
+(non-missing) values of variable \code{wt}. This variable is passed by
+expression and evaluated in the context of the data frame. It
+supports \link[rlang:quasiquotation]{unquoting}.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 

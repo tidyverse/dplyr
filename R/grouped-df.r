@@ -249,22 +249,22 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 
 #' @export
-sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
+sample_n.grouped_df <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL) {
 
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  weight <- substitute(weight)
+  assert_that(is_scalar_integerish(size), size >= 0)
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
+  }
+  weight <- enquo(weight)
 
   index <- attr(tbl, "indices")
-  sampled <- lapply(
-    index,
-    sample_group,
+  sampled <- lapply(index, sample_group,
     frac = FALSE,
     tbl = tbl,
     size = size,
     replace = replace,
-    weight = weight,
-    .env = .env
+    weight = weight
   )
   idx <- unlist(sampled) + 1
 
@@ -272,42 +272,38 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
 }
 
 #' @export
-sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-
+sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL) {
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  if (size > 1 && !replace) {
-    stop("Sampled fraction can't be greater than one unless replace = TRUE",
-      call. = FALSE)
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
   }
-  weight <- substitute(weight)
+  if (size > 1 && !replace) {
+    abort("Sampled fraction can't be greater than one unless replace = TRUE")
+  }
+  weight <- enquo(weight)
 
   index <- attr(tbl, "indices")
-  sampled <- lapply(
-    index,
-    sample_group,
+  sampled <- lapply(index, sample_group,
     frac = TRUE,
     tbl = tbl,
     size = size,
     replace = replace,
-    weight = weight,
-    .env = .env
+    weight = weight
   )
   idx <- unlist(sampled) + 1
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
 
-sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE, weight = NULL,
-                         .env = parent.frame()) {
+sample_group <- function(tbl, i, frac, size, replace, weight) {
   n <- length(i)
   if (frac) size <- round(size * n)
 
   check_size(size, n, replace)
 
-  # weight use standard evaluation in this function
-  if (!is.null(weight)) {
-    weight <- eval(weight, tbl[i + 1, , drop = FALSE], .env)
+  weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
+  if (!is_null(weight)) {
     weight <- check_weight(weight, n)
   }
 

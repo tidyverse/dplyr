@@ -203,3 +203,8 @@ test_that("select_if keeps grouping cols", {
   expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
   expect_equal(df, tbl_df(iris[c(5, 1:4)]))
 })
+
+test_that("select_if() handles non-syntactic colnames", {
+  df <- data_frame(`x 1` = 1:3)
+  expect_identical(select_if(df, is_integer)[[1]], 1:3)
+})

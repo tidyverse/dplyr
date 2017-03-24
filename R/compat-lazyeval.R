@@ -20,6 +20,10 @@ warn_text_se <- function() {
 compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   if (warn) warn_underscored()
 
+  if (missing(lazy)) {
+    return(quo())
+  }
+
   coerce_type(lazy, "quosure",
     quosure = lazy,
     symbol = ,
