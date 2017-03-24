@@ -167,25 +167,23 @@ tbl_at_syms <- function(tbl, cols, exclude = group_vars(tbl)) {
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
-tbl_if_syms <- function(tbl, p, ...) {
-  vars <- tbl_vars(tbl)
+tbl_if_syms <- function(.tbl, .p, ...) {
+  vars <- tbl_vars(.tbl)
 
-  if (is_logical(p)) {
-    stopifnot(length(p) == length(vars))
-    return(syms(vars[p]))
+  if (is_logical(.p)) {
+    stopifnot(length(.p) == length(vars))
+    return(syms(vars[.p]))
   }
 
-  if (inherits(tbl, "tbl_lazy")) {
+  if (inherits(.tbl, "tbl_lazy")) {
     inform("Applying predicate on the first 100 rows")
-    tibble <- collect(tbl, n = 100)
-  } else {
-    tibble <- tbl
+    .tbl <- collect(.tbl, n = 100)
   }
 
-  n <- length(tibble)
+  n <- length(.tbl)
   selected <- lgl_len(n)
   for (i in seq_len(n)) {
-    selected[[i]] <- p(tibble[[i]], ...)
+    selected[[i]] <- .p(.tbl[[i]], ...)
   }
 
   vars <- vars[selected]
