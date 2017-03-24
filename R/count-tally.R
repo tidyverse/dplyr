@@ -68,17 +68,12 @@ tally <- function(x, wt, sort = FALSE) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   }
-  # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
-  # add_tally() is called from another function (e.g. add_count()).
-  # In that case, we don't want to weight by a column `n`, so the
-  # branch above does not help us (might be nice to find a better way).
-  n <- quo(
-    if (is_missing(!! wt) || is_null(!! wt)) {
-      n()
-    } else {
-      sum(!! wt, na.rm = TRUE)
-    }
-  )
+
+  if (is_empty_quosure(wt) || is_null(f_rhs(wt))) {
+    n <- ~n()
+  } else {
+    n <- quo(sum(!! wt, na.rm = TRUE))
+  }
 
   n_name <- n_name(tbl_vars(x))
   out <- summarise(x, !! n_name := !! n)
@@ -134,17 +129,12 @@ add_tally <- function(x, wt, sort = FALSE) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   }
-  # Check for NULL lazily, because `wt` could be a tidy-quoted NULL if
-  # add_tally() is called from another function (e.g. add_count()).
-  # In that case, we don't want to weight by a column `n`, so the
-  # branch above does not help us (might be nice to find a better way).
-  n <- quo(
-    if (is_missing(!! wt) || is_null(!! wt)) {
-      n()
-    } else {
-      sum(!! wt, na.rm = TRUE)
-    }
-  )
+
+  if (is_empty_quosure(wt) || is_null(f_rhs(wt))) {
+    n <- ~n()
+  } else {
+    n <- quo(sum(!! wt, na.rm = TRUE))
+  }
 
   n_name <- n_name(tbl_vars(x))
   out <- mutate(x, !! n_name := !! n)
