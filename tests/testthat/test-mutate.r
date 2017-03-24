@@ -252,25 +252,13 @@ test_that("mutate strips names of list-columns, but keeps names in original data
 })
 
 test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
-  expect_error(
-    data_frame(a = 1) %>% mutate(b = identity(NULL)),
-    "incompatible size (0), expecting one (the number of rows)",
-    fixed = TRUE
-  )
-  expect_error(
-    data_frame(a = 1:3) %>%
-      group_by(a) %>%
-      mutate(b = identity(NULL)),
-    "incompatible size (0), expecting one (the group size)",
-    fixed = TRUE
-  )
-  expect_error(
-    data_frame(a = 1:3) %>%
-      rowwise %>%
-      mutate(b = if (a < 2) a else NULL),
-    "incompatible types",
-    fixed = TRUE
-  )
+  df <- data_frame(a = 1:3)
+  gf <- group_by(df, a)
+  rf <- rowwise(df)
+
+  expect_error(mutate(df, b = identity(NULL)), "must be a vector, not a NULL")
+  expect_error(mutate(gf, b = identity(NULL)), "must be a vector, not a NULL")
+  expect_error(mutate(rf, b = identity(NULL)), "must be a vector, not a NULL")
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {

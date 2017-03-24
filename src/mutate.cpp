@@ -95,9 +95,8 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     }
 
     const int n_res = Rf_length(results[i]);
-    check_length(n_res, nrows, "the number of rows");
-
     check_supported_type(results[i], name);
+    check_length(n_res, nrows, "the number of rows");
 
     if (n_res == 1 && nrows != 1) {
       // recycle

@@ -252,9 +252,8 @@ namespace dplyr {
       stop("`mutate` does not support `POSIXlt` results");
     }
 
-    check_length(Rf_length(first), indices.size(), "the group size");
-
     check_supported_type(first, name);
+    check_length(Rf_length(first), indices.size(), "the group size");
 
     const int ng = gdf.ngroups();
     int i = 0;
