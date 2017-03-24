@@ -31,7 +31,7 @@ new_funs <- function(funs) {
   names(funs) <- names2(funs)
   missing_names <- names(funs) == ""
   default_names <- map_chr(funs[missing_names], function(dot) {
-    quo_text(node_car(f_rhs(dot)))
+    quo_name(node_car(f_rhs(dot)))
   })
   names(funs)[missing_names] <- default_names
 
