@@ -39,7 +39,7 @@
 top_n <- function(x, n, wt) {
   wt <- enquo(wt)
 
-  if (is_empty_quosure(wt)) {
+  if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
     inform(glue("Selecting by ", vars[length(vars)]))
     wt <- new_quosure(sym(vars[length(vars)]))

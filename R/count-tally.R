@@ -64,12 +64,12 @@
 tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
 
-  if (is_empty_quosure(wt) && "n" %in% names(x)) {
+  if (quo_is_missing(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   }
 
-  if (is_empty_quosure(wt) || is_null(f_rhs(wt))) {
+  if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
     n <- ~n()
   } else {
     n <- quo(sum(!! wt, na.rm = TRUE))
@@ -125,12 +125,12 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
 add_tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
 
-  if (is_empty_quosure(wt) && "n" %in% names(x)) {
+  if (quo_is_missing(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
     wt <- ~n
   }
 
-  if (is_empty_quosure(wt) || is_null(f_rhs(wt))) {
+  if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
     n <- ~n()
   } else {
     n <- quo(sum(!! wt, na.rm = TRUE))
