@@ -134,18 +134,22 @@ summarize_if <- summarise_if
 
 #' Select columns
 #'
-#' This helper has equivalent semantics to [select()]. Its
-#' purpose is to provide `select()` semantics to the colwise
-#' summarising and mutating verbs.
+#' This helper is intended to provide equivalent semantics to
+#' [select()]. Its purpose is to provide `select()` semantics to the
+#' colwise summarising and mutating verbs.
+#'
+#' Note that verbs accepting a `vars()` specification also accept an
+#' [integerish][rlang::integerish] vector of positions or a character
+#' vector of column names.
+#'
 #' @param ... Variables to include/exclude in mutate/summarise. You
 #'   can use same specifications as in [select()]. If
 #'   missing, defaults to all non-grouping variables.
 #' @seealso [summarise_all()]
 #' @export
 vars <- function(...) {
-  structure(quos(...), class = "col_list")
+  quos(...)
 }
-is_col_list <- function(cols) inherits(cols, "col_list")
 
 # Requires tbl_vars() method
 tbl_at_syms <- function(tbl, cols, exclude = group_vars(tbl)) {
@@ -153,9 +157,9 @@ tbl_at_syms <- function(tbl, cols, exclude = group_vars(tbl)) {
 
   if (is_character(cols)) {
     syms(cols)
-  } else if (is.numeric(cols)) {
+  } else if (is_integerish(cols)) {
     syms(vars[cols])
-  } else if (is_col_list(cols)) {
+  } else if (is_quosures(cols)) {
     syms(select_vars(vars, !!! cols, exclude = exclude))
   } else {
     abort("`.cols` should be a character/numeric vector or a columns object")

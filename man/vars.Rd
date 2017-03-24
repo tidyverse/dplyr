@@ -12,9 +12,14 @@ can use same specifications as in \code{\link[=select]{select()}}. If
 missing, defaults to all non-grouping variables.}
 }
 \description{
-This helper has equivalent semantics to \code{\link[=select]{select()}}. Its
-purpose is to provide \code{select()} semantics to the colwise
-summarising and mutating verbs.
+This helper is intended to provide equivalent semantics to
+\code{\link[=select]{select()}}. Its purpose is to provide \code{select()} semantics to the
+colwise summarising and mutating verbs.
+}
+\details{
+Note that verbs accepting a \code{vars()} specification also accept an
+\link[rlang:integerish]{integerish} vector of positions or a character
+vector of column names.
 }
 \seealso{
 \code{\link[=summarise_all]{summarise_all()}}
