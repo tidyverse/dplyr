@@ -6,8 +6,7 @@
 #' @param ... Other arguments passed on to the individual methods
 #' @export
 tbl <- function(src, ...) {
-  if("OdbcConnection" %in% class(src))src <- src_dbi(src)
-   tbl_method(src, ...)
+  UseMethod("tbl")
 }
 
 #' Create a "tbl" object
@@ -48,8 +47,10 @@ as.tbl.tbl <- function(x, ...) x
 #' @param x A tbl object
 tbl_vars <- function(x) UseMethod("tbl_vars")
 
-#' Adds an abstraction step to 'tbl' function to allow
-#' type conversions to the 'src' argument
-tbl_method <- function(src, ...) {
-  UseMethod("tbl")
+#' @export
+tbl.DBIConnection <- function(src, ...){
+  src <- src_dbi(src)
+  tbl(src, ...)
 }
+
+
