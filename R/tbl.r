@@ -7,7 +7,7 @@
 #' @export
 tbl <- function(src, ...) {
   if("OdbcConnection" %in% class(src))src <- src_dbi(src)
-  UseMethod("tbl")
+   tbl_method(src, ...)
 }
 
 #' Create a "tbl" object
@@ -47,3 +47,8 @@ as.tbl.tbl <- function(x, ...) x
 #' @export
 #' @param x A tbl object
 tbl_vars <- function(x) UseMethod("tbl_vars")
+
+
+tbl_method <- function(src, ...) {
+  UseMethod("tbl")
+}
