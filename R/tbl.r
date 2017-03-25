@@ -6,7 +6,7 @@
 #' @param ... Other arguments passed on to the individual methods
 #' @export
 tbl <- function(src, ...) {
-  if(class(src)[1] == "OdbcConnection")src <- src_dbi(src)
+  if("OdbcConnection" %in% class(src))src <- src_dbi(src)
   UseMethod("tbl")
 }
 
