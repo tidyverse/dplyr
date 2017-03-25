@@ -48,7 +48,8 @@ as.tbl.tbl <- function(x, ...) x
 #' @param x A tbl object
 tbl_vars <- function(x) UseMethod("tbl_vars")
 
-
+#' Adds an abstraction step to 'tbl' function to allow
+#' type conversions to the 'src' argument
 tbl_method <- function(src, ...) {
   UseMethod("tbl")
 }
