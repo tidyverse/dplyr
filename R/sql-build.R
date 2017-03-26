@@ -102,7 +102,26 @@ sql_build.op_head <- function(op, con, ...) {
 
 #' @export
 sql_build.op_group_by <- function(op, con, ...) {
-  sql_build(op$x, con, ...)
+  vars <- op_vars(op$x)
+  new_groups <- lazyeval::all_dots(op$dots, ...)
+
+  is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
+  diff_name <-
+    sapply(new_groups, function(x) deparse(x$expr)) != names(new_groups)
+  needs_mutate <- diff_name | !is_name
+
+  if (any(needs_mutate)) {
+    new_vars <- translate_sql_(new_groups[needs_mutate], con, vars)
+    old_vars <- ident(setdiff(vars, names(new_vars)))
+    sql <- select_query(
+      sql_build(op$x, con),
+      select = c.sql(old_vars, new_vars, con = con)
+    )
+  } else {
+    sql <- sql_build(op$x, con, ...)
+  }
+
+  sql
 }
 
 #' @export
