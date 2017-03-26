@@ -91,7 +91,7 @@ translate_sql <- function(...,
   }
 
   translate_sql_(
-    tidy_quotes(...),
+    quos(...),
     con = con,
     vars_group = vars_group,
     vars_order = vars_order,
@@ -113,7 +113,7 @@ translate_sql_ <- function(dots,
 
   stopifnot(is.list(dots))
 
-  if (!any(have_names(dots))) {
+  if (!any(have_name(dots))) {
     names(dots) <- NULL
   }
 
@@ -135,7 +135,7 @@ translate_sql_ <- function(dots,
     } else {
       overscope <- sql_overscope(x, variant, con, window = window)
       on.exit(overscope_clean(overscope))
-      escape(overscope_eval(overscope, x))
+      escape(overscope_eval_next(overscope, x))
     }
   })
 

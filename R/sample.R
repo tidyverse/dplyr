@@ -9,12 +9,14 @@
 #'   For `sample_frac()`, the fraction of rows to select.
 #'   If `tbl` is grouped, `size` applies to each group.
 #' @param replace Sample with or without replacement?
-#' @param weight Sampling weights. This expression is evaluated in the
-#'   context of the data frame. It must return a vector of non-negative
-#'   numbers the same length as the input. Weights are automatically
-#'   standardised to sum to 1.
-#' @param .env Environment in which to look for non-data names used in
-#'   `weight`. Non-default settings for experts only.
+#' @param weight Sampling weights. This variable is passed by
+#'   expression and evaluated in the context of the data frame. It
+#'   supports [unquoting][rlang::quasiquotation]. It must return a
+#'   vector of non-negative numbers the same length as the
+#'   input. Weights are automatically standardised to sum to 1.
+#' @param .env This variable is deprecated and no longer has any
+#'   effect. To evaluate `weight` in a particular context, you can
+#'   now unquote a [quosure][rlang::quosure].
 #' @name sample
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
@@ -42,15 +44,13 @@ NULL
 
 #' @rdname sample
 #' @export
-sample_n <- function(tbl, size, replace = FALSE, weight = NULL,
-                     .env = parent.frame()) {
+sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL) {
   UseMethod("sample_n")
 }
 
 #' @rdname sample
 #' @export
-sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                        .env = parent.frame()) {
+sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL) {
   UseMethod("sample_frac")
 }
 

@@ -124,6 +124,19 @@ test_that("rename handles grouped data (#640)", {
   expect_equal(names(res), c("a", "c"))
 })
 
+test_that("rename does not crash with invalid grouped data frame (#640)", {
+  df <- data_frame(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
+  df$a <- NULL
+  expect_equal(
+    df %>% rename(e = d) %>% ungroup,
+    data_frame(b = 2:4, e = 3:5)
+  )
+  expect_equal(
+    df %>% rename(e = b) %>% ungroup,
+    data_frame(e = 2:4, d = 3:5)
+  )
+})
+
 # combine_vars ------------------------------------------------------------
 # This is the low C++ function which works on integer indices
 
@@ -189,4 +202,9 @@ test_that("select_if fails with databases", {
 test_that("select_if keeps grouping cols", {
   expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
   expect_equal(df, tbl_df(iris[c(5, 1:4)]))
+})
+
+test_that("select_if() handles non-syntactic colnames", {
+  df <- data_frame(`x 1` = 1:3)
+  expect_identical(select_if(df, is_integer)[[1]], 1:3)
 })

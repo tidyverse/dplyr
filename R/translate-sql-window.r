@@ -20,10 +20,7 @@
 #' win_over("avg(x)", order = c("x", "y"))
 #' win_over("avg(x)", frame = c(-Inf, 0), order = "y")
 win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
-  if (length(partition) == 0) {
-    partition <- NULL
-  }
-  if (!is.null(partition)) {
+  if (length(partition) > 0) {
     if (!is.sql(partition)) {
       partition <- ident(partition)
     }
@@ -37,7 +34,8 @@ win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
       )
     )
   }
-  if (!is.null(order)) {
+
+  if (length(order) > 0) {
     if (!is.sql(order)) {
       order <- ident(order)
     }
@@ -51,8 +49,8 @@ win_over <- function(expr, partition = NULL, order = NULL, frame = NULL) {
       )
     )
   }
-  if (!is.null(frame)) {
-    if (is.null(order)) {
+  if (length(frame) > 0) {
+    if (length(order) == 0) {
       warning(
         "Windowed expression '", expr, "' does not have explicit order.\n",
         "Please use arrange() to make determinstic.",
@@ -221,7 +219,7 @@ common_window_funs <- function() {
 #' translate_window_where(quote(rank() > cumsum(AB)))
 translate_window_where <- function(expr, window_funs = common_window_funs()) {
   switch_type(expr,
-    quote = translate_window_where(f_rhs(expr), window_funs),
+    quosure = translate_window_where(f_rhs(expr), window_funs),
     logical = ,
     integer = ,
     double = ,
@@ -235,7 +233,7 @@ translate_window_where <- function(expr, window_funs = common_window_funs()) {
         window_where(as_symbol(name), set_names(list(expr), name))
       } else {
         args <- map(expr[-1], translate_window_where, window_funs = window_funs)
-        expr <- lang(node_car(expr), .args = map(args, "[[", "expr"))
+        expr <- new_language(node_car(expr), .args = map(args, "[[", "expr"))
 
         window_where(
           expr = expr,

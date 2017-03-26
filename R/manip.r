@@ -40,6 +40,10 @@ filter <- function(.data, ...) {
   UseMethod("filter")
 }
 #' @export
+filter.default <- function(.data, ...) {
+  filter_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
 #' @rdname se-deprecated
 filter_ <- function(.data, ..., .dots = list()) {
   UseMethod("filter_")
@@ -74,6 +78,10 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ...) {
   UseMethod("slice")
+}
+#' @export
+slice.default <- function(.data, ...) {
+  slice_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
@@ -133,6 +141,10 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   summarise(disp = mean(disp), sd = sd(disp))
 summarise <- function(.data, ...) {
   UseMethod("summarise")
+}
+#' @export
+summarise.default <- function(.data, ...) {
+  summarise_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
@@ -205,6 +217,9 @@ summarize_ <- summarise_
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
+mutate.default <- function(.data, ...) {
+  mutate_(.data, .dots = compat_as_lazy_dots(...))
+}
 #' @export
 #' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
@@ -224,7 +239,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   out <- mutate(.data, !!! dots)
 
   keep <- names(dots)
@@ -232,7 +247,7 @@ transmute.default <- function(.data, ...) {
 }
 #' @export
 transmute_.default <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   transmute(.data, !!! dots)
 }
 
@@ -258,6 +273,10 @@ arrange <- function(.data, ...) {
   UseMethod("arrange")
 }
 #' @export
+arrange.default <- function(.data, ...) {
+  arrange_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
@@ -280,8 +299,8 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Comma separated list of unquoted expressions. You can treat
-#'   variable names like they are positions.
+#' @param ... One or more unquoted expressions separated by commas.
+#'   You can treat variable names like they are positions.
 #'
 #'   Positive values select variables; negative values to drop variables.
 #'
@@ -315,6 +334,10 @@ select <- function(.data, ...) {
   UseMethod("select")
 }
 #' @export
+select.default <- function(.data, ...) {
+  select_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
@@ -341,15 +364,19 @@ select_if <- function(.data, .predicate, ...) {
   if (inherits(.data, "tbl_lazy")) {
     abort("Selection with predicate currently require local sources")
   }
-  vars <- probe_colwise_names(.data, .predicate, ...)
+  vars <- tbl_if_syms(.data, .predicate, ...)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
-  select(.data, !!! symbols(vars))
+  select(.data, !!! syms(vars))
 }
 
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")
+}
+#' @export
+rename.default <- function(.data, ...) {
+  rename_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @rdname se-deprecated
 #' @export

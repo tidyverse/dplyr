@@ -28,6 +28,7 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x:y), funs(mean)), c("x", "y"))
   expect_named(summarise_at(df, vars(x), funs(mean, sd)), c("mean", "sd"))
   expect_named(summarise_at(df, vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 
 test_that("named arguments force complete namd", {
@@ -61,6 +62,14 @@ test_that("can probe colwise", {
   expect_classes(logical, "cnccf")
 })
 
+test_that("non syntactic colnames work", {
+  df <- data_frame(`x 1` = 1:3)
+  expect_identical(summarise_at(df, "x 1", sum)[[1]], 6L)
+  expect_identical(summarise_if(df, is.numeric, sum)[[1]], 6L)
+  expect_identical(summarise_all(df, sum)[[1]], 6L)
+  expect_identical(mutate_all(df, `*`, 2)[[1]], (1:3) * 2)
+})
+
 test_that("sql sources fail with bare functions", {
   expect_error(memdb_frame(x = 1) %>% mutate_all(mean) %>% collect())
 })
@@ -71,13 +80,38 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 
 test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "Duplicate arguments")
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
 })
 
 test_that("fun_list is merged with new args", {
   funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, baz = "baz")
+  funs <- as_fun_list(funs, ~bar, baz = "baz")
   expect_identical(funs$fn, ~bar(., baz = "baz"))
+})
+
+test_that("funs() works with namespaced calls", {
+  expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
+  expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
+})
+
+test_that("lazy tables support colwise variants", {
+  tbls <- test_load(iris[1:10, ])
+
+  expected <- as.character(iris$Species[1:10])
+  for (tbl in tbls) {
+    if (inherits(tbl, "tbl_lazy")) {
+      expect_message(tbl <- mutate_if(tbl, is.factor, as.character), "on the first 100 rows")
+      expect_identical(collect(tbl)$Species, expected)
+    }
+  }
+
+  expected <- mean(iris$Sepal.Length[1:10])
+  for (tbl in tbls) {
+    if (inherits(tbl, "tbl_lazy")) {
+      tbl <- summarise_at(tbl, "Sepal.Length", mean)
+      expect_equal(collect(tbl)$Sepal.Length, expected)
+    }
+  }
 })
 
 

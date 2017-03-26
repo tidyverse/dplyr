@@ -96,3 +96,10 @@ test_that("slice strips grouped indices (#1405)", {
   expect_equal(nrow(res), 3L)
   expect_equal(attr(res, "indices"), as.list(0:2))
 })
+
+test_that("slice works with zero-column data frames (#2490)", {
+  expect_equal(
+    data_frame(a = 1:3) %>% select(-a) %>% slice(1) %>% nrow,
+    1L
+  )
+})

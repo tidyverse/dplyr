@@ -25,10 +25,6 @@ namespace dplyr {
       return visitors.subset(index, get_class(data));
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      return visitors.subset(index, get_class(data));
-    }
-
     inline SEXP subset(EmptySubset index) const {
       return visitors.subset(index, get_class(data));
     }
@@ -41,7 +37,7 @@ namespace dplyr {
       return "data.frame";
     }
 
-    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
       return is_same_typeid(other);
     }
 

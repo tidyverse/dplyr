@@ -91,12 +91,14 @@ test_that("mutate recycles results of length 1", {
   str  <- "foo"
   num  <- 1
   bool <- TRUE
+  list <- list(NULL)
 
-  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool)
+  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool, list = list)
   expect_equal(res$int , rep(int , 4))
   expect_equal(res$str , rep(str , 4))
   expect_equal(res$num , rep(num , 4))
   expect_equal(res$bool, rep(bool, 4))
+  expect_equal(res$list, rep(list, 4))
 })
 
 
@@ -230,26 +232,33 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
   expect_false("cyl" %in% names(data))
 })
 
+test_that("mutate strips names (#1689)", {
+  data <- data_frame(a = 1:3) %>% mutate(b = setNames(nm = a))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = 1:3) %>% rowwise %>% mutate(b = setNames(nm = a))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
+  expect_null(names(data$b))
+})
+
+test_that("mutate strips names of list-columns, but keeps names in original data (#2523)", {
+  vec <- list(a = 1, b = 2)
+  data <- data_frame(x = vec)
+  data <- mutate(data, x)
+  expect_identical(names(vec), c("a", "b"))
+  expect_null(names(data$x))
+})
+
 test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
-  expect_error(
-    data_frame(a = 1) %>% mutate(b = identity(NULL)),
-    "incompatible size (0), expecting one (the number of rows)",
-    fixed = TRUE
-  )
-  expect_error(
-    data_frame(a = 1:3) %>%
-      group_by(a) %>%
-      mutate(b = identity(NULL)),
-    "incompatible size (0), expecting one (the group size)",
-    fixed = TRUE
-  )
-  expect_error(
-    data_frame(a = 1:3) %>%
-      rowwise %>%
-      mutate(b = if (a < 2) a else NULL),
-    "incompatible types",
-    fixed = TRUE
-  )
+  df <- data_frame(a = 1:3)
+  gf <- group_by(df, a)
+  rf <- rowwise(df)
+
+  expect_error(mutate(df, b = identity(NULL)), "must be a vector, not a NULL")
+  expect_error(mutate(gf, b = identity(NULL)), "must be a vector, not a NULL")
+  expect_error(mutate(rf, b = identity(NULL)), "must be a vector, not a NULL")
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
@@ -406,7 +415,7 @@ test_that("row_number handles empty data frames (#762)", {
 test_that("no utf8 invasion (#722)", {
   skip_on_os("windows")
 
-  source("utf-8.R", local = TRUE)
+  source("utf-8.R", local = TRUE, encoding = "UTF-8")
 })
 
 test_that("mutate works on empty data frames (#1142)", {
@@ -479,7 +488,7 @@ test_that("mutate handles the all NA case (#958)", {
   expect_true(all(is.na(res$adjusted_values[1:12])))
 })
 
-test_that("rowwie mutate gives expected results (#1381)", {
+test_that("rowwise mutate gives expected results (#1381)", {
   f <- function(x) ifelse(x < 2, NA_real_, x)
   res <- data_frame(x = 1:3) %>% rowwise() %>% mutate(y = f(x))
   expect_equal(res$y, c(NA, 2, 3))
@@ -493,8 +502,6 @@ test_that("mutate handles factors (#1414)", {
   res <- d %>% group_by(g) %>% mutate(f2 = factor(f, levels = c("a", "b")))
   expect_equal(as.character(res$f2), res$f)
 })
-
-# .data and .env tests now in test-hybrid-traverse.R
 
 test_that("mutate handles results from one group with all NA values (#1463) ", {
   df <- data_frame(x = c(1, 2), y = c(1, NA))

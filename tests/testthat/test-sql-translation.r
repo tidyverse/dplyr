@@ -151,6 +151,10 @@ test_that("log base comes first", {
   expect_equal(translate_sql(log(x, 10)), sql('log(10.0, "x")'))
 })
 
+test_that("log becomes ln", {
+  expect_equal(translate_sql(log(x)), sql('ln("x")'))
+})
+
 test_that("sqlite mimics two argument log", {
   translate_sqlite <- function(...) {
     translate_sql(..., con = src_memdb()$con)
@@ -158,6 +162,28 @@ test_that("sqlite mimics two argument log", {
 
   expect_equal(translate_sqlite(log(x)), sql('log(`x`)'))
   expect_equal(translate_sqlite(log(x, 10)), sql('log(`x`) / log(10.0)'))
+})
+
+test_that("postgres mimics two argument log", {
+  translate_postgres <- function(...) {
+    # Slightly hacky, but fake the postgres connection rather than hassling
+    # with a system- or CI-dependent call to src_postgres().
+    con <- structure(list(), class = "PostgreSQLConnection")
+    translate_sql(..., con = con)
+  }
+
+  expect_equal(translate_postgres(log(x)), sql('ln("x")'))
+  expect_equal(translate_postgres(log(x, 10)), sql('log("x") / log(10.0)'))
+  expect_equal(translate_postgres(log(x, 10L)), sql('log("x") / log(10)'))
+})
+
+# string functions --------------------------------------------------------
+
+test_that("different arguments of substr are corrected", {
+  expect_equal(translate_sql(substr(x, 3, 4)), sql('substr("x", 3, 2)'))
+  expect_equal(translate_sql(substr(x, 3, 3)), sql('substr("x", 3, 1)'))
+  expect_equal(translate_sql(substr(x, 3, 2)), sql('substr("x", 3, 0)'))
+  expect_equal(translate_sql(substr(x, 3, 1)), sql('substr("x", 3, 0)'))
 })
 
 # partial_eval() ----------------------------------------------------------

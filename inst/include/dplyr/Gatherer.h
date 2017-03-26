@@ -97,7 +97,7 @@ namespace dplyr {
       } else {
         stop(
           "Can not automatically convert from %s to %s in column \"%s\".",
-          coll->describe(), get_single_class(subset), name.get_cstring()
+          coll->describe(), get_single_class(subset), name.get_utf8_cstring()
         );
       }
     }
@@ -235,7 +235,7 @@ namespace dplyr {
     case CPLXSXP:
       return new ConstantGathererImpl<CPLXSXP>(x, n);
     case VECSXP:
-      return new ConstantGathererImpl<STRSXP>(x, n);
+      return new ConstantGathererImpl<VECSXP>(x, n);
     default:
       break;
     }
@@ -252,9 +252,8 @@ namespace dplyr {
       stop("`mutate` does not support `POSIXlt` results");
     }
 
-    check_length(Rf_length(first), indices.size(), "the group size");
-
     check_supported_type(first, name);
+    check_length(Rf_length(first), indices.size(), "the group size");
 
     const int ng = gdf.ngroups();
     int i = 0;

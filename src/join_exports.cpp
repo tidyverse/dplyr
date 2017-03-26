@@ -11,9 +11,6 @@
 
 #include <dplyr/DataFrameJoinVisitors.h>
 
-#include <dplyr/Result/GroupedCallProxy.h>
-#include <dplyr/Result/CallProxy.h>
-
 #include <dplyr/train.h>
 
 using namespace Rcpp;
@@ -30,7 +27,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   // first the joined columns
-  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors join_visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, false);
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
@@ -126,7 +123,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
     if (group_col_index != NA_INTEGER) {
       group_cols.set(i, names[group_col_index-1]);
     } else {
-      stop("unknown group column '%s'", group_cols_x[i].get_cstring());
+      stop("unknown group column '%s'", group_cols_x[i].get_utf8_cstring());
     }
   }
   set_vars(out, group_cols);
@@ -154,10 +151,10 @@ void push_back(Container& x, typename Container::value_type value, int n) {
 }
 
 // [[Rcpp::export]]
-DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y) {
+DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -184,10 +181,10 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 }
 
 // [[Rcpp::export]]
-DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y) {
+DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -212,10 +209,11 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 // [[Rcpp::export]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
-                          std::string& suffix_x, std::string& suffix_y) {
+                          std::string& suffix_x, std::string& suffix_y,
+                          bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
   int n_x = x.nrows(), n_y = y.nrows();
@@ -244,10 +242,11 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          CharacterVector by_x, CharacterVector by_y,
-                         std::string& suffix_x, std::string& suffix_y) {
+                         std::string& suffix_x, std::string& suffix_y,
+                         bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true);
+  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
 
   Map map(visitors);
 
@@ -281,10 +280,11 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
-                          std::string& suffix_x, std::string& suffix_y) {
+                          std::string& suffix_x, std::string& suffix_y,
+                          bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -316,10 +316,11 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          CharacterVector by_x, CharacterVector by_y,
-                         std::string& suffix_x, std::string& suffix_y) {
+                         std::string& suffix_x, std::string& suffix_y,
+                         bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true);
+  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
   Map map(visitors);
 
   // train the map in terms of y
@@ -344,7 +345,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   }
 
   // train a new map in terms of x this time
-  DataFrameJoinVisitors visitors2(x,y,by_x,by_y, false);
+  DataFrameJoinVisitors visitors2(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map2(visitors2);
   train_push_back(map2, x.nrows());
 
@@ -363,191 +364,4 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                      suffix_x, suffix_y,
                      get_class(x)
                     );
-}
-
-inline SEXP check_filter_integer_result(SEXP tmp) {
-  if (TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
-    stop("slice condition does not evaluate to an integer or numeric vector. ");
-  }
-  return tmp;
-}
-
-class CountIndices {
-public:
-  CountIndices(int nr_, IntegerVector test_) : nr(nr_), test(test_), n_pos(0), n_neg(0) {
-
-    for (int j=0; j<test.size(); j++) {
-      int i = test[j];
-      if (i > 0 && i <= nr) {
-        n_pos++;
-      } else if (i < 0 && i >= -nr) {
-        n_neg++;
-      }
-    }
-
-    if (n_neg > 0 && n_pos > 0) {
-      stop("found %d positive indices and %d negative indices", n_pos, n_neg);
-    }
-
-  }
-
-  inline bool is_positive() const {
-    return n_pos > 0;
-  }
-  inline int get_n_positive() const {
-    return n_pos;
-  }
-  inline int get_n_negative() const {
-    return n_neg;
-  }
-
-private:
-  int nr;
-  IntegerVector test;
-  int n_pos;
-  int n_neg;
-};
-
-SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
-  typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
-
-  const DataFrame& data = gdf.data();
-  const NamedQuosure& quosure = dots[0];
-  Environment env = quosure.env();
-  SymbolVector names = data.names();
-
-  // we already checked that we have only one expression
-  Call call(quosure.expr());
-
-  std::vector<int> indx;
-  indx.reserve(1000);
-
-  IntegerVector g_test;
-  Proxy call_proxy(call, gdf, env);
-
-  int ngroups = gdf.ngroups();
-  GroupedDataFrame::group_iterator git = gdf.group_begin();
-  for (int i=0; i<ngroups; i++, ++git) {
-    const SlicingIndex& indices = *git;
-    int nr = indices.size();
-    g_test = check_filter_integer_result(call_proxy.get(indices));
-    CountIndices counter(indices.size(), g_test);
-
-    if (counter.is_positive()) {
-      // positive indexing
-      int ntest = g_test.size();
-      for (int j=0; j<ntest; j++) {
-        if (!(g_test[j] > nr || g_test[j] == NA_INTEGER)) {
-          indx.push_back(indices[g_test[j]-1]);
-        }
-      }
-    } else if (counter.get_n_negative() != 0) {
-      // negative indexing
-      std::set<int> drop;
-      int n = g_test.size();
-      for (int j=0; j<n; j++) {
-        if (g_test[j] != NA_INTEGER)
-          drop.insert(-g_test[j]);
-      }
-      int n_drop = drop.size();
-      std::set<int>::const_iterator drop_it = drop.begin();
-
-      int k = 0, j = 0;
-      while (drop_it != drop.end()) {
-        int next_drop = *drop_it - 1;
-        while (j < next_drop) {
-          indx.push_back(indices[j++]);
-          k++;
-        }
-        j++;
-        ++drop_it;
-      }
-      while (k < nr - n_drop) {
-        indx.push_back(indices[j++]);
-        k++;
-      }
-
-    }
-  }
-  DataFrame res = subset(data, indx, names, classes_grouped<GroupedDataFrame>());
-  set_vars(res, get_vars(data));
-  strip_index(res);
-
-  return GroupedDataFrame(res).data();
-
-}
-
-SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
-  CharacterVector names = df.names();
-
-  const NamedQuosure& quosure = dots[0];
-  Call call(quosure.expr());
-  CallProxy proxy(call, df, quosure.env());
-  int nr = df.nrows();
-
-  IntegerVector test = check_filter_integer_result(proxy.eval());
-
-  int n = test.size();
-
-  // count the positive and negatives
-  CountIndices counter(nr, test);
-
-  // just positives -> one based subset
-  if (counter.is_positive()) {
-    int n_pos = counter.get_n_positive();
-    std::vector<int> idx(n_pos);
-    int j=0;
-    for (int i=0; i<n_pos; i++) {
-      while (test[j] > nr || test[j] == NA_INTEGER) j++;
-      idx[i] = test[j++] - 1;
-    }
-
-    return subset(df, idx, df.names(), classes_not_grouped());
-  }
-
-  // special case where only NA
-  if (counter.get_n_negative() == 0) {
-    std::vector<int> indices;
-    DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-    return res;
-  }
-
-  // just negatives (out of range is dealt with early in CountIndices).
-  std::set<int> drop;
-  for (int i=0; i<n; i++) {
-    if (test[i] != NA_INTEGER)
-      drop.insert(-test[i]);
-  }
-  int n_drop = drop.size();
-  std::vector<int> indices(nr - n_drop);
-  std::set<int>::const_iterator drop_it = drop.begin();
-
-  int i = 0, j = 0;
-  while (drop_it != drop.end()) {
-    int next_drop = *drop_it - 1;
-    while (j < next_drop) {
-      indices[i++] = j++;
-    }
-    j++;
-    ++drop_it;
-  }
-  while (i < nr - n_drop) {
-    indices[i++] = j++;
-  }
-
-  DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-  return res;
-
-}
-
-// [[Rcpp::export]]
-SEXP slice_impl(DataFrame df, QuosureList dots) {
-  if (dots.size() == 0) return df;
-  if (dots.size() != 1)
-    stop("slice only accepts one expression");
-  if (is<GroupedDataFrame>(df)) {
-    return slice_grouped(GroupedDataFrame(df), dots);
-  } else {
-    return slice_not_grouped(df, dots);
-  }
 }

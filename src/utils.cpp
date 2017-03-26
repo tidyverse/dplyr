@@ -12,20 +12,19 @@ void assert_all_white_list(const DataFrame& data) {
   int nc = data.size();
   for (int i=0; i<nc; i++) {
     if (!white_list(data[i])) {
-      CharacterVector names = data.names();
-      String name_i = names[i];
+      SymbolVector names = data.names();
+      const SymbolString& name_i = names[i];
       SEXP v = data[i];
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
         stop("column '%s' has unsupported class : %s",
-             name_i.get_cstring() , get_single_class(v));
+             name_i.get_utf8_cstring() , get_single_class(v));
       }
       else {
         stop("column '%s' has unsupported type : %s",
-             name_i.get_cstring() , Rf_type2char(TYPEOF(v)));
+             name_i.get_utf8_cstring() , Rf_type2char(TYPEOF(v)));
       }
-
     }
   }
 }
@@ -83,7 +82,7 @@ namespace dplyr {
     SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
     if (!Rf_isNull(klass)) {
       CharacterVector classes(klass);
-      return collapse(classes);
+      return collapse_utf8(classes);
     }
 
     if (Rf_isMatrix(x)) {
@@ -112,10 +111,14 @@ namespace dplyr {
     return CHAR(STRING_ELT(klass,0));
   }
 
+  CharacterVector default_chars(SEXP x, R_xlen_t len) {
+    if (Rf_isNull(x)) return CharacterVector(len);
+    return x;
+  }
+
   CharacterVector get_class(SEXP x) {
     SEXP class_attr = Rf_getAttrib(x, R_ClassSymbol);
-    if (Rf_isNull(class_attr)) return CharacterVector();
-    return class_attr;
+    return default_chars(class_attr, 0);
   }
 
   SEXP set_class(SEXP x, const CharacterVector& class_) {
@@ -125,8 +128,7 @@ namespace dplyr {
 
   CharacterVector get_levels(SEXP x) {
     SEXP levels_attr = Rf_getAttrib(x, R_LevelsSymbol);
-    if (Rf_isNull(levels_attr)) return CharacterVector();
-    return levels_attr;
+    return default_chars(levels_attr, 0);
   }
 
   SEXP set_levels(SEXP x, const CharacterVector& levels) {

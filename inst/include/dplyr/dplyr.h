@@ -13,7 +13,7 @@
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>
-#include <dplyr/comparisons_different.h>
+#include <dplyr/join_match.h>
 #include <dplyr/MultipleVectorVisitors.h>
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/subset_visitor.h>

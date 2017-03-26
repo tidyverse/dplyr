@@ -5,30 +5,36 @@
 
 
 warn_underscored <- function() {
+  return(NULL)
   warn(paste(
     "The underscored versions are deprecated in favour of",
     "tidy evaluation idioms. Please see the documentation",
-    "for `tidy_quote()` in rlang"
+    "for `quo()` in rlang"
   ))
 }
 warn_text_se <- function() {
+  return(NULL)
   warn("Text parsing is deprecated, please supply an expression or formula")
 }
 
 compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   if (warn) warn_underscored()
 
-  coerce_type(lazy, "tidy_quote",
-    quote = lazy,
+  if (missing(lazy)) {
+    return(quo())
+  }
+
+  coerce_type(lazy, "quosure",
+    quosure = lazy,
     symbol = ,
-    language = quosure(lazy, env),
+    language = new_quosure(lazy, env),
     string = {
       if (warn) warn_text_se()
-      parse_f(lazy, env)
+      parse_quosure(lazy, env)
     },
     list =
-      coerce_class(lazy, "tidy_quote",
-        lazy = quosure(lazy$expr, lazy$env)
+      coerce_class(lazy, "quosure",
+        lazy = new_quosure(lazy$expr, lazy$env)
       )
   )
 }
@@ -46,13 +52,24 @@ compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
     warn <- FALSE
   }
 
-  named <- have_names(dots)
+  named <- have_name(dots)
   if (.named && any(!named)) {
     nms <- map_chr(dots[!named], f_text)
     names(dots)[!named] <- nms
   }
 
+  names(dots) <- names2(dots)
   dots
+}
+
+compat_as_lazy <- function(quo) {
+  structure(class = "lazy", list(
+    expr = f_rhs(quo),
+    env = f_env(quo)
+  ))
+}
+compat_as_lazy_dots <- function(...) {
+  structure(class = "lazy_dots", map(quos(...), compat_as_lazy))
 }
 
 

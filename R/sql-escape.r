@@ -217,7 +217,7 @@ build_sql <- function(..., .env = parent.frame(), con = NULL) {
     # If it's a string, leave it as is
     if (is.character(x)) return(x)
 
-    val <- eval(x, .env)
+    val <- eval_bare(x, .env)
     # Skip nulls, so you can use if statements like in paste
     if (is.null(val)) return("")
 

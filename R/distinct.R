@@ -44,7 +44,7 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
 #' vars (character vector) comes out.
 #' @noRd
 distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
 
   # If no input, keep all variables
   if (length(dots) == 0) {

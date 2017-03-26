@@ -75,7 +75,11 @@ base_scalar <- sql_translator(
   exp     = sql_prefix("exp", 1),
   floor   = sql_prefix("floor", 1),
   log     = function(x, base = exp(1)) {
-    build_sql(sql("log"), list(base, x))
+    if (isTRUE(all.equal(base, exp(1)))) {
+      build_sql(sql("ln"), list(x))
+    } else {
+      build_sql(sql("log"), list(base, x))
+    }
   },
   log10   = sql_prefix("log10", 1),
   round   = sql_prefix("round", 2),
@@ -87,7 +91,14 @@ base_scalar <- sql_translator(
 
   tolower = sql_prefix("lower", 1),
   toupper = sql_prefix("upper", 1),
+  trimws = sql_prefix("trim", 1),
   nchar   = sql_prefix("length", 1),
+  substr = function(x, start, stop) {
+    start <- as.integer(start)
+    length <- pmax(as.integer(stop) - start + 1L, 0L)
+
+    build_sql(sql("substr"), list(x, start, length))
+  },
 
   `if` = sql_if,
   if_else = function(condition, true, false) sql_if(condition, true, false),
@@ -124,12 +135,7 @@ base_scalar <- sql_translator(
   },
 
   pmin = sql_prefix("min"),
-  pmax = sql_prefix("max"),
-
-  `__dplyr_colwise_fun` = function(...) {
-    stop("colwise verbs only accept bare functions with local sources",
-      call. = FALSE)
-  }
+  pmax = sql_prefix("max")
 )
 
 base_symbols <- sql_translator(

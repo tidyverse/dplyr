@@ -20,11 +20,12 @@ Imports:
     glue,
     magrittr,
     methods,
-    utils,
-    rlang,
+    pkgconfig,
+    rlang (>= 0.0.0.9004),
     R6,
     Rcpp (>= 0.12.6),
-    tibble (>= 1.2)
+    tibble (>= 1.2),
+    utils
 Suggests: 
     RSQLite (>= 1.0.0),
     RMySQL,
@@ -80,6 +81,7 @@ Collate:
     'dplyr.r'
     'explain.r'
     'failwith.r'
+    'funs-predicates.R'
     'funs.R'
     'group-by.r'
     'group-indices.R'
@@ -141,5 +143,5 @@ Collate:
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang,
+    hadley/rlang@fbfc06c2,
     tidyverse/glue

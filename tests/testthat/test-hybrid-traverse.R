@@ -187,7 +187,7 @@ test_hybrid <- function(grouping) {
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(., f = ~ mean(UQ(var))) %>%
+        mutate(., f = mean(UQ(var))) %>%
         select(-e),
       test_df %>%
         grouping %>%
@@ -508,4 +508,4 @@ test_hybrid <- function(grouping) {
 
 test_hybrid(identity)
 test_hybrid(rowwise)
-test_hybrid(. %>% group_by(~ id))
+test_hybrid(. %>% group_by(!! ~id))

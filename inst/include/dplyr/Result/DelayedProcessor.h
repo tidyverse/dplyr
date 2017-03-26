@@ -192,7 +192,6 @@ namespace dplyr {
         levels[it->second-1] = it->first;
       }
       set_levels(res, levels);
-      set_class(res, "factor");
       return res;
     }
 
@@ -233,7 +232,7 @@ namespace dplyr {
 
     virtual bool try_handle(const RObject& chunk) {
       if (is<List>(chunk) && Rf_length(chunk) == 1) {
-        res[pos++] = maybe_copy(VECTOR_ELT(chunk, 0));
+        res[pos++] = Rf_duplicate(VECTOR_ELT(chunk, 0));
         return true;
       }
       return false;
@@ -254,10 +253,6 @@ namespace dplyr {
   private:
     List res;
     int pos;
-
-    inline SEXP maybe_copy(SEXP x) const {
-      return is_ShrinkableVector(x) ? Rf_duplicate(x) : x;
-    }
   };
 
   template <typename CLASS>

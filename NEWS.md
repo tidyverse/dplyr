@@ -1,5 +1,84 @@
 # dplyr 0.5.0.9000
 
+* The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
+  etc) now support S3 objects and lazy tables. S3 objects should
+  implement methods for `length()`, `[[` and `tbl_vars()`. For lazy
+  tables, the first 100 rows are collected and the predicate is
+  applied on this subset of the data. This is robust for the common
+  case of checking the type of a column (#2129).
+
+* The performance of colwise verbs like `mutate_all()` is now back to
+  where it was in `mutate_each()`.
+
+* `funs()` has better handling of namespaced functions (#2089).
+
+* `order_by()`, `top_n()`, `sample_n()` and `sample_frac()` now use
+  tidyeval to capture their arguments by expression. This makes it
+  possible to use unquoting idioms (see `vignette("programming")`) and
+  fixes scoping issues (#2297).
+
+* Most verbs taking dots now ignore the last argument if empty. This
+  makes it easier to copy lines of code without having to worry about
+  deleting trailing commas (#1039).
+
+* `ntile()` ignores `NA` when computing group membership (#2564).
+
+* `between()` returns NA if `left` or `right` is `NA` (fixes #2562).
+
+* `substr()` is now translated to SQL, correcting for the difference
+  in the third argument. In R, it's the position of the last character,
+  in SQL it's the length of the string (#2536).
+
+* Fixed undefined behavior for `slice()` on a zero-column data frame (#2490).
+
+* Fixed segmentation fault after calling `rename()` on an invalid grouped
+  data frame (#2031).
+
+* Error messages and explanations of data frame inequality are now encoded in
+  UTF-8, also on Windows (#2441).
+
+* Breaking change: `xxx_join.tbl_df()` by default treats all `NA` values as
+  different from each other (and from any other value), so that they never
+  match.  This corresponds to the behavior of joins for database sources,
+  and of database joins in general.  To match `NA` values, pass
+  `na_matches = "na"` to the join verbs; this is only supported for data frames.
+  The default can also be tweaked by calling
+  `pkgconfig::set_config("dplyr::na_matches", "na")` (#2033).
+
+* `summarise()` now correctly evaluates newly created factors (#2217).
+
+* `summarise()` now can create ordered factors (#2200).
+
+* `bind_rows()` and `bind_cols()` give an error for database tables (#2373).
+
+* `bind_rows()` works correctly with `NULL` arguments and an `.id` argument
+  (#2056), and also for zero-column data frames (#2175).
+
+* `mutate()` recycles list columns of length 1 (#2171).
+* Databases and lazy tables are now compatible with `_if()` variants
+  such as `mutate_if()`. The predicates are applied on the first 10000
+  rows.
+
+* The `_if()` variants such as `mutate_if()` are now compatible with
+  objects implementing `length()` and `[[` methods.
+
+* Fixed very rare case of false match during join (#2515).
+
+* Restricted workaround for `match()` to R 3.3.0. (#1858).
+
+* dplyr now warns on load when the version of R or Rcpp during installation is
+  different to the currently installed version (#2514).
+
+* Joins now always reencode character columns to UTF-8 if necessary. This gives
+  a nice speedup, because now pointer comparison can be used instead of string
+  comparison, but relies on a proper encoding tag for all strings (#2514).
+
+* Fixed improper reuse of attributes when creating a list column in `summarise()`
+  and perhaps `mutate()` (#2231).
+
+* `mutate()` and `summarise()` always strip the `names` attribute from new
+  or updated columns, even for ungrouped operations (#1689).
+
 * Fixed segmentation faults in hybrid evaluation of `first()`, `last()`,
   `nth()`,  `lead()`, and `lag()`. These functions now always fall back to the R
   implementation if called with arguments that the hybrid evaluator cannot

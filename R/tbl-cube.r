@@ -319,11 +319,11 @@ rename_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 filter.tbl_cube <- function(.data, ...) {
-  dots <- tidy_quotes(...)
+  dots <- quos(...)
 
   idx <- map_int(dots, function(d) find_index_check(f_rhs(d), names(.data$dims)))
   for (i in seq_along(dots)) {
-    sel <- tidy_eval(dots[[i]], .data$dims)
+    sel <- eval_tidy(dots[[i]], .data$dims)
     sel <- sel & !is.na(sel)
 
     .data$dims[[idx[i]]] <- .data$dims[[idx[i]]][sel]
@@ -389,7 +389,7 @@ group_vars.tbl_cube <- function(x) {
 
 #' @export
 summarise.tbl_cube <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
 
   out_dims <- .data$dims[.data$groups]
   n <- map_int(out_dims, length)
@@ -411,7 +411,7 @@ summarise.tbl_cube <- function(.data, ...) {
 
     # Loop over each expression
     for (j in seq_along(dots)) {
-      res <- tidy_eval(dots[[j]], mets)
+      res <- eval_tidy(dots[[j]], mets)
       out_mets[[j]][i] <- res
     }
   }
@@ -420,7 +420,7 @@ summarise.tbl_cube <- function(.data, ...) {
 }
 #' @export
 summarise_.tbl_cube <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   summarise(.data, !!! dots)
 }
 
@@ -444,7 +444,7 @@ subs_index <- function(x, i, val, drop = FALSE) {
   args$drop <- drop
 
   call <- as.call(c(quote(`[`), quote(x), args))
-  eval(call)
+  eval_bare(call)
 }
 
 

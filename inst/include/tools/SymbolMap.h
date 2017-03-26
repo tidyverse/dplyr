@@ -81,7 +81,7 @@ namespace dplyr {
     int get(const SymbolString& name) const {
       SymbolMapIndex index = get_index(name);
       if (index.origin == NEW) {
-        stop("variable '%s' not found", name.get_cstring());
+        stop("variable '%s' not found", name.get_utf8_cstring());
       }
       return index.pos;
     }

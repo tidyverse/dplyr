@@ -72,7 +72,7 @@ namespace dplyr {
       if (name.is_empty()) {
         Rcpp::stop("Unsupported type %s", type_name(x));
       } else {
-        Rcpp::stop("Column `%s` must be a vector, not a %s", name.get_cstring(), type_name(x));
+        Rcpp::stop("Column `%s` must be a vector, not a %s", name.get_utf8_cstring(), type_name(x));
       }
     }
   }

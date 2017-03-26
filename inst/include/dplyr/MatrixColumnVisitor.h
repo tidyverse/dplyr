@@ -12,7 +12,7 @@ namespace dplyr {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef typename Matrix<RTYPE>::Column Column;
 
-    class ColumnVisitor : public comparisons<RTYPE> {
+    class ColumnVisitor {
     public:
       typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
       typedef comparisons<RTYPE> compare;

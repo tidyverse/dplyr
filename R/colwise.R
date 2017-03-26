@@ -70,7 +70,7 @@
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
   vars <- list(~everything())
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -79,7 +79,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   vars <- list(~everything())
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
@@ -87,11 +87,8 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
-  if (inherits(.tbl, "tbl_lazy")) {
-    abort("Conditional colwise operations currently require local sources")
-  }
-  vars <- probe_colwise_names(.tbl, .predicate)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  vars <- tbl_if_syms(.tbl, .predicate)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -99,33 +96,17 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
-  if (inherits(.tbl, "tbl_lazy")) {
-    abort("Conditional colwise operations currently require local sources")
-  }
-  vars <- probe_colwise_names(.tbl, .predicate)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  vars <- tbl_if_syms(.tbl, .predicate)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
-}
-
-probe_colwise_names <- function(tbl, p, ...) {
-  if (is_logical(p)) {
-    stopifnot(length(p) == length(tbl))
-    selected <- p
-  } else {
-    selected <- map_lgl(tbl, p, ...)
-  }
-
-  vars <- tbl_vars(tbl)
-  vars <- vars[selected]
-  symbols(vars)
 }
 
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .cols, .funs, ...) {
-  vars <- select_colwise_names(.tbl, .cols)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  vars <- tbl_at_syms(.tbl, .cols)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -133,8 +114,8 @@ summarise_at <- function(.tbl, .cols, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .cols, .funs, ...) {
-  vars <- select_colwise_names(.tbl, .cols)
-  funs <- as_fun_list(.funs, .env = caller_env(), ...)
+  vars <- tbl_at_syms(.tbl, .cols)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
   funs <- apply_vars(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
@@ -162,32 +143,58 @@ summarize_if <- summarise_if
 #' @seealso [summarise_all()]
 #' @export
 vars <- function(...) {
-  structure(tidy_quotes(...), class = "col_list")
+  structure(quos(...), class = "col_list")
 }
 is_col_list <- function(cols) inherits(cols, "col_list")
 
-select_colwise_names <- function(tbl, cols) {
+# Requires tbl_vars() method
+tbl_at_syms <- function(tbl, cols) {
   vars <- tbl_vars(tbl)
 
   if (is_character(cols)) {
-    selected <- symbols(cols)
+    selected <- syms(cols)
   } else if (is_col_list(cols)) {
     selected <- cols
   } else if (is.numeric(cols)) {
-    selected <- symbols(vars[cols])
+    selected <- syms(vars[cols])
   } else {
-    abort(".cols should be a character/numeric vector or a columns object")
+    abort("`.cols` should be a character/numeric vector or a columns object")
   }
 
   selected
 }
 
+# Requires tbl_vars(), `[[`() and length() methods
+tbl_if_syms <- function(tbl, p, ...) {
+  vars <- tbl_vars(tbl)
+
+  if (is_logical(p)) {
+    stopifnot(length(p) == length(vars))
+    return(syms(vars[p]))
+  }
+
+  if (inherits(tbl, "tbl_lazy")) {
+    inform("Applying predicate on the first 100 rows")
+    tibble <- collect(tbl, n = 100)
+  } else {
+    tibble <- tbl
+  }
+
+  n <- length(tibble)
+  selected <- lgl_len(n)
+  for (i in seq_len(n)) {
+    selected[[i]] <- p(tibble[[i]], ...)
+  }
+
+  vars <- vars[selected]
+  syms(vars)
+}
 
 apply_vars <- function(funs, vars, tbl) {
   stopifnot(is_fun_list(funs))
 
-  named_calls <- attr(funs, "have_names")
-  named_vars <- any(have_names(vars))
+  named_calls <- attr(funs, "have_name")
+  named_vars <- any(have_name(vars))
   vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
 
   out <- vector("list", length(vars) * length(funs))
@@ -195,7 +202,7 @@ apply_vars <- function(funs, vars, tbl) {
 
   for (i in seq_along(vars)) {
     for (j in seq_along(funs)) {
-      var_sym <- symbol(vars[[i]])
+      var_sym <- sym(vars[[i]])
       out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }
@@ -233,7 +240,7 @@ apply_vars <- function(funs, vars, tbl) {
 #'   be either a list of expressions or a character vector.
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, tidy_quotes(...))
+  summarise_each_(tbl, funs, quos(...))
 }
 
 #' @export
@@ -243,6 +250,8 @@ summarise_each_ <- function(tbl, funs, vars) {
   .Deprecated("summarise_all")
   if (is_empty(vars)) {
     vars <- list(~everything())
+  } else {
+    vars <- compat_lazy_dots(vars, caller_env())
   }
   if (is_character(funs)) {
     funs <- funs_(funs)
@@ -267,7 +276,7 @@ mutate_each <- function(tbl, funs, ...) {
     funs <- funs_(funs)
   }
 
-  mutate_each_(tbl, funs, tidy_quotes(...))
+  mutate_each_(tbl, funs, quos(...))
 }
 
 #' @export
@@ -276,6 +285,8 @@ mutate_each_ <- function(tbl, funs, vars) {
   .Deprecated("mutate_all")
   if (is_empty(vars)) {
     vars <- list(~everything())
+  } else {
+    vars <- compat_lazy_dots(vars, caller_env())
   }
   funs <- apply_vars(funs, vars, tbl)
   mutate(tbl, !!! funs)

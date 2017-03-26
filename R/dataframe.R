@@ -68,12 +68,12 @@ filter_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- tidy_quotes(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   slice_impl(.data, dots)
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   slice_impl(.data, dots)
 }
 
@@ -92,7 +92,7 @@ mutate.data.frame <- function(.data, ...) {
 }
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(mutate_(tbl_df(.data), ..., .dots = dots))
+  as.data.frame(mutate_(tbl_df(.data), ..., .dots = .dots))
 }
 
 #' @export
@@ -101,7 +101,7 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+  as.data.frame(arrange_(tbl_df(.data), ...), .dots = .dots)
 }
 
 #' @export
@@ -111,8 +111,8 @@ select.data.frame <- function(.data, ...) {
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  select(.data, !!! symbols(dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  select(.data, !!! dots)
 }
 
 #' @export
@@ -183,7 +183,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 }
 #' @export
 distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
@@ -192,19 +192,19 @@ distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 #' @export
 do.data.frame <- function(.data, ...) {
-  args <- tidy_quotes(...)
+  args <- quos(...)
   named <- named_args(args)
 
   # Create custom dynamic scope with `.` pronoun
   overscope <- child_env(data = list(. = .data, .data = .data))
 
   if (!named) {
-    out <- tidy_eval_(args[[1]], overscope)
+    out <- eval_tidy_(args[[1]], overscope)
     if (!inherits(out, "data.frame")) {
       abort("Result must be a data frame")
     }
   } else {
-    out <- map(args, function(arg) list(tidy_eval_(arg, overscope)))
+    out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }
@@ -221,24 +221,25 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 
 
 #' @export
-sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
+sample_n.data.frame <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL) {
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
   }
 
+  weight <- eval_tidy(enquo(weight), tbl)
   sample_n_basic(tbl, size, replace = replace, weight = weight)
 }
 
 
 #' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL) {
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
   }
 
+  weight <- eval_tidy(enquo(weight), tbl)
   sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
 }
 

@@ -73,6 +73,10 @@ group_by <- function(.data, ..., add = FALSE) {
   UseMethod("group_by")
 }
 #' @export
+group_by.default <- function(.data, ..., add = FALSE) {
+  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
+}
+#' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
@@ -91,11 +95,11 @@ group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
 #' @export
 #' @keywords internal
 group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
-  new_groups <- c(tidy_quotes(...), .dots)
+  new_groups <- c(quos(...), compat_lazy_dots(.dots, caller_env()))
 
   # If any calls, use mutate to add new columns, then group by those
   is_symbol <- map_lgl(new_groups, is_symbol)
-  named <- have_names(new_groups)
+  named <- have_name(new_groups)
 
   needs_mutate <- named | !is_symbol
   if (any(needs_mutate)) {
@@ -113,7 +117,7 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
 
   list(
     data = .data,
-    groups = symbols(group_names),
+    groups = syms(group_names),
     group_names = group_names
   )
 }

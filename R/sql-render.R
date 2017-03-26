@@ -16,7 +16,7 @@ sql_render.tbl_sql <- function(query, con = NULL, ...) {
     on.exit(con_release(query$src, con), add = TRUE)
   }
 
-  NextMethod(con = con)
+  sql_render.tbl_lazy(query, con, ...)
 }
 
 #' @export
@@ -53,16 +53,16 @@ sql_render.sql <- function(query, con = NULL, ...) {
 
 #' @export
 sql_render.join_query <- function(query, con = NULL, ..., root = FALSE) {
-  from_x <- sql_subquery(con, sql_render(query$x, con, ..., root = root), name = "_LEFT")
-  from_y <- sql_subquery(con, sql_render(query$y, con, ..., root = root), name = "_RIGHT")
+  from_x <- sql_subquery(con, sql_render(query$x, con, ..., root = root), name = "TBL_LEFT")
+  from_y <- sql_subquery(con, sql_render(query$y, con, ..., root = root), name = "TBL_RIGHT")
 
   sql_join(con, from_x, from_y, vars = query$vars, type = query$type, by = query$by)
 }
 
 #' @export
 sql_render.semi_join_query <- function(query, con = NULL, ..., root = FALSE) {
-  from_x <- sql_subquery(con, sql_render(query$x, con, ..., root = root), name = "_LEFT")
-  from_y <- sql_subquery(con, sql_render(query$y, con, ..., root = root), name = "_RIGHT")
+  from_x <- sql_subquery(con, sql_render(query$x, con, ..., root = root), name = "TBL_LEFT")
+  from_y <- sql_subquery(con, sql_render(query$y, con, ..., root = root), name = "TBL_RIGHT")
 
   sql_semi_join(con, from_x, from_y, anti = query$anti, by = query$by)
 }

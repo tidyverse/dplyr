@@ -10,16 +10,6 @@
 
 namespace dplyr {
 
-  template <typename Container>
-  inline int output_size(const Container& container) {
-    return container.size();
-  }
-
-  template <>
-  inline int output_size<LogicalVector>(const LogicalVector& container) {
-    return std::count(container.begin(), container.end(), TRUE);
-  }
-
   template <int RTYPE> std::string VectorVisitorType();
   template <> inline std::string VectorVisitorType<INTSXP>() {
     return "integer";
@@ -44,9 +34,10 @@ namespace dplyr {
    * Implementations
    */
   template <int RTYPE>
-  class VectorVisitorImpl : public VectorVisitor, public comparisons<RTYPE> {
-  public:
+  class VectorVisitorImpl : public VectorVisitor {
     typedef comparisons<RTYPE> compare;
+
+  public:
     typedef Rcpp::Vector<RTYPE> VECTOR;
 
     /**
@@ -102,6 +93,8 @@ namespace dplyr {
   };
 
   class FactorVisitor : public VectorVisitorImpl<INTSXP> {
+    typedef comparisons<STRSXP> string_compare;
+
   public:
     typedef VectorVisitorImpl<INTSXP> Parent;
 
@@ -116,7 +109,7 @@ namespace dplyr {
 
     inline bool less(int i, int j) const {
       return
-        string_compare.is_less(
+        string_compare::is_less(
           vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
           vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
         );
@@ -124,7 +117,7 @@ namespace dplyr {
 
     inline bool greater(int i, int j) const {
       return
-        string_compare.is_greater(
+        string_compare::is_greater(
           vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
           vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
         );
@@ -132,13 +125,12 @@ namespace dplyr {
 
     inline std::string get_r_type() const {
       CharacterVector classes = get_class(Parent::vec);
-      return collapse(classes);
+      return collapse_utf8(classes);
     }
 
   private:
     CharacterVector levels;
     SEXP* levels_ptr;
-    comparisons<STRSXP> string_compare;
   };
 
 

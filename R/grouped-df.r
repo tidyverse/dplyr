@@ -121,7 +121,7 @@ select.grouped_df <- function(.data, ...) {
 }
 #' @export
 select_.grouped_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   select.grouped_df(.data, !!! dots)
 }
 
@@ -171,7 +171,7 @@ do.grouped_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- tidy_quotes(...)
+  args <- quos(...)
   named <- named_args(args)
   env <- child_env(NULL)
 
@@ -186,7 +186,7 @@ do.grouped_df <- function(.data, ...) {
       out <- label_output_list(labels, out, groups(.data))
     } else {
       env_bind(env, list(. = group_data, .data = group_data))
-      out <- tidy_eval_(args[[1]], env)[0, , drop = FALSE]
+      out <- eval_tidy_(args[[1]], env)[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
     return(out)
@@ -214,7 +214,7 @@ do.grouped_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(overscope_eval(overscope, args[[j]]))
+      out[[j]][`_i`] <- list(overscope_eval_next(overscope, args[[j]]))
       p$tick()$print()
     }
   }
@@ -240,7 +240,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
@@ -249,22 +249,22 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 
 #' @export
-sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
+sample_n.grouped_df <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL) {
 
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  weight <- substitute(weight)
+  assert_that(is_scalar_integerish(size), size >= 0)
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
+  }
+  weight <- enquo(weight)
 
   index <- attr(tbl, "indices")
-  sampled <- lapply(
-    index,
-    sample_group,
+  sampled <- lapply(index, sample_group,
     frac = FALSE,
     tbl = tbl,
     size = size,
     replace = replace,
-    weight = weight,
-    .env = .env
+    weight = weight
   )
   idx <- unlist(sampled) + 1
 
@@ -272,42 +272,38 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE, weight = NULL,
 }
 
 #' @export
-sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-
+sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL) {
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  if (size > 1 && !replace) {
-    stop("Sampled fraction can't be greater than one unless replace = TRUE",
-      call. = FALSE)
+  if (!is_null(.env)) {
+    warn("`.env` is deprecated and no longer has any effect")
   }
-  weight <- substitute(weight)
+  if (size > 1 && !replace) {
+    abort("Sampled fraction can't be greater than one unless replace = TRUE")
+  }
+  weight <- enquo(weight)
 
   index <- attr(tbl, "indices")
-  sampled <- lapply(
-    index,
-    sample_group,
+  sampled <- lapply(index, sample_group,
     frac = TRUE,
     tbl = tbl,
     size = size,
     replace = replace,
-    weight = weight,
-    .env = .env
+    weight = weight
   )
   idx <- unlist(sampled) + 1
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
 
-sample_group <- function(tbl, i, frac = FALSE, size, replace = TRUE, weight = NULL,
-                         .env = parent.frame()) {
+sample_group <- function(tbl, i, frac, size, replace, weight) {
   n <- length(i)
   if (frac) size <- round(size * n)
 
   check_size(size, n, replace)
 
-  # weight use standard evaluation in this function
-  if (!is.null(weight)) {
-    weight <- eval(weight, tbl[i + 1, , drop = FALSE], .env)
+  weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
+  if (!is_null(weight)) {
     weight <- check_weight(weight, n)
   }
 

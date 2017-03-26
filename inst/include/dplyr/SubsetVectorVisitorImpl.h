@@ -46,17 +46,6 @@ namespace dplyr {
       return out;
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      int n = output_size(index);
-      VECTOR out = Rcpp::no_init(n);
-      for (int i=0, k=0; k<n; k++, i++) {
-        while (index[i] != TRUE) i++;
-        out[k] = vec[i];
-      }
-      copy_most_attributes(out, vec);
-      return out;
-    }
-
     inline SEXP subset(EmptySubset) const {
       VECTOR out(0);
       copy_most_attributes(out, vec);
@@ -71,7 +60,7 @@ namespace dplyr {
       return vec.size();
     }
 
-    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
       return is_same_typeid(other);
     }
 
@@ -131,33 +120,29 @@ namespace dplyr {
       return promote(Parent::subset(map));
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      return promote(Parent::subset(index));
-    }
-
     inline SEXP subset(EmptySubset empty) const {
       return promote(Parent::subset(empty));
     }
 
     inline std::string get_r_type() const {
       CharacterVector classes = get_class(Parent::vec);
-      return collapse(classes);
+      return collapse_utf8(classes);
     }
 
-    inline bool is_same_type(SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name) const {
+    inline bool is_same_type(SubsetVectorVisitor* other, std::stringstream& ss, const SymbolString& name) const {
       return is_same_typeid(other) && same_levels(dynamic_cast<SubsetFactorVisitor*>(other), ss, name);
     }
 
-    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream& ss, const std::string& name) const {
+    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
       return is_same_typeid(other) || (typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>));
     }
 
   private:
-    inline bool same_levels(SubsetFactorVisitor* other, std::stringstream& ss, const std::string& name) const {
+    inline bool same_levels(SubsetFactorVisitor* other, std::stringstream& ss, const SymbolString& name) const {
       CharacterVector levels_other = other->levels;
 
       if (!character_vector_equal(levels, levels_other)) {
-        ss << "Factor levels not equal for column '" << name << "'";
+        ss << "Factor levels not equal for column '" << name.get_utf8_cstring() << "'";
         return false;
       }
       return true;
@@ -206,10 +191,6 @@ namespace dplyr {
       return impl->subset(index);
     }
 
-    virtual SEXP subset(const Rcpp::LogicalVector& index) const {
-      return impl->subset(index);
-    }
-
     virtual SEXP subset(EmptySubset index) const {
       return impl->subset(index);
     }
@@ -222,7 +203,7 @@ namespace dplyr {
       return impl->get_r_type();
     }
 
-    bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+    bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
       return is_same_typeid(other);
     }
 
@@ -233,17 +214,20 @@ namespace dplyr {
   };
 
   template <>
-  inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+  inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&,
+      const SymbolString&) const {
     return is_same_typeid(other) || typeid(*other) == typeid(SubsetVectorVisitorImpl<REALSXP>);
   }
 
   template <>
-  inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+  inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&,
+      const SymbolString&) const {
     return is_same_typeid(other) || typeid(*other) == typeid(SubsetVectorVisitorImpl<INTSXP>);
   }
 
   template <>
-  inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
+  inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&,
+      const SymbolString&) const {
     return is_same_typeid(other) || typeid(*other) == typeid(SubsetFactorVisitor);
   }
 

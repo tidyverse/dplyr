@@ -111,15 +111,15 @@ sql_join.default <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
   )
 
   select <- sql_vector(c(
-    sql_as(con, names(vars$x), vars$x, table = "_LEFT"),
-    sql_as(con, names(vars$y), vars$y, table = "_RIGHT")
+    sql_as(con, names(vars$x), vars$x, table = "TBL_LEFT"),
+    sql_as(con, names(vars$y), vars$y, table = "TBL_RIGHT")
   ), collapse = ", ", parens = FALSE)
 
   on <- sql_vector(
     paste0(
-      sql_table_prefix(con, by$x, "_LEFT"),
+      sql_table_prefix(con, by$x, "TBL_LEFT"),
       " = ",
-      sql_table_prefix(con, by$y, "_RIGHT")
+      sql_table_prefix(con, by$y, "TBL_RIGHT")
     ),
     collapse = " AND ",
     parens = TRUE
@@ -172,9 +172,9 @@ sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
 }
 #' @export
 sql_semi_join.default <- function(con, x, y, anti = FALSE, by = NULL, ...) {
-  # X and Y are subqueries named _LEFT and _RIGHT
-  left <- escape(ident("_LEFT"), con = con)
-  right <- escape(ident("_RIGHT"), con = con)
+  # X and Y are subqueries named TBL_LEFT and TBL_RIGHT
+  left <- escape(ident("TBL_LEFT"), con = con)
+  right <- escape(ident("TBL_RIGHT"), con = con)
   on <- sql_vector(
     paste0(
       left,  ".", sql_escape_ident(con, by$x), " = ",
