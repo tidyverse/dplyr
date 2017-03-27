@@ -180,8 +180,5 @@ test_that("set ops captures both tables", {
   lf2 <- lazy_frame(x = 1, z = 2)
 
   out <- union(lf1, lf2) %>% sql_build()
-
-  expect_equal(op_vars(out$x), c("x", "y"))
-  expect_equal(op_vars(out$y), c("x", "z"))
   expect_equal(out$type, "UNION")
 })

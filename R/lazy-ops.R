@@ -198,7 +198,7 @@ op_vars.op_semi_join <- function(op) {
 }
 #' @export
 op_vars.op_set_op <- function(op) {
-  op_vars(op$x)
+  union(op_vars(op$x), op_vars(op$y))
 }
 #' @export
 op_vars.tbl_lazy <- function(op) {

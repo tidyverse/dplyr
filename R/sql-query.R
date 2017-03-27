@@ -106,6 +106,18 @@ join_vars <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
   list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
 }
 
+semi_join_vars <- function(x_names, y_names) {
+  all_names <- set_names(union(x_names, y_names))
+
+  x_new <- all_names
+  x_new[!all_names %in% x_names] <- NA
+
+  y_new <- all_names
+  y_new[!all_names %in% y_names] <- NA
+
+  list(x = x_new, y = y_new)
+}
+
 
 get_join_xy_names <- function(by, uniques) {
   xy_by <- by$x[by$x == by$y]

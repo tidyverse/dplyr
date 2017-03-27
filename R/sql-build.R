@@ -178,5 +178,20 @@ sql_build.op_semi_join <- function(op, con, ...) {
 
 #' @export
 sql_build.op_set_op <- function(op, con, ...) {
-  set_op_query(op$x, op$y, type = op$args$type)
+
+
+  x_vars <- op_vars(op$x)
+  y_vars <- op_vars(op$y)
+
+  if (!identical(x_vars, y_vars)) {
+    vars <- semi_join_vars(x_vars, y_vars)
+
+    x <- select_query(sql_build(op$x, con), ident(vars$x))
+    y <- select_query(sql_build(op$y, con), ident(vars$y))
+  } else {
+    x <- op$x
+    y <- op$y
+  }
+
+  set_op_query(x, y, type = op$args$type)
 }

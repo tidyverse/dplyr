@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* SQL set operations (`intersect()`, `union()`, and `setdiff())
+  now match column names across inputs, filling in non-matching variables
+  with NULL (#2556).
+
 * The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
   etc) now support S3 objects and lazy tables. S3 objects should
   implement methods for `length()`, `[[` and `tbl_vars()`. For lazy
