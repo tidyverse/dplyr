@@ -1,5 +1,8 @@
 # dplyr 0.5.0.9000
 
+* `print(df, n = Inf)` and `head(df, n = Inf)` now work when `df` is a
+  SQL database (#2580).
+
 * SQL set operations (`intersect()`, `union()`, and `setdiff())
   now match column names across inputs, filling in non-matching variables
   with NULL (#2556).

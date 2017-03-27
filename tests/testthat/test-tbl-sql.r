@@ -33,3 +33,20 @@ test_that("tbl_sql() works with string argument", {
 test_that("memdb_frame() returns visible output", {
   expect_true(withVisible(memdb_frame(a = 1))$visible)
 })
+
+
+test_that("head/print respects n" ,{
+  df2 <- memdb_frame(x = 1:5)
+
+  out <- df2 %>% head(n = Inf) %>% collect()
+  expect_equal(nrow(out), 5)
+  expect_error(print(df2, n = Inf), NA)
+
+  out <- df2 %>% head(n = 1) %>% collect()
+  expect_equal(nrow(out), 1)
+
+  expect_error(
+    df2 %>% head(n = -1) %>% collect(),
+    "not greater than 0"
+  )
+})
