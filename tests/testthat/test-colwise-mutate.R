@@ -79,16 +79,26 @@ test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
 })
 
-test_that("fun_list is merged with new args", {
-  funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, ~bar, baz = "baz")
-  expect_identical(funs$fn, ~bar(., baz = "baz"))
+test_that("lazy tables support colwise variants", {
+  tbls <- test_load(iris[1:10, ])
+
+  expected <- as.character(iris$Species[1:10])
+  for (tbl in tbls) {
+    if (inherits(tbl, "tbl_lazy")) {
+      expect_message(tbl <- mutate_if(tbl, is.factor, as.character), "on the first 100 rows")
+      expect_identical(collect(tbl)$Species, expected)
+    }
+  }
+
+  expected <- mean(iris$Sepal.Length[1:10])
+  for (tbl in tbls) {
+    if (inherits(tbl, "tbl_lazy")) {
+      tbl <- summarise_at(tbl, "Sepal.Length", mean)
+      expect_equal(collect(tbl)$Sepal.Length, expected)
+    }
+  }
 })
 
-test_that("funs() works with namespaced calls", {
-  expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
-  expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
-})
 
 # Deprecated ---------------------------------------------------------
 
