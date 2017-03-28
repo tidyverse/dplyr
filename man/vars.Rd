@@ -2,7 +2,7 @@
 % Please edit documentation in R/colwise.R
 \name{vars}
 \alias{vars}
-\title{Select columns}
+\title{Select variables.}
 \usage{
 vars(...)
 }
@@ -13,14 +13,15 @@ missing, defaults to all non-grouping variables.}
 }
 \description{
 This helper is intended to provide equivalent semantics to
-\code{\link[=select]{select()}}. Its purpose is to provide \code{select()} semantics to the
-colwise summarising and mutating verbs.
+\code{\link[=select]{select()}}. It is used for instance in scoped summarising and
+mutating verbs (\code{\link[=mutate_at]{mutate_at()}} and \code{\link[=summarise_at]{summarise_at()}}).
 }
 \details{
 Note that verbs accepting a \code{vars()} specification also accept an
-\link[rlang:integerish]{integerish} vector of positions or a character
-vector of column names.
+\link[rlang:is_integerish]{integerish} vector of positions or a
+character vector of column names.
 }
 \seealso{
-\code{\link[=summarise_all]{summarise_all()}}
+\code{\link[=funs]{funs()}}, \code{\link[=all_vars]{all_vars()}} and \code{\link[=any_vars]{any_vars()}} for other quoting
+functions that you can use with scoped verbs.
 }

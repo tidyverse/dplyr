@@ -1,21 +1,46 @@
-#' Select columns
+#' Select variables.
 #'
 #' This helper is intended to provide equivalent semantics to
-#' [select()]. Its purpose is to provide `select()` semantics to the
-#' colwise summarising and mutating verbs.
+#' [select()]. It is used for instance in scoped summarising and
+#' mutating verbs ([mutate_at()] and [summarise_at()]).
 #'
 #' Note that verbs accepting a `vars()` specification also accept an
-#' [integerish][rlang::integerish] vector of positions or a character
-#' vector of column names.
+#' [integerish][rlang::is_integerish] vector of positions or a
+#' character vector of column names.
 #'
 #' @param ... Variables to include/exclude in mutate/summarise. You
 #'   can use same specifications as in [select()]. If
 #'   missing, defaults to all non-grouping variables.
-#' @seealso [summarise_all()]
+#' @seealso [funs()], [all_vars()] and [any_vars()] for other quoting
+#'   functions that you can use with scoped verbs.
 #' @export
 vars <- function(...) {
   quos(...)
 }
+
+#' Apply predicate to all variables.
+#'
+#' These quoting functions signal to scoped filtering verbs
+#' (e.g. [filter_if()] or [filter_all()]) that a predicate expression
+#' should be applied to all relevant variables. The `all_vars()`
+#' variant takes the intersection of the predicate expressions with
+#' `&` while the `any_vars()` variant takes the union with `|`.
+#'
+#' @param expr A predicate expression. This variable supports
+#'   [unquoting][rlang::quasiquotation] and will be evaluated in the
+#'   context of the data frame. It should return a logical vector.
+#' @seealso [funs()] and [vars()] for other quoting functions that you
+#'   can use with scoped verbs.
+#' @export
+all_vars <- function(expr) {
+  struct(enquo(expr), class = "all_vars")
+}
+#' @rdname all_vars
+#' @export
+any_vars <- function(expr) {
+  struct(enquo(expr), class = "any_vars")
+}
+
 
 # Requires tbl_vars() method
 tbl_at_syms <- function(tbl, vars) {
