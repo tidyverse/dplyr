@@ -33,7 +33,7 @@
 select_all <- function(.tbl, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   vars <- tbl_nongroup_vars(.tbl)
-  syms <- vars_select_syms(vars, funs)
+  syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!! syms)
 }
 #' @rdname select_all
@@ -41,7 +41,7 @@ select_all <- function(.tbl, .funs = list(), ...) {
 rename_all <- function(.tbl, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   vars <- tbl_nongroup_vars(.tbl)
-  syms <- vars_select_syms(vars, funs, strict = TRUE)
+  syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!! syms)
 }
 
@@ -50,7 +50,7 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   vars <- tbl_if_vars(.tbl, .predicate, caller_env())
-  syms <- vars_select_syms(vars, funs)
+  syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!! syms)
 }
 #' @rdname select_all
@@ -58,7 +58,7 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   vars <- tbl_if_vars(.tbl, .predicate, caller_env())
-  syms <- vars_select_syms(vars, funs, strict = TRUE)
+  syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!! syms)
 }
 
@@ -67,7 +67,7 @@ rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
 select_at <- function(.tbl, .vars, .funs = list(), ...) {
   vars <- tbl_at_vars(.tbl, .vars)
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  syms <- vars_select_syms(vars, funs)
+  syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!! syms)
 }
 #' @rdname select_all
@@ -75,11 +75,11 @@ select_at <- function(.tbl, .vars, .funs = list(), ...) {
 rename_at <- function(.tbl, .vars, .funs = list(), ...) {
   vars <- tbl_at_vars(.tbl, .vars)
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  syms <- vars_select_syms(vars, funs, strict = TRUE)
+  syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!! syms)
 }
 
-vars_select_syms <- function(vars, funs, strict = FALSE) {
+vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   if (length(funs) > 1) {
     abort("Only one renaming function can be supplied")
   } else if (length(funs) == 1) {
@@ -90,4 +90,7 @@ vars_select_syms <- function(vars, funs, strict = FALSE) {
   } else {
     abort("No renaming function supplied")
   }
+
+  group_syms <- base::setdiff(syms(group_vars(tbl)), syms)
+  c(group_syms, syms)
 }

@@ -134,7 +134,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
     selected[[i]] <- .p(.tbl[[i]], ...)
   }
 
-  vars <- vars[selected]
+  vars[selected]
 }
 tbl_if_syms <- function(.tbl, .p, .env, ...) {
   syms(tbl_if_vars(.tbl, .p, .env, ...))
