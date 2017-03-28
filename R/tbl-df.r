@@ -15,7 +15,13 @@ as.tbl.data.frame <- function(x, ...) {
 }
 
 #' @export
-tbl_vars.data.frame <- function(x) names(x)
+tbl_vars.data.frame <- function(x, group_vars = TRUE) {
+  vars <- names(x)
+  if (!group_vars) {
+    vars <- setdiff(vars, group_vars(x))
+  }
+  vars
+}
 
 #' @export
 same_src.data.frame <- function(x, y) {

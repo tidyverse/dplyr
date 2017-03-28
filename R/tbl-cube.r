@@ -113,7 +113,13 @@ tbl_cube <- function(dimensions, measures) {
 }
 
 #' @export
-tbl_vars.tbl_cube <- function(x) names(x$dims)
+tbl_vars.tbl_cube <- function(x, group_vars = TRUE) {
+  vars <- names(x$dims)
+  if (!group_vars) {
+    vars <- setdiff(vars, names(group_vars(x)))
+  }
+  vars
+}
 
 #' @export
 dim.tbl_cube <- function(x) {

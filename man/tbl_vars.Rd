@@ -4,10 +4,12 @@
 \alias{tbl_vars}
 \title{List variables provided by a tbl.}
 \usage{
-tbl_vars(x)
+tbl_vars(x, group_vars = TRUE)
 }
 \arguments{
-\item{x}{A tbl object}
+\item{x}{A \code{tbl} object.}
+
+\item{group_vars}{Whether to return group variables as well.}
 }
 \description{
 List variables provided by a tbl.

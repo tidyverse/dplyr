@@ -44,5 +44,6 @@ as.tbl.tbl <- function(x, ...) x
 #' List variables provided by a tbl.
 #'
 #' @export
-#' @param x A tbl object
-tbl_vars <- function(x) UseMethod("tbl_vars")
+#' @param x A `tbl` object.
+#' @param group_vars Whether to return group variables as well.
+tbl_vars <- function(x, group_vars = TRUE) UseMethod("tbl_vars")

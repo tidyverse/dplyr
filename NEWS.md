@@ -16,6 +16,9 @@
 * SQL set operations (`intersect()`, `union()`, and `setdiff())
   now match column names across inputs, filling in non-matching variables
   with NULL (#2556).
+* `tbl_vars()` now has a `group_vars` argument set to `TRUE` by
+  default. If `FALSE`, group variables are not returned.
+
 * New `is_grouped_df()` alias to `is.grouped_df()`.
 
 * `all_of()` and `any_of()` are two new helpers for joining multiple
