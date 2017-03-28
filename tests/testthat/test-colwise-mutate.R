@@ -1,4 +1,4 @@
-context("colwise - mutate")
+context("colwise mutate/summarise")
 
 test_that("funs found in current environment", {
   f <- function(x) 1

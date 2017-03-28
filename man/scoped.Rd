@@ -32,5 +32,6 @@ predicate (\code{_if} variants).
 The families with scoped variants are:
 \itemize{
 \item \code{\link[=mutate]{mutate()}} and \code{\link[=summarise]{summarise()}}. See \code{\link[=summarise_all]{summarise_all()}}.
+\item \code{\link[=filter]{filter()}}. See \code{\link[=filter_all]{filter_all()}}.
 }
 }

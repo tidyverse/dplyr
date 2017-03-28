@@ -18,6 +18,11 @@
 #' When applied to a data frame, row names are silently dropped. To preserve,
 #' convert to an explicit variable with [tibble::rownames_to_column()].
 #'
+#' @section Scoped filtering:
+#' The three scoped variants ([filter_all()], [filter_if()] and
+#' [filter_at()]) make it easy to apply a filtering condition to a
+#' selection of variables.
+#'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
@@ -25,6 +30,7 @@
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   conditon evalutes to `TRUE` are kept.
 #' @return An object of the same class as `.data`.
+#' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
 #' filter(starwars, species == "Human")
