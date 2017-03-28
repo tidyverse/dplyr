@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* `mutate.tbl_sql()` will now generate as many subqueries as necessary so 
+  that you can refer to variables that you just created (like in mutate
+  with regular dataframes) (#2483).
+
 * `print(df, n = Inf)` and `head(df, n = Inf)` now work when `df` is a
   SQL database (#2580).
 

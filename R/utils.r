@@ -103,3 +103,11 @@ is_1d <- function(x) {
 is_negated <- function(x) {
   is_lang(x, "-", n = 1)
 }
+
+inc_seq <- function(from, to) {
+  if (from > to) {
+    integer()
+  } else {
+    seq.int(from, to)
+  }
+}

@@ -105,8 +105,29 @@ summarise_.tbl_lazy <- function(.data, ..., .dots = list()) {
 mutate.tbl_lazy <- function(.data, ..., .dots = list()) {
   dots <- quos(..., .named = TRUE)
   dots <- partial_eval(dots, vars = op_vars(.data))
+
+  # For each expression, check if it uses any newly created variables.
+  # If so, nest the mutate()
+  used_vars <- lapply(dots, function(x) all_names(get_expr(x)))
+
+  init <- 0L
+  for (i in seq_along(dots)) {
+    cur_idx <- inc_seq(init + 1L, i - 1L)
+    new_vars <- names(dots)[cur_idx]
+
+    if (any(used_vars[[i]] %in% new_vars)) {
+      .data <- dplyr::add_op_single("mutate", .data, dots = dots[cur_idx])
+      init <- i
+    }
+  }
+
+  if (init != 0L) {
+    dots <- dots[-inc_seq(1L, init - 1)]
+  }
   add_op_single("mutate", .data, dots = dots)
 }
+
+
 #' @export
 mutate_.tbl_lazy <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
