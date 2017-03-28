@@ -193,7 +193,7 @@ add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
     indexes = if (auto_index) list(by$y)
   )
 
-  vars <- join_vars(op_vars(x), op_vars(y), by = by, suffix = suffix)
+  vars <- join_vars(op_vars(x), op_vars(y), type = type, by = by, suffix = suffix)
 
   x$ops <- op_double("join", x, y, args = list(
     vars = vars,

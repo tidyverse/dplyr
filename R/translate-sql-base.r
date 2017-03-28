@@ -122,6 +122,10 @@ base_scalar <- sql_translator(
     build_sql("((", x, ") IS NULL)")
   },
   na_if = sql_prefix("NULL_IF", 2),
+  coalesce = function(...) {
+    vars <- sql_vector(list(...), parens = FALSE, collapse = ", ")
+    build_sql("coalesce(", vars, ")")
+  },
 
   as.numeric = function(x) build_sql("CAST(", x, " AS NUMERIC)"),
   as.integer = function(x) build_sql("CAST(", x, " AS INTEGER)"),

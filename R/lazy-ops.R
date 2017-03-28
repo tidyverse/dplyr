@@ -190,7 +190,7 @@ op_vars.op_single <- function(op) {
 }
 #' @export
 op_vars.op_join <- function(op) {
-  unlist(op$args$vars, use.names = FALSE)
+  op$args$vars$alias
 }
 #' @export
 op_vars.op_semi_join <- function(op) {
