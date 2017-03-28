@@ -246,11 +246,11 @@ In SQL, window functions have the form `[expression] OVER ([partition clause] [o
     Of the many possible specifications, there are only three that commonly
     used. They select between aggregation variants:
 
-    * Recycled: `BETWEEN UNBOUND PRECEEDING AND UNBOUND FOLLOWING`
+    * Recycled: `BETWEEN UNBOUND PRECEDING AND UNBOUND FOLLOWING`
     
-    * Cumulative: `BETWEEN UNBOUND PRECEEDING AND CURRENT ROW`
+    * Cumulative: `BETWEEN UNBOUND PRECEDING AND CURRENT ROW`
     
-    * Rolling: `BETWEEN 2 PRECEEDING AND 2 FOLLOWING`
+    * Rolling: `BETWEEN 2 PRECEDING AND 2 FOLLOWING`
     
     dplyr generates the frame clause based on whether your using a recycled
     aggregate or a cumulative aggregate.
@@ -265,11 +265,11 @@ It's easiest to understand these specifications by looking at a few examples. Si
 
 Aggregate variants are more verbose because we also need to supply the frame clause:
 
-* Running sum of G for each player: `SUM(G) OVER (PARTITION BY playerID ORDER BY yearID BETWEEN UNBOUND PRECEEDING AND CURRENT ROW)`
+* Running sum of G for each player: `SUM(G) OVER (PARTITION BY playerID ORDER BY yearID BETWEEN UNBOUND PRECEDING AND CURRENT ROW)`
 
-* Compute the career year: `YearID - min(YearID) OVER (PARTITION BY playerID BETWEEN UNBOUND PRECEEDING AND UNBOUND FOLLOWING) + 1` 
+* Compute the career year: `YearID - min(YearID) OVER (PARTITION BY playerID BETWEEN UNBOUND PRECEDING AND UNBOUND FOLLOWING) + 1` 
 
-* Compute a rolling average of games player: `MEAN(G) OVER (PARTITION BY playerID ORDER BY yearID BETWEEN 2 PRECEEDING AND 2 FOLLOWING)`
+* Compute a rolling average of games player: `MEAN(G) OVER (PARTITION BY playerID ORDER BY yearID BETWEEN 2 PRECEDING AND 2 FOLLOWING)`
 
 You'll notice that window functions in SQL are more verbose than in R. This is because different window functions can have different partitions, and the frame specification is more general than the two aggregate variants (recycled and cumulative) provided by dplyr. dplyr makes a tradeoff: you can't access rarely used window function capabilities (unless you write raw SQL), but in return, common operations are much more succinct.
 
