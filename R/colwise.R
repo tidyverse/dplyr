@@ -22,14 +22,23 @@ tbl_at_syms <- function(tbl, vars) {
   tibble_vars <- tbl_vars(tbl, group_vars = FALSE)
 
   if (is_character(vars)) {
-    syms(vars)
+    syms <- syms(vars)
   } else if (is_integerish(vars)) {
-    syms(tibble_vars[vars])
+    syms <- syms(tibble_vars[vars])
   } else if (is_quosures(vars)) {
-    syms(select_vars(tibble_vars, !!! vars))
+    syms <- select_vars(tibble_vars, !!! vars)
+    # Forward `vars` names to `syms`. Account for caveat that `syms`
+    # might be smaller than `vars`.
+    if (any(have_name(vars))) {
+      vars <- syms
+    } else {
+      names(vars) <- NULL
+    }
   } else {
-    abort("`.cols` should be a character/numeric vector or a columns object")
+    abort("`.cols` should be a character/numeric vector or a `vars()` object")
   }
+
+  set_names(syms, names(vars))
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
@@ -56,7 +65,7 @@ tbl_if_syms <- function(.tbl, .p, ...) {
   syms(vars)
 }
 
-apply_syms <- function(funs, syms, named_syms, tbl) {
+apply_syms <- function(funs, syms, tbl) {
   stopifnot(is_fun_list(funs))
 
   out <- vector("list", length(syms) * length(funs))
@@ -69,10 +78,9 @@ apply_syms <- function(funs, syms, named_syms, tbl) {
   }
   dim(out) <- NULL
 
-  named_calls <- attr(funs, "have_name")
-  if (length(funs) == 1 && !named_calls) {
+  if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- map_chr(syms, as_string)
-  } else if (length(syms) == 1 && !named_syms) {
+  } else if (length(syms) == 1 && !is_named(syms)) {
     names(out) <- names(funs)
   } else {
     syms_names <- map_chr(syms, as_string)

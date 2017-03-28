@@ -4,8 +4,8 @@
 %   R/select-vars.R
 \name{summarise_each_}
 \alias{summarise_each_}
-\alias{summarize_each_}
 \alias{mutate_each_}
+\alias{summarize_each_}
 \alias{tally_}
 \alias{count_}
 \alias{add_tally_}
@@ -31,9 +31,9 @@
 \usage{
 summarise_each_(tbl, funs, vars)
 
-summarize_each_(tbl, funs, vars)
-
 mutate_each_(tbl, funs, vars)
+
+summarize_each_(tbl, funs, vars)
 
 tally_(x, wt, sort = FALSE)
 

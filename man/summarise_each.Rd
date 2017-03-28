@@ -2,15 +2,15 @@
 % Please edit documentation in R/colwise-mutate.R
 \name{summarise_each}
 \alias{summarise_each}
-\alias{summarize_each}
 \alias{mutate_each}
+\alias{summarize_each}
 \title{Summarise and mutate multiple columns.}
 \usage{
 summarise_each(tbl, funs, ...)
 
-summarize_each(tbl, funs, ...)
-
 mutate_each(tbl, funs, ...)
+
+summarize_each(tbl, funs, ...)
 }
 \arguments{
 \item{tbl}{a tbl}

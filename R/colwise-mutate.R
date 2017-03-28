@@ -73,7 +73,7 @@
 summarise_all <- function(.tbl, .funs, ...) {
   syms <- syms(tbl_vars(.tbl, FALSE))
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_syms(funs, syms, FALSE, .tbl)
+  funs <- apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
@@ -81,7 +81,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 mutate_all <- function(.tbl, .funs, ...) {
   syms <- syms(tbl_vars(.tbl, FALSE))
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_syms(funs, syms, FALSE, .tbl)
+  funs <- apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -90,7 +90,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_syms(funs, vars, FALSE, .tbl)
+  funs <- apply_syms(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
@@ -98,7 +98,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate)
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_syms(funs, vars, FALSE, .tbl)
+  funs <- apply_syms(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -107,7 +107,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_syms(funs, syms, any(have_name(.vars)), .tbl)
+  funs <- apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
@@ -115,7 +115,7 @@ summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
   funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_syms(funs, syms, any(have_name(.vars)), .tbl)
+  funs <- apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
 }
 check_dot_cols <- function(vars, cols) {
@@ -174,7 +174,7 @@ summarise_each_ <- function(tbl, funs, vars) {
     funs <- funs_(funs)
   }
 
-  funs <- apply_syms(funs, syms(vars), any(have_name(vars)), tbl)
+  funs <- apply_syms(funs, syms(vars), tbl)
   summarise(tbl, !!! funs)
 }
 
@@ -197,7 +197,7 @@ mutate_each_ <- function(tbl, funs, vars) {
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_vars(tbl, group_vars = FALSE), !!! vars)
   }
-  funs <- apply_syms(funs, syms(vars), any(have_name(vars)), tbl)
+  funs <- apply_syms(funs, syms(vars), tbl)
   mutate(tbl, !!! funs)
 }
 
