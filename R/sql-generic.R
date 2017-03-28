@@ -110,20 +110,7 @@ sql_join.default <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
     stop("Unknown join type:", type, call. = FALSE)
   )
 
-  select <- sql_vector(
-    paste0(
-      sql_if_vars_x_and_y(vars, "COALESCE("),
-      sql_if_vars_x(vars, sql_table_prefix(con, vars$x, table = "TBL_LEFT")),
-      sql_if_vars_x_and_y(vars, ", "),
-      sql_if_vars_y(vars, sql_table_prefix(con, vars$y, table = "TBL_RIGHT")),
-      sql_if_vars_x_and_y(vars, ")"),
-      sql(" AS "),
-      sql_escape_ident(con, vars$alias)
-    ),
-    parens = FALSE,
-    collapse = ", ",
-    con = con
-  )
+  select <- sql_join_vars(con, vars)
 
   on <- sql_vector(
     paste0(
@@ -143,6 +130,43 @@ sql_join.default <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
     "  ON ", on, "\n",
     con = con
   )
+}
+
+sql_join_vars <- function(con, vars) {
+  sql_vector(
+    mapply(
+      FUN = sql_join_var,
+      alias = vars$alias,
+      x = vars$x,
+      y = vars$y,
+      MoreArgs = list(con = con),
+      SIMPLIFY = FALSE,
+      USE.NAMES = TRUE
+    ),
+    parens = FALSE,
+    collapse = ", ",
+    con = con
+  )
+}
+
+sql_join_var <- function(con, alias, x, y) {
+  if (!is.na(x) & !is.na(y)) {
+    sql_coalesce(
+      sql_table_prefix(con, x, table = "TBL_LEFT"),
+      sql_table_prefix(con, y, table = "TBL_RIGHT")
+    )
+  } else if (!is.na(x)) {
+    sql_table_prefix(con, x, table = "TBL_LEFT")
+  } else if (!is.na(y)) {
+    sql_table_prefix(con, y, table = "TBL_RIGHT")
+  } else {
+    stop("No source for join column ", alias, call. = FALSE)
+  }
+}
+
+sql_coalesce <- function(...) {
+  vars <- sql_vector(list(...), parens = FALSE, collapse = ", ")
+  build_sql("coalesce(", vars, ")")
 }
 
 sql_as <- function(con, var, alias = names(var), table = NULL) {
@@ -165,16 +189,6 @@ sql_table_prefix <- function(con, var, table = NULL) {
     var
   }
 
-}
-
-sql_if_vars_x <- function(vars, sql) {
-  ifelse(!is.na(vars$x), sql, "")
-}
-sql_if_vars_y <- function(vars, sql) {
-  ifelse(!is.na(vars$y), sql, "")
-}
-sql_if_vars_x_and_y <- function(vars, sql) {
-  ifelse(!is.na(vars$x) & !is.na(vars$y), sql, "")
 }
 
 #' @export
