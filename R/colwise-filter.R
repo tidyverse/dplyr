@@ -32,7 +32,7 @@
 #' # And filter_if() selects variables with a predicate function:
 #' filter_if(mtcars, rlang::is_integerish, all_vars(. != 0))
 filter_all <- function(.tbl, .vars_predicate) {
-  syms <- syms(tbl_vars(.tbl, group_vars = FALSE))
+  syms <- syms(tbl_nongroup_vars(.tbl))
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !! pred)
 }

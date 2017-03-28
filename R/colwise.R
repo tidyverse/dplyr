@@ -85,7 +85,7 @@ print.any_vars <- function(x, ...) {
 
 # Requires tbl_vars() method
 tbl_at_syms <- function(tbl, vars) {
-  tibble_vars <- tbl_vars(tbl, group_vars = FALSE)
+  tibble_vars <- tbl_nongroup_vars(tbl)
 
   if (is_character(vars)) {
     syms <- syms(vars)
@@ -109,7 +109,7 @@ tbl_at_syms <- function(tbl, vars) {
 
 # Requires tbl_vars(), `[[`() and length() methods
 tbl_if_syms <- function(.tbl, .p, .env, ...) {
-  vars <- tbl_vars(.tbl, group_vars = FALSE)
+  vars <- tbl_nongroup_vars(.tbl)
 
   if (is_logical(.p)) {
     stopifnot(length(.p) == length(vars))

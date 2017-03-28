@@ -60,7 +60,7 @@
 #' @aliases summarise_each_q mutate_each_q
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
-  syms <- syms(tbl_vars(.tbl, FALSE))
+  syms <- syms(tbl_nongroup_vars(.tbl))
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
@@ -68,7 +68,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
-  syms <- syms(tbl_vars(.tbl, FALSE))
+  syms <- syms(tbl_nongroup_vars(.tbl))
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
@@ -154,10 +154,10 @@ summarise_each <- function(tbl, funs, ...) {
 summarise_each_ <- function(tbl, funs, vars) {
   .Deprecated("summarise_all")
   if (is_empty(vars)) {
-    vars <- tbl_vars(tbl, FALSE)
+    vars <- tbl_nongroup_vars(tbl)
   } else {
     vars <- compat_lazy_dots(vars, caller_env())
-    vars <- select_vars(tbl_vars(tbl, group_vars = FALSE), !!! vars)
+    vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
   if (is_character(funs)) {
     funs <- funs_(funs)
@@ -181,10 +181,10 @@ mutate_each <- function(tbl, funs, ...) {
 mutate_each_ <- function(tbl, funs, vars) {
   .Deprecated("mutate_all")
   if (is_empty(vars)) {
-    vars <- tbl_vars(tbl, FALSE)
+    vars <- tbl_nongroup_vars(tbl)
   } else {
     vars <- compat_lazy_dots(vars, caller_env())
-    vars <- select_vars(tbl_vars(tbl, group_vars = FALSE), !!! vars)
+    vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
   funs <- apply_syms(funs, syms(vars), tbl)
   mutate(tbl, !!! funs)
