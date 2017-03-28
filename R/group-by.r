@@ -22,6 +22,12 @@
 #'   \item MySQL: [src_mysql()]
 #' }
 #'
+#' @section Scoped grouping:
+#'
+#' The three [scoped] variants ([group_by_all()], [group_by_if()] and
+#' [group_by_at()]) make it easy to group a dataset by a selection of
+#' variables.
+#'
 #' @param .data a tbl
 #' @param ... Variables to group by. All tbls accept variable names,
 #'   some will also accept functions of variables. Duplicated groups

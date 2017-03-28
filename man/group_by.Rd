@@ -52,6 +52,14 @@ methods for more details:
 }
 }
 
+\section{Scoped grouping}{
+
+
+The three \link{scoped} variants (\code{\link[=group_by_all]{group_by_all()}}, \code{\link[=group_by_if]{group_by_if()}} and
+\code{\link[=group_by_at]{group_by_at()}}) make it easy to group a dataset by a selection of
+variables.
+}
+
 \examples{
 by_cyl <- mtcars \%>\% group_by(cyl)
 

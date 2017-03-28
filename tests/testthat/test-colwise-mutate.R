@@ -103,13 +103,3 @@ test_that("_each() and _all() families agree", {
   expect_warning(expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean)), "deprecated")
   expect_warning(expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean)), "deprecated")
 })
-
-
-# group_by -----------------------------------------------------------
-
-test_that("group_by_ verbs take scoped inputs", {
-  skip("")
-  expect_identical(group_vars(group_by_all(mtcars)), names(mtcars))
-  expect_identical(group_vars(group_by_at(mtcars, vars(starts_with("d")))), c("disp", "drat"))
-  expect_identical(group_vars(group_by_if(iris, is.factor)), "Species")
-})

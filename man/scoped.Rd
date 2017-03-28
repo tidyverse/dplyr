@@ -28,9 +28,10 @@ subset. This subset can contain all variables (\code{_all} variants), a
 predicate (\code{_if} variants).
 }
 \details{
-The families with scoped variants are:
+The verbs with scoped variants are:
 \itemize{
 \item \code{\link[=mutate]{mutate()}} and \code{\link[=summarise]{summarise()}}. See \code{\link[=summarise_all]{summarise_all()}}.
 \item \code{\link[=filter]{filter()}}. See \code{\link[=filter_all]{filter_all()}}.
+\item \code{\link[=group_by]{group_by()}}. See \code{\link[=group_by_all]{group_by_all()}}.
 }
 }

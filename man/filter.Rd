@@ -44,7 +44,7 @@ convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibb
 
 \section{Scoped filtering}{
 
-The three scoped variants (\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and
+The three \link{scoped} variants (\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and
 \code{\link[=filter_at]{filter_at()}}) make it easy to apply a filtering condition to a
 selection of variables.
 }
