@@ -61,12 +61,22 @@ vars <- function(...) {
 #'   can use with scoped verbs.
 #' @export
 all_vars <- function(expr) {
-  struct(enquo(expr), class = "all_vars")
+  struct(enquo(expr), class = c("all_vars", "quosure", "formula"))
 }
 #' @rdname all_vars
 #' @export
 any_vars <- function(expr) {
-  struct(enquo(expr), class = "any_vars")
+  struct(enquo(expr), class = c("any_vars", "quosure", "formula"))
+}
+#' @export
+print.all_vars <- function(x, ...) {
+  cat("<predicate intersection>\n")
+  NextMethod()
+}
+#' @export
+print.any_vars <- function(x, ...) {
+  cat("<predicate union>\n")
+  NextMethod()
 }
 
 
