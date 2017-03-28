@@ -120,8 +120,9 @@ sql_join.default <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
       sql(" AS "),
       sql_escape_ident(con, vars$alias)
     ),
+    parens = FALSE,
     collapse = ", ",
-    parens = FALSE
+    con = con
   )
 
   on <- sql_vector(
