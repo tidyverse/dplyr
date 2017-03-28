@@ -380,7 +380,7 @@ groups.tbl_cube <- function(x) {
 
 #' @export
 group_vars.tbl_cube <- function(x) {
-  x$dims[x$group]
+  names(x$dims[x$group])
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special
