@@ -139,29 +139,3 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
 tbl_if_syms <- function(.tbl, .p, .env, ...) {
   syms(tbl_if_vars(.tbl, .p, .env, ...))
 }
-
-apply_syms <- function(funs, syms, tbl) {
-  stopifnot(is_fun_list(funs))
-
-  out <- vector("list", length(syms) * length(funs))
-  dim(out) <- c(length(syms), length(funs))
-  for (i in seq_along(syms)) {
-    for (j in seq_along(funs)) {
-      var_sym <- sym(syms[[i]])
-      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
-    }
-  }
-  dim(out) <- NULL
-
-  if (length(funs) == 1 && !attr(funs, "have_name")) {
-    names(out) <- map_chr(syms, as_string)
-  } else if (length(syms) == 1 && !is_named(syms)) {
-    names(out) <- names(funs)
-  } else {
-    syms_names <- map_chr(syms, as_string)
-    grid <- expand.grid(var = syms_names, call = names(funs))
-    names(out) <- paste(grid$var, grid$call, sep = "_")
-  }
-
-  out
-}

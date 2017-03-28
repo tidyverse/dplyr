@@ -62,7 +62,7 @@
 summarise_all <- function(.tbl, .funs, ...) {
   syms <- syms(tbl_nongroup_vars(.tbl))
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- apply_syms(funs, syms, .tbl)
+  funs <- manip_apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
@@ -70,7 +70,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 mutate_all <- function(.tbl, .funs, ...) {
   syms <- syms(tbl_nongroup_vars(.tbl))
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- apply_syms(funs, syms, .tbl)
+  funs <- manip_apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -79,7 +79,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate, caller_env())
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- apply_syms(funs, vars, .tbl)
+  funs <- manip_apply_syms(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
@@ -87,7 +87,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate, caller_env())
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- apply_syms(funs, vars, .tbl)
+  funs <- manip_apply_syms(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
 
@@ -96,7 +96,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- apply_syms(funs, syms, .tbl)
+  funs <- manip_apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
@@ -104,7 +104,7 @@ summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- apply_syms(funs, syms, .tbl)
+  funs <- manip_apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
 }
 check_dot_cols <- function(vars, cols) {
@@ -125,6 +125,34 @@ summarize_at <- summarise_at
 #' @rdname summarise_all
 #' @export
 summarize_if <- summarise_if
+
+
+manip_apply_syms <- function(funs, syms, tbl) {
+  stopifnot(is_fun_list(funs))
+
+  out <- vector("list", length(syms) * length(funs))
+  dim(out) <- c(length(syms), length(funs))
+  for (i in seq_along(syms)) {
+    for (j in seq_along(funs)) {
+      var_sym <- sym(syms[[i]])
+      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
+    }
+  }
+  dim(out) <- NULL
+
+  if (length(funs) == 1 && !attr(funs, "have_name")) {
+    names(out) <- map_chr(syms, as_string)
+  } else if (length(syms) == 1 && !is_named(syms)) {
+    names(out) <- names(funs)
+  } else {
+    syms_names <- map_chr(syms, as_string)
+    grid <- expand.grid(var = syms_names, call = names(funs))
+    names(out) <- paste(grid$var, grid$call, sep = "_")
+  }
+
+  out
+}
+
 
 #' Summarise and mutate multiple columns.
 #'
@@ -163,7 +191,7 @@ summarise_each_ <- function(tbl, funs, vars) {
     funs <- funs_(funs)
   }
 
-  funs <- apply_syms(funs, syms(vars), tbl)
+  funs <- manip_apply_syms(funs, syms(vars), tbl)
   summarise(tbl, !!! funs)
 }
 
@@ -186,7 +214,7 @@ mutate_each_ <- function(tbl, funs, vars) {
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
-  funs <- apply_syms(funs, syms(vars), tbl)
+  funs <- manip_apply_syms(funs, syms(vars), tbl)
   mutate(tbl, !!! funs)
 }
 
