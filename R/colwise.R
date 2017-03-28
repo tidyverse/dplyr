@@ -164,15 +164,15 @@ vars <- function(...) {
 }
 
 # Requires tbl_vars() method
-tbl_at_syms <- function(tbl, vars, exclude = group_vars(tbl)) {
-  tibble_vars <- tbl_vars(tbl)
+tbl_at_syms <- function(tbl, vars) {
+  tibble_vars <- tbl_vars(tbl, group_vars = FALSE)
 
   if (is_character(vars)) {
     syms(vars)
   } else if (is_integerish(vars)) {
     syms(tibble_vars[vars])
   } else if (is_quosures(vars)) {
-    syms(select_vars(tibble_vars, !!! vars, exclude = exclude))
+    syms(select_vars(tibble_vars, !!! vars))
   } else {
     abort("`.cols` should be a character/numeric vector or a columns object")
   }
@@ -180,7 +180,7 @@ tbl_at_syms <- function(tbl, vars, exclude = group_vars(tbl)) {
 
 # Requires tbl_vars(), `[[`() and length() methods
 tbl_if_syms <- function(.tbl, .p, ...) {
-  vars <- tbl_vars(.tbl)
+  vars <- tbl_vars(.tbl, group_vars = FALSE)
 
   if (is_logical(.p)) {
     stopifnot(length(.p) == length(vars))
@@ -206,7 +206,7 @@ apply_vars <- function(funs, vars, named_vars, tbl) {
   stopifnot(is_fun_list(funs))
 
   named_calls <- attr(funs, "have_name")
-  vars <- select_vars(tbl_vars(tbl), !!! vars, exclude = group_vars(tbl))
+  vars <- select_vars(tbl_vars(tbl, group_vars = FALSE), !!! vars)
 
   out <- vector("list", length(vars) * length(funs))
   dim(out) <- c(length(vars), length(funs))
