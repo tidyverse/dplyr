@@ -76,7 +76,6 @@ summarise_all <- function(.tbl, .funs, ...) {
   funs <- apply_vars(funs, vars, FALSE, .tbl)
   summarise(.tbl, !!! funs)
 }
-
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
@@ -94,7 +93,6 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
   funs <- apply_vars(funs, vars, FALSE, .tbl)
   summarise(.tbl, !!! funs)
 }
-
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
@@ -113,6 +111,15 @@ summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   funs <- apply_vars(funs, vars, any(have_name(.vars)), .tbl)
   summarise(.tbl, !!! funs)
 }
+#' @rdname summarise_all
+#' @export
+mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  .vars <- check_dot_cols(.vars, .cols)
+  vars <- tbl_at_syms(.tbl, .vars)
+  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- apply_vars(funs, vars, any(have_name(.vars)), .tbl)
+  mutate(.tbl, !!! funs)
+}
 check_dot_cols <- function(vars, cols) {
   if (is_null(cols)) {
     vars
@@ -124,22 +131,10 @@ check_dot_cols <- function(vars, cols) {
 
 #' @rdname summarise_all
 #' @export
-mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
-  .vars <- check_dot_cols(.vars, .cols)
-  vars <- tbl_at_syms(.tbl, .vars)
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
-  funs <- apply_vars(funs, vars, any(have_name(.vars)), .tbl)
-  mutate(.tbl, !!! funs)
-}
-
-#' @rdname summarise_all
-#' @export
 summarize_all <- summarise_all
-
 #' @rdname summarise_all
 #' @export
 summarize_at <- summarise_at
-
 #' @rdname summarise_all
 #' @export
 summarize_if <- summarise_if
@@ -166,7 +161,6 @@ summarize_if <- summarise_if
 summarise_each <- function(tbl, funs, ...) {
   summarise_each_(tbl, funs, quos(...))
 }
-
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams summarise_each
@@ -185,14 +179,6 @@ summarise_each_ <- function(tbl, funs, vars) {
   summarise(tbl, !!! funs)
 }
 
-#' @rdname summarise_each
-#' @export
-summarize_each <- summarise_each
-
-#' @rdname se-deprecated
-#' @export
-summarize_each_ <- summarise_each_
-
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ...) {
@@ -202,7 +188,6 @@ mutate_each <- function(tbl, funs, ...) {
 
   mutate_each_(tbl, funs, quos(...))
 }
-
 #' @export
 #' @rdname se-deprecated
 mutate_each_ <- function(tbl, funs, vars) {
@@ -216,7 +201,6 @@ mutate_each_ <- function(tbl, funs, vars) {
   mutate(tbl, !!! funs)
 }
 
-
 #' @export
 summarise_each_q <- function(...) {
   .Deprecated("summarise_all")
@@ -227,3 +211,10 @@ mutate_each_q <- function(...) {
   .Deprecated("mutate_all")
   mutate_each_(...)
 }
+
+#' @rdname summarise_each
+#' @export
+summarize_each <- summarise_each
+#' @rdname se-deprecated
+#' @export
+summarize_each_ <- summarise_each_
