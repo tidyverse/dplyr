@@ -5,10 +5,13 @@
 \alias{summarise_each_q}
 \alias{mutate_each_q}
 \alias{mutate_all}
+\alias{transmute_all}
 \alias{summarise_if}
 \alias{mutate_if}
+\alias{transmute_if}
 \alias{summarise_at}
 \alias{mutate_at}
+\alias{transmute_at}
 \alias{summarize_all}
 \alias{summarize_at}
 \alias{summarize_if}
@@ -18,13 +21,19 @@ summarise_all(.tbl, .funs, ...)
 
 mutate_all(.tbl, .funs, ...)
 
+transmute_all(.tbl, .funs, ...)
+
 summarise_if(.tbl, .predicate, .funs, ...)
 
 mutate_if(.tbl, .predicate, .funs, ...)
 
+transmute_if(.tbl, .predicate, .funs, ...)
+
 summarise_at(.tbl, .vars, .funs, ..., .cols = NULL)
 
 mutate_at(.tbl, .vars, .funs, ..., .cols = NULL)
+
+transmute_at(.tbl, .vars, .funs, ..., .cols = NULL)
 
 summarize_all(.tbl, .funs, ...)
 
@@ -60,15 +69,17 @@ names needed to distinguish the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-\code{summarise_all()} and \code{mutate_all()} apply the functions
-to all (non-grouping) columns. \code{summarise_at()} and
-\code{mutate_at()} allow you to select columns
-using the same name-based \link{select_helpers} as with
-\code{\link[=select]{select()}}. \code{summarise_if}() and
-\code{mutate_if}() operate on columns for which a predicate returns
-\code{TRUE}. Finally, \code{\link[=summarise_each]{summarise_each()}} and
-\code{\link[=mutate_each]{mutate_each()}} are older variants that will be
-deprecated in the future.
+\itemize{
+\item \code{summarise_all()}, \code{mutate_all()} and \code{transmute_all()} apply the
+functions to all (non-grouping) columns.
+\item \code{summarise_at()}, \code{mutate_at()} and \code{transmute_at()} allow you to
+select columns using the same name-based \link{select_helpers} just
+like with \code{\link[=select]{select()}}.
+\item \code{summarise_if}(), \code{mutate_if}() and \code{transmute_if()} operate on
+columns for which a predicate returns \code{TRUE}.
+\item \code{\link[=summarise_each]{summarise_each()}} and \code{\link[=mutate_each]{mutate_each()}} are older variants that
+are now deprecated.
+}
 }
 \examples{
 by_species <- iris \%>\% group_by(Species)
@@ -110,6 +121,11 @@ by_species \%>\% summarise_all(c("min", "max"))
 by_species \%>\% summarise_at(vars(Petal.Width, Sepal.Width), funs(min, max))
 by_species \%>\% summarise_at(vars(matches("Width")), funs(min, max))
 
+
+# Unlike mutating verbs, the transmute variants discard original
+# variables when the computations have new names:
+mutate_if(as_tibble(iris), is.numeric, funs(mean, sd))
+transmute_if(as_tibble(iris), is.numeric, funs(mean, sd))
 }
 \seealso{
 \code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}

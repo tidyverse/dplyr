@@ -105,6 +105,12 @@ test_that("predicate can be quoted", {
   expect_identical(mutate_if(mtcars, ~is_integerish(.x), mean), expected)
 })
 
+test_that("transmute verbs do not retain original variables", {
+  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+})
+
 
 # Deprecated ---------------------------------------------------------
 

@@ -187,6 +187,14 @@ summarize_ <- summarise_
 #'
 #' * [if_else()], [recode()], [case_when()]
 #'
+#' @section Scoped mutation and transmuation:
+#'
+#' The three [scoped] variants of `mutate()` ([mutate_all()],
+#' [mutate_if()] and [mutate_at()]) and the three variants of
+#' `transmute()` ([transmute_all()], [transmute_if()],
+#' [transmute_at()]) make it easy to apply a transformation to a
+#' selection of variables.
+#'
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data

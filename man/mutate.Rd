@@ -37,6 +37,16 @@ An object of the same class as \code{.data}.
 }
 }
 
+\section{Scoped mutation and transmuation}{
+
+
+The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mutate_all()}},
+\code{\link[=mutate_if]{mutate_if()}} and \code{\link[=mutate_at]{mutate_at()}}) and the three variants of
+\code{transmute()} (\code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}},
+\code{\link[=transmute_at]{transmute_at()}}) make it easy to apply a transformation to a
+selection of variables.
+}
+
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,

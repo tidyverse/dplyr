@@ -1,14 +1,19 @@
 #' Summarise and mutate multiple columns.
 #'
-#' `summarise_all()` and `mutate_all()` apply the functions
-#' to all (non-grouping) columns. `summarise_at()` and
-#' `mutate_at()` allow you to select columns
-#' using the same name-based [select_helpers] as with
-#' [select()]. `summarise_if`() and
-#' `mutate_if`() operate on columns for which a predicate returns
-#' `TRUE`. Finally, [summarise_each()] and
-#' [mutate_each()] are older variants that will be
-#' deprecated in the future.
+#' @description
+#'
+#' * `summarise_all()`, `mutate_all()` and `transmute_all()` apply the
+#'   functions to all (non-grouping) columns.
+#'
+#' * `summarise_at()`, `mutate_at()` and `transmute_at()` allow you to
+#'   select columns using the same name-based [select_helpers] just
+#'   like with [select()].
+#'
+#' * `summarise_if`(), `mutate_if`() and `transmute_if()` operate on
+#'   columns for which a predicate returns `TRUE`.
+#'
+#' * [summarise_each()] and [mutate_each()] are older variants that
+#'   are now deprecated.
 #'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
@@ -57,6 +62,11 @@
 #' by_species %>% summarise_at(vars(Petal.Width, Sepal.Width), funs(min, max))
 #' by_species %>% summarise_at(vars(matches("Width")), funs(min, max))
 #'
+#'
+#' # Unlike mutating verbs, the transmute variants discard original
+#' # variables when the computations have new names:
+#' mutate_if(as_tibble(iris), is.numeric, funs(mean, sd))
+#' transmute_if(as_tibble(iris), is.numeric, funs(mean, sd))
 #' @aliases summarise_each_q mutate_each_q
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
@@ -68,6 +78,12 @@ summarise_all <- function(.tbl, .funs, ...) {
 mutate_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+#' @rdname summarise_all
+#' @export
+transmute_all <- function(.tbl, .funs, ...) {
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  transmute(.tbl, !!! funs)
 }
 manip_all <- function(.tbl, .funs, .quo, .env, ...) {
   syms <- syms(tbl_nongroup_vars(.tbl))
@@ -86,6 +102,12 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+#' @rdname summarise_all
+#' @export
+transmute_if <- function(.tbl, .predicate, .funs, ...) {
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+  transmute(.tbl, !!! funs)
 }
 manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
   vars <- tbl_if_syms(.tbl, .predicate, .env)
@@ -106,6 +128,13 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+#' @rdname summarise_all
+#' @export
+transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  .vars <- check_dot_cols(.vars, .cols)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  transmute(.tbl, !!! funs)
 }
 manip_at <- function(.tbl, .vars, .funs, .quo, .env, ...) {
   syms <- tbl_at_syms(.tbl, .vars)
