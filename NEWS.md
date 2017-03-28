@@ -1,5 +1,7 @@
 # dplyr 0.5.0.9000
 
+* You can create a `tbl` directly from a DBI connection (#2576).
+
 * `mutate.tbl_sql()` will now generate as many subqueries as necessary so 
   that you can refer to variables that you just created (like in mutate
   with regular dataframes) (#2481, #2483).
