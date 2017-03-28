@@ -60,52 +60,57 @@
 #' @aliases summarise_each_q mutate_each_q
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
-  syms <- syms(tbl_nongroup_vars(.tbl))
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- manip_apply_syms(funs, syms, .tbl)
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
-  syms <- syms(tbl_nongroup_vars(.tbl))
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- manip_apply_syms(funs, syms, .tbl)
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+manip_all <- function(.tbl, .funs, .quo, .env, ...) {
+  syms <- syms(tbl_nongroup_vars(.tbl))
+  funs <- as_fun_list(.funs, .quo, .env, ...)
+  manip_apply_syms(funs, syms, .tbl)
 }
 
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate, caller_env())
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- manip_apply_syms(funs, vars, .tbl)
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate, caller_env())
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- manip_apply_syms(funs, vars, .tbl)
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
+  vars <- tbl_if_syms(.tbl, .predicate, .env)
+  funs <- as_fun_list(.funs, .quo, .env, ...)
+  manip_apply_syms(funs, vars, .tbl)
 }
 
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
-  syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- manip_apply_syms(funs, syms, .tbl)
+  .vars <- check_dot_cols(.vars, .cols)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
-  syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
-  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  funs <- manip_apply_syms(funs, syms, .tbl)
+  .vars <- check_dot_cols(.vars, .cols)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+manip_at <- function(.tbl, .vars, .funs, .quo, .env, ...) {
+  syms <- tbl_at_syms(.tbl, .vars)
+  funs <- as_fun_list(.funs, .quo, .env, ...)
+  manip_apply_syms(funs, syms, .tbl)
 }
 check_dot_cols <- function(vars, cols) {
   if (is_null(cols)) {
