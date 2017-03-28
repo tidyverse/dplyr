@@ -39,7 +39,7 @@ test_that("full join on key column with same name in both tables", {
   df_left <- data_frame(x = 1L:4L, y = 1L:4L)
   df_right <- data_frame(x = c(1L:3L, 5L), z = 1L:4L)
   # SQLite and MySQL don't support full joins
-  tbls_left <- test_load(df_left, ignore = c("sqlite"))
+  tbls_left <- test_load(df_left, ignore = c("sqlite", "mysql"))
   tbls_right <- test_load(df_right, ignore = c("sqlite", "mysql"))
   mapply(test_f, tbls_left, tbls_right)
 })
@@ -83,7 +83,7 @@ test_that("full join on key column with different names", {
   df_left <- data_frame(xl = 1L:4L, y = 1L:4L)
   df_right <- data_frame(xr = c(1L:3L, 5L), z = 1L:4L)
   # SQLite and MySQL don't support full joins
-  tbls_left <- test_load(df_left, ignore = c("sqlite"))
+  tbls_left <- test_load(df_left, ignore = c("sqlite", "mysql"))
   tbls_right <- test_load(df_right, ignore = c("sqlite", "mysql"))
   mapply(test_f, tbls_left, tbls_right)
 })
@@ -129,7 +129,7 @@ test_that("full natural join", {
   df_left <- data_frame(x = 1L:4L, y = 1L:4L, w = 1L:4L)
   df_right <- data_frame(x = c(1L:3L, 5L), y=1L:4L, z = 1L:4L)
   # SQLite and MySQL don't support full joins
-  tbls_left <- test_load(df_left, ignore = c("sqlite"))
+  tbls_left <- test_load(df_left, ignore = c("sqlite", "mysql"))
   tbls_right <- test_load(df_right, ignore = c("sqlite", "mysql"))
   mapply(test_f, tbls_left, tbls_right)
 })
