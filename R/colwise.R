@@ -56,29 +56,27 @@ tbl_if_syms <- function(.tbl, .p, ...) {
   syms(vars)
 }
 
-apply_vars <- function(funs, vars, named_vars, tbl) {
+apply_syms <- function(funs, syms, named_syms, tbl) {
   stopifnot(is_fun_list(funs))
 
-  named_calls <- attr(funs, "have_name")
-  vars <- select_vars(tbl_vars(tbl, group_vars = FALSE), !!! vars)
-
-  out <- vector("list", length(vars) * length(funs))
-  dim(out) <- c(length(vars), length(funs))
-
-  for (i in seq_along(vars)) {
+  out <- vector("list", length(syms) * length(funs))
+  dim(out) <- c(length(syms), length(funs))
+  for (i in seq_along(syms)) {
     for (j in seq_along(funs)) {
-      var_sym <- sym(vars[[i]])
+      var_sym <- sym(syms[[i]])
       out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }
   dim(out) <- NULL
 
+  named_calls <- attr(funs, "have_name")
   if (length(funs) == 1 && !named_calls) {
-    names(out) <- names(vars)
-  } else if (length(vars) == 1 && !named_vars) {
+    names(out) <- map_chr(syms, as_string)
+  } else if (length(syms) == 1 && !named_syms) {
     names(out) <- names(funs)
   } else {
-    grid <- expand.grid(var = names(vars), call = names(funs))
+    syms_names <- map_chr(syms, as_string)
+    grid <- expand.grid(var = syms_names, call = names(funs))
     names(out) <- paste(grid$var, grid$call, sep = "_")
   }
 
