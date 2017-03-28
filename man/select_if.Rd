@@ -10,8 +10,8 @@ select_if(.data, .predicate, ...)
 \item{.data}{A local tbl source.}
 
 \item{.predicate}{A predicate function to be applied to the columns
-or a logical vector. The columns for which \code{.predicate} is
-or returns \code{TRUE} will be summarised or mutated.}
+or a logical vector. The variables for which \code{.predicate} is or
+returns \code{TRUE} are selected.}
 
 \item{...}{Additional arguments passed to \code{.predicate}.}
 }
