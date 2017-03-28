@@ -40,6 +40,15 @@ a number of special functions that only work inside \code{select}
 To drop variables, use \code{-}.
 }
 
+\section{Scoped selection and renaming}{
+
+
+The three \link{scoped} variants of \code{select()} (\code{\link[=select_all]{select_all()}},
+\code{\link[=select_if]{select_if()}} and \code{\link[=select_at]{select_at()}}) and the three variants of
+\code{rename()} (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}}) make it
+easy to apply a renaming function to a selection of variables.
+}
+
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,
