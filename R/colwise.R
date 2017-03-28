@@ -84,31 +84,30 @@ print.any_vars <- function(x, ...) {
 
 
 # Requires tbl_vars() method
-tbl_at_syms <- function(tbl, vars) {
+tbl_at_vars <- function(tbl, vars) {
   tibble_vars <- tbl_nongroup_vars(tbl)
 
   if (is_character(vars)) {
-    syms <- syms(vars)
+    vars
   } else if (is_integerish(vars)) {
-    syms <- syms(tibble_vars[vars])
+    tibble_vars[vars]
   } else if (is_quosures(vars)) {
-    syms <- syms(select_vars(tibble_vars, !!! vars))
-    # Forward `vars` names to `syms`. Account for caveat that `syms`
-    # might be smaller than `vars`.
-    if (any(have_name(vars))) {
-      vars <- syms
-    } else {
-      names(vars) <- NULL
+    out <- select_vars(tibble_vars, !!! vars)
+    if (!is_named(vars)) {
+      names(out) <- NULL
     }
+    out
   } else {
-    abort("`.cols` should be a character/numeric vector or a `vars()` object")
+    abort("`.vars` should be a character/numeric vector or a `vars()` object")
   }
-
-  set_names(syms, names(vars))
+}
+tbl_at_syms <- function(tbl, vars) {
+  vars <- tbl_at_vars(tbl, vars)
+  set_names(syms(vars), names(vars))
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
-tbl_if_syms <- function(.tbl, .p, .env, ...) {
+tbl_if_vars <- function(.tbl, .p, .env, ...) {
   vars <- tbl_nongroup_vars(.tbl)
 
   if (is_logical(.p)) {
@@ -136,7 +135,9 @@ tbl_if_syms <- function(.tbl, .p, .env, ...) {
   }
 
   vars <- vars[selected]
-  syms(vars)
+}
+tbl_if_syms <- function(.tbl, .p, .env, ...) {
+  syms(tbl_if_vars(.tbl, .p, .env, ...))
 }
 
 apply_syms <- function(funs, syms, tbl) {
