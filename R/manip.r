@@ -191,10 +191,18 @@ summarize_ <- summarise_
 #' @return An object of the same class as `.data`.
 #' @examples
 #' # Newly created variables are available immediately
-#' mtcars %>% mutate(
+#' mtcars %>% as_tibble() %>% mutate(
 #'   cyl2 = cyl * 2,
 #'   cyl4 = cyl2 * 2
 #' )
+#'
+#' # You can also use mutate() to remove variables and
+#' # modify existing variables
+#' mtcars %>% as_tibble() %>% mutate(
+#'   mpg = NULL,
+#'   disp = disp * 0.0163871 # convert to litres
+#' )
+#'
 #'
 #' # window functions are useful for grouped mutates
 #' mtcars %>%
