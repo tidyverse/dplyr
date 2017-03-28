@@ -1,21 +1,10 @@
 # dplyr 0.5.0.9000
 
-* `rename_vars()` gains a `strict` argument to control if an 
-  error is thrown when you try and rename a variable that doesn't 
-  exist.
+* `rename()`, `select()`, `group_by()`, `filter()` and `transmute()`
+  now have scoped variants (verbs suffixed with `_if()`, `_at()` and
+  `_all()`). Like `mutate_all()`, `summarise_if()`, etc, these
+  variants apply an operation to a selection of variables.
 
-* You can create a `tbl` directly from a DBI connection (#2576).
-
-* `mutate.tbl_sql()` will now generate as many subqueries as necessary so 
-  that you can refer to variables that you just created (like in mutate
-  with regular dataframes) (#2481, #2483).
-
-* `print(df, n = Inf)` and `head(df, n = Inf)` now work when `df` is a
-  SQL database (#2580).
-
-* SQL set operations (`intersect()`, `union()`, and `setdiff())
-  now match column names across inputs, filling in non-matching variables
-  with NULL (#2556).
 * `tbl_vars()` now has a `group_vars` argument set to `TRUE` by
   default. If `FALSE`, group variables are not returned.
 
@@ -32,6 +21,23 @@
   where it was in `mutate_each()`.
 
 * `funs()` has better handling of namespaced functions (#2089).
+
+* `rename_vars()` gains a `strict` argument to control if an
+  error is thrown when you try and rename a variable that doesn't
+  exist.
+
+* You can create a `tbl` directly from a DBI connection (#2576).
+
+* `mutate.tbl_sql()` will now generate as many subqueries as necessary so
+  that you can refer to variables that you just created (like in mutate
+  with regular dataframes) (#2481, #2483).
+
+* `print(df, n = Inf)` and `head(df, n = Inf)` now work when `df` is a
+  SQL database (#2580).
+
+* SQL set operations (`intersect()`, `union()`, and `setdiff())
+  now match column names across inputs, filling in non-matching variables
+  with NULL (#2556).
 
 * `order_by()`, `top_n()`, `sample_n()` and `sample_frac()` now use
   tidyeval to capture their arguments by expression. This makes it
