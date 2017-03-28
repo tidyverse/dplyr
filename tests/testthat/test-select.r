@@ -166,3 +166,9 @@ test_that("select_if() handles non-syntactic colnames", {
   df <- data_frame(`x 1` = 1:3)
   expect_identical(select_if(df, is_integer)[[1]], 1:3)
 })
+
+test_that("select_if() handles quoted predicates", {
+  expected <- select_if(mtcars, is_integerish)
+  expect_identical(select_if(mtcars, "is_integerish"), expected)
+  expect_identical(select_if(mtcars, ~is_integerish(.x)), expected)
+})

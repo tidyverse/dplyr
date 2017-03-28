@@ -20,7 +20,9 @@
 #'   positions.
 #' @param .predicate A predicate function to be applied to the columns
 #'   or a logical vector. The variables for which `.predicate` is or
-#'   returns `TRUE` are selected.
+#'   returns `TRUE` are selected. This argument is passed to
+#'   [rlang::as_function()] and thus supports quosure-style lambda
+#'   functions and strings representing function names.
 #' @param ... Additional arguments for the function calls in
 #'   `.funs`. These are evaluated only once.
 #' @name scoped
@@ -106,7 +108,7 @@ tbl_at_syms <- function(tbl, vars) {
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
-tbl_if_syms <- function(.tbl, .p, ...) {
+tbl_if_syms <- function(.tbl, .p, .env, ...) {
   vars <- tbl_vars(.tbl, group_vars = FALSE)
 
   if (is_logical(.p)) {
@@ -118,6 +120,14 @@ tbl_if_syms <- function(.tbl, .p, ...) {
     inform("Applying predicate on the first 100 rows")
     .tbl <- collect(.tbl, n = 100)
   }
+
+  if (is_fun_list(.p)) {
+    if (length(.p) != 1) {
+      abort("function list should be length 1")
+    }
+    .p <- .p[[1]]
+  }
+  .p <- as_function(.p, .env)
 
   n <- length(.tbl)
   selected <- lgl_len(n)

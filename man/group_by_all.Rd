@@ -23,7 +23,9 @@ positions.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or
-returns \code{TRUE} are selected.}
+returns \code{TRUE} are selected. This argument is passed to
+\code{\link[rlang:as_function]{rlang::as_function()}} and thus supports quosure-style lambda
+functions and strings representing function names.}
 }
 \description{
 Group by a selection of variables.

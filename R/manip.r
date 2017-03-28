@@ -377,7 +377,7 @@ select_if <- function(.data, .predicate, ...) {
   if (inherits(.data, "tbl_lazy")) {
     abort("Selection with predicate currently require local sources")
   }
-  vars <- tbl_if_syms(.data, .predicate, ...)
+  vars <- tbl_if_syms(.data, .predicate, caller_env(), ...)
   vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
   select(.data, !!! syms(vars))
 }

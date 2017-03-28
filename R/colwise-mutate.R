@@ -77,7 +77,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate)
+  vars <- tbl_if_syms(.tbl, .predicate, caller_env())
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
@@ -85,7 +85,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate)
+  vars <- tbl_if_syms(.tbl, .predicate, caller_env())
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, vars, .tbl)
   mutate(.tbl, !!! funs)

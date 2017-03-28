@@ -99,6 +99,12 @@ test_that("lazy tables support colwise variants", {
   }
 })
 
+test_that("predicate can be quoted", {
+  expected <- mutate_if(mtcars, is_integerish, mean)
+  expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)
+  expect_identical(mutate_if(mtcars, ~is_integerish(.x), mean), expected)
+})
+
 
 # Deprecated ---------------------------------------------------------
 
