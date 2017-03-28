@@ -196,3 +196,19 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
     cn[c("x", "z")]
   )
 })
+
+
+
+# rename_vars -------------------------------------------------------------
+
+test_that("when strict = FALSE, rename_vars always succeeds", {
+  expect_error(
+    rename_vars(c("a", "b"), d = e, strict = TRUE),
+    "Unknown variables: e"
+  )
+
+  expect_equal(
+    rename_vars(c("a", "b"), d = e, strict = FALSE),
+    c("a" = "a", "b" = "b")
+  )
+})

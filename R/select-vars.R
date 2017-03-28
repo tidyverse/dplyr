@@ -113,7 +113,9 @@ setdiff2 <- function(x, y) {
 
 #' @export
 #' @rdname select_vars
-rename_vars <- function(vars, ...) {
+#' @param strict If `TRUE`, will throw an error if you attempt to rename a
+#'   variable that doesn't exist.
+rename_vars <- function(vars, ..., strict = TRUE) {
   args <- quos(...)
   if (any(names2(args) == "")) {
     abort("All arguments to `rename()` must be named.")
@@ -134,7 +136,7 @@ rename_vars <- function(vars, ...) {
   new_vars <- names(args)
 
   unknown_vars <- setdiff(old_vars, vars)
-  if (length(unknown_vars) > 0) {
+  if (strict && length(unknown_vars) > 0) {
     abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), "."))
   }
 

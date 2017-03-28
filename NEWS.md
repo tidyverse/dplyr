@@ -1,5 +1,9 @@
 # dplyr 0.5.0.9000
 
+* `rename_vars()` gains a `strict` argument to control if an 
+  error is thrown when you try and rename a variable that doesn't 
+  exist.
+
 * You can create a `tbl` directly from a DBI connection (#2576).
 
 * `mutate.tbl_sql()` will now generate as many subqueries as necessary so 
