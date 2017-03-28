@@ -16,6 +16,8 @@
 * SQL set operations (`intersect()`, `union()`, and `setdiff())
   now match column names across inputs, filling in non-matching variables
   with NULL (#2556).
+* New `is_grouped_df()` alias to `is.grouped_df()`.
+
 * `all_of()` and `any_of()` are two new helpers for joining multiple
   expressions into a single predicate. This is notably useful for
   verbs suffixed with `_if()` like `mutate_if()`.

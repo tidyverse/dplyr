@@ -30,6 +30,9 @@ setOldClass(c("grouped_df", "tbl_df", "data.frame"))
 #' @rdname grouped_df
 #' @export
 is.grouped_df <- function(x) inherits(x, "grouped_df")
+#' @rdname grouped_df
+#' @export
+is_grouped_df <- is.grouped_df
 
 #' @export
 print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
