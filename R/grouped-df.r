@@ -119,7 +119,7 @@ cbind.grouped_df <- function(...) {
 #' @export
 select.grouped_df <- function(.data, ...) {
   vars <- select_vars(names(.data), ...)
-  vars <- ensure_grouped_vars(vars, .data)
+  vars <- ensure_group_vars(vars, .data)
   select_impl(.data, vars)
 }
 #' @export
@@ -128,7 +128,7 @@ select_.grouped_df <- function(.data, ..., .dots = list()) {
   select.grouped_df(.data, !!! dots)
 }
 
-ensure_grouped_vars <- function(vars, data, notify = TRUE) {
+ensure_group_vars <- function(vars, data, notify = TRUE) {
   group_names <- group_vars(data)
   missing <- setdiff(group_names, vars)
 
