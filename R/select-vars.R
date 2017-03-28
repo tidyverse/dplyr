@@ -135,7 +135,7 @@ rename_vars <- function(vars, ...) {
 
   unknown_vars <- setdiff(old_vars, vars)
   if (length(unknown_vars) > 0) {
-    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), ".",))
+    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), "."))
   }
 
   select <- set_names(vars, vars)
