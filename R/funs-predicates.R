@@ -1,27 +1,27 @@
-#' Return the union or intersection of predicate expressions.
-#'
-#' `all_of()` and `any_of()` take predicate expressions and join them
-#' into a single predicate. They assume vectorised expressions by
-#' default and join them with `&` or `|`. Note that this will also
-#' work with scalar predicates, but if you want to be explicit you can
-#' set `.vectorised` to `FALSE` to join by `&&` or `||`.
-#'
-#' @param ... Predicate expressions.
-#' @param .vectorised If `TRUE`, predicates are joined with `&` or
-#'   `|`. Otherwise, they are joined with `&&` or `||`.
-#' @return A [quosure][rlang::quo].
-#' @export
-#' @examples
-#' all_of(cyl > 3, am == 1)
-#' any_of(cyl > 3, am == 1)
-#' any_of(cyl > 3, am == 1, .vectorised = FALSE)
-all_of <- function(..., .vectorised = TRUE) {
+## Return the union or intersection of predicate expressions.
+##
+## `all_exprs()` and `any_exprs()` take predicate expressions and join them
+## into a single predicate. They assume vectorised expressions by
+## default and join them with `&` or `|`. Note that this will also
+## work with scalar predicates, but if you want to be explicit you can
+## set `.vectorised` to `FALSE` to join by `&&` or `||`.
+##
+## @param ... Predicate expressions.
+## @param .vectorised If `TRUE`, predicates are joined with `&` or
+##   `|`. Otherwise, they are joined with `&&` or `||`.
+## @return A [quosure][rlang::quo].
+## @export
+## @examples
+## all_exprs(cyl > 3, am == 1)
+## any_exprs(cyl > 3, am == 1)
+## any_exprs(cyl > 3, am == 1, .vectorised = FALSE)
+all_exprs <- function(..., .vectorised = TRUE) {
   op <- if (.vectorised) quote(`&`) else quote(`&&`)
   quo_reduce(..., .op = op)
 }
-#' @rdname all_of
-#' @export
-any_of <- function(..., .vectorised = TRUE) {
+## @rdname all_exprs
+## @export
+any_exprs <- function(..., .vectorised = TRUE) {
   op <- if (.vectorised) quote(`|`) else quote(`||`)
   quo_reduce(..., .op = op)
 }

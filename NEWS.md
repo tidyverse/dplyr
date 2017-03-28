@@ -21,10 +21,6 @@
 
 * New `is_grouped_df()` alias to `is.grouped_df()`.
 
-* `all_of()` and `any_of()` are two new helpers for joining multiple
-  expressions into a single predicate. This is notably useful for
-  verbs suffixed with `_if()` like `mutate_if()`.
-
 * The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
   etc) now support S3 objects and lazy tables. S3 objects should
   implement methods for `length()`, `[[` and `tbl_vars()`. For lazy
