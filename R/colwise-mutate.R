@@ -61,7 +61,7 @@
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
   syms <- syms(tbl_vars(.tbl, FALSE))
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -69,7 +69,7 @@ summarise_all <- function(.tbl, .funs, ...) {
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   syms <- syms(tbl_vars(.tbl, FALSE))
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
 }
@@ -78,7 +78,7 @@ mutate_all <- function(.tbl, .funs, ...) {
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate)
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, vars, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -86,7 +86,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   vars <- tbl_if_syms(.tbl, .predicate)
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, vars, .tbl)
   mutate(.tbl, !!! funs)
 }
@@ -95,7 +95,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, syms, .tbl)
   summarise(.tbl, !!! funs)
 }
@@ -103,7 +103,7 @@ summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   syms <- tbl_at_syms(.tbl, check_dot_cols(.vars, .cols))
-  funs <- as_fun_list(.funs, enquo(.funs), ...)
+  funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   funs <- apply_syms(funs, syms, .tbl)
   mutate(.tbl, !!! funs)
 }

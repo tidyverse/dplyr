@@ -12,7 +12,7 @@ test_that("can use character vectors", {
   df <- data.frame(x = 1:3)
 
   expect_equal(summarise_all(df, "mean"), summarise_all(df, funs(mean)))
-  expect_equal(mutate_all(df, c(mean = "mean")), mutate_all(df, funs(mean = mean)))
+  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, funs(mean = mean)))
 })
 
 test_that("can use bare functions", {
