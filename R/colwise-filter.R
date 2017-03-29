@@ -30,7 +30,7 @@
 #' filter_at(mtcars, vars(starts_with("d")), any_vars((. %% 2) == 0))
 #'
 #' # And filter_if() selects variables with a predicate function:
-#' filter_if(mtcars, rlang::is_integerish, all_vars(. != 0))
+#' filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
 filter_all <- function(.tbl, .vars_predicate) {
   syms <- syms(tbl_nongroup_vars(.tbl))
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)

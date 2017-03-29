@@ -58,11 +58,12 @@ select_all(mtcars, "toupper")
 select_all(mtcars, funs(toupper(.)))
 
 # Selection drops unselected variables:
-select_if(mtcars, rlang::is_integerish, toupper)
+is_whole <- function(x) all(floor(x) == x)
+select_if(mtcars, is_whole, toupper)
 
 # But renaming retains them:
-rename_if(mtcars, rlang::is_integerish, toupper)
+rename_if(mtcars, is_whole, toupper)
 
 # The renaming function is optional for selection:
-select_if(mtcars, rlang::is_integerish)
+select_if(mtcars, is_whole)
 }

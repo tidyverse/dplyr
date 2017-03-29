@@ -13,7 +13,6 @@
 #'
 #' # Group by variables selected with a predicate:
 #' group_by_if(iris, is.factor)
-#' group_by_if(mtcars, rlang::is_integerish)
 #'
 #' # Group by variables selected by name:
 #' group_by_at(mtcars, vars(vs, am))
