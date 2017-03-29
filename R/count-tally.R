@@ -28,9 +28,11 @@
 #' @param ... Variables to group by.
 #' @param wt (Optional) If omitted, will count the number of rows. If
 #'   specified, will perform a "weighted" tally by summing the
-#'   (non-missing) values of variable `wt`. This variable is passed by
-#'   expression and evaluated in the context of the data frame. It
-#'   supports [unquoting][rlang::quasiquotation].
+#'   (non-missing) values of variable `wt`. This argument is
+#'   automatically [quoted][rlang::quo] and later
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. It supports [unquoting][rlang::quasiquotation]. See
+#'   `vignette("programming")` for an introduction to these concepts.
 #' @param sort if `TRUE` will sort output in descending order of `n`
 #' @return A tbl, grouped the same way as `x`.
 #' @export

@@ -19,11 +19,13 @@ If \code{tbl} is grouped, \code{size} applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
 
-\item{weight}{Sampling weights. This variable is passed by
-expression and evaluated in the context of the data frame. It
-supports \link[rlang:quasiquotation]{unquoting}. It must return a
-vector of non-negative numbers the same length as the
-input. Weights are automatically standardised to sum to 1.}
+\item{weight}{Sampling weights. This argument is automatically
+\link[rlang:quo]{quoted} and later \link[rlang:eval_tidy]{evaluated} in
+the context of the data frame. It supports
+\link[rlang:quasiquotation]{unquoting}. See \code{vignette("programming")}
+for an introduction to these concepts. It must return a vector of
+non-negative numbers the same length as the input. Weights are
+automatically standardised to sum to 1.}
 
 \item{.env}{This variable is deprecated and no longer has any
 effect. To evaluate \code{weight} in a particular context, you can

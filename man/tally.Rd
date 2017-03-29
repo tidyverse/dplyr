@@ -20,9 +20,11 @@ add_count(x, ..., wt = NULL, sort = FALSE)
 
 \item{wt}{(Optional) If omitted, will count the number of rows. If
 specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable \code{wt}. This variable is passed by
-expression and evaluated in the context of the data frame. It
-supports \link[rlang:quasiquotation]{unquoting}.}
+(non-missing) values of variable \code{wt}. This argument is
+automatically \link[rlang:quo]{quoted} and later
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. It supports \link[rlang:quasiquotation]{unquoting}. See
+\code{vignette("programming")} for an introduction to these concepts.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 
