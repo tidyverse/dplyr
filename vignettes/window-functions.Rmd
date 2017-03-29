@@ -40,8 +40,6 @@ filter(players, G > mean(G))
 mutate(players, G_z = (G - mean(G)) / sd(G))
 ```
 
-This vignette is broken down into two sections. First you'll learn about the five families of window functions in R, and what you can use them for. If you're only working with local data sources, you can stop there. Otherwise, continue on to learn about window functions in SQL. They are relatively new, but are supported by Postgres, Amazon's Redshift and Google's bigquery. The window functions themselves are basically the same (modulo a few name conflicts), but their specification is a little different. I'll briefly review how they work, and then show how dplyr translates their R equivalents to SQL.
-
 Before reading this vignette, you should be familiar with `mutate()` and `filter()`. If you want to use window functions with SQL databases, you should also be familiar with the basics of dplyr's SQL translation.
 
 ## Types of window functions
@@ -73,7 +71,7 @@ The other three families are variations on familiar aggregate functions:
 
 Each family is described in more detail below, focussing on the general goals and how to use them with dplyr. For more details, refer to the individual function documentation.
 
-### Ranking functions
+## Ranking functions
 
 The ranking functions are variations on a theme, differing in how they handle ties:
 
@@ -111,7 +109,7 @@ summarise(by_team_quartile, mean(G))
 
 All ranking functions rank from lowest to highest so that small input values get small ranks. Use `desc()` to rank from highest to lowest.
 
-### Lead and lag
+## Lead and lag
 
 `lead()` and `lag()` produce offset versions of a input vector that is either ahead of or behind the original vector. 
 
@@ -155,7 +153,7 @@ right <- mutate(scrambled, running = order_by(year, cumsum(value)))
 arrange(right, year)
 ```
 
-### Cumulative aggregates
+## Cumulative aggregates
 
 Base R provides cumulative sum (`cumsum()`), cumulative min (`cummin()`) and cumulative max (`cummax()`). (It also provides `cumprod()` but that is rarely useful). Other common accumulating functions are `cumany()` and `cumall()`, cumulative versions of `||` and `&&`, and `cummean()`, a cumulative mean. These are not included in base R, but efficient versions are provided by `dplyr`. 
 
@@ -175,7 +173,7 @@ order_by(y, cumsum(x))
 
 This function uses a bit of non-standard evaluation, so I wouldn't recommend using it inside another function; use the simpler but less concise `with_order()` instead.
 
-### Recycled aggregates
+## Recycled aggregates
 
 R's vector recycling make it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:
 

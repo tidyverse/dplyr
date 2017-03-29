@@ -368,13 +368,7 @@ The advantages of using dplyr with data tables are:
 
 ## Databases
 
-dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. See the databases vignette for more details.
-
-Compared to DBI and the database connection algorithms:
-
-* it hides, as much as possible, the fact that you're working with a remote database
-* you don't need to know any SQL (although it helps!)
-* it abstracts over the many differences between the different DBI implementations
+dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. To use these capabilities, you'll need to install the dbplyr package and then read `vignette("dbplyr")` for the details.
 
 ## Multidimensional arrays / cubes
 
