@@ -14,7 +14,7 @@ public:
 
     Vector<RTYPE> out = no_init(gdf.nrows());
     GroupedDataFrame::group_iterator git = gdf.group_begin();
-    for (int i=0; i<ng; i++, ++git) {
+    for (int i = 0; i < ng; i++, ++git) {
       static_cast<Derived&>(*this).process_slice(out, *git, *git);
     }
     return out;
@@ -25,7 +25,7 @@ public:
 
     Vector<RTYPE> out = no_init(gdf.nrows());
     RowwiseDataFrame::group_iterator git = gdf.group_begin();
-    for (int i=0; i<ng; i++, ++git) {
+    for (int i = 0; i < ng; i++, ++git) {
       static_cast<Derived&>(*this).process_slice(out, *git, *git);
     }
     return out;

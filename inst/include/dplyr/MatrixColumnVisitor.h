@@ -47,14 +47,14 @@ public:
   };
 
   MatrixColumnVisitor(const Matrix<RTYPE>& data_) : data(data_), visitors() {
-    for (int h=0; h<data.ncol(); h++) {
+    for (int h = 0; h < data.ncol(); h++) {
       visitors.push_back(ColumnVisitor(data, h));
     }
   }
 
   inline size_t hash(int i) const {
     size_t seed = visitors[0].hash(i);
-    for (size_t h=1; h<visitors.size(); h++) {
+    for (size_t h = 1; h < visitors.size(); h++) {
       boost::hash_combine(seed, visitors[h].hash(i));
     }
     return seed;
@@ -62,26 +62,26 @@ public:
 
   inline bool equal(int i, int j) const {
     if (i == j) return true;
-    for (size_t h=0; h<visitors.size(); h++) {
-      if (!visitors[h].equal(i,j)) return false;
+    for (size_t h = 0; h < visitors.size(); h++) {
+      if (!visitors[h].equal(i, j)) return false;
     }
     return true;
   }
 
   inline bool equal_or_both_na(int i, int j) const {
     if (i == j) return true;
-    for (size_t h=0; h<visitors.size(); h++) {
-      if (!visitors[h].equal_or_both_na(i,j)) return false;
+    for (size_t h = 0; h < visitors.size(); h++) {
+      if (!visitors[h].equal_or_both_na(i, j)) return false;
     }
     return true;
   }
 
   inline bool less(int i, int j) const {
     if (i == j) return false;
-    for (size_t h=0; h<visitors.size(); h++) {
+    for (size_t h = 0; h < visitors.size(); h++) {
       const ColumnVisitor& v = visitors[h];
-      if (!v.equal(i,j)) {
-        return v.less(i,j);
+      if (!v.equal(i, j)) {
+        return v.less(i, j);
       }
     }
     return i < j;
@@ -89,10 +89,10 @@ public:
 
   inline bool greater(int i, int j) const {
     if (i == j) return false;
-    for (size_t h=0; h<visitors.size(); h++) {
+    for (size_t h = 0; h < visitors.size(); h++) {
       const ColumnVisitor& v = visitors[h];
-      if (!v.equal(i,j)) {
-        return v.greater(i,j);
+      if (!v.equal(i, j)) {
+        return v.greater(i, j);
       }
     }
     return i < j;

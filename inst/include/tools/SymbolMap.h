@@ -71,7 +71,7 @@ public:
     int idx = names.match(name);
     if (idx != NA_INTEGER) {
       // we have a match
-      return SymbolMapIndex(idx-1, RMATCH);
+      return SymbolMapIndex(idx - 1, RMATCH);
     }
 
     // no match
@@ -92,7 +92,7 @@ public:
       int idx = index.pos;
       names.remove(idx);
 
-      for (dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end();) {
+      for (dplyr_hash_map<SEXP, int>::iterator it = lookup.begin(); it != lookup.end();) {
         int k = it->second;
 
         if (k < idx) {

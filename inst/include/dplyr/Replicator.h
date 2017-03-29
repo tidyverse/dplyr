@@ -17,11 +17,11 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   ReplicatorImpl(SEXP v, int n_, int ngroups_) :
-    data(no_init(n_*ngroups_)), source(v), n(n_), ngroups(ngroups_) {}
+    data(no_init(n_ * ngroups_)), source(v), n(n_), ngroups(ngroups_) {}
 
   SEXP collect() {
-    for (int i=0, k=0; i<ngroups; i++) {
-      for (int j=0; j<n; j++, k++) {
+    for (int i = 0, k = 0; i < ngroups; i++) {
+      for (int j = 0; j < n; j++, k++) {
         data[k] = source[j];
       }
     }

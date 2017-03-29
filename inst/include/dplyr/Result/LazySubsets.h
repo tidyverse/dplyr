@@ -13,7 +13,7 @@ public:
     int nvars = df.size();
     if (nvars) {
       CharacterVector names = df.names();
-      for (int i=0; i<nvars; i++) {
+      for (int i = 0; i < nvars; i++) {
         SEXP column = df[i];
         if (Rf_inherits(column, "matrix")) {
           stop("matrix as column is not supported");

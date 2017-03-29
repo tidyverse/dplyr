@@ -14,7 +14,7 @@ struct Sum {
   static STORAGE process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
     long double res = 0;
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       double value = ptr[indices[i]];
       if (! Rcpp::traits::is_na<RTYPE>(value)) res += value;
     }
@@ -23,11 +23,11 @@ struct Sum {
 };
 
 template <typename Index>
-struct Sum<INTSXP,true, Index> {
+struct Sum<INTSXP, true, Index> {
   static int process(int* ptr, const Index& indices) {
     long double res = 0;
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       int value = ptr[indices[i]];
       if (! Rcpp::traits::is_na<INTSXP>(value)) res += value;
     }
@@ -44,7 +44,7 @@ struct Sum<INTSXP, false, Index> {
   static int process(int* ptr, const Index& indices) {
     long double res = 0;
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       int value = ptr[indices[i]];
       if (Rcpp::traits::is_na<INTSXP>(value)) {
         return NA_INTEGER;
@@ -64,7 +64,7 @@ struct Sum<REALSXP, false, Index> {
   static double process(double* ptr, const Index& indices) {
     long double res = 0.0;
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       // we don't test for NA here because += NA will give NA
       // this is faster in the most common case where there are no NA
       // if there are NA, we could return quicker as in the version for
@@ -79,9 +79,9 @@ struct Sum<REALSXP, false, Index> {
 } // namespace internal
 
 template <int RTYPE, bool NA_RM>
-class Sum : public Processor< RTYPE, Sum<RTYPE,NA_RM> > {
+class Sum : public Processor< RTYPE, Sum<RTYPE, NA_RM> > {
 public:
-  typedef Processor< RTYPE, Sum<RTYPE,NA_RM> > Base;
+  typedef Processor< RTYPE, Sum<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   Sum(SEXP x, bool is_summary_ = false) :
@@ -93,7 +93,7 @@ public:
 
   inline STORAGE process_chunk(const SlicingIndex& indices) {
     if (is_summary) return data_ptr[indices.group()];
-    return internal::Sum<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices);
+    return internal::Sum<RTYPE, NA_RM, SlicingIndex>::process(data_ptr, indices);
   }
 
   STORAGE* data_ptr;

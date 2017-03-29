@@ -40,7 +40,7 @@ public:
     int n = output_size(map);
     VECTOR out = Rcpp::no_init(n);
     ChunkIndexMap::const_iterator it = map.begin();
-    for (int i=0; i<n; i++, ++it)
+    for (int i = 0; i < n; i++, ++it)
       out[i] = vec[ it->first ];
     copy_most_attributes(out, vec);
     return out;
@@ -71,7 +71,7 @@ protected:
   inline SEXP subset_int_index(const Container& index) const {
     int n = output_size(index);
     VECTOR out = Rcpp::no_init(n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       if (index[i] < 0) {
         out[i] = VECTOR::get_na();
       } else {
@@ -89,7 +89,7 @@ template <typename Container>
 SEXP SubsetVectorVisitorImpl<VECSXP>::subset_int_index(const Container& index) const {
   int n = output_size(index);
   List out(n);
-  for (int i=0; i<n; i++)
+  for (int i = 0; i < n; i++)
     out[i] = (index[i] < 0) ? R_NilValue : vec[ index[i] ];
   copy_most_attributes(out, vec);
   return out;

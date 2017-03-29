@@ -24,7 +24,7 @@ public:
 template <typename Data, typename Subsets>
 class GathererImpl : public Gatherer {
 public:
-  typedef GroupedCallProxy<Data,Subsets> Proxy;
+  typedef GroupedCallProxy<Data, Subsets> Proxy;
 
   GathererImpl(RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
@@ -45,10 +45,10 @@ public:
     if (first_non_na == ngroups) return coll->get();
     typename Data::group_iterator git = gdf.group_begin();
     int i = 0;
-    for (; i<first_non_na; i++) ++git;
+    for (; i < first_non_na; i++) ++git;
     ++git;
     i++;
-    for (; i<ngroups; i++, ++git) {
+    for (; i < ngroups; i++, ++git) {
       const SlicingIndex& indices = *git;
       Shield<SEXP> subset(proxy.get(indices));
       grab(subset, indices);
@@ -107,7 +107,7 @@ private:
     // FIXME: This can be made faster if `source` in `Collecter->collect(source, indices)`
     //        could be of length 1 recycling the value.
     // TODO: create Collecter->collect_one(source, indices)?
-    for (int j=0; j<n; j++) {
+    for (int j = 0; j < n; j++) {
       grab_along(value, RowwiseSlicingIndex(indices[j]));
     }
   }
@@ -123,7 +123,7 @@ private:
 template <typename Data, typename Subsets>
 class ListGatherer : public Gatherer {
 public:
-  typedef GroupedCallProxy<Data,Subsets> Proxy;
+  typedef GroupedCallProxy<Data, Subsets> Proxy;
 
   ListGatherer(List first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_) :
     gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_)
@@ -141,10 +141,10 @@ public:
     if (first_non_na == ngroups) return data;
     typename Data::group_iterator git = gdf.group_begin();
     int i = 0;
-    for (; i<first_non_na; i++) ++git;
+    for (; i < first_non_na; i++) ++git;
     ++git;
     i++;
-    for (; i<ngroups; i++, ++git) {
+    for (; i < ngroups; i++, ++git) {
       const SlicingIndex& indices = *git;
       List subset(proxy.get(indices));
       perhaps_duplicate(subset);
@@ -157,7 +157,7 @@ private:
 
   inline void perhaps_duplicate(List& x) {
     int n = x.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       SEXP xi = x[i];
       if (IS_DPLYR_SHRINKABLE_VECTOR(xi)) {
         x[i] = Rf_duplicate(xi);
@@ -182,14 +182,14 @@ private:
 
   void grab_along(const List& subset, const SlicingIndex& indices) {
     int n = indices.size();
-    for (int j=0; j<n; j++) {
+    for (int j = 0; j < n; j++) {
       data[ indices[j] ] = subset[j];
     }
   }
 
   void grab_rep(SEXP value, const SlicingIndex& indices) {
     int n = indices.size();
-    for (int j=0; j<n; j++) {
+    for (int j = 0; j < n; j++) {
       data[ indices[j] ] = value;
     }
   }
@@ -243,7 +243,7 @@ inline Gatherer* constant_gatherer(SEXP x, int n) {
 }
 
 template <typename Data, typename Subsets>
-inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, const SymbolString& name) {
+inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, const SymbolString& name) {
   typename Data::group_iterator git = gdf.group_begin();
   typename Data::slicing_index indices = *git;
   RObject first(proxy.get(indices));
@@ -267,9 +267,9 @@ inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf
 
 
   if (TYPEOF(first) == VECSXP) {
-    return new ListGatherer<Data,Subsets> (List(first), indices, proxy, gdf, i);
+    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i);
   } else {
-    return new GathererImpl<Data,Subsets> (first, indices, proxy, gdf, i, name);
+    return new GathererImpl<Data, Subsets> (first, indices, proxy, gdf, i, name);
   }
 }
 

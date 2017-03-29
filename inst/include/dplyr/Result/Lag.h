@@ -30,10 +30,10 @@ public:
 
     Vector<RTYPE> out = no_init(nrows);
     if (is_summary) {
-      for (int i=0; i<nrows; i++) out[i] = def;
+      for (int i = 0; i < nrows; i++) out[i] = def;
     } else {
       GroupedDataFrame::group_iterator git = gdf.group_begin();
-      for (int i=0; i<ng; i++, ++git) {
+      for (int i = 0; i < ng; i++, ++git) {
         process_slice(out, *git, *git);
       }
     }

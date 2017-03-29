@@ -10,7 +10,7 @@ public:
 
   VisitorSetEqualPredicate(VisitorSet* visitors_) : visitors(visitors_) {};
   inline bool operator()(int i, int j) const {
-    return visitors->equal(i,j);
+    return visitors->equal(i, j);
   }
 
 private:

@@ -51,7 +51,7 @@ private:
     STORAGE* ptr = Rcpp::internal::r_vector_start<OUTPUT>(res);
     CLASS* obj = static_cast<CLASS*>(this);
     typename Data::group_iterator git = gdf.group_begin();
-    for (int i=0; i<n; i++, ++git)
+    for (int i = 0; i < n; i++, ++git)
       ptr[i] = obj->process_chunk(*git);
     copy_attributes(res, data);
     return res;
@@ -99,7 +99,7 @@ private:
     Rcpp::Shield<SEXP> res(Rf_allocVector(STRSXP, n));
     CLASS* obj = static_cast<CLASS*>(this);
     typename Data::group_iterator git = gdf.group_begin();
-    for (int i=0; i<n; i++, ++git)
+    for (int i = 0; i < n; i++, ++git)
       SET_STRING_ELT(res, i, obj->process_chunk(*git));
     return res;
   }

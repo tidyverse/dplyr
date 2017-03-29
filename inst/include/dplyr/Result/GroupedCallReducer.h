@@ -9,7 +9,7 @@
 namespace dplyr {
 
 template <typename Data, typename Subsets>
-class GroupedCallReducer : public CallbackProcessor< GroupedCallReducer<Data,Subsets> > {
+class GroupedCallReducer : public CallbackProcessor< GroupedCallReducer<Data, Subsets> > {
 public:
   GroupedCallReducer(Rcpp::Call call, const Subsets& subsets, const Environment& env):
     proxy(call, subsets, env)

@@ -14,7 +14,7 @@ public:
   void process_slice(Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index) {
     double value = 0.0;
     int n = index.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       value += data[index[i]];
       out[out_index[i]] = value;
     }
@@ -32,10 +32,10 @@ public:
   void process_slice(IntegerVector& out, const SlicingIndex& index, const SlicingIndex& out_index) {
     int value = 0;
     int n = index.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       int current = data[index[i]];
       if (IntegerVector::is_na(current)) {
-        for (int j=i; j<n; j++) {
+        for (int j = i; j < n; j++) {
           out[ out_index[j] ] = NA_INTEGER;
         }
         return;

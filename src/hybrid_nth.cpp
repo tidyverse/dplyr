@@ -32,7 +32,7 @@ public:
   inline STORAGE process_chunk(const SlicingIndex& indices) {
     int n = indices.size();
     if (n == 0 || idx > n || idx < -n) return def;
-    int i = idx > 0 ? (idx -1) : (n+idx);
+    int i = idx > 0 ? (idx - 1) : (n + idx);
     return data[indices[i]];
   }
 
@@ -62,7 +62,7 @@ public:
     int i = idx > 0 ? (idx - 1) : (n + idx);
 
     typedef VectorSliceVisitor<ORDER_RTYPE> Slice;
-    typedef OrderVectorVisitorImpl<ORDER_RTYPE,true,Slice> Visitor;
+    typedef OrderVectorVisitorImpl<ORDER_RTYPE, true, Slice> Visitor;
     typedef Compare_Single_OrderVisitor<Visitor> Comparer;
 
     // Need explicit variables because constructors take const&, and this does not work

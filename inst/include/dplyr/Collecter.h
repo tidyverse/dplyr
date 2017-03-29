@@ -110,7 +110,7 @@ protected:
 
 private:
   void collect_logicalNA(const SlicingIndex& index) {
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       data[index[i]] = Rcpp::traits::get_na<RTYPE>();
     }
   }
@@ -119,7 +119,7 @@ private:
     warn_loss_attr(v);
     Vector<RTYPE> source(v);
     STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
     }
   }
@@ -135,7 +135,7 @@ public:
     warn_loss_attr(v);
     NumericVector source(v);
     double* source_ptr = source.begin();
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
     }
   }
@@ -207,7 +207,7 @@ private:
   void collect_logicalNA(const SlicingIndex& index, LogicalVector source) {
     SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
     int n = index.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       p_data[index[i]] = NA_STRING;
     }
   }
@@ -216,7 +216,7 @@ private:
     SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source);
     SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
     int n = index.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       p_data[index[i]] = p_source[i];
     }
   }
@@ -224,11 +224,11 @@ private:
   void collect_factor(const SlicingIndex& index, IntegerVector source) {
     CharacterVector levels = get_levels(source);
     Rf_warning("binding character and factor vector, coercing into character vector");
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       if (source[i] == NA_INTEGER) {
         data[index[i]] = NA_STRING;
       } else {
-        data[index[i]] = levels[source[i]-1];
+        data[index[i]] = levels[source[i] - 1];
       }
     }
   }
@@ -244,7 +244,7 @@ public:
     warn_loss_attr(v);
     IntegerVector source(v);
     int* source_ptr = source.begin();
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
     }
   }
@@ -284,7 +284,7 @@ public:
   }
 
   inline bool compatible(SEXP x) {
-    String type = STRING_ELT(types,0);
+    String type = STRING_ELT(types, 0);
     return Rf_inherits(x, type.get_cstring()) || all_logical_na(x, TYPEOF(x));
   }
 
@@ -348,7 +348,7 @@ private:
     } else {
       // none are NULL, so compare them
       // if they are equal, fine
-      if (STRING_ELT(tz, 0) == STRING_ELT(v_tz,0)) return;
+      if (STRING_ELT(tz, 0) == STRING_ELT(v_tz, 0)) return;
 
       // otherwise, settle to UTC
       tz = wrap("UTC");
@@ -421,7 +421,7 @@ private:
         // r-source/src/library/base/R/datetime.R)
         double factor_data = get_units_map().time_conversion_factor(units);
         if (factor_data != 1.0) {
-          for (int i=0; i<Parent::data.size(); i++) {
+          for (int i = 0; i < Parent::data.size(); i++) {
             Parent::data[i] = factor_data * Parent::data[i];
           }
         }
@@ -430,7 +430,7 @@ private:
         if (Rf_length(v) < index.size()) {
           stop("Wrong size of vector to collect");
         }
-        for (int i=0; i<index.size(); i++) {
+        for (int i = 0; i < index.size(); i++) {
           Parent::data[index[i]] = factor_v * REAL(v)[i];
         }
       }
@@ -489,7 +489,7 @@ private:
 
 class FactorCollecter : public Collecter {
 public:
-  typedef dplyr_hash_map<SEXP,int> LevelsMap;
+  typedef dplyr_hash_map<SEXP, int> LevelsMap;
 
   FactorCollecter(int n, SEXP model_):
     data(n, IntegerVector::get_na()),
@@ -498,7 +498,7 @@ public:
     levels_map()
   {
     int nlevels = levels.size();
-    for (int i=0; i<nlevels; i++) levels_map[ levels[i] ] = i + 1;
+    for (int i = 0; i < nlevels; i++) levels_map[ levels[i] ] = i + 1;
   }
 
   bool is_factor_collecter() const {
@@ -534,7 +534,7 @@ public:
     int nlevels = levels_other.size();
     if (nlevels != (int)levels_map.size()) return false;
 
-    for (int i=0; i<nlevels; i++)
+    for (int i = 0; i < nlevels; i++)
       if (! levels_map.count(levels_other[i]))
         return false;
     return true;
@@ -557,7 +557,7 @@ private:
     CharacterVector levels = get_levels(source);
     SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
     int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       if (source_ptr[i] == NA_INTEGER) {
         data[ index[i] ] = NA_INTEGER;
       } else {
@@ -568,7 +568,7 @@ private:
   }
 
   void collect_logicalNA(const SlicingIndex& index) {
-    for (int i=0; i<index.size(); i++) {
+    for (int i = 0; i < index.size(); i++) {
       data[ index[i] ] = NA_INTEGER;
     }
   }

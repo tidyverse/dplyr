@@ -10,7 +10,7 @@ using namespace Rcpp;
 void assert_all_white_list(const DataFrame& data) {
   // checking variables are on the white list
   int nc = data.size();
-  for (int i=0; i<nc; i++) {
+  for (int i = 0; i < nc; i++) {
     if (!white_list(data[i])) {
       SymbolVector names = data.names();
       const SymbolString& name_i = names[i];
@@ -38,7 +38,7 @@ SEXP shared_SEXP(SEXP x) {
 SEXP shallow_copy(const List& data) {
   int n = data.size();
   List out(n);
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     out[i] = shared_SEXP(data[i]);
   }
   copy_attributes(out, data);
@@ -108,7 +108,7 @@ std::string get_single_class(SEXP x) {
   // just call R to deal with other cases
   // we could call R_data_class directly but we might get a "this is not part of the api"
   klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
-  return CHAR(STRING_ELT(klass,0));
+  return CHAR(STRING_ELT(klass, 0));
 }
 
 CharacterVector default_chars(SEXP x, R_xlen_t len) {

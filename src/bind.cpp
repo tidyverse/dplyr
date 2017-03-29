@@ -56,8 +56,8 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
   std::vector<int> df_nrows;
   std::vector<String> dots_names;
 
-  int k=0;
-  for (int i=0; i<ndata; i++) {
+  int k = 0;
+  for (int i = 0; i < ndata; i++) {
     SEXP obj = dots[i];
     if (Rf_isNull(obj)) continue;
     chunks.push_back(obj);
@@ -74,9 +74,9 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
 
   std::vector<String> names;
 
-  k=0;
+  k = 0;
   Function enc2native("enc2native");
-  for (int i=0; i<ndata; i++) {
+  for (int i = 0; i < ndata; i++) {
     Rcpp::checkUserInterrupt();
 
     const DataFrameAble& df = chunks[i];
@@ -84,7 +84,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     int nrows = df.nrows();
 
     CharacterVector df_names = enc2native(df.names());
-    for (int j=0; j<df.size(); j++) {
+    for (int j = 0; j < df.size(); j++) {
       SEXP source = df.get(j);
       String name = df_names[j];
 
@@ -145,7 +145,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
 
   List out(nc + has_id);
   CharacterVector out_names(nc + has_id);
-  for (int i=0; i<nc; i++) {
+  for (int i = 0; i < nc; i++) {
     out[i + has_id] = columns[i]->get();
     out_names[i + has_id] = names[i];
   }
@@ -155,7 +155,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     CharacterVector id_col = no_init(n);
 
     CharacterVector::iterator it = id_col.begin();
-    for (int i=0; i<ndata; ++i) {
+    for (int i = 0; i < ndata; ++i) {
       std::fill(it, it + df_nrows[i], dots_names[i]);
       it += df_nrows[i];
     }
@@ -213,7 +213,7 @@ List cbind__impl(Dots dots) {
   const DataFrameAble& first = chunks[0];
   const int nrows = first.nrows();
   int nv = first.size();
-  for (int i=1; i<n; i++) {
+  for (int i = 1; i < n; i++) {
     const DataFrameAble& current = chunks[i];
     if (current.nrows() != nrows) {
       stop("incompatible number of rows (%d, expecting %d)", current.nrows(), nrows);
@@ -226,13 +226,13 @@ List cbind__impl(Dots dots) {
   CharacterVector out_names(nv);
 
   // then do the subsequent dfs
-  for (int i=0, k=0; i<n; i++) {
+  for (int i = 0, k = 0; i < n; i++) {
     Rcpp::checkUserInterrupt();
 
     const DataFrameAble& current = chunks[i];
     CharacterVector current_names = current.names();
     int nc = current.size();
-    for (int j=0; j<nc; j++, k++) {
+    for (int j = 0; j < nc; j++, k++) {
       out[k] = shared_SEXP(current.get(j));
       out_names[k] = current_names[j];
     }
@@ -264,13 +264,13 @@ SEXP combine_all(List data) {
 
   // get the size of the output
   int n = 0;
-  for (int i=0; i<nv; i++) {
+  for (int i = 0; i < nv; i++) {
     n += Rf_length(data[i]);
   }
 
   // go to the first non NULL
-  int i=0;
-  for (; i<nv; i++) {
+  int i = 0;
+  for (; i < nv; i++) {
     if (!Rf_isNull(data[i])) break;
   }
   if (i == nv) stop("no data to combine, all elements are NULL");
@@ -280,10 +280,10 @@ SEXP combine_all(List data) {
   int k = Rf_length(data[i]);
   coll->collect(NaturalSlicingIndex(k), data[i]);
   i++;
-  for (; i<nv; i++) {
+  for (; i < nv; i++) {
     SEXP current = data[i];
     if (Rf_isNull(current)) continue;
-    int n_current= Rf_length(current);
+    int n_current = Rf_length(current);
 
     if (coll->compatible(current)) {
       coll->collect(OffsetSlicingIndex(k, n_current), current);

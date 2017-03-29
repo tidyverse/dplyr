@@ -27,7 +27,7 @@ public:
     CharacterVector names = data.names();
     int n = data.size();
     LOG_INFO << "processing " << n << " vars: " << names;
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       input(names[i], data[i]);
     }
   }
@@ -42,7 +42,7 @@ public:
 
   virtual ~LazySplitSubsets() {
     if (owner) {
-      for (size_t i=0; i<subsets.size(); i++) {
+      for (size_t i = 0; i < subsets.size(); i++) {
         delete subsets[i];
       }
     }
@@ -90,7 +90,7 @@ public:
 
 public:
   void clear() {
-    for (size_t i=0; i<resolved.size(); i++) {
+    for (size_t i = 0; i < resolved.size(); i++) {
       resolved[i] = R_NilValue;
     }
   }

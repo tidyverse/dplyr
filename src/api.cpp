@@ -25,7 +25,7 @@ DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
   nvisitors(visitor_names.size())
 {
 
-  for (int i=0; i<nvisitors; i++) {
+  for (int i = 0; i < nvisitors; i++) {
     VectorVisitor* v = visitor(data[i]);
     visitors.push_back(v);
   }
@@ -41,11 +41,11 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
   int n = names.size();
   IntegerVector indices  = names.match_in_table(data.names());
 
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     if (indices[i] == NA_INTEGER) {
       stop("unknown column '%s' ", names[i].get_utf8_cstring());
     }
-    SEXP column = data[indices[i]-1];
+    SEXP column = data[indices[i] - 1];
     visitors.push_back(visitor(column));
   }
 
@@ -69,7 +69,7 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   IntegerVector indices_left  = names_left.match_in_table(RCPP_GET_NAMES(left));
   IntegerVector indices_right = names_right.match_in_table(RCPP_GET_NAMES(right));
 
-  for (int i=0; i<nvisitors; i++) {
+  for (int i = 0; i < nvisitors; i++) {
     const SymbolString& name_left  = names_left[i];
     const SymbolString& name_right = names_right[i];
 
@@ -80,7 +80,7 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
       stop("'%s' column not found in rhs, cannot join", name_right.get_utf8_cstring());
     }
 
-    visitors[i] = join_visitor(left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn, na_match);
+    visitors[i] = join_visitor(left[indices_left[i] - 1], right[indices_right[i] - 1], name_left, name_right, warn, na_match);
   }
 }
 
@@ -96,7 +96,7 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
   SEXP* p_data = Rcpp::internal::r_vector_start<STRSXP>(data);
   SEXP previous = *p_data++;
   set.insert(previous);
-  for (int i=1; i<n; i++, p_data++) {
+  for (int i = 1; i < n; i++, p_data++) {
     SEXP s = *p_data;
 
     // we've just seen this string, keep going
@@ -116,8 +116,8 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
   IntegerVector o = r_match(uniques, s_uniques);
 
   // combine uniques and o into a hash map for fast retrieval
-  dplyr_hash_map<SEXP,int> map;
-  for (int i=0; i<n_uniques; i++) {
+  dplyr_hash_map<SEXP, int> map;
+  for (int i = 0; i < n_uniques; i++) {
     map.insert(std::make_pair(uniques[i], o[i]));
   }
 
@@ -128,7 +128,7 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
   int o_pos;
   orders[0] = o_pos = map.find(previous)->second;
 
-  for (int i=1; i<n; i++, p_data++) {
+  for (int i = 1; i < n; i++, p_data++) {
     SEXP s = *p_data;
     if (s == previous) {
       orders[i] = o_pos;

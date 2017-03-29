@@ -28,7 +28,7 @@ public:
     nvisitors(visitor_names.size())
   {
 
-    for (int i=0; i<nvisitors; i++) {
+    for (int i = 0; i < nvisitors; i++) {
       SubsetVectorVisitor* v = subset_visitor(data[i]);
       visitors.push_back(v);
     }
@@ -44,7 +44,7 @@ public:
     IntegerVector indx = names.match_in_table(data.names());
 
     int n = indx.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
 
       int pos = indx[i];
       if (pos == NA_INTEGER) {
@@ -61,7 +61,7 @@ public:
   template <typename Container>
   DataFrame subset(const Container& index, const CharacterVector& classes) const {
     List out(nvisitors);
-    for (int k=0; k<nvisitors; k++) {
+    for (int k = 0; k < nvisitors; k++) {
       out[k] = get(k)->subset(index);
     }
     copy_most_attributes(out, data);
@@ -100,7 +100,7 @@ inline DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, con
   const int n = index.size();
   std::vector<int> idx;
   idx.reserve(n);
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     if (index[i] == TRUE) {
       idx.push_back(i);
     }

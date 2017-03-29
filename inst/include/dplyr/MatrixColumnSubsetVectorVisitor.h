@@ -28,12 +28,12 @@ public:
     int n = index.size();
     int nc = data.ncol();
     Matrix<RTYPE> res(n, data.ncol());
-    for (int h=0; h<nc; h++) {
+    for (int h = 0; h < nc; h++) {
       ChunkIndexMap::const_iterator it = index.begin();
       Column column = res.column(h);
       Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h);
 
-      for (int i=0; i<n; i++, ++it) {
+      for (int i = 0; i < n; i++, ++it) {
         column[i] = source_column[ it->first ];
       }
     }
@@ -62,10 +62,10 @@ private:
   inline SEXP subset_int(const Container& index) const {
     int n = index.size(), nc = data.ncol();
     Matrix<RTYPE> res(n, nc);
-    for (int h=0; h<nc; h++) {
+    for (int h = 0; h < nc; h++) {
       Column column = res.column(h);
       Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h);
-      for (int k=0; k< n; k++) {
+      for (int k = 0; k < n; k++) {
         int idx = index[k];
         if (idx < 0) {
           column[k] = Vector<RTYPE>::get_na();

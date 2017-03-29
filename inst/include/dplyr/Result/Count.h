@@ -5,7 +5,7 @@
 
 namespace dplyr {
 
-class Count : public Processor<INTSXP,Count> {
+class Count : public Processor<INTSXP, Count> {
 public:
   Count() {}
   ~Count() {}

@@ -246,11 +246,11 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
   {
     switch (TYPEOF(right)) {
     case LGLSXP:
-      return new JoinVisitorImpl<LGLSXP,LGLSXP, ACCEPT_NA_MATCH> (left, right);
+      return new JoinVisitorImpl<LGLSXP, LGLSXP, ACCEPT_NA_MATCH> (left, right);
     case INTSXP:
-      return new JoinVisitorImpl<LGLSXP,INTSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<LGLSXP, INTSXP, ACCEPT_NA_MATCH>(left, right);
     case REALSXP:
-      return new JoinVisitorImpl<LGLSXP,REALSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<LGLSXP, REALSXP, ACCEPT_NA_MATCH>(left, right);
     default:
       break;
     }

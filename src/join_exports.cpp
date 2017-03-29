@@ -35,7 +35,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   std::vector<bool> joiner(all_x_columns.size());
   CharacterVector x_columns(all_x_columns.size() - n_join_visitors);
   IntegerVector xm = r_match(all_x_columns, by_x);
-  for (int i=0, k=0; i<all_x_columns.size(); i++) {
+  for (int i = 0, k = 0; i < all_x_columns.size(); i++) {
     if (xm[i] == NA_INTEGER) {
       joiner[i] = false;
       x_columns[k++] = all_x_columns[i];
@@ -50,7 +50,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   CharacterVector all_y_columns = y.names();
   CharacterVector y_columns(all_y_columns.size() - n_join_visitors);
   IntegerVector ym = r_match(all_y_columns, by_y);
-  for (int i=0, k=0; i<all_y_columns.size(); i++) {
+  for (int i = 0, k = 0; i < all_y_columns.size(); i++) {
     if (ym[i] == NA_INTEGER) {
       y_columns[k++] = all_y_columns[i];
     }
@@ -61,16 +61,16 @@ DataFrame subset_join(DataFrame x, DataFrame y,
 
   // construct out object
   int nrows = indices_x.size();
-  List out(n_join_visitors+nv_x+nv_y);
-  CharacterVector names(n_join_visitors+nv_x+nv_y);
+  List out(n_join_visitors + nv_x + nv_y);
+  CharacterVector names(n_join_visitors + nv_x + nv_y);
 
   int index_join_visitor = 0;
   int index_x_visitor = 0;
   // ---- join visitors
-  for (int i=0; i<all_x_columns.size(); i++) {
+  for (int i = 0; i < all_x_columns.size(); i++) {
     String col_name = all_x_columns[i];
     if (joiner[i]) {
-      JoinVisitor* v = join_visitors.get(xm[i]-1);
+      JoinVisitor* v = join_visitors.get(xm[i] - 1);
       out[i] = v->subset(indices_x);
       index_join_visitor++;
     } else {
@@ -92,7 +92,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   int k = index_join_visitor +  index_x_visitor;
-  for (int i=0; i<nv_y; i++, k++) {
+  for (int i = 0; i < nv_y; i++, k++) {
     String col_name = y_columns[i];
 
     // we suffix by .y if this column is in x_columns (and if the suffix is not empty)
@@ -118,10 +118,10 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   SymbolVector group_cols(n_group_cols);
   IntegerVector group_col_indices = group_cols_x.match_in_table(all_x_columns);
   // get updated column names
-  for (int i=0; i<n_group_cols; i++) {
+  for (int i = 0; i < n_group_cols; i++) {
     int group_col_index = group_col_indices[i];
     if (group_col_index != NA_INTEGER) {
-      group_cols.set(i, names[group_col_index-1]);
+      group_cols.set(i, names[group_col_index - 1]);
     } else {
       stop("unknown group column '%s'", group_cols_x[i].get_utf8_cstring());
     }
@@ -139,14 +139,14 @@ template <typename TargetContainer, typename SourceContainer>
 void push_back_right(TargetContainer& x, const SourceContainer& y) {
   // x.insert( x.end(), y.begin(), y.end() );
   int n = y.size();
-  for (int i=0; i<n; i++) {
-    x.push_back(-y[i]-1);
+  for (int i = 0; i < n; i++) {
+    x.push_back(-y[i] - 1);
   }
 }
 
 template <typename Container>
 void push_back(Container& x, typename Container::value_type value, int n) {
-  for (int i=0; i<n; i++)
+  for (int i = 0; i < n; i++)
     x.push_back(value);
 }
 
@@ -163,9 +163,9 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   int n_y = y.nrows();
   // this will collect indices from rows in x that match rows in y
   std::vector<int> indices;
-  for (int i=0; i<n_y; i++) {
+  for (int i = 0; i < n_y; i++) {
     // find a row in x that matches row i from y
-    Map::iterator it = map.find(-i-1);
+    Map::iterator it = map.find(-i - 1);
 
     if (it != map.end()) {
       // collect the indices and remove them from the
@@ -192,8 +192,8 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   int n_y = y.nrows();
   // remove the rows in x that match
-  for (int i=0; i<n_y; i++) {
-    Map::iterator it = map.find(-i-1);
+  for (int i = 0; i < n_y; i++) {
+    Map::iterator it = map.find(-i - 1);
     if (it != map.end())
       map.erase(it);
   }
@@ -223,7 +223,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
 
   train_push_back_right(map, n_y);
 
-  for (int i=0; i<n_x; i++) {
+  for (int i = 0; i < n_x; i++) {
     Map::iterator it = map.find(i);
     if (it != map.end()) {
       push_back_right(indices_y, it->second);
@@ -257,9 +257,9 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
   std::vector<int> indices_y;
 
   int n_x = x.nrows();
-  for (int i=0; i<n_x; i++) {
+  for (int i = 0; i < n_x; i++) {
     // find a row in y that matches row i in x
-    Map::iterator it = map.find(-i-1);
+    Map::iterator it = map.find(-i - 1);
     if (it != map.end()) {
       push_back(indices_y,  it->second);
       push_back(indices_x, i, it->second.size());
@@ -294,14 +294,14 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
   std::vector<int> indices_y;
 
   int n_y = y.nrows();
-  for (int i=0; i<n_y; i++) {
+  for (int i = 0; i < n_y; i++) {
     // find a row in y that matches row i in x
-    Map::iterator it = map.find(-i-1);
+    Map::iterator it = map.find(-i - 1);
     if (it != map.end()) {
       push_back(indices_x,  it->second);
       push_back(indices_y, i, it->second.size());
     } else {
-      indices_x.push_back(-i-1); // point to the i-th row in the right table
+      indices_x.push_back(-i - 1); // point to the i-th row in the right table
       indices_y.push_back(i);
     }
   }
@@ -332,9 +332,9 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   int n_x = x.nrows(), n_y = y.nrows();
 
   // get both the matches and the rows from left but not right
-  for (int i=0; i<n_x; i++) {
+  for (int i = 0; i < n_x; i++) {
     // find a row in y that matches row i in x
-    Map::iterator it = map.find(-i-1);
+    Map::iterator it = map.find(-i - 1);
     if (it != map.end()) {
       push_back(indices_y,  it->second);
       push_back(indices_x, i, it->second.size());
@@ -349,11 +349,11 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   Map map2(visitors2);
   train_push_back(map2, x.nrows());
 
-  for (int i=0; i<n_y; i++) {
+  for (int i = 0; i < n_y; i++) {
     // try to find row in x that matches this row of y
-    Map::iterator it = map2.find(-i-1);
+    Map::iterator it = map2.find(-i - 1);
     if (it == map2.end()) {
-      indices_x.push_back(-i-1);
+      indices_x.push_back(-i - 1);
       indices_y.push_back(i);
     }
   }

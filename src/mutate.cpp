@@ -37,7 +37,7 @@ void check_not_groups(const QuosureList& quosures, const RowwiseDataFrame& gdf) 
 
 void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
   int n = quosures.size();
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     if (gdf.has_group(quosures[i].name()))
       stop("cannot modify grouping variable");
   }
@@ -52,7 +52,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
   const int nvars = df.size();
   if (nvars) {
     CharacterVector df_names = df.names();
-    for (int i=0; i<nvars; i++) {
+    for (int i = 0; i < nvars; i++) {
       accumulator.set(df_names[i], df[i]);
     }
   }
@@ -60,7 +60,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
   CallProxy call_proxy(df);
   List results(nexpr);
 
-  for (int i=0; i<nexpr; i++) {
+  for (int i = 0; i < nexpr; i++) {
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[i];
 
@@ -138,14 +138,14 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   NamedListAccumulator<Data> accumulator;
   int ncolumns = df.size();
   CharacterVector column_names = df.names();
-  for (int i=0; i<ncolumns; i++) {
+  for (int i = 0; i < ncolumns; i++) {
     accumulator.set(column_names[i], df[i]);
   }
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
   List variables(nexpr);
-  for (int i=0; i<nexpr; i++) {
+  for (int i = 0; i < nexpr; i++) {
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[i];
 

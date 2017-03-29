@@ -99,7 +99,7 @@ struct cume_dist_increment {
 }
 
 
-template <int RTYPE, bool ascending=true>
+template <int RTYPE, bool ascending = true>
 class RankComparer {
   typedef comparisons<RTYPE> compare;
 
@@ -112,13 +112,13 @@ public:
 };
 
 template <int RTYPE>
-class RankComparer<RTYPE,false> {
+class RankComparer<RTYPE, false> {
   typedef comparisons<RTYPE> compare;
 
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
   inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-    return compare::is_greater(lhs,rhs);
+    return compare::is_greater(lhs, rhs);
   }
 };
 
@@ -130,7 +130,7 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-    return compare::equal_or_both_na(lhs,rhs);
+    return compare::equal_or_both_na(lhs, rhs);
   }
 };
 
@@ -142,11 +142,11 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   typedef VectorSliceVisitor<RTYPE> Slice;
-  typedef RankComparer<RTYPE,ascending> Comparer;
+  typedef RankComparer<RTYPE, ascending> Comparer;
   typedef RankEqual<RTYPE> Equal;
 
   typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map;
-  typedef std::map<STORAGE,const std::vector<int>*, Comparer> oMap;
+  typedef std::map<STORAGE, const std::vector<int>*, Comparer> oMap;
 
   Rank_Impl(SEXP data_) : data(data_), map() {}
 
@@ -156,7 +156,7 @@ public:
     if (n == 0) return IntegerVector(0);
     GroupedDataFrame::group_iterator git = gdf.group_begin();
     OutputVector out = no_init(n);
-    for (int i=0; i<ng; i++, ++git) {
+    for (int i = 0; i < ng; i++, ++git) {
       process_slice(out, *git);
     }
     return out;
@@ -187,8 +187,8 @@ private:
   void process_slice(OutputVector& out, const SlicingIndex& index) {
     map.clear();
     Slice slice(data, index);
-    int m=index.size();
-    for (int j=0; j<m; j++) {
+    int m = index.size();
+    for (int j = 0; j < m; j++) {
       map[ slice[j] ].push_back(j);
     }
     STORAGE na = Rcpp::traits::get_na<RTYPE>();
@@ -213,11 +213,11 @@ private:
       if (Rcpp::traits::is_na<RTYPE>(key)) {
         typename Increment::scalar_type inc_na =
           Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >();
-        for (int k=0; k<n; k++) {
+        for (int k = 0; k < n; k++) {
           out[ chunk[k] ] = inc_na;
         }
       } else {
-        for (int k=0; k<n; k++) {
+        for (int k = 0; k < n; k++) {
           out[ chunk[k] ] = j;
         }
       }
@@ -230,13 +230,13 @@ private:
   Map map;
 };
 
-template <int RTYPE, bool ascending=true>
+template <int RTYPE, bool ascending = true>
 class RowNumber : public Result {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   typedef VectorSliceVisitor<RTYPE> Slice;
-  typedef OrderVectorVisitorImpl<RTYPE,ascending,Slice> Visitor;
+  typedef OrderVectorVisitorImpl<RTYPE, ascending, Slice> Visitor;
   typedef Compare_Single_OrderVisitor<Visitor> Comparer;
 
   RowNumber(SEXP data_) : data(data_) {}
@@ -249,18 +249,18 @@ public:
     if (n == 0) return IntegerVector(0);
     GroupedDataFrame::group_iterator git = gdf.group_begin();
     IntegerVector out(n);
-    for (int i=0; i<ng; i++, ++git) {
+    for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
 
       // tmp <- 0:(m-1)
       int m = index.size();
-      for (int j=0; j<m; j++) tmp[j] = j;
+      for (int j = 0; j < m; j++) tmp[j] = j;
 
       Slice slice(data, index);
       // order( gdf.group(i) )
       std::sort(tmp.begin(), tmp.begin() + m, Comparer(Visitor(slice)));
-      int j=m-1;
-      for (; j>=0; j--) {
+      int j = m - 1;
+      for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
           m--;
           out[ index[j] ] = NA_INTEGER;
@@ -268,7 +268,7 @@ public:
           break;
         }
       }
-      for (; j>=0; j--) {
+      for (; j >= 0; j--) {
         out[ index[j] ] = tmp[j] + 1;
       }
     }
@@ -287,19 +287,19 @@ public:
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(0, nrows -1);
+    IntegerVector x = seq(0, nrows - 1);
     Slice slice(data, index);
     std::sort(x.begin(), x.end(), Comparer(Visitor(slice)));
     IntegerVector out = no_init(nrows);
-    int j=nrows-1;
-    for (; j>=0; j--) {
+    int j = nrows - 1;
+    for (; j >= 0; j--) {
       if (Rcpp::traits::is_na<RTYPE>(slice[ x[j] ])) {
         out[ x[j] ] = NA_INTEGER;
       } else {
         break;
       }
     }
-    for (; j>=0; j--) {
+    for (; j >= 0; j--) {
       out[ x[j] ] = j + 1;
     }
     return out;
@@ -309,13 +309,13 @@ private:
   SEXP data;
 };
 
-template <int RTYPE, bool ascending=true>
+template <int RTYPE, bool ascending = true>
 class Ntile : public Result {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   typedef VectorSliceVisitor<RTYPE> Slice;
-  typedef OrderVectorVisitorImpl<RTYPE,ascending,Slice> Visitor;
+  typedef OrderVectorVisitorImpl<RTYPE, ascending, Slice> Visitor;
   typedef Compare_Single_OrderVisitor<Visitor> Comparer;
 
   Ntile(SEXP data_, double ntiles_) : data(data_), ntiles(ntiles_) {}
@@ -328,18 +328,18 @@ public:
     if (n == 0) return IntegerVector(0);
     GroupedDataFrame::group_iterator git = gdf.group_begin();
     IntegerVector out(n);
-    for (int i=0; i<ng; i++, ++git) {
+    for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
 
       // tmp <- 0:(m-1)
       int m = index.size();
-      for (int j=0; j<m; j++) tmp[j] = j;
+      for (int j = 0; j < m; j++) tmp[j] = j;
       Slice slice(data, index);
 
       // order( gdf.group(i) )
       std::sort(tmp.begin(), tmp.begin() + m, Comparer(Visitor(slice)));
-      int j=m-1;
-      for (; j>= 0; j--) {
+      int j = m - 1;
+      for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[tmp[j]])) {
           out[index[j]] = NA_INTEGER;
           m--;
@@ -347,7 +347,7 @@ public:
           break;
         }
       }
-      for (; j>=0; j--) {
+      for (; j >= 0; j--) {
         out[ index[j] ] = (int)floor((ntiles * tmp[j]) / m) + 1;
       }
     }
@@ -366,13 +366,13 @@ public:
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(0, nrows -1);
+    IntegerVector x = seq(0, nrows - 1);
     Slice slice(data, index);
     Visitor visitor(slice);
     std::sort(x.begin(), x.end(), Comparer(visitor));
     IntegerVector out = no_init(nrows);
-    int i=nrows-1;
-    for (; i>=0; i--) {
+    int i = nrows - 1;
+    for (; i >= 0; i--) {
       if (Rcpp::traits::is_na<RTYPE>(slice[x[i]])) {
         nrows--;
         out[x[i]] = NA_INTEGER;
@@ -381,7 +381,7 @@ public:
       }
     }
 
-    for (; i>=0; i--) {
+    for (; i >= 0; i--) {
       out[ x[i] ] = (int)floor(ntiles * i / nrows) + 1;
     }
     return out;
@@ -401,10 +401,10 @@ public:
 
     IntegerVector res = no_init(n);
     GroupedDataFrame::group_iterator git = gdf.group_begin();
-    for (int i=0; i<ng; i++, ++git) {
+    for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
       int m = index.size();
-      for (int j=0; j<m; j++) res[index[j]] = j + 1;
+      for (int j = 0; j < m; j++) res[index[j]] = j + 1;
     }
     return res;
   }

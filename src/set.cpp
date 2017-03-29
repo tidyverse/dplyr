@@ -28,7 +28,7 @@ public:
   void record(int i) {
     if (count > max_count) return;
     if (count) ss << ", ";
-    int idx = i >= 0 ? (i+1) : -i;
+    int idx = i >= 0 ? (i + 1) : -i;
     ss << idx;
     if (count == max_count) ss << "[...]";
     count++;
@@ -55,7 +55,7 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
     return no_because(tfm::format("different number of columns : %d x %d", n, y.size()));
 
   if (convert) {
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       try {
         boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], SymbolString("x"), SymbolString("x"), true, true));
       } catch (...) {
@@ -63,8 +63,8 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
       }
     }
   } else {
-    for (int i=0; i<n; i++) {
-      SEXP xi = x[i], yi=y[i];
+    for (int i = 0; i < n; i++) {
+      SEXP xi = x[i], yi = y[i];
       if (TYPEOF(xi) != TYPEOF(yi))
         return no_because("incompatible types");
 
@@ -107,7 +107,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   if (!ignore_col_order) {
     if (names_y_not_in_x.size() == 0 && names_x_not_in_y.size() == 0) {
       // so the names are the same, check if they are in the same order
-      for (int i=0; i<n; i++) {
+      for (int i = 0; i < n; i++) {
         if (names_x[i] != names_y[i]) {
           return no_because("Same column names, but different order");
         }
@@ -132,9 +132,9 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
   IntegerVector orders = r_match(names_x, names_y);
 
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     SymbolString name = names_x[i];
-    SEXP xi = x[i], yi = y[orders[i]-1];
+    SEXP xi = x[i], yi = y[orders[i] - 1];
     boost::scoped_ptr<SubsetVectorVisitor> vx(subset_visitor(xi));
     boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi));
 
@@ -178,8 +178,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   if (x.size() == 0)
     return yes();
 
-  for (int i=0; i<nrows_x; i++) map[i].push_back(i);
-  for (int i=0; i<nrows_y; i++) map[-i-1].push_back(-i-1);
+  for (int i = 0; i < nrows_x; i++) map[i].push_back(i);
+  for (int i = 0; i < nrows_y; i++) map[-i - 1].push_back(-i - 1);
 
   RowTrack track_x("Rows in x but not y: ");
   RowTrack track_y("Rows in y but not x: ");
@@ -194,7 +194,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     int n = chunk.size();
 
     int count_left = 0, count_right = 0;
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       if (chunk[i] < 0)
         count_right++;
       else
@@ -225,8 +225,8 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   if (ok && ignore_row_order) return yes();
 
   if (!ignore_row_order) {
-    for (int i=0; i<nrows_x; i++) {
-      if (!visitors.equal(i, -i-1)) {
+    for (int i = 0; i < nrows_x; i++) {
+      if (!visitors.equal(i, -i - 1)) {
         return no_because("Same row values, but different order");
       }
     }
@@ -237,7 +237,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
 // [[Rcpp::export]]
 DataFrame union_data_frame(DataFrame x, DataFrame y) {
-  BoolResult compat = compatible_data_frame(x,y,true,true);
+  BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
     stop("not compatible: %s", compat.why_not());
   }
@@ -254,7 +254,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
 
 // [[Rcpp::export]]
 DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
-  BoolResult compat = compatible_data_frame(x,y,true,true);
+  BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
     stop("not compatible: %s", compat.why_not());
   }
@@ -267,8 +267,8 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
 
   std::vector<int> indices;
   int n_y = y.nrows();
-  for (int i=0; i<n_y; i++) {
-    Set::iterator it = set.find(-i-1);
+  for (int i = 0; i < n_y; i++) {
+    Set::iterator it = set.find(-i - 1);
     if (it != set.end()) {
       indices.push_back(*it);
       set.erase(it);
@@ -280,7 +280,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
 
 // [[Rcpp::export]]
 DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
-  BoolResult compat = compatible_data_frame(x,y,true,true);
+  BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
     stop("not compatible: %s", compat.why_not());
   }
@@ -294,10 +294,10 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   std::vector<int> indices;
 
   int n_x = x.nrows();
-  for (int i=0; i<n_x; i++) {
-    if (!set.count(-i-1)) {
-      set.insert(-i-1);
-      indices.push_back(-i-1);
+  for (int i = 0; i < n_x; i++) {
+    if (!set.count(-i - 1)) {
+      set.insert(-i - 1);
+      indices.push_back(-i - 1);
     }
   }
 

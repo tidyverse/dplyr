@@ -24,7 +24,7 @@ public:
     set.clear();
     set.rehash(indices.size());
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       set.insert(indices[i]);
     }
     return set.size();
@@ -50,8 +50,8 @@ public:
     set.clear();
     set.rehash(indices.size());
     int n = indices.size();
-    for (int i=0; i<n; i++) {
-      int index=indices[i];
+    for (int i = 0; i < n; i++) {
+      int index = indices[i];
       if (! v.is_na(index)) {
         set.insert(index);
       }

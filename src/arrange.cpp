@@ -27,7 +27,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
   List variables(nargs);
   LogicalVector ascending(nargs);
 
-  for (int i=0; i<nargs; i++) {
+  for (int i = 0; i < nargs; i++) {
     const NamedQuosure& quosure = quosures[i];
 
     Shield<SEXP> call_(quosure.expr());

@@ -14,7 +14,7 @@ struct Mean_internal {
     long double res = 0.0;
     int n = indices.size();
     int m = 0;
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       STORAGE value = ptr[ indices[i] ];
       if (! Rcpp::traits::is_na<RTYPE>(value)) {
         res += value;
@@ -26,13 +26,13 @@ struct Mean_internal {
 
     if (R_FINITE(res)) {
       long double t = 0.0;
-      for (int i = 0; i<n; i++) {
+      for (int i = 0; i < n; i++) {
         STORAGE value = ptr[indices[i]];
         if (! Rcpp::traits::is_na<RTYPE>(value)) {
           t += value - res;
         }
       }
-      res += t/m;
+      res += t / m;
     }
 
     return (double)res;
@@ -41,11 +41,11 @@ struct Mean_internal {
 
 // special cases for NA_RM == false
 template <typename Index>
-struct Mean_internal<INTSXP,false,Index> {
+struct Mean_internal<INTSXP, false, Index> {
   static double process(int* ptr, const Index& indices) {
     long double res = 0.0;
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       int value = ptr[ indices[i] ];
       // need to handle missing value specifically
       if (value == NA_INTEGER) {
@@ -57,31 +57,31 @@ struct Mean_internal<INTSXP,false,Index> {
 
     if (R_FINITE((double)res)) {
       long double t = 0.0;
-      for (int i = 0; i<n; i++) {
+      for (int i = 0; i < n; i++) {
         t += ptr[indices[i]] - res;
       }
-      res += t/n;
+      res += t / n;
     }
     return (double)res;
   }
 };
 
 template <typename Index>
-struct Mean_internal<REALSXP,false,Index> {
+struct Mean_internal<REALSXP, false, Index> {
   static double process(double* ptr, const Index& indices) {
     long double res = 0.0;
     int n = indices.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       res += ptr[ indices[i] ];
     }
     res /= n;
 
     if (R_FINITE((double)res)) {
       long double t = 0.0;
-      for (int i = 0; i<n; i++) {
+      for (int i = 0; i < n; i++) {
         t += ptr[indices[i]] - res;
       }
-      res += t/n;
+      res += t / n;
     }
     return (double)res;
   }
@@ -90,9 +90,9 @@ struct Mean_internal<REALSXP,false,Index> {
 } // namespace internal
 
 template <int RTYPE, bool NA_RM>
-class Mean : public Processor< REALSXP, Mean<RTYPE,NA_RM> > {
+class Mean : public Processor< REALSXP, Mean<RTYPE, NA_RM> > {
 public:
-  typedef Processor< REALSXP, Mean<RTYPE,NA_RM> > Base;
+  typedef Processor< REALSXP, Mean<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   Mean(SEXP x, bool is_summary_ = false) :
@@ -104,7 +104,7 @@ public:
 
   inline double process_chunk(const SlicingIndex& indices) {
     if (is_summary) return data_ptr[indices.group()];
-    return internal::Mean_internal<RTYPE,NA_RM,SlicingIndex>::process(data_ptr, indices);
+    return internal::Mean_internal<RTYPE, NA_RM, SlicingIndex>::process(data_ptr, indices);
   }
 
 private:

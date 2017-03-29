@@ -43,7 +43,7 @@ private:
 
 // version used for ascending = false
 template <int RTYPE, typename VECTOR>
-class OrderVectorVisitorImpl<RTYPE,false, VECTOR> : public OrderVisitor {
+class OrderVectorVisitorImpl<RTYPE, false, VECTOR> : public OrderVisitor {
   typedef comparisons<RTYPE> compare;
 
 public:
@@ -80,11 +80,11 @@ public:
   {}
 
   inline bool equal(int i, int j) const {
-    return orders.equal(i,j);
+    return orders.equal(i, j);
   }
 
   inline bool before(int i, int j) const {
-    return orders.before(i,j);
+    return orders.before(i, j);
   }
 
   SEXP get() {
@@ -105,11 +105,11 @@ public:
   OrderVisitorDataFrame(const DataFrame& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
-    return visitors.equal(i,j);
+    return visitors.equal(i, j);
   }
 
   inline bool before(int i, int j) const {
-    return visitors.less(i,j);
+    return visitors.less(i, j);
   }
 
   inline SEXP get() {
@@ -127,11 +127,11 @@ public:
   OrderVisitorDataFrame(const DataFrame& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
-    return visitors.equal(i,j);
+    return visitors.equal(i, j);
   }
 
   inline bool before(int i, int j) const {
-    return visitors.greater(i,j);
+    return visitors.greater(i, j);
   }
 
   inline SEXP get() {
@@ -152,11 +152,11 @@ public:
   OrderVisitorMatrix(const Matrix<RTYPE>& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
-    return visitors.equal(i,j);
+    return visitors.equal(i, j);
   }
 
   inline bool before(int i, int j) const {
-    return visitors.less(i,j);
+    return visitors.less(i, j);
   }
 
   inline SEXP get() {
@@ -175,11 +175,11 @@ public:
   OrderVisitorMatrix(const Matrix<RTYPE>& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
-    return visitors.equal(i,j);
+    return visitors.equal(i, j);
   }
 
   inline bool before(int i, int j) const {
-    return visitors.greater(i,j);
+    return visitors.greater(i, j);
   }
 
   inline SEXP get() {

@@ -30,7 +30,7 @@ public:
     return visitors[k];
   }
   inline JoinVisitor* get(const SymbolString& name) const {
-    for (int i=0; i<nvisitors; i++) {
+    for (int i = 0; i < nvisitors; i++) {
       if (name == visitor_names_left[i]) return get(i);
     }
     stop("visitor not found for name '%s' ", name.get_utf8_cstring());
@@ -43,7 +43,7 @@ public:
   inline DataFrame subset(const Container& index, const CharacterVector& classes) {
     int nrows = index.size();
     Rcpp::List out(nvisitors);
-    for (int k=0; k<nvisitors; k++) {
+    for (int k = 0; k < nvisitors; k++) {
       out[k] = get(k)->subset(index);
     }
     set_class(out, classes);

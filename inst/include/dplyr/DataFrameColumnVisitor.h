@@ -14,19 +14,19 @@ public:
   }
 
   inline bool equal(int i, int j) const {
-    return visitors.equal(i,j);
+    return visitors.equal(i, j);
   }
 
   inline bool equal_or_both_na(int i, int j) const {
-    return visitors.equal_or_both_na(i,j);
+    return visitors.equal_or_both_na(i, j);
   }
 
   inline bool less(int i, int j) const {
-    return visitors.less(i,j);
+    return visitors.less(i, j);
   }
 
   inline bool greater(int i, int j) const {
-    return visitors.greater(i,j);
+    return visitors.greater(i, j);
   }
 
   virtual int size() const {

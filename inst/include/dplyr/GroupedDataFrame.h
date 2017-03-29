@@ -19,7 +19,7 @@ inline void check_valid_colnames(const DataFrame& df) {
       std::stringstream s;
       s << "found duplicated column name: ";
       bool first = true;
-      for (int i=0; i<df.size(); i++) {
+      for (int i = 0; i < df.size(); i++) {
         if (dup[i] == TRUE) {
           if (first) {
             first = false;

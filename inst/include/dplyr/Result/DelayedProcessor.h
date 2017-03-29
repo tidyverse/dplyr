@@ -152,7 +152,7 @@ private:
 template <typename CLASS>
 class FactorDelayedProcessor : public IDelayedProcessor {
 private:
-  typedef dplyr_hash_map<SEXP,int> LevelsMap;
+  typedef dplyr_hash_map<SEXP, int> LevelsMap;
 
 public:
 
@@ -162,7 +162,7 @@ public:
     copy_most_attributes(res, first_result);
     CharacterVector levels = get_levels(first_result);
     int n = levels.size();
-    for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
+    for (int i = 0; i < n; i++) levels_map[ levels[i] ] = i + 1;
     if (!try_handle(first_result))
       stop("cannot handle factor result");
   }
@@ -175,7 +175,7 @@ public:
     if (val == NA_INTEGER) {
       return true;
     }
-    SEXP s = lev[val-1];
+    SEXP s = lev[val - 1];
     res[pos++] = levels_map[s];
     return true;
   }
@@ -188,8 +188,8 @@ public:
     int n = levels_map.size();
     CharacterVector levels(n);
     LevelsMap::iterator it = levels_map.begin();
-    for (int i=0; i<n; i++, ++it) {
-      levels[it->second-1] = it->first;
+    for (int i = 0; i < n; i++, ++it) {
+      levels[it->second - 1] = it->first;
     }
     set_levels(res, levels);
     return res;
@@ -204,7 +204,7 @@ private:
   void update_levels(const CharacterVector& lev) {
     int nlevels = levels_map.size();
     int n = lev.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       SEXP s = lev[i];
       if (! levels_map.count(s)) {
         levels_map.insert(std::make_pair(s, ++nlevels));

@@ -14,6 +14,7 @@ astyle <- function(extra_args = character()) {
     "--indent-preproc-block",
     "--unpad-paren",
     "--pad-header",
+    "--pad-oper",
     "--min-conditional-indent=0",
     "--align-pointer=type",
     "--align-reference=type"

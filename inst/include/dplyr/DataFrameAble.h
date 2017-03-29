@@ -65,7 +65,7 @@ public:
     int n = data.size();
     if (data.size() == 0) return;
     nr = Rf_length(data[0]);
-    for (int i=1; i<n; i++) {
+    for (int i = 1; i < n; i++) {
       if (Rf_length(data[i]) != nr) {
         stop("incompatible sizes (%d != %s)", nr, Rf_length(data[i]));
       }
