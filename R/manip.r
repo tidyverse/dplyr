@@ -18,6 +18,11 @@
 #' When applied to a data frame, row names are silently dropped. To preserve,
 #' convert to an explicit variable with [tibble::rownames_to_column()].
 #'
+#' @section Scoped filtering:
+#' The three [scoped] variants ([filter_all()], [filter_if()] and
+#' [filter_at()]) make it easy to apply a filtering condition to a
+#' selection of variables.
+#'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
@@ -25,6 +30,7 @@
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   conditon evalutes to `TRUE` are kept.
 #' @return An object of the same class as `.data`.
+#' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
 #' filter(starwars, species == "Human")
@@ -181,6 +187,14 @@ summarize_ <- summarise_
 #'
 #' * [if_else()], [recode()], [case_when()]
 #'
+#' @section Scoped mutation and transmuation:
+#'
+#' The three [scoped] variants of `mutate()` ([mutate_all()],
+#' [mutate_if()] and [mutate_at()]) and the three variants of
+#' `transmute()` ([transmute_all()], [transmute_if()],
+#' [transmute_at()]) make it easy to apply a transformation to a
+#' selection of variables.
+#'
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
@@ -304,6 +318,13 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'
 #' To drop variables, use `-`.
 #'
+#' @section Scoped selection and renaming:
+#'
+#' The three [scoped] variants of `select()` ([select_all()],
+#' [select_if()] and [select_at()]) and the three variants of
+#' `rename()` ([rename_all()], [rename_if()], [rename_at()]) make it
+#' easy to apply a renaming function to a selection of variables.
+#'
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @param ... One or more unquoted expressions separated by commas.
@@ -348,32 +369,6 @@ select.default <- function(.data, ...) {
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
-}
-
-#' Select columns using a predicate
-#'
-#' This verb is analogous to [summarise_if()] and
-#' [mutate_if()] in that it lets you use a predicate on
-#' the columns of a data frame. Only those columns for which the
-#' predicate returns `TRUE` will be selected.
-#'
-#' Predicates can only be used with local sources like a data frame.
-#'
-#' @inheritParams summarise_all
-#' @param .data A local tbl source.
-#' @param ... Additional arguments passed to `.predicate`.
-#' @export
-#' @examples
-#' iris %>% select_if(is.factor)
-#' iris %>% select_if(is.numeric)
-#' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
-select_if <- function(.data, .predicate, ...) {
-  if (inherits(.data, "tbl_lazy")) {
-    abort("Selection with predicate currently require local sources")
-  }
-  vars <- tbl_if_syms(.data, .predicate, ...)
-  vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
-  select(.data, !!! syms(vars))
 }
 
 #' @rdname select

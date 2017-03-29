@@ -19,8 +19,8 @@ funs(..., .args = list())
 to all function calls.}
 }
 \description{
-\code{funs()} provides a flexible way to generate a named list of functions for
-input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
+\code{funs()} provides a flexible way to generate a named list of
+functions for input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
 }
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))

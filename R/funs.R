@@ -1,7 +1,7 @@
 #' Create a list of functions calls.
 #'
-#' `funs()` provides a flexible way to generate a named list of functions for
-#' input to other functions like [summarise_at()].
+#' `funs()` provides a flexible way to generate a named list of
+#' functions for input to other functions like [summarise_at()].
 #'
 #' @param ... A list of functions specified by:
 #'
@@ -23,12 +23,14 @@
 #' funs_(fs)
 funs <- function(..., .args = list()) {
   dots <- quos(...)
-  dots <- map(dots, funs_make_call, args = .args)
-  new_funs(dots)
-}
+  default_env <- caller_env()
 
+  funs <- map(dots, function(quo) as_fun(quo, default_env, .args))
+  new_funs(funs)
+}
 new_funs <- function(funs) {
   names(funs) <- names2(funs)
+
   missing_names <- names(funs) == ""
   default_names <- map_chr(funs[missing_names], function(dot) {
     quo_name(node_car(f_rhs(dot)))
@@ -40,37 +42,63 @@ new_funs <- function(funs) {
   funs
 }
 
-#' @export
-#' @rdname se-deprecated
-#' @inheritParams funs
-#' @param env The environment in which functions should be evaluated.
-funs_ <- function(dots, args = list(), env = base_env()) {
-  dots <- compat_lazy_dots(dots, caller_env())
-  funs(!!! dots, .args = args)
+as_fun_list <- function(.x, .quo, .env, ...) {
+  # Capture quosure before evaluating .x
+  force(.quo)
+
+  # If a fun_list, update args
+  args <- list(...)
+  if (is_fun_list(.x)) {
+    if (!is_empty(args)) {
+      .x[] <- map(.x, function(fun) lang_modify(fun, .args = args))
+    }
+    return(.x)
+  }
+
+  # Take functions by expression if they are supplied by name. This
+  # way we can evaluate it hybridly.
+  if (is_function(.x) && is_symbol(.quo)) {
+    .x <- .quo
+  }
+  if (is_character(.x)) {
+    .x <- as.list(.x)
+  } else if (!is_list(.x)) {
+    .x <- list(.x)
+  }
+
+  funs <- map(.x, as_fun, .env = fun_env(.quo, .env), args)
+  new_funs(funs)
+}
+
+as_fun <- function(.x, .env, .args) {
+  quo <- as_quosure(.x, .env)
+
+  # For legacy reasons, we support strings. Those are enclosed in the
+  # empty environment and need to be switched to the caller environment.
+  f_env(quo) <- fun_env(quo, .env)
+
+  expr <- get_expr(.x)
+  if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
+    expr <- lang_modify(expr, .args = .args)
+  } else {
+    expr <- new_language(expr, .args = c(quote(.), .args))
+  }
+
+  set_expr(quo, expr)
+}
+
+fun_env <- function(quo, default_env) {
+  env <- f_env(quo)
+  if (is_null(env) || identical(env, empty_env())) {
+    default_env
+  } else {
+    env
+  }
 }
 
 is_fun_list <- function(x, env) {
   inherits(x, "fun_list")
 }
-
-as_fun_list <- function(.x, .quo, ...) {
-  # Capture quosure before evaluating .x
-  force(.quo)
-
-  if (is_fun_list(.x)) {
-    .x[] <- map(.x, lang_modify, .args = list(...))
-    return(.x)
-  }
-
-  funs <- coerce_type(.x, "funs",
-    string = ,
-    character = map(.x, funs_make_call, list(...), env = f_env(.quo)),
-    primitive = ,
-    closure = list(funs_make_call(.quo, list(...)))
-  )
-  new_funs(funs)
-}
-
 #' @export
 `[.fun_list` <- function(x, i) {
   structure(NextMethod(),
@@ -78,7 +106,6 @@ as_fun_list <- function(.x, .quo, ...) {
     has_names = attr(x, "has_names")
   )
 }
-
 #' @export
 print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("<fun_calls>\n")
@@ -91,17 +118,11 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   invisible(x)
 }
 
-funs_make_call <- function(x, args, env = base_env()) {
-  f <- as_quosureish(x, env)
-  expr <- get_expr(x)
-
-  if (is_symbol(expr) || is_lang(expr, c("::", ":::"))) {
-    f <- set_expr(f, new_language(expr, quote(.), .args = args))
-  } else if (is_string(expr)) {
-    f <- set_expr(f, new_language(sym(expr), quote(.), .args = args))
-  } else {
-    f <- lang_modify(f, .args = args)
-  }
-
-  f
+#' @export
+#' @rdname se-deprecated
+#' @inheritParams funs
+#' @param env The environment in which functions should be evaluated.
+funs_ <- function(dots, args = list(), env = base_env()) {
+  dots <- compat_lazy_dots(dots, caller_env())
+  funs(!!! dots, .args = args)
 }

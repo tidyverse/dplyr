@@ -3,11 +3,14 @@
 \name{grouped_df}
 \alias{grouped_df}
 \alias{is.grouped_df}
+\alias{is_grouped_df}
 \title{A grouped data frame.}
 \usage{
 grouped_df(data, vars, drop = TRUE)
 
 is.grouped_df(x)
+
+is_grouped_df(x)
 }
 \arguments{
 \item{data}{a tbl or data frame.}

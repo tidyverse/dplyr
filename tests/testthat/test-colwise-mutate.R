@@ -1,4 +1,4 @@
-context("colwise")
+context("colwise mutate/summarise")
 
 test_that("funs found in current environment", {
   f <- function(x) 1
@@ -12,7 +12,7 @@ test_that("can use character vectors", {
   df <- data.frame(x = 1:3)
 
   expect_equal(summarise_all(df, "mean"), summarise_all(df, funs(mean)))
-  expect_equal(mutate_all(df, c(mean = "mean")), mutate_all(df, funs(mean = mean)))
+  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, funs(mean = mean)))
 })
 
 test_that("can use bare functions", {
@@ -79,16 +79,18 @@ test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
 })
 
-test_that("fun_list is merged with new args", {
-  funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, ~bar, baz = "baz")
-  expect_identical(funs$fn, ~bar(., baz = "baz"))
+test_that("predicate can be quoted", {
+  expected <- mutate_if(mtcars, is_integerish, mean)
+  expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)
+  expect_identical(mutate_if(mtcars, ~is_integerish(.x), mean), expected)
 })
 
-test_that("funs() works with namespaced calls", {
-  expect_identical(summarise_all(mtcars, funs(base::mean(.))), summarise_all(mtcars, funs(mean(.))))
-  expect_identical(summarise_all(mtcars, funs(base::mean)), summarise_all(mtcars, funs(mean(.))))
+test_that("transmute verbs do not retain original variables", {
+  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
+
 
 # Deprecated ---------------------------------------------------------
 

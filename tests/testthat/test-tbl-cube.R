@@ -66,3 +66,8 @@ test_that("can coerce to table", {
   expect_equal(as.vector(as.table(nasa)), as.vector(nasa$mets[[1]]))
   expect_identical(as.table(nasa, measure = "ozone"), as.table(select(nasa, ozone)))
 })
+
+test_that("group_vars() returns variables", {
+  gcube <- group_by(nasa, month)
+  expect_identical(group_vars(gcube), "month")
+})

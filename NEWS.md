@@ -1,8 +1,14 @@
 # dplyr 0.5.0.9000
 
-* `rename_vars()` gains a `strict` argument to control if an 
-  error is thrown when you try and rename a variable that doesn't 
-  exist.
+* `rename()`, `select()`, `group_by()`, `filter()` and `transmute()`
+  now have scoped variants (verbs suffixed with `_if()`, `_at()` and
+  `_all()`). Like `mutate_all()`, `summarise_if()`, etc, these
+  variants apply an operation to a selection of variables.
+
+* `tbl_vars()` now has a `group_vars` argument set to `TRUE` by
+  default. If `FALSE`, group variables are not returned.
+
+* New `is_grouped_df()` alias to `is.grouped_df()`.
 
 * The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
   etc) now support S3 objects and lazy tables. S3 objects should
@@ -24,6 +30,10 @@
 * Most verbs taking dots now ignore the last argument if empty. This
   makes it easier to copy lines of code without having to worry about
   deleting trailing commas (#1039).
+
+* `rename_vars()` gains a `strict` argument to control if an
+  error is thrown when you try and rename a variable that doesn't
+  exist.
 
 * `ntile()` ignores `NA` when computing group membership (#2564).
 

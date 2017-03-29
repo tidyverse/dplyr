@@ -60,7 +60,7 @@ filter.tbl_df <- function(.data, ...) {
     return(.data)
   }
 
-  quo <- all_of(!!! dots, .vectorised = TRUE)
+  quo <- all_exprs(!!! dots, .vectorised = TRUE)
   filter_impl(.data, quo)
 }
 #' @export
