@@ -52,8 +52,7 @@ open source databases:
 \item \code{src_sqlite()} to connect to a SQLite database using \code{\link[RSQLite:SQLite]{RSQLite::SQLite()}}.
 }
 
-However, modern best practice is to use \code{\link[dbplyr:src_dbi]{dbplyr::src_dbi()}} which is a
-general src that works with any DBI database connection.
+However, modern best practice is to use \code{\link[=tbl]{tbl()}} directly on an \code{DBIConnection}.
 }
 \details{
 All data manipulation on SQL tbls are lazy: they will not actually
@@ -74,24 +73,15 @@ into R.
 if (require(dbplyr, quietly = TRUE)) {
 
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-src <- src_dbi(con)
+copy_to(con, mtcars)
 
-# Add some data
-copy_to(src, mtcars)
-src
 DBI::dbListTables(con)
 
 # To retrieve a single table from a source, use `tbl()`
-src \%>\% tbl("mtcars")
+con \%>\% tbl("mtcars")
 
 # You can also use pass raw SQL if you want a more sophisticated query
-src \%>\% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
-
-# Alternatively, you can use the `src_sqlite()` helper
-src2 <- src_sqlite(":memory:", create = TRUE)
-
-# If you just want a temporary in-memory database, use src_memdb()
-src3 <- src_memdb()
+con \%>\% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
 
 # To show off the full features of dplyr's database integration,
 # we'll use the Lahman database. lahman_sqlite() takes care of

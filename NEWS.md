@@ -30,6 +30,39 @@
 
 * Deprecated `failwith()`. I'm not even sure why it was here.
 
+## Databases
+
+This version of dplyr includes some major changes to how database connections work. By and large, you should be able to continue using your existing dplyr database code without modification, but there are two big changes that you should be aware of:
+
+* Almost all database related code has been moved out of dplyr and into a 
+  new package, [dbplyr](http://github.com/hadley/dbplyr/). This makes dplyr 
+  simpler, and will make it easier to release fixes for bugs that only affect
+  databases. `src_mysql()`, `src_postgres()`, and `src_sqlite()` will still
+  live dplyr so your existing code continues to work.
+
+* It is no longer necessary to create a remote "src". Instead you can work 
+  directly with the database connection returned by DBI. This reflects the
+  maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller
+  (funded by the R Consortium) DBI backends are now much more consistent,
+  comprehensive, and easier to use. That means that there's no longer a
+  need for a layer in between you and DBI.
+
+You can continue to use `src_mysql()`, `src_postgres()`, and `src_sqlite()`, but I recommend a new style that makes the connection to DBI more clear:
+
+```R
+library(dplyr)
+
+con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+copy_to(con, mtcars)
+
+mtcars2 <- tbl(con, "mtcars")
+mtcars2
+```
+
+This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
+
+If you've implemented a database backend for dplyr, you'll need to re-read the vignette in the dbplyr package; it describes what you'll need to change. 
+
 ## UTF-8
 
 * Internally, column names are always represented as character vectors,

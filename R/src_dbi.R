@@ -8,8 +8,7 @@
 #' * `src_postgres()` connects to PostgreSQL using [RPostgreSQL::PostgreSQL()]
 #' * `src_sqlite()` to connect to a SQLite database using [RSQLite::SQLite()].
 #'
-#' However, modern best practice is to use [dbplyr::src_dbi()] which is a
-#' general src that works with any DBI database connection.
+#' However, modern best practice is to use [tbl()] directly on an `DBIConnection`.
 #'
 #' @details
 #' All data manipulation on SQL tbls are lazy: they will not actually
@@ -43,24 +42,15 @@
 #' if (require(dbplyr, quietly = TRUE)) {
 #'
 #' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-#' src <- src_dbi(con)
+#' copy_to(con, mtcars)
 #'
-#' # Add some data
-#' copy_to(src, mtcars)
-#' src
 #' DBI::dbListTables(con)
 #'
 #' # To retrieve a single table from a source, use `tbl()`
-#' src %>% tbl("mtcars")
+#' con %>% tbl("mtcars")
 #'
 #' # You can also use pass raw SQL if you want a more sophisticated query
-#' src %>% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
-#'
-#' # Alternatively, you can use the `src_sqlite()` helper
-#' src2 <- src_sqlite(":memory:", create = TRUE)
-#'
-#' # If you just want a temporary in-memory database, use src_memdb()
-#' src3 <- src_memdb()
+#' con %>% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
 #'
 #' # To show off the full features of dplyr's database integration,
 #' # we'll use the Lahman database. lahman_sqlite() takes care of
@@ -104,9 +94,8 @@ NULL
 #' @export
 src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
                       password = "", ...) {
-  if (!requireNamespace("RMySQL", quietly = TRUE)) {
-    stop("RMySQL package required to connect to mysql/mariadb", call. = FALSE)
-  }
+  check_dbplyr()
+  check_pkg("RMySQL", "connect to MySQL/MariaDB")
 
   con <- DBI::dbConnect(
     RMySQL::MySQL(),
@@ -124,9 +113,8 @@ src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
 #' @export
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
                          user = NULL, password = NULL, ...) {
-  if (!requireNamespace("RPostgreSQL", quietly = TRUE)) {
-    stop("RPostgreSQL package required to connect to postgres db", call. = FALSE)
-  }
+  check_dbplyr()
+  check_pkg("RPostgreSQL", "connect to PostgreSQL")
 
   user <- user %||% if (in_travis()) "postgres" else ""
 
@@ -152,9 +140,7 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
 #'   `path` does not exist and connect to the existing database if
 #'   `path` does exist.
 src_sqlite <- function(path, create = FALSE) {
-  if (!requireNamespace("RSQLite", quietly = TRUE)) {
-    stop("RSQLite package required to connect to sqlite db", call. = FALSE)
-  }
+  check_dbplyr()
 
   if (!create && !file.exists(path)) {
     stop("Path does not exist and create = FALSE", call. = FALSE)
@@ -165,6 +151,40 @@ src_sqlite <- function(path, create = FALSE) {
 
   dbplyr::src_dbi(con)
 }
+
+
+# Checking available ------------------------------------------------------
+
+check_pkg <- function(name, reason) {
+  if (requireNamespace(name, quietly = TRUE))
+    return(invisible(TRUE))
+
+  abort(glue('
+    The {name} package is required to {reason}.
+    Please install it with `install.packages("{name}")`
+  '))
+}
+
+check_dbplyr <- function() {
+  check_pkg("dplyr", "communicate with database backends")
+}
+
+# S3 methods --------------------------------------------------------------
+
+#' @export
+tbl.DBIConnection <- function(src, from, ...) {
+  check_dbplyr()
+  tbl(dbplyr::src_dbi(src), from = from, ...)
+}
+
+#' @export
+copy_to.DBIConnection <- function(dest, df, name = deparse(substitute(df)),
+                                  overwrite = FALSE, ...) {
+  check_dbplyr()
+  copy_to(dbplyr::src_dbi(dest), df = df, name = name, overwrite = overwrite, ...)
+}
+
+# S4 ----------------------------------------------------------------------
 
 setOldClass(c("sql", "character"))
 setOldClass(c("ident", "sql", "character"))
