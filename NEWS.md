@@ -176,17 +176,6 @@
   * `band_members`, `band_instruments` and `band_instruments2` 
     has some simple data to demonstrate joins.
 
-
-* Add failing tests (#2415, @ngr-t).
-
-* Add failing tests (#2245, @mgperry).
-
-* Add failing tests (#2251, @t-kalinowski).
-
-* Add failing tests (#2342, @karldw).
-
-* Documentation fixes for `arrange()`, `add_count()` and `row_number()` (#2152, #2205, #2218, #2369, @cb4ds).
-
 * `recode()` gains `.dots` argument to support passing replacements as list (#2110, @jlegewie).
 
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
@@ -200,8 +189,6 @@
 * For selecting variables, the first selector decides if it's an inclusive selection (i.e., the initial column list is empty), or an exclusive selection (i.e., the initial column list contains all columns). This means that `select(mtcars, contains("am"), contains("FOO"), contains("vs"))` now returns again both `am` and `vs` columns like in dplyr 0.4.3 (#2275, #2289, @r2evans).
 
 * Fix groups when joining grouped data frames with duplicate columns (#2330, #2334, @davidkretch).
-
-* Documentation and vignette fixes (#2366, #2371, @austenhead).
 
 * SQL joins always use the `ON ...` syntax, avoiding `USING ...` even for natural joins. Improved handling of tables with columns of the same name (#1997, @javierluraschi).
 
@@ -223,87 +210,26 @@
 
 * Enforce integer `n` for `lag()` (#2162, @kevinushey).
 
-* Add failing tests for summarize preserving ordered factors (#2200, #2238, @ateucher).
-
-* Add failing tests (#1892, #2249, @drknexus).
-
-* Tests for factor handling in `if_else()` (#2242, @LCHansson).
-
-* Replace faulty `c4$query` suggestion with `sql_render(c4)` in vignette (#2246, @itcarroll).
-
-* Update documentation for `na_if()` (#2229, @pkq)
-
-* Added a test case for join that hang on empty suffix argument (#2228, #2239, @simon-anders).
-
-* Fix typo in `stop()` message (#2234, @PedramNavid).
-
-* Fixed typo in `introduction.Rmd` (#2112, @Shurakai).
-
-* Fix spelling typo (#2173, @mdlincoln).
-
-* Fix typo (#2215, @smsaladi).
-
-* Prefer `Symbol` to `String` for handling column names in C++ code (#2185).
-
-* C++ refactorings (#2178).
-
-* `SlicingIndex` is now a virtual class with specialized implementations `GroupedSlicingIndex`, `RowwiseSlicingIndex`, `NaturalSlicingIndex` and `OffsetSlicingIndex` (#2157).
-
-* CallProxy is now a specialization of GroupedCallProxy.
-
 * Fix conversion of character `NA` to empty strings in a grouped `summarise()` (#1839).
-
-* Refactor CallbackProcessor and DelayedProcessor.
 
 * The "dim" and "dimnames" attributes are always stripped when copying a vector (#1918, #2049).
 
-* Now calling `dbFetch()` instead of the deprecated `fetch()` (#2134).
-
 * Using larger hash tables gives slightly better performance for `n_distinct()` and ordering of character vectors (#977).
-
-* Fix typo in C++ registration code (which is most likely unused at the moment).
 
 * New hybrid handler for `%in%` (#126).
 
-* Support logging in C++ code via the new plogr package.
-
 * Makeflags uses PKG_CPPFLAGS for defining preprocessor macros.
 
-* Each C++ module and header includes only the header files it needs, and dplyr.h includes only other header files.
-
-* Split dplyr.cpp into smaller modules.
-
-* Remove various instances of dead code (both C++ and R).
-
-* Add Doxygen configuration.
-
-* Add/ignore CLion configuration files.
-
-* Enable tracking of header dependencies.
-
-* Add tests for grouping behaviour (#833, #2085, @bpbond).
-
-* Refactor `common_by()` (#1928).
 
 * astyle formatting for C++ code, tested but not changed as part of the tests (#2086, #2103).
-
-* Enable AppVeyor testing (#1947).
 
 * Update RStudio project settings to install tests (#1952).
 
 * `case_when()` supports `NA` values (#2000, @tjmahr).
 
-* Typos in documentation for `coalesce()` (#1971, @dgromer).
-
-* Fix typo in window functions vignette (#2003, @harrismcgehee).
-
 * Fix colwise issue when predicate returns a `FALSE` vector (#2011, @lionel-).
 
 * `bind_cols()` handles empty argument list (#2048).
-
-* Minor typos in documentation (#2069, @nicholasjhorton).
-
-* Fix typo in NEWS (#1967, @Robinlovelace).
 
 * Fix issue with `mutate_if()` and `summarise_if()` when a predicate
   function returns a vector of `FALSE` (#1989, #2009).
