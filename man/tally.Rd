@@ -57,31 +57,3 @@ There is currently no way to control the output variable name - if you
 need to change the default, you'll have to write the \code{\link[=summarise]{summarise()}}
 yourself.
 }
-\examples{
-# tally() is short-hand for mutate()
-mtcars \%>\% tally()
-# count() is a short-hand for group_by() + tally()
-mtcars \%>\% count(cyl)
-
-# add_tally() is short-hand for mutate()
-mtcars \%>\% add_tally()
-# add_count() is a short-hand for group_by() + add_tally()
-mtcars \%>\% add_count(cyl)
-
-if (require("Lahman")) {
-batting_tbl <- tbl_df(Lahman::Batting)
-
-# count and tally are designed so that you can call
-# them repeatedly, each time rolling up a level of detail
-plays_by_year <- batting_tbl \%>\% count(playerID, yearID, sort = TRUE)
-plays_by_year
-plays_by_year \%>\% count(yearID)
-plays_by_year \%>\% count()
-
-# add_count() is useful for groupwise filtering
-# e.g.: get only players with at least 1000 ABs
-batting_tbl \%>\%
-  add_count(playerID, wt = AB) \%>\%
-  filter(n >= 1000)
-}
-}

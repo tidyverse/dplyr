@@ -47,21 +47,17 @@
 #' # add_count() is a short-hand for group_by() + add_tally()
 #' mtcars %>% add_count(cyl)
 #'
-#' if (require("Lahman")) {
-#' batting_tbl <- tbl_df(Lahman::Batting)
-#'
 #' # count and tally are designed so that you can call
 #' # them repeatedly, each time rolling up a level of detail
-#' plays_by_year <- batting_tbl %>% count(playerID, yearID, sort = TRUE)
-#' plays_by_year
-#' plays_by_year %>% count(yearID)
-#' plays_by_year %>% count()
+#' species <- starwars %>% count(species, homeworld, sort = TRUE)
+#' species
+#' species %>% count(species, sort = TRUE)
 #'
 #' # add_count() is useful for groupwise filtering
-#' # e.g.: get only players with at least 1000 ABs
-#' batting_tbl %>%
-#'   add_count(playerID, wt = AB) %>%
-#'   filter(n >= 1000)
+#' # e.g.: show only species that have a single member
+#' starwars %>%
+#'   add_count(species) %>%
+#'   filter(n == 1)
 #' }
 tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
