@@ -46,3 +46,11 @@ as.tbl.tbl <- function(x, ...) x
 #' @export
 #' @param x A tbl object
 tbl_vars <- function(x) UseMethod("tbl_vars")
+
+#' @export
+tbl.OdbcConnection <- function(src, ...){
+  src <- src_dbi(src)
+  tbl(src, ...)
+}
+
+
