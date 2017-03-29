@@ -110,10 +110,22 @@ sql_join.default <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
     stop("Unknown join type:", type, call. = FALSE)
   )
 
-  select <- sql_vector(c(
-    sql_as(con, names(vars$x), vars$x, table = "TBL_LEFT"),
-    sql_as(con, names(vars$y), vars$y, table = "TBL_RIGHT")
-  ), collapse = ", ", parens = FALSE)
+  select_x <- sql_as(con, names(vars$x), vars$x, table = "TBL_LEFT")
+  select_y <- sql_as(con, names(vars$y), vars$y, table = "TBL_RIGHT")
+
+  select_x[vars$x %in% by$x[by$coalesce]] <-
+    sql(
+      paste0(
+        "COALESCE(",
+        sql_table_prefix(con, by$x[by$coalesce], table = "TBL_LEFT"),
+        ", ",
+        sql_table_prefix(con, by$y[by$coalesce], table = "TBL_RIGHT"),
+        ") AS ",
+        sql_escape_ident(con, names(vars$x[vars$x %in% by$x[by$coalesce]]))
+      )
+    )
+
+  select <- sql_vector(c(select_x, select_y), collapse = ", ", parens = FALSE)
 
   on <- sql_vector(
     paste0(
