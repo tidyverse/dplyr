@@ -1,5 +1,9 @@
 #' Group by a selection of variables.
 #'
+#' These [scoped] variants of [group_by()] group a data frame by a
+#' selection of variables. Like [group_by()], they have optional
+#' [mutate] semantics.
+#'
 #' @inheritParams scoped
 #' @param .add Passed to the `add` argument of [group_by()].
 #' @export

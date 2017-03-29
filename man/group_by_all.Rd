@@ -34,7 +34,9 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 }
 \description{
-Group by a selection of variables.
+These \link{scoped} variants of \code{\link[=group_by]{group_by()}} group a data frame by a
+selection of variables. Like \code{\link[=group_by]{group_by()}}, they have optional
+\link{mutate} semantics.
 }
 \examples{
 # Group a data frame by all variables:

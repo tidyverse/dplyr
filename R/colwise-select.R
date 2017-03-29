@@ -2,9 +2,9 @@
 #'
 #' @description
 #'
-#' The scoped selecting and renaming verbs [select] or [rename] a
-#' selection of variables with a renaming function. The semantics of
-#' these verbs have simple but important differences:
+#' These [scoped] variants of [select()] and [rename()] operate on a
+#' selection of variables. The semantics of these verbs have simple
+#' but important differences:
 #'
 #' * Selection drops variables that are not in the selection while
 #'   renaming retains them.

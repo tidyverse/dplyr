@@ -2,6 +2,9 @@
 #'
 #' @description
 #'
+#' These verbs are [scoped] variants of [summarise()], [mutate()] and
+#' [transmute()]. They apply operations on a selection of variables.
+#'
 #' * `summarise_all()`, `mutate_all()` and `transmute_all()` apply the
 #'   functions to all (non-grouping) columns.
 #'

@@ -1,9 +1,9 @@
 #' Filter within a selection of variables.
 #'
-#' These scoped filtering verbs apply a predicate expression to a
+#' These [scoped] filtering verbs apply a predicate expression to a
 #' selection of variables. The predicate expression should be quoted
-#' with [all_vars()] or [any_vars()]. The pronoun `.` represent
-#' variables.
+#' with [all_vars()] or [any_vars()] and should mention the pronoun
+#' `.` to refer to variables.
 #'
 #' @inheritParams scoped
 #' @param .vars_predicate A quoted predicate expression as returned by

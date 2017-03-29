@@ -41,9 +41,9 @@ or a character vector of column names, or a numeric vector of column
 positions.}
 }
 \description{
-The scoped selecting and renaming verbs \link{select} or \link{rename} a
-selection of variables with a renaming function. The semantics of
-these verbs have simple but important differences:
+These \link{scoped} variants of \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}} operate on a
+selection of variables. The semantics of these verbs have simple
+but important differences:
 \itemize{
 \item Selection drops variables that are not in the selection while
 renaming retains them.

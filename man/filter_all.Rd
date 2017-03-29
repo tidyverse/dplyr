@@ -29,10 +29,10 @@ or a character vector of column names, or a numeric vector of column
 positions.}
 }
 \description{
-These scoped filtering verbs apply a predicate expression to a
+These \link{scoped} filtering verbs apply a predicate expression to a
 selection of variables. The predicate expression should be quoted
-with \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}}. The pronoun \code{.} represent
-variables.
+with \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}} and should mention the pronoun
+\code{.} to refer to variables.
 }
 \examples{
 # While filter() accepts expressions with specific variables, the

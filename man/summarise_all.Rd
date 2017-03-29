@@ -69,6 +69,8 @@ names needed to distinguish the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
+These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}}, \code{\link[=mutate]{mutate()}} and
+\code{\link[=transmute]{transmute()}}. They apply operations on a selection of variables.
 \itemize{
 \item \code{summarise_all()}, \code{mutate_all()} and \code{transmute_all()} apply the
 functions to all (non-grouping) columns.

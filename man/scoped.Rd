@@ -32,8 +32,24 @@ predicate (\code{_if} variants).
 \details{
 The verbs with scoped variants are:
 \itemize{
-\item \code{\link[=mutate]{mutate()}} and \code{\link[=summarise]{summarise()}}. See \code{\link[=summarise_all]{summarise_all()}}.
+\item \code{\link[=mutate]{mutate()}}, \code{\link[=transmute]{transmute()}} and \code{\link[=summarise]{summarise()}}. See \code{\link[=summarise_all]{summarise_all()}}.
 \item \code{\link[=filter]{filter()}}. See \code{\link[=filter_all]{filter_all()}}.
 \item \code{\link[=group_by]{group_by()}}. See \code{\link[=group_by_all]{group_by_all()}}.
+\item \code{\link[=rename]{rename()}} and \code{\link[=select]{select()}}. See \code{\link[=select_all]{select_all()}}.
+}
+
+There are three kinds of scoped variants. They differ in the scope
+of the variable selection on which operations are applied:
+\itemize{
+\item Verbs suffixed with \code{_all()} apply an operation on all variables.
+\item Verbs suffixed with \code{_at()} apply an operation on a subset of
+variables specified with the quoting function \code{\link[=vars]{vars()}}. This
+quoting function accepts \code{\link[=select_vars]{select_vars()}} helpers like
+\code{\link[=starts_with]{starts_with()}}. Instead of a \code{\link[=vars]{vars()}} selection, you can also
+supply an \link[rlang:is_integerish]{integerish} vector of column
+positions or a character vector of column names.
+\item Verbs suffixed with \code{_if()} apply an operation on the subset of
+variables for which a predicate function returns \code{TRUE}. Instead
+of a predicate function, you can also supply a logical vector.
 }
 }
