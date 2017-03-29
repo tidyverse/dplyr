@@ -16,7 +16,7 @@
 #'   frame and uploads it to the remote source.
 #' @export
 #' @examples
-#' if (require("RSQLite")) {
+#' if (require(dbplyr)) {
 #'   mtcars2 <- src_memdb() %>%
 #'     copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
 #'

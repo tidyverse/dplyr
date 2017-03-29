@@ -46,19 +46,6 @@ deparse_names <- function(x) {
   map_chr(x, deparse)
 }
 
-#' Provides comma-separated string out ot the parameters
-#' @export
-#' @keywords internal
-#' @param ... Arguments to be constructed into the string
-named_commas <- function(...) {
-  x <- c(...)
-  if (is_null(names(x))) {
-    paste0(x, collapse = ", ")
-  } else {
-    paste0(names(x), " = ", x, collapse = ", ")
-  }
-}
-
 commas <- function(...) paste0(..., collapse = ", ")
 
 in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
@@ -111,3 +98,8 @@ inc_seq <- function(from, to) {
     seq.int(from, to)
   }
 }
+
+random_table_name <- function(n = 10) {
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
+}
+

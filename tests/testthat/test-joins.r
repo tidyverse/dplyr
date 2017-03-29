@@ -250,21 +250,6 @@ test_that("join functions error on column not found #371", {
   )
 })
 
-test_that("join functions error on column not found for SQL sources #1928", {
-  expect_error(
-    left_join(memdb_frame(x = 1:5), memdb_frame(y = 1:5), by = "x"),
-    "column not found in rhs"
-  )
-  expect_error(
-    left_join(memdb_frame(x = 1:5), memdb_frame(y = 1:5), by = "y"),
-    "column not found in lhs"
-  )
-  expect_error(
-    left_join(memdb_frame(x = 1:5), memdb_frame(y = 1:5)),
-    "No common variables"
-  )
-})
-
 test_that("inner_join is symmetric (even when joining on character & factor)", {
   foo <- data_frame(id = factor(c("a", "b")), var1 = "foo")
   bar <- data_frame(id = c("a", "b"), var2 = "bar")

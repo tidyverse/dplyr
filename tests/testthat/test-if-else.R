@@ -70,11 +70,3 @@ test_that("works with factors as both `true` and `false` (#2197)", {
 
   expect_error(if_else(x == "a", x, y), "levels in `false` don't match levels in `true`")
 })
-
-test_that("all forms of if translated to case statement", {
-  expected <- sql('CASE WHEN ("x") THEN (1) ELSE (2) END')
-
-  expect_equal(translate_sql(if (x) 1L else 2L), expected)
-  expect_equal(translate_sql(ifelse(x, 1L, 2L)), expected)
-  expect_equal(translate_sql(if_else(x, 1L, 2L)), expected)
-})

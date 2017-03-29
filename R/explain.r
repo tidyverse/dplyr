@@ -16,7 +16,7 @@
 #' @return The first argument, invisibly.
 #' @examples
 #' \donttest{
-#' if (require("RSQLite") && has_lahman("sqlite")) {
+#' if (require("dbplyr")) {
 #'
 #' lahman_s <- lahman_sqlite()
 #' batting <- tbl(lahman_s, "Batting")
@@ -37,30 +37,5 @@
 #' }
 explain <- function(x, ...) {
   UseMethod("explain")
-}
-
-#' @export
-explain.tbl_sql <- function(x, ...) {
-  force(x)
-  show_query(x)
-
-  con <- con_acquire(x$src)
-  on.exit(con_release(x$src, con), add = TRUE)
-
-  message("\n")
-  message("<PLAN>\n", db_explain(con, sql_render(x, con = con)))
-
-  invisible(x)
-}
-
-#' @export
-#' @rdname explain
-show_query <- function(x) {
-  con <- con_acquire(x$src)
-  on.exit(con_release(x$src, con), add = TRUE)
-
-  message("<SQL>\n", sql_render(x, con = con))
-
-  invisible(x)
 }
 

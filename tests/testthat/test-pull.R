@@ -5,11 +5,6 @@ test_that("default extracts last var from data frame", {
   expect_equal(pull(df), 1:10)
 })
 
-test_that("default extracts last var from remote source", {
-  mf <- memdb_frame(x = 1:10, y = 1:10)
-  expect_equal(pull(mf), 1:10)
-})
-
 # find_var ----------------------------------------------------------------
 
 test_that("errors for bad inputs", {

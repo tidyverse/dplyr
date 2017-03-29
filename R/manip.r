@@ -20,7 +20,7 @@
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
+#'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   conditon evalutes to `TRUE` are kept.
@@ -56,8 +56,7 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' operation, use [filter()] and [row_number()].
 #'
 #' @family single table verbs
-#' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for [tbl_df()], [dtplyr::tbl_dt()] and [tbl_sql()].
+#' @param .data A tbl.
 #' @param ... Integer row values
 #' @inheritParams filter
 #' @inheritSection filter Tidy data

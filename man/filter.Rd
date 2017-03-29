@@ -8,7 +8,7 @@ filter(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{Logical predicates defined in terms of the variables in \code{.data}.
 Multiple conditions are combined with \code{&}. Only rows where the

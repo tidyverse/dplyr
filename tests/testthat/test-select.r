@@ -1,22 +1,7 @@
 context("Select")
 
-df <- as.data.frame(as.list(setNames(1:26, letters)))
-tbls <- test_load(df)
-
-test_that("two selects equivalent to one", {
-  compare_tbls(
-    tbls,
-    function(tbl) {
-      tbl %>%
-        select(l:s) %>%
-        select(n:o)
-    },
-    ref = select(df, n:o)
-  )
-})
-
 test_that("select does not lose grouping (#147)", {
-  df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
+  df <- tibble(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8))
   grouped <- df %>% group_by(a) %>% select(a, b, x)
 
   expect_groups(grouped, "a")
@@ -101,29 +86,6 @@ test_that("select can be before group_by (#309)", {
 
 })
 
-# Database ---------------------------------------------------------------------
-
-test_that("select renames variables (#317)", {
-  skip_if_no_sqlite()
-
-  first <- tbls$sqlite %>% select(A = a)
-  expect_equal(tbl_vars(first), "A")
-  expect_equal(tbl_vars(first %>% select(A)), "A")
-  expect_equal(tbl_vars(first %>% select(B = A)), "B")
-})
-
-test_that("select preserves grouping vars", {
-  skip_if_no_sqlite()
-
-  first <- tbls$sqlite %>% group_by(b) %>% select(a)
-  expect_equal(tbl_vars(first), c("b", "a"))
-})
-
-test_that("rename handles grouped data (#640)", {
-  res <- data_frame(a = 1, b = 2) %>% group_by(a) %>% rename(c = b)
-  expect_equal(names(res), c("a", "c"))
-})
-
 test_that("rename does not crash with invalid grouped data frame (#640)", {
   df <- data_frame(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
   df$a <- NULL
@@ -193,10 +155,6 @@ test_that("select succeeds in presence of raw columns (#1803)", {
 
 test_that("select_if can use predicate", {
   expect_identical(iris %>% select_if(is.factor), iris["Species"])
-})
-
-test_that("select_if fails with databases", {
-  expect_error(memdb_frame(x = 1) %>% select_if(is.numeric) %>% collect())
 })
 
 test_that("select_if keeps grouping cols", {

@@ -21,10 +21,13 @@ test_that("repeated outputs applied progressively (grouped_df)", {
   expect_equal(out$z, c(3L, 3L))
 })
 
-df <- data.frame(x = 1:10, y = 6:15)
-tbls <- test_load(df)
 test_that("two mutates equivalent to one", {
-  compare_tbls(tbls, function(tbl) tbl %>% mutate(x2 = x * 2, y4 = y * 4))
+  df <- tibble(x = 1:10, y = 6:15)
+
+  df1 <- df %>% mutate(x2 = x * 2, y4 = y * 4)
+  df2 <- df %>% mutate(x2 = x * 2) %>% mutate(y4 = y * 4)
+
+  expect_equal(df1, df2)
 })
 
 test_that("mutate can refer to variables that were just created (#140)", {
