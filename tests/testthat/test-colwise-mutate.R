@@ -79,26 +79,6 @@ test_that("error is thrown with improper additional arguments", {
   expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
 })
 
-test_that("lazy tables support colwise variants", {
-  tbls <- test_load(iris[1:10, ])
-
-  expected <- as.character(iris$Species[1:10])
-  for (tbl in tbls) {
-    if (inherits(tbl, "tbl_lazy")) {
-      expect_message(tbl <- mutate_if(tbl, is.factor, as.character), "on the first 100 rows")
-      expect_identical(collect(tbl)$Species, expected)
-    }
-  }
-
-  expected <- mean(iris$Sepal.Length[1:10])
-  for (tbl in tbls) {
-    if (inherits(tbl, "tbl_lazy")) {
-      tbl <- summarise_at(tbl, "Sepal.Length", mean)
-      expect_equal(collect(tbl)$Sepal.Length, expected)
-    }
-  }
-})
-
 test_that("predicate can be quoted", {
   expected <- mutate_if(mtcars, is_integerish, mean)
   expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)

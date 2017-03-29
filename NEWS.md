@@ -22,23 +22,6 @@
 
 * `funs()` has better handling of namespaced functions (#2089).
 
-* `rename_vars()` gains a `strict` argument to control if an
-  error is thrown when you try and rename a variable that doesn't
-  exist.
-
-* You can create a `tbl` directly from a DBI connection (#2576).
-
-* `mutate.tbl_sql()` will now generate as many subqueries as necessary so
-  that you can refer to variables that you just created (like in mutate
-  with regular dataframes) (#2481, #2483).
-
-* `print(df, n = Inf)` and `head(df, n = Inf)` now work when `df` is a
-  SQL database (#2580).
-
-* SQL set operations (`intersect()`, `union()`, and `setdiff())
-  now match column names across inputs, filling in non-matching variables
-  with NULL (#2556).
-
 * `order_by()`, `top_n()`, `sample_n()` and `sample_frac()` now use
   tidyeval to capture their arguments by expression. This makes it
   possible to use unquoting idioms (see `vignette("programming")`) and
@@ -47,6 +30,10 @@
 * Most verbs taking dots now ignore the last argument if empty. This
   makes it easier to copy lines of code without having to worry about
   deleting trailing commas (#1039).
+
+* `rename_vars()` gains a `strict` argument to control if an
+  error is thrown when you try and rename a variable that doesn't
+  exist.
 
 * `ntile()` ignores `NA` when computing group membership (#2564).
 
