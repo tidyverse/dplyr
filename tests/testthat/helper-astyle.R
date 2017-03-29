@@ -11,7 +11,6 @@ astyle <- function(extra_args = character()) {
   astyle_args <- c(
     "-n",
     "--indent=spaces=2",
-    "--indent-namespaces",
     "--indent-preproc-block",
     "--unpad-paren",
     "--pad-header",

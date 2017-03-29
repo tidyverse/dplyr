@@ -19,7 +19,7 @@ using namespace dplyr;
 template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,
                       const Index& indices_x, const Index& indices_y,
-                      CharacterVector by_x, CharacterVector by_y ,
+                      CharacterVector by_x, CharacterVector by_y,
                       const std::string& suffix_x, const std::string& suffix_y,
                       CharacterVector classes) {
   if (suffix_x.length() == 0 && suffix_y.length() == 0) {

@@ -95,11 +95,11 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   switch (TYPEOF(data)) {
   case INTSXP:
-    return new Ntile<INTSXP ,true>(data, number_tiles);
+    return new Ntile<INTSXP,true>(data, number_tiles);
   case REALSXP:
     return new Ntile<REALSXP,true>(data, number_tiles);
   case STRSXP:
-    return new Ntile<STRSXP ,true>(data, number_tiles);
+    return new Ntile<STRSXP,true>(data, number_tiles);
   default:
     break;
   }

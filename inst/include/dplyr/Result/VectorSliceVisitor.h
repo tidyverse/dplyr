@@ -5,34 +5,34 @@
 
 namespace dplyr {
 
-  template <int RTYPE>
-  class VectorSliceVisitor {
-  public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
+template <int RTYPE>
+class VectorSliceVisitor {
+public:
+  typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-    VectorSliceVisitor(const Vector<RTYPE>& data_, const SlicingIndex& index_) :
-      data(data_),
-      n(index_.size()),
-      index(index_)
-    {}
+  VectorSliceVisitor(const Vector<RTYPE>& data_, const SlicingIndex& index_) :
+    data(data_),
+    n(index_.size()),
+    index(index_)
+  {}
 
-    inline STORAGE operator[](int i) const {
-      return data[index[i]];
-    }
+  inline STORAGE operator[](int i) const {
+    return data[index[i]];
+  }
 
-    inline int size() const {
-      return n;
-    }
+  inline int size() const {
+    return n;
+  }
 
-    inline operator SEXP() const {
-      return wrap_subset<RTYPE>(data, index);
-    }
+  inline operator SEXP() const {
+    return wrap_subset<RTYPE>(data, index);
+  }
 
-  private:
-    const Vector<RTYPE>& data;
-    int n;
-    const SlicingIndex& index;
-  };
+private:
+  const Vector<RTYPE>& data;
+  int n;
+  const SlicingIndex& index;
+};
 
 }
 

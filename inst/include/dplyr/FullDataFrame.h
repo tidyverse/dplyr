@@ -3,23 +3,23 @@
 
 namespace dplyr {
 
-  class FullDataFrame {
-  public:
-    typedef NaturalSlicingIndex slicing_index;
+class FullDataFrame {
+public:
+  typedef NaturalSlicingIndex slicing_index;
 
-    FullDataFrame(const DataFrame& data_) : index(data_.nrows()) {}
+  FullDataFrame(const DataFrame& data_) : index(data_.nrows()) {}
 
-    const SlicingIndex& get_index() const {
-      return index;
-    }
+  const SlicingIndex& get_index() const {
+    return index;
+  }
 
-    inline int nrows() const {
-      return index.size();
-    }
+  inline int nrows() const {
+    return index.size();
+  }
 
-  private:
-    NaturalSlicingIndex index;
-  };
+private:
+  NaturalSlicingIndex index;
+};
 
 }
 #endif

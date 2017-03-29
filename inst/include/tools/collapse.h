@@ -3,26 +3,26 @@
 
 namespace dplyr {
 
-  template <int RTYPE>
-  const char* to_string_utf8(typename Rcpp::traits::storage_type<RTYPE>::type from) {
-    SEXP s = Rcpp::internal::r_coerce<RTYPE,STRSXP>(from);
-    return Rf_translateCharUTF8(s);
-  }
+template <int RTYPE>
+const char* to_string_utf8(typename Rcpp::traits::storage_type<RTYPE>::type from) {
+  SEXP s = Rcpp::internal::r_coerce<RTYPE,STRSXP>(from);
+  return Rf_translateCharUTF8(s);
+}
 
-  template <int RTYPE>
-  std::string collapse_utf8(const Vector<RTYPE>& x, const char* sep = ", ") {
-    std::stringstream ss;
-    int n = x.size();
-    if (n > 0) {
-      ss << to_string_utf8<RTYPE>(x[0]);
-      for (int i=1; i<n; i++) {
-        const char* st = to_string_utf8<RTYPE>(x[i]);
-        ss << sep << st;
-      }
+template <int RTYPE>
+std::string collapse_utf8(const Vector<RTYPE>& x, const char* sep = ", ") {
+  std::stringstream ss;
+  int n = x.size();
+  if (n > 0) {
+    ss << to_string_utf8<RTYPE>(x[0]);
+    for (int i=1; i<n; i++) {
+      const char* st = to_string_utf8<RTYPE>(x[i]);
+      ss << sep << st;
     }
-
-    return ss.str();
   }
+
+  return ss.str();
+}
 
 }
 #endif
