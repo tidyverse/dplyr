@@ -54,7 +54,7 @@ as_fun_list <- function(.x, .quo, .env, ...) {
   args <- list(...)
   if (is_fun_list(.x)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, function(fun) lang_modify(fun, .args = args))
+      .x[] <- map(.x, function(fun) lang_modify(fun, splice(args)))
     }
     return(.x)
   }
@@ -83,9 +83,9 @@ as_fun <- function(.x, .env, .args) {
 
   expr <- get_expr(.x)
   if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
-    expr <- lang_modify(expr, .args = .args)
+    expr <- lang_modify(expr, splice(.args))
   } else {
-    expr <- new_language(expr, .args = c(quote(.), .args))
+    expr <- new_language(expr, splice(c(quote(.), .args)))
   }
 
   set_expr(quo, expr)
