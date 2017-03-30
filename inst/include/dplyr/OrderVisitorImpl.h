@@ -236,7 +236,7 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
   case DPLYR_CPLXSXP:
     return new OrderVisitorMatrix<CPLXSXP, ascending>(vec);
   case DPLYR_VECSXP:
-    stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec)));
+    stop("Matrix can't be a list");
   }
 
   stop("Unreachable");

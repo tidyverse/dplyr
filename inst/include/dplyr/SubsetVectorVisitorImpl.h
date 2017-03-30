@@ -167,7 +167,7 @@ public:
     } else if (TYPEOF(data) == REALSXP) {
       impl = new SubsetVectorVisitorImpl<REALSXP>(data);
     } else {
-      stop("");
+      stop("Unreachable");
     }
   }
 

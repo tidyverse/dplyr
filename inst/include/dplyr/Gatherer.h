@@ -95,10 +95,9 @@ private:
       delete coll;
       coll = new_collecter;
     } else {
-      stop(
-        "Can not automatically convert from %s to %s in column \"%s\".",
-        coll->describe(), get_single_class(subset), name.get_utf8_cstring()
-      );
+      stop("Can not automatically convert from %s to %s in column '%s'.",
+           coll->describe(), get_single_class(subset), name.get_utf8_cstring()
+          );
     }
   }
 

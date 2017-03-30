@@ -28,7 +28,7 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, BOOST_A
       if (TYPEOF(x) == LGLSXP && Rf_length(x) == 1) {
         na_rm = LOGICAL(x)[0];
       } else {
-        stop("incompatible value for `na.rm` parameter");
+        stop("incompatible value for `na.rm` argument");
       }
     } else if (TYPEOF(x) == SYMSXP) {
       SymbolString name = SymbolString(Symbol(x));

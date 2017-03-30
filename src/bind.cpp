@@ -129,10 +129,9 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
         columns[index] = new_collecter;
       } else {
         std::string column_name(name);
-        stop(
-          "Can not automatically convert from %s to %s in column \"%s\".",
-          coll->describe(), get_single_class(source), column_name
-        );
+        stop("Can not automatically convert from %s to %s in column '%s'.",
+             coll->describe(), get_single_class(source), column_name
+            );
       }
 
     }
@@ -293,10 +292,9 @@ SEXP combine_all(List data) {
       new_coll->collect(NaturalSlicingIndex(k), coll->get());
       coll.reset(new_coll);
     } else {
-      stop(
-        "Can not automatically convert from %s to %s.",
-        get_single_class(coll->get()), get_single_class(current)
-      );
+      stop("Can not automatically convert from %s to %s.",
+           get_single_class(coll->get()), get_single_class(current)
+          );
     }
     k += n_current;
   }
