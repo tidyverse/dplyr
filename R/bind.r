@@ -74,18 +74,42 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  x <- list_or_dots(...)
+  x <- discard(dots_splice(...), is_null)
 
-  if (!is.null(.id)) {
-    if (!(is.character(.id) && length(.id) == 1)) {
-      bad_args(~.id, "must be a scalar string, ",
+  if (!length(x)) {
+    # Handle corner cases gracefully, but always return a tibble
+    if (inherits(x, "data.frame")) {
+      return(x)
+    } else {
+      return(tibble())
+    }
+  }
+
+  for (i in seq_along(x)) {
+    elt <- x[[i]]
+    if (is_bare_list(elt)) {
+      x[[i]] <- as_tibble(elt)
+    } else if (!is_valid_df(elt) && !is_rowwise_atomic(elt) && !is_null(elt)) {
+      abort("`...` must only contain data frames and named atomic vectors")
+    }
+  }
+
+  if (!is_null(.id)) {
+    if (!(is_string(.id))) {
+      bad_args(".id", "must be a scalar string, ",
         "not {type_of(.id)} of length {length(.id)}"
       )
     }
-    names(x) <- names(x) %||% seq_along(x)
+    if (!is_named(x)) {
+      names(x) <- seq_along(x)
+    }
   }
 
   bind_rows_(x, .id)
+}
+
+is_rowwise_atomic <- function(x) {
+  is_atomic(x) && is_named(x)
 }
 
 #' @export
@@ -122,8 +146,8 @@ list_or_dots <- function(...) {
   dots <- list(...)
 
   # Need to ensure that each component is a data list:
-  data_lists <- vapply(dots, is_data_list, logical(1))
-  dots[data_lists] <- lapply(dots[data_lists], list)
+  data_lists <- map_lgl(dots, is_data_list)
+  dots[data_lists] <- map(dots[data_lists], list)
 
   unlist(dots, recursive = FALSE)
 }
@@ -131,15 +155,15 @@ list_or_dots <- function(...) {
 # Is this object a
 is_data_list <- function(x) {
   # data frames are trivially data list, and so are nulls
-  if (is.data.frame(x) || is.null(x))
+  if (is.data.frame(x) || is_null(x))
     return(TRUE)
 
   # Must be a list
-  if (!is.list(x))
+  if (!is_list(x))
     return(FALSE)
 
   # 0 length named list (#1515)
-  if (!is.null(names(x)) && length(x) == 0)
+  if (!is_null(names(x)) && length(x) == 0)
     return(TRUE)
 
   # With names
@@ -147,12 +171,12 @@ is_data_list <- function(x) {
     return(FALSE)
 
   # Where each element is an 1d vector or list
-  is_1d <- vapply(x, is_1d, logical(1))
+  is_1d <- map_lgl(x, is_1d)
   if (any(!is_1d))
     return(FALSE)
 
   # All of which have the same length
-  n <- vapply(x, length, integer(1))
+  n <- map_int(x, length)
   if (any(n != n[1]))
     return(FALSE)
 

@@ -57,7 +57,7 @@ static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
 class Collecter {
 public:
   virtual ~Collecter() {};
-  virtual void collect(const SlicingIndex& index, SEXP v) = 0;
+  virtual void collect(const SlicingIndex& index, SEXP v, int offset = 0) = 0;
   virtual SEXP get() = 0;
   virtual bool compatible(SEXP) = 0;
   virtual bool can_promote(SEXP) const = 0;
@@ -77,11 +77,11 @@ public:
 
   Collecter_Impl(int n_): data(n_, Rcpp::traits::get_na<RTYPE>()) {}
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (all_logical_na(v, TYPEOF(v))) {
       collect_logicalNA(index);
     } else {
-      collect_sexp(index, v);
+      collect_sexp(index, v, offset);
     }
   }
 
@@ -115,10 +115,11 @@ private:
     }
   }
 
-  void collect_sexp(const SlicingIndex& index, SEXP v) {
+  void collect_sexp(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
     Vector<RTYPE> source(v);
     STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
+    source_ptr = source_ptr + offset;
     for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
     }
@@ -131,10 +132,10 @@ class Collecter_Impl<REALSXP> : public Collecter {
 public:
   Collecter_Impl(int n_): data(n_, NA_REAL) {}
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
     NumericVector source(v);
-    double* source_ptr = source.begin();
+    double* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
     }
@@ -169,17 +170,17 @@ class Collecter_Impl<STRSXP> : public Collecter {
 public:
   Collecter_Impl(int n_): data(n_, NA_STRING) {}
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
     if (TYPEOF(v) == STRSXP) {
-      collect_strings(index, v);
+      collect_strings(index, v, offset);
     } else if (Rf_inherits(v, "factor")) {
-      collect_factor(index, v);
+      collect_factor(index, v, offset);
     } else if (all_logical_na(v, TYPEOF(v))) {
       collect_logicalNA(index, v);
     } else {
       CharacterVector vec(v);
-      collect_strings(index, vec);
+      collect_strings(index, vec, offset);
     }
   }
 
@@ -212,8 +213,9 @@ private:
     }
   }
 
-  void collect_strings(const SlicingIndex& index, CharacterVector source) {
-    SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source);
+  void collect_strings(const SlicingIndex& index, CharacterVector source,
+                       int offset = 0) {
+    SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source) + offset;
     SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
     int n = index.size();
     for (int i = 0; i < n; i++) {
@@ -221,14 +223,15 @@ private:
     }
   }
 
-  void collect_factor(const SlicingIndex& index, IntegerVector source) {
+  void collect_factor(const SlicingIndex& index, IntegerVector source,
+                       int offset = 0) {
     CharacterVector levels = get_levels(source);
     Rf_warning("binding character and factor vector, coercing into character vector");
     for (int i = 0; i < index.size(); i++) {
       if (source[i] == NA_INTEGER) {
         data[index[i]] = NA_STRING;
       } else {
-        data[index[i]] = levels[source[i] - 1];
+        data[index[i]] = levels[source[i + offset] - 1];
       }
     }
   }
@@ -240,10 +243,10 @@ class Collecter_Impl<INTSXP> : public Collecter {
 public:
   Collecter_Impl(int n_): data(n_, NA_INTEGER) {}
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
     IntegerVector source(v);
-    int* source_ptr = source.begin();
+    int* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
     }
@@ -307,12 +310,12 @@ public:
   POSIXctCollecter(int n, SEXP tz_) :
     Parent(n), tz(tz_) {}
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (Rf_inherits(v, "POSIXct")) {
-      Parent::collect(index, v);
+      Parent::collect(index, v, offset);
       update_tz(v);
     } else if (all_logical_na(v, TYPEOF(v))) {
-      Parent::collect(index, v);
+      Parent::collect(index, v, offset);
     }
   }
 
@@ -365,11 +368,11 @@ public:
   DifftimeCollecter(int n, std::string units_, SEXP types_) :
     Parent(n), units(units_), types(types_) {}
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (Rf_inherits(v, "difftime")) {
-      collect_difftime(index, v);
+      collect_difftime(index, v, offset);
     } else if (all_logical_na(v, TYPEOF(v))) {
-      Parent::collect(index, v);
+      Parent::collect(index, v, offset);
     }
   }
 
@@ -400,7 +403,7 @@ private:
   }
 
 
-  void collect_difftime(const SlicingIndex& index, RObject v) {
+  void collect_difftime(const SlicingIndex& index, RObject v, int offset = 0) {
     if (!is_valid_difftime(v)) {
       stop("Invalid difftime object");
     }
@@ -409,12 +412,12 @@ private:
       // if current unit is NULL, grab the new one
       units = v_units;
       // then collect the data:
-      Parent::collect(index, v);
+      Parent::collect(index, v, offset);
     } else {
       // We had already defined the units.
       // Does the new vector have the same units?
       if (units == v_units) {
-        Parent::collect(index, v);
+        Parent::collect(index, v, offset);
       } else {
         // If units are different convert the existing data and the new vector
         // to seconds (following the convention on
@@ -431,7 +434,7 @@ private:
           stop("Wrong size of vector to collect");
         }
         for (int i = 0; i < index.size(); i++) {
-          Parent::data[index[i]] = factor_v * REAL(v)[i];
+          Parent::data[index[i]] = factor_v * (REAL(v)[i + offset]);
         }
       }
     }
@@ -505,7 +508,7 @@ public:
     return true;
   }
 
-  void collect(const SlicingIndex& index, SEXP v) {
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (Rf_inherits(v, "factor") && has_same_levels_as(v)) {
       collect_factor(index, v);
     } else if (all_logical_na(v, TYPEOF(v))) {

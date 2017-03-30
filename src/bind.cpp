@@ -48,11 +48,40 @@ String get_dot_name(const Dots& dots, int i) {
   return STRING_ELT(names, i);
 }
 
+// From Rcpp::DataFrame
+static
+int df_rows_length(SEXP df) {
+  SEXP n = R_NilValue;
+  SEXP attrs = ATTRIB(df);
+  while(attrs != R_NilValue ){
+    if(TAG(attrs) == R_RowNamesSymbol) {
+      n = CAR(attrs) ;
+      break ;
+    }
+    attrs = CDR(attrs) ;
+  }
+
+  if (n == R_NilValue)
+    return 0;
+  else if (TYPEOF(n) == INTSXP && LENGTH(n) == 2 && INTEGER(n)[0] == NA_INTEGER)
+    return abs(INTEGER(n)[1]);
+  else
+    return LENGTH(n);
+}
+
+static
+int rows_length(SEXP x) {
+  if (Rf_inherits(x, "data.frame"))
+    return df_rows_length(x);
+  else
+    return 1;
+}
+
 template <typename Dots>
 List rbind__impl(Dots dots, SEXP id = R_NilValue) {
   int ndata = dots.size();
   int n = 0;
-  DataFrameAbleVector chunks;
+  std::vector<SEXP> chunks;
   std::vector<int> df_nrows;
   std::vector<String> dots_names;
 
@@ -61,7 +90,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     SEXP obj = dots[i];
     if (Rf_isNull(obj)) continue;
     chunks.push_back(obj);
-    int nrows = chunks[k].nrows();
+    int nrows = rows_length(chunks[k]);
     df_nrows.push_back(nrows);
     n += nrows;
     if (!Rf_isNull(id)) {
@@ -79,13 +108,22 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
   for (int i = 0; i < ndata; i++) {
     Rcpp::checkUserInterrupt();
 
-    const DataFrameAble& df = chunks[i];
+    SEXP df = chunks[i];
+    int nrows = df_nrows[i];
 
-    int nrows = df.nrows();
+    CharacterVector df_names = enc2native(Rf_getAttrib(df, R_NamesSymbol));
+    for (int j = 0; j < Rf_length(df); j++) {
 
-    CharacterVector df_names = enc2native(df.names());
-    for (int j = 0; j < df.size(); j++) {
-      SEXP source = df.get(j);
+      SEXP source;
+      int offset;
+      if (Rf_inherits(df, "data.frame")) {
+        source = VECTOR_ELT(df, j);
+        offset = 0;
+      } else {
+        source = df;
+        offset = j;
+      }
+
       String name = df_names[j];
 
       Collecter* coll = 0;
@@ -96,21 +134,20 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
           break;
         }
       }
-      if (! coll) {
+      if (!coll) {
         coll = collecter(source, n);
         columns.push_back(coll);
         names.push_back(name);
       }
       if (coll->compatible(source)) {
         // if the current source is compatible, collect
-        coll->collect(OffsetSlicingIndex(k, nrows), source);
-
+        coll->collect(OffsetSlicingIndex(k, nrows), source, offset);
       } else if (coll->can_promote(source)) {
         // setup a new Collecter
         Collecter* new_collecter = promote_collecter(source, n, coll);
 
         // import data from this chunk
-        new_collecter->collect(OffsetSlicingIndex(k, nrows), source);
+        new_collecter->collect(OffsetSlicingIndex(k, nrows), source, offset);
 
         // import data from previous collecter
         new_collecter->collect(NaturalSlicingIndex(k), coll->get());
@@ -124,7 +161,7 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
         // right NA
       } else if (coll->is_logical_all_na()) {
         Collecter* new_collecter = collecter(source, n);
-        new_collecter->collect(OffsetSlicingIndex(k, nrows), source);
+        new_collecter->collect(OffsetSlicingIndex(k, nrows), source, offset);
         delete coll;
         columns[index] = new_collecter;
       } else {
@@ -167,12 +204,11 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
 
   // infer the classes and extra info (groups, etc ) from the first (#1692)
   if (ndata) {
-    const DataFrameAble& first = chunks[0];
-    if (first.is_dataframe()) {
-      DataFrame df = first.get();
-      set_class(out, get_class(df));
-      if (df.inherits("grouped_df")) {
-        copy_vars(out, df);
+    SEXP first = chunks[0];
+    if (Rf_inherits(first, "data.frame")) {
+      set_class(out, get_class(first));
+      if (Rf_inherits(first, "grouped_df")) {
+        copy_vars(out, first);
         out = GroupedDataFrame(out).data();
       }
     } else {

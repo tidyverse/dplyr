@@ -103,3 +103,6 @@ random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
 
+is_valid_df <- function(x) {
+  inherits(x, "data.frame") && is_named(x)
+}
