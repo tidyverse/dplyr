@@ -12,7 +12,12 @@ any_vars(expr)
 \arguments{
 \item{expr}{A predicate expression. This variable supports
 \link[rlang:quasiquotation]{unquoting} and will be evaluated in the
-context of the data frame. It should return a logical vector.}
+context of the data frame. It should return a logical vector.
+
+This argument is automatically \link[rlang:quo]{quoted} and later
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. It supports \link[rlang:quasiquotation]{unquoting}. See
+\code{vignette("programming")} for an introduction to these concepts.}
 }
 \description{
 These quoting functions signal to scoped filtering verbs

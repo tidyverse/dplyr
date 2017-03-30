@@ -57,8 +57,13 @@ NULL
 #' character vector of column names.
 #'
 #' @param ... Variables to include/exclude in mutate/summarise. You
-#'   can use same specifications as in [select()]. If
-#'   missing, defaults to all non-grouping variables.
+#'   can use same specifications as in [select()]. If missing,
+#'   defaults to all non-grouping variables.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and later
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation]. See
+#'   `vignette("programming")` for an introduction to these concepts.
 #' @seealso [funs()], [all_vars()] and [any_vars()] for other quoting
 #'   functions that you can use with scoped verbs.
 #' @export
@@ -77,6 +82,11 @@ vars <- function(...) {
 #' @param expr A predicate expression. This variable supports
 #'   [unquoting][rlang::quasiquotation] and will be evaluated in the
 #'   context of the data frame. It should return a logical vector.
+#'
+#'   This argument is automatically [quoted][rlang::quo] and later
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. It supports [unquoting][rlang::quasiquotation]. See
+#'   `vignette("programming")` for an introduction to these concepts.
 #' @seealso [funs()] and [vars()] for other quoting functions that you
 #'   can use with scoped verbs.
 #' @export

@@ -9,7 +9,13 @@ slice(.data, ...)
 \arguments{
 \item{.data}{A tbl.}
 
-\item{...}{Integer row values}
+\item{...}{Integer row values.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 }
 \description{
 Slice does not work with relational databases because they have no
