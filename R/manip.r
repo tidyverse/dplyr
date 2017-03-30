@@ -29,6 +29,12 @@
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   conditon evalutes to `TRUE` are kept.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @return An object of the same class as `.data`.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
@@ -63,7 +69,13 @@ filter_ <- function(.data, ..., .dots = list()) {
 #'
 #' @family single table verbs
 #' @param .data A tbl.
-#' @param ... Integer row values
+#' @param ... Integer row values.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @export
@@ -119,6 +131,12 @@ slice_ <- function(.data, ..., .dots = list()) {
 #' @param ... Name-value pairs of summary functions. The name will be the
 #'   name of the variable in the result. The value should be an expression
 #'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @family single table verbs
 #' @return An object of the same class as `.data`. One grouping level will
 #'   be dropped.
@@ -200,6 +218,12 @@ summarize_ <- summarise_
 #' @inheritSection filter Tidy data
 #' @param ... Name-value pairs of expressions. Use `NULL` to drop
 #'   a variable.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
@@ -333,6 +357,12 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'   Positive values select variables; negative values to drop variables.
 #'
 #'   Use named arguments to rename selected variables.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in a context where column names
+#'   represent column positions. They support
+#'   [unquoting][rlang::quasiquotation] and splicing. See
+#'   `vignette("programming")` for an introduction to these concepts.
 #' @return An object of the same class as `.data`.
 #' @family single table verbs
 #' @export

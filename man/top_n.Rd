@@ -17,8 +17,9 @@ If \code{n} is positive, selects the top \code{n} rows. If negative,
 selects the bottom \code{n} rows.}
 
 \item{wt}{(Optional). The variable to use for ordering. If not
-specified, defaults to the last variable in the tbl. This
-argument is automatically \link[rlang:quo]{quoted} and later
+specified, defaults to the last variable in the tbl.
+
+This argument is automatically \link[rlang:quo]{quoted} and later
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 \code{vignette("programming")} for an introduction to these concepts.}

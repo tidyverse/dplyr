@@ -12,7 +12,14 @@ rename_vars(vars, ..., strict = TRUE)
 \arguments{
 \item{vars}{A character vector of existing column names.}
 
-\item{..., args}{Expressions to compute}
+\item{..., args}{Expressions to compute
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in a context where elements of
+\code{vars} are objects representing their positions within
+\code{vars}. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}

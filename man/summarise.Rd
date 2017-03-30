@@ -15,7 +15,13 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 
 \item{...}{Name-value pairs of summary functions. The name will be the
 name of the variable in the result. The value should be an expression
-that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
+that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will

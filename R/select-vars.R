@@ -4,6 +4,13 @@
 #'
 #' @param vars A character vector of existing column names.
 #' @param ...,args Expressions to compute
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in a context where elements of
+#'   `vars` are objects representing their positions within
+#'   `vars`. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export
