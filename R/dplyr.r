@@ -2,7 +2,7 @@
 #'
 #' dplyr provides a flexible grammar of data manipulation. It's the next
 #' iteration of plyr, focused on tools for working with data frames (hence the
-#' \emph{d} in the name).
+#' *d* in the name).
 #'
 #' It has three main goals:
 #'
@@ -18,8 +18,6 @@
 #' To learn more about dplyr, start with the vignettes:
 #' `browseVignettes(package = "dplyr")`
 #'
-#' @docType package
-#' @name dplyr
 #' @useDynLib dplyr
 #' @import rlang
 #' @importFrom assertthat assert_that is.flag on_failure<-
@@ -28,4 +26,4 @@
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is
-NULL
+"_PACKAGE"
