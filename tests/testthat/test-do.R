@@ -46,8 +46,10 @@ test_that("empty results preserved (#597)", {
   blankdf <- function(x) data.frame(blank = numeric(0))
 
   dat <- data.frame(a = 1:2, b = factor(1:2))
-  dat %>% group_by(b) %>% do(blankdf(.))
-
+  expect_equal(
+    dat %>% group_by(b) %>% do(blankdf(.)),
+    data.frame(b = factor(integer(), levels = 1:2), blank = numeric())
+  )
 })
 
 test_that("empty inputs give empty outputs (#597)", {
