@@ -30,11 +30,10 @@ Most dplyr functions use non-standard evaluation (NSE). This is a catch-all term
     do any work, but instead generates the SQL that tells the database
     what to do.
 
-Unfortunately these benefits are free but in turn impose two limitations:
+Unfortunately these benefits do not come for free. There are two main drawbacks:
 
 *   Most dplyr arguments are not __referentially transparent__. That means
-    you can't replace a value with an intermediate variable. In other words, this 
-    code:
+    you can't replace a value with a seemingly equivalent object, that you've defined elsewhere. In other words, this code:
     
     ```{r, eval = FALSE}
     filter(df, my_var == 1)
@@ -47,7 +46,16 @@ Unfortunately these benefits are free but in turn impose two limitations:
     filter(df, var == 1)
     ```
     
-    This makes it harder to create functions.
+    nor to this code:
+    
+    ```{r, eval = FALSE}
+    var <- "my_var"
+    filter(df, var == 1)
+    ```
+    
+    This makes it harder for users to create functions that use their own inputs to pass input into dplyr functions.
+    
+    *Jenny: I still think `var <- "my_var"; filter(df, var == 1)` is a better example, so I added it. I think it's too obvious that `var <- my_var` can't possibly do the right thing. But it doesn't take too much magical thinking to kindle hope that my example works, especially once you're in a function context. One last concern: do we worry some people will get distracted by re: concern about masking `var()`?*
     
 *   dplyr code is ambiguous. Depending on what variables are defined where, 
     `filter(df, x == y)` could be equivalent to any of:
@@ -67,21 +75,25 @@ Fortunately, dplyr provides tools to overcome these challenges. They require a l
 
 This vignette has two goals:
 
-*   Show you show you how to use dplyr's __pronouns__ and __quasiquotation__
+*   Show you how to use dplyr's __pronouns__ and __quasiquotation__
     to write reliable functions that reduce duplication in your data analysis 
     code.
     
-*   To teach you about __quosures__ and the underyling theory of __tidyeval__.
+*   Teach you about __quosures__ and the underyling theory of __tidyeval__.
+
+*Jenny: What is tidyeval? A function? A package? A way of life? :-)*
 
 We'll start with some practical tools and then dive into the deeper theory.
 
 ## Programming recipes
 
-The following recipes walk you through the basics of tidyeval, giving you some practical tools for handling duplication in dplyr code. The examples here are somewhat inauthentic because we've reduced them down to very simple components to make them easier to understand. They're so simple that you might wonder why we bother writing a function at all. But it's a good idea to learn the ideas on simple examples, so that you're better prepared to apply them to the more complex situations you'll see in your own code.
+The following recipes walk you through the basics of tidyeval, with the nominal goal of reducing duplication in dplyr code. The examples here are somewhat inauthentic because we've reduced them down to very simple components to make them easier to understand. They're so simple that you might wonder why we bother writing a function at all. But it's a good idea to learn the ideas on simple examples, so that you're better prepared to apply them to the more complex situations you'll see in your own code.
 
 ### Different data sets
 
-You already know how to write functions that vary over referentially transparent arguments like `.data`.
+You already know how to write functions that vary over referentially transparent arguments like `.data`, the first and primary argument for dplyr's core functions.
+
+*Jenny: Feels like "vary over" can be improved upon, but I get it. I'll try to propose better wording for this concept: plumbing up stuff you compute in your function, probably using your inputs, to arguments of dplyr functions.*
 
 ```{r, eval = FALSE}
 mutate(df1, y = a + x)
@@ -114,11 +126,13 @@ mutate_y <- function(df) {
 mutate_y(df1)
 ```
 
-If this function is in a package, using `.data` also prevents `R CMD check` from giving a NOTE about undefined global variables (provided that you've also imported `rlang::.data` with `@importFrom rlang data`).
+*Jenny: Sidebar: could that error message be improved? E.g., "No object `a` exists in `.data`."*
+
+If this function is in a package, using `.data` also prevents `R CMD check` from giving a NOTE about undefined global variables (provided that you've also imported `rlang::.data` with `@importFrom rlang .data`).
 
 ### Different expressions
 
-Working with the other arguments is more challenging because they are not referentially transparent. Let's start with a simple case: you want to vary the name of the grouping variable.
+Working with the other arguments is more challenging because they are not referentially transparent. Let's start with a simple case: you want to vary the grouping variable for a data summarization.
 
 ```{r}
 df <- tibble(
@@ -137,13 +151,27 @@ df %>%
   summarise(a = mean(a))
 ```
 
-We can't easily turn this into a function because this doesn't work:
+You might hope that this will work:
 
 ```{r, error = TRUE}
-var <- g1
+my_summarise <- function(df, group_var) {
+  df %>%
+    group_by(group_var) %>%
+    summarise(a = mean(a))
+}
+
+my_summarise(df, g1)
 ```
 
-Instead we need to capture, or __quote__ this expression. There are two ways to do this in base R: `quote()` and the formula, `~`.
+But it does not. You might hope that providing the variable name as a string will fix things:
+
+```{r, error = TRUE}
+my_summarise(df, "g2")
+```
+
+But it does not.
+
+Instead we need to capture, or __quote__, the specification of the group variable as an __expression__. There are two ways to do this in base R: use `quote()` to create an expression or use the tilde operator `~` to create a formula.
 
 ```{r}
 quote(g1)
@@ -152,22 +180,27 @@ quote(g1)
 
 For various reasons, neither of these does quite what we want, so instead we'll use `quo()` (this comes from the rlang package but is also exported by dplyr).
 
+*Jenny: This is where you'll briefly explain the difference and the problem, (instead of "for various reasons ...").*
+
 ```{r}
 var <- quo(g1)
 var
 ```
 
-This creates a __quosure__. A quosure is a special type of formula that you'll learn about later.
+This creates a __quosure__, which is a special type of formula (more details later).
 
-Now that we've captured this expression, how do we use it with `group_by()`? The naive approach doesn't work because `group_by()` expects its arguments to be names of existing variables:
+Now that we've captured this expression, how do we use it with `group_by()` inside our function? We can't just shove this into our naive approach, because `group_by()` expects its arguments to be names of existing variables:
 
 ```{r, error = TRUE}
-df %>%
-  group_by(var) %>%
-  summarise(a = mean(a))
+var <- quo(g1)
+my_summarise(df, var)
 ```
 
+*Jenny: the connection to "`group_by()` automatically quotes its inputs" is not obvious to me. The need to unquote the expression and actually evaluate it is more clear. Feels like a discussion of controlling when something gets evaluated could be helpful.*
+
 In other words, `group_by()` automatically quotes its inputs. But `var` is already quoted, so we need some way to __unquote__ it. In the tidyeval framework, you unquote an expression by putting `!!` in front of it.
+
+*Jenny: I wanted to "just" unquote `var` but `!!var` does not work as top-level code. Is there anything to be said about that here?*
 
 ```{r}
 df %>%
@@ -175,7 +208,7 @@ df %>%
   summarise(a = mean(a))
 ```
 
-We are now almost able to write the function:
+We are now almost able to fix our function:
 
 ```{r, error = TRUE}
 my_summarise <- function(df, group_by) {
@@ -191,11 +224,14 @@ my_summarise(df, g1)
 my_summarise(df, g2)
 ```
 
-I've added a `print()` call to make it obvious what's going wrong here: `quo(group_by)` always returns `~group_by`. We want to use the value that the user supplied so we need a new function: `enquo()`.
+I've added a `print()` call to make it obvious what's going wrong here: `quo(group_by)` always returns `~group_by`. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return `~g1`, so we need a new function: `enquo()`. `enquo()` is an unquoting function specialized to the current application: usage inside functions.
+
+*Jenny: I edited some based on discussion, but probably don't have it quite right.*
 
 ```{r}
 my_summarise <- function(df, group_by) {
   group_by <- enquo(group_by)
+  print(group_by)
 
   df %>%
     group_by(!!group_by) %>%
@@ -208,6 +244,8 @@ my_summarise(df, g1)
 (If you're familiar with `quote()` and `substitute()` in base R, `quo()` is equivalent to `quote()` and `enquo()` is equivalent to `substitute()`.)
 
 You might wonder how to extend this to handle multiple grouping variables: we'll come back to that a little later.
+
+*Jenny: I'm still left a bit unsatisfied re: the need to switch from `quo()` to `enquo()`. We talked about the need for more words. Why did we build uo `quo()` then switch to `enquo()` at the last moment? What's the difference? Basically translate this idea into English (taken from help to `substitute()`): If it is a promise object, i.e., a formal argument to a function or explicitly created using delayedAssign(), the expression slot of the promise replaces the symbol.*
 
 ### Different input variable
 
