@@ -41,7 +41,8 @@
 #'   [rlang::as_function()] and thus supports quosure-style lambda
 #'   functions and strings representing function names.
 #' @param ... Additional arguments for the function calls in
-#'   `.funs`. These are evaluated only once.
+#'   `.funs`. These are evaluated only once, with [explicit
+#'   splicing][rlang::dots_list].
 #' @name scoped
 NULL
 
