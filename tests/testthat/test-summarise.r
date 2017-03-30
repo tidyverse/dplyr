@@ -926,3 +926,13 @@ test_that("proper handling of names in summarised list columns (#2231)", {
   expect_equal(names(res$y[[2]]), letters[2:3])
   expect_equal(names(res$y[[3]]), letters[4:6])
 })
+
+test_that("proper handling of NA factors (#2588)", {
+  df <- tibble(
+    x = c(1, 1, 2, 2, 3, 3),
+    y = factor(c(NA, NA, NA, "2", "3", "3"))
+  )
+
+  ret <- df %>% group_by(x) %>% summarise(y = y[1])
+  expect_identical(as.character(ret$y), c(NA, NA, "3"))
+})
