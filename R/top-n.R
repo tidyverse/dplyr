@@ -12,8 +12,9 @@
 #'   If `n` is positive, selects the top `n` rows. If negative,
 #'   selects the bottom `n` rows.
 #' @param wt (Optional). The variable to use for ordering. If not
-#'   specified, defaults to the last variable in the tbl. This
-#'   argument is automatically [quoted][rlang::quo] and later
+#'   specified, defaults to the last variable in the tbl.
+#'
+#'   This argument is automatically [quoted][rlang::quo] and later
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. It supports [unquoting][rlang::quasiquotation]. See
 #'   `vignette("programming")` for an introduction to these concepts.

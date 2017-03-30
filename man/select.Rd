@@ -18,7 +18,13 @@ You can treat variable names like they are positions.
 
 Positive values select variables; negative values to drop variables.
 
-Use named arguments to rename selected variables.}
+Use named arguments to rename selected variables.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in a context where column names
+represent column positions. They support
+\link[rlang:quasiquotation]{unquoting} and splicing. See
+\code{vignette("programming")} for an introduction to these concepts.}
 }
 \value{
 An object of the same class as \code{.data}.

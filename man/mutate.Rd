@@ -14,7 +14,13 @@ transmute(.data, ...)
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
-a variable.}
+a variable.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 }
 \value{
 An object of the same class as \code{.data}.

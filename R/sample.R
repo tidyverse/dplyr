@@ -9,13 +9,14 @@
 #'   For `sample_frac()`, the fraction of rows to select.
 #'   If `tbl` is grouped, `size` applies to each group.
 #' @param replace Sample with or without replacement?
-#' @param weight Sampling weights. This argument is automatically
-#'   [quoted][rlang::quo] and later [evaluated][rlang::eval_tidy] in
-#'   the context of the data frame. It supports
-#'   [unquoting][rlang::quasiquotation]. See `vignette("programming")`
-#'   for an introduction to these concepts. It must return a vector of
+#' @param weight Sampling weights. This must evaluate to a vector of
 #'   non-negative numbers the same length as the input. Weights are
 #'   automatically standardised to sum to 1.
+#'
+#'   This argument is automatically [quoted][rlang::quo] and later
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. It supports [unquoting][rlang::quasiquotation]. See
+#'   `vignette("programming")` for an introduction to these concepts.
 #' @param .env This variable is deprecated and no longer has any
 #'   effect. To evaluate `weight` in a particular context, you can
 #'   now unquote a [quosure][rlang::quosure].
