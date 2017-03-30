@@ -157,7 +157,7 @@ private:
 public:
 
   FactorDelayedProcessor(SEXP first_result, int ngroups) :
-    res(ngroups, NA_INTEGER), pos(0)
+    res(no_init(ngroups)), pos(0)
   {
     copy_most_attributes(res, first_result);
     CharacterVector levels = get_levels(first_result);
@@ -172,12 +172,8 @@ public:
     update_levels(lev);
 
     int val = as<int>(chunk);
-    if (val == NA_INTEGER) {
-      pos++;
-      return true;
-    }
-    SEXP s = lev[val - 1];
-    res[pos++] = levels_map[s];
+    if (val != NA_INTEGER) val = levels_map[lev[val - 1]];
+    res[pos++] = val;
     return true;
   }
 
