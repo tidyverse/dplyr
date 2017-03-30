@@ -131,52 +131,58 @@ Result* variable_handler(const ILazySubsets& subsets, const SymbolString& variab
 
 namespace dplyr {
 
-  Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
-    LOG_INFO << "Looking up hybrid handler for call of type " << type2name(call);
+Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
+  LOG_INFO << "Looking up hybrid handler for call of type " << type2name(call);
 
-    if (TYPEOF(call) == LANGSXP) {
-      int depth = Rf_length(call);
-      HybridHandlerMap& handlers = get_handlers();
-      SEXP fun_symbol = CAR(call);
-      if (TYPEOF(fun_symbol) != SYMSXP) {
-        LOG_VERBOSE << "Not a function: " << type2name(fun_symbol);
-        return 0;
-      }
-
-      LOG_VERBOSE << "Searching hybrid handler for function " << CHAR(PRINTNAME(fun_symbol));
-
-      HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
-      if (it == handlers.end()) {
-        LOG_VERBOSE << "Not found";
-        return 0;
-      }
-
-      LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
-
-      return it->second(call, subsets, depth - 1);
-    } else if (TYPEOF(call) == SYMSXP) {
-      SymbolString name = SymbolString(Symbol(call));
-
-      LOG_VERBOSE << "Searching hybrid handler for symbol " << name.get_utf8_cstring();
-
-      if (subsets.count(name)) {
-        LOG_VERBOSE << "Using hybrid variable handler";
-        return variable_handler(subsets, name);
-      }
-      else {
-        SEXP data = env.find(name.get_string());
-        // Constants of length != 1 are handled via regular evaluation
-        if (Rf_length(data) == 1) {
-          LOG_VERBOSE << "Using hybrid constant handler";
-          return constant_handler(data);
-        }
-      }
-    } else {
-      // TODO: perhaps deal with SYMSXP separately
-      if (Rf_length(call) == 1) return constant_handler(call);
+  if (TYPEOF(call) == LANGSXP) {
+    int depth = Rf_length(call);
+    HybridHandlerMap& handlers = get_handlers();
+    SEXP fun_symbol = CAR(call);
+    if (TYPEOF(fun_symbol) != SYMSXP) {
+      LOG_VERBOSE << "Not a function: " << type2name(fun_symbol);
+      return 0;
     }
-    return 0;
+
+    LOG_VERBOSE << "Searching hybrid handler for function " << CHAR(PRINTNAME(fun_symbol));
+
+    HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
+    if (it == handlers.end()) {
+      LOG_VERBOSE << "Not found";
+      return 0;
+    }
+
+    LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
+
+    return it->second(call, subsets, depth - 1);
+  } else if (TYPEOF(call) == SYMSXP) {
+    SymbolString sym = SymbolString(Symbol(call));
+
+    LOG_VERBOSE << "Searching hybrid handler for symbol " << sym.get_utf8_cstring();
+
+    if (subsets.count(sym)) {
+      LOG_VERBOSE << "Using hybrid variable handler";
+      return variable_handler(subsets, sym);
+    }
+    else {
+      SEXP data;
+      try {
+        data = env.find(sym.get_string());
+      } catch (Rcpp::binding_not_found) {
+        return NULL;
+      }
+
+      // Constants of length != 1 are handled via regular evaluation
+      if (Rf_length(data) == 1) {
+        LOG_VERBOSE << "Using hybrid constant handler";
+        return constant_handler(data);
+      }
+    }
+  } else {
+    // TODO: perhaps deal with SYMSXP separately
+    if (Rf_length(call) == 1) return constant_handler(call);
   }
+  return 0;
+}
 
 }
 

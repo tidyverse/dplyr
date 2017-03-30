@@ -9,7 +9,3 @@ test_that("scalar y replaces all matching x", {
   expect_equal(na_if(x, 0), c(NA, 1, NA))
   expect_equal(na_if(x, 1), c(0, NA, 0))
 })
-
-test_that("is translated to NULL_IF", {
-  expect_equal(translate_sql(na_if(x, 0L)), sql('NULL_IF("x", 0)'))
-})

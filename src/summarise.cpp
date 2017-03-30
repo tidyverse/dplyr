@@ -27,9 +27,9 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "copying " << nvars << " variables to accumulator";
 
   NamedListAccumulator<Data> accumulator;
-  int i=0;
+  int i = 0;
   List results(nvars + nexpr);
-  for (; i<nvars; i++) {
+  for (; i < nvars; i++) {
     LOG_VERBOSE << "copying " << gdf.symbol(i).get_utf8_cstring();
     results[i] = shared_SEXP(gdf.label(i));
     accumulator.set(gdf.symbol(i), results[i]);
@@ -38,7 +38,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
   Subsets subsets(gdf);
-  for (int k=0; k<nexpr; k++, i++) {
+  for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[k];
@@ -100,7 +100,7 @@ SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
   NamedListAccumulator<DataFrame> accumulator;
   List results(nexpr);
 
-  for (int i=0; i<nexpr; i++) {
+  for (int i = 0; i < nexpr; i++) {
     Rcpp::checkUserInterrupt();
 
     const NamedQuosure& quosure = dots[i];

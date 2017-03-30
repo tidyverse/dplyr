@@ -1,0 +1,19 @@
+context("funs-predicates")
+
+test_that("all_exprs() creates intersection", {
+  expect_identical(all_exprs(am == 1), quo(am == 1))
+
+  quo <- set_env(quo((!! ~cyl == 2) & (!! ~am == 1)), base_env())
+  expect_identical(all_exprs(cyl == 2, am == 1), quo)
+})
+
+test_that("any_exprs() creates union", {
+  expect_identical(any_exprs(am == 1), quo(am == 1))
+
+  quo <- set_env(quo((!! ~cyl == 2) | (!! ~am == 1)), base_env())
+  expect_identical(any_exprs(cyl == 2, am == 1), quo)
+})
+
+test_that("all_exprs() without expression returns an error", {
+  expect_error(all_exprs(), "at least one expression")
+})

@@ -56,7 +56,7 @@ SEXP strip_group_attributes(SEXP df) {
     SEXP tag = TAG(p);
     if (std::find(black_list.begin(), black_list.end(), tag) == black_list.end()) {
       Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
-      SETCDR(q,s);
+      SETCDR(q, s);
       q = CDR(q);
       SET_TAG(q, tag);
     }

@@ -42,7 +42,7 @@
 #' select_vars(names(iris), !!! list(~Petal.Length))
 #' select_vars(names(iris), !! quote(Petal.Length))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- dots_quosures(...)
+  args <- quos(...)
 
   if (is_empty(args)) {
     vars <- setdiff(include, exclude)
@@ -113,8 +113,10 @@ setdiff2 <- function(x, y) {
 
 #' @export
 #' @rdname select_vars
-rename_vars <- function(vars, ...) {
-  args <- dots_quosures(...)
+#' @param strict If `TRUE`, will throw an error if you attempt to rename a
+#'   variable that doesn't exist.
+rename_vars <- function(vars, ..., strict = TRUE) {
+  args <- quos(...)
   if (any(names2(args) == "")) {
     abort("All arguments to `rename()` must be named.")
   }
@@ -134,8 +136,8 @@ rename_vars <- function(vars, ...) {
   new_vars <- names(args)
 
   unknown_vars <- setdiff(old_vars, vars)
-  if (length(unknown_vars) > 0) {
-    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), ".",))
+  if (strict && length(unknown_vars) > 0) {
+    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), "."))
   }
 
   select <- set_names(vars, vars)

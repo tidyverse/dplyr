@@ -8,7 +8,7 @@ filter(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{Logical predicates defined in terms of the variables in \code{.data}.
 Multiple conditions are combined with \code{&}. Only rows where the
@@ -42,6 +42,13 @@ When applied to a data frame, row names are silently dropped. To preserve,
 convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 
+\section{Scoped filtering}{
+
+The three \link{scoped} variants (\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and
+\code{\link[=filter_at]{filter_at()}}) make it easy to apply a filtering condition to a
+selection of variables.
+}
+
 \examples{
 filter(starwars, species == "Human")
 filter(starwars, mass > 1000)
@@ -54,6 +61,8 @@ filter(starwars, hair_color == "none" | eye_color == "black")
 filter(starwars, hair_color == "none", eye_color == "black")
 }
 \seealso{
+\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.
+
 Other single table verbs: \code{\link{arrange}},
   \code{\link{mutate}}, \code{\link{select}},
   \code{\link{slice}}, \code{\link{summarise}}

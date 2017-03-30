@@ -12,22 +12,22 @@ void strip_index(DataFrame x);
 
 namespace dplyr {
 
-  std::string get_single_class(SEXP x);
-  CharacterVector default_chars(SEXP x, R_xlen_t len);
-  CharacterVector get_class(SEXP x);
-  SEXP set_class(SEXP x, const CharacterVector& class_);
-  CharacterVector get_levels(SEXP x);
-  SEXP set_levels(SEXP x, const CharacterVector& levels);
-  bool same_levels(SEXP left, SEXP right);
-  SymbolVector get_vars(SEXP x);
-  SEXP set_vars(SEXP x, const SymbolVector& vars);
-  SEXP copy_vars(SEXP target, SEXP source);
-  bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
+std::string get_single_class(SEXP x);
+CharacterVector default_chars(SEXP x, R_xlen_t len);
+CharacterVector get_class(SEXP x);
+SEXP set_class(SEXP x, const CharacterVector& class_);
+CharacterVector get_levels(SEXP x);
+SEXP set_levels(SEXP x, const CharacterVector& levels);
+bool same_levels(SEXP left, SEXP right);
+SymbolVector get_vars(SEXP x);
+SEXP set_vars(SEXP x, const SymbolVector& vars);
+SEXP copy_vars(SEXP target, SEXP source);
+bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
 
 // effectively the same as copy_attributes but without names and dims
-  inline void copy_most_attributes(SEXP out, SEXP data) {
-    Rf_copyMostAttrib(data, out);
-  }
+inline void copy_most_attributes(SEXP out, SEXP data) {
+  Rf_copyMostAttrib(data, out);
+}
 
 }
 

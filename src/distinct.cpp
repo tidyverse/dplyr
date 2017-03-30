@@ -28,7 +28,7 @@ SEXP distinct_impl(DataFrame df, const SymbolVector& vars, const SymbolVector& k
   VisitorSetIndexSet<DataFrameVisitors> set(visitors);
 
   int n = df.nrows();
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     if (set.insert(i).second) {
       indices.push_back(i);
     }

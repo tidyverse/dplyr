@@ -7,20 +7,24 @@
 \alias{add_count}
 \title{Counts/tally observations by group.}
 \usage{
-tally(x, wt = NULL, sort = FALSE)
+tally(x, wt, sort = FALSE)
 
 count(x, ..., wt = NULL, sort = FALSE)
 
-add_tally(x, wt = NULL, sort = FALSE)
+add_tally(x, wt, sort = FALSE)
 
 add_count(x, ..., wt = NULL, sort = FALSE)
 }
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
 
-\item{wt}{(Optional) If omitted, will count the number of rows. If specified,
-will perform a "weighted" tally by summing the (non-missing) values of
-variable \code{wt}.}
+\item{wt}{(Optional) If omitted, will count the number of rows. If
+specified, will perform a "weighted" tally by summing the
+(non-missing) values of variable \code{wt}. This argument is
+automatically \link[rlang:quo]{quoted} and later
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. It supports \link[rlang:quasiquotation]{unquoting}. See
+\code{vignette("programming")} for an introduction to these concepts.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 
@@ -52,32 +56,4 @@ then the column returned will be \code{nnn}, and so on.
 There is currently no way to control the output variable name - if you
 need to change the default, you'll have to write the \code{\link[=summarise]{summarise()}}
 yourself.
-}
-\examples{
-# tally() is short-hand for mutate()
-mtcars \%>\% tally()
-# count() is a short-hand for group_by() + tally()
-mtcars \%>\% count(cyl)
-
-# add_tally() is short-hand for mutate()
-mtcars \%>\% add_tally()
-# add_count() is a short-hand for group_by() + add_tally()
-mtcars \%>\% add_count(cyl)
-
-if (require("Lahman")) {
-batting_tbl <- tbl_df(Lahman::Batting)
-
-# count and tally are designed so that you can call
-# them repeatedly, each time rolling up a level of detail
-plays_by_year <- batting_tbl \%>\% count(playerID, yearID, sort = TRUE)
-plays_by_year
-plays_by_year \%>\% count(yearID)
-plays_by_year \%>\% count()
-
-# add_count() is useful for groupwise filtering
-# e.g.: get only players with at least 1000 ABs
-batting_tbl \%>\%
-  add_count(playerID, wt = AB) \%>\%
-  filter(n >= 1000)
-}
 }

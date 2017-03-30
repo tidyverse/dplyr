@@ -2,13 +2,21 @@
 % Please edit documentation in R/tbl.r
 \name{tbl_vars}
 \alias{tbl_vars}
+\alias{tbl_nongroup_vars}
 \title{List variables provided by a tbl.}
 \usage{
 tbl_vars(x)
+
+tbl_nongroup_vars(x)
 }
 \arguments{
 \item{x}{A tbl object}
 }
 \description{
-List variables provided by a tbl.
+\code{tbl_vars()} returns all variables while \code{tbl_nongroup_vars()}
+returns only non-grouping variables.
+}
+\seealso{
+\code{\link[=group_vars]{group_vars()}} for a function that returns grouping
+variables.
 }

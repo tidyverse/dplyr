@@ -3,19 +3,19 @@
 
 namespace dplyr {
 
-  namespace traits {
+namespace traits {
 
-    template <int RTYPE>
-    struct scalar_type {
-      typedef typename Rcpp::traits::storage_type<RTYPE>::type type;
-    };
+template <int RTYPE>
+struct scalar_type {
+  typedef typename Rcpp::traits::storage_type<RTYPE>::type type;
+};
 
-    template <>
-    struct scalar_type<STRSXP> {
-      typedef String type;
-    };
+template <>
+struct scalar_type<STRSXP> {
+  typedef String type;
+};
 
-  }
+}
 
 }
 

@@ -27,4 +27,5 @@
 #' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
+#' @importFrom methods is
 NULL

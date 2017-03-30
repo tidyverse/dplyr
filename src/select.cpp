@@ -11,7 +11,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
   IntegerVector positions = keep.match_in_table(df.names());
   int n = keep.size();
   List res(n);
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     int pos = positions[i];
     if (pos < 1 || pos > df.size()) {
       std::stringstream s;
@@ -23,7 +23,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
       stop("invalid column index : %d for variable: %s = %s",
            s.str(), new_names[i].get_utf8_cstring(), keep[i].get_utf8_cstring());
     }
-    res[i] = df[ pos-1 ];
+    res[i] = df[ pos - 1 ];
   }
   copy_most_attributes(res, df);
   res.names() = new_names;
@@ -61,7 +61,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
 
     IntegerVector positions = keep.match(label_names);
     int nl = label_names.size();
-    for (int i=0; i<nl; i++) {
+    for (int i = 0; i < nl; i++) {
       int pos = positions[i];
       if (pos != NA_INTEGER) {
         label_names[i] = new_names[pos - 1].get_string();

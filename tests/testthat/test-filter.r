@@ -1,46 +1,17 @@
 context("Filter")
 
-df <- expand.grid(a = 1:10, b = letters[1:10],
-  KEEP.OUT.ATTRS = FALSE,
-  stringsAsFactors = FALSE)
-
-tbls <- test_load(df)
-
-test_that("filter results independent of data tbl (simple)", {
-  skip_if_no_sqlite()
-
-  expected <- df[df$a > 6, , drop = FALSE]
-  compare_tbls(tbls[c("df", "sqlite")], function(x) {
-    filter(x, a > 6)
-  }, expected)
-})
-
-test_that("filter captures local variables", {
-  sel <- c("d", "g", "a")
-  expected <- df[df$b %in% sel, , drop = FALSE]
-
-  compare_tbls(tbls, function(x) x %>% filter(b %in% sel), ref = expected)
-})
-
-test_that("two filters equivalent to one", {
-  expected <- filter(df, a > 4 & b == "a")
-
-  compare_tbls(tbls, function(x) x %>% filter(a > 4) %>% filter(b == "a"),
-    ref = expected)
-})
-
 test_that("filter fails if inputs incorrect length (#156)", {
   expect_error(filter(tbl_df(mtcars), c(F, T)))
   expect_error(filter(group_by(mtcars, am), c(F, T)))
 })
 
 test_that("filter gives useful error message when given incorrect input", {
-  expect_error(filter(tbl_df(mtcars), x), "unknown column")
+  expect_error(filter(tbl_df(mtcars), `_x`), "not found")
 })
 
 test_that("filter gives UTF-8 encoded column names (#2441)", {
   df <- data_frame(a = factor(1:3)) %>% rename("\u5e78" := a)
-  expect_error(filter(df, `<U+798F>`), "unknown column : \u798f")
+  expect_error(filter(df, `<U+798F>`), "object '<U\\+798F>' not found")
 })
 
 test_that("filter complains in inputs are named", {
@@ -295,7 +266,7 @@ test_that("filter(FALSE) drops indices", {
     group_by(cyl) %>%
     filter(FALSE) %>%
     attr("indices")
-  expect_equal(out, NULL)
+  expect_identical(out, list())
 })
 
 test_that("filter handles S4 objects (#1366)", {
@@ -329,23 +300,6 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
 })
 
 # .data and .env tests now in test-hybrid-traverse.R
-
-test_that("each argument gets implicit parens", {
-  df <- data_frame(
-    v1 = c("a", "b", "a", "b"),
-    v2 = c("b", "a", "a", "b"),
-    v3 = c("a", "b", "c", "d")
-  )
-
-  tbls <- test_load(df)
-
-  one <- tbls %>% lapply(. %>% filter((v1 == "a" | v2 == "a") & v3 == "a"))
-  two <- tbls %>% lapply(. %>% filter(v1 == "a" | v2 == "a", v3 == "a"))
-
-  lapply(seq_along(one), function(i) {
-    expect_equal(collect(one[[i]]), collect(two[[i]]))
-  })
-})
 
 test_that("filter fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))

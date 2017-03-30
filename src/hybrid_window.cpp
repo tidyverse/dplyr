@@ -45,11 +45,11 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
 
   switch (TYPEOF(data)) {
   case INTSXP:
-    return new RowNumber<INTSXP,true>(data);
+    return new RowNumber<INTSXP, true>(data);
   case REALSXP:
-    return new RowNumber<REALSXP,true>(data);
+    return new RowNumber<REALSXP, true>(data);
   case STRSXP:
-    return new RowNumber<STRSXP,true>(data);
+    return new RowNumber<STRSXP, true>(data);
   default:
     break;
   }
@@ -95,11 +95,11 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   switch (TYPEOF(data)) {
   case INTSXP:
-    return new Ntile<INTSXP ,true>(data, number_tiles);
+    return new Ntile<INTSXP, true>(data, number_tiles);
   case REALSXP:
-    return new Ntile<REALSXP,true>(data, number_tiles);
+    return new Ntile<REALSXP, true>(data, number_tiles);
   case STRSXP:
-    return new Ntile<STRSXP ,true>(data, number_tiles);
+    return new Ntile<STRSXP, true>(data, number_tiles);
   default:
     break;
   }

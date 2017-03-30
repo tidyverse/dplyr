@@ -7,6 +7,6 @@
 
 namespace dplyr {
 
-  typedef LazySplitSubsets<RowwiseDataFrame> LazyRowwiseSubsets;
+typedef LazySplitSubsets<RowwiseDataFrame> LazyRowwiseSubsets;
 }
 #endif
