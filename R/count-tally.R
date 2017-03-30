@@ -58,7 +58,6 @@
 #' starwars %>%
 #'   add_count(species) %>%
 #'   filter(n == 1)
-#' }
 tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
 

@@ -2,9 +2,12 @@
 % Please edit documentation in R/explain.r
 \name{explain}
 \alias{explain}
+\alias{show_query}
 \title{Explain details of a tbl}
 \usage{
 explain(x, ...)
+
+show_query(x, ...)
 }
 \arguments{
 \item{x}{An object to explain}

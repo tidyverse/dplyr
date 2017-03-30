@@ -53,7 +53,7 @@ You can continue to use `src_mysql()`, `src_postgres()`, and `src_sqlite()`, but
 library(dplyr)
 
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-copy_to(con, mtcars)
+dbWriteTable(con, "mtcars", mtcars)
 
 mtcars2 <- tbl(con, "mtcars")
 mtcars2
@@ -61,7 +61,7 @@ mtcars2
 
 This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
 
-If you've implemented a database backend for dplyr, you'll need to re-read the vignette in the dbplyr package; it describes what you'll need to change. 
+If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much).
 
 ## UTF-8
 
