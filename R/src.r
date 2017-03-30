@@ -7,11 +7,13 @@
 #' @param subclass name of subclass. "src" is an abstract base class, so you
 #'   must supply this value. `src_` is automatically prepended to the
 #'   class name
-#' @param ... fields used by object
+#' @param ... fields used by object.
+#'
+#'   These dots are evaluated with [explicit splicing][rlang::dots_list].
 #' @param x object to test for "src"-ness.
 src <- function(subclass, ...) {
   subclass <- paste0("src_", subclass)
-  structure(list(...), class = c(subclass, "src"))
+  structure(dots_list(...), class = c(subclass, "src"))
 }
 
 #' @rdname src
