@@ -77,12 +77,9 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     SymbolVector vars = get_vars(gdf.data());
     vars.remove(gdf.nvars() - 1);
     set_vars(out, vars);
-    out.attr("labels") = R_NilValue;
-    out.attr("indices") = R_NilValue;
-    out.attr("group_sizes") = R_NilValue;
-    out.attr("biggest_group_size") = R_NilValue;
-
     out.attr("drop") = true;
+
+    strip_index(out);
   } else {
     set_class(out, classes_not_grouped());
     SET_ATTRIB(out, strip_group_attributes(out));

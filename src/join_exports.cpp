@@ -177,7 +177,9 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
     }
   }
 
-  return subset(x, indices, x.names(), get_class(x));
+  const DataFrame& out = subset(x, indices, x.names(), get_class(x));
+  strip_index(out);
+  return out;
 }
 
 // [[Rcpp::export]]
@@ -203,7 +205,9 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   for (Map::iterator it = map.begin(); it != map.end(); ++it)
     push_back(indices, it->second);
 
-  return subset(x, indices, x.names(), get_class(x));
+  const DataFrame& out = subset(x, indices, x.names(), get_class(x));
+  strip_index(out);
+  return out;
 }
 
 // [[Rcpp::export]]
