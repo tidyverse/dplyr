@@ -49,6 +49,12 @@ test_that("order_by() returns correct value", {
 
 test_that("order_by() works in arbitrary envs (#2297)", {
   env <- child_env("base")
-  with_env(env, dplyr::order_by(5:1, cumsum(1:5)))
-  order_by(5:1, cumsum(1:5))
+  expect_equal(
+    with_env(env, dplyr::order_by(5:1, cumsum(1:5))),
+    rev(cumsum(rev(1:5)))
+  )
+  expect_equal(
+    order_by(5:1, cumsum(1:5)),
+    rev(cumsum(rev(1:5)))
+  )
 })

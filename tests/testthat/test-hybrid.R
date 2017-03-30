@@ -10,6 +10,9 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   expect_environments_clean(df$f[[1]])
   expect_environments_clean(df$g[[1]])
   expect_environments_clean(df$h[[1]])
+
+  # Avoids "Empty test" message
+  expect_true(TRUE)
 })
 
 test_that("n() and n_distinct() work", {
