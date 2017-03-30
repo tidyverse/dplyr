@@ -173,6 +173,7 @@ public:
 
     int val = as<int>(chunk);
     if (val == NA_INTEGER) {
+      pos++;
       return true;
     }
     SEXP s = lev[val - 1];
