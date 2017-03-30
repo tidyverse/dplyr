@@ -469,9 +469,8 @@ test_that("bind_cols infers classes from first result (#1692)", {
   res3 <- bind_cols(d3, d1)
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(attr(res3, "group_sizes"), c(5, 5))
-  expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(bind_rows(d5, d1)), c("tbl_df", "tbl", "data.frame"))
-
+  expect_equal(class(bind_cols(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(class(bind_cols(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 })
 
 test_that("bind_rows rejects POSIXlt columns (#1789)", {
