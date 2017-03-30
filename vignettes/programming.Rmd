@@ -92,7 +92,7 @@ You might not have realised it, but you're already accomplished at solving this 
 
 ```{r}
 greet <- function(name) {
-  "Hello name!"
+  "How do you do, name?"
 }
 greet("Hadley")
 ```
@@ -101,7 +101,7 @@ That's because `"` "quotes" its input: it doesn't interpret what you've typed, i
 
 ```{r}
 greet <- function(name) {
-  paste0("Hello ", name, "!")
+  paste0("How do you do, ", name, "?")
 }
 greet("Hadley")
 ```
@@ -110,7 +110,7 @@ Another approach is exemplified by the glue package: it allows you to "unquote" 
 
 ```{r}
 greet <- function(name) {
-  glue::glue("Hello {name}!")
+  glue::glue("How do you do, {name}?")
 }
 greet("Hadley")
 ```
