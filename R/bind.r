@@ -74,7 +74,7 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  x <- discard(dots_splice(...), is_null)
+  x <- discard(list_or_dots(...), is_null)
 
   if (!length(x)) {
     # Handle corner cases gracefully, but always return a tibble
@@ -85,11 +85,8 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  for (i in seq_along(x)) {
-    elt <- x[[i]]
-    if (is_bare_list(elt)) {
-      x[[i]] <- as_tibble(elt)
-    } else if (!is_valid_df(elt) && !is_rowwise_atomic(elt) && !is_null(elt)) {
+  for (elt in x) {
+    if (!is_valid_df(elt) && !is_rowwise_atomic(elt) && !is_null(elt)) {
       abort("`...` must only contain data frames and named atomic vectors")
     }
   }
@@ -111,6 +108,9 @@ bind_rows <- function(..., .id = NULL) {
 is_rowwise_atomic <- function(x) {
   is_atomic(x) && is_named(x)
 }
+is_df_list <- function(x) {
+  is_list(x) && every(x, inherits, "data.frame")
+}
 
 #' @export
 rbind.tbl_df <- function(..., deparse.level = 1) {
@@ -120,7 +120,7 @@ rbind.tbl_df <- function(..., deparse.level = 1) {
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- list_or_dots(...)
+  x <- discard(list_or_dots(...), is_null)
 
   out <- cbind_all(x)
   tibble::repair_names(out)
@@ -143,20 +143,24 @@ combine <- function(...) {
 }
 
 list_or_dots <- function(...) {
-  dots <- list(...)
+  dots <- dots_list(...)
 
-  # Need to ensure that each component is a data list:
-  data_lists <- map_lgl(dots, is_data_list)
-  dots[data_lists] <- map(dots[data_lists], list)
+  # Need to ensure that each component is a data frame or a vector
+  # wrapped in a list:
+  dots <- map_if(dots, is_data_list, function(x) list(as_tibble(x)))
+  dots <- map_if(dots, is_atomic, list)
+  dots <- map_if(dots, is.data.frame, list)
 
   unlist(dots, recursive = FALSE)
 }
 
-# Is this object a
 is_data_list <- function(x) {
-  # data frames are trivially data list, and so are nulls
-  if (is.data.frame(x) || is_null(x))
-    return(TRUE)
+  if (is_null(x))
+    return(FALSE)
+
+  # data frames are not data lists
+  if (is.data.frame(x))
+    return(FALSE)
 
   # Must be a list
   if (!is_list(x))
@@ -167,12 +171,11 @@ is_data_list <- function(x) {
     return(TRUE)
 
   # With names
-  if (any(!have_name(x)))
+  if (!is_named(x))
     return(FALSE)
 
   # Where each element is an 1d vector or list
-  is_1d <- map_lgl(x, is_1d)
-  if (any(!is_1d))
+  if (!every(x, is_1d))
     return(FALSE)
 
   # All of which have the same length
