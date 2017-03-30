@@ -15,7 +15,7 @@
 #' run the query or retrieve the data unless you ask for it: they all return
 #' a new `tbl_dbi` object. Use [compute()] to run the query and save the
 #' results in a temporary in the database, or use [collect()] to retrieve the
-#' results to R. You can see the query with [dbplyr::show_query()].
+#' results to R. You can see the query with [show_query()].
 #'
 #' For best performance, the database should have an index on the variables
 #' that you are grouping by. Use [explain()] to check that the database is using
