@@ -39,3 +39,8 @@ explain <- function(x, ...) {
   UseMethod("explain")
 }
 
+#' @export
+#' @rdname explain
+show_query <- function(x, ...) {
+  UseMethod("show_query")
+}
