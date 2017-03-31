@@ -38,11 +38,43 @@
 #' one <- mtcars[1:4, ]
 #' two <- mtcars[11:14, ]
 #'
-#' # You can either supply data frames as arguments
+#' # You can supply data frames as arguments:
 #' bind_rows(one, two)
-#' # Or a single argument containing a list of data frames
+#'
+#' # The contents of lists is automatically spliced:
 #' bind_rows(list(one, two))
 #' bind_rows(split(mtcars, mtcars$cyl))
+#' bind_rows(list(one, two), list(two, one))
+#'
+#'
+#' # In addition to data frames, you can supply vectors. In the rows
+#' # direction, the vectors represent rows and should have inner
+#' # names:
+#' bind_rows(
+#'   c(a = 1, b = 2),
+#'   c(a = 3, b = 4)
+#' )
+#'
+#' # You can mix vectors and data frames:
+#' bind_rows(
+#'   c(a = 1, b = 2),
+#'   data_frame(a = 3:4, b = 5:6),
+#'   c(a = 7, b = 8)
+#' )
+#'
+#'
+#' # Note that for historical reasons, lists containg vectors are
+#' # always treated as data frames. Thus their vectors are treated as
+#' # columns rather than rows, and their inner names are ignored:
+#' ll <- list(
+#'   a = c(A = 1, B = 2),
+#'   b = c(A = 3, B = 4)
+#' )
+#' bind_rows(ll)
+#'
+#' # You can circumvent that behaviour with explicit splicing:
+#' bind_rows(splice(ll))
+#'
 #'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
