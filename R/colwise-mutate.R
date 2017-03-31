@@ -177,9 +177,13 @@ manip_apply_syms <- function(funs, syms, tbl) {
   }
   dim(out) <- NULL
 
+  # Use symbols as default names
+  unnamed <- !have_name(syms)
+  names(syms)[unnamed] <- map_chr(syms[unnamed], as_string)
+
   if (length(funs) == 1 && !attr(funs, "have_name")) {
-    names(out) <- map_chr(syms, as_string)
-  } else if (length(syms) == 1 && !is_named(syms)) {
+    names(out) <- names(syms)
+  } else if (length(syms) == 1 && all(unnamed)) {
     names(out) <- names(funs)
   } else {
     syms_names <- map_chr(syms, as_string)
