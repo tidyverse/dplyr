@@ -23,7 +23,6 @@ R_version <- R.version.string
 
   op <- options()
   op.dplyr <- list(
-    dplyr.strict_sql = FALSE,
     dplyr.show_progress = TRUE
   )
   toset <- !(names(op.dplyr) %in% names(op))
