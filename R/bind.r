@@ -153,7 +153,6 @@ rbind.tbl_df <- function(..., deparse.level = 1) {
 #' @rdname bind
 bind_cols <- function(...) {
   x <- discard(list_or_dots(...), is_null)
-
   out <- cbind_all(x)
   tibble::repair_names(out)
 }
@@ -176,17 +175,26 @@ combine <- function(...) {
 
 list_or_dots <- function(...) {
   dots <- dots_list(...)
+  if (!length(dots)) {
+    return(dots)
+  }
+
+  # Old versions specified that first argument could be a list of
+  # dataframeable objects
+  if (is_list(dots[[1]])) {
+    dots[[1]] <- map_if(dots[[1]], is_dataframe_like, as_tibble)
+  }
 
   # Need to ensure that each component is a data frame or a vector
   # wrapped in a list:
-  dots <- map_if(dots, is_data_list, function(x) list(as_tibble(x)))
+  dots <- map_if(dots, is_dataframe_like, function(x) list(as_tibble(x)))
   dots <- map_if(dots, is_atomic, list)
   dots <- map_if(dots, is.data.frame, list)
 
   unlist(dots, recursive = FALSE)
 }
 
-is_data_list <- function(x) {
+is_dataframe_like <- function(x) {
   if (is_null(x))
     return(FALSE)
 

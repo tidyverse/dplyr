@@ -518,3 +518,7 @@ test_that("bind_rows() handles rowwise vectors", {
   id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
   expect_identical(id_tbl, tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)))
 })
+
+test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
+  expect_identical(bind_rows(list(list(a = 1, b = 2))), tibble(a = 1, b = 2))
+})
