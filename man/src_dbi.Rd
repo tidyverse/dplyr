@@ -59,7 +59,7 @@ All data manipulation on SQL tbls are lazy: they will not actually
 run the query or retrieve the data unless you ask for it: they all return
 a new \code{tbl_dbi} object. Use \code{\link[=compute]{compute()}} to run the query and save the
 results in a temporary in the database, or use \code{\link[=collect]{collect()}} to retrieve the
-results to R. You can see the query with \code{\link[dbplyr:show_query]{dbplyr::show_query()}}.
+results to R. You can see the query with \code{\link[=show_query]{show_query()}}.
 
 For best performance, the database should have an index on the variables
 that you are grouping by. Use \code{\link[=explain]{explain()}} to check that the database is using
