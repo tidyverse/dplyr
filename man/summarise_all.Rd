@@ -2,44 +2,42 @@
 % Please edit documentation in R/colwise-mutate.R
 \name{summarise_all}
 \alias{summarise_all}
-\alias{summarise_each_q}
-\alias{mutate_each_q}
-\alias{mutate_all}
-\alias{transmute_all}
 \alias{summarise_if}
-\alias{mutate_if}
-\alias{transmute_if}
 \alias{summarise_at}
-\alias{mutate_at}
-\alias{transmute_at}
 \alias{summarize_all}
-\alias{summarize_at}
 \alias{summarize_if}
+\alias{summarize_at}
+\alias{mutate_all}
+\alias{mutate_if}
+\alias{mutate_at}
+\alias{transmute_all}
+\alias{transmute_if}
+\alias{transmute_at}
 \title{Summarise and mutate multiple columns.}
 \usage{
 summarise_all(.tbl, .funs, ...)
 
-mutate_all(.tbl, .funs, ...)
-
-transmute_all(.tbl, .funs, ...)
-
 summarise_if(.tbl, .predicate, .funs, ...)
-
-mutate_if(.tbl, .predicate, .funs, ...)
-
-transmute_if(.tbl, .predicate, .funs, ...)
 
 summarise_at(.tbl, .vars, .funs, ..., .cols = NULL)
 
-mutate_at(.tbl, .vars, .funs, ..., .cols = NULL)
-
-transmute_at(.tbl, .vars, .funs, ..., .cols = NULL)
-
 summarize_all(.tbl, .funs, ...)
+
+summarize_if(.tbl, .predicate, .funs, ...)
 
 summarize_at(.tbl, .vars, .funs, ..., .cols = NULL)
 
-summarize_if(.tbl, .predicate, .funs, ...)
+mutate_all(.tbl, .funs, ...)
+
+mutate_if(.tbl, .predicate, .funs, ...)
+
+mutate_at(.tbl, .vars, .funs, ..., .cols = NULL)
+
+transmute_all(.tbl, .funs, ...)
+
+transmute_if(.tbl, .predicate, .funs, ...)
+
+transmute_at(.tbl, .vars, .funs, ..., .cols = NULL)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
@@ -65,7 +63,7 @@ dplyr's terminology and is deprecated.}
 }
 \value{
 A data frame. By default, the newly created columns have the shortest
-names needed to distinguish the output. To force inclusion of a name,
+names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
@@ -84,50 +82,43 @@ are now deprecated.
 }
 }
 \examples{
+# The scoped variants of summarise() and mutate() make it easy to
+# apply the same transformation to multiple variables:
+
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise_all(mean)
+
+# There are three variants.
+# * _all affects every variable
+# * _at affects variables selected with a character vector or vars()
+# * _if affects variables selected with a predicate function:
+
+starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
+starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
+
+# mutate_if is particularly useful for transforming variables from
+# one type to another
+iris \%>\% as_tibble() \%>\% mutate_if(is.factor, as.character)
+iris \%>\% as_tibble() \%>\% mutate_if(is.double, as.integer)
+
+# ---------------------------------------------------------------------------
+# If you want apply multiple transformations, use funs()
 by_species <- iris \%>\% group_by(Species)
 
-# One function
-by_species \%>\% summarise_all(n_distinct)
-by_species \%>\% summarise_all(mean)
-
-# Use the _at and _if variants for conditional mapping.
-by_species \%>\% summarise_if(is.numeric, mean)
-
-# summarise_at() can use select() helpers with the vars() function:
-by_species \%>\% summarise_at(vars(Petal.Width), mean)
-by_species \%>\% summarise_at(vars(matches("Width")), mean)
-
-# You can also specify columns with column names or column positions:
-by_species \%>\% summarise_at(c("Sepal.Width", "Petal.Width"), mean)
-by_species \%>\% summarise_at(c(1, 3), mean)
-
-# You can provide additional arguments. Those are evaluated only once:
-by_species \%>\% summarise_all(mean, trim = 1)
-by_species \%>\% summarise_at(vars(Petal.Width), mean, trim = 1)
-
-# You can provide an expression or multiple functions with the funs() helper.
-by_species \%>\% mutate_all(funs(. * 0.4))
 by_species \%>\% summarise_all(funs(min, max))
-# Note that output variable name must now include function name, in order to
+# Note that output variable name now includes the function name, in order to
 # keep things distinct.
 
-# Function names will be included if .funs has names or whenever multiple
-# functions are used.
-by_species \%>\% mutate_all(funs("in" = . / 2.54))
-by_species \%>\% mutate_all(funs(rg = diff(range(.))))
+# You can express more complex inline transformations using .
+by_species \%>\% mutate_all(funs(. / 2.54))
+
+# Function names will be included if .funs has names or multiple inputs
+by_species \%>\% mutate_all(funs(cm = . / 2.54))
 by_species \%>\% summarise_all(funs(med = median))
 by_species \%>\% summarise_all(funs(Q3 = quantile), probs = 0.75)
 by_species \%>\% summarise_all(c("min", "max"))
-
-# Two functions, continued
-by_species \%>\% summarise_at(vars(Petal.Width, Sepal.Width), funs(min, max))
-by_species \%>\% summarise_at(vars(matches("Width")), funs(min, max))
-
-
-# Unlike mutating verbs, the transmute variants discard original
-# variables when the computations have new names:
-mutate_if(as_tibble(iris), is.numeric, funs(mean, sd))
-transmute_if(as_tibble(iris), is.numeric, funs(mean, sd))
 }
 \seealso{
 \code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}

@@ -1,7 +1,6 @@
 #' Summarise and mutate multiple columns.
 #'
 #' @description
-#'
 #' These verbs are [scoped] variants of [summarise()], [mutate()] and
 #' [transmute()]. They apply operations on a selection of variables.
 #'
@@ -22,83 +21,81 @@
 #' @param .cols This argument has been renamed to `.vars` to fit
 #'   dplyr's terminology and is deprecated.
 #' @return A data frame. By default, the newly created columns have the shortest
-#'   names needed to distinguish the output. To force inclusion of a name,
+#'   names needed to uniquely identify the output. To force inclusion of a name,
 #'   even when not needed, name the input (see examples for details).
 #' @seealso [vars()], [funs()]
+#' @export
 #' @examples
+#' # The scoped variants of summarise() and mutate() make it easy to
+#' # apply the same transformation to multiple variables:
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   summarise_all(mean)
+#'
+#' # There are three variants.
+#' # * _all affects every variable
+#' # * _at affects variables selected with a character vector or vars()
+#' # * _if affects variables selected with a predicate function:
+#'
+#' starwars %>% summarise_at(vars(height:mass), mean, na.rm = TRUE)
+#' starwars %>% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+#' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
+#'
+#' # mutate_if is particularly useful for transforming variables from
+#' # one type to another
+#' iris %>% as_tibble() %>% mutate_if(is.factor, as.character)
+#' iris %>% as_tibble() %>% mutate_if(is.double, as.integer)
+#'
+#' # ---------------------------------------------------------------------------
+#' # If you want apply multiple transformations, use funs()
 #' by_species <- iris %>% group_by(Species)
 #'
-#' # One function
-#' by_species %>% summarise_all(n_distinct)
-#' by_species %>% summarise_all(mean)
-#'
-#' # Use the _at and _if variants for conditional mapping.
-#' by_species %>% summarise_if(is.numeric, mean)
-#'
-#' # summarise_at() can use select() helpers with the vars() function:
-#' by_species %>% summarise_at(vars(Petal.Width), mean)
-#' by_species %>% summarise_at(vars(matches("Width")), mean)
-#'
-#' # You can also specify columns with column names or column positions:
-#' by_species %>% summarise_at(c("Sepal.Width", "Petal.Width"), mean)
-#' by_species %>% summarise_at(c(1, 3), mean)
-#'
-#' # You can provide additional arguments. Those are evaluated only once:
-#' by_species %>% summarise_all(mean, trim = 1)
-#' by_species %>% summarise_at(vars(Petal.Width), mean, trim = 1)
-#'
-#' # You can provide an expression or multiple functions with the funs() helper.
-#' by_species %>% mutate_all(funs(. * 0.4))
 #' by_species %>% summarise_all(funs(min, max))
-#' # Note that output variable name must now include function name, in order to
+#' # Note that output variable name now includes the function name, in order to
 #' # keep things distinct.
 #'
-#' # Function names will be included if .funs has names or whenever multiple
-#' # functions are used.
-#' by_species %>% mutate_all(funs("in" = . / 2.54))
-#' by_species %>% mutate_all(funs(rg = diff(range(.))))
+#' # You can express more complex inline transformations using .
+#' by_species %>% mutate_all(funs(. / 2.54))
+#'
+#' # Function names will be included if .funs has names or multiple inputs
+#' by_species %>% mutate_all(funs(cm = . / 2.54))
 #' by_species %>% summarise_all(funs(med = median))
 #' by_species %>% summarise_all(funs(Q3 = quantile), probs = 0.75)
 #' by_species %>% summarise_all(c("min", "max"))
-#'
-#' # Two functions, continued
-#' by_species %>% summarise_at(vars(Petal.Width, Sepal.Width), funs(min, max))
-#' by_species %>% summarise_at(vars(matches("Width")), funs(min, max))
-#'
-#'
-#' # Unlike mutating verbs, the transmute variants discard original
-#' # variables when the computations have new names:
-#' mutate_if(as_tibble(iris), is.numeric, funs(mean, sd))
-#' transmute_if(as_tibble(iris), is.numeric, funs(mean, sd))
-#' @aliases summarise_each_q mutate_each_q
-#' @export
 summarise_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
-mutate_all <- function(.tbl, .funs, ...) {
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  mutate(.tbl, !!! funs)
+summarise_if <- function(.tbl, .predicate, .funs, ...) {
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+  summarise(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
-transmute_all <- function(.tbl, .funs, ...) {
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  transmute(.tbl, !!! funs)
-}
-manip_all <- function(.tbl, .funs, .quo, .env, ...) {
-  syms <- syms(tbl_nongroup_vars(.tbl))
-  funs <- as_fun_list(.funs, .quo, .env, ...)
-  manip_apply_syms(funs, syms, .tbl)
+summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
+  .vars <- check_dot_cols(.vars, .cols)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  summarise(.tbl, !!! funs)
 }
 
 #' @rdname summarise_all
 #' @export
-summarise_if <- function(.tbl, .predicate, .funs, ...) {
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
-  summarise(.tbl, !!! funs)
+summarize_all <- summarise_all
+#' @rdname summarise_all
+#' @export
+summarize_if <- summarise_if
+#' @rdname summarise_all
+#' @export
+summarize_at <- summarise_at
+
+#' @rdname summarise_all
+#' @export
+mutate_all <- function(.tbl, .funs, ...) {
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  mutate(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
@@ -108,29 +105,23 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 }
 #' @rdname summarise_all
 #' @export
-transmute_if <- function(.tbl, .predicate, .funs, ...) {
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
-  transmute(.tbl, !!! funs)
-}
-manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env)
-  funs <- as_fun_list(.funs, .quo, .env, ...)
-  manip_apply_syms(funs, vars, .tbl)
-}
-
-#' @rdname summarise_all
-#' @export
-summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
-  .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
-  summarise(.tbl, !!! funs)
-}
-#' @rdname summarise_all
-#' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!! funs)
+}
+
+#' @rdname summarise_all
+#' @export
+transmute_all <- function(.tbl, .funs, ...) {
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  transmute(.tbl, !!! funs)
+}
+#' @rdname summarise_all
+#' @export
+transmute_if <- function(.tbl, .predicate, .funs, ...) {
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+  transmute(.tbl, !!! funs)
 }
 #' @rdname summarise_all
 #' @export
@@ -139,11 +130,25 @@ transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!! funs)
 }
+
+# Helpers -----------------------------------------------------------------
+
+manip_all <- function(.tbl, .funs, .quo, .env, ...) {
+  syms <- syms(tbl_nongroup_vars(.tbl))
+  funs <- as_fun_list(.funs, .quo, .env, ...)
+  manip_apply_syms(funs, syms, .tbl)
+}
+manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
+  vars <- tbl_if_syms(.tbl, .predicate, .env)
+  funs <- as_fun_list(.funs, .quo, .env, ...)
+  manip_apply_syms(funs, vars, .tbl)
+}
 manip_at <- function(.tbl, .vars, .funs, .quo, .env, ...) {
   syms <- tbl_at_syms(.tbl, .vars)
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
 }
+
 check_dot_cols <- function(vars, cols) {
   if (is_null(cols)) {
     vars
@@ -152,17 +157,6 @@ check_dot_cols <- function(vars, cols) {
     if (missing(vars)) cols else vars
   }
 }
-
-#' @rdname summarise_all
-#' @export
-summarize_all <- summarise_all
-#' @rdname summarise_all
-#' @export
-summarize_at <- summarise_at
-#' @rdname summarise_all
-#' @export
-summarize_if <- summarise_if
-
 
 manip_apply_syms <- function(funs, syms, tbl) {
   stopifnot(is_fun_list(funs))
@@ -194,32 +188,22 @@ manip_apply_syms <- function(funs, syms, tbl) {
   out
 }
 
+# Deprecated --------------------------------------------------------------
 
 #' Summarise and mutate multiple columns.
-#'
-#' Apply one or more functions to one or more columns. Grouping variables
-#' are always excluded from modification.
 #'
 #' `mutate_each()` and `summarise_each()` are deprecated in favour of
 #' a more featureful family of functions: [mutate_all()],
 #' [mutate_at()], [mutate_if()], [summarise_all()], [summarise_at()]
 #' and [summarise_if()].
-#' @param tbl a tbl
-#' @param funs List of function calls, generated by [funs()], or
-#'   a character vector of function names.
-#' @param ... Variables to include/exclude in mutate/summarise.
-#'   You can use same specifications as in [select()]. If missing,
-#'   defaults to all non-grouping variables.
 #'
-#'   For standard evaluation versions (ending in `_`) these can
-#'   be either a list of expressions or a character vector.
+#' @keywords internal
 #' @export
 summarise_each <- function(tbl, funs, ...) {
   summarise_each_(tbl, funs, quos(...))
 }
 #' @export
-#' @rdname se-deprecated
-#' @inheritParams summarise_each
+#' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
   .Deprecated("summarise_all")
   if (is_empty(vars)) {
@@ -246,7 +230,7 @@ mutate_each <- function(tbl, funs, ...) {
   mutate_each_(tbl, funs, quos(...))
 }
 #' @export
-#' @rdname se-deprecated
+#' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
   .Deprecated("mutate_all")
   if (is_empty(vars)) {
@@ -260,11 +244,13 @@ mutate_each_ <- function(tbl, funs, vars) {
 }
 
 #' @export
+#' @rdname summarise_each
 summarise_each_q <- function(...) {
   .Deprecated("summarise_all")
   summarise_each_(...)
 }
 #' @export
+#' @rdname summarise_each
 mutate_each_q <- function(...) {
   .Deprecated("mutate_all")
   mutate_each_(...)
@@ -273,6 +259,6 @@ mutate_each_q <- function(...) {
 #' @rdname summarise_each
 #' @export
 summarize_each <- summarise_each
-#' @rdname se-deprecated
+#' @rdname summarise_each
 #' @export
 summarize_each_ <- summarise_each_
