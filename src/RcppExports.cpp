@@ -110,12 +110,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rbind_list__impl
-List rbind_list__impl(Dots dots);
+List rbind_list__impl(List dots);
 RcppExport SEXP dplyr_rbind_list__impl(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Dots >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(rbind_list__impl(dots));
     return rcpp_result_gen;
 END_RCPP

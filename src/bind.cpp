@@ -4,7 +4,6 @@
 
 #include <tools/all_na.h>
 #include <tools/collapse.h>
-#include <tools/DotsOf.h>
 #include <tools/pointer_vector.h>
 #include <tools/utils.h>
 
@@ -48,8 +47,7 @@ String get_dot_name(const Dots& dots, int i) {
   return STRING_ELT(names, i);
 }
 
-template <typename Dots>
-List rbind__impl(Dots dots, SEXP id = R_NilValue) {
+List rbind__impl(List dots, SEXP id = R_NilValue) {
   int ndata = dots.size();
   int n = 0;
   DataFrameAbleVector chunks;
@@ -190,12 +188,11 @@ List bind_rows_(List dots, SEXP id = R_NilValue) {
 }
 
 // [[Rcpp::export]]
-List rbind_list__impl(Dots dots) {
+List rbind_list__impl(List dots) {
   return rbind__impl(dots);
 }
 
-template <typename Dots>
-List cbind__impl(Dots dots) {
+List cbind__impl(List dots) {
   DataFrameAbleVector chunks;
   for (int i = 0; i < dots.size(); ++i) {
     SEXP obj = dots[i];
