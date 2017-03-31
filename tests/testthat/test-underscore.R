@@ -214,6 +214,11 @@ test_that("mutate_ works", {
     mutate_(df, .dots = list(c = ~-a)),
     mutate(df, c = -a)
   )
+
+  expect_identical(
+    mutate_(df, ~-a),
+    mutate(df, -a)
+  )
 })
 
 test_that("rename_ works", {
