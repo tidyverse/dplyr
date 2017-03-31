@@ -1,12 +1,20 @@
 context("Filter")
 
 test_that("filter fails if inputs incorrect length (#156)", {
-  expect_error(filter(tbl_df(mtcars), c(F, T)))
-  expect_error(filter(group_by(mtcars, am), c(F, T)))
+  expect_error(
+    filter(tbl_df(mtcars), c(F, T)),
+    "incorrect length (2), expecting: 32",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(group_by(mtcars, am), c(F, T)),
+    "incorrect length (2), expecting: 19",
+    fixed = TRUE
+  )
 })
 
 test_that("filter gives useful error message when given incorrect input", {
-  expect_error(filter(tbl_df(mtcars), `_x`), "not found")
+  expect_error(filter(tbl_df(mtcars), `_x`), "object '_x' not found")
 })
 
 test_that("filter gives UTF-8 encoded column names (#2441)", {
@@ -92,8 +100,14 @@ test_that("filter propagates attributes", {
 })
 
 test_that("filter fails on integer indices", {
-  expect_error(filter(mtcars, 1:2))
-  expect_error(filter(group_by(mtcars, cyl), 1:2))
+  expect_error(
+    filter(mtcars, 1:2),
+    "filter condition does not evaluate to a logical vector"
+  )
+  expect_error(
+    filter(group_by(mtcars, cyl), 1:2),
+    "filter condition does not evaluate to a logical vector"
+  )
 })
 
 test_that("filter discards NA", {
@@ -311,6 +325,6 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
 
 test_that("filter fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(filter(df, a == 1), "unsupported type")
-  expect_error(filter(df, b == 1), "unsupported type")
+  expect_error(filter(df, a == 1), "column 'b' has unsupported type raw")
+  expect_error(filter(df, b == 1), "column 'b' has unsupported type raw")
 })

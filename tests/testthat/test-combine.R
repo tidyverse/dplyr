@@ -8,8 +8,14 @@ test_that("combine handles NULL (1596)", {
 })
 
 test_that("combine complains about incompatibilites", {
-  expect_error(combine("a", 1), "character to numeric")
-  expect_error(combine(factor("a"), 1L), "factor to integer")
+  expect_error(
+    combine("a", 1),
+    "numeric to character at position 2"
+  )
+  expect_error(
+    combine(factor("a"), 1L),
+    "integer to factor at position 2"
+  )
 })
 
 test_that("combine works with input that used to fail (#1780)", {

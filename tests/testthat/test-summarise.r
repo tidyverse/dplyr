@@ -55,7 +55,7 @@ test_that("summarise refuses to modify grouping variable (#143)", {
   ds <- group_by(tbl_df(df), a, b)
   expect_error(
     summarise(ds, a = mean(x), a = b + 1),
-    "cannot modify grouping variable"
+    "cannot modify grouping variable 'a'"
   )
 })
 
@@ -67,39 +67,39 @@ test_that("summarise gives proper errors (#153)", {
   )
   expect_error(
     summarise(df, identity(NULL)),
-    "incompatible size (0), expecting one (a summary value)",
+    "incompatible size (0), expecting one (a summary value) for column 'identity(NULL)'",
     fixed = TRUE
   )
   expect_error(
     summarise(df, log(z)),
-    "incompatible size (3), expecting one (a summary value)",
+    "incompatible size (3), expecting one (a summary value) for column 'log(z)'",
     fixed = TRUE
   )
   expect_error(
     summarise(df, y[1:2]),
-    "incompatible size (2), expecting one (a summary value)",
+    "incompatible size (2), expecting one (a summary value) for column 'y[1:2]'",
     fixed = TRUE
   )
 
   gdf <- group_by(df, x, y)
   expect_error(
     summarise(gdf, identity(NULL)),
-    "incompatible size (0), expecting one (a summary value)",
+    "incompatible size (0), expecting one (a summary value) for column 'identity(NULL)'",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, z),
-    "incompatible size (2), expecting one (a summary value)",
+    "incompatible size (2), expecting one (a summary value) for column 'z'",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, log(z)),
-    "incompatible size (2), expecting one (a summary value)",
+    "incompatible size (2), expecting one (a summary value) for column 'log(z)'",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, y[1:2]),
-    "incompatible size (2), expecting one (a summary value)",
+    "incompatible size (2), expecting one (a summary value) for column 'y[1:2]'",
     fixed = TRUE
   )
 })
@@ -212,15 +212,24 @@ test_that("summarise strips names (#2231)", {
 })
 
 test_that("summarise fails on missing variables", {
-  expect_error(summarise(mtcars, a = mean(notthear)))
+  expect_error(
+    summarise(mtcars, a = mean(notthear)),
+    "object 'notthear' not found"
+  )
 })
 
 test_that("summarise fails on missing variables when grouping (#2223)", {
-  expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)))
+  expect_error(
+    summarise(group_by(mtcars, cyl), a = mean(notthear)),
+    "object 'notthear' not found"
+  )
 })
 
 test_that("n() does not accept arguments", {
-  expect_error(summarise(group_by(mtcars, cyl), n(hp)), "does not take arguments")
+  expect_error(
+    summarise(group_by(mtcars, cyl), n(hp)),
+    "does not take arguments"
+  )
 })
 
 test_that("hybrid nests correctly", {
@@ -277,8 +286,16 @@ test_that("integer overflow (#304)", {
 })
 
 test_that("summarise checks outputs (#300)", {
-  expect_error(summarise(mtcars, mpg, cyl))
-  expect_error(summarise(mtcars, mpg + cyl))
+  expect_error(
+    summarise(mtcars, mpg, cyl),
+    "incompatible size (32), expecting one (a summary value) for column 'mpg'",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(mtcars, mpg + cyl),
+    "incompatible size (32), expecting one (a summary value) for column 'mpg + cyl'",
+    fixed = TRUE
+  )
 })
 
 test_that("comment attribute is white listed (#346)", {
@@ -394,7 +411,10 @@ test_that("nth, first, last promote dates and times (#509)", {
   expect_is(res$time2, "POSIXct")
   expect_is(res$first_time, "POSIXct")
   expect_is(res$last_time, "POSIXct")
-  expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times, 2)))
+  expect_error(
+    data %>% group_by(ID) %>% summarise(time2 = nth(times, 2)),
+    "object 'times' not found"
+  )
 })
 
 test_that("nth, first, last preserves factor data (#509)", {
@@ -788,7 +808,7 @@ test_that("summarise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     summarise(df, c = b[[1]]),
-    "Column `c` must be a vector, not a raw vector"
+    "Column 'c' must be a vector, not a raw vector"
   )
 })
 
@@ -832,7 +852,7 @@ test_that("typing and NAs for grouped summarise (#1839)", {
       group_by(id) %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "can't promote")
+    "can't promote group 1 to numeric for column 'a'")
 
   expect_identical(
     data_frame(id = 1:2, a = list(1, "2")) %>%
@@ -870,14 +890,14 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       rowwise %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "can't promote")
+    "can't promote group 1 to numeric for column 'a'")
 
   expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
       rowwise %>%
       summarise(a = a[1]) %>%
       .$a,
-    "can't promote")
+    "can't promote group 1 to numeric for column 'a'")
 })
 
 test_that("calculating an ordered factor preserves order (#2200)", {

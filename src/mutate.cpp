@@ -39,7 +39,7 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
   int n = quosures.size();
   for (int i = 0; i < n; i++) {
     if (gdf.has_group(quosures[i].name()))
-      stop("cannot modify grouping variable");
+      stop("cannot modify grouping variable '%s'", quosures[i].name().get_utf8_cstring());
   }
 }
 
@@ -81,7 +81,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
       call_proxy.set_call(call);
       results[i] = call_proxy.eval();
     } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows, name));
       results[i] = gather->collect();
     } else if (Rf_isNull(call)) {
       accumulator.rm(name);
@@ -91,7 +91,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     }
 
     if (Rf_inherits(results[i], "POSIXlt")) {
-      stop("`mutate` does not support `POSIXlt` results");
+      stop("mutate does not support POSIXlt results for column '%s'", quosure.name().get_utf8_cstring());
     }
 
     const int n_res = Rf_length(results[i]);
@@ -100,7 +100,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
 
     if (n_res == 1 && nrows != 1) {
       // recycle
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i], nrows));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i], nrows, name));
       results[i] = gather->collect();
     }
 
@@ -164,7 +164,7 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       proxy.input(name, variable);
       accumulator.set(name, variable);
     } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows()));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows(), name));
       SEXP variable = variables[i] = gather->collect();
       proxy.input(name, variable);
       accumulator.set(name, variable);

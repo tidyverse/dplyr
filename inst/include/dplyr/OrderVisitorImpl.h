@@ -192,7 +192,7 @@ private:
 };
 
 
-inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, bool ascending);
+inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, const bool ascending, const int i);
 
 template <bool ascending>
 OrderVisitor* order_visitor_asc(SEXP vec, const SymbolString& name);
@@ -203,12 +203,17 @@ OrderVisitor* order_visitor_asc_matrix(SEXP vec);
 template <bool ascending>
 OrderVisitor* order_visitor_asc_vector(SEXP vec, const SymbolString& name);
 
-inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, bool ascending) {
-  if (ascending) {
-    return order_visitor_asc<true>(vec, name);
+inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, const bool ascending, const int i) {
+  try {
+    if (ascending) {
+      return order_visitor_asc<true>(vec, name);
+    }
+    else {
+      return order_visitor_asc<false>(vec, name);
+    }
   }
-  else {
-    return order_visitor_asc<false>(vec, name);
+  catch (const Rcpp::exception& e) {
+    stop("%s at position %d", e.what(), i + 1);
   }
 }
 

@@ -17,7 +17,7 @@ public:
     nrows = Rf_length(args[0]);
     CharacterVector names = args.names();
     for (int i = 0; i < n; i++) {
-      visitors[i]  = order_visitor(args[i], names[i], ascending[i]);
+      visitors[i]  = order_visitor(args[i], names[i], ascending[i], i);
     }
   }
 
@@ -26,7 +26,7 @@ public:
   {
     CharacterVector names = data.names();
     for (int i = 0; i < n; i++)
-      visitors[i]  = order_visitor(data[i], names[i], true);
+      visitors[i]  = order_visitor(data[i], names[i], true, i);
   }
 
   Rcpp::IntegerVector apply() const;

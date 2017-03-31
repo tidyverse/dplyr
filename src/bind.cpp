@@ -58,7 +58,12 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
   for (int i = 0; i < ndata; i++) {
     SEXP obj = dots[i];
     if (Rf_isNull(obj)) continue;
-    chunks.push_back(obj);
+    try {
+      chunks.push_back(obj);
+    }
+    catch (const Rcpp::exception& e) {
+      stop("%s at position %d", e.what(), i + 1);
+    }
     int nrows = chunks[k].nrows();
     df_nrows.push_back(nrows);
     n += nrows;
@@ -95,7 +100,12 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
         }
       }
       if (! coll) {
-        coll = collecter(source, n);
+        try {
+          coll = collecter(source, n);
+        }
+        catch (const Rcpp::exception& e) {
+          stop("%s at position %d", e.what(), i + 1);
+        }
         columns.push_back(coll);
         names.push_back(name);
       }
@@ -192,12 +202,19 @@ List rbind_list__impl(List dots) {
   return rbind__impl(dots);
 }
 
-List cbind__impl(List dots) {
+// [[Rcpp::export]]
+List cbind_all(List dots) {
   DataFrameAbleVector chunks;
   for (int i = 0; i < dots.size(); ++i) {
     SEXP obj = dots[i];
-    if (!Rf_isNull(obj))
-      chunks.push_back(obj);
+    if (!Rf_isNull(obj)) {
+      try {
+        chunks.push_back(obj);
+      }
+      catch (const Rcpp::exception& e) {
+        stop("%s at position %d", e.what(), i + 1);
+      }
+    }
   }
 
   const int n = chunks.size();
@@ -249,11 +266,6 @@ List cbind__impl(List dots) {
 }
 
 // [[Rcpp::export]]
-List cbind_all(List dots) {
-  return cbind__impl(dots);
-}
-
-// [[Rcpp::export]]
 SEXP combine_all(List data) {
   int nv = data.size();
   if (nv == 0) stop("combine_all needs at least one vector");
@@ -289,8 +301,8 @@ SEXP combine_all(List data) {
       new_coll->collect(NaturalSlicingIndex(k), coll->get());
       coll.reset(new_coll);
     } else {
-      stop("Can not automatically convert from %s to %s.",
-           get_single_class(coll->get()), get_single_class(current)
+      stop("Can not automatically convert from %s to %s at position %d.",
+           get_single_class(current), get_single_class(coll->get()), i + 1
           );
     }
     k += n_current;

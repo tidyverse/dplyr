@@ -219,9 +219,9 @@ private:
   Vector<RTYPE> value;
 };
 
-inline Gatherer* constant_gatherer(SEXP x, int n) {
+inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
   if (Rf_inherits(x, "POSIXlt")) {
-    stop("`mutate` does not support `POSIXlt` results");
+    stop("mutate does not support POSIXlt results for column '%s'", name.get_utf8_cstring());
   }
   switch (TYPEOF(x)) {
   case INTSXP:
@@ -239,7 +239,7 @@ inline Gatherer* constant_gatherer(SEXP x, int n) {
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
+  stop("Unsupported vector type %s for column '%s'", Rf_type2char(TYPEOF(x)), name.get_utf8_cstring());
 }
 
 template <typename Data, typename Subsets>
@@ -249,7 +249,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
   RObject first(proxy.get(indices));
 
   if (Rf_inherits(first, "POSIXlt")) {
-    stop("`mutate` does not support `POSIXlt` results");
+    stop("mutate does not support POSIXlt results for column '%s'", name.get_utf8_cstring());
   }
 
   check_supported_type(first, name);

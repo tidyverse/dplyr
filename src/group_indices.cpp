@@ -52,7 +52,7 @@ DataFrame build_index_cpp(DataFrame data) {
     SEXP v = data[pos - 1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
-      stop("cannot group column '%s', of class '%s'",
+      stop("cannot group column '%s', of class %s",
            vars[i].get_utf8_cstring(),
            get_single_class(v));
     }

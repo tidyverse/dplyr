@@ -35,9 +35,18 @@ test_that("data frames not equal if missing row", {
 })
 
 test_that("data frames not equal if missing col", {
-  expect_match(all.equal(tbl_df(mtcars), mtcars[, -1]), "Cols in x but not y: mpg")
-  expect_match(all.equal(tbl_df(iris), iris[, -1]),     "Cols in x but not y: Sepal.Length")
-  expect_match(all.equal(tbl_df(df_all), df_all[, -1]), "Cols in x but not y: a")
+  expect_match(
+    all.equal(tbl_df(mtcars), mtcars[, -1]),
+    "Cols in x but not y: 'mpg'"
+  )
+  expect_match(
+    all.equal(tbl_df(iris), iris[, -1]),
+    "Cols in x but not y: 'Sepal.Length'"
+  )
+  expect_match(
+    all.equal(tbl_df(df_all), df_all[, -1]),
+    "Cols in x but not y: 'a'"
+  )
 })
 
 test_that("factors equal only if levels equal", {
@@ -161,8 +170,8 @@ test_that("returns UTF-8 column names (#2441)", {
   expect_equal(
     all.equal(df1, df2),
     c(
-      "Cols in y but not x: \u798f. ",
-      "Cols in x but not y: \u5e78. "
+      "Cols in y but not x: '\u798f'. ",
+      "Cols in x but not y: '\u5e78'. "
     ),
     fixed = TRUE
   )
@@ -190,6 +199,6 @@ test_that("ignore column order", {
 
   expect_equal(
     all.equal(data_frame(a = 1, b = 2), data_frame(a = 1), ignore_col_order = FALSE),
-    "Cols in x but not y: b. "
+    "Cols in x but not y: 'b'. "
   )
 })
