@@ -91,6 +91,10 @@ test_that("transmute verbs do not retain original variables", {
   expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
+test_that("can rename with vars() (#2594)", {
+  expect_equal(mutate_at(tibble(x = 1:3), vars(y = x), mean), tibble(x = 1:3, y = c(2, 2, 2)))
+})
+
 
 # Deprecated ---------------------------------------------------------
 
