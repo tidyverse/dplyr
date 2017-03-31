@@ -11,12 +11,17 @@ namespace dplyr {
 inline SubsetVectorVisitor* subset_visitor_matrix(SEXP vec);
 inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec);
 
-inline SubsetVectorVisitor* subset_visitor(SEXP vec) {
-  if (Rf_isMatrix(vec)) {
-    return subset_visitor_matrix(vec);
+inline SubsetVectorVisitor* subset_visitor(SEXP vec, const SymbolString& name) {
+  try {
+    if (Rf_isMatrix(vec)) {
+      return subset_visitor_matrix(vec);
+    }
+    else {
+      return subset_visitor_vector(vec);
+    }
   }
-  else {
-    return subset_visitor_vector(vec);
+  catch (const Rcpp::exception& e) {
+    stop("%s for column '%s'", e.what(), name.get_utf8_cstring());
   }
 }
 

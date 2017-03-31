@@ -69,9 +69,10 @@ private:
   private:
     void process_first() {
       const RObject& first_result = fetch_chunk();
-      LOG_INFO << "instantiating delayed processor for type " << type2name(first_result);
+      LOG_INFO << "instantiating delayed processor for type " << type2name(first_result)
+               << " for column '" << chunk_source->get_name().get_utf8_cstring() << "'";
 
-      processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
+      processor.reset(get_delayed_processor<CLASS>(first_result, ngroups, chunk_source->get_name()));
       LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
     }
 
@@ -92,7 +93,9 @@ private:
     void handle_chunk_with_promotion(const RObject& chunk, const int i) {
       IDelayedProcessor* new_processor = processor->promote(chunk);
       if (!new_processor) {
-        stop("can't promote group %d to %s", i, processor->describe());
+        stop("can't promote group %d to %s for column '%s'",
+             i, processor->describe(), chunk_source->get_name().get_utf8_cstring()
+            );
       }
 
       LOG_VERBOSE << "promoted group " << i;

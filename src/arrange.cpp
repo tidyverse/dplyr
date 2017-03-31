@@ -57,6 +57,8 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     variables[i] = v;
     ascending[i] = !is_desc;
   }
+  variables.names() = quosures.names();
+
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
 

@@ -2,6 +2,7 @@
 #define dplyr__Quosure_h
 
 #include <tools/SymbolString.h>
+#include "SymbolVector.h"
 
 
 namespace dplyr {
@@ -103,6 +104,16 @@ public:
       if (data[i].env() != env) return false;
     }
     return true;
+  }
+
+  SymbolVector names() const {
+    CharacterVector out(data.size());
+
+    for (size_t i = 0; i < data.size(); ++i) {
+      out[i] = data[i].name().get_string();
+    }
+
+    return SymbolVector(out);
   }
 
 private:

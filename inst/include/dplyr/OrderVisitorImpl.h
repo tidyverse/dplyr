@@ -192,33 +192,33 @@ private:
 };
 
 
-inline OrderVisitor* order_visitor(SEXP vec, bool ascending);
+inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, bool ascending);
 
 template <bool ascending>
-OrderVisitor* order_visitor_asc(SEXP vec);
+OrderVisitor* order_visitor_asc(SEXP vec, const SymbolString& name);
 
 template <bool ascending>
 OrderVisitor* order_visitor_asc_matrix(SEXP vec);
 
 template <bool ascending>
-OrderVisitor* order_visitor_asc_vector(SEXP vec);
+OrderVisitor* order_visitor_asc_vector(SEXP vec, const SymbolString& name);
 
-inline OrderVisitor* order_visitor(SEXP vec, bool ascending) {
+inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, bool ascending) {
   if (ascending) {
-    return order_visitor_asc<true>(vec);
+    return order_visitor_asc<true>(vec, name);
   }
   else {
-    return order_visitor_asc<false>(vec);
+    return order_visitor_asc<false>(vec, name);
   }
 }
 
 template <bool ascending>
-inline OrderVisitor* order_visitor_asc(SEXP vec) {
+inline OrderVisitor* order_visitor_asc(SEXP vec, const SymbolString& name) {
   if (Rf_isMatrix(vec)) {
     return order_visitor_asc_matrix<ascending>(vec);
   }
   else {
-    return order_visitor_asc_vector<ascending>(vec);
+    return order_visitor_asc_vector<ascending>(vec, name);
   }
 }
 
@@ -244,7 +244,7 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
 }
 
 template <bool ascending>
-inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
+inline OrderVisitor* order_visitor_asc_vector(SEXP vec, const SymbolString& name) {
   switch (TYPEOF(vec)) {
   case INTSXP:
     return new OrderVectorVisitorImpl<INTSXP, ascending, Vector<INTSXP > >(vec);

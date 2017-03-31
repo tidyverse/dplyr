@@ -56,7 +56,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     // special treatment to summary variables, for which hybrid
     // evaluation should be turned off completely (#2312)
     if (!res) {
-      res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env));
+      res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env, quosure.name()));
     }
     RObject result = res->process(gdf);
     results[i] = result;
@@ -111,7 +111,7 @@ SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
     } else {
       result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
     }
-    check_length(Rf_length(result), 1, "a summary value");
+    check_length(Rf_length(result), 1, "a summary value", quosure.name());
     accumulator.set(quosure.name(), result);
     subsets.input(quosure.name(), result);
   }

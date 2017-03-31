@@ -124,7 +124,10 @@ test_that("equality handles data frames with 0 columns (#1506)", {
 
 test_that("equality cannot be checked in presence of raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(all.equal(df, df), "Unsupported vector type raw")
+  expect_error(
+    all.equal(df, df),
+    "Unsupported vector type raw for column 'b'"
+  )
 })
 
 test_that("equality returns a message for convert = TRUE", {

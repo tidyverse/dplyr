@@ -67,7 +67,7 @@ private:
     } else if (Rf_isNull(subset)) {
       stop("incompatible types (NULL), expecting %s", coll->describe());
     } else {
-      check_length(n, indices.size(), "the group size");
+      check_length(n, indices.size(), "the group size", name);
     }
 
   }
@@ -124,8 +124,8 @@ class ListGatherer : public Gatherer {
 public:
   typedef GroupedCallProxy<Data, Subsets> Proxy;
 
-  ListGatherer(List first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_) :
-    gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_)
+  ListGatherer(List first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+    gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_), name(name_)
   {
     if (first_non_na < gdf.ngroups()) {
       perhaps_duplicate(first);
@@ -175,7 +175,7 @@ private:
     } else if (n == 1) {
       grab_rep(subset[0], indices);
     } else {
-      check_length(n, indices.size(), "the group size");
+      check_length(n, indices.size(), "the group size", name);
     }
   }
 
@@ -197,6 +197,7 @@ private:
   Proxy& proxy;
   List data;
   int first_non_na;
+  const SymbolString name;
 
 };
 
@@ -252,7 +253,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
   }
 
   check_supported_type(first, name);
-  check_length(Rf_length(first), indices.size(), "the group size");
+  check_length(Rf_length(first), indices.size(), "the group size", name);
 
   const int ng = gdf.ngroups();
   int i = 0;
@@ -266,7 +267,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
 
 
   if (TYPEOF(first) == VECSXP) {
-    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i);
+    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i, name);
   } else {
     return new GathererImpl<Data, Subsets> (first, indices, proxy, gdf, i, name);
   }
