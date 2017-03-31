@@ -64,5 +64,5 @@ patterns <- list(
   x \%\%  7 == 0 ~ "buzz",
   x \%\% 35 == 0 ~ "fizz buzz"
 )
-case_when(splice(patterns))
+case_when(!!! patterns)
 }

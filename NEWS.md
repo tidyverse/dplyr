@@ -86,7 +86,6 @@ If you've implemented a database backend for dplyr, please read the [backend new
   by `group_by_prepare()` now has a new `group_names` component (#1950, #2384).
 
 ## Colwise functions
-* `recode()` now supports argument splicing with `splice()`.
 
 * `rename()`, `select()`, `group_by()`, `filter()` and `transmute()`
   now have scoped variants (verbs suffixed with `_if()`, `_at()` and
@@ -187,6 +186,9 @@ This means that the underscored version of each main verb is no longer needed, a
   
 ### Other
 
+* `recode()`, `case_when()` and `coalesce()` now support splicing of
+  arguments with rlang's `!!!` operator.
+
 * `count()` now preserves the grouping of its input (#2021).
 
 * `distinct()` no longer duplicates variables (#2001)
@@ -235,7 +237,6 @@ This means that the underscored version of each main verb is no longer needed, a
 * `bind_rows()` explicitly rejects data frame columns (#2015, #2446).
 
 * `combine()` accepts `NA` values (#2203, @zeehio)
-* Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
 
 * `combine()` and `bind_rows()` with character and factor types now always warn
   about the coercion to character (#2317, @zeehio)

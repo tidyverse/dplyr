@@ -27,7 +27,7 @@
 #'   c(1, 2, NA, NA, 5),
 #'   c(NA, NA, 3, 4, 5)
 #' )
-#' coalesce(splice(vecs))
+#' coalesce(!!! vecs)
 coalesce <- function(...) {
   if (missing(..1)) {
     abort("At least one argument must be supplied")

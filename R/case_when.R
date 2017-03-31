@@ -54,7 +54,7 @@
 #'   x %%  7 == 0 ~ "buzz",
 #'   x %% 35 == 0 ~ "fizz buzz"
 #' )
-#' case_when(splice(patterns))
+#' case_when(!!! patterns)
 case_when <- function(...) {
   formulas <- dots_list(...)
   n <- length(formulas)
