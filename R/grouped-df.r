@@ -282,7 +282,8 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     warn("`.env` is deprecated and no longer has any effect")
   }
   if (size > 1 && !replace) {
-    abort("Sampled fraction can't be greater than one unless replace = TRUE")
+    gabort("{hdr_args(~size, ~replace)} sampled fraction must be less or equal to one, ",
+      "pass TRUE for sampling with replacement")
   }
   weight <- enquo(weight)
 

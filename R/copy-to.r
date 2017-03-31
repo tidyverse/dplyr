@@ -38,8 +38,8 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)
 
   if (!copy) {
-    stop("x and y don't share the same src. Set copy = TRUE to copy y into ",
-      "x's source (this may be time consuming).", call. = FALSE)
+    gabort("{hdr_args(~x, ~y, ~copy) must share the same src, ",
+      "pass TRUE to copy (may be slow)")
   }
 
   UseMethod("auto_copy")

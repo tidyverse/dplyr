@@ -238,15 +238,18 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
 test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x"),
-    "column not found in rhs"
+    "Argument `by`: join column `x` not found in rhs",
+    fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y"),
-    "column not found in lhs"
+    "Argument `by`: join column `y` not found in lhs",
+    fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5)),
-    "No common variables"
+    "Argument `by`: required, because the data sources have no common variables",
+    fixed = TRUE
   )
 })
 

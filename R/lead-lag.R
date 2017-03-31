@@ -39,8 +39,11 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
+  if (length(n) != 1 || n < 0) {
+    gabort("{hdr_args(~n)} expected nonnegative integer scalar, ",
+      "got {typeof(n)} of length {length(n)}")
+  }
   if (n == 0) return(x)
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
   xlen <- length(x)
   n <- pmin(n, xlen)
@@ -58,14 +61,14 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (inherits(x, "ts")) {
-    stop(
-      "dplyr::lag() called with ts object. Do you want stats::lag()?",
-      call. = FALSE
-    )
+    gabort("{hdr_args(~x)} expected vector, got ts object, do you want `stats::lag()`?")
   }
 
+  if (length(n) != 1 || n < 0) {
+    gabort("{hdr_args(~n)} expected nonnegative integer scalar, ",
+      "got {typeof(n)} of length {length(n)}")
+  }
   if (n == 0) return(x)
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
   xlen <- length(x)
   n <- pmin(n, xlen)

@@ -61,7 +61,8 @@ apply_filter_syms <- function(pred, syms, tbl) {
   } else if (inherits(pred, "any_vars")) {
     joiner <- any_exprs
   } else {
-    abort("`.vars_predicate` should be called with `all_vars()` or `any_vars()`")
+    gabort("{hdr_args(~.vars_predicate)} expected call to `all_vars()` or `any_vars()`, ",
+      "got {typeof(pred)}")
   }
 
   pred <- map(syms, function(sym) expr_substitute(pred, quote(.), sym))

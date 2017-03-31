@@ -68,20 +68,14 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
 
-  stop(
-    "Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE
-  )
+  gabort("{hdr_args(~tbl)} expected data frame, got {fmt_classes(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
-  stop(
-    "Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE
-  )
+  gabort("{hdr_args(~tbl)} expected data frame, got {fmt_classes(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------
@@ -90,13 +84,14 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    stop("Weights must be numeric", call. = FALSE)
+    gabort("{hdr_args(~weight)} expected numeric, got {typeof(weight)}")
   }
   if (any(x < 0)) {
-    stop("Weights must all be greater than 0", call. = FALSE)
+    gabort("{hdr_args(~weight)} expected vector with all values nonnegative")
   }
   if (length(x) != n) {
-    stop("Weights must be same length as data (", n, ")", call. = FALSE)
+    gabort("{hdr_args(~weight)} expected length {n} (same as data), ",
+      "got {length(weight)}")
   }
 
   x / sum(x)
@@ -105,9 +100,6 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  stop(
-    "Sample size (", size, ") greater than population size (", n, ").",
-    " Do you want replace = TRUE?",
-    call. = FALSE
-  )
+  gabort("{hdr_args(~size, ~replace)} expected not greater than {n} (size of data) or TRUE, ",
+    "got {size}")
 }

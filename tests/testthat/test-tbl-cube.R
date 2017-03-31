@@ -37,7 +37,11 @@ test_that("duplicate", {
   )
   d$value <- 1:4
 
-  expect_error(as.tbl_cube(d, met_name = "value"), "Duplicate.*s = 1, j = 1")
+  expect_error(
+    as.tbl_cube(d, met_name = "value"),
+    "Argument `x`: all combinations of dimension variables must be unique, duplicates: `s` = 1, `j` = 1",
+    fixed = TRUE
+  )
 })
 
 test_that("summarise works with single group", {

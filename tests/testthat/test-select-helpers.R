@@ -70,7 +70,11 @@ test_that("num_range selects numeric ranges", {
 # one_of ------------------------------------------------------------------
 
 test_that("one_of gives useful errors", {
-  expect_error(one_of(1L, vars = c("x", "y")), "must be a character vector")
+  expect_error(
+    one_of(1L, vars = c("x", "y")),
+    "Expected character arguments, got integer",
+    fixed = TRUE
+  )
 })
 
 test_that("one_of tolerates but warns for unknown variables", {
@@ -204,7 +208,8 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
 test_that("when strict = FALSE, rename_vars always succeeds", {
   expect_error(
     rename_vars(c("a", "b"), d = e, strict = TRUE),
-    "Unknown variables: e"
+    "Argument `e`: unknown variables",
+    fixed = TRUE
   )
 
   expect_equal(

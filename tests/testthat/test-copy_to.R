@@ -8,7 +8,8 @@ test_that("src_local only overwrites if overwrite = TRUE", {
 
   expect_error(
     copy_to(src_env, tibble(x = 1), name = "x"),
-    "Object with name `x` already exists"
+    "Arguments `name`, `overwrite`: object with name `x` already exists, set to TRUE to overwrite",
+    fixed = TRUE
   )
 
   df <- tibble(x = 1)

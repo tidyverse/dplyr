@@ -26,7 +26,11 @@ test_that("sample respects weight", {
 })
 
 test_that("sample gives informative error for unknown type", {
-  expect_error(sample_n(list()), "Don't know how to sample")
+  expect_error(
+    sample_n(list()),
+    "Argument `tbl`: expected data frame, got list",
+    fixed = TRUE
+  )
 })
 
 # Grouped ----------------------------------------------------------------------
@@ -41,7 +45,11 @@ test_that("sampling grouped tbl samples each group", {
 
 test_that("can't sample more values than obs (without replacement)", {
   by_cyl <- mtcars %>% group_by(cyl)
-  expect_error(sample_n(by_cyl, 10), "Do you want replace = TRUE")
+  expect_error(
+    sample_n(by_cyl, 10),
+    "Arguments `size`, `replace`: expected not greater than 7 (size of data) or TRUE, got 10",
+    fixed = TRUE
+  )
 })
 
 df2 <- data.frame(

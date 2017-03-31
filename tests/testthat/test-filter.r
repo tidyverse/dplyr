@@ -15,8 +15,16 @@ test_that("filter gives UTF-8 encoded column names (#2441)", {
 })
 
 test_that("filter complains in inputs are named", {
-  expect_error(filter(mtcars, x = 1), "takes unnamed arguments")
-  expect_error(filter(mtcars, x = 1 & y > 2), "takes unnamed arguments")
+  expect_error(
+    filter(mtcars, x = 1),
+    "Argument `x` = 1: expected unnamed arguments, do you need `==`?",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(mtcars, x = 1 & y > 2),
+    "Argument `x` = 1 & y > 2: expected unnamed arguments, do you need `==`?",
+    fixed = TRUE
+  )
 })
 
 test_that("filter handles passing ...", {

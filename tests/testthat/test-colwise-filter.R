@@ -19,5 +19,9 @@ test_that("aborts on empty selection", {
 })
 
 test_that("aborts when supplied funs()", {
-  expect_error(filter_all(mtcars, funs(. > 0)), "should be called with")
+  expect_error(
+    filter_all(mtcars, funs(. > 0)),
+    "Argument `.vars_predicate`: expected call to `all_vars()` or `any_vars()`, got list",
+    fixed = TRUE
+  )
 })

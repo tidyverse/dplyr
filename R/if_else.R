@@ -29,13 +29,25 @@
 #' # Attributes are taken from the `true` vector,
 if_else <- function(condition, true, false, missing = NULL) {
   if (!is.logical(condition)) {
-    stop("`condition` must be logical", call. = FALSE)
+    gabort("{hdr_args(~condition)} expected logical, got {typeof(condition)}")
   }
 
   out <- true[rep(NA_integer_, length(condition))]
-  out <- replace_with(out, condition & !is.na(condition), true, "`true`")
-  out <- replace_with(out, !condition & !is.na(condition), false, "`false`")
-  out <- replace_with(out, is.na(condition), missing, "`missing`")
+  out <- replace_with(
+    out, condition & !is.na(condition), true,
+    hdr_args(~true),
+    glue("length of {fmt_args(~condition)}")
+  )
+  out <- replace_with(
+    out, !condition & !is.na(condition), false,
+    hdr_args(~false),
+    glue("length of {fmt_args(~condition)}")
+  )
+  out <- replace_with(
+    out, is.na(condition), missing,
+    hdr_args(~missing),
+    glue("length of {fmt_args(~condition)}")
+  )
 
   out
 }

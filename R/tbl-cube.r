@@ -86,12 +86,14 @@
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
       is.null(names(dimensions))) {
-    stop("Dimensions must be a named list of vectors", call. = FALSE)
+    gabort("{hdr_args(~dimensions)} expected named list of vectors, ",
+      "got {typeof(dimensions)}")
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
-    stop("Measures must be a named list of arrays", call. = FALSE)
+    gabort("{hdr_args(~measures)} expected named list of arrays, ",
+      "got {typeof(measures)}")
   }
 
   # Check measures have correct dimensions
@@ -102,11 +104,7 @@ tbl_cube <- function(dimensions, measures) {
   )
   if (any(!dims_ok)) {
     bad <- names(measures)[!dims_ok]
-    stop(
-      "Measures ", paste0(bad, collapse = ", "), " don't have correct ", "dimensions (",
-      paste0(dims, collapse = " x "), ")",
-      call. = FALSE
-    )
+    gabort("{hdr_measures(bad)} need dimensions {fmt_dims(dims)}")
   }
 
   structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
@@ -264,7 +262,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
   }
 
   if (is.null(dim_names) && is.null(met_name)) {
-    stop("At least one of dim_names and met_name must be non-NULL.", call. = FALSE)
+    gabort("{hdr_args(~dim_names, ~met_names)} expected at least one non-NULL")
   }
 
   dims <- lapply(x[dim_names], unique)
@@ -276,11 +274,8 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe_row <- anyDuplicated(all[dim_names])
     dupe <- unlist(all[dupe_row, dim_names])
 
-    stop(
-      "Duplicate combination of dimension variables: ",
-      paste(names(dupe), "=", dupe, collapse = ", "),
-      call. = FALSE
-    )
+    gabort("{hdr_args(~x)} all combinations of dimension variables must be unique, ",
+      'duplicates: {fmt_named(dupe)}')
   }
 
   mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
@@ -341,7 +336,7 @@ filter_.tbl_cube <- function(.data, ..., .dots = list()) {
 find_index_check <- function(x, names) {
   idx <- find_index(x, names)
   if (length(idx) != 1) {
-    stop(deparse(x), " does not refer to exactly one dimension.", call. = FALSE)
+    gabort("{hdr_call(deparse(x))} must refer to exactly one dimension")
   }
   idx
 }
@@ -380,7 +375,7 @@ groups.tbl_cube <- function(x) {
 
 #' @export
 group_vars.tbl_cube <- function(x) {
-  names(x$dims[x$group])
+  names(x$dims[x$groups])
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special
@@ -438,7 +433,7 @@ subs_index <- function(x, i, val, drop = FALSE) {
     )
     args[i] <- exprs
   } else {
-    stop("Invalid input", call. = FALSE)
+    abort("Invalid input")
   }
 
   args$drop <- drop
@@ -450,5 +445,5 @@ subs_index <- function(x, i, val, drop = FALSE) {
 
 #' @export
 auto_copy.tbl_cube <- function(x, y, copy = FALSE, ...) {
-  stop("Copying not supported by tbl_cube", call. = FALSE)
+  abort("Copying not supported by tbl_cube")
 }

@@ -8,15 +8,43 @@ test_that("default extracts last var from data frame", {
 # find_var ----------------------------------------------------------------
 
 test_that("errors for bad inputs", {
-  expect_error(find_var(letters, letters), "of length 1")
-  expect_error(find_var(quote(a), letters), "of length 1")
-
-  expect_error(find_var("aa", letters), "Unknown variable")
-
-  expect_error(find_var(0, letters), "must take a value")
-  expect_error(find_var(100, letters), "must take a value")
-  expect_warning(regexp = "NAs introduced by coercion",
-    expect_error(find_var(-Inf, letters), "must take a value")
+  expect_error(
+    find_var(letters, letters),
+    "Argument `var`: expected numeric or character scalar, got character of length 26",
+    fixed = TRUE
   )
-  expect_error(find_var(NA_integer_, letters), "must take a value")
+  expect_error(
+    find_var(quote(a), letters),
+    "Argument `var`: expected numeric or character scalar, got symbol of length 1",
+    fixed = TRUE
+  )
+
+  expect_error(
+    find_var("aa", letters),
+    "Column `aa`: not found",
+    fixed = TRUE
+  )
+
+  expect_error(
+    find_var(0, letters),
+    "Argument `var`: expected value between -26 and 26 (excluding zero), got 0",
+    fixed = TRUE
+  )
+  expect_error(
+    find_var(100, letters),
+    "Argument `var`: expected value between -26 and 26 (excluding zero), got 100",
+    fixed = TRUE
+  )
+  expect_warning(regexp = "NAs introduced by coercion",
+    expect_error(
+      find_var(-Inf, letters),
+      "Argument `var`: expected value between -26 and 26 (excluding zero), got NA",
+      fixed = TRUE
+    )
+  )
+  expect_error(
+    find_var(NA_integer_, letters),
+    "Argument `var`: expected value between -26 and 26 (excluding zero), got NA",
+    fixed = TRUE
+  )
 })

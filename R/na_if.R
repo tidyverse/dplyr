@@ -20,9 +20,7 @@
 #' y <- c("abc", "def", "", "ghi")
 #' na_if(y, "")
 na_if <- function(x, y) {
-  if (length(y) != length(x) && length(y) != 1) {
-    stop("`y` must be length 1 or same length as `x`", call. = FALSE)
-  }
+  check_length(y, x, hdr_args(~y), glue("same as {fmt_args(~x)}"))
 
   x[x == y] <- NA
   x

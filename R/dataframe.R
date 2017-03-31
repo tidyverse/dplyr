@@ -201,7 +201,7 @@ do.data.frame <- function(.data, ...) {
   if (!named) {
     out <- eval_tidy_(args[[1]], overscope)
     if (!inherits(out, "data.frame")) {
-      abort("Result must be a data frame")
+      gabort("Result must be a data frame, got {fmt_classes(out)}")
     }
   } else {
     out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))

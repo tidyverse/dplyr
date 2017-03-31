@@ -80,12 +80,12 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
     bad_inputs <- map(args[!is_numeric], f_rhs)
     labels <- map_chr(bad_inputs, deparse_trunc)
 
-    abort(glue(
+    gabort(
       "All select() inputs must resolve to integer column positions. \\
        The following do not:
        {labels}",
       labels = paste("* ", labels, collapse = "\n")
-    ))
+    )
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -125,7 +125,7 @@ setdiff2 <- function(x, y) {
 rename_vars <- function(vars, ..., strict = TRUE) {
   args <- quos(...)
   if (any(names2(args) == "")) {
-    abort("All arguments to `rename()` must be named.")
+    abort("Expected names for all arguments")
   }
 
   is_name <- map_lgl(args, is_symbol)
@@ -133,10 +133,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
     n <- sum(!is_name)
     bad <- paste0("`", names(args)[!is_name], "`", collapse = ", ")
 
-    abort(glue(
-      "Arguments to `rename()` must be unquoted variable names.\n",
-      sprintf(ngettext(n, "Argument %s is not.", "Arguments %s are not."), bad)
-    ))
+    gabort("{hdr_args(bad)} expected unquoted variable names")
   }
 
   old_vars <- map_chr(args, as_name)
@@ -144,7 +141,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), "."))
+    gabort("{hdr_args(unknown_vars)} unknown variables")
   }
 
   select <- set_names(vars, vars)

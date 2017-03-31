@@ -78,7 +78,8 @@ bind_rows <- function(..., .id = NULL) {
 
   if (!is.null(.id)) {
     if (!(is.character(.id) && length(.id) == 1)) {
-      stop(".id is not a string", call. = FALSE)
+      gabort("{hdr_args(~.id)} expected scalar string, ",
+        "got {typeof(.id)} of length {length(.id)}")
     }
     names(x) <- names(x) %||% seq_along(x)
   }
