@@ -5,10 +5,9 @@
 \alias{recode_factor}
 \title{Recode values}
 \usage{
-recode(.x, ..., .default = NULL, .missing = NULL, .dots = NULL)
+recode(.x, ..., .default = NULL, .missing = NULL)
 
-recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE,
-  .dots = NULL)
+recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 }
 \arguments{
 \item{.x}{A vector to modify}
@@ -19,7 +18,9 @@ current values to be replaced, and the argument values should be the new
 (replacement) values.
 
 All replacements must be the same type, and must have either
-length one or the same length as x.}
+length one or the same length as x.
+
+These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
 
 \item{.default}{If supplied, all values not otherwise matched will
 be given this value. If not supplied and if the replacements are
@@ -33,9 +34,6 @@ are not compatible, unmatched values are replaced with \code{NA}.
 \item{.missing}{If supplied, any missing values in \code{.x} will be
 replaced by this value. Must be either length 1 or the same length as
 \code{.x}.}
-
-\item{.dots}{A named list of replacements. The list must satisfy the
-same conditions as replacements supplied by \code{...}.}
 
 \item{.ordered}{If \code{TRUE}, \code{recode_factor()} creates an
 ordered factor.}

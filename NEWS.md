@@ -186,6 +186,9 @@ This means that the underscored version of each main verb is no longer needed, a
   
 ### Other
 
+* `recode()`, `case_when()` and `coalesce()` now support splicing of
+  arguments with rlang's `!!!` operator.
+
 * `count()` now preserves the grouping of its input (#2021).
 
 * `distinct()` no longer duplicates variables (#2001)

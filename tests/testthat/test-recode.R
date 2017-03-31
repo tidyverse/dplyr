@@ -84,19 +84,19 @@ test_that(".dot argument works correctly (PR #2110)", {
 
   expect_equal(
     recode(x1, a = "apple", b = "banana", .default = NA_character_),
-    recode(x1, .default = NA_character_, .dots = list(a = "apple", b = "banana"))
+    recode(x1, .default = NA_character_, !!! list(a = "apple", b = "banana"))
   )
   expect_equal(
     recode(x1, a = "apple", b = "banana", .default = NA_character_),
-    recode(x1, a = "apple", .default = NA_character_, .dots = list(b = "banana"))
+    recode(x1, a = "apple", .default = NA_character_, !!! list(b = "banana"))
   )
   expect_equal(
     recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
-    recode(x2, .default = NA_real_, .dots = list("1" = 4, "2" = 5))
+    recode(x2, .default = NA_real_, !!! list("1" = 4, "2" = 5))
   )
   expect_equal(
     recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
-    recode(x2, "1" = 4, .default = NA_real_, .dots = list("2" = 5))
+    recode(x2, "1" = 4, .default = NA_real_, !!! list("2" = 5))
   )
 })
 
