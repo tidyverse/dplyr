@@ -7,14 +7,18 @@ check_pkg <- function(name, reason) {
   )
 }
 
+# ngettext() does extra work, this function is a simpler version
+ntext <- function(n, msg1, msg2) {
+  if (n == 1) msg1 else msg2
+}
+
 glubort <- function(..., .envir = parent.frame()) {
   abort(glue(..., .envir = .envir))
 }
 
 hdr_args <- function(...) {
   x <- parse_args(...)
-  if (length(x) == 1) args <- "Argument"
-  else args <- "Arguments"
+  args <- ntext(length(x), "Argument", "Arguments")
   hdr("{args} {fmt_obj(x)}")
 }
 
