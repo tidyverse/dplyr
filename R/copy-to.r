@@ -38,7 +38,7 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)
 
   if (!copy) {
-    glubort("{hdr_args(~x, ~y, ~copy)} must share the same src, ",
+    glubort(args = c(~x, ~y, ~copy), "must share the same src, ",
       "pass TRUE to copy (may be slow)")
   }
 

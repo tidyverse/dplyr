@@ -282,7 +282,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     warn("`.env` is deprecated and no longer has any effect")
   }
   if (size > 1 && !replace) {
-    glubort("{hdr_args(~size, ~replace)} sampled fraction must be less or equal to one, ",
+    glubort(args = c(~size, ~replace), "sampled fraction must be less or equal to one, ",
       "pass TRUE for sampling with replacement")
   }
   weight <- enquo(weight)

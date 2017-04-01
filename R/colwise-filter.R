@@ -61,7 +61,7 @@ apply_filter_syms <- function(pred, syms, tbl) {
   } else if (inherits(pred, "any_vars")) {
     joiner <- any_exprs
   } else {
-    glubort("{hdr_args(~.vars_predicate)} must be a call to `all_vars()` or `any_vars()`, ",
+    glubort(args = ~.vars_predicate, "must be a call to `all_vars()` or `any_vars()`, ",
       "got {typeof(pred)}")
   }
 

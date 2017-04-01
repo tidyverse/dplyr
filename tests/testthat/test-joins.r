@@ -201,17 +201,17 @@ test_that("disallow empty string in both sides of suffix argument (#2228)", {
 test_that("check suffix input", {
   expect_error(
     inner_join(e, f, "x", suffix = letters[1:3]),
-    "Argument `suffix`: must be a character vector of length 2, got character of length 3",
+    "`suffix`: must be a character vector of length 2, got character of length 3",
     fixed = TRUE
   )
   expect_error(
     inner_join(e, f, "x", suffix = letters[1]),
-    "Argument `suffix`: must be a character vector of length 2, got character of length 1",
+    "`suffix`: must be a character vector of length 2, got character of length 1",
     fixed = TRUE
   )
   expect_error(
     inner_join(e, f, "x", suffix = 1:2),
-    "Argument `suffix`: must be a character vector of length 2, got integer of length 2",
+    "`suffix`: must be a character vector of length 2, got integer of length 2",
     fixed = TRUE
   )
 })
@@ -260,23 +260,23 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
 test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x"),
-    "Argument `by`: join column `x` not found in rhs",
+    "`by`: join column `x` not found in rhs",
     fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y"),
-    "Argument `by`: join column `y` not found in lhs",
+    "`by`: join column `y` not found in lhs",
     fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5)),
-    "Argument `by`: required, because the data sources have no common variables",
+    "`by`: required, because the data sources have no common variables",
     fixed = TRUE
   )
 
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3),
-    "Argument `by`: must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), got integer",
+    "`by`: must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), got integer",
     fixed = TRUE
   )
 })

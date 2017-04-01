@@ -6,7 +6,7 @@ test_that("can select/rename all variables", {
   expect_identical(select_all(df), df)
   expect_error(
     rename_all(df),
-    "Argument `.funs`: no renaming function supplied",
+    "`.funs`: no renaming function supplied",
     fixed = TRUE
   )
 
@@ -18,7 +18,7 @@ test_that("can select/rename with predicate", {
   expect_identical(select_if(df, is_integerish), select(df, x, z))
   expect_error(
     rename_if(df, is_integerish),
-    "Argument `.funs`: no renaming function supplied"
+    "`.funs`: no renaming function supplied"
   )
 
   expect_identical(select_if(df, is_integerish, toupper), set_names(df[c("x", "z")], c("X", "Z")))
@@ -33,12 +33,12 @@ test_that("can supply funs()", {
 test_that("fails when more than one renaming function is supplied", {
   expect_error(
     select_all(df, funs(tolower, toupper)),
-    "Argument `.funs`: must contain one renaming function, got 2",
+    "`.funs`: must contain one renaming function, got 2",
     fixed = TRUE
   )
   expect_error(
     rename_all(df, funs(tolower, toupper)),
-    "Argument `.funs`: must contain one renaming function, got 2",
+    "`.funs`: must contain one renaming function, got 2",
     fixed = TRUE
   )
 })
@@ -47,7 +47,7 @@ test_that("can select/rename with vars()", {
   expect_identical(select_at(df, vars(x:y)), df[-3])
   expect_error(
     rename_at(df, vars(x:y)),
-    "Argument `.funs`: no renaming function supplied",
+    "`.funs`: no renaming function supplied",
     fixed = TRUE
   )
 

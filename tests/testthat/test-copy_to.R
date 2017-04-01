@@ -8,7 +8,7 @@ test_that("src_local only overwrites if overwrite = TRUE", {
 
   expect_error(
     copy_to(src_env, tibble(x = 1), name = "x"),
-    "Arguments `name`, `overwrite`: object with name `x` already exists, set to TRUE to overwrite",
+    "`name`, `overwrite`: object with name `x` already exists, set to TRUE to overwrite",
     fixed = TRUE
   )
 
@@ -20,13 +20,13 @@ test_that("src_local only overwrites if overwrite = TRUE", {
 test_that("src_local errs with pkg/env", {
   expect_error(
     src_df("base", new.env()),
-    "Arguments `pkg`, `env`: exactly one must be non-NULL, got 2",
+    "`pkg`, `env`: exactly one must be non-NULL, got 2",
     fixed = TRUE
   )
 
   expect_error(
     src_df(),
-    "Arguments `pkg`, `env`: exactly one must be non-NULL, got 0",
+    "`pkg`, `env`: exactly one must be non-NULL, got 0",
     fixed = TRUE
   )
 })
@@ -43,13 +43,13 @@ test_that("auto_copy() requires same source", {
 
   expect_error(
     auto_copy(tbl(src_iris, "iris"), src_mtcars, name = "iris"),
-    "Arguments `x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
+    "`x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
     fixed = TRUE
   )
 
   expect_error(
     auto_copy(tbl(src_mtcars, "mtcars"), src_iris, name = "mtcars"),
-    "Arguments `x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
+    "`x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
     fixed = TRUE
   )
 })
@@ -57,7 +57,7 @@ test_that("auto_copy() requires same source", {
 test_that("src_sqlite() errs if path does not exist", {
   expect_error(
     src_sqlite(":memory:"),
-    "Arguments `path`, `create`: path does not exist, pass TRUE to create",
+    "`path`, `create`: path does not exist, pass TRUE to create",
     fixed = TRUE
   )
 })

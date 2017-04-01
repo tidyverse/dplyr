@@ -69,7 +69,7 @@ test_that("num_range selects numeric ranges", {
 test_that("position must resolve to numeric variables throws error", {
   expect_error(
     select_vars(letters, "6"),
-    'Argument `"6"`: must resulve to integer column positions',
+    '"6": must resolve to integer column positions',
     fixed = TRUE
   )
 })
@@ -216,7 +216,7 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
 test_that("when strict = FALSE, rename_vars always succeeds", {
   expect_error(
     rename_vars(c("a", "b"), d = e, strict = TRUE),
-    "Argument `e`: unknown variables",
+    "`e`: unknown variables",
     fixed = TRUE
   )
 
@@ -229,7 +229,7 @@ test_that("when strict = FALSE, rename_vars always succeeds", {
 test_that("rename_vars() expects symbol", {
   expect_error(
     rename_vars(letters, d = "e"),
-    'Argument `d` = "e": must be unquoted variable names, got character',
+    '`d` = "e": must be unquoted variable names, got character',
     fixed = TRUE
   )
 })
@@ -241,7 +241,7 @@ test_that("rename_vars() expects symbol", {
 test_that("tbl_at_vars() errs on bad input", {
   expect_error(
     tbl_at_vars(iris, raw(3)),
-    "Argument `.vars`: must be a character/numeric vector or a `vars()` object, got raw",
+    "`.vars`: must be a character/numeric vector or a `vars()` object, got raw",
     fixed = TRUE
   )
 })
@@ -253,7 +253,7 @@ test_that("tbl_at_vars() errs on bad input", {
 test_that("tbl_if_vars() errs on bad input", {
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
-    "Argument `.predicate`: must have length 1, got 2",
+    "`.predicate`: must have length 1, got 2",
     fixed = TRUE
   )
 })

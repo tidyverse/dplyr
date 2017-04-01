@@ -12,14 +12,33 @@ ntext <- function(n, msg1, msg2) {
   if (n == 1) msg1 else msg2
 }
 
-glubort <- function(..., .envir = parent.frame()) {
-  abort(glue(..., .envir = .envir))
+glubort <- function(..., args = NULL, pos_args = NULL,
+                    calls = NULL, named_calls = NULL,
+                    cols = NULL, measures = NULL,
+                    .envir = parent.frame()) {
+  text <- glue(..., .envir = .envir)
+  hdr <- NULL
+  if (!is_null(args)) {
+    hdr <- hdr_args(args)
+  } else if (!is_null(pos_args)) {
+    hdr <- hdr_pos_args(pos_args)
+  } else if (!is_null(calls)) {
+    hdr <- hdr_call(calls)
+  } else if (!is_null(named_calls)) {
+    hdr <- hdr_named_call(named_calls)
+  } else if (!is_null(cols)) {
+    hdr <- hdr_cols(cols)
+  } else if (!is_null(measures)) {
+    hdr <- hdr_measures(measures)
+  }
+
+  if (!is_null(hdr)) text <- paste0(hdr, " ", text)
+  abort(text)
 }
 
 hdr_args <- function(...) {
   x <- parse_args(...)
-  args <- ntext(length(x), "Argument", "Arguments")
-  hdr("{args} {fmt_obj(x)}")
+  hdr("{fmt_obj(x)}")
 }
 
 hdr_pos_args <- function(...) {
@@ -28,10 +47,14 @@ hdr_pos_args <- function(...) {
   hdr("{args} {fmt_comma(x)}")
 }
 
+hdr_call <- function(...) {
+  x <- parse_named_call(...)
+  hdr("{fmt_comma(x)}")
+}
+
 hdr_named_call <- function(...) {
   x <- parse_named_call(...)
-  args <- ntext(length(x), "Argument", "Arguments")
-  hdr("{args} {fmt_named(x)}")
+  hdr("{fmt_named(x)}")
 }
 
 hdr_cols <- function(x) {
@@ -58,12 +81,12 @@ parse_args <- function(...) {
 
 parse_named_call <- function(...) {
   x <- unlist(list(...), recursive = FALSE)
-  x <- map_chr(map(x, "[[", 2), deparse_trunc)
+  x <- map_chr(map(x, f_rhs), deparse_trunc)
   x
 }
 
 fmt_named <- function(x) {
-  fmt_comma(paste0(fmt_obj1(names(x)), " = ", x))
+  fmt_comma(paste0(fmt_obj1(names2(x)), " = ", x))
 }
 
 fmt_obj <- function(x) {

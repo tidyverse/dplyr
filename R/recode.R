@@ -112,8 +112,8 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- dots_list(...)
   if (!all(have_name(values))) {
-    glubort("{hdr_pos_args(bad)} must be named, got unnamed",
-      bad = which(!have_name(values)) + 1)
+    bad <- which(!have_name(values)) + 1
+    glubort(pos_args = bad, "must be named, got unnamed")
   }
 
   n <- length(.x)
@@ -140,11 +140,11 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   }
 
   if (!all(have_name(values))) {
-    glubort("{hdr_pos_args(bad)} must be named, got unnamed",
-      bad = which(!have_name(values)) + 1)
+    bad <- which(!have_name(values)) + 1
+    glubort(pos_args = bad, "must be named, got unnamed")
   }
   if (!is.null(.missing)) {
-    glubort("{hdr_args(~.missing)} not supported for factors")
+    glubort(args = ~.missing, "not supported for factors")
   }
 
   n <- length(levels(.x))

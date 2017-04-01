@@ -58,23 +58,23 @@ test_that("#937 is fixed", {
 test_that("input checks", {
   expect_error(
     lead(letters, -1),
-    "Argument `n`: must be a nonnegative integer scalar, got double of length 1",
+    "`n`: must be a nonnegative integer scalar, got double of length 1",
     fixed = TRUE
   )
   expect_error(
     lead(letters, "1"),
-    "Argument `n`: must be a nonnegative integer scalar, got character of length 1",
+    "`n`: must be a nonnegative integer scalar, got character of length 1",
     fixed = TRUE
   )
 
   expect_error(
     lag(letters, -1),
-    "Argument `n`: must be a nonnegative integer scalar, got double of length 1",
+    "`n`: must be a nonnegative integer scalar, got double of length 1",
     fixed = TRUE
   )
   expect_error(
     lag(letters, "1"),
-    "Argument `n`: must be a nonnegative integer scalar, got character of length 1",
+    "`n`: must be a nonnegative integer scalar, got character of length 1",
     fixed = TRUE
   )
 })

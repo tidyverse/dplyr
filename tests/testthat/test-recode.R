@@ -21,7 +21,7 @@ test_that("error if unnamed", {
 test_that("error if missing given for factors", {
   expect_error(
     recode(factor("a"), a = 5, .missing = 10),
-    "Argument `.missing`: not supported for factors",
+    "`.missing`: not supported for factors",
     fixed = TRUE
   )
 })

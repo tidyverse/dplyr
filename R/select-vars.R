@@ -77,10 +77,11 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 
   is_numeric <- map_lgl(ind_list, is.numeric)
   if (any(!is_numeric)) {
-    bad_inputs <- map(args[!is_numeric], f_rhs)
-    labels <- map_chr(bad_inputs, deparse_trunc)
+    bad <- args[!is_numeric]
 
-    glubort("{hdr_args(labels)} must resulve to integer column positions")
+    glubort(calls = bad, "must resolve to integer column positions, ",
+      "got {typeof(first_bad)}",
+      first_bad = ind_list[!is_numeric][[1]])
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -126,7 +127,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
   is_name <- map_lgl(args, is_symbol)
   if (!all(is_name)) {
     bad <- args[!is_name]
-    glubort("{hdr_named_call(bad)} must be unquoted variable names, ",
+    glubort(named_calls = bad, "must be unquoted variable names, ",
       "got {typeof(first_bad_rhs)}",
       first_bad_rhs = f_rhs(bad[[1]]))
   }
@@ -136,7 +137,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    glubort("{hdr_args(unknown_vars)} unknown variables")
+    glubort(args = unknown_vars, "unknown variables")
   }
 
   select <- set_names(vars, vars)

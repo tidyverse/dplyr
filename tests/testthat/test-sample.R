@@ -23,11 +23,11 @@ test_that("sample respects weight", {
 
   expect_error(
     sample_frac(df, 2),
-    "Arguments `size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+    "`size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
   )
   expect_error(
     sample_frac(df %>% group_by(y), 2),
-    "Arguments `size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+    "`size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
     fixed = TRUE
   )
   expect_error(sample_frac(df, 1, weight = y), "too few positive probabilities")
@@ -37,30 +37,30 @@ test_that("sample respects weight", {
 test_that("sample_* error message", {
   expect_error(
     check_weight(letters[1:2], 2),
-    "Argument `weight`: must be a numeric, got character",
+    "`weight`: must be a numeric, got character",
     fixed = TRUE
   )
   expect_error(
     check_weight(-1:-2, 2),
-    "Argument `weight`: must be a vector with all values nonnegative, got -1",
+    "`weight`: must be a vector with all values nonnegative, got -1",
     fixed = TRUE
   )
   expect_error(
     check_weight(letters, 2),
-    "Argument `weight`: must be a numeric, got character"
+    "`weight`: must be a numeric, got character"
   )
 })
 
 test_that("sample gives informative error for unknown type", {
   expect_error(
     sample_n(list()),
-    "Argument `tbl`: must be a data frame, got list",
+    "`tbl`: must be a data frame, got list",
     fixed = TRUE
   )
 
   expect_error(
     sample_frac(list()),
-    "Argument `tbl`: must be a data frame, got list",
+    "`tbl`: must be a data frame, got list",
     fixed = TRUE
   )
 })
@@ -79,7 +79,7 @@ test_that("can't sample more values than obs (without replacement)", {
   by_cyl <- mtcars %>% group_by(cyl)
   expect_error(
     sample_n(by_cyl, 10),
-    "Arguments `size`, `replace`: must be less or equal than 7 (size of data) or TRUE, got 10",
+    "`size`, `replace`: must be less or equal than 7 (size of data) or TRUE, got 10",
     fixed = TRUE
   )
 })
