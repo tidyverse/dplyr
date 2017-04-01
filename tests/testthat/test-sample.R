@@ -24,6 +24,7 @@ test_that("sample respects weight", {
   expect_error(
     sample_frac(df, 2),
     "`size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+    fixed = TRUE
   )
   expect_error(
     sample_frac(df %>% group_by(y), 2),
