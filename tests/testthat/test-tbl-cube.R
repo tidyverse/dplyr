@@ -1,5 +1,25 @@
 context("tbl_cube")
 
+test_that("construction errors", {
+  expect_error(
+    tbl_cube(1:3, 1:3),
+    "Argument `dimensions`: expected named list of vectors, got integer",
+    fixed = TRUE
+  )
+
+  expect_error(
+    tbl_cube(list(a = 1:3), 1:3),
+    "Argument `measures`: expected named list of arrays, got integer",
+    fixed = TRUE
+  )
+
+  expect_error(
+    tbl_cube(list(a = 1:3), list(b = 1:3)),
+    "Argument `measures`: expected named list of arrays, got list",
+    fixed = TRUE
+  )
+})
+
 test_that("coercion", {
   grid <- expand.grid(x = letters[1:3], y = letters[1:5], stringsAsFactors = FALSE)
   tbl <- table(x = grid$x, y = grid$y)
@@ -41,6 +61,28 @@ test_that("duplicate", {
     as.tbl_cube(d, met_name = "value"),
     "Argument `x`: all combinations of dimension variables must be unique, duplicates: `s` = 1, `j` = 1",
     fixed = TRUE
+  )
+})
+
+test_that("filter", {
+  expect_equal(
+    nasa %>% filter(month == 1) %>% filter(year == 2000),
+    nasa %>% filter(year == 2000) %>% filter(month == 1)
+  )
+
+  expect_equal(
+    nasa %>% filter(month == 1) %>% filter(year == 2000),
+    filter(nasa, month == 1, year == 2000)
+  )
+
+  expect_equal(
+    filter(nasa, month == 1, year == 2000),
+    filter(nasa, year == 2000, month == 1)
+  )
+
+  expect_error(
+    filter(nasa, month == 1 & year == 2000),
+    "Argument `2`: must refer to exactly one dimension, got `month`, `year`"
   )
 })
 

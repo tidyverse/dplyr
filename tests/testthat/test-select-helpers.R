@@ -66,6 +66,14 @@ test_that("num_range selects numeric ranges", {
   expect_equal(select_vars(vars, num_range("x", 10:11, width = 2)), vars[5:6])
 })
 
+test_that("position must resolve to numeric variables throws error", {
+  expect_error(
+    select_vars(letters, "6"),
+    'Argument `"6"`: must resulve to integer column positions',
+    fixed = TRUE
+  )
+})
+
 
 # one_of ------------------------------------------------------------------
 
@@ -215,5 +223,37 @@ test_that("when strict = FALSE, rename_vars always succeeds", {
   expect_equal(
     rename_vars(c("a", "b"), d = e, strict = FALSE),
     c("a" = "a", "b" = "b")
+  )
+})
+
+test_that("rename_vars() expects symbol", {
+  expect_error(
+    rename_vars(letters, d = "e"),
+    'Argument `d` = "e": expected unquoted variable names, got character',
+    fixed = TRUE
+  )
+})
+
+
+
+# tbl_at_vars -------------------------------------------------------------
+
+test_that("tbl_at_vars() errs on bad input", {
+  expect_error(
+    tbl_at_vars(iris, raw(3)),
+    "Argument `.vars`: expected character/numeric vector or a `vars()` object, got raw",
+    fixed = TRUE
+  )
+})
+
+
+
+# tbl_if_vars -------------------------------------------------------------
+
+test_that("tbl_if_vars() errs on bad input", {
+  expect_error(
+    tbl_if_vars(iris, funs(identity, force), environment()),
+    "Argument `.predicate`: expected length 1, got 2",
+    fixed = TRUE
   )
 })

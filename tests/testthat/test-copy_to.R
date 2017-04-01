@@ -16,3 +16,49 @@ test_that("src_local only overwrites if overwrite = TRUE", {
   copy_to(src_env, df, name = "x", overwrite = TRUE)
   expect_equal(env$x, df)
 })
+
+test_that("src_local errs with pkg/env", {
+  expect_error(
+    src_df("base", new.env()),
+    "Arguments `pkg`, `env`: expected exactly one non-NULL, got 2",
+    fixed = TRUE
+  )
+
+  expect_error(
+    src_df(),
+    "Arguments `pkg`, `env`: expected exactly one non-NULL, got 0",
+    fixed = TRUE
+  )
+})
+
+test_that("auto_copy() requires same source", {
+  requireNamespace("dbplyr")
+
+  env <- new.env(parent = emptyenv())
+  env$iris <- iris
+  src_iris <- src_df(env = env)
+
+  src_mtcars <- src_sqlite(":memory:", create = TRUE)
+  copy_to(src_mtcars, mtcars, "mtcars")
+
+  expect_error(
+    auto_copy(tbl(src_iris, "iris"), src_mtcars, name = "iris"),
+    "Arguments `x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
+    fixed = TRUE
+  )
+
+  expect_error(
+    auto_copy(tbl(src_mtcars, "mtcars"), src_iris, name = "mtcars"),
+    "Arguments `x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
+    fixed = TRUE
+  )
+})
+
+test_that("src_sqlite() errs if path does not exist", {
+  expect_error(
+    src_sqlite(":memory:"),
+    "Arguments `path`, `create`: path does not exist, pass TRUE to create",
+    fixed = TRUE
+  )
+})
+

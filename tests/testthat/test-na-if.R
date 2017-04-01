@@ -6,6 +6,12 @@ test_that("error for bad y length", {
     "Argument `y`: should be length 3 (same as `x`) or one, got 2",
     fixed = TRUE
   )
+
+  expect_error(
+    na_if(1, 1:2),
+    "Argument `y`: should be length one (same as `x`), got 2",
+    fixed = TRUE
+  )
 })
 
 test_that("scalar y replaces all matching x", {

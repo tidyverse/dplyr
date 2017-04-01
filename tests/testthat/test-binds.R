@@ -28,6 +28,17 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
   )
 })
 
+test_that("bind_rows() err for invalid ID", {
+  df1 <- data_frame(x = 1:3)
+  df2 <- data_frame(x = 4:6)
+
+  expect_error(
+    bind_rows(df1, df2, .id = 5),
+    "Argument `.id`: expected scalar string, got double of length 1",
+    fixed = TRUE
+  )
+})
+
 
 # columns -----------------------------------------------------------------
 

@@ -21,13 +21,45 @@ test_that("sample respects weight", {
   expect_error(sample_n(df, 2, weight = y), "too few positive probabilities")
   expect_equal(sample_n(df, 1, weight = y)$x, 2)
 
+  expect_error(
+    sample_frac(df, 2),
+    "Arguments `size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+  )
+  expect_error(
+    sample_frac(df %>% group_by(y), 2),
+    "Arguments `size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+    fixed = TRUE
+  )
   expect_error(sample_frac(df, 1, weight = y), "too few positive probabilities")
   expect_equal(sample_frac(df, 0.5, weight = y)$x, 2)
+})
+
+test_that("sample_* error message", {
+  expect_error(
+    check_weight(letters[1:2], 2),
+    "Argument `weight`: expected numeric, got character",
+    fixed = TRUE
+  )
+  expect_error(
+    check_weight(-1:-2, 2),
+    "Argument `weight`: expected vector with all values nonnegative, got -1",
+    fixed = TRUE
+  )
+  expect_error(
+    check_weight(letters, 2),
+    "Argument `weight`: expected numeric, got character"
+  )
 })
 
 test_that("sample gives informative error for unknown type", {
   expect_error(
     sample_n(list()),
+    "Argument `tbl`: expected data frame, got list",
+    fixed = TRUE
+  )
+
+  expect_error(
+    sample_frac(list()),
     "Argument `tbl`: expected data frame, got list",
     fixed = TRUE
   )

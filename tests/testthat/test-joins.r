@@ -178,19 +178,41 @@ test_that("can handle empty string in suffix argument, right side (#2228, #2182,
 test_that("disallow empty string in both sides of suffix argument (#2228)", {
   expect_error(
     inner_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "Cannot use empty string for both x and y suffixes",
+    fixed = TRUE
   )
   expect_error(
     left_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "Cannot use empty string for both x and y suffixes",
+    fixed = TRUE
   )
   expect_error(
     right_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "Cannot use empty string for both x and y suffixes",
+    fixed = TRUE
   )
   expect_error(
     full_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "Cannot use empty string for both x and y suffixes",
+    fixed = TRUE
+  )
+})
+
+test_that("check suffix input", {
+  expect_error(
+    inner_join(e, f, "x", suffix = letters[1:3]),
+    "Argument `suffix`: expected character vector of length 2, got character of length 3",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(e, f, "x", suffix = letters[1]),
+    "Argument `suffix`: expected character vector of length 2, got character of length 1",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(e, f, "x", suffix = 1:2),
+    "Argument `suffix`: expected character vector of length 2, got integer of length 2",
+    fixed = TRUE
   )
 })
 
@@ -249,6 +271,12 @@ test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5)),
     "Argument `by`: required, because the data sources have no common variables",
+    fixed = TRUE
+  )
+
+  expect_error(
+    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3),
+    "Argument `by`: expected (named) character vector, list, or NULL for natural joins (not recommended in production code), got integer",
     fixed = TRUE
   )
 })
