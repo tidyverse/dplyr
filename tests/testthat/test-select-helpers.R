@@ -229,7 +229,7 @@ test_that("when strict = FALSE, rename_vars always succeeds", {
 test_that("rename_vars() expects symbol", {
   expect_error(
     rename_vars(letters, d = "e"),
-    'Argument `d` = "e": expected unquoted variable names, got character',
+    'Argument `d` = "e": must be unquoted variable names, got character',
     fixed = TRUE
   )
 })
@@ -241,7 +241,7 @@ test_that("rename_vars() expects symbol", {
 test_that("tbl_at_vars() errs on bad input", {
   expect_error(
     tbl_at_vars(iris, raw(3)),
-    "Argument `.vars`: expected character/numeric vector or a `vars()` object, got raw",
+    "Argument `.vars`: must be a character/numeric vector or a `vars()` object, got raw",
     fixed = TRUE
   )
 })
@@ -253,7 +253,7 @@ test_that("tbl_at_vars() errs on bad input", {
 test_that("tbl_if_vars() errs on bad input", {
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
-    "Argument `.predicate`: expected length 1, got 2",
+    "Argument `.predicate`: must have length 1, got 2",
     fixed = TRUE
   )
 })

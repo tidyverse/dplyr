@@ -20,13 +20,13 @@ test_that("src_local only overwrites if overwrite = TRUE", {
 test_that("src_local errs with pkg/env", {
   expect_error(
     src_df("base", new.env()),
-    "Arguments `pkg`, `env`: expected exactly one non-NULL, got 2",
+    "Arguments `pkg`, `env`: exactly one must be non-NULL, got 2",
     fixed = TRUE
   )
 
   expect_error(
     src_df(),
-    "Arguments `pkg`, `env`: expected exactly one non-NULL, got 0",
+    "Arguments `pkg`, `env`: exactly one must be non-NULL, got 0",
     fixed = TRUE
   )
 })

@@ -9,7 +9,7 @@ test_that("error messages", {
     case_when(
       paste(50)
     ),
-    "Case 1 (paste(50)): expected two-sided formula, got character",
+    "Case 1 (paste(50)): must be a two-sided formula, got character",
     fixed = TRUE
   )
 
@@ -17,7 +17,7 @@ test_that("error messages", {
     case_when(
       50 ~ 1:3
     ),
-    "LHS of case 1 (50): expected logical, got double",
+    "LHS of case 1 (50): must be a logical, got double",
     fixed = TRUE
   )
 })

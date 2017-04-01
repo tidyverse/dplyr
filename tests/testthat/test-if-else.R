@@ -3,7 +3,7 @@ context("if_else")
 test_that("first argument must be logical", {
   expect_error(
     if_else(1:10, 1, 2),
-    "Argument `condition`: expected logical, got integer",
+    "Argument `condition`: must be a logical, got integer",
     fixed = TRUE
   )
 })

@@ -46,7 +46,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      glubort("{hdr_args(~var)} expected value between {-n} and {n} (excluding zero), got {var}")
+      glubort("{hdr_args(~var)} must be a value between {-n} and {n} (excluding zero), got {var}")
     }
 
     if (var < 0) {
@@ -56,7 +56,7 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    glubort("{hdr_args(~var)} expected numeric or character scalar, ",
+    glubort("{hdr_args(~var)} must be a numeric or character scalar, ",
       "got {typeof(var)} of length {length(var)}")
   }
 }

@@ -86,13 +86,13 @@
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
       is.null(names(dimensions))) {
-    glubort("{hdr_args(~dimensions)} expected named list of vectors, ",
+    glubort("{hdr_args(~dimensions)} must be a named list of vectors, ",
       "got {typeof(dimensions)}")
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
-    glubort("{hdr_args(~measures)} expected named list of arrays, ",
+    glubort("{hdr_args(~measures)} must be a named list of arrays, ",
       "got {typeof(measures)}")
   }
 

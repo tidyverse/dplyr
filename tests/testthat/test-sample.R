@@ -37,30 +37,30 @@ test_that("sample respects weight", {
 test_that("sample_* error message", {
   expect_error(
     check_weight(letters[1:2], 2),
-    "Argument `weight`: expected numeric, got character",
+    "Argument `weight`: must be a numeric, got character",
     fixed = TRUE
   )
   expect_error(
     check_weight(-1:-2, 2),
-    "Argument `weight`: expected vector with all values nonnegative, got -1",
+    "Argument `weight`: must be a vector with all values nonnegative, got -1",
     fixed = TRUE
   )
   expect_error(
     check_weight(letters, 2),
-    "Argument `weight`: expected numeric, got character"
+    "Argument `weight`: must be a numeric, got character"
   )
 })
 
 test_that("sample gives informative error for unknown type", {
   expect_error(
     sample_n(list()),
-    "Argument `tbl`: expected data frame, got list",
+    "Argument `tbl`: must be a data frame, got list",
     fixed = TRUE
   )
 
   expect_error(
     sample_frac(list()),
-    "Argument `tbl`: expected data frame, got list",
+    "Argument `tbl`: must be a data frame, got list",
     fixed = TRUE
   )
 })
@@ -79,7 +79,7 @@ test_that("can't sample more values than obs (without replacement)", {
   by_cyl <- mtcars %>% group_by(cyl)
   expect_error(
     sample_n(by_cyl, 10),
-    "Arguments `size`, `replace`: expected not greater than 7 (size of data) or TRUE, got 10",
+    "Arguments `size`, `replace`: must be less or equal than 7 (size of data) or TRUE, got 10",
     fixed = TRUE
   )
 })

@@ -33,12 +33,12 @@ test_that("can supply funs()", {
 test_that("fails when more than one renaming function is supplied", {
   expect_error(
     select_all(df, funs(tolower, toupper)),
-    "Argument `.funs`: expected one renaming function, got 2",
+    "Argument `.funs`: must contain one renaming function, got 2",
     fixed = TRUE
   )
   expect_error(
     rename_all(df, funs(tolower, toupper)),
-    "Argument `.funs`: expected one renaming function, got 2",
+    "Argument `.funs`: must contain one renaming function, got 2",
     fixed = TRUE
   )
 })

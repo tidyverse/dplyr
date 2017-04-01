@@ -3,19 +3,19 @@ context("tbl_cube")
 test_that("construction errors", {
   expect_error(
     tbl_cube(1:3, 1:3),
-    "Argument `dimensions`: expected named list of vectors, got integer",
+    "Argument `dimensions`: must be a named list of vectors, got integer",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), 1:3),
-    "Argument `measures`: expected named list of arrays, got integer",
+    "Argument `measures`: must be a named list of arrays, got integer",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), list(b = 1:3)),
-    "Argument `measures`: expected named list of arrays, got list",
+    "Argument `measures`: must be a named list of arrays, got list",
     fixed = TRUE
   )
 })

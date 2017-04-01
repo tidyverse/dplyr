@@ -17,7 +17,7 @@
 #' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
-    glubort("{hdr_args(~pkg, ~env)} expected exactly one non-NULL, ",
+    glubort("{hdr_args(~pkg, ~env)} exactly one must be non-NULL, ",
       "got {(!is.null(pkg)) + (!is.null(env))}")
   }
   if (!is.null(pkg)) {

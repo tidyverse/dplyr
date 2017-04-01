@@ -126,7 +126,7 @@ tbl_at_vars <- function(tbl, vars) {
     }
     out
   } else {
-    glubort("{hdr_args(~.vars)} expected character/numeric vector or a `vars()` object, ",
+    glubort("{hdr_args(~.vars)} must be a character/numeric vector or a `vars()` object, ",
       "got {typeof(vars)}")
   }
 }
@@ -151,7 +151,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
 
   if (is_fun_list(.p)) {
     if (length(.p) != 1) {
-      glubort("{hdr_args(~.predicate)} expected length 1, got {length(.p)}")
+      glubort("{hdr_args(~.predicate)} must have length 1, got {length(.p)}")
     }
     .p <- .p[[1]]
   }
