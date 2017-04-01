@@ -24,21 +24,18 @@ hdr_args <- function(...) {
 
 hdr_pos_args <- function(...) {
   x <- c(...)
-  if (length(x) == 1) args <- "Argument"
-  else args <- "Arguments"
+  args <- ntext(length(x), "Argument", "Arguments")
   hdr("{args} {fmt_comma(x)}")
 }
 
 hdr_named_call <- function(...) {
   x <- parse_named_call(...)
-  if (length(x) == 1) args <- "Argument"
-  else args <- "Arguments"
+  args <- ntext(length(x), "Argument", "Arguments")
   hdr("{args} {fmt_named(x)}")
 }
 
 hdr_cols <- function(x) {
-  if (length(x) == 1) cols <- "Column"
-  else cols <- "Columns"
+  cols <- ntext(length(x), "Column", "Columns")
   hdr("{cols} {fmt_obj(x)}")
 }
 
