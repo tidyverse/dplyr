@@ -39,7 +39,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
-  if (length(n) != 1 || n < 0) {
+  if (length(n) != 1 || !is.numeric(n) || n < 0) {
     gabort("{hdr_args(~n)} expected nonnegative integer scalar, ",
       "got {typeof(n)} of length {length(n)}")
   }
@@ -64,7 +64,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     gabort("{hdr_args(~x)} expected vector, got ts object, do you want `stats::lag()`?")
   }
 
-  if (length(n) != 1 || n < 0) {
+  if (length(n) != 1 || !is.numeric(n) || n < 0) {
     gabort("{hdr_args(~n)} expected nonnegative integer scalar, ",
       "got {typeof(n)} of length {length(n)}")
   }

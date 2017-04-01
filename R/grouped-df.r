@@ -302,9 +302,12 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
 
 sample_group <- function(tbl, i, frac, size, replace, weight) {
   n <- length(i)
-  if (frac) size <- round(size * n)
-
-  check_size(size, n, replace)
+  if (frac) {
+    check_frac(size, replace)
+    size <- round(size * n)
+  } else {
+    check_size(size, n, replace)
+  }
 
   weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
   if (!is_null(weight)) {

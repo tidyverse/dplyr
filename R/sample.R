@@ -104,3 +104,10 @@ check_size <- function(size, n, replace = FALSE) {
   gabort("{hdr_args(~size, ~replace)} expected not greater than {n} (size of data) or TRUE, ",
     "got {size}")
 }
+
+check_frac <- function(size, replace = FALSE) {
+  if (size <= 1 || replace) return()
+
+  gabort("{hdr_args(~size, ~replace)} sampled fraction must be less or equal to one, ",
+         "pass TRUE for sampling with replacement")
+}
