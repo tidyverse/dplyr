@@ -107,8 +107,10 @@ do_.NULL <- function(.data, ..., .dots = list()) {
 label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
-    glubort("Results {fmt_comma(which(!data_frame))} must be data frames, ",
-      "got {fmt_classes(out[[1]][[which.min(data_frame)]])}"
+    glubort("Results {bad} must be data frames, ",
+      "got {first_bad_class}",
+      bad = fmt_comma(which(!data_frame)),
+      first_bad_class = fmt_classes(out[[1]][[which.min(data_frame)]])
     )
   }
 

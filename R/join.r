@@ -145,12 +145,14 @@ common_by_from_vector <- function(by) {
 common_by.list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
-    glubort("{hdr_args(~by)} join column {fmt_obj(setdiff(by$x, x_vars))} not found in lhs")
+    glubort("{hdr_args(~by)} join column {missing} not found in lhs",
+      missing = fmt_obj(setdiff(by$x, x_vars)))
   }
 
   y_vars <- tbl_vars(y)
   if (!all(by$y %in% y_vars)) {
-    glubort("{hdr_args(~by)} join column {fmt_obj(setdiff(by$y, y_vars))} not found in rhs")
+    glubort("{hdr_args(~by)} join column {missing} not found in rhs",
+      missing = fmt_obj(setdiff(by$y, y_vars)))
   }
 
   by

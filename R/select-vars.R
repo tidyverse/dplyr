@@ -126,9 +126,9 @@ rename_vars <- function(vars, ..., strict = TRUE) {
   is_name <- map_lgl(args, is_symbol)
   if (!all(is_name)) {
     bad <- args[!is_name]
-    first_bad <- bad[[1]]
     glubort("{hdr_named_call(bad)} expected unquoted variable names, ",
-      "got {typeof(f_rhs(first_bad))}")
+      "got {typeof(first_bad_rhs)}",
+      first_bad_rhs = f_rhs(bad[[1]]))
   }
 
   old_vars <- map_chr(args, as_name)
