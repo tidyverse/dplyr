@@ -29,7 +29,7 @@
 #' # Attributes are taken from the `true` vector,
 if_else <- function(condition, true, false, missing = NULL) {
   if (!is.logical(condition)) {
-    gabort("{hdr_args(~condition)} expected logical, got {typeof(condition)}")
+    glubort("{hdr_args(~condition)} expected logical, got {typeof(condition)}")
   }
 
   out <- true[rep(NA_integer_, length(condition))]

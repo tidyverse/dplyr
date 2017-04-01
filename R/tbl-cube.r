@@ -86,13 +86,13 @@
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
       is.null(names(dimensions))) {
-    gabort("{hdr_args(~dimensions)} expected named list of vectors, ",
+    glubort("{hdr_args(~dimensions)} expected named list of vectors, ",
       "got {typeof(dimensions)}")
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
-    gabort("{hdr_args(~measures)} expected named list of arrays, ",
+    glubort("{hdr_args(~measures)} expected named list of arrays, ",
       "got {typeof(measures)}")
   }
 
@@ -104,7 +104,7 @@ tbl_cube <- function(dimensions, measures) {
   )
   if (any(!dims_ok)) {
     bad <- names(measures)[!dims_ok]
-    gabort("{hdr_measures(bad)} need dimensions {fmt_dims(dims)}")
+    glubort("{hdr_measures(bad)} need dimensions {fmt_dims(dims)}")
   }
 
   structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
@@ -270,7 +270,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe_row <- anyDuplicated(all[dim_names])
     dupe <- unlist(all[dupe_row, dim_names])
 
-    gabort("{hdr_args(~x)} all combinations of dimension variables must be unique, ",
+    glubort("{hdr_args(~x)} all combinations of dimension variables must be unique, ",
       'duplicates: {fmt_named(dupe)}')
   }
 
@@ -335,7 +335,7 @@ filter_.tbl_cube <- function(.data, ..., .dots = list()) {
 find_index_check <- function(i, x, names) {
   idx <- find_index(x, names)
   if (length(idx) != 1) {
-    gabort("{hdr_args(i + 1)} must refer to exactly one dimension, ",
+    glubort("{hdr_args(i + 1)} must refer to exactly one dimension, ",
       "got {fmt_obj(names[idx])}")
   }
   idx

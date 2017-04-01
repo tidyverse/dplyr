@@ -55,7 +55,7 @@ arrange_.tbl_df <- function(.data, ..., .dots = list()) {
 filter.tbl_df <- function(.data, ...) {
   dots <- quos(...)
   if (any(have_name(dots))) {
-    gabort("{hdr_named_call(dots[have_name(dots)])} expected unnamed arguments, do you need `==`?")
+    glubort("{hdr_named_call(dots[have_name(dots)])} expected unnamed arguments, do you need `==`?")
   } else if (is_empty(dots)) {
     return(.data)
   }

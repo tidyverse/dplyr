@@ -82,14 +82,14 @@ rename_at <- function(.tbl, .vars, .funs = list(), ...) {
 
 vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   if (length(funs) > 1) {
-    gabort("{hdr_args(~.funs)} expected one renaming function, got {length(funs)}")
+    glubort("{hdr_args(~.funs)} expected one renaming function, got {length(funs)}")
   } else if (length(funs) == 1) {
     fun <- as_function(funs[[1]])
     syms <- set_names(syms(vars), fun(vars))
   } else if (!strict) {
     syms <- syms(vars)
   } else {
-    gabort("{hdr_args(~.funs)} no renaming function supplied")
+    glubort("{hdr_args(~.funs)} no renaming function supplied")
   }
 
   group_syms <- base::setdiff(syms(group_vars(tbl)), syms)

@@ -68,14 +68,14 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
 
-  gabort("{hdr_args(~tbl)} expected data frame, got {fmt_classes(tbl)}")
+  glubort("{hdr_args(~tbl)} expected data frame, got {fmt_classes(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
-  gabort("{hdr_args(~tbl)} expected data frame, got {fmt_classes(tbl)}")
+  glubort("{hdr_args(~tbl)} expected data frame, got {fmt_classes(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------
@@ -84,14 +84,14 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    gabort("{hdr_args(~weight)} expected numeric, got {typeof(x)}")
+    glubort("{hdr_args(~weight)} expected numeric, got {typeof(x)}")
   }
   if (any(x < 0)) {
-    gabort("{hdr_args(~weight)} expected vector with all values nonnegative, ",
+    glubort("{hdr_args(~weight)} expected vector with all values nonnegative, ",
       "got {x[x < 0][[1]]}")
   }
   if (length(x) != n) {
-    gabort("{hdr_args(~weight)} expected length {n} (same as data), ",
+    glubort("{hdr_args(~weight)} expected length {n} (same as data), ",
       "got {length(x)}")
   }
 
@@ -101,13 +101,13 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  gabort("{hdr_args(~size, ~replace)} expected not greater than {n} (size of data) or TRUE, ",
+  glubort("{hdr_args(~size, ~replace)} expected not greater than {n} (size of data) or TRUE, ",
     "got {size}")
 }
 
 check_frac <- function(size, replace = FALSE) {
   if (size <= 1 || replace) return()
 
-  gabort("{hdr_args(~size, ~replace)} sampled fraction must be less or equal to one, ",
+  glubort("{hdr_args(~size, ~replace)} sampled fraction must be less or equal to one, ",
          "pass TRUE for sampling with replacement")
 }

@@ -145,12 +145,12 @@ common_by_from_vector <- function(by) {
 common_by.list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
-    gabort("{hdr_args(~by)} join column {fmt_obj(setdiff(by$x, x_vars))} not found in lhs")
+    glubort("{hdr_args(~by)} join column {fmt_obj(setdiff(by$x, x_vars))} not found in lhs")
   }
 
   y_vars <- tbl_vars(y)
   if (!all(by$y %in% y_vars)) {
-    gabort("{hdr_args(~by)} join column {fmt_obj(setdiff(by$y, y_vars))} not found in rhs")
+    glubort("{hdr_args(~by)} join column {fmt_obj(setdiff(by$y, y_vars))} not found in rhs")
   }
 
   by
@@ -160,7 +160,7 @@ common_by.list <- function(by, x, y) {
 common_by.NULL <- function(by, x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
-    gabort("{hdr_args(~by)} required, because the data sources have no common variables")
+    glubort("{hdr_args(~by)} required, because the data sources have no common variables")
   }
   message("Joining, by = ", utils::capture.output(dput(by)))
 
@@ -172,13 +172,13 @@ common_by.NULL <- function(by, x, y) {
 
 #' @export
 common_by.default <- function(by, x, y) {
-  gabort("{hdr_args(~by)} expected (named) character vector, list, or NULL for ",
+  glubort("{hdr_args(~by)} expected (named) character vector, list, or NULL for ",
     "natural joins (not recommended in production code), got {typeof(by)}")
 }
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
-    gabort("{hdr_args(~suffix)} expected character vector of length 2, ",
+    glubort("{hdr_args(~suffix)} expected character vector of length 2, ",
       "got {typeof(x)} of length {length(x)}")
   }
 

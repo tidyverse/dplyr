@@ -2,12 +2,12 @@ check_pkg <- function(name, reason) {
   if (requireNamespace(name, quietly = TRUE))
     return(invisible(TRUE))
 
-  gabort('The {name} package is required to {reason}.
+  glubort('The {name} package is required to {reason}.
     Please install it with `install.packages("{name}")`'
   )
 }
 
-gabort <- function(..., .envir = parent.frame()) {
+glubort <- function(..., .envir = parent.frame()) {
   abort(glue(..., .envir = .envir))
 }
 

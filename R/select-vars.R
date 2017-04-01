@@ -80,7 +80,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
     bad_inputs <- map(args[!is_numeric], f_rhs)
     labels <- map_chr(bad_inputs, deparse_trunc)
 
-    gabort("{hdr_args(labels)} must resulve to integer column positions")
+    glubort("{hdr_args(labels)} must resulve to integer column positions")
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -127,7 +127,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
   if (!all(is_name)) {
     bad <- args[!is_name]
     first_bad <- bad[[1]]
-    gabort("{hdr_named_call(bad)} expected unquoted variable names, ",
+    glubort("{hdr_named_call(bad)} expected unquoted variable names, ",
       "got {typeof(f_rhs(first_bad))}")
   }
 
@@ -136,7 +136,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    gabort("{hdr_args(unknown_vars)} unknown variables")
+    glubort("{hdr_args(unknown_vars)} unknown variables")
   }
 
   select <- set_names(vars, vars)

@@ -107,7 +107,7 @@ do_.NULL <- function(.data, ..., .dots = list()) {
 label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
-    gabort("Results {fmt_comma(which(!data_frame))} must be data frames, ",
+    glubort("Results {fmt_comma(which(!data_frame))} must be data frames, ",
       "got {fmt_classes(out[[1]][[which.min(data_frame)]])}"
     )
   }
@@ -147,7 +147,7 @@ named_args <- function(args) {
     abort("Arguments must either be all named or all unnamed")
   }
   if (named == 0 && length(args) > 1) {
-    gabort("Can only supply one unnamed argument, got {length(args)}")
+    glubort("Can only supply one unnamed argument, got {length(args)}")
   }
 
   # Check for old syntax

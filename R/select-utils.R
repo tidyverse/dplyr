@@ -112,7 +112,7 @@ one_of <- function(..., vars = current_vars()) {
   keep <- c(...)
 
   if (!is_character(keep)) {
-    gabort("Expected character arguments, got {typeof(keep)}")
+    glubort("Expected character arguments, got {typeof(keep)}")
   }
 
   if (!all(keep %in% vars)) {

@@ -38,7 +38,7 @@ pull.data.frame <- function(.data, var = -1) {
 find_var <- function(var, vars) {
   if (is_string(var)) {
     if (!var %in% vars) {
-      gabort("{hdr_cols(var)} not found")
+      glubort("{hdr_cols(var)} not found")
     }
     var
   } else if (is.numeric(var) && length(var) == 1) {
@@ -46,7 +46,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      gabort("{hdr_args(~var)} expected value between {-n} and {n} (excluding zero), got {var}")
+      glubort("{hdr_args(~var)} expected value between {-n} and {n} (excluding zero), got {var}")
     }
 
     if (var < 0) {
@@ -56,7 +56,7 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    gabort("{hdr_args(~var)} expected numeric or character scalar, ",
+    glubort("{hdr_args(~var)} expected numeric or character scalar, ",
       "got {typeof(var)} of length {length(var)}")
   }
 }

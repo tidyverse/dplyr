@@ -30,9 +30,9 @@ check_length <- function(x, template, name, reason = NULL) {
   else reason <- glue(" ({reason})")
 
   if (n == 1) {
-    gabort("{hdr(name)} should be length one{reason}, got {length(x)}")
+    glubort("{hdr(name)} should be length one{reason}, got {length(x)}")
   } else {
-    gabort("{hdr(name)} should be length {n}{reason} or one, got {length(x)}")
+    glubort("{hdr(name)} should be length {n}{reason} or one, got {length(x)}")
   }
 }
 
@@ -41,7 +41,7 @@ check_type <- function(x, template, name) {
     return()
   }
 
-  gabort("{hdr(name)} should be type {typeof(template)}, got {typeof(x)}")
+  glubort("{hdr(name)} should be type {typeof(template)}, got {typeof(x)}")
 }
 
 check_class <- function(x, template, name) {
@@ -53,5 +53,5 @@ check_class <- function(x, template, name) {
     return()
   }
 
-  gabort("{hdr(name)} should be {fmt_classes(template)}, got {fmt_classes(x)}")
+  glubort("{hdr(name)} should be {fmt_classes(template)}, got {fmt_classes(x)}")
 }
