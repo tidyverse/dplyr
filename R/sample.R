@@ -84,7 +84,7 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    glubort(args = ~weight, "must be a numeric, got {typeof(x)}")
+    glubort(args = ~weight, "must be a numeric, got {type_of(x)}")
   }
   if (any(x < 0)) {
     glubort(args = ~weight, "must be a vector with all values nonnegative, ",

@@ -41,7 +41,7 @@ check_type <- function(x, template, name) {
     return()
   }
 
-  glubort("{hdr(name)} should be type {typeof(template)}, got {typeof(x)}")
+  glubort("{hdr(name)} should be type {type_of(template)}, got {typeof(x)}")
 }
 
 check_class <- function(x, template, name) {

@@ -71,7 +71,7 @@ case_when <- function(...) {
     if (!inherits(f, "formula") || length(f) != 3) {
       non_formula_arg <- substitute(list(...))[[i + 1]]
       glubort("Case {i} ({deparsed}): ",
-        "must be a two-sided formula, got {typeof(f)}",
+        "must be a two-sided formula, got {type_of(f)}",
         deparsed = deparse_trunc(non_formula_arg)
       )
     }
@@ -81,7 +81,7 @@ case_when <- function(...) {
     query[[i]] <- eval_bare(f[[2]], env)
     if (!is.logical(query[[i]])) {
       glubort("LHS of case {i} ({deparsed}): ",
-        "must be a logical, got {typeof(query[[i]])}",
+        "must be a logical, got {type_of(query[[i]])}",
         deparsed = deparse_trunc(f_lhs(f))
       )
     }

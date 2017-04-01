@@ -9,7 +9,7 @@ test_that("error messages", {
     case_when(
       paste(50)
     ),
-    "Case 1 (paste(50)): must be a two-sided formula, got character",
+    "Case 1 (paste(50)): must be a two-sided formula, got string",
     fixed = TRUE
   )
 

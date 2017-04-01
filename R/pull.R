@@ -57,6 +57,6 @@ find_var <- function(var, vars) {
 
   } else {
     glubort(args = ~var, "must be a numeric or character scalar, ",
-      "got {typeof(var)} of length {length(var)}")
+      "got {type_of(var)} of length {length(var)}")
   }
 }

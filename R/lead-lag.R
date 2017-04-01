@@ -41,7 +41,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
     glubort(args = ~n, "must be a nonnegative integer scalar, ",
-      "got {typeof(n)} of length {length(n)}")
+      "got {type_of(n)} of length {length(n)}")
   }
   if (n == 0) return(x)
 
@@ -66,7 +66,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
     glubort(args = ~n, "must be a nonnegative integer scalar, ",
-      "got {typeof(n)} of length {length(n)}")
+      "got {type_of(n)} of length {length(n)}")
   }
   if (n == 0) return(x)
 

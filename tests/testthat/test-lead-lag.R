@@ -63,7 +63,7 @@ test_that("input checks", {
   )
   expect_error(
     lead(letters, "1"),
-    "`n`: must be a nonnegative integer scalar, got character of length 1",
+    "`n`: must be a nonnegative integer scalar, got string of length 1",
     fixed = TRUE
   )
 
@@ -74,7 +74,7 @@ test_that("input checks", {
   )
   expect_error(
     lag(letters, "1"),
-    "`n`: must be a nonnegative integer scalar, got character of length 1",
+    "`n`: must be a nonnegative integer scalar, got string of length 1",
     fixed = TRUE
   )
 })

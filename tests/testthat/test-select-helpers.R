@@ -229,7 +229,7 @@ test_that("when strict = FALSE, rename_vars always succeeds", {
 test_that("rename_vars() expects symbol", {
   expect_error(
     rename_vars(letters, d = "e"),
-    '`d` = "e": must be unquoted variable names, got character',
+    '`d` = "e": must be unquoted variable names, got string',
     fixed = TRUE
   )
 })

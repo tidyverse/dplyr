@@ -206,7 +206,7 @@ test_that("check suffix input", {
   )
   expect_error(
     inner_join(e, f, "x", suffix = letters[1]),
-    "`suffix`: must be a character vector of length 2, got character of length 1",
+    "`suffix`: must be a character vector of length 2, got string of length 1",
     fixed = TRUE
   )
   expect_error(

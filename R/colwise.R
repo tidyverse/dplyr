@@ -127,7 +127,7 @@ tbl_at_vars <- function(tbl, vars) {
     out
   } else {
     glubort(args = ~.vars, "must be a character/numeric vector or a `vars()` object, ",
-      "got {typeof(vars)}")
+      "got {type_of(vars)}")
   }
 }
 tbl_at_syms <- function(tbl, vars) {
