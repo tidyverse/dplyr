@@ -20,6 +20,8 @@
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
+#'
+#'   These dots are evaluated with [explicit splicing][rlang::dots_list].
 #' @param .default If supplied, all values not otherwise matched will
 #'   be given this value. If not supplied and if the replacements are
 #'   the same type as the original values in `.x`, unmatched
@@ -31,8 +33,6 @@
 #' @param .missing If supplied, any missing values in `.x` will be
 #'   replaced by this value. Must be either length 1 or the same length as
 #'   `.x`.
-#' @param .dots A named list of replacements. The list must satisfy the
-#'   same conditions as replacements supplied by `...`.
 #' @param .ordered If `TRUE`, `recode_factor()` creates an
 #'   ordered factor.
 #' @return A vector the same length as `.x`, and the same type as
@@ -75,13 +75,13 @@
 #' # factor), it is reused as default.
 #' recode_factor(letters[1:3], b = "z", c = "y")
 #' recode_factor(factor(letters[1:3]), b = "z", c = "y")
-recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
+recode <- function(.x, ..., .default = NULL, .missing = NULL) {
   UseMethod("recode")
 }
 
 #' @export
-recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
-  values <- c(list(...), .dots)
+recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
+  values <- dots_list(...)
 
   nms <- have_name(values)
   if (all(nms)) {
@@ -112,8 +112,8 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
 }
 
 #' @export
-recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
-  values <- c(list(...), .dots)
+recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
+  values <- dots_list(...)
   if (!all(have_name(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
@@ -135,8 +135,8 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = 
 }
 
 #' @export
-recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
-  values <- c(list(...), .dots)
+recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
+  values <- dots_list(...)
   if (length(values) == 0) {
     stop("No replacements provided", call. = FALSE)
   }
@@ -226,8 +226,8 @@ recode_default.factor <- function(x, default, out) {
 #' @rdname recode
 #' @export
 recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
-                          .ordered = FALSE, .dots = NULL) {
-  recoded <- recode(.x, ..., .default = .default, .missing = .missing, .dots = .dots)
+                          .ordered = FALSE) {
+  recoded <- recode(.x, ..., .default = .default, .missing = .missing)
 
   all_levels <- unique(c(..., recode_default(.x, .default, recoded), .missing))
   recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)

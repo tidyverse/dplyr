@@ -20,7 +20,8 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once.}
+\code{.funs}. These are evaluated only once, with \link[rlang:dots_list]{explicit
+splicing}.}
 }
 \description{
 The variants suffixed with \code{_if}, \code{_at} or \code{_all} apply an

@@ -113,6 +113,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
+  wt <- wt %||% ~NULL
   wt <- compat_lazy(wt, caller_env())
   count(x, !!! vars, wt = !! wt, sort = sort)
 }
@@ -163,5 +164,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
-  add_count(x, !!! vars, wt = wt, sort = sort)
+  wt <- wt %||% ~NULL
+  wt <- compat_lazy(wt, caller_env())
+  add_count(x, !!! vars, wt = !! wt, sort = sort)
 }

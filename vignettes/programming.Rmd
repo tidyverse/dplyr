@@ -11,11 +11,6 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
-
-quo <- rlang::quo
-quos <- rlang::quos
-enquo <- rlang::enquo
-quo_name <- rlang::quo_name
 ```
 
 Most dplyr functions use non-standard evaluation (NSE). This is a catch-all term that means they don't follow the usual R rules of evaluation. Instead, they capture the expression that you typed and evaluate it in a custom way. This has two main benefits for dplyr code:

@@ -32,6 +32,11 @@ test_that("count_ works", {
     count_(df, ~b, wt = quote(a)),
     count(df, b, wt = a)
   )
+
+  expect_identical(
+    add_count(df, b),
+    add_count_(df, ~b)
+  )
 })
 
 test_that("distinct_ works", {
@@ -208,6 +213,11 @@ test_that("mutate_ works", {
   expect_equal(
     mutate_(df, .dots = list(c = ~-a)),
     mutate(df, c = -a)
+  )
+
+  expect_identical(
+    mutate_(df, ~-a),
+    mutate(df, -a)
   )
 })
 

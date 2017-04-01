@@ -112,9 +112,17 @@ If you've implemented a database backend for dplyr, please read the [backend new
 
 ## Tidyeval
 
-* All underscored functions are now deprecated. You can now use the
-  main verbs and unquote-splice values and expressions (see the
-  vignette on programming with dplyr).
+dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming-dplyr")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
+
+```{r}
+my_var <- quo(homeworld)
+
+starwars %>%
+  group_by(!!my_var) %>%
+  summarise_at(vars(height:mass), mean, na.rm = TRUE)
+```
+
+This means that the underscored version of each main verb is no longer needed, and so these functions have been deprecated (but remain around for backward compatibility).
 
 * `order_by()`, `top_n()`, `sample_n()` and `sample_frac()` now use
   tidyeval to capture their arguments by expression. This makes it
@@ -125,7 +133,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
   makes it easier to copy lines of code without having to worry about
   deleting trailing commas (#1039).
 
-* Breaking change: The new `.data` and `.env` environments can be used inside 
+* [API] The new `.data` and `.env` environments can be used inside 
   all verbs that operate on data: `.data$column_name` accesses the column 
   `column_name`, whereas `.env$var` accesses the external variable `var`. 
   Columns or external variables named `.data` or `.env` are shadowed, use 
@@ -177,6 +185,9 @@ If you've implemented a database backend for dplyr, please read the [backend new
   in a context where column names do not exist (#2184).
   
 ### Other
+
+* `recode()`, `case_when()` and `coalesce()` now support splicing of
+  arguments with rlang's `!!!` operator.
 
 * `count()` now preserves the grouping of its input (#2021).
 
