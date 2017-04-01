@@ -84,14 +84,15 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    gabort("{hdr_args(~weight)} expected numeric, got {typeof(weight)}")
+    gabort("{hdr_args(~weight)} expected numeric, got {typeof(x)}")
   }
   if (any(x < 0)) {
-    gabort("{hdr_args(~weight)} expected vector with all values nonnegative")
+    gabort("{hdr_args(~weight)} expected vector with all values nonnegative, ",
+      "got {x[x < 0][[1]]}")
   }
   if (length(x) != n) {
     gabort("{hdr_args(~weight)} expected length {n} (same as data), ",
-      "got {length(weight)}")
+      "got {length(x)}")
   }
 
   x / sum(x)

@@ -261,10 +261,6 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     met_name <- names(x)[met_name]
   }
 
-  if (is.null(dim_names) && is.null(met_name)) {
-    gabort("{hdr_args(~dim_names, ~met_names)} expected at least one non-NULL")
-  }
-
   dims <- lapply(x[dim_names], unique)
   n <- vapply(dims, length, integer(1))
 
@@ -316,7 +312,10 @@ rename_.tbl_cube <- function(.data, ..., .dots = list()) {
 filter.tbl_cube <- function(.data, ...) {
   dots <- quos(...)
 
-  idx <- map_int(dots, function(d) find_index_check(f_rhs(d), names(.data$dims)))
+  idx <- map2_int(
+    seq_along(dots), dots,
+    function(i, d) find_index_check(i, f_rhs(d), names(.data$dims))
+  )
   for (i in seq_along(dots)) {
     sel <- eval_tidy(dots[[i]], .data$dims)
     sel <- sel & !is.na(sel)
@@ -333,10 +332,11 @@ filter_.tbl_cube <- function(.data, ..., .dots = list()) {
   filter(.data, !!! dots)
 }
 
-find_index_check <- function(x, names) {
+find_index_check <- function(i, x, names) {
   idx <- find_index(x, names)
   if (length(idx) != 1) {
-    gabort("{hdr_call(deparse(x))} must refer to exactly one dimension")
+    gabort("{hdr_args(i + 1)} must refer to exactly one dimension, ",
+      "got {fmt_obj(names[idx])}")
   }
   idx
 }

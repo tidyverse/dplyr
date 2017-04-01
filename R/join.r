@@ -178,7 +178,7 @@ common_by.default <- function(by, x, y) {
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
-    gabort("{hdr_args(~suffix) expected character vector of length 2, ",
+    gabort("{hdr_args(~suffix)} expected character vector of length 2, ",
       "got {typeof(x)} of length {length(x)}")
   }
 

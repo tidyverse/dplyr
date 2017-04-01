@@ -80,12 +80,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
     bad_inputs <- map(args[!is_numeric], f_rhs)
     labels <- map_chr(bad_inputs, deparse_trunc)
 
-    gabort(
-      "All select() inputs must resolve to integer column positions. \\
-       The following do not:
-       {labels}",
-      labels = paste("* ", labels, collapse = "\n")
-    )
+    gabort("{hdr_args(labels)} must resulve to integer column positions")
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -130,10 +125,10 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   is_name <- map_lgl(args, is_symbol)
   if (!all(is_name)) {
-    n <- sum(!is_name)
-    bad <- paste0("`", names(args)[!is_name], "`", collapse = ", ")
-
-    gabort("{hdr_args(bad)} expected unquoted variable names")
+    bad <- args[!is_name]
+    first_bad <- bad[[1]]
+    gabort("{hdr_named_call(bad)} expected unquoted variable names, ",
+      "got {typeof(f_rhs(first_bad))}")
   }
 
   old_vars <- map_chr(args, as_name)

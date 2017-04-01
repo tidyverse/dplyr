@@ -108,7 +108,7 @@ label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
     gabort("Results {fmt_comma(which(!data_frame))} must be data frames, ",
-      "got {fmt_classes(out[[1]][which.min(data_frame)])}"
+      "got {fmt_classes(out[[1]][[which.min(data_frame)]])}"
     )
   }
 

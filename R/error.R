@@ -18,6 +18,13 @@ hdr_args <- function(...) {
   hdr("{args} {fmt_obj(x)}")
 }
 
+hdr_pos_args <- function(...) {
+  x <- c(...)
+  if (length(x) == 1) args <- "Argument"
+  else args <- "Arguments"
+  hdr("{args} {fmt_comma(x)}")
+}
+
 hdr_named_call <- function(...) {
   x <- parse_named_call(...)
   if (length(x) == 1) args <- "Argument"
@@ -50,7 +57,7 @@ parse_args <- function(...) {
 
 parse_named_call <- function(...) {
   x <- unlist(list(...), recursive = FALSE)
-  x <- map_chr(map(x, as.character), "[[", 2)
+  x <- map_chr(map(x, "[[", 2), deparse_trunc)
   x
 }
 
@@ -63,7 +70,8 @@ fmt_obj <- function(x) {
 }
 
 fmt_obj1 <- function(x) {
-  paste0("`", x, "`")
+  if (is.numeric(x)) x
+  else paste0("`", x, "`")
 }
 
 fmt_classes <- function(x) {

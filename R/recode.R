@@ -112,7 +112,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- dots_list(...)
   if (!all(have_name(values))) {
-    abort("All replacements must be named")
+    gabort("{hdr_pos_args(which(!have_name(values)) + 1)} expected named, got unnamed")
   }
 
   n <- length(.x)
@@ -139,7 +139,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   }
 
   if (!all(have_name(values))) {
-    abort("All replacements must be named")
+    gabort("{hdr_pos_args(which(!have_name(values)) + 1)} expected named, got unnamed")
   }
   if (!is.null(.missing)) {
     gabort("{hdr_args(~.missing)} not supported for factors")

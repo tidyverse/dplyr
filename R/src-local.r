@@ -18,7 +18,7 @@
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
     gabort("{hdr_args(~pkg, ~env)} expected exactly one non-NULL, ",
-      "got {is.null(pkg) + is.null(env)}")
+      "got {(!is.null(pkg)) + (!is.null(env))}")
   }
   if (!is.null(pkg)) {
     env <- getNamespaceInfo(pkg, "lazydata")
