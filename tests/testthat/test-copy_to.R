@@ -8,7 +8,7 @@ test_that("src_local only overwrites if overwrite = TRUE", {
 
   expect_error(
     copy_to(src_env, tibble(x = 1), name = "x"),
-    "`name`, `overwrite`: object with name `x` already exists, set to TRUE to overwrite",
+    "`name`, `overwrite`: object with name `x` already exists, set `overwrite` = TRUE",
     fixed = TRUE
   )
 
@@ -43,7 +43,7 @@ test_that("auto_copy() requires same source", {
 
   expect_error(
     auto_copy(tbl(src_iris, "iris"), src_mtcars, name = "iris"),
-    "`x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
+    "`x`, `y`, `copy`: must share the same src, set `copy` = TRUE (may be slow)",
     fixed = TRUE
   )
 
@@ -57,7 +57,7 @@ test_that("auto_copy() requires same source", {
 test_that("src_sqlite() errs if path does not exist", {
   expect_error(
     src_sqlite(":memory:"),
-    "`path`, `create`: path does not exist, pass TRUE to create",
+    "`path`, `create`: path does not exist, set `create` = TRUE",
     fixed = TRUE
   )
 })

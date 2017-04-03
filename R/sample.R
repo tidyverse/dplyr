@@ -101,13 +101,13 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  glubort(args = c(~size, ~replace), "must be less or equal than {n} (size of data) or TRUE, ",
-    "got {size}")
+  glubort(args = c(~size, ~replace), "must be less or equal than {n} (size of data), ",
+    "set `replace` = TRUE for sampling with replacement")
 }
 
 check_frac <- function(size, replace = FALSE) {
   if (size <= 1 || replace) return()
 
   glubort(args = c(~size, ~replace), "sampled fraction must be less or equal to one, ",
-         "pass TRUE for sampling with replacement")
+    "set `replace` = TRUE for sampling with replacement")
 }

@@ -283,7 +283,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
   }
   if (size > 1 && !replace) {
     glubort(args = c(~size, ~replace), "sampled fraction must be less or equal to one, ",
-      "pass TRUE for sampling with replacement")
+      "set `replace` = TRUE for sampling with replacement")
   }
   weight <- enquo(weight)
 

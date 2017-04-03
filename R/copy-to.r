@@ -39,7 +39,7 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
 
   if (!copy) {
     glubort(args = c(~x, ~y, ~copy), "must share the same src, ",
-      "pass TRUE to copy (may be slow)")
+      "set `copy` = TRUE (may be slow)")
   }
 
   UseMethod("auto_copy")

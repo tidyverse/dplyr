@@ -23,12 +23,12 @@ test_that("sample respects weight", {
 
   expect_error(
     sample_frac(df, 2),
-    "`size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+    "`size`, `replace`: sampled fraction must be less or equal to one, set `replace` = TRUE for sampling with replacement",
     fixed = TRUE
   )
   expect_error(
     sample_frac(df %>% group_by(y), 2),
-    "`size`, `replace`: sampled fraction must be less or equal to one, pass TRUE for sampling with replacement",
+    "`size`, `replace`: sampled fraction must be less or equal to one, set `replace` = TRUE for sampling with replacement",
     fixed = TRUE
   )
   expect_error(sample_frac(df, 1, weight = y), "too few positive probabilities")
@@ -80,7 +80,7 @@ test_that("can't sample more values than obs (without replacement)", {
   by_cyl <- mtcars %>% group_by(cyl)
   expect_error(
     sample_n(by_cyl, 10),
-    "`size`, `replace`: must be less or equal than 7 (size of data) or TRUE, got 10",
+    "`size`, `replace`: must be less or equal than 7 (size of data), set `replace` = TRUE for sampling with replacement",
     fixed = TRUE
   )
 })

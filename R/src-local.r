@@ -57,7 +57,7 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
 
   if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
     glubort(args = c(~name, ~overwrite), "object with name {fmt_obj(name)} already exists, ",
-      "set to TRUE to overwrite")
+      "set `overwrite` = TRUE")
   }
 
   assign(name, envir = dest$env, df)
