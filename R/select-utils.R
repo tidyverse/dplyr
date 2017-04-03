@@ -112,7 +112,7 @@ one_of <- function(..., vars = current_vars()) {
   keep <- c(...)
 
   if (!is_character(keep)) {
-    bad("Expected character arguments, not {type_of(keep)}")
+    bad("All arguments must be character vectors, not {type_of(keep)}")
   }
 
   if (!all(keep %in% vars)) {

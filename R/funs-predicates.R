@@ -35,7 +35,7 @@ quo_reduce <- function(..., .op) {
 
   dots <- quos(...)
   if (length(dots) == 0) {
-    abort("Expected at least one expression")
+    abort("At least one expression must be given")
   } else if (length(dots) == 1) {
     return(dots[[1]])
   }

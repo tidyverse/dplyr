@@ -80,7 +80,7 @@ test_that("position must resolve to numeric variables throws error", {
 test_that("one_of gives useful errors", {
   expect_error(
     one_of(1L, vars = c("x", "y")),
-    "Expected character arguments, not integer",
+    "All arguments must be character vectors, not integer",
     fixed = TRUE
   )
 })

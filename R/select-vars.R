@@ -122,7 +122,7 @@ setdiff2 <- function(x, y) {
 rename_vars <- function(vars, ..., strict = TRUE) {
   args <- quos(...)
   if (any(names2(args) == "")) {
-    abort("Expected names for all arguments")
+    abort("All arguments must be named")
   }
 
   is_name <- map_lgl(args, is_symbol)
