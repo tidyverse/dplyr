@@ -175,13 +175,13 @@ common_by.NULL <- function(by, x, y) {
 #' @export
 common_by.default <- function(by, x, y) {
   glubort(args = ~by, "must be a (named) character vector, list, or NULL for ",
-    "natural joins (not recommended in production code), got {type_of(by)}")
+    "natural joins (not recommended in production code), not {type_of(by)}")
 }
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
     glubort(args = ~suffix, "must be a character vector of length 2, ",
-      "got {type_of(x)} of length {length(x)}")
+      "not {type_of(x)} of length {length(x)}")
   }
 
   list(x = x[1], y = x[2])

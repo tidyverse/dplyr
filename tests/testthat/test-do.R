@@ -13,9 +13,9 @@ test_that("can't use both named and unnamed args", {
 })
 
 test_that("unnamed elements must return data frames", {
-  expect_error(df %>% ungroup %>% do(1), "Result must be a data frame, got numeric")
-  expect_error(df %>% do(1), "Results 1, 2, 3 must be data frames, got numeric")
-  expect_error(df %>% do("a"), "Results 1, 2, 3 must be data frames, got character")
+  expect_error(df %>% ungroup %>% do(1), "Result must be a data frame, not numeric")
+  expect_error(df %>% do(1), "Results 1, 2, 3 must be data frames, not numeric")
+  expect_error(df %>% do("a"), "Results 1, 2, 3 must be data frames, not character")
 })
 
 test_that("unnamed results bound together by row", {
@@ -29,7 +29,7 @@ test_that("unnamed results bound together by row", {
 test_that("can only use single unnamed argument", {
   expect_error(
     df %>% do(head, tail),
-    "Can only supply one unnamed argument, got 2"
+    "Can only supply one unnamed argument, not 2"
   )
 })
 

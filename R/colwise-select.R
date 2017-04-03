@@ -82,7 +82,7 @@ rename_at <- function(.tbl, .vars, .funs = list(), ...) {
 
 vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   if (length(funs) > 1) {
-    glubort(args = ~.funs, "must contain one renaming function, got {length(funs)}")
+    glubort(args = ~.funs, "must contain one renaming function, not {length(funs)}")
   } else if (length(funs) == 1) {
     fun <- as_function(funs[[1]])
     syms <- set_names(syms(vars), fun(vars))

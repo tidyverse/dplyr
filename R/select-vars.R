@@ -80,7 +80,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
     bad <- args[!is_numeric]
 
     glubort(calls = bad, "must resolve to integer column positions, ",
-      "got {type_of(first_bad)}",
+      "not {type_of(first_bad)}",
       first_bad = ind_list[!is_numeric][[1]])
   }
 
@@ -128,7 +128,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
   if (!all(is_name)) {
     bad <- args[!is_name]
     glubort(named_calls = bad, "must be unquoted variable names, ",
-      "got {type_of(first_bad_rhs)}",
+      "not {type_of(first_bad_rhs)}",
       first_bad_rhs = f_rhs(bad[[1]]))
   }
 

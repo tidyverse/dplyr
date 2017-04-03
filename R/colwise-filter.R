@@ -62,7 +62,7 @@ apply_filter_syms <- function(pred, syms, tbl) {
     joiner <- any_exprs
   } else {
     glubort(args = ~.vars_predicate, "must be a call to `all_vars()` or `any_vars()`, ",
-      "got {type_of(pred)}")
+      "not {type_of(pred)}")
   }
 
   pred <- map(syms, function(sym) expr_substitute(pred, quote(.), sym))

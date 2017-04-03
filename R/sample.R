@@ -68,14 +68,14 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
 
-  glubort(args = ~tbl, "must be a data frame, got {fmt_classes(tbl)}")
+  glubort(args = ~tbl, "must be a data frame, not {fmt_classes(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
-  glubort(args = ~tbl, "must be a data frame, got {fmt_classes(tbl)}")
+  glubort(args = ~tbl, "must be a data frame, not {fmt_classes(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------
@@ -84,15 +84,15 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    glubort(args = ~weight, "must be a numeric, got {type_of(x)}")
+    glubort(args = ~weight, "must be a numeric, not {type_of(x)}")
   }
   if (any(x < 0)) {
     glubort(args = ~weight, "must be a vector with all values nonnegative, ",
-      "got {x[x < 0][[1]]}")
+      "not {x[x < 0][[1]]}")
   }
   if (length(x) != n) {
     glubort(args = ~weight, "must be a length {n} (same as data), ",
-      "got {length(x)}")
+      "not {length(x)}")
   }
 
   x / sum(x)

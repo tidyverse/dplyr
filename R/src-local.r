@@ -18,7 +18,7 @@
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
     glubort(args = c(~pkg, ~env), "exactly one must be non-NULL, ",
-      "got {(!is.null(pkg)) + (!is.null(env))}")
+      "not {(!is.null(pkg)) + (!is.null(env))}")
   }
   if (!is.null(pkg)) {
     env <- getNamespaceInfo(pkg, "lazydata")

@@ -127,7 +127,7 @@ tbl_at_vars <- function(tbl, vars) {
     out
   } else {
     glubort(args = ~.vars, "must be a character/numeric vector or a `vars()` object, ",
-      "got {type_of(vars)}")
+      "not {type_of(vars)}")
   }
 }
 tbl_at_syms <- function(tbl, vars) {
@@ -151,7 +151,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
 
   if (is_fun_list(.p)) {
     if (length(.p) != 1) {
-      glubort(args = ~.predicate, "must have length 1, got {length(.p)}")
+      glubort(args = ~.predicate, "must have length 1, not {length(.p)}")
     }
     .p <- .p[[1]]
   }

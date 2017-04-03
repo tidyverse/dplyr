@@ -9,11 +9,11 @@ test_that("error if no arguments", {
 test_that("error if unnamed", {
   expect_error(
     recode("a", b = 5, "c"),
-    "Argument 3: must be named, got unnamed"
+    "Argument 3: must be named, not unnamed"
   )
   expect_error(
     recode(factor("a"), b = 5, "c"),
-    "Argument 3: must be named, got unnamed",
+    "Argument 3: must be named, not unnamed",
     fixed = TRUE
   )
 })

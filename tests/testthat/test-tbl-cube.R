@@ -3,19 +3,19 @@ context("tbl_cube")
 test_that("construction errors", {
   expect_error(
     tbl_cube(1:3, 1:3),
-    "`dimensions`: must be a named list of vectors, got integer",
+    "`dimensions`: must be a named list of vectors, not integer",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), 1:3),
-    "`measures`: must be a named list of arrays, got integer",
+    "`measures`: must be a named list of arrays, not integer",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), list(b = 1:3)),
-    "`measures`: must be a named list of arrays, got list",
+    "`measures`: must be a named list of arrays, not list",
     fixed = TRUE
   )
 })
@@ -82,7 +82,7 @@ test_that("filter", {
 
   expect_error(
     filter(nasa, month == 1 & year == 2000),
-    "month == 1 & year == 2000: must refer to exactly one dimension, got `month`, `year`"
+    "month == 1 & year == 2000: must refer to exactly one dimension, not `month`, `year`"
   )
 })
 

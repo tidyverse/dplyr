@@ -87,13 +87,13 @@ tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
       is.null(names(dimensions))) {
     glubort(args = ~dimensions, "must be a named list of vectors, ",
-      "got {type_of(dimensions)}")
+      "not {type_of(dimensions)}")
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
     glubort(args = ~measures, "must be a named list of arrays, ",
-      "got {type_of(measures)}")
+      "not {type_of(measures)}")
   }
 
   # Check measures have correct dimensions
@@ -336,7 +336,7 @@ find_index_check <- function(i, x, names) {
   idx <- find_index(f_rhs(x), names)
   if (length(idx) != 1) {
     glubort(calls = x, "must refer to exactly one dimension, ",
-      "got {fmt_obj(names[idx])}")
+      "not {fmt_obj(names[idx])}")
   }
   idx
 }

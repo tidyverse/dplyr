@@ -79,7 +79,7 @@ bind_rows <- function(..., .id = NULL) {
   if (!is.null(.id)) {
     if (!(is.character(.id) && length(.id) == 1)) {
       glubort(args = ~.id, "must be a scalar string, ",
-        "got {type_of(.id)} of length {length(.id)}")
+        "not {type_of(.id)} of length {length(.id)}")
     }
     names(x) <- names(x) %||% seq_along(x)
   }

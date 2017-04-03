@@ -80,7 +80,7 @@ test_that("position must resolve to numeric variables throws error", {
 test_that("one_of gives useful errors", {
   expect_error(
     one_of(1L, vars = c("x", "y")),
-    "Expected character arguments, got integer",
+    "Expected character arguments, not integer",
     fixed = TRUE
   )
 })
@@ -229,7 +229,7 @@ test_that("when strict = FALSE, rename_vars always succeeds", {
 test_that("rename_vars() expects symbol", {
   expect_error(
     rename_vars(letters, d = "e"),
-    '`d` = "e": must be unquoted variable names, got string',
+    '`d` = "e": must be unquoted variable names, not string',
     fixed = TRUE
   )
 })
@@ -241,7 +241,7 @@ test_that("rename_vars() expects symbol", {
 test_that("tbl_at_vars() errs on bad input", {
   expect_error(
     tbl_at_vars(iris, raw(3)),
-    "`.vars`: must be a character/numeric vector or a `vars()` object, got raw",
+    "`.vars`: must be a character/numeric vector or a `vars()` object, not raw",
     fixed = TRUE
   )
 })
@@ -253,7 +253,7 @@ test_that("tbl_at_vars() errs on bad input", {
 test_that("tbl_if_vars() errs on bad input", {
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
-    "`.predicate`: must have length 1, got 2",
+    "`.predicate`: must have length 1, not 2",
     fixed = TRUE
   )
 })

@@ -113,7 +113,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- dots_list(...)
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    glubort(pos_args = bad, "must be named, got unnamed")
+    glubort(pos_args = bad, "must be named, not unnamed")
   }
 
   n <- length(.x)
@@ -141,7 +141,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
 
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    glubort(pos_args = bad, "must be named, got unnamed")
+    glubort(pos_args = bad, "must be named, not unnamed")
   }
   if (!is.null(.missing)) {
     glubort(args = ~.missing, "not supported for factors")

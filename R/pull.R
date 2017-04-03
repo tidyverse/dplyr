@@ -46,7 +46,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      glubort(args = ~var, "must be a value between {-n} and {n} (excluding zero), got {var}")
+      glubort(args = ~var, "must be a value between {-n} and {n} (excluding zero), not {var}")
     }
 
     if (var < 0) {
@@ -57,6 +57,6 @@ find_var <- function(var, vars) {
 
   } else {
     glubort(args = ~var, "must be a numeric or character scalar, ",
-      "got {type_of(var)} of length {length(var)}")
+      "not {type_of(var)} of length {length(var)}")
   }
 }

@@ -41,7 +41,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
     glubort(args = ~n, "must be a nonnegative integer scalar, ",
-      "got {type_of(n)} of length {length(n)}")
+      "not {type_of(n)} of length {length(n)}")
   }
   if (n == 0) return(x)
 
@@ -61,12 +61,12 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (inherits(x, "ts")) {
-    glubort(args = ~x, "must be a vector, got ts object, do you want `stats::lag()`?")
+    glubort(args = ~x, "must be a vector, not ts object, do you want `stats::lag()`?")
   }
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
     glubort(args = ~n, "must be a nonnegative integer scalar, ",
-      "got {type_of(n)} of length {length(n)}")
+      "not {type_of(n)} of length {length(n)}")
   }
   if (n == 0) return(x)
 
