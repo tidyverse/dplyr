@@ -17,27 +17,27 @@ bad <- function(..., .envir = parent.frame()) {
 }
 
 bad_args <- function(args, ..., .envir = parent.frame()) {
-  glubort(hdr_args(args), ..., .envir = .envir)
+  glubort(fmt_args(args), ..., .envir = .envir)
 }
 
 bad_pos_args <- function(pos_args, ..., .envir = parent.frame()) {
-  glubort(hdr_pos_args(pos_args), ..., .envir = .envir)
+  glubort(fmt_pos_args(pos_args), ..., .envir = .envir)
 }
 
 bad_calls <- function(calls, ..., .envir = parent.frame()) {
-  glubort(hdr_calls(calls), ..., .envir = .envir)
+  glubort(fmt_calls(calls), ..., .envir = .envir)
 }
 
 bad_named_calls <- function(named_calls, ..., .envir = parent.frame()) {
-  glubort(hdr_named_calls(named_calls), ..., .envir = .envir)
+  glubort(fmt_named_calls(named_calls), ..., .envir = .envir)
 }
 
 bad_cols <- function(cols, ..., .envir = parent.frame()) {
-  glubort(hdr_cols(cols), ..., .envir = .envir)
+  glubort(fmt_cols(cols), ..., .envir = .envir)
 }
 
 bad_measures <- function(measures, ..., .envir = parent.frame()) {
-  glubort(hdr_measures(measures), ..., .envir = .envir)
+  glubort(fmt_measures(measures), ..., .envir = .envir)
 }
 
 glubort <- function(header, ..., .envir = parent.frame()) {
@@ -46,53 +46,34 @@ glubort <- function(header, ..., .envir = parent.frame()) {
   abort(text)
 }
 
-hdr_args <- function(...) {
-  x <- parse_args(...)
-  glue("{fmt_obj(x)}")
+fmt_args <- function(x) {
+  x <- parse_args(x)
+  fmt_obj(x)
 }
 
-hdr_pos_args <- function(...) {
-  x <- c(...)
+fmt_pos_args <- function(x) {
   args <- ntext(length(x), "Argument", "Arguments")
   glue("{args} {fmt_comma(x)}")
 }
 
-hdr_calls <- function(...) {
+fmt_calls <- function(...) {
   x <- parse_named_call(...)
-  glue("{fmt_comma(x)}")
+  fmt_comma(x)
 }
 
-hdr_named_calls <- function(...) {
+fmt_named_calls <- function(...) {
   x <- parse_named_call(...)
-  glue("{fmt_named(x)}")
+  fmt_named(x)
 }
 
-hdr_cols <- function(x) {
+fmt_cols <- function(x) {
   cols <- ntext(length(x), "Column", "Columns")
   glue("{cols} {fmt_obj(x)}")
 }
 
-hdr_measures <- function(x) {
+fmt_measures <- function(x) {
   measures <- ntext(length(x), "Measure", "Measures")
   glue("{measures} {fmt_obj(x)}")
-}
-
-fmt_args <- function(...) {
-  x <- parse_args(...)
-  fmt_obj(x)
-}
-
-parse_args <- function(...) {
-  x <- unlist(list(...), recursive = FALSE)
-  is_fml <- map_lgl(x, is_formula)
-  x[is_fml] <- map_chr(map(x[is_fml], "[[", 2), as_string)
-  unlist(x)
-}
-
-parse_named_call <- function(...) {
-  x <- unlist(list(...), recursive = FALSE)
-  x <- map_chr(map(x, f_rhs), deparse_trunc)
-  x
 }
 
 fmt_named <- function(x) {
@@ -104,8 +85,7 @@ fmt_obj <- function(x) {
 }
 
 fmt_obj1 <- function(x) {
-  if (is.numeric(x)) x
-  else paste0("`", x, "`")
+  paste0("`", x, "`")
 }
 
 fmt_classes <- function(x) {
@@ -126,4 +106,19 @@ fmt_comma <- function(...) {
   }
 
   commas(x)
+}
+
+parse_args <- function(x) {
+  # convert single formula to list of length 1
+  x <- unlist(list(x), recursive = FALSE)
+  is_fml <- map_lgl(x, is_formula)
+  x[is_fml] <- map_chr(map(x[is_fml], "[[", 2), as_string)
+  unlist(x)
+}
+
+parse_named_call <- function(x) {
+  # convert single formula to list of length 1
+  x <- unlist(list(x), recursive = FALSE)
+  x <- map_chr(map(x, f_rhs), deparse_trunc)
+  x
 }

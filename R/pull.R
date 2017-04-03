@@ -46,7 +46,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      bad_args(~var, "must be a value between {-n} and {n} (excluding zero), not {var}")
+      bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
     }
 
     if (var < 0) {
@@ -56,7 +56,7 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    bad_args(~var, "must be a numeric or character scalar, ",
+    bad_args("var", "must be a numeric or character scalar, ",
       "not {type_of(var)} of length {length(var)}"
     )
   }

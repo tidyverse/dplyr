@@ -86,14 +86,14 @@
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
       is.null(names(dimensions))) {
-    bad_args(~dimensions, "must be a named list of vectors, ",
+    bad_args("dimensions", "must be a named list of vectors, ",
       "not {type_of(dimensions)}"
     )
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
-    bad_args(~measures, "must be a named list of arrays, ",
+    bad_args("measures", "must be a named list of arrays, ",
       "not {type_of(measures)}"
     )
   }
@@ -274,7 +274,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe_row <- anyDuplicated(all[dim_names])
     dupe <- unlist(all[dupe_row, dim_names])
 
-    bad_args(~x, "all combinations of dimension variables must be unique, ",
+    bad_args("x", "all combinations of dimension variables must be unique, ",
       'duplicates: {fmt_named(dupe)}'
     )
   }
