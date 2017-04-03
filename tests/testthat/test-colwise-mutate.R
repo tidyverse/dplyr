@@ -31,7 +31,7 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 
-test_that("named arguments force complete namd", {
+test_that("named arguments force complete named", {
   df <- data.frame(x = 1:3, y = 1:3)
   expect_named(summarise_at(df, vars(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
   expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))

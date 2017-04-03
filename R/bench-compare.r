@@ -63,9 +63,7 @@ NULL
 #' @export
 #' @rdname bench_compare
 bench_tbls <- function(tbls, op, ..., times = 10) {
-  if (!requireNamespace("microbenchmark")) {
-    stop("Please install the microbenchmark package", call. = FALSE)
-  }
+  check_pkg("microbenchmark", "compute table benchmarks")
 
   # Generate call to microbenchmark function that evaluates op for each tbl
   calls <- lapply(seq_along(tbls), function(i) {
@@ -95,9 +93,7 @@ compare_tbls2 <- function(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_f
 }
 
 expect_equal_tbls <- function(results, ref = NULL, compare = equal_data_frame, ...) {
-  if (!requireNamespace("testthat", quietly = TRUE)) {
-    stop("Please install the testthat package", call. = FALSE)
-  }
+  check_pkg("testthat", "compare tables")
 
   if (length(results) < 2 && is.null(ref)) {
     testthat::skip("Need at least two srcs to compare")

@@ -282,7 +282,9 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     warn("`.env` is deprecated and no longer has any effect")
   }
   if (size > 1 && !replace) {
-    abort("Sampled fraction can't be greater than one unless replace = TRUE")
+    bad_args(c("size", "replace"), "sampled fraction must be less or equal to one, ",
+      "set `replace` = TRUE for sampling with replacement"
+    )
   }
   weight <- enquo(weight)
 
@@ -301,9 +303,12 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
 
 sample_group <- function(tbl, i, frac, size, replace, weight) {
   n <- length(i)
-  if (frac) size <- round(size * n)
-
-  check_size(size, n, replace)
+  if (frac) {
+    check_frac(size, replace)
+    size <- round(size * n)
+  } else {
+    check_size(size, n, replace)
+  }
 
   weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
   if (!is_null(weight)) {

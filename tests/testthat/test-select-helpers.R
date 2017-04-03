@@ -66,11 +66,23 @@ test_that("num_range selects numeric ranges", {
   expect_equal(select_vars(vars, num_range("x", 10:11, width = 2)), vars[5:6])
 })
 
+test_that("position must resolve to numeric variables throws error", {
+  expect_error(
+    select_vars(letters, "6"),
+    '"6": must resolve to integer column positions',
+    fixed = TRUE
+  )
+})
+
 
 # one_of ------------------------------------------------------------------
 
 test_that("one_of gives useful errors", {
-  expect_error(one_of(1L, vars = c("x", "y")), "must be a character vector")
+  expect_error(
+    one_of(1L, vars = c("x", "y")),
+    "All arguments must be character vectors, not integer",
+    fixed = TRUE
+  )
 })
 
 test_that("one_of tolerates but warns for unknown variables", {
@@ -204,11 +216,44 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
 test_that("when strict = FALSE, rename_vars always succeeds", {
   expect_error(
     rename_vars(c("a", "b"), d = e, strict = TRUE),
-    "Unknown variables: e"
+    "`e`: unknown variables",
+    fixed = TRUE
   )
 
   expect_equal(
     rename_vars(c("a", "b"), d = e, strict = FALSE),
     c("a" = "a", "b" = "b")
+  )
+})
+
+test_that("rename_vars() expects symbol", {
+  expect_error(
+    rename_vars(letters, d = "e"),
+    '`d` = "e": must be unquoted variable names, not string',
+    fixed = TRUE
+  )
+})
+
+
+
+# tbl_at_vars -------------------------------------------------------------
+
+test_that("tbl_at_vars() errs on bad input", {
+  expect_error(
+    tbl_at_vars(iris, raw(3)),
+    "`.vars`: must be a character/numeric vector or a `vars()` object, not raw",
+    fixed = TRUE
+  )
+})
+
+
+
+# tbl_if_vars -------------------------------------------------------------
+
+test_that("tbl_if_vars() errs on bad input", {
+  expect_error(
+    tbl_if_vars(iris, funs(identity, force), environment()),
+    "`.predicate`: must have length 1, not 2",
+    fixed = TRUE
   )
 })

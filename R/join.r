@@ -145,19 +145,15 @@ common_by_from_vector <- function(by) {
 common_by.list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
-    stop(
-      "Join column not found in lhs: ",
-      paste(setdiff(by$x, x_vars), collapse = ", "),
-      call. = FALSE
+    bad_args("by", "join column {missing} not found in lhs",
+      missing = fmt_obj(setdiff(by$x, x_vars))
     )
   }
 
   y_vars <- tbl_vars(y)
   if (!all(by$y %in% y_vars)) {
-    stop(
-      "Join column not found in rhs: ",
-      paste(setdiff(by$y, y_vars), collapse = ", "),
-      call. = FALSE
+    bad_args("by", "join column {missing} not found in rhs",
+      missing = fmt_obj(setdiff(by$y, y_vars))
     )
   }
 
@@ -168,7 +164,7 @@ common_by.list <- function(by, x, y) {
 common_by.NULL <- function(by, x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
-    stop("No common variables. Please specify `by` param.", call. = FALSE)
+    bad_args("by", "required, because the data sources have no common variables")
   }
   message("Joining, by = ", utils::capture.output(dput(by)))
 
@@ -180,16 +176,16 @@ common_by.NULL <- function(by, x, y) {
 
 #' @export
 common_by.default <- function(by, x, y) {
-  stop(
-    "`by` must be a (named) character vector, a list, or NULL for ",
-    "natural joins (not recommended in production code)",
-    call. = FALSE
+  bad_args("by", "must be a (named) character vector, list, or NULL for ",
+    "natural joins (not recommended in production code), not {type_of(by)}"
   )
 }
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
-    stop("`suffix` must be a character vector of length 2.", call. = FALSE)
+    bad_args("suffix", "must be a character vector of length 2, ",
+      "not {type_of(x)} of length {length(x)}"
+    )
   }
 
   list(x = x[1], y = x[2])

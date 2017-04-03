@@ -55,7 +55,8 @@ arrange_.tbl_df <- function(.data, ..., .dots = list()) {
 filter.tbl_df <- function(.data, ...) {
   dots <- quos(...)
   if (any(have_name(dots))) {
-    abort("filter() takes unnamed arguments. Do you need `==`?")
+    bad <- dots[have_name(dots)]
+    bad_named_calls(bad, "must not be named, do you need `==`?")
   } else if (is_empty(dots)) {
     return(.data)
   }

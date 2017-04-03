@@ -54,3 +54,27 @@ test_that("#937 is fixed", {
     c(tail(df$score[df$name == "Jen"], -1), NA)
   )
 })
+
+test_that("input checks", {
+  expect_error(
+    lead(letters, -1),
+    "`n`: must be a nonnegative integer scalar, not double of length 1",
+    fixed = TRUE
+  )
+  expect_error(
+    lead(letters, "1"),
+    "`n`: must be a nonnegative integer scalar, not string of length 1",
+    fixed = TRUE
+  )
+
+  expect_error(
+    lag(letters, -1),
+    "`n`: must be a nonnegative integer scalar, not double of length 1",
+    fixed = TRUE
+  )
+  expect_error(
+    lag(letters, "1"),
+    "`n`: must be a nonnegative integer scalar, not string of length 1",
+    fixed = TRUE
+  )
+})

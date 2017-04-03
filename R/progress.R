@@ -77,7 +77,7 @@ Progress <- R6::R6Class("Progress",
       "Process one element"
       if (self$stopped) return(self)
 
-      if (self$i == self$n) stop("No more ticks")
+      if (self$i == self$n) abort("No more ticks")
       self$i <- self$i + 1
       self
     },

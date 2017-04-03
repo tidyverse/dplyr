@@ -1,7 +1,17 @@
 context("na_if")
 
 test_that("error for bad y length", {
-  expect_error(na_if(1:3, 1:2), "must be length 1 or same length")
+  expect_error(
+    na_if(1:3, 1:2),
+    "`y`: must be length 3 (same as `x`) or one, not 2",
+    fixed = TRUE
+  )
+
+  expect_error(
+    na_if(1, 1:2),
+    "`y`: must be length one (same as `x`), not 2",
+    fixed = TRUE
+  )
 })
 
 test_that("scalar y replaces all matching x", {
