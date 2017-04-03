@@ -9,7 +9,7 @@ test_that("error messages", {
     case_when(
       paste(50)
     ),
-    "Case 1 (paste(50)) is not a two-sided formula",
+    "Case 1 (paste(50)): must be a two-sided formula, not string",
     fixed = TRUE
   )
 
@@ -17,7 +17,7 @@ test_that("error messages", {
     case_when(
       50 ~ 1:3
     ),
-    "LHS of case 1 (50) is double, not logical",
+    "LHS of case 1 (50): must be a logical, not double",
     fixed = TRUE
   )
 })
@@ -28,7 +28,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1,
       c(FALSE, TRUE, FALSE) ~ 2
     ),
-    "LHS of case 1 (c(TRUE, FALSE)) is length 2",
+    "LHS of case 1 (c(TRUE, FALSE)): must be length 3 (the longest input) or one, not 2",
     fixed = TRUE
   )
 
@@ -37,7 +37,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     ),
-    "RHS of case 1 (1:3) is length 3",
+    "RHS of case 1 (1:3): must be length 2 (the first output) or one, not 3",
     fixed = TRUE
   )
 })

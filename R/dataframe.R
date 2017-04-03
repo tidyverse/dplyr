@@ -201,7 +201,7 @@ do.data.frame <- function(.data, ...) {
   if (!named) {
     out <- eval_tidy_(args[[1]], overscope)
     if (!inherits(out, "data.frame")) {
-      abort("Result must be a data frame")
+      bad("Result must be a data frame, not {fmt_classes(out)}")
     }
   } else {
     out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))
@@ -228,7 +228,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
   }
 
   weight <- eval_tidy(enquo(weight), tbl)
-  sample_n_basic(tbl, size, replace = replace, weight = weight)
+  sample_n_basic(tbl, size, FALSE, replace = replace, weight = weight)
 }
 
 
@@ -240,15 +240,21 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
   }
 
   weight <- eval_tidy(enquo(weight), tbl)
-  sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
+  sample_n_basic(tbl, size, TRUE, replace = replace, weight = weight)
 }
 
-sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
+sample_n_basic <- function(tbl, size, frac, replace = FALSE, weight = NULL) {
   n <- nrow(tbl)
 
   weight <- check_weight(weight, n)
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  check_size(size, n, replace)
+
+  if (frac) {
+    check_frac(size, replace)
+    size <- round(size * n)
+  } else {
+    check_size(size, n, replace)
+  }
 
   idx <- sample.int(n, size, replace = replace, prob = weight)
   tbl[idx, , drop = FALSE]

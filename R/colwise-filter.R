@@ -53,7 +53,7 @@ filter_at <- function(.tbl, .vars, .vars_predicate) {
 
 apply_filter_syms <- function(pred, syms, tbl) {
   if (is_empty(syms)) {
-    abort("cannot filter on empty variable selection")
+    abort("Cannot filter on empty variable selection")
   }
 
   if (inherits(pred, "all_vars")) {
@@ -61,7 +61,9 @@ apply_filter_syms <- function(pred, syms, tbl) {
   } else if (inherits(pred, "any_vars")) {
     joiner <- any_exprs
   } else {
-    abort("`.vars_predicate` should be called with `all_vars()` or `any_vars()`")
+    bad_args(~.vars_predicate, "must be a call to `all_vars()` or `any_vars()`, ",
+      "not {type_of(pred)}"
+    )
   }
 
   pred <- map(syms, function(sym) expr_substitute(pred, quote(.), sym))

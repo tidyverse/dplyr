@@ -89,10 +89,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
   } else if (all(!nms)) {
     vals <- seq_along(values)
   } else {
-    stop(
-      "Either all values must be named, or none must be named.",
-      call. = FALSE
-    )
+    abort("Either all values must be named, or none must be named.")
   }
 
   n <- length(.x)
@@ -115,7 +112,8 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- dots_list(...)
   if (!all(have_name(values))) {
-    stop("All replacements must be named", call. = FALSE)
+    bad <- which(!have_name(values)) + 1
+    bad_pos_args(bad, "must be named, not unnamed")
   }
 
   n <- length(.x)
@@ -138,14 +136,15 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- dots_list(...)
   if (length(values) == 0) {
-    stop("No replacements provided", call. = FALSE)
+    abort("No replacements provided")
   }
 
   if (!all(have_name(values))) {
-    stop("All replacements must be named", call. = FALSE)
+    bad <- which(!have_name(values)) + 1
+    bad_pos_args(bad, "must be named, not unnamed")
   }
   if (!is.null(.missing)) {
-    stop("`missing` is not supported for factors", call. = FALSE)
+    bad_args(~.missing, "not supported for factors")
   }
 
   n <- length(levels(.x))
@@ -178,7 +177,7 @@ find_template <- function(values, .default = NULL, .missing = NULL) {
   x <- compact(c(values, .default, .missing))
 
   if (length(x) == 0) {
-    stop("No replacements provided", call. = FALSE)
+    abort("No replacements provided")
   }
 
   x[[1]]

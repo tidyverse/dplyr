@@ -43,7 +43,7 @@ set_current_vars <- function(x) {
 #' @export
 #' @rdname select_helpers
 current_vars <- function() {
-  cur_vars_env$selected %||% stop("Variable context not set", call. = FALSE)
+  cur_vars_env$selected %||% abort("Variable context not set")
 }
 
 #' @export
@@ -112,7 +112,7 @@ one_of <- function(..., vars = current_vars()) {
   keep <- c(...)
 
   if (!is_character(keep)) {
-    abort("`c(...)` must be a character vector")
+    bad("All arguments must be character vectors, not {type_of(keep)}")
   }
 
   if (!all(keep %in% vars)) {

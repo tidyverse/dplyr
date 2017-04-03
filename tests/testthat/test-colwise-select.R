@@ -4,7 +4,11 @@ df <- data_frame(x = 0L, y = 0.5, z = 1)
 
 test_that("can select/rename all variables", {
   expect_identical(select_all(df), df)
-  expect_error(rename_all(df), "No renaming function supplied")
+  expect_error(
+    rename_all(df),
+    "`.funs`: no renaming function supplied",
+    fixed = TRUE
+  )
 
   expect_identical(select_all(df, toupper), set_names(df, c("X", "Y", "Z")))
   expect_identical(select_all(df, toupper), rename_all(df, toupper))
@@ -12,7 +16,10 @@ test_that("can select/rename all variables", {
 
 test_that("can select/rename with predicate", {
   expect_identical(select_if(df, is_integerish), select(df, x, z))
-  expect_error(rename_if(df, is_integerish), "No renaming function")
+  expect_error(
+    rename_if(df, is_integerish),
+    "`.funs`: no renaming function supplied"
+  )
 
   expect_identical(select_if(df, is_integerish, toupper), set_names(df[c("x", "z")], c("X", "Z")))
   expect_identical(rename_if(df, is_integerish, toupper), set_names(df, c("X", "y", "Z")))
@@ -24,13 +31,25 @@ test_that("can supply funs()", {
 })
 
 test_that("fails when more than one renaming function is supplied", {
-  expect_error(select_all(df, funs(tolower, toupper)), "Only one renaming function")
-  expect_error(rename_all(df, funs(tolower, toupper)), "Only one renaming function")
+  expect_error(
+    select_all(df, funs(tolower, toupper)),
+    "`.funs`: must contain one renaming function, not 2",
+    fixed = TRUE
+  )
+  expect_error(
+    rename_all(df, funs(tolower, toupper)),
+    "`.funs`: must contain one renaming function, not 2",
+    fixed = TRUE
+  )
 })
 
 test_that("can select/rename with vars()", {
   expect_identical(select_at(df, vars(x:y)), df[-3])
-  expect_error(rename_at(df, vars(x:y)), "No renaming function supplied")
+  expect_error(
+    rename_at(df, vars(x:y)),
+    "`.funs`: no renaming function supplied",
+    fixed = TRUE
+  )
 
   expect_identical(select_at(df, vars(x:y), toupper), set_names(df[-3], c("X", "Y")))
   expect_identical(rename_at(df, vars(x:y), toupper), set_names(df, c("X", "Y", "z")))

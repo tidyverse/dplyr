@@ -1,20 +1,40 @@
 context("if_else")
 
 test_that("first argument must be logical", {
-  expect_error(if_else(1:10, 1, 2), "must be logical")
+  expect_error(
+    if_else(1:10, 1, 2),
+    "`condition`: must be a logical, not integer",
+    fixed = TRUE
+  )
 })
 
 test_that("true and false must be same length as condition (or length 1)", {
-  expect_error(if_else(1:3 < 2, 1:2, 1:3), "`true` is length 2 not 1 or 3")
-  expect_error(if_else(1:3 < 2, 1:3, 1:2), "`false` is length 2 not 1 or 3")
+  expect_error(
+    if_else(1:3 < 2, 1:2, 1:3),
+    "`true`: must be length 3 (length of `condition`) or one, not 2",
+    fixed = TRUE
+  )
+  expect_error(
+    if_else(1:3 < 2, 1:3, 1:2),
+    "`false`: must be length 3 (length of `condition`) or one, not 2",
+    fixed = TRUE
+  )
 })
 
 test_that("true and false must be same type and same class", {
-  expect_error(if_else(1:3 < 2, 1, 1L), "`false` has type 'integer'")
+  expect_error(
+    if_else(1:3 < 2, 1, 1L),
+    "`false`: must be type double, not integer",
+    fixed = TRUE
+  )
 
   x <- factor("x")
   y <- ordered("x")
-  expect_error(if_else(1:3 < 2, x, y), "`false` has class ordered/factor")
+  expect_error(
+    if_else(1:3 < 2, x, y),
+    "`false`: must be factor, not ordered/factor",
+    fixed = TRUE
+  )
 })
 
 test_that("scalar true and false are vectorised", {

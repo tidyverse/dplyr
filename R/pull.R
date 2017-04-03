@@ -38,7 +38,7 @@ pull.data.frame <- function(.data, var = -1) {
 find_var <- function(var, vars) {
   if (is_string(var)) {
     if (!var %in% vars) {
-      abort(glue("Unknown variable '{var}'", var = var))
+      bad_cols(var, "not found")
     }
     var
   } else if (is.numeric(var) && length(var) == 1) {
@@ -46,7 +46,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      abort(glue("`var` must take a value between -{n} and {n}"))
+      bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
     }
 
     if (var < 0) {
@@ -56,6 +56,8 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    abort("`var` must be a numeric or character vector of length 1")
+    bad_args("var", "must be a numeric or character scalar, ",
+      "not {type_of(var)} of length {length(var)}"
+    )
   }
 }

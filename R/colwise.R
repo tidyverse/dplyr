@@ -126,7 +126,9 @@ tbl_at_vars <- function(tbl, vars) {
     }
     out
   } else {
-    abort("`.vars` should be a character/numeric vector or a `vars()` object")
+    bad_args(~.vars, "must be a character/numeric vector or a `vars()` object, ",
+      "not {type_of(vars)}"
+    )
   }
 }
 tbl_at_syms <- function(tbl, vars) {
@@ -150,7 +152,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
 
   if (is_fun_list(.p)) {
     if (length(.p) != 1) {
-      abort("function list should be length 1")
+      bad_args(~.predicate, "must have length 1, not {length(.p)}")
     }
     .p <- .p[[1]]
   }
