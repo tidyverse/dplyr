@@ -68,14 +68,14 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
 
-  glubort(args = ~tbl, "must be a data frame, not {fmt_classes(tbl)}")
+  bad_args(~tbl, "must be a data frame, not {fmt_classes(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
-  glubort(args = ~tbl, "must be a data frame, not {fmt_classes(tbl)}")
+  bad_args(~tbl, "must be a data frame, not {fmt_classes(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------
@@ -84,15 +84,17 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    glubort(args = ~weight, "must be a numeric, not {type_of(x)}")
+    bad_args(~weight, "must be a numeric, not {type_of(x)}")
   }
   if (any(x < 0)) {
-    glubort(args = ~weight, "must be a vector with all values nonnegative, ",
-      "not {x[x < 0][[1]]}")
+    bad_args(~weight, "must be a vector with all values nonnegative, ",
+      "not {x[x < 0][[1]]}"
+    )
   }
   if (length(x) != n) {
-    glubort(args = ~weight, "must be a length {n} (same as data), ",
-      "not {length(x)}")
+    bad_args(~weight, "must be a length {n} (same as data), ",
+      "not {length(x)}"
+    )
   }
 
   x / sum(x)
@@ -101,13 +103,15 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  glubort(args = c(~size, ~replace), "must be less or equal than {n} (size of data), ",
-    "set `replace` = TRUE for sampling with replacement")
+  bad_args(c(~size, ~replace), "must be less or equal than {n} (size of data), ",
+    "set `replace` = TRUE for sampling with replacement"
+  )
 }
 
 check_frac <- function(size, replace = FALSE) {
   if (size <= 1 || replace) return()
 
-  glubort(args = c(~size, ~replace), "sampled fraction must be less or equal to one, ",
-    "set `replace` = TRUE for sampling with replacement")
+  bad_args(c(~size, ~replace), "sampled fraction must be less or equal to one, ",
+    "set `replace` = TRUE for sampling with replacement"
+  )
 }

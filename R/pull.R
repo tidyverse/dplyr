@@ -38,7 +38,7 @@ pull.data.frame <- function(.data, var = -1) {
 find_var <- function(var, vars) {
   if (is_string(var)) {
     if (!var %in% vars) {
-      glubort(cols = var, "not found")
+      bad_cols(var, "not found")
     }
     var
   } else if (is.numeric(var) && length(var) == 1) {
@@ -46,7 +46,7 @@ find_var <- function(var, vars) {
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
-      glubort(args = ~var, "must be a value between {-n} and {n} (excluding zero), not {var}")
+      bad_args(~var, "must be a value between {-n} and {n} (excluding zero), not {var}")
     }
 
     if (var < 0) {
@@ -56,7 +56,8 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    glubort(args = ~var, "must be a numeric or character scalar, ",
-      "not {type_of(var)} of length {length(var)}")
+    bad_args(~var, "must be a numeric or character scalar, ",
+      "not {type_of(var)} of length {length(var)}"
+    )
   }
 }

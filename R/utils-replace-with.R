@@ -16,13 +16,14 @@ replace_with <- function(x, i, val, name, reason = NULL) {
   x
 }
 
-check_length <- function(x, template, name, reason = NULL) {
+check_length <- function(x, template, header, reason = NULL) {
   n <- length(template)
-  if (length(x) == n) {
+  length_x <- length(x)
+  if (length_x == n) {
     return()
   }
 
-  if (length(x) == 1L) {
+  if (length_x == 1L) {
     return()
   }
 
@@ -30,21 +31,21 @@ check_length <- function(x, template, name, reason = NULL) {
   else reason <- glue(" ({reason})")
 
   if (n == 1) {
-    glubort("{hdr(name)} should be length one{reason}, not {length(x)}")
+    glubort(header, "must be length one{reason}, not {length_x}")
   } else {
-    glubort("{hdr(name)} should be length {n}{reason} or one, not {length(x)}")
+    glubort(header, "must be length {n}{reason} or one, not {length_x}")
   }
 }
 
-check_type <- function(x, template, name) {
+check_type <- function(x, template, header) {
   if (identical(typeof(x), typeof(template))) {
     return()
   }
 
-  glubort("{hdr(name)} should be type {type_of(template)}, not {typeof(x)}")
+  glubort(header, "must be type {type_of(template)}, not {typeof(x)}")
 }
 
-check_class <- function(x, template, name) {
+check_class <- function(x, template, header) {
   if (!is.object(x)) {
     return()
   }
@@ -53,5 +54,5 @@ check_class <- function(x, template, name) {
     return()
   }
 
-  glubort("{hdr(name)} should be {fmt_classes(template)}, not {fmt_classes(x)}")
+  glubort(header, "must be {fmt_classes(template)}, not {fmt_classes(x)}")
 }

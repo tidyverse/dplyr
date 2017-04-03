@@ -56,7 +56,7 @@ filter.tbl_df <- function(.data, ...) {
   dots <- quos(...)
   if (any(have_name(dots))) {
     bad <- dots[have_name(dots)]
-    glubort(named_calls = bad, "must not be named, do you need `==`?")
+    bad_named_calls(bad, "must not be named, do you need `==`?")
   } else if (is_empty(dots)) {
     return(.data)
   }

@@ -86,14 +86,16 @@
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
       is.null(names(dimensions))) {
-    glubort(args = ~dimensions, "must be a named list of vectors, ",
-      "not {type_of(dimensions)}")
+    bad_args(~dimensions, "must be a named list of vectors, ",
+      "not {type_of(dimensions)}"
+    )
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
-    glubort(args = ~measures, "must be a named list of arrays, ",
-      "not {type_of(measures)}")
+    bad_args(~measures, "must be a named list of arrays, ",
+      "not {type_of(measures)}"
+    )
   }
 
   # Check measures have correct dimensions
@@ -104,7 +106,9 @@ tbl_cube <- function(dimensions, measures) {
   )
   if (any(!dims_ok)) {
     bad <- names(measures)[!dims_ok]
-    glubort(measures = bad, "need dimensions {fmt_dims(dims)}")
+    bad_measures(bad, "need dimensions {fmt_dims(dims)}, not {bad_dim}",
+      bad_dim = fmt_dims(dim(measures[!dims_ok][[1L]]))
+    )
   }
 
   structure(list(dims = dimensions, mets = measures), class = "tbl_cube")
@@ -270,8 +274,9 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe_row <- anyDuplicated(all[dim_names])
     dupe <- unlist(all[dupe_row, dim_names])
 
-    glubort(args = ~x, "all combinations of dimension variables must be unique, ",
-      'duplicates: {fmt_named(dupe)}')
+    bad_args(~x, "all combinations of dimension variables must be unique, ",
+      'duplicates: {fmt_named(dupe)}'
+    )
   }
 
   mets <- lapply(met_name, function(i) array(all[[i]], unname(n)))
@@ -335,8 +340,9 @@ filter_.tbl_cube <- function(.data, ..., .dots = list()) {
 find_index_check <- function(i, x, names) {
   idx <- find_index(f_rhs(x), names)
   if (length(idx) != 1) {
-    glubort(calls = x, "must refer to exactly one dimension, ",
-      "not {fmt_obj(names[idx])}")
+    bad_calls(x, "must refer to exactly one dimension, ",
+      "not {fmt_obj(names[idx])}"
+    )
   }
   idx
 }

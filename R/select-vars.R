@@ -79,9 +79,10 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   if (any(!is_numeric)) {
     bad <- args[!is_numeric]
 
-    glubort(calls = bad, "must resolve to integer column positions, ",
+    bad_calls(bad, "must resolve to integer column positions, ",
       "not {type_of(first_bad)}",
-      first_bad = ind_list[!is_numeric][[1]])
+      first_bad = ind_list[!is_numeric][[1]]
+    )
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -127,9 +128,10 @@ rename_vars <- function(vars, ..., strict = TRUE) {
   is_name <- map_lgl(args, is_symbol)
   if (!all(is_name)) {
     bad <- args[!is_name]
-    glubort(named_calls = bad, "must be unquoted variable names, ",
+    bad_named_calls(bad, "must be unquoted variable names, ",
       "not {type_of(first_bad_rhs)}",
-      first_bad_rhs = f_rhs(bad[[1]]))
+      first_bad_rhs = f_rhs(bad[[1]])
+    )
   }
 
   old_vars <- map_chr(args, as_name)
@@ -137,7 +139,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    glubort(args = unknown_vars, "unknown variables")
+    bad_args(unknown_vars, "unknown variables")
   }
 
   select <- set_names(vars, vars)

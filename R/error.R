@@ -12,59 +12,69 @@ ntext <- function(n, msg1, msg2) {
   if (n == 1) msg1 else msg2
 }
 
-glubort <- function(..., args = NULL, pos_args = NULL,
-                    calls = NULL, named_calls = NULL,
-                    cols = NULL, measures = NULL,
-                    .envir = parent.frame()) {
-  text <- glue(..., .envir = .envir)
-  hdr <- NULL
-  if (!is_null(args)) {
-    hdr <- hdr_args(args)
-  } else if (!is_null(pos_args)) {
-    hdr <- hdr_pos_args(pos_args)
-  } else if (!is_null(calls)) {
-    hdr <- hdr_call(calls)
-  } else if (!is_null(named_calls)) {
-    hdr <- hdr_named_call(named_calls)
-  } else if (!is_null(cols)) {
-    hdr <- hdr_cols(cols)
-  } else if (!is_null(measures)) {
-    hdr <- hdr_measures(measures)
-  }
+bad <- function(..., .envir = parent.frame()) {
+  glubort(NULL, ..., .envir = parent.frame())
+}
 
-  if (!is_null(hdr)) text <- paste0(hdr, " ", text)
+bad_args <- function(args, ..., .envir = parent.frame()) {
+  glubort(hdr_args(args), ..., .envir = .envir)
+}
+
+bad_pos_args <- function(pos_args, ..., .envir = parent.frame()) {
+  glubort(hdr_pos_args(pos_args), ..., .envir = .envir)
+}
+
+bad_calls <- function(calls, ..., .envir = parent.frame()) {
+  glubort(hdr_calls(calls), ..., .envir = .envir)
+}
+
+bad_named_calls <- function(named_calls, ..., .envir = parent.frame()) {
+  glubort(hdr_named_calls(named_calls), ..., .envir = .envir)
+}
+
+bad_cols <- function(cols, ..., .envir = parent.frame()) {
+  glubort(hdr_cols(cols), ..., .envir = .envir)
+}
+
+bad_measures <- function(measures, ..., .envir = parent.frame()) {
+  glubort(hdr_measures(measures), ..., .envir = .envir)
+}
+
+glubort <- function(header, ..., .envir = parent.frame()) {
+  text <- glue(..., .envir = .envir)
+  if (!is_null(header)) text <- paste0(header, ": ", text)
   abort(text)
 }
 
 hdr_args <- function(...) {
   x <- parse_args(...)
-  hdr("{fmt_obj(x)}")
+  glue("{fmt_obj(x)}")
 }
 
 hdr_pos_args <- function(...) {
   x <- c(...)
   args <- ntext(length(x), "Argument", "Arguments")
-  hdr("{args} {fmt_comma(x)}")
+  glue("{args} {fmt_comma(x)}")
 }
 
-hdr_call <- function(...) {
+hdr_calls <- function(...) {
   x <- parse_named_call(...)
-  hdr("{fmt_comma(x)}")
+  glue("{fmt_comma(x)}")
 }
 
-hdr_named_call <- function(...) {
+hdr_named_calls <- function(...) {
   x <- parse_named_call(...)
-  hdr("{fmt_named(x)}")
+  glue("{fmt_named(x)}")
 }
 
 hdr_cols <- function(x) {
   cols <- ntext(length(x), "Column", "Columns")
-  hdr("{cols} {fmt_obj(x)}")
+  glue("{cols} {fmt_obj(x)}")
 }
 
-hdr <- function(..., .envir = parent.frame()) {
-  x <- glue(..., .envir = .envir)
-  gsub("[:]*$", ":", x)
+hdr_measures <- function(x) {
+  measures <- ntext(length(x), "Measure", "Measures")
+  glue("{measures} {fmt_obj(x)}")
 }
 
 fmt_args <- function(...) {
@@ -100,6 +110,10 @@ fmt_obj1 <- function(x) {
 
 fmt_classes <- function(x) {
   paste(class(x), collapse = "/")
+}
+
+fmt_dims <- function(x) {
+  paste0("[", paste0(x, collapse = " x "), "]")
 }
 
 fmt_comma <- function(...) {

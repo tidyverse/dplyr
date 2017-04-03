@@ -38,8 +38,9 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)
 
   if (!copy) {
-    glubort(args = c(~x, ~y, ~copy), "must share the same src, ",
-      "set `copy` = TRUE (may be slow)")
+    bad_args(c(~x, ~y, ~copy), "must share the same src, ",
+      "set `copy` = TRUE (may be slow)"
+    )
   }
 
   UseMethod("auto_copy")

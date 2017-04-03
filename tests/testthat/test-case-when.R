@@ -28,7 +28,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1,
       c(FALSE, TRUE, FALSE) ~ 2
     ),
-    "LHS of case 1 (c(TRUE, FALSE)): should be length 3 (the longest input) or one, not 2",
+    "LHS of case 1 (c(TRUE, FALSE)): must be length 3 (the longest input) or one, not 2",
     fixed = TRUE
   )
 
@@ -37,7 +37,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     ),
-    "RHS of case 1 (1:3): should be length 2 (the first output) or one, not 3",
+    "RHS of case 1 (1:3): must be length 2 (the first output) or one, not 3",
     fixed = TRUE
   )
 })

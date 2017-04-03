@@ -17,8 +17,9 @@
 #' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
-    glubort(args = c(~pkg, ~env), "exactly one must be non-NULL, ",
-      "not {(!is.null(pkg)) + (!is.null(env))}")
+    bad_args(c(~pkg, ~env), "exactly one must be non-NULL, ",
+      "not {(!is.null(pkg)) + (!is.null(env))}"
+    )
   }
   if (!is.null(pkg)) {
     env <- getNamespaceInfo(pkg, "lazydata")
@@ -56,8 +57,9 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
                               overwrite = FALSE, ...) {
 
   if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
-    glubort(args = c(~name, ~overwrite), "object with name {fmt_obj(name)} already exists, ",
-      "set `overwrite` = TRUE")
+    bad_args(c(~name, ~overwrite), "object with name {fmt_obj(name)} already exists, ",
+      "set `overwrite` = TRUE"
+    )
   }
 
   assign(name, envir = dest$env, df)

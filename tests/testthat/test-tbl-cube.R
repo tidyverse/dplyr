@@ -18,6 +18,12 @@ test_that("construction errors", {
     "`measures`: must be a named list of arrays, not list",
     fixed = TRUE
   )
+
+  expect_error(
+    tbl_cube(list(a = 1:3), list(b = array(1:3), c = array(1:2))),
+    "Measure `c`: need dimensions [3], not [2]",
+    fixed = TRUE
+  )
 })
 
 test_that("coercion", {
