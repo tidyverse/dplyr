@@ -49,7 +49,7 @@ test_that("auto_copy() requires same source", {
 
   expect_error(
     auto_copy(tbl(src_mtcars, "mtcars"), src_iris, name = "mtcars"),
-    "`x`, `y`, `copy`: must share the same src, pass TRUE to copy (may be slow)",
+    "`x`, `y`, `copy`: must share the same src, set `copy` = TRUE (may be slow)",
     fixed = TRUE
   )
 })
