@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-dplyr
-=====
+dplyr <img src="man/figures/logo.png" align="right" />
+======================================================
 
 [![Build Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/dplyr/master.svg)](https://codecov.io/github/tidyverse/dplyr?branch=master)
 
@@ -115,13 +115,13 @@ They all work as similarly as possible across the range of data sources. The mai
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.052   0.001   0.053
+#>   0.050   0.000   0.051
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.230   0.136   0.372
+#>   0.231   0.143   0.376
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.012   0.000   0.198
+#>   0.011   0.000   0.131
 ```
 
 Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
@@ -130,7 +130,7 @@ Data frame methods are much much faster than the plyr equivalent. The database m
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.122   0.042   0.165
+#>   0.115   0.037   0.153
 ```
 
 Multiple table verbs

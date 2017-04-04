@@ -66,7 +66,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="dplyr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#dplyr" class="anchor"></a>dplyr</h1></div>
+<a href="#dplyr" class="anchor"></a>dplyr <img src="reference/figures/logo.png" align="right">
+</h1></div>
 
 <p>dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the <code>d</code> in the name). It has three main goals:</p>
 <ul>
@@ -170,18 +171,18 @@ carriers_db2 &lt;-<span class="st"> </span>flights_db2 %&gt;%<span class="st"> <
 <p>They all work as similarly as possible across the range of data sources. The main difference is performance:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(carriers_df %&gt;%<span class="st"> </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(<span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)))
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.051   0.001   0.052</span>
+<span class="co">#&gt;   0.057   0.001   0.058</span>
 <span class="kw">system.time</span>(carriers_db1 %&gt;%<span class="st"> </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(<span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)) %&gt;%<span class="st"> </span><span class="kw"><a href="reference/compute.html">collect</a></span>())
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.236   0.142   0.381</span>
+<span class="co">#&gt;   0.254   0.154   0.417</span>
 <span class="kw">system.time</span>(carriers_db2 %&gt;%<span class="st"> </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(<span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)) %&gt;%<span class="st"> </span><span class="kw"><a href="reference/compute.html">collect</a></span>())
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.012   0.000   0.207</span></code></pre></div>
+<span class="co">#&gt;   0.012   0.000   0.205</span></code></pre></div>
 <p>Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don’t fit in memory.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(plyr::<span class="kw">ddply</span>(flights, <span class="st">"carrier"</span>, plyr::summarise,
   <span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.121   0.040   0.162</span></code></pre></div>
+<span class="co">#&gt;   0.127   0.044   0.174</span></code></pre></div>
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">
