@@ -35,8 +35,26 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="articles/index.html">Articles</a>
+      <a href="articles/dplyr.html">Intro</a>
+    </li>
+    <li>
+      <a href="articles/two-table.html">Two-table verbs</a>
+    </li>
+    <li>
+      <a href="articles/window-functions.html">Window functions</a>
+    </li>
+    <li>
+      <a href="articles/programming.html">Programming with dplyr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">News</a>
@@ -70,7 +88,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the <code>d</code> in the name). dplyr provides a consistent set of verbs that help you solve the most common data manipulation challenges:</p>
+<p>dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges:</p>
 <ul>
 <li>
 <code><a href="reference/mutate.html">mutate()</a></code> adds new variables that are functions of existing variables</li>
@@ -84,7 +102,7 @@
 <code><a href="reference/arrange.html">arrange()</a></code> changes the ordering of the rows.</li>
 </ul>
 <p>These all combine naturally with <code><a href="reference/group_by.html">group_by()</a></code> which allows you to perform any operation “by group”. You can learn more about them in <code><a href="articles/dplyr.html">vignette("dplyr")</a></code>. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in <code><a href="articles/two-table.html">vignette("two-table")</a></code>.</p>
-<p>dplyr is designed to abstract over how the data is stored. That means as well as working with local data frames, you can also work with remote database tables, using exactly the same R code. Learn more in <code><a href="articles/databases.html">vignette("databases")</a></code>.</p>
+<p>dplyr is designed to abstract over how the data is stored. That means as well as working with local data frames, you can also work with remote database tables, using exactly the same R code. Install the dbplyr package then read <code><a href="articles/databases.html">vignette("databases", package = "dbplyr")</a></code>.</p>
 <p>If you are new to dplyr, the best place to start is the <a href="http://r4ds.had.co.nz/transform.html">data import chapter</a> in R for data science.</p>
 </div>
 <div id="installation" class="section level2">
@@ -100,6 +118,80 @@
 <span class="co"># install.packages("devtools")</span>
 devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
 <p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/tidyverse/dplyr/issues">github</a>. For questions and other discussion, please use the <a href="https://groups.google.com/group/manipulatr">manipulatr mailing list</a>.</p>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+
+starwars %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(species ==<span class="st"> "Droid"</span>)
+<span class="co">#&gt; # A tibble: 5 × 13</span>
+<span class="co">#&gt;    name height  mass hair_color  skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;  &lt;chr&gt;</span>
+<span class="co">#&gt; 1 C-3PO    167    75       &lt;NA&gt;        gold    yellow        112   &lt;NA&gt;</span>
+<span class="co">#&gt; 2 R2-D2     96    32       &lt;NA&gt; white, blue       red         33   &lt;NA&gt;</span>
+<span class="co">#&gt; 3 R5-D4     97    32       &lt;NA&gt;  white, red       red         NA   &lt;NA&gt;</span>
+<span class="co">#&gt; 4 IG-88    200   140       none       metal       red         15   none</span>
+<span class="co">#&gt; 5   BB8     NA    NA       none        none     black         NA   none</span>
+<span class="co">#&gt; # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+starwars %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name, <span class="kw"><a href="reference/select_helpers.html">ends_with</a></span>(<span class="st">"color"</span>))
+<span class="co">#&gt; # A tibble: 87 × 4</span>
+<span class="co">#&gt;             name hair_color  skin_color eye_color</span>
+<span class="co">#&gt;            &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker      blond        fair      blue</span>
+<span class="co">#&gt; 2          C-3PO       &lt;NA&gt;        gold    yellow</span>
+<span class="co">#&gt; 3          R2-D2       &lt;NA&gt; white, blue       red</span>
+<span class="co">#&gt; 4    Darth Vader       none       white    yellow</span>
+<span class="co">#&gt; 5    Leia Organa      brown       light     brown</span>
+<span class="co">#&gt; # ... with 82 more rows</span>
+
+starwars %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/mutate.html">mutate</a></span>(name, <span class="dt">bmi =</span> mass /<span class="st"> </span>(height ^<span class="st"> </span><span class="dv">2</span>)) %&gt;%
+<span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name:mass, bmi)
+<span class="co">#&gt; # A tibble: 87 × 4</span>
+<span class="co">#&gt;             name height  mass         bmi</span>
+<span class="co">#&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77 0.002602758</span>
+<span class="co">#&gt; 2          C-3PO    167    75 0.002689232</span>
+<span class="co">#&gt; 3          R2-D2     96    32 0.003472222</span>
+<span class="co">#&gt; 4    Darth Vader    202   136 0.003333007</span>
+<span class="co">#&gt; 5    Leia Organa    150    49 0.002177778</span>
+<span class="co">#&gt; # ... with 82 more rows</span>
+
+starwars %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/arrange.html">arrange</a></span>(<span class="kw"><a href="reference/desc.html">desc</a></span>(mass))
+<span class="co">#&gt; # A tibble: 87 × 13</span>
+<span class="co">#&gt;                    name height  mass hair_color       skin_color</span>
+<span class="co">#&gt;                   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Jabba Desilijic Tiure    175  1358       &lt;NA&gt; green-tan, brown</span>
+<span class="co">#&gt; 2              Grievous    216   159       none     brown, white</span>
+<span class="co">#&gt; 3                 IG-88    200   140       none            metal</span>
+<span class="co">#&gt; 4           Darth Vader    202   136       none            white</span>
+<span class="co">#&gt; 5               Tarfful    234   136      brown            brown</span>
+<span class="co">#&gt; # ... with 82 more rows, and 8 more variables: eye_color &lt;chr&gt;,</span>
+<span class="co">#&gt; #   birth_year &lt;dbl&gt;, gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+starwars %&gt;%
+<span class="st">  </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(species) %&gt;%
+<span class="st">  </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(
+    <span class="dt">n =</span> <span class="kw"><a href="reference/n.html">n</a></span>(),
+    <span class="dt">mass =</span> <span class="kw">mean</span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+  ) %&gt;%
+<span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(n &gt;<span class="st"> </span><span class="dv">1</span>)
+<span class="co">#&gt; # A tibble: 9 × 3</span>
+<span class="co">#&gt;    species     n     mass</span>
+<span class="co">#&gt;      &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1    Droid     5 69.75000</span>
+<span class="co">#&gt; 2   Gungan     3 74.00000</span>
+<span class="co">#&gt; 3    Human    35 82.78182</span>
+<span class="co">#&gt; 4 Kaminoan     2 88.00000</span>
+<span class="co">#&gt; 5 Mirialan     2 53.10000</span>
+<span class="co">#&gt; # ... with 4 more rows</span></code></pre></div>
 </div>
 </div>
 </div>

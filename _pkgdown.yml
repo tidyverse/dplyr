@@ -8,3 +8,24 @@ home:
   links:
   - text: Learn more
     href: http://r4ds.had.co.nz/transform.html
+
+navbar:
+  type: default
+  left:
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Intro
+      href: articles/dplyr.html
+    - text: Two-table verbs
+      href: articles/two-table.html
+    - text: Window functions
+      href: articles/window-functions.html
+    - text: Programming with dplyr
+      href: articles/programming.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/tidyverse/dplyr

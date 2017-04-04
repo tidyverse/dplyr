@@ -54,8 +54,26 @@
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/dplyr.html">Intro</a>
+    </li>
+    <li>
+      <a href="../articles/two-table.html">Two-table verbs</a>
+    </li>
+    <li>
+      <a href="../articles/window-functions.html">Window functions</a>
+    </li>
+    <li>
+      <a href="../articles/programming.html">Programming with dplyr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -124,7 +142,7 @@ effectively equivalent to [plyr::ldply()].</p>
 #&gt; 6 &lt;int [2]&gt;
 #&gt; 7 &lt;int [1]&gt;
 #&gt; 8 &lt;int [2]&gt;
-#&gt; 9 &lt;int [3]&gt;</div><div class='input'><span class='no'>.Last.value</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>length</span>(<span class='no'>i</span>))</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("summarise_"): no applicable method for 'summarise_' applied to an object of class "function"</span></div></pre>
+#&gt; 9 &lt;int [3]&gt;</div><div class='input'><span class='no'>.Last.value</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>length</span>(<span class='no'>i</span>))</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("summarise_"): no applicable method for 'summarise_' applied to an object of class "print_yaml"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

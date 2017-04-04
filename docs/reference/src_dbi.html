@@ -54,8 +54,26 @@
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/dplyr.html">Intro</a>
+    </li>
+    <li>
+      <a href="../articles/two-table.html">Two-table verbs</a>
+    </li>
+    <li>
+      <a href="../articles/window-functions.html">Window functions</a>
+    </li>
+    <li>
+      <a href="../articles/programming.html">Programming with dplyr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -206,11 +224,7 @@ into R.</p>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='explain.html'>show_query</a></span>()
-}</div><div class='output co'>#&gt; <span class='message'>&lt;SQL&gt;</span>
-#&gt; <span class='message'>SELECT `playerID`, COUNT() AS `n`</span>
-#&gt; <span class='message'>FROM `Batting`</span>
-#&gt; <span class='message'>WHERE (`G` &gt; 0.0)</span>
-#&gt; <span class='message'>GROUP BY `playerID`</span></div></pre>
+}</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("copy_to"): no applicable method for 'copy_to' applied to an object of class "c('src_dbi', 'src_sql', 'src')"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

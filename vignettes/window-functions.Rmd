@@ -1,9 +1,8 @@
 ---
-title: "Window functions and grouped mutate/filter"
-date: "`r Sys.Date()`"
+title: "Window functions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Window functions and grouped mutate/filter}
+  %\VignetteIndexEntry{Window functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
