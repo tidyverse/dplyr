@@ -9,8 +9,8 @@ Authors@R: c(
     person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
     person("RStudio", role = "cph")
     )
-URL: https://github.com/hadley/dplyr
-BugReports: https://github.com/hadley/dplyr/issues
+URL: https://github.com/tidyverse/dplyr
+BugReports: https://github.com/hadley/tidyverse/issues
 Depends: 
     R (>= 3.1.2)
 Imports: 
