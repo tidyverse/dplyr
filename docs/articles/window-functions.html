@@ -202,12 +202,12 @@ scrambled &lt;-<span class="st"> </span>df[<span class="kw"><a href="../referenc
 wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw">cumsum</span>(value))
 <span class="kw"><a href="../reference/arrange.html">arrange</a></span>(wrong, year)
 <span class="co">#&gt;   year value running</span>
-<span class="co">#&gt; 1 2000     0      10</span>
-<span class="co">#&gt; 2 2001     1      10</span>
+<span class="co">#&gt; 1 2000     0      51</span>
+<span class="co">#&gt; 2 2001     1      51</span>
 <span class="co">#&gt; 3 2002     4      55</span>
-<span class="co">#&gt; 4 2003     9       9</span>
-<span class="co">#&gt; 5 2004    16      51</span>
-<span class="co">#&gt; 6 2005    25      35</span>
+<span class="co">#&gt; 4 2003     9      50</span>
+<span class="co">#&gt; 5 2004    16      41</span>
+<span class="co">#&gt; 6 2005    25      25</span>
 
 right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw"><a href="../reference/order_by.html">order_by</a></span>(year, <span class="kw">cumsum</span>(value)))
 <span class="kw"><a href="../reference/arrange.html">arrange</a></span>(right, year)
