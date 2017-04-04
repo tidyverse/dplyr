@@ -5,6 +5,9 @@ dplyr <img src="man/figures/logo.png" align="right" />
 
 [![Build Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/dplyr/master.svg)](https://codecov.io/github/tidyverse/dplyr?branch=master)
 
+Overview
+--------
+
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
 -   Identify the most important data manipulation tools needed for data analysis and make them easy to use from R.
@@ -13,25 +16,20 @@ dplyr is the next iteration of plyr, focussed on tools for working with data fra
 
 -   Use the same interface to work with data no matter where it's stored, whether in a data frame, a data table or database.
 
-You can install:
+Installation
+------------
 
--   the latest released version from CRAN with
+``` r
+# The easiest way to get dplyr is to install the whole tidyverse:
+install.packages("tidyverse")
 
-    ``` r
-    install.packages("dplyr")
-    ```
+# Alternatively, install just readr:
+install.packages("dplyr")
 
--   the latest development version from github with
-
-    ``` r
-    if (packageVersion("devtools") < 1.6) {
-      install.packages("devtools")
-    }
-    devtools::install_github("tidyverse/lazyeval")
-    devtools::install_github("tidyverse/dplyr")
-    ```
-
-You'll probably also want to install the data packages used in most examples: `install.packages(c("nycflights13", "Lahman"))`.
+# Or the the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("tidyverse/dplyr")
+```
 
 If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
@@ -115,13 +113,13 @@ They all work as similarly as possible across the range of data sources. The mai
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.050   0.000   0.051
+#>   0.052   0.001   0.053
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.231   0.143   0.376
+#>   0.216   0.129   0.346
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.011   0.000   0.131
+#>   0.013   0.000   0.213
 ```
 
 Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
@@ -130,7 +128,7 @@ Data frame methods are much much faster than the plyr equivalent. The database m
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.115   0.037   0.153
+#>   0.123   0.039   0.162
 ```
 
 Multiple table verbs

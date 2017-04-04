@@ -19,6 +19,8 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/dplyr/master.svg)](https://codecov.io/github/tidyverse/dplyr?branch=master)
 
+## Overview
+
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
 * Identify the most important data manipulation tools needed for data analysis
@@ -30,25 +32,19 @@ dplyr is the next iteration of plyr, focussed on tools for working with data fra
 * Use the same interface to work with data no matter where it's stored, whether
   in a data frame, a data table or database.
 
-You can install:
+## Installation
 
-* the latest released version from CRAN with
+```{r, eval = FALSE}
+# The easiest way to get dplyr is to install the whole tidyverse:
+install.packages("tidyverse")
 
-    ```R
-    install.packages("dplyr")
-    ````
+# Alternatively, install just readr:
+install.packages("dplyr")
 
-* the latest development version from github with
-
-    ```R
-    if (packageVersion("devtools") < 1.6) {
-      install.packages("devtools")
-    }
-    devtools::install_github("tidyverse/lazyeval")
-    devtools::install_github("tidyverse/dplyr")
-    ```
-
-You'll probably also want to install the data packages used in most examples: `install.packages(c("nycflights13", "Lahman"))`.
+# Or the the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("tidyverse/dplyr")
+```
 
 If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
