@@ -26,6 +26,7 @@ Imports:
     tibble (>= 1.2),
     utils
 Suggests: 
+    covr,
     dbplyr,
     DBI,
     RMySQL,
