@@ -1,11 +1,9 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 dplyr
 =====
 
-[![Build Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
-[![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/dplyr/master.svg)](https://codecov.io/github/tidyverse/dplyr?branch=master)
+[![Build Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/dplyr/master.svg)](https://codecov.io/github/tidyverse/dplyr?branch=master)
 
 dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
 
@@ -29,13 +27,13 @@ You can install:
     if (packageVersion("devtools") < 1.6) {
       install.packages("devtools")
     }
-    devtools::install_github("hadley/lazyeval")
-    devtools::install_github("hadley/dplyr")
+    devtools::install_github("tidyverse/lazyeval")
+    devtools::install_github("tidyverse/dplyr")
     ```
 
 You'll probably also want to install the data packages used in most examples: `install.packages(c("nycflights13", "Lahman"))`.
 
-If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/hadley/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
+If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 Learning dplyr
 --------------
@@ -87,10 +85,10 @@ flights
 #> #   minute <dbl>, time_hour <dttm>
 
 # Caches data in local SQLite db
-flights_db1 <- tbl(nycflights13_sqlite(), "flights")
+flights_db1 <- tbl(dbplyr::nycflights13_sqlite(), "flights")
 
 # Caches data in local postgres db
-flights_db2 <- tbl(nycflights13_postgres(host = "localhost"), "flights")
+flights_db2 <- tbl(dbplyr::nycflights13_postgres(host = "localhost"), "flights")
 ```
 
 Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
@@ -117,13 +115,13 @@ They all work as similarly as possible across the range of data sources. The mai
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.048   0.001   0.051
+#>   0.053   0.001   0.054
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.231   0.201   0.750
+#>   0.233   0.135   0.369
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.005   0.001   0.133
+#>   0.010   0.000   0.128
 ```
 
 Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
@@ -132,54 +130,7 @@ Data frame methods are much much faster than the plyr equivalent. The database m
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.119   0.041   0.163
-```
-
-### `do()`
-
-As well as the specialised operations described above, `dplyr` also provides the generic `do()` function which applies any R function to each group of the data.
-
-Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between their number of at bats and runs:
-
-``` r
-by_year <- lahman_df() %>% 
-  tbl("Batting") %>%
-  group_by(yearID)
-by_year %>% 
-  do(mod = lm(R ~ AB, data = .))
-#> Source: local data frame [145 x 2]
-#> Groups: <by row>
-#> 
-#> # A tibble: 145 × 2
-#>    yearID      mod
-#> *   <int>   <list>
-#> 1    1871 <S3: lm>
-#> 2    1872 <S3: lm>
-#> 3    1873 <S3: lm>
-#> 4    1874 <S3: lm>
-#> 5    1875 <S3: lm>
-#> 6    1876 <S3: lm>
-#> 7    1877 <S3: lm>
-#> 8    1878 <S3: lm>
-#> 9    1879 <S3: lm>
-#> 10   1880 <S3: lm>
-#> # ... with 135 more rows
-```
-
-Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
-
-``` r
-by_year %>% 
-  do(mod = lm(R ~ AB, data = .)) %>%
-  object.size() %>%
-  print(unit = "MB")
-#> 23.1 Mb
-
-by_year %>% 
-  do(mod = biglm::biglm(R ~ AB, data = .)) %>%
-  object.size() %>%
-  print(unit = "MB")
-#> 0.8 Mb
+#>   0.118   0.039   0.158
 ```
 
 Multiple table verbs
