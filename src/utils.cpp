@@ -144,13 +144,13 @@ SymbolVector get_vars(SEXP x) {
   return SymbolVector(Rf_getAttrib(x, vars_symbol));
 }
 
-SEXP set_vars(SEXP x, const SymbolVector& vars) {
+void set_vars(SEXP x, const SymbolVector& vars) {
   static SEXP vars_symbol = Rf_install("vars");
-  return Rf_setAttrib(x, vars_symbol, vars.get_vector());
+  Rf_setAttrib(x, vars_symbol, vars.get_vector());
 }
 
-SEXP copy_vars(SEXP target, SEXP source) {
-  return set_vars(target, get_vars(source));
+void copy_vars(SEXP target, SEXP source) {
+  set_vars(target, get_vars(source));
 }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
