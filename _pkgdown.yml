@@ -4,3 +4,7 @@ template:
 
 home:
   strip_header: true
+
+  links:
+  - text: Learn more
+    href: http://r4ds.had.co.nz/transform.html

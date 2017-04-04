@@ -70,12 +70,22 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the <code>d</code> in the name). It has three main goals:</p>
+<p>dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the <code>d</code> in the name). dplyr provides a consistent set of verbs that help you solve the most common data manipulation challenges:</p>
 <ul>
-<li><p>Identify the most important data manipulation tools needed for data analysis and make them easy to use from R.</p></li>
-<li><p>Provide blazing fast performance for in-memory data by writing key pieces in <a href="http://www.rcpp.org/">C++</a>.</p></li>
-<li><p>Use the same interface to work with data no matter where it’s stored, whether in a data frame, a data table or database.</p></li>
+<li>
+<code><a href="reference/mutate.html">mutate()</a></code> adds new variables that are functions of existing variables</li>
+<li>
+<code><a href="reference/select.html">select()</a></code> picks variables based on their names.</li>
+<li>
+<code><a href="reference/filter.html">filter()</a></code> picks cases based on their values.</li>
+<li>
+<code><a href="reference/summarise.html">summarise()</a></code> reduces multiple values down to a single summary.</li>
+<li>
+<code><a href="reference/arrange.html">arrange()</a></code> changes the ordering of the rows.</li>
 </ul>
+<p>These all combine naturally with <code><a href="reference/group_by.html">group_by()</a></code> which allows you to perform any operation “by group”. You can learn more about them in <code><a href="articles/dplyr.html">vignette("dplyr")</a></code>. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in <code><a href="articles/two-table.html">vignette("two-table")</a></code>.</p>
+<p>dplyr is designed to abstract over how the data is stored. That means as well as working with local data frames, you can also work with remote database tables, using exactly the same R code. Learn more in <code><a href="articles/databases.html">vignette("databases")</a></code>.</p>
+<p>If you are new to dplyr, the best place to start is the <a href="http://r4ds.had.co.nz/transform.html">data import chapter</a> in R for data science.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -91,137 +101,6 @@
 devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
 <p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/tidyverse/dplyr/issues">github</a>. For questions and other discussion, please use the <a href="https://groups.google.com/group/manipulatr">manipulatr mailing list</a>.</p>
 </div>
-<div id="learning-dplyr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#learning-dplyr" class="anchor"></a>Learning dplyr</h2>
-<p>To get started, read the notes below, then read the intro vignette: <code><a href="articles/introduction.html">vignette("introduction", package = "dplyr")</a></code>. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of <a href="http://vita.had.co.nz/papers/tidy-data.html">tidy data</a>: this will help you get your data into a form that works well with dplyr, ggplot2 and R’s many modelling functions.</p>
-<p>If you need more help, I recommend the following (paid) resources:</p>
-<ul>
-<li><p><a href="https://www.datacamp.com/courses/dplyr">dplyr</a> on datacamp, by Garrett Grolemund. Learn the basics of dplyr at your own pace in this interactive online course.</p></li>
-<li><p><a href="http://shop.oreilly.com/product/0636920034834.do">Introduction to Data Science with R</a>: How to Manipulate, Visualize, and Model Data with the R Language, by Garrett Grolemund. This O’Reilly video series will teach you the basics needed to be an effective analyst in R.</p></li>
-</ul>
-</div>
-<div id="key-data-structures" class="section level2">
-<h2 class="hasAnchor">
-<a href="#key-data-structures" class="anchor"></a>Key data structures</h2>
-<p>The key object in dplyr is a <em>tbl</em>, a representation of a tabular data structure. Currently <code>dplyr</code> supports:</p>
-<ul>
-<li>data frames</li>
-<li><a href="https://github.com/Rdatatable/data.table/wiki">data tables</a></li>
-<li><a href="http://sqlite.org/">SQLite</a></li>
-<li>
-<a href="http://www.postgresql.org/">PostgreSQL</a>/<a href="http://aws.amazon.com/redshift/">Redshift</a>
-</li>
-<li>
-<a href="http://www.mysql.com/">MySQL</a>/<a href="https://mariadb.com/">MariaDB</a>
-</li>
-<li><a href="https://developers.google.com/bigquery/">Bigquery</a></li>
-<li><a href="http://www.monetdb.org/">MonetDB</a></li>
-<li>data cubes with arrays (partial implementation)</li>
-</ul>
-<p>You can create them as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr) <span class="co"># for functions</span>
-<span class="kw">library</span>(nycflights13) <span class="co"># for data</span>
-flights
-<span class="co">#&gt; # A tibble: 336,776 × 19</span>
-<span class="co">#&gt;     year month   day dep_time sched_dep_time dep_delay arr_time</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1   2013     1     1      517            515         2      830</span>
-<span class="co">#&gt; 2   2013     1     1      533            529         4      850</span>
-<span class="co">#&gt; 3   2013     1     1      542            540         2      923</span>
-<span class="co">#&gt; 4   2013     1     1      544            545        -1     1004</span>
-<span class="co">#&gt; 5   2013     1     1      554            600        -6      812</span>
-<span class="co">#&gt; 6   2013     1     1      554            558        -4      740</span>
-<span class="co">#&gt; 7   2013     1     1      555            600        -5      913</span>
-<span class="co">#&gt; 8   2013     1     1      557            600        -3      709</span>
-<span class="co">#&gt; 9   2013     1     1      557            600        -3      838</span>
-<span class="co">#&gt; 10  2013     1     1      558            600        -2      753</span>
-<span class="co">#&gt; # ... with 336,766 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,</span>
-<span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span>
-<span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span>
-
-<span class="co"># Caches data in local SQLite db</span>
-flights_db1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/tbl.html">tbl</a></span>(dbplyr::<span class="kw">nycflights13_sqlite</span>(), <span class="st">"flights"</span>)
-
-<span class="co"># Caches data in local postgres db</span>
-flights_db2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/tbl.html">tbl</a></span>(dbplyr::<span class="kw">nycflights13_postgres</span>(<span class="dt">host =</span> <span class="st">"localhost"</span>), <span class="st">"flights"</span>)</code></pre></div>
-<p>Each tbl also comes in a grouped variant which allows you to easily perform operations “by group”:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carriers_df  &lt;-<span class="st"> </span>flights %&gt;%<span class="st"> </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(carrier)
-carriers_db1 &lt;-<span class="st"> </span>flights_db1 %&gt;%<span class="st"> </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(carrier)
-carriers_db2 &lt;-<span class="st"> </span>flights_db2 %&gt;%<span class="st"> </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(carrier)</code></pre></div>
-</div>
-<div id="single-table-verbs" class="section level2">
-<h2 class="hasAnchor">
-<a href="#single-table-verbs" class="anchor"></a>Single table verbs</h2>
-<p><code>dplyr</code> implements the following verbs useful for data manipulation:</p>
-<ul>
-<li>
-<code><a href="reference/select.html">select()</a></code>: focus on a subset of variables</li>
-<li>
-<code><a href="reference/filter.html">filter()</a></code>: focus on a subset of rows</li>
-<li>
-<code><a href="reference/mutate.html">mutate()</a></code>: add new columns</li>
-<li>
-<code><a href="reference/summarise.html">summarise()</a></code>: reduce each group to a smaller number of summary statistics</li>
-<li>
-<code><a href="reference/arrange.html">arrange()</a></code>: re-order the rows</li>
-</ul>
-<p>They all work as similarly as possible across the range of data sources. The main difference is performance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(carriers_df %&gt;%<span class="st"> </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(<span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)))
-<span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.055   0.001   0.055</span>
-<span class="kw">system.time</span>(carriers_db1 %&gt;%<span class="st"> </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(<span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)) %&gt;%<span class="st"> </span><span class="kw"><a href="reference/compute.html">collect</a></span>())
-<span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.219   0.133   0.351</span>
-<span class="kw">system.time</span>(carriers_db2 %&gt;%<span class="st"> </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(<span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)) %&gt;%<span class="st"> </span><span class="kw"><a href="reference/compute.html">collect</a></span>())
-<span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.012   0.000   0.209</span></code></pre></div>
-<p>Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don’t fit in memory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(plyr::<span class="kw">ddply</span>(flights, <span class="st">"carrier"</span>, plyr::summarise,
-  <span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))
-<span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.121   0.040   0.162</span></code></pre></div>
-</div>
-<div id="multiple-table-verbs" class="section level2">
-<h2 class="hasAnchor">
-<a href="#multiple-table-verbs" class="anchor"></a>Multiple table verbs</h2>
-<p>As well as verbs that work on a single tbl, there are also a set of useful verbs that work with two tbls at a time: joins and set operations.</p>
-<p>dplyr implements the four most useful joins from SQL:</p>
-<ul>
-<li>
-<code><a href="reference/join.html">inner_join(x, y)</a></code>: matching x + y</li>
-<li>
-<code><a href="reference/join.html">left_join(x, y)</a></code>: all x + matching y</li>
-<li>
-<code><a href="reference/join.html">semi_join(x, y)</a></code>: all x with match in y</li>
-<li>
-<code><a href="reference/join.html">anti_join(x, y)</a></code>: all x without match in y</li>
-</ul>
-<p>And provides methods for:</p>
-<ul>
-<li>
-<code><a href="reference/setops.html">intersect(x, y)</a></code>: all rows in both x and y</li>
-<li>
-<code><a href="reference/setops.html">union(x, y)</a></code>: rows in either x or y</li>
-<li>
-<code><a href="reference/setops.html">setdiff(x, y)</a></code>: rows in x, but not y</li>
-</ul>
-</div>
-<div id="plyr-compatibility" class="section level2">
-<h2 class="hasAnchor">
-<a href="#plyr-compatibility" class="anchor"></a>Plyr compatibility</h2>
-<p>You’ll need to be a little careful if you load both plyr and dplyr at the same time. I’d recommend loading plyr first, then dplyr, so that the faster dplyr functions come first in the search path. By and large, any function provided by both dplyr and plyr works in a similar way, although dplyr functions tend to be faster and more general.</p>
-</div>
-<div id="related-approaches" class="section level2">
-<h2 class="hasAnchor">
-<a href="#related-approaches" class="anchor"></a>Related approaches</h2>
-<ul>
-<li><a href="http://blaze.pydata.org">Blaze</a></li>
-<li><a href="http://oldwww.acm.org/perlman/stat/">|Stat</a></li>
-<li><a href="http://dx.doi.org/10.1145/1376616.1376726">Pig</a></li>
-</ul>
-</div>
 </div>
 </div>
   </div>
@@ -234,6 +113,8 @@ carriers_db2 &lt;-<span class="st"> </span>flights_db2 %&gt;%<span class="st"> <
 <li>Browse source code at <br><a href="https://github.com/tidyverse/dplyr">https://​github.com/​tidyverse/​dplyr</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/hadley/tidyverse/issues">https://​github.com/​hadley/​tidyverse/​issues</a>
+</li>
+<li>Learn more at <br><a href="http://r4ds.had.co.nz/transform.html">http://​r4ds.had.co.nz/​transform.html</a>
 </li>
 </ul>
 <h2>License</h2>
