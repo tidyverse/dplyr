@@ -5,6 +5,7 @@
 #'
 #' @param df a data frame
 #' @param x,y two data frames to compare
+#' @keywords internal
 #' @export
 #' @examples
 #' location(mtcars)
