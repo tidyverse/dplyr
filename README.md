@@ -115,13 +115,13 @@ They all work as similarly as possible across the range of data sources. The mai
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
 #>    user  system elapsed 
-#>   0.053   0.001   0.054
+#>   0.052   0.001   0.053
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.233   0.135   0.369
+#>   0.230   0.136   0.372
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
 #>    user  system elapsed 
-#>   0.010   0.000   0.128
+#>   0.012   0.000   0.198
 ```
 
 Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
@@ -130,7 +130,7 @@ Data frame methods are much much faster than the plyr equivalent. The database m
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
 #>    user  system elapsed 
-#>   0.118   0.039   0.158
+#>   0.122   0.042   0.165
 ```
 
 Multiple table verbs

@@ -29,3 +29,5 @@ demo/pandas
 ^TAGS$
 ^\.dir-locals\.el$
 ^vignettes/rsconnect$
+^docs$
+^_pkgdown\.yml$
