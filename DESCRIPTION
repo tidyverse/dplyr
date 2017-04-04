@@ -9,7 +9,7 @@ Authors@R: c(
     person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
     person("RStudio", role = c("cph", "fnd"))
     )
-URL: https://github.com/tidyverse/dplyr
+URL: http://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 BugReports: https://github.com/hadley/tidyverse/issues
 Depends: 
     R (>= 3.1.2)
