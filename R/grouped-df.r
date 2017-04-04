@@ -40,7 +40,7 @@ print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
 
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
   cat(
-    "Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n",
+    "Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]\n",
     sep = ""
   )
   cat("\n")
