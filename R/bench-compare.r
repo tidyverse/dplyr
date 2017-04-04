@@ -58,6 +58,7 @@
 #' }
 #' }
 #' @name bench_compare
+#' @keywords internal
 NULL
 
 #' @export

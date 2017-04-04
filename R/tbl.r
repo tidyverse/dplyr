@@ -50,6 +50,7 @@ as.tbl.tbl <- function(x, ...) x
 #' @param x A tbl object
 #' @seealso [group_vars()] for a function that returns grouping
 #'   variables.
+#' @keywords internal
 tbl_vars <- function(x) {
   UseMethod("tbl_vars")
 }

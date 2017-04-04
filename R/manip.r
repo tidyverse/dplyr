@@ -476,4 +476,5 @@ n <- function() {
 #' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
 #' @param vars Various meanings depending on the verb.
 #' @param args Various meanings depending on the verb.
+#' @keywords internal
 NULL

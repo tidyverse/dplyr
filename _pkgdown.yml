@@ -9,6 +9,80 @@ home:
   - text: Learn more
     href: http://r4ds.had.co.nz/transform.html
 
+reference:
+- title: Single-table verbs
+  contents:
+  - arrange
+  - count
+  - distinct
+  - do
+  - filter
+  - group_by
+  - mutate
+  - select
+  - select_helpers
+  - sample
+  - summarise
+  - transmute
+  - top_n
+  - pull
+  - rename
+  - slice
+
+- title: Colwise helpers
+  contents:
+  - all_vars
+  - ends_with("all")
+  - vars
+  - funs
+
+- title: Two-table verbs
+  contents:
+  - all_equal
+  - intersect
+  - ends_with("join")
+  - join.tbl_df
+
+- title: Remote tables
+  contents:
+  - auto_copy
+  - compute
+  - copy_to
+  - explain
+  - tbl
+  - src_dbi
+
+- title: Vector functions
+  contents:
+  - between
+  - case_when
+  - coalesce
+  - desc
+  - if_else
+  - lead
+  - order_by
+  - n_distinct
+  - na_if
+  - near
+  - nth
+  - ranking
+  - recode
+  - scoped
+
+- title: Data
+  contents:
+  - band_members
+  - nasa
+  - starwars
+  - storms
+
+- title: Other backends
+  contents:
+  - tbl_cube
+  - as.table.tbl_cube
+  - as.tbl_cube
+  - rowwise
+
 navbar:
   type: default
   left:
