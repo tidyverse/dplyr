@@ -194,7 +194,11 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * `count()` now preserves the grouping of its input (#2021).
 
-* `distinct()` no longer duplicates variables (#2001)
+* `distinct()` no longer duplicates variables (#2001).
+
+* Empty `distinct()` with a grouped data frame works the same way as
+  an empty `distinct()` on an ungrouped data frame, namely it uses all
+  variables (#2476).
 
 * `copy_to()` now returns it's output invisibly (since you're often just
    calling for the side-effect).

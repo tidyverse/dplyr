@@ -22,7 +22,7 @@ Retain only unique/distinct rows from an input tbl. This is similar
 to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
 }
 \examples{
-df <- data.frame(
+df <- tibble(
   x = sample(10, 100, rep = TRUE),
   y = sample(10, 100, rep = TRUE)
 )
@@ -39,4 +39,13 @@ distinct(df, y, .keep_all = TRUE)
 
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
+
+# The same behaviour applies for grouped data frames
+# except that the grouping variables are always included
+df <- tibble(
+  g = c(1, 1, 2, 2),
+  x = c(1, 1, 2, 1)
+) \%>\% group_by(g)
+df \%>\% distinct()
+df \%>\% distinct(x)
 }

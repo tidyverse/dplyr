@@ -13,7 +13,7 @@
 #' @inheritParams filter
 #' @export
 #' @examples
-#' df <- data.frame(
+#' df <- tibble(
 #'   x = sample(10, 100, rep = TRUE),
 #'   y = sample(10, 100, rep = TRUE)
 #' )
@@ -30,6 +30,15 @@
 #'
 #' # You can also use distinct on computed variables
 #' distinct(df, diff = abs(x - y))
+#'
+#' # The same behaviour applies for grouped data frames
+#' # except that the grouping variables are always included
+#' df <- tibble(
+#'   g = c(1, 1, 2, 2),
+#'   x = c(1, 1, 2, 1)
+#' ) %>% group_by(g)
+#' df %>% distinct()
+#' df %>% distinct(x)
 distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
@@ -43,23 +52,27 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
 #' Same basic philosophy as group_by: lazy_dots comes in, list of data and
 #' vars (character vector) comes out.
 #' @noRd
-distinct_vars <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dots <- quos(..., .named = TRUE)
+distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+  stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
-  if (length(dots) == 0) {
-    return(list(data = .data, vars = names(.data), keep = names(.data)))
+  if (length(vars) == 0) {
+    return(list(
+      data = .data,
+      vars = names(.data),
+      keep = names(.data)
+    ))
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  needs_mutate <- map_lgl(dots, is_lang)
+  needs_mutate <- map_lgl(vars, is_lang)
   if (any(needs_mutate)) {
-    .data <- mutate(.data, !!! dots[needs_mutate])
+    .data <- mutate(.data, !!! vars[needs_mutate])
   }
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  vars <- names(dots)
+  vars <- intersect(names(.data), c(names(vars), group_vars))
 
   if (.keep_all) {
     keep <- names(.data)

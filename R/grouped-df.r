@@ -240,7 +240,12 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 
 #' @export
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., !!! groups(.data), .keep_all = .keep_all)
+  dist <- distinct_vars(
+    .data,
+    vars = quos(..., .named = TRUE),
+    group_vars = group_vars(.data),
+    .keep_all = .keep_all
+  )
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
 }
 #' @export
