@@ -29,7 +29,7 @@ Installation
 # The easiest way to get dplyr is to install the whole tidyverse:
 install.packages("tidyverse")
 
-# Alternatively, install just readr:
+# Alternatively, install just dplyr:
 install.packages("dplyr")
 
 # Or the the development version from GitHub:
