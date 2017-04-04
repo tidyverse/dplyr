@@ -33,6 +33,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="../articles/dplyr.html">Intro</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -43,9 +46,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/dplyr.html">Intro</a>
-    </li>
-    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
@@ -375,10 +375,10 @@ flights[<span class="kw">order</span>(flights$arr_delay, <span class="dt">decrea
 <span class="co">#&gt; # A tibble: 10 × 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1  2013     2     2     1153           1155        -2     1446</span>
-<span class="co">#&gt; 2  2013     7    29     1532           1535        -3     1848</span>
-<span class="co">#&gt; 3  2013     2    12     1013           1020        -7     1333</span>
-<span class="co">#&gt; 4  2013    12    16     2114           2119        -5     2255</span>
+<span class="co">#&gt; 1  2013     1    13     2225           2135        50      111</span>
+<span class="co">#&gt; 2  2013    12    23     1010            930        40     1550</span>
+<span class="co">#&gt; 3  2013     8    22      859            900        -1     1133</span>
+<span class="co">#&gt; 4  2013    11    18     1555           1557        -2     1930</span>
 <span class="co">#&gt; # ... with 6 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,</span>
 <span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span>
 <span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>
@@ -387,10 +387,10 @@ flights[<span class="kw">order</span>(flights$arr_delay, <span class="dt">decrea
 <span class="co">#&gt; # A tibble: 3,368 × 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1  2013    12     3     1703           1700         3     1902</span>
-<span class="co">#&gt; 2  2013     4     7      943            945        -2     1120</span>
-<span class="co">#&gt; 3  2013     9     7      625            630        -5      807</span>
-<span class="co">#&gt; 4  2013     9    27     1338           1340        -2     1527</span>
+<span class="co">#&gt; 1  2013    10    29      654            700        -6     1005</span>
+<span class="co">#&gt; 2  2013     6    26     2140           2145        -5     2324</span>
+<span class="co">#&gt; 3  2013    10    21     1651           1655        -4     1952</span>
+<span class="co">#&gt; 4  2013     4     1     1523           1530        -7     1713</span>
 <span class="co">#&gt; # ... with 3,364 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,</span>
 <span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span>
 <span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>

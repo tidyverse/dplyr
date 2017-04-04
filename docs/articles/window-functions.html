@@ -33,6 +33,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="../articles/dplyr.html">Intro</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -43,9 +46,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/dplyr.html">Intro</a>
-    </li>
-    <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
@@ -202,12 +202,12 @@ scrambled &lt;-<span class="st"> </span>df[<span class="kw"><a href="../referenc
 wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw">cumsum</span>(value))
 <span class="kw"><a href="../reference/arrange.html">arrange</a></span>(wrong, year)
 <span class="co">#&gt;   year value running</span>
-<span class="co">#&gt; 1 2000     0      29</span>
-<span class="co">#&gt; 2 2001     1      55</span>
-<span class="co">#&gt; 3 2002     4       4</span>
-<span class="co">#&gt; 4 2003     9      38</span>
-<span class="co">#&gt; 5 2004    16      54</span>
-<span class="co">#&gt; 6 2005    25      29</span>
+<span class="co">#&gt; 1 2000     0      10</span>
+<span class="co">#&gt; 2 2001     1      10</span>
+<span class="co">#&gt; 3 2002     4      55</span>
+<span class="co">#&gt; 4 2003     9       9</span>
+<span class="co">#&gt; 5 2004    16      51</span>
+<span class="co">#&gt; 6 2005    25      35</span>
 
 right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw"><a href="../reference/order_by.html">order_by</a></span>(year, <span class="kw">cumsum</span>(value)))
 <span class="kw"><a href="../reference/arrange.html">arrange</a></span>(right, year)

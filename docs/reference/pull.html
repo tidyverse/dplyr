@@ -52,6 +52,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="../articles/dplyr.html">Intro</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -61,9 +64,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/dplyr.html">Intro</a>
-    </li>
     <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
@@ -136,7 +136,7 @@ column you've created most recently).</p></td>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> * <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>pull</span>()
-}</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("mutate_"): no applicable method for 'mutate_' applied to an object of class "c('tbl_dbi', 'tbl_sql', 'tbl_lazy', 'tbl')"</span></div><div class='input'>
+}</div><div class='output co'>#&gt;  [1] 10 18 24 28 30 30 28 24 18 10</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

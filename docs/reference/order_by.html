@@ -52,6 +52,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="../articles/dplyr.html">Intro</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -61,9 +64,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/dplyr.html">Intro</a>
-    </li>
     <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
@@ -135,11 +135,11 @@ is the vector being operated on</p></td>
 
 <span class='no'>wrong</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'>cumsum</span>(<span class='no'>value</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>wrong</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
-#&gt; 1 2000     0      26
-#&gt; 2 2001     1      26
-#&gt; 3 2002     4      39
-#&gt; 4 2003     9      35
-#&gt; 5 2004    16      55
+#&gt; 1 2000     0      38
+#&gt; 2 2001     1      55
+#&gt; 3 2002     4      29
+#&gt; 4 2003     9      38
+#&gt; 5 2004    16      54
 #&gt; 6 2005    25      25</div><div class='input'>
 <span class='no'>right</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'>order_by</span>(<span class='no'>year</span>, <span class='fu'>cumsum</span>(<span class='no'>value</span>)))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>right</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running

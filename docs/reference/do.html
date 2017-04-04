@@ -52,6 +52,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="../articles/dplyr.html">Intro</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -61,9 +64,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/dplyr.html">Intro</a>
-    </li>
     <li>
       <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
@@ -242,7 +242,7 @@ act like <code>ldply()</code>.</p>
 <span class='co'># library(mgcv)</span>
 <span class='co'># by_dest %&gt;% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))</span>
 <span class='co'>## ---------------------------------------------</span>
-}</div><div class='output co'>#&gt; # A tibble: 16 × 1
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: nycflights13</span></div><div class='output co'>#&gt; # A tibble: 16 × 1
 #&gt;            rsq
 #&gt;          &lt;dbl&gt;
 #&gt; 1  0.051350400

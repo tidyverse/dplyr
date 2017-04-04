@@ -86,12 +86,12 @@ reference:
 navbar:
   type: default
   left:
+  - text: Intro
+    href: articles/dplyr.html
   - text: Reference
     href: reference/index.html
   - text: Articles
     menu:
-    - text: Intro
-      href: articles/dplyr.html
     - text: Two-table verbs
       href: articles/two-table.html
     - text: Window functions
