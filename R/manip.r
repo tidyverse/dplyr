@@ -314,6 +314,12 @@ transmute_.default <- function(.data, ..., .dots = list()) {
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
+#'
+#' # grouped arrange ignores groups
+#' by_cyl <- mtcars %>% group_by(cyl)
+#' by_cyl %>% arrange(desc(wt))
+#' # Unless you specifically ask:
+#' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
 arrange <- function(.data, ...) {
   UseMethod("arrange")
 }
@@ -325,6 +331,20 @@ arrange.default <- function(.data, ...) {
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
+}
+
+#' @export
+#' @rdname arrange
+#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
+arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
+  if (.by_group) {
+    dots <- quos(!!!groups(.data), ...)
+  } else {
+    dots <- quos(...)
+  }
+
+  arrange_impl(.data, dots)
 }
 
 #' Select/rename variables by name

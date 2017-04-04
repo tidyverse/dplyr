@@ -116,6 +116,8 @@ cbind.grouped_df <- function(...) {
 
 # One-table verbs --------------------------------------------------------------
 
+# see arrange.r for arrange.grouped_df
+
 #' @export
 select.grouped_df <- function(.data, ...) {
   vars <- select_vars(names(.data), ...)

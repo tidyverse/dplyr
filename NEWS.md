@@ -1,6 +1,6 @@
 # dplyr 0.5.0.9000
 
-## New data and functions
+## New data, functions, and features
 
 * Five new datasets provide some interesting built-in datasets to demonstrate
   dplyr verbs (#2094):
@@ -12,6 +12,9 @@
 
 * New `add_count()` and `add_tally()` for adding an `n` column within groups 
   (#2078, @dgrtwo).
+
+* `arrange()` for grouped data frames gains a `.by_group` argument so you
+  can choose to sort by groups if you want to (defaults to `FALSE`) (#2318)
 
 * New `pull()` generic for extracting a single column either by name
   (as a string) or a position (either from the left or the right). Thanks to
