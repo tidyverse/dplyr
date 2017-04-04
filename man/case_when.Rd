@@ -2,7 +2,7 @@
 % Please edit documentation in R/case_when.R
 \name{case_when}
 \alias{case_when}
-\title{A general vectorised if.}
+\title{A general vectorised if}
 \usage{
 case_when(...)
 }

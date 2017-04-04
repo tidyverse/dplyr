@@ -5,7 +5,7 @@
 \alias{groups}
 \alias{group_vars}
 \alias{ungroup}
-\title{Group a tbl by one or more variables.}
+\title{Group by one or more variables}
 \usage{
 group_by(.data, ..., add = FALSE)
 

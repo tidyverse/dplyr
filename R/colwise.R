@@ -1,4 +1,4 @@
-#' Operate on a selection of variables.
+#' Operate on a selection of variables
 #'
 #' The variants suffixed with `_if`, `_at` or `_all` apply an
 #' expression (sometimes several) to all variables within a specified
@@ -47,7 +47,7 @@
 NULL
 
 
-#' Select variables.
+#' Select variables
 #'
 #' This helper is intended to provide equivalent semantics to
 #' [select()]. It is used for instance in scoped summarising and
@@ -72,7 +72,7 @@ vars <- function(...) {
   quos(...)
 }
 
-#' Apply predicate to all variables.
+#' Apply predicate to all variables
 #'
 #' These quoting functions signal to scoped filtering verbs
 #' (e.g. [filter_if()] or [filter_all()]) that a predicate expression

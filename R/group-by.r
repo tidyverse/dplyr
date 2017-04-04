@@ -1,4 +1,4 @@
-#' Group a tbl by one or more variables.
+#' Group by one or more variables
 #'
 #' @description
 #' Most data operations are usefully done on groups defined by variables.

@@ -1,4 +1,4 @@
-#' Convert values to NA.
+#' Convert values to NA
 #'
 #' This is a translation of the SQL command `NULL_IF`. It is useful
 #' if you want to convert an annoying value to `NA`.

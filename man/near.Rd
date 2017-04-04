@@ -2,7 +2,7 @@
 % Please edit documentation in R/near.R
 \name{near}
 \alias{near}
-\title{Compare two numeric vectors.}
+\title{Compare two numeric vectors}
 \usage{
 near(x, y, tol = .Machine$double.eps^0.5)
 }

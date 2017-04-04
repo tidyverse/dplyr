@@ -1,4 +1,4 @@
-#' Efficiently bind multiple data frames by row and column.
+#' Efficiently bind multiple data frames by row and column
 #'
 #' This is an efficient implementation of the common pattern of
 #' `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many

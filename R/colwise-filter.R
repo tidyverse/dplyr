@@ -1,4 +1,4 @@
-#' Filter within a selection of variables.
+#' Filter within a selection of variables
 #'
 #' These [scoped] filtering verbs apply a predicate expression to a
 #' selection of variables. The predicate expression should be quoted

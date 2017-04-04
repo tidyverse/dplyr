@@ -4,7 +4,7 @@
 \alias{group_by_all}
 \alias{group_by_at}
 \alias{group_by_if}
-\title{Group by a selection of variables.}
+\title{Group by a selection of variables}
 \usage{
 group_by_all(.tbl, .funs = list(), ...)
 

@@ -1,4 +1,4 @@
-#' Sample n rows from a table.
+#' Sample n rows from a table
 #'
 #' This is a wrapper around [sample.int()] to make it easy to
 #' select random rows from a table. It currently only works for local

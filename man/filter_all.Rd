@@ -4,7 +4,7 @@
 \alias{filter_all}
 \alias{filter_if}
 \alias{filter_at}
-\title{Filter within a selection of variables.}
+\title{Filter within a selection of variables}
 \usage{
 filter_all(.tbl, .vars_predicate)
 

@@ -9,7 +9,7 @@
 \alias{combine}
 \alias{rbind_list}
 \alias{rbind_all}
-\title{Efficiently bind multiple data frames by row and column.}
+\title{Efficiently bind multiple data frames by row and column}
 \usage{
 bind_rows(..., .id = NULL)
 

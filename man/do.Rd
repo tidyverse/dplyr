@@ -2,7 +2,7 @@
 % Please edit documentation in R/do.r
 \name{do}
 \alias{do}
-\title{Do arbitrary operations on a tbl.}
+\title{Do arbitrary operations on a tbl}
 \usage{
 do(.data, ...)
 }

@@ -1,4 +1,4 @@
-#' Select distinct/unique rows.
+#' Select distinct/unique rows
 #'
 #' Retain only unique/distinct rows from an input tbl. This is similar
 #' to [unique.data.frame()], but considerably faster.
