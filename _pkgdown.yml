@@ -13,7 +13,6 @@ reference:
 - title: Single-table verbs
   contents:
   - arrange
-  - count
   - distinct
   - do
   - filter
@@ -24,21 +23,24 @@ reference:
   - sample
   - summarise
   - transmute
-  - top_n
   - pull
   - rename
   - slice
 
-- title: Colwise helpers
+- title: Single-table helpers
   contents:
+  - count
+  - top_n
+  - scoped
+  - ends_with("_at")
   - all_vars
-  - ends_with("all")
   - vars
   - funs
 
 - title: Two-table verbs
   contents:
   - all_equal
+  - bind
   - intersect
   - ends_with("join")
   - join.tbl_df
@@ -52,11 +54,16 @@ reference:
   - tbl
   - src_dbi
 
+- title: Metadata
+  contents:
+  - groups
+
 - title: Vector functions
   contents:
   - between
   - case_when
   - coalesce
+  - cumany
   - desc
   - if_else
   - lead
@@ -67,7 +74,6 @@ reference:
   - nth
   - ranking
   - recode
-  - scoped
 
 - title: Data
   contents:

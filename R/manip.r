@@ -106,7 +106,7 @@ slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
-#' Summarise multiple values to a single value
+#' Reduces multiple values down to a single value
 #'
 #' `summarise()` is typically used on grouped data created by [group_by()].
 #' The output will have one row for each group.

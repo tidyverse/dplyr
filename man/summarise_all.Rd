@@ -78,8 +78,6 @@ select columns using the same name-based \link{select_helpers} just
 like with \code{\link[=select]{select()}}.
 \item \code{summarise_if}(), \code{mutate_if}() and \code{transmute_if()} operate on
 columns for which a predicate returns \code{TRUE}.
-\item \code{\link[=summarise_each]{summarise_each()}} and \code{\link[=mutate_each]{mutate_each()}} are older variants that
-are now deprecated.
 }
 }
 \examples{

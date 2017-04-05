@@ -1,4 +1,4 @@
-#' Counts/tally observations by group
+#' Count/tally observations by group
 #'
 #' @description
 #' `tally()` is a convenient wrapper for summarise that will either call

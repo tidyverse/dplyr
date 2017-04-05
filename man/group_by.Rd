@@ -2,16 +2,10 @@
 % Please edit documentation in R/group-by.r
 \name{group_by}
 \alias{group_by}
-\alias{groups}
-\alias{group_vars}
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
 group_by(.data, ..., add = FALSE)
-
-groups(x)
-
-group_vars(x)
 
 ungroup(x, ...)
 }
@@ -25,16 +19,11 @@ will be silently dropped.}
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To instead add to the existing groups,
 use \code{add = TRUE}}
-
-\item{x}{data \code{\link[=tbl]{tbl()}}}
 }
 \description{
 Most data operations are usefully done on groups defined by variables.
 \code{group_by()} takes an existing tbl and converts it into a grouped tbl
-where operations are performed "by group".
-
-\code{groups()} and \code{group_vars()} tell you how a table is grouped.
-\code{ungroup()} removes grouping.
+where operations are performed "by group". \code{ungroup()} removes grouping.
 }
 \section{Tbl types}{
 

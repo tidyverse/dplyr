@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise multiple values to a single value — summarise • dplyr</title>
+<title>Reduces multiple values down to a single value — summarise • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -95,7 +95,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise multiple values to a single value</h1>
+    <h1>Reduces multiple values down to a single value</h1>
     </div>
 
     
@@ -183,7 +183,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>, <span class='no'>vs</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>cyl_n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
+  <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
 <span class='co'># Note that with data frames, newly created summaries immediately</span>
 <span class='co'># overwrite existing variables</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
