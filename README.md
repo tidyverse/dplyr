@@ -71,16 +71,16 @@ starwars %>%
 #> # ... with 82 more rows
 
 starwars %>% 
-  mutate(name, bmi = mass / (height ^ 2)) %>%
+  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
   select(name:mass, bmi)
 #> # A tibble: 87 × 4
-#>             name height  mass         bmi
-#>            <chr>  <int> <dbl>       <dbl>
-#> 1 Luke Skywalker    172    77 0.002602758
-#> 2          C-3PO    167    75 0.002689232
-#> 3          R2-D2     96    32 0.003472222
-#> 4    Darth Vader    202   136 0.003333007
-#> 5    Leia Organa    150    49 0.002177778
+#>             name height  mass      bmi
+#>            <chr>  <int> <dbl>    <dbl>
+#> 1 Luke Skywalker    172    77 26.02758
+#> 2          C-3PO    167    75 26.89232
+#> 3          R2-D2     96    32 34.72222
+#> 4    Darth Vader    202   136 33.33007
+#> 5    Leia Organa    150    49 21.77778
 #> # ... with 82 more rows
 
 starwars %>% 

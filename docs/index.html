@@ -150,16 +150,16 @@ starwars %&gt;%<span class="st"> </span>
 <span class="co">#&gt; # ... with 82 more rows</span>
 
 starwars %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/mutate.html">mutate</a></span>(name, <span class="dt">bmi =</span> mass /<span class="st"> </span>(height ^<span class="st"> </span><span class="dv">2</span>)) %&gt;%
+<span class="st">  </span><span class="kw"><a href="reference/mutate.html">mutate</a></span>(name, <span class="dt">bmi =</span> mass /<span class="st"> </span>((height /<span class="st"> </span><span class="dv">100</span>)  ^<span class="st"> </span><span class="dv">2</span>)) %&gt;%
 <span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name:mass, bmi)
 <span class="co">#&gt; # A tibble: 87 × 4</span>
-<span class="co">#&gt;             name height  mass         bmi</span>
-<span class="co">#&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Luke Skywalker    172    77 0.002602758</span>
-<span class="co">#&gt; 2          C-3PO    167    75 0.002689232</span>
-<span class="co">#&gt; 3          R2-D2     96    32 0.003472222</span>
-<span class="co">#&gt; 4    Darth Vader    202   136 0.003333007</span>
-<span class="co">#&gt; 5    Leia Organa    150    49 0.002177778</span>
+<span class="co">#&gt;             name height  mass      bmi</span>
+<span class="co">#&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Luke Skywalker    172    77 26.02758</span>
+<span class="co">#&gt; 2          C-3PO    167    75 26.89232</span>
+<span class="co">#&gt; 3          R2-D2     96    32 34.72222</span>
+<span class="co">#&gt; 4    Darth Vader    202   136 33.33007</span>
+<span class="co">#&gt; 5    Leia Organa    150    49 21.77778</span>
 <span class="co">#&gt; # ... with 82 more rows</span>
 
 starwars %&gt;%<span class="st"> </span>
