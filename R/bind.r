@@ -73,7 +73,7 @@
 #' bind_rows(ll)
 #'
 #' # You can circumvent that behaviour with explicit splicing:
-#' bind_rows(splice(ll))
+#' bind_rows(!!! ll)
 #'
 #'
 #' # When you supply a column name with the `.id` argument, a new
