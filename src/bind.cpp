@@ -41,8 +41,7 @@ private:
   std::vector<DataFrameAble> data;
 };
 
-template <typename Dots>
-String get_dot_name(const Dots& dots, int i) {
+String get_dot_name(const List& dots, int i) {
   RObject names = dots.names();
   if (Rf_isNull(names)) return "";
   return STRING_ELT(names, i);
@@ -73,12 +72,113 @@ static
 int rows_length(SEXP x) {
   if (Rf_inherits(x, "data.frame"))
     return df_rows_length(x);
+  else if (TYPEOF(x) == VECSXP && Rf_length(x) > 0)
+    return Rf_length(VECTOR_ELT(x, 0));
   else
     return 1;
 }
+static
+bool is_vector(SEXP x) {
+  switch(TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+  case VECSXP:
+    return true;
+  default:
+    return false;
+  }
+}
 
-template <typename Dots>
-List rbind__impl(Dots dots, SEXP id = R_NilValue) {
+static
+void outer_vector_check(SEXP x) {
+  switch(TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP: {
+    if (Rf_getAttrib(x, R_NamesSymbol) != R_NilValue)
+      break;
+    stop("`bind_rows()` expects data frames and named atomic vectors");
+  }
+  case VECSXP: {
+    if (!OBJECT(x) || Rf_inherits(x, "data.frame"))
+      break;
+  }
+  default:
+    stop("`bind_rows()` expects data frames and named atomic vectors");
+  }
+}
+static
+void inner_vector_check(SEXP x, int nrows) {
+  if (!is_vector(x))
+    stop("`bind_rows()` expects data frames and named atomic vectors 2");
+
+  if (OBJECT(x)) {
+    if (Rf_inherits(x, "data.frame"))
+      stop("`bind_rows()` does not support nested data frames");
+    if (Rf_inherits(x, "POSIXlt"))
+      stop("`bind_rows()` does not support POSIXlt columns");
+  }
+
+  if (Rf_length(x) != nrows)
+    stop("incompatible sizes (%d != %s)", nrows, Rf_length(x));
+}
+
+static
+void bind_type_check(SEXP x, int nrows) {
+  int n = Rf_length(x);
+  if (n == 0)
+    return;
+
+  outer_vector_check(x);
+
+  if (TYPEOF(x) == VECSXP) {
+    for (int i = 0; i < n; i++)
+      inner_vector_check(VECTOR_ELT(x, i), nrows);
+  }
+}
+
+bool is_atomic(SEXP x) {
+  switch(TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+    return true;
+  default:
+    return false;
+  }
+}
+
+extern "C"
+bool bind_spliceable(SEXP x) {
+  if (TYPEOF(x) != VECSXP)
+    return false;
+
+  if (OBJECT(x)) {
+    if (Rf_inherits(x, "spliced"))
+      return true;
+    else
+      return false;
+  }
+
+  for (size_t i = 0; i != Rf_length(x); ++i) {
+    if (is_atomic(VECTOR_ELT(x, i)))
+      return false;
+  }
+
+  return true;
+}
+
+List rbind__impl(List dots, SEXP id = R_NilValue) {
   int ndata = dots.size();
   int n = 0;
   std::vector<SEXP> chunks;
@@ -110,13 +210,14 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
 
     SEXP df = chunks[i];
     int nrows = df_nrows[i];
+    bind_type_check(df, nrows);
 
     CharacterVector df_names = enc2native(Rf_getAttrib(df, R_NamesSymbol));
     for (int j = 0; j < Rf_length(df); j++) {
 
       SEXP source;
       int offset;
-      if (Rf_inherits(df, "data.frame")) {
+      if (TYPEOF(df) == VECSXP) {
         source = VECTOR_ELT(df, j);
         offset = 0;
       } else {
@@ -227,7 +328,7 @@ List bind_rows_(List dots, SEXP id = R_NilValue) {
 }
 
 // [[Rcpp::export]]
-List rbind_list__impl(Dots dots) {
+List rbind_list__impl(List dots) {
   return rbind__impl(dots);
 }
 

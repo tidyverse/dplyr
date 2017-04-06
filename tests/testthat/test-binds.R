@@ -18,8 +18,8 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
   df1 <- structure(list(x = 1), class = "blah_frame")
   df2 <- structure(list(x = 1), class = "blah_frame")
 
-  expect_error(bind_cols(df1, df2), "cannot coerce")
-  expect_error(bind_rows(df1, df2), "cannot coerce")
+  expect_error(bind_cols(df1, df2), "Data-frame-like objects must inherit from class data\\.frame or be plain lists")
+  expect_error(bind_rows(df1, df2), "expects data frames and named atomic vectors")
 })
 
 test_that("bind_rows() err for invalid ID", {
@@ -118,7 +118,7 @@ test_that("bind_rows ignores NULL", {
 
 test_that("bind_rows only accepts data frames or vectors", {
   ll <- list(1:5, get_env())
-  expect_error(bind_rows(ll), "only contain data frames and named atomic vectors")
+  expect_error(bind_rows(ll), "expects data frames and named atomic vectors")
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -470,7 +470,7 @@ test_that("bind_cols infers classes from first result (#1692)", {
 test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df <- data_frame(x = Sys.time() + 1:12)
   df$y <- as.POSIXlt(df$x)
-  expect_error(bind_rows(df, df), "not supported")
+  expect_error(bind_rows(df, df), "does not support POSIXlt columns")
 })
 
 test_that("bind_rows rejects data frame columns (#2015)", {
@@ -483,7 +483,7 @@ test_that("bind_rows rejects data frame columns (#2015)", {
 
   expect_error(
     dplyr::bind_rows(df, df),
-    "Columns of class data.frame not supported",
+    "`bind_rows()` does not support nested data frames",
     fixed = TRUE
   )
 })
