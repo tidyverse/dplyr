@@ -241,7 +241,14 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * `bind_cols()` better handles `NULL` inputs (#2303, #2443).
 
-* `bind_rows()` explicitly rejects data frame columns (#2015, #2446).
+* `bind_rows()` explicitly rejects columns containing data frames
+  (#2015, #2446).
+
+* `bind_rows()` and `bind_cols()` now accept vectors. They are treated
+  as rows by the former and columns by the latter. Rows require inner
+  names like `c(col1 = 1, col2 = 2)`, while columns require outer
+  names: `col1 = c(1, 2)`. Lists are still treated as data frames but
+  can be spliced explicitly with `!!!`, e.g. `bind_rows(!!! x)` (#1676).
 
 * `combine()` accepts `NA` values (#2203, @zeehio)
 
