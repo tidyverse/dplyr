@@ -185,6 +185,10 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
   std::vector<int> df_nrows;
   std::vector<String> dots_names;
 
+  chunks.reserve(ndata);
+  df_nrows.reserve(ndata);
+  dots_names.reserve(ndata);
+
   int k = 0;
   for (int i = 0; i < ndata; i++) {
     SEXP obj = dots[i];
