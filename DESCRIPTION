@@ -40,7 +40,6 @@ Suggests:
     Lahman (>= 3.0-1),
     nycflights13,
     rmarkdown,
-    covr,
     dtplyr,
     bit64,
     hms

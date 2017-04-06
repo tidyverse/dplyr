@@ -88,6 +88,7 @@ group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
 
 #' @rdname group_by
 #' @export
+#' @param x A [tbl()]
 ungroup <- function(x, ...) {
   UseMethod("ungroup")
 }
