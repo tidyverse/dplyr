@@ -10,6 +10,15 @@ SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
 void strip_index(DataFrame x);
 
+bool is_vector(SEXP x);
+bool is_atomic(SEXP x);
+
+SEXP vec_names(SEXP x);
+bool is_str_empty(SEXP str);
+bool has_name_at(SEXP x, R_len_t i);
+SEXP name_at(SEXP x, size_t i);
+
+
 namespace dplyr {
 
 std::string get_single_class(SEXP x);

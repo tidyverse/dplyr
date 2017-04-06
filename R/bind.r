@@ -38,11 +38,43 @@
 #' one <- mtcars[1:4, ]
 #' two <- mtcars[11:14, ]
 #'
-#' # You can either supply data frames as arguments
+#' # You can supply data frames as arguments:
 #' bind_rows(one, two)
-#' # Or a single argument containing a list of data frames
+#'
+#' # The contents of lists is automatically spliced:
 #' bind_rows(list(one, two))
 #' bind_rows(split(mtcars, mtcars$cyl))
+#' bind_rows(list(one, two), list(two, one))
+#'
+#'
+#' # In addition to data frames, you can supply vectors. In the rows
+#' # direction, the vectors represent rows and should have inner
+#' # names:
+#' bind_rows(
+#'   c(a = 1, b = 2),
+#'   c(a = 3, b = 4)
+#' )
+#'
+#' # You can mix vectors and data frames:
+#' bind_rows(
+#'   c(a = 1, b = 2),
+#'   data_frame(a = 3:4, b = 5:6),
+#'   c(a = 7, b = 8)
+#' )
+#'
+#'
+#' # Note that for historical reasons, lists containg vectors are
+#' # always treated as data frames. Thus their vectors are treated as
+#' # columns rather than rows, and their inner names are ignored:
+#' ll <- list(
+#'   a = c(A = 1, B = 2),
+#'   b = c(A = 3, B = 4)
+#' )
+#' bind_rows(ll)
+#'
+#' # You can circumvent that behaviour with explicit splicing:
+#' bind_rows(!!! ll)
+#'
 #'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
@@ -73,38 +105,60 @@ NULL
 
 #' @export
 #' @rdname bind
+#' @useDynLib dplyr bind_spliceable
 bind_rows <- function(..., .id = NULL) {
-  x <- list_or_dots(...)
+  x <- flatten_if(dots_values(...), bind_spliceable)
 
-  if (!is.null(.id)) {
-    if (!(is.character(.id) && length(.id) == 1)) {
-      bad_args(~.id, "must be a scalar string, ",
+  if (!length(x)) {
+    # Handle corner cases gracefully, but always return a tibble
+    if (inherits(x, "data.frame")) {
+      return(x)
+    } else {
+      return(tibble())
+    }
+  }
+
+  if (!is_null(.id)) {
+    if (!(is_string(.id))) {
+      bad_args(".id", "must be a scalar string, ",
         "not {type_of(.id)} of length {length(.id)}"
       )
     }
-    names(x) <- names(x) %||% seq_along(x)
+    if (!all(have_name(x) | map_lgl(x, is_empty))) {
+      x <- compact(x)
+      names(x) <- seq_along(x)
+    }
   }
 
   bind_rows_(x, .id)
 }
 
-#' @export
-rbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_rows(...)
+is_rowwise_atomic <- function(x) {
+  is_atomic(x) && is_named(x)
+}
+is_df_list <- function(x) {
+  is_list(x) && every(x, inherits, "data.frame")
 }
 
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- list_or_dots(...)
-
+  x <- flatten_if(dots_values(...), bind_spliceable)
   out <- cbind_all(x)
   tibble::repair_names(out)
 }
 
+
+# Can't forward dots directly because rbind() and cbind() evaluate
+# them eagerly which prevents them from being captured
+
+#' @export
+rbind.tbl_df <- function(..., deparse.level = 1) {
+  bind_rows(!!! list(...))
+}
 #' @export
 cbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_cols(...)
+  bind_cols(!!! list(...))
 }
 
 #' @export
@@ -117,48 +171,6 @@ combine <- function(...) {
     combine_all(args)
   }
 }
-
-list_or_dots <- function(...) {
-  dots <- list(...)
-
-  # Need to ensure that each component is a data list:
-  data_lists <- vapply(dots, is_data_list, logical(1))
-  dots[data_lists] <- lapply(dots[data_lists], list)
-
-  unlist(dots, recursive = FALSE)
-}
-
-# Is this object a
-is_data_list <- function(x) {
-  # data frames are trivially data list, and so are nulls
-  if (is.data.frame(x) || is.null(x))
-    return(TRUE)
-
-  # Must be a list
-  if (!is.list(x))
-    return(FALSE)
-
-  # 0 length named list (#1515)
-  if (!is.null(names(x)) && length(x) == 0)
-    return(TRUE)
-
-  # With names
-  if (any(!have_name(x)))
-    return(FALSE)
-
-  # Where each element is an 1d vector or list
-  is_1d <- vapply(x, is_1d, logical(1))
-  if (any(!is_1d))
-    return(FALSE)
-
-  # All of which have the same length
-  n <- vapply(x, length, integer(1))
-  if (any(n != n[1]))
-    return(FALSE)
-
-  TRUE
-}
-
 
 # Deprecated functions ----------------------------------------------------
 
