@@ -141,12 +141,8 @@ bool bind_spliceable(SEXP x) {
   if (TYPEOF(x) != VECSXP)
     return false;
 
-  if (OBJECT(x)) {
-    if (Rf_inherits(x, "spliced"))
-      return true;
-    else
-      return false;
-  }
+  if (OBJECT(x))
+    return Rf_inherits(x, "spliced");
 
   for (size_t i = 0; i != Rf_length(x); ++i) {
     if (is_atomic(VECTOR_ELT(x, i)))
