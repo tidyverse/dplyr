@@ -18,8 +18,8 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
   df1 <- structure(list(x = 1), class = "blah_frame")
   df2 <- structure(list(x = 1), class = "blah_frame")
 
-  expect_error(bind_cols(df1, df2), "Data-frame-like objects must inherit from class data\\.frame or be plain lists")
-  expect_error(bind_rows(df1, df2), "expects data frames and named atomic vectors")
+  expect_error(bind_cols(df1, df2), "`bind_cols\\(\\)` expects data frames and named atomic vectors")
+  expect_error(bind_rows(df1, df2), "`bind_rows\\(\\)` expects data frames and named atomic vectors")
 })
 
 test_that("bind_rows() err for invalid ID", {
@@ -81,6 +81,7 @@ test_that("bind_cols repairs names", {
 
   expect_equal(bound, repaired)
 })
+
 
 # rows --------------------------------------------------------------------
 
@@ -522,3 +523,26 @@ test_that("bind_rows() handles rowwise vectors", {
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
   expect_identical(bind_rows(list(list(a = 1, b = 2))), tibble(a = 1, b = 2))
 })
+
+
+# Vectors ------------------------------------------------------------
+
+test_that("accepts named columns", {
+  expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
+  expect_equal(bind_cols(!!! mtcars), as_tibble(mtcars))
+})
+
+test_that("uncompatible sizes fail", {
+  expect_error(bind_cols(a = 1, mtcars), "incompatible sizes")
+  expect_error(bind_cols(mtcars, a = 1), "incompatible sizes")
+})
+
+test_that("unnamed vectors fail", {
+  expect_error(bind_cols(1:2), "named atomic vectors")
+  expect_error(bind_cols(!!! list(1:2)), "named atomic vectors")
+})
+
+test_that("supports NULL values", {
+  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
+})
+

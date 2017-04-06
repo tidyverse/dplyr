@@ -69,11 +69,25 @@ int df_rows_length(SEXP df) {
 }
 
 static
-int rows_length(SEXP x) {
-  if (Rf_inherits(x, "data.frame"))
-    return df_rows_length(x);
-  else if (TYPEOF(x) == VECSXP && Rf_length(x) > 0)
-    return Rf_length(VECTOR_ELT(x, 0));
+size_t rows_length(SEXP x, bool rowwise) {
+  if (TYPEOF(x) == VECSXP) {
+    if (Rf_inherits(x, "data.frame"))
+      return df_rows_length(x);
+    else if (Rf_length(x) > 0)
+      return Rf_length(VECTOR_ELT(x, 0));
+    else
+      return 0;
+  } else {
+    if (rowwise)
+      return 1;
+    else
+      return Rf_length(x);
+  }
+}
+static
+size_t cols_length(SEXP x) {
+  if (TYPEOF(x) == VECSXP)
+    return Rf_length(x);
   else
     return 1;
 }
@@ -92,9 +106,55 @@ bool is_vector(SEXP x) {
     return false;
   }
 }
+static
+bool is_atomic(SEXP x) {
+  switch(TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+    return true;
+  default:
+    return false;
+  }
+}
+static
+SEXP vec_names(SEXP x) {
+  return Rf_getAttrib(x, R_NamesSymbol);
+}
+static
+bool is_str_empty(SEXP str) {
+  const char* c_str = CHAR(str);
+  return strcmp(c_str, "") == 0;
+}
+static
+bool has_name_at(SEXP x, R_len_t i) {
+  SEXP nms = vec_names(x);
+  return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
+}
 
 static
-void outer_vector_check(SEXP x) {
+void inner_vector_check(SEXP x, int nrows, const char* fn) {
+  if (!is_vector(x))
+    stop("`%s()` expects data frames and named atomic vectors 2", fn);
+
+  if (OBJECT(x)) {
+    if (Rf_inherits(x, "data.frame"))
+      stop("`%s()` does not support nested data frames", fn);
+    if (Rf_inherits(x, "POSIXlt"))
+      stop("`%s()` does not support POSIXlt columns", fn);
+  }
+
+  if (Rf_length(x) != nrows)
+    stop("incompatible sizes (%d != %s)", nrows, Rf_length(x));
+}
+static
+void rbind_vector_check(SEXP x, size_t nrows) {
+  if (rows_length(x, true) != nrows)
+    stop("incompatible sizes (%d != %s)", nrows, rows_length(x, true));
+
   switch(TYPEOF(x)) {
   case LGLSXP:
   case INTSXP:
@@ -102,7 +162,7 @@ void outer_vector_check(SEXP x) {
   case CPLXSXP:
   case STRSXP:
   case RAWSXP: {
-    if (Rf_getAttrib(x, R_NamesSymbol) != R_NilValue)
+    if (vec_names(x) != R_NilValue)
       break;
     stop("`bind_rows()` expects data frames and named atomic vectors");
   }
@@ -115,46 +175,39 @@ void outer_vector_check(SEXP x) {
   }
 }
 static
-void inner_vector_check(SEXP x, int nrows) {
-  if (!is_vector(x))
-    stop("`bind_rows()` expects data frames and named atomic vectors 2");
-
-  if (OBJECT(x)) {
-    if (Rf_inherits(x, "data.frame"))
-      stop("`bind_rows()` does not support nested data frames");
-    if (Rf_inherits(x, "POSIXlt"))
-      stop("`bind_rows()` does not support POSIXlt columns");
-  }
-
-  if (Rf_length(x) != nrows)
-    stop("incompatible sizes (%d != %s)", nrows, Rf_length(x));
+void cbind_vector_check(SEXP x, size_t nrows, SEXP contr, int i) {
+  if (is_atomic(x) && !has_name_at(contr, i))
+    stop("`bind_cols()` expects data frames and named atomic vectors");
+  if (rows_length(x, false) != nrows)
+    stop("incompatible sizes (%d != %s)", nrows, rows_length(x, false));
 }
 
 static
-void bind_type_check(SEXP x, int nrows) {
+void rbind_type_check(SEXP x, int nrows) {
   int n = Rf_length(x);
   if (n == 0)
     return;
 
-  outer_vector_check(x);
+  rbind_vector_check(x, nrows);
 
   if (TYPEOF(x) == VECSXP) {
     for (int i = 0; i < n; i++)
-      inner_vector_check(VECTOR_ELT(x, i), nrows);
+      inner_vector_check(VECTOR_ELT(x, i), nrows, "bind_rows");
   }
 }
+static
+void cbind_type_check(SEXP x, int nrows, SEXP contr, int i) {
+  int n = Rf_length(x);
+  if (n == 0)
+    return;
 
-bool is_atomic(SEXP x) {
-  switch(TYPEOF(x)) {
-  case LGLSXP:
-  case INTSXP:
-  case REALSXP:
-  case CPLXSXP:
-  case STRSXP:
-  case RAWSXP:
-    return true;
-  default:
-    return false;
+  cbind_vector_check(x, nrows, contr, i);
+
+  if (TYPEOF(x) == VECSXP) {
+    if (OBJECT(x) && !Rf_inherits(x, "data.frame"))
+      stop("`bind_cols()` expects data frames and named atomic vectors");
+    for (int i = 0; i < n; i++)
+      inner_vector_check(VECTOR_ELT(x, i), nrows, "bind_cols");
   }
 }
 
@@ -194,7 +247,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
     SEXP obj = dots[i];
     if (Rf_isNull(obj)) continue;
     chunks.push_back(obj);
-    int nrows = rows_length(chunks[k]);
+    size_t nrows = rows_length(chunks[k], true);
     df_nrows.push_back(nrows);
     n += nrows;
     if (!Rf_isNull(id)) {
@@ -214,9 +267,9 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
 
     SEXP df = chunks[i];
     int nrows = df_nrows[i];
-    bind_type_check(df, nrows);
+    rbind_type_check(df, nrows);
 
-    CharacterVector df_names = enc2native(Rf_getAttrib(df, R_NamesSymbol));
+    CharacterVector df_names = enc2native(vec_names(df));
     for (int j = 0; j < Rf_length(df); j++) {
 
       SEXP source;
@@ -336,53 +389,67 @@ List rbind_list__impl(List dots) {
   return rbind__impl(dots);
 }
 
-template <typename Dots>
-List cbind__impl(Dots dots) {
-  DataFrameAbleVector chunks;
-  for (int i = 0; i < dots.size(); ++i) {
-    SEXP obj = dots[i];
-    if (!Rf_isNull(obj))
-      chunks.push_back(obj);
+List cbind__impl(List dots) {
+  int n_dots = dots.size();
+
+  // First check that the number of rows is the same based on first
+  // nonnull element
+  int first_i = -1;
+  for (int i = 0; i != n_dots; ++i) {
+    if (dots[i] != R_NilValue) {
+      first_i = i;
+      break;
+    }
   }
 
-  const int n = chunks.size();
-
-  if (n == 0)
+  if (!n_dots || first_i == -1)
     return DataFrame();
 
-  // first check that the number of rows is the same
-  const DataFrameAble& first = chunks[0];
-  const int nrows = first.nrows();
-  int nv = first.size();
-  for (int i = 1; i < n; i++) {
-    const DataFrameAble& current = chunks[i];
-    if (current.nrows() != nrows) {
-      stop("incompatible number of rows (%d, expecting %d)", current.nrows(), nrows);
-    }
-    nv += current.size();
+  SEXP first = dots[first_i];
+  const size_t nrows = rows_length(first, false);
+  cbind_type_check(first, nrows, dots, 0);
+
+  size_t nv = cols_length(first);
+
+  for (int i = first_i + 1; i < n_dots; i++) {
+    SEXP current = dots[i];
+    if (Rf_isNull(current))
+      continue;
+
+    cbind_type_check(current, nrows, dots, i);
+    nv += cols_length(current);
   }
 
   // collect columns
   List out(nv);
   CharacterVector out_names(nv);
+  SEXP dots_names = vec_names(dots);
 
   // then do the subsequent dfs
-  for (int i = 0, k = 0; i < n; i++) {
-    Rcpp::checkUserInterrupt();
+  for (int i = first_i, k = 0; i < n_dots; i++) {
+    SEXP current = dots[i];
+    if (Rf_isNull(current))
+      continue;
 
-    const DataFrameAble& current = chunks[i];
-    CharacterVector current_names = current.names();
-    int nc = current.size();
-    for (int j = 0; j < nc; j++, k++) {
-      out[k] = shared_SEXP(current.get(j));
-      out_names[k] = current_names[j];
+    if (TYPEOF(current) == VECSXP) {
+      CharacterVector current_names = vec_names(current);
+      int nc = Rf_length(current);
+      for (int j = 0; j < nc; j++, k++) {
+        out[k] = shared_SEXP(VECTOR_ELT(current, j));
+        out_names[k] = current_names[j];
+      }
+    } else {
+      out[k] = current;
+      out_names[k] = STRING_ELT(dots_names, i);
+      k++;
     }
+
+    Rcpp::checkUserInterrupt();
   }
 
   // infer the classes and extra info (groups, etc ) from the first (#1692)
-  if (first.is_dataframe()) {
-    DataFrame df = first.get();
-    copy_most_attributes(out, df);
+  if (Rf_inherits(first, "data.frame")) {
+    copy_most_attributes(out, first);
   } else {
     set_class(out, classes_not_grouped());
   }
