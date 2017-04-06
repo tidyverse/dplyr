@@ -15,12 +15,6 @@ using namespace Rcpp;
 using namespace dplyr;
 
 
-String get_dot_name(const List& dots, int i) {
-  RObject names = dots.names();
-  if (Rf_isNull(names)) return "";
-  return STRING_ELT(names, i);
-}
-
 // From Rcpp::DataFrame
 static
 int df_rows_length(SEXP df) {
@@ -64,49 +58,6 @@ size_t cols_length(SEXP x) {
     return Rf_length(x);
   else
     return 1;
-}
-static
-bool is_vector(SEXP x) {
-  switch(TYPEOF(x)) {
-  case LGLSXP:
-  case INTSXP:
-  case REALSXP:
-  case CPLXSXP:
-  case STRSXP:
-  case RAWSXP:
-  case VECSXP:
-    return true;
-  default:
-    return false;
-  }
-}
-static
-bool is_atomic(SEXP x) {
-  switch(TYPEOF(x)) {
-  case LGLSXP:
-  case INTSXP:
-  case REALSXP:
-  case CPLXSXP:
-  case STRSXP:
-  case RAWSXP:
-    return true;
-  default:
-    return false;
-  }
-}
-static
-SEXP vec_names(SEXP x) {
-  return Rf_getAttrib(x, R_NamesSymbol);
-}
-static
-bool is_str_empty(SEXP str) {
-  const char* c_str = CHAR(str);
-  return strcmp(c_str, "") == 0;
-}
-static
-bool has_name_at(SEXP x, R_len_t i) {
-  SEXP nms = vec_names(x);
-  return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
 }
 
 static
@@ -225,7 +176,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
     df_nrows.push_back(nrows);
     n += nrows;
     if (!Rf_isNull(id)) {
-      dots_names.push_back(get_dot_name(dots, i));
+      dots_names.push_back(name_at(dots, i));
     }
     k++;
   }
