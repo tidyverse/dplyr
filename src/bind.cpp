@@ -8,38 +8,12 @@
 #include <tools/pointer_vector.h>
 #include <tools/utils.h>
 
-#include <dplyr/DataFrameAble.h>
 #include <dplyr/GroupedDataFrame.h>
-
 #include <dplyr/Collecter.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
-class DataFrameAbleVector {
-public:
-
-  DataFrameAbleVector() : data() {}
-
-  inline void push_back(SEXP x) {
-    data.push_back(DataFrameAble(x));
-  }
-
-  inline const DataFrameAble& operator[](int i) const {
-    return data[i];
-  }
-
-  inline int size() const {
-    return data.size();
-  }
-
-  ~DataFrameAbleVector() {
-    while (data.size()) data.pop_back();
-  }
-
-private:
-  std::vector<DataFrameAble> data;
-};
 
 String get_dot_name(const List& dots, int i) {
   RObject names = dots.names();
