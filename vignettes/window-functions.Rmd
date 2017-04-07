@@ -48,13 +48,13 @@ filter(players, G > mean(G))
 mutate(players, G_z = (G - mean(G)) / sd(G))
 ```
 
-Before reading this vignette, you should be familiar with `mutate()` and `filter()`. If you want to use window functions with SQL databases, you should also be familiar with the basics of dplyr's SQL translation.
+Before reading this vignette, you should be familiar with `mutate()` and `filter()`. 
 
 ## Types of window functions
 
 There are five main families of window functions. Two families are unrelated to aggregation functions:
 
-* Ranking and ordering functions: `row_number()`, `min_rank` (`RANK` in SQL),
+* Ranking and ordering functions: `row_number()`, `min_rank()`,
   `dense_rank()`, `cume_dist()`, `percent_rank()`, and `ntile()`. These 
   functions all take a vector to order by, and return various types of ranks.
 
