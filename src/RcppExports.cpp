@@ -4,6 +4,8 @@
 #include "dplyr_types.h"
 #include "../inst/include/dplyr.h"
 #include <Rcpp.h>
+#include <string>
+#include <set>
 
 using namespace Rcpp;
 
@@ -247,6 +249,124 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
     return rcpp_result_gen;
 END_RCPP
+}
+// get_date_classes
+SEXP get_date_classes();
+static SEXP dplyr_get_date_classes_try() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    rcpp_result_gen = Rcpp::wrap(get_date_classes());
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP dplyr_get_date_classes() {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(dplyr_get_date_classes_try());
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// get_time_classes
+SEXP get_time_classes();
+static SEXP dplyr_get_time_classes_try() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    rcpp_result_gen = Rcpp::wrap(get_time_classes());
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP dplyr_get_time_classes() {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(dplyr_get_time_classes_try());
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// registerHybridHandler
+void registerHybridHandler(const char* name, HybridHandler proto);
+static SEXP dplyr_registerHybridHandler_try(SEXP nameSEXP, SEXP protoSEXP) {
+BEGIN_RCPP
+    Rcpp::traits::input_parameter< const char* >::type name(nameSEXP);
+    Rcpp::traits::input_parameter< HybridHandler >::type proto(protoSEXP);
+    registerHybridHandler(name, proto);
+    return R_NilValue;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP dplyr_registerHybridHandler(SEXP nameSEXP, SEXP protoSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(dplyr_registerHybridHandler_try(nameSEXP, protoSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// build_index_cpp
+DataFrame build_index_cpp(DataFrame data);
+static SEXP dplyr_build_index_cpp_try(SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(build_index_cpp(data));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP dplyr_build_index_cpp(SEXP dataSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(dplyr_build_index_cpp_try(dataSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
 }
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match);
@@ -545,4 +665,26 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(cummean(x));
     return rcpp_result_gen;
 END_RCPP
+}
+
+// validate (ensure exported C++ functions exist before calling them)
+static int dplyr_RcppExport_validate(const char* sig) { 
+    static std::set<std::string> signatures;
+    if (signatures.empty()) {
+        signatures.insert("SEXP(*get_date_classes)()");
+        signatures.insert("SEXP(*get_time_classes)()");
+        signatures.insert("void(*registerHybridHandler)(const char*,HybridHandler)");
+        signatures.insert("DataFrame(*build_index_cpp)(DataFrame)");
+    }
+    return signatures.find(sig) != signatures.end();
+}
+
+// registerCCallable (register entry points for exported C++ functions)
+RcppExport SEXP dplyr_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("dplyr", "dplyr_get_date_classes", (DL_FUNC)dplyr_get_date_classes_try);
+    R_RegisterCCallable("dplyr", "dplyr_get_time_classes", (DL_FUNC)dplyr_get_time_classes_try);
+    R_RegisterCCallable("dplyr", "dplyr_registerHybridHandler", (DL_FUNC)dplyr_registerHybridHandler_try);
+    R_RegisterCCallable("dplyr", "dplyr_build_index_cpp", (DL_FUNC)dplyr_build_index_cpp_try);
+    R_RegisterCCallable("dplyr", "dplyr_RcppExport_validate", (DL_FUNC)dplyr_RcppExport_validate);
+    return R_NilValue;
 }
