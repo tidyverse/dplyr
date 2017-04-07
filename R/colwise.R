@@ -158,10 +158,10 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
   }
   .p <- as_function(.p, .env)
 
-  n <- length(.tbl)
+  n <- length(vars)
   selected <- lgl_len(n)
   for (i in seq_len(n)) {
-    selected[[i]] <- .p(.tbl[[i]], ...)
+    selected[[i]] <- .p(.tbl[[vars[[i]]]], ...)
   }
 
   vars[selected]

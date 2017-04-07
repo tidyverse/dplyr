@@ -95,6 +95,11 @@ test_that("can rename with vars() (#2594)", {
   expect_equal(mutate_at(tibble(x = 1:3), vars(y = x), mean), tibble(x = 1:3, y = c(2, 2, 2)))
 })
 
+test_that("selection works with grouped data frames (#2624)", {
+  gdf <- group_by(iris, Species)
+  expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
+})
+
 
 # Deprecated ---------------------------------------------------------
 
