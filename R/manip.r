@@ -262,6 +262,7 @@ summarize_ <- summarise_
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
+#' @export
 mutate.default <- function(.data, ...) {
   mutate_(.data, .dots = compat_as_lazy_dots(...))
 }
