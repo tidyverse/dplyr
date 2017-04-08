@@ -92,12 +92,12 @@ vars <- function(...) {
 #'   can use with scoped verbs.
 #' @export
 all_vars <- function(expr) {
-  set_attrs(enquo(expr), class = c("all_vars", "quosure", "formula"))
+  struct(enquo(expr), class = c("all_vars", "quosure", "formula"))
 }
 #' @rdname all_vars
 #' @export
 any_vars <- function(expr) {
-  set_attrs(enquo(expr), class = c("any_vars", "quosure", "formula"))
+  struct(enquo(expr), class = c("any_vars", "quosure", "formula"))
 }
 #' @export
 print.all_vars <- function(x, ...) {
