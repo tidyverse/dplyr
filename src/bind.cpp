@@ -137,7 +137,7 @@ void cbind_type_check(SEXP x, int nrows, SEXP contr, int i) {
 }
 
 extern "C"
-bool bind_spliceable(SEXP x) {
+bool is_bind_spliceable(SEXP x) {
   if (TYPEOF(x) != VECSXP)
     return false;
 
@@ -150,6 +150,11 @@ bool bind_spliceable(SEXP x) {
   }
 
   return true;
+}
+
+// [[Rcpp::export()]]
+List get_is_bind_spliceable() {
+  return List::create(R_MakeExternalPtr(reinterpret_cast<void*>(&is_bind_spliceable), R_NilValue, R_NilValue));
 }
 
 List rbind__impl(List dots, SEXP id = R_NilValue) {

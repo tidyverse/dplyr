@@ -54,6 +54,10 @@ between <- function(x, left, right) {
     .Call('dplyr_between', PACKAGE = 'dplyr', x, left, right)
 }
 
+get_is_bind_spliceable <- function() {
+    .Call('dplyr_get_is_bind_spliceable', PACKAGE = 'dplyr')
+}
+
 bind_rows_ <- function(dots, id = NULL) {
     .Call('dplyr_bind_rows_', PACKAGE = 'dplyr', dots, id)
 }
