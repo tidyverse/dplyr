@@ -308,36 +308,6 @@ RcppExport SEXP dplyr_get_time_classes() {
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// registerHybridHandler
-void registerHybridHandler(const char* name, HybridHandler proto);
-static SEXP dplyr_registerHybridHandler_try(SEXP nameSEXP, SEXP protoSEXP) {
-BEGIN_RCPP
-    Rcpp::traits::input_parameter< const char* >::type name(nameSEXP);
-    Rcpp::traits::input_parameter< HybridHandler >::type proto(protoSEXP);
-    registerHybridHandler(name, proto);
-    return R_NilValue;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP dplyr_registerHybridHandler(SEXP nameSEXP, SEXP protoSEXP) {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(dplyr_registerHybridHandler_try(nameSEXP, protoSEXP));
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
-}
 // build_index_cpp
 DataFrame build_index_cpp(DataFrame data);
 static SEXP dplyr_build_index_cpp_try(SEXP dataSEXP) {
@@ -673,7 +643,6 @@ static int dplyr_RcppExport_validate(const char* sig) {
     if (signatures.empty()) {
         signatures.insert("SEXP(*get_date_classes)()");
         signatures.insert("SEXP(*get_time_classes)()");
-        signatures.insert("void(*registerHybridHandler)(const char*,HybridHandler)");
         signatures.insert("DataFrame(*build_index_cpp)(DataFrame)");
     }
     return signatures.find(sig) != signatures.end();
@@ -683,7 +652,6 @@ static int dplyr_RcppExport_validate(const char* sig) {
 RcppExport SEXP dplyr_RcppExport_registerCCallable() { 
     R_RegisterCCallable("dplyr", "dplyr_get_date_classes", (DL_FUNC)dplyr_get_date_classes_try);
     R_RegisterCCallable("dplyr", "dplyr_get_time_classes", (DL_FUNC)dplyr_get_time_classes_try);
-    R_RegisterCCallable("dplyr", "dplyr_registerHybridHandler", (DL_FUNC)dplyr_registerHybridHandler_try);
     R_RegisterCCallable("dplyr", "dplyr_build_index_cpp", (DL_FUNC)dplyr_build_index_cpp_try);
     R_RegisterCCallable("dplyr", "dplyr_RcppExport_validate", (DL_FUNC)dplyr_RcppExport_validate);
     return R_NilValue;

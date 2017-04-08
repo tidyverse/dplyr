@@ -63,24 +63,6 @@ namespace dplyr {
         return Rcpp::as<SEXP >(rcpp_result_gen);
     }
 
-    inline void registerHybridHandler(const char* name, HybridHandler proto) {
-        typedef SEXP(*Ptr_registerHybridHandler)(SEXP,SEXP);
-        static Ptr_registerHybridHandler p_registerHybridHandler = NULL;
-        if (p_registerHybridHandler == NULL) {
-            validateSignature("void(*registerHybridHandler)(const char*,HybridHandler)");
-            p_registerHybridHandler = (Ptr_registerHybridHandler)R_GetCCallable("dplyr", "dplyr_registerHybridHandler");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_registerHybridHandler(Rcpp::wrap(name), Rcpp::wrap(proto));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(as<std::string>(rcpp_result_gen).c_str());
-    }
-
     inline DataFrame build_index_cpp(DataFrame data) {
         typedef SEXP(*Ptr_build_index_cpp)(SEXP);
         static Ptr_build_index_cpp p_build_index_cpp = NULL;

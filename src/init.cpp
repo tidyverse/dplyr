@@ -35,10 +35,6 @@ SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1);
 }
 
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
-void registerHybridHandler(const char* name, HybridHandler proto);
-
 // work around a problem (?) in Rcpp
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
