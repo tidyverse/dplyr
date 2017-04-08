@@ -73,7 +73,7 @@ private:
   }
 
   static List rlang_new_data_source(Environment env) {
-    List ret = List::create(_["src"] = env, _["lookup_msg"] = "Column `%s` not found in data");
+    List ret = List::create(_["src"] = env, _["lookup_msg"] = "Column `%s`: not found in data");
     set_class(ret, "data_source");
     return ret;
   }
