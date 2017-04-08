@@ -43,6 +43,10 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
 #' @export
+distinct.default <- function(.data, ..., .keep_all = FALSE) {
+  distinct_(.data, .dots = compat_as_lazy_dots(...), .keep_all = .keep_all)
+}
+#' @export
 #' @rdname se-deprecated
 #' @inheritParams distinct
 distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
