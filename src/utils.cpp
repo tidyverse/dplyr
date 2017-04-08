@@ -178,7 +178,7 @@ bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) 
 }
 
 bool is_vector(SEXP x) {
-  switch(TYPEOF(x)) {
+  switch (TYPEOF(x)) {
   case LGLSXP:
   case INTSXP:
   case REALSXP:
@@ -192,7 +192,7 @@ bool is_vector(SEXP x) {
   }
 }
 bool is_atomic(SEXP x) {
-  switch(TYPEOF(x)) {
+  switch (TYPEOF(x)) {
   case LGLSXP:
   case INTSXP:
   case REALSXP:

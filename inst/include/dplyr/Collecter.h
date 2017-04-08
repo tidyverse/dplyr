@@ -224,7 +224,7 @@ private:
   }
 
   void collect_factor(const SlicingIndex& index, IntegerVector source,
-                       int offset = 0) {
+                      int offset = 0) {
     CharacterVector levels = get_levels(source);
     Rf_warning("binding character and factor vector, coercing into character vector");
     for (int i = 0; i < index.size(); i++) {

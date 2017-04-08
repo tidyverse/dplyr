@@ -20,8 +20,8 @@ static
 int df_rows_length(SEXP df) {
   SEXP n = R_NilValue;
   SEXP attrs = ATTRIB(df);
-  while(attrs != R_NilValue ){
-    if(TAG(attrs) == R_RowNamesSymbol) {
+  while (attrs != R_NilValue) {
+    if (TAG(attrs) == R_RowNamesSymbol) {
       n = CAR(attrs) ;
       break ;
     }
@@ -80,7 +80,7 @@ void rbind_vector_check(SEXP x, size_t nrows) {
   if (rows_length(x, true) != nrows)
     stop("incompatible sizes (%d != %s)", nrows, rows_length(x, true));
 
-  switch(TYPEOF(x)) {
+  switch (TYPEOF(x)) {
   case LGLSXP:
   case INTSXP:
   case REALSXP:
