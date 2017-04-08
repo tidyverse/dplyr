@@ -1,4 +1,4 @@
-# nocov - compat-lazyeval (rlang 0.0.0.9000)
+# nocov - compat-lazyeval (last updated: rlang 0.0.0.9009)
 
 # This file serves as a reference for compatibility functions for lazyeval.
 # Please find the most recent version in rlang's repository.
@@ -43,8 +43,12 @@ compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
   if (missing(dots)) {
     dots <- list()
   }
-  dots <- c(unclass(dots), list(...))
-  dots <- as_list(dots)
+  if (inherits(dots, "lazy")) {
+    dots <- list(dots)
+  } else {
+    dots <- unclass(dots)
+  }
+  dots <- c(dots, list(...))
 
   warn <- TRUE
   for (i in seq_along(dots)) {
