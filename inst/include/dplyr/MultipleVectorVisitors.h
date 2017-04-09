@@ -40,7 +40,7 @@ public:
   }
   inline int nrows() const {
     if (visitors.size() == 0) {
-      stop("need at least one column for nrows()");
+      stop("Need at least one column for `nrows()`");
     }
     return visitors[0]->size();
   }

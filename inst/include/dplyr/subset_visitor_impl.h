@@ -43,7 +43,7 @@ inline SubsetVectorVisitor* subset_visitor_matrix(SEXP vec) {
     break;
   }
 
-  stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
+  stop("unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
@@ -79,7 +79,7 @@ inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
   }
 
   // should not happen, safeguard against segfaults anyway
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+  stop("unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 }

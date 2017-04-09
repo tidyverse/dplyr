@@ -15,7 +15,7 @@ using namespace dplyr;
 
 Result* count_prototype(SEXP args, const ILazySubsets&, int) {
   if (Rf_length(args) != 1)
-    stop("n() does not take arguments");
+    stop("`n()` does not take arguments");
   return new Count;
 }
 
@@ -40,7 +40,7 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, BOOST_A
   }
 
   if (visitors.size() == 0) {
-    stop("need at least one column for n_distinct()");
+    stop("Need at least one column for `n_distinct()`");
   }
 
   if (na_rm) {
