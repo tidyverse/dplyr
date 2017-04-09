@@ -154,6 +154,7 @@ bool is_bind_spliceable(SEXP x) {
 
 // [[Rcpp::export()]]
 List get_is_bind_spliceable() {
+  // We cannot return a naked XPtr here, because it may be GC-ed at any point.
   return List::create(R_MakeExternalPtr(reinterpret_cast<void*>(&is_bind_spliceable), R_NilValue, R_NilValue));
 }
 
