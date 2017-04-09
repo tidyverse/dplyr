@@ -208,7 +208,7 @@ test_that("bind_rows does not coerce logical to integer", {
 
   expect_error(
     bind_rows(df1, df2),
-    "Column `a`: Can't convert from logical to integer",
+    "Column `a`: can't convert logical to integer",
     fixed = TRUE
   )
 })
@@ -250,12 +250,12 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
 
   expect_error(
     bind_rows(df1, df2),
-    "Column `a`: Can't convert from factor to integer",
+    "Column `a`: can't convert factor to integer",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df3),
-    "Column `a`: Can't convert from factor to numeric",
+    "Column `a`: can't convert factor to numeric",
     fixed = TRUE
   )
 })
@@ -454,22 +454,22 @@ test_that("bind_rows handles promotion to strings (#1538)", {
 
   expect_error(
     bind_rows(df1, df3),
-    "Column `b`: Can't convert from numeric to factor",
+    "Column `b`: can't convert numeric to factor",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df4),
-    "Column `b`: Can't convert from numeric to character",
+    "Column `b`: can't convert numeric to character",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df2, df3),
-    "Column `b`: Can't convert from integer to factor",
+    "Column `b`: can't convert integer to factor",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df2, df4),
-    "Column `b`: Can't convert from integer to character",
+    "Column `b`: can't convert integer to character",
     fixed = TRUE
   )
 })

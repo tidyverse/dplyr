@@ -97,7 +97,7 @@ private:
       coll = new_collecter;
     } else {
       bad_col(name, "can't convert {source_type} to {target_type}",
-           _["source_type"] = coll->describe(), _["target_type"] = get_single_class(subset));
+              _["source_type"] = coll->describe(), _["target_type"] = get_single_class(subset));
     }
   }
 
