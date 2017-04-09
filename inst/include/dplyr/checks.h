@@ -73,7 +73,8 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
     if (name.is_empty()) {
       Rcpp::stop("unsupported type %s", type_name(x));
     } else {
-      Rcpp::stop("Column '%s' must be a vector, not a %s", name.get_utf8_cstring(), type_name(x));
+      bad_col(name, "must be a vector, not {type}",
+              _["type"] = type_name(x));
     }
   }
 }

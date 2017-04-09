@@ -15,6 +15,8 @@
 #include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 
+#include <dplyr/bad.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -46,7 +48,7 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
   int n = quosures.size();
   for (int i = 0; i < n; i++) {
     if (gdf.has_group(quosures[i].name()))
-      stop("cannot modify grouping variable '%s'", quosures[i].name().get_utf8_cstring());
+      bad_col(quosures[i].name(), "cannot modify grouping variable");
   }
 }
 
@@ -98,7 +100,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     }
 
     if (Rf_inherits(results[i], "POSIXlt")) {
-      stop("mutate does not support POSIXlt results for column '%s'", quosure.name().get_utf8_cstring());
+      bad_col(quosure.name(), "POSIXlt results not supported");
     }
 
     const int n_res = Rf_length(results[i]);

@@ -5,6 +5,7 @@
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/DataFrameColumnSubsetVisitor.h>
 #include <dplyr/MatrixColumnSubsetVectorVisitor.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -21,7 +22,7 @@ inline SubsetVectorVisitor* subset_visitor(SEXP vec, const SymbolString& name) {
     }
   }
   catch (const Rcpp::exception& e) {
-    stop("%s for column '%s'", e.what(), name.get_utf8_cstring());
+    bad_col(name, e.what());
   }
 }
 

@@ -8,6 +8,8 @@
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/DelayedProcessor.h>
 
+#include <dplyr/bad.h>
+
 namespace dplyr {
 
 // classes inherit from this template when they have a method with this signature
@@ -93,9 +95,8 @@ private:
     void handle_chunk_with_promotion(const RObject& chunk, const int i) {
       IDelayedProcessor* new_processor = processor->promote(chunk);
       if (!new_processor) {
-        stop("can't promote group %d to %s for column '%s'",
-             i, processor->describe(), chunk_source->get_name().get_utf8_cstring()
-            );
+        bad_col(chunk_source->get_name(), "can't promote group {group} to {type}",
+                _["group"] = i, _["type"] =  processor->describe());
       }
 
       LOG_VERBOSE << "promoted group " << i;

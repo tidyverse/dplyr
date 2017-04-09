@@ -7,6 +7,7 @@
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/subset_visitor.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -49,7 +50,7 @@ public:
 
       int pos = indx[i];
       if (pos == NA_INTEGER) {
-        stop("unknown column '%s' ", names[i].get_utf8_cstring());
+        bad_col(names[i], "unknown");
       }
 
       SubsetVectorVisitor* v = subset_visitor(data[pos - 1], data_names[pos - 1]);

@@ -10,6 +10,7 @@
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/Collecter.h>
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -61,24 +62,29 @@ size_t cols_length(SEXP x) {
 }
 
 static
-void inner_vector_check(SEXP x, int nrows, const char* fn) {
+void inner_vector_check(SEXP x, int nrows, int arg) {
   if (!is_vector(x))
-    stop("`%s()` expects data frames and named atomic vectors 2", fn);
+    bad_pos_arg(arg, "list must contain atomic vectors");
 
   if (OBJECT(x)) {
     if (Rf_inherits(x, "data.frame"))
-      stop("`%s()` does not support nested data frames", fn);
+      bad_pos_arg(arg + 1, "list can't contain data frames");
     if (Rf_inherits(x, "POSIXlt"))
-      stop("`%s()` does not support POSIXlt columns", fn);
+      bad_pos_arg(arg + 1, "list can't contain POSIXlt values");
   }
 
-  if (Rf_length(x) != nrows)
-    stop("incompatible sizes (%d != %s)", nrows, Rf_length(x));
+  if (Rf_length(x) != nrows) {
+    bad_pos_arg(arg + 1, "size must be {expected_size}, not {actual_size}",
+                _["expected_size"] = nrows, _["actual_size"] = Rf_length(x));
+  }
 }
+
 static
-void rbind_vector_check(SEXP x, size_t nrows) {
-  if (rows_length(x, true) != nrows)
-    stop("incompatible sizes (%d != %s)", nrows, rows_length(x, true));
+void rbind_vector_check(SEXP x, size_t nrows, int arg) {
+  if (rows_length(x, true) != nrows) {
+    bad_pos_arg(arg + 1, "size must be {expected_size}, not {actual_size}",
+                _["expected_size"] = rows_length(x, true), _["actual_size"] = nrows);
+  }
 
   switch (TYPEOF(x)) {
   case LGLSXP:
@@ -88,51 +94,58 @@ void rbind_vector_check(SEXP x, size_t nrows) {
   case STRSXP:
   case RAWSXP: {
     if (vec_names(x) != R_NilValue)
-      break;
-    stop("`bind_rows()` expects data frames and named atomic vectors");
+      return;
+    bad_pos_arg(arg + 1, "must have names");
   }
   case VECSXP: {
     if (!OBJECT(x) || Rf_inherits(x, "data.frame"))
-      break;
+      return;
+    break;
   }
   default:
-    stop("`bind_rows()` expects data frames and named atomic vectors");
+    break;
   }
+  bad_pos_arg(arg + 1, "must be a data frame or a named atomic vector, not {type}",
+              _["type"] = get_single_class(x));
 }
 static
-void cbind_vector_check(SEXP x, size_t nrows, SEXP contr, int i) {
-  if (is_atomic(x) && !has_name_at(contr, i))
-    stop("`bind_cols()` expects data frames and named atomic vectors");
-  if (rows_length(x, false) != nrows)
-    stop("incompatible sizes (%d != %s)", nrows, rows_length(x, false));
+void cbind_vector_check(SEXP x, size_t nrows, SEXP contr, int arg) {
+  if (is_atomic(x) && !has_name_at(contr, arg))
+    bad_pos_arg(arg + 1, "must have names");
+  if (rows_length(x, false) != nrows) {
+    bad_pos_arg(arg + 1, "size must be {expected_size}, not {actual_size}",
+                _["expected_size"] = rows_length(x, true), _["actual_size"] = nrows);
+  }
 }
 
 static
-void rbind_type_check(SEXP x, int nrows) {
+void rbind_type_check(SEXP x, int nrows, int arg) {
   int n = Rf_length(x);
   if (n == 0)
     return;
 
-  rbind_vector_check(x, nrows);
+  rbind_vector_check(x, nrows, arg);
 
   if (TYPEOF(x) == VECSXP) {
     for (int i = 0; i < n; i++)
-      inner_vector_check(VECTOR_ELT(x, i), nrows, "bind_rows");
+      inner_vector_check(VECTOR_ELT(x, i), nrows, i);
   }
 }
 static
-void cbind_type_check(SEXP x, int nrows, SEXP contr, int i) {
+void cbind_type_check(SEXP x, int nrows, SEXP contr, int arg) {
   int n = Rf_length(x);
   if (n == 0)
     return;
 
-  cbind_vector_check(x, nrows, contr, i);
+  cbind_vector_check(x, nrows, contr, arg);
 
   if (TYPEOF(x) == VECSXP) {
-    if (OBJECT(x) && !Rf_inherits(x, "data.frame"))
-      stop("`bind_cols()` expects data frames and named atomic vectors");
+    if (OBJECT(x) && !Rf_inherits(x, "data.frame")) {
+      bad_pos_arg(arg + 1, "must be a data frame or a named atomic vector, not {type}",
+                  _["type"] = get_single_class(x));
+    }
     for (int i = 0; i < n; i++)
-      inner_vector_check(VECTOR_ELT(x, i), nrows, "bind_cols");
+      inner_vector_check(VECTOR_ELT(x, i), nrows, i);
   }
 }
 
@@ -188,7 +201,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
 
     SEXP df = chunks[i];
     int nrows = df_nrows[i];
-    rbind_type_check(df, nrows);
+    rbind_type_check(df, nrows, i);
 
     CharacterVector df_names = enc2native(vec_names(df));
     for (int j = 0; j < Rf_length(df); j++) {
@@ -244,10 +257,8 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
         delete coll;
         columns[index] = new_collecter;
       } else {
-        std::string column_name(name);
-        stop("Can not automatically convert from %s to %s in column '%s'.",
-             coll->describe(), get_single_class(source), column_name
-            );
+        bad_col(SymbolString(name), "can't convert {source_type} to {target_type}",
+                _["source_type"] = coll->describe(), _["target_type"] = get_single_class(source));
       }
 
     }
@@ -417,9 +428,8 @@ SEXP combine_all(List data) {
       new_coll->collect(NaturalSlicingIndex(k), coll->get());
       coll.reset(new_coll);
     } else {
-      stop("Can not automatically convert from %s to %s at position %d.",
-           get_single_class(current), get_single_class(coll->get()), i + 1
-          );
+      bad_pos_arg(i + 1, "can't convert {source_type} to {target_type}",
+                  _["source_type"] = get_single_class(current), _["target_type"] = get_single_class(coll->get()));
     }
     k += n_current;
   }

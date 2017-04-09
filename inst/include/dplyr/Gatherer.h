@@ -96,9 +96,8 @@ private:
       delete coll;
       coll = new_collecter;
     } else {
-      stop("Can not automatically convert from %s to %s in column '%s'.",
-           coll->describe(), get_single_class(subset), name.get_utf8_cstring()
-          );
+      bad_col(name, "can't convert {source_type} to {target_type}",
+           _["source_type"] = coll->describe(), _["target_type"] = get_single_class(subset));
     }
   }
 
@@ -222,7 +221,7 @@ private:
 
 inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
   if (Rf_inherits(x, "POSIXlt")) {
-    stop("mutate does not support POSIXlt results for column '%s'", name.get_utf8_cstring());
+    bad_col(name, "POSIXlt results not supported");
   }
   switch (TYPEOF(x)) {
   case INTSXP:
@@ -250,7 +249,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
   RObject first(proxy.get(indices));
 
   if (Rf_inherits(first, "POSIXlt")) {
-    stop("mutate does not support POSIXlt results for column '%s'", name.get_utf8_cstring());
+    bad_col(name, "POSIXlt results not supported");
   }
 
   check_supported_type(first, name);
