@@ -106,7 +106,7 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  x <- flatten_if(dots_values(...), get_is_bind_spliceable())
+  x <- flatten_if(dots_values(...), get_is_bind_spliceable()[[1L]])
 
   if (!length(x)) {
     # Handle corner cases gracefully, but always return a tibble
@@ -142,7 +142,7 @@ is_df_list <- function(x) {
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- flatten_if(dots_values(...), get_is_bind_spliceable())
+  x <- flatten_if(dots_values(...), get_is_bind_spliceable()[[1L]])
   out <- cbind_all(x)
   tibble::repair_names(out)
 }
