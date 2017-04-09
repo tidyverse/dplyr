@@ -125,8 +125,7 @@ public:
   }
 
   inline std::string get_r_type() const {
-    CharacterVector classes = get_class(Parent::vec);
-    return collapse_utf8(classes);
+    return get_single_class(Parent::vec);
   }
 
   inline bool is_same_type(SubsetVectorVisitor* other, std::stringstream& ss, const SymbolString& name) const {

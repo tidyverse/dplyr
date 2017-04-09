@@ -83,7 +83,7 @@ std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
     CharacterVector classes(klass);
-    return collapse_utf8(classes);
+    return collapse_utf8(classes, "/");
   }
 
   if (Rf_isMatrix(x)) {
