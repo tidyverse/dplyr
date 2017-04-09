@@ -2,6 +2,7 @@
 #define dplyr_checks_H
 
 #include <tools/SymbolString.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -78,20 +79,10 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
 }
 
 inline void check_length(const int actual, const int expected, const char* comment, const SymbolString& name) {
-  if (expected == 1) {
-    if (actual != expected) {
-      stop("incompatible size (%d), expecting one (%s) for column '%s'",
-           actual, comment, name.get_utf8_cstring()
-          );
-    }
-  }
-  else {
-    if (actual != expected && actual != 1) {
-      stop("incompatible size (%d), expecting %d (%s) or one for column '%s'",
-           actual, expected, comment, name.get_utf8_cstring()
-          );
-    }
-  }
+  if (actual == expected || actual == 1) return;
+
+  Function check_length_col("check_length_col", Environment::namespace_env("dplyr"));
+  check_length_col(actual, expected, CharacterVector::create(name.get_sexp()), std::string(comment));
 }
 
 }
