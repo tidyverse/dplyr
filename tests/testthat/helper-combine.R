@@ -26,7 +26,7 @@ combine_pair_test <- function(item_pair, var1, var2, result,
     expect_warning(
       expect_error(
         combine(item_pair),
-        "from .* to .* at position 2",
+        "^Argument 2: can't convert [^ ]* to [^ ]*$",
         label = label_if_fail
       ),
       regexp = warning_regexp,
@@ -256,7 +256,7 @@ combine_coercion_types <- function() {
   pairs <- prepare_table_with_coercion_rules()
   # knitr::kable(print_pairs(pairs))
   for (i in seq_len(nrow(pairs))) {
-    test_that(paste0("Coercion from ", pairs$Var1[i], "to", pairs$Var2[i]), {
+    test_that(paste0("Coercion from ", pairs$Var1[i], " to ", pairs$Var2[i]), {
       combine_pair_test(
         item_pair = pairs$item_pair[[i]],
         var1 = pairs$Var1[i],

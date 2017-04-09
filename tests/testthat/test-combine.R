@@ -4,17 +4,21 @@ test_that("combine handles NULL (1596)", {
   expect_equal(combine(list(NULL, 1, 2)), c(1, 2))
   expect_equal(combine(list(1, NULL, 2)), c(1, 2))
   expect_equal(combine(list(1, 2, NULL)), c(1, 2))
-  expect_error(combine(list(NULL, NULL)))
+  expect_error(
+    combine(list(NULL, NULL)),
+    "no data to combine, all elements are NULL",
+    fixed = TRUE
+  )
 })
 
 test_that("combine complains about incompatibilites", {
   expect_error(
     combine("a", 1),
-    "numeric to character at position 2"
+    "Argument 2: can't convert numeric to character"
   )
   expect_error(
     combine(factor("a"), 1L),
-    "integer to factor at position 2"
+    "Argument 2: can't convert integer to factor"
   )
 })
 

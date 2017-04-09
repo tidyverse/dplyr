@@ -135,7 +135,8 @@ test_that("equality cannot be checked in presence of raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     all.equal(df, df),
-    "Unsupported vector type raw for column 'b'"
+    "Column `b`: unsupported vector type raw",
+    fixed = TRUE
   )
 })
 

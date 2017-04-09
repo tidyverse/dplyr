@@ -57,7 +57,8 @@ test_that("mutate can rename variables (#137)", {
 test_that("mutate refuses to modify grouping vars (#143)", {
   expect_error(
     mutate(group_by(tbl_df(mtcars), am), am = am + 2),
-    "cannot modify grouping variable 'am'"
+    "Column `am`: cannot modify grouping variable",
+    fixed = TRUE
   )
 })
 
@@ -71,14 +72,14 @@ test_that("mutate fails with wrong result size (#152)", {
   expect_equal(mutate(df, y = 1:2)$y, rep(1:2, 2))
   expect_error(
     mutate(mtcars, zz = 1:2),
-    "incompatible size (2), expecting 32 (the number of rows) or one for column 'zz'",
+    "Column `zz`: must be length 32 (the number of rows) or one, not 2",
     fixed = TRUE
   )
 
   df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
   expect_error(
     mutate(df, y = 1:2),
-    "incompatible size (2), expecting 3 (the group size) or one for column 'y'",
+    "Column `y`: must be length 3 (the group size) or one, not 2",
     fixed = TRUE
   )
 })
@@ -88,7 +89,7 @@ test_that("mutate refuses to use symbols not from the data", {
   df <- group_by(data.frame(x = c(1, 2, 2, 3, 3, 3)), x)
   expect_error(
     mutate(df, z = y),
-    "incompatible size (6), expecting one (the group size) for column 'z'",
+    "Column `z`: must be length one (the group size), not 6",
     fixed = TRUE
   )
 })
@@ -140,12 +141,12 @@ test_that("mutate handles out of data variables", {
   int <- 1:6
   expect_error(
     mutate(gdf, int = int),
-    "incompatible size (6), expecting 2 (the group size) or one for column 'int'",
+    "Column `int`: must be length 2 (the group size) or one, not 6",
     fixed = TRUE
   )
   expect_error(
     mutate(tbl_df(df), int = int),
-    "incompatible size (6), expecting 4 (the number of rows) or one for column 'int'",
+    "Column `int`: must be length 4 (the number of rows) or one, not 6",
     fixed = TRUE
   )
 
@@ -210,7 +211,8 @@ test_that("mutate fails on unsupported column type", {
   df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"))
   expect_error(
     mutate(df, date = strptime(created, "%Y/%m/%d")),
-    "mutate does not support POSIXlt results for column 'date'"
+    "Column `date`: POSIXlt results not supported",
+    fixed = TRUE
   )
 
   df <- data.frame(
@@ -219,7 +221,8 @@ test_that("mutate fails on unsupported column type", {
   )
   expect_error(
     mutate(group_by(df, g), date = strptime(created, "%Y/%m/%d")),
-    "mutate does not support POSIXlt results for column 'date'"
+    "Column `date`: POSIXlt results not supported",
+    fixed = TRUE
   )
 })
 
@@ -232,7 +235,8 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
   d <- data.frame(x = rep(1:5, each = 3))
   expect_error(
     mutate(group_by(d, x), val = ifelse(x < 3, "foo", 2)),
-    "Can not automatically convert from character to numeric in column 'val'"
+    "Column `val`: can't convert character to numeric",
+    fixed = TRUE
   )
 })
 
@@ -286,15 +290,18 @@ test_that("mutate gives a nice error message if an expression evaluates to NULL 
 
   expect_error(
     mutate(df, b = identity(NULL)),
-    "Column 'b' must be a vector, not a NULL"
+    "Column `b`: must be a vector, not NULL",
+    fixed = TRUE
   )
   expect_error(
     mutate(gf, b = identity(NULL)),
-    "Column 'b' must be a vector, not a NULL"
+    "Column `b`: must be a vector, not NULL",
+    fixed = TRUE
   )
   expect_error(
     mutate(rf, b = identity(NULL)),
-    "Column 'b' must be a vector, not a NULL"
+    "Column `b`: must be a vector, not NULL",
+    fixed = TRUE
   )
 })
 
@@ -328,11 +335,8 @@ test_that("hybrid evaluation goes deep enough (#554)", {
 })
 
 test_that("hybrid does not segfault when given non existing variable (#569)", {
-  expect_error(
-    mtcars %>% summarise(first(mp)),
-    "object 'mp' not found",
-    fixed = TRUE
-  )
+  # error message from rlang
+  expect_error(mtcars %>% summarise(first(mp)))
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
@@ -413,14 +417,16 @@ test_that("mutate forbids POSIXlt results (#670)", {
   expect_error(
     data.frame(time = "2014/01/01 10:10:10") %>%
       mutate(time = as.POSIXlt(time)),
-    "does not support POSIXlt results for column 'time'"
+    "Column `time`: POSIXlt results not supported",
+    fixed = TRUE
   )
 
   expect_error(
     data.frame(time = "2014/01/01 10:10:10", a = 2) %>%
       group_by(a) %>%
       mutate(time = as.POSIXlt(time)),
-    "does not support POSIXlt results for column 'time'"
+    "Column `time`: POSIXlt results not supported",
+    fixed = TRUE
   )
 
 })
@@ -483,12 +489,12 @@ test_that("mutate handles 0 rows rowwise (#1300)", {
 
   expect_error(
     a %>% mutate(b = f()),
-    "incompatible size (2), expecting one (the number of rows) for column 'b'",
+    "Column `b`: must be length one (the number of rows), not 2",
     fixed = TRUE
   )
   expect_error(
     a %>% rowwise() %>% mutate(b = f()),
-    "incompatible size (2), expecting one (the group size) for column 'b'",
+    "Column `b`: must be length one (the group size), not 2",
     fixed = TRUE
   )
 })
@@ -700,19 +706,33 @@ test_that("ntile falls back to R (#1750)", {
 
 test_that("mutate fails gracefully on non-vector columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(mutate(df, a = 1), "Column 'b' must be a vector, not a raw vector")
-  expect_error(mutate(df, b = 1), "Column 'b' must be a vector, not a raw vector")
-  expect_error(mutate(df, c = 1), "Column 'b' must be a vector, not a raw vector")
+  expect_error(
+    mutate(df, a = 1),
+    "Column `b`: must be a vector, not raw vector",
+    fixed = TRUE
+  )
+  expect_error(
+    mutate(df, b = 1),
+    "Column `b`: must be a vector, not raw vector",
+    fixed = TRUE
+  )
+  expect_error(
+    mutate(df, c = 1),
+    "Column `b`: must be a vector, not raw vector",
+    fixed = TRUE
+  )
 })
 
 test_that("grouped mutate errors on incompatible column type (#1641)", {
   expect_error(
     tibble(x = 1) %>% mutate(y = mean),
-    "Column 'y' must be a vector, not a function"
+    "Column `y`: must be a vector, not function",
+    fixed = TRUE
   )
   expect_error(
     tibble(x = 1) %>% mutate(y = quote(a)),
-    "Column 'y' must be a vector, not a symbol"
+    "Column `y`: must be a vector, not symbol",
+    fixed = TRUE
   )
 })
 

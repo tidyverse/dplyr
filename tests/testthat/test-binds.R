@@ -18,8 +18,16 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
   df1 <- data_frame(x = 1)
   df2 <- structure(list(x = 1), class = "blah_frame")
 
-  expect_error(bind_cols(df1, df2), "`bind_cols\\(\\)` expects data frames and named atomic vectors")
-  expect_error(bind_rows(df1, df2), "`bind_rows\\(\\)` expects data frames and named atomic vectors")
+  expect_error(
+    bind_cols(df1, df2),
+    "Argument 2: must be a data frame or a named atomic vector, not blah_frame",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_rows(df1, df2),
+    "Argument 2: must be a data frame or a named atomic vector, not blah_frame",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows() err for invalid ID", {
@@ -119,7 +127,11 @@ test_that("bind_rows ignores NULL", {
 
 test_that("bind_rows only accepts data frames or vectors", {
   ll <- list(1:5, get_env())
-  expect_error(bind_rows(ll), "expects data frames and named atomic vectors")
+  expect_error(
+    bind_rows(ll),
+    "Argument 1: list must contain atomic vectors",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -196,7 +208,8 @@ test_that("bind_rows does not coerce logical to integer", {
 
   expect_error(
     bind_rows(df1, df2),
-    "Can not automatically convert from logical to integer in column 'a'"
+    "Column `a`: Can't convert from logical to integer",
+    fixed = TRUE
   )
 })
 
@@ -237,11 +250,13 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
 
   expect_error(
     bind_rows(df1, df2),
-    "Can not automatically convert from factor to integer in column 'a'"
+    "Column `a`: Can't convert from factor to integer",
+    fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df3),
-    "Can not automatically convert from factor to numeric in column 'a'"
+    "Column `a`: Can't convert from factor to numeric",
+    fixed = TRUE
   )
 })
 
@@ -439,19 +454,23 @@ test_that("bind_rows handles promotion to strings (#1538)", {
 
   expect_error(
     bind_rows(df1, df3),
-    "Can not automatically convert from numeric to factor in column 'b'"
+    "Column `b`: Can't convert from numeric to factor",
+    fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df4),
-    "Can not automatically convert from numeric to character in column 'b'"
+    "Column `b`: Can't convert from numeric to character",
+    fixed = TRUE
   )
   expect_error(
     bind_rows(df2, df3),
-    "Can not automatically convert from integer to factor in column 'b'"
+    "Column `b`: Can't convert from integer to factor",
+    fixed = TRUE
   )
   expect_error(
     bind_rows(df2, df4),
-    "Can not automatically convert from integer to character in column 'b'"
+    "Column `b`: Can't convert from integer to character",
+    fixed = TRUE
   )
 })
 
@@ -491,7 +510,11 @@ test_that("bind_cols infers classes from first result (#1692)", {
 test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df <- data_frame(x = Sys.time() + 1:12)
   df$y <- as.POSIXlt(df$x)
-  expect_error(bind_rows(df, df), "does not support POSIXlt columns")
+  expect_error(
+    bind_rows(df, df),
+    "Argument 2: list can't contain POSIXlt values",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows rejects data frame columns (#2015)", {
@@ -504,7 +527,7 @@ test_that("bind_rows rejects data frame columns (#2015)", {
 
   expect_error(
     dplyr::bind_rows(df, df),
-    "`bind_rows()` does not support nested data frames",
+    "Argument 2: list can't contain data frames",
     fixed = TRUE
   )
 })
@@ -524,7 +547,11 @@ test_that("bind_rows accepts hms objects", {
 })
 
 test_that("bind_rows() fails with unnamed vectors", {
-  expect_error(bind_rows(1:2), "named atomic vectors")
+  expect_error(
+    bind_rows(1:2),
+    "Argument 1: must have names",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows() handles rowwise vectors", {
@@ -553,13 +580,29 @@ test_that("accepts named columns", {
 })
 
 test_that("uncompatible sizes fail", {
-  expect_error(bind_cols(a = 1, mtcars), "incompatible sizes")
-  expect_error(bind_cols(mtcars, a = 1), "incompatible sizes")
+  expect_error(
+    bind_cols(a = 1, mtcars),
+    "Argument 2: size must be 32, not 1",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_cols(mtcars, a = 1),
+    "Argument 2: size must be 1, not 32",
+    fixed = TRUE
+  )
 })
 
 test_that("unnamed vectors fail", {
-  expect_error(bind_cols(1:2), "named atomic vectors")
-  expect_error(bind_cols(!!! list(1:2)), "named atomic vectors")
+  expect_error(
+    bind_cols(1:2),
+    "Argument 1: must have names",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_cols(!!! list(1:2)),
+    "Argument 1: must have names",
+    fixed = TRUE
+  )
 })
 
 test_that("supports NULL values", {

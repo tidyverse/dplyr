@@ -36,7 +36,8 @@ test_that("slice works with negative indices", {
 test_that("slice forbids positive and negative together", {
   expect_error(
     mtcars %>% slice(c(-1, 2)),
-    "found 1 positive indices and 1 negative indices"
+    "Found 1 positive indices and 1 negative indices",
+    fixed = TRUE
   )
 })
 

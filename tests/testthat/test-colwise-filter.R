@@ -15,7 +15,11 @@ test_that("filter_all()", {
 })
 
 test_that("aborts on empty selection", {
-  expect_error(filter_if(mtcars, is_character, all_vars(. > 0)), "empty variable selection")
+  expect_error(
+    filter_if(mtcars, is_character, all_vars(. > 0)),
+    "`.predicate`: no matching columns",
+    fixed = TRUE
+  )
 })
 
 test_that("aborts when supplied funs()", {
