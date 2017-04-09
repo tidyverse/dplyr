@@ -2,7 +2,7 @@
 % Please edit documentation in R/na_if.R
 \name{na_if}
 \alias{na_if}
-\title{Convert values to NA.}
+\title{Convert values to NA}
 \usage{
 na_if(x, y)
 }

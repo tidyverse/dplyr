@@ -1,4 +1,4 @@
-#' Do arbitrary operations on a tbl.
+#' Do anything
 #'
 #' This is a general purpose complement to the specialised manipulation
 #' functions [filter()], [select()], [mutate()],

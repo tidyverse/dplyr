@@ -17,13 +17,16 @@ using namespace dplyr;
 
 // [[Rcpp::export]]
 List arrange_impl(DataFrame data, QuosureList quosures) {
-  if (data.size() == 0) return data;
+  if (data.size() == 0 || data.nrows() == 0)
+    return data;
+
+  int nargs = quosures.size();
+  if (nargs == 0)
+    return data;
+
   check_valid_colnames(data);
   assert_all_white_list(data);
 
-  if (quosures.size() == 0 || data.nrows() == 0) return data;
-
-  int nargs = quosures.size();
   List variables(nargs);
   LogicalVector ascending(nargs);
 

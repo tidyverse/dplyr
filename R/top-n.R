@@ -1,4 +1,4 @@
-#' Select top (or bottom) n rows (by value).
+#' Select top (or bottom) n rows (by value)
 #'
 #' This is a convenient wrapper that uses [filter()] and
 #' [min_rank()] to select the top or bottom entries in each group,

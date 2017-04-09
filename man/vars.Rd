@@ -2,7 +2,7 @@
 % Please edit documentation in R/colwise.R
 \name{vars}
 \alias{vars}
-\title{Select variables.}
+\title{Select variables}
 \usage{
 vars(...)
 }

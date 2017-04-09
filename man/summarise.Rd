@@ -3,7 +3,7 @@
 \name{summarise}
 \alias{summarise}
 \alias{summarize}
-\title{Summarise multiple values to a single value}
+\title{Reduces multiple values down to a single value}
 \usage{
 summarise(.data, ...)
 

@@ -4,7 +4,7 @@
 \alias{sample}
 \alias{sample_n}
 \alias{sample_frac}
-\title{Sample n rows from a table.}
+\title{Sample n rows from a table}
 \usage{
 sample_n(tbl, size, replace = FALSE, weight = NULL, .env = NULL)
 

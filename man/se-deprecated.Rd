@@ -118,3 +118,4 @@ the result within the captured expression. This result can be a
 value or an expression to be evaluated later with the rest of the
 argument. See \code{vignette("programming")} for more information.
 }
+\keyword{internal}

@@ -1,4 +1,4 @@
-#' A general vectorised if.
+#' A general vectorised if
 #'
 #' This function allows you to vectorise multiple `if` and `else if`
 #' statements. It is an R equivalent of the SQL `CASE WHEN` statement.

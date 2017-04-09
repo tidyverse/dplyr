@@ -1,4 +1,4 @@
-#' Compare two numeric vectors.
+#' Compare two numeric vectors
 #'
 #' This is a safe way of comparing if two vectors of floating point numbers
 #' are (pairwise) equal.  This is safer than using `==`, because it has

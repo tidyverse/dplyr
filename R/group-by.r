@@ -1,12 +1,9 @@
-#' Group a tbl by one or more variables.
+#' Group by one or more variables
 #'
 #' @description
 #' Most data operations are usefully done on groups defined by variables.
 #' `group_by()` takes an existing tbl and converts it into a grouped tbl
-#' where operations are performed "by group".
-#'
-#' `groups()` and `group_vars()` tell you how a table is grouped.
-#' `ungroup()` removes grouping.
+#' where operations are performed "by group". `ungroup()` removes grouping.
 #'
 #' @section Tbl types:
 #'
@@ -89,6 +86,13 @@ group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
   UseMethod("group_by_")
 }
 
+#' @rdname group_by
+#' @export
+#' @param x A [tbl()]
+ungroup <- function(x, ...) {
+  UseMethod("ungroup")
+}
+
 #' Prepare for grouping.
 #'
 #' Performs standard operations that should happen before individual methods
@@ -128,14 +132,22 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   )
 }
 
-#' @rdname group_by
-#' @param x data [tbl()]
+#' Return grouping variables
+#'
+#' `group_vars()` returns a character vector; `groups()` returns a list of
+#' symbols.
+#'
+#' @param x A [tbl()]
 #' @export
+#' @examples
+#' df <- tibble(x = 1, y = 2) %>% group_by(x, y)
+#' group_vars(df)
+#' groups(df)
 groups <- function(x) {
   UseMethod("groups")
 }
 
-#' @rdname group_by
+#' @rdname groups
 #' @export
 group_vars <- function(x) {
   UseMethod("group_vars")
@@ -146,8 +158,3 @@ group_vars.default <- function(x) {
   deparse_names(groups(x))
 }
 
-#' @rdname group_by
-#' @export
-ungroup <- function(x, ...) {
-  UseMethod("ungroup")
-}

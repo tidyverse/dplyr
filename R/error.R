@@ -1,8 +1,8 @@
 check_pkg <- function(name, reason) {
-  if (requireNamespace(name, quietly = TRUE))
+  if (is_installed(name))
     return(invisible(TRUE))
 
-  glubort('The {name} package is required to {reason}.
+  glubort(NULL, 'The {name} package is required to {reason}.
     Please install it with `install.packages("{name}")`'
   )
 }

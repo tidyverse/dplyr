@@ -2,7 +2,7 @@
 % Please edit documentation in R/top-n.R
 \name{top_n}
 \alias{top_n}
-\title{Select top (or bottom) n rows (by value).}
+\title{Select top (or bottom) n rows (by value)}
 \usage{
 top_n(x, n, wt)
 }

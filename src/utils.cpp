@@ -144,13 +144,13 @@ SymbolVector get_vars(SEXP x) {
   return SymbolVector(Rf_getAttrib(x, vars_symbol));
 }
 
-SEXP set_vars(SEXP x, const SymbolVector& vars) {
+void set_vars(SEXP x, const SymbolVector& vars) {
   static SEXP vars_symbol = Rf_install("vars");
-  return Rf_setAttrib(x, vars_symbol, vars.get_vector());
+  Rf_setAttrib(x, vars_symbol, vars.get_vector());
 }
 
-SEXP copy_vars(SEXP target, SEXP source) {
-  return set_vars(target, get_vars(source));
+void copy_vars(SEXP target, SEXP source) {
+  set_vars(target, get_vars(source));
 }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
@@ -175,4 +175,51 @@ bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) 
   return true;
 }
 
+}
+
+bool is_vector(SEXP x) {
+  switch (TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+  case VECSXP:
+    return true;
+  default:
+    return false;
+  }
+}
+bool is_atomic(SEXP x) {
+  switch (TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+    return true;
+  default:
+    return false;
+  }
+}
+
+SEXP vec_names(SEXP x) {
+  return Rf_getAttrib(x, R_NamesSymbol);
+}
+bool is_str_empty(SEXP str) {
+  const char* c_str = CHAR(str);
+  return strcmp(c_str, "") == 0;
+}
+bool has_name_at(SEXP x, R_len_t i) {
+  SEXP nms = vec_names(x);
+  return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
+}
+SEXP name_at(SEXP x, size_t i) {
+  SEXP names = vec_names(x);
+  if (Rf_isNull(names))
+    return Rf_mkChar("");
+  else
+    return STRING_ELT(names, i);
 }

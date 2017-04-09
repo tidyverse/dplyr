@@ -1,4 +1,4 @@
-#' Vectorised if.
+#' Vectorised if
 #'
 #' Compared to the base [ifelse()], this function is more strict.
 #' It checks that `true` and `false` are the same type. This

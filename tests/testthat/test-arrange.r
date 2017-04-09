@@ -161,3 +161,16 @@ test_that("arrange fails gracefully on matrix input (#1870)", {
   df <- data_frame(a = 1:3, b = 4:6)
   expect_error(arrange(df, is.na(df)), "can't arrange by a matrix at position 1")
 })
+
+
+# grouped_df --------------------------------------------------------------
+
+test_that("can choose to inclue grouping vars", {
+  df <- tibble(g = c(1, 2), x = c(2, 1)) %>% group_by(g)
+
+  df1 <- df %>% arrange(x, .by_group = TRUE)
+  df2 <- df %>% arrange(g, x)
+
+  expect_equal(df1, df2)
+})
+

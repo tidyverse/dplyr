@@ -1,4 +1,4 @@
-#' A data cube tbl.
+#' A data cube tbl
 #'
 #' A cube tbl stores data in a compact array format where dimension
 #' names are not needlessly repeated. They are particularly appropriate for
