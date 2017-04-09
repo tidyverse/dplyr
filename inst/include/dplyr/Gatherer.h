@@ -12,6 +12,7 @@
 #include <dplyr/vector_class.h>
 #include <dplyr/checks.h>
 #include <dplyr/Collecter.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -239,7 +240,7 @@ inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
   default:
     break;
   }
-  stop("Unsupported vector type %s for column '%s'", Rf_type2char(TYPEOF(x)), name.get_utf8_cstring());
+  bad_col(name, "unsupported vector type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
 }
 
 template <typename Data, typename Subsets>

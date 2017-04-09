@@ -4,6 +4,7 @@
 #include <tools/utils.h>
 #include <dplyr/white_list.h>
 #include <tools/collapse.h>
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 
@@ -23,8 +24,7 @@ void assert_all_white_list(const DataFrame& data) {
              name_i.get_utf8_cstring(), get_single_class(v));
       }
       else {
-        stop("column '%s' has unsupported type %s",
-             name_i.get_utf8_cstring(), Rf_type2char(TYPEOF(v)));
+        bad_col(name_i, "unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
       }
     }
   }

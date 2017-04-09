@@ -9,6 +9,7 @@
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/DataFrameVisitors.h>
 #include <dplyr/MatrixColumnVisitor.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -213,7 +214,7 @@ inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, const boo
     }
   }
   catch (const Rcpp::exception& e) {
-    stop("%s at position %d", e.what(), i + 1);
+    bad_pos_arg(i + 1, e.what());
   }
 }
 

@@ -12,6 +12,7 @@
 #include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/Groups.h>
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -52,7 +53,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
         stop("data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows());
       }
     } else if (Rf_isMatrix(v)) {
-      stop("can't arrange by a matrix at position %d", i + 1);
+      bad_pos_arg(i + 1, "matrix not supported");
     } else {
       if (Rf_length(v) != data.nrows()) {
         stop("incorrect size (%d) at position %d, expecting : %d", Rf_length(v), i + 1, data.nrows());
