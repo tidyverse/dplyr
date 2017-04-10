@@ -1,7 +1,10 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <stdlib.h> // for NULL
+#include <stdbool.h>
 #include <R_ext/Rdynload.h>
+
+#include <tools/rlang-export.h>
 
 /* FIXME:
   Check these declarations against the C/Fortran source code.
@@ -27,7 +30,6 @@ extern SEXP dplyr_distinct_impl(SEXP, SEXP, SEXP);
 extern SEXP dplyr_equal_data_frame(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP dplyr_filter_impl(SEXP, SEXP);
 extern SEXP dplyr_full_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_get_is_bind_spliceable(SEXP);
 extern SEXP dplyr_gp(SEXP);
 extern SEXP dplyr_group_size_grouped_cpp(SEXP);
 extern SEXP dplyr_grouped_df_impl(SEXP, SEXP, SEXP);
@@ -75,7 +77,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_equal_data_frame",                (DL_FUNC) &dplyr_equal_data_frame,                5},
   {"dplyr_filter_impl",                     (DL_FUNC) &dplyr_filter_impl,                     2},
   {"dplyr_full_join_impl",                  (DL_FUNC) &dplyr_full_join_impl,                  7},
-  {"dplyr_get_is_bind_spliceable",          (DL_FUNC) &dplyr_get_is_bind_spliceable,          0},
   {"dplyr_gp",                              (DL_FUNC) &dplyr_gp,                              1},
   {"dplyr_group_size_grouped_cpp",          (DL_FUNC) &dplyr_group_size_grouped_cpp,          1},
   {"dplyr_grouped_df_impl",                 (DL_FUNC) &dplyr_grouped_df_impl,                 3},
@@ -105,8 +106,12 @@ static const R_CallMethodDef CallEntries[] = {
   {NULL, NULL, 0}
 };
 
+/* Raw function pointers */
+extern bool dplyr_is_bind_spliceable(SEXP x);
+
 void R_init_dplyr(DllInfo *dll)
 {
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
+  rlang_register_pointer("dplyr", "is_bind_spliceable", (DL_FUNC) &dplyr_is_bind_spliceable);
 }
