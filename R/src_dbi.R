@@ -152,13 +152,6 @@ src_sqlite <- function(path, create = FALSE) {
   dbplyr::src_dbi(con)
 }
 
-
-# Checking available ------------------------------------------------------
-
-check_dbplyr <- function() {
-  check_pkg("dbplyr", "communicate with database backends")
-}
-
 # S3 methods --------------------------------------------------------------
 
 #' @export
