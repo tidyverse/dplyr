@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 //' Cumulativate versions of any, all, and mean
