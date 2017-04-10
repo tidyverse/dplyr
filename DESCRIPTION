@@ -20,7 +20,7 @@ Imports:
     magrittr,
     methods,
     pkgconfig,
-    rlang (>= 0.0.0.9007),
+    rlang (>= 0.0.0.9010),
     R6,
     Rcpp (>= 0.12.6),
     tibble (>= 1.2),
@@ -53,6 +53,5 @@ License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang@524cc4a,
     hadley/dbplyr,
     tidyverse/glue
