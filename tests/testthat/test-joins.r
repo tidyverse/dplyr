@@ -178,22 +178,22 @@ test_that("can handle empty string in suffix argument, right side (#2228, #2182,
 test_that("disallow empty string in both sides of suffix argument (#2228)", {
   expect_error(
     inner_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes",
+    "`suffix`: can't use empty string for both x and y suffixes",
     fixed = TRUE
   )
   expect_error(
     left_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes",
+    "`suffix`: can't use empty string for both x and y suffixes",
     fixed = TRUE
   )
   expect_error(
     right_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes",
+    "`suffix`: can't use empty string for both x and y suffixes",
     fixed = TRUE
   )
   expect_error(
     full_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes",
+    "`suffix`: can't use empty string for both x and y suffixes",
     fixed = TRUE
   )
 })
@@ -578,12 +578,36 @@ test_that("joins avoid name repetition (#1460)", {
 test_that("join functions are protected against empty by (#1496)", {
   x <- data.frame()
   y <- data.frame(a = 1)
-  expect_error(left_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(right_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(semi_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(full_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(anti_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(inner_join(x, y, by = names(x)), "no variable to join by")
+  expect_error(
+    left_join(x, y, by = names(x)),
+    "`by`: no variable to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(x, y, by = names(x)),
+    "`by`: no variable to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    semi_join(x, y, by = names(x)),
+    "`by`: no variable to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(x, y, by = names(x)),
+    "`by`: no variable to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    anti_join(x, y, by = names(x)),
+    "`by`: no variable to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(x, y, by = names(x)),
+    "`by`: no variable to join by",
+    fixed = TRUE
+  )
 })
 
 test_that("joins takes care of duplicates in by (#1192)", {

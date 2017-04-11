@@ -281,10 +281,9 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     break;
   }
 
-  stop(
-    "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
-    name_left.get_utf8_cstring(), name_right.get_utf8_cstring(), get_single_class(left), get_single_class(right)
-  );
+  stop("Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
+       name_left.get_utf8_cstring(), name_right.get_utf8_cstring(), get_single_class(left), get_single_class(right)
+      );
   return 0;
 }
 

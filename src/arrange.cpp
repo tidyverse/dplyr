@@ -12,6 +12,7 @@
 #include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/Groups.h>
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -42,7 +43,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
 
     Shield<SEXP> v(call_proxy.eval());
     if (!white_list(v)) {
-      stop("cannot arrange column of class '%s'", get_single_class(v));
+      stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
     }
 
     if (Rf_inherits(v, "data.frame")) {
@@ -52,15 +53,17 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
         stop("data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows());
       }
     } else if (Rf_isMatrix(v)) {
-      stop("can't arrange by a matrix");
+      bad_pos_arg(i + 1, "matrix not supported");
     } else {
       if (Rf_length(v) != data.nrows()) {
-        stop("incorrect size (%d), expecting : %d", Rf_length(v), data.nrows());
+        stop("incorrect size (%d) at position %d, expecting : %d", Rf_length(v), i + 1, data.nrows());
       }
     }
     variables[i] = v;
     ascending[i] = !is_desc;
   }
+  variables.names() = quosures.names();
+
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
 
@@ -76,6 +79,8 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     copy_vars(res, data);
     return GroupedDataFrame(res).data();
   }
-  SET_ATTRIB(res, strip_group_attributes(res));
-  return res;
+  else {
+    SET_ATTRIB(res, strip_group_attributes(res));
+    return res;
+  }
 }

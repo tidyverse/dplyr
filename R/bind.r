@@ -182,7 +182,7 @@ rbind_list <- function(...) {
     "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
     call. = FALSE
   )
-  rbind_list__impl(environment())
+  rbind_list__impl(list_or_dots(...))
 }
 
 #' @export

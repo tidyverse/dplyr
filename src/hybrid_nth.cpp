@@ -108,7 +108,7 @@ Result* nth_with(Vector<RTYPE> data, int idx, SEXP order) {
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
+  stop("unsupported vector type %s", Rf_type2char(TYPEOF(order)));
 }
 
 template <int RTYPE>
@@ -127,7 +127,7 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
+  stop("unsupported vector type %s", Rf_type2char(TYPEOF(order)));
 }
 
 namespace dplyr {

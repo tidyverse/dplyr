@@ -17,8 +17,14 @@ replace_with <- function(x, i, val, name, reason = NULL) {
 }
 
 check_length <- function(x, template, header, reason = NULL) {
-  n <- length(template)
-  length_x <- length(x)
+  check_length_val(length(x), length(template), header, reason)
+}
+
+check_length_col <- function(length_x, n, name, reason = NULL) {
+  check_length_val(length_x, n, fmt_cols(name), reason)
+}
+
+check_length_val <- function(length_x, n, header, reason = NULL) {
   if (length_x == n) {
     return()
   }

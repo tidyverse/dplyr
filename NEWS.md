@@ -299,6 +299,9 @@ This means that the underscored version of each main verb is no longer needed, a
 
 ## Other minor changes and bug fixes
 
+* Many error messages are more helpful by referring to a column name or a
+  position in the argument list (#2448).
+
 * New `is_grouped_df()` alias to `is.grouped_df()`.
 
 * `tbl_vars()` now has a `group_vars` argument set to `TRUE` by

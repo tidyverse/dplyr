@@ -68,17 +68,57 @@ test_that("better factor support (#2197)", {
   test_that("gives proper error messages for factor class (#2197)", {
     x <- factor(1:3, labels = letters[1:3])
 
-    expect_error(if_else(x == "a", "b", x), "`false` has class factor not character")
-    expect_error(if_else(x == "a", 1L, x), "`false` has class factor not integer")
-    expect_error(if_else(x == "a", 1., x), "`false` has class factor not numeric")
-    expect_error(if_else(x == "a", TRUE, x), "`false` has class factor not logical")
-    expect_error(if_else(x == "a", Sys.Date(), x), "`false` has class factor not Date")
+    expect_error(
+      if_else(x == "a", "b", x),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", 1L, x),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", 1., x),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", TRUE, x),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", Sys.Date(), x),
+      "asdf",
+      fixed = TRUE
+    )
 
-    expect_error(if_else(x == "a", x, "b"), "`false` has class character not factor")
-    expect_error(if_else(x == "a", x, 1L), "`false` has class integer not factor")
-    expect_error(if_else(x == "a", x, 1.), "`false` has class numeric not factor")
-    expect_error(if_else(x == "a", x, TRUE), "`false` has class logical not factor")
-    expect_error(if_else(x == "a", x, Sys.Date()), "`false` has class Date not factor")
+    expect_error(
+      if_else(x == "a", x, "b"),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", x, 1L),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", x, 1.),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", x, TRUE),
+      "asdf",
+      fixed = TRUE
+    )
+    expect_error(
+      if_else(x == "a", x, Sys.Date()),
+      "asdf",
+      fixed = TRUE
+    )
   })
 
   test_that("works with factors as both `true` and `false` (#2197)", {
@@ -87,6 +127,9 @@ test_that("better factor support (#2197)", {
 
     expect_equal(if_else(x == "a", x[[2]], x), x[c(2, 2, 3)])
 
-    expect_error(if_else(x == "a", x, y), "levels in `false` don't match levels in `true`")
+    expect_error(
+      if_else(x == "a", x, y),
+      "asdf levels in `false` don't match levels in `true`"
+    )
   })
 })

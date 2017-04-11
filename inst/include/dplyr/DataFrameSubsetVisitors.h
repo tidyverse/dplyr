@@ -7,6 +7,7 @@
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/subset_visitor.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -27,9 +28,9 @@ public:
     visitor_names(data.names()),
     nvisitors(visitor_names.size())
   {
-
+    CharacterVector names = data.names();
     for (int i = 0; i < nvisitors; i++) {
-      SubsetVectorVisitor* v = subset_visitor(data[i]);
+      SubsetVectorVisitor* v = subset_visitor(data[i], names[i]);
       visitors.push_back(v);
     }
   }
@@ -41,17 +42,18 @@ public:
     nvisitors(visitor_names.size())
   {
 
-    IntegerVector indx = names.match_in_table(data.names());
+    CharacterVector data_names = data.names();
+    IntegerVector indx = names.match_in_table(data_names);
 
     int n = indx.size();
     for (int i = 0; i < n; i++) {
 
       int pos = indx[i];
       if (pos == NA_INTEGER) {
-        stop("unknown column '%s' ", names[i].get_utf8_cstring());
+        bad_col(names[i], "unknown");
       }
 
-      SubsetVectorVisitor* v = subset_visitor(data[pos - 1]);
+      SubsetVectorVisitor* v = subset_visitor(data[pos - 1], data_names[pos - 1]);
       visitors.push_back(v);
 
     }

@@ -32,7 +32,7 @@ public:
     }
 
     if (n_neg > 0 && n_pos > 0) {
-      stop("found %d positive indices and %d negative indices", n_pos, n_neg);
+      stop("Found %d positive indices and %d negative indices", n_pos, n_neg);
     }
 
   }

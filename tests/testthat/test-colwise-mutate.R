@@ -75,8 +75,9 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 })
 
 test_that("error is thrown with improper additional arguments", {
-  expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
+  # error messages by base R, not checked
+  expect_error(mutate_all(mtcars, round, 0, 0))
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE))
 })
 
 test_that("predicate can be quoted", {

@@ -54,7 +54,7 @@ inline Replicator* replicator(SEXP v, const Data& gdf) {
     break;
   }
 
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(v)));
+  stop("unsupported vector type %s", Rf_type2char(TYPEOF(v)));
 }
 
 } // namespace dplyr

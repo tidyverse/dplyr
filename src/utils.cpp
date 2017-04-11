@@ -4,6 +4,7 @@
 #include <tools/utils.h>
 #include <dplyr/white_list.h>
 #include <tools/collapse.h>
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 
@@ -19,12 +20,11 @@ void assert_all_white_list(const DataFrame& data) {
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
-        stop("column '%s' has unsupported class : %s",
-             name_i.get_utf8_cstring(), get_single_class(v));
+        bad_col(name_i, "unsupported class {type}",
+                _["type"] = get_single_class(v));
       }
       else {
-        stop("column '%s' has unsupported type : %s",
-             name_i.get_utf8_cstring(), Rf_type2char(TYPEOF(v)));
+        bad_col(name_i, "unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
       }
     }
   }
@@ -83,7 +83,7 @@ std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
     CharacterVector classes(klass);
-    return collapse_utf8(classes);
+    return collapse_utf8(classes, "/");
   }
 
   if (Rf_isMatrix(x)) {

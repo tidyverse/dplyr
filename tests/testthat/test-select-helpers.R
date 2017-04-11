@@ -1,7 +1,11 @@
 context("select-helpers")
 
 test_that("no set variables throws error", {
-  expect_error(starts_with("z"), "Variable context not set")
+  expect_error(
+    starts_with("z"),
+    "Variable context not set",
+    fixed = TRUE
+  )
 })
 
 test_that("failed match removes all columns", {
@@ -27,6 +31,7 @@ test_that("matches return integer positions", {
 })
 
 test_that("throws with empty pattern is provided", {
+  # error messages from rlang
   expect_error(starts_with(""))
   expect_error(ends_with(""))
   expect_error(contains(""))
@@ -104,6 +109,7 @@ test_that("one_of works with variables", {
   expected_result <- c(x = "x")
   var <- "x"
   expect_equal(select_vars(vars, one_of(var)), expected_result)
+  # error messages from rlang
   expect_error(select_vars(vars, one_of(`_x`)), "not found")
   expect_error(select_vars(vars, one_of(`_y`)), "not found")
 })
@@ -134,8 +140,9 @@ test_that("initial (single) selector defaults correctly (issue #2275)", {
   expect_equal(select_vars(cn, -contains("x")), cn[c("y", "z")])
 
   # single columns (not present), explicit
-  expect_error(select_vars(cn, foo), "object 'foo' not found")
-  expect_error(select_vars(cn, -foo), "object 'foo' not found")
+  # error messages from rlang
+  expect_error(select_vars(cn, foo))
+  expect_error(select_vars(cn, -foo))
 
   # single columns (not present), matched
   expect_equal(select_vars(cn, contains("foo")), cn[integer()])
@@ -166,6 +173,7 @@ test_that("initial (of multiple) selectors default correctly (issue #2275)", {
   expect_equal(select_vars(cn, -contains("x"), -y), cn["z"])
 
   # matched(not present) + explicit(not present)
+  # error messages from rlang
   expect_error(select_vars(cn, contains("foo"), bar), "object 'bar' not found")
   expect_error(select_vars(cn, contains("foo"), -bar), "object 'bar' not found")
   expect_error(select_vars(cn, -contains("foo"), bar), "object 'bar' not found")
