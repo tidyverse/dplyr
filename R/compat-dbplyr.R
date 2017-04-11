@@ -23,11 +23,14 @@ check_dbplyr <- function() {
 #' @export
 #' @rdname check_dbplyr
 wrap_dbplyr_obj <- function(obj_name) {
+  # Silence R CMD check NOTE
+  `UQ<-` <- NULL
+
   obj <- getExportedValue("dbplyr", obj_name)
   obj_sym <- as_symbol(obj_name)
 
-  dbplyr_sym <- new_language("::", expr(dbplyr), obj_sym)
-  dplyr_sym <- new_language("::", expr(dplyr), obj_sym)
+  dbplyr_sym <- new_language("::", quote(dbplyr), obj_sym)
+  dplyr_sym <- new_language("::", quote(dplyr), obj_sym)
 
   if (is.function(obj)) {
     args <- formals()
