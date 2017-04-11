@@ -102,7 +102,7 @@ greet <- function(name) {
 greet("Hadley")
 ```
 
-Another approach is exemplified by the glue package: it allows you to "unquote" components of a string, replacing the string, with the value of the R expression. This allows an elegant implementation of our function because `{name}` is replaced with the value of the `name` argument.
+Another approach is exemplified by the __glue__ package: it allows you to "unquote" components of a string, replacing the string, with the value of the R expression. This allows an elegant implementation of our function because `{name}` is replaced with the value of the `name` argument.
 
 ```{r}
 greet <- function(name) {
