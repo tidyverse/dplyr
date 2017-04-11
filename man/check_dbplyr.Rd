@@ -2,47 +2,26 @@
 % Please edit documentation in R/compat-dbplyr.R
 \name{check_dbplyr}
 \alias{check_dbplyr}
-\alias{dbplyr_fun}
-\alias{dbplyr_obj}
+\alias{wrap_dbplyr_obj}
 \title{dbplyr compatiblity functions}
 \usage{
 check_dbplyr()
 
-dbplyr_fun(fun_name)
-
-dbplyr_obj(obj_name)
+wrap_dbplyr_obj(obj_name)
 }
 \description{
 In dplyr 0.6.0, a number of databse and SQL functions moved from dplyr to
 dbplyr. The generic functions stayed in dplyr (since there is no easy way
 to conditionally import a generic from different packages), but many other
 SQL and database helper functions moved. If you have written a backend,
-these functions make it easier for your backend to work with both dplyr 0.5.0
+these functions generate the code you need to work with both dplyr 0.5.0
 dplyr 0.6.0.
-
-Use \code{check_dbplyr()} if you need to give an informative message if dbplyr
-is not available. Use \code{dbplyr_fun()} if you need a function from dbplyr;
-use \code{dbplyr_obj()} if you need an object.
 }
 \examples{
 if (requireNamespace("dbplyr", quietly = TRUE)) {
 
-# Functions -------------------------------------------------------
-# If you need to access a function, you can call it directly
-dbplyr_fun("build_sql")("min(", 1, ")")
-
-# If you use it many times, save it to a local variable
-build_sql <- dbplyr_fun("build_sql")
-src_sql <- dbplyr_fun("src_sql")
-
-# Objects ---------------------------------------------------------
-# If you need to access an object like base_agg, you'll need
-# dbplyr_obj()
-dbplyr_obj("base_agg")
-
-# Do NOT save this to a variable inside your package as it will
-# cache the value at build time, not run time, causing bugs that
-# extremely hard to track down.
+wrap_dbplyr_obj("build_sql")
+wrap_dbplyr_obj("base_agg")
 }
 }
 \keyword{internal}
