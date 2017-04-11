@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <boost/scoped_ptr.hpp>
@@ -137,7 +138,7 @@ void cbind_type_check(SEXP x, int nrows, SEXP contr, int i) {
 }
 
 extern "C"
-bool is_bind_spliceable(SEXP x) {
+bool dplyr_is_bind_spliceable(SEXP x) {
   if (TYPEOF(x) != VECSXP)
     return false;
 
@@ -152,10 +153,17 @@ bool is_bind_spliceable(SEXP x) {
   return true;
 }
 
-// [[Rcpp::export()]]
-List get_is_bind_spliceable() {
-  // We cannot return a naked XPtr here, because it may be GC-ed at any point.
-  return List::create(R_MakeExternalPtr(reinterpret_cast<void*>(&is_bind_spliceable), R_NilValue, R_NilValue));
+// FIXME: This is temporary and should be replaced with rlang::flatten_if()
+typedef bool (*is_spliceable_t)(SEXP);
+typedef SEXP (*rlang_squash_if_t)(SEXP, SEXPTYPE, is_spliceable_t, int);
+
+// [[Rcpp::export]]
+SEXP flatten_bindable(SEXP x) {
+  static rlang_squash_if_t rlang_squash_if = NULL;
+  if (!rlang_squash_if)
+    rlang_squash_if = (rlang_squash_if_t) R_GetCCallable("rlang", "rlang_squash_if");
+
+  return rlang_squash_if(x, VECSXP, &dplyr_is_bind_spliceable, 1);
 }
 
 List rbind__impl(List dots, SEXP id = R_NilValue) {

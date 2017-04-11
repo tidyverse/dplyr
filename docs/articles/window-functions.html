@@ -110,13 +110,13 @@ players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><sp
 <span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G &gt;<span class="st"> </span><span class="kw">mean</span>(G))
 <span class="co"># For each, player compute a z score based on number of games played</span>
 <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G -<span class="st"> </span><span class="kw">mean</span>(G)) /<span class="st"> </span><span class="kw">sd</span>(G))</code></pre></div>
-<p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>. If you want to use window functions with SQL databases, you should also be familiar with the basics of dplyr’s SQL translation.</p>
+<p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <div id="types-of-window-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#types-of-window-functions" class="anchor"></a>Types of window functions</h2>
 <p>There are five main families of window functions. Two families are unrelated to aggregation functions:</p>
 <ul>
-<li><p>Ranking and ordering functions: <code><a href="../reference/ranking.html">row_number()</a></code>, <code>min_rank</code> (<code>RANK</code> in SQL), <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">cume_dist()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, and <code><a href="../reference/ranking.html">ntile()</a></code>. These functions all take a vector to order by, and return various types of ranks.</p></li>
+<li><p>Ranking and ordering functions: <code><a href="../reference/ranking.html">row_number()</a></code>, <code><a href="../reference/ranking.html">min_rank()</a></code>, <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">cume_dist()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, and <code><a href="../reference/ranking.html">ntile()</a></code>. These functions all take a vector to order by, and return various types of ranks.</p></li>
 <li><p>Offsets <code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> allow you to access the previous and next values in a vector, making it easy to compute differences and trends.</p></li>
 </ul>
 <p>The other three families are variations on familiar aggregate functions:</p>
@@ -202,12 +202,12 @@ scrambled &lt;-<span class="st"> </span>df[<span class="kw"><a href="../referenc
 wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw">cumsum</span>(value))
 <span class="kw"><a href="../reference/arrange.html">arrange</a></span>(wrong, year)
 <span class="co">#&gt;   year value running</span>
-<span class="co">#&gt; 1 2000     0      51</span>
-<span class="co">#&gt; 2 2001     1      51</span>
-<span class="co">#&gt; 3 2002     4      55</span>
-<span class="co">#&gt; 4 2003     9      50</span>
-<span class="co">#&gt; 5 2004    16      41</span>
-<span class="co">#&gt; 6 2005    25      25</span>
+<span class="co">#&gt; 1 2000     0       0</span>
+<span class="co">#&gt; 2 2001     1      55</span>
+<span class="co">#&gt; 3 2002     4      20</span>
+<span class="co">#&gt; 4 2003     9      54</span>
+<span class="co">#&gt; 5 2004    16      16</span>
+<span class="co">#&gt; 6 2005    25      45</span>
 
 right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw"><a href="../reference/order_by.html">order_by</a></span>(year, <span class="kw">cumsum</span>(value)))
 <span class="kw"><a href="../reference/arrange.html">arrange</a></span>(right, year)

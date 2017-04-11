@@ -99,13 +99,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_is_bind_spliceable
-List get_is_bind_spliceable();
-RcppExport SEXP dplyr_get_is_bind_spliceable() {
+// flatten_bindable
+SEXP flatten_bindable(SEXP x);
+RcppExport SEXP dplyr_flatten_bindable(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(get_is_bind_spliceable());
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(flatten_bindable(x));
     return rcpp_result_gen;
 END_RCPP
 }
