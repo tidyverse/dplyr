@@ -64,7 +64,7 @@ mtcars2
 
 This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
 
-If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much).
+If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
 
 ## UTF-8
 
