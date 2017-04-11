@@ -99,6 +99,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// flatten_bindable
+SEXP flatten_bindable(SEXP x);
+RcppExport SEXP dplyr_flatten_bindable(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(flatten_bindable(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // bind_rows_
 List bind_rows_(List dots, SEXP id);
 RcppExport SEXP dplyr_bind_rows_(SEXP dotsSEXP, SEXP idSEXP) {

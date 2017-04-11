@@ -29,6 +29,7 @@ extern SEXP dplyr_dfloc(SEXP);
 extern SEXP dplyr_distinct_impl(SEXP, SEXP, SEXP);
 extern SEXP dplyr_equal_data_frame(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP dplyr_filter_impl(SEXP, SEXP);
+extern SEXP dplyr_flatten_bindable(SEXP x);
 extern SEXP dplyr_full_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP dplyr_gp(SEXP);
 extern SEXP dplyr_group_size_grouped_cpp(SEXP);
@@ -76,6 +77,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_distinct_impl",                   (DL_FUNC) &dplyr_distinct_impl,                   3},
   {"dplyr_equal_data_frame",                (DL_FUNC) &dplyr_equal_data_frame,                5},
   {"dplyr_filter_impl",                     (DL_FUNC) &dplyr_filter_impl,                     2},
+  {"dplyr_flatten_bindable",                (DL_FUNC) &dplyr_flatten_bindable,                1},
   {"dplyr_full_join_impl",                  (DL_FUNC) &dplyr_full_join_impl,                  7},
   {"dplyr_gp",                              (DL_FUNC) &dplyr_gp,                              1},
   {"dplyr_group_size_grouped_cpp",          (DL_FUNC) &dplyr_group_size_grouped_cpp,          1},
