@@ -157,7 +157,7 @@ bool dplyr_is_bind_spliceable(SEXP x) {
   if (OBJECT(x))
     return Rf_inherits(x, "spliced");
 
-  for (size_t i = 0; i != Rf_length(x); ++i) {
+  for (R_xlen_t i = 0; i != Rf_xlength(x); ++i) {
     if (is_atomic(VECTOR_ELT(x, i)))
       return false;
   }
