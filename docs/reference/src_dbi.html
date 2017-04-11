@@ -188,7 +188,7 @@ into R.</p>
 <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
 
 <span class='co'># You can also use pass raw SQL if you want a more sophisticated query</span>
-<span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'>sql</span>(<span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span>))
+<span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'><a href='sql.html'>sql</a></span>(<span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span>))
 
 <span class='co'># To show off the full features of dplyr's database integration,</span>
 <span class='co'># we'll use the Lahman database. lahman_sqlite() takes care of</span>

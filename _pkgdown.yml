@@ -53,6 +53,7 @@ reference:
   - explain
   - tbl
   - src_dbi
+  - sql
 
 - title: Metadata
   contents:
@@ -68,6 +69,7 @@ reference:
   - if_else
   - lead
   - order_by
+  - "n"
   - n_distinct
   - na_if
   - near

@@ -86,7 +86,7 @@
 <div class="contents">
 <p>A <strong>window function</strong> is a variation on an aggregation function. Where an aggregation function, like <code>sum()</code> and <code>mean()</code>, takes n inputs and return a single value, a window function returns n values. The output of a window function depends on all its input values, so window functions don’t include functions that work element-wise, like <code>+</code> or <code>round()</code>. Window functions include variations on aggregate functions, like <code>cumsum()</code> and <code><a href="../reference/cumall.html">cummean()</a></code>, functions for ranking and ordering, like <code>rank()</code>, and functions for taking offsets, like <code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code>.</p>
 <p>In this vignette, we’ll use a small sample of the Lahman batting dataset, including the players that have won an award.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Lahman)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Lahman)
 
 batting &lt;-<span class="st"> </span>Lahman::Batting %&gt;%
 <span class="st">  </span><span class="kw"><a href="../reference/reexports.html">as_tibble</a></span>() %&gt;%
@@ -94,9 +94,9 @@ batting &lt;-<span class="st"> </span>Lahman::Batting %&gt;%
 <span class="st">  </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(playerID, yearID, teamID) %&gt;%
 <span class="st">  </span><span class="kw"><a href="../reference/join.html">semi_join</a></span>(Lahman::AwardsPlayers, <span class="dt">by =</span> <span class="st">"playerID"</span>)
 
-players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(playerID)</code></pre></div>
+players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(playerID)</code></pre>
 <p>Window functions are used in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> to solve a wide range of problems. Here’s a selection:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># For each player, find the two years with most hits</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># For each player, find the two years with most hits</span>
 <span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(H)) &lt;=<span class="st"> </span><span class="dv">2</span> &amp;<span class="st"> </span>H &gt;<span class="st"> </span><span class="dv">0</span>)
 <span class="co"># Within each player, rank each year by the number of games played</span>
 <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_rank =</span> <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(G))
@@ -109,7 +109,7 @@ players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><sp
 <span class="co"># For each player, find all where they played more games than average</span>
 <span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G &gt;<span class="st"> </span><span class="kw">mean</span>(G))
 <span class="co"># For each, player compute a z score based on number of games played</span>
-<span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G -<span class="st"> </span><span class="kw">mean</span>(G)) /<span class="st"> </span><span class="kw">sd</span>(G))</code></pre></div>
+<span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G -<span class="st"> </span><span class="kw">mean</span>(G)) /<span class="st"> </span><span class="kw">sd</span>(G))</code></pre>
 <p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <div id="types-of-window-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -131,22 +131,22 @@ players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><sp
 <h2 class="hasAnchor">
 <a href="#ranking-functions" class="anchor"></a>Ranking functions</h2>
 <p>The ranking functions are variations on a theme, differing in how they handle ties:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)
 
 <span class="kw"><a href="../reference/ranking.html">row_number</a></span>(x)
 <span class="co">#&gt; [1] 1 2 3 4 5</span>
 <span class="kw"><a href="../reference/ranking.html">min_rank</a></span>(x)
 <span class="co">#&gt; [1] 1 1 3 3 3</span>
 <span class="kw"><a href="../reference/ranking.html">dense_rank</a></span>(x)
-<span class="co">#&gt; [1] 1 1 2 2 2</span></code></pre></div>
+<span class="co">#&gt; [1] 1 1 2 2 2</span></code></pre>
 <p>If you’re familiar with R, you may recognise that <code><a href="../reference/ranking.html">row_number()</a></code> and <code><a href="../reference/ranking.html">min_rank()</a></code> can be computed with the base <code>rank()</code> function and various values of the <code>ties.method</code> argument. These functions are provided to save a little typing, and to make it easier to convert between R and SQL.</p>
 <p>Two other ranking functions return numbers between 0 and 1. <code><a href="../reference/ranking.html">percent_rank()</a></code> gives the percentage of the rank; <code><a href="../reference/ranking.html">cume_dist()</a></code> gives the proportion of values less than or equal to the current value.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(x)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(x)
 <span class="co">#&gt; [1] 0.4 0.4 1.0 1.0 1.0</span>
 <span class="kw"><a href="../reference/ranking.html">percent_rank</a></span>(x)
-<span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></code></pre></div>
+<span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></code></pre>
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(G)) &lt;<span class="st"> </span><span class="fl">0.1</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(G)) &lt;<span class="st"> </span><span class="fl">0.1</span>)
 <span class="co">#&gt; Source: local data frame [995 x 7]</span>
 <span class="co">#&gt; Groups: playerID [906]</span>
 <span class="co">#&gt; </span>
@@ -156,9 +156,9 @@ players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><sp
 <span class="co">#&gt; 2 hinespa01   1887    WS8   123   478    83   147</span>
 <span class="co">#&gt; 3 hinespa01   1888    IN3   133   513    84   144</span>
 <span class="co">#&gt; 4 radboch01   1883    PRO    89   381    59   108</span>
-<span class="co">#&gt; # ... with 991 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 991 more rows</span></code></pre>
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_team_player &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(batting, teamID, playerID)
+<pre class="sourceCode r"><code class="sourceCode r">by_team_player &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(batting, teamID, playerID)
 by_team &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_player, <span class="dt">G =</span> <span class="kw">sum</span>(G))
 by_team_quartile &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(by_team, <span class="dt">quartile =</span> <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">4</span>))
 <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_quartile, <span class="kw">mean</span>(G))
@@ -168,35 +168,35 @@ by_team_quartile &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <span class="co">#&gt; 1        1  27.16460</span>
 <span class="co">#&gt; 2        2  97.61757</span>
 <span class="co">#&gt; 3        3 271.80831</span>
-<span class="co">#&gt; 4        4 976.00873</span></code></pre></div>
+<span class="co">#&gt; 4        4 976.00873</span></code></pre>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
 </div>
 <div id="lead-and-lag" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lead-and-lag" class="anchor"></a>Lead and lag</h2>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> produce offset versions of a input vector that is either ahead of or behind the original vector.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
 <span class="kw"><a href="../reference/lead-lag.html">lead</a></span>(x)
 <span class="co">#&gt; [1]  2  3  4  5 NA</span>
 <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(x)
-<span class="co">#&gt; [1] NA  1  2  3  4</span></code></pre></div>
+<span class="co">#&gt; [1] NA  1  2  3  4</span></code></pre>
 <p>You can use them to:</p>
 <ul>
 <li>
 <p>Compute differences or percent changes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the relative change in games played</span>
-<span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_delta =</span> G -<span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G))</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the relative change in games played</span>
+<span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_delta =</span> G -<span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(G))</code></pre>
 <p>Using <code><a href="../reference/lead-lag.html">lag()</a></code> is more convenient than <code>diff()</code> because for <code>n</code> inputs <code>diff()</code> returns <code>n - 1</code> outputs.</p>
 </li>
 <li>
 <p>Find out when a value changes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Find when a player changed teams</span>
-<span class="kw"><a href="../reference/filter.html">filter</a></span>(players, teamID !=<span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(teamID))</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Find when a player changed teams</span>
+<span class="kw"><a href="../reference/filter.html">filter</a></span>(players, teamID !=<span class="st"> </span><span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(teamID))</code></pre>
 </li>
 </ul>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> have an optional argument <code>order_by</code>. If set, instead of using the row order to determine which value comes before another, they will use another variable. This important if you have not already sorted the data, or you want to sort one way and lag another.</p>
 <p>Here’s a simple example of what happens if you don’t specify <code>order_by</code> when you need it:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">year =</span> <span class="dv">2000</span>:<span class="dv">2005</span>, <span class="dt">value =</span> (<span class="dv">0</span>:<span class="dv">5</span>) ^<span class="st"> </span><span class="dv">2</span>)
+<pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">year =</span> <span class="dv">2000</span>:<span class="dv">2005</span>, <span class="dt">value =</span> (<span class="dv">0</span>:<span class="dv">5</span>) ^<span class="st"> </span><span class="dv">2</span>)
 scrambled &lt;-<span class="st"> </span>df[<span class="kw"><a href="../reference/sample.html">sample</a></span>(<span class="kw">nrow</span>(df)), ]
 
 wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">running =</span> <span class="kw">cumsum</span>(value))
@@ -217,32 +217,32 @@ right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutat
 <span class="co">#&gt; 3 2002     4       5</span>
 <span class="co">#&gt; 4 2003     9      14</span>
 <span class="co">#&gt; 5 2004    16      30</span>
-<span class="co">#&gt; 6 2005    25      55</span></code></pre></div>
+<span class="co">#&gt; 6 2005    25      55</span></code></pre>
 </div>
 <div id="cumulative-aggregates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cumulative-aggregates" class="anchor"></a>Cumulative aggregates</h2>
 <p>Base R provides cumulative sum (<code>cumsum()</code>), cumulative min (<code>cummin()</code>) and cumulative max (<code>cummax()</code>). (It also provides <code>cumprod()</code> but that is rarely useful). Other common accumulating functions are <code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code>, cumulative versions of <code>||</code> and <code>&amp;&amp;</code>, and <code><a href="../reference/cumall.html">cummean()</a></code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
 <p><code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code> are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use <code><a href="../reference/cumall.html">cumany()</a></code> to find all records for a player after they played a year with 150 games:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/cumall.html">cumany</a></span>(G &gt;<span class="st"> </span><span class="dv">150</span>))</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/cumall.html">cumany</a></span>(G &gt;<span class="st"> </span><span class="dv">150</span>))</code></pre>
 <p>Like lead and lag, you may want to control the order in which the accumulation occurs. None of the built in functions have an <code>order_by</code> argument so <code>dplyr</code> provides a helper: <code><a href="../reference/order_by.html">order_by()</a></code>. You give it the variable you want to order by, and then the call to the window function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
 y &lt;-<span class="st"> </span><span class="dv">10</span>:<span class="dv">1</span>
 <span class="kw"><a href="../reference/order_by.html">order_by</a></span>(y, <span class="kw">cumsum</span>(x))
-<span class="co">#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</span></code></pre></div>
+<span class="co">#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</span></code></pre>
 <p>This function uses a bit of non-standard evaluation, so I wouldn’t recommend using it inside another function; use the simpler but less concise <code><a href="../reference/with_order.html">with_order()</a></code> instead.</p>
 </div>
 <div id="recycled-aggregates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#recycled-aggregates" class="anchor"></a>Recycled aggregates</h2>
 <p>R’s vector recycling make it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G &gt;<span class="st"> </span><span class="kw">mean</span>(G))
-<span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G &lt;<span class="st"> </span><span class="kw">median</span>(G))</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G &gt;<span class="st"> </span><span class="kw">mean</span>(G))
+<span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G &lt;<span class="st"> </span><span class="kw">median</span>(G))</code></pre>
 <p>While most SQL databases don’t have an equivalent of <code>median()</code> or <code>quantile()</code>, when filtering you can achieve the same effect with <code><a href="../reference/ranking.html">ntile()</a></code>. For example, <code>x &gt; median(x)</code> is equivalent to <code>ntile(x, 2) == 2</code>; <code>x &gt; quantile(x, 75)</code> is equivalent to <code>ntile(x, 100) &gt; 75</code> or <code>ntile(x, 4) &gt; 3</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">2</span>) ==<span class="st"> </span><span class="dv">2</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">ntile</a></span>(G, <span class="dv">2</span>) ==<span class="st"> </span><span class="dv">2</span>)</code></pre>
 <p>You can also use this idea to select the records with the highest (<code>x == max(x)</code>) or lowest value (<code>x == min(x)</code>) for a field, but the ranking functions give you more control over ties, and allow you to select any number of records.</p>
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">career_year =</span> yearID -<span class="st"> </span><span class="kw">min</span>(yearID) +<span class="st"> </span><span class="dv">1</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">career_year =</span> yearID -<span class="st"> </span><span class="kw">min</span>(yearID) +<span class="st"> </span><span class="dv">1</span>)
 <span class="co">#&gt; Source: local data frame [19,113 x 8]</span>
 <span class="co">#&gt; Groups: playerID [1,322]</span>
 <span class="co">#&gt; </span>
@@ -252,9 +252,9 @@ y &lt;-<span class="st"> </span><span class="dv">10</span>:<span class="dv">1</s
 <span class="co">#&gt; 2 bondto01   1875    HR1    72   289    32    77           2</span>
 <span class="co">#&gt; 3 bondto01   1876    HAR    45   182    18    50           3</span>
 <span class="co">#&gt; 4 bondto01   1877    BSN    61   259    32    59           4</span>
-<span class="co">#&gt; # ... with 19,109 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 19,109 more rows</span></code></pre>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G -<span class="st"> </span><span class="kw">mean</span>(G)) /<span class="st"> </span><span class="kw">sd</span>(G))
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G -<span class="st"> </span><span class="kw">mean</span>(G)) /<span class="st"> </span><span class="kw">sd</span>(G))
 <span class="co">#&gt; Source: local data frame [19,113 x 8]</span>
 <span class="co">#&gt; Groups: playerID [1,322]</span>
 <span class="co">#&gt; </span>
@@ -264,7 +264,7 @@ y &lt;-<span class="st"> </span><span class="dv">10</span>:<span class="dv">1</s
 <span class="co">#&gt; 2 bondto01   1875    HR1    72   289    32    77 1.02437412</span>
 <span class="co">#&gt; 3 bondto01   1876    HAR    45   182    18    50 0.02358756</span>
 <span class="co">#&gt; 4 bondto01   1877    BSN    61   259    32    59 0.61664626</span>
-<span class="co">#&gt; # ... with 19,109 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 19,109 more rows</span></code></pre>
 </div>
 </div>
   </div>
