@@ -3,7 +3,7 @@
 #' @description
 #' In dplyr 0.6.0, a number of databse and SQL functions moved from dplyr to
 #' dbplyr. The generic functions stayed in dplyr (since there is no easy way
-#' to conditional import a generic from different packages), but many other
+#' to conditionally import a generic from different packages), but many other
 #' SQL and database helper functions moved. If you have written a backend,
 #' these functions make it easier for your backend to work with both dplyr 0.5.0
 #' dplyr 0.6.0.
