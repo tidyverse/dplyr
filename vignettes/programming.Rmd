@@ -41,7 +41,7 @@ Unfortunately these benefits do not come for free. There are two main drawbacks:
     
     ```{r, error = TRUE}
     my_var <- x
-    filter(df, var == 1)
+    filter(df, my_var == 1)
     ```
     
     nor to this code:
