@@ -140,7 +140,8 @@ This means that the underscored version of each main verb is no longer needed, a
   all verbs that operate on data: `.data$column_name` accesses the column 
   `column_name`, whereas `.env$var` accesses the external variable `var`. 
   Columns or external variables named `.data` or `.env` are shadowed, use 
-  `.data$...` and/or `.env$...` to access them.
+  `.data$...` and/or `.env$...` to access them.  (`.data` implements strict
+  matching also for the `$` operator (#2591).)
   
     The `column()` and `global()` functions have been removed. They were never 
     documented officially. Use the new `.data` and `.env` environments instead.
@@ -344,6 +345,8 @@ This means that the underscored version of each main verb is no longer needed, a
   (#2086, #2103).
 
 * Update RStudio project settings to install tests (#1952).
+
+* Using `Rcpp::interfaces()` to register C callable interfaces, and registering all native exported functions via `R_registerRoutines()` and `useDynLib(.registration = TRUE)` (#2146).
 
 # dplyr 0.5.0
 
