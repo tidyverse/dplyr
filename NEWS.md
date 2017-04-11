@@ -115,7 +115,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
 
 ## Tidyeval
 
-dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming-dplyr")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
+dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
 
 ```{r}
 my_var <- quo(homeworld)
