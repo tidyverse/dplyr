@@ -45,12 +45,16 @@ dbplyr_fun <- function(fun_name) {
   pass_on <- map(set_names(names(args)), as_symbol)
   fun <- as_symbol(fun_name)
 
+  pkg_fun <- function(pkg, fun) {
+    new_language("::", as_symbol(pkg), as_symbol(fun))
+  }
+
   body <- expr({
     if (utils::packageVersion("dplyr") > "0.5.0") {
       dplyr::check_dbplyr()
-      dbplyr::UQE(fun)(!!!pass_on)
+      UQ(pkg_fun("dbplyr", fun))(!!!pass_on)
     } else {
-      dplyr::UQE(fun)(!!!pass_on)
+      UQ(pkg_fun("dplyr", fun))(!!!pass_on)
     }
   })
 
