@@ -200,7 +200,7 @@ Nope.
 
 If you look carefully at the error message, you'll see that it's the same in both cases. `group_by()` works like to `"`: it doesn't evaluate its input; it quotes it.
 
-To make this function work, we need to do two things. We need to quote the input ourselves (so `my_summarise()` can take a bare variable name like `group_by`), and then we need to tell `group_by()` not to quote its input (because we've done the quoting).
+To make this function work, we need to do two things. We need to quote the input ourselves (so `my_summarise()` can take a bare variable name like `group_by()`), and then we need to tell `group_by()` not to quote its input (because we've done the quoting).
 
 How do we quote the input? We can't use `""` to quote the input, because that gives us a string. Instead we need a function that captures the expression and its environment (we'll come back to why this is important later on). There are two possible options we could use in base R, the function `quote()` and the operator `~`. Neither of these work quite the way we want, so we need a new function: `quo()`.
 
