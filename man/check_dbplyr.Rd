@@ -19,7 +19,6 @@ dplyr 0.6.0.
 }
 \examples{
 if (requireNamespace("dbplyr", quietly = TRUE)) {
-
 wrap_dbplyr_obj("build_sql")
 wrap_dbplyr_obj("base_agg")
 }
