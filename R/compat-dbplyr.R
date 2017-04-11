@@ -54,3 +54,10 @@ wrap_dbplyr_obj <- function(obj_name) {
 
   expr(UQ(obj_sym) <- UQE(wrapper))
 }
+
+#' @inherit dbplyr::sql
+#' @export
+sql <- function(...) {
+  check_dbplyr()
+  dbplyr::sql()
+}
