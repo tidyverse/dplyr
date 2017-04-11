@@ -222,7 +222,7 @@ my_summarise(df, quo(g1))
 
 We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__ the `my_var`.
 
-In dplyr (and in rlang in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a funtion that actually does what we want.
+In dplyr (and in rlang in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a function that actually does what we want.
 
 ```{r}
 my_summarise <- function(df, group_var) {
