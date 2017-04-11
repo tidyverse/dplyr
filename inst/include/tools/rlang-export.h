@@ -5,7 +5,10 @@
 #include <Rinternals.h>
 
 typedef void* (*DL_FUNC)();
-typedef union {void* p; DL_FUNC fn;} fn_ptr;
+typedef union {
+  void* p;
+  DL_FUNC fn;
+} fn_ptr;
 
 SEXP rlang_MakeExternalPtrFn(DL_FUNC p, SEXP tag, SEXP prot);
 DL_FUNC rlang_ExternalPtrAddrFn(SEXP s);

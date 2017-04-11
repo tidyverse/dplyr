@@ -153,15 +153,13 @@ bool dplyr_is_bind_spliceable(SEXP x) {
   return true;
 }
 
-// FIXME: This is temporary and should be replaced with rlang::flatten_if()
-typedef bool (*is_spliceable_t)(SEXP);
-typedef SEXP (*rlang_squash_if_t)(SEXP, SEXPTYPE, is_spliceable_t, int);
-
 // [[Rcpp::export]]
 SEXP flatten_bindable(SEXP x) {
-  static rlang_squash_if_t rlang_squash_if = NULL;
-  if (!rlang_squash_if)
-    rlang_squash_if = (rlang_squash_if_t) R_GetCCallable("rlang", "rlang_squash_if");
+  // FIXME: This is temporary and should be replaced with rlang::flatten_if()
+  typedef bool(*is_spliceable_t)(SEXP);
+  typedef SEXP(*rlang_squash_if_t)(SEXP, SEXPTYPE, is_spliceable_t, int);
+
+  static rlang_squash_if_t rlang_squash_if = (rlang_squash_if_t)R_GetCCallable("rlang", "rlang_squash_if");
 
   return rlang_squash_if(x, VECSXP, &dplyr_is_bind_spliceable, 1);
 }
